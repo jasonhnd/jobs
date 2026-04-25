@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.1.0] - 2026-04-25
+## [0.0.1] - 2026-04-25
 
 Initial scaffolding release. The site is reachable but contains only a bilingual placeholder; no occupational data has been ingested yet.
 
@@ -36,10 +36,11 @@ Initial scaffolding release. The site is reachable but contains only a bilingual
 
 ### Notes
 
-- No data pipeline yet. Visualization, scoring, and scraping land in `0.2.0`+.
+- No data pipeline yet. The scraper, parser, translator, and scorer land in `0.0.2`+.
 - Site is built directly from `main` branch root via GitHub Pages (no Jekyll customization, no `gh-pages` branch).
+- Pipeline architecture and front-end design heavily inspired by [karpathy/jobs](https://github.com/karpathy/jobs); credit and acknowledgements in the READMEs.
 
 ---
 
-[Unreleased]: https://github.com/jasonhnd/jobs/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/jasonhnd/jobs/releases/tag/v0.1.0
+[Unreleased]: https://github.com/jasonhnd/jobs/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/jasonhnd/jobs/releases/tag/v0.0.1

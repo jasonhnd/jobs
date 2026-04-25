@@ -2,7 +2,7 @@
 
 [![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://jasonhnd.github.io/jobs/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.1.0-lightgrey.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.0.1-lightgrey.svg)](CHANGELOG.md)
 [![Pages](https://img.shields.io/github/deployments/jasonhnd/jobs/github-pages?label=pages)](https://github.com/jasonhnd/jobs/deployments)
 
 > **🇯🇵 [日本語版 README はこちら](README.ja.md)**
@@ -17,7 +17,7 @@ Same dataset, two faces: 日本語 for the domestic audience, English for the in
 
 ## Status
 
-`v0.1.0` — **scaffolding only**. The deployed page is a bilingual placeholder. No occupational data has been ingested yet. The scraper, parser, translator, and scorer all land in `0.2.0`+.
+`v0.0.1` — **scaffolding only**. The deployed page is a bilingual placeholder. No occupational data has been ingested yet. The scraper, parser, translator, and scorer all land in `0.0.2`+.
 
 See the [CHANGELOG](CHANGELOG.md) for what's shipped and the [Roadmap](#roadmap) below for what's next.
 
@@ -47,17 +47,21 @@ All sources are public Japanese government statistics. AI replacement scores are
 
 ## Methodology
 
-A 5-step pipeline turns jobtag pages into the visualization on the site.
+The pipeline is a Japan-localized mirror of [karpathy/jobs](https://github.com/karpathy/jobs)'s shape, with one extra translation step and bilingual outputs throughout.
 
 | # | Script | What it does | Output |
 | --- | --- | --- | --- |
-| 1 | `scripts/scrape_jobtag.py` | Polite, throttled fetch of every occupation page | `raw/*.html` |
-| 2 | `scripts/parse.py` | Extract structured fields from raw HTML | `data/jobs.csv` |
-| 3 | `scripts/translate.py` | LLM batch JA→EN translation for occupation/industry/description | bilingual columns added in place |
-| 4 | `scripts/score_ai_risk.py` | LLM scoring (0–10) of AI replacement risk per occupation | `data/scores.csv` |
-| 5 | `scripts/build_site_data.py` | Merge + emit a single bilingual artifact | `data.json` |
+| 1 | `scripts/list_occupations.py` | Parse the jobtag A–Z index into a master occupation list | `occupations.json` |
+| 2 | `scripts/scrape_jobtag.py` | Polite, throttled fetch of every occupation page (httpx first, Playwright fallback) | `html/<slug>.html` |
+| 3 | `scripts/parse.py` | BeautifulSoup → clean Markdown per occupation | `pages/<slug>.md` |
+| 4 | `scripts/extract_fields.py` | Tabulate structured fields (年収, 学歴, 就業者数, 成長性) | `occupations.csv` |
+| 5 | `scripts/translate.py` | LLM batch JA→EN for occupation, industry, descriptions | bilingual columns merged in place |
+| 6 | `scripts/score_ai_risk.py` | LLM scoring (0–10) of AI replacement risk + rationale (JA + EN) | `scores.json` |
+| 7 | `scripts/build_data.py` | Merge CSV + scores → single bilingual artifact | `data.json` |
 
-The front end (`index.html`) reads `data.json` and renders a treemap with filters; `?lang=ja` / `?lang=en` controls the active language.
+Each step is incrementally cached: re-running skips work that already has output. Scoring uses OpenRouter (Gemini Flash by default), with the same 0–10 anchor calibration karpathy uses, ported to Japanese examples.
+
+The front end (`index.html`) reads `data.json` and renders a squarified treemap with filters; `?lang=ja` / `?lang=en` controls the active language.
 
 ### Planned `data.json` schema
 
@@ -89,29 +93,37 @@ Fields and field names will be locked in `0.2.0` when the parser lands. Subject 
 
 ## Roadmap
 
-### v0.1.0 — Scaffolding ✅ (current)
+### v0.0.1 — Scaffolding ✅ (current)
 
-Bilingual placeholder, GitHub Pages deployment, license, READMEs, changelog.
+Bilingual placeholder, GitHub Pages deployment, MIT license, READMEs, changelog.
 
-### v0.2.0 — Pipeline
+### v0.0.2 — Scraper PoC
 
-Scraper, parser, translation, scoring. Output: `data.json` for ~50 occupations as a smoke test.
+`scripts/list_occupations.py` (jobtag A–Z extractor) + `scripts/scrape_jobtag.py` (one occupation end-to-end as a smoke test).
 
-### v0.3.0 — Visualization
+### v0.0.3 — Full ingest
 
-Treemap with industry × AI risk × salary axes, filter UI, search, occupation detail drawer.
+All ~500 jobtag pages cached locally + `scripts/parse.py` and `scripts/extract_fields.py` producing a clean CSV.
 
-### v0.4.0 — Full dataset
+### v0.0.4 — Translation + scoring
 
-All ~500 jobtag occupations, calibrated against 総務省 統計局 figures.
+`scripts/translate.py` (LLM batch JA→EN) and `scripts/score_ai_risk.py` (0–10 AI replacement scores). Anchors and rubric ported from [karpathy/jobs](https://github.com/karpathy/jobs/blob/main/score.py) with Japan-specific occupation examples.
 
-### v0.5.0 — Polish
+### v0.0.5 — First `data.json`
 
-Performance pass, accessibility, sharable URLs (`?lang=ja&filter=high-risk`), social-card metadata.
+`scripts/build_data.py` merges CSV + scores into a bilingual `data.json`. Visualization still placeholder.
+
+### v0.1.0 — Visualization
+
+Squarified treemap with industry × AI risk × salary axes, filter UI, search, occupation detail tooltip. `?lang=ja` / `?lang=en` URL switch.
+
+### v0.2.0 — Polish
+
+Headcount calibration via 総務省 統計局, performance pass, accessibility, shareable URLs, OG / Twitter Card metadata. Bilingual `prompt.md` artifact (à la karpathy's `make_prompt.py`).
 
 ### v1.0.0 — Stable
 
-Ready to share publicly. Citations, methodology page, data dump downloads.
+Public-ready. Methodology page, citations, data dump downloads.
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed release notes.
 
@@ -143,15 +155,19 @@ pip install -r requirements.txt   # to be added in v0.2.0
 
 ```text
 jobs/
-├── index.html           # bilingual front end
-├── data.json            # (generated by pipeline, v0.2.0+)
-├── scripts/             # (v0.2.0+) scraper, parser, scorer
-├── raw/                 # (gitignored) raw scraped HTML
-├── data/                # (v0.2.0+) intermediate CSVs
-├── README.md            # English (this file)
-├── README.ja.md         # 日本語
+├── index.html             # bilingual front end (root, served by GitHub Pages)
+├── data.json              # (v0.0.5+) compact bilingual data consumed by index.html
+├── occupations.json       # (v0.0.2+) master occupation list from jobtag A–Z
+├── occupations.csv        # (v0.0.3+) tabulated structured fields
+├── scores.json            # (v0.0.4+) AI replacement scores + rationales
+├── prompt.md              # (v0.2.0+) single-file LLM-ready data dump
+├── scripts/               # (v0.0.2+) pipeline scripts
+├── html/                  # (gitignored) raw scraped jobtag HTML
+├── pages/                 # (gitignored) clean Markdown per occupation
+├── README.md              # English (this file)
+├── README.ja.md           # 日本語
 ├── CHANGELOG.md
-├── LICENSE              # MIT
+├── LICENSE                # MIT
 └── .gitignore
 ```
 
