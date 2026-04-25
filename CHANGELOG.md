@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-04-25
+
+### Changed
+
+- **Page reorder**: Treemap is now visible immediately on page open. Layer toggle, search, and stats panel sit directly under the H1; meta-card, intro paragraphs, and methodology details have been moved into a new `<section class="explainer">` placed below the treemap canvas.
+- Added section heading "このマップについて / About this map" above the explainer block, with a top border to visually separate it from the visualization.
+
+### Why
+
+- User feedback (2026-04-25): "把 AI リスク 放到上面，让用户一打开就能看到所有的内容。至于这些解释性的文字，全部都放到下面。" The previous layout pushed the treemap below ~6 paragraphs of intro text, hiding the actual visualization on first view.
+
+---
+
 ### Planned (v0.0.4 / v0.2.0)
 
 - `scripts/translate.py` — LLM-driven JA→EN translation for all 552 occupation names + descriptions (OpenRouter Gemini Flash).

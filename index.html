@@ -159,6 +159,19 @@
       }
       .intro-details-content li { margin: 4px 0; }
       .intro-details-content strong { color: var(--fg); }
+      .explainer {
+        margin-top: 36px;
+        padding-top: 28px;
+        border-top: 1px solid var(--border);
+      }
+      .explainer-heading {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--fg2);
+        margin: 0 0 18px;
+        font-weight: 500;
+      }
       .controls {
         display: flex;
         gap: 18px;
@@ -544,6 +557,72 @@
             <button data-set="en" aria-pressed="false">English</button>
           </span>
         </h1>
+
+        <div class="controls">
+          <label data-i18n="ja" class="active">色：</label>
+          <label data-i18n="en">Layer:</label>
+          <div class="layer-toggle" id="layerToggle">
+            <button data-mode="ai_risk" class="active">
+              <span data-i18n="ja" class="active">AI リスク</span>
+              <span data-i18n="en">AI Risk</span>
+            </button>
+            <button data-mode="salary">
+              <span data-i18n="ja" class="active">年収</span>
+              <span data-i18n="en">Salary</span>
+            </button>
+            <button data-mode="age">
+              <span data-i18n="ja" class="active">平均年齢</span>
+              <span data-i18n="en">Avg Age</span>
+            </button>
+            <button data-mode="hours">
+              <span data-i18n="ja" class="active">労働時間</span>
+              <span data-i18n="en">Hours</span>
+            </button>
+            <button data-mode="recruit_ratio">
+              <span data-i18n="ja" class="active">求人倍率</span>
+              <span data-i18n="en">Job Ratio</span>
+            </button>
+            <button data-mode="education">
+              <span data-i18n="ja" class="active">学歴</span>
+              <span data-i18n="en">Education</span>
+            </button>
+          </div>
+          <div class="gradient-legend">
+            <span id="legendLow"></span>
+            <canvas id="gradientLegend" width="80" height="8"></canvas>
+            <span id="legendHigh"></span>
+          </div>
+          <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="Toggle colorblind-safe viridis palette">
+            <span data-i18n="ja" class="active">色覚配慮</span>
+            <span data-i18n="en">Colorblind</span>
+          </button>
+        </div>
+
+        <div class="search-row">
+          <input id="searchInput" type="search" autocomplete="off"
+                 aria-label="Search occupations" />
+          <span id="searchCount" class="search-count"></span>
+        </div>
+
+        <div class="stats-panel" id="statsPanel" aria-live="polite">
+          <!-- Filled dynamically by updateStats() -->
+        </div>
+      </header>
+
+      <div id="loadingState" class="loading-state">
+        <span data-i18n="ja" class="active">読み込み中…</span>
+        <span data-i18n="en">Loading…</span>
+      </div>
+      <canvas id="treemap" tabindex="0" role="application"
+              aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
+              style="display:none"></canvas>
+      <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
+
+      <section class="explainer" aria-label="Methodology and data sources">
+        <h2 class="explainer-heading">
+          <span data-i18n="ja" class="active">このマップについて</span>
+          <span data-i18n="en">About this map</span>
+        </h2>
         <div class="meta-card" data-i18n="ja">
           <div class="meta-row">
             <span class="meta-label">採点 LLM</span>
@@ -675,70 +754,11 @@
             <p><strong>Caveat:</strong> A high score does NOT predict the job disappearing. Programmers score 9/10, but AI making each programmer more productive could grow the total demand for programming. Most high-exposure jobs will be reshaped, not replaced.</p>
           </div>
         </details>
-
-        <div class="controls">
-          <label data-i18n="ja" class="active">色：</label>
-          <label data-i18n="en">Layer:</label>
-          <div class="layer-toggle" id="layerToggle">
-            <button data-mode="ai_risk" class="active">
-              <span data-i18n="ja" class="active">AI リスク</span>
-              <span data-i18n="en">AI Risk</span>
-            </button>
-            <button data-mode="salary">
-              <span data-i18n="ja" class="active">年収</span>
-              <span data-i18n="en">Salary</span>
-            </button>
-            <button data-mode="age">
-              <span data-i18n="ja" class="active">平均年齢</span>
-              <span data-i18n="en">Avg Age</span>
-            </button>
-            <button data-mode="hours">
-              <span data-i18n="ja" class="active">労働時間</span>
-              <span data-i18n="en">Hours</span>
-            </button>
-            <button data-mode="recruit_ratio">
-              <span data-i18n="ja" class="active">求人倍率</span>
-              <span data-i18n="en">Job Ratio</span>
-            </button>
-            <button data-mode="education">
-              <span data-i18n="ja" class="active">学歴</span>
-              <span data-i18n="en">Education</span>
-            </button>
-          </div>
-          <div class="gradient-legend">
-            <span id="legendLow"></span>
-            <canvas id="gradientLegend" width="80" height="8"></canvas>
-            <span id="legendHigh"></span>
-          </div>
-          <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="Toggle colorblind-safe viridis palette">
-            <span data-i18n="ja" class="active">色覚配慮</span>
-            <span data-i18n="en">Colorblind</span>
-          </button>
-        </div>
-
-        <div class="search-row">
-          <input id="searchInput" type="search" autocomplete="off"
-                 aria-label="Search occupations" />
-          <span id="searchCount" class="search-count"></span>
-        </div>
-
-        <div class="stats-panel" id="statsPanel" aria-live="polite">
-          <!-- Filled dynamically by updateStats() -->
-        </div>
-      </header>
-
-      <div id="loadingState" class="loading-state">
-        <span data-i18n="ja" class="active">読み込み中…</span>
-        <span data-i18n="en">Loading…</span>
-      </div>
-      <canvas id="treemap" tabindex="0" role="application"
-              aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
-              style="display:none"></canvas>
-      <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
+      </section>
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.0 · MIT ·
+          v0.3.1 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -749,7 +769,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.3.0 · MIT ·
+          v0.3.1 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
