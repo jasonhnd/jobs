@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "scored_at": "2026-04-25",
-  "scorer": "Claude Sonnet 4.7 (Anthropic) via Claude Code session",
+  "scorer": "Claude Opus 4.7 (Anthropic) via Claude Code session",
   "rubric_source": "karpathy/jobs 0-10 scale, calibrated for Japan jobtag",
   "anchors": {
     "0-1": "Minimal: physical/hands-on in unpredictable environments",

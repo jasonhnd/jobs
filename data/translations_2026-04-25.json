@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "translated_at": "2026-04-25",
-  "translator": "Claude Sonnet 4.7 (Anthropic) via Claude Code session",
+  "translator": "Claude Opus 4.7 (Anthropic) via Claude Code session",
   "note": "name_en is the English occupation name. desc_en is a 1-2 sentence English summary of what the job involves. Full Japanese descriptions remain in data/occupations_full.json.",
   "translations": {
     "1":{"name_en":"Tofu Maker / Tofu Craftsman","desc_en":"Produces tofu, deep-fried tofu, and related soybean products at small workshops or factories using traditional fermentation and pressing methods."},

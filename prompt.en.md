@@ -8,7 +8,7 @@ Structured data on **552 Japanese occupations** sourced from MHLW jobtag, each s
 
 ## Scoring methodology
 
-- **Scoring LLM:** Claude Sonnet 4.7 (Anthropic)
+- **Scoring LLM:** Claude Opus 4.7 (Anthropic)
 - **Scored on:** 2026-04-25
 - **Translated on:** 2026-04-25
 - **Workforce / wage data:** MHLW FY2023 commissioned survey (via jobtag)

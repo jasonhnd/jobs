@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-04-25
+
+### Fixed
+
+- **Wrong model name**: scoring & translation provenance was labelled "Claude Sonnet 4.7" everywhere. The actual model used in the live Claude Code session was **Claude Opus 4.7** (Anthropic's highest-reasoning tier). Sonnet 4.7 does not exist as a released tier. Replaced 13 occurrences across 6 files: `index.html` (8: meta description, og:description, JA/EN meta-cards, JA/EN methodology details), `data/ai_scores_2026-04-25.json` (1: scorer field), `data/translations_2026-04-25.json` (1: translator field), `prompt.en.md` (1), `prompt.ja.md` (1), `scripts/make_prompt.py` (1: SCORING_LLM constant).
+
+### Why
+
+- User caught the misattribution: "我看了一下显示，为什么是 Sonnet 4.7？这不是 Opus 4.7 吗？" The mistake was introduced in v0.2.x and propagated to all downstream artifacts.
+
+---
+
 ## [0.3.4] - 2026-04-25
 
 ### Added

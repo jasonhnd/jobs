@@ -24,7 +24,7 @@ INPUT = ROOT / "data.json"
 OUTPUT_JA = ROOT / "prompt.ja.md"
 OUTPUT_EN = ROOT / "prompt.en.md"
 
-SCORING_LLM = "Claude Sonnet 4.7 (Anthropic)"
+SCORING_LLM = "Claude Opus 4.7 (Anthropic)"
 SCORED_ON = "2026-04-25"
 TRANSLATED_ON = "2026-04-25"
 JOBTAG_URL = "https://shigoto.mhlw.go.jp/User/"
