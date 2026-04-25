@@ -226,19 +226,62 @@
           <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
             >職業情報提供サイト（job tag）</a
           >
-          から取得して可視化したマップです。各タイルの<strong>面積</strong>はその職業の就業者数（厚労省 2023
-          年度委託調査）に比例し、<strong>色</strong>は選択した指標を表します。タイルをクリックすると
-          jobtag の元ページが開きます。AI 代替リスクは v0.0.4 で追加予定。
+          から取得して可視化したツリーマップです。
+          <a href="https://github.com/karpathy/jobs" target="_blank"
+            >karpathy/jobs</a
+          >
+          にインスパイアされた、日本版の試みです。
+        </p>
+        <p class="intro" data-i18n="ja">
+          各タイルの<strong>面積</strong>はその職業の<strong>就業者数</strong>（厚労省 2023
+          年度委託調査）に比例し、<strong>色</strong>は選択中の指標を表します。タイルをクリックすると
+          jobtag の元ページが開きます。上部のレイヤー切替で、年収・平均年齢・労働時間・求人倍率・学歴・AI
+          リスクの 6 指標を切り替えられます。
+        </p>
+        <p class="intro" data-i18n="ja">
+          <strong>AI リスク</strong>は 0〜10
+          のスケールで、AI が今後その職業をどれほど作り変えるかを示します。karpathy/jobs
+          のアンカー職業群に対してキャリブレーションし、LLM が採点しています（調査ではなく
+          <em>ラフな推定</em>です）。スコアが高い ≠
+          消滅。多くの高リスク職は<strong>置換ではなく再構成</strong>される可能性が高いです。
+        </p>
+        <p class="intro" data-i18n="ja">
+          技術メモ：jobtag は Imperva
+          越しの認証セッションが必要なため、データはユーザー本人のブラウザセッションを通じて
+          Chrome MCP 経由で取得しています。ソースコードは
+          <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a>
+          で公開（MIT）。最終更新 2026-04-25。
         </p>
         <p class="intro" data-i18n="en">
           A treemap of <strong>552 Japanese occupations</strong> sourced from
-          MHLW's
+          Japan's Ministry of Health, Labour and Welfare (厚生労働省) via their
           <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
-            >Occupational Information Site (job tag)</a
-          >. Tile <strong>area</strong> is proportional to occupation workforce
-          (MHLW 2023 commissioned survey); <strong>color</strong> shows the
-          selected metric. Click any tile to open the jobtag detail page. AI
-          replacement risk lands in v0.0.4.
+            >Occupational Information Site (jobtag)</a
+          >. Inspired by
+          <a href="https://github.com/karpathy/jobs" target="_blank"
+            >karpathy/jobs</a
+          >, ported to the Japanese labor market.
+        </p>
+        <p class="intro" data-i18n="en">
+          Tile <strong>area</strong> = workforce size (就業者数, from MHLW's
+          FY2023 commissioned survey). Tile <strong>color</strong> = the
+          currently selected metric. Click any tile to open its official jobtag
+          page. Use the layer toggle above to switch between salary, average
+          age, monthly hours, recruit ratio, education, and AI risk.
+        </p>
+        <p class="intro" data-i18n="en">
+          <strong>AI risk</strong> is a 0-10 score for how much AI is likely to
+          reshape each occupation, calibrated against the karpathy/jobs anchor
+          set. Scored by an LLM, <em>not</em> a survey — treat it as a rough
+          estimate. A high score does <strong>not</strong> mean the job will
+          disappear; many high-exposure occupations will be
+          <strong>reshaped, not replaced</strong>.
+        </p>
+        <p class="intro" data-i18n="en">
+          Tech note: jobtag sits behind Imperva, so data is sourced through the
+          user's authenticated browser session via Chrome MCP. Source on
+          <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a>
+          (MIT). Last updated 2026-04-25.
         </p>
 
         <div class="controls">
@@ -264,6 +307,10 @@
             <button data-mode="education">
               <span data-i18n="ja" class="active">学歴</span>
               <span data-i18n="en">Education</span>
+            </button>
+            <button data-mode="ai_risk">
+              <span data-i18n="ja" class="active">AI リスク</span>
+              <span data-i18n="en">AI Risk</span>
             </button>
           </div>
           <div class="gradient-legend">
@@ -301,7 +348,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.1.0 · MIT ·
+          v0.2.0 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -312,7 +359,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.1.0 · MIT ·
+          v0.2.0 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -396,6 +443,10 @@
           if (idx < 0) return `rgba(120,120,120,${alpha})`;
           return greenRedCSS(idx / (EDU_LABELS.length - 1), alpha);
         }
+        if (layer === "ai_risk") {
+          if (d.ai_risk == null) return `rgba(120,120,120,${alpha})`;
+          return greenRedCSS(d.ai_risk / 10, alpha);
+        }
         return `rgba(120,120,120,${alpha})`;
       }
 
@@ -468,6 +519,7 @@
           if (idx < 0) return "";
           return lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx];
         }
+        if (layer === "ai_risk") return d.ai_risk != null ? d.ai_risk + "/10" : "";
         return "";
       }
 
@@ -538,7 +590,9 @@
               ["Avg age", d.age != null ? d.age + " yrs" : "—"],
               ["Hours/month", d.hours != null ? d.hours + " h" : "—"],
               ["Recruit ratio", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "—"],
-              ["Top education", eduPct ? eduLabel + " (" + eduPct + ")" : "—"]
+              ["Top education", eduPct ? eduLabel + " (" + eduPct + ")" : "—"],
+              ["AI risk", d.ai_risk != null ? d.ai_risk + "/10" : "—"],
+              ["Rationale", d.ai_rationale_en || "—"]
             ]
           : [
               ["年収", d.salary != null ? d.salary + " 万円" : "—"],
@@ -546,7 +600,9 @@
               ["平均年齢", d.age != null ? d.age + " 歳" : "—"],
               ["労働時間/月", d.hours != null ? d.hours + " 時間" : "—"],
               ["有効求人倍率", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) : "—"],
-              ["最多学歴", eduPct ? eduLabel + " (" + eduPct + ")" : "—"]
+              ["最多学歴", eduPct ? eduLabel + " (" + eduPct + ")" : "—"],
+              ["AI リスク", d.ai_risk != null ? d.ai_risk + "/10" : "—"],
+              ["理由", d.ai_rationale_ja || "—"]
             ];
         document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${k}</span><span class="value">${v}</span>`).join("");
         let tx = mx + 16, ty = my - 16;
@@ -584,7 +640,8 @@
           age: {ja: ["若い", "高い"], en: ["Young", "Older"]},
           hours: {ja: ["短い", "長い"], en: ["Short", "Long"]},
           recruit_ratio: {ja: ["低い", "高い"], en: ["Low demand", "High demand"]},
-          education: {ja: ["学歴低", "学歴高"], en: ["Low edu", "High edu"]}
+          education: {ja: ["学歴低", "学歴高"], en: ["Low edu", "High edu"]},
+          ai_risk: {ja: ["低リスク", "高リスク"], en: ["Low risk", "High risk"]}
         };
         const cfg = cfgs[layer] || cfgs.salary;
         document.getElementById("legendLow").textContent = cfg[lang][0];
@@ -619,7 +676,7 @@
         .then(r => r.json())
         .then(d => {
           data = d;
-          setLang((navigator.language || "en").toLowerCase().startsWith("ja") ? "ja" : "en");
+          setLang("ja");
           updateStats(); drawGradientLegend(); resize();
         });
     </script>
