@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-04-25
+
+### Fixed
+
+- **Workforce overcounting (CRITICAL)**: total workforce was previously displayed as 3.7 億 (370M), about 5.5× Japan's actual labor force (~67M). Root cause: jobtag publishes headcount at the **parent category level** (e.g. "公務員" = 3,737,860 people) and assigns the same number to every sub-occupation (国家公務員, 地方公務員, 外務公務員, …). Naïvely summing the 552 occupations multi-counted each parent.
+
+### Changed
+
+- `scripts/build_data.py`: added a workforce normalization step. Occupations sharing an identical workforce value are treated as members of the same parent category, and the parent total is **redistributed equally** among them. Also stores `category_workers` (the original parent total) and `category_size` (number of sub-occupations) on each record for transparency.
+- `data.json`: regenerated. New total **54.5 million** (≈ 81% of Japan's actual labor force — the gap reflects occupations not covered by jobtag).
+- `index.html`: tooltip now annotates redistributed workforce, e.g. **`69.3万 人（親 138.6万 ÷ 2）`** when the value came from a multi-member parent category. Added a JA/EN explanatory paragraph in the explainer section describing the redistribution.
+- Treemap tile sizes now reflect per-occupation share rather than the parent category total. The 3 largest tiles are now 一般事務 (~263万), 施設介護員 (~135万), and ビル清掃 (~91万) — reasonable for Japan.
+
+---
+
 ## [0.3.1] - 2026-04-25
 
 ### Changed

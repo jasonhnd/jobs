@@ -654,7 +654,12 @@
         </p>
         <p class="intro" data-i18n="ja">
           各タイルの<strong>面積</strong>はその職業の<strong>就業者数</strong>に正比例します。<br>
-          数百万人の職業（看護師・スーパー店員など）は大きく、数千人の専門職（弁理士・潜水士など）は小さく表示されます。
+          数百万人の職業（一般事務・施設介護員など）は大きく、数千人の専門職（弁理士・潜水士など）は小さく表示されます。
+        </p>
+        <p class="intro" data-i18n="ja">
+          <strong>就業者数の按分について：</strong>jobtag の就業者数は親カテゴリ（例：「公務員」374万人）の合計値で、その下の <em>国家公務員・地方公務員・外務公務員...</em> など 31 個の子職業すべてに同じ数字が付いています。<br>
+          そのまま合計すると親カテゴリを何重にも数えてしまうため、<strong>同じ就業者数を持つ子職業に均等按分</strong>しました（374万 ÷ 31 ≒ 12万人/職業）。<br>
+          結果、552 職業の合計は <strong>約 5,449 万人</strong>（日本の実労働力人口 約 6,700 万人の 81%）となります。
         </p>
         <p class="intro" data-i18n="ja">
           <strong>色</strong>は選択中の指標。上部のレイヤー切替で 6 種（AI リスク／年収／平均年齢／労働時間／求人倍率／学歴）を切り替え。<br>
@@ -720,7 +725,12 @@
         </p>
         <p class="intro" data-i18n="en">
           Tile <strong>area</strong> is directly proportional to <strong>workforce</strong>.<br>
-          Multi-million-headcount occupations (nurses, supermarket clerks) appear huge; small specialties (patent attorneys, divers) appear tiny — that's by design.
+          Multi-million-headcount occupations (general clerical, care workers) appear huge; small specialties (patent attorneys, divers) appear tiny — that's by design.
+        </p>
+        <p class="intro" data-i18n="en">
+          <strong>About workforce allocation:</strong> jobtag reports headcount at the <em>parent category</em> level. Example: "Civil Servants" totals 3.74M, and that exact same number is repeated across all 31 sub-occupations (national / local / foreign-service / etc.).<br>
+          Naïvely summing them would multi-count each parent category, so we <strong>distribute the parent total equally</strong> across its sub-occupations (3.74M ÷ 31 ≈ 120K per role).<br>
+          The 552 occupations sum to <strong>~54.5 million</strong> — about 81% of Japan's total labor force (~67 million).
         </p>
         <p class="intro" data-i18n="en">
           Tile <strong>color</strong> shows the selected metric. Use the top toggle to switch among 6 layers: AI Risk / Salary / Avg Age / Hours / Recruit Ratio / Education.<br>
@@ -758,7 +768,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.1 · MIT ·
+          v0.3.2 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -769,7 +779,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.3.1 · MIT ·
+          v0.3.2 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -1098,12 +1108,19 @@
             : null;
           const hourlyWage = d.hourly_wage;
 
+          const workersEn = d.category_size && d.category_size > 1
+            ? fmtNumberEn(d.workers) + " (parent " + fmtNumberEn(d.category_workers) + " ÷ " + d.category_size + ")"
+            : fmtNumberEn(d.workers);
+          const workersJa = d.category_size && d.category_size > 1
+            ? fmtN(d.workers) + " 人（親 " + fmtN(d.category_workers) + " ÷ " + d.category_size + "）"
+            : fmtN(d.workers) + " 人";
+
           const rowsEn = [
             ["Annual salary", d.salary != null
               ? d.salary + " 万円 (~$" + fmtSalaryUSD(d.salary) + ")"
                 + (salaryPctTop != null ? " · top " + salaryPctTop + "%" : "")
               : "—"],
-            ["Workers", fmtNumberEn(d.workers)],
+            ["Workers", workersEn],
             ["Avg age", d.age != null ? d.age + " yrs" : "—"],
             ["Hours/month", d.hours != null ? d.hours + " h" : "—"],
             ["Recruit ratio", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "—"],
@@ -1121,7 +1138,7 @@
               ? d.salary + " 万円"
                 + (salaryPctTop != null ? "（上位 " + salaryPctTop + "%）" : "")
               : "—"],
-            ["就業者数", fmtN(d.workers) + " 人"],
+            ["就業者数", workersJa],
             ["平均年齢", d.age != null ? d.age + " 歳" : "—"],
             ["労働時間/月", d.hours != null ? d.hours + " 時間" : "—"],
             ["有効求人倍率", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) : "—"],

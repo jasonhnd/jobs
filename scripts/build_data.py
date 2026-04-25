@@ -356,6 +356,41 @@ def build():
         }
         out.append(record)
 
+    # ---------------------------------------------------------------
+    # Workers normalization (jobtag stats are at the parent category
+    # level: many sub-occupations share identical headcount, hours,
+    # salary, age figures. Summing them naïvely 5x-overcounts the
+    # workforce. We redistribute the parent total equally across
+    # sub-occupations and store the original on `category_workers`.)
+    # ---------------------------------------------------------------
+    from collections import defaultdict
+    # Group by workers value alone. jobtag's headcount is at the parent
+    # category level — occupations that share the same workforce count
+    # (3.7M for 公務員, 3.3M for 事務など) are members of the same category
+    # in the source taxonomy. Even when secondary stats (salary, hours)
+    # diverge slightly across sub-occupations, identical workforce is the
+    # signal that they share a parent total.
+    stats_groups: dict = defaultdict(list)
+    for r in out:
+        if r.get("workers"):
+            stats_groups[r["workers"]].append(r)
+
+    multi_categories = [g for g in stats_groups.values() if len(g) > 1]
+    redistributed_records = 0
+    for group in multi_categories:
+        original = group[0]["workers"]
+        share = original / len(group)
+        for r in group:
+            r["category_workers"] = original
+            r["category_size"] = len(group)
+            r["workers"] = max(1, round(share))
+        redistributed_records += len(group)
+
+    print(
+        f"  Normalization: {len(multi_categories)} parent categories "
+        f"redistributed across {redistributed_records} sub-occupations."
+    )
+
     out.sort(key=lambda x: x["id"])
 
     print(f"Writing {OUTPUT}...")
