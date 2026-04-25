@@ -6,8 +6,19 @@
     <title>日本の職業マップ × Japan Jobs Map</title>
     <meta
       name="description"
-      content="552 occupations from 厚生労働省 jobtag visualized as a treemap."
+      content="552 Japanese occupations from MHLW jobtag, scored 0-10 for AI replacement risk by Claude Sonnet 4.7. Bilingual treemap."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="日本の職業マップ — Japan Jobs Map" />
+    <meta property="og:description" content="552 Japanese occupations from MHLW jobtag, scored 0-10 for AI replacement risk by Claude Sonnet 4.7. Bilingual treemap." />
+    <meta property="og:url" content="https://jasonhnd.github.io/jobs/" />
+    <meta property="og:image" content="https://jasonhnd.github.io/jobs/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="日本の職業マップ — Japan Jobs Map" />
+    <meta name="twitter:description" content="552 Japanese occupations scored 0-10 for AI replacement risk. Workforce-weighted treemap, JA/EN, MIT licensed." />
+    <meta name="twitter:image" content="https://jasonhnd.github.io/jobs/og.png" />
+    <link rel="canonical" href="https://jasonhnd.github.io/jobs/" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
     <style>
       *,
       *::before,
@@ -210,7 +221,141 @@
         display: block;
         cursor: default;
         border-radius: 6px;
+        outline: none;
       }
+      canvas#treemap:focus-visible {
+        box-shadow: 0 0 0 2px var(--accent);
+      }
+      .layer-toggle button:focus-visible,
+      .lang-switch button:focus-visible,
+      .palette-toggle:focus-visible,
+      #searchInput:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .loading-state {
+        padding: 40px;
+        text-align: center;
+        color: var(--fg2);
+        font-size: 0.95rem;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+      .error-state {
+        background: rgba(255, 80, 80, 0.1);
+        border: 1px solid rgba(255, 80, 80, 0.3);
+        border-radius: 8px;
+        padding: 16px;
+        margin: 20px 0;
+        color: var(--fg);
+        text-align: center;
+      }
+      .error-state button {
+        margin-top: 12px;
+        padding: 6px 14px;
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        border-radius: 4px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .search-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      #searchInput {
+        flex: 1;
+        max-width: 360px;
+        padding: 8px 12px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        border-radius: 6px;
+        font: inherit;
+        font-size: 0.88rem;
+      }
+      #searchInput::placeholder {
+        color: var(--fg2);
+      }
+      .search-count {
+        font-size: 0.78rem;
+        color: var(--fg2);
+      }
+      .palette-toggle {
+        padding: 5px 12px;
+        font-size: 0.78rem;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg2);
+        border-radius: 4px;
+        cursor: pointer;
+        font: inherit;
+        margin-left: 8px;
+      }
+      .palette-toggle.active {
+        background: rgba(255, 184, 77, 0.15);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .stats-panel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .stat-block {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+      }
+      .stat-block .stat-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--fg2);
+        margin-bottom: 4px;
+      }
+      .stat-block .stat-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--fg);
+      }
+      .stat-block .stat-sub {
+        font-size: 0.72rem;
+        color: var(--fg2);
+        margin-top: 4px;
+      }
+      .mini-hist {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 32px;
+        margin-top: 6px;
+      }
+      .mini-hist .bar {
+        flex: 1;
+        background: var(--accent);
+        min-height: 1px;
+        border-radius: 1px 1px 0 0;
+      }
+      .tier-table {
+        width: 100%;
+        font-size: 0.78rem;
+        border-collapse: collapse;
+        margin-top: 6px;
+      }
+      .tier-table td {
+        padding: 2px 4px;
+        color: var(--fg);
+      }
+      .tier-table td:first-child { color: var(--fg2); }
+      .tier-table td:last-child { text-align: right; color: var(--fg2); }
       #tooltip {
         position: fixed;
         pointer-events: none;
@@ -225,6 +370,52 @@
         transition: opacity 0.12s;
         z-index: 20;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      }
+      #tooltip.touch-mode {
+        pointer-events: auto;
+      }
+      #tooltip .tt-close {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        background: transparent;
+        border: none;
+        color: var(--fg2);
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 2px 6px;
+        line-height: 1;
+        display: none;
+      }
+      #tooltip.touch-mode .tt-close {
+        display: block;
+      }
+      #tooltip.touch-mode .tt-title {
+        padding-right: 22px;
+      }
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--accent);
+        color: #000;
+        padding: 8px 14px;
+        z-index: 100;
+        border-radius: 0 0 8px 0;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
       #tooltip.visible {
         opacity: 1;
@@ -338,6 +529,10 @@
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#treemap">
+      <span data-i18n="ja" class="active">マップへスキップ</span>
+      <span data-i18n="en">Skip to map</span>
+    </a>
     <div id="wrapper">
       <header>
         <h1>
@@ -364,7 +559,7 @@
           </div>
           <div class="meta-row">
             <span class="meta-label">データ出典</span>
-            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank">厚生労働省 職業情報提供サイト（job tag）</a></span>
+            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省 職業情報提供サイト（job tag）</a></span>
           </div>
           <div class="meta-row">
             <span class="meta-label">就業者数の出典</span>
@@ -372,7 +567,7 @@
           </div>
           <div class="meta-row">
             <span class="meta-label">採点スケール</span>
-            <span class="meta-value"><a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank">karpathy/jobs</a> の 0〜10 アンカーを移植</span>
+            <span class="meta-value"><a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank" rel="noopener noreferrer">karpathy/jobs</a> の 0〜10 アンカーを移植</span>
           </div>
         </div>
         <p class="intro" data-i18n="ja">
@@ -394,8 +589,8 @@
           <em>注意：高得点 = 仕事が消える、ではありません。</em>多くの高得点職は<strong>置換ではなく再構成</strong>される可能性が高いです。
         </p>
         <p class="intro" data-i18n="ja">
-          <a href="https://github.com/karpathy/jobs" target="_blank">karpathy/jobs</a>（米国版）にインスパイアされた、日本版の試みです。<br>
-          ソースコード <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a>（MIT）。
+          <a href="https://github.com/karpathy/jobs" target="_blank" rel="noopener noreferrer">karpathy/jobs</a>（米国版）にインスパイアされた、日本版の試みです。<br>
+          ソースコード <a href="https://github.com/jasonhnd/jobs" target="_blank" rel="noopener noreferrer">GitHub</a>（MIT）。
         </p>
         <details class="intro-details" data-i18n="ja">
           <summary>📖 AI リスクの完全な採点根拠（誰が・何を基準に・いつ採点したか）</summary>
@@ -430,7 +625,7 @@
           </div>
           <div class="meta-row">
             <span class="meta-label">Data source</span>
-            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank">MHLW Occupational Information Site (jobtag)</a></span>
+            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW Occupational Information Site (jobtag)</a></span>
           </div>
           <div class="meta-row">
             <span class="meta-label">Workforce data</span>
@@ -438,7 +633,7 @@
           </div>
           <div class="meta-row">
             <span class="meta-label">Scoring scale</span>
-            <span class="meta-value">Ported 0–10 anchors from <a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank">karpathy/jobs</a></span>
+            <span class="meta-value">Ported 0–10 anchors from <a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank" rel="noopener noreferrer">karpathy/jobs</a></span>
           </div>
         </div>
         <p class="intro" data-i18n="en">
@@ -460,7 +655,7 @@
           <em>Important: a high score does NOT predict the job will disappear.</em> Most high-exposure jobs will be <strong>reshaped, not replaced</strong>.
         </p>
         <p class="intro" data-i18n="en">
-          Inspired by <a href="https://github.com/karpathy/jobs" target="_blank">karpathy/jobs</a> (US version). Source on <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a> (MIT).
+          Inspired by <a href="https://github.com/karpathy/jobs" target="_blank" rel="noopener noreferrer">karpathy/jobs</a> (US version). Source on <a href="https://github.com/jasonhnd/jobs" target="_blank" rel="noopener noreferrer">GitHub</a> (MIT).
         </p>
         <details class="intro-details" data-i18n="en">
           <summary>📖 Full AI risk methodology (scorer, criteria, date)</summary>
@@ -515,61 +710,60 @@
             <canvas id="gradientLegend" width="80" height="8"></canvas>
             <span id="legendHigh"></span>
           </div>
+          <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="Toggle colorblind-safe viridis palette">
+            <span data-i18n="ja" class="active">色覚配慮</span>
+            <span data-i18n="en">Colorblind</span>
+          </button>
         </div>
 
-        <div class="stats-row">
-          <div class="stat-item">
-            <span data-i18n="ja" class="active">職業数：</span>
-            <span data-i18n="en">Occupations:</span>
-            <strong id="statCount">—</strong>
-          </div>
-          <div class="stat-item">
-            <span data-i18n="ja" class="active">中央値年収：</span>
-            <span data-i18n="en">Median salary:</span>
-            <strong id="statMedianSalary">—</strong>
-          </div>
-          <div class="stat-item">
-            <span data-i18n="ja" class="active">最高年収：</span>
-            <span data-i18n="en">Top salary:</span>
-            <strong id="statMaxSalary">—</strong>
-          </div>
-          <div class="stat-item">
-            <span data-i18n="ja" class="active">最低年収：</span>
-            <span data-i18n="en">Lowest salary:</span>
-            <strong id="statMinSalary">—</strong>
-          </div>
+        <div class="search-row">
+          <input id="searchInput" type="search" autocomplete="off"
+                 aria-label="Search occupations" />
+          <span id="searchCount" class="search-count"></span>
+        </div>
+
+        <div class="stats-panel" id="statsPanel" aria-live="polite">
+          <!-- Filled dynamically by updateStats() -->
         </div>
       </header>
 
-      <canvas id="treemap"></canvas>
+      <div id="loadingState" class="loading-state">
+        <span data-i18n="ja" class="active">読み込み中…</span>
+        <span data-i18n="en">Loading…</span>
+      </div>
+      <canvas id="treemap" tabindex="0" role="application"
+              aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
+              style="display:none"></canvas>
+      <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.2.3 · MIT ·
+          v0.3.0 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
           >
           · データ出典：
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer"
             >厚生労働省 jobtag</a
           >
         </span>
         <span data-i18n="en">
-          v0.2.3 · MIT ·
+          v0.3.0 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
           >
           · Data source:
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer"
             >MHLW jobtag</a
           >
         </span>
       </footer>
     </div>
 
-    <div id="tooltip">
+    <div id="tooltip" role="tooltip" aria-live="polite" aria-atomic="true">
+      <button class="tt-close" type="button" aria-label="Close" id="tooltipClose">×</button>
       <div class="tt-title"></div>
       <div class="tt-row" id="ttRow"></div>
     </div>
@@ -577,22 +771,65 @@
     <script>
       let lang = "ja";
       let layer = "ai_risk";
+      let palette = "redgreen"; // or "viridis"
       let data = [];
       let rects = [];
       let hovered = null;
+      let searchQuery = "";
+      let dimmedIds = null; // null = no filter; Set when searching
+      let lastTooltipId = null;
+      let lastTapped = null;
+      let lastTapTime = 0;
+      let keyboardIdx = -1;
+      let percentiles = {};
       const canvas = document.getElementById("treemap");
       const ctx = canvas.getContext("2d");
       let dpr = window.devicePixelRatio || 1;
       const MARGIN = 4, GAP = 1;
+      const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
       const EDU_LABELS = ["高卒未満","高卒","専門学校卒","短大卒","高専卒","大卒","修士課程卒（修士と同等の専門職学位を含む）","博士課程卒"];
       const EDU_LABEL_EN = {"高卒未満":"Below HS","高卒":"High school","専門学校卒":"Vocational","短大卒":"Junior college","高専卒":"Technical college","大卒":"University","修士課程卒（修士と同等の専門職学位を含む）":"Master's","博士課程卒":"Doctorate"};
+
+      const I18N = {
+        searchPlaceholder: { ja: "職業名で検索…", en: "Search occupations…" },
+        searchHits: { ja: n => n + " 件", en: n => n + " match" + (n === 1 ? "" : "es") },
+        statTitle: {
+          ai_risk: { ja: "AI リスク", en: "AI Risk" },
+          salary: { ja: "年収", en: "Salary" },
+          age: { ja: "平均年齢", en: "Avg Age" },
+          hours: { ja: "労働時間", en: "Hours" },
+          recruit_ratio: { ja: "求人倍率", en: "Recruit Ratio" },
+          education: { ja: "学歴", en: "Education" }
+        },
+        labels: {
+          occupations: { ja: "職業数", en: "Occupations" },
+          workforce: { ja: "総就業者数", en: "Total workforce" },
+          weightedAvg: { ja: "加重平均", en: "Weighted avg" },
+          distribution: { ja: "分布", en: "Distribution" },
+          tiers: { ja: "段階別", en: "Tiers" },
+          crosstab: { ja: "クロス集計", en: "Cross-tab" },
+          impact: { ja: "影響度", en: "Impact" },
+          wagesExposed: { ja: "高リスク賃金総額（リスク≥7）", en: "Wages exposed (risk≥7)" },
+          highRiskJobs: { ja: "高リスク職業数", en: "High-risk jobs" },
+          topPay: { ja: "最高年収", en: "Top salary" },
+          medianPay: { ja: "中央値年収", en: "Median salary" },
+          totalWages: { ja: "賃金総額", en: "Total wages" },
+          oldestField: { ja: "最高齢分野", en: "Oldest occupations" },
+          youngestField: { ja: "最若分野", en: "Youngest occupations" },
+          longestHrs: { ja: "労働時間最長", en: "Longest hours" },
+          highestDemand: { ja: "需要最高", en: "Highest demand" },
+          uniDegree: { ja: "大卒以上 %", en: "Bachelor+ %" }
+        }
+      };
 
       function setLang(next) {
         lang = next;
         document.documentElement.lang = next;
         document.querySelectorAll("[data-i18n]").forEach(el => el.classList.toggle("active", el.dataset.i18n === next));
         document.querySelectorAll(".lang-switch button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.set === next)));
+        const si = document.getElementById("searchInput");
+        if (si) si.placeholder = I18N.searchPlaceholder[lang];
         if (data.length) { updateStats(); drawGradientLegend(); draw(); }
       }
       document.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
@@ -606,6 +843,27 @@
         else { const s = (t - 0.5) / 0.5; r = Math.round(230 + s * 25); g = Math.round(160 - s * 130); b = Math.round(20 - s * 5); }
         return `rgba(${r},${g},${b},${alpha})`;
       }
+      // Viridis-like 5-stop perceptually-uniform palette (colorblind-safe)
+      const VIRIDIS_STOPS = [
+        [68, 1, 84],     // dark purple
+        [59, 82, 139],   // blue
+        [33, 144, 141],  // teal
+        [94, 201, 98],   // green
+        [253, 231, 37]   // yellow
+      ];
+      function viridisCSS(t, alpha) {
+        t = clamp(t);
+        const seg = Math.min(VIRIDIS_STOPS.length - 2, Math.floor(t * (VIRIDIS_STOPS.length - 1)));
+        const localT = t * (VIRIDIS_STOPS.length - 1) - seg;
+        const a = VIRIDIS_STOPS[seg], b = VIRIDIS_STOPS[seg + 1];
+        const r = Math.round(a[0] + (b[0] - a[0]) * localT);
+        const g = Math.round(a[1] + (b[1] - a[1]) * localT);
+        const bl = Math.round(a[2] + (b[2] - a[2]) * localT);
+        return `rgba(${r},${g},${bl},${alpha})`;
+      }
+      function paletteCSS(t, alpha) {
+        return palette === "viridis" ? viridisCSS(t, alpha) : greenRedCSS(t, alpha);
+      }
 
       function dominantEduIdx(eduMap) {
         let best = -1, bestPct = -1;
@@ -616,35 +874,41 @@
         return best;
       }
 
-      function tileColorCSS(d, alpha) {
+      // Returns t in [0,1] for the layer metric of d, or null if missing
+      function layerT(d) {
         if (layer === "salary") {
-          if (d.salary == null) return `rgba(120,120,120,${alpha})`;
-          const t = (Math.log(Math.max(280, Math.min(1700, d.salary))) - Math.log(280)) / (Math.log(1700) - Math.log(280));
-          return greenRedCSS(t, alpha);
+          if (d.salary == null) return null;
+          return (Math.log(Math.max(280, Math.min(1700, d.salary))) - Math.log(280)) / (Math.log(1700) - Math.log(280));
         }
         if (layer === "age") {
-          if (d.age == null) return `rgba(120,120,120,${alpha})`;
-          return greenRedCSS((Math.max(28, Math.min(60, d.age)) - 28) / 32, alpha);
+          if (d.age == null) return null;
+          return (Math.max(28, Math.min(60, d.age)) - 28) / 32;
         }
         if (layer === "hours") {
-          if (d.hours == null) return `rgba(120,120,120,${alpha})`;
-          return greenRedCSS((Math.max(140, Math.min(190, d.hours)) - 140) / 50, alpha);
+          if (d.hours == null) return null;
+          return (Math.max(140, Math.min(190, d.hours)) - 140) / 50;
         }
         if (layer === "recruit_ratio") {
-          if (d.recruit_ratio == null) return `rgba(120,120,120,${alpha})`;
-          const t = (Math.log(Math.max(0.3, Math.min(15, d.recruit_ratio))) - Math.log(0.3)) / (Math.log(15) - Math.log(0.3));
-          return greenRedCSS(1 - t, alpha);
+          if (d.recruit_ratio == null) return null;
+          const tt = (Math.log(Math.max(0.3, Math.min(15, d.recruit_ratio))) - Math.log(0.3)) / (Math.log(15) - Math.log(0.3));
+          return 1 - tt; // reversed: higher demand -> "low" end of green
         }
         if (layer === "education") {
           const idx = dominantEduIdx(d.education_pct || {});
-          if (idx < 0) return `rgba(120,120,120,${alpha})`;
-          return greenRedCSS(idx / (EDU_LABELS.length - 1), alpha);
+          if (idx < 0) return null;
+          return idx / (EDU_LABELS.length - 1);
         }
         if (layer === "ai_risk") {
-          if (d.ai_risk == null) return `rgba(120,120,120,${alpha})`;
-          return greenRedCSS(d.ai_risk / 10, alpha);
+          if (d.ai_risk == null) return null;
+          return d.ai_risk / 10;
         }
-        return `rgba(120,120,120,${alpha})`;
+        return null;
+      }
+
+      function tileColorCSS(d, alpha) {
+        const t = layerT(d);
+        if (t == null) return `rgba(120,120,120,${alpha})`;
+        return paletteCSS(t, alpha);
       }
 
       function squarify(items, x, y, w, h) {
@@ -726,13 +990,15 @@
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
         for (const r of rects) {
           const isHover = r === hovered;
+          const isDimmed = dimmedIds && !dimmedIds.has(r.id);
+          const baseAlpha = isDimmed ? 0.18 : (isHover ? 0.92 : 0.62);
           const g = GAP / 2;
           const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
           if (rw <= 0 || rh <= 0) continue;
-          ctx.fillStyle = tileColorCSS(r, isHover ? 0.92 : 0.62);
+          ctx.fillStyle = tileColorCSS(r, baseAlpha);
           ctx.fillRect(rx, ry, rw, rh);
           if (isHover) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(rx, ry, rw, rh); }
-          if (rw > 50 && rh > 18) {
+          if (rw > 50 && rh > 18 && !isDimmed) {
             ctx.save(); ctx.beginPath(); ctx.rect(rx + 4, ry + 2, rw - 8, rh - 4); ctx.clip();
             const fontSize = Math.min(13, Math.max(9, Math.min(rw / 8, rh / 3)));
             ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
@@ -762,9 +1028,10 @@
 
       function fmtN(n) {
         if (n == null) return "—";
-        if (n >= 1e7) return (n / 1e7).toFixed(1) + "千万";
-        if (n >= 1e4) return Math.round(n / 1e3) + "千";
-        return n.toLocaleString();
+        if (n >= 1e8) return (n / 1e8).toFixed(1) + "億";
+        if (n >= 1e4) return (n / 1e4).toFixed(1) + "万";
+        if (n >= 1e3) return (n / 1e3).toFixed(1) + "千";
+        return Math.round(n).toLocaleString();
       }
       function fmtNumberEn(n) {
         if (n == null) return "—";
@@ -772,55 +1039,358 @@
         if (n >= 1e3) return Math.round(n / 1e3) + "K";
         return n.toLocaleString();
       }
+      function fmtSalaryUSD(manYen) {
+        // manYen units = 10,000 yen. ~150 yen/USD => USD ≈ manYen * 10000 / 150 = manYen * 66.7
+        return Math.round(manYen * 67).toLocaleString();
+      }
+
+      function computePercentiles(data) {
+        const fields = ["salary", "age", "hours", "recruit_ratio", "ai_risk"];
+        const sorted = {};
+        for (const f of fields) {
+          sorted[f] = data.map(d => d[f]).filter(v => v != null).sort((a, b) => a - b);
+        }
+        return sorted;
+      }
+      function pctRank(v, arr) {
+        if (!arr || arr.length === 0 || v == null) return null;
+        let i = 0;
+        while (i < arr.length && arr[i] < v) i++;
+        return Math.round((i / arr.length) * 100);
+      }
 
       function showTooltip(d, mx, my) {
         const tt = document.getElementById("tooltip");
-        const title = lang === "en" ? d.name_en || d.name_ja : d.name_ja;
-        tt.querySelector(".tt-title").textContent = title;
-        const idx = dominantEduIdx(d.education_pct || {});
-        const eduLabel = idx >= 0 ? (lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx]) : "—";
-        const eduPct = idx >= 0 ? (d.education_pct[EDU_LABELS[idx]] || 0).toFixed(1) + "%" : "";
-        const rows = lang === "en"
-          ? [
-              ["Annual salary", d.salary != null ? d.salary + " 万円 (~$" + (d.salary * 67).toFixed(0) + ")" : "—"],
-              ["Workers", fmtNumberEn(d.workers)],
-              ["Avg age", d.age != null ? d.age + " yrs" : "—"],
-              ["Hours/month", d.hours != null ? d.hours + " h" : "—"],
-              ["Recruit ratio", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "—"],
-              ["Top education", eduPct ? eduLabel + " (" + eduPct + ")" : "—"],
-              ["AI risk", d.ai_risk != null ? d.ai_risk + "/10" : "—"],
-              ["Rationale", d.ai_rationale_en || "—"]
-            ]
-          : [
-              ["年収", d.salary != null ? d.salary + " 万円" : "—"],
-              ["就業者数", fmtN(d.workers) + " 人"],
-              ["平均年齢", d.age != null ? d.age + " 歳" : "—"],
-              ["労働時間/月", d.hours != null ? d.hours + " 時間" : "—"],
-              ["有効求人倍率", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) : "—"],
-              ["最多学歴", eduPct ? eduLabel + " (" + eduPct + ")" : "—"],
-              ["AI リスク", d.ai_risk != null ? d.ai_risk + "/10" : "—"],
-              ["理由", d.ai_rationale_ja || "—"]
-            ];
-        document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${k}</span><span class="value">${v}</span>`).join("");
+        if (d.id !== lastTooltipId) {
+          const title = lang === "en" ? d.name_en || d.name_ja : d.name_ja;
+          tt.querySelector(".tt-title").textContent = title;
+          const idx = dominantEduIdx(d.education_pct || {});
+          const eduLabel = idx >= 0 ? (lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx]) : "—";
+          const eduPct = idx >= 0 ? (d.education_pct[EDU_LABELS[idx]] || 0).toFixed(1) + "%" : "";
+          // Percentile context: top X% of N occupations. For salary & ai_risk: higher is "top".
+          const salaryPctTop = d.salary != null && percentiles.salary ? 100 - pctRank(d.salary, percentiles.salary) : null;
+          const riskPctTop = d.ai_risk != null && percentiles.ai_risk ? 100 - pctRank(d.ai_risk, percentiles.ai_risk) : null;
+
+          // Defensive: new fields (employment_type, hourly_wage, prior_experience) may be missing
+          const empType = d.employment_type;
+          const topEmp = (empType && typeof empType === "object")
+            ? Object.entries(empType).sort((a,b)=>b[1]-a[1])[0]
+            : null;
+          const hourlyWage = d.hourly_wage;
+
+          const rowsEn = [
+            ["Annual salary", d.salary != null
+              ? d.salary + " 万円 (~$" + fmtSalaryUSD(d.salary) + ")"
+                + (salaryPctTop != null ? " · top " + salaryPctTop + "%" : "")
+              : "—"],
+            ["Workers", fmtNumberEn(d.workers)],
+            ["Avg age", d.age != null ? d.age + " yrs" : "—"],
+            ["Hours/month", d.hours != null ? d.hours + " h" : "—"],
+            ["Recruit ratio", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "—"],
+            ["Top education", eduPct ? eduLabel + " (" + eduPct + ")" : "—"]
+          ];
+          if (topEmp) rowsEn.push(["Top employment", topEmp[0] + " " + topEmp[1].toFixed(0) + "%"]);
+          if (hourlyWage != null) rowsEn.push(["Hourly wage", "¥" + Math.round(hourlyWage).toLocaleString()]);
+          rowsEn.push(["AI risk", d.ai_risk != null
+            ? d.ai_risk + "/10" + (riskPctTop != null ? " · top " + riskPctTop + "%" : "")
+            : "—"]);
+          rowsEn.push(["Rationale", d.ai_rationale_en || "—"]);
+
+          const rowsJa = [
+            ["年収", d.salary != null
+              ? d.salary + " 万円"
+                + (salaryPctTop != null ? "（上位 " + salaryPctTop + "%）" : "")
+              : "—"],
+            ["就業者数", fmtN(d.workers) + " 人"],
+            ["平均年齢", d.age != null ? d.age + " 歳" : "—"],
+            ["労働時間/月", d.hours != null ? d.hours + " 時間" : "—"],
+            ["有効求人倍率", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) : "—"],
+            ["最多学歴", eduPct ? eduLabel + "（" + eduPct + "）" : "—"]
+          ];
+          if (topEmp) rowsJa.push(["最多雇用形態", topEmp[0] + " " + topEmp[1].toFixed(0) + "%"]);
+          if (hourlyWage != null) rowsJa.push(["時給", Math.round(hourlyWage).toLocaleString() + " 円"]);
+          rowsJa.push(["AI リスク", d.ai_risk != null
+            ? d.ai_risk + "/10" + (riskPctTop != null ? "（上位 " + riskPctTop + "%）" : "")
+            : "—"]);
+          rowsJa.push(["理由", d.ai_rationale_ja || "—"]);
+
+          const rows = lang === "en" ? rowsEn : rowsJa;
+          // Sanitize values defensively (these are LLM outputs but trusted from our own pipeline; still escape just in case)
+          const esc = s => String(s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
+          document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${esc(k)}</span><span class="value">${esc(v)}</span>`).join("");
+          lastTooltipId = d.id;
+        }
         let tx = mx + 16, ty = my - 16;
         if (tx + 360 > window.innerWidth) tx = mx - 376;
         if (ty < 10) ty = my + 16;
         if (ty + 220 > window.innerHeight) ty = my - 220;
-        tt.style.left = tx + "px"; tt.style.top = ty + "px";
+        tt.style.left = Math.max(8, tx) + "px";
+        tt.style.top = Math.max(8, ty) + "px";
         tt.classList.add("visible");
       }
-      function hideTooltip() { document.getElementById("tooltip").classList.remove("visible"); }
+      function hideTooltip() {
+        const tt = document.getElementById("tooltip");
+        tt.classList.remove("visible");
+        tt.classList.remove("touch-mode");
+        lastTooltipId = null;
+      }
+
+      // ---- Rich per-layer stats panel ----
+      function buildHistogram(values, bins) {
+        const counts = new Array(bins).fill(0);
+        if (values.length === 0) return counts;
+        const min = Math.min(...values), max = Math.max(...values);
+        const range = max - min || 1;
+        for (const v of values) {
+          let idx = Math.floor(((v - min) / range) * bins);
+          if (idx >= bins) idx = bins - 1;
+          counts[idx]++;
+        }
+        return counts;
+      }
+      function renderHistogram(counts) {
+        const max = Math.max(1, ...counts);
+        return `<div class="mini-hist">${counts.map((c, i) => {
+          const tColor = bins => i / Math.max(1, bins - 1);
+          const color = paletteCSS(tColor(counts.length), 0.85);
+          return `<div class="bar" style="height:${(c/max*100)}%;background:${color}" title="${c}"></div>`;
+        }).join("")}</div>`;
+      }
+      function renderTierTable(rows) {
+        // rows: [[label, count, totalWorkers], ...]
+        const totalCount = rows.reduce((s, r) => s + r[1], 0);
+        return `<table class="tier-table">${rows.map(([lbl, n, _w]) => {
+          const pct = totalCount > 0 ? (n / totalCount * 100).toFixed(0) : 0;
+          return `<tr><td>${lbl}</td><td>${n}</td><td>${pct}%</td></tr>`;
+        }).join("")}</table>`;
+      }
+      function statBlock(label, value, sub) {
+        return `<div class="stat-block">
+          <div class="stat-label">${label}</div>
+          <div class="stat-value">${value}</div>
+          ${sub ? `<div class="stat-sub">${sub}</div>` : ""}
+        </div>`;
+      }
+      function statBlockHTML(label, html) {
+        return `<div class="stat-block">
+          <div class="stat-label">${label}</div>
+          ${html}
+        </div>`;
+      }
+
+      function fmtSalary(v) { return lang === "en" ? v + "万 (~$" + fmtSalaryUSD(v) + ")" : v + "万円"; }
+      function fmtTotalWages(manYenWeighted) {
+        // input: sum of (salary 万円 × workers). Convert to 兆円: ÷ 1e8 (万 × 10000 / 1e12)
+        const choEn = manYenWeighted / 1e8;
+        if (lang === "en") return choEn >= 1
+          ? "$" + (choEn * 6.7).toFixed(1) + "T"
+          : "$" + (choEn * 6700).toFixed(0) + "B";
+        return choEn.toFixed(1) + " 兆円";
+      }
 
       function updateStats() {
-        document.getElementById("statCount").textContent = data.length;
-        const salaries = data.map(d => d.salary).filter(s => s != null).sort((a, b) => a - b);
-        const median = salaries[Math.floor(salaries.length / 2)];
-        const max = salaries[salaries.length - 1];
-        const min = salaries[0];
-        const fmt = v => lang === "en" ? "¥" + v + "M" : v + "万円";
-        document.getElementById("statMedianSalary").textContent = fmt(median);
-        document.getElementById("statMaxSalary").textContent = fmt(max);
-        document.getElementById("statMinSalary").textContent = fmt(min);
+        const panel = document.getElementById("statsPanel");
+        if (!panel) return;
+        const L = I18N.labels;
+        const totalCount = data.length;
+        const totalWorkers = data.reduce((s, d) => s + (d.workers || 0), 0);
+
+        // Block 1: total occupations + total workforce (constant across layers)
+        const block1 = statBlock(
+          L.occupations[lang],
+          totalCount.toLocaleString(),
+          L.workforce[lang] + ": " + (lang === "ja" ? fmtN(totalWorkers) + " 人" : fmtNumberEn(totalWorkers))
+        );
+
+        // Block 2-6 specific to layer
+        let blocks = [block1];
+
+        if (layer === "ai_risk") {
+          const items = data.filter(d => d.ai_risk != null && d.workers);
+          const totalW = items.reduce((s, d) => s + d.workers, 0);
+          const wAvg = items.reduce((s, d) => s + d.ai_risk * d.workers, 0) / totalW;
+          const hist = new Array(11).fill(0);
+          for (const d of items) hist[Math.round(d.ai_risk)]++;
+          const tiers = [
+            [lang === "ja" ? "0-2 低" : "0-2 Low", items.filter(d => d.ai_risk <= 2).length],
+            [lang === "ja" ? "3-4 中低" : "3-4 Mid-Low", items.filter(d => d.ai_risk >= 3 && d.ai_risk <= 4).length],
+            [lang === "ja" ? "5-6 中" : "5-6 Mid", items.filter(d => d.ai_risk >= 5 && d.ai_risk <= 6).length],
+            [lang === "ja" ? "7-8 高" : "7-8 High", items.filter(d => d.ai_risk >= 7 && d.ai_risk <= 8).length],
+            [lang === "ja" ? "9-10 最高" : "9-10 Max", items.filter(d => d.ai_risk >= 9).length]
+          ].map(([l, n]) => [l, n, 0]);
+          const highRiskItems = items.filter(d => d.ai_risk >= 7 && d.salary != null);
+          const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
+          const highRiskJobsCount = highRiskItems.length;
+          // Cross-tab: avg AI risk by salary band
+          const salBands = [[0, 350], [350, 500], [500, 700], [700, 1000], [1000, 9999]];
+          const ctRows = salBands.map(([lo, hi]) => {
+            const sub = items.filter(d => d.salary != null && d.salary >= lo && d.salary < hi);
+            if (sub.length === 0) return [`${lo}-${hi}`, 0, 0];
+            const subW = sub.reduce((s, d) => s + d.workers, 0);
+            const wA = sub.reduce((s, d) => s + d.ai_risk * d.workers, 0) / subW;
+            return [`${lo}-${hi}` + (lang === "ja" ? "万円" : "万"), sub.length, wA];
+          });
+
+          blocks.push(statBlock(
+            L.weightedAvg[lang],
+            wAvg.toFixed(1) + " / 10",
+            (lang === "ja" ? "就業者数で加重" : "weighted by workers")
+          ));
+          blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
+          blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
+          blocks.push(statBlockHTML(
+            (lang === "ja" ? "リスク × 年収" : "Risk × Salary"),
+            `<table class="tier-table">${ctRows.map(([b, n, a]) =>
+              `<tr><td>${b}</td><td>${n}</td><td>${a ? a.toFixed(1) : "—"}</td></tr>`).join("")}</table>`
+          ));
+          blocks.push(statBlock(
+            L.wagesExposed[lang],
+            fmtTotalWages(wagesExposed),
+            highRiskJobsCount + (lang === "ja" ? " 職業" : " jobs")
+          ));
+        } else if (layer === "salary") {
+          const items = data.filter(d => d.salary != null && d.workers);
+          const totalW = items.reduce((s, d) => s + d.workers, 0);
+          const wAvg = items.reduce((s, d) => s + d.salary * d.workers, 0) / totalW;
+          const sortedSal = [...items].sort((a, b) => a.salary - b.salary);
+          const median = sortedSal[Math.floor(sortedSal.length / 2)].salary;
+          const max = sortedSal[sortedSal.length - 1];
+          const totalWages = items.reduce((s, d) => s + d.salary * d.workers, 0);
+          const hist = buildHistogram(items.map(d => d.salary), 10);
+          const tiers = [
+            [lang === "ja" ? "<400 万" : "<400 万", items.filter(d => d.salary < 400).length],
+            [lang === "ja" ? "400-600 万" : "400-600 万", items.filter(d => d.salary >= 400 && d.salary < 600).length],
+            [lang === "ja" ? "600-800 万" : "600-800 万", items.filter(d => d.salary >= 600 && d.salary < 800).length],
+            [lang === "ja" ? "800-1200 万" : "800-1200 万", items.filter(d => d.salary >= 800 && d.salary < 1200).length],
+            [lang === "ja" ? "≥1200 万" : "≥1200 万", items.filter(d => d.salary >= 1200).length]
+          ].map(([l, n]) => [l, n, 0]);
+
+          blocks.push(statBlock(
+            L.weightedAvg[lang],
+            (lang === "ja" ? Math.round(wAvg) + " 万円" : Math.round(wAvg) + " 万 (~$" + fmtSalaryUSD(wAvg) + ")"),
+            (lang === "ja" ? "中央値: " + median + " 万" : "median: " + median + " 万")
+          ));
+          blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
+          blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
+          blocks.push(statBlock(
+            L.topPay[lang],
+            (lang === "en" ? max.name_en || max.name_ja : max.name_ja),
+            fmtSalary(max.salary)
+          ));
+          blocks.push(statBlock(L.totalWages[lang], fmtTotalWages(totalWages)));
+        } else if (layer === "age") {
+          const items = data.filter(d => d.age != null && d.workers);
+          const totalW = items.reduce((s, d) => s + d.workers, 0);
+          const wAvg = items.reduce((s, d) => s + d.age * d.workers, 0) / totalW;
+          const hist = buildHistogram(items.map(d => d.age), 10);
+          const tiers = [
+            [lang === "ja" ? "<35 歳" : "<35", items.filter(d => d.age < 35).length],
+            [lang === "ja" ? "35-40" : "35-40", items.filter(d => d.age >= 35 && d.age < 40).length],
+            [lang === "ja" ? "40-45" : "40-45", items.filter(d => d.age >= 40 && d.age < 45).length],
+            [lang === "ja" ? "45-50" : "45-50", items.filter(d => d.age >= 45 && d.age < 50).length],
+            [lang === "ja" ? "≥50 歳" : "≥50", items.filter(d => d.age >= 50).length]
+          ].map(([l, n]) => [l, n, 0]);
+          const oldest = [...items].sort((a, b) => b.age - a.age)[0];
+          const youngest = [...items].sort((a, b) => a.age - b.age)[0];
+
+          blocks.push(statBlock(
+            L.weightedAvg[lang],
+            wAvg.toFixed(1) + (lang === "ja" ? " 歳" : " yrs"),
+            (lang === "ja" ? "就業者数で加重" : "weighted by workers")
+          ));
+          blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
+          blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
+          blocks.push(statBlock(
+            L.oldestField[lang],
+            (lang === "en" ? oldest.name_en || oldest.name_ja : oldest.name_ja),
+            oldest.age + (lang === "ja" ? " 歳" : " yrs")
+          ));
+          blocks.push(statBlock(
+            L.youngestField[lang],
+            (lang === "en" ? youngest.name_en || youngest.name_ja : youngest.name_ja),
+            youngest.age + (lang === "ja" ? " 歳" : " yrs")
+          ));
+        } else if (layer === "hours") {
+          const items = data.filter(d => d.hours != null && d.workers);
+          const totalW = items.reduce((s, d) => s + d.workers, 0);
+          const wAvg = items.reduce((s, d) => s + d.hours * d.workers, 0) / totalW;
+          const hist = buildHistogram(items.map(d => d.hours), 10);
+          const tiers = [
+            [lang === "ja" ? "<150 h" : "<150 h", items.filter(d => d.hours < 150).length],
+            [lang === "ja" ? "150-160" : "150-160", items.filter(d => d.hours >= 150 && d.hours < 160).length],
+            [lang === "ja" ? "160-170" : "160-170", items.filter(d => d.hours >= 160 && d.hours < 170).length],
+            [lang === "ja" ? "170-180" : "170-180", items.filter(d => d.hours >= 170 && d.hours < 180).length],
+            [lang === "ja" ? "≥180 h" : "≥180 h", items.filter(d => d.hours >= 180).length]
+          ].map(([l, n]) => [l, n, 0]);
+          const longest = [...items].sort((a, b) => b.hours - a.hours)[0];
+
+          blocks.push(statBlock(
+            L.weightedAvg[lang],
+            wAvg.toFixed(1) + (lang === "ja" ? " 時間" : " h"),
+            (lang === "ja" ? "月間就業者加重" : "monthly, worker-weighted")
+          ));
+          blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
+          blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
+          blocks.push(statBlock(
+            L.longestHrs[lang],
+            (lang === "en" ? longest.name_en || longest.name_ja : longest.name_ja),
+            longest.hours + " h"
+          ));
+        } else if (layer === "recruit_ratio") {
+          const items = data.filter(d => d.recruit_ratio != null && d.workers);
+          const totalW = items.reduce((s, d) => s + d.workers, 0);
+          const wAvg = items.reduce((s, d) => s + d.recruit_ratio * d.workers, 0) / totalW;
+          const hist = buildHistogram(items.map(d => Math.log10(Math.max(0.1, d.recruit_ratio))), 10);
+          const tiers = [
+            [lang === "ja" ? "<0.5x" : "<0.5x", items.filter(d => d.recruit_ratio < 0.5).length],
+            [lang === "ja" ? "0.5-1x" : "0.5-1x", items.filter(d => d.recruit_ratio >= 0.5 && d.recruit_ratio < 1).length],
+            [lang === "ja" ? "1-2x" : "1-2x", items.filter(d => d.recruit_ratio >= 1 && d.recruit_ratio < 2).length],
+            [lang === "ja" ? "2-5x" : "2-5x", items.filter(d => d.recruit_ratio >= 2 && d.recruit_ratio < 5).length],
+            [lang === "ja" ? "≥5x" : "≥5x", items.filter(d => d.recruit_ratio >= 5).length]
+          ].map(([l, n]) => [l, n, 0]);
+          const top = [...items].sort((a, b) => b.recruit_ratio - a.recruit_ratio)[0];
+
+          blocks.push(statBlock(
+            L.weightedAvg[lang],
+            wAvg.toFixed(2) + "x",
+            (lang === "ja" ? "1.0 = 需給均衡" : "1.0 = supply meets demand")
+          ));
+          blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
+          blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
+          blocks.push(statBlock(
+            L.highestDemand[lang],
+            (lang === "en" ? top.name_en || top.name_ja : top.name_ja),
+            top.recruit_ratio.toFixed(2) + "x"
+          ));
+        } else if (layer === "education") {
+          const items = data.filter(d => d.education_pct);
+          const counts = new Array(EDU_LABELS.length).fill(0);
+          let uniPlus = 0;
+          for (const d of items) {
+            const idx = dominantEduIdx(d.education_pct);
+            if (idx >= 0) counts[idx]++;
+            const uni = (d.education_pct["大卒"] || 0) + (d.education_pct["修士課程卒（修士と同等の専門職学位を含む）"] || 0) + (d.education_pct["博士課程卒"] || 0);
+            uniPlus += uni;
+          }
+          const avgUni = items.length ? (uniPlus / items.length) : 0;
+          const tiers = EDU_LABELS.map((lbl, i) => {
+            const display = lang === "en" ? EDU_LABEL_EN[lbl] : lbl.length > 14 ? lbl.slice(0, 12) + "…" : lbl;
+            return [display, counts[i], 0];
+          });
+
+          blocks.push(statBlock(
+            L.uniDegree[lang],
+            avgUni.toFixed(1) + "%",
+            (lang === "ja" ? "552 職業の平均" : "avg across 552 jobs")
+          ));
+          blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(counts)));
+          blocks.push(statBlockHTML(
+            (lang === "ja" ? "最多学歴の内訳" : "Dominant education"),
+            renderTierTable(tiers)
+          ));
+        }
+
+        panel.innerHTML = blocks.join("");
       }
 
       function drawGradientLegend() {
@@ -829,7 +1399,7 @@
         const reverse = layer === "recruit_ratio";
         for (let x = 0; x < 80; x++) {
           const t = x / 79;
-          g.fillStyle = greenRedCSS(reverse ? 1 - t : t, 1);
+          g.fillStyle = paletteCSS(reverse ? 1 - t : t, 1);
           g.fillRect(x, 0, 1, 8);
         }
         const cfgs = {
@@ -845,37 +1415,230 @@
         document.getElementById("legendHigh").textContent = cfg[lang][1];
       }
 
+      // ---- Layer toggle ----
       document.getElementById("layerToggle").addEventListener("click", e => {
         const btn = e.target.closest("button");
         if (!btn || !btn.dataset.mode) return;
         layer = btn.dataset.mode;
         document.querySelectorAll("#layerToggle button").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
+        updateStats();
         drawGradientLegend(); draw();
+        updateHash();
       });
 
+      // ---- Palette toggle (colorblind-safe) ----
+      document.getElementById("paletteToggle").addEventListener("click", () => {
+        palette = palette === "viridis" ? "redgreen" : "viridis";
+        const btn = document.getElementById("paletteToggle");
+        btn.classList.toggle("active", palette === "viridis");
+        btn.setAttribute("aria-pressed", String(palette === "viridis"));
+        try { localStorage.setItem("jp-jobs-palette", palette); } catch(e) {}
+        drawGradientLegend(); draw();
+      });
+      // Restore palette preference
+      try {
+        const stored = localStorage.getItem("jp-jobs-palette");
+        if (stored === "viridis") {
+          palette = "viridis";
+          const btn = document.getElementById("paletteToggle");
+          btn.classList.add("active");
+          btn.setAttribute("aria-pressed", "true");
+        }
+      } catch(e) {}
+
+      // ---- Search filter ----
+      function applyFilter(query) {
+        searchQuery = query.trim().toLowerCase();
+        if (!searchQuery) {
+          dimmedIds = null;
+          document.getElementById("searchCount").textContent = "";
+        } else {
+          const matches = data.filter(d =>
+            (d.name_ja || "").toLowerCase().includes(searchQuery) ||
+            (d.name_en || "").toLowerCase().includes(searchQuery)
+          );
+          dimmedIds = new Set(matches.map(d => d.id));
+          document.getElementById("searchCount").textContent = I18N.searchHits[lang](matches.length);
+        }
+        draw();
+      }
+      let searchDebounce = null;
+      document.getElementById("searchInput").addEventListener("input", e => {
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(() => applyFilter(e.target.value), 100);
+      });
+
+      // ---- Pointer/Touch handling for mobile vs desktop ----
+      function handleTouchTap(clientX, clientY, e) {
+        const hit = hitTest(clientX, clientY);
+        if (!hit) {
+          hideTooltip();
+          hovered = null;
+          lastTapped = null;
+          draw();
+          return;
+        }
+        if (e && typeof e.preventDefault === "function") e.preventDefault();
+        const tt = document.getElementById("tooltip");
+        if (lastTapped && lastTapped.id === hit.id && Date.now() - lastTapTime < 1500) {
+          // Second tap on same tile -> open
+          if (hit.url) window.open(hit.url, "_blank", "noopener,noreferrer");
+          lastTapped = null;
+          hideTooltip();
+          return;
+        }
+        lastTapped = hit;
+        lastTapTime = Date.now();
+        hovered = hit;
+        keyboardIdx = rects.indexOf(hit);
+        const cb = canvas.getBoundingClientRect();
+        const cx = cb.left + hit.rx + hit.rw / 2;
+        const cy = cb.top + hit.ry + hit.rh / 2;
+        showTooltip(hit, cx, cy);
+        tt.classList.add("touch-mode");
+        draw();
+        updateHash();
+      }
+
+      canvas.addEventListener("touchstart", e => {
+        if (e.touches && e.touches[0]) {
+          handleTouchTap(e.touches[0].clientX, e.touches[0].clientY, e);
+        }
+      }, { passive: false });
+
       canvas.addEventListener("mousemove", e => {
+        // Skip if this is a synthesized mouse event from a touch (Chrome fires both)
         const hit = hitTest(e.clientX, e.clientY);
-        if (hit !== hovered) { hovered = hit; draw(); }
+        if (hit !== hovered) { hovered = hit; lastTooltipId = null; draw(); }
         if (hovered) { showTooltip(hovered, e.clientX, e.clientY); canvas.style.cursor = "pointer"; }
         else { hideTooltip(); canvas.style.cursor = "default"; }
       });
       canvas.addEventListener("click", e => {
+        // On touch devices, suppress click handling — touchstart already handled it
+        // (most browsers will fire click after touchstart but our preventDefault should suppress it)
+        if (lastTapped) { return; }
         const hit = hitTest(e.clientX, e.clientY);
-        if (hit && hit.url) window.open(hit.url, "_blank");
+        if (hit && hit.url) {
+          window.open(hit.url, "_blank", "noopener,noreferrer");
+          updateHashFor(hit.id);
+        }
       });
-      canvas.addEventListener("mouseleave", () => { hovered = null; hideTooltip(); draw(); });
+      canvas.addEventListener("mouseleave", () => {
+        if (!isTouchDevice) { hovered = null; hideTooltip(); draw(); }
+      });
 
+      // Tooltip close button (used on touch devices)
+      document.getElementById("tooltipClose").addEventListener("click", () => {
+        hideTooltip();
+        hovered = null;
+        lastTapped = null;
+        draw();
+      });
+
+      // ---- Keyboard accessibility ----
+      canvas.addEventListener("keydown", e => {
+        if (rects.length === 0) return;
+        if (keyboardIdx < 0) keyboardIdx = 0;
+        let next = keyboardIdx;
+        let handled = true;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") next = Math.min(rects.length - 1, keyboardIdx + 1);
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = Math.max(0, keyboardIdx - 1);
+        else if (e.key === "Enter" || e.key === " ") {
+          const r = rects[keyboardIdx];
+          if (r && r.url) window.open(r.url, "_blank", "noopener,noreferrer");
+        } else if (e.key === "Escape") {
+          hideTooltip(); hovered = null; draw();
+        } else {
+          handled = false;
+        }
+        if (handled) e.preventDefault();
+        if (next !== keyboardIdx) {
+          keyboardIdx = next;
+          hovered = rects[keyboardIdx];
+          lastTooltipId = null;
+          const cb = canvas.getBoundingClientRect();
+          const r = hovered;
+          showTooltip(r, cb.left + r.rx + r.rw / 2, cb.top + r.ry + r.rh / 2);
+          draw();
+          updateHash();
+        }
+      });
+
+      // ---- URL hash deep-link ----
+      function updateHash() {
+        if (hovered) updateHashFor(hovered.id);
+      }
+      function updateHashFor(id) {
+        try {
+          history.replaceState(null, "", "#" + id);
+        } catch(e) {}
+      }
+      function applyHash() {
+        const m = location.hash.match(/^#(\d+)$/);
+        if (!m) return;
+        const id = parseInt(m[1], 10);
+        const target = rects.find(r => r.id === id);
+        if (target) {
+          hovered = target;
+          keyboardIdx = rects.indexOf(target);
+          lastTooltipId = null;
+          const cb = canvas.getBoundingClientRect();
+          showTooltip(target, cb.left + target.rx + target.rw / 2, cb.top + target.ry + target.rh / 2);
+          if (isTouchDevice) document.getElementById("tooltip").classList.add("touch-mode");
+          draw();
+          // Scroll canvas into view
+          canvas.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+      window.addEventListener("hashchange", applyHash);
+
+      // ---- Debounced resize ----
+      let resizeTimer = null;
       function resize() { dpr = window.devicePixelRatio || 1; layout(); draw(); }
-      window.addEventListener("resize", resize);
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 120);
+      });
+
+      // ---- Fetch with error handling ----
+      function showError(err) {
+        const ls = document.getElementById("loadingState");
+        if (!ls) return;
+        ls.className = "error-state";
+        ls.innerHTML = `
+          <div>${lang === "ja" ? "⚠️ data.json の読み込みに失敗しました" : "⚠️ Failed to load data.json"}</div>
+          <div style="font-size:0.78rem;color:var(--fg2);margin-top:6px">${(err && err.message) || err || ""}</div>
+          <button onclick="location.reload()">${lang === "ja" ? "再読込" : "Retry"}</button>
+        `;
+      }
 
       fetch("data.json")
-        .then(r => r.json())
+        .then(r => {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
         .then(d => {
           data = d;
+          percentiles = computePercentiles(data);
+          const ls = document.getElementById("loadingState");
+          if (ls) ls.remove();
+          canvas.style.display = "block";
+          // Build offscreen fallback list for screen readers
+          const fb = document.getElementById("canvasFallback");
+          if (fb) {
+            fb.innerHTML = data.slice(0, 552).map(d =>
+              `<li><a href="${d.url}" target="_blank" rel="noopener noreferrer">${(d.name_en || d.name_ja)} / ${d.name_ja} — AI risk ${d.ai_risk}/10</a></li>`
+            ).join("");
+          }
           setLang("ja");
-          updateStats(); drawGradientLegend(); resize();
-        });
+          updateStats();
+          drawGradientLegend();
+          resize();
+          // Apply hash deep-link if present
+          if (location.hash) setTimeout(applyHash, 50);
+        })
+        .catch(showError);
     </script>
   </body>
 </html>

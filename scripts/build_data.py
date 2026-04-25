@@ -9,22 +9,41 @@ Inputs:
 Output: data.json (root, flat array of records — preserved for front-end)
 
 Per occupation in output:
-  id              - integer (1..580)
-  name_ja         - Japanese title
-  name_en         - English title (from translations file, null if missing)
-  desc_ja         - first 250 chars of original Japanese description
-  desc_en         - English summary (from translations file, null if missing)
-  salary          - annual salary in 10,000 yen units (man-yen)
-  workers         - total workforce (people)
-  hours           - monthly work hours
-  age             - average age (years)
-  recruit_wage    - monthly recruitment wage (man-yen)
-  recruit_ratio   - effective job opening ratio
-  education_pct   - {label: pct} for the 8 education levels
-  ai_risk         - integer 0-10 (from ai_scores file, null if missing)
-  ai_rationale_ja - JA rationale (from ai_scores file, null if missing)
-  ai_rationale_en - EN rationale (from ai_scores file, null if missing)
-  url             - jobtag detail URL
+  id                    - integer (1..580)
+  name_ja               - Japanese title
+  name_en               - English title (from translations file, null if missing)
+  desc_ja               - first 250 chars of original Japanese description
+  desc_en               - English summary (from translations file, null if missing)
+  salary                - annual salary in 10,000 yen units (man-yen)
+  workers               - total workforce (people)
+  hours                 - monthly work hours
+  age                   - average age (years)
+  recruit_wage          - monthly recruitment wage (man-yen)
+  recruit_ratio         - effective job opening ratio
+  education_pct         - {label: pct} for the 8 education levels
+  employment_type       - {label: pct} for the 10 employment-type categories, or null
+  prior_experience      - {label: pct} for the 10 prior-experience bins, or null
+  training_period_pre   - {label: pct} for the 10 pre-entry training bins, or null
+  training_period_post  - {label: pct} for the 10 post-entry training bins, or null
+  hourly_wage           - integer yen/hour from working_condition (一般労働者), or null
+  ai_risk               - integer 0-10 (from ai_scores file, null if missing)
+  ai_rationale_ja       - JA rationale (from ai_scores file, null if missing)
+  ai_rationale_en       - EN rationale (from ai_scores file, null if missing)
+  url                   - jobtag detail URL
+
+Bar-section layout in occupations_full.json (5 sections, 49 entries when complete):
+  [0..8]   Education            - 9 bars  (anchor: 高卒未満)
+  [9..18]  Pre-entry training   - 10 bars (anchor: 特に必要ない, 1st)
+  [19..28] Prior experience     - 10 bars (anchor: 特に必要ない, 2nd)
+  [29..38] Post-entry training  - 10 bars (anchor: 必要でない（未経験でもすぐに即戦力）, unique)
+  [39..48] Employment type      - 10 bars (anchor: 正規の職員、従業員, unique)
+
+Observed length distribution: 49=473, 39=33 (no employment), 10=9 (employment only),
+38=1 (shifted), 0=36 (no bars at all).
+
+Extraction strategy: anchor-based scan (find unique starting labels for each section)
+plus per-section label whitelist. Indices are NOT trusted because a few records have
+shifted layouts. Records with no matching anchor or zero whitelist hits get null.
 
 Usage:
   uv run python -m scripts.build_data
@@ -53,6 +72,66 @@ EDU_LABELS = [
     "修士課程卒（修士と同等の専門職学位を含む）",
     "博士課程卒",
 ]
+
+# Whitelist for the pre-entry training section (bars[9..18]).
+PRE_TRAINING_LABELS = {
+    "特に必要ない",
+    "1ヶ月以下",
+    "1ヶ月超～6ヶ月以下",
+    "6ヶ月超～1年以下",
+    "1年超～2年以下",
+    "2年超～3年以下",
+    "3年超～5年以下",
+    "5年超～10年以下",
+    "10年超",
+    "わからない",
+}
+
+# Whitelist for prior-experience section (bars[19..28]). Same labels as pre-training.
+PRIOR_EXPERIENCE_LABELS = PRE_TRAINING_LABELS
+
+# Whitelist for post-entry training section (bars[29..38]). Distinct first label.
+POST_TRAINING_LABELS = {
+    "必要でない（未経験でもすぐに即戦力）",
+    "1ヶ月以下",
+    "1ヶ月超～6ヶ月以下",
+    "6ヶ月超～1年以下",
+    "1年超～2年以下",
+    "2年超～3年以下",
+    "3年超～5年以下",
+    "5年超～10年以下",
+    "10年超",
+    "わからない",
+}
+
+# Whitelist for employment-type section (bars[39..48]).
+EMPLOYMENT_TYPE_LABELS = {
+    "正規の職員、従業員",
+    "パートタイマー",
+    "派遣社員",
+    "契約社員、期間従業員",
+    "自営、フリーランス",
+    "経営層（役員等）",
+    "アルバイト（学生以外）",
+    "アルバイト（学生）",
+    "わからない",
+    "その他",
+}
+
+# Unique anchor labels that mark the start of each section. Used to locate sections
+# robustly even when bars[] length deviates from the canonical 49.
+ANCHOR_POST_TRAINING = "必要でない（未経験でもすぐに即戦力）"
+ANCHOR_EMPLOYMENT = "正規の職員、従業員"
+ANCHOR_TRAINING_OR_EXPERIENCE = "特に必要ない"  # appears in BOTH pre-training & prior-experience
+
+# Section length (each non-education section has exactly 10 bars).
+SECTION_LEN = 10
+
+# Hourly wage regex: capture 一般労働者 yen value from working_condition.
+HOURLY_WAGE_RE = re.compile(
+    r"賃金（１時間当たり）.*?一般労働者\s*([0-9,]+)\s*円",
+    re.DOTALL,
+)
 
 
 def parse_number(s):
@@ -90,6 +169,113 @@ def extract_education(bars):
             edu[label] = pct
             seen.add(label)
     return edu
+
+
+def _slice_section(bars, start_idx, length, whitelist):
+    """Return {label: pct} for bars[start_idx : start_idx+length] filtered by whitelist.
+
+    Returns an empty dict if no labels match (callers convert empty to None).
+    Tolerates lists shorter than start_idx+length (just iterates what's available).
+    """
+    section = {}
+    end_idx = min(start_idx + length, len(bars))
+    for i in range(start_idx, end_idx):
+        entry = bars[i]
+        if not isinstance(entry, list) or len(entry) < 2:
+            continue
+        label, pct = entry[0], entry[1]
+        if label in whitelist and label not in section:
+            section[label] = pct
+    return section
+
+
+def _find_anchor(bars, anchor, occurrence=1):
+    """Return the index of the `occurrence`-th appearance of `anchor` in bars,
+    or -1 if not found.
+    """
+    seen = 0
+    for i, entry in enumerate(bars):
+        if not isinstance(entry, list) or len(entry) < 2:
+            continue
+        if entry[0] == anchor:
+            seen += 1
+            if seen == occurrence:
+                return i
+    return -1
+
+
+def extract_employment_type(bars):
+    """Extract the employment-type section (10 categories).
+
+    Strategy: find anchor `正規の職員、従業員` and slice the next 10 entries through
+    the employment-type whitelist. Returns None if no anchor or no matching labels.
+    """
+    if not bars:
+        return None
+    idx = _find_anchor(bars, ANCHOR_EMPLOYMENT)
+    if idx < 0:
+        return None
+    section = _slice_section(bars, idx, SECTION_LEN, EMPLOYMENT_TYPE_LABELS)
+    return section or None
+
+
+def extract_post_training(bars):
+    """Extract the post-entry training-period section (10 bins).
+
+    Strategy: find unique anchor `必要でない（未経験でもすぐに即戦力）` and slice
+    next 10 entries through the post-training whitelist.
+    """
+    if not bars:
+        return None
+    idx = _find_anchor(bars, ANCHOR_POST_TRAINING)
+    if idx < 0:
+        return None
+    section = _slice_section(bars, idx, SECTION_LEN, POST_TRAINING_LABELS)
+    return section or None
+
+
+def extract_pre_training(bars):
+    """Extract pre-entry training-period section (10 bins) — first `特に必要ない` block.
+
+    Pre-training and prior-experience share label `特に必要ない` as their first
+    entry; pre-training is the 1st occurrence in bars order.
+    """
+    if not bars:
+        return None
+    idx = _find_anchor(bars, ANCHOR_TRAINING_OR_EXPERIENCE, occurrence=1)
+    if idx < 0:
+        return None
+    section = _slice_section(bars, idx, SECTION_LEN, PRE_TRAINING_LABELS)
+    return section or None
+
+
+def extract_prior_experience(bars):
+    """Extract prior-experience section (10 bins) — second `特に必要ない` block."""
+    if not bars:
+        return None
+    idx = _find_anchor(bars, ANCHOR_TRAINING_OR_EXPERIENCE, occurrence=2)
+    if idx < 0:
+        return None
+    section = _slice_section(bars, idx, SECTION_LEN, PRIOR_EXPERIENCE_LABELS)
+    return section or None
+
+
+def extract_hourly_wage(working_condition):
+    """Extract 一般労働者 hourly wage (yen, integer) from working_condition prose.
+
+    Pattern: 賃金（１時間当たり）...一般労働者 N,NNN 円
+    Returns None if no match.
+    """
+    if not working_condition:
+        return None
+    m = HOURLY_WAGE_RE.search(working_condition)
+    if not m:
+        return None
+    raw = m.group(1).replace(",", "")
+    try:
+        return int(raw)
+    except ValueError:
+        return None
 
 
 def find_latest_dated_file(prefix):
@@ -142,6 +328,9 @@ def build():
         desc_full = r.get("description") or ""
         desc_ja = desc_full[:DESC_JA_MAX_CHARS] if desc_full else None
 
+        bars = r.get("bars", []) or []
+        working_condition = r.get("working_condition") or ""
+
         record = {
             "id": rid,
             "name_ja": r.get("title", ""),
@@ -154,7 +343,12 @@ def build():
             "age": parse_number(get_stat(stats, "analytic-Work-average-age")),
             "recruit_wage": parse_number(get_stat(stats, "analytic_recruitment_wage")),
             "recruit_ratio": parse_number(get_stat(stats, "analytic_recruitment_ratio")),
-            "education_pct": extract_education(r.get("bars", [])),
+            "education_pct": extract_education(bars),
+            "employment_type": extract_employment_type(bars),
+            "prior_experience": extract_prior_experience(bars),
+            "training_period_pre": extract_pre_training(bars),
+            "training_period_post": extract_post_training(bars),
+            "hourly_wage": extract_hourly_wage(working_condition),
             "ai_risk": score_entry.get("r"),
             "ai_rationale_ja": score_entry.get("j"),
             "ai_rationale_en": score_entry.get("e"),
@@ -183,6 +377,17 @@ def build():
     ai_risk_count = sum(1 for r in out if r.get("ai_risk") is not None)
     print(f"  Coverage: name_en={name_en_count}, desc_en={desc_en_count}, "
           f"desc_ja={desc_ja_count}, ai_risk={ai_risk_count}")
+
+    employment_count = sum(1 for r in out if r.get("employment_type"))
+    prior_exp_count = sum(1 for r in out if r.get("prior_experience"))
+    pre_train_count = sum(1 for r in out if r.get("training_period_pre"))
+    post_train_count = sum(1 for r in out if r.get("training_period_post"))
+    hourly_count = sum(1 for r in out if r.get("hourly_wage") is not None)
+    print(
+        f"  Bar/wage coverage: employment_type={employment_count}, "
+        f"prior_experience={prior_exp_count}, training_pre={pre_train_count}, "
+        f"training_post={post_train_count}, hourly_wage={hourly_count}"
+    )
 
 
 if __name__ == "__main__":
