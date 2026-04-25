@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Japan Jobs × AI Risk</title>
+    <meta
+      name="description"
+      content="日本の職業 × AI 代替リスクの可視化 / Japanese occupations and AI replacement risk."
+    />
+    <style>
+      :root {
+        --bg: #0b0d10;
+        --fg: #e9eef5;
+        --muted: #8a93a3;
+        --accent: #ffb84d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI",
+          "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      main {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+      }
+      .card {
+        max-width: 640px;
+        text-align: left;
+      }
+      .lang-switch {
+        display: inline-flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.85rem;
+      }
+      .lang-switch button {
+        background: transparent;
+        border: 1px solid #2a2f38;
+        color: var(--muted);
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .lang-switch button[aria-pressed="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      h1 {
+        font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+        line-height: 1.15;
+        margin: 0 0 1rem;
+        letter-spacing: -0.01em;
+      }
+      h1 .accent {
+        color: var(--accent);
+      }
+      p {
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0 0 0.75rem;
+      }
+      ul {
+        color: var(--muted);
+        line-height: 1.7;
+        padding-left: 1.1rem;
+      }
+      footer {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        color: #555c69;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      [data-lang] {
+        display: none;
+      }
+      [data-lang].active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="card">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button data-set="ja" aria-pressed="true">日本語</button>
+          <button data-set="en" aria-pressed="false">English</button>
+        </div>
+
+        <section data-lang="ja" class="active">
+          <h1>
+            日本の職業 ×
+            <span class="accent">AI 代替リスク</span>
+          </h1>
+          <p>
+            厚生労働省 jobtag のおよそ 500
+            の職業データをベースに、年収・学歴・就業者数・将来性に AI
+            による代替リスクスコアを重ねた可視化サイトです。
+          </p>
+          <ul>
+            <li>データ出典：厚生労働省 職業情報提供サイト（job tag）</li>
+            <li>就業者数の補正：総務省 労働力調査・経済センサス</li>
+            <li>AI 代替スコア：LLM による 0〜10 の評価</li>
+          </ul>
+          <p>現在ビルド中。treemap ビューを準備しています。</p>
+        </section>
+
+        <section data-lang="en">
+          <h1>
+            Japan Jobs ×
+            <span class="accent">AI Replacement Risk</span>
+          </h1>
+          <p>
+            A visualization of roughly 500 Japanese occupations from MHLW
+            jobtag, layered with salary, education, headcount, and an
+            LLM-scored AI replacement risk.
+          </p>
+          <ul>
+            <li>Source: MHLW Occupational Information Site (job tag)</li>
+            <li>
+              Headcount calibration: MIC Labour Force Survey & Economic Census
+            </li>
+            <li>AI replacement score: 0–10, scored by LLM</li>
+          </ul>
+          <p>Currently under construction. Treemap view coming soon.</p>
+        </section>
+
+        <footer>
+          <span data-lang="ja" class="active"
+            >Source · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span
+          >
+          <span data-lang="en"
+            >Source · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span
+          >
+        </footer>
+      </div>
+    </main>
+
+    <script>
+      const buttons = document.querySelectorAll(".lang-switch button");
+      const initial = (navigator.language || "en").toLowerCase().startsWith("ja")
+        ? "ja"
+        : "en";
+      function setLang(lang) {
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-lang]").forEach((el) => {
+          el.classList.toggle("active", el.dataset.lang === lang);
+        });
+        buttons.forEach((b) => {
+          b.setAttribute("aria-pressed", String(b.dataset.set === lang));
+        });
+      }
+      buttons.forEach((b) =>
+        b.addEventListener("click", () => setLang(b.dataset.set)),
+      );
+      setLang(initial);
+    </script>
+  </body>
+</html>
