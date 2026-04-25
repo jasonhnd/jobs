@@ -75,9 +75,10 @@
       }
       .intro {
         color: var(--fg2);
-        font-size: 0.92rem;
-        line-height: 1.6;
-        margin-bottom: 14px;
+        font-size: 0.95rem;
+        line-height: 1.85;
+        margin-bottom: 18px;
+        max-width: 880px;
       }
       .intro a {
         color: var(--fg2);
@@ -88,6 +89,31 @@
       .intro strong {
         color: var(--fg);
       }
+      .intro-details {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 14px 0 22px;
+        color: var(--fg2);
+        font-size: 0.9rem;
+      }
+      .intro-details summary {
+        cursor: pointer;
+        color: var(--accent);
+        font-weight: 500;
+        user-select: none;
+      }
+      .intro-details summary:hover { color: var(--fg); }
+      .intro-details-content { margin-top: 14px; line-height: 1.7; }
+      .intro-details-content p { margin: 10px 0; }
+      .intro-details-content ul {
+        margin: 10px 0 10px 20px;
+        padding: 0;
+        line-height: 1.9;
+      }
+      .intro-details-content li { margin: 4px 0; }
+      .intro-details-content strong { color: var(--fg); }
       .controls {
         display: flex;
         gap: 18px;
@@ -207,6 +233,60 @@
       [data-i18n].active {
         display: inline;
       }
+      @media (max-width: 768px) {
+        #wrapper {
+          padding: 16px 16px 60px;
+        }
+        h1 {
+          font-size: 1.3rem;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+        h1 .lang-switch {
+          margin-left: 0;
+        }
+        .intro {
+          font-size: 0.88rem;
+          line-height: 1.75;
+        }
+        .controls {
+          gap: 10px;
+          padding: 10px 12px;
+        }
+        .layer-toggle {
+          width: 100%;
+          overflow-x: auto;
+          flex-wrap: nowrap;
+          padding-bottom: 4px;
+        }
+        .layer-toggle button {
+          flex-shrink: 0;
+          padding: 6px 10px;
+          font-size: 0.78rem;
+        }
+        .gradient-legend {
+          margin-left: 0;
+          width: 100%;
+          justify-content: center;
+        }
+        .stats-row {
+          gap: 14px;
+          font-size: 0.78rem;
+        }
+        .stat-item strong {
+          font-size: 0.92rem;
+        }
+        #tooltip {
+          max-width: calc(100vw - 32px);
+          font-size: 0.78rem;
+          padding: 10px 12px;
+        }
+        .intro-details {
+          padding: 10px 12px;
+          font-size: 0.85rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -245,6 +325,23 @@
           <em>ラフな推定</em>です）。スコアが高い ≠
           消滅。多くの高リスク職は<strong>置換ではなく再構成</strong>される可能性が高いです。
         </p>
+        <details class="intro-details" data-i18n="ja">
+          <summary>AI リスクの採点根拠を見る</summary>
+          <div class="intro-details-content">
+            <p><strong>採点者:</strong> Claude Sonnet 4.7（Anthropic）が本セッション内で 552 職業を 1 つずつ判定。統計調査ではなく LLM の主観評価。</p>
+            <p><strong>スケール（karpathy/jobs から移植）:</strong></p>
+            <ul>
+              <li><strong>0–1</strong> 最小：物理的・現場仕事（潜水士、林業作業）</li>
+              <li><strong>2–3</strong> 低：肉体労働＋一部対人（電気工事士、美容師）</li>
+              <li><strong>4–5</strong> 中：物理＋知識作業の混合（看護師、警察官）</li>
+              <li><strong>6–7</strong> 高：知識労働＋判断（教員、弁護士、会計士）</li>
+              <li><strong>8–9</strong> 非常に高い：ほぼ PC 完結（プログラマー、翻訳者）</li>
+              <li><strong>10</strong> 最大：完全に定型のデジタル処理（データ入力）</li>
+            </ul>
+            <p><strong>判断軸:</strong> 「自宅の PC 1 台で完結できるか？」を yes と答える職業ほど高得点。AI は数字／文章／画像／コード領域で急速に進化しているため、デジタル完結型は天然に高リスク。</p>
+            <p><strong>注意:</strong> 高得点 ≠ 仕事が消える。プログラマーは 9/10 だが AI で生産性が上がる結果、需要がむしろ増える可能性も。多くの高得点職は「置換」ではなく「再構成」される見込み。</p>
+          </div>
+        </details>
         <p class="intro" data-i18n="ja">
           技術メモ：jobtag は Imperva
           越しの認証セッションが必要なため、データはユーザー本人のブラウザセッションを通じて
@@ -277,6 +374,23 @@
           disappear; many high-exposure occupations will be
           <strong>reshaped, not replaced</strong>.
         </p>
+        <details class="intro-details" data-i18n="en">
+          <summary>How the AI risk score was assigned</summary>
+          <div class="intro-details-content">
+            <p><strong>Scorer:</strong> Claude Sonnet 4.7 (Anthropic) inside this Claude Code session, judging each of the 552 occupations one by one. Not a survey — LLM subjective estimate.</p>
+            <p><strong>Scale (ported from karpathy/jobs):</strong></p>
+            <ul>
+              <li><strong>0–1</strong> Minimal: physical/field work (commercial diver, logger)</li>
+              <li><strong>2–3</strong> Low: manual labor + some interpersonal (electrician, hair stylist)</li>
+              <li><strong>4–5</strong> Moderate: mix of physical and knowledge work (nurse, police officer)</li>
+              <li><strong>6–7</strong> High: knowledge work with judgment (teacher, lawyer, accountant)</li>
+              <li><strong>8–9</strong> Very high: predominantly computer-based (programmer, translator)</li>
+              <li><strong>10</strong> Maximum: pure routine digital processing (data entry)</li>
+            </ul>
+            <p><strong>Heuristic:</strong> "Can the job be done entirely from a home computer?" — if yes, the score is naturally high. AI is advancing fastest in digital domains (text, image, code, analysis), so digital-native jobs face the highest exposure.</p>
+            <p><strong>Caveat:</strong> A high score does NOT predict the job disappearing. Programmers score 9/10, but AI making each programmer more productive could grow the total demand for programming. Most high-exposure jobs will be reshaped, not replaced.</p>
+          </div>
+        </details>
         <p class="intro" data-i18n="en">
           Tech note: jobtag sits behind Imperva, so data is sourced through the
           user's authenticated browser session via Chrome MCP. Source on
@@ -288,7 +402,11 @@
           <label data-i18n="ja" class="active">色：</label>
           <label data-i18n="en">Layer:</label>
           <div class="layer-toggle" id="layerToggle">
-            <button data-mode="salary" class="active">
+            <button data-mode="ai_risk" class="active">
+              <span data-i18n="ja" class="active">AI リスク</span>
+              <span data-i18n="en">AI Risk</span>
+            </button>
+            <button data-mode="salary">
               <span data-i18n="ja" class="active">年収</span>
               <span data-i18n="en">Salary</span>
             </button>
@@ -307,10 +425,6 @@
             <button data-mode="education">
               <span data-i18n="ja" class="active">学歴</span>
               <span data-i18n="en">Education</span>
-            </button>
-            <button data-mode="ai_risk">
-              <span data-i18n="ja" class="active">AI リスク</span>
-              <span data-i18n="en">AI Risk</span>
             </button>
           </div>
           <div class="gradient-legend">
@@ -348,7 +462,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.2.0 · MIT ·
+          v0.2.1 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -359,7 +473,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.2.0 · MIT ·
+          v0.2.1 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -379,7 +493,7 @@
 
     <script>
       let lang = "ja";
-      let layer = "salary";
+      let layer = "ai_risk";
       let data = [];
       let rects = [];
       let hovered = null;
@@ -500,8 +614,8 @@
       }
 
       function layout() {
-        const w = document.getElementById("wrapper").clientWidth - 56;
-        const h = Math.round(w * 0.6);
+        const w = document.getElementById("wrapper").clientWidth - (window.innerWidth < 768 ? 32 : 56);
+        const h = window.innerWidth < 768 ? Math.round(w * 1.4) : Math.round(w * 0.6);
         canvas.width = w * dpr; canvas.height = h * dpr;
         canvas.style.width = w + "px"; canvas.style.height = h + "px";
         const items = data.filter(d => d.workers && d.workers > 0).map(d => ({...d, value: Math.sqrt(d.workers)}));
