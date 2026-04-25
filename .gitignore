@@ -32,5 +32,11 @@ build/
 .cache/
 
 # Pipeline raw outputs (kept locally, not pushed)
+html/
+pages/
 raw/
 *.log
+
+# uv lock file is tracked; venv and cache are not
+.venv/
+.uv-cache/

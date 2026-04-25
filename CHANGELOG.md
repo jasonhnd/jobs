@@ -9,15 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (toward v0.0.2)
+
+- `pyproject.toml` declaring `jp-jobs 0.0.1` with `beautifulsoup4`, `httpx`, `playwright`, `python-dotenv` dependencies.
+- `.python-version` pinning Python 3.12.
+- `scripts/README.md` documenting the planned 7-step pipeline, caching contract, and run instructions.
+- `.gitignore` updated to exclude `html/`, `pages/`, `.venv/`, `.uv-cache/`.
+
+### Notes
+
+- **jobtag is behind Imperva/Incapsula CDN.** Direct `httpx` / `curl` requests return JavaScript challenge pages (HTTP 200 with `/_Incapsula_Resource?...` iframe), not real HTML. `scrape_jobtag.py` must use Playwright + real Chromium, mirroring karpathy's BLS workaround. Tested 2026-04-25.
+
 ### Planned
 
-- `scripts/scrape_jobtag.py` — scraper for 厚生労働省 jobtag (~500 occupations).
-- `scripts/parse.py` — parse raw HTML into structured fields (年収, 学歴, 就業者数, 成長性).
-- `scripts/translate.py` — LLM-driven JA→EN translation for occupation names, industries, descriptions.
-- `scripts/score_ai_risk.py` — LLM scoring of AI replacement risk (0–10) per occupation.
-- `scripts/build_site_data.py` — bilingual `data.json` consumed by the front end.
-- Treemap visualization with filter and search.
-- Headcount calibration via 総務省 労働力調査 / 経済センサス.
+- `scripts/list_occupations.py` — extract jobtag A–Z index into `occupations.json` (v0.0.2).
+- `scripts/scrape_jobtag.py` — Playwright-based scraper for 厚生労働省 jobtag (~500 occupations) (v0.0.2).
+- `scripts/parse.py` — BeautifulSoup → clean Markdown per occupation (v0.0.3).
+- `scripts/extract_fields.py` — tabulate structured fields (年収, 学歴, 就業者数, 成長性) (v0.0.3).
+- `scripts/translate.py` — LLM-driven JA→EN translation for occupation names, industries, descriptions (v0.0.4).
+- `scripts/score_ai_risk.py` — LLM scoring of AI replacement risk (0–10) + bilingual rationale (v0.0.4).
+- `scripts/build_data.py` — bilingual `data.json` consumed by the front end (v0.0.5).
+- Squarified treemap visualization with filter and search (v0.1.0).
+- Headcount calibration via 総務省 労働力調査 / 経済センサス (v0.2.0).
+- `scripts/make_prompt.py` — bilingual single-file LLM-ready data dump (v0.2.0).
 
 ---
 

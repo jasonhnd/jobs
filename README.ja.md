@@ -140,14 +140,14 @@ python -m http.server 8000
 # ブラウザで http://localhost:8000/ を開く
 ```
 
-パイプラインが入ったあとは、追加で以下が必要になります：
+パイプラインが入ったあとは、追加で [uv](https://docs.astral.sh/uv/) が必要になります：
 
 ```bash
-# Python 3.11+ 推奨
-python -m venv .venv
-source .venv/bin/activate    # Windows: .venv\Scripts\activate
-pip install -r requirements.txt   # v0.2.0 で追加予定
+uv sync                              # pyproject.toml から依存をインストール
+uv run playwright install chromium   # 一度きり（jobtag は Imperva CDN 配下のため）
 ```
+
+パイプラインスクリプトは `scripts/` 配下にあります。実行順序は [`scripts/README.md`](scripts/README.md) を参照してください。
 
 ---
 

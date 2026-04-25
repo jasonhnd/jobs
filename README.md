@@ -140,14 +140,14 @@ python -m http.server 8000
 # open http://localhost:8000/
 ```
 
-When the pipeline lands you'll also need:
+When the pipeline lands you'll also need [uv](https://docs.astral.sh/uv/):
 
 ```bash
-# Python 3.11+ recommended
-python -m venv .venv
-source .venv/bin/activate    # Windows: .venv\Scripts\activate
-pip install -r requirements.txt   # to be added in v0.2.0
+uv sync                              # install Python deps from pyproject.toml
+uv run playwright install chromium   # one-time browser binary (jobtag is behind Imperva CDN)
 ```
+
+Pipeline scripts live under `scripts/` — see [`scripts/README.md`](scripts/README.md) for the run sequence.
 
 ---
 
