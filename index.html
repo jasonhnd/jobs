@@ -261,11 +261,8 @@
       footer a:hover {
         text-decoration: underline;
       }
-      [data-i18n] {
+      [data-i18n]:not(.active) {
         display: none;
-      }
-      [data-i18n].active {
-        display: inline;
       }
       @media (max-width: 768px) {
         #wrapper {
@@ -548,7 +545,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.2.2 · MIT ·
+          v0.2.3 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -559,7 +556,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.2.2 · MIT ·
+          v0.2.3 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
