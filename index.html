@@ -3,25 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Japan Jobs × AI Risk</title>
+    <title>日本の職業マップ × Japan Jobs Map</title>
     <meta
       name="description"
-      content="日本の職業 × AI 代替リスクの可視化 / Japanese occupations and AI replacement risk."
+      content="552 occupations from 厚生労働省 jobtag visualized as a treemap."
     />
     <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       :root {
         --bg: #0b0d10;
+        --bg2: #14171c;
         --fg: #e9eef5;
-        --muted: #8a93a3;
+        --fg2: #8a93a3;
         --accent: #ffb84d;
-      }
-      * {
-        box-sizing: border-box;
+        --border: rgba(255, 255, 255, 0.08);
       }
       html,
       body {
-        margin: 0;
-        padding: 0;
         background: var(--bg);
         color: var(--fg);
         font-family:
@@ -29,157 +33,595 @@
           "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
       }
-      main {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding: 2rem;
+      #wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px 28px 80px;
       }
-      .card {
-        max-width: 640px;
-        text-align: left;
-      }
-      .lang-switch {
-        display: inline-flex;
-        gap: 0.5rem;
-        margin-bottom: 2rem;
-        font-size: 0.85rem;
-      }
-      .lang-switch button {
-        background: transparent;
-        border: 1px solid #2a2f38;
-        color: var(--muted);
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px;
-        cursor: pointer;
-        font: inherit;
-      }
-      .lang-switch button[aria-pressed="true"] {
-        border-color: var(--accent);
-        color: var(--accent);
+      header {
+        margin-bottom: 24px;
       }
       h1 {
-        font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
-        line-height: 1.15;
-        margin: 0 0 1rem;
+        font-size: clamp(1.5rem, 1rem + 1.5vw, 2rem);
+        font-weight: 700;
         letter-spacing: -0.01em;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
       }
       h1 .accent {
         color: var(--accent);
       }
-      p {
-        color: var(--muted);
-        line-height: 1.6;
-        margin: 0 0 0.75rem;
+      h1 .lang-switch {
+        margin-left: auto;
+        display: inline-flex;
+        gap: 4px;
+        font-size: 0.8rem;
       }
-      ul {
-        color: var(--muted);
-        line-height: 1.7;
-        padding-left: 1.1rem;
+      h1 .lang-switch button {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg2);
+        padding: 4px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+      }
+      h1 .lang-switch button[aria-pressed="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .intro {
+        color: var(--fg2);
+        font-size: 0.92rem;
+        line-height: 1.6;
+        margin-bottom: 14px;
+      }
+      .intro a {
+        color: var(--fg2);
+      }
+      .intro a:hover {
+        color: var(--fg);
+      }
+      .intro strong {
+        color: var(--fg);
+      }
+      .controls {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+        padding: 12px 16px;
+        background: var(--bg2);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+      }
+      .controls label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--fg2);
+        margin-right: 6px;
+      }
+      .layer-toggle {
+        display: inline-flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .layer-toggle button {
+        padding: 5px 12px;
+        font-size: 0.82rem;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg2);
+        border-radius: 4px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .layer-toggle button.active {
+        background: rgba(255, 184, 77, 0.15);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .gradient-legend {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.72rem;
+        color: var(--fg2);
+        margin-left: auto;
+      }
+      .stats-row {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+        font-size: 0.85rem;
+        color: var(--fg2);
+      }
+      .stat-item strong {
+        color: var(--fg);
+        font-size: 1rem;
+      }
+      canvas#treemap {
+        display: block;
+        cursor: default;
+        border-radius: 6px;
+      }
+      #tooltip {
+        position: fixed;
+        pointer-events: none;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+        font-size: 0.82rem;
+        line-height: 1.5;
+        max-width: 360px;
+        opacity: 0;
+        transition: opacity 0.12s;
+        z-index: 20;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      }
+      #tooltip.visible {
+        opacity: 1;
+      }
+      #tooltip .tt-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+        color: #fff;
+      }
+      #tooltip .tt-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 4px 12px;
+        margin-top: 6px;
+      }
+      #tooltip .tt-row .label {
+        color: var(--fg2);
+      }
+      #tooltip .tt-row .value {
+        color: var(--fg);
+        text-align: right;
       }
       footer {
-        margin-top: 2rem;
-        font-size: 0.8rem;
+        margin-top: 22px;
+        font-size: 0.72rem;
         color: #555c69;
+        text-align: center;
       }
-      a {
+      footer a {
         color: var(--accent);
         text-decoration: none;
       }
-      a:hover {
+      footer a:hover {
         text-decoration: underline;
       }
-      [data-lang] {
+      [data-i18n] {
         display: none;
       }
-      [data-lang].active {
-        display: block;
+      [data-i18n].active {
+        display: inline;
       }
     </style>
   </head>
   <body>
-    <main>
-      <div class="card">
-        <div class="lang-switch" role="group" aria-label="Language">
-          <button data-set="ja" aria-pressed="true">日本語</button>
-          <button data-set="en" aria-pressed="false">English</button>
+    <div id="wrapper">
+      <header>
+        <h1>
+          <span class="accent">日本の職業マップ</span>
+          <span data-i18n="ja" class="active">— 厚生労働省 jobtag より</span>
+          <span data-i18n="en">— Japan Jobs Map (MHLW jobtag)</span>
+          <span class="lang-switch" role="group">
+            <button data-set="ja" aria-pressed="true">日本語</button>
+            <button data-set="en" aria-pressed="false">English</button>
+          </span>
+        </h1>
+        <p class="intro" data-i18n="ja">
+          <strong>552 の日本の職業</strong>を、厚生労働省の
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
+            >職業情報提供サイト（job tag）</a
+          >
+          から取得して可視化したマップです。各タイルの<strong>面積</strong>はその職業の就業者数（厚労省 2023
+          年度委託調査）に比例し、<strong>色</strong>は選択した指標を表します。タイルをクリックすると
+          jobtag の元ページが開きます。AI 代替リスクは v0.0.4 で追加予定。
+        </p>
+        <p class="intro" data-i18n="en">
+          A treemap of <strong>552 Japanese occupations</strong> sourced from
+          MHLW's
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
+            >Occupational Information Site (job tag)</a
+          >. Tile <strong>area</strong> is proportional to occupation workforce
+          (MHLW 2023 commissioned survey); <strong>color</strong> shows the
+          selected metric. Click any tile to open the jobtag detail page. AI
+          replacement risk lands in v0.0.4.
+        </p>
+
+        <div class="controls">
+          <label data-i18n="ja" class="active">色：</label>
+          <label data-i18n="en">Layer:</label>
+          <div class="layer-toggle" id="layerToggle">
+            <button data-mode="salary" class="active">
+              <span data-i18n="ja" class="active">年収</span>
+              <span data-i18n="en">Salary</span>
+            </button>
+            <button data-mode="age">
+              <span data-i18n="ja" class="active">平均年齢</span>
+              <span data-i18n="en">Avg Age</span>
+            </button>
+            <button data-mode="hours">
+              <span data-i18n="ja" class="active">労働時間</span>
+              <span data-i18n="en">Hours</span>
+            </button>
+            <button data-mode="recruit_ratio">
+              <span data-i18n="ja" class="active">求人倍率</span>
+              <span data-i18n="en">Job Ratio</span>
+            </button>
+            <button data-mode="education">
+              <span data-i18n="ja" class="active">学歴</span>
+              <span data-i18n="en">Education</span>
+            </button>
+          </div>
+          <div class="gradient-legend">
+            <span id="legendLow"></span>
+            <canvas id="gradientLegend" width="80" height="8"></canvas>
+            <span id="legendHigh"></span>
+          </div>
         </div>
 
-        <section data-lang="ja" class="active">
-          <h1>
-            日本の職業 ×
-            <span class="accent">AI 代替リスク</span>
-          </h1>
-          <p>
-            厚生労働省 jobtag のおよそ 500
-            の職業データをベースに、年収・学歴・就業者数・将来性に AI
-            による代替リスクスコアを重ねた可視化サイトです。
-          </p>
-          <ul>
-            <li>データ出典：厚生労働省 職業情報提供サイト（job tag）</li>
-            <li>就業者数の補正：総務省 労働力調査・経済センサス</li>
-            <li>AI 代替スコア：LLM による 0〜10 の評価</li>
-          </ul>
-          <p>現在ビルド中。treemap ビューを準備しています。</p>
-        </section>
+        <div class="stats-row">
+          <div class="stat-item">
+            <span data-i18n="ja" class="active">職業数：</span>
+            <span data-i18n="en">Occupations:</span>
+            <strong id="statCount">—</strong>
+          </div>
+          <div class="stat-item">
+            <span data-i18n="ja" class="active">中央値年収：</span>
+            <span data-i18n="en">Median salary:</span>
+            <strong id="statMedianSalary">—</strong>
+          </div>
+          <div class="stat-item">
+            <span data-i18n="ja" class="active">最高年収：</span>
+            <span data-i18n="en">Top salary:</span>
+            <strong id="statMaxSalary">—</strong>
+          </div>
+          <div class="stat-item">
+            <span data-i18n="ja" class="active">最低年収：</span>
+            <span data-i18n="en">Lowest salary:</span>
+            <strong id="statMinSalary">—</strong>
+          </div>
+        </div>
+      </header>
 
-        <section data-lang="en">
-          <h1>
-            Japan Jobs ×
-            <span class="accent">AI Replacement Risk</span>
-          </h1>
-          <p>
-            A visualization of roughly 500 Japanese occupations from MHLW
-            jobtag, layered with salary, education, headcount, and an
-            LLM-scored AI replacement risk.
-          </p>
-          <ul>
-            <li>Source: MHLW Occupational Information Site (job tag)</li>
-            <li>
-              Headcount calibration: MIC Labour Force Survey & Economic Census
-            </li>
-            <li>AI replacement score: 0–10, scored by LLM</li>
-          </ul>
-          <p>Currently under construction. Treemap view coming soon.</p>
-        </section>
+      <canvas id="treemap"></canvas>
 
-        <footer>
-          <span data-lang="ja" class="active"
-            >v0.0.1 · MIT ·
-            <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
-            <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
-              >変更履歴</a
-            ></span
+      <footer>
+        <span data-i18n="ja" class="active">
+          v0.0.3 · MIT ·
+          <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
+          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
+            >変更履歴</a
           >
-          <span data-lang="en"
-            >v0.0.1 · MIT ·
-            <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
-            <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
-              >Changelog</a
-            ></span
+          · データ出典：
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
+            >厚生労働省 jobtag</a
           >
-        </footer>
-      </div>
-    </main>
+        </span>
+        <span data-i18n="en">
+          v0.0.3 · MIT ·
+          <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
+          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
+            >Changelog</a
+          >
+          · Data source:
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
+            >MHLW jobtag</a
+          >
+        </span>
+      </footer>
+    </div>
+
+    <div id="tooltip">
+      <div class="tt-title"></div>
+      <div class="tt-row" id="ttRow"></div>
+    </div>
 
     <script>
-      const buttons = document.querySelectorAll(".lang-switch button");
-      const initial = (navigator.language || "en").toLowerCase().startsWith("ja")
-        ? "ja"
-        : "en";
-      function setLang(lang) {
-        document.documentElement.lang = lang;
-        document.querySelectorAll("[data-lang]").forEach((el) => {
-          el.classList.toggle("active", el.dataset.lang === lang);
-        });
-        buttons.forEach((b) => {
-          b.setAttribute("aria-pressed", String(b.dataset.set === lang));
-        });
+      let lang = "ja";
+      let layer = "salary";
+      let data = [];
+      let rects = [];
+      let hovered = null;
+      const canvas = document.getElementById("treemap");
+      const ctx = canvas.getContext("2d");
+      let dpr = window.devicePixelRatio || 1;
+      const MARGIN = 4, GAP = 1;
+
+      const EDU_LABELS = ["高卒未満","高卒","専門学校卒","短大卒","高専卒","大卒","修士課程卒（修士と同等の専門職学位を含む）","博士課程卒"];
+      const EDU_LABEL_EN = {"高卒未満":"Below HS","高卒":"High school","専門学校卒":"Vocational","短大卒":"Junior college","高専卒":"Technical college","大卒":"University","修士課程卒（修士と同等の専門職学位を含む）":"Master's","博士課程卒":"Doctorate"};
+
+      function setLang(next) {
+        lang = next;
+        document.documentElement.lang = next;
+        document.querySelectorAll("[data-i18n]").forEach(el => el.classList.toggle("active", el.dataset.i18n === next));
+        document.querySelectorAll(".lang-switch button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.set === next)));
+        if (data.length) { updateStats(); drawGradientLegend(); draw(); }
       }
-      buttons.forEach((b) =>
-        b.addEventListener("click", () => setLang(b.dataset.set)),
-      );
-      setLang(initial);
+      document.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
+
+      function clamp(t) { return Math.max(0, Math.min(1, t)); }
+      function boostContrast(t) { const c = (t - 0.5) * 2; const b = Math.sign(c) * Math.pow(Math.abs(c), 0.55); return b / 2 + 0.5; }
+      function greenRedCSS(t, alpha) {
+        t = boostContrast(clamp(t));
+        let r, g, b;
+        if (t < 0.5) { const s = t / 0.5; r = Math.round(30 + s * 200); g = Math.round(180 - s * 20); b = Math.round(40 - s * 20); }
+        else { const s = (t - 0.5) / 0.5; r = Math.round(230 + s * 25); g = Math.round(160 - s * 130); b = Math.round(20 - s * 5); }
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+
+      function dominantEduIdx(eduMap) {
+        let best = -1, bestPct = -1;
+        for (let i = 0; i < EDU_LABELS.length; i++) {
+          const p = eduMap[EDU_LABELS[i]] || 0;
+          if (p > bestPct) { bestPct = p; best = i; }
+        }
+        return best;
+      }
+
+      function tileColorCSS(d, alpha) {
+        if (layer === "salary") {
+          if (d.salary == null) return `rgba(120,120,120,${alpha})`;
+          const t = (Math.log(Math.max(280, Math.min(1700, d.salary))) - Math.log(280)) / (Math.log(1700) - Math.log(280));
+          return greenRedCSS(t, alpha);
+        }
+        if (layer === "age") {
+          if (d.age == null) return `rgba(120,120,120,${alpha})`;
+          return greenRedCSS((Math.max(28, Math.min(60, d.age)) - 28) / 32, alpha);
+        }
+        if (layer === "hours") {
+          if (d.hours == null) return `rgba(120,120,120,${alpha})`;
+          return greenRedCSS((Math.max(140, Math.min(190, d.hours)) - 140) / 50, alpha);
+        }
+        if (layer === "recruit_ratio") {
+          if (d.recruit_ratio == null) return `rgba(120,120,120,${alpha})`;
+          const t = (Math.log(Math.max(0.3, Math.min(15, d.recruit_ratio))) - Math.log(0.3)) / (Math.log(15) - Math.log(0.3));
+          return greenRedCSS(1 - t, alpha);
+        }
+        if (layer === "education") {
+          const idx = dominantEduIdx(d.education_pct || {});
+          if (idx < 0) return `rgba(120,120,120,${alpha})`;
+          return greenRedCSS(idx / (EDU_LABELS.length - 1), alpha);
+        }
+        return `rgba(120,120,120,${alpha})`;
+      }
+
+      function squarify(items, x, y, w, h) {
+        if (items.length === 0) return [];
+        if (items.length === 1) return [{...items[0], rx: x, ry: y, rw: w, rh: h}];
+        const total = items.reduce((s, d) => s + d.value, 0);
+        if (total === 0) return [];
+        const results = [];
+        let remaining = [...items], cx = x, cy = y, cw = w, ch = h;
+        while (remaining.length > 0) {
+          const remTotal = remaining.reduce((s, d) => s + d.value, 0);
+          const vertical = cw >= ch;
+          const side = vertical ? ch : cw;
+          let row = [remaining[0]], rowSum = remaining[0].value;
+          for (let i = 1; i < remaining.length; i++) {
+            const cand = [...row, remaining[i]];
+            const candSum = rowSum + remaining[i].value;
+            if (worstAspect(cand, candSum, side, remTotal, vertical ? cw : ch) <
+                worstAspect(row, rowSum, side, remTotal, vertical ? cw : ch)) {
+              row = cand; rowSum = candSum;
+            } else break;
+          }
+          const rowFraction = rowSum / remTotal;
+          const rowThickness = vertical ? cw * rowFraction : ch * rowFraction;
+          let offset = 0;
+          for (const item of row) {
+            const itemFraction = item.value / rowSum;
+            const itemLength = side * itemFraction;
+            if (vertical) results.push({...item, rx: cx, ry: cy + offset, rw: rowThickness, rh: itemLength});
+            else results.push({...item, rx: cx + offset, ry: cy, rw: itemLength, rh: rowThickness});
+            offset += itemLength;
+          }
+          if (vertical) { cx += rowThickness; cw -= rowThickness; }
+          else { cy += rowThickness; ch -= rowThickness; }
+          remaining = remaining.slice(row.length);
+        }
+        return results;
+      }
+      function worstAspect(row, rowSum, side, totalArea, availableExtent) {
+        const rowExtent = availableExtent * (rowSum / totalArea);
+        if (rowExtent === 0) return Infinity;
+        let worst = 0;
+        for (const item of row) {
+          const itemLen = side * (item.value / rowSum);
+          if (itemLen === 0) continue;
+          const aspect = Math.max(rowExtent / itemLen, itemLen / rowExtent);
+          if (aspect > worst) worst = aspect;
+        }
+        return worst;
+      }
+
+      function layout() {
+        const w = document.getElementById("wrapper").clientWidth - 56;
+        const h = Math.round(w * 0.6);
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        canvas.style.width = w + "px"; canvas.style.height = h + "px";
+        const items = data.filter(d => d.workers && d.workers > 0).map(d => ({...d, value: Math.sqrt(d.workers)}));
+        items.sort((a, b) => b.value - a.value);
+        rects = squarify(items, MARGIN, MARGIN, w - MARGIN * 2, h - MARGIN * 2);
+      }
+
+      function tileSubInfo(d) {
+        if (layer === "salary") return d.salary != null ? d.salary + (lang === "ja" ? "万円" : "万") : "";
+        if (layer === "age") return d.age != null ? d.age + (lang === "ja" ? "歳" : " yr") : "";
+        if (layer === "hours") return d.hours != null ? d.hours + "h" : "";
+        if (layer === "recruit_ratio") return d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "";
+        if (layer === "education") {
+          const idx = dominantEduIdx(d.education_pct || {});
+          if (idx < 0) return "";
+          return lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx];
+        }
+        return "";
+      }
+
+      function draw() {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = "#0b0d10";
+        ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        for (const r of rects) {
+          const isHover = r === hovered;
+          const g = GAP / 2;
+          const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
+          if (rw <= 0 || rh <= 0) continue;
+          ctx.fillStyle = tileColorCSS(r, isHover ? 0.92 : 0.62);
+          ctx.fillRect(rx, ry, rw, rh);
+          if (isHover) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(rx, ry, rw, rh); }
+          if (rw > 50 && rh > 18) {
+            ctx.save(); ctx.beginPath(); ctx.rect(rx + 4, ry + 2, rw - 8, rh - 4); ctx.clip();
+            const fontSize = Math.min(13, Math.max(9, Math.min(rw / 8, rh / 3)));
+            ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
+            ctx.fillStyle = isHover ? "#fff" : "rgba(255,255,255,0.92)";
+            ctx.textBaseline = "top";
+            const label = lang === "en" ? r.name_en || r.name_ja : r.name_ja;
+            ctx.fillText(label, rx + 5, ry + 4);
+            if (rh > 32 && rw > 70) {
+              ctx.font = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
+              ctx.fillStyle = "rgba(255,255,255,0.55)";
+              ctx.fillText(tileSubInfo(r), rx + 5, ry + 4 + fontSize + 2);
+            }
+            ctx.restore();
+          }
+        }
+      }
+
+      function hitTest(mx, my) {
+        const rect = canvas.getBoundingClientRect();
+        const cx = mx - rect.left, cy = my - rect.top;
+        for (let i = rects.length - 1; i >= 0; i--) {
+          const r = rects[i];
+          if (cx >= r.rx && cx < r.rx + r.rw && cy >= r.ry && cy < r.ry + r.rh) return r;
+        }
+        return null;
+      }
+
+      function fmtN(n) {
+        if (n == null) return "—";
+        if (n >= 1e7) return (n / 1e7).toFixed(1) + "千万";
+        if (n >= 1e4) return Math.round(n / 1e3) + "千";
+        return n.toLocaleString();
+      }
+      function fmtNumberEn(n) {
+        if (n == null) return "—";
+        if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
+        if (n >= 1e3) return Math.round(n / 1e3) + "K";
+        return n.toLocaleString();
+      }
+
+      function showTooltip(d, mx, my) {
+        const tt = document.getElementById("tooltip");
+        const title = lang === "en" ? d.name_en || d.name_ja : d.name_ja;
+        tt.querySelector(".tt-title").textContent = title;
+        const idx = dominantEduIdx(d.education_pct || {});
+        const eduLabel = idx >= 0 ? (lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx]) : "—";
+        const eduPct = idx >= 0 ? (d.education_pct[EDU_LABELS[idx]] || 0).toFixed(1) + "%" : "";
+        const rows = lang === "en"
+          ? [
+              ["Annual salary", d.salary != null ? d.salary + " 万円 (~$" + (d.salary * 67).toFixed(0) + ")" : "—"],
+              ["Workers", fmtNumberEn(d.workers)],
+              ["Avg age", d.age != null ? d.age + " yrs" : "—"],
+              ["Hours/month", d.hours != null ? d.hours + " h" : "—"],
+              ["Recruit ratio", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "—"],
+              ["Top education", eduPct ? eduLabel + " (" + eduPct + ")" : "—"]
+            ]
+          : [
+              ["年収", d.salary != null ? d.salary + " 万円" : "—"],
+              ["就業者数", fmtN(d.workers) + " 人"],
+              ["平均年齢", d.age != null ? d.age + " 歳" : "—"],
+              ["労働時間/月", d.hours != null ? d.hours + " 時間" : "—"],
+              ["有効求人倍率", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) : "—"],
+              ["最多学歴", eduPct ? eduLabel + " (" + eduPct + ")" : "—"]
+            ];
+        document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${k}</span><span class="value">${v}</span>`).join("");
+        let tx = mx + 16, ty = my - 16;
+        if (tx + 360 > window.innerWidth) tx = mx - 376;
+        if (ty < 10) ty = my + 16;
+        if (ty + 220 > window.innerHeight) ty = my - 220;
+        tt.style.left = tx + "px"; tt.style.top = ty + "px";
+        tt.classList.add("visible");
+      }
+      function hideTooltip() { document.getElementById("tooltip").classList.remove("visible"); }
+
+      function updateStats() {
+        document.getElementById("statCount").textContent = data.length;
+        const salaries = data.map(d => d.salary).filter(s => s != null).sort((a, b) => a - b);
+        const median = salaries[Math.floor(salaries.length / 2)];
+        const max = salaries[salaries.length - 1];
+        const min = salaries[0];
+        const fmt = v => lang === "en" ? "¥" + v + "M" : v + "万円";
+        document.getElementById("statMedianSalary").textContent = fmt(median);
+        document.getElementById("statMaxSalary").textContent = fmt(max);
+        document.getElementById("statMinSalary").textContent = fmt(min);
+      }
+
+      function drawGradientLegend() {
+        const c = document.getElementById("gradientLegend");
+        const g = c.getContext("2d");
+        const reverse = layer === "recruit_ratio";
+        for (let x = 0; x < 80; x++) {
+          const t = x / 79;
+          g.fillStyle = greenRedCSS(reverse ? 1 - t : t, 1);
+          g.fillRect(x, 0, 1, 8);
+        }
+        const cfgs = {
+          salary: {ja: ["低い", "高い"], en: ["Low", "High"]},
+          age: {ja: ["若い", "高い"], en: ["Young", "Older"]},
+          hours: {ja: ["短い", "長い"], en: ["Short", "Long"]},
+          recruit_ratio: {ja: ["低い", "高い"], en: ["Low demand", "High demand"]},
+          education: {ja: ["学歴低", "学歴高"], en: ["Low edu", "High edu"]}
+        };
+        const cfg = cfgs[layer] || cfgs.salary;
+        document.getElementById("legendLow").textContent = cfg[lang][0];
+        document.getElementById("legendHigh").textContent = cfg[lang][1];
+      }
+
+      document.getElementById("layerToggle").addEventListener("click", e => {
+        const btn = e.target.closest("button");
+        if (!btn || !btn.dataset.mode) return;
+        layer = btn.dataset.mode;
+        document.querySelectorAll("#layerToggle button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        drawGradientLegend(); draw();
+      });
+
+      canvas.addEventListener("mousemove", e => {
+        const hit = hitTest(e.clientX, e.clientY);
+        if (hit !== hovered) { hovered = hit; draw(); }
+        if (hovered) { showTooltip(hovered, e.clientX, e.clientY); canvas.style.cursor = "pointer"; }
+        else { hideTooltip(); canvas.style.cursor = "default"; }
+      });
+      canvas.addEventListener("click", e => {
+        const hit = hitTest(e.clientX, e.clientY);
+        if (hit && hit.url) window.open(hit.url, "_blank");
+      });
+      canvas.addEventListener("mouseleave", () => { hovered = null; hideTooltip(); draw(); });
+
+      function resize() { dpr = window.devicePixelRatio || 1; layout(); draw(); }
+      window.addEventListener("resize", resize);
+
+      fetch("data.json")
+        .then(r => r.json())
+        .then(d => {
+          data = d;
+          setLang((navigator.language || "en").toLowerCase().startsWith("ja") ? "ja" : "en");
+          updateStats(); drawGradientLegend(); resize();
+        });
     </script>
   </body>
 </html>
