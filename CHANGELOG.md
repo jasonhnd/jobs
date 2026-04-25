@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-04-25
+
+### Added
+
+- **Author byline**: H1 now shows "by Jason" linking to https://x.com/jasonaxb (orange dotted underline, accessible via keyboard).
+- **Dimension hint bar**: a new strip directly below the layer toggle states explicitly that tile area = workforce (constant) and tile color = the currently selected layer. The "color = X" portion updates live whenever the user clicks a layer button. This addresses a UX confusion where users assumed the tile sizes should change between tabs and thought the layer toggle was broken; the hint makes the dual-encoding (size + color) explicit.
+
+### Why
+
+- User feedback: clicking AI リスク / 年収 / 平均年齢 / 労働時間 / 求人倍率 / 学歴 changed colors but kept tile sizes constant, leading to the perception that "nothing changed". The treemap intentionally fixes area to workforce (the karpathy/jobs design) so cross-dimensional comparisons stay anchored to "how many people are in this occupation", but this design choice was previously not surfaced in the UI.
+
+---
+
 ## [0.3.2] - 2026-04-25
 
 ### Fixed

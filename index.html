@@ -84,6 +84,51 @@
         border-color: var(--accent);
         color: var(--accent);
       }
+      h1 .byline {
+        font-size: 0.82rem;
+        font-weight: 400;
+        color: var(--fg2);
+        margin-left: 6px;
+      }
+      h1 .byline a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--accent);
+      }
+      h1 .byline a:hover {
+        text-decoration: none;
+        border-bottom-style: solid;
+      }
+      .dimension-hint {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: -6px 0 16px;
+        padding: 8px 14px;
+        background: rgba(255, 184, 77, 0.06);
+        border: 1px dashed rgba(255, 184, 77, 0.35);
+        border-radius: 6px;
+        font-size: 0.8rem;
+        color: var(--fg2);
+        line-height: 1.5;
+      }
+      .dimension-hint .hint-piece {
+        display: inline-flex;
+        gap: 6px;
+        align-items: baseline;
+      }
+      .dimension-hint .hint-piece strong {
+        color: var(--fg);
+        font-weight: 500;
+      }
+      .dimension-hint .hint-piece .hint-value {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .dimension-hint .hint-divider {
+        color: var(--border);
+      }
       .meta-card {
         display: grid;
         grid-template-columns: max-content 1fr;
@@ -552,6 +597,7 @@
           <span class="accent">日本の職業マップ</span>
           <span data-i18n="ja" class="active">— 厚生労働省 jobtag より</span>
           <span data-i18n="en">— Japan Jobs Map (MHLW jobtag)</span>
+          <span class="byline">by <a href="https://x.com/jasonaxb" target="_blank" rel="noopener noreferrer">Jason</a></span>
           <span class="lang-switch" role="group">
             <button data-set="ja" aria-pressed="true">日本語</button>
             <button data-set="en" aria-pressed="false">English</button>
@@ -596,6 +642,20 @@
             <span data-i18n="ja" class="active">色覚配慮</span>
             <span data-i18n="en">Colorblind</span>
           </button>
+        </div>
+
+        <div class="dimension-hint" aria-live="polite">
+          <span class="hint-piece">
+            <span aria-hidden="true">📐</span>
+            <span data-i18n="ja" class="active"><strong>面積</strong> = 就業者数（タブ切替で<em>変わりません</em>）</span>
+            <span data-i18n="en"><strong>Area</strong> = workforce <em>(stays fixed across tabs)</em></span>
+          </span>
+          <span class="hint-divider" aria-hidden="true">·</span>
+          <span class="hint-piece">
+            <span aria-hidden="true">🎨</span>
+            <span data-i18n="ja" class="active"><strong>色</strong> = <span id="hintLayerJa" class="hint-value">AI リスク</span></span>
+            <span data-i18n="en"><strong>Color</strong> = <span id="hintLayerEn" class="hint-value">AI Risk</span></span>
+          </span>
         </div>
 
         <div class="search-row">
@@ -768,7 +828,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.2 · MIT ·
+          v0.3.3 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -779,7 +839,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.3.2 · MIT ·
+          v0.3.3 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -1453,6 +1513,13 @@
       }
 
       // ---- Layer toggle ----
+      function updateDimensionHint() {
+        const titles = I18N.statTitle[layer] || {ja: layer, en: layer};
+        const ja = document.getElementById("hintLayerJa");
+        const en = document.getElementById("hintLayerEn");
+        if (ja) ja.textContent = titles.ja;
+        if (en) en.textContent = titles.en;
+      }
       document.getElementById("layerToggle").addEventListener("click", e => {
         const btn = e.target.closest("button");
         if (!btn || !btn.dataset.mode) return;
@@ -1460,6 +1527,7 @@
         document.querySelectorAll("#layerToggle button").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         updateStats();
+        updateDimensionHint();
         drawGradientLegend(); draw();
         updateHash();
       });
@@ -1670,6 +1738,7 @@
           }
           setLang("ja");
           updateStats();
+          updateDimensionHint();
           drawGradientLegend();
           resize();
           // Apply hash deep-link if present
