@@ -2,7 +2,7 @@
 
 [![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://jasonhnd.github.io/jobs/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.0.1-lightgrey.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![Pages](https://img.shields.io/github/deployments/jasonhnd/jobs/github-pages?label=pages)](https://github.com/jasonhnd/jobs/deployments)
 
 > **🇯🇵 [日本語版 README はこちら](README.ja.md)**
@@ -17,7 +17,7 @@ Same dataset, two faces: 日本語 for the domestic audience, English for the in
 
 ## Status
 
-`v0.0.1` — **scaffolding only**. The deployed page is a bilingual placeholder. No occupational data has been ingested yet. The scraper, parser, translator, and scorer all land in `0.0.2`+.
+`v0.1.0` — **first visualization release**. **552 Japanese occupations** scraped from MHLW jobtag are live in a squarified treemap with 5 selectable color layers (Salary / Avg Age / Hours / Recruit Ratio / Education). Bilingual UI (JA/EN, auto-detect), per-tile tooltips, click-through to jobtag detail pages. AI replacement risk and English translations remain `null` placeholders, landing in `v0.0.4`.
 
 See the [CHANGELOG](CHANGELOG.md) for what's shipped and the [Roadmap](#roadmap) below for what's next.
 

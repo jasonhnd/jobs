@@ -2,7 +2,7 @@
 
 [![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://jasonhnd.github.io/jobs/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.0.1-lightgrey.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![Pages](https://img.shields.io/github/deployments/jasonhnd/jobs/github-pages?label=pages)](https://github.com/jasonhnd/jobs/deployments)
 
 > **🌏 [English README is here](README.md)**
@@ -17,7 +17,7 @@
 
 ## ステータス
 
-`v0.0.1` — **スキャフォールディングのみ**。デプロイされているページはバイリンガルのプレースホルダーで、職業データはまだ取り込まれていません。スクレイパー・パーサー・翻訳・スコアリングは `0.0.2` 以降で実装します。
+`v0.1.0` — **可視化リリース第一弾**。MHLW jobtag からスクレイピングした **552 の日本の職業** を squarified treemap で可視化しました。色レイヤーは 5 種類（年収 / 平均年齢 / 労働時間 / 求人倍率 / 学歴）。バイリンガル UI（日本語/英語、ブラウザロケール自動判定）、ツールチップ、jobtag 詳細ページへのクリックスルーを実装。AI 代替リスクと英訳は `null` プレースホルダーのまま、`v0.0.4` で実装予定。
 
 リリース内容は [CHANGELOG](CHANGELOG.md)、今後の予定は下記の [ロードマップ](#ロードマップ) を参照してください。
 
