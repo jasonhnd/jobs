@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>OG card source — render via Chrome at 1200x630, screenshot to og.png</title>
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        background: #0a0e14;
+        color: #e8e8e8;
+        font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", system-ui, -apple-system, sans-serif;
+        position: relative;
+      }
+      /* simulated AI-risk-heavy treemap background */
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        grid-template-rows: repeat(13, 1fr);
+        gap: 2px;
+        opacity: 0.22;
+      }
+      .bg-grid div { background: var(--c, #ff6b3d); }
+
+      /* radial vignette so center text reads cleanly */
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 32% 50%, rgba(10,14,20,0.92) 0%, rgba(10,14,20,0.68) 45%, rgba(10,14,20,0.30) 100%);
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        padding: 64px 80px 56px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .label {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 18px;
+        color: #ffb84d;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .label::before {
+        content: "";
+        width: 36px;
+        height: 2px;
+        background: #ffb84d;
+      }
+      h1 {
+        font-size: 88px;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: #fff;
+        margin-top: 22px;
+      }
+      h1 strong {
+        color: #ff4d4d;
+        font-weight: 800;
+      }
+      .sub {
+        font-size: 26px;
+        color: #c8d0dc;
+        line-height: 1.45;
+        max-width: 950px;
+        margin-top: 24px;
+      }
+      .sub b {
+        color: #fff;
+        font-weight: 600;
+      }
+      .sub .red {
+        color: #ff4d4d;
+        font-weight: 700;
+      }
+      .stats {
+        display: flex;
+        gap: 64px;
+      }
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .stat-num {
+        font-size: 56px;
+        font-weight: 800;
+        color: #ffb84d;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .stat-num.red { color: #ff4d4d; }
+      .stat-num small { font-size: 28px; opacity: 0.85; margin-left: 2px; }
+      .stat-label {
+        font-size: 17px;
+        color: #8b94a4;
+        letter-spacing: 0.05em;
+      }
+      .bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #20262f;
+        padding-top: 18px;
+        font-size: 17px;
+        color: #8b94a4;
+      }
+      .bottom .url-strong { color: #ffb84d; font-weight: 600; }
+      .bottom .by { color: #c8d0dc; }
+    </style>
+  </head>
+  <body>
+    <div class="bg-grid" id="grid"></div>
+    <div class="vignette"></div>
+    <div class="content">
+      <div>
+        <span class="label">JAPAN JOBS × AI RISK MAP</span>
+        <h1>あなたの仕事は<br><strong>AI に消える</strong>？</h1>
+        <p class="sub">
+          日本 <b>552 職業</b>を Claude が AI 替代リスク <b>0〜10</b> で採点。<br>
+          最大の仕事「一般事務」<b>263万人</b>は <span class="red">9/10</span> ── あなたの仕事は安全？
+        </p>
+      </div>
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-num">552</div>
+          <div class="stat-label">職業を採点</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5,449<small>万人</small></div>
+          <div class="stat-label">就業者数</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num red">9/10</div>
+          <div class="stat-label">最大職業の AI リスク</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">31<small>%</small></div>
+          <div class="stat-label">高リスク（≥7）の割合</div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span><span class="url-strong">jasonhnd.github.io/jobs</span></span>
+        <span class="by">by Jason · MIT · データ：厚生労働省 jobtag</span>
+      </div>
+    </div>
+    <script>
+      // AI-risk-weighted heatmap palette (red dominant)
+      const palette = [
+        "#ff3d3d","#ff5050","#ff6b3d","#ff8033","#ff9933",
+        "#ffaa44","#ffc14d","#d4ad33","#aac044","#7aa033","#5a9033"
+      ];
+      const grid = document.getElementById("grid");
+      const cols = 24, rows = 13;
+      for (let i = 0; i < cols * rows; i++) {
+        const d = document.createElement("div");
+        // bias: 60% red zone, 40% green zone
+        const idx = Math.random() < 0.6
+          ? Math.floor(Math.random() * 5)
+          : 5 + Math.floor(Math.random() * 6);
+        d.style.setProperty("--c", palette[idx]);
+        grid.appendChild(d);
+      }
+    </script>
+  </body>
+</html>

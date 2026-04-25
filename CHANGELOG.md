@@ -9,6 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-04-25
+
+### Added
+
+- **OG / Twitter Card preview image** (`og.png`, 1200×630): when the URL is shared on Telegram / LINE / X / Slack / Discord / Facebook, those platforms now show a rich preview card instead of a bare link. Card features the punchline "あなたの仕事は AI に消える？" in red, plus four headline stats (552 職業 / 5,449万人 / 9/10 / 31%) over an AI-risk-weighted heatmap background.
+- **`og-card.html`**: source HTML for the OG image. Render at 1200×630 in headless Chrome and screenshot to `og.png` to regenerate.
+- High-impact JA-first meta tags: `<title>`, `<meta name="description">`, full Open Graph block (with `og:image:width`/`height`/`alt`, `og:locale`, `og:site_name`), and Twitter Card block (`twitter:site`, `twitter:creator` = `@jasonaxb`).
+- `og.png` previously referenced in meta but did not exist (404). Now committed.
+
+### Why
+
+- User feedback: shared URL had no preview card on messaging platforms. Original meta tags pointed to a missing `og.png` so platforms fell back to bare-link rendering.
+- Card copy intentionally direct ("あなたの仕事は AI に消える？") to surface the AI-displacement framing in 1 second of scrolling rather than buried in a paragraph.
+
+### Verify
+
+- Telegram: paste URL into any chat. The card should render with the red title and 4 stats.
+- X / Twitter: use https://cards-dev.twitter.com/validator
+- Facebook: use https://developers.facebook.com/tools/debug/
+- Generic: https://www.opengraph.xyz/
+
+---
+
 ## [0.3.3] - 2026-04-25
 
 ### Added
