@@ -73,6 +73,40 @@
         border-color: var(--accent);
         color: var(--accent);
       }
+      .meta-card {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 6px 18px;
+        padding: 16px 18px;
+        margin-bottom: 22px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        font-size: 0.86rem;
+        line-height: 1.5;
+        max-width: 880px;
+      }
+      .meta-card .meta-row {
+        display: contents;
+      }
+      .meta-card .meta-label {
+        color: var(--fg2);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.72rem;
+        padding-top: 3px;
+        white-space: nowrap;
+      }
+      .meta-card .meta-value {
+        color: var(--fg);
+      }
+      .meta-card a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .meta-card a:hover { text-decoration: underline; }
+      .intro + .intro { margin-top: -4px; }
       .intro {
         color: var(--fg2);
         font-size: 0.95rem;
@@ -286,6 +320,23 @@
           padding: 10px 12px;
           font-size: 0.85rem;
         }
+        .meta-card {
+          grid-template-columns: 1fr;
+          gap: 2px;
+          padding: 12px 14px;
+          font-size: 0.82rem;
+        }
+        .meta-card .meta-row {
+          display: block;
+          margin-bottom: 8px;
+        }
+        .meta-card .meta-row:last-child {
+          margin-bottom: 0;
+        }
+        .meta-card .meta-label {
+          display: block;
+          margin-bottom: 2px;
+        }
       }
     </style>
   </head>
@@ -301,33 +352,58 @@
             <button data-set="en" aria-pressed="false">English</button>
           </span>
         </h1>
+        <div class="meta-card" data-i18n="ja">
+          <div class="meta-row">
+            <span class="meta-label">採点 LLM</span>
+            <span class="meta-value">Claude Sonnet 4.7（Anthropic）</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">AI リスク採点日</span>
+            <span class="meta-value">2026-04-25</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">英訳日</span>
+            <span class="meta-value">2026-04-25</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">データ出典</span>
+            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank">厚生労働省 職業情報提供サイト（job tag）</a></span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">就業者数の出典</span>
+            <span class="meta-value">厚労省 2023 年度委託調査（賃金・労働時間・就業者数）</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">採点スケール</span>
+            <span class="meta-value"><a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank">karpathy/jobs</a> の 0〜10 アンカーを移植</span>
+          </div>
+        </div>
         <p class="intro" data-i18n="ja">
-          <strong>552 の日本の職業</strong>を、厚生労働省の
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
-            >職業情報提供サイト（job tag）</a
-          >
-          から取得して可視化したツリーマップです。
-          <a href="https://github.com/karpathy/jobs" target="_blank"
-            >karpathy/jobs</a
-          >
-          にインスパイアされた、日本版の試みです。
+          <strong>552 の日本の職業</strong>を、厚生労働省 jobtag のデータから可視化したツリーマップ。
         </p>
         <p class="intro" data-i18n="ja">
-          各タイルの<strong>面積</strong>はその職業の<strong>就業者数</strong>（厚労省 2023
-          年度委託調査）に比例し、<strong>色</strong>は選択中の指標を表します。タイルをクリックすると
-          jobtag の元ページが開きます。上部のレイヤー切替で、年収・平均年齢・労働時間・求人倍率・学歴・AI
-          リスクの 6 指標を切り替えられます。
+          各タイルの<strong>面積</strong>はその職業の<strong>就業者数</strong>に正比例します。<br>
+          数百万人の職業（看護師・スーパー店員など）は大きく、数千人の専門職（弁理士・潜水士など）は小さく表示されます。
         </p>
         <p class="intro" data-i18n="ja">
-          <strong>AI リスク</strong>は 0〜10
-          のスケールで、AI が今後その職業をどれほど作り変えるかを示します。karpathy/jobs
-          のアンカー職業群に対してキャリブレーションし、LLM が採点しています（調査ではなく
-          <em>ラフな推定</em>です）。スコアが高い ≠
-          消滅。多くの高リスク職は<strong>置換ではなく再構成</strong>される可能性が高いです。
+          <strong>色</strong>は選択中の指標。上部のレイヤー切替で 6 種（AI リスク／年収／平均年齢／労働時間／求人倍率／学歴）を切り替え。<br>
+          タイルをクリックすると jobtag の元ページが開きます。
+        </p>
+        <p class="intro" data-i18n="ja">
+          <strong>AI リスク</strong>は 0〜10。AI が今後その職業をどれほど作り変えるかの推定値です。<br>
+          詳しい採点根拠は下の折りたたみセクションを参照してください。
+        </p>
+        <p class="intro" data-i18n="ja">
+          <em>注意：高得点 = 仕事が消える、ではありません。</em>多くの高得点職は<strong>置換ではなく再構成</strong>される可能性が高いです。
+        </p>
+        <p class="intro" data-i18n="ja">
+          <a href="https://github.com/karpathy/jobs" target="_blank">karpathy/jobs</a>（米国版）にインスパイアされた、日本版の試みです。<br>
+          ソースコード <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a>（MIT）。
         </p>
         <details class="intro-details" data-i18n="ja">
-          <summary>AI リスクの採点根拠を見る</summary>
+          <summary>📖 AI リスクの完全な採点根拠（誰が・何を基準に・いつ採点したか）</summary>
           <div class="intro-details-content">
+            <p><strong>採点日:</strong> 2026-04-25　|　<strong>採点 LLM:</strong> Claude Sonnet 4.7（Anthropic）</p>
             <p><strong>採点者:</strong> Claude Sonnet 4.7（Anthropic）が本セッション内で 552 職業を 1 つずつ判定。統計調査ではなく LLM の主観評価。</p>
             <p><strong>スケール（karpathy/jobs から移植）:</strong></p>
             <ul>
@@ -342,41 +418,57 @@
             <p><strong>注意:</strong> 高得点 ≠ 仕事が消える。プログラマーは 9/10 だが AI で生産性が上がる結果、需要がむしろ増える可能性も。多くの高得点職は「置換」ではなく「再構成」される見込み。</p>
           </div>
         </details>
-        <p class="intro" data-i18n="ja">
-          技術メモ：jobtag は Imperva
-          越しの認証セッションが必要なため、データはユーザー本人のブラウザセッションを通じて
-          Chrome MCP 経由で取得しています。ソースコードは
-          <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a>
-          で公開（MIT）。最終更新 2026-04-25。
+        <div class="meta-card" data-i18n="en">
+          <div class="meta-row">
+            <span class="meta-label">Scoring LLM</span>
+            <span class="meta-value">Claude Sonnet 4.7 (Anthropic)</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">AI risk scored on</span>
+            <span class="meta-value">2026-04-25</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Translated on</span>
+            <span class="meta-value">2026-04-25</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Data source</span>
+            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank">MHLW Occupational Information Site (jobtag)</a></span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Workforce data</span>
+            <span class="meta-value">MHLW FY2023 commissioned survey (wages, hours, headcount)</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Scoring scale</span>
+            <span class="meta-value">Ported 0–10 anchors from <a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank">karpathy/jobs</a></span>
+          </div>
+        </div>
+        <p class="intro" data-i18n="en">
+          A treemap of <strong>552 Japanese occupations</strong> sourced from Japan's MHLW jobtag.
         </p>
         <p class="intro" data-i18n="en">
-          A treemap of <strong>552 Japanese occupations</strong> sourced from
-          Japan's Ministry of Health, Labour and Welfare (厚生労働省) via their
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank"
-            >Occupational Information Site (jobtag)</a
-          >. Inspired by
-          <a href="https://github.com/karpathy/jobs" target="_blank"
-            >karpathy/jobs</a
-          >, ported to the Japanese labor market.
+          Tile <strong>area</strong> is directly proportional to <strong>workforce</strong>.<br>
+          Multi-million-headcount occupations (nurses, supermarket clerks) appear huge; small specialties (patent attorneys, divers) appear tiny — that's by design.
         </p>
         <p class="intro" data-i18n="en">
-          Tile <strong>area</strong> = workforce size (就業者数, from MHLW's
-          FY2023 commissioned survey). Tile <strong>color</strong> = the
-          currently selected metric. Click any tile to open its official jobtag
-          page. Use the layer toggle above to switch between salary, average
-          age, monthly hours, recruit ratio, education, and AI risk.
+          Tile <strong>color</strong> shows the selected metric. Use the top toggle to switch among 6 layers: AI Risk / Salary / Avg Age / Hours / Recruit Ratio / Education.<br>
+          Click any tile to open the official jobtag detail page.
         </p>
         <p class="intro" data-i18n="en">
-          <strong>AI risk</strong> is a 0-10 score for how much AI is likely to
-          reshape each occupation, calibrated against the karpathy/jobs anchor
-          set. Scored by an LLM, <em>not</em> a survey — treat it as a rough
-          estimate. A high score does <strong>not</strong> mean the job will
-          disappear; many high-exposure occupations will be
-          <strong>reshaped, not replaced</strong>.
+          <strong>AI Risk</strong> is a 0–10 estimate of how much AI will reshape each occupation.<br>
+          See the collapsible methodology section below for the full rubric.
+        </p>
+        <p class="intro" data-i18n="en">
+          <em>Important: a high score does NOT predict the job will disappear.</em> Most high-exposure jobs will be <strong>reshaped, not replaced</strong>.
+        </p>
+        <p class="intro" data-i18n="en">
+          Inspired by <a href="https://github.com/karpathy/jobs" target="_blank">karpathy/jobs</a> (US version). Source on <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a> (MIT).
         </p>
         <details class="intro-details" data-i18n="en">
-          <summary>How the AI risk score was assigned</summary>
+          <summary>📖 Full AI risk methodology (scorer, criteria, date)</summary>
           <div class="intro-details-content">
+            <p><strong>Scored on:</strong> 2026-04-25　|　<strong>Scoring LLM:</strong> Claude Sonnet 4.7 (Anthropic)</p>
             <p><strong>Scorer:</strong> Claude Sonnet 4.7 (Anthropic) inside this Claude Code session, judging each of the 552 occupations one by one. Not a survey — LLM subjective estimate.</p>
             <p><strong>Scale (ported from karpathy/jobs):</strong></p>
             <ul>
@@ -391,12 +483,6 @@
             <p><strong>Caveat:</strong> A high score does NOT predict the job disappearing. Programmers score 9/10, but AI making each programmer more productive could grow the total demand for programming. Most high-exposure jobs will be reshaped, not replaced.</p>
           </div>
         </details>
-        <p class="intro" data-i18n="en">
-          Tech note: jobtag sits behind Imperva, so data is sourced through the
-          user's authenticated browser session via Chrome MCP. Source on
-          <a href="https://github.com/jasonhnd/jobs" target="_blank">GitHub</a>
-          (MIT). Last updated 2026-04-25.
-        </p>
 
         <div class="controls">
           <label data-i18n="ja" class="active">色：</label>
@@ -462,7 +548,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.2.1 · MIT ·
+          v0.2.2 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -473,7 +559,7 @@
           >
         </span>
         <span data-i18n="en">
-          v0.2.1 · MIT ·
+          v0.2.2 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -618,7 +704,7 @@
         const h = window.innerWidth < 768 ? Math.round(w * 1.4) : Math.round(w * 0.6);
         canvas.width = w * dpr; canvas.height = h * dpr;
         canvas.style.width = w + "px"; canvas.style.height = h + "px";
-        const items = data.filter(d => d.workers && d.workers > 0).map(d => ({...d, value: Math.sqrt(d.workers)}));
+        const items = data.filter(d => d.workers && d.workers > 0).map(d => ({...d, value: d.workers}));
         items.sort((a, b) => b.value - a.value);
         rects = squarify(items, MARGIN, MARGIN, w - MARGIN * 2, h - MARGIN * 2);
       }
