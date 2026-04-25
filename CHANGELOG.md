@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-04-25
+
+### Added
+
+- **Cloudflare Web Analytics**: privacy-friendly visitor tracking. No cookies, no GDPR/CCPA banner needed, not blocked by ad-blockers, ~5KB deferred beacon. Single `<script defer>` tag added at end of `<body>` so it never blocks page render. Dashboard at https://dash.cloudflare.com → Analytics → Web Analytics. Tracks: pageviews, unique visitors, top referrers, country, device/browser, Core Web Vitals.
+
+### Why
+
+- User asked "我怎么统计这个访问数据啊？" — wanted visitor counts and traffic sources after sharing on X/Telegram. Chose Cloudflare over Google Analytics 4 because GA4 needs a cookie consent banner, is blocked by ~50% of ad-blockers, and adds significant page weight; Cloudflare Web Analytics gives the essential numbers (PV, UV, referrers, country) without those costs.
+
+### Verify
+
+- Open https://dash.cloudflare.com → Web Analytics → site dashboard. Real-time pageviews appear within ~30 seconds after the beacon fires; aggregated dashboards populate within a few minutes.
+
+---
+
 ## [0.3.5] - 2026-04-25
 
 ### Fixed
