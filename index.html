@@ -1065,7 +1065,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.9 · MIT ·
+          v0.3.10 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -1077,7 +1077,7 @@
           <em>※ 本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません。</em>
         </span>
         <span data-i18n="en">
-          v0.3.9 · MIT ·
+          v0.3.10 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -1290,8 +1290,11 @@
       }
 
       function layout() {
-        const w = document.getElementById("wrapper").clientWidth - (window.innerWidth < 768 ? 32 : 56);
-        const h = window.innerWidth < 768 ? Math.round(w * 1.4) : Math.round(w * 0.6);
+        const isMobile = window.innerWidth < 768;
+        const w = document.getElementById("wrapper").clientWidth - (isMobile ? 32 : 56);
+        // Mobile: tall portrait canvas (~2.6x width) so each tile gets enough area to be readable.
+        // Desktop: landscape (~0.6x width) since the wrapper is already wide.
+        const h = isMobile ? Math.round(w * 2.6) : Math.round(w * 0.6);
         canvas.width = w * dpr; canvas.height = h * dpr;
         canvas.style.width = w + "px"; canvas.style.height = h + "px";
         const items = data.filter(d => d.workers && d.workers > 0).map(d => ({...d, value: d.workers}));
@@ -1317,6 +1320,13 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.fillStyle = "#0b0d10";
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        const isMobile = window.innerWidth < 768;
+        const labelMinW = isMobile ? 30 : 50;
+        const labelMinH = isMobile ? 14 : 18;
+        const subInfoMinW = isMobile ? 50 : 70;
+        const subInfoMinH = isMobile ? 26 : 32;
+        const fontMin = isMobile ? 8 : 9;
+        const fontMax = isMobile ? 12 : 13;
         for (const r of rects) {
           const isHover = r === hovered;
           const isDimmed = dimmedIds && !dimmedIds.has(r.id);
@@ -1327,18 +1337,18 @@
           ctx.fillStyle = tileColorCSS(r, baseAlpha);
           ctx.fillRect(rx, ry, rw, rh);
           if (isHover) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(rx, ry, rw, rh); }
-          if (rw > 50 && rh > 18 && !isDimmed) {
-            ctx.save(); ctx.beginPath(); ctx.rect(rx + 4, ry + 2, rw - 8, rh - 4); ctx.clip();
-            const fontSize = Math.min(13, Math.max(9, Math.min(rw / 8, rh / 3)));
+          if (rw > labelMinW && rh > labelMinH && !isDimmed) {
+            ctx.save(); ctx.beginPath(); ctx.rect(rx + 3, ry + 2, rw - 6, rh - 4); ctx.clip();
+            const fontSize = Math.min(fontMax, Math.max(fontMin, Math.min(rw / 8, rh / 3)));
             ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
             ctx.fillStyle = isHover ? "#fff" : "rgba(255,255,255,0.92)";
             ctx.textBaseline = "top";
             const label = lang === "en" ? r.name_en || r.name_ja : r.name_ja;
-            ctx.fillText(label, rx + 5, ry + 4);
-            if (rh > 32 && rw > 70) {
-              ctx.font = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
+            ctx.fillText(label, rx + 4, ry + 3);
+            if (rh > subInfoMinH && rw > subInfoMinW) {
+              ctx.font = `400 ${Math.max(fontMin - 1, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
               ctx.fillStyle = "rgba(255,255,255,0.55)";
-              ctx.fillText(tileSubInfo(r), rx + 5, ry + 4 + fontSize + 2);
+              ctx.fillText(tileSubInfo(r), rx + 4, ry + 3 + fontSize + 2);
             }
             ctx.restore();
           }

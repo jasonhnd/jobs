@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.10] - 2026-04-25
+
+### Fixed (mobile treemap readability)
+
+User feedback: "这个色块这样在手机上根本没有阅读感... 所有的字都特别小，块也特别小。" The mobile treemap was rendering as a small landscape band where only the top 5–6 occupations had readable labels and the rest were tiny colored noise.
+
+- **Mobile canvas height nearly doubled**: `layout()` now produces a tall portrait canvas on mobile (`width × 2.6` instead of `width × 1.4`). At 375px viewport: canvas grows from 343×480 to 343×892, giving each tile ~1.86× more area. Desktop unchanged (`width × 0.6`).
+- **Lowered label-rendering thresholds on mobile**: previously a tile only got a label when ≥ 50px wide and ≥ 18px tall; on mobile the threshold is now 30px × 14px for the name, and 50px × 26px for the AI-risk subtitle. Combined with the bigger canvas, ~50 occupations now show their name + score directly (vs ~6 before).
+- **Smaller font min/max on mobile**: caps at 12px (was 13) and floor at 8px (was 9) so labels fit in the new mid-size tiles without overflowing.
+- Smaller text padding inside each tile (margins 5/4 → 4/3) to let labels actually use the space.
+
+### Why
+
+The default treemap rendering was tuned for landscape desktop. On phones with ~343px content width and 552 tiles, the longstanding 1.4× height ratio gave only ~298 sq px per tile, leaving the bottom half as visual noise. Tall portrait canvas + lower label thresholds make the treemap usable as a "scroll-down to read" mobile experience. The very smallest tiles (~3,000-worker specialty roles) remain unlabeled — they would need ~80px² to be readable, which can't be guaranteed without dropping data or filtering.
+
+---
+
 ## [0.3.9] - 2026-04-25
 
 ### Fixed (mobile responsive)
