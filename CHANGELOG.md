@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.8] - 2026-04-25
+
+### Changed
+
+- **Methodology section is no longer collapsed**: replaced `<details><summary>` with a permanent `<div>` + `<h3>` heading. The full AI-risk scoring rubric (date, scorer, scale, heuristic, caveat) is always visible inline, no click required. Both JA and EN. Updated the "see below" intro paragraph to drop "折りたたみ / collapsible" wording.
+- **Cloudflare Web Analytics beacon moved from end of `<body>` to `<head>`**: same `<script defer>` tag, just relocated. The `defer` attribute means execution still runs after document parse (no render blocking), but loading the beacon early in `<head>` lets it record bounce visits — users who close the page in <0.5s — that the body-end placement might miss.
+
+### Why
+
+- User feedback: "AI リスク：这个下拉菜单也不用下拉了，全部都放在下面就可以了" — the methodology was important enough that hiding it behind a click was a UX cost without benefit.
+- User feedback: "cloudflare的代码为什么在最下面？不是在最上面？" — head placement is the more modern best practice for analytics beacons; `defer` neutralizes the render-blocking concern that historically argued for body-end.
+
+---
+
 ## [0.3.7] - 2026-04-25
 
 ### Changed (compliance / legal)

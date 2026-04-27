@@ -37,6 +37,11 @@
 
     <link rel="canonical" href="https://jasonhnd.github.io/jobs/" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
+
+    <!-- Cloudflare Web Analytics (privacy-friendly, no cookies, no GDPR banner; in <head> so bounce visits fire the beacon early) -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "ddc8adae7c8d4380b49c246f184fda1d"}'></script>
+
     <style>
       *,
       *::before,
@@ -215,13 +220,13 @@
         color: var(--fg2);
         font-size: 0.9rem;
       }
-      .intro-details summary {
-        cursor: pointer;
+      .methodology-title {
+        font-size: 0.95rem;
+        font-weight: 600;
         color: var(--accent);
-        font-weight: 500;
-        user-select: none;
+        margin: 0 0 4px;
+        line-height: 1.4;
       }
-      .intro-details summary:hover { color: var(--fg); }
       .intro-details-content { margin-top: 14px; line-height: 1.7; }
       .intro-details-content p { margin: 10px 0; }
       .intro-details-content ul {
@@ -810,7 +815,7 @@
         </p>
         <p class="intro" data-i18n="ja">
           <strong>AI リスク</strong>は 0〜10。AI が今後その職業をどれほど作り変えるかの推定値です。<br>
-          詳しい採点根拠は下の折りたたみセクションを参照してください。
+          詳しい採点根拠は下のセクションをご覧ください。
         </p>
         <p class="intro" data-i18n="ja">
           <em>注意：高得点 = 仕事が消える、ではありません。</em>多くの高得点職は<strong>置換ではなく再構成</strong>される可能性が高いです。
@@ -819,8 +824,8 @@
           <a href="https://github.com/karpathy/jobs" target="_blank" rel="noopener noreferrer">karpathy/jobs</a>（米国版）にインスパイアされた、日本版の試みです。<br>
           ソースコード <a href="https://github.com/jasonhnd/jobs" target="_blank" rel="noopener noreferrer">GitHub</a>（MIT）。
         </p>
-        <details class="intro-details" data-i18n="ja">
-          <summary>📖 AI リスクの完全な採点根拠（誰が・何を基準に・いつ採点したか）</summary>
+        <div class="intro-details active" data-i18n="ja">
+          <h3 class="methodology-title">📖 AI リスクの完全な採点根拠（誰が・何を基準に・いつ採点したか）</h3>
           <div class="intro-details-content">
             <p><strong>採点日:</strong> 2026-04-25　|　<strong>採点 LLM:</strong> Claude Opus 4.7（Anthropic）</p>
             <p><strong>採点者:</strong> Claude Opus 4.7（Anthropic）が本セッション内で 552 職業を 1 つずつ判定。統計調査ではなく LLM の主観評価。</p>
@@ -836,7 +841,7 @@
             <p><strong>判断軸:</strong> 「自宅の PC 1 台で完結できるか？」を yes と答える職業ほど高得点。AI は数字／文章／画像／コード領域で急速に進化しているため、デジタル完結型は天然に高リスク。</p>
             <p><strong>注意:</strong> 高得点 ≠ 仕事が消える。プログラマーは 9/10 だが AI で生産性が上がる結果、需要がむしろ増える可能性も。多くの高得点職は「置換」ではなく「再構成」される見込み。</p>
           </div>
-        </details>
+        </div>
         <div class="meta-card" data-i18n="en">
           <div class="meta-row">
             <span class="meta-label">Scoring LLM</span>
@@ -889,7 +894,7 @@
         </p>
         <p class="intro" data-i18n="en">
           <strong>AI Risk</strong> is a 0–10 estimate of how much AI will reshape each occupation.<br>
-          See the collapsible methodology section below for the full rubric.
+          See the methodology section below for the full rubric.
         </p>
         <p class="intro" data-i18n="en">
           <em>Important: a high score does NOT predict the job will disappear.</em> Most high-exposure jobs will be <strong>reshaped, not replaced</strong>.
@@ -897,8 +902,8 @@
         <p class="intro" data-i18n="en">
           Inspired by <a href="https://github.com/karpathy/jobs" target="_blank" rel="noopener noreferrer">karpathy/jobs</a> (US version). Source on <a href="https://github.com/jasonhnd/jobs" target="_blank" rel="noopener noreferrer">GitHub</a> (MIT).
         </p>
-        <details class="intro-details" data-i18n="en">
-          <summary>📖 Full AI risk methodology (scorer, criteria, date)</summary>
+        <div class="intro-details" data-i18n="en">
+          <h3 class="methodology-title">📖 Full AI risk methodology (scorer, criteria, date)</h3>
           <div class="intro-details-content">
             <p><strong>Scored on:</strong> 2026-04-25　|　<strong>Scoring LLM:</strong> Claude Opus 4.7 (Anthropic)</p>
             <p><strong>Scorer:</strong> Claude Opus 4.7 (Anthropic) inside this Claude Code session, judging each of the 552 occupations one by one. Not a survey — LLM subjective estimate.</p>
@@ -914,7 +919,7 @@
             <p><strong>Heuristic:</strong> "Can the job be done entirely from a home computer?" — if yes, the score is naturally high. AI is advancing fastest in digital domains (text, image, code, analysis), so digital-native jobs face the highest exposure.</p>
             <p><strong>Caveat:</strong> A high score does NOT predict the job disappearing. Programmers score 9/10, but AI making each programmer more productive could grow the total demand for programming. Most high-exposure jobs will be reshaped, not replaced.</p>
           </div>
-        </details>
+        </div>
 
         <div class="usage-notice active" data-i18n="ja">
           <h3>使用上の注意</h3>
@@ -930,7 +935,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.7 · MIT ·
+          v0.3.8 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -942,7 +947,7 @@
           <em>※ 本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません。</em>
         </span>
         <span data-i18n="en">
-          v0.3.7 · MIT ·
+          v0.3.8 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
@@ -1850,10 +1855,5 @@
         })
         .catch(showError);
     </script>
-
-    <!-- Cloudflare Web Analytics (privacy-friendly, no cookies, no GDPR banner) -->
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon='{"token": "ddc8adae7c8d4380b49c246f184fda1d"}'></script>
-    <!-- End Cloudflare Web Analytics -->
   </body>
 </html>
