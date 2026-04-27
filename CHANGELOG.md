@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.9] - 2026-04-25
+
+### Fixed (mobile responsive)
+
+Comprehensive mobile audit at viewports 320 / 375 / 414 (iPhone SE through Pro Max). The existing `@media (max-width: 768px)` block didn't have rules for components added in v0.3.0+ (`.dimension-hint`, `.disclaimer`, `.usage-notice`, `.methodology-title`, `.h1-sub`, `.byline`, `.stats-panel` 6-card layout). Real-device emulation via Playwright surfaced these issues.
+
+- **Stats panel**: `grid-template-columns` changed from `repeat(auto-fit, minmax(180px, 1fr))` to `repeat(auto-fit, minmax(140px, 1fr))`. At desktop the 6 cards still fit in 1 row (each ~200px); on mobile the smaller minimum lets cards reflow to 2 cols at 375-414px instead of overflowing.
+- **Layer toggle**: at <=480 viewports, the 6 mode buttons now wrap to 2 rows (`flex-wrap: wrap`) instead of horizontal-scrolling. Real iPhones rarely scroll horizontally — wrapping is cleaner and shows all options at once.
+- **Dimension hint** (📐 面積 / 🎨 色 strip): on phones (<=480) now stacks vertically with the divider hidden.
+- **Disclaimer + Usage notice + Methodology title**: tighter padding and font sizes at <=480 and again at <=360 so they don't crowd narrow screens.
+- **Tier table & mini-histogram inside stats**: smaller font/padding at <=480 to prevent column truncation.
+- New `@media (max-width: 360px)` block for iPhone SE 1st-gen sized phones: stats panel becomes 1-column (cards full width); H1 + methodology title shrink one more notch.
+
+### Verified
+
+- Playwright headless Chromium at 320, 375, 414 with `device_scale_factor: 2`. All sections (H1, controls, dimension hint, search, stats panel, treemap, disclaimer, meta-card, intro paragraphs, methodology, usage notice, footer) tested at each width.
+- Desktop (1280px) layout unchanged.
+
+### Why
+
+User asked: "手机自适应做了吗？仔细检查所有" — surfaced that several v0.3.0+ components had no mobile-specific CSS, causing horizontal overflow and unreadable cells at iPhone widths.
+
+---
+
 ## [0.3.8] - 2026-04-25
 
 ### Changed
