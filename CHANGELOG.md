@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.11] - 2026-04-25
+
+### Added (compliance — top-of-page banner)
+
+- **Persistent "UNOFFICIAL" warning banner** at the very top of every page view (above the H1, full bleed). Red badge + line: 「独自分析サイト ・ 厚労省 / job tag / JILPT の **公式見解ではありません**」 / "Independent analysis · **Not endorsed by** MHLW / jobtag / JILPT".
+
+### Why
+
+A second-pass legal audit flagged that the v0.3.7 disclaimers — H1 subtitle "非公式 の独自分析", yellow disclaimer block, JILPT meta-card row, footer disclaimer — are all in place but the disclaimer block sits in the explainer section *below* the treemap, so a user who only scans the first viewport (without scrolling) might miss it. The H1 subtitle's "非公式" was present but small.
+
+A bright top banner makes "UNOFFICIAL" the literal first thing every visitor reads, regardless of scroll depth. This addresses the "first-view official-misperception risk" called out in the audit:
+
+> 用户第一眼可能会理解为：这是基于厚労省 job tag 的官方职业地图... 你需要在页面顶部或 About 第一段直接写...
+
+Note: the audit screenshots in that report were of an older cached version (still had H1 "日本の職業マップ — 厚生労働省 jobtag より"). The actual v0.3.10 live page already had subtitle "非公式 の独自分析", JILPT citation, disclaimer block, usage notice, footer disclaimer — verified via curl. The new banner adds defense-in-depth for cached snapshots, link previews, and casual scanners.
+
+### Verified
+
+Playwright at 1280×900 desktop and 375×400 mobile — banner visible at top with badge, no layout regression for existing components.
+
+---
+
 ## [0.3.10] - 2026-04-25
 
 ### Fixed (mobile treemap readability)
