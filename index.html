@@ -431,7 +431,7 @@
       }
       .stats-panel {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
         margin-bottom: 14px;
       }
@@ -652,6 +652,136 @@
           display: block;
           margin-bottom: 2px;
         }
+
+        /* New components (post-v0.3.0) — mobile rules */
+        h1 .h1-sub {
+          font-size: 0.82rem;
+          line-height: 1.5;
+        }
+        h1 .byline {
+          margin-left: 0;
+          font-size: 0.8rem;
+        }
+        .dimension-hint {
+          gap: 8px 12px;
+          padding: 8px 12px;
+          font-size: 0.78rem;
+        }
+        .dimension-hint .hint-divider { display: none; }
+        .disclaimer {
+          padding: 14px 16px;
+          font-size: 0.85rem;
+          line-height: 1.65;
+          margin: 0 0 18px;
+        }
+        .usage-notice {
+          padding: 14px 16px;
+          font-size: 0.84rem;
+          line-height: 1.65;
+        }
+        .usage-notice h3 { font-size: 0.78rem; }
+        .methodology-title {
+          font-size: 0.88rem;
+          line-height: 1.45;
+        }
+        .explainer {
+          margin-top: 28px;
+          padding-top: 22px;
+        }
+        .explainer-heading {
+          margin: 0 0 14px;
+        }
+        footer {
+          font-size: 0.7rem;
+          line-height: 1.55;
+        }
+        footer em {
+          display: inline-block;
+          margin-top: 4px;
+        }
+      }
+
+      /* True phone viewports (<= 480px) */
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.2rem;
+        }
+        h1 .h1-sub {
+          font-size: 0.78rem;
+        }
+        .stats-panel {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+        .stat-block { padding: 10px 12px; }
+        .stat-block .stat-value { font-size: 1rem; }
+        .stat-block .stat-sub { font-size: 0.68rem; }
+        .tier-table { font-size: 0.7rem; }
+        .tier-table td { padding: 1px 2px; }
+        .mini-hist { height: 28px; }
+        .dimension-hint {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
+          padding: 10px 12px;
+        }
+        .dimension-hint .hint-piece { gap: 4px; }
+        /* layer-toggle: at <=480 wrap to multiple rows instead of horizontal scroll */
+        .layer-toggle {
+          flex-wrap: wrap;
+          width: 100%;
+          overflow-x: visible;
+        }
+        .layer-toggle button {
+          padding: 5px 9px;
+          font-size: 0.74rem;
+        }
+        .controls {
+          padding: 8px 10px;
+          gap: 8px;
+        }
+        .gradient-legend { font-size: 0.68rem; }
+        .palette-toggle {
+          margin-left: 0;
+          font-size: 0.74rem;
+          padding: 5px 10px;
+        }
+        .controls label {
+          font-size: 0.74rem;
+        }
+        .disclaimer { padding: 12px 14px; font-size: 0.82rem; }
+        .usage-notice { padding: 12px 14px; font-size: 0.8rem; }
+        .methodology-title { font-size: 0.84rem; }
+        .intro { font-size: 0.85rem; }
+        .meta-card { font-size: 0.78rem; padding: 12px; }
+        .intro-details { padding: 10px 12px; font-size: 0.82rem; }
+        .intro-details-content { line-height: 1.65; }
+        #wrapper { padding: 14px 12px 50px; }
+        #searchInput {
+          padding: 7px 10px;
+          font-size: 0.84rem;
+        }
+        footer { font-size: 0.66rem; }
+      }
+
+      /* Smallest phones (<= 360px) — iPhone SE 1st gen, etc. */
+      @media (max-width: 360px) {
+        .stats-panel {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+        .stat-block { padding: 10px 12px; }
+        h1 { font-size: 1.1rem; }
+        h1 .h1-sub { font-size: 0.74rem; }
+        .layer-toggle button {
+          padding: 4px 7px;
+          font-size: 0.7rem;
+        }
+        .disclaimer { padding: 11px 13px; font-size: 0.8rem; line-height: 1.6; }
+        .usage-notice { padding: 11px 13px; font-size: 0.78rem; line-height: 1.6; }
+        .methodology-title { font-size: 0.82rem; }
+        .intro-details-content { font-size: 0.78rem; }
+        .intro-details-content ul { margin-left: 16px; }
       }
     </style>
   </head>
@@ -935,7 +1065,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.8 · MIT ·
+          v0.3.9 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -947,7 +1077,7 @@
           <em>※ 本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません。</em>
         </span>
         <span data-i18n="en">
-          v0.3.8 · MIT ·
+          v0.3.9 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
