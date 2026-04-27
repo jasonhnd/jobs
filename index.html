@@ -533,6 +533,34 @@
       .skip-link:focus {
         left: 0;
       }
+      .top-banner {
+        background: linear-gradient(90deg, rgba(255, 80, 80, 0.18) 0%, rgba(255, 138, 61, 0.14) 100%);
+        border-bottom: 2px solid rgba(255, 80, 80, 0.55);
+        padding: 9px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 0.82rem;
+        color: var(--fg);
+        line-height: 1.5;
+      }
+      .top-banner .badge {
+        background: #ff5050;
+        color: #fff;
+        font-weight: 800;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+        box-shadow: 0 1px 4px rgba(255, 80, 80, 0.3);
+      }
+      .top-banner .banner-text strong {
+        color: #ff8a3d;
+        font-weight: 700;
+      }
       .visually-hidden {
         position: absolute;
         width: 1px;
@@ -703,6 +731,15 @@
 
       /* True phone viewports (<= 480px) */
       @media (max-width: 480px) {
+        .top-banner {
+          padding: 8px 12px;
+          gap: 8px;
+          font-size: 0.74rem;
+        }
+        .top-banner .badge {
+          font-size: 0.66rem;
+          padding: 2px 7px;
+        }
         h1 {
           font-size: 1.2rem;
         }
@@ -790,6 +827,11 @@
       <span data-i18n="ja" class="active">マップへスキップ</span>
       <span data-i18n="en">Skip to map</span>
     </a>
+    <div class="top-banner" role="note" aria-label="Unofficial site notice">
+      <span class="badge">UNOFFICIAL</span>
+      <span class="banner-text active" data-i18n="ja">独自分析サイト ・ 厚労省 / job tag / JILPT の<strong>公式見解ではありません</strong></span>
+      <span class="banner-text" data-i18n="en">Independent analysis ・ <strong>Not endorsed by</strong> MHLW / jobtag / JILPT</span>
+    </div>
     <div id="wrapper">
       <header>
         <h1>
@@ -1065,7 +1107,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.10 · MIT ·
+          v0.3.11 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
@@ -1077,7 +1119,7 @@
           <em>※ 本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません。</em>
         </span>
         <span data-i18n="en">
-          v0.3.10 · MIT ·
+          v0.3.11 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
