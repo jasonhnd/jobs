@@ -3,37 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>あなたの仕事は AI に消える？— 日本 552 職業の AI リスクマップ</title>
+    <title>あなたの仕事は AI に消える？— 日本 552 職種の AI 影響マップ（非公式・独自分析）</title>
     <meta
       name="description"
-      content="日本の 552 職業を Claude Opus 4.7 が AI 替代リスク 0〜10 で採点。最大の仕事「一般事務」263万人は 9/10。看護師 4/10、潜水士 1/10。31% の職業が高リスク帯（≥7）── あなたの仕事は安全？"
+      content="厚生労働省 job tag 等の公開情報を参考に、日本の 552 職種への AI 影響を Claude Opus 4.7 が 0〜10 で独自採点（非公式分析）。最大の仕事「一般事務」263万人は 9/10、看護師 4/10、潜水士 1/10。あなたの仕事は安全？"
     />
-    <meta name="keywords" content="AI 失業, AI 仕事 影響, 日本 職業, 厚生労働省 jobtag, AI リスク, 替代リスク, 就業マップ, Japan jobs AI risk, 552 occupations" />
+    <meta name="keywords" content="AI 仕事 影響, AI 失業, 日本 職業, 厚生労働省 jobtag, AI リスク, 就業マップ, 独自分析, 非公式, Japan jobs AI risk, 552 occupations, unofficial" />
     <meta name="author" content="Jason" />
 
     <!-- Open Graph (Telegram, LINE, Discord, Slack, Facebook) -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="日本の職業マップ × Japan Jobs Map" />
+    <meta property="og:site_name" content="日本の職業 AI 影響マップ（非公式）" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:locale:alternate" content="en_US" />
-    <meta property="og:title" content="あなたの仕事は AI に消える？" />
-    <meta property="og:description" content="日本 552 職業の AI 替代リスクを Claude Opus 4.7 が 0〜10 で採点。最大職業「一般事務」263万人は 9/10、就業者の 31% が高リスク帯。あなたの仕事は安全？" />
+    <meta property="og:title" content="あなたの仕事は AI に消える？（非公式・独自分析）" />
+    <meta property="og:description" content="厚生労働省 job tag 等の公開情報を参考に、日本 552 職種への AI 影響を Claude Opus 4.7 が独自に可視化した非公式の分析サイト。最大職業「一般事務」263万人は 9/10、就業者の 31% が高リスク帯。あなたの仕事は安全？" />
     <meta property="og:url" content="https://jasonhnd.github.io/jobs/" />
     <meta property="og:image" content="https://jasonhnd.github.io/jobs/og.png" />
     <meta property="og:image:secure_url" content="https://jasonhnd.github.io/jobs/og.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="あなたの仕事は AI に消える？日本 552 職業の AI リスクマップ" />
+    <meta property="og:image:alt" content="あなたの仕事は AI に消える？日本 552 職種の AI 影響マップ（非公式・独自分析）" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@jasonaxb" />
     <meta name="twitter:creator" content="@jasonaxb" />
-    <meta name="twitter:title" content="あなたの仕事は AI に消える？— 日本 552 職業の AI リスクマップ" />
-    <meta name="twitter:description" content="日本 552 職業を Claude が AI 替代リスク 0〜10 で採点。最大の仕事「一般事務」263万人は 9/10。就業者の 31% が高リスク帯（≥7）── あなたの仕事は安全？" />
+    <meta name="twitter:title" content="あなたの仕事は AI に消える？— 日本 552 職種の AI 影響マップ（非公式・独自分析）" />
+    <meta name="twitter:description" content="厚生労働省 job tag 等の公開情報を参考に、日本 552 職種への AI 影響を Claude Opus 4.7 が独自に可視化（非公式）。最大の仕事「一般事務」263万人は 9/10、就業者の 31% が高リスク帯。あなたの仕事は安全？" />
     <meta name="twitter:image" content="https://jasonhnd.github.io/jobs/og.png" />
-    <meta name="twitter:image:alt" content="あなたの仕事は AI に消える？日本 552 職業の AI リスクマップ" />
+    <meta name="twitter:image:alt" content="あなたの仕事は AI に消える？日本 552 職種の AI 影響マップ（非公式）" />
 
     <link rel="canonical" href="https://jasonhnd.github.io/jobs/" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
@@ -101,6 +101,15 @@
       h1 .lang-switch button[aria-pressed="true"] {
         border-color: var(--accent);
         color: var(--accent);
+      }
+      h1 .h1-sub {
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: var(--fg2);
+      }
+      h1 .h1-sub strong {
+        color: #ff8a3d;
+        font-weight: 600;
       }
       h1 .byline {
         font-size: 0.82rem;
@@ -235,6 +244,43 @@
         margin: 0 0 18px;
         font-weight: 500;
       }
+      .disclaimer {
+        background: rgba(255, 184, 77, 0.08);
+        border: 1px solid rgba(255, 184, 77, 0.4);
+        border-left: 4px solid #ffb84d;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 0 0 24px;
+        color: var(--fg);
+        font-size: 0.9rem;
+        line-height: 1.7;
+        max-width: 880px;
+      }
+      .disclaimer p { margin: 0; }
+      .disclaimer p + p { margin-top: 10px; }
+      .disclaimer strong { color: #ffb84d; font-weight: 600; }
+      .usage-notice {
+        margin: 24px 0 0;
+        padding: 16px 18px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--fg2);
+        font-size: 0.88rem;
+        line-height: 1.7;
+        max-width: 880px;
+      }
+      .usage-notice h3 {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--fg);
+        margin: 0 0 10px;
+        font-weight: 500;
+      }
+      .usage-notice p { margin: 0; }
+      .usage-notice p + p { margin-top: 8px; }
+      .usage-notice strong { color: var(--fg); }
       .controls {
         display: flex;
         gap: 18px;
@@ -612,9 +658,10 @@
     <div id="wrapper">
       <header>
         <h1>
-          <span class="accent">日本の職業マップ</span>
-          <span data-i18n="ja" class="active">— 厚生労働省 jobtag より</span>
-          <span data-i18n="en">— Japan Jobs Map (MHLW jobtag)</span>
+          <span class="accent active" data-i18n="ja">日本の職業 AI 影響マップ</span>
+          <span class="accent" data-i18n="en">Japan Jobs × AI Impact Map</span>
+          <span class="h1-sub active" data-i18n="ja">— 公開職業データをもとにした<strong>非公式</strong>の独自分析</span>
+          <span class="h1-sub" data-i18n="en">— Independent analysis of public occupation data <strong>(unofficial)</strong></span>
           <span class="byline">by <a href="https://x.com/jasonaxb" target="_blank" rel="noopener noreferrer">Jason</a></span>
           <span class="lang-switch" role="group">
             <button data-set="ja" aria-pressed="true">日本語</button>
@@ -701,6 +748,16 @@
           <span data-i18n="ja" class="active">このマップについて</span>
           <span data-i18n="en">About this map</span>
         </h2>
+
+        <div class="disclaimer active" data-i18n="ja">
+          <p><strong>本サイトは非公式サイトです。</strong>厚生労働省「職業情報提供サイト（job tag）」等の公開情報を参考に、職業データを整理・可視化した独自分析サイトです。</p>
+          <p>AI リスクスコア、リスク分類、ランキング、可視化結果は、本サイト独自の分析・加工によるものであり、<strong>厚生労働省、job tag、JILPT その他の公的機関の公式見解、評価、推奨を示すものではありません。</strong></p>
+        </div>
+        <div class="disclaimer" data-i18n="en">
+          <p><strong>This site is unofficial.</strong> It is an independent analysis that organizes and visualizes occupational data based on public information from MHLW's "Occupational Information Site (jobtag)" and related sources.</p>
+          <p>The AI risk scores, categorizations, rankings, and visualizations are the result of this site's independent analysis and processing. <strong>They do not represent the official views, assessments, or recommendations of MHLW, jobtag, JILPT, or any other public institution.</strong></p>
+        </div>
+
         <div class="meta-card" data-i18n="ja">
           <div class="meta-row">
             <span class="meta-label">採点 LLM</span>
@@ -716,11 +773,19 @@
           </div>
           <div class="meta-row">
             <span class="meta-label">データ出典</span>
-            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省 職業情報提供サイト（job tag）</a></span>
+            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span>
           </div>
           <div class="meta-row">
-            <span class="meta-label">就業者数の出典</span>
+            <span class="meta-label">職業情報データ</span>
+            <span class="meta-value">独立行政法人 労働政策研究・研修機構（JILPT）作成「職業情報データベース」掲載情報を参照</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">就業者数</span>
             <span class="meta-value">厚労省 2023 年度委託調査（賃金・労働時間・就業者数）</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">加工</span>
+            <span class="meta-value">本サイトで独自に加工して作成（非公式）</span>
           </div>
           <div class="meta-row">
             <span class="meta-label">採点スケール</span>
@@ -787,11 +852,19 @@
           </div>
           <div class="meta-row">
             <span class="meta-label">Data source</span>
-            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW Occupational Information Site (jobtag)</a></span>
+            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW "Occupational Information Site (jobtag)"</a></span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Occupational data</span>
+            <span class="meta-value">References "Occupational Information Database" published by JILPT (Japan Institute for Labour Policy and Training)</span>
           </div>
           <div class="meta-row">
             <span class="meta-label">Workforce data</span>
             <span class="meta-value">MHLW FY2023 commissioned survey (wages, hours, headcount)</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Processing</span>
+            <span class="meta-value">Independently processed and visualized by this site (unofficial)</span>
           </div>
           <div class="meta-row">
             <span class="meta-label">Scoring scale</span>
@@ -842,30 +915,43 @@
             <p><strong>Caveat:</strong> A high score does NOT predict the job disappearing. Programmers score 9/10, but AI making each programmer more productive could grow the total demand for programming. Most high-exposure jobs will be reshaped, not replaced.</p>
           </div>
         </details>
+
+        <div class="usage-notice active" data-i18n="ja">
+          <h3>使用上の注意</h3>
+          <p>本サイトの情報は、職業選択、転職、採用、人事判断等に関する<strong>参考情報</strong>として提供するものであり、特定の判断や結果を保証するものではありません。重要な意思決定にあたっては、複数の情報源を確認してください。</p>
+          <p>本サイトは、厚生労働省、job tag、JILPT と<strong>提携・協力・承認関係にあるものではありません</strong>。掲載内容に関する問い合わせは、本サイトの <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> までお願いします（公的機関への問い合わせは行わないでください）。</p>
+        </div>
+        <div class="usage-notice" data-i18n="en">
+          <h3>Usage Notice</h3>
+          <p>The information on this site is provided as <strong>reference material</strong> for purposes such as career selection, job changes, recruitment, and HR decisions. It does not guarantee any specific judgment or outcome. For important decisions, please consult multiple sources.</p>
+          <p>This site has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, or JILPT. For inquiries about the content of this site, please use the <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> page (please do not contact public institutions).</p>
+        </div>
       </section>
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.3.6 · MIT ·
+          v0.3.7 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >変更履歴</a
-          >
-          · データ出典：
+          ><br />
+          データ：
           <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer"
-            >厚生労働省 jobtag</a
-          >
+            >厚生労働省「職業情報提供サイト（job tag）」</a
+          > ・ 独立行政法人 労働政策研究・研修機構（JILPT）「職業情報データベース」を参照<br />
+          <em>※ 本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません。</em>
         </span>
         <span data-i18n="en">
-          v0.3.6 · MIT ·
+          v0.3.7 · MIT ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
             >Changelog</a
-          >
-          · Data source:
+          ><br />
+          Data:
           <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer"
-            >MHLW jobtag</a
-          >
+            >MHLW "Occupational Information Site (jobtag)"</a
+          > · References JILPT "Occupational Information Database"<br />
+          <em>※ This is an unofficial site; it does not represent the official views of MHLW, jobtag, or JILPT.</em>
         </span>
       </footer>
     </div>

@@ -9,6 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.7] - 2026-04-25
+
+### Changed (compliance / legal)
+
+Acted on a legal-risk audit. Site is now clearly framed as unofficial independent analysis, with full source attribution per jobtag's terms of use.
+
+- **H1 page title**: "日本の職業マップ — 厚生労働省 jobtag より" → "**日本の職業 AI 影響マップ** — 公開職業データをもとにした **非公式** の独自分析" (JA) and "**Japan Jobs × AI Impact Map** — Independent analysis of public occupation data **(unofficial)**" (EN). Removes any implication of MHLW/jobtag/JILPT endorsement.
+- **Disclaimer block** added at the top of the explainer section (yellow-bordered, high visibility): explicitly states the site is unofficial and that AI risk scores, categorizations, rankings, and visualizations are independent analysis — not the views of MHLW, jobtag, JILPT, or any public institution.
+- **Meta-card source rows expanded**: added "職業情報データ / Occupational data" row citing JILPT's "職業情報データベース", and "加工 / Processing" row stating the site independently processes and visualizes the data (unofficial). Both JA and EN.
+- **使用上の注意 / Usage Notice** block added at the end of the explainer: states the information is reference material only (not a guarantee for career/HR decisions), site has no partnership with MHLW/jobtag/JILPT, and inquiries should go through GitHub Issues (not public institutions).
+- **Footer expanded**: now cites both jobtag URL and JILPT 職業情報データベース as sources, with explicit "本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません" disclaimer line.
+- **Meta tags reworded** (`<title>`, `<meta name="description">`, `og:title`, `og:description`, `twitter:title`, `twitter:description`): now read as "厚生労働省 job tag 等の公開情報を参考に、日本 552 職種への AI 影響を Claude Opus 4.7 が独自に可視化した非公式の分析サイト" — softened from "AI 替代リスクを採点" framing that could imply official assessment.
+- **Keywords updated**: added "独自分析", "非公式", "unofficial"; removed "替代リスク" (sounded authoritative).
+
+### Why
+
+Per legal audit:
+- Avoid creating the impression that this is an MHLW/jobtag/JILPT product.
+- Comply with jobtag's terms of use for secondary processing of public data: name JILPT, the database, and clearly mark as "加工して作成".
+- Add usage notice to limit liability if users make career/HR decisions based on the visualization.
+
+og.png itself is unchanged because the bottom credit ("by Jason · MIT · データ：厚生労働省 jobtag") already reads as personal attribution, not official partnership; modifying the image would invalidate cached previews on Telegram/X.
+
+---
+
 ## [0.3.6] - 2026-04-25
 
 ### Added
