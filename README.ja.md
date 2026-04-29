@@ -2,7 +2,7 @@
 
 [![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://mirai-shigoto.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4.2-blue.svg)](CHANGELOG.md)
 [![Pages](https://img.shields.io/github/deployments/jasonhnd/jobs/github-pages?label=pages)](https://github.com/jasonhnd/jobs/deployments)
 
 > **🌏 [English README is here](README.md)**
