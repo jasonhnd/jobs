@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-04-29
+
+### Fixed (mobile)
+
+- **Tooltip viewport overflow.** `showTooltip()` previously hardcoded the tooltip dimensions as 360×220 when computing position; the actual tooltip with the AI-rationale row is 274–297 px tall. On a 375×812 phone with a tile near the bottom of the canvas, the tooltip overflowed by ~30 px below the fold. Replaced with measured `offsetWidth` / `offsetHeight` and a four-quadrant fallback (right-overflow → flip left of cursor; still off-screen → centered; bottom-overflow → push up; final 8 px top clamp). On mobile (`@media (max-width: 768px)`), also capped tooltip `max-height: calc(100vh - 32px)` with `overflow-y: auto`, so unusually long rationale text scrolls inside the tooltip instead of being clipped.
+- **Tap-outside-to-dismiss.** On touch devices, the only ways to close the tooltip were the × button or tapping another tile. Added a document-level `pointerdown` handler scoped to `touch-mode` tooltips: tapping anywhere outside the canvas and the tooltip dismisses cleanly. Taps inside the tooltip (scrolling long rationale, hitting ×) and taps on the canvas (delegated to `touchstart`/`click`) are excluded. Desktop hover behavior unchanged.
+
+### Repo hygiene
+
+- Added `.gitattributes` with `* text=auto eol=lf` so Dropbox / macOS sync no longer drifts CRLF into tracked files. Without this, 9 unrelated files were showing phantom "+125k / −125k" diffs that were 100% line-ending churn.
+- Added `.claude/` and `_audit/` to `.gitignore` — local-only configs and session-scoped audit notes that shouldn't ship to the public repo.
+- Bumped README.md / README.ja.md `version` badge from `0.1.0` (long stale) to current.
+
+### Verified
+
+Headless Chrome at 500×707 mobile-emulated viewport across 6 edge cases: bottom tile (no overflow, 8 px from bottom edge), tap-outside-canvas (dismisses), tap-inside-tooltip (stays), × button (dismisses), tile A→B switch (no lingering), long rationale (`max-height` + scroll engaged at 675 px cap). Desktop 1280×727 hover layout unchanged.
+
+---
+
 ## [0.4.1] - 2026-04-27
 
 ### Added
