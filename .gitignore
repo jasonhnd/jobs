@@ -45,3 +45,10 @@ raw/
 .claude/
 _audit/
 .vercel
+
+# Credentials — never commit these (defensive patterns; real credentials should
+# live OUTSIDE the repo, e.g. ~/.config/mirai-shigoto/)
+*-sa.json
+*service-account*.json
+*credentials*.json
+gcp-*.json
