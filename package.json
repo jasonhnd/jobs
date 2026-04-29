@@ -1,0 +1,13 @@
+{
+  "name": "jp-jobs",
+  "version": "0.4.2",
+  "description": "Japan jobs x AI replacement risk - bilingual visualization (JA/EN)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install": "echo 'Dependencies installed successfully'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
