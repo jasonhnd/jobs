@@ -40,3 +40,7 @@ raw/
 # uv lock file is tracked; venv and cache are not
 .venv/
 .uv-cache/
+
+# Local-only dev artifacts (don't ship to public repo)
+.claude/
+_audit/

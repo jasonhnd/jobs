@@ -1,0 +1,13 @@
+# Lock LF line endings for the repo regardless of OS / Dropbox sync.
+# Prevents CRLF drift when files are edited on Windows or pass through
+# tools that normalize to platform line endings.
+
+* text=auto eol=lf
+
+# Treat known binaries as binary (no normalization).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
