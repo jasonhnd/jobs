@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-27
+
+### Added — Custom domain
+
+- **Custom domain `mirai-shigoto.com`** purchased via Cloudflare Registrar. Site now lives at `https://mirai-shigoto.com/` (root, not subdirectory).
+- New `CNAME` file at repo root containing `mirai-shigoto.com` so GitHub Pages provisions the custom domain and Let's Encrypt TLS cert.
+
+### Changed
+
+- Replaced 13 hardcoded `https://jasonhnd.github.io/jobs/` references with `https://mirai-shigoto.com/` across:
+  - `index.html` (5: meta og:url, og:image, og:image:secure_url, twitter:image, canonical)
+  - `og-card.html` (1: visible footer URL in OG image)
+  - `README.md` / `README.ja.md` (4: badges + Live links)
+  - `prompt.en.md` / `prompt.ja.md` (2: Live visualization line)
+  - `scripts/make_prompt.py` (1: LIVE_URL constant)
+- Regenerated `og.png` (1200×630) so the visible footer shows the new domain. Title and stats unchanged.
+- Footer version bumped to v0.4.0 (custom-domain milestone).
+
+### Migration
+
+- The old URL `https://jasonhnd.github.io/jobs/` continues to work — GitHub Pages auto-redirects (301) to the custom domain once DNS resolves, so existing shared links on X / Telegram / etc. don't break.
+- Telegram / X / Facebook / LINE preview caches still hold the old URL string. Use the same cache-clearing methods documented in v0.3.4 (Telegram `@WebpageBot`, FB Sharing Debugger, etc.) to refresh card previews to the new domain.
+
+### Why "mirai-shigoto.com"
+
+User picked the top-3 recommendation: `未来の仕事` (future of jobs) — natural Japanese phrase, on-theme for AI-impact analysis, broad enough to extend to adjacent topics later, and the cheapest TLD (.com via Cloudflare Registrar at-cost pricing).
+
+---
+
 ## [0.3.11] - 2026-04-25
 
 ### Added (compliance — top-of-page banner)

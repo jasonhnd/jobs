@@ -2,7 +2,7 @@
 
 厚生労働省 jobtag（職業情報提供サイト）に掲載されている **552 の日本の職業** を、0〜10 の AI リスクスコア付きで構造化したデータです。LLM に貼り付けて、日本の労働市場が AI でどう再構成されるかを議論・分析する目的で生成されています。
 
-- ライブ可視化: https://jasonhnd.github.io/jobs/
+- ライブ可視化: https://mirai-shigoto.com/
 - ソース: https://github.com/jasonhnd/jobs
 - 元データ出典: 厚生労働省 jobtag（https://shigoto.mhlw.go.jp/User/）
 

@@ -1,6 +1,6 @@
 # Japan Jobs × AI Risk
 
-[![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://jasonhnd.github.io/jobs/)
+[![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://mirai-shigoto.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![Pages](https://img.shields.io/github/deployments/jasonhnd/jobs/github-pages?label=pages)](https://github.com/jasonhnd/jobs/deployments)
@@ -11,7 +11,7 @@
 
 データは 1 つ、UI は 2 つ。日本語は国内向け、English は海外向け。右上のトグルで切り替えられます。
 
-🔗 **公開サイト:** https://jasonhnd.github.io/jobs/
+🔗 **公開サイト:** https://mirai-shigoto.com/
 
 ---
 

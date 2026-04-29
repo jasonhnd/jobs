@@ -2,7 +2,7 @@
 
 Structured data on **552 Japanese occupations** sourced from MHLW jobtag, each scored on a 0–10 AI risk axis. Designed to be pasted into an LLM for analyzing and discussing how AI will reshape Japan's labor market.
 
-- Live visualization: https://jasonhnd.github.io/jobs/
+- Live visualization: https://mirai-shigoto.com/
 - Source: https://github.com/jasonhnd/jobs
 - Original data: MHLW Occupational Information Site / jobtag (https://shigoto.mhlw.go.jp/User/)
 

@@ -30,7 +30,7 @@ TRANSLATED_ON = "2026-04-25"
 JOBTAG_URL = "https://shigoto.mhlw.go.jp/User/"
 KARPATHY_URL = "https://github.com/karpathy/jobs"
 REPO_URL = "https://github.com/jasonhnd/jobs"
-LIVE_URL = "https://jasonhnd.github.io/jobs/"
+LIVE_URL = "https://mirai-shigoto.com/"
 
 # 8 official MHLW education buckets (in display order)
 EDU_LABELS_JA = [
