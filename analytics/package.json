@@ -1,0 +1,19 @@
+{
+  "name": "mirai-shigoto-analytics-setup",
+  "version": "0.0.1",
+  "private": true,
+  "description": "One-shot GA4 property setup script. Reads spec.yaml, applies via Admin API.",
+  "type": "module",
+  "scripts": {
+    "discover": "node setup-ga4.mjs --discover",
+    "setup": "node setup-ga4.mjs",
+    "setup:dry": "node setup-ga4.mjs --dry-run"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0",
+    "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,301 @@
+# GA4 Instrumentation Spec — single source of truth
+#
+# This file defines every custom event, parameter, dimension, and key event
+# we send to Google Analytics 4. Run `analytics/setup-ga4.mjs` to apply this
+# spec idempotently to the configured GA4 property (see analytics/README.md).
+#
+# Property:    G-GLDNBDPF13   (mirai-shigoto.com)
+# Spec author: Jason
+#
+# Naming conventions:
+#   - Event names: snake_case, lowercase, <= 40 chars
+#   - Param names: snake_case, lowercase, <= 40 chars
+#   - Param string values: <= 100 chars (GA4 truncates beyond this)
+#
+# After editing this file, re-run `node analytics/setup-ga4.mjs` to sync.
+
+# ----------------------------------------------------------------------
+# Events
+# ----------------------------------------------------------------------
+# Each event is a `gtag('event', name, params)` call from the front end.
+# `conversion: true` marks the event as a Key Event (formerly Conversion)
+# so it shows up in GA4 conversion reports.
+
+events:
+  # ---- Lifecycle & navigation ----
+  - name: map_loaded
+    description: Treemap finished initial render after data.json loaded.
+    params:
+      - { name: language, type: string, desc: "ja or en at time of load" }
+      - { name: device_category, type: string, desc: "mobile / tablet / desktop (client-derived)" }
+      - { name: tile_count, type: int, desc: "Number of tiles rendered (552 today)" }
+    conversion: false
+
+  - name: language_switch
+    description: User toggled the JA/EN language switch.
+    params:
+      - { name: from_lang, type: string }
+      - { name: to_lang, type: string }
+      - { name: path, type: string, desc: "URL path at time of switch" }
+    conversion: false
+
+  - name: layer_change
+    description: User switched the color layer (AI risk / salary / age / etc.)
+    params:
+      - { name: layer_name, type: string, desc: "ai_risk | salary | age | hours | recruit_ratio | education" }
+      - { name: from_layer, type: string }
+      - { name: language, type: string }
+    conversion: false
+
+  - name: palette_change
+    description: User toggled the color palette (default red-green vs colorblind-safe).
+    params:
+      - { name: palette, type: string, desc: "red_green | viridis (or whatever the toggle exposes)" }
+      - { name: language, type: string }
+    conversion: false
+
+  # ---- Treemap interaction ----
+  - name: occupation_tile_click
+    description: User clicked / tapped a tile on the treemap. Fires before modal opens.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: occupation_name_ja, type: string }
+      - { name: occupation_name_en, type: string }
+      - { name: ai_risk_score, type: int }
+      - { name: risk_tier, type: string, desc: "high (>=7) | mid (5-6) | low (<=4)" }
+      - { name: salary, type: int, desc: "Annual salary in 10,000 JPY units" }
+      - { name: tile_position_idx, type: int, desc: "0-indexed position in rendered rect list" }
+      - { name: language, type: string }
+    conversion: false
+
+  - name: tooltip_view
+    description: Desktop hover triggered tooltip display (proxy for desktop tile interest).
+    params:
+      - { name: occupation_id, type: int }
+      - { name: ai_risk_score, type: int }
+      - { name: language, type: string }
+    conversion: false
+
+  - name: search_used
+    description: User typed in search box and got >=1 result.
+    params:
+      - { name: query_length, type: int, desc: "We do NOT log the query text itself (PII risk)" }
+      - { name: result_count, type: int }
+      - { name: language, type: string }
+    conversion: false
+
+  # ---- Modal lifecycle (Phase 0 D1 funnel) ----
+  - name: occupation_modal_open
+    description: Occupation detail modal displayed.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: occupation_name_ja, type: string }
+      - { name: ai_risk_score, type: int }
+      - { name: risk_tier, type: string }
+      - { name: open_method, type: string, desc: "tap | hash | keyboard" }
+      - { name: language, type: string }
+    conversion: false
+
+  - name: modal_close
+    description: Modal closed without converting (user hit X / ESC / backdrop).
+    params:
+      - { name: occupation_id, type: int }
+      - { name: close_method, type: string, desc: "x | esc | backdrop" }
+      - { name: time_open_ms, type: int, desc: "Milliseconds modal was open" }
+    conversion: false
+
+  - name: report_cta_click
+    description: User clicked the primary "I want detailed report" CTA inside modal.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: occupation_name_ja, type: string }
+      - { name: ai_risk_score, type: int }
+      - { name: risk_tier, type: string }
+      - { name: language, type: string }
+    conversion: true   # mark as Key Event
+
+  - name: jobtag_outbound_click
+    description: User clicked the secondary "open official jobtag page" link in modal.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: from_modal, type: string, desc: "true | false (was it from modal or other path?)" }
+      - { name: language, type: string }
+    conversion: false
+
+  # ---- Email capture ----
+  - name: email_submit_modal
+    description: Email submitted from inside an occupation modal (occupation-bound, T2 in OPC plan).
+    params:
+      - { name: occupation_id, type: int }
+      - { name: occupation_name_ja, type: string }
+      - { name: ai_risk_score, type: int }
+      - { name: risk_tier, type: string }
+      - { name: language, type: string }
+      - { name: success, type: string, desc: "true | false" }
+      - { name: error_reason, type: string, desc: "invalid_email | server_error | network | none" }
+    conversion: true   # HIGHEST value — QI 5
+
+  - name: email_submit_header
+    description: Email submitted from the page-bottom generic newsletter card (T1 in OPC plan).
+    params:
+      - { name: language, type: string }
+      - { name: success, type: string }
+      - { name: error_reason, type: string }
+    conversion: true   # QI 3
+
+  # ---- Feedback ----
+  - name: feedback_submit
+    description: User submitted the bottom-of-page feedback form.
+    params:
+      - { name: selected_options, type: string, desc: "Comma-joined option keys (b2c_career,b2b_hr,...)" }
+      - { name: freetext_length, type: int, desc: "Char count of free-text answer (text itself NOT logged)" }
+      - { name: has_email, type: string, desc: "true | false (whether user attached email)" }
+      - { name: language, type: string }
+    conversion: true   # QI 8 — highest unit value
+
+  # ---- Sharing ----
+  - name: share_x_click
+    description: User clicked the X share button inside an occupation modal.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: ai_risk_score, type: int }
+      - { name: language, type: string }
+    conversion: false
+
+# ----------------------------------------------------------------------
+# Custom Dimensions — event-scoped
+# ----------------------------------------------------------------------
+# Every event parameter we want to GROUP BY in standard reports must be
+# registered as a custom dimension. Built-in dimensions (utm_source,
+# session_source, page_path, country, etc.) do NOT need to be registered.
+
+event_scoped_dimensions:
+  - parameter_name: occupation_id
+    display_name: Occupation ID
+    description: Numeric ID matching jobtag (1..580).
+
+  - parameter_name: occupation_name_ja
+    display_name: Occupation (JA)
+    description: Japanese occupation title from data.json.
+
+  - parameter_name: occupation_name_en
+    display_name: Occupation (EN)
+    description: English occupation title from data.json.
+
+  - parameter_name: ai_risk_score
+    display_name: AI Risk Score
+    description: 0–10 LLM-scored AI exposure for the occupation.
+
+  - parameter_name: risk_tier
+    display_name: Risk Tier
+    description: Bucketed AI risk (high >=7, mid 5-6, low <=4).
+
+  - parameter_name: salary
+    display_name: Annual Salary
+    description: Annual salary in 10,000 JPY units (manyen).
+
+  - parameter_name: layer_name
+    display_name: Layer Name
+    description: Active color layer at time of event.
+
+  - parameter_name: open_method
+    display_name: Modal Open Method
+    description: How the modal was triggered (tap / hash / keyboard).
+
+  - parameter_name: close_method
+    display_name: Modal Close Method
+    description: How the modal was dismissed (x / esc / backdrop).
+
+  - parameter_name: selected_options
+    display_name: Feedback Selected Options
+    description: Comma-joined feedback option keys.
+
+  - parameter_name: has_email
+    display_name: Feedback Has Email
+    description: Whether the feedback form included an email.
+
+  - parameter_name: error_reason
+    display_name: Submit Error Reason
+    description: Error code when an email/feedback submit failed.
+
+  - parameter_name: from_modal
+    display_name: From Modal
+    description: Whether an outbound click came from the modal vs elsewhere.
+
+  - parameter_name: tile_position_idx
+    display_name: Tile Position Index
+    description: 0-indexed rendered position of the clicked tile (proxy for prominence).
+
+  - parameter_name: success
+    display_name: Submit Success
+    description: Whether the submit succeeded (true/false).
+
+  - parameter_name: palette
+    display_name: Color Palette
+    description: Active color palette at time of event.
+
+# ----------------------------------------------------------------------
+# Custom Dimensions — user-scoped (persist across sessions)
+# ----------------------------------------------------------------------
+
+user_scoped_dimensions:
+  - parameter_name: language_preference
+    display_name: Language Preference
+    description: User's language at time of first session (ja / en).
+
+  - parameter_name: is_subscribed
+    display_name: Is Subscribed
+    description: Whether the user has ever submitted an email (true/false).
+
+  - parameter_name: subscribed_occupation_id
+    display_name: Subscribed Occupation ID
+    description: Occupation_id captured at the moment of email submit (if any).
+
+  - parameter_name: has_submitted_feedback
+    display_name: Has Submitted Feedback
+    description: Whether the user has ever submitted a feedback form (true/false).
+
+# ----------------------------------------------------------------------
+# Key Events (formerly "conversions")
+# ----------------------------------------------------------------------
+# These are auto-derived from `events[].conversion: true`. Listed here
+# explicitly for visibility.
+
+key_events:
+  - email_submit_modal      # QI 5 (email + occupation)
+  - email_submit_header     # QI 3 (email only)
+  - feedback_submit         # QI 8 (feedback + tagging)
+  - report_cta_click        # QI 1 (intent proxy)
+
+# ----------------------------------------------------------------------
+# Audiences — created MANUALLY in the GA4 dashboard
+# ----------------------------------------------------------------------
+# Audience definitions in the Admin API are very complex JSON; for v1 of
+# the OPC validation we create them by clicking through the dashboard.
+# This block documents what to create and the rough filter logic.
+
+audiences_manual:
+  - name: Subscribed
+    description: User has submitted an email at least once.
+    filter: "event_count of (email_submit_modal OR email_submit_header) >= 1"
+    membership_duration_days: 540  # max in GA4
+
+  - name: Engaged but unconverted
+    description: Opened modal but never submitted email (in last 30 days).
+    filter: "occupation_modal_open >= 1 AND email_submit_modal = 0 AND email_submit_header = 0"
+    membership_duration_days: 30
+
+  - name: B2B signal
+    description: Submitted feedback that includes a B2B option.
+    filter: "feedback_submit where selected_options contains 'b2b_hr' OR 'b2b_training'"
+    membership_duration_days: 540
+
+  - name: High-intent occupations
+    description: Opened a high-risk modal (proxy for high anxiety).
+    filter: "occupation_modal_open where risk_tier = 'high'"
+    membership_duration_days: 90
+
+  - name: Returning visitors
+    description: Came back for a second session within 28 days. (GA4 has built-in similar — optional.)
+    filter: "session_start >= 2 in 28 days"
+    membership_duration_days: 28
