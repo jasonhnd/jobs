@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-04-27
+
+### Added
+
+- **Google Analytics 4 (gtag.js)** added to `<head>`, measurement ID `G-GLDNBDPF13`. Loads asynchronously via `<script async>` so it does not block page render.
+- Site now has dual analytics: Cloudflare Web Analytics (privacy-friendly, ~5KB, no cookies) + Google Analytics 4 (richer event funnel, audience demographics, retention reports). The two report independently — useful for cross-validating bounce/conversion numbers and for checking whether ad-blockers (which typically block GA4 but not Cloudflare's `static.cloudflareinsights.com` domain) skew traffic estimates.
+
+### Note
+
+GA4 sets cookies by default. If audience exposure expands to EU/UK/CA visitors at material scale, a cookie consent banner may eventually be needed under GDPR/CCPA. Not blocking for current personal-project scale, but flagged for future consideration.
+
+---
+
 ## [0.4.0] - 2026-04-27
 
 ### Added — Custom domain
