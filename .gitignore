@@ -44,3 +44,4 @@ raw/
 # Local-only dev artifacts (don't ship to public repo)
 .claude/
 _audit/
+.vercel
