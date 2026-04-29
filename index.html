@@ -666,6 +666,10 @@
         }
         #tooltip {
           max-width: calc(100vw - 32px);
+          max-height: calc(100vh - 32px);
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
           font-size: 0.78rem;
           padding: 10px 12px;
         }
@@ -1518,12 +1522,22 @@
           document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${esc(k)}</span><span class="value">${esc(v)}</span>`).join("");
           lastTooltipId = d.id;
         }
+        // Measure actual rendered dimensions (works while opacity:0; tooltip is display:block)
+        const ttW = tt.offsetWidth;
+        const ttH = tt.offsetHeight;
+        const VW = window.innerWidth;
+        const VH = window.innerHeight;
+        const PAD = 8;
         let tx = mx + 16, ty = my - 16;
-        if (tx + 360 > window.innerWidth) tx = mx - 376;
-        if (ty < 10) ty = my + 16;
-        if (ty + 220 > window.innerHeight) ty = my - 220;
-        tt.style.left = Math.max(8, tx) + "px";
-        tt.style.top = Math.max(8, ty) + "px";
+        // Horizontal: if right overflow, flip to left of cursor; if still off-screen, center
+        if (tx + ttW > VW - PAD) tx = mx - ttW - 16;
+        if (tx < PAD) tx = Math.max(PAD, Math.floor((VW - ttW) / 2));
+        // Vertical: prefer above cursor; if overflow, push up; final clamp to top
+        if (ty < PAD) ty = my + 16;
+        if (ty + ttH > VH - PAD) ty = VH - ttH - PAD;
+        if (ty < PAD) ty = PAD;
+        tt.style.left = tx + "px";
+        tt.style.top = ty + "px";
         tt.classList.add("visible");
       }
       function hideTooltip() {
@@ -1936,6 +1950,20 @@
 
       // Tooltip close button (used on touch devices)
       document.getElementById("tooltipClose").addEventListener("click", () => {
+        hideTooltip();
+        hovered = null;
+        lastTapped = null;
+        draw();
+      });
+
+      // Tap outside canvas + tooltip dismisses the touch-mode tooltip.
+      // Only engages when tooltip is in touch-mode (i.e., shown via tap), so desktop hover behavior is unchanged.
+      document.addEventListener("pointerdown", e => {
+        const tt = document.getElementById("tooltip");
+        if (!tt.classList.contains("touch-mode")) return;
+        if (!tt.classList.contains("visible")) return;
+        if (tt.contains(e.target)) return;        // tap inside tooltip (X button, scroll) — don't dismiss
+        if (e.target === canvas) return;          // tap on canvas — let touchstart/click handle it
         hideTooltip();
         hovered = null;
         lastTapped = null;
