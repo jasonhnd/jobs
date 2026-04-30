@@ -1,0 +1,53 @@
+# 日本の職業 AI 影響マップ — Japan Jobs × AI Impact Map
+
+> An independent (unofficial) analysis site that visualizes Japan's 552 occupations from MHLW jobtag, scored 0–10 for AI replacement risk by Claude Opus 4.7. Bilingual (Japanese + English). MIT licensed.
+
+This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or JILPT. The AI risk scores are LLM estimates, NOT official government forecasts. Treat them as opinion-grade visualization, not statistical truth.
+
+## Key facts
+
+- **552 occupations** sourced from 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets
+- **Per-occupation fields:** AI risk score (0–10), annual salary (万円), workforce size, average age, monthly work hours, effective recruit ratio, education distribution, employment-type distribution, hourly wage
+- **AI risk score interpretation:** "How much the work may be reshaped by AI" — NOT "probability the job disappears." High-risk occupations may see task restructuring; low-risk occupations require physical presence, on-site judgment, or human-to-human interaction.
+- **Methodology:** Scored by Claude Opus 4.7 using a calibrated rubric across all 552 occupations, anchored on Karpathy's BLS exposure rubric (https://github.com/karpathy/jobs/blob/main/score.py) and ported to Japan's labor market context.
+- **Operator:** Jason (individual)
+- **License:** MIT (data + code)
+- **Hosted on:** Vercel (Tokyo edge node)
+
+## Pages
+
+- [Main interactive map](https://mirai-shigoto.com/): Squarified treemap of all 552 occupations. Six color layers (AI risk / annual salary / average age / monthly hours / recruit ratio / education). Bilingual UI with JA/EN toggle.
+- [Privacy Policy](https://mirai-shigoto.com/privacy): Data handling, third-party services (Cloudflare, GA4, Vercel, Resend), cookies, retention, user rights, contact.
+
+## Data
+
+- [data.json](https://mirai-shigoto.com/data.json) — Compact JSON of all 552 occupations (~1.3 MB). Bilingual labels and rationales.
+- [GitHub repository](https://github.com/jasonhnd/jobs) — Source code, scraping pipeline, AI risk scoring scripts, change log.
+- [CHANGELOG](https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md) — Versioned release notes.
+
+## Notable findings
+
+(Sample insights from the dataset — these are observations, not policy claims.)
+
+- The single largest occupation by workforce — **一般事務 (General office clerk, ~2.63 million workers)** — scores high on AI risk (9/10). Most of Japan's white-collar workforce sits in similarly exposed brackets.
+- Occupations with high physical / interpersonal / on-site components score low: **保育士 (childcare worker)** ≈ 4/10, **看護師 (nurse)** ≈ 4/10, **潜水士 (diver)** ≈ 1/10.
+- High AI risk does NOT correlate with low salary or low education. Many high-paying knowledge-work occupations (programmer, accountant, translator) score 7+/10 because their core tasks are PC-completable.
+- About **31% of Japan's working population** is in occupations scoring ≥7/10.
+
+## Sources
+
+- 厚生労働省 職業情報提供サイト（job tag）: https://shigoto.mhlw.go.jp/User/
+- 独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース: https://www.jil.go.jp/
+- Inspiration: [karpathy/jobs](https://github.com/karpathy/jobs) (US BLS counterpart)
+
+## How to cite
+
+If you reference findings from this site in journalism, research, or social media:
+
+> Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/
+
+Always note: "AI risk scores are LLM estimates, not official government forecasts."
+
+## Disclaimer
+
+This is an independent analysis site. It does not represent the official views of MHLW, jobtag, or JILPT. The AI risk scores are subjective LLM estimates and should not be used as the sole basis for personal career decisions.

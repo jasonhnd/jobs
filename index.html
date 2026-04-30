@@ -36,7 +36,69 @@
     <meta name="twitter:image:alt" content="あなたの仕事は AI に消える？日本 552 職種の AI 影響マップ（非公式）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/" />
+    <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/" />
+    <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
+
+    <!-- Schema.org JSON-LD: WebSite + Dataset + Person for SEO + GEO (AI search engines extract these). -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://mirai-shigoto.com/#website",
+          "url": "https://mirai-shigoto.com/",
+          "name": "日本の職業 AI 影響マップ",
+          "alternateName": "Japan Jobs × AI Impact Map",
+          "description": "厚生労働省 job tag 等の公開データをもとに、日本 552 職種への AI 影響を可視化した独自分析サイト（非公式）。",
+          "inLanguage": ["ja", "en"],
+          "creator": { "@id": "https://mirai-shigoto.com/#person" },
+          "license": "https://opensource.org/licenses/MIT",
+          "isAccessibleForFree": true
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://mirai-shigoto.com/#dataset",
+          "name": "Japan 552 Occupations × AI Impact (mirai-shigoto.com)",
+          "alternateName": "日本 552 職種の AI 影響マップ",
+          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split. Bilingual JA/EN. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
+          "url": "https://mirai-shigoto.com/",
+          "sameAs": "https://github.com/jasonhnd/jobs",
+          "creator": { "@id": "https://mirai-shigoto.com/#person" },
+          "license": "https://opensource.org/licenses/MIT",
+          "isAccessibleForFree": true,
+          "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
+          "spatialCoverage": { "@type": "Place", "name": "Japan" },
+          "temporalCoverage": "2025/2026",
+          "variableMeasured": [
+            { "@type": "PropertyValue", "name": "AI replacement risk score (0-10)" },
+            { "@type": "PropertyValue", "name": "Annual salary (10,000 JPY units)" },
+            { "@type": "PropertyValue", "name": "Workforce size" },
+            { "@type": "PropertyValue", "name": "Average age" },
+            { "@type": "PropertyValue", "name": "Monthly working hours" },
+            { "@type": "PropertyValue", "name": "Effective recruit ratio" },
+            { "@type": "PropertyValue", "name": "Education distribution" }
+          ],
+          "distribution": [
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/json",
+              "contentUrl": "https://mirai-shigoto.com/data.json"
+            }
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://mirai-shigoto.com/#person",
+          "name": "Jason",
+          "url": "https://mirai-shigoto.com/",
+          "sameAs": ["https://x.com/jasonaxb", "https://github.com/jasonhnd"]
+        }
+      ]
+    }
+    </script>
 
     <!-- Cloudflare Web Analytics (privacy-friendly, no cookies, no GDPR banner; in <head> so bounce visits fire the beacon early) -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
@@ -1131,7 +1193,7 @@
 
       <footer>
         <span data-i18n="ja" class="active">
-          v0.4.2 ·
+          v0.5.0 ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a> ·
           <a href="/privacy">プライバシー</a> ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
@@ -1145,7 +1207,7 @@
           <em>※ 本サイトは非公式サイトであり、厚生労働省・job tag・JILPT の公式見解を示すものではありません。</em>
         </span>
         <span data-i18n="en">
-          v0.4.2 ·
+          v0.5.0 ·
           <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a> ·
           <a href="/privacy?lang=en">Privacy</a> ·
           <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·

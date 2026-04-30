@@ -1,0 +1,64 @@
+# robots.txt for mirai-shigoto.com
+# This site is an open, MIT-licensed independent analysis project.
+# All crawlers — including AI / LLM training & retrieval bots — are welcome.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# AI / LLM crawlers — explicitly opted in.
+# Discoverability via AI search (ChatGPT, Claude, Perplexity, Gemini) is
+# part of this project's distribution strategy.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+Sitemap: https://mirai-shigoto.com/sitemap.xml
