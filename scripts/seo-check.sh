@@ -4,12 +4,17 @@
 # What it checks:
 #   - /robots.txt: reachable, has Sitemap directive, AI crawler whitelist
 #   - /sitemap.xml: reachable, valid <loc>, hreflang alternates
-#   - /llms.txt: reachable, expected sections (GEO emerging standard)
+#   - /llms.txt: reachable, expected sections + How-to-cite block
+#   - /llms-full.txt: reachable (extended GEO companion)
 #   - For each URL in the sitemap:
 #       HTTP status, <title> length, meta description length, canonical,
 #       hreflang count, OG tags (5 required), Twitter Card,
-#       Schema.org JSON-LD (presence + @types), 4 analytics scripts,
-#       HSTS, Vercel edge node, <html lang>, viewport meta.
+#       Schema.org JSON-LD (presence + @types + page-specific expectations:
+#         home → FAQPage / ItemList / Dataset / Organization;
+#         /privacy → BreadcrumbList),
+#       dns-prefetch + preconnect (perf hints),
+#       4 analytics scripts, HSTS, Vercel edge node,
+#       <html lang>, viewport meta.
 #
 # Usage:
 #   ./scripts/seo-check.sh                              # production (default)
@@ -99,8 +104,32 @@ if [ -z "$LLMS" ]; then
 else
   SIZE=$(wc -c <<<"$LLMS" | tr -d ' ')
   ok "reachable (${SIZE} bytes)"
-  for sect in "Key facts" "Pages" "Methodology" "Disclaimer"; do
+  for sect in "Key facts" "Pages" "Methodology" "FAQ" "How to cite" "Disclaimer"; do
     if grep -qi "$sect" <<<"$LLMS"; then
+      ok "section: '$sect'"
+    else
+      warn "missing section: '$sect'"
+    fi
+  done
+  # BibTeX block (citation hygiene — AI engines quote this verbatim)
+  if grep -qi "@misc" <<<"$LLMS"; then
+    ok "BibTeX citation block present"
+  else
+    warn "no BibTeX citation block (recommend for academic / journalistic citation)"
+  fi
+fi
+
+# ---- llms-full.txt (extended GEO) ----------------------------------------
+
+section "llms-full.txt (extended GEO)"
+LLMSFULL=$(fetch_body "$BASE/llms-full.txt")
+if [ -z "$LLMSFULL" ]; then
+  warn "$BASE/llms-full.txt unreachable (extended GEO companion, optional)"
+else
+  SIZE=$(wc -c <<<"$LLMSFULL" | tr -d ' ')
+  ok "reachable (${SIZE} bytes)"
+  for sect in "methodology" "rubric" "Frequently asked questions" "How to cite" "Disclaimer"; do
+    if grep -qi "$sect" <<<"$LLMSFULL"; then
       ok "section: '$sect'"
     else
       warn "missing section: '$sect'"
@@ -207,8 +236,42 @@ else
       # Extract all "@type": "Foo" occurrences (use awk to avoid greedy regex)
       TYPES=$(grep -oE '"@type": *"[^"]+"' <<<"$HTML" | awk -F'"' '{print $4}' | sort -u | tr '\n' ' ')
       [ -n "$TYPES" ] && note "@types: ${TYPES}"
+
+      # Page-specific schema expectations (the high-impact GEO additions):
+      # home page  → Organization + WebSite + Dataset + ItemList + FAQPage + SpeakableSpecification
+      # /privacy   → WebPage + BreadcrumbList + SpeakableSpecification
+      case "$URL" in
+        */|"$BASE")
+          for st in Organization WebSite Dataset ItemList FAQPage SpeakableSpecification; do
+            if printf '%s' "$TYPES" | grep -qw "$st"; then
+              ok "schema: $st"
+            else
+              warn "schema missing: $st (home page should have it)"
+            fi
+          done
+          ;;
+        */privacy*)
+          for st in WebPage BreadcrumbList SpeakableSpecification; do
+            if printf '%s' "$TYPES" | grep -qw "$st"; then
+              ok "schema: $st"
+            else
+              warn "schema missing: $st (privacy page should have it)"
+            fi
+          done
+          ;;
+      esac
     else
       fail "no Schema.org JSON-LD"
+    fi
+
+    # Performance hints — dns-prefetch + preconnect for analytics origins
+    # (warms TCP/TLS while HTML parses; ~150–250ms saved on first beacon).
+    PREFETCH=$(grep -oE 'rel="dns-prefetch"' <<<"$HTML" | wc -l | tr -d ' ')
+    PRECONNECT=$(grep -oE 'rel="preconnect"' <<<"$HTML" | wc -l | tr -d ' ')
+    if [ "$PREFETCH" -ge 1 ] && [ "$PRECONNECT" -ge 1 ]; then
+      ok "perf hints: ${PREFETCH} dns-prefetch + ${PRECONNECT} preconnect"
+    else
+      warn "no dns-prefetch / preconnect (analytics origins should warm TCP/TLS)"
     fi
 
     # 4 analytics trackers
