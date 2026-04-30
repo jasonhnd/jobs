@@ -1306,7 +1306,7 @@
         </p>
         <p class="intro" data-i18n="ja">
           <strong>色</strong>は選択中の指標。上部のレイヤー切替で 6 種（AI リスク／年収／平均年齢／労働時間／求人倍率／学歴）を切り替え。<br>
-          タイルをクリックすると jobtag の元ページが開きます。
+          タイルをクリックすると、その職業の AI 影響分析ページ（<code>/occ/&lt;id&gt;-&lt;slug&gt;</code>）が開きます。各分析ページには jobtag 公式ページへのリンクも記載しています。
         </p>
         <p class="intro" data-i18n="ja">
           <strong>AI リスク</strong>は 0〜10。AI が今後その職業をどれほど作り変えるかの推定値です。<br>
@@ -1385,7 +1385,7 @@
         </p>
         <p class="intro" data-i18n="en">
           Tile <strong>color</strong> shows the selected metric. Use the top toggle to switch among 6 layers: AI Risk / Salary / Avg Age / Hours / Recruit Ratio / Education.<br>
-          Click any tile to open the official jobtag detail page.
+          Click any tile to open the per-occupation AI impact analysis page (<code>/occ/&lt;id&gt;-&lt;slug&gt;</code>). Each analysis page also links out to the official jobtag detail.
         </p>
         <p class="intro" data-i18n="en">
           <strong>AI Risk</strong> is a 0–10 estimate of how much AI will reshape each occupation.<br>
@@ -1507,6 +1507,19 @@
       let dpr = window.devicePixelRatio || 1;
       const MARGIN = 4, GAP = 1;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+
+      // Build the /occ/<id>-<slug> URL for an occupation record. Slug logic
+      // mirrors scripts/build_occupations.py exactly so the URLs we hand
+      // off here always match a generated static page.
+      function slugifyEn(s) {
+        if (!s) return "";
+        return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+      }
+      function occUrl(rec) {
+        if (!rec || rec.id == null) return "/";
+        const slug = slugifyEn(rec.name_en);
+        return slug ? "/occ/" + rec.id + "-" + slug : "/occ/" + rec.id;
+      }
 
       const EDU_LABELS = ["高卒未満","高卒","専門学校卒","短大卒","高専卒","大卒","修士課程卒（修士と同等の専門職学位を含む）","博士課程卒"];
       const EDU_LABEL_EN = {"高卒未満":"Below HS","高卒":"High school","専門学校卒":"Vocational","短大卒":"Junior college","高専卒":"Technical college","大卒":"University","修士課程卒（修士と同等の専門職学位を含む）":"Master's","博士課程卒":"Doctorate"};
@@ -2239,8 +2252,8 @@
         if (e && typeof e.preventDefault === "function") e.preventDefault();
         const tt = document.getElementById("tooltip");
         if (lastTapped && lastTapped.id === hit.id && Date.now() - lastTapTime < 1500) {
-          // Second tap on same tile -> open
-          if (hit.url) window.open(hit.url, "_blank", "noopener,noreferrer");
+          // Second tap on same tile -> open the occupation analysis page
+          window.open(occUrl(hit), "_blank", "noopener,noreferrer");
           lastTapped = null;
           hideTooltip();
           return;
@@ -2276,8 +2289,8 @@
         // (most browsers will fire click after touchstart but our preventDefault should suppress it)
         if (lastTapped) { return; }
         const hit = hitTest(e.clientX, e.clientY);
-        if (hit && hit.url) {
-          window.open(hit.url, "_blank", "noopener,noreferrer");
+        if (hit) {
+          window.open(occUrl(hit), "_blank", "noopener,noreferrer");
           updateHashFor(hit.id);
         }
       });
@@ -2317,7 +2330,7 @@
         else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = Math.max(0, keyboardIdx - 1);
         else if (e.key === "Enter" || e.key === " ") {
           const r = rects[keyboardIdx];
-          if (r && r.url) window.open(r.url, "_blank", "noopener,noreferrer");
+          if (r) window.open(occUrl(r), "_blank", "noopener,noreferrer");
         } else if (e.key === "Escape") {
           hideTooltip(); hovered = null; draw();
         } else {
@@ -2402,7 +2415,7 @@
           if (fb) {
             const renderFallback = () => {
               fb.innerHTML = data.slice(0, 552).map(d =>
-                `<li><a href="${d.url}" target="_blank" rel="noopener noreferrer">${(d.name_en || d.name_ja)} / ${d.name_ja} — AI risk ${d.ai_risk}/10</a></li>`
+                `<li><a href="${occUrl(d)}">${(d.name_en || d.name_ja)} / ${d.name_ja} — AI risk ${d.ai_risk}/10</a></li>`
               ).join("");
             };
             if ("requestIdleCallback" in window) {
