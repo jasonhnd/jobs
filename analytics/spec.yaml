@@ -162,6 +162,16 @@ events:
       - { name: language, type: string }
     conversion: false
 
+  # ---- Theme (light/dark) ----
+  - name: theme_change
+    description: User toggled the light/dark theme via the round button next to the language switcher.
+    params:
+      - { name: from, type: string, desc: "previous theme — 'light' | 'dark'" }
+      - { name: to, type: string, desc: "next theme — 'light' | 'dark'" }
+      - { name: was_explicit, type: string, desc: "true if user already had an explicit choice in localStorage; false if first toggle from system default" }
+      - { name: system_pref, type: string, desc: "browser-reported prefers-color-scheme — 'light' | 'dark'" }
+    conversion: false
+
 # ----------------------------------------------------------------------
 # Custom Dimensions — event-scoped
 # ----------------------------------------------------------------------
@@ -233,6 +243,23 @@ event_scoped_dimensions:
   - parameter_name: palette
     display_name: Color Palette
     description: Active color palette at time of event.
+
+  # ---- theme_change params ----
+  - parameter_name: from
+    display_name: Theme From
+    description: Previous theme before user toggled (light / dark). Used by event `theme_change`.
+
+  - parameter_name: to
+    display_name: Theme To
+    description: Next theme after user toggled (light / dark). Used by event `theme_change`.
+
+  - parameter_name: was_explicit
+    display_name: Theme Was Explicit
+    description: "true if user already had an explicit choice in localStorage; false on first toggle from system default."
+
+  - parameter_name: system_pref
+    display_name: System Color Preference
+    description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — user-scoped (persist across sessions)
