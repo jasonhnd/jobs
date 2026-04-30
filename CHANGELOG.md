@@ -9,6 +9,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-04-30
+
+### Added — Hosting migration
+
+- **Migrated production hosting from GitHub Pages to Vercel.** mirai-shigoto.com now serves from Vercel's Tokyo edge node (`hnd1`) — sub-50ms TTFB for Japanese visitors. SSL auto-renewed, HSTS `max-age=63072000`, cleanUrls enabled (`/privacy.html` → `/privacy`).
+- **`vercel.json`** — explicit static-site config (`framework: null`, `buildCommand: null`) so Vercel doesn't misdetect the Python pipeline scripts as a serverless target. Cache headers for `data.json` (5min CDN) and `og.png` (1 day).
+- **GitHub Pages → redirect.** New orphan `gh-pages` branch with a single redirect HTML; `jasonhnd.github.io/jobs/*` now 301-style redirects to the corresponding path on `mirai-shigoto.com` (preserves path / query / hash). Source-of-truth code stays on `main`, served by Vercel.
+- **DNS:** Cloudflare DNS-only (grey-cloud) `A 76.76.21.21` for the apex domain. Cloudflare Email Routing forwards `privacy@mirai-shigoto.com` → operator inbox.
+
+### Added — Privacy policy
+
+- **`/privacy` (bilingual JA/EN)** — APPI + GDPR-friendly coverage: operator, data collected, use purpose, third-party services (Google / Cloudflare / Vercel / Resend with policy links), cookies (`_ga`, `__cf_bm`), retention (email kept while subscribed + 30 days post-unsubscribe), user rights (access/correction/deletion/unsubscribe/complaint), contact (`privacy@mirai-shigoto.com`).
+- **Footer link** added to both JA + EN footer copies, between MIT and GitHub.
+- **MIT badge** in footer is now a real link to the LICENSE file (was previously bare text).
+
+### Added — Analytics & observability
+
+- **Vercel Web Analytics** + **Vercel Speed Insights** script tags in `<head>`. Now four trackers report in parallel: Cloudflare Web Analytics (cookieless), GA4 (`G-GLDNBDPF13`), Vercel WA, Vercel Speed Insights. All four are present on every page (index + privacy) — no self-blinding.
+- **`analytics/spec.yaml`** — single source of truth for GA4 instrumentation: 15 events, 16 event-scoped + 4 user-scoped custom dimensions, 4 key events (conversions), 5 audiences (manual). Cross-checked: every dimension used by some event, derived key events match explicit list.
+- **`analytics/setup-ga4.mjs`** — idempotent Node.js script that reads `spec.yaml` and applies via the GA4 Admin API (custom dimensions + key events). Re-runnable; existing entities skipped, never modified. Audiences and data retention remain manual dashboard tasks (filter JSON too brittle to spec declaratively).
+- **CLS=0.27 perf fix** (separate sub-fix in 0.4.x line) — reserved layout space for treemap canvas + stats panel so the page doesn't reflow when `data.json` arrives. Speed Insights reports green now.
+
+### Added — SEO + GEO
+
+- **`/robots.txt`** — explicitly opts in 17 AI / LLM crawlers (GPTBot, ClaudeBot, Google-Extended, PerplexityBot, Applebot-Extended, CCBot, etc.). Discoverability via AI search is part of the project's distribution strategy. Sitemap reference included.
+- **`/sitemap.xml`** — both URLs (`/`, `/privacy`) with `<xhtml:link rel="alternate" hreflang="...">` for JA / EN / x-default.
+- **`/llms.txt`** — Markdown summary per the [llmstxt.org](https://llmstxt.org/) emerging standard. Gives AI search engines a clean overview: key facts, methodology, sample findings, sources, citation guidance, disclaimer.
+- **Schema.org JSON-LD** in `<head>` — `WebSite` + `Dataset` + `Person` graph, including `variableMeasured` for the dataset (AI risk score, salary, workforce, age, hours, recruit ratio, education distribution). Helps Google's Dataset Search and AI search engines understand what this site is.
+- **`<link rel="alternate" hreflang>`** tags on both `index.html` and `privacy.html` (JA / EN / x-default). Pairs with the in-page lang switcher for full multilingual SEO.
+
+### Internal — Repo hygiene
+
+- `.gitignore` extended: `.claude/`, `_audit/`, `.vercel/`, defensive `*-sa.json` / `*credentials*.json` patterns to block accidental credential commits.
+- `.gitattributes` locks `* text=auto eol=lf` (prevents Dropbox / macOS sync from drifting CRLF into tracked files; killed a 125k-line phantom diff that lasted multiple sessions).
+
+### Migration verification
+
+- `mirai-shigoto.com` HTTP 200, `server: Vercel`, `x-vercel-cache: HIT`, `x-vercel-id: hnd1::...`
+- `/privacy` 200, all 4 analytics scripts present
+- `jasonhnd.github.io/jobs/` redirects to `mirai-shigoto.com/` (path + hash preserved)
+- 4 `cleanUrls` redirects working (`/privacy.html` → `/privacy`)
+
+---
+
 ## [0.4.2] - 2026-04-29
 
 ### Fixed (mobile)
