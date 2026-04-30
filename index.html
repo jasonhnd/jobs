@@ -52,8 +52,9 @@
       gtag('config', 'G-GLDNBDPF13');
     </script>
 
-    <!-- Vercel Web Analytics. Path auto-resolves when hosted on Vercel; fails silently elsewhere. Speed Insights removed (paid add-on, not needed for a static site). -->
+    <!-- Vercel Web Analytics + Speed Insights (paid add-on, $10/mo). Paths auto-resolve when hosted on Vercel; fail silently elsewhere. -->
     <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 
     <style>
       *,
@@ -372,6 +373,12 @@
       #searchInput:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 2px;
+      }
+      /* Reserve canvas space upfront so the visibility flip on data load doesn't shift layout (CLS fix). */
+      #treemap {
+        display: block;
+        width: 100%;
+        min-height: 60vh;
       }
       .loading-state {
         padding: 40px;
@@ -934,7 +941,7 @@
       </div>
       <canvas id="treemap" tabindex="0" role="application"
               aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
-              style="display:none"></canvas>
+              style="visibility:hidden"></canvas>
       <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
 
       <section class="explainer" aria-label="Methodology and data sources">
@@ -2060,7 +2067,7 @@
           percentiles = computePercentiles(data);
           const ls = document.getElementById("loadingState");
           if (ls) ls.remove();
-          canvas.style.display = "block";
+          canvas.style.visibility = "visible";
           // Build offscreen fallback list for screen readers
           const fb = document.getElementById("canvasFallback");
           if (fb) {
