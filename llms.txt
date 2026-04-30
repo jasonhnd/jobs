@@ -33,9 +33,9 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 (Sample insights from the dataset — these are independent LLM estimates, not policy claims.)
 
 - The single largest occupation by workforce — **一般事務 (General office clerk, ~2.63 million workers)** — scores **9/10** on AI risk. Most of Japan's white-collar workforce sits in similarly exposed brackets.
-- Occupations with high physical / interpersonal / on-site components score low: **保育士 (childcare worker)** ≈ 4/10, **看護師 (nurse)** ≈ 4/10, **潜水士 (diver)** ≈ 1/10.
+- Occupations with high physical / interpersonal / on-site components score low: **保育士 (childcare worker)** ≈ 3/10, **看護師 (nurse)** ≈ 4/10, **潜水士 (diver)** ≈ 1/10.
 - High AI risk does NOT correlate with low salary or low education. Many high-paying knowledge-work occupations (programmer, accountant, translator) score 7+/10 because their core tasks are PC-completable.
-- About **31% of Japan's working population** is in occupations scoring ≥7/10.
+- About **34% of Japan's working population** is in occupations scoring ≥7/10.
 - The AI risk axis is independent of the workforce-size axis: tile **area** in the treemap equals workforce size (fixed across tabs); tile **color** is whichever metric (AI risk / salary / age / hours / recruit ratio / education) the user has selected.
 
 ## Methodology
@@ -54,10 +54,10 @@ A: It reflects how much the work may be reshaped by AI, not the probability the 
 A: 一般事務 (General office clerk), with approximately 2.63 million workers, scores 9/10 — the highest-risk bracket among Japan's largest occupations.
 
 **Q: Which occupations score lowest on AI risk?**
-A: Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 4/10, 看護師 (nurse) ≈ 4/10.
+A: Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 3/10, 看護師 (nurse) ≈ 4/10.
 
 **Q: What share of Japan's working population is in high-risk (≥7/10) occupations?**
-A: About 31% of Japan's working population is in occupations scoring 7 or higher.
+A: About 34% of Japan's working population is in occupations scoring 7 or higher.
 
 **Q: Where does the data come from?**
 A: 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7.
