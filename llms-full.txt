@@ -1,0 +1,226 @@
+# 日本の職業 AI 影響マップ — Japan Jobs × AI Impact Map (full)
+
+> Extended GEO companion to https://mirai-shigoto.com/llms.txt. Full methodology, rubric, FAQ, citation, privacy, and technical detail for AI search engines and human readers who want the long form.
+
+This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or 独立行政法人 労働政策研究・研修機構 (JILPT). The AI risk scores are independent LLM (Claude Opus 4.7) estimates, NOT official government forecasts.
+
+---
+
+## 1. What this is
+
+`mirai-shigoto.com` is an independent analysis site visualizing Japan's labor market through the lens of AI exposure. It takes 552 occupations from publicly available 厚生労働省 (MHLW) job tag data, scores each occupation 0–10 against a calibrated AI-task-exposure rubric, and renders the result as a squarified treemap where:
+
+- **Tile area** = workforce size (number of workers in that occupation), fixed across all tabs
+- **Tile color** = whichever metric the user has selected (AI risk / annual salary / average age / monthly hours / recruit ratio / education distribution)
+- **Hover / click** = drill into per-occupation detail (salary, hours, recruit ratio, employment-type split, hourly wage, AI risk rationale)
+
+The UI is bilingual (Japanese and English), with an explicit toggle in the header. The site is open source (MIT) and the full dataset is downloadable as a single JSON file.
+
+---
+
+## 2. The data
+
+### 2.1 Source
+
+- **Occupation list, taxonomy, workforce size, salary, age, hours, recruit ratio, education, employment-type:** 厚生労働省 (MHLW) 職業情報提供サイト「job tag」 — https://shigoto.mhlw.go.jp/User/
+- **Cross-reference and validation:** 独立行政法人 労働政策研究・研修機構 (JILPT) 職業情報データベース — https://www.jil.go.jp/
+- **AI risk score:** Computed independently by Claude Opus 4.7 — not from any government source.
+
+### 2.2 Per-occupation fields
+
+| Field | Unit | Source |
+|---|---|---|
+| AI risk score | integer 0–10 | Claude Opus 4.7 (this site) |
+| Annual salary | 万円 (10,000 JPY) | MHLW jobtag |
+| Workforce size | persons | MHLW jobtag |
+| Average age | years | MHLW jobtag |
+| Monthly working hours | hours | MHLW jobtag |
+| Effective recruit ratio | ratio | MHLW jobtag |
+| Education distribution | percent breakdown | MHLW jobtag |
+| Employment-type distribution | percent breakdown | MHLW jobtag |
+| Hourly wage | JPY/hour | derived |
+
+### 2.3 Coverage
+
+- **552 occupations** — full taxonomy as published by MHLW jobtag at the time of scoring.
+- **Geographic scope:** Japan only. Some occupations (e.g. agricultural roles) have strong regional clustering not visible at this aggregation level.
+- **Temporal scope:** 2025/2026. Workforce, salary, and recruit ratio numbers reflect the most recent figures published by MHLW jobtag at scoring time.
+
+### 2.4 Download
+
+- Full dataset: https://mirai-shigoto.com/data.json (~1.3 MB, MIT licensed)
+- Source code: https://github.com/jasonhnd/jobs
+
+---
+
+## 3. AI risk scoring methodology
+
+### 3.1 What the score measures
+
+The 0–10 AI risk score answers a single question: **"How much of this occupation's daily work could a competent AI system plausibly do today (mid-2026)?"**
+
+It is **not** a probability-of-job-loss estimate. It is **not** a forecast. It is **not** a productivity number. It is a task-level exposure index, scoped to current AI capability and current task definitions.
+
+### 3.2 The rubric
+
+| Score | Meaning |
+|---|---|
+| 0 | Effectively no exposure. Tasks require physical action AI cannot perform. |
+| 1 | Minimal exposure. Heavy on-site / physical / safety-critical components. |
+| 2 | Low exposure. Mostly physical / interpersonal; AI helps only at the edges. |
+| 3 | Modest exposure. Some documentation or planning could be drafted by AI. |
+| 4 | Moderate exposure. AI assists, but the bulk of value is human-delivered. |
+| 5 | Half-and-half. AI can complete a substantial share of routine subtasks. |
+| 6 | Significant exposure. AI can plausibly complete most documentation / analysis. |
+| 7 | High exposure. Core knowledge-work tasks are PC-completable. |
+| 8 | Very high exposure. Most of the daily output could be AI-generated drafts. |
+| 9 | Near-full exposure. Day-to-day output overlaps heavily with what AI now produces. |
+| 10 | Effectively fully exposed at the task level. (Reserved for extreme cases.) |
+
+### 3.3 How scoring works
+
+1. Each occupation's MHLW jobtag description (主な仕事 / 入職経路 / 必要な技能) is read.
+2. Tasks are decomposed into a small number of representative subtasks.
+3. Each subtask is scored against a held-out reference set of anchor occupations at each integer score (calibration).
+4. A single integer 0–10 is assigned per occupation, plus a short bilingual rationale.
+5. Scores are normalized so the same anchor occupations land at the same integer in repeated runs.
+
+The rubric is anchored on Andrej Karpathy's BLS exposure framework — see https://github.com/karpathy/jobs/blob/main/score.py — and adapted to Japan-specific factors:
+- Language barrier reducing AI exposure for highly Japanese-language-bound roles
+- On-site requirement (physical presence) as a strong negative
+- Licensure / regulatory gating (e.g. medical, legal, real estate) noted but not used as a score modifier — the score reflects task exposure, not regulatory risk
+
+### 3.4 What the score does NOT capture
+
+- **Regulatory or licensure barriers.** A 9/10 task-exposure score doesn't mean the role will disappear; many such roles are licensed or trust-bound.
+- **Demand elasticity.** Some roles get cheaper to perform and demand expands (Jevons paradox); the score doesn't model this.
+- **Career mobility within an occupation.** Senior practitioners may sit at much lower exposure than juniors.
+- **Future model capability.** The score is anchored to mid-2026 AI capability, not extrapolated forward.
+
+### 3.5 Known limitations
+
+- **Single-rater bias.** All scores come from one model (Claude Opus 4.7). A multi-model ensemble would be stronger evidence but is out of scope for v0.5.
+- **Task aggregation.** The MHLW occupation taxonomy is coarse; within one "occupation" tile, exposure can vary a lot by sub-role.
+- **Rubric drift.** Re-scoring with a different model or a refined rubric will shift individual scores by ±1 in many cases. Do not over-interpret single-point differences.
+- **Distribution shift.** Karpathy's rubric was developed against US BLS occupations; Japan's MHLW taxonomy maps imperfectly.
+
+---
+
+## 4. Notable findings
+
+These are independent LLM observations from the dataset. They are not policy claims and not endorsed by any government body.
+
+- **General office clerks (一般事務) carry both the largest workforce and the highest AI exposure.** Approximately 2.63 million workers — the single largest occupation by headcount — score 9/10. This is the central finding of the map: Japan's most common job is also one of its most AI-exposed.
+- **High AI risk is not correlated with low salary or low education.** Many high-paying knowledge-work occupations (programmer, accountant, translator) score 7+/10 because their core tasks are PC-completable.
+- **Occupations with strong physical, interpersonal, or on-site components score low.** 潜水士 (diver) ≈ 1/10. 保育士 (childcare worker) ≈ 4/10. 看護師 (nurse) ≈ 4/10. These roles require human presence in ways AI cannot substitute for.
+- **About 31% of Japan's working population sits in occupations scoring ≥7/10.** The high-exposure cluster is dominated by clerical and routine-knowledge work, not blue-collar occupations.
+- **Two axes are independent.** Tile area (workforce) and tile color (selected metric) move independently. The visual takeaway is that "the big tiles are not always the high-color ones" — and where they ARE both, that's a population-level signal worth flagging.
+
+---
+
+## 5. Frequently asked questions
+
+**Q: Is this an official government site?**
+A: No. mirai-shigoto.com is operated by an individual (Jason). It uses MHLW jobtag data as input but is not endorsed by MHLW, jobtag, or JILPT. The "UNOFFICIAL" banner is shown on every page.
+
+**Q: How are the AI risk scores calculated?**
+A: Scored by Claude Opus 4.7 using a calibrated 0–10 rubric across all 552 occupations. The rubric is anchored on Karpathy's BLS exposure framework and ported to Japan's labor market context. Each occupation is evaluated independently against the rubric.
+
+**Q: Are these scores official government forecasts?**
+A: No. They are LLM (Claude Opus 4.7) estimates and should be treated as opinion-grade visualization, not statistical truth. Not endorsed by MHLW, jobtag, or JILPT.
+
+**Q: What does an AI risk score of 9/10 mean?**
+A: It reflects how much the work may be reshaped by AI, not the probability the job disappears. A high score means most core tasks are PC-completable and could be augmented or automated by AI tooling.
+
+**Q: Which occupation has the most workers in Japan, and what is its AI risk?**
+A: 一般事務 (General office clerk), with approximately 2.63 million workers, scores 9/10 — the highest-risk bracket among Japan's largest occupations.
+
+**Q: Which occupations score lowest on AI risk?**
+A: Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 4/10, 看護師 (nurse) ≈ 4/10.
+
+**Q: What share of Japan's working population is in high-risk (≥7/10) occupations?**
+A: About 31% of Japan's working population is in occupations scoring 7 or higher on the AI risk rubric.
+
+**Q: Where does the data come from?**
+A: 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7 against a calibrated rubric.
+
+**Q: Is the data downloadable?**
+A: Yes. A complete JSON of all 552 occupations is at https://mirai-shigoto.com/data.json (~1.3 MB). Source code and scoring scripts are at https://github.com/jasonhnd/jobs. MIT licensed.
+
+**Q: Why bilingual JA/EN?**
+A: The data and audience are Japan-first; the methodology and discussion are international. Both languages share the same data layer; only the UI strings and per-occupation rationales differ. JA is default; English is one click away.
+
+**Q: Can I use the scores in a paper / article / talk?**
+A: Yes, under MIT. Always cite the site and disclose the LLM-estimate nature of the scores. See the citation block below.
+
+**Q: How often is the data refreshed?**
+A: When MHLW jobtag publishes new aggregates, or when the scoring rubric is updated. Each refresh bumps the version in CHANGELOG and the `dateModified` timestamp in Schema.org / sitemap.
+
+**Q: How should I cite this site?**
+A: Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ — Always note: AI risk scores are LLM estimates, not official government forecasts.
+
+---
+
+## 6. Privacy and analytics
+
+The site uses four analytics layers, all visible on every page:
+
+- **Cloudflare Web Analytics** — privacy-friendly, cookieless, no PII.
+- **Google Analytics 4 (GA4)** — `G-GLDNBDPF13`, deferred load, IP anonymization.
+- **Vercel Web Analytics** — privacy-friendly, request-counting.
+- **Vercel Speed Insights** — Core Web Vitals (LCP, INP, CLS) sampling.
+
+No accounts, no logins, no user submissions stored beyond newsletter opt-in (Resend). Full details: https://mirai-shigoto.com/privacy
+
+---
+
+## 7. Technical architecture
+
+- **Frontend:** Single static `index.html` (~95 KB) + `data.json` (~1.3 MB). No framework, no bundler. Vanilla DOM + Canvas treemap renderer.
+- **Hosting:** Vercel (Tokyo edge node, `hnd1`). HTTP/2, HSTS, gzip/brotli on text assets.
+- **Data pipeline:** Python script (`scripts/build_data.py`) scrapes MHLW jobtag and produces `data.json`. Scoring script (`scripts/make_prompt.py`) drives Claude Opus 4.7 with the calibrated rubric.
+- **SEO/GEO surface:** Schema.org JSON-LD (Organization + Person + WebSite + Dataset + ItemList + FAQPage), Open Graph + Twitter Card, hreflang (JA / EN / x-default), sitemap.xml, robots.txt with explicit AI crawler whitelist, llms.txt + llms-full.txt.
+
+---
+
+## 8. License and citation
+
+### 8.1 License
+
+MIT — see https://github.com/jasonhnd/jobs/blob/main/LICENSE.
+
+### 8.2 How to cite
+
+**Plain:**
+> Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/
+
+**APA (7th ed.):**
+> Jason. (2026). *Japan Jobs × AI Impact Map* [Dataset]. mirai-shigoto.com. https://mirai-shigoto.com/
+
+**BibTeX:**
+```
+@misc{mirai_shigoto_2026,
+  author = {Jason},
+  title  = {Japan Jobs × AI Impact Map},
+  year   = {2026},
+  url    = {https://mirai-shigoto.com/},
+  note   = {Independent analysis. AI risk scores are LLM estimates, not official government forecasts.}
+}
+```
+
+Always note: "AI risk scores are LLM estimates, not official government forecasts."
+
+---
+
+## 9. Contact
+
+- Operator: Jason
+- X / Twitter: https://x.com/jasonaxb
+- GitHub: https://github.com/jasonhnd/jobs
+- General contact: see https://mirai-shigoto.com/privacy
+
+---
+
+## 10. Disclaimer
+
+This is an independent analysis site. It does not represent the official views of MHLW, jobtag, or JILPT. The AI risk scores are subjective LLM estimates and should not be used as the sole basis for personal career decisions, hiring decisions, or policy decisions.

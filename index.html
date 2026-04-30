@@ -41,13 +41,40 @@
     <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
     <!-- Start downloading data.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. -->
     <link rel="preload" href="/data.json" as="fetch" crossorigin="anonymous" />
+
+    <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
+    <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 
-    <!-- Schema.org JSON-LD: WebSite + Dataset + Person for SEO + GEO (AI search engines extract these). -->
+    <!-- Schema.org JSON-LD: Organization + Person + WebSite + Dataset + ItemList + FAQPage.
+         AI search engines (ChatGPT, Claude, Perplexity, Gemini) extract these for citations. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://mirai-shigoto.com/#organization",
+          "name": "mirai-shigoto.com",
+          "alternateName": ["日本の職業 AI 影響マップ（非公式）", "Japan Jobs × AI Impact Map"],
+          "url": "https://mirai-shigoto.com/",
+          "logo": "https://mirai-shigoto.com/og.png",
+          "founder": { "@id": "https://mirai-shigoto.com/#person" },
+          "sameAs": [
+            "https://github.com/jasonhnd/jobs",
+            "https://x.com/jasonaxb"
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://mirai-shigoto.com/#person",
+          "name": "Jason",
+          "url": "https://mirai-shigoto.com/",
+          "sameAs": ["https://x.com/jasonaxb", "https://github.com/jasonhnd"]
+        },
         {
           "@type": "WebSite",
           "@id": "https://mirai-shigoto.com/#website",
@@ -57,23 +84,45 @@
           "description": "厚生労働省 job tag 等の公開データをもとに、日本 552 職種への AI 影響を可視化した独自分析サイト（非公式）。",
           "inLanguage": ["ja", "en"],
           "creator": { "@id": "https://mirai-shigoto.com/#person" },
+          "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
           "license": "https://opensource.org/licenses/MIT",
-          "isAccessibleForFree": true
+          "isAccessibleForFree": true,
+          "datePublished": "2026-04-25",
+          "dateModified": "2026-04-30",
+          "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["h1 .accent", "h1 .h1-sub", ".banner-text"]
+          }
         },
         {
           "@type": "Dataset",
           "@id": "https://mirai-shigoto.com/#dataset",
           "name": "Japan 552 Occupations × AI Impact (mirai-shigoto.com)",
           "alternateName": "日本 552 職種の AI 影響マップ",
-          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split. Bilingual JA/EN. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
+          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Bilingual JA/EN. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
           "url": "https://mirai-shigoto.com/",
           "sameAs": "https://github.com/jasonhnd/jobs",
           "creator": { "@id": "https://mirai-shigoto.com/#person" },
+          "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
           "license": "https://opensource.org/licenses/MIT",
           "isAccessibleForFree": true,
+          "datePublished": "2026-04-25",
+          "dateModified": "2026-04-30",
+          "version": "0.5.0",
           "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
           "spatialCoverage": { "@type": "Place", "name": "Japan" },
           "temporalCoverage": "2025/2026",
+          "measurementTechnique": "LLM-based scoring: Claude Opus 4.7 against a calibrated 0-10 rubric, anchored on Karpathy's BLS exposure framework (https://github.com/karpathy/jobs/blob/main/score.py) and ported to Japan's labor market context. Each of 552 occupations evaluated independently.",
+          "citation": [
+            "厚生労働省 職業情報提供サイト（jobtag）— https://shigoto.mhlw.go.jp/User/",
+            "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/",
+            "Andrej Karpathy. jobs (US BLS exposure rubric) — https://github.com/karpathy/jobs"
+          ],
+          "includedInDataCatalog": {
+            "@type": "DataCatalog",
+            "name": "mirai-shigoto.com",
+            "url": "https://mirai-shigoto.com/"
+          },
           "variableMeasured": [
             { "@type": "PropertyValue", "name": "AI replacement risk score (0-10)" },
             { "@type": "PropertyValue", "name": "Annual salary (10,000 JPY units)" },
@@ -81,7 +130,9 @@
             { "@type": "PropertyValue", "name": "Average age" },
             { "@type": "PropertyValue", "name": "Monthly working hours" },
             { "@type": "PropertyValue", "name": "Effective recruit ratio" },
-            { "@type": "PropertyValue", "name": "Education distribution" }
+            { "@type": "PropertyValue", "name": "Education distribution" },
+            { "@type": "PropertyValue", "name": "Employment-type distribution" },
+            { "@type": "PropertyValue", "name": "Hourly wage" }
           ],
           "distribution": [
             {
@@ -92,11 +143,131 @@
           ]
         },
         {
-          "@type": "Person",
-          "@id": "https://mirai-shigoto.com/#person",
-          "name": "Jason",
-          "url": "https://mirai-shigoto.com/",
-          "sameAs": ["https://x.com/jasonaxb", "https://github.com/jasonhnd"]
+          "@type": "ItemList",
+          "@id": "https://mirai-shigoto.com/#top-findings",
+          "name": "Notable findings — Japan 552 Occupations × AI Impact",
+          "description": "Sample observations from the dataset. These are independent LLM estimates, not official forecasts.",
+          "itemListOrder": "https://schema.org/ItemListUnordered",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "一般事務 (General office clerk)",
+              "description": "AI risk 9/10. About 2.63 million workers — Japan's single largest occupation by workforce."
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "看護師 (Nurse)",
+              "description": "AI risk approximately 4/10. Physical, on-site, and interpersonal components keep the score low."
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "保育士 (Childcare worker)",
+              "description": "AI risk approximately 4/10. On-site judgment and interpersonal interaction are central to the role."
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "潜水士 (Diver)",
+              "description": "AI risk 1/10. Strong physical-presence requirement keeps automation exposure minimal."
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Japan high-risk share",
+              "description": "About 31% of Japan's working population is in occupations scoring ≥7/10 on the AI risk rubric."
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://mirai-shigoto.com/#faq",
+          "inLanguage": "en",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is mirai-shigoto.com?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "An independent (unofficial) analysis site that visualizes Japan's 552 occupations from MHLW jobtag, scored 0–10 for AI replacement risk by Claude Opus 4.7. Bilingual (Japanese + English), MIT licensed. Not operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or 独立行政法人 労働政策研究・研修機構 (JILPT)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How are the AI risk scores calculated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Scored by Claude Opus 4.7 using a calibrated 0–10 rubric across all 552 occupations. The rubric is anchored on Karpathy's BLS exposure framework and ported to Japan's labor market context. Each occupation is evaluated independently."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are these scores official government forecasts?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. They are LLM (Claude Opus 4.7) estimates and should be treated as opinion-grade visualization, not statistical truth. They are not endorsed by MHLW, jobtag, or JILPT."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does an AI risk score of 9/10 mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It reflects how much the work may be reshaped by AI, not the probability the job disappears. A high score means most core tasks are PC-completable and could be augmented or automated by AI tooling."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which occupation has the most workers in Japan, and what is its AI risk?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "一般事務 (General office clerk), with approximately 2.63 million workers, scores 9/10 — the highest-risk bracket among Japan's largest occupations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which occupations score lowest on AI risk?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 4/10, 看護師 (nurse) ≈ 4/10."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What share of Japan's working population is in high-risk (≥7/10) occupations?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "About 31% of Japan's working population is in occupations scoring 7 or higher on the AI risk rubric."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where does the data come from?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7 against a calibrated rubric."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the data downloadable?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. A complete JSON of all 552 occupations is at https://mirai-shigoto.com/data.json (~1.3 MB). Source code and scoring scripts are at https://github.com/jasonhnd/jobs. MIT licensed."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How should I cite this site?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ — Always note: AI risk scores are LLM estimates, not official government forecasts."
+              }
+            }
+          ]
         }
       ]
     }
@@ -912,94 +1083,6 @@
         .intro-details-content { font-size: 0.78rem; }
         .intro-details-content ul { margin-left: 16px; }
       }
-
-      /* ---- D2: bottom-of-page newsletter card (T1 in OPC plan, QI 3) ---- */
-      .newsletter {
-        margin: 32px 0 24px;
-        padding: 20px 22px;
-        background: rgba(255, 184, 77, 0.04);
-        border: 1px solid rgba(255, 184, 77, 0.18);
-        border-radius: 8px;
-        max-width: 720px;
-      }
-      .newsletter-heading {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--fg);
-        margin: 0 0 6px;
-      }
-      .newsletter-sub {
-        font-size: 0.85rem;
-        color: var(--fg2);
-        line-height: 1.55;
-        margin: 0 0 14px;
-      }
-      .newsletter-form {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .newsletter-input {
-        flex: 1;
-        min-width: 200px;
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        color: var(--fg);
-        font-family: inherit;
-        font-size: 0.88rem;
-        padding: 8px 12px;
-      }
-      .newsletter-input:focus {
-        outline: 2px solid var(--accent);
-        outline-offset: 1px;
-        border-color: transparent;
-      }
-      .newsletter-submit {
-        background: var(--accent);
-        color: #1a1206;
-        border: none;
-        border-radius: 6px;
-        padding: 8px 18px;
-        font-family: inherit;
-        font-size: 0.88rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 120ms ease, opacity 120ms ease;
-      }
-      .newsletter-submit:hover { background: #ffd081; }
-      .newsletter-submit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-      .newsletter-submit:disabled { opacity: 0.55; cursor: wait; }
-      .newsletter-status {
-        font-size: 0.82rem;
-        margin-top: 10px;
-        min-height: 1.2em; /* reserve space — no CLS when message swaps in */
-        color: var(--fg2);
-      }
-      .newsletter-status.success { color: var(--accent); }
-      .newsletter-status.error { color: #ff8a8a; }
-      .newsletter-fineprint {
-        font-size: 0.75rem;
-        color: var(--fg2);
-        opacity: 0.75;
-        margin: 12px 0 0;
-        line-height: 1.5;
-      }
-      .newsletter-fineprint a {
-        color: var(--fg2);
-        text-decoration: underline;
-        text-underline-offset: 2px;
-      }
-      .newsletter-fineprint a:hover { color: var(--accent); }
-      @media (max-width: 540px) {
-        .newsletter {
-          padding: 16px 14px;
-          margin: 24px 0 18px;
-        }
-        .newsletter-form { flex-direction: column; gap: 8px; }
-        .newsletter-input,
-        .newsletter-submit { width: 100%; }
-      }
     </style>
   </head>
   <body>
@@ -1283,40 +1366,6 @@
           <p>The information on this site is provided as <strong>reference material</strong> for purposes such as career selection, job changes, recruitment, and HR decisions. It does not guarantee any specific judgment or outcome. For important decisions, please consult multiple sources.</p>
           <p>This site has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, or JILPT. For inquiries about the content of this site, please use the <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> page (please do not contact public institutions).</p>
         </div>
-      </section>
-
-      <section class="newsletter" aria-labelledby="newsletterHeading">
-        <h3 class="newsletter-heading" id="newsletterHeading">
-          <span data-i18n="ja" class="active">あなたの職業の AI 影響レポートを月1回</span>
-          <span data-i18n="en">Monthly AI impact report by occupation</span>
-        </h3>
-        <p class="newsletter-sub">
-          <span data-i18n="ja" class="active">職業別の AI リスク、置き換わりやすい業務、人間に残りやすいスキル。月1回の配信。</span>
-          <span data-i18n="en">AI exposure, tasks likely to change, and skills that remain valuable. Once a month.</span>
-        </p>
-        <form class="newsletter-form" id="newsletterForm" novalidate>
-          <input
-            type="email"
-            id="newsletterEmail"
-            class="newsletter-input"
-            required
-            autocomplete="email"
-            inputmode="email"
-            placeholder="メールアドレス"
-            data-placeholder-ja="メールアドレス"
-            data-placeholder-en="Email"
-            aria-label="Email"
-          />
-          <button type="submit" id="newsletterSubmit" class="newsletter-submit">
-            <span data-i18n="ja" class="active">登録する</span>
-            <span data-i18n="en">Subscribe</span>
-          </button>
-        </form>
-        <div class="newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></div>
-        <p class="newsletter-fineprint">
-          <span data-i18n="ja" class="active">配信停止はメール内のリンクからいつでも可能。詳細は <a href="/privacy">プライバシーポリシー</a> をご確認ください。</span>
-          <span data-i18n="en">Unsubscribe anytime via the link in any email. See <a href="/privacy?lang=en">privacy policy</a> for details.</span>
-        </p>
       </section>
 
       <footer>
@@ -2289,88 +2338,6 @@
           if (location.hash) setTimeout(applyHash, 50);
         })
         .catch(showError);
-
-      // ---- D2: bottom-of-page newsletter signup (T1 in OPC plan, QI 3) ----
-      (function newsletterT1() {
-        const form = document.getElementById("newsletterForm");
-        const emailInput = document.getElementById("newsletterEmail");
-        const submitBtn = document.getElementById("newsletterSubmit");
-        const statusEl = document.getElementById("newsletterStatus");
-        if (!form || !emailInput || !submitBtn || !statusEl) return;
-
-        const MSG = {
-          success: { ja: "登録ありがとうございます。次回更新時にお知らせします。", en: "Thanks for subscribing. We'll be in touch at the next update." },
-          error:   { ja: "メールアドレスを確認してください。", en: "Please check your email address." },
-          network: { ja: "ネットワークエラー。後ほどお試しください。", en: "Network error. Please try again later." },
-          pending: { ja: "登録機能は近日開放予定です。", en: "Subscription is opening soon." }
-        };
-        const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        let subscribed = false;
-
-        function setStatus(kind) {
-          statusEl.className = "newsletter-status" + (kind ? " " + kind : "");
-          statusEl.textContent = kind ? MSG[kind][lang] : "";
-        }
-        function syncPlaceholder() {
-          emailInput.placeholder = emailInput.dataset[lang === "en" ? "placeholderEn" : "placeholderJa"];
-          if (subscribed) setStatus("success");
-        }
-
-        // Restore "already subscribed" state from localStorage
-        try {
-          if (localStorage.getItem("nl_subscribed_t1") === "1") {
-            subscribed = true;
-            form.style.display = "none";
-            setStatus("success");
-          }
-        } catch (e) { /* localStorage blocked — treat as fresh visit */ }
-
-        // Re-sync on language change. setLang updates document.documentElement.lang;
-        // we observe that and re-render placeholder + persistent success message.
-        new MutationObserver(syncPlaceholder).observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ["lang"]
-        });
-        syncPlaceholder();
-
-        form.addEventListener("submit", async e => {
-          e.preventDefault();
-          setStatus(null);
-          const v = (emailInput.value || "").trim();
-          if (!v || v.length > 254 || !EMAIL_RE.test(v)) {
-            setStatus("error");
-            return;
-          }
-          submitBtn.disabled = true;
-          try {
-            const res = await fetch("/api/subscribe", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email: v, lang, source: "t1_footer" })
-            });
-            const data = await res.json().catch(() => ({}));
-            if (res.ok && data && data.ok) {
-              try { localStorage.setItem("nl_subscribed_t1", "1"); } catch (e) {}
-              subscribed = true;
-              form.style.display = "none";
-              setStatus("success");
-              if (window.gtag) gtag("event", "email_submit_header", { language: lang, success: "true" });
-            } else if (res.status === 404) {
-              setStatus("pending"); // backend not deployed yet — be honest
-              submitBtn.disabled = false;
-            } else if (res.status === 400) {
-              setStatus("error");
-              submitBtn.disabled = false;
-            } else {
-              setStatus("network");
-              submitBtn.disabled = false;
-            }
-          } catch (err) {
-            setStatus("network");
-            submitBtn.disabled = false;
-          }
-        });
-      })();
     </script>
   </body>
 </html>
