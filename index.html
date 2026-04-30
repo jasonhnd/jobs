@@ -912,6 +912,94 @@
         .intro-details-content { font-size: 0.78rem; }
         .intro-details-content ul { margin-left: 16px; }
       }
+
+      /* ---- D2: bottom-of-page newsletter card (T1 in OPC plan, QI 3) ---- */
+      .newsletter {
+        margin: 32px 0 24px;
+        padding: 20px 22px;
+        background: rgba(255, 184, 77, 0.04);
+        border: 1px solid rgba(255, 184, 77, 0.18);
+        border-radius: 8px;
+        max-width: 720px;
+      }
+      .newsletter-heading {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--fg);
+        margin: 0 0 6px;
+      }
+      .newsletter-sub {
+        font-size: 0.85rem;
+        color: var(--fg2);
+        line-height: 1.55;
+        margin: 0 0 14px;
+      }
+      .newsletter-form {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .newsletter-input {
+        flex: 1;
+        min-width: 200px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--fg);
+        font-family: inherit;
+        font-size: 0.88rem;
+        padding: 8px 12px;
+      }
+      .newsletter-input:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
+        border-color: transparent;
+      }
+      .newsletter-submit {
+        background: var(--accent);
+        color: #1a1206;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 120ms ease, opacity 120ms ease;
+      }
+      .newsletter-submit:hover { background: #ffd081; }
+      .newsletter-submit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+      .newsletter-submit:disabled { opacity: 0.55; cursor: wait; }
+      .newsletter-status {
+        font-size: 0.82rem;
+        margin-top: 10px;
+        min-height: 1.2em; /* reserve space — no CLS when message swaps in */
+        color: var(--fg2);
+      }
+      .newsletter-status.success { color: var(--accent); }
+      .newsletter-status.error { color: #ff8a8a; }
+      .newsletter-fineprint {
+        font-size: 0.75rem;
+        color: var(--fg2);
+        opacity: 0.75;
+        margin: 12px 0 0;
+        line-height: 1.5;
+      }
+      .newsletter-fineprint a {
+        color: var(--fg2);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .newsletter-fineprint a:hover { color: var(--accent); }
+      @media (max-width: 540px) {
+        .newsletter {
+          padding: 16px 14px;
+          margin: 24px 0 18px;
+        }
+        .newsletter-form { flex-direction: column; gap: 8px; }
+        .newsletter-input,
+        .newsletter-submit { width: 100%; }
+      }
     </style>
   </head>
   <body>
@@ -1195,6 +1283,40 @@
           <p>The information on this site is provided as <strong>reference material</strong> for purposes such as career selection, job changes, recruitment, and HR decisions. It does not guarantee any specific judgment or outcome. For important decisions, please consult multiple sources.</p>
           <p>This site has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, or JILPT. For inquiries about the content of this site, please use the <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> page (please do not contact public institutions).</p>
         </div>
+      </section>
+
+      <section class="newsletter" aria-labelledby="newsletterHeading">
+        <h3 class="newsletter-heading" id="newsletterHeading">
+          <span data-i18n="ja" class="active">あなたの職業の AI 影響レポートを月1回</span>
+          <span data-i18n="en">Monthly AI impact report by occupation</span>
+        </h3>
+        <p class="newsletter-sub">
+          <span data-i18n="ja" class="active">職業別の AI リスク、置き換わりやすい業務、人間に残りやすいスキル。月1回の配信。</span>
+          <span data-i18n="en">AI exposure, tasks likely to change, and skills that remain valuable. Once a month.</span>
+        </p>
+        <form class="newsletter-form" id="newsletterForm" novalidate>
+          <input
+            type="email"
+            id="newsletterEmail"
+            class="newsletter-input"
+            required
+            autocomplete="email"
+            inputmode="email"
+            placeholder="メールアドレス"
+            data-placeholder-ja="メールアドレス"
+            data-placeholder-en="Email"
+            aria-label="Email"
+          />
+          <button type="submit" id="newsletterSubmit" class="newsletter-submit">
+            <span data-i18n="ja" class="active">登録する</span>
+            <span data-i18n="en">Subscribe</span>
+          </button>
+        </form>
+        <div class="newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></div>
+        <p class="newsletter-fineprint">
+          <span data-i18n="ja" class="active">配信停止はメール内のリンクからいつでも可能。詳細は <a href="/privacy">プライバシーポリシー</a> をご確認ください。</span>
+          <span data-i18n="en">Unsubscribe anytime via the link in any email. See <a href="/privacy?lang=en">privacy policy</a> for details.</span>
+        </p>
       </section>
 
       <footer>
@@ -2167,6 +2289,88 @@
           if (location.hash) setTimeout(applyHash, 50);
         })
         .catch(showError);
+
+      // ---- D2: bottom-of-page newsletter signup (T1 in OPC plan, QI 3) ----
+      (function newsletterT1() {
+        const form = document.getElementById("newsletterForm");
+        const emailInput = document.getElementById("newsletterEmail");
+        const submitBtn = document.getElementById("newsletterSubmit");
+        const statusEl = document.getElementById("newsletterStatus");
+        if (!form || !emailInput || !submitBtn || !statusEl) return;
+
+        const MSG = {
+          success: { ja: "登録ありがとうございます。次回更新時にお知らせします。", en: "Thanks for subscribing. We'll be in touch at the next update." },
+          error:   { ja: "メールアドレスを確認してください。", en: "Please check your email address." },
+          network: { ja: "ネットワークエラー。後ほどお試しください。", en: "Network error. Please try again later." },
+          pending: { ja: "登録機能は近日開放予定です。", en: "Subscription is opening soon." }
+        };
+        const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let subscribed = false;
+
+        function setStatus(kind) {
+          statusEl.className = "newsletter-status" + (kind ? " " + kind : "");
+          statusEl.textContent = kind ? MSG[kind][lang] : "";
+        }
+        function syncPlaceholder() {
+          emailInput.placeholder = emailInput.dataset[lang === "en" ? "placeholderEn" : "placeholderJa"];
+          if (subscribed) setStatus("success");
+        }
+
+        // Restore "already subscribed" state from localStorage
+        try {
+          if (localStorage.getItem("nl_subscribed_t1") === "1") {
+            subscribed = true;
+            form.style.display = "none";
+            setStatus("success");
+          }
+        } catch (e) { /* localStorage blocked — treat as fresh visit */ }
+
+        // Re-sync on language change. setLang updates document.documentElement.lang;
+        // we observe that and re-render placeholder + persistent success message.
+        new MutationObserver(syncPlaceholder).observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["lang"]
+        });
+        syncPlaceholder();
+
+        form.addEventListener("submit", async e => {
+          e.preventDefault();
+          setStatus(null);
+          const v = (emailInput.value || "").trim();
+          if (!v || v.length > 254 || !EMAIL_RE.test(v)) {
+            setStatus("error");
+            return;
+          }
+          submitBtn.disabled = true;
+          try {
+            const res = await fetch("/api/subscribe", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email: v, lang, source: "t1_footer" })
+            });
+            const data = await res.json().catch(() => ({}));
+            if (res.ok && data && data.ok) {
+              try { localStorage.setItem("nl_subscribed_t1", "1"); } catch (e) {}
+              subscribed = true;
+              form.style.display = "none";
+              setStatus("success");
+              if (window.gtag) gtag("event", "email_submit_header", { language: lang, success: "true" });
+            } else if (res.status === 404) {
+              setStatus("pending"); // backend not deployed yet — be honest
+              submitBtn.disabled = false;
+            } else if (res.status === 400) {
+              setStatus("error");
+              submitBtn.disabled = false;
+            } else {
+              setStatus("network");
+              submitBtn.disabled = false;
+            }
+          } catch (err) {
+            setStatus("network");
+            submitBtn.disabled = false;
+          }
+        });
+      })();
     </script>
   </body>
 </html>
