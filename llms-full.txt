@@ -112,8 +112,8 @@ These are independent LLM observations from the dataset. They are not policy cla
 
 - **General office clerks (一般事務) carry both the largest workforce and the highest AI exposure.** Approximately 2.63 million workers — the single largest occupation by headcount — score 9/10. This is the central finding of the map: Japan's most common job is also one of its most AI-exposed.
 - **High AI risk is not correlated with low salary or low education.** Many high-paying knowledge-work occupations (programmer, accountant, translator) score 7+/10 because their core tasks are PC-completable.
-- **Occupations with strong physical, interpersonal, or on-site components score low.** 潜水士 (diver) ≈ 1/10. 保育士 (childcare worker) ≈ 4/10. 看護師 (nurse) ≈ 4/10. These roles require human presence in ways AI cannot substitute for.
-- **About 31% of Japan's working population sits in occupations scoring ≥7/10.** The high-exposure cluster is dominated by clerical and routine-knowledge work, not blue-collar occupations.
+- **Occupations with strong physical, interpersonal, or on-site components score low.** 潜水士 (diver) ≈ 1/10. 保育士 (childcare worker) ≈ 3/10. 看護師 (nurse) ≈ 4/10. These roles require human presence in ways AI cannot substitute for.
+- **About 34% of Japan's working population sits in occupations scoring ≥7/10.** The high-exposure cluster is dominated by clerical and routine-knowledge work, not blue-collar occupations.
 - **Two axes are independent.** Tile area (workforce) and tile color (selected metric) move independently. The visual takeaway is that "the big tiles are not always the high-color ones" — and where they ARE both, that's a population-level signal worth flagging.
 
 ---
@@ -136,10 +136,10 @@ A: It reflects how much the work may be reshaped by AI, not the probability the 
 A: 一般事務 (General office clerk), with approximately 2.63 million workers, scores 9/10 — the highest-risk bracket among Japan's largest occupations.
 
 **Q: Which occupations score lowest on AI risk?**
-A: Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 4/10, 看護師 (nurse) ≈ 4/10.
+A: Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 3/10, 看護師 (nurse) ≈ 4/10.
 
 **Q: What share of Japan's working population is in high-risk (≥7/10) occupations?**
-A: About 31% of Japan's working population is in occupations scoring 7 or higher on the AI risk rubric.
+A: About 34% of Japan's working population is in occupations scoring 7 or higher on the AI risk rubric.
 
 **Q: Where does the data come from?**
 A: 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7 against a calibrated rubric.
