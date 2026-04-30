@@ -1083,6 +1083,66 @@
         .intro-details-content { font-size: 0.78rem; }
         .intro-details-content ul { margin-left: 16px; }
       }
+
+      /* ---- Bottom share buttons (icon-only round, brand-color hover) ---- */
+      .share-row {
+        display: flex;
+        gap: 10px;
+        margin: 28px 0;
+        flex-wrap: wrap;
+        align-items: center;
+        max-width: 720px;
+      }
+      .share-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        color: var(--fg2);
+        cursor: pointer;
+        transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+        text-decoration: none;
+        padding: 0;
+        -webkit-appearance: none;
+        appearance: none;
+        font-family: inherit;
+      }
+      .share-btn:hover {
+        transform: translateY(-1px);
+        border-color: transparent;
+        color: #fff;
+      }
+      .share-btn[data-platform="x"]:hover       { background: #000; }
+      .share-btn[data-platform="line"]:hover    { background: #06C755; }
+      .share-btn[data-platform="hatena"]:hover  { background: #00A4DE; }
+      .share-btn[data-platform="linkedin"]:hover { background: #0A66C2; }
+      .share-btn[data-platform="copy"]:hover,
+      .share-btn[data-platform="native"]:hover  { background: var(--accent); color: #1a1206; }
+      .share-btn svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+      }
+      .share-btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .share-toast {
+        font-size: 0.78rem;
+        color: var(--accent);
+        margin-left: 6px;
+        opacity: 0;
+        transition: opacity 200ms ease;
+      }
+      .share-toast.visible { opacity: 1; }
+      @media (max-width: 540px) {
+        .share-row { margin: 22px 0; gap: 8px; }
+        .share-btn { width: 36px; height: 36px; }
+      }
     </style>
   </head>
   <body>
@@ -1367,6 +1427,28 @@
           <p>This site has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, or JILPT. For inquiries about the content of this site, please use the <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> page (please do not contact public institutions).</p>
         </div>
       </section>
+
+      <div class="share-row" role="group" aria-label="Share this site">
+        <a class="share-btn" id="share-x" data-platform="x" href="#" aria-label="X で共有">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
+        </a>
+        <a class="share-btn" id="share-line" data-platform="line" href="#" aria-label="LINE で共有">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755Zm-3.855 3.016c0 .27-.174.51-.432.596a.616.616 0 0 1-.199.031.61.61 0 0 1-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595a.658.658 0 0 1 .194-.033c.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771Zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771Zm-2.466.629H4.917a.629.629 0 0 1-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        </a>
+        <a class="share-btn" id="share-hatena" data-platform="hatena" href="#" aria-label="はてなブックマークで共有">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.47 0C22.42 0 24 1.58 24 3.53v16.94c0 1.95-1.58 3.53-3.53 3.53H3.53C1.58 24 0 22.42 0 20.47V3.53C0 1.58 1.58 0 3.53 0h16.94Zm-3.7 14.47a1.41 1.41 0 1 0 0 2.82 1.41 1.41 0 0 0 0-2.82Zm-5.92 2.69c1.59 0 2.92-.18 3.71-.83.84-.65 1.27-1.55 1.27-2.69 0-.97-.32-1.75-.97-2.34-.65-.59-1.5-.92-2.55-1 .92-.25 1.62-.59 2.04-1.07.43-.45.65-1.07.65-1.84 0-.61-.13-1.16-.4-1.61-.27-.45-.65-.83-1.18-1.07-.45-.22-1-.4-1.61-.5-.61-.07-1.55-.13-2.79-.13H6.74v13.07h4.11Zm-.86-2.5h-.94v-3.13h.97c1.16 0 1.95.13 2.34.4.4.27.59.72.59 1.34 0 .54-.18.97-.54 1.21-.36.27-1.16.18-2.42.18Zm0-5.45h-.94V6.5h.4c1.21 0 2 .07 2.39.27.4.18.61.61.61 1.27 0 .59-.22 1.05-.65 1.27-.4.18-1.18.27-2.39.27ZM22.59 16.94v-7.5h-2.13v7.5h2.13Z"/></svg>
+        </a>
+        <a class="share-btn" id="share-linkedin" data-platform="linkedin" href="#" aria-label="LinkedIn で共有">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5ZM8 19H5V8h3v11ZM6.5 6.73a1.76 1.76 0 1 1 0-3.53 1.76 1.76 0 0 1 0 3.53ZM20 19h-3v-5.6c0-3.37-4-3.11-4 0V19h-3V8h3v1.77c1.4-2.59 7-2.78 7 2.47V19Z"/></svg>
+        </a>
+        <button class="share-btn" id="share-copy" type="button" data-platform="copy" aria-label="URL をコピー">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1ZM8 13h8v-2H8v2Zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 0-10Z"/></svg>
+        </button>
+        <button class="share-btn" id="share-native" type="button" data-platform="native" aria-label="共有">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-3v2h3v11H7V9h3V7H7c-1.1 0-2 .9-2 2Z"/></svg>
+        </button>
+        <span class="share-toast" id="share-toast" aria-live="polite"></span>
+      </div>
 
       <footer>
         <span data-i18n="ja" class="active">
@@ -2338,6 +2420,92 @@
           if (location.hash) setTimeout(applyHash, 50);
         })
         .catch(showError);
+
+      // ---- Bottom share buttons ----
+      (function shareButtons() {
+        const SITE = "https://mirai-shigoto.com/";
+        const TEXT = {
+          ja: "日本 552 職種への AI 影響を 0〜10 で可視化したマップ。一般事務 9/10、看護師 4/10、潜水士 1/10。あなたの仕事は？",
+          en: "AI impact map for Japan's 552 occupations, scored 0-10. General clerk 9/10, nurse 4/10, diver 1/10. How does your job rank?"
+        };
+        const COPY_TOAST = { ja: "コピーしました", en: "Link copied" };
+
+        function curLang() { return document.documentElement.lang === "en" ? "en" : "ja"; }
+        function shareText() { return TEXT[curLang()]; }
+        function siteUrl(source, medium) {
+          return SITE + "?utm_source=" + source + "&utm_medium=" + medium + "&utm_campaign=footer_share&utm_content=site";
+        }
+        function track(platform) {
+          if (window.gtag) gtag("event", "share_click", { platform: platform, language: curLang() });
+        }
+        function open(url) { window.open(url, "_blank", "noopener,noreferrer"); }
+
+        const x = document.getElementById("share-x");
+        if (x) x.addEventListener("click", e => {
+          e.preventDefault();
+          open("https://x.com/intent/post?url=" + encodeURIComponent(siteUrl("x", "social")) + "&text=" + encodeURIComponent(shareText()));
+          track("x");
+        });
+
+        const line = document.getElementById("share-line");
+        if (line) line.addEventListener("click", e => {
+          e.preventDefault();
+          open("https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(siteUrl("line", "im")));
+          track("line");
+        });
+
+        const hatena = document.getElementById("share-hatena");
+        if (hatena) hatena.addEventListener("click", e => {
+          e.preventDefault();
+          // Hatena entry URL takes the bookmark target without scheme.
+          open("https://b.hatena.ne.jp/entry/" + siteUrl("hatena", "social").replace(/^https?:\/\//, ""));
+          track("hatena");
+        });
+
+        const linkedin = document.getElementById("share-linkedin");
+        if (linkedin) linkedin.addEventListener("click", e => {
+          e.preventDefault();
+          open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(siteUrl("linkedin", "social")));
+          track("linkedin");
+        });
+
+        const copy = document.getElementById("share-copy");
+        const toast = document.getElementById("share-toast");
+        if (copy && toast) copy.addEventListener("click", async e => {
+          e.preventDefault();
+          const url = siteUrl("direct", "copylink");
+          try {
+            await navigator.clipboard.writeText(url);
+            toast.textContent = COPY_TOAST[curLang()];
+          } catch (err) {
+            toast.textContent = url;
+          }
+          toast.classList.add("visible");
+          track("copy");
+          setTimeout(() => toast.classList.remove("visible"), 2200);
+        });
+
+        // Native Web Share API: hide the button on browsers without support
+        // (most desktops). Visible on mobile Safari / Chrome / Edge / Firefox Android.
+        const native = document.getElementById("share-native");
+        if (native) {
+          if (typeof navigator.share === "function") {
+            native.addEventListener("click", async e => {
+              e.preventDefault();
+              try {
+                await navigator.share({
+                  title: document.title,
+                  text: shareText(),
+                  url: siteUrl("native", "share_api")
+                });
+                track("native");
+              } catch (err) { /* user cancelled — no-op */ }
+            });
+          } else {
+            native.hidden = true;
+          }
+        }
+      })();
     </script>
   </body>
 </html>
