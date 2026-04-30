@@ -52,3 +52,10 @@ _audit/
 *service-account*.json
 *credentials*.json
 gcp-*.json
+
+# Personal monitoring/dashboards cheatsheet — local-only operator reference,
+# contains direct dashboard URLs and account-specific paths. Not source code.
+analytics/dashboards.md
+
+# Local-only preview / scratch HTML files. Names starting with `_` are draft.
+_*.html
