@@ -39,6 +39,8 @@
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/" />
     <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
+    <!-- Start downloading data.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. -->
+    <link rel="preload" href="/data.json" as="fetch" crossorigin="anonymous" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 
     <!-- Schema.org JSON-LD: WebSite + Dataset + Person for SEO + GEO (AI search engines extract these). -->
@@ -104,14 +106,18 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "ddc8adae7c8d4380b49c246f184fda1d"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove 64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights (paid add-on, $10/mo). Paths auto-resolve when hosted on Vercel; fail silently elsewhere. -->
@@ -1423,7 +1429,9 @@
 
       function layout() {
         const isMobile = window.innerWidth < 768;
-        const w = document.getElementById("wrapper").clientWidth - (isMobile ? 32 : 56);
+        // Cache the geometric read into a const so all subsequent writes happen after; helps the engine batch and reduces forced-reflow time.
+        const wrapperWidth = document.getElementById("wrapper").clientWidth;
+        const w = wrapperWidth - (isMobile ? 32 : 56);
         // Mobile: tall portrait canvas (~2.6x width) so each tile gets enough area to be readable.
         // Desktop: landscape (~0.6x width) since the wrapper is already wide.
         const h = isMobile ? Math.round(w * 2.6) : Math.round(w * 0.6);
@@ -2123,7 +2131,7 @@
         `;
       }
 
-      fetch("data.json")
+      fetch("data.json", { credentials: "omit" })
         .then(r => {
           if (!r.ok) throw new Error("HTTP " + r.status);
           return r.json();
@@ -2134,12 +2142,21 @@
           const ls = document.getElementById("loadingState");
           if (ls) ls.remove();
           canvas.style.visibility = "visible";
-          // Build offscreen fallback list for screen readers
+          // Defer the 552-item screen-reader fallback list until the browser is idle.
+          // It's only consumed by assistive tech and never visible — but rendering it inline
+          // adds ~552 DOM nodes that triple Style & Layout time on initial paint.
           const fb = document.getElementById("canvasFallback");
           if (fb) {
-            fb.innerHTML = data.slice(0, 552).map(d =>
-              `<li><a href="${d.url}" target="_blank" rel="noopener noreferrer">${(d.name_en || d.name_ja)} / ${d.name_ja} — AI risk ${d.ai_risk}/10</a></li>`
-            ).join("");
+            const renderFallback = () => {
+              fb.innerHTML = data.slice(0, 552).map(d =>
+                `<li><a href="${d.url}" target="_blank" rel="noopener noreferrer">${(d.name_en || d.name_ja)} / ${d.name_ja} — AI risk ${d.ai_risk}/10</a></li>`
+              ).join("");
+            };
+            if ("requestIdleCallback" in window) {
+              requestIdleCallback(renderFallback, { timeout: 3000 });
+            } else {
+              setTimeout(renderFallback, 1500);
+            }
           }
           setLang("ja");
           updateStats();
