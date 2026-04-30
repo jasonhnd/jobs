@@ -17,9 +17,10 @@
 #       <html lang>, viewport meta.
 #
 # Usage:
-#   ./scripts/seo-check.sh                              # production (default)
-#   ./scripts/seo-check.sh https://mirai-shigoto.com    # explicit URL
-#   ./scripts/seo-check.sh http://localhost:8765        # local dev server
+#   ./scripts/seo-check.sh                                       # production, full sitemap
+#   ./scripts/seo-check.sh https://mirai-shigoto.com             # explicit URL
+#   ./scripts/seo-check.sh http://localhost:8765                 # local dev server
+#   ./scripts/seo-check.sh https://mirai-shigoto.com --sample 5  # sample 4 sentinels + 5 occupation pages
 #
 # Exit codes:
 #   0 = all green
@@ -32,6 +33,13 @@ set -uo pipefail
 
 BASE="${1:-https://mirai-shigoto.com}"
 BASE="${BASE%/}"  # strip trailing slash
+
+# Optional --sample N picks the first 4 sentinel URLs (home/privacy/llms*) plus
+# N evenly-spaced occupation URLs. Useful when sitemap has 552+ URLs.
+SAMPLE=0
+if [ "${2:-}" = "--sample" ] && [ -n "${3:-}" ]; then
+  SAMPLE="$3"
+fi
 
 # Colors only on TTY
 if [ -t 1 ]; then
@@ -93,6 +101,20 @@ else
     warn "no hreflang alternates in sitemap"
   fi
   URLS=$(grep -oE "<loc>[^<]+</loc>" <<<"$SITEMAP" | sed 's|<[^>]*>||g')
+  if [ "$SAMPLE" -gt 0 ]; then
+    # Always keep the 4 sentinel URLs (home, privacy, llms.txt, llms-full.txt) at the top of the sitemap,
+    # then evenly sample $SAMPLE occupation pages from the rest.
+    HEAD_URLS=$(echo "$URLS" | head -n 4)
+    OCC_URLS=$(echo "$URLS" | tail -n +5)
+    OCC_TOTAL=$(echo "$OCC_URLS" | wc -l | tr -d ' ')
+    if [ "$OCC_TOTAL" -gt "$SAMPLE" ]; then
+      STEP=$(( OCC_TOTAL / SAMPLE ))
+      [ "$STEP" -lt 1 ] && STEP=1
+      OCC_URLS=$(echo "$OCC_URLS" | awk -v step="$STEP" 'NR % step == 1' | head -n "$SAMPLE")
+    fi
+    URLS=$(printf '%s\n%s' "$HEAD_URLS" "$OCC_URLS")
+    note "sampling: 4 sentinel + $(echo "$OCC_URLS" | wc -l | tr -d ' ') occupation URLs (of $OCC_TOTAL total)"
+  fi
 fi
 
 # ---- llms.txt (GEO) ------------------------------------------------------
@@ -151,6 +173,16 @@ else
       fail "page unreachable"
       continue
     fi
+
+    # Non-HTML resources (e.g. /llms.txt, /llms-full.txt, /data.json):
+    # only verify HTTP 200 and skip HTML/meta/schema checks.
+    case "$URL" in
+      *.txt|*.json|*.xml)
+        STATUS=$(echo "$HEADERS" | grep -oE "HTTP/[0-9.]+ [0-9]+" | tail -1 | awk '{print $2}')
+        [ "$STATUS" = "200" ] && ok "HTTP $STATUS (non-HTML resource — skipping page-level checks)" || fail "HTTP $STATUS"
+        continue
+        ;;
+    esac
 
     # Flatten multi-line tags so regex like 'name="description"...content="..."'
     # works even when the meta is spread across several lines in the source.
@@ -241,14 +273,19 @@ else
       # home page  → Organization + WebSite + Dataset + ItemList + FAQPage + SpeakableSpecification
       # /privacy   → WebPage + BreadcrumbList + SpeakableSpecification
       case "$URL" in
-        */|"$BASE")
-          for st in Organization WebSite Dataset ItemList FAQPage SpeakableSpecification; do
+        */occ/*)
+          for st in WebPage Occupation BreadcrumbList; do
             if printf '%s' "$TYPES" | grep -qw "$st"; then
               ok "schema: $st"
             else
-              warn "schema missing: $st (home page should have it)"
+              warn "schema missing: $st (occupation page should have it)"
             fi
           done
+          if grep -qE 'shigoto\.mhlw\.go\.jp/User/Occupation/Detail/' <<<"$HTML"; then
+            ok "sameAs links to canonical MHLW jobtag URL"
+          else
+            warn "sameAs to MHLW jobtag URL missing"
+          fi
           ;;
         */privacy*)
           for st in WebPage BreadcrumbList SpeakableSpecification; do
@@ -256,6 +293,15 @@ else
               ok "schema: $st"
             else
               warn "schema missing: $st (privacy page should have it)"
+            fi
+          done
+          ;;
+        */|"$BASE")
+          for st in Organization WebSite Dataset ItemList FAQPage SpeakableSpecification; do
+            if printf '%s' "$TYPES" | grep -qw "$st"; then
+              ok "schema: $st"
+            else
+              warn "schema missing: $st (home page should have it)"
             fi
           done
           ;;
