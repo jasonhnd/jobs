@@ -192,7 +192,7 @@ def render_jsonld(rec: dict, lang: str) -> str:
                 "isPartOf": {"@id": "https://mirai-shigoto.com/#website"},
                 "about": {"@id": f"{canonical}#occupation"},
                 "mainEntity": {"@id": f"{canonical}#occupation"},
-                "primaryImageOfPage": "https://mirai-shigoto.com/og.png",
+                "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}&lang={lang}",
                 "inLanguage": lang,
                 "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
                 "datePublished": DATE_PUBLISHED,
@@ -482,14 +482,17 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     <meta property="og:title" content="{escape(og_title)}" />
     <meta property="og:description" content="{escape(og_desc)}" />
     <meta property="og:url" content="{canonical}" />
-    <meta property="og:image" content="https://mirai-shigoto.com/og.png" />
+    <meta property="og:image" content="https://mirai-shigoto.com/api/og?id={id_}&amp;lang={lang}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="{escape(og_title)}" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{escape(og_title)}" />
     <meta name="twitter:description" content="{escape(og_desc)}" />
-    <meta name="twitter:image" content="https://mirai-shigoto.com/og.png" />
+    <meta name="twitter:image" content="https://mirai-shigoto.com/api/og?id={id_}&amp;lang={lang}" />
+    <meta name="twitter:image:alt" content="{escape(og_title)}" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 

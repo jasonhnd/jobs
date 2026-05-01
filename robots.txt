@@ -4,6 +4,10 @@
 
 User-agent: *
 Allow: /
+# Allow social-platform OG image scrapers and search crawlers to fetch
+# the dynamically rendered preview cards. The other /api/ endpoints
+# (subscribe, feedback) are write-side and remain disallowed.
+Allow: /api/og
 Disallow: /api/
 
 # AI / LLM crawlers — explicitly opted in.
