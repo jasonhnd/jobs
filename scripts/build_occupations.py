@@ -198,7 +198,7 @@ def render_jsonld(rec: dict, lang: str) -> str:
                 "datePublished": DATE_PUBLISHED,
                 "dateModified": DATE_MODIFIED,
                 "publisher": {"@id": "https://mirai-shigoto.com/#organization"},
-                "author": {"@id": "https://mirai-shigoto.com/#person"},
+                "author": {"@id": "https://mirai-shigoto.com/#organization"},
             },
             occupation_node,
             {
@@ -464,7 +464,6 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     <title>{escape(title)}</title>
     <meta name="description" content="{escape(seo_desc)}" />
     <meta name="robots" content="index, follow" />
-    <meta name="author" content="Jason" />
 
     <link rel="canonical" href="{canonical}" />
     <link rel="alternate" hreflang="ja" href="{ja_url(id_)}" />
@@ -488,15 +487,13 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@jasonaxb" />
-    <meta name="twitter:creator" content="@jasonaxb" />
     <meta name="twitter:title" content="{escape(og_title)}" />
     <meta name="twitter:description" content="{escape(og_desc)}" />
     <meta name="twitter:image" content="https://mirai-shigoto.com/og.png" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 
-    <!-- Schema.org JSON-LD: WebPage + Occupation + BreadcrumbList. References parent #website / #organization / #dataset / #person from the home page. -->
+    <!-- Schema.org JSON-LD: WebPage + Occupation + BreadcrumbList. References parent #website / #organization / #dataset from the home page. -->
     <script type="application/ld+json">
 {jsonld}
     </script>

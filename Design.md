@@ -519,6 +519,4 @@ hover (各平台品牌色覆盖):
 
 ---
 
-> 本文件维护人：Jason  
-> 站点：https://mirai-shigoto.com  
-> 仓库：mirai-shigoto / jobs
+> 站点：https://mirai-shigoto.com
