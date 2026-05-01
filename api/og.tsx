@@ -74,7 +74,7 @@ export default async function handler(req: Request): Promise<Response> {
   // Fetch the dataset from the same origin. Vercel caches this internally,
   // so concurrent OG requests share one upstream fetch.
   const dataUrl = new URL("/data.json", url.origin);
-  const dataRes = await fetch(dataUrl.toString(), { cf: { cacheTtl: 600 } as any });
+  const dataRes = await fetch(dataUrl.toString());
   if (!dataRes.ok) {
     return new Response("Upstream data.json fetch failed", { status: 502 });
   }

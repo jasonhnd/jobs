@@ -4,6 +4,11 @@
   "private": true,
   "description": "Static site + Vercel Edge Functions for mirai-shigoto.com. Python is the build pipeline; Node is here only so Vercel can detect and bundle the @vercel/og runtime used by api/og.tsx.",
   "dependencies": {
-    "@vercel/og": "^0.6.5"
+    "@vercel/og": "^0.6.5",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "typescript": "^5.6.3"
   }
 }
