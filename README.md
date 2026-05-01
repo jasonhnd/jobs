@@ -2,7 +2,7 @@
 
 [![Live Site](https://img.shields.io/badge/live-mirai--shigoto.com-ffb84d)](https://mirai-shigoto.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](CHANGELOG.md)
 [![Hosting: Vercel](https://img.shields.io/badge/hosting-Vercel%20(hnd1)-000)](https://vercel.com)
 
 > **🇯🇵 [日本語版 README はこちら](README.ja.md)**
@@ -17,7 +17,7 @@ Same dataset, two faces: 日本語 for the domestic audience, English for the in
 
 ## Status
 
-`v0.6.0` — **production**. The full pipeline is live: **552 Japanese occupations** with LLM-scored AI replacement risk (0–10), English translations, and a complete bilingual UI on a custom domain.
+`v0.5.0` — **production**. The full pipeline is live: **552 Japanese occupations** with LLM-scored AI replacement risk (0–10), English translations, and a complete bilingual UI on a custom domain. Significant unreleased work has accumulated since v0.5.0 — see the **Unreleased** block in [CHANGELOG.md](CHANGELOG.md) for what will land in the next release.
 
 What's shipped:
 
@@ -113,20 +113,30 @@ Past releases (see [CHANGELOG.md](CHANGELOG.md) for detail):
 - **v0.0.1 – v0.0.5** — scaffolding, scraper, parser, translation, scoring, first `data.json`. ✅
 - **v0.1.0 – v0.3.x** — squarified treemap, bilingual UI, search, layer toggle, mobile pass, OG / hreflang, top banner. ✅
 - **v0.4.x** — custom domain `mirai-shigoto.com`, GA4, mobile tooltip fixes. ✅
-- **v0.5.0** — Vercel migration, bilingual privacy policy, four-tracker analytics, SEO + GEO (robots / sitemap / llms.txt / JSON-LD). ✅
-- **v0.6.0** — light/dark theme, vibrant light palette, 552 per-occupation pages, Resend backend, footer share buttons, `Design.md` spec. ✅ (current)
+- **v0.5.0** — Vercel migration, bilingual privacy policy, four-tracker analytics, SEO + GEO (robots / sitemap / llms.txt / JSON-LD). ✅ (current)
+
+What's in flight (Unreleased):
+
+- Light / dark theme system with `prefers-color-scheme` detection and GA4 `theme_change` event.
+- Vibrant light-mode treemap palette + alpha rebalanced for white background + theme-aware canvas redraw.
+- Taller desktop treemap (`w × 1.05`) and larger desktop tooltip (0.92 rem / 400 px).
+- 552 per-occupation static pages (`/ja/<id>.html`, `/en/<id>.html`).
+- Vercel Edge Functions for Resend (subscribe + feedback).
+- Footer social share buttons (X / LINE / Hatena / LinkedIn / Copy / Native).
+- `Design.md` — visual single-source-of-truth spec.
+- A-tier perf passes (preload `data.json`, defer 552-item fallback list, defer GTM).
 
 What's next:
 
-### v0.7.x — Newsletter operationalization
+### v0.6.x — Newsletter operationalization
 
 Email funnel end-to-end. Audiences split by language (JA / EN), tagged by occupation_id when the address is captured from a per-occupation modal. Welcome email + segmented monthly digest. Unsubscribe flow tested against the privacy policy claims.
 
-### v0.8.x — Content depth
+### v0.7.x — Content depth
 
 Methodology long-read on `/methodology` explaining the LLM scoring rubric, anchors, validation against BLS-ported scores, and known calibration drift. Add a `?embed=1` mode that strips chrome for embedding the treemap in third-party articles.
 
-### v0.9.x — Data dump exports
+### v0.8.x — Data dump exports
 
 Public `data.json` already exists; add CSV and Parquet exports under `/exports/`, plus a one-click "Cite this dataset" widget that produces BibTeX / APA / Schema.org Dataset JSON. Versioned snapshots so academic citations stay stable.
 
