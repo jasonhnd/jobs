@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.6.0] - 2026-05-01
-
 ### Added — Theme system
 
 - **Light / dark mode with system-pref detection.** New 3-state theme model: `system` (no `data-theme` attribute, follows `prefers-color-scheme`), explicit `light`, explicit `dark`. A no-flash inline script in `<head>` reads `localStorage.theme` before any CSS loads, so reloading on an explicit choice never paints the wrong palette. Toggle button (sun / moon SVG, 32 px round) sits next to the language switcher in the page header. Choice persists in `localStorage`. Every toggle fires GA4 `theme_change` event with `from`, `to`, `was_explicit`, and `system_pref` parameters (instrumented in `analytics/spec.yaml`).
