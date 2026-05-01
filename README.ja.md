@@ -249,13 +249,13 @@ jobs/
 
 ### APA
 
-> jasonhnd. (2026). *Japan Jobs × AI Risk: A bilingual visualization of 552 Japanese occupations with LLM-scored AI replacement risk* [Web visualization]. <https://mirai-shigoto.com/>
+> Mirai Shigoto. (2026). *Japan Jobs × AI Risk: A bilingual visualization of 552 Japanese occupations with LLM-scored AI replacement risk* [Web visualization]. <https://mirai-shigoto.com/>
 
 ### BibTeX
 
 ```bibtex
 @misc{japan_jobs_ai_risk,
-  author       = {jasonhnd},
+  author       = {{Mirai Shigoto}},
   title        = {Japan Jobs × AI Risk: A bilingual visualization of 552 Japanese occupations with LLM-scored AI replacement risk},
   year         = {2026},
   howpublished = {\url{https://mirai-shigoto.com/}},
@@ -283,7 +283,7 @@ GitHub Issues と Pull Request を歓迎します：
 
 ## ライセンス
 
-[MIT](LICENSE) © 2026 jasonhnd
+[MIT](LICENSE) © 2026 mirai-shigoto.com
 
 MIT ライセンスは本リポジトリ内のソースコードに適用されます。土台となる厚労省 job tag のデータは厚生労働省が独自の利用条件で公開しています — 一次データの利用条件は <https://shigoto.mhlw.go.jp/User/> をご確認ください。
 

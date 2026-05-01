@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal
 
-- **Cloudflare beacon token rotated.** The earlier token was registered against the `jasonhnd.github.io` site; with the custom domain live, swapped to a new `mirai-shigoto.com`-scoped token and propagated across all 554 HTML files (index + privacy + 552 occupation pages × 2 languages, minus the language-pair dupes already counted).
+- **Cloudflare beacon token rotated.** The earlier token was registered against the previous GitHub Pages site; with the custom domain live, swapped to a new `mirai-shigoto.com`-scoped token and propagated across all 554 HTML files (index + privacy + 552 occupation pages × 2 languages, minus the language-pair dupes already counted).
 
 ### Deployment notes
 
@@ -67,7 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Migrated production hosting from GitHub Pages to Vercel.** mirai-shigoto.com now serves from Vercel's Tokyo edge node (`hnd1`) — sub-50ms TTFB for Japanese visitors. SSL auto-renewed, HSTS `max-age=63072000`, cleanUrls enabled (`/privacy.html` → `/privacy`).
 - **`vercel.json`** — explicit static-site config (`framework: null`, `buildCommand: null`) so Vercel doesn't misdetect the Python pipeline scripts as a serverless target. Cache headers for `data.json` (5min CDN) and `og.png` (1 day).
-- **GitHub Pages → redirect.** New orphan `gh-pages` branch with a single redirect HTML; `jasonhnd.github.io/jobs/*` now 301-style redirects to the corresponding path on `mirai-shigoto.com` (preserves path / query / hash). Source-of-truth code stays on `main`, served by Vercel.
+- **GitHub Pages → redirect.** New orphan `gh-pages` branch with a single redirect HTML; the previous GitHub Pages URL now 301-style redirects to the corresponding path on `mirai-shigoto.com` (preserves path / query / hash). Source-of-truth code stays on `main`, served by Vercel.
 - **DNS:** Cloudflare DNS-only (grey-cloud) `A 76.76.21.21` for the apex domain. Cloudflare Email Routing forwards `privacy@mirai-shigoto.com` → operator inbox.
 
 ### Added — Privacy policy
@@ -100,7 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `mirai-shigoto.com` HTTP 200, `server: Vercel`, `x-vercel-cache: HIT`, `x-vercel-id: hnd1::...`
 - `/privacy` 200, all 4 analytics scripts present
-- `jasonhnd.github.io/jobs/` redirects to `mirai-shigoto.com/` (path + hash preserved)
+- The previous GitHub Pages URL redirects to `mirai-shigoto.com/` (path + hash preserved)
 - 4 `cleanUrls` redirects working (`/privacy.html` → `/privacy`)
 
 ---
@@ -146,7 +146,7 @@ GA4 sets cookies by default. If audience exposure expands to EU/UK/CA visitors a
 
 ### Changed
 
-- Replaced 13 hardcoded `https://jasonhnd.github.io/jobs/` references with `https://mirai-shigoto.com/` across:
+- Replaced 13 hardcoded references to the previous GitHub Pages URL with `https://mirai-shigoto.com/` across:
   - `index.html` (5: meta og:url, og:image, og:image:secure_url, twitter:image, canonical)
   - `og-card.html` (1: visible footer URL in OG image)
   - `README.md` / `README.ja.md` (4: badges + Live links)
@@ -157,7 +157,7 @@ GA4 sets cookies by default. If audience exposure expands to EU/UK/CA visitors a
 
 ### Migration
 
-- The old URL `https://jasonhnd.github.io/jobs/` continues to work — GitHub Pages auto-redirects (301) to the custom domain once DNS resolves, so existing shared links on X / Telegram / etc. don't break.
+- The old GitHub Pages URL continues to work — GitHub Pages auto-redirects (301) to the custom domain once DNS resolves, so existing shared links on X / Telegram / etc. don't break.
 - Telegram / X / Facebook / LINE preview caches still hold the old URL string. Use the same cache-clearing methods documented in v0.3.4 (Telegram `@WebpageBot`, FB Sharing Debugger, etc.) to refresh card previews to the new domain.
 
 ### Why "mirai-shigoto.com"
@@ -264,7 +264,7 @@ Per legal audit:
 - Comply with jobtag's terms of use for secondary processing of public data: name JILPT, the database, and clearly mark as "加工して作成".
 - Add usage notice to limit liability if users make career/HR decisions based on the visualization.
 
-og.png itself is unchanged because the bottom credit ("by Jason · MIT · データ：厚生労働省 jobtag") already reads as personal attribution, not official partnership; modifying the image would invalidate cached previews on Telegram/X.
+og.png itself is unchanged because the bottom credit (operator attribution + MIT + データ：厚生労働省 jobtag) already reads as independent attribution, not official partnership; modifying the image would invalidate cached previews on Telegram/X.
 
 ---
 
@@ -302,7 +302,7 @@ og.png itself is unchanged because the bottom credit ("by Jason · MIT · デー
 
 - **OG / Twitter Card preview image** (`og.png`, 1200×630): when the URL is shared on Telegram / LINE / X / Slack / Discord / Facebook, those platforms now show a rich preview card instead of a bare link. Card features the punchline "あなたの仕事は AI に消える？" in red, plus four headline stats (552 職業 / 5,449万人 / 9/10 / 31%) over an AI-risk-weighted heatmap background.
 - **`og-card.html`**: source HTML for the OG image. Render at 1200×630 in headless Chrome and screenshot to `og.png` to regenerate.
-- High-impact JA-first meta tags: `<title>`, `<meta name="description">`, full Open Graph block (with `og:image:width`/`height`/`alt`, `og:locale`, `og:site_name`), and Twitter Card block (`twitter:site`, `twitter:creator` = `@jasonaxb`).
+- High-impact JA-first meta tags: `<title>`, `<meta name="description">`, full Open Graph block (with `og:image:width`/`height`/`alt`, `og:locale`, `og:site_name`), and Twitter Card block (`twitter:site`, `twitter:creator`).
 - `og.png` previously referenced in meta but did not exist (404). Now committed.
 
 ### Why
@@ -323,7 +323,7 @@ og.png itself is unchanged because the bottom credit ("by Jason · MIT · デー
 
 ### Added
 
-- **Author byline**: H1 now shows "by Jason" linking to https://x.com/jasonaxb (orange dotted underline, accessible via keyboard).
+- **Author byline**: H1 now shows an attribution link to the operator's external profile (orange dotted underline, accessible via keyboard).
 - **Dimension hint bar**: a new strip directly below the layer toggle states explicitly that tile area = workforce (constant) and tile color = the currently selected layer. The "color = X" portion updates live whenever the user clicks a layer button. This addresses a UX confusion where users assumed the tile sizes should change between tabs and thought the layer toggle was broken; the hint makes the dual-encoding (size + color) explicit.
 
 ### Why
@@ -372,7 +372,7 @@ og.png itself is unchanged because the bottom credit ("by Jason · MIT · デー
 
 ## [0.1.0] - 2026-04-25
 
-First visualization release. **Live at https://jasonhnd.github.io/jobs/**
+First visualization release. **Live at the previous GitHub Pages URL** (later migrated to `mirai-shigoto.com`).
 
 ### Added
 
@@ -443,7 +443,7 @@ Initial scaffolding release. The site is reachable but contains only a bilingual
 ### Added
 
 - Bilingual placeholder page (日本語 / English) with automatic language detection from `navigator.language` and a top-right toggle.
-- GitHub Pages deployment at https://jasonhnd.github.io/jobs/ (HTTPS enforced).
+- GitHub Pages deployment (HTTPS enforced).
 - MIT license.
 - `README.md` (English) and `README.ja.md` (Japanese) with project intent, planned pipeline, data sources, and local-development instructions.
 - `.gitignore` covering Python, Node, OS, and editor artifacts.

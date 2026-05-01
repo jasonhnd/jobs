@@ -249,13 +249,13 @@ If you reference this site in writing, the following formats work:
 
 ### APA
 
-> jasonhnd. (2026). *Japan Jobs × AI Risk: A bilingual visualization of 552 Japanese occupations with LLM-scored AI replacement risk* [Web visualization]. <https://mirai-shigoto.com/>
+> Mirai Shigoto. (2026). *Japan Jobs × AI Risk: A bilingual visualization of 552 Japanese occupations with LLM-scored AI replacement risk* [Web visualization]. <https://mirai-shigoto.com/>
 
 ### BibTeX
 
 ```bibtex
 @misc{japan_jobs_ai_risk,
-  author       = {jasonhnd},
+  author       = {{Mirai Shigoto}},
   title        = {Japan Jobs × AI Risk: A bilingual visualization of 552 Japanese occupations with LLM-scored AI replacement risk},
   year         = {2026},
   howpublished = {\url{https://mirai-shigoto.com/}},
@@ -283,7 +283,7 @@ Contributions are welcome via GitHub Issues and Pull Requests:
 
 ## License
 
-[MIT](LICENSE) © 2026 jasonhnd
+[MIT](LICENSE) © 2026 mirai-shigoto.com
 
 The MIT license covers the source code in this repository. The underlying MHLW jobtag data is published by 厚生労働省 under their own terms; consult <https://shigoto.mhlw.go.jp/User/> for usage conditions on the primary data.
 
