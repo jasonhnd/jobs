@@ -1,9 +1,9 @@
 # Japan Jobs × AI Risk
 
-[![Live Site](https://img.shields.io/badge/live-jasonhnd.github.io%2Fjobs-ffb84d)](https://mirai-shigoto.com/)
+[![Live Site](https://img.shields.io/badge/live-mirai--shigoto.com-ffb84d)](https://mirai-shigoto.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](CHANGELOG.md)
-[![Pages](https://img.shields.io/github/deployments/jasonhnd/jobs/github-pages?label=pages)](https://github.com/jasonhnd/jobs/deployments)
+[![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](CHANGELOG.md)
+[![Hosting: Vercel](https://img.shields.io/badge/hosting-Vercel%20(hnd1)-000)](https://vercel.com)
 
 > **🇯🇵 [日本語版 README はこちら](README.ja.md)**
 
@@ -17,9 +17,24 @@ Same dataset, two faces: 日本語 for the domestic audience, English for the in
 
 ## Status
 
-`v0.1.0` — **first visualization release**. **552 Japanese occupations** scraped from MHLW jobtag are live in a squarified treemap with 5 selectable color layers (Salary / Avg Age / Hours / Recruit Ratio / Education). Bilingual UI (JA/EN, auto-detect), per-tile tooltips, click-through to jobtag detail pages. AI replacement risk and English translations remain `null` placeholders, landing in `v0.0.4`.
+`v0.6.0` — **production**. The full pipeline is live: **552 Japanese occupations** with LLM-scored AI replacement risk (0–10), English translations, and a complete bilingual UI on a custom domain.
 
-See the [CHANGELOG](CHANGELOG.md) for what's shipped and the [Roadmap](#roadmap) below for what's next.
+What's shipped:
+
+- **Custom domain** `mirai-shigoto.com` on Vercel's Tokyo edge (`hnd1`) — sub-50 ms TTFB for Japanese visitors.
+- **Squarified treemap** of all 552 occupations with 6 color layers (AI risk / Salary / Avg Age / Hours / Recruit Ratio / Education) and a colorblind-safe viridis toggle.
+- **Bilingual UI** (日本語 / English, browser-locale auto-detect, per-page hreflang).
+- **Light + dark mode** with `prefers-color-scheme` detection, no-flash inline script, persistent `localStorage` choice, and a sun / moon toggle. Treemap palette and canvas background switch per theme.
+- **552 per-occupation static pages** (1,104 HTML files: JA + EN), each with Schema.org `Occupation` JSON-LD, full risk rationale, and the same 4 analytics scripts as the home page.
+- **Email-collection backend** — `api/subscribe.js` + `api/feedback.js` Vercel Edge Functions (Tokyo edge), backed by Resend.
+- **Privacy policy** at `/privacy` (bilingual, APPI + GDPR-friendly), Cloudflare Email Routing for `privacy@mirai-shigoto.com`.
+- **Analytics**: Cloudflare Web Analytics + GA4 + Vercel Web Analytics + Vercel Speed Insights — four trackers in parallel for cross-validation.
+- **SEO + GEO**: `robots.txt` (opts in 17 LLM crawlers), `sitemap.xml` (1,104 URLs with hreflang), `llms.txt` (per [llmstxt.org](https://llmstxt.org/)), Schema.org `WebSite` + `Dataset` + `Person` graph.
+- **`Design.md`** — single-source-of-truth visual spec covering tokens, theme system, responsive breakpoints, treemap rules, and per-component standards.
+
+Performance budget held: LCP < 1.6 s on 4G, INP < 80 ms, CLS = 0. Bundle under the 80 KB microsite budget.
+
+See the [CHANGELOG](CHANGELOG.md) for the full history and [`Design.md`](Design.md) for the visual spec.
 
 ---
 
@@ -93,39 +108,31 @@ Fields and field names will be locked in `0.2.0` when the parser lands. Subject 
 
 ## Roadmap
 
-### v0.0.1 — Scaffolding ✅ (current)
+Past releases (see [CHANGELOG.md](CHANGELOG.md) for detail):
 
-Bilingual placeholder, GitHub Pages deployment, MIT license, READMEs, changelog.
+- **v0.0.1 – v0.0.5** — scaffolding, scraper, parser, translation, scoring, first `data.json`. ✅
+- **v0.1.0 – v0.3.x** — squarified treemap, bilingual UI, search, layer toggle, mobile pass, OG / hreflang, top banner. ✅
+- **v0.4.x** — custom domain `mirai-shigoto.com`, GA4, mobile tooltip fixes. ✅
+- **v0.5.0** — Vercel migration, bilingual privacy policy, four-tracker analytics, SEO + GEO (robots / sitemap / llms.txt / JSON-LD). ✅
+- **v0.6.0** — light/dark theme, vibrant light palette, 552 per-occupation pages, Resend backend, footer share buttons, `Design.md` spec. ✅ (current)
 
-### v0.0.2 — Scraper PoC
+What's next:
 
-`scripts/list_occupations.py` (jobtag A–Z extractor) + `scripts/scrape_jobtag.py` (one occupation end-to-end as a smoke test).
+### v0.7.x — Newsletter operationalization
 
-### v0.0.3 — Full ingest
+Email funnel end-to-end. Audiences split by language (JA / EN), tagged by occupation_id when the address is captured from a per-occupation modal. Welcome email + segmented monthly digest. Unsubscribe flow tested against the privacy policy claims.
 
-All ~500 jobtag pages cached locally + `scripts/parse.py` and `scripts/extract_fields.py` producing a clean CSV.
+### v0.8.x — Content depth
 
-### v0.0.4 — Translation + scoring
+Methodology long-read on `/methodology` explaining the LLM scoring rubric, anchors, validation against BLS-ported scores, and known calibration drift. Add a `?embed=1` mode that strips chrome for embedding the treemap in third-party articles.
 
-`scripts/translate.py` (LLM batch JA→EN) and `scripts/score_ai_risk.py` (0–10 AI replacement scores). Anchors and rubric ported from [karpathy/jobs](https://github.com/karpathy/jobs/blob/main/score.py) with Japan-specific occupation examples.
+### v0.9.x — Data dump exports
 
-### v0.0.5 — First `data.json`
-
-`scripts/build_data.py` merges CSV + scores into a bilingual `data.json`. Visualization still placeholder.
-
-### v0.1.0 — Visualization
-
-Squarified treemap with industry × AI risk × salary axes, filter UI, search, occupation detail tooltip. `?lang=ja` / `?lang=en` URL switch.
-
-### v0.2.0 — Polish
-
-Headcount calibration via 総務省 統計局, performance pass, accessibility, shareable URLs, OG / Twitter Card metadata. Bilingual `prompt.md` artifact (à la karpathy's `make_prompt.py`).
+Public `data.json` already exists; add CSV and Parquet exports under `/exports/`, plus a one-click "Cite this dataset" widget that produces BibTeX / APA / Schema.org Dataset JSON. Versioned snapshots so academic citations stay stable.
 
 ### v1.0.0 — Stable
 
-Public-ready. Methodology page, citations, data dump downloads.
-
-See [CHANGELOG.md](CHANGELOG.md) for detailed release notes.
+Public-launch threshold: methodology peer-reviewed by ≥ 2 outside readers, score-stability check across two independent LLMs, accessibility audit (WCAG AA), at least one external citation in published writing, and the OPC validation plan's quality-impressions threshold met.
 
 ---
 
@@ -155,19 +162,35 @@ Pipeline scripts live under `scripts/` — see [`scripts/README.md`](scripts/REA
 
 ```text
 jobs/
-├── index.html             # bilingual front end (root, served by GitHub Pages)
-├── data.json              # (v0.0.5+) compact bilingual data consumed by index.html
-├── occupations.json       # (v0.0.2+) master occupation list from jobtag A–Z
-├── occupations.csv        # (v0.0.3+) tabulated structured fields
-├── scores.json            # (v0.0.4+) AI replacement scores + rationales
-├── prompt.md              # (v0.2.0+) single-file LLM-ready data dump
-├── scripts/               # (v0.0.2+) pipeline scripts
-├── html/                  # (gitignored) raw scraped jobtag HTML
-├── pages/                 # (gitignored) clean Markdown per occupation
+├── index.html             # bilingual treemap front end (root, served by Vercel)
+├── privacy.html           # bilingual privacy policy → /privacy via cleanUrls
+├── ja/<id>.html           # 552 per-occupation pages (Japanese)
+├── en/<id>.html           # 552 per-occupation pages (English)
+├── api/
+│   ├── subscribe.js       # Edge Function — email opt-in (Resend audiences)
+│   └── feedback.js        # Edge Function — bottom-of-page feedback form
+├── analytics/
+│   ├── spec.yaml          # GA4 instrumentation spec (events / dimensions / key events)
+│   ├── setup-ga4.mjs      # idempotent script that applies spec via GA4 Admin API
+│   └── README.md          # how to run the spec sync
+├── data.json              # compact bilingual data consumed by every page
+├── occupations.json       # master occupation list from jobtag A–Z
+├── occupations.csv        # tabulated structured fields
+├── scores.json            # AI replacement scores + rationales (JA + EN)
+├── prompt.en.md /         # single-file LLM-ready data dump
+│   prompt.ja.md
+├── og.png                 # 1200×630 social card
+├── robots.txt /           # SEO / GEO discoverability
+│   sitemap.xml /
+│   llms.txt
+├── scripts/               # ingest + build pipeline (Python) + seo-check.sh
+├── vercel.json            # static-site config (cleanUrls, redirects, headers)
+├── Design.md              # visual single source of truth — tokens, theme, breakpoints
 ├── README.md              # English (this file)
 ├── README.ja.md           # 日本語
 ├── CHANGELOG.md
 ├── LICENSE                # MIT
+├── .gitattributes         # `* text=auto eol=lf`
 └── .gitignore
 ```
 
