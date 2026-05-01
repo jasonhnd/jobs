@@ -821,10 +821,10 @@
         background: var(--bg2);
         border: 1px solid var(--border);
         border-radius: 8px;
-        padding: 12px 14px;
-        font-size: 0.82rem;
-        line-height: 1.5;
-        max-width: 360px;
+        padding: 14px 16px;
+        font-size: 0.92rem;
+        line-height: 1.55;
+        max-width: 400px;
         opacity: 0;
         transition: opacity 0.12s;
         z-index: 20;
@@ -909,9 +909,9 @@
       }
       #tooltip .tt-title {
         font-weight: 600;
-        font-size: 0.95rem;
-        margin-bottom: 6px;
-        color: #fff;
+        font-size: 1.06rem;
+        margin-bottom: 8px;
+        color: var(--fg);
       }
       #tooltip .tt-row {
         display: grid;
@@ -1646,12 +1646,41 @@
 
       function clamp(t) { return Math.max(0, Math.min(1, t)); }
       function boostContrast(t) { const c = (t - 0.5) * 2; const b = Math.sign(c) * Math.pow(Math.abs(c), 0.55); return b / 2 + 0.5; }
-      function greenRedCSS(t, alpha) {
-        t = boostContrast(clamp(t));
+      // Theme detection — used by treemap palette + canvas bg.
+      function isLightThemeNow() {
+        const explicit = document.documentElement.getAttribute("data-theme");
+        if (explicit === "light") return true;
+        if (explicit === "dark") return false;
+        return matchMedia("(prefers-color-scheme: light)").matches;
+      }
+      // Dark-mode ramp (Design.md §2.1): forest green → amber → harsh red.
+      function greenRedCSSDark(t, alpha) {
         let r, g, b;
         if (t < 0.5) { const s = t / 0.5; r = Math.round(30 + s * 200); g = Math.round(180 - s * 20); b = Math.round(40 - s * 20); }
         else { const s = (t - 0.5) / 0.5; r = Math.round(230 + s * 25); g = Math.round(160 - s * 130); b = Math.round(20 - s * 5); }
         return `rgba(${r},${g},${b},${alpha})`;
+      }
+      // Light-mode ramp (Design.md §2.1): vivid emerald (15,195,105)
+      // → burnt orange (235,115,25) → vivid red (235,40,55).
+      // Pushed deep + saturated so contrast survives alpha-blending on #fafafa.
+      function greenRedCSSLight(t, alpha) {
+        let r, g, b;
+        if (t < 0.5) {
+          const s = t / 0.5;
+          r = Math.round(15 + s * 220);
+          g = Math.round(195 - s * 80);
+          b = Math.round(105 - s * 80);
+        } else {
+          const s = (t - 0.5) / 0.5;
+          r = 235;
+          g = Math.round(115 - s * 75);
+          b = Math.round(25 + s * 30);
+        }
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+      function greenRedCSS(t, alpha) {
+        t = boostContrast(clamp(t));
+        return isLightThemeNow() ? greenRedCSSLight(t, alpha) : greenRedCSSDark(t, alpha);
       }
       // Viridis-like 5-stop perceptually-uniform palette (colorblind-safe)
       const VIRIDIS_STOPS = [
@@ -1777,7 +1806,8 @@
         const w = wrapperWidth - (isMobile ? 32 : 56);
         // Mobile: tall portrait canvas (~2.6x width) so each tile gets enough area to be readable.
         // Desktop: landscape (~0.6x width) since the wrapper is already wide.
-        const h = isMobile ? Math.round(w * 2.6) : Math.round(w * 0.6);
+        // Design.md §5.1: desktop 1.05 (was 0.6) — small tiles need vertical room for labels.
+        const h = isMobile ? Math.round(w * 2.6) : Math.round(w * 1.05);
         canvas.width = w * dpr; canvas.height = h * dpr;
         canvas.style.width = w + "px"; canvas.style.height = h + "px";
         const items = data.filter(d => d.workers && d.workers > 0).map(d => ({...d, value: d.workers}));
@@ -1801,7 +1831,8 @@
 
       function draw() {
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.fillStyle = "#0b0d10";
+        // Design.md §5.5: theme-aware bg matches site --bg so canvas seam is invisible.
+        ctx.fillStyle = isLightThemeNow() ? "#fafafa" : "#0b0d10";
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
         const isMobile = window.innerWidth < 768;
         const labelMinW = isMobile ? 30 : 50;
@@ -1813,7 +1844,8 @@
         for (const r of rects) {
           const isHover = r === hovered;
           const isDimmed = dimmedIds && !dimmedIds.has(r.id);
-          const baseAlpha = isDimmed ? 0.18 : (isHover ? 0.92 : 0.62);
+          // Design.md §2.1: light needs higher alpha (0.95/1.0) to avoid white-wash; dark stays at 0.62/0.92.
+          const baseAlpha = isDimmed ? 0.18 : (isLightThemeNow() ? (isHover ? 1 : 0.95) : (isHover ? 0.92 : 0.62));
           const g = GAP / 2;
           const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
           if (rw <= 0 || rh <= 0) continue;
@@ -2524,6 +2556,10 @@
           const next = cur === "light" ? "dark" : "light";
           document.documentElement.setAttribute("data-theme", next);
           try { localStorage.setItem("theme", next); } catch (e) {}
+          // Design.md §3.2: canvas must repaint with theme-appropriate palette + bg.
+          if (typeof draw === "function") {
+            try { draw(); } catch (e) {}
+          }
           if (window.gtag) gtag("event", "theme_change", {
             from: cur,
             to: next,
