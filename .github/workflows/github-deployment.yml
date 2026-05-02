@@ -1,0 +1,70 @@
+name: Mark production deployment
+
+# Why this exists:
+# Vercel's GitHub integration writes per-deploy *.vercel.app URLs to the
+# Repo's Deployments page. Those URLs are locked behind Vercel's
+# Deployment Protection (HTTP 401) so external visitors can't open them.
+# This workflow creates an additional GitHub Deployment that points to
+# the public custom domain (https://mirai-shigoto.com) so the link on
+# the GitHub Deployments page actually works.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  deployments: write
+  contents: read
+
+jobs:
+  mark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Wait for Vercel auto-deploy to propagate
+        run: sleep 60
+
+      - name: Probe production URL until live
+        env:
+          PROD_URL: https://mirai-shigoto.com/
+        run: |
+          for i in 1 2 3 4 5; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" "$PROD_URL")
+            if [ "$CODE" = "200" ]; then
+              echo "Production live (HTTP $CODE)"
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $CODE; retrying in 30s"
+            sleep 30
+          done
+          echo "Production probe failed after 5 attempts"
+          exit 1
+
+      - name: Create GitHub deployment + mark success
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          DEP_ID=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/$GH_REPO/deployments" \
+            -f ref="$SHA" \
+            -f environment="mirai-shigoto.com" \
+            -f description="Production deploy" \
+            -F auto_merge=false \
+            -f 'required_contexts[]' \
+            --jq .id)
+
+          echo "Created deployment $DEP_ID"
+
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/$GH_REPO/deployments/$DEP_ID/statuses" \
+            -f state="success" \
+            -f environment_url="https://mirai-shigoto.com" \
+            -f log_url="https://vercel.com/zkscio/jobs/deployments" \
+            -f description="Live at mirai-shigoto.com"
