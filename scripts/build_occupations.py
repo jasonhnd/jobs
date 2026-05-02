@@ -454,6 +454,26 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     hourly_disp = f"¥{fmt_int(hourly)}" if hourly else "—"
     risk_num_disp = risk if risk is not None else "—"
 
+    # GA4 result_view signal — fires synchronously on page load. The gtag stub
+    # in ANALYTICS_BLOCK queues the call into dataLayer and the real gtag.js
+    # (loaded on window.load) replays it. Risk tier mirrors the convention used
+    # for tooltip_cta_click in index.html.
+    risk_score_js = str(risk) if risk is not None else "null"
+    if risk is not None and risk >= 7:
+        risk_tier_js = "'high'"
+    elif risk is not None and risk >= 5:
+        risk_tier_js = "'mid'"
+    else:
+        risk_tier_js = "'low'"
+    result_view_block = (
+        "    <script>\n"
+        "      // Per-occupation page-view signal for the GA4 conversion funnel.\n"
+        f"      gtag('event', 'result_view', {{ occupation_id: {id_}, "
+        f"ai_risk_score: {risk_score_js}, risk_tier: {risk_tier_js}, "
+        f"language: '{lang}' }});\n"
+        "    </script>"
+    )
+
     html = f"""<!doctype html>
 <html lang="{lang}">
   <head>
@@ -502,6 +522,8 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     </script>
 
 {ANALYTICS_BLOCK}
+
+{result_view_block}
 
     <style>{CSS_BLOCK}</style>
   </head>

@@ -56,7 +56,11 @@ events:
 
   # ---- Treemap interaction ----
   - name: occupation_tile_click
-    description: User clicked / tapped a tile on the treemap. Fires before modal opens.
+    description: |
+      User clicked / tapped a tile on the treemap and the per-occupation page
+      opened. Fires from canvas click (desktop), touch second-tap (mobile),
+      and keyboard Enter/Space, distinguished by `source`. The user immediately
+      navigates to /ja/<id> or /en/<id> after this event.
     params:
       - { name: occupation_id, type: int }
       - { name: occupation_name_ja, type: string }
@@ -64,9 +68,10 @@ events:
       - { name: ai_risk_score, type: int }
       - { name: risk_tier, type: string, desc: "high (>=7) | mid (5-6) | low (<=4)" }
       - { name: salary, type: int, desc: "Annual salary in 10,000 JPY units" }
-      - { name: tile_position_idx, type: int, desc: "0-indexed position in rendered rect list" }
+      - { name: tile_position_idx, type: int, desc: "0-indexed position in rendered rect list (-1 if not findable)" }
+      - { name: source, type: string, desc: "desktop_click | touch_tap | keyboard" }
       - { name: language, type: string }
-    conversion: false
+    conversion: true   # treemap → occupation page is the primary navigation funnel
 
   - name: tooltip_view
     description: Desktop hover triggered tooltip display (proxy for desktop tile interest).
@@ -77,12 +82,28 @@ events:
     conversion: false
 
   - name: search_used
-    description: User typed in search box and got >=1 result.
+    description: |
+      DEPRECATED — never implemented. Superseded by `job_search_submit` below,
+      which fires the same conceptual signal but logs the query text so
+      analytics can surface most-searched terms. Occupation queries are
+      considered low PII risk (users type "看護師" / "engineer", not personal
+      data).
     params:
-      - { name: query_length, type: int, desc: "We do NOT log the query text itself (PII risk)" }
+      - { name: query_length, type: int }
       - { name: result_count, type: int }
       - { name: language, type: string }
     conversion: false
+
+  - name: job_search_submit
+    description: |
+      User typed in the treemap search box and paused (800 ms idle). Fires
+      once per distinct query — backspacing back to a previously tracked
+      query does not re-fire. Only fires when the trimmed query is non-empty.
+    params:
+      - { name: query, type: string, desc: "Trimmed query, truncated to 100 chars (GA4 string-param max)" }
+      - { name: match_count, type: int, desc: "Number of tiles matching the query at fire time. 0 = no results — useful for finding gaps in the dataset." }
+      - { name: language, type: string }
+    conversion: true   # Yaku's推广方案 KPI #1 — promote to Key Event
 
   # ---- Modal lifecycle (Phase 0 D1 funnel) ----
   - name: occupation_modal_open
@@ -137,7 +158,20 @@ events:
       - { name: chip_label, type: string, desc: "事務 / 経理 / プログラマ / 看護師 / 営業 (or future replacements)" }
       - { name: language, type: string }
       - { name: cleared, type: string, desc: "true if click cleared an active chip; false if it set a new filter" }
-    conversion: false
+    conversion: true   # Yaku's推广方案 KPI #2 — promote to Key Event
+
+  - name: result_view
+    description: |
+      Per-occupation page view. Fires synchronously on page load from the
+      generated /ja/<id>.html and /en/<id>.html pages. Distinct from GA4's
+      auto-fired page_view because the parameters are typed (occupation_id,
+      ai_risk_score, risk_tier) — page_view only carries the URL.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: ai_risk_score, type: int }
+      - { name: risk_tier, type: string, desc: "high (>=7) | mid (5-6) | low (<=4)" }
+      - { name: language, type: string }
+    conversion: true   # Yaku's推广方案 KPI #3 — promote to Key Event
 
   - name: jobtag_outbound_click
     description: User clicked the secondary "open official jobtag page" link in modal.
