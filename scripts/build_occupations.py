@@ -106,12 +106,18 @@ def render_jsonld(rec: dict, lang: str) -> str:
     rationale_ja = rec.get("ai_rationale_ja") or ""
     desc_en = rec.get("desc_en") or ""
     desc_ja = rec.get("desc_ja") or ""
-    salary_man = rec.get("salary") or 0
-    workers = rec.get("workers") or 0
-    age = rec.get("age") or 0
-    hours = rec.get("hours") or 0
+    # Audit CODE-004: keep None as None instead of `or 0` so SEO meta
+    # descriptions never claim "平均年収 0万円 / 平均年齢 0" for occupations
+    # where MHLW jobtag returned no value. Display sites below substitute
+    # explicit "—" / "データなし" / "Data unavailable" via the `_disp` helpers.
+    # The Schema.org JSON-LD truthy filters (`if salary_man:` etc.) already
+    # correctly omit absent properties — None and 0 both fall through.
+    salary_man = rec.get("salary")
+    workers = rec.get("workers")
+    age = rec.get("age")
+    hours = rec.get("hours")
     recruit = rec.get("recruit_ratio")
-    hourly = rec.get("hourly_wage") or 0
+    hourly = rec.get("hourly_wage")
     mhlw_url = rec.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{id_}"
 
     canonical = ja_url(id_) if lang == "ja" else en_url(id_)
@@ -337,16 +343,35 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     desc_ja = (rec.get("desc_ja") or "")[:240]
     desc_en = (rec.get("desc_en") or "")[:200]
 
-    salary_man = rec.get("salary") or 0
-    workers = rec.get("workers") or 0
-    age = rec.get("age") or 0
-    hours = rec.get("hours") or 0
+    # Audit CODE-004: keep None as None instead of `or 0` so SEO meta
+    # descriptions never claim "平均年収 0万円 / 平均年齢 0" for occupations
+    # where MHLW jobtag returned no value. Display sites below substitute
+    # explicit "—" / "データなし" / "Data unavailable" via the `_disp` helpers.
+    # The Schema.org JSON-LD truthy filters (`if salary_man:` etc.) already
+    # correctly omit absent properties — None and 0 both fall through.
+    salary_man = rec.get("salary")
+    workers = rec.get("workers")
+    age = rec.get("age")
+    hours = rec.get("hours")
     recruit = rec.get("recruit_ratio")
-    hourly = rec.get("hourly_wage") or 0
+    hourly = rec.get("hourly_wage")
     mhlw_url = rec.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{id_}"
 
     risk_class = f"risk-{risk}" if risk is not None else "risk-na"
     jsonld = render_jsonld(rec, lang)
+
+    # Audit CODE-004: SEO description must read "データなし" instead of
+    # "0万円" / "0" when MHLW didn't ship a value. _meta_* are the natural-
+    # language fragments embedded in <meta description>; visible UI cells
+    # use _ui_* below.
+    if lang == "ja":
+        _meta_workers = f"就業者 約{fmt_int(workers)}人" if workers else "就業者数データなし"
+        _meta_salary = f"平均年収 {int(salary_man)}万円" if salary_man else "平均年収データなし"
+        _meta_age = f"平均年齢 {age}" if age else "平均年齢データなし"
+    else:
+        _meta_workers = f"workforce ~{fmt_int(workers)}" if workers else "workforce data unavailable"
+        _meta_salary = f"annual salary {int(salary_man)}万円" if salary_man else "annual salary data unavailable"
+        _meta_age = f"avg age {age}" if age else "avg age data unavailable"
 
     if lang == "ja":
         title = (
@@ -356,13 +381,13 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         )
         seo_desc = (
             (
-                f"{name_ja}（{name_en}）：就業者 約{fmt_int(workers)}人 / 平均年収 {int(salary_man)}万円 "
-                f"/ 平均年齢 {age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
+                f"{name_ja}（{name_en}）：{_meta_workers} / {_meta_salary} "
+                f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
             )
             if name_en
             else (
-                f"{name_ja}：就業者 約{fmt_int(workers)}人 / 平均年収 {int(salary_man)}万円 "
-                f"/ 平均年齢 {age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
+                f"{name_ja}：{_meta_workers} / {_meta_salary} "
+                f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
             )
         )
         og_locale = "ja_JP"
@@ -408,13 +433,13 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         )
         seo_desc = (
             (
-                f"{name_en} ({name_ja}): workforce ~{fmt_int(workers)} / annual salary {int(salary_man)}万円 "
-                f"/ avg age {age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
+                f"{name_en} ({name_ja}): {_meta_workers} / {_meta_salary} "
+                f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
             )
             if name_en
             else (
-                f"{name_ja}: workforce ~{fmt_int(workers)} / annual salary {int(salary_man)}万円 "
-                f"/ avg age {age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
+                f"{name_ja}: {_meta_workers} / {_meta_salary} "
+                f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
             )
         )
         og_locale = "en_US"
@@ -510,12 +535,18 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         )
     related_html = "\n          ".join(related_li_html_parts)
 
+    # Display-only formatters (Audit CODE-004). When the underlying value is
+    # missing, both the value AND its unit suffix collapse to "—" alone, so
+    # the page never reads "— 人" / "— yrs" — just the dash.
     salary_int = int(salary_man) if salary_man else "—"
     age_disp = age if age else "—"
     hours_disp = int(hours) if hours else "—"
     recruit_disp = recruit if recruit is not None else "—"
     hourly_disp = f"¥{fmt_int(hourly)}" if hourly else "—"
     risk_num_disp = risk if risk is not None else "—"
+    workers_cell = f"{fmt_int(workers)}{st_workers_unit}" if workers else "—"
+    age_cell = f"{age_disp}{st_age_unit}" if age else "—"
+    hours_cell = f"{hours_disp}{st_hours_unit}" if hours else "—"
 
     # GA4 result_view signal — fires synchronously on page load. The gtag stub
     # in ANALYTICS_BLOCK queues the call into dataLayer and the real gtag.js
@@ -631,10 +662,10 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
       </div>
 
       <dl class="stats" aria-label="Key occupation statistics">
-        <div><dt>{st_workers}</dt><dd>{fmt_int(workers)}{st_workers_unit}</dd></div>
+        <div><dt>{st_workers}</dt><dd>{workers_cell}</dd></div>
         <div><dt>{st_salary}</dt><dd>{salary_cell}</dd></div>
-        <div><dt>{st_age}</dt><dd>{age_disp}{st_age_unit}</dd></div>
-        <div><dt>{st_hours}</dt><dd>{hours_disp}{st_hours_unit}</dd></div>
+        <div><dt>{st_age}</dt><dd>{age_cell}</dd></div>
+        <div><dt>{st_hours}</dt><dd>{hours_cell}</dd></div>
         <div><dt>{st_recruit}</dt><dd>{recruit_disp}</dd></div>
         <div><dt>{st_hourly}</dt><dd>{hourly_disp}</dd></div>
       </dl>
@@ -901,12 +932,19 @@ def main() -> int:
             }
         )
 
-    MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Partial runs (--ids / --limit) write to .partial.json so the canonical
+    # 552-entry manifest produced by full runs is never overwritten by smoke
+    # tests. Only is_full_run promotes to the canonical path.
+    if is_full_run:
+        manifest_target = MANIFEST_PATH
+    else:
+        manifest_target = MANIFEST_PATH.with_suffix(".partial.json")
+    manifest_target.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     pages = len(manifest) * 2
     avg_kb = bytes_total / pages / 1024 if pages else 0
     print(f"Generated {pages} pages ({len(manifest)} JA + {len(manifest)} EN) → {OUT_DIR_JA.name}/, {OUT_DIR_EN.name}/")
     print(f"Total: {bytes_total/1024:.1f} KB  ·  Avg: {avg_kb:.1f} KB/page")
-    print(f"Manifest: {MANIFEST_PATH}")
+    print(f"Manifest: {manifest_target}{' (partial — full manifest at ' + str(MANIFEST_PATH) + ' unchanged)' if not is_full_run else ''}")
 
     if is_full_run and not args.no_sitemap:
         write_sitemap(manifest)

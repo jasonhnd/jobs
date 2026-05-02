@@ -364,32 +364,87 @@ def build():
     # sub-occupations and store the original on `category_workers`.)
     # ---------------------------------------------------------------
     from collections import defaultdict
-    # Group by workers value alone. jobtag's headcount is at the parent
-    # category level — occupations that share the same workforce count
-    # (3.7M for 公務員, 3.3M for 事務など) are members of the same category
-    # in the source taxonomy. Even when secondary stats (salary, hours)
-    # diverge slightly across sub-occupations, identical workforce is the
-    # signal that they share a parent total.
+    # ---------------------------------------------------------------
+    # Audit CODE-005 — guarded normalization
+    #
+    # Original logic grouped purely by identical `workers` count, on the
+    # assumption that any two occupations with the same workforce number
+    # must share a parent category. That breaks when two unrelated
+    # occupations coincidentally collide on workforce (e.g. one large
+    # "EC 企画" group with the same 27,000 headcount as "動画制作管理").
+    #
+    # New logic adds two guards:
+    #   1. Group size threshold — if >25 occupations share the same
+    #      workforce count, treat as suspicious. Real jobtag parents
+    #      rarely have that many children.
+    #   2. Name-prefix similarity — within a same-workers group, if the
+    #      occupation names don't share a common 2-char Japanese prefix
+    #      (e.g. all 事務 or all 教員 or all 看護), treat as suspicious.
+    #
+    # Suspicious groups are LOGGED to scripts/.normalization_warnings.json
+    # for human review and SKIPPED (no redistribute, raw values kept).
+    # Confident groups (small + shared prefix) are redistributed as before.
+    # ---------------------------------------------------------------
     stats_groups: dict = defaultdict(list)
     for r in out:
         if r.get("workers"):
             stats_groups[r["workers"]].append(r)
 
     multi_categories = [g for g in stats_groups.values() if len(g) > 1]
-    redistributed_records = 0
-    for group in multi_categories:
-        original = group[0]["workers"]
-        share = original / len(group)
-        for r in group:
-            r["category_workers"] = original
-            r["category_size"] = len(group)
-            r["workers"] = max(1, round(share))
-        redistributed_records += len(group)
 
-    print(
-        f"  Normalization: {len(multi_categories)} parent categories "
-        f"redistributed across {redistributed_records} sub-occupations."
-    )
+    def _common_prefix_2(names):
+        """Return common 2-char prefix across names, or '' if none."""
+        names = [n for n in names if n]
+        if not names:
+            return ""
+        prefix = names[0][:2]
+        return prefix if all(n.startswith(prefix) for n in names) else ""
+
+    redistributed_records = 0
+    suspicious_groups = []
+    for group in multi_categories:
+        names = [r.get("name_ja") or r.get("name_en") or "" for r in group]
+        size = len(group)
+        prefix = _common_prefix_2(names)
+        # Confident: ≤25 members AND shared prefix.
+        confident = size <= 25 and prefix != ""
+        if confident:
+            original = group[0]["workers"]
+            share = original / size
+            for r in group:
+                r["category_workers"] = original
+                r["category_size"] = size
+                r["workers"] = max(1, round(share))
+            redistributed_records += size
+        else:
+            suspicious_groups.append({
+                "workers_count": group[0]["workers"],
+                "size": size,
+                "common_prefix": prefix,
+                "reason": "size>25" if size > 25 else "no_shared_prefix",
+                "members": [{"id": r["id"], "name_ja": r.get("name_ja"), "name_en": r.get("name_en")} for r in group],
+            })
+
+    if suspicious_groups:
+        warn_path = REPO / "scripts" / ".normalization_warnings.json"
+        warn_path.write_text(
+            json.dumps({"generated_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+                        "skipped_groups": suspicious_groups}, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        print(
+            f"  Normalization: {len(multi_categories) - len(suspicious_groups)} parent categories "
+            f"redistributed across {redistributed_records} sub-occupations."
+        )
+        print(
+            f"  Skipped: {len(suspicious_groups)} suspicious groups (raw workers preserved). "
+            f"See {warn_path.relative_to(REPO)}."
+        )
+    else:
+        print(
+            f"  Normalization: {len(multi_categories)} parent categories "
+            f"redistributed across {redistributed_records} sub-occupations."
+        )
 
     out.sort(key=lambda x: x["id"])
 

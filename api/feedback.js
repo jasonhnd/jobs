@@ -57,6 +57,42 @@ function corsHeaders(req) {
   };
 }
 
+// Server-side Origin/Referer enforcement (Audit CODE-003). CORS only protects
+// browsers; curl / server-to-server bots ignore it. We additionally 403 any
+// request whose Origin OR Referer is unknown — the form is browser-only, so
+// a missing-and-suspicious origin is never a real submission.
+const MAX_BODY_BYTES = 8 * 1024;  // 8 KB caps freetext (2 KB) + JSON overhead
+function enforceOriginOr403(req) {
+  const origin = req.headers.get("origin") || "";
+  const referer = req.headers.get("referer") || "";
+  if (origin && ALLOWED_ORIGINS.has(origin)) return null;
+  for (const allowed of ALLOWED_ORIGINS) {
+    if (referer.startsWith(allowed)) return null;
+  }
+  return new Response(JSON.stringify({ error: "forbidden_origin" }), {
+    status: 403,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+function enforceBodySizeOr413(req) {
+  const len = parseInt(req.headers.get("content-length") || "0", 10);
+  if (len > MAX_BODY_BYTES) {
+    return new Response(JSON.stringify({ error: "payload_too_large" }), {
+      status: 413,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  return null;
+}
+
+// Tiny stable hash for opaque rate-limit / log keys. Not crypto — just enough
+// to bucket UA strings without keeping the original.
+function shortHash(s) {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h) ^ s.charCodeAt(i);
+  return (h >>> 0).toString(36);
+}
+
 function json(payload, init = {}) {
   return new Response(JSON.stringify(payload), {
     status: init.status || 200,
@@ -77,6 +113,12 @@ export default async function handler(req) {
   if (req.method !== "POST") {
     return json({ error: "method_not_allowed" }, { status: 405, headers: cors });
   }
+  // Server-side origin gate — runs after the OPTIONS preflight so browsers
+  // get the CORS dance, but blocks curl / non-browser POSTs.
+  const denied = enforceOriginOr403(req);
+  if (denied) return denied;
+  const tooBig = enforceBodySizeOr413(req);
+  if (tooBig) return tooBig;
 
   let body;
   try {
@@ -125,9 +167,20 @@ export default async function handler(req) {
   const fromEmail = process.env.FEEDBACK_FROM_EMAIL || "onboarding@resend.dev";
 
   if (!apiKey || !toEmail) {
-    // Graceful fallback: log + return ok so frontend stays unblocked while
-    // the operator wires up FEEDBACK_TO_EMAIL.
-    console.log("[feedback]", JSON.stringify(payload));
+    // Graceful fallback: log a redacted summary + return ok so frontend
+    // stays unblocked while the operator wires up FEEDBACK_TO_EMAIL.
+    // PII (email + freetext + UA + referer) is NEVER written — only counts
+    // and structural flags. (Audit CODE-002.)
+    console.log("[feedback]", JSON.stringify({
+      ts: payload.timestamp,
+      lang: payload.lang,
+      occ: payload.occupation_id,
+      options: payload.options,
+      has_email: !!payload.email,
+      freetext_length: payload.freetext.length,
+      ua_hash: shortHash(payload.user_agent || ""),
+      missing_config: !apiKey ? "RESEND_API_KEY" : "FEEDBACK_TO_EMAIL",
+    }));
     return json({ ok: true, queued: false }, { headers: cors });
   }
 
@@ -169,13 +222,26 @@ export default async function handler(req) {
 
     const errBody = await r.json().catch(() => ({}));
     console.error("[feedback] Resend send error", { status: r.status, body: errBody });
-    // Even on email failure, don't reject the user. Their feedback is logged
-    // by `console.log` above and we return ok so they don't retry.
-    console.log("[feedback]", JSON.stringify(payload));
+    // PII-safe redacted summary on delivery failure — caller is told ok=true
+    // so they don't retry and double-bill us, but we log enough to know the
+    // message slipped (Audit CODE-002).
+    console.log("[feedback]", JSON.stringify({
+      ts: payload.timestamp, lang: payload.lang, occ: payload.occupation_id,
+      options: payload.options, has_email: !!payload.email,
+      freetext_length: payload.freetext.length,
+      ua_hash: shortHash(payload.user_agent || ""),
+      delivery: "failed", resend_status: r.status,
+    }));
     return json({ ok: true, queued: false, warn: "delivery_failed" }, { headers: cors });
   } catch (err) {
     console.error("[feedback] handler error", err);
-    console.log("[feedback]", JSON.stringify(payload));
+    console.log("[feedback]", JSON.stringify({
+      ts: payload.timestamp, lang: payload.lang, occ: payload.occupation_id,
+      options: payload.options, has_email: !!payload.email,
+      freetext_length: payload.freetext.length,
+      ua_hash: shortHash(payload.user_agent || ""),
+      delivery: "error", err_name: (err && err.name) || "unknown",
+    }));
     return json({ ok: true, queued: false, warn: "delivery_error" }, { headers: cors });
   }
 }

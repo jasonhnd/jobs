@@ -3,12 +3,22 @@
   "version": "0.5.0",
   "private": true,
   "description": "Static site + Vercel Edge Functions for mirai-shigoto.com. Python is the build pipeline; Node is here only so Vercel can detect and bundle the @vercel/og runtime used by api/og.tsx.",
+  "scripts": {
+    "dev": "python3 scripts/dev-server.py",
+    "typecheck": "tsc --noEmit",
+    "audit": "npm audit --audit-level=moderate && (cd analytics && npm audit --audit-level=moderate)",
+    "build:occ": "python3 scripts/build_occupations.py",
+    "test:data": "python3 scripts/test_data_consistency.py",
+    "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
+    "test:spec": "node scripts/check_spec_vs_code.mjs"
+  },
   "dependencies": {
     "@vercel/og": "^0.6.5",
     "react": "^18.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
+    "js-yaml": "^4.1.0",
     "typescript": "^5.6.3"
   }
 }

@@ -79,19 +79,11 @@ events:
       - { name: ai_risk_score, type: int }
       - { name: language, type: string }
     conversion: false
+    unimplemented: planned   # would fire too often (every hover); deferred until we decide on a sample rate
 
-  - name: search_used
-    description: |
-      DEPRECATED — never implemented. Superseded by `job_search_submit` below,
-      which fires the same conceptual signal but logs the query text so
-      analytics can surface most-searched terms. Occupation queries are
-      considered low PII risk (users type "看護師" / "engineer", not personal
-      data).
-    params:
-      - { name: query_length, type: int }
-      - { name: result_count, type: int }
-      - { name: language, type: string }
-    conversion: false
+  # `search_used` — REMOVED 2026-05-02. Was deprecated, never emitted; replaced
+  # entirely by `job_search_submit` (which logs the query text). Removing from
+  # spec so check_spec_vs_code.mjs doesn't flag it as a missing emit.
 
   - name: job_search_submit
     description: |
@@ -134,35 +126,12 @@ events:
       - { name: source, type: string, desc: "search_submit | suggest_click | suggest_keyboard" }
     conversion: true   # primary search → occupation funnel
 
-  # ---- Modal lifecycle (Phase 0 D1 funnel) ----
-  - name: occupation_modal_open
-    description: Occupation detail modal displayed.
-    params:
-      - { name: occupation_id, type: int }
-      - { name: occupation_name_ja, type: string }
-      - { name: ai_risk_score, type: int }
-      - { name: risk_tier, type: string }
-      - { name: open_method, type: string, desc: "tap | hash | keyboard" }
-      - { name: language, type: string }
-    conversion: false
-
-  - name: modal_close
-    description: Modal closed without converting (user hit X / ESC / backdrop).
-    params:
-      - { name: occupation_id, type: int }
-      - { name: close_method, type: string, desc: "x | esc | backdrop" }
-      - { name: time_open_ms, type: int, desc: "Milliseconds modal was open" }
-    conversion: false
-
-  - name: report_cta_click
-    description: User clicked the primary "I want detailed report" CTA inside modal.
-    params:
-      - { name: occupation_id, type: int }
-      - { name: occupation_name_ja, type: string }
-      - { name: ai_risk_score, type: int }
-      - { name: risk_tier, type: string }
-      - { name: language, type: string }
-    conversion: true   # mark as Key Event
+  # ---- Modal lifecycle — REMOVED 2026-05-02 ----
+  # `occupation_modal_open`, `modal_close`, `report_cta_click` were the
+  # Phase-0 modal funnel. Stage 1 replaced the modal with dedicated
+  # /ja/<id> + /en/<id> pages, so these events have no emit site any
+  # more. Their successors are `result_view` (page load) + `tooltip_cta_click`
+  # (mobile entry from treemap tooltip).
 
   - name: tooltip_cta_click
     description: User tapped the "詳細を見る →" / "View details →" CTA inside the mobile touch-mode tooltip. The explicit funnel from treemap tile → occupation detail page (Design.md §6.6).
@@ -201,26 +170,19 @@ events:
     conversion: true   # Yaku's推广方案 KPI #3 — promote to Key Event
 
   - name: jobtag_outbound_click
-    description: User clicked the secondary "open official jobtag page" link in modal.
+    description: User clicked the secondary "open official jobtag page" link (was on modal; lives on per-occupation pages now).
     params:
       - { name: occupation_id, type: int }
       - { name: from_modal, type: string, desc: "true | false (was it from modal or other path?)" }
       - { name: language, type: string }
     conversion: false
+    unimplemented: planned   # link exists on /ja/<id> & /en/<id> as a 出典 / source row; gtag emit not wired yet
 
   # ---- Email capture ----
-  - name: email_submit_modal
-    description: Email submitted from inside an occupation modal (occupation-bound, T2 in OPC plan).
-    params:
-      - { name: occupation_id, type: int }
-      - { name: occupation_name_ja, type: string }
-      - { name: ai_risk_score, type: int }
-      - { name: risk_tier, type: string }
-      - { name: language, type: string }
-      - { name: success, type: string, desc: "true | false" }
-      - { name: error_reason, type: string, desc: "invalid_email | server_error | network | none" }
-    conversion: true   # HIGHEST value — QI 5
-
+  # `email_submit_modal` — REMOVED 2026-05-02 along with the modal itself.
+  # When per-occupation pages add their own subscribe form, register a new
+  # event (e.g. `email_submit_occ`) rather than reviving this one — the
+  # modal-specific risk_tier semantics no longer apply.
   - name: email_submit_header
     description: Email submitted from the page-bottom generic newsletter card (T1 in OPC plan).
     params:
@@ -228,6 +190,7 @@ events:
       - { name: success, type: string }
       - { name: error_reason, type: string }
     conversion: true   # QI 3
+    unimplemented: planned   # newsletter card not yet on the page; spec entry kept so we don't forget the QI when it lands
 
   # ---- Feedback ----
   - name: feedback_submit
@@ -238,6 +201,7 @@ events:
       - { name: has_email, type: string, desc: "true | false (whether user attached email)" }
       - { name: language, type: string }
     conversion: true   # QI 8 — highest unit value
+    unimplemented: planned   # api/feedback.js endpoint exists but no UI form calls it yet
 
   # ---- Sharing ----
   # `share_x_click` was per-platform — replaced 2026-05-02 by the unified
@@ -442,10 +406,11 @@ key_events:
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
   # — Conversion: occupation page → operator inbox —
-  - email_submit_modal      # QI 5 (email + occupation)
-  - email_submit_header     # QI 3 (email only)
   - feedback_submit         # QI 8 (feedback + tagging)
-  - report_cta_click        # QI 1 (intent proxy)
+  # NOTE: `email_submit_modal` and `report_cta_click` were removed in 2026-05-02
+  # along with the modal itself. `email_submit_header` is still in events: but
+  # marked `unimplemented: planned` — promote it back here when the newsletter
+  # card lands on the page.
 
 # ----------------------------------------------------------------------
 # Audiences — created MANUALLY in the GA4 dashboard

@@ -36,6 +36,33 @@ function corsHeaders(req) {
   };
 }
 
+// Server-side Origin/Referer enforcement (Audit CODE-003). CORS only stops
+// browser JS from reading the response — it doesn't stop curl / bots from
+// firing the POST. We additionally 403 on unknown origin AND unknown referer.
+const MAX_BODY_BYTES = 4 * 1024;  // subscribe payload is tiny (email + tag)
+function enforceOriginOr403(req) {
+  const origin = req.headers.get("origin") || "";
+  const referer = req.headers.get("referer") || "";
+  if (origin && ALLOWED_ORIGINS.has(origin)) return null;
+  for (const allowed of ALLOWED_ORIGINS) {
+    if (referer.startsWith(allowed)) return null;
+  }
+  return new Response(JSON.stringify({ error: "forbidden_origin" }), {
+    status: 403,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+function enforceBodySizeOr413(req) {
+  const len = parseInt(req.headers.get("content-length") || "0", 10);
+  if (len > MAX_BODY_BYTES) {
+    return new Response(JSON.stringify({ error: "payload_too_large" }), {
+      status: 413,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  return null;
+}
+
 function json(payload, init = {}) {
   return new Response(JSON.stringify(payload), {
     status: init.status || 200,
@@ -52,6 +79,12 @@ export default async function handler(req) {
   if (req.method !== "POST") {
     return json({ error: "method_not_allowed" }, { status: 405, headers: cors });
   }
+
+  // ---- server-side gate (audit CODE-003) ----
+  const denied = enforceOriginOr403(req);
+  if (denied) return denied;
+  const tooBig = enforceBodySizeOr413(req);
+  if (tooBig) return tooBig;
 
   // ---- parse body ----
   let body;
