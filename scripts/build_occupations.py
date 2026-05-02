@@ -742,7 +742,10 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
 
       <footer>
         <span>© <a href="{home_href}">mirai-shigoto.com</a> · MIT</span>
-        <span><a href="/about">{escape(about_link_label)}</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span>
+        <span><a href="/about{'?lang=en' if lang == 'en' else ''}">{escape(about_link_label)}</a> · <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a> · <a href="/privacy{'?lang=en' if lang == 'en' else ''}">Privacy</a> · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span>
+        <div class="attribution-line" style="grid-column:1/-1;font-size:0.7rem;color:var(--fg2);margin-top:8px;line-height:1.55">
+          {('Source: MHLW &amp; JILPT &quot;Occupational Information Database (job tag)&quot; v7.00 (downloaded 2026-05-03) — processed as derivative work. Independent analysis, not endorsed by MHLW / jobtag / JILPT.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析・非公式。')}
+        </div>
       </footer>
     </div>
 
@@ -842,6 +845,15 @@ SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
     <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/about" />
     <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/about?lang=en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/about" />
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/compliance</loc>
+    <lastmod>{lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/compliance" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/compliance?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/compliance" />
   </url>
   <!-- GEO surface: llms.txt convention (https://llmstxt.org). Listed here so general crawlers discover them too. -->
   <url>

@@ -42,6 +42,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.path = "/privacy.html"
         elif path == "/about":
             self.path = "/about.html"
+        elif path == "/compliance":
+            self.path = "/compliance.html"
         elif re.match(r"^/(ja|en)/\d+$", path):
             # Stage 1 numeric-id occupation URLs (Design.md §0).
             self.path = path + ".html"
