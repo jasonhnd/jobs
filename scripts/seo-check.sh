@@ -273,7 +273,10 @@ else
       # home page  → Organization + WebSite + Dataset + ItemList + FAQPage + SpeakableSpecification
       # /privacy   → WebPage + BreadcrumbList + SpeakableSpecification
       case "$URL" in
-        */occ/*)
+        */ja/[0-9]*|*/en/[0-9]*|*/occ/*)
+          # Real occupation pages live at /ja/<id> and /en/<id> (Stage 1
+          # numeric-id scheme). The legacy /occ/* match is kept so this
+          # check still works against archived snapshots / old sitemaps.
           for st in WebPage Occupation BreadcrumbList; do
             if printf '%s' "$TYPES" | grep -qw "$st"; then
               ok "schema: $st"
@@ -286,6 +289,15 @@ else
           else
             warn "sameAs to MHLW jobtag URL missing"
           fi
+          ;;
+        */about*)
+          for st in WebPage BreadcrumbList; do
+            if printf '%s' "$TYPES" | grep -qw "$st"; then
+              ok "schema: $st"
+            else
+              warn "schema missing: $st (about page should have it)"
+            fi
+          done
           ;;
         */privacy*)
           for st in WebPage BreadcrumbList SpeakableSpecification; do

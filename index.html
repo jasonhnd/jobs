@@ -2063,10 +2063,26 @@
         if (si) si.placeholder = I18N.searchPlaceholder[lang];
         if (data.length) { updateStats(); drawGradientLegend(); draw(); }
       }
-      document.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.set)));
+      document.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => {
+        const from = lang;
+        const to = b.dataset.set;
+        if (from === to) return;
+        setLang(to);
+        if (window.gtag) gtag("event", "language_switch", {
+          from_lang: from,
+          to_lang: to,
+          path: location.pathname,
+        });
+      }));
 
       function clamp(t) { return Math.max(0, Math.min(1, t)); }
       function boostContrast(t) { const c = (t - 0.5) * 2; const b = Math.sign(c) * Math.pow(Math.abs(c), 0.55); return b / 2 + 0.5; }
+      // Module-level HTML escape — used at every site that interpolates
+      // data.json fields into innerHTML strings. Prevents stored-XSS if any
+      // future ai_rationale_* / name_* field contains HTML metacharacters.
+      function escapeHtml(s) {
+        return String(s == null ? "" : s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
+      }
       // Theme detection — used by treemap palette + canvas bg.
       function isLightThemeNow() {
         const explicit = document.documentElement.getAttribute("data-theme");
@@ -2725,7 +2741,13 @@
       document.getElementById("layerToggle").addEventListener("click", e => {
         const btn = e.target.closest("button");
         if (!btn || !btn.dataset.mode) return;
+        const from = layer;
         layer = btn.dataset.mode;
+        if (from !== layer && window.gtag) gtag("event", "layer_change", {
+          layer_name: layer,
+          from_layer: from,
+          language: lang,
+        });
         document.querySelectorAll("#layerToggle button").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         updateStats();
@@ -2736,11 +2758,16 @@
 
       // ---- Palette toggle (colorblind-safe) ----
       document.getElementById("paletteToggle").addEventListener("click", () => {
+        const from = palette;
         palette = palette === "viridis" ? "redgreen" : "viridis";
         const btn = document.getElementById("paletteToggle");
         btn.classList.toggle("active", palette === "viridis");
         btn.setAttribute("aria-pressed", String(palette === "viridis"));
         try { localStorage.setItem("jp-jobs-palette", palette); } catch(e) {}
+        if (from !== palette && window.gtag) gtag("event", "palette_change", {
+          palette: palette,
+          language: lang,
+        });
         drawGradientLegend(); draw();
       });
       // Restore palette preference
@@ -2922,9 +2949,12 @@
           const risk = rec.ai_risk != null ? rec.ai_risk : 0;
           const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
           const riskLabel = lang === "en" ? ("AI risk " + risk + "/10") : ("AI 影響度 " + risk + "/10");
-          return '<li role="option" data-job-id="' + rec.id + '" data-idx="' + i + '">' +
-            '<span class="ss-name">' + display + '</span>' +
-            '<span class="ss-risk ' + tier + '">' + riskLabel + '</span>' +
+          // All interpolated values escape — `display` flows from data.json
+          // and could in principle carry HTML if the upstream LLM rationale
+          // generation ever leaks markup into a name field.
+          return '<li role="option" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
+            '<span class="ss-name">' + escapeHtml(display) + '</span>' +
+            '<span class="ss-risk ' + tier + '">' + escapeHtml(riskLabel) + '</span>' +
             '</li>';
         }).join("");
         suggestEl.classList.add("visible");
@@ -3223,7 +3253,7 @@
           if (fb) {
             const renderFallback = () => {
               fb.innerHTML = data.slice(0, 552).map(d =>
-                `<li><a href="${occUrl(d)}">${(d.name_en || d.name_ja)} / ${d.name_ja} — AI risk ${d.ai_risk}/10</a></li>`
+                `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
               ).join("");
             };
             if ("requestIdleCallback" in window) {
@@ -3232,13 +3262,28 @@
               setTimeout(renderFallback, 1500);
             }
           }
-          setLang("ja");
+          // Initial language: prefer ?lang=en URL param, else default JA.
+          // Lets shared /?lang=en links land users in the English UI without flicker.
+          const _initialLang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "ja";
+          setLang(_initialLang);
           updateStats();
           updateDimensionHint();
           drawGradientLegend();
           resize();
           // Apply hash deep-link if present
           if (location.hash) setTimeout(applyHash, 50);
+          // GA4 map_loaded — typed signal that initial render finished. Lets
+          // dashboards split sessions by device + occupation count without
+          // relying on auto page_view (which fires before data.json arrives).
+          if (window.gtag) {
+            const _vw = window.innerWidth;
+            const _device = _vw < 768 ? "mobile" : (_vw < 1024 ? "tablet" : "desktop");
+            gtag("event", "map_loaded", {
+              language: _initialLang,
+              device_category: _device,
+              tile_count: data.length,
+            });
+          }
         })
         .catch(showError);
 

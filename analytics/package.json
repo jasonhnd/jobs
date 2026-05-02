@@ -10,7 +10,7 @@
     "setup:dry": "node setup-ga4.mjs --dry-run"
   },
   "dependencies": {
-    "googleapis": "^144.0.0",
+    "googleapis": "^171.4.0",
     "js-yaml": "^4.1.0"
   },
   "engines": {

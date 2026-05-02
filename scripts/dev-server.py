@@ -36,11 +36,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(body)
             return
 
-        # Vercel cleanUrls equivalents.
+        # Vercel cleanUrls equivalents — mirror vercel.json: cleanUrls: true.
         path = self.path.split("?", 1)[0]
         if path == "/privacy":
             self.path = "/privacy.html"
+        elif path == "/about":
+            self.path = "/about.html"
+        elif re.match(r"^/(ja|en)/\d+$", path):
+            # Stage 1 numeric-id occupation URLs (Design.md §0).
+            self.path = path + ".html"
         elif path.startswith("/occ/") and "." not in path.rsplit("/", 1)[-1]:
+            # Legacy slug URLs — Vercel 301-redirects these in production
+            # (see vercel.json), but locally serve the HTML directly so old
+            # links still preview without a redirect-loop hop.
             self.path = path + ".html"
         return super().do_GET()
 
