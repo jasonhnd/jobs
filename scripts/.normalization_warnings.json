@@ -1,0 +1,3270 @@
+{
+  "generated_at": "2026-05-02T12:16:44.271268+00:00",
+  "summary": {
+    "total_groups": 102,
+    "high_confidence": 1,
+    "low_confidence": 101,
+    "rule": "high = size<=25 AND shared 2-char prefix; low = otherwise",
+    "behavior": "ALL groups redistributed (workers split equally). low-confidence groups are flagged for human audit; if a low group is a coincidental workers collision, manually override in build_data.py with an explicit keep-raw map."
+  },
+  "groups": [
+    {
+      "category_workers": 309100,
+      "category_size": 31,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 9971,
+      "members": [
+        {
+          "id": 85,
+          "name_ja": "行政書士",
+          "name_en": "Administrative Scrivener (Gyoseishoshi)"
+        },
+        {
+          "id": 88,
+          "name_ja": "通訳者",
+          "name_en": "Interpreter"
+        },
+        {
+          "id": 93,
+          "name_ja": "不動産鑑定士",
+          "name_en": "Real Estate Appraiser"
+        },
+        {
+          "id": 94,
+          "name_ja": "気象予報士",
+          "name_en": "Weather Forecaster"
+        },
+        {
+          "id": 127,
+          "name_ja": "ピアノ調律師",
+          "name_en": "Piano Tuner"
+        },
+        {
+          "id": 135,
+          "name_ja": "手話通訳者",
+          "name_en": "Sign Language Interpreter"
+        },
+        {
+          "id": 136,
+          "name_ja": "キャリアカウンセラー/キャリアコンサルタント",
+          "name_en": "Career Counselor"
+        },
+        {
+          "id": 202,
+          "name_ja": "通関士",
+          "name_en": "Customs Broker (Tsukanshi)"
+        },
+        {
+          "id": 214,
+          "name_ja": "映像編集者",
+          "name_en": "Video Editor"
+        },
+        {
+          "id": 216,
+          "name_ja": "アナウンサー",
+          "name_en": "Announcer"
+        },
+        {
+          "id": 225,
+          "name_ja": "調教師",
+          "name_en": "Animal Trainer (Choukyoshi)"
+        },
+        {
+          "id": 226,
+          "name_ja": "犬訓練士",
+          "name_en": "Dog Trainer"
+        },
+        {
+          "id": 327,
+          "name_ja": "Webディレクター（Web制作会社）",
+          "name_en": "Web Director (Web Production)"
+        },
+        {
+          "id": 328,
+          "name_ja": "動画制作",
+          "name_en": "Video Producer"
+        },
+        {
+          "id": 330,
+          "name_ja": "ゲームクリエーター",
+          "name_en": "Game Creator"
+        },
+        {
+          "id": 331,
+          "name_ja": "アートディレクター",
+          "name_en": "Art Director"
+        },
+        {
+          "id": 333,
+          "name_ja": "広告ディレクター",
+          "name_en": "Advertising Director"
+        },
+        {
+          "id": 346,
+          "name_ja": "スタイリスト",
+          "name_en": "Stylist"
+        },
+        {
+          "id": 351,
+          "name_ja": "フードコーディネーター",
+          "name_en": "Food Coordinator"
+        },
+        {
+          "id": 363,
+          "name_ja": "広報コンサルタント",
+          "name_en": "PR Consultant"
+        },
+        {
+          "id": 365,
+          "name_ja": "知的財産コーディネーター",
+          "name_en": "IP Coordinator"
+        },
+        {
+          "id": 366,
+          "name_ja": "知的財産サーチャー",
+          "name_en": "IP Searcher"
+        },
+        {
+          "id": 400,
+          "name_ja": "社会教育主事",
+          "name_en": "Social Education Officer (Shakaikyoiku-shuji)"
+        },
+        {
+          "id": 412,
+          "name_ja": "スクールカウンセラー",
+          "name_en": "School Counselor"
+        },
+        {
+          "id": 419,
+          "name_ja": "調香師",
+          "name_en": "Perfumer"
+        },
+        {
+          "id": 424,
+          "name_ja": "速記者、音声反訳者",
+          "name_en": "Stenographer / Audio Transcriber"
+        },
+        {
+          "id": 513,
+          "name_ja": "国際協力専門家",
+          "name_en": "International Development Specialist"
+        },
+        {
+          "id": 516,
+          "name_ja": "法務技官（心理）（矯正心理専門職）",
+          "name_en": "Corrections Psychology Specialist"
+        },
+        {
+          "id": 519,
+          "name_ja": "労働基準監督官",
+          "name_en": "Labor Standards Inspector"
+        },
+        {
+          "id": 534,
+          "name_ja": "セキュリティエキスパート（情報セキュリティ監査）",
+          "name_en": "Information Security Auditor"
+        },
+        {
+          "id": 562,
+          "name_ja": "探偵",
+          "name_en": "Detective (Private Investigator)"
+        }
+      ]
+    },
+    {
+      "category_workers": 3737860,
+      "category_size": 31,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 120576,
+      "members": [
+        {
+          "id": 138,
+          "name_ja": "国家公務員（行政事務）",
+          "name_en": "National Civil Servant (Administrative)"
+        },
+        {
+          "id": 139,
+          "name_ja": "地方公務員（行政事務）",
+          "name_en": "Local Civil Servant (Administrative)"
+        },
+        {
+          "id": 150,
+          "name_ja": "外務公務員（外交官）",
+          "name_en": "Diplomat"
+        },
+        {
+          "id": 151,
+          "name_ja": "国際公務員",
+          "name_en": "International Civil Servant"
+        },
+        {
+          "id": 174,
+          "name_ja": "診療情報管理士",
+          "name_en": "Medical Records Manager"
+        },
+        {
+          "id": 234,
+          "name_ja": "太陽光発電の企画・調査",
+          "name_en": "Solar Power Project Planner"
+        },
+        {
+          "id": 238,
+          "name_ja": "ネット通販の企画開発",
+          "name_en": "E-Commerce Product Planner"
+        },
+        {
+          "id": 239,
+          "name_ja": "ネット通販の運営",
+          "name_en": "E-Commerce Operations Manager"
+        },
+        {
+          "id": 240,
+          "name_ja": "Webマーケティング（ネット広告・販売促進）",
+          "name_en": "Web Marketer (Digital Ads/Promotion)"
+        },
+        {
+          "id": 425,
+          "name_ja": "パラリーガル（弁護士補助職）",
+          "name_en": "Paralegal (Lawyer's Assistant)"
+        },
+        {
+          "id": 426,
+          "name_ja": "秘書",
+          "name_en": "Secretary"
+        },
+        {
+          "id": 434,
+          "name_ja": "企画・調査担当",
+          "name_en": "Planning/Research Officer"
+        },
+        {
+          "id": 435,
+          "name_ja": "調剤薬局事務",
+          "name_en": "Pharmacy Office Clerk"
+        },
+        {
+          "id": 436,
+          "name_ja": "介護事務",
+          "name_en": "Care Office Clerk"
+        },
+        {
+          "id": 442,
+          "name_ja": "学校事務",
+          "name_en": "School Office Clerk"
+        },
+        {
+          "id": 443,
+          "name_ja": "医療事務",
+          "name_en": "Medical Office Clerk"
+        },
+        {
+          "id": 445,
+          "name_ja": "IR広報担当",
+          "name_en": "Investor Relations / IR Officer"
+        },
+        {
+          "id": 446,
+          "name_ja": "企業法務担当",
+          "name_en": "Corporate Legal Officer"
+        },
+        {
+          "id": 447,
+          "name_ja": "コンプライアンス推進担当",
+          "name_en": "Compliance Officer"
+        },
+        {
+          "id": 456,
+          "name_ja": "マーケティング・リサーチャー",
+          "name_en": "Market Researcher"
+        },
+        {
+          "id": 461,
+          "name_ja": "商品企画開発（チェーンストア）",
+          "name_en": "Product Planner (Chain Store)"
+        },
+        {
+          "id": 474,
+          "name_ja": "マンション管理フロント",
+          "name_en": "Property Management Front (Mansion)"
+        },
+        {
+          "id": 517,
+          "name_ja": "入国審査官",
+          "name_en": "Immigration Inspector"
+        },
+        {
+          "id": 522,
+          "name_ja": "NPO法人職員（企画・運営）",
+          "name_en": "NPO Staff (Planning/Operations)"
+        },
+        {
+          "id": 530,
+          "name_ja": "臨床開発モニター",
+          "name_en": "Clinical Research Monitor"
+        },
+        {
+          "id": 553,
+          "name_ja": "アニメ制作進行管理",
+          "name_en": "Anime Production Manager"
+        },
+        {
+          "id": 554,
+          "name_ja": "プロスポーツ運営団体職員（企画・運営）",
+          "name_en": "Pro Sports Org Staff (Planning/Ops)"
+        },
+        {
+          "id": 566,
+          "name_ja": "イベントの企画・運営",
+          "name_en": "Event Planner / Operator"
+        },
+        {
+          "id": 567,
+          "name_ja": "学校事務（私立大学）",
+          "name_en": "Private University Office Clerk"
+        },
+        {
+          "id": 574,
+          "name_ja": "ハローワーク職員",
+          "name_en": "Hello Work (Public Employment Office) Staff"
+        },
+        {
+          "id": 577,
+          "name_ja": "風力発電の企画・調査",
+          "name_en": "Wind Power Project Planner"
+        }
+      ]
+    },
+    {
+      "category_workers": 3291060,
+      "category_size": 23,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 143090,
+      "members": [
+        {
+          "id": 54,
+          "name_ja": "デパート店員",
+          "name_en": "Department Store Clerk"
+        },
+        {
+          "id": 56,
+          "name_ja": "スーパーレジ係",
+          "name_en": "Supermarket Cashier"
+        },
+        {
+          "id": 57,
+          "name_ja": "スーパー店員",
+          "name_en": "Supermarket Clerk"
+        },
+        {
+          "id": 66,
+          "name_ja": "フラワーショップ店員",
+          "name_en": "Florist Shop Clerk"
+        },
+        {
+          "id": 67,
+          "name_ja": "電器店店員",
+          "name_en": "Electronics Shop Clerk"
+        },
+        {
+          "id": 68,
+          "name_ja": "書店員",
+          "name_en": "Bookstore Clerk"
+        },
+        {
+          "id": 69,
+          "name_ja": "メガネ販売",
+          "name_en": "Eyewear Sales"
+        },
+        {
+          "id": 70,
+          "name_ja": "スポーツ用品販売",
+          "name_en": "Sporting Goods Sales"
+        },
+        {
+          "id": 71,
+          "name_ja": "ホームセンター店員",
+          "name_en": "Hardware/Home Center Clerk"
+        },
+        {
+          "id": 72,
+          "name_ja": "ペットショップ店員",
+          "name_en": "Pet Shop Clerk"
+        },
+        {
+          "id": 73,
+          "name_ja": "衣料品販売",
+          "name_en": "Apparel Sales"
+        },
+        {
+          "id": 76,
+          "name_ja": "シューフィッター",
+          "name_en": "Shoe Fitter"
+        },
+        {
+          "id": 77,
+          "name_ja": "駅構内売店店員",
+          "name_en": "Station Kiosk Clerk"
+        },
+        {
+          "id": 78,
+          "name_ja": "コンビニエンスストア店員",
+          "name_en": "Convenience Store Clerk"
+        },
+        {
+          "id": 79,
+          "name_ja": "ベーカリーショップ店員",
+          "name_en": "Bakery Shop Clerk"
+        },
+        {
+          "id": 105,
+          "name_ja": "カフェ店員",
+          "name_en": "Cafe Clerk"
+        },
+        {
+          "id": 198,
+          "name_ja": "ガソリンスタンド・スタッフ",
+          "name_en": "Gas Station Staff"
+        },
+        {
+          "id": 448,
+          "name_ja": "医薬品販売/登録販売者",
+          "name_en": "OTC Drug Sales (Touroku Hanbaisha)"
+        },
+        {
+          "id": 449,
+          "name_ja": "リサイクルショップ店員",
+          "name_en": "Recycle Shop Clerk"
+        },
+        {
+          "id": 450,
+          "name_ja": "携帯電話販売",
+          "name_en": "Mobile Phone Sales"
+        },
+        {
+          "id": 451,
+          "name_ja": "CDショップ店員",
+          "name_en": "CD Shop Clerk"
+        },
+        {
+          "id": 464,
+          "name_ja": "化粧品販売/美容部員",
+          "name_en": "Cosmetics Sales / Beauty Advisor"
+        },
+        {
+          "id": 467,
+          "name_ja": "自転車販売",
+          "name_en": "Bicycle Sales"
+        }
+      ]
+    },
+    {
+      "category_workers": 201100,
+      "category_size": 14,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 14364,
+      "members": [
+        {
+          "id": 326,
+          "name_ja": "Webデザイナー（Web制作会社）",
+          "name_en": "Web Designer (Web Production)"
+        },
+        {
+          "id": 329,
+          "name_ja": "CG制作",
+          "name_en": "CG/3D Creator"
+        },
+        {
+          "id": 332,
+          "name_ja": "広告デザイナー",
+          "name_en": "Advertising Designer"
+        },
+        {
+          "id": 334,
+          "name_ja": "グラフィックデザイナー",
+          "name_en": "Graphic Designer"
+        },
+        {
+          "id": 336,
+          "name_ja": "ディスプレイデザイナー",
+          "name_en": "Display Designer"
+        },
+        {
+          "id": 337,
+          "name_ja": "インテリアデザイナー",
+          "name_en": "Interior Designer"
+        },
+        {
+          "id": 338,
+          "name_ja": "インテリアコーディネーター",
+          "name_en": "Interior Coordinator"
+        },
+        {
+          "id": 339,
+          "name_ja": "カラーコーディネーター",
+          "name_en": "Color Coordinator"
+        },
+        {
+          "id": 340,
+          "name_ja": "ファッションデザイナー",
+          "name_en": "Fashion Designer"
+        },
+        {
+          "id": 347,
+          "name_ja": "ブックデザイナー",
+          "name_en": "Book Designer"
+        },
+        {
+          "id": 348,
+          "name_ja": "テキスタイルデザイナー",
+          "name_en": "Textile Designer"
+        },
+        {
+          "id": 349,
+          "name_ja": "フラワーデザイナー",
+          "name_en": "Floral Designer"
+        },
+        {
+          "id": 350,
+          "name_ja": "ジュエリーデザイナー",
+          "name_en": "Jewelry Designer"
+        },
+        {
+          "id": 354,
+          "name_ja": "インダストリアルデザイナー",
+          "name_en": "Industrial Designer"
+        }
+      ]
+    },
+    {
+      "category_workers": 1227480,
+      "category_size": 13,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 94422,
+      "members": [
+        {
+          "id": 1,
+          "name_ja": "豆腐製造、豆腐職人",
+          "name_en": "Tofu Maker / Tofu Craftsman"
+        },
+        {
+          "id": 2,
+          "name_ja": "パン製造、パン職人",
+          "name_en": "Bread Maker / Baker"
+        },
+        {
+          "id": 3,
+          "name_ja": "洋菓子製造、パティシエ",
+          "name_en": "Western Confectioner / Pastry Chef"
+        },
+        {
+          "id": 4,
+          "name_ja": "和菓子製造、和菓子職人",
+          "name_en": "Japanese Confectioner (Wagashi Maker)"
+        },
+        {
+          "id": 5,
+          "name_ja": "乳製品製造",
+          "name_en": "Dairy Product Manufacturer"
+        },
+        {
+          "id": 6,
+          "name_ja": "水産ねり製品製造",
+          "name_en": "Surimi Product Manufacturer"
+        },
+        {
+          "id": 7,
+          "name_ja": "冷凍加工食品製造",
+          "name_en": "Frozen Processed Food Manufacturer"
+        },
+        {
+          "id": 8,
+          "name_ja": "惣菜製造",
+          "name_en": "Prepared Food Manufacturer"
+        },
+        {
+          "id": 10,
+          "name_ja": "みそ製造",
+          "name_en": "Miso Maker"
+        },
+        {
+          "id": 11,
+          "name_ja": "しょうゆ製造",
+          "name_en": "Soy Sauce Brewer"
+        },
+        {
+          "id": 12,
+          "name_ja": "ハム・ソーセージ・ベーコン製造",
+          "name_en": "Ham, Sausage, and Bacon Manufacturer"
+        },
+        {
+          "id": 15,
+          "name_ja": "かん詰・びん詰・レトルト食品製造",
+          "name_en": "Canned/Bottled/Retort Food Manufacturer"
+        },
+        {
+          "id": 16,
+          "name_ja": "野菜つけ物製造",
+          "name_en": "Pickle (Tsukemono) Manufacturer"
+        }
+      ]
+    },
+    {
+      "category_workers": 532710,
+      "category_size": 12,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 44392,
+      "members": [
+        {
+          "id": 129,
+          "name_ja": "児童相談所相談員",
+          "name_en": "Child Welfare Counselor"
+        },
+        {
+          "id": 130,
+          "name_ja": "福祉事務所ケースワーカー",
+          "name_en": "Welfare Office Caseworker"
+        },
+        {
+          "id": 132,
+          "name_ja": "介護支援専門員/ケアマネジャー",
+          "name_en": "Care Manager"
+        },
+        {
+          "id": 243,
+          "name_ja": "児童指導員",
+          "name_en": "Child Care Counselor"
+        },
+        {
+          "id": 244,
+          "name_ja": "障害者福祉施設指導専門員（生活支援員、就労支援員等）",
+          "name_en": "Disability Support Worker"
+        },
+        {
+          "id": 245,
+          "name_ja": "老人福祉施設生活相談員",
+          "name_en": "Elderly Welfare Counselor"
+        },
+        {
+          "id": 408,
+          "name_ja": "医療ソーシャルワーカー",
+          "name_en": "Medical Social Worker"
+        },
+        {
+          "id": 409,
+          "name_ja": "福祉ソーシャルワーカー",
+          "name_en": "Welfare Social Worker"
+        },
+        {
+          "id": 410,
+          "name_ja": "施設管理者（介護施設）",
+          "name_en": "Care Facility Manager"
+        },
+        {
+          "id": 555,
+          "name_ja": "訪問介護のサービス提供責任者",
+          "name_en": "Home Care Service Manager"
+        },
+        {
+          "id": 568,
+          "name_ja": "児童発達支援管理責任者",
+          "name_en": "Child Development Support Manager"
+        },
+        {
+          "id": 580,
+          "name_ja": "障害福祉サービス管理責任者",
+          "name_en": "Welfare Service Manager"
+        }
+      ]
+    },
+    {
+      "category_workers": 82920,
+      "category_size": 9,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 9213,
+      "members": [
+        {
+          "id": 80,
+          "name_ja": "中小企業診断士",
+          "name_en": "SMB Diagnostician (Shoshindanshi)"
+        },
+        {
+          "id": 81,
+          "name_ja": "経営コンサルタント",
+          "name_en": "Management Consultant"
+        },
+        {
+          "id": 82,
+          "name_ja": "ファイナンシャル・プランナー",
+          "name_en": "Financial Planner"
+        },
+        {
+          "id": 364,
+          "name_ja": "人事コンサルタント",
+          "name_en": "HR Consultant"
+        },
+        {
+          "id": 457,
+          "name_ja": "証券アナリスト",
+          "name_en": "Equity Research Analyst"
+        },
+        {
+          "id": 468,
+          "name_ja": "アクチュアリー",
+          "name_en": "Actuary"
+        },
+        {
+          "id": 470,
+          "name_ja": "ファンドマネージャー",
+          "name_en": "Fund Manager"
+        },
+        {
+          "id": 471,
+          "name_ja": "M&Aマネージャー、M&Aコンサルタント/M&Aアドバイザー",
+          "name_en": "M&A Manager / Advisor"
+        },
+        {
+          "id": 524,
+          "name_ja": "独立系ファイナンシャル・アドバイザー（IFA）",
+          "name_en": "Independent Financial Advisor (IFA)"
+        }
+      ]
+    },
+    {
+      "category_workers": 1445820,
+      "category_size": 9,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 160647,
+      "members": [
+        {
+          "id": 186,
+          "name_ja": "路線バス運転士",
+          "name_en": "Local Bus Driver"
+        },
+        {
+          "id": 187,
+          "name_ja": "観光バス運転士",
+          "name_en": "Sightseeing Bus Driver"
+        },
+        {
+          "id": 188,
+          "name_ja": "タクシー運転手",
+          "name_en": "Taxi Driver"
+        },
+        {
+          "id": 477,
+          "name_ja": "トラックドライバー",
+          "name_en": "Truck Driver"
+        },
+        {
+          "id": 478,
+          "name_ja": "トレーラートラックドライバー",
+          "name_en": "Trailer Truck Driver"
+        },
+        {
+          "id": 479,
+          "name_ja": "ダンプカー運転手",
+          "name_en": "Dump Truck Driver"
+        },
+        {
+          "id": 480,
+          "name_ja": "送迎バス等運転手",
+          "name_en": "Shuttle Bus Driver"
+        },
+        {
+          "id": 481,
+          "name_ja": "介護タクシー運転手",
+          "name_en": "Care Taxi Driver"
+        },
+        {
+          "id": 525,
+          "name_ja": "タンクローリー乗務員",
+          "name_en": "Tanker Truck Driver"
+        }
+      ]
+    },
+    {
+      "category_workers": 1822470,
+      "category_size": 8,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 227809,
+      "members": [
+        {
+          "id": 99,
+          "name_ja": "西洋料理調理人（コック）",
+          "name_en": "Western Cuisine Chef"
+        },
+        {
+          "id": 100,
+          "name_ja": "日本料理調理人（板前）",
+          "name_en": "Japanese Cuisine Chef (Itamae)"
+        },
+        {
+          "id": 101,
+          "name_ja": "すし職人",
+          "name_en": "Sushi Chef"
+        },
+        {
+          "id": 102,
+          "name_ja": "そば・うどん調理人",
+          "name_en": "Soba/Udon Chef"
+        },
+        {
+          "id": 103,
+          "name_ja": "中華料理調理人",
+          "name_en": "Chinese Cuisine Chef"
+        },
+        {
+          "id": 108,
+          "name_ja": "ラーメン調理人",
+          "name_en": "Ramen Chef"
+        },
+        {
+          "id": 492,
+          "name_ja": "調理補助",
+          "name_en": "Cooking Aide"
+        },
+        {
+          "id": 493,
+          "name_ja": "給食調理員",
+          "name_en": "School Cafeteria Cook"
+        }
+      ]
+    },
+    {
+      "category_workers": 207400,
+      "category_size": 8,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 25925,
+      "members": [
+        {
+          "id": 274,
+          "name_ja": "電気通信技術者",
+          "name_en": "Telecom Engineer"
+        },
+        {
+          "id": 319,
+          "name_ja": "運用・管理（IT）",
+          "name_en": "IT Operations Engineer"
+        },
+        {
+          "id": 320,
+          "name_ja": "ヘルプデスク（IT）",
+          "name_en": "IT Help Desk"
+        },
+        {
+          "id": 321,
+          "name_ja": "セキュリティエキスパート（オペレーション）",
+          "name_en": "Security Operations Expert"
+        },
+        {
+          "id": 325,
+          "name_ja": "AIエンジニア",
+          "name_en": "AI Engineer"
+        },
+        {
+          "id": 520,
+          "name_ja": "セキュリティエキスパート（脆弱性診断）",
+          "name_en": "Vulnerability Assessment Specialist"
+        },
+        {
+          "id": 523,
+          "name_ja": "データエンジニア",
+          "name_en": "Data Engineer"
+        },
+        {
+          "id": 533,
+          "name_ja": "セキュリティエキスパート（デジタルフォレンジック）",
+          "name_en": "Digital Forensics Specialist"
+        }
+      ]
+    },
+    {
+      "category_workers": 389760,
+      "category_size": 8,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 48720,
+      "members": [
+        {
+          "id": 312,
+          "name_ja": "システムエンジニア（受託開発）",
+          "name_en": "Systems Engineer (Custom Software)"
+        },
+        {
+          "id": 313,
+          "name_ja": "プログラマー",
+          "name_en": "Programmer"
+        },
+        {
+          "id": 314,
+          "name_ja": "システムエンジニア（Webサービス開発）",
+          "name_en": "Systems Engineer (Web Services)"
+        },
+        {
+          "id": 315,
+          "name_ja": "システムエンジニア（組込み、IoT）",
+          "name_en": "Embedded/IoT Systems Engineer"
+        },
+        {
+          "id": 316,
+          "name_ja": "ソフトウェア開発（パッケージソフト）",
+          "name_en": "Package Software Developer"
+        },
+        {
+          "id": 317,
+          "name_ja": "ソフトウェア開発（スマホアプリ）",
+          "name_en": "Mobile App Developer"
+        },
+        {
+          "id": 540,
+          "name_ja": "デバッグ作業",
+          "name_en": "Software Tester (Debug)"
+        },
+        {
+          "id": 552,
+          "name_ja": "UX/UIデザイナー",
+          "name_en": "UX/UI Designer"
+        }
+      ]
+    },
+    {
+      "category_workers": 887020,
+      "category_size": 7,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 126717,
+      "members": [
+        {
+          "id": 106,
+          "name_ja": "ソムリエ",
+          "name_en": "Sommelier"
+        },
+        {
+          "id": 205,
+          "name_ja": "客室乗務員",
+          "name_en": "Cabin Crew / Flight Attendant"
+        },
+        {
+          "id": 414,
+          "name_ja": "フロント（ホテル・旅館）",
+          "name_en": "Hotel Front Desk Clerk"
+        },
+        {
+          "id": 415,
+          "name_ja": "客室清掃・整備担当（ホテル・旅館）",
+          "name_en": "Hotel Room Cleaner"
+        },
+        {
+          "id": 416,
+          "name_ja": "接客担当（ホテル・旅館）",
+          "name_en": "Hotel Customer Service"
+        },
+        {
+          "id": 417,
+          "name_ja": "ホールスタッフ（レストラン）",
+          "name_en": "Restaurant Server (Floor Staff)"
+        },
+        {
+          "id": 418,
+          "name_ja": "飲食チェーン店店員",
+          "name_en": "Chain Restaurant Staff"
+        }
+      ]
+    },
+    {
+      "category_workers": 456590,
+      "category_size": 7,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 65227,
+      "members": [
+        {
+          "id": 125,
+          "name_ja": "ブライダルコーディネーター",
+          "name_en": "Wedding Planner / Bridal Coordinator"
+        },
+        {
+          "id": 227,
+          "name_ja": "トリマー",
+          "name_en": "Pet Groomer (Trimmer)"
+        },
+        {
+          "id": 242,
+          "name_ja": "学童保育指導員",
+          "name_en": "After-School Care Staff"
+        },
+        {
+          "id": 420,
+          "name_ja": "アロマセラピスト",
+          "name_en": "Aromatherapist"
+        },
+        {
+          "id": 421,
+          "name_ja": "リフレクソロジスト",
+          "name_en": "Reflexologist"
+        },
+        {
+          "id": 546,
+          "name_ja": "保育補助者",
+          "name_en": "Childcare Aide"
+        },
+        {
+          "id": 556,
+          "name_ja": "障害者グループホーム世話人",
+          "name_en": "Disability Group Home Caretaker"
+        }
+      ]
+    },
+    {
+      "category_workers": 79260,
+      "category_size": 7,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 11323,
+      "members": [
+        {
+          "id": 301,
+          "name_ja": "原子力技術者",
+          "name_en": "Nuclear Power Engineer"
+        },
+        {
+          "id": 304,
+          "name_ja": "陶磁器技術者",
+          "name_en": "Ceramics Engineer"
+        },
+        {
+          "id": 305,
+          "name_ja": "ファインセラミックス製造技術者",
+          "name_en": "Fine Ceramics Engineer"
+        },
+        {
+          "id": 310,
+          "name_ja": "宇宙開発技術者",
+          "name_en": "Aerospace Engineer"
+        },
+        {
+          "id": 323,
+          "name_ja": "データサイエンティスト",
+          "name_en": "Data Scientist"
+        },
+        {
+          "id": 495,
+          "name_ja": "産業廃棄物処理技術者",
+          "name_en": "Industrial Waste Treatment Tech"
+        },
+        {
+          "id": 571,
+          "name_ja": "作業環境測定士",
+          "name_en": "Working Environment Measurement Specialist"
+        }
+      ]
+    },
+    {
+      "category_workers": 303660,
+      "category_size": 7,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 43380,
+      "members": [
+        {
+          "id": 402,
+          "name_ja": "外科医",
+          "name_en": "Surgeon"
+        },
+        {
+          "id": 403,
+          "name_ja": "小児科医",
+          "name_en": "Pediatrician"
+        },
+        {
+          "id": 404,
+          "name_ja": "内科医",
+          "name_en": "Internal Medicine Physician"
+        },
+        {
+          "id": 405,
+          "name_ja": "精神科医",
+          "name_en": "Psychiatrist"
+        },
+        {
+          "id": 406,
+          "name_ja": "産婦人科医",
+          "name_en": "Obstetrician/Gynecologist"
+        },
+        {
+          "id": 563,
+          "name_ja": "麻酔科医",
+          "name_en": "Anesthesiologist"
+        },
+        {
+          "id": 575,
+          "name_ja": "整形外科医",
+          "name_en": "Orthopedic Surgeon"
+        }
+      ]
+    },
+    {
+      "category_workers": 163750,
+      "category_size": 6,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 27292,
+      "members": [
+        {
+          "id": 162,
+          "name_ja": "細胞検査士",
+          "name_en": "Cytotechnologist"
+        },
+        {
+          "id": 164,
+          "name_ja": "臨床工学技士",
+          "name_en": "Clinical Engineer"
+        },
+        {
+          "id": 176,
+          "name_ja": "義肢装具士",
+          "name_en": "Prosthetist & Orthotist"
+        },
+        {
+          "id": 407,
+          "name_ja": "治験コーディネーター",
+          "name_en": "Clinical Research Coordinator"
+        },
+        {
+          "id": 411,
+          "name_ja": "カウンセラー（医療福祉分野）",
+          "name_en": "Medical Counselor"
+        },
+        {
+          "id": 576,
+          "name_ja": "衛生管理者",
+          "name_en": "Hygiene Manager (Eisei Kanrisha)"
+        }
+      ]
+    },
+    {
+      "category_workers": 83930,
+      "category_size": 6,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 13988,
+      "members": [
+        {
+          "id": 208,
+          "name_ja": "新聞記者",
+          "name_en": "Newspaper Reporter"
+        },
+        {
+          "id": 209,
+          "name_ja": "雑誌記者",
+          "name_en": "Magazine Reporter"
+        },
+        {
+          "id": 210,
+          "name_ja": "図書編集者",
+          "name_en": "Book Editor"
+        },
+        {
+          "id": 211,
+          "name_ja": "雑誌編集者",
+          "name_en": "Magazine Editor"
+        },
+        {
+          "id": 215,
+          "name_ja": "放送記者",
+          "name_en": "Broadcast Reporter"
+        },
+        {
+          "id": 358,
+          "name_ja": "テクニカルライター",
+          "name_en": "Technical Writer"
+        }
+      ]
+    },
+    {
+      "category_workers": 51140,
+      "category_size": 6,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 8523,
+      "members": [
+        {
+          "id": 221,
+          "name_ja": "農業技術者",
+          "name_en": "Agricultural Engineer"
+        },
+        {
+          "id": 228,
+          "name_ja": "水産技術者",
+          "name_en": "Fisheries Engineer"
+        },
+        {
+          "id": 229,
+          "name_ja": "林業技術者",
+          "name_en": "Forestry Engineer"
+        },
+        {
+          "id": 247,
+          "name_ja": "植物工場の研究開発",
+          "name_en": "Plant Factory R&D Engineer"
+        },
+        {
+          "id": 288,
+          "name_ja": "食品技術者",
+          "name_en": "Food Technologist"
+        },
+        {
+          "id": 508,
+          "name_ja": "畜産技術者",
+          "name_en": "Livestock Engineer"
+        }
+      ]
+    },
+    {
+      "category_workers": 98020,
+      "category_size": 6,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 16337,
+      "members": [
+        {
+          "id": 388,
+          "name_ja": "土木・建築工学研究者",
+          "name_en": "Civil/Architectural Engineering Researcher"
+        },
+        {
+          "id": 389,
+          "name_ja": "情報工学研究者",
+          "name_en": "Computer Science Researcher"
+        },
+        {
+          "id": 390,
+          "name_ja": "医学研究者",
+          "name_en": "Medical Researcher"
+        },
+        {
+          "id": 391,
+          "name_ja": "科学捜査研究所鑑定技術職員",
+          "name_en": "Forensic Crime Lab Researcher"
+        },
+        {
+          "id": 392,
+          "name_ja": "薬学研究者",
+          "name_en": "Pharmaceutical Researcher"
+        },
+        {
+          "id": 393,
+          "name_ja": "バイオテクノロジー研究者",
+          "name_en": "Biotechnology Researcher"
+        }
+      ]
+    },
+    {
+      "category_workers": 242580,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 48516,
+      "members": [
+        {
+          "id": 20,
+          "name_ja": "建築設計技術者",
+          "name_en": "Architectural Designer"
+        },
+        {
+          "id": 21,
+          "name_ja": "建築施工管理技術者",
+          "name_en": "Building Construction Manager"
+        },
+        {
+          "id": 248,
+          "name_ja": "植物工場の設計、施工",
+          "name_en": "Plant Factory Designer/Installer"
+        },
+        {
+          "id": 551,
+          "name_ja": "バイオマス発電プラントの設計",
+          "name_en": "Biomass Power Plant Designer"
+        },
+        {
+          "id": 570,
+          "name_ja": "耐震診断",
+          "name_en": "Seismic Inspector"
+        }
+      ]
+    },
+    {
+      "category_workers": 263870,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 52774,
+      "members": [
+        {
+          "id": 22,
+          "name_ja": "土木設計技術者",
+          "name_en": "Civil Engineer (Design)"
+        },
+        {
+          "id": 23,
+          "name_ja": "土木施工管理技術者",
+          "name_en": "Civil Construction Manager"
+        },
+        {
+          "id": 24,
+          "name_ja": "測量士",
+          "name_en": "Surveyor"
+        },
+        {
+          "id": 235,
+          "name_ja": "太陽光発電の設計・施工",
+          "name_en": "Solar Power Designer/Installer"
+        },
+        {
+          "id": 572,
+          "name_ja": "下水道管路施設の点検・調査",
+          "name_en": "Sewer Pipe Inspector"
+        }
+      ]
+    },
+    {
+      "category_workers": 647530,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 129506,
+      "members": [
+        {
+          "id": 33,
+          "name_ja": "潜水士",
+          "name_en": "Commercial Diver"
+        },
+        {
+          "id": 41,
+          "name_ja": "サッシ取付",
+          "name_en": "Window Frame Installer"
+        },
+        {
+          "id": 42,
+          "name_ja": "内装工",
+          "name_en": "Interior Finisher"
+        },
+        {
+          "id": 44,
+          "name_ja": "防水工",
+          "name_en": "Waterproofing Worker"
+        },
+        {
+          "id": 45,
+          "name_ja": "保温工事",
+          "name_en": "Insulation Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 120420,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 24084,
+      "members": [
+        {
+          "id": 53,
+          "name_ja": "銀行支店長",
+          "name_en": "Bank Branch Manager"
+        },
+        {
+          "id": 536,
+          "name_ja": "総務課長",
+          "name_en": "General Affairs Section Chief"
+        },
+        {
+          "id": 537,
+          "name_ja": "人事課長",
+          "name_en": "HR Section Chief"
+        },
+        {
+          "id": 538,
+          "name_ja": "経理課長",
+          "name_en": "Accounting Section Chief"
+        },
+        {
+          "id": 539,
+          "name_ja": "営業課長",
+          "name_en": "Sales Section Chief"
+        }
+      ]
+    },
+    {
+      "category_workers": 872440,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 174488,
+      "members": [
+        {
+          "id": 75,
+          "name_ja": "フランチャイズチェーン・スーパーバイザー",
+          "name_en": "Franchise Chain Supervisor"
+        },
+        {
+          "id": 109,
+          "name_ja": "旅行会社カウンター係",
+          "name_en": "Travel Agency Counter Clerk"
+        },
+        {
+          "id": 431,
+          "name_ja": "営業事務",
+          "name_en": "Sales Office Clerk"
+        },
+        {
+          "id": 439,
+          "name_ja": "貿易事務",
+          "name_en": "Trade Office Clerk"
+        },
+        {
+          "id": 440,
+          "name_ja": "損害保険事務",
+          "name_en": "P&C Insurance Clerk"
+        }
+      ]
+    },
+    {
+      "category_workers": 118020,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 23604,
+      "members": [
+        {
+          "id": 121,
+          "name_ja": "自動車教習指導員",
+          "name_en": "Driving School Instructor"
+        },
+        {
+          "id": 147,
+          "name_ja": "法務教官",
+          "name_en": "Corrections Education Officer"
+        },
+        {
+          "id": 181,
+          "name_ja": "専門学校教員",
+          "name_en": "Vocational School Teacher"
+        },
+        {
+          "id": 397,
+          "name_ja": "日本語教師",
+          "name_en": "Japanese Language Teacher"
+        },
+        {
+          "id": 399,
+          "name_ja": "職業訓練指導員",
+          "name_en": "Vocational Training Instructor"
+        }
+      ]
+    },
+    {
+      "category_workers": 84720,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 16944,
+      "members": [
+        {
+          "id": 143,
+          "name_ja": "入国警備官",
+          "name_en": "Immigration Enforcement Officer"
+        },
+        {
+          "id": 199,
+          "name_ja": "道路パトロール隊員",
+          "name_en": "Road Patrol Worker"
+        },
+        {
+          "id": 475,
+          "name_ja": "雑踏・交通誘導警備員",
+          "name_en": "Crowd/Traffic Security Guard"
+        },
+        {
+          "id": 501,
+          "name_ja": "自然保護官（レンジャー）",
+          "name_en": "Park Ranger (Nature Conservation Officer)"
+        },
+        {
+          "id": 578,
+          "name_ja": "税関職員",
+          "name_en": "Customs Officer"
+        }
+      ]
+    },
+    {
+      "category_workers": 217830,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 43566,
+      "members": [
+        {
+          "id": 194,
+          "name_ja": "空港グランドスタッフ",
+          "name_en": "Airport Ground Staff"
+        },
+        {
+          "id": 195,
+          "name_ja": "駅務員",
+          "name_en": "Station Staff"
+        },
+        {
+          "id": 196,
+          "name_ja": "鉄道運転計画・運行管理",
+          "name_en": "Rail Operations Dispatcher"
+        },
+        {
+          "id": 200,
+          "name_ja": "タクシー配車オペレーター",
+          "name_en": "Taxi Dispatcher"
+        },
+        {
+          "id": 204,
+          "name_ja": "ディスパッチャー（航空機運航管理者）",
+          "name_en": "Flight Dispatcher"
+        }
+      ]
+    },
+    {
+      "category_workers": 242820,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 48564,
+      "members": [
+        {
+          "id": 231,
+          "name_ja": "産業用ロボット開発技術者",
+          "name_en": "Industrial Robot Developer"
+        },
+        {
+          "id": 262,
+          "name_ja": "機械設計技術者",
+          "name_en": "Mechanical Design Engineer"
+        },
+        {
+          "id": 271,
+          "name_ja": "精密機器技術者",
+          "name_en": "Precision Instrument Engineer"
+        },
+        {
+          "id": 276,
+          "name_ja": "プラント設計技術者",
+          "name_en": "Plant Designer (Industrial)"
+        },
+        {
+          "id": 311,
+          "name_ja": "航空機開発エンジニア（ジェットエンジン）",
+          "name_en": "Aircraft Engine (Jet) Developer"
+        }
+      ]
+    },
+    {
+      "category_workers": 1452780,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 290556,
+      "members": [
+        {
+          "id": 249,
+          "name_ja": "植物工場の栽培管理",
+          "name_en": "Plant Factory Grower"
+        },
+        {
+          "id": 504,
+          "name_ja": "稲作農業者",
+          "name_en": "Rice Farmer"
+        },
+        {
+          "id": 505,
+          "name_ja": "ハウス野菜栽培者",
+          "name_en": "Greenhouse Vegetable Grower"
+        },
+        {
+          "id": 506,
+          "name_ja": "果樹栽培者",
+          "name_en": "Fruit Grower"
+        },
+        {
+          "id": 507,
+          "name_ja": "花き栽培者",
+          "name_en": "Flower Grower"
+        }
+      ]
+    },
+    {
+      "category_workers": 305190,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 61038,
+      "members": [
+        {
+          "id": 267,
+          "name_ja": "半導体技術者",
+          "name_en": "Semiconductor Engineer"
+        },
+        {
+          "id": 272,
+          "name_ja": "電気技術者",
+          "name_en": "Electrical Engineer"
+        },
+        {
+          "id": 273,
+          "name_ja": "電子機器技術者",
+          "name_en": "Electronics Engineer"
+        },
+        {
+          "id": 296,
+          "name_ja": "生産・品質管理技術者",
+          "name_en": "Quality Control Engineer"
+        },
+        {
+          "id": 529,
+          "name_ja": "医療機器開発技術者",
+          "name_en": "Medical Device Developer"
+        }
+      ]
+    },
+    {
+      "category_workers": 273160,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 54632,
+      "members": [
+        {
+          "id": 281,
+          "name_ja": "木材製造",
+          "name_en": "Lumber Processor"
+        },
+        {
+          "id": 282,
+          "name_ja": "合板製造",
+          "name_en": "Plywood Manufacturer"
+        },
+        {
+          "id": 283,
+          "name_ja": "家具製造",
+          "name_en": "Furniture Maker"
+        },
+        {
+          "id": 285,
+          "name_ja": "紙器製造",
+          "name_en": "Paper Container Manufacturer"
+        },
+        {
+          "id": 287,
+          "name_ja": "建具製造",
+          "name_en": "Joinery (Tategu) Maker"
+        }
+      ]
+    },
+    {
+      "category_workers": 359140,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 71828,
+      "members": [
+        {
+          "id": 289,
+          "name_ja": "靴製造",
+          "name_en": "Shoemaker"
+        },
+        {
+          "id": 290,
+          "name_ja": "かばん・袋物製造",
+          "name_en": "Bag and Pouch Maker"
+        },
+        {
+          "id": 291,
+          "name_ja": "漆器製造",
+          "name_en": "Lacquerware (Shikki) Maker"
+        },
+        {
+          "id": 292,
+          "name_ja": "貴金属装身具製作",
+          "name_en": "Jewelry Craftsman"
+        },
+        {
+          "id": 515,
+          "name_ja": "玩具（おもちゃ）製作",
+          "name_en": "Toy Maker"
+        }
+      ]
+    },
+    {
+      "category_workers": 219640,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 43928,
+      "members": [
+        {
+          "id": 295,
+          "name_ja": "医薬品製造",
+          "name_en": "Pharmaceutical Manufacturer"
+        },
+        {
+          "id": 298,
+          "name_ja": "化粧品製造",
+          "name_en": "Cosmetics Manufacturer"
+        },
+        {
+          "id": 299,
+          "name_ja": "石油精製オペレーター",
+          "name_en": "Petroleum Refinery Operator"
+        },
+        {
+          "id": 300,
+          "name_ja": "化学製品製造オペレーター",
+          "name_en": "Chemical Plant Operator"
+        },
+        {
+          "id": 307,
+          "name_ja": "花火師",
+          "name_en": "Fireworks Maker (Hanabishi)"
+        }
+      ]
+    },
+    {
+      "category_workers": 696180,
+      "category_size": 5,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 139236,
+      "members": [
+        {
+          "id": 466,
+          "name_ja": "清涼飲料ルートセールス",
+          "name_en": "Beverage Route Sales"
+        },
+        {
+          "id": 482,
+          "name_ja": "ルート配送ドライバー",
+          "name_en": "Route Delivery Driver"
+        },
+        {
+          "id": 483,
+          "name_ja": "宅配便配達員",
+          "name_en": "Parcel Delivery Driver"
+        },
+        {
+          "id": 484,
+          "name_ja": "新聞配達員",
+          "name_en": "Newspaper Delivery"
+        },
+        {
+          "id": 532,
+          "name_ja": "フードデリバリー（料理配達員）",
+          "name_en": "Food Delivery Driver"
+        }
+      ]
+    },
+    {
+      "category_workers": 232980,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 58245,
+      "members": [
+        {
+          "id": 43,
+          "name_ja": "建築塗装工",
+          "name_en": "Building Painter"
+        },
+        {
+          "id": 341,
+          "name_ja": "パタンナー",
+          "name_en": "Pattern Maker"
+        },
+        {
+          "id": 343,
+          "name_ja": "アニメーター",
+          "name_en": "Animator"
+        },
+        {
+          "id": 344,
+          "name_ja": "看板制作",
+          "name_en": "Sign Maker"
+        }
+      ]
+    },
+    {
+      "category_workers": 1407170,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 351792,
+      "members": [
+        {
+          "id": 58,
+          "name_ja": "商社営業",
+          "name_en": "Trading Company Sales (Sosha)"
+        },
+        {
+          "id": 61,
+          "name_ja": "広告営業",
+          "name_en": "Advertising Sales"
+        },
+        {
+          "id": 62,
+          "name_ja": "印刷営業",
+          "name_en": "Print Sales"
+        },
+        {
+          "id": 527,
+          "name_ja": "食品営業（食品メーカー）",
+          "name_en": "Food Maker Sales"
+        }
+      ]
+    },
+    {
+      "category_workers": 24470,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 6118,
+      "members": [
+        {
+          "id": 86,
+          "name_ja": "土地家屋調査士",
+          "name_en": "Land and House Investigator (Tochikaokuchosashi)"
+        },
+        {
+          "id": 146,
+          "name_ja": "家庭裁判所調査官",
+          "name_en": "Family Court Investigator"
+        },
+        {
+          "id": 518,
+          "name_ja": "検察事務官",
+          "name_en": "Prosecutor's Affairs Officer"
+        },
+        {
+          "id": 521,
+          "name_ja": "特許審査官",
+          "name_en": "Patent Examiner"
+        }
+      ]
+    },
+    {
+      "category_workers": 62160,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 15540,
+      "members": [
+        {
+          "id": 217,
+          "name_ja": "放送ディレクター",
+          "name_en": "Broadcast Director"
+        },
+        {
+          "id": 352,
+          "name_ja": "舞台美術スタッフ",
+          "name_en": "Stage Set Designer"
+        },
+        {
+          "id": 353,
+          "name_ja": "舞台照明スタッフ",
+          "name_en": "Stage Lighting Designer"
+        },
+        {
+          "id": 541,
+          "name_ja": "ナレーター",
+          "name_en": "Narrator"
+        }
+      ]
+    },
+    {
+      "category_workers": 154470,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 38618,
+      "members": [
+        {
+          "id": 218,
+          "name_ja": "厩舎スタッフ",
+          "name_en": "Stable Staff (Race Horse)"
+        },
+        {
+          "id": 220,
+          "name_ja": "動物園飼育員",
+          "name_en": "Zoo Keeper"
+        },
+        {
+          "id": 500,
+          "name_ja": "ブリーダー",
+          "name_en": "Animal Breeder"
+        },
+        {
+          "id": 502,
+          "name_ja": "酪農従事者",
+          "name_en": "Dairy Farmer"
+        }
+      ]
+    },
+    {
+      "category_workers": 485760,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 121440,
+      "members": [
+        {
+          "id": 261,
+          "name_ja": "電子機器組立",
+          "name_en": "Electronic Equipment Assembler"
+        },
+        {
+          "id": 268,
+          "name_ja": "半導体製造",
+          "name_en": "Semiconductor Manufacturing Worker"
+        },
+        {
+          "id": 277,
+          "name_ja": "医療用画像機器組立",
+          "name_en": "Medical Imaging Equipment Assembler"
+        },
+        {
+          "id": 559,
+          "name_ja": "配電盤・制御盤等組立",
+          "name_en": "Switchgear/Control Panel Assembler"
+        }
+      ]
+    },
+    {
+      "category_workers": 137470,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 34368,
+      "members": [
+        {
+          "id": 270,
+          "name_ja": "自動車技術者",
+          "name_en": "Automotive Engineer"
+        },
+        {
+          "id": 528,
+          "name_ja": "自動運転開発エンジニア（自動車）",
+          "name_en": "Autonomous Driving Developer"
+        },
+        {
+          "id": 550,
+          "name_ja": "造船技術者（船舶の開発・設計）",
+          "name_en": "Ship Designer (R&D)"
+        },
+        {
+          "id": 561,
+          "name_ja": "鉄道車両の設計・開発",
+          "name_en": "Rail Vehicle Designer"
+        }
+      ]
+    },
+    {
+      "category_workers": 274370,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 68592,
+      "members": [
+        {
+          "id": 278,
+          "name_ja": "織布工/織機オペレーター",
+          "name_en": "Loom Operator"
+        },
+        {
+          "id": 279,
+          "name_ja": "染色工/染色設備オペレーター",
+          "name_en": "Dye Operator"
+        },
+        {
+          "id": 280,
+          "name_ja": "ミシン縫製",
+          "name_en": "Sewing Machine Operator"
+        },
+        {
+          "id": 286,
+          "name_ja": "紡績機械オペレーター",
+          "name_en": "Spinning Machine Operator"
+        }
+      ]
+    },
+    {
+      "category_workers": 656770,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 164192,
+      "members": [
+        {
+          "id": 318,
+          "name_ja": "システムエンジニア（基盤システム）",
+          "name_en": "Infrastructure Systems Engineer"
+        },
+        {
+          "id": 322,
+          "name_ja": "プロジェクトマネージャ（IT）",
+          "name_en": "IT Project Manager"
+        },
+        {
+          "id": 324,
+          "name_ja": "DXプロデューサー",
+          "name_en": "DX (Digital Transformation) Producer"
+        },
+        {
+          "id": 362,
+          "name_ja": "ITコンサルタント",
+          "name_en": "IT Consultant"
+        }
+      ]
+    },
+    {
+      "category_workers": 1057330,
+      "category_size": 4,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 264332,
+      "members": [
+        {
+          "id": 432,
+          "name_ja": "人事事務",
+          "name_en": "HR Office Clerk"
+        },
+        {
+          "id": 433,
+          "name_ja": "総務事務",
+          "name_en": "General Affairs Clerk"
+        },
+        {
+          "id": 444,
+          "name_ja": "広報・PR担当",
+          "name_en": "Public Relations / PR Officer"
+        },
+        {
+          "id": 469,
+          "name_ja": "内部監査人",
+          "name_en": "Internal Auditor"
+        }
+      ]
+    },
+    {
+      "category_workers": 45150,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 15050,
+      "members": [
+        {
+          "id": 9,
+          "name_ja": "清酒製造",
+          "name_en": "Sake Brewer"
+        },
+        {
+          "id": 13,
+          "name_ja": "ワイン製造",
+          "name_en": "Wine Maker"
+        },
+        {
+          "id": 14,
+          "name_ja": "ビール製造",
+          "name_en": "Beer Brewer"
+        }
+      ]
+    },
+    {
+      "category_workers": 139770,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 46590,
+      "members": [
+        {
+          "id": 17,
+          "name_ja": "陶磁器製造",
+          "name_en": "Pottery Maker"
+        },
+        {
+          "id": 18,
+          "name_ja": "ガラス食器製造",
+          "name_en": "Glassware Maker"
+        },
+        {
+          "id": 306,
+          "name_ja": "石工",
+          "name_en": "Stonemason"
+        }
+      ]
+    },
+    {
+      "category_workers": 24510,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 8170,
+      "members": [
+        {
+          "id": 37,
+          "name_ja": "ブロック積み",
+          "name_en": "Block Layer"
+        },
+        {
+          "id": 38,
+          "name_ja": "タイル工",
+          "name_en": "Tile Setter"
+        },
+        {
+          "id": 52,
+          "name_ja": "ホテル・旅館支配人",
+          "name_en": "Hotel/Inn Manager"
+        }
+      ]
+    },
+    {
+      "category_workers": 334370,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 111457,
+      "members": [
+        {
+          "id": 48,
+          "name_ja": "エレベーター据付",
+          "name_en": "Elevator Installer"
+        },
+        {
+          "id": 232,
+          "name_ja": "産業用ロボットの設置・設定",
+          "name_en": "Industrial Robot Installer"
+        },
+        {
+          "id": 265,
+          "name_ja": "生産用機械組立",
+          "name_en": "Production Machine Assembler"
+        }
+      ]
+    },
+    {
+      "category_workers": 581280,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 193760,
+      "members": [
+        {
+          "id": 60,
+          "name_ja": "自動車営業",
+          "name_en": "Auto Sales"
+        },
+        {
+          "id": 452,
+          "name_ja": "コンサルティング営業（IT）",
+          "name_en": "IT Consulting Sales"
+        },
+        {
+          "id": 462,
+          "name_ja": "OA機器営業",
+          "name_en": "Office Equipment Sales"
+        }
+      ]
+    },
+    {
+      "category_workers": 291330,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 97110,
+      "members": [
+        {
+          "id": 65,
+          "name_ja": "せり人",
+          "name_en": "Auctioneer (Seriin)"
+        },
+        {
+          "id": 455,
+          "name_ja": "ディーラー",
+          "name_en": "Securities Trader"
+        },
+        {
+          "id": 463,
+          "name_ja": "証券外務員",
+          "name_en": "Securities Representative"
+        }
+      ]
+    },
+    {
+      "category_workers": 33710,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 11237,
+      "members": [
+        {
+          "id": 89,
+          "name_ja": "弁護士",
+          "name_en": "Lawyer"
+        },
+        {
+          "id": 144,
+          "name_ja": "裁判官",
+          "name_en": "Judge"
+        },
+        {
+          "id": 145,
+          "name_ja": "検察官",
+          "name_en": "Prosecutor"
+        }
+      ]
+    },
+    {
+      "category_workers": 119220,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 39740,
+      "members": [
+        {
+          "id": 117,
+          "name_ja": "エステティシャン",
+          "name_en": "Esthetician"
+        },
+        {
+          "id": 128,
+          "name_ja": "ネイリスト",
+          "name_en": "Nail Artist"
+        },
+        {
+          "id": 423,
+          "name_ja": "きもの着付指導員",
+          "name_en": "Kimono Dressing Instructor"
+        }
+      ]
+    },
+    {
+      "category_workers": 63760,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 21253,
+      "members": [
+        {
+          "id": 123,
+          "name_ja": "ビデオレンタル店店員",
+          "name_en": "Video Rental Clerk"
+        },
+        {
+          "id": 124,
+          "name_ja": "レンタカー店舗スタッフ",
+          "name_en": "Car Rental Counter Clerk"
+        },
+        {
+          "id": 137,
+          "name_ja": "福祉用具専門相談員",
+          "name_en": "Welfare Equipment Specialist"
+        }
+      ]
+    },
+    {
+      "category_workers": 1523600,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 507867,
+      "members": [
+        {
+          "id": 149,
+          "name_ja": "税務事務官",
+          "name_en": "Tax Office Officer"
+        },
+        {
+          "id": 430,
+          "name_ja": "経理事務",
+          "name_en": "Accounting Clerk"
+        },
+        {
+          "id": 438,
+          "name_ja": "銀行等窓口事務",
+          "name_en": "Bank Teller"
+        }
+      ]
+    },
+    {
+      "category_workers": 230380,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 76793,
+      "members": [
+        {
+          "id": 152,
+          "name_ja": "陸上自衛官",
+          "name_en": "Ground Self-Defense Force Officer"
+        },
+        {
+          "id": 153,
+          "name_ja": "海上自衛官",
+          "name_en": "Maritime Self-Defense Force Officer"
+        },
+        {
+          "id": 154,
+          "name_ja": "航空自衛官",
+          "name_en": "Air Self-Defense Force Officer"
+        }
+      ]
+    },
+    {
+      "category_workers": 118210,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 39403,
+      "members": [
+        {
+          "id": 172,
+          "name_ja": "あんまマッサージ指圧師",
+          "name_en": "Massage/Anma/Shiatsu Therapist"
+        },
+        {
+          "id": 173,
+          "name_ja": "柔道整復師",
+          "name_en": "Judo Therapist (Bonesetter)"
+        },
+        {
+          "id": 175,
+          "name_ja": "はり師・きゅう師",
+          "name_en": "Acupuncturist / Moxibustionist"
+        }
+      ]
+    },
+    {
+      "category_workers": 401150,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 133717,
+      "members": [
+        {
+          "id": 233,
+          "name_ja": "産業用ロボットの保守・メンテナンス",
+          "name_en": "Industrial Robot Maintenance Tech"
+        },
+        {
+          "id": 269,
+          "name_ja": "物流設備管理・保全",
+          "name_en": "Logistics Equipment Maintenance"
+        },
+        {
+          "id": 284,
+          "name_ja": "紡織設備管理・保全",
+          "name_en": "Textile Equipment Maintenance"
+        }
+      ]
+    },
+    {
+      "category_workers": 93070,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 31023,
+      "members": [
+        {
+          "id": 236,
+          "name_ja": "太陽光発電のメンテナンス",
+          "name_en": "Solar Power Maintenance Tech"
+        },
+        {
+          "id": 275,
+          "name_ja": "家電修理",
+          "name_en": "Home Appliance Repair Tech"
+        },
+        {
+          "id": 535,
+          "name_ja": "風力発電のメンテナンス",
+          "name_en": "Wind Power Maintenance Tech"
+        }
+      ]
+    },
+    {
+      "category_workers": 91350,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 30450,
+      "members": [
+        {
+          "id": 303,
+          "name_ja": "分析化学技術者",
+          "name_en": "Analytical Chemist"
+        },
+        {
+          "id": 308,
+          "name_ja": "高分子化学技術者",
+          "name_en": "Polymer Chemist"
+        },
+        {
+          "id": 309,
+          "name_ja": "バイオテクノロジー技術者",
+          "name_en": "Biotechnology Engineer"
+        }
+      ]
+    },
+    {
+      "category_workers": 69170,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 23057,
+      "members": [
+        {
+          "id": 355,
+          "name_ja": "商業カメラマン",
+          "name_en": "Commercial Photographer"
+        },
+        {
+          "id": 356,
+          "name_ja": "テレビカメラマン",
+          "name_en": "TV Cameraman"
+        },
+        {
+          "id": 357,
+          "name_ja": "報道カメラマン",
+          "name_en": "Press/News Photographer"
+        }
+      ]
+    },
+    {
+      "category_workers": 180700,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 60233,
+      "members": [
+        {
+          "id": 359,
+          "name_ja": "製版オペレーター、DTPオペレーター",
+          "name_en": "DTP Operator (Pre-Press)"
+        },
+        {
+          "id": 360,
+          "name_ja": "印刷オペレーター",
+          "name_en": "Printing Press Operator"
+        },
+        {
+          "id": 361,
+          "name_ja": "製本オペレーター",
+          "name_en": "Bindery Operator"
+        }
+      ]
+    },
+    {
+      "category_workers": 467050,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 155683,
+      "members": [
+        {
+          "id": 453,
+          "name_ja": "保険営業（生命保険、損害保険）",
+          "name_en": "Insurance Sales"
+        },
+        {
+          "id": 454,
+          "name_ja": "銀行・信用金庫渉外担当",
+          "name_en": "Bank Corporate Officer (Outside Sales)"
+        },
+        {
+          "id": 472,
+          "name_ja": "代理店営業（保険会社）",
+          "name_en": "Insurance Agency Sales"
+        }
+      ]
+    },
+    {
+      "category_workers": 1150210,
+      "category_size": 3,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 383403,
+      "members": [
+        {
+          "id": 486,
+          "name_ja": "ピッキング作業員",
+          "name_en": "Order Picker"
+        },
+        {
+          "id": 490,
+          "name_ja": "工場労務作業員",
+          "name_en": "Factory Laborer"
+        },
+        {
+          "id": 491,
+          "name_ja": "バックヤード作業員（スーパー食品部門）",
+          "name_en": "Backyard Staff (Supermarket Food)"
+        }
+      ]
+    },
+    {
+      "category_workers": 298880,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 149440,
+      "members": [
+        {
+          "id": 19,
+          "name_ja": "プラスチック成形",
+          "name_en": "Plastic Molder"
+        },
+        {
+          "id": 297,
+          "name_ja": "タイヤ製造",
+          "name_en": "Tire Manufacturer"
+        }
+      ]
+    },
+    {
+      "category_workers": 53660,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 26830,
+      "members": [
+        {
+          "id": 29,
+          "name_ja": "鉄骨工",
+          "name_en": "Steel Worker"
+        },
+        {
+          "id": 547,
+          "name_ja": "造船技能者（造船工、船舶艤装工等）",
+          "name_en": "Shipbuilder"
+        }
+      ]
+    },
+    {
+      "category_workers": 111940,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 55970,
+      "members": [
+        {
+          "id": 30,
+          "name_ja": "とび",
+          "name_en": "Scaffolder (Tobi)"
+        },
+        {
+          "id": 51,
+          "name_ja": "解体工",
+          "name_en": "Demolition Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 86830,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 43415,
+      "members": [
+        {
+          "id": 31,
+          "name_ja": "建設機械オペレーター",
+          "name_en": "Construction Equipment Operator"
+        },
+        {
+          "id": 35,
+          "name_ja": "さく井工/ボーリング工",
+          "name_en": "Boring/Drilling Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 456900,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 228450,
+      "members": [
+        {
+          "id": 32,
+          "name_ja": "建設・土木作業員",
+          "name_en": "Construction/Civil Laborer"
+        },
+        {
+          "id": 36,
+          "name_ja": "舗装工",
+          "name_en": "Pavement Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 292540,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 146270,
+      "members": [
+        {
+          "id": 64,
+          "name_ja": "コールセンターオペレーター",
+          "name_en": "Call Center Operator"
+        },
+        {
+          "id": 441,
+          "name_ja": "通信販売受付事務",
+          "name_en": "Mail-Order Receipt Clerk"
+        }
+      ]
+    },
+    {
+      "category_workers": 25560,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 12780,
+      "members": [
+        {
+          "id": 84,
+          "name_ja": "司法書士",
+          "name_en": "Judicial Scrivener (Shihoshoshi)"
+        },
+        {
+          "id": 91,
+          "name_ja": "弁理士",
+          "name_en": "Patent Attorney (Benrishi)"
+        }
+      ]
+    },
+    {
+      "category_workers": 30130,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 15065,
+      "members": [
+        {
+          "id": 87,
+          "name_ja": "翻訳者",
+          "name_en": "Translator"
+        },
+        {
+          "id": 335,
+          "name_ja": "コピーライター",
+          "name_en": "Copywriter"
+        }
+      ]
+    },
+    {
+      "category_workers": 90910,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 45455,
+      "members": [
+        {
+          "id": 98,
+          "name_ja": "鉄道車両清掃",
+          "name_en": "Train Cleaner"
+        },
+        {
+          "id": 488,
+          "name_ja": "ペストコントロール従事者（害虫等防除・駆除従事者）",
+          "name_en": "Pest Control Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 15860,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 7930,
+      "members": [
+        {
+          "id": 110,
+          "name_ja": "ツアーコンダクター",
+          "name_en": "Tour Conductor"
+        },
+        {
+          "id": 114,
+          "name_ja": "通訳ガイド",
+          "name_en": "Tour Interpreter Guide (Tsuyaku-Annai-shi)"
+        }
+      ]
+    },
+    {
+      "category_workers": 23060,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 11530,
+      "members": [
+        {
+          "id": 111,
+          "name_ja": "観光バスガイド",
+          "name_en": "Sightseeing Bus Guide"
+        },
+        {
+          "id": 193,
+          "name_ja": "鉄道車掌",
+          "name_en": "Train Conductor"
+        }
+      ]
+    },
+    {
+      "category_workers": 408310,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 204155,
+      "members": [
+        {
+          "id": 112,
+          "name_ja": "遊園地スタッフ",
+          "name_en": "Theme Park Staff"
+        },
+        {
+          "id": 113,
+          "name_ja": "キャディ",
+          "name_en": "Caddie"
+        }
+      ]
+    },
+    {
+      "category_workers": 351060,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 175530,
+      "members": [
+        {
+          "id": 116,
+          "name_ja": "美容師",
+          "name_en": "Hair Stylist"
+        },
+        {
+          "id": 118,
+          "name_ja": "メイクアップアーティスト",
+          "name_en": "Makeup Artist"
+        }
+      ]
+    },
+    {
+      "category_workers": 120470,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 60235,
+      "members": [
+        {
+          "id": 120,
+          "name_ja": "スポーツインストラクター",
+          "name_en": "Sports Instructor"
+        },
+        {
+          "id": 219,
+          "name_ja": "アウトドアインストラクター",
+          "name_en": "Outdoor Activity Instructor"
+        }
+      ]
+    },
+    {
+      "category_workers": 251160,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 125580,
+      "members": [
+        {
+          "id": 140,
+          "name_ja": "警察官（都道府県警察）",
+          "name_en": "Police Officer"
+        },
+        {
+          "id": 141,
+          "name_ja": "海上保安官",
+          "name_en": "Coast Guard Officer"
+        }
+      ]
+    },
+    {
+      "category_workers": 14670,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 7335,
+      "members": [
+        {
+          "id": 142,
+          "name_ja": "麻薬取締官",
+          "name_en": "Narcotics Control Officer"
+        },
+        {
+          "id": 148,
+          "name_ja": "刑務官",
+          "name_en": "Prison Officer"
+        }
+      ]
+    },
+    {
+      "category_workers": 148580,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 74290,
+      "members": [
+        {
+          "id": 155,
+          "name_ja": "消防官",
+          "name_en": "Firefighter"
+        },
+        {
+          "id": 401,
+          "name_ja": "救急救命士",
+          "name_en": "Emergency Medical Technician (EMT)"
+        }
+      ]
+    },
+    {
+      "category_workers": 1385950,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 692975,
+      "members": [
+        {
+          "id": 156,
+          "name_ja": "看護師",
+          "name_en": "Nurse"
+        },
+        {
+          "id": 564,
+          "name_ja": "検疫官（看護師）",
+          "name_en": "Quarantine Officer (Nurse)"
+        }
+      ]
+    },
+    {
+      "category_workers": 202540,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 101270,
+      "members": [
+        {
+          "id": 167,
+          "name_ja": "理学療法士（PT）",
+          "name_en": "Physical Therapist"
+        },
+        {
+          "id": 168,
+          "name_ja": "作業療法士（OT）",
+          "name_en": "Occupational Therapist"
+        }
+      ]
+    },
+    {
+      "category_workers": 26930,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 13465,
+      "members": [
+        {
+          "id": 169,
+          "name_ja": "言語聴覚士",
+          "name_en": "Speech-Language Therapist"
+        },
+        {
+          "id": 170,
+          "name_ja": "視能訓練士",
+          "name_en": "Orthoptist"
+        }
+      ]
+    },
+    {
+      "category_workers": 421160,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 210580,
+      "members": [
+        {
+          "id": 179,
+          "name_ja": "小学校教員",
+          "name_en": "Elementary School Teacher"
+        },
+        {
+          "id": 565,
+          "name_ja": "養護教諭",
+          "name_en": "School Nurse (Yogo Kyoyu)"
+        }
+      ]
+    },
+    {
+      "category_workers": 31080,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 15540,
+      "members": [
+        {
+          "id": 182,
+          "name_ja": "図書館司書",
+          "name_en": "Librarian"
+        },
+        {
+          "id": 185,
+          "name_ja": "学芸員",
+          "name_en": "Museum Curator (Gakugeiin)"
+        }
+      ]
+    },
+    {
+      "category_workers": 245100,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 122550,
+      "members": [
+        {
+          "id": 201,
+          "name_ja": "引越作業員",
+          "name_en": "Mover"
+        },
+        {
+          "id": 497,
+          "name_ja": "積卸作業員",
+          "name_en": "Loading/Unloading Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 17770,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 8885,
+      "members": [
+        {
+          "id": 203,
+          "name_ja": "航空管制官",
+          "name_en": "Air Traffic Controller"
+        },
+        {
+          "id": 212,
+          "name_ja": "テレビ・ラジオ放送技術者",
+          "name_en": "Broadcast Engineer"
+        }
+      ]
+    },
+    {
+      "category_workers": 33980,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 16990,
+      "members": [
+        {
+          "id": 224,
+          "name_ja": "水族館飼育員",
+          "name_en": "Aquarium Keeper"
+        },
+        {
+          "id": 503,
+          "name_ja": "水産養殖従事者",
+          "name_en": "Aquaculture Worker"
+        }
+      ]
+    },
+    {
+      "category_workers": 100700,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 50350,
+      "members": [
+        {
+          "id": 237,
+          "name_ja": "フォークリフト運転作業員",
+          "name_en": "Forklift Operator"
+        },
+        {
+          "id": 511,
+          "name_ja": "ドローンパイロット",
+          "name_en": "Drone Pilot"
+        }
+      ]
+    },
+    {
+      "category_workers": 913490,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 456745,
+      "members": [
+        {
+          "id": 250,
+          "name_ja": "起業、創業",
+          "name_en": "Entrepreneur / Startup Founder"
+        },
+        {
+          "id": 514,
+          "name_ja": "会社経営者",
+          "name_en": "Company Owner / Executive"
+        }
+      ]
+    },
+    {
+      "category_workers": 36120,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 18060,
+      "members": [
+        {
+          "id": 251,
+          "name_ja": "鋳造工/鋳造設備オペレーター",
+          "name_en": "Foundry Worker / Casting Operator"
+        },
+        {
+          "id": 252,
+          "name_ja": "鍛造工/鍛造設備オペレーター",
+          "name_en": "Forging Worker / Forge Operator"
+        }
+      ]
+    },
+    {
+      "category_workers": 152140,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 76070,
+      "members": [
+        {
+          "id": 256,
+          "name_ja": "NC工作機械オペレーター",
+          "name_en": "CNC Machine Operator"
+        },
+        {
+          "id": 557,
+          "name_ja": "汎用金属工作機械工（旋盤工、ボール盤工等）",
+          "name_en": "General Machinist (Lathe, Drill Press)"
+        }
+      ]
+    },
+    {
+      "category_workers": 85860,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 42930,
+      "members": [
+        {
+          "id": 260,
+          "name_ja": "非破壊検査技術者",
+          "name_en": "Nondestructive Testing Inspector"
+        },
+        {
+          "id": 526,
+          "name_ja": "検査工（工業製品）",
+          "name_en": "Industrial Product Inspector"
+        }
+      ]
+    },
+    {
+      "category_workers": 43660,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 21830,
+      "members": [
+        {
+          "id": 263,
+          "name_ja": "光学機器組立",
+          "name_en": "Optical Equipment Assembler"
+        },
+        {
+          "id": 266,
+          "name_ja": "計器組立",
+          "name_en": "Instrument Assembler"
+        }
+      ]
+    },
+    {
+      "category_workers": 47320,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 23660,
+      "members": [
+        {
+          "id": 342,
+          "name_ja": "イラストレーター",
+          "name_en": "Illustrator"
+        },
+        {
+          "id": 345,
+          "name_ja": "テクニカルイラストレーター",
+          "name_en": "Technical Illustrator"
+        }
+      ]
+    },
+    {
+      "category_workers": 5900,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 2950,
+      "members": [
+        {
+          "id": 394,
+          "name_ja": "エコノミスト",
+          "name_en": "Economist"
+        },
+        {
+          "id": 560,
+          "name_ja": "社会学研究者",
+          "name_en": "Sociology Researcher"
+        }
+      ]
+    },
+    {
+      "category_workers": 226070,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 113035,
+      "members": [
+        {
+          "id": 396,
+          "name_ja": "学習塾教師",
+          "name_en": "Cram School Teacher"
+        },
+        {
+          "id": 398,
+          "name_ja": "英会話教師",
+          "name_en": "English Conversation Teacher"
+        }
+      ]
+    },
+    {
+      "category_workers": 49200,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 24600,
+      "members": [
+        {
+          "id": 422,
+          "name_ja": "葬祭ディレクター",
+          "name_en": "Funeral Director"
+        },
+        {
+          "id": 569,
+          "name_ja": "納棺師",
+          "name_en": "Mortician (Nokanshi)"
+        }
+      ]
+    },
+    {
+      "category_workers": 584650,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 292325,
+      "members": [
+        {
+          "id": 437,
+          "name_ja": "生産・工程管理事務",
+          "name_en": "Production Process Clerk"
+        },
+        {
+          "id": 542,
+          "name_ja": "出荷・受荷事務",
+          "name_en": "Shipping/Receiving Clerk"
+        }
+      ]
+    },
+    {
+      "category_workers": 119970,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 59985,
+      "members": [
+        {
+          "id": 494,
+          "name_ja": "ごみ収集作業員",
+          "name_en": "Garbage Collector"
+        },
+        {
+          "id": 496,
+          "name_ja": "産業廃棄物収集運搬作業員",
+          "name_en": "Industrial Waste Transporter"
+        }
+      ]
+    },
+    {
+      "category_workers": 167460,
+      "category_size": 2,
+      "common_prefix": "",
+      "confidence": "low",
+      "redistributed_share_per_member": 83730,
+      "members": [
+        {
+          "id": 510,
+          "name_ja": "動物看護",
+          "name_en": "Veterinary Nurse"
+        },
+        {
+          "id": 545,
+          "name_ja": "歯科助手",
+          "name_en": "Dental Aide"
+        }
+      ]
+    },
+    {
+      "category_workers": 376070,
+      "category_size": 2,
+      "common_prefix": "自動",
+      "confidence": "high",
+      "redistributed_share_per_member": 188035,
+      "members": [
+        {
+          "id": 197,
+          "name_ja": "自動車整備士",
+          "name_en": "Auto Mechanic"
+        },
+        {
+          "id": 558,
+          "name_ja": "自動車板金塗装",
+          "name_en": "Auto Body Repair/Painter"
+        }
+      ]
+    }
+  ]
+}

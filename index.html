@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
     <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+    <!-- Audit R4 — read ?lang=en BEFORE first paint so /?lang=en lands users
+         in the English UI without the JA→EN flicker we used to have when
+         setLang() ran inside the data.json fetch callback. The CSS in this
+         file uses [data-i18n]:not(.active) { display:none } to switch text
+         per language; the inline rule below additionally promotes the EN
+         spans to "active" while the page is still parsing. -->
+    <script>(function(){try{var p=new URLSearchParams(location.search).get('lang');if(p==='en'){document.documentElement.lang='en';document.documentElement.setAttribute('data-lang','en')}}catch(e){}})();</script>
     <title>あなたの仕事は AI に消える？— 日本 552 職種の AI 影響マップ（非公式・独自分析）</title>
     <meta
       name="description"
@@ -998,6 +1005,14 @@
       [data-i18n]:not(.active) {
         display: none;
       }
+      /* Audit R4 — first-paint language pinning. Inline <head> script sets
+         data-lang="en" when ?lang=en is present, so EN spans are visible
+         and JA spans hidden BEFORE setLang() runs (which only fires after
+         data.json arrives). Without these rules, the user sees a JA flash
+         even though they followed an EN link. !important is required to
+         override the static `class="active"` JA spans baked into HTML. */
+      :root[data-lang="en"] [data-i18n="ja"] { display: none !important; }
+      :root[data-lang="en"] [data-i18n="en"] { display: revert !important; }
 
       /* ============ Desktop Hero (Design.md §7.12 — search-first) ============ */
       /* Replaces old h1 / controls / search-row on ≥769px.
@@ -2479,16 +2494,25 @@
           return `<tr><td>${lbl}</td><td>${n}</td><td>${pct}%</td></tr>`;
         }).join("")}</table>`;
       }
+      // Default-safe: every input is escapeHtml'd before interpolation. Most
+      // callers pass occupation names from data.json (highest-pay, oldest,
+      // longest-hours, top-recruit-ratio) — escaping is correct. Numeric
+      // strings ("5.0 / 10", "180 h") survive escaping unchanged.
+      // Audit CODE-001 R1 — closes the 5 stats-panel injection sites that
+      // the first-pass fix missed (lines 2592 / 2620 / 2625 / 2651 / 2677).
       function statBlock(label, value, sub) {
         return `<div class="stat-block">
-          <div class="stat-label">${label}</div>
-          <div class="stat-value">${value}</div>
-          ${sub ? `<div class="stat-sub">${sub}</div>` : ""}
+          <div class="stat-label">${escapeHtml(label)}</div>
+          <div class="stat-value">${escapeHtml(value)}</div>
+          ${sub ? `<div class="stat-sub">${escapeHtml(sub)}</div>` : ""}
         </div>`;
       }
+      // Companion for callers that need to inject pre-built HTML (histogram
+      // <div>, tier-table <table>). Callers control safety; the explicit
+      // `…HTML` suffix flags this as deliberate trust.
       function statBlockHTML(label, html) {
         return `<div class="stat-block">
-          <div class="stat-label">${label}</div>
+          <div class="stat-label">${escapeHtml(label)}</div>
           ${html}
         </div>`;
       }
