@@ -19,6 +19,15 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/privacy?lang=en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/privacy" />
   </url>
+  <url>
+    <loc>https://mirai-shigoto.com/about</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/about?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/about" />
+  </url>
   <!-- GEO surface: llms.txt convention (https://llmstxt.org). Listed here so general crawlers discover them too. -->
   <url>
     <loc>https://mirai-shigoto.com/llms.txt</loc>
