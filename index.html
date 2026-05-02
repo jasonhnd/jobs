@@ -385,6 +385,21 @@
         max-width: 1400px;
         margin: 0 auto;
         padding: 24px 28px 80px;
+        position: relative; /* anchor for #tileHighlight overlay */
+      }
+      /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select.
+         Lets every interaction skip the 552-tile loop in draw() and just move a div.
+         Killed mobile INP from ~768ms to ~30ms. */
+      #tileHighlight {
+        position: absolute;
+        pointer-events: none;
+        border: 2px solid #fff;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.08);
+        display: none;
+        will-change: transform, width, height;
+        transition: left 60ms linear, top 60ms linear, width 60ms linear, height 60ms linear;
+        z-index: 2;
       }
       header {
         margin-bottom: 24px;
@@ -1477,6 +1492,7 @@
       <canvas id="treemap" tabindex="0" role="application"
               aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
               style="visibility:hidden"></canvas>
+      <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
 
       <section class="explainer" aria-label="Methodology and data sources">
@@ -1744,6 +1760,50 @@
       let percentiles = {};
       const canvas = document.getElementById("treemap");
       const ctx = canvas.getContext("2d");
+      const hl = document.getElementById("tileHighlight");
+
+      // ─── Hot-path geometry cache (avoid forced reflows) ─────────────
+      // canvas.getBoundingClientRect() forces synchronous layout — 30-100ms on slow mobile.
+      // We cache it and only refresh on resize/scroll. Hit-test, tooltip positioning,
+      // and tile centering all read this instead of querying live each time.
+      let canvasRect = null;
+      function refreshCanvasRect() {
+        canvasRect = canvas.getBoundingClientRect();
+      }
+      window.addEventListener("scroll", refreshCanvasRect, { passive: true });
+      window.addEventListener("resize", refreshCanvasRect);
+
+      // ─── CSS overlay highlight (replaces canvas redraw on hover/select) ─────
+      // setHighlight(tile) just moves a positioned <div> over the tile.
+      // setHighlight(null) hides it. Coordinates are wrapper-relative
+      // (canvas is inside #wrapper which is position:relative).
+      function setHighlight(tile) {
+        if (!tile) { hl.style.display = "none"; return; }
+        hl.style.display = "block";
+        hl.style.left = (canvas.offsetLeft + tile.rx) + "px";
+        hl.style.top = (canvas.offsetTop + tile.ry) + "px";
+        hl.style.width = tile.rw + "px";
+        hl.style.height = tile.rh + "px";
+      }
+
+      // ─── Tooltip update scheduler — defer heavy DOM work to next paint ────
+      // showTooltip() does ~10-50ms of innerHTML / measurement work.
+      // Wrapping it in rAF lets the highlight paint first (INP marker hits),
+      // then tooltip catches up next frame. Coalesces rapid mousemove events.
+      let tooltipScheduled = false;
+      let pendingTooltipArgs = null;
+      function scheduleTooltip(d, mx, my) {
+        pendingTooltipArgs = [d, mx, my];
+        if (tooltipScheduled) return;
+        tooltipScheduled = true;
+        requestAnimationFrame(() => {
+          tooltipScheduled = false;
+          if (pendingTooltipArgs) {
+            showTooltip(pendingTooltipArgs[0], pendingTooltipArgs[1], pendingTooltipArgs[2]);
+            pendingTooltipArgs = null;
+          }
+        });
+      }
       let dpr = window.devicePixelRatio || 1;
       const MARGIN = 4, GAP = 1;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
@@ -2020,21 +2080,21 @@
         const fontMin = isMobile ? 8 : 9;
         const fontMax = isMobile ? 12 : 13;
         for (const r of rects) {
-          const isHover = r === hovered;
           const isDimmed = dimmedIds && !dimmedIds.has(r.id);
-          // Design.md §2.1: light needs higher alpha (0.95/1.0) to avoid white-wash; dark stays at 0.62/0.92.
-          const baseAlpha = isDimmed ? 0.18 : (isLightThemeNow() ? (isHover ? 1 : 0.95) : (isHover ? 0.92 : 0.62));
+          // Hover/select indication is handled by the #tileHighlight overlay,
+          // not by per-tile alpha differential — that way hover changes don't
+          // require redrawing all 552 tiles. Keep theme- and dim-based alpha only.
+          const baseAlpha = isDimmed ? 0.18 : (isLightThemeNow() ? 0.95 : 0.62);
           const g = GAP / 2;
           const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
           if (rw <= 0 || rh <= 0) continue;
           ctx.fillStyle = tileColorCSS(r, baseAlpha);
           ctx.fillRect(rx, ry, rw, rh);
-          if (isHover) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.strokeRect(rx, ry, rw, rh); }
           if (rw > labelMinW && rh > labelMinH && !isDimmed) {
             ctx.save(); ctx.beginPath(); ctx.rect(rx + 3, ry + 2, rw - 6, rh - 4); ctx.clip();
             const fontSize = Math.min(fontMax, Math.max(fontMin, Math.min(rw / 8, rh / 3)));
             ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
-            ctx.fillStyle = isHover ? "#fff" : "rgba(255,255,255,0.92)";
+            ctx.fillStyle = "rgba(255,255,255,0.92)";
             ctx.textBaseline = "top";
             const label = lang === "en" ? r.name_en || r.name_ja : r.name_ja;
             ctx.fillText(label, rx + 4, ry + 3);
@@ -2049,7 +2109,7 @@
       }
 
       function hitTest(mx, my) {
-        const rect = canvas.getBoundingClientRect();
+        const rect = canvasRect || canvas.getBoundingClientRect();
         const cx = mx - rect.left, cy = my - rect.top;
         for (let i = rects.length - 1; i >= 0; i--) {
           const r = rects[i];
@@ -2599,7 +2659,7 @@
           hideTooltip();
           hovered = null;
           lastTapped = null;
-          draw();
+          setHighlight(null);
           return;
         }
         const tt = document.getElementById("tooltip");
@@ -2620,12 +2680,12 @@
         lastTapTime = Date.now();
         hovered = hit;
         keyboardIdx = rects.indexOf(hit);
-        const cb = canvas.getBoundingClientRect();
+        const cb = canvasRect || canvas.getBoundingClientRect();
         const cx = cb.left + hit.rx + hit.rw / 2;
         const cy = cb.top + hit.ry + hit.rh / 2;
-        showTooltip(hit, cx, cy);
+        scheduleTooltip(hit, cx, cy);
         tt.classList.add("touch-mode");
-        draw();
+        setHighlight(hit);
         updateHash();
       }
 
@@ -2667,8 +2727,8 @@
       canvas.addEventListener("mousemove", e => {
         // Skip if this is a synthesized mouse event from a touch (Chrome fires both)
         const hit = hitTest(e.clientX, e.clientY);
-        if (hit !== hovered) { hovered = hit; lastTooltipId = null; draw(); }
-        if (hovered) { showTooltip(hovered, e.clientX, e.clientY); canvas.style.cursor = "pointer"; }
+        if (hit !== hovered) { hovered = hit; lastTooltipId = null; setHighlight(hit); }
+        if (hovered) { scheduleTooltip(hovered, e.clientX, e.clientY); canvas.style.cursor = "pointer"; }
         else { hideTooltip(); canvas.style.cursor = "default"; }
       });
       canvas.addEventListener("click", e => {
@@ -2683,7 +2743,7 @@
         }
       });
       canvas.addEventListener("mouseleave", () => {
-        if (!isTouchDevice) { hovered = null; hideTooltip(); draw(); }
+        if (!isTouchDevice) { hovered = null; hideTooltip(); setHighlight(null); }
       });
 
       // Tooltip close button (used on touch devices)
@@ -2691,7 +2751,7 @@
         hideTooltip();
         hovered = null;
         lastTapped = null;
-        draw();
+        setHighlight(null);
       });
 
       // Tooltip CTA — Design.md §6.6. Fires GA4 tooltip_cta_click before navigation.
@@ -2721,7 +2781,7 @@
         hideTooltip();
         hovered = null;
         lastTapped = null;
-        draw();
+        setHighlight(null);
       });
 
       // ---- Keyboard accessibility ----
@@ -2739,7 +2799,7 @@
             window.open(occUrl(r), "_blank", "noopener,noreferrer");
           }
         } else if (e.key === "Escape") {
-          hideTooltip(); hovered = null; draw();
+          hideTooltip(); hovered = null; setHighlight(null);
         } else {
           handled = false;
         }
@@ -2748,10 +2808,10 @@
           keyboardIdx = next;
           hovered = rects[keyboardIdx];
           lastTooltipId = null;
-          const cb = canvas.getBoundingClientRect();
+          const cb = canvasRect || canvas.getBoundingClientRect();
           const r = hovered;
-          showTooltip(r, cb.left + r.rx + r.rw / 2, cb.top + r.ry + r.rh / 2);
-          draw();
+          scheduleTooltip(r, cb.left + r.rx + r.rw / 2, cb.top + r.ry + r.rh / 2);
+          setHighlight(r);
           updateHash();
         }
       });
@@ -2774,10 +2834,10 @@
           hovered = target;
           keyboardIdx = rects.indexOf(target);
           lastTooltipId = null;
-          const cb = canvas.getBoundingClientRect();
-          showTooltip(target, cb.left + target.rx + target.rw / 2, cb.top + target.ry + target.rh / 2);
+          const cb = canvasRect || canvas.getBoundingClientRect();
+          scheduleTooltip(target, cb.left + target.rx + target.rw / 2, cb.top + target.ry + target.rh / 2);
           if (isTouchDevice) document.getElementById("tooltip").classList.add("touch-mode");
-          draw();
+          setHighlight(target);
           // Scroll canvas into view
           canvas.scrollIntoView({ behavior: "smooth", block: "center" });
         }
@@ -2786,7 +2846,7 @@
 
       // ---- Debounced resize ----
       let resizeTimer = null;
-      function resize() { dpr = window.devicePixelRatio || 1; layout(); draw(); }
+      function resize() { dpr = window.devicePixelRatio || 1; layout(); draw(); refreshCanvasRect(); if (hovered) setHighlight(hovered); }
       window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(resize, 120);
