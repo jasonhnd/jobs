@@ -218,7 +218,34 @@
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
-      footer{margin-top:48px;padding:18px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+      footer{margin-top:24px;padding:18px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+      /* Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) */
+      .follow-share-section{margin:48px auto 8px;text-align:center}
+      .follow-block{margin-bottom:28px}
+      .follow-cta{display:inline-flex;align-items:center;gap:14px;padding:14px 26px;background:var(--accent);color:#1a1206;border-radius:10px;text-decoration:none;font:inherit;transition:filter 150ms ease,transform 100ms ease;max-width:100%}
+      .follow-cta:hover{filter:brightness(1.05);text-decoration:none}
+      .follow-cta:active{transform:translateY(1px)}
+      .follow-cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+      .follow-cta .follow-icon{font-size:1.5rem;line-height:1}
+      .follow-cta .follow-text{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left}
+      .follow-cta .follow-text strong{font-size:1.02rem;font-weight:700;color:#1a1206}
+      .follow-cta .follow-text small{font-size:0.78rem;opacity:0.8;font-weight:500}
+      .share-divider{font-size:0.74rem;color:var(--fg2);letter-spacing:0.08em;text-transform:uppercase;margin:0 auto 14px;max-width:480px;display:flex;align-items:center;gap:12px}
+      .share-divider::before,.share-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+      .share-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;margin:0}
+      .share-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--bg2);color:var(--fg2);border:1px solid var(--border);border-radius:999px;cursor:pointer;font-family:inherit;text-decoration:none;transition:color 150ms ease,background 150ms ease,border-color 150ms ease}
+      .share-btn:hover{color:#fff;border-color:transparent;text-decoration:none}
+      .share-btn[data-platform="x"]:hover{background:#000}
+      .share-btn[data-platform="line"]:hover{background:#06C755}
+      .share-btn[data-platform="hatena"]:hover{background:#00A4DE}
+      .share-btn[data-platform="linkedin"]:hover{background:#0A66C2}
+      .share-btn[data-platform="facebook"]:hover{background:#1877F2}
+      .share-btn[data-platform="copy"]:hover,.share-btn[data-platform="native"]:hover{background:var(--accent);color:#1a1206}
+      .share-btn svg{width:16px;height:16px;fill:currentColor}
+      .share-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+      .share-toast{font-size:0.78rem;color:var(--accent);margin-left:6px;opacity:0;transition:opacity 200ms ease}
+      .share-toast.visible{opacity:1}
+      @media (max-width:540px){.share-btn{width:36px;height:36px}.follow-cta{padding:12px 20px;gap:10px}.follow-cta .follow-text strong{font-size:0.95rem}.follow-cta .follow-text small{font-size:0.72rem}}
       @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#fafafa;--bg2:#ffffff;--fg:#0f1217;--fg2:#5a6470;--accent:#d97706;--border:rgba(0,0,0,0.10)}}
       :root[data-theme="light"]{--bg:#fafafa;--bg2:#ffffff;--fg:#0f1217;--fg2:#5a6470;--accent:#d97706;--border:rgba(0,0,0,0.10)}
       :root[data-theme="dark"]{--bg:#0b0d10;--bg2:#14171c;--fg:#e9eef5;--fg2:#8a93a3;--accent:#ffb84d;--border:rgba(255,255,255,0.08)}
@@ -309,9 +336,53 @@
         AI risk scores are independent LLM estimates by Claude Opus 4.7 — not official forecasts. Not endorsed by MHLW, jobtag, or JILPT. Should not be the sole basis for personal career decisions.
       </p>
 
+      <!-- Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) -->
+      <div class="follow-share-section" aria-label="Follow and share">
+        <div class="follow-block">
+          <a class="follow-cta"
+             id="x-follow-cta"
+             href="https://x.com/miraishigotocom"
+             target="_blank"
+             rel="noopener noreferrer">
+            <span class="follow-icon" aria-hidden="true">📬</span>
+            <span class="follow-text">
+              <strong>Follow on X</strong>
+              <small>Daily occupation insights</small>
+            </span>
+          </a>
+        </div>
+
+        <div class="share-divider"><span>Share this page</span></div>
+
+        <div class="share-row" role="group" aria-label="Share this page">
+          <a class="share-btn" id="share-x" data-platform="x" href="#" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
+          </a>
+          <a class="share-btn" id="share-line" data-platform="line" href="#" aria-label="Share on LINE">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755Zm-3.855 3.016c0 .27-.174.51-.432.596a.616.616 0 0 1-.199.031.61.61 0 0 1-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595a.658.658 0 0 1 .194-.033c.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771Zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771Zm-2.466.629H4.917a.629.629 0 0 1-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+          </a>
+          <a class="share-btn" id="share-hatena" data-platform="hatena" href="#" aria-label="Share on Hatena Bookmark">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.47 0C22.42 0 24 1.58 24 3.53v16.94c0 1.95-1.58 3.53-3.53 3.53H3.53C1.58 24 0 22.42 0 20.47V3.53C0 1.58 1.58 0 3.53 0h16.94Zm-3.7 14.47a1.41 1.41 0 1 0 0 2.82 1.41 1.41 0 0 0 0-2.82Zm-5.92 2.69c1.59 0 2.92-.18 3.71-.83.84-.65 1.27-1.55 1.27-2.69 0-.97-.32-1.75-.97-2.34-.65-.59-1.5-.92-2.55-1 .92-.25 1.62-.59 2.04-1.07.43-.45.65-1.07.65-1.84 0-.61-.13-1.16-.4-1.61-.27-.45-.65-.83-1.18-1.07-.45-.22-1-.4-1.61-.5-.61-.07-1.55-.13-2.79-.13H6.74v13.07h4.11Zm-.86-2.5h-.94v-3.13h.97c1.16 0 1.95.13 2.34.4.4.27.59.72.59 1.34 0 .54-.18.97-.54 1.21-.36.27-1.16.18-2.42.18Zm0-5.45h-.94V6.5h.4c1.21 0 2 .07 2.39.27.4.18.61.61.61 1.27 0 .59-.22 1.05-.65 1.27-.4.18-1.18.27-2.39.27ZM22.59 16.94v-7.5h-2.13v7.5h2.13Z"/></svg>
+          </a>
+          <a class="share-btn" id="share-linkedin" data-platform="linkedin" href="#" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5ZM8 19H5V8h3v11ZM6.5 6.73a1.76 1.76 0 1 1 0-3.53 1.76 1.76 0 0 1 0 3.53ZM20 19h-3v-5.6c0-3.37-4-3.11-4 0V19h-3V8h3v1.77c1.4-2.59 7-2.78 7 2.47V19Z"/></svg>
+          </a>
+          <a class="share-btn" id="share-facebook" data-platform="facebook" href="#" aria-label="Share on Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.13 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.19 2.24.19v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.13 22 16.99 22 12Z"/></svg>
+          </a>
+          <button class="share-btn" id="share-copy" type="button" data-platform="copy" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1ZM8 13h8v-2H8v2Zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 0-10Z"/></svg>
+          </button>
+          <button class="share-btn" id="share-native" type="button" data-platform="native" aria-label="Share" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-3v2h3v11H7V9h3V7H7c-1.1 0-2 .9-2 2Z"/></svg>
+          </button>
+          <span class="share-toast" id="share-toast" aria-live="polite"></span>
+        </div>
+      </div>
+
       <footer>
         <span>© <a href="/?lang=en">mirai-shigoto.com</a> · MIT</span>
-        <span><a href="/privacy">Privacy</a> · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span>
+        <span><a href="/about">About the data →</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span>
       </footer>
     </div>
 
@@ -328,6 +399,52 @@
           try{localStorage.setItem('theme',next);}catch(e){}
           if(window.gtag)gtag('event','theme_change',{from:cur,to:next,was_explicit:saved==='light'||saved==='dark',system_pref:sysLight?'light':'dark'});
         });
+      })();
+      // Stage 1: Follow + Share handlers
+      (function(){
+        var SITE = 'https://mirai-shigoto.com/en/32';
+        var SHARE_TEXT = 'Construction/Civil Laborer: AI impact 2/10. Map of 552 Japanese occupations (independent analysis, unofficial).';
+        var COPY_TOAST = 'Link copied';
+        function shareUrl(source, medium){
+          var sep = SITE.indexOf('?')>=0 ? '&' : '?';
+          return SITE + sep + 'utm_source=' + source + '&utm_medium=' + medium + '&utm_campaign=footer_share&utm_content=occ';
+        }
+        function track(p){ if(window.gtag) gtag('event','share_click',{platform:p,occupation_id:32,language:'en'}); }
+        function open(u){ window.open(u,'_blank','noopener,noreferrer'); }
+
+        var x = document.getElementById('share-x');
+        if(x) x.addEventListener('click',function(e){e.preventDefault(); open('https://x.com/intent/post?url=' + encodeURIComponent(shareUrl('x','social')) + '&text=' + encodeURIComponent(SHARE_TEXT)); track('x');});
+        var line = document.getElementById('share-line');
+        if(line) line.addEventListener('click',function(e){e.preventDefault(); open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl('line','im'))); track('line');});
+        var hatena = document.getElementById('share-hatena');
+        if(hatena) hatena.addEventListener('click',function(e){e.preventDefault(); open('https://b.hatena.ne.jp/entry/' + shareUrl('hatena','social').replace(/^https?:\/\//,'')); track('hatena');});
+        var linkedin = document.getElementById('share-linkedin');
+        if(linkedin) linkedin.addEventListener('click',function(e){e.preventDefault(); open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl('linkedin','social'))); track('linkedin');});
+        var fb = document.getElementById('share-facebook');
+        if(fb) fb.addEventListener('click',function(e){e.preventDefault(); open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl('facebook','social'))); track('facebook');});
+        var xfollow = document.getElementById('x-follow-cta');
+        if(xfollow) xfollow.addEventListener('click',function(){ if(window.gtag) gtag('event','x_follow_click',{occupation_id:32,language:'en'}); });
+
+        var copy = document.getElementById('share-copy');
+        var toast = document.getElementById('share-toast');
+        if(copy && toast) copy.addEventListener('click',async function(e){
+          e.preventDefault();
+          var url = shareUrl('direct','copylink');
+          try{ await navigator.clipboard.writeText(url); toast.textContent = COPY_TOAST; }catch(err){ toast.textContent = url; }
+          toast.classList.add('visible'); track('copy');
+          setTimeout(function(){toast.classList.remove('visible');},2200);
+        });
+
+        var native = document.getElementById('share-native');
+        if(native){
+          if(typeof navigator.share === 'function'){
+            native.hidden = false;
+            native.addEventListener('click',async function(e){
+              e.preventDefault();
+              try{ await navigator.share({title: document.title, text: SHARE_TEXT, url: shareUrl('native','share_api')}); track('native'); }catch(err){}
+            });
+          }
+        }
       })();
     </script>
   </body>

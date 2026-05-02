@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+    <title>データについて / About the Data — mirai-shigoto.com</title>
+    <meta name="description" content="mirai-shigoto.com のデータソース、AI 影響度スコアの算出方法、FAQ、よくある質問。" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://mirai-shigoto.com/about" />
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GLDNBDPF13');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
+
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      :root {
+        --bg: #0b0d10;
+        --bg2: #14171c;
+        --fg: #e9eef5;
+        --fg2: #8a93a3;
+        --accent: #ffb84d;
+        --border: rgba(255, 255, 255, 0.08);
+      }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme="dark"]) {
+          --bg: #fafafa;
+          --bg2: #ffffff;
+          --fg: #0f1217;
+          --fg2: #5a6470;
+          --accent: #d97706;
+          --border: rgba(0, 0, 0, 0.10);
+        }
+      }
+      :root[data-theme="light"] {
+        --bg: #fafafa;
+        --bg2: #ffffff;
+        --fg: #0f1217;
+        --fg2: #5a6470;
+        --accent: #d97706;
+        --border: rgba(0, 0, 0, 0.10);
+      }
+      :root[data-theme="dark"] {
+        --bg: #0b0d10;
+        --bg2: #14171c;
+        --fg: #e9eef5;
+        --fg2: #8a93a3;
+        --accent: #ffb84d;
+        --border: rgba(255, 255, 255, 0.08);
+      }
+      html, body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.75;
+      }
+      /* Top "non-official" banner — same look as index.html §7.1 */
+      .top-banner {
+        background: linear-gradient(90deg, rgba(255,80,80,0.18), rgba(255,138,61,0.14));
+        border-bottom: 2px solid rgba(255,80,80,0.55);
+        padding: 9px 20px;
+        font-size: 0.82rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        text-align: center;
+      }
+      .top-banner .badge {
+        background: #ff5050;
+        color: #fff;
+        padding: 3px 10px;
+        border-radius: 4px;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        box-shadow: 0 1px 4px rgba(255,80,80,0.3);
+      }
+      .top-banner strong { color: var(--fg); }
+
+      #wrapper {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 28px 28px 80px;
+      }
+      .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .top-bar .back {
+        color: var(--fg2);
+        text-decoration: none;
+        font-size: 0.85rem;
+      }
+      .top-bar .back:hover { color: var(--accent); }
+      .top-bar .lang-switch {
+        margin-left: auto;
+        display: inline-flex;
+        gap: 4px;
+        font-size: 0.8rem;
+      }
+      .top-bar .lang-switch button {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg2);
+        padding: 4px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .top-bar .lang-switch button[aria-pressed="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .theme-toggle {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg2);
+        width: 28px; height: 28px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 0; margin-left: 4px;
+        transition: color 150ms ease, border-color 150ms ease;
+      }
+      .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+      .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
+      .theme-toggle .icon-sun { display: inline-block; }
+      .theme-toggle .icon-moon { display: none; }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+        :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: inline-block; }
+      }
+      :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+      :root[data-theme="light"] .theme-toggle .icon-moon { display: inline-block; }
+      :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline-block; }
+      :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+      h1 {
+        font-size: 1.7rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 6px;
+      }
+      h1 .accent { color: var(--accent); }
+      .subtitle {
+        color: var(--fg2);
+        font-size: 0.92rem;
+        margin-bottom: 8px;
+      }
+      .meta-line {
+        color: var(--fg2);
+        font-size: 0.78rem;
+        margin-bottom: 28px;
+        opacity: 0.75;
+      }
+      h2 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-top: 36px;
+        margin-bottom: 14px;
+        color: var(--fg);
+        border-left: 3px solid var(--accent);
+        padding-left: 12px;
+      }
+      h3 {
+        font-size: 0.98rem;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 6px;
+        color: var(--fg);
+      }
+      p {
+        margin-bottom: 14px;
+        color: var(--fg);
+      }
+      ul, ol {
+        margin: 0 0 14px 22px;
+        color: var(--fg);
+      }
+      li { margin-bottom: 6px; }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover { text-decoration: underline; }
+      strong { color: var(--fg); font-weight: 600; }
+      em { color: var(--fg2); font-style: normal; }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.85em;
+        background: var(--bg2);
+        padding: 1px 6px;
+        border-radius: 4px;
+        color: var(--accent);
+      }
+      .source-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 14px 18px;
+        margin: 14px 0;
+      }
+      .source-card .src-row {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 8px 14px;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.9rem;
+        align-items: baseline;
+      }
+      .source-card .src-row:last-child { border-bottom: none; }
+      .source-card .src-label {
+        color: var(--fg2);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .source-card .src-value { color: var(--fg); }
+      .scale-table {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 12px 0 18px;
+      }
+      .scale-table dl { margin: 0; }
+      .scale-table dt {
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: var(--accent);
+        font-size: 0.92rem;
+        margin-top: 8px;
+      }
+      .scale-table dt:first-child { margin-top: 0; }
+      .scale-table dd { margin-left: 18px; font-size: 0.9rem; color: var(--fg); }
+      .faq details {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 10px;
+      }
+      .faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--fg);
+        font-size: 0.95rem;
+        list-style: none;
+        position: relative;
+        padding-right: 24px;
+      }
+      .faq summary::-webkit-details-marker { display: none; }
+      .faq summary::after {
+        content: "+";
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: var(--accent);
+        font-weight: 700;
+        transition: transform 200ms ease;
+      }
+      .faq details[open] summary::after { content: "–"; }
+      .faq details[open] summary { margin-bottom: 8px; }
+      .faq p { margin-bottom: 0; font-size: 0.92rem; color: var(--fg2); }
+      .faq p strong { color: var(--fg); }
+
+      footer {
+        margin-top: 48px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        font-size: 0.8rem;
+        color: var(--fg2);
+        text-align: center;
+      }
+      footer a { color: var(--accent); }
+      [data-i18n]:not(.active) { display: none; }
+
+      @media (max-width: 540px) {
+        #wrapper { padding: 18px 16px 60px; }
+        h1 { font-size: 1.4rem; }
+        h2 { font-size: 1.05rem; }
+        .source-card .src-row { grid-template-columns: 1fr; gap: 2px; }
+        .source-card .src-label { font-size: 0.72rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-banner" role="note" aria-label="Unofficial site notice">
+      <span class="badge">UNOFFICIAL</span>
+      <span data-i18n="ja" class="active">独自分析サイト ・ 厚労省 / job tag / JILPT の<strong>公式見解ではありません</strong></span>
+      <span data-i18n="en">Independent analysis ・ <strong>Not endorsed by</strong> MHLW / jobtag / JILPT</span>
+    </div>
+
+    <div id="wrapper">
+      <div class="top-bar">
+        <a class="back" href="/">
+          <span data-i18n="ja" class="active">← マップへ戻る</span>
+          <span data-i18n="en">← Back to map</span>
+        </a>
+        <span class="lang-switch" role="group" aria-label="Language">
+          <button data-set="ja" aria-pressed="true">日本語</button>
+          <button data-set="en" aria-pressed="false">English</button>
+        </span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        </button>
+      </div>
+
+      <h1>
+        <span data-i18n="ja" class="active">データについて</span>
+        <span data-i18n="en">About the Data</span>
+      </h1>
+      <p class="subtitle">
+        <span data-i18n="ja" class="active">本サイトのデータソース・スコア算出方法・よくある質問</span>
+        <span data-i18n="en">Sources, scoring methodology, and FAQ</span>
+      </p>
+      <p class="meta-line">
+        <span data-i18n="ja" class="active">最終更新：2026-04-25</span>
+        <span data-i18n="en">Last updated: 2026-04-25</span>
+      </p>
+
+      <!-- 1. データソース -->
+      <h2>
+        <span data-i18n="ja" class="active">📊 データソース</span>
+        <span data-i18n="en">📊 Data Sources</span>
+      </h2>
+
+      <p data-i18n="ja" class="active">
+        本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>から取得しています。AI 影響度スコアのみ独自分析です。
+      </p>
+      <p data-i18n="en">
+        All foundational data comes from <strong>publicly available official sources</strong>. Only the AI impact score is our independent analysis.
+      </p>
+
+      <div class="source-card active" data-i18n="ja">
+        <div class="src-row">
+          <span class="src-label">職業マスタ</span>
+          <span class="src-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">職業情報データ</span>
+          <span class="src-value">独立行政法人 労働政策研究・研修機構（JILPT）「職業情報データベース」を参照</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">就業者数・年収・労働時間</span>
+          <span class="src-value">厚労省 2023 年度委託調査</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">AI リスクスコア</span>
+          <span class="src-value">本サイト独自分析（Claude Opus 4.7 採点、2026-04-25）</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">採点スケール</span>
+          <span class="src-value"><a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank" rel="noopener noreferrer">karpathy/jobs</a> の 0〜10 アンカーを移植</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">加工</span>
+          <span class="src-value">本サイトで独自に整理・可視化（非公式）</span>
+        </div>
+      </div>
+
+      <div class="source-card" data-i18n="en">
+        <div class="src-row">
+          <span class="src-label">Occupation roster</span>
+          <span class="src-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW "Occupational Information Site (jobtag)"</a></span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">Job descriptions</span>
+          <span class="src-value">References "Occupational Information Database" by JILPT</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">Headcount / wages / hours</span>
+          <span class="src-value">MHLW FY2023 commissioned survey</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">AI risk score</span>
+          <span class="src-value">Our independent analysis (scored by Claude Opus 4.7, 2026-04-25)</span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">Scoring scale</span>
+          <span class="src-value">Ported 0–10 anchors from <a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank" rel="noopener noreferrer">karpathy/jobs</a></span>
+        </div>
+        <div class="src-row">
+          <span class="src-label">Processing</span>
+          <span class="src-value">Independently organized and visualized by this site (unofficial)</span>
+        </div>
+      </div>
+
+      <!-- 2. スコアの算出方法 -->
+      <h2>
+        <span data-i18n="ja" class="active">📋 スコアの算出方法</span>
+        <span data-i18n="en">📋 How AI Impact Scores Are Calculated</span>
+      </h2>
+
+      <p data-i18n="ja" class="active">
+        AI 影響度スコアは <strong>0〜10</strong> の整数で、各職業を Anthropic 社の <strong>Claude Opus 4.7</strong> が 1 つずつ採点したものです。<br>
+        統計調査ではなく、<strong>LLM の主観評価</strong>です。判断軸は次のとおり：
+      </p>
+      <p data-i18n="en">
+        The AI impact score is an integer from <strong>0 to 10</strong>, assigned to each occupation by <strong>Claude Opus 4.7</strong> (Anthropic). It is <strong>not a statistical survey</strong> — it is an LLM subjective estimate. The heuristic is:
+      </p>
+
+      <div class="scale-table active" data-i18n="ja">
+        <dl>
+          <dt>0–1（最小）</dt><dd>物理的・現場仕事（潜水士、林業作業）</dd>
+          <dt>2–3（低）</dt><dd>肉体労働＋一部対人（電気工事士、美容師）</dd>
+          <dt>4–5（中）</dt><dd>物理＋知識作業の混合（看護師、警察官）</dd>
+          <dt>6–7（高）</dt><dd>知識労働＋判断（教員、弁護士、会計士）</dd>
+          <dt>8–9（非常に高い）</dt><dd>ほぼ PC 完結（プログラマー、翻訳者）</dd>
+          <dt>10（最大）</dt><dd>完全に定型のデジタル処理（データ入力）</dd>
+        </dl>
+      </div>
+
+      <div class="scale-table" data-i18n="en">
+        <dl>
+          <dt>0–1 (Minimal)</dt><dd>Physical / field work (commercial diver, logger)</dd>
+          <dt>2–3 (Low)</dt><dd>Manual labor + some interpersonal (electrician, hair stylist)</dd>
+          <dt>4–5 (Moderate)</dt><dd>Mix of physical and knowledge work (nurse, police officer)</dd>
+          <dt>6–7 (High)</dt><dd>Knowledge work with judgment (teacher, lawyer, accountant)</dd>
+          <dt>8–9 (Very high)</dt><dd>Predominantly computer-based (programmer, translator)</dd>
+          <dt>10 (Maximum)</dt><dd>Pure routine digital processing (data entry)</dd>
+        </dl>
+      </div>
+
+      <p data-i18n="ja" class="active">
+        判断軸は<strong>「自宅の PC 1 台で完結できるか？」</strong>。yes ほど高得点。AI は数字／文章／画像／コード領域で急速に進化しているため、デジタル完結型は天然に高リスクとなります。
+      </p>
+      <p data-i18n="en">
+        The core heuristic is <strong>"Can the job be done entirely from a single home computer?"</strong> — if yes, the score trends high. AI is advancing fastest in digital domains (text, image, code, analysis), so digital-native jobs face the highest exposure.
+      </p>
+
+      <p data-i18n="ja" class="active">
+        <em>注意：高得点 ≠ 仕事が消える。</em>多くの高得点職は<strong>「置換」ではなく「再構成」</strong>される見込みです。プログラマーは 9/10 ですが、AI で生産性が上がる結果、需要がむしろ増える可能性もあります。
+      </p>
+      <p data-i18n="en">
+        <em>Important: a high score does NOT predict the job will disappear.</em> Most high-exposure jobs are likely to be <strong>reshaped, not replaced</strong>. Programmers score 9/10, but AI making each programmer more productive could grow total demand for programming.
+      </p>
+
+      <!-- 3. 注意事項 -->
+      <h2>
+        <span data-i18n="ja" class="active">⚠️ 注意事項</span>
+        <span data-i18n="en">⚠️ Caveats</span>
+      </h2>
+
+      <p data-i18n="ja" class="active">
+        <strong>本サイトは非公式サイトです。</strong>厚生労働省、job tag、JILPT その他の公的機関と<strong>提携・協力・承認関係にあるものではありません</strong>。
+      </p>
+      <p data-i18n="en">
+        <strong>This site is unofficial.</strong> It has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, JILPT, or any other public institution.
+      </p>
+
+      <p data-i18n="ja" class="active">
+        AI 影響度スコア、リスク分類、ランキング、可視化結果は、本サイト独自の分析・加工によるもので、<strong>公的機関の公式見解、評価、推奨を示すものではありません</strong>。
+      </p>
+      <p data-i18n="en">
+        AI risk scores, categorizations, rankings, and visualizations are the result of this site's independent analysis and <strong>do not represent the official views, assessments, or recommendations of any public institution</strong>.
+      </p>
+
+      <p data-i18n="ja" class="active">
+        本サイトの情報は、職業選択、転職、採用、人事判断等に関する<strong>参考情報</strong>として提供しており、特定の判断や結果を保証するものではありません。重要な意思決定にあたっては、複数の情報源をご確認ください。
+      </p>
+      <p data-i18n="en">
+        Information on this site is provided as <strong>reference material</strong> for career selection, job changes, recruitment, and HR decisions. It does not guarantee any specific judgment or outcome. For important decisions, please consult multiple sources.
+      </p>
+
+      <p data-i18n="ja" class="active">
+        掲載内容に関する問い合わせは <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> までお願いします（公的機関への問い合わせは行わないでください）。
+      </p>
+      <p data-i18n="en">
+        For inquiries about content, please use <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> (please do not contact public institutions).
+      </p>
+
+      <!-- 4. FAQ -->
+      <h2>
+        <span data-i18n="ja" class="active">❓ よくある質問</span>
+        <span data-i18n="en">❓ FAQ</span>
+      </h2>
+
+      <div class="faq active" data-i18n="ja">
+        <details>
+          <summary>このスコアは公式なものですか？</summary>
+          <p>いいえ。<strong>厚生労働省や JILPT の公式評価ではありません</strong>。本サイトの独自分析（LLM による採点）です。参考情報としてご利用ください。</p>
+        </details>
+        <details>
+          <summary>AI リスク 9/10 と出ました。仕事を辞めるべきですか？</summary>
+          <p>いいえ。スコアは「仕事が消える」予言ではなく、「AI が業務をどれほど作り変えるか」の推定値です。多くの高スコア職は<strong>置換ではなく再構成</strong>されます。ツールを使いこなすスキル習得の方が重要です。</p>
+        </details>
+        <details>
+          <summary>採点はどれくらい正確ですか？</summary>
+          <p>これは LLM の主観評価で、統計的検証はされていません。同じ職業でも別の採点者なら ±1〜2 ぶれる可能性があります。<strong>絶対値より相対比較</strong>（A 職業と B 職業の大小関係）の方が情報量があります。</p>
+        </details>
+        <details>
+          <summary>どれくらいの頻度で更新されますか？</summary>
+          <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は 2026-04-25。元データ（jobtag / JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
+        </details>
+        <details>
+          <summary>自分の職業がリストに見つかりません。</summary>
+          <p>本サイトは厚労省 jobtag の 552 職業を採用しています。新しい職種（プロンプトエンジニア、AI 倫理担当など）はまだ含まれていません。<strong>既存の最も近い職業</strong>を参考にしてください。</p>
+        </details>
+      </div>
+
+      <div class="faq" data-i18n="en">
+        <details>
+          <summary>Is this score official?</summary>
+          <p>No. <strong>It is not an official assessment from MHLW or JILPT.</strong> This is independent analysis (LLM-scored) by this site. Use it as reference material only.</p>
+        </details>
+        <details>
+          <summary>My job scored 9/10. Should I quit?</summary>
+          <p>No. The score is not a prediction that the job will disappear — it estimates how much AI will <em>reshape</em> the work. Most high-scoring jobs will be <strong>reshaped, not replaced</strong>. Learning to use AI tools is more valuable than panicking.</p>
+        </details>
+        <details>
+          <summary>How accurate is the scoring?</summary>
+          <p>This is a subjective LLM estimate, not statistically validated. The same occupation could score ±1–2 with a different scorer. <strong>Relative comparison</strong> (job A vs job B) carries more signal than absolute values.</p>
+        </details>
+        <details>
+          <summary>How often is this updated?</summary>
+          <p>We re-score as LLM capabilities evolve. Most recent scoring: 2026-04-25. The cycle is independent of jobtag / JILPT data updates — we re-score when we judge it useful.</p>
+        </details>
+        <details>
+          <summary>I can't find my occupation in the list.</summary>
+          <p>The site uses MHLW jobtag's 552 occupations. New roles (prompt engineer, AI ethics specialist, etc.) aren't included yet. Please refer to the <strong>closest existing occupation</strong>.</p>
+        </details>
+      </div>
+
+      <footer>
+        <span data-i18n="ja" class="active">
+          <a href="/">トップ</a> ·
+          <a href="/privacy">プライバシー</a> ·
+          <a href="https://github.com/jasonhnd/jobs">GitHub</a><br>
+          データ：
+          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>
+        </span>
+        <span data-i18n="en">
+          <a href="/">Home</a> ·
+          <a href="/privacy?lang=en">Privacy</a> ·
+          <a href="https://github.com/jasonhnd/jobs">GitHub</a><br>
+          Data: <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a>
+        </span>
+      </footer>
+    </div>
+
+    <script>
+      // Theme toggle
+      (function () {
+        const root = document.documentElement;
+        const tt = document.getElementById("themeToggle");
+        if (!tt) return;
+        tt.addEventListener("click", () => {
+          const cur = root.getAttribute("data-theme");
+          const sysIsLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+          const effective = cur || (sysIsLight ? "light" : "dark");
+          const next = effective === "light" ? "dark" : "light";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("theme", next); } catch (e) {}
+        });
+      })();
+
+      // Language switch — toggles all data-i18n elements between "ja" and "en"
+      (function () {
+        function setLang(target) {
+          document.documentElement.lang = target;
+          document.querySelectorAll("[data-i18n]").forEach(el => {
+            el.classList.toggle("active", el.getAttribute("data-i18n") === target);
+          });
+          document.querySelectorAll(".lang-switch button[data-set]").forEach(b => {
+            b.setAttribute("aria-pressed", b.getAttribute("data-set") === target ? "true" : "false");
+          });
+          document.title = target === "en"
+            ? "About the Data — mirai-shigoto.com"
+            : "データについて — mirai-shigoto.com";
+        }
+        // Initial: ja, but check ?lang=en in URL
+        const params = new URLSearchParams(window.location.search);
+        const initial = params.get("lang") === "en" ? "en" : "ja";
+        if (initial === "en") setLang("en");
+        document.querySelectorAll(".lang-switch button[data-set]").forEach(btn => {
+          btn.addEventListener("click", () => setLang(btn.getAttribute("data-set")));
+        });
+      })();
+    </script>
+  </body>
+</html>

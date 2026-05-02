@@ -999,6 +999,194 @@
         display: none;
       }
 
+      /* ============ Desktop Hero (Design.md §7.12 — search-first) ============ */
+      /* Replaces old h1 / controls / search-row on ≥769px.
+         Mobile keeps using §7.11 Mobile Hero. */
+      .desktop-hero { display: none; }
+      .desktop-hero-utility {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 14px 28px 0;
+        font-size: 0.8rem;
+      }
+      .desktop-hero-utility .dh-brand {
+        color: var(--fg2);
+        font-weight: 500;
+      }
+      .desktop-hero-utility .dh-brand em {
+        font-style: normal;
+        color: var(--fg2);
+        opacity: 0.7;
+      }
+      .desktop-hero-utility .lang-switch {
+        margin-left: auto;
+      }
+      .desktop-hero-inner {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 36px 16px 28px;
+        text-align: center;
+      }
+      .desktop-hero h2.dh-title {
+        font-size: clamp(1.7rem, 1.2rem + 1.2vw, 2.4rem);
+        font-weight: 700;
+        line-height: 1.35;
+        margin: 0 0 14px;
+        letter-spacing: -0.01em;
+      }
+      .desktop-hero h2.dh-title .acc { color: var(--accent); }
+      .desktop-hero .dh-lead {
+        color: var(--fg2);
+        font-size: 0.95rem;
+        line-height: 1.75;
+        margin: 0 auto 26px;
+        max-width: 540px;
+      }
+      .desktop-hero-search {
+        position: relative;
+        display: flex;
+        gap: 8px;
+        max-width: 560px;
+        margin: 0 auto 18px;
+      }
+      .desktop-hero-search input {
+        flex: 1;
+        min-width: 0;
+        padding: 13px 18px;
+        font: inherit;
+        font-size: 1rem;
+        background: var(--bg2);
+        color: var(--fg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        outline: none;
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+      }
+      .desktop-hero-search input::placeholder { color: var(--fg2); }
+      .desktop-hero-search input:focus-visible {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.18);
+      }
+      .desktop-hero-search button {
+        padding: 13px 22px;
+        font: inherit;
+        font-weight: 600;
+        font-size: 0.95rem;
+        background: var(--accent);
+        color: #1a1206;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: filter 150ms ease;
+      }
+      .desktop-hero-search button:hover { filter: brightness(1.05); }
+      .desktop-hero-search button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .desktop-hero-popular-label {
+        font-size: 0.78rem;
+        color: var(--fg2);
+        letter-spacing: 0.06em;
+        margin: 0 0 10px;
+        text-transform: uppercase;
+      }
+      .desktop-hero-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+      .desktop-hero-chips button {
+        background: var(--bg2);
+        color: var(--fg);
+        border: 1px solid var(--border);
+        padding: 7px 14px;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.86rem;
+        cursor: pointer;
+        transition: border-color 150ms ease, color 150ms ease;
+      }
+      .desktop-hero-chips button:hover,
+      .desktop-hero-chips button:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent);
+        outline: none;
+      }
+      /* Search suggest dropdown — appears below input while typing */
+      .search-suggest {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        right: 0;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        max-height: 360px;
+        overflow-y: auto;
+        z-index: 100;
+        display: none;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+      }
+      .search-suggest.visible { display: block; }
+      .search-suggest li {
+        padding: 10px 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.92rem;
+      }
+      .search-suggest li:last-child { border-bottom: none; }
+      .search-suggest li:hover,
+      .search-suggest li.focused { background: rgba(255, 184, 77, 0.10); }
+      .search-suggest .ss-name { color: var(--fg); }
+      .search-suggest .ss-risk {
+        color: var(--fg2);
+        font-size: 0.78rem;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+      .search-suggest .ss-risk.high { color: #ff5050; }
+      .search-suggest .ss-risk.mid  { color: var(--accent); }
+      .search-suggest .ss-risk.low  { color: #00b04b; }
+      .search-noresult {
+        display: none;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--fg2);
+        margin: 8px auto 0;
+        max-width: 560px;
+      }
+      .search-noresult.visible { display: block; }
+
+      @media (min-width: 769px) {
+        .desktop-hero { display: block; }
+        /* On desktop, the new hero (search-first) replaces the legacy chrome.
+           Old h1 + .controls + .dimension-hint + .search-row stay in DOM for
+           accessibility/SEO but are visually hidden. Mobile keeps using the
+           original §7.11 mobile-hero block, which already handles its own DOM reorder. */
+        #wrapper > header > h1,
+        .controls,
+        .dimension-hint,
+        .search-row { display: none; }
+      }
+      @media (max-width: 480px) {
+        .desktop-hero-search { flex-direction: column; }
+        .desktop-hero-search button { width: 100%; }
+      }
+
       /* ============ Mobile Hero (Variant C, Design.md §7.11) ============ */
       /* Default: hidden on desktop. Mobile media query at the bottom flips it on. */
       .mobile-hero { display: none; }
@@ -1362,6 +1550,98 @@
         .share-row { margin: 22px 0; gap: 8px; }
         .share-btn { width: 36px; height: 36px; }
       }
+
+      /* ============ Compact data summary (replaces explainer in Stage 1) ============ */
+      .data-summary {
+        max-width: 880px;
+        margin: 32px auto 8px;
+        padding: 14px 18px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        font-size: 0.86rem;
+        line-height: 1.7;
+        color: var(--fg2);
+      }
+      .data-summary strong { color: var(--fg); }
+      .data-summary a { color: var(--accent); }
+      .data-summary a:hover { text-decoration: underline; }
+      .data-summary .about-link { font-weight: 600; }
+      @media (max-width: 540px) {
+        .data-summary { font-size: 0.8rem; padding: 12px 14px; }
+      }
+
+      /* ============ Follow + Share footer block (Stage 1) ============ */
+      .follow-share-section {
+        margin: 48px auto 8px;
+        text-align: center;
+      }
+      .follow-block { margin-bottom: 28px; }
+      .follow-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 26px;
+        background: var(--accent);
+        color: #1a1206;
+        border-radius: 10px;
+        text-decoration: none;
+        font: inherit;
+        transition: filter 150ms ease, transform 100ms ease;
+        max-width: 100%;
+      }
+      .follow-cta:hover { filter: brightness(1.05); text-decoration: none; }
+      .follow-cta:active { transform: translateY(1px); }
+      .follow-cta:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+      .follow-cta .follow-icon {
+        font-size: 1.5rem;
+        line-height: 1;
+      }
+      .follow-cta .follow-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        text-align: left;
+      }
+      .follow-cta .follow-text strong {
+        font-size: 1.02rem;
+        font-weight: 700;
+        color: #1a1206;
+      }
+      .follow-cta .follow-text small {
+        font-size: 0.78rem;
+        opacity: 0.8;
+        font-weight: 500;
+      }
+      .share-divider {
+        font-size: 0.74rem;
+        color: var(--fg2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 0 auto 14px;
+        max-width: 480px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .share-divider::before,
+      .share-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      @media (max-width: 480px) {
+        .follow-cta { padding: 12px 20px; gap: 10px; }
+        .follow-cta .follow-text strong { font-size: 0.95rem; }
+        .follow-cta .follow-text small { font-size: 0.72rem; }
+      }
     </style>
   </head>
   <body>
@@ -1376,6 +1656,60 @@
     </div>
     <div id="wrapper">
       <header>
+        <!-- Desktop Hero — search-first entry. On desktop, this replaces the old h1 / controls / search-row.
+             On mobile, this stays hidden — mobile uses §7.11 Mobile Hero block (see below). -->
+        <section class="desktop-hero" aria-label="Quick search hero">
+          <div class="desktop-hero-utility" aria-label="Site utilities">
+            <span class="dh-brand" data-i18n="ja">日本の職業 AI 影響マップ <em>(非公式)</em></span>
+            <span class="dh-brand" data-i18n="en">Japan Jobs × AI Impact Map <em>(unofficial)</em></span>
+            <span class="lang-switch" role="group" aria-label="Language">
+              <button data-set="ja" aria-pressed="true">日本語</button>
+              <button data-set="en" aria-pressed="false">English</button>
+            </span>
+            <button class="theme-toggle" id="themeToggleDesktop" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
+              <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
+              <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+            </button>
+          </div>
+          <div class="desktop-hero-inner">
+            <h2 class="dh-title">
+              <span data-i18n="ja" class="active">あなたの仕事は<span class="acc">AI 時代</span>にどう変わる？</span>
+              <span data-i18n="en">How will your job change in the <span class="acc">AI era</span>?</span>
+            </h2>
+            <p class="dh-lead">
+              <span data-i18n="ja" class="active">職業名を入力すると、AI による影響度と変化しやすい作業を確認できます。<br>転職、リスキリング、キャリアの見直しの参考に。</span>
+              <span data-i18n="en">Enter your occupation to see its AI impact score and which tasks are likely to change.<br>A reference for career change, reskilling, and career planning.</span>
+            </p>
+            <form class="desktop-hero-search" id="dhSearchForm" role="search" autocomplete="off">
+              <input id="searchInputDesktop" type="search" autocomplete="off"
+                     placeholder="例：事務職、経理、営業、看護師"
+                     data-i18n-ja-placeholder="例：事務職、経理、営業、看護師"
+                     data-i18n-en-placeholder="e.g. Clerk, Accountant, Sales, Nurse"
+                     aria-label="Search occupations" />
+              <button type="submit" id="dhSearchBtn">
+                <span data-i18n="ja" class="active">AI 影響度をチェック</span>
+                <span data-i18n="en">Check AI Impact</span>
+              </button>
+              <ul class="search-suggest" id="searchSuggest" role="listbox" aria-label="Search suggestions"></ul>
+            </form>
+            <div class="search-noresult" id="searchNoResult">
+              <span data-i18n="ja" class="active">該当する職業が見つかりません。下の人気職業からお選びください。</span>
+              <span data-i18n="en">No matching occupation found. Please pick one of the popular jobs below.</span>
+            </div>
+            <div class="desktop-hero-popular-label">
+              <span data-i18n="ja" class="active">人気の職業から探す</span>
+              <span data-i18n="en">Popular occupations</span>
+            </div>
+            <div class="desktop-hero-chips" role="list">
+              <button type="button" data-chip="事務職" role="listitem">事務職</button>
+              <button type="button" data-chip="経理" role="listitem">経理</button>
+              <button type="button" data-chip="営業" role="listitem">営業</button>
+              <button type="button" data-chip="カスタマーサポート" role="listitem">カスタマーサポート</button>
+              <button type="button" data-chip="看護師" role="listitem">看護師</button>
+            </div>
+          </div>
+        </section>
+
         <h1>
           <span class="accent active" data-i18n="ja">日本の職業 AI 影響マップ</span>
           <span class="accent" data-i18n="en">Japan Jobs × AI Impact Map</span>
@@ -1412,11 +1746,11 @@
                    aria-label="Search occupations" />
           </div>
           <div class="mobile-hero-chips" role="list">
-            <button type="button" data-chip="事務" role="listitem">事務</button>
+            <button type="button" data-chip="事務職" role="listitem">事務職</button>
             <button type="button" data-chip="経理" role="listitem">経理</button>
-            <button type="button" data-chip="プログラマ" role="listitem">プログラマ</button>
-            <button type="button" data-chip="看護師" role="listitem">看護師</button>
             <button type="button" data-chip="営業" role="listitem">営業</button>
+            <button type="button" data-chip="カスタマーサポート" role="listitem">CS</button>
+            <button type="button" data-chip="看護師" role="listitem">看護師</button>
           </div>
         </div>
 
@@ -1495,211 +1829,60 @@
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
 
-      <section class="explainer" aria-label="Methodology and data sources">
-        <h2 class="explainer-heading">
-          <span data-i18n="ja" class="active">このマップについて</span>
-          <span data-i18n="en">About this map</span>
-        </h2>
+      <!-- Stage 1: compact data attribution. Full content moved to /about. -->
+      <p class="data-summary" aria-label="Data sources summary">
+        <span data-i18n="ja" class="active"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT　／　<strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）　·　<a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span>
+        <span data-i18n="en"><strong>📊 Data:</strong> <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a> + JILPT　/　<strong>AI score:</strong> Claude Opus 4.7 independent analysis (2026-04-25)　·　<a class="about-link" href="/about?lang=en" id="about-link-en">Read more about the data →</a></span>
+      </p>
 
-        <div class="disclaimer active" data-i18n="ja">
-          <p><strong>本サイトは非公式サイトです。</strong>厚生労働省「職業情報提供サイト（job tag）」等の公開情報を参考に、職業データを整理・可視化した独自分析サイトです。</p>
-          <p>AI リスクスコア、リスク分類、ランキング、可視化結果は、本サイト独自の分析・加工によるものであり、<strong>厚生労働省、job tag、JILPT その他の公的機関の公式見解、評価、推奨を示すものではありません。</strong></p>
-        </div>
-        <div class="disclaimer" data-i18n="en">
-          <p><strong>This site is unofficial.</strong> It is an independent analysis that organizes and visualizes occupational data based on public information from MHLW's "Occupational Information Site (jobtag)" and related sources.</p>
-          <p>The AI risk scores, categorizations, rankings, and visualizations are the result of this site's independent analysis and processing. <strong>They do not represent the official views, assessments, or recommendations of MHLW, jobtag, JILPT, or any other public institution.</strong></p>
-        </div>
-
-        <div class="meta-card" data-i18n="ja">
-          <div class="meta-row">
-            <span class="meta-label">採点 LLM</span>
-            <span class="meta-value">Claude Opus 4.7（Anthropic）</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">AI リスク採点日</span>
-            <span class="meta-value">2026-04-25</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">英訳日</span>
-            <span class="meta-value">2026-04-25</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">データ出典</span>
-            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">職業情報データ</span>
-            <span class="meta-value">独立行政法人 労働政策研究・研修機構（JILPT）作成「職業情報データベース」掲載情報を参照</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">就業者数</span>
-            <span class="meta-value">厚労省 2023 年度委託調査（賃金・労働時間・就業者数）</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">加工</span>
-            <span class="meta-value">本サイトで独自に加工して作成（非公式）</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">採点スケール</span>
-            <span class="meta-value"><a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank" rel="noopener noreferrer">karpathy/jobs</a> の 0〜10 アンカーを移植</span>
-          </div>
-        </div>
-        <p class="intro" data-i18n="ja">
-          <strong>552 の日本の職業</strong>を、厚生労働省 jobtag のデータから可視化したツリーマップ。
-        </p>
-        <p class="intro" data-i18n="ja">
-          各タイルの<strong>面積</strong>はその職業の<strong>就業者数</strong>に正比例します。<br>
-          数百万人の職業（一般事務・施設介護員など）は大きく、数千人の専門職（弁理士・潜水士など）は小さく表示されます。
-        </p>
-        <p class="intro" data-i18n="ja">
-          <strong>就業者数の按分について：</strong>jobtag の就業者数は親カテゴリ（例：「公務員」374万人）の合計値で、その下の <em>国家公務員・地方公務員・外務公務員...</em> など 31 個の子職業すべてに同じ数字が付いています。<br>
-          そのまま合計すると親カテゴリを何重にも数えてしまうため、<strong>同じ就業者数を持つ子職業に均等按分</strong>しました（374万 ÷ 31 ≒ 12万人/職業）。<br>
-          結果、552 職業の合計は <strong>約 5,449 万人</strong>（日本の実労働力人口 約 6,700 万人の 81%）となります。
-        </p>
-        <p class="intro" data-i18n="ja">
-          <strong>色</strong>は選択中の指標。上部のレイヤー切替で 6 種（AI リスク／年収／平均年齢／労働時間／求人倍率／学歴）を切り替え。<br>
-          タイルをクリックすると、その職業の AI 影響分析ページ（<code>/ja/&lt;id&gt;</code>。英語版は <code>/en/&lt;id&gt;</code>）が開きます。各分析ページには jobtag 公式ページへのリンクも記載しています。
-        </p>
-        <p class="intro" data-i18n="ja">
-          <strong>AI リスク</strong>は 0〜10。AI が今後その職業をどれほど作り変えるかの推定値です。<br>
-          詳しい採点根拠は下のセクションをご覧ください。
-        </p>
-        <p class="intro" data-i18n="ja">
-          <em>注意：高得点 = 仕事が消える、ではありません。</em>多くの高得点職は<strong>置換ではなく再構成</strong>される可能性が高いです。
-        </p>
-        <p class="intro" data-i18n="ja">
-          <a href="https://github.com/karpathy/jobs" target="_blank" rel="noopener noreferrer">karpathy/jobs</a>（米国版）にインスパイアされた、日本版の試みです。<br>
-          ソースコード <a href="https://github.com/jasonhnd/jobs" target="_blank" rel="noopener noreferrer">GitHub</a>（MIT）。
-        </p>
-        <div class="intro-details active" data-i18n="ja">
-          <h3 class="methodology-title">📖 AI リスクの完全な採点根拠（誰が・何を基準に・いつ採点したか）</h3>
-          <div class="intro-details-content">
-            <p><strong>採点日:</strong> 2026-04-25　|　<strong>採点 LLM:</strong> Claude Opus 4.7（Anthropic）</p>
-            <p><strong>採点者:</strong> Claude Opus 4.7（Anthropic）が本セッション内で 552 職業を 1 つずつ判定。統計調査ではなく LLM の主観評価。</p>
-            <p><strong>スケール（karpathy/jobs から移植）:</strong></p>
-            <ul>
-              <li><strong>0–1</strong> 最小：物理的・現場仕事（潜水士、林業作業）</li>
-              <li><strong>2–3</strong> 低：肉体労働＋一部対人（電気工事士、美容師）</li>
-              <li><strong>4–5</strong> 中：物理＋知識作業の混合（看護師、警察官）</li>
-              <li><strong>6–7</strong> 高：知識労働＋判断（教員、弁護士、会計士）</li>
-              <li><strong>8–9</strong> 非常に高い：ほぼ PC 完結（プログラマー、翻訳者）</li>
-              <li><strong>10</strong> 最大：完全に定型のデジタル処理（データ入力）</li>
-            </ul>
-            <p><strong>判断軸:</strong> 「自宅の PC 1 台で完結できるか？」を yes と答える職業ほど高得点。AI は数字／文章／画像／コード領域で急速に進化しているため、デジタル完結型は天然に高リスク。</p>
-            <p><strong>注意:</strong> 高得点 ≠ 仕事が消える。プログラマーは 9/10 だが AI で生産性が上がる結果、需要がむしろ増える可能性も。多くの高得点職は「置換」ではなく「再構成」される見込み。</p>
-          </div>
-        </div>
-        <div class="meta-card" data-i18n="en">
-          <div class="meta-row">
-            <span class="meta-label">Scoring LLM</span>
-            <span class="meta-value">Claude Opus 4.7 (Anthropic)</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">AI risk scored on</span>
-            <span class="meta-value">2026-04-25</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Translated on</span>
-            <span class="meta-value">2026-04-25</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Data source</span>
-            <span class="meta-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW "Occupational Information Site (jobtag)"</a></span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Occupational data</span>
-            <span class="meta-value">References "Occupational Information Database" published by JILPT (Japan Institute for Labour Policy and Training)</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Workforce data</span>
-            <span class="meta-value">MHLW FY2023 commissioned survey (wages, hours, headcount)</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Processing</span>
-            <span class="meta-value">Independently processed and visualized by this site (unofficial)</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Scoring scale</span>
-            <span class="meta-value">Ported 0–10 anchors from <a href="https://github.com/karpathy/jobs/blob/main/score.py" target="_blank" rel="noopener noreferrer">karpathy/jobs</a></span>
-          </div>
-        </div>
-        <p class="intro" data-i18n="en">
-          A treemap of <strong>552 Japanese occupations</strong> sourced from Japan's MHLW jobtag.
-        </p>
-        <p class="intro" data-i18n="en">
-          Tile <strong>area</strong> is directly proportional to <strong>workforce</strong>.<br>
-          Multi-million-headcount occupations (general clerical, care workers) appear huge; small specialties (patent attorneys, divers) appear tiny — that's by design.
-        </p>
-        <p class="intro" data-i18n="en">
-          <strong>About workforce allocation:</strong> jobtag reports headcount at the <em>parent category</em> level. Example: "Civil Servants" totals 3.74M, and that exact same number is repeated across all 31 sub-occupations (national / local / foreign-service / etc.).<br>
-          Naïvely summing them would multi-count each parent category, so we <strong>distribute the parent total equally</strong> across its sub-occupations (3.74M ÷ 31 ≈ 120K per role).<br>
-          The 552 occupations sum to <strong>~54.5 million</strong> — about 81% of Japan's total labor force (~67 million).
-        </p>
-        <p class="intro" data-i18n="en">
-          Tile <strong>color</strong> shows the selected metric. Use the top toggle to switch among 6 layers: AI Risk / Salary / Avg Age / Hours / Recruit Ratio / Education.<br>
-          Click any tile to open the per-occupation AI impact analysis page (<code>/en/&lt;id&gt;</code> in English; the Japanese version is at <code>/ja/&lt;id&gt;</code>). Each analysis page also links out to the official jobtag detail.
-        </p>
-        <p class="intro" data-i18n="en">
-          <strong>AI Risk</strong> is a 0–10 estimate of how much AI will reshape each occupation.<br>
-          See the methodology section below for the full rubric.
-        </p>
-        <p class="intro" data-i18n="en">
-          <em>Important: a high score does NOT predict the job will disappear.</em> Most high-exposure jobs will be <strong>reshaped, not replaced</strong>.
-        </p>
-        <p class="intro" data-i18n="en">
-          Inspired by <a href="https://github.com/karpathy/jobs" target="_blank" rel="noopener noreferrer">karpathy/jobs</a> (US version). Source on <a href="https://github.com/jasonhnd/jobs" target="_blank" rel="noopener noreferrer">GitHub</a> (MIT).
-        </p>
-        <div class="intro-details" data-i18n="en">
-          <h3 class="methodology-title">📖 Full AI risk methodology (scorer, criteria, date)</h3>
-          <div class="intro-details-content">
-            <p><strong>Scored on:</strong> 2026-04-25　|　<strong>Scoring LLM:</strong> Claude Opus 4.7 (Anthropic)</p>
-            <p><strong>Scorer:</strong> Claude Opus 4.7 (Anthropic) inside this Claude Code session, judging each of the 552 occupations one by one. Not a survey — LLM subjective estimate.</p>
-            <p><strong>Scale (ported from karpathy/jobs):</strong></p>
-            <ul>
-              <li><strong>0–1</strong> Minimal: physical/field work (commercial diver, logger)</li>
-              <li><strong>2–3</strong> Low: manual labor + some interpersonal (electrician, hair stylist)</li>
-              <li><strong>4–5</strong> Moderate: mix of physical and knowledge work (nurse, police officer)</li>
-              <li><strong>6–7</strong> High: knowledge work with judgment (teacher, lawyer, accountant)</li>
-              <li><strong>8–9</strong> Very high: predominantly computer-based (programmer, translator)</li>
-              <li><strong>10</strong> Maximum: pure routine digital processing (data entry)</li>
-            </ul>
-            <p><strong>Heuristic:</strong> "Can the job be done entirely from a home computer?" — if yes, the score is naturally high. AI is advancing fastest in digital domains (text, image, code, analysis), so digital-native jobs face the highest exposure.</p>
-            <p><strong>Caveat:</strong> A high score does NOT predict the job disappearing. Programmers score 9/10, but AI making each programmer more productive could grow the total demand for programming. Most high-exposure jobs will be reshaped, not replaced.</p>
-          </div>
+      <!-- Stage 1 PREVIEW — Follow + Share section with visual layering.
+           Follow CTA is the prominent block; share buttons sit below as a smaller row. -->
+      <div class="follow-share-section" aria-label="Follow and share">
+        <div class="follow-block">
+          <a class="follow-cta"
+             id="x-follow-cta"
+             href="https://x.com/miraishigotocom"
+             target="_blank"
+             rel="noopener noreferrer">
+            <span class="follow-icon" aria-hidden="true">📬</span>
+            <span class="follow-text">
+              <strong data-i18n="ja" class="active">X でフォローする</strong>
+              <strong data-i18n="en">Follow on X</strong>
+              <small data-i18n="ja" class="active">毎日の職業分析を受け取る</small>
+              <small data-i18n="en">Daily occupation insights</small>
+            </span>
+          </a>
         </div>
 
-        <div class="usage-notice active" data-i18n="ja">
-          <h3>使用上の注意</h3>
-          <p>本サイトの情報は、職業選択、転職、採用、人事判断等に関する<strong>参考情報</strong>として提供するものであり、特定の判断や結果を保証するものではありません。重要な意思決定にあたっては、複数の情報源を確認してください。</p>
-          <p>本サイトは、厚生労働省、job tag、JILPT と<strong>提携・協力・承認関係にあるものではありません</strong>。掲載内容に関する問い合わせは、本サイトの <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> までお願いします（公的機関への問い合わせは行わないでください）。</p>
+        <div class="share-divider">
+          <span data-i18n="ja" class="active">このページをシェア</span>
+          <span data-i18n="en">Share this page</span>
         </div>
-        <div class="usage-notice" data-i18n="en">
-          <h3>Usage Notice</h3>
-          <p>The information on this site is provided as <strong>reference material</strong> for purposes such as career selection, job changes, recruitment, and HR decisions. It does not guarantee any specific judgment or outcome. For important decisions, please consult multiple sources.</p>
-          <p>This site has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, or JILPT. For inquiries about the content of this site, please use the <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a> page (please do not contact public institutions).</p>
-        </div>
-      </section>
 
-      <div class="share-row" role="group" aria-label="Share this site">
-        <a class="share-btn" id="share-x" data-platform="x" href="#" aria-label="X で共有">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
-        </a>
-        <a class="share-btn" id="share-line" data-platform="line" href="#" aria-label="LINE で共有">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755Zm-3.855 3.016c0 .27-.174.51-.432.596a.616.616 0 0 1-.199.031.61.61 0 0 1-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595a.658.658 0 0 1 .194-.033c.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771Zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771Zm-2.466.629H4.917a.629.629 0 0 1-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-        </a>
-        <a class="share-btn" id="share-hatena" data-platform="hatena" href="#" aria-label="はてなブックマークで共有">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.47 0C22.42 0 24 1.58 24 3.53v16.94c0 1.95-1.58 3.53-3.53 3.53H3.53C1.58 24 0 22.42 0 20.47V3.53C0 1.58 1.58 0 3.53 0h16.94Zm-3.7 14.47a1.41 1.41 0 1 0 0 2.82 1.41 1.41 0 0 0 0-2.82Zm-5.92 2.69c1.59 0 2.92-.18 3.71-.83.84-.65 1.27-1.55 1.27-2.69 0-.97-.32-1.75-.97-2.34-.65-.59-1.5-.92-2.55-1 .92-.25 1.62-.59 2.04-1.07.43-.45.65-1.07.65-1.84 0-.61-.13-1.16-.4-1.61-.27-.45-.65-.83-1.18-1.07-.45-.22-1-.4-1.61-.5-.61-.07-1.55-.13-2.79-.13H6.74v13.07h4.11Zm-.86-2.5h-.94v-3.13h.97c1.16 0 1.95.13 2.34.4.4.27.59.72.59 1.34 0 .54-.18.97-.54 1.21-.36.27-1.16.18-2.42.18Zm0-5.45h-.94V6.5h.4c1.21 0 2 .07 2.39.27.4.18.61.61.61 1.27 0 .59-.22 1.05-.65 1.27-.4.18-1.18.27-2.39.27ZM22.59 16.94v-7.5h-2.13v7.5h2.13Z"/></svg>
-        </a>
-        <a class="share-btn" id="share-linkedin" data-platform="linkedin" href="#" aria-label="LinkedIn で共有">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5ZM8 19H5V8h3v11ZM6.5 6.73a1.76 1.76 0 1 1 0-3.53 1.76 1.76 0 0 1 0 3.53ZM20 19h-3v-5.6c0-3.37-4-3.11-4 0V19h-3V8h3v1.77c1.4-2.59 7-2.78 7 2.47V19Z"/></svg>
-        </a>
-        <button class="share-btn" id="share-copy" type="button" data-platform="copy" aria-label="URL をコピー">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1ZM8 13h8v-2H8v2Zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 0-10Z"/></svg>
-        </button>
-        <button class="share-btn" id="share-native" type="button" data-platform="native" aria-label="共有">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-3v2h3v11H7V9h3V7H7c-1.1 0-2 .9-2 2Z"/></svg>
-        </button>
-        <span class="share-toast" id="share-toast" aria-live="polite"></span>
+        <div class="share-row" role="group" aria-label="Share this site">
+          <a class="share-btn" id="share-x" data-platform="x" href="#" aria-label="X で共有">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
+          </a>
+          <a class="share-btn" id="share-line" data-platform="line" href="#" aria-label="LINE で共有">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755Zm-3.855 3.016c0 .27-.174.51-.432.596a.616.616 0 0 1-.199.031.61.61 0 0 1-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595a.658.658 0 0 1 .194-.033c.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771Zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771Zm-2.466.629H4.917a.629.629 0 0 1-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+          </a>
+          <a class="share-btn" id="share-hatena" data-platform="hatena" href="#" aria-label="はてなブックマークで共有">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.47 0C22.42 0 24 1.58 24 3.53v16.94c0 1.95-1.58 3.53-3.53 3.53H3.53C1.58 24 0 22.42 0 20.47V3.53C0 1.58 1.58 0 3.53 0h16.94Zm-3.7 14.47a1.41 1.41 0 1 0 0 2.82 1.41 1.41 0 0 0 0-2.82Zm-5.92 2.69c1.59 0 2.92-.18 3.71-.83.84-.65 1.27-1.55 1.27-2.69 0-.97-.32-1.75-.97-2.34-.65-.59-1.5-.92-2.55-1 .92-.25 1.62-.59 2.04-1.07.43-.45.65-1.07.65-1.84 0-.61-.13-1.16-.4-1.61-.27-.45-.65-.83-1.18-1.07-.45-.22-1-.4-1.61-.5-.61-.07-1.55-.13-2.79-.13H6.74v13.07h4.11Zm-.86-2.5h-.94v-3.13h.97c1.16 0 1.95.13 2.34.4.4.27.59.72.59 1.34 0 .54-.18.97-.54 1.21-.36.27-1.16.18-2.42.18Zm0-5.45h-.94V6.5h.4c1.21 0 2 .07 2.39.27.4.18.61.61.61 1.27 0 .59-.22 1.05-.65 1.27-.4.18-1.18.27-2.39.27ZM22.59 16.94v-7.5h-2.13v7.5h2.13Z"/></svg>
+          </a>
+          <a class="share-btn" id="share-linkedin" data-platform="linkedin" href="#" aria-label="LinkedIn で共有">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5ZM8 19H5V8h3v11ZM6.5 6.73a1.76 1.76 0 1 1 0-3.53 1.76 1.76 0 0 1 0 3.53ZM20 19h-3v-5.6c0-3.37-4-3.11-4 0V19h-3V8h3v1.77c1.4-2.59 7-2.78 7 2.47V19Z"/></svg>
+          </a>
+          <a class="share-btn" id="share-facebook" data-platform="facebook" href="#" aria-label="Facebook で共有">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.13 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.24.19 2.24.19v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.13 22 16.99 22 12Z"/></svg>
+          </a>
+          <button class="share-btn" id="share-copy" type="button" data-platform="copy" aria-label="URL をコピー">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1ZM8 13h8v-2H8v2Zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 0-10Z"/></svg>
+          </button>
+          <button class="share-btn" id="share-native" type="button" data-platform="native" aria-label="共有" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 8 6h3v8h2V6h3l-4-4Zm-7 7v11c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-3v2h3v11H7V9h3V7H7c-1.1 0-2 .9-2 2Z"/></svg>
+          </button>
+          <span class="share-toast" id="share-toast" aria-live="polite"></span>
+        </div>
       </div>
 
       <footer>
@@ -2601,6 +2784,7 @@
       const searchInputs = [
         document.getElementById("searchInput"),
         document.getElementById("searchInputMobile"),
+        document.getElementById("searchInputDesktop"),
       ].filter(Boolean);
       searchInputs.forEach(inp => {
         inp.addEventListener("input", e => {
@@ -2626,23 +2810,180 @@
         });
       });
 
-      // Mobile-hero chip row — clicking a chip fills both inputs and runs the filter.
-      // Clicking the active chip again clears the filter.
-      document.querySelectorAll(".mobile-hero-chips button").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const isActive = btn.classList.contains("active");
-          document.querySelectorAll(".mobile-hero-chips button.active")
-            .forEach(b => b.classList.remove("active"));
-          const value = isActive ? "" : (btn.dataset.chip || btn.textContent.trim());
-          if (!isActive) btn.classList.add("active");
-          searchInputs.forEach(inp => { inp.value = value; });
-          applyFilter(value);
-          if (window.gtag) gtag("event", "chip_click", {
-            chip_label: btn.dataset.chip || btn.textContent.trim(),
-            language: lang,
-            cleared: isActive,
-          });
+      // ─── Stage 1 PREVIEW: direct-nav search + chips + autocomplete ─────────
+      // Chip click → 1-step direct nav to a mapped occupation page.
+      // Some chip labels are category words (事務職, 営業, カスタマーサポート) that don't
+      // exactly match any single row in data.json — map them to the most representative
+      // occupation. Exact-match chips (看護師) just navigate to themselves.
+      const CHIP_TO_JOB = {
+        "事務職": "一般事務",
+        "経理": "経理事務",
+        "営業": "営業事務",
+        "カスタマーサポート": "コールセンターオペレーター",
+        "看護師": "看護師"
+      };
+
+      function findJobByName(name) {
+        if (!name) return null;
+        return data.find(d => (d.name_ja || "") === name || (d.name_en || "") === name) || null;
+      }
+
+      function navigateToJob(rec, source) {
+        if (!rec) return;
+        if (window.gtag) gtag("event", source === "chip" ? "popular_job_click" : "job_search_navigate", {
+          occupation_id: rec.id,
+          occupation_name_ja: (rec.name_ja || "").slice(0, 100),
+          occupation_name_en: (rec.name_en || "").slice(0, 100),
+          ai_risk_score: rec.ai_risk != null ? rec.ai_risk : 0,
+          language: lang,
+          source: source
         });
+        // Use location.href (stays in same tab) so the user follows the conversion path.
+        window.location.href = occUrl(rec);
+      }
+
+      // Rank matches for a query string. Tier order: exact name → starts-with → contains.
+      // Within each tier sort by name length asc (shorter = more specific).
+      function rankMatches(query, limit) {
+        const q = (query || "").trim().toLowerCase();
+        if (!q || !data.length) return [];
+        const matches = data.filter(d =>
+          (d.name_ja || "").toLowerCase().includes(q) ||
+          (d.name_en || "").toLowerCase().includes(q)
+        );
+        matches.sort((a, b) => {
+          const an = ((lang === "en" ? a.name_en : a.name_ja) || a.name_ja || "").toLowerCase();
+          const bn = ((lang === "en" ? b.name_en : b.name_ja) || b.name_ja || "").toLowerCase();
+          const aTier = an === q ? 0 : (an.startsWith(q) ? 1 : 2);
+          const bTier = bn === q ? 0 : (bn.startsWith(q) ? 1 : 2);
+          if (aTier !== bTier) return aTier - bTier;
+          return an.length - bn.length;
+        });
+        return limit ? matches.slice(0, limit) : matches;
+      }
+
+      // Chip click — direct nav (covers BOTH desktop-hero-chips and mobile-hero-chips).
+      document.querySelectorAll(".desktop-hero-chips button, .mobile-hero-chips button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const label = btn.dataset.chip || btn.textContent.trim();
+          const targetName = CHIP_TO_JOB[label] || label;
+          let rec = findJobByName(targetName);
+          if (!rec) {
+            // Fallback: substring match → first ranked result.
+            const ranked = rankMatches(targetName, 1);
+            rec = ranked[0];
+          }
+          if (rec) {
+            navigateToJob(rec, "chip");
+          } else {
+            // Nothing matched anywhere — visible feedback instead of silent no-op.
+            const nr = document.getElementById("searchNoResult");
+            if (nr) nr.classList.add("visible");
+          }
+        });
+      });
+
+      // Form submit (Enter / click "AI影響度をチェック") → direct nav to top match.
+      const dhForm = document.getElementById("dhSearchForm");
+      if (dhForm) {
+        dhForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const inp = document.getElementById("searchInputDesktop");
+          const q = inp ? inp.value.trim() : "";
+          const noResultEl = document.getElementById("searchNoResult");
+          if (!q) return;
+          const matches = rankMatches(q, 1);
+          if (matches.length === 0) {
+            if (noResultEl) noResultEl.classList.add("visible");
+            return;
+          }
+          if (noResultEl) noResultEl.classList.remove("visible");
+          navigateToJob(matches[0], "search_submit");
+        });
+      }
+
+      // Live autocomplete dropdown — top 8 matches as user types in the desktop hero.
+      const suggestEl = document.getElementById("searchSuggest");
+      const suggestInput = document.getElementById("searchInputDesktop");
+      let suggestFocused = -1;
+      function renderSuggest(q) {
+        if (!suggestEl) return;
+        const matches = rankMatches(q, 8);
+        if (matches.length === 0) {
+          suggestEl.classList.remove("visible");
+          suggestEl.innerHTML = "";
+          suggestFocused = -1;
+          return;
+        }
+        suggestEl.innerHTML = matches.map((rec, i) => {
+          const nameJa = rec.name_ja || "";
+          const nameEn = rec.name_en || "";
+          const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
+          const risk = rec.ai_risk != null ? rec.ai_risk : 0;
+          const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
+          const riskLabel = lang === "en" ? ("AI risk " + risk + "/10") : ("AI 影響度 " + risk + "/10");
+          return '<li role="option" data-job-id="' + rec.id + '" data-idx="' + i + '">' +
+            '<span class="ss-name">' + display + '</span>' +
+            '<span class="ss-risk ' + tier + '">' + riskLabel + '</span>' +
+            '</li>';
+        }).join("");
+        suggestEl.classList.add("visible");
+        suggestFocused = -1;
+      }
+      if (suggestInput) {
+        suggestInput.addEventListener("input", () => {
+          renderSuggest(suggestInput.value);
+          const nr = document.getElementById("searchNoResult");
+          if (nr) nr.classList.remove("visible");
+        });
+        suggestInput.addEventListener("focus", () => {
+          if (suggestInput.value.trim()) renderSuggest(suggestInput.value);
+        });
+        suggestInput.addEventListener("blur", () => {
+          // Delay so click-on-item still registers as a click, not a blur-then-no-target.
+          setTimeout(() => { if (suggestEl) suggestEl.classList.remove("visible"); }, 150);
+        });
+        suggestInput.addEventListener("keydown", (e) => {
+          if (!suggestEl || !suggestEl.classList.contains("visible")) return;
+          const items = suggestEl.querySelectorAll("li");
+          if (!items.length) return;
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            suggestFocused = (suggestFocused + 1) % items.length;
+            items.forEach((el, i) => el.classList.toggle("focused", i === suggestFocused));
+            items[suggestFocused].scrollIntoView({ block: "nearest" });
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            suggestFocused = suggestFocused <= 0 ? items.length - 1 : suggestFocused - 1;
+            items.forEach((el, i) => el.classList.toggle("focused", i === suggestFocused));
+            items[suggestFocused].scrollIntoView({ block: "nearest" });
+          } else if (e.key === "Enter" && suggestFocused >= 0) {
+            e.preventDefault();
+            const id = parseInt(items[suggestFocused].dataset.jobId, 10);
+            const rec = data.find(d => d.id === id);
+            if (rec) navigateToJob(rec, "suggest_keyboard");
+          } else if (e.key === "Escape") {
+            suggestEl.classList.remove("visible");
+            suggestFocused = -1;
+          }
+        });
+      }
+      if (suggestEl) {
+        suggestEl.addEventListener("mousedown", (e) => {
+          // mousedown (not click) so the input's blur handler doesn't hide us first.
+          const li = e.target.closest("li");
+          if (!li) return;
+          e.preventDefault();
+          const id = parseInt(li.dataset.jobId, 10);
+          const rec = data.find(d => d.id === id);
+          if (rec) navigateToJob(rec, "suggest_click");
+        });
+      }
+      // Click outside hero-search closes dropdown
+      document.addEventListener("click", (e) => {
+        if (!suggestEl) return;
+        const inside = e.target.closest(".desktop-hero-search");
+        if (!inside) suggestEl.classList.remove("visible");
       });
 
       // ---- Pointer/Touch handling for mobile vs desktop ----
@@ -2903,9 +3244,13 @@
 
       // ---- Theme toggle (light/dark) ----
       (function themeToggle() {
-        const btn = document.getElementById("themeToggle");
-        if (!btn) return;
-        btn.addEventListener("click", () => {
+        // Wire up BOTH the legacy mobile-h1 toggle and the desktop-hero utility toggle.
+        const btns = [
+          document.getElementById("themeToggle"),
+          document.getElementById("themeToggleDesktop"),
+        ].filter(Boolean);
+        if (!btns.length) return;
+        const handler = () => {
           const sysLight = matchMedia("(prefers-color-scheme: light)").matches;
           let saved = null;
           try { saved = localStorage.getItem("theme"); } catch (e) {}
@@ -2924,7 +3269,8 @@
             was_explicit: saved === "light" || saved === "dark",
             system_pref: sysLight ? "light" : "dark"
           });
-        });
+        };
+        btns.forEach(b => b.addEventListener("click", handler));
       })();
 
       // ---- Bottom share buttons ----
@@ -2973,6 +3319,20 @@
           e.preventDefault();
           open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(siteUrl("linkedin", "social")));
           track("linkedin");
+        });
+
+        // Stage 1 PREVIEW — new platform: Facebook.
+        const facebook = document.getElementById("share-facebook");
+        if (facebook) facebook.addEventListener("click", e => {
+          e.preventDefault();
+          open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(siteUrl("facebook", "social")));
+          track("facebook");
+        });
+
+        // Stage 1 PREVIEW — X follow CTA telemetry.
+        const xFollow = document.getElementById("x-follow-cta");
+        if (xFollow) xFollow.addEventListener("click", () => {
+          if (window.gtag) gtag("event", "x_follow_click", { language: curLang() });
         });
 
         const copy = document.getElementById("share-copy");

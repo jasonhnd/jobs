@@ -18,7 +18,7 @@
 
 ## 1. 核心原则
 
-1. **数据是主角，UI 不抢戏**。视觉重量集中在 treemap、统计、tooltip；周边元素（标签、说明、页脚）退到次要层级。
+1. **自查路径优先于纯展示，但数据仍是品牌资产**。第一屏必须给焦虑型流量一个最短的查询入口（搜索框 + 热门 chips），让用户 1 步到达自己的职业详情页。treemap 作为站点的视觉差异化资产保留在第二屏（移动端）或同屏下半部分（桌面）。**视觉重量分配**：搜索 hero 占据视觉焦点，treemap 仍是品牌核心，周边元素（标签、说明、页脚）退到次要层级。
 2. **双主题不是装饰**。light / dark 都是一等公民，每一个组件都要在两套配色下都美。**默认跟随系统**，用户显式切换后用 localStorage 持久化。
 3. **移动优先 ≠ 移动专属**。设计在桌面（≥768px）以「数据密度高」呈现，在手机（<768px）以「关键信息可读」呈现。两端都要打磨到位。
 4. **暖色 = 高风险，冷色 = 低风险**。这是站点的视觉语义契约，不可反转。色盲模式（viridis）是替代方案，不能改变语义方向。
@@ -451,21 +451,77 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 
 1. `h2.mobile-hero-title` — `あなたの仕事の AI 影響度 を見る` / `See your job's AI impact`，字号 1.35rem (`≤480: 1.2rem`)，`AI 影響度` 用 `var(--accent)` 着色。
 2. `.mobile-hero-trust` — 单行信任信号：`552 職業 · LLM スコア · 公開データ由来`。font 0.74rem，`color: var(--fg2)`，居中或左对齐。
-3. `.mobile-hero-search` — 搜索输入框 + 🔍 icon prefix。input 占满宽，padding `10px 14px 10px 38px`（左侧留 icon 空间），radius 999px。`placeholder: 職業名で検索（例：事務職）`。绑定 `applyFilter()`。
-4. `.mobile-hero-chips` — 5 个职业 chip，横排可 wrap：`事務 / 経理 / プログラマ / 看護師 / 営業`（5 个）。每个 chip 形如 `<button>事務</button>`，点击 = `searchInput.value = label; applyFilter(label)`。chip padding `5px 11px`，radius 999px，`border: 1px solid var(--border)`，font 0.78rem。
+3. `.mobile-hero-search` — 搜索输入框 + 🔍 icon prefix。input 占满宽，padding `10px 14px 10px 38px`（左侧留 icon 空间），radius 999px。`placeholder: 職業名で検索（例：事務職）`。绑定 `applyFilter()` + dropdown(共用 §7.12 的 search-suggest 逻辑)。
+4. `.mobile-hero-chips` — 5 个职业 chip，横排可 wrap：**事務職 / 経理 / 営業 / CS（カスタマーサポート 缩写）/ 看護師**（与桌面 §7.12 共用同一组）。chip padding `5px 11px`，radius 999px，`border: 1px solid var(--border)`，font 0.78rem。
 
-**桌面行为**（`min-width: 769px`）：`.mobile-hero { display: none }`。h1 / .controls / .dimension-hint / .search-row / .stats-panel 按原顺序堆叠（不变）。
+**桌面行为**（`min-width: 769px`）：`.mobile-hero { display: none }`。
 
 **移动行为**（`max-width: 768px`）：
 - `.mobile-hero { display: block }`，置于 h1 之下、treemap 之上。
-- DOM 重排：`.controls` / `.stats-panel` 移到 treemap **之后**（`#wrapper` 改 flex-column + `order` 控制），`.dimension-hint` / `.search-row`（旧的，原 desktop 位）`display: none`（mobile-hero 自带搜索）。
+- DOM 重排：`.controls` / `.stats-panel` 移到 treemap **之后**（`#wrapper` 改 flex-column + `order` 控制），`.dimension-hint` / `.search-row`（旧的，原 desktop 位）`display: none`（mobile-hero 取代它们）。
 - 用户首屏看到：top-banner → h1 → mobile-hero → treemap 顶部。`.controls` / `.stats-panel` 滚下后可见，做"探索后操作"。
 
-**Chip 行为契约**：
-- 点击 chip = `applyFilter(label)`，treemap 上 dim 不匹配的 tile，匹配 tile 高亮。
-- 同一个 chip 再点击不切换状态（始终是该 label 的 filter）。
-- 清空 search input → `applyFilter("")` → dim 全消，回到完整地图。
-- chip 标签 5 选 1 是 v1 占位，应在装上 GA4 `scroll_50%` / `scroll_75%` + 拉 7 天数据后用 top-clicked / top-searched 替换。
+**Chip 行为契约（Stage 1 起：1 步直达）**：
+- 点击 chip → 通过 `CHIP_TO_JOB` 映射 → `window.location.href = occUrl(matched_record)`，1 步跳到对应详情页。
+- chip 名 v1 占位（与 §7.12 共用），data-chip 是日文全名，可视显示在窄屏上可缩写（如 `カスタマーサポート` → `CS`）。
+- 应在 GA4 数据稳定（2-3 周）后用 top-clicked / top-searched 替换名单。
+- GA4 事件：`popular_job_click`，参数 `occupation_id` / `language`。
+
+---
+
+### 7.12 Desktop Hero（Stage 1, search-first）
+
+桌面（≥769px）专用首屏 hero block。在 mobile（≤768px）上 `display: none`，移动端继续用 §7.11。
+
+**目的**：把站点从「探索型 552 职业地图站」转向「自查型 AI 影响度查询工具」，给焦虑型流量最短的查询入口。
+
+**结构**（DOM 顺序自上而下）：
+
+1. `.desktop-hero-utility` — 顶部小工具栏：站点 brand 副文「日本の職業 AI 影響マップ (非公式)」+ lang switch + theme toggle (`#themeToggleDesktop`)。font 0.8rem，居于 max-width 1400 容器内。
+2. `h2.dh-title` — 「あなたの仕事はAI 時代にどう変わる？」H2 大标题，「AI 時代」用 `var(--accent)`，font `clamp(1.7rem, 1.2rem + 1.2vw, 2.4rem)`，weight 700。
+3. `.dh-lead` — 3 行说明：「職業名を入力すると、AI による影響度と変化しやすい作業を確認できます。 / 転職、リスキリング、キャリアの見直しの参考に。」font 0.95rem，max-width 540px。
+4. `.desktop-hero-search` — 搜索 form：输入框（`#searchInputDesktop`）+ 「AI 影響度をチェック」按钮，max-width 560px。
+5. `.search-suggest` — 输入时实时下拉建议（top 8）：每条 `<li>` 显示职业名 + AI 影響度，按 (exact match → starts-with → contains → length asc) 排序。键盘 ↑↓ + Enter 可选，鼠标点击跳转。
+6. `.desktop-hero-popular-label` + `.desktop-hero-chips` — 5 个固定 chips（与 §7.11 共用同一组）：**事務職 / 経理 / 営業 / カスタマーサポート / 看護師**。
+
+**桌面行为**（`min-width: 769px`）：`.desktop-hero { display: block }`。同时**隐藏**老的 `#wrapper > header > h1` / `.controls` / `.dimension-hint` / `.search-row`（这些被 hero 替代；DOM 保留以保 SEO/可访问性，但 `display: none`）。
+
+**移动行为**（`max-width: 768px`）：`.desktop-hero { display: none }`，移动端继续用 §7.11 `.mobile-hero`。
+
+**交互契约（1 步直达）**：
+
+- 输入框 typing → `applyFilter()` live 高亮 treemap + 实时渲染下拉建议
+- Enter / 点「AI 影響度をチェック」按钮 → 跳到 top match 的 `/ja/<id>` 或 `/en/<id>`
+- 点 chip → 通过 `CHIP_TO_JOB` 映射跳到对应职业详情页：
+  - `事務職 → 一般事務` (id=428)
+  - `経理 → 経理事務` (id=430)
+  - `営業 → 営業事務` (id=431)
+  - `カスタマーサポート → コールセンターオペレーター` (id=64)
+  - `看護師 → 看護師` (id=156, 精确匹配)
+- 点下拉 li / 键盘 Enter → 跳到对应 `/ja/<id>`
+- 无匹配 → 不跳，显示 `.search-noresult` 「該当する職業が見つかりません」
+
+**GA4 事件**：`popular_job_click`（chip）/ `job_search_navigate`（Enter / button / suggest item）。
+
+**chips 名单是 v1**：与 §7.11 共用一组 5 chips，一处改动两端同步。GA4 数据稳定（2-3 周）后应替换为 top-clicked / top-searched。
+
+---
+
+### 7.13 Footer Follow + Share（Stage 1，全站统一）
+
+首页 + 1104 个 `/ja/<id>` 和 `/en/<id>` 详情页**统一**使用同一个 footer follow + share 区块。视觉分两层：
+
+1. **Follow CTA（突出）**：橙色块 `.follow-cta`，链 `https://x.com/miraishigotocom`。
+   - 内容：📬 icon + 「X でフォローする / 毎日の職業分析を受け取る」(EN: 「Follow on X / Daily occupation insights」)
+   - GA4 事件：`x_follow_click`（详情页带 `occupation_id` 参数）
+2. **Share divider**：「このページをシェア」(EN: 「Share this page」) — 横线 + 中间文字
+3. **Share buttons row（小图标）**：6 个圆形 32×32（mobile 36×36）按钮
+   - X / LINE / Hatena / LinkedIn / **Facebook（Stage 1 新加）** / Copy
+   - **Native**（`navigator.share()`）只在支持的设备显示（默认 hidden）
+   - 每个 hover 切到对应平台品牌色（X #000 / LINE #06C755 / Hatena #00A4DE / LinkedIn #0A66C2 / Facebook #1877F2 / Copy var(--accent)）
+   - GA4 事件：`share_click`，参数 `platform`、`language`、`occupation_id`（详情页）
+
+**UTM 契约**：所有 share URL 都携带 `?utm_source=<platform>&utm_medium=<social|im|copylink|share_api>&utm_campaign=footer_share&utm_content=site|occ`。
 
 ---
 
@@ -603,6 +659,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 | 2026-05-01 | §6.1 | Tooltip 字号 + 尺寸放大 | 原 0.82rem / 360px 在桌面读起来偏小，改 0.92rem / 400px，title 0.95→1.06rem 且去掉 hardcode `#fff` 改用 `var(--fg)`（双主题适用）|
 | 2026-05-02 | §7.11, §8.1 | Mobile Hero（Variant C）| Mobile 首屏从 stats / toggles / 6 张卡 重构成 h2 + 信任信号 + 搜索框 + 5 chip + 直出 treemap。桌面不变。诊断：当前手机端要滚 2-3 屏才看到主图，工具入口被展示型设计语言挤掉。|
 | 2026-05-02 | §6.2, §6.5, §6.6, §6.7 | Mobile tooltip 三件 fix（Mirai Mobile Fix 提案）| FIX 01 加 `.tt-cta`「詳細を見る →」按钮（漏斗大漏点）；FIX 02 重写 touch 状态机，touchstart `passive: true` + touchend 位移 < 10px 才视为 tap（修 treemap 区滚动死区）；FIX 03 close button 22×22→32×32 visual + **44×44 hit area**（HIG 合规）。CTA 与双击 tile 打开详情并存，不替换。|
+| 2026-05-02 | §1, §7.11, §7.12, §7.13 | Stage 1：首页转向「自查路径优先」 | 新增 §7.12 桌面 hero（搜索 + 下拉建议 + 5 chips + 1 步直达 `/ja/<id>`），新增 §7.13 全站统一 follow + share footer（X follow CTA + 6 share 含新加 Facebook）。§7.11 移动 chip 行为从「填充 + 过滤」改为「1 步直达」，chip 名单 + 桌面统一为 `事務職 / 経理 / 営業 / カスタマーサポート / 看護師`（mobile 上 CS 缩写）。§1 第 1 条调整：「数据是主角」→「自查路径优先于纯展示，但数据仍是品牌资产」。原 explainer 区（meta-card + disclaimer + intro）从首页搬到独立 `/about` 页。背景：第一轮 X Ads 流量 491 link clicks 但站内 click 率仅 7.1%，需要把站点从展示型升级为查询工具。|
 
 ---
 
