@@ -400,51 +400,64 @@ def build():
         prefix = names[0][:2]
         return prefix if all(n.startswith(prefix) for n in names) else ""
 
+    # Always redistribute — keeps the workforce total realistic (~54M, in
+    # line with Japan's working population). Pure-skip in the absence of an
+    # explicit parent_category_map produced 370M total, which is plainly
+    # wrong. But ALSO write every multi-member group to a warnings file so
+    # the operator can audit which groupings are real parent/child
+    # relationships and which are coincidental workforce-count collisions.
     redistributed_records = 0
-    suspicious_groups = []
+    audit_groups = []
     for group in multi_categories:
-        names = [r.get("name_ja") or r.get("name_en") or "" for r in group]
+        original = group[0]["workers"]
         size = len(group)
+        share = original / size
+        names = [r.get("name_ja") or r.get("name_en") or "" for r in group]
         prefix = _common_prefix_2(names)
-        # Confident: ≤25 members AND shared prefix.
-        confident = size <= 25 and prefix != ""
-        if confident:
-            original = group[0]["workers"]
-            share = original / size
-            for r in group:
-                r["category_workers"] = original
-                r["category_size"] = size
-                r["workers"] = max(1, round(share))
-            redistributed_records += size
-        else:
-            suspicious_groups.append({
-                "workers_count": group[0]["workers"],
-                "size": size,
-                "common_prefix": prefix,
-                "reason": "size>25" if size > 25 else "no_shared_prefix",
-                "members": [{"id": r["id"], "name_ja": r.get("name_ja"), "name_en": r.get("name_en")} for r in group],
-            })
+        for r in group:
+            r["category_workers"] = original
+            r["category_size"] = size
+            r["workers"] = max(1, round(share))
+        redistributed_records += size
 
-    if suspicious_groups:
-        warn_path = REPO / "scripts" / ".normalization_warnings.json"
-        warn_path.write_text(
-            json.dumps({"generated_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
-                        "skipped_groups": suspicious_groups}, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
-        print(
-            f"  Normalization: {len(multi_categories) - len(suspicious_groups)} parent categories "
-            f"redistributed across {redistributed_records} sub-occupations."
-        )
-        print(
-            f"  Skipped: {len(suspicious_groups)} suspicious groups (raw workers preserved). "
-            f"See {warn_path.relative_to(REPO)}."
-        )
-    else:
-        print(
-            f"  Normalization: {len(multi_categories)} parent categories "
-            f"redistributed across {redistributed_records} sub-occupations."
-        )
+        # Confidence flag — operator review cue. Size ≤ 25 AND shared 2-char
+        # prefix → "high" confidence (likely a real parent group). Otherwise
+        # "low" — needs human judgment.
+        confident = size <= 25 and prefix != ""
+        audit_groups.append({
+            "category_workers": original,
+            "category_size": size,
+            "common_prefix": prefix,
+            "confidence": "high" if confident else "low",
+            "redistributed_share_per_member": max(1, round(share)),
+            "members": [{"id": r["id"], "name_ja": r.get("name_ja"), "name_en": r.get("name_en")} for r in group],
+        })
+
+    # Sort the audit list low-confidence-first so the operator sees the
+    # suspicious groups at the top of the file.
+    audit_groups.sort(key=lambda g: (g["confidence"] == "high", -g["category_size"]))
+    low_count = sum(1 for g in audit_groups if g["confidence"] == "low")
+    high_count = len(audit_groups) - low_count
+
+    warn_path = ROOT / "scripts" / ".normalization_warnings.json"
+    warn_path.write_text(
+        json.dumps({
+            "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+            "summary": {
+                "total_groups": len(audit_groups),
+                "high_confidence": high_count,
+                "low_confidence": low_count,
+                "rule": "high = size<=25 AND shared 2-char prefix; low = otherwise",
+                "behavior": "ALL groups redistributed (workers split equally). low-confidence groups are flagged for human audit; if a low group is a coincidental workers collision, manually override in build_data.py with an explicit keep-raw map.",
+            },
+            "groups": audit_groups,
+        }, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(
+        f"  Normalization: {len(multi_categories)} groups redistributed across {redistributed_records} sub-occupations. "
+        f"({high_count} high-confidence, {low_count} low-confidence — see {warn_path.relative_to(ROOT)})"
+    )
 
     out.sort(key=lambda x: x["id"])
 

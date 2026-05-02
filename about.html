@@ -13,6 +13,63 @@
     <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/about?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/about" />
 
+    <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
+    <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
+    <!-- Open Graph (social sharing of /about) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="日本の職業 AI 影響マップ（非公式）" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:title" content="データについて / About the Data — mirai-shigoto.com" />
+    <meta property="og:description" content="mirai-shigoto.com のデータソース（厚労省 jobtag / 総務省 / JILPT）、AI 影響度スコアの算出方法、FAQ。" />
+    <meta property="og:url" content="https://mirai-shigoto.com/about" />
+    <meta property="og:image" content="https://mirai-shigoto.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="データについて / About the Data — mirai-shigoto.com" />
+    <meta name="twitter:description" content="mirai-shigoto.com のデータソース、AI 影響度スコアの算出方法、FAQ、よくある質問。" />
+    <meta name="twitter:image" content="https://mirai-shigoto.com/og.png" />
+
+    <!-- Schema.org JSON-LD: WebPage + BreadcrumbList for /about.
+         References parent WebSite + Organization from index.html (#website / #organization). -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://mirai-shigoto.com/about#webpage",
+          "name": "About the Data — mirai-shigoto.com",
+          "url": "https://mirai-shigoto.com/about",
+          "description": "Data sources (MHLW jobtag, JILPT, MIC), LLM scoring methodology, and FAQ for the mirai-shigoto.com occupation × AI impact map.",
+          "inLanguage": ["ja", "en"],
+          "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
+          "about": { "@id": "https://mirai-shigoto.com/#organization" },
+          "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+          "datePublished": "2026-05-02",
+          "dateModified": "2026-05-02",
+          "primaryImageOfPage": "https://mirai-shigoto.com/og.png",
+          "breadcrumb": { "@id": "https://mirai-shigoto.com/about#breadcrumb" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://mirai-shigoto.com/about#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "日本の職業 AI 影響マップ", "item": "https://mirai-shigoto.com/" },
+            { "@type": "ListItem", "position": 2, "name": "About the Data", "item": "https://mirai-shigoto.com/about" }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <!-- Cloudflare Web Analytics -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
@@ -25,6 +82,10 @@
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
     </script>
+
+    <!-- Vercel Web Analytics + Speed Insights — same 4-tracker policy as the rest of the site. -->
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 
