@@ -424,13 +424,15 @@
       h1 .accent {
         color: var(--accent);
       }
-      h1 .lang-switch {
-        margin-left: auto;
+      .lang-switch {
         display: inline-flex;
         gap: 4px;
         font-size: 0.8rem;
       }
-      h1 .lang-switch button {
+      h1 .lang-switch {
+        margin-left: auto;
+      }
+      .lang-switch button {
         background: transparent;
         border: 1px solid var(--border);
         color: var(--fg2);
@@ -439,7 +441,7 @@
         cursor: pointer;
         font: inherit;
       }
-      h1 .lang-switch button[aria-pressed="true"] {
+      .lang-switch button[aria-pressed="true"] {
         border-color: var(--accent);
         color: var(--accent);
       }
