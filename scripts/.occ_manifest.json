@@ -6,8 +6,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/1",
     "en_url": "https://mirai-shigoto.com/en/1",
-    "ja_size_bytes": 19996,
-    "en_size_bytes": 19265
+    "ja_size_bytes": 31234,
+    "en_size_bytes": 30400
   },
   {
     "id": 2,
@@ -16,8 +16,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/2",
     "en_url": "https://mirai-shigoto.com/en/2",
-    "ja_size_bytes": 19914,
-    "en_size_bytes": 19143
+    "ja_size_bytes": 31152,
+    "en_size_bytes": 30270
   },
   {
     "id": 3,
@@ -26,8 +26,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/3",
     "en_url": "https://mirai-shigoto.com/en/3",
-    "ja_size_bytes": 20177,
-    "en_size_bytes": 19403
+    "ja_size_bytes": 31421,
+    "en_size_bytes": 30545
   },
   {
     "id": 4,
@@ -36,8 +36,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/4",
     "en_url": "https://mirai-shigoto.com/en/4",
-    "ja_size_bytes": 20204,
-    "en_size_bytes": 19407
+    "ja_size_bytes": 31448,
+    "en_size_bytes": 30552
   },
   {
     "id": 5,
@@ -46,8 +46,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/5",
     "en_url": "https://mirai-shigoto.com/en/5",
-    "ja_size_bytes": 19837,
-    "en_size_bytes": 19027
+    "ja_size_bytes": 31063,
+    "en_size_bytes": 30161
   },
   {
     "id": 6,
@@ -56,8 +56,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/6",
     "en_url": "https://mirai-shigoto.com/en/6",
-    "ja_size_bytes": 19922,
-    "en_size_bytes": 19155
+    "ja_size_bytes": 31157,
+    "en_size_bytes": 30290
   },
   {
     "id": 7,
@@ -66,8 +66,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/7",
     "en_url": "https://mirai-shigoto.com/en/7",
-    "ja_size_bytes": 20048,
-    "en_size_bytes": 19229
+    "ja_size_bytes": 31283,
+    "en_size_bytes": 30371
   },
   {
     "id": 8,
@@ -76,8 +76,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/8",
     "en_url": "https://mirai-shigoto.com/en/8",
-    "ja_size_bytes": 19771,
-    "en_size_bytes": 18973
+    "ja_size_bytes": 30994,
+    "en_size_bytes": 30107
   },
   {
     "id": 9,
@@ -86,8 +86,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/9",
     "en_url": "https://mirai-shigoto.com/en/9",
-    "ja_size_bytes": 19540,
-    "en_size_bytes": 18786
+    "ja_size_bytes": 30763,
+    "en_size_bytes": 29905
   },
   {
     "id": 10,
@@ -96,8 +96,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/10",
     "en_url": "https://mirai-shigoto.com/en/10",
-    "ja_size_bytes": 19522,
-    "en_size_bytes": 18736
+    "ja_size_bytes": 30748,
+    "en_size_bytes": 29857
   },
   {
     "id": 11,
@@ -106,8 +106,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/11",
     "en_url": "https://mirai-shigoto.com/en/11",
-    "ja_size_bytes": 19723,
-    "en_size_bytes": 18933
+    "ja_size_bytes": 30955,
+    "en_size_bytes": 30060
   },
   {
     "id": 12,
@@ -116,8 +116,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/12",
     "en_url": "https://mirai-shigoto.com/en/12",
-    "ja_size_bytes": 20346,
-    "en_size_bytes": 19537
+    "ja_size_bytes": 31605,
+    "en_size_bytes": 30684
   },
   {
     "id": 13,
@@ -126,8 +126,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/13",
     "en_url": "https://mirai-shigoto.com/en/13",
-    "ja_size_bytes": 19618,
-    "en_size_bytes": 18764
+    "ja_size_bytes": 30847,
+    "en_size_bytes": 29885
   },
   {
     "id": 14,
@@ -136,8 +136,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/14",
     "en_url": "https://mirai-shigoto.com/en/14",
-    "ja_size_bytes": 19626,
-    "en_size_bytes": 18810
+    "ja_size_bytes": 30855,
+    "en_size_bytes": 29932
   },
   {
     "id": 15,
@@ -146,8 +146,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/15",
     "en_url": "https://mirai-shigoto.com/en/15",
-    "ja_size_bytes": 20471,
-    "en_size_bytes": 19645
+    "ja_size_bytes": 31733,
+    "en_size_bytes": 30795
   },
   {
     "id": 16,
@@ -156,8 +156,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/16",
     "en_url": "https://mirai-shigoto.com/en/16",
-    "ja_size_bytes": 20012,
-    "en_size_bytes": 19149
+    "ja_size_bytes": 31247,
+    "en_size_bytes": 30291
   },
   {
     "id": 17,
@@ -166,8 +166,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/17",
     "en_url": "https://mirai-shigoto.com/en/17",
-    "ja_size_bytes": 19611,
-    "en_size_bytes": 18764
+    "ja_size_bytes": 30840,
+    "en_size_bytes": 29888
   },
   {
     "id": 18,
@@ -176,8 +176,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/18",
     "en_url": "https://mirai-shigoto.com/en/18",
-    "ja_size_bytes": 19794,
-    "en_size_bytes": 18933
+    "ja_size_bytes": 31029,
+    "en_size_bytes": 30059
   },
   {
     "id": 19,
@@ -186,8 +186,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/19",
     "en_url": "https://mirai-shigoto.com/en/19",
-    "ja_size_bytes": 19834,
-    "en_size_bytes": 18977
+    "ja_size_bytes": 31072,
+    "en_size_bytes": 30102
   },
   {
     "id": 20,
@@ -196,8 +196,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/20",
     "en_url": "https://mirai-shigoto.com/en/20",
-    "ja_size_bytes": 19855,
-    "en_size_bytes": 19060
+    "ja_size_bytes": 31090,
+    "en_size_bytes": 30193
   },
   {
     "id": 21,
@@ -206,8 +206,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/21",
     "en_url": "https://mirai-shigoto.com/en/21",
-    "ja_size_bytes": 20027,
-    "en_size_bytes": 19223
+    "ja_size_bytes": 31268,
+    "en_size_bytes": 30363
   },
   {
     "id": 22,
@@ -216,8 +216,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/22",
     "en_url": "https://mirai-shigoto.com/en/22",
-    "ja_size_bytes": 19869,
-    "en_size_bytes": 19092
+    "ja_size_bytes": 31104,
+    "en_size_bytes": 30226
   },
   {
     "id": 23,
@@ -226,8 +226,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/23",
     "en_url": "https://mirai-shigoto.com/en/23",
-    "ja_size_bytes": 19985,
-    "en_size_bytes": 19146
+    "ja_size_bytes": 31226,
+    "en_size_bytes": 30283
   },
   {
     "id": 24,
@@ -236,8 +236,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/24",
     "en_url": "https://mirai-shigoto.com/en/24",
-    "ja_size_bytes": 19517,
-    "en_size_bytes": 18682
+    "ja_size_bytes": 30740,
+    "en_size_bytes": 29801
   },
   {
     "id": 25,
@@ -246,8 +246,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/25",
     "en_url": "https://mirai-shigoto.com/en/25",
-    "ja_size_bytes": 19619,
-    "en_size_bytes": 18890
+    "ja_size_bytes": 30854,
+    "en_size_bytes": 30013
   },
   {
     "id": 26,
@@ -256,8 +256,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/26",
     "en_url": "https://mirai-shigoto.com/en/26",
-    "ja_size_bytes": 19426,
-    "en_size_bytes": 18626
+    "ja_size_bytes": 30646,
+    "en_size_bytes": 29746
   },
   {
     "id": 27,
@@ -266,8 +266,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/27",
     "en_url": "https://mirai-shigoto.com/en/27",
-    "ja_size_bytes": 19600,
-    "en_size_bytes": 18798
+    "ja_size_bytes": 30826,
+    "en_size_bytes": 29927
   },
   {
     "id": 28,
@@ -276,8 +276,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/28",
     "en_url": "https://mirai-shigoto.com/en/28",
-    "ja_size_bytes": 19688,
-    "en_size_bytes": 18863
+    "ja_size_bytes": 30911,
+    "en_size_bytes": 30002
   },
   {
     "id": 29,
@@ -286,8 +286,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/29",
     "en_url": "https://mirai-shigoto.com/en/29",
-    "ja_size_bytes": 19471,
-    "en_size_bytes": 18712
+    "ja_size_bytes": 30694,
+    "en_size_bytes": 29835
   },
   {
     "id": 30,
@@ -296,8 +296,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/30",
     "en_url": "https://mirai-shigoto.com/en/30",
-    "ja_size_bytes": 19540,
-    "en_size_bytes": 18745
+    "ja_size_bytes": 30760,
+    "en_size_bytes": 29873
   },
   {
     "id": 31,
@@ -306,8 +306,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/31",
     "en_url": "https://mirai-shigoto.com/en/31",
-    "ja_size_bytes": 20083,
-    "en_size_bytes": 19316
+    "ja_size_bytes": 31327,
+    "en_size_bytes": 30458
   },
   {
     "id": 32,
@@ -316,8 +316,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/32",
     "en_url": "https://mirai-shigoto.com/en/32",
-    "ja_size_bytes": 19904,
-    "en_size_bytes": 19078
+    "ja_size_bytes": 31142,
+    "en_size_bytes": 30215
   },
   {
     "id": 33,
@@ -326,8 +326,8 @@
     "ai_risk": 1,
     "ja_url": "https://mirai-shigoto.com/ja/33",
     "en_url": "https://mirai-shigoto.com/en/33",
-    "ja_size_bytes": 19589,
-    "en_size_bytes": 18793
+    "ja_size_bytes": 30812,
+    "en_size_bytes": 29920
   },
   {
     "id": 35,
@@ -336,8 +336,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/35",
     "en_url": "https://mirai-shigoto.com/en/35",
-    "ja_size_bytes": 19935,
-    "en_size_bytes": 19125
+    "ja_size_bytes": 31180,
+    "en_size_bytes": 30258
   },
   {
     "id": 36,
@@ -346,8 +346,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/36",
     "en_url": "https://mirai-shigoto.com/en/36",
-    "ja_size_bytes": 19556,
-    "en_size_bytes": 18725
+    "ja_size_bytes": 30779,
+    "en_size_bytes": 29851
   },
   {
     "id": 37,
@@ -356,8 +356,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/37",
     "en_url": "https://mirai-shigoto.com/en/37",
-    "ja_size_bytes": 19601,
-    "en_size_bytes": 18754
+    "ja_size_bytes": 30833,
+    "en_size_bytes": 29876
   },
   {
     "id": 38,
@@ -366,8 +366,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/38",
     "en_url": "https://mirai-shigoto.com/en/38",
-    "ja_size_bytes": 19552,
-    "en_size_bytes": 18748
+    "ja_size_bytes": 30778,
+    "en_size_bytes": 29870
   },
   {
     "id": 39,
@@ -376,8 +376,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/39",
     "en_url": "https://mirai-shigoto.com/en/39",
-    "ja_size_bytes": 19529,
-    "en_size_bytes": 18729
+    "ja_size_bytes": 30749,
+    "en_size_bytes": 29857
   },
   {
     "id": 40,
@@ -386,8 +386,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/40",
     "en_url": "https://mirai-shigoto.com/en/40",
-    "ja_size_bytes": 19800,
-    "en_size_bytes": 19005
+    "ja_size_bytes": 31026,
+    "en_size_bytes": 30148
   },
   {
     "id": 41,
@@ -396,8 +396,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/41",
     "en_url": "https://mirai-shigoto.com/en/41",
-    "ja_size_bytes": 19705,
-    "en_size_bytes": 18913
+    "ja_size_bytes": 30934,
+    "en_size_bytes": 30046
   },
   {
     "id": 42,
@@ -406,8 +406,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/42",
     "en_url": "https://mirai-shigoto.com/en/42",
-    "ja_size_bytes": 19548,
-    "en_size_bytes": 18762
+    "ja_size_bytes": 30771,
+    "en_size_bytes": 29890
   },
   {
     "id": 43,
@@ -416,8 +416,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/43",
     "en_url": "https://mirai-shigoto.com/en/43",
-    "ja_size_bytes": 19624,
-    "en_size_bytes": 18846
+    "ja_size_bytes": 30853,
+    "en_size_bytes": 29973
   },
   {
     "id": 44,
@@ -426,8 +426,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/44",
     "en_url": "https://mirai-shigoto.com/en/44",
-    "ja_size_bytes": 19600,
-    "en_size_bytes": 18778
+    "ja_size_bytes": 30823,
+    "en_size_bytes": 29909
   },
   {
     "id": 45,
@@ -436,8 +436,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/45",
     "en_url": "https://mirai-shigoto.com/en/45",
-    "ja_size_bytes": 19599,
-    "en_size_bytes": 18758
+    "ja_size_bytes": 30825,
+    "en_size_bytes": 29886
   },
   {
     "id": 46,
@@ -446,8 +446,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/46",
     "en_url": "https://mirai-shigoto.com/en/46",
-    "ja_size_bytes": 19593,
-    "en_size_bytes": 18788
+    "ja_size_bytes": 30822,
+    "en_size_bytes": 29910
   },
   {
     "id": 47,
@@ -456,8 +456,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/47",
     "en_url": "https://mirai-shigoto.com/en/47",
-    "ja_size_bytes": 19439,
-    "en_size_bytes": 18614
+    "ja_size_bytes": 30662,
+    "en_size_bytes": 29732
   },
   {
     "id": 48,
@@ -466,8 +466,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/48",
     "en_url": "https://mirai-shigoto.com/en/48",
-    "ja_size_bytes": 19803,
-    "en_size_bytes": 18964
+    "ja_size_bytes": 31041,
+    "en_size_bytes": 30093
   },
   {
     "id": 49,
@@ -476,8 +476,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/49",
     "en_url": "https://mirai-shigoto.com/en/49",
-    "ja_size_bytes": 19948,
-    "en_size_bytes": 19150
+    "ja_size_bytes": 31180,
+    "en_size_bytes": 30293
   },
   {
     "id": 50,
@@ -486,8 +486,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/50",
     "en_url": "https://mirai-shigoto.com/en/50",
-    "ja_size_bytes": 19836,
-    "en_size_bytes": 19017
+    "ja_size_bytes": 31065,
+    "en_size_bytes": 30158
   },
   {
     "id": 51,
@@ -496,8 +496,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/51",
     "en_url": "https://mirai-shigoto.com/en/51",
-    "ja_size_bytes": 19588,
-    "en_size_bytes": 18786
+    "ja_size_bytes": 30811,
+    "en_size_bytes": 29914
   },
   {
     "id": 52,
@@ -506,8 +506,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/52",
     "en_url": "https://mirai-shigoto.com/en/52",
-    "ja_size_bytes": 19844,
-    "en_size_bytes": 19030
+    "ja_size_bytes": 31085,
+    "en_size_bytes": 30158
   },
   {
     "id": 53,
@@ -516,8 +516,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/53",
     "en_url": "https://mirai-shigoto.com/en/53",
-    "ja_size_bytes": 19711,
-    "en_size_bytes": 18910
+    "ja_size_bytes": 30940,
+    "en_size_bytes": 30040
   },
   {
     "id": 54,
@@ -526,8 +526,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/54",
     "en_url": "https://mirai-shigoto.com/en/54",
-    "ja_size_bytes": 19789,
-    "en_size_bytes": 18952
+    "ja_size_bytes": 31021,
+    "en_size_bytes": 30085
   },
   {
     "id": 55,
@@ -536,8 +536,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/55",
     "en_url": "https://mirai-shigoto.com/en/55",
-    "ja_size_bytes": 19771,
-    "en_size_bytes": 18938
+    "ja_size_bytes": 31003,
+    "en_size_bytes": 30068
   },
   {
     "id": 56,
@@ -546,8 +546,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/56",
     "en_url": "https://mirai-shigoto.com/en/56",
-    "ja_size_bytes": 19852,
-    "en_size_bytes": 18995
+    "ja_size_bytes": 31087,
+    "en_size_bytes": 30125
   },
   {
     "id": 57,
@@ -556,8 +556,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/57",
     "en_url": "https://mirai-shigoto.com/en/57",
-    "ja_size_bytes": 19744,
-    "en_size_bytes": 18914
+    "ja_size_bytes": 30976,
+    "en_size_bytes": 30042
   },
   {
     "id": 58,
@@ -566,8 +566,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/58",
     "en_url": "https://mirai-shigoto.com/en/58",
-    "ja_size_bytes": 19813,
-    "en_size_bytes": 18986
+    "ja_size_bytes": 31039,
+    "en_size_bytes": 30126
   },
   {
     "id": 59,
@@ -576,8 +576,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/59",
     "en_url": "https://mirai-shigoto.com/en/59",
-    "ja_size_bytes": 19951,
-    "en_size_bytes": 19139
+    "ja_size_bytes": 31189,
+    "en_size_bytes": 30277
   },
   {
     "id": 60,
@@ -586,8 +586,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/60",
     "en_url": "https://mirai-shigoto.com/en/60",
-    "ja_size_bytes": 19612,
-    "en_size_bytes": 18781
+    "ja_size_bytes": 30841,
+    "en_size_bytes": 29902
   },
   {
     "id": 61,
@@ -596,8 +596,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/61",
     "en_url": "https://mirai-shigoto.com/en/61",
-    "ja_size_bytes": 19630,
-    "en_size_bytes": 18844
+    "ja_size_bytes": 30856,
+    "en_size_bytes": 29972
   },
   {
     "id": 62,
@@ -606,8 +606,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/62",
     "en_url": "https://mirai-shigoto.com/en/62",
-    "ja_size_bytes": 19572,
-    "en_size_bytes": 18739
+    "ja_size_bytes": 30798,
+    "en_size_bytes": 29861
   },
   {
     "id": 63,
@@ -616,8 +616,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/63",
     "en_url": "https://mirai-shigoto.com/en/63",
-    "ja_size_bytes": 19977,
-    "en_size_bytes": 19186
+    "ja_size_bytes": 31220,
+    "en_size_bytes": 30324
   },
   {
     "id": 64,
@@ -626,8 +626,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/64",
     "en_url": "https://mirai-shigoto.com/en/64",
-    "ja_size_bytes": 20102,
-    "en_size_bytes": 19263
+    "ja_size_bytes": 31355,
+    "en_size_bytes": 30394
   },
   {
     "id": 65,
@@ -636,8 +636,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/65",
     "en_url": "https://mirai-shigoto.com/en/65",
-    "ja_size_bytes": 19668,
-    "en_size_bytes": 18808
+    "ja_size_bytes": 30891,
+    "en_size_bytes": 29938
   },
   {
     "id": 66,
@@ -646,8 +646,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/66",
     "en_url": "https://mirai-shigoto.com/en/66",
-    "ja_size_bytes": 19914,
-    "en_size_bytes": 19076
+    "ja_size_bytes": 31158,
+    "en_size_bytes": 30205
   },
   {
     "id": 67,
@@ -656,8 +656,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/67",
     "en_url": "https://mirai-shigoto.com/en/67",
-    "ja_size_bytes": 19745,
-    "en_size_bytes": 18890
+    "ja_size_bytes": 30974,
+    "en_size_bytes": 30023
   },
   {
     "id": 68,
@@ -666,8 +666,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/68",
     "en_url": "https://mirai-shigoto.com/en/68",
-    "ja_size_bytes": 19578,
-    "en_size_bytes": 18710
+    "ja_size_bytes": 30801,
+    "en_size_bytes": 29836
   },
   {
     "id": 69,
@@ -676,8 +676,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/69",
     "en_url": "https://mirai-shigoto.com/en/69",
-    "ja_size_bytes": 19666,
-    "en_size_bytes": 18793
+    "ja_size_bytes": 30895,
+    "en_size_bytes": 29917
   },
   {
     "id": 70,
@@ -686,8 +686,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/70",
     "en_url": "https://mirai-shigoto.com/en/70",
-    "ja_size_bytes": 19880,
-    "en_size_bytes": 19011
+    "ja_size_bytes": 31118,
+    "en_size_bytes": 30142
   },
   {
     "id": 71,
@@ -696,8 +696,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/71",
     "en_url": "https://mirai-shigoto.com/en/71",
-    "ja_size_bytes": 19955,
-    "en_size_bytes": 19133
+    "ja_size_bytes": 31196,
+    "en_size_bytes": 30270
   },
   {
     "id": 72,
@@ -706,8 +706,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/72",
     "en_url": "https://mirai-shigoto.com/en/72",
-    "ja_size_bytes": 19826,
-    "en_size_bytes": 18958
+    "ja_size_bytes": 31067,
+    "en_size_bytes": 30083
   },
   {
     "id": 73,
@@ -716,8 +716,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/73",
     "en_url": "https://mirai-shigoto.com/en/73",
-    "ja_size_bytes": 19704,
-    "en_size_bytes": 18772
+    "ja_size_bytes": 30933,
+    "en_size_bytes": 29896
   },
   {
     "id": 74,
@@ -726,8 +726,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/74",
     "en_url": "https://mirai-shigoto.com/en/74",
-    "ja_size_bytes": 19585,
-    "en_size_bytes": 18699
+    "ja_size_bytes": 30808,
+    "en_size_bytes": 29822
   },
   {
     "id": 75,
@@ -736,8 +736,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/75",
     "en_url": "https://mirai-shigoto.com/en/75",
-    "ja_size_bytes": 20478,
-    "en_size_bytes": 19593
+    "ja_size_bytes": 31752,
+    "en_size_bytes": 30730
   },
   {
     "id": 76,
@@ -746,8 +746,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/76",
     "en_url": "https://mirai-shigoto.com/en/76",
-    "ja_size_bytes": 19795,
-    "en_size_bytes": 18880
+    "ja_size_bytes": 31033,
+    "en_size_bytes": 30002
   },
   {
     "id": 77,
@@ -756,8 +756,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/77",
     "en_url": "https://mirai-shigoto.com/en/77",
-    "ja_size_bytes": 19859,
-    "en_size_bytes": 18933
+    "ja_size_bytes": 31094,
+    "en_size_bytes": 30063
   },
   {
     "id": 78,
@@ -766,8 +766,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/78",
     "en_url": "https://mirai-shigoto.com/en/78",
-    "ja_size_bytes": 20075,
-    "en_size_bytes": 19238
+    "ja_size_bytes": 31325,
+    "en_size_bytes": 30372
   },
   {
     "id": 79,
@@ -776,8 +776,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/79",
     "en_url": "https://mirai-shigoto.com/en/79",
-    "ja_size_bytes": 19978,
-    "en_size_bytes": 19113
+    "ja_size_bytes": 31225,
+    "en_size_bytes": 30241
   },
   {
     "id": 80,
@@ -786,8 +786,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/80",
     "en_url": "https://mirai-shigoto.com/en/80",
-    "ja_size_bytes": 20058,
-    "en_size_bytes": 19184
+    "ja_size_bytes": 31293,
+    "en_size_bytes": 30328
   },
   {
     "id": 81,
@@ -796,8 +796,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/81",
     "en_url": "https://mirai-shigoto.com/en/81",
-    "ja_size_bytes": 19972,
-    "en_size_bytes": 19133
+    "ja_size_bytes": 31213,
+    "en_size_bytes": 30265
   },
   {
     "id": 82,
@@ -806,8 +806,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/82",
     "en_url": "https://mirai-shigoto.com/en/82",
-    "ja_size_bytes": 20087,
-    "en_size_bytes": 19292
+    "ja_size_bytes": 31343,
+    "en_size_bytes": 30420
   },
   {
     "id": 83,
@@ -816,8 +816,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/83",
     "en_url": "https://mirai-shigoto.com/en/83",
-    "ja_size_bytes": 20164,
-    "en_size_bytes": 19351
+    "ja_size_bytes": 31399,
+    "en_size_bytes": 30507
   },
   {
     "id": 84,
@@ -826,8 +826,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/84",
     "en_url": "https://mirai-shigoto.com/en/84",
-    "ja_size_bytes": 19885,
-    "en_size_bytes": 19084
+    "ja_size_bytes": 31111,
+    "en_size_bytes": 30227
   },
   {
     "id": 85,
@@ -836,8 +836,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/85",
     "en_url": "https://mirai-shigoto.com/en/85",
-    "ja_size_bytes": 19950,
-    "en_size_bytes": 19158
+    "ja_size_bytes": 31176,
+    "en_size_bytes": 30308
   },
   {
     "id": 86,
@@ -846,8 +846,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/86",
     "en_url": "https://mirai-shigoto.com/en/86",
-    "ja_size_bytes": 20151,
-    "en_size_bytes": 19387
+    "ja_size_bytes": 31386,
+    "en_size_bytes": 30546
   },
   {
     "id": 87,
@@ -856,8 +856,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/87",
     "en_url": "https://mirai-shigoto.com/en/87",
-    "ja_size_bytes": 19571,
-    "en_size_bytes": 18744
+    "ja_size_bytes": 30794,
+    "en_size_bytes": 29865
   },
   {
     "id": 88,
@@ -866,8 +866,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/88",
     "en_url": "https://mirai-shigoto.com/en/88",
-    "ja_size_bytes": 19479,
-    "en_size_bytes": 18655
+    "ja_size_bytes": 30702,
+    "en_size_bytes": 29777
   },
   {
     "id": 89,
@@ -876,8 +876,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/89",
     "en_url": "https://mirai-shigoto.com/en/89",
-    "ja_size_bytes": 19312,
-    "en_size_bytes": 18556
+    "ja_size_bytes": 30535,
+    "en_size_bytes": 29673
   },
   {
     "id": 90,
@@ -886,8 +886,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/90",
     "en_url": "https://mirai-shigoto.com/en/90",
-    "ja_size_bytes": 19776,
-    "en_size_bytes": 18983
+    "ja_size_bytes": 31005,
+    "en_size_bytes": 30121
   },
   {
     "id": 91,
@@ -896,8 +896,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/91",
     "en_url": "https://mirai-shigoto.com/en/91",
-    "ja_size_bytes": 19713,
-    "en_size_bytes": 18922
+    "ja_size_bytes": 30936,
+    "en_size_bytes": 30059
   },
   {
     "id": 92,
@@ -906,8 +906,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/92",
     "en_url": "https://mirai-shigoto.com/en/92",
-    "ja_size_bytes": 19682,
-    "en_size_bytes": 18869
+    "ja_size_bytes": 30905,
+    "en_size_bytes": 30005
   },
   {
     "id": 93,
@@ -916,8 +916,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/93",
     "en_url": "https://mirai-shigoto.com/en/93",
-    "ja_size_bytes": 19789,
-    "en_size_bytes": 18949
+    "ja_size_bytes": 31021,
+    "en_size_bytes": 30081
   },
   {
     "id": 94,
@@ -926,8 +926,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/94",
     "en_url": "https://mirai-shigoto.com/en/94",
-    "ja_size_bytes": 19712,
-    "en_size_bytes": 18888
+    "ja_size_bytes": 30941,
+    "en_size_bytes": 30017
   },
   {
     "id": 95,
@@ -936,8 +936,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/95",
     "en_url": "https://mirai-shigoto.com/en/95",
-    "ja_size_bytes": 19839,
-    "en_size_bytes": 19019
+    "ja_size_bytes": 31071,
+    "en_size_bytes": 30155
   },
   {
     "id": 96,
@@ -946,8 +946,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/96",
     "en_url": "https://mirai-shigoto.com/en/96",
-    "ja_size_bytes": 19739,
-    "en_size_bytes": 18910
+    "ja_size_bytes": 30968,
+    "en_size_bytes": 30042
   },
   {
     "id": 97,
@@ -956,8 +956,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/97",
     "en_url": "https://mirai-shigoto.com/en/97",
-    "ja_size_bytes": 19605,
-    "en_size_bytes": 18753
+    "ja_size_bytes": 30831,
+    "en_size_bytes": 29880
   },
   {
     "id": 98,
@@ -966,8 +966,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/98",
     "en_url": "https://mirai-shigoto.com/en/98",
-    "ja_size_bytes": 19693,
-    "en_size_bytes": 18844
+    "ja_size_bytes": 30925,
+    "en_size_bytes": 29968
   },
   {
     "id": 99,
@@ -976,8 +976,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/99",
     "en_url": "https://mirai-shigoto.com/en/99",
-    "ja_size_bytes": 20014,
-    "en_size_bytes": 19178
+    "ja_size_bytes": 31264,
+    "en_size_bytes": 30309
   },
   {
     "id": 100,
@@ -986,8 +986,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/100",
     "en_url": "https://mirai-shigoto.com/en/100",
-    "ja_size_bytes": 20151,
-    "en_size_bytes": 19261
+    "ja_size_bytes": 31401,
+    "en_size_bytes": 30405
   },
   {
     "id": 101,
@@ -996,8 +996,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/101",
     "en_url": "https://mirai-shigoto.com/en/101",
-    "ja_size_bytes": 19619,
-    "en_size_bytes": 18741
+    "ja_size_bytes": 30848,
+    "en_size_bytes": 29865
   },
   {
     "id": 102,
@@ -1006,8 +1006,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/102",
     "en_url": "https://mirai-shigoto.com/en/102",
-    "ja_size_bytes": 19858,
-    "en_size_bytes": 18955
+    "ja_size_bytes": 31102,
+    "en_size_bytes": 30083
   },
   {
     "id": 103,
@@ -1016,8 +1016,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/103",
     "en_url": "https://mirai-shigoto.com/en/103",
-    "ja_size_bytes": 19859,
-    "en_size_bytes": 18967
+    "ja_size_bytes": 31097,
+    "en_size_bytes": 30101
   },
   {
     "id": 104,
@@ -1026,8 +1026,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/104",
     "en_url": "https://mirai-shigoto.com/en/104",
-    "ja_size_bytes": 20062,
-    "en_size_bytes": 19162
+    "ja_size_bytes": 31315,
+    "en_size_bytes": 30295
   },
   {
     "id": 105,
@@ -1036,8 +1036,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/105",
     "en_url": "https://mirai-shigoto.com/en/105",
-    "ja_size_bytes": 19634,
-    "en_size_bytes": 18759
+    "ja_size_bytes": 30866,
+    "en_size_bytes": 29883
   },
   {
     "id": 106,
@@ -1046,8 +1046,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/106",
     "en_url": "https://mirai-shigoto.com/en/106",
-    "ja_size_bytes": 19601,
-    "en_size_bytes": 18712
+    "ja_size_bytes": 30830,
+    "en_size_bytes": 29835
   },
   {
     "id": 107,
@@ -1056,8 +1056,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/107",
     "en_url": "https://mirai-shigoto.com/en/107",
-    "ja_size_bytes": 19642,
-    "en_size_bytes": 18774
+    "ja_size_bytes": 30877,
+    "en_size_bytes": 29897
   },
   {
     "id": 108,
@@ -1066,8 +1066,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/108",
     "en_url": "https://mirai-shigoto.com/en/108",
-    "ja_size_bytes": 19688,
-    "en_size_bytes": 18801
+    "ja_size_bytes": 30926,
+    "en_size_bytes": 29925
   },
   {
     "id": 109,
@@ -1076,8 +1076,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/109",
     "en_url": "https://mirai-shigoto.com/en/109",
-    "ja_size_bytes": 20076,
-    "en_size_bytes": 19234
+    "ja_size_bytes": 31323,
+    "en_size_bytes": 30375
   },
   {
     "id": 110,
@@ -1086,8 +1086,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/110",
     "en_url": "https://mirai-shigoto.com/en/110",
-    "ja_size_bytes": 19850,
-    "en_size_bytes": 18997
+    "ja_size_bytes": 31094,
+    "en_size_bytes": 30125
   },
   {
     "id": 111,
@@ -1096,8 +1096,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/111",
     "en_url": "https://mirai-shigoto.com/en/111",
-    "ja_size_bytes": 19849,
-    "en_size_bytes": 18963
+    "ja_size_bytes": 31087,
+    "en_size_bytes": 30098
   },
   {
     "id": 112,
@@ -1106,8 +1106,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/112",
     "en_url": "https://mirai-shigoto.com/en/112",
-    "ja_size_bytes": 19813,
-    "en_size_bytes": 18917
+    "ja_size_bytes": 31051,
+    "en_size_bytes": 30047
   },
   {
     "id": 113,
@@ -1116,8 +1116,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/113",
     "en_url": "https://mirai-shigoto.com/en/113",
-    "ja_size_bytes": 19554,
-    "en_size_bytes": 18677
+    "ja_size_bytes": 30783,
+    "en_size_bytes": 29797
   },
   {
     "id": 114,
@@ -1126,8 +1126,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/114",
     "en_url": "https://mirai-shigoto.com/en/114",
-    "ja_size_bytes": 20018,
-    "en_size_bytes": 19165
+    "ja_size_bytes": 31250,
+    "en_size_bytes": 30321
   },
   {
     "id": 115,
@@ -1136,8 +1136,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/115",
     "en_url": "https://mirai-shigoto.com/en/115",
-    "ja_size_bytes": 19454,
-    "en_size_bytes": 18590
+    "ja_size_bytes": 30680,
+    "en_size_bytes": 29710
   },
   {
     "id": 116,
@@ -1146,8 +1146,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/116",
     "en_url": "https://mirai-shigoto.com/en/116",
-    "ja_size_bytes": 19574,
-    "en_size_bytes": 18693
+    "ja_size_bytes": 30800,
+    "en_size_bytes": 29819
   },
   {
     "id": 117,
@@ -1156,8 +1156,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/117",
     "en_url": "https://mirai-shigoto.com/en/117",
-    "ja_size_bytes": 19743,
-    "en_size_bytes": 18884
+    "ja_size_bytes": 30984,
+    "en_size_bytes": 30009
   },
   {
     "id": 118,
@@ -1166,8 +1166,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/118",
     "en_url": "https://mirai-shigoto.com/en/118",
-    "ja_size_bytes": 19986,
-    "en_size_bytes": 19075
+    "ja_size_bytes": 31239,
+    "en_size_bytes": 30202
   },
   {
     "id": 119,
@@ -1176,8 +1176,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/119",
     "en_url": "https://mirai-shigoto.com/en/119",
-    "ja_size_bytes": 19913,
-    "en_size_bytes": 18982
+    "ja_size_bytes": 31151,
+    "en_size_bytes": 30118
   },
   {
     "id": 120,
@@ -1186,8 +1186,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/120",
     "en_url": "https://mirai-shigoto.com/en/120",
-    "ja_size_bytes": 20051,
-    "en_size_bytes": 19171
+    "ja_size_bytes": 31304,
+    "en_size_bytes": 30302
   },
   {
     "id": 121,
@@ -1196,8 +1196,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/121",
     "en_url": "https://mirai-shigoto.com/en/121",
-    "ja_size_bytes": 19982,
-    "en_size_bytes": 19098
+    "ja_size_bytes": 31223,
+    "en_size_bytes": 30237
   },
   {
     "id": 122,
@@ -1206,8 +1206,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/122",
     "en_url": "https://mirai-shigoto.com/en/122",
-    "ja_size_bytes": 19902,
-    "en_size_bytes": 18989
+    "ja_size_bytes": 31137,
+    "en_size_bytes": 30126
   },
   {
     "id": 123,
@@ -1216,8 +1216,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/123",
     "en_url": "https://mirai-shigoto.com/en/123",
-    "ja_size_bytes": 20017,
-    "en_size_bytes": 19126
+    "ja_size_bytes": 31264,
+    "en_size_bytes": 30258
   },
   {
     "id": 124,
@@ -1226,8 +1226,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/124",
     "en_url": "https://mirai-shigoto.com/en/124",
-    "ja_size_bytes": 20118,
-    "en_size_bytes": 19257
+    "ja_size_bytes": 31368,
+    "en_size_bytes": 30395
   },
   {
     "id": 125,
@@ -1236,8 +1236,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/125",
     "en_url": "https://mirai-shigoto.com/en/125",
-    "ja_size_bytes": 20356,
-    "en_size_bytes": 19477
+    "ja_size_bytes": 31612,
+    "en_size_bytes": 30627
   },
   {
     "id": 126,
@@ -1246,8 +1246,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/126",
     "en_url": "https://mirai-shigoto.com/en/126",
-    "ja_size_bytes": 19700,
-    "en_size_bytes": 18832
+    "ja_size_bytes": 30935,
+    "en_size_bytes": 29957
   },
   {
     "id": 127,
@@ -1256,8 +1256,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/127",
     "en_url": "https://mirai-shigoto.com/en/127",
-    "ja_size_bytes": 19707,
-    "en_size_bytes": 18821
+    "ja_size_bytes": 30942,
+    "en_size_bytes": 29946
   },
   {
     "id": 128,
@@ -1266,8 +1266,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/128",
     "en_url": "https://mirai-shigoto.com/en/128",
-    "ja_size_bytes": 19672,
-    "en_size_bytes": 18759
+    "ja_size_bytes": 30904,
+    "en_size_bytes": 29884
   },
   {
     "id": 129,
@@ -1276,8 +1276,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/129",
     "en_url": "https://mirai-shigoto.com/en/129",
-    "ja_size_bytes": 19965,
-    "en_size_bytes": 19093
+    "ja_size_bytes": 31206,
+    "en_size_bytes": 30230
   },
   {
     "id": 130,
@@ -1286,8 +1286,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/130",
     "en_url": "https://mirai-shigoto.com/en/130",
-    "ja_size_bytes": 20108,
-    "en_size_bytes": 19267
+    "ja_size_bytes": 31361,
+    "en_size_bytes": 30406
   },
   {
     "id": 131,
@@ -1296,8 +1296,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/131",
     "en_url": "https://mirai-shigoto.com/en/131",
-    "ja_size_bytes": 19799,
-    "en_size_bytes": 18942
+    "ja_size_bytes": 31025,
+    "en_size_bytes": 30082
   },
   {
     "id": 132,
@@ -1306,8 +1306,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/132",
     "en_url": "https://mirai-shigoto.com/en/132",
-    "ja_size_bytes": 20033,
-    "en_size_bytes": 19191
+    "ja_size_bytes": 31293,
+    "en_size_bytes": 30317
   },
   {
     "id": 133,
@@ -1316,8 +1316,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/133",
     "en_url": "https://mirai-shigoto.com/en/133",
-    "ja_size_bytes": 20137,
-    "en_size_bytes": 19287
+    "ja_size_bytes": 31391,
+    "en_size_bytes": 30426
   },
   {
     "id": 134,
@@ -1326,8 +1326,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/134",
     "en_url": "https://mirai-shigoto.com/en/134",
-    "ja_size_bytes": 19786,
-    "en_size_bytes": 18899
+    "ja_size_bytes": 31018,
+    "en_size_bytes": 30033
   },
   {
     "id": 135,
@@ -1336,8 +1336,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/135",
     "en_url": "https://mirai-shigoto.com/en/135",
-    "ja_size_bytes": 19887,
-    "en_size_bytes": 18983
+    "ja_size_bytes": 31119,
+    "en_size_bytes": 30122
   },
   {
     "id": 136,
@@ -1346,8 +1346,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/136",
     "en_url": "https://mirai-shigoto.com/en/136",
-    "ja_size_bytes": 20437,
-    "en_size_bytes": 19591
+    "ja_size_bytes": 31718,
+    "en_size_bytes": 30721
   },
   {
     "id": 137,
@@ -1356,8 +1356,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/137",
     "en_url": "https://mirai-shigoto.com/en/137",
-    "ja_size_bytes": 20120,
-    "en_size_bytes": 19220
+    "ja_size_bytes": 31364,
+    "en_size_bytes": 30362
   },
   {
     "id": 138,
@@ -1366,8 +1366,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/138",
     "en_url": "https://mirai-shigoto.com/en/138",
-    "ja_size_bytes": 20337,
-    "en_size_bytes": 19440
+    "ja_size_bytes": 31587,
+    "en_size_bytes": 30593
   },
   {
     "id": 139,
@@ -1376,8 +1376,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/139",
     "en_url": "https://mirai-shigoto.com/en/139",
-    "ja_size_bytes": 20293,
-    "en_size_bytes": 19398
+    "ja_size_bytes": 31543,
+    "en_size_bytes": 30548
   },
   {
     "id": 140,
@@ -1386,8 +1386,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/140",
     "en_url": "https://mirai-shigoto.com/en/140",
-    "ja_size_bytes": 19240,
-    "en_size_bytes": 18464
+    "ja_size_bytes": 30490,
+    "en_size_bytes": 29592
   },
   {
     "id": 141,
@@ -1396,8 +1396,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/141",
     "en_url": "https://mirai-shigoto.com/en/141",
-    "ja_size_bytes": 19015,
-    "en_size_bytes": 18182
+    "ja_size_bytes": 30247,
+    "en_size_bytes": 29315
   },
   {
     "id": 142,
@@ -1406,8 +1406,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/142",
     "en_url": "https://mirai-shigoto.com/en/142",
-    "ja_size_bytes": 18974,
-    "en_size_bytes": 18118
+    "ja_size_bytes": 30206,
+    "en_size_bytes": 29257
   },
   {
     "id": 143,
@@ -1416,8 +1416,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/143",
     "en_url": "https://mirai-shigoto.com/en/143",
-    "ja_size_bytes": 19894,
-    "en_size_bytes": 19051
+    "ja_size_bytes": 31126,
+    "en_size_bytes": 30196
   },
   {
     "id": 144,
@@ -1426,8 +1426,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/144",
     "en_url": "https://mirai-shigoto.com/en/144",
-    "ja_size_bytes": 18634,
-    "en_size_bytes": 17797
+    "ja_size_bytes": 29860,
+    "en_size_bytes": 28916
   },
   {
     "id": 145,
@@ -1436,8 +1436,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/145",
     "en_url": "https://mirai-shigoto.com/en/145",
-    "ja_size_bytes": 18695,
-    "en_size_bytes": 17865
+    "ja_size_bytes": 29921,
+    "en_size_bytes": 28989
   },
   {
     "id": 146,
@@ -1446,8 +1446,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/146",
     "en_url": "https://mirai-shigoto.com/en/146",
-    "ja_size_bytes": 19930,
-    "en_size_bytes": 19103
+    "ja_size_bytes": 31171,
+    "en_size_bytes": 30242
   },
   {
     "id": 147,
@@ -1456,8 +1456,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/147",
     "en_url": "https://mirai-shigoto.com/en/147",
-    "ja_size_bytes": 19834,
-    "en_size_bytes": 19025
+    "ja_size_bytes": 31063,
+    "en_size_bytes": 30168
   },
   {
     "id": 148,
@@ -1466,8 +1466,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/148",
     "en_url": "https://mirai-shigoto.com/en/148",
-    "ja_size_bytes": 18834,
-    "en_size_bytes": 18074
+    "ja_size_bytes": 30060,
+    "en_size_bytes": 29202
   },
   {
     "id": 149,
@@ -1476,8 +1476,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/149",
     "en_url": "https://mirai-shigoto.com/en/149",
-    "ja_size_bytes": 19754,
-    "en_size_bytes": 18908
+    "ja_size_bytes": 30986,
+    "en_size_bytes": 30040
   },
   {
     "id": 150,
@@ -1486,8 +1486,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/150",
     "en_url": "https://mirai-shigoto.com/en/150",
-    "ja_size_bytes": 19795,
-    "en_size_bytes": 18981
+    "ja_size_bytes": 31042,
+    "en_size_bytes": 30103
   },
   {
     "id": 151,
@@ -1496,8 +1496,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/151",
     "en_url": "https://mirai-shigoto.com/en/151",
-    "ja_size_bytes": 19748,
-    "en_size_bytes": 19005
+    "ja_size_bytes": 30980,
+    "en_size_bytes": 30146
   },
   {
     "id": 152,
@@ -1506,8 +1506,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/152",
     "en_url": "https://mirai-shigoto.com/en/152",
-    "ja_size_bytes": 19196,
-    "en_size_bytes": 18336
+    "ja_size_bytes": 30428,
+    "en_size_bytes": 29483
   },
   {
     "id": 153,
@@ -1516,8 +1516,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/153",
     "en_url": "https://mirai-shigoto.com/en/153",
-    "ja_size_bytes": 19195,
-    "en_size_bytes": 18387
+    "ja_size_bytes": 30427,
+    "en_size_bytes": 29536
   },
   {
     "id": 154,
@@ -1526,8 +1526,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/154",
     "en_url": "https://mirai-shigoto.com/en/154",
-    "ja_size_bytes": 19119,
-    "en_size_bytes": 18300
+    "ja_size_bytes": 30351,
+    "en_size_bytes": 29444
   },
   {
     "id": 155,
@@ -1536,8 +1536,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/155",
     "en_url": "https://mirai-shigoto.com/en/155",
-    "ja_size_bytes": 19489,
-    "en_size_bytes": 18699
+    "ja_size_bytes": 30715,
+    "en_size_bytes": 29824
   },
   {
     "id": 156,
@@ -1546,8 +1546,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/156",
     "en_url": "https://mirai-shigoto.com/en/156",
-    "ja_size_bytes": 19436,
-    "en_size_bytes": 18612
+    "ja_size_bytes": 30662,
+    "en_size_bytes": 29731
   },
   {
     "id": 157,
@@ -1556,8 +1556,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/157",
     "en_url": "https://mirai-shigoto.com/en/157",
-    "ja_size_bytes": 19437,
-    "en_size_bytes": 18618
+    "ja_size_bytes": 30663,
+    "en_size_bytes": 29739
   },
   {
     "id": 158,
@@ -1566,8 +1566,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/158",
     "en_url": "https://mirai-shigoto.com/en/158",
-    "ja_size_bytes": 19527,
-    "en_size_bytes": 18697
+    "ja_size_bytes": 30753,
+    "en_size_bytes": 29821
   },
   {
     "id": 159,
@@ -1576,8 +1576,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/159",
     "en_url": "https://mirai-shigoto.com/en/159",
-    "ja_size_bytes": 19507,
-    "en_size_bytes": 18691
+    "ja_size_bytes": 30736,
+    "en_size_bytes": 29812
   },
   {
     "id": 160,
@@ -1586,8 +1586,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/160",
     "en_url": "https://mirai-shigoto.com/en/160",
-    "ja_size_bytes": 19646,
-    "en_size_bytes": 18844
+    "ja_size_bytes": 30872,
+    "en_size_bytes": 29977
   },
   {
     "id": 161,
@@ -1596,8 +1596,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/161",
     "en_url": "https://mirai-shigoto.com/en/161",
-    "ja_size_bytes": 19921,
-    "en_size_bytes": 19099
+    "ja_size_bytes": 31156,
+    "en_size_bytes": 30245
   },
   {
     "id": 162,
@@ -1606,8 +1606,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/162",
     "en_url": "https://mirai-shigoto.com/en/162",
-    "ja_size_bytes": 19711,
-    "en_size_bytes": 18870
+    "ja_size_bytes": 30943,
+    "en_size_bytes": 30000
   },
   {
     "id": 163,
@@ -1616,8 +1616,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/163",
     "en_url": "https://mirai-shigoto.com/en/163",
-    "ja_size_bytes": 19842,
-    "en_size_bytes": 19018
+    "ja_size_bytes": 31080,
+    "en_size_bytes": 30154
   },
   {
     "id": 164,
@@ -1626,8 +1626,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/164",
     "en_url": "https://mirai-shigoto.com/en/164",
-    "ja_size_bytes": 19736,
-    "en_size_bytes": 18885
+    "ja_size_bytes": 30971,
+    "en_size_bytes": 30016
   },
   {
     "id": 165,
@@ -1636,8 +1636,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/165",
     "en_url": "https://mirai-shigoto.com/en/165",
-    "ja_size_bytes": 19703,
-    "en_size_bytes": 18868
+    "ja_size_bytes": 30935,
+    "en_size_bytes": 29999
   },
   {
     "id": 166,
@@ -1646,8 +1646,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/166",
     "en_url": "https://mirai-shigoto.com/en/166",
-    "ja_size_bytes": 19710,
-    "en_size_bytes": 18842
+    "ja_size_bytes": 30942,
+    "en_size_bytes": 29972
   },
   {
     "id": 167,
@@ -1656,8 +1656,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/167",
     "en_url": "https://mirai-shigoto.com/en/167",
-    "ja_size_bytes": 19777,
-    "en_size_bytes": 18971
+    "ja_size_bytes": 31017,
+    "en_size_bytes": 30103
   },
   {
     "id": 168,
@@ -1666,8 +1666,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/168",
     "en_url": "https://mirai-shigoto.com/en/168",
-    "ja_size_bytes": 19823,
-    "en_size_bytes": 18995
+    "ja_size_bytes": 31063,
+    "en_size_bytes": 30131
   },
   {
     "id": 169,
@@ -1676,8 +1676,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/169",
     "en_url": "https://mirai-shigoto.com/en/169",
-    "ja_size_bytes": 19800,
-    "en_size_bytes": 18966
+    "ja_size_bytes": 31032,
+    "en_size_bytes": 30105
   },
   {
     "id": 170,
@@ -1686,8 +1686,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/170",
     "en_url": "https://mirai-shigoto.com/en/170",
-    "ja_size_bytes": 19586,
-    "en_size_bytes": 18744
+    "ja_size_bytes": 30818,
+    "en_size_bytes": 29868
   },
   {
     "id": 171,
@@ -1696,8 +1696,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/171",
     "en_url": "https://mirai-shigoto.com/en/171",
-    "ja_size_bytes": 19525,
-    "en_size_bytes": 18711
+    "ja_size_bytes": 30751,
+    "en_size_bytes": 29834
   },
   {
     "id": 172,
@@ -1706,8 +1706,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/172",
     "en_url": "https://mirai-shigoto.com/en/172",
-    "ja_size_bytes": 20114,
-    "en_size_bytes": 19269
+    "ja_size_bytes": 31364,
+    "en_size_bytes": 30413
   },
   {
     "id": 173,
@@ -1716,8 +1716,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/173",
     "en_url": "https://mirai-shigoto.com/en/173",
-    "ja_size_bytes": 19831,
-    "en_size_bytes": 18998
+    "ja_size_bytes": 31063,
+    "en_size_bytes": 30139
   },
   {
     "id": 174,
@@ -1726,8 +1726,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/174",
     "en_url": "https://mirai-shigoto.com/en/174",
-    "ja_size_bytes": 19887,
-    "en_size_bytes": 19054
+    "ja_size_bytes": 31125,
+    "en_size_bytes": 30191
   },
   {
     "id": 175,
@@ -1736,8 +1736,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/175",
     "en_url": "https://mirai-shigoto.com/en/175",
-    "ja_size_bytes": 20004,
-    "en_size_bytes": 19189
+    "ja_size_bytes": 31245,
+    "en_size_bytes": 30333
   },
   {
     "id": 176,
@@ -1746,8 +1746,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/176",
     "en_url": "https://mirai-shigoto.com/en/176",
-    "ja_size_bytes": 19836,
-    "en_size_bytes": 19003
+    "ja_size_bytes": 31068,
+    "en_size_bytes": 30140
   },
   {
     "id": 178,
@@ -1756,8 +1756,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/178",
     "en_url": "https://mirai-shigoto.com/en/178",
-    "ja_size_bytes": 19743,
-    "en_size_bytes": 18974
+    "ja_size_bytes": 30975,
+    "en_size_bytes": 30108
   },
   {
     "id": 179,
@@ -1766,8 +1766,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/179",
     "en_url": "https://mirai-shigoto.com/en/179",
-    "ja_size_bytes": 19814,
-    "en_size_bytes": 19001
+    "ja_size_bytes": 31046,
+    "en_size_bytes": 30140
   },
   {
     "id": 180,
@@ -1776,8 +1776,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/180",
     "en_url": "https://mirai-shigoto.com/en/180",
-    "ja_size_bytes": 19763,
-    "en_size_bytes": 18954
+    "ja_size_bytes": 30995,
+    "en_size_bytes": 30089
   },
   {
     "id": 181,
@@ -1786,8 +1786,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/181",
     "en_url": "https://mirai-shigoto.com/en/181",
-    "ja_size_bytes": 19826,
-    "en_size_bytes": 19010
+    "ja_size_bytes": 31061,
+    "en_size_bytes": 30149
   },
   {
     "id": 182,
@@ -1796,8 +1796,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/182",
     "en_url": "https://mirai-shigoto.com/en/182",
-    "ja_size_bytes": 19631,
-    "en_size_bytes": 18774
+    "ja_size_bytes": 30863,
+    "en_size_bytes": 29897
   },
   {
     "id": 183,
@@ -1806,8 +1806,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/183",
     "en_url": "https://mirai-shigoto.com/en/183",
-    "ja_size_bytes": 19784,
-    "en_size_bytes": 18974
+    "ja_size_bytes": 31019,
+    "en_size_bytes": 30107
   },
   {
     "id": 184,
@@ -1816,8 +1816,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/184",
     "en_url": "https://mirai-shigoto.com/en/184",
-    "ja_size_bytes": 20003,
-    "en_size_bytes": 19166
+    "ja_size_bytes": 31247,
+    "en_size_bytes": 30306
   },
   {
     "id": 185,
@@ -1826,8 +1826,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/185",
     "en_url": "https://mirai-shigoto.com/en/185",
-    "ja_size_bytes": 19736,
-    "en_size_bytes": 18868
+    "ja_size_bytes": 30962,
+    "en_size_bytes": 30008
   },
   {
     "id": 186,
@@ -1836,8 +1836,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/186",
     "en_url": "https://mirai-shigoto.com/en/186",
-    "ja_size_bytes": 19768,
-    "en_size_bytes": 18918
+    "ja_size_bytes": 31006,
+    "en_size_bytes": 30048
   },
   {
     "id": 187,
@@ -1846,8 +1846,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/187",
     "en_url": "https://mirai-shigoto.com/en/187",
-    "ja_size_bytes": 19847,
-    "en_size_bytes": 19026
+    "ja_size_bytes": 31085,
+    "en_size_bytes": 30162
   },
   {
     "id": 188,
@@ -1856,8 +1856,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/188",
     "en_url": "https://mirai-shigoto.com/en/188",
-    "ja_size_bytes": 19712,
-    "en_size_bytes": 18867
+    "ja_size_bytes": 30950,
+    "en_size_bytes": 29992
   },
   {
     "id": 189,
@@ -1866,8 +1866,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/189",
     "en_url": "https://mirai-shigoto.com/en/189",
-    "ja_size_bytes": 19417,
-    "en_size_bytes": 18555
+    "ja_size_bytes": 30649,
+    "en_size_bytes": 29674
   },
   {
     "id": 190,
@@ -1876,8 +1876,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/190",
     "en_url": "https://mirai-shigoto.com/en/190",
-    "ja_size_bytes": 19499,
-    "en_size_bytes": 18644
+    "ja_size_bytes": 30725,
+    "en_size_bytes": 29767
   },
   {
     "id": 191,
@@ -1886,8 +1886,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/191",
     "en_url": "https://mirai-shigoto.com/en/191",
-    "ja_size_bytes": 19514,
-    "en_size_bytes": 18627
+    "ja_size_bytes": 30746,
+    "en_size_bytes": 29756
   },
   {
     "id": 192,
@@ -1896,8 +1896,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/192",
     "en_url": "https://mirai-shigoto.com/en/192",
-    "ja_size_bytes": 19640,
-    "en_size_bytes": 18794
+    "ja_size_bytes": 30872,
+    "en_size_bytes": 29920
   },
   {
     "id": 193,
@@ -1906,8 +1906,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/193",
     "en_url": "https://mirai-shigoto.com/en/193",
-    "ja_size_bytes": 19642,
-    "en_size_bytes": 18821
+    "ja_size_bytes": 30871,
+    "en_size_bytes": 29950
   },
   {
     "id": 194,
@@ -1916,8 +1916,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/194",
     "en_url": "https://mirai-shigoto.com/en/194",
-    "ja_size_bytes": 19974,
-    "en_size_bytes": 19120
+    "ja_size_bytes": 31221,
+    "en_size_bytes": 30254
   },
   {
     "id": 195,
@@ -1926,8 +1926,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/195",
     "en_url": "https://mirai-shigoto.com/en/195",
-    "ja_size_bytes": 19594,
-    "en_size_bytes": 18756
+    "ja_size_bytes": 30820,
+    "en_size_bytes": 29883
   },
   {
     "id": 196,
@@ -1936,8 +1936,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/196",
     "en_url": "https://mirai-shigoto.com/en/196",
-    "ja_size_bytes": 20090,
-    "en_size_bytes": 19234
+    "ja_size_bytes": 31340,
+    "en_size_bytes": 30374
   },
   {
     "id": 197,
@@ -1946,8 +1946,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/197",
     "en_url": "https://mirai-shigoto.com/en/197",
-    "ja_size_bytes": 19724,
-    "en_size_bytes": 18835
+    "ja_size_bytes": 30959,
+    "en_size_bytes": 29962
   },
   {
     "id": 198,
@@ -1956,8 +1956,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/198",
     "en_url": "https://mirai-shigoto.com/en/198",
-    "ja_size_bytes": 20056,
-    "en_size_bytes": 19202
+    "ja_size_bytes": 31312,
+    "en_size_bytes": 30333
   },
   {
     "id": 199,
@@ -1966,8 +1966,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/199",
     "en_url": "https://mirai-shigoto.com/en/199",
-    "ja_size_bytes": 19902,
-    "en_size_bytes": 19012
+    "ja_size_bytes": 31146,
+    "en_size_bytes": 30144
   },
   {
     "id": 200,
@@ -1976,8 +1976,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/200",
     "en_url": "https://mirai-shigoto.com/en/200",
-    "ja_size_bytes": 19988,
-    "en_size_bytes": 19133
+    "ja_size_bytes": 31241,
+    "en_size_bytes": 30262
   },
   {
     "id": 201,
@@ -1986,8 +1986,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/201",
     "en_url": "https://mirai-shigoto.com/en/201",
-    "ja_size_bytes": 19537,
-    "en_size_bytes": 18689
+    "ja_size_bytes": 30769,
+    "en_size_bytes": 29808
   },
   {
     "id": 202,
@@ -1996,8 +1996,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/202",
     "en_url": "https://mirai-shigoto.com/en/202",
-    "ja_size_bytes": 19786,
-    "en_size_bytes": 18887
+    "ja_size_bytes": 31012,
+    "en_size_bytes": 30027
   },
   {
     "id": 203,
@@ -2006,8 +2006,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/203",
     "en_url": "https://mirai-shigoto.com/en/203",
-    "ja_size_bytes": 19769,
-    "en_size_bytes": 18935
+    "ja_size_bytes": 31001,
+    "en_size_bytes": 30071
   },
   {
     "id": 204,
@@ -2016,8 +2016,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/204",
     "en_url": "https://mirai-shigoto.com/en/204",
-    "ja_size_bytes": 20221,
-    "en_size_bytes": 19419
+    "ja_size_bytes": 31492,
+    "en_size_bytes": 30550
   },
   {
     "id": 205,
@@ -2026,8 +2026,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/205",
     "en_url": "https://mirai-shigoto.com/en/205",
-    "ja_size_bytes": 19888,
-    "en_size_bytes": 19004
+    "ja_size_bytes": 31120,
+    "en_size_bytes": 30147
   },
   {
     "id": 206,
@@ -2036,8 +2036,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/206",
     "en_url": "https://mirai-shigoto.com/en/206",
-    "ja_size_bytes": 19719,
-    "en_size_bytes": 18869
+    "ja_size_bytes": 30951,
+    "en_size_bytes": 30000
   },
   {
     "id": 207,
@@ -2046,8 +2046,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/207",
     "en_url": "https://mirai-shigoto.com/en/207",
-    "ja_size_bytes": 19541,
-    "en_size_bytes": 18675
+    "ja_size_bytes": 30764,
+    "en_size_bytes": 29805
   },
   {
     "id": 208,
@@ -2056,8 +2056,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/208",
     "en_url": "https://mirai-shigoto.com/en/208",
-    "ja_size_bytes": 19643,
-    "en_size_bytes": 18806
+    "ja_size_bytes": 30872,
+    "en_size_bytes": 29938
   },
   {
     "id": 209,
@@ -2066,8 +2066,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/209",
     "en_url": "https://mirai-shigoto.com/en/209",
-    "ja_size_bytes": 19625,
-    "en_size_bytes": 18781
+    "ja_size_bytes": 30854,
+    "en_size_bytes": 29912
   },
   {
     "id": 210,
@@ -2076,8 +2076,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/210",
     "en_url": "https://mirai-shigoto.com/en/210",
-    "ja_size_bytes": 19612,
-    "en_size_bytes": 18749
+    "ja_size_bytes": 30844,
+    "en_size_bytes": 29874
   },
   {
     "id": 211,
@@ -2086,8 +2086,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/211",
     "en_url": "https://mirai-shigoto.com/en/211",
-    "ja_size_bytes": 19698,
-    "en_size_bytes": 18830
+    "ja_size_bytes": 30930,
+    "en_size_bytes": 29959
   },
   {
     "id": 212,
@@ -2096,8 +2096,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/212",
     "en_url": "https://mirai-shigoto.com/en/212",
-    "ja_size_bytes": 19992,
-    "en_size_bytes": 19127
+    "ja_size_bytes": 31245,
+    "en_size_bytes": 30259
   },
   {
     "id": 213,
@@ -2106,8 +2106,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/213",
     "en_url": "https://mirai-shigoto.com/en/213",
-    "ja_size_bytes": 19876,
-    "en_size_bytes": 19036
+    "ja_size_bytes": 31114,
+    "en_size_bytes": 30174
   },
   {
     "id": 214,
@@ -2116,8 +2116,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/214",
     "en_url": "https://mirai-shigoto.com/en/214",
-    "ja_size_bytes": 19683,
-    "en_size_bytes": 18816
+    "ja_size_bytes": 30915,
+    "en_size_bytes": 29942
   },
   {
     "id": 215,
@@ -2126,8 +2126,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/215",
     "en_url": "https://mirai-shigoto.com/en/215",
-    "ja_size_bytes": 19691,
-    "en_size_bytes": 18804
+    "ja_size_bytes": 30920,
+    "en_size_bytes": 29936
   },
   {
     "id": 216,
@@ -2136,8 +2136,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/216",
     "en_url": "https://mirai-shigoto.com/en/216",
-    "ja_size_bytes": 19666,
-    "en_size_bytes": 18789
+    "ja_size_bytes": 30901,
+    "en_size_bytes": 29912
   },
   {
     "id": 217,
@@ -2146,8 +2146,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/217",
     "en_url": "https://mirai-shigoto.com/en/217",
-    "ja_size_bytes": 19882,
-    "en_size_bytes": 18981
+    "ja_size_bytes": 31123,
+    "en_size_bytes": 30113
   },
   {
     "id": 218,
@@ -2156,8 +2156,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/218",
     "en_url": "https://mirai-shigoto.com/en/218",
-    "ja_size_bytes": 19861,
-    "en_size_bytes": 18988
+    "ja_size_bytes": 31096,
+    "en_size_bytes": 30127
   },
   {
     "id": 219,
@@ -2166,8 +2166,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/219",
     "en_url": "https://mirai-shigoto.com/en/219",
-    "ja_size_bytes": 20146,
-    "en_size_bytes": 19331
+    "ja_size_bytes": 31402,
+    "en_size_bytes": 30472
   },
   {
     "id": 220,
@@ -2176,8 +2176,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/220",
     "en_url": "https://mirai-shigoto.com/en/220",
-    "ja_size_bytes": 19668,
-    "en_size_bytes": 18806
+    "ja_size_bytes": 30903,
+    "en_size_bytes": 29930
   },
   {
     "id": 221,
@@ -2186,8 +2186,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/221",
     "en_url": "https://mirai-shigoto.com/en/221",
-    "ja_size_bytes": 19754,
-    "en_size_bytes": 18899
+    "ja_size_bytes": 30986,
+    "en_size_bytes": 30034
   },
   {
     "id": 222,
@@ -2196,8 +2196,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/222",
     "en_url": "https://mirai-shigoto.com/en/222",
-    "ja_size_bytes": 19638,
-    "en_size_bytes": 18793
+    "ja_size_bytes": 30864,
+    "en_size_bytes": 29925
   },
   {
     "id": 223,
@@ -2206,8 +2206,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/223",
     "en_url": "https://mirai-shigoto.com/en/223",
-    "ja_size_bytes": 19584,
-    "en_size_bytes": 18716
+    "ja_size_bytes": 30810,
+    "en_size_bytes": 29842
   },
   {
     "id": 224,
@@ -2216,8 +2216,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/224",
     "en_url": "https://mirai-shigoto.com/en/224",
-    "ja_size_bytes": 19671,
-    "en_size_bytes": 18842
+    "ja_size_bytes": 30906,
+    "en_size_bytes": 29971
   },
   {
     "id": 225,
@@ -2226,8 +2226,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/225",
     "en_url": "https://mirai-shigoto.com/en/225",
-    "ja_size_bytes": 19761,
-    "en_size_bytes": 18898
+    "ja_size_bytes": 30987,
+    "en_size_bytes": 30039
   },
   {
     "id": 226,
@@ -2236,8 +2236,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/226",
     "en_url": "https://mirai-shigoto.com/en/226",
-    "ja_size_bytes": 19553,
-    "en_size_bytes": 18724
+    "ja_size_bytes": 30782,
+    "en_size_bytes": 29849
   },
   {
     "id": 227,
@@ -2246,8 +2246,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/227",
     "en_url": "https://mirai-shigoto.com/en/227",
-    "ja_size_bytes": 19682,
-    "en_size_bytes": 18834
+    "ja_size_bytes": 30911,
+    "en_size_bytes": 29969
   },
   {
     "id": 228,
@@ -2256,8 +2256,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/228",
     "en_url": "https://mirai-shigoto.com/en/228",
-    "ja_size_bytes": 19721,
-    "en_size_bytes": 18893
+    "ja_size_bytes": 30953,
+    "en_size_bytes": 30025
   },
   {
     "id": 229,
@@ -2266,8 +2266,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/229",
     "en_url": "https://mirai-shigoto.com/en/229",
-    "ja_size_bytes": 19740,
-    "en_size_bytes": 18875
+    "ja_size_bytes": 30972,
+    "en_size_bytes": 30006
   },
   {
     "id": 230,
@@ -2276,8 +2276,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/230",
     "en_url": "https://mirai-shigoto.com/en/230",
-    "ja_size_bytes": 19632,
-    "en_size_bytes": 18768
+    "ja_size_bytes": 30861,
+    "en_size_bytes": 29897
   },
   {
     "id": 231,
@@ -2286,8 +2286,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/231",
     "en_url": "https://mirai-shigoto.com/en/231",
-    "ja_size_bytes": 20199,
-    "en_size_bytes": 19314
+    "ja_size_bytes": 31452,
+    "en_size_bytes": 30454
   },
   {
     "id": 232,
@@ -2296,8 +2296,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/232",
     "en_url": "https://mirai-shigoto.com/en/232",
-    "ja_size_bytes": 20185,
-    "en_size_bytes": 19323
+    "ja_size_bytes": 31441,
+    "en_size_bytes": 30463
   },
   {
     "id": 233,
@@ -2306,8 +2306,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/233",
     "en_url": "https://mirai-shigoto.com/en/233",
-    "ja_size_bytes": 20477,
-    "en_size_bytes": 19595
+    "ja_size_bytes": 31745,
+    "en_size_bytes": 30742
   },
   {
     "id": 234,
@@ -2316,8 +2316,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/234",
     "en_url": "https://mirai-shigoto.com/en/234",
-    "ja_size_bytes": 20142,
-    "en_size_bytes": 19316
+    "ja_size_bytes": 31392,
+    "en_size_bytes": 30457
   },
   {
     "id": 235,
@@ -2326,8 +2326,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/235",
     "en_url": "https://mirai-shigoto.com/en/235",
-    "ja_size_bytes": 20202,
-    "en_size_bytes": 19308
+    "ja_size_bytes": 31452,
+    "en_size_bytes": 30452
   },
   {
     "id": 236,
@@ -2336,8 +2336,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/236",
     "en_url": "https://mirai-shigoto.com/en/236",
-    "ja_size_bytes": 20174,
-    "en_size_bytes": 19293
+    "ja_size_bytes": 31427,
+    "en_size_bytes": 30435
   },
   {
     "id": 237,
@@ -2346,8 +2346,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/237",
     "en_url": "https://mirai-shigoto.com/en/237",
-    "ja_size_bytes": 20060,
-    "en_size_bytes": 19194
+    "ja_size_bytes": 31313,
+    "en_size_bytes": 30325
   },
   {
     "id": 238,
@@ -2356,8 +2356,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/238",
     "en_url": "https://mirai-shigoto.com/en/238",
-    "ja_size_bytes": 20059,
-    "en_size_bytes": 19231
+    "ja_size_bytes": 31306,
+    "en_size_bytes": 30371
   },
   {
     "id": 239,
@@ -2366,8 +2366,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/239",
     "en_url": "https://mirai-shigoto.com/en/239",
-    "ja_size_bytes": 19995,
-    "en_size_bytes": 19185
+    "ja_size_bytes": 31236,
+    "en_size_bytes": 30328
   },
   {
     "id": 240,
@@ -2376,8 +2376,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/240",
     "en_url": "https://mirai-shigoto.com/en/240",
-    "ja_size_bytes": 20535,
-    "en_size_bytes": 19778
+    "ja_size_bytes": 31812,
+    "en_size_bytes": 30928
   },
   {
     "id": 241,
@@ -2386,8 +2386,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/241",
     "en_url": "https://mirai-shigoto.com/en/241",
-    "ja_size_bytes": 19857,
-    "en_size_bytes": 18946
+    "ja_size_bytes": 31089,
+    "en_size_bytes": 30083
   },
   {
     "id": 242,
@@ -2396,8 +2396,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/242",
     "en_url": "https://mirai-shigoto.com/en/242",
-    "ja_size_bytes": 19956,
-    "en_size_bytes": 19055
+    "ja_size_bytes": 31194,
+    "en_size_bytes": 30192
   },
   {
     "id": 243,
@@ -2406,8 +2406,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/243",
     "en_url": "https://mirai-shigoto.com/en/243",
-    "ja_size_bytes": 19835,
-    "en_size_bytes": 18906
+    "ja_size_bytes": 31067,
+    "en_size_bytes": 30040
   },
   {
     "id": 244,
@@ -2416,8 +2416,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/244",
     "en_url": "https://mirai-shigoto.com/en/244",
-    "ja_size_bytes": 20690,
-    "en_size_bytes": 19863
+    "ja_size_bytes": 31985,
+    "en_size_bytes": 31002
   },
   {
     "id": 245,
@@ -2426,8 +2426,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/245",
     "en_url": "https://mirai-shigoto.com/en/245",
-    "ja_size_bytes": 20160,
-    "en_size_bytes": 19239
+    "ja_size_bytes": 31410,
+    "en_size_bytes": 30378
   },
   {
     "id": 246,
@@ -2436,8 +2436,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/246",
     "en_url": "https://mirai-shigoto.com/en/246",
-    "ja_size_bytes": 19672,
-    "en_size_bytes": 18771
+    "ja_size_bytes": 30901,
+    "en_size_bytes": 29897
   },
   {
     "id": 247,
@@ -2446,8 +2446,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/247",
     "en_url": "https://mirai-shigoto.com/en/247",
-    "ja_size_bytes": 20051,
-    "en_size_bytes": 19224
+    "ja_size_bytes": 31295,
+    "en_size_bytes": 30364
   },
   {
     "id": 248,
@@ -2456,8 +2456,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/248",
     "en_url": "https://mirai-shigoto.com/en/248",
-    "ja_size_bytes": 20166,
-    "en_size_bytes": 19286
+    "ja_size_bytes": 31413,
+    "en_size_bytes": 30432
   },
   {
     "id": 249,
@@ -2466,8 +2466,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/249",
     "en_url": "https://mirai-shigoto.com/en/249",
-    "ja_size_bytes": 19988,
-    "en_size_bytes": 19113
+    "ja_size_bytes": 31232,
+    "en_size_bytes": 30247
   },
   {
     "id": 250,
@@ -2476,8 +2476,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/250",
     "en_url": "https://mirai-shigoto.com/en/250",
-    "ja_size_bytes": 19080,
-    "en_size_bytes": 18232
+    "ja_size_bytes": 30312,
+    "en_size_bytes": 29376
   },
   {
     "id": 251,
@@ -2486,8 +2486,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/251",
     "en_url": "https://mirai-shigoto.com/en/251",
-    "ja_size_bytes": 20266,
-    "en_size_bytes": 19410
+    "ja_size_bytes": 31523,
+    "en_size_bytes": 30557
   },
   {
     "id": 252,
@@ -2496,8 +2496,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/252",
     "en_url": "https://mirai-shigoto.com/en/252",
-    "ja_size_bytes": 20242,
-    "en_size_bytes": 19383
+    "ja_size_bytes": 31499,
+    "en_size_bytes": 30528
   },
   {
     "id": 253,
@@ -2506,8 +2506,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/253",
     "en_url": "https://mirai-shigoto.com/en/253",
-    "ja_size_bytes": 19543,
-    "en_size_bytes": 18704
+    "ja_size_bytes": 30769,
+    "en_size_bytes": 29827
   },
   {
     "id": 254,
@@ -2516,8 +2516,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/254",
     "en_url": "https://mirai-shigoto.com/en/254",
-    "ja_size_bytes": 19779,
-    "en_size_bytes": 18880
+    "ja_size_bytes": 31014,
+    "en_size_bytes": 30012
   },
   {
     "id": 255,
@@ -2526,8 +2526,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/255",
     "en_url": "https://mirai-shigoto.com/en/255",
-    "ja_size_bytes": 19446,
-    "en_size_bytes": 18609
+    "ja_size_bytes": 30672,
+    "en_size_bytes": 29729
   },
   {
     "id": 256,
@@ -2536,8 +2536,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/256",
     "en_url": "https://mirai-shigoto.com/en/256",
-    "ja_size_bytes": 19974,
-    "en_size_bytes": 19141
+    "ja_size_bytes": 31223,
+    "en_size_bytes": 30275
   },
   {
     "id": 257,
@@ -2546,8 +2546,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/257",
     "en_url": "https://mirai-shigoto.com/en/257",
-    "ja_size_bytes": 19627,
-    "en_size_bytes": 18774
+    "ja_size_bytes": 30856,
+    "en_size_bytes": 29902
   },
   {
     "id": 258,
@@ -2556,8 +2556,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/258",
     "en_url": "https://mirai-shigoto.com/en/258",
-    "ja_size_bytes": 20020,
-    "en_size_bytes": 19154
+    "ja_size_bytes": 31264,
+    "en_size_bytes": 30293
   },
   {
     "id": 259,
@@ -2566,8 +2566,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/259",
     "en_url": "https://mirai-shigoto.com/en/259",
-    "ja_size_bytes": 19961,
-    "en_size_bytes": 19099
+    "ja_size_bytes": 31208,
+    "en_size_bytes": 30232
   },
   {
     "id": 260,
@@ -2576,8 +2576,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/260",
     "en_url": "https://mirai-shigoto.com/en/260",
-    "ja_size_bytes": 20043,
-    "en_size_bytes": 19181
+    "ja_size_bytes": 31284,
+    "en_size_bytes": 30327
   },
   {
     "id": 261,
@@ -2586,8 +2586,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/261",
     "en_url": "https://mirai-shigoto.com/en/261",
-    "ja_size_bytes": 19901,
-    "en_size_bytes": 19092
+    "ja_size_bytes": 31136,
+    "en_size_bytes": 30236
   },
   {
     "id": 262,
@@ -2596,8 +2596,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/262",
     "en_url": "https://mirai-shigoto.com/en/262",
-    "ja_size_bytes": 19906,
-    "en_size_bytes": 19092
+    "ja_size_bytes": 31144,
+    "en_size_bytes": 30232
   },
   {
     "id": 263,
@@ -2606,8 +2606,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/263",
     "en_url": "https://mirai-shigoto.com/en/263",
-    "ja_size_bytes": 19889,
-    "en_size_bytes": 19070
+    "ja_size_bytes": 31124,
+    "en_size_bytes": 30211
   },
   {
     "id": 264,
@@ -2616,8 +2616,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/264",
     "en_url": "https://mirai-shigoto.com/en/264",
-    "ja_size_bytes": 19802,
-    "en_size_bytes": 18957
+    "ja_size_bytes": 31034,
+    "en_size_bytes": 30096
   },
   {
     "id": 265,
@@ -2626,8 +2626,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/265",
     "en_url": "https://mirai-shigoto.com/en/265",
-    "ja_size_bytes": 19920,
-    "en_size_bytes": 19101
+    "ja_size_bytes": 31158,
+    "en_size_bytes": 30243
   },
   {
     "id": 266,
@@ -2636,8 +2636,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/266",
     "en_url": "https://mirai-shigoto.com/en/266",
-    "ja_size_bytes": 19687,
-    "en_size_bytes": 18883
+    "ja_size_bytes": 30916,
+    "en_size_bytes": 30017
   },
   {
     "id": 267,
@@ -2646,8 +2646,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/267",
     "en_url": "https://mirai-shigoto.com/en/267",
-    "ja_size_bytes": 19808,
-    "en_size_bytes": 19005
+    "ja_size_bytes": 31043,
+    "en_size_bytes": 30141
   },
   {
     "id": 268,
@@ -2656,8 +2656,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/268",
     "en_url": "https://mirai-shigoto.com/en/268",
-    "ja_size_bytes": 19949,
-    "en_size_bytes": 19092
+    "ja_size_bytes": 31181,
+    "en_size_bytes": 30240
   },
   {
     "id": 269,
@@ -2666,8 +2666,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/269",
     "en_url": "https://mirai-shigoto.com/en/269",
-    "ja_size_bytes": 20072,
-    "en_size_bytes": 19208
+    "ja_size_bytes": 31316,
+    "en_size_bytes": 30353
   },
   {
     "id": 270,
@@ -2676,8 +2676,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/270",
     "en_url": "https://mirai-shigoto.com/en/270",
-    "ja_size_bytes": 19778,
-    "en_size_bytes": 18955
+    "ja_size_bytes": 31013,
+    "en_size_bytes": 30088
   },
   {
     "id": 271,
@@ -2686,8 +2686,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/271",
     "en_url": "https://mirai-shigoto.com/en/271",
-    "ja_size_bytes": 19947,
-    "en_size_bytes": 19139
+    "ja_size_bytes": 31185,
+    "en_size_bytes": 30282
   },
   {
     "id": 272,
@@ -2696,8 +2696,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/272",
     "en_url": "https://mirai-shigoto.com/en/272",
-    "ja_size_bytes": 19745,
-    "en_size_bytes": 18905
+    "ja_size_bytes": 30977,
+    "en_size_bytes": 30038
   },
   {
     "id": 273,
@@ -2706,8 +2706,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/273",
     "en_url": "https://mirai-shigoto.com/en/273",
-    "ja_size_bytes": 19827,
-    "en_size_bytes": 18992
+    "ja_size_bytes": 31065,
+    "en_size_bytes": 30126
   },
   {
     "id": 274,
@@ -2716,8 +2716,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/274",
     "en_url": "https://mirai-shigoto.com/en/274",
-    "ja_size_bytes": 19773,
-    "en_size_bytes": 18949
+    "ja_size_bytes": 31011,
+    "en_size_bytes": 30079
   },
   {
     "id": 275,
@@ -2726,8 +2726,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/275",
     "en_url": "https://mirai-shigoto.com/en/275",
-    "ja_size_bytes": 19785,
-    "en_size_bytes": 18955
+    "ja_size_bytes": 31014,
+    "en_size_bytes": 30095
   },
   {
     "id": 276,
@@ -2736,8 +2736,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/276",
     "en_url": "https://mirai-shigoto.com/en/276",
-    "ja_size_bytes": 20003,
-    "en_size_bytes": 19166
+    "ja_size_bytes": 31247,
+    "en_size_bytes": 30307
   },
   {
     "id": 277,
@@ -2746,8 +2746,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/277",
     "en_url": "https://mirai-shigoto.com/en/277",
-    "ja_size_bytes": 20130,
-    "en_size_bytes": 19278
+    "ja_size_bytes": 31374,
+    "en_size_bytes": 30427
   },
   {
     "id": 278,
@@ -2756,8 +2756,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/278",
     "en_url": "https://mirai-shigoto.com/en/278",
-    "ja_size_bytes": 19951,
-    "en_size_bytes": 19082
+    "ja_size_bytes": 31202,
+    "en_size_bytes": 30209
   },
   {
     "id": 279,
@@ -2766,8 +2766,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/279",
     "en_url": "https://mirai-shigoto.com/en/279",
-    "ja_size_bytes": 20007,
-    "en_size_bytes": 19133
+    "ja_size_bytes": 31264,
+    "en_size_bytes": 30259
   },
   {
     "id": 280,
@@ -2776,8 +2776,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/280",
     "en_url": "https://mirai-shigoto.com/en/280",
-    "ja_size_bytes": 19792,
-    "en_size_bytes": 18908
+    "ja_size_bytes": 31024,
+    "en_size_bytes": 30045
   },
   {
     "id": 281,
@@ -2786,8 +2786,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/281",
     "en_url": "https://mirai-shigoto.com/en/281",
-    "ja_size_bytes": 19657,
-    "en_size_bytes": 18815
+    "ja_size_bytes": 30886,
+    "en_size_bytes": 29945
   },
   {
     "id": 282,
@@ -2796,8 +2796,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/282",
     "en_url": "https://mirai-shigoto.com/en/282",
-    "ja_size_bytes": 19696,
-    "en_size_bytes": 18826
+    "ja_size_bytes": 30925,
+    "en_size_bytes": 29960
   },
   {
     "id": 283,
@@ -2806,8 +2806,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/283",
     "en_url": "https://mirai-shigoto.com/en/283",
-    "ja_size_bytes": 19609,
-    "en_size_bytes": 18784
+    "ja_size_bytes": 30838,
+    "en_size_bytes": 29913
   },
   {
     "id": 284,
@@ -2816,8 +2816,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/284",
     "en_url": "https://mirai-shigoto.com/en/284",
-    "ja_size_bytes": 20005,
-    "en_size_bytes": 19191
+    "ja_size_bytes": 31249,
+    "en_size_bytes": 30334
   },
   {
     "id": 285,
@@ -2826,8 +2826,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/285",
     "en_url": "https://mirai-shigoto.com/en/285",
-    "ja_size_bytes": 19796,
-    "en_size_bytes": 18961
+    "ja_size_bytes": 31025,
+    "en_size_bytes": 30103
   },
   {
     "id": 286,
@@ -2836,8 +2836,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/286",
     "en_url": "https://mirai-shigoto.com/en/286",
-    "ja_size_bytes": 19986,
-    "en_size_bytes": 19179
+    "ja_size_bytes": 31233,
+    "en_size_bytes": 30318
   },
   {
     "id": 287,
@@ -2846,8 +2846,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/287",
     "en_url": "https://mirai-shigoto.com/en/287",
-    "ja_size_bytes": 19693,
-    "en_size_bytes": 18829
+    "ja_size_bytes": 30922,
+    "en_size_bytes": 29965
   },
   {
     "id": 288,
@@ -2856,8 +2856,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/288",
     "en_url": "https://mirai-shigoto.com/en/288",
-    "ja_size_bytes": 19692,
-    "en_size_bytes": 18843
+    "ja_size_bytes": 30924,
+    "en_size_bytes": 29974
   },
   {
     "id": 289,
@@ -2866,8 +2866,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/289",
     "en_url": "https://mirai-shigoto.com/en/289",
-    "ja_size_bytes": 19482,
-    "en_size_bytes": 18621
+    "ja_size_bytes": 30708,
+    "en_size_bytes": 29744
   },
   {
     "id": 290,
@@ -2876,8 +2876,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/290",
     "en_url": "https://mirai-shigoto.com/en/290",
-    "ja_size_bytes": 19812,
-    "en_size_bytes": 18957
+    "ja_size_bytes": 31053,
+    "en_size_bytes": 30090
   },
   {
     "id": 291,
@@ -2886,8 +2886,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/291",
     "en_url": "https://mirai-shigoto.com/en/291",
-    "ja_size_bytes": 19757,
-    "en_size_bytes": 18935
+    "ja_size_bytes": 30986,
+    "en_size_bytes": 30075
   },
   {
     "id": 292,
@@ -2896,8 +2896,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/292",
     "en_url": "https://mirai-shigoto.com/en/292",
-    "ja_size_bytes": 19814,
-    "en_size_bytes": 18982
+    "ja_size_bytes": 31055,
+    "en_size_bytes": 30113
   },
   {
     "id": 295,
@@ -2906,8 +2906,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/295",
     "en_url": "https://mirai-shigoto.com/en/295",
-    "ja_size_bytes": 19875,
-    "en_size_bytes": 19013
+    "ja_size_bytes": 31107,
+    "en_size_bytes": 30154
   },
   {
     "id": 296,
@@ -2916,8 +2916,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/296",
     "en_url": "https://mirai-shigoto.com/en/296",
-    "ja_size_bytes": 20001,
-    "en_size_bytes": 19168
+    "ja_size_bytes": 31248,
+    "en_size_bytes": 30306
   },
   {
     "id": 297,
@@ -2926,8 +2926,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/297",
     "en_url": "https://mirai-shigoto.com/en/297",
-    "ja_size_bytes": 19728,
-    "en_size_bytes": 18847
+    "ja_size_bytes": 30960,
+    "en_size_bytes": 29978
   },
   {
     "id": 298,
@@ -2936,8 +2936,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/298",
     "en_url": "https://mirai-shigoto.com/en/298",
-    "ja_size_bytes": 19822,
-    "en_size_bytes": 18947
+    "ja_size_bytes": 31054,
+    "en_size_bytes": 30083
   },
   {
     "id": 299,
@@ -2946,8 +2946,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/299",
     "en_url": "https://mirai-shigoto.com/en/299",
-    "ja_size_bytes": 20085,
-    "en_size_bytes": 19254
+    "ja_size_bytes": 31332,
+    "en_size_bytes": 30395
   },
   {
     "id": 300,
@@ -2956,8 +2956,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/300",
     "en_url": "https://mirai-shigoto.com/en/300",
-    "ja_size_bytes": 20079,
-    "en_size_bytes": 19235
+    "ja_size_bytes": 31332,
+    "en_size_bytes": 30372
   },
   {
     "id": 301,
@@ -2966,8 +2966,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/301",
     "en_url": "https://mirai-shigoto.com/en/301",
-    "ja_size_bytes": 19871,
-    "en_size_bytes": 18983
+    "ja_size_bytes": 31106,
+    "en_size_bytes": 30119
   },
   {
     "id": 302,
@@ -2976,8 +2976,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/302",
     "en_url": "https://mirai-shigoto.com/en/302",
-    "ja_size_bytes": 19830,
-    "en_size_bytes": 18986
+    "ja_size_bytes": 31068,
+    "en_size_bytes": 30120
   },
   {
     "id": 303,
@@ -2986,8 +2986,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/303",
     "en_url": "https://mirai-shigoto.com/en/303",
-    "ja_size_bytes": 19829,
-    "en_size_bytes": 18960
+    "ja_size_bytes": 31067,
+    "en_size_bytes": 30092
   },
   {
     "id": 304,
@@ -2996,8 +2996,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/304",
     "en_url": "https://mirai-shigoto.com/en/304",
-    "ja_size_bytes": 19763,
-    "en_size_bytes": 18895
+    "ja_size_bytes": 30998,
+    "en_size_bytes": 30026
   },
   {
     "id": 305,
@@ -3006,8 +3006,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/305",
     "en_url": "https://mirai-shigoto.com/en/305",
-    "ja_size_bytes": 20180,
-    "en_size_bytes": 19329
+    "ja_size_bytes": 31442,
+    "en_size_bytes": 30465
   },
   {
     "id": 306,
@@ -3016,8 +3016,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/306",
     "en_url": "https://mirai-shigoto.com/en/306",
-    "ja_size_bytes": 19483,
-    "en_size_bytes": 18669
+    "ja_size_bytes": 30706,
+    "en_size_bytes": 29793
   },
   {
     "id": 307,
@@ -3026,8 +3026,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/307",
     "en_url": "https://mirai-shigoto.com/en/307",
-    "ja_size_bytes": 19734,
-    "en_size_bytes": 18861
+    "ja_size_bytes": 30960,
+    "en_size_bytes": 30002
   },
   {
     "id": 308,
@@ -3036,8 +3036,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/308",
     "en_url": "https://mirai-shigoto.com/en/308",
-    "ja_size_bytes": 19820,
-    "en_size_bytes": 18957
+    "ja_size_bytes": 31061,
+    "en_size_bytes": 30086
   },
   {
     "id": 309,
@@ -3046,8 +3046,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/309",
     "en_url": "https://mirai-shigoto.com/en/309",
-    "ja_size_bytes": 20067,
-    "en_size_bytes": 19204
+    "ja_size_bytes": 31320,
+    "en_size_bytes": 30340
   },
   {
     "id": 310,
@@ -3056,8 +3056,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/310",
     "en_url": "https://mirai-shigoto.com/en/310",
-    "ja_size_bytes": 19886,
-    "en_size_bytes": 18992
+    "ja_size_bytes": 31124,
+    "en_size_bytes": 30124
   },
   {
     "id": 311,
@@ -3066,8 +3066,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/311",
     "en_url": "https://mirai-shigoto.com/en/311",
-    "ja_size_bytes": 20561,
-    "en_size_bytes": 19633
+    "ja_size_bytes": 31838,
+    "en_size_bytes": 30778
   },
   {
     "id": 312,
@@ -3076,8 +3076,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/312",
     "en_url": "https://mirai-shigoto.com/en/312",
-    "ja_size_bytes": 20452,
-    "en_size_bytes": 19521
+    "ja_size_bytes": 31714,
+    "en_size_bytes": 30669
   },
   {
     "id": 313,
@@ -3086,8 +3086,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/313",
     "en_url": "https://mirai-shigoto.com/en/313",
-    "ja_size_bytes": 19832,
-    "en_size_bytes": 18864
+    "ja_size_bytes": 31067,
+    "en_size_bytes": 29988
   },
   {
     "id": 314,
@@ -3096,8 +3096,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/314",
     "en_url": "https://mirai-shigoto.com/en/314",
-    "ja_size_bytes": 20480,
-    "en_size_bytes": 19597
+    "ja_size_bytes": 31751,
+    "en_size_bytes": 30742
   },
   {
     "id": 315,
@@ -3106,8 +3106,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/315",
     "en_url": "https://mirai-shigoto.com/en/315",
-    "ja_size_bytes": 20361,
-    "en_size_bytes": 19498
+    "ja_size_bytes": 31626,
+    "en_size_bytes": 30641
   },
   {
     "id": 316,
@@ -3116,8 +3116,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/316",
     "en_url": "https://mirai-shigoto.com/en/316",
-    "ja_size_bytes": 20488,
-    "en_size_bytes": 19530
+    "ja_size_bytes": 31759,
+    "en_size_bytes": 30670
   },
   {
     "id": 317,
@@ -3126,8 +3126,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/317",
     "en_url": "https://mirai-shigoto.com/en/317",
-    "ja_size_bytes": 20325,
-    "en_size_bytes": 19370
+    "ja_size_bytes": 31590,
+    "en_size_bytes": 30504
   },
   {
     "id": 318,
@@ -3136,8 +3136,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/318",
     "en_url": "https://mirai-shigoto.com/en/318",
-    "ja_size_bytes": 20479,
-    "en_size_bytes": 19582
+    "ja_size_bytes": 31747,
+    "en_size_bytes": 30727
   },
   {
     "id": 319,
@@ -3146,8 +3146,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/319",
     "en_url": "https://mirai-shigoto.com/en/319",
-    "ja_size_bytes": 19942,
-    "en_size_bytes": 19024
+    "ja_size_bytes": 31182,
+    "en_size_bytes": 30160
   },
   {
     "id": 320,
@@ -3156,8 +3156,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/320",
     "en_url": "https://mirai-shigoto.com/en/320",
-    "ja_size_bytes": 19948,
-    "en_size_bytes": 18973
+    "ja_size_bytes": 31191,
+    "en_size_bytes": 30099
   },
   {
     "id": 321,
@@ -3166,8 +3166,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/321",
     "en_url": "https://mirai-shigoto.com/en/321",
-    "ja_size_bytes": 20597,
-    "en_size_bytes": 19656
+    "ja_size_bytes": 31877,
+    "en_size_bytes": 30796
   },
   {
     "id": 322,
@@ -3176,8 +3176,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/322",
     "en_url": "https://mirai-shigoto.com/en/322",
-    "ja_size_bytes": 20181,
-    "en_size_bytes": 19228
+    "ja_size_bytes": 31439,
+    "en_size_bytes": 30360
   },
   {
     "id": 323,
@@ -3186,8 +3186,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/323",
     "en_url": "https://mirai-shigoto.com/en/323",
-    "ja_size_bytes": 20016,
-    "en_size_bytes": 19096
+    "ja_size_bytes": 31266,
+    "en_size_bytes": 30224
   },
   {
     "id": 324,
@@ -3196,8 +3196,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/324",
     "en_url": "https://mirai-shigoto.com/en/324",
-    "ja_size_bytes": 20084,
-    "en_size_bytes": 19209
+    "ja_size_bytes": 31324,
+    "en_size_bytes": 30359
   },
   {
     "id": 325,
@@ -3206,8 +3206,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/325",
     "en_url": "https://mirai-shigoto.com/en/325",
-    "ja_size_bytes": 19719,
-    "en_size_bytes": 18832
+    "ja_size_bytes": 30953,
+    "en_size_bytes": 29957
   },
   {
     "id": 326,
@@ -3216,8 +3216,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/326",
     "en_url": "https://mirai-shigoto.com/en/326",
-    "ja_size_bytes": 20196,
-    "en_size_bytes": 19311
+    "ja_size_bytes": 31452,
+    "en_size_bytes": 30454
   },
   {
     "id": 327,
@@ -3226,8 +3226,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/327",
     "en_url": "https://mirai-shigoto.com/en/327",
-    "ja_size_bytes": 20252,
-    "en_size_bytes": 19382
+    "ja_size_bytes": 31511,
+    "en_size_bytes": 30525
   },
   {
     "id": 328,
@@ -3236,8 +3236,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/328",
     "en_url": "https://mirai-shigoto.com/en/328",
-    "ja_size_bytes": 19656,
-    "en_size_bytes": 18773
+    "ja_size_bytes": 30885,
+    "en_size_bytes": 29901
   },
   {
     "id": 329,
@@ -3246,8 +3246,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/329",
     "en_url": "https://mirai-shigoto.com/en/329",
-    "ja_size_bytes": 19538,
-    "en_size_bytes": 18703
+    "ja_size_bytes": 30763,
+    "en_size_bytes": 29830
   },
   {
     "id": 330,
@@ -3256,8 +3256,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/330",
     "en_url": "https://mirai-shigoto.com/en/330",
-    "ja_size_bytes": 19826,
-    "en_size_bytes": 18952
+    "ja_size_bytes": 31070,
+    "en_size_bytes": 30078
   },
   {
     "id": 331,
@@ -3266,8 +3266,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/331",
     "en_url": "https://mirai-shigoto.com/en/331",
-    "ja_size_bytes": 19814,
-    "en_size_bytes": 18940
+    "ja_size_bytes": 31058,
+    "en_size_bytes": 30066
   },
   {
     "id": 332,
@@ -3276,8 +3276,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/332",
     "en_url": "https://mirai-shigoto.com/en/332",
-    "ja_size_bytes": 19842,
-    "en_size_bytes": 18929
+    "ja_size_bytes": 31080,
+    "en_size_bytes": 30063
   },
   {
     "id": 333,
@@ -3286,8 +3286,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/333",
     "en_url": "https://mirai-shigoto.com/en/333",
-    "ja_size_bytes": 19900,
-    "en_size_bytes": 18984
+    "ja_size_bytes": 31141,
+    "en_size_bytes": 30118
   },
   {
     "id": 334,
@@ -3296,8 +3296,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/334",
     "en_url": "https://mirai-shigoto.com/en/334",
-    "ja_size_bytes": 19959,
-    "en_size_bytes": 19097
+    "ja_size_bytes": 31209,
+    "en_size_bytes": 30227
   },
   {
     "id": 335,
@@ -3306,8 +3306,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/335",
     "en_url": "https://mirai-shigoto.com/en/335",
-    "ja_size_bytes": 19727,
-    "en_size_bytes": 18822
+    "ja_size_bytes": 30965,
+    "en_size_bytes": 29946
   },
   {
     "id": 336,
@@ -3316,8 +3316,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/336",
     "en_url": "https://mirai-shigoto.com/en/336",
-    "ja_size_bytes": 19954,
-    "en_size_bytes": 19084
+    "ja_size_bytes": 31204,
+    "en_size_bytes": 30214
   },
   {
     "id": 337,
@@ -3326,8 +3326,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/337",
     "en_url": "https://mirai-shigoto.com/en/337",
-    "ja_size_bytes": 19986,
-    "en_size_bytes": 19039
+    "ja_size_bytes": 31233,
+    "en_size_bytes": 30170
   },
   {
     "id": 338,
@@ -3336,8 +3336,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/338",
     "en_url": "https://mirai-shigoto.com/en/338",
-    "ja_size_bytes": 20155,
-    "en_size_bytes": 19213
+    "ja_size_bytes": 31411,
+    "en_size_bytes": 30347
   },
   {
     "id": 339,
@@ -3346,8 +3346,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/339",
     "en_url": "https://mirai-shigoto.com/en/339",
-    "ja_size_bytes": 20019,
-    "en_size_bytes": 19083
+    "ja_size_bytes": 31269,
+    "en_size_bytes": 30214
   },
   {
     "id": 340,
@@ -3356,8 +3356,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/340",
     "en_url": "https://mirai-shigoto.com/en/340",
-    "ja_size_bytes": 20005,
-    "en_size_bytes": 19061
+    "ja_size_bytes": 31255,
+    "en_size_bytes": 30191
   },
   {
     "id": 341,
@@ -3366,8 +3366,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/341",
     "en_url": "https://mirai-shigoto.com/en/341",
-    "ja_size_bytes": 19667,
-    "en_size_bytes": 18774
+    "ja_size_bytes": 30899,
+    "en_size_bytes": 29901
   },
   {
     "id": 342,
@@ -3376,8 +3376,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/342",
     "en_url": "https://mirai-shigoto.com/en/342",
-    "ja_size_bytes": 19779,
-    "en_size_bytes": 18869
+    "ja_size_bytes": 31020,
+    "en_size_bytes": 29994
   },
   {
     "id": 343,
@@ -3386,8 +3386,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/343",
     "en_url": "https://mirai-shigoto.com/en/343",
-    "ja_size_bytes": 19669,
-    "en_size_bytes": 18739
+    "ja_size_bytes": 30904,
+    "en_size_bytes": 29861
   },
   {
     "id": 344,
@@ -3396,8 +3396,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/344",
     "en_url": "https://mirai-shigoto.com/en/344",
-    "ja_size_bytes": 19604,
-    "en_size_bytes": 18713
+    "ja_size_bytes": 30833,
+    "en_size_bytes": 29837
   },
   {
     "id": 345,
@@ -3406,8 +3406,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/345",
     "en_url": "https://mirai-shigoto.com/en/345",
-    "ja_size_bytes": 20101,
-    "en_size_bytes": 19183
+    "ja_size_bytes": 31357,
+    "en_size_bytes": 30318
   },
   {
     "id": 346,
@@ -3416,8 +3416,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/346",
     "en_url": "https://mirai-shigoto.com/en/346",
-    "ja_size_bytes": 19695,
-    "en_size_bytes": 18745
+    "ja_size_bytes": 30930,
+    "en_size_bytes": 29866
   },
   {
     "id": 347,
@@ -3426,8 +3426,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/347",
     "en_url": "https://mirai-shigoto.com/en/347",
-    "ja_size_bytes": 19816,
-    "en_size_bytes": 18894
+    "ja_size_bytes": 31057,
+    "en_size_bytes": 30021
   },
   {
     "id": 348,
@@ -3436,8 +3436,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/348",
     "en_url": "https://mirai-shigoto.com/en/348",
-    "ja_size_bytes": 19992,
-    "en_size_bytes": 19062
+    "ja_size_bytes": 31242,
+    "en_size_bytes": 30192
   },
   {
     "id": 349,
@@ -3446,8 +3446,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/349",
     "en_url": "https://mirai-shigoto.com/en/349",
-    "ja_size_bytes": 19920,
-    "en_size_bytes": 19002
+    "ja_size_bytes": 31164,
+    "en_size_bytes": 30131
   },
   {
     "id": 350,
@@ -3456,8 +3456,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/350",
     "en_url": "https://mirai-shigoto.com/en/350",
-    "ja_size_bytes": 19955,
-    "en_size_bytes": 19004
+    "ja_size_bytes": 31202,
+    "en_size_bytes": 30134
   },
   {
     "id": 351,
@@ -3466,8 +3466,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/351",
     "en_url": "https://mirai-shigoto.com/en/351",
-    "ja_size_bytes": 19991,
-    "en_size_bytes": 19070
+    "ja_size_bytes": 31241,
+    "en_size_bytes": 30200
   },
   {
     "id": 352,
@@ -3476,8 +3476,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/352",
     "en_url": "https://mirai-shigoto.com/en/352",
-    "ja_size_bytes": 19903,
-    "en_size_bytes": 18980
+    "ja_size_bytes": 31144,
+    "en_size_bytes": 30112
   },
   {
     "id": 353,
@@ -3486,8 +3486,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/353",
     "en_url": "https://mirai-shigoto.com/en/353",
-    "ja_size_bytes": 19990,
-    "en_size_bytes": 19057
+    "ja_size_bytes": 31231,
+    "en_size_bytes": 30194
   },
   {
     "id": 354,
@@ -3496,8 +3496,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/354",
     "en_url": "https://mirai-shigoto.com/en/354",
-    "ja_size_bytes": 20097,
-    "en_size_bytes": 19189
+    "ja_size_bytes": 31353,
+    "en_size_bytes": 30322
   },
   {
     "id": 355,
@@ -3506,8 +3506,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/355",
     "en_url": "https://mirai-shigoto.com/en/355",
-    "ja_size_bytes": 19885,
-    "en_size_bytes": 19020
+    "ja_size_bytes": 31123,
+    "en_size_bytes": 30157
   },
   {
     "id": 356,
@@ -3516,8 +3516,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/356",
     "en_url": "https://mirai-shigoto.com/en/356",
-    "ja_size_bytes": 19806,
-    "en_size_bytes": 18951
+    "ja_size_bytes": 31047,
+    "en_size_bytes": 30077
   },
   {
     "id": 357,
@@ -3526,8 +3526,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/357",
     "en_url": "https://mirai-shigoto.com/en/357",
-    "ja_size_bytes": 19885,
-    "en_size_bytes": 18994
+    "ja_size_bytes": 31123,
+    "en_size_bytes": 30131
   },
   {
     "id": 358,
@@ -3536,8 +3536,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/358",
     "en_url": "https://mirai-shigoto.com/en/358",
-    "ja_size_bytes": 19917,
-    "en_size_bytes": 18981
+    "ja_size_bytes": 31161,
+    "en_size_bytes": 30111
   },
   {
     "id": 359,
@@ -3546,8 +3546,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/359",
     "en_url": "https://mirai-shigoto.com/en/359",
-    "ja_size_bytes": 20287,
-    "en_size_bytes": 19371
+    "ja_size_bytes": 31552,
+    "en_size_bytes": 30509
   },
   {
     "id": 360,
@@ -3556,8 +3556,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/360",
     "en_url": "https://mirai-shigoto.com/en/360",
-    "ja_size_bytes": 19966,
-    "en_size_bytes": 19038
+    "ja_size_bytes": 31207,
+    "en_size_bytes": 30175
   },
   {
     "id": 361,
@@ -3566,8 +3566,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/361",
     "en_url": "https://mirai-shigoto.com/en/361",
-    "ja_size_bytes": 19865,
-    "en_size_bytes": 18959
+    "ja_size_bytes": 31106,
+    "en_size_bytes": 30089
   },
   {
     "id": 362,
@@ -3576,8 +3576,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/362",
     "en_url": "https://mirai-shigoto.com/en/362",
-    "ja_size_bytes": 19787,
-    "en_size_bytes": 18896
+    "ja_size_bytes": 31027,
+    "en_size_bytes": 30023
   },
   {
     "id": 363,
@@ -3586,8 +3586,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/363",
     "en_url": "https://mirai-shigoto.com/en/363",
-    "ja_size_bytes": 19855,
-    "en_size_bytes": 18928
+    "ja_size_bytes": 31099,
+    "en_size_bytes": 30055
   },
   {
     "id": 364,
@@ -3596,8 +3596,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/364",
     "en_url": "https://mirai-shigoto.com/en/364",
-    "ja_size_bytes": 19861,
-    "en_size_bytes": 18917
+    "ja_size_bytes": 31105,
+    "en_size_bytes": 30044
   },
   {
     "id": 365,
@@ -3606,8 +3606,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/365",
     "en_url": "https://mirai-shigoto.com/en/365",
-    "ja_size_bytes": 20011,
-    "en_size_bytes": 19075
+    "ja_size_bytes": 31264,
+    "en_size_bytes": 30203
   },
   {
     "id": 366,
@@ -3616,8 +3616,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/366",
     "en_url": "https://mirai-shigoto.com/en/366",
-    "ja_size_bytes": 19878,
-    "en_size_bytes": 18937
+    "ja_size_bytes": 31122,
+    "en_size_bytes": 30062
   },
   {
     "id": 388,
@@ -3626,8 +3626,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/388",
     "en_url": "https://mirai-shigoto.com/en/388",
-    "ja_size_bytes": 20275,
-    "en_size_bytes": 19425
+    "ja_size_bytes": 31522,
+    "en_size_bytes": 30581
   },
   {
     "id": 389,
@@ -3636,8 +3636,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/389",
     "en_url": "https://mirai-shigoto.com/en/389",
-    "ja_size_bytes": 19959,
-    "en_size_bytes": 19095
+    "ja_size_bytes": 31197,
+    "en_size_bytes": 30236
   },
   {
     "id": 390,
@@ -3646,8 +3646,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/390",
     "en_url": "https://mirai-shigoto.com/en/390",
-    "ja_size_bytes": 19761,
-    "en_size_bytes": 18939
+    "ja_size_bytes": 30993,
+    "en_size_bytes": 30071
   },
   {
     "id": 391,
@@ -3656,8 +3656,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/391",
     "en_url": "https://mirai-shigoto.com/en/391",
-    "ja_size_bytes": 20204,
-    "en_size_bytes": 19378
+    "ja_size_bytes": 31460,
+    "en_size_bytes": 30521
   },
   {
     "id": 392,
@@ -3666,8 +3666,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/392",
     "en_url": "https://mirai-shigoto.com/en/392",
-    "ja_size_bytes": 19843,
-    "en_size_bytes": 18980
+    "ja_size_bytes": 31075,
+    "en_size_bytes": 30119
   },
   {
     "id": 393,
@@ -3676,8 +3676,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/393",
     "en_url": "https://mirai-shigoto.com/en/393",
-    "ja_size_bytes": 20128,
-    "en_size_bytes": 19254
+    "ja_size_bytes": 31381,
+    "en_size_bytes": 30392
   },
   {
     "id": 394,
@@ -3686,8 +3686,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/394",
     "en_url": "https://mirai-shigoto.com/en/394",
-    "ja_size_bytes": 19571,
-    "en_size_bytes": 18677
+    "ja_size_bytes": 30806,
+    "en_size_bytes": 29800
   },
   {
     "id": 395,
@@ -3696,8 +3696,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/395",
     "en_url": "https://mirai-shigoto.com/en/395",
-    "ja_size_bytes": 20387,
-    "en_size_bytes": 19564
+    "ja_size_bytes": 31655,
+    "en_size_bytes": 30709
   },
   {
     "id": 396,
@@ -3706,8 +3706,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/396",
     "en_url": "https://mirai-shigoto.com/en/396",
-    "ja_size_bytes": 19815,
-    "en_size_bytes": 18934
+    "ja_size_bytes": 31047,
+    "en_size_bytes": 30067
   },
   {
     "id": 397,
@@ -3716,8 +3716,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/397",
     "en_url": "https://mirai-shigoto.com/en/397",
-    "ja_size_bytes": 19856,
-    "en_size_bytes": 19034
+    "ja_size_bytes": 31088,
+    "en_size_bytes": 30173
   },
   {
     "id": 398,
@@ -3726,8 +3726,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/398",
     "en_url": "https://mirai-shigoto.com/en/398",
-    "ja_size_bytes": 19870,
-    "en_size_bytes": 19072
+    "ja_size_bytes": 31102,
+    "en_size_bytes": 30214
   },
   {
     "id": 399,
@@ -3736,8 +3736,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/399",
     "en_url": "https://mirai-shigoto.com/en/399",
-    "ja_size_bytes": 19991,
-    "en_size_bytes": 19172
+    "ja_size_bytes": 31229,
+    "en_size_bytes": 30316
   },
   {
     "id": 400,
@@ -3746,8 +3746,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/400",
     "en_url": "https://mirai-shigoto.com/en/400",
-    "ja_size_bytes": 20111,
-    "en_size_bytes": 19297
+    "ja_size_bytes": 31346,
+    "en_size_bytes": 30456
   },
   {
     "id": 401,
@@ -3756,8 +3756,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/401",
     "en_url": "https://mirai-shigoto.com/en/401",
-    "ja_size_bytes": 19915,
-    "en_size_bytes": 19070
+    "ja_size_bytes": 31147,
+    "en_size_bytes": 30218
   },
   {
     "id": 402,
@@ -3766,8 +3766,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/402",
     "en_url": "https://mirai-shigoto.com/en/402",
-    "ja_size_bytes": 19462,
-    "en_size_bytes": 18662
+    "ja_size_bytes": 30688,
+    "en_size_bytes": 29783
   },
   {
     "id": 403,
@@ -3776,8 +3776,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/403",
     "en_url": "https://mirai-shigoto.com/en/403",
-    "ja_size_bytes": 19580,
-    "en_size_bytes": 18766
+    "ja_size_bytes": 30809,
+    "en_size_bytes": 29892
   },
   {
     "id": 404,
@@ -3786,8 +3786,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/404",
     "en_url": "https://mirai-shigoto.com/en/404",
-    "ja_size_bytes": 19725,
-    "en_size_bytes": 18907
+    "ja_size_bytes": 30951,
+    "en_size_bytes": 30048
   },
   {
     "id": 405,
@@ -3796,8 +3796,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/405",
     "en_url": "https://mirai-shigoto.com/en/405",
-    "ja_size_bytes": 19589,
-    "en_size_bytes": 18774
+    "ja_size_bytes": 30818,
+    "en_size_bytes": 29900
   },
   {
     "id": 406,
@@ -3806,8 +3806,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/406",
     "en_url": "https://mirai-shigoto.com/en/406",
-    "ja_size_bytes": 19802,
-    "en_size_bytes": 18952
+    "ja_size_bytes": 31034,
+    "en_size_bytes": 30091
   },
   {
     "id": 407,
@@ -3816,8 +3816,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/407",
     "en_url": "https://mirai-shigoto.com/en/407",
-    "ja_size_bytes": 20061,
-    "en_size_bytes": 19212
+    "ja_size_bytes": 31308,
+    "en_size_bytes": 30355
   },
   {
     "id": 408,
@@ -3826,8 +3826,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/408",
     "en_url": "https://mirai-shigoto.com/en/408",
-    "ja_size_bytes": 20095,
-    "en_size_bytes": 19168
+    "ja_size_bytes": 31345,
+    "en_size_bytes": 30303
   },
   {
     "id": 409,
@@ -3836,8 +3836,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/409",
     "en_url": "https://mirai-shigoto.com/en/409",
-    "ja_size_bytes": 20115,
-    "en_size_bytes": 19153
+    "ja_size_bytes": 31365,
+    "en_size_bytes": 30288
   },
   {
     "id": 410,
@@ -3846,8 +3846,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/410",
     "en_url": "https://mirai-shigoto.com/en/410",
-    "ja_size_bytes": 20070,
-    "en_size_bytes": 19151
+    "ja_size_bytes": 31320,
+    "en_size_bytes": 30286
   },
   {
     "id": 411,
@@ -3856,8 +3856,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/411",
     "en_url": "https://mirai-shigoto.com/en/411",
-    "ja_size_bytes": 20147,
-    "en_size_bytes": 19212
+    "ja_size_bytes": 31406,
+    "en_size_bytes": 30343
   },
   {
     "id": 412,
@@ -3866,8 +3866,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/412",
     "en_url": "https://mirai-shigoto.com/en/412",
-    "ja_size_bytes": 19984,
-    "en_size_bytes": 19027
+    "ja_size_bytes": 31231,
+    "en_size_bytes": 30157
   },
   {
     "id": 413,
@@ -3876,8 +3876,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/413",
     "en_url": "https://mirai-shigoto.com/en/413",
-    "ja_size_bytes": 19734,
-    "en_size_bytes": 18808
+    "ja_size_bytes": 30972,
+    "en_size_bytes": 29932
   },
   {
     "id": 414,
@@ -3886,8 +3886,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/414",
     "en_url": "https://mirai-shigoto.com/en/414",
-    "ja_size_bytes": 20140,
-    "en_size_bytes": 19227
+    "ja_size_bytes": 31393,
+    "en_size_bytes": 30363
   },
   {
     "id": 415,
@@ -3896,8 +3896,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/415",
     "en_url": "https://mirai-shigoto.com/en/415",
-    "ja_size_bytes": 20262,
-    "en_size_bytes": 19353
+    "ja_size_bytes": 31530,
+    "en_size_bytes": 30485
   },
   {
     "id": 416,
@@ -3906,8 +3906,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/416",
     "en_url": "https://mirai-shigoto.com/en/416",
-    "ja_size_bytes": 20178,
-    "en_size_bytes": 19199
+    "ja_size_bytes": 31431,
+    "en_size_bytes": 30335
   },
   {
     "id": 417,
@@ -3916,8 +3916,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/417",
     "en_url": "https://mirai-shigoto.com/en/417",
-    "ja_size_bytes": 20357,
-    "en_size_bytes": 19422
+    "ja_size_bytes": 31616,
+    "en_size_bytes": 30567
   },
   {
     "id": 418,
@@ -3926,8 +3926,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/418",
     "en_url": "https://mirai-shigoto.com/en/418",
-    "ja_size_bytes": 19994,
-    "en_size_bytes": 19086
+    "ja_size_bytes": 31238,
+    "en_size_bytes": 30222
   },
   {
     "id": 419,
@@ -3936,8 +3936,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/419",
     "en_url": "https://mirai-shigoto.com/en/419",
-    "ja_size_bytes": 19542,
-    "en_size_bytes": 18635
+    "ja_size_bytes": 30768,
+    "en_size_bytes": 29757
   },
   {
     "id": 420,
@@ -3946,8 +3946,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/420",
     "en_url": "https://mirai-shigoto.com/en/420",
-    "ja_size_bytes": 19825,
-    "en_size_bytes": 18943
+    "ja_size_bytes": 31066,
+    "en_size_bytes": 30071
   },
   {
     "id": 421,
@@ -3956,8 +3956,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/421",
     "en_url": "https://mirai-shigoto.com/en/421",
-    "ja_size_bytes": 19854,
-    "en_size_bytes": 18946
+    "ja_size_bytes": 31098,
+    "en_size_bytes": 30073
   },
   {
     "id": 422,
@@ -3966,8 +3966,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/422",
     "en_url": "https://mirai-shigoto.com/en/422",
-    "ja_size_bytes": 19864,
-    "en_size_bytes": 18960
+    "ja_size_bytes": 31105,
+    "en_size_bytes": 30090
   },
   {
     "id": 423,
@@ -3976,8 +3976,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/423",
     "en_url": "https://mirai-shigoto.com/en/423",
-    "ja_size_bytes": 19965,
-    "en_size_bytes": 19080
+    "ja_size_bytes": 31206,
+    "en_size_bytes": 30220
   },
   {
     "id": 424,
@@ -3986,8 +3986,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/424",
     "en_url": "https://mirai-shigoto.com/en/424",
-    "ja_size_bytes": 20105,
-    "en_size_bytes": 19256
+    "ja_size_bytes": 31349,
+    "en_size_bytes": 30402
   },
   {
     "id": 425,
@@ -3996,8 +3996,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/425",
     "en_url": "https://mirai-shigoto.com/en/425",
-    "ja_size_bytes": 20299,
-    "en_size_bytes": 19471
+    "ja_size_bytes": 31558,
+    "en_size_bytes": 30615
   },
   {
     "id": 426,
@@ -4006,8 +4006,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/426",
     "en_url": "https://mirai-shigoto.com/en/426",
-    "ja_size_bytes": 19489,
-    "en_size_bytes": 18683
+    "ja_size_bytes": 30712,
+    "en_size_bytes": 29806
   },
   {
     "id": 427,
@@ -4016,8 +4016,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/427",
     "en_url": "https://mirai-shigoto.com/en/427",
-    "ja_size_bytes": 19579,
-    "en_size_bytes": 18743
+    "ja_size_bytes": 30808,
+    "en_size_bytes": 29869
   },
   {
     "id": 428,
@@ -4026,8 +4026,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/428",
     "en_url": "https://mirai-shigoto.com/en/428",
-    "ja_size_bytes": 19730,
-    "en_size_bytes": 18874
+    "ja_size_bytes": 30959,
+    "en_size_bytes": 30008
   },
   {
     "id": 429,
@@ -4036,8 +4036,8 @@
     "ai_risk": 10,
     "ja_url": "https://mirai-shigoto.com/ja/429",
     "en_url": "https://mirai-shigoto.com/en/429",
-    "ja_size_bytes": 19737,
-    "en_size_bytes": 18897
+    "ja_size_bytes": 30970,
+    "en_size_bytes": 30031
   },
   {
     "id": 430,
@@ -4046,8 +4046,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/430",
     "en_url": "https://mirai-shigoto.com/en/430",
-    "ja_size_bytes": 19667,
-    "en_size_bytes": 18836
+    "ja_size_bytes": 30896,
+    "en_size_bytes": 29966
   },
   {
     "id": 431,
@@ -4056,8 +4056,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/431",
     "en_url": "https://mirai-shigoto.com/en/431",
-    "ja_size_bytes": 19667,
-    "en_size_bytes": 18840
+    "ja_size_bytes": 30896,
+    "en_size_bytes": 29972
   },
   {
     "id": 432,
@@ -4066,8 +4066,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/432",
     "en_url": "https://mirai-shigoto.com/en/432",
-    "ja_size_bytes": 19613,
-    "en_size_bytes": 18782
+    "ja_size_bytes": 30842,
+    "en_size_bytes": 29911
   },
   {
     "id": 433,
@@ -4076,8 +4076,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/433",
     "en_url": "https://mirai-shigoto.com/en/433",
-    "ja_size_bytes": 19708,
-    "en_size_bytes": 18899
+    "ja_size_bytes": 30937,
+    "en_size_bytes": 30034
   },
   {
     "id": 434,
@@ -4086,8 +4086,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/434",
     "en_url": "https://mirai-shigoto.com/en/434",
-    "ja_size_bytes": 19862,
-    "en_size_bytes": 19047
+    "ja_size_bytes": 31100,
+    "en_size_bytes": 30186
   },
   {
     "id": 435,
@@ -4096,8 +4096,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/435",
     "en_url": "https://mirai-shigoto.com/en/435",
-    "ja_size_bytes": 19783,
-    "en_size_bytes": 18954
+    "ja_size_bytes": 31018,
+    "en_size_bytes": 30089
   },
   {
     "id": 436,
@@ -4106,8 +4106,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/436",
     "en_url": "https://mirai-shigoto.com/en/436",
-    "ja_size_bytes": 19662,
-    "en_size_bytes": 18810
+    "ja_size_bytes": 30891,
+    "en_size_bytes": 29941
   },
   {
     "id": 437,
@@ -4116,8 +4116,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/437",
     "en_url": "https://mirai-shigoto.com/en/437",
-    "ja_size_bytes": 19954,
-    "en_size_bytes": 19104
+    "ja_size_bytes": 31198,
+    "en_size_bytes": 30242
   },
   {
     "id": 438,
@@ -4126,8 +4126,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/438",
     "en_url": "https://mirai-shigoto.com/en/438",
-    "ja_size_bytes": 19715,
-    "en_size_bytes": 18902
+    "ja_size_bytes": 30953,
+    "en_size_bytes": 30027
   },
   {
     "id": 439,
@@ -4136,8 +4136,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/439",
     "en_url": "https://mirai-shigoto.com/en/439",
-    "ja_size_bytes": 19682,
-    "en_size_bytes": 18837
+    "ja_size_bytes": 30911,
+    "en_size_bytes": 29969
   },
   {
     "id": 440,
@@ -4146,8 +4146,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/440",
     "en_url": "https://mirai-shigoto.com/en/440",
-    "ja_size_bytes": 19792,
-    "en_size_bytes": 18943
+    "ja_size_bytes": 31027,
+    "en_size_bytes": 30076
   },
   {
     "id": 441,
@@ -4156,8 +4156,8 @@
     "ai_risk": 10,
     "ja_url": "https://mirai-shigoto.com/ja/441",
     "en_url": "https://mirai-shigoto.com/en/441",
-    "ja_size_bytes": 19921,
-    "en_size_bytes": 19114
+    "ja_size_bytes": 31163,
+    "en_size_bytes": 30253
   },
   {
     "id": 442,
@@ -4166,8 +4166,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/442",
     "en_url": "https://mirai-shigoto.com/en/442",
-    "ja_size_bytes": 19699,
-    "en_size_bytes": 18860
+    "ja_size_bytes": 30928,
+    "en_size_bytes": 29993
   },
   {
     "id": 443,
@@ -4176,8 +4176,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/443",
     "en_url": "https://mirai-shigoto.com/en/443",
-    "ja_size_bytes": 19694,
-    "en_size_bytes": 18861
+    "ja_size_bytes": 30923,
+    "en_size_bytes": 29995
   },
   {
     "id": 444,
@@ -4186,8 +4186,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/444",
     "en_url": "https://mirai-shigoto.com/en/444",
-    "ja_size_bytes": 19868,
-    "en_size_bytes": 19024
+    "ja_size_bytes": 31102,
+    "en_size_bytes": 30167
   },
   {
     "id": 445,
@@ -4196,8 +4196,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/445",
     "en_url": "https://mirai-shigoto.com/en/445",
-    "ja_size_bytes": 19859,
-    "en_size_bytes": 19017
+    "ja_size_bytes": 31090,
+    "en_size_bytes": 30162
   },
   {
     "id": 446,
@@ -4206,8 +4206,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/446",
     "en_url": "https://mirai-shigoto.com/en/446",
-    "ja_size_bytes": 19839,
-    "en_size_bytes": 18992
+    "ja_size_bytes": 31074,
+    "en_size_bytes": 30129
   },
   {
     "id": 447,
@@ -4216,8 +4216,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/447",
     "en_url": "https://mirai-shigoto.com/en/447",
-    "ja_size_bytes": 20015,
-    "en_size_bytes": 19178
+    "ja_size_bytes": 31268,
+    "en_size_bytes": 30310
   },
   {
     "id": 448,
@@ -4226,8 +4226,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/448",
     "en_url": "https://mirai-shigoto.com/en/448",
-    "ja_size_bytes": 20221,
-    "en_size_bytes": 19308
+    "ja_size_bytes": 31469,
+    "en_size_bytes": 30456
   },
   {
     "id": 449,
@@ -4236,8 +4236,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/449",
     "en_url": "https://mirai-shigoto.com/en/449",
-    "ja_size_bytes": 20008,
-    "en_size_bytes": 19147
+    "ja_size_bytes": 31258,
+    "en_size_bytes": 30279
   },
   {
     "id": 450,
@@ -4246,8 +4246,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/450",
     "en_url": "https://mirai-shigoto.com/en/450",
-    "ja_size_bytes": 19831,
-    "en_size_bytes": 18931
+    "ja_size_bytes": 31066,
+    "en_size_bytes": 30063
   },
   {
     "id": 451,
@@ -4256,8 +4256,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/451",
     "en_url": "https://mirai-shigoto.com/en/451",
-    "ja_size_bytes": 19746,
-    "en_size_bytes": 18870
+    "ja_size_bytes": 30983,
+    "en_size_bytes": 29997
   },
   {
     "id": 452,
@@ -4266,8 +4266,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/452",
     "en_url": "https://mirai-shigoto.com/en/452",
-    "ja_size_bytes": 20113,
-    "en_size_bytes": 19208
+    "ja_size_bytes": 31368,
+    "en_size_bytes": 30341
   },
   {
     "id": 453,
@@ -4276,8 +4276,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/453",
     "en_url": "https://mirai-shigoto.com/en/453",
-    "ja_size_bytes": 20182,
-    "en_size_bytes": 19307
+    "ja_size_bytes": 31444,
+    "en_size_bytes": 30436
   },
   {
     "id": 454,
@@ -4286,8 +4286,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/454",
     "en_url": "https://mirai-shigoto.com/en/454",
-    "ja_size_bytes": 20290,
-    "en_size_bytes": 19354
+    "ja_size_bytes": 31540,
+    "en_size_bytes": 30506
   },
   {
     "id": 455,
@@ -4296,8 +4296,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/455",
     "en_url": "https://mirai-shigoto.com/en/455",
-    "ja_size_bytes": 19755,
-    "en_size_bytes": 18851
+    "ja_size_bytes": 30987,
+    "en_size_bytes": 29982
   },
   {
     "id": 456,
@@ -4306,8 +4306,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/456",
     "en_url": "https://mirai-shigoto.com/en/456",
-    "ja_size_bytes": 20135,
-    "en_size_bytes": 19256
+    "ja_size_bytes": 31394,
+    "en_size_bytes": 30387
   },
   {
     "id": 457,
@@ -4316,8 +4316,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/457",
     "en_url": "https://mirai-shigoto.com/en/457",
-    "ja_size_bytes": 19931,
-    "en_size_bytes": 19040
+    "ja_size_bytes": 31169,
+    "en_size_bytes": 30177
   },
   {
     "id": 461,
@@ -4326,8 +4326,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/461",
     "en_url": "https://mirai-shigoto.com/en/461",
-    "ja_size_bytes": 20295,
-    "en_size_bytes": 19459
+    "ja_size_bytes": 31557,
+    "en_size_bytes": 30602
   },
   {
     "id": 462,
@@ -4336,8 +4336,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/462",
     "en_url": "https://mirai-shigoto.com/en/462",
-    "ja_size_bytes": 19802,
-    "en_size_bytes": 18963
+    "ja_size_bytes": 31033,
+    "en_size_bytes": 30099
   },
   {
     "id": 463,
@@ -4346,8 +4346,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/463",
     "en_url": "https://mirai-shigoto.com/en/463",
-    "ja_size_bytes": 19836,
-    "en_size_bytes": 18950
+    "ja_size_bytes": 31068,
+    "en_size_bytes": 30089
   },
   {
     "id": 464,
@@ -4356,8 +4356,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/464",
     "en_url": "https://mirai-shigoto.com/en/464",
-    "ja_size_bytes": 20111,
-    "en_size_bytes": 19244
+    "ja_size_bytes": 31356,
+    "en_size_bytes": 30390
   },
   {
     "id": 465,
@@ -4366,8 +4366,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/465",
     "en_url": "https://mirai-shigoto.com/en/465",
-    "ja_size_bytes": 19975,
-    "en_size_bytes": 19070
+    "ja_size_bytes": 31213,
+    "en_size_bytes": 30212
   },
   {
     "id": 466,
@@ -4376,8 +4376,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/466",
     "en_url": "https://mirai-shigoto.com/en/466",
-    "ja_size_bytes": 20004,
-    "en_size_bytes": 19144
+    "ja_size_bytes": 31254,
+    "en_size_bytes": 30278
   },
   {
     "id": 467,
@@ -4386,8 +4386,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/467",
     "en_url": "https://mirai-shigoto.com/en/467",
-    "ja_size_bytes": 19694,
-    "en_size_bytes": 18807
+    "ja_size_bytes": 30926,
+    "en_size_bytes": 29934
   },
   {
     "id": 468,
@@ -4396,8 +4396,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/468",
     "en_url": "https://mirai-shigoto.com/en/468",
-    "ja_size_bytes": 19663,
-    "en_size_bytes": 18784
+    "ja_size_bytes": 30901,
+    "en_size_bytes": 29905
   },
   {
     "id": 469,
@@ -4406,8 +4406,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/469",
     "en_url": "https://mirai-shigoto.com/en/469",
-    "ja_size_bytes": 19794,
-    "en_size_bytes": 18845
+    "ja_size_bytes": 31026,
+    "en_size_bytes": 29975
   },
   {
     "id": 470,
@@ -4416,8 +4416,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/470",
     "en_url": "https://mirai-shigoto.com/en/470",
-    "ja_size_bytes": 19912,
-    "en_size_bytes": 18972
+    "ja_size_bytes": 31159,
+    "en_size_bytes": 30098
   },
   {
     "id": 471,
@@ -4426,8 +4426,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/471",
     "en_url": "https://mirai-shigoto.com/en/471",
-    "ja_size_bytes": 20667,
-    "en_size_bytes": 19830
+    "ja_size_bytes": 31954,
+    "en_size_bytes": 30965
   },
   {
     "id": 472,
@@ -4436,8 +4436,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/472",
     "en_url": "https://mirai-shigoto.com/en/472",
-    "ja_size_bytes": 20142,
-    "en_size_bytes": 19185
+    "ja_size_bytes": 31392,
+    "en_size_bytes": 30321
   },
   {
     "id": 473,
@@ -4446,8 +4446,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/473",
     "en_url": "https://mirai-shigoto.com/en/473",
-    "ja_size_bytes": 20006,
-    "en_size_bytes": 19102
+    "ja_size_bytes": 31247,
+    "en_size_bytes": 30243
   },
   {
     "id": 474,
@@ -4456,8 +4456,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/474",
     "en_url": "https://mirai-shigoto.com/en/474",
-    "ja_size_bytes": 20254,
-    "en_size_bytes": 19349
+    "ja_size_bytes": 31504,
+    "en_size_bytes": 30498
   },
   {
     "id": 475,
@@ -4466,8 +4466,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/475",
     "en_url": "https://mirai-shigoto.com/en/475",
-    "ja_size_bytes": 20073,
-    "en_size_bytes": 19185
+    "ja_size_bytes": 31320,
+    "en_size_bytes": 30327
   },
   {
     "id": 476,
@@ -4476,8 +4476,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/476",
     "en_url": "https://mirai-shigoto.com/en/476",
-    "ja_size_bytes": 19945,
-    "en_size_bytes": 19044
+    "ja_size_bytes": 31192,
+    "en_size_bytes": 30173
   },
   {
     "id": 477,
@@ -4486,8 +4486,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/477",
     "en_url": "https://mirai-shigoto.com/en/477",
-    "ja_size_bytes": 19883,
-    "en_size_bytes": 18975
+    "ja_size_bytes": 31127,
+    "en_size_bytes": 30101
   },
   {
     "id": 478,
@@ -4496,8 +4496,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/478",
     "en_url": "https://mirai-shigoto.com/en/478",
-    "ja_size_bytes": 20181,
-    "en_size_bytes": 19269
+    "ja_size_bytes": 31440,
+    "en_size_bytes": 30403
   },
   {
     "id": 479,
@@ -4506,8 +4506,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/479",
     "en_url": "https://mirai-shigoto.com/en/479",
-    "ja_size_bytes": 19864,
-    "en_size_bytes": 18952
+    "ja_size_bytes": 31105,
+    "en_size_bytes": 30083
   },
   {
     "id": 480,
@@ -4516,8 +4516,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/480",
     "en_url": "https://mirai-shigoto.com/en/480",
-    "ja_size_bytes": 19880,
-    "en_size_bytes": 18992
+    "ja_size_bytes": 31121,
+    "en_size_bytes": 30124
   },
   {
     "id": 481,
@@ -4526,8 +4526,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/481",
     "en_url": "https://mirai-shigoto.com/en/481",
-    "ja_size_bytes": 19878,
-    "en_size_bytes": 19009
+    "ja_size_bytes": 31122,
+    "en_size_bytes": 30139
   },
   {
     "id": 482,
@@ -4536,8 +4536,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/482",
     "en_url": "https://mirai-shigoto.com/en/482",
-    "ja_size_bytes": 20020,
-    "en_size_bytes": 19092
+    "ja_size_bytes": 31267,
+    "en_size_bytes": 30227
   },
   {
     "id": 483,
@@ -4546,8 +4546,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/483",
     "en_url": "https://mirai-shigoto.com/en/483",
-    "ja_size_bytes": 19851,
-    "en_size_bytes": 18978
+    "ja_size_bytes": 31086,
+    "en_size_bytes": 30114
   },
   {
     "id": 484,
@@ -4556,8 +4556,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/484",
     "en_url": "https://mirai-shigoto.com/en/484",
-    "ja_size_bytes": 19722,
-    "en_size_bytes": 18827
+    "ja_size_bytes": 30954,
+    "en_size_bytes": 29959
   },
   {
     "id": 485,
@@ -4566,8 +4566,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/485",
     "en_url": "https://mirai-shigoto.com/en/485",
-    "ja_size_bytes": 19755,
-    "en_size_bytes": 18847
+    "ja_size_bytes": 30987,
+    "en_size_bytes": 29977
   },
   {
     "id": 486,
@@ -4576,8 +4576,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/486",
     "en_url": "https://mirai-shigoto.com/en/486",
-    "ja_size_bytes": 19784,
-    "en_size_bytes": 18909
+    "ja_size_bytes": 31025,
+    "en_size_bytes": 30035
   },
   {
     "id": 487,
@@ -4586,8 +4586,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/487",
     "en_url": "https://mirai-shigoto.com/en/487",
-    "ja_size_bytes": 19904,
-    "en_size_bytes": 18915
+    "ja_size_bytes": 31148,
+    "en_size_bytes": 30042
   },
   {
     "id": 488,
@@ -4596,8 +4596,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/488",
     "en_url": "https://mirai-shigoto.com/en/488",
-    "ja_size_bytes": 20543,
-    "en_size_bytes": 19675
+    "ja_size_bytes": 31835,
+    "en_size_bytes": 30808
   },
   {
     "id": 489,
@@ -4606,8 +4606,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/489",
     "en_url": "https://mirai-shigoto.com/en/489",
-    "ja_size_bytes": 19954,
-    "en_size_bytes": 19029
+    "ja_size_bytes": 31192,
+    "en_size_bytes": 30167
   },
   {
     "id": 490,
@@ -4616,8 +4616,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/490",
     "en_url": "https://mirai-shigoto.com/en/490",
-    "ja_size_bytes": 19817,
-    "en_size_bytes": 18906
+    "ja_size_bytes": 31055,
+    "en_size_bytes": 30035
   },
   {
     "id": 491,
@@ -4626,8 +4626,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/491",
     "en_url": "https://mirai-shigoto.com/en/491",
-    "ja_size_bytes": 20568,
-    "en_size_bytes": 19648
+    "ja_size_bytes": 31842,
+    "en_size_bytes": 30795
   },
   {
     "id": 492,
@@ -4636,8 +4636,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/492",
     "en_url": "https://mirai-shigoto.com/en/492",
-    "ja_size_bytes": 19670,
-    "en_size_bytes": 18717
+    "ja_size_bytes": 30899,
+    "en_size_bytes": 29843
   },
   {
     "id": 493,
@@ -4646,8 +4646,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/493",
     "en_url": "https://mirai-shigoto.com/en/493",
-    "ja_size_bytes": 19833,
-    "en_size_bytes": 18875
+    "ja_size_bytes": 31065,
+    "en_size_bytes": 30010
   },
   {
     "id": 494,
@@ -4656,8 +4656,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/494",
     "en_url": "https://mirai-shigoto.com/en/494",
-    "ja_size_bytes": 19807,
-    "en_size_bytes": 18927
+    "ja_size_bytes": 31045,
+    "en_size_bytes": 30058
   },
   {
     "id": 495,
@@ -4666,8 +4666,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/495",
     "en_url": "https://mirai-shigoto.com/en/495",
-    "ja_size_bytes": 20145,
-    "en_size_bytes": 19269
+    "ja_size_bytes": 31392,
+    "en_size_bytes": 30414
   },
   {
     "id": 496,
@@ -4676,8 +4676,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/496",
     "en_url": "https://mirai-shigoto.com/en/496",
-    "ja_size_bytes": 20133,
-    "en_size_bytes": 19280
+    "ja_size_bytes": 31386,
+    "en_size_bytes": 30422
   },
   {
     "id": 497,
@@ -4686,8 +4686,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/497",
     "en_url": "https://mirai-shigoto.com/en/497",
-    "ja_size_bytes": 19812,
-    "en_size_bytes": 18947
+    "ja_size_bytes": 31044,
+    "en_size_bytes": 30085
   },
   {
     "id": 498,
@@ -4696,8 +4696,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/498",
     "en_url": "https://mirai-shigoto.com/en/498",
-    "ja_size_bytes": 19716,
-    "en_size_bytes": 18831
+    "ja_size_bytes": 30951,
+    "en_size_bytes": 29959
   },
   {
     "id": 499,
@@ -4706,8 +4706,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/499",
     "en_url": "https://mirai-shigoto.com/en/499",
-    "ja_size_bytes": 19743,
-    "en_size_bytes": 18917
+    "ja_size_bytes": 30981,
+    "en_size_bytes": 30045
   },
   {
     "id": 500,
@@ -4716,8 +4716,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/500",
     "en_url": "https://mirai-shigoto.com/en/500",
-    "ja_size_bytes": 19681,
-    "en_size_bytes": 18805
+    "ja_size_bytes": 30913,
+    "en_size_bytes": 29933
   },
   {
     "id": 501,
@@ -4726,8 +4726,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/501",
     "en_url": "https://mirai-shigoto.com/en/501",
-    "ja_size_bytes": 20314,
-    "en_size_bytes": 19427
+    "ja_size_bytes": 31567,
+    "en_size_bytes": 30582
   },
   {
     "id": 502,
@@ -4736,8 +4736,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/502",
     "en_url": "https://mirai-shigoto.com/en/502",
-    "ja_size_bytes": 19639,
-    "en_size_bytes": 18798
+    "ja_size_bytes": 30871,
+    "en_size_bytes": 29924
   },
   {
     "id": 503,
@@ -4746,8 +4746,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/503",
     "en_url": "https://mirai-shigoto.com/en/503",
-    "ja_size_bytes": 19814,
-    "en_size_bytes": 18959
+    "ja_size_bytes": 31052,
+    "en_size_bytes": 30091
   },
   {
     "id": 504,
@@ -4756,8 +4756,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/504",
     "en_url": "https://mirai-shigoto.com/en/504",
-    "ja_size_bytes": 19616,
-    "en_size_bytes": 18758
+    "ja_size_bytes": 30848,
+    "en_size_bytes": 29883
   },
   {
     "id": 505,
@@ -4766,8 +4766,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/505",
     "en_url": "https://mirai-shigoto.com/en/505",
-    "ja_size_bytes": 19953,
-    "en_size_bytes": 19075
+    "ja_size_bytes": 31194,
+    "en_size_bytes": 30216
   },
   {
     "id": 506,
@@ -4776,8 +4776,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/506",
     "en_url": "https://mirai-shigoto.com/en/506",
-    "ja_size_bytes": 19625,
-    "en_size_bytes": 18758
+    "ja_size_bytes": 30857,
+    "en_size_bytes": 29884
   },
   {
     "id": 507,
@@ -4786,8 +4786,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/507",
     "en_url": "https://mirai-shigoto.com/en/507",
-    "ja_size_bytes": 19621,
-    "en_size_bytes": 18757
+    "ja_size_bytes": 30853,
+    "en_size_bytes": 29884
   },
   {
     "id": 508,
@@ -4796,8 +4796,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/508",
     "en_url": "https://mirai-shigoto.com/en/508",
-    "ja_size_bytes": 19739,
-    "en_size_bytes": 18895
+    "ja_size_bytes": 30971,
+    "en_size_bytes": 30027
   },
   {
     "id": 509,
@@ -4806,8 +4806,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/509",
     "en_url": "https://mirai-shigoto.com/en/509",
-    "ja_size_bytes": 19733,
-    "en_size_bytes": 18898
+    "ja_size_bytes": 30971,
+    "en_size_bytes": 30026
   },
   {
     "id": 510,
@@ -4816,8 +4816,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/510",
     "en_url": "https://mirai-shigoto.com/en/510",
-    "ja_size_bytes": 19641,
-    "en_size_bytes": 18717
+    "ja_size_bytes": 30870,
+    "en_size_bytes": 29847
   },
   {
     "id": 511,
@@ -4826,8 +4826,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/511",
     "en_url": "https://mirai-shigoto.com/en/511",
-    "ja_size_bytes": 19784,
-    "en_size_bytes": 18968
+    "ja_size_bytes": 31028,
+    "en_size_bytes": 30093
   },
   {
     "id": 512,
@@ -4836,8 +4836,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/512",
     "en_url": "https://mirai-shigoto.com/en/512",
-    "ja_size_bytes": 19079,
-    "en_size_bytes": 18209
+    "ja_size_bytes": 30308,
+    "en_size_bytes": 29356
   },
   {
     "id": 513,
@@ -4846,8 +4846,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/513",
     "en_url": "https://mirai-shigoto.com/en/513",
-    "ja_size_bytes": 20007,
-    "en_size_bytes": 19235
+    "ja_size_bytes": 31245,
+    "en_size_bytes": 30385
   },
   {
     "id": 514,
@@ -4856,8 +4856,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/514",
     "en_url": "https://mirai-shigoto.com/en/514",
-    "ja_size_bytes": 18924,
-    "en_size_bytes": 18147
+    "ja_size_bytes": 30156,
+    "en_size_bytes": 29286
   },
   {
     "id": 515,
@@ -4866,8 +4866,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/515",
     "en_url": "https://mirai-shigoto.com/en/515",
-    "ja_size_bytes": 19798,
-    "en_size_bytes": 18927
+    "ja_size_bytes": 31045,
+    "en_size_bytes": 30050
   },
   {
     "id": 516,
@@ -4876,8 +4876,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/516",
     "en_url": "https://mirai-shigoto.com/en/516",
-    "ja_size_bytes": 20431,
-    "en_size_bytes": 19587
+    "ja_size_bytes": 31699,
+    "en_size_bytes": 30734
   },
   {
     "id": 517,
@@ -4886,8 +4886,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/517",
     "en_url": "https://mirai-shigoto.com/en/517",
-    "ja_size_bytes": 19798,
-    "en_size_bytes": 18923
+    "ja_size_bytes": 31030,
+    "en_size_bytes": 30058
   },
   {
     "id": 518,
@@ -4896,8 +4896,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/518",
     "en_url": "https://mirai-shigoto.com/en/518",
-    "ja_size_bytes": 19972,
-    "en_size_bytes": 19071
+    "ja_size_bytes": 31204,
+    "en_size_bytes": 30213
   },
   {
     "id": 519,
@@ -4906,8 +4906,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/519",
     "en_url": "https://mirai-shigoto.com/en/519",
-    "ja_size_bytes": 19949,
-    "en_size_bytes": 19083
+    "ja_size_bytes": 31187,
+    "en_size_bytes": 30222
   },
   {
     "id": 520,
@@ -4916,8 +4916,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/520",
     "en_url": "https://mirai-shigoto.com/en/520",
-    "ja_size_bytes": 20540,
-    "en_size_bytes": 19700
+    "ja_size_bytes": 31814,
+    "en_size_bytes": 30849
   },
   {
     "id": 521,
@@ -4926,8 +4926,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/521",
     "en_url": "https://mirai-shigoto.com/en/521",
-    "ja_size_bytes": 19742,
-    "en_size_bytes": 18874
+    "ja_size_bytes": 30974,
+    "en_size_bytes": 30003
   },
   {
     "id": 522,
@@ -4936,8 +4936,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/522",
     "en_url": "https://mirai-shigoto.com/en/522",
-    "ja_size_bytes": 20198,
-    "en_size_bytes": 19327
+    "ja_size_bytes": 31451,
+    "en_size_bytes": 30472
   },
   {
     "id": 523,
@@ -4946,8 +4946,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/523",
     "en_url": "https://mirai-shigoto.com/en/523",
-    "ja_size_bytes": 19830,
-    "en_size_bytes": 18955
+    "ja_size_bytes": 31071,
+    "en_size_bytes": 30082
   },
   {
     "id": 524,
@@ -4956,8 +4956,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/524",
     "en_url": "https://mirai-shigoto.com/en/524",
-    "ja_size_bytes": 20575,
-    "en_size_bytes": 19742
+    "ja_size_bytes": 31855,
+    "en_size_bytes": 30891
   },
   {
     "id": 525,
@@ -4966,8 +4966,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/525",
     "en_url": "https://mirai-shigoto.com/en/525",
-    "ja_size_bytes": 20084,
-    "en_size_bytes": 19105
+    "ja_size_bytes": 31331,
+    "en_size_bytes": 30238
   },
   {
     "id": 526,
@@ -4976,8 +4976,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/526",
     "en_url": "https://mirai-shigoto.com/en/526",
-    "ja_size_bytes": 20038,
-    "en_size_bytes": 19167
+    "ja_size_bytes": 31282,
+    "en_size_bytes": 30309
   },
   {
     "id": 527,
@@ -4986,8 +4986,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/527",
     "en_url": "https://mirai-shigoto.com/en/527",
-    "ja_size_bytes": 20073,
-    "en_size_bytes": 19165
+    "ja_size_bytes": 31326,
+    "en_size_bytes": 30295
   },
   {
     "id": 528,
@@ -4996,8 +4996,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/528",
     "en_url": "https://mirai-shigoto.com/en/528",
-    "ja_size_bytes": 20278,
-    "en_size_bytes": 19461
+    "ja_size_bytes": 31543,
+    "en_size_bytes": 30603
   },
   {
     "id": 529,
@@ -5006,8 +5006,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/529",
     "en_url": "https://mirai-shigoto.com/en/529",
-    "ja_size_bytes": 20100,
-    "en_size_bytes": 19130
+    "ja_size_bytes": 31344,
+    "en_size_bytes": 30268
   },
   {
     "id": 530,
@@ -5016,8 +5016,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/530",
     "en_url": "https://mirai-shigoto.com/en/530",
-    "ja_size_bytes": 20000,
-    "en_size_bytes": 19106
+    "ja_size_bytes": 31241,
+    "en_size_bytes": 30245
   },
   {
     "id": 531,
@@ -5026,8 +5026,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/531",
     "en_url": "https://mirai-shigoto.com/en/531",
-    "ja_size_bytes": 20428,
-    "en_size_bytes": 19507
+    "ja_size_bytes": 31707,
+    "en_size_bytes": 30638
   },
   {
     "id": 532,
@@ -5036,8 +5036,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/532",
     "en_url": "https://mirai-shigoto.com/en/532",
-    "ja_size_bytes": 20299,
-    "en_size_bytes": 19308
+    "ja_size_bytes": 31561,
+    "en_size_bytes": 30442
   },
   {
     "id": 533,
@@ -5046,8 +5046,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/533",
     "en_url": "https://mirai-shigoto.com/en/533",
-    "ja_size_bytes": 20738,
-    "en_size_bytes": 19868
+    "ja_size_bytes": 32030,
+    "en_size_bytes": 31010
   },
   {
     "id": 534,
@@ -5056,8 +5056,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/534",
     "en_url": "https://mirai-shigoto.com/en/534",
-    "ja_size_bytes": 20723,
-    "en_size_bytes": 19798
+    "ja_size_bytes": 32012,
+    "en_size_bytes": 30940
   },
   {
     "id": 535,
@@ -5066,8 +5066,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/535",
     "en_url": "https://mirai-shigoto.com/en/535",
-    "ja_size_bytes": 20221,
-    "en_size_bytes": 19258
+    "ja_size_bytes": 31471,
+    "en_size_bytes": 30399
   },
   {
     "id": 536,
@@ -5076,8 +5076,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/536",
     "en_url": "https://mirai-shigoto.com/en/536",
-    "ja_size_bytes": 19907,
-    "en_size_bytes": 18956
+    "ja_size_bytes": 31136,
+    "en_size_bytes": 30099
   },
   {
     "id": 537,
@@ -5086,8 +5086,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/537",
     "en_url": "https://mirai-shigoto.com/en/537",
-    "ja_size_bytes": 19679,
-    "en_size_bytes": 18797
+    "ja_size_bytes": 30908,
+    "en_size_bytes": 29927
   },
   {
     "id": 538,
@@ -5096,8 +5096,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/538",
     "en_url": "https://mirai-shigoto.com/en/538",
-    "ja_size_bytes": 19743,
-    "en_size_bytes": 18916
+    "ja_size_bytes": 30972,
+    "en_size_bytes": 30054
   },
   {
     "id": 539,
@@ -5106,8 +5106,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/539",
     "en_url": "https://mirai-shigoto.com/en/539",
-    "ja_size_bytes": 19652,
-    "en_size_bytes": 18793
+    "ja_size_bytes": 30881,
+    "en_size_bytes": 29926
   },
   {
     "id": 540,
@@ -5116,8 +5116,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/540",
     "en_url": "https://mirai-shigoto.com/en/540",
-    "ja_size_bytes": 19865,
-    "en_size_bytes": 18971
+    "ja_size_bytes": 31100,
+    "en_size_bytes": 30108
   },
   {
     "id": 541,
@@ -5126,8 +5126,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/541",
     "en_url": "https://mirai-shigoto.com/en/541",
-    "ja_size_bytes": 19610,
-    "en_size_bytes": 18791
+    "ja_size_bytes": 30842,
+    "en_size_bytes": 29913
   },
   {
     "id": 542,
@@ -5136,8 +5136,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/542",
     "en_url": "https://mirai-shigoto.com/en/542",
-    "ja_size_bytes": 19944,
-    "en_size_bytes": 19028
+    "ja_size_bytes": 31182,
+    "en_size_bytes": 30166
   },
   {
     "id": 543,
@@ -5146,8 +5146,8 @@
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/543",
     "en_url": "https://mirai-shigoto.com/en/543",
-    "ja_size_bytes": 19945,
-    "en_size_bytes": 19056
+    "ja_size_bytes": 31189,
+    "en_size_bytes": 30189
   },
   {
     "id": 544,
@@ -5156,8 +5156,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/544",
     "en_url": "https://mirai-shigoto.com/en/544",
-    "ja_size_bytes": 20078,
-    "en_size_bytes": 19235
+    "ja_size_bytes": 31337,
+    "en_size_bytes": 30369
   },
   {
     "id": 545,
@@ -5166,8 +5166,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/545",
     "en_url": "https://mirai-shigoto.com/en/545",
-    "ja_size_bytes": 19615,
-    "en_size_bytes": 18709
+    "ja_size_bytes": 30844,
+    "en_size_bytes": 29834
   },
   {
     "id": 546,
@@ -5176,8 +5176,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/546",
     "en_url": "https://mirai-shigoto.com/en/546",
-    "ja_size_bytes": 19708,
-    "en_size_bytes": 18775
+    "ja_size_bytes": 30940,
+    "en_size_bytes": 29903
   },
   {
     "id": 547,
@@ -5186,8 +5186,8 @@
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/547",
     "en_url": "https://mirai-shigoto.com/en/547",
-    "ja_size_bytes": 20128,
-    "en_size_bytes": 19251
+    "ja_size_bytes": 31396,
+    "en_size_bytes": 30376
   },
   {
     "id": 548,
@@ -5196,8 +5196,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/548",
     "en_url": "https://mirai-shigoto.com/en/548",
-    "ja_size_bytes": 19871,
-    "en_size_bytes": 18973
+    "ja_size_bytes": 31115,
+    "en_size_bytes": 30101
   },
   {
     "id": 549,
@@ -5206,8 +5206,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/549",
     "en_url": "https://mirai-shigoto.com/en/549",
-    "ja_size_bytes": 19838,
-    "en_size_bytes": 18884
+    "ja_size_bytes": 31076,
+    "en_size_bytes": 30012
   },
   {
     "id": 550,
@@ -5216,8 +5216,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/550",
     "en_url": "https://mirai-shigoto.com/en/550",
-    "ja_size_bytes": 20216,
-    "en_size_bytes": 19291
+    "ja_size_bytes": 31478,
+    "en_size_bytes": 30424
   },
   {
     "id": 551,
@@ -5226,8 +5226,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/551",
     "en_url": "https://mirai-shigoto.com/en/551",
-    "ja_size_bytes": 20251,
-    "en_size_bytes": 19319
+    "ja_size_bytes": 31510,
+    "en_size_bytes": 30461
   },
   {
     "id": 552,
@@ -5236,8 +5236,8 @@
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/552",
     "en_url": "https://mirai-shigoto.com/en/552",
-    "ja_size_bytes": 19729,
-    "en_size_bytes": 18902
+    "ja_size_bytes": 30966,
+    "en_size_bytes": 30030
   },
   {
     "id": 553,
@@ -5246,8 +5246,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/553",
     "en_url": "https://mirai-shigoto.com/en/553",
-    "ja_size_bytes": 20047,
-    "en_size_bytes": 19148
+    "ja_size_bytes": 31291,
+    "en_size_bytes": 30286
   },
   {
     "id": 554,
@@ -5256,8 +5256,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/554",
     "en_url": "https://mirai-shigoto.com/en/554",
-    "ja_size_bytes": 20586,
-    "en_size_bytes": 19713
+    "ja_size_bytes": 31860,
+    "en_size_bytes": 30862
   },
   {
     "id": 555,
@@ -5266,8 +5266,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/555",
     "en_url": "https://mirai-shigoto.com/en/555",
-    "ja_size_bytes": 20259,
-    "en_size_bytes": 19389
+    "ja_size_bytes": 31518,
+    "en_size_bytes": 30528
   },
   {
     "id": 556,
@@ -5276,8 +5276,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/556",
     "en_url": "https://mirai-shigoto.com/en/556",
-    "ja_size_bytes": 20338,
-    "en_size_bytes": 19436
+    "ja_size_bytes": 31594,
+    "en_size_bytes": 30581
   },
   {
     "id": 557,
@@ -5286,8 +5286,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/557",
     "en_url": "https://mirai-shigoto.com/en/557",
-    "ja_size_bytes": 20713,
-    "en_size_bytes": 19830
+    "ja_size_bytes": 31993,
+    "en_size_bytes": 30982
   },
   {
     "id": 558,
@@ -5296,8 +5296,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/558",
     "en_url": "https://mirai-shigoto.com/en/558",
-    "ja_size_bytes": 19972,
-    "en_size_bytes": 19038
+    "ja_size_bytes": 31210,
+    "en_size_bytes": 30176
   },
   {
     "id": 559,
@@ -5306,8 +5306,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/559",
     "en_url": "https://mirai-shigoto.com/en/559",
-    "ja_size_bytes": 20223,
-    "en_size_bytes": 19350
+    "ja_size_bytes": 31470,
+    "en_size_bytes": 30498
   },
   {
     "id": 560,
@@ -5316,8 +5316,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/560",
     "en_url": "https://mirai-shigoto.com/en/560",
-    "ja_size_bytes": 19716,
-    "en_size_bytes": 18859
+    "ja_size_bytes": 30951,
+    "en_size_bytes": 29993
   },
   {
     "id": 561,
@@ -5326,8 +5326,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/561",
     "en_url": "https://mirai-shigoto.com/en/561",
-    "ja_size_bytes": 19985,
-    "en_size_bytes": 19145
+    "ja_size_bytes": 31232,
+    "en_size_bytes": 30280
   },
   {
     "id": 562,
@@ -5336,8 +5336,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/562",
     "en_url": "https://mirai-shigoto.com/en/562",
-    "ja_size_bytes": 19795,
-    "en_size_bytes": 18954
+    "ja_size_bytes": 31018,
+    "en_size_bytes": 30100
   },
   {
     "id": 563,
@@ -5346,8 +5346,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/563",
     "en_url": "https://mirai-shigoto.com/en/563",
-    "ja_size_bytes": 19649,
-    "en_size_bytes": 18856
+    "ja_size_bytes": 30878,
+    "en_size_bytes": 29986
   },
   {
     "id": 564,
@@ -5356,8 +5356,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/564",
     "en_url": "https://mirai-shigoto.com/en/564",
-    "ja_size_bytes": 19937,
-    "en_size_bytes": 19091
+    "ja_size_bytes": 31178,
+    "en_size_bytes": 30231
   },
   {
     "id": 565,
@@ -5366,8 +5366,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/565",
     "en_url": "https://mirai-shigoto.com/en/565",
-    "ja_size_bytes": 19769,
-    "en_size_bytes": 18920
+    "ja_size_bytes": 30998,
+    "en_size_bytes": 30059
   },
   {
     "id": 566,
@@ -5376,8 +5376,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/566",
     "en_url": "https://mirai-shigoto.com/en/566",
-    "ja_size_bytes": 20048,
-    "en_size_bytes": 19198
+    "ja_size_bytes": 31295,
+    "en_size_bytes": 30336
   },
   {
     "id": 567,
@@ -5386,8 +5386,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/567",
     "en_url": "https://mirai-shigoto.com/en/567",
-    "ja_size_bytes": 20112,
-    "en_size_bytes": 19262
+    "ja_size_bytes": 31359,
+    "en_size_bytes": 30407
   },
   {
     "id": 568,
@@ -5396,8 +5396,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/568",
     "en_url": "https://mirai-shigoto.com/en/568",
-    "ja_size_bytes": 20188,
-    "en_size_bytes": 19354
+    "ja_size_bytes": 31438,
+    "en_size_bytes": 30501
   },
   {
     "id": 569,
@@ -5406,8 +5406,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/569",
     "en_url": "https://mirai-shigoto.com/en/569",
-    "ja_size_bytes": 19665,
-    "en_size_bytes": 18820
+    "ja_size_bytes": 30891,
+    "en_size_bytes": 29954
   },
   {
     "id": 570,
@@ -5416,8 +5416,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/570",
     "en_url": "https://mirai-shigoto.com/en/570",
-    "ja_size_bytes": 19661,
-    "en_size_bytes": 18891
+    "ja_size_bytes": 30890,
+    "en_size_bytes": 30022
   },
   {
     "id": 571,
@@ -5426,8 +5426,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/571",
     "en_url": "https://mirai-shigoto.com/en/571",
-    "ja_size_bytes": 20141,
-    "en_size_bytes": 19291
+    "ja_size_bytes": 31379,
+    "en_size_bytes": 30447
   },
   {
     "id": 572,
@@ -5436,8 +5436,8 @@
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/572",
     "en_url": "https://mirai-shigoto.com/en/572",
-    "ja_size_bytes": 20092,
-    "en_size_bytes": 19251
+    "ja_size_bytes": 31348,
+    "en_size_bytes": 30385
   },
   {
     "id": 573,
@@ -5446,8 +5446,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/573",
     "en_url": "https://mirai-shigoto.com/en/573",
-    "ja_size_bytes": 20029,
-    "en_size_bytes": 19213
+    "ja_size_bytes": 31282,
+    "en_size_bytes": 30345
   },
   {
     "id": 574,
@@ -5456,8 +5456,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/574",
     "en_url": "https://mirai-shigoto.com/en/574",
-    "ja_size_bytes": 20207,
-    "en_size_bytes": 19334
+    "ja_size_bytes": 31448,
+    "en_size_bytes": 30491
   },
   {
     "id": 575,
@@ -5466,8 +5466,8 @@
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/575",
     "en_url": "https://mirai-shigoto.com/en/575",
-    "ja_size_bytes": 19725,
-    "en_size_bytes": 18913
+    "ja_size_bytes": 30957,
+    "en_size_bytes": 30045
   },
   {
     "id": 576,
@@ -5476,8 +5476,8 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/576",
     "en_url": "https://mirai-shigoto.com/en/576",
-    "ja_size_bytes": 19928,
-    "en_size_bytes": 19059
+    "ja_size_bytes": 31160,
+    "en_size_bytes": 30205
   },
   {
     "id": 577,
@@ -5486,8 +5486,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/577",
     "en_url": "https://mirai-shigoto.com/en/577",
-    "ja_size_bytes": 20043,
-    "en_size_bytes": 19238
+    "ja_size_bytes": 31290,
+    "en_size_bytes": 30378
   },
   {
     "id": 578,
@@ -5496,8 +5496,8 @@
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/578",
     "en_url": "https://mirai-shigoto.com/en/578",
-    "ja_size_bytes": 19655,
-    "en_size_bytes": 18834
+    "ja_size_bytes": 30884,
+    "en_size_bytes": 29963
   },
   {
     "id": 579,
@@ -5506,8 +5506,8 @@
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/579",
     "en_url": "https://mirai-shigoto.com/en/579",
-    "ja_size_bytes": 19733,
-    "en_size_bytes": 18841
+    "ja_size_bytes": 30968,
+    "en_size_bytes": 29969
   },
   {
     "id": 580,
@@ -5516,7 +5516,7 @@
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/580",
     "en_url": "https://mirai-shigoto.com/en/580",
-    "ja_size_bytes": 20121,
-    "en_size_bytes": 19281
+    "ja_size_bytes": 31377,
+    "en_size_bytes": 30418
   }
 ]
