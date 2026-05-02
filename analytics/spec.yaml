@@ -5,7 +5,6 @@
 # spec idempotently to the configured GA4 property (see analytics/README.md).
 #
 # Property:    G-GLDNBDPF13   (mirai-shigoto.com)
-# Spec author: Jason
 #
 # Naming conventions:
 #   - Event names: snake_case, lowercase, <= 40 chars
@@ -105,6 +104,36 @@ events:
       - { name: language, type: string }
     conversion: true   # Yaku's推广方案 KPI #1 — promote to Key Event
 
+  - name: popular_job_click
+    description: |
+      User clicked one of the 5 hero chips (mobile §7.11 or desktop §7.12).
+      Replaces the older `chip_click` event. Fires from `navigateToJob(rec, "chip")`
+      and immediately navigates to the mapped occupation page (`CHIP_TO_JOB`).
+    params:
+      - { name: occupation_id, type: int }
+      - { name: occupation_name_ja, type: string }
+      - { name: occupation_name_en, type: string }
+      - { name: ai_risk_score, type: int }
+      - { name: language, type: string }
+      - { name: source, type: string, desc: "always 'chip' — kept as a param so dashboards can union with job_search_navigate for total navigation volume" }
+    conversion: true   # primary chip → occupation funnel
+
+  - name: job_search_navigate
+    description: |
+      User triggered a navigation from the search field — Enter key on the
+      input, click of the「AI 影響度をチェック」button, click on a
+      `.search-suggest` dropdown item, or keyboard Enter on a focused
+      suggest item. All four paths land on the same `/ja/<id>` or `/en/<id>`
+      via `navigateToJob(rec, source)`.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: occupation_name_ja, type: string }
+      - { name: occupation_name_en, type: string }
+      - { name: ai_risk_score, type: int }
+      - { name: language, type: string }
+      - { name: source, type: string, desc: "search_submit | suggest_click | suggest_keyboard" }
+    conversion: true   # primary search → occupation funnel
+
   # ---- Modal lifecycle (Phase 0 D1 funnel) ----
   - name: occupation_modal_open
     description: Occupation detail modal displayed.
@@ -152,13 +181,11 @@ events:
       - { name: language, type: string }
     conversion: false
 
-  - name: chip_click
-    description: User tapped one of the mobile-hero chips (Variant C, Design.md §7.11). Fills the search input + applies filter on the treemap. Clicking the active chip clears the filter.
-    params:
-      - { name: chip_label, type: string, desc: "事務 / 経理 / プログラマ / 看護師 / 営業 (or future replacements)" }
-      - { name: language, type: string }
-      - { name: cleared, type: string, desc: "true if click cleared an active chip; false if it set a new filter" }
-    conversion: true   # Yaku's推广方案 KPI #2 — promote to Key Event
+  # `chip_click` was the original event for mobile-hero chip taps when chips
+  # filtered the treemap. As of Stage 1 (2026-05-02) chips do 1-step direct
+  # navigation via CHIP_TO_JOB, so this event was replaced by
+  # `popular_job_click` above. Removed from spec — no event currently fires
+  # under this name in the production codebase.
 
   - name: result_view
     description: |
@@ -213,13 +240,32 @@ events:
     conversion: true   # QI 8 — highest unit value
 
   # ---- Sharing ----
-  - name: share_x_click
-    description: User clicked the X share button inside an occupation modal.
+  # `share_x_click` was per-platform — replaced 2026-05-02 by the unified
+  # `share_click` event below, which carries `platform` as a param so all
+  # share platforms feed one event with consistent UTM contracts.
+  - name: share_click
+    description: |
+      User clicked any share button (X, LINE, Hatena, LinkedIn, Facebook,
+      Copy, Native). Fires from both the home-page footer and from the
+      1,104 occupation detail pages. URL embeds UTM params per
+      Design.md §7.13.
     params:
-      - { name: occupation_id, type: int }
-      - { name: ai_risk_score, type: int }
+      - { name: platform, type: string, desc: "x | line | hatena | linkedin | facebook | copy | native" }
       - { name: language, type: string }
+      - { name: occupation_id, type: int, desc: "Set on occupation pages, 0 on home page." }
     conversion: false
+
+  # ---- Follow ----
+  - name: x_follow_click
+    description: |
+      User clicked the orange「X でフォローする」CTA in the unified footer
+      (Design.md §7.13). Lives on the home page and on every occupation
+      detail page; on detail pages the `occupation_id` carries the page's id
+      so we can attribute follows to specific high-engagement occupations.
+    params:
+      - { name: language, type: string }
+      - { name: occupation_id, type: int, desc: "Set on occupation pages, 0 on home page." }
+    conversion: false   # observe a few weeks before promoting
 
   # ---- Theme (light/dark) ----
   - name: theme_change
@@ -295,13 +341,46 @@ event_scoped_dimensions:
     display_name: Tile Position Index
     description: 0-indexed rendered position of the clicked tile (proxy for prominence).
 
-  - parameter_name: chip_label
-    display_name: Mobile Hero Chip Label
-    description: Which chip the user tapped (mobile Variant C hero, Design.md §7.11).
+  - parameter_name: source
+    display_name: Navigation Source
+    description: |
+      How the user arrived at the navigation event:
+      `desktop_click` / `touch_tap` / `keyboard` (occupation_tile_click);
+      `chip` (popular_job_click);
+      `search_submit` / `suggest_click` / `suggest_keyboard` (job_search_navigate).
+      Lets dashboards union all 3 events into one funnel grouped by entry path.
 
-  - parameter_name: cleared
-    display_name: Chip Cleared
-    description: Whether the chip click cleared an active chip filter (true) or set a new one (false).
+  - parameter_name: query
+    display_name: Search Query
+    description: Trimmed query string the user typed into the treemap search box (max 100 chars). Used to surface most-searched occupation terms.
+
+  - parameter_name: match_count
+    display_name: Search Match Count
+    description: Number of treemap tiles matching the query at fire time. 0 = surfaces dataset gaps (terms users want that we don't cover).
+
+  - parameter_name: platform
+    display_name: Share Platform
+    description: Which share platform the user picked. `x | line | hatena | linkedin | facebook | copy | native`. Used by `share_click`.
+
+  - parameter_name: device_category
+    display_name: Device Category
+    description: Client-derived `mobile | tablet | desktop` at `map_loaded` time. Lets reports split by device without relying on GA4's noisy auto-derivation.
+
+  - parameter_name: tile_count
+    display_name: Tile Count Rendered
+    description: Number of tiles drawn at initial treemap render (552 today). Surfaces dataset growth and partial-render anomalies.
+
+  - parameter_name: from_layer
+    display_name: Layer Switch Source
+    description: Previously active color layer at the moment of a `layer_change` (paired with `layer_name` which is the new value).
+
+  - parameter_name: time_open_ms
+    display_name: Modal Open Duration (ms)
+    description: How long the occupation modal was open before being closed. Used to score "engaged but didn't convert" sessions.
+
+  - parameter_name: freetext_length
+    display_name: Feedback Free-Text Length
+    description: Character count of the free-text feedback field. The text itself is NOT logged (PII risk) — only the length, as a proxy for thoughtfulness.
 
   - parameter_name: success
     display_name: Submit Success
@@ -356,6 +435,13 @@ user_scoped_dimensions:
 # explicitly for visibility.
 
 key_events:
+  # — Funnel: arrival → occupation page —
+  - occupation_tile_click   # treemap tile → /ja/<id> or /en/<id>
+  - popular_job_click       # hero chip → /ja/<id> or /en/<id> (Stage 1)
+  - job_search_submit       # user typed a search query (KPI #1, paused 800 ms)
+  - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
+  - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
+  # — Conversion: occupation page → operator inbox —
   - email_submit_modal      # QI 5 (email + occupation)
   - email_submit_header     # QI 3 (email only)
   - feedback_submit         # QI 8 (feedback + tagging)
