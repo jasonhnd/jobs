@@ -68,3 +68,30 @@ jobs:
             -f environment_url="https://mirai-shigoto.com" \
             -f log_url="https://vercel.com/zkscio/jobs/deployments" \
             -f description="Live at mirai-shigoto.com"
+
+      - name: Sweep Vercel-written deployments for this SHA
+        # Vercel auto-writes a GitHub Deployment per push pointing at a
+        # *.vercel.app URL that's behind Deployment Protection (HTTP 401).
+        # Delete any deployment for this SHA that isn't ours, so the
+        # /deployments page only shows working URLs.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          gh api "/repos/$GH_REPO/deployments?sha=$SHA&per_page=100" \
+            --jq '.[] | select(.environment != "mirai-shigoto.com") | .id' \
+          | while read -r DEP_ID; do
+              [ -z "$DEP_ID" ] && continue
+              echo "Sweeping Vercel deployment $DEP_ID"
+              gh api --method POST \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/$GH_REPO/deployments/$DEP_ID/statuses" \
+                -f state="inactive" \
+                -f description="Superseded by workflow-managed deployment" \
+                >/dev/null 2>&1 || true
+              gh api --method DELETE \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/$GH_REPO/deployments/$DEP_ID" \
+                >/dev/null 2>&1 || true
+            done
