@@ -386,19 +386,49 @@ hover (各平台品牌色覆盖):
 - `color: #555c69`（独立色，不用 var）
 - 链接颜色 `var(--accent)`
 
+### 7.11 Mobile Hero（Variant C, mobile-only）
+
+mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，不影响桌面版。
+
+**目的**：手机用户打开站点 10 秒内必须看到主图 / 工具入口，避免让 stats / toggles / 说明文字挤占首屏。
+
+**结构**（DOM 顺序自上而下）：
+
+1. `h2.mobile-hero-title` — `あなたの仕事の AI 影響度 を見る` / `See your job's AI impact`，字号 1.35rem (`≤480: 1.2rem`)，`AI 影響度` 用 `var(--accent)` 着色。
+2. `.mobile-hero-trust` — 单行信任信号：`552 職業 · LLM スコア · 公開データ由来`。font 0.74rem，`color: var(--fg2)`，居中或左对齐。
+3. `.mobile-hero-search` — 搜索输入框 + 🔍 icon prefix。input 占满宽，padding `10px 14px 10px 38px`（左侧留 icon 空间），radius 999px。`placeholder: 職業名で検索（例：事務職）`。绑定 `applyFilter()`。
+4. `.mobile-hero-chips` — 5 个职业 chip，横排可 wrap：`事務 / 経理 / プログラマ / 看護師 / 営業`（5 个）。每个 chip 形如 `<button>事務</button>`，点击 = `searchInput.value = label; applyFilter(label)`。chip padding `5px 11px`，radius 999px，`border: 1px solid var(--border)`，font 0.78rem。
+
+**桌面行为**（`min-width: 769px`）：`.mobile-hero { display: none }`。h1 / .controls / .dimension-hint / .search-row / .stats-panel 按原顺序堆叠（不变）。
+
+**移动行为**（`max-width: 768px`）：
+- `.mobile-hero { display: block }`，置于 h1 之下、treemap 之上。
+- DOM 重排：`.controls` / `.stats-panel` 移到 treemap **之后**（`#wrapper` 改 flex-column + `order` 控制），`.dimension-hint` / `.search-row`（旧的，原 desktop 位）`display: none`（mobile-hero 自带搜索）。
+- 用户首屏看到：top-banner → h1 → mobile-hero → treemap 顶部。`.controls` / `.stats-panel` 滚下后可见，做"探索后操作"。
+
+**Chip 行为契约**：
+- 点击 chip = `applyFilter(label)`，treemap 上 dim 不匹配的 tile，匹配 tile 高亮。
+- 同一个 chip 再点击不切换状态（始终是该 label 的 filter）。
+- 清空 search input → `applyFilter("")` → dim 全消，回到完整地图。
+- chip 标签 5 选 1 是 v1 占位，应在装上 GA4 `scroll_50%` / `scroll_75%` + 拉 7 天数据后用 top-clicked / top-searched 替换。
+
 ---
 
 ## 8. 移动端自适应规则汇总
 
 ### 8.1 ≤768px（mobile）
 
-- `#wrapper padding: 16px 16px 60px`
+- `#wrapper padding: 16px 16px 60px`，**改 `display: flex; flex-direction: column`** 以便 §7.11 mobile-hero / treemap / 旧 chrome 通过 `order` 重排
 - `h1 font 1.3rem`，flex-direction column，gap 8px
 - `h1 .lang-switch margin-left 0`（不再 push 到右）
+- **§7.11 `.mobile-hero` 显示**（`display: block`），插在 h1 之下
+- **DOM 重排（CSS `order`）**：mobile-hero / loadingState / treemap / .controls / .stats-panel 之间用 order 推 treemap 上来
+- **`.dimension-hint`、原 `.search-row` 在 mobile 上 `display: none`**（mobile-hero 取代它们）
 - `.intro font 0.88rem`, line-height 1.75
-- `.controls gap 10px, padding 10px 12px`
+- `.controls gap 10px, padding 10px 12px`，**移到 treemap 之后**
 - `.layer-toggle` 横向滚动
 - `.gradient-legend` 占满宽度 + 居中
+- `.stats-panel` **移到 treemap 之后**
 - `.stats-row gap 14px, font 0.78rem`
 - `#tooltip` 进入 touch-mode（详见 §6.2）
 - `.meta-card` 单列
@@ -516,6 +546,7 @@ hover (各平台品牌色覆盖):
 | 2026-05-01 | — | 初版起草 | 把 v0.4.x 既有设计固化为正式规范 |
 | 2026-05-01 | §2.1 | Light treemap 锚点变亮 | 用户反馈对比度还不够鲜艳：绿 `(0,140,75)` → `(15,195,105)`；红 `(200,35,45)` → `(235,40,55)`；橘微调 `(230,110,20)` → `(235,115,25)` |
 | 2026-05-01 | §6.1 | Tooltip 字号 + 尺寸放大 | 原 0.82rem / 360px 在桌面读起来偏小，改 0.92rem / 400px，title 0.95→1.06rem 且去掉 hardcode `#fff` 改用 `var(--fg)`（双主题适用）|
+| 2026-05-02 | §7.11, §8.1 | Mobile Hero（Variant C）| Mobile 首屏从 stats / toggles / 6 张卡 重构成 h2 + 信任信号 + 搜索框 + 5 chip + 直出 treemap。桌面不变。诊断：当前手机端要滚 2-3 屏才看到主图，工具入口被展示型设计语言挤掉。|
 
 ---
 

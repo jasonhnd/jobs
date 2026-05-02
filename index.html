@@ -930,10 +930,100 @@
       [data-i18n]:not(.active) {
         display: none;
       }
+
+      /* ============ Mobile Hero (Variant C, Design.md §7.11) ============ */
+      /* Default: hidden on desktop. Mobile media query at the bottom flips it on. */
+      .mobile-hero { display: none; }
+      .mobile-hero-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+        margin: 12px 0 6px;
+        color: var(--fg);
+      }
+      .mobile-hero-title .acc { color: var(--accent); }
+      .mobile-hero-trust {
+        font-size: 0.74rem;
+        color: var(--fg2);
+        margin: 0 0 14px;
+        letter-spacing: 0.02em;
+      }
+      .mobile-hero-search {
+        position: relative;
+        margin: 0 0 12px;
+      }
+      .mobile-hero-search .mhs-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.95rem;
+        opacity: 0.7;
+        pointer-events: none;
+      }
+      .mobile-hero-search input {
+        width: 100%;
+        padding: 11px 14px 11px 40px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--fg);
+        font: inherit;
+        font-size: 0.92rem;
+        outline: none;
+      }
+      .mobile-hero-search input:focus-visible {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(255, 184, 77, 0.18);
+      }
+      .mobile-hero-search input::placeholder { color: var(--fg2); }
+      .mobile-hero-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .mobile-hero-chips button {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        padding: 5px 11px;
+        border-radius: 999px;
+        font: inherit;
+        font-size: 0.78rem;
+        cursor: pointer;
+        transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+      }
+      .mobile-hero-chips button:hover,
+      .mobile-hero-chips button:focus-visible {
+        border-color: var(--accent);
+        color: var(--accent);
+        outline: none;
+      }
+      .mobile-hero-chips button.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(255, 184, 77, 0.08);
+      }
+
       @media (max-width: 768px) {
         #wrapper {
           padding: 16px 16px 60px;
+          display: flex;
+          flex-direction: column;
         }
+        /* Variant C reorder: treemap up, stats / controls below.
+           header is `display: contents` so its children participate in the
+           wrapper's flex order. dimension-hint and the desktop search-row
+           are hidden because mobile-hero replaces them. */
+        header { display: contents; }
+        header h1 { order: -5; }
+        .mobile-hero { display: block; order: -4; }
+        #loadingState { order: -3; }
+        #treemap { order: -2; }
+        .controls { order: -1; }
+        .dimension-hint { display: none; }
+        .search-row { display: none; }
         h1 {
           font-size: 1.3rem;
           flex-direction: column;
@@ -1232,6 +1322,35 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+
+        <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only.
+             Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal +
+             search input + 5 occupation chips, sitting just above the treemap on mobile. -->
+        <div class="mobile-hero" aria-label="Mobile quick-search hero">
+          <h2 class="mobile-hero-title">
+            <span data-i18n="ja" class="active">あなたの仕事の <span class="acc">AI 影響度</span> を見る</span>
+            <span data-i18n="en">See your job's <span class="acc">AI impact</span></span>
+          </h2>
+          <div class="mobile-hero-trust">
+            <span data-i18n="ja" class="active">552 職業 ・ LLM スコア ・ 公開データ由来</span>
+            <span data-i18n="en">552 occupations ・ LLM-scored ・ from public data</span>
+          </div>
+          <div class="mobile-hero-search">
+            <span class="mhs-icon" aria-hidden="true">🔍</span>
+            <input id="searchInputMobile" type="search" autocomplete="off"
+                   data-i18n-ja-placeholder="職業名で検索（例：事務職）"
+                   data-i18n-en-placeholder="Search occupations (e.g. clerk)"
+                   placeholder="職業名で検索（例：事務職）"
+                   aria-label="Search occupations" />
+          </div>
+          <div class="mobile-hero-chips" role="list">
+            <button type="button" data-chip="事務" role="listitem">事務</button>
+            <button type="button" data-chip="経理" role="listitem">経理</button>
+            <button type="button" data-chip="プログラマ" role="listitem">プログラマ</button>
+            <button type="button" data-chip="看護師" role="listitem">看護師</button>
+            <button type="button" data-chip="営業" role="listitem">営業</button>
+          </div>
+        </div>
 
         <div class="controls">
           <label data-i18n="ja" class="active">色：</label>
@@ -2330,9 +2449,39 @@
         draw();
       }
       let searchDebounce = null;
-      document.getElementById("searchInput").addEventListener("input", e => {
-        clearTimeout(searchDebounce);
-        searchDebounce = setTimeout(() => applyFilter(e.target.value), 100);
+      // Both #searchInput (desktop) and #searchInputMobile (mobile-hero, Design.md §7.11)
+      // call the same applyFilter pipeline. We mirror values across both so a viewport
+      // resize never strands a query in the wrong field.
+      const searchInputs = [
+        document.getElementById("searchInput"),
+        document.getElementById("searchInputMobile"),
+      ].filter(Boolean);
+      searchInputs.forEach(inp => {
+        inp.addEventListener("input", e => {
+          const v = e.target.value;
+          searchInputs.forEach(other => { if (other !== inp) other.value = v; });
+          clearTimeout(searchDebounce);
+          searchDebounce = setTimeout(() => applyFilter(v), 100);
+        });
+      });
+
+      // Mobile-hero chip row — clicking a chip fills both inputs and runs the filter.
+      // Clicking the active chip again clears the filter.
+      document.querySelectorAll(".mobile-hero-chips button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const isActive = btn.classList.contains("active");
+          document.querySelectorAll(".mobile-hero-chips button.active")
+            .forEach(b => b.classList.remove("active"));
+          const value = isActive ? "" : (btn.dataset.chip || btn.textContent.trim());
+          if (!isActive) btn.classList.add("active");
+          searchInputs.forEach(inp => { inp.value = value; });
+          applyFilter(value);
+          if (window.gtag) gtag("event", "chip_click", {
+            chip_label: btn.dataset.chip || btn.textContent.trim(),
+            language: lang,
+            cleared: isActive,
+          });
+        });
       });
 
       // ---- Pointer/Touch handling for mobile vs desktop ----
