@@ -1542,7 +1542,7 @@
         </p>
         <p class="intro" data-i18n="ja">
           <strong>色</strong>は選択中の指標。上部のレイヤー切替で 6 種（AI リスク／年収／平均年齢／労働時間／求人倍率／学歴）を切り替え。<br>
-          タイルをクリックすると、その職業の AI 影響分析ページ（<code>/occ/&lt;id&gt;-&lt;slug&gt;</code>）が開きます。各分析ページには jobtag 公式ページへのリンクも記載しています。
+          タイルをクリックすると、その職業の AI 影響分析ページ（<code>/ja/&lt;id&gt;</code>。英語版は <code>/en/&lt;id&gt;</code>）が開きます。各分析ページには jobtag 公式ページへのリンクも記載しています。
         </p>
         <p class="intro" data-i18n="ja">
           <strong>AI リスク</strong>は 0〜10。AI が今後その職業をどれほど作り変えるかの推定値です。<br>
@@ -1621,7 +1621,7 @@
         </p>
         <p class="intro" data-i18n="en">
           Tile <strong>color</strong> shows the selected metric. Use the top toggle to switch among 6 layers: AI Risk / Salary / Avg Age / Hours / Recruit Ratio / Education.<br>
-          Click any tile to open the per-occupation AI impact analysis page (<code>/occ/&lt;id&gt;-&lt;slug&gt;</code>). Each analysis page also links out to the official jobtag detail.
+          Click any tile to open the per-occupation AI impact analysis page (<code>/en/&lt;id&gt;</code> in English; the Japanese version is at <code>/ja/&lt;id&gt;</code>). Each analysis page also links out to the official jobtag detail.
         </p>
         <p class="intro" data-i18n="en">
           <strong>AI Risk</strong> is a 0–10 estimate of how much AI will reshape each occupation.<br>
@@ -1748,17 +1748,32 @@
       const MARGIN = 4, GAP = 1;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
-      // Build the /occ/<id>-<slug> URL for an occupation record. Slug logic
-      // mirrors scripts/build_occupations.py exactly so the URLs we hand
-      // off here always match a generated static page.
-      function slugifyEn(s) {
-        if (!s) return "";
-        return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
-      }
+      // Build the per-occupation URL. Pages live at /ja/<id> and /en/<id>;
+      // we route to whichever language the user is currently viewing.
+      // Mirrors scripts/build_occupations.py (which writes ja/<id>.html and en/<id>.html).
       function occUrl(rec) {
         if (!rec || rec.id == null) return "/";
-        const slug = slugifyEn(rec.name_en);
-        return slug ? "/occ/" + rec.id + "-" + slug : "/occ/" + rec.id;
+        return "/" + (lang === "en" ? "en" : "ja") + "/" + rec.id;
+      }
+      // Fire occupation_tile_click for any path that opens a per-occupation page
+      // from the treemap (canvas click, touch tap, keyboard Enter). source lets
+      // analytics distinguish which input modality drove the click.
+      function fireTileClick(rec, source) {
+        if (!window.gtag || !rec) return;
+        const risk = rec.ai_risk != null ? rec.ai_risk : 0;
+        const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
+        const idx = (typeof rects !== "undefined" && rects.indexOf) ? rects.indexOf(rec) : -1;
+        gtag("event", "occupation_tile_click", {
+          occupation_id: rec.id,
+          occupation_name_ja: (rec.name_ja || "").slice(0, 100),
+          occupation_name_en: (rec.name_en || "").slice(0, 100),
+          ai_risk_score: risk,
+          risk_tier: tier,
+          salary: rec.salary || 0,
+          tile_position_idx: idx,
+          source: source,
+          language: lang,
+        });
       }
 
       const EDU_LABELS = ["高卒未満","高卒","専門学校卒","短大卒","高専卒","大卒","修士課程卒（修士と同等の専門職学位を含む）","博士課程卒"];
@@ -2499,6 +2514,7 @@
       // ---- Search filter ----
       function applyFilter(query) {
         searchQuery = query.trim().toLowerCase();
+        let matchCount = 0;
         if (!searchQuery) {
           dimmedIds = null;
           document.getElementById("searchCount").textContent = "";
@@ -2508,11 +2524,17 @@
             (d.name_en || "").toLowerCase().includes(searchQuery)
           );
           dimmedIds = new Set(matches.map(d => d.id));
+          matchCount = matches.length;
           document.getElementById("searchCount").textContent = I18N.searchHits[lang](matches.length);
         }
         draw();
+        return matchCount;
       }
       let searchDebounce = null;
+      // Separate, longer debounce so job_search_submit fires once per pause-in-typing
+      // instead of once per keystroke. 800 ms is the threshold treated as "user stopped".
+      let searchAnalyticsDebounce = null;
+      let lastSearchTracked = "";
       // Both #searchInput (desktop) and #searchInputMobile (mobile-hero, Design.md §7.11)
       // call the same applyFilter pipeline. We mirror values across both so a viewport
       // resize never strands a query in the wrong field.
@@ -2526,6 +2548,21 @@
           searchInputs.forEach(other => { if (other !== inp) other.value = v; });
           clearTimeout(searchDebounce);
           searchDebounce = setTimeout(() => applyFilter(v), 100);
+          // Analytics: fire job_search_submit only after typing pauses, only on
+          // non-empty queries, and only when the query actually changed since the
+          // last reported value — backspacing back to a previously tracked query
+          // shouldn't re-fire the same signal.
+          clearTimeout(searchAnalyticsDebounce);
+          searchAnalyticsDebounce = setTimeout(() => {
+            const trimmed = v.trim();
+            if (!trimmed || trimmed === lastSearchTracked) return;
+            lastSearchTracked = trimmed;
+            if (window.gtag) gtag("event", "job_search_submit", {
+              query: trimmed.slice(0, 100),
+              match_count: dimmedIds ? dimmedIds.size : 0,
+              language: lang,
+            });
+          }, 800);
         });
       });
 
@@ -2573,6 +2610,7 @@
             ai_risk_score: hit.ai_risk != null ? hit.ai_risk : 0,
             language: lang,
           });
+          fireTileClick(hit, "touch_tap");
           window.open(occUrl(hit), "_blank", "noopener,noreferrer");
           lastTapped = null;
           hideTooltip();
@@ -2639,6 +2677,7 @@
         if (lastTapped) { return; }
         const hit = hitTest(e.clientX, e.clientY);
         if (hit) {
+          fireTileClick(hit, "desktop_click");
           window.open(occUrl(hit), "_blank", "noopener,noreferrer");
           updateHashFor(hit.id);
         }
@@ -2695,7 +2734,10 @@
         else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = Math.max(0, keyboardIdx - 1);
         else if (e.key === "Enter" || e.key === " ") {
           const r = rects[keyboardIdx];
-          if (r) window.open(occUrl(r), "_blank", "noopener,noreferrer");
+          if (r) {
+            fireTileClick(r, "keyboard");
+            window.open(occUrl(r), "_blank", "noopener,noreferrer");
+          }
         } else if (e.key === "Escape") {
           hideTooltip(); hovered = null; draw();
         } else {

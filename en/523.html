@@ -175,6 +175,11 @@
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
 
+    <script>
+      // Per-occupation page-view signal for the GA4 conversion funnel.
+      gtag('event', 'result_view', { occupation_id: 523, ai_risk_score: 9, risk_tier: 'high', language: 'en' });
+    </script>
+
     <style>
       *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
       :root{--bg:#0b0d10;--bg2:#14171c;--fg:#e9eef5;--fg2:#8a93a3;--accent:#ffb84d;--border:rgba(255,255,255,0.08)}
