@@ -263,7 +263,8 @@ pointer-events: none  /* hover 模式不可点击 */
 
 - 添加 `.touch-mode` class
 - `pointer-events: auto`
-- 显示 `.tt-close` 关闭按钮（右上角 ×）
+- 显示 `.tt-close` 关闭按钮（右上角 ×）— 详细规格见 §6.5
+- 显示 `.tt-cta` 按钮（"詳細を見る →" / "View details →"）— 详细规格见 §6.6
 - `max-width: calc(100vw - 32px)`
 - `max-height: calc(100vh - 32px)`
 - `overflow-y: auto` + `-webkit-overflow-scrolling: touch`
@@ -276,6 +277,60 @@ pointer-events: none  /* hover 模式不可点击 */
 ### 6.4 视口溢出处理
 
 JS 必须根据 `window.innerWidth` / `innerHeight` 动态调整 tooltip 位置，确保不溢出视口。详见 `index.html` 中 `positionTooltip()` 逻辑（v0.4.2 引入）。
+
+### 6.5 Close button (`.tt-close`) 触摸目标
+
+| 主题 | 数值 |
+|---|---|
+| Visual size | 32×32 px（圆形） |
+| Hit area (touch target) | **44×44 px**（Apple HIG 最小） — 用 padding / pseudo-element 扩出，不靠 visual size |
+| Background | `rgba(255,255,255,0.06)`（dark 主题）/ `rgba(0,0,0,0.05)`（light 主题） |
+| Border | `1px solid var(--border)` |
+| Radius | `50%` |
+| Color | `var(--fg2)`，hover `var(--accent)` |
+| Font-size | `1.1rem`（× 字符大小） |
+| Position | `top: 8px; right: 8px` 绝对定位 |
+
+> **不可低于 44×44 hit area**。这是 v0.4.2 之后追加的硬性最小。原 22×22 视觉 + ~22×22 hit 在测试中导致老人 / 大拇指用户高频 mis-tap，是漏斗里的隐形漏点。
+
+### 6.6 Tooltip CTA (`.tt-cta`)
+
+Mobile touch-mode tooltip 必须有一个**显眼的"進入詳細页"按钮**，否则用户看到信息却不知道能点进去（实测漏斗大漏点）。
+
+| 字段 | 值 |
+|---|---|
+| 元素 | `<a id="tooltipCta" class="tt-cta" target="_blank" rel="noopener">` |
+| 文本 | JA `詳細を見る →` / EN `View details →` |
+| Background | `var(--accent)`（橙色） |
+| Color | dark 主题 `#0b0d10`，light 主题 `#fff` |
+| Padding | `10px 14px` |
+| Radius | 8px |
+| Font-weight | 600 |
+| Font-size | 0.88rem |
+| Display | block，`width: 100%`，`text-align: center` |
+| Margin | `12px 0 0`（与 tooltip 内容隔开） |
+| Hover | `filter: brightness(1.05)` |
+| Focus | `outline: 2px solid var(--accent); outline-offset: 2px` |
+
+**href 契约**：showTooltip() 时 JS 设置 `cta.href = occUrl(occupation)`（`/ja/<id>` 或 `/en/<id>`）。
+
+**GA4 事件**：点击 fire `tooltip_cta_click` 事件，参数 `occupation_id` / `ai_risk_score` / `language` — 详见 `analytics/spec.yaml`。
+
+> **CTA 与"双击 tile 打开详情"并存**，不替换。CTA 是显式入口（大多数用户走），双击是隐式快捷（老用户走）。两条路径都进 `/ja/<id>` 或 `/en/<id>`。GA4 用不同事件区分归因。
+
+### 6.7 Touch 行为契约（scroll vs tap）
+
+Canvas 必须正确区分用户**意图滚动**和**意图点击**，否则把 treemap 区域变成"滚动死区"。
+
+| 阶段 | 行为 |
+|---|---|
+| `touchstart` | 记录起点 `{ x, y, t }`。`passive: true` — **不调用 `preventDefault`**，让浏览器决定是否启动 native 滚动 |
+| `touchmove` | 不需要拦截。如果用户滚动，浏览器会自然处理 |
+| `touchend` | 计算位移 `Math.hypot(dx, dy)`：<br>• `< 10px` AND `duration < 500ms` → 视为 tap，调用 `handleTouchTap(x, y)`<br>• 否则 → 视为滚动结束，**不处理**（不出 tooltip、不导航） |
+
+> 现状 bug（v0.4.2 之前留下的）：`touchstart` 用 `passive: false` + `preventDefault` 后立刻 fire tap → tile 区域内任何手指落点都锁住 native scroll，treemap 变成"滚不动的图"。修复后 tile 区域内可以正常滚动列表。
+
+> Tap 触发延迟：从 touchstart 立即 → touchend 后 100–300ms。这是为了**正确判断意图**的代价，可接受。
 
 ---
 
@@ -547,6 +602,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 | 2026-05-01 | §2.1 | Light treemap 锚点变亮 | 用户反馈对比度还不够鲜艳：绿 `(0,140,75)` → `(15,195,105)`；红 `(200,35,45)` → `(235,40,55)`；橘微调 `(230,110,20)` → `(235,115,25)` |
 | 2026-05-01 | §6.1 | Tooltip 字号 + 尺寸放大 | 原 0.82rem / 360px 在桌面读起来偏小，改 0.92rem / 400px，title 0.95→1.06rem 且去掉 hardcode `#fff` 改用 `var(--fg)`（双主题适用）|
 | 2026-05-02 | §7.11, §8.1 | Mobile Hero（Variant C）| Mobile 首屏从 stats / toggles / 6 张卡 重构成 h2 + 信任信号 + 搜索框 + 5 chip + 直出 treemap。桌面不变。诊断：当前手机端要滚 2-3 屏才看到主图，工具入口被展示型设计语言挤掉。|
+| 2026-05-02 | §6.2, §6.5, §6.6, §6.7 | Mobile tooltip 三件 fix（Mirai Mobile Fix 提案）| FIX 01 加 `.tt-cta`「詳細を見る →」按钮（漏斗大漏点）；FIX 02 重写 touch 状态机，touchstart `passive: true` + touchend 位移 < 10px 才视为 tap（修 treemap 区滚动死区）；FIX 03 close button 22×22→32×32 visual + **44×44 hit area**（HIG 合规）。CTA 与双击 tile 打开详情并存，不替换。|
 
 ---
 

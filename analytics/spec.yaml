@@ -114,6 +114,31 @@ events:
       - { name: language, type: string }
     conversion: true   # mark as Key Event
 
+  - name: tooltip_cta_click
+    description: User tapped the "詳細を見る →" / "View details →" CTA inside the mobile touch-mode tooltip. The explicit funnel from treemap tile → occupation detail page (Design.md §6.6).
+    params:
+      - { name: occupation_id, type: int }
+      - { name: ai_risk_score, type: int }
+      - { name: risk_tier, type: string }
+      - { name: language, type: string }
+    conversion: false   # not a key event yet — observe a few weeks before promoting
+
+  - name: tile_double_tap_open
+    description: User double-tapped a tile on mobile to open the occupation detail page directly (the legacy "shortcut" path, kept alongside the explicit CTA so power users still have a fast option). Lets us A/B the funnel between the visible CTA and the hidden double-tap shortcut.
+    params:
+      - { name: occupation_id, type: int }
+      - { name: ai_risk_score, type: int }
+      - { name: language, type: string }
+    conversion: false
+
+  - name: chip_click
+    description: User tapped one of the mobile-hero chips (Variant C, Design.md §7.11). Fills the search input + applies filter on the treemap. Clicking the active chip clears the filter.
+    params:
+      - { name: chip_label, type: string, desc: "事務 / 経理 / プログラマ / 看護師 / 営業 (or future replacements)" }
+      - { name: language, type: string }
+      - { name: cleared, type: string, desc: "true if click cleared an active chip; false if it set a new filter" }
+    conversion: false
+
   - name: jobtag_outbound_click
     description: User clicked the secondary "open official jobtag page" link in modal.
     params:
@@ -235,6 +260,14 @@ event_scoped_dimensions:
   - parameter_name: tile_position_idx
     display_name: Tile Position Index
     description: 0-indexed rendered position of the clicked tile (proxy for prominence).
+
+  - parameter_name: chip_label
+    display_name: Mobile Hero Chip Label
+    description: Which chip the user tapped (mobile Variant C hero, Design.md §7.11).
+
+  - parameter_name: cleared
+    display_name: Chip Cleared
+    description: Whether the chip click cleared an active chip filter (true) or set a new one (false).
 
   - parameter_name: success
     display_name: Submit Success

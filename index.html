@@ -821,24 +821,49 @@
       #tooltip.touch-mode {
         pointer-events: auto;
       }
+      /* Close button — Design.md §6.5. Visual 32×32, hit area 44×44 via padding.
+         Only visible in mobile touch-mode (display:none on desktop hover). */
       #tooltip .tt-close {
         position: absolute;
-        top: 6px;
+        top: 8px;
         right: 8px;
-        background: transparent;
-        border: none;
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        border-radius: 50%;
         color: var(--fg2);
         font-size: 1.1rem;
         cursor: pointer;
-        padding: 2px 6px;
+        padding: 0;
         line-height: 1;
         display: none;
+        align-items: center;
+        justify-content: center;
+        transition: color 150ms ease, border-color 150ms ease;
+      }
+      :root[data-theme="light"] #tooltip .tt-close {
+        background: rgba(0, 0, 0, 0.05);
+      }
+      #tooltip .tt-close::before {
+        /* Expand the touch-target hit area to 44×44 (Apple HIG minimum)
+           without changing the visual size. Pseudo-element absorbs the
+           extra 6px padding all around. */
+        content: "";
+        position: absolute;
+        inset: -6px;
+      }
+      #tooltip .tt-close:hover,
+      #tooltip .tt-close:focus-visible {
+        color: var(--accent);
+        border-color: var(--accent);
+        outline: none;
       }
       #tooltip.touch-mode .tt-close {
-        display: block;
+        display: flex;
       }
       #tooltip.touch-mode .tt-title {
-        padding-right: 22px;
+        padding-right: 44px;
       }
       .skip-link {
         position: absolute;
@@ -913,6 +938,34 @@
       #tooltip .tt-row .value {
         color: var(--fg);
         text-align: right;
+      }
+      /* Tooltip CTA — Design.md §6.6. Hidden by default; mobile touch-mode shows it.
+         The visible "詳細を見る →" button that connects treemap → detail page in one tap. */
+      #tooltip .tt-cta {
+        display: none;
+        margin: 12px 0 0;
+        padding: 10px 14px;
+        background: var(--accent);
+        color: #0b0d10;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.88rem;
+        text-align: center;
+        border-radius: 8px;
+        transition: filter 150ms ease;
+      }
+      :root[data-theme="light"] #tooltip .tt-cta {
+        color: #fff;
+      }
+      #tooltip .tt-cta:hover {
+        filter: brightness(1.05);
+      }
+      #tooltip .tt-cta:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      #tooltip.touch-mode .tt-cta {
+        display: block;
       }
       footer {
         margin-top: 22px;
@@ -1669,6 +1722,10 @@
       <button class="tt-close" type="button" aria-label="Close" id="tooltipClose">×</button>
       <div class="tt-title"></div>
       <div class="tt-row" id="ttRow"></div>
+      <a class="tt-cta" id="tooltipCta" target="_blank" rel="noopener noreferrer" href="#">
+        <span data-i18n="ja" class="active">詳細を見る →</span>
+        <span data-i18n="en">View details →</span>
+      </a>
     </div>
 
     <script>
@@ -2085,6 +2142,13 @@
           // Sanitize values defensively (these are LLM outputs but trusted from our own pipeline; still escape just in case)
           const esc = s => String(s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
           document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${esc(k)}</span><span class="value">${esc(v)}</span>`).join("");
+          // Tooltip CTA href — Design.md §6.6. Points at /ja/<id> or /en/<id>.
+          const cta = document.getElementById("tooltipCta");
+          if (cta) {
+            cta.href = occUrl(d);
+            cta.dataset.occId = d.id;
+            cta.dataset.aiRisk = d.ai_risk != null ? String(d.ai_risk) : "";
+          }
           lastTooltipId = d.id;
         }
         // Measure actual rendered dimensions (works while opacity:0; tooltip is display:block)
@@ -2485,7 +2549,14 @@
       });
 
       // ---- Pointer/Touch handling for mobile vs desktop ----
-      function handleTouchTap(clientX, clientY, e) {
+      // Touch state machine — Design.md §6.7. Distinguishes scroll-intent vs tap-intent
+      // so the canvas doesn't lock native scrolling when the finger lands on a tile.
+      // Tap fires on touchend if total displacement < TAP_SLOP_PX AND duration < TAP_MAX_MS.
+      const TAP_SLOP_PX = 10;
+      const TAP_MAX_MS = 500;
+      let touchStart = null;
+
+      function handleTouchTap(clientX, clientY) {
         const hit = hitTest(clientX, clientY);
         if (!hit) {
           hideTooltip();
@@ -2494,10 +2565,14 @@
           draw();
           return;
         }
-        if (e && typeof e.preventDefault === "function") e.preventDefault();
         const tt = document.getElementById("tooltip");
         if (lastTapped && lastTapped.id === hit.id && Date.now() - lastTapTime < 1500) {
-          // Second tap on same tile -> open the occupation analysis page
+          // Second tap on same tile -> open detail page (legacy shortcut, kept alongside the visible CTA)
+          if (window.gtag) gtag("event", "tile_double_tap_open", {
+            occupation_id: hit.id,
+            ai_risk_score: hit.ai_risk != null ? hit.ai_risk : 0,
+            language: lang,
+          });
           window.open(occUrl(hit), "_blank", "noopener,noreferrer");
           lastTapped = null;
           hideTooltip();
@@ -2516,11 +2591,40 @@
         updateHash();
       }
 
+      // touchstart: only RECORD the start point. passive: true means the browser
+      // can keep native scrolling fluid — we no longer steal the gesture.
       canvas.addEventListener("touchstart", e => {
         if (e.touches && e.touches[0]) {
-          handleTouchTap(e.touches[0].clientX, e.touches[0].clientY, e);
+          touchStart = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY,
+            t: Date.now(),
+          };
+        } else {
+          touchStart = null;
+        }
+      }, { passive: true });
+
+      // touchend: decide whether the gesture was a tap (small displacement, short time).
+      // changedTouches has the lifted finger position. If it was a scroll, do nothing.
+      canvas.addEventListener("touchend", e => {
+        if (!touchStart) return;
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) { touchStart = null; return; }
+        const dx = t.clientX - touchStart.x;
+        const dy = t.clientY - touchStart.y;
+        const dt = Date.now() - touchStart.t;
+        const wasTap = Math.hypot(dx, dy) < TAP_SLOP_PX && dt < TAP_MAX_MS;
+        touchStart = null;
+        if (wasTap) {
+          // Synthetic click follows touchend on most browsers; suppress it so we don't
+          // double-fire (canvas click handler also opens detail page on hit).
+          if (typeof e.preventDefault === "function") e.preventDefault();
+          handleTouchTap(t.clientX, t.clientY);
         }
       }, { passive: false });
+
+      canvas.addEventListener("touchcancel", () => { touchStart = null; }, { passive: true });
 
       canvas.addEventListener("mousemove", e => {
         // Skip if this is a synthesized mouse event from a touch (Chrome fires both)
@@ -2549,6 +2653,22 @@
         hovered = null;
         lastTapped = null;
         draw();
+      });
+
+      // Tooltip CTA — Design.md §6.6. Fires GA4 tooltip_cta_click before navigation.
+      // The link itself is a real <a target="_blank">, so we don't preventDefault here —
+      // we only emit the analytics event and let the browser open the new tab.
+      document.getElementById("tooltipCta").addEventListener("click", e => {
+        const cta = e.currentTarget;
+        const occId = parseInt(cta.dataset.occId || "0", 10) || 0;
+        const aiRisk = parseInt(cta.dataset.aiRisk || "0", 10);
+        const tier = aiRisk >= 7 ? "high" : (aiRisk >= 5 ? "mid" : "low");
+        if (window.gtag) gtag("event", "tooltip_cta_click", {
+          occupation_id: occId,
+          ai_risk_score: aiRisk,
+          risk_tier: tier,
+          language: lang,
+        });
       });
 
       // Tap outside canvas + tooltip dismisses the touch-mode tooltip.
