@@ -21,8 +21,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 INPUT = ROOT / "data.json"
-OUTPUT_JA = ROOT / "prompt.ja.md"
-OUTPUT_EN = ROOT / "prompt.en.md"
+OUTPUT_DIR = ROOT / "data" / "prompts"
+OUTPUT_JA = OUTPUT_DIR / "prompt.ja.md"
+OUTPUT_EN = OUTPUT_DIR / "prompt.en.md"
 
 SCORING_LLM = "Claude Opus 4.7 (Anthropic)"
 SCORED_ON = "2026-04-25"
@@ -585,6 +586,7 @@ def main() -> None:
         )
 
     records = load_records()
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     for lang, out_path in (("ja", OUTPUT_JA), ("en", OUTPUT_EN)):
         text = render(records, lang)

@@ -11,7 +11,7 @@ import pathlib
 
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
-SOURCE = REPO / "og-card.html"
+SOURCE = REPO / "scripts" / "templates" / "og-card.html"
 OUT = REPO / "og.png"
 
 
