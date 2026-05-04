@@ -1,0 +1,533 @@
+{
+  "id": 442,
+  "ipd_id": "IPD_01_01_442",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "学校事務",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "06_035-99",
+    "mhlw_all": [
+      "06_035-99"
+    ],
+    "jsoc_main": "C259",
+    "jsoc_all": [
+      "C259"
+    ]
+  },
+  "description": {
+    "summary_ja": "学校において、教育と関連活動が円滑に行われるように、必要な事務を行う。",
+    "what_it_is_ja": "小学校、中学校、高校、大学をはじめとする様々な学校において、教育と関連活動が円滑に行われるように、必要な事務を行う。\n　庶務関係では、来校者や電話の応対、学生証の作成、学割や在学証明書の発行などを行う。\n　人事労務関係では、教職員の勤務に関する事務管理、給料の計算と支給事務などを行う。出張の旅費の精算や福利厚生の事務手続なども行う。\n　会計関係では、学校内の予算を管理し、教材など必要な備品を購入してその支払事務を行う。学校の設備に故障や破損が発生した場合には、児童生徒の安全に十分注意し、予算を確認して、専門の業者などに連絡し、速かに修理を手配する。授業料、給食費、修学旅行の積み立てなどの徴収事務を行うこともある。\n　教務関係では、入学・卒業、転入・転出等の手続、教科書や教材の購入に関する事務手続を行う。\n　この他、生徒・学生の募集や入試に関する事務、進学、就職等に関する事務なども行う。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、電話、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。公立学校では地方公務員が配属される。私立学校では独自の採用試験が行われており、中途採用も多い。\n　電話の応対や窓口での対応、文書の作成や給料の支払などを担当し、経験を積むと校内の会議に参加したり、学校を代表して校外の行事に参加したりするなど、学校の運営にも携わることがある。\n　文書作成をパソコン等で行うため、操作に習熟していれば仕事をスムーズに進めることができる。他の教職員とのかかわりが多いため、日ごろからコミュニケーションを保つことが大切であり、教職員が相互に協力して、円滑に学校運営が進むようにする。児童、生徒、学生や保護者とのかかわりという点から、言動に留意して適切な応対を行うことが求められる。",
+    "working_conditions_ja": "ほとんどの学校に学校事務の担当者が配置されており、職場は全国に広がっている。\n　就業者は正職員の他、非常勤職員、パートタイマー等もいる。\n　賃金、労働時間等の労働条件は公立学校と私立学校で異なる。公立学校の場合は各自治体等の規定による。公立学校では、正職員の場合、定期的に小学校・中学校間で異動が行われる。中には、高校や教育委員会などへ異動することもある。私立学校の場合は勤務先の規定による。私立学校では異動は少ないが、系列の他の学校に異動する場合もある。\n　運動会など学校行事の場合には休日に出勤することもある。夜間に授業のある学校では午後からの勤務となる場合もある。\n　今後、長期的には少子化等の影響で児童・生徒・学生数は減少するが、学校運営の多様化、複雑化により学校事務には一定の需要が見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.25,
+    "investigative": 3.25,
+    "artistic": 2.661,
+    "social": 3.964,
+    "enterprising": 3.661,
+    "conventional": 3.518
+  },
+  "work_values": {
+    "achievement": 3.206,
+    "autonomy": 3.413,
+    "expertise": 3.095,
+    "self_growth": 3.175,
+    "social_recognition": 2.73,
+    "service_contribution": 2.984,
+    "good_relationships": 3.46,
+    "workplace_safety": 3.603,
+    "work_life_balance": 3.905,
+    "stability": 3.937,
+    "compensation": 2.937
+  },
+  "skills": {
+    "reading_comprehension": 3.698,
+    "active_listening": 4.286,
+    "writing": 3.667,
+    "speaking": 3.571,
+    "foreign_language_reading": 1.079,
+    "foreign_language_listening": 0.857,
+    "foreign_language_writing": 0.698,
+    "foreign_language_speaking": 0.714,
+    "mathematics": 1.841,
+    "science": 0.762,
+    "critical_thinking": 3.048,
+    "active_learning": 2.698,
+    "learning_strategies": 2.603,
+    "monitoring": 3.0,
+    "social_perceptiveness": 3.27,
+    "coordination": 3.349,
+    "persuasion": 2.984,
+    "negotiation": 2.746,
+    "instructing": 3.492,
+    "service_orientation": 3.127,
+    "complex_problem_solving": 2.905,
+    "operations_analysis": 2.222,
+    "technology_design": 1.413,
+    "equipment_selection": 2.333,
+    "installation": 2.206,
+    "programming": 1.016,
+    "operations_monitoring": 0.921,
+    "operation_and_control": 1.762,
+    "equipment_maintenance": 0.984,
+    "troubleshooting": 1.381,
+    "repairing": 1.492,
+    "quality_control_analysis": 2.27,
+    "judgment_decision_making": 2.175,
+    "systems_analysis": 2.127,
+    "systems_evaluation": 2.079,
+    "time_management": 2.46,
+    "financial_resources_management": 2.413,
+    "material_resources_management": 2.111,
+    "personnel_resources_management": 1.937
+  },
+  "knowledge": {
+    "business_management": 1.37,
+    "clerical": 3.389,
+    "economics_accounting": 1.481,
+    "sales_marketing": 0.944,
+    "customer_personal_service": 2.074,
+    "personnel_hr": 1.63,
+    "transportation": 0.519,
+    "production_processing": 0.426,
+    "agriculture_livestock": 0.315,
+    "engineering": 0.407,
+    "computers_electronics": 0.796,
+    "design": 0.481,
+    "building_construction": 0.463,
+    "mechanical": 0.519,
+    "mathematics_kn": 0.87,
+    "physics": 0.5,
+    "chemistry": 0.556,
+    "biology": 0.519,
+    "psychology": 1.111,
+    "sociology": 1.0,
+    "geography": 0.574,
+    "medicine_dentistry": 0.611,
+    "therapy_counseling": 1.056,
+    "education_training_kn": 1.426,
+    "japanese_language": 1.852,
+    "foreign_language_kn": 1.333,
+    "fine_arts": 0.593,
+    "history_archaeology": 0.574,
+    "philosophy_theology": 0.63,
+    "public_safety_security": 1.296,
+    "law_government": 1.222,
+    "telecommunications": 0.778,
+    "communications_media": 1.13
+  },
+  "abilities": {
+    "oral_comprehension": 2.931,
+    "written_comprehension": 2.983,
+    "oral_expression": 2.914,
+    "written_expression": 3.017,
+    "fluency_of_ideas": 2.81,
+    "originality": 2.603,
+    "problem_sensitivity": 3.328,
+    "deductive_reasoning": 2.862,
+    "inductive_reasoning": 2.81,
+    "information_ordering": 2.81,
+    "category_flexibility": 2.707,
+    "mathematical_reasoning": 2.534,
+    "number_facility": 2.793,
+    "memorization": 2.741,
+    "perceptual_speed": 2.397,
+    "spatial_orientation": 2.345,
+    "visualization": 2.293,
+    "selective_attention": 2.621,
+    "time_sharing": 2.672,
+    "arm_hand_steadiness": 2.086,
+    "manual_dexterity": 2.138,
+    "finger_dexterity": 2.052,
+    "reaction_time": 2.121,
+    "wrist_finger_speed": 2.241,
+    "speed_of_limb_movement": 1.931,
+    "static_strength": 1.914,
+    "stamina": 1.931,
+    "gross_body_equilibrium": 1.879,
+    "near_vision": 1.845,
+    "far_vision": 1.793,
+    "visual_color_discrimination": 1.931,
+    "depth_perception": 1.862,
+    "hearing_sensitivity": 1.862,
+    "auditory_attention": 1.948,
+    "speech_clarity": 2.293
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.519,
+    "face_to_face_discussions": 3.426,
+    "telephone_communication": 4.333,
+    "business_writing": 4.056,
+    "conflict_situations": 2.019,
+    "time_pressure": 2.537,
+    "teamwork": 3.241,
+    "dealing_with_external_customers": 3.13,
+    "coordinate_lead_others": 2.889,
+    "exactness_accuracy": 3.759,
+    "repetitive_tasks": 3.148,
+    "pace_determined_by_machine": 2.519,
+    "responsibility_for_outcomes": 2.722,
+    "indoor_climate_controlled": 4.463,
+    "indoor_non_climate_controlled": 1.926,
+    "outdoor_work": 1.926,
+    "sitting": 4.389,
+    "standing": 2.056,
+    "repetition_of_activities": 2.389,
+    "consequence_of_error": 2.778,
+    "freedom_to_make_decisions": 3.019,
+    "set_own_goals": 3.296,
+    "regular_schedule": 0.722,
+    "irregular_schedule": 0.148,
+    "seasonal_schedule": 0.13,
+    "email_communication": 4.278,
+    "cramped_uncomfortable": 1.963,
+    "disease_infection_risk": 1.852,
+    "minor_injury_risk": 1.204,
+    "standard_protective_equipment": 1.296,
+    "specialized_protective_equipment": 1.093,
+    "dealing_with_violent_people": 1.37,
+    "walking_running": 2.093,
+    "handling_objects_tools": 1.741,
+    "physical_proximity": 3.259,
+    "work_automation": 2.222,
+    "responsibility_for_safety": 1.889,
+    "impact_of_decisions": 2.296,
+    "level_of_competition": 1.611
+  },
+  "work_activities": {
+    "getting_information": 2.897,
+    "monitor_processes": 2.966,
+    "identifying_objects": 2.879,
+    "inspecting_equipment": 2.345,
+    "estimating_quantifiable": 2.621,
+    "judging_quality": 2.534,
+    "evaluating_compliance": 3.0,
+    "processing_information": 3.224,
+    "analyzing_data": 2.931,
+    "making_decisions": 2.966,
+    "thinking_creatively": 2.69,
+    "updating_knowledge": 3.172,
+    "developing_objectives": 2.966,
+    "scheduling_work": 3.017,
+    "organizing_planning": 3.362,
+    "physical_activities": 2.086,
+    "handling_objects": 2.155,
+    "controlling_machines": 2.103,
+    "operating_vehicles": 1.483,
+    "computer_work": 3.172,
+    "drafting_specifications": 1.897,
+    "repairing_mechanical": 1.983,
+    "repairing_electronic": 1.966,
+    "documenting_information": 2.931,
+    "interpreting_information": 2.69,
+    "communicating_inside": 3.448,
+    "communicating_outside": 3.121,
+    "building_relationships": 2.983,
+    "assisting_caring": 2.621,
+    "selling_influencing": 2.31,
+    "resolving_conflicts": 2.552,
+    "performing_for_public": 2.431,
+    "coordinating_others": 2.534,
+    "developing_teams": 2.603,
+    "training_teaching": 2.603,
+    "guiding_subordinates": 2.517,
+    "coaching_developing": 2.534,
+    "providing_consultation": 2.397,
+    "performing_administrative": 2.983,
+    "staffing_organizational": 2.414,
+    "monitoring_resources": 2.534
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.074,
+    "vocational_school": 0.037,
+    "junior_college": 0.074,
+    "technical_college": 0.019,
+    "university": 0.815,
+    "masters": 0.148,
+    "doctorate": 0.056,
+    "unknown": 0.074
+  },
+  "training_pre": {
+    "not_required": 0.741,
+    "up_to_1_month": 0.056,
+    "1_to_6_months": 0.056,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.019,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.13
+  },
+  "training_post": {
+    "not_required": 0.185,
+    "up_to_1_month": 0.093,
+    "1_to_6_months": 0.185,
+    "6_months_to_1_year": 0.111,
+    "1_to_2_years": 0.259,
+    "2_to_3_years": 0.074,
+    "3_to_5_years": 0.037,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.056
+  },
+  "experience": {
+    "not_required": 0.741,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.056,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.037,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.037,
+    "over_10_years": 0.0,
+    "unknown": 0.13
+  },
+  "employment_type": {
+    "regular_employee": 0.685,
+    "part_time": 0.278,
+    "dispatched": 0.204,
+    "contract": 0.278,
+    "self_employed_freelance": 0.019,
+    "executive": 0.056,
+    "casual_non_student": 0.037,
+    "casual_student": 0.056,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "学校において、教育と関連活動が円滑に行われるように、必要な事務作業を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "電話や外来者の応対をする。",
+      "execution_rate": 0.966,
+      "importance": 3.054
+    },
+    {
+      "task_id": 2,
+      "description_ja": "学生からの問い合わせに対応し、必要に応じて指導する。",
+      "execution_rate": 0.81,
+      "importance": 3.106
+    },
+    {
+      "task_id": 3,
+      "description_ja": "学割や在学証明書などの証明書を発行する。",
+      "execution_rate": 0.759,
+      "importance": 3.205
+    },
+    {
+      "task_id": 4,
+      "description_ja": "教職員の勤務の管理をする。",
+      "execution_rate": 0.776,
+      "importance": 3.067
+    },
+    {
+      "task_id": 5,
+      "description_ja": "教職員の給与の計算と支給をする。",
+      "execution_rate": 0.672,
+      "importance": 3.256
+    },
+    {
+      "task_id": 6,
+      "description_ja": "教職員の旅費を清算する。",
+      "execution_rate": 0.741,
+      "importance": 3.209
+    },
+    {
+      "task_id": 7,
+      "description_ja": "教職員の福利厚生に関する事務手続きを行う。",
+      "execution_rate": 0.724,
+      "importance": 2.976
+    },
+    {
+      "task_id": 8,
+      "description_ja": "予算の執行計画を立案し、執行手続き、予算管理をする。",
+      "execution_rate": 0.828,
+      "importance": 3.271
+    },
+    {
+      "task_id": 9,
+      "description_ja": "授業料・給食費・修学旅行の積立てなどのお金に関する事務手続きや集金を行う。",
+      "execution_rate": 0.724,
+      "importance": 3.0
+    },
+    {
+      "task_id": 10,
+      "description_ja": "保険や共済に関する事務処理を行う。",
+      "execution_rate": 0.707,
+      "importance": 2.854
+    },
+    {
+      "task_id": 11,
+      "description_ja": "教材や備品の購入および管理をする。",
+      "execution_rate": 0.81,
+      "importance": 3.213
+    },
+    {
+      "task_id": 12,
+      "description_ja": "教科書に関する購入、配布などの事務手続きをする。",
+      "execution_rate": 0.707,
+      "importance": 2.951
+    },
+    {
+      "task_id": 13,
+      "description_ja": "学生の募集活動に関する事務を行う。",
+      "execution_rate": 0.672,
+      "importance": 3.077
+    },
+    {
+      "task_id": 14,
+      "description_ja": "入試に関する事務を行う。",
+      "execution_rate": 0.655,
+      "importance": 3.5
+    },
+    {
+      "task_id": 15,
+      "description_ja": "学生の就職支援に関する事務を行う。",
+      "execution_rate": 0.724,
+      "importance": 2.881
+    },
+    {
+      "task_id": 16,
+      "description_ja": "コピー機、ファックス、パソコンなどのオフィス機器を操作する。",
+      "execution_rate": 0.966,
+      "importance": 2.714
+    },
+    {
+      "task_id": 17,
+      "description_ja": "記録や報告書の作成、ファイリングをする。",
+      "execution_rate": 0.966,
+      "importance": 2.911
+    },
+    {
+      "task_id": 18,
+      "description_ja": "郵便物の受領や発送を行う。",
+      "execution_rate": 0.828,
+      "importance": 2.833
+    },
+    {
+      "task_id": 19,
+      "description_ja": "学校の設備を保守・点検する。",
+      "execution_rate": 0.828,
+      "importance": 3.208
+    },
+    {
+      "task_id": 20,
+      "description_ja": "学内のネットワークシステムやサーバーを管理する。",
+      "execution_rate": 0.741,
+      "importance": 3.209
+    },
+    {
+      "task_id": 21,
+      "description_ja": "学校構成員、生徒、受講生の名簿の作成と管理をする。",
+      "execution_rate": 0.759,
+      "importance": 3.045
+    },
+    {
+      "task_id": 22,
+      "description_ja": "外部資金を管理する。",
+      "execution_rate": 0.741,
+      "importance": 2.791
+    },
+    {
+      "task_id": 23,
+      "description_ja": "学生の成績を管理する。",
+      "execution_rate": 0.603,
+      "importance": 3.257
+    },
+    {
+      "task_id": 24,
+      "description_ja": "教職員にコンプライアンスに関する啓発をする。",
+      "execution_rate": 0.707,
+      "importance": 3.098
+    },
+    {
+      "task_id": 25,
+      "description_ja": "教職員の授業を補助する。",
+      "execution_rate": 0.69,
+      "importance": 2.725
+    },
+    {
+      "task_id": 26,
+      "description_ja": "教職員の研究を補助する。",
+      "execution_rate": 0.603,
+      "importance": 2.714
+    },
+    {
+      "task_id": 27,
+      "description_ja": "教職員の採用や人事管理を補助する。",
+      "execution_rate": 0.621,
+      "importance": 3.111
+    },
+    {
+      "task_id": 28,
+      "description_ja": "学校の経営や運営を補助する。",
+      "execution_rate": 0.776,
+      "importance": 3.289
+    },
+    {
+      "task_id": 29,
+      "description_ja": "理事会や評議員会の運営を補助する。",
+      "execution_rate": 0.655,
+      "importance": 2.947
+    },
+    {
+      "task_id": 30,
+      "description_ja": "内部監査を補助する。",
+      "execution_rate": 0.776,
+      "importance": 2.978
+    },
+    {
+      "task_id": 31,
+      "description_ja": "学内イベントを企画する。",
+      "execution_rate": 0.638,
+      "importance": 2.757
+    },
+    {
+      "task_id": 32,
+      "description_ja": "学内イベントの運営を行う。",
+      "execution_rate": 0.69,
+      "importance": 2.7
+    },
+    {
+      "task_id": 33,
+      "description_ja": "図書館に関する事務を行う。",
+      "execution_rate": 0.707,
+      "importance": 2.756
+    },
+    {
+      "task_id": 34,
+      "description_ja": "地域との連携に関する事務を行う。",
+      "execution_rate": 0.69,
+      "importance": 2.8
+    },
+    {
+      "task_id": 35,
+      "description_ja": "民間企業や官公庁との連携に関する事務を行う。",
+      "execution_rate": 0.69,
+      "importance": 3.125
+    },
+    {
+      "task_id": 36,
+      "description_ja": "海外の関連機関と連携する。",
+      "execution_rate": 0.552,
+      "importance": 2.813
+    }
+  ],
+  "related_orgs": [],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/442",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,462 @@
+{
+  "id": 183,
+  "ipd_id": "IPD_01_01_183",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "高等学校教員",
+  "aliases_ja": [
+    "高等学校教諭",
+    "高等学校栄養教諭",
+    "高等学校養護教諭"
+  ],
+  "classifications": {
+    "mhlw_main": "05_031-04",
+    "mhlw_all": [
+      "05_031-04"
+    ],
+    "jsoc_main": "B194",
+    "jsoc_all": [
+      "B194"
+    ]
+  },
+  "description": {
+    "summary_ja": "高校生に専門の教科を教え、学級の担任として生徒を指導する。",
+    "what_it_is_ja": "高等学校（中高一貫校を含む。以下高校という）において、それぞれの担当教科を生徒に教える。高校では、中学校までの義務教育を終えた生徒に、更に高度で専門的な教育や指導を行う。\n　高校教員の仕事の中心は、それぞれの担当する教科を生徒に教えることである。高校で教える教科・科目は様々で、普通教科として国語・社会・数学・理科・保健体育・芸術・外国語などがあり、また専門教科として農業・工業・商業・水産・看護・体育・音楽・美術などがある。高校は中学校に比べると一つの学級の生徒数も多く、教科の専門化も進んでいるため、教員はふつう一人一教科を担当している。\n　この他に、学校が創意工夫を生かした教育活動を展開する「総合的な学習の時間」、ホームルーム活動、生徒会活動、クラブ活動、学校行事などについても指導する。更に個々の生徒に対する生徒指導や進路指導も行う。学級を受け持つこともあり、成長期の生徒を学習面だけでなく、精神面においても支援していくことが求められる。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、パソコン、プリンター、コピー機",
+    "how_to_become_ja": "大学などで所定の単位を取得することで、高等学校教諭免許状を得ることができる。単位取得のためには原則として高校で教育実習を行う必要がある。その上で都道府県の教員採用試験又は私立高校の採用試験に合格し入職するのが一般的である。\n　教員となった後も、専門教科や生徒指導などの能力向上のための研修が盛んに行われている。\n　担当する教科についての専門的な知識や技能の他、一般的な教養、生徒に対する理解や責任感などが重要であり、カウンセリングに関する知識や技能も望まれる。",
+    "working_conditions_ja": "高等学校は設置者により、国立、公立、私立の3種類に大別される。高等学校のうち72.0％が公立の学校である（2025年時点*）。\n　高校には国語・数学など普通教科を中心に学ぶ普通科（普通高校）、専門教科を中心に学ぶ農業科、工業科、商業科などの専門学科（専門高校）、自分の希望の科目を自分なりの学習計画で学ぶ総合学科（総合高校、単位制高校）がある。\n　高校では中学校に比べて学習内容が難しくなるため、特別非常勤講師制度を利用し、校外から専門家を招くケースもある。就業者のうち女性は34.1％となっている（2025年時点*）。\n　労働時間は、全日制高校の場合一般的に月～金曜日の1日8時間勤務である。働きながら学校に通う生徒などのために夜間に授業する定時制高校や通信制高校もあり、勤務体系が異なるケースもある。\n　小・中学校に比べると担当する授業数は少ないが、内容が専門化しているため、準備に要する時間が多く必要となる場合がある。\n　また、学習やクラブ活動などの面で学校による取組や校風の違いが大きく、担当教科以外の生徒指導の時間や校務の分担などは学校により異なる。\n\n*文部科学省、学校基本調査（令和7年）"
+  },
+  "interests": {
+    "realistic": 3.159,
+    "investigative": 3.667,
+    "artistic": 3.058,
+    "social": 3.884,
+    "enterprising": 3.536,
+    "conventional": 3.304
+  },
+  "work_values": {
+    "achievement": 3.737,
+    "autonomy": 3.684,
+    "expertise": 3.982,
+    "self_growth": 3.789,
+    "social_recognition": 3.456,
+    "service_contribution": 3.614,
+    "good_relationships": 3.491,
+    "workplace_safety": 3.281,
+    "work_life_balance": 3.123,
+    "stability": 3.754,
+    "compensation": 3.421
+  },
+  "skills": {
+    "reading_comprehension": 4.895,
+    "active_listening": 5.298,
+    "writing": 4.947,
+    "speaking": 5.333,
+    "foreign_language_reading": 3.228,
+    "foreign_language_listening": 2.702,
+    "foreign_language_writing": 2.632,
+    "foreign_language_speaking": 2.649,
+    "mathematics": 3.035,
+    "science": 2.351,
+    "critical_thinking": 4.105,
+    "active_learning": 3.772,
+    "learning_strategies": 4.509,
+    "monitoring": 4.246,
+    "social_perceptiveness": 4.404,
+    "coordination": 4.404,
+    "persuasion": 4.316,
+    "negotiation": 3.93,
+    "instructing": 4.947,
+    "service_orientation": 4.281,
+    "complex_problem_solving": 4.175,
+    "operations_analysis": 3.614,
+    "technology_design": 3.035,
+    "equipment_selection": 3.228,
+    "installation": 2.667,
+    "programming": 1.982,
+    "operations_monitoring": 2.0,
+    "operation_and_control": 2.158,
+    "equipment_maintenance": 1.491,
+    "troubleshooting": 1.754,
+    "repairing": 1.772,
+    "quality_control_analysis": 2.07,
+    "judgment_decision_making": 2.825,
+    "systems_analysis": 2.667,
+    "systems_evaluation": 2.544,
+    "time_management": 3.526,
+    "financial_resources_management": 2.175,
+    "material_resources_management": 2.211,
+    "personnel_resources_management": 2.807
+  },
+  "knowledge": {
+    "business_management": 1.087,
+    "clerical": 2.761,
+    "economics_accounting": 0.804,
+    "sales_marketing": 0.717,
+    "customer_personal_service": 1.978,
+    "personnel_hr": 1.261,
+    "transportation": 0.391,
+    "production_processing": 0.543,
+    "agriculture_livestock": 0.413,
+    "engineering": 0.87,
+    "computers_electronics": 1.174,
+    "design": 0.63,
+    "building_construction": 0.565,
+    "mechanical": 0.63,
+    "mathematics_kn": 1.543,
+    "physics": 1.217,
+    "chemistry": 1.326,
+    "biology": 1.304,
+    "psychology": 2.543,
+    "sociology": 2.13,
+    "geography": 1.37,
+    "medicine_dentistry": 1.239,
+    "therapy_counseling": 2.522,
+    "education_training_kn": 3.109,
+    "japanese_language": 2.783,
+    "foreign_language_kn": 2.087,
+    "fine_arts": 1.261,
+    "history_archaeology": 1.652,
+    "philosophy_theology": 1.761,
+    "public_safety_security": 2.043,
+    "law_government": 1.739,
+    "telecommunications": 1.478,
+    "communications_media": 1.978
+  },
+  "abilities": {
+    "oral_comprehension": 3.446,
+    "written_comprehension": 3.554,
+    "oral_expression": 3.523,
+    "written_expression": 3.554,
+    "fluency_of_ideas": 3.046,
+    "originality": 3.046,
+    "problem_sensitivity": 3.385,
+    "deductive_reasoning": 3.246,
+    "inductive_reasoning": 3.262,
+    "information_ordering": 3.138,
+    "category_flexibility": 2.969,
+    "mathematical_reasoning": 2.908,
+    "number_facility": 2.969,
+    "memorization": 3.277,
+    "perceptual_speed": 2.954,
+    "spatial_orientation": 2.723,
+    "visualization": 2.785,
+    "selective_attention": 3.108,
+    "time_sharing": 2.985,
+    "arm_hand_steadiness": 2.185,
+    "manual_dexterity": 2.215,
+    "finger_dexterity": 2.231,
+    "reaction_time": 2.523,
+    "wrist_finger_speed": 2.185,
+    "speed_of_limb_movement": 2.108,
+    "static_strength": 1.938,
+    "stamina": 2.415,
+    "gross_body_equilibrium": 2.062,
+    "near_vision": 2.031,
+    "far_vision": 2.092,
+    "visual_color_discrimination": 2.108,
+    "depth_perception": 2.154,
+    "hearing_sensitivity": 2.277,
+    "auditory_attention": 2.185,
+    "speech_clarity": 2.877
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.739,
+    "face_to_face_discussions": 4.283,
+    "telephone_communication": 3.913,
+    "business_writing": 3.543,
+    "conflict_situations": 2.304,
+    "time_pressure": 2.957,
+    "teamwork": 3.674,
+    "dealing_with_external_customers": 3.13,
+    "coordinate_lead_others": 3.5,
+    "exactness_accuracy": 3.848,
+    "repetitive_tasks": 2.935,
+    "pace_determined_by_machine": 2.522,
+    "responsibility_for_outcomes": 3.261,
+    "indoor_climate_controlled": 4.087,
+    "indoor_non_climate_controlled": 2.978,
+    "outdoor_work": 2.239,
+    "sitting": 3.348,
+    "standing": 3.196,
+    "repetition_of_activities": 2.261,
+    "consequence_of_error": 2.87,
+    "freedom_to_make_decisions": 3.5,
+    "set_own_goals": 3.587,
+    "regular_schedule": 0.761,
+    "irregular_schedule": 0.174,
+    "seasonal_schedule": 0.065,
+    "email_communication": 4.109,
+    "cramped_uncomfortable": 2.109,
+    "disease_infection_risk": 2.696,
+    "minor_injury_risk": 1.37,
+    "standard_protective_equipment": 1.457,
+    "specialized_protective_equipment": 1.391,
+    "dealing_with_violent_people": 1.826,
+    "walking_running": 2.261,
+    "handling_objects_tools": 2.0,
+    "physical_proximity": 3.717,
+    "work_automation": 2.152,
+    "responsibility_for_safety": 2.913,
+    "impact_of_decisions": 2.848,
+    "level_of_competition": 2.087
+  },
+  "work_activities": {
+    "getting_information": 3.215,
+    "monitor_processes": 3.215,
+    "identifying_objects": 3.138,
+    "inspecting_equipment": 2.323,
+    "estimating_quantifiable": 2.508,
+    "judging_quality": 2.862,
+    "evaluating_compliance": 2.985,
+    "processing_information": 2.985,
+    "analyzing_data": 3.108,
+    "making_decisions": 3.169,
+    "thinking_creatively": 3.185,
+    "updating_knowledge": 3.277,
+    "developing_objectives": 3.215,
+    "scheduling_work": 3.185,
+    "organizing_planning": 3.215,
+    "physical_activities": 2.2,
+    "handling_objects": 2.215,
+    "controlling_machines": 1.954,
+    "operating_vehicles": 1.492,
+    "computer_work": 2.985,
+    "drafting_specifications": 1.738,
+    "repairing_mechanical": 1.631,
+    "repairing_electronic": 1.631,
+    "documenting_information": 2.846,
+    "interpreting_information": 2.831,
+    "communicating_inside": 3.262,
+    "communicating_outside": 2.815,
+    "building_relationships": 3.277,
+    "assisting_caring": 3.185,
+    "selling_influencing": 2.569,
+    "resolving_conflicts": 2.8,
+    "performing_for_public": 2.6,
+    "coordinating_others": 2.815,
+    "developing_teams": 2.892,
+    "training_teaching": 3.031,
+    "guiding_subordinates": 2.662,
+    "coaching_developing": 2.708,
+    "providing_consultation": 2.4,
+    "performing_administrative": 2.492,
+    "staffing_organizational": 2.308,
+    "monitoring_resources": 2.077
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.022,
+    "vocational_school": 0.043,
+    "junior_college": 0.0,
+    "technical_college": 0.022,
+    "university": 0.848,
+    "masters": 0.37,
+    "doctorate": 0.043,
+    "unknown": 0.022
+  },
+  "training_pre": {
+    "not_required": 0.457,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.065,
+    "6_months_to_1_year": 0.065,
+    "1_to_2_years": 0.087,
+    "2_to_3_years": 0.065,
+    "3_to_5_years": 0.022,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.065,
+    "unknown": 0.152
+  },
+  "training_post": {
+    "not_required": 0.087,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.022,
+    "6_months_to_1_year": 0.13,
+    "1_to_2_years": 0.109,
+    "2_to_3_years": 0.109,
+    "3_to_5_years": 0.196,
+    "5_to_10_years": 0.109,
+    "over_10_years": 0.087,
+    "unknown": 0.109
+  },
+  "experience": {
+    "not_required": 0.543,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.087,
+    "6_months_to_1_year": 0.043,
+    "1_to_2_years": 0.087,
+    "2_to_3_years": 0.043,
+    "3_to_5_years": 0.043,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.152
+  },
+  "employment_type": {
+    "regular_employee": 0.913,
+    "part_time": 0.13,
+    "dispatched": 0.0,
+    "contract": 0.239,
+    "self_employed_freelance": 0.022,
+    "executive": 0.043,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.022
+  },
+  "tasks_lead_ja": "高校生に専門の教科を教え、学級の担任として生徒を指導する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "担当する教科について、学習指導要領などを使って授業計画をまとめる。",
+      "execution_rate": 0.939,
+      "importance": 2.869
+    },
+    {
+      "task_id": 2,
+      "description_ja": "授業計画をもとに生徒に配布するプリントを作成するなど授業の準備をする。",
+      "execution_rate": 0.985,
+      "importance": 3.188
+    },
+    {
+      "task_id": 3,
+      "description_ja": "実験、実技、実習などの準備をする。",
+      "execution_rate": 0.831,
+      "importance": 3.093
+    },
+    {
+      "task_id": 4,
+      "description_ja": "事前に準備した教材を使用して専門の教科について指導をする。",
+      "execution_rate": 0.985,
+      "importance": 3.281
+    },
+    {
+      "task_id": 5,
+      "description_ja": "生徒の理解の程度を把握し、授業の進め方を調整する。",
+      "execution_rate": 0.985,
+      "importance": 3.531
+    },
+    {
+      "task_id": 6,
+      "description_ja": "授業の進捗状況を把握し、指導計画の通りに授業を進めるように注意を払う。",
+      "execution_rate": 0.985,
+      "importance": 3.063
+    },
+    {
+      "task_id": 7,
+      "description_ja": "定められた期間に試験を実施し、生徒の成績を評価する。",
+      "execution_rate": 0.985,
+      "importance": 3.547
+    },
+    {
+      "task_id": 8,
+      "description_ja": "必要に応じて、補習を行う。",
+      "execution_rate": 0.969,
+      "importance": 2.762
+    },
+    {
+      "task_id": 9,
+      "description_ja": "部活動の指導およびそれに伴う試合や大会出場の引率をする。",
+      "execution_rate": 0.846,
+      "importance": 2.691
+    },
+    {
+      "task_id": 10,
+      "description_ja": "障害をもつ生徒に合わせた個別の指導をする。",
+      "execution_rate": 0.723,
+      "importance": 2.979
+    },
+    {
+      "task_id": 11,
+      "description_ja": "生活や進路の指導をする。",
+      "execution_rate": 0.923,
+      "importance": 3.3
+    },
+    {
+      "task_id": 12,
+      "description_ja": "家庭訪問や面談を行い、生徒および生徒の家庭とのコミュニケーションを図る。",
+      "execution_rate": 0.846,
+      "importance": 3.091
+    },
+    {
+      "task_id": 13,
+      "description_ja": "学校行事の企画と運営をする。",
+      "execution_rate": 0.892,
+      "importance": 2.741
+    },
+    {
+      "task_id": 14,
+      "description_ja": "職員会議や職員の研修などに参加する。",
+      "execution_rate": 0.939,
+      "importance": 2.689
+    },
+    {
+      "task_id": 15,
+      "description_ja": "教材研究や学校の事務を行う。",
+      "execution_rate": 0.954,
+      "importance": 3.258
+    },
+    {
+      "task_id": 16,
+      "description_ja": "書類の管理や保存をする。",
+      "execution_rate": 0.939,
+      "importance": 2.82
+    },
+    {
+      "task_id": 17,
+      "description_ja": "生徒募集のため、広報活動をする。",
+      "execution_rate": 0.862,
+      "importance": 2.554
+    },
+    {
+      "task_id": 18,
+      "description_ja": "入学者の選抜のため、試験や面接を行う。",
+      "execution_rate": 0.923,
+      "importance": 3.2
+    },
+    {
+      "task_id": 19,
+      "description_ja": "学校や地域の委員会活動に参加する。",
+      "execution_rate": 0.831,
+      "importance": 2.222
+    },
+    {
+      "task_id": 20,
+      "description_ja": "校外の各種団体と交渉する。",
+      "execution_rate": 0.846,
+      "importance": 2.182
+    },
+    {
+      "task_id": 21,
+      "description_ja": "次年度に使用する教科書などの教材の申請をする。",
+      "execution_rate": 0.908,
+      "importance": 2.729
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "教育人材総合支援ポータル",
+      "url": "https://www.mext.go.jp/a_menu/shotou/sougoushien/"
+    },
+    {
+      "name_ja": "日本私立中学高等学校連合会",
+      "url": "https://www.chukoren.jp/"
+    },
+    {
+      "name_ja": "全国都道府県教育委員会連合会",
+      "url": "http://www.kyoi-ren.gr.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "高等学校教諭免許（専修・１種）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/183",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

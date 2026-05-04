@@ -1,0 +1,452 @@
+{
+  "id": 505,
+  "ipd_id": "IPD_01_01_505",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ハウス野菜栽培者",
+  "aliases_ja": [
+    "温室野菜栽培作業員",
+    "ハウス野菜栽培作業員",
+    "野菜栽培作業員（ハウス栽培）"
+  ],
+  "classifications": {
+    "mhlw_main": "11_064-02",
+    "mhlw_all": [
+      "11_064-02"
+    ],
+    "jsoc_main": "G461",
+    "jsoc_all": [
+      "G461"
+    ]
+  },
+  "description": {
+    "summary_ja": "様々な種類の野菜を、露地での生産ではなく、気象条件の影響を受けにくいガラス温室やビニールハウスなどの施設で生産する。",
+    "what_it_is_ja": "様々な種類の野菜を、露地での生産ではなく、気象条件の影響を受けにくいガラス温室やビニールハウスなどの施設で生産する。\n　この生産方法を包括して「施設園芸」と呼んでいる。「施設園芸」には、花、果実、野菜等の生産が含まれるが、ここではハウス野菜栽培について記述する。\n　ハウス野菜栽培者は経営者を兼ねている場合が多い。まず、畑となる土地、施設、農機具などを整備して、生産品目を決め、生産量や出荷時期といった経営計画を立てる。特に出荷時期の選択が重要な野菜の場合には、どの時期にどの程度の人手と資金を投入すれば良いかの判断が重要である。\n　実際の栽培の仕事には、土作り、肥料やり、種まき、育苗（いくびょう）、植付け、病害虫の防除、除草、収穫、出荷といった多くの作業がある。まず、土地に堆肥や肥料を入れ、畑を耕して野菜が育ちやすい土壌を作る。そこに畝（うね）を立て、種子をまくか苗を植え、生育に適した温度、潅水（かんすい）、病害虫防除などの管理作業を行って野菜を育てる。1日の仕事は、朝の作業準備から始まり、その後、栽培作業、出荷、販売、あとかたづけをして夕方終了する。\n　ハウスには、パイプハウス、耐候性ハウス、ガラス温室等がある。ハウスの中の環境はコンピュータで自動制御されている場合が多いが、野菜の発育状況や品質を注意深く観察し、問題があるときには環境を調節し、肥料をやったり病害虫を取り除くなどの的確な対処が必要である。育てた野菜は収穫の際に形状や色彩、味などを見て、品質の悪いものを取り除き、出荷する。\n\n◇　よく使う道具、機材、情報技術等\n　農機具、トラクター、トラック、普通自動車、ボイラー、コンピュータ",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。高校、専門学校等で農業について学んだり、研修やセミナーなどで、土づくり、植物の生態、データに基づいた環境調節技術、経営等を学ぶと役に立つ。\n　畑を耕すトラクター、収穫物を運ぶトラック等を運転するので、普通自動車免許、大型特殊自動車免許等も必要である。ハウス栽培には、ボイラーの取り扱いもあり、ボイラー技士、危険物取扱者もあるとよい。\n　機械や身体を使っての反復作業が多いので、ある程度の体力が必要で、根気があり辛抱強いことも求められる。生物を育てることに興味と熱意があり、自然の中で働くことが好きな人に向いている。栽培する野菜の品質を高めるため、新たな栽培技術の導入や品種改良の情報を集める等技術習得に努める姿勢が大切である。また、栽培品目や栽培時期などを判断するために、消費者のニーズを的確につかむ情報収集も重要となる。自営の場合は、経営能力も必要となる。",
+    "working_conditions_ja": "ハウス野菜の栽培は全国各地で行われている。\n　ハウス野菜農家は、家族経営が中心の専業農家がほとんどであったが、雇用されて働いている人もいる。家族経営の場合でも、育苗、肥料やり、除草など一時的に作業が集中する時期には、パートタイマー、アルバイトを雇うのが一般的である。雇用される場合は、パートタイマー・アルバイトは時給制、正社員の場合は月給制であることが多く、シフト勤務になっていることもある。\n　自営の場合、高齢化が進んでいたり、個人の経営能力や技術水準によって収益に差がある。しかし、農業の中では、気象条件に左右されず計画的に栽培できることから、ハウス野菜は収益性の高い作物であり、機械化も進んでいる。最近では人員を投入して栽培品目、栽培量を拡大する経営農家が増えており、会社組織も出てきている。植物工場も含め高度な環境制御型の施設園芸への転換を進めつつ、規模拡大を図る動きもある。"
+  },
+  "interests": {
+    "realistic": 3.607,
+    "investigative": 3.214,
+    "artistic": 2.339,
+    "social": 2.893,
+    "enterprising": 2.911,
+    "conventional": 3.179
+  },
+  "work_values": {
+    "achievement": 3.8,
+    "autonomy": 3.567,
+    "expertise": 3.35,
+    "self_growth": 3.333,
+    "social_recognition": 2.55,
+    "service_contribution": 3.0,
+    "good_relationships": 3.383,
+    "workplace_safety": 2.883,
+    "work_life_balance": 3.5,
+    "stability": 3.083,
+    "compensation": 2.533
+  },
+  "skills": {
+    "reading_comprehension": 2.633,
+    "active_listening": 2.883,
+    "writing": 2.033,
+    "speaking": 2.55,
+    "foreign_language_reading": 0.65,
+    "foreign_language_listening": 0.45,
+    "foreign_language_writing": 0.367,
+    "foreign_language_speaking": 0.35,
+    "mathematics": 1.783,
+    "science": 1.917,
+    "critical_thinking": 2.117,
+    "active_learning": 2.217,
+    "learning_strategies": 2.15,
+    "monitoring": 2.45,
+    "social_perceptiveness": 1.9,
+    "coordination": 2.133,
+    "persuasion": 1.85,
+    "negotiation": 1.733,
+    "instructing": 2.483,
+    "service_orientation": 1.733,
+    "complex_problem_solving": 2.05,
+    "operations_analysis": 1.683,
+    "technology_design": 1.617,
+    "equipment_selection": 2.617,
+    "installation": 2.033,
+    "programming": 0.65,
+    "operations_monitoring": 1.567,
+    "operation_and_control": 1.783,
+    "equipment_maintenance": 1.9,
+    "troubleshooting": 1.8,
+    "repairing": 2.167,
+    "quality_control_analysis": 1.933,
+    "judgment_decision_making": 2.017,
+    "systems_analysis": 1.733,
+    "systems_evaluation": 1.467,
+    "time_management": 1.833,
+    "financial_resources_management": 1.933,
+    "material_resources_management": 1.917,
+    "personnel_resources_management": 1.267
+  },
+  "knowledge": {
+    "business_management": 1.218,
+    "clerical": 0.909,
+    "economics_accounting": 0.709,
+    "sales_marketing": 1.455,
+    "customer_personal_service": 1.073,
+    "personnel_hr": 0.927,
+    "transportation": 0.964,
+    "production_processing": 2.2,
+    "agriculture_livestock": 3.582,
+    "engineering": 0.855,
+    "computers_electronics": 0.545,
+    "design": 0.545,
+    "building_construction": 0.655,
+    "mechanical": 1.0,
+    "mathematics_kn": 0.873,
+    "physics": 0.618,
+    "chemistry": 1.055,
+    "biology": 1.618,
+    "psychology": 0.473,
+    "sociology": 0.6,
+    "geography": 0.855,
+    "medicine_dentistry": 0.455,
+    "therapy_counseling": 0.4,
+    "education_training_kn": 0.6,
+    "japanese_language": 0.527,
+    "foreign_language_kn": 0.255,
+    "fine_arts": 0.255,
+    "history_archaeology": 0.218,
+    "philosophy_theology": 0.273,
+    "public_safety_security": 0.473,
+    "law_government": 0.473,
+    "telecommunications": 0.364,
+    "communications_media": 0.6
+  },
+  "abilities": {
+    "oral_comprehension": 2.321,
+    "written_comprehension": 1.962,
+    "oral_expression": 2.377,
+    "written_expression": 2.038,
+    "fluency_of_ideas": 2.189,
+    "originality": 2.132,
+    "problem_sensitivity": 2.962,
+    "deductive_reasoning": 2.472,
+    "inductive_reasoning": 2.34,
+    "information_ordering": 2.17,
+    "category_flexibility": 2.038,
+    "mathematical_reasoning": 2.038,
+    "number_facility": 2.094,
+    "memorization": 2.283,
+    "perceptual_speed": 2.358,
+    "spatial_orientation": 2.226,
+    "visualization": 2.057,
+    "selective_attention": 2.585,
+    "time_sharing": 2.396,
+    "arm_hand_steadiness": 2.415,
+    "manual_dexterity": 2.698,
+    "finger_dexterity": 2.679,
+    "reaction_time": 2.264,
+    "wrist_finger_speed": 2.472,
+    "speed_of_limb_movement": 2.302,
+    "static_strength": 2.943,
+    "stamina": 2.981,
+    "gross_body_equilibrium": 2.566,
+    "near_vision": 2.472,
+    "far_vision": 2.151,
+    "visual_color_discrimination": 2.849,
+    "depth_perception": 2.321,
+    "hearing_sensitivity": 2.019,
+    "auditory_attention": 1.868,
+    "speech_clarity": 2.132
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.309,
+    "face_to_face_discussions": 1.818,
+    "telephone_communication": 2.091,
+    "business_writing": 1.527,
+    "conflict_situations": 1.473,
+    "time_pressure": 2.182,
+    "teamwork": 2.564,
+    "dealing_with_external_customers": 1.927,
+    "coordinate_lead_others": 1.982,
+    "exactness_accuracy": 2.509,
+    "repetitive_tasks": 2.964,
+    "pace_determined_by_machine": 2.055,
+    "responsibility_for_outcomes": 2.564,
+    "indoor_climate_controlled": 2.182,
+    "indoor_non_climate_controlled": 3.873,
+    "outdoor_work": 3.745,
+    "sitting": 2.691,
+    "standing": 3.618,
+    "repetition_of_activities": 3.655,
+    "consequence_of_error": 2.4,
+    "freedom_to_make_decisions": 3.8,
+    "set_own_goals": 3.382,
+    "regular_schedule": 0.236,
+    "irregular_schedule": 0.618,
+    "seasonal_schedule": 0.145,
+    "email_communication": 1.709,
+    "cramped_uncomfortable": 2.436,
+    "disease_infection_risk": 1.545,
+    "minor_injury_risk": 2.109,
+    "standard_protective_equipment": 2.109,
+    "specialized_protective_equipment": 1.491,
+    "dealing_with_violent_people": 1.073,
+    "walking_running": 3.255,
+    "handling_objects_tools": 3.255,
+    "physical_proximity": 2.473,
+    "work_automation": 1.473,
+    "responsibility_for_safety": 2.2,
+    "impact_of_decisions": 2.2,
+    "level_of_competition": 1.691
+  },
+  "work_activities": {
+    "getting_information": 2.811,
+    "monitor_processes": 3.113,
+    "identifying_objects": 2.849,
+    "inspecting_equipment": 2.83,
+    "estimating_quantifiable": 2.604,
+    "judging_quality": 2.83,
+    "evaluating_compliance": 2.679,
+    "processing_information": 2.264,
+    "analyzing_data": 2.358,
+    "making_decisions": 2.755,
+    "thinking_creatively": 2.396,
+    "updating_knowledge": 2.925,
+    "developing_objectives": 2.83,
+    "scheduling_work": 3.075,
+    "organizing_planning": 3.132,
+    "physical_activities": 3.113,
+    "handling_objects": 3.17,
+    "controlling_machines": 2.415,
+    "operating_vehicles": 2.679,
+    "computer_work": 1.792,
+    "drafting_specifications": 1.774,
+    "repairing_mechanical": 2.358,
+    "repairing_electronic": 1.849,
+    "documenting_information": 2.132,
+    "interpreting_information": 2.038,
+    "communicating_inside": 2.66,
+    "communicating_outside": 2.509,
+    "building_relationships": 2.698,
+    "assisting_caring": 2.264,
+    "selling_influencing": 2.226,
+    "resolving_conflicts": 2.245,
+    "performing_for_public": 1.943,
+    "coordinating_others": 2.585,
+    "developing_teams": 2.415,
+    "training_teaching": 2.321,
+    "guiding_subordinates": 2.434,
+    "coaching_developing": 2.189,
+    "providing_consultation": 1.811,
+    "performing_administrative": 2.245,
+    "staffing_organizational": 2.075,
+    "monitoring_resources": 2.679
+  },
+  "education_distribution": {
+    "below_high_school": 0.073,
+    "high_school": 0.436,
+    "vocational_school": 0.127,
+    "junior_college": 0.018,
+    "technical_college": 0.018,
+    "university": 0.145,
+    "masters": 0.018,
+    "doctorate": 0.0,
+    "unknown": 0.309
+  },
+  "training_pre": {
+    "not_required": 0.491,
+    "up_to_1_month": 0.073,
+    "1_to_6_months": 0.018,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.073,
+    "2_to_3_years": 0.036,
+    "3_to_5_years": 0.018,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.255
+  },
+  "training_post": {
+    "not_required": 0.255,
+    "up_to_1_month": 0.164,
+    "1_to_6_months": 0.109,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.055,
+    "2_to_3_years": 0.073,
+    "3_to_5_years": 0.055,
+    "5_to_10_years": 0.018,
+    "over_10_years": 0.0,
+    "unknown": 0.236
+  },
+  "experience": {
+    "not_required": 0.582,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.018,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.073,
+    "2_to_3_years": 0.018,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.236
+  },
+  "employment_type": {
+    "regular_employee": 0.109,
+    "part_time": 0.4,
+    "dispatched": 0.018,
+    "contract": 0.055,
+    "self_employed_freelance": 0.455,
+    "executive": 0.018,
+    "casual_non_student": 0.2,
+    "casual_student": 0.018,
+    "unknown": 0.018,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "様々な種類の野菜をガラス温室やビニールハウスなどで生産する。 （主に果物を生産している場合は「果樹栽培者」へ）",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "栽培する野菜に適したハウスなどの仕様を決め、発注する。",
+      "execution_rate": 0.83,
+      "importance": 3.364
+    },
+    {
+      "task_id": 2,
+      "description_ja": "市場の状況を見ながら生産品目を決め、生産量や出荷時期といった経営計画を立てる。",
+      "execution_rate": 0.793,
+      "importance": 3.524
+    },
+    {
+      "task_id": 3,
+      "description_ja": "堆肥や緑肥を使い、土づくりをする。",
+      "execution_rate": 0.925,
+      "importance": 3.857
+    },
+    {
+      "task_id": 4,
+      "description_ja": "ハウス内の土を耕し、種子を蒔くか苗を植える。",
+      "execution_rate": 0.943,
+      "importance": 3.92
+    },
+    {
+      "task_id": 5,
+      "description_ja": "苗が倒れないように支える（誘引）。",
+      "execution_rate": 0.849,
+      "importance": 3.689
+    },
+    {
+      "task_id": 6,
+      "description_ja": "野菜の生育に最適な条件を維持するために、ハウス内の環境を管理する。",
+      "execution_rate": 0.981,
+      "importance": 4.173
+    },
+    {
+      "task_id": 7,
+      "description_ja": "野菜の発育状況や品質を注意深く観察し、環境を調節する。",
+      "execution_rate": 0.962,
+      "importance": 4.196
+    },
+    {
+      "task_id": 8,
+      "description_ja": "肥料をやったり、病害虫を取り除く。",
+      "execution_rate": 0.962,
+      "importance": 4.137
+    },
+    {
+      "task_id": 9,
+      "description_ja": "雑草や脇芽を除去する。",
+      "execution_rate": 0.981,
+      "importance": 3.673
+    },
+    {
+      "task_id": 10,
+      "description_ja": "病気にかかった株や不必要な作物を処分する。",
+      "execution_rate": 0.981,
+      "importance": 3.904
+    },
+    {
+      "task_id": 11,
+      "description_ja": "作物の生育の状態を判定し、収穫時期を決定する。",
+      "execution_rate": 0.962,
+      "importance": 3.902
+    },
+    {
+      "task_id": 12,
+      "description_ja": "作物を収穫する。",
+      "execution_rate": 1.0,
+      "importance": 4.094
+    },
+    {
+      "task_id": 13,
+      "description_ja": "収穫した作物を洗浄する。",
+      "execution_rate": 0.698,
+      "importance": 2.865
+    },
+    {
+      "task_id": 14,
+      "description_ja": "収穫した野菜を市場に出すために等級別に選別し、出荷する。",
+      "execution_rate": 0.943,
+      "importance": 3.72
+    },
+    {
+      "task_id": 15,
+      "description_ja": "ビニールハウス被覆資材を張り替えるなど、設備の点検整備や修理作業をする。",
+      "execution_rate": 0.925,
+      "importance": 3.49
+    },
+    {
+      "task_id": 16,
+      "description_ja": "圃場の土壌消毒をする。",
+      "execution_rate": 0.811,
+      "importance": 3.558
+    },
+    {
+      "task_id": 17,
+      "description_ja": "筆やミツバチ等を用いたりして、受粉させる。",
+      "execution_rate": 0.547,
+      "importance": 3.31
+    },
+    {
+      "task_id": 18,
+      "description_ja": "野菜の株分けをする。",
+      "execution_rate": 0.547,
+      "importance": 2.448
+    },
+    {
+      "task_id": 19,
+      "description_ja": "種子、樹木、肥料、農作機械、農機具などを選択し、購入する。",
+      "execution_rate": 0.943,
+      "importance": 3.5
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人日本農業法人協会",
+      "url": "http://hojin.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人日本施設園芸協会",
+      "url": "http://www.jgha.com/"
+    }
+  ],
+  "related_certs_ja": [
+    "大型特殊自動車免許",
+    "危険物取扱者（甲種）",
+    "危険物取扱者（乙種）",
+    "危険物取扱者（丙種）",
+    "特級ボイラー技士",
+    "1級ボイラー技士",
+    "2級ボイラー技士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/505",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

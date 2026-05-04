@@ -1,0 +1,448 @@
+{
+  "id": 192,
+  "ipd_id": "IPD_01_01_192",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "電車運転士",
+  "aliases_ja": [
+    "地下鉄運転士",
+    "モノレール運転士",
+    "路面電車運転士"
+  ],
+  "classifications": {
+    "mhlw_main": "13_087-01",
+    "mhlw_all": [
+      "13_087-01"
+    ],
+    "jsoc_main": "I601",
+    "jsoc_all": [
+      "I601"
+    ]
+  },
+  "description": {
+    "summary_ja": "乗客や貨物をのせた電車を運転し、安全かつ正確に目的地まで運ぶため、発車の準備、運転、到着後の報告、事故があった場合の処置などを行う。",
+    "what_it_is_ja": "乗客や貨物をのせた電車を運転し、安全かつ正確に目的地まで運ぶため、発車の準備、運転、到着後の報告、事故があった場合の処置などを行う。鉄道路線によっては電気機関車を運転する場合もある。\n　運転前には、所属する電車区・運転区で点呼を受け、キーと運転予定の書かれた時刻表を受け取る。担当車両のモーター等に通電して車両の調子を点検する。ブレーキやパンタグラフ（集電装置）を作動させ正常であることを確認して、車庫から電車を出庫させ駅のホームまで移動させる。\n　駅では乗客が安全に乗降したのを確認し、車掌がドアを閉め、その出発合図に従って電車運転士が信号を確認し、発車する。運転中は、信号や踏切、線路の状態に注意し、車両の型、車両数や車両のくせ、混み具合や積載量、天候などにより加速・制動の具合が変わるので、これらに十分に配慮して時刻表どおりの正確な発着に努める。また、到着時間の遅れや病人の発生などの不測の事態に際しては適切に対応し、できるだけスムーズに電車を運行させる。決められた区間の運転が終わると、次の運転士に交替し、所属する電車区・運転区の助役に運転状況を報告する。\n　万が一事故が起きた場合には、被害を最小限にくいとめるよう車掌とともに乗客の救出や誘導を行い、運行司令室等に連絡し指示を仰ぐ。また、列車を何らかの事情で駅間でとどめる場合には、後続の列車を緊急停車させるなど適切な措置を取る。\n　ワンマン運転で、車掌の乗務がなくなり、電車運転士が一人で運行する路線も増えている。\n\n◇　よく使う道具、機材、情報技術等\n　電車、ATS（自動列車停止装置）、ATC(自動列車制御装置)",
+    "how_to_become_ja": "電車運転士になるには、運転する動力車種に応じた運転免許が必要となり、身体検査、適性検査、法令や車両構造に関する試験、運転実技などの試験を受ける。国が指定する養成所を持っている大企業では運転講習課程の訓練を受けて合格基準に達すると国家試験が免除される。\n　一般には、鉄道会社に入職後、駅務員や車掌を一定期間経験した上で運転士として選抜され、養成所で教育訓練が行われる。その後、運転士見習として約半年間、運転技能の指導を受ける。電車運転士になった後も日々の運行の中で運転技能を磨いていく。定期的に非常時の訓練を受け、安全に対するスキルの向上を図る。昇進試験によって運転区所の所長や助役、駅長に昇進する道も開かれている。\n　様々な状況に迅速に反応できる能力、沈着冷静に適切な判断を下せる能力が必要とされる。突発的な事態に備えて常に注意を集中させなければならないため、持続的に緊張感を保てる粘り強さも必要とされる。",
+    "working_conditions_ja": "勤務先はJRや第３セクター運営の場合は全国におよぶが、大手私鉄は、首都圏・都市圏に就業者が多い。また、地方私鉄のある地方都市にも勤務先はある。\n　鉄道は昼夜を問わず通年運行しているので、交替制で勤務し、休日も交替でとる。夜間や早朝勤務の他に宿泊勤務もある。就業者は男性がほとんどだったが、女性の運転士もみられるようになっている。\n　賃金の水準は、鉄道会社によって異なるが、月給制が多い。\n　電車運転を支援するATS（自動列車停止装置）やATC(自動列車制御装置)は既に広く普及している。また、列車運行の一部若しくは全てを自動化するシステムを導入している路線もある。そして、最近では従来の路線での自動運転に向けた開発や試験走行も実施されている。"
+  },
+  "interests": {
+    "realistic": 3.685,
+    "investigative": 2.918,
+    "artistic": 2.438,
+    "social": 3.301,
+    "enterprising": 2.63,
+    "conventional": 3.74
+  },
+  "work_values": {
+    "achievement": 3.276,
+    "autonomy": 2.741,
+    "expertise": 3.741,
+    "self_growth": 3.19,
+    "social_recognition": 3.448,
+    "service_contribution": 3.276,
+    "good_relationships": 3.19,
+    "workplace_safety": 3.017,
+    "work_life_balance": 3.397,
+    "stability": 3.603,
+    "compensation": 3.017
+  },
+  "skills": {
+    "reading_comprehension": 3.172,
+    "active_listening": 3.362,
+    "writing": 2.362,
+    "speaking": 2.741,
+    "foreign_language_reading": 0.966,
+    "foreign_language_listening": 1.19,
+    "foreign_language_writing": 0.69,
+    "foreign_language_speaking": 1.276,
+    "mathematics": 1.776,
+    "science": 0.948,
+    "critical_thinking": 1.534,
+    "active_learning": 2.086,
+    "learning_strategies": 2.086,
+    "monitoring": 2.069,
+    "social_perceptiveness": 2.19,
+    "coordination": 2.138,
+    "persuasion": 1.655,
+    "negotiation": 1.379,
+    "instructing": 3.31,
+    "service_orientation": 2.328,
+    "complex_problem_solving": 2.017,
+    "operations_analysis": 1.466,
+    "technology_design": 0.862,
+    "equipment_selection": 1.862,
+    "installation": 1.259,
+    "programming": 0.621,
+    "operations_monitoring": 3.534,
+    "operation_and_control": 4.379,
+    "equipment_maintenance": 2.241,
+    "troubleshooting": 3.224,
+    "repairing": 1.931,
+    "quality_control_analysis": 1.259,
+    "judgment_decision_making": 1.638,
+    "systems_analysis": 1.517,
+    "systems_evaluation": 1.397,
+    "time_management": 3.276,
+    "financial_resources_management": 0.724,
+    "material_resources_management": 0.724,
+    "personnel_resources_management": 0.845
+  },
+  "knowledge": {
+    "business_management": 0.364,
+    "clerical": 0.477,
+    "economics_accounting": 0.318,
+    "sales_marketing": 0.295,
+    "customer_personal_service": 1.273,
+    "personnel_hr": 0.364,
+    "transportation": 3.114,
+    "production_processing": 0.273,
+    "agriculture_livestock": 0.182,
+    "engineering": 0.545,
+    "computers_electronics": 0.409,
+    "design": 0.25,
+    "building_construction": 0.136,
+    "mechanical": 1.25,
+    "mathematics_kn": 1.136,
+    "physics": 0.955,
+    "chemistry": 0.364,
+    "biology": 0.205,
+    "psychology": 0.75,
+    "sociology": 0.432,
+    "geography": 0.432,
+    "medicine_dentistry": 0.159,
+    "therapy_counseling": 0.273,
+    "education_training_kn": 1.159,
+    "japanese_language": 0.477,
+    "foreign_language_kn": 0.295,
+    "fine_arts": 0.159,
+    "history_archaeology": 0.205,
+    "philosophy_theology": 0.159,
+    "public_safety_security": 0.636,
+    "law_government": 0.636,
+    "telecommunications": 0.568,
+    "communications_media": 0.295
+  },
+  "abilities": {
+    "oral_comprehension": 2.529,
+    "written_comprehension": 2.529,
+    "oral_expression": 2.529,
+    "written_expression": 2.353,
+    "fluency_of_ideas": 2.039,
+    "originality": 1.961,
+    "problem_sensitivity": 3.529,
+    "deductive_reasoning": 2.647,
+    "inductive_reasoning": 2.549,
+    "information_ordering": 2.373,
+    "category_flexibility": 2.059,
+    "mathematical_reasoning": 2.235,
+    "number_facility": 2.373,
+    "memorization": 2.745,
+    "perceptual_speed": 2.667,
+    "spatial_orientation": 2.667,
+    "visualization": 2.647,
+    "selective_attention": 3.353,
+    "time_sharing": 3.137,
+    "arm_hand_steadiness": 2.922,
+    "manual_dexterity": 2.294,
+    "finger_dexterity": 2.059,
+    "reaction_time": 3.882,
+    "wrist_finger_speed": 2.686,
+    "speed_of_limb_movement": 2.588,
+    "static_strength": 2.039,
+    "stamina": 2.333,
+    "gross_body_equilibrium": 2.549,
+    "near_vision": 3.275,
+    "far_vision": 3.843,
+    "visual_color_discrimination": 3.863,
+    "depth_perception": 3.451,
+    "hearing_sensitivity": 3.784,
+    "auditory_attention": 3.588,
+    "speech_clarity": 2.941
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.727,
+    "face_to_face_discussions": 2.159,
+    "telephone_communication": 2.227,
+    "business_writing": 1.659,
+    "conflict_situations": 1.5,
+    "time_pressure": 3.705,
+    "teamwork": 2.523,
+    "dealing_with_external_customers": 2.068,
+    "coordinate_lead_others": 1.886,
+    "exactness_accuracy": 4.318,
+    "repetitive_tasks": 4.068,
+    "pace_determined_by_machine": 3.591,
+    "responsibility_for_outcomes": 3.023,
+    "indoor_climate_controlled": 3.795,
+    "indoor_non_climate_controlled": 2.727,
+    "outdoor_work": 3.682,
+    "sitting": 4.591,
+    "standing": 2.295,
+    "repetition_of_activities": 4.364,
+    "consequence_of_error": 4.568,
+    "freedom_to_make_decisions": 2.227,
+    "set_own_goals": 2.455,
+    "regular_schedule": 0.591,
+    "irregular_schedule": 0.364,
+    "seasonal_schedule": 0.045,
+    "email_communication": 1.841,
+    "cramped_uncomfortable": 2.659,
+    "disease_infection_risk": 2.25,
+    "minor_injury_risk": 1.455,
+    "standard_protective_equipment": 1.864,
+    "specialized_protective_equipment": 1.273,
+    "dealing_with_violent_people": 1.75,
+    "walking_running": 2.705,
+    "handling_objects_tools": 4.182,
+    "physical_proximity": 2.25,
+    "work_automation": 2.182,
+    "responsibility_for_safety": 3.477,
+    "impact_of_decisions": 2.318,
+    "level_of_competition": 1.659
+  },
+  "work_activities": {
+    "getting_information": 2.961,
+    "monitor_processes": 3.235,
+    "identifying_objects": 3.157,
+    "inspecting_equipment": 2.98,
+    "estimating_quantifiable": 2.686,
+    "judging_quality": 2.451,
+    "evaluating_compliance": 3.588,
+    "processing_information": 2.745,
+    "analyzing_data": 2.686,
+    "making_decisions": 2.902,
+    "thinking_creatively": 2.451,
+    "updating_knowledge": 3.333,
+    "developing_objectives": 2.51,
+    "scheduling_work": 2.647,
+    "organizing_planning": 3.118,
+    "physical_activities": 2.549,
+    "handling_objects": 2.922,
+    "controlling_machines": 2.824,
+    "operating_vehicles": 4.235,
+    "computer_work": 2.294,
+    "drafting_specifications": 2.118,
+    "repairing_mechanical": 2.431,
+    "repairing_electronic": 2.294,
+    "documenting_information": 2.314,
+    "interpreting_information": 2.627,
+    "communicating_inside": 3.216,
+    "communicating_outside": 2.51,
+    "building_relationships": 3.078,
+    "assisting_caring": 2.647,
+    "selling_influencing": 2.118,
+    "resolving_conflicts": 2.412,
+    "performing_for_public": 3.275,
+    "coordinating_others": 2.588,
+    "developing_teams": 2.412,
+    "training_teaching": 2.725,
+    "guiding_subordinates": 2.745,
+    "coaching_developing": 2.549,
+    "providing_consultation": 2.294,
+    "performing_administrative": 2.333,
+    "staffing_organizational": 2.176,
+    "monitoring_resources": 2.176
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.841,
+    "vocational_school": 0.25,
+    "junior_college": 0.114,
+    "technical_college": 0.114,
+    "university": 0.614,
+    "masters": 0.023,
+    "doctorate": 0.0,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.114,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.068,
+    "6_months_to_1_year": 0.545,
+    "1_to_2_years": 0.182,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.045
+  },
+  "training_post": {
+    "not_required": 0.0,
+    "up_to_1_month": 0.023,
+    "1_to_6_months": 0.205,
+    "6_months_to_1_year": 0.409,
+    "1_to_2_years": 0.136,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.023,
+    "unknown": 0.114
+  },
+  "experience": {
+    "not_required": 0.25,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.159,
+    "6_months_to_1_year": 0.182,
+    "1_to_2_years": 0.205,
+    "2_to_3_years": 0.136,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.068
+  },
+  "employment_type": {
+    "regular_employee": 0.955,
+    "part_time": 0.023,
+    "dispatched": 0.023,
+    "contract": 0.068,
+    "self_employed_freelance": 0.0,
+    "executive": 0.023,
+    "casual_non_student": 0.0,
+    "casual_student": 0.023,
+    "unknown": 0.0,
+    "other": 0.023
+  },
+  "tasks_lead_ja": "電車や電気機関車を運転し、ダイヤにしたがって、旅客や貨物を安全、正確に輸送する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "運行計画に基づき、乗務前に各種の連絡事項を確認してから担当する電車に乗務する。",
+      "execution_rate": 0.98,
+      "importance": 4.62
+    },
+    {
+      "task_id": 2,
+      "description_ja": "運転前に、機器類の点検、安全装置のチェックをする。",
+      "execution_rate": 0.98,
+      "importance": 4.52
+    },
+    {
+      "task_id": 3,
+      "description_ja": "各種表示灯の点灯、信号標識灯を確認したうえで、電車を発車させる。",
+      "execution_rate": 0.98,
+      "importance": 4.64
+    },
+    {
+      "task_id": 4,
+      "description_ja": "駅のホームの停止目標に合わせて停車する。",
+      "execution_rate": 0.98,
+      "importance": 4.5
+    },
+    {
+      "task_id": 5,
+      "description_ja": "扉が完全に閉まったかどうかを確認してから発車させる。",
+      "execution_rate": 0.961,
+      "importance": 4.673
+    },
+    {
+      "task_id": 6,
+      "description_ja": "路線の状況に応じて速度を調節し、信号機、標識、線路の状況に注意しながら、ダイヤにしたがって運転する。",
+      "execution_rate": 0.98,
+      "importance": 4.54
+    },
+    {
+      "task_id": 7,
+      "description_ja": "安全な運行を心がけ、必要に応じて警笛を鳴らす。",
+      "execution_rate": 0.98,
+      "importance": 4.4
+    },
+    {
+      "task_id": 8,
+      "description_ja": "事故などの緊急時には、非常装置を作動させ、安全を確保するべく対応する。",
+      "execution_rate": 0.98,
+      "importance": 4.68
+    },
+    {
+      "task_id": 9,
+      "description_ja": "脱線や線路の不具合を発見したときは、列車防護無線やスイッチを操作して他の列車を止める。",
+      "execution_rate": 0.98,
+      "importance": 4.64
+    },
+    {
+      "task_id": 10,
+      "description_ja": "車両が運転中に故障したときには、マニュアルにより適切に対処する。",
+      "execution_rate": 0.98,
+      "importance": 4.36
+    },
+    {
+      "task_id": 11,
+      "description_ja": "旅客の忘れ物や急病に対応する。",
+      "execution_rate": 0.98,
+      "importance": 3.96
+    },
+    {
+      "task_id": 12,
+      "description_ja": "車両の入庫の際は、各種の計器やスイッチ類を点検し、運転状況を報告する。",
+      "execution_rate": 0.98,
+      "importance": 4.34
+    },
+    {
+      "task_id": 13,
+      "description_ja": "乗務終了後に運転した列車の運転状況や車両状態を担当上司に報告する。",
+      "execution_rate": 0.961,
+      "importance": 4.286
+    },
+    {
+      "task_id": 14,
+      "description_ja": "貨物列車を運転する場合には、連結された貨車の重さに応じた運転をする。",
+      "execution_rate": 0.549,
+      "importance": 4.464
+    },
+    {
+      "task_id": 15,
+      "description_ja": "列車の連結や分割を行う。",
+      "execution_rate": 0.569,
+      "importance": 4.069
+    },
+    {
+      "task_id": 16,
+      "description_ja": "ワンマン路線区間で、車内放送や車内の温度調節を行う。",
+      "execution_rate": 0.686,
+      "importance": 3.686
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "北海道旅客鉄道株式会社",
+      "url": "http://www.jrhokkaido.co.jp"
+    },
+    {
+      "name_ja": "東日本旅客鉄道株式会社",
+      "url": "https://www.jreast.co.jp/"
+    },
+    {
+      "name_ja": "東海旅客鉄道株式会社",
+      "url": "https://jr-central.co.jp/"
+    },
+    {
+      "name_ja": "西日本旅客鉄道株式会社",
+      "url": "https://www.westjr.co.jp/"
+    },
+    {
+      "name_ja": "四国旅客鉄道株式会社",
+      "url": "http://www.jr-shikoku.co.jp"
+    },
+    {
+      "name_ja": "九州旅客鉄道株式会社",
+      "url": "http://www.jrkyushu.co.jp"
+    },
+    {
+      "name_ja": "一般社団法人   日本民営鉄道協会",
+      "url": "https://www.mintetsu.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "動力車操縦者（鉄道）運転免許"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/192",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

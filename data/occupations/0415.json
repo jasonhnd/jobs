@@ -1,0 +1,460 @@
+{
+  "id": 415,
+  "ipd_id": "IPD_01_01_415",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "客室清掃・整備担当（ホテル・旅館）",
+  "aliases_ja": [
+    "ハウスキーパー（客室係）",
+    "ベッドメーク係",
+    "客室係（ホテル・旅館：清掃の仕事に従事するもの）",
+    "客室清掃員（ホテル・旅館）",
+    "ルーム係（ホテル：清掃の仕事に従事するもの）"
+  ],
+  "classifications": {
+    "mhlw_main": "15_096-03",
+    "mhlw_all": [
+      "15_096-03"
+    ],
+    "jsoc_main": "E404",
+    "jsoc_all": [
+      "E404"
+    ]
+  },
+  "description": {
+    "summary_ja": "ホテルや旅館に滞在する宿泊客等が快適に過ごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える。",
+    "what_it_is_ja": "ホテルや旅館に滞在する宿泊客等が快適にすごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える。\n　業務内容を仕事の流れに沿って見ていくと、まず出勤するとその日に担当する部屋割りリストを受け取る。宿泊客等がチェックアウトすると、シーツやタオル、歯ブラシなどの備品と掃除道具をカートで運び、客室へ向かう。\n　部屋の換気をしたあと、客が使ったシーツや枕カバーなどの寝具をすべて取り外し、クリーニングした新しい寝具を美しく整える。\n　浴室やトイレ、洗面所などの水まわりは衛生管理と清潔感が大切なので、洗剤やブラシを使って念入りに掃除をする。タオルやバスマットを交換し、歯ブラシや石けんなどアメニティも補充する。\n　床は掃除機をかけ、テーブルやランプ、窓などのほこりをふき取る。ハンガーやスリッパ、便箋やペンなどが揃っているか確認し、テレビやラジオが正常に動くか、電球は切れていないか、時計の時刻は合っているかもチェックする。\n　最後に入り口から部屋全体を眺めて確認し、ひとつの部屋の清掃が終了する。取り替えたリネン類は、専用のカート等でランドリーに運ぶ。\n　客室が清潔かどうかによってホテルや旅館の印象が決まるので、重要な仕事である。\n\n◇　よく使う道具、機材、情報技術等\n　掃除道具、カート、ブラシ、掃除機",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　宿泊客等がチェックアウトして次の宿泊客等がチェックインするまでの間に客室清掃を行うので、1日に1人が10室程度担当するとして、1室に掛けられる時間は15分から20分程度と短いため、集中力や、効率的に仕事をこなす段取り力も求められる。時間が限られている場合は、1室を2，3人で担当することもあるので、チームプレイや的確な意思疎通ができるコミュニケーション能力も重要である。きれい好きで几帳面であること、ベッドメイキングなどで体を使うので、一定の体力が必要である。外国人客の多いホテルでは、簡単な英会話が必要となる場合もある。",
+    "working_conditions_ja": "勤務地は大型ホテルのある大都市に多いが、地方都市や観光地にも就業機会がある。\n　就業者は中高年女性が多い。仕事の作業時間が宿泊客等のチェックアウト後・チェックイン前という（概ね１０時～１５時）、家庭をもつ女性にも働きやすい時間帯になっているので、主婦のパートタイマーも多い。\n　ホテルや旅館は年中無休で営業しているので、日曜、祝日は必ずしも休みではなく、平日などに交替で週に２日程度の休みをとる場合が多い。残業はほとんどないが、大型のイベントがあったりして宿泊客等が急に増える場合はそれなりの残業が発生する。\n　賃金は各企業の規定により支給されているが、パートタイムの場合は時給制が多い。\n　かつては、ホテルや旅館の宿泊部門に入職したときの最初の配属先だったが、最近では客室清掃整備の仕事を自社スタッフでは行わず、外部の専門業者に外注するところが増えている。"
+  },
+  "interests": {
+    "realistic": 3.256,
+    "investigative": 2.512,
+    "artistic": 2.163,
+    "social": 3.023,
+    "enterprising": 2.535,
+    "conventional": 3.302
+  },
+  "work_values": {
+    "achievement": 3.652,
+    "autonomy": 3.5,
+    "expertise": 3.174,
+    "self_growth": 3.239,
+    "social_recognition": 2.413,
+    "service_contribution": 2.957,
+    "good_relationships": 3.326,
+    "workplace_safety": 3.0,
+    "work_life_balance": 3.5,
+    "stability": 3.152,
+    "compensation": 2.848
+  },
+  "skills": {
+    "reading_comprehension": 2.217,
+    "active_listening": 2.587,
+    "writing": 1.848,
+    "speaking": 2.196,
+    "foreign_language_reading": 0.717,
+    "foreign_language_listening": 0.587,
+    "foreign_language_writing": 0.283,
+    "foreign_language_speaking": 0.674,
+    "mathematics": 0.522,
+    "science": 0.391,
+    "critical_thinking": 1.174,
+    "active_learning": 1.261,
+    "learning_strategies": 1.196,
+    "monitoring": 1.457,
+    "social_perceptiveness": 1.978,
+    "coordination": 1.783,
+    "persuasion": 1.261,
+    "negotiation": 1.065,
+    "instructing": 1.913,
+    "service_orientation": 1.37,
+    "complex_problem_solving": 1.478,
+    "operations_analysis": 0.739,
+    "technology_design": 0.783,
+    "equipment_selection": 1.239,
+    "installation": 0.804,
+    "programming": 0.326,
+    "operations_monitoring": 0.609,
+    "operation_and_control": 0.696,
+    "equipment_maintenance": 0.826,
+    "troubleshooting": 1.022,
+    "repairing": 1.065,
+    "quality_control_analysis": 0.978,
+    "judgment_decision_making": 0.957,
+    "systems_analysis": 0.957,
+    "systems_evaluation": 0.565,
+    "time_management": 1.674,
+    "financial_resources_management": 0.413,
+    "material_resources_management": 0.848,
+    "personnel_resources_management": 1.13
+  },
+  "knowledge": {
+    "business_management": 0.308,
+    "clerical": 0.404,
+    "economics_accounting": 0.25,
+    "sales_marketing": 0.269,
+    "customer_personal_service": 1.115,
+    "personnel_hr": 0.423,
+    "transportation": 0.173,
+    "production_processing": 0.212,
+    "agriculture_livestock": 0.173,
+    "engineering": 0.212,
+    "computers_electronics": 0.212,
+    "design": 0.173,
+    "building_construction": 0.25,
+    "mechanical": 0.25,
+    "mathematics_kn": 0.173,
+    "physics": 0.173,
+    "chemistry": 0.269,
+    "biology": 0.154,
+    "psychology": 0.404,
+    "sociology": 0.365,
+    "geography": 0.269,
+    "medicine_dentistry": 0.288,
+    "therapy_counseling": 0.288,
+    "education_training_kn": 0.423,
+    "japanese_language": 0.519,
+    "foreign_language_kn": 0.385,
+    "fine_arts": 0.25,
+    "history_archaeology": 0.25,
+    "philosophy_theology": 0.288,
+    "public_safety_security": 0.404,
+    "law_government": 0.308,
+    "telecommunications": 0.288,
+    "communications_media": 0.481
+  },
+  "abilities": {
+    "oral_comprehension": 2.132,
+    "written_comprehension": 1.981,
+    "oral_expression": 2.264,
+    "written_expression": 2.151,
+    "fluency_of_ideas": 1.887,
+    "originality": 1.868,
+    "problem_sensitivity": 2.887,
+    "deductive_reasoning": 1.943,
+    "inductive_reasoning": 1.849,
+    "information_ordering": 2.057,
+    "category_flexibility": 1.792,
+    "mathematical_reasoning": 1.717,
+    "number_facility": 1.811,
+    "memorization": 2.321,
+    "perceptual_speed": 1.736,
+    "spatial_orientation": 1.83,
+    "visualization": 1.887,
+    "selective_attention": 2.0,
+    "time_sharing": 1.811,
+    "arm_hand_steadiness": 2.264,
+    "manual_dexterity": 2.264,
+    "finger_dexterity": 2.151,
+    "reaction_time": 2.0,
+    "wrist_finger_speed": 2.226,
+    "speed_of_limb_movement": 2.415,
+    "static_strength": 2.792,
+    "stamina": 2.811,
+    "gross_body_equilibrium": 2.321,
+    "near_vision": 2.302,
+    "far_vision": 1.981,
+    "visual_color_discrimination": 2.094,
+    "depth_perception": 2.038,
+    "hearing_sensitivity": 1.887,
+    "auditory_attention": 1.943,
+    "speech_clarity": 1.906
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.173,
+    "face_to_face_discussions": 2.135,
+    "telephone_communication": 1.712,
+    "business_writing": 1.442,
+    "conflict_situations": 1.75,
+    "time_pressure": 2.673,
+    "teamwork": 2.442,
+    "dealing_with_external_customers": 1.981,
+    "coordinate_lead_others": 2.058,
+    "exactness_accuracy": 2.981,
+    "repetitive_tasks": 2.615,
+    "pace_determined_by_machine": 1.846,
+    "responsibility_for_outcomes": 2.442,
+    "indoor_climate_controlled": 3.923,
+    "indoor_non_climate_controlled": 2.385,
+    "outdoor_work": 1.788,
+    "sitting": 1.308,
+    "standing": 4.519,
+    "repetition_of_activities": 3.654,
+    "consequence_of_error": 2.25,
+    "freedom_to_make_decisions": 3.0,
+    "set_own_goals": 3.192,
+    "regular_schedule": 0.75,
+    "irregular_schedule": 0.212,
+    "seasonal_schedule": 0.038,
+    "email_communication": 1.346,
+    "cramped_uncomfortable": 1.712,
+    "disease_infection_risk": 2.481,
+    "minor_injury_risk": 1.519,
+    "standard_protective_equipment": 1.442,
+    "specialized_protective_equipment": 1.192,
+    "dealing_with_violent_people": 1.288,
+    "walking_running": 4.135,
+    "handling_objects_tools": 3.096,
+    "physical_proximity": 2.269,
+    "work_automation": 1.385,
+    "responsibility_for_safety": 1.673,
+    "impact_of_decisions": 1.788,
+    "level_of_competition": 1.404
+  },
+  "work_activities": {
+    "getting_information": 2.151,
+    "monitor_processes": 2.377,
+    "identifying_objects": 2.245,
+    "inspecting_equipment": 2.415,
+    "estimating_quantifiable": 1.792,
+    "judging_quality": 2.075,
+    "evaluating_compliance": 2.0,
+    "processing_information": 1.755,
+    "analyzing_data": 1.698,
+    "making_decisions": 1.981,
+    "thinking_creatively": 1.868,
+    "updating_knowledge": 2.132,
+    "developing_objectives": 2.019,
+    "scheduling_work": 2.189,
+    "organizing_planning": 2.906,
+    "physical_activities": 2.868,
+    "handling_objects": 2.981,
+    "controlling_machines": 1.774,
+    "operating_vehicles": 1.623,
+    "computer_work": 1.698,
+    "drafting_specifications": 1.642,
+    "repairing_mechanical": 1.698,
+    "repairing_electronic": 1.66,
+    "documenting_information": 1.66,
+    "interpreting_information": 1.755,
+    "communicating_inside": 2.66,
+    "communicating_outside": 2.151,
+    "building_relationships": 2.547,
+    "assisting_caring": 1.962,
+    "selling_influencing": 1.717,
+    "resolving_conflicts": 1.962,
+    "performing_for_public": 1.868,
+    "coordinating_others": 2.132,
+    "developing_teams": 2.132,
+    "training_teaching": 2.075,
+    "guiding_subordinates": 2.132,
+    "coaching_developing": 1.868,
+    "providing_consultation": 1.774,
+    "performing_administrative": 1.981,
+    "staffing_organizational": 1.811,
+    "monitoring_resources": 1.962
+  },
+  "education_distribution": {
+    "below_high_school": 0.058,
+    "high_school": 0.462,
+    "vocational_school": 0.077,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.135,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.346
+  },
+  "training_pre": {
+    "not_required": 0.731,
+    "up_to_1_month": 0.096,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.096
+  },
+  "training_post": {
+    "not_required": 0.231,
+    "up_to_1_month": 0.327,
+    "1_to_6_months": 0.288,
+    "6_months_to_1_year": 0.058,
+    "1_to_2_years": 0.019,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.077
+  },
+  "experience": {
+    "not_required": 0.788,
+    "up_to_1_month": 0.077,
+    "1_to_6_months": 0.019,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.115
+  },
+  "employment_type": {
+    "regular_employee": 0.115,
+    "part_time": 0.75,
+    "dispatched": 0.038,
+    "contract": 0.038,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.173,
+    "casual_student": 0.038,
+    "unknown": 0.019,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "ホテルや旅館に滞在する宿泊客が快適にすごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "宿泊客がチェックアウトした後、ベッドメーキング、寝具の整備をする。",
+      "execution_rate": 0.943,
+      "importance": 4.1
+    },
+    {
+      "task_id": 2,
+      "description_ja": "浴室、シャワーブース、トイレを清掃する。",
+      "execution_rate": 0.925,
+      "importance": 3.939
+    },
+    {
+      "task_id": 3,
+      "description_ja": "浴室用品、文房具などの備品を補充する。",
+      "execution_rate": 0.943,
+      "importance": 3.76
+    },
+    {
+      "task_id": 4,
+      "description_ja": "くずかごを空にし、灰皿を空にして掃除する。",
+      "execution_rate": 0.962,
+      "importance": 3.902
+    },
+    {
+      "task_id": 5,
+      "description_ja": "家具と設備の埃を掃除する。",
+      "execution_rate": 0.962,
+      "importance": 3.647
+    },
+    {
+      "task_id": 6,
+      "description_ja": "掃除機で、カーペット、畳、カーテン等を掃除する。",
+      "execution_rate": 0.906,
+      "importance": 3.771
+    },
+    {
+      "task_id": 7,
+      "description_ja": "窓、ドアパネル、敷居を掃除する。",
+      "execution_rate": 0.943,
+      "importance": 3.34
+    },
+    {
+      "task_id": 8,
+      "description_ja": "電球が切れている場合は取り代える。",
+      "execution_rate": 0.906,
+      "importance": 3.75
+    },
+    {
+      "task_id": 9,
+      "description_ja": "取付具や取付部品などの金属製品を磨く。",
+      "execution_rate": 0.887,
+      "importance": 3.021
+    },
+    {
+      "task_id": 10,
+      "description_ja": "ベッド、カーテン、ブラインドを整え、入室できるようにする。",
+      "execution_rate": 0.925,
+      "importance": 3.898
+    },
+    {
+      "task_id": 11,
+      "description_ja": "使用後のリネンを集め、補充リネン類をリネン・クローゼットに収集する。",
+      "execution_rate": 0.943,
+      "importance": 3.88
+    },
+    {
+      "task_id": 12,
+      "description_ja": "宿泊客の要望により、客室にベビーベッド、エキストラベッドなどをセッティングする。",
+      "execution_rate": 0.755,
+      "importance": 3.75
+    },
+    {
+      "task_id": 13,
+      "description_ja": "ほうきとモップで床を掃除し、電動の洗浄機とワックス磨き機を使用して、床にワックスをかける。",
+      "execution_rate": 0.717,
+      "importance": 3.053
+    },
+    {
+      "task_id": 14,
+      "description_ja": "アルコールなどで設備を除菌する。",
+      "execution_rate": 0.925,
+      "importance": 3.49
+    },
+    {
+      "task_id": 15,
+      "description_ja": "部屋の清掃状況を再確認する。",
+      "execution_rate": 0.906,
+      "importance": 3.792
+    },
+    {
+      "task_id": 16,
+      "description_ja": "ごみの分別を行う。",
+      "execution_rate": 0.925,
+      "importance": 3.469
+    },
+    {
+      "task_id": 17,
+      "description_ja": "設備の補修や修繕を行う。",
+      "execution_rate": 0.793,
+      "importance": 3.286
+    },
+    {
+      "task_id": 18,
+      "description_ja": "ポットやコーヒーメーカーなどを準備する。",
+      "execution_rate": 0.736,
+      "importance": 3.333
+    },
+    {
+      "task_id": 19,
+      "description_ja": "忘れ物を客室事務所に届ける。",
+      "execution_rate": 0.962,
+      "importance": 3.902
+    },
+    {
+      "task_id": 20,
+      "description_ja": "共用部分の整備やメンテナンスをする。",
+      "execution_rate": 0.774,
+      "importance": 3.268
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本ホテル協会",
+      "url": "https://www.j-hotel.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　全日本ホテル連盟（ANHA）",
+      "url": "https://www.anha.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本旅館協会",
+      "url": "http://www.ryokan.or.jp/top/"
+    },
+    {
+      "name_ja": "全国旅館ホテル生活衛生同業組合連合会",
+      "url": "http://www.yadonet.ne.jp/info/zenryoren/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/415",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

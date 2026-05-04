@@ -1,0 +1,482 @@
+{
+  "id": 115,
+  "ipd_id": "IPD_01_01_115",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "理容師",
+  "aliases_ja": [
+    "ヘアスタイリスト（理容師）",
+    "ヘアデザイナー（理容師）",
+    "理髪師"
+  ],
+  "classifications": {
+    "mhlw_main": "09_053-01",
+    "mhlw_all": [
+      "09_053-01"
+    ],
+    "jsoc_main": "E381",
+    "jsoc_all": [
+      "E381"
+    ]
+  },
+  "description": {
+    "summary_ja": "顧客の要望に合わせて、ヘアカット、顔そりなどを行って、容姿を整える。",
+    "what_it_is_ja": "顧客の要望に合わせて、ヘアカット、顔そりなどを行って、容姿を整える。\n　最近では髪型を「自分を表現するファッション」として考える人が増え、理髪店はさっぱりする快適さと、見栄えの両方を顧客から求められている。\n　理容師は店に来た顧客の希望を聞き、相談を受けた場合には適切なアドバイスを与えながら、髪をどのぐらいの長さにするか、どんなヘアスタイルにするかを決め、作業を始める。髪の毛のカット、シャンプー、顔そり（シェービング）と進め、整髪料などを使って整髪（セット）して仕上げる。注文に応じて毛染め（カラーリング）をしたり、パーマを行うこともある。また、サービスの一環として、頭部や肩のマッサージをすることもある。\n　大きな店では、顧客1人に対して2～3人で分担することもあり、その場合は、髪や肌の特徴について申し送りをしっかりし、客の特徴をカルテとしてとることも大切となる。\n　顧客の要望に応えられるように、ヘアスタイルの流行については常に新しい情報を取り入れるように注意し、人気のある有名人の髪型にも関心を持っておく必要がある。\n　理髪店は、一般には床屋、理容室と呼ばれるが、法律や政府統計等の正式名称は理容所である。\n\n◇　よく使う道具、機材、情報技術等\n　レジ（小売店、レストラン等）、理髪用道具、ドライヤー",
+    "how_to_become_ja": "理容師になるには、都道府県知事指定の理容師養成施設昼間・夜間課程の通常課程は２年以上（修得者課程は１年以上）、通信課程の通常課程は３年以上（修得者課程は１年６月以上）で理容師になるのに必要な知識・技能を修得・卒業し、理容師国家試験に合格しなければならない。合格後、理容師免許申請をすることで理容師免許証が交付される。\n　2018年4月より、一部の養成施設では美容師の資格者を対象に「修得者課程」が設けられている。修得者課程は履修課程の大幅な減免や履修期間が短縮されており、理容師の資格が取得しやすくなっている。\n　理容師の免許を受けた後3年以上理容の業務に従事し、かつ、所定の講習会の課程を修了した者は「管理理容師」の資格が取得できる。「管理理容師」は常時2人以上理容師がいる理髪店に置くことが義務付けられており、将来独立開業する際に役立つ資格である。\n　理容師として経験を積んだあと、自分の理髪店を持つ人もいる。",
+    "working_conditions_ja": "小さな理髪店が多く、男性の多い業界であったが、女性理容師も少なくない。\n　休日は定休日のほか、交替で週休二日制を取り入れている場合が多い。給与は勤務する店によって異なるが、一般に技術の向上に応じて上がっていく。「管理理容師」の資格を取得すると、給与面で有利になることが多い。\n　店の造りや技術・センス、サービスの内容など、特徴のある理容店は発展の可能性があり、高い技術やセンスの良さによって人気の理容師となる者もいる。一方で、大都市を中心に短時間、低料金で限られたサービスで理髪を行うチェーン店も増えている。また、高齢化の進展に伴い、介護施設、個人宅等への訪問サービスのニーズが高まってきているなど、理容師に期待される役割は拡がってきている。"
+  },
+  "interests": {
+    "realistic": 3.575,
+    "investigative": 3.301,
+    "artistic": 3.575,
+    "social": 3.89,
+    "enterprising": 2.986,
+    "conventional": 3.26
+  },
+  "work_values": {
+    "achievement": 3.762,
+    "autonomy": 3.81,
+    "expertise": 3.873,
+    "self_growth": 3.667,
+    "social_recognition": 2.937,
+    "service_contribution": 3.317,
+    "good_relationships": 3.762,
+    "workplace_safety": 3.667,
+    "work_life_balance": 3.429,
+    "stability": 3.302,
+    "compensation": 2.81
+  },
+  "skills": {
+    "reading_comprehension": 3.27,
+    "active_listening": 4.397,
+    "writing": 2.762,
+    "speaking": 3.603,
+    "foreign_language_reading": 0.968,
+    "foreign_language_listening": 0.857,
+    "foreign_language_writing": 0.556,
+    "foreign_language_speaking": 0.841,
+    "mathematics": 1.54,
+    "science": 1.556,
+    "critical_thinking": 2.016,
+    "active_learning": 2.302,
+    "learning_strategies": 2.349,
+    "monitoring": 2.27,
+    "social_perceptiveness": 3.143,
+    "coordination": 2.397,
+    "persuasion": 2.571,
+    "negotiation": 2.238,
+    "instructing": 2.27,
+    "service_orientation": 2.635,
+    "complex_problem_solving": 2.333,
+    "operations_analysis": 1.873,
+    "technology_design": 2.143,
+    "equipment_selection": 2.921,
+    "installation": 2.333,
+    "programming": 0.841,
+    "operations_monitoring": 1.19,
+    "operation_and_control": 1.365,
+    "equipment_maintenance": 1.937,
+    "troubleshooting": 1.857,
+    "repairing": 2.286,
+    "quality_control_analysis": 1.937,
+    "judgment_decision_making": 2.127,
+    "systems_analysis": 1.635,
+    "systems_evaluation": 1.778,
+    "time_management": 2.048,
+    "financial_resources_management": 2.381,
+    "material_resources_management": 2.397,
+    "personnel_resources_management": 1.54
+  },
+  "knowledge": {
+    "business_management": 1.741,
+    "clerical": 1.333,
+    "economics_accounting": 1.463,
+    "sales_marketing": 1.852,
+    "customer_personal_service": 3.759,
+    "personnel_hr": 1.407,
+    "transportation": 0.222,
+    "production_processing": 0.315,
+    "agriculture_livestock": 0.185,
+    "engineering": 0.204,
+    "computers_electronics": 0.352,
+    "design": 0.333,
+    "building_construction": 0.222,
+    "mechanical": 0.241,
+    "mathematics_kn": 0.37,
+    "physics": 0.333,
+    "chemistry": 0.778,
+    "biology": 0.537,
+    "psychology": 1.241,
+    "sociology": 1.222,
+    "geography": 0.444,
+    "medicine_dentistry": 1.111,
+    "therapy_counseling": 1.111,
+    "education_training_kn": 1.204,
+    "japanese_language": 1.222,
+    "foreign_language_kn": 0.852,
+    "fine_arts": 1.019,
+    "history_archaeology": 0.407,
+    "philosophy_theology": 0.37,
+    "public_safety_security": 1.185,
+    "law_government": 0.833,
+    "telecommunications": 0.481,
+    "communications_media": 1.556
+  },
+  "abilities": {
+    "oral_comprehension": 2.911,
+    "written_comprehension": 2.643,
+    "oral_expression": 2.946,
+    "written_expression": 2.536,
+    "fluency_of_ideas": 2.75,
+    "originality": 2.821,
+    "problem_sensitivity": 3.036,
+    "deductive_reasoning": 2.643,
+    "inductive_reasoning": 2.661,
+    "information_ordering": 2.643,
+    "category_flexibility": 2.536,
+    "mathematical_reasoning": 2.196,
+    "number_facility": 2.464,
+    "memorization": 2.857,
+    "perceptual_speed": 2.518,
+    "spatial_orientation": 2.429,
+    "visualization": 2.714,
+    "selective_attention": 2.786,
+    "time_sharing": 2.732,
+    "arm_hand_steadiness": 3.304,
+    "manual_dexterity": 3.321,
+    "finger_dexterity": 3.232,
+    "reaction_time": 2.946,
+    "wrist_finger_speed": 3.268,
+    "speed_of_limb_movement": 3.107,
+    "static_strength": 2.661,
+    "stamina": 2.982,
+    "gross_body_equilibrium": 2.929,
+    "near_vision": 3.054,
+    "far_vision": 2.5,
+    "visual_color_discrimination": 3.0,
+    "depth_perception": 2.821,
+    "hearing_sensitivity": 2.518,
+    "auditory_attention": 2.643,
+    "speech_clarity": 2.946
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.519,
+    "face_to_face_discussions": 2.815,
+    "telephone_communication": 3.444,
+    "business_writing": 1.815,
+    "conflict_situations": 1.685,
+    "time_pressure": 2.278,
+    "teamwork": 2.278,
+    "dealing_with_external_customers": 3.315,
+    "coordinate_lead_others": 2.352,
+    "exactness_accuracy": 3.407,
+    "repetitive_tasks": 2.722,
+    "pace_determined_by_machine": 2.019,
+    "responsibility_for_outcomes": 3.537,
+    "indoor_climate_controlled": 4.87,
+    "indoor_non_climate_controlled": 1.741,
+    "outdoor_work": 1.222,
+    "sitting": 1.296,
+    "standing": 4.741,
+    "repetition_of_activities": 3.63,
+    "consequence_of_error": 3.333,
+    "freedom_to_make_decisions": 3.722,
+    "set_own_goals": 3.926,
+    "regular_schedule": 0.574,
+    "irregular_schedule": 0.333,
+    "seasonal_schedule": 0.093,
+    "email_communication": 2.167,
+    "cramped_uncomfortable": 1.741,
+    "disease_infection_risk": 3.222,
+    "minor_injury_risk": 2.611,
+    "standard_protective_equipment": 1.389,
+    "specialized_protective_equipment": 1.167,
+    "dealing_with_violent_people": 1.222,
+    "walking_running": 2.889,
+    "handling_objects_tools": 4.074,
+    "physical_proximity": 4.556,
+    "work_automation": 1.111,
+    "responsibility_for_safety": 3.204,
+    "impact_of_decisions": 2.296,
+    "level_of_competition": 1.944
+  },
+  "work_activities": {
+    "getting_information": 2.946,
+    "monitor_processes": 3.018,
+    "identifying_objects": 2.946,
+    "inspecting_equipment": 2.982,
+    "estimating_quantifiable": 2.571,
+    "judging_quality": 2.929,
+    "evaluating_compliance": 2.946,
+    "processing_information": 2.589,
+    "analyzing_data": 2.554,
+    "making_decisions": 2.875,
+    "thinking_creatively": 2.964,
+    "updating_knowledge": 3.125,
+    "developing_objectives": 2.857,
+    "scheduling_work": 2.679,
+    "organizing_planning": 3.0,
+    "physical_activities": 3.089,
+    "handling_objects": 3.214,
+    "controlling_machines": 2.607,
+    "operating_vehicles": 1.893,
+    "computer_work": 2.054,
+    "drafting_specifications": 1.893,
+    "repairing_mechanical": 2.286,
+    "repairing_electronic": 2.089,
+    "documenting_information": 2.286,
+    "interpreting_information": 2.286,
+    "communicating_inside": 2.411,
+    "communicating_outside": 2.625,
+    "building_relationships": 2.911,
+    "assisting_caring": 2.75,
+    "selling_influencing": 2.5,
+    "resolving_conflicts": 2.661,
+    "performing_for_public": 2.714,
+    "coordinating_others": 2.5,
+    "developing_teams": 2.411,
+    "training_teaching": 2.518,
+    "guiding_subordinates": 2.429,
+    "coaching_developing": 2.464,
+    "providing_consultation": 2.232,
+    "performing_administrative": 2.482,
+    "staffing_organizational": 2.232,
+    "monitoring_resources": 2.554
+  },
+  "education_distribution": {
+    "below_high_school": 0.056,
+    "high_school": 0.13,
+    "vocational_school": 0.815,
+    "junior_college": 0.019,
+    "technical_college": 0.0,
+    "university": 0.056,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.019
+  },
+  "training_pre": {
+    "not_required": 0.13,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.148,
+    "2_to_3_years": 0.185,
+    "3_to_5_years": 0.241,
+    "5_to_10_years": 0.167,
+    "over_10_years": 0.019,
+    "unknown": 0.093
+  },
+  "training_post": {
+    "not_required": 0.037,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.093,
+    "2_to_3_years": 0.148,
+    "3_to_5_years": 0.278,
+    "5_to_10_years": 0.333,
+    "over_10_years": 0.019,
+    "unknown": 0.074
+  },
+  "experience": {
+    "not_required": 0.278,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.019,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.222,
+    "2_to_3_years": 0.074,
+    "3_to_5_years": 0.185,
+    "5_to_10_years": 0.037,
+    "over_10_years": 0.0,
+    "unknown": 0.148
+  },
+  "employment_type": {
+    "regular_employee": 0.185,
+    "part_time": 0.074,
+    "dispatched": 0.0,
+    "contract": 0.019,
+    "self_employed_freelance": 0.852,
+    "executive": 0.037,
+    "casual_non_student": 0.037,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "道具や機械を使って男性客の髪を整え、シャンプーやひげそりをする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "希望のサービスとヘアスタイルをお客に聞く。",
+      "execution_rate": 1.0,
+      "importance": 4.036
+    },
+    {
+      "task_id": 2,
+      "description_ja": "落ちた髪が服につかないよう、お客の体をタオルやクロス（ケープ）で覆う。",
+      "execution_rate": 1.0,
+      "importance": 4.107
+    },
+    {
+      "task_id": 3,
+      "description_ja": "お客の髪をとかしながら切りそろえる。",
+      "execution_rate": 1.0,
+      "importance": 3.946
+    },
+    {
+      "task_id": 4,
+      "description_ja": "バリカンで髪を刈り上げる。",
+      "execution_rate": 0.982,
+      "importance": 3.364
+    },
+    {
+      "task_id": 5,
+      "description_ja": "お客にシャンプーをする。",
+      "execution_rate": 1.0,
+      "importance": 3.857
+    },
+    {
+      "task_id": 6,
+      "description_ja": "お客の髪にカラーリングやパーマをする。",
+      "execution_rate": 1.0,
+      "importance": 3.268
+    },
+    {
+      "task_id": 7,
+      "description_ja": "かみそりを使用し、シェービングローションをつけてお客のひげや眉をそる。",
+      "execution_rate": 1.0,
+      "importance": 3.679
+    },
+    {
+      "task_id": 8,
+      "description_ja": "お客の顔、首、頭皮をもみほぐす。",
+      "execution_rate": 0.982,
+      "importance": 3.145
+    },
+    {
+      "task_id": 9,
+      "description_ja": "ドライヤーでお客の髪を乾かす。",
+      "execution_rate": 1.0,
+      "importance": 3.714
+    },
+    {
+      "task_id": 10,
+      "description_ja": "お客に整髪剤やローションをつける。",
+      "execution_rate": 1.0,
+      "importance": 3.143
+    },
+    {
+      "task_id": 11,
+      "description_ja": "ローション、トニックなどの男性用化粧品を販売する。",
+      "execution_rate": 0.857,
+      "importance": 2.333
+    },
+    {
+      "task_id": 12,
+      "description_ja": "会計をする。",
+      "execution_rate": 1.0,
+      "importance": 4.232
+    },
+    {
+      "task_id": 13,
+      "description_ja": "カット中にお客と会話する。",
+      "execution_rate": 1.0,
+      "importance": 2.714
+    },
+    {
+      "task_id": 14,
+      "description_ja": "お客にヘアスタイルの作り方をアドバイスする。",
+      "execution_rate": 0.982,
+      "importance": 3.327
+    },
+    {
+      "task_id": 15,
+      "description_ja": "お客からの苦情に対応する。",
+      "execution_rate": 0.982,
+      "importance": 3.436
+    },
+    {
+      "task_id": 16,
+      "description_ja": "電話などで予約を受け付け、予定表に記録する。",
+      "execution_rate": 0.875,
+      "importance": 3.449
+    },
+    {
+      "task_id": 17,
+      "description_ja": "消耗品の在庫を確認し、発注する。",
+      "execution_rate": 1.0,
+      "importance": 3.625
+    },
+    {
+      "task_id": 18,
+      "description_ja": "店の経営戦略を考える。",
+      "execution_rate": 0.893,
+      "importance": 3.02
+    },
+    {
+      "task_id": 19,
+      "description_ja": "会計士と相談して、必要経費を管理する。",
+      "execution_rate": 0.661,
+      "importance": 2.676
+    },
+    {
+      "task_id": 20,
+      "description_ja": "従業員の給与を計算する。",
+      "execution_rate": 0.679,
+      "importance": 3.158
+    },
+    {
+      "task_id": 21,
+      "description_ja": "使ったタオルを洗濯して干す。",
+      "execution_rate": 1.0,
+      "importance": 4.196
+    },
+    {
+      "task_id": 22,
+      "description_ja": "使った理容器具の消毒や手入れをする。",
+      "execution_rate": 1.0,
+      "importance": 4.304
+    },
+    {
+      "task_id": 23,
+      "description_ja": "店の消毒や換気をする。",
+      "execution_rate": 1.0,
+      "importance": 4.071
+    },
+    {
+      "task_id": 24,
+      "description_ja": "仕事場の床などを掃除する。",
+      "execution_rate": 1.0,
+      "importance": 3.893
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国理容生活衛生同業組合連合会",
+      "url": "http://www.riyo.or.jp"
+    },
+    {
+      "name_ja": "公益社団法人日本理容美容教育センター",
+      "url": "http://www.ribikyoiku.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人理容師美容師試験研修センター",
+      "url": "http://www.sb.rbc.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "理容師",
+    "管理理容師",
+    "美容師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/115",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

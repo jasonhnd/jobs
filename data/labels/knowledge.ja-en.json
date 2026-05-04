@@ -1,0 +1,173 @@
+{
+  "dimension": "knowledge",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 33,
+  "labels": {
+    "business_management": {
+      "ja": "ビジネスと経営",
+      "en": "Business & Management",
+      "onet_id": "IPD_04_04_01_001"
+    },
+    "clerical": {
+      "ja": "事務処理",
+      "en": "Clerical",
+      "onet_id": "IPD_04_04_01_002"
+    },
+    "economics_accounting": {
+      "ja": "経済学・会計学",
+      "en": "Economics & Accounting",
+      "onet_id": "IPD_04_04_01_003"
+    },
+    "sales_marketing": {
+      "ja": "販売・マーケティング",
+      "en": "Sales & Marketing",
+      "onet_id": "IPD_04_04_01_004"
+    },
+    "customer_personal_service": {
+      "ja": "顧客サービス・対人サービス",
+      "en": "Customer & Personal Service",
+      "onet_id": "IPD_04_04_01_005"
+    },
+    "personnel_hr": {
+      "ja": "人事労務管理",
+      "en": "Personnel & Human Resources",
+      "onet_id": "IPD_04_04_01_006"
+    },
+    "transportation": {
+      "ja": "輸送",
+      "en": "Transportation",
+      "onet_id": "IPD_04_04_01_007"
+    },
+    "production_processing": {
+      "ja": "生産・加工",
+      "en": "Production & Processing",
+      "onet_id": "IPD_04_04_01_008"
+    },
+    "agriculture_livestock": {
+      "ja": "農業・畜産業",
+      "en": "Agriculture & Livestock",
+      "onet_id": "IPD_04_04_01_009"
+    },
+    "engineering": {
+      "ja": "工学",
+      "en": "Engineering",
+      "onet_id": "IPD_04_04_01_010"
+    },
+    "computers_electronics": {
+      "ja": "コンピュータと電子工学",
+      "en": "Computers & Electronics",
+      "onet_id": "IPD_04_04_01_011"
+    },
+    "design": {
+      "ja": "設計",
+      "en": "Design",
+      "onet_id": "IPD_04_04_01_012"
+    },
+    "building_construction": {
+      "ja": "建築・建設",
+      "en": "Building & Construction",
+      "onet_id": "IPD_04_04_01_013"
+    },
+    "mechanical": {
+      "ja": "機械",
+      "en": "Mechanical",
+      "onet_id": "IPD_04_04_01_014"
+    },
+    "mathematics_kn": {
+      "ja": "数学",
+      "en": "Mathematics",
+      "onet_id": "IPD_04_04_01_015"
+    },
+    "physics": {
+      "ja": "物理学",
+      "en": "Physics",
+      "onet_id": "IPD_04_04_01_016"
+    },
+    "chemistry": {
+      "ja": "化学",
+      "en": "Chemistry",
+      "onet_id": "IPD_04_04_01_017"
+    },
+    "biology": {
+      "ja": "生物学",
+      "en": "Biology",
+      "onet_id": "IPD_04_04_01_018"
+    },
+    "psychology": {
+      "ja": "心理学",
+      "en": "Psychology",
+      "onet_id": "IPD_04_04_01_019"
+    },
+    "sociology": {
+      "ja": "社会学",
+      "en": "Sociology",
+      "onet_id": "IPD_04_04_01_020"
+    },
+    "geography": {
+      "ja": "地理学",
+      "en": "Geography",
+      "onet_id": "IPD_04_04_01_021"
+    },
+    "medicine_dentistry": {
+      "ja": "医学・歯学",
+      "en": "Medicine & Dentistry",
+      "onet_id": "IPD_04_04_01_022"
+    },
+    "therapy_counseling": {
+      "ja": "セラピーとカウンセリング",
+      "en": "Therapy & Counseling",
+      "onet_id": "IPD_04_04_01_023"
+    },
+    "education_training_kn": {
+      "ja": "教育訓練",
+      "en": "Education & Training",
+      "onet_id": "IPD_04_04_01_024"
+    },
+    "japanese_language": {
+      "ja": "日本語の語彙・文法",
+      "en": "Japanese Language (Vocabulary & Grammar)",
+      "onet_id": "IPD_04_04_01_025"
+    },
+    "foreign_language_kn": {
+      "ja": "外国語の語彙・文法",
+      "en": "Foreign Language (Vocabulary & Grammar)",
+      "onet_id": "IPD_04_04_01_026"
+    },
+    "fine_arts": {
+      "ja": "芸術",
+      "en": "Fine Arts",
+      "onet_id": "IPD_04_04_01_027"
+    },
+    "history_archaeology": {
+      "ja": "歴史学・考古学",
+      "en": "History & Archaeology",
+      "onet_id": "IPD_04_04_01_028"
+    },
+    "philosophy_theology": {
+      "ja": "哲学・宗教学",
+      "en": "Philosophy & Theology",
+      "onet_id": "IPD_04_04_01_029"
+    },
+    "public_safety_security": {
+      "ja": "公衆安全・危機管理",
+      "en": "Public Safety & Security",
+      "onet_id": "IPD_04_04_01_030"
+    },
+    "law_government": {
+      "ja": "法律学、政治学",
+      "en": "Law & Government / Political Science",
+      "onet_id": "IPD_04_04_01_031"
+    },
+    "telecommunications": {
+      "ja": "通信技術",
+      "en": "Telecommunications Technology",
+      "onet_id": "IPD_04_04_01_032"
+    },
+    "communications_media": {
+      "ja": "コミュニケーションとメディア",
+      "en": "Communications & Media",
+      "onet_id": "IPD_04_04_01_033"
+    }
+  }
+}

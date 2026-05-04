@@ -1,0 +1,475 @@
+{
+  "id": 198,
+  "ipd_id": "IPD_01_01_198",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ガソリンスタンド・スタッフ",
+  "aliases_ja": [
+    "ガススタンド充填員",
+    "ガソリンスタンドサービスマン",
+    "セルフスタンド店員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_045-13",
+    "mhlw_all": [
+      "07_045-13"
+    ],
+    "jsoc_main": "D323",
+    "jsoc_all": [
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う。",
+    "what_it_is_ja": "ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う。また、お客の車のエンジンの点検や洗車なども行う。\n　フルサービス式のスタンドの場合は、入ってきた車を誘導し、所定の位置に停止させる。給油する燃料の種類・数量や支払方法を確認し、自動車の給油口にノズルを差し込んで給油する。給油中には、ガラスや灰皿の清掃などを行う。所定の量が給油されると自動的に停止するので、ノズルを外して自動車の給油口のふたをしっかりと閉める。\n　また、点検の依頼を受けた場合には、エンジンルームを開けて、エンジンオイル、冷却水、バッテリー液などのチェックを行う。寒冷地では、スノータイヤの交換を行うこともある。洗車の依頼を受けた場合には、車を運転して所定の位置に止め、洗車機を操作する。\n　POSレジスターから出力された帳票に基づいて現金やカードなどで支払を受け、歩行者や道路上の車両の有無などを確認してからお客の車を送り出す。\n　ガソリンスタンドによっては窓拭きや車内の清掃などのクリーニングサービス、タイヤなど自動車関連商品の販売や、車検の受付などをすることもある。また、最近多くなったセルフ式のガソリンスタンドでは給油の監視を行うほか、お客に給油の操作方法や支払方法を案内することもある。\n\n◇　よく使う道具、機材、情報技術等\n　給油用ノズル、洗車機、POSレジスター",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。新規採用の場合は、学校卒業後、石油製品販売企業に採用されてガソリンスタンドに勤務する。学科などの制限はないが、機械の知識を持っていれば有利である。\n　入職後に、「危険物取扱者」、「自動車整備士」などの資格を取得すると、仕事の幅が拡がる。\n　中途採用は、欠員が生じた場合など常時行われており、就職の機会は多い。アルバイトが募集される機会も多い。スタッフの仕事をしながら自動車整備士の資格を得て、自動車の整備や簡単な修理をするようになる場合もある。\n　自動車やメカニックが好きで関心や知識のある人、人と接するのが好きな人、体を動かすことが好きな人に向いている。また、危険物を取り扱うため、慎重さが求められる。",
+    "working_conditions_ja": "ガソリンスタンドは市街地や主要幹線道路沿いなどに立地しており、職場は全国に広がる。\n　ガソリンスタンドの営業時間に合わせて、交替制で勤務を行う。早朝や夜間の勤務、24時間営業のスタンドでは、夜勤もある。日曜・祝日に営業しているスタンドの場合には、平日に交替で休日をとる。朝夕など、客が集中して忙しくなる時間帯がある。屋外での作業が主になる。\n　就業者は男性の割合が多いが、女性も増えつつある。また、パートタイマー、アルバイトが多い。\n　スタンド同士の競争によって閉店するスタンドがある一方で、セルフ方式のスタンドが増加し、ショップ等を併設する業態が定着してきたため、ガソリンスタンド・スタッフの職務内容も販売にかかわる仕事が増えるなど変化しつつある。"
+  },
+  "interests": {
+    "realistic": 3.577,
+    "investigative": 2.761,
+    "artistic": 2.239,
+    "social": 3.93,
+    "enterprising": 3.014,
+    "conventional": 3.549
+  },
+  "work_values": {
+    "achievement": 2.88,
+    "autonomy": 2.88,
+    "expertise": 3.12,
+    "self_growth": 3.0,
+    "social_recognition": 2.44,
+    "service_contribution": 2.96,
+    "good_relationships": 3.3,
+    "workplace_safety": 2.86,
+    "work_life_balance": 3.22,
+    "stability": 2.86,
+    "compensation": 2.3
+  },
+  "skills": {
+    "reading_comprehension": 2.5,
+    "active_listening": 3.3,
+    "writing": 2.3,
+    "speaking": 2.6,
+    "foreign_language_reading": 0.46,
+    "foreign_language_listening": 0.44,
+    "foreign_language_writing": 0.28,
+    "foreign_language_speaking": 0.4,
+    "mathematics": 1.68,
+    "science": 0.96,
+    "critical_thinking": 2.02,
+    "active_learning": 1.72,
+    "learning_strategies": 1.68,
+    "monitoring": 1.56,
+    "social_perceptiveness": 2.12,
+    "coordination": 1.62,
+    "persuasion": 1.84,
+    "negotiation": 2.02,
+    "instructing": 2.54,
+    "service_orientation": 2.16,
+    "complex_problem_solving": 1.76,
+    "operations_analysis": 1.06,
+    "technology_design": 0.9,
+    "equipment_selection": 1.58,
+    "installation": 1.48,
+    "programming": 0.66,
+    "operations_monitoring": 1.88,
+    "operation_and_control": 1.78,
+    "equipment_maintenance": 2.14,
+    "troubleshooting": 1.92,
+    "repairing": 2.02,
+    "quality_control_analysis": 1.3,
+    "judgment_decision_making": 1.2,
+    "systems_analysis": 1.26,
+    "systems_evaluation": 1.06,
+    "time_management": 1.68,
+    "financial_resources_management": 0.9,
+    "material_resources_management": 0.84,
+    "personnel_resources_management": 0.96
+  },
+  "knowledge": {
+    "business_management": 1.039,
+    "clerical": 1.137,
+    "economics_accounting": 0.647,
+    "sales_marketing": 1.98,
+    "customer_personal_service": 2.706,
+    "personnel_hr": 0.824,
+    "transportation": 0.569,
+    "production_processing": 0.392,
+    "agriculture_livestock": 0.294,
+    "engineering": 0.471,
+    "computers_electronics": 0.529,
+    "design": 0.275,
+    "building_construction": 0.216,
+    "mechanical": 1.039,
+    "mathematics_kn": 0.608,
+    "physics": 0.51,
+    "chemistry": 1.078,
+    "biology": 0.275,
+    "psychology": 0.608,
+    "sociology": 0.686,
+    "geography": 0.392,
+    "medicine_dentistry": 0.216,
+    "therapy_counseling": 0.255,
+    "education_training_kn": 1.098,
+    "japanese_language": 1.039,
+    "foreign_language_kn": 0.549,
+    "fine_arts": 0.255,
+    "history_archaeology": 0.216,
+    "philosophy_theology": 0.176,
+    "public_safety_security": 1.118,
+    "law_government": 0.725,
+    "telecommunications": 0.471,
+    "communications_media": 0.804
+  },
+  "abilities": {
+    "oral_comprehension": 2.451,
+    "written_comprehension": 2.353,
+    "oral_expression": 2.588,
+    "written_expression": 2.529,
+    "fluency_of_ideas": 2.157,
+    "originality": 2.176,
+    "problem_sensitivity": 3.314,
+    "deductive_reasoning": 2.353,
+    "inductive_reasoning": 2.275,
+    "information_ordering": 2.373,
+    "category_flexibility": 2.137,
+    "mathematical_reasoning": 2.059,
+    "number_facility": 2.51,
+    "memorization": 2.824,
+    "perceptual_speed": 2.431,
+    "spatial_orientation": 2.451,
+    "visualization": 2.353,
+    "selective_attention": 2.725,
+    "time_sharing": 2.549,
+    "arm_hand_steadiness": 2.176,
+    "manual_dexterity": 2.333,
+    "finger_dexterity": 2.216,
+    "reaction_time": 2.706,
+    "wrist_finger_speed": 2.216,
+    "speed_of_limb_movement": 2.196,
+    "static_strength": 2.451,
+    "stamina": 2.569,
+    "gross_body_equilibrium": 2.333,
+    "near_vision": 2.314,
+    "far_vision": 2.412,
+    "visual_color_discrimination": 2.51,
+    "depth_perception": 2.353,
+    "hearing_sensitivity": 2.667,
+    "auditory_attention": 2.549,
+    "speech_clarity": 2.412
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.333,
+    "face_to_face_discussions": 2.902,
+    "telephone_communication": 3.922,
+    "business_writing": 2.529,
+    "conflict_situations": 2.02,
+    "time_pressure": 2.353,
+    "teamwork": 2.686,
+    "dealing_with_external_customers": 3.51,
+    "coordinate_lead_others": 2.608,
+    "exactness_accuracy": 3.235,
+    "repetitive_tasks": 3.137,
+    "pace_determined_by_machine": 2.608,
+    "responsibility_for_outcomes": 2.647,
+    "indoor_climate_controlled": 3.059,
+    "indoor_non_climate_controlled": 2.667,
+    "outdoor_work": 4.431,
+    "sitting": 2.275,
+    "standing": 4.137,
+    "repetition_of_activities": 3.333,
+    "consequence_of_error": 3.529,
+    "freedom_to_make_decisions": 3.098,
+    "set_own_goals": 3.118,
+    "regular_schedule": 0.627,
+    "irregular_schedule": 0.333,
+    "seasonal_schedule": 0.039,
+    "email_communication": 2.49,
+    "cramped_uncomfortable": 2.039,
+    "disease_infection_risk": 2.059,
+    "minor_injury_risk": 1.922,
+    "standard_protective_equipment": 2.549,
+    "specialized_protective_equipment": 1.49,
+    "dealing_with_violent_people": 1.608,
+    "walking_running": 3.569,
+    "handling_objects_tools": 3.118,
+    "physical_proximity": 3.216,
+    "work_automation": 2.275,
+    "responsibility_for_safety": 2.431,
+    "impact_of_decisions": 2.255,
+    "level_of_competition": 1.843
+  },
+  "work_activities": {
+    "getting_information": 2.451,
+    "monitor_processes": 2.569,
+    "identifying_objects": 2.588,
+    "inspecting_equipment": 2.706,
+    "estimating_quantifiable": 2.608,
+    "judging_quality": 2.529,
+    "evaluating_compliance": 3.216,
+    "processing_information": 2.627,
+    "analyzing_data": 2.51,
+    "making_decisions": 2.529,
+    "thinking_creatively": 2.392,
+    "updating_knowledge": 2.706,
+    "developing_objectives": 2.569,
+    "scheduling_work": 2.49,
+    "organizing_planning": 2.667,
+    "physical_activities": 2.529,
+    "handling_objects": 2.49,
+    "controlling_machines": 2.549,
+    "operating_vehicles": 2.627,
+    "computer_work": 2.451,
+    "drafting_specifications": 2.02,
+    "repairing_mechanical": 2.529,
+    "repairing_electronic": 2.451,
+    "documenting_information": 2.294,
+    "interpreting_information": 2.451,
+    "communicating_inside": 3.0,
+    "communicating_outside": 2.745,
+    "building_relationships": 2.941,
+    "assisting_caring": 2.529,
+    "selling_influencing": 2.667,
+    "resolving_conflicts": 2.706,
+    "performing_for_public": 2.706,
+    "coordinating_others": 2.608,
+    "developing_teams": 2.529,
+    "training_teaching": 2.647,
+    "guiding_subordinates": 2.569,
+    "coaching_developing": 2.49,
+    "providing_consultation": 2.196,
+    "performing_administrative": 2.588,
+    "staffing_organizational": 2.412,
+    "monitoring_resources": 2.667
+  },
+  "education_distribution": {
+    "below_high_school": 0.02,
+    "high_school": 0.627,
+    "vocational_school": 0.157,
+    "junior_college": 0.039,
+    "technical_college": 0.039,
+    "university": 0.098,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.176
+  },
+  "training_pre": {
+    "not_required": 0.51,
+    "up_to_1_month": 0.216,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.039,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.098
+  },
+  "training_post": {
+    "not_required": 0.196,
+    "up_to_1_month": 0.216,
+    "1_to_6_months": 0.275,
+    "6_months_to_1_year": 0.118,
+    "1_to_2_years": 0.137,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.059
+  },
+  "experience": {
+    "not_required": 0.706,
+    "up_to_1_month": 0.059,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.02,
+    "1_to_2_years": 0.059,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.137
+  },
+  "employment_type": {
+    "regular_employee": 0.49,
+    "part_time": 0.373,
+    "dispatched": 0.098,
+    "contract": 0.137,
+    "self_employed_freelance": 0.039,
+    "executive": 0.02,
+    "casual_non_student": 0.255,
+    "casual_student": 0.157,
+    "unknown": 0.02,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "車にガソリンや軽油を給油したり、点検や修理を行うほか、石油製品やその他車関連商品の販売を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "スタンドに入ってきた車を誘導し、計量機前の所定の位置に停止させる。",
+      "execution_rate": 0.686,
+      "importance": 3.4
+    },
+    {
+      "task_id": 2,
+      "description_ja": "給油する燃料の種類と数量や支払方法を確認する。",
+      "execution_rate": 0.784,
+      "importance": 3.975
+    },
+    {
+      "task_id": 3,
+      "description_ja": "自動車の給油口にノズルを差し込んで所定のレベルまで給油する。",
+      "execution_rate": 0.686,
+      "importance": 3.971
+    },
+    {
+      "task_id": 4,
+      "description_ja": "サービスとして窓拭きや灰皿のゴミ捨てをする。",
+      "execution_rate": 0.49,
+      "importance": 2.88
+    },
+    {
+      "task_id": 5,
+      "description_ja": "タイヤの空気圧、エンジンオイル、冷却水、バッテリー液などのチェックをする。",
+      "execution_rate": 0.726,
+      "importance": 2.946
+    },
+    {
+      "task_id": 6,
+      "description_ja": "オイルやオイルフィルター、ワイパーブレード、ライトの電球などの交換をする。",
+      "execution_rate": 0.667,
+      "importance": 3.294
+    },
+    {
+      "task_id": 7,
+      "description_ja": "グリースガンまたはオイルスプレーを使用して、車両の所定の部品にグリースおよび潤滑油を塗る。",
+      "execution_rate": 0.49,
+      "importance": 2.84
+    },
+    {
+      "task_id": 8,
+      "description_ja": "ブレーキの調節やプラグの交換など、簡単な修理をする。",
+      "execution_rate": 0.529,
+      "importance": 3.185
+    },
+    {
+      "task_id": 9,
+      "description_ja": "タイヤの点検や交換をする。",
+      "execution_rate": 0.726,
+      "importance": 3.351
+    },
+    {
+      "task_id": 10,
+      "description_ja": "洗車機や手洗いで洗車する。",
+      "execution_rate": 0.667,
+      "importance": 3.294
+    },
+    {
+      "task_id": 11,
+      "description_ja": "お客から現金を受け取ってつり銭を渡すか、クレジットカードで決済する。",
+      "execution_rate": 0.549,
+      "importance": 4.214
+    },
+    {
+      "task_id": 12,
+      "description_ja": "給油後のお客を誘導する。",
+      "execution_rate": 0.628,
+      "importance": 3.0
+    },
+    {
+      "task_id": 13,
+      "description_ja": "燃料用の灯油を販売する。",
+      "execution_rate": 0.941,
+      "importance": 3.604
+    },
+    {
+      "task_id": 14,
+      "description_ja": "油外商品やプリペイドカードなどを販売する。",
+      "execution_rate": 0.686,
+      "importance": 3.086
+    },
+    {
+      "task_id": 15,
+      "description_ja": "保険や車検、車販の案内をする。",
+      "execution_rate": 0.569,
+      "importance": 3.034
+    },
+    {
+      "task_id": 16,
+      "description_ja": "ダイレクトメール（DM）を作成し、お客に送付する。",
+      "execution_rate": 0.549,
+      "importance": 2.786
+    },
+    {
+      "task_id": 17,
+      "description_ja": "配達の注文を受け付ける。",
+      "execution_rate": 0.471,
+      "importance": 3.542
+    },
+    {
+      "task_id": 18,
+      "description_ja": "大型バスのアドブルー液剤の点検・補充をする。",
+      "execution_rate": 0.373,
+      "importance": 2.579
+    },
+    {
+      "task_id": 19,
+      "description_ja": "セルフスタンドで、給油の許可を出す。",
+      "execution_rate": 0.745,
+      "importance": 4.289
+    },
+    {
+      "task_id": 20,
+      "description_ja": "セルフスタンドでお客の給油作業を確認する。",
+      "execution_rate": 0.745,
+      "importance": 4.132
+    },
+    {
+      "task_id": 21,
+      "description_ja": "駐車所、事務所、装置を掃除し、ゴミを捨てる。",
+      "execution_rate": 1.0,
+      "importance": 3.373
+    },
+    {
+      "task_id": 22,
+      "description_ja": "給油機や洗車機を点検し、不具合を修理する。",
+      "execution_rate": 0.765,
+      "importance": 3.179
+    },
+    {
+      "task_id": 23,
+      "description_ja": "売店の商品や備品を発注する。",
+      "execution_rate": 0.588,
+      "importance": 2.867
+    },
+    {
+      "task_id": 24,
+      "description_ja": "販売促進のため、事業計画を作成する。",
+      "execution_rate": 0.588,
+      "importance": 2.833
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国石油業共済協同組合連合会",
+      "url": "http://www.zensekiren.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "危険物取扱者（甲種）",
+    "危険物取扱者（乙種）",
+    "危険物取扱者（丙種）",
+    "二級自動車整備士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/198",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

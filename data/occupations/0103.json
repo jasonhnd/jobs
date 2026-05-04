@@ -1,0 +1,451 @@
+{
+  "id": 103,
+  "ipd_id": "IPD_01_01_103",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "中華料理調理人",
+  "aliases_ja": [
+    "広東料理調理人",
+    "四川料理調理人",
+    "上海料理調理人",
+    "北京料理調理人"
+  ],
+  "classifications": {
+    "mhlw_main": "09_055-03",
+    "mhlw_all": [
+      "09_055-03"
+    ],
+    "jsoc_main": "E391",
+    "jsoc_all": [
+      "E391"
+    ]
+  },
+  "description": {
+    "summary_ja": "北京・広東・上海・四川などに代表される中華料理の調理を行う。",
+    "what_it_is_ja": "北京・広東・上海・四川などに代表される中華料理の調理を行う。\n　中華料理調理人には、宴会などで出される高級中華料理を作る調理人と、チャーハンや餃子など日常的な中華料理を作る調理人がいる。\n　開店前から肉や野菜を切って下ごしらえを始め、大きな鍋にスープを作っておくなど事前の準備をする。また、ギョーザやシューマイの具を作り、皮で巻いて準備するのも開店前である。\n　開店すると、来店するお客の注文に応じて、炒めたり焼いたり蒸したり揚げたりなど調理を行う。調味料を加えて強火でサッと炒め、美しく盛りつける。材料をさばき、調理、盛りつけまで、手際よくこなしていく。\n　お客が少なくなる時間帯には、調理場や客席の片づけを行う。大規模店では、調理をはじめ皿洗いや材料切り、ギョーザ巻き、ウェイターなど仕事が分担されているが、小さな店では、一人で調理から接客まで行う場合もある。\n\n◇　よく使う道具、機材、情報技術等\n　調理道具（包丁、ガスコンロ等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、調理師、専門調理師、調理技能士などの免許を持っていると独立する時や給与の面で有利なケースもある。\n　はじめは見習として皿洗いや鍋洗いから始まり、スープづくり、野菜や肉のカットなどの仕込み作業、ギョーザ巻きや炒めものなどの簡単な調理を行い、盛りつけ、味の秘訣や調理のコツなどを身に付けていく。一人前になるには、ある程度の年月がかかるといわれている。\n　料理をすることや食べることが好きな人が向いている。スープの入った重い鍋を持ったり、大きな中華鍋を操るため、体力のいる仕事といえる。\n　本格的な料理を覚えるには何年もかかるが、腕が上がれば、独立開業する人もいる。",
+    "working_conditions_ja": "大きな中華料理店の従業員として働く場合と、個人経営の小さな店で働く場合がある。大きな店の場合は、他の人との共同作業になる。\n　昼食時や、夕食時の時間帯が最も忙しくなる。すいている時間は店を閉めたり、交替で休憩をとったりしている。休日については、店の定休日がある場合と、店は年中無休で交替制により休日を取る場合がある。\n　中華料理では火力の強い中華用コンロを使用し、熱気の中で立ったままで調理する環境にある。"
+  },
+  "interests": {
+    "realistic": 3.507,
+    "investigative": 3.014,
+    "artistic": 2.783,
+    "social": 3.464,
+    "enterprising": 3.014,
+    "conventional": 3.246
+  },
+  "work_values": {
+    "achievement": 3.444,
+    "autonomy": 3.463,
+    "expertise": 3.333,
+    "self_growth": 3.204,
+    "social_recognition": 2.926,
+    "service_contribution": 2.963,
+    "good_relationships": 3.37,
+    "workplace_safety": 3.296,
+    "work_life_balance": 3.13,
+    "stability": 2.889,
+    "compensation": 2.704
+  },
+  "skills": {
+    "reading_comprehension": 2.963,
+    "active_listening": 3.778,
+    "writing": 2.815,
+    "speaking": 3.074,
+    "foreign_language_reading": 1.111,
+    "foreign_language_listening": 1.241,
+    "foreign_language_writing": 1.037,
+    "foreign_language_speaking": 1.148,
+    "mathematics": 1.926,
+    "science": 1.222,
+    "critical_thinking": 2.13,
+    "active_learning": 2.519,
+    "learning_strategies": 2.185,
+    "monitoring": 2.148,
+    "social_perceptiveness": 2.741,
+    "coordination": 2.481,
+    "persuasion": 2.407,
+    "negotiation": 2.463,
+    "instructing": 2.852,
+    "service_orientation": 2.407,
+    "complex_problem_solving": 2.352,
+    "operations_analysis": 1.667,
+    "technology_design": 1.648,
+    "equipment_selection": 2.407,
+    "installation": 1.907,
+    "programming": 0.944,
+    "operations_monitoring": 1.204,
+    "operation_and_control": 1.519,
+    "equipment_maintenance": 1.815,
+    "troubleshooting": 2.093,
+    "repairing": 2.315,
+    "quality_control_analysis": 2.019,
+    "judgment_decision_making": 2.315,
+    "systems_analysis": 2.056,
+    "systems_evaluation": 2.056,
+    "time_management": 2.759,
+    "financial_resources_management": 1.981,
+    "material_resources_management": 1.963,
+    "personnel_resources_management": 2.148
+  },
+  "knowledge": {
+    "business_management": 1.405,
+    "clerical": 0.952,
+    "economics_accounting": 1.262,
+    "sales_marketing": 1.857,
+    "customer_personal_service": 2.667,
+    "personnel_hr": 1.381,
+    "transportation": 0.69,
+    "production_processing": 1.976,
+    "agriculture_livestock": 1.119,
+    "engineering": 0.429,
+    "computers_electronics": 0.357,
+    "design": 0.286,
+    "building_construction": 0.19,
+    "mechanical": 0.357,
+    "mathematics_kn": 0.452,
+    "physics": 0.333,
+    "chemistry": 0.476,
+    "biology": 0.357,
+    "psychology": 0.762,
+    "sociology": 0.762,
+    "geography": 0.357,
+    "medicine_dentistry": 0.333,
+    "therapy_counseling": 0.31,
+    "education_training_kn": 0.667,
+    "japanese_language": 0.738,
+    "foreign_language_kn": 0.905,
+    "fine_arts": 0.738,
+    "history_archaeology": 0.476,
+    "philosophy_theology": 0.333,
+    "public_safety_security": 0.833,
+    "law_government": 0.571,
+    "telecommunications": 0.429,
+    "communications_media": 0.905
+  },
+  "abilities": {
+    "oral_comprehension": 2.667,
+    "written_comprehension": 2.472,
+    "oral_expression": 2.694,
+    "written_expression": 2.583,
+    "fluency_of_ideas": 2.75,
+    "originality": 2.667,
+    "problem_sensitivity": 3.0,
+    "deductive_reasoning": 2.5,
+    "inductive_reasoning": 2.556,
+    "information_ordering": 2.556,
+    "category_flexibility": 2.389,
+    "mathematical_reasoning": 2.25,
+    "number_facility": 2.5,
+    "memorization": 2.694,
+    "perceptual_speed": 2.333,
+    "spatial_orientation": 2.5,
+    "visualization": 2.417,
+    "selective_attention": 2.694,
+    "time_sharing": 2.639,
+    "arm_hand_steadiness": 2.528,
+    "manual_dexterity": 2.778,
+    "finger_dexterity": 2.694,
+    "reaction_time": 2.667,
+    "wrist_finger_speed": 2.722,
+    "speed_of_limb_movement": 2.667,
+    "static_strength": 2.694,
+    "stamina": 2.917,
+    "gross_body_equilibrium": 2.528,
+    "near_vision": 2.5,
+    "far_vision": 2.389,
+    "visual_color_discrimination": 2.806,
+    "depth_perception": 2.306,
+    "hearing_sensitivity": 2.528,
+    "auditory_attention": 2.417,
+    "speech_clarity": 2.5
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.548,
+    "face_to_face_discussions": 2.69,
+    "telephone_communication": 3.452,
+    "business_writing": 2.19,
+    "conflict_situations": 2.0,
+    "time_pressure": 3.143,
+    "teamwork": 3.071,
+    "dealing_with_external_customers": 3.048,
+    "coordinate_lead_others": 2.738,
+    "exactness_accuracy": 3.429,
+    "repetitive_tasks": 2.929,
+    "pace_determined_by_machine": 2.167,
+    "responsibility_for_outcomes": 2.881,
+    "indoor_climate_controlled": 4.024,
+    "indoor_non_climate_controlled": 2.619,
+    "outdoor_work": 1.381,
+    "sitting": 1.31,
+    "standing": 4.881,
+    "repetition_of_activities": 3.548,
+    "consequence_of_error": 2.619,
+    "freedom_to_make_decisions": 3.476,
+    "set_own_goals": 3.595,
+    "regular_schedule": 0.69,
+    "irregular_schedule": 0.31,
+    "seasonal_schedule": 0.058,
+    "email_communication": 1.976,
+    "cramped_uncomfortable": 1.452,
+    "disease_infection_risk": 1.643,
+    "minor_injury_risk": 3.69,
+    "standard_protective_equipment": 1.619,
+    "specialized_protective_equipment": 1.095,
+    "dealing_with_violent_people": 1.31,
+    "walking_running": 3.333,
+    "handling_objects_tools": 3.738,
+    "physical_proximity": 3.643,
+    "work_automation": 1.357,
+    "responsibility_for_safety": 2.643,
+    "impact_of_decisions": 2.429,
+    "level_of_competition": 1.81
+  },
+  "work_activities": {
+    "getting_information": 2.528,
+    "monitor_processes": 2.5,
+    "identifying_objects": 2.639,
+    "inspecting_equipment": 2.722,
+    "estimating_quantifiable": 2.583,
+    "judging_quality": 3.139,
+    "evaluating_compliance": 2.833,
+    "processing_information": 2.389,
+    "analyzing_data": 2.361,
+    "making_decisions": 2.75,
+    "thinking_creatively": 2.528,
+    "updating_knowledge": 2.5,
+    "developing_objectives": 2.556,
+    "scheduling_work": 2.639,
+    "organizing_planning": 3.056,
+    "physical_activities": 2.833,
+    "handling_objects": 2.972,
+    "controlling_machines": 2.5,
+    "operating_vehicles": 2.0,
+    "computer_work": 2.278,
+    "drafting_specifications": 2.056,
+    "repairing_mechanical": 2.333,
+    "repairing_electronic": 2.111,
+    "documenting_information": 2.278,
+    "interpreting_information": 2.306,
+    "communicating_inside": 2.833,
+    "communicating_outside": 2.472,
+    "building_relationships": 2.833,
+    "assisting_caring": 2.556,
+    "selling_influencing": 2.389,
+    "resolving_conflicts": 2.417,
+    "performing_for_public": 2.611,
+    "coordinating_others": 2.583,
+    "developing_teams": 2.667,
+    "training_teaching": 2.639,
+    "guiding_subordinates": 2.778,
+    "coaching_developing": 2.5,
+    "providing_consultation": 2.278,
+    "performing_administrative": 2.472,
+    "staffing_organizational": 2.611,
+    "monitoring_resources": 2.667
+  },
+  "education_distribution": {
+    "below_high_school": 0.071,
+    "high_school": 0.5,
+    "vocational_school": 0.429,
+    "junior_college": 0.095,
+    "technical_college": 0.024,
+    "university": 0.214,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.119
+  },
+  "training_pre": {
+    "not_required": 0.429,
+    "up_to_1_month": 0.143,
+    "1_to_6_months": 0.071,
+    "6_months_to_1_year": 0.071,
+    "1_to_2_years": 0.024,
+    "2_to_3_years": 0.024,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.238
+  },
+  "training_post": {
+    "not_required": 0.095,
+    "up_to_1_month": 0.071,
+    "1_to_6_months": 0.262,
+    "6_months_to_1_year": 0.143,
+    "1_to_2_years": 0.095,
+    "2_to_3_years": 0.167,
+    "3_to_5_years": 0.071,
+    "5_to_10_years": 0.024,
+    "over_10_years": 0.0,
+    "unknown": 0.071
+  },
+  "experience": {
+    "not_required": 0.595,
+    "up_to_1_month": 0.024,
+    "1_to_6_months": 0.071,
+    "6_months_to_1_year": 0.024,
+    "1_to_2_years": 0.048,
+    "2_to_3_years": 0.024,
+    "3_to_5_years": 0.024,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.19
+  },
+  "employment_type": {
+    "regular_employee": 0.452,
+    "part_time": 0.476,
+    "dispatched": 0.048,
+    "contract": 0.071,
+    "self_employed_freelance": 0.405,
+    "executive": 0.024,
+    "casual_non_student": 0.19,
+    "casual_student": 0.238,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "中華料理店の厨房でお客に提供するための中華料理を調理する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "材料の下ごしらえをする。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 2,
+      "description_ja": "下ごしらえした材料を調理する。",
+      "execution_rate": 1.0,
+      "importance": 4.056
+    },
+    {
+      "task_id": 3,
+      "description_ja": "麺をゆでる。",
+      "execution_rate": 0.972,
+      "importance": 3.8
+    },
+    {
+      "task_id": 4,
+      "description_ja": "調理の途中で味見をしたり、臭いをかいだり、火のとおり具合を確かめる。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 5,
+      "description_ja": "調理法と自分の判断や経験に従って、食品を味付けし、料理する。",
+      "execution_rate": 1.0,
+      "importance": 3.778
+    },
+    {
+      "task_id": 6,
+      "description_ja": "中華菓子やデザートを調理する。",
+      "execution_rate": 0.806,
+      "importance": 3.379
+    },
+    {
+      "task_id": 7,
+      "description_ja": "料理を盛り付け、付け合せを添えて給仕やお客に出す。",
+      "execution_rate": 1.0,
+      "importance": 3.694
+    },
+    {
+      "task_id": 8,
+      "description_ja": "フロアに立って接客する。",
+      "execution_rate": 0.861,
+      "importance": 3.516
+    },
+    {
+      "task_id": 9,
+      "description_ja": "お客の様子などを観察し、適切なタイミングで調理を開始する。",
+      "execution_rate": 0.861,
+      "importance": 3.452
+    },
+    {
+      "task_id": 10,
+      "description_ja": "レジでお客の会計をする。",
+      "execution_rate": 0.833,
+      "importance": 3.433
+    },
+    {
+      "task_id": 11,
+      "description_ja": "食材の消費量を見積もり、足りなくなりそうなものを調達する。",
+      "execution_rate": 0.972,
+      "importance": 3.8
+    },
+    {
+      "task_id": 12,
+      "description_ja": "食材の仕入先を検討し、原価を管理する。",
+      "execution_rate": 0.917,
+      "importance": 3.697
+    },
+    {
+      "task_id": 13,
+      "description_ja": "経理業務を行う。",
+      "execution_rate": 0.75,
+      "importance": 3.444
+    },
+    {
+      "task_id": 14,
+      "description_ja": "厨房全体のオペレーションを観察し、管理する。",
+      "execution_rate": 0.889,
+      "importance": 3.844
+    },
+    {
+      "task_id": 15,
+      "description_ja": "従業員の教育や指導、技能の継承を行う。",
+      "execution_rate": 0.833,
+      "importance": 3.8
+    },
+    {
+      "task_id": 16,
+      "description_ja": "洗いものや調理器具の手入れをする。",
+      "execution_rate": 1.0,
+      "importance": 3.722
+    },
+    {
+      "task_id": 17,
+      "description_ja": "安全で衛生的に食品を取り扱うために、調理場と配膳場所を清掃・消毒する。",
+      "execution_rate": 1.0,
+      "importance": 4.111
+    },
+    {
+      "task_id": 18,
+      "description_ja": "献立表に載せる料理を考える。",
+      "execution_rate": 0.722,
+      "importance": 3.577
+    },
+    {
+      "task_id": 19,
+      "description_ja": "新しいメニューを開発する。",
+      "execution_rate": 0.861,
+      "importance": 3.323
+    },
+    {
+      "task_id": 20,
+      "description_ja": "メニュー表やポスターをパソコンで作成し、店舗やWebページに掲示する。",
+      "execution_rate": 0.611,
+      "importance": 3.636
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国中華料理生活衛生同業組合連合会",
+      "url": "http://www.zenchuren.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "調理師",
+    "専門調理師",
+    "調理技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/103",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

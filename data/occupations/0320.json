@@ -1,0 +1,481 @@
+{
+  "id": 320,
+  "ipd_id": "IPD_01_01_320",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ヘルプデスク（IT）",
+  "aliases_ja": [
+    "社内サポートデスク",
+    "社内ヘルプデスク"
+  ],
+  "classifications": {
+    "mhlw_main": "02_010-05",
+    "mhlw_all": [
+      "02_010-05"
+    ],
+    "jsoc_main": "B105",
+    "jsoc_all": [
+      "B105"
+    ]
+  },
+  "description": {
+    "summary_ja": "システムや情報機器などを使用している時に生じる疑問やトラブル等の利用者からの問い合わせに電話、メール、あるいは出向いて対応する。",
+    "what_it_is_ja": "システムや情報機器などを使用している時に生じる疑問やトラブル、クレーム等利用者からの問い合わせに電話、メール、あるいは出向いて対応する。客先に常駐するケースもある。\n　ヘルプデスクには、社員からの問い合わせに対応する社内向けヘルプデスクと、社外からの問い合わせに対応するヘルプデスクがあり、後者をユーザーサポートと呼ぶこともある。\n　社内ヘルプデスクは、社員からの技術的質問に対して調査したり、障害や事故に対応するのが主な業務である。OA機器のメンテナンスやトラブル対応、アカウントの管理やパソコンのセットアップ、OSのインストールなどの作業も社内ヘルプデスクの仕事になる。\n　社外ヘルプデスクの主な業務は、問い合わせやクレーム、トラブルへ速やかに対応することで、企業によってはシステムエンジニアが開発・運用・保守などの業務も含めてヘルプデスクを兼務するケースもある。\n　システムを導入した客先のトラブル発生時には、ヘルプデスクが第一次窓口として受付を行い、エスカレーション対応するケースと、トラブルのすべてに一貫して対応して解決に導くケースに分けられる。\n　ヘルプデスクはハード、ソフト、プログラミングのそれぞれを得意とするメンバーでチームを構成し、問題解決に取り組むのが一般的である。\n　ヘルプデスクの仕事を一日の流れでみると、出社して、まずメンバーで朝会を行い、前日までの対応状況等について情報共有を行う。その後、問い合わせに対応し、即答ができない質問については、ヘルプデスクが調査を行う場合と詳しい者に調査を依頼する場合がある。情報機器に関する問題はメーカーに確認する。基本的には、電話やメールで問い合わせに回答するが、それが難しい場合は出向いて対応する場合もある。案件ごとにデータベースへの登録を行う。終業前にミーティングを行い、その日の業務連絡、特に重要案件については報告し、一日の業務が終了する。\n\n◇　よく使う道具、機材、情報技術等\n　OS、プリンター複合機、POS端末、タブレット、表計算ソフト（Excel、Googleスプレッドシート等）、パソコン",
+    "how_to_become_ja": "入職にあたっては、特に学歴や資格は必要とされない。学校での専攻も特に問われない。ただ、パソコン、プリンター複合機、POS端末、タブレットなどの情報機器が業務の対象となるので、IT関連知識が必要となる。\n　入職後に半年程度、OJTで研修を受けた後、現場でトラブルや質問を受け付け、資料を調べ的確な回答ができるよう、経験を積んでいく。\n　ヘルプデスクとして仕事に役立つ資格には、ITパスポートやMOS(マイクロソフト・オフィス・スペシャリスト)、基本情報技術者、情報処理技術者、情報処理安全確保支援士などがある。\n　トラブルや問題点が個別対処で足りるのか、根本的な問題なのかを判断できる能力や問題解決する力、コミュニケーション力が求められる。IT関連の技術情報や用語には英語が使われる機会が多いので、ある程度の英語の読解力、会話力は必要である。特にグローバル展開している企業や外資系企業では、英語が社内言語とされている事例もある。",
+    "working_conditions_ja": "ヘルプデスクとして働く地域・場所は日本全国に広がっている。全国展開している企業では転勤もありうる。\n　就業者は男性が多い。就業形態は正社員が半数以上であるが、派遣社員、パート社員等も就業している。労働移動する場合は、転出、転入のいずれもIT業界が多い。\n　賃金形態は社員は月給制で、パート・アルバイトは時間給がほとんどである。\n　勤務形態は基本的に週休2日制であるが、土日に出勤することもある。顧客が24時間サービスをしている場合等、交代制で対応することになる。客先のトラブル対応に時間がかかったり、現場が遠方などの場合、残業が発生することもある。また、新システムの導入などで発生する残業もある。"
+  },
+  "interests": {
+    "realistic": 3.371,
+    "investigative": 3.274,
+    "artistic": 2.403,
+    "social": 3.371,
+    "enterprising": 2.984,
+    "conventional": 3.306
+  },
+  "work_values": {
+    "achievement": 2.98,
+    "autonomy": 2.88,
+    "expertise": 3.1,
+    "self_growth": 2.9,
+    "social_recognition": 2.4,
+    "service_contribution": 3.0,
+    "good_relationships": 3.12,
+    "workplace_safety": 3.2,
+    "work_life_balance": 3.1,
+    "stability": 2.8,
+    "compensation": 2.6
+  },
+  "skills": {
+    "reading_comprehension": 3.8,
+    "active_listening": 4.36,
+    "writing": 3.82,
+    "speaking": 4.04,
+    "foreign_language_reading": 1.48,
+    "foreign_language_listening": 0.92,
+    "foreign_language_writing": 0.98,
+    "foreign_language_speaking": 0.74,
+    "mathematics": 2.0,
+    "science": 1.86,
+    "critical_thinking": 3.36,
+    "active_learning": 3.32,
+    "learning_strategies": 2.86,
+    "monitoring": 2.82,
+    "social_perceptiveness": 3.36,
+    "coordination": 3.44,
+    "persuasion": 3.1,
+    "negotiation": 2.84,
+    "instructing": 3.76,
+    "service_orientation": 3.26,
+    "complex_problem_solving": 3.3,
+    "operations_analysis": 2.88,
+    "technology_design": 2.78,
+    "equipment_selection": 2.58,
+    "installation": 2.7,
+    "programming": 2.28,
+    "operations_monitoring": 1.78,
+    "operation_and_control": 1.94,
+    "equipment_maintenance": 1.84,
+    "troubleshooting": 2.78,
+    "repairing": 2.0,
+    "quality_control_analysis": 2.28,
+    "judgment_decision_making": 2.28,
+    "systems_analysis": 1.8,
+    "systems_evaluation": 1.72,
+    "time_management": 2.7,
+    "financial_resources_management": 1.58,
+    "material_resources_management": 1.62,
+    "personnel_resources_management": 1.5
+  },
+  "knowledge": {
+    "business_management": 0.902,
+    "clerical": 2.059,
+    "economics_accounting": 0.686,
+    "sales_marketing": 0.627,
+    "customer_personal_service": 2.412,
+    "personnel_hr": 0.667,
+    "transportation": 0.275,
+    "production_processing": 0.314,
+    "agriculture_livestock": 0.157,
+    "engineering": 0.549,
+    "computers_electronics": 2.0,
+    "design": 0.804,
+    "building_construction": 0.235,
+    "mechanical": 0.49,
+    "mathematics_kn": 0.745,
+    "physics": 0.314,
+    "chemistry": 0.235,
+    "biology": 0.196,
+    "psychology": 0.431,
+    "sociology": 0.431,
+    "geography": 0.157,
+    "medicine_dentistry": 0.157,
+    "therapy_counseling": 0.255,
+    "education_training_kn": 0.647,
+    "japanese_language": 1.569,
+    "foreign_language_kn": 1.098,
+    "fine_arts": 0.255,
+    "history_archaeology": 0.196,
+    "philosophy_theology": 0.196,
+    "public_safety_security": 0.784,
+    "law_government": 0.549,
+    "telecommunications": 1.863,
+    "communications_media": 1.588
+  },
+  "abilities": {
+    "oral_comprehension": 3.273,
+    "written_comprehension": 3.345,
+    "oral_expression": 3.345,
+    "written_expression": 3.345,
+    "fluency_of_ideas": 2.6,
+    "originality": 2.218,
+    "problem_sensitivity": 3.618,
+    "deductive_reasoning": 3.091,
+    "inductive_reasoning": 3.018,
+    "information_ordering": 2.364,
+    "category_flexibility": 2.655,
+    "mathematical_reasoning": 2.127,
+    "number_facility": 2.055,
+    "memorization": 2.491,
+    "perceptual_speed": 2.309,
+    "spatial_orientation": 2.055,
+    "visualization": 2.109,
+    "selective_attention": 2.673,
+    "time_sharing": 2.855,
+    "arm_hand_steadiness": 1.673,
+    "manual_dexterity": 1.673,
+    "finger_dexterity": 1.709,
+    "reaction_time": 1.8,
+    "wrist_finger_speed": 1.836,
+    "speed_of_limb_movement": 1.6,
+    "static_strength": 1.509,
+    "stamina": 1.8,
+    "gross_body_equilibrium": 1.564,
+    "near_vision": 1.691,
+    "far_vision": 1.618,
+    "visual_color_discrimination": 1.673,
+    "depth_perception": 1.545,
+    "hearing_sensitivity": 1.727,
+    "auditory_attention": 1.745,
+    "speech_clarity": 2.218
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.431,
+    "face_to_face_discussions": 2.922,
+    "telephone_communication": 3.922,
+    "business_writing": 3.765,
+    "conflict_situations": 2.02,
+    "time_pressure": 2.98,
+    "teamwork": 3.353,
+    "dealing_with_external_customers": 3.235,
+    "coordinate_lead_others": 2.922,
+    "exactness_accuracy": 4.02,
+    "repetitive_tasks": 3.137,
+    "pace_determined_by_machine": 2.725,
+    "responsibility_for_outcomes": 2.745,
+    "indoor_climate_controlled": 4.745,
+    "indoor_non_climate_controlled": 1.412,
+    "outdoor_work": 1.157,
+    "sitting": 4.588,
+    "standing": 1.588,
+    "repetition_of_activities": 2.647,
+    "consequence_of_error": 2.882,
+    "freedom_to_make_decisions": 3.118,
+    "set_own_goals": 3.275,
+    "regular_schedule": 0.608,
+    "irregular_schedule": 0.255,
+    "seasonal_schedule": 0.137,
+    "email_communication": 4.353,
+    "cramped_uncomfortable": 1.745,
+    "disease_infection_risk": 1.569,
+    "minor_injury_risk": 1.196,
+    "standard_protective_equipment": 1.294,
+    "specialized_protective_equipment": 1.059,
+    "dealing_with_violent_people": 1.196,
+    "walking_running": 1.549,
+    "handling_objects_tools": 1.784,
+    "physical_proximity": 3.098,
+    "work_automation": 2.333,
+    "responsibility_for_safety": 1.686,
+    "impact_of_decisions": 2.098,
+    "level_of_competition": 1.725
+  },
+  "work_activities": {
+    "getting_information": 3.109,
+    "monitor_processes": 2.982,
+    "identifying_objects": 3.055,
+    "inspecting_equipment": 2.309,
+    "estimating_quantifiable": 2.182,
+    "judging_quality": 2.291,
+    "evaluating_compliance": 2.382,
+    "processing_information": 3.073,
+    "analyzing_data": 3.2,
+    "making_decisions": 3.309,
+    "thinking_creatively": 2.691,
+    "updating_knowledge": 3.145,
+    "developing_objectives": 2.455,
+    "scheduling_work": 2.418,
+    "organizing_planning": 3.018,
+    "physical_activities": 1.727,
+    "handling_objects": 1.764,
+    "controlling_machines": 1.782,
+    "operating_vehicles": 1.636,
+    "computer_work": 3.418,
+    "drafting_specifications": 1.982,
+    "repairing_mechanical": 1.909,
+    "repairing_electronic": 2.036,
+    "documenting_information": 2.8,
+    "interpreting_information": 2.982,
+    "communicating_inside": 3.182,
+    "communicating_outside": 2.927,
+    "building_relationships": 2.891,
+    "assisting_caring": 2.564,
+    "selling_influencing": 2.2,
+    "resolving_conflicts": 2.273,
+    "performing_for_public": 1.927,
+    "coordinating_others": 2.473,
+    "developing_teams": 2.436,
+    "training_teaching": 2.309,
+    "guiding_subordinates": 2.4,
+    "coaching_developing": 2.073,
+    "providing_consultation": 2.109,
+    "performing_administrative": 2.545,
+    "staffing_organizational": 1.982,
+    "monitoring_resources": 2.055
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.137,
+    "vocational_school": 0.098,
+    "junior_college": 0.02,
+    "technical_college": 0.039,
+    "university": 0.608,
+    "masters": 0.078,
+    "doctorate": 0.02,
+    "unknown": 0.216
+  },
+  "training_pre": {
+    "not_required": 0.431,
+    "up_to_1_month": 0.078,
+    "1_to_6_months": 0.157,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.039,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.039,
+    "unknown": 0.216
+  },
+  "training_post": {
+    "not_required": 0.137,
+    "up_to_1_month": 0.059,
+    "1_to_6_months": 0.314,
+    "6_months_to_1_year": 0.078,
+    "1_to_2_years": 0.118,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.098,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.02,
+    "unknown": 0.157
+  },
+  "experience": {
+    "not_required": 0.549,
+    "up_to_1_month": 0.039,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.039,
+    "3_to_5_years": 0.039,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.039,
+    "unknown": 0.196
+  },
+  "employment_type": {
+    "regular_employee": 0.627,
+    "part_time": 0.059,
+    "dispatched": 0.176,
+    "contract": 0.216,
+    "self_employed_freelance": 0.118,
+    "executive": 0.0,
+    "casual_non_student": 0.039,
+    "casual_student": 0.0,
+    "unknown": 0.02,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "システムやアプリケーションソフト、情報機器などを使用している時に生じる疑問やトラブル、クレームに電話やメールで対応して、問題解決する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "前日に生じた課題・問題について解決策を相談する。",
+      "execution_rate": 0.8,
+      "importance": 2.909
+    },
+    {
+      "task_id": 2,
+      "description_ja": "電話・メールでの問合せに対応する。",
+      "execution_rate": 0.964,
+      "importance": 3.623
+    },
+    {
+      "task_id": 3,
+      "description_ja": "データベースへの登録をする。",
+      "execution_rate": 0.891,
+      "importance": 2.898
+    },
+    {
+      "task_id": 4,
+      "description_ja": "トラブルの類別仕分（1次切り分け）けをする。",
+      "execution_rate": 0.909,
+      "importance": 3.38
+    },
+    {
+      "task_id": 5,
+      "description_ja": "エスカレーション対応（専門担当に連絡）する。",
+      "execution_rate": 0.891,
+      "importance": 3.673
+    },
+    {
+      "task_id": 6,
+      "description_ja": "質問について、インターネット、情報を蓄積したDBなどで検索・調査を行う。情報機器メーカーに原因がある場合はメーカーに確認する。",
+      "execution_rate": 0.927,
+      "importance": 3.412
+    },
+    {
+      "task_id": 7,
+      "description_ja": "問い合わせ（トラブル）内容について回答をする（電話、メール）。現地での対応もある。",
+      "execution_rate": 0.946,
+      "importance": 3.75
+    },
+    {
+      "task_id": 8,
+      "description_ja": "電話やメールでトラブルや質問に対する回答を行う。",
+      "execution_rate": 0.927,
+      "importance": 3.804
+    },
+    {
+      "task_id": 9,
+      "description_ja": "インシデントへの対応を管理し、必要な指示を出す。",
+      "execution_rate": 0.836,
+      "importance": 3.283
+    },
+    {
+      "task_id": 10,
+      "description_ja": "ユーザーのPCやPOSにリモート接続して、障害に対応する。",
+      "execution_rate": 0.746,
+      "importance": 3.024
+    },
+    {
+      "task_id": 11,
+      "description_ja": "パソコンのセットアップ、ソフトのインストールをする。",
+      "execution_rate": 0.8,
+      "importance": 2.773
+    },
+    {
+      "task_id": 12,
+      "description_ja": "新製品や新しいバージョンのテストを実施する。",
+      "execution_rate": 0.691,
+      "importance": 2.921
+    },
+    {
+      "task_id": 13,
+      "description_ja": "サーバーの監視（ウイルスソフトの運用・管理）をする。",
+      "execution_rate": 0.709,
+      "importance": 2.769
+    },
+    {
+      "task_id": 14,
+      "description_ja": "社内システムの保守・管理・運用をする。",
+      "execution_rate": 0.764,
+      "importance": 2.857
+    },
+    {
+      "task_id": 15,
+      "description_ja": "社内システムの動作検証をする。",
+      "execution_rate": 0.782,
+      "importance": 2.721
+    },
+    {
+      "task_id": 16,
+      "description_ja": "社内で使用する製品のマニュアル作成する。",
+      "execution_rate": 0.764,
+      "importance": 2.69
+    },
+    {
+      "task_id": 17,
+      "description_ja": "指示書・伝票を作成する。",
+      "execution_rate": 0.564,
+      "importance": 2.419
+    },
+    {
+      "task_id": 18,
+      "description_ja": "報告書を作成（レポーティング）する。",
+      "execution_rate": 0.727,
+      "importance": 2.675
+    },
+    {
+      "task_id": 19,
+      "description_ja": "ナレッジベース認証（KBA）などの認証方法を修正する。",
+      "execution_rate": 0.582,
+      "importance": 2.688
+    },
+    {
+      "task_id": 20,
+      "description_ja": "ユーザーの情報を登録する。",
+      "execution_rate": 0.836,
+      "importance": 2.935
+    },
+    {
+      "task_id": 21,
+      "description_ja": "ユーザーに特殊な権限を付与する。",
+      "execution_rate": 0.673,
+      "importance": 2.649
+    },
+    {
+      "task_id": 22,
+      "description_ja": "FAQを作成し、顧客などに周知する。",
+      "execution_rate": 0.764,
+      "importance": 3.071
+    },
+    {
+      "task_id": 23,
+      "description_ja": "社員向けに技術研修を行う。",
+      "execution_rate": 0.673,
+      "importance": 2.351
+    },
+    {
+      "task_id": 24,
+      "description_ja": "顧客に新しい製品やシステムを提案する。",
+      "execution_rate": 0.655,
+      "importance": 2.528
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "独立行政法人　情報処理推進機構（IPA）",
+      "url": "https://www.ipa.go.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "基本情報技術者",
+    "ＩＴパスポート",
+    "情報処理安全確保支援士",
+    "その他の情報処理技術関係資格",
+    "ＭＯＳ　Ｅｘｃｅｌエキスパート",
+    "ＭＯＳ　Ｅｘｃｅｌスペシャリスト",
+    "ＭＯＳ　Ｗｏｒｄエキスパート",
+    "ＭＯＳ　Ｗｏｒｄスペシャリスト",
+    "ＭＯＳ　ＰｏｗｅｒＰｏｉｎｔ",
+    "ＭＯＳ　Ａｃｃｅｓｓ",
+    "ＭＯＳ　Ｏｕｔｌｏｏｋ"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/320",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,18 +1,35 @@
 # Design.md — mirai-shigoto.com 设计规范
 
-> 这是本站设计的**唯一真相源（single source of truth）**。
-> 今后任何视觉/交互/响应式行为变更，**先改这个文件**，再让代码跟随这个文件。
+> 这是本站**桌面版**设计的唯一真相源（single source of truth）。
+> 今后任何桌面侧视觉/交互/响应式行为变更，**先改这个文件**，再让代码跟随这个文件。
 > 代码与本文件冲突时，**以本文件为准**，代码视为应当被修正的偏差。
+>
+> **移动版（v1.1.0+ 起）的设计规范在 [MOBILE_DESIGN.md](./MOBILE_DESIGN.md)**。本文件不覆盖 `/m/ja/*` + `/m/en/*` 这一系列移动版页面。两个文档的关系详见 §0.1。
 
 ---
 
 ## 0. 适用范围
 
-- `index.html`（首页 treemap）
-- `privacy.html`（隐私政策）
-- `scripts/build_occupations.py` 生成的 1104 个 `ja/<id>.html` / `en/<id>.html` 职业详情页
+- `index.html`（首页 treemap，桌面 + 既有"宽响应式至 mobile"实现）
+- `privacy.html` / `compliance.html` / `about.html`（既有静态页）
+- `scripts/build_occupations.py` 生成的 1104 个 `ja/<id>.html` / `en/<id>.html` 职业详情页（桌面 + 既有响应式至 mobile）
 
-> 当下设计源自 v0.4.x 系列。后续 minor / major 调整都以补丁形式追加在文末「修订历史」。
+> 当下设计源自 v0.4.x 系列，桌面版当前规范版本 v1.x（见 §15 修订历史）。
+
+### 0.1 与 MOBILE_DESIGN.md 的关系
+
+从 v1.1.0 起，本站长出**两套并存的设计语言**：
+
+| 文档 | 适用 URL | 设计方向 | 设计 Token |
+|---|---|---|---|
+| **Design.md**（本文件）| `index.html`, `/ja/<id>`, `/en/<id>`, `privacy.html`, `compliance.html`, `about.html` | **数据 dashboard** —— treemap 灵魂、暗色优先、信息密度高 | `--bg-*`, `--ink-*`（无前缀变量）|
+| **MOBILE_DESIGN.md** | `/m/ja/*`, `/m/en/*`, `/m/ja/<id>`, `/m/en/<id>` | **Direction C: Warm Editorial** —— 衬线大字、sage 绿 + テラコッタ橙 + 暖米底 | `--m-*` 前缀 |
+
+两套设计**语义上隔离**（不同 token、不同字体、不同视觉哲学），但**数据层共享**（同一份 `dist/data.*.json` 投影喂给两边）。
+
+桌面版 detail `/ja/<id>` 和移动版 detail `/m/ja/<id>` 是**两套不同 HTML**，桌面通过 `<link rel="canonical">` 持有"唯一权威 URL"地位（移动版指向桌面版以避免 SEO 重复内容惩罚）。详见 [MOBILE_DESIGN.md §6](./MOBILE_DESIGN.md#6-移动版-detail-的-url-与-seo-策略)。
+
+后续 minor / major 调整都以补丁形式追加在文末「修订历史」。
 
 ---
 
@@ -660,6 +677,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 | 2026-05-02 | §7.11, §8.1 | Mobile Hero（Variant C）| Mobile 首屏从 stats / toggles / 6 张卡 重构成 h2 + 信任信号 + 搜索框 + 5 chip + 直出 treemap。桌面不变。诊断：当前手机端要滚 2-3 屏才看到主图，工具入口被展示型设计语言挤掉。|
 | 2026-05-02 | §6.2, §6.5, §6.6, §6.7 | Mobile tooltip 三件 fix（Mirai Mobile Fix 提案）| FIX 01 加 `.tt-cta`「詳細を見る →」按钮（漏斗大漏点）；FIX 02 重写 touch 状态机，touchstart `passive: true` + touchend 位移 < 10px 才视为 tap（修 treemap 区滚动死区）；FIX 03 close button 22×22→32×32 visual + **44×44 hit area**（HIG 合规）。CTA 与双击 tile 打开详情并存，不替换。|
 | 2026-05-02 | §1, §7.11, §7.12, §7.13 | Stage 1：首页转向「自查路径优先」 | 新增 §7.12 桌面 hero（搜索 + 下拉建议 + 5 chips + 1 步直达 `/ja/<id>`），新增 §7.13 全站统一 follow + share footer（X follow CTA + 6 share 含新加 Facebook）。§7.11 移动 chip 行为从「填充 + 过滤」改为「1 步直达」，chip 名单 + 桌面统一为 `事務職 / 経理 / 営業 / カスタマーサポート / 看護師`（mobile 上 CS 缩写）。§1 第 1 条调整：「数据是主角」→「自查路径优先于纯展示，但数据仍是品牌资产」。原 explainer 区（meta-card + disclaimer + intro）从首页搬到独立 `/about` 页。背景：第一轮 X Ads 流量 491 link clicks 但站内 click 率仅 7.1%，需要把站点从展示型升级为查询工具。|
+| 2026-05-04 | 头部, §0, §0.1 | 文档分裂：移动版独立设计文档 | 移动版 v1.1.0 起用 Direction C: Warm Editorial（sage 绿 + テラコッタ橙 + 暖米底 + 衬线大字），跟桌面 dashboard 风格在视觉哲学上完全不同。新建 `docs/MOBILE_DESIGN.md` 承载移动版规范；本文件继续是桌面版 single source of truth。两套设计 token 隔离（桌面无前缀，移动 `--m-*` 前缀）；数据层共享同一份 `dist/data.*.json` 投影。详见 §0.1。|
 
 ---
 

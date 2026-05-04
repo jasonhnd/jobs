@@ -1,0 +1,22 @@
+{
+  "ipd_version": "v7.00",
+  "ipd_published_at": "2026-03-17",
+  "ipd_data_cut_numeric": "2026-02-10",
+  "ipd_data_cut_description": "2026-02-26",
+  "ipd_retrieved_at": "2026-05-04",
+  "files": {
+    "numeric": {
+      "name": "IPD_DL_numeric_7_00.xlsx",
+      "sha256": "5d23319b8a796904b7385add6330825dccbbf2e790268c8c17521298679e0b9b"
+    },
+    "description": {
+      "name": "IPD_DL_description_7_00_01.xlsx",
+      "sha256": "19effc13f807402e823d97edc61d557bc8928b2b19967e446da323d188d83fac"
+    }
+  },
+  "source_index_url": "https://shigoto.mhlw.go.jp/User/download",
+  "source_file_url_numeric": "https://sgteprdstaplog01.blob.core.windows.net/web-app-contents/downloads/ver13/IPD_DL_numeric_7_00.xlsx",
+  "source_file_url_description": "https://sgteprdstaplog01.blob.core.windows.net/web-app-contents/downloads/ver13/IPD_DL_description_7_00_01.xlsx",
+  "license": "JILPT 職業情報データベース; secondary use permitted per jobtag TOS Article 9 with required attribution",
+  "tos_url": "https://shigoto.mhlw.go.jp/User/tos"
+}

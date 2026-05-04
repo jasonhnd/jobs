@@ -1,0 +1,353 @@
+{
+  "id": 249,
+  "ipd_id": "IPD_01_01_249",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "植物工場の栽培管理",
+  "aliases_ja": [
+    "野菜栽培作業員（植物工場）"
+  ],
+  "classifications": {
+    "mhlw_main": "11_064-02",
+    "mhlw_all": [
+      "11_064-02"
+    ],
+    "jsoc_main": "G461",
+    "jsoc_all": [
+      "G461"
+    ]
+  },
+  "description": {
+    "summary_ja": "植物工場内で野菜等の栽培、管理、収穫を行う。",
+    "what_it_is_ja": "植物工場内で野菜等の栽培、管理、収穫を行う。\n　植物工場では、野菜や苗を中心とした作物を施設内で、光、温度、湿度、二酸化炭素濃度、培養液などの環境条件を人工的に制御し、季節や天候、地域、場所等にとらわれずに自動的に連続生産する。植物工場には人工光型、太陽光型、太陽光・人工光併用型があり、生産システムの採算性、効率性が重視される。ここでは、人口光型の植物工場を例に業務内容について説明する。\n　栽培管理の仕事では、育苗室で野菜等の種子を発芽させ、苗が育ったら栽培室に移し、生育用の栽培棚等で培養液を与えて生育を促す。工場内では、ハウスの奥行き、畝幅、株間を考慮し設定された平方メートルあたりの適正値に従い、室内の光量と温度及び培養液の温度と湿度が常に最適な状態を維持できるよう確認する。また、外部と遮断された植物工場でも種子や培地などから細菌が侵入する可能性があるので、適時洗浄作業することも大切である。太陽光型の植物工場では、更に、一定期間栽培した後の栽培棚は殺菌噴霧、乾燥させてから抗菌加工するなどの対策も必要とされる。\n　成長した植物は収穫され、生育室から作業室に移され包装の上、出荷されることになる。種を蒔いてから育苗、苗の植え替え、生育を経て収穫できるようになるまでには、３～４週間かかる。\n　一般的に植物工場では、定植と収穫に労力と時間を割かなければならず、それらの作業が容易にできる栽培パネルを使用するなど、工夫されている。\n　収穫はまず、栽培パネルの下の栽培樋に残留している培養液の除去からはじめ、各栽培棚から栽培樋ごと取り出す。その後、栽培桶は昇降チェーンなどを利用して収穫し、包装する作業スペースに運ぶ。ここでの野菜等の移動は自動化されていることが多い。\n　作業スペースでは、運ばれてきた野菜等を選別機にかけ、重さや形状、色合い、糖度など、品質ごとに選別・組分けて、袋詰め、箱詰めの作業を行い出荷する。",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、農業・園芸系の高校・専門学校を卒業するか、普通高校を経て大学で農学・園芸学系の学科を修了していると有利である。実地研修、セミナーを受講し、技術を身につけてから入職するケースも少なくない。\n　農業への興味があり、マニュアル等にしたがって着実に作業を行うことが求められる。",
+    "working_conditions_ja": "植物工場は、異業種の大企業が子会社の新規事業として運営したり、農業分野のベンチャー企業、大学の研究室と地域の企業が立ち上げた共同事業体、地元農家が運営する等様々な形態がある。研究開発は大学や植物工場の研究開発部門で行う場合が多い。\n　勤務体制や勤務時間、給料面の待遇はそれぞれが所属する大学、企業の規定に準じている。出荷との関係で早朝から勤務する場合もある。職場によっては交替制勤務もある。\n　収穫、出荷の仕事では就業者はパートやアルバイトも多い。"
+  },
+  "interests": null,
+  "work_values": null,
+  "skills": null,
+  "knowledge": {
+    "business_management": 0.778,
+    "clerical": 0.815,
+    "economics_accounting": 0.556,
+    "sales_marketing": 1.333,
+    "customer_personal_service": 1.185,
+    "personnel_hr": 0.593,
+    "transportation": 0.926,
+    "production_processing": 1.741,
+    "agriculture_livestock": 2.444,
+    "engineering": 0.741,
+    "computers_electronics": 0.37,
+    "design": 0.222,
+    "building_construction": 0.333,
+    "mechanical": 0.852,
+    "mathematics_kn": 0.481,
+    "physics": 0.222,
+    "chemistry": 0.259,
+    "biology": 1.63,
+    "psychology": 0.519,
+    "sociology": 0.481,
+    "geography": 0.481,
+    "medicine_dentistry": 0.111,
+    "therapy_counseling": 0.185,
+    "education_training_kn": 0.407,
+    "japanese_language": 0.185,
+    "foreign_language_kn": 0.037,
+    "fine_arts": 0.148,
+    "history_archaeology": 0.037,
+    "philosophy_theology": 0.222,
+    "public_safety_security": 0.074,
+    "law_government": 0.111,
+    "telecommunications": 0.074,
+    "communications_media": 0.37
+  },
+  "abilities": {
+    "oral_comprehension": 2.64,
+    "written_comprehension": 2.56,
+    "oral_expression": 2.6,
+    "written_expression": 2.48,
+    "fluency_of_ideas": 2.84,
+    "originality": 2.56,
+    "problem_sensitivity": 3.36,
+    "deductive_reasoning": 2.36,
+    "inductive_reasoning": 2.4,
+    "information_ordering": 2.52,
+    "category_flexibility": 2.24,
+    "mathematical_reasoning": 2.16,
+    "number_facility": 2.36,
+    "memorization": 2.68,
+    "perceptual_speed": 2.36,
+    "spatial_orientation": 2.28,
+    "visualization": 2.32,
+    "selective_attention": 2.28,
+    "time_sharing": 2.32,
+    "arm_hand_steadiness": 2.28,
+    "manual_dexterity": 2.64,
+    "finger_dexterity": 2.6,
+    "reaction_time": 2.6,
+    "wrist_finger_speed": 2.44,
+    "speed_of_limb_movement": 2.48,
+    "static_strength": 2.6,
+    "stamina": 2.88,
+    "gross_body_equilibrium": 2.36,
+    "near_vision": 2.72,
+    "far_vision": 2.2,
+    "visual_color_discrimination": 2.52,
+    "depth_perception": 2.4,
+    "hearing_sensitivity": 2.2,
+    "auditory_attention": 2.08,
+    "speech_clarity": 2.2
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.778,
+    "face_to_face_discussions": 2.556,
+    "telephone_communication": 2.148,
+    "business_writing": 1.741,
+    "conflict_situations": 1.407,
+    "time_pressure": 2.407,
+    "teamwork": 2.926,
+    "dealing_with_external_customers": 1.815,
+    "coordinate_lead_others": 2.185,
+    "exactness_accuracy": 2.889,
+    "repetitive_tasks": 2.926,
+    "pace_determined_by_machine": 2.111,
+    "responsibility_for_outcomes": 2.667,
+    "indoor_climate_controlled": 2.963,
+    "indoor_non_climate_controlled": 2.741,
+    "outdoor_work": 3.37,
+    "sitting": 2.444,
+    "standing": 4.111,
+    "repetition_of_activities": 3.889,
+    "consequence_of_error": 2.111,
+    "freedom_to_make_decisions": 3.074,
+    "set_own_goals": 2.963,
+    "regular_schedule": 0.481,
+    "irregular_schedule": 0.296,
+    "seasonal_schedule": 0.222,
+    "email_communication": 1.963,
+    "cramped_uncomfortable": 2.407,
+    "disease_infection_risk": 1.37,
+    "minor_injury_risk": 2.0,
+    "standard_protective_equipment": 2.148,
+    "specialized_protective_equipment": 1.296,
+    "dealing_with_violent_people": 1.037,
+    "walking_running": 3.259,
+    "handling_objects_tools": 3.63,
+    "physical_proximity": 3.037,
+    "work_automation": 1.63,
+    "responsibility_for_safety": 2.0,
+    "impact_of_decisions": 1.889,
+    "level_of_competition": 1.667
+  },
+  "work_activities": {
+    "getting_information": 2.4,
+    "monitor_processes": 2.84,
+    "identifying_objects": 3.08,
+    "inspecting_equipment": 3.0,
+    "estimating_quantifiable": 2.48,
+    "judging_quality": 2.52,
+    "evaluating_compliance": 2.76,
+    "processing_information": 2.52,
+    "analyzing_data": 2.44,
+    "making_decisions": 2.6,
+    "thinking_creatively": 2.56,
+    "updating_knowledge": 2.92,
+    "developing_objectives": 2.64,
+    "scheduling_work": 2.72,
+    "organizing_planning": 2.76,
+    "physical_activities": 2.8,
+    "handling_objects": 2.84,
+    "controlling_machines": 2.36,
+    "operating_vehicles": 2.28,
+    "computer_work": 2.08,
+    "drafting_specifications": 1.88,
+    "repairing_mechanical": 2.44,
+    "repairing_electronic": 2.04,
+    "documenting_information": 2.4,
+    "interpreting_information": 2.2,
+    "communicating_inside": 2.92,
+    "communicating_outside": 2.52,
+    "building_relationships": 2.96,
+    "assisting_caring": 2.36,
+    "selling_influencing": 2.04,
+    "resolving_conflicts": 2.2,
+    "performing_for_public": 2.0,
+    "coordinating_others": 2.56,
+    "developing_teams": 2.24,
+    "training_teaching": 2.56,
+    "guiding_subordinates": 2.36,
+    "coaching_developing": 2.24,
+    "providing_consultation": 2.24,
+    "performing_administrative": 2.24,
+    "staffing_organizational": 2.16,
+    "monitoring_resources": 2.4
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.407,
+    "vocational_school": 0.148,
+    "junior_college": 0.148,
+    "technical_college": 0.037,
+    "university": 0.185,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.259
+  },
+  "training_pre": {
+    "not_required": 0.63,
+    "up_to_1_month": 0.037,
+    "1_to_6_months": 0.074,
+    "6_months_to_1_year": 0.074,
+    "1_to_2_years": 0.037,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.148
+  },
+  "training_post": {
+    "not_required": 0.148,
+    "up_to_1_month": 0.148,
+    "1_to_6_months": 0.185,
+    "6_months_to_1_year": 0.111,
+    "1_to_2_years": 0.037,
+    "2_to_3_years": 0.148,
+    "3_to_5_years": 0.074,
+    "5_to_10_years": 0.037,
+    "over_10_years": 0.0,
+    "unknown": 0.111
+  },
+  "experience": {
+    "not_required": 0.704,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.074,
+    "6_months_to_1_year": 0.074,
+    "1_to_2_years": 0.074,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.074
+  },
+  "employment_type": {
+    "regular_employee": 0.148,
+    "part_time": 0.556,
+    "dispatched": 0.0,
+    "contract": 0.0,
+    "self_employed_freelance": 0.222,
+    "executive": 0.037,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.037,
+    "other": 0.037
+  },
+  "tasks_lead_ja": "植物工場内で野菜等を栽培、管理、収穫を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "野菜等の種子をまき苗を育てる。",
+      "execution_rate": 0.8,
+      "importance": 3.25
+    },
+    {
+      "task_id": 2,
+      "description_ja": "野菜等の苗が育ったら、栽培棚に植え替えをする。",
+      "execution_rate": 0.96,
+      "importance": 3.0
+    },
+    {
+      "task_id": 3,
+      "description_ja": "野菜等の育成のため、培養液、水などの残量を確認し、補給するなど必要な対応を行う。",
+      "execution_rate": 0.88,
+      "importance": 3.545
+    },
+    {
+      "task_id": 4,
+      "description_ja": "野菜等の成長度を確認し、葉果を間引く等成長を促す作業をする。",
+      "execution_rate": 0.96,
+      "importance": 3.125
+    },
+    {
+      "task_id": 5,
+      "description_ja": "野菜等の成長度を確認し、出荷可能なものは収穫する。",
+      "execution_rate": 1.0,
+      "importance": 3.68
+    },
+    {
+      "task_id": 6,
+      "description_ja": "収穫した野菜等を選別機で形状、品質等に応じて選別する。",
+      "execution_rate": 0.92,
+      "importance": 3.739
+    },
+    {
+      "task_id": 7,
+      "description_ja": "選別した野菜等の箱詰め、袋詰め等を行う。",
+      "execution_rate": 0.92,
+      "importance": 3.217
+    },
+    {
+      "task_id": 8,
+      "description_ja": "箱詰め、袋詰めした野菜等を搬出、出荷する。",
+      "execution_rate": 0.92,
+      "importance": 3.043
+    },
+    {
+      "task_id": 9,
+      "description_ja": "病害虫を駆除する。",
+      "execution_rate": 0.96,
+      "importance": 3.208
+    },
+    {
+      "task_id": 10,
+      "description_ja": "工場内の光量、温度、湿度等環境が一定に保たれているか定期的に確認し、必要な対応を行う。",
+      "execution_rate": 0.84,
+      "importance": 3.571
+    },
+    {
+      "task_id": 11,
+      "description_ja": "工場内の設備、機械が正常に動作しているか定期的に確認する。",
+      "execution_rate": 0.76,
+      "importance": 3.421
+    },
+    {
+      "task_id": 12,
+      "description_ja": "工場内の設備、機械に異常がある場合は、メンテナンス会社への連絡等を行う。",
+      "execution_rate": 0.72,
+      "importance": 3.333
+    },
+    {
+      "task_id": 13,
+      "description_ja": "野菜等を育成する栽培棚を定期的に、清掃、消毒、乾燥等を行う。",
+      "execution_rate": 0.84,
+      "importance": 3.667
+    },
+    {
+      "task_id": 14,
+      "description_ja": "作業開始前にミーティングに参加し、担当する1日の作業を把握、確認する。",
+      "execution_rate": 0.8,
+      "importance": 3.0
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人日本植物工場産業協会",
+      "url": "https://jpfia.org/"
+    },
+    {
+      "name_ja": "一般社団法人日本施設園芸協会",
+      "url": "https://jgha.com/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/249",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

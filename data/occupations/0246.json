@@ -1,0 +1,491 @@
+{
+  "id": 246,
+  "ipd_id": "IPD_01_01_246",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "看護助手",
+  "aliases_ja": [
+    "看護アシスタント",
+    "看護補助者",
+    "看護ヘルパー"
+  ],
+  "classifications": {
+    "mhlw_main": "04_028-01",
+    "mhlw_all": [
+      "04_028-01"
+    ],
+    "jsoc_main": "E371",
+    "jsoc_all": [
+      "E371"
+    ]
+  },
+  "description": {
+    "summary_ja": "看護チームの一員として、看護師等の指示の下に、看護の専門的判断を要しない看護補助業務を行う。",
+    "what_it_is_ja": "看護チームの一員として、看護師等の指示の下に、看護の専門的判断を要しない看護補助業務を行う。看護補助者と呼ばれることもある。\n　看護助手の仕事は、対象者に直接接しない「周辺業務」と、直接関わる「直接ケア」に大別することができる。具体的には、医療器具の洗浄や消毒、診察台のシーツ交換などの診察の準備や病棟のベッドメーキングなど環境を整えたり、入院患者の食事の配膳・下膳をする。また、状態が落ち着いている患者の着替えの手伝いや排泄介助、おむつの交換、入浴の介助を行う。検査時の移送なども行う。看護師とともに、決められた時間ごとに体位を変えて床ずれを予防したり、独り歩きに不安のある患者の介助や車椅子の手配・操作をすることもある。\n　更に、検査・処置等の伝票類の準備・整備・補充、診療材料等の補充・整理等を受け持つ場合もある。\n　一日の仕事の例でみると、まず、朝の定例ミーティングでその日の入退院者の情報を把握する。午前中は、レントゲン、リハビリ、各種検査への患者の移送、ベッドメーキング、病棟内の清掃等を行う。昼になると食事の配膳・下膳や食事介助を行う。午後は、伝票類や物品の整備・補充、整理等を行う。\n\n◇　よく使う道具、機材、情報技術等\n　車椅子",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。採用後は看護師等の指示の下、実務を行う。最近では、入職前に仕事を体験できるインターンシップを実施している病院もある。\n　看護助手として患者に接するうちに、もっと専門性を磨きたいという理由から看護職の資格を目指す者もいる。\n　患者との円滑な意思疎通を図れるようコミュニケーション力が必要である。また医療に携わる上での倫理観も求められる。",
+    "working_conditions_ja": "勤務先は主に全国にある病院となり、一般診療所などで勤務することはほとんどないが採用しているところもある。在宅医療においては看護師等の随行者として患者宅を訪問することもある。\n　就業者のうち、大半は女性である。\n　待遇などは勤務する病院による。残業に関しては、急患や入院患者の容体急変などの際に必要な看護補助業務を行うため生じることもある。"
+  },
+  "interests": {
+    "realistic": 3.133,
+    "investigative": 2.633,
+    "artistic": 2.583,
+    "social": 3.617,
+    "enterprising": 2.567,
+    "conventional": 3.2
+  },
+  "work_values": {
+    "achievement": 3.186,
+    "autonomy": 2.746,
+    "expertise": 2.898,
+    "self_growth": 3.288,
+    "social_recognition": 2.729,
+    "service_contribution": 3.424,
+    "good_relationships": 3.068,
+    "workplace_safety": 3.0,
+    "work_life_balance": 3.373,
+    "stability": 3.254,
+    "compensation": 2.695
+  },
+  "skills": {
+    "reading_comprehension": 3.102,
+    "active_listening": 3.881,
+    "writing": 2.627,
+    "speaking": 3.085,
+    "foreign_language_reading": 0.729,
+    "foreign_language_listening": 0.661,
+    "foreign_language_writing": 0.407,
+    "foreign_language_speaking": 0.542,
+    "mathematics": 1.102,
+    "science": 0.746,
+    "critical_thinking": 1.559,
+    "active_learning": 2.136,
+    "learning_strategies": 2.203,
+    "monitoring": 2.203,
+    "social_perceptiveness": 2.746,
+    "coordination": 2.339,
+    "persuasion": 1.881,
+    "negotiation": 1.729,
+    "instructing": 2.356,
+    "service_orientation": 2.644,
+    "complex_problem_solving": 2.068,
+    "operations_analysis": 1.169,
+    "technology_design": 1.051,
+    "equipment_selection": 1.407,
+    "installation": 1.237,
+    "programming": 0.441,
+    "operations_monitoring": 0.864,
+    "operation_and_control": 0.983,
+    "equipment_maintenance": 0.915,
+    "troubleshooting": 1.22,
+    "repairing": 1.102,
+    "quality_control_analysis": 1.102,
+    "judgment_decision_making": 1.288,
+    "systems_analysis": 1.305,
+    "systems_evaluation": 1.085,
+    "time_management": 1.644,
+    "financial_resources_management": 0.729,
+    "material_resources_management": 0.949,
+    "personnel_resources_management": 1.034
+  },
+  "knowledge": {
+    "business_management": 0.308,
+    "clerical": 0.519,
+    "economics_accounting": 0.115,
+    "sales_marketing": 0.135,
+    "customer_personal_service": 1.442,
+    "personnel_hr": 0.385,
+    "transportation": 0.115,
+    "production_processing": 0.096,
+    "agriculture_livestock": 0.019,
+    "engineering": 0.038,
+    "computers_electronics": 0.173,
+    "design": 0.096,
+    "building_construction": 0.038,
+    "mechanical": 0.135,
+    "mathematics_kn": 0.135,
+    "physics": 0.115,
+    "chemistry": 0.231,
+    "biology": 0.327,
+    "psychology": 1.288,
+    "sociology": 0.885,
+    "geography": 0.038,
+    "medicine_dentistry": 1.962,
+    "therapy_counseling": 1.385,
+    "education_training_kn": 0.846,
+    "japanese_language": 0.808,
+    "foreign_language_kn": 0.288,
+    "fine_arts": 0.096,
+    "history_archaeology": 0.077,
+    "philosophy_theology": 0.212,
+    "public_safety_security": 0.423,
+    "law_government": 0.346,
+    "telecommunications": 0.154,
+    "communications_media": 0.885
+  },
+  "abilities": {
+    "oral_comprehension": 2.439,
+    "written_comprehension": 2.263,
+    "oral_expression": 2.456,
+    "written_expression": 2.404,
+    "fluency_of_ideas": 2.018,
+    "originality": 1.877,
+    "problem_sensitivity": 2.93,
+    "deductive_reasoning": 2.175,
+    "inductive_reasoning": 2.158,
+    "information_ordering": 2.0,
+    "category_flexibility": 1.86,
+    "mathematical_reasoning": 1.702,
+    "number_facility": 1.877,
+    "memorization": 2.351,
+    "perceptual_speed": 1.86,
+    "spatial_orientation": 1.965,
+    "visualization": 1.947,
+    "selective_attention": 2.123,
+    "time_sharing": 2.088,
+    "arm_hand_steadiness": 2.386,
+    "manual_dexterity": 2.386,
+    "finger_dexterity": 2.298,
+    "reaction_time": 2.509,
+    "wrist_finger_speed": 2.351,
+    "speed_of_limb_movement": 2.421,
+    "static_strength": 2.807,
+    "stamina": 2.772,
+    "gross_body_equilibrium": 2.491,
+    "near_vision": 2.228,
+    "far_vision": 2.14,
+    "visual_color_discrimination": 2.123,
+    "depth_perception": 2.105,
+    "hearing_sensitivity": 2.439,
+    "auditory_attention": 2.386,
+    "speech_clarity": 2.368
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.615,
+    "face_to_face_discussions": 2.769,
+    "telephone_communication": 2.846,
+    "business_writing": 2.385,
+    "conflict_situations": 2.385,
+    "time_pressure": 2.615,
+    "teamwork": 3.827,
+    "dealing_with_external_customers": 2.865,
+    "coordinate_lead_others": 2.962,
+    "exactness_accuracy": 3.788,
+    "repetitive_tasks": 3.231,
+    "pace_determined_by_machine": 2.212,
+    "responsibility_for_outcomes": 2.404,
+    "indoor_climate_controlled": 4.75,
+    "indoor_non_climate_controlled": 1.635,
+    "outdoor_work": 1.308,
+    "sitting": 1.654,
+    "standing": 4.635,
+    "repetition_of_activities": 3.115,
+    "consequence_of_error": 3.385,
+    "freedom_to_make_decisions": 2.712,
+    "set_own_goals": 2.865,
+    "regular_schedule": 0.846,
+    "irregular_schedule": 0.135,
+    "seasonal_schedule": 0.019,
+    "email_communication": 1.846,
+    "cramped_uncomfortable": 1.635,
+    "disease_infection_risk": 4.615,
+    "minor_injury_risk": 2.154,
+    "standard_protective_equipment": 2.385,
+    "specialized_protective_equipment": 1.673,
+    "dealing_with_violent_people": 2.096,
+    "walking_running": 3.923,
+    "handling_objects_tools": 2.596,
+    "physical_proximity": 4.058,
+    "work_automation": 1.865,
+    "responsibility_for_safety": 2.808,
+    "impact_of_decisions": 1.942,
+    "level_of_competition": 1.231
+  },
+  "work_activities": {
+    "getting_information": 2.526,
+    "monitor_processes": 2.719,
+    "identifying_objects": 2.526,
+    "inspecting_equipment": 2.088,
+    "estimating_quantifiable": 2.14,
+    "judging_quality": 2.175,
+    "evaluating_compliance": 2.474,
+    "processing_information": 2.14,
+    "analyzing_data": 2.158,
+    "making_decisions": 2.351,
+    "thinking_creatively": 1.965,
+    "updating_knowledge": 2.579,
+    "developing_objectives": 2.351,
+    "scheduling_work": 2.298,
+    "organizing_planning": 3.018,
+    "physical_activities": 3.088,
+    "handling_objects": 2.842,
+    "controlling_machines": 1.947,
+    "operating_vehicles": 1.684,
+    "computer_work": 2.123,
+    "drafting_specifications": 1.667,
+    "repairing_mechanical": 1.684,
+    "repairing_electronic": 1.702,
+    "documenting_information": 2.316,
+    "interpreting_information": 2.211,
+    "communicating_inside": 3.281,
+    "communicating_outside": 2.754,
+    "building_relationships": 2.965,
+    "assisting_caring": 2.947,
+    "selling_influencing": 2.123,
+    "resolving_conflicts": 2.14,
+    "performing_for_public": 2.281,
+    "coordinating_others": 2.561,
+    "developing_teams": 2.772,
+    "training_teaching": 2.368,
+    "guiding_subordinates": 2.246,
+    "coaching_developing": 2.053,
+    "providing_consultation": 1.754,
+    "performing_administrative": 2.07,
+    "staffing_organizational": 1.93,
+    "monitoring_resources": 2.035
+  },
+  "education_distribution": {
+    "below_high_school": 0.058,
+    "high_school": 0.5,
+    "vocational_school": 0.231,
+    "junior_college": 0.192,
+    "technical_college": 0.0,
+    "university": 0.173,
+    "masters": 0.019,
+    "doctorate": 0.0,
+    "unknown": 0.173
+  },
+  "training_pre": {
+    "not_required": 0.654,
+    "up_to_1_month": 0.096,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.019,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.096
+  },
+  "training_post": {
+    "not_required": 0.154,
+    "up_to_1_month": 0.135,
+    "1_to_6_months": 0.442,
+    "6_months_to_1_year": 0.154,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.038
+  },
+  "experience": {
+    "not_required": 0.788,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.058,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.096
+  },
+  "employment_type": {
+    "regular_employee": 0.481,
+    "part_time": 0.404,
+    "dispatched": 0.173,
+    "contract": 0.154,
+    "self_employed_freelance": 0.019,
+    "executive": 0.019,
+    "casual_non_student": 0.019,
+    "casual_student": 0.019,
+    "unknown": 0.0,
+    "other": 0.019
+  },
+  "tasks_lead_ja": "看護師等の指示の下、診療に関する補助的な周辺業務のほか、入院患者等の生活環境や日常生活に関わる業務を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "診療準備のため医療器具の洗浄、消毒をする。",
+      "execution_rate": 0.79,
+      "importance": 3.689
+    },
+    {
+      "task_id": 2,
+      "description_ja": "診察台のシーツ交換を行う。",
+      "execution_rate": 0.825,
+      "importance": 3.404
+    },
+    {
+      "task_id": 3,
+      "description_ja": "診察に必要な器械、器具等の準備、片付けをする。",
+      "execution_rate": 0.842,
+      "importance": 3.479
+    },
+    {
+      "task_id": 4,
+      "description_ja": "検査、処置等に必要な伝票類の準備、整備、補充をする。",
+      "execution_rate": 0.825,
+      "importance": 3.447
+    },
+    {
+      "task_id": 5,
+      "description_ja": "必要な薬剤や処方箋などの各種書類を運ぶ。",
+      "execution_rate": 0.579,
+      "importance": 3.545
+    },
+    {
+      "task_id": 6,
+      "description_ja": "病衣（患者衣、検査衣）を患者に配布する。",
+      "execution_rate": 0.667,
+      "importance": 3.263
+    },
+    {
+      "task_id": 7,
+      "description_ja": "患者の病状を観察する。",
+      "execution_rate": 0.842,
+      "importance": 3.229
+    },
+    {
+      "task_id": 8,
+      "description_ja": "入院病棟のベッド周辺の清掃・整頓をする。",
+      "execution_rate": 0.807,
+      "importance": 3.804
+    },
+    {
+      "task_id": 9,
+      "description_ja": "入院病棟のベッドメイキング、シーツ交換をする。",
+      "execution_rate": 0.807,
+      "importance": 3.804
+    },
+    {
+      "task_id": 10,
+      "description_ja": "入院患者の全身あるいは部分清拭を行う。",
+      "execution_rate": 0.754,
+      "importance": 3.698
+    },
+    {
+      "task_id": 11,
+      "description_ja": "入院患者の洗髪、シャワー浴、入浴、部分浴の世話をする。",
+      "execution_rate": 0.737,
+      "importance": 3.833
+    },
+    {
+      "task_id": 12,
+      "description_ja": "入院患者の寝間着交換、おむつ交換を行う。",
+      "execution_rate": 0.754,
+      "importance": 3.977
+    },
+    {
+      "task_id": 13,
+      "description_ja": "入院患者の食事の配膳、下膳を行う。",
+      "execution_rate": 0.79,
+      "importance": 3.756
+    },
+    {
+      "task_id": 14,
+      "description_ja": "入院患者の食事の介助をする。",
+      "execution_rate": 0.737,
+      "importance": 3.738
+    },
+    {
+      "task_id": 15,
+      "description_ja": "入院患者の排せつの介助（トイレ、ポータブルトイレ、便器、尿器）をする。",
+      "execution_rate": 0.772,
+      "importance": 3.841
+    },
+    {
+      "task_id": 16,
+      "description_ja": "入院患者の床ずれ予防の体位変換を行う。",
+      "execution_rate": 0.772,
+      "importance": 3.705
+    },
+    {
+      "task_id": 17,
+      "description_ja": "入院患者のリハビリや作業療法を介助する。",
+      "execution_rate": 0.544,
+      "importance": 3.226
+    },
+    {
+      "task_id": 18,
+      "description_ja": "入院患者の検査を介助する（検査出し）。",
+      "execution_rate": 0.579,
+      "importance": 3.394
+    },
+    {
+      "task_id": 19,
+      "description_ja": "患者の移動・移送介助（車いすの手配、操作を含む）を行う。",
+      "execution_rate": 0.947,
+      "importance": 3.796
+    },
+    {
+      "task_id": 20,
+      "description_ja": "認知症をもつ患者に対応する。",
+      "execution_rate": 0.912,
+      "importance": 3.558
+    },
+    {
+      "task_id": 21,
+      "description_ja": "外来患者の受付をする。",
+      "execution_rate": 0.579,
+      "importance": 3.333
+    },
+    {
+      "task_id": 22,
+      "description_ja": "内服薬の服用を介助する。",
+      "execution_rate": 0.544,
+      "importance": 3.419
+    },
+    {
+      "task_id": 23,
+      "description_ja": "透析治療の準備や片付けをする。",
+      "execution_rate": 0.368,
+      "importance": 3.857
+    },
+    {
+      "task_id": 24,
+      "description_ja": "手術の準備をする。",
+      "execution_rate": 0.386,
+      "importance": 3.5
+    },
+    {
+      "task_id": 25,
+      "description_ja": "簡単な検査を実施する。",
+      "execution_rate": 0.491,
+      "importance": 3.214
+    },
+    {
+      "task_id": 26,
+      "description_ja": "患者に必要な説明をして検体を採取し、検査室に提出する。",
+      "execution_rate": 0.474,
+      "importance": 3.481
+    },
+    {
+      "task_id": 27,
+      "description_ja": "患者が亡くなった後の対処（エンゼルケア）を介助する。",
+      "execution_rate": 0.579,
+      "importance": 3.545
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本看護協会",
+      "url": "https://www.nurse.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "看護師",
+    "准看護師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/246",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,451 @@
+{
+  "id": 548,
+  "ipd_id": "IPD_01_01_548",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "検査工（食料品等）",
+  "aliases_ja": [
+    "食料品検査工"
+  ],
+  "classifications": {
+    "mhlw_main": "12_077-01",
+    "mhlw_all": [
+      "12_077-01",
+      "12_077-02"
+    ],
+    "jsoc_main": "H573",
+    "jsoc_all": [
+      "H574",
+      "H573"
+    ]
+  },
+  "description": {
+    "summary_ja": "食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置により、製品の品質・成分・外観・数量、異物の混入及び微生物等による汚染の有無などの検査を行う。",
+    "what_it_is_ja": "食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置等により、製品の品質・成分・外観・充填量・数量、異物の混入及び微生物等による汚染の有無などの検査を行う。原材料や半製品も対象となる。\n　食料品等の品目は調味食品、麺類、パン、菓子、豆腐、こんにゃく、缶詰・瓶詰食品、レトルト食品、乳製品、食肉・水産加工品、冷凍加工食品、弁当、惣菜類、漬物、茶、酒類、清涼飲料水、珈琲豆等多岐に渡り、穀物の精穀・製粉やコーヒー豆の焙煎等原材料の加工工程のものも含まれる。\n　検査する製品や検査対象によりそれぞれ仕事内容は異なり、専門性が高くなると食品製造技術者や食品衛生監視員等に類似した仕事になる。\n　ここでは、一般的な食料品等の検査の仕事内容の種類や方法等について解説する。\n　検査は大別して、食品安全衛生の確保のための食品衛生法等法令上の規定による検査と品質管理等の検査・検品がある。また、製造過程と検査の関係は、製造前の原料の検査や製造品を充填する容器の検査、製造途中の検査及び完成品の検査がある。\n　まず、品質管理等の検査の具体例を挙げると、クッキー、チョコレート、パン菓子類等の仕上げ段階で、割れ、欠け、ひび、崩れ等外観上の形状不全・欠損の確認や製品が箱・袋へ規定の数量が納入されているか、破損が無いかを目視により検査する。飲料製品やクリーム状等の半固体  食品の場合は、納入容器に汚れや破損が無いか、規定の量が充填されているかを目視検査する。ラベルの賞味期限や消費期限に誤りが無いかも確認する。\n　品質管理における官能検査（人間の五感による検査）としては、商品の品質水準の保持やばらつきを防止する等の目的で、甘味、塩味、酸味、苦味、旨味、とろみ等の味覚検査、完成商品の色度合いを確認する色覚検査、臭いの質を確認する臭覚検査などをサンプリングにより検査する。\n　安全衛生面の検査では、原材料の検査、半製品   の検査及び完成品の検査と製造・加工過程全てにわたる。検査の種類として微生物検査、理化学検査及び異物検査等がある。\n　異物検査は、外観検査と同時に行うことが多いが、食品に混入してはならない異物の混入が無いか全品検査する。目視の他にルーペ、金属探知機、専用測定機器・検査装置等で異物混入が無いか監視する。食品により異なるが、髪の毛や製造過程の他の食品の付着がクレームに繋がる場合が多い。\n　異常のある製品を発見した場合、異物などの付着は可能な場合はピンセットで取り除くが、除去では不適切な場合は迅速にライン上から取り除き、廃棄処分にするか外観破損の程度ではアウトレットに回すかを判断する。\n　微生物検査では、大腸菌等一般細菌数検査、食中毒菌検査及び寄生虫検査等があり、対象食品等から採取した試料を、一定時間・日数培養して菌や寄生虫の数を目視、顕微鏡等で測定する。具体的には、フラスコ等に寒天等の各種粉末培地（菌の栄養になる）を溶かして高圧蒸気滅菌器（オートクレーブ）や乾熱滅菌器で滅菌作業を行って下準備し、それを冷ましてから液状化した検査対象が入ったシャーレに注ぐ。これをインキュベーター（恒温器）に入れ菌等の育成を行い、一定時間経過ごとに菌等の数量を計測する。なお、微生物検査は検査結果が出るまで数日を要するので通常は一定間隔で定期的に行う。\n　理化学検査では、PH、水分含有量、水分活性値、甘味度、酸度、塩分・糖分、栄養成分、食品添加物、重金属、残留農薬、残留動物用医薬品、放射線物質等を専用測定機器・検査装置等で測定する。\n　検査の実施前後には作業スペースや測定機器・検査装置を次亜塩素酸ナトリウムやアルコール消毒液、熱湯等で滅菌作業を行う。また、検査前には、従業員の健康（下痢、発熱、手指の傷）と身だしなみ（髪の毛の衛生帽子からのはみ出し）をチェックする。検査後は検査結果をパソコンにより所定の様式へデータ入力し報告書を作成する。\n　顧客からのクレームがあった場合、事実確認、原因究明、再発防止策への迅速な対応が求められることもある。\n　検査の作業自体は、工場内での座り仕事もあるが、目視検査の場合は立ち仕事である場合も多く、原材料検査など商品によっては検査者が移動しながら検査作業を行う。\n　検査の服装は、検査対象により多少異なるが、一般的に、衛生帽子、白衣、エプロン又は特殊作業服、専用ブーツ、アームカバー、マスク、保護メガネ、手袋等を着用する。微生物検査、理化学検査、官能検査などの場合はクリーンルーム等室温や空気等の環境が一定に保たれた部屋で行われる。\n　なお、専属の検査工として従事するというより、食品製造過程の職務の一環として従事することも多く、例えば、食品製造工の職務と検査工の職務をグループ内の職員で午前・午後輪番制で行うような場合もある。また、合わせて付帯業務として食品製造施設及びその従業員の衛生管理業務も行うこともある。\n\n◇よく使う道具、機材、情報技術\n　検査マニュアル、ピンセット、ルーペ、顕微鏡、フラスコ、ビーカー、シャーレ、各種培地、高圧蒸気滅菌器（オートクレーブ）、乾熱滅菌器、インキュベーター（恒温器）、金属探知機、専用測定機器・検査装置、白衣、エプロン、衛生帽子、アームカバー、マスク、保護メガネ、特殊作業服、専用ブーツ、手袋、滅菌消毒医薬品（次亜塩素酸ナトリウム、アルコール消毒液等）、熱湯",
+    "how_to_become_ja": "入職に当たって、特に学歴は問われないことが多い。入職後すぐに検査工になることはなく、製造部門からの異動で就くことが多い。\n　資格や職務経験は、検査対象により異なり、初心者でも可能なものから、特定の資格所有が望ましいもの、ある程度の経験年数が必要なものまで千差万別である。特に最近では、測定機器の発達により、経験の少ない人でも高精度の検査が可能となってきており、中途採用も多い。ただし、専門性  が必要とされる検査の場合は、測定の基礎や食品加工に関する知識があることが入職に有利であり、大学で微生物学系、発酵系、食品系、畜産・水産学系等の専門分野を学んだ者や調理や食品製造の専門学校卒業者が比較的多いようである。\n　いずれの場合も、入社後に安全衛生管理者による食品安全衛生講習などの研修や保健所や薬品メーカーが開催する講習会やセミナーを定期的に受講し、食品衛生管理に関する知識を深めていく。\n　製品ごとに検査手順、検査項目は定まっているが、検査効率にも留意しなければならないので、経験により重点的に時間をかける項目が判断できるようになるなどのノウハウの蓄積が必要である。キャリア展開として、難易度が低い検査の担当から経験により難易度の高い検査の担当への異動や研究開発部門や商品開発部門への異動によりキャリアを積む場合もある。一定程度の経験年数を積んだ後、主任（サ  ブリーダー）やその後課長（リーダー）代理等に昇格し、さらに副工場長、工場長等管理者や監督者などの管理・指導的立場の役職に就くこともある。その場合、食品衛生法上置かなければならない「食品衛生管理者」や「食品衛生責任者」の資格を、前者は大学等所定課程の修了や公益社団法人日本食品衛生協会や公益社団法人全国食肉学校の講習受講等により、後者は各都道府県食品衛生協会等が実施する養成講習を受講して取得することが望まれる。\n　関連資格等として公益社団法人日本べんとう振興協会が実施している「食品微生物検査技士」、一般財団法人日本食品検査が実施している「細菌検査技能評価試験」、「放射性物質測定技能試験」等がある。その他関連資格として公益社団法人日本食品衛生協会が実施している「食品衛生指導員」などがある。\n　検査の仕事の質を高めるために取扱製品に関係する知識を広めることも重要であり、検査対象によっては食物学、畜産学、水産学、農芸化学等の知識が検査業務の質の向上に繋がる。さらに最近では、検査数値の管理に重点が置かれ、統計的な数値管理の知識も必要となる場合がある。また、通常、パソコンでワード、エクセル等のソフトの基本操作が求められる。\n　検査の仕事は、定められた細かな作業、同一過程を繰り返す過程で正確性を必要とする作業となるので、判別能力や集中力が持続でき、同じ過程の作業を毎日飽きずに黙々とこなすことに適応できる資質や、納期が重要であることから効率的な手順で段取りよく作業でき、また、製造過程全体を見渡し多角的に解決策を提案できる視野の広さが必要である。\n　立ち仕事が続く場合や特定の姿勢での作業もあり、一定程度の体力も必要である。\n　目視検査の場合は、一定の視力が必要とされるが、視力補強の場合はコンタクトレンズではなく眼鏡を求められることもある（コンタクトレンズは落ちて商品に混入すると見つかりにく  いため）。製品によっては、触覚や聴覚を用いる検査もある。\n　工場内で生産部門の他の担当者との調整・協調、トラブル時に上司等に報告・相談する等の情報伝達を行うことも多く、コミュニケーション能力が重要であり、また、心に余裕を持って冷静・適切に対応でき、顧客の信頼を確保できるような責任感と誠実性があることが必要である。\n　就業を長く続けるには、食品に関心があることが大切であり、食品を作ることに親しみが持てることが望まれる。",
+    "working_conditions_ja": "就業場所は全国各地津々浦々に幅広く広がっている。勤務先は製造工場内であることが多いが、食品衛生法上の登録検査機関である場合もある。立地場所は工業団地や湧水が大量に取得できるところである場合も多く交通の便が良いところに限らない。海外の輸入拠点の事務所が勤務先となる場合もある。\n　労働条件は、勤務先の規定に従うが、正社員、契約社員、労働者派遣による就業など、就業先により雇用形態は様々である。労働時間や週休制度なども取扱商品や企業により異なる。季節性による生産数の増加時や新製品の生産開始時、製造工程での異物混入や消費者クレームなどのトラブルの発生時に残業が発生する場合がある。生産拠点等が複数ある場合は、正社員は転勤があることも  ある。\n　就業環境に関しては、例えばケーキやアイスクリーム製造等では室温は寒く、豆腐製造等では室温が暑いなど食品により高低差がある。湿度が高いことや、取扱商品によっては特定の臭いがある場合もある。水を多く使用する商品では床が滑りやすく注意する必要がある。\n　就業者の男女比率や年齢構成も、取扱商品や検査手法により状況が異なり、幅広い層が活躍しているが、一般的に、目視検査による品質管理や微生物検査では女性の割合が高い。\n　いずれにせよ、食料品等の検査の目的は、消費者に対して安全・安心のある商品を提供する重要なものであり、不適正な事象が生ずると大きな社会問題になる。日本の食料品への信頼を支えることが貿易の発展にも大切であることから、  適切・的確な検査の実施が求められる。"
+  },
+  "interests": {
+    "realistic": 4.095,
+    "investigative": 3.667,
+    "artistic": 2.286,
+    "social": 3.381,
+    "enterprising": 2.905,
+    "conventional": 3.952
+  },
+  "work_values": {
+    "achievement": 2.81,
+    "autonomy": 2.905,
+    "expertise": 3.476,
+    "self_growth": 2.952,
+    "social_recognition": 2.143,
+    "service_contribution": 2.333,
+    "good_relationships": 3.0,
+    "workplace_safety": 3.381,
+    "work_life_balance": 3.619,
+    "stability": 3.381,
+    "compensation": 2.333
+  },
+  "skills": {
+    "reading_comprehension": 3.286,
+    "active_listening": 3.333,
+    "writing": 3.19,
+    "speaking": 3.429,
+    "foreign_language_reading": 1.524,
+    "foreign_language_listening": 0.952,
+    "foreign_language_writing": 0.714,
+    "foreign_language_speaking": 0.238,
+    "mathematics": 1.857,
+    "science": 2.333,
+    "critical_thinking": 2.476,
+    "active_learning": 2.619,
+    "learning_strategies": 2.619,
+    "monitoring": 3.238,
+    "social_perceptiveness": 2.857,
+    "coordination": 3.429,
+    "persuasion": 2.905,
+    "negotiation": 2.571,
+    "instructing": 3.429,
+    "service_orientation": 2.381,
+    "complex_problem_solving": 2.762,
+    "operations_analysis": 2.286,
+    "technology_design": 1.714,
+    "equipment_selection": 2.619,
+    "installation": 2.048,
+    "programming": 1.286,
+    "operations_monitoring": 2.667,
+    "operation_and_control": 2.238,
+    "equipment_maintenance": 1.857,
+    "troubleshooting": 2.048,
+    "repairing": 1.952,
+    "quality_control_analysis": 4.238,
+    "judgment_decision_making": 2.619,
+    "systems_analysis": 2.476,
+    "systems_evaluation": 2.143,
+    "time_management": 3.238,
+    "financial_resources_management": 1.524,
+    "material_resources_management": 2.143,
+    "personnel_resources_management": 1.952
+  },
+  "knowledge": {
+    "business_management": 0.617,
+    "clerical": 1.191,
+    "economics_accounting": 0.404,
+    "sales_marketing": 0.426,
+    "customer_personal_service": 0.617,
+    "personnel_hr": 0.468,
+    "transportation": 0.574,
+    "production_processing": 2.234,
+    "agriculture_livestock": 0.596,
+    "engineering": 1.0,
+    "computers_electronics": 0.511,
+    "design": 0.447,
+    "building_construction": 0.277,
+    "mechanical": 0.851,
+    "mathematics_kn": 1.106,
+    "physics": 0.745,
+    "chemistry": 1.213,
+    "biology": 1.0,
+    "psychology": 0.532,
+    "sociology": 0.617,
+    "geography": 0.255,
+    "medicine_dentistry": 0.383,
+    "therapy_counseling": 0.319,
+    "education_training_kn": 0.809,
+    "japanese_language": 0.787,
+    "foreign_language_kn": 0.426,
+    "fine_arts": 0.34,
+    "history_archaeology": 0.277,
+    "philosophy_theology": 0.255,
+    "public_safety_security": 0.681,
+    "law_government": 0.404,
+    "telecommunications": 0.404,
+    "communications_media": 0.596
+  },
+  "abilities": {
+    "oral_comprehension": 2.692,
+    "written_comprehension": 2.897,
+    "oral_expression": 2.821,
+    "written_expression": 2.897,
+    "fluency_of_ideas": 2.128,
+    "originality": 1.974,
+    "problem_sensitivity": 3.538,
+    "deductive_reasoning": 2.769,
+    "inductive_reasoning": 2.487,
+    "information_ordering": 2.667,
+    "category_flexibility": 2.333,
+    "mathematical_reasoning": 2.436,
+    "number_facility": 2.615,
+    "memorization": 2.692,
+    "perceptual_speed": 2.718,
+    "spatial_orientation": 2.077,
+    "visualization": 2.385,
+    "selective_attention": 2.897,
+    "time_sharing": 2.821,
+    "arm_hand_steadiness": 2.59,
+    "manual_dexterity": 3.0,
+    "finger_dexterity": 2.974,
+    "reaction_time": 2.744,
+    "wrist_finger_speed": 2.897,
+    "speed_of_limb_movement": 2.795,
+    "static_strength": 2.59,
+    "stamina": 2.59,
+    "gross_body_equilibrium": 2.154,
+    "near_vision": 2.872,
+    "far_vision": 2.103,
+    "visual_color_discrimination": 3.205,
+    "depth_perception": 2.128,
+    "hearing_sensitivity": 2.231,
+    "auditory_attention": 2.205,
+    "speech_clarity": 2.359
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.489,
+    "face_to_face_discussions": 2.404,
+    "telephone_communication": 2.638,
+    "business_writing": 2.383,
+    "conflict_situations": 2.064,
+    "time_pressure": 2.979,
+    "teamwork": 2.894,
+    "dealing_with_external_customers": 1.979,
+    "coordinate_lead_others": 2.404,
+    "exactness_accuracy": 3.83,
+    "repetitive_tasks": 3.468,
+    "pace_determined_by_machine": 3.277,
+    "responsibility_for_outcomes": 2.809,
+    "indoor_climate_controlled": 4.553,
+    "indoor_non_climate_controlled": 1.787,
+    "outdoor_work": 1.319,
+    "sitting": 2.936,
+    "standing": 3.404,
+    "repetition_of_activities": 2.957,
+    "consequence_of_error": 2.915,
+    "freedom_to_make_decisions": 3.021,
+    "set_own_goals": 3.213,
+    "regular_schedule": 0.702,
+    "irregular_schedule": 0.277,
+    "seasonal_schedule": 0.021,
+    "email_communication": 2.574,
+    "cramped_uncomfortable": 1.809,
+    "disease_infection_risk": 1.404,
+    "minor_injury_risk": 1.894,
+    "standard_protective_equipment": 2.553,
+    "specialized_protective_equipment": 1.553,
+    "dealing_with_violent_people": 1.213,
+    "walking_running": 2.766,
+    "handling_objects_tools": 3.277,
+    "physical_proximity": 2.851,
+    "work_automation": 2.532,
+    "responsibility_for_safety": 2.191,
+    "impact_of_decisions": 2.213,
+    "level_of_competition": 1.617
+  },
+  "work_activities": {
+    "getting_information": 2.615,
+    "monitor_processes": 3.256,
+    "identifying_objects": 3.077,
+    "inspecting_equipment": 3.077,
+    "estimating_quantifiable": 2.692,
+    "judging_quality": 3.0,
+    "evaluating_compliance": 3.513,
+    "processing_information": 2.949,
+    "analyzing_data": 2.872,
+    "making_decisions": 2.897,
+    "thinking_creatively": 2.436,
+    "updating_knowledge": 2.949,
+    "developing_objectives": 2.692,
+    "scheduling_work": 2.846,
+    "organizing_planning": 3.103,
+    "physical_activities": 2.795,
+    "handling_objects": 2.846,
+    "controlling_machines": 2.615,
+    "operating_vehicles": 2.051,
+    "computer_work": 2.872,
+    "drafting_specifications": 2.128,
+    "repairing_mechanical": 2.436,
+    "repairing_electronic": 2.436,
+    "documenting_information": 2.949,
+    "interpreting_information": 2.846,
+    "communicating_inside": 3.256,
+    "communicating_outside": 2.795,
+    "building_relationships": 2.974,
+    "assisting_caring": 2.333,
+    "selling_influencing": 2.103,
+    "resolving_conflicts": 2.462,
+    "performing_for_public": 1.974,
+    "coordinating_others": 2.564,
+    "developing_teams": 2.872,
+    "training_teaching": 2.974,
+    "guiding_subordinates": 2.538,
+    "coaching_developing": 2.436,
+    "providing_consultation": 2.128,
+    "performing_administrative": 2.564,
+    "staffing_organizational": 2.154,
+    "monitoring_resources": 2.333
+  },
+  "education_distribution": {
+    "below_high_school": 0.106,
+    "high_school": 0.489,
+    "vocational_school": 0.106,
+    "junior_college": 0.043,
+    "technical_college": 0.043,
+    "university": 0.383,
+    "masters": 0.085,
+    "doctorate": 0.021,
+    "unknown": 0.085
+  },
+  "training_pre": {
+    "not_required": 0.553,
+    "up_to_1_month": 0.149,
+    "1_to_6_months": 0.149,
+    "6_months_to_1_year": 0.043,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.106
+  },
+  "training_post": {
+    "not_required": 0.149,
+    "up_to_1_month": 0.085,
+    "1_to_6_months": 0.34,
+    "6_months_to_1_year": 0.234,
+    "1_to_2_years": 0.085,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.106
+  },
+  "experience": {
+    "not_required": 0.745,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.064,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.021,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.128
+  },
+  "employment_type": {
+    "regular_employee": 0.596,
+    "part_time": 0.426,
+    "dispatched": 0.17,
+    "contract": 0.085,
+    "self_employed_freelance": 0.021,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.021,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置により、製品の品質・成分・外観・数量、異物の混入及び微生物等による汚染の有無などの検査を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "検査の実施前に作業スペースや測定機器・検査装置の滅菌作業を行う。",
+      "execution_rate": 0.667,
+      "importance": 3.885
+    },
+    {
+      "task_id": 2,
+      "description_ja": "商品や包装物に割れ、欠け、ひび、崩れ等の外観上の欠損や破損が無いか目視で検査する。",
+      "execution_rate": 0.872,
+      "importance": 4.029
+    },
+    {
+      "task_id": 3,
+      "description_ja": "箱、袋、飲料の納入容器等に規定の数量が納入されているか目視で検査する。",
+      "execution_rate": 0.846,
+      "importance": 4.121
+    },
+    {
+      "task_id": 4,
+      "description_ja": "異物検査では、目視、金属探知機、専用測定機器・検査装置で食品に混入してはならない異物が無いか監視する。",
+      "execution_rate": 0.923,
+      "importance": 4.25
+    },
+    {
+      "task_id": 5,
+      "description_ja": "表面に異物の付着がある製品を発見した場合、ピンセットで取り除く。",
+      "execution_rate": 0.718,
+      "importance": 3.714
+    },
+    {
+      "task_id": 6,
+      "description_ja": "異常のある製品を発見した場合は取り除き、廃棄処分にするかアウトレットに回すかを判断する。",
+      "execution_rate": 0.744,
+      "importance": 3.793
+    },
+    {
+      "task_id": 7,
+      "description_ja": "ラベルの賞味期限や消費期限に誤りが無いか確認する。",
+      "execution_rate": 0.923,
+      "importance": 4.222
+    },
+    {
+      "task_id": 8,
+      "description_ja": "官能検査として、甘味、塩味、酸味、苦味、旨味、とろみ等の味覚試験、完成商品の色度合いを確認する色覚試験、臭いの質を確認する臭覚試験などをサンプリングにより測定調査する。",
+      "execution_rate": 0.769,
+      "importance": 4.233
+    },
+    {
+      "task_id": 9,
+      "description_ja": "対象食品等から採取した試料を一定時間・日数培養する。",
+      "execution_rate": 0.821,
+      "importance": 3.813
+    },
+    {
+      "task_id": 10,
+      "description_ja": "微生物検査のため、フラスコ等に寒天等の各種粉末培地（菌の栄養になる）を溶かして高圧蒸気減菌器（オートクレーブ）や乾熱減菌器で減菌作業を行って下準備をする。",
+      "execution_rate": 0.692,
+      "importance": 3.63
+    },
+    {
+      "task_id": 11,
+      "description_ja": "検査対象を液状化して入れたシャーレに下準備済みの培地等を注ぎ、インキュベーター（恒温器）に入れ菌等の育成を行う。",
+      "execution_rate": 0.641,
+      "importance": 3.84
+    },
+    {
+      "task_id": 12,
+      "description_ja": "菌や寄生虫の数を目視や顕微鏡、モニター画面で測定する。",
+      "execution_rate": 0.641,
+      "importance": 3.6
+    },
+    {
+      "task_id": 13,
+      "description_ja": "理化学検査で、PH、水分含有量、水分活性値、甘味度、酸度、塩分・糖分、栄養成分、食品添加物、重金属、残留農薬、放射線物質等を専用測定機器・検査装置で測定する。",
+      "execution_rate": 0.667,
+      "importance": 3.846
+    },
+    {
+      "task_id": 14,
+      "description_ja": "検査後は検査結果をパソコンにより所定の様式へのデータ入力し報告書を作成する。",
+      "execution_rate": 0.769,
+      "importance": 3.7
+    },
+    {
+      "task_id": 15,
+      "description_ja": "食品製造施設及びその従業員の衛生管理業務を行う。",
+      "execution_rate": 0.795,
+      "importance": 4.129
+    },
+    {
+      "task_id": 16,
+      "description_ja": "顧客からのクレームがあった場合、事実確認、原因究明、再発防止策の策定などを行う。",
+      "execution_rate": 0.846,
+      "importance": 3.939
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "厚生労働省医薬・生活衛生局検疫所業務課",
+      "url": "https://www.mhlw.go.jp/general/saiyo/shokukan.html"
+    },
+    {
+      "name_ja": "公益社団法人 日本食品衛生協会",
+      "url": "http://www.n-shokuei.jp/index.html"
+    },
+    {
+      "name_ja": "公益社団法人 全国食肉学校",
+      "url": "http://www.fma.ac.jp/index.html"
+    },
+    {
+      "name_ja": "各都道府県食品衛生協会等",
+      "url": null
+    },
+    {
+      "name_ja": "公益社団法人 日本べんとう振興協会",
+      "url": "https://www.bentou-shinkou.or.jp/wp/"
+    },
+    {
+      "name_ja": "一般財団法人 日本食品検査",
+      "url": "https://www.jffic.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "食品衛生管理者",
+    "食品衛生責任者",
+    "１級食品微生物検査技士",
+    "２級食品微生物検査技士",
+    "3級食品微生物検査技士",
+    "細菌検査技能評価試験",
+    "放射性物質測定技能試験",
+    "食品衛生指導員"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/548",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2022,
+    "classifications": 2022,
+    "description": 2022
+  }
+}

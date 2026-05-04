@@ -1,0 +1,470 @@
+{
+  "id": 422,
+  "ipd_id": "IPD_01_01_422",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "葬祭ディレクター",
+  "aliases_ja": [
+    "葬儀セレモニー準備人",
+    "葬祭飾付人"
+  ],
+  "classifications": {
+    "mhlw_main": "09_058-06",
+    "mhlw_all": [
+      "09_058-06"
+    ],
+    "jsoc_main": "E425",
+    "jsoc_all": [
+      "E425"
+    ]
+  },
+  "description": {
+    "summary_ja": "葬儀の企画から会場設営、儀式の運営・司会・進行などを行う。",
+    "what_it_is_ja": "葬儀の企画から会場設営、儀式の運営・司会・進行などを行う。\n　葬儀は死者を悼（いた）み、その一生をしめくくる大事な儀式である。遺族にとって意味のある、心に残る葬儀を実現するため、遺族を支え、行事全般を円滑に進める役割を果たしているのが葬祭ディレクターである。\n　具体的な仕事としては、まず、病院などから遺体を自宅又は葬儀会場に搬送し、遺体を棺に収めて通夜の準備をする。次に喪主・遺族の希望を聞いて、葬儀の日時、場所、規模、宗派、予算などの打ち合わせを行い、企画書と見積書を作成する。\n　企画書と見積書に基づいて、会場の手配や設営、必要資材の調達、僧侶や神父など宗教家との打ち合わせ、霊柩車やハイヤーなどの手配、火葬場の手配のほか、会葬礼状や遺影写真、生花の手配をはじめとする様々な手配、会葬者数の予測、式次第の決定、役割分担や席順の決定などを行う。また、通夜・葬儀式・告別式・精進落としの行事全般がスムーズに行われるよう運営・進行を行う。\n　さらに葬儀終了後の四十九日法要、香典返しの手配を行い、このほか仏壇や墓地の相談、保険、相続の相談や手続の代行なども行う場合もある。\n　葬儀行事は突発的に生じ、かつ一般的には通夜から精進落としまでの一連の行事が２～３日間程度の短期間で行われるため、葬儀の企画・運営・進行は段取りよくスムーズに行うことが求められる。\n\n◇　よく使う道具、機材、情報技術等\n　普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "葬祭スタッフとして働くには、特に学歴や資格は必要とされないが、厚生労働省認定の「葬祭ディレクター技能審査」に合格しなければ、葬祭ディレクターの名称は使用できない。\n　大手葬儀社では定期採用も行われているが、中途採用が中心で、ハローワークや求人広告を通じて募集されることが多い。\n　葬祭ディレクターを養成する機関や専門の学校はあるが、一般的には葬儀社の従業員として実務経験を積み、社内研修や先輩・上司などの指導を得て技術・知識・能力を高め、葬儀全般を統括する葬祭ディレクターを目指すことになる。\n　通常、葬儀全般を管理・統括する技術・知識・能力などを修得するまでに2～3年、社葬・団体葬などの大規模葬儀の企画・運営・管理のできる能力を修得するためには、さらに数年を要するといわれている。\n　葬儀は悲しみの中で厳粛に執り行われるため、葬祭業務に携わる者の言動がその葬儀の成否に大きな影響を与える。したがって職務を遂行する上で、落ち着き、忍耐、誠実、清潔感、信頼性などが重要である。予想外の出来事にも素早く判断を下し、スタッフに的確な指示を出せることも必要である。また、宗派の違いにより変化する葬儀の段取りなど多くの知識、経験も必要となってくる。立ち作業が多く、長時間の式にも対応するため一定の体力が求められる。",
+    "working_conditions_ja": "葬儀社に勤務する。葬祭業は都市型の業種であるため、人口の多い中・大都市部及びその周辺地域に集中している。\n　葬祭ディレクターは民間資格であり、全体で約4万人程度が認定されている。高齢化が進む中で人材の需要が高まっている。最近は女性の役割が大きな比重を占めてきており、今後も増加が見込まれる。最近は女性の役割が大きな比重を占めてきており、今後も増加が見込まれる。\n　葬祭業は24時間体制で営業しているため、時間外勤務、宿直、夜間や早朝の勤務が多い。通夜から精進落としまでの一連の行事が行われる間は非常に忙しくなるが、葬儀のないときは待機時間が長いなど、繁閑の差が大きい。\n　友引の日（月4～5日）は葬儀が行われないため、事務職を除いて休日になり、他の日は交替で休みを取る。\n　高齢化社会に伴って年間死亡者数は増加しており、今後もこの傾向は続くと予測されているが、近年においては葬儀が小規模化しており、葬儀の参列者が少ない「家族葬」、通夜をしない「1日葬」、火葬のみという「直葬（ちょくそう）」等も増えている。\n\n*取材結果から"
+  },
+  "interests": {
+    "realistic": 3.017,
+    "investigative": 2.767,
+    "artistic": 2.9,
+    "social": 3.65,
+    "enterprising": 3.2,
+    "conventional": 3.55
+  },
+  "work_values": {
+    "achievement": 3.745,
+    "autonomy": 3.319,
+    "expertise": 3.638,
+    "self_growth": 3.681,
+    "social_recognition": 3.213,
+    "service_contribution": 3.596,
+    "good_relationships": 3.638,
+    "workplace_safety": 3.128,
+    "work_life_balance": 3.106,
+    "stability": 3.021,
+    "compensation": 3.106
+  },
+  "skills": {
+    "reading_comprehension": 3.596,
+    "active_listening": 4.83,
+    "writing": 3.638,
+    "speaking": 3.936,
+    "foreign_language_reading": 1.532,
+    "foreign_language_listening": 1.128,
+    "foreign_language_writing": 1.234,
+    "foreign_language_speaking": 0.872,
+    "mathematics": 1.766,
+    "science": 0.894,
+    "critical_thinking": 2.596,
+    "active_learning": 2.787,
+    "learning_strategies": 2.851,
+    "monitoring": 2.83,
+    "social_perceptiveness": 3.234,
+    "coordination": 3.574,
+    "persuasion": 3.085,
+    "negotiation": 3.191,
+    "instructing": 3.596,
+    "service_orientation": 3.66,
+    "complex_problem_solving": 3.234,
+    "operations_analysis": 2.511,
+    "technology_design": 2.34,
+    "equipment_selection": 2.596,
+    "installation": 2.319,
+    "programming": 1.362,
+    "operations_monitoring": 1.213,
+    "operation_and_control": 1.745,
+    "equipment_maintenance": 1.745,
+    "troubleshooting": 1.553,
+    "repairing": 1.723,
+    "quality_control_analysis": 2.106,
+    "judgment_decision_making": 2.574,
+    "systems_analysis": 2.447,
+    "systems_evaluation": 2.277,
+    "time_management": 3.362,
+    "financial_resources_management": 1.957,
+    "material_resources_management": 2.191,
+    "personnel_resources_management": 2.787
+  },
+  "knowledge": {
+    "business_management": 1.265,
+    "clerical": 1.592,
+    "economics_accounting": 1.02,
+    "sales_marketing": 1.49,
+    "customer_personal_service": 2.898,
+    "personnel_hr": 1.102,
+    "transportation": 0.878,
+    "production_processing": 0.531,
+    "agriculture_livestock": 0.347,
+    "engineering": 0.408,
+    "computers_electronics": 0.673,
+    "design": 0.429,
+    "building_construction": 0.347,
+    "mechanical": 0.367,
+    "mathematics_kn": 0.531,
+    "physics": 0.327,
+    "chemistry": 0.327,
+    "biology": 0.51,
+    "psychology": 1.694,
+    "sociology": 1.49,
+    "geography": 0.408,
+    "medicine_dentistry": 0.816,
+    "therapy_counseling": 1.469,
+    "education_training_kn": 1.122,
+    "japanese_language": 2.041,
+    "foreign_language_kn": 0.939,
+    "fine_arts": 0.673,
+    "history_archaeology": 1.224,
+    "philosophy_theology": 2.367,
+    "public_safety_security": 1.204,
+    "law_government": 1.224,
+    "telecommunications": 0.612,
+    "communications_media": 1.531
+  },
+  "abilities": {
+    "oral_comprehension": 2.909,
+    "written_comprehension": 2.75,
+    "oral_expression": 2.977,
+    "written_expression": 2.773,
+    "fluency_of_ideas": 2.614,
+    "originality": 2.432,
+    "problem_sensitivity": 3.341,
+    "deductive_reasoning": 2.636,
+    "inductive_reasoning": 2.591,
+    "information_ordering": 2.432,
+    "category_flexibility": 2.341,
+    "mathematical_reasoning": 2.023,
+    "number_facility": 2.136,
+    "memorization": 2.705,
+    "perceptual_speed": 2.136,
+    "spatial_orientation": 2.205,
+    "visualization": 2.159,
+    "selective_attention": 2.614,
+    "time_sharing": 2.5,
+    "arm_hand_steadiness": 2.273,
+    "manual_dexterity": 2.091,
+    "finger_dexterity": 2.068,
+    "reaction_time": 2.409,
+    "wrist_finger_speed": 2.182,
+    "speed_of_limb_movement": 2.114,
+    "static_strength": 2.523,
+    "stamina": 2.5,
+    "gross_body_equilibrium": 2.182,
+    "near_vision": 2.159,
+    "far_vision": 2.068,
+    "visual_color_discrimination": 2.159,
+    "depth_perception": 2.25,
+    "hearing_sensitivity": 2.205,
+    "auditory_attention": 2.182,
+    "speech_clarity": 2.773
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.429,
+    "face_to_face_discussions": 3.388,
+    "telephone_communication": 3.918,
+    "business_writing": 2.939,
+    "conflict_situations": 2.143,
+    "time_pressure": 3.0,
+    "teamwork": 3.061,
+    "dealing_with_external_customers": 3.469,
+    "coordinate_lead_others": 3.184,
+    "exactness_accuracy": 3.633,
+    "repetitive_tasks": 3.327,
+    "pace_determined_by_machine": 2.265,
+    "responsibility_for_outcomes": 3.327,
+    "indoor_climate_controlled": 4.327,
+    "indoor_non_climate_controlled": 3.0,
+    "outdoor_work": 2.98,
+    "sitting": 3.041,
+    "standing": 3.265,
+    "repetition_of_activities": 2.694,
+    "consequence_of_error": 3.51,
+    "freedom_to_make_decisions": 3.469,
+    "set_own_goals": 3.245,
+    "regular_schedule": 0.327,
+    "irregular_schedule": 0.571,
+    "seasonal_schedule": 0.102,
+    "email_communication": 3.041,
+    "cramped_uncomfortable": 2.143,
+    "disease_infection_risk": 3.122,
+    "minor_injury_risk": 1.653,
+    "standard_protective_equipment": 1.694,
+    "specialized_protective_equipment": 1.612,
+    "dealing_with_violent_people": 1.408,
+    "walking_running": 2.714,
+    "handling_objects_tools": 2.286,
+    "physical_proximity": 3.429,
+    "work_automation": 1.694,
+    "responsibility_for_safety": 2.551,
+    "impact_of_decisions": 2.857,
+    "level_of_competition": 2.041
+  },
+  "work_activities": {
+    "getting_information": 2.568,
+    "monitor_processes": 2.568,
+    "identifying_objects": 2.545,
+    "inspecting_equipment": 2.432,
+    "estimating_quantifiable": 2.273,
+    "judging_quality": 2.773,
+    "evaluating_compliance": 2.568,
+    "processing_information": 2.386,
+    "analyzing_data": 2.295,
+    "making_decisions": 2.886,
+    "thinking_creatively": 2.659,
+    "updating_knowledge": 2.977,
+    "developing_objectives": 2.5,
+    "scheduling_work": 2.955,
+    "organizing_planning": 3.091,
+    "physical_activities": 2.591,
+    "handling_objects": 2.545,
+    "controlling_machines": 2.136,
+    "operating_vehicles": 2.136,
+    "computer_work": 2.523,
+    "drafting_specifications": 1.932,
+    "repairing_mechanical": 1.864,
+    "repairing_electronic": 1.864,
+    "documenting_information": 2.273,
+    "interpreting_information": 2.455,
+    "communicating_inside": 2.977,
+    "communicating_outside": 3.0,
+    "building_relationships": 2.977,
+    "assisting_caring": 3.0,
+    "selling_influencing": 2.614,
+    "resolving_conflicts": 2.705,
+    "performing_for_public": 2.955,
+    "coordinating_others": 2.727,
+    "developing_teams": 2.773,
+    "training_teaching": 2.864,
+    "guiding_subordinates": 2.886,
+    "coaching_developing": 2.5,
+    "providing_consultation": 2.068,
+    "performing_administrative": 2.5,
+    "staffing_organizational": 2.318,
+    "monitoring_resources": 2.295
+  },
+  "education_distribution": {
+    "below_high_school": 0.041,
+    "high_school": 0.306,
+    "vocational_school": 0.184,
+    "junior_college": 0.061,
+    "technical_college": 0.02,
+    "university": 0.286,
+    "masters": 0.041,
+    "doctorate": 0.0,
+    "unknown": 0.204
+  },
+  "training_pre": {
+    "not_required": 0.245,
+    "up_to_1_month": 0.082,
+    "1_to_6_months": 0.204,
+    "6_months_to_1_year": 0.061,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.122,
+    "3_to_5_years": 0.061,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.204
+  },
+  "training_post": {
+    "not_required": 0.122,
+    "up_to_1_month": 0.041,
+    "1_to_6_months": 0.184,
+    "6_months_to_1_year": 0.163,
+    "1_to_2_years": 0.143,
+    "2_to_3_years": 0.061,
+    "3_to_5_years": 0.082,
+    "5_to_10_years": 0.041,
+    "over_10_years": 0.02,
+    "unknown": 0.143
+  },
+  "experience": {
+    "not_required": 0.531,
+    "up_to_1_month": 0.082,
+    "1_to_6_months": 0.041,
+    "6_months_to_1_year": 0.082,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.041,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.163
+  },
+  "employment_type": {
+    "regular_employee": 0.531,
+    "part_time": 0.163,
+    "dispatched": 0.02,
+    "contract": 0.082,
+    "self_employed_freelance": 0.163,
+    "executive": 0.061,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.061,
+    "other": 0.02
+  },
+  "tasks_lead_ja": "葬儀の企画から会場設営、儀式の運営・司会・進行などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "喪主や遺族と打合わせを行い、葬儀の詳細や進め方を決める。",
+      "execution_rate": 0.955,
+      "importance": 4.357
+    },
+    {
+      "task_id": 2,
+      "description_ja": "宗教家との打合せをする。",
+      "execution_rate": 0.955,
+      "importance": 3.571
+    },
+    {
+      "task_id": 3,
+      "description_ja": "霊柩車やハイヤー、火葬場の手配をする。",
+      "execution_rate": 0.886,
+      "importance": 3.718
+    },
+    {
+      "task_id": 4,
+      "description_ja": "必要な資材やギフトなどを発注する。",
+      "execution_rate": 0.841,
+      "importance": 2.784
+    },
+    {
+      "task_id": 5,
+      "description_ja": "葬儀についての企画書と見積書を提出する。",
+      "execution_rate": 0.909,
+      "importance": 3.7
+    },
+    {
+      "task_id": 6,
+      "description_ja": "病院などから遺体を自宅または葬儀会場に搬送する。",
+      "execution_rate": 0.909,
+      "importance": 3.75
+    },
+    {
+      "task_id": 7,
+      "description_ja": "遺体を棺に収めて通夜の準備をする。",
+      "execution_rate": 0.886,
+      "importance": 3.769
+    },
+    {
+      "task_id": 8,
+      "description_ja": "親族、会葬者の飲食の手配をする。",
+      "execution_rate": 0.909,
+      "importance": 3.275
+    },
+    {
+      "task_id": 9,
+      "description_ja": "葬儀関連の印刷物の手配をする。",
+      "execution_rate": 0.909,
+      "importance": 3.15
+    },
+    {
+      "task_id": 10,
+      "description_ja": "祭壇を作り、花や供物を整える。",
+      "execution_rate": 0.909,
+      "importance": 3.6
+    },
+    {
+      "task_id": 11,
+      "description_ja": "参列者に通夜や葬儀が行われる場所や道順を教える、または案内する。",
+      "execution_rate": 0.909,
+      "importance": 3.35
+    },
+    {
+      "task_id": 12,
+      "description_ja": "葬儀の進行、司会を務める。",
+      "execution_rate": 0.864,
+      "importance": 3.553
+    },
+    {
+      "task_id": 13,
+      "description_ja": "葬儀進行をサポートする。",
+      "execution_rate": 0.932,
+      "importance": 3.585
+    },
+    {
+      "task_id": 14,
+      "description_ja": "霊柩車を火葬場に送り出す。",
+      "execution_rate": 0.955,
+      "importance": 3.524
+    },
+    {
+      "task_id": 15,
+      "description_ja": "祭壇を撤収し、礼状・香典返しの発送等の事後の手続きを行う。",
+      "execution_rate": 0.909,
+      "importance": 3.1
+    },
+    {
+      "task_id": 16,
+      "description_ja": "式後の手続きを親族に説明する。",
+      "execution_rate": 0.932,
+      "importance": 2.927
+    },
+    {
+      "task_id": 17,
+      "description_ja": "火葬許可書を手配する。",
+      "execution_rate": 0.886,
+      "importance": 3.744
+    },
+    {
+      "task_id": 18,
+      "description_ja": "エンバーミングを専門業者に依頼する。",
+      "execution_rate": 0.568,
+      "importance": 2.68
+    },
+    {
+      "task_id": 19,
+      "description_ja": "四十九日法要や年回忌を手配する。",
+      "execution_rate": 0.841,
+      "importance": 2.946
+    },
+    {
+      "task_id": 20,
+      "description_ja": "斎場でのサービスを提供する。",
+      "execution_rate": 0.909,
+      "importance": 3.125
+    },
+    {
+      "task_id": 21,
+      "description_ja": "仏壇など関連商品を販売する。",
+      "execution_rate": 0.818,
+      "importance": 2.306
+    },
+    {
+      "task_id": 22,
+      "description_ja": "ポスティングなどを通じた営業活動を行う。",
+      "execution_rate": 0.727,
+      "importance": 2.406
+    },
+    {
+      "task_id": 23,
+      "description_ja": "当直業務をする。",
+      "execution_rate": 0.75,
+      "importance": 3.061
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全日本葬祭業協同組合連合会",
+      "url": "https://www.zensoren.or.jp/"
+    },
+    {
+      "name_ja": "葬祭ディレクター技能審査協会",
+      "url": "http://www.sousai-director.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "葬祭ディレクター1級",
+    "葬祭ディレクター2級"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/422",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

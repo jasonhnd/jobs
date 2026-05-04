@@ -1,0 +1,222 @@
+{
+  "id": 304,
+  "ipd_id": "IPD_01_01_304",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "陶磁器技術者",
+  "aliases_ja": [
+    "陶磁器製造技術者",
+    "陶磁器開発技術者"
+  ],
+  "classifications": {
+    "mhlw_main": "02_007-99",
+    "mhlw_all": [
+      "02_006-99",
+      "02_007-99"
+    ],
+    "jsoc_main": "B089",
+    "jsoc_all": [
+      "B079",
+      "B089"
+    ]
+  },
+  "description": {
+    "summary_ja": "陶磁器製品の開発、製造工程や品質の管理を行う。",
+    "what_it_is_ja": "陶磁器製品の開発、製造工程や品質の管理を行う。\n　陶磁器製品には食器などの日用品からタイル、碍子(がいし)、置物(花瓶、人形等)、衛生陶器（便器、洗面器等）など様々な種類がある。\n　基本的な陶磁器製造は、原料の調合、成形、乾燥、絵付け・ゆう薬、焼成、検査など様々な工程がある。\n　陶磁器技術者の具体的な仕事としては、新しい陶土を探すため、各地で原料の調査・分析をしたり、陶土にさまざまな原料を混ぜ、焼き物に適した土をつくる。また、かまの開発や改良を行う。製品に応じたゆう薬、絵の具の開発等も行う。その他、製造現場で作業の指導・監督や製造装置、製造方法の改良を行う。\n　このように陶磁器技術者は幅広い範囲の知識と経験が必要になる。\n　自動成形機やロボットなどを使って製品を作ることもあり、伝統的な技法から最新の製造方式に関する知識も必要になっている。\n\n◇　よく使う道具、機材、情報技術等\n　かま、工具（手動工具、電動工具）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、大学・大学院、職業訓練校などで必要な技能と知識を取得し、その後企業の中で経験を積む場合が多い。その他に陶磁器工として企業で経験と知識を取得し、その後陶磁器技術者となる場合もある。限られた工程の関連技術にとどまるのではなく全体的な製造の管理を行うことが多い。一人前になるためには10年程度が必要となる。実務を通して経験を積み、企業内での製造、研究、品質管理の責任者や、工場長になる場合もある。\n　関連資格として、厚生労働省が定める技能検定の「陶磁器製造技能士」があり、取得すると技能の証明となる。\n　陶磁器に関する専門知識に加え、食器、タイル、置物などを製造に関連する技術者の場合は、デザインセンスや芸術性的な感覚が求められることもある。また、製造する陶磁器製品が重い場合は、一定の体力が必要である。",
+    "working_conditions_ja": "陶磁器製品は原料を産出する地域を中心に発達してきたが、現在は流通網の発達などにより少しずつ全国に広がりを見せている。しかし、昔から有名な産地である東海地方（愛知県、岐阜県）や滋賀県、九州地方（鹿児島県、佐賀県）といった地域での生産量が多い。\n　勤務先は陶磁器メーカーの本社、工場である。事業所規模は中小企業が大部分を占め、従業員数300人以上の企業は全体の１％以下（＊1）である。\n　正社員が多く、賃金、労働時間等労働条件は勤務先の規定による。\n　特に洋食器製造業では、価格競争力にまさる東南アジアに工場を移転する企業も多く、陶磁器技術者は海外へ転勤することもある。\n\n*1　総務省　2021（令和3年）経済センサスから"
+  },
+  "interests": {
+    "realistic": 3.333,
+    "investigative": 3.467,
+    "artistic": 3.667,
+    "social": 2.7,
+    "enterprising": 2.9,
+    "conventional": 2.8
+  },
+  "work_values": null,
+  "skills": {
+    "reading_comprehension": 3.367,
+    "active_listening": 3.967,
+    "writing": 2.9,
+    "speaking": 3.833,
+    "foreign_language_reading": 1.9,
+    "foreign_language_listening": 1.767,
+    "foreign_language_writing": 1.367,
+    "foreign_language_speaking": 1.433,
+    "mathematics": 2.9,
+    "science": 3.333,
+    "critical_thinking": 3.333,
+    "active_learning": 3.3,
+    "learning_strategies": 3.633,
+    "monitoring": 3.5,
+    "social_perceptiveness": 3.033,
+    "coordination": 2.733,
+    "persuasion": 2.633,
+    "negotiation": 2.7,
+    "instructing": 3.467,
+    "service_orientation": 2.5,
+    "complex_problem_solving": 3.233,
+    "operations_analysis": 3.0,
+    "technology_design": 3.3,
+    "equipment_selection": 3.8,
+    "installation": 3.6,
+    "programming": 2.1,
+    "operations_monitoring": 3.333,
+    "operation_and_control": 3.367,
+    "equipment_maintenance": 3.033,
+    "troubleshooting": 3.033,
+    "repairing": 3.3,
+    "quality_control_analysis": 3.633,
+    "judgment_decision_making": 3.133,
+    "systems_analysis": 2.667,
+    "systems_evaluation": 2.467,
+    "time_management": 2.6,
+    "financial_resources_management": 2.667,
+    "material_resources_management": 3.1,
+    "personnel_resources_management": 2.033
+  },
+  "knowledge": {
+    "business_management": 1.5,
+    "clerical": 1.467,
+    "economics_accounting": 1.133,
+    "sales_marketing": 1.933,
+    "customer_personal_service": 2.167,
+    "personnel_hr": 0.967,
+    "transportation": 1.7,
+    "production_processing": 3.433,
+    "agriculture_livestock": 0.467,
+    "engineering": 1.733,
+    "computers_electronics": 1.067,
+    "design": 1.1,
+    "building_construction": 0.867,
+    "mechanical": 1.733,
+    "mathematics_kn": 1.4,
+    "physics": 1.333,
+    "chemistry": 2.167,
+    "biology": 0.5,
+    "psychology": 0.867,
+    "sociology": 0.967,
+    "geography": 0.9,
+    "medicine_dentistry": 0.6,
+    "therapy_counseling": 0.567,
+    "education_training_kn": 1.2,
+    "japanese_language": 1.333,
+    "foreign_language_kn": 0.967,
+    "fine_arts": 2.833,
+    "history_archaeology": 1.5,
+    "philosophy_theology": 1.0,
+    "public_safety_security": 1.267,
+    "law_government": 0.833,
+    "telecommunications": 0.867,
+    "communications_media": 1.3
+  },
+  "abilities": null,
+  "work_characteristics": {
+    "contact_with_others": 3.6,
+    "face_to_face_discussions": 2.767,
+    "telephone_communication": 2.9,
+    "business_writing": 2.733,
+    "conflict_situations": 1.967,
+    "time_pressure": 3.0,
+    "teamwork": 1.967,
+    "dealing_with_external_customers": 2.833,
+    "coordinate_lead_others": 2.3,
+    "exactness_accuracy": 3.5,
+    "repetitive_tasks": 3.233,
+    "pace_determined_by_machine": 2.533,
+    "responsibility_for_outcomes": 3.233,
+    "indoor_climate_controlled": 2.767,
+    "indoor_non_climate_controlled": 4.0,
+    "outdoor_work": 2.7,
+    "sitting": 3.167,
+    "standing": 2.467,
+    "repetition_of_activities": 3.0,
+    "consequence_of_error": 2.867,
+    "freedom_to_make_decisions": 4.1,
+    "set_own_goals": 4.133,
+    "regular_schedule": 0.067,
+    "irregular_schedule": 0.867,
+    "seasonal_schedule": 0.067
+  },
+  "work_activities": null,
+  "education_distribution": {
+    "below_high_school": 0.033,
+    "high_school": 0.267,
+    "vocational_school": 0.367,
+    "junior_college": 0.133,
+    "technical_college": 0.067,
+    "university": 0.233,
+    "masters": 0.067,
+    "doctorate": 0.0,
+    "unknown": 0.267
+  },
+  "training_pre": {
+    "not_required": 0.1,
+    "up_to_1_month": 0.033,
+    "1_to_6_months": 0.1,
+    "6_months_to_1_year": 0.133,
+    "1_to_2_years": 0.133,
+    "2_to_3_years": 0.067,
+    "3_to_5_years": 0.1,
+    "5_to_10_years": 0.067,
+    "over_10_years": 0.033,
+    "unknown": 0.233
+  },
+  "training_post": {
+    "not_required": 0.033,
+    "up_to_1_month": 0.1,
+    "1_to_6_months": 0.133,
+    "6_months_to_1_year": 0.067,
+    "1_to_2_years": 0.1,
+    "2_to_3_years": 0.233,
+    "3_to_5_years": 0.067,
+    "5_to_10_years": 0.067,
+    "over_10_years": 0.033,
+    "unknown": 0.167
+  },
+  "experience": {
+    "not_required": 0.367,
+    "up_to_1_month": 0.033,
+    "1_to_6_months": 0.067,
+    "6_months_to_1_year": 0.033,
+    "1_to_2_years": 0.133,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.067,
+    "5_to_10_years": 0.067,
+    "over_10_years": 0.033,
+    "unknown": 0.2
+  },
+  "employment_type": null,
+  "tasks_lead_ja": null,
+  "tasks": [],
+  "related_orgs": [
+    {
+      "name_ja": "一般財団法人日本陶業連盟",
+      "url": "http://toujiki.org/"
+    },
+    {
+      "name_ja": "日本陶磁器工業協同組合連合会",
+      "url": "http://toujiki.org/kyoren/"
+    },
+    {
+      "name_ja": "日本陶磁器産業振興協会",
+      "url": "http://www.jappi.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "１級陶磁器製造技能士",
+    "２級陶磁器製造技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/304",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

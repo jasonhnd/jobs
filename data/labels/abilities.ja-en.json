@@ -1,0 +1,183 @@
+{
+  "dimension": "abilities",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 35,
+  "labels": {
+    "oral_comprehension": {
+      "ja": "発話理解",
+      "en": "Oral Comprehension",
+      "onet_id": "IPD_04_12_001"
+    },
+    "written_comprehension": {
+      "ja": "記述理解",
+      "en": "Written Comprehension",
+      "onet_id": "IPD_04_12_002"
+    },
+    "oral_expression": {
+      "ja": "発話表現",
+      "en": "Oral Expression",
+      "onet_id": "IPD_04_12_003"
+    },
+    "written_expression": {
+      "ja": "記述表現",
+      "en": "Written Expression",
+      "onet_id": "IPD_04_12_004"
+    },
+    "fluency_of_ideas": {
+      "ja": "アイデアや代案を数多く生み出す力",
+      "en": "Fluency of Ideas",
+      "onet_id": "IPD_04_12_005"
+    },
+    "originality": {
+      "ja": "独創性",
+      "en": "Originality",
+      "onet_id": "IPD_04_12_006"
+    },
+    "problem_sensitivity": {
+      "ja": "トラブルの察知",
+      "en": "Problem Sensitivity",
+      "onet_id": "IPD_04_12_007"
+    },
+    "deductive_reasoning": {
+      "ja": "演繹的推論",
+      "en": "Deductive Reasoning",
+      "onet_id": "IPD_04_12_008"
+    },
+    "inductive_reasoning": {
+      "ja": "帰納的推論",
+      "en": "Inductive Reasoning",
+      "onet_id": "IPD_04_12_009"
+    },
+    "information_ordering": {
+      "ja": "法則に基づいた情報の並べ替え",
+      "en": "Information Ordering",
+      "onet_id": "IPD_04_12_010"
+    },
+    "category_flexibility": {
+      "ja": "カテゴライズ",
+      "en": "Category Flexibility",
+      "onet_id": "IPD_04_12_011"
+    },
+    "mathematical_reasoning": {
+      "ja": "数学的推論",
+      "en": "Mathematical Reasoning",
+      "onet_id": "IPD_04_12_012"
+    },
+    "number_facility": {
+      "ja": "演算力",
+      "en": "Number Facility",
+      "onet_id": "IPD_04_12_013"
+    },
+    "memorization": {
+      "ja": "記憶力",
+      "en": "Memorization",
+      "onet_id": "IPD_04_12_014"
+    },
+    "perceptual_speed": {
+      "ja": "知覚速度",
+      "en": "Perceptual Speed",
+      "onet_id": "IPD_04_12_015"
+    },
+    "spatial_orientation": {
+      "ja": "自他の位置関係の把握",
+      "en": "Spatial Orientation",
+      "onet_id": "IPD_04_12_016"
+    },
+    "visualization": {
+      "ja": "モノの見え方に関する想像力",
+      "en": "Visualization",
+      "onet_id": "IPD_04_12_017"
+    },
+    "selective_attention": {
+      "ja": "選択的注意（集中する力）",
+      "en": "Selective Attention",
+      "onet_id": "IPD_04_12_018"
+    },
+    "time_sharing": {
+      "ja": "マルチタスク",
+      "en": "Time Sharing / Multitasking",
+      "onet_id": "IPD_04_12_019"
+    },
+    "arm_hand_steadiness": {
+      "ja": "腕と手の安定",
+      "en": "Arm-Hand Steadiness",
+      "onet_id": "IPD_04_12_020"
+    },
+    "manual_dexterity": {
+      "ja": "手腕の器用さ",
+      "en": "Manual Dexterity",
+      "onet_id": "IPD_04_12_021"
+    },
+    "finger_dexterity": {
+      "ja": "指先の器用さ",
+      "en": "Finger Dexterity",
+      "onet_id": "IPD_04_12_022"
+    },
+    "reaction_time": {
+      "ja": "一瞬で素早く反応する力",
+      "en": "Reaction Time",
+      "onet_id": "IPD_04_12_023"
+    },
+    "wrist_finger_speed": {
+      "ja": "手首と指の動作速度",
+      "en": "Wrist-Finger Speed",
+      "onet_id": "IPD_04_12_024"
+    },
+    "speed_of_limb_movement": {
+      "ja": "腕や脚の動作速度",
+      "en": "Speed of Limb Movement",
+      "onet_id": "IPD_04_12_025"
+    },
+    "static_strength": {
+      "ja": "筋力",
+      "en": "Static Strength",
+      "onet_id": "IPD_04_12_026"
+    },
+    "stamina": {
+      "ja": "持久力（スタミナ）",
+      "en": "Stamina",
+      "onet_id": "IPD_04_12_027"
+    },
+    "gross_body_equilibrium": {
+      "ja": "平衡感覚",
+      "en": "Gross Body Equilibrium",
+      "onet_id": "IPD_04_12_028"
+    },
+    "near_vision": {
+      "ja": "近接視力",
+      "en": "Near Vision",
+      "onet_id": "IPD_04_12_029"
+    },
+    "far_vision": {
+      "ja": "遠隔視力",
+      "en": "Far Vision",
+      "onet_id": "IPD_04_12_030"
+    },
+    "visual_color_discrimination": {
+      "ja": "色の違いを見分ける力",
+      "en": "Visual Color Discrimination",
+      "onet_id": "IPD_04_12_031"
+    },
+    "depth_perception": {
+      "ja": "奥行きの知覚（遠近感覚、深視力）",
+      "en": "Depth Perception",
+      "onet_id": "IPD_04_12_032"
+    },
+    "hearing_sensitivity": {
+      "ja": "聴覚の感度",
+      "en": "Hearing Sensitivity",
+      "onet_id": "IPD_04_12_033"
+    },
+    "auditory_attention": {
+      "ja": "聴覚的注意（特定の音を聞き分ける力）",
+      "en": "Auditory Attention",
+      "onet_id": "IPD_04_12_034"
+    },
+    "speech_clarity": {
+      "ja": "発話明瞭性",
+      "en": "Speech Clarity",
+      "onet_id": "IPD_04_12_035"
+    }
+  }
+}

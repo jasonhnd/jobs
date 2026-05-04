@@ -1,0 +1,461 @@
+{
+  "id": 173,
+  "ipd_id": "IPD_01_01_173",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "柔道整復師",
+  "aliases_ja": [
+    "整骨師",
+    "接骨師"
+  ],
+  "classifications": {
+    "mhlw_main": "04_026-02",
+    "mhlw_all": [
+      "04_026-02"
+    ],
+    "jsoc_main": "B152",
+    "jsoc_all": [
+      "B152"
+    ]
+  },
+  "description": {
+    "summary_ja": "打撲、捻挫、脱臼、骨折などの各種損傷に対して、手を用いた応急的または医療補助的方法により、その回復を図る。",
+    "what_it_is_ja": "スポーツや日常生活の中で生じた、打撲、捻挫、脱臼及び骨折などの各種損傷に対して、外科手術、薬品の投与等の方法ではなく、手を用いた応急的若しくは医療補助的方法により、その回復を図る（徒手整復）。\n　治療の過程は、各種損傷に対して、評価、整復、固定、後療法、指導管理などに分かれる。\n　評価では、患者の症状を聞く問診、患部を観察する視診、患部に触れて診断する触診を行い、患者の状態を把握し、柔道整復師の業務範囲かどうかを判断する。その後、損傷の程度や患者の自然治癒力に合わせて治療方針を決定する。\n　整復では、骨折による骨の損傷や、脱臼・捻挫時の関節部分のずれなどを、手技により正常な状態に戻す。固定では、患部の治癒の促進、再転倒などの防止、痛みの軽減のために、ギプスなどの固定材やテーピングなどで患部を固定する。\n　後療法は、整復や固定による処置後の治癒を促進したり、早期に正常な運動機能を取り戻すことができるように行うもので、手技療法、運動療法、温熱などによる物理療法がある。また、以上の治療を行う間は、患者の日常生活について適切な指導管理を行い、患部に悪影響が生じないようにする。\n　骨折や脱臼の場合には、応急手当てを行う以外は、治療について医師の同意を得てから行うこととされている。\n\n◇　よく使う道具、機材、情報技術等\n　レセコン・レセプトソフト、ギプス、テーピング用品",
+    "how_to_become_ja": "柔道整復師養成施設（専門学校・短大・大学）において、解剖学、生理学、病理学、衛生学その他必要な知識及び柔道整復の技能を3年以上修得したうえで、国家試験に合格する必要がある。\n　国家試験に合格すると、柔道整復師として開業する資格が得られるが、接骨院などで数年経験を積んでから、開業する場合が多い。\n　また独立開業せず、外科や整形外科に柔道整復師として勤務するケースもある。",
+    "working_conditions_ja": "柔道整復師は独立開業するほか、接骨院や病院、介護・福祉施設での勤務、スポーツ分野でのトレーナーとして就業する場合がある。\n　治療院では顧客の都合に合わせるため夜間勤務をするケースもある。診療時間は接骨院等職場によるが、土日祝日に診療する場合もある。急患の場合は、時間外でも施術に応じる。独立開業している場合、保険診療による収入が主なものとなるが、患者数によって収入に幅がある。\n　伝統医学としての接骨術の歴史は長いが、1970年には、独立した「柔道整復師法」が制定された。柔道整復施術所数も年々増加を続けてきたが、近年、救急医療体制の充実によって、骨折などの疾患が病院で措置される傾向にあり、柔道整復師を取り巻く情勢は以前に比べ厳しくなっている。\n　このため、柔道整復師は専門性を生かしたきめ細かな治療を行い、地域で信頼を得ることで、地域に根ざした診療を行うことが必要となっている。"
+  },
+  "interests": {
+    "realistic": 3.364,
+    "investigative": 3.571,
+    "artistic": 2.649,
+    "social": 4.078,
+    "enterprising": 3.169,
+    "conventional": 3.442
+  },
+  "work_values": {
+    "achievement": 3.881,
+    "autonomy": 3.983,
+    "expertise": 4.068,
+    "self_growth": 3.966,
+    "social_recognition": 3.373,
+    "service_contribution": 3.78,
+    "good_relationships": 3.78,
+    "workplace_safety": 3.864,
+    "work_life_balance": 3.593,
+    "stability": 2.898,
+    "compensation": 2.559
+  },
+  "skills": {
+    "reading_comprehension": 4.356,
+    "active_listening": 5.102,
+    "writing": 4.068,
+    "speaking": 4.593,
+    "foreign_language_reading": 1.254,
+    "foreign_language_listening": 0.831,
+    "foreign_language_writing": 0.593,
+    "foreign_language_speaking": 0.627,
+    "mathematics": 1.593,
+    "science": 1.542,
+    "critical_thinking": 3.085,
+    "active_learning": 3.356,
+    "learning_strategies": 3.678,
+    "monitoring": 3.881,
+    "social_perceptiveness": 3.932,
+    "coordination": 3.22,
+    "persuasion": 3.847,
+    "negotiation": 3.271,
+    "instructing": 3.831,
+    "service_orientation": 3.593,
+    "complex_problem_solving": 2.814,
+    "operations_analysis": 2.712,
+    "technology_design": 2.271,
+    "equipment_selection": 3.661,
+    "installation": 3.153,
+    "programming": 1.441,
+    "operations_monitoring": 2.203,
+    "operation_and_control": 2.644,
+    "equipment_maintenance": 2.169,
+    "troubleshooting": 2.39,
+    "repairing": 2.237,
+    "quality_control_analysis": 2.407,
+    "judgment_decision_making": 3.034,
+    "systems_analysis": 2.356,
+    "systems_evaluation": 2.407,
+    "time_management": 2.932,
+    "financial_resources_management": 3.203,
+    "material_resources_management": 2.966,
+    "personnel_resources_management": 2.39
+  },
+  "knowledge": {
+    "business_management": 2.375,
+    "clerical": 2.625,
+    "economics_accounting": 2.146,
+    "sales_marketing": 2.375,
+    "customer_personal_service": 3.333,
+    "personnel_hr": 1.979,
+    "transportation": 0.313,
+    "production_processing": 0.229,
+    "agriculture_livestock": 0.125,
+    "engineering": 0.208,
+    "computers_electronics": 0.625,
+    "design": 0.188,
+    "building_construction": 0.146,
+    "mechanical": 0.313,
+    "mathematics_kn": 0.417,
+    "physics": 0.458,
+    "chemistry": 0.417,
+    "biology": 2.229,
+    "psychology": 2.313,
+    "sociology": 1.396,
+    "geography": 0.271,
+    "medicine_dentistry": 4.188,
+    "therapy_counseling": 3.271,
+    "education_training_kn": 1.583,
+    "japanese_language": 1.875,
+    "foreign_language_kn": 0.958,
+    "fine_arts": 0.542,
+    "history_archaeology": 0.542,
+    "philosophy_theology": 0.646,
+    "public_safety_security": 1.438,
+    "law_government": 1.542,
+    "telecommunications": 0.563,
+    "communications_media": 1.833
+  },
+  "abilities": {
+    "oral_comprehension": 3.063,
+    "written_comprehension": 2.896,
+    "oral_expression": 3.229,
+    "written_expression": 3.063,
+    "fluency_of_ideas": 2.771,
+    "originality": 3.021,
+    "problem_sensitivity": 3.292,
+    "deductive_reasoning": 2.792,
+    "inductive_reasoning": 2.813,
+    "information_ordering": 2.667,
+    "category_flexibility": 2.521,
+    "mathematical_reasoning": 2.167,
+    "number_facility": 2.354,
+    "memorization": 3.063,
+    "perceptual_speed": 2.604,
+    "spatial_orientation": 2.667,
+    "visualization": 2.625,
+    "selective_attention": 2.75,
+    "time_sharing": 2.792,
+    "arm_hand_steadiness": 3.188,
+    "manual_dexterity": 3.354,
+    "finger_dexterity": 3.354,
+    "reaction_time": 3.021,
+    "wrist_finger_speed": 2.917,
+    "speed_of_limb_movement": 2.938,
+    "static_strength": 3.229,
+    "stamina": 3.167,
+    "gross_body_equilibrium": 2.896,
+    "near_vision": 2.563,
+    "far_vision": 2.458,
+    "visual_color_discrimination": 2.521,
+    "depth_perception": 2.438,
+    "hearing_sensitivity": 2.458,
+    "auditory_attention": 2.438,
+    "speech_clarity": 2.792
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.792,
+    "face_to_face_discussions": 3.667,
+    "telephone_communication": 4.021,
+    "business_writing": 2.875,
+    "conflict_situations": 2.021,
+    "time_pressure": 2.563,
+    "teamwork": 2.771,
+    "dealing_with_external_customers": 3.604,
+    "coordinate_lead_others": 3.0,
+    "exactness_accuracy": 3.604,
+    "repetitive_tasks": 2.958,
+    "pace_determined_by_machine": 2.229,
+    "responsibility_for_outcomes": 3.729,
+    "indoor_climate_controlled": 4.938,
+    "indoor_non_climate_controlled": 1.375,
+    "outdoor_work": 1.188,
+    "sitting": 2.313,
+    "standing": 3.979,
+    "repetition_of_activities": 3.313,
+    "consequence_of_error": 3.438,
+    "freedom_to_make_decisions": 4.271,
+    "set_own_goals": 4.104,
+    "regular_schedule": 0.792,
+    "irregular_schedule": 0.188,
+    "seasonal_schedule": 0.021,
+    "email_communication": 2.979,
+    "cramped_uncomfortable": 2.125,
+    "disease_infection_risk": 3.729,
+    "minor_injury_risk": 1.167,
+    "standard_protective_equipment": 1.188,
+    "specialized_protective_equipment": 1.125,
+    "dealing_with_violent_people": 1.417,
+    "walking_running": 2.604,
+    "handling_objects_tools": 2.396,
+    "physical_proximity": 4.479,
+    "work_automation": 1.521,
+    "responsibility_for_safety": 4.313,
+    "impact_of_decisions": 3.313,
+    "level_of_competition": 2.771
+  },
+  "work_activities": {
+    "getting_information": 3.188,
+    "monitor_processes": 3.396,
+    "identifying_objects": 3.375,
+    "inspecting_equipment": 2.854,
+    "estimating_quantifiable": 2.375,
+    "judging_quality": 2.771,
+    "evaluating_compliance": 2.958,
+    "processing_information": 2.75,
+    "analyzing_data": 2.604,
+    "making_decisions": 3.104,
+    "thinking_creatively": 2.583,
+    "updating_knowledge": 3.167,
+    "developing_objectives": 3.0,
+    "scheduling_work": 2.625,
+    "organizing_planning": 2.938,
+    "physical_activities": 2.771,
+    "handling_objects": 2.688,
+    "controlling_machines": 2.354,
+    "operating_vehicles": 1.75,
+    "computer_work": 2.604,
+    "drafting_specifications": 1.875,
+    "repairing_mechanical": 2.229,
+    "repairing_electronic": 2.083,
+    "documenting_information": 2.708,
+    "interpreting_information": 2.771,
+    "communicating_inside": 2.583,
+    "communicating_outside": 2.729,
+    "building_relationships": 2.854,
+    "assisting_caring": 3.25,
+    "selling_influencing": 2.542,
+    "resolving_conflicts": 2.438,
+    "performing_for_public": 2.438,
+    "coordinating_others": 2.375,
+    "developing_teams": 2.479,
+    "training_teaching": 2.604,
+    "guiding_subordinates": 2.5,
+    "coaching_developing": 2.375,
+    "providing_consultation": 2.271,
+    "performing_administrative": 2.667,
+    "staffing_organizational": 2.438,
+    "monitoring_resources": 2.375
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.021,
+    "vocational_school": 0.667,
+    "junior_college": 0.021,
+    "technical_college": 0.021,
+    "university": 0.313,
+    "masters": 0.042,
+    "doctorate": 0.021,
+    "unknown": 0.083
+  },
+  "training_pre": {
+    "not_required": 0.125,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.042,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.063,
+    "2_to_3_years": 0.208,
+    "3_to_5_years": 0.292,
+    "5_to_10_years": 0.146,
+    "over_10_years": 0.042,
+    "unknown": 0.083
+  },
+  "training_post": {
+    "not_required": 0.104,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.104,
+    "6_months_to_1_year": 0.146,
+    "1_to_2_years": 0.167,
+    "2_to_3_years": 0.083,
+    "3_to_5_years": 0.083,
+    "5_to_10_years": 0.125,
+    "over_10_years": 0.063,
+    "unknown": 0.104
+  },
+  "experience": {
+    "not_required": 0.333,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.021,
+    "6_months_to_1_year": 0.021,
+    "1_to_2_years": 0.063,
+    "2_to_3_years": 0.125,
+    "3_to_5_years": 0.125,
+    "5_to_10_years": 0.125,
+    "over_10_years": 0.021,
+    "unknown": 0.146
+  },
+  "employment_type": {
+    "regular_employee": 0.271,
+    "part_time": 0.104,
+    "dispatched": 0.042,
+    "contract": 0.063,
+    "self_employed_freelance": 0.833,
+    "executive": 0.104,
+    "casual_non_student": 0.042,
+    "casual_student": 0.063,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "骨・筋・関節などの打撲・捻挫・脱臼・骨折などの損傷に対して、手技などにより、元の正常な状態に戻す整復施術を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "問診、視診、触診により患者の状態を把握し、施術の方針を立てる。",
+      "execution_rate": 1.0,
+      "importance": 4.125
+    },
+    {
+      "task_id": 2,
+      "description_ja": "施術内容を患者に伝え、施術後にもコミュニケーションをとる。",
+      "execution_rate": 0.979,
+      "importance": 3.553
+    },
+    {
+      "task_id": 3,
+      "description_ja": "手技により損傷した骨、関節、筋腱を手などで力を加えて正常な状態に戻す。",
+      "execution_rate": 0.979,
+      "importance": 4.021
+    },
+    {
+      "task_id": 4,
+      "description_ja": "治癒を促進するため、固定材で損傷部分を固定する。",
+      "execution_rate": 0.979,
+      "importance": 3.872
+    },
+    {
+      "task_id": 5,
+      "description_ja": "治癒を促進し、運動機能を回復するため、運動や温熱、手技などの物理療法を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.146
+    },
+    {
+      "task_id": 6,
+      "description_ja": "患者の状態をカルテに記載する。",
+      "execution_rate": 1.0,
+      "importance": 3.917
+    },
+    {
+      "task_id": 7,
+      "description_ja": "治癒に悪影響が生じないように患者の日常生活について指導や助言をする。",
+      "execution_rate": 1.0,
+      "importance": 4.021
+    },
+    {
+      "task_id": 8,
+      "description_ja": "スポーツやトレーニングの指導する。",
+      "execution_rate": 0.917,
+      "importance": 3.068
+    },
+    {
+      "task_id": 9,
+      "description_ja": "痛みを予防するための治療をする。",
+      "execution_rate": 0.979,
+      "importance": 3.511
+    },
+    {
+      "task_id": 10,
+      "description_ja": "筋スパズムを緩和する。",
+      "execution_rate": 0.917,
+      "importance": 3.159
+    },
+    {
+      "task_id": 11,
+      "description_ja": "機能訓練をする。",
+      "execution_rate": 0.917,
+      "importance": 3.205
+    },
+    {
+      "task_id": 12,
+      "description_ja": "患部にテーピング処置を行う。",
+      "execution_rate": 0.958,
+      "importance": 3.109
+    },
+    {
+      "task_id": 13,
+      "description_ja": "患者の送迎を補助する。",
+      "execution_rate": 0.5,
+      "importance": 2.375
+    },
+    {
+      "task_id": 14,
+      "description_ja": "施術のため、患者の住居を訪問する。",
+      "execution_rate": 0.479,
+      "importance": 2.435
+    },
+    {
+      "task_id": 15,
+      "description_ja": "病院と連携し、必要に応じて患者の情報を共有する。",
+      "execution_rate": 1.0,
+      "importance": 3.208
+    },
+    {
+      "task_id": 16,
+      "description_ja": "請求書など各種書類を作成する。",
+      "execution_rate": 0.917,
+      "importance": 3.341
+    },
+    {
+      "task_id": 17,
+      "description_ja": "施術後に会計し、レセプトを作成する。",
+      "execution_rate": 0.917,
+      "importance": 3.477
+    },
+    {
+      "task_id": 18,
+      "description_ja": "顧客や売上、経費等を管理する。",
+      "execution_rate": 0.875,
+      "importance": 2.929
+    },
+    {
+      "task_id": 19,
+      "description_ja": "集客のため、Webでの記事やチラシを作成する。",
+      "execution_rate": 0.646,
+      "importance": 2.258
+    },
+    {
+      "task_id": 20,
+      "description_ja": "集客のため、関係先を訪問し営業活動をする。",
+      "execution_rate": 0.417,
+      "importance": 2.4
+    },
+    {
+      "task_id": 21,
+      "description_ja": "施術方法や技能について勉強する。",
+      "execution_rate": 1.0,
+      "importance": 3.625
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人   日本柔道整復師会",
+      "url": "https://www.shadan-nissei.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人   柔道整復研修試験財団",
+      "url": "https://www.zaijusei.com/"
+    },
+    {
+      "name_ja": "公益社団法人 全国柔道整復学校協会",
+      "url": "https://www.judo-seifuku.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "柔道整復師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/173",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

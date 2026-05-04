@@ -1,0 +1,455 @@
+{
+  "id": 322,
+  "ipd_id": "IPD_01_01_322",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "プロジェクトマネージャ（IT）",
+  "aliases_ja": [
+    "プロジェクトマネージャ（システム開発）",
+    "プロジェクトマネージャ（アプリケーションソフトウェア開発）",
+    "プロジェクトマネージャ（情報処理）"
+  ],
+  "classifications": {
+    "mhlw_main": "02_010-03",
+    "mhlw_all": [
+      "02_010-03"
+    ],
+    "jsoc_main": "B103",
+    "jsoc_all": [
+      "B103"
+    ]
+  },
+  "description": {
+    "summary_ja": "IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う。",
+    "what_it_is_ja": "IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う。\n　情報システムやソフトウェア等の開発はプロジェクトとしてチームで行うことが多いが、プロジェクトの規模は数人から数十人、場合によっては複数のプロジェクトを束ねて全体で数百人規模のものもある。\n　具体的な仕事は、開発計画に基づいてプロジェクトの実行計画を作成し、その計画の遂行に必要な人員やリソース（資源）を調達し、プロジェクトの体制を作る。プロジェクトが動き出すと予算、納期、要員、品質等の管理をしながら、プロジェクトが円滑に進むようにする。進捗管理は重要であり、問題や将来見込まれる課題を早期に把握し、適切な対策を事前に講じて、プロジェクトが計画通り進むようにする。\n　顧客等関係者に、適宜、プロジェクトの進捗状況、課題と対応策などを報告し、必要な支援や協力を求めたり、プロジェクトが計画通り進むようにする。また、プロジェクトマネージャは顧客との意見の相違、システムエンジニア、プログラマー等プロジェクト内で意見の違いがある場面において、意見を調整し、プロジェクトを推進していく。\n　プロジェクトの終了時には、開発したシステムを顧客が十分使いこなせるよう、資料を作成し、説明や教育を行う。システムの運用や管理に必要なドキュメントも作成する。さらに、開発計画と開発の経緯等をまとめ、今後のプロジェクト開発に生かすよう、記録として残す。\n　顧客から求められる要望を満たし、課題となっていた事項を解決しているか、情報システムの安全性や信頼性は充分か、高い品質を確保しているか、構築した情報システムが安定して稼働できてているか、予算内に費用・経費を収められたか、等々、これらはすべてプロジェクトマネージャの手腕にかかってくる。\n　プロジェクトマネージャの仕事は、コンピュータやネットワークを駆使し、会社の仕組み、さらには社会の仕組みを作り上げていくことに繋がるのが最大の魅力といえる。一方、情報システムの重要度が会社や社会の中で高まり、プロジェクトマネージャには大きな責任がかかっている。プロジェクトの成否が会社の今後の発展にも関係している。\n\n◇　よく使う道具、機材、情報技術等\n　クラウド、文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "仕事に就くために、特に学歴や資格は必要とされない。学校卒業後、ソフトウェア開発会社、コンピューターメーカーなどに入社し、システムエンジニアなどとして情報システムの構築や運用を経験した者が就くことが多い。情報システムの開発を行う会社において、システムエンジニアから課長等のレベルに昇進し、プロジェクトマネージャと称する会社も多い。\n　プロジェクトマネージャは実際にシステムを開発し、導入するまでの一連の作業を何度も経験し、システム開発のスキルを高め、得意分野を固めていく。\n　プロジェクトマネージャは実績を重ねて、会社の幹部、経営層になっていったり、特定の分野の専門家となり、IT分野のコンサルタントのような役割をしていく場合もある。\n　プロジェクトマネージャに必要とされるのは、情報システムを活用する分野の産業や会社の仕事・業務に関する知識（業務知識）、コンピュータ、ソフトウェア、情報通信ネットワーク、クラウドサービスなど技術に関する知識と技能（テクニカルスキル）、情報システムの構築と運用に係わる知識と技能（メソドロジスキル）、情報システム構築と運用のための知識と技能（マネジメントスキル）、プロジェクトチームで仕事を進めていくために必要となる聞く、話す、書く、理解する能力、人と人との関係をうまく構築していく能力（コミュニケーションスキル）である。テクニカルスキルにおいて、最近ではクラウドやスマートフォンに関する知識と技能が重要になっている。\n　これらの能力を証明するものとして、独立行政法人 情報処理推進機構（IPA）が実施する「プロジェクトマネージャ試験」や、米国のNPO法人PMIが実施する「PMP（プロジェクトマネジメント・プロフェッショナル）資格」がある。",
+    "working_conditions_ja": "勤務先としては、SIer企業、ソフトウェア開発企業、一般企業の情報システム部門等がある。\n　基本的な労働条件は、勤務先の規定によるが、プロジェクトマネージャは多くのシステム開発等を経験し、課長レベル等に昇進し、就くのが一般的であり、結果として、給与水準は情報処理技術者の中では高い傾向にある。\n　また、労働時間は通常平日の朝から夕方までの勤務であるが、プロジェクトの進捗状況によっては業務が忙しくなる場合もある。管理職として、チームのメンバーの業務負担が過度にならないように配慮する必要がある。。\n　海外企業のシステムを受注したり、外国人エンジニアがプロジェクトのメンバーとなったり、また、開発の一部を海外企業に発注する等、開発はグローバル化も進んでおり、様々な関係者をまとめ、プロジェクトを推進する人材が求められるようになっている。"
+  },
+  "interests": {
+    "realistic": 3.569,
+    "investigative": 2.862,
+    "artistic": 2.523,
+    "social": 3.431,
+    "enterprising": 3.385,
+    "conventional": 2.908
+  },
+  "work_values": {
+    "achievement": 3.754,
+    "autonomy": 3.689,
+    "expertise": 3.508,
+    "self_growth": 3.656,
+    "social_recognition": 3.246,
+    "service_contribution": 2.836,
+    "good_relationships": 3.525,
+    "workplace_safety": 3.082,
+    "work_life_balance": 2.803,
+    "stability": 3.295,
+    "compensation": 3.393
+  },
+  "skills": {
+    "reading_comprehension": 4.934,
+    "active_listening": 5.41,
+    "writing": 4.934,
+    "speaking": 4.967,
+    "foreign_language_reading": 2.066,
+    "foreign_language_listening": 1.754,
+    "foreign_language_writing": 1.656,
+    "foreign_language_speaking": 1.607,
+    "mathematics": 3.492,
+    "science": 2.984,
+    "critical_thinking": 4.656,
+    "active_learning": 4.197,
+    "learning_strategies": 4.016,
+    "monitoring": 4.508,
+    "social_perceptiveness": 4.41,
+    "coordination": 5.115,
+    "persuasion": 5.0,
+    "negotiation": 4.951,
+    "instructing": 4.803,
+    "service_orientation": 3.951,
+    "complex_problem_solving": 4.787,
+    "operations_analysis": 4.918,
+    "technology_design": 4.082,
+    "equipment_selection": 3.902,
+    "installation": 3.672,
+    "programming": 3.689,
+    "operations_monitoring": 2.459,
+    "operation_and_control": 2.721,
+    "equipment_maintenance": 2.656,
+    "troubleshooting": 3.557,
+    "repairing": 2.951,
+    "quality_control_analysis": 4.426,
+    "judgment_decision_making": 4.475,
+    "systems_analysis": 4.0,
+    "systems_evaluation": 3.902,
+    "time_management": 4.951,
+    "financial_resources_management": 4.311,
+    "material_resources_management": 3.787,
+    "personnel_resources_management": 4.393
+  },
+  "knowledge": {
+    "business_management": 3.314,
+    "clerical": 2.882,
+    "economics_accounting": 2.275,
+    "sales_marketing": 2.51,
+    "customer_personal_service": 2.941,
+    "personnel_hr": 2.157,
+    "transportation": 1.216,
+    "production_processing": 1.706,
+    "agriculture_livestock": 0.784,
+    "engineering": 2.02,
+    "computers_electronics": 3.51,
+    "design": 2.667,
+    "building_construction": 0.784,
+    "mechanical": 0.98,
+    "mathematics_kn": 1.98,
+    "physics": 1.098,
+    "chemistry": 0.902,
+    "biology": 0.804,
+    "psychology": 1.941,
+    "sociology": 1.784,
+    "geography": 0.765,
+    "medicine_dentistry": 0.843,
+    "therapy_counseling": 1.216,
+    "education_training_kn": 1.902,
+    "japanese_language": 2.333,
+    "foreign_language_kn": 1.667,
+    "fine_arts": 0.667,
+    "history_archaeology": 0.667,
+    "philosophy_theology": 0.824,
+    "public_safety_security": 2.039,
+    "law_government": 1.569,
+    "telecommunications": 2.725,
+    "communications_media": 2.137
+  },
+  "abilities": {
+    "oral_comprehension": 3.37,
+    "written_comprehension": 3.333,
+    "oral_expression": 3.426,
+    "written_expression": 3.426,
+    "fluency_of_ideas": 3.315,
+    "originality": 3.13,
+    "problem_sensitivity": 3.796,
+    "deductive_reasoning": 3.278,
+    "inductive_reasoning": 3.315,
+    "information_ordering": 3.241,
+    "category_flexibility": 3.148,
+    "mathematical_reasoning": 2.889,
+    "number_facility": 2.704,
+    "memorization": 2.852,
+    "perceptual_speed": 2.63,
+    "spatial_orientation": 2.685,
+    "visualization": 2.667,
+    "selective_attention": 3.019,
+    "time_sharing": 3.167,
+    "arm_hand_steadiness": 1.648,
+    "manual_dexterity": 1.704,
+    "finger_dexterity": 1.63,
+    "reaction_time": 2.0,
+    "wrist_finger_speed": 1.685,
+    "speed_of_limb_movement": 1.611,
+    "static_strength": 1.481,
+    "stamina": 2.167,
+    "gross_body_equilibrium": 1.722,
+    "near_vision": 1.722,
+    "far_vision": 1.648,
+    "visual_color_discrimination": 1.648,
+    "depth_perception": 1.611,
+    "hearing_sensitivity": 1.611,
+    "auditory_attention": 1.722,
+    "speech_clarity": 2.296
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.824,
+    "face_to_face_discussions": 4.412,
+    "telephone_communication": 4.431,
+    "business_writing": 4.588,
+    "conflict_situations": 3.118,
+    "time_pressure": 3.392,
+    "teamwork": 4.275,
+    "dealing_with_external_customers": 4.098,
+    "coordinate_lead_others": 4.294,
+    "exactness_accuracy": 4.216,
+    "repetitive_tasks": 2.941,
+    "pace_determined_by_machine": 2.765,
+    "responsibility_for_outcomes": 4.176,
+    "indoor_climate_controlled": 4.902,
+    "indoor_non_climate_controlled": 1.49,
+    "outdoor_work": 1.255,
+    "sitting": 4.824,
+    "standing": 1.431,
+    "repetition_of_activities": 2.137,
+    "consequence_of_error": 3.49,
+    "freedom_to_make_decisions": 3.843,
+    "set_own_goals": 3.902,
+    "regular_schedule": 0.529,
+    "irregular_schedule": 0.451,
+    "seasonal_schedule": 0.02,
+    "email_communication": 4.784,
+    "cramped_uncomfortable": 1.549,
+    "disease_infection_risk": 1.667,
+    "minor_injury_risk": 1.157,
+    "standard_protective_equipment": 1.196,
+    "specialized_protective_equipment": 1.176,
+    "dealing_with_violent_people": 1.373,
+    "walking_running": 1.588,
+    "handling_objects_tools": 1.882,
+    "physical_proximity": 3.098,
+    "work_automation": 2.549,
+    "responsibility_for_safety": 2.608,
+    "impact_of_decisions": 3.412,
+    "level_of_competition": 2.608
+  },
+  "work_activities": {
+    "getting_information": 3.426,
+    "monitor_processes": 3.648,
+    "identifying_objects": 3.648,
+    "inspecting_equipment": 2.722,
+    "estimating_quantifiable": 3.148,
+    "judging_quality": 3.593,
+    "evaluating_compliance": 3.389,
+    "processing_information": 3.204,
+    "analyzing_data": 3.389,
+    "making_decisions": 3.889,
+    "thinking_creatively": 3.389,
+    "updating_knowledge": 3.426,
+    "developing_objectives": 3.704,
+    "scheduling_work": 3.87,
+    "organizing_planning": 3.796,
+    "physical_activities": 1.981,
+    "handling_objects": 2.037,
+    "controlling_machines": 2.037,
+    "operating_vehicles": 1.667,
+    "computer_work": 3.333,
+    "drafting_specifications": 2.222,
+    "repairing_mechanical": 1.926,
+    "repairing_electronic": 2.019,
+    "documenting_information": 3.222,
+    "interpreting_information": 3.278,
+    "communicating_inside": 3.667,
+    "communicating_outside": 3.667,
+    "building_relationships": 3.667,
+    "assisting_caring": 2.907,
+    "selling_influencing": 2.685,
+    "resolving_conflicts": 3.241,
+    "performing_for_public": 2.426,
+    "coordinating_others": 3.444,
+    "developing_teams": 3.593,
+    "training_teaching": 2.926,
+    "guiding_subordinates": 3.259,
+    "coaching_developing": 2.815,
+    "providing_consultation": 2.963,
+    "performing_administrative": 3.315,
+    "staffing_organizational": 2.796,
+    "monitoring_resources": 2.87
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.078,
+    "vocational_school": 0.157,
+    "junior_college": 0.078,
+    "technical_college": 0.098,
+    "university": 0.843,
+    "masters": 0.235,
+    "doctorate": 0.059,
+    "unknown": 0.02
+  },
+  "training_pre": {
+    "not_required": 0.216,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.118,
+    "6_months_to_1_year": 0.078,
+    "1_to_2_years": 0.078,
+    "2_to_3_years": 0.078,
+    "3_to_5_years": 0.157,
+    "5_to_10_years": 0.078,
+    "over_10_years": 0.059,
+    "unknown": 0.137
+  },
+  "training_post": {
+    "not_required": 0.02,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.059,
+    "6_months_to_1_year": 0.137,
+    "1_to_2_years": 0.137,
+    "2_to_3_years": 0.039,
+    "3_to_5_years": 0.235,
+    "5_to_10_years": 0.196,
+    "over_10_years": 0.078,
+    "unknown": 0.098
+  },
+  "experience": {
+    "not_required": 0.216,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.078,
+    "1_to_2_years": 0.078,
+    "2_to_3_years": 0.118,
+    "3_to_5_years": 0.118,
+    "5_to_10_years": 0.196,
+    "over_10_years": 0.059,
+    "unknown": 0.118
+  },
+  "employment_type": {
+    "regular_employee": 0.902,
+    "part_time": 0.02,
+    "dispatched": 0.098,
+    "contract": 0.078,
+    "self_employed_freelance": 0.118,
+    "executive": 0.059,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "システムを導入する対象において、情報の流れや情報量を分析する。",
+      "execution_rate": 0.889,
+      "importance": 3.396
+    },
+    {
+      "task_id": 2,
+      "description_ja": "クライアントが求めるシステムを明確にする（要件定義）。",
+      "execution_rate": 0.963,
+      "importance": 4.115
+    },
+    {
+      "task_id": 3,
+      "description_ja": "クライアント（顧客）の要望を踏まえ、システムの開発計画を顧客に提案する。",
+      "execution_rate": 0.944,
+      "importance": 4.039
+    },
+    {
+      "task_id": 4,
+      "description_ja": "開発計画に基づいて、スケジュール、要員、チーム編成、予算などの実行計画を立てる。",
+      "execution_rate": 0.944,
+      "importance": 4.118
+    },
+    {
+      "task_id": 5,
+      "description_ja": "プロジェクトの実行に必要な人員やリソース（資源）を調達する。",
+      "execution_rate": 0.963,
+      "importance": 4.038
+    },
+    {
+      "task_id": 6,
+      "description_ja": "進捗状況やコストの管理を行い、プロジェクトを円滑に運営する。",
+      "execution_rate": 0.982,
+      "importance": 4.189
+    },
+    {
+      "task_id": 7,
+      "description_ja": "問題や将来見込まれる課題を早期に把握し、適切な対策をとる。",
+      "execution_rate": 0.982,
+      "importance": 3.868
+    },
+    {
+      "task_id": 8,
+      "description_ja": "納品したシステムが意図されたとおりに動くかを確認する（受入テスト）。",
+      "execution_rate": 0.926,
+      "importance": 3.8
+    },
+    {
+      "task_id": 9,
+      "description_ja": "開発したシステムをクライアントに説明し、教育等を行う。",
+      "execution_rate": 0.926,
+      "importance": 3.14
+    },
+    {
+      "task_id": 10,
+      "description_ja": "開発したシステムのマニュアル、ドキュメント等を作成する。",
+      "execution_rate": 0.907,
+      "importance": 3.122
+    },
+    {
+      "task_id": 11,
+      "description_ja": "システム稼働後のメンテナンス、運用体制を検討する。",
+      "execution_rate": 0.944,
+      "importance": 3.412
+    },
+    {
+      "task_id": 12,
+      "description_ja": "プロジェクト終了後、今後の開発のために、当初計画と開発結果を分析、評価する。",
+      "execution_rate": 0.944,
+      "importance": 3.275
+    },
+    {
+      "task_id": 13,
+      "description_ja": "基盤システムを設計する。",
+      "execution_rate": 0.907,
+      "importance": 3.184
+    },
+    {
+      "task_id": 14,
+      "description_ja": "システムのセキュリティを管理する。",
+      "execution_rate": 0.944,
+      "importance": 3.725
+    },
+    {
+      "task_id": 15,
+      "description_ja": "システム移行に伴うサービス等の停止に対応する。",
+      "execution_rate": 0.944,
+      "importance": 3.49
+    },
+    {
+      "task_id": 16,
+      "description_ja": "人材の採用や育成を行う。",
+      "execution_rate": 0.926,
+      "importance": 3.2
+    },
+    {
+      "task_id": 17,
+      "description_ja": "システムエンジニア、プログラマーの指導を行う。",
+      "execution_rate": 0.926,
+      "importance": 3.06
+    },
+    {
+      "task_id": 18,
+      "description_ja": "クライアントとプロジェクトメンバーの意見を調整する。",
+      "execution_rate": 0.963,
+      "importance": 3.577
+    },
+    {
+      "task_id": 19,
+      "description_ja": "ステークホルダー全体の利害を調整する。",
+      "execution_rate": 0.944,
+      "importance": 3.451
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　情報サービス産業協会（JISA）",
+      "url": "https://www.jisa.or.jp/"
+    },
+    {
+      "name_ja": "独立行政法人　情報処理推進機構（IPA）",
+      "url": "https://www.ipa.go.jp/"
+    },
+    {
+      "name_ja": "Project Management Institute, Inc.(PMI)",
+      "url": "https://www.pmi.org/"
+    },
+    {
+      "name_ja": "一般社団法人PMI日本支部",
+      "url": "https://www.pmi-japan.org/"
+    }
+  ],
+  "related_certs_ja": [
+    "プロジェクトマネージャ",
+    "PMP（プロジェクトマネジメント・プロフェッショナル）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/322",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2024
+  }
+}

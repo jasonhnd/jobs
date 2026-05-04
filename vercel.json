@@ -3,7 +3,7 @@
   "framework": null,
   "buildCommand": null,
   "installCommand": null,
-  "outputDirectory": null,
+  "outputDirectory": ".",
   "trailingSlash": false,
   "cleanUrls": true,
   "headers": [
@@ -17,9 +17,33 @@
       ]
     },
     {
-      "source": "/data.json",
+      "source": "/data.treemap.json",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
+      ]
+    },
+    {
+      "source": "/data.search.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
+      ]
+    },
+    {
+      "source": "/data.detail/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
+      ]
+    },
+    {
+      "source": "/data.labels/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" }
+      ]
+    },
+    {
+      "source": "/data.sectors.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" }
       ]
     },
     {
@@ -27,9 +51,45 @@
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
+    },
+    {
+      "source": "/m/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
+      ]
+    },
+    {
+      "source": "/styles/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
+      ]
     }
   ],
+  "rewrites": [
+    { "source": "/data.treemap.json", "destination": "/dist/data.treemap.json" },
+    { "source": "/data.search.json", "destination": "/dist/data.search.json" },
+    { "source": "/data.sectors.json", "destination": "/dist/data.sectors.json" },
+    { "source": "/data.profile5.json", "destination": "/dist/data.profile5.json" },
+    { "source": "/data.transfer_paths.json", "destination": "/dist/data.transfer_paths.json" },
+    { "source": "/data.detail/:file", "destination": "/dist/data.detail/:file" },
+    { "source": "/data.labels/:file", "destination": "/dist/data.labels/:file" }
+  ],
   "redirects": [
+    {
+      "source": "/data.json",
+      "destination": "/data.treemap.json",
+      "permanent": true
+    },
+    {
+      "source": "/m",
+      "destination": "/m/ja/",
+      "permanent": false
+    },
+    {
+      "source": "/m/",
+      "destination": "/m/ja/",
+      "permanent": false
+    },
     {
       "source": "/occ/:id(\\d+)-:slug*",
       "has": [{ "type": "query", "key": "lang", "value": "en" }],

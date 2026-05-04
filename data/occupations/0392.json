@@ -1,0 +1,524 @@
+{
+  "id": 392,
+  "ipd_id": "IPD_01_01_392",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "薬学研究者",
+  "aliases_ja": [
+    "医薬品研究者"
+  ],
+  "classifications": {
+    "mhlw_main": "02_004-01",
+    "mhlw_all": [
+      "02_004-01"
+    ],
+    "jsoc_main": "B051",
+    "jsoc_all": [
+      "B051"
+    ]
+  },
+  "description": {
+    "summary_ja": "製薬会社等の研究部門において、新しい医薬品を開発するための研究開発を行う。",
+    "what_it_is_ja": "製薬会社等の研究部門において、新しい医薬品を開発するための研究開発を行う。\n　医薬品の開発では、まず探索研究（基礎研究）として、化学合成、バイオテクノロジーやゲノム情報などを活用し、薬の候補となる新規物質を作り（医薬品候補物質）、その化学構造や物理的・化学的な特性から医薬品となる可能性を調べる。この基礎研究では、コンピュータにより物質の合成シミュレーションを行ったり、実際に医薬品の合成実験をしたりもする。さらに、関係分野の動向や最新の情報を調べたり、最新技術を用いたアプローチや社外リソースを活用した研究を行うことがある。ここまでの基礎研究がおおよそ2～3年とされる。\n　次に3～5年かけ、選別された医薬品候補物質について、有効性、体内動態や安全性などを検討する（非臨床試験）。また、物質自体の品質、安全性に関する試験、臨床試験や市販に向けた製剤化の検討も行う。\n　その後3～7年をかけて、ヒトでの有効性や安全性の確認を行う（臨床試験：治験）。これらの結果をもとに、国の審査を受け承認されると薬として認められる（2～3年）。\n　薬学研究者はこの開発過程の中で主に基礎研究及び非臨床試験に従事する。\n　実際の開発ではプロジェクトリーダー（主任研究員、課長クラス）と数人の薬学研究員がチームを作り、それぞれ役割を分担して1つのプロジェクトに数年をかけて研究、開発を行う。\n　薬の開発は全体で10年以上かかることは珍しいことではない。当初の候補物質（合成化合物）が臨床試験等の開発段階を経て、承認取得に至るまでの確率は低い。業界団体調べによると、2019年～2023年の５カ年累計でみて、43万1,293の合成化合物に対し、承認取得段階に移行した数は14となっている。（2019～2023年＊1）。薬品として製品化されるまでには長い年月が必要であり、自分の研究成果がなかなか形にならなくても、モチベーションを維持し続けることが必要となる。\n\n*1　日本製薬工業協会　DATA BOOK 2025\n「開発段階別化合物数と承認取得数 (日本)」から\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、オンライン会議ツール、パソコン",
+    "how_to_become_ja": "入職にあたって特に必要な資格はないが、薬学研究者になるには、大学の薬学部、理学部、獣医学部、農学部などで大学院まで進み、製薬会社、化粧品メーカー、国の研究機関などに就職するケースが多い。\n　入職後は大学の専攻分野の研究だけではなく、他の分野の研究も行うことが多いため、専門を生かしながら創薬に関わる知識も身につけることができる。\n　また、ラジオアイソトープ(放射性同位体)や危険物を取り扱うことから放射線取扱主任者や毒物劇物取扱責任者等の関連の資格が必要であるが、一般的には入職後に取得する。\n　人事異動で研究以外の企画、特許、製品情報関連の部署に配属される場合がある。\n　研究開発の実績により、大学に転出したり、製薬開発のベンチャー企業を興したりする者もいる。\n　最新の専門知識を得たり、海外との情報交換を行うために、特に英語の語学力は不可欠である。また、研究には何年も要することが多く、探究心を持ち続けることが求められる。",
+    "working_conditions_ja": "勤務先は基本的に企業や研究機関の研究所となる。製薬会社は大阪、都市圏や地方都市周辺等様々な地域に設置している。\n　勤務時間は、週休2日、9時頃～17時頃の勤務が標準だが、研究内容によってはその時間帯以外での業務が発生する場合がある。また近年、裁量労働制やフレックスタイム制をとっているところが多い。\n　製薬の研究・開発は長いスパンで行われることもあり、製薬会社は業績に関係なく毎年コンスタントに薬学研究者を採用している会社が多い。\n　従来、化学合成により様々な新薬が誕生してきたが、完成度の高い薬が出揃い、供給も安定していることから、この手法での新薬開発は難しくなっているとされる。一方、ヒトが持つ遺伝子情報（ゲノム）をコンピュータで解析し、それを新しい医薬品の開発に応用するゲノム創薬や、ケミカルバイオロジー、またデジタルヘルスやAI・ビッグデータの医薬品開発への活用など新たな手法での革新的な治療創薬への取り組みが注目されており、今後画期的な医薬品が開発される可能性を秘めている。"
+  },
+  "interests": {
+    "realistic": 3.623,
+    "investigative": 4.17,
+    "artistic": 2.472,
+    "social": 3.208,
+    "enterprising": 3.264,
+    "conventional": 2.943
+  },
+  "work_values": {
+    "achievement": 3.654,
+    "autonomy": 3.846,
+    "expertise": 3.981,
+    "self_growth": 3.692,
+    "social_recognition": 3.5,
+    "service_contribution": 3.692,
+    "good_relationships": 3.365,
+    "workplace_safety": 3.385,
+    "work_life_balance": 3.231,
+    "stability": 3.712,
+    "compensation": 3.538
+  },
+  "skills": {
+    "reading_comprehension": 5.923,
+    "active_listening": 5.385,
+    "writing": 5.654,
+    "speaking": 5.5,
+    "foreign_language_reading": 5.462,
+    "foreign_language_listening": 4.192,
+    "foreign_language_writing": 4.692,
+    "foreign_language_speaking": 4.0,
+    "mathematics": 3.173,
+    "science": 4.846,
+    "critical_thinking": 5.385,
+    "active_learning": 5.442,
+    "learning_strategies": 4.981,
+    "monitoring": 5.019,
+    "social_perceptiveness": 4.481,
+    "coordination": 4.865,
+    "persuasion": 4.519,
+    "negotiation": 4.327,
+    "instructing": 4.558,
+    "service_orientation": 3.635,
+    "complex_problem_solving": 4.577,
+    "operations_analysis": 4.212,
+    "technology_design": 3.865,
+    "equipment_selection": 4.269,
+    "installation": 3.654,
+    "programming": 2.673,
+    "operations_monitoring": 2.731,
+    "operation_and_control": 3.058,
+    "equipment_maintenance": 2.385,
+    "troubleshooting": 2.596,
+    "repairing": 2.385,
+    "quality_control_analysis": 3.942,
+    "judgment_decision_making": 4.5,
+    "systems_analysis": 3.846,
+    "systems_evaluation": 3.481,
+    "time_management": 4.038,
+    "financial_resources_management": 3.173,
+    "material_resources_management": 3.327,
+    "personnel_resources_management": 3.654
+  },
+  "knowledge": {
+    "business_management": 1.491,
+    "clerical": 2.309,
+    "economics_accounting": 0.855,
+    "sales_marketing": 1.073,
+    "customer_personal_service": 1.2,
+    "personnel_hr": 0.873,
+    "transportation": 0.6,
+    "production_processing": 1.218,
+    "agriculture_livestock": 0.509,
+    "engineering": 1.182,
+    "computers_electronics": 0.927,
+    "design": 0.564,
+    "building_construction": 0.291,
+    "mechanical": 0.673,
+    "mathematics_kn": 1.618,
+    "physics": 1.4,
+    "chemistry": 3.145,
+    "biology": 3.382,
+    "psychology": 0.945,
+    "sociology": 0.727,
+    "geography": 0.455,
+    "medicine_dentistry": 3.418,
+    "therapy_counseling": 0.836,
+    "education_training_kn": 1.564,
+    "japanese_language": 2.182,
+    "foreign_language_kn": 2.345,
+    "fine_arts": 0.364,
+    "history_archaeology": 0.491,
+    "philosophy_theology": 0.491,
+    "public_safety_security": 1.255,
+    "law_government": 1.6,
+    "telecommunications": 0.818,
+    "communications_media": 1.182
+  },
+  "abilities": {
+    "oral_comprehension": 3.449,
+    "written_comprehension": 3.633,
+    "oral_expression": 3.571,
+    "written_expression": 3.653,
+    "fluency_of_ideas": 3.612,
+    "originality": 3.49,
+    "problem_sensitivity": 3.551,
+    "deductive_reasoning": 3.347,
+    "inductive_reasoning": 3.408,
+    "information_ordering": 3.122,
+    "category_flexibility": 3.224,
+    "mathematical_reasoning": 2.918,
+    "number_facility": 2.694,
+    "memorization": 3.184,
+    "perceptual_speed": 2.755,
+    "spatial_orientation": 2.592,
+    "visualization": 2.653,
+    "selective_attention": 3.122,
+    "time_sharing": 3.224,
+    "arm_hand_steadiness": 1.898,
+    "manual_dexterity": 2.327,
+    "finger_dexterity": 2.429,
+    "reaction_time": 2.245,
+    "wrist_finger_speed": 1.898,
+    "speed_of_limb_movement": 1.694,
+    "static_strength": 1.612,
+    "stamina": 2.041,
+    "gross_body_equilibrium": 1.694,
+    "near_vision": 1.939,
+    "far_vision": 1.592,
+    "visual_color_discrimination": 1.918,
+    "depth_perception": 1.714,
+    "hearing_sensitivity": 1.796,
+    "auditory_attention": 1.857,
+    "speech_clarity": 2.449
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.527,
+    "face_to_face_discussions": 3.873,
+    "telephone_communication": 3.545,
+    "business_writing": 3.945,
+    "conflict_situations": 2.582,
+    "time_pressure": 3.145,
+    "teamwork": 3.891,
+    "dealing_with_external_customers": 3.0,
+    "coordinate_lead_others": 3.364,
+    "exactness_accuracy": 4.164,
+    "repetitive_tasks": 3.164,
+    "pace_determined_by_machine": 2.527,
+    "responsibility_for_outcomes": 3.509,
+    "indoor_climate_controlled": 4.782,
+    "indoor_non_climate_controlled": 1.745,
+    "outdoor_work": 1.655,
+    "sitting": 4.291,
+    "standing": 2.073,
+    "repetition_of_activities": 2.164,
+    "consequence_of_error": 3.073,
+    "freedom_to_make_decisions": 3.545,
+    "set_own_goals": 3.636,
+    "regular_schedule": 0.473,
+    "irregular_schedule": 0.491,
+    "seasonal_schedule": 0.036,
+    "email_communication": 4.818,
+    "cramped_uncomfortable": 1.873,
+    "disease_infection_risk": 1.909,
+    "minor_injury_risk": 1.545,
+    "standard_protective_equipment": 2.509,
+    "specialized_protective_equipment": 1.691,
+    "dealing_with_violent_people": 1.255,
+    "walking_running": 1.891,
+    "handling_objects_tools": 1.945,
+    "physical_proximity": 2.8,
+    "work_automation": 2.127,
+    "responsibility_for_safety": 2.527,
+    "impact_of_decisions": 2.8,
+    "level_of_competition": 2.764
+  },
+  "work_activities": {
+    "getting_information": 3.755,
+    "monitor_processes": 3.673,
+    "identifying_objects": 3.837,
+    "inspecting_equipment": 2.571,
+    "estimating_quantifiable": 3.184,
+    "judging_quality": 3.571,
+    "evaluating_compliance": 3.673,
+    "processing_information": 3.735,
+    "analyzing_data": 3.898,
+    "making_decisions": 4.02,
+    "thinking_creatively": 3.653,
+    "updating_knowledge": 3.98,
+    "developing_objectives": 3.939,
+    "scheduling_work": 3.694,
+    "organizing_planning": 3.857,
+    "physical_activities": 2.082,
+    "handling_objects": 2.041,
+    "controlling_machines": 2.204,
+    "operating_vehicles": 1.429,
+    "computer_work": 3.429,
+    "drafting_specifications": 1.918,
+    "repairing_mechanical": 1.959,
+    "repairing_electronic": 2.143,
+    "documenting_information": 3.429,
+    "interpreting_information": 3.592,
+    "communicating_inside": 3.959,
+    "communicating_outside": 3.714,
+    "building_relationships": 3.551,
+    "assisting_caring": 3.082,
+    "selling_influencing": 2.796,
+    "resolving_conflicts": 2.857,
+    "performing_for_public": 2.286,
+    "coordinating_others": 3.388,
+    "developing_teams": 3.531,
+    "training_teaching": 3.286,
+    "guiding_subordinates": 3.51,
+    "coaching_developing": 3.347,
+    "providing_consultation": 2.816,
+    "performing_administrative": 2.939,
+    "staffing_organizational": 2.755,
+    "monitoring_resources": 2.714
+  },
+  "education_distribution": {
+    "below_high_school": 0.018,
+    "high_school": 0.018,
+    "vocational_school": 0.036,
+    "junior_college": 0.018,
+    "technical_college": 0.0,
+    "university": 0.4,
+    "masters": 0.618,
+    "doctorate": 0.564,
+    "unknown": 0.018
+  },
+  "training_pre": {
+    "not_required": 0.418,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.091,
+    "6_months_to_1_year": 0.055,
+    "1_to_2_years": 0.036,
+    "2_to_3_years": 0.091,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.055,
+    "over_10_years": 0.055,
+    "unknown": 0.145
+  },
+  "training_post": {
+    "not_required": 0.073,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.109,
+    "6_months_to_1_year": 0.218,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.218,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.091,
+    "over_10_years": 0.055,
+    "unknown": 0.055
+  },
+  "experience": {
+    "not_required": 0.6,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.055,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.055,
+    "3_to_5_years": 0.055,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.036,
+    "unknown": 0.127
+  },
+  "employment_type": {
+    "regular_employee": 0.964,
+    "part_time": 0.018,
+    "dispatched": 0.145,
+    "contract": 0.073,
+    "self_employed_freelance": 0.018,
+    "executive": 0.036,
+    "casual_non_student": 0.0,
+    "casual_student": 0.018,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "製薬会社等の研究部門において、新しい医薬品を開発するための研究開発を行う。（大学・短期大学の教員の場合は「大学・短期大学教員」へ）",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "研究テーマを決定し、研究計画を立てる。",
+      "execution_rate": 0.878,
+      "importance": 4.209
+    },
+    {
+      "task_id": 2,
+      "description_ja": "同分野における他の研究者の動向を調べ、最新の情報や知識を得る。",
+      "execution_rate": 0.918,
+      "importance": 3.822
+    },
+    {
+      "task_id": 3,
+      "description_ja": "疾患のターゲット（医薬品が作用する生体内分子）を探索する。",
+      "execution_rate": 0.735,
+      "importance": 3.861
+    },
+    {
+      "task_id": 4,
+      "description_ja": "コンピュータ上で医薬品の合成シミュレーションを行い、可能な合成条件を探す。",
+      "execution_rate": 0.571,
+      "importance": 3.179
+    },
+    {
+      "task_id": 5,
+      "description_ja": "実際の医薬品の合成実験をする。",
+      "execution_rate": 0.571,
+      "importance": 3.643
+    },
+    {
+      "task_id": 6,
+      "description_ja": "化合物を評価するスクリーニングを構築し、実施する。",
+      "execution_rate": 0.674,
+      "importance": 3.576
+    },
+    {
+      "task_id": 7,
+      "description_ja": "動物実験に用いる実験動物の性質を検討し、準備する。",
+      "execution_rate": 0.653,
+      "importance": 3.844
+    },
+    {
+      "task_id": 8,
+      "description_ja": "未知の物質や薬物が病気の治療に使えるかどうか動物実験をする。",
+      "execution_rate": 0.653,
+      "importance": 3.875
+    },
+    {
+      "task_id": 9,
+      "description_ja": "動物実験を行い、医薬品や化粧品の人体への安全性を確認する。",
+      "execution_rate": 0.735,
+      "importance": 3.944
+    },
+    {
+      "task_id": 10,
+      "description_ja": "薬物や毒物などが生体に及ぼす影響を調べる。",
+      "execution_rate": 0.796,
+      "importance": 3.974
+    },
+    {
+      "task_id": 11,
+      "description_ja": "臨床試験に用いる原薬の供給計画を作成する。",
+      "execution_rate": 0.653,
+      "importance": 3.531
+    },
+    {
+      "task_id": 12,
+      "description_ja": "治験薬の品質保証を行う。",
+      "execution_rate": 0.653,
+      "importance": 3.625
+    },
+    {
+      "task_id": 13,
+      "description_ja": "新薬の臨床試験を実施する。",
+      "execution_rate": 0.776,
+      "importance": 3.816
+    },
+    {
+      "task_id": 14,
+      "description_ja": "医薬品の副作用を評価する。",
+      "execution_rate": 0.857,
+      "importance": 3.81
+    },
+    {
+      "task_id": 15,
+      "description_ja": "医薬品の試験に使用するサンプルを採取する。",
+      "execution_rate": 0.735,
+      "importance": 3.111
+    },
+    {
+      "task_id": 16,
+      "description_ja": "医薬品の承認に必要な書類を作成し、申請する（薬事申請）。",
+      "execution_rate": 0.796,
+      "importance": 3.872
+    },
+    {
+      "task_id": 17,
+      "description_ja": "医薬品の特許書類を作成し、出願する。",
+      "execution_rate": 0.735,
+      "importance": 3.75
+    },
+    {
+      "task_id": 18,
+      "description_ja": "医薬品の製造方法を設計する。",
+      "execution_rate": 0.633,
+      "importance": 3.548
+    },
+    {
+      "task_id": 19,
+      "description_ja": "委託製造会社の管理や調整をする。",
+      "execution_rate": 0.694,
+      "importance": 3.265
+    },
+    {
+      "task_id": 20,
+      "description_ja": "医薬品の開発技術を製造企業へ移転する。",
+      "execution_rate": 0.694,
+      "importance": 3.294
+    },
+    {
+      "task_id": 21,
+      "description_ja": "各国の薬事関係の規制を調査する。",
+      "execution_rate": 0.796,
+      "importance": 3.359
+    },
+    {
+      "task_id": 22,
+      "description_ja": "医薬品の分析方法を開発する。",
+      "execution_rate": 0.714,
+      "importance": 3.486
+    },
+    {
+      "task_id": 23,
+      "description_ja": "研究成果を学会などで発表する。",
+      "execution_rate": 0.857,
+      "importance": 3.595
+    },
+    {
+      "task_id": 24,
+      "description_ja": "論文を書き、学会誌や専門誌に投稿する。",
+      "execution_rate": 0.878,
+      "importance": 3.791
+    },
+    {
+      "task_id": 25,
+      "description_ja": "報告書を作成する。",
+      "execution_rate": 0.939,
+      "importance": 3.891
+    },
+    {
+      "task_id": 26,
+      "description_ja": "後発医薬品の機能を評価し、品質規格を設定する。",
+      "execution_rate": 0.49,
+      "importance": 2.917
+    },
+    {
+      "task_id": 27,
+      "description_ja": "実験結果を研究チーム内で共有し、今後の方針について検討する。",
+      "execution_rate": 0.878,
+      "importance": 3.953
+    },
+    {
+      "task_id": 28,
+      "description_ja": "他機関と共同研究や協議を行う。",
+      "execution_rate": 0.837,
+      "importance": 3.61
+    },
+    {
+      "task_id": 29,
+      "description_ja": "医薬品の営業、開発、製造を支援する。",
+      "execution_rate": 0.674,
+      "importance": 3.303
+    },
+    {
+      "task_id": 30,
+      "description_ja": "研究室の学生やスタッフを指導する。",
+      "execution_rate": 0.653,
+      "importance": 3.625
+    },
+    {
+      "task_id": 31,
+      "description_ja": "研究チームのタスクやスケジュールを管理する。",
+      "execution_rate": 0.857,
+      "importance": 3.833
+    },
+    {
+      "task_id": 32,
+      "description_ja": "お客の問い合わせに回答するため、試験データを取得する。",
+      "execution_rate": 0.674,
+      "importance": 3.212
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本薬学会",
+      "url": "https://www.pharm.or.jp/"
+    },
+    {
+      "name_ja": "日本製薬工業協会",
+      "url": "http://www.jpma.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "放射線取扱主任者",
+    "毒物劇物取扱責任者",
+    "薬剤師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/392",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

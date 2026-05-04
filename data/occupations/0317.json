@@ -1,0 +1,515 @@
+{
+  "id": 317,
+  "ipd_id": "IPD_01_01_317",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ソフトウェア開発（スマホアプリ）",
+  "aliases_ja": [
+    "ソフトウェア開発技術者（スマートフォンアプリ）",
+    "モバイルアプリケーション開発技術者（スマートフォン・タブレットコンピューター・その他の携帯端末）"
+  ],
+  "classifications": {
+    "mhlw_main": "02_009-01",
+    "mhlw_all": [
+      "02_009-01"
+    ],
+    "jsoc_main": "B104",
+    "jsoc_all": [
+      "B104"
+    ]
+  },
+  "description": {
+    "summary_ja": "スマートフォンで利用するアプリをチームで開発する。",
+    "what_it_is_ja": "スマートフォンで利用するアプリをチームで開発する。\n　スマートフォンのアプリはダウンロードしてインストールする「ネイティブアプリ」と、スマートフォンからブラウザで使用する「Webアプリ」がある。また、この両者を組み合わせた「ハイブリッドアプリ」もある。\n　具体的にはスマホ利用者のニーズやシーズ、アプリのトレンド等を考え、アプリの企画をチームで検討するところから始まる。企画内容を決めるにあたっては、競合するものや類似のアプリ等がないか調査も行う。顧客からアプリ開発を受託し、その企画を検討する場合もある。いずれの場合も、企画から要件定義を行い、画面や機能を決め、アプリを開発する。企画の検討はプロダクトマネージャが行い、基本設計から開発をエンジニアが行うという具合に分業している場合もある。この場合、要件定義はプロダクトマネージャとエンジニアが共同して行う。\n　開発が完了するとアプリを様々な側面から評価するテストを考える。テスターがテストを行い、バグが見つかればプログラマーと協力して修正を行う。また、リリースに向けてユーザに実際に使用してもらう。\n　開発ではパソコンが使われる。スマートフォンのOS（オペレーティングシステム）はAndroidかiOSであるが、双方に対応した開発環境（フレームワーク、クロスプラットフォーム）が出てきている。開発のためのプログラミング言語には様々なものがあるが、プログラミングすることなく簡単なアプリを開発できるツールもある（ノーコード）。\n　スマホのOSが新しくなると、開発したアプリもバージョンアップの対応をしなければならず、これが開発業務の中で何割かを占める。\n　スマートフォンのアプリはこのエンジニアのほかに、プロデューサー（プロダクトマネージャ）、デザイナー等から構成されるチームで開発する。開発ではエンジニアやデザイナーが複数となり、全体で４～６人で開発することが多い。開発段階では、定期的にこの開発チームでミーティングを行うが、情報共有、進捗管理等にはコラボレーションツール(Slack等)が用いられる。開発過程での問題点はミーティング等を通して解決策を見いだす。開発に必要な新しい情報をインターネット等で調べることも多い。\n　スタートアップのときなど、エンジニアが営業的な仕事もするが、開発体制が整ってくると、営業やプロダクトマネジメントは別の担当者となる。\n　\n＜就業希望者へのメッセージ＞\n　いろいろなプロセスを経て作り上げたアプリが製品となり、直接ユーザーに使ってもらえる経験ができるのは、スマホアプリの開発エンジニアならではのやりがいです。（就業者　20代）\n\n◇　よく使う道具、機材、情報技術等\n　フレームワーク（React Native 、 flutter等）、プログラミング言語（Swift、Kotlin等）、OS（オペレーティングシステム:Android、iOS）、コラボレーションツール（Slack等）、スマートフォン、パソコン、表計算ソフト（GoogleGoogleスプレッドシート等）、SNS",
+    "how_to_become_ja": "入職にあたって特に学歴や資格は必要とされず、専攻も特に問われない。学校卒業後、就職する場合もあるが、他業種からの20～30代で中途採用されることも多い。大学等の授業とは別に学生時代に自分で開発を行う等、技術のある学生もいる。\n　スマートフォンのOSであるAndroidかiOSに対応した開発環境、また、開発のためのプログラミング言語Swift、Kotlin、そして、フレームワーク／などが使えるスキルが求められる。スマートフォンがEC、キャッシュレス決済、また、家電や車と連携するようになりセキュリティ対策が重要になり、この知識も求められる。\n　関連する技術、関連する情報は変化が激しいため、研究会や交流会に参加したり、ネットで講演会を視聴したり、SNS等でも最新の情報を収集する必要がある。コロナ禍でリモートでの開催が広がったが、直接会いデモを見せたり、名刺交換等のため、対面での集まりが増えている。\n　周辺技術も含め、関連する資格を取得する者もいる。実績を積みプロダクトマネジメントの仕事をするようになったり、フリーランスになる人もいる。\n　UI (User Interface)の設計ではデザインセンスや色彩感覚が求められるが、これはWebデザイナー、UX／UIデザイナーが担当することが多い。利用者のニーズ、シーズを的確にとらえる力も必要である。マーケティングの知識や市場のトレンドを理解し、それを企画書に反映させる力も問われるが、これはプロダクトマネジャが行うことも多い。\n　簡単な開発であれば誰でも使えるような開発環境も広がっており、アイディアや独創性が求められるようになっている。",
+    "working_conditions_ja": "勤務先は、スマホアプリを開発する企業である。職場は都市部が多いが、打合せをオンラインで行い、在宅（テレワーク）で仕事をする場合もある。\n　就業者は、男性の比率が高い。年齢層は20歳代～40歳代がほとんどである。\n　雇用形態は、正社員のほか、業務委託やフリーランスで開発に参加している人もいる。\n　賃金は、正社員は月給制が一般的である。業務委託やフリーランスは案件ごとに契約する。\n　労働時間は、フレックスタイム制やフリータイム制も採用されている。アプリのリリース前などは残業が増える。\n　人材確保が課題となっており、未経験者を採用して育成する企業、また、テレワークや副業等、より柔軟な働き方を認める企業も増えている。\n　スマートフォン利用が広がる中、様々なアプリが開発されている。個人が使う情報機器のメインがパソコンからスマートフォンに移り、個人が使う情報機器のメインがスマートフォンになっている。アプリ開発は需要があり、人手不足、人材不足が続いている。フレームワークが使われるようになり、一人で様々な開発ができるようになったことから、以前ほどフルスタックのエンジニアが注目されることはなくなっている。そして、何を作るかというプロダクトマネジメントを目指すエンジニアが増えている。\n　開発において生成AIの活用も始まっている。また、ＡＩが普及、拡大し、ＡＩ機能をスマホアプリに実装する開発（チャット機能による案内、音声認識等）が盛んになっている。"
+  },
+  "interests": {
+    "realistic": 3.316,
+    "investigative": 3.395,
+    "artistic": 2.974,
+    "social": 2.789,
+    "enterprising": 3.026,
+    "conventional": 2.605
+  },
+  "work_values": {
+    "achievement": 3.38,
+    "autonomy": 3.42,
+    "expertise": 3.72,
+    "self_growth": 3.5,
+    "social_recognition": 3.08,
+    "service_contribution": 2.92,
+    "good_relationships": 3.5,
+    "workplace_safety": 3.4,
+    "work_life_balance": 3.42,
+    "stability": 3.4,
+    "compensation": 3.26
+  },
+  "skills": {
+    "reading_comprehension": 4.48,
+    "active_listening": 4.4,
+    "writing": 3.86,
+    "speaking": 3.86,
+    "foreign_language_reading": 3.14,
+    "foreign_language_listening": 1.74,
+    "foreign_language_writing": 2.22,
+    "foreign_language_speaking": 1.22,
+    "mathematics": 3.14,
+    "science": 2.16,
+    "critical_thinking": 4.02,
+    "active_learning": 3.78,
+    "learning_strategies": 3.6,
+    "monitoring": 3.48,
+    "social_perceptiveness": 3.46,
+    "coordination": 3.78,
+    "persuasion": 3.16,
+    "negotiation": 3.3,
+    "instructing": 3.38,
+    "service_orientation": 2.26,
+    "complex_problem_solving": 3.44,
+    "operations_analysis": 3.82,
+    "technology_design": 3.46,
+    "equipment_selection": 3.3,
+    "installation": 3.16,
+    "programming": 4.38,
+    "operations_monitoring": 2.2,
+    "operation_and_control": 2.74,
+    "equipment_maintenance": 2.34,
+    "troubleshooting": 3.46,
+    "repairing": 2.36,
+    "quality_control_analysis": 4.26,
+    "judgment_decision_making": 3.14,
+    "systems_analysis": 2.64,
+    "systems_evaluation": 2.42,
+    "time_management": 3.64,
+    "financial_resources_management": 2.84,
+    "material_resources_management": 2.12,
+    "personnel_resources_management": 2.74
+  },
+  "knowledge": {
+    "business_management": 1.643,
+    "clerical": 1.738,
+    "economics_accounting": 1.167,
+    "sales_marketing": 1.69,
+    "customer_personal_service": 1.833,
+    "personnel_hr": 1.095,
+    "transportation": 0.095,
+    "production_processing": 0.571,
+    "agriculture_livestock": 0.048,
+    "engineering": 1.167,
+    "computers_electronics": 3.19,
+    "design": 2.714,
+    "building_construction": 0.119,
+    "mechanical": 0.476,
+    "mathematics_kn": 1.738,
+    "physics": 1.167,
+    "chemistry": 0.333,
+    "biology": 0.31,
+    "psychology": 1.095,
+    "sociology": 0.952,
+    "geography": 0.452,
+    "medicine_dentistry": 0.357,
+    "therapy_counseling": 0.452,
+    "education_training_kn": 1.071,
+    "japanese_language": 1.833,
+    "foreign_language_kn": 1.548,
+    "fine_arts": 1.119,
+    "history_archaeology": 0.667,
+    "philosophy_theology": 0.476,
+    "public_safety_security": 1.119,
+    "law_government": 0.786,
+    "telecommunications": 2.548,
+    "communications_media": 2.214
+  },
+  "abilities": {
+    "oral_comprehension": 3.058,
+    "written_comprehension": 3.385,
+    "oral_expression": 3.038,
+    "written_expression": 3.327,
+    "fluency_of_ideas": 3.442,
+    "originality": 3.25,
+    "problem_sensitivity": 3.462,
+    "deductive_reasoning": 3.135,
+    "inductive_reasoning": 3.212,
+    "information_ordering": 2.981,
+    "category_flexibility": 2.981,
+    "mathematical_reasoning": 3.0,
+    "number_facility": 2.865,
+    "memorization": 2.923,
+    "perceptual_speed": 2.673,
+    "spatial_orientation": 2.462,
+    "visualization": 2.75,
+    "selective_attention": 2.865,
+    "time_sharing": 2.808,
+    "arm_hand_steadiness": 1.692,
+    "manual_dexterity": 1.615,
+    "finger_dexterity": 1.577,
+    "reaction_time": 1.827,
+    "wrist_finger_speed": 1.923,
+    "speed_of_limb_movement": 1.615,
+    "static_strength": 1.5,
+    "stamina": 2.019,
+    "gross_body_equilibrium": 1.519,
+    "near_vision": 1.808,
+    "far_vision": 1.519,
+    "visual_color_discrimination": 2.231,
+    "depth_perception": 1.808,
+    "hearing_sensitivity": 1.731,
+    "auditory_attention": 1.712,
+    "speech_clarity": 2.115
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.452,
+    "face_to_face_discussions": 3.238,
+    "telephone_communication": 2.69,
+    "business_writing": 3.738,
+    "conflict_situations": 1.976,
+    "time_pressure": 2.714,
+    "teamwork": 3.786,
+    "dealing_with_external_customers": 3.119,
+    "coordinate_lead_others": 3.238,
+    "exactness_accuracy": 3.762,
+    "repetitive_tasks": 3.095,
+    "pace_determined_by_machine": 2.619,
+    "responsibility_for_outcomes": 3.048,
+    "indoor_climate_controlled": 4.619,
+    "indoor_non_climate_controlled": 1.119,
+    "outdoor_work": 1.048,
+    "sitting": 4.833,
+    "standing": 1.143,
+    "repetition_of_activities": 2.405,
+    "consequence_of_error": 2.833,
+    "freedom_to_make_decisions": 3.667,
+    "set_own_goals": 3.833,
+    "regular_schedule": 0.548,
+    "irregular_schedule": 0.381,
+    "seasonal_schedule": 0.071,
+    "email_communication": 3.929,
+    "cramped_uncomfortable": 1.452,
+    "disease_infection_risk": 1.333,
+    "minor_injury_risk": 1.024,
+    "standard_protective_equipment": 1.143,
+    "specialized_protective_equipment": 1.071,
+    "dealing_with_violent_people": 1.048,
+    "walking_running": 1.405,
+    "handling_objects_tools": 2.429,
+    "physical_proximity": 2.476,
+    "work_automation": 2.69,
+    "responsibility_for_safety": 1.786,
+    "impact_of_decisions": 2.524,
+    "level_of_competition": 2.286
+  },
+  "work_activities": {
+    "getting_information": 3.288,
+    "monitor_processes": 3.212,
+    "identifying_objects": 3.192,
+    "inspecting_equipment": 2.654,
+    "estimating_quantifiable": 2.788,
+    "judging_quality": 3.365,
+    "evaluating_compliance": 3.308,
+    "processing_information": 3.25,
+    "analyzing_data": 3.308,
+    "making_decisions": 3.385,
+    "thinking_creatively": 3.654,
+    "updating_knowledge": 3.538,
+    "developing_objectives": 3.212,
+    "scheduling_work": 3.385,
+    "organizing_planning": 3.481,
+    "physical_activities": 1.846,
+    "handling_objects": 1.981,
+    "controlling_machines": 1.981,
+    "operating_vehicles": 1.442,
+    "computer_work": 3.596,
+    "drafting_specifications": 1.942,
+    "repairing_mechanical": 1.808,
+    "repairing_electronic": 1.981,
+    "documenting_information": 2.827,
+    "interpreting_information": 3.0,
+    "communicating_inside": 3.269,
+    "communicating_outside": 3.038,
+    "building_relationships": 2.923,
+    "assisting_caring": 2.692,
+    "selling_influencing": 2.288,
+    "resolving_conflicts": 2.481,
+    "performing_for_public": 2.038,
+    "coordinating_others": 2.827,
+    "developing_teams": 2.846,
+    "training_teaching": 2.5,
+    "guiding_subordinates": 2.635,
+    "coaching_developing": 2.596,
+    "providing_consultation": 2.308,
+    "performing_administrative": 2.692,
+    "staffing_organizational": 2.327,
+    "monitoring_resources": 2.269
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.143,
+    "vocational_school": 0.19,
+    "junior_college": 0.071,
+    "technical_college": 0.119,
+    "university": 0.667,
+    "masters": 0.095,
+    "doctorate": 0.0,
+    "unknown": 0.119
+  },
+  "training_pre": {
+    "not_required": 0.262,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.143,
+    "6_months_to_1_year": 0.167,
+    "1_to_2_years": 0.071,
+    "2_to_3_years": 0.095,
+    "3_to_5_years": 0.071,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.19
+  },
+  "training_post": {
+    "not_required": 0.071,
+    "up_to_1_month": 0.024,
+    "1_to_6_months": 0.167,
+    "6_months_to_1_year": 0.167,
+    "1_to_2_years": 0.095,
+    "2_to_3_years": 0.19,
+    "3_to_5_years": 0.048,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.238
+  },
+  "experience": {
+    "not_required": 0.357,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.095,
+    "6_months_to_1_year": 0.071,
+    "1_to_2_years": 0.071,
+    "2_to_3_years": 0.095,
+    "3_to_5_years": 0.071,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.238
+  },
+  "employment_type": {
+    "regular_employee": 0.6,
+    "part_time": 0.067,
+    "dispatched": 0.178,
+    "contract": 0.133,
+    "self_employed_freelance": 0.222,
+    "executive": 0.089,
+    "casual_non_student": 0.022,
+    "casual_student": 0.022,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "スマートフォンで利用するアプリをチームで開発する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "ニーズやシーズ、アプリのトレンドからアプリの企画をチームで考える。",
+      "execution_rate": 0.778,
+      "importance": 3.143
+    },
+    {
+      "task_id": 2,
+      "description_ja": "（受託開発の場合）顧客の要望などをヒアリングする。",
+      "execution_rate": 0.867,
+      "importance": 3.436
+    },
+    {
+      "task_id": 3,
+      "description_ja": "開発の企画をチームで検討する。",
+      "execution_rate": 0.822,
+      "importance": 3.405
+    },
+    {
+      "task_id": 4,
+      "description_ja": "企画を企画書／提案書としてまとめる。",
+      "execution_rate": 0.822,
+      "importance": 3.432
+    },
+    {
+      "task_id": 5,
+      "description_ja": "（受託開発の場合）開発の契約をする。",
+      "execution_rate": 0.889,
+      "importance": 3.475
+    },
+    {
+      "task_id": 6,
+      "description_ja": "要件定義を行う。",
+      "execution_rate": 0.867,
+      "importance": 3.436
+    },
+    {
+      "task_id": 7,
+      "description_ja": "要件定義をプロダクトマネージャと共同で行う。",
+      "execution_rate": 0.822,
+      "importance": 3.378
+    },
+    {
+      "task_id": 8,
+      "description_ja": "開発環境を検討する。",
+      "execution_rate": 0.8,
+      "importance": 3.5
+    },
+    {
+      "task_id": 9,
+      "description_ja": "開発環境を開発チームで検討する。",
+      "execution_rate": 0.8,
+      "importance": 3.472
+    },
+    {
+      "task_id": 10,
+      "description_ja": "基本設計、詳細設計を行う。",
+      "execution_rate": 0.867,
+      "importance": 3.564
+    },
+    {
+      "task_id": 11,
+      "description_ja": "プログラミングする。",
+      "execution_rate": 0.889,
+      "importance": 3.6
+    },
+    {
+      "task_id": 12,
+      "description_ja": "プログラムをプログラマーに依頼する。",
+      "execution_rate": 0.867,
+      "importance": 3.333
+    },
+    {
+      "task_id": 13,
+      "description_ja": "画面のデザインをする。",
+      "execution_rate": 0.844,
+      "importance": 3.395
+    },
+    {
+      "task_id": 14,
+      "description_ja": "画面デザインをデザイナーに依頼する。",
+      "execution_rate": 0.778,
+      "importance": 3.286
+    },
+    {
+      "task_id": 15,
+      "description_ja": "バグや不具合がないか確認する。",
+      "execution_rate": 0.911,
+      "importance": 3.927
+    },
+    {
+      "task_id": 16,
+      "description_ja": "バグや不具合の確認をテスター等に依頼する。",
+      "execution_rate": 0.889,
+      "importance": 3.55
+    },
+    {
+      "task_id": 17,
+      "description_ja": "バグや不具合を修正する。",
+      "execution_rate": 0.911,
+      "importance": 3.902
+    },
+    {
+      "task_id": 18,
+      "description_ja": "バグや不具合を修正をプログラマーに依頼する。",
+      "execution_rate": 0.889,
+      "importance": 3.525
+    },
+    {
+      "task_id": 19,
+      "description_ja": "実際に利用者にアプリを使ってもらい評価してもらう。",
+      "execution_rate": 0.822,
+      "importance": 3.459
+    },
+    {
+      "task_id": 20,
+      "description_ja": "アプリをアプリストアに登録申請する。",
+      "execution_rate": 0.756,
+      "importance": 3.5
+    },
+    {
+      "task_id": 21,
+      "description_ja": "（受託開発の場合）開発したアプリを納品する。",
+      "execution_rate": 0.822,
+      "importance": 3.541
+    },
+    {
+      "task_id": 22,
+      "description_ja": "開発のためのミーティングを定期的に行う。",
+      "execution_rate": 0.867,
+      "importance": 3.41
+    },
+    {
+      "task_id": 23,
+      "description_ja": "開発のための情報共有、進捗管理をコラボレーションツールで行う。",
+      "execution_rate": 0.822,
+      "importance": 3.514
+    },
+    {
+      "task_id": 24,
+      "description_ja": "開発チームの調整や、メンバーの管理をする。",
+      "execution_rate": 0.844,
+      "importance": 3.447
+    },
+    {
+      "task_id": 25,
+      "description_ja": "開発のための情報収集をインターネット等で行う。",
+      "execution_rate": 0.822,
+      "importance": 3.432
+    },
+    {
+      "task_id": 26,
+      "description_ja": "開発関係者の集まりに対面で参加し、情報収集や意見交換を行う。",
+      "execution_rate": 0.844,
+      "importance": 3.395
+    },
+    {
+      "task_id": 27,
+      "description_ja": "ネット上のコミュニティー等に参加し、情報収集や意見交換を行う。",
+      "execution_rate": 0.756,
+      "importance": 3.118
+    },
+    {
+      "task_id": 28,
+      "description_ja": "ユーザからの問合せ等に答える。",
+      "execution_rate": 0.822,
+      "importance": 3.486
+    },
+    {
+      "task_id": 29,
+      "description_ja": "アップデートのためのプログラムを用意する。",
+      "execution_rate": 0.844,
+      "importance": 3.447
+    },
+    {
+      "task_id": 30,
+      "description_ja": "アプリの品質を評価する。",
+      "execution_rate": 0.844,
+      "importance": 3.553
+    },
+    {
+      "task_id": 31,
+      "description_ja": "営業活動をする。",
+      "execution_rate": 0.733,
+      "importance": 3.394
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　ソフトウェア協会",
+      "url": "https://www.saj.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　モバイル・コンテンツ・フォーラム",
+      "url": "https://www.mcf.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/317",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2024
+  }
+}

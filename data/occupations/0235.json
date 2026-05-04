@@ -1,0 +1,422 @@
+{
+  "id": 235,
+  "ipd_id": "IPD_01_01_235",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "太陽光発電の設計・施工",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "02_008-04",
+    "mhlw_all": [
+      "02_008-04",
+      "02_008-05",
+      "02_008-01",
+      "02_008-02"
+    ],
+    "jsoc_main": "B092",
+    "jsoc_all": [
+      "B092",
+      "B091",
+      "B091"
+    ]
+  },
+  "description": {
+    "summary_ja": "太陽光発電の装置、建造物等を設計し、工事の施工を管理する。",
+    "what_it_is_ja": "設計は太陽光発電システムを設計し、施工は工程管理などを行う。\n　太陽光発電には発電した電気を自らが使用する「自家消費型」と、事業や投資などを目的に、発電した電気をすべて電力会社に売る（売電）「全量売電型」に分類される。\n　設計においては太陽光発電設置者が設置する目的と予算などのニーズに応えつつ、最適な発電性能と安全性の高い発電所とするべく、電気設計、構造設計を行う。架台、基礎、地盤強度などは、「日本産業規格(JIS)」、「電気設備に関する技術基準」などの基準や関係法規・法令に則した設計を行う必要がある。守らなければならない基準や法規・法令は、設置する地域や場所など、設置環境によって異なる。\n　施工においては、設計された発電所の建設を進めるために日程、工程、安全、予算を管理していく。建設にあたっては設計を忠実に守って行うだけでなく作業を進めていく上で変化する近隣や設置環境を考慮し、設計通りに進まないことが予測される、または進まなくなった場合に設計の変更を提言・実行する必要がある。\n　設計、施工いずれにおいても、設置者の目的と予算に則しつつも、太陽光発電所は20年以上の長期間にわたって稼働し続けるものであることを念頭に、安全面、耐久性を最優先事項として取り組む必要がある。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン、普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、電気工事施工管理技士、電気主任技術者、電気工事士などの有資格者でなければ行えない作業もあるので、資格を所持していると仕事に役立つ。\n　大学や専門学校などで電気や建築、土木、機械などを学んでいると、業務に必要な知識を習得しやすい。電気・機械やプラント関連の一般企業や民間研究所から転職してくる入職者の中には電気・機械工学などの大学院修士課程修了者もいる。\n　入職後は企業内研修制度やOJTなどの実践を重ね3年前後の経験を積めば一人前として期待される。",
+    "working_conditions_ja": "太陽光発電事業を行う企業、また、建設、電機、機械などの会社の関連部門等で働き、職場は全国にわたる。\n　太陽光発電の設計・施工担当者として特別な給与の設定等はないが、電気工事施工管理技士、電気主任技術者、電気工事士などの、資格手当などが付加されるケースもある。\n　勤務条件は他の職種の社員と同様である。納期や現場対応のために残業となることもある。\n　近年、地上に広範囲にわたって設置するメガソーラーは、適地の減少、売電価格の下落、などの理由で新設件数は減少している。一方で、自家消費型はSDGsやESG対策として環境負荷軽減に取り組むための手段として太陽光発電を設置する法人が増えていることや、電力購入単価が上昇傾向にあることなどを背景に増加している。\n　太陽光発電市場は過渡期にあり、従来のやり方にとらわれない柔軟な発想力とチャレンジ精神が求められる。"
+  },
+  "interests": null,
+  "work_values": null,
+  "skills": null,
+  "knowledge": {
+    "business_management": 1.579,
+    "clerical": 2.342,
+    "economics_accounting": 1.395,
+    "sales_marketing": 1.816,
+    "customer_personal_service": 2.237,
+    "personnel_hr": 1.237,
+    "transportation": 1.711,
+    "production_processing": 2.053,
+    "agriculture_livestock": 0.763,
+    "engineering": 2.237,
+    "computers_electronics": 1.763,
+    "design": 2.763,
+    "building_construction": 2.711,
+    "mechanical": 2.342,
+    "mathematics_kn": 2.079,
+    "physics": 2.079,
+    "chemistry": 1.447,
+    "biology": 0.974,
+    "psychology": 0.895,
+    "sociology": 1.053,
+    "geography": 1.605,
+    "medicine_dentistry": 0.421,
+    "therapy_counseling": 0.526,
+    "education_training_kn": 1.342,
+    "japanese_language": 1.447,
+    "foreign_language_kn": 1.237,
+    "fine_arts": 0.553,
+    "history_archaeology": 0.553,
+    "philosophy_theology": 0.526,
+    "public_safety_security": 1.947,
+    "law_government": 1.763,
+    "telecommunications": 1.974,
+    "communications_media": 1.816
+  },
+  "abilities": {
+    "oral_comprehension": 3.125,
+    "written_comprehension": 3.094,
+    "oral_expression": 3.094,
+    "written_expression": 3.094,
+    "fluency_of_ideas": 3.125,
+    "originality": 3.125,
+    "problem_sensitivity": 3.531,
+    "deductive_reasoning": 3.156,
+    "inductive_reasoning": 3.125,
+    "information_ordering": 2.938,
+    "category_flexibility": 2.938,
+    "mathematical_reasoning": 3.156,
+    "number_facility": 2.969,
+    "memorization": 3.094,
+    "perceptual_speed": 2.938,
+    "spatial_orientation": 2.969,
+    "visualization": 2.844,
+    "selective_attention": 2.906,
+    "time_sharing": 3.0,
+    "arm_hand_steadiness": 2.531,
+    "manual_dexterity": 2.5,
+    "finger_dexterity": 2.469,
+    "reaction_time": 2.688,
+    "wrist_finger_speed": 2.563,
+    "speed_of_limb_movement": 2.438,
+    "static_strength": 2.5,
+    "stamina": 2.375,
+    "gross_body_equilibrium": 2.531,
+    "near_vision": 2.25,
+    "far_vision": 2.281,
+    "visual_color_discrimination": 2.406,
+    "depth_perception": 2.563,
+    "hearing_sensitivity": 2.469,
+    "auditory_attention": 2.531,
+    "speech_clarity": 2.719
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.526,
+    "face_to_face_discussions": 3.947,
+    "telephone_communication": 4.447,
+    "business_writing": 4.289,
+    "conflict_situations": 2.684,
+    "time_pressure": 3.132,
+    "teamwork": 3.658,
+    "dealing_with_external_customers": 3.763,
+    "coordinate_lead_others": 3.605,
+    "exactness_accuracy": 3.895,
+    "repetitive_tasks": 3.421,
+    "pace_determined_by_machine": 3.132,
+    "responsibility_for_outcomes": 3.526,
+    "indoor_climate_controlled": 4.237,
+    "indoor_non_climate_controlled": 2.368,
+    "outdoor_work": 3.342,
+    "sitting": 3.816,
+    "standing": 2.447,
+    "repetition_of_activities": 2.289,
+    "consequence_of_error": 3.368,
+    "freedom_to_make_decisions": 3.395,
+    "set_own_goals": 3.632,
+    "regular_schedule": 0.342,
+    "irregular_schedule": 0.658,
+    "seasonal_schedule": 0.0,
+    "email_communication": 4.763,
+    "cramped_uncomfortable": 2.289,
+    "disease_infection_risk": 1.684,
+    "minor_injury_risk": 2.026,
+    "standard_protective_equipment": 3.0,
+    "specialized_protective_equipment": 2.053,
+    "dealing_with_violent_people": 1.421,
+    "walking_running": 2.289,
+    "handling_objects_tools": 2.421,
+    "physical_proximity": 3.237,
+    "work_automation": 1.895,
+    "responsibility_for_safety": 2.789,
+    "impact_of_decisions": 2.842,
+    "level_of_competition": 2.447
+  },
+  "work_activities": {
+    "getting_information": 3.344,
+    "monitor_processes": 3.344,
+    "identifying_objects": 3.219,
+    "inspecting_equipment": 3.375,
+    "estimating_quantifiable": 3.375,
+    "judging_quality": 3.531,
+    "evaluating_compliance": 3.75,
+    "processing_information": 3.125,
+    "analyzing_data": 3.094,
+    "making_decisions": 3.406,
+    "thinking_creatively": 3.469,
+    "updating_knowledge": 3.469,
+    "developing_objectives": 3.344,
+    "scheduling_work": 3.438,
+    "organizing_planning": 3.563,
+    "physical_activities": 2.688,
+    "handling_objects": 2.406,
+    "controlling_machines": 2.844,
+    "operating_vehicles": 2.719,
+    "computer_work": 2.906,
+    "drafting_specifications": 3.063,
+    "repairing_mechanical": 2.969,
+    "repairing_electronic": 2.781,
+    "documenting_information": 3.094,
+    "interpreting_information": 3.156,
+    "communicating_inside": 3.344,
+    "communicating_outside": 3.281,
+    "building_relationships": 3.375,
+    "assisting_caring": 2.875,
+    "selling_influencing": 2.781,
+    "resolving_conflicts": 2.969,
+    "performing_for_public": 2.875,
+    "coordinating_others": 2.844,
+    "developing_teams": 2.906,
+    "training_teaching": 3.094,
+    "guiding_subordinates": 3.125,
+    "coaching_developing": 3.125,
+    "providing_consultation": 2.969,
+    "performing_administrative": 3.031,
+    "staffing_organizational": 2.75,
+    "monitoring_resources": 3.031
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.237,
+    "vocational_school": 0.158,
+    "junior_college": 0.026,
+    "technical_college": 0.053,
+    "university": 0.658,
+    "masters": 0.158,
+    "doctorate": 0.026,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.289,
+    "up_to_1_month": 0.053,
+    "1_to_6_months": 0.158,
+    "6_months_to_1_year": 0.132,
+    "1_to_2_years": 0.026,
+    "2_to_3_years": 0.053,
+    "3_to_5_years": 0.026,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.053,
+    "unknown": 0.211
+  },
+  "training_post": {
+    "not_required": 0.026,
+    "up_to_1_month": 0.105,
+    "1_to_6_months": 0.105,
+    "6_months_to_1_year": 0.132,
+    "1_to_2_years": 0.211,
+    "2_to_3_years": 0.079,
+    "3_to_5_years": 0.158,
+    "5_to_10_years": 0.053,
+    "over_10_years": 0.026,
+    "unknown": 0.105
+  },
+  "experience": {
+    "not_required": 0.395,
+    "up_to_1_month": 0.026,
+    "1_to_6_months": 0.079,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.105,
+    "2_to_3_years": 0.132,
+    "3_to_5_years": 0.053,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.053,
+    "unknown": 0.158
+  },
+  "employment_type": {
+    "regular_employee": 0.868,
+    "part_time": 0.0,
+    "dispatched": 0.079,
+    "contract": 0.211,
+    "self_employed_freelance": 0.0,
+    "executive": 0.026,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "太陽光発電の装置、建造物等を設計し、工事の施工を管理する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "どのような太陽光発電にするか発電事業者、顧客から概要、要望、予算等を聞く。",
+      "execution_rate": 0.969,
+      "importance": 3.516
+    },
+    {
+      "task_id": 2,
+      "description_ja": "どのような太陽光発電にするか発電事業者、顧客と検討、協議する。",
+      "execution_rate": 0.938,
+      "importance": 3.633
+    },
+    {
+      "task_id": 3,
+      "description_ja": "企画書がある場合、企画書を読込み、不明点、疑問点を作成者に確認する。",
+      "execution_rate": 0.938,
+      "importance": 3.233
+    },
+    {
+      "task_id": 4,
+      "description_ja": "太陽光発電に関して基本的な設計を行う（構造、機材、監視制御装置）。",
+      "execution_rate": 0.969,
+      "importance": 3.29
+    },
+    {
+      "task_id": 5,
+      "description_ja": "基本的な設計を顧客に説明し、検討、協議する。",
+      "execution_rate": 0.938,
+      "importance": 3.533
+    },
+    {
+      "task_id": 6,
+      "description_ja": "太陽光発電の具体的で詳細な設計を行う。",
+      "execution_rate": 0.969,
+      "importance": 3.419
+    },
+    {
+      "task_id": 7,
+      "description_ja": "詳細な設計に基づき、ソーラーパネルを選択する。",
+      "execution_rate": 0.969,
+      "importance": 3.194
+    },
+    {
+      "task_id": 8,
+      "description_ja": "詳細な設計に基づき、蓄電装置を選択する。",
+      "execution_rate": 0.906,
+      "importance": 3.034
+    },
+    {
+      "task_id": 9,
+      "description_ja": "リモートでの監視と操作の装置を選択する（センサーを含む）。",
+      "execution_rate": 0.969,
+      "importance": 2.935
+    },
+    {
+      "task_id": 10,
+      "description_ja": "太陽光発電の構造物を設計し、強度計算等を行う。",
+      "execution_rate": 0.969,
+      "importance": 3.452
+    },
+    {
+      "task_id": 11,
+      "description_ja": "構造物の設計書、強度計算書を発電事業者、顧客に説明する。",
+      "execution_rate": 0.938,
+      "importance": 3.5
+    },
+    {
+      "task_id": 12,
+      "description_ja": "構造物の設計書、強度計算書について行政機関の承認を得る。",
+      "execution_rate": 0.969,
+      "importance": 3.355
+    },
+    {
+      "task_id": 13,
+      "description_ja": "工事を建設会社等に発注する（工事とソーラーパネル設置は建設会社）。",
+      "execution_rate": 0.906,
+      "importance": 3.034
+    },
+    {
+      "task_id": 14,
+      "description_ja": "太陽光発電の工事、設置の工程（施工）を随時、点検する。",
+      "execution_rate": 0.938,
+      "importance": 3.2
+    },
+    {
+      "task_id": 15,
+      "description_ja": "施工において問題点が生じた場合、発電事業者、顧客、関係会社と検討、協議する。",
+      "execution_rate": 0.969,
+      "importance": 3.548
+    },
+    {
+      "task_id": 16,
+      "description_ja": "発電事業者、顧客、関係会社との検討、協議で必要であれば設計を修正する。",
+      "execution_rate": 0.969,
+      "importance": 3.484
+    },
+    {
+      "task_id": 17,
+      "description_ja": "完成後、設計通りの性能か、問題点がないか等、テストする。",
+      "execution_rate": 0.969,
+      "importance": 3.581
+    },
+    {
+      "task_id": 18,
+      "description_ja": "問題点、改善点がある場合、機材、ソフトウェアの設定等を修正、調整する。",
+      "execution_rate": 0.938,
+      "importance": 3.3
+    },
+    {
+      "task_id": 19,
+      "description_ja": "ドキュメント（設計、開発、試験結果、マニュアル等）を作成する。",
+      "execution_rate": 0.969,
+      "importance": 3.161
+    },
+    {
+      "task_id": 20,
+      "description_ja": "稼働後メンテナンスを担当する者を教育訓練する。",
+      "execution_rate": 0.906,
+      "importance": 3.069
+    },
+    {
+      "task_id": 21,
+      "description_ja": "生産性、経済性、信頼性を高めるため、太陽光発電の改良を検討する。",
+      "execution_rate": 0.906,
+      "importance": 3.103
+    },
+    {
+      "task_id": 22,
+      "description_ja": "ソーラーパネル、監視制御装置等の問題点、要望等を開発会社に報告する。",
+      "execution_rate": 0.906,
+      "importance": 2.862
+    },
+    {
+      "task_id": 23,
+      "description_ja": "複数の企業で開発する場合、それら企業と共同で設計し、施工を管理する。",
+      "execution_rate": 0.938,
+      "importance": 2.967
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人太陽光発電協会（JPEA）",
+      "url": "http://www.jpea.gr.jp/"
+    },
+    {
+      "name_ja": "国立研究開発法人新エネルギー・産業技術総合開発機構",
+      "url": "https://www.nedo.go.jp/"
+    },
+    {
+      "name_ja": "公益財団法人自然エネルギー財団",
+      "url": "https://www.renewable-ei.org/"
+    }
+  ],
+  "related_certs_ja": [
+    "第一種電気主任技術者",
+    "第二種電気主任技術者",
+    "第三種電気主任技術者",
+    "1級電気工事施工管理技士",
+    "2級電気工事施工管理技士",
+    "第一種電気工事士",
+    "第二種電気工事士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/235",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

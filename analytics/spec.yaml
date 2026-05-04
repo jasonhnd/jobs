@@ -23,7 +23,7 @@
 events:
   # ---- Lifecycle & navigation ----
   - name: map_loaded
-    description: Treemap finished initial render after data.json loaded.
+    description: Treemap finished initial render after data.treemap.json loaded.
     params:
       - { name: language, type: string, desc: "ja or en at time of load" }
       - { name: device_category, type: string, desc: "mobile / tablet / desktop (client-derived)" }
@@ -255,11 +255,11 @@ event_scoped_dimensions:
 
   - parameter_name: occupation_name_ja
     display_name: Occupation (JA)
-    description: Japanese occupation title from data.json.
+    description: Japanese occupation title from data.treemap.json.
 
   - parameter_name: occupation_name_en
     display_name: Occupation (EN)
-    description: English occupation title from data.json.
+    description: English occupation title from data.treemap.json.
 
   - parameter_name: ai_risk_score
     display_name: AI Risk Score

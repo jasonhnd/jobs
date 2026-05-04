@@ -1,0 +1,476 @@
+{
+  "id": 401,
+  "ipd_id": "IPD_01_01_401",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "救急救命士",
+  "aliases_ja": [
+    "救急隊員"
+  ],
+  "classifications": {
+    "mhlw_main": "10_062-02",
+    "mhlw_all": [
+      "10_062-02"
+    ],
+    "jsoc_main": "F452",
+    "jsoc_all": [
+      "F452"
+    ]
+  },
+  "description": {
+    "summary_ja": "現場及び病院への搬送の途中、救急車などの中で、救護行為を行う。",
+    "what_it_is_ja": "現場及び病院への搬送の途中、救急車などの中で、救護行為を行う。また、生命の危険のある病気やけが人に対しては、特定医療行為を含む必要な救急救命処置を行う。消防機関に所属していない救急救命士もいるが、ここでは主に消防署に勤務する救急救命士について記載する。\n　消防本部の指令センターから指令を受け、救急車などに乗って現場に急行する。傷病者の症状を確認し、その場で必要な応急処置を行う。傷病者を救急車に収容し、搬送先の病院に向かう。その車内において、聴診器による心音・呼吸音の確認、心電図の測定、酸素吸入器による酸素吸入、自動体外式除細動器（AED）による除細動などの処置を行う。更に、専用端末で救急指導医師の指示を受けながら、輸液や気管内チューブによる気道確保などの救急救命処置を行うこともある。\n　病院に到着してからは、傷病者を病院の担当者に引き継ぎ、症状や応急処置の内容を医師に報告する。署に戻って報告書を作成し、次の出動に備える。救急現場の場所によってはヘリコプターで出動することもあり、機内において処置をする場合もある。\n　また、救急救命士の資格を有しているが消防機関に所属していない救急救命士も増えており、病院、ドクターカー、ドクターヘリの診療補助などの場面で活躍している。\n\n◇　よく使う道具、機材、情報技術等\n　医療機器（聴診器等）、心電図、酸素吸入器、自動体外式除細動器（AED）、気管内チューブ、大型、中型、準中型、特殊自動車等（普通免許だけでは運転できないもの）、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "救急業務は消防において行われているため、救急車に乗務するには、消防職の公務員試験を受けて消防士として採用される必要がある。\n　消防職の中で救急救命士として活動するには、救急救命士国家試験に合格し、救急救命士の免許を得ることが必要である。\n　採用当初から救急救命士として働くことはまれであり、消防学校で救急隊員として必要な教育を受けてから現場に配属され、実務経験を積み、専門的な知識と技術を学んで資格を取得するのが一般的である。\n　大学や専門学校において救急救命に関する専門的な技術と知識を学び、卒業後に国家試験を受けて資格を取得する方法もある。\n　最新の救急救命医療に対応するため、日々知識や技術を磨いていくことが求められる。病院に搬送しながら傷病者に適切な処置を行う必要があるため、迅速に冷静な判断をくだせる必要がある。また、緊急を要する作業のため、機敏に的確な処置を行うことも重要である。なによりも人命にかかわる仕事のため、強い責任感が求められる。",
+    "working_conditions_ja": "各地の消防署に勤務する。いつ発生するかわからない急病人やけが人に備えて、交代制の勤務となる。職場によって異なるが、1回の勤務は休憩・仮眠をとりながら24時間勤務が原則であり、当番日と非番日、公休を繰り返すパターンとなっている。年中無休の業務体制であるため、土日祝日に休みが取れるわけではない。\n　待遇は各自治体の規定による。出動手当など職務の特殊性や危険性が考慮された処遇となっていることが多い。\n　勤務中は常に緊張状態にあり、仮眠中でも要請があれば直ちに出動することが求められ、精神的にも肉体的にも厳しい面がある。\n　消防職のなかで救急部門に従事する職員は67,006人、うち救急救命士の数は33,552人である*。総務省消防庁では、3人1組の救急隊のうち、少なくとも1名は救急救命士の資格取得者を配備することを推奨しており、救急救命士の需要は高まりつつある。救急救命士の資格を取得する人数も年々増えているが、増加しつつある出勤件数に対して救急救命士の数は不足しがちである。病人やけが人の生存率を上げるため、救急医療の充実が求められており、高度な救急医療行為を行うことができる救急救命士に対する期待は大きい。\n\n*令和6年度消防白書から"
+  },
+  "interests": {
+    "realistic": 3.367,
+    "investigative": 3.15,
+    "artistic": 2.5,
+    "social": 3.7,
+    "enterprising": 3.0,
+    "conventional": 3.317
+  },
+  "work_values": {
+    "achievement": 3.868,
+    "autonomy": 3.316,
+    "expertise": 4.105,
+    "self_growth": 3.947,
+    "social_recognition": 3.684,
+    "service_contribution": 4.158,
+    "good_relationships": 3.526,
+    "workplace_safety": 2.632,
+    "work_life_balance": 3.342,
+    "stability": 4.026,
+    "compensation": 3.0
+  },
+  "skills": {
+    "reading_comprehension": 4.5,
+    "active_listening": 5.5,
+    "writing": 3.974,
+    "speaking": 4.737,
+    "foreign_language_reading": 1.737,
+    "foreign_language_listening": 1.5,
+    "foreign_language_writing": 1.079,
+    "foreign_language_speaking": 1.368,
+    "mathematics": 2.158,
+    "science": 2.342,
+    "critical_thinking": 3.132,
+    "active_learning": 3.711,
+    "learning_strategies": 3.921,
+    "monitoring": 4.053,
+    "social_perceptiveness": 4.184,
+    "coordination": 3.974,
+    "persuasion": 4.368,
+    "negotiation": 3.658,
+    "instructing": 4.711,
+    "service_orientation": 3.816,
+    "complex_problem_solving": 3.474,
+    "operations_analysis": 3.0,
+    "technology_design": 2.289,
+    "equipment_selection": 3.763,
+    "installation": 2.658,
+    "programming": 1.263,
+    "operations_monitoring": 2.158,
+    "operation_and_control": 2.789,
+    "equipment_maintenance": 3.0,
+    "troubleshooting": 2.868,
+    "repairing": 2.658,
+    "quality_control_analysis": 2.474,
+    "judgment_decision_making": 2.605,
+    "systems_analysis": 2.5,
+    "systems_evaluation": 2.316,
+    "time_management": 3.237,
+    "financial_resources_management": 1.711,
+    "material_resources_management": 2.816,
+    "personnel_resources_management": 3.053
+  },
+  "knowledge": {
+    "business_management": 0.886,
+    "clerical": 2.657,
+    "economics_accounting": 0.543,
+    "sales_marketing": 0.371,
+    "customer_personal_service": 1.629,
+    "personnel_hr": 1.8,
+    "transportation": 0.514,
+    "production_processing": 0.257,
+    "agriculture_livestock": 0.2,
+    "engineering": 0.286,
+    "computers_electronics": 0.457,
+    "design": 0.286,
+    "building_construction": 0.514,
+    "mechanical": 0.971,
+    "mathematics_kn": 0.743,
+    "physics": 0.714,
+    "chemistry": 0.971,
+    "biology": 1.629,
+    "psychology": 1.657,
+    "sociology": 1.429,
+    "geography": 0.543,
+    "medicine_dentistry": 3.714,
+    "therapy_counseling": 1.657,
+    "education_training_kn": 2.8,
+    "japanese_language": 1.657,
+    "foreign_language_kn": 1.286,
+    "fine_arts": 0.314,
+    "history_archaeology": 0.314,
+    "philosophy_theology": 0.457,
+    "public_safety_security": 3.029,
+    "law_government": 2.286,
+    "telecommunications": 1.857,
+    "communications_media": 2.314
+  },
+  "abilities": {
+    "oral_comprehension": 3.326,
+    "written_comprehension": 3.304,
+    "oral_expression": 3.478,
+    "written_expression": 3.174,
+    "fluency_of_ideas": 3.043,
+    "originality": 2.87,
+    "problem_sensitivity": 3.957,
+    "deductive_reasoning": 3.196,
+    "inductive_reasoning": 3.13,
+    "information_ordering": 3.065,
+    "category_flexibility": 2.913,
+    "mathematical_reasoning": 2.739,
+    "number_facility": 2.826,
+    "memorization": 3.413,
+    "perceptual_speed": 3.087,
+    "spatial_orientation": 3.239,
+    "visualization": 3.239,
+    "selective_attention": 3.283,
+    "time_sharing": 3.391,
+    "arm_hand_steadiness": 3.609,
+    "manual_dexterity": 3.565,
+    "finger_dexterity": 3.543,
+    "reaction_time": 3.761,
+    "wrist_finger_speed": 3.304,
+    "speed_of_limb_movement": 3.326,
+    "static_strength": 3.652,
+    "stamina": 3.609,
+    "gross_body_equilibrium": 3.261,
+    "near_vision": 3.196,
+    "far_vision": 3.087,
+    "visual_color_discrimination": 3.304,
+    "depth_perception": 3.196,
+    "hearing_sensitivity": 3.435,
+    "auditory_attention": 3.457,
+    "speech_clarity": 3.457
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.6,
+    "face_to_face_discussions": 3.943,
+    "telephone_communication": 4.457,
+    "business_writing": 3.286,
+    "conflict_situations": 3.0,
+    "time_pressure": 3.886,
+    "teamwork": 4.4,
+    "dealing_with_external_customers": 3.686,
+    "coordinate_lead_others": 3.714,
+    "exactness_accuracy": 4.429,
+    "repetitive_tasks": 3.543,
+    "pace_determined_by_machine": 3.143,
+    "responsibility_for_outcomes": 4.171,
+    "indoor_climate_controlled": 4.057,
+    "indoor_non_climate_controlled": 3.571,
+    "outdoor_work": 4.2,
+    "sitting": 2.971,
+    "standing": 3.257,
+    "repetition_of_activities": 2.8,
+    "consequence_of_error": 4.086,
+    "freedom_to_make_decisions": 3.314,
+    "set_own_goals": 3.457,
+    "regular_schedule": 0.343,
+    "irregular_schedule": 0.6,
+    "seasonal_schedule": 0.057,
+    "email_communication": 3.971,
+    "cramped_uncomfortable": 3.429,
+    "disease_infection_risk": 4.371,
+    "minor_injury_risk": 2.971,
+    "standard_protective_equipment": 4.343,
+    "specialized_protective_equipment": 3.629,
+    "dealing_with_violent_people": 2.714,
+    "walking_running": 3.0,
+    "handling_objects_tools": 2.714,
+    "physical_proximity": 4.229,
+    "work_automation": 2.229,
+    "responsibility_for_safety": 3.743,
+    "impact_of_decisions": 3.457,
+    "level_of_competition": 1.886
+  },
+  "work_activities": {
+    "getting_information": 3.37,
+    "monitor_processes": 3.5,
+    "identifying_objects": 3.435,
+    "inspecting_equipment": 2.913,
+    "estimating_quantifiable": 2.804,
+    "judging_quality": 3.087,
+    "evaluating_compliance": 3.609,
+    "processing_information": 2.935,
+    "analyzing_data": 3.022,
+    "making_decisions": 3.239,
+    "thinking_creatively": 2.913,
+    "updating_knowledge": 3.478,
+    "developing_objectives": 3.152,
+    "scheduling_work": 2.935,
+    "organizing_planning": 3.457,
+    "physical_activities": 3.391,
+    "handling_objects": 3.326,
+    "controlling_machines": 3.065,
+    "operating_vehicles": 3.435,
+    "computer_work": 2.957,
+    "drafting_specifications": 2.717,
+    "repairing_mechanical": 2.87,
+    "repairing_electronic": 2.783,
+    "documenting_information": 3.087,
+    "interpreting_information": 3.13,
+    "communicating_inside": 3.587,
+    "communicating_outside": 3.391,
+    "building_relationships": 3.674,
+    "assisting_caring": 3.478,
+    "selling_influencing": 2.565,
+    "resolving_conflicts": 3.109,
+    "performing_for_public": 3.457,
+    "coordinating_others": 3.391,
+    "developing_teams": 3.761,
+    "training_teaching": 3.565,
+    "guiding_subordinates": 3.804,
+    "coaching_developing": 3.5,
+    "providing_consultation": 2.935,
+    "performing_administrative": 3.261,
+    "staffing_organizational": 2.978,
+    "monitoring_resources": 3.065
+  },
+  "education_distribution": {
+    "below_high_school": 0.029,
+    "high_school": 0.314,
+    "vocational_school": 0.429,
+    "junior_college": 0.0,
+    "technical_college": 0.029,
+    "university": 0.6,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.229,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.143,
+    "6_months_to_1_year": 0.371,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.029,
+    "3_to_5_years": 0.143,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.086
+  },
+  "training_post": {
+    "not_required": 0.086,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.143,
+    "6_months_to_1_year": 0.114,
+    "1_to_2_years": 0.229,
+    "2_to_3_years": 0.114,
+    "3_to_5_years": 0.057,
+    "5_to_10_years": 0.086,
+    "over_10_years": 0.0,
+    "unknown": 0.171
+  },
+  "experience": {
+    "not_required": 0.543,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.086,
+    "6_months_to_1_year": 0.086,
+    "1_to_2_years": 0.057,
+    "2_to_3_years": 0.029,
+    "3_to_5_years": 0.143,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.057
+  },
+  "employment_type": {
+    "regular_employee": 0.943,
+    "part_time": 0.029,
+    "dispatched": 0.0,
+    "contract": 0.0,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.029
+  },
+  "tasks_lead_ja": "病院へ搬送の途中の救急車の中で、生命の危険のある病人やけが人に対して救急救命措置をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "消防署の指令センターからの指令を受け、救急車に乗って現場に急行する。",
+      "execution_rate": 0.957,
+      "importance": 4.5
+    },
+    {
+      "task_id": 2,
+      "description_ja": "病人やけが人の容態を確認し、その場で応急処置をする。",
+      "execution_rate": 0.957,
+      "importance": 4.5
+    },
+    {
+      "task_id": 3,
+      "description_ja": "病人やけが人を救急車に収容し、車内で心音の確認や心拍数の測定をする。",
+      "execution_rate": 0.957,
+      "importance": 4.318
+    },
+    {
+      "task_id": 4,
+      "description_ja": "道中他の車両に道をあけるよう指示しながら医療機関に搬送する。",
+      "execution_rate": 0.957,
+      "importance": 3.932
+    },
+    {
+      "task_id": 5,
+      "description_ja": "車内で病人やけが人に対して医師の指示を受けながら輸液や気管確保をする。",
+      "execution_rate": 0.957,
+      "importance": 4.636
+    },
+    {
+      "task_id": 6,
+      "description_ja": "車内で病人やけが人に対してＡＥＤ（自動体外式除細動器）を使用したり、心臓マッサージをする。",
+      "execution_rate": 0.957,
+      "importance": 4.75
+    },
+    {
+      "task_id": 7,
+      "description_ja": "傷病者を病院に引き渡し、症状や実施した処置の内容を医師に報告する。",
+      "execution_rate": 0.957,
+      "importance": 4.5
+    },
+    {
+      "task_id": 8,
+      "description_ja": "報告書の作成や救急車に搭載する医薬品・器具の点検をする。",
+      "execution_rate": 0.957,
+      "importance": 4.25
+    },
+    {
+      "task_id": 9,
+      "description_ja": "救急救命に関する講習に参加したり、訓練を受ける。",
+      "execution_rate": 0.978,
+      "importance": 3.933
+    },
+    {
+      "task_id": 10,
+      "description_ja": "新たな装備品に習熟するよう練習する。",
+      "execution_rate": 0.978,
+      "importance": 4.2
+    },
+    {
+      "task_id": 11,
+      "description_ja": "定期的な救命救急実習を受ける。",
+      "execution_rate": 0.978,
+      "importance": 3.733
+    },
+    {
+      "task_id": 12,
+      "description_ja": "地域住民に対し、応急手当やAEDを用いた救急救命講習を実施する。",
+      "execution_rate": 1.0,
+      "importance": 3.804
+    },
+    {
+      "task_id": 13,
+      "description_ja": "火災現場や地震などの災害現場において、人命の救出活動を行う。",
+      "execution_rate": 0.957,
+      "importance": 4.364
+    },
+    {
+      "task_id": 14,
+      "description_ja": "消火活動を行う。",
+      "execution_rate": 0.913,
+      "importance": 3.881
+    },
+    {
+      "task_id": 15,
+      "description_ja": "同乗者に傷病について説明する。",
+      "execution_rate": 0.957,
+      "importance": 3.705
+    },
+    {
+      "task_id": 16,
+      "description_ja": "傷病者や関係者に医療接遇する。",
+      "execution_rate": 0.957,
+      "importance": 3.545
+    },
+    {
+      "task_id": 17,
+      "description_ja": "救急救命士や他の隊員に助言や指導を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.761
+    },
+    {
+      "task_id": 18,
+      "description_ja": "地域の医療関係者と連携する。",
+      "execution_rate": 0.978,
+      "importance": 3.844
+    },
+    {
+      "task_id": 19,
+      "description_ja": "傷病者の予後を調査する。",
+      "execution_rate": 0.913,
+      "importance": 2.976
+    },
+    {
+      "task_id": 20,
+      "description_ja": "事故の概要を調査する。",
+      "execution_rate": 0.913,
+      "importance": 3.238
+    },
+    {
+      "task_id": 21,
+      "description_ja": "統計調査に関する業務を行う。",
+      "execution_rate": 0.935,
+      "importance": 3.023
+    },
+    {
+      "task_id": 22,
+      "description_ja": "警防計画を作成する。",
+      "execution_rate": 0.935,
+      "importance": 3.14
+    },
+    {
+      "task_id": 23,
+      "description_ja": "救急業務におけるプロトコールを検討する。",
+      "execution_rate": 0.978,
+      "importance": 3.822
+    },
+    {
+      "task_id": 24,
+      "description_ja": "資器材や医薬品の在庫管理、発注を行う。",
+      "execution_rate": 0.891,
+      "importance": 3.366
+    },
+    {
+      "task_id": 25,
+      "description_ja": "劇薬や感染性医療廃棄物を管理する。",
+      "execution_rate": 0.978,
+      "importance": 3.778
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本救急救命士協会",
+      "url": "http://paramedics.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "救急救命士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/401",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

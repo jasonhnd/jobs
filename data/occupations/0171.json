@@ -1,0 +1,498 @@
+{
+  "id": 171,
+  "ipd_id": "IPD_01_01_171",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "栄養士",
+  "aliases_ja": [
+    "学校栄養士",
+    "福祉施設栄養士",
+    "病院栄養士",
+    "管理栄養士"
+  ],
+  "classifications": {
+    "mhlw_main": "04_025-01",
+    "mhlw_all": [
+      "04_025-01",
+      "04_025-02"
+    ],
+    "jsoc_main": "B151",
+    "jsoc_all": [
+      "B151"
+    ]
+  },
+  "description": {
+    "summary_ja": "病院、社会福祉施設、企業、学校、行政機関などで、栄養に関する指導・助言や食事の管理などを行う。",
+    "what_it_is_ja": "病院、社会福祉施設、企業、学校、行政機関などで、栄養に関する指導・助言や食事の管理などを行う。\n　栄養指導については、病院、保健所、学校、社会福祉施設などで個人の特性や環境に合わせて、栄養や食生活、食事と健康との関係についてアドバイスする。\n　食事の管理については病院や学校などの施設で、対象となる患者や生徒の健康や栄養状態、材料の種類、予算を考えながら献立を作成する。献立には季節感を取り入れ、給食調理員の協力を得て食事の用意も行う。また、栄養価の計算や材料の発注も行う。\n　特に病状が変わりやすい入院患者に対する場合、それぞれの病状に合わせた栄養補給のための食事が必要となるので、医師の発行する「食事せん」によって食事を調製することが重要な仕事となる。\n　このほか健康や栄養について国や自治体が行う広報活動や調査研究にかかわる仕事をしたり、食品を取り扱う企業で、消費者を対象とする広報や調査、相談などに携わることもある。\n　栄養士のうち、特に高度な専門知識が必要な仕事に従事する人について、「管理栄養士」の資格が設けられている。また、小・中学校において児童・生徒に食に関する指導を行う「栄養教諭」がある。この資格は管理栄養士又は栄養士の資格を持っている者が、教諭資格に必要な科目を修得し、教育実習を経て取得できる。\n\n◇　よく使う道具、機材、情報技術等\n　調理道具（包丁、ガスコンロ等）",
+    "how_to_become_ja": "栄養士になるには、厚生労働大臣の指定した栄養士養成施設を卒業し、都道府県知事に申請し免許を受ける必要がある。\n　管理栄養士になるためには、栄養士免許を取得した後、養成施設と実務経験を合わせて5年（4年養成施設の場合は実務経験が1年、3年養成施設の場合は実務経験が2年、2年養成施設の場合は実務経験が3年）以上経てから管理栄養士国家試験に合格しなければならない。ただし、管理栄養士育成施設（修学4年）を卒業した者は栄養士免許を取得後すぐに管理栄養士国家試験を受験できる。\n　栄養について豊富な知識を持ち、新しい食品や健康に関する情報に絶えず関心をはらうこと、食事のあり方や食生活の内容などについて、わかりやすく指導・助言する能力などが必要である。\n　就職後も知識や技術の研鑽は欠かせないため、研修などを通じて専門性を深めていく。日本栄養士会では、「臨床栄養」、「学校栄養」、「健康／スポーツ栄養」、「給食管理」、「公衆栄養」、「地域栄養」、「福祉栄養（高齢者・障がい者）」、「福祉栄養（児童）」の８つの分野で「認定管理栄養士」「認定栄養士」を認定している。この他、特定保健指導やスポーツ栄養など５つの特定分野で認定する「特定分野管理栄養士」、がん患者、糖尿病患者等に対応する「専門管理栄養士」などの資格もある。\n　認定を受けることで、それぞれのテーマに対して専門的技術、知識を実践レベルで習得している栄養士、管理栄養士であることを示すことができる。",
+    "working_conditions_ja": "就業者は大部分が女性で、勤務先は病院、社会福祉施設、小・中学校、企業のほか、食品会社や化粧品会社で調査研究にたずさわる人もいる。また、スポーツの現場で働いたり、栄養コンサルタントとしてフリーで働いている人もいる。\n　働く環境は、職場によって差はあるが、事務室内、調理場など施設内のほか、担当する仕事によっては、家庭訪問や講習会などで外に出かける場合もある。\n　勤務体制は、一部大きな病院や社会福祉施設の勤務などの場合を除いて、交替制はほとんどなく、残業も比較的少ない。調理場に出て仕事をするような場合、事務所等に比べると高温多湿の環境で立ち作業やかがみ作業をすることがある。今後は、高齢者や障害のある人の社会福祉施設の増加が見込まれ、入院患者の栄養管理などの仕事も高度化することから、福祉や医療の現場での活動が拡大するとみられる。また、栄養コンサルタント、フードコーディネーター等、独立・開業による職域拡大も見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.393,
+    "investigative": 3.623,
+    "artistic": 2.689,
+    "social": 4.246,
+    "enterprising": 3.443,
+    "conventional": 3.738
+  },
+  "work_values": {
+    "achievement": 3.156,
+    "autonomy": 3.4,
+    "expertise": 3.778,
+    "self_growth": 3.578,
+    "social_recognition": 2.756,
+    "service_contribution": 3.333,
+    "good_relationships": 3.244,
+    "workplace_safety": 3.267,
+    "work_life_balance": 3.244,
+    "stability": 3.289,
+    "compensation": 2.444
+  },
+  "skills": {
+    "reading_comprehension": 4.067,
+    "active_listening": 4.822,
+    "writing": 4.022,
+    "speaking": 4.622,
+    "foreign_language_reading": 1.089,
+    "foreign_language_listening": 0.578,
+    "foreign_language_writing": 0.444,
+    "foreign_language_speaking": 0.489,
+    "mathematics": 2.133,
+    "science": 1.711,
+    "critical_thinking": 2.844,
+    "active_learning": 3.467,
+    "learning_strategies": 3.267,
+    "monitoring": 3.756,
+    "social_perceptiveness": 3.867,
+    "coordination": 3.889,
+    "persuasion": 4.089,
+    "negotiation": 3.333,
+    "instructing": 4.511,
+    "service_orientation": 3.8,
+    "complex_problem_solving": 3.289,
+    "operations_analysis": 2.644,
+    "technology_design": 1.822,
+    "equipment_selection": 2.711,
+    "installation": 1.733,
+    "programming": 1.578,
+    "operations_monitoring": 1.111,
+    "operation_and_control": 1.556,
+    "equipment_maintenance": 1.556,
+    "troubleshooting": 1.844,
+    "repairing": 1.267,
+    "quality_control_analysis": 2.022,
+    "judgment_decision_making": 2.089,
+    "systems_analysis": 1.867,
+    "systems_evaluation": 1.733,
+    "time_management": 2.889,
+    "financial_resources_management": 1.622,
+    "material_resources_management": 1.844,
+    "personnel_resources_management": 2.044
+  },
+  "knowledge": {
+    "business_management": 1.189,
+    "clerical": 2.377,
+    "economics_accounting": 0.83,
+    "sales_marketing": 0.792,
+    "customer_personal_service": 2.208,
+    "personnel_hr": 1.17,
+    "transportation": 0.453,
+    "production_processing": 1.717,
+    "agriculture_livestock": 0.811,
+    "engineering": 0.34,
+    "computers_electronics": 0.604,
+    "design": 0.302,
+    "building_construction": 0.151,
+    "mechanical": 0.264,
+    "mathematics_kn": 0.906,
+    "physics": 0.491,
+    "chemistry": 1.075,
+    "biology": 1.509,
+    "psychology": 1.547,
+    "sociology": 1.321,
+    "geography": 0.358,
+    "medicine_dentistry": 2.792,
+    "therapy_counseling": 1.66,
+    "education_training_kn": 1.226,
+    "japanese_language": 1.208,
+    "foreign_language_kn": 0.472,
+    "fine_arts": 0.283,
+    "history_archaeology": 0.264,
+    "philosophy_theology": 0.245,
+    "public_safety_security": 1.057,
+    "law_government": 0.566,
+    "telecommunications": 0.415,
+    "communications_media": 1.283
+  },
+  "abilities": {
+    "oral_comprehension": 3.109,
+    "written_comprehension": 3.109,
+    "oral_expression": 3.418,
+    "written_expression": 3.345,
+    "fluency_of_ideas": 2.964,
+    "originality": 2.673,
+    "problem_sensitivity": 3.382,
+    "deductive_reasoning": 2.927,
+    "inductive_reasoning": 2.873,
+    "information_ordering": 2.818,
+    "category_flexibility": 2.691,
+    "mathematical_reasoning": 2.473,
+    "number_facility": 2.818,
+    "memorization": 2.945,
+    "perceptual_speed": 2.745,
+    "spatial_orientation": 2.691,
+    "visualization": 2.636,
+    "selective_attention": 3.018,
+    "time_sharing": 3.164,
+    "arm_hand_steadiness": 2.509,
+    "manual_dexterity": 2.618,
+    "finger_dexterity": 2.491,
+    "reaction_time": 2.636,
+    "wrist_finger_speed": 2.564,
+    "speed_of_limb_movement": 2.345,
+    "static_strength": 2.327,
+    "stamina": 2.582,
+    "gross_body_equilibrium": 2.145,
+    "near_vision": 2.127,
+    "far_vision": 2.018,
+    "visual_color_discrimination": 2.364,
+    "depth_perception": 2.109,
+    "hearing_sensitivity": 2.218,
+    "auditory_attention": 2.218,
+    "speech_clarity": 2.745
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.509,
+    "face_to_face_discussions": 3.245,
+    "telephone_communication": 3.792,
+    "business_writing": 3.038,
+    "conflict_situations": 2.283,
+    "time_pressure": 3.245,
+    "teamwork": 4.094,
+    "dealing_with_external_customers": 3.283,
+    "coordinate_lead_others": 3.396,
+    "exactness_accuracy": 3.962,
+    "repetitive_tasks": 3.566,
+    "pace_determined_by_machine": 2.642,
+    "responsibility_for_outcomes": 3.189,
+    "indoor_climate_controlled": 4.849,
+    "indoor_non_climate_controlled": 1.623,
+    "outdoor_work": 1.283,
+    "sitting": 3.094,
+    "standing": 3.321,
+    "repetition_of_activities": 2.585,
+    "consequence_of_error": 3.585,
+    "freedom_to_make_decisions": 3.302,
+    "set_own_goals": 3.528,
+    "regular_schedule": 0.83,
+    "irregular_schedule": 0.151,
+    "seasonal_schedule": 0.019,
+    "email_communication": 3.34,
+    "cramped_uncomfortable": 1.868,
+    "disease_infection_risk": 3.264,
+    "minor_injury_risk": 2.811,
+    "standard_protective_equipment": 1.736,
+    "specialized_protective_equipment": 1.528,
+    "dealing_with_violent_people": 1.415,
+    "walking_running": 2.925,
+    "handling_objects_tools": 2.811,
+    "physical_proximity": 3.604,
+    "work_automation": 2.094,
+    "responsibility_for_safety": 3.208,
+    "impact_of_decisions": 2.679,
+    "level_of_competition": 1.585
+  },
+  "work_activities": {
+    "getting_information": 3.345,
+    "monitor_processes": 3.455,
+    "identifying_objects": 3.436,
+    "inspecting_equipment": 2.927,
+    "estimating_quantifiable": 2.909,
+    "judging_quality": 2.927,
+    "evaluating_compliance": 3.327,
+    "processing_information": 3.055,
+    "analyzing_data": 3.109,
+    "making_decisions": 3.291,
+    "thinking_creatively": 2.945,
+    "updating_knowledge": 3.509,
+    "developing_objectives": 3.109,
+    "scheduling_work": 3.145,
+    "organizing_planning": 3.418,
+    "physical_activities": 2.836,
+    "handling_objects": 2.727,
+    "controlling_machines": 2.455,
+    "operating_vehicles": 1.836,
+    "computer_work": 3.127,
+    "drafting_specifications": 1.945,
+    "repairing_mechanical": 1.945,
+    "repairing_electronic": 1.873,
+    "documenting_information": 2.8,
+    "interpreting_information": 2.927,
+    "communicating_inside": 3.382,
+    "communicating_outside": 3.273,
+    "building_relationships": 3.236,
+    "assisting_caring": 3.327,
+    "selling_influencing": 2.727,
+    "resolving_conflicts": 2.836,
+    "performing_for_public": 2.745,
+    "coordinating_others": 2.927,
+    "developing_teams": 2.982,
+    "training_teaching": 2.964,
+    "guiding_subordinates": 2.927,
+    "coaching_developing": 2.8,
+    "providing_consultation": 2.509,
+    "performing_administrative": 2.818,
+    "staffing_organizational": 2.473,
+    "monitoring_resources": 2.673
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.094,
+    "vocational_school": 0.264,
+    "junior_college": 0.396,
+    "technical_college": 0.019,
+    "university": 0.66,
+    "masters": 0.019,
+    "doctorate": 0.0,
+    "unknown": 0.075
+  },
+  "training_pre": {
+    "not_required": 0.396,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.132,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.075,
+    "2_to_3_years": 0.17,
+    "3_to_5_years": 0.113,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.113
+  },
+  "training_post": {
+    "not_required": 0.019,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.264,
+    "6_months_to_1_year": 0.245,
+    "1_to_2_years": 0.226,
+    "2_to_3_years": 0.113,
+    "3_to_5_years": 0.057,
+    "5_to_10_years": 0.019,
+    "over_10_years": 0.019,
+    "unknown": 0.019
+  },
+  "experience": {
+    "not_required": 0.528,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.075,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.094,
+    "2_to_3_years": 0.132,
+    "3_to_5_years": 0.038,
+    "5_to_10_years": 0.019,
+    "over_10_years": 0.0,
+    "unknown": 0.094
+  },
+  "employment_type": {
+    "regular_employee": 0.811,
+    "part_time": 0.321,
+    "dispatched": 0.019,
+    "contract": 0.038,
+    "self_employed_freelance": 0.057,
+    "executive": 0.0,
+    "casual_non_student": 0.019,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "病院、社会福祉施設、企業、学校、行政機関などで、栄養に関する指導・助言や食事の管理などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "給食施設の栄養の基準を定め、献立を作成する。",
+      "execution_rate": 0.8,
+      "importance": 3.705
+    },
+    {
+      "task_id": 2,
+      "description_ja": "給食調理業務を監督し、栄養および品質の基準に合致しているかどうかをチェックする。",
+      "execution_rate": 0.818,
+      "importance": 3.644
+    },
+    {
+      "task_id": 3,
+      "description_ja": "給食サービスに使用する食材を選択し、発注する。",
+      "execution_rate": 0.782,
+      "importance": 3.535
+    },
+    {
+      "task_id": 4,
+      "description_ja": "給食施設におけるサービスや栄養指導の状況について記録し、報告をまとめる。",
+      "execution_rate": 0.782,
+      "importance": 3.791
+    },
+    {
+      "task_id": 5,
+      "description_ja": "生徒の発育に必要な栄養と、給食の予算を考慮して献立を作成する。",
+      "execution_rate": 0.618,
+      "importance": 3.853
+    },
+    {
+      "task_id": 6,
+      "description_ja": "学年ごとに給食の残量を計算し、記録する。",
+      "execution_rate": 0.564,
+      "importance": 3.161
+    },
+    {
+      "task_id": 7,
+      "description_ja": "医師および医療担当者と連携し、食事療法の必要な患者の献立を作成する。",
+      "execution_rate": 0.746,
+      "importance": 3.878
+    },
+    {
+      "task_id": 8,
+      "description_ja": "入院患者の摂食状況など栄養状態および対応について医師に報告する。",
+      "execution_rate": 0.691,
+      "importance": 3.737
+    },
+    {
+      "task_id": 9,
+      "description_ja": "食事の改善や栄養知識に関する指導プログラムを作り、入院患者や家族を教育指導する。",
+      "execution_rate": 0.655,
+      "importance": 3.667
+    },
+    {
+      "task_id": 10,
+      "description_ja": "食事制限のある患者やその家族の栄養指導を行い、継続的に状況をチェックする。",
+      "execution_rate": 0.746,
+      "importance": 4.0
+    },
+    {
+      "task_id": 11,
+      "description_ja": "食事療法が必要な人の食物の選択や調理に関する相談に応じ、献立の作成についてアドバイスする。",
+      "execution_rate": 0.8,
+      "importance": 3.659
+    },
+    {
+      "task_id": 12,
+      "description_ja": "食中毒等を防ぐため、衛生管理を行い、調理員に必要な指導をする。",
+      "execution_rate": 0.782,
+      "importance": 4.116
+    },
+    {
+      "task_id": 13,
+      "description_ja": "高齢者のえんげ状態を確認する。",
+      "execution_rate": 0.746,
+      "importance": 3.585
+    },
+    {
+      "task_id": 14,
+      "description_ja": "施設の行事を企画し、開催する。",
+      "execution_rate": 0.727,
+      "importance": 2.8
+    },
+    {
+      "task_id": 15,
+      "description_ja": "特定保健指導に関連する面談や、生活習慣病予防の指導をする。",
+      "execution_rate": 0.673,
+      "importance": 3.351
+    },
+    {
+      "task_id": 16,
+      "description_ja": "児童や患者の栄養調査を行う。",
+      "execution_rate": 0.655,
+      "importance": 3.361
+    },
+    {
+      "task_id": 17,
+      "description_ja": "事業者や在宅者に、健康管理や栄養管理の啓発をする。",
+      "execution_rate": 0.636,
+      "importance": 3.114
+    },
+    {
+      "task_id": 18,
+      "description_ja": "栄養教諭は小・中学校において児童・生徒に食に関する指導を行う。",
+      "execution_rate": 0.509,
+      "importance": 3.536
+    },
+    {
+      "task_id": 19,
+      "description_ja": "母親学級で栄養相談に応じ、調乳の指導をする。",
+      "execution_rate": 0.509,
+      "importance": 3.143
+    },
+    {
+      "task_id": 20,
+      "description_ja": "高齢者施設で、入所者や介護者の栄養相談に応じる。",
+      "execution_rate": 0.582,
+      "importance": 3.219
+    },
+    {
+      "task_id": 21,
+      "description_ja": "請求書など、帳票類を整理する。",
+      "execution_rate": 0.836,
+      "importance": 3.13
+    },
+    {
+      "task_id": 22,
+      "description_ja": "スタッフの労務管理をする。",
+      "execution_rate": 0.782,
+      "importance": 3.209
+    },
+    {
+      "task_id": 23,
+      "description_ja": "現場の調理員に指示を出す。",
+      "execution_rate": 0.782,
+      "importance": 3.512
+    },
+    {
+      "task_id": 24,
+      "description_ja": "厨房や調理システムを設計し、新たな設備を導入する。",
+      "execution_rate": 0.691,
+      "importance": 2.711
+    },
+    {
+      "task_id": 25,
+      "description_ja": "健康維持増進プログラムを策定する。",
+      "execution_rate": 0.636,
+      "importance": 3.029
+    },
+    {
+      "task_id": 26,
+      "description_ja": "栄養士を目指す学生に授業をする。",
+      "execution_rate": 0.546,
+      "importance": 2.733
+    },
+    {
+      "task_id": 27,
+      "description_ja": "調理実習をする。",
+      "execution_rate": 0.509,
+      "importance": 2.821
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人   日本栄養士会",
+      "url": "https://www.dietitian.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人　全国栄養士養成施設協会",
+      "url": "https://www.eiyo.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "栄養士",
+    "管理栄養士",
+    "栄養教諭"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/171",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,444 @@
+{
+  "id": 402,
+  "ipd_id": "IPD_01_01_402",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "外科医",
+  "aliases_ja": [
+    "医師"
+  ],
+  "classifications": {
+    "mhlw_main": "04_021-01",
+    "mhlw_all": [
+      "04_021-01"
+    ],
+    "jsoc_main": "B121",
+    "jsoc_all": [
+      "B121"
+    ]
+  },
+  "description": {
+    "summary_ja": "主に手術等により、患者の病気や外傷の治療を行う。",
+    "what_it_is_ja": "主に手術等により、患者の病気や外傷の治療を行う。\n　外科医の中でも脳神経外科、心臓血管外科、消化器外科、整形外科等様々に分かれておりそれぞれの専門に応じた知識、技術が求められるが、ここでは共通した主な仕事の内容について記述する。\n　まず、患者や家族からの症状やけがの状況の聞き取り、各種検査等（X線やCT、MRIなどの画像診断や血液検査など）の結果から総合的に判断して傷病名を診断する。その上で、どのような治療を行うか、手術を適用するか否かを検討する。患者が手術に耐えられる状態かどうかも吟味する。手術計画を立て、患者と家族に内容を正確、丁寧に説明するのも重要な仕事である。\n　業務は患部の洗浄、切開、縫合などの簡易な処置から、複数の医師や看護師と協力して数時間かけて行う大手術まである。手術では患者の体にメスを入れて、患部を取り除いたり、外傷部位を修復したりする。この他に、人工物を使用したり、内視鏡を用いた検査、患部の切除及び治療、がんなどの悪性腫瘍に対する抗がん剤治療等を行う業務もある。\n　手術後は、経過や回復状況を観察、確認した上で、必要な対応を図る。それについて本人、家族に伝えることも必要である。また、抜糸をしたり、リハビリの指示等も行う。\n\n◇　よく使う道具、機材、情報技術等\n　内視鏡、医療機器（聴診器、注射器、CT、MRI等）、パソコン",
+    "how_to_become_ja": "外科医として仕事をするには、医師国家試験に合格して医師免許を取得することが必須である。まず、大学医学部で6年間にわたって専門的な知識を身につけ、同時に実習も行う。大学の卒業試験に合格すると国家試験を受験することができる。国家試験に合格すると、医師免許が与えられる。更に大学病院や大病院などの臨床研修病院で研修医として最低2年間の臨床研修を積み、実際の患者を診察しながら知識を身につける。この研修終了後に外科の診療科に所属して外科医となる。所定の要件を満たせば専門医に認定される制度がある。\n　臨床研修後には、病院などに勤務医として勤め、多くの経験を積んでいく。勤務先の病院で診療科長になるケースや、独立して開業医となるケースがある。診療所の開業は外科単科の開業というよりも、総合的に幅広く患者を診る外科医が多い。大学で研究を続けながら講師や教授になることもある。\n　医学の知識や治療技術の進歩は急速であり、外科医にとって不断の技術トレーニングが必須である。患者の命を預かる責任は重く、急患の処置における迅速な判断力や長時間にわたる診療、手術等に耐えられる精神力や忍耐力、体力も必要とされる。また、手術を中心とした医療行為を行うには、看護師や麻酔科医、放射線技師など、他の診療科や他の職種の人たちと良好な関係を保つことが求められる。",
+    "working_conditions_ja": "勤務先は医療機関等である。1人で行うことができる外科の手術は技術的に容易なものに限られているため、ある程度大きな手術治療を行うためには、2人以上の複数の外科医がいる医療機関（病院）に所属することが必要であり、外科の専門医は比較的大きな医療機関に勤務することが多い。\n　外科医全体の人数は62,110人（外科、呼吸外科、心臓血管外科、乳腺外科、気管食道外科、消化器外科（胃腸外科）、肛門外科、脳神経外科、整形外科、形成外科、美容外科、小児外科）である。診療科の構成割合を性別にみると、男性医師では内科（19.9％）に次いで、整形外科が多い（8.5％）。また、外科全体における女性医師は1割に満たない程度である（2022年時点*1）。\n　入院患者や救急の対応がある病院では、基本的に24時間、患者の状況把握が必要であり、交代制で夜間・早朝・休日の勤務もある。長時間の手術や急患の処置などもあり、勤務が不規則になりがちである。一般的に賃金水準は高い。\n　地方では医師不足に悩んでいるところも多く、地域的なアンバランスの解消が課題となっている。医療の高度化、技術進歩が急速であり、医療サービスの提供のあり方も変化してきている。\n\n*1　令和4(2022)年医師・歯科医師・薬剤師調査の概況から\n診療科別にみた医師数"
+  },
+  "interests": {
+    "realistic": 3.746,
+    "investigative": 3.508,
+    "artistic": 3.119,
+    "social": 3.61,
+    "enterprising": 3.271,
+    "conventional": 3.373
+  },
+  "work_values": {
+    "achievement": 3.907,
+    "autonomy": 3.889,
+    "expertise": 4.13,
+    "self_growth": 3.833,
+    "social_recognition": 3.852,
+    "service_contribution": 3.852,
+    "good_relationships": 3.574,
+    "workplace_safety": 3.37,
+    "work_life_balance": 3.278,
+    "stability": 3.852,
+    "compensation": 3.926
+  },
+  "skills": {
+    "reading_comprehension": 5.296,
+    "active_listening": 5.111,
+    "writing": 4.722,
+    "speaking": 5.296,
+    "foreign_language_reading": 3.981,
+    "foreign_language_listening": 2.722,
+    "foreign_language_writing": 3.315,
+    "foreign_language_speaking": 2.704,
+    "mathematics": 3.556,
+    "science": 3.87,
+    "critical_thinking": 4.593,
+    "active_learning": 4.759,
+    "learning_strategies": 4.389,
+    "monitoring": 4.593,
+    "social_perceptiveness": 4.722,
+    "coordination": 4.426,
+    "persuasion": 4.352,
+    "negotiation": 4.0,
+    "instructing": 4.481,
+    "service_orientation": 4.296,
+    "complex_problem_solving": 4.463,
+    "operations_analysis": 3.963,
+    "technology_design": 3.167,
+    "equipment_selection": 3.852,
+    "installation": 3.259,
+    "programming": 1.926,
+    "operations_monitoring": 2.926,
+    "operation_and_control": 2.593,
+    "equipment_maintenance": 2.0,
+    "troubleshooting": 2.352,
+    "repairing": 2.259,
+    "quality_control_analysis": 2.296,
+    "judgment_decision_making": 3.852,
+    "systems_analysis": 3.444,
+    "systems_evaluation": 3.352,
+    "time_management": 3.722,
+    "financial_resources_management": 2.722,
+    "material_resources_management": 2.815,
+    "personnel_resources_management": 3.481
+  },
+  "knowledge": {
+    "business_management": 0.942,
+    "clerical": 1.462,
+    "economics_accounting": 0.865,
+    "sales_marketing": 0.827,
+    "customer_personal_service": 1.692,
+    "personnel_hr": 1.115,
+    "transportation": 0.346,
+    "production_processing": 0.288,
+    "agriculture_livestock": 0.25,
+    "engineering": 0.885,
+    "computers_electronics": 1.288,
+    "design": 0.558,
+    "building_construction": 0.346,
+    "mechanical": 0.731,
+    "mathematics_kn": 1.25,
+    "physics": 1.308,
+    "chemistry": 1.808,
+    "biology": 2.827,
+    "psychology": 2.5,
+    "sociology": 1.885,
+    "geography": 0.673,
+    "medicine_dentistry": 4.731,
+    "therapy_counseling": 2.962,
+    "education_training_kn": 2.115,
+    "japanese_language": 1.942,
+    "foreign_language_kn": 2.0,
+    "fine_arts": 0.577,
+    "history_archaeology": 0.558,
+    "philosophy_theology": 1.0,
+    "public_safety_security": 2.077,
+    "law_government": 1.538,
+    "telecommunications": 0.981,
+    "communications_media": 1.846
+  },
+  "abilities": {
+    "oral_comprehension": 3.333,
+    "written_comprehension": 3.294,
+    "oral_expression": 3.353,
+    "written_expression": 3.353,
+    "fluency_of_ideas": 3.039,
+    "originality": 2.902,
+    "problem_sensitivity": 3.686,
+    "deductive_reasoning": 3.196,
+    "inductive_reasoning": 3.216,
+    "information_ordering": 3.137,
+    "category_flexibility": 2.941,
+    "mathematical_reasoning": 2.922,
+    "number_facility": 2.784,
+    "memorization": 3.275,
+    "perceptual_speed": 3.196,
+    "spatial_orientation": 3.078,
+    "visualization": 3.118,
+    "selective_attention": 3.373,
+    "time_sharing": 3.157,
+    "arm_hand_steadiness": 3.373,
+    "manual_dexterity": 3.373,
+    "finger_dexterity": 3.431,
+    "reaction_time": 3.275,
+    "wrist_finger_speed": 3.176,
+    "speed_of_limb_movement": 3.0,
+    "static_strength": 2.549,
+    "stamina": 3.294,
+    "gross_body_equilibrium": 3.059,
+    "near_vision": 3.059,
+    "far_vision": 2.569,
+    "visual_color_discrimination": 3.118,
+    "depth_perception": 3.235,
+    "hearing_sensitivity": 2.961,
+    "auditory_attention": 2.961,
+    "speech_clarity": 3.157
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.846,
+    "face_to_face_discussions": 4.269,
+    "telephone_communication": 3.712,
+    "business_writing": 3.673,
+    "conflict_situations": 2.596,
+    "time_pressure": 3.404,
+    "teamwork": 3.942,
+    "dealing_with_external_customers": 3.462,
+    "coordinate_lead_others": 3.385,
+    "exactness_accuracy": 4.308,
+    "repetitive_tasks": 3.538,
+    "pace_determined_by_machine": 3.0,
+    "responsibility_for_outcomes": 4.25,
+    "indoor_climate_controlled": 4.731,
+    "indoor_non_climate_controlled": 1.231,
+    "outdoor_work": 1.404,
+    "sitting": 3.673,
+    "standing": 2.538,
+    "repetition_of_activities": 2.385,
+    "consequence_of_error": 4.385,
+    "freedom_to_make_decisions": 3.981,
+    "set_own_goals": 3.865,
+    "regular_schedule": 0.673,
+    "irregular_schedule": 0.308,
+    "seasonal_schedule": 0.019,
+    "email_communication": 3.654,
+    "cramped_uncomfortable": 1.942,
+    "disease_infection_risk": 4.519,
+    "minor_injury_risk": 2.115,
+    "standard_protective_equipment": 3.423,
+    "specialized_protective_equipment": 3.135,
+    "dealing_with_violent_people": 2.442,
+    "walking_running": 1.885,
+    "handling_objects_tools": 2.827,
+    "physical_proximity": 4.058,
+    "work_automation": 1.981,
+    "responsibility_for_safety": 4.269,
+    "impact_of_decisions": 3.654,
+    "level_of_competition": 2.173
+  },
+  "work_activities": {
+    "getting_information": 3.49,
+    "monitor_processes": 3.49,
+    "identifying_objects": 3.451,
+    "inspecting_equipment": 2.922,
+    "estimating_quantifiable": 2.824,
+    "judging_quality": 3.02,
+    "evaluating_compliance": 3.157,
+    "processing_information": 3.176,
+    "analyzing_data": 3.294,
+    "making_decisions": 3.588,
+    "thinking_creatively": 3.137,
+    "updating_knowledge": 3.431,
+    "developing_objectives": 3.333,
+    "scheduling_work": 3.294,
+    "organizing_planning": 3.569,
+    "physical_activities": 2.667,
+    "handling_objects": 2.941,
+    "controlling_machines": 2.647,
+    "operating_vehicles": 1.804,
+    "computer_work": 2.941,
+    "drafting_specifications": 2.039,
+    "repairing_mechanical": 2.196,
+    "repairing_electronic": 2.176,
+    "documenting_information": 2.98,
+    "interpreting_information": 3.235,
+    "communicating_inside": 3.431,
+    "communicating_outside": 3.314,
+    "building_relationships": 3.392,
+    "assisting_caring": 3.608,
+    "selling_influencing": 2.353,
+    "resolving_conflicts": 2.686,
+    "performing_for_public": 2.784,
+    "coordinating_others": 2.941,
+    "developing_teams": 3.196,
+    "training_teaching": 3.02,
+    "guiding_subordinates": 3.0,
+    "coaching_developing": 2.863,
+    "providing_consultation": 2.804,
+    "performing_administrative": 3.02,
+    "staffing_organizational": 2.647,
+    "monitoring_resources": 2.745
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.0,
+    "vocational_school": 0.0,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.558,
+    "masters": 0.25,
+    "doctorate": 0.5,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.115,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.115,
+    "2_to_3_years": 0.135,
+    "3_to_5_years": 0.096,
+    "5_to_10_years": 0.288,
+    "over_10_years": 0.154,
+    "unknown": 0.077
+  },
+  "training_post": {
+    "not_required": 0.019,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.019,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.096,
+    "3_to_5_years": 0.154,
+    "5_to_10_years": 0.346,
+    "over_10_years": 0.212,
+    "unknown": 0.115
+  },
+  "experience": {
+    "not_required": 0.25,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.096,
+    "2_to_3_years": 0.154,
+    "3_to_5_years": 0.096,
+    "5_to_10_years": 0.154,
+    "over_10_years": 0.096,
+    "unknown": 0.135
+  },
+  "employment_type": {
+    "regular_employee": 0.75,
+    "part_time": 0.058,
+    "dispatched": 0.0,
+    "contract": 0.077,
+    "self_employed_freelance": 0.192,
+    "executive": 0.019,
+    "casual_non_student": 0.058,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.019
+  },
+  "tasks_lead_ja": "主に手術という治療方法を用いて患者の病気やけがを治療する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "患者や家族から症状やけがの状況を聞き、触診などにより診察する。",
+      "execution_rate": 0.98,
+      "importance": 3.94
+    },
+    {
+      "task_id": 2,
+      "description_ja": "Ｘ線やＣＴ、ＭＲＩなどの画像診断や血液検査などを技師に依頼する。",
+      "execution_rate": 0.941,
+      "importance": 3.771
+    },
+    {
+      "task_id": 3,
+      "description_ja": "診察や検査結果から総合的に判断して傷病名を診断し、治療法や投与する医薬品を選択する。",
+      "execution_rate": 1.0,
+      "importance": 3.961
+    },
+    {
+      "task_id": 4,
+      "description_ja": "手術の計画を立て、患者と家族に内容を説明する。",
+      "execution_rate": 0.922,
+      "importance": 4.043
+    },
+    {
+      "task_id": 5,
+      "description_ja": "患部の洗浄、切開、縫合などの処置や比較的簡易な手術をする。",
+      "execution_rate": 0.961,
+      "importance": 3.694
+    },
+    {
+      "task_id": 6,
+      "description_ja": "内視鏡を用いた診断と治療をする。",
+      "execution_rate": 0.726,
+      "importance": 3.703
+    },
+    {
+      "task_id": 7,
+      "description_ja": "複数の医師や看護婦と協力し、比較的大掛かりな手術をする。",
+      "execution_rate": 0.843,
+      "importance": 3.651
+    },
+    {
+      "task_id": 8,
+      "description_ja": "術後の経過を観察し、患者の状態を判断する。",
+      "execution_rate": 0.941,
+      "importance": 4.042
+    },
+    {
+      "task_id": 9,
+      "description_ja": "抜糸をしたり、リハビリの指示をする。",
+      "execution_rate": 0.941,
+      "importance": 3.542
+    },
+    {
+      "task_id": 10,
+      "description_ja": "処方せんを作成し、医薬品の服用などの注意事項を患者に指示する。",
+      "execution_rate": 1.0,
+      "importance": 3.647
+    },
+    {
+      "task_id": 11,
+      "description_ja": "診察ごとに内容をカルテに記入し、診断書など必要な書類を作成する。",
+      "execution_rate": 1.0,
+      "importance": 3.686
+    },
+    {
+      "task_id": 12,
+      "description_ja": "看護師に点滴や注射、患部の処置に関する指示を与える。",
+      "execution_rate": 0.961,
+      "importance": 3.612
+    },
+    {
+      "task_id": 13,
+      "description_ja": "書籍や論文から最新の医療情報を収集する。",
+      "execution_rate": 0.98,
+      "importance": 3.3
+    },
+    {
+      "task_id": 14,
+      "description_ja": "症例検討会や研修に参加し、医療技術を高める。",
+      "execution_rate": 0.922,
+      "importance": 3.404
+    },
+    {
+      "task_id": 15,
+      "description_ja": "学会や雑誌で研究発表する。",
+      "execution_rate": 0.863,
+      "importance": 2.818
+    },
+    {
+      "task_id": 16,
+      "description_ja": "研究について倫理審査を受ける。",
+      "execution_rate": 0.647,
+      "importance": 2.667
+    },
+    {
+      "task_id": 17,
+      "description_ja": "病院のスタッフを教育する。",
+      "execution_rate": 0.961,
+      "importance": 3.204
+    },
+    {
+      "task_id": 18,
+      "description_ja": "病院の運営を行う。",
+      "execution_rate": 0.804,
+      "importance": 3.146
+    },
+    {
+      "task_id": 19,
+      "description_ja": "診療報酬明細書（レセプト）を審査する。",
+      "execution_rate": 0.726,
+      "importance": 3.027
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人日本医師会",
+      "url": "https://www.med.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人日本外科学会",
+      "url": "https://www.jssoc.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "医師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/402",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "id": 303,
+  "ipd_id": "IPD_01_01_303",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "分析化学技術者",
+  "aliases_ja": [
+    "無機薬品分析検査技術員",
+    "有機薬品分析技術員"
+  ],
+  "classifications": {
+    "mhlw_main": "02_007-08",
+    "mhlw_all": [
+      "02_007-08"
+    ],
+    "jsoc_main": "B087",
+    "jsoc_all": [
+      "B087"
+    ]
+  },
+  "description": {
+    "summary_ja": "物質に含まれる成分やその量などを知るため、化学反応を用いた分析や分析機器を用いた分析を行う。",
+    "what_it_is_ja": "物質に含まれる成分やその量などを知るため、化学反応を用いた分析や分析機器を用いた分析を行う。\n　分析する対象によって、大気、排水、土壌などの環境分析、化学工業や鉄鋼・非鉄金属材料などの製造現場の工業分析、食品分析などがある。\n　環境計量証明事業などを行う分析会社では、依頼者から提供されるサンプルを酸で分解して溶液にし、化学反応を行なわせるなどして成分の量を求める。あるいは、サンプルを切断、切削、粉砕するなどして分析機器にかけて成分の量を求める。分析結果を整理して報告書を作成して依頼者へ報告する。生産工場などの分析部門では、製造工程で採取したサンプルを化学分析法や機器分析法で成分量を測り製造現場にフィードバックし、現場では分析結果を基に操業条件を決めるなどの必要な措置を講じる。分析技術は高度化し、自動化が進んでいる部門も多い。\n\n◇　よく使う道具、機材、情報技術等\n　分析機器、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、専門学校や大学の理学系、工学系専攻の卒業者が多い。中途採用もある。\n　採用に際しては、化学などの基礎学力、知識、判断力などが問われる。\n　入職後は、最初は熟練者の補助をしながら分析技術を習得し、実践を重ねて技術力を養成する。各種原理の分析方法について学習し、実験を重ねて順次マスターするとともに、各種講習会などにも参加して技術力を高める。様々な対象物質を分析して実戦力を身に付け、依頼者の高度な分析への要求に対しても、それに適合した分析の仕方を設計できるベテラン技術者になるためには10年以上の経験が必要となる。\n　分析値には信頼性が要求されるため、分析化学技術者は分析試験所の認定を受けるなど、技術力の第三者による評価が必要になっている。そのためには、技術者の教育訓練も日常的に行ない、外部機関による分析技能試験に参加することなどが要求される。\n　関連資格として厚生労働省の定める技能検定の「化学分析技能士」がある。また、関係団体の「環境計量士」、「環境測定分析士」等の資格を持っていれば仕事の幅が広がる。\n　分析結果に対する責任を持ち、正確で迅速な判断力、注意力、忍耐力、几帳面さが求められる。",
+    "working_conditions_ja": "分析化学は理学・工学・農学・医学・薬学など幅広い分野に共通する基礎部門なので、いろいろな職業分野の分析技術の専門家として働くことができる。各種の企業、分析受託会社、食品などの検査機関、地方自治体など職場は広い範囲に及び都市部や工業地域に多いが、全国に広がっている。\n　就業者の年齢層は幅広く、女性比率が比較的高くなっている。\n　賃金、労働時間等労働条件は勤務先の規定による。夜間も稼動する工場などの分析部門では日勤以外に一部交代制の場合もある。中途採用を含め正社員が多いが、派遣社員として就業する場合もある。\n　空調が完備され、整理整頓された環境で、清浄な着衣で作業する必要があることから、作業環境は良好なところが多い。分析設備の関係で外部と閉鎖された実験室での作業もある。化学分析作業は、薬品を多く使い危険が伴うが、排気設備なども完備されている。\n　新素材や高機能の製品開発が盛んであり、成分や量を分析し化学的な解析を行うことが必須となっている。また、環境保全や人の健康のための規制が厳しくなってきていることもあり、分析する成分の多様化や、微量しか検出されない物質の分析など、技術の向上も図られつつ、分析需要は増加傾向にある。従って、技術者もより専門的な知識や技術力を求められるようになっている。"
+  },
+  "interests": {
+    "realistic": 3.984,
+    "investigative": 4.113,
+    "artistic": 2.177,
+    "social": 2.903,
+    "enterprising": 2.758,
+    "conventional": 3.435
+  },
+  "work_values": {
+    "achievement": 3.778,
+    "autonomy": 3.833,
+    "expertise": 4.019,
+    "self_growth": 3.796,
+    "social_recognition": 3.074,
+    "service_contribution": 3.093,
+    "good_relationships": 3.352,
+    "workplace_safety": 3.5,
+    "work_life_balance": 3.648,
+    "stability": 3.611,
+    "compensation": 3.259
+  },
+  "skills": {
+    "reading_comprehension": 4.87,
+    "active_listening": 4.352,
+    "writing": 4.5,
+    "speaking": 4.463,
+    "foreign_language_reading": 3.111,
+    "foreign_language_listening": 1.574,
+    "foreign_language_writing": 1.963,
+    "foreign_language_speaking": 1.537,
+    "mathematics": 3.667,
+    "science": 4.593,
+    "critical_thinking": 4.185,
+    "active_learning": 4.167,
+    "learning_strategies": 3.741,
+    "monitoring": 3.667,
+    "social_perceptiveness": 3.463,
+    "coordination": 3.704,
+    "persuasion": 3.444,
+    "negotiation": 3.074,
+    "instructing": 4.315,
+    "service_orientation": 2.796,
+    "complex_problem_solving": 3.722,
+    "operations_analysis": 3.5,
+    "technology_design": 3.537,
+    "equipment_selection": 4.204,
+    "installation": 3.611,
+    "programming": 2.093,
+    "operations_monitoring": 3.389,
+    "operation_and_control": 3.519,
+    "equipment_maintenance": 3.167,
+    "troubleshooting": 3.519,
+    "repairing": 3.0,
+    "quality_control_analysis": 3.759,
+    "judgment_decision_making": 3.13,
+    "systems_analysis": 2.87,
+    "systems_evaluation": 2.444,
+    "time_management": 3.0,
+    "financial_resources_management": 2.037,
+    "material_resources_management": 2.481,
+    "personnel_resources_management": 2.352
+  },
+  "knowledge": {
+    "business_management": 1.077,
+    "clerical": 2.135,
+    "economics_accounting": 0.808,
+    "sales_marketing": 0.962,
+    "customer_personal_service": 1.346,
+    "personnel_hr": 0.827,
+    "transportation": 0.654,
+    "production_processing": 1.596,
+    "agriculture_livestock": 0.385,
+    "engineering": 2.269,
+    "computers_electronics": 1.231,
+    "design": 1.212,
+    "building_construction": 0.462,
+    "mechanical": 1.385,
+    "mathematics_kn": 1.788,
+    "physics": 1.788,
+    "chemistry": 3.788,
+    "biology": 1.769,
+    "psychology": 0.5,
+    "sociology": 0.5,
+    "geography": 0.404,
+    "medicine_dentistry": 0.731,
+    "therapy_counseling": 0.269,
+    "education_training_kn": 1.288,
+    "japanese_language": 1.519,
+    "foreign_language_kn": 1.308,
+    "fine_arts": 0.212,
+    "history_archaeology": 0.192,
+    "philosophy_theology": 0.173,
+    "public_safety_security": 1.154,
+    "law_government": 0.712,
+    "telecommunications": 0.596,
+    "communications_media": 0.904
+  },
+  "abilities": {
+    "oral_comprehension": 2.932,
+    "written_comprehension": 3.237,
+    "oral_expression": 3.186,
+    "written_expression": 3.373,
+    "fluency_of_ideas": 3.136,
+    "originality": 3.0,
+    "problem_sensitivity": 3.508,
+    "deductive_reasoning": 3.136,
+    "inductive_reasoning": 3.22,
+    "information_ordering": 3.034,
+    "category_flexibility": 2.881,
+    "mathematical_reasoning": 3.136,
+    "number_facility": 2.932,
+    "memorization": 2.61,
+    "perceptual_speed": 2.559,
+    "spatial_orientation": 2.39,
+    "visualization": 2.627,
+    "selective_attention": 2.915,
+    "time_sharing": 2.966,
+    "arm_hand_steadiness": 2.305,
+    "manual_dexterity": 2.746,
+    "finger_dexterity": 2.831,
+    "reaction_time": 2.305,
+    "wrist_finger_speed": 2.102,
+    "speed_of_limb_movement": 1.915,
+    "static_strength": 1.61,
+    "stamina": 1.898,
+    "gross_body_equilibrium": 1.695,
+    "near_vision": 2.169,
+    "far_vision": 1.525,
+    "visual_color_discrimination": 2.424,
+    "depth_perception": 1.814,
+    "hearing_sensitivity": 1.814,
+    "auditory_attention": 1.763,
+    "speech_clarity": 2.085
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.615,
+    "face_to_face_discussions": 3.865,
+    "telephone_communication": 3.635,
+    "business_writing": 3.846,
+    "conflict_situations": 2.231,
+    "time_pressure": 3.135,
+    "teamwork": 3.442,
+    "dealing_with_external_customers": 2.885,
+    "coordinate_lead_others": 3.115,
+    "exactness_accuracy": 4.346,
+    "repetitive_tasks": 3.769,
+    "pace_determined_by_machine": 3.423,
+    "responsibility_for_outcomes": 3.654,
+    "indoor_climate_controlled": 4.788,
+    "indoor_non_climate_controlled": 2.327,
+    "outdoor_work": 1.885,
+    "sitting": 3.962,
+    "standing": 2.75,
+    "repetition_of_activities": 2.827,
+    "consequence_of_error": 3.231,
+    "freedom_to_make_decisions": 3.423,
+    "set_own_goals": 3.673,
+    "regular_schedule": 0.519,
+    "irregular_schedule": 0.385,
+    "seasonal_schedule": 0.096,
+    "email_communication": 4.615,
+    "cramped_uncomfortable": 2.25,
+    "disease_infection_risk": 1.5,
+    "minor_injury_risk": 2.346,
+    "standard_protective_equipment": 3.942,
+    "specialized_protective_equipment": 2.404,
+    "dealing_with_violent_people": 1.154,
+    "walking_running": 2.346,
+    "handling_objects_tools": 3.288,
+    "physical_proximity": 3.096,
+    "work_automation": 2.192,
+    "responsibility_for_safety": 2.538,
+    "impact_of_decisions": 2.385,
+    "level_of_competition": 2.019
+  },
+  "work_activities": {
+    "getting_information": 3.237,
+    "monitor_processes": 3.356,
+    "identifying_objects": 3.525,
+    "inspecting_equipment": 3.034,
+    "estimating_quantifiable": 3.305,
+    "judging_quality": 2.949,
+    "evaluating_compliance": 3.169,
+    "processing_information": 3.644,
+    "analyzing_data": 3.729,
+    "making_decisions": 3.441,
+    "thinking_creatively": 3.153,
+    "updating_knowledge": 3.644,
+    "developing_objectives": 2.864,
+    "scheduling_work": 3.102,
+    "organizing_planning": 3.373,
+    "physical_activities": 2.034,
+    "handling_objects": 2.441,
+    "controlling_machines": 2.458,
+    "operating_vehicles": 1.424,
+    "computer_work": 3.271,
+    "drafting_specifications": 2.153,
+    "repairing_mechanical": 2.814,
+    "repairing_electronic": 2.661,
+    "documenting_information": 3.288,
+    "interpreting_information": 3.339,
+    "communicating_inside": 3.492,
+    "communicating_outside": 3.237,
+    "building_relationships": 3.051,
+    "assisting_caring": 2.576,
+    "selling_influencing": 2.119,
+    "resolving_conflicts": 2.136,
+    "performing_for_public": 1.966,
+    "coordinating_others": 2.542,
+    "developing_teams": 2.576,
+    "training_teaching": 2.729,
+    "guiding_subordinates": 2.593,
+    "coaching_developing": 2.593,
+    "providing_consultation": 2.475,
+    "performing_administrative": 2.458,
+    "staffing_organizational": 1.932,
+    "monitoring_resources": 2.203
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.154,
+    "vocational_school": 0.058,
+    "junior_college": 0.096,
+    "technical_college": 0.096,
+    "university": 0.615,
+    "masters": 0.538,
+    "doctorate": 0.192,
+    "unknown": 0.019
+  },
+  "training_pre": {
+    "not_required": 0.462,
+    "up_to_1_month": 0.058,
+    "1_to_6_months": 0.135,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.058,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.038,
+    "5_to_10_years": 0.019,
+    "over_10_years": 0.019,
+    "unknown": 0.154
+  },
+  "training_post": {
+    "not_required": 0.019,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.231,
+    "6_months_to_1_year": 0.154,
+    "1_to_2_years": 0.154,
+    "2_to_3_years": 0.077,
+    "3_to_5_years": 0.192,
+    "5_to_10_years": 0.077,
+    "over_10_years": 0.0,
+    "unknown": 0.077
+  },
+  "experience": {
+    "not_required": 0.481,
+    "up_to_1_month": 0.038,
+    "1_to_6_months": 0.096,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.096,
+    "2_to_3_years": 0.019,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.019,
+    "unknown": 0.192
+  },
+  "employment_type": {
+    "regular_employee": 0.923,
+    "part_time": 0.135,
+    "dispatched": 0.212,
+    "contract": 0.173,
+    "self_employed_freelance": 0.019,
+    "executive": 0.038,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "物質の含量や構成などを知るため、化学反応を用いた分析や分析機器による分析を行うとともに関連技術の開発を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "各種のガラス器具や計量器具を使用方法に従って扱う。",
+      "execution_rate": 0.848,
+      "importance": 3.6
+    },
+    {
+      "task_id": 2,
+      "description_ja": "電子天秤で試薬や試料を秤量する。",
+      "execution_rate": 0.881,
+      "importance": 3.788
+    },
+    {
+      "task_id": 3,
+      "description_ja": "試料の前処理のため、ろ過、ふるい、選別、試薬の添加などの手作業をする。",
+      "execution_rate": 0.898,
+      "importance": 3.566
+    },
+    {
+      "task_id": 4,
+      "description_ja": "試料の前処理のため、遠心分離、加熱分解、灰化などの処理をする装置を操作する。",
+      "execution_rate": 0.797,
+      "importance": 3.34
+    },
+    {
+      "task_id": 5,
+      "description_ja": "分析用のサンプルを作製する。",
+      "execution_rate": 0.915,
+      "importance": 3.556
+    },
+    {
+      "task_id": 6,
+      "description_ja": "分析機器の校正や使用記録の記入をする。",
+      "execution_rate": 0.932,
+      "importance": 3.618
+    },
+    {
+      "task_id": 7,
+      "description_ja": "化学反応の状態を目視で観察し、成分含量を予測して、分析機器や試薬の微調整をする。",
+      "execution_rate": 0.814,
+      "importance": 3.208
+    },
+    {
+      "task_id": 8,
+      "description_ja": "成分の含量を測定するため、分析機器を操作する。",
+      "execution_rate": 0.932,
+      "importance": 4.109
+    },
+    {
+      "task_id": 9,
+      "description_ja": "走査電子顕微鏡（SEM）を用いた観察、分析をする。",
+      "execution_rate": 0.593,
+      "importance": 3.457
+    },
+    {
+      "task_id": 10,
+      "description_ja": "出力・測定したデータを解析・考察する。",
+      "execution_rate": 1.0,
+      "importance": 3.898
+    },
+    {
+      "task_id": 11,
+      "description_ja": "分析結果と物性、特性の相関を解析する。",
+      "execution_rate": 0.949,
+      "importance": 3.625
+    },
+    {
+      "task_id": 12,
+      "description_ja": "分析の報告書を作成する。",
+      "execution_rate": 0.966,
+      "importance": 3.754
+    },
+    {
+      "task_id": 13,
+      "description_ja": "分析機器のメンテナンスをする。",
+      "execution_rate": 0.932,
+      "importance": 3.982
+    },
+    {
+      "task_id": 14,
+      "description_ja": "溶媒や試薬を調達、管理する。",
+      "execution_rate": 0.898,
+      "importance": 3.189
+    },
+    {
+      "task_id": 15,
+      "description_ja": "試薬の調製をする。",
+      "execution_rate": 0.881,
+      "importance": 3.615
+    },
+    {
+      "task_id": 16,
+      "description_ja": "製品中の成分を測定する方法を設定し、その分析法のバリデーションをする。",
+      "execution_rate": 0.864,
+      "importance": 3.529
+    },
+    {
+      "task_id": 17,
+      "description_ja": "電子部品の実装における不具合を解析する。",
+      "execution_rate": 0.661,
+      "importance": 3.051
+    },
+    {
+      "task_id": 18,
+      "description_ja": "機器の操作方法を指導する。",
+      "execution_rate": 0.966,
+      "importance": 3.526
+    },
+    {
+      "task_id": 19,
+      "description_ja": "新規に導入する分析・測定機器を選定する。",
+      "execution_rate": 0.915,
+      "importance": 3.444
+    },
+    {
+      "task_id": 20,
+      "description_ja": "分析方法、機器操作方法、等の標準作業手順書を作成する。",
+      "execution_rate": 0.983,
+      "importance": 3.431
+    },
+    {
+      "task_id": 21,
+      "description_ja": "化学製品中に含まれる物質の成分や量を知るため、化学反応を用いた分析技術や関連分析機器を開発する。",
+      "execution_rate": 0.593,
+      "importance": 3.314
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本分析化学会",
+      "url": "https://www.jsac.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本環境測定分析協会",
+      "url": "https://www.jemca.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "第一種作業環境測定士",
+    "第二種作業環境測定士",
+    "１級化学分析技能士",
+    "２級化学分析技能士",
+    "環境計量士",
+    "環境測定分析士１級",
+    "環境測定分析士２級",
+    "環境測定分析士３級"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/303",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

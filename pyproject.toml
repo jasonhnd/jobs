@@ -9,7 +9,9 @@ authors = [{ name = "jasonhnd" }]
 dependencies = [
     "beautifulsoup4>=4.12",
     "httpx>=0.28",
+    "openpyxl>=3.1",
     "playwright>=1.50",
+    "pydantic>=2.5",
     "python-dotenv>=1.0",
 ]
 

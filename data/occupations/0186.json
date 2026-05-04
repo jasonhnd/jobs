@@ -1,0 +1,459 @@
+{
+  "id": 186,
+  "ipd_id": "IPD_01_01_186",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "路線バス運転士",
+  "aliases_ja": [
+    "コミュニティバス運転手",
+    "乗合バス運転手"
+  ],
+  "classifications": {
+    "mhlw_main": "13_084-01",
+    "mhlw_all": [
+      "13_084-01"
+    ],
+    "jsoc_main": "I611",
+    "jsoc_all": [
+      "I611"
+    ]
+  },
+  "description": {
+    "summary_ja": "路線バスを運転し、安全にかつ運行時刻を守って乗客を目的地まで運ぶ。",
+    "what_it_is_ja": "路線バスを運転し、安全にかつ運行時刻を守って乗客を目的地まで運ぶ。\n　所属する営業所に出勤し、その日の運行予定路線と乗務する車両の確認をする。エンジンオイルや燃料の油量の確認、ブレーキの利き具合のチェック、ドアの開閉装置の点検等を行う。運行管理者からの点呼（連絡・指示の伝達）時には、健康管理面の確認や、検知器によるアルコールチェックを受ける。これらの後に予定に沿ってその日の乗務に就く。\n　乗客の乗降が終わるたびに、安全確認しドアを閉め発進する。停留所での停車時にはドアの開閉、運賃の収受を行う。走行中は次の停留所の案内アナウンスの操作や、「降車時にはバスの停車後に車内移動するよう」、「右（左）折する」など、車内安全面の注意喚起をする。車内アナウンスの自動化やカーナビゲーション機能の装備等の運転支援機器類の整備によって、以前よりも運転負担が軽減されている。\n　また、乗客の求めに応じて、行先や乗換場所、所要時間の案内をしたり、可能な運賃支払方法を説明したりする（ICカードなどキャッシュレス決済の可否、釣り銭の払い出し不能な金種等）。最近は現金支払いが減少しICカード類が普及したことも乗務時の負担軽減につながっている。\n　公共性が高く、また、乗客には高齢者が多いこともあり、乗務中は常に安全を第一に意識し、周囲の交通事情を見通した運転に努め、時刻表通りの運行ができるよう気を配る。運行のたびに乗り過ごしや忘れ物の有無を確認する。乗務を終えると、収納した運賃を精算し、作業日報に走行距離などを記入する。運行記録に関しては、デジタルタコグラフにより運行管理者がリアルタイムに把握するバス事業者もみられ、エコ運転等の運転スキル向上に有効活用されたり、運転士の日報作成の事務負担が軽減されているケースもある。\n\n＜就業希望者へのメッセージ＞\n　お客様から直接に感謝され、世の中に貢献していることを実感できます。（業界団体）\n　運転すること自体が好きな方、ぜひ、挑戦してみてはいかがでしょうか。大きなバスを運転する姿は格好いいです。（業界団体）\n\n\n◇よく使う道具、機材、情報技術等\n　バス車輌及び付属機器（デジタルタコグラフ、ドライブレコーダー、運行関連の連絡・記録用機器）、アルコール検知器",
+    "how_to_become_ja": "学歴は不問だが、就業には大型自動車第二種免許が必要となる。同免許の受験資格は所定の免許を取得し、その運転経験が通算３年以上であることなどが条件である。そのため、これまでは観光バス運転士、トラックドライバー、タクシー運転手などからの転職者が多かった。昨今の運転士不足の状況の中で、大型自動車第二種免許取得を積極的に支援する企業が増えており、そうした場合、採用時には免許を持っていなくても、入社後に免許を取得するという条件で採用される。また、採用手段として求人エージェントの積極活用や、複数のバス事業者による合同面接会の開催等の取組みがみられる。このような動きもあり、前述のように必ずしも運転を職業とする者による転職だけでなく、他業種や業界未経験者からの入職が増えている。さらに、制度改正により、一定時間の特例教習を修了することで19歳から大型免許を取得できるようになっており、若年層が入職しやすい環境が整えられている。\n　採用に当たっては、運転技能だけでなく、注意力や目と手足の正確で敏速な共応といった適性が重視される。また、安全意識の高さや交通法規等の遵法意識はもちろんのこと、接客業務として、適切なコミュニケーション力や、丁寧な態度が求められる。乗務に当たっては、道路渋滞等さまざまなイレギュラーな状況に即応できる柔軟性や耐性が必要となる。\n　採用されると１〜２カ月の就業前訓練を受け、乗客に対する接遇、運転の実地訓練、各路線のコース、周辺の地理などについて学習する。訓練修了時に行われる各営業所での実地試験に合格した後、業務に就く。定年年齢まで運転手の仕事を続ける者が多いが、運行管理や事務に異動し、営業所の所長になる人もいる。事務職や管理職となる場合、社内試験制度があるケースもある。",
+    "working_conditions_ja": "民営のバス会社のほか、私鉄のバス部門、地方自治体の交通局などに勤務する。就業者は男性が多いが、業界団体の調査結果によると、女性の割合は1.7％（2021年時点）となっており、少しずつ増えている。\n　通常は月給制であり、諸手当などの占める割合が高い。近年は運賃改定を原資とした給与水準の改善が進んでいる。\n　勤務時間は、事業者ごとにまちまちである。バスは早朝から深夜まで、１年中休みなく運行しているため、勤務は早朝から運行するダイヤ、深夜まで運行するダイヤ、朝夕のラッシュ時間帯のみを運行するダイヤなどを組み合わせて編成されている。高速バスなどの長距離路線バスを担当する場合には、例えば２日間勤務し、１日休暇を得ているケースや、４日間勤務し、１日休暇を得るケースなどがある。一日の労働時間は、通常６〜７時間の乗務となっている。また、公共交通機関として毎日の運行が一般的であること、また、昨今の運転士不足の状況下において交替制のシフトを組むため、公休日は必ずしも土・日、祝日になるとは限らない。\n　労働基準法や改善基準告示（自動車運転者の労働時間等の改善のための基準）の改正により、令和6年4月から時間外労働の上限規制が適用されるとともに、拘束時間等の基準が改められ、運転士の長時間労働の改善や、体力面での負担軽減の環境が整えられている。\n　利用者の減少や運転士不足、燃料費の高騰などを背景に、路線バスの減便・路線廃止の動きがこの数年で加速している。地方部のみならず、最近では都市部においても減便や路線廃止の動きがみられる。地域における公共交通機関の果たす役割は大きく、運転士の人材確保に向けて、業界・事業者を挙げての取組みがみられる。例えば、女性が働きやすいよう、子育てと両立しやすいシフトの設定や、休憩室やトイレの整備をすること、また、若者の新規入職を意識し免許取得の支援等、社内の環境整備に積極的な企業が増えているのはその一端である。また、今後は外国人の採用も選択肢の一つとなっていくことが見込まれる。\n　その他、業界団体として、カスタマーハラスメント防止の周知啓発など、運転士の働く環境改善に積極的に取り組んでいる。このようにして運転士の労働時間や拘束時間の労働条件向上、待遇改善、さまざまな工夫による日常業務の負担軽減策が図られており、人材確保や、よりよい働き方にむけた取組みが着実に進んでいる。\n　路線バスは、高齢者を始めとした“地域住民の足”としてその果たす役割は重要である。今後も安全・安心なバス運行がなされるよう、引き続き、労働条件や待遇改善、人材確保を図りながら、また、EVバスなど次世代のバス輸送への転換等も図りながら、地域公共交通の主軸としての役割を担い続けるものと考えられる。"
+  },
+  "interests": {
+    "realistic": 3.177,
+    "investigative": 2.43,
+    "artistic": 2.127,
+    "social": 3.544,
+    "enterprising": 2.468,
+    "conventional": 3.291
+  },
+  "work_values": {
+    "achievement": 2.653,
+    "autonomy": 2.653,
+    "expertise": 3.347,
+    "self_growth": 2.898,
+    "social_recognition": 2.347,
+    "service_contribution": 3.122,
+    "good_relationships": 2.837,
+    "workplace_safety": 2.776,
+    "work_life_balance": 2.694,
+    "stability": 3.061,
+    "compensation": 2.184
+  },
+  "skills": {
+    "reading_comprehension": 2.102,
+    "active_listening": 2.653,
+    "writing": 1.755,
+    "speaking": 2.265,
+    "foreign_language_reading": 0.714,
+    "foreign_language_listening": 0.531,
+    "foreign_language_writing": 0.306,
+    "foreign_language_speaking": 0.653,
+    "mathematics": 0.878,
+    "science": 0.224,
+    "critical_thinking": 1.102,
+    "active_learning": 1.388,
+    "learning_strategies": 1.347,
+    "monitoring": 1.51,
+    "social_perceptiveness": 1.918,
+    "coordination": 1.408,
+    "persuasion": 1.347,
+    "negotiation": 1.265,
+    "instructing": 1.673,
+    "service_orientation": 2.082,
+    "complex_problem_solving": 1.469,
+    "operations_analysis": 0.816,
+    "technology_design": 0.571,
+    "equipment_selection": 1.122,
+    "installation": 0.755,
+    "programming": 0.286,
+    "operations_monitoring": 1.551,
+    "operation_and_control": 2.082,
+    "equipment_maintenance": 2.102,
+    "troubleshooting": 1.449,
+    "repairing": 1.367,
+    "quality_control_analysis": 0.837,
+    "judgment_decision_making": 0.898,
+    "systems_analysis": 0.959,
+    "systems_evaluation": 0.776,
+    "time_management": 1.857,
+    "financial_resources_management": 0.449,
+    "material_resources_management": 0.653,
+    "personnel_resources_management": 0.592
+  },
+  "knowledge": {
+    "business_management": 0.229,
+    "clerical": 0.271,
+    "economics_accounting": 0.146,
+    "sales_marketing": 0.208,
+    "customer_personal_service": 1.146,
+    "personnel_hr": 0.25,
+    "transportation": 2.354,
+    "production_processing": 0.208,
+    "agriculture_livestock": 0.125,
+    "engineering": 0.167,
+    "computers_electronics": 0.125,
+    "design": 0.125,
+    "building_construction": 0.146,
+    "mechanical": 0.354,
+    "mathematics_kn": 0.25,
+    "physics": 0.25,
+    "chemistry": 0.104,
+    "biology": 0.104,
+    "psychology": 0.521,
+    "sociology": 0.333,
+    "geography": 0.438,
+    "medicine_dentistry": 0.188,
+    "therapy_counseling": 0.229,
+    "education_training_kn": 0.438,
+    "japanese_language": 0.417,
+    "foreign_language_kn": 0.479,
+    "fine_arts": 0.167,
+    "history_archaeology": 0.167,
+    "philosophy_theology": 0.104,
+    "public_safety_security": 0.417,
+    "law_government": 0.354,
+    "telecommunications": 0.313,
+    "communications_media": 0.417
+  },
+  "abilities": {
+    "oral_comprehension": 2.36,
+    "written_comprehension": 2.26,
+    "oral_expression": 2.56,
+    "written_expression": 2.24,
+    "fluency_of_ideas": 2.1,
+    "originality": 2.02,
+    "problem_sensitivity": 3.32,
+    "deductive_reasoning": 2.48,
+    "inductive_reasoning": 2.34,
+    "information_ordering": 2.34,
+    "category_flexibility": 2.12,
+    "mathematical_reasoning": 2.1,
+    "number_facility": 2.42,
+    "memorization": 2.6,
+    "perceptual_speed": 2.66,
+    "spatial_orientation": 2.84,
+    "visualization": 2.68,
+    "selective_attention": 3.0,
+    "time_sharing": 3.18,
+    "arm_hand_steadiness": 2.88,
+    "manual_dexterity": 2.68,
+    "finger_dexterity": 2.18,
+    "reaction_time": 3.46,
+    "wrist_finger_speed": 2.64,
+    "speed_of_limb_movement": 2.96,
+    "static_strength": 2.34,
+    "stamina": 2.64,
+    "gross_body_equilibrium": 2.8,
+    "near_vision": 3.18,
+    "far_vision": 3.54,
+    "visual_color_discrimination": 3.36,
+    "depth_perception": 3.52,
+    "hearing_sensitivity": 3.28,
+    "auditory_attention": 3.06,
+    "speech_clarity": 2.74
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.708,
+    "face_to_face_discussions": 1.896,
+    "telephone_communication": 1.521,
+    "business_writing": 1.125,
+    "conflict_situations": 1.688,
+    "time_pressure": 2.979,
+    "teamwork": 1.625,
+    "dealing_with_external_customers": 2.354,
+    "coordinate_lead_others": 1.542,
+    "exactness_accuracy": 2.75,
+    "repetitive_tasks": 2.313,
+    "pace_determined_by_machine": 2.063,
+    "responsibility_for_outcomes": 2.167,
+    "indoor_climate_controlled": 2.083,
+    "indoor_non_climate_controlled": 1.313,
+    "outdoor_work": 2.813,
+    "sitting": 4.646,
+    "standing": 1.438,
+    "repetition_of_activities": 2.479,
+    "consequence_of_error": 4.313,
+    "freedom_to_make_decisions": 2.167,
+    "set_own_goals": 2.021,
+    "regular_schedule": 0.667,
+    "irregular_schedule": 0.292,
+    "seasonal_schedule": 0.042,
+    "email_communication": 1.083,
+    "cramped_uncomfortable": 1.792,
+    "disease_infection_risk": 3.292,
+    "minor_injury_risk": 1.333,
+    "standard_protective_equipment": 1.417,
+    "specialized_protective_equipment": 1.083,
+    "dealing_with_violent_people": 1.729,
+    "walking_running": 1.521,
+    "handling_objects_tools": 2.979,
+    "physical_proximity": 2.958,
+    "work_automation": 1.417,
+    "responsibility_for_safety": 2.958,
+    "impact_of_decisions": 2.0,
+    "level_of_competition": 1.188
+  },
+  "work_activities": {
+    "getting_information": 2.58,
+    "monitor_processes": 2.82,
+    "identifying_objects": 2.84,
+    "inspecting_equipment": 2.64,
+    "estimating_quantifiable": 2.38,
+    "judging_quality": 2.42,
+    "evaluating_compliance": 3.24,
+    "processing_information": 2.3,
+    "analyzing_data": 2.34,
+    "making_decisions": 2.56,
+    "thinking_creatively": 2.24,
+    "updating_knowledge": 2.8,
+    "developing_objectives": 2.26,
+    "scheduling_work": 2.54,
+    "organizing_planning": 2.64,
+    "physical_activities": 2.48,
+    "handling_objects": 2.52,
+    "controlling_machines": 2.64,
+    "operating_vehicles": 4.22,
+    "computer_work": 2.08,
+    "drafting_specifications": 2.1,
+    "repairing_mechanical": 2.26,
+    "repairing_electronic": 2.08,
+    "documenting_information": 2.2,
+    "interpreting_information": 2.26,
+    "communicating_inside": 2.88,
+    "communicating_outside": 2.38,
+    "building_relationships": 2.66,
+    "assisting_caring": 2.36,
+    "selling_influencing": 2.14,
+    "resolving_conflicts": 2.26,
+    "performing_for_public": 2.88,
+    "coordinating_others": 2.24,
+    "developing_teams": 2.24,
+    "training_teaching": 2.2,
+    "guiding_subordinates": 2.32,
+    "coaching_developing": 2.32,
+    "providing_consultation": 2.2,
+    "performing_administrative": 2.26,
+    "staffing_organizational": 2.16,
+    "monitoring_resources": 2.04
+  },
+  "education_distribution": {
+    "below_high_school": 0.083,
+    "high_school": 0.646,
+    "vocational_school": 0.208,
+    "junior_college": 0.083,
+    "technical_college": 0.063,
+    "university": 0.229,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.125
+  },
+  "training_pre": {
+    "not_required": 0.271,
+    "up_to_1_month": 0.167,
+    "1_to_6_months": 0.479,
+    "6_months_to_1_year": 0.021,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.063
+  },
+  "training_post": {
+    "not_required": 0.083,
+    "up_to_1_month": 0.104,
+    "1_to_6_months": 0.542,
+    "6_months_to_1_year": 0.063,
+    "1_to_2_years": 0.063,
+    "2_to_3_years": 0.021,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.125
+  },
+  "experience": {
+    "not_required": 0.354,
+    "up_to_1_month": 0.167,
+    "1_to_6_months": 0.208,
+    "6_months_to_1_year": 0.021,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.021,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.021,
+    "unknown": 0.208
+  },
+  "employment_type": {
+    "regular_employee": 0.917,
+    "part_time": 0.042,
+    "dispatched": 0.0,
+    "contract": 0.104,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.021
+  },
+  "tasks_lead_ja": "路線バスを運転し、安全かつ時刻表を守って乗客を目的地まで運ぶ。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "出発前に車両やエンジンの運行前点検をする。",
+      "execution_rate": 1.0,
+      "importance": 4.46
+    },
+    {
+      "task_id": 2,
+      "description_ja": "乗務前にダイヤ表や行程を確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.38
+    },
+    {
+      "task_id": 3,
+      "description_ja": "停留所や車内に乗降客がいることを確認し、定位置でバスを停車する。",
+      "execution_rate": 1.0,
+      "importance": 4.42
+    },
+    {
+      "task_id": 4,
+      "description_ja": "チケットまたは現金で運賃を回収する。",
+      "execution_rate": 1.0,
+      "importance": 4.24
+    },
+    {
+      "task_id": 5,
+      "description_ja": "乗客の乗降が完了したことを確認してからドアを閉める。",
+      "execution_rate": 1.0,
+      "importance": 4.7
+    },
+    {
+      "task_id": 6,
+      "description_ja": "車中では座席やつり革を使うよう乗客にアナウンスする。",
+      "execution_rate": 1.0,
+      "importance": 4.36
+    },
+    {
+      "task_id": 7,
+      "description_ja": "次の停留所の案内アナウンスのボタンを押したり、進路についてアナウンスし、注意を促す。",
+      "execution_rate": 0.98,
+      "importance": 3.918
+    },
+    {
+      "task_id": 8,
+      "description_ja": "乗客の快適性を保つために冷暖房、採光、通風の機能を調節する。",
+      "execution_rate": 1.0,
+      "importance": 3.86
+    },
+    {
+      "task_id": 9,
+      "description_ja": "行き先や乗り換え場所、所要時間や周囲の地理などについて乗客の質問に答える。",
+      "execution_rate": 0.98,
+      "importance": 3.327
+    },
+    {
+      "task_id": 10,
+      "description_ja": "時間を調整して時刻表通りの運行をする。",
+      "execution_rate": 1.0,
+      "importance": 4.08
+    },
+    {
+      "task_id": 11,
+      "description_ja": "乗車証明書や遅延証明書を発行する。",
+      "execution_rate": 0.8,
+      "importance": 3.425
+    },
+    {
+      "task_id": 12,
+      "description_ja": "事故や乗客のクレームに対応する。",
+      "execution_rate": 1.0,
+      "importance": 3.94
+    },
+    {
+      "task_id": 13,
+      "description_ja": "運行中の非常事態を無線で連絡する。",
+      "execution_rate": 0.96,
+      "importance": 4.375
+    },
+    {
+      "task_id": 14,
+      "description_ja": "遅延または事故の報告をする。",
+      "execution_rate": 1.0,
+      "importance": 3.88
+    },
+    {
+      "task_id": 15,
+      "description_ja": "運行終了後に、乗り過ごしや忘れ物がないかを確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.3
+    },
+    {
+      "task_id": 16,
+      "description_ja": "運行終了後に、車体やタイヤ、エンジンを点検する。",
+      "execution_rate": 0.88,
+      "importance": 3.795
+    },
+    {
+      "task_id": 17,
+      "description_ja": "運行終了後に、車内遺留物や車輛異常等について報告書を作成する。",
+      "execution_rate": 0.94,
+      "importance": 3.936
+    },
+    {
+      "task_id": 18,
+      "description_ja": "回収した現金や切符の記録をする。",
+      "execution_rate": 0.74,
+      "importance": 3.324
+    },
+    {
+      "task_id": 19,
+      "description_ja": "車内の清掃や消毒、換気をする。",
+      "execution_rate": 0.94,
+      "importance": 3.638
+    },
+    {
+      "task_id": 20,
+      "description_ja": "運行記録機械（デジタルタコグラフ）を着脱する。",
+      "execution_rate": 0.88,
+      "importance": 4.0
+    },
+    {
+      "task_id": 21,
+      "description_ja": "車両の簡単な修理とタイヤ交換をする。",
+      "execution_rate": 0.82,
+      "importance": 3.341
+    },
+    {
+      "task_id": 22,
+      "description_ja": "駐車場を整理する。",
+      "execution_rate": 0.78,
+      "importance": 2.897
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人   日本バス協会",
+      "url": "https://www.bus.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "大型自動車第二種免許"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/186",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2025,
+    "description": 2025
+  }
+}

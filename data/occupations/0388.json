@@ -1,0 +1,439 @@
+{
+  "id": 388,
+  "ipd_id": "IPD_01_01_388",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "土木・建築工学研究者",
+  "aliases_ja": [
+    "建築工学研究者",
+    "土木工学研究者"
+  ],
+  "classifications": {
+    "mhlw_main": "02_004-01",
+    "mhlw_all": [
+      "02_004-01"
+    ],
+    "jsoc_main": "B051",
+    "jsoc_all": [
+      "B051"
+    ]
+  },
+  "description": {
+    "summary_ja": "道路や橋などを造る土木工学やビルなどを建てる建築工学について、基礎的な分野から応用の分野まで様々な研究を行う。",
+    "what_it_is_ja": "道路や橋などを造る土木工学やビルなどを建てる建築工学について、基礎的な分野から応用の分野まで様々な研究を行う。(大学教員については「大学・短期大学教員」を参照。)\n　土木工学の分野では、道路、鉄道、橋梁、港湾、空港、河川、ダム、上下水道、都市計画など社会基盤に関する研究などを行う。研究分野としては、構造・材料、水理・水質、地盤・基礎、都市計画・防災などがある。\n　建築工学の分野では、ビルや住宅など様々な建築物の建設に関する研究を行う。具体的には、建築計画、構造力学や構造設計に関する研究、建築工法に関する研究、コンクリートなどの建築材料に関する研究などを行う。建物の設計や建物内の環境についての研究などもある。\n　いずれの研究も、実験や試験を通じて、実証し、技術や知識を体系化していく。研究成果は積み重ねによって認められるため、様々な実験や試験を繰り返し、論理性を追求して、応用面で活かしたり、論文などにまとめて発表する。\n　国や地方自治体等に対し、都市開発や地域開発、環境問題に関する助言を行うこともある。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "入職にあたって必要とされる資格はないが、土木・建築工学に関する高度な専門知識が求められるため、大学の工学部の土木学科や建築学科を卒業した後、更に大学院の修士課程、博士課程で学んでから就職するのが一般的である。\n　なお、関係省庁などで実務に携わりながら研究を進める土木・建築工学研究者もおり、その場合は入職にあたって専門性に応じた技術系の公務員試験等の合格が必要となる。\n　最新の専門知識を得たり、海外との情報交換を行うために、特に英語の語学力は不可欠である。\n　入職後は自身の研究を深め、論文等を執筆し成果を公表していく。現場に赴いて担当者と意見交換をしたり、他の研究者と議論を深めるなど、他者との関わりも多い。研究には何年も要することが多く、探究心を持ち続けることが求められる。",
+    "working_conditions_ja": "主な就職先として、大学等に附属する研究所、土木研究所や建築研究所などの公的研究機関、建設会社などの研究部門や民間の研究機関等がある。\n　就業者は男性の比率が高い。\n　労働条件は勤務先の規定による。週休2日制が標準で、フレックスタイム制や裁量労働制をとっている場合が多い。研究の進捗状況によっては泊り込みで実験を行うこともある。\n　工期の短縮やコスト削減、また、大規模・多様化する災害に対する構造物の安全性を高める研究など、土木・建築構造物に対する研究・技術開発の重要性は増している。"
+  },
+  "interests": {
+    "realistic": 3.407,
+    "investigative": 3.333,
+    "artistic": 2.833,
+    "social": 3.278,
+    "enterprising": 3.352,
+    "conventional": 2.796
+  },
+  "work_values": {
+    "achievement": 3.886,
+    "autonomy": 3.8,
+    "expertise": 4.143,
+    "self_growth": 3.743,
+    "social_recognition": 3.457,
+    "service_contribution": 3.657,
+    "good_relationships": 3.314,
+    "workplace_safety": 3.2,
+    "work_life_balance": 2.771,
+    "stability": 3.314,
+    "compensation": 3.0
+  },
+  "skills": {
+    "reading_comprehension": 5.486,
+    "active_listening": 5.2,
+    "writing": 5.486,
+    "speaking": 5.543,
+    "foreign_language_reading": 3.743,
+    "foreign_language_listening": 3.171,
+    "foreign_language_writing": 3.429,
+    "foreign_language_speaking": 3.229,
+    "mathematics": 4.8,
+    "science": 4.657,
+    "critical_thinking": 5.257,
+    "active_learning": 5.2,
+    "learning_strategies": 4.971,
+    "monitoring": 4.971,
+    "social_perceptiveness": 4.543,
+    "coordination": 4.686,
+    "persuasion": 5.029,
+    "negotiation": 4.714,
+    "instructing": 5.257,
+    "service_orientation": 4.257,
+    "complex_problem_solving": 4.914,
+    "operations_analysis": 4.857,
+    "technology_design": 4.771,
+    "equipment_selection": 4.886,
+    "installation": 4.486,
+    "programming": 4.029,
+    "operations_monitoring": 3.886,
+    "operation_and_control": 3.857,
+    "equipment_maintenance": 3.629,
+    "troubleshooting": 3.714,
+    "repairing": 3.743,
+    "quality_control_analysis": 4.2,
+    "judgment_decision_making": 4.6,
+    "systems_analysis": 3.8,
+    "systems_evaluation": 3.771,
+    "time_management": 4.229,
+    "financial_resources_management": 3.829,
+    "material_resources_management": 3.857,
+    "personnel_resources_management": 4.086
+  },
+  "knowledge": {
+    "business_management": 1.818,
+    "clerical": 2.045,
+    "economics_accounting": 1.091,
+    "sales_marketing": 1.182,
+    "customer_personal_service": 1.545,
+    "personnel_hr": 0.864,
+    "transportation": 0.864,
+    "production_processing": 1.318,
+    "agriculture_livestock": 0.5,
+    "engineering": 3.318,
+    "computers_electronics": 2.136,
+    "design": 2.682,
+    "building_construction": 3.045,
+    "mechanical": 1.727,
+    "mathematics_kn": 2.682,
+    "physics": 2.636,
+    "chemistry": 1.364,
+    "biology": 0.591,
+    "psychology": 0.909,
+    "sociology": 1.273,
+    "geography": 1.318,
+    "medicine_dentistry": 0.364,
+    "therapy_counseling": 0.5,
+    "education_training_kn": 1.045,
+    "japanese_language": 2.273,
+    "foreign_language_kn": 1.227,
+    "fine_arts": 1.0,
+    "history_archaeology": 0.955,
+    "philosophy_theology": 0.773,
+    "public_safety_security": 1.727,
+    "law_government": 1.591,
+    "telecommunications": 1.273,
+    "communications_media": 1.409
+  },
+  "abilities": {
+    "oral_comprehension": 3.189,
+    "written_comprehension": 3.378,
+    "oral_expression": 3.405,
+    "written_expression": 3.541,
+    "fluency_of_ideas": 3.297,
+    "originality": 3.27,
+    "problem_sensitivity": 3.324,
+    "deductive_reasoning": 3.324,
+    "inductive_reasoning": 3.243,
+    "information_ordering": 2.973,
+    "category_flexibility": 3.027,
+    "mathematical_reasoning": 3.27,
+    "number_facility": 2.973,
+    "memorization": 3.0,
+    "perceptual_speed": 2.811,
+    "spatial_orientation": 2.595,
+    "visualization": 2.811,
+    "selective_attention": 3.0,
+    "time_sharing": 2.676,
+    "arm_hand_steadiness": 1.838,
+    "manual_dexterity": 1.919,
+    "finger_dexterity": 1.946,
+    "reaction_time": 2.054,
+    "wrist_finger_speed": 1.865,
+    "speed_of_limb_movement": 1.865,
+    "static_strength": 1.838,
+    "stamina": 2.162,
+    "gross_body_equilibrium": 2.0,
+    "near_vision": 1.946,
+    "far_vision": 1.865,
+    "visual_color_discrimination": 2.027,
+    "depth_perception": 1.946,
+    "hearing_sensitivity": 1.838,
+    "auditory_attention": 1.757,
+    "speech_clarity": 2.27
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.5,
+    "face_to_face_discussions": 3.727,
+    "telephone_communication": 3.909,
+    "business_writing": 4.045,
+    "conflict_situations": 1.955,
+    "time_pressure": 2.5,
+    "teamwork": 3.273,
+    "dealing_with_external_customers": 3.318,
+    "coordinate_lead_others": 3.227,
+    "exactness_accuracy": 3.591,
+    "repetitive_tasks": 2.545,
+    "pace_determined_by_machine": 2.318,
+    "responsibility_for_outcomes": 3.5,
+    "indoor_climate_controlled": 4.727,
+    "indoor_non_climate_controlled": 2.182,
+    "outdoor_work": 2.273,
+    "sitting": 3.727,
+    "standing": 2.0,
+    "repetition_of_activities": 1.318,
+    "consequence_of_error": 2.818,
+    "freedom_to_make_decisions": 3.818,
+    "set_own_goals": 3.773,
+    "regular_schedule": 0.364,
+    "irregular_schedule": 0.5,
+    "seasonal_schedule": 0.136,
+    "email_communication": 4.636,
+    "cramped_uncomfortable": 1.5,
+    "disease_infection_risk": 1.364,
+    "minor_injury_risk": 1.5,
+    "standard_protective_equipment": 2.182,
+    "specialized_protective_equipment": 1.455,
+    "dealing_with_violent_people": 1.045,
+    "walking_running": 1.864,
+    "handling_objects_tools": 1.955,
+    "physical_proximity": 2.909,
+    "work_automation": 1.773,
+    "responsibility_for_safety": 2.091,
+    "impact_of_decisions": 2.773,
+    "level_of_competition": 2.091
+  },
+  "work_activities": {
+    "getting_information": 3.378,
+    "monitor_processes": 3.27,
+    "identifying_objects": 3.297,
+    "inspecting_equipment": 2.784,
+    "estimating_quantifiable": 2.838,
+    "judging_quality": 2.892,
+    "evaluating_compliance": 2.973,
+    "processing_information": 3.108,
+    "analyzing_data": 3.297,
+    "making_decisions": 3.432,
+    "thinking_creatively": 3.432,
+    "updating_knowledge": 3.432,
+    "developing_objectives": 3.243,
+    "scheduling_work": 3.081,
+    "organizing_planning": 3.243,
+    "physical_activities": 2.189,
+    "handling_objects": 2.027,
+    "controlling_machines": 2.135,
+    "operating_vehicles": 1.757,
+    "computer_work": 3.162,
+    "drafting_specifications": 2.243,
+    "repairing_mechanical": 1.892,
+    "repairing_electronic": 1.892,
+    "documenting_information": 2.811,
+    "interpreting_information": 3.081,
+    "communicating_inside": 3.162,
+    "communicating_outside": 3.297,
+    "building_relationships": 3.162,
+    "assisting_caring": 2.514,
+    "selling_influencing": 2.297,
+    "resolving_conflicts": 2.459,
+    "performing_for_public": 2.405,
+    "coordinating_others": 2.73,
+    "developing_teams": 2.919,
+    "training_teaching": 3.027,
+    "guiding_subordinates": 2.892,
+    "coaching_developing": 2.892,
+    "providing_consultation": 2.865,
+    "performing_administrative": 2.703,
+    "staffing_organizational": 2.378,
+    "monitoring_resources": 2.432
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.091,
+    "vocational_school": 0.091,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.591,
+    "masters": 0.409,
+    "doctorate": 0.227,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.591,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.045,
+    "6_months_to_1_year": 0.045,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.045,
+    "over_10_years": 0.0,
+    "unknown": 0.182
+  },
+  "training_post": {
+    "not_required": 0.227,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.182,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.409,
+    "5_to_10_years": 0.045,
+    "over_10_years": 0.045,
+    "unknown": 0.091
+  },
+  "experience": {
+    "not_required": 0.5,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.045,
+    "unknown": 0.318
+  },
+  "employment_type": {
+    "regular_employee": 0.818,
+    "part_time": 0.0,
+    "dispatched": 0.0,
+    "contract": 0.045,
+    "self_employed_freelance": 0.045,
+    "executive": 0.045,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.045
+  },
+  "tasks_lead_ja": "土木工学や建築工学について、基礎的な分野から応用の分野までの研究をする。（大学・短期大学の教員の場合は「大学・短期大学教員」へ）",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "新しい建設技術を開発する。",
+      "execution_rate": 0.838,
+      "importance": 3.065
+    },
+    {
+      "task_id": 2,
+      "description_ja": "地震や津波など自然災害のメカニズムを研究し、防災に関する技術の開発をする。",
+      "execution_rate": 0.838,
+      "importance": 3.323
+    },
+    {
+      "task_id": 3,
+      "description_ja": "都市における環境を研究し、環境との調和を考えた施設の建設法を提案する。",
+      "execution_rate": 0.838,
+      "importance": 3.161
+    },
+    {
+      "task_id": 4,
+      "description_ja": "コンクリートなどの建設材料における力学的な研究をする。",
+      "execution_rate": 0.838,
+      "importance": 3.258
+    },
+    {
+      "task_id": 5,
+      "description_ja": "模型を製作して様々な実験を行い、仮説の検証やデータ取りをする。",
+      "execution_rate": 0.838,
+      "importance": 3.065
+    },
+    {
+      "task_id": 6,
+      "description_ja": "橋やトンネル・建築物などの構造研究を行う。",
+      "execution_rate": 0.784,
+      "importance": 3.207
+    },
+    {
+      "task_id": 7,
+      "description_ja": "新しい建設用材料、製品を開発する。",
+      "execution_rate": 0.811,
+      "importance": 2.767
+    },
+    {
+      "task_id": 8,
+      "description_ja": "研究成果を学会などで発表する。",
+      "execution_rate": 0.919,
+      "importance": 3.529
+    },
+    {
+      "task_id": 9,
+      "description_ja": "論文を書き、学会誌や専門誌に投稿する。",
+      "execution_rate": 0.919,
+      "importance": 3.559
+    },
+    {
+      "task_id": 10,
+      "description_ja": "報告書を作成したり、書籍を執筆する。",
+      "execution_rate": 0.919,
+      "importance": 3.324
+    },
+    {
+      "task_id": 11,
+      "description_ja": "土木、建築　設計等の技術的な助言をする。",
+      "execution_rate": 0.946,
+      "importance": 3.314
+    },
+    {
+      "task_id": 12,
+      "description_ja": "大学などで講義をする。",
+      "execution_rate": 0.838,
+      "importance": 2.903
+    },
+    {
+      "task_id": 13,
+      "description_ja": "国交省の公共工事積算基準について指導教育を実施する。",
+      "execution_rate": 0.649,
+      "importance": 2.75
+    },
+    {
+      "task_id": 14,
+      "description_ja": "施工の計画や管理を行う。",
+      "execution_rate": 0.622,
+      "importance": 2.739
+    },
+    {
+      "task_id": 15,
+      "description_ja": "建築や居住環境に関するコンセプトを提案する。",
+      "execution_rate": 0.649,
+      "importance": 2.708
+    },
+    {
+      "task_id": 16,
+      "description_ja": "技術提案書の作成や確認をする。",
+      "execution_rate": 0.757,
+      "importance": 2.893
+    },
+    {
+      "task_id": 17,
+      "description_ja": "設計基準の理論化や是正をする。",
+      "execution_rate": 0.757,
+      "importance": 3.107
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "国立研究開発法人土木研究所",
+      "url": "https://www.pwri.go.jp/"
+    },
+    {
+      "name_ja": "国立研究開発法人建築研究所",
+      "url": "https://www.kenken.go.jp/"
+    },
+    {
+      "name_ja": "公益社団法人土木学会",
+      "url": "http://www.jsce.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人日本建築学会",
+      "url": "https://www.aij.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/388",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "id": 523,
+  "ipd_id": "IPD_01_01_523",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "データエンジニア",
+  "aliases_ja": [
+    "ビッグデータエンジニア"
+  ],
+  "classifications": {
+    "mhlw_main": "02_010-99",
+    "mhlw_all": [
+      "02_010-99"
+    ],
+    "jsoc_main": "B109",
+    "jsoc_all": [
+      "B109"
+    ]
+  },
+  "description": {
+    "summary_ja": "膨大なデータを分析するためにデータの整理や管理を行ったり、複雑で大規模なデータが活用できるよう情報基盤の構築や運用を行う。",
+    "what_it_is_ja": "膨大なデータを分析するためにデータの整理や管理を行ったり、複雑で大規模なデータが活用できるよう情報基盤の構築や運用を行う。\n　情報化が進展した今日、膨大なデータ（ビッグデータ）が蓄積され、利用・活用されるようになっている。また、AI(人工知能)も様々な場面で応用が進んでいるが、その実用化のためには大量のデータが必要となる。このような膨大なデータのエキスパートと言えるエンジニアである。\n　データエンジニアに似た職業にデータサイエンティストがある。データサイエンティストがデータを分析し、新たな商品やサービスを生み出したり、業務プロセスを革新する知見を引き出すのに対し、データエンジニアはこのためのデータの収集、整理、管理、そして情報基盤の構築や運用を行う。\n　また、データエンジニアとは呼ばれていなかったが、システムエンジニアの中にはデータの収集と整理に関する開発、また、データを活用するための情報基盤の構築と運用を行う人も居り、この人達もデータエンジニアと同じような仕事をしていたといえる。そして、データエンジニアの中で分析に特化し、専門性を高めていきデータサイエンティストとなったり、機械学習に特化しAIエンジニアになっていく人もいる。データエンジニアとシステムエンジニア、データサイエンティスト、AIエンジニアの関係はこのように整理することができる。\n　データエンジニアの具体的な業務としては以下の３つがある。\n　第一に、データはそのままでは利用できないことが多く、欠損しているデータを補ったり、データの重複を整理したり、表記の揺れ（サーバーとサーバ、西暦と和暦、年齢区分、centerとcentre等々）などを統一する作業であり、分析できるようツールを使いデータを整理、加工する業務である（データの前処理）。また、このデータの整理、加工のためにプログラムを作成することもある。\n　第二に、データを収集し、蓄積し、利用できるような情報基盤を設計し、構築する業務である。具体的には、IoTなどにより集まってくる膨大なデータからデータベースを作成し、データサイエンティストやデータを分析する人が必要な形で取り出せるよう、情報インフラを開発する業務である。近年では、膨大なデータを廉価に効率的に格納し、利用するためにクラウドサービスを利用することが多い。この場合、データエンジニアはクラウド上にデータを蓄積し、利用する情報システムをクラウド上で開発、運用する。データをグラフ等で見やすく視覚化することもある。データサイエンティストの仕事と重なるが、データをビジネスにどう活かすかを検討することもある。\n　第三に、AI（人工知能）開発における「教師データ」の作成がある。AIに学習させるためには「教師データ」が必要であり、そのデータを作成する。データを整理し、データを整える業務である。このデータ整理のためにプログラムを作成することもある。AIを運用しその結果から、教師データを作り直すこともある。\n\n◇　よく使う道具、機材、情報技術等\n　収集・解析ツール（データ検索・収集するElasticsearch、グラフ化するKibana 、解析するBeats 、Logstashから構成されるElastic Stack）、統合開発環境（IDE:integrated development environment、Visual Studio、Eclipse、Xcode等）、クラウドデータストレッジ(AWS：Amazon Web Services、GCP：Google Cloud Platform等)、 ビッグデータの分散処理のためのHadoop、表計算ツール（Google Googleスプレッドシート等）、パソコン",
+    "how_to_become_ja": "新卒採用では理工系の大学、大学院の者が多いが、文系でも、心理学や経済学等データを扱っていたという卒業生も多い。高専や専門学校の情報系の卒業生もいる。システムエンジニアとして一括して新卒採用し、その中からデータエンジニアとして育てていく会社もある。\n　中途採用の場合、システムエンジニア等IT関係のエンジニアから転職という人が多い。また、金融、医療、製造、教育等、何らかの分野に詳しい業務知識を持っていると中途採用では有利となる。\n　資格関連では民間が運営する海外のものがあり(Google認定プロフェッショナルデータエンジニア等)、この認定を持っているとデータエンジニアのスキルがあると国の内外で評価される。\n　データエンジニアそのものの資格ではないが、情報処理振興機構（IPA）のデータベーススペシャリスト試験、システムアーキテクト試験などは関連する知識を持っている証明となる。\n　新卒採用の場合、入社後、社内で必要に応じて、基礎スキルの研修（プログラミング、数学、データ分析、データベース、分散処理、機械学習、AI等）、業務知識の習得（データの背景を把握するための顧客の業務の理解等）、プロジェクトのマネジメント（チーム管理やアジャイル開発）等の研修を行う会社が多い。開発のスピードアップが求められる今日、以前のウォーターフォール型でない、アジャイル開発のスキルが求められている。\n　このような研修を受け、その後は社内でプロジェクトに参加し、仕事をしながら、また、関連するKaggle等のコミュニティに参加し、力をつけていく。KaggleとはそのトップページにYour Machine Learning and Data Science Communityとあるように、世界中の機械学習とデータサイエンスに携わる数十万人が集まるコミュニティである。\n　この後のキャリアとしてはプロジェクトのマネジメントをし、さらにグループのマネジメントをするようになるというように管理職的なキャリアを歩む人と、専門性を高めエキスパートになっていく人がいる。専門性を高め、データサイエンティストやAIエンジニアになる人もいる。\n　データエンジニアに必要なスキルとしては、微分積分、線形代数、確率統計などの数学のスキル、Python 、Scala（スカラ）、Java、Rなどのプログラミングのスキル、ビッグデータ分析のための環境をアマゾン、グーグルなどのクラウド上で設計、構築し、運用するスキルが求められる。また、Hadoopなどによる大規模なデータを分散処理する知識などが求められる。そしてAI開発が盛んな今日、機械学習の知識が求められることも多い。また、データを扱う上では対象分野の業務知識が非常に重要である。業務知識が無ければ、どのようなデータでどのように処理すれば良いかが分からない。技術動向や社会、経済の動きを把握していることも必要である。\n　収集・解析に必要なプログラム作成に生成AIを活用することも多くなっており、生成AIで仮のものを作り、修正、加筆したり、作動確認し、利用する。\n　膨大で複雑なデータを丹念に処理していく必要があることから、根気があり、粘り強いことが求められる。データの分析では自分の思い込みがないか、自分の考えを客観的にとらえられることも必要である。技術や分析に対する好奇心、新しい手法を積極的に取り入れるチャレンジ精神も求められる。",
+    "working_conditions_ja": "情報システムの企画、構築、運用などの業務を一括して請け負う会社であるシステムインテグレーター（System Integrator、略してSIer）や中小のデータ分析の専門会社で働いている。このような企業は大学との共同研究等の関係もあり、大学のあるところに多い傾向がある。\n　基本的には自社で勤務し、作業自体はほぼPCだけでできることから、テレワークなど自宅で作業を行うこともできる。機密性が高い顧客データを扱う場合、厳密な入退室管理が行われている部屋（セキュリティ・ルーム）で作業を行う。また、顧客の拠点で作業を行うこともある。顧客との打合せ、結果報告等のため客先を訪問することもある。\n　この職業の就業者に関する統計等は無いが、前述のコミュニティの参加者等から日本で数万人居ると考えられる。この中には肩書はシステムエンジニアであるが、実質的にはデータエンジニアの仕事をしているという人も含まれる。フリーランスは少なく、会社の正社員として働いている人が大半である。このコミュニティの参加者から30歳代が多く、次いで40歳代が多い、男女の比率としては7:3から8:2程度と考えられる。\n　収入面や労働時間はシステムエンジニアとあまり変わらないが、ビッグデータの利用・活用が広がり、仕事が多くなっている反面、スキルの高い人材は少ないことから中途採用の人など高給の人もいる。\n　今日、産業、社会の広範なデジタル化、IoT(モノのインターネット)、デジタルトランスフォーメーション（DX）など、データ活用が益々、拡大している。AI開発に伴う仕事も多くなっている。一方、専門的な知識、高度なスキルを有する人材は不足しており、仕事には事欠かない状況が続くと考えられる。"
+  },
+  "interests": null,
+  "work_values": {
+    "achievement": 3.34,
+    "autonomy": 3.44,
+    "expertise": 3.64,
+    "self_growth": 3.26,
+    "social_recognition": 2.86,
+    "service_contribution": 3.02,
+    "good_relationships": 3.1,
+    "workplace_safety": 3.56,
+    "work_life_balance": 3.4,
+    "stability": 3.28,
+    "compensation": 3.04
+  },
+  "skills": {
+    "reading_comprehension": 4.28,
+    "active_listening": 4.04,
+    "writing": 3.72,
+    "speaking": 3.8,
+    "foreign_language_reading": 2.86,
+    "foreign_language_listening": 2.08,
+    "foreign_language_writing": 2.0,
+    "foreign_language_speaking": 1.76,
+    "mathematics": 3.28,
+    "science": 2.76,
+    "critical_thinking": 3.42,
+    "active_learning": 3.52,
+    "learning_strategies": 3.3,
+    "monitoring": 3.42,
+    "social_perceptiveness": 3.36,
+    "coordination": 3.66,
+    "persuasion": 3.34,
+    "negotiation": 3.18,
+    "instructing": 3.62,
+    "service_orientation": 3.2,
+    "complex_problem_solving": 3.4,
+    "operations_analysis": 3.78,
+    "technology_design": 3.36,
+    "equipment_selection": 3.5,
+    "installation": 3.74,
+    "programming": 3.7,
+    "operations_monitoring": 2.62,
+    "operation_and_control": 3.04,
+    "equipment_maintenance": 2.66,
+    "troubleshooting": 3.3,
+    "repairing": 2.82,
+    "quality_control_analysis": 3.46,
+    "judgment_decision_making": 3.2,
+    "systems_analysis": 2.74,
+    "systems_evaluation": 2.74,
+    "time_management": 3.52,
+    "financial_resources_management": 2.24,
+    "material_resources_management": 2.44,
+    "personnel_resources_management": 2.64
+  },
+  "knowledge": {
+    "business_management": 1.447,
+    "clerical": 2.316,
+    "economics_accounting": 1.079,
+    "sales_marketing": 1.263,
+    "customer_personal_service": 1.316,
+    "personnel_hr": 0.632,
+    "transportation": 0.5,
+    "production_processing": 0.5,
+    "agriculture_livestock": 0.211,
+    "engineering": 1.132,
+    "computers_electronics": 2.5,
+    "design": 1.842,
+    "building_construction": 0.447,
+    "mechanical": 0.895,
+    "mathematics_kn": 1.789,
+    "physics": 1.079,
+    "chemistry": 0.763,
+    "biology": 0.368,
+    "psychology": 0.553,
+    "sociology": 0.658,
+    "geography": 0.447,
+    "medicine_dentistry": 0.316,
+    "therapy_counseling": 0.368,
+    "education_training_kn": 0.711,
+    "japanese_language": 1.579,
+    "foreign_language_kn": 0.895,
+    "fine_arts": 0.421,
+    "history_archaeology": 0.263,
+    "philosophy_theology": 0.368,
+    "public_safety_security": 0.711,
+    "law_government": 0.711,
+    "telecommunications": 1.921,
+    "communications_media": 1.579
+  },
+  "abilities": {
+    "oral_comprehension": 2.909,
+    "written_comprehension": 3.0,
+    "oral_expression": 2.932,
+    "written_expression": 3.023,
+    "fluency_of_ideas": 2.864,
+    "originality": 2.727,
+    "problem_sensitivity": 3.068,
+    "deductive_reasoning": 3.114,
+    "inductive_reasoning": 3.136,
+    "information_ordering": 2.909,
+    "category_flexibility": 3.068,
+    "mathematical_reasoning": 3.068,
+    "number_facility": 2.955,
+    "memorization": 2.818,
+    "perceptual_speed": 2.727,
+    "spatial_orientation": 2.364,
+    "visualization": 2.5,
+    "selective_attention": 3.023,
+    "time_sharing": 2.955,
+    "arm_hand_steadiness": 1.864,
+    "manual_dexterity": 1.977,
+    "finger_dexterity": 1.841,
+    "reaction_time": 2.0,
+    "wrist_finger_speed": 1.932,
+    "speed_of_limb_movement": 1.932,
+    "static_strength": 1.841,
+    "stamina": 1.932,
+    "gross_body_equilibrium": 1.841,
+    "near_vision": 1.841,
+    "far_vision": 1.705,
+    "visual_color_discrimination": 2.023,
+    "depth_perception": 1.864,
+    "hearing_sensitivity": 1.909,
+    "auditory_attention": 1.841,
+    "speech_clarity": 1.977
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.5,
+    "face_to_face_discussions": 3.789,
+    "telephone_communication": 3.5,
+    "business_writing": 3.684,
+    "conflict_situations": 2.263,
+    "time_pressure": 2.895,
+    "teamwork": 3.579,
+    "dealing_with_external_customers": 3.184,
+    "coordinate_lead_others": 2.921,
+    "exactness_accuracy": 3.842,
+    "repetitive_tasks": 3.395,
+    "pace_determined_by_machine": 3.026,
+    "responsibility_for_outcomes": 3.263,
+    "indoor_climate_controlled": 4.842,
+    "indoor_non_climate_controlled": 1.632,
+    "outdoor_work": 1.5,
+    "sitting": 4.816,
+    "standing": 1.526,
+    "repetition_of_activities": 2.342,
+    "consequence_of_error": 3.132,
+    "freedom_to_make_decisions": 3.211,
+    "set_own_goals": 3.184,
+    "regular_schedule": 0.553,
+    "irregular_schedule": 0.395,
+    "seasonal_schedule": 0.053,
+    "email_communication": 4.579,
+    "cramped_uncomfortable": 1.632,
+    "disease_infection_risk": 1.289,
+    "minor_injury_risk": 1.158,
+    "standard_protective_equipment": 1.289,
+    "specialized_protective_equipment": 1.237,
+    "dealing_with_violent_people": 1.158,
+    "walking_running": 1.447,
+    "handling_objects_tools": 2.263,
+    "physical_proximity": 2.711,
+    "work_automation": 2.605,
+    "responsibility_for_safety": 1.974,
+    "impact_of_decisions": 2.474,
+    "level_of_competition": 2.105
+  },
+  "work_activities": {
+    "getting_information": 3.341,
+    "monitor_processes": 3.045,
+    "identifying_objects": 3.318,
+    "inspecting_equipment": 2.636,
+    "estimating_quantifiable": 2.977,
+    "judging_quality": 2.955,
+    "evaluating_compliance": 2.795,
+    "processing_information": 3.636,
+    "analyzing_data": 3.568,
+    "making_decisions": 3.432,
+    "thinking_creatively": 3.023,
+    "updating_knowledge": 3.318,
+    "developing_objectives": 2.864,
+    "scheduling_work": 3.068,
+    "organizing_planning": 3.318,
+    "physical_activities": 1.955,
+    "handling_objects": 1.886,
+    "controlling_machines": 2.227,
+    "operating_vehicles": 1.773,
+    "computer_work": 3.568,
+    "drafting_specifications": 2.091,
+    "repairing_mechanical": 2.068,
+    "repairing_electronic": 2.091,
+    "documenting_information": 3.182,
+    "interpreting_information": 3.068,
+    "communicating_inside": 3.25,
+    "communicating_outside": 3.045,
+    "building_relationships": 2.977,
+    "assisting_caring": 2.705,
+    "selling_influencing": 2.318,
+    "resolving_conflicts": 2.386,
+    "performing_for_public": 2.023,
+    "coordinating_others": 2.591,
+    "developing_teams": 2.705,
+    "training_teaching": 2.568,
+    "guiding_subordinates": 2.523,
+    "coaching_developing": 2.636,
+    "providing_consultation": 2.568,
+    "performing_administrative": 2.614,
+    "staffing_organizational": 2.159,
+    "monitoring_resources": 2.341
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.079,
+    "vocational_school": 0.132,
+    "junior_college": 0.053,
+    "technical_college": 0.0,
+    "university": 0.711,
+    "masters": 0.237,
+    "doctorate": 0.158,
+    "unknown": 0.053
+  },
+  "training_pre": {
+    "not_required": 0.237,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.184,
+    "6_months_to_1_year": 0.158,
+    "1_to_2_years": 0.079,
+    "2_to_3_years": 0.026,
+    "3_to_5_years": 0.053,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.263
+  },
+  "training_post": {
+    "not_required": 0.079,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.237,
+    "6_months_to_1_year": 0.132,
+    "1_to_2_years": 0.158,
+    "2_to_3_years": 0.053,
+    "3_to_5_years": 0.079,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.026,
+    "unknown": 0.237
+  },
+  "experience": {
+    "not_required": 0.395,
+    "up_to_1_month": 0.026,
+    "1_to_6_months": 0.026,
+    "6_months_to_1_year": 0.026,
+    "1_to_2_years": 0.105,
+    "2_to_3_years": 0.079,
+    "3_to_5_years": 0.053,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.289
+  },
+  "employment_type": {
+    "regular_employee": 0.763,
+    "part_time": 0.105,
+    "dispatched": 0.132,
+    "contract": 0.053,
+    "self_employed_freelance": 0.158,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.026,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "データを分析するためにデータの整理や管理を行ったり、データを活用する情報基盤の構築や運用を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "データの背景となる業務知識を習得する。",
+      "execution_rate": 0.932,
+      "importance": 3.268
+    },
+    {
+      "task_id": 2,
+      "description_ja": "データの加工、整理の方法について検討する。",
+      "execution_rate": 0.977,
+      "importance": 3.349
+    },
+    {
+      "task_id": 3,
+      "description_ja": "欠損しているデータを補う。",
+      "execution_rate": 0.932,
+      "importance": 2.902
+    },
+    {
+      "task_id": 4,
+      "description_ja": "データの重複を整理する。",
+      "execution_rate": 0.932,
+      "importance": 3.317
+    },
+    {
+      "task_id": 5,
+      "description_ja": "表記の揺れ（サーバーとサーバ、centerとcentre等々）を統一する。",
+      "execution_rate": 0.932,
+      "importance": 2.756
+    },
+    {
+      "task_id": 6,
+      "description_ja": "データをグラフにする等視覚化する。",
+      "execution_rate": 0.864,
+      "importance": 3.105
+    },
+    {
+      "task_id": 7,
+      "description_ja": "データを加工するプログラムを作成する。",
+      "execution_rate": 0.955,
+      "importance": 3.0
+    },
+    {
+      "task_id": 8,
+      "description_ja": "どのような情報基盤にするか検討する。",
+      "execution_rate": 0.909,
+      "importance": 2.775
+    },
+    {
+      "task_id": 9,
+      "description_ja": "どのクラウドサービスを使うか検討する。",
+      "execution_rate": 0.75,
+      "importance": 2.545
+    },
+    {
+      "task_id": 10,
+      "description_ja": "クラウド上でデータの情報基盤を設計する。",
+      "execution_rate": 0.682,
+      "importance": 2.533
+    },
+    {
+      "task_id": 11,
+      "description_ja": "クラウド上でデータの情報基盤を構築する。",
+      "execution_rate": 0.682,
+      "importance": 2.767
+    },
+    {
+      "task_id": 12,
+      "description_ja": "クラウド上でデータの情報基盤を運用する。",
+      "execution_rate": 0.682,
+      "importance": 2.567
+    },
+    {
+      "task_id": 13,
+      "description_ja": "社内に設置するデータの情報基盤を設計する。",
+      "execution_rate": 0.773,
+      "importance": 2.529
+    },
+    {
+      "task_id": 14,
+      "description_ja": "社内に設置するデータの情報基盤を構築する。",
+      "execution_rate": 0.75,
+      "importance": 2.667
+    },
+    {
+      "task_id": 15,
+      "description_ja": "社内に設置するデータの情報基盤を運用する。",
+      "execution_rate": 0.75,
+      "importance": 2.545
+    },
+    {
+      "task_id": 16,
+      "description_ja": "「教師データ」の作成方針を検討する。",
+      "execution_rate": 0.591,
+      "importance": 2.308
+    },
+    {
+      "task_id": 17,
+      "description_ja": "「教師データ」を作成するためにデータを整理する。",
+      "execution_rate": 0.591,
+      "importance": 2.269
+    },
+    {
+      "task_id": 18,
+      "description_ja": "「教師データ」を作成するためにプログラムを作成する。",
+      "execution_rate": 0.591,
+      "importance": 2.423
+    },
+    {
+      "task_id": 19,
+      "description_ja": "AIを運用しその結果から、教師データを作り直す。",
+      "execution_rate": 0.546,
+      "importance": 2.417
+    },
+    {
+      "task_id": 20,
+      "description_ja": "データ作成者の業務をサポートする。",
+      "execution_rate": 0.841,
+      "importance": 2.865
+    },
+    {
+      "task_id": 21,
+      "description_ja": "データ収集プロセスを構築する。",
+      "execution_rate": 0.864,
+      "importance": 2.868
+    },
+    {
+      "task_id": 22,
+      "description_ja": "システムの設計をする。",
+      "execution_rate": 0.841,
+      "importance": 2.838
+    },
+    {
+      "task_id": 23,
+      "description_ja": "社内Webアプリを開発し、従業員に説明する。",
+      "execution_rate": 0.591,
+      "importance": 2.5
+    },
+    {
+      "task_id": 24,
+      "description_ja": "プロジェクトの進捗を管理する。",
+      "execution_rate": 0.886,
+      "importance": 3.026
+    },
+    {
+      "task_id": 25,
+      "description_ja": "データの修正や復旧を行う。",
+      "execution_rate": 0.932,
+      "importance": 3.049
+    }
+  ],
+  "related_orgs": [],
+  "related_certs_ja": [
+    "Google認定プロフェッショナルデータエンジニア"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/523",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2020,
+    "classifications": 2022,
+    "description": 2024
+  }
+}

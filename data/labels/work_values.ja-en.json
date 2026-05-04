@@ -1,0 +1,63 @@
+{
+  "dimension": "work_values",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 11,
+  "labels": {
+    "achievement": {
+      "ja": "達成感",
+      "en": "Achievement",
+      "onet_id": "IPD_04_02_001"
+    },
+    "autonomy": {
+      "ja": "自律性",
+      "en": "Autonomy",
+      "onet_id": "IPD_04_02_002"
+    },
+    "expertise": {
+      "ja": "専門性",
+      "en": "Expertise",
+      "onet_id": "IPD_04_02_003"
+    },
+    "self_growth": {
+      "ja": "自己成長",
+      "en": "Self-Growth",
+      "onet_id": "IPD_04_02_004"
+    },
+    "social_recognition": {
+      "ja": "社会的認知・地位",
+      "en": "Social Recognition / Status",
+      "onet_id": "IPD_04_02_005"
+    },
+    "service_contribution": {
+      "ja": "奉仕・社会貢献",
+      "en": "Service & Social Contribution",
+      "onet_id": "IPD_04_02_006"
+    },
+    "good_relationships": {
+      "ja": "良好な対人関係",
+      "en": "Good Interpersonal Relationships",
+      "onet_id": "IPD_04_02_007"
+    },
+    "workplace_safety": {
+      "ja": "労働安全衛生",
+      "en": "Workplace Safety & Health",
+      "onet_id": "IPD_04_02_008"
+    },
+    "work_life_balance": {
+      "ja": "私生活との両立",
+      "en": "Work-Life Balance",
+      "onet_id": "IPD_04_02_009"
+    },
+    "stability": {
+      "ja": "雇用や生活の安定性",
+      "en": "Employment & Life Stability",
+      "onet_id": "IPD_04_02_010"
+    },
+    "compensation": {
+      "ja": "報酬や収入",
+      "en": "Compensation & Income",
+      "onet_id": "IPD_04_02_011"
+    }
+  }
+}

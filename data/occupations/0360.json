@@ -1,0 +1,458 @@
+{
+  "id": 360,
+  "ipd_id": "IPD_01_01_360",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "印刷オペレーター",
+  "aliases_ja": [
+    "印刷設備オペレーター",
+    "印刷物光沢加工設備オペレーター",
+    "樹脂凸版印刷作業員",
+    "フレキソ印刷作業員",
+    "平板印刷作業員",
+    "写真印刷作業員",
+    "美術印刷作業員"
+  ],
+  "classifications": {
+    "mhlw_main": "12_069-05",
+    "mhlw_all": [
+      "12_069-05",
+      "12_073-06"
+    ],
+    "jsoc_main": "H507",
+    "jsoc_all": [
+      "H507",
+      "H537"
+    ]
+  },
+  "description": {
+    "summary_ja": "印刷機を操作して、紙などの素材に印刷する。",
+    "what_it_is_ja": "印刷機を操作して、紙などの素材に印刷する。\n　仕事内容は、作業指示書の確認、インクなどの資材や刷版の確認、印刷機械の準備をして、刷り出しを行う。印刷品質が安定したものを基準紙として、基準紙をもとに本刷りを行う。刷了（所定の部数を印刷し終わること）したら、刷了後の確認（前品目の残紙の排除、出荷確認）、印刷機械の点検・清掃を行う。刷了後の清掃だけでなく、日常的な機械の整備・保守も月１回程度実施する。\n　印刷には目的によって、出版印刷（書籍や雑誌など）、商業印刷（宣伝物やカタログ、ポスターなど）、事務用印刷（名刺や伝票などの事務用品）などがある。印刷という作業は、出版印刷でみると、原稿入稿から、組版・製版などのDTP（デスクトップパブリッシング）処理のプリプレス工程を経て、刷版工程で面付や品目に応じたカーブ設定を実施し、実用版を作成、印刷工程へ渡し、印刷機を稼働させ、実際に印刷を行うプレス工程を指す。印刷された刷本（すりほん）は、断裁、折加工、丁合、製本などの処理を行うポストプレス工程に回される。\n　紙に印刷する方法には、活版（凸版）、オフセット（平版）、グラビア（凹版）、シルクスクリーン（孔版）の4つがある。また、紙の印刷方式は、一枚毎用途に応じたサイズにカットされた紙に印刷する枚葉（まいよう）印刷と、ロール状の紙に連続して印刷する輪転印刷がある。効率とコストメリットが他の版式より優位性がある事から、オフセット印刷が主流となっている。印刷機には、1色だけ刷る1色機とカラーの絵や写真を刷る多色機があり、多くの印刷会社では、1色機と4色機（青＋赤＋黄＋黒）を使っている。\n　オフセット印刷の場合、作業前に校了紙と印刷物の元になる刷版、用紙、インクを準備し、作業指示書によって印刷部数、色数、用紙などを確認する。試し刷りを行い、刷版の位置を微調整し、色の濃さを見てインクの量を調節する。試し刷りで確認を終えると本刷りに入りインクの量や見本刷りの通りに刷れているかなどに気を配りながら印刷する。用紙や印刷状態の異常に気づいたらすぐに機械を止めて点検を行う。\n　現在の印刷機は両面同時に印刷を行い、乾燥処理を行うものが主流である。所定の枚数の印刷が終わると、次の断裁・製本などのポストプレス工程に引き渡して作業を完了する。\n　現在では技術の進歩により、空気と水以外なら何にでも印刷できるといわれるほどで、ガラスや金属、木材、フィルム、プラスチックカード、プリント基板など紙以外の素材、さらには球体や凹凸のある素材に印刷する「特殊印刷」の世界が広がっている。先端分野では、印刷技術を使って電子回路やデバイスを製造する「プリンテッドエレクトロニクス」が、工程が簡素化でき、小型化・軽量化・省電力化した製品を生み出せることから開発が加速化している。\n\n◇　よく使う道具、機材、情報技術等\n　印刷機械",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。一般的に新卒採用では高校等からがほとんどとなっている。中途採用もある。\n　採用後は、印刷の仕事全般に関する基礎教育を受けてから配属されるのが一般的で、その後はOJTで経験を積み、機械の操作と印刷技術に習熟していく。印刷現場には様々な印刷機械があるが、担当する機械のオペレーターとして一人前になるには5年程度かかることが多い。オペレーターとして数年の経験を積み、担当機械の責任者である機長になると、担当機械の品質・能率の管理を任せられ、監督職に任命されると、営業や生産管理、プリプレス工程との連携も業務内容に入ってくる。\n　関連資格としては、厚生労働省が定める技能検定の「印刷技能士」がある。取得すると、技術の証明として認められる。\n　校正者や発注者のチェックを経た校了紙に書きこまれた明るさや色味についての指示を見て、自分で色を判断しなければならないので、色に対して鋭い感覚を持っていることが求められる。また、印刷作業の機械化が進んでいるため、機械に詳しく、コンピュータを使いこなせる技能が必要である。",
+    "working_conditions_ja": "従業者10人未満の中小企業が約８割を占めている（*1）。就業者は男性の比率が高い(*2)。\n　賃金、労働時間等労働条件は勤務先の規定による。「印刷技能士」等の合格者には資格手当を支給している企業もある(*3)。スピーディーな納品を要求されるため、職場によっては、交替制をとっており、夜勤がある場合もある。カレンダーや雑誌の発行（刊行）や合併号が集中する秋から年末が繁忙期で、残業が多くなることもある。\n　印刷作業は全般的に機械化が進んでおり、出版など紙媒体の需要が減退している。一方で、技術の発達により印刷の世界が大きく広がっていることから、多くの産業分野で多様な印刷方法に対するニーズが出てきており、印刷そのものに対する需要は拡大すると見込まれる。\n\n*1　総務省 2021年経済センサスから\n*2　取材結果から\n*3　中央職業能力開発協会ホームページより"
+  },
+  "interests": {
+    "realistic": 3.677,
+    "investigative": 3.081,
+    "artistic": 2.806,
+    "social": 2.919,
+    "enterprising": 2.774,
+    "conventional": 3.387
+  },
+  "work_values": {
+    "achievement": 3.354,
+    "autonomy": 3.313,
+    "expertise": 3.542,
+    "self_growth": 3.104,
+    "social_recognition": 2.896,
+    "service_contribution": 2.896,
+    "good_relationships": 3.125,
+    "workplace_safety": 3.104,
+    "work_life_balance": 3.104,
+    "stability": 2.792,
+    "compensation": 2.625
+  },
+  "skills": {
+    "reading_comprehension": 3.417,
+    "active_listening": 3.146,
+    "writing": 2.875,
+    "speaking": 3.125,
+    "foreign_language_reading": 0.771,
+    "foreign_language_listening": 0.688,
+    "foreign_language_writing": 0.708,
+    "foreign_language_speaking": 0.646,
+    "mathematics": 1.896,
+    "science": 1.396,
+    "critical_thinking": 2.583,
+    "active_learning": 2.479,
+    "learning_strategies": 2.542,
+    "monitoring": 2.792,
+    "social_perceptiveness": 2.583,
+    "coordination": 2.938,
+    "persuasion": 2.396,
+    "negotiation": 2.271,
+    "instructing": 2.688,
+    "service_orientation": 1.875,
+    "complex_problem_solving": 2.5,
+    "operations_analysis": 2.333,
+    "technology_design": 1.813,
+    "equipment_selection": 3.063,
+    "installation": 2.771,
+    "programming": 1.021,
+    "operations_monitoring": 2.646,
+    "operation_and_control": 3.396,
+    "equipment_maintenance": 3.208,
+    "troubleshooting": 2.917,
+    "repairing": 3.042,
+    "quality_control_analysis": 3.479,
+    "judgment_decision_making": 2.708,
+    "systems_analysis": 2.104,
+    "systems_evaluation": 1.917,
+    "time_management": 2.938,
+    "financial_resources_management": 1.75,
+    "material_resources_management": 2.688,
+    "personnel_resources_management": 1.521
+  },
+  "knowledge": {
+    "business_management": 0.827,
+    "clerical": 1.173,
+    "economics_accounting": 0.577,
+    "sales_marketing": 0.692,
+    "customer_personal_service": 0.827,
+    "personnel_hr": 0.635,
+    "transportation": 0.788,
+    "production_processing": 2.75,
+    "agriculture_livestock": 0.346,
+    "engineering": 0.769,
+    "computers_electronics": 1.154,
+    "design": 0.635,
+    "building_construction": 0.365,
+    "mechanical": 1.788,
+    "mathematics_kn": 0.769,
+    "physics": 0.519,
+    "chemistry": 0.462,
+    "biology": 0.192,
+    "psychology": 0.5,
+    "sociology": 0.635,
+    "geography": 0.231,
+    "medicine_dentistry": 0.308,
+    "therapy_counseling": 0.442,
+    "education_training_kn": 1.0,
+    "japanese_language": 0.885,
+    "foreign_language_kn": 0.558,
+    "fine_arts": 0.5,
+    "history_archaeology": 0.288,
+    "philosophy_theology": 0.288,
+    "public_safety_security": 0.885,
+    "law_government": 0.442,
+    "telecommunications": 0.519,
+    "communications_media": 0.558
+  },
+  "abilities": {
+    "oral_comprehension": 2.245,
+    "written_comprehension": 2.321,
+    "oral_expression": 2.34,
+    "written_expression": 2.377,
+    "fluency_of_ideas": 2.302,
+    "originality": 2.113,
+    "problem_sensitivity": 3.151,
+    "deductive_reasoning": 2.302,
+    "inductive_reasoning": 2.321,
+    "information_ordering": 2.189,
+    "category_flexibility": 2.113,
+    "mathematical_reasoning": 2.075,
+    "number_facility": 2.283,
+    "memorization": 2.547,
+    "perceptual_speed": 2.377,
+    "spatial_orientation": 2.321,
+    "visualization": 2.528,
+    "selective_attention": 2.83,
+    "time_sharing": 2.472,
+    "arm_hand_steadiness": 2.358,
+    "manual_dexterity": 2.415,
+    "finger_dexterity": 2.396,
+    "reaction_time": 2.736,
+    "wrist_finger_speed": 2.302,
+    "speed_of_limb_movement": 2.264,
+    "static_strength": 2.434,
+    "stamina": 2.377,
+    "gross_body_equilibrium": 2.17,
+    "near_vision": 2.736,
+    "far_vision": 2.151,
+    "visual_color_discrimination": 3.66,
+    "depth_perception": 2.34,
+    "hearing_sensitivity": 2.094,
+    "auditory_attention": 2.113,
+    "speech_clarity": 1.925
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.538,
+    "face_to_face_discussions": 2.654,
+    "telephone_communication": 2.981,
+    "business_writing": 2.538,
+    "conflict_situations": 2.038,
+    "time_pressure": 3.365,
+    "teamwork": 2.981,
+    "dealing_with_external_customers": 2.135,
+    "coordinate_lead_others": 2.596,
+    "exactness_accuracy": 3.769,
+    "repetitive_tasks": 3.442,
+    "pace_determined_by_machine": 3.423,
+    "responsibility_for_outcomes": 3.115,
+    "indoor_climate_controlled": 4.269,
+    "indoor_non_climate_controlled": 2.0,
+    "outdoor_work": 1.385,
+    "sitting": 2.5,
+    "standing": 3.712,
+    "repetition_of_activities": 3.75,
+    "consequence_of_error": 3.365,
+    "freedom_to_make_decisions": 3.212,
+    "set_own_goals": 3.212,
+    "regular_schedule": 0.615,
+    "irregular_schedule": 0.327,
+    "seasonal_schedule": 0.058,
+    "email_communication": 2.904,
+    "cramped_uncomfortable": 2.423,
+    "disease_infection_risk": 1.577,
+    "minor_injury_risk": 2.308,
+    "standard_protective_equipment": 2.5,
+    "specialized_protective_equipment": 1.769,
+    "dealing_with_violent_people": 1.269,
+    "walking_running": 2.981,
+    "handling_objects_tools": 3.558,
+    "physical_proximity": 2.692,
+    "work_automation": 2.192,
+    "responsibility_for_safety": 2.25,
+    "impact_of_decisions": 2.365,
+    "level_of_competition": 1.808
+  },
+  "work_activities": {
+    "getting_information": 2.321,
+    "monitor_processes": 2.811,
+    "identifying_objects": 2.623,
+    "inspecting_equipment": 2.811,
+    "estimating_quantifiable": 2.377,
+    "judging_quality": 3.189,
+    "evaluating_compliance": 2.472,
+    "processing_information": 2.491,
+    "analyzing_data": 2.415,
+    "making_decisions": 2.585,
+    "thinking_creatively": 2.396,
+    "updating_knowledge": 2.811,
+    "developing_objectives": 2.321,
+    "scheduling_work": 2.528,
+    "organizing_planning": 3.226,
+    "physical_activities": 2.566,
+    "handling_objects": 2.774,
+    "controlling_machines": 3.038,
+    "operating_vehicles": 1.868,
+    "computer_work": 2.547,
+    "drafting_specifications": 2.17,
+    "repairing_mechanical": 2.83,
+    "repairing_electronic": 2.321,
+    "documenting_information": 2.585,
+    "interpreting_information": 2.434,
+    "communicating_inside": 2.811,
+    "communicating_outside": 2.151,
+    "building_relationships": 2.623,
+    "assisting_caring": 2.189,
+    "selling_influencing": 2.075,
+    "resolving_conflicts": 2.151,
+    "performing_for_public": 1.887,
+    "coordinating_others": 2.17,
+    "developing_teams": 2.208,
+    "training_teaching": 2.189,
+    "guiding_subordinates": 2.151,
+    "coaching_developing": 1.981,
+    "providing_consultation": 1.698,
+    "performing_administrative": 2.113,
+    "staffing_organizational": 1.736,
+    "monitoring_resources": 2.019
+  },
+  "education_distribution": {
+    "below_high_school": 0.077,
+    "high_school": 0.558,
+    "vocational_school": 0.173,
+    "junior_college": 0.038,
+    "technical_college": 0.019,
+    "university": 0.25,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.135
+  },
+  "training_pre": {
+    "not_required": 0.558,
+    "up_to_1_month": 0.077,
+    "1_to_6_months": 0.135,
+    "6_months_to_1_year": 0.058,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.019,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.154
+  },
+  "training_post": {
+    "not_required": 0.135,
+    "up_to_1_month": 0.077,
+    "1_to_6_months": 0.115,
+    "6_months_to_1_year": 0.115,
+    "1_to_2_years": 0.192,
+    "2_to_3_years": 0.135,
+    "3_to_5_years": 0.077,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.154
+  },
+  "experience": {
+    "not_required": 0.673,
+    "up_to_1_month": 0.038,
+    "1_to_6_months": 0.038,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.019,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.135
+  },
+  "employment_type": {
+    "regular_employee": 0.692,
+    "part_time": 0.115,
+    "dispatched": 0.077,
+    "contract": 0.038,
+    "self_employed_freelance": 0.115,
+    "executive": 0.019,
+    "casual_non_student": 0.019,
+    "casual_student": 0.0,
+    "unknown": 0.019,
+    "other": 0.019
+  },
+  "tasks_lead_ja": "印刷機を操作して、紙などの素材に印刷する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "持ち込まれたデータを確認する。",
+      "execution_rate": 0.793,
+      "importance": 3.619
+    },
+    {
+      "task_id": 2,
+      "description_ja": "印刷用のデータを作成する。",
+      "execution_rate": 0.585,
+      "importance": 3.419
+    },
+    {
+      "task_id": 3,
+      "description_ja": "校了紙と印刷物の元になる刷版、用紙、インクを準備する。",
+      "execution_rate": 0.868,
+      "importance": 3.848
+    },
+    {
+      "task_id": 4,
+      "description_ja": "作業指示書に従って印刷部数、色数、用紙などを確認する。",
+      "execution_rate": 0.981,
+      "importance": 4.0
+    },
+    {
+      "task_id": 5,
+      "description_ja": "作業指示書に従って、塗料、インク、溶剤を混合してテストする。",
+      "execution_rate": 0.736,
+      "importance": 3.436
+    },
+    {
+      "task_id": 6,
+      "description_ja": "塗料やインクを、印刷装置のタンクに入れる。",
+      "execution_rate": 0.83,
+      "importance": 3.5
+    },
+    {
+      "task_id": 7,
+      "description_ja": "用紙を給送装置に載せ、位置を調整する。",
+      "execution_rate": 0.849,
+      "importance": 3.822
+    },
+    {
+      "task_id": 8,
+      "description_ja": "試し刷りを行い、刷版の位置の微調整とインクの量の調節をする。",
+      "execution_rate": 0.811,
+      "importance": 4.116
+    },
+    {
+      "task_id": 9,
+      "description_ja": "印刷状態を監視しながら印刷機を運転する。",
+      "execution_rate": 0.906,
+      "importance": 3.896
+    },
+    {
+      "task_id": 10,
+      "description_ja": "印刷された紙を印刷機から取り外し、運搬するために、手押し車、リフト、ホイストを運転する。",
+      "execution_rate": 0.679,
+      "importance": 3.111
+    },
+    {
+      "task_id": 11,
+      "description_ja": "印刷された製品を点検する。",
+      "execution_rate": 0.943,
+      "importance": 4.02
+    },
+    {
+      "task_id": 12,
+      "description_ja": "インク消しや溶剤を使用して誤植を訂正する。",
+      "execution_rate": 0.509,
+      "importance": 3.556
+    },
+    {
+      "task_id": 13,
+      "description_ja": "印刷された製品を梱包し、発送する。",
+      "execution_rate": 0.717,
+      "importance": 3.395
+    },
+    {
+      "task_id": 14,
+      "description_ja": "オンデマンド印刷や孔版印刷を行う。",
+      "execution_rate": 0.472,
+      "importance": 3.2
+    },
+    {
+      "task_id": 15,
+      "description_ja": "印刷された紙を製本する。",
+      "execution_rate": 0.491,
+      "importance": 3.192
+    },
+    {
+      "task_id": 16,
+      "description_ja": "製版に用いる版下フィルムを作成する。",
+      "execution_rate": 0.453,
+      "importance": 3.5
+    },
+    {
+      "task_id": 17,
+      "description_ja": "チラシ等のデザインを作成する。",
+      "execution_rate": 0.377,
+      "importance": 3.15
+    },
+    {
+      "task_id": 18,
+      "description_ja": "印刷工程を管理する。",
+      "execution_rate": 0.868,
+      "importance": 3.391
+    },
+    {
+      "task_id": 19,
+      "description_ja": "印刷機と構成部品を掃除して、潤滑剤を注す。",
+      "execution_rate": 0.849,
+      "importance": 3.422
+    },
+    {
+      "task_id": 20,
+      "description_ja": "使用した材料や印刷機の稼働時間を記録し、製品や部品に印刷される識別情報を記録する。",
+      "execution_rate": 0.774,
+      "importance": 3.195
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本印刷産業連合会",
+      "url": "https://www.jfpi.or.jp/"
+    },
+    {
+      "name_ja": "全日本印刷工業組合連合会",
+      "url": "http://www.aj-pia.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "印刷技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/360",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

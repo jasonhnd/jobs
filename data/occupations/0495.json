@@ -1,0 +1,433 @@
+{
+  "id": 495,
+  "ipd_id": "IPD_01_01_495",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "産業廃棄物処理技術者",
+  "aliases_ja": [
+    "廃棄物処理施設技術管理者"
+  ],
+  "classifications": {
+    "mhlw_main": "02_011-99",
+    "mhlw_all": [
+      "02_011-99"
+    ],
+    "jsoc_main": "B119",
+    "jsoc_all": [
+      "B119"
+    ]
+  },
+  "description": {
+    "summary_ja": "産業活動の過程で生じる産業廃棄物について、適正・安全な処理やリサイクルを行う方法の開発、処理計画の立案、工程の管理等を行う。",
+    "what_it_is_ja": "産業活動の過程で生じる産業廃棄物について、適正・安全な処理やリサイクルを行う方法の開発、処理計画の立案、工程の管理等を行う。\n　産業廃棄物は、工業、建設業、製造業、サービス業など全ての事業活動に伴って生じるものであり、具体的には、燃え殻、汚泥、廃油、廃酸、廃アルカリ、廃プラスチック類、紙くず、木くず、繊維くず、ゴムくず、金属くず、ガラス及び陶磁器くず、鉱さい、動植物性残さ、動物のふん尿、ばいじん（ダスト）類、がれき類等で、固形状のものと液状のもの（放射性物質及びこれによって汚染された物を除く。）がある。このうち「爆発性、毒性、感染性その他の人の健康又は生活環境に係る被害を生ずるおそれがある性状を有する廃棄物」を特別管理廃棄物及び特別管理産業廃棄物として規定し、必要な処理基準を設け、通常の廃棄物より厳しい規制を行っている（*1）\n　なお、産業廃棄物以外の廃棄物は一般廃棄物と呼ばれる。\n　産業廃棄物は、材料として再利用できるものと、廃棄物として処理するしかないものに分けられるが、廃棄物は一般の製品と違って取り扱い上の注意事項がはっきり示されていない。このため、性質などをよく把握しないで処理すると、爆発や激しい化学反応などを起こして事故にもつながる。また、別の製品の材料として利用できるものがあっても、十分な知識がなければ、リサイクルを進めることはできない。\n　そのために、産業廃棄物処理技術者は産業廃棄物を分析して特性や組成を把握し、どのような工程や方法で扱えば適正で安全に、費用も安く処理できるか、更にどのように変化させれば材料として再利用できるか等を決定する。このように、技術的知識と関係法令をもとに、適正・安全・経済的に処理できる方法や工程、更にどのように変化させれば材料として再利用できるか等について調査・分析し、処理方式の開発、処理計画の立案や、実施指導等を行う。また、法令に基づいて廃棄物処理施設の適正な維持管理に関する技術指導を行う。\n\n*1　環境省ホームページ　特別管理廃棄物規制の概要\n\n◇　よく使う道具、機材、情報技術等\n　分析機器、パソコン、工具（かなづち、のこぎり等の手動工具、ドリル等の電動工具）、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "産業廃棄物を分析するためには、分析方法や分析機器に対する知識が必要であるため、高卒者もいるが、大学、大学院などで化学系の課程を修了した人も多い。また、広い知識と経験が必要とされていることから、中途採用者も多い。\n　入職すると、まず廃棄物処理法をはじめとする法律、廃棄物を処理するシステムなどについての教育を受ける。より専門的な内容は、仕事をしながら習得していく。\n　関連する施設の運転に必要となる「一般廃棄物処理施設技術管理士」「特別管理産業廃棄物管理責任者」（日本環境衛生センター）や、「環境計量士」（日本環境測定分析協会）、「公害防止管理者」（産業環境管理協会）など環境測定、公害防止の資格を持っている人が多い。\n　専門的知識やデータ処理等の技術に加えて、環境や資源を大切にしたいという気持ちがある人に向いている仕事である。",
+    "working_conditions_ja": "職場は産業廃棄物が排出される地域の周辺が多く、全国にわたっており、主に特別管理産業廃棄物などを分析できる設備を整えた処理会社で働いている。\n　廃棄物処理施設は悪臭、騒音、振動などがあるが、分析は清潔な部屋で行う必要もあるために、環境面は整っているといえる。\n　賃金、労働時間等の労働条件は事業所の規定によるが、専門知識や技術が必要で、有害物質等を扱うこともあるため、待遇面ではこれらの点が配慮されていることもある。\n　環境問題に対する社会の関心が深まり、リサイクルを義務づける法律や条例等による取組みが強化される中、廃棄物処理やリサイクルの専門家として、産業廃棄物処理技術者の仕事はますます重要度を増している。産業廃棄物の収集運搬・処理の低炭素化、新素材等の処理に関する技術の確立等が課題である。"
+  },
+  "interests": {
+    "realistic": 3.478,
+    "investigative": 3.261,
+    "artistic": 2.391,
+    "social": 3.152,
+    "enterprising": 2.913,
+    "conventional": 3.413
+  },
+  "work_values": {
+    "achievement": 2.919,
+    "autonomy": 2.865,
+    "expertise": 3.27,
+    "self_growth": 3.135,
+    "social_recognition": 2.676,
+    "service_contribution": 3.0,
+    "good_relationships": 2.946,
+    "workplace_safety": 2.459,
+    "work_life_balance": 3.054,
+    "stability": 3.135,
+    "compensation": 2.27
+  },
+  "skills": {
+    "reading_comprehension": 3.243,
+    "active_listening": 3.784,
+    "writing": 3.189,
+    "speaking": 3.514,
+    "foreign_language_reading": 0.514,
+    "foreign_language_listening": 0.351,
+    "foreign_language_writing": 0.297,
+    "foreign_language_speaking": 0.27,
+    "mathematics": 2.351,
+    "science": 2.676,
+    "critical_thinking": 2.622,
+    "active_learning": 2.73,
+    "learning_strategies": 3.054,
+    "monitoring": 2.892,
+    "social_perceptiveness": 2.919,
+    "coordination": 3.0,
+    "persuasion": 3.0,
+    "negotiation": 2.514,
+    "instructing": 3.703,
+    "service_orientation": 2.784,
+    "complex_problem_solving": 2.946,
+    "operations_analysis": 2.568,
+    "technology_design": 1.973,
+    "equipment_selection": 3.324,
+    "installation": 2.892,
+    "programming": 1.135,
+    "operations_monitoring": 3.459,
+    "operation_and_control": 3.541,
+    "equipment_maintenance": 3.595,
+    "troubleshooting": 3.378,
+    "repairing": 3.514,
+    "quality_control_analysis": 2.595,
+    "judgment_decision_making": 2.676,
+    "systems_analysis": 2.514,
+    "systems_evaluation": 2.027,
+    "time_management": 2.892,
+    "financial_resources_management": 1.514,
+    "material_resources_management": 2.162,
+    "personnel_resources_management": 2.243
+  },
+  "knowledge": {
+    "business_management": 0.917,
+    "clerical": 1.354,
+    "economics_accounting": 0.604,
+    "sales_marketing": 0.563,
+    "customer_personal_service": 1.188,
+    "personnel_hr": 1.042,
+    "transportation": 0.917,
+    "production_processing": 0.833,
+    "agriculture_livestock": 0.354,
+    "engineering": 1.0,
+    "computers_electronics": 0.563,
+    "design": 0.625,
+    "building_construction": 0.708,
+    "mechanical": 1.479,
+    "mathematics_kn": 0.979,
+    "physics": 0.958,
+    "chemistry": 1.458,
+    "biology": 0.688,
+    "psychology": 0.583,
+    "sociology": 0.833,
+    "geography": 0.458,
+    "medicine_dentistry": 0.354,
+    "therapy_counseling": 0.479,
+    "education_training_kn": 1.104,
+    "japanese_language": 0.854,
+    "foreign_language_kn": 0.521,
+    "fine_arts": 0.271,
+    "history_archaeology": 0.271,
+    "philosophy_theology": 0.271,
+    "public_safety_security": 1.458,
+    "law_government": 0.938,
+    "telecommunications": 0.708,
+    "communications_media": 0.729
+  },
+  "abilities": {
+    "oral_comprehension": 2.294,
+    "written_comprehension": 2.275,
+    "oral_expression": 2.373,
+    "written_expression": 2.412,
+    "fluency_of_ideas": 2.392,
+    "originality": 2.275,
+    "problem_sensitivity": 3.314,
+    "deductive_reasoning": 2.588,
+    "inductive_reasoning": 2.431,
+    "information_ordering": 2.51,
+    "category_flexibility": 2.275,
+    "mathematical_reasoning": 2.098,
+    "number_facility": 2.157,
+    "memorization": 2.392,
+    "perceptual_speed": 2.176,
+    "spatial_orientation": 2.118,
+    "visualization": 2.196,
+    "selective_attention": 2.294,
+    "time_sharing": 2.314,
+    "arm_hand_steadiness": 2.333,
+    "manual_dexterity": 2.373,
+    "finger_dexterity": 2.275,
+    "reaction_time": 2.588,
+    "wrist_finger_speed": 2.255,
+    "speed_of_limb_movement": 2.235,
+    "static_strength": 2.588,
+    "stamina": 2.647,
+    "gross_body_equilibrium": 2.353,
+    "near_vision": 2.314,
+    "far_vision": 2.078,
+    "visual_color_discrimination": 2.373,
+    "depth_perception": 2.373,
+    "hearing_sensitivity": 2.392,
+    "auditory_attention": 2.275,
+    "speech_clarity": 2.196
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.208,
+    "face_to_face_discussions": 3.188,
+    "telephone_communication": 3.104,
+    "business_writing": 2.542,
+    "conflict_situations": 1.896,
+    "time_pressure": 2.438,
+    "teamwork": 3.104,
+    "dealing_with_external_customers": 2.375,
+    "coordinate_lead_others": 2.479,
+    "exactness_accuracy": 3.271,
+    "repetitive_tasks": 3.167,
+    "pace_determined_by_machine": 2.771,
+    "responsibility_for_outcomes": 2.771,
+    "indoor_climate_controlled": 3.125,
+    "indoor_non_climate_controlled": 3.042,
+    "outdoor_work": 3.333,
+    "sitting": 2.417,
+    "standing": 3.708,
+    "repetition_of_activities": 2.833,
+    "consequence_of_error": 2.979,
+    "freedom_to_make_decisions": 3.167,
+    "set_own_goals": 3.063,
+    "regular_schedule": 0.688,
+    "irregular_schedule": 0.271,
+    "seasonal_schedule": 0.042,
+    "email_communication": 2.563,
+    "cramped_uncomfortable": 2.604,
+    "disease_infection_risk": 2.146,
+    "minor_injury_risk": 2.625,
+    "standard_protective_equipment": 3.75,
+    "specialized_protective_equipment": 2.75,
+    "dealing_with_violent_people": 1.25,
+    "walking_running": 2.854,
+    "handling_objects_tools": 3.25,
+    "physical_proximity": 3.021,
+    "work_automation": 1.875,
+    "responsibility_for_safety": 2.333,
+    "impact_of_decisions": 2.5,
+    "level_of_competition": 1.604
+  },
+  "work_activities": {
+    "getting_information": 2.451,
+    "monitor_processes": 3.275,
+    "identifying_objects": 2.765,
+    "inspecting_equipment": 2.843,
+    "estimating_quantifiable": 2.745,
+    "judging_quality": 2.549,
+    "evaluating_compliance": 3.314,
+    "processing_information": 2.686,
+    "analyzing_data": 2.765,
+    "making_decisions": 2.843,
+    "thinking_creatively": 2.569,
+    "updating_knowledge": 2.863,
+    "developing_objectives": 2.627,
+    "scheduling_work": 2.725,
+    "organizing_planning": 3.0,
+    "physical_activities": 2.588,
+    "handling_objects": 2.667,
+    "controlling_machines": 2.941,
+    "operating_vehicles": 2.902,
+    "computer_work": 2.353,
+    "drafting_specifications": 2.431,
+    "repairing_mechanical": 3.333,
+    "repairing_electronic": 2.843,
+    "documenting_information": 2.588,
+    "interpreting_information": 2.588,
+    "communicating_inside": 2.843,
+    "communicating_outside": 2.667,
+    "building_relationships": 2.804,
+    "assisting_caring": 2.412,
+    "selling_influencing": 2.098,
+    "resolving_conflicts": 2.314,
+    "performing_for_public": 2.059,
+    "coordinating_others": 2.588,
+    "developing_teams": 2.627,
+    "training_teaching": 2.667,
+    "guiding_subordinates": 2.725,
+    "coaching_developing": 2.608,
+    "providing_consultation": 2.196,
+    "performing_administrative": 2.529,
+    "staffing_organizational": 2.176,
+    "monitoring_resources": 2.431
+  },
+  "education_distribution": {
+    "below_high_school": 0.063,
+    "high_school": 0.5,
+    "vocational_school": 0.188,
+    "junior_college": 0.042,
+    "technical_college": 0.083,
+    "university": 0.396,
+    "masters": 0.042,
+    "doctorate": 0.021,
+    "unknown": 0.146
+  },
+  "training_pre": {
+    "not_required": 0.417,
+    "up_to_1_month": 0.063,
+    "1_to_6_months": 0.208,
+    "6_months_to_1_year": 0.042,
+    "1_to_2_years": 0.021,
+    "2_to_3_years": 0.021,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.021,
+    "over_10_years": 0.0,
+    "unknown": 0.208
+  },
+  "training_post": {
+    "not_required": 0.063,
+    "up_to_1_month": 0.042,
+    "1_to_6_months": 0.313,
+    "6_months_to_1_year": 0.208,
+    "1_to_2_years": 0.125,
+    "2_to_3_years": 0.083,
+    "3_to_5_years": 0.042,
+    "5_to_10_years": 0.021,
+    "over_10_years": 0.0,
+    "unknown": 0.104
+  },
+  "experience": {
+    "not_required": 0.563,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.125,
+    "6_months_to_1_year": 0.063,
+    "1_to_2_years": 0.021,
+    "2_to_3_years": 0.021,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.021,
+    "unknown": 0.188
+  },
+  "employment_type": {
+    "regular_employee": 0.771,
+    "part_time": 0.021,
+    "dispatched": 0.063,
+    "contract": 0.104,
+    "self_employed_freelance": 0.021,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.021
+  },
+  "tasks_lead_ja": "産業廃棄物の再利用や安全で効率的な処理についての技術開発や実施指導等をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "産業廃棄物の運搬や分別をする。",
+      "execution_rate": 0.922,
+      "importance": 3.255
+    },
+    {
+      "task_id": 2,
+      "description_ja": "性質や原料の組み合わせのはっきりしない産業廃棄物を分析し、特性や組成を把握する。",
+      "execution_rate": 0.824,
+      "importance": 3.024
+    },
+    {
+      "task_id": 3,
+      "description_ja": "産業廃棄物の特性や組成から、取り扱い方法や処理方法を決定する。",
+      "execution_rate": 0.882,
+      "importance": 3.333
+    },
+    {
+      "task_id": 4,
+      "description_ja": "産業廃棄物の特性や組成から、材料として再利用する方法を検討する。",
+      "execution_rate": 0.784,
+      "importance": 3.275
+    },
+    {
+      "task_id": 5,
+      "description_ja": "排水が基準を満たしているかを調べる。",
+      "execution_rate": 0.784,
+      "importance": 3.5
+    },
+    {
+      "task_id": 6,
+      "description_ja": "廃石綿を処理する。",
+      "execution_rate": 0.686,
+      "importance": 3.371
+    },
+    {
+      "task_id": 7,
+      "description_ja": "し尿処理施設を運転管理する。",
+      "execution_rate": 0.588,
+      "importance": 3.2
+    },
+    {
+      "task_id": 8,
+      "description_ja": "排ガスを監視する。",
+      "execution_rate": 0.804,
+      "importance": 3.366
+    },
+    {
+      "task_id": 9,
+      "description_ja": "処理施設の維持管理に関する技術指導をする。",
+      "execution_rate": 0.863,
+      "importance": 3.205
+    },
+    {
+      "task_id": 10,
+      "description_ja": "処理施設の操業管理をする。",
+      "execution_rate": 0.902,
+      "importance": 3.609
+    },
+    {
+      "task_id": 11,
+      "description_ja": "機器の点検やメンテナンスを行う。",
+      "execution_rate": 0.98,
+      "importance": 3.86
+    },
+    {
+      "task_id": 12,
+      "description_ja": "産業廃棄物管理票（マニフェスト）の処理をする。",
+      "execution_rate": 0.922,
+      "importance": 3.532
+    },
+    {
+      "task_id": 13,
+      "description_ja": "産業廃棄物の処理について、周辺住民に説明する。",
+      "execution_rate": 0.784,
+      "importance": 3.25
+    },
+    {
+      "task_id": 14,
+      "description_ja": "産業廃棄物の新しい処理方法を開発し、実用化に向けての試験をする。",
+      "execution_rate": 0.608,
+      "importance": 3.323
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人全国産業資源循環連合会",
+      "url": "https://www.zensanpairen.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人日本産業廃棄物処理振興センター",
+      "url": "https://www.jwnet.or.jp/index.html"
+    },
+    {
+      "name_ja": "公益財団法人産業廃棄物処理事業振興財団",
+      "url": "http://www.sanpainet.or.jp/"
+    },
+    {
+      "name_ja": "一般財団法人日本環境衛生センター",
+      "url": "https://www.jesc.or.jp/about/tabid/67/Default.aspx"
+    },
+    {
+      "name_ja": "一般社団法人日本環境測定分析協会",
+      "url": "https://www.jemca.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人産業環境管理協会",
+      "url": "http://www.jemai.or.jp/#2"
+    }
+  ],
+  "related_certs_ja": [
+    "環境計量士",
+    "公害防止管理者",
+    "一般廃棄物処理施設技術管理士",
+    "特別管理産業廃棄物管理責任者"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/495",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,506 @@
+{
+  "id": 414,
+  "ipd_id": "IPD_01_01_414",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "フロント（ホテル・旅館）",
+  "aliases_ja": [
+    "ホテルフロント係",
+    "旅館フロント係"
+  ],
+  "classifications": {
+    "mhlw_main": "09_056-04",
+    "mhlw_all": [
+      "09_056-04"
+    ],
+    "jsoc_main": "E404",
+    "jsoc_all": [
+      "E404"
+    ]
+  },
+  "description": {
+    "summary_ja": "ホテルや旅館のフロントで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う。",
+    "what_it_is_ja": "ホテルや旅館のフロントカウンターで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う。\n　フロントカウンターは、宿泊客がチェックイン、チェックアウトをするホテル業務の最前線でもあり、館内の状況を把握して、宿泊客の要望に応じて各部門と連絡をとり、ベルスタッフなど接客担当に指示を出す。\n　ホテル業の場合、規模にもよるが、一般的に運営部門は宿泊部門、料飲部門、宴会部門などに分かれている。このすべてを統括するのが総支配人であり、部門ごとに支配人を設けている場合が多い。そのなかで、宿泊部門に関する仕事内容は大まかに、リザベーション(予約)、レセプション(手続)、インフォメーション(案内)、キャッシャー(会計)、ハウスキーパー（客室の管理）の5つに分けられる。このうち、フロントカウンターでは主に、レセプション(手続)、インフォメーション(案内)、フロントキャッシャー(会計)を受け持つことが多い。\n　リザベーションは、宿泊の予約受付、予約状況の案内、予約確認等を行う。予約は宿泊客等からの電話や旅行代理店経由のものに加え、最近ではインターネット経由の予約が増えている。\n　レセプションでは、チェックインする宿泊客等の予約の有無を確認し、住所、氏名等を記入してもらい、部屋を決め、キーを渡す。外出する宿泊客等のキーや貴重品を預かったり、電話の取り次ぎ、宿泊客等に届いた郵便や伝言を預って部屋ごとに割り当てられている整理棚に入れたり、宿泊客等の要望に応じて外貨両替などのサービスも提供する。\n　インフォメーションは宿泊客等からの相談を受けて、交通機関やレストランの予約、観光名所や行事の案内をする。\n　フロントキャッシャーはチェックアウト時に宿泊料の精算を行い、返されたルームキーと料金を受け取る。\n　フロントの業務は基本的にホテルも旅館も変わりはないが、ホテルの場合は、フロントはカウンターから出ることは少なく、ホテル外のレストラン予約や観光案内などはコンシェルジュに任せる傾向が強い。これに対して旅館の場合は、受付を済ませた宿泊客等の接客はそれぞれ担当の客室担当(仲居)に任せることが多いものの、宿泊客等が多くて混雑するときなどはカウンターを出て、出迎えから客室への案内、館内案内、見送りまで行うことも少なくない。\n　フロントの1日の仕事の流れをみると、ホテルも旅館も24時間営業しているため、早番、遅番、夜勤の3交代制で、担当をローテーションで回すのが一般的である。早番と遅番は、出社後、制服があればそれに着替えて、前のシフトから引き継ぎを済ませたあと、チェックイン・チェックアウト業務を行い、予約確認、団体客の部屋割り、宿泊カードのパソコン入力などの事務作業、宿泊客等からの要望や問い合わせに対応する。その後、シフトによってはレジを閉めて精算、業務日誌の記入、次の担当者への引き継ぎを済ませて退勤という流れになる。夜勤（ナイトフロント）も同様の流れになるが、勤務しているのが夜勤者だけで昼間と比べるとスタッフが少ないため、夜間に多いトラブルや宿泊客等の体調不良などに夜勤者だけで対応をしなければならない。\n\n◇　よく使う道具、機材、情報技術等\n　電話、パソコン、レジ",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　新卒採用の場合、専攻はとくに問われないが、ホテルや観光・レストラン経営などの学科をもつ専門学校や大学を卒業して就職するケースもある。\n　入職後、研修を受け、OJTで経験を積む。\n　ホテルの従業員として採用され、ベルスタッフや客室係を経験してからフロントに配置される場合もある。大手ホテルでは、幹部要員として採用された場合、複数の部署で経験を積んでから、基幹部門に配属となる場合もある。\n　関連資格として厚生労働省の定める技能検定の「ホテル・マネジメント技能士」がある。また、民間の「サービス接遇検定」などがある。また、語学関連の資格等を取得することも有益といえる。\n　宿泊客等と最前線で接する職業なので、明るい笑顔と丁寧な言葉遣い、礼儀作法にマナー、相手を思いやる「おもてなし」の心が大切である。関係部署とのやりとりも多いので誤解の無い意思疎通ができるコミュニケーション能力が必要である。また、立ち仕事が中心なので、一定の体力が求められる。さらに最近は、外国人旅行客が増えており、宿泊客等に対して失礼の無い対応ができる程度の外国語会話能力も求められるようになっている。OJTで経験を積むとともに、自己研鑽も重要である。",
+    "working_conditions_ja": "勤務地は大型ホテルのある大都市に多いが、地方都市や観光地にも就業機会がある。旅館は、ホテルと比べると規模が小さいところが多く、ホテルが13,540軒に対して旅館は20,250軒となっている。(＊)\n　宿泊施設は、原則として年中無休、24時間営業なので、1日8時間ずつの3交替制や長短勤務、夜勤などをローテーションで回していることが多い。日曜・祝日も交替で出勤する。基本的に残業は少ないが、緊急に対応が必要な場合等は残業があり、観光シーズンや特別のイベントがあるなど、繁忙期と閑散期で差がある。\n　賃金等労働条件は、勤務先により異なる。正社員のほか、パートタイマーもいる。\n　旅館業法によれば、フロント（玄関帳場）には宿泊者名簿の整備と宿泊への適切な鍵の受け渡し及び宿泊者以外の人物の出入りの確認という2つの役割があるが、2018年に同法が改正され、後者についてはビデオカメラなどで顔認証ができる設備を設置すれば物理的なフロントを設置する必要はなくなった。前者についても、デジタル技術の活用により、本人確認や電子キーの発行を自動化したオートフロントシステムの設置が可能となった。これにより、日本語に不安のある外国人旅行者にも利用しやすくなるとともに、経営者にとっても人材不足の中、人員や経費の削減が可能となると期待されている。ただし、フロントはサービスの最前線でもあるので、宿泊客の利便性と満足度を損なわずにどこまで省力化ができるかなど課題は多いが、将来的にフロント業務の内容が大きく変わっていく可能性がある。\n\n*観光庁　宿泊旅行統計調査（2024年度）から"
+  },
+  "interests": {
+    "realistic": 3.053,
+    "investigative": 2.649,
+    "artistic": 2.719,
+    "social": 3.842,
+    "enterprising": 3.088,
+    "conventional": 3.421
+  },
+  "work_values": {
+    "achievement": 3.094,
+    "autonomy": 3.038,
+    "expertise": 3.094,
+    "self_growth": 3.132,
+    "social_recognition": 2.849,
+    "service_contribution": 2.849,
+    "good_relationships": 3.321,
+    "workplace_safety": 3.17,
+    "work_life_balance": 2.755,
+    "stability": 2.887,
+    "compensation": 2.302
+  },
+  "skills": {
+    "reading_comprehension": 3.151,
+    "active_listening": 3.906,
+    "writing": 3.094,
+    "speaking": 3.509,
+    "foreign_language_reading": 2.34,
+    "foreign_language_listening": 2.151,
+    "foreign_language_writing": 1.981,
+    "foreign_language_speaking": 2.151,
+    "mathematics": 2.019,
+    "science": 1.075,
+    "critical_thinking": 2.453,
+    "active_learning": 2.679,
+    "learning_strategies": 2.321,
+    "monitoring": 2.094,
+    "social_perceptiveness": 2.811,
+    "coordination": 2.906,
+    "persuasion": 2.642,
+    "negotiation": 2.396,
+    "instructing": 3.075,
+    "service_orientation": 3.019,
+    "complex_problem_solving": 2.396,
+    "operations_analysis": 1.849,
+    "technology_design": 1.679,
+    "equipment_selection": 1.887,
+    "installation": 1.453,
+    "programming": 1.189,
+    "operations_monitoring": 1.245,
+    "operation_and_control": 1.623,
+    "equipment_maintenance": 1.453,
+    "troubleshooting": 1.623,
+    "repairing": 1.509,
+    "quality_control_analysis": 1.943,
+    "judgment_decision_making": 1.849,
+    "systems_analysis": 1.811,
+    "systems_evaluation": 1.755,
+    "time_management": 2.434,
+    "financial_resources_management": 1.585,
+    "material_resources_management": 1.604,
+    "personnel_resources_management": 1.792
+  },
+  "knowledge": {
+    "business_management": 1.16,
+    "clerical": 1.92,
+    "economics_accounting": 1.14,
+    "sales_marketing": 1.6,
+    "customer_personal_service": 3.46,
+    "personnel_hr": 1.02,
+    "transportation": 0.46,
+    "production_processing": 0.34,
+    "agriculture_livestock": 0.16,
+    "engineering": 0.16,
+    "computers_electronics": 0.54,
+    "design": 0.16,
+    "building_construction": 0.24,
+    "mechanical": 0.3,
+    "mathematics_kn": 0.6,
+    "physics": 0.14,
+    "chemistry": 0.18,
+    "biology": 0.22,
+    "psychology": 1.0,
+    "sociology": 0.92,
+    "geography": 0.64,
+    "medicine_dentistry": 0.42,
+    "therapy_counseling": 0.42,
+    "education_training_kn": 0.66,
+    "japanese_language": 1.86,
+    "foreign_language_kn": 1.76,
+    "fine_arts": 0.34,
+    "history_archaeology": 0.3,
+    "philosophy_theology": 0.32,
+    "public_safety_security": 0.96,
+    "law_government": 0.58,
+    "telecommunications": 0.46,
+    "communications_media": 1.22
+  },
+  "abilities": {
+    "oral_comprehension": 2.961,
+    "written_comprehension": 2.804,
+    "oral_expression": 3.0,
+    "written_expression": 2.882,
+    "fluency_of_ideas": 2.529,
+    "originality": 2.412,
+    "problem_sensitivity": 3.471,
+    "deductive_reasoning": 2.804,
+    "inductive_reasoning": 2.686,
+    "information_ordering": 2.549,
+    "category_flexibility": 2.392,
+    "mathematical_reasoning": 2.137,
+    "number_facility": 2.431,
+    "memorization": 2.686,
+    "perceptual_speed": 2.255,
+    "spatial_orientation": 2.373,
+    "visualization": 2.235,
+    "selective_attention": 2.549,
+    "time_sharing": 2.706,
+    "arm_hand_steadiness": 2.02,
+    "manual_dexterity": 2.078,
+    "finger_dexterity": 2.098,
+    "reaction_time": 2.412,
+    "wrist_finger_speed": 2.275,
+    "speed_of_limb_movement": 2.118,
+    "static_strength": 2.157,
+    "stamina": 2.353,
+    "gross_body_equilibrium": 2.078,
+    "near_vision": 2.098,
+    "far_vision": 2.059,
+    "visual_color_discrimination": 2.196,
+    "depth_perception": 2.078,
+    "hearing_sensitivity": 2.294,
+    "auditory_attention": 2.216,
+    "speech_clarity": 2.647
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.54,
+    "face_to_face_discussions": 3.0,
+    "telephone_communication": 4.32,
+    "business_writing": 3.52,
+    "conflict_situations": 2.24,
+    "time_pressure": 2.62,
+    "teamwork": 3.22,
+    "dealing_with_external_customers": 3.42,
+    "coordinate_lead_others": 2.78,
+    "exactness_accuracy": 3.46,
+    "repetitive_tasks": 3.16,
+    "pace_determined_by_machine": 2.36,
+    "responsibility_for_outcomes": 2.9,
+    "indoor_climate_controlled": 4.58,
+    "indoor_non_climate_controlled": 1.96,
+    "outdoor_work": 1.96,
+    "sitting": 2.44,
+    "standing": 3.88,
+    "repetition_of_activities": 2.82,
+    "consequence_of_error": 2.78,
+    "freedom_to_make_decisions": 2.96,
+    "set_own_goals": 3.08,
+    "regular_schedule": 0.62,
+    "irregular_schedule": 0.32,
+    "seasonal_schedule": 0.06,
+    "email_communication": 3.52,
+    "cramped_uncomfortable": 1.84,
+    "disease_infection_risk": 2.44,
+    "minor_injury_risk": 1.38,
+    "standard_protective_equipment": 1.18,
+    "specialized_protective_equipment": 1.16,
+    "dealing_with_violent_people": 1.56,
+    "walking_running": 2.8,
+    "handling_objects_tools": 1.94,
+    "physical_proximity": 3.5,
+    "work_automation": 2.26,
+    "responsibility_for_safety": 2.42,
+    "impact_of_decisions": 2.4,
+    "level_of_competition": 1.86
+  },
+  "work_activities": {
+    "getting_information": 2.882,
+    "monitor_processes": 3.078,
+    "identifying_objects": 2.941,
+    "inspecting_equipment": 2.824,
+    "estimating_quantifiable": 2.451,
+    "judging_quality": 2.667,
+    "evaluating_compliance": 2.804,
+    "processing_information": 2.706,
+    "analyzing_data": 2.569,
+    "making_decisions": 2.863,
+    "thinking_creatively": 2.608,
+    "updating_knowledge": 2.98,
+    "developing_objectives": 2.745,
+    "scheduling_work": 2.647,
+    "organizing_planning": 3.137,
+    "physical_activities": 2.549,
+    "handling_objects": 2.608,
+    "controlling_machines": 2.137,
+    "operating_vehicles": 1.725,
+    "computer_work": 3.059,
+    "drafting_specifications": 1.824,
+    "repairing_mechanical": 1.922,
+    "repairing_electronic": 1.922,
+    "documenting_information": 2.431,
+    "interpreting_information": 2.471,
+    "communicating_inside": 3.235,
+    "communicating_outside": 2.922,
+    "building_relationships": 3.02,
+    "assisting_caring": 2.804,
+    "selling_influencing": 2.431,
+    "resolving_conflicts": 2.725,
+    "performing_for_public": 2.824,
+    "coordinating_others": 2.765,
+    "developing_teams": 2.863,
+    "training_teaching": 2.725,
+    "guiding_subordinates": 2.863,
+    "coaching_developing": 2.667,
+    "providing_consultation": 2.216,
+    "performing_administrative": 2.745,
+    "staffing_organizational": 2.49,
+    "monitoring_resources": 2.471
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.42,
+    "vocational_school": 0.16,
+    "junior_college": 0.16,
+    "technical_college": 0.08,
+    "university": 0.34,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.2
+  },
+  "training_pre": {
+    "not_required": 0.52,
+    "up_to_1_month": 0.08,
+    "1_to_6_months": 0.24,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.02,
+    "unknown": 0.12
+  },
+  "training_post": {
+    "not_required": 0.12,
+    "up_to_1_month": 0.14,
+    "1_to_6_months": 0.54,
+    "6_months_to_1_year": 0.08,
+    "1_to_2_years": 0.04,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.08
+  },
+  "experience": {
+    "not_required": 0.6,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.14,
+    "6_months_to_1_year": 0.04,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.16
+  },
+  "employment_type": {
+    "regular_employee": 0.74,
+    "part_time": 0.28,
+    "dispatched": 0.08,
+    "contract": 0.12,
+    "self_employed_freelance": 0.0,
+    "executive": 0.06,
+    "casual_non_student": 0.08,
+    "casual_student": 0.1,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "ホテルや旅館のフロントカウンターで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "宿泊客のチェックイン、チェックアウトの手続きをする。",
+      "execution_rate": 0.961,
+      "importance": 4.245
+    },
+    {
+      "task_id": 2,
+      "description_ja": "交通機関の手配、レストランなどの予約サービスを提供する。",
+      "execution_rate": 0.843,
+      "importance": 2.814
+    },
+    {
+      "task_id": 3,
+      "description_ja": "地元の観光スポットや穴場を紹介する。",
+      "execution_rate": 0.941,
+      "importance": 2.708
+    },
+    {
+      "task_id": 4,
+      "description_ja": "ルーム・キーを渡す。",
+      "execution_rate": 0.98,
+      "importance": 4.02
+    },
+    {
+      "task_id": 5,
+      "description_ja": "宿泊客への電話や伝言の管理、伝達を行う。",
+      "execution_rate": 0.961,
+      "importance": 3.857
+    },
+    {
+      "task_id": 6,
+      "description_ja": "お客から宅配物を預かる。",
+      "execution_rate": 0.941,
+      "importance": 3.5
+    },
+    {
+      "task_id": 7,
+      "description_ja": "宿泊客の外出時にカギを預かり管理する。",
+      "execution_rate": 0.902,
+      "importance": 3.652
+    },
+    {
+      "task_id": 8,
+      "description_ja": "宿泊客の貴重品を預かる。",
+      "execution_rate": 0.784,
+      "importance": 3.8
+    },
+    {
+      "task_id": 9,
+      "description_ja": "買い物、食事、娯楽、観光案内などのホテルの近辺に関する問い合わせに応える。",
+      "execution_rate": 0.941,
+      "importance": 2.938
+    },
+    {
+      "task_id": 10,
+      "description_ja": "宿泊客の苦情や相談に対応する。",
+      "execution_rate": 0.98,
+      "importance": 3.7
+    },
+    {
+      "task_id": 11,
+      "description_ja": "アメニティーや貸出品の対応をする。",
+      "execution_rate": 0.941,
+      "importance": 3.313
+    },
+    {
+      "task_id": 12,
+      "description_ja": "請求額を計算し、カードや現金で料金の支払いを受ける。",
+      "execution_rate": 0.941,
+      "importance": 4.271
+    },
+    {
+      "task_id": 13,
+      "description_ja": "宿泊の予約受付と管理を行う。",
+      "execution_rate": 0.961,
+      "importance": 4.102
+    },
+    {
+      "task_id": 14,
+      "description_ja": "部屋割りを作成する。",
+      "execution_rate": 0.863,
+      "importance": 3.523
+    },
+    {
+      "task_id": 15,
+      "description_ja": "宿泊客の予約を再確認（リコンファーム）する。",
+      "execution_rate": 0.804,
+      "importance": 3.39
+    },
+    {
+      "task_id": 16,
+      "description_ja": "宿泊予定のキャンセルや変更に対応する。",
+      "execution_rate": 0.961,
+      "importance": 4.143
+    },
+    {
+      "task_id": 17,
+      "description_ja": "宿泊客の通訳をする。",
+      "execution_rate": 0.686,
+      "importance": 2.971
+    },
+    {
+      "task_id": 18,
+      "description_ja": "売店での接客や売り場の整理などを行う。",
+      "execution_rate": 0.608,
+      "importance": 2.774
+    },
+    {
+      "task_id": 19,
+      "description_ja": "レストランや食堂で接客をする。",
+      "execution_rate": 0.51,
+      "importance": 3.115
+    },
+    {
+      "task_id": 20,
+      "description_ja": "朝食を部屋に配膳する。",
+      "execution_rate": 0.373,
+      "importance": 2.895
+    },
+    {
+      "task_id": 21,
+      "description_ja": "宿泊客の個人情報を管理する。",
+      "execution_rate": 0.941,
+      "importance": 3.667
+    },
+    {
+      "task_id": 22,
+      "description_ja": "経理業務をする。",
+      "execution_rate": 0.667,
+      "importance": 2.941
+    },
+    {
+      "task_id": 23,
+      "description_ja": "従業員の労務管理を行う。",
+      "execution_rate": 0.765,
+      "importance": 3.128
+    },
+    {
+      "task_id": 24,
+      "description_ja": "客室や館内の設備点検や簡単な修理を行う。",
+      "execution_rate": 0.765,
+      "importance": 3.077
+    },
+    {
+      "task_id": 25,
+      "description_ja": "館内の自動販売機やコインランドリーを管理する。",
+      "execution_rate": 0.588,
+      "importance": 2.933
+    },
+    {
+      "task_id": 26,
+      "description_ja": "フロアを掃除・整頓する。",
+      "execution_rate": 0.784,
+      "importance": 3.35
+    },
+    {
+      "task_id": 27,
+      "description_ja": "非常時にお客を誘導し、避難させる。",
+      "execution_rate": 0.98,
+      "importance": 4.04
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本ホテル協会",
+      "url": "https://www.j-hotel.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　全日本ホテル連盟（ANHA）",
+      "url": "https://www.anha.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本旅館協会",
+      "url": "http://www.ryokan.or.jp/top/"
+    },
+    {
+      "name_ja": "一般社団法人　日本宿泊産業マネジメント技能協会",
+      "url": "https://www.hotel-management.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人 実務技能検定協会",
+      "url": "https://jitsumu-kentei.jp/kentei-info"
+    }
+  ],
+  "related_certs_ja": [
+    "ホテル・マネジメント技能士",
+    "サービス接遇検定"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/414",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

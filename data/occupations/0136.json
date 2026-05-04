@@ -1,0 +1,482 @@
+{
+  "id": 136,
+  "ipd_id": "IPD_01_01_136",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "キャリアカウンセラー/キャリアコンサルタント",
+  "aliases_ja": [
+    "学生カウンセラー",
+    "職業相談員（職業相談・職業紹介）",
+    "産業カウンセラー（事業所内相談室）"
+  ],
+  "classifications": {
+    "mhlw_main": "03_019-03",
+    "mhlw_all": [
+      "03_019-03"
+    ],
+    "jsoc_main": "B243",
+    "jsoc_all": [
+      "B243"
+    ]
+  },
+  "description": {
+    "summary_ja": "相談者の職業の選択、職業生活の設計、職業能力の開発・向上に関する相談に応じ、助言や指導を行う。",
+    "what_it_is_ja": "相談者の職業の選択、職業生活の設計、職業能力の開発・向上に関する相談に応じ、助言及び指導を行い、相談者がより良い人生を送り、自分が望む生き方を実現できるよう、専門家として支援する。キャリアコンサルタント試験等に合格し名簿に登録した者は、キャリアコンサルタントと称することができる。\n　職業生活は人の生涯の中で大きな部分を占めており、職業の選択や働き方はその人の人生に大きな影響を及ぼす。キャリアカウンセラーは、相談者が初めて職業を選択するときはもとより、職業や働き方を変える場合など、職業キャリアの様々な場面において適切な職業の選択やキャリア形成ができるよう支援する。\n　そのために、相談者自身の自己理解を促したり、職務経歴やアセスメントから相談者の諸特性を整理し、また、その相談者の問題を把握する。次いで、その意思決定に必要とされる職業やキャリアの情報、能力開発などについての情報を提供し、仕事理解を深めるようにする。そして、相談者が適切な意思決定が行え、適切な求人探索・応募ができるよう支援していく。また、相談者を取り巻く組織、社会、家族などが相談者のキャリア形成にどうかかわるかを考え、必要に応じて周囲に働きかける役割も担っている。\n　相談では一対一の対面相談のほか、グループを対象としたファシリテーションを行うこともある。相談者のジョブカード作成の支援も重要な仕事である。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、オンライン会議ツール、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。ただし「キャリアコンサルタント」と名乗るには国家資格が必要である。キャリアコンサルタント試験又はキャリアコンサルティング技能検定（１級又は２級）に合格し、名簿に登録することで、キャリアコンサルタントと称することができる。\n　キャリアコンサルタント試験を受けるには、実務経験３年以上か、キャリアコンサルタントの養成講習を修了する必要がある。また、合格後も５年ごとに講習を受け、更新しなければならない。\n　キャリアコンサルティング技能検定の２級を受けるには３年以上の実務経験が必要であり、１級は２級取得から３年以上の実務経験を積むか、８年以上の実務経験が必要である。\n　職業選択やそれと関連する生き方などについて相談を受け、コンサルタント的役割を果たすことから、労働市場の情報や労働関係の制度、能力開発の手法など多様な知識が求められる。職業という人生における重要な選択の一つを支援する仕事であり、相談者に寄り添い、常に適切なアドバイスができるよう自己研鑽と倫理意識が欠かせない。\n　経験を積み、フリーランスのキャリアカウンセラー、キャリアコンサルタントとして活動する人もいる。",
+    "working_conditions_ja": "キャリアカウンセラー、キャリアコンサルタントは、ハローワーク、民間職業紹介会社、人材派遣会社、企業等の人事部門、学校など幅広い分野で働いている。\n　組織に属する場合は、給与や労働時間は勤務先の規定による。\n　フリーランスとして活動する場合には、企業等と年間契約を結ぶケースが見られる。\n　一般的な求職者や学生だけでなく、就職が困難な若年層、高齢者、育児や介護などで就労に制約のある人の支援など、様々な社会的なニーズがある。\n　個別の相談のほか、セミナーや講習などで講師となることもある。"
+  },
+  "interests": {
+    "realistic": 2.443,
+    "investigative": 3.029,
+    "artistic": 2.386,
+    "social": 4.457,
+    "enterprising": 3.557,
+    "conventional": 2.757
+  },
+  "work_values": {
+    "achievement": 3.981,
+    "autonomy": 3.944,
+    "expertise": 4.0,
+    "self_growth": 4.0,
+    "social_recognition": 3.241,
+    "service_contribution": 3.944,
+    "good_relationships": 3.704,
+    "workplace_safety": 3.537,
+    "work_life_balance": 3.667,
+    "stability": 2.87,
+    "compensation": 2.926
+  },
+  "skills": {
+    "reading_comprehension": 4.463,
+    "active_listening": 5.926,
+    "writing": 4.722,
+    "speaking": 4.87,
+    "foreign_language_reading": 1.556,
+    "foreign_language_listening": 1.315,
+    "foreign_language_writing": 1.13,
+    "foreign_language_speaking": 1.093,
+    "mathematics": 2.0,
+    "science": 1.463,
+    "critical_thinking": 4.0,
+    "active_learning": 4.296,
+    "learning_strategies": 4.463,
+    "monitoring": 4.333,
+    "social_perceptiveness": 5.333,
+    "coordination": 4.574,
+    "persuasion": 4.759,
+    "negotiation": 4.315,
+    "instructing": 4.815,
+    "service_orientation": 5.093,
+    "complex_problem_solving": 4.204,
+    "operations_analysis": 3.167,
+    "technology_design": 2.685,
+    "equipment_selection": 2.315,
+    "installation": 1.944,
+    "programming": 1.481,
+    "operations_monitoring": 1.13,
+    "operation_and_control": 1.37,
+    "equipment_maintenance": 0.796,
+    "troubleshooting": 1.0,
+    "repairing": 0.907,
+    "quality_control_analysis": 1.352,
+    "judgment_decision_making": 2.519,
+    "systems_analysis": 3.093,
+    "systems_evaluation": 3.111,
+    "time_management": 3.593,
+    "financial_resources_management": 1.611,
+    "material_resources_management": 1.37,
+    "personnel_resources_management": 3.148
+  },
+  "knowledge": {
+    "business_management": 1.981,
+    "clerical": 2.5,
+    "economics_accounting": 1.365,
+    "sales_marketing": 1.827,
+    "customer_personal_service": 3.154,
+    "personnel_hr": 2.077,
+    "transportation": 0.577,
+    "production_processing": 0.615,
+    "agriculture_livestock": 0.481,
+    "engineering": 0.615,
+    "computers_electronics": 0.673,
+    "design": 0.462,
+    "building_construction": 0.558,
+    "mechanical": 0.462,
+    "mathematics_kn": 0.558,
+    "physics": 0.385,
+    "chemistry": 0.385,
+    "biology": 0.481,
+    "psychology": 2.577,
+    "sociology": 2.058,
+    "geography": 0.635,
+    "medicine_dentistry": 0.904,
+    "therapy_counseling": 2.5,
+    "education_training_kn": 2.327,
+    "japanese_language": 2.135,
+    "foreign_language_kn": 0.942,
+    "fine_arts": 0.75,
+    "history_archaeology": 0.673,
+    "philosophy_theology": 0.885,
+    "public_safety_security": 1.192,
+    "law_government": 1.462,
+    "telecommunications": 0.885,
+    "communications_media": 2.096
+  },
+  "abilities": {
+    "oral_comprehension": 3.815,
+    "written_comprehension": 3.519,
+    "oral_expression": 3.796,
+    "written_expression": 3.519,
+    "fluency_of_ideas": 3.019,
+    "originality": 2.907,
+    "problem_sensitivity": 3.481,
+    "deductive_reasoning": 3.019,
+    "inductive_reasoning": 3.019,
+    "information_ordering": 2.685,
+    "category_flexibility": 2.667,
+    "mathematical_reasoning": 2.278,
+    "number_facility": 2.167,
+    "memorization": 2.815,
+    "perceptual_speed": 2.537,
+    "spatial_orientation": 2.519,
+    "visualization": 2.574,
+    "selective_attention": 2.852,
+    "time_sharing": 2.87,
+    "arm_hand_steadiness": 1.796,
+    "manual_dexterity": 1.852,
+    "finger_dexterity": 1.722,
+    "reaction_time": 2.13,
+    "wrist_finger_speed": 1.944,
+    "speed_of_limb_movement": 1.87,
+    "static_strength": 1.667,
+    "stamina": 2.222,
+    "gross_body_equilibrium": 1.926,
+    "near_vision": 1.778,
+    "far_vision": 1.722,
+    "visual_color_discrimination": 1.796,
+    "depth_perception": 1.704,
+    "hearing_sensitivity": 2.037,
+    "auditory_attention": 2.0,
+    "speech_clarity": 2.759
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.327,
+    "face_to_face_discussions": 3.827,
+    "telephone_communication": 3.865,
+    "business_writing": 3.654,
+    "conflict_situations": 2.269,
+    "time_pressure": 2.788,
+    "teamwork": 3.038,
+    "dealing_with_external_customers": 3.404,
+    "coordinate_lead_others": 3.308,
+    "exactness_accuracy": 3.712,
+    "repetitive_tasks": 3.038,
+    "pace_determined_by_machine": 2.404,
+    "responsibility_for_outcomes": 3.173,
+    "indoor_climate_controlled": 4.5,
+    "indoor_non_climate_controlled": 1.692,
+    "outdoor_work": 1.596,
+    "sitting": 4.385,
+    "standing": 1.923,
+    "repetition_of_activities": 2.365,
+    "consequence_of_error": 2.75,
+    "freedom_to_make_decisions": 3.615,
+    "set_own_goals": 3.558,
+    "regular_schedule": 0.538,
+    "irregular_schedule": 0.404,
+    "seasonal_schedule": 0.058,
+    "email_communication": 4.154,
+    "cramped_uncomfortable": 1.865,
+    "disease_infection_risk": 1.788,
+    "minor_injury_risk": 1.038,
+    "standard_protective_equipment": 1.077,
+    "specialized_protective_equipment": 1.019,
+    "dealing_with_violent_people": 1.404,
+    "walking_running": 1.865,
+    "handling_objects_tools": 1.731,
+    "physical_proximity": 3.115,
+    "work_automation": 2.212,
+    "responsibility_for_safety": 2.115,
+    "impact_of_decisions": 2.712,
+    "level_of_competition": 2.538
+  },
+  "work_activities": {
+    "getting_information": 3.444,
+    "monitor_processes": 3.259,
+    "identifying_objects": 3.296,
+    "inspecting_equipment": 1.944,
+    "estimating_quantifiable": 2.241,
+    "judging_quality": 2.907,
+    "evaluating_compliance": 3.0,
+    "processing_information": 2.833,
+    "analyzing_data": 3.0,
+    "making_decisions": 3.148,
+    "thinking_creatively": 2.796,
+    "updating_knowledge": 3.5,
+    "developing_objectives": 3.241,
+    "scheduling_work": 3.167,
+    "organizing_planning": 3.37,
+    "physical_activities": 2.0,
+    "handling_objects": 1.852,
+    "controlling_machines": 1.741,
+    "operating_vehicles": 1.648,
+    "computer_work": 2.907,
+    "drafting_specifications": 1.593,
+    "repairing_mechanical": 1.574,
+    "repairing_electronic": 1.63,
+    "documenting_information": 2.796,
+    "interpreting_information": 3.037,
+    "communicating_inside": 3.315,
+    "communicating_outside": 3.241,
+    "building_relationships": 3.463,
+    "assisting_caring": 3.611,
+    "selling_influencing": 2.759,
+    "resolving_conflicts": 2.796,
+    "performing_for_public": 2.648,
+    "coordinating_others": 2.481,
+    "developing_teams": 2.63,
+    "training_teaching": 2.889,
+    "guiding_subordinates": 2.556,
+    "coaching_developing": 2.963,
+    "providing_consultation": 3.074,
+    "performing_administrative": 2.648,
+    "staffing_organizational": 2.167,
+    "monitoring_resources": 1.981
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.115,
+    "vocational_school": 0.096,
+    "junior_college": 0.096,
+    "technical_college": 0.019,
+    "university": 0.731,
+    "masters": 0.058,
+    "doctorate": 0.0,
+    "unknown": 0.154
+  },
+  "training_pre": {
+    "not_required": 0.327,
+    "up_to_1_month": 0.038,
+    "1_to_6_months": 0.115,
+    "6_months_to_1_year": 0.096,
+    "1_to_2_years": 0.019,
+    "2_to_3_years": 0.077,
+    "3_to_5_years": 0.038,
+    "5_to_10_years": 0.019,
+    "over_10_years": 0.077,
+    "unknown": 0.192
+  },
+  "training_post": {
+    "not_required": 0.192,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.212,
+    "6_months_to_1_year": 0.096,
+    "1_to_2_years": 0.173,
+    "2_to_3_years": 0.077,
+    "3_to_5_years": 0.058,
+    "5_to_10_years": 0.038,
+    "over_10_years": 0.0,
+    "unknown": 0.135
+  },
+  "experience": {
+    "not_required": 0.404,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.058,
+    "6_months_to_1_year": 0.058,
+    "1_to_2_years": 0.019,
+    "2_to_3_years": 0.058,
+    "3_to_5_years": 0.077,
+    "5_to_10_years": 0.038,
+    "over_10_years": 0.077,
+    "unknown": 0.212
+  },
+  "employment_type": {
+    "regular_employee": 0.423,
+    "part_time": 0.096,
+    "dispatched": 0.038,
+    "contract": 0.173,
+    "self_employed_freelance": 0.385,
+    "executive": 0.0,
+    "casual_non_student": 0.019,
+    "casual_student": 0.0,
+    "unknown": 0.019,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "相談者が適切な職業・キャリアの選択と適応ができるように、ガイダンスやカウンセリングを通じて援助する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "相談者と面接し、その労働・就職に関する意識や現在の状況など個人の背景について把握する。",
+      "execution_rate": 0.926,
+      "importance": 3.52
+    },
+    {
+      "task_id": 2,
+      "description_ja": "必要に応じて、職業適性検査や職業興味検査などの検査を実施する。",
+      "execution_rate": 0.778,
+      "importance": 2.738
+    },
+    {
+      "task_id": 3,
+      "description_ja": "キャリアシート等を用いて相談者の職業経歴の分析を行う。",
+      "execution_rate": 0.87,
+      "importance": 3.277
+    },
+    {
+      "task_id": 4,
+      "description_ja": "職業や地域労働市場、能力開発などに関する情報を提供する。",
+      "execution_rate": 0.87,
+      "importance": 3.191
+    },
+    {
+      "task_id": 5,
+      "description_ja": "自治体などが提供する支援サービスの情報を相談者に提供する。",
+      "execution_rate": 0.722,
+      "importance": 2.974
+    },
+    {
+      "task_id": 6,
+      "description_ja": "職務経歴書やキャリアプランの作成を援助する。",
+      "execution_rate": 0.87,
+      "importance": 3.213
+    },
+    {
+      "task_id": 7,
+      "description_ja": "相談者のジョブカード作成を支援する。",
+      "execution_rate": 0.778,
+      "importance": 2.667
+    },
+    {
+      "task_id": 8,
+      "description_ja": "就職後の職場への適応について支援する。",
+      "execution_rate": 0.833,
+      "importance": 3.067
+    },
+    {
+      "task_id": 9,
+      "description_ja": "グループでのガイダンス等においてファシリテーションを行う。",
+      "execution_rate": 0.796,
+      "importance": 2.535
+    },
+    {
+      "task_id": 10,
+      "description_ja": "講師やスーパーバイザーといった指導的役割を担う。",
+      "execution_rate": 0.852,
+      "importance": 3.174
+    },
+    {
+      "task_id": 11,
+      "description_ja": "高齢者の転職活動を支援する。",
+      "execution_rate": 0.667,
+      "importance": null
+    },
+    {
+      "task_id": 12,
+      "description_ja": "引きこもり経験や、障害をもつ相談者に対して、専門機関を紹介する。",
+      "execution_rate": 0.63,
+      "importance": 3.029
+    },
+    {
+      "task_id": 13,
+      "description_ja": "必要に応じて、就労移行を支援する。",
+      "execution_rate": 0.704,
+      "importance": 2.763
+    },
+    {
+      "task_id": 14,
+      "description_ja": "学生の職場体験やインターンシップを支援する。",
+      "execution_rate": 0.648,
+      "importance": 3.029
+    },
+    {
+      "task_id": 15,
+      "description_ja": "学生へのアドバイザー業務を行う。",
+      "execution_rate": 0.667,
+      "importance": 3.194
+    },
+    {
+      "task_id": 16,
+      "description_ja": "職場見学や職業実習・訓練を実施する。",
+      "execution_rate": 0.685,
+      "importance": 2.838
+    },
+    {
+      "task_id": 17,
+      "description_ja": "面接のトレーニングやアドバイスをする。",
+      "execution_rate": 0.907,
+      "importance": 3.449
+    },
+    {
+      "task_id": 18,
+      "description_ja": "就労や就労体験が可能な職場を開拓する。",
+      "execution_rate": 0.667,
+      "importance": 3.056
+    },
+    {
+      "task_id": 19,
+      "description_ja": "就労条件などについて、企業側と交渉する。",
+      "execution_rate": 0.685,
+      "importance": 2.838
+    },
+    {
+      "task_id": 20,
+      "description_ja": "地域の求人情報を収集し、記録する。",
+      "execution_rate": 0.704,
+      "importance": 2.947
+    },
+    {
+      "task_id": 21,
+      "description_ja": "提携する人材紹介企業に相談者を紹介する。",
+      "execution_rate": 0.574,
+      "importance": 2.452
+    },
+    {
+      "task_id": 22,
+      "description_ja": "相談者の家族と相談し、必要な支援を行う。",
+      "execution_rate": 0.667,
+      "importance": 2.556
+    },
+    {
+      "task_id": 23,
+      "description_ja": "相談者のメンタルケアを行い、必要な場合は専門家を紹介する。",
+      "execution_rate": 0.778,
+      "importance": 3.048
+    },
+    {
+      "task_id": 24,
+      "description_ja": "各種セミナーを企画し、開催する。",
+      "execution_rate": 0.741,
+      "importance": 2.775
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "特定非営利活動法人　キャリアコンサルティング協議会",
+      "url": "https://www.career-cc.org/"
+    },
+    {
+      "name_ja": "特定非営利活動法人　日本キャリア開発協会",
+      "url": "https://www.jcda-careerex.org/"
+    },
+    {
+      "name_ja": "厚生労働省　人材開発統括官　キャリア形成支援室",
+      "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/jinzaikaihatsu/career_consulting.html"
+    }
+  ],
+  "related_certs_ja": [
+    "キャリアカウンセラー／アドバイザー",
+    "キャリアコンサルティング技能士（１・２級）",
+    "キャリアコンサルタント"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/136",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

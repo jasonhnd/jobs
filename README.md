@@ -35,7 +35,7 @@ When you land on [mirai-shigoto.com](https://mirai-shigoto.com/) you get:
 - **Bilingual UI** — 日本語 / English with browser-locale auto-detect. Every label, tooltip, and detail page exists in both languages.
 - **Live search** by occupation name in either language.
 - **Hover (desktop) or tap (mobile)** any tile for a tooltip with risk score, salary, headcount, and the LLM's rationale.
-- **552 dedicated detail pages** at `/ja/<id>.html` and `/en/<id>.html` — each with full risk reasoning, breakdown by salary / age / hours / recruit ratio / education, structured `Occupation` JSON-LD for search engines.
+- **556 dedicated detail pages** at `/ja/<id>.html` and `/en/<id>.html` (552 + 4 newer occupations like 声優 / ブロックチェーン・エンジニア / 産業医 / 3D プリンター技術者) — each with full risk reasoning, breakdown by salary / age / hours / recruit ratio / education, structured `Occupation` JSON-LD for search engines.
 - **Social share buttons** — X, LINE, Hatena Bookmark, LinkedIn, Copy Link, native Web Share API on mobile.
 - **A no-cookie analytics layer** alongside Google Analytics, so the site works whether or not you allow cookies.
 
@@ -75,13 +75,13 @@ These anchors are **ported from Karpathy's published rubric**, with Japan-specif
 
 ### How a score is produced
 
-Scoring runs in `scripts/score_ai_risk.py`. For each occupation:
+Scoring runs as a Claude Code session driven by `scripts/make_prompt.py` (which builds the bilingual prompt bundle from current source data). For each occupation:
 
 1. **Input bundle** — occupation name (JA + EN), industry, jobtag's 仕事内容 description, structured fields (salary, headcount, education distribution, growth outlook).
 2. **Prompt** — the calibration anchors above, plus the input bundle, plus a structured output instruction (JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`).
 3. **Model** — [OpenRouter](https://openrouter.ai) with Gemini Flash by default. Configurable; a swap to Claude Sonnet or GPT-4o is one config line.
 4. **Output** — the model's score + bilingual rationale, cached per-occupation. Re-running skips occupations that already have a stored result.
-5. **Aggregation** — `scripts/build_data.py` merges scores into `data.json`, the single artifact the front end reads.
+5. **Aggregation** — `scripts/build_data.py` joins IPD source data + AI scores + translations + stats into 9 projection families under `dist/` (treemap, detail, search, labels — see [docs/DATA_ARCHITECTURE.md](docs/DATA_ARCHITECTURE.md)). The front end reads `dist/data.treemap.json`.
 
 Each rationale is one to three sentences explaining *why* the score landed where it did — what parts of the work the LLM thinks it can already do, what parts it can't.
 
@@ -117,14 +117,14 @@ The build pipeline is a Japan-localized port of [karpathy/jobs](https://github.c
 
 | # | Script | What it does | Output |
 | --- | --- | --- | --- |
-| 1 | `scripts/list_occupations.py` | Parse the jobtag A–Z index into a master occupation list | `occupations.json` |
-| 2 | `scripts/scrape_jobtag.py` | Polite, rate-limited fetch of every occupation page (httpx first, Playwright fallback for Imperva-protected pages) | `html/<slug>.html` |
-| 3 | `scripts/parse.py` | BeautifulSoup → clean Markdown per occupation | `pages/<slug>.md` |
-| 4 | `scripts/extract_fields.py` | Tabulate structured fields (年収, 学歴, 就業者数, 成長性) | `occupations.csv` |
-| 5 | `scripts/translate.py` | LLM batch JA→EN for occupation names, industries, descriptions | bilingual columns merged in place |
-| 6 | `scripts/score_ai_risk.py` | LLM scoring (0–10) of AI replacement risk + JA/EN rationale (see [methodology](#how-ai-replacement-risk-is-scored)) | `scores.json` |
-| 7 | `scripts/build_data.py` | Merge CSV + scores → single bilingual artifact | `data.json` |
-| 8 | `scripts/build_occupations.py` | Generate 1,104 static detail pages (JA + EN) from `data.json` | `ja/<id>.html`, `en/<id>.html` |
+| 1 | `scripts/import_ipd.py` | Ingest JILPT IPD v7.00 xlsx (downloaded from job tag) into per-occupation source JSON | `data/occupations/<padded>.json` × 556 |
+| 2 | `scripts/migrate_stats_legacy.py` | One-shot port of v0.6.x salary/workforce/age scrape into the new patch layer | `data/stats_legacy/<padded>.json` × 552 |
+| 3 | `scripts/migrate_translations.py` | One-shot port of v0.6.x English translations into per-occupation files | `data/translations/en/<padded>.json` × 552 |
+| 4 | `scripts/migrate_scores.py` | One-shot port of v0.6.x ai_scores into ScoreRun v2.0 schema with full audit metadata | `data/scores/occupations_<model>_<date>.json` |
+| 5 | `scripts/build_labels.py` | Generate 7 dimension label files (skills/knowledge/abilities/...) from IPD 細目 sheet | `data/labels/<dim>.ja-en.json` × 7 |
+| 6 | `scripts/make_prompt.py` | Build single-file Markdown bundles of all occupations for LLM scoring runs | `data/prompts/prompt.{ja,en}.md` |
+| 7 | `scripts/build_data.py` | Load all sources + Pydantic-validate + atomic build of 9 projection families to `dist/` | `dist/data.treemap.json`, `dist/data.detail/`, `dist/data.search.json`, `dist/data.labels/` (and 5 future-coded families behind `--enable-future`) |
+| 8 | `scripts/build_occupations.py` | Generate 1,112 static detail pages (JA + EN, including 4 newer occupations like 声優 and ブロックチェーン・エンジニア) from `dist/data.detail/<id>.json` | `ja/<id>.html`, `en/<id>.html` |
 
 Each step is incrementally cached: re-running skips work that already has output.
 
@@ -175,15 +175,14 @@ uv sync                              # install Python deps from pyproject.toml
 uv run playwright install chromium   # one-time browser binary (jobtag is behind Imperva CDN)
 export OPENROUTER_API_KEY=sk-or-...
 
-# Run the 8-step pipeline in order — each step is incrementally cached
-uv run python scripts/list_occupations.py
-uv run python scripts/scrape_jobtag.py
-uv run python scripts/parse.py
-uv run python scripts/extract_fields.py
-uv run python scripts/translate.py
-uv run python scripts/score_ai_risk.py
-uv run python scripts/build_data.py
-uv run python scripts/build_occupations.py
+# v0.7+ pipeline (one-shot ingest + idempotent build):
+uv run python scripts/import_ipd.py            # IPD xlsx → data/occupations/<id>.json × 556
+uv run python scripts/build_labels.py          # IPD 細目 → data/labels/<dim>.ja-en.json × 7
+uv run python scripts/make_prompt.py           # build prompt bundles for AI scoring
+# (run scoring via Claude Code session against data/prompts/, write to data/scores/)
+uv run python scripts/build_data.py            # join + Pydantic-validate → dist/data.*  (atomic)
+uv run python scripts/build_occupations.py     # dist/data.detail/<id>.json → ja/<id>.html + en/<id>.html
+uv run python scripts/test_data_consistency.py # L3 sanity gate
 ```
 
 Pipeline scripts have inline docstrings and skip work that already has output. See [`scripts/README.md`](scripts/README.md) for run-order details and per-script flags.
@@ -196,37 +195,45 @@ Pipeline scripts have inline docstrings and skip work that already has output. S
 jobs/
 ├── index.html             # bilingual treemap front end (root, served by Vercel)
 ├── privacy.html           # bilingual privacy policy → /privacy via cleanUrls
-├── ja/<id>.html           # 552 per-occupation detail pages (Japanese)
-├── en/<id>.html           # 552 per-occupation detail pages (English)
+├── ja/<id>.html           # 556 per-occupation detail pages (Japanese)
+├── en/<id>.html           # 556 per-occupation detail pages (English)
 ├── api/
+│   ├── og.tsx             # Edge Function — dynamic 1200×630 OG image per occupation
 │   ├── subscribe.js       # Edge Function — email opt-in (Resend audiences)
 │   └── feedback.js        # Edge Function — bottom-of-page feedback form
 ├── analytics/
 │   ├── spec.yaml          # GA4 instrumentation spec — events, dimensions, key events
 │   ├── setup-ga4.mjs      # idempotent script that applies the spec via GA4 Admin API
 │   └── README.md          # how to run the spec sync
-├── data.json              # compact bilingual data, consumed by every page
-├── occupations.json       # master occupation list from jobtag A–Z
-├── occupations.csv        # tabulated structured fields
-├── scores.json            # AI replacement scores + bilingual rationales
-├── data/prompts/          # single-file LLM-ready Markdown dump per language
-│   ├── prompt.en.md       #   (generated by scripts/make_prompt.py)
-│   └── prompt.ja.md
-├── og.png                 # 1200×630 social card
+├── data/                  # SOURCE data (hand-curated, AI-curated; per-occupation files)
+│   ├── occupations/<padded>.json     # 556 per-occupation source records (IPD v7.00)
+│   ├── stats_legacy/<padded>.json    # 552 salary/workforce/age patch layer
+│   ├── translations/en/<padded>.json # 552 English translations
+│   ├── scores/                        # AI scoring runs (永不删, append-only)
+│   ├── labels/<dim>.ja-en.json       # 7 dimension label dictionaries
+│   ├── schema/                        # Pydantic models for source validation
+│   ├── prompts/                       # LLM-ready Markdown bundles
+│   └── .archive/v0.6/                 # frozen pre-IPD source files (audit trail)
+├── dist/                  # BUILT projections (generated by scripts/build_data.py)
+│   ├── data.treemap.json             # main dataset for index.html (~80 KB gz)
+│   ├── data.detail/<padded>.json     # per-occupation detail (~3.5 KB gz each)
+│   ├── data.search.json              # search index over 556 occupations
+│   └── data.labels/{ja,en}.json      # flat label dictionaries
+├── og.png                 # 1200×630 social card (default; per-occupation via api/og)
 ├── robots.txt             # opts in major LLM crawlers
-├── sitemap.xml            # 1,104 URLs with hreflang pairs
+├── sitemap.xml            # 1,112 URLs with hreflang pairs
 ├── llms.txt               # per llmstxt.org — what AI search engines see
-├── scripts/               # ingest + build pipeline (Python) + seo-check.sh
-│   ├── list_occupations.py
-│   ├── scrape_jobtag.py
-│   ├── parse.py
-│   ├── extract_fields.py
-│   ├── translate.py
-│   ├── score_ai_risk.py
-│   ├── build_data.py
-│   ├── build_occupations.py
+├── scripts/               # IPD ingest + projection build pipeline (Python) + seo-check.sh
+│   ├── import_ipd.py            # one-shot: IPD xlsx → data/occupations/<id>.json × 556
+│   ├── migrate_*.py             # one-shot v0.6 → v0.7 migrators (kept for audit)
+│   ├── build_labels.py          # one-shot: IPD 細目 → data/labels/*.ja-en.json × 7
+│   ├── make_prompt.py           # build LLM scoring prompt bundles
+│   ├── build_data.py            # orchestrator: source → 9 projection families in dist/
+│   ├── lib/                     # indexes / score_strategy / atomic_write
+│   ├── projections/             # 9 projection modules (treemap, detail, search, labels, ...)
+│   ├── build_occupations.py     # dist/data.detail/<id>.json → ja/<id>.html + en/<id>.html
+│   ├── test_data_consistency.py # L3 projection sanity gate
 │   ├── seo-check.sh
-│   ├── make_prompt.py
 │   └── README.md
 ├── vercel.json            # static-site config — cleanUrls, redirects, headers
 ├── docs/                  # specs (Design.md = visual SSOT) + archived CHANGELOG

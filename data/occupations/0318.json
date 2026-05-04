@@ -1,0 +1,499 @@
+{
+  "id": 318,
+  "ipd_id": "IPD_01_01_318",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "システムエンジニア（基盤システム）",
+  "aliases_ja": [
+    "社内システムエンジニア（主にシステムの設計に従事するもの）",
+    "システムアーキテクト",
+    "システム設計技術者",
+    "ソフトウェアアーキテクト",
+    "ITアーキテクト",
+    "インフラエンジニア",
+    "基盤システムエンジニア"
+  ],
+  "classifications": {
+    "mhlw_main": "02_010-02",
+    "mhlw_all": [
+      "02_010-02"
+    ],
+    "jsoc_main": "B102",
+    "jsoc_all": [
+      "B102",
+      "B106"
+    ]
+  },
+  "description": {
+    "summary_ja": "ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する。",
+    "what_it_is_ja": "ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する。サーバーを設置、設定し、OS（オペレーティングシステム）等をインストールし、ストレージ（記憶装置）やネットワークを設定するエンジニアであるが、最近はクラウド上にバーチャルでシステムを構築することも多くなっており、この場合、ハードウェアにまったく触れず、設計、開発を行う。インフラエンジニアとも呼ばれる。\n　ITインフラには、サーバー、ストレージ、ネットワーク、パソコンなどのハードウェア、またデータベースなどのミドルウェア、その上で動くアプリケーションがある。大規模なシステムでは、専門のネットワークエンジニア、データベースエンジニア等が分担して行う場合もあるが、ITインフラの開発として一人で行う場合もある。既存のITインフラの拡張や機能追加を行う場合もある。\n　仕事の流れをみると、顧客の要望を聞取り、どのようなITインフラが求められているか明確にする（要件定義）。次いで使用するハードウェアやOSなどのソフトウェアを選択し、ITインフラの構成を決めていく（設計）。この工程で設計書を作成するが、主な内容は、機能、構成、性能、信頼性、予算、開発工程である。\n　設計に基づき、機器などを導入して実際にシステムを作る（構築）。この工程では、機器やソフトウェアを発注し、機器の設置場所に搬入し、組み立て、配線などを作業員に指示しながら行い、その後OS、ミドルウェアなどをインストールする。\n　システムの構築が完了したら、そのシステムを利用し開発等を行うエンジニアに引き継ぐ。引き継いだ開発過程で疑問や問題が生じた場合はそれに対応する。この開発段階で不具合や改善点（レスポンス、安定性、想定通り稼働しない、等々）があれば、導入したハードウェア、ネットワーク、OS等を確認し、設定を見直したり、場合によっては部分的に入れ替えたりすることもある。運用開始後、開発したITインフラに不具合や改善点が生じた場合はそれに対応する。\n　ITインフラの開発過程は今後の開発や保守のためにドキュメントとして整理する。\n　ITインフラはサーバーなどを顧客の施設に設置し、運用していたが、最近ではクラウドでの運用が多くなっている。大手IT企業が膨大な数のサーバーを設置したデータセンターを建設し、その中で顧客毎に仮想のITインフラを構築できるようにしている。顧客はITインフラがどこかにあるか意識することなく運用できる。このようなサービスは、ハードウェア、OS等をネットワーク上のサービスとして提供するIaaS（イアース：Infrastructure as a Service）、これに加えミドルウェアも提供するPaaS（パース：Platform as a Service）、さらにアプリケーションも提供するSaaS（サース：Software as a Service）等が展開されている。これらのサービスは導入コストや維持管理コストが削減でき、拡張性にすぐれ、信頼性も高く、運用保守もしやすいため、利用が広がっている。これに伴いシステムエンジニア（基盤システム）の仕事はこれらネット上の各種サービスを分析し、設定や調整を行い、システムを構築するものになっている。\n\n＜就業希望者へのメッセージ＞\n　基盤システムは、シスエムエンジニアが設計･開発する中で最大級の大規模なもので、文字どおりITの基盤です。いろいろな経験と知識を活かし開発･設計する、エンジニアとして一つの目標となる仕事です。（就業者　20代）\n\n◇　よく使う道具、機材、情報技術等\n　サーバー、OS（オペレーティングシステム）、ストレージ（記憶装置）、ネットワーク、クラウド(IaaS、PaaS、SaaS）、表計算ソフト（Excel、GoogleGoogleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、コラボレーション・ツール（情報共有、スケジュール管理、リモート・ミーティング）、パソコン、タブレット",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、大卒、大学院卒が多く、高専卒もいる。理系が多いが文系もいる。\n　新卒で入社した場合、3ヵ月程度、研修を受け、配属される。仕事をしながらOJTで実践力や応用力を身につけていく。その後、定期的に集合研修を受けたり、リモートでの研修を受けたりする会社もある。開発での設計書を社内で相互にレビューし、お互いの技術をチェックすることもある。\n　中途入社の場合は、経験者が同業他社からの転入してくることが多い。システム開発等の経験を積み、ITインフラの開発を担当するようになる場合もある。\n　その後のキャリアパスとしては、プロジェクトマネージャから管理職となったり、特定分野のスペシャリストとなったりする。経験を積みIT分野のコンサルタントとなる場合もある。\n　関連資格として基本情報技術者、応用情報技術者、システムアーキテクト、ネットワークスペシャリスト、データベーススペシャリスト等があり、仕事をしながら受験する者もいる。\n　ITインフラの設計、構築、また、ネットワーク、サーバー等に関する知識とスキルが必要である。顧客から問題点やニーズを聞き出し、システム構築では様々なエンジニアとのチーム作業となるため、コミュニケーション能力も重要である。クラウドとして提供されるIaaS、PaaS、SaaSはサービスや機能が日々、発展している。これに伴いそれぞれの仕様も変化しており、この発展、変化をフォローしていくことも求められる。",
+    "working_conditions_ja": "勤務先はSIer、コンピューターメーカー、システム開発会社であり、職場は都市部に多い。\n　大量のサーバー等を設置する開発では、顧客先に出向いて仕事をすることが多く、構築の規模にもよるが数ヵ月から長い場合は１年、２年となることもある。クラウド上でシステムを構築する場合はリモートで設定等構築作業を行う。\n　守秘義務やコンプライアンスの関係でほとんどが正社員である。\n　中心となって活躍しているのは30歳代～40歳代であるが、全体として年齢が高くなってきている。女性比率は少ない。\n　勤務は一般的に日勤であるが、工程ごとに納期があり、その納期が近くなった時やテスト工程などでは残業が多くなる傾向がある。\n　賃金は勤務先の規定による。\n　顧客の施設に物理的にサーバーを設置する仕事は減少しているが、拡大するＥＣサイトや、ＡＩ、IoT等新しい分野でITインフラが求められるようになっている。仕事内容は変化しているが、ITの根幹を担うエンジニアとして需要は高い。"
+  },
+  "interests": {
+    "realistic": 3.448,
+    "investigative": 3.345,
+    "artistic": 2.759,
+    "social": 3.483,
+    "enterprising": 3.414,
+    "conventional": 3.121
+  },
+  "work_values": {
+    "achievement": 3.241,
+    "autonomy": 3.052,
+    "expertise": 3.448,
+    "self_growth": 3.138,
+    "social_recognition": 2.828,
+    "service_contribution": 2.672,
+    "good_relationships": 3.0,
+    "workplace_safety": 3.086,
+    "work_life_balance": 2.931,
+    "stability": 3.328,
+    "compensation": 3.052
+  },
+  "skills": {
+    "reading_comprehension": 4.172,
+    "active_listening": 4.172,
+    "writing": 4.017,
+    "speaking": 3.914,
+    "foreign_language_reading": 2.328,
+    "foreign_language_listening": 1.328,
+    "foreign_language_writing": 1.379,
+    "foreign_language_speaking": 1.172,
+    "mathematics": 2.724,
+    "science": 1.81,
+    "critical_thinking": 3.483,
+    "active_learning": 3.448,
+    "learning_strategies": 3.224,
+    "monitoring": 3.379,
+    "social_perceptiveness": 3.466,
+    "coordination": 4.034,
+    "persuasion": 3.672,
+    "negotiation": 3.655,
+    "instructing": 3.638,
+    "service_orientation": 3.052,
+    "complex_problem_solving": 3.5,
+    "operations_analysis": 4.121,
+    "technology_design": 3.879,
+    "equipment_selection": 3.379,
+    "installation": 3.879,
+    "programming": 4.19,
+    "operations_monitoring": 2.828,
+    "operation_and_control": 3.31,
+    "equipment_maintenance": 2.638,
+    "troubleshooting": 3.776,
+    "repairing": 2.569,
+    "quality_control_analysis": 3.586,
+    "judgment_decision_making": 3.466,
+    "systems_analysis": 2.879,
+    "systems_evaluation": 2.655,
+    "time_management": 3.879,
+    "financial_resources_management": 2.431,
+    "material_resources_management": 2.603,
+    "personnel_resources_management": 2.552
+  },
+  "knowledge": {
+    "business_management": 1.341,
+    "clerical": 2.136,
+    "economics_accounting": 0.818,
+    "sales_marketing": 0.864,
+    "customer_personal_service": 1.614,
+    "personnel_hr": 0.955,
+    "transportation": 0.545,
+    "production_processing": 0.75,
+    "agriculture_livestock": 0.318,
+    "engineering": 1.364,
+    "computers_electronics": 2.977,
+    "design": 2.477,
+    "building_construction": 0.432,
+    "mechanical": 0.727,
+    "mathematics_kn": 1.523,
+    "physics": 0.886,
+    "chemistry": 0.364,
+    "biology": 0.25,
+    "psychology": 0.682,
+    "sociology": 0.568,
+    "geography": 0.364,
+    "medicine_dentistry": 0.273,
+    "therapy_counseling": 0.318,
+    "education_training_kn": 1.0,
+    "japanese_language": 1.5,
+    "foreign_language_kn": 1.273,
+    "fine_arts": 0.295,
+    "history_archaeology": 0.159,
+    "philosophy_theology": 0.182,
+    "public_safety_security": 1.295,
+    "law_government": 0.682,
+    "telecommunications": 3.25,
+    "communications_media": 1.841
+  },
+  "abilities": {
+    "oral_comprehension": 3.089,
+    "written_comprehension": 3.067,
+    "oral_expression": 3.089,
+    "written_expression": 3.067,
+    "fluency_of_ideas": 2.778,
+    "originality": 2.667,
+    "problem_sensitivity": 3.2,
+    "deductive_reasoning": 2.978,
+    "inductive_reasoning": 2.889,
+    "information_ordering": 2.822,
+    "category_flexibility": 2.889,
+    "mathematical_reasoning": 2.6,
+    "number_facility": 2.6,
+    "memorization": 2.689,
+    "perceptual_speed": 2.533,
+    "spatial_orientation": 2.333,
+    "visualization": 2.356,
+    "selective_attention": 2.844,
+    "time_sharing": 2.711,
+    "arm_hand_steadiness": 1.756,
+    "manual_dexterity": 1.8,
+    "finger_dexterity": 1.844,
+    "reaction_time": 2.067,
+    "wrist_finger_speed": 1.956,
+    "speed_of_limb_movement": 1.8,
+    "static_strength": 1.6,
+    "stamina": 2.022,
+    "gross_body_equilibrium": 1.667,
+    "near_vision": 1.867,
+    "far_vision": 1.711,
+    "visual_color_discrimination": 1.867,
+    "depth_perception": 1.711,
+    "hearing_sensitivity": 1.844,
+    "auditory_attention": 1.844,
+    "speech_clarity": 2.111
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.614,
+    "face_to_face_discussions": 3.727,
+    "telephone_communication": 3.864,
+    "business_writing": 3.864,
+    "conflict_situations": 2.114,
+    "time_pressure": 3.25,
+    "teamwork": 4.023,
+    "dealing_with_external_customers": 3.477,
+    "coordinate_lead_others": 3.705,
+    "exactness_accuracy": 4.091,
+    "repetitive_tasks": 3.386,
+    "pace_determined_by_machine": 2.977,
+    "responsibility_for_outcomes": 3.636,
+    "indoor_climate_controlled": 4.727,
+    "indoor_non_climate_controlled": 1.386,
+    "outdoor_work": 1.159,
+    "sitting": 4.795,
+    "standing": 1.614,
+    "repetition_of_activities": 2.205,
+    "consequence_of_error": 3.568,
+    "freedom_to_make_decisions": 3.341,
+    "set_own_goals": 3.341,
+    "regular_schedule": 0.545,
+    "irregular_schedule": 0.432,
+    "seasonal_schedule": 0.023,
+    "email_communication": 4.818,
+    "cramped_uncomfortable": 1.818,
+    "disease_infection_risk": 1.318,
+    "minor_injury_risk": 1.136,
+    "standard_protective_equipment": 1.182,
+    "specialized_protective_equipment": 1.091,
+    "dealing_with_violent_people": 1.159,
+    "walking_running": 1.523,
+    "handling_objects_tools": 1.795,
+    "physical_proximity": 2.955,
+    "work_automation": 2.409,
+    "responsibility_for_safety": 1.886,
+    "impact_of_decisions": 2.455,
+    "level_of_competition": 2.318
+  },
+  "work_activities": {
+    "getting_information": 3.044,
+    "monitor_processes": 3.2,
+    "identifying_objects": 3.111,
+    "inspecting_equipment": 2.6,
+    "estimating_quantifiable": 2.711,
+    "judging_quality": 2.822,
+    "evaluating_compliance": 2.911,
+    "processing_information": 3.178,
+    "analyzing_data": 3.156,
+    "making_decisions": 3.222,
+    "thinking_creatively": 2.733,
+    "updating_knowledge": 3.022,
+    "developing_objectives": 3.133,
+    "scheduling_work": 3.4,
+    "organizing_planning": 3.378,
+    "physical_activities": 1.978,
+    "handling_objects": 2.089,
+    "controlling_machines": 2.111,
+    "operating_vehicles": 1.711,
+    "computer_work": 3.311,
+    "drafting_specifications": 2.444,
+    "repairing_mechanical": 2.111,
+    "repairing_electronic": 2.311,
+    "documenting_information": 3.0,
+    "interpreting_information": 2.778,
+    "communicating_inside": 3.111,
+    "communicating_outside": 3.156,
+    "building_relationships": 2.933,
+    "assisting_caring": 2.756,
+    "selling_influencing": 2.244,
+    "resolving_conflicts": 2.6,
+    "performing_for_public": 2.111,
+    "coordinating_others": 2.933,
+    "developing_teams": 2.933,
+    "training_teaching": 2.689,
+    "guiding_subordinates": 2.644,
+    "coaching_developing": 2.489,
+    "providing_consultation": 2.533,
+    "performing_administrative": 2.689,
+    "staffing_organizational": 2.2,
+    "monitoring_resources": 2.467
+  },
+  "education_distribution": {
+    "below_high_school": 0.023,
+    "high_school": 0.045,
+    "vocational_school": 0.182,
+    "junior_college": 0.0,
+    "technical_college": 0.114,
+    "university": 0.841,
+    "masters": 0.136,
+    "doctorate": 0.023,
+    "unknown": 0.045
+  },
+  "training_pre": {
+    "not_required": 0.273,
+    "up_to_1_month": 0.045,
+    "1_to_6_months": 0.227,
+    "6_months_to_1_year": 0.091,
+    "1_to_2_years": 0.068,
+    "2_to_3_years": 0.068,
+    "3_to_5_years": 0.023,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.0,
+    "unknown": 0.182
+  },
+  "training_post": {
+    "not_required": 0.045,
+    "up_to_1_month": 0.023,
+    "1_to_6_months": 0.091,
+    "6_months_to_1_year": 0.159,
+    "1_to_2_years": 0.159,
+    "2_to_3_years": 0.25,
+    "3_to_5_years": 0.114,
+    "5_to_10_years": 0.045,
+    "over_10_years": 0.0,
+    "unknown": 0.114
+  },
+  "experience": {
+    "not_required": 0.386,
+    "up_to_1_month": 0.023,
+    "1_to_6_months": 0.182,
+    "6_months_to_1_year": 0.091,
+    "1_to_2_years": 0.045,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.045,
+    "over_10_years": 0.023,
+    "unknown": 0.159
+  },
+  "employment_type": {
+    "regular_employee": 0.909,
+    "part_time": 0.023,
+    "dispatched": 0.114,
+    "contract": 0.136,
+    "self_employed_freelance": 0.114,
+    "executive": 0.068,
+    "casual_non_student": 0.023,
+    "casual_student": 0.023,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "顧客の要望を聞取り、どのようなITインフラが求められているか明確にする（要件定義）。",
+      "execution_rate": 0.956,
+      "importance": 3.535
+    },
+    {
+      "task_id": 2,
+      "description_ja": "使用するハードウエアやOSなどのソフトウエアを選択し、ITインフラの構成を決めていく（設計）。",
+      "execution_rate": 0.911,
+      "importance": 3.171
+    },
+    {
+      "task_id": 3,
+      "description_ja": "設計書（ITインフラの機能、構成、性能、予算、開発工程）を作成する。",
+      "execution_rate": 0.933,
+      "importance": 3.214
+    },
+    {
+      "task_id": 4,
+      "description_ja": "設計に基づき、機器などを導入して実際にシステムを作る（構築）。",
+      "execution_rate": 0.911,
+      "importance": 3.415
+    },
+    {
+      "task_id": 5,
+      "description_ja": "設計に基づき、機器やソフトウエアを発注する。",
+      "execution_rate": 0.822,
+      "importance": 3.108
+    },
+    {
+      "task_id": 6,
+      "description_ja": "機器の設置場所へに搬入、組み立て、配線を作業員に指示しながら行う。",
+      "execution_rate": 0.844,
+      "importance": 2.974
+    },
+    {
+      "task_id": 7,
+      "description_ja": "システムの基盤機能やデータ移行・運用をテストする。",
+      "execution_rate": 0.978,
+      "importance": 3.227
+    },
+    {
+      "task_id": 8,
+      "description_ja": "ミドルウェアを開発する。",
+      "execution_rate": 0.667,
+      "importance": 2.6
+    },
+    {
+      "task_id": 9,
+      "description_ja": "OS、ミドルウェアなどをインストールする。",
+      "execution_rate": 0.889,
+      "importance": 3.1
+    },
+    {
+      "task_id": 10,
+      "description_ja": "IaaS、PaaS、SaaS等クラウドでのサービスを調査、分析する。",
+      "execution_rate": 0.711,
+      "importance": 2.906
+    },
+    {
+      "task_id": 11,
+      "description_ja": "IaaS、PaaS、SaaS等クラウドでのサービス内容の変化をフォローする。",
+      "execution_rate": 0.711,
+      "importance": 2.656
+    },
+    {
+      "task_id": 12,
+      "description_ja": "クラウド上でITインフラを構築する。",
+      "execution_rate": 0.778,
+      "importance": 3.029
+    },
+    {
+      "task_id": 13,
+      "description_ja": "構築が完了したITインフラをその後の開発等担当のエンジニアに引き継ぐ。",
+      "execution_rate": 0.822,
+      "importance": 3.054
+    },
+    {
+      "task_id": 14,
+      "description_ja": "その後のシステム開発等で疑問や問題が生じた場合は、それに対応する。",
+      "execution_rate": 0.867,
+      "importance": 3.308
+    },
+    {
+      "task_id": 15,
+      "description_ja": "導入したハードウェア、ネットワーク、OS等を確認し、設定を見直す。",
+      "execution_rate": 0.889,
+      "importance": 3.025
+    },
+    {
+      "task_id": 16,
+      "description_ja": "導入したハードウェア、ネットワーク、OS等を一部入替える。",
+      "execution_rate": 0.8,
+      "importance": 2.972
+    },
+    {
+      "task_id": 17,
+      "description_ja": "クラウドに構築したITインフラの設定等を見直す。",
+      "execution_rate": 0.733,
+      "importance": 2.909
+    },
+    {
+      "task_id": 18,
+      "description_ja": "運用開始後、開発したITインフラに不具合や改善点が生じた場合はそれに対応する。",
+      "execution_rate": 0.844,
+      "importance": 3.421
+    },
+    {
+      "task_id": 19,
+      "description_ja": "ITインフラの開発過程を今後の開発や保守のためにドキュメントとして整理する。",
+      "execution_rate": 0.844,
+      "importance": 3.263
+    },
+    {
+      "task_id": 20,
+      "description_ja": "ネットワーク、サーバー機器を監視し、問題や障害を検知する。",
+      "execution_rate": 0.8,
+      "importance": 3.306
+    },
+    {
+      "task_id": 21,
+      "description_ja": "ITインフラを定期的に点検する（予防保守）。",
+      "execution_rate": 0.889,
+      "importance": 2.825
+    },
+    {
+      "task_id": 22,
+      "description_ja": "設計書や構築作業の品質を管理する。",
+      "execution_rate": 0.889,
+      "importance": 3.15
+    },
+    {
+      "task_id": 23,
+      "description_ja": "プロジェクトの進捗を管理する。",
+      "execution_rate": 0.933,
+      "importance": 3.381
+    },
+    {
+      "task_id": 24,
+      "description_ja": "プロジェクトの予算と実績を管理する。",
+      "execution_rate": 0.867,
+      "importance": 2.949
+    },
+    {
+      "task_id": 25,
+      "description_ja": "顧客がシステムを利用するためのマニュアルを作成する。",
+      "execution_rate": 0.933,
+      "importance": 2.81
+    },
+    {
+      "task_id": 26,
+      "description_ja": "顧客の業務に合わせたITコンサルティングを行う。",
+      "execution_rate": 0.844,
+      "importance": 2.868
+    },
+    {
+      "task_id": 27,
+      "description_ja": "システムの導入や入れ替えに際して、顧客企業のIT部門と調整する。",
+      "execution_rate": 0.867,
+      "importance": 3.103
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "独立行政法人 情報処理推進機構",
+      "url": "https://www.ipa.go.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "基本情報技術者",
+    "応用情報技術者",
+    "システムアーキテクト",
+    "ネットワークスペシャリスト",
+    "データベーススペシャリスト"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/318",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2024
+  }
+}

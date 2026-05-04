@@ -1,0 +1,441 @@
+{
+  "id": 62,
+  "ipd_id": "IPD_01_01_062",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "印刷営業",
+  "aliases_ja": [
+    "印刷営業員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_048-11",
+    "mhlw_all": [
+      "07_048-11"
+    ],
+    "jsoc_main": "D349",
+    "jsoc_all": [
+      "D349"
+    ]
+  },
+  "description": {
+    "summary_ja": "印刷物の作成において、顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレット等に仕上げ、納入する。",
+    "what_it_is_ja": "印刷物の作成において、顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレット等に仕上げ、納入するまでの印刷工程と取引に関する仕事を担当する。\n　印刷物には、雑誌・書籍などの「出版印刷」、ポスター・カレンダーなどの「商業印刷」、ビジネスフォームなどの「事務用印刷」、紙器・プリント布地などの「特殊印刷」といった分野がある。また、印刷会社が商品企画・データベース構築などの「新メディア関連サービス」の分野に取り組んでいる例もある。1分野だけを扱う専門印刷会社から、全てを手がける総合印刷会社まである。営業は、いずれか1分野を担当する場合が多い。\n　印刷営業の仕事は、まず、得意先を訪問して制作する印刷物の内容や種類について詳しく聞き、それに基づいてレイアウトや印刷用紙の種類などの企画を立て、印刷にかかる費用、印刷の日程などを踏まえて見積書を作成し、企画内容と見積書を顧客に提案する。また、顧客のニーズを先取りして新たな印刷物の企画を提案することもある。\n　提案や見積が顧客に受け入れられると、印刷の契約を結ぶ。原稿を受け取って工場に渡し、印刷作業が日程通り、予算通りに進むよう、そして顧客が満足する製品に仕上がるように、工場に細かな指示を出す。試し刷りを顧客にチェックしてもらい、必要ならば工場に修正を指示し、印刷物の出来上がりを確認する。完成した製品を顧客に納品し、顧客からの入金を確認したら、一連の仕事は終了となる。\n　印刷物の受発注や校正等の作業がインターネットを介して行われることが増えている。この場合には、見積書の提出や試し刷り・校正済み原稿の受け渡しがウェブ上で行われるため、それに応じて営業の働き方も変わってきている。",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　入職後は、希望や適性により、営業部門に直接配属される場合と、出版印刷、商業印刷、事務用印刷、特殊印刷といった部門へ配属され、その後営業部門に配属される場合がある。営業部門に配属された後、最初は、先輩や上司とともに得意先を訪問し、その後、担当の得意先を割り当てられ、2年目くらいになると得意先の新規開拓を行えるようになる。\n　印刷業界共通の資格として「印刷営業士」「管理印刷営業士」があり、一定の実務経験があれば受験できる。\n　社会や市場の変化に敏感で、情報収集する能力があること、それを活かしながら顧客に的確な提案・助言を行うこと、顧客との交渉や的確な判断ができることなどが求められる。",
+    "working_conditions_ja": "勤務先は、印刷会社である。賃金、労働時間等労働条件は勤務先の規定による。\n　印刷営業は仕事の範囲が広く、夜間や休日に得意先と連絡をとることもあるなど、営業時間外に働くことも多いため、フレックスタイム制を採用している会社もある。\n　情報のデジタル化を受けて、出版印刷や事務用印刷については需要が減少しているが、一方で、特殊印刷の技術の向上や新メディア関連サービスの拡大、顧客からのアウトソーシングの要望などによって新たな業務の需要も発生している。"
+  },
+  "interests": {
+    "realistic": 3.167,
+    "investigative": 3.0,
+    "artistic": 3.042,
+    "social": 3.472,
+    "enterprising": 3.333,
+    "conventional": 3.306
+  },
+  "work_values": {
+    "achievement": 3.429,
+    "autonomy": 3.5,
+    "expertise": 3.446,
+    "self_growth": 3.232,
+    "social_recognition": 2.857,
+    "service_contribution": 2.893,
+    "good_relationships": 3.464,
+    "workplace_safety": 3.125,
+    "work_life_balance": 3.036,
+    "stability": 2.857,
+    "compensation": 2.607
+  },
+  "skills": {
+    "reading_comprehension": 3.696,
+    "active_listening": 4.214,
+    "writing": 3.804,
+    "speaking": 3.857,
+    "foreign_language_reading": 0.875,
+    "foreign_language_listening": 0.571,
+    "foreign_language_writing": 0.482,
+    "foreign_language_speaking": 0.518,
+    "mathematics": 1.964,
+    "science": 0.964,
+    "critical_thinking": 2.857,
+    "active_learning": 2.911,
+    "learning_strategies": 2.643,
+    "monitoring": 3.125,
+    "social_perceptiveness": 3.375,
+    "coordination": 3.893,
+    "persuasion": 3.429,
+    "negotiation": 3.875,
+    "instructing": 3.375,
+    "service_orientation": 2.964,
+    "complex_problem_solving": 2.964,
+    "operations_analysis": 2.839,
+    "technology_design": 2.518,
+    "equipment_selection": 2.589,
+    "installation": 2.643,
+    "programming": 1.375,
+    "operations_monitoring": 1.268,
+    "operation_and_control": 1.661,
+    "equipment_maintenance": 1.446,
+    "troubleshooting": 1.5,
+    "repairing": 1.5,
+    "quality_control_analysis": 2.5,
+    "judgment_decision_making": 2.75,
+    "systems_analysis": 2.661,
+    "systems_evaluation": 2.696,
+    "time_management": 3.196,
+    "financial_resources_management": 2.214,
+    "material_resources_management": 2.143,
+    "personnel_resources_management": 2.321
+  },
+  "knowledge": {
+    "business_management": 1.957,
+    "clerical": 2.191,
+    "economics_accounting": 1.426,
+    "sales_marketing": 2.489,
+    "customer_personal_service": 2.638,
+    "personnel_hr": 1.277,
+    "transportation": 1.532,
+    "production_processing": 2.085,
+    "agriculture_livestock": 0.702,
+    "engineering": 0.872,
+    "computers_electronics": 1.106,
+    "design": 0.957,
+    "building_construction": 0.553,
+    "mechanical": 0.894,
+    "mathematics_kn": 0.957,
+    "physics": 0.574,
+    "chemistry": 0.809,
+    "biology": 0.532,
+    "psychology": 1.043,
+    "sociology": 1.128,
+    "geography": 0.745,
+    "medicine_dentistry": 0.468,
+    "therapy_counseling": 0.617,
+    "education_training_kn": 0.957,
+    "japanese_language": 1.553,
+    "foreign_language_kn": 0.957,
+    "fine_arts": 1.149,
+    "history_archaeology": 0.723,
+    "philosophy_theology": 0.596,
+    "public_safety_security": 1.277,
+    "law_government": 1.064,
+    "telecommunications": 0.915,
+    "communications_media": 1.617
+  },
+  "abilities": {
+    "oral_comprehension": 3.281,
+    "written_comprehension": 3.281,
+    "oral_expression": 3.263,
+    "written_expression": 3.175,
+    "fluency_of_ideas": 3.105,
+    "originality": 3.018,
+    "problem_sensitivity": 3.509,
+    "deductive_reasoning": 2.947,
+    "inductive_reasoning": 3.053,
+    "information_ordering": 2.86,
+    "category_flexibility": 2.789,
+    "mathematical_reasoning": 2.596,
+    "number_facility": 2.667,
+    "memorization": 3.14,
+    "perceptual_speed": 2.789,
+    "spatial_orientation": 2.667,
+    "visualization": 2.772,
+    "selective_attention": 2.895,
+    "time_sharing": 2.947,
+    "arm_hand_steadiness": 2.316,
+    "manual_dexterity": 2.281,
+    "finger_dexterity": 2.368,
+    "reaction_time": 2.649,
+    "wrist_finger_speed": 2.421,
+    "speed_of_limb_movement": 2.228,
+    "static_strength": 2.158,
+    "stamina": 2.544,
+    "gross_body_equilibrium": 2.263,
+    "near_vision": 2.456,
+    "far_vision": 2.246,
+    "visual_color_discrimination": 3.351,
+    "depth_perception": 2.281,
+    "hearing_sensitivity": 2.175,
+    "auditory_attention": 2.193,
+    "speech_clarity": 2.544
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.489,
+    "face_to_face_discussions": 3.745,
+    "telephone_communication": 4.191,
+    "business_writing": 3.851,
+    "conflict_situations": 2.021,
+    "time_pressure": 2.66,
+    "teamwork": 2.957,
+    "dealing_with_external_customers": 3.468,
+    "coordinate_lead_others": 3.149,
+    "exactness_accuracy": 3.745,
+    "repetitive_tasks": 2.894,
+    "pace_determined_by_machine": 2.702,
+    "responsibility_for_outcomes": 3.447,
+    "indoor_climate_controlled": 4.234,
+    "indoor_non_climate_controlled": 2.298,
+    "outdoor_work": 2.766,
+    "sitting": 3.298,
+    "standing": 2.17,
+    "repetition_of_activities": 2.085,
+    "consequence_of_error": 3.064,
+    "freedom_to_make_decisions": 3.596,
+    "set_own_goals": 3.574,
+    "regular_schedule": 0.362,
+    "irregular_schedule": 0.553,
+    "seasonal_schedule": 0.085,
+    "email_communication": 4.34,
+    "cramped_uncomfortable": 1.894,
+    "disease_infection_risk": 1.617,
+    "minor_injury_risk": 1.596,
+    "standard_protective_equipment": 1.404,
+    "specialized_protective_equipment": 1.319,
+    "dealing_with_violent_people": 1.404,
+    "walking_running": 2.468,
+    "handling_objects_tools": 1.872,
+    "physical_proximity": 3.021,
+    "work_automation": 2.34,
+    "responsibility_for_safety": 2.277,
+    "impact_of_decisions": 2.83,
+    "level_of_competition": 2.553
+  },
+  "work_activities": {
+    "getting_information": 3.14,
+    "monitor_processes": 3.07,
+    "identifying_objects": 3.018,
+    "inspecting_equipment": 2.649,
+    "estimating_quantifiable": 2.807,
+    "judging_quality": 3.263,
+    "evaluating_compliance": 3.0,
+    "processing_information": 2.895,
+    "analyzing_data": 2.912,
+    "making_decisions": 3.123,
+    "thinking_creatively": 3.088,
+    "updating_knowledge": 3.193,
+    "developing_objectives": 3.088,
+    "scheduling_work": 3.368,
+    "organizing_planning": 3.474,
+    "physical_activities": 2.281,
+    "handling_objects": 2.263,
+    "controlling_machines": 2.0,
+    "operating_vehicles": 2.404,
+    "computer_work": 3.175,
+    "drafting_specifications": 2.123,
+    "repairing_mechanical": 2.14,
+    "repairing_electronic": 2.088,
+    "documenting_information": 2.789,
+    "interpreting_information": 2.842,
+    "communicating_inside": 3.211,
+    "communicating_outside": 3.386,
+    "building_relationships": 3.439,
+    "assisting_caring": 2.719,
+    "selling_influencing": 2.86,
+    "resolving_conflicts": 2.912,
+    "performing_for_public": 2.439,
+    "coordinating_others": 2.947,
+    "developing_teams": 2.93,
+    "training_teaching": 2.719,
+    "guiding_subordinates": 2.965,
+    "coaching_developing": 2.807,
+    "providing_consultation": 2.491,
+    "performing_administrative": 2.895,
+    "staffing_organizational": 2.368,
+    "monitoring_resources": 2.526
+  },
+  "education_distribution": {
+    "below_high_school": 0.043,
+    "high_school": 0.213,
+    "vocational_school": 0.128,
+    "junior_college": 0.043,
+    "technical_college": 0.0,
+    "university": 0.617,
+    "masters": 0.021,
+    "doctorate": 0.0,
+    "unknown": 0.106
+  },
+  "training_pre": {
+    "not_required": 0.447,
+    "up_to_1_month": 0.064,
+    "1_to_6_months": 0.17,
+    "6_months_to_1_year": 0.021,
+    "1_to_2_years": 0.064,
+    "2_to_3_years": 0.064,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.021,
+    "unknown": 0.149
+  },
+  "training_post": {
+    "not_required": 0.064,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.17,
+    "6_months_to_1_year": 0.213,
+    "1_to_2_years": 0.17,
+    "2_to_3_years": 0.17,
+    "3_to_5_years": 0.043,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.17
+  },
+  "experience": {
+    "not_required": 0.532,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.085,
+    "6_months_to_1_year": 0.043,
+    "1_to_2_years": 0.043,
+    "2_to_3_years": 0.064,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.213
+  },
+  "employment_type": {
+    "regular_employee": 0.723,
+    "part_time": 0.064,
+    "dispatched": 0.0,
+    "contract": 0.021,
+    "self_employed_freelance": 0.085,
+    "executive": 0.106,
+    "casual_non_student": 0.021,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレットなどに仕上げ、納入する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "顧客から制作する印刷物の内容や種類について詳しく聞き、注文を受ける。",
+      "execution_rate": 0.965,
+      "importance": 4.164
+    },
+    {
+      "task_id": 2,
+      "description_ja": "レイアウトや用紙の種類などの企画を立て、費用や期日を踏まえて見積書を作成する。",
+      "execution_rate": 0.983,
+      "importance": 3.875
+    },
+    {
+      "task_id": 3,
+      "description_ja": "顧客のニーズに合わせて印刷物の提案をする。",
+      "execution_rate": 0.965,
+      "importance": 3.618
+    },
+    {
+      "task_id": 4,
+      "description_ja": "キャンペーンや販促物の印刷の企画を立てる。",
+      "execution_rate": 0.754,
+      "importance": 2.744
+    },
+    {
+      "task_id": 5,
+      "description_ja": "見積書と企画書を顧客に提示する。",
+      "execution_rate": 0.947,
+      "importance": 3.722
+    },
+    {
+      "task_id": 6,
+      "description_ja": "顧客との受注契約書を取り交わす。",
+      "execution_rate": 0.912,
+      "importance": 3.5
+    },
+    {
+      "task_id": 7,
+      "description_ja": "納品日までのスケジュールを立てる。",
+      "execution_rate": 1.0,
+      "importance": 4.123
+    },
+    {
+      "task_id": 8,
+      "description_ja": "印刷の原稿を預かり、現場に手配する。",
+      "execution_rate": 0.965,
+      "importance": 4.0
+    },
+    {
+      "task_id": 9,
+      "description_ja": "印刷作業を担当社員に依頼する。",
+      "execution_rate": 0.947,
+      "importance": 3.759
+    },
+    {
+      "task_id": 10,
+      "description_ja": "印刷物をパソコンで制作し、プリンターに出力する（DTP）。",
+      "execution_rate": 0.825,
+      "importance": 3.234
+    },
+    {
+      "task_id": 11,
+      "description_ja": "完成した印刷物の配送の手続きなどをする。",
+      "execution_rate": 0.965,
+      "importance": 3.691
+    },
+    {
+      "task_id": 12,
+      "description_ja": "出来上がった印刷物を顧客へ納品する。",
+      "execution_rate": 0.983,
+      "importance": 4.071
+    },
+    {
+      "task_id": 13,
+      "description_ja": "顧客からクレームがあれば対応する。",
+      "execution_rate": 1.0,
+      "importance": 4.246
+    },
+    {
+      "task_id": 14,
+      "description_ja": "売上高と印刷物に関する報告書を書く。",
+      "execution_rate": 0.86,
+      "importance": 3.082
+    },
+    {
+      "task_id": 15,
+      "description_ja": "顧客リストを作成する。",
+      "execution_rate": 0.895,
+      "importance": 2.745
+    },
+    {
+      "task_id": 16,
+      "description_ja": "見込み客に関する信用情報を得る。",
+      "execution_rate": 0.807,
+      "importance": 3.087
+    },
+    {
+      "task_id": 17,
+      "description_ja": "新規顧客の開拓のため、企業や団体、個人にアプローチする。",
+      "execution_rate": 0.86,
+      "importance": 2.98
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本印刷産業連合会",
+      "url": "https://www.jfpi.or.jp/"
+    },
+    {
+      "name_ja": "印刷工業会",
+      "url": "http://www.paj-pid.jp/"
+    },
+    {
+      "name_ja": "全日本印刷工業組合連合会",
+      "url": "http://www.aj-pia.or.jp"
+    },
+    {
+      "name_ja": "印刷情報メディア産業労働組合連合会",
+      "url": "http://www.pimw.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "印刷営業士",
+    "管理印刷営業士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/62",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

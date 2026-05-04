@@ -1,0 +1,476 @@
+{
+  "id": 197,
+  "ipd_id": "IPD_01_01_197",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "自動車整備士",
+  "aliases_ja": [
+    "自動車エンジン整備工",
+    "自動車修理工",
+    "自動車整備工",
+    "自動車電装品整備工",
+    "メカニック（自動車修理）"
+  ],
+  "classifications": {
+    "mhlw_main": "12_075-03",
+    "mhlw_all": [
+      "12_075-03"
+    ],
+    "jsoc_main": "H553",
+    "jsoc_all": [
+      "H553"
+    ]
+  },
+  "description": {
+    "summary_ja": "自動車の走行の安全確保、有害排出ガスや騒音の抑制などの環境保全のために、専門的な知識と技術を駆使して自動車の点検と整備を行う。",
+    "what_it_is_ja": "自動車は、バスやタクシーのように人々の移動を支えたり、トラックのように物流の基盤を支えたりして、私たちの暮らしには無くてはならないものとなっている一方で、数多くの部品で構成されており、走行するに伴って劣化・摩耗が進み、その構造や装置の性能が低下するものである。そのため、自動車の走行の安全確保、及び有害排出ガスや騒音の抑制などの環境保全のために点検・整備が必要であり、その点検・整備を実施するのが自動車整備士である。さらに近年、技術開発の進展の結果、自動車には数多くの電子機器が搭載されるようになっており、その不具合の対処のため、専門的な技能を有する自動車整備士の役割は、ますます重要となっている。 \n　自動車の点検・整備には、定期的に各部を点検し、機能の低下した部分を整備する定期点検整備と、交通事故などによる破損箇所の修理や、異常箇所の整備などがある。自動車は車種によって構造が異なるため、自動車の種類、エンジンの種類、部位別などにより整備分野が分かれている。 　\n　自動車整備士は、整備工場に持ち込まれた自動車について、原動機(エンジン、モーター)、操縦(ハンドル)、制動(ブレーキ)、緩衝(サスペンション)、動力伝達(トランスミッション)などの各装置や燃料・電気関係の部品などを点検し、性能が低下及び故障している箇所を発見し、お客様に説明して部品を交換・修理することが仕事である。 \n\n◇　よく使う道具、機材、情報技術等\n　作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）、自動車の電子部品の整備作業に必要な道具(スキャンツール)",
+    "how_to_become_ja": "就業先としては、一般的に整備工場となるが、整備工場に就職するには、国家資格である自動車整備士の資格を取得している方が有利である。一方、資格を取得していなくても就職することは可能であり、整備工場に就職後、勤務をしながら夜間や休日に講習を受けられる養成施設（自動車整備技術講習所）に半年～1年半通い、資格を取得することも可能である。また、自動車整備に関して学ぶ工業高校の自動車整備科や、自動車整備の専門学校等の出身者だけでなく、高等学校や大学などで機械や電気に関する基礎的な知識を学んでいると有利である。このほか、自動車の運転免許や危険物取扱者乙種第四類、ガス溶接技能者、アーク溶接技能者（基本級）の資格があれば入職に有利となることが多い。上記については、中途採用の場合も、同様である。\n　自動車整備士の資格を取得するには、整備専門学校等の養成施設に通う方法と、前述のとおり整備工場で働きながら養成施設（自動車整備技術講習所）に通う方法がある。これらの養成施設を修了すると実技試験が免除となり、学科試験のみの受験となる。\n　進化を続ける自動車は、近年、カメラやセンサーなどの電子技術が多く導入されるようになり、構造や装置は、複雑化、精密化している。そのため、自動車整備士が仕事をするためには、新たにスキャンツール（自動車の電子的な故障の原因究明に必要な機器）を使いこなすための知識や、新技術に対応できる技術力が要求されるようになっている。さらに、環境や騒音などの各種規制は年々強化されており、変化する規制に対応する新たな整備方法や検査方法を学び続けることも必要である。",
+    "working_conditions_ja": "自動車は法律によって所定の期間ごとに必ず点検・整備及び車検を行わなければならないため、職場（整備工場）は全国にあり、メーカー系自動車販売会社（自動車ディーラー）の整備工場や点検・整備を主な事業とする専業工場などがある。\n　地域に密着した業態のため、自動車ユーザーの利便性を第一に考えて、日曜・祝日に営業したり、夜間に営業することが多かったが、最近は従業員の働き方を最優先と考えて、休日を交替制にしたり、週休二日制を採用する企業も増えてきている。なお、外気が入る作業場であり、騒音、振動の発生、油脂による汚れなどがあるが、最近は空調設備の導入や電動車（電気自動車やハイブリッド車）を整備する割合が増加していることにより、そのようなことは減っている。\n　就業者のうち、整備士数は33万3047人、そのうち女性は1万567人で全体の3.2％となっている（2025年1月時点＊）。業界全体で女性に配慮した働く環境の整備や省力化機器の導入などにより女性の整備士を積極的に採用する傾向にある。\n　最近では、衝突被害軽減ブレーキなどの先進安全技術や電動車などの普及に伴い、国家資格である自動車整備士資格を持つ者が求められている。\n\n*一般社団法人日本自動車整備振興会連合会、令和6年度自動車分解整備業実態調査結果の概要について"
+  },
+  "interests": {
+    "realistic": 4.238,
+    "investigative": 3.587,
+    "artistic": 2.778,
+    "social": 3.333,
+    "enterprising": 2.937,
+    "conventional": 3.27
+  },
+  "work_values": {
+    "achievement": 3.49,
+    "autonomy": 3.471,
+    "expertise": 3.647,
+    "self_growth": 3.451,
+    "social_recognition": 2.745,
+    "service_contribution": 2.98,
+    "good_relationships": 3.157,
+    "workplace_safety": 2.804,
+    "work_life_balance": 3.118,
+    "stability": 3.039,
+    "compensation": 2.647
+  },
+  "skills": {
+    "reading_comprehension": 3.431,
+    "active_listening": 4.039,
+    "writing": 2.882,
+    "speaking": 3.451,
+    "foreign_language_reading": 1.098,
+    "foreign_language_listening": 0.686,
+    "foreign_language_writing": 0.647,
+    "foreign_language_speaking": 0.725,
+    "mathematics": 2.765,
+    "science": 2.196,
+    "critical_thinking": 2.824,
+    "active_learning": 3.039,
+    "learning_strategies": 2.843,
+    "monitoring": 2.608,
+    "social_perceptiveness": 3.118,
+    "coordination": 3.196,
+    "persuasion": 2.745,
+    "negotiation": 2.804,
+    "instructing": 3.137,
+    "service_orientation": 2.569,
+    "complex_problem_solving": 3.137,
+    "operations_analysis": 2.373,
+    "technology_design": 2.647,
+    "equipment_selection": 3.51,
+    "installation": 2.902,
+    "programming": 1.314,
+    "operations_monitoring": 2.804,
+    "operation_and_control": 2.98,
+    "equipment_maintenance": 4.118,
+    "troubleshooting": 4.059,
+    "repairing": 4.784,
+    "quality_control_analysis": 3.824,
+    "judgment_decision_making": 3.0,
+    "systems_analysis": 2.765,
+    "systems_evaluation": 2.294,
+    "time_management": 2.725,
+    "financial_resources_management": 2.314,
+    "material_resources_management": 2.451,
+    "personnel_resources_management": 2.176
+  },
+  "knowledge": {
+    "business_management": 1.292,
+    "clerical": 1.688,
+    "economics_accounting": 1.104,
+    "sales_marketing": 1.5,
+    "customer_personal_service": 2.292,
+    "personnel_hr": 1.021,
+    "transportation": 1.042,
+    "production_processing": 1.313,
+    "agriculture_livestock": 0.354,
+    "engineering": 1.896,
+    "computers_electronics": 1.625,
+    "design": 0.792,
+    "building_construction": 0.354,
+    "mechanical": 3.021,
+    "mathematics_kn": 1.75,
+    "physics": 1.625,
+    "chemistry": 1.25,
+    "biology": 0.354,
+    "psychology": 0.917,
+    "sociology": 0.979,
+    "geography": 0.5,
+    "medicine_dentistry": 0.354,
+    "therapy_counseling": 0.458,
+    "education_training_kn": 1.167,
+    "japanese_language": 1.146,
+    "foreign_language_kn": 0.771,
+    "fine_arts": 0.458,
+    "history_archaeology": 0.333,
+    "philosophy_theology": 0.313,
+    "public_safety_security": 1.146,
+    "law_government": 1.313,
+    "telecommunications": 1.063,
+    "communications_media": 1.229
+  },
+  "abilities": {
+    "oral_comprehension": 2.478,
+    "written_comprehension": 2.37,
+    "oral_expression": 2.5,
+    "written_expression": 2.435,
+    "fluency_of_ideas": 2.413,
+    "originality": 2.326,
+    "problem_sensitivity": 3.239,
+    "deductive_reasoning": 2.652,
+    "inductive_reasoning": 2.63,
+    "information_ordering": 2.435,
+    "category_flexibility": 2.304,
+    "mathematical_reasoning": 2.37,
+    "number_facility": 2.326,
+    "memorization": 2.674,
+    "perceptual_speed": 2.413,
+    "spatial_orientation": 2.326,
+    "visualization": 2.609,
+    "selective_attention": 2.696,
+    "time_sharing": 2.587,
+    "arm_hand_steadiness": 2.783,
+    "manual_dexterity": 3.174,
+    "finger_dexterity": 3.261,
+    "reaction_time": 2.717,
+    "wrist_finger_speed": 2.739,
+    "speed_of_limb_movement": 2.652,
+    "static_strength": 3.109,
+    "stamina": 2.783,
+    "gross_body_equilibrium": 2.783,
+    "near_vision": 2.761,
+    "far_vision": 2.435,
+    "visual_color_discrimination": 2.913,
+    "depth_perception": 2.739,
+    "hearing_sensitivity": 3.0,
+    "auditory_attention": 2.87,
+    "speech_clarity": 2.457
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.438,
+    "face_to_face_discussions": 3.146,
+    "telephone_communication": 3.833,
+    "business_writing": 3.042,
+    "conflict_situations": 2.146,
+    "time_pressure": 3.354,
+    "teamwork": 2.833,
+    "dealing_with_external_customers": 3.104,
+    "coordinate_lead_others": 2.708,
+    "exactness_accuracy": 4.104,
+    "repetitive_tasks": 3.229,
+    "pace_determined_by_machine": 3.167,
+    "responsibility_for_outcomes": 3.667,
+    "indoor_climate_controlled": 2.063,
+    "indoor_non_climate_controlled": 3.771,
+    "outdoor_work": 3.438,
+    "sitting": 1.979,
+    "standing": 4.229,
+    "repetition_of_activities": 2.854,
+    "consequence_of_error": 3.667,
+    "freedom_to_make_decisions": 3.479,
+    "set_own_goals": 3.604,
+    "regular_schedule": 0.5,
+    "irregular_schedule": 0.458,
+    "seasonal_schedule": 0.042,
+    "email_communication": 2.583,
+    "cramped_uncomfortable": 3.167,
+    "disease_infection_risk": 1.854,
+    "minor_injury_risk": 3.063,
+    "standard_protective_equipment": 3.229,
+    "specialized_protective_equipment": 1.667,
+    "dealing_with_violent_people": 1.25,
+    "walking_running": 2.875,
+    "handling_objects_tools": 4.042,
+    "physical_proximity": 2.813,
+    "work_automation": 1.5,
+    "responsibility_for_safety": 2.458,
+    "impact_of_decisions": 2.417,
+    "level_of_competition": 1.854
+  },
+  "work_activities": {
+    "getting_information": 3.022,
+    "monitor_processes": 2.913,
+    "identifying_objects": 2.935,
+    "inspecting_equipment": 3.087,
+    "estimating_quantifiable": 2.826,
+    "judging_quality": 2.783,
+    "evaluating_compliance": 3.391,
+    "processing_information": 2.63,
+    "analyzing_data": 2.609,
+    "making_decisions": 3.022,
+    "thinking_creatively": 2.609,
+    "updating_knowledge": 3.196,
+    "developing_objectives": 2.674,
+    "scheduling_work": 2.848,
+    "organizing_planning": 3.043,
+    "physical_activities": 2.957,
+    "handling_objects": 3.196,
+    "controlling_machines": 3.043,
+    "operating_vehicles": 3.261,
+    "computer_work": 2.804,
+    "drafting_specifications": 2.587,
+    "repairing_mechanical": 3.109,
+    "repairing_electronic": 3.022,
+    "documenting_information": 2.522,
+    "interpreting_information": 2.804,
+    "communicating_inside": 2.739,
+    "communicating_outside": 2.804,
+    "building_relationships": 2.913,
+    "assisting_caring": 2.565,
+    "selling_influencing": 2.587,
+    "resolving_conflicts": 2.565,
+    "performing_for_public": 2.413,
+    "coordinating_others": 2.435,
+    "developing_teams": 2.239,
+    "training_teaching": 2.543,
+    "guiding_subordinates": 2.37,
+    "coaching_developing": 2.391,
+    "providing_consultation": 2.196,
+    "performing_administrative": 2.304,
+    "staffing_organizational": 2.13,
+    "monitoring_resources": 2.457
+  },
+  "education_distribution": {
+    "below_high_school": 0.063,
+    "high_school": 0.479,
+    "vocational_school": 0.604,
+    "junior_college": 0.063,
+    "technical_college": 0.042,
+    "university": 0.167,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.042
+  },
+  "training_pre": {
+    "not_required": 0.271,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.083,
+    "6_months_to_1_year": 0.083,
+    "1_to_2_years": 0.208,
+    "2_to_3_years": 0.167,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.021,
+    "unknown": 0.146
+  },
+  "training_post": {
+    "not_required": 0.063,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.063,
+    "6_months_to_1_year": 0.167,
+    "1_to_2_years": 0.188,
+    "2_to_3_years": 0.104,
+    "3_to_5_years": 0.188,
+    "5_to_10_years": 0.063,
+    "over_10_years": 0.063,
+    "unknown": 0.083
+  },
+  "experience": {
+    "not_required": 0.396,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.042,
+    "6_months_to_1_year": 0.083,
+    "1_to_2_years": 0.208,
+    "2_to_3_years": 0.042,
+    "3_to_5_years": 0.021,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.188
+  },
+  "employment_type": {
+    "regular_employee": 0.667,
+    "part_time": 0.104,
+    "dispatched": 0.083,
+    "contract": 0.146,
+    "self_employed_freelance": 0.292,
+    "executive": 0.042,
+    "casual_non_student": 0.042,
+    "casual_student": 0.042,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "自動車の走行の安全確保、および有害排出ガスや騒音の抑制などの環境保全のために、自動車の点検と整備を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "不具合のある車の状況や状態を顧客から聞き取る。",
+      "execution_rate": 0.978,
+      "importance": 3.844
+    },
+    {
+      "task_id": 2,
+      "description_ja": "エンジン、操縦、制動、緩衝、動力伝達などの各装置や燃料・電気関係の部品などを点検する。",
+      "execution_rate": 0.935,
+      "importance": 4.395
+    },
+    {
+      "task_id": 3,
+      "description_ja": "車両を点検した結果、損傷や不調の程度を顧客に説明する。",
+      "execution_rate": 0.957,
+      "importance": 4.045
+    },
+    {
+      "task_id": 4,
+      "description_ja": "不具合のあった部分を修理、または交換する。",
+      "execution_rate": 0.978,
+      "importance": 4.489
+    },
+    {
+      "task_id": 5,
+      "description_ja": "ワイパーなどの装備品の消耗または破損部分を交換して据え付ける。",
+      "execution_rate": 0.957,
+      "importance": 3.841
+    },
+    {
+      "task_id": 6,
+      "description_ja": "ラジエターの漏れを修理する。",
+      "execution_rate": 0.957,
+      "importance": 4.205
+    },
+    {
+      "task_id": 7,
+      "description_ja": "緩衡器を修理または交換する。",
+      "execution_rate": 0.957,
+      "importance": 3.977
+    },
+    {
+      "task_id": 8,
+      "description_ja": "損傷を受けた自動車の車体を修理する。",
+      "execution_rate": 0.783,
+      "importance": 3.694
+    },
+    {
+      "task_id": 9,
+      "description_ja": "手動式および自動変速装置を修理する。",
+      "execution_rate": 0.87,
+      "importance": 3.9
+    },
+    {
+      "task_id": 10,
+      "description_ja": "ブレーキの修理、部品の付け替え、交換、調節をする。",
+      "execution_rate": 0.913,
+      "importance": 4.5
+    },
+    {
+      "task_id": 11,
+      "description_ja": "計器盤の配線を直す。",
+      "execution_rate": 0.87,
+      "importance": 3.575
+    },
+    {
+      "task_id": 12,
+      "description_ja": "自動車のタイヤを交換する。",
+      "execution_rate": 0.913,
+      "importance": 3.762
+    },
+    {
+      "task_id": 13,
+      "description_ja": "カーナビなどの電装品を取り付ける。",
+      "execution_rate": 0.891,
+      "importance": 2.268
+    },
+    {
+      "task_id": 14,
+      "description_ja": "車を洗車する。",
+      "execution_rate": 0.913,
+      "importance": 2.524
+    },
+    {
+      "task_id": 15,
+      "description_ja": "自動車の定期点検をする。",
+      "execution_rate": 0.913,
+      "importance": 3.738
+    },
+    {
+      "task_id": 16,
+      "description_ja": "車検をする。",
+      "execution_rate": 0.891,
+      "importance": 4.366
+    },
+    {
+      "task_id": 17,
+      "description_ja": "車の完成後の検査を行う。",
+      "execution_rate": 0.891,
+      "importance": 3.78
+    },
+    {
+      "task_id": 18,
+      "description_ja": "車の引き取りや納車を行う。",
+      "execution_rate": 0.978,
+      "importance": 2.733
+    },
+    {
+      "task_id": 19,
+      "description_ja": "顧客に電話をかけ、定期点検や車検を促す。",
+      "execution_rate": 0.848,
+      "importance": 3.0
+    },
+    {
+      "task_id": 20,
+      "description_ja": "関連物品を販売する。",
+      "execution_rate": 0.826,
+      "importance": 2.5
+    },
+    {
+      "task_id": 21,
+      "description_ja": "自動車保険の取り次ぎや、代理店業務を行う。",
+      "execution_rate": 0.826,
+      "importance": 2.895
+    },
+    {
+      "task_id": 22,
+      "description_ja": "車両の改造申請及び構造変更登録をする。",
+      "execution_rate": 0.717,
+      "importance": 3.333
+    },
+    {
+      "task_id": 23,
+      "description_ja": "工場内の設備を保守点検する。",
+      "execution_rate": 0.957,
+      "importance": 3.455
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人日本自動車整備振興会連合会",
+      "url": "https://www.jaspa.or.jp/"
+    },
+    {
+      "name_ja": "日本自動車整備商工組合連合会",
+      "url": "https://www.jasca.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "二級自動車整備士",
+    "普通自動車免許",
+    "危険物取扱者（乙種）",
+    "ガス溶接技能者",
+    "アーク溶接技能者（基本級）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/197",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

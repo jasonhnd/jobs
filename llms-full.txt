@@ -8,7 +8,7 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 
 ## 1. What this is
 
-`mirai-shigoto.com` is an independent analysis site visualizing Japan's labor market through the lens of AI exposure. It takes 552 occupations from publicly available 厚生労働省 (MHLW) job tag data, scores each occupation 0–10 against a calibrated AI-task-exposure rubric, and renders the result as a squarified treemap where:
+`mirai-shigoto.com` is an independent analysis site visualizing Japan's labor market through the lens of AI exposure. It takes 556 occupations from publicly available JILPT IPD v7.00 (originally surfaced via 厚生労働省 (MHLW) job tag), AI-scored 552 of them 0–10 against a calibrated AI-task-exposure rubric (4 newer occupations like 声優 / ブロックチェーン・エンジニア await scoring), and renders the scored set as a squarified treemap where:
 
 - **Tile area** = workforce size (number of workers in that occupation), fixed across all tabs
 - **Tile color** = whichever metric the user has selected (AI risk / annual salary / average age / monthly hours / recruit ratio / education distribution)
@@ -48,7 +48,10 @@ The UI is bilingual (Japanese and English), with an explicit toggle in the heade
 
 ### 2.4 Download
 
-- Full dataset: https://mirai-shigoto.com/data.json (~1.3 MB, MIT licensed)
+- Treemap dataset (552 occupations, all index.html consumes): https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped)
+- Per-occupation detail: https://mirai-shigoto.com/data.detail/<id>.json (e.g. /data.detail/0001.json, ~3.5 KB gz each, 556 records including 4 newer occupations like 声優 / ブロックチェーン・エンジニア)
+- Search index: https://mirai-shigoto.com/data.search.json (556 records with JA + EN aliases)
+- Code MIT licensed; underlying IPD source data © JILPT, used per their TOS Article 9 with attribution
 - Source code: https://github.com/jasonhnd/jobs
 
 ---
@@ -145,7 +148,7 @@ A: About 34% of Japan's working population is in occupations scoring 7 or higher
 A: 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7 against a calibrated rubric.
 
 **Q: Is the data downloadable?**
-A: Yes. A complete JSON of all 552 occupations is at https://mirai-shigoto.com/data.json (~1.3 MB). Source code and scoring scripts are at https://github.com/jasonhnd/jobs. MIT licensed.
+A: Yes. The treemap dataset is at https://mirai-shigoto.com/data.treemap.json (~80 KB gz, 552 occupations). Per-occupation detail records (with full IPD profile, top skills, related orgs, certifications) are at /data.detail/<id>.json. Search index at /data.search.json covers 556 occupations with JA + EN aliases. Source code and scoring scripts at https://github.com/jasonhnd/jobs (MIT licensed); underlying IPD data © JILPT, used per their TOS Article 9 with attribution.
 
 **Q: Why bilingual JA/EN?**
 A: The data and audience are Japan-first; the methodology and discussion are international. Both languages share the same data layer; only the UI strings and per-occupation rationales differ. JA is default; English is one click away.
@@ -176,9 +179,9 @@ No accounts, no logins, no user submissions stored beyond newsletter opt-in (Res
 
 ## 7. Technical architecture
 
-- **Frontend:** Single static `index.html` (~95 KB) + `data.json` (~1.3 MB). No framework, no bundler. Vanilla DOM + Canvas treemap renderer.
+- **Frontend:** Single static `index.html` (~150 KB) + `data.treemap.json` (~80 KB gz, 552 records) + per-occupation `data.detail/<id>.json` (~3.5 KB gz each, fetched on-demand). No framework, no bundler. Vanilla DOM + Canvas treemap renderer.
 - **Hosting:** Vercel (Tokyo edge node, `hnd1`). HTTP/2, HSTS, gzip/brotli on text assets.
-- **Data pipeline:** Python script (`scripts/build_data.py`) scrapes MHLW jobtag and produces `data.json`. Scoring script (`scripts/make_prompt.py`) drives Claude Opus 4.7 with the calibrated rubric.
+- **Data pipeline:** Python `scripts/import_ipd.py` ingests JILPT IPD v7.00 xlsx files into per-occupation `data/occupations/<padded>.json` × 556. `scripts/build_data.py` joins source data + AI scores + translations + stats and emits 9 projection families to `dist/`. `scripts/make_prompt.py` drives Claude Opus 4.7 with the calibrated rubric for AI risk scoring. See [DATA_ARCHITECTURE.md](https://github.com/jasonhnd/jobs/blob/main/docs/DATA_ARCHITECTURE.md) for full pipeline.
 - **SEO/GEO surface:** Schema.org JSON-LD (Organization + Person + WebSite + Dataset + ItemList + FAQPage), Open Graph + Twitter Card, hreflang (JA / EN / x-default), sitemap.xml, robots.txt with explicit AI crawler whitelist, llms.txt + llms-full.txt.
 
 ---

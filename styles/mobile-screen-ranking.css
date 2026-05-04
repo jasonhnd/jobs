@@ -1,0 +1,114 @@
+/* ─────────────────────────────────────────────────────────────
+   Mobile screen — ⑦ ランキング
+   Per docs/MOBILE_DESIGN.md §5.6
+   ───────────────────────────────────────────────────────────── */
+
+.m-rank {
+  padding-top: var(--m-space-8);
+  padding-bottom: var(--m-space-12);
+}
+
+.m-rank__hero { margin-bottom: var(--m-space-6); }
+.m-rank__hero .m-mono-tag { margin-bottom: var(--m-space-3); }
+.m-rank__title  { margin: 0; }
+
+/* ── Tabs ── */
+.m-rank__tabs {
+  display: flex;
+  gap: var(--m-space-2);
+  margin-bottom: var(--m-space-6);
+  padding-bottom: var(--m-space-3);
+  border-bottom: 1px solid rgba(36, 30, 24, 0.10);
+}
+.m-rank__tab {
+  flex: 1;
+  padding: var(--m-space-3) var(--m-space-4);
+  font-family: var(--m-font-sans);
+  font-weight: 600;
+  font-size: var(--m-text-caption);
+  color: var(--m-color-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--m-radius-pill);
+  cursor: pointer;
+  transition: all 150ms;
+}
+.m-rank__tab[data-active="true"] {
+  background: var(--m-color-ink);
+  color: var(--m-color-bg-1);
+}
+.m-rank__tab:not([data-active="true"]):hover { background: rgba(36, 30, 24, 0.04); }
+
+/* ── List ── */
+.m-rank__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;  /* hidden by default; ranking-tabs.js shows the active one */
+}
+.m-rank__list[data-side="high"] { display: block; }  /* default: high */
+
+.m-rank__row { margin: 0; }
+.m-rank__link {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: var(--m-space-4);
+  padding: var(--m-space-4) 0;
+  border-bottom: 1px solid rgba(36, 30, 24, 0.06);
+  text-decoration: none;
+  color: var(--m-color-ink);
+}
+.m-rank__link:hover,
+.m-rank__link:focus-visible { background: rgba(36, 30, 24, 0.02); }
+
+.m-rank__num {
+  font-family: var(--m-font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--m-color-muted-2);
+  text-align: center;
+}
+
+.m-rank__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.m-rank__name {
+  font-family: var(--m-font-serif);
+  font-weight: 600;
+  font-size: var(--m-text-h3);
+  color: var(--m-color-ink);
+  line-height: 1.30;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.m-rank__meta {
+  font-family: var(--m-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--m-color-muted);
+}
+
+.m-rank__score {
+  align-self: center;
+  padding: var(--m-space-2) var(--m-space-3);
+  border-radius: var(--m-radius-pill);
+  font-family: var(--m-font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1;
+}
+.m-rank__score sub {
+  font-family: var(--m-font-mono);
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.10em;
+  margin-left: 1px;
+  vertical-align: baseline;
+}

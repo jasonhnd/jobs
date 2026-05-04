@@ -1,0 +1,475 @@
+{
+  "id": 178,
+  "ipd_id": "IPD_01_01_178",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "幼稚園教員",
+  "aliases_ja": [
+    "幼稚園教諭",
+    "幼稚園養護教諭",
+    "保育教諭"
+  ],
+  "classifications": {
+    "mhlw_main": "05_029-02",
+    "mhlw_all": [
+      "05_029-02",
+      "05_029-03"
+    ],
+    "jsoc_main": "B191",
+    "jsoc_all": [
+      "B191"
+    ]
+  },
+  "description": {
+    "summary_ja": "小学校に上がる前の幼児が通う幼稚園での生活全体を通して、子どもたちの心身の発達を促すための教育を行う。",
+    "what_it_is_ja": "満3歳から小学校に上がる前の幼児が通う幼稚園での生活全体を通して、子どもたちの心身の発達を促すための教育を行う。\n　幼稚園は、小学校や中学校と同じように、学校教育法に規定されている正規の学校である。義務教育及びその後の教育の基礎を培うものとして、幼児を保育・指導する。\n　まず毎朝、登園した幼児に声をかけたり、学んだり遊んでいる様子を観察して、健康状態をチェックする。そして、子どもが進んで活動できるように、砂場や積み木、ままごと道具などの環境を整え、言葉をかけながら、指導をしていく。\n　指導の内容は、「健康」、「人間関係」、「環境」、「言葉」、「表現」の領域に大別される。幼稚園では、小学校のような教科別ではなく、生活や遊戯の中で総合的に、自分を表現することや言葉を使うこと、まわりの環境に慣れたり、人と関わったりすることなどを指導し、子どもの生きる力の基礎を育てていく。\n　これらの内容を効果的に指導するために、週やその日ごとに指導計画を作り、それに従った教育に当たる。また入園式、運動会、卒園式などの様々な行事のため、年、月など長期的な指導計画も作成する。また指導の記録や教材の研究、研修会や職員会議への出席も大切な仕事である。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン",
+    "how_to_become_ja": "幼稚園教員として仕事をするには、幼稚園教諭の免許状が必要である。免許状には1種、2種、専修免許状がある。一種免許状は幼稚園教諭養成課程のある大学、二種免許状は短期大学などを卒業すると取得できる。専修免許状は、幼稚園教諭養成課程のある大学院で修士課程を経て取得可能である。また、保育士免許を取得して一定の実務経験がある場合、試験に合格することで二種免許状を取得できる。\n　採用試験は、公立幼稚園と私立幼稚園では、形態が異なる。公立幼稚園の場合は、小・中・高校の教員の場合と同じように、都道府県教育委員会が採用試験を行う。私立幼稚園の場合は、各幼稚園が独自に選考して採用する。\n　求められる資質としては、子ども好きであることが第一であるが、それだけでなく、幼児の発達や学習についての知識・技術が必要である。健康状態などを見分ける注意力や観察力、病気や事故などへの応急処置ができることも重要である。\n　また、子どもはじっとしていないで激しく動くので、それに対応できる体力が要求される。",
+    "working_conditions_ja": "就業者は80,201人である。このうち女性が74,941人と全体の93.4％を占める（2025年時点*1）。平均年齢は38.3歳となっている。（2022年時点*2）。\n　園児を預かる時間は原則1日4時間だが、預かり保育をする場合もある。また、園児が帰ったあとは指導計画の作成や教材や教具の準備、研究会や職員会議などを行う。休憩時間は幼児が帰ってから取ることが多い。\n　労働時間は一般に週40時間、週休2日制である。土曜日や日曜日に行事が行われる場合もあるが、その際は代休をとることになる。夏休みや冬休みなどがあり、この時期に比較的長い休暇を取ることができる。\n　公立幼稚園で働く場合は教育公務員として処遇されるが、私立幼稚園で働く場合、給与や労働条件は園によって異なる。\n　最近では就学前の子どもに対して幼児教育・保育を一体で実施する幼保一体型認定こども園の設置が進められており、保育士の資格も併せ持ち勤務するケースも見られる。\n\n*1文部科学省、学校基本調査（令和7年）\n*2文部科学省、学校教員統計調査（令和4年）"
+  },
+  "interests": {
+    "realistic": 3.147,
+    "investigative": 3.16,
+    "artistic": 3.573,
+    "social": 4.253,
+    "enterprising": 3.187,
+    "conventional": 3.2
+  },
+  "work_values": {
+    "achievement": 3.8,
+    "autonomy": 3.64,
+    "expertise": 3.88,
+    "self_growth": 3.8,
+    "social_recognition": 3.22,
+    "service_contribution": 3.6,
+    "good_relationships": 3.54,
+    "workplace_safety": 3.44,
+    "work_life_balance": 3.1,
+    "stability": 3.48,
+    "compensation": 2.8
+  },
+  "skills": {
+    "reading_comprehension": 3.92,
+    "active_listening": 4.64,
+    "writing": 4.06,
+    "speaking": 4.1,
+    "foreign_language_reading": 1.2,
+    "foreign_language_listening": 1.12,
+    "foreign_language_writing": 0.86,
+    "foreign_language_speaking": 0.94,
+    "mathematics": 1.5,
+    "science": 1.3,
+    "critical_thinking": 2.38,
+    "active_learning": 3.1,
+    "learning_strategies": 3.46,
+    "monitoring": 3.34,
+    "social_perceptiveness": 3.98,
+    "coordination": 3.78,
+    "persuasion": 3.44,
+    "negotiation": 2.96,
+    "instructing": 4.24,
+    "service_orientation": 3.7,
+    "complex_problem_solving": 3.2,
+    "operations_analysis": 2.5,
+    "technology_design": 1.88,
+    "equipment_selection": 2.12,
+    "installation": 1.5,
+    "programming": 1.24,
+    "operations_monitoring": 0.88,
+    "operation_and_control": 1.22,
+    "equipment_maintenance": 1.32,
+    "troubleshooting": 1.34,
+    "repairing": 1.26,
+    "quality_control_analysis": 1.5,
+    "judgment_decision_making": 1.58,
+    "systems_analysis": 1.6,
+    "systems_evaluation": 1.3,
+    "time_management": 2.7,
+    "financial_resources_management": 1.1,
+    "material_resources_management": 1.4,
+    "personnel_resources_management": 2.06
+  },
+  "knowledge": {
+    "business_management": 0.94,
+    "clerical": 1.86,
+    "economics_accounting": 0.6,
+    "sales_marketing": 0.4,
+    "customer_personal_service": 1.84,
+    "personnel_hr": 1.26,
+    "transportation": 0.24,
+    "production_processing": 0.22,
+    "agriculture_livestock": 0.66,
+    "engineering": 0.28,
+    "computers_electronics": 0.4,
+    "design": 0.26,
+    "building_construction": 0.28,
+    "mechanical": 0.24,
+    "mathematics_kn": 0.44,
+    "physics": 0.38,
+    "chemistry": 0.36,
+    "biology": 0.52,
+    "psychology": 2.84,
+    "sociology": 2.44,
+    "geography": 0.6,
+    "medicine_dentistry": 1.5,
+    "therapy_counseling": 1.78,
+    "education_training_kn": 3.1,
+    "japanese_language": 2.34,
+    "foreign_language_kn": 1.06,
+    "fine_arts": 2.44,
+    "history_archaeology": 0.86,
+    "philosophy_theology": 0.78,
+    "public_safety_security": 1.34,
+    "law_government": 0.78,
+    "telecommunications": 0.44,
+    "communications_media": 1.58
+  },
+  "abilities": {
+    "oral_comprehension": 3.368,
+    "written_comprehension": 3.105,
+    "oral_expression": 3.421,
+    "written_expression": 3.246,
+    "fluency_of_ideas": 3.386,
+    "originality": 3.175,
+    "problem_sensitivity": 3.789,
+    "deductive_reasoning": 3.228,
+    "inductive_reasoning": 3.07,
+    "information_ordering": 2.807,
+    "category_flexibility": 2.684,
+    "mathematical_reasoning": 2.246,
+    "number_facility": 2.386,
+    "memorization": 2.877,
+    "perceptual_speed": 2.509,
+    "spatial_orientation": 2.93,
+    "visualization": 2.965,
+    "selective_attention": 3.088,
+    "time_sharing": 3.105,
+    "arm_hand_steadiness": 2.596,
+    "manual_dexterity": 3.123,
+    "finger_dexterity": 3.158,
+    "reaction_time": 3.333,
+    "wrist_finger_speed": 3.035,
+    "speed_of_limb_movement": 2.982,
+    "static_strength": 3.123,
+    "stamina": 3.263,
+    "gross_body_equilibrium": 2.842,
+    "near_vision": 2.825,
+    "far_vision": 2.789,
+    "visual_color_discrimination": 2.947,
+    "depth_perception": 2.965,
+    "hearing_sensitivity": 3.228,
+    "auditory_attention": 3.158,
+    "speech_clarity": 3.175
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.84,
+    "face_to_face_discussions": 4.06,
+    "telephone_communication": 4.04,
+    "business_writing": 3.2,
+    "conflict_situations": 2.58,
+    "time_pressure": 3.16,
+    "teamwork": 4.36,
+    "dealing_with_external_customers": 3.46,
+    "coordinate_lead_others": 3.66,
+    "exactness_accuracy": 3.98,
+    "repetitive_tasks": 3.2,
+    "pace_determined_by_machine": 2.0,
+    "responsibility_for_outcomes": 3.78,
+    "indoor_climate_controlled": 4.64,
+    "indoor_non_climate_controlled": 3.34,
+    "outdoor_work": 4.66,
+    "sitting": 2.4,
+    "standing": 4.12,
+    "repetition_of_activities": 2.12,
+    "consequence_of_error": 3.3,
+    "freedom_to_make_decisions": 3.48,
+    "set_own_goals": 3.54,
+    "regular_schedule": 0.58,
+    "irregular_schedule": 0.42,
+    "seasonal_schedule": 0.107,
+    "email_communication": 2.5,
+    "cramped_uncomfortable": 1.76,
+    "disease_infection_risk": 4.42,
+    "minor_injury_risk": 2.38,
+    "standard_protective_equipment": 1.38,
+    "specialized_protective_equipment": 1.3,
+    "dealing_with_violent_people": 1.36,
+    "walking_running": 3.78,
+    "handling_objects_tools": 2.6,
+    "physical_proximity": 4.42,
+    "work_automation": 1.78,
+    "responsibility_for_safety": 3.68,
+    "impact_of_decisions": 2.9,
+    "level_of_competition": 1.64
+  },
+  "work_activities": {
+    "getting_information": 3.158,
+    "monitor_processes": 3.175,
+    "identifying_objects": 3.333,
+    "inspecting_equipment": 3.158,
+    "estimating_quantifiable": 2.544,
+    "judging_quality": 3.018,
+    "evaluating_compliance": 2.842,
+    "processing_information": 2.737,
+    "analyzing_data": 2.789,
+    "making_decisions": 3.368,
+    "thinking_creatively": 3.404,
+    "updating_knowledge": 3.456,
+    "developing_objectives": 3.298,
+    "scheduling_work": 3.491,
+    "organizing_planning": 3.667,
+    "physical_activities": 3.439,
+    "handling_objects": 3.316,
+    "controlling_machines": 2.14,
+    "operating_vehicles": 1.982,
+    "computer_work": 2.684,
+    "drafting_specifications": 2.018,
+    "repairing_mechanical": 1.982,
+    "repairing_electronic": 2.018,
+    "documenting_information": 2.754,
+    "interpreting_information": 2.702,
+    "communicating_inside": 3.807,
+    "communicating_outside": 3.281,
+    "building_relationships": 3.702,
+    "assisting_caring": 3.596,
+    "selling_influencing": 2.702,
+    "resolving_conflicts": 2.982,
+    "performing_for_public": 2.912,
+    "coordinating_others": 3.193,
+    "developing_teams": 3.263,
+    "training_teaching": 3.105,
+    "guiding_subordinates": 3.228,
+    "coaching_developing": 2.912,
+    "providing_consultation": 2.474,
+    "performing_administrative": 2.579,
+    "staffing_organizational": 2.772,
+    "monitoring_resources": 2.719
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.02,
+    "vocational_school": 0.32,
+    "junior_college": 0.84,
+    "technical_college": 0.0,
+    "university": 0.4,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.02
+  },
+  "training_pre": {
+    "not_required": 0.22,
+    "up_to_1_month": 0.18,
+    "1_to_6_months": 0.12,
+    "6_months_to_1_year": 0.04,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.12,
+    "3_to_5_years": 0.06,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.24
+  },
+  "training_post": {
+    "not_required": 0.06,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.12,
+    "6_months_to_1_year": 0.16,
+    "1_to_2_years": 0.3,
+    "2_to_3_years": 0.1,
+    "3_to_5_years": 0.18,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.08
+  },
+  "experience": {
+    "not_required": 0.28,
+    "up_to_1_month": 0.16,
+    "1_to_6_months": 0.16,
+    "6_months_to_1_year": 0.1,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.24
+  },
+  "employment_type": {
+    "regular_employee": 0.8,
+    "part_time": 0.5,
+    "dispatched": 0.04,
+    "contract": 0.08,
+    "self_employed_freelance": 0.0,
+    "executive": 0.02,
+    "casual_non_student": 0.04,
+    "casual_student": 0.04,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "小学校に上がる前の幼児が通う幼稚園での生活全体を通して、子どもたちの心身の発達を促すための教育を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "週やその日ごとに指導計画を作り、それに従った教育をする。",
+      "execution_rate": 0.965,
+      "importance": 2.964
+    },
+    {
+      "task_id": 2,
+      "description_ja": "登園した幼児に声をかけたり、学んだり遊んでいる様子を観察して、健康状態をチェックする。",
+      "execution_rate": 1.0,
+      "importance": 4.211
+    },
+    {
+      "task_id": 3,
+      "description_ja": "子どもが進んで活動できるように、砂場や積み木、ままごと道具などの環境を整える。",
+      "execution_rate": 0.983,
+      "importance": 3.964
+    },
+    {
+      "task_id": 4,
+      "description_ja": "ゲームやグループの活動を指導し、協調性を身に付けさせる。",
+      "execution_rate": 0.965,
+      "importance": 3.473
+    },
+    {
+      "task_id": 5,
+      "description_ja": "歌唱やダンスなどの活動を通じて、自己表現力や鑑賞力を育てる。",
+      "execution_rate": 1.0,
+      "importance": 3.228
+    },
+    {
+      "task_id": 6,
+      "description_ja": "体操指導を通じて心身を鍛える。",
+      "execution_rate": 0.965,
+      "importance": 3.091
+    },
+    {
+      "task_id": 7,
+      "description_ja": "園児に清潔を保つことや食事への関心などのセルフケアの習慣を定着させる。",
+      "execution_rate": 1.0,
+      "importance": 3.509
+    },
+    {
+      "task_id": 8,
+      "description_ja": "感染予防のため、園児に手洗いやうがいなどをさせる。",
+      "execution_rate": 0.983,
+      "importance": 3.75
+    },
+    {
+      "task_id": 9,
+      "description_ja": "園児の身体面や精神面を見守り、病気や障害の徴候を見出した場合は、保護者や専門家と連絡をとる。",
+      "execution_rate": 1.0,
+      "importance": 3.895
+    },
+    {
+      "task_id": 10,
+      "description_ja": "送迎バスに添乗する、または送迎の手伝いをする。",
+      "execution_rate": 0.772,
+      "importance": 3.455
+    },
+    {
+      "task_id": 11,
+      "description_ja": "日々の保育や園児の発達段階などを記録する。",
+      "execution_rate": 0.965,
+      "importance": 3.618
+    },
+    {
+      "task_id": 12,
+      "description_ja": "園での行動や生活上の問題点、発達の状況などについて保護者と話し合う。",
+      "execution_rate": 1.0,
+      "importance": 3.702
+    },
+    {
+      "task_id": 13,
+      "description_ja": "クラスだよりなど保護者宛のお知らせを作成する。",
+      "execution_rate": 0.965,
+      "importance": 3.218
+    },
+    {
+      "task_id": 14,
+      "description_ja": "園児の様子や保護者の要望を踏まえて、保育計画を修正する。",
+      "execution_rate": 0.983,
+      "importance": 3.321
+    },
+    {
+      "task_id": 15,
+      "description_ja": "遠足や社会見学など園児の様々な活動を計画し、興味を刺激して環境への理解を深める。",
+      "execution_rate": 1.0,
+      "importance": 3.246
+    },
+    {
+      "task_id": 16,
+      "description_ja": "入学式や運動会などの行事を計画し、その日のための練習や準備をする。",
+      "execution_rate": 1.0,
+      "importance": 3.123
+    },
+    {
+      "task_id": 17,
+      "description_ja": "園児がスムーズに入学できるよう、小学校教員と打ち合わせや情報交換をする。",
+      "execution_rate": 0.983,
+      "importance": 3.393
+    },
+    {
+      "task_id": 18,
+      "description_ja": "日常の生活でサポートが必要な子どもを補助する。",
+      "execution_rate": 0.983,
+      "importance": 3.732
+    },
+    {
+      "task_id": 19,
+      "description_ja": "未就園児に園舎を開放し、体験保育を実施する。",
+      "execution_rate": 0.93,
+      "importance": 2.962
+    },
+    {
+      "task_id": 20,
+      "description_ja": "集金や会計などの事務作業をする。",
+      "execution_rate": 0.912,
+      "importance": 2.75
+    },
+    {
+      "task_id": 21,
+      "description_ja": "行政機関向けの書類を作成し、提出する。",
+      "execution_rate": 0.947,
+      "importance": 3.0
+    },
+    {
+      "task_id": 22,
+      "description_ja": "園内外の教員同士で話し合いの場をもうけ、研究や研修を行う。",
+      "execution_rate": 0.947,
+      "importance": 3.556
+    },
+    {
+      "task_id": 23,
+      "description_ja": "他の教員への指導や教育をする。",
+      "execution_rate": 0.93,
+      "importance": 3.17
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "文部科学省初等中等教育局幼児教育課",
+      "url": "https://www.mext.go.jp/"
+    },
+    {
+      "name_ja": "全日本私立幼稚園連合会",
+      "url": "https://zennichishiyouren.com/rengoukai/index.html"
+    },
+    {
+      "name_ja": "全国国公立幼稚園長会",
+      "url": "https://www.kokkoyo.com/"
+    }
+  ],
+  "related_certs_ja": [
+    "幼稚園教諭免許（専修・１種・２種）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/178",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "id": 552,
+  "ipd_id": "IPD_01_01_552",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "UX/UIデザイナー",
+  "aliases_ja": [
+    "UI/UXデザイナー"
+  ],
+  "classifications": {
+    "mhlw_main": "02_009-99",
+    "mhlw_all": [
+      "02_009-99"
+    ],
+    "jsoc_main": "B104",
+    "jsoc_all": [
+      "B104"
+    ]
+  },
+  "description": {
+    "summary_ja": "デジタルサービス（Webサイトや電子機器での情報提供と操作）の開発等において、ユーザーに提案する魅力的な体験とより使いやすいインターフェースを設計し、デザインする。",
+    "what_it_is_ja": "デジタルサービス（Webサイトや電子機器での情報提供と操作）の開発等において、ユーザーに提案する魅力的な体験とより使いやすいインターフェースを設計し、デザインする。\n　UX（ユーザーエクスペリエンス）はデジタルサービスをユーザーがどのように使用するか、ユーザーの体験としても快適になるよう設計し、デザインする。UI（ユーザーインターフェース）はデジタルサービスの開発においてより利用しやすいよう画面等を設計し、デザインする。\n　UX/UIの対象となるデジタルサービスの開発としては、パソコン、タブレットから利用するWebサイトや業務アプリケーション、スマートフォン（以下「スマホ」という。）のアプリケーション（以下「アプリ」という。）のように汎用の機材を前提としたものがあり、このWebサイト、アプリのデザインの仕事が多い。一方、デジタルサイネージ（施設、店舗の情報案内装置）や手術支援ロボット のような専用の機器についてUX/UIデザインを行う場合もある。\n　UX/UIデザインの分かりやすい例として、スマホの登場がある。洗練された、直感的で分かりやすい操作はユーザーに新たな体験をもたらした。これ以降、様々なスマホが世界中で使われ、社会生活を一変させた。UX/UIの身近な例としてネットバンキングがあり、UX/UIデザイナーが活躍して、グッドデザイン賞を獲得した例もある。ネットバンキングでは銀行に行かなくても銀行サービスを利用できる。デジタルによってユーザーの行動が変わり、社会生活が変わり、DX（デジタルトランスフォーメーション） の一例と言える。そして社会にはこの他にも多くのUX/UIデザインがあり、様々なDXといえる開発がある。\n　UX/UIデザイナーの具体的な仕事としては新規開発と継続開発がある。いずれの場合もまず、開発の大きな方向性をUX/UIデザイナーも加わった開発関係者の中で検討し、どのような利用の流れにし、どのような操作法にするか、どのようなインタフェースにするかをデザインする。このデザインに沿って、プログラマーや様々なエンジニアがそのデザインを実現する具体的な開発を行う。この場合、UX/UIデザイナーが簡単なプログラム作成まで行うこともある。開発が進むと実際にユーザーに使用してもらい、ユーザーがスムーズに、的確に操作できているかをUX/UIデザイナーが確認し、開発関係者の中でさらに検討して、より良いサイト、アプリ、デジタル機器にしていく。設計、デザインにあたっては誰にでも使いやすいようユニバーサルデザインも配慮する。\n　社会や生活を変えていく仕事であることにやりがいや達成感を感じられる。一方、機材、画面、通信、処理速度、また予算等の制約の中で、求められるデザインを実現する難しさもある。さらに、開発は多くの関係者との共同作業であり、議論が白熱し意見がぶつかることもある。\n　\n◇よく使う道具、機材、情報技術等\n　デザインのためのソフトウェア、プログラミング言語、ソフトウェア開発環境、パソコン、スマートフォン（動作テストのため）、タブレット（動作テストのため）",
+    "how_to_become_ja": "UX/UIデザイナーは新しい仕事であり、大学等での教育は確立されていない。現在、UX/UIデザイナーとして活躍している人は、グラフィックデザイナーとして画面設計をする中で、経験を積んでUX/UIデザイナーとなったり、システム開発に携わる中でUX/UIデザイナーとなったという人が多い。最近出てきた企業では新入社員に必要な知識とスキルを集中的に教育訓練し、UX/UIデザイナーとして養成している会社もある。\n　新しい仕事のため、20歳代から40歳代までの比較的若い層が多い。新しい仕事であり、中高年の決まったキャリア・ルートはないが、広告業界でのデザイナーと同じように、マネジメントや会社経営の側に移り会社の役職に就いても、現場でデザインの指揮をとるような人が多い。\n　デザインの基礎、情報設計の基礎等の知識が必要であり、ユーザーの側に立った設計をするため、人間中心の設計や心理学の知識も必要となる。さらに、プログラミング、また、機材、通信等の知識が必要になる場合もある。\n　免許・資格に関しては、デザインのためのソフトウェアの資格があるが必須ではない。デザインの基礎、情報設計の基礎の上に、自分の仕事が実績となり、それによってより大きな仕事を任されたり、より良い仕事が得られる。それまでの仕事の実績が名刺代わりとなっている。\n　新しい技術、新しい機器が次々と生まれるため、それらに関心を持ち、必要に応じてそれらを取り入れ、使いこなしていくことが求められる。開発にあたっては多くの関係者との共同作業となることから、協調性、場合によってはリーダーシップが求められる。プレゼンテーション能力が求められる場面もある。また、サイトがより使われるようにという点からマーケティングの知識も必要となる。",
+    "working_conditions_ja": "勤務先はデザイン会社、IT企業等であり、このような会社は大都市に多い。ただし、リモート環境が広く整備されてきたことによって、在宅での仕事、オンラインでのミーティングが主流になっている。\n　DXの進展に伴い注目度が増しており、人材ニーズが高まっている。力のあるUX/UIデザイナーは売り手市場となっている。DXはある程度、規模が大きな開発となることから、長期間を要し正社員が担っている。また、協力会社の社員として開発プロジェクトに参加する場合もあるが、この場合も協力会社の正社員である。賃金は月給制が多く、実績がボーナスや昇給に反映される。フリーランスとして、一定期間、開発の一部を任されることもある。この場合、報酬は最初の契約で決まる。\n　若い時、実績がない時は時間に追われるような仕事になるが、実績を積み、認められるようになると、主体的に働けるようになり、時間の調整も自分でできるようになる。\n　DXは現在、社会で注目されており、新たな技術や機材が出てくると、それを取り込みながらUX/UIデザインは発展している。現状でも仕事は多いが、活躍の場はさらに拡大していくと考えられる。"
+  },
+  "interests": null,
+  "work_values": null,
+  "skills": null,
+  "knowledge": {
+    "business_management": 1.864,
+    "clerical": 1.909,
+    "economics_accounting": 1.136,
+    "sales_marketing": 2.5,
+    "customer_personal_service": 2.409,
+    "personnel_hr": 1.0,
+    "transportation": 0.409,
+    "production_processing": 0.545,
+    "agriculture_livestock": 0.318,
+    "engineering": 0.773,
+    "computers_electronics": 1.864,
+    "design": 1.864,
+    "building_construction": 0.455,
+    "mechanical": 0.727,
+    "mathematics_kn": 1.136,
+    "physics": 0.409,
+    "chemistry": 0.5,
+    "biology": 0.364,
+    "psychology": 2.273,
+    "sociology": 1.5,
+    "geography": 0.455,
+    "medicine_dentistry": 0.409,
+    "therapy_counseling": 0.682,
+    "education_training_kn": 1.045,
+    "japanese_language": 1.955,
+    "foreign_language_kn": 1.455,
+    "fine_arts": 2.136,
+    "history_archaeology": 0.455,
+    "philosophy_theology": 0.545,
+    "public_safety_security": 0.773,
+    "law_government": 0.864,
+    "telecommunications": 1.045,
+    "communications_media": 2.364
+  },
+  "abilities": null,
+  "work_characteristics": {
+    "contact_with_others": 4.182,
+    "face_to_face_discussions": 3.591,
+    "telephone_communication": 2.682,
+    "business_writing": 2.591,
+    "conflict_situations": 1.545,
+    "time_pressure": 2.727,
+    "teamwork": 3.864,
+    "dealing_with_external_customers": 3.045,
+    "coordinate_lead_others": 3.364,
+    "exactness_accuracy": 3.364,
+    "repetitive_tasks": 2.455,
+    "pace_determined_by_machine": 2.091,
+    "responsibility_for_outcomes": 3.273,
+    "indoor_climate_controlled": 4.773,
+    "indoor_non_climate_controlled": 1.591,
+    "outdoor_work": 1.273,
+    "sitting": 4.909,
+    "standing": 1.182,
+    "repetition_of_activities": 1.682,
+    "consequence_of_error": 2.455,
+    "freedom_to_make_decisions": 3.864,
+    "set_own_goals": 3.773,
+    "regular_schedule": 0.545,
+    "irregular_schedule": 0.409,
+    "seasonal_schedule": 0.045,
+    "email_communication": 3.5,
+    "cramped_uncomfortable": 1.409,
+    "disease_infection_risk": 1.545,
+    "minor_injury_risk": 1.045,
+    "standard_protective_equipment": 1.091,
+    "specialized_protective_equipment": 1.136,
+    "dealing_with_violent_people": 1.091,
+    "walking_running": 1.136,
+    "handling_objects_tools": 1.682,
+    "physical_proximity": 2.227,
+    "work_automation": 2.273,
+    "responsibility_for_safety": 1.909,
+    "impact_of_decisions": 2.5,
+    "level_of_competition": 2.364
+  },
+  "work_activities": null,
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.136,
+    "vocational_school": 0.273,
+    "junior_college": 0.182,
+    "technical_college": 0.136,
+    "university": 0.909,
+    "masters": 0.318,
+    "doctorate": 0.091,
+    "unknown": 0.045
+  },
+  "training_pre": {
+    "not_required": 0.364,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.182,
+    "6_months_to_1_year": 0.091,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.091,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.182
+  },
+  "training_post": {
+    "not_required": 0.091,
+    "up_to_1_month": 0.045,
+    "1_to_6_months": 0.273,
+    "6_months_to_1_year": 0.227,
+    "1_to_2_years": 0.136,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.136,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.045
+  },
+  "experience": {
+    "not_required": 0.5,
+    "up_to_1_month": 0.045,
+    "1_to_6_months": 0.045,
+    "6_months_to_1_year": 0.136,
+    "1_to_2_years": 0.045,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.136
+  },
+  "employment_type": {
+    "regular_employee": 0.864,
+    "part_time": 0.0,
+    "dispatched": 0.227,
+    "contract": 0.136,
+    "self_employed_freelance": 0.364,
+    "executive": 0.045,
+    "casual_non_student": 0.045,
+    "casual_student": 0.045,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "デジタルサービス（Webサイトや電子機器での情報提供と操作）の開発等において、ユーザーに提案する魅力的な体験とより使いやすいインターフェースを設計し、デザインする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "デジタルサービスの開発等において、開発の方針、方向、概要を関係者と検討する。",
+      "execution_rate": 0.818,
+      "importance": 3.778
+    },
+    {
+      "task_id": 2,
+      "description_ja": "デジタルサービスの開発等において、デザイン案を作成する。",
+      "execution_rate": 0.864,
+      "importance": 4.158
+    },
+    {
+      "task_id": 3,
+      "description_ja": "デジタルサービスの開発等において、分担してデザイン案を作成する。",
+      "execution_rate": 0.818,
+      "importance": 3.667
+    },
+    {
+      "task_id": 4,
+      "description_ja": "パソコン、スマホ、タブレット等の画面デザイン案を検討する。",
+      "execution_rate": 0.864,
+      "importance": 4.316
+    },
+    {
+      "task_id": 5,
+      "description_ja": "デジタル機器においてデザイン案を検討する。",
+      "execution_rate": 0.818,
+      "importance": 4.056
+    },
+    {
+      "task_id": 6,
+      "description_ja": "デザイン案を顧客や開発関係者にプレゼンする。",
+      "execution_rate": 0.864,
+      "importance": 4.105
+    },
+    {
+      "task_id": 7,
+      "description_ja": "デザイン案をもとに、関係者と開発を進める。",
+      "execution_rate": 0.864,
+      "importance": 3.947
+    },
+    {
+      "task_id": 8,
+      "description_ja": "デザイン案のために、自分でプログラムを作成する。",
+      "execution_rate": 0.636,
+      "importance": 2.5
+    },
+    {
+      "task_id": 9,
+      "description_ja": "必要なプログラミングをプログラマーに指示する。",
+      "execution_rate": 0.682,
+      "importance": 2.8
+    },
+    {
+      "task_id": 10,
+      "description_ja": "必要な機材、ネットワークを検討する。",
+      "execution_rate": 0.591,
+      "importance": 2.615
+    },
+    {
+      "task_id": 11,
+      "description_ja": "必要な情報、データについて検討する。",
+      "execution_rate": 0.727,
+      "importance": 3.063
+    },
+    {
+      "task_id": 12,
+      "description_ja": "ユーザーテストを行い問題点や改善点を確認する。",
+      "execution_rate": 0.818,
+      "importance": 3.778
+    },
+    {
+      "task_id": 13,
+      "description_ja": "ユーザーテストでの問題点や改善点を開発関係者と検討する。",
+      "execution_rate": 0.818,
+      "importance": 4.111
+    },
+    {
+      "task_id": 14,
+      "description_ja": "Webサイトの利用状況を確認する。",
+      "execution_rate": 0.864,
+      "importance": 3.263
+    },
+    {
+      "task_id": 15,
+      "description_ja": "今後のリニューアルについて検討する。",
+      "execution_rate": 0.864,
+      "importance": 3.579
+    },
+    {
+      "task_id": 16,
+      "description_ja": "新たな機器や技術について情報収集し、必要に応じて取り入れる。",
+      "execution_rate": 0.818,
+      "importance": 3.167
+    },
+    {
+      "task_id": 17,
+      "description_ja": "デザインや使用法についてトレンドを押さえる。",
+      "execution_rate": 0.818,
+      "importance": 4.333
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "独立行政法人　情報処理推進機構（IPA）",
+      "url": "https://www.ipa.go.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/552",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2023,
+    "classifications": 2023,
+    "description": 2023
+  }
+}

@@ -1,0 +1,454 @@
+{
+  "id": 488,
+  "ipd_id": "IPD_01_01_488",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ペストコントロール従事者（害虫等防除・駆除従事者）",
+  "aliases_ja": [
+    "害虫駆除作業員",
+    "消毒作業員",
+    "白あり駆除作業員",
+    "防疫作業員",
+    "捕鼠作業員",
+    "ペストコントロールオペレーター(PCO）"
+  ],
+  "classifications": {
+    "mhlw_main": "15_096-99",
+    "mhlw_all": [
+      "15_096-99"
+    ],
+    "jsoc_main": "K719",
+    "jsoc_all": [
+      "K719"
+    ]
+  },
+  "description": {
+    "summary_ja": "人間にとって有害な生物（害獣・害虫・細菌等）の防除・駆除を行う。",
+    "what_it_is_ja": "人間にとって有害な生物（害獣・害虫・細菌等）の防除・駆除を行う。\n　ペストコントロール従事者（PCO：Pest Control Operator）の「ペスト」という単語は、病名だけではなく、有害生物全般を意味する。主な活動としては、一般家庭や公共施設、事業所などの害虫駆除から博覧会等の大規模イベントでの衛生環境の維持・管理、水害等の自然災害後の消毒作業、感染症発生時の薬剤散布等をあげることができる。依頼先を訪問し、調査を行って最適な方法を検討し防除・駆除にあたる。方法は様々で、対象となるペスト（有害生物）や現場の状況によって最適・最善の対応策を講じる。\n　飲食店や事業所・オフィスなどの「特定建築物（一定以上の面積の百貨店、図書館、遊技場、店舗または事務所、研修所、旅館など）」については、有害生物の防除にあたり、薬剤散布においても環境への影響を配慮し、総合的な対策を講じる「総合的有害生物管理（IPM：Integrated Pest Management）（有害生物の発生状況に応じて、薬剤による科学的防除や粘着板など捕獲機を用いた物理的防除といった防除方法を併用し、環境に負担をかけないように有害生物の発生を抑制する手法）」が求められている。\n　具体的な仕事の流れでみると、まず依頼を受けて現場の下見、調査(有害生物の発生状況等)を行い、客の要望と調査等の結果から見積もりを作成する。実施が決まれば、防除方法の計画、立案を行い、防除に必要な資機材、薬剤等の準備、点検を行う。当日は、車両を運転して現場に行くことが多い。防除を行う周辺に必要な養生等を行った上で、専用の資機材、薬剤等を使用した防除作業を実施する。作業終了後は、養生を外したり、作業資機材等を撤去する等後片付けを行う。後日あるいはその場で作業報告書を作成し、費用等の請求を行い、代金を徴収する。防除作業を行った後、防除の効果判定を行う場合もある。その他、日常的に殺虫剤等の薬剤、捕虫・捕獲器等資機材類の整備・管理を行う。防除について前例がなかったり特殊な状況等の場合には情報収集をしたり、研究者等専門家の意見を聞くこともある。\n　また、室内のカビ除去や防カビ対策、スズメバチの巣の除去、ヒアリ等の外来生物の防除などを行う場合もある。\n\n◇　よく使う道具、機材、情報技術等\n　専用の資機材、捕虫・捕獲器、普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。化学系、医動物（人に害を及ぼす動物）系、微生物系の知識があると役に立つが、文系大学の学部卒の者も多い。\n　仕事をしていく上で「防除作業監督者」、「毒物劇物取扱責任者」業界団体が付与する「ペストコントロール技術者」や「しろあり防除施工士」等の資格を取得している場合が多い。これらの資格は、多くの場合、入職後に経験を積みながら取得する。現場への移動は自動車を使うことが多いので、普通自動車運転免許があるとよい。\n　なお、一人前のペストコントロール従事者と認められるには３～５年の実務経験が必要とされている。日本ペストコントロール協会や日本環境衛生センターなどが資格取得のための講習会や防除作業従事者を対象とした研修会などを実施しており、社内研修に加えて活用している事業所もある。\n　ペストコントロール従事者には対象となる生物の生態に関する知識はもとより、防除に使用する資機材等の知識やその使い分けに関する高度な知識と経験が必要とされる。\n　有害生物の防除作業は天井裏や床下等、居住者の目が届かない場所で行われることが多いので、依頼者の信頼を得ることが重要である。業務に関する相談など、直接顧客と接する職業なので、コミュニケーション能力も求められる。突発的な事態に対応する行動力も必要とされる。",
+    "working_conditions_ja": "ペストコントロールを行う事業所に勤務する場合が多い。\n　防除作業は、住宅や食品取扱施設以外にも庭園・樹木、大規模建築物等様々な場所が対象となるため、都市部に限らず地方も含め全国で実施される。\n　賃金については勤務先の規定による。正社員は月給制、パートやアルバイトは時給制や日給制が多い。専門性や技術に応じて様々な手当てが付与される場合がある。\n　勤務時間に関しては業務の性格上、日中以外の作業が発生する場合もある。例えば、デパートや飲食店等の閉店後に防除作業を行う必要がある場合などである。残業時間は防除の状況次第で変動する。また、有害生物の発生することが多い夏場には、仕事量が増大する傾向がある。\n　多くは週休2日制であるが、土日祝日の勤務となる場合もある。\n　近年、自然災害後の消毒作業や、インバウンドの増加による新たな外来生物等の防除ニーズが増大している。"
+  },
+  "interests": {
+    "realistic": 3.429,
+    "investigative": 3.524,
+    "artistic": 2.0,
+    "social": 3.381,
+    "enterprising": 3.333,
+    "conventional": 3.238
+  },
+  "work_values": {
+    "achievement": 3.294,
+    "autonomy": 3.294,
+    "expertise": 3.294,
+    "self_growth": 3.206,
+    "social_recognition": 2.588,
+    "service_contribution": 3.176,
+    "good_relationships": 3.118,
+    "workplace_safety": 2.471,
+    "work_life_balance": 2.824,
+    "stability": 2.882,
+    "compensation": 2.324
+  },
+  "skills": {
+    "reading_comprehension": 3.265,
+    "active_listening": 3.618,
+    "writing": 2.882,
+    "speaking": 3.5,
+    "foreign_language_reading": 0.912,
+    "foreign_language_listening": 0.912,
+    "foreign_language_writing": 1.029,
+    "foreign_language_speaking": 0.941,
+    "mathematics": 2.412,
+    "science": 2.235,
+    "critical_thinking": 2.794,
+    "active_learning": 3.029,
+    "learning_strategies": 2.853,
+    "monitoring": 2.912,
+    "social_perceptiveness": 3.176,
+    "coordination": 3.088,
+    "persuasion": 3.059,
+    "negotiation": 2.853,
+    "instructing": 3.088,
+    "service_orientation": 2.853,
+    "complex_problem_solving": 2.941,
+    "operations_analysis": 2.412,
+    "technology_design": 2.118,
+    "equipment_selection": 2.971,
+    "installation": 2.676,
+    "programming": 1.559,
+    "operations_monitoring": 2.0,
+    "operation_and_control": 2.118,
+    "equipment_maintenance": 2.647,
+    "troubleshooting": 2.412,
+    "repairing": 2.706,
+    "quality_control_analysis": 2.853,
+    "judgment_decision_making": 2.412,
+    "systems_analysis": 2.324,
+    "systems_evaluation": 2.265,
+    "time_management": 2.882,
+    "financial_resources_management": 1.853,
+    "material_resources_management": 2.471,
+    "personnel_resources_management": 2.235
+  },
+  "knowledge": {
+    "business_management": 1.152,
+    "clerical": 1.891,
+    "economics_accounting": 0.935,
+    "sales_marketing": 1.543,
+    "customer_personal_service": 2.5,
+    "personnel_hr": 1.457,
+    "transportation": 0.935,
+    "production_processing": 0.957,
+    "agriculture_livestock": 0.935,
+    "engineering": 0.935,
+    "computers_electronics": 0.804,
+    "design": 0.674,
+    "building_construction": 1.457,
+    "mechanical": 1.37,
+    "mathematics_kn": 1.0,
+    "physics": 1.043,
+    "chemistry": 1.283,
+    "biology": 2.065,
+    "psychology": 0.957,
+    "sociology": 1.022,
+    "geography": 0.804,
+    "medicine_dentistry": 0.826,
+    "therapy_counseling": 0.609,
+    "education_training_kn": 1.109,
+    "japanese_language": 1.478,
+    "foreign_language_kn": 0.848,
+    "fine_arts": 0.543,
+    "history_archaeology": 0.652,
+    "philosophy_theology": 0.522,
+    "public_safety_security": 1.522,
+    "law_government": 1.174,
+    "telecommunications": 0.717,
+    "communications_media": 1.087
+  },
+  "abilities": {
+    "oral_comprehension": 3.033,
+    "written_comprehension": 3.0,
+    "oral_expression": 3.1,
+    "written_expression": 2.867,
+    "fluency_of_ideas": 2.733,
+    "originality": 2.767,
+    "problem_sensitivity": 3.567,
+    "deductive_reasoning": 2.833,
+    "inductive_reasoning": 2.833,
+    "information_ordering": 2.767,
+    "category_flexibility": 2.633,
+    "mathematical_reasoning": 2.5,
+    "number_facility": 2.333,
+    "memorization": 2.933,
+    "perceptual_speed": 2.733,
+    "spatial_orientation": 2.767,
+    "visualization": 2.733,
+    "selective_attention": 3.133,
+    "time_sharing": 2.933,
+    "arm_hand_steadiness": 2.467,
+    "manual_dexterity": 2.7,
+    "finger_dexterity": 2.767,
+    "reaction_time": 2.933,
+    "wrist_finger_speed": 2.6,
+    "speed_of_limb_movement": 2.467,
+    "static_strength": 2.633,
+    "stamina": 2.933,
+    "gross_body_equilibrium": 2.7,
+    "near_vision": 2.767,
+    "far_vision": 2.5,
+    "visual_color_discrimination": 2.467,
+    "depth_perception": 2.433,
+    "hearing_sensitivity": 2.333,
+    "auditory_attention": 2.4,
+    "speech_clarity": 2.667
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.326,
+    "face_to_face_discussions": 3.217,
+    "telephone_communication": 3.826,
+    "business_writing": 3.022,
+    "conflict_situations": 2.109,
+    "time_pressure": 3.174,
+    "teamwork": 3.152,
+    "dealing_with_external_customers": 3.283,
+    "coordinate_lead_others": 3.043,
+    "exactness_accuracy": 3.522,
+    "repetitive_tasks": 3.196,
+    "pace_determined_by_machine": 2.413,
+    "responsibility_for_outcomes": 3.217,
+    "indoor_climate_controlled": 3.239,
+    "indoor_non_climate_controlled": 3.087,
+    "outdoor_work": 3.761,
+    "sitting": 2.457,
+    "standing": 3.283,
+    "repetition_of_activities": 3.043,
+    "consequence_of_error": 2.87,
+    "freedom_to_make_decisions": 3.174,
+    "set_own_goals": 3.37,
+    "regular_schedule": 0.435,
+    "irregular_schedule": 0.5,
+    "seasonal_schedule": 0.065,
+    "email_communication": 3.37,
+    "cramped_uncomfortable": 3.326,
+    "disease_infection_risk": 2.761,
+    "minor_injury_risk": 2.565,
+    "standard_protective_equipment": 3.37,
+    "specialized_protective_equipment": 2.5,
+    "dealing_with_violent_people": 1.522,
+    "walking_running": 3.261,
+    "handling_objects_tools": 3.413,
+    "physical_proximity": 2.935,
+    "work_automation": 1.957,
+    "responsibility_for_safety": 2.957,
+    "impact_of_decisions": 2.696,
+    "level_of_competition": 2.043
+  },
+  "work_activities": {
+    "getting_information": 2.933,
+    "monitor_processes": 3.167,
+    "identifying_objects": 3.167,
+    "inspecting_equipment": 3.1,
+    "estimating_quantifiable": 2.867,
+    "judging_quality": 2.833,
+    "evaluating_compliance": 3.167,
+    "processing_information": 3.1,
+    "analyzing_data": 3.1,
+    "making_decisions": 3.4,
+    "thinking_creatively": 2.7,
+    "updating_knowledge": 2.9,
+    "developing_objectives": 3.0,
+    "scheduling_work": 3.267,
+    "organizing_planning": 3.333,
+    "physical_activities": 2.8,
+    "handling_objects": 2.933,
+    "controlling_machines": 2.567,
+    "operating_vehicles": 2.5,
+    "computer_work": 2.533,
+    "drafting_specifications": 2.467,
+    "repairing_mechanical": 2.6,
+    "repairing_electronic": 2.533,
+    "documenting_information": 2.9,
+    "interpreting_information": 2.867,
+    "communicating_inside": 3.067,
+    "communicating_outside": 2.933,
+    "building_relationships": 3.5,
+    "assisting_caring": 3.0,
+    "selling_influencing": 2.9,
+    "resolving_conflicts": 3.1,
+    "performing_for_public": 2.767,
+    "coordinating_others": 2.933,
+    "developing_teams": 2.833,
+    "training_teaching": 3.0,
+    "guiding_subordinates": 3.1,
+    "coaching_developing": 2.967,
+    "providing_consultation": 2.733,
+    "performing_administrative": 3.2,
+    "staffing_organizational": 2.8,
+    "monitoring_resources": 2.9
+  },
+  "education_distribution": {
+    "below_high_school": 0.043,
+    "high_school": 0.478,
+    "vocational_school": 0.022,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.413,
+    "masters": 0.022,
+    "doctorate": 0.043,
+    "unknown": 0.13
+  },
+  "training_pre": {
+    "not_required": 0.326,
+    "up_to_1_month": 0.174,
+    "1_to_6_months": 0.196,
+    "6_months_to_1_year": 0.065,
+    "1_to_2_years": 0.043,
+    "2_to_3_years": 0.043,
+    "3_to_5_years": 0.043,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.022,
+    "unknown": 0.087
+  },
+  "training_post": {
+    "not_required": 0.174,
+    "up_to_1_month": 0.065,
+    "1_to_6_months": 0.217,
+    "6_months_to_1_year": 0.196,
+    "1_to_2_years": 0.065,
+    "2_to_3_years": 0.087,
+    "3_to_5_years": 0.087,
+    "5_to_10_years": 0.022,
+    "over_10_years": 0.0,
+    "unknown": 0.087
+  },
+  "experience": {
+    "not_required": 0.543,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.152,
+    "6_months_to_1_year": 0.065,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.022,
+    "3_to_5_years": 0.022,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.152
+  },
+  "employment_type": {
+    "regular_employee": 0.652,
+    "part_time": 0.109,
+    "dispatched": 0.043,
+    "contract": 0.13,
+    "self_employed_freelance": 0.152,
+    "executive": 0.0,
+    "casual_non_student": 0.022,
+    "casual_student": 0.0,
+    "unknown": 0.022,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "人間にとって有害な生物（害獣・害虫・細菌等）の防除、駆除を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "依頼を受けて現場の下見、調査(害虫、害獣の生態)を行う。",
+      "execution_rate": 0.833,
+      "importance": 4.08
+    },
+    {
+      "task_id": 2,
+      "description_ja": "客の要望と下見結果から見積もりを作成する。",
+      "execution_rate": 0.833,
+      "importance": 3.84
+    },
+    {
+      "task_id": 3,
+      "description_ja": "駆除、防除方法の計画、立案を行う。",
+      "execution_rate": 0.9,
+      "importance": 3.963
+    },
+    {
+      "task_id": 4,
+      "description_ja": "薬剤のアレルギーなどについて客に説明する。",
+      "execution_rate": 0.9,
+      "importance": 3.741
+    },
+    {
+      "task_id": 5,
+      "description_ja": "駆除、防除に必要な道具、薬品等の準備、点検を行う。",
+      "execution_rate": 0.9,
+      "importance": 3.926
+    },
+    {
+      "task_id": 6,
+      "description_ja": "専用車両を運転して現場に行く。",
+      "execution_rate": 0.833,
+      "importance": 3.52
+    },
+    {
+      "task_id": 7,
+      "description_ja": "駆除、防除を行う周辺に必要な養生等を行う。",
+      "execution_rate": 0.9,
+      "importance": 3.889
+    },
+    {
+      "task_id": 8,
+      "description_ja": "専用の道具、薬品等を使用した駆除、防除作業を実施する。",
+      "execution_rate": 1.0,
+      "importance": 3.733
+    },
+    {
+      "task_id": 9,
+      "description_ja": "貯水槽、汚水・雑排水槽を清掃する。",
+      "execution_rate": 0.767,
+      "importance": 3.391
+    },
+    {
+      "task_id": 10,
+      "description_ja": "作業終了後は、養生を外したり、作業道具等を撤去する等後片付けを行う。",
+      "execution_rate": 0.967,
+      "importance": 3.759
+    },
+    {
+      "task_id": 11,
+      "description_ja": "駆除、防除終了後に効果判定を行う。",
+      "execution_rate": 0.933,
+      "importance": 3.821
+    },
+    {
+      "task_id": 12,
+      "description_ja": "作業中に混入した異物を検定する。",
+      "execution_rate": 0.867,
+      "importance": 3.462
+    },
+    {
+      "task_id": 13,
+      "description_ja": "空気環境の測定を行う。",
+      "execution_rate": 0.767,
+      "importance": 2.957
+    },
+    {
+      "task_id": 14,
+      "description_ja": "捕獲した虫を分類する。",
+      "execution_rate": 0.9,
+      "importance": 3.296
+    },
+    {
+      "task_id": 15,
+      "description_ja": "費用等の請求を行い、代金を徴収する。",
+      "execution_rate": 0.8,
+      "importance": 4.125
+    },
+    {
+      "task_id": 16,
+      "description_ja": "作業後に報告書を作成する。",
+      "execution_rate": 0.967,
+      "importance": 3.552
+    },
+    {
+      "task_id": 17,
+      "description_ja": "殺虫剤等の薬品、捕虫・捕獲器等道具類の管理を行う。",
+      "execution_rate": 0.933,
+      "importance": 3.857
+    },
+    {
+      "task_id": 18,
+      "description_ja": "特殊な状況等の場合には研究者等の意見を聞く。",
+      "execution_rate": 0.833,
+      "importance": 3.64
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本ペストコントロール協会",
+      "url": "https://www.pestcontrol.or.jp"
+    },
+    {
+      "name_ja": "公益社団法人　日本しろあり対策協会",
+      "url": "https://www.hakutaikyo.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人　日本建築衛生管理教育センター",
+      "url": "https://www.jahmec.or.jp/"
+    },
+    {
+      "name_ja": "一般財団法人　日本環境衛生センター",
+      "url": "https://www.jesc.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "ペストコントロール技術者",
+    "防除作業監督者",
+    "毒物劇物取扱責任者",
+    "しろあり防除施工士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/488",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

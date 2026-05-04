@@ -1,0 +1,439 @@
+{
+  "id": 448,
+  "ipd_id": "IPD_01_01_448",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "医薬品販売/登録販売者",
+  "aliases_ja": [
+    "医薬品登録販売者",
+    "ドラッグストア店員（医薬品登録販売者）"
+  ],
+  "classifications": {
+    "mhlw_main": "07_045-08",
+    "mhlw_all": [
+      "07_045-08"
+    ],
+    "jsoc_main": "D323",
+    "jsoc_all": [
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "薬局、ドラッグストア等で市販されている医薬品を販売する。",
+    "what_it_is_ja": "薬局、ドラッグストア等で市販されている医薬品を販売する。\n　市販されている医薬品は一般用医薬品と言われ、販売できるのは薬剤師と登録販売者に限られている。ここでは登録販売者の仕事について記載する。\n　登録販売者と薬剤師の違いは、一般用医薬品の中でも副作用や薬の飲み合わせについて特に注意を要する一部の医薬品（第1類医薬品）は薬剤師しか販売できず、登録販売者はそれ以外の医薬品（第2類医薬品、第3類医薬品）の販売のみを行うことである。いずれの医薬品も販売時の情報提供のルール等が決められており、販売時には、顧客の質問、要望に親切・丁寧にわかりやすく対応し、親身なアドバイスも行う。店舗のタイプによって取り扱っている商品は様々であるが、医薬品以外の商品の販売対応も行う。\n　また、搬入された医薬品や関連商品の受け取り、品出しなどを行う。専用パソコンや目視による店頭商品の販売状況や店内在庫の管理も行う。さらに、来店客に店内レイアウトをわかりやすく表示するためのPOPやバーゲンなど店舗ごとのイベント告知を行うこともある。\n　仕事を一日の流れでみると、出勤し店内清掃などを済ませた後、品出しやレジ開け、釣り銭の管理を行う。店舗内のスタッフとの朝礼・ミーティングを行う。開店後は、来店客に対して医薬品・関連商品の販売、アドバイスなど接客業務を行う。搬入された医薬品や各種店舗での取扱商品の受け取り、商品レイアウトの整理・補充を行う。店内イベント、商品紹介のPOPを作成し掲示する。閉店が近づけば、当日の業務日誌を作成し、在庫の確認など管理業務を済ませる。シフト制の場合は遅番担当者に引き継ぎを終えて退勤する。\n\n◇　よく使う道具、機材、情報技術等\n　レジ、パソコン",
+    "how_to_become_ja": "この仕事に就くためには、特に学歴は必要とされないが、「登録販売員」の資格が必要である。チェーン展開しているドラックストア等の場合は、新規学校卒業者を採用し、入職してからOJTや社内研修で資格取得を支援する場合が多い。中途採用もある。\n　正式に登録販売者となるためには、資格取得後24か月（月80時間以上）の実務経験が必要となる。それまでの間は、試験合格後店舗が所在する自治体に登録し、研修中の登録販売者として勤務する。登録販売者として経験を積み、店舗のマネージメントにも関わり店長になる場合もある。\n　医薬品に関する知識は不可欠である。商品について何がどこにあるか等の売場の把握、来店客への分かりやすい説明や臨機応変な対応がとれるコミュニケーション能力が必要である。クレームに対する迅速・的確な対応も重要である。また、ニュース・新聞をチェックして流行や新商品の情報に敏感であることも必要である。",
+    "working_conditions_ja": "勤務先は、ドラッグストア、医薬品を扱うコンビニ、スーパー等であり全国に広がっている。\n　就業者の男女数は拮抗している。年齢層は幅広い。就業形態は、勤務先によるが正社員が多い。\n　賃金は、月給制が基本である。労働時間は、店舗次第ではあるが早番、遅番の2交替制などシフトで働くケースもある。また、24時間営業をしているコンビニなどで勤務する場合には夜勤もある。残業は店舗の立地や取り扱う医薬品の種類の多少などもあって状況は様々である。休日は、完全週休2日制や月単位で8～9日の休日を基本とするものの、繁忙日となる土日は出勤して平日休みにするケースも珍しくない。\n　商品にタグ付けをしたり、レジ作業のセルフ化を進めることにより、レジ業務の軽減を図り、登録販売者等が顧客の相談対応など対人業務を充実させる動きがある。"
+  },
+  "interests": {
+    "realistic": 2.917,
+    "investigative": 2.95,
+    "artistic": 2.55,
+    "social": 3.367,
+    "enterprising": 2.967,
+    "conventional": 3.067
+  },
+  "work_values": {
+    "achievement": 3.216,
+    "autonomy": 3.137,
+    "expertise": 3.451,
+    "self_growth": 3.451,
+    "social_recognition": 2.882,
+    "service_contribution": 3.216,
+    "good_relationships": 3.392,
+    "workplace_safety": 3.333,
+    "work_life_balance": 3.118,
+    "stability": 3.216,
+    "compensation": 2.863
+  },
+  "skills": {
+    "reading_comprehension": 3.529,
+    "active_listening": 4.275,
+    "writing": 3.275,
+    "speaking": 3.667,
+    "foreign_language_reading": 0.902,
+    "foreign_language_listening": 0.863,
+    "foreign_language_writing": 0.392,
+    "foreign_language_speaking": 0.765,
+    "mathematics": 1.745,
+    "science": 1.137,
+    "critical_thinking": 2.176,
+    "active_learning": 2.843,
+    "learning_strategies": 2.49,
+    "monitoring": 2.294,
+    "social_perceptiveness": 2.843,
+    "coordination": 2.333,
+    "persuasion": 2.843,
+    "negotiation": 2.373,
+    "instructing": 3.275,
+    "service_orientation": 2.863,
+    "complex_problem_solving": 2.196,
+    "operations_analysis": 1.745,
+    "technology_design": 1.725,
+    "equipment_selection": 1.667,
+    "installation": 1.549,
+    "programming": 0.804,
+    "operations_monitoring": 0.941,
+    "operation_and_control": 1.549,
+    "equipment_maintenance": 1.039,
+    "troubleshooting": 1.0,
+    "repairing": 1.235,
+    "quality_control_analysis": 1.647,
+    "judgment_decision_making": 1.824,
+    "systems_analysis": 1.706,
+    "systems_evaluation": 1.902,
+    "time_management": 2.235,
+    "financial_resources_management": 1.255,
+    "material_resources_management": 1.216,
+    "personnel_resources_management": 1.765
+  },
+  "knowledge": {
+    "business_management": 1.51,
+    "clerical": 1.51,
+    "economics_accounting": 1.098,
+    "sales_marketing": 3.078,
+    "customer_personal_service": 3.059,
+    "personnel_hr": 1.431,
+    "transportation": 0.882,
+    "production_processing": 0.882,
+    "agriculture_livestock": 0.392,
+    "engineering": 0.471,
+    "computers_electronics": 0.627,
+    "design": 0.412,
+    "building_construction": 0.392,
+    "mechanical": 0.451,
+    "mathematics_kn": 0.824,
+    "physics": 0.431,
+    "chemistry": 0.902,
+    "biology": 0.863,
+    "psychology": 1.412,
+    "sociology": 1.235,
+    "geography": 0.49,
+    "medicine_dentistry": 2.627,
+    "therapy_counseling": 1.647,
+    "education_training_kn": 1.569,
+    "japanese_language": 1.549,
+    "foreign_language_kn": 1.078,
+    "fine_arts": 0.51,
+    "history_archaeology": 0.373,
+    "philosophy_theology": 0.471,
+    "public_safety_security": 1.098,
+    "law_government": 1.118,
+    "telecommunications": 0.667,
+    "communications_media": 1.353
+  },
+  "abilities": {
+    "oral_comprehension": 2.754,
+    "written_comprehension": 2.719,
+    "oral_expression": 2.93,
+    "written_expression": 2.649,
+    "fluency_of_ideas": 2.193,
+    "originality": 2.123,
+    "problem_sensitivity": 3.123,
+    "deductive_reasoning": 2.421,
+    "inductive_reasoning": 2.281,
+    "information_ordering": 2.368,
+    "category_flexibility": 2.14,
+    "mathematical_reasoning": 2.07,
+    "number_facility": 2.281,
+    "memorization": 2.789,
+    "perceptual_speed": 2.105,
+    "spatial_orientation": 2.088,
+    "visualization": 2.193,
+    "selective_attention": 2.193,
+    "time_sharing": 2.333,
+    "arm_hand_steadiness": 2.053,
+    "manual_dexterity": 1.982,
+    "finger_dexterity": 1.947,
+    "reaction_time": 2.123,
+    "wrist_finger_speed": 1.947,
+    "speed_of_limb_movement": 1.895,
+    "static_strength": 2.228,
+    "stamina": 2.368,
+    "gross_body_equilibrium": 1.895,
+    "near_vision": 2.0,
+    "far_vision": 1.825,
+    "visual_color_discrimination": 2.053,
+    "depth_perception": 1.825,
+    "hearing_sensitivity": 2.018,
+    "auditory_attention": 1.912,
+    "speech_clarity": 2.439
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.608,
+    "face_to_face_discussions": 3.529,
+    "telephone_communication": 4.078,
+    "business_writing": 3.392,
+    "conflict_situations": 2.235,
+    "time_pressure": 2.804,
+    "teamwork": 3.412,
+    "dealing_with_external_customers": 3.804,
+    "coordinate_lead_others": 3.0,
+    "exactness_accuracy": 3.608,
+    "repetitive_tasks": 3.137,
+    "pace_determined_by_machine": 2.353,
+    "responsibility_for_outcomes": 2.804,
+    "indoor_climate_controlled": 4.49,
+    "indoor_non_climate_controlled": 1.647,
+    "outdoor_work": 1.804,
+    "sitting": 1.549,
+    "standing": 4.412,
+    "repetition_of_activities": 2.843,
+    "consequence_of_error": 2.863,
+    "freedom_to_make_decisions": 3.02,
+    "set_own_goals": 3.059,
+    "regular_schedule": 0.745,
+    "irregular_schedule": 0.255,
+    "seasonal_schedule": 0.05,
+    "email_communication": 3.275,
+    "cramped_uncomfortable": 1.745,
+    "disease_infection_risk": 3.706,
+    "minor_injury_risk": 1.667,
+    "standard_protective_equipment": 1.451,
+    "specialized_protective_equipment": 1.137,
+    "dealing_with_violent_people": 1.725,
+    "walking_running": 3.471,
+    "handling_objects_tools": 2.216,
+    "physical_proximity": 3.353,
+    "work_automation": 2.176,
+    "responsibility_for_safety": 2.647,
+    "impact_of_decisions": 2.471,
+    "level_of_competition": 2.608
+  },
+  "work_activities": {
+    "getting_information": 3.018,
+    "monitor_processes": 2.737,
+    "identifying_objects": 2.912,
+    "inspecting_equipment": 2.316,
+    "estimating_quantifiable": 2.105,
+    "judging_quality": 2.404,
+    "evaluating_compliance": 3.246,
+    "processing_information": 2.632,
+    "analyzing_data": 2.614,
+    "making_decisions": 2.702,
+    "thinking_creatively": 2.333,
+    "updating_knowledge": 3.175,
+    "developing_objectives": 2.596,
+    "scheduling_work": 2.649,
+    "organizing_planning": 3.246,
+    "physical_activities": 2.579,
+    "handling_objects": 2.737,
+    "controlling_machines": 2.298,
+    "operating_vehicles": 1.526,
+    "computer_work": 2.509,
+    "drafting_specifications": 1.719,
+    "repairing_mechanical": 1.684,
+    "repairing_electronic": 1.737,
+    "documenting_information": 2.263,
+    "interpreting_information": 2.649,
+    "communicating_inside": 3.246,
+    "communicating_outside": 2.947,
+    "building_relationships": 3.316,
+    "assisting_caring": 2.877,
+    "selling_influencing": 2.912,
+    "resolving_conflicts": 2.404,
+    "performing_for_public": 2.456,
+    "coordinating_others": 2.632,
+    "developing_teams": 2.404,
+    "training_teaching": 2.561,
+    "guiding_subordinates": 2.544,
+    "coaching_developing": 2.421,
+    "providing_consultation": 1.93,
+    "performing_administrative": 2.456,
+    "staffing_organizational": 2.123,
+    "monitoring_resources": 2.088
+  },
+  "education_distribution": {
+    "below_high_school": 0.039,
+    "high_school": 0.314,
+    "vocational_school": 0.157,
+    "junior_college": 0.118,
+    "technical_college": 0.02,
+    "university": 0.373,
+    "masters": 0.039,
+    "doctorate": 0.02,
+    "unknown": 0.255
+  },
+  "training_pre": {
+    "not_required": 0.314,
+    "up_to_1_month": 0.098,
+    "1_to_6_months": 0.235,
+    "6_months_to_1_year": 0.098,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.118,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.118
+  },
+  "training_post": {
+    "not_required": 0.137,
+    "up_to_1_month": 0.078,
+    "1_to_6_months": 0.196,
+    "6_months_to_1_year": 0.176,
+    "1_to_2_years": 0.098,
+    "2_to_3_years": 0.118,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.176
+  },
+  "experience": {
+    "not_required": 0.51,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.039,
+    "1_to_2_years": 0.118,
+    "2_to_3_years": 0.078,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.157
+  },
+  "employment_type": {
+    "regular_employee": 0.49,
+    "part_time": 0.686,
+    "dispatched": 0.039,
+    "contract": 0.137,
+    "self_employed_freelance": 0.039,
+    "executive": 0.059,
+    "casual_non_student": 0.02,
+    "casual_student": 0.059,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "薬局、ドラッグストア等で市販されている医薬品を販売する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "店内ミーティングをする。",
+      "execution_rate": 0.737,
+      "importance": 2.738
+    },
+    {
+      "task_id": 2,
+      "description_ja": "開店の準備（品出し、レジ開けや釣り銭の管理）をする。",
+      "execution_rate": 0.842,
+      "importance": 3.521
+    },
+    {
+      "task_id": 3,
+      "description_ja": "医薬品の効能や副作用について説明し、販売する。",
+      "execution_rate": 0.947,
+      "importance": 3.926
+    },
+    {
+      "task_id": 4,
+      "description_ja": "搬入された医薬品の受け取り、指示された医薬品の品出しをする。",
+      "execution_rate": 0.912,
+      "importance": 3.538
+    },
+    {
+      "task_id": 5,
+      "description_ja": "商品陳列の整理と商品の補充をする。",
+      "execution_rate": 0.947,
+      "importance": 3.481
+    },
+    {
+      "task_id": 6,
+      "description_ja": "在庫管理（PC管理、目視による店頭商品在庫のチェック）をする。",
+      "execution_rate": 0.93,
+      "importance": 3.453
+    },
+    {
+      "task_id": 7,
+      "description_ja": "医薬品や商品を発注する。",
+      "execution_rate": 0.912,
+      "importance": 3.385
+    },
+    {
+      "task_id": 8,
+      "description_ja": "業務内容について日誌の作成をする。",
+      "execution_rate": 0.719,
+      "importance": 2.854
+    },
+    {
+      "task_id": 9,
+      "description_ja": "商品の表示価格を確認する。",
+      "execution_rate": 0.947,
+      "importance": 3.352
+    },
+    {
+      "task_id": 10,
+      "description_ja": "季節や需要に応じて、商品の陳列を工夫する。",
+      "execution_rate": 0.912,
+      "importance": 3.327
+    },
+    {
+      "task_id": 11,
+      "description_ja": "サプリや青汁などの実演や、サンプリングの提供を行う。",
+      "execution_rate": 0.807,
+      "importance": 2.674
+    },
+    {
+      "task_id": 12,
+      "description_ja": "POPなど企画提案をする。",
+      "execution_rate": 0.754,
+      "importance": 2.512
+    },
+    {
+      "task_id": 13,
+      "description_ja": "商品の期限や品質を管理する。",
+      "execution_rate": 0.965,
+      "importance": 3.927
+    },
+    {
+      "task_id": 14,
+      "description_ja": "顧客管理をする。",
+      "execution_rate": 0.825,
+      "importance": 2.894
+    },
+    {
+      "task_id": 15,
+      "description_ja": "経理業務をする。",
+      "execution_rate": 0.667,
+      "importance": 2.763
+    },
+    {
+      "task_id": 16,
+      "description_ja": "商品情報の収集や共有を行う。",
+      "execution_rate": 0.93,
+      "importance": 3.245
+    },
+    {
+      "task_id": 17,
+      "description_ja": "薬剤師の業務を補助する。",
+      "execution_rate": 0.719,
+      "importance": 2.78
+    },
+    {
+      "task_id": 18,
+      "description_ja": "店内外の清掃や整理をする。",
+      "execution_rate": 0.93,
+      "importance": 3.113
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　全日本医薬品登録販売者協会",
+      "url": "http://www.zenyaku.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本医薬品登録販売者協会",
+      "url": "http://www.nittokyo.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "登録販売者（一般医薬品)"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/448",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

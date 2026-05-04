@@ -1,0 +1,455 @@
+{
+  "id": 217,
+  "ipd_id": "IPD_01_01_217",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "放送ディレクター",
+  "aliases_ja": [
+    "ディレクター（映画、放送）",
+    "番組制作者（放送）"
+  ],
+  "classifications": {
+    "mhlw_main": "03_018-03",
+    "mhlw_all": [
+      "03_018-03"
+    ],
+    "jsoc_main": "B234",
+    "jsoc_all": [
+      "B234"
+    ]
+  },
+  "description": {
+    "summary_ja": "テレビやラジオの様々な番組を作るために、現場で出演者や撮影・照明・音声などのスタッフを指揮する。",
+    "what_it_is_ja": "報道番組、ドキュメンタリー、ドラマ、バラエティ、音楽番組などテレビやラジオの様々な番組を作るために、現場で出演者や撮影・照明・音声などのスタッフを指揮する。\n　放送ディレクターは、制作プランやスケジュールにしたがって台本やスタッフを決める。番組で使うVTRを事前に編集スタッフに指示して、準備することもある。放送前には、カメラ・音声・照明などの技術、大道具・小道具、衣装といった美術について、放送技術者やアートディレクターと打ち合わせを行う。また、番組に合った出演者や脚本家、作曲家などを集めて、演出のイメージをふくらませる。\n　リハーサルでは、出演者に動きを伝え、技術・美術のでき具合をチェックする。\n　どのように演出するか決めた後、生放送や収録の本番に入る。本番が始まると調整室に入り、数台のモニターを見ながら、開始のキュー（合図）など指示を出す。スタジオ内では、補佐役のディレクターやアシスタントディレクターが指示をイヤホンで聞き、出演者やカメラマン、美術スタッフに伝える。\n　必要な場面の収録のために、スタジオの外でのロケや中継放送の指示をすることもある。\n\n◇　よく使う道具、機材、情報技術等\n　動画編集ソフト、音声編集ソフト、パソコン、撮影機材、音声機材",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、大卒者が一般的である。幅広い知識や教養、基礎的な語学力、文章力、芸術的なセンスなどが求められる。\n　放送局に入職後、適性や希望により制作セクションに配属され、アシスタントディレクターとして実務を通して番組制作の基本を身につける。\n　放送局の社員ディレクターのほかに番組制作プロダクションに所属するディレクターもいる。近年のテレビ番組制作は制作プロダクションへの外注が多いため、制作プロダクションとしても、有能な人材を必要としている。\n　フリーのディレクターとして独立する場合もある。\n　番組を作るために豊かな表現力が必要となるため、担当する分野により、芸術や歴史、科学等の素養が求められる。社会や経済の動き、視聴者のニーズなどを理解し、番組に結びつける構想力も必要となる。また、何十人ものスタッフを統率できるリーダーシップや協調性も求められる。",
+    "working_conditions_ja": "全国のテレビ・ラジオ放送局、番組制作プロダクションに勤務する。放送局の多い大都市で働くことが多い。プロダクションの規模は様々であり、ドキュメンタリー、ドラマ、バラエティ、CMなど得意とする分野が異なる。スタジオ内で働くことが多いが、番組によっては野外でロケを行ったり、野外から中継を行う場合もある。\n　番組制作に入ると、放送日に間に合わせるために休みがなかなか取れず、朝から夜間までスタジオや編集室で働くこともあり、労働時間は不規則になる。また、取材やロケにでることもあるため、決まった曜日や時期に休みを取ることが難しい。\n　放送局の給与は月給制で、各社の規定による。残業などの基準外賃金が多く、総収入では他の職種より高くなるケースもある。プロダクションでは、出来高払の賃金を採用するところもあるが、この場合、収入は仕事に応じて変動する。また、フリーのディレクターもプロダクションと契約を結んで仕事をしているため、収入も勤務時間も仕事の受注次第となる。"
+  },
+  "interests": {
+    "realistic": 3.932,
+    "investigative": 3.658,
+    "artistic": 4.014,
+    "social": 4.329,
+    "enterprising": 4.096,
+    "conventional": 2.877
+  },
+  "work_values": {
+    "achievement": 4.12,
+    "autonomy": 3.98,
+    "expertise": 4.14,
+    "self_growth": 3.94,
+    "social_recognition": 3.48,
+    "service_contribution": 3.32,
+    "good_relationships": 3.62,
+    "workplace_safety": 3.08,
+    "work_life_balance": 2.7,
+    "stability": 3.0,
+    "compensation": 3.02
+  },
+  "skills": {
+    "reading_comprehension": 4.82,
+    "active_listening": 5.44,
+    "writing": 5.28,
+    "speaking": 5.0,
+    "foreign_language_reading": 2.26,
+    "foreign_language_listening": 2.12,
+    "foreign_language_writing": 1.76,
+    "foreign_language_speaking": 1.78,
+    "mathematics": 2.18,
+    "science": 1.8,
+    "critical_thinking": 3.76,
+    "active_learning": 4.06,
+    "learning_strategies": 3.78,
+    "monitoring": 3.94,
+    "social_perceptiveness": 4.14,
+    "coordination": 4.64,
+    "persuasion": 4.24,
+    "negotiation": 4.4,
+    "instructing": 4.18,
+    "service_orientation": 3.32,
+    "complex_problem_solving": 3.84,
+    "operations_analysis": 3.06,
+    "technology_design": 2.5,
+    "equipment_selection": 2.84,
+    "installation": 2.5,
+    "programming": 1.68,
+    "operations_monitoring": 1.62,
+    "operation_and_control": 2.06,
+    "equipment_maintenance": 1.6,
+    "troubleshooting": 1.74,
+    "repairing": 1.62,
+    "quality_control_analysis": 2.8,
+    "judgment_decision_making": 2.78,
+    "systems_analysis": 2.72,
+    "systems_evaluation": 2.58,
+    "time_management": 3.94,
+    "financial_resources_management": 3.04,
+    "material_resources_management": 2.28,
+    "personnel_resources_management": 3.06
+  },
+  "knowledge": {
+    "business_management": 1.646,
+    "clerical": 2.146,
+    "economics_accounting": 1.021,
+    "sales_marketing": 1.354,
+    "customer_personal_service": 1.917,
+    "personnel_hr": 1.521,
+    "transportation": 0.521,
+    "production_processing": 0.542,
+    "agriculture_livestock": 0.229,
+    "engineering": 0.313,
+    "computers_electronics": 0.854,
+    "design": 0.417,
+    "building_construction": 0.313,
+    "mechanical": 0.458,
+    "mathematics_kn": 0.542,
+    "physics": 0.354,
+    "chemistry": 0.354,
+    "biology": 0.354,
+    "psychology": 1.417,
+    "sociology": 1.458,
+    "geography": 0.833,
+    "medicine_dentistry": 0.417,
+    "therapy_counseling": 0.542,
+    "education_training_kn": 0.854,
+    "japanese_language": 2.75,
+    "foreign_language_kn": 1.917,
+    "fine_arts": 2.479,
+    "history_archaeology": 1.521,
+    "philosophy_theology": 0.979,
+    "public_safety_security": 1.479,
+    "law_government": 1.292,
+    "telecommunications": 1.542,
+    "communications_media": 3.646
+  },
+  "abilities": {
+    "oral_comprehension": 3.42,
+    "written_comprehension": 3.54,
+    "oral_expression": 3.7,
+    "written_expression": 3.56,
+    "fluency_of_ideas": 3.86,
+    "originality": 3.82,
+    "problem_sensitivity": 3.64,
+    "deductive_reasoning": 3.3,
+    "inductive_reasoning": 3.36,
+    "information_ordering": 3.12,
+    "category_flexibility": 3.0,
+    "mathematical_reasoning": 2.44,
+    "number_facility": 2.38,
+    "memorization": 3.14,
+    "perceptual_speed": 2.8,
+    "spatial_orientation": 2.78,
+    "visualization": 3.14,
+    "selective_attention": 3.26,
+    "time_sharing": 3.32,
+    "arm_hand_steadiness": 2.04,
+    "manual_dexterity": 2.06,
+    "finger_dexterity": 1.92,
+    "reaction_time": 2.72,
+    "wrist_finger_speed": 2.08,
+    "speed_of_limb_movement": 1.98,
+    "static_strength": 1.82,
+    "stamina": 2.84,
+    "gross_body_equilibrium": 2.0,
+    "near_vision": 2.04,
+    "far_vision": 2.08,
+    "visual_color_discrimination": 2.44,
+    "depth_perception": 2.3,
+    "hearing_sensitivity": 2.6,
+    "auditory_attention": 2.74,
+    "speech_clarity": 2.92
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.458,
+    "face_to_face_discussions": 3.729,
+    "telephone_communication": 4.021,
+    "business_writing": 3.979,
+    "conflict_situations": 2.271,
+    "time_pressure": 3.729,
+    "teamwork": 4.125,
+    "dealing_with_external_customers": 3.979,
+    "coordinate_lead_others": 3.771,
+    "exactness_accuracy": 4.146,
+    "repetitive_tasks": 3.354,
+    "pace_determined_by_machine": 3.083,
+    "responsibility_for_outcomes": 3.771,
+    "indoor_climate_controlled": 4.625,
+    "indoor_non_climate_controlled": 2.167,
+    "outdoor_work": 3.104,
+    "sitting": 4.042,
+    "standing": 2.542,
+    "repetition_of_activities": 2.354,
+    "consequence_of_error": 3.354,
+    "freedom_to_make_decisions": 3.458,
+    "set_own_goals": 3.521,
+    "regular_schedule": 0.229,
+    "irregular_schedule": 0.75,
+    "seasonal_schedule": 0.021,
+    "email_communication": 4.688,
+    "cramped_uncomfortable": 2.208,
+    "disease_infection_risk": 2.063,
+    "minor_injury_risk": 1.25,
+    "standard_protective_equipment": 1.208,
+    "specialized_protective_equipment": 1.167,
+    "dealing_with_violent_people": 1.375,
+    "walking_running": 2.271,
+    "handling_objects_tools": 2.521,
+    "physical_proximity": 3.417,
+    "work_automation": 2.229,
+    "responsibility_for_safety": 2.542,
+    "impact_of_decisions": 2.979,
+    "level_of_competition": 2.813
+  },
+  "work_activities": {
+    "getting_information": 3.72,
+    "monitor_processes": 3.34,
+    "identifying_objects": 3.44,
+    "inspecting_equipment": 2.64,
+    "estimating_quantifiable": 2.62,
+    "judging_quality": 3.52,
+    "evaluating_compliance": 3.48,
+    "processing_information": 3.06,
+    "analyzing_data": 3.3,
+    "making_decisions": 3.62,
+    "thinking_creatively": 3.94,
+    "updating_knowledge": 3.7,
+    "developing_objectives": 3.3,
+    "scheduling_work": 3.38,
+    "organizing_planning": 3.58,
+    "physical_activities": 2.54,
+    "handling_objects": 2.52,
+    "controlling_machines": 2.18,
+    "operating_vehicles": 1.82,
+    "computer_work": 2.98,
+    "drafting_specifications": 1.86,
+    "repairing_mechanical": 1.8,
+    "repairing_electronic": 1.88,
+    "documenting_information": 2.72,
+    "interpreting_information": 3.26,
+    "communicating_inside": 3.54,
+    "communicating_outside": 3.56,
+    "building_relationships": 3.46,
+    "assisting_caring": 3.02,
+    "selling_influencing": 3.0,
+    "resolving_conflicts": 2.94,
+    "performing_for_public": 2.72,
+    "coordinating_others": 3.26,
+    "developing_teams": 3.38,
+    "training_teaching": 2.9,
+    "guiding_subordinates": 3.32,
+    "coaching_developing": 3.14,
+    "providing_consultation": 2.62,
+    "performing_administrative": 2.9,
+    "staffing_organizational": 2.82,
+    "monitoring_resources": 2.7
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.083,
+    "vocational_school": 0.354,
+    "junior_college": 0.042,
+    "technical_college": 0.0,
+    "university": 0.833,
+    "masters": 0.042,
+    "doctorate": 0.021,
+    "unknown": 0.063
+  },
+  "training_pre": {
+    "not_required": 0.5,
+    "up_to_1_month": 0.125,
+    "1_to_6_months": 0.021,
+    "6_months_to_1_year": 0.042,
+    "1_to_2_years": 0.042,
+    "2_to_3_years": 0.021,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.021,
+    "over_10_years": 0.0,
+    "unknown": 0.229
+  },
+  "training_post": {
+    "not_required": 0.063,
+    "up_to_1_month": 0.021,
+    "1_to_6_months": 0.188,
+    "6_months_to_1_year": 0.083,
+    "1_to_2_years": 0.188,
+    "2_to_3_years": 0.229,
+    "3_to_5_years": 0.125,
+    "5_to_10_years": 0.021,
+    "over_10_years": 0.0,
+    "unknown": 0.083
+  },
+  "experience": {
+    "not_required": 0.604,
+    "up_to_1_month": 0.042,
+    "1_to_6_months": 0.042,
+    "6_months_to_1_year": 0.021,
+    "1_to_2_years": 0.021,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.042,
+    "5_to_10_years": 0.021,
+    "over_10_years": 0.0,
+    "unknown": 0.208
+  },
+  "employment_type": {
+    "regular_employee": 0.708,
+    "part_time": 0.063,
+    "dispatched": 0.125,
+    "contract": 0.188,
+    "self_employed_freelance": 0.375,
+    "executive": 0.083,
+    "casual_non_student": 0.042,
+    "casual_student": 0.063,
+    "unknown": 0.021,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "テレビやラジオの番組を作るために、現場で出演者や制作スタッフを指揮する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "番組の企画を発案し、番組タイトル、構成、演出などを決定する。",
+      "execution_rate": 0.94,
+      "importance": 3.894
+    },
+    {
+      "task_id": 2,
+      "description_ja": "プロデューサーの決めたプランやスケジュールにしたがって台本や制作スタッフを決める。",
+      "execution_rate": 0.94,
+      "importance": 3.596
+    },
+    {
+      "task_id": 3,
+      "description_ja": "番組の出演者を選定し、出演交渉をする。",
+      "execution_rate": 0.94,
+      "importance": 3.319
+    },
+    {
+      "task_id": 4,
+      "description_ja": "技術、大道具や小道具、衣装といった美術について、放送技術者やアートディレクターと打ち合わせをする。",
+      "execution_rate": 0.84,
+      "importance": 3.5
+    },
+    {
+      "task_id": 5,
+      "description_ja": "スタッフや機材を手配し、撮影の下調べ、事前の交渉、スタジオセットの発注などを行う。",
+      "execution_rate": 0.9,
+      "importance": 3.622
+    },
+    {
+      "task_id": 6,
+      "description_ja": "構成作家や放送作家と内容の打ち合わせをして最終稿を決定する。",
+      "execution_rate": 0.92,
+      "importance": 3.652
+    },
+    {
+      "task_id": 7,
+      "description_ja": "番組の進行表を作成する。",
+      "execution_rate": 0.92,
+      "importance": 3.391
+    },
+    {
+      "task_id": 8,
+      "description_ja": "調整室から出演者への合図やカメラワークの指示をする。",
+      "execution_rate": 0.84,
+      "importance": 3.452
+    },
+    {
+      "task_id": 9,
+      "description_ja": "番組収録後、編集担当者に編集の指示をする。",
+      "execution_rate": 0.9,
+      "importance": 3.6
+    },
+    {
+      "task_id": 10,
+      "description_ja": "テロップの作成など、パソコンで番組を編集する。",
+      "execution_rate": 0.9,
+      "importance": 3.333
+    },
+    {
+      "task_id": 11,
+      "description_ja": "映像に流すナレーションを決める。",
+      "execution_rate": 0.94,
+      "importance": 3.638
+    },
+    {
+      "task_id": 12,
+      "description_ja": "放送作品の最終チェックを行う。",
+      "execution_rate": 0.96,
+      "importance": 3.958
+    },
+    {
+      "task_id": 13,
+      "description_ja": "ロケーションを行い、撮影する場所を決定する。",
+      "execution_rate": 0.92,
+      "importance": 3.326
+    },
+    {
+      "task_id": 14,
+      "description_ja": "ロケ現場でカメラマンに指示を出し、撮影するアングルなどを決定する。",
+      "execution_rate": 0.9,
+      "importance": 3.578
+    },
+    {
+      "task_id": 15,
+      "description_ja": "リハーサルで出演者に演技を指導し、技術や美術のでき具合をチェックする。",
+      "execution_rate": 0.9,
+      "importance": 3.333
+    },
+    {
+      "task_id": 16,
+      "description_ja": "出演者に演技指導を行い、スタートの合図をして撮影をする。",
+      "execution_rate": 0.9,
+      "importance": 3.311
+    },
+    {
+      "task_id": 17,
+      "description_ja": "撮影された映像を確認し、可否を判断しながら撮影をする。",
+      "execution_rate": 0.92,
+      "importance": 3.609
+    },
+    {
+      "task_id": 18,
+      "description_ja": "ラジオ番組放送において、出演者の演出をする。",
+      "execution_rate": 0.54,
+      "importance": 3.259
+    },
+    {
+      "task_id": 19,
+      "description_ja": "コンペに応募する番組を企画し制作する。",
+      "execution_rate": 0.88,
+      "importance": 2.977
+    },
+    {
+      "task_id": 20,
+      "description_ja": "決められた予算内で番組などを制作できるように管理する。",
+      "execution_rate": 0.94,
+      "importance": 3.83
+    },
+    {
+      "task_id": 21,
+      "description_ja": "コンプライアンスの管理やチェックをする。",
+      "execution_rate": 0.96,
+      "importance": 3.625
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人   日本民間放送連盟",
+      "url": "https://j-ba.or.jp/"
+    },
+    {
+      "name_ja": "日本放送協会",
+      "url": "https://www.nhk.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/217",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

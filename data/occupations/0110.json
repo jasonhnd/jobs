@@ -1,0 +1,484 @@
+{
+  "id": 110,
+  "ipd_id": "IPD_01_01_110",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ツアーコンダクター",
+  "aliases_ja": [
+    "ツアーガイド",
+    "旅行添乗員",
+    "見学ツアーガイド（観光）",
+    "山岳ガイド",
+    "自然ガイド",
+    "トラベルガイド",
+    "名所・旧跡案内人",
+    "旅行・観光案内人"
+  ],
+  "classifications": {
+    "mhlw_main": "09_058-01",
+    "mhlw_all": [
+      "09_058-01"
+    ],
+    "jsoc_main": "E421",
+    "jsoc_all": [
+      "E421"
+    ]
+  },
+  "description": {
+    "summary_ja": "団体旅行に同行して、予定通りの旅行ができるよう、また、参加者が快適な旅を楽しめるように世話をする。",
+    "what_it_is_ja": "団体旅行に同行して、予定通りの旅行ができるよう、また、参加者が快適な旅を楽しめるようにするのがツアーコンダクター（旅程管理主任者）である。添乗員とも呼ばれ、世界や日本全国を舞台に仕事をする。\n　仕事は大きく二つに分けられる。一つはデスクワークで、出発前には、目的地の下調べや手配担当者との打ち合わせ、参加者に確認、連絡を行い、旅行から帰った後には精算やレポートの作成などをする。もう一つは添乗業務で、担当するツアーの責任者として、集合・出発から解散まで参加者と行動をともにする。集合場所で参加者の点呼をし、搭乗券等を受け渡し、旅行中の注意事項などを説明する。目的地に着くと、現地スタッフとスケジュールを再確認し、見学や観光に向かう。食事や観光施設の入場料の精算を行い、宿泊ホテルでは参加者全員のチェックインを行う。\n　この他にも様々な役割があり、参加者の相談に応じたり、ツアーを盛り上げる企画を考えたり、交通機関の遅延等への対応や、病人・けが人が出た場合の対処等を行うのもツアーコンダクターの仕事となる。",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、大学や旅行・観光関係の専門学校等を卒業して旅行会社に入るか、ツアーコンダクター派遣会社に所属するのが一般的である。ツアーコンダクターとしてツアーに同行するようになるには、規定の研修を受けたのちアシスタントツアーコンダクターとして経験を積む必要がある。\n　なお、ツアーコンダクターの資格である「旅程管理主任者」（国内旅程管理主任者・総合旅程管理主任者）は、一般社団法人日本添乗サービス協会の正会員会社（添乗員派遣会社）、一般社団法人日本旅行業協会、又は一般社団法人全国旅行業協会の正会員会社（旅行会社）に所属し、団体や企業が行う講習の受講と実務経験を積むことなどにより取得できる。旅行業法、各種約款の基本的な理解や、国内外の観光地情報、歴史・文化等の知識が必要とされる。\n　海外ツアーに添乗する場合は語学力に加えて、出入国や関税に関する知識、訪問国の法令、慣習等の知識が必要である。積極的、社交的、サービス精神が旺盛で、コースによっては数十名の人を統率できること、また、添乗中は旅行会社の代表者であり責任者でもあるため、強い責任感が求められる。更に、添乗中は昼夜を問わず緊急時には対応を求められ、肉体的にもハードであるため自己の体調管理が重要となる。",
+    "working_conditions_ja": "旅行会社で働くツアーコンダクターもいるが、派遣会社に所属し、ツアーごとに派遣されて働く人がほとんどを占める。\n　旅行会社の社員の場合、月給に添乗日数分の日当が加えられる。派遣会社の場合には日給が原則で、旅行の種類や経験、資格の有無によって金額に幅がある。\n　また前後に少なくとも各１日の準備と、精算・報告の仕事がある。\n　ゴールデンウィークや夏休み、年末・年始は最も忙しい時期となり、逆に1月中旬から2月、11月下旬から12月中旬は閑散期にあたるなど派遣社員の場合、収入は時期により変動する。\n　近年、海外旅行者が増加し旅行業界は発展してきたが、政情不安や自然災害などの影響もあり、需要の変動が大きい業界となっている。"
+  },
+  "interests": {
+    "realistic": 2.819,
+    "investigative": 3.167,
+    "artistic": 3.028,
+    "social": 4.292,
+    "enterprising": 3.694,
+    "conventional": 2.875
+  },
+  "work_values": {
+    "achievement": 4.063,
+    "autonomy": 3.688,
+    "expertise": 3.979,
+    "self_growth": 3.896,
+    "social_recognition": 2.625,
+    "service_contribution": 3.0,
+    "good_relationships": 3.667,
+    "workplace_safety": 3.125,
+    "work_life_balance": 2.938,
+    "stability": 2.375,
+    "compensation": 2.292
+  },
+  "skills": {
+    "reading_comprehension": 4.104,
+    "active_listening": 4.917,
+    "writing": 4.292,
+    "speaking": 4.708,
+    "foreign_language_reading": 2.833,
+    "foreign_language_listening": 2.625,
+    "foreign_language_writing": 2.271,
+    "foreign_language_speaking": 2.583,
+    "mathematics": 2.25,
+    "science": 1.292,
+    "critical_thinking": 2.521,
+    "active_learning": 3.021,
+    "learning_strategies": 2.667,
+    "monitoring": 2.729,
+    "social_perceptiveness": 3.917,
+    "coordination": 3.625,
+    "persuasion": 3.833,
+    "negotiation": 3.979,
+    "instructing": 3.521,
+    "service_orientation": 3.938,
+    "complex_problem_solving": 3.229,
+    "operations_analysis": 2.75,
+    "technology_design": 2.313,
+    "equipment_selection": 2.0,
+    "installation": 1.792,
+    "programming": 0.938,
+    "operations_monitoring": 1.021,
+    "operation_and_control": 1.313,
+    "equipment_maintenance": 1.0,
+    "troubleshooting": 1.083,
+    "repairing": 1.042,
+    "quality_control_analysis": 1.583,
+    "judgment_decision_making": 2.479,
+    "systems_analysis": 2.042,
+    "systems_evaluation": 1.917,
+    "time_management": 3.875,
+    "financial_resources_management": 2.104,
+    "material_resources_management": 1.333,
+    "personnel_resources_management": 1.75
+  },
+  "knowledge": {
+    "business_management": 0.886,
+    "clerical": 1.636,
+    "economics_accounting": 0.909,
+    "sales_marketing": 1.568,
+    "customer_personal_service": 3.159,
+    "personnel_hr": 0.886,
+    "transportation": 1.568,
+    "production_processing": 0.545,
+    "agriculture_livestock": 0.318,
+    "engineering": 0.295,
+    "computers_electronics": 0.682,
+    "design": 0.341,
+    "building_construction": 0.386,
+    "mechanical": 0.295,
+    "mathematics_kn": 0.5,
+    "physics": 0.409,
+    "chemistry": 0.386,
+    "biology": 0.409,
+    "psychology": 1.386,
+    "sociology": 1.386,
+    "geography": 1.545,
+    "medicine_dentistry": 0.591,
+    "therapy_counseling": 0.705,
+    "education_training_kn": 0.977,
+    "japanese_language": 2.182,
+    "foreign_language_kn": 2.477,
+    "fine_arts": 1.318,
+    "history_archaeology": 1.886,
+    "philosophy_theology": 1.045,
+    "public_safety_security": 1.523,
+    "law_government": 1.023,
+    "telecommunications": 0.659,
+    "communications_media": 1.75
+  },
+  "abilities": {
+    "oral_comprehension": 3.082,
+    "written_comprehension": 2.857,
+    "oral_expression": 3.408,
+    "written_expression": 3.102,
+    "fluency_of_ideas": 2.878,
+    "originality": 2.673,
+    "problem_sensitivity": 3.959,
+    "deductive_reasoning": 2.959,
+    "inductive_reasoning": 2.837,
+    "information_ordering": 2.571,
+    "category_flexibility": 2.286,
+    "mathematical_reasoning": 1.918,
+    "number_facility": 2.306,
+    "memorization": 2.898,
+    "perceptual_speed": 2.224,
+    "spatial_orientation": 3.082,
+    "visualization": 2.449,
+    "selective_attention": 2.592,
+    "time_sharing": 2.776,
+    "arm_hand_steadiness": 1.878,
+    "manual_dexterity": 1.878,
+    "finger_dexterity": 1.857,
+    "reaction_time": 2.51,
+    "wrist_finger_speed": 1.796,
+    "speed_of_limb_movement": 1.776,
+    "static_strength": 1.98,
+    "stamina": 2.653,
+    "gross_body_equilibrium": 2.163,
+    "near_vision": 2.0,
+    "far_vision": 2.02,
+    "visual_color_discrimination": 2.122,
+    "depth_perception": 2.02,
+    "hearing_sensitivity": 2.143,
+    "auditory_attention": 2.265,
+    "speech_clarity": 3.041
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.364,
+    "face_to_face_discussions": 3.227,
+    "telephone_communication": 3.727,
+    "business_writing": 3.068,
+    "conflict_situations": 2.341,
+    "time_pressure": 2.841,
+    "teamwork": 2.909,
+    "dealing_with_external_customers": 3.568,
+    "coordinate_lead_others": 3.273,
+    "exactness_accuracy": 3.773,
+    "repetitive_tasks": 2.864,
+    "pace_determined_by_machine": 1.955,
+    "responsibility_for_outcomes": 3.636,
+    "indoor_climate_controlled": 3.091,
+    "indoor_non_climate_controlled": 2.773,
+    "outdoor_work": 3.682,
+    "sitting": 2.636,
+    "standing": 3.386,
+    "repetition_of_activities": 2.068,
+    "consequence_of_error": 3.25,
+    "freedom_to_make_decisions": 3.386,
+    "set_own_goals": 3.432,
+    "regular_schedule": 0.227,
+    "irregular_schedule": 0.591,
+    "seasonal_schedule": 0.182,
+    "email_communication": 3.614,
+    "cramped_uncomfortable": 2.295,
+    "disease_infection_risk": 2.591,
+    "minor_injury_risk": 1.273,
+    "standard_protective_equipment": 1.341,
+    "specialized_protective_equipment": 1.227,
+    "dealing_with_violent_people": 1.773,
+    "walking_running": 3.318,
+    "handling_objects_tools": 1.727,
+    "physical_proximity": 3.795,
+    "work_automation": 1.955,
+    "responsibility_for_safety": 3.227,
+    "impact_of_decisions": 3.091,
+    "level_of_competition": 2.182
+  },
+  "work_activities": {
+    "getting_information": 3.694,
+    "monitor_processes": 3.551,
+    "identifying_objects": 3.49,
+    "inspecting_equipment": 2.673,
+    "estimating_quantifiable": 2.612,
+    "judging_quality": 3.041,
+    "evaluating_compliance": 3.388,
+    "processing_information": 2.633,
+    "analyzing_data": 2.592,
+    "making_decisions": 3.408,
+    "thinking_creatively": 2.898,
+    "updating_knowledge": 3.633,
+    "developing_objectives": 2.878,
+    "scheduling_work": 3.714,
+    "organizing_planning": 3.469,
+    "physical_activities": 2.755,
+    "handling_objects": 2.367,
+    "controlling_machines": 1.837,
+    "operating_vehicles": 1.918,
+    "computer_work": 2.408,
+    "drafting_specifications": 1.735,
+    "repairing_mechanical": 1.714,
+    "repairing_electronic": 1.653,
+    "documenting_information": 2.429,
+    "interpreting_information": 2.735,
+    "communicating_inside": 2.918,
+    "communicating_outside": 3.265,
+    "building_relationships": 3.347,
+    "assisting_caring": 2.918,
+    "selling_influencing": 2.469,
+    "resolving_conflicts": 2.673,
+    "performing_for_public": 3.122,
+    "coordinating_others": 2.531,
+    "developing_teams": 2.327,
+    "training_teaching": 2.184,
+    "guiding_subordinates": 2.082,
+    "coaching_developing": 2.143,
+    "providing_consultation": 1.918,
+    "performing_administrative": 2.714,
+    "staffing_organizational": 1.878,
+    "monitoring_resources": 1.755
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.068,
+    "vocational_school": 0.205,
+    "junior_college": 0.114,
+    "technical_college": 0.023,
+    "university": 0.568,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.091
+  },
+  "training_pre": {
+    "not_required": 0.114,
+    "up_to_1_month": 0.364,
+    "1_to_6_months": 0.227,
+    "6_months_to_1_year": 0.023,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.023,
+    "unknown": 0.091
+  },
+  "training_post": {
+    "not_required": 0.068,
+    "up_to_1_month": 0.091,
+    "1_to_6_months": 0.227,
+    "6_months_to_1_year": 0.205,
+    "1_to_2_years": 0.159,
+    "2_to_3_years": 0.114,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.0,
+    "unknown": 0.068
+  },
+  "experience": {
+    "not_required": 0.409,
+    "up_to_1_month": 0.205,
+    "1_to_6_months": 0.136,
+    "6_months_to_1_year": 0.023,
+    "1_to_2_years": 0.023,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.023,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.023,
+    "unknown": 0.114
+  },
+  "employment_type": {
+    "regular_employee": 0.318,
+    "part_time": 0.068,
+    "dispatched": 0.295,
+    "contract": 0.068,
+    "self_employed_freelance": 0.25,
+    "executive": 0.0,
+    "casual_non_student": 0.023,
+    "casual_student": 0.023,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "団体旅行に同行し、参加者が計画通り快適な旅を楽しめるように世話をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "旅程や目的地についての知識からツアーのルートを確認し、オプショナルツアーの予想をたてる。",
+      "execution_rate": 0.878,
+      "importance": 3.558
+    },
+    {
+      "task_id": 2,
+      "description_ja": "目的地の下調べや最新現地情報の確認をする。",
+      "execution_rate": 1.0,
+      "importance": 3.857
+    },
+    {
+      "task_id": 3,
+      "description_ja": "ツアー参加者への案内や説明のための書類作成や備品を準備する。",
+      "execution_rate": 0.959,
+      "importance": 3.894
+    },
+    {
+      "task_id": 4,
+      "description_ja": "移動や観光、宿泊の際の手続きを手伝ったり代行する。",
+      "execution_rate": 0.959,
+      "importance": 3.34
+    },
+    {
+      "task_id": 5,
+      "description_ja": "出発前に手配担当者との打ち合わせや参加者との確認連絡をする。",
+      "execution_rate": 0.98,
+      "importance": 4.063
+    },
+    {
+      "task_id": 6,
+      "description_ja": "予約を確認するためホテルや交通機関へ連絡する。",
+      "execution_rate": 1.0,
+      "importance": 4.143
+    },
+    {
+      "task_id": 7,
+      "description_ja": "参加者に旅行の概要や現地の状況を説明をする。",
+      "execution_rate": 1.0,
+      "importance": 3.776
+    },
+    {
+      "task_id": 8,
+      "description_ja": "集合場所・時間を参加者に伝える。",
+      "execution_rate": 1.0,
+      "importance": 4.224
+    },
+    {
+      "task_id": 9,
+      "description_ja": "オプショナルツアーの案内、手配、集金、精算をする。",
+      "execution_rate": 0.98,
+      "importance": 3.604
+    },
+    {
+      "task_id": 10,
+      "description_ja": "観光場所に案内し、見所の説明をする。",
+      "execution_rate": 0.959,
+      "importance": 2.83
+    },
+    {
+      "task_id": 11,
+      "description_ja": "チケットやお弁当などを参加者に配る。",
+      "execution_rate": 0.98,
+      "importance": 3.146
+    },
+    {
+      "task_id": 12,
+      "description_ja": "移動中、参加者に気を配り、トーク、ゲームや余興をする。",
+      "execution_rate": 0.857,
+      "importance": 2.452
+    },
+    {
+      "task_id": 13,
+      "description_ja": "現地ガイドが説明する観光名所などの情報を通訳する。",
+      "execution_rate": 0.776,
+      "importance": 3.079
+    },
+    {
+      "task_id": 14,
+      "description_ja": "ドライバーや現地ガイドと行程について相談する。",
+      "execution_rate": 0.98,
+      "importance": 3.708
+    },
+    {
+      "task_id": 15,
+      "description_ja": "解散して集合するごとに参加者の人数確認をする。",
+      "execution_rate": 1.0,
+      "importance": 4.449
+    },
+    {
+      "task_id": 16,
+      "description_ja": "食事前に席の配置やアレルギーへの対応を確認し、参加者に説明する。",
+      "execution_rate": 0.98,
+      "importance": 3.604
+    },
+    {
+      "task_id": 17,
+      "description_ja": "定期的に参加者全員の体調を確認する。",
+      "execution_rate": 0.959,
+      "importance": 3.362
+    },
+    {
+      "task_id": 18,
+      "description_ja": "怪我人や病人が出たり盗難にあった場合は、応急手当をしたり、医療機関・警察・在外公館などへ同行する。",
+      "execution_rate": 0.98,
+      "importance": 4.021
+    },
+    {
+      "task_id": 19,
+      "description_ja": "交通事故や天候などで旅程を変更せざるを得ない場合は、旅行会社と連携して迅速に対応する。",
+      "execution_rate": 0.98,
+      "importance": 4.333
+    },
+    {
+      "task_id": 20,
+      "description_ja": "行程・出費・参加者の評価などを日報に記録する。",
+      "execution_rate": 0.959,
+      "importance": 3.106
+    },
+    {
+      "task_id": 21,
+      "description_ja": "法人など団体顧客への営業を行う。",
+      "execution_rate": 0.653,
+      "importance": 2.844
+    },
+    {
+      "task_id": 22,
+      "description_ja": "法人旅行を手配する。",
+      "execution_rate": 0.571,
+      "importance": 3.0
+    },
+    {
+      "task_id": 23,
+      "description_ja": "旅行中の参加者に、次回の旅行商品を営業する。",
+      "execution_rate": 0.776,
+      "importance": 2.184
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本添乗サービス協会",
+      "url": "http://www.tcsa.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人　日本旅行業協会",
+      "url": "http://www.jata-net.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　全国旅行業協会",
+      "url": "http://www.anta.or.jp/"
+    },
+    {
+      "name_ja": "国土交通省　総合政策局観光部旅行振興課",
+      "url": "http://www.mlit.go.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "総合旅程管理主任者",
+    "国内旅程管理主任者"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/110",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

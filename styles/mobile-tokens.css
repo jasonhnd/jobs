@@ -1,0 +1,101 @@
+/* ─────────────────────────────────────────────────────────────
+   未来の仕事 — Mobile-Web Design Tokens
+   Direction C: Warm Editorial (v1.1.0)
+
+   Source : Claude Design handoff (n1vYPf6nRu2Q7YzDBIsG3Q), 2026-05-04
+   Spec   : docs/MOBILE_DESIGN.md §2 (tokens)
+   Scope  : Mobile-only ("/m/ja/*", "/m/en/*"). Desktop site
+            (index.html and existing /ja/<id>, /en/<id>) keeps the
+            tokens defined in docs/Design.md §2.
+
+   Editing rule (per docs/MOBILE_DESIGN.md §15):
+     - This file is the single source of truth for mobile colors,
+       fonts, spacing, radius, shadow, and risk-band semantics.
+     - Any visual change starts HERE, then propagates to component
+       CSS / HTML.
+     - Keep in sync with styles/mobile-tokens.json (machine-readable
+       mirror used by future tooling).
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Color · Surfaces ─────────────────────────────────────── */
+  --m-color-bg-1:        #FAF6EE;  /* primary canvas (warm cream) */
+  --m-color-bg-2:        #F2EADB;  /* recessed sections */
+  --m-color-cream:       #F6EEDD;  /* card highlight / warm fills */
+  --m-color-card:        #FFFFFF;  /* elevated surfaces */
+
+  /* ── Color · Ink ──────────────────────────────────────────── */
+  --m-color-ink:         #241E18;  /* primary text, headlines */
+  --m-color-muted:       #7A6F5E;  /* secondary text, captions */
+  --m-color-muted-2:     #A39785;  /* tertiary, hairlines */
+
+  /* ── Color · Accent ───────────────────────────────────────── */
+  --m-color-accent:      #D96B3D;  /* terracotta · CTA, highlight, risk-high */
+  --m-color-sage:        #6E9B89;  /* sage green · safe, growth, low-risk */
+  --m-color-sage-deep:   #48705F;  /* sage deep · headings on warm bg */
+
+  /* ── Type · Families ──────────────────────────────────────── */
+  --m-font-serif:        "Noto Serif JP", "Source Serif Pro", serif;
+  --m-font-sans:         "Plus Jakarta Sans", "Hiragino Sans", -apple-system, sans-serif;
+  --m-font-mono:         "JetBrains Mono", ui-monospace, monospace;
+
+  /* ── Type · Scale ─────────────────────────────────────────── */
+  --m-text-display:      40px;   /* hero serif, line-height 1.18 */
+  --m-text-h1:           32px;   /* screen titles serif */
+  --m-text-h2:           24px;   /* card titles serif */
+  --m-text-h3:           18px;   /* section labels sans */
+  --m-text-body:         15px;   /* body sans, line-height 1.6 */
+  --m-text-caption:      13px;   /* meta, labels */
+  --m-text-mono-stat:    11px;   /* uppercase mono labels, tracking 0.12em */
+
+  /* ── Space ────────────────────────────────────────────────── */
+  --m-space-1:           4px;
+  --m-space-2:           8px;
+  --m-space-3:           12px;
+  --m-space-4:           16px;
+  --m-space-5:           20px;
+  --m-space-6:           24px;
+  --m-space-8:           32px;
+  --m-space-10:          40px;
+  --m-space-12:          48px;
+  --m-space-16:          64px;
+
+  /* ── Radius ───────────────────────────────────────────────── */
+  --m-radius-sm:         8px;
+  --m-radius-md:         12px;
+  --m-radius-lg:         18px;
+  --m-radius-xl:         24px;
+  --m-radius-pill:       999px;
+
+  /* ── Shadow ───────────────────────────────────────────────── */
+  --m-shadow-card:       0 1px 0 rgba(36, 30, 24, 0.04), 0 8px 24px -12px rgba(36, 30, 24, 0.10);
+  --m-shadow-elevated:   0 4px 12px -4px rgba(36, 30, 24, 0.08), 0 24px 48px -16px rgba(36, 30, 24, 0.18);
+
+  /* ── Layout ───────────────────────────────────────────────── */
+  --m-device-width:      390px;  /* iPhone 14/15 logical width — design baseline */
+  --m-max-width:         480px;  /* CSS max-width for mobile pages on wider viewports */
+  --m-gutter:            24px;   /* mobile horizontal padding */
+  --m-header-height:     56px;   /* sticky brand bar */
+}
+
+/* ── Type primitives ─────────────────────────────────────────
+   Use these classes directly on elements when you want the
+   canonical typographic treatment without writing custom CSS.
+   ────────────────────────────────────────────────────────── */
+.m-t-display { font-family: var(--m-font-serif); font-weight: 600; font-size: var(--m-text-display); line-height: 1.18; letter-spacing: -0.01em; color: var(--m-color-ink); }
+.m-t-h1      { font-family: var(--m-font-serif); font-weight: 600; font-size: var(--m-text-h1);      line-height: 1.22; color: var(--m-color-ink); }
+.m-t-h2      { font-family: var(--m-font-serif); font-weight: 600; font-size: var(--m-text-h2);      line-height: 1.30; color: var(--m-color-ink); }
+.m-t-h3      { font-family: var(--m-font-sans);  font-weight: 700; font-size: var(--m-text-h3);      line-height: 1.40; color: var(--m-color-ink); }
+.m-t-body    { font-family: var(--m-font-sans);  font-weight: 400; font-size: var(--m-text-body);    line-height: 1.65; color: var(--m-color-muted); }
+.m-t-caption { font-family: var(--m-font-sans);  font-weight: 500; font-size: var(--m-text-caption); line-height: 1.45; color: var(--m-color-muted); }
+.m-t-mono    { font-family: var(--m-font-mono);  font-weight: 600; font-size: var(--m-text-mono-stat); letter-spacing: 0.12em; text-transform: uppercase; color: var(--m-color-muted); }
+
+/* ── Risk-band semantics ─────────────────────────────────────
+   Used to tint pills / chips that show ai_risk visually.
+   The `risk_band` field on every occupation tile (treemap /
+   search / detail) maps directly: low/mid/high → these classes.
+   See lib/bands.py for the JS-side equivalent thresholds.
+   ────────────────────────────────────────────────────────── */
+.m-risk-low   { color: var(--m-color-sage-deep); background: rgba(110, 155, 137, 0.12); }
+.m-risk-mid   { color: #8B6B2A;                  background: rgba(212, 167,  73, 0.16); }
+.m-risk-high  { color: var(--m-color-accent);    background: rgba(217, 107,  61, 0.12); }

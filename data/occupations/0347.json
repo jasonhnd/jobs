@@ -1,0 +1,110 @@
+{
+  "id": 347,
+  "ipd_id": "IPD_01_01_347",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ブックデザイナー",
+  "aliases_ja": [
+    "装丁家"
+  ],
+  "classifications": {
+    "mhlw_main": "03_017-99",
+    "mhlw_all": [
+      "03_017-99"
+    ],
+    "jsoc_main": "B224",
+    "jsoc_all": [
+      "B224"
+    ]
+  },
+  "description": {
+    "summary_ja": "本の作者の意図に沿って、自身のセンスや表現力により、本の表紙やカバーをデザインする。",
+    "what_it_is_ja": "本の作者の意図に沿って、自身のセンスや表現力により、本の表紙やカバーをデザインする。\n　本の装丁は書店での第一印象を重視するのか、購入後の書架での見え方を考えるか、その意図によって様々である。カバーなど本を保護するパッケージとしての要素と同時に、書店の中で本を引き立たせるための視覚的表現の両方が必要になる。\n　まず、作者や編集者と打ち合わせ、本の内容や作者、編集者の意向、購入のターゲットとなる読者層などを把握する。さらに、本文の原稿を読み、制作する本の理解を深める。絵画やイラスト、写真などの素材を集め、内容のイメージを壊さずに、イメージをふくらませたり、深めたりするデザインを提案する。デザイン案を複数作り、作者や編集者と検討を行う。ブックデザイナーの素案がそのまま通ることもあるが、最終デザイン決定までは、何回も作り直しを要することがある。決定したデザインに従って、完全版下制作まで責任を持つことが多い。デザインはパソコンを使用して作成することが多く、その場合には印刷所に入稿できるデザインをデータとして作成する。\n　ブックデザイナーの役割は、本のカバーや表紙の装丁だけではなく、どのような用紙に、どのような大きさの文字や字体を用いて印刷を行うのか、目次、扉をどのようにするか等、本全体に関わる場合もある。\n\n◇　よく使う道具、機材、情報技術等\n　イラスト、デザイン作成ソフト（Illustrator、Clip Studio等）、画像等編集ソフト（Photoshop、GIMP等）、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、美術系大学やデザインの専門学校などでデザインの基礎や技術を学び、ブックデザイナーとして活躍している人の事務所に入り、アシスタントとして装丁に必要な技術と知識を身につけるのが一般的なコースである。独力で研鑚し、この業界に参入している人もいる。アシスタントとして知識を身につけ、次第にブックデザイン全般を任されるようになる。編集者や出版社の社員、グラフィックデザイナーなどからブックデザイナーになる場合もある。一連の技術を身につけた後、フリーとして独立することもある。\n　視覚的表現技術（デザイン）やセンス、文学など様々な素養が必要である。本の制作に携わる職業のため、書体（フォント）や紙（素材）についての知識も欠かすことができない。現在はコンピュータを使用したデザインが主流のため、その技術も必要である。",
+    "working_conditions_ja": "出版社の社員（企業内デザイナー）として、その出版社で出版する本のデザインを専門に行うデザイナーもいるが、その数は少なく、フリー若しくはグラフィックなど他の分野との兼業で仕事をすることが圧倒的に多い。\n　出版スケジュールに従った締め切りがあるため、締め切りに間に合うように仕事を進める必要がある。スケジュールによっては、何冊もの本のデザインをかけ持ちしたり、長時間作業を行ったりすることもある。また、編集者とのやりとりや印刷所と交渉するなど、本の出来上がりまで、粘り強く作業を続ける必要がある。\n　最近は、電子書籍も多数出版されるようになった。電子書籍は、PC、スマートフォン、タブレット等で読むため、書籍の種類や読む媒体に応じてレイアウトし、図や写真等もデジタル処理を行う。このため電子書籍フォーマット（EPUB：Electronic PUBlication）の知識も求められている。電子書籍の出版数は増加傾向にあり、ブックデザイナーの仕事は今後も一定の需要が見込まれる。"
+  },
+  "interests": null,
+  "work_values": {
+    "achievement": 3.85,
+    "autonomy": 3.4,
+    "expertise": 4.25,
+    "self_growth": 3.55,
+    "social_recognition": 2.65,
+    "service_contribution": 2.5,
+    "good_relationships": 3.15,
+    "workplace_safety": 3.55,
+    "work_life_balance": 3.2,
+    "stability": 2.3,
+    "compensation": 2.25
+  },
+  "skills": {
+    "reading_comprehension": 4.7,
+    "active_listening": 4.7,
+    "writing": 4.35,
+    "speaking": 4.25,
+    "foreign_language_reading": 1.15,
+    "foreign_language_listening": 1.05,
+    "foreign_language_writing": 1.2,
+    "foreign_language_speaking": 1.1,
+    "mathematics": 1.85,
+    "science": 0.85,
+    "critical_thinking": 3.2,
+    "active_learning": 3.65,
+    "learning_strategies": 3.3,
+    "monitoring": 3.05,
+    "social_perceptiveness": 3.65,
+    "coordination": 3.95,
+    "persuasion": 3.15,
+    "negotiation": 3.15,
+    "instructing": 3.35,
+    "service_orientation": 1.65,
+    "complex_problem_solving": 3.05,
+    "operations_analysis": 3.7,
+    "technology_design": 2.65,
+    "equipment_selection": 3.75,
+    "installation": 3.15,
+    "programming": 1.05,
+    "operations_monitoring": 0.9,
+    "operation_and_control": 2.05,
+    "equipment_maintenance": 1.45,
+    "troubleshooting": 2.4,
+    "repairing": 2.1,
+    "quality_control_analysis": 3.35,
+    "judgment_decision_making": 3.45,
+    "systems_analysis": 2.0,
+    "systems_evaluation": 1.5,
+    "time_management": 3.9,
+    "financial_resources_management": 2.7,
+    "material_resources_management": 2.05,
+    "personnel_resources_management": 1.2
+  },
+  "knowledge": null,
+  "abilities": null,
+  "work_characteristics": null,
+  "work_activities": null,
+  "education_distribution": null,
+  "training_pre": null,
+  "training_post": null,
+  "experience": null,
+  "employment_type": null,
+  "tasks_lead_ja": null,
+  "tasks": [],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本図書設計家協会",
+      "url": "https://www.tosho-sekkei.gr.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/347",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

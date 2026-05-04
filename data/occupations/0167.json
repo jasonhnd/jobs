@@ -1,0 +1,459 @@
+{
+  "id": 167,
+  "ipd_id": "IPD_01_01_167",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "理学療法士（PT）",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "04_024-04",
+    "mhlw_all": [
+      "04_024-04"
+    ],
+    "jsoc_main": "B144",
+    "jsoc_all": [
+      "B144"
+    ]
+  },
+  "description": {
+    "summary_ja": "医師の指示の下、身体に障害がある人等の身体運動機能の回復や維持・向上を図り、自立した日常生活が送れるよう、運動の指導や物理療法を行う。",
+    "what_it_is_ja": "理学療法士は身体に障害がある人等の身体運動機能の回復や維持・向上を図り自立した日常生活が送れるよう、医師の指示の下、運動の指導や物理療法を行う医療技術者である。PT（Physical Therapist）とも呼ばれる。\n　理学療法は、脳性マヒ、事故や病気による障害、脳卒中後遺症や老化による障害など、幼年期から老年期にわたるさまざまな障害を対象にしている。理学療法士は、医師から依頼された理学療法の内容を点検し、注意する点や行ってはいけない動作を考えたうえで、患者の筋力などを検査する。その結果をもとに患者の障害の状況を評価し、他の診療部門からの情報も加えて理学療法の目標を立て、そのための具体的方法・手順などのプログラムを作成する。\n　理学療法の中心は運動療法である。理学療法士は身体機能回復のための関節可動域練習、筋力増強練習、神経筋促通運動、歩行動作などの日常生活動作練習を通じて、自立した生活ができるように指導する。温熱を利用したり、電気刺激や超音波などの物理療法を行うこともある。\n　患者それぞれの状態にあわせて最適な運動・訓練を行い、身体運動機能の回復を援助して自立を促すのが、理学療法士の役割である。\n　また、障害のある人だけではなく、予防やスポーツのパフォーマンス向上など、健康な人に対しても理学療法士の仕事が広がっている。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン",
+    "how_to_become_ja": "理学療法士として必要な知識と技能を養成校で3年以上修得し、国家試験に合格して免許を取得することが必要である。\n　養成校の教育内容は、基礎教養科目、解剖学、生理学、運動学、病理学などの基礎医学、臨床医学や社会福祉学、地域リハビリテーション、病院やリハビリテーションセンターでの臨床実習を含む理学療法などからなる。なお、作業療法士の資格を有している場合は、養成校で２年以上学ぶことで理学療法士の受験資格を得る。\n　入職経路としては、卒業した養成校からの紹介や、専門誌などの求人広告、リハビリテーション関係者からの情報等がある。\n　理学療法士は、専門領域の知識や技術のほか、評価や療法運動を行うとき、正しい場所に適切に力を加えたり、患者の姿勢のバランスを保持したり、移動の時に介助することができるよう、相応な体力と繊細な神経が必要である。\n　また、障害のある人々やその家族に療法の意味を説明し、身体的自立を援助するためにクライントの気持ちを受容した上で説得することも求められる。\n　専門能力の向上を図るために、各職場での研修の他に、日本理学療法士協会などの主催する学会や各種研修会などの機会も設けられている。また、同協会の認定資格として認定理学療法士（基礎理学療法、神経理学療法、運動器理学療法等7つの専門分野のうち1つ以上の専門分野に登録し、専門的臨床技能の維持や職能面における理学療法の技術などを高めていくことを目的とする）、専門理学療法士（7つの専門分野のうち1つ以上の専門分野に登録し、研究能力を高めることを目的とする）がある。",
+    "working_conditions_ja": "主な職場は病院やリハビリテーションセンター、障害者福祉センター、障害児通所・入園施設、保健福祉センター、老人保健施設、高齢者介護施設などである。また、プロスポーツチームに所属している理学療法士もいる。運動の指導は施設内の運動療法室や日常生活動作室で行うことが多い。また、物理療法や水治療法などを行う際には、機械器具を操作する療法も行う。\n　直近の国家試験合格者は年1万1373人（2025年2月時点*1）である。就業者のうち女性は約4割程度（2025年3月時点*2）となっている。\n　原則として、賃金・労働時間・休日・休暇などの労働条件は、勤務先の病院・施設などで働く他の医療技術者と同様の水準である。労働時間は昼間勤務がほとんどであるが、病院・施設によっては月1～2回の宿直がある場合もある。\n　高齢化の進展や障害の重度化などにより、リハビリテーションの重要性が高まっており、理学療法士の数も増加傾向にあるが、依然として人材が不足している。\n\n*1　厚生労働省、第60回理学療法士国家試験及び第60回作業療法士国家試験の合格発表について\n*2　統計情報 公益社団法人 日本理学療法士協会"
+  },
+  "interests": {
+    "realistic": 3.4,
+    "investigative": 3.693,
+    "artistic": 2.64,
+    "social": 4.373,
+    "enterprising": 3.027,
+    "conventional": 2.92
+  },
+  "work_values": {
+    "achievement": 3.943,
+    "autonomy": 3.736,
+    "expertise": 4.057,
+    "self_growth": 3.868,
+    "social_recognition": 3.434,
+    "service_contribution": 3.868,
+    "good_relationships": 3.66,
+    "workplace_safety": 3.491,
+    "work_life_balance": 3.604,
+    "stability": 3.472,
+    "compensation": 2.925
+  },
+  "skills": {
+    "reading_comprehension": 4.226,
+    "active_listening": 5.038,
+    "writing": 4.226,
+    "speaking": 4.717,
+    "foreign_language_reading": 1.755,
+    "foreign_language_listening": 1.189,
+    "foreign_language_writing": 1.283,
+    "foreign_language_speaking": 1.075,
+    "mathematics": 1.943,
+    "science": 2.189,
+    "critical_thinking": 4.113,
+    "active_learning": 3.943,
+    "learning_strategies": 3.698,
+    "monitoring": 4.057,
+    "social_perceptiveness": 4.491,
+    "coordination": 4.264,
+    "persuasion": 4.0,
+    "negotiation": 3.566,
+    "instructing": 4.377,
+    "service_orientation": 4.189,
+    "complex_problem_solving": 3.717,
+    "operations_analysis": 3.264,
+    "technology_design": 2.66,
+    "equipment_selection": 3.547,
+    "installation": 2.925,
+    "programming": 1.755,
+    "operations_monitoring": 1.962,
+    "operation_and_control": 2.189,
+    "equipment_maintenance": 2.132,
+    "troubleshooting": 2.075,
+    "repairing": 1.962,
+    "quality_control_analysis": 2.453,
+    "judgment_decision_making": 2.849,
+    "systems_analysis": 2.472,
+    "systems_evaluation": 2.34,
+    "time_management": 3.849,
+    "financial_resources_management": 1.943,
+    "material_resources_management": 2.057,
+    "personnel_resources_management": 2.906
+  },
+  "knowledge": {
+    "business_management": 1.043,
+    "clerical": 1.848,
+    "economics_accounting": 0.543,
+    "sales_marketing": 0.652,
+    "customer_personal_service": 2.826,
+    "personnel_hr": 1.174,
+    "transportation": 0.239,
+    "production_processing": 0.283,
+    "agriculture_livestock": 0.196,
+    "engineering": 0.413,
+    "computers_electronics": 0.543,
+    "design": 0.261,
+    "building_construction": 0.304,
+    "mechanical": 0.413,
+    "mathematics_kn": 0.957,
+    "physics": 1.348,
+    "chemistry": 0.826,
+    "biology": 2.174,
+    "psychology": 2.848,
+    "sociology": 1.87,
+    "geography": 0.478,
+    "medicine_dentistry": 4.565,
+    "therapy_counseling": 3.739,
+    "education_training_kn": 2.543,
+    "japanese_language": 1.457,
+    "foreign_language_kn": 0.804,
+    "fine_arts": 0.435,
+    "history_archaeology": 0.391,
+    "philosophy_theology": 0.848,
+    "public_safety_security": 1.239,
+    "law_government": 0.935,
+    "telecommunications": 0.5,
+    "communications_media": 1.891
+  },
+  "abilities": {
+    "oral_comprehension": 3.321,
+    "written_comprehension": 3.132,
+    "oral_expression": 3.358,
+    "written_expression": 3.189,
+    "fluency_of_ideas": 2.906,
+    "originality": 2.849,
+    "problem_sensitivity": 3.623,
+    "deductive_reasoning": 3.019,
+    "inductive_reasoning": 3.038,
+    "information_ordering": 2.906,
+    "category_flexibility": 2.528,
+    "mathematical_reasoning": 2.321,
+    "number_facility": 2.038,
+    "memorization": 2.943,
+    "perceptual_speed": 2.509,
+    "spatial_orientation": 2.679,
+    "visualization": 2.792,
+    "selective_attention": 3.019,
+    "time_sharing": 3.113,
+    "arm_hand_steadiness": 3.132,
+    "manual_dexterity": 2.736,
+    "finger_dexterity": 2.774,
+    "reaction_time": 3.17,
+    "wrist_finger_speed": 2.679,
+    "speed_of_limb_movement": 2.962,
+    "static_strength": 3.302,
+    "stamina": 3.208,
+    "gross_body_equilibrium": 3.302,
+    "near_vision": 2.604,
+    "far_vision": 2.528,
+    "visual_color_discrimination": 2.547,
+    "depth_perception": 2.698,
+    "hearing_sensitivity": 2.604,
+    "auditory_attention": 2.679,
+    "speech_clarity": 2.83
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.674,
+    "face_to_face_discussions": 3.913,
+    "telephone_communication": 3.717,
+    "business_writing": 3.217,
+    "conflict_situations": 3.065,
+    "time_pressure": 3.326,
+    "teamwork": 3.978,
+    "dealing_with_external_customers": 3.717,
+    "coordinate_lead_others": 3.37,
+    "exactness_accuracy": 3.804,
+    "repetitive_tasks": 3.087,
+    "pace_determined_by_machine": 2.348,
+    "responsibility_for_outcomes": 3.522,
+    "indoor_climate_controlled": 4.696,
+    "indoor_non_climate_controlled": 1.957,
+    "outdoor_work": 2.457,
+    "sitting": 2.348,
+    "standing": 3.826,
+    "repetition_of_activities": 2.457,
+    "consequence_of_error": 3.652,
+    "freedom_to_make_decisions": 3.457,
+    "set_own_goals": 3.522,
+    "regular_schedule": 0.63,
+    "irregular_schedule": 0.261,
+    "seasonal_schedule": 0.109,
+    "email_communication": 3.217,
+    "cramped_uncomfortable": 2.217,
+    "disease_infection_risk": 4.304,
+    "minor_injury_risk": 1.957,
+    "standard_protective_equipment": 2.261,
+    "specialized_protective_equipment": 2.022,
+    "dealing_with_violent_people": 2.696,
+    "walking_running": 3.348,
+    "handling_objects_tools": 2.239,
+    "physical_proximity": 4.63,
+    "work_automation": 2.022,
+    "responsibility_for_safety": 3.848,
+    "impact_of_decisions": 3.109,
+    "level_of_competition": 1.891
+  },
+  "work_activities": {
+    "getting_information": 3.698,
+    "monitor_processes": 3.623,
+    "identifying_objects": 3.566,
+    "inspecting_equipment": 2.906,
+    "estimating_quantifiable": 2.83,
+    "judging_quality": 3.075,
+    "evaluating_compliance": 3.113,
+    "processing_information": 3.038,
+    "analyzing_data": 3.208,
+    "making_decisions": 3.604,
+    "thinking_creatively": 3.17,
+    "updating_knowledge": 3.585,
+    "developing_objectives": 3.679,
+    "scheduling_work": 3.302,
+    "organizing_planning": 3.642,
+    "physical_activities": 3.453,
+    "handling_objects": 3.358,
+    "controlling_machines": 2.547,
+    "operating_vehicles": 2.245,
+    "computer_work": 2.83,
+    "drafting_specifications": 2.094,
+    "repairing_mechanical": 2.302,
+    "repairing_electronic": 2.226,
+    "documenting_information": 3.208,
+    "interpreting_information": 3.283,
+    "communicating_inside": 3.547,
+    "communicating_outside": 3.358,
+    "building_relationships": 3.547,
+    "assisting_caring": 3.623,
+    "selling_influencing": 2.925,
+    "resolving_conflicts": 2.736,
+    "performing_for_public": 2.604,
+    "coordinating_others": 2.849,
+    "developing_teams": 3.151,
+    "training_teaching": 3.17,
+    "guiding_subordinates": 2.962,
+    "coaching_developing": 2.868,
+    "providing_consultation": 2.509,
+    "performing_administrative": 2.774,
+    "staffing_organizational": 2.604,
+    "monitoring_resources": 2.377
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.022,
+    "vocational_school": 0.609,
+    "junior_college": 0.109,
+    "technical_college": 0.022,
+    "university": 0.63,
+    "masters": 0.109,
+    "doctorate": 0.043,
+    "unknown": 0.022
+  },
+  "training_pre": {
+    "not_required": 0.304,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.022,
+    "6_months_to_1_year": 0.022,
+    "1_to_2_years": 0.065,
+    "2_to_3_years": 0.109,
+    "3_to_5_years": 0.391,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.022,
+    "unknown": 0.043
+  },
+  "training_post": {
+    "not_required": 0.043,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.239,
+    "6_months_to_1_year": 0.174,
+    "1_to_2_years": 0.196,
+    "2_to_3_years": 0.087,
+    "3_to_5_years": 0.152,
+    "5_to_10_years": 0.043,
+    "over_10_years": 0.0,
+    "unknown": 0.022
+  },
+  "experience": {
+    "not_required": 0.609,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.13,
+    "6_months_to_1_year": 0.109,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.065,
+    "3_to_5_years": 0.022,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.043
+  },
+  "employment_type": {
+    "regular_employee": 0.826,
+    "part_time": 0.283,
+    "dispatched": 0.022,
+    "contract": 0.087,
+    "self_employed_freelance": 0.022,
+    "executive": 0.0,
+    "casual_non_student": 0.043,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "障害のある人の身体機能の回復や維持のために、医師や医療スタッフと協力して運動療法や理学療法を行い運動についての指導をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "患者の筋力、運動能力、知覚、呼吸・循環器系統の能力を検査し、評価する。",
+      "execution_rate": 1.0,
+      "importance": 3.792
+    },
+    {
+      "task_id": 2,
+      "description_ja": "医師の処方や患者の状況、診療記録を検討し、必要な療法を定める。",
+      "execution_rate": 0.981,
+      "importance": 3.673
+    },
+    {
+      "task_id": 3,
+      "description_ja": "患者のデータにもとづき、治療プログラムを作成する。",
+      "execution_rate": 1.0,
+      "importance": 3.792
+    },
+    {
+      "task_id": 4,
+      "description_ja": "身体機能を維持･改善するため、患者に筋肉の運動をさせる。",
+      "execution_rate": 1.0,
+      "importance": 3.642
+    },
+    {
+      "task_id": 5,
+      "description_ja": "身体機能を向上させるために患者にマッサージをする。",
+      "execution_rate": 0.981,
+      "importance": 2.788
+    },
+    {
+      "task_id": 6,
+      "description_ja": "身体機能を改善するために、器具や装置などを操作する。",
+      "execution_rate": 1.0,
+      "importance": 2.717
+    },
+    {
+      "task_id": 7,
+      "description_ja": "牽引や矯正の器具を使ったり、患者の体の痛みや変形を軽減するため電気刺激や温熱の理学療法をする。",
+      "execution_rate": 0.906,
+      "importance": 2.5
+    },
+    {
+      "task_id": 8,
+      "description_ja": "疼痛を消失させるため、患者に関節内運動をさせる。",
+      "execution_rate": 1.0,
+      "importance": 3.396
+    },
+    {
+      "task_id": 9,
+      "description_ja": "患者の早期機能回復のため、離床訓練を実施する。",
+      "execution_rate": 0.906,
+      "importance": 3.667
+    },
+    {
+      "task_id": 10,
+      "description_ja": "松葉杖、杖、義肢など補助器具を使用した身体活動について指導する。",
+      "execution_rate": 1.0,
+      "importance": 3.472
+    },
+    {
+      "task_id": 11,
+      "description_ja": "患者および家族に対し、家庭でのリハビリ方法を指導する。",
+      "execution_rate": 0.981,
+      "importance": 3.75
+    },
+    {
+      "task_id": 12,
+      "description_ja": "転倒・疾病、フレイルや介護を予防するため、体操などの運動指導を行う。",
+      "execution_rate": 0.906,
+      "importance": 3.521
+    },
+    {
+      "task_id": 13,
+      "description_ja": "内部疾患に伴う二次障害や再発を予防するための指導をする。",
+      "execution_rate": 0.925,
+      "importance": 3.51
+    },
+    {
+      "task_id": 14,
+      "description_ja": "患者の居宅を訪問し、助言や指導をする。",
+      "execution_rate": 0.793,
+      "importance": 3.357
+    },
+    {
+      "task_id": 15,
+      "description_ja": "家屋調査を実施し、福祉用具の利用や住宅改修について助言する。",
+      "execution_rate": 0.849,
+      "importance": 3.4
+    },
+    {
+      "task_id": 16,
+      "description_ja": "看護師や介護福祉士に、介助方法を指導する。",
+      "execution_rate": 0.925,
+      "importance": 3.061
+    },
+    {
+      "task_id": 17,
+      "description_ja": "矯正器具を評価・調節・装着し、リハビリ担当医や器具製作者に改善案を提出する。",
+      "execution_rate": 0.925,
+      "importance": 3.143
+    },
+    {
+      "task_id": 18,
+      "description_ja": "カンファレンスやサービス担当者会議に参加する。",
+      "execution_rate": 1.0,
+      "importance": 3.453
+    },
+    {
+      "task_id": 19,
+      "description_ja": "運動療法の効果を評価し、目標と方法の調整をするために他の医療関係者と情報交換する。",
+      "execution_rate": 1.0,
+      "importance": 3.774
+    },
+    {
+      "task_id": 20,
+      "description_ja": "地域住民や他施設と連携し、情報を共有する。",
+      "execution_rate": 0.906,
+      "importance": 3.333
+    },
+    {
+      "task_id": 21,
+      "description_ja": "患者の理学療法診療録に処置、反応、改善状況を記録し、情報を管理する。",
+      "execution_rate": 1.0,
+      "importance": 3.623
+    },
+    {
+      "task_id": 22,
+      "description_ja": "部署内の業務や目標を管理する。",
+      "execution_rate": 0.925,
+      "importance": 3.204
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本理学療法士協会",
+      "url": "http://www.japanpt.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "理学療法士",
+    "作業療法士",
+    "認定理学療法士",
+    "専門理学療法士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/167",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

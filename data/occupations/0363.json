@@ -1,0 +1,452 @@
+{
+  "id": 363,
+  "ipd_id": "IPD_01_01_363",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "広報コンサルタント",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "03_020-99",
+    "mhlw_all": [
+      "03_020-99"
+    ],
+    "jsoc_main": "B249",
+    "jsoc_all": [
+      "B249"
+    ]
+  },
+  "description": {
+    "summary_ja": "広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する。",
+    "what_it_is_ja": "広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する。\n　広報の主な役割には、企業環境や社会からの要望の把握、自社の自己認識と外部からの評価、企業文化の変革と維持、広報マインドの醸成、企業イメージの向上と変革、企業防衛等がある。こうした多様な役割を果たすため、広報コンサルタントが行う仕事の範囲は多岐にわたる。\n　具体的な仕事として、パブリシティーの企画・実施、セミナー・シンポジウムの企画・運営、ポスターやPR紙誌等の企画・編集、メディア報道のモニタリングなどがある。危機管理広報、マスコミ対応、地域住民や一般消費者とのコミュニケーション活動の企画・実施なども行う。\n　最近ではSNS関連業務などにも対応し、様々な企業や公的機関からの依頼も多くなっている。多様な顧客のニーズに応えるため、広報コンサルタントの仕事の幅はさらに広がっている。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "入職にあたって特に学歴や資格は必要とされない。大卒者の場合、学部や専攻は問われないが、コミュニケーション論やメディア論を専攻していたものが比較的多い。\n　小規模のPR会社では即戦力となる経験者の中途採用が多いが、中堅・大手では新卒採用にも積極的である。\n　中堅・大手のPR会社が中途採用する場合は、人脈や課題解決力、広報のスキルに加え、業界特有の幅広い知識を求められる。このため異業種からの参入は少ない。\n　新卒の場合は初めに短期間で基本的なビジネスマナーや知識について研修が行われることが一般的である。その後は3～5年程度、メイン担当者のアシスタントとして働きながら仕事を覚える。また新人のうちは自分の担当以外のPRイベントや日本パブリックリレーションズ協会のセミナーに参加したり、社内勉強会などにも出席して学習を深めてゆく。ある程度のコミュニケーション力、問題解決力、リーダーシップが身につけば一人前として認められ、メイン担当者として仕事を任されるようになる。\n　関連資格として日本パブリックリレーションズ協会の「PRプランナー」がある。一部のPR会社では同資格の取得者に対して特別手当を支給している。\n　高い情報収集能力とコミュニケーション力が必要となる。また、常日頃から社会やメディアが求めているトレンドを的確に把握することも重要である。グローバルに顧客を獲得してゆく場合は英語力が求められるほか、原稿を執筆する場合はプロのライターと同程度の文章力も求められることもある。",
+    "working_conditions_ja": "勤務先は広告会社、コンサルティング会社等がほとんどである。職場は都市部に集中している。\n　昨今の企業広告では女性をターゲットにしたイメージ広告や商品・製品広告が増えていることもあり、女性が多く活躍している仕事である。\n　賃金、労働時間等労働条件については勤務先の規定によるが、クライアントやマスコミの都合に合わせるため、勤務が不規則になることもある。特にイベント前などの繁忙期は残業が発生しやすく、土日祝日に出勤することも少なくない。\n　グローバル化やテクノロジーの進歩、ネットメディアの普及等に伴い、企業の広報・PR手段は多様化・複雑化を続けているため広報コンサルタントの活躍の場が広がってゆくと予測される。"
+  },
+  "interests": {
+    "realistic": 2.844,
+    "investigative": 3.267,
+    "artistic": 3.222,
+    "social": 3.356,
+    "enterprising": 3.489,
+    "conventional": 2.467
+  },
+  "work_values": {
+    "achievement": 3.741,
+    "autonomy": 3.926,
+    "expertise": 4.074,
+    "self_growth": 3.926,
+    "social_recognition": 3.296,
+    "service_contribution": 3.037,
+    "good_relationships": 3.741,
+    "workplace_safety": 3.259,
+    "work_life_balance": 3.111,
+    "stability": 2.963,
+    "compensation": 3.037
+  },
+  "skills": {
+    "reading_comprehension": 4.778,
+    "active_listening": 5.444,
+    "writing": 5.296,
+    "speaking": 5.111,
+    "foreign_language_reading": 2.667,
+    "foreign_language_listening": 2.259,
+    "foreign_language_writing": 2.37,
+    "foreign_language_speaking": 2.37,
+    "mathematics": 2.481,
+    "science": 1.889,
+    "critical_thinking": 3.926,
+    "active_learning": 3.889,
+    "learning_strategies": 3.778,
+    "monitoring": 4.185,
+    "social_perceptiveness": 4.593,
+    "coordination": 4.852,
+    "persuasion": 4.407,
+    "negotiation": 4.222,
+    "instructing": 4.296,
+    "service_orientation": 4.111,
+    "complex_problem_solving": 3.852,
+    "operations_analysis": 3.444,
+    "technology_design": 2.778,
+    "equipment_selection": 2.704,
+    "installation": 2.074,
+    "programming": 1.852,
+    "operations_monitoring": 1.296,
+    "operation_and_control": 1.704,
+    "equipment_maintenance": 1.37,
+    "troubleshooting": 1.37,
+    "repairing": 1.444,
+    "quality_control_analysis": 2.481,
+    "judgment_decision_making": 3.481,
+    "systems_analysis": 3.593,
+    "systems_evaluation": 3.778,
+    "time_management": 3.815,
+    "financial_resources_management": 3.333,
+    "material_resources_management": 3.0,
+    "personnel_resources_management": 3.667
+  },
+  "knowledge": {
+    "business_management": 2.821,
+    "clerical": 2.643,
+    "economics_accounting": 2.214,
+    "sales_marketing": 3.571,
+    "customer_personal_service": 3.214,
+    "personnel_hr": 1.357,
+    "transportation": 0.786,
+    "production_processing": 0.714,
+    "agriculture_livestock": 0.571,
+    "engineering": 0.821,
+    "computers_electronics": 1.036,
+    "design": 0.964,
+    "building_construction": 0.893,
+    "mechanical": 0.75,
+    "mathematics_kn": 1.071,
+    "physics": 0.821,
+    "chemistry": 0.75,
+    "biology": 0.714,
+    "psychology": 1.75,
+    "sociology": 1.607,
+    "geography": 0.929,
+    "medicine_dentistry": 0.643,
+    "therapy_counseling": 0.857,
+    "education_training_kn": 1.321,
+    "japanese_language": 2.429,
+    "foreign_language_kn": 1.607,
+    "fine_arts": 1.464,
+    "history_archaeology": 1.0,
+    "philosophy_theology": 0.964,
+    "public_safety_security": 1.5,
+    "law_government": 1.571,
+    "telecommunications": 1.0,
+    "communications_media": 2.964
+  },
+  "abilities": {
+    "oral_comprehension": 3.714,
+    "written_comprehension": 3.607,
+    "oral_expression": 3.679,
+    "written_expression": 3.75,
+    "fluency_of_ideas": 3.714,
+    "originality": 3.571,
+    "problem_sensitivity": 3.643,
+    "deductive_reasoning": 3.286,
+    "inductive_reasoning": 3.393,
+    "information_ordering": 3.0,
+    "category_flexibility": 3.286,
+    "mathematical_reasoning": 2.571,
+    "number_facility": 2.75,
+    "memorization": 2.857,
+    "perceptual_speed": 2.964,
+    "spatial_orientation": 2.5,
+    "visualization": 2.929,
+    "selective_attention": 2.821,
+    "time_sharing": 3.143,
+    "arm_hand_steadiness": 1.786,
+    "manual_dexterity": 1.857,
+    "finger_dexterity": 1.857,
+    "reaction_time": 2.393,
+    "wrist_finger_speed": 1.679,
+    "speed_of_limb_movement": 1.607,
+    "static_strength": 1.464,
+    "stamina": 2.143,
+    "gross_body_equilibrium": 1.821,
+    "near_vision": 2.0,
+    "far_vision": 1.893,
+    "visual_color_discrimination": 2.607,
+    "depth_perception": 2.071,
+    "hearing_sensitivity": 2.071,
+    "auditory_attention": 2.036,
+    "speech_clarity": 2.393
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.464,
+    "face_to_face_discussions": 4.036,
+    "telephone_communication": 4.036,
+    "business_writing": 4.107,
+    "conflict_situations": 2.357,
+    "time_pressure": 3.286,
+    "teamwork": 3.429,
+    "dealing_with_external_customers": 3.643,
+    "coordinate_lead_others": 3.536,
+    "exactness_accuracy": 3.643,
+    "repetitive_tasks": 2.857,
+    "pace_determined_by_machine": 2.393,
+    "responsibility_for_outcomes": 3.536,
+    "indoor_climate_controlled": 4.214,
+    "indoor_non_climate_controlled": 2.0,
+    "outdoor_work": 1.821,
+    "sitting": 3.964,
+    "standing": 2.143,
+    "repetition_of_activities": 1.679,
+    "consequence_of_error": 2.643,
+    "freedom_to_make_decisions": 3.714,
+    "set_own_goals": 3.679,
+    "regular_schedule": 0.321,
+    "irregular_schedule": 0.5,
+    "seasonal_schedule": 0.179,
+    "email_communication": 4.286,
+    "cramped_uncomfortable": 2.036,
+    "disease_infection_risk": 2.25,
+    "minor_injury_risk": 1.464,
+    "standard_protective_equipment": 1.536,
+    "specialized_protective_equipment": 1.286,
+    "dealing_with_violent_people": 1.393,
+    "walking_running": 2.107,
+    "handling_objects_tools": 1.821,
+    "physical_proximity": 2.429,
+    "work_automation": 2.107,
+    "responsibility_for_safety": 1.893,
+    "impact_of_decisions": 2.964,
+    "level_of_competition": 2.643
+  },
+  "work_activities": {
+    "getting_information": 4.0,
+    "monitor_processes": 3.75,
+    "identifying_objects": 3.607,
+    "inspecting_equipment": 2.464,
+    "estimating_quantifiable": 2.964,
+    "judging_quality": 3.607,
+    "evaluating_compliance": 3.429,
+    "processing_information": 3.179,
+    "analyzing_data": 3.643,
+    "making_decisions": 3.679,
+    "thinking_creatively": 3.821,
+    "updating_knowledge": 3.679,
+    "developing_objectives": 3.536,
+    "scheduling_work": 3.679,
+    "organizing_planning": 3.75,
+    "physical_activities": 2.0,
+    "handling_objects": 1.929,
+    "controlling_machines": 2.143,
+    "operating_vehicles": 1.929,
+    "computer_work": 3.286,
+    "drafting_specifications": 2.321,
+    "repairing_mechanical": 2.107,
+    "repairing_electronic": 2.214,
+    "documenting_information": 2.964,
+    "interpreting_information": 3.25,
+    "communicating_inside": 3.5,
+    "communicating_outside": 3.643,
+    "building_relationships": 3.536,
+    "assisting_caring": 2.929,
+    "selling_influencing": 3.25,
+    "resolving_conflicts": 3.0,
+    "performing_for_public": 2.786,
+    "coordinating_others": 3.107,
+    "developing_teams": 3.071,
+    "training_teaching": 2.821,
+    "guiding_subordinates": 2.964,
+    "coaching_developing": 2.857,
+    "providing_consultation": 3.464,
+    "performing_administrative": 2.821,
+    "staffing_organizational": 2.5,
+    "monitoring_resources": 2.571
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.036,
+    "vocational_school": 0.071,
+    "junior_college": 0.071,
+    "technical_college": 0.0,
+    "university": 0.75,
+    "masters": 0.071,
+    "doctorate": 0.0,
+    "unknown": 0.071
+  },
+  "training_pre": {
+    "not_required": 0.464,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.071,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.036,
+    "2_to_3_years": 0.071,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.071,
+    "unknown": 0.179
+  },
+  "training_post": {
+    "not_required": 0.107,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.071,
+    "6_months_to_1_year": 0.107,
+    "1_to_2_years": 0.143,
+    "2_to_3_years": 0.179,
+    "3_to_5_years": 0.107,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.036,
+    "unknown": 0.214
+  },
+  "experience": {
+    "not_required": 0.429,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.036,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.143,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.071,
+    "unknown": 0.179
+  },
+  "employment_type": {
+    "regular_employee": 0.571,
+    "part_time": 0.071,
+    "dispatched": 0.036,
+    "contract": 0.036,
+    "self_employed_freelance": 0.143,
+    "executive": 0.107,
+    "casual_non_student": 0.036,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.036
+  },
+  "tasks_lead_ja": "広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "クライアントと打ち合わせを行い、広報・ＰＲの目的を把握する。",
+      "execution_rate": 0.964,
+      "importance": 4.037
+    },
+    {
+      "task_id": 2,
+      "description_ja": "広報・ＰＲの対象となる企業や商品、同業他社の動向等の関連情報を集め、分析する。",
+      "execution_rate": 0.929,
+      "importance": 3.962
+    },
+    {
+      "task_id": 3,
+      "description_ja": "メインターゲット層の特徴等を考慮し、ＰＲ戦略を立てる。",
+      "execution_rate": 0.964,
+      "importance": 4.0
+    },
+    {
+      "task_id": 4,
+      "description_ja": "広報・ＰＲの中心となるキャッチコピーや、起用するインフルエンサー（芸能人等）などを決定する。",
+      "execution_rate": 0.857,
+      "importance": 3.458
+    },
+    {
+      "task_id": 5,
+      "description_ja": "素材となる画像、映像などの制作を担当スタッフに依頼する。",
+      "execution_rate": 0.857,
+      "importance": 3.333
+    },
+    {
+      "task_id": 6,
+      "description_ja": "完成した素材を用いて、ポスターや広告紙面、ＣＭなどの制作をデザイナーやクリエイターに依頼する。",
+      "execution_rate": 0.786,
+      "importance": 3.591
+    },
+    {
+      "task_id": 7,
+      "description_ja": "雑誌や新聞、Webサイト等の活字メディア向けに原稿を執筆する。",
+      "execution_rate": 0.714,
+      "importance": 3.3
+    },
+    {
+      "task_id": 8,
+      "description_ja": "イベント、セミナー、シンポジウム等を企画する。",
+      "execution_rate": 0.786,
+      "importance": 3.364
+    },
+    {
+      "task_id": 9,
+      "description_ja": "記者発表会の設営、実施、運営等を行う。",
+      "execution_rate": 0.643,
+      "importance": 3.333
+    },
+    {
+      "task_id": 10,
+      "description_ja": "地域住民や一般消費者との交流活動を企画・実施する。",
+      "execution_rate": 0.607,
+      "importance": 3.176
+    },
+    {
+      "task_id": 11,
+      "description_ja": "プレスリリースを作成し、配信する。",
+      "execution_rate": 0.607,
+      "importance": 3.471
+    },
+    {
+      "task_id": 12,
+      "description_ja": "SNSの運用と管理を行う。",
+      "execution_rate": 0.643,
+      "importance": 3.333
+    },
+    {
+      "task_id": 13,
+      "description_ja": "メディアに情報を提供し、番組や記事で取り上げてもらえるよう依頼する。",
+      "execution_rate": 0.607,
+      "importance": 3.529
+    },
+    {
+      "task_id": 14,
+      "description_ja": "メディアで報道・掲載された関連箇所を抜粋する。",
+      "execution_rate": 0.607,
+      "importance": 3.059
+    },
+    {
+      "task_id": 15,
+      "description_ja": "広告の費用対効果や反響を測定する。",
+      "execution_rate": 0.714,
+      "importance": 3.6
+    },
+    {
+      "task_id": 16,
+      "description_ja": "危機管理発生時のコンサルテーションを行う。",
+      "execution_rate": 0.607,
+      "importance": 3.588
+    },
+    {
+      "task_id": 17,
+      "description_ja": "クライアントのスタッフにトレーニングを行う。",
+      "execution_rate": 0.679,
+      "importance": 3.263
+    },
+    {
+      "task_id": 18,
+      "description_ja": "年間のスケジュールを作成する。",
+      "execution_rate": 0.786,
+      "importance": 3.5
+    },
+    {
+      "task_id": 19,
+      "description_ja": "メディアや取引先の関係者と連絡を取り、最新のトレンドや情報を共有する。",
+      "execution_rate": 0.679,
+      "importance": 3.368
+    },
+    {
+      "task_id": 20,
+      "description_ja": "新しい広告媒体やＰＲ手法等について、書籍やインターネット、各種のセミナー等を通じて理解を深める。",
+      "execution_rate": 0.75,
+      "importance": 3.19
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人 日本パブリックリレーションズ協会",
+      "url": "https://prsj.or.jp/"
+    },
+    {
+      "name_ja": "日本広報学会",
+      "url": "http://jsccs.jp/"
+    },
+    {
+      "name_ja": "一般財団法人　経済広報センター",
+      "url": "https://www.kkc.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "PRプランナー"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/363",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,459 @@
+{
+  "id": 321,
+  "ipd_id": "IPD_01_01_321",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "セキュリティエキスパート（オペレーション）",
+  "aliases_ja": [
+    "情報セキュリティ技術者",
+    "セキュリティアナリスト",
+    "セキュリティエンジニア（オペレーション）"
+  ],
+  "classifications": {
+    "mhlw_main": "02_010-04",
+    "mhlw_all": [
+      "02_010-04"
+    ],
+    "jsoc_main": "B105",
+    "jsoc_all": [
+      "B105"
+    ]
+  },
+  "description": {
+    "summary_ja": "情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する。",
+    "what_it_is_ja": "情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する。\n　情報セキュリティ関係の仕事としては様々なものがある。セキュリティの面で強固な情報システムを企画・設計したり、不正アクセス等を検知し防衛するシステムを設計、実装したり、セキュリティ上問題がないか監査したり（セキュリティ監査）、情報システムの脆弱性の診断をしたり（脆弱性診断）、攻撃による事故等が発生したときに痕跡や原因を調べたり（デジタルフォレンジック）、システム導入後、セキュリティ面で監視し安全に運用する仕事などである。ここでは、この中で運用されているシステムの外部からの攻撃や不正アクセスを監視し、インシデント発生時の対応を行う専門家であるセキュリティエキスパート（オペレーション）の仕事を解説する。\n　不正アクセスや攻撃からWebサイトを守るだけではなく、ネットワークにつながっているサーバー、パソコン、タブレット、スマートフォン、その他IoT機器全てがセキュリティ監視の対象となりうる。金融関係のシステム、商取引のシステム、交通や流通のシステム、工場の生産システム、発電所のシステム、カルテを含む病院のシステム、組織内のLANなど、監視の対象は幅広い。\n　具体的な業務としては、新しいシステム開発する際に、監視対象とする指標（情報システムのどの部分を監視するか）、問題が起きた場合のアラート（セキュリティ警告）の設定、また、問題が起きた場合の対応策、連絡先などの決定に運用担当者として参画する。顧客とシステム開発担当者の打合せに参加することもある。システム開発と平行して、セキュリティの監視、運用の手順書を作成する場合もある。\n　監視のための装置やプログラムの実装は、顧客の情報システムに既存のIPS（Intrusion Prevention System、不正侵入防止システム）やIDS（Intrusion Detection System、不正侵入検知システム）を導入するだけであれば最短で1日という場合もあるが、顧客が国際的にビジネスを展開している場合は、各国でシステムや関係する法律が異なることから調整に時間がかかり、何年もかかる場合がある。\n　監視にあたっては、SOCで、情報システムやセキュリティ機器から得られるシステムログやセキュリティログ（ログとはシステムやネットワークに発生するイベントを記録したもの）を常に監視する。不審な動きが見られた場合はログを分析し、原因を推定して、顧客に報告する。問題が発生するリスクを予測し、ウイルス感染などのインシデントが起きないようにする。\n　インシデントが発生した場合は危機に対応するチーム（CSIRT：Computer Security Incident Response Teamと呼ばれる)に連絡し、共同してインシデントレスポンスを行う。インシデントレスポンスとはインシデントが生じた際、原因の特定、問題の除去、システムや業務の復旧、社内外の関係者への連絡と調整である。SOCで監視にあたっているチームと、この危機に対応するチームが別の場合もあるが、監視にあたっていた者から危機に対応するチームを作る場合もある。\n　なお、小規模なシステムでは、運用・管理を行う者がセキュリティの監視も行うことが多い。\n\n◇　よく使う道具、機材、情報技術等\n　サーバー、パソコン、タブレット、スマートフォン、IoT機器、IPS（Intrusion Prevention System、不正侵入防止システム）、IDS（Intrusion Detection System、不正侵入検知システム）、文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、オンライン会議ツール",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、大卒以上で、専攻は理工学部の情報系や社会情報系が多い。セキュリティ専門の学科等を設ける大学も増えてきている。\n　新卒採用以外では、同業他社やセキュリティ関連のソフトウェア開発会社など、近接した業界からの転職や、システムを設計するエンジニアやプログラマーからの転身もある。\n　仕事をする上で必須の資格はなく、実績、経験が重視されるが、基本情報技術者試験、応用情報技術者試験、情報セキュリティマネジメント試験、情報処理安全確保支援士試験等を受検する者もいる。これらの試験に合格すると企業によっては手当が付く場合もある。\n　入職後の教育としては、新人研修を受けた後、OJTでベテラン（シニアアナリストやシニアオペレーター、スーパーバイザーと呼ばれることもある）のもと、ログの分析、セキュリティ装置の操作等、1～2年かけて教育していく企業もある。\n　一人前になったとみなされるのは、セキュリティ装置を自在に操作できること、また、ログや指標が示す状況がセキュリティとしてどのような意味を持っており、システムにどのような影響を与えるかが分かり、顧客に分かりやすく、的確に説明ができるようになることであり、このレベルになるのには3年程度の経験が必要と言われる。セキュリティ関係のワークショップに参加し、システムを攻撃する側と防御する側のチームに分かれ、実践的なスキルや技術を磨くこともよく行われている。\n　セキュリティを監視、対応するチームのリーダーとなり（シニアアナリストと呼ぶ会社もある）、マネージャー、管理職から会社の経営層となる人もおり、また、セキュリティの専門家として、システム開発会社やメーカーに転職する人もいる。セキュリティに関するコンサルタントとなる人もいる。\n　必要なスキルとしては、まず情報収集力が求められる。新しいセキュリティ関連の技術や製品に関する情報を常に把握し、組織内外で発生するインシデントの情報を収集、分析し、適切な対処法を常に更新することが重要である。\n　また、顧客や関係者など、セキュリティに詳しくない人に状況を説明し、被害拡大を最小限に抑えるために、状況と対応方法をわかりやすく的確に伝えられるコミュニケーション能力も必要である。\n　インシデントの発生を事前に予測したり、インシデントが生じたときには危機に対応するチームと共同で問題を解決する能力も求められる。",
+    "working_conditions_ja": "就業先はセキュリティ事業を専門に行う会社や大手IT企業、情報通信企業のセキュリティ部門であり、多くは東京や大阪に集中している。\n　現状の女性比率は低く、数％程度であるが（事業者団体）、女性にとって働きやすい環境にしようと動いている会社もあり、増加傾向である。\n　20歳代～30歳代が多くを占め、マネージャークラス（SOCの責任者）が40歳代という年齢構成が一般的である。\n　問題が起きたときの顧客との関係や守秘義務契約のため、雇用形態は正社員が多いが、顧客先に常駐ということもある。\n　24時間365日監視する作業であり、勤務体制は2交代か3交代の交代制が一般的である。一方、中には大規模なSOCで時差のある地域に地球規模で複数の拠点を用意し、全体としては24時間対応するFollow the Sunと呼ばれる運用を行う会社もある。それぞれのSOCは主に日中、監視するが、他のSOCと連携し、全体として24時間の監視となっている。\n　情報システム、情報ネットワークが拡大するとともに、監視の範囲は情報分野だけでなく、様々な産業分野にも広がり、さらに、日々、新たな脅威、新たな攻撃が生まれ、セキュリティ人材は常に不足している。人員の不足をカバーするために、ログの解析や攻撃の検出にデータサイエンスやAI（人工知能）を活用する動きも出ている。このような技術が進むと、セキュリティエキスパート（オペレーション）の役割や仕事が変わっていく可能性もある。"
+  },
+  "interests": {
+    "realistic": 3.1,
+    "investigative": 3.4,
+    "artistic": 2.6,
+    "social": 2.95,
+    "enterprising": 2.875,
+    "conventional": 2.725
+  },
+  "work_values": {
+    "achievement": 3.333,
+    "autonomy": 3.5,
+    "expertise": 3.833,
+    "self_growth": 3.583,
+    "social_recognition": 3.417,
+    "service_contribution": 3.458,
+    "good_relationships": 3.292,
+    "workplace_safety": 3.125,
+    "work_life_balance": 3.5,
+    "stability": 3.542,
+    "compensation": 3.542
+  },
+  "skills": {
+    "reading_comprehension": 4.542,
+    "active_listening": 4.542,
+    "writing": 4.208,
+    "speaking": 4.042,
+    "foreign_language_reading": 2.875,
+    "foreign_language_listening": 2.292,
+    "foreign_language_writing": 2.167,
+    "foreign_language_speaking": 1.833,
+    "mathematics": 2.5,
+    "science": 2.292,
+    "critical_thinking": 3.958,
+    "active_learning": 3.583,
+    "learning_strategies": 3.583,
+    "monitoring": 3.917,
+    "social_perceptiveness": 3.708,
+    "coordination": 3.875,
+    "persuasion": 3.375,
+    "negotiation": 3.333,
+    "instructing": 3.458,
+    "service_orientation": 3.25,
+    "complex_problem_solving": 3.708,
+    "operations_analysis": 3.25,
+    "technology_design": 2.958,
+    "equipment_selection": 3.083,
+    "installation": 3.208,
+    "programming": 3.0,
+    "operations_monitoring": 2.5,
+    "operation_and_control": 2.792,
+    "equipment_maintenance": 2.75,
+    "troubleshooting": 2.958,
+    "repairing": 2.833,
+    "quality_control_analysis": 3.375,
+    "judgment_decision_making": 3.375,
+    "systems_analysis": 3.417,
+    "systems_evaluation": 3.208,
+    "time_management": 3.458,
+    "financial_resources_management": 2.333,
+    "material_resources_management": 2.583,
+    "personnel_resources_management": 2.375
+  },
+  "knowledge": {
+    "business_management": 1.536,
+    "clerical": 2.643,
+    "economics_accounting": 1.071,
+    "sales_marketing": 0.786,
+    "customer_personal_service": 1.893,
+    "personnel_hr": 0.893,
+    "transportation": 0.143,
+    "production_processing": 0.5,
+    "agriculture_livestock": 0.143,
+    "engineering": 0.857,
+    "computers_electronics": 2.286,
+    "design": 1.214,
+    "building_construction": 0.214,
+    "mechanical": 0.5,
+    "mathematics_kn": 0.964,
+    "physics": 0.464,
+    "chemistry": 0.179,
+    "biology": 0.179,
+    "psychology": 1.071,
+    "sociology": 0.893,
+    "geography": 0.321,
+    "medicine_dentistry": 0.286,
+    "therapy_counseling": 0.464,
+    "education_training_kn": 1.571,
+    "japanese_language": 1.857,
+    "foreign_language_kn": 1.25,
+    "fine_arts": 0.143,
+    "history_archaeology": 0.214,
+    "philosophy_theology": 0.286,
+    "public_safety_security": 1.643,
+    "law_government": 1.0,
+    "telecommunications": 2.607,
+    "communications_media": 1.714
+  },
+  "abilities": {
+    "oral_comprehension": 2.35,
+    "written_comprehension": 2.9,
+    "oral_expression": 2.5,
+    "written_expression": 2.85,
+    "fluency_of_ideas": 2.25,
+    "originality": 2.5,
+    "problem_sensitivity": 3.3,
+    "deductive_reasoning": 2.8,
+    "inductive_reasoning": 3.1,
+    "information_ordering": 2.6,
+    "category_flexibility": 2.85,
+    "mathematical_reasoning": 2.5,
+    "number_facility": 2.45,
+    "memorization": 2.5,
+    "perceptual_speed": 2.85,
+    "spatial_orientation": 2.25,
+    "visualization": 2.45,
+    "selective_attention": 2.75,
+    "time_sharing": 2.8,
+    "arm_hand_steadiness": 1.95,
+    "manual_dexterity": 1.95,
+    "finger_dexterity": 1.95,
+    "reaction_time": 2.25,
+    "wrist_finger_speed": 1.95,
+    "speed_of_limb_movement": 1.9,
+    "static_strength": 1.7,
+    "stamina": 1.95,
+    "gross_body_equilibrium": 1.8,
+    "near_vision": 1.95,
+    "far_vision": 1.75,
+    "visual_color_discrimination": 2.0,
+    "depth_perception": 1.75,
+    "hearing_sensitivity": 1.7,
+    "auditory_attention": 1.9,
+    "speech_clarity": 1.85
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.714,
+    "face_to_face_discussions": 3.536,
+    "telephone_communication": 3.857,
+    "business_writing": 3.393,
+    "conflict_situations": 2.464,
+    "time_pressure": 2.893,
+    "teamwork": 3.714,
+    "dealing_with_external_customers": 3.107,
+    "coordinate_lead_others": 3.5,
+    "exactness_accuracy": 3.893,
+    "repetitive_tasks": 3.071,
+    "pace_determined_by_machine": 2.643,
+    "responsibility_for_outcomes": 3.143,
+    "indoor_climate_controlled": 4.5,
+    "indoor_non_climate_controlled": 1.964,
+    "outdoor_work": 1.071,
+    "sitting": 4.929,
+    "standing": 1.393,
+    "repetition_of_activities": 2.036,
+    "consequence_of_error": 3.286,
+    "freedom_to_make_decisions": 3.5,
+    "set_own_goals": 3.607,
+    "regular_schedule": 0.464,
+    "irregular_schedule": 0.429,
+    "seasonal_schedule": 0.107,
+    "email_communication": 4.5,
+    "cramped_uncomfortable": 1.5,
+    "disease_infection_risk": 1.786,
+    "minor_injury_risk": 1.0,
+    "standard_protective_equipment": 1.0,
+    "specialized_protective_equipment": 1.0,
+    "dealing_with_violent_people": 1.107,
+    "walking_running": 1.536,
+    "handling_objects_tools": 1.714,
+    "physical_proximity": 2.964,
+    "work_automation": 2.357,
+    "responsibility_for_safety": 1.679,
+    "impact_of_decisions": 2.643,
+    "level_of_competition": 1.679
+  },
+  "work_activities": {
+    "getting_information": 3.35,
+    "monitor_processes": 3.25,
+    "identifying_objects": 3.6,
+    "inspecting_equipment": 2.5,
+    "estimating_quantifiable": 2.75,
+    "judging_quality": 2.85,
+    "evaluating_compliance": 2.95,
+    "processing_information": 2.9,
+    "analyzing_data": 3.35,
+    "making_decisions": 3.2,
+    "thinking_creatively": 2.8,
+    "updating_knowledge": 3.45,
+    "developing_objectives": 3.05,
+    "scheduling_work": 3.15,
+    "organizing_planning": 3.35,
+    "physical_activities": 2.15,
+    "handling_objects": 2.15,
+    "controlling_machines": 2.1,
+    "operating_vehicles": 1.4,
+    "computer_work": 3.55,
+    "drafting_specifications": 2.0,
+    "repairing_mechanical": 2.3,
+    "repairing_electronic": 2.55,
+    "documenting_information": 2.8,
+    "interpreting_information": 3.1,
+    "communicating_inside": 3.45,
+    "communicating_outside": 3.15,
+    "building_relationships": 3.1,
+    "assisting_caring": 2.5,
+    "selling_influencing": 2.3,
+    "resolving_conflicts": 2.6,
+    "performing_for_public": 2.05,
+    "coordinating_others": 3.1,
+    "developing_teams": 2.9,
+    "training_teaching": 3.05,
+    "guiding_subordinates": 2.7,
+    "coaching_developing": 2.7,
+    "providing_consultation": 2.4,
+    "performing_administrative": 2.85,
+    "staffing_organizational": 2.6,
+    "monitoring_resources": 2.45
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.143,
+    "vocational_school": 0.143,
+    "junior_college": 0.036,
+    "technical_college": 0.071,
+    "university": 0.75,
+    "masters": 0.071,
+    "doctorate": 0.0,
+    "unknown": 0.107
+  },
+  "training_pre": {
+    "not_required": 0.25,
+    "up_to_1_month": 0.071,
+    "1_to_6_months": 0.286,
+    "6_months_to_1_year": 0.071,
+    "1_to_2_years": 0.071,
+    "2_to_3_years": 0.036,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.179
+  },
+  "training_post": {
+    "not_required": 0.036,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.286,
+    "6_months_to_1_year": 0.107,
+    "1_to_2_years": 0.286,
+    "2_to_3_years": 0.036,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.0,
+    "unknown": 0.179
+  },
+  "experience": {
+    "not_required": 0.357,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.107,
+    "6_months_to_1_year": 0.071,
+    "1_to_2_years": 0.071,
+    "2_to_3_years": 0.071,
+    "3_to_5_years": 0.071,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.214
+  },
+  "employment_type": {
+    "regular_employee": 0.714,
+    "part_time": 0.036,
+    "dispatched": 0.107,
+    "contract": 0.25,
+    "self_employed_freelance": 0.071,
+    "executive": 0.036,
+    "casual_non_student": 0.036,
+    "casual_student": 0.036,
+    "unknown": 0.0,
+    "other": 0.036
+  },
+  "tasks_lead_ja": "情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "セキュリティの監視、対応の手順書を作成する。",
+      "execution_rate": 0.85,
+      "importance": 3.353
+    },
+    {
+      "task_id": 2,
+      "description_ja": "セキュリティのアラート、指標を設定する。",
+      "execution_rate": 0.9,
+      "importance": 3.167
+    },
+    {
+      "task_id": 3,
+      "description_ja": "セキュリティのログ、指標を監視する。",
+      "execution_rate": 0.95,
+      "importance": 3.526
+    },
+    {
+      "task_id": 4,
+      "description_ja": "セキュリティのログを調べる。",
+      "execution_rate": 1.0,
+      "importance": 3.4
+    },
+    {
+      "task_id": 5,
+      "description_ja": "シグネチャ（ログに残されたマルウェアや不正アクセスの特徴的なパターン）を検討する。",
+      "execution_rate": 0.85,
+      "importance": 3.0
+    },
+    {
+      "task_id": 6,
+      "description_ja": "アラート、指標の設定を変更する。",
+      "execution_rate": 0.95,
+      "importance": 2.895
+    },
+    {
+      "task_id": 7,
+      "description_ja": "インシデントが起きた場合、顧客に状況を説明する。",
+      "execution_rate": 0.95,
+      "importance": 3.632
+    },
+    {
+      "task_id": 8,
+      "description_ja": "インシデントが起きた場合、危機に対応するチーム（CERT、CSIRT）に連絡する。",
+      "execution_rate": 0.95,
+      "importance": 4.211
+    },
+    {
+      "task_id": 9,
+      "description_ja": "インシデントレスポンス（原因の特定、問題の除去、システムや業務の復旧、社内外の関係者への連絡と調整）を行う。",
+      "execution_rate": 0.95,
+      "importance": 3.632
+    },
+    {
+      "task_id": 10,
+      "description_ja": "監視・運用のチームに加わった新人の教育、訓練をする。",
+      "execution_rate": 0.9,
+      "importance": 3.611
+    },
+    {
+      "task_id": 11,
+      "description_ja": "セキュリティの監視、運用の手順書を更新する。",
+      "execution_rate": 0.95,
+      "importance": 3.368
+    },
+    {
+      "task_id": 12,
+      "description_ja": "顧客に対するセキュリティの報告書を作成する。",
+      "execution_rate": 0.95,
+      "importance": 3.421
+    },
+    {
+      "task_id": 13,
+      "description_ja": "最新のセキュリティ情報と対策を調査する。",
+      "execution_rate": 1.0,
+      "importance": 3.4
+    },
+    {
+      "task_id": 14,
+      "description_ja": "アカウントやアクセスデバイスを管理する。",
+      "execution_rate": 1.0,
+      "importance": 3.4
+    },
+    {
+      "task_id": 15,
+      "description_ja": "顧客や関係者からの問い合わせに対応をする。",
+      "execution_rate": 0.95,
+      "importance": 3.368
+    },
+    {
+      "task_id": 16,
+      "description_ja": "セキュリティや脆弱性のテスト・診断を実施する。",
+      "execution_rate": 0.95,
+      "importance": 3.368
+    },
+    {
+      "task_id": 17,
+      "description_ja": "顧客向けにセキュリティに関するコンサルティングを行う。",
+      "execution_rate": 0.85,
+      "importance": 3.059
+    },
+    {
+      "task_id": 18,
+      "description_ja": "ユーザー向けの教育を実施する。",
+      "execution_rate": 0.8,
+      "importance": 3.375
+    },
+    {
+      "task_id": 19,
+      "description_ja": "内部・外部からの監査に対応する。",
+      "execution_rate": 0.95,
+      "importance": 3.158
+    },
+    {
+      "task_id": 20,
+      "description_ja": "システム開発において、監視、対応の面から設計に参画する。",
+      "execution_rate": 0.6,
+      "importance": 2.583
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "独立行政法人　情報処理推進機構（IPA）",
+      "url": "https://www.ipa.go.jp"
+    },
+    {
+      "name_ja": "日本セキュリテイオペレーション事業者協議会",
+      "url": "https://isog-j.org"
+    },
+    {
+      "name_ja": "一般社団法人　日本コンピュータセキュリティインシデント対応チーム協議会",
+      "url": "https://www.nca.gr.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "応用情報技術者",
+    "基本情報技術者",
+    "情報セキュリティマネジメント",
+    "情報処理安全確保支援士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/321",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

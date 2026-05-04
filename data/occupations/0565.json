@@ -1,0 +1,288 @@
+{
+  "id": 565,
+  "ipd_id": "IPD_01_01_565",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "養護教諭",
+  "aliases_ja": [
+    "保健室の先生"
+  ],
+  "classifications": {
+    "mhlw_main": "05_031-01",
+    "mhlw_all": [
+      "05_029-02",
+      "05_031-01",
+      "05_031-02",
+      "05_031-03",
+      "05_031-04",
+      "05_031-06"
+    ],
+    "jsoc_main": "B192",
+    "jsoc_all": [
+      "B191",
+      "B192",
+      "B193",
+      "B194",
+      "B196"
+    ]
+  },
+  "description": {
+    "summary_ja": "小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進に関する業務に携わる。",
+    "what_it_is_ja": "小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進に関する業務に携わる。一般に「保健室の先生」と呼ばれることが多い。\n　養護教諭が行っている主な仕事は、学校内でのけがや体調不良の児童生徒等に対する救急処置である。軽微なけがの手当てを行い、体調不良の児童生徒等に対しては、状態をよく聞きとり、様子を観察し、保健室内で安静にさせる。けがや体調の状態によっては学級担任、管理職等と相談の上、保護者に連絡し迎えに来てもらったり、救急車の搬送を依頼したりすることもある。学校は教育機関であり、医療機関ではないため、学校における救急処置は医療機関での処置が行われるまでの応急的なものであるが、養護教諭は、救急処置と合わせて、児童生徒等の発達の段階に応じた、疾病やけがなどに関する保健指導も行う。\n　保健室を訪れる児童生徒等には、身体的不調の背景にいじめや虐待など心の問題や悩みを抱える者もいる。そのような児童生徒等の心身の状態をよく観察し、話を聞くなどして心の問題の早期発見に努め、学級担任、学年主任、スクールカウンセラー、管理職等と情報を共有して対処していくことも養護教諭の役割である。\n　定期的に毎年行う仕事として、健康診断の企画、実施に関する様々な業務がある。学校では６月30日までに児童生徒等の健康診断を行うことが法令で定められている。また、小学校入学予定の幼児を対象とした就学時の健康診断がある。健康診断は学校医、学校歯科医等が行うものであるが、養護教諭はこれらの健康診断の実施が円滑に行われるよう、日程調整、学校医・学校歯科医への連絡、実施計画の作成・準備、保護者への周知、事前指導などを行う。健康診断実施後は、事後措置として、疾病又は異常がある者だけでなく心身に疾病や異常が認められなかった児童生徒等にも、健康診断の結果を通知し、児童生徒等の健康の保持増進に役立てている。加えて、結果を分析し、学校における健康課題を明らかにして健康教育に活用している。\n　また、学校保健計画の作成のほか、遠足、修学旅行、運動会、体育祭などの学校行事や夏休みなどに先立って、全校又は学年学級単位で体調管理の方法、けがや体調不良に対する具体的な対処方法、熱中症や感染症の予防等に関する保健指導を行う。学級担任等からの依頼に応じて健康や保健に関する授業において、ティーム・ティーチングで参画することもある。\n　養護教諭の仕事には事務的な作業も多い。学校の管理下でけがをした児童生徒等の災害給付金申請に係る書類の作成、毎日の保健室の利用状況に関する記録なども事務作業に含まれる。地域による若干の差はあるが、近年は学校にもパソコンやタブレットなど情報端末の導入が進み、作業の効率化やネットワークを用いた情報発信が推進されている。\n　学校環境衛生活動も養護教諭の仕事である。学校内の環境が健康的で快適な学習環境として維持されているかどうかを、学校薬剤師の指導助言の下、学校保健安全法に規定する学校環境衛生基準に照らして確認する。具体的には教室内の照明の明るさ（照度）、換気、温湿度、騒音、水道水（飲料水等）の水質の確認などがある。\n　近年はアレルギー疾患の増加、メンタルヘルスの問題など多様化・複雑化する現代的健康課題への対応がある一方で、保健室に来て心身の不調を訴えたり、問題を抱えていたりする児童生徒等が徐々に快方へ向かう様子を見ることができるのは、養護教諭としてやりがいを感じられる点である。学習指導とは別の関わり方を通して児童生徒等の成長の姿を間近で見られることは、この仕事の大きな魅力である。\n\n◇よく使う道具、機材、情報技術\n　体温計、ベッド、長いす、検診器具（体重計、身長計等）、パソコン、タブレット、事務処理ソフト（文書作成、表計算）",
+    "how_to_become_ja": "養護教諭として仕事をするには、養護教諭の免許状が必要である。養護教諭免許状は、養護教諭の教職課程を有する大学等で所定の単位を修得することで取得できる。このほか、看護師、保健師の免許を保有している場合は、大学等において通常よりも少ない単位を修得することで、各都道府県の教育委員会に申請し、取得することができる。 \n　免許取得後、公立の学校に勤務するには各自治体の教員採用試験に、国立・私立の学校に勤務するには各学校法人等の採用試験に合格する必要がある。養護教諭の採用者数が少ないこともあり、採用倍率は他の教員と比較して高くなっている。\n　公立学校の場合、異動が定期的にあり異動先の学校種は様々である。自治体によって差はあるが、養護教諭としての経験を積みながら主任教諭、主幹教諭・指導教諭職を経て、選考や審査に合格することで副校長、校長などの管理職になる道も開かれている。\n　養護教諭は各学校の中での保健管理全体を原則一人で担う仕事であるため、学校の中での他の教職員との連携が必須となる。また、学校内の教職員のほか、外部機関、保護者とのやりとりも多いため、多くの人と連携し、情報共有できるコミュニケーション能力および様々な人の意見を集約し、まとめられる調整能力が必要である。学校において児童生徒の心身の健康に直接関わる立場であるため、児童生徒の保健管理、心身の発達に関する専門的知識のほか、相手の話に耳を傾け、理解し共感できるような心理的サポートに関する技能やスキルも求められる。",
+    "working_conditions_ja": "養護教諭の就業者数は全体で37,922人であり、そのうち女性教諭は37,851人（99.8％）を占める＊。多くが正規採用であるが、休業中の養護教諭の代替や新卒で採用された養護教諭の補助として資格をもつ非常勤の臨時教員が就業することもある。勤務は土日祝日を除く平日の朝から夕方までの８時間であるが、個人情報を含む持ち帰りができない書類を扱う事務仕事などは残業して行うこともある。\n　研修は、採用後１年目の初任者研修のほか、経験年数に応じて定期的に研修プログラムが組まれており、長期休業期間等を利用するなどして必要な研修を受講する。自ら希望する研修を選択して受講することもできる。\n\n＊文部科学省、学校基本調査（令和６年度）"
+  },
+  "interests": {
+    "realistic": 3.318,
+    "investigative": 3.273,
+    "artistic": 2.682,
+    "social": 4.682,
+    "enterprising": 3.455,
+    "conventional": 2.773
+  },
+  "work_values": {
+    "achievement": 3.818,
+    "autonomy": 4.091,
+    "expertise": 4.727,
+    "self_growth": 4.364,
+    "social_recognition": 4.0,
+    "service_contribution": 4.182,
+    "good_relationships": 3.864,
+    "workplace_safety": 3.636,
+    "work_life_balance": 3.636,
+    "stability": 4.409,
+    "compensation": 3.636
+  },
+  "skills": {
+    "reading_comprehension": 4.773,
+    "active_listening": 6.682,
+    "writing": 4.636,
+    "speaking": 4.955,
+    "foreign_language_reading": 1.591,
+    "foreign_language_listening": 1.455,
+    "foreign_language_writing": 1.0,
+    "foreign_language_speaking": 1.364,
+    "mathematics": 1.545,
+    "science": 2.091,
+    "critical_thinking": 3.682,
+    "active_learning": 3.727,
+    "learning_strategies": 3.636,
+    "monitoring": 3.955,
+    "social_perceptiveness": 5.455,
+    "coordination": 4.955,
+    "persuasion": 4.227,
+    "negotiation": 4.136,
+    "instructing": 4.955,
+    "service_orientation": 4.682,
+    "complex_problem_solving": 4.455,
+    "operations_analysis": 2.682,
+    "technology_design": 2.045,
+    "equipment_selection": 3.136,
+    "installation": 2.091,
+    "programming": 1.773,
+    "operations_monitoring": 1.591,
+    "operation_and_control": 2.045,
+    "equipment_maintenance": 1.591,
+    "troubleshooting": 1.5,
+    "repairing": 1.182,
+    "quality_control_analysis": 1.818,
+    "judgment_decision_making": 2.182,
+    "systems_analysis": 2.182,
+    "systems_evaluation": 2.091,
+    "time_management": 3.5,
+    "financial_resources_management": 1.455,
+    "material_resources_management": 1.591,
+    "personnel_resources_management": 1.727
+  },
+  "knowledge": null,
+  "abilities": {
+    "oral_comprehension": 3.8,
+    "written_comprehension": 3.6,
+    "oral_expression": 4.05,
+    "written_expression": 3.8,
+    "fluency_of_ideas": 3.3,
+    "originality": 3.05,
+    "problem_sensitivity": 3.9,
+    "deductive_reasoning": 3.05,
+    "inductive_reasoning": 3.15,
+    "information_ordering": 2.8,
+    "category_flexibility": 2.85,
+    "mathematical_reasoning": 2.35,
+    "number_facility": 2.25,
+    "memorization": 3.15,
+    "perceptual_speed": 2.6,
+    "spatial_orientation": 3.15,
+    "visualization": 2.75,
+    "selective_attention": 2.85,
+    "time_sharing": 3.6,
+    "arm_hand_steadiness": 2.7,
+    "manual_dexterity": 2.9,
+    "finger_dexterity": 2.9,
+    "reaction_time": 3.25,
+    "wrist_finger_speed": 2.8,
+    "speed_of_limb_movement": 2.65,
+    "static_strength": 2.35,
+    "stamina": 2.95,
+    "gross_body_equilibrium": 2.8,
+    "near_vision": 2.55,
+    "far_vision": 2.45,
+    "visual_color_discrimination": 2.85,
+    "depth_perception": 2.65,
+    "hearing_sensitivity": 2.9,
+    "auditory_attention": 2.7,
+    "speech_clarity": 3.2
+  },
+  "work_characteristics": null,
+  "work_activities": {
+    "getting_information": 3.75,
+    "monitor_processes": 3.95,
+    "identifying_objects": 3.65,
+    "inspecting_equipment": 2.5,
+    "estimating_quantifiable": 2.4,
+    "judging_quality": 2.65,
+    "evaluating_compliance": 3.05,
+    "processing_information": 3.25,
+    "analyzing_data": 3.45,
+    "making_decisions": 3.6,
+    "thinking_creatively": 3.1,
+    "updating_knowledge": 3.75,
+    "developing_objectives": 3.15,
+    "scheduling_work": 3.55,
+    "organizing_planning": 3.85,
+    "physical_activities": 2.6,
+    "handling_objects": 2.55,
+    "controlling_machines": 2.0,
+    "operating_vehicles": 1.6,
+    "computer_work": 3.05,
+    "drafting_specifications": 1.8,
+    "repairing_mechanical": 1.85,
+    "repairing_electronic": 1.8,
+    "documenting_information": 3.4,
+    "interpreting_information": 3.3,
+    "communicating_inside": 4.1,
+    "communicating_outside": 4.0,
+    "building_relationships": 4.35,
+    "assisting_caring": 4.5,
+    "selling_influencing": 2.75,
+    "resolving_conflicts": 3.25,
+    "performing_for_public": 3.1,
+    "coordinating_others": 2.4,
+    "developing_teams": 2.65,
+    "training_teaching": 2.6,
+    "guiding_subordinates": 2.55,
+    "coaching_developing": 2.8,
+    "providing_consultation": 2.3,
+    "performing_administrative": 2.95,
+    "staffing_organizational": 2.05,
+    "monitoring_resources": 1.9
+  },
+  "education_distribution": null,
+  "training_pre": null,
+  "training_post": null,
+  "experience": null,
+  "employment_type": {
+    "regular_employee": 0.696,
+    "part_time": 0.261,
+    "dispatched": 0.0,
+    "contract": 0.13,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進等に関する業務に携わる。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "学校内でのけがや体調不良の児童生徒に対し、保健室において救急措置を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.739
+    },
+    {
+      "task_id": 2,
+      "description_ja": "保健室に来室する児童生徒の心身の状態をよく観察し、話を聞くなどして心の問題の早期発見に努める。",
+      "execution_rate": 1.0,
+      "importance": 4.739
+    },
+    {
+      "task_id": 3,
+      "description_ja": "児童生徒の心身の不調や健康管理について、学級担任等と情報を共有して対処する。",
+      "execution_rate": 1.0,
+      "importance": 4.696
+    },
+    {
+      "task_id": 4,
+      "description_ja": "定期健康診断に先立って、学校内での日程調整、学校医等への連絡、実施計画の作成などの事前準備を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.609
+    },
+    {
+      "task_id": 5,
+      "description_ja": "定期健康診断の実施後、児童生徒に健康診断の結果を通知する。",
+      "execution_rate": 1.0,
+      "importance": 4.609
+    },
+    {
+      "task_id": 6,
+      "description_ja": "定期健康診断の結果を分析し、学校における健康課題を明らかにする。",
+      "execution_rate": 1.0,
+      "importance": 4.261
+    },
+    {
+      "task_id": 7,
+      "description_ja": "遠足、修学旅行、運動会、体育祭などの学校行事や夏休みなどに先立って、体調管理の方法、けがや体調不良に対する具体的な対処方法、熱中症や感染症の予防等に関する保健指導を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.391
+    },
+    {
+      "task_id": 8,
+      "description_ja": "学級担任等の依頼に応じて、健康や保健をテーマとした授業において、ティーム・ティーチングで参画する。",
+      "execution_rate": 1.0,
+      "importance": 3.609
+    },
+    {
+      "task_id": 9,
+      "description_ja": "けがをした児童生徒の災害給付金の申請に係る書類を作成する。",
+      "execution_rate": 1.0,
+      "importance": 4.304
+    },
+    {
+      "task_id": 10,
+      "description_ja": "保健室の利用状況に関する記録をつけ、資料を整理する。",
+      "execution_rate": 1.0,
+      "importance": 4.217
+    },
+    {
+      "task_id": 11,
+      "description_ja": "学校環境衛生面の管理として、教室内の照明の明るさ（照度）、換気、温湿度、騒音、水道水（飲料水等）の水質の確認を行う。",
+      "execution_rate": 0.957,
+      "importance": 3.864
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "文部科学省初等中等教育局",
+      "url": "https://www.mext.go.jp/a_menu/01_k.htm"
+    },
+    {
+      "name_ja": "公益財団法人日本学校保健会",
+      "url": "https://www.hokenkai.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "養護教諭免許（専修・１種・２種）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/565",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2024,
+    "classifications": 2024,
+    "description": 2024
+  }
+}

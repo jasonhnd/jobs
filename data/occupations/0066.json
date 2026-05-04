@@ -1,0 +1,487 @@
+{
+  "id": 66,
+  "ipd_id": "IPD_01_01_066",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "フラワーショップ店員",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "07_045-14",
+    "mhlw_all": [
+      "07_045-14"
+    ],
+    "jsoc_main": "D323",
+    "jsoc_all": [
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "フラワーショップで、顧客の要望に応えながら生花を販売する。",
+    "what_it_is_ja": "フラワーショップで、顧客の要望に応えながら生花を販売する。\n　この職業に就くと、まず花や鉢の正しい扱い方を先輩に教わる。花について勉強しながら店の清掃や配達の仕事を覚えていき、少しずつ接客や販売の仕事も任されるようになる。一人前になるためには、販売だけでなく仕入れもできなければならない。\n　仕事は、花を仕入れることから始まる。卸売市場に出向き、花や鉢を自分の目で見てよいものを少しでも安く買うことが大切である。このために、出荷情報や業界の動向に気を配るとともに、自分の店の状況を考え、上手な仕入れをすることが重要となる。\n　仕入れてきた花は種類や形によって水揚げをしたり、枝・茎や余分な部分を切るなどして加工・保存し、値段をつけて店頭で販売する。顧客の希望に応えながら花を選び、花束やブーケを作る。\n　フラワーアレンジメントや生け花などの技術や知識を習得すると、高度なアレンジや結婚式用ブーケのデザインの制作などにも携わるようになる。さらに、大きな会場装飾や店頭ディスプレイ、葬儀場の演出などを担当することもある。\n\n◇　よく使う道具、機材、情報技術等\n　レジ（小売店、レストラン等）、花鋏",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、花や鉢の種類が多いため、基礎的な植物学の知識をベースに手入れや処理の方法を覚える必要がある。\n　入職経路については、新規開業の店や大型店では、ハローワーク、求人広告や学校の紹介が重視され、求人専門誌をはじめ、フラワーアレンジメントの関係誌、業界新聞なども利用される。\n　入職条件ではないが、生け花の免許、フラワーアレンジメントの認定資格や厚生労働省の定める技能検定の「フラワー装飾技能士」などの資格を持っていると、採用時に考慮されることもある。入職後にこうした資格を取るように勉強する姿勢が大切といえる。また、花や緑に対する興味と専門知識、好感の持てる接客態度、色彩やデザインに関するセンスも必要となる。さらに、配達、仕入れなど、ある程度の体力も必要となる。\n　技術や能力が上がれば独立して店を開業することもできる。",
+    "working_conditions_ja": "基本的にフラワーショップに勤務する。フラワーショップは、家族従業員を中心とした小規模店が多いが、大型の販売店もあり、仲間同士で店を開くケースもある。\n　休日については、原則としてフラワーショップの定休日に準ずるが、日曜が定休日であっても母の日にはほとんどのフラワーショップが営業するなど、季節や曜日・時間で繁閑の差がある。\n　立ち仕事であることや、水を扱う機会が多いので、手が冷えたり手が荒れることもある。"
+  },
+  "interests": {
+    "realistic": 3.795,
+    "investigative": 3.027,
+    "artistic": 4.096,
+    "social": 4.068,
+    "enterprising": 3.26,
+    "conventional": 3.411
+  },
+  "work_values": {
+    "achievement": 3.891,
+    "autonomy": 3.545,
+    "expertise": 4.018,
+    "self_growth": 3.673,
+    "social_recognition": 2.818,
+    "service_contribution": 2.818,
+    "good_relationships": 3.618,
+    "workplace_safety": 3.327,
+    "work_life_balance": 3.491,
+    "stability": 2.964,
+    "compensation": 2.455
+  },
+  "skills": {
+    "reading_comprehension": 2.855,
+    "active_listening": 4.164,
+    "writing": 2.709,
+    "speaking": 3.345,
+    "foreign_language_reading": 0.855,
+    "foreign_language_listening": 0.727,
+    "foreign_language_writing": 0.545,
+    "foreign_language_speaking": 0.709,
+    "mathematics": 1.873,
+    "science": 0.891,
+    "critical_thinking": 2.236,
+    "active_learning": 2.509,
+    "learning_strategies": 2.218,
+    "monitoring": 2.127,
+    "social_perceptiveness": 2.855,
+    "coordination": 2.527,
+    "persuasion": 2.4,
+    "negotiation": 2.455,
+    "instructing": 2.782,
+    "service_orientation": 2.473,
+    "complex_problem_solving": 2.418,
+    "operations_analysis": 1.691,
+    "technology_design": 1.818,
+    "equipment_selection": 2.073,
+    "installation": 1.727,
+    "programming": 0.673,
+    "operations_monitoring": 0.709,
+    "operation_and_control": 1.145,
+    "equipment_maintenance": 1.291,
+    "troubleshooting": 1.2,
+    "repairing": 1.291,
+    "quality_control_analysis": 1.836,
+    "judgment_decision_making": 1.927,
+    "systems_analysis": 1.455,
+    "systems_evaluation": 1.418,
+    "time_management": 2.055,
+    "financial_resources_management": 1.855,
+    "material_resources_management": 1.709,
+    "personnel_resources_management": 1.473
+  },
+  "knowledge": {
+    "business_management": 1.373,
+    "clerical": 1.451,
+    "economics_accounting": 1.275,
+    "sales_marketing": 2.412,
+    "customer_personal_service": 2.843,
+    "personnel_hr": 1.373,
+    "transportation": 1.569,
+    "production_processing": 1.588,
+    "agriculture_livestock": 1.373,
+    "engineering": 0.353,
+    "computers_electronics": 0.471,
+    "design": 0.294,
+    "building_construction": 0.235,
+    "mechanical": 0.216,
+    "mathematics_kn": 0.451,
+    "physics": 0.216,
+    "chemistry": 0.176,
+    "biology": 0.745,
+    "psychology": 0.765,
+    "sociology": 0.686,
+    "geography": 0.353,
+    "medicine_dentistry": 0.216,
+    "therapy_counseling": 0.451,
+    "education_training_kn": 0.529,
+    "japanese_language": 0.882,
+    "foreign_language_kn": 0.569,
+    "fine_arts": 1.216,
+    "history_archaeology": 0.255,
+    "philosophy_theology": 0.294,
+    "public_safety_security": 0.392,
+    "law_government": 0.314,
+    "telecommunications": 0.235,
+    "communications_media": 0.863
+  },
+  "abilities": {
+    "oral_comprehension": 2.821,
+    "written_comprehension": 2.625,
+    "oral_expression": 2.804,
+    "written_expression": 2.643,
+    "fluency_of_ideas": 2.946,
+    "originality": 2.964,
+    "problem_sensitivity": 2.893,
+    "deductive_reasoning": 2.518,
+    "inductive_reasoning": 2.393,
+    "information_ordering": 2.446,
+    "category_flexibility": 2.321,
+    "mathematical_reasoning": 1.911,
+    "number_facility": 2.5,
+    "memorization": 2.643,
+    "perceptual_speed": 2.357,
+    "spatial_orientation": 2.232,
+    "visualization": 2.607,
+    "selective_attention": 2.536,
+    "time_sharing": 2.5,
+    "arm_hand_steadiness": 2.75,
+    "manual_dexterity": 3.071,
+    "finger_dexterity": 3.286,
+    "reaction_time": 2.571,
+    "wrist_finger_speed": 2.714,
+    "speed_of_limb_movement": 2.464,
+    "static_strength": 3.036,
+    "stamina": 2.857,
+    "gross_body_equilibrium": 2.304,
+    "near_vision": 2.25,
+    "far_vision": 2.179,
+    "visual_color_discrimination": 3.25,
+    "depth_perception": 2.696,
+    "hearing_sensitivity": 2.089,
+    "auditory_attention": 2.071,
+    "speech_clarity": 2.429
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.667,
+    "face_to_face_discussions": 2.784,
+    "telephone_communication": 4.137,
+    "business_writing": 3.02,
+    "conflict_situations": 1.824,
+    "time_pressure": 2.902,
+    "teamwork": 3.137,
+    "dealing_with_external_customers": 3.333,
+    "coordinate_lead_others": 2.863,
+    "exactness_accuracy": 3.431,
+    "repetitive_tasks": 3.098,
+    "pace_determined_by_machine": 1.863,
+    "responsibility_for_outcomes": 2.961,
+    "indoor_climate_controlled": 3.863,
+    "indoor_non_climate_controlled": 2.765,
+    "outdoor_work": 3.471,
+    "sitting": 1.843,
+    "standing": 4.373,
+    "repetition_of_activities": 3.176,
+    "consequence_of_error": 2.412,
+    "freedom_to_make_decisions": 3.294,
+    "set_own_goals": 3.294,
+    "regular_schedule": 0.353,
+    "irregular_schedule": 0.529,
+    "seasonal_schedule": 0.118,
+    "email_communication": 3.078,
+    "cramped_uncomfortable": 2.0,
+    "disease_infection_risk": 1.882,
+    "minor_injury_risk": 2.471,
+    "standard_protective_equipment": 1.333,
+    "specialized_protective_equipment": 1.02,
+    "dealing_with_violent_people": 1.078,
+    "walking_running": 3.333,
+    "handling_objects_tools": 3.686,
+    "physical_proximity": 3.451,
+    "work_automation": 1.392,
+    "responsibility_for_safety": 1.902,
+    "impact_of_decisions": 2.392,
+    "level_of_competition": 1.706
+  },
+  "work_activities": {
+    "getting_information": 2.804,
+    "monitor_processes": 2.768,
+    "identifying_objects": 2.571,
+    "inspecting_equipment": 2.393,
+    "estimating_quantifiable": 2.304,
+    "judging_quality": 2.982,
+    "evaluating_compliance": 2.357,
+    "processing_information": 2.446,
+    "analyzing_data": 2.464,
+    "making_decisions": 2.625,
+    "thinking_creatively": 3.125,
+    "updating_knowledge": 3.0,
+    "developing_objectives": 2.625,
+    "scheduling_work": 2.946,
+    "organizing_planning": 3.196,
+    "physical_activities": 2.893,
+    "handling_objects": 3.214,
+    "controlling_machines": 2.161,
+    "operating_vehicles": 2.643,
+    "computer_work": 2.411,
+    "drafting_specifications": 1.839,
+    "repairing_mechanical": 1.768,
+    "repairing_electronic": 1.696,
+    "documenting_information": 2.214,
+    "interpreting_information": 2.286,
+    "communicating_inside": 3.196,
+    "communicating_outside": 3.161,
+    "building_relationships": 3.214,
+    "assisting_caring": 2.482,
+    "selling_influencing": 2.679,
+    "resolving_conflicts": 2.429,
+    "performing_for_public": 2.446,
+    "coordinating_others": 2.589,
+    "developing_teams": 2.518,
+    "training_teaching": 2.679,
+    "guiding_subordinates": 2.571,
+    "coaching_developing": 2.482,
+    "providing_consultation": 1.946,
+    "performing_administrative": 2.25,
+    "staffing_organizational": 2.125,
+    "monitoring_resources": 2.411
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.333,
+    "vocational_school": 0.137,
+    "junior_college": 0.118,
+    "technical_college": 0.0,
+    "university": 0.373,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.294
+  },
+  "training_pre": {
+    "not_required": 0.725,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.059
+  },
+  "training_post": {
+    "not_required": 0.118,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.176,
+    "6_months_to_1_year": 0.294,
+    "1_to_2_years": 0.176,
+    "2_to_3_years": 0.039,
+    "3_to_5_years": 0.039,
+    "5_to_10_years": 0.039,
+    "over_10_years": 0.0,
+    "unknown": 0.098
+  },
+  "experience": {
+    "not_required": 0.765,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.039,
+    "6_months_to_1_year": 0.02,
+    "1_to_2_years": 0.039,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.098
+  },
+  "employment_type": {
+    "regular_employee": 0.353,
+    "part_time": 0.431,
+    "dispatched": 0.02,
+    "contract": 0.039,
+    "self_employed_freelance": 0.235,
+    "executive": 0.02,
+    "casual_non_student": 0.235,
+    "casual_student": 0.078,
+    "unknown": 0.02,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "フラワーショップでお客の要望を聞きながら、生花、花束、フラワーアレンジメントを販売する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "展示棚、カウンター、テーブルを掃除する。",
+      "execution_rate": 0.982,
+      "importance": 3.018
+    },
+    {
+      "task_id": 2,
+      "description_ja": "市場で生花や植物を仕入れる。",
+      "execution_rate": 0.946,
+      "importance": 4.057
+    },
+    {
+      "task_id": 3,
+      "description_ja": "市場から仕入れた商品を販売できる状態にできるように水あげ作業をする。",
+      "execution_rate": 0.982,
+      "importance": 4.291
+    },
+    {
+      "task_id": 4,
+      "description_ja": "陳列されている花を手入れする。",
+      "execution_rate": 0.964,
+      "importance": 3.667
+    },
+    {
+      "task_id": 5,
+      "description_ja": "商品の販売価格を計算して決定する。",
+      "execution_rate": 0.982,
+      "importance": 3.745
+    },
+    {
+      "task_id": 6,
+      "description_ja": "商品を店頭で陳列し、値札を表示する。",
+      "execution_rate": 0.964,
+      "importance": 3.537
+    },
+    {
+      "task_id": 7,
+      "description_ja": "接客をする。",
+      "execution_rate": 0.982,
+      "importance": 4.0
+    },
+    {
+      "task_id": 8,
+      "description_ja": "お客の好みや予算に応じて花束やアレンジメントを作る。",
+      "execution_rate": 0.982,
+      "importance": 3.982
+    },
+    {
+      "task_id": 9,
+      "description_ja": "お客に商品の説明や使用法、手入れの仕方などを教える。",
+      "execution_rate": 0.982,
+      "importance": 3.564
+    },
+    {
+      "task_id": 10,
+      "description_ja": "商品を包装する。",
+      "execution_rate": 0.982,
+      "importance": 3.582
+    },
+    {
+      "task_id": 11,
+      "description_ja": "値引き幅を計算し、値段を設定する。",
+      "execution_rate": 0.911,
+      "importance": 3.157
+    },
+    {
+      "task_id": 12,
+      "description_ja": "現金での販売、またはクレジット取引の手続きをする。",
+      "execution_rate": 0.946,
+      "importance": 3.528
+    },
+    {
+      "task_id": 13,
+      "description_ja": "売上伝票や販売契約書を作成する。",
+      "execution_rate": 0.964,
+      "importance": 3.074
+    },
+    {
+      "task_id": 14,
+      "description_ja": "売上金を計算し、記録する。",
+      "execution_rate": 0.946,
+      "importance": 3.302
+    },
+    {
+      "task_id": 15,
+      "description_ja": "在庫を確認する。",
+      "execution_rate": 0.982,
+      "importance": 3.309
+    },
+    {
+      "task_id": 16,
+      "description_ja": "リボンや包装紙などの消耗品の発注をする。",
+      "execution_rate": 0.964,
+      "importance": 3.278
+    },
+    {
+      "task_id": 17,
+      "description_ja": "売れ残った花を処分する。",
+      "execution_rate": 0.946,
+      "importance": 2.698
+    },
+    {
+      "task_id": 18,
+      "description_ja": "季節ごとのイベントを企画する。",
+      "execution_rate": 0.714,
+      "importance": 2.85
+    },
+    {
+      "task_id": 19,
+      "description_ja": "SNSに商品や店頭の写真を投稿する。",
+      "execution_rate": 0.518,
+      "importance": 2.621
+    },
+    {
+      "task_id": 20,
+      "description_ja": "販売計画を考える。",
+      "execution_rate": 0.875,
+      "importance": 2.857
+    },
+    {
+      "task_id": 21,
+      "description_ja": "商品の配達をする。",
+      "execution_rate": 0.964,
+      "importance": 3.593
+    },
+    {
+      "task_id": 22,
+      "description_ja": "お店のHPの運用やメールでの受注処理をする。",
+      "execution_rate": 0.768,
+      "importance": 3.0
+    },
+    {
+      "task_id": 23,
+      "description_ja": "顧客に観葉植物などを賃貸(リース）する。",
+      "execution_rate": 0.5,
+      "importance": 2.929
+    },
+    {
+      "task_id": 24,
+      "description_ja": "結婚式場での装花や飾り付けを行う。",
+      "execution_rate": 0.571,
+      "importance": 2.813
+    },
+    {
+      "task_id": 25,
+      "description_ja": "葬儀用に仏花等を制作する。",
+      "execution_rate": 0.768,
+      "importance": 3.233
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本花き生産協会",
+      "url": "https://www.jfga.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人　日本花き卸売市場協会",
+      "url": "https://www.jfma.jp"
+    },
+    {
+      "name_ja": "一般社団法人　ＪＦＴＤ",
+      "url": "https://www.hanacupid.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人　日本インドア・グリーン協会",
+      "url": "https://www.niga.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "１級フラワー装飾技能士",
+    "２級フラワー装飾技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/66",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

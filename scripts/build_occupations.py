@@ -31,7 +31,7 @@ from html import escape
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-DATA_PATH = REPO / "data.json"
+DATA_PATH = REPO / "dist" / "data.detail"  # v1.0.8: per-occupation files (was REPO/data.json)
 OUT_DIR_JA = REPO / "ja"
 OUT_DIR_EN = REPO / "en"
 MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
@@ -39,6 +39,50 @@ SITEMAP_PATH = REPO / "sitemap.xml"
 DATE_PUBLISHED = "2026-04-25"
 DATE_MODIFIED = "2026-04-30"
 RELATED_COUNT = 5
+
+
+def _load_legacy_shape_corpus() -> list[dict]:
+    """Read dist/data.detail/<padded>.json × N → list of legacy-shape dicts.
+
+    Adapter introduced in v1.0.8 (Phase 3): the IPD pipeline's DetailProjectionSchema
+    nests stats / ai_risk / title; the legacy data.json shape this file expected was
+    flat. We translate at load time so all ~900 lines of render_html / pick_related
+    code stay unchanged.
+
+    Fields produced:
+        id, name_ja, name_en, desc_ja, desc_en,
+        salary, workers, hours, age, recruit_wage, recruit_ratio, hourly_wage,
+        ai_risk, ai_rationale_ja, ai_rationale_en, url
+    """
+    if not DATA_PATH.exists():
+        raise FileNotFoundError(
+            f"dist/data.detail/ not found. Run `npm run build:data` first.\n"
+            f"  expected: {DATA_PATH}"
+        )
+    out: list[dict] = []
+    for f in sorted(DATA_PATH.glob("*.json")):
+        d = json.loads(f.read_text(encoding="utf-8"))
+        stats = d.get("stats") or {}
+        ai = d.get("ai_risk") or {}
+        out.append({
+            "id": d["id"],
+            "name_ja": d["title"]["ja"],
+            "name_en": d["title"].get("en"),
+            "desc_ja": d["description"].get("summary_ja"),
+            "desc_en": d["description"].get("summary_en"),
+            "salary": stats.get("salary_man_yen"),
+            "workers": stats.get("workers"),
+            "hours": stats.get("monthly_hours"),
+            "age": stats.get("average_age"),
+            "recruit_wage": stats.get("recruit_wage_man_yen"),
+            "recruit_ratio": stats.get("recruit_ratio"),
+            "hourly_wage": None,  # legacy field not carried in IPD
+            "ai_risk": ai.get("score"),
+            "ai_rationale_ja": ai.get("rationale_ja"),
+            "ai_rationale_en": ai.get("rationale_en"),
+            "url": d.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{d['id']}",
+        })
+    return out
 
 
 def fmt_int(n) -> str:
@@ -907,7 +951,7 @@ def main() -> int:
     OUT_DIR_JA.mkdir(parents=True, exist_ok=True)
     OUT_DIR_EN.mkdir(parents=True, exist_ok=True)
 
-    all_data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    all_data = _load_legacy_shape_corpus()
     is_full_run = args.ids is None and args.limit is None
 
     if args.ids:

@@ -1,0 +1,458 @@
+{
+  "id": 482,
+  "ipd_id": "IPD_01_01_482",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ルート配送ドライバー",
+  "aliases_ja": [
+    "受託配送員（ルート配送）",
+    "商品配達員（ルート配送）",
+    "セールスドライバー（ルート配送）",
+    "ルートセールス員（配達を主とするもの）",
+    "ルート集配員"
+  ],
+  "classifications": {
+    "mhlw_main": "13_082-02",
+    "mhlw_all": [
+      "13_082-02"
+    ],
+    "jsoc_main": "K705",
+    "jsoc_all": [
+      "K705"
+    ]
+  },
+  "description": {
+    "summary_ja": "特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する。",
+    "what_it_is_ja": "特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する。\n　配送と同時に配送先で容器、コンテナなどの回収も行う。\n　コンビニやスーパーへの商品の配送、メーカーの工場で製造した商品を物流会社の倉庫で保管して、メーカーの発注に応じて家電量販店等の送り先へ届ける配送、飲食店への食材の配送、クリーニング店を廻る配送、病院等へのユニフォーム等のクリーニング済み衣料の配送などがある。\n　コンビニへの配送の例でみると、配送先の店舗、配送時間が指定されており、夜間の配送がある。コンテナで店舗ごとの商品を運び、空になったコンテナは翌日受け取る。\n　仕事を1日の流れでみると、まず、乗車する車両の始業点検を行い、運転管理室で業務前点呼の後、健康状態とアルコールチェックを受ける。いつもの配送ルートに工事や通行止め等がないかを確認する。その日に運ぶ商品に間違いがないか、内容と個数を確認して、店舗ごとに分けて定型もの（コンテナに入れられた商品）と傘など不定型ものを車両へ積み込む。\n　冷蔵や冷凍のものを配送する場合は温度のチェックも行う。荷崩れしないように注意して積み込んだら、各店舗へ商品を配送する。配送先で荷物を降ろして、台車などを使って店内に搬入し、店の担当者から受け渡しサインを貰い、空箱、コンテナなど回収するものがあれば受け取ってトラックに積む。決まった配送先を廻った後、配送センターに戻る。その後、第2便の配送先へ向かい、第1便と同じ作業をこなし、その日に運ぶべき全ての商品を配送先に届け終えたら配送センターへ戻る。\n　業務報告を行い、配送日報（走行距離・配送先店舗等・配送先到着時間・配送完了時間・休憩時間等）を記入してその日の勤務を終了する。翌日の特記事項があれば確認する。なお、使用車両の清掃や点検を行う場合もある。\n\n◇　よく使う道具、機材、情報技術等\n　コンテナ、台車、２トントラック、普通自動車",
+    "how_to_become_ja": "入職にあたっては、車両に応じた運転免許が必要である。例えば、コンビニ配送ではメインとなる2トントラックが運転可能な準中型自動車免許は必須である。学歴は特に問われない。\n　中途採用も多い。タクシー運転手などの経験者もいるが、同業他社間の移動が多い。\n　入社して最初の1カ月程度は、運行管理や安全衛生管理の教育を受け、指導員や先輩が運転する車に同乗して、店舗の地図や商品を置く位置、周りの道路環境が記載された社内マニュアルを見ながら、荷物の積み方や卸し方、配送ルート、店舗のスタッフへの対応などを実地で学ぶ。OJTも含めて、研修期間は1カ月から3カ月程度が一般的である。\n　キャリアパスとしては、ある程度の経験を積んだら、研修などを受けたり、運行管理者試験、安全衛生管理者試験を受けて、運行管理者となり、管理職へと昇進していく場合もある。\n　配送先への到着時間が定められていることが多く、時間に正確であることが重要である。商品の入ったケースを運ぶこともあり一定の体力が必要である。配送先のスタッフと円滑なコミュニケーションが重要であり、入退店時の挨拶、礼儀正しい言動やマナーがとれることも求められる。制服等を着用し、名札をつけるなど身だしなみも忘れてはならない。",
+    "working_conditions_ja": "勤務先は運送会社、物流会社等であり、全国に分布している。配送拠点は配送先の店舗所在地を基準に、配送エリアの近くに設置されるのが一般的である。\n　ドライバーは正社員が多い。男性が多いが、女性ドライバーも増えている。年齢層は幅広く、慢性的な人手不足に悩まされている職業でもあり、経験のある高齢者も働いている。\n　勤務時間は、勤務先の規定によるが、夜間の配送がある場合が多い。週休二日ではあるが、土日が休みになるとは限らず交替で休日を取得する。\n　基本的には一人で乗務することが多いが、配送車両にはドライブレコーダー、無線、GPS、車載カメラなどが搭載され安全確保に配慮されている。"
+  },
+  "interests": {
+    "realistic": 3.322,
+    "investigative": 2.559,
+    "artistic": 2.271,
+    "social": 3.39,
+    "enterprising": 2.831,
+    "conventional": 3.492
+  },
+  "work_values": {
+    "achievement": 2.873,
+    "autonomy": 2.982,
+    "expertise": 2.673,
+    "self_growth": 2.818,
+    "social_recognition": 2.545,
+    "service_contribution": 2.836,
+    "good_relationships": 2.873,
+    "workplace_safety": 2.855,
+    "work_life_balance": 3.036,
+    "stability": 2.836,
+    "compensation": 2.655
+  },
+  "skills": {
+    "reading_comprehension": 2.018,
+    "active_listening": 2.691,
+    "writing": 1.982,
+    "speaking": 2.4,
+    "foreign_language_reading": 0.527,
+    "foreign_language_listening": 0.418,
+    "foreign_language_writing": 0.455,
+    "foreign_language_speaking": 0.364,
+    "mathematics": 1.345,
+    "science": 0.491,
+    "critical_thinking": 1.291,
+    "active_learning": 1.745,
+    "learning_strategies": 1.673,
+    "monitoring": 1.891,
+    "social_perceptiveness": 1.782,
+    "coordination": 2.109,
+    "persuasion": 1.691,
+    "negotiation": 1.764,
+    "instructing": 2.0,
+    "service_orientation": 1.655,
+    "complex_problem_solving": 1.527,
+    "operations_analysis": 1.145,
+    "technology_design": 1.091,
+    "equipment_selection": 1.618,
+    "installation": 1.073,
+    "programming": 0.491,
+    "operations_monitoring": 0.891,
+    "operation_and_control": 1.509,
+    "equipment_maintenance": 2.182,
+    "troubleshooting": 1.709,
+    "repairing": 1.618,
+    "quality_control_analysis": 1.2,
+    "judgment_decision_making": 1.491,
+    "systems_analysis": 1.436,
+    "systems_evaluation": 1.273,
+    "time_management": 1.873,
+    "financial_resources_management": 0.855,
+    "material_resources_management": 1.018,
+    "personnel_resources_management": 0.873
+  },
+  "knowledge": {
+    "business_management": 0.364,
+    "clerical": 0.523,
+    "economics_accounting": 0.364,
+    "sales_marketing": 0.659,
+    "customer_personal_service": 1.205,
+    "personnel_hr": 0.25,
+    "transportation": 1.591,
+    "production_processing": 0.5,
+    "agriculture_livestock": 0.25,
+    "engineering": 0.182,
+    "computers_electronics": 0.273,
+    "design": 0.227,
+    "building_construction": 0.182,
+    "mechanical": 0.295,
+    "mathematics_kn": 0.568,
+    "physics": 0.182,
+    "chemistry": 0.182,
+    "biology": 0.205,
+    "psychology": 0.295,
+    "sociology": 0.432,
+    "geography": 0.341,
+    "medicine_dentistry": 0.205,
+    "therapy_counseling": 0.159,
+    "education_training_kn": 0.432,
+    "japanese_language": 0.455,
+    "foreign_language_kn": 0.227,
+    "fine_arts": 0.205,
+    "history_archaeology": 0.205,
+    "philosophy_theology": 0.182,
+    "public_safety_security": 0.523,
+    "law_government": 0.205,
+    "telecommunications": 0.182,
+    "communications_media": 0.455
+  },
+  "abilities": {
+    "oral_comprehension": 2.119,
+    "written_comprehension": 2.214,
+    "oral_expression": 2.167,
+    "written_expression": 2.262,
+    "fluency_of_ideas": 1.833,
+    "originality": 1.786,
+    "problem_sensitivity": 2.738,
+    "deductive_reasoning": 1.881,
+    "inductive_reasoning": 1.81,
+    "information_ordering": 1.952,
+    "category_flexibility": 1.738,
+    "mathematical_reasoning": 1.548,
+    "number_facility": 1.905,
+    "memorization": 2.381,
+    "perceptual_speed": 1.833,
+    "spatial_orientation": 2.238,
+    "visualization": 2.0,
+    "selective_attention": 2.238,
+    "time_sharing": 2.524,
+    "arm_hand_steadiness": 2.143,
+    "manual_dexterity": 1.905,
+    "finger_dexterity": 1.881,
+    "reaction_time": 2.952,
+    "wrist_finger_speed": 2.048,
+    "speed_of_limb_movement": 2.095,
+    "static_strength": 2.762,
+    "stamina": 2.476,
+    "gross_body_equilibrium": 2.357,
+    "near_vision": 2.381,
+    "far_vision": 2.524,
+    "visual_color_discrimination": 2.381,
+    "depth_perception": 2.333,
+    "hearing_sensitivity": 2.405,
+    "auditory_attention": 2.095,
+    "speech_clarity": 2.024
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.295,
+    "face_to_face_discussions": 2.227,
+    "telephone_communication": 3.682,
+    "business_writing": 2.023,
+    "conflict_situations": 1.841,
+    "time_pressure": 3.273,
+    "teamwork": 2.409,
+    "dealing_with_external_customers": 2.955,
+    "coordinate_lead_others": 2.091,
+    "exactness_accuracy": 3.25,
+    "repetitive_tasks": 2.682,
+    "pace_determined_by_machine": 1.795,
+    "responsibility_for_outcomes": 2.841,
+    "indoor_climate_controlled": 2.523,
+    "indoor_non_climate_controlled": 2.568,
+    "outdoor_work": 4.477,
+    "sitting": 2.295,
+    "standing": 3.409,
+    "repetition_of_activities": 2.909,
+    "consequence_of_error": 2.568,
+    "freedom_to_make_decisions": 3.364,
+    "set_own_goals": 3.409,
+    "regular_schedule": 0.591,
+    "irregular_schedule": 0.364,
+    "seasonal_schedule": 0.045,
+    "email_communication": 2.273,
+    "cramped_uncomfortable": 1.932,
+    "disease_infection_risk": 2.318,
+    "minor_injury_risk": 1.864,
+    "standard_protective_equipment": 1.773,
+    "specialized_protective_equipment": 1.273,
+    "dealing_with_violent_people": 1.25,
+    "walking_running": 3.477,
+    "handling_objects_tools": 2.841,
+    "physical_proximity": 3.0,
+    "work_automation": 1.727,
+    "responsibility_for_safety": 2.023,
+    "impact_of_decisions": 2.205,
+    "level_of_competition": 1.614
+  },
+  "work_activities": {
+    "getting_information": 2.381,
+    "monitor_processes": 2.31,
+    "identifying_objects": 2.238,
+    "inspecting_equipment": 2.119,
+    "estimating_quantifiable": 1.929,
+    "judging_quality": 2.071,
+    "evaluating_compliance": 2.5,
+    "processing_information": 2.143,
+    "analyzing_data": 2.071,
+    "making_decisions": 2.167,
+    "thinking_creatively": 2.071,
+    "updating_knowledge": 2.333,
+    "developing_objectives": 2.0,
+    "scheduling_work": 2.143,
+    "organizing_planning": 2.595,
+    "physical_activities": 2.714,
+    "handling_objects": 2.714,
+    "controlling_machines": 2.0,
+    "operating_vehicles": 3.048,
+    "computer_work": 2.071,
+    "drafting_specifications": 1.643,
+    "repairing_mechanical": 1.714,
+    "repairing_electronic": 1.81,
+    "documenting_information": 2.095,
+    "interpreting_information": 1.905,
+    "communicating_inside": 2.619,
+    "communicating_outside": 2.19,
+    "building_relationships": 2.548,
+    "assisting_caring": 2.143,
+    "selling_influencing": 1.762,
+    "resolving_conflicts": 1.952,
+    "performing_for_public": 1.905,
+    "coordinating_others": 2.071,
+    "developing_teams": 2.19,
+    "training_teaching": 2.095,
+    "guiding_subordinates": 2.071,
+    "coaching_developing": 2.0,
+    "providing_consultation": 1.81,
+    "performing_administrative": 2.024,
+    "staffing_organizational": 1.714,
+    "monitoring_resources": 1.738
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.568,
+    "vocational_school": 0.045,
+    "junior_college": 0.023,
+    "technical_college": 0.045,
+    "university": 0.159,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.182
+  },
+  "training_pre": {
+    "not_required": 0.568,
+    "up_to_1_month": 0.205,
+    "1_to_6_months": 0.136,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.023,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.068
+  },
+  "training_post": {
+    "not_required": 0.227,
+    "up_to_1_month": 0.205,
+    "1_to_6_months": 0.386,
+    "6_months_to_1_year": 0.068,
+    "1_to_2_years": 0.045,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.068
+  },
+  "experience": {
+    "not_required": 0.727,
+    "up_to_1_month": 0.068,
+    "1_to_6_months": 0.045,
+    "6_months_to_1_year": 0.023,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.0,
+    "unknown": 0.114
+  },
+  "employment_type": {
+    "regular_employee": 0.568,
+    "part_time": 0.205,
+    "dispatched": 0.0,
+    "contract": 0.136,
+    "self_employed_freelance": 0.091,
+    "executive": 0.0,
+    "casual_non_student": 0.114,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "運転管理室で乗務前点呼を受ける。",
+      "execution_rate": 0.595,
+      "importance": 2.96
+    },
+    {
+      "task_id": 2,
+      "description_ja": "免許証の携帯確認、アルコールチェックと健康チェックを受ける。",
+      "execution_rate": 0.833,
+      "importance": 3.771
+    },
+    {
+      "task_id": 3,
+      "description_ja": "業務連絡を確認する。",
+      "execution_rate": 0.929,
+      "importance": 3.359
+    },
+    {
+      "task_id": 4,
+      "description_ja": "車両の始業点検をする。",
+      "execution_rate": 0.905,
+      "importance": 3.263
+    },
+    {
+      "task_id": 5,
+      "description_ja": "道路が工事や通行止めがないか、ルートを確認する。",
+      "execution_rate": 0.857,
+      "importance": 2.722
+    },
+    {
+      "task_id": 6,
+      "description_ja": "注意すべき特別な商品がないかを確認する。",
+      "execution_rate": 0.952,
+      "importance": 3.025
+    },
+    {
+      "task_id": 7,
+      "description_ja": "配送商品の個数等を確認する。",
+      "execution_rate": 0.976,
+      "importance": 3.732
+    },
+    {
+      "task_id": 8,
+      "description_ja": "納品先の鍵類を確認する。",
+      "execution_rate": 0.619,
+      "importance": 3.154
+    },
+    {
+      "task_id": 9,
+      "description_ja": "配送先別に荷崩れしないように積み込む。",
+      "execution_rate": 1.0,
+      "importance": 3.571
+    },
+    {
+      "task_id": 10,
+      "description_ja": "決まったルートをめぐって配送する。",
+      "execution_rate": 0.976,
+      "importance": 3.171
+    },
+    {
+      "task_id": 11,
+      "description_ja": "配送先に着いたら担当者の立ち会いのもと納品、受け取りサインをもらう。",
+      "execution_rate": 0.881,
+      "importance": 3.459
+    },
+    {
+      "task_id": 12,
+      "description_ja": "空箱など回収するものがあれば受け取る。",
+      "execution_rate": 0.857,
+      "importance": 2.861
+    },
+    {
+      "task_id": 13,
+      "description_ja": "配送がすべて終わったら、配送拠点へ帰る。",
+      "execution_rate": 0.976,
+      "importance": 3.317
+    },
+    {
+      "task_id": 14,
+      "description_ja": "車両清掃、点検をを行う。",
+      "execution_rate": 0.976,
+      "importance": 3.0
+    },
+    {
+      "task_id": 15,
+      "description_ja": "配送日報を記入する。",
+      "execution_rate": 0.905,
+      "importance": 3.211
+    },
+    {
+      "task_id": 16,
+      "description_ja": "業務終了の報告をする。",
+      "execution_rate": 0.905,
+      "importance": 3.026
+    },
+    {
+      "task_id": 17,
+      "description_ja": "翌日の業務を確認する。",
+      "execution_rate": 0.905,
+      "importance": 2.868
+    },
+    {
+      "task_id": 18,
+      "description_ja": "重機を操作して荷物の積み下ろしをする。",
+      "execution_rate": 0.381,
+      "importance": 2.625
+    },
+    {
+      "task_id": 19,
+      "description_ja": "チャーター便の配送を行う。",
+      "execution_rate": 0.429,
+      "importance": 2.611
+    },
+    {
+      "task_id": 20,
+      "description_ja": "来客対応をする。",
+      "execution_rate": 0.405,
+      "importance": 2.647
+    },
+    {
+      "task_id": 21,
+      "description_ja": "定期的な運転教育を受ける。",
+      "execution_rate": 0.619,
+      "importance": 2.654
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益財団法人　運行管理者試験センター",
+      "url": "https://www.unkan.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "準中型自動車免許",
+    "運行管理者（貨物）",
+    "安全衛生管理者"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/482",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

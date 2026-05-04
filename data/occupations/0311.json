@@ -1,0 +1,482 @@
+{
+  "id": 311,
+  "ipd_id": "IPD_01_01_311",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "航空機開発エンジニア（ジェットエンジン）",
+  "aliases_ja": [
+    "航空機エンジン開発技術者"
+  ],
+  "classifications": {
+    "mhlw_main": "02_006-03",
+    "mhlw_all": [
+      "02_006-03"
+    ],
+    "jsoc_main": "B073",
+    "jsoc_all": [
+      "B073"
+    ]
+  },
+  "description": {
+    "summary_ja": "航空機のジェットエンジンを研究開発する。",
+    "what_it_is_ja": "航空機のジェットエンジンを研究開発する。\n　現代のジェット機はジェットエンジンと機体を別々の会社が開発し、ジェットエンジンメーカーは機体メーカーからの受注による開発を行うのが一般的である。ここでは航空機開発のうちジェットエンジンの開発を行うエンジニアについて記載する。以下の解説では短く「エンジニア」としている。\n　ジェットエンジンの開発は、大きく分類して「設計」、「型式証明」、「量産」の３つの段階に分かれる。\n　まず、「設計」の段階では概念設計、基本設計、詳細設計の順番に行う。\n　概念設計では機体メーカーの要望を踏まえ、エンジンの主要な仕様（推力、燃費、ファン直径、重量等）を決定する。\n　次に基本設計ではエンジンに吸入した空気がエンジン内をどのように流れていくか空力検討や構造・レイアウト検討を行う。同時に、潤滑システム、燃料システム、冷却システム、制御システムなどエンジン全体にかかわるシステム設計や圧縮機、燃焼器、タービンなどの各モジュール設計を行う。\n　詳細設計ではブレード、ディスク、シャフト、軸受、静止部品、補機、制御部品など個々の部品設計を行う。部品設計では熱解析、空力解析、強度解析、振動・衝撃解析等に関する各種計算ソフトを使用する。計算ソフトは自社開発のものもあれば、市販されている汎用ソフトを目的に合わせてカスタマイズして使うものもある。\n　このような過程を経て設計が確定するとエンジン部品の試作を行ない、空力性能確認、ジェットエンジン特有の問題であるバードストライクなどの強度・信頼性確認、耐久性確認など多くの部品単体試験やエンジン試験を行う。\n　次に「型式証明」を取得する段階となる。「型式証明」とは、国が民間航空機を対象に機体やエンジン設計が安全基準に適合しているか耐空性を審査・確認する制度であり、認定試験に合格すると各国の航空局から型式証明が発行される。航空局としては例えば米国では連邦航空局（Federal Aviation Administration、通称FAA）、欧州では欧州航空安全機関（European Aviation Safety Agency、通称EASA）がある。この認定試験は耐久性、振動、過温度、バードストライクなどの強度・信頼性試験など大項目だけでも100を超える。この型式証明を取るために認定試験のほかに航空局に提出する認定レポート、メンテナンスマニュアル等各種書類を作成することもエンジニアの仕事である。\n　型式証明を取得すると「量産」の段階となる。部品を量産し、エンジン組立を行う。量産エンジンが完成すると性能や重量等が設計通りになっているかエンジン出荷試験や各種検査を行った上で、機体メーカーに納品する。部品の量産やエンジン組立にも生産技術や検査技術の面からエンジニアが関わる。\n　最終的に機体メーカーが開発した機体にエンジンメーカーが開発したエンジンを搭載し、航空機としての完成機となる。その後、エアラインやビジネスジェット運航会社などエンドユーザーに引き渡される。市場で技術的な問題が発見された場合には、メンテナンスやサービスの専門家と共に開発に関わったエンジニアが問題解決にあたる場合もある。\n\n◇　よく使う道具、機材、情報技術等\n　計算（解析）ソフト、パソコン",
+    "how_to_become_ja": "入職者の学歴は大卒と大学院卒（修士）が多い。工学系の基礎知識に加え、機械系であれば機械の知識や理論、流体系であれば流体の知識や理論を身につけていることが要求される。就職時に必要な免許や資格はない。\n　定期採用の他に中途採用によりジェットエンジンメーカーに就職するチャンスもあるが、その場合、産業用ガスタービン等ジェットエンジンに関連する業種からの転職者が多い。機体やジェットエンジン開発経験を活かして転出する者もいるがエアライン会社に転職するという例もある。\n　航空機の機体メーカーは多くが米国はじめとする外国企業であり、文書や資料はほぼすべて英語である。外国籍のエンジニアとの共同作業も多く、その場合、英語によるコミュニケーションとなる。\n　一人前のエンジニアになるには担当分野にもよるが概ね入社から数年から10年近くを要する。\n　エンジニアの専門性は、製図、構造解析、空力解析、燃焼、振動・衝撃解析、制御、材料、生産技術、エンジン組立、各種試験、検査など、多岐にわたっている。\n　ジェットエンジンの開発は一人でできるものではなく、各専門領域のエンジニアと協力して行うため、コミュニケーション能力や協調性が求められる。チームやプロジェクトをまとめる立場になると、調整能力やリーダーシップが必要になる。",
+    "working_conditions_ja": "機体開発を含めエンジニアの多くが太平洋ベルト沿いの工業地帯で就業している。航空機産業は欧米がビジネスの中心であるため、国内外問わず、出張や転勤の可能性はある。また、開発や生産の拠点が海外にも存在する場合、開発や生産段階のエンジニアとして海外へ駐在員として赴任する可能性もある。海外出張は会議、学会や展示会等も含めて頻繁に機会がある。\n　男性エンジニアが多いが女性エンジニアも増加傾向で幅広く活躍している。正社員だけでなく、データ整理や製図作成等指示に基づいて業務をする契約社員のエンジニアもいる。\n　賃金形態は月給制で収入は安定している。ほとんどの企業が週休2日制を採用している。\n　航空機開発は複数の国の企業が協力して行っており、世界各国との研究、開発、生産等での分業はこれからも進んでいく方向である。航空機開発のエンジニアは今後も世界各国で活躍すると考えられる。\n　世界的にみて航空機の需要は拡大し続けており、ジェットエンジンのエンジニアへの期待は大きい。"
+  },
+  "interests": {
+    "realistic": 3.739,
+    "investigative": 3.609,
+    "artistic": 2.957,
+    "social": 3.13,
+    "enterprising": 3.13,
+    "conventional": 3.13
+  },
+  "work_values": {
+    "achievement": 3.35,
+    "autonomy": 3.4,
+    "expertise": 3.65,
+    "self_growth": 3.4,
+    "social_recognition": 3.15,
+    "service_contribution": 2.95,
+    "good_relationships": 2.95,
+    "workplace_safety": 3.45,
+    "work_life_balance": 3.15,
+    "stability": 3.15,
+    "compensation": 3.0
+  },
+  "skills": {
+    "reading_comprehension": 4.1,
+    "active_listening": 3.5,
+    "writing": 3.6,
+    "speaking": 3.5,
+    "foreign_language_reading": 3.5,
+    "foreign_language_listening": 3.0,
+    "foreign_language_writing": 2.35,
+    "foreign_language_speaking": 2.3,
+    "mathematics": 3.25,
+    "science": 2.85,
+    "critical_thinking": 3.7,
+    "active_learning": 3.45,
+    "learning_strategies": 3.4,
+    "monitoring": 3.65,
+    "social_perceptiveness": 3.25,
+    "coordination": 3.95,
+    "persuasion": 3.65,
+    "negotiation": 3.55,
+    "instructing": 3.85,
+    "service_orientation": 2.9,
+    "complex_problem_solving": 4.05,
+    "operations_analysis": 3.35,
+    "technology_design": 3.1,
+    "equipment_selection": 3.4,
+    "installation": 2.75,
+    "programming": 2.75,
+    "operations_monitoring": 2.3,
+    "operation_and_control": 2.75,
+    "equipment_maintenance": 2.6,
+    "troubleshooting": 3.55,
+    "repairing": 2.8,
+    "quality_control_analysis": 3.55,
+    "judgment_decision_making": 3.4,
+    "systems_analysis": 3.3,
+    "systems_evaluation": 2.5,
+    "time_management": 3.35,
+    "financial_resources_management": 1.85,
+    "material_resources_management": 2.2,
+    "personnel_resources_management": 2.8
+  },
+  "knowledge": {
+    "business_management": 1.696,
+    "clerical": 2.217,
+    "economics_accounting": 1.696,
+    "sales_marketing": 1.435,
+    "customer_personal_service": 1.565,
+    "personnel_hr": 1.391,
+    "transportation": 1.696,
+    "production_processing": 2.435,
+    "agriculture_livestock": 0.826,
+    "engineering": 2.913,
+    "computers_electronics": 2.391,
+    "design": 2.87,
+    "building_construction": 1.391,
+    "mechanical": 3.0,
+    "mathematics_kn": 2.826,
+    "physics": 2.826,
+    "chemistry": 2.348,
+    "biology": 1.348,
+    "psychology": 1.435,
+    "sociology": 1.435,
+    "geography": 1.261,
+    "medicine_dentistry": 1.0,
+    "therapy_counseling": 0.913,
+    "education_training_kn": 2.13,
+    "japanese_language": 1.652,
+    "foreign_language_kn": 1.957,
+    "fine_arts": 1.043,
+    "history_archaeology": 0.87,
+    "philosophy_theology": 0.87,
+    "public_safety_security": 1.652,
+    "law_government": 1.522,
+    "telecommunications": 1.826,
+    "communications_media": 1.435
+  },
+  "abilities": {
+    "oral_comprehension": 3.28,
+    "written_comprehension": 3.28,
+    "oral_expression": 3.44,
+    "written_expression": 3.4,
+    "fluency_of_ideas": 3.32,
+    "originality": 3.36,
+    "problem_sensitivity": 3.92,
+    "deductive_reasoning": 3.52,
+    "inductive_reasoning": 3.44,
+    "information_ordering": 3.24,
+    "category_flexibility": 3.36,
+    "mathematical_reasoning": 3.6,
+    "number_facility": 3.2,
+    "memorization": 3.12,
+    "perceptual_speed": 3.16,
+    "spatial_orientation": 2.84,
+    "visualization": 3.4,
+    "selective_attention": 3.44,
+    "time_sharing": 3.08,
+    "arm_hand_steadiness": 2.24,
+    "manual_dexterity": 2.24,
+    "finger_dexterity": 2.24,
+    "reaction_time": 2.36,
+    "wrist_finger_speed": 2.04,
+    "speed_of_limb_movement": 2.16,
+    "static_strength": 2.08,
+    "stamina": 2.24,
+    "gross_body_equilibrium": 2.08,
+    "near_vision": 2.4,
+    "far_vision": 2.12,
+    "visual_color_discrimination": 2.16,
+    "depth_perception": 2.28,
+    "hearing_sensitivity": 2.08,
+    "auditory_attention": 2.12,
+    "speech_clarity": 2.68
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.957,
+    "face_to_face_discussions": 3.87,
+    "telephone_communication": 3.696,
+    "business_writing": 3.435,
+    "conflict_situations": 3.304,
+    "time_pressure": 3.304,
+    "teamwork": 3.435,
+    "dealing_with_external_customers": 2.826,
+    "coordinate_lead_others": 3.261,
+    "exactness_accuracy": 3.348,
+    "repetitive_tasks": 3.304,
+    "pace_determined_by_machine": 2.913,
+    "responsibility_for_outcomes": 3.304,
+    "indoor_climate_controlled": 4.391,
+    "indoor_non_climate_controlled": 2.826,
+    "outdoor_work": 2.304,
+    "sitting": 3.739,
+    "standing": 2.348,
+    "repetition_of_activities": 2.174,
+    "consequence_of_error": 3.13,
+    "freedom_to_make_decisions": 3.261,
+    "set_own_goals": 3.348,
+    "regular_schedule": 0.261,
+    "irregular_schedule": 0.652,
+    "seasonal_schedule": 0.087,
+    "email_communication": 4.22,
+    "cramped_uncomfortable": 2.659,
+    "disease_infection_risk": 2.366,
+    "minor_injury_risk": 2.22,
+    "standard_protective_equipment": 2.976,
+    "specialized_protective_equipment": 2.78,
+    "dealing_with_violent_people": 2.098,
+    "walking_running": 2.512,
+    "handling_objects_tools": 2.293,
+    "physical_proximity": 2.707,
+    "work_automation": 2.561,
+    "responsibility_for_safety": 2.512,
+    "impact_of_decisions": 2.561,
+    "level_of_competition": 2.537
+  },
+  "work_activities": {
+    "getting_information": 3.36,
+    "monitor_processes": 3.2,
+    "identifying_objects": 3.48,
+    "inspecting_equipment": 3.08,
+    "estimating_quantifiable": 3.36,
+    "judging_quality": 3.2,
+    "evaluating_compliance": 3.48,
+    "processing_information": 3.44,
+    "analyzing_data": 3.6,
+    "making_decisions": 3.96,
+    "thinking_creatively": 3.6,
+    "updating_knowledge": 3.72,
+    "developing_objectives": 3.8,
+    "scheduling_work": 3.64,
+    "organizing_planning": 3.68,
+    "physical_activities": 2.48,
+    "handling_objects": 2.44,
+    "controlling_machines": 2.8,
+    "operating_vehicles": 2.12,
+    "computer_work": 3.72,
+    "drafting_specifications": 3.6,
+    "repairing_mechanical": 2.88,
+    "repairing_electronic": 2.84,
+    "documenting_information": 3.48,
+    "interpreting_information": 3.56,
+    "communicating_inside": 3.72,
+    "communicating_outside": 3.64,
+    "building_relationships": 3.32,
+    "assisting_caring": 2.96,
+    "selling_influencing": 3.0,
+    "resolving_conflicts": 3.0,
+    "performing_for_public": 2.28,
+    "coordinating_others": 3.08,
+    "developing_teams": 3.36,
+    "training_teaching": 3.36,
+    "guiding_subordinates": 3.04,
+    "coaching_developing": 3.08,
+    "providing_consultation": 2.76,
+    "performing_administrative": 3.12,
+    "staffing_organizational": 2.6,
+    "monitoring_resources": 2.92
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.217,
+    "vocational_school": 0.13,
+    "junior_college": 0.0,
+    "technical_college": 0.13,
+    "university": 0.739,
+    "masters": 0.391,
+    "doctorate": 0.043,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.348,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.13,
+    "6_months_to_1_year": 0.261,
+    "1_to_2_years": 0.043,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.087,
+    "over_10_years": 0.0,
+    "unknown": 0.087
+  },
+  "training_post": {
+    "not_required": 0.174,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.043,
+    "6_months_to_1_year": 0.217,
+    "1_to_2_years": 0.087,
+    "2_to_3_years": 0.174,
+    "3_to_5_years": 0.13,
+    "5_to_10_years": 0.043,
+    "over_10_years": 0.043,
+    "unknown": 0.087
+  },
+  "experience": {
+    "not_required": 0.609,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.13,
+    "1_to_2_years": 0.043,
+    "2_to_3_years": 0.043,
+    "3_to_5_years": 0.043,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.13
+  },
+  "employment_type": {
+    "regular_employee": 0.829,
+    "part_time": 0.0,
+    "dispatched": 0.098,
+    "contract": 0.098,
+    "self_employed_freelance": 0.0,
+    "executive": 0.049,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.024,
+    "other": 0.024
+  },
+  "tasks_lead_ja": "航空機のジェットエンジンを研究開発する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "これから必要になるエンジンの概念設計について議論する。",
+      "execution_rate": 0.96,
+      "importance": 3.458
+    },
+    {
+      "task_id": 2,
+      "description_ja": "プレリミナリーデザインという仕様決定（推力、燃費、ファン径、重量等の設定）を行う。",
+      "execution_rate": 0.92,
+      "importance": 3.609
+    },
+    {
+      "task_id": 3,
+      "description_ja": "既存機器改良の場合、どの部分をどのように改良するか議論・検討する。",
+      "execution_rate": 0.92,
+      "importance": 3.609
+    },
+    {
+      "task_id": 4,
+      "description_ja": "決定した仕様に基づきエンジンの２次元断面図を作成する。",
+      "execution_rate": 0.88,
+      "importance": 3.182
+    },
+    {
+      "task_id": 5,
+      "description_ja": "エンジンシステムを決めるレベルの情報やモジュールのインターフェイス、温度や圧力の条件を決定する。",
+      "execution_rate": 0.84,
+      "importance": 3.762
+    },
+    {
+      "task_id": 6,
+      "description_ja": "開発の詳細設計を行いファンモジュールなどサブシステム設計、燃焼器モジュールなど部品設計に落とし込む。",
+      "execution_rate": 0.92,
+      "importance": 3.478
+    },
+    {
+      "task_id": 7,
+      "description_ja": "部品設計を面評価、強度評価、空力設計、振動評価などについて関係者間で詰めて行く。",
+      "execution_rate": 1.0,
+      "importance": 3.56
+    },
+    {
+      "task_id": 8,
+      "description_ja": "CADを使ってサブモジュールの立体モデルを作成、問題点の確認を行う。",
+      "execution_rate": 0.88,
+      "importance": 3.591
+    },
+    {
+      "task_id": 9,
+      "description_ja": "強度計算を行って問題点を確認する。",
+      "execution_rate": 1.0,
+      "importance": 3.6
+    },
+    {
+      "task_id": 10,
+      "description_ja": "飛行シミュレーションを実施し、データを分析する。",
+      "execution_rate": 0.8,
+      "importance": 3.75
+    },
+    {
+      "task_id": 11,
+      "description_ja": "部品製作の下請け業者を選定する。",
+      "execution_rate": 1.0,
+      "importance": 3.6
+    },
+    {
+      "task_id": 12,
+      "description_ja": "外部に製作を委託する部品の仕様書、設計図を作成する。",
+      "execution_rate": 1.0,
+      "importance": 3.28
+    },
+    {
+      "task_id": 13,
+      "description_ja": "委託先の外部業者と部品の内容について協議する。",
+      "execution_rate": 0.96,
+      "importance": 3.5
+    },
+    {
+      "task_id": 14,
+      "description_ja": "委託した部品の性能等をテストする。",
+      "execution_rate": 0.92,
+      "importance": 3.87
+    },
+    {
+      "task_id": 15,
+      "description_ja": "すべてが完了したら耐久性も含め仕様書通りの性能かエンジニアリングテストを行う。",
+      "execution_rate": 0.92,
+      "importance": 3.957
+    },
+    {
+      "task_id": 16,
+      "description_ja": "開発過程を記録、資料を作成する。",
+      "execution_rate": 0.96,
+      "importance": 3.667
+    },
+    {
+      "task_id": 17,
+      "description_ja": "認可を受けるためのテストを行う。",
+      "execution_rate": 0.92,
+      "importance": 3.913
+    },
+    {
+      "task_id": 18,
+      "description_ja": "海外当局の認可を受けるための書類を作成する。",
+      "execution_rate": 0.96,
+      "importance": 3.833
+    },
+    {
+      "task_id": 19,
+      "description_ja": "監督官庁（国土交通省）に認可を受けるための書類を作成する。",
+      "execution_rate": 0.8,
+      "importance": 3.8
+    },
+    {
+      "task_id": 20,
+      "description_ja": "整備のためのマニュアル、資料を作成する。",
+      "execution_rate": 0.92,
+      "importance": 3.609
+    },
+    {
+      "task_id": 21,
+      "description_ja": "量産プロセスを作成し組み立ての管理を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.72
+    },
+    {
+      "task_id": 22,
+      "description_ja": "製造スケジュールや品質を管理する。",
+      "execution_rate": 0.96,
+      "importance": 3.708
+    },
+    {
+      "task_id": 23,
+      "description_ja": "不具合が生じた場合、原因究明にあたる。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 24,
+      "description_ja": "特殊工程技術を開発する。",
+      "execution_rate": 0.96,
+      "importance": 3.417
+    },
+    {
+      "task_id": 25,
+      "description_ja": "エンジンの性能を向上させる表面処理技術を開発する。",
+      "execution_rate": 0.92,
+      "importance": 3.652
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本航空技術協会",
+      "url": "https://www.jaea.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本航空宇宙学会",
+      "url": "https://www.jsass.or.jp/"
+    },
+    {
+      "name_ja": "国立研究開発法人　宇宙航空研究開発機構（JAXA）",
+      "url": "http://www.jaxa.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/311",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

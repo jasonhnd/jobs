@@ -1,0 +1,463 @@
+{
+  "id": 8,
+  "ipd_id": "IPD_01_01_008",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "惣菜製造",
+  "aliases_ja": [
+    "揚物製造工",
+    "惣菜製造工",
+    "洋風惣菜製造工（デリカテッセン店）"
+  ],
+  "classifications": {
+    "mhlw_main": "12_072-05",
+    "mhlw_all": [
+      "12_072-05"
+    ],
+    "jsoc_main": "H533",
+    "jsoc_all": [
+      "H533"
+    ]
+  },
+  "description": {
+    "summary_ja": "百貨店やスーパーマーケット、コンビニエンスストアなどで販売する各種惣菜を製造する。",
+    "what_it_is_ja": "百貨店やスーパーマーケット、コンビニエンスストアなどで販売する各種惣菜を作る。\n　惣菜とは、もともと日本人の主食である「ごはん」に対する副食の「おかず」のことであるが、現在では弁当や調理パンなどを含めた調理食品全般を指すようになった。惣菜には、和風、洋風、中華風のほか、季節の野菜・魚介類を使った商品や郷土料理など様々なバリエーションがある。\n　仕事は、様々な食材を調理してそれを商品の形に整えることで、製造工程は、前処理、調理、包装の三部門に大きく分かれている。\n　まず、原材料となる野菜・肉・魚介などの材料について、様々な道具や機械を使用して洗浄、皮むき、裁断、不要部分の除去などの前処理を行う。次に、混合したり、味付けをしたり、煮炊きするなどして調理する。調理後は冷却し、必要に応じて殺菌してから、商品として決められた分量に分けて、容器にパック詰めする。\n　作り始めてから出荷するまでの時間が短いので、風味と鮮度を損なわないよう手際よく仕事を進める。仕事のほとんどは共同作業であるため、他の作業者との連携も重要となる。人の口に入る食品であるため、栄養や味だけでなく、材料の鮮度や衛生面にも留意することが求められる。\n\n◇　よく使う道具、機材、情報技術等\n　マスク、手袋、調理道具（包丁、ガスコンロ等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。学校卒業後、惣菜を作る工場などに入る。関連する学科として農業科、水産科、食品科、栄養科などがある。\n　入職経路は、新卒の場合は学校からの紹介、中途採用の場合は、ハローワークと求人広告がほとんどである。\n　食べ物や調理に興味があり、食材・食べ物・食品衛生に関する一般的な知識を持っていること、食材や製品の見た目やにおいに敏感であることが求められる。また、最近は機械化が進んでいるので、機械を使いこなす能力が求められ、自動化した機械に対しては、自動制御システムへの理解と応用が必要になることもある。\n　基本的には仕事は半年ほどで覚えることができる。調理技術を指導する主任や班長などの中間管理職になる道や、調理技術や食品の取り扱い、流通の仕組みなどを身につけて、調理師になったり、食堂・レストランの経営者として独立する道もある。\n　関連資格としては、「調理師」、「惣菜管理士」などがある。",
+    "working_conditions_ja": "惣菜のほとんどが百貨店・スーパーマーケット・コンビニエンスストアなどで販売されるので、就業地は都市周辺の地域に多い。\n　就業者は中高年齢者、女性が多く、パートタイマーの割合が高い。繁忙期には、季節的な従業員や学生アルバイトなどを採用することもある。\n　鮮度が大切なので、夜間や早朝に作業をする工場もあり、早番・遅番の交替制勤務となっている場合が多い。花見や正月など特定のシーズンには、休日出勤や残業をすることもある。\n　仕事は空調設備の整った清潔な室内での共同作業がほとんどである。立ち作業が多く、仕事によっては冷蔵庫へ出入りすることもある。直接食品に触れるので、衛生管理や就業者本人の健康管理が必要となる。作業の前には手や指の消毒を行い、消毒済みのエプロン、帽子、マスク、手袋を着用する。\n　ライフスタイルの変化や、高齢化、働く女性の増加などに伴って惣菜の市場は拡大している。また、惣菜製造の工程は手作業に頼る部分が多いため、今後も一定の労働需要があるものと考えられる。"
+  },
+  "interests": {
+    "realistic": 3.426,
+    "investigative": 2.508,
+    "artistic": 2.295,
+    "social": 3.131,
+    "enterprising": 2.639,
+    "conventional": 3.443
+  },
+  "work_values": {
+    "achievement": 3.24,
+    "autonomy": 3.14,
+    "expertise": 2.96,
+    "self_growth": 3.06,
+    "social_recognition": 2.56,
+    "service_contribution": 2.98,
+    "good_relationships": 3.26,
+    "workplace_safety": 3.58,
+    "work_life_balance": 3.46,
+    "stability": 3.34,
+    "compensation": 2.8
+  },
+  "skills": {
+    "reading_comprehension": 2.5,
+    "active_listening": 2.5,
+    "writing": 1.88,
+    "speaking": 2.0,
+    "foreign_language_reading": 0.6,
+    "foreign_language_listening": 0.6,
+    "foreign_language_writing": 0.56,
+    "foreign_language_speaking": 0.52,
+    "mathematics": 1.18,
+    "science": 0.88,
+    "critical_thinking": 1.24,
+    "active_learning": 1.6,
+    "learning_strategies": 1.64,
+    "monitoring": 1.5,
+    "social_perceptiveness": 1.78,
+    "coordination": 1.84,
+    "persuasion": 1.48,
+    "negotiation": 1.32,
+    "instructing": 2.14,
+    "service_orientation": 1.6,
+    "complex_problem_solving": 1.64,
+    "operations_analysis": 1.32,
+    "technology_design": 1.16,
+    "equipment_selection": 1.7,
+    "installation": 1.06,
+    "programming": 0.48,
+    "operations_monitoring": 1.18,
+    "operation_and_control": 1.34,
+    "equipment_maintenance": 1.1,
+    "troubleshooting": 1.2,
+    "repairing": 1.06,
+    "quality_control_analysis": 1.74,
+    "judgment_decision_making": 1.34,
+    "systems_analysis": 1.16,
+    "systems_evaluation": 0.98,
+    "time_management": 1.8,
+    "financial_resources_management": 0.62,
+    "material_resources_management": 1.14,
+    "personnel_resources_management": 1.04
+  },
+  "knowledge": {
+    "business_management": 0.661,
+    "clerical": 0.898,
+    "economics_accounting": 0.39,
+    "sales_marketing": 1.186,
+    "customer_personal_service": 1.288,
+    "personnel_hr": 0.661,
+    "transportation": 0.881,
+    "production_processing": 2.271,
+    "agriculture_livestock": 0.712,
+    "engineering": 0.559,
+    "computers_electronics": 0.356,
+    "design": 0.356,
+    "building_construction": 0.288,
+    "mechanical": 0.627,
+    "mathematics_kn": 0.746,
+    "physics": 0.424,
+    "chemistry": 0.492,
+    "biology": 0.424,
+    "psychology": 0.593,
+    "sociology": 0.661,
+    "geography": 0.305,
+    "medicine_dentistry": 0.322,
+    "therapy_counseling": 0.322,
+    "education_training_kn": 0.492,
+    "japanese_language": 0.627,
+    "foreign_language_kn": 0.492,
+    "fine_arts": 0.322,
+    "history_archaeology": 0.203,
+    "philosophy_theology": 0.22,
+    "public_safety_security": 0.61,
+    "law_government": 0.356,
+    "telecommunications": 0.339,
+    "communications_media": 0.593
+  },
+  "abilities": {
+    "oral_comprehension": 2.333,
+    "written_comprehension": 2.222,
+    "oral_expression": 2.4,
+    "written_expression": 2.222,
+    "fluency_of_ideas": 2.111,
+    "originality": 1.978,
+    "problem_sensitivity": 2.644,
+    "deductive_reasoning": 2.289,
+    "inductive_reasoning": 2.067,
+    "information_ordering": 2.156,
+    "category_flexibility": 2.044,
+    "mathematical_reasoning": 1.933,
+    "number_facility": 2.111,
+    "memorization": 2.289,
+    "perceptual_speed": 2.244,
+    "spatial_orientation": 2.244,
+    "visualization": 2.222,
+    "selective_attention": 2.467,
+    "time_sharing": 2.444,
+    "arm_hand_steadiness": 2.667,
+    "manual_dexterity": 2.667,
+    "finger_dexterity": 2.778,
+    "reaction_time": 2.444,
+    "wrist_finger_speed": 2.6,
+    "speed_of_limb_movement": 2.578,
+    "static_strength": 2.667,
+    "stamina": 2.867,
+    "gross_body_equilibrium": 2.489,
+    "near_vision": 2.489,
+    "far_vision": 2.444,
+    "visual_color_discrimination": 2.667,
+    "depth_perception": 2.4,
+    "hearing_sensitivity": 2.422,
+    "auditory_attention": 2.333,
+    "speech_clarity": 2.333
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.661,
+    "face_to_face_discussions": 2.559,
+    "telephone_communication": 2.305,
+    "business_writing": 2.0,
+    "conflict_situations": 1.915,
+    "time_pressure": 2.78,
+    "teamwork": 3.22,
+    "dealing_with_external_customers": 2.169,
+    "coordinate_lead_others": 2.593,
+    "exactness_accuracy": 3.22,
+    "repetitive_tasks": 3.102,
+    "pace_determined_by_machine": 2.525,
+    "responsibility_for_outcomes": 2.356,
+    "indoor_climate_controlled": 4.508,
+    "indoor_non_climate_controlled": 1.983,
+    "outdoor_work": 1.576,
+    "sitting": 1.644,
+    "standing": 4.559,
+    "repetition_of_activities": 3.559,
+    "consequence_of_error": 2.898,
+    "freedom_to_make_decisions": 2.864,
+    "set_own_goals": 2.695,
+    "regular_schedule": 0.559,
+    "irregular_schedule": 0.373,
+    "seasonal_schedule": 0.068,
+    "email_communication": 1.847,
+    "cramped_uncomfortable": 1.864,
+    "disease_infection_risk": 1.576,
+    "minor_injury_risk": 2.407,
+    "standard_protective_equipment": 2.169,
+    "specialized_protective_equipment": 1.254,
+    "dealing_with_violent_people": 1.271,
+    "walking_running": 3.22,
+    "handling_objects_tools": 3.22,
+    "physical_proximity": 3.576,
+    "work_automation": 1.966,
+    "responsibility_for_safety": 2.153,
+    "impact_of_decisions": 1.983,
+    "level_of_competition": 1.78
+  },
+  "work_activities": {
+    "getting_information": 2.178,
+    "monitor_processes": 2.778,
+    "identifying_objects": 2.533,
+    "inspecting_equipment": 2.733,
+    "estimating_quantifiable": 2.511,
+    "judging_quality": 2.667,
+    "evaluating_compliance": 2.667,
+    "processing_information": 2.289,
+    "analyzing_data": 2.222,
+    "making_decisions": 2.4,
+    "thinking_creatively": 2.4,
+    "updating_knowledge": 2.578,
+    "developing_objectives": 2.4,
+    "scheduling_work": 2.622,
+    "organizing_planning": 2.8,
+    "physical_activities": 2.733,
+    "handling_objects": 3.0,
+    "controlling_machines": 2.378,
+    "operating_vehicles": 1.778,
+    "computer_work": 1.889,
+    "drafting_specifications": 2.0,
+    "repairing_mechanical": 2.267,
+    "repairing_electronic": 2.178,
+    "documenting_information": 2.178,
+    "interpreting_information": 2.289,
+    "communicating_inside": 2.889,
+    "communicating_outside": 2.356,
+    "building_relationships": 2.911,
+    "assisting_caring": 2.467,
+    "selling_influencing": 2.089,
+    "resolving_conflicts": 2.111,
+    "performing_for_public": 2.044,
+    "coordinating_others": 2.556,
+    "developing_teams": 2.689,
+    "training_teaching": 2.4,
+    "guiding_subordinates": 2.467,
+    "coaching_developing": 2.111,
+    "providing_consultation": 1.889,
+    "performing_administrative": 2.133,
+    "staffing_organizational": 2.089,
+    "monitoring_resources": 2.133
+  },
+  "education_distribution": {
+    "below_high_school": 0.051,
+    "high_school": 0.373,
+    "vocational_school": 0.102,
+    "junior_college": 0.085,
+    "technical_college": 0.0,
+    "university": 0.153,
+    "masters": 0.017,
+    "doctorate": 0.0,
+    "unknown": 0.407
+  },
+  "training_pre": {
+    "not_required": 0.61,
+    "up_to_1_month": 0.119,
+    "1_to_6_months": 0.119,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.034,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.119
+  },
+  "training_post": {
+    "not_required": 0.186,
+    "up_to_1_month": 0.153,
+    "1_to_6_months": 0.339,
+    "6_months_to_1_year": 0.085,
+    "1_to_2_years": 0.051,
+    "2_to_3_years": 0.034,
+    "3_to_5_years": 0.017,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.136
+  },
+  "experience": {
+    "not_required": 0.559,
+    "up_to_1_month": 0.051,
+    "1_to_6_months": 0.119,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.034,
+    "2_to_3_years": 0.017,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.22
+  },
+  "employment_type": {
+    "regular_employee": 0.254,
+    "part_time": 0.593,
+    "dispatched": 0.085,
+    "contract": 0.034,
+    "self_employed_freelance": 0.017,
+    "executive": 0.017,
+    "casual_non_student": 0.119,
+    "casual_student": 0.034,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "百貨店、スーパーマーケット、コンビニエンスストアなどで販売する様々な惣菜を製造する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "調理方法、手順を確認する。",
+      "execution_rate": 0.933,
+      "importance": 3.714
+    },
+    {
+      "task_id": 2,
+      "description_ja": "レシピに従い、食材、調味料、調理器具がそろっているかを確認する。",
+      "execution_rate": 0.956,
+      "importance": 3.558
+    },
+    {
+      "task_id": 3,
+      "description_ja": "調理に入る前に、決められた手順に沿って、手洗いや消毒を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.222
+    },
+    {
+      "task_id": 4,
+      "description_ja": "食材を道具や機械を使って洗浄する。",
+      "execution_rate": 0.844,
+      "importance": 3.868
+    },
+    {
+      "task_id": 5,
+      "description_ja": "食材を解凍する。",
+      "execution_rate": 0.911,
+      "importance": 3.268
+    },
+    {
+      "task_id": 6,
+      "description_ja": "包丁や機械を使って食材の皮むき、裁断、不要部分の除去をする。",
+      "execution_rate": 0.844,
+      "importance": 3.447
+    },
+    {
+      "task_id": 7,
+      "description_ja": "食材を混合したり加熱して調理する。",
+      "execution_rate": 0.889,
+      "importance": 3.9
+    },
+    {
+      "task_id": 8,
+      "description_ja": "調味料で味付けする。",
+      "execution_rate": 0.889,
+      "importance": 3.85
+    },
+    {
+      "task_id": 9,
+      "description_ja": "惣菜を冷却する。",
+      "execution_rate": 0.844,
+      "importance": 3.789
+    },
+    {
+      "task_id": 10,
+      "description_ja": "惣菜を殺菌する。",
+      "execution_rate": 0.844,
+      "importance": 3.605
+    },
+    {
+      "task_id": 11,
+      "description_ja": "惣菜を盛付ける。",
+      "execution_rate": 0.933,
+      "importance": 3.595
+    },
+    {
+      "task_id": 12,
+      "description_ja": "決められた分量を容器にパック詰めする。",
+      "execution_rate": 0.956,
+      "importance": 3.837
+    },
+    {
+      "task_id": 13,
+      "description_ja": "値段、賞味期限、消費期限、材料名などが印字されたシールを貼る。",
+      "execution_rate": 0.911,
+      "importance": 3.878
+    },
+    {
+      "task_id": 14,
+      "description_ja": "アレルギー物質などが適切に表示されていることを確認する。",
+      "execution_rate": 0.889,
+      "importance": 3.9
+    },
+    {
+      "task_id": 15,
+      "description_ja": "材料や惣菜に異物が混入していないか、目視で確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.089
+    },
+    {
+      "task_id": 16,
+      "description_ja": "包装し、出荷する。",
+      "execution_rate": 0.844,
+      "importance": 3.763
+    },
+    {
+      "task_id": 17,
+      "description_ja": "調理器具の洗浄や手入れをする。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 18,
+      "description_ja": "調理に使う機械を点検する。",
+      "execution_rate": 0.844,
+      "importance": 3.763
+    },
+    {
+      "task_id": 19,
+      "description_ja": "機械に不具合があった場合はその修理を手配する。",
+      "execution_rate": 0.911,
+      "importance": 3.683
+    },
+    {
+      "task_id": 20,
+      "description_ja": "食材を発注し、在庫を管理する。",
+      "execution_rate": 0.956,
+      "importance": 3.884
+    },
+    {
+      "task_id": 21,
+      "description_ja": "惣菜のレシピを作成する。",
+      "execution_rate": 0.8,
+      "importance": 3.139
+    },
+    {
+      "task_id": 22,
+      "description_ja": "新商品を開発する。",
+      "execution_rate": 0.778,
+      "importance": 2.971
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本惣菜協会",
+      "url": "http://www.nsouzai-kyoukai.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "調理師",
+    "一級惣菜管理士",
+    "二級惣菜管理士",
+    "三級惣菜管理士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/8",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

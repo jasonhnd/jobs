@@ -1,0 +1,459 @@
+{
+  "id": 256,
+  "ipd_id": "IPD_01_01_256",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "NC工作機械オペレーター",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "12_071-06",
+    "mhlw_all": [
+      "12_071-06"
+    ],
+    "jsoc_main": "H523",
+    "jsoc_all": [
+      "H523"
+    ]
+  },
+  "description": {
+    "summary_ja": "コンピューターによる数値制御（NC）によりNC工作機械を操作して金属材料を切削加工する。",
+    "what_it_is_ja": "コンピューターによる数値制御（NC）により運転を行うNC工作機械を操作して金属材料を切削加工する。\n　工作機械は金属切削工作機械とも呼ばれ、金属加工物を切削（せっさく）や研削（けんさく）によって所定の形状に作り上げる機械で、作業者がハンドルを回して操作する「汎用工作機械」と「NC工作機械」がある。NC工作機械は、加工精度のばらつきが少ない、作業者の技量に依存しない加工が可能で、1人で複数の機械を操作できるため作業員が少なくて済み、加工工程を効率化できるなどの利点があり、現在の日本の工作機械生産額の90％以上（*1）をNC工作機械が占めている。\n　工作機械は、用途によって細かく分けると約300種類もの機種があるが、主なものとしては、旋盤、穴あけ加工のボール盤、穴の大きさを加工する中ぐり盤、平面・曲面加工するフライス盤、切削工具ではなく砥石車を使う研削盤、歯車の歯を切り出す歯切り盤などがあり、NC機能を装備することによりNC旋盤、NCフライス盤などと呼ばれる。\n　生産効率が良いことから現在広く使われているのは、複数の旋盤機能を搭載して、ATC機能を装備することにより旋削（せんさく）加工だけでなくフライス削り（フライス盤と言われる手動で軸を動かして加工をする）や穴あけなども1台でこなすターニングセンターや、旋削加工から中ぐり、穴あけ、ねじ立て、リーマ仕上げまで多種類の加工を1台で連続して行えるマシニングセンター（MC）である。\n　NC工作機械を操作するNCオペレーターの仕事は、プログラミングとオペレーティングの2種類に分かれる。プログラミングとは、工作機械に作業内容を「教える」ティーチング作業であり、オペレーティングは工作機械がプログラミング通りに動くかどうかをチェックする作業で、機械操作や完成品のチェックまで行う。\n　具体的な作業手順は、まずプログラミングを行う。プログラミングの手順は、図面から加工形状を確認して、使用する治具や工具などを決める。座標系（x,y,zの3軸）を設定し、使用工具の順番、回転方向や回転数、切削速度などの加工手順や切削条件を設定する。次いで図面通りの形状を実現できるように工具を動かす移動指令や、処理が終わったら加工の終了指令を出すように設定するという流れになる。\n　NCプログラミングには、オペレーターが座標計算シートに座標や移動量などを記入して、それをもとにNCデータを生成するマニュアルプログラミングと自動プログラミングがある。自動プログラミングには、CAD/CAMシステムを使うものとNC装置のプログラミング機能を使うものがある。作業人員やNCデータ作成時間が少なくて済むなどの利点があり、多種類の複雑な加工を行う場合は自動プログラミングを使用するのが一般的である。\n　プログラミングが完成したら、パソコン上でシミュレーションして、図面通りの加工ができることを確認したら、材料をつけないまま空運転して、干渉などの物理的な問題点がないかチェックして、すべてOKとなったらオペレーティングに移る。\n　工具の在庫を確認し、摩耗や欠けがないかどうか顕微鏡で確認してから工作機械にセットする。次いで、加工材料を固定する治具(じぐ)をセットし、その治具に加工材料をセットして、機械の軸に対して加工材料の平行や直角の位置調整を行う。高精度計測器のスタイラスで加工材料の中心を測定する。準備がすべて終わったらプログラムを読み込むと、プログラムに従って自動で加工が行われる。ものによっては数十時間かかる場合もあるが、自動運転なので夜間でも加工でき、作業員が常時見ている必要もない。加工が終わったら完成品のチェックを行う。\n　終業前には、工具の摩耗検査や機械の清掃を手順書に沿って実施する。\n\n*1　一般社団法人日本工作機械工業会ホームページから\n\n◇　よく使う道具、機材、情報技術等\n　コンピューター、NC工作機械、金属切削工作機械、汎用工作機械、旋盤、ボール盤、中ぐり盤、フライス盤、切削工具、砥石車、研削盤、歯切り盤、NC旋盤、NCフライス盤、フライス盤、ターニングセンター、マシニングセンター、治具、CAD、CAM、顕微鏡、高精度計測器、スタイラス、切削工具、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。学歴は工業系の高校卒業者多い。中途採用では、同業からの転職者が多い。\n　入職後の訓練は、事業所によって異なり、１年程度の訓練期間が設けられ、基礎として必要な知識を身につけながら実技を通して技能を磨いていく場合と、短期間の新人研修を受けた後、現場に配属されOJTなどの実地訓練によって技能を習得していく場合などがある。\n　キャリアパスとしては、作業員として経験を積んでリーダー（係長や課長）になり、その後はマネジメントに進むか、知識、技能を高めスペシャリストの道を進むのが一般的である。\n　関連資格としては、厚生労働省が定める技能検定の「機械加工技能士」がある。試験は、汎用工作機械及びNC工作機械の種類によって区分されている。\n　必要な知識としては、工作機械、切削加工法、切削工具、材料、プログラミング、測定法、図面の読み取りなどがある。また、実技能力としては、ＮＣフライス盤の的確な操作、ＮＣプログラムの作成、加工の段取り、加工状況に対する的確な判断と素早い対応などが求められる。最近の工作機械には新しい技術が次々に導入されているので、技術面での新たな動きに関心を持つことも大切である。\n　平面・立体の図形を理解できる空間判断力や、プログラミングのために数理能力が求められる。また、機械操作では加工状況を目で見て的確に判断し、手を速かに動かすことも必要である。",
+    "working_conditions_ja": "勤務先は機械メーカー、機械部品メーカー等である。NC工作機械は大企業から個人経営の工場に至るまで各産業分野で広く使われており、職場も大工業地帯だけでなく、地方での工場立地に伴い全国各地に広がっている。\n　就業者は男性が多いが、女性も増えている。\n　賃金、労働時間等労働条件は、勤務先の規定による。労働時間は日勤が一般的であるが、一部の大企業では日勤・夜勤の交替制を取っているところもある。プログラミングが済むと、機械は自動運転となるため、汎用型の場合と違って、オペレーターは複数の機械を受け持つようになっている。このため、プログラミングやオペレーションに留まらず、加工スケジュールや生産管理も担当することがある。\n　AIの発達により熟練工の技を共有できるようになると、将来的にはNC工作機械オペレーターの働き方に大きな変化が生じる可能性がある。"
+  },
+  "interests": {
+    "realistic": 3.429,
+    "investigative": 2.905,
+    "artistic": 2.556,
+    "social": 2.508,
+    "enterprising": 2.571,
+    "conventional": 2.968
+  },
+  "work_values": {
+    "achievement": 3.367,
+    "autonomy": 3.082,
+    "expertise": 3.469,
+    "self_growth": 3.388,
+    "social_recognition": 2.714,
+    "service_contribution": 2.653,
+    "good_relationships": 3.02,
+    "workplace_safety": 3.0,
+    "work_life_balance": 3.02,
+    "stability": 3.0,
+    "compensation": 2.898
+  },
+  "skills": {
+    "reading_comprehension": 2.735,
+    "active_listening": 2.939,
+    "writing": 2.571,
+    "speaking": 2.673,
+    "foreign_language_reading": 0.816,
+    "foreign_language_listening": 0.51,
+    "foreign_language_writing": 0.551,
+    "foreign_language_speaking": 0.551,
+    "mathematics": 2.898,
+    "science": 1.571,
+    "critical_thinking": 2.061,
+    "active_learning": 1.959,
+    "learning_strategies": 2.143,
+    "monitoring": 2.184,
+    "social_perceptiveness": 2.122,
+    "coordination": 2.571,
+    "persuasion": 1.878,
+    "negotiation": 1.796,
+    "instructing": 2.694,
+    "service_orientation": 1.816,
+    "complex_problem_solving": 2.224,
+    "operations_analysis": 2.265,
+    "technology_design": 2.163,
+    "equipment_selection": 3.041,
+    "installation": 2.592,
+    "programming": 2.776,
+    "operations_monitoring": 3.041,
+    "operation_and_control": 3.49,
+    "equipment_maintenance": 3.224,
+    "troubleshooting": 2.98,
+    "repairing": 2.98,
+    "quality_control_analysis": 3.245,
+    "judgment_decision_making": 2.531,
+    "systems_analysis": 1.898,
+    "systems_evaluation": 1.816,
+    "time_management": 2.857,
+    "financial_resources_management": 1.571,
+    "material_resources_management": 2.082,
+    "personnel_resources_management": 1.673
+  },
+  "knowledge": {
+    "business_management": 1.068,
+    "clerical": 1.136,
+    "economics_accounting": 0.61,
+    "sales_marketing": 0.678,
+    "customer_personal_service": 0.847,
+    "personnel_hr": 0.78,
+    "transportation": 0.763,
+    "production_processing": 3.119,
+    "agriculture_livestock": 0.254,
+    "engineering": 1.712,
+    "computers_electronics": 1.559,
+    "design": 1.644,
+    "building_construction": 0.356,
+    "mechanical": 2.797,
+    "mathematics_kn": 2.22,
+    "physics": 1.305,
+    "chemistry": 0.881,
+    "biology": 0.322,
+    "psychology": 0.814,
+    "sociology": 0.712,
+    "geography": 0.322,
+    "medicine_dentistry": 0.288,
+    "therapy_counseling": 0.542,
+    "education_training_kn": 1.237,
+    "japanese_language": 0.78,
+    "foreign_language_kn": 0.542,
+    "fine_arts": 0.458,
+    "history_archaeology": 0.305,
+    "philosophy_theology": 0.339,
+    "public_safety_security": 0.814,
+    "law_government": 0.475,
+    "telecommunications": 0.797,
+    "communications_media": 0.763
+  },
+  "abilities": {
+    "oral_comprehension": 2.339,
+    "written_comprehension": 2.226,
+    "oral_expression": 2.258,
+    "written_expression": 2.323,
+    "fluency_of_ideas": 2.452,
+    "originality": 2.468,
+    "problem_sensitivity": 3.145,
+    "deductive_reasoning": 2.5,
+    "inductive_reasoning": 2.452,
+    "information_ordering": 2.484,
+    "category_flexibility": 2.323,
+    "mathematical_reasoning": 2.29,
+    "number_facility": 2.645,
+    "memorization": 2.645,
+    "perceptual_speed": 2.548,
+    "spatial_orientation": 2.371,
+    "visualization": 2.565,
+    "selective_attention": 2.629,
+    "time_sharing": 2.468,
+    "arm_hand_steadiness": 2.306,
+    "manual_dexterity": 2.516,
+    "finger_dexterity": 2.484,
+    "reaction_time": 2.468,
+    "wrist_finger_speed": 2.306,
+    "speed_of_limb_movement": 2.339,
+    "static_strength": 2.435,
+    "stamina": 2.355,
+    "gross_body_equilibrium": 2.371,
+    "near_vision": 2.419,
+    "far_vision": 2.129,
+    "visual_color_discrimination": 2.306,
+    "depth_perception": 2.355,
+    "hearing_sensitivity": 2.452,
+    "auditory_attention": 2.516,
+    "speech_clarity": 2.113
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.966,
+    "face_to_face_discussions": 3.22,
+    "telephone_communication": 2.847,
+    "business_writing": 2.593,
+    "conflict_situations": 2.356,
+    "time_pressure": 3.186,
+    "teamwork": 2.712,
+    "dealing_with_external_customers": 2.085,
+    "coordinate_lead_others": 2.525,
+    "exactness_accuracy": 3.542,
+    "repetitive_tasks": 3.22,
+    "pace_determined_by_machine": 3.203,
+    "responsibility_for_outcomes": 3.119,
+    "indoor_climate_controlled": 3.847,
+    "indoor_non_climate_controlled": 2.559,
+    "outdoor_work": 1.475,
+    "sitting": 1.881,
+    "standing": 4.102,
+    "repetition_of_activities": 3.119,
+    "consequence_of_error": 3.339,
+    "freedom_to_make_decisions": 3.119,
+    "set_own_goals": 3.203,
+    "regular_schedule": 0.593,
+    "irregular_schedule": 0.373,
+    "seasonal_schedule": 0.034,
+    "email_communication": 2.949,
+    "cramped_uncomfortable": 2.492,
+    "disease_infection_risk": 1.61,
+    "minor_injury_risk": 2.831,
+    "standard_protective_equipment": 3.508,
+    "specialized_protective_equipment": 2.153,
+    "dealing_with_violent_people": 1.339,
+    "walking_running": 2.881,
+    "handling_objects_tools": 3.814,
+    "physical_proximity": 2.678,
+    "work_automation": 2.78,
+    "responsibility_for_safety": 2.322,
+    "impact_of_decisions": 2.305,
+    "level_of_competition": 2.0
+  },
+  "work_activities": {
+    "getting_information": 2.581,
+    "monitor_processes": 2.774,
+    "identifying_objects": 2.758,
+    "inspecting_equipment": 3.097,
+    "estimating_quantifiable": 2.871,
+    "judging_quality": 3.081,
+    "evaluating_compliance": 2.806,
+    "processing_information": 2.79,
+    "analyzing_data": 2.79,
+    "making_decisions": 2.903,
+    "thinking_creatively": 2.774,
+    "updating_knowledge": 3.081,
+    "developing_objectives": 2.694,
+    "scheduling_work": 2.806,
+    "organizing_planning": 3.242,
+    "physical_activities": 2.629,
+    "handling_objects": 2.903,
+    "controlling_machines": 3.274,
+    "operating_vehicles": 2.274,
+    "computer_work": 3.032,
+    "drafting_specifications": 2.742,
+    "repairing_mechanical": 3.21,
+    "repairing_electronic": 2.774,
+    "documenting_information": 2.758,
+    "interpreting_information": 2.806,
+    "communicating_inside": 2.855,
+    "communicating_outside": 2.645,
+    "building_relationships": 2.694,
+    "assisting_caring": 2.435,
+    "selling_influencing": 2.097,
+    "resolving_conflicts": 2.129,
+    "performing_for_public": 2.081,
+    "coordinating_others": 2.548,
+    "developing_teams": 2.419,
+    "training_teaching": 2.629,
+    "guiding_subordinates": 2.597,
+    "coaching_developing": 2.452,
+    "providing_consultation": 2.145,
+    "performing_administrative": 2.419,
+    "staffing_organizational": 2.194,
+    "monitoring_resources": 2.5
+  },
+  "education_distribution": {
+    "below_high_school": 0.068,
+    "high_school": 0.712,
+    "vocational_school": 0.068,
+    "junior_college": 0.017,
+    "technical_college": 0.051,
+    "university": 0.288,
+    "masters": 0.017,
+    "doctorate": 0.0,
+    "unknown": 0.034
+  },
+  "training_pre": {
+    "not_required": 0.373,
+    "up_to_1_month": 0.034,
+    "1_to_6_months": 0.237,
+    "6_months_to_1_year": 0.085,
+    "1_to_2_years": 0.051,
+    "2_to_3_years": 0.017,
+    "3_to_5_years": 0.017,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.017,
+    "unknown": 0.169
+  },
+  "training_post": {
+    "not_required": 0.085,
+    "up_to_1_month": 0.017,
+    "1_to_6_months": 0.119,
+    "6_months_to_1_year": 0.169,
+    "1_to_2_years": 0.169,
+    "2_to_3_years": 0.119,
+    "3_to_5_years": 0.153,
+    "5_to_10_years": 0.034,
+    "over_10_years": 0.017,
+    "unknown": 0.119
+  },
+  "experience": {
+    "not_required": 0.441,
+    "up_to_1_month": 0.051,
+    "1_to_6_months": 0.169,
+    "6_months_to_1_year": 0.085,
+    "1_to_2_years": 0.034,
+    "2_to_3_years": 0.034,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.034,
+    "unknown": 0.153
+  },
+  "employment_type": {
+    "regular_employee": 0.966,
+    "part_time": 0.034,
+    "dispatched": 0.034,
+    "contract": 0.102,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.017,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "コンピューターによる数値制御（NC）により運転を行うNC工作機械を操作して金属素材を切削加工する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "設計書をもとに加工手順を確認する。",
+      "execution_rate": 0.887,
+      "importance": 3.564
+    },
+    {
+      "task_id": 2,
+      "description_ja": "切削の条件や加工工程、工具選定などを組み込んだプログラムを作成する。",
+      "execution_rate": 0.968,
+      "importance": 4.0
+    },
+    {
+      "task_id": 3,
+      "description_ja": "プログラムの入力・編集をする。",
+      "execution_rate": 0.968,
+      "importance": 3.85
+    },
+    {
+      "task_id": 4,
+      "description_ja": "補正値の入力をする。",
+      "execution_rate": 0.952,
+      "importance": 4.017
+    },
+    {
+      "task_id": 5,
+      "description_ja": "プログラムの転送をする。",
+      "execution_rate": 0.887,
+      "importance": 3.4
+    },
+    {
+      "task_id": 6,
+      "description_ja": "試運転しプログラムをチェックする。",
+      "execution_rate": 0.952,
+      "importance": 3.797
+    },
+    {
+      "task_id": 7,
+      "description_ja": "ツールリストの作成をする。",
+      "execution_rate": 0.839,
+      "importance": 3.346
+    },
+    {
+      "task_id": 8,
+      "description_ja": "工具のセッティングをする。",
+      "execution_rate": 0.968,
+      "importance": 3.85
+    },
+    {
+      "task_id": 9,
+      "description_ja": "工作物の取り付けをする。",
+      "execution_rate": 0.968,
+      "importance": 3.95
+    },
+    {
+      "task_id": 10,
+      "description_ja": "取付具のセットをする。",
+      "execution_rate": 0.968,
+      "importance": 3.883
+    },
+    {
+      "task_id": 11,
+      "description_ja": "材料の取付をする。",
+      "execution_rate": 0.984,
+      "importance": 3.836
+    },
+    {
+      "task_id": 12,
+      "description_ja": "試し加工と評価をする。",
+      "execution_rate": 0.919,
+      "importance": 3.754
+    },
+    {
+      "task_id": 13,
+      "description_ja": "試し加工の結果を受け、プログラムや工具を改善する。",
+      "execution_rate": 0.887,
+      "importance": 3.582
+    },
+    {
+      "task_id": 14,
+      "description_ja": "連続・自動運転をする。",
+      "execution_rate": 0.919,
+      "importance": 3.737
+    },
+    {
+      "task_id": 15,
+      "description_ja": "工具の摩耗をチェックをする。",
+      "execution_rate": 0.984,
+      "importance": 3.738
+    },
+    {
+      "task_id": 16,
+      "description_ja": "機械の清掃をする。",
+      "execution_rate": 0.984,
+      "importance": 3.508
+    },
+    {
+      "task_id": 17,
+      "description_ja": "配管やホース類の劣化、破損の程度をチェックする。",
+      "execution_rate": 0.903,
+      "importance": 2.964
+    },
+    {
+      "task_id": 18,
+      "description_ja": "目的に合わせた砥石を選択する。",
+      "execution_rate": 0.677,
+      "importance": 3.024
+    },
+    {
+      "task_id": 19,
+      "description_ja": "取付具の設計、制作をする。",
+      "execution_rate": 0.742,
+      "importance": 3.065
+    },
+    {
+      "task_id": 20,
+      "description_ja": "機械に給油する。",
+      "execution_rate": 0.984,
+      "importance": 3.393
+    },
+    {
+      "task_id": 21,
+      "description_ja": "加工時間を確認し、時間短縮のための対策を立てる。",
+      "execution_rate": 0.936,
+      "importance": 3.172
+    },
+    {
+      "task_id": 22,
+      "description_ja": "作業ミスを防止するための発案をする。",
+      "execution_rate": 0.936,
+      "importance": 3.345
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本工作機械工業会",
+      "url": "https://www.jmtba.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "特級機械加工技能士",
+    "１級機械加工技能士",
+    "２級機械加工技能士",
+    "３級機械加工技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/256",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

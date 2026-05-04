@@ -1,0 +1,468 @@
+{
+  "id": 131,
+  "ipd_id": "IPD_01_01_131",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "保育士",
+  "aliases_ja": [
+    "保育教諭"
+  ],
+  "classifications": {
+    "mhlw_main": "05_029-01",
+    "mhlw_all": [
+      "05_029-01",
+      "05_029-03"
+    ],
+    "jsoc_main": "B163",
+    "jsoc_all": [
+      "B163",
+      "B191"
+    ]
+  },
+  "description": {
+    "summary_ja": "専門的知識及び技術をもって、子どもの保育を行うとともに、保護者に対し子育てに関する支援や助言・指導を行う。",
+    "what_it_is_ja": "専門的知識及び技術をもって、子どもの保育を行うとともに、保護者に対し子育てに関する支援や助言・指導を行う。認可保育所をはじめとする保育施設において、保護者が仕事のため日中に家庭で保育ができない場合など、主に就学前の保育を必要とする子どもの保育に従事する保育士が多くを占めている。他にも、後述するように保育所以外の児童福祉施設等、様々な職場がある。\n　保育所における保育は、子どもの健康・安全が守られ情緒の安定が図られることを基盤としたうえで、生活や遊びのなかで周囲の環境と関わりあう体験を通して資質・能力が育まれていくという幼児教育の基本的な考え方のもと行われる。保育内容は「健康」「人間関係」「環境」「言葉」「表現」という５つの領域からなっており、保育士は、保育が適切に展開されるよう、一人一人の発達過程や状況を踏まえながら指導計画を作成し、保育に当たる。\n　保育所にはゼロ歳から6歳までの子どもがいるので、担当する子どもの年齢によって、仕事の内容や対応の仕方が異なる。例えば、乳児を保育する場合には、授乳やおむつの取り替えを行ったり、幼児期の終わりが近くなると小学校教育との接続を意識した活動を行ったりする。日々の保育では、食事やおやつ、着替え、午睡、排泄などの生活習慣に関わる援助や、集団での遊びや自然との触れ合いなど、子どもたちの発達や興味・関心に即した様々な遊びが生まれ、発展していくような環境づくりや働きかけを行う。\n　また、保育士は、常に子どもをよく観察して、具合が悪くなったり、怪我をした場合は、保護者や病院に連絡をとるなど、すぐに適切な処置を行う。また、送り迎えの際のやりとりや連絡帳などを通じて、日頃から保護者と子どもについての情報を共有し、必要に応じて相談や助言を行う。\n　さらに、保育日誌等の記録作成や行事の企画など、事務的な仕事もある。",
+    "how_to_become_ja": "保育士として働くには、保育士資格を取得することが必要である。資格取得に当たっては、養成課程のある学校や施設を卒業する、あるいは保育士試験に合格する方法がある。\n　養成課程の多くは、大学や短大、又は専門学校の中に2年以上の課程として設けられており、通信教育や夜間教育を行っているところもある。\n　保育士試験は各都道府県で年2回実施されており、短大・専門学校卒業者(大学に2年以上在籍して教養課程を修了した者を含む)や、児童福祉施設において５年以上（高校卒業者は2年以上）児童の保護に従事した者などが受験できる。また通常の試験とは別に「地域限定保育士試験」が実施されることもある。\n　なお、保育士資格の保有者は、児童館などの児童厚生員、児童自立支援施設の児童生活支援員にも就くことができる。\n　保育士は多くの子どもと接するので、一定の体力が必要である。子どもが好きで、理解と愛情を持ち、責任感があることが求められる。子どもに何かあれば、いち早く対応できるよう、応急処置などの知識やスキルも必要である。また、幼い子どもは意思表示がまだ十分にできないことが多く、同時に複数の子どもの相手をする場合もあるので、根気強くそれぞれの話を聞いたり行動を待ったりする忍耐力も必要となる。他の保育士等と協働して仕事を進めることが多いので、コミュニケーション能力も求められる。",
+    "working_conditions_ja": "保育士のほとんどは保育所で働いているが、保育施設も種類は様々で、認可保育所、認可外保育施設、事業所内保育所、（病）院内保育所等がある。その他、児童養護施設、障害児施設、乳児院、母子生活支援施設、児童館、児童自立支援施設なども職場になる。長期入院中の子どもの保育に携わったり、各種の施設や事業所が、利用者や顧客のために行う臨時託児業務を担当するなど、保育士の資格や経験が役立つ職場も広がっている。また、就労と子育ての両立支援を目指す方向で、保育所の役割が見直されており、長時間保育や夜間保育、休日保育など、様々な形の保育が行われている。\n　賃金は、公営の施設で働く場合、原則として公務員の給与基準にしたがって定められている。\n　労働時間や勤務形態は施設によって異なり、児童養護施設など24時間入所施設では、2交替制や3交替制、あるいは宿直勤務を行う場合もある。保育所では早朝や夕方に保育時間を延長しているため、交替で時差勤務をしている。休憩は、子ども達が昼寝をしているときなどに交替でとることが多い。\n　共働き世帯の増加や、利用者の多様な保育ニーズに対応する必要もあり、国としても保育施策の充実を掲げていることから、引き続き大幅な需要増が見込まれる。"
+  },
+  "interests": {
+    "realistic": 2.949,
+    "investigative": 2.859,
+    "artistic": 3.333,
+    "social": 4.154,
+    "enterprising": 2.974,
+    "conventional": 3.269
+  },
+  "work_values": {
+    "achievement": 3.71,
+    "autonomy": 3.242,
+    "expertise": 3.823,
+    "self_growth": 3.839,
+    "social_recognition": 3.065,
+    "service_contribution": 3.629,
+    "good_relationships": 3.468,
+    "workplace_safety": 3.484,
+    "work_life_balance": 3.306,
+    "stability": 3.097,
+    "compensation": 2.242
+  },
+  "skills": {
+    "reading_comprehension": 3.161,
+    "active_listening": 4.258,
+    "writing": 3.516,
+    "speaking": 3.887,
+    "foreign_language_reading": 0.645,
+    "foreign_language_listening": 0.516,
+    "foreign_language_writing": 0.5,
+    "foreign_language_speaking": 0.419,
+    "mathematics": 0.774,
+    "science": 0.532,
+    "critical_thinking": 1.71,
+    "active_learning": 2.484,
+    "learning_strategies": 2.468,
+    "monitoring": 2.919,
+    "social_perceptiveness": 3.742,
+    "coordination": 3.194,
+    "persuasion": 3.048,
+    "negotiation": 2.419,
+    "instructing": 3.79,
+    "service_orientation": 3.177,
+    "complex_problem_solving": 2.677,
+    "operations_analysis": 1.742,
+    "technology_design": 1.452,
+    "equipment_selection": 1.871,
+    "installation": 1.355,
+    "programming": 0.806,
+    "operations_monitoring": 0.629,
+    "operation_and_control": 1.016,
+    "equipment_maintenance": 1.242,
+    "troubleshooting": 1.097,
+    "repairing": 1.194,
+    "quality_control_analysis": 1.113,
+    "judgment_decision_making": 1.226,
+    "systems_analysis": 1.355,
+    "systems_evaluation": 0.984,
+    "time_management": 2.355,
+    "financial_resources_management": 0.726,
+    "material_resources_management": 1.161,
+    "personnel_resources_management": 1.484
+  },
+  "knowledge": {
+    "business_management": 0.725,
+    "clerical": 1.667,
+    "economics_accounting": 0.471,
+    "sales_marketing": 0.294,
+    "customer_personal_service": 1.765,
+    "personnel_hr": 1.176,
+    "transportation": 0.196,
+    "production_processing": 0.137,
+    "agriculture_livestock": 0.255,
+    "engineering": 0.157,
+    "computers_electronics": 0.314,
+    "design": 0.157,
+    "building_construction": 0.255,
+    "mechanical": 0.216,
+    "mathematics_kn": 0.314,
+    "physics": 0.294,
+    "chemistry": 0.294,
+    "biology": 0.569,
+    "psychology": 2.431,
+    "sociology": 1.882,
+    "geography": 0.431,
+    "medicine_dentistry": 1.471,
+    "therapy_counseling": 1.784,
+    "education_training_kn": 2.608,
+    "japanese_language": 1.588,
+    "foreign_language_kn": 0.824,
+    "fine_arts": 1.804,
+    "history_archaeology": 0.627,
+    "philosophy_theology": 0.922,
+    "public_safety_security": 1.196,
+    "law_government": 0.745,
+    "telecommunications": 0.373,
+    "communications_media": 1.686
+  },
+  "abilities": {
+    "oral_comprehension": 3.14,
+    "written_comprehension": 2.982,
+    "oral_expression": 3.298,
+    "written_expression": 3.193,
+    "fluency_of_ideas": 3.175,
+    "originality": 3.053,
+    "problem_sensitivity": 3.737,
+    "deductive_reasoning": 3.088,
+    "inductive_reasoning": 3.07,
+    "information_ordering": 2.93,
+    "category_flexibility": 2.825,
+    "mathematical_reasoning": 2.596,
+    "number_facility": 2.404,
+    "memorization": 2.825,
+    "perceptual_speed": 2.614,
+    "spatial_orientation": 2.877,
+    "visualization": 2.754,
+    "selective_attention": 2.877,
+    "time_sharing": 2.982,
+    "arm_hand_steadiness": 2.719,
+    "manual_dexterity": 2.895,
+    "finger_dexterity": 2.807,
+    "reaction_time": 3.281,
+    "wrist_finger_speed": 2.719,
+    "speed_of_limb_movement": 2.825,
+    "static_strength": 2.93,
+    "stamina": 3.158,
+    "gross_body_equilibrium": 2.772,
+    "near_vision": 2.719,
+    "far_vision": 2.789,
+    "visual_color_discrimination": 2.684,
+    "depth_perception": 2.614,
+    "hearing_sensitivity": 2.702,
+    "auditory_attention": 2.719,
+    "speech_clarity": 2.895
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.294,
+    "face_to_face_discussions": 3.784,
+    "telephone_communication": 3.706,
+    "business_writing": 2.667,
+    "conflict_situations": 2.961,
+    "time_pressure": 3.098,
+    "teamwork": 3.941,
+    "dealing_with_external_customers": 2.941,
+    "coordinate_lead_others": 3.412,
+    "exactness_accuracy": 3.549,
+    "repetitive_tasks": 2.784,
+    "pace_determined_by_machine": 2.039,
+    "responsibility_for_outcomes": 3.333,
+    "indoor_climate_controlled": 4.529,
+    "indoor_non_climate_controlled": 2.882,
+    "outdoor_work": 3.961,
+    "sitting": 2.451,
+    "standing": 4.0,
+    "repetition_of_activities": 2.392,
+    "consequence_of_error": 3.51,
+    "freedom_to_make_decisions": 3.216,
+    "set_own_goals": 3.196,
+    "regular_schedule": 0.471,
+    "irregular_schedule": 0.451,
+    "seasonal_schedule": 0.078,
+    "email_communication": 2.471,
+    "cramped_uncomfortable": 2.294,
+    "disease_infection_risk": 4.49,
+    "minor_injury_risk": 2.49,
+    "standard_protective_equipment": 1.667,
+    "specialized_protective_equipment": 1.353,
+    "dealing_with_violent_people": 1.863,
+    "walking_running": 3.843,
+    "handling_objects_tools": 2.647,
+    "physical_proximity": 4.569,
+    "work_automation": 2.098,
+    "responsibility_for_safety": 3.961,
+    "impact_of_decisions": 2.98,
+    "level_of_competition": 1.922
+  },
+  "work_activities": {
+    "getting_information": 2.842,
+    "monitor_processes": 3.158,
+    "identifying_objects": 3.175,
+    "inspecting_equipment": 2.912,
+    "estimating_quantifiable": 2.649,
+    "judging_quality": 2.842,
+    "evaluating_compliance": 2.895,
+    "processing_information": 2.667,
+    "analyzing_data": 2.719,
+    "making_decisions": 3.105,
+    "thinking_creatively": 3.053,
+    "updating_knowledge": 3.158,
+    "developing_objectives": 3.14,
+    "scheduling_work": 3.281,
+    "organizing_planning": 3.474,
+    "physical_activities": 3.368,
+    "handling_objects": 3.105,
+    "controlling_machines": 2.333,
+    "operating_vehicles": 1.772,
+    "computer_work": 2.474,
+    "drafting_specifications": 1.93,
+    "repairing_mechanical": 1.877,
+    "repairing_electronic": 1.965,
+    "documenting_information": 2.596,
+    "interpreting_information": 2.614,
+    "communicating_inside": 3.596,
+    "communicating_outside": 3.123,
+    "building_relationships": 3.509,
+    "assisting_caring": 3.386,
+    "selling_influencing": 2.526,
+    "resolving_conflicts": 3.0,
+    "performing_for_public": 2.754,
+    "coordinating_others": 3.14,
+    "developing_teams": 3.193,
+    "training_teaching": 2.965,
+    "guiding_subordinates": 2.895,
+    "coaching_developing": 2.807,
+    "providing_consultation": 2.509,
+    "performing_administrative": 2.877,
+    "staffing_organizational": 2.632,
+    "monitoring_resources": 2.561
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.02,
+    "vocational_school": 0.314,
+    "junior_college": 0.667,
+    "technical_college": 0.0,
+    "university": 0.314,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.059
+  },
+  "training_pre": {
+    "not_required": 0.353,
+    "up_to_1_month": 0.059,
+    "1_to_6_months": 0.039,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.176,
+    "2_to_3_years": 0.137,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.157
+  },
+  "training_post": {
+    "not_required": 0.137,
+    "up_to_1_month": 0.039,
+    "1_to_6_months": 0.176,
+    "6_months_to_1_year": 0.176,
+    "1_to_2_years": 0.118,
+    "2_to_3_years": 0.098,
+    "3_to_5_years": 0.098,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.02,
+    "unknown": 0.118
+  },
+  "experience": {
+    "not_required": 0.431,
+    "up_to_1_month": 0.078,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.078,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.255
+  },
+  "employment_type": {
+    "regular_employee": 0.627,
+    "part_time": 0.451,
+    "dispatched": 0.02,
+    "contract": 0.098,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.059,
+    "casual_student": 0.039,
+    "unknown": 0.02,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "保育所や託児施設で保護者に代わって小学校に上がる前の子どもたちの世話をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "基本的な日常生活習慣を子供に教える。",
+      "execution_rate": 0.983,
+      "importance": 3.857
+    },
+    {
+      "task_id": 2,
+      "description_ja": "衣服の着脱、玩具や本の整理などの身辺整理ができるように指導する。",
+      "execution_rate": 1.0,
+      "importance": 3.667
+    },
+    {
+      "task_id": 3,
+      "description_ja": "ピアノや楽器を使って音楽の指導をする。",
+      "execution_rate": 0.895,
+      "importance": 3.098
+    },
+    {
+      "task_id": 4,
+      "description_ja": "子供のための食事の準備をし、食事の介助やしつけをする。",
+      "execution_rate": 1.0,
+      "importance": 3.772
+    },
+    {
+      "task_id": 5,
+      "description_ja": "一人ひとりの発達状況を把握し、健やかな成長のために適切な介助や指導をする。",
+      "execution_rate": 1.0,
+      "importance": 4.211
+    },
+    {
+      "task_id": 6,
+      "description_ja": "子供たちの発達段階に応じた幼児教育をする。",
+      "execution_rate": 0.983,
+      "importance": 3.964
+    },
+    {
+      "task_id": 7,
+      "description_ja": "遊びを通して人との関わり、言語能力、運動能力、知的能力を育てる。",
+      "execution_rate": 1.0,
+      "importance": 3.86
+    },
+    {
+      "task_id": 8,
+      "description_ja": "子供を入浴させたり、プールで水遊びをさせたりする。",
+      "execution_rate": 1.0,
+      "importance": 3.123
+    },
+    {
+      "task_id": 9,
+      "description_ja": "水泳や体操教室での指導や、その補助をする。",
+      "execution_rate": 0.772,
+      "importance": 3.068
+    },
+    {
+      "task_id": 10,
+      "description_ja": "障害のある子どもの支援計画を立て、療育を行う。",
+      "execution_rate": 0.895,
+      "importance": 3.902
+    },
+    {
+      "task_id": 11,
+      "description_ja": "保育している乳幼児の健康状態を見守り、病気や事故の場合は保護者や医療機関と連絡を取る。",
+      "execution_rate": 0.983,
+      "importance": 4.375
+    },
+    {
+      "task_id": 12,
+      "description_ja": "必要に応じて小学校などの関係機関と連携する。",
+      "execution_rate": 0.912,
+      "importance": 3.731
+    },
+    {
+      "task_id": 13,
+      "description_ja": "ゲームなどのレクリエーション活動を計画して運営する。",
+      "execution_rate": 1.0,
+      "importance": 3.158
+    },
+    {
+      "task_id": 14,
+      "description_ja": "各種行事の準備や運営を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.456
+    },
+    {
+      "task_id": 15,
+      "description_ja": "幼児教育の教材を作成する。",
+      "execution_rate": 0.93,
+      "importance": 3.283
+    },
+    {
+      "task_id": 16,
+      "description_ja": "保育計画や報告書などの書類を作成する。",
+      "execution_rate": 0.983,
+      "importance": 3.5
+    },
+    {
+      "task_id": 17,
+      "description_ja": "クラスだよりなど、保護者向けの資料を作成する。",
+      "execution_rate": 0.947,
+      "importance": 3.315
+    },
+    {
+      "task_id": 18,
+      "description_ja": "子どもを観察して保育日誌や連絡ノートをつけ、保護者へその日の活動や様子を伝える。",
+      "execution_rate": 1.0,
+      "importance": 3.895
+    },
+    {
+      "task_id": 19,
+      "description_ja": "必要に応じて、子どもの保護者を支援する。",
+      "execution_rate": 0.983,
+      "importance": 3.679
+    },
+    {
+      "task_id": 20,
+      "description_ja": "保育所の清掃や、家具・備品の修繕など、保育環境を整備する。",
+      "execution_rate": 1.0,
+      "importance": 3.842
+    },
+    {
+      "task_id": 21,
+      "description_ja": "備品の消毒など感染症対策をする。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 22,
+      "description_ja": "新人の教育やミスをしたスタッフの指導を行う。",
+      "execution_rate": 0.947,
+      "importance": 3.37
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国保育士会",
+      "url": "https://www.z-hoikushikai.com/"
+    },
+    {
+      "name_ja": "一般社団法人　全国保育士育成協議会",
+      "url": "https://www.hoyokyo.or.jp/"
+    },
+    {
+      "name_ja": "厚生労働省雇用均等・児童家庭局保育課",
+      "url": "https://www.mhlw.go.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "保育士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/131",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

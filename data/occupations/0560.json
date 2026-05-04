@@ -1,0 +1,308 @@
+{
+  "id": 560,
+  "ipd_id": "IPD_01_01_560",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "社会学研究者",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "02_004-02",
+    "mhlw_all": [
+      "02_004-02"
+    ],
+    "jsoc_main": "B052",
+    "jsoc_all": [
+      "B052"
+    ]
+  },
+  "description": {
+    "summary_ja": "社会の仕組みやさまざまな現象、動向について、人間が行う社会的な行為と関連付けて、実地調査や資料・データの分析等を通じて研究する。",
+    "what_it_is_ja": "社会の仕組みやさまざまな現象、動向について、人間が行う社会的な行為と関連付けて、実地調査や資料・データの分析等を通じて研究する。\n　社会学は、さまざまな価値観や背景をもつ人々が行動し生活する空間である「社会」について研究し、解明しようとする学問である。研究テーマは幅広く、家族、世代、地域、組織、産業、労働、教育、社会階層、社会運動、社会意識、多文化共生など多岐にわたる。\n　社会学は、調査などにより収集したデータに基づいて社会の現実を説明しようとする実証的学問であると同時に、社会関係や社会構造などの概念によって社会現象を理解しようとする理論的学問でもある。さらに、社会的課題の変革や対策につながる視点を提示する実践的学問の面も持つ。以下では主に「社会調査」分野の研究者について述べる。\n　社会学研究者は一般的に調査研究機関や大学等に所属して情報収集や社会調査に携わり、データの分析を通して自分が研究テーマとしている課題の解明を進めていく。日頃より社会の動きや変化に気を配り、注意深く観察して、自分が関心を持つ分野において重要と思われる課題を発見し、考察を深める。\n　例えば、若者の職業問題を専門分野としている研究者であれば、さまざまなメディアを通して若者の就職実態や企業の採用動向、産業構造の変化等の情報を収集するとともに、政府統計をはじめとする各種統計情報を継続的に把握・分析して、長期のトレンドや短期的な変化を観察する。今後の大きな社会的変動につながる可能性がある新たな変化を見出した場合は、その背景や要因に関する仮説の枠組みを構築し、それを実証的に説明するための研究計画を立てる。\n　実証的な社会学研究の手法としては、既存データや資料の分析に加えて、質問紙調査、インタビュー調査、フィールドワークなどの社会調査が行われるのが一般的である。課題検証のために必要な調査対象者の範囲や人数、質問項目、調査に要する費用や手続きなどについて検討し、実行可能な研究計画を策定する。社会調査の実施には一定の時間や予算、人手がかかるので、研究機関などで調査を行う場合には、その必要性や意義、実現可能性などを精査し、チームによるプロジェクトとして取り組まれることも多い。\n　プロジェクトの進め方はさまざまであるが、研究会等を開催して調査手法や手順、時期・期間などを検討し、必要な予算を確保する企画段階から、調査の実施、データの回収とデータクリーニングなどの実査段階、データの分析や仮説の枠組みの検証、結果の検討、報告書の作成といった成果のとりまとめ段階を経て、得られた知見を学会や社会に発信する広報・普及段階まで、数カ月から数年以上の長期にわたることもある。\n　若手研究者の場合、大きなプロジェクトの一員として参加して調査の経験を積み、調査票の設計、ヒアリングの手法、データ解析方法、研究会の運営など社会学研究の手法を学ぶことが多い。他の研究者との交流を通じて人脈を広げ、いずれ自分が中心となって研究プロジェクトを進められるように専門性を高めていく。\n　調査研究で得られた膨大なデータを解析し、結果をわかりやすい形でまとめるのは地道で時間がかかる作業であるが、新たな知見が得られ自らの疑問が解けた時、またそれにより人々の理解が進んだ時には、研究者ならではの達成感を味わうことができる。\n関係学会における研究成果の発表や専門研究誌等へ投稿する学術論文の執筆なども、研究者としての評価を得るために重要である。専門分野の講演を行ったり、大学等での講義を行うこともある。（大学教員としての仕事については「大学・短期大学教員」を参照。）\n\n\n◇よく使う道具、機材、情報技術等\n　パソコン、ボイスレコーダー、ビデオカメラ、統計解析ソフト、事務処理ソフト、プレゼン資料作成ソフト",
+    "how_to_become_ja": "社会学研究者となるには、大学で社会学系の学科を卒業し、さらに大学院の社会学系研究科に進んで修士課程・博士課程で研究者としての基礎を学ぶのが一般的である。社会学は研究対象の幅が広いので、大学の学科名称も「社会学」だけでなく、教育社会学、メディア学、社会政策学など多様であり、進学後どのような分野について学ぶことができるのか、大学のホームページや進学希望者向けガイダンスなどで情報収集することが大切である。また、社会人となったのち関心のあるテーマを見出し、大学院等に入学して研究者をめざす人もいる。\n　大学院の修士課程・博士課程と進むうちに自分の専門テーマを絞り込み、論文をまとめ、学会発表などを積み重ねて、大学の教員や調査研究機関の研究員などの募集に応募してポストを得るのが一般的である。研究職の募集では任期付のポストが多く、任期中に一定の研究成果をあげて無期雇用に登用されるケース、より自分の条件に適うポストを他に求めるケースなど、就職後も次のステップを目指して実績を積む努力が求められる。民間の調査会社やシンクタンク等では、大学院修了者に限らず学部卒を採用することもあり、仕事で実務を積む中で実践的な研究力を身につけることができる。\n　研究者として必須の要件ではないが、大学・大学院卒業(修了)時に取得できる資格として、一般社団法人社会調査協会が認定する「社会調査士」（学部レベル）、「専門社会調査士」（大学院レベル）がある。民間調査会社で調査活動に従事する場合などには、この資格が評価されることが多い。\n　社会学は、常に変動している社会を対象とする学問であり、人間や社会に対する関心や問題意識、変化をとらえることができる観察力や洞察力が求められる。統計解析や実施した調査のデータ処理を行うことが多く、統計学の知識やデータ取扱いのスキルも必要となる。報告書や論文をまとめるにあたっての文章力、国内外の研究動向を把握し発信するための読解力や語学力も重要である。自分の研究テーマを長期にわたり追及していける粘り強さも研究者として必要な資質である。また、調査を行う際の関係先が多く、調査研究の実現に向けて支援や助成を求める場合もあるので、折衝力やコーディネート力も大切である。",
+    "working_conditions_ja": "主な職場は調査研究機関や大学などであり、都市部に立地していることが多い。研究テーマによっては特定の地域に居住して研究活動を行うこともある。\n　雇用形態としては、若手の時代は任期付研究員や非常勤職員など、有期雇用やアルバイト等で雇用され、研究成果を認められて正規雇用のポストを得ることが多い。年齢層は幅広く、社会科学分野の研究領域の中では女性の研究者が多いほうである。\n　賃金など労働条件は所属する組織の規定による。裁量労働制や在宅勤務など研究職が柔軟に働けるような仕組みとしている職場が多い。調査の実施期間や報告書等の提出期限など、関係している研究プロジェクトの進行状況に応じて作業が立て込み、労働時間が長くなりがちな時期もある。調査対象地域の関係者や調査研究の依頼主との打合せなどで出張することもある。\n　近年、社会の多様化が進み、変化の速度が速まる中で、さまざまな社会現象を読み解き、将来動向を予測する研究成果に対する社会の関心やニーズは高い。個人・企業・行政などさまざまな方面から寄せられる期待は大きく、エビデンスに基づく実証的研究成果を提供する社会学研究者の役割は今後ますます重要になるとみられる。"
+  },
+  "interests": {
+    "realistic": 3.346,
+    "investigative": 4.346,
+    "artistic": 3.038,
+    "social": 3.692,
+    "enterprising": 3.538,
+    "conventional": 3.0
+  },
+  "work_values": {
+    "achievement": 4.077,
+    "autonomy": 4.115,
+    "expertise": 4.154,
+    "self_growth": 3.962,
+    "social_recognition": 3.615,
+    "service_contribution": 3.692,
+    "good_relationships": 3.577,
+    "workplace_safety": 3.654,
+    "work_life_balance": 3.615,
+    "stability": 3.615,
+    "compensation": 3.538
+  },
+  "skills": {
+    "reading_comprehension": 5.346,
+    "active_listening": 5.115,
+    "writing": 5.346,
+    "speaking": 5.269,
+    "foreign_language_reading": 4.769,
+    "foreign_language_listening": 3.962,
+    "foreign_language_writing": 4.154,
+    "foreign_language_speaking": 4.154,
+    "mathematics": 3.423,
+    "science": 3.692,
+    "critical_thinking": 5.038,
+    "active_learning": 4.654,
+    "learning_strategies": 4.423,
+    "monitoring": 4.5,
+    "social_perceptiveness": 4.654,
+    "coordination": 4.269,
+    "persuasion": 4.769,
+    "negotiation": 4.615,
+    "instructing": 4.731,
+    "service_orientation": 4.192,
+    "complex_problem_solving": 4.462,
+    "operations_analysis": 4.115,
+    "technology_design": 3.385,
+    "equipment_selection": 3.308,
+    "installation": 3.231,
+    "programming": 2.846,
+    "operations_monitoring": 2.731,
+    "operation_and_control": 2.615,
+    "equipment_maintenance": 2.154,
+    "troubleshooting": 2.269,
+    "repairing": 1.962,
+    "quality_control_analysis": 2.462,
+    "judgment_decision_making": 3.5,
+    "systems_analysis": 4.0,
+    "systems_evaluation": 3.538,
+    "time_management": 3.962,
+    "financial_resources_management": 2.962,
+    "material_resources_management": 2.923,
+    "personnel_resources_management": 2.769
+  },
+  "knowledge": null,
+  "abilities": {
+    "oral_comprehension": 3.87,
+    "written_comprehension": 4.13,
+    "oral_expression": 3.913,
+    "written_expression": 4.304,
+    "fluency_of_ideas": 4.217,
+    "originality": 4.261,
+    "problem_sensitivity": 3.696,
+    "deductive_reasoning": 4.174,
+    "inductive_reasoning": 4.13,
+    "information_ordering": 3.826,
+    "category_flexibility": 4.043,
+    "mathematical_reasoning": 3.696,
+    "number_facility": 3.478,
+    "memorization": 3.696,
+    "perceptual_speed": 3.565,
+    "spatial_orientation": 3.087,
+    "visualization": 3.348,
+    "selective_attention": 3.261,
+    "time_sharing": 3.522,
+    "arm_hand_steadiness": 2.826,
+    "manual_dexterity": 2.478,
+    "finger_dexterity": 2.478,
+    "reaction_time": 2.478,
+    "wrist_finger_speed": 2.348,
+    "speed_of_limb_movement": 2.304,
+    "static_strength": 2.261,
+    "stamina": 2.609,
+    "gross_body_equilibrium": 2.261,
+    "near_vision": 2.304,
+    "far_vision": 2.304,
+    "visual_color_discrimination": 2.13,
+    "depth_perception": 2.174,
+    "hearing_sensitivity": 2.174,
+    "auditory_attention": 2.348,
+    "speech_clarity": 2.913
+  },
+  "work_characteristics": null,
+  "work_activities": {
+    "getting_information": 3.957,
+    "monitor_processes": 3.957,
+    "identifying_objects": 3.826,
+    "inspecting_equipment": 2.261,
+    "estimating_quantifiable": 3.174,
+    "judging_quality": 3.391,
+    "evaluating_compliance": 3.0,
+    "processing_information": 4.087,
+    "analyzing_data": 4.261,
+    "making_decisions": 4.043,
+    "thinking_creatively": 4.261,
+    "updating_knowledge": 4.174,
+    "developing_objectives": 3.696,
+    "scheduling_work": 3.565,
+    "organizing_planning": 3.913,
+    "physical_activities": 2.348,
+    "handling_objects": 2.348,
+    "controlling_machines": 2.13,
+    "operating_vehicles": 2.174,
+    "computer_work": 3.87,
+    "drafting_specifications": 2.13,
+    "repairing_mechanical": 2.13,
+    "repairing_electronic": 2.0,
+    "documenting_information": 3.304,
+    "interpreting_information": 3.565,
+    "communicating_inside": 3.304,
+    "communicating_outside": 3.522,
+    "building_relationships": 3.565,
+    "assisting_caring": 3.0,
+    "selling_influencing": 3.0,
+    "resolving_conflicts": 3.217,
+    "performing_for_public": 2.783,
+    "coordinating_others": 3.261,
+    "developing_teams": 3.304,
+    "training_teaching": 3.174,
+    "guiding_subordinates": 2.957,
+    "coaching_developing": 3.174,
+    "providing_consultation": 2.826,
+    "performing_administrative": 2.739,
+    "staffing_organizational": 2.565,
+    "monitoring_resources": 2.174
+  },
+  "education_distribution": null,
+  "training_pre": null,
+  "training_post": null,
+  "experience": null,
+  "employment_type": {
+    "regular_employee": 0.704,
+    "part_time": 0.0,
+    "dispatched": 0.0,
+    "contract": 0.0,
+    "self_employed_freelance": 0.222,
+    "executive": 0.037,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.074,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "社会の仕組みやさまざまな現象、動向について、人間が行う社会的な行為と関連付けて、実地調査や資料・データの分析等を通じて研究する。（※大学教員は含まない。）",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "さまざまなメディアを通して社会の変化等に関する情報を収集する。",
+      "execution_rate": 0.815,
+      "importance": 3.5
+    },
+    {
+      "task_id": 2,
+      "description_ja": "各種統計情報を継続的に把握・分析して、長期のトレンドや短期的な変化を観察する。",
+      "execution_rate": 0.852,
+      "importance": 3.565
+    },
+    {
+      "task_id": 3,
+      "description_ja": "専門領域の文献・資料を読み、先行研究を把握する。",
+      "execution_rate": 0.926,
+      "importance": 3.96
+    },
+    {
+      "task_id": 4,
+      "description_ja": "既存統計の再分析を行う。",
+      "execution_rate": 0.889,
+      "importance": 3.5
+    },
+    {
+      "task_id": 5,
+      "description_ja": "社会変化の背景や要因に関する仮説を構築し、それを実証的に説明するための研究計画を立てる。",
+      "execution_rate": 0.889,
+      "importance": 3.583
+    },
+    {
+      "task_id": 6,
+      "description_ja": "質問紙調査を企画し、準備する。",
+      "execution_rate": 0.852,
+      "importance": 3.304
+    },
+    {
+      "task_id": 7,
+      "description_ja": "インタビュー（ヒアリング）調査を企画し、準備する。",
+      "execution_rate": 0.778,
+      "importance": 3.524
+    },
+    {
+      "task_id": 8,
+      "description_ja": "フィールドワークを計画し、実施する。",
+      "execution_rate": 0.852,
+      "importance": 3.565
+    },
+    {
+      "task_id": 9,
+      "description_ja": "調査に必要な手続きや経費の見積り、人員の確保など実施の準備を行う。",
+      "execution_rate": 0.815,
+      "importance": 3.227
+    },
+    {
+      "task_id": 10,
+      "description_ja": "調査データのクリーニングや分析を行う。",
+      "execution_rate": 0.815,
+      "importance": 3.636
+    },
+    {
+      "task_id": 11,
+      "description_ja": "研究成果のとりまとめ、報告書の執筆を行う。",
+      "execution_rate": 0.852,
+      "importance": 4.043
+    },
+    {
+      "task_id": 12,
+      "description_ja": "研究成果を刊行物やWEB等で発信する。",
+      "execution_rate": 0.889,
+      "importance": 3.583
+    },
+    {
+      "task_id": 13,
+      "description_ja": "学術論文を執筆し、専門研究誌に投稿する。",
+      "execution_rate": 0.852,
+      "importance": 3.957
+    },
+    {
+      "task_id": 14,
+      "description_ja": "専門テーマに関する講演を行う。",
+      "execution_rate": 0.852,
+      "importance": 3.435
+    },
+    {
+      "task_id": 15,
+      "description_ja": "大学等での講義を行う。",
+      "execution_rate": 0.778,
+      "importance": 4.0
+    },
+    {
+      "task_id": 16,
+      "description_ja": "学会に参加する。",
+      "execution_rate": 0.815,
+      "importance": 3.727
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人日本社会学会",
+      "url": "https://jss-sociology.org/"
+    },
+    {
+      "name_ja": "一般社団法人社会調査協会",
+      "url": "https://jasr.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "社会調査士",
+    "専門社会調査士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/560",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2024,
+    "classifications": 2024,
+    "description": 2024
+  }
+}

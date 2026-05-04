@@ -1,0 +1,553 @@
+{
+  "id": 182,
+  "ipd_id": "IPD_01_01_182",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "図書館司書",
+  "aliases_ja": [
+    "司書"
+  ],
+  "classifications": {
+    "mhlw_main": "03_019-01",
+    "mhlw_all": [
+      "03_019-01"
+    ],
+    "jsoc_main": "B241",
+    "jsoc_all": [
+      "B241"
+    ]
+  },
+  "description": {
+    "summary_ja": "図書館や資料室で資料を収集・整理・保存し、資料や情報を提供したり、情報を求める人のための手助けをする。",
+    "what_it_is_ja": "「司書」とは、図書館法が定める公立図書館の専門職員を指すが、そのほかの図書館や資料室で専門的な仕事に就いている人たちにも一般にこの名称が用いられている。図書館や資料室で資料を収集・整理・保存し、資料や情報を提供、情報を求める人の手助けをする。\n　図書館に置く本や雑誌、CDやビデオなどの映像資料を選定し、それを探すための目録を整備、資料がいつも順序よく並んでいるように管理し、貸出やコピーサービスをする。図書館利用者の調べものについて支援したり、資料相談にのることも司書の仕事である。\n　図書館には、公立図書館、学校図書館、大学図書館、専門図書館、国立国会図書館などの種類があるが、それぞれ仕事の内容は多少異なる。\n　公立図書館では、子どもや障害のある人へのサービスや移動図書館車の運営など地域社会へのサービス、学校図書館では「調べ学習」への対応が重要になっている。また、大学や短大の図書館では、研究用にデータベースから情報を探すサービスが盛んに行われている。\n　コンピュータによる目録作成、資料の貸出、情報検索などの普及もあり、端末の操作も必要である。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、図書館システム・管理ソフト、パソコン、ラベル・フィルム",
+    "how_to_become_ja": "図書館法による「司書（補）」の資格を得るには、大学で司書資格取得に必要な科目を履修するか司書講習を受ける必要がある。通信制で学べる大学もある。\n　公立図書館や公立大学の司書になるには、地方公務員試験に合格する必要がある。この際、最初から司書（補）の資格を前提にして専門試験を行い図書館に採用する場合と、地方公務員行政職の試験を受けて採用され、図書館に配属される場合がある。また、公立図書館の場合、地方公共団体から図書館業務を受託している企業に就職して図書館の司書として勤務するケースもある。\n　学校図書館で学校司書として働くには、各地方公共団体の定める、司書資格や司書教諭資格、教諭免許状、相当実務経験等の資格要件を満たしたうえで学校司書の募集に応募して採用される必要がある。なお、学校図書館の司書教諭には主幹教諭、指導教諭又は教諭が充てられる。\n　国立大学図書館の場合は、大学法人が行う採用試験、私立大学では職員の採用試験を受ける。司書の仕事を行う上でまず必要なのは図書館情報学の知識であり、コンピュータや外国語に強ければ一層有利である。広範で多量の資料に目を通し、正確に分類・記録するには、知的好奇心や記憶力、反復して分類作業を行う持久力も必要である。",
+    "working_conditions_ja": "職場は、公立図書館、大学や短大の図書館、学校図書館、国立国会図書館、企業や研究所、政府機関などが設置する専門図書館などがある。国公立の場合は公務員もいる。\n　利用者の便宜のため、図書館は夜間や休日も開館することが多いので、夜間勤務、休日出勤、超過勤務が生じるケースもある。夜間・休日に開館している図書館では、多くの場合、シフト制や交替制を採用している。\n　職員数は年々増加を続けており令和6年度に22,375人と過去最多となっている（2024年時点*1）。\n　就業者のうち、女性が約9割となっている（2021年時点*2）\n　就業場所は図書館内がほとんどだが、公立図書館の場合、移動図書館として車に乗務したり、他の施設を巡回したりする場合もある。\n　図書や資料の整理、運搬といった体力を必要とする作業もある一方で、コンピュータの利用など業務の効率化も進んでいる。\n\n*1文部科学省　令和６年度社会教育統計　中間報告\n*2文部科学省　社会教育調査（令和３年）"
+  },
+  "interests": {
+    "realistic": 3.173,
+    "investigative": 3.827,
+    "artistic": 3.427,
+    "social": 4.04,
+    "enterprising": 3.467,
+    "conventional": 3.667
+  },
+  "work_values": {
+    "achievement": 3.61,
+    "autonomy": 3.78,
+    "expertise": 3.831,
+    "self_growth": 3.576,
+    "social_recognition": 2.915,
+    "service_contribution": 3.695,
+    "good_relationships": 3.576,
+    "workplace_safety": 3.576,
+    "work_life_balance": 4.0,
+    "stability": 3.136,
+    "compensation": 2.39
+  },
+  "skills": {
+    "reading_comprehension": 4.441,
+    "active_listening": 4.678,
+    "writing": 4.085,
+    "speaking": 4.22,
+    "foreign_language_reading": 2.153,
+    "foreign_language_listening": 1.678,
+    "foreign_language_writing": 1.407,
+    "foreign_language_speaking": 1.525,
+    "mathematics": 1.831,
+    "science": 1.356,
+    "critical_thinking": 2.881,
+    "active_learning": 3.237,
+    "learning_strategies": 3.254,
+    "monitoring": 2.847,
+    "social_perceptiveness": 3.61,
+    "coordination": 3.407,
+    "persuasion": 2.746,
+    "negotiation": 2.678,
+    "instructing": 3.492,
+    "service_orientation": 3.61,
+    "complex_problem_solving": 2.915,
+    "operations_analysis": 2.356,
+    "technology_design": 1.898,
+    "equipment_selection": 2.237,
+    "installation": 1.864,
+    "programming": 1.119,
+    "operations_monitoring": 0.983,
+    "operation_and_control": 1.627,
+    "equipment_maintenance": 1.254,
+    "troubleshooting": 1.254,
+    "repairing": 1.542,
+    "quality_control_analysis": 1.644,
+    "judgment_decision_making": 1.966,
+    "systems_analysis": 1.898,
+    "systems_evaluation": 1.814,
+    "time_management": 2.424,
+    "financial_resources_management": 1.661,
+    "material_resources_management": 1.61,
+    "personnel_resources_management": 1.695
+  },
+  "knowledge": {
+    "business_management": 0.533,
+    "clerical": 2.6,
+    "economics_accounting": 0.5,
+    "sales_marketing": 0.617,
+    "customer_personal_service": 2.75,
+    "personnel_hr": 0.967,
+    "transportation": 0.333,
+    "production_processing": 0.133,
+    "agriculture_livestock": 0.067,
+    "engineering": 0.117,
+    "computers_electronics": 0.85,
+    "design": 0.2,
+    "building_construction": 0.133,
+    "mechanical": 0.117,
+    "mathematics_kn": 0.367,
+    "physics": 0.15,
+    "chemistry": 0.15,
+    "biology": 0.183,
+    "psychology": 1.0,
+    "sociology": 1.017,
+    "geography": 0.35,
+    "medicine_dentistry": 0.317,
+    "therapy_counseling": 0.683,
+    "education_training_kn": 1.017,
+    "japanese_language": 1.833,
+    "foreign_language_kn": 1.067,
+    "fine_arts": 0.683,
+    "history_archaeology": 1.033,
+    "philosophy_theology": 0.733,
+    "public_safety_security": 1.2,
+    "law_government": 0.617,
+    "telecommunications": 0.783,
+    "communications_media": 1.483
+  },
+  "abilities": {
+    "oral_comprehension": 3.586,
+    "written_comprehension": 3.397,
+    "oral_expression": 3.69,
+    "written_expression": 3.5,
+    "fluency_of_ideas": 3.19,
+    "originality": 2.983,
+    "problem_sensitivity": 3.5,
+    "deductive_reasoning": 3.0,
+    "inductive_reasoning": 2.983,
+    "information_ordering": 3.328,
+    "category_flexibility": 3.586,
+    "mathematical_reasoning": 2.259,
+    "number_facility": 2.328,
+    "memorization": 3.017,
+    "perceptual_speed": 2.552,
+    "spatial_orientation": 2.638,
+    "visualization": 2.517,
+    "selective_attention": 2.759,
+    "time_sharing": 2.845,
+    "arm_hand_steadiness": 2.362,
+    "manual_dexterity": 2.397,
+    "finger_dexterity": 2.483,
+    "reaction_time": 2.431,
+    "wrist_finger_speed": 2.483,
+    "speed_of_limb_movement": 2.103,
+    "static_strength": 2.638,
+    "stamina": 2.5,
+    "gross_body_equilibrium": 2.103,
+    "near_vision": 2.259,
+    "far_vision": 1.948,
+    "visual_color_discrimination": 2.379,
+    "depth_perception": 2.19,
+    "hearing_sensitivity": 1.983,
+    "auditory_attention": 2.069,
+    "speech_clarity": 2.81
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.85,
+    "face_to_face_discussions": 3.25,
+    "telephone_communication": 3.883,
+    "business_writing": 3.233,
+    "conflict_situations": 2.2,
+    "time_pressure": 2.333,
+    "teamwork": 3.433,
+    "dealing_with_external_customers": 3.233,
+    "coordinate_lead_others": 2.783,
+    "exactness_accuracy": 3.483,
+    "repetitive_tasks": 3.517,
+    "pace_determined_by_machine": 2.733,
+    "responsibility_for_outcomes": 2.483,
+    "indoor_climate_controlled": 4.717,
+    "indoor_non_climate_controlled": 1.917,
+    "outdoor_work": 1.45,
+    "sitting": 3.633,
+    "standing": 2.75,
+    "repetition_of_activities": 2.933,
+    "consequence_of_error": 2.267,
+    "freedom_to_make_decisions": 3.133,
+    "set_own_goals": 3.25,
+    "regular_schedule": 0.8,
+    "irregular_schedule": 0.183,
+    "seasonal_schedule": 0.017,
+    "email_communication": 3.583,
+    "cramped_uncomfortable": 1.733,
+    "disease_infection_risk": 1.85,
+    "minor_injury_risk": 1.433,
+    "standard_protective_equipment": 1.117,
+    "specialized_protective_equipment": 1.083,
+    "dealing_with_violent_people": 1.45,
+    "walking_running": 2.417,
+    "handling_objects_tools": 2.567,
+    "physical_proximity": 3.483,
+    "work_automation": 2.533,
+    "responsibility_for_safety": 1.917,
+    "impact_of_decisions": 2.2,
+    "level_of_competition": 1.3
+  },
+  "work_activities": {
+    "getting_information": 3.517,
+    "monitor_processes": 3.224,
+    "identifying_objects": 3.5,
+    "inspecting_equipment": 2.672,
+    "estimating_quantifiable": 2.621,
+    "judging_quality": 3.121,
+    "evaluating_compliance": 3.172,
+    "processing_information": 3.414,
+    "analyzing_data": 3.017,
+    "making_decisions": 3.224,
+    "thinking_creatively": 3.172,
+    "updating_knowledge": 3.672,
+    "developing_objectives": 3.017,
+    "scheduling_work": 3.293,
+    "organizing_planning": 3.586,
+    "physical_activities": 2.724,
+    "handling_objects": 2.966,
+    "controlling_machines": 2.534,
+    "operating_vehicles": 1.603,
+    "computer_work": 3.828,
+    "drafting_specifications": 2.172,
+    "repairing_mechanical": 1.983,
+    "repairing_electronic": 2.172,
+    "documenting_information": 3.207,
+    "interpreting_information": 3.31,
+    "communicating_inside": 3.621,
+    "communicating_outside": 3.397,
+    "building_relationships": 3.414,
+    "assisting_caring": 3.172,
+    "selling_influencing": 2.448,
+    "resolving_conflicts": 2.483,
+    "performing_for_public": 3.31,
+    "coordinating_others": 2.966,
+    "developing_teams": 2.897,
+    "training_teaching": 2.879,
+    "guiding_subordinates": 2.672,
+    "coaching_developing": 2.655,
+    "providing_consultation": 2.241,
+    "performing_administrative": 2.914,
+    "staffing_organizational": 2.19,
+    "monitoring_resources": 2.534
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.033,
+    "vocational_school": 0.017,
+    "junior_college": 0.25,
+    "technical_college": 0.0,
+    "university": 0.833,
+    "masters": 0.033,
+    "doctorate": 0.017,
+    "unknown": 0.067
+  },
+  "training_pre": {
+    "not_required": 0.35,
+    "up_to_1_month": 0.033,
+    "1_to_6_months": 0.167,
+    "6_months_to_1_year": 0.083,
+    "1_to_2_years": 0.15,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.033,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.017,
+    "unknown": 0.167
+  },
+  "training_post": {
+    "not_required": 0.1,
+    "up_to_1_month": 0.05,
+    "1_to_6_months": 0.283,
+    "6_months_to_1_year": 0.167,
+    "1_to_2_years": 0.167,
+    "2_to_3_years": 0.033,
+    "3_to_5_years": 0.05,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.017,
+    "unknown": 0.133
+  },
+  "experience": {
+    "not_required": 0.583,
+    "up_to_1_month": 0.033,
+    "1_to_6_months": 0.117,
+    "6_months_to_1_year": 0.033,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.233
+  },
+  "employment_type": {
+    "regular_employee": 0.333,
+    "part_time": 0.55,
+    "dispatched": 0.15,
+    "contract": 0.4,
+    "self_employed_freelance": 0.017,
+    "executive": 0.0,
+    "casual_non_student": 0.117,
+    "casual_student": 0.017,
+    "unknown": 0.0,
+    "other": 0.017
+  },
+  "tasks_lead_ja": "図書館や資料室で資料を収集・整理・保存し、資料や情報を提供したり、情報を求める人のための手助けをする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "利用者に図書館の利用方法や資料の配列を説明する。",
+      "execution_rate": 1.0,
+      "importance": 3.707
+    },
+    {
+      "task_id": 2,
+      "description_ja": "カウンターで利用者に対し、貸し出しカードの作成と個人の情報の登録をする。",
+      "execution_rate": 0.931,
+      "importance": 3.741
+    },
+    {
+      "task_id": 3,
+      "description_ja": "カウンターで利用者に対し、資料の貸出、返却の手続きをする。",
+      "execution_rate": 0.983,
+      "importance": 3.965
+    },
+    {
+      "task_id": 4,
+      "description_ja": "返却された資料を元の棚に戻し、棚の配列を整理する。",
+      "execution_rate": 1.0,
+      "importance": 3.983
+    },
+    {
+      "task_id": 5,
+      "description_ja": "利用者からの資料の予約を行い、予約された本が入手できたら連絡する。",
+      "execution_rate": 0.914,
+      "importance": 3.887
+    },
+    {
+      "task_id": 6,
+      "description_ja": "返却期限を過ぎた書籍のリストを作成し、利用者に連絡する。",
+      "execution_rate": 0.983,
+      "importance": 3.667
+    },
+    {
+      "task_id": 7,
+      "description_ja": "利用者が本や情報資料を探す際の手助けをする。",
+      "execution_rate": 1.0,
+      "importance": 4.276
+    },
+    {
+      "task_id": 8,
+      "description_ja": "利用者の求めに応じて、資料に関する情報を調べ、提供する。",
+      "execution_rate": 1.0,
+      "importance": 4.293
+    },
+    {
+      "task_id": 9,
+      "description_ja": "私語の注意や不正行為の防止など、図書館の環境を維持する。",
+      "execution_rate": 0.983,
+      "importance": 3.053
+    },
+    {
+      "task_id": 10,
+      "description_ja": "新しく入れる図書や雑誌を決め、発注する。",
+      "execution_rate": 0.966,
+      "importance": 3.857
+    },
+    {
+      "task_id": 11,
+      "description_ja": "新しく入った資料にコードの割り振りやカバーかけなどの加工をする。",
+      "execution_rate": 0.966,
+      "importance": 3.554
+    },
+    {
+      "task_id": 12,
+      "description_ja": "図書館の資料を分類・コーディングし、コンピュータに登録して目録を作成しコンピュータで管理する。",
+      "execution_rate": 0.966,
+      "importance": 3.768
+    },
+    {
+      "task_id": 13,
+      "description_ja": "図書館資料をファイルやフィルムの形で保存し、管理する。",
+      "execution_rate": 0.862,
+      "importance": 3.5
+    },
+    {
+      "task_id": 14,
+      "description_ja": "館内の蔵書を点検する。",
+      "execution_rate": 0.966,
+      "importance": 3.875
+    },
+    {
+      "task_id": 15,
+      "description_ja": "破損した資料を修理する、もしくは開架から取り下げる。",
+      "execution_rate": 1.0,
+      "importance": 3.672
+    },
+    {
+      "task_id": 16,
+      "description_ja": "利用者別の図書のイベントや特集を組み、展示用資料を収集･整理する。",
+      "execution_rate": 1.0,
+      "importance": 3.414
+    },
+    {
+      "task_id": 17,
+      "description_ja": "書架に配置する書籍を移動する。",
+      "execution_rate": 0.983,
+      "importance": 3.596
+    },
+    {
+      "task_id": 18,
+      "description_ja": "図書館内や周囲を清掃する。",
+      "execution_rate": 0.879,
+      "importance": 3.176
+    },
+    {
+      "task_id": 19,
+      "description_ja": "運営などに関わる各種委員会等の事務作業を行う。",
+      "execution_rate": 0.776,
+      "importance": 3.111
+    },
+    {
+      "task_id": 20,
+      "description_ja": "他の図書館との貸借や複写資料の送付、紹介状の作成などの業務を行う。",
+      "execution_rate": 0.845,
+      "importance": 3.49
+    },
+    {
+      "task_id": 21,
+      "description_ja": "障害者や高齢者に対応する。",
+      "execution_rate": 0.776,
+      "importance": 3.467
+    },
+    {
+      "task_id": 22,
+      "description_ja": "学校図書館と連携し学習支援を行う。",
+      "execution_rate": 0.793,
+      "importance": 3.565
+    },
+    {
+      "task_id": 23,
+      "description_ja": "読み聞かせやブックトークなどのイベントを企画し、実施する。",
+      "execution_rate": 0.741,
+      "importance": 3.465
+    },
+    {
+      "task_id": 24,
+      "description_ja": "老人ホームや幼稚園など、外部施設に出張し図書館サービスを提供する。",
+      "execution_rate": 0.483,
+      "importance": 3.0
+    },
+    {
+      "task_id": 25,
+      "description_ja": "郷土資料を収集し、管理する。",
+      "execution_rate": 0.845,
+      "importance": 3.592
+    },
+    {
+      "task_id": 26,
+      "description_ja": "学校図書館の司書として、児童と交流する。",
+      "execution_rate": 0.69,
+      "importance": 3.5
+    },
+    {
+      "task_id": 27,
+      "description_ja": "学生の図書委員会を指導する。",
+      "execution_rate": 0.655,
+      "importance": 3.079
+    },
+    {
+      "task_id": 28,
+      "description_ja": "紀要の編集・発行をする。",
+      "execution_rate": 0.552,
+      "importance": 2.875
+    },
+    {
+      "task_id": 29,
+      "description_ja": "学生アルバイトの採用や教育をする。",
+      "execution_rate": 0.431,
+      "importance": 2.6
+    },
+    {
+      "task_id": 30,
+      "description_ja": "利用者向けの講習会を開催する。",
+      "execution_rate": 0.776,
+      "importance": 3.178
+    },
+    {
+      "task_id": 31,
+      "description_ja": "利用者向けの広報活動をする。",
+      "execution_rate": 0.862,
+      "importance": 3.28
+    },
+    {
+      "task_id": 32,
+      "description_ja": "利用者の読書活動を推進する。",
+      "execution_rate": 0.931,
+      "importance": 3.5
+    },
+    {
+      "task_id": 33,
+      "description_ja": "ボランティアや実習生の活動を補助する。",
+      "execution_rate": 0.69,
+      "importance": 3.25
+    },
+    {
+      "task_id": 34,
+      "description_ja": "図書購入の予算を管理する。",
+      "execution_rate": 0.897,
+      "importance": 3.635
+    },
+    {
+      "task_id": 35,
+      "description_ja": "交流室など図書館内の設備の予約管理をする。",
+      "execution_rate": 0.759,
+      "importance": 3.136
+    },
+    {
+      "task_id": 36,
+      "description_ja": "所蔵資料を電子化する。",
+      "execution_rate": 0.535,
+      "importance": 3.129
+    },
+    {
+      "task_id": 37,
+      "description_ja": "外国語雑誌を発注し、管理する。",
+      "execution_rate": 0.655,
+      "importance": 3.026
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人   日本図書館協会",
+      "url": "https://www.jla.or.jp/"
+    },
+    {
+      "name_ja": "文部科学省　総合教育政策局教育人材政策課",
+      "url": "https://www.mext.go.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "司書",
+    "司書教諭"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/182",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}
