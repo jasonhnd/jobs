@@ -1,0 +1,452 @@
+{
+  "id": 24,
+  "ipd_id": "IPD_01_01_024",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "測量士",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "02_008-07",
+    "mhlw_all": [
+      "02_008-07"
+    ],
+    "jsoc_main": "B093",
+    "jsoc_all": [
+      "B093"
+    ]
+  },
+  "description": {
+    "summary_ja": "土木・建築工事にあたり、土地の位置・形状を正確に測量する。",
+    "what_it_is_ja": "土木・建築工事にあたり、土地の位置・形状を正確に測量する。\n　測量計画を立て、現地に出向いて、専門の機器や技術を使って地形や位置を測量、結果を計算して、工事に必要な基準点を正確に設定する。地図をつくるための測量を行うことも仕事の一つである。人工衛星やコンピュータ、ドローンを利用した高精度の測量器械も使われており、迅速・正確に測量・計算できるようになっている。デジタル地図や地理情報システム(GIS)の利用・活用によるデジタルマッピングも行われている。\n　工事の着工の前には、国家三角点という日本全国にある基準点から測量器械を使って現場近くに測点を導き出し、工事の基準点を設定する。また、電子基準点から現場近くに測点を設置し、正確な位置を設定する。工事が本格化すると、構造物の細部の位置を決めて型枠を組めるように印を付ける「墨出し」や、掘削作業の仕上がり中心線や高さの基準などを示す「丁張り」など、細部測量を行う。\n　測量ミスや計算ミスは許されないため、慎重に何度もチェックする必要がある。\n\n◇　よく使う道具、機材、情報技術等\n　ドローン、測量器械、地理情報システム(GIS) 、設計用ソフト（CADのソフトウェア等）、パソコン",
+    "how_to_become_ja": "測量士や測量士補になるには、測量についての知識と実際の測量技術が必要である。測量技術については、現場で測量経験を積むことが必須となる。測量についての基礎知識や計算手法は、文部科学大臣が認定した大学、短大、高専、国土交通大臣の登録を受けた専門学校等で測量に関する科目として修得する。\n　技術者として基本測量又は公共測量に従事する者は、測量法の規定により「測量士」又は「測量士補」の資格が必要となる。資格取得には、学歴と実務経験年数によって、申請だけで済む場合と、試験を受ける場合とがある。一旦測量士補の資格を取ってから、改めて測量士の資格を取る人もいる。資格を得て、国土地理院に登録することで「測量士」若しくは「測量士補」と認められる。\n　測量事務所、建設会社、不動産会社等に雇用されている間に測量士の資格を取り、経験を積んだ後に独立して測量事務所を開設するケースも見られる。関連する「土地家屋調査士」の資格を取得する者もいる。",
+    "working_conditions_ja": "測量士が活躍している分野は、建設会社、不動産会社、測量事務所のほか官公庁など広い範囲に及んでいる。登録されている測量事務業者は11,389業者である。\n　測量士、測量士補の登録状況によると測量士25,115人、測量士補16,093人となっている（2023年11月時点*1）。\n　測量作業は、仕事の性質から数十日から数カ月にわたることがあり、その間あまり休みを取れないこともある。建設現場での細部測量は、昼休みや休日など建設作業が行われていないときに実施することが多い。そのため測量士の労働時間は、他の建設作業職種に比べてやや変則的になっており、休暇は交代で取るケースもある。\n　最近では、航空測量の分野においてドローンの登場により簡便にかつ安価に測量が行えるようになっている。また、ドローンでは、従来の航空機等による撮影より低空で撮影が行えることから精度の高い測量が可能となっている。\n\n*1国土交通省国土地理院 令和5年度測量業における測量士・測量士補に関する実態調査報告書"
+  },
+  "interests": {
+    "realistic": 3.754,
+    "investigative": 3.4,
+    "artistic": 2.785,
+    "social": 3.292,
+    "enterprising": 3.138,
+    "conventional": 3.646
+  },
+  "work_values": {
+    "achievement": 3.512,
+    "autonomy": 3.419,
+    "expertise": 3.605,
+    "self_growth": 3.488,
+    "social_recognition": 2.791,
+    "service_contribution": 3.023,
+    "good_relationships": 3.256,
+    "workplace_safety": 3.07,
+    "work_life_balance": 2.953,
+    "stability": 2.977,
+    "compensation": 2.721
+  },
+  "skills": {
+    "reading_comprehension": 3.512,
+    "active_listening": 3.86,
+    "writing": 3.628,
+    "speaking": 3.791,
+    "foreign_language_reading": 0.814,
+    "foreign_language_listening": 0.605,
+    "foreign_language_writing": 0.512,
+    "foreign_language_speaking": 0.419,
+    "mathematics": 4.047,
+    "science": 2.093,
+    "critical_thinking": 2.674,
+    "active_learning": 3.14,
+    "learning_strategies": 2.93,
+    "monitoring": 3.209,
+    "social_perceptiveness": 3.302,
+    "coordination": 3.814,
+    "persuasion": 3.512,
+    "negotiation": 3.442,
+    "instructing": 3.605,
+    "service_orientation": 2.698,
+    "complex_problem_solving": 3.233,
+    "operations_analysis": 3.488,
+    "technology_design": 2.256,
+    "equipment_selection": 3.674,
+    "installation": 3.256,
+    "programming": 1.442,
+    "operations_monitoring": 2.791,
+    "operation_and_control": 3.093,
+    "equipment_maintenance": 2.791,
+    "troubleshooting": 2.209,
+    "repairing": 2.209,
+    "quality_control_analysis": 3.0,
+    "judgment_decision_making": 2.837,
+    "systems_analysis": 2.349,
+    "systems_evaluation": 2.116,
+    "time_management": 3.209,
+    "financial_resources_management": 2.14,
+    "material_resources_management": 2.791,
+    "personnel_resources_management": 2.628
+  },
+  "knowledge": {
+    "business_management": 1.386,
+    "clerical": 2.523,
+    "economics_accounting": 0.886,
+    "sales_marketing": 0.841,
+    "customer_personal_service": 1.545,
+    "personnel_hr": 1.114,
+    "transportation": 0.841,
+    "production_processing": 0.841,
+    "agriculture_livestock": 0.477,
+    "engineering": 1.591,
+    "computers_electronics": 1.955,
+    "design": 2.955,
+    "building_construction": 2.386,
+    "mechanical": 1.545,
+    "mathematics_kn": 2.409,
+    "physics": 1.455,
+    "chemistry": 1.0,
+    "biology": 0.773,
+    "psychology": 0.909,
+    "sociology": 0.841,
+    "geography": 1.705,
+    "medicine_dentistry": 0.455,
+    "therapy_counseling": 0.409,
+    "education_training_kn": 0.864,
+    "japanese_language": 1.545,
+    "foreign_language_kn": 0.545,
+    "fine_arts": 0.318,
+    "history_archaeology": 0.386,
+    "philosophy_theology": 0.318,
+    "public_safety_security": 1.273,
+    "law_government": 1.5,
+    "telecommunications": 1.182,
+    "communications_media": 1.023
+  },
+  "abilities": {
+    "oral_comprehension": 2.857,
+    "written_comprehension": 3.071,
+    "oral_expression": 3.0,
+    "written_expression": 3.119,
+    "fluency_of_ideas": 2.714,
+    "originality": 2.452,
+    "problem_sensitivity": 3.238,
+    "deductive_reasoning": 3.0,
+    "inductive_reasoning": 2.952,
+    "information_ordering": 3.071,
+    "category_flexibility": 2.905,
+    "mathematical_reasoning": 3.286,
+    "number_facility": 3.167,
+    "memorization": 3.071,
+    "perceptual_speed": 2.952,
+    "spatial_orientation": 3.071,
+    "visualization": 2.952,
+    "selective_attention": 2.929,
+    "time_sharing": 3.024,
+    "arm_hand_steadiness": 2.714,
+    "manual_dexterity": 2.643,
+    "finger_dexterity": 2.643,
+    "reaction_time": 2.714,
+    "wrist_finger_speed": 2.5,
+    "speed_of_limb_movement": 2.381,
+    "static_strength": 2.405,
+    "stamina": 2.857,
+    "gross_body_equilibrium": 2.524,
+    "near_vision": 2.452,
+    "far_vision": 2.548,
+    "visual_color_discrimination": 2.619,
+    "depth_perception": 2.714,
+    "hearing_sensitivity": 2.286,
+    "auditory_attention": 2.143,
+    "speech_clarity": 2.476
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.864,
+    "face_to_face_discussions": 2.955,
+    "telephone_communication": 3.545,
+    "business_writing": 3.136,
+    "conflict_situations": 1.909,
+    "time_pressure": 2.977,
+    "teamwork": 3.295,
+    "dealing_with_external_customers": 3.159,
+    "coordinate_lead_others": 3.068,
+    "exactness_accuracy": 3.977,
+    "repetitive_tasks": 3.455,
+    "pace_determined_by_machine": 3.159,
+    "responsibility_for_outcomes": 3.682,
+    "indoor_climate_controlled": 3.705,
+    "indoor_non_climate_controlled": 2.5,
+    "outdoor_work": 3.818,
+    "sitting": 3.205,
+    "standing": 3.136,
+    "repetition_of_activities": 2.523,
+    "consequence_of_error": 3.364,
+    "freedom_to_make_decisions": 3.318,
+    "set_own_goals": 3.341,
+    "regular_schedule": 0.227,
+    "irregular_schedule": 0.705,
+    "seasonal_schedule": 0.068,
+    "email_communication": 4.0,
+    "cramped_uncomfortable": 2.818,
+    "disease_infection_risk": 1.955,
+    "minor_injury_risk": 2.136,
+    "standard_protective_equipment": 2.909,
+    "specialized_protective_equipment": 1.977,
+    "dealing_with_violent_people": 1.432,
+    "walking_running": 2.682,
+    "handling_objects_tools": 2.727,
+    "physical_proximity": 2.932,
+    "work_automation": 2.455,
+    "responsibility_for_safety": 2.364,
+    "impact_of_decisions": 2.705,
+    "level_of_competition": 2.091
+  },
+  "work_activities": {
+    "getting_information": 3.238,
+    "monitor_processes": 3.048,
+    "identifying_objects": 3.119,
+    "inspecting_equipment": 2.786,
+    "estimating_quantifiable": 3.286,
+    "judging_quality": 2.881,
+    "evaluating_compliance": 3.381,
+    "processing_information": 3.571,
+    "analyzing_data": 3.452,
+    "making_decisions": 3.381,
+    "thinking_creatively": 2.738,
+    "updating_knowledge": 3.381,
+    "developing_objectives": 3.143,
+    "scheduling_work": 3.357,
+    "organizing_planning": 3.548,
+    "physical_activities": 2.81,
+    "handling_objects": 2.762,
+    "controlling_machines": 2.786,
+    "operating_vehicles": 2.429,
+    "computer_work": 3.524,
+    "drafting_specifications": 2.905,
+    "repairing_mechanical": 2.762,
+    "repairing_electronic": 2.714,
+    "documenting_information": 3.048,
+    "interpreting_information": 3.071,
+    "communicating_inside": 3.071,
+    "communicating_outside": 3.024,
+    "building_relationships": 3.071,
+    "assisting_caring": 2.786,
+    "selling_influencing": 2.571,
+    "resolving_conflicts": 2.69,
+    "performing_for_public": 2.952,
+    "coordinating_others": 3.024,
+    "developing_teams": 3.024,
+    "training_teaching": 2.857,
+    "guiding_subordinates": 3.071,
+    "coaching_developing": 2.881,
+    "providing_consultation": 2.905,
+    "performing_administrative": 3.048,
+    "staffing_organizational": 2.643,
+    "monitoring_resources": 2.738
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.364,
+    "vocational_school": 0.409,
+    "junior_college": 0.023,
+    "technical_college": 0.045,
+    "university": 0.341,
+    "masters": 0.045,
+    "doctorate": 0.0,
+    "unknown": 0.091
+  },
+  "training_pre": {
+    "not_required": 0.386,
+    "up_to_1_month": 0.023,
+    "1_to_6_months": 0.091,
+    "6_months_to_1_year": 0.136,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.023,
+    "unknown": 0.136
+  },
+  "training_post": {
+    "not_required": 0.045,
+    "up_to_1_month": 0.045,
+    "1_to_6_months": 0.045,
+    "6_months_to_1_year": 0.068,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.295,
+    "3_to_5_years": 0.159,
+    "5_to_10_years": 0.136,
+    "over_10_years": 0.0,
+    "unknown": 0.114
+  },
+  "experience": {
+    "not_required": 0.432,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.159,
+    "6_months_to_1_year": 0.068,
+    "1_to_2_years": 0.068,
+    "2_to_3_years": 0.045,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.0,
+    "unknown": 0.114
+  },
+  "employment_type": {
+    "regular_employee": 0.841,
+    "part_time": 0.068,
+    "dispatched": 0.0,
+    "contract": 0.045,
+    "self_employed_freelance": 0.023,
+    "executive": 0.0,
+    "casual_non_student": 0.045,
+    "casual_student": 0.023,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "土木・建築工事にあたり、土地の位置・形状を正確に測量する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "基線、標高、その他の地理測定を行うための現地調査を計画する。",
+      "execution_rate": 0.881,
+      "importance": 3.514
+    },
+    {
+      "task_id": 2,
+      "description_ja": "測量するための適切かつ経済的な方法と手順を定める。",
+      "execution_rate": 0.952,
+      "importance": 3.5
+    },
+    {
+      "task_id": 3,
+      "description_ja": "道路や河川などの公共物管理者と打ち合わせを行い、道路台帳などの関連書類を調査する。",
+      "execution_rate": 0.905,
+      "importance": 3.632
+    },
+    {
+      "task_id": 4,
+      "description_ja": "国家三角点から測量器械を使って工事現場の近くに測点を導き出し、工事の基準点を設定する。",
+      "execution_rate": 0.881,
+      "importance": 3.649
+    },
+    {
+      "task_id": 5,
+      "description_ja": "基準点から正確な位置を測定し、構造物の細部の位置を決めて型枠を組めるように印を付ける。",
+      "execution_rate": 0.81,
+      "importance": 3.353
+    },
+    {
+      "task_id": 6,
+      "description_ja": "基準点から正確な位置を測定し、掘削作業の仕上がり中心線や高さの基準などを示す。",
+      "execution_rate": 0.833,
+      "importance": 3.2
+    },
+    {
+      "task_id": 7,
+      "description_ja": "測量の実作業に関する覚書や記録、スケッチなどを作製する。",
+      "execution_rate": 0.929,
+      "importance": 2.846
+    },
+    {
+      "task_id": 8,
+      "description_ja": "人工衛星やコンピュータを利用した高精度の測量器械を操作する。",
+      "execution_rate": 0.881,
+      "importance": 3.486
+    },
+    {
+      "task_id": 9,
+      "description_ja": "地図を作製する際の定点を定める。",
+      "execution_rate": 0.881,
+      "importance": 3.757
+    },
+    {
+      "task_id": 10,
+      "description_ja": "測量データを解釈して地形･地勢の位置や形状、標高を定める。",
+      "execution_rate": 0.952,
+      "importance": 3.55
+    },
+    {
+      "task_id": 11,
+      "description_ja": "測量データに基づき、地図の作成や作成指導をする。",
+      "execution_rate": 0.929,
+      "importance": 3.41
+    },
+    {
+      "task_id": 12,
+      "description_ja": "測量後の調査結果について、土地所有者等から承諾印を受領する。",
+      "execution_rate": 0.833,
+      "importance": 3.771
+    },
+    {
+      "task_id": 13,
+      "description_ja": "建設技術担当者などの依頼者と測量結果について報告し、アドバイスをする。",
+      "execution_rate": 0.881,
+      "importance": 3.351
+    },
+    {
+      "task_id": 14,
+      "description_ja": "河川の年間流量を計測する流量調査を行う。",
+      "execution_rate": 0.619,
+      "importance": 3.346
+    },
+    {
+      "task_id": 15,
+      "description_ja": "地籍調査を行う。",
+      "execution_rate": 0.762,
+      "importance": 3.531
+    },
+    {
+      "task_id": 16,
+      "description_ja": "地盤改良工事において、隆起の観測を行う。",
+      "execution_rate": 0.619,
+      "importance": 3.154
+    },
+    {
+      "task_id": 17,
+      "description_ja": "基準点測量の検査検定を行う。",
+      "execution_rate": 0.81,
+      "importance": 3.735
+    },
+    {
+      "task_id": 18,
+      "description_ja": "ボーリング等で地質の調査を行う。",
+      "execution_rate": 0.548,
+      "importance": 3.217
+    },
+    {
+      "task_id": 19,
+      "description_ja": "災害復旧のための測量を行う。",
+      "execution_rate": 0.881,
+      "importance": 3.459
+    },
+    {
+      "task_id": 20,
+      "description_ja": "測量に必要な器具の発注およびその補助を行う。",
+      "execution_rate": 0.857,
+      "importance": 3.194
+    },
+    {
+      "task_id": 21,
+      "description_ja": "測量業務の進行状況を管理する。",
+      "execution_rate": 0.952,
+      "importance": 3.525
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本測量協会",
+      "url": "https://jsurvey.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "測量士",
+    "測量士補",
+    "土地家屋調査士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/24",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,457 @@
+{
+  "id": 60,
+  "ipd_id": "IPD_01_01_060",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "自動車営業",
+  "aliases_ja": [
+    "自動車販売営業員",
+    "中古自動車販売員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_048-05",
+    "mhlw_all": [
+      "07_048-05",
+      "07_045-12"
+    ],
+    "jsoc_main": "D344",
+    "jsoc_all": [
+      "D344",
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "自動車メーカー別の販売会社（ディーラー）で、顧客の好みに合わせて自社の自動車を販売する。",
+    "what_it_is_ja": "ここでは新車を販売する営業について記述する。\n　自動車メーカー別の販売会社（ディーラー）で、顧客の好みに合わせて自社の自動車を販売する。\n　自動車営業は、配属された販売担当地域において、自社の車を購入し使用している顧客の挨拶まわり、来店客の自宅への訪問、新旧の顧客への新車試乗会の案内などを行い、「お得意様」 を増やしていく。車は高価な買い物であるため、適切な助言とサービスで顧客の信頼を得ることが重要となる。また、来店客の比重が高まってきているため、店頭での商品説明や情報提供、販売も行う。\n　顧客が購入を決めたら、注文書及び売買契約書を作成し、受注車両の在庫を確認して登録納車予定日を決める。顧客の要望に応じて、自動車登録の申請代行、自動車関係諸税の納付手続、自賠責保険・自動車任意保険の付保手続を行う。買い換えの場合は、下取り車の査定を行い、関係書類を作成する。その後、新車の整備状況を確認し、付属品、ナンバー取り付けをした後、顧客の指定した場所で納品し、代金を回収する。\n　自動車の購入は「買い換え」が一般的であるため、既納顧客のフォローを十分に行い、次の販売に結びつけることが重要となる。このため、販売会社では顧客情報の管理が行われており、車の買い換え時期を見はからって効率のよいセールス活動ができるよう営業の支援を行っている。\n　環境問題を重視する消費者もおり、使用済み自動車の処理、車の排出ガスや騒音規制に対する改良、省資源・省エネ対策、代替エネルギーを利用した自動車など、新しい技術や商品の知識が求められる。また、車に対する顧客の生の声を自動車メーカーにフィードバックすることも大切な仕事である。\n\n◇　よく使う道具、機材、情報技術等\n　普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　自動車メーカーと直接販売契約を結んだディーラー（販売会社）に勤務する。入職者は、高校・大学等からの新卒者と中途採用者がいる。\n　ディーラーに入社すると、多くの場合、メーカーの研修センターなどで基本的な研修を受ける。その後各ディーラーにおいて、基礎訓練期間として自動車一般の知識、法律知識、販売、登録、代金回収などの教育を受け、先輩とともに顧客を訪問し、セールス活動の実務を学んでゆく。\n　試乗や納車を行うには、自動車運転免許証が必要である。\n　顧客との良好なコミュニケーション、信頼関係を構築する能力が求められる。外回りが多いので、行動力と体力も必要である。",
+    "working_conditions_ja": "ディーラー（販売会社）は全国に存在するため、自動車営業の職場も全国に広がっている。\n　賃金は月給制で、固定給と実績給の組み合わせになっているのが一般的で、営業成績が高ければ、その分多くの手当がつくことになる。\n　営業は単独で行動する場合が多く、訪問先・帰社時刻等の決定が本人に委ねられている場合が多い。また、休日については、土日祝日の営業が一般化しているため、交替制で休みを取る場合が多い。"
+  },
+  "interests": {
+    "realistic": 3.435,
+    "investigative": 3.065,
+    "artistic": 2.548,
+    "social": 3.952,
+    "enterprising": 3.468,
+    "conventional": 3.145
+  },
+  "work_values": {
+    "achievement": 3.66,
+    "autonomy": 3.623,
+    "expertise": 3.623,
+    "self_growth": 3.736,
+    "social_recognition": 3.358,
+    "service_contribution": 3.321,
+    "good_relationships": 3.642,
+    "workplace_safety": 3.434,
+    "work_life_balance": 3.113,
+    "stability": 3.358,
+    "compensation": 3.17
+  },
+  "skills": {
+    "reading_comprehension": 3.698,
+    "active_listening": 4.811,
+    "writing": 3.321,
+    "speaking": 3.868,
+    "foreign_language_reading": 1.075,
+    "foreign_language_listening": 1.17,
+    "foreign_language_writing": 0.906,
+    "foreign_language_speaking": 0.925,
+    "mathematics": 2.434,
+    "science": 1.358,
+    "critical_thinking": 2.66,
+    "active_learning": 2.698,
+    "learning_strategies": 2.962,
+    "monitoring": 2.774,
+    "social_perceptiveness": 3.415,
+    "coordination": 3.321,
+    "persuasion": 3.717,
+    "negotiation": 3.623,
+    "instructing": 3.566,
+    "service_orientation": 3.113,
+    "complex_problem_solving": 2.906,
+    "operations_analysis": 2.868,
+    "technology_design": 2.755,
+    "equipment_selection": 2.943,
+    "installation": 2.698,
+    "programming": 1.528,
+    "operations_monitoring": 1.491,
+    "operation_and_control": 2.396,
+    "equipment_maintenance": 2.66,
+    "troubleshooting": 2.434,
+    "repairing": 2.585,
+    "quality_control_analysis": 2.623,
+    "judgment_decision_making": 2.906,
+    "systems_analysis": 2.491,
+    "systems_evaluation": 2.585,
+    "time_management": 2.962,
+    "financial_resources_management": 2.396,
+    "material_resources_management": 2.0,
+    "personnel_resources_management": 2.472
+  },
+  "knowledge": {
+    "business_management": 1.773,
+    "clerical": 2.568,
+    "economics_accounting": 1.477,
+    "sales_marketing": 3.091,
+    "customer_personal_service": 3.432,
+    "personnel_hr": 1.273,
+    "transportation": 1.295,
+    "production_processing": 0.636,
+    "agriculture_livestock": 0.273,
+    "engineering": 0.659,
+    "computers_electronics": 1.0,
+    "design": 0.455,
+    "building_construction": 0.25,
+    "mechanical": 0.864,
+    "mathematics_kn": 1.341,
+    "physics": 0.682,
+    "chemistry": 0.614,
+    "biology": 0.364,
+    "psychology": 1.773,
+    "sociology": 1.523,
+    "geography": 0.886,
+    "medicine_dentistry": 0.25,
+    "therapy_counseling": 0.455,
+    "education_training_kn": 1.068,
+    "japanese_language": 1.932,
+    "foreign_language_kn": 0.818,
+    "fine_arts": 0.477,
+    "history_archaeology": 0.364,
+    "philosophy_theology": 0.409,
+    "public_safety_security": 1.068,
+    "law_government": 1.455,
+    "telecommunications": 1.0,
+    "communications_media": 2.0
+  },
+  "abilities": {
+    "oral_comprehension": 3.13,
+    "written_comprehension": 2.913,
+    "oral_expression": 3.174,
+    "written_expression": 3.022,
+    "fluency_of_ideas": 3.065,
+    "originality": 2.935,
+    "problem_sensitivity": 3.391,
+    "deductive_reasoning": 2.957,
+    "inductive_reasoning": 2.978,
+    "information_ordering": 2.891,
+    "category_flexibility": 2.848,
+    "mathematical_reasoning": 2.717,
+    "number_facility": 2.891,
+    "memorization": 3.0,
+    "perceptual_speed": 2.826,
+    "spatial_orientation": 2.826,
+    "visualization": 2.87,
+    "selective_attention": 3.0,
+    "time_sharing": 3.109,
+    "arm_hand_steadiness": 2.435,
+    "manual_dexterity": 2.63,
+    "finger_dexterity": 2.457,
+    "reaction_time": 2.696,
+    "wrist_finger_speed": 2.543,
+    "speed_of_limb_movement": 2.37,
+    "static_strength": 2.413,
+    "stamina": 2.696,
+    "gross_body_equilibrium": 2.5,
+    "near_vision": 2.478,
+    "far_vision": 2.5,
+    "visual_color_discrimination": 2.609,
+    "depth_perception": 2.5,
+    "hearing_sensitivity": 2.652,
+    "auditory_attention": 2.565,
+    "speech_clarity": 2.652
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.591,
+    "face_to_face_discussions": 3.795,
+    "telephone_communication": 4.568,
+    "business_writing": 3.841,
+    "conflict_situations": 2.364,
+    "time_pressure": 3.0,
+    "teamwork": 3.045,
+    "dealing_with_external_customers": 3.864,
+    "coordinate_lead_others": 3.295,
+    "exactness_accuracy": 3.841,
+    "repetitive_tasks": 3.136,
+    "pace_determined_by_machine": 2.773,
+    "responsibility_for_outcomes": 3.591,
+    "indoor_climate_controlled": 4.114,
+    "indoor_non_climate_controlled": 2.432,
+    "outdoor_work": 3.659,
+    "sitting": 3.205,
+    "standing": 2.864,
+    "repetition_of_activities": 2.114,
+    "consequence_of_error": 3.0,
+    "freedom_to_make_decisions": 3.386,
+    "set_own_goals": 3.409,
+    "regular_schedule": 0.273,
+    "irregular_schedule": 0.682,
+    "seasonal_schedule": 0.045,
+    "email_communication": 4.318,
+    "cramped_uncomfortable": 1.886,
+    "disease_infection_risk": 1.795,
+    "minor_injury_risk": 1.614,
+    "standard_protective_equipment": 1.932,
+    "specialized_protective_equipment": 1.455,
+    "dealing_with_violent_people": 1.477,
+    "walking_running": 2.568,
+    "handling_objects_tools": 2.227,
+    "physical_proximity": 3.409,
+    "work_automation": 1.932,
+    "responsibility_for_safety": 2.523,
+    "impact_of_decisions": 2.841,
+    "level_of_competition": 2.818
+  },
+  "work_activities": {
+    "getting_information": 3.196,
+    "monitor_processes": 3.217,
+    "identifying_objects": 3.239,
+    "inspecting_equipment": 3.087,
+    "estimating_quantifiable": 2.957,
+    "judging_quality": 3.174,
+    "evaluating_compliance": 3.239,
+    "processing_information": 3.087,
+    "analyzing_data": 3.196,
+    "making_decisions": 3.348,
+    "thinking_creatively": 2.957,
+    "updating_knowledge": 3.261,
+    "developing_objectives": 3.283,
+    "scheduling_work": 3.391,
+    "organizing_planning": 3.565,
+    "physical_activities": 2.565,
+    "handling_objects": 2.522,
+    "controlling_machines": 2.543,
+    "operating_vehicles": 2.913,
+    "computer_work": 2.935,
+    "drafting_specifications": 2.326,
+    "repairing_mechanical": 2.63,
+    "repairing_electronic": 2.761,
+    "documenting_information": 2.891,
+    "interpreting_information": 2.913,
+    "communicating_inside": 3.283,
+    "communicating_outside": 3.304,
+    "building_relationships": 3.478,
+    "assisting_caring": 2.978,
+    "selling_influencing": 3.174,
+    "resolving_conflicts": 3.239,
+    "performing_for_public": 2.891,
+    "coordinating_others": 2.891,
+    "developing_teams": 2.978,
+    "training_teaching": 3.065,
+    "guiding_subordinates": 3.152,
+    "coaching_developing": 2.913,
+    "providing_consultation": 2.848,
+    "performing_administrative": 3.043,
+    "staffing_organizational": 2.87,
+    "monitoring_resources": 2.783
+  },
+  "education_distribution": {
+    "below_high_school": 0.045,
+    "high_school": 0.318,
+    "vocational_school": 0.295,
+    "junior_college": 0.045,
+    "technical_college": 0.0,
+    "university": 0.455,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.091
+  },
+  "training_pre": {
+    "not_required": 0.523,
+    "up_to_1_month": 0.068,
+    "1_to_6_months": 0.136,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.045,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.045,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.182
+  },
+  "training_post": {
+    "not_required": 0.159,
+    "up_to_1_month": 0.114,
+    "1_to_6_months": 0.182,
+    "6_months_to_1_year": 0.068,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.182,
+    "3_to_5_years": 0.023,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.0,
+    "unknown": 0.159
+  },
+  "experience": {
+    "not_required": 0.591,
+    "up_to_1_month": 0.045,
+    "1_to_6_months": 0.068,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.023,
+    "2_to_3_years": 0.023,
+    "3_to_5_years": 0.023,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.0,
+    "unknown": 0.205
+  },
+  "employment_type": {
+    "regular_employee": 0.727,
+    "part_time": 0.068,
+    "dispatched": 0.0,
+    "contract": 0.023,
+    "self_employed_freelance": 0.114,
+    "executive": 0.045,
+    "casual_non_student": 0.023,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "自動車メーカー別の販売会社で、客の好みに合わせて自動車を販売する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "車両をディスプレイし、スペックや価格を表示する。",
+      "execution_rate": 0.826,
+      "importance": 3.474
+    },
+    {
+      "task_id": 2,
+      "description_ja": "顧客のもつ固有のニーズと興味に基づいて顧客の好みにあった車両を勧める。",
+      "execution_rate": 0.978,
+      "importance": 4.0
+    },
+    {
+      "task_id": 3,
+      "description_ja": "顧客に車両の特徴や装備の扱い方を説明する。",
+      "execution_rate": 0.978,
+      "importance": 3.711
+    },
+    {
+      "task_id": 4,
+      "description_ja": "車両、価格、耐久性、支払条件についての質問に答える。",
+      "execution_rate": 0.978,
+      "importance": 4.022
+    },
+    {
+      "task_id": 5,
+      "description_ja": "顧客に対して見積書を作成し、具体的な販売価格を示す。",
+      "execution_rate": 0.978,
+      "importance": 4.022
+    },
+    {
+      "task_id": 6,
+      "description_ja": "販売契約書を作成する。",
+      "execution_rate": 0.978,
+      "importance": 4.133
+    },
+    {
+      "task_id": 7,
+      "description_ja": "自動車保険を販売する。",
+      "execution_rate": 0.978,
+      "importance": 3.822
+    },
+    {
+      "task_id": 8,
+      "description_ja": "車の点検・整備のプランを紹介する。",
+      "execution_rate": 1.0,
+      "importance": 3.696
+    },
+    {
+      "task_id": 9,
+      "description_ja": "車両をメーカーに発注する。",
+      "execution_rate": 0.978,
+      "importance": 3.867
+    },
+    {
+      "task_id": 10,
+      "description_ja": "引き渡し日を見積もり、引き渡しスケジュールを立てる。",
+      "execution_rate": 0.978,
+      "importance": 3.956
+    },
+    {
+      "task_id": 11,
+      "description_ja": "注文を受けた車両を顧客に引き渡す。",
+      "execution_rate": 1.0,
+      "importance": 4.065
+    },
+    {
+      "task_id": 12,
+      "description_ja": "製品や設備の配送や設置を監督する。",
+      "execution_rate": 0.935,
+      "importance": 3.256
+    },
+    {
+      "task_id": 13,
+      "description_ja": "見込み客のリストを作成する。",
+      "execution_rate": 0.978,
+      "importance": 3.467
+    },
+    {
+      "task_id": 14,
+      "description_ja": "見込み客にダイレクトメールや電話などでセールスをする。",
+      "execution_rate": 0.978,
+      "importance": 3.244
+    },
+    {
+      "task_id": 15,
+      "description_ja": "見込み客に関する信用情報を得る。",
+      "execution_rate": 0.957,
+      "importance": 3.409
+    },
+    {
+      "task_id": 16,
+      "description_ja": "車両価格や販売計画を見定めるため、販売記録と現在の市場情報を精査する。",
+      "execution_rate": 0.957,
+      "importance": 3.432
+    },
+    {
+      "task_id": 17,
+      "description_ja": "市場の動向を調査し、販売価格を決定する。",
+      "execution_rate": 0.957,
+      "importance": 3.455
+    },
+    {
+      "task_id": 18,
+      "description_ja": "販売動向等のデータを分析し、販売計画を立てる。",
+      "execution_rate": 0.978,
+      "importance": 3.356
+    },
+    {
+      "task_id": 19,
+      "description_ja": "展示中の車や引き渡し前の車を清掃する。",
+      "execution_rate": 0.978,
+      "importance": 3.822
+    },
+    {
+      "task_id": 20,
+      "description_ja": "店舗の清掃をする。",
+      "execution_rate": 0.978,
+      "importance": 3.667
+    },
+    {
+      "task_id": 21,
+      "description_ja": "顧客からのクレームを調査して解決する。",
+      "execution_rate": 0.957,
+      "importance": 3.886
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本自動車販売協会連合会",
+      "url": "http://www.jada.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人　日本自動車工業会",
+      "url": "http://www.jama.or.jp"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/60",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

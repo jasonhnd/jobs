@@ -1,0 +1,441 @@
+{
+  "id": 508,
+  "ipd_id": "IPD_01_01_508",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "畜産技術者",
+  "aliases_ja": [
+    "家畜人工授精師（獣医師でないもの）",
+    "畜産技術指導員",
+    "ひな鑑別員",
+    "普及指導員（畜産）"
+  ],
+  "classifications": {
+    "mhlw_main": "02_005-01",
+    "mhlw_all": [
+      "02_005-01"
+    ],
+    "jsoc_main": "B061",
+    "jsoc_all": [
+      "B061"
+    ]
+  },
+  "description": {
+    "summary_ja": "育種繁殖、飼養技術、牧草・飼料作物や畜産物の生産技術を開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及する。",
+    "what_it_is_ja": "育種繁殖、飼養技術、牧草・飼料作物の生産技術や畜産物生産技術を実験、開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及することである。\n　現在、我が国で畜産といっているのは、牛、馬、豚、ひつじ、やぎなどの家畜、鶏やあひるなどの家きん、ミンクやきつねなどの毛皮動物、蜜蜂の飼育、牧草や飼料用作物の生産・利用、牛乳・肉・卵などの加工と利用などであるが、畜産技術者はこれらの全てに通じているのはなく、それぞれ自分の専門とする対象や分野が決まっている。\n　畜産農家に対して直接技術援助を行う畜産技術者には、都道府県の普及指導事業に従事する普及指導員、農業協同組合職員の技術者などがおり、畜産農家に育種改良や飼育管理、飼料用作物の生産技術の研究開発などの成果を指導、普及させる。また民間企業には、乳業などの食品メーカー、飼料メーカー、製薬会社、商社などの技術社員として、自社商品の販売とアフターケアのために、畜産家の技術援助をする人たちがいる。\n　近年、バイオテクノロジーが急速に進展し、この関連技術が様々生まれ、畜産技術に取り入れられている。\n\n◇　よく使う道具、機材、情報技術等\n　普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、専門課程をもつ学校を出て専門知識や技術を学ぶ必要がある。国・都道府県の試験研究機関や各都道府県の職員に就くためには、国や都道府県職員の試験に合格し、公務員になることが必要である。\n　公的な立場から生産者に技術指導を行う普及指導員になるには「農業改良助長法施行令」による資格試験に合格しなければならない。普及指導員の資格試験の受験には、大学卒業後4年（大学院修了後2年、短大卒後6年、高校卒後10年）以上の国、都道府県、農業協同組合等における試験研究、教育、普及指導の実務経験が必要となっている。\n　畜産技術者のうち、就職に有利な資格は、ふ化したばかりのひよこの雌雄を鑑別する「初生雛鑑別師」がある。独立して個人開業ができる資格としては、「家畜人工授精師」、「総括畜産コンサルタント」などがある。\n　動物と接することが多く、動物に関心があること、一定の体力が求められる。",
+    "working_conditions_ja": "主な就業場所は、家畜改良センターや地域農業改良普及指導センター、畜産試験場、農業協同組合、民間企業などである。\n　畜産技術者の労働条件は、都道府県の試験研究機関などで勤務する場合は、各自治体の規定による。メーカーなどの雇用労働者の場合は、正社員がほとんどで、労働時間や賃金は社内の規定による。農業協同組合や乳業、食肉、飼料関係のメーカーに勤務する場合で、動物を飼育しながら技術開発を行う職場や、家畜人工授精師などの資格を取って個人で開業する場合などは、労働時間が不規則になる場合もある。\n　動物にじかに接して行う仕事は、作業そのものは機械化されて最近は楽になっているが、動物の健康状態の観察を常に行って、異常の際はすぐ対応しなければならない。牛や馬、豚の分娩は時間が決まっていないので、深夜や夜明けに対応することもある。また、動物の飼育場所には冷暖房設備がなく、冬の早朝など厳しい自然環境の下で作業しなければならない。更に、地域住民との良い関係を保ち、糞尿処理などの環境整備を適切に行う必要もある。\n　規模の小さい畜産家の多い日本では、畜産製品の価格が輸入物に比べて高く、また、自由貿易協定（FTA）や新たな国際条約などの締結により、日本の畜産を取り巻く環境はより厳しくなる面がある。そのような状況下において、畜産に有益な技術開発を行い、それを普及する技術者への期待は高まっている。"
+  },
+  "interests": {
+    "realistic": 3.833,
+    "investigative": 3.833,
+    "artistic": 2.267,
+    "social": 3.233,
+    "enterprising": 3.1,
+    "conventional": 3.267
+  },
+  "work_values": {
+    "achievement": 3.905,
+    "autonomy": 3.476,
+    "expertise": 4.19,
+    "self_growth": 3.81,
+    "social_recognition": 2.524,
+    "service_contribution": 2.81,
+    "good_relationships": 3.476,
+    "workplace_safety": 2.762,
+    "work_life_balance": 3.286,
+    "stability": 3.571,
+    "compensation": 2.857
+  },
+  "skills": {
+    "reading_comprehension": 2.952,
+    "active_listening": 3.095,
+    "writing": 2.81,
+    "speaking": 3.476,
+    "foreign_language_reading": 1.714,
+    "foreign_language_listening": 1.238,
+    "foreign_language_writing": 1.19,
+    "foreign_language_speaking": 1.238,
+    "mathematics": 2.286,
+    "science": 2.143,
+    "critical_thinking": 3.0,
+    "active_learning": 3.714,
+    "learning_strategies": 3.143,
+    "monitoring": 3.667,
+    "social_perceptiveness": 3.286,
+    "coordination": 3.381,
+    "persuasion": 2.714,
+    "negotiation": 2.667,
+    "instructing": 3.286,
+    "service_orientation": 2.238,
+    "complex_problem_solving": 3.286,
+    "operations_analysis": 1.857,
+    "technology_design": 1.81,
+    "equipment_selection": 2.905,
+    "installation": 2.476,
+    "programming": 1.19,
+    "operations_monitoring": 1.762,
+    "operation_and_control": 2.571,
+    "equipment_maintenance": 2.238,
+    "troubleshooting": 2.476,
+    "repairing": 2.857,
+    "quality_control_analysis": 2.143,
+    "judgment_decision_making": 2.714,
+    "systems_analysis": 2.524,
+    "systems_evaluation": 2.238,
+    "time_management": 3.048,
+    "financial_resources_management": 2.143,
+    "material_resources_management": 2.857,
+    "personnel_resources_management": 2.429
+  },
+  "knowledge": {
+    "business_management": 1.418,
+    "clerical": 1.782,
+    "economics_accounting": 1.073,
+    "sales_marketing": 1.255,
+    "customer_personal_service": 1.255,
+    "personnel_hr": 1.327,
+    "transportation": 1.436,
+    "production_processing": 2.073,
+    "agriculture_livestock": 3.782,
+    "engineering": 1.364,
+    "computers_electronics": 0.873,
+    "design": 0.873,
+    "building_construction": 1.109,
+    "mechanical": 1.964,
+    "mathematics_kn": 1.327,
+    "physics": 1.055,
+    "chemistry": 1.109,
+    "biology": 2.345,
+    "psychology": 1.055,
+    "sociology": 1.018,
+    "geography": 1.055,
+    "medicine_dentistry": 1.236,
+    "therapy_counseling": 0.891,
+    "education_training_kn": 1.418,
+    "japanese_language": 1.018,
+    "foreign_language_kn": 0.836,
+    "fine_arts": 0.291,
+    "history_archaeology": 0.273,
+    "philosophy_theology": 0.4,
+    "public_safety_security": 1.309,
+    "law_government": 0.873,
+    "telecommunications": 0.636,
+    "communications_media": 1.0
+  },
+  "abilities": {
+    "oral_comprehension": 2.462,
+    "written_comprehension": 2.038,
+    "oral_expression": 2.615,
+    "written_expression": 2.577,
+    "fluency_of_ideas": 2.308,
+    "originality": 2.308,
+    "problem_sensitivity": 3.231,
+    "deductive_reasoning": 2.808,
+    "inductive_reasoning": 2.423,
+    "information_ordering": 2.308,
+    "category_flexibility": 2.154,
+    "mathematical_reasoning": 2.0,
+    "number_facility": 2.0,
+    "memorization": 2.231,
+    "perceptual_speed": 2.308,
+    "spatial_orientation": 2.115,
+    "visualization": 2.385,
+    "selective_attention": 2.385,
+    "time_sharing": 2.5,
+    "arm_hand_steadiness": 2.308,
+    "manual_dexterity": 2.692,
+    "finger_dexterity": 2.462,
+    "reaction_time": 2.5,
+    "wrist_finger_speed": 2.577,
+    "speed_of_limb_movement": 2.5,
+    "static_strength": 2.769,
+    "stamina": 2.654,
+    "gross_body_equilibrium": 2.538,
+    "near_vision": 2.269,
+    "far_vision": 2.231,
+    "visual_color_discrimination": 2.462,
+    "depth_perception": 2.346,
+    "hearing_sensitivity": 2.346,
+    "auditory_attention": 2.423,
+    "speech_clarity": 2.385
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.055,
+    "face_to_face_discussions": 3.0,
+    "telephone_communication": 3.509,
+    "business_writing": 2.545,
+    "conflict_situations": 1.909,
+    "time_pressure": 2.473,
+    "teamwork": 3.055,
+    "dealing_with_external_customers": 2.564,
+    "coordinate_lead_others": 2.527,
+    "exactness_accuracy": 3.182,
+    "repetitive_tasks": 3.309,
+    "pace_determined_by_machine": 2.745,
+    "responsibility_for_outcomes": 3.036,
+    "indoor_climate_controlled": 2.473,
+    "indoor_non_climate_controlled": 3.073,
+    "outdoor_work": 3.927,
+    "sitting": 1.818,
+    "standing": 4.182,
+    "repetition_of_activities": 3.218,
+    "consequence_of_error": 2.691,
+    "freedom_to_make_decisions": 3.545,
+    "set_own_goals": 3.455,
+    "regular_schedule": 0.473,
+    "irregular_schedule": 0.436,
+    "seasonal_schedule": 0.091,
+    "email_communication": 2.636,
+    "cramped_uncomfortable": 2.382,
+    "disease_infection_risk": 2.473,
+    "minor_injury_risk": 2.727,
+    "standard_protective_equipment": 2.855,
+    "specialized_protective_equipment": 1.564,
+    "dealing_with_violent_people": 1.273,
+    "walking_running": 3.818,
+    "handling_objects_tools": 3.145,
+    "physical_proximity": 2.727,
+    "work_automation": 1.982,
+    "responsibility_for_safety": 2.382,
+    "impact_of_decisions": 2.2,
+    "level_of_competition": 1.891
+  },
+  "work_activities": {
+    "getting_information": 2.808,
+    "monitor_processes": 3.077,
+    "identifying_objects": 3.038,
+    "inspecting_equipment": 2.962,
+    "estimating_quantifiable": 2.923,
+    "judging_quality": 2.846,
+    "evaluating_compliance": 2.846,
+    "processing_information": 2.808,
+    "analyzing_data": 3.0,
+    "making_decisions": 3.346,
+    "thinking_creatively": 2.577,
+    "updating_knowledge": 3.077,
+    "developing_objectives": 2.885,
+    "scheduling_work": 2.615,
+    "organizing_planning": 3.115,
+    "physical_activities": 3.308,
+    "handling_objects": 3.231,
+    "controlling_machines": 2.654,
+    "operating_vehicles": 3.077,
+    "computer_work": 2.308,
+    "drafting_specifications": 1.962,
+    "repairing_mechanical": 2.923,
+    "repairing_electronic": 2.308,
+    "documenting_information": 2.654,
+    "interpreting_information": 2.885,
+    "communicating_inside": 3.308,
+    "communicating_outside": 3.0,
+    "building_relationships": 3.269,
+    "assisting_caring": 2.615,
+    "selling_influencing": 2.346,
+    "resolving_conflicts": 2.462,
+    "performing_for_public": 2.038,
+    "coordinating_others": 2.808,
+    "developing_teams": 2.538,
+    "training_teaching": 2.615,
+    "guiding_subordinates": 2.769,
+    "coaching_developing": 2.423,
+    "providing_consultation": 2.5,
+    "performing_administrative": 2.654,
+    "staffing_organizational": 2.192,
+    "monitoring_resources": 2.615
+  },
+  "education_distribution": {
+    "below_high_school": 0.036,
+    "high_school": 0.364,
+    "vocational_school": 0.109,
+    "junior_college": 0.109,
+    "technical_college": 0.018,
+    "university": 0.455,
+    "masters": 0.091,
+    "doctorate": 0.036,
+    "unknown": 0.164
+  },
+  "training_pre": {
+    "not_required": 0.527,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.091,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.018,
+    "2_to_3_years": 0.055,
+    "3_to_5_years": 0.055,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.0,
+    "unknown": 0.164
+  },
+  "training_post": {
+    "not_required": 0.091,
+    "up_to_1_month": 0.055,
+    "1_to_6_months": 0.145,
+    "6_months_to_1_year": 0.273,
+    "1_to_2_years": 0.145,
+    "2_to_3_years": 0.127,
+    "3_to_5_years": 0.018,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.018,
+    "unknown": 0.091
+  },
+  "experience": {
+    "not_required": 0.636,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.036,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.018,
+    "2_to_3_years": 0.018,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.018,
+    "unknown": 0.182
+  },
+  "employment_type": {
+    "regular_employee": 0.6,
+    "part_time": 0.255,
+    "dispatched": 0.036,
+    "contract": 0.055,
+    "self_employed_freelance": 0.218,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "育種繁殖、飼養技術、牧草・飼料作物の生産技術や畜産物生産技術を実験、開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "畜産試験場などの畜産研究機関において、家畜や家きんの繁殖、飼育、畜産加工に関する技術開発をする。",
+      "execution_rate": 0.615,
+      "importance": 3.063
+    },
+    {
+      "task_id": 2,
+      "description_ja": "繁殖、飼育、畜産加工に関する研究成果を実地に応用するための指導をする。",
+      "execution_rate": 0.731,
+      "importance": 2.842
+    },
+    {
+      "task_id": 3,
+      "description_ja": "家畜の飼育場所を見回り、異常の有無や採食状況などを観察し、作業員に対して指示を与える。",
+      "execution_rate": 0.731,
+      "importance": 3.632
+    },
+    {
+      "task_id": 4,
+      "description_ja": "飼育や衛生管理上の監督や指導をする。",
+      "execution_rate": 0.808,
+      "importance": 3.143
+    },
+    {
+      "task_id": 5,
+      "description_ja": "家畜の人工授精をする。",
+      "execution_rate": 0.769,
+      "importance": 3.9
+    },
+    {
+      "task_id": 6,
+      "description_ja": "家畜の親子判定を行う。",
+      "execution_rate": 0.539,
+      "importance": 2.429
+    },
+    {
+      "task_id": 7,
+      "description_ja": "家畜の選定をする。",
+      "execution_rate": 0.846,
+      "importance": 3.091
+    },
+    {
+      "task_id": 8,
+      "description_ja": "家畜の体重を測定し、１日あたりの体重増加分（DG）を算出する。",
+      "execution_rate": 0.769,
+      "importance": 2.6
+    },
+    {
+      "task_id": 9,
+      "description_ja": "家畜を出荷する。",
+      "execution_rate": 0.962,
+      "importance": 3.64
+    },
+    {
+      "task_id": 10,
+      "description_ja": "家畜の診療や治療をする。",
+      "execution_rate": 0.846,
+      "importance": 3.545
+    },
+    {
+      "task_id": 11,
+      "description_ja": "家畜に異常があれば飼育記録などを総合的に検討し、原因を究明する。",
+      "execution_rate": 0.846,
+      "importance": 3.545
+    },
+    {
+      "task_id": 12,
+      "description_ja": "牛の乳量を計測したり、生乳のサンプルを検査したりする。",
+      "execution_rate": 0.462,
+      "importance": 2.583
+    },
+    {
+      "task_id": 13,
+      "description_ja": "家畜の生育状態を考慮し、配合飼料の設計をする。",
+      "execution_rate": 0.846,
+      "importance": 3.273
+    },
+    {
+      "task_id": 14,
+      "description_ja": "家畜の状況を観察し、飼料の生産量を調整する。",
+      "execution_rate": 0.923,
+      "importance": 3.333
+    },
+    {
+      "task_id": 15,
+      "description_ja": "設備や備品のメンテナンスや修理を行う。",
+      "execution_rate": 0.885,
+      "importance": 3.261
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "国立研究開発法人農業・食品産業技術総合研究機構畜産研究部門",
+      "url": "https://www.naro.go.jp/laboratory/nilgs/"
+    },
+    {
+      "name_ja": "独立行政法人家畜改良センター",
+      "url": "http://www.nlbc.go.jp/"
+    },
+    {
+      "name_ja": "独立行政法人農畜産業振興機構",
+      "url": "https://www.alic.go.jp/"
+    },
+    {
+      "name_ja": "公益社団法人畜産技術協会",
+      "url": "https://jlta.jp/"
+    },
+    {
+      "name_ja": "公益社団法人日本畜産学会",
+      "url": "http://www.jsas-org.jp/"
+    },
+    {
+      "name_ja": "一般財団法人畜産環境整備機構",
+      "url": "http://www.leio.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "家畜人工授精師",
+    "初生雛鑑別師",
+    "総括畜産コンサルタント"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/508",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

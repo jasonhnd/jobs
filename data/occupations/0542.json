@@ -1,0 +1,452 @@
+{
+  "id": 542,
+  "ipd_id": "IPD_01_01_542",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "出荷・受荷事務",
+  "aliases_ja": [
+    "運送事務員",
+    "検収・検品係員",
+    "出荷・発送係員",
+    "倉庫事務員",
+    "保管・管理係員"
+  ],
+  "classifications": {
+    "mhlw_main": "06_039-02",
+    "mhlw_all": [
+      "06_039-02"
+    ],
+    "jsoc_main": "C272",
+    "jsoc_all": [
+      "C272"
+    ]
+  },
+  "description": {
+    "summary_ja": "資材・製品などの受け入れ・検品・保管・発送に関する事務を行う。",
+    "what_it_is_ja": "資材・製品などの受け入れ・検品・保管・発送に関する事務の仕事を行う。\n　具体的には、資材・製品などの納入場所において、発注控などの書類に記載された数量・寸法などと現品とを照合する「検収・検品事務」で、検品検収員、資材検収事務員、倉庫検収係員、納品検査係員等呼称されているもの、工場・倉庫などにおいて、機械・器具・商品・資材などの受け入れ、保管、管理の仕事に従事する「保管・管理事務」で、在庫管理事務員、資材管理事務員、商品管理係、倉庫管理係等呼称されているもの、資材・部品・製品などを出荷・発送するため、送り状・出荷案内書・納品書・出荷指示書などの書類の作成・管理などを行う「出荷・発送事務」で、運送事務員、出荷事務員、出庫管理係、船積出荷係員等呼称されているものがある。いずれにせよ、これら在庫・商品管理は、製品、資材、原料の在庫量を把握して、在庫切れや過剰在庫を無くし適正在庫を確保することでコストを低減させ、在庫の破損や消耗を無くして品質保持することが重要な役割である。\n　「検収・検品事務」では、荷物等を倉庫に納入する場合、荷物の内容と個数を確認し、当該荷物の内容・個数等をコンピュータに登録、管理台帳を作成、各荷物に管理番号を付与し、バーコードやQRコードのシールに印刷する。その後、倉庫作業員に依頼して各荷物にシールを貼り、管理台帳に基づいて指定の倉庫内の棚に保管する。既にコードが付与されている場合は、ハンディターミナルやハンディスキャナーでコードを読み取っていく。\n　食料品や衣類等日用品を扱う物流倉庫の場合は、出荷伝票等受発注などの書類に記載された数量・寸法などと現品を照合し、指定の倉庫内に保管を依頼し、受荷伝票を依頼主側に手渡すとともに管理台帳に記録する。その際、仕入先や市場から納品された商品を、１品目ごとに納品伝票に記された内容と数量、色、値札等に間違いがないか、商品にキズや破損がないかを調べる。自社の流通センターから納品された場合は、トータルの個数だけを調べることも多い。商品が正しく納品されたことを確認したら、仕入伝票に当日の検収印を押し、伝票の控えを仕入先に渡す。仕入伝票は分野別にファイルして適切に管理する。\n　「保管・管理事務」では、工場・倉庫などにおける機械・器具・商品・資材などやデパートやスーパーに並べられる生鮮食料品、衣料品、日用雑貨品などの商品が、仕入先や市場、あるいは自社の流通センターから毎日運ばれて納品されるため、それらの受け入れを行う。納品の際に商品と仕入伝票や返品伝票を確認し、在庫全体の詳細状況を正確に把握する。また、商品が決められた場所に正しく運ばれ保管、管理されているかを確認する。不足数が確認された場合は仕入伝票を訂正し、不良品は店から仕入先へ返品する。\n　「出荷・発送事務」では、資材・部品・製品などを出荷・発送するため、取引先との納期調整、送り状・出荷案内書・納品書などの書類の作成、出荷指示書などの作成・管理などを行うが、発送準備のための計量、商品の梱包、仕分け等出荷の一連の付加的業務も行う場合がある。\n　中小規模の倉庫会社では、倉庫作業と出荷・受荷事務を兼ねるケースも多い。\n　なお、物流業界では、物と情報を連動させた高度な情報システムが構築され、受注処理システム（出荷に関する情報）、発注処理システム（入荷に関する情報）、倉庫管理情報システム（物流拠点の物の動きに関する情報）及び輸配送管理システム（物の運行、追跡）の４分野のシステムが存在し、バーコードをとこれを読み取る端末が、現場で広く使用されている。例えば、倉庫管理業務においては入荷・出荷・保管・返品・棚卸し等による在庫量の変化を把握する在庫受払処理はシステム化されており、倉庫管理に従事する者は、これを取り扱うことが求められる。\n\n◇よく使う道具、機材、情報技術等\n　表計算ソフト、パソコン､タブレット、各種物流管理システム情報端末、ハンディターミナル、ハンディスキャナー、バーコード、QRコード、受注処理システム、発注処理システム、倉庫管理情報システム、輸配送管理システム",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、流通管理に情報機器を活用しているケースが多く、エクセルや管理システムへのデータ入力は通常業務なのでPC操作に慣れていると有利である。\n　高校、大学の新卒者で就職するほかに中途採用での入職も多い。\n　流通業の基礎知識を身につけるのに適した職場なので、新入社員が配置されることが多い。中途採用の場合、ハローワークでの求人や新聞の求人広告、縁故などを通じて採用された後、一定期間の研修などを受け実務を身につける。職場の管理者、現場のリーダーなどから実務知識、就業規則、労働協約などの講習、顧客対応についての技術や作業技術などを学んだ後、業務に従事する。一定期間の実務経験後、班長、主任などへと昇進する場合がある。また事務管理職へ登用される場合もある。\n　出荷・受荷事務に従事する社員の管理・育成等管理的な立場へのキャリアアップのために必要な知識・技能を取得する資格としては、取扱対象にもよるが、倉庫管理主任者、物流経営士資格、防火管理者（甲種）／（乙種）、食品衛生管理者などがある。\n　また、扱う商品やサービスにより専門知識が必要な場合もあり、就職後にOJTにより実務を行いながら身につけることが可能であるが、所持していることが望ましい資質・能力、経験としては、数値管理能力、情報分析能力、ワードやエクセル等基本的なPCスキル、伝票処理や支払など現金に関わる仕事なので計算力といった事務能力が挙げられる。海外との取引がある場合には、英語などの語学力があることが望ましい。顧客との対応や、他職種の労働者に仕事を依頼することも多く、トラブル等に適切に対応できるコミュニケーション能力や臨機応変な対応力、細かい仕事に粘り強く取り組む能力も必要である。\n　また、出荷・受荷係事務のみならず、荷役作業や附帯作業が伴う場合や、早朝の仕事がある場合もあるため、一定の体力も求められる。",
+    "working_conditions_ja": "就業場所は、各種倉庫・工場・店舗、運送会社・配送センター・ECサイトなどの物流拠点等幅広く全国各地に存在する。\n　デパートやスーパーのほか、ディスカウントストア、専門店、チェーン店、卸売業など、大量の商品を取り扱う店舗の場合は就業機会が多く、勤務地は大都市のほか、大型スーパーの出店が増えている地方都市でも雇用機会がある。\n　就業場所が倉庫内（冷蔵倉庫）か、工場か、店舗か、扱う物品が工業製品、アパレル商品、日用品、食品、飲料品かで仕事の内容、労働条件が異なってくる。\n　輸出入貨物を扱う会社では、船の入出港との関係で時間が不規則となる。また、輸出入貨物や生鮮商品を扱う会社の場合、時間外勤務が多くなる傾向がある。海外との取引がある場合には、相手国との時差が就業時間等に影響する場合がある。\n　就業形態としては、パート労働者や期間の定めのある非正規労働者の割合が高い。\n　なお、例えば総合スーパーの場合、入荷した商品の荷受け、運搬、伝票管理等を担当することになるが、値付けシステムで割引率を入力する業務を行う場合もあるなど、取引先・仕入先との納期調整等業務、荷造業務、包装業務等倉庫作業員、荷造作業員、製品包装作業員の職務も兼ねることも多い。\n　出荷・受荷に係る業務処理のシステム化は今後も進むとともに、使用される端末や装置も、より軽量で操作しやすいものへと変化している。また、ファックス、メールによる受発注等は減少し、インターネットサイトによる受発注等が増えることも見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.364,
+    "investigative": 2.636,
+    "artistic": 2.409,
+    "social": 3.318,
+    "enterprising": 2.909,
+    "conventional": 3.545
+  },
+  "work_values": {
+    "achievement": 2.409,
+    "autonomy": 2.682,
+    "expertise": 2.318,
+    "self_growth": 2.5,
+    "social_recognition": 2.409,
+    "service_contribution": 2.591,
+    "good_relationships": 2.909,
+    "workplace_safety": 2.773,
+    "work_life_balance": 2.909,
+    "stability": 2.864,
+    "compensation": 2.364
+  },
+  "skills": {
+    "reading_comprehension": 2.909,
+    "active_listening": 3.455,
+    "writing": 2.955,
+    "speaking": 3.227,
+    "foreign_language_reading": 0.773,
+    "foreign_language_listening": 0.636,
+    "foreign_language_writing": 0.773,
+    "foreign_language_speaking": 0.455,
+    "mathematics": 1.682,
+    "science": 0.636,
+    "critical_thinking": 1.773,
+    "active_learning": 2.409,
+    "learning_strategies": 2.0,
+    "monitoring": 2.591,
+    "social_perceptiveness": 2.455,
+    "coordination": 2.818,
+    "persuasion": 2.545,
+    "negotiation": 2.682,
+    "instructing": 2.864,
+    "service_orientation": 2.227,
+    "complex_problem_solving": 2.318,
+    "operations_analysis": 2.318,
+    "technology_design": 1.727,
+    "equipment_selection": 2.318,
+    "installation": 1.818,
+    "programming": 0.955,
+    "operations_monitoring": 1.273,
+    "operation_and_control": 1.5,
+    "equipment_maintenance": 1.5,
+    "troubleshooting": 1.455,
+    "repairing": 1.364,
+    "quality_control_analysis": 1.636,
+    "judgment_decision_making": 1.955,
+    "systems_analysis": 1.818,
+    "systems_evaluation": 1.727,
+    "time_management": 3.182,
+    "financial_resources_management": 1.636,
+    "material_resources_management": 2.682,
+    "personnel_resources_management": 1.864
+  },
+  "knowledge": {
+    "business_management": 0.826,
+    "clerical": 2.348,
+    "economics_accounting": 0.978,
+    "sales_marketing": 0.826,
+    "customer_personal_service": 1.5,
+    "personnel_hr": 0.913,
+    "transportation": 1.848,
+    "production_processing": 1.022,
+    "agriculture_livestock": 0.283,
+    "engineering": 0.196,
+    "computers_electronics": 0.522,
+    "design": 0.261,
+    "building_construction": 0.283,
+    "mechanical": 0.304,
+    "mathematics_kn": 0.587,
+    "physics": 0.174,
+    "chemistry": 0.37,
+    "biology": 0.174,
+    "psychology": 0.348,
+    "sociology": 0.304,
+    "geography": 0.261,
+    "medicine_dentistry": 0.152,
+    "therapy_counseling": 0.196,
+    "education_training_kn": 0.543,
+    "japanese_language": 1.217,
+    "foreign_language_kn": 0.522,
+    "fine_arts": 0.152,
+    "history_archaeology": 0.174,
+    "philosophy_theology": 0.196,
+    "public_safety_security": 0.717,
+    "law_government": 0.609,
+    "telecommunications": 0.609,
+    "communications_media": 0.761
+  },
+  "abilities": {
+    "oral_comprehension": 2.5,
+    "written_comprehension": 2.571,
+    "oral_expression": 2.5,
+    "written_expression": 2.5,
+    "fluency_of_ideas": 2.143,
+    "originality": 2.048,
+    "problem_sensitivity": 3.0,
+    "deductive_reasoning": 2.357,
+    "inductive_reasoning": 2.167,
+    "information_ordering": 2.381,
+    "category_flexibility": 2.333,
+    "mathematical_reasoning": 2.143,
+    "number_facility": 2.405,
+    "memorization": 2.714,
+    "perceptual_speed": 2.214,
+    "spatial_orientation": 2.31,
+    "visualization": 2.286,
+    "selective_attention": 2.286,
+    "time_sharing": 2.476,
+    "arm_hand_steadiness": 2.143,
+    "manual_dexterity": 2.071,
+    "finger_dexterity": 2.0,
+    "reaction_time": 2.476,
+    "wrist_finger_speed": 2.071,
+    "speed_of_limb_movement": 2.214,
+    "static_strength": 2.619,
+    "stamina": 2.5,
+    "gross_body_equilibrium": 2.048,
+    "near_vision": 2.286,
+    "far_vision": 2.071,
+    "visual_color_discrimination": 2.119,
+    "depth_perception": 2.143,
+    "hearing_sensitivity": 2.024,
+    "auditory_attention": 1.81,
+    "speech_clarity": 2.0
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.413,
+    "face_to_face_discussions": 3.043,
+    "telephone_communication": 3.848,
+    "business_writing": 3.37,
+    "conflict_situations": 2.217,
+    "time_pressure": 3.0,
+    "teamwork": 3.435,
+    "dealing_with_external_customers": 2.978,
+    "coordinate_lead_others": 2.957,
+    "exactness_accuracy": 3.739,
+    "repetitive_tasks": 3.543,
+    "pace_determined_by_machine": 2.717,
+    "responsibility_for_outcomes": 2.804,
+    "indoor_climate_controlled": 4.5,
+    "indoor_non_climate_controlled": 2.37,
+    "outdoor_work": 1.978,
+    "sitting": 3.674,
+    "standing": 2.652,
+    "repetition_of_activities": 3.152,
+    "consequence_of_error": 2.674,
+    "freedom_to_make_decisions": 3.022,
+    "set_own_goals": 3.043,
+    "regular_schedule": 0.652,
+    "irregular_schedule": 0.283,
+    "seasonal_schedule": 0.065,
+    "email_communication": 3.935,
+    "cramped_uncomfortable": 1.826,
+    "disease_infection_risk": 1.652,
+    "minor_injury_risk": 1.565,
+    "standard_protective_equipment": 2.0,
+    "specialized_protective_equipment": 1.326,
+    "dealing_with_violent_people": 1.217,
+    "walking_running": 2.587,
+    "handling_objects_tools": 2.0,
+    "physical_proximity": 3.196,
+    "work_automation": 2.13,
+    "responsibility_for_safety": 2.043,
+    "impact_of_decisions": 2.413,
+    "level_of_competition": 1.543
+  },
+  "work_activities": {
+    "getting_information": 2.429,
+    "monitor_processes": 2.738,
+    "identifying_objects": 2.738,
+    "inspecting_equipment": 2.405,
+    "estimating_quantifiable": 2.333,
+    "judging_quality": 2.357,
+    "evaluating_compliance": 2.524,
+    "processing_information": 2.595,
+    "analyzing_data": 2.333,
+    "making_decisions": 2.643,
+    "thinking_creatively": 2.286,
+    "updating_knowledge": 2.595,
+    "developing_objectives": 2.31,
+    "scheduling_work": 2.619,
+    "organizing_planning": 3.0,
+    "physical_activities": 2.69,
+    "handling_objects": 2.595,
+    "controlling_machines": 2.095,
+    "operating_vehicles": 2.31,
+    "computer_work": 2.786,
+    "drafting_specifications": 2.0,
+    "repairing_mechanical": 2.048,
+    "repairing_electronic": 2.048,
+    "documenting_information": 2.762,
+    "interpreting_information": 2.643,
+    "communicating_inside": 3.071,
+    "communicating_outside": 2.905,
+    "building_relationships": 2.905,
+    "assisting_caring": 2.524,
+    "selling_influencing": 2.286,
+    "resolving_conflicts": 2.548,
+    "performing_for_public": 2.214,
+    "coordinating_others": 2.643,
+    "developing_teams": 2.571,
+    "training_teaching": 2.286,
+    "guiding_subordinates": 2.429,
+    "coaching_developing": 2.262,
+    "providing_consultation": 1.929,
+    "performing_administrative": 2.738,
+    "staffing_organizational": 2.095,
+    "monitoring_resources": 2.333
+  },
+  "education_distribution": {
+    "below_high_school": 0.065,
+    "high_school": 0.391,
+    "vocational_school": 0.065,
+    "junior_college": 0.065,
+    "technical_college": 0.022,
+    "university": 0.478,
+    "masters": 0.043,
+    "doctorate": 0.0,
+    "unknown": 0.174
+  },
+  "training_pre": {
+    "not_required": 0.674,
+    "up_to_1_month": 0.13,
+    "1_to_6_months": 0.109,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.087
+  },
+  "training_post": {
+    "not_required": 0.152,
+    "up_to_1_month": 0.109,
+    "1_to_6_months": 0.391,
+    "6_months_to_1_year": 0.217,
+    "1_to_2_years": 0.065,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.022,
+    "over_10_years": 0.0,
+    "unknown": 0.043
+  },
+  "experience": {
+    "not_required": 0.674,
+    "up_to_1_month": 0.065,
+    "1_to_6_months": 0.087,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.174
+  },
+  "employment_type": {
+    "regular_employee": 0.717,
+    "part_time": 0.304,
+    "dispatched": 0.174,
+    "contract": 0.152,
+    "self_employed_freelance": 0.0,
+    "executive": 0.022,
+    "casual_non_student": 0.087,
+    "casual_student": 0.043,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "資材・製品などの受け入れ・検品・保管・発送に関する事務を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "発注控などの書類に記載された数量・寸法などと現品とを照合する。",
+      "execution_rate": 0.857,
+      "importance": 3.306
+    },
+    {
+      "task_id": 2,
+      "description_ja": "荷物の内容と個数を確認し、当該荷物の内容・個数等をコンピュータに登録、管理台帳を作成、各荷物に管理番号を付与する。",
+      "execution_rate": 0.691,
+      "importance": 3.414
+    },
+    {
+      "task_id": 3,
+      "description_ja": "ハンディターミナルやハンディスキャナーでコードを読み取る。",
+      "execution_rate": 0.452,
+      "importance": 3.263
+    },
+    {
+      "task_id": 4,
+      "description_ja": "出荷伝票等受発注などの書類に記載された数量・寸法などと現品を照合し、指定の倉庫内に保管を依頼する。",
+      "execution_rate": 0.691,
+      "importance": 3.414
+    },
+    {
+      "task_id": 5,
+      "description_ja": "受荷伝票を依頼主側に手渡すとともに管理台帳に記録する。",
+      "execution_rate": 0.619,
+      "importance": 3.731
+    },
+    {
+      "task_id": 6,
+      "description_ja": "納品伝票に記された内容と数量、色、値札等に間違いがないか、商品にキズや破損がないかを調べる。",
+      "execution_rate": 0.929,
+      "importance": 3.359
+    },
+    {
+      "task_id": 7,
+      "description_ja": "流通センターから納品された商品のトータルの個数を調べる。",
+      "execution_rate": 0.691,
+      "importance": 3.621
+    },
+    {
+      "task_id": 8,
+      "description_ja": "商品が正しく納品されたことを確認したら、仕入伝票に当日の検収印を押し、伝票の控えを仕入先に渡す。",
+      "execution_rate": 0.762,
+      "importance": 3.5
+    },
+    {
+      "task_id": 9,
+      "description_ja": "仕入伝票は分野別にファイルして適切に管理する。",
+      "execution_rate": 0.738,
+      "importance": 3.258
+    },
+    {
+      "task_id": 10,
+      "description_ja": "機械・器具・商品・資材などの受け入れ、保管、管理を行う。",
+      "execution_rate": 0.833,
+      "importance": 3.086
+    },
+    {
+      "task_id": 11,
+      "description_ja": "バーコードやQRコードのシールを印刷する。",
+      "execution_rate": 0.476,
+      "importance": 3.4
+    },
+    {
+      "task_id": 12,
+      "description_ja": "倉庫作業員に依頼して各荷物にバーコードやQRコードのシールを貼り、管理台帳に基づいて指定の倉庫内の棚に保管する。",
+      "execution_rate": 0.476,
+      "importance": 3.45
+    },
+    {
+      "task_id": 13,
+      "description_ja": "不足数が確認された場合は仕入伝票を訂正し、不良品は店から仕入先へ返品する。",
+      "execution_rate": 0.762,
+      "importance": 3.281
+    },
+    {
+      "task_id": 14,
+      "description_ja": "伝票の訂正や仕入れ先への返品にあたって商品と仕入伝票や返品伝票を確認し、在庫全体の詳細状況を正確に把握する。",
+      "execution_rate": 0.786,
+      "importance": 3.242
+    },
+    {
+      "task_id": 15,
+      "description_ja": "商品が決められた場所に正しく運ばれ保管、管理されているかを確認する。",
+      "execution_rate": 0.762,
+      "importance": 3.344
+    },
+    {
+      "task_id": 16,
+      "description_ja": "資材・部品・製品などを出荷・発送するため、送り状・出荷案内書・納品書・出荷指示書などの書類の作成・管理などを行う。",
+      "execution_rate": 0.762,
+      "importance": 3.375
+    },
+    {
+      "task_id": 17,
+      "description_ja": "取引先との納期調整を行う。",
+      "execution_rate": 0.738,
+      "importance": 3.387
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本倉庫協会",
+      "url": "http://www.nissokyo.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人　日本冷蔵倉庫協会",
+      "url": "http://www.jarw.or.jp/"
+    },
+    {
+      "name_ja": "公益社団法人　全日本トラック協会",
+      "url": "https://jta.or.jp/association.html"
+    },
+    {
+      "name_ja": "公益社団法人　全国通運連盟",
+      "url": "http://www.t-renmei.or.jp/"
+    },
+    {
+      "name_ja": "日本梱包工業組合連合会",
+      "url": "http://www.epa.ne.jp/jpa/p-jpa.html"
+    }
+  ],
+  "related_certs_ja": [
+    "倉庫管理主任者",
+    "物流経営士",
+    "防火管理者（甲種）",
+    "防火管理者（乙種）",
+    "食品衛生管理者"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/542",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2022,
+    "classifications": 2022,
+    "description": 2022
+  }
+}

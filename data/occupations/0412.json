@@ -1,0 +1,444 @@
+{
+  "id": 412,
+  "ipd_id": "IPD_01_01_412",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "スクールカウンセラー",
+  "aliases_ja": [
+    "学生カウンセラー",
+    "スクールアドバイザー"
+  ],
+  "classifications": {
+    "mhlw_main": "03_019-03",
+    "mhlw_all": [
+      "03_019-03"
+    ],
+    "jsoc_main": "B243",
+    "jsoc_all": [
+      "B243"
+    ]
+  },
+  "description": {
+    "summary_ja": "臨床心理に関する専門知識を活かし、学校現場で、児童や生徒及び保護者、教職員に相談・支援を行う。",
+    "what_it_is_ja": "臨床心理に関する専門知識を活かし、学校現場で、児童や生徒及び保護者、教職員に相談・支援を行う。\n　不登校やいじめ、親子関係、学習関連など様々な問題や心の悩みを抱えた児童・生徒に寄り添い、専門的な知識やスキルを駆使して心のケアや早期の立ち直りを促す仕事である。\n　具体的には児童・生徒の相談にのり、カウンセリングを行う。また、保護者、教職員に対しては相談や専門的見地からの助言を行う。校内の会議に参加し、教職員や児童・生徒に対する研修や講話、心理上の見立てや問題への対応、さらにはストレスマネジメントの立場から予防対策を考え、事件・事故などで傷ついた心のケアを図っていく。\n　児童・生徒が抱えている問題や悩みは、いじめや不登校に関するものを筆頭に、友人関係や親子関係、学習問題に加え、最近では発達障害や精神疾患など問題が複雑かつ多様になっている。\n　スクールカウンセラーに対して特別活動や授業時間への参加を求めたり、教育相談に関する校内でのコーディネータ－の役割を期待する声が高まっている。\n　スクールカウンセラーの業務を1日の流れに沿ってみると、学校に出勤して、まず学年主任や養護教諭との間で児童・生徒に関する情報を交換・共有する。児童・生徒の保護者からの相談があれば対応する。また、相談室に直行してきた不登校の児童・生徒がいれば相談にのる。不登校が続いている児童・生徒に手紙を書くこともある。一連の業務を終え、校内の会議があれば出席し、その日の記録を整理して退勤という流れになっている。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、パソコン",
+    "how_to_become_ja": "スクールカウンセラーに就くためには、公認心理師、臨床心理士の資格が必要とされることが一般的である。臨床心理士の資格を取得するには大学を卒業後に指定大学院を修了するか、または臨床心理士養成に関する専門職大学院を修了し資格試験に合格しなければならない（*1）。\n　公認心理師は国家資格で、大学、大学院でそれぞれ必要な科目を履修するか、大学で必要な科目を履修後、一定期間実務経験を積むなどした後、資格試験に合格し登録簿へ登録することで名乗ることができる（*2）。\n　資格取得後、各自治体の教育委員会か又は私立学校の公募に応募して採用されれば、スクールカウンセラーとして活動することができる。臨床心理学の専門知識とそれに基づく分析力、見立て力や心を開かせる質問力、傾聴力が求められる。外部の協力機関への迅速・正確な対応力、チームコーディネートにも優れた技術がなければならない。さらに報告書の作成やスクールカウンセラー通信、児童・生徒への手紙などを書く文章力、また、守秘義務に対する理解が求められる。\n\n*1　公益財団法人日本臨床心理士協会から\n臨床心理士になるには\n*2　一般財団法人日本心理研修センターから\n公認心理師試験について",
+    "working_conditions_ja": "勤務先は全国の小中学校や高等学校である。多くの場合、週に何日か、決められた時間に非常勤職員として働いている。\n　賃金はほとんどの場合、時給制となっており、時給額については自治体や勤務先の学校によって異なる。\n　出勤日数は様々で、週8時間程度、1年契約の非常勤職員という雇用形態をとる自治体が多い。したがって、１校あたり1日の勤務時間は3～4時間であり、大半のスクールカウンセラーが2～3校を掛け持ちで担当するケースが一般的となっている。\n　残業は原則としてないが、緊急事態に対しては決められた勤務時間を超えて対応している。\n　社会的な役割が増大しており、国も体制の充実に取り組んでいる。\n　学校や児童・生徒を取り巻く問題が増加し、複雑化する中、心理学の専門知識を有するスクールカウンセラーの社会的な役割が増大している。国も2017年に教育分野も含め、心理的支援を必要とする者やその関係者への援助等を目的に「公認心理師法」を施行、2018年には公認心理師の第1回国家試験が実施されたほか、「教育機会確保法」に心理に関する専門家の役割が明記されるなど、体制の充実に取り組んでいる。"
+  },
+  "interests": {
+    "realistic": 2.578,
+    "investigative": 3.044,
+    "artistic": 2.978,
+    "social": 4.0,
+    "enterprising": 3.156,
+    "conventional": 2.644
+  },
+  "work_values": {
+    "achievement": 3.217,
+    "autonomy": 3.826,
+    "expertise": 4.413,
+    "self_growth": 4.043,
+    "social_recognition": 3.022,
+    "service_contribution": 3.87,
+    "good_relationships": 3.565,
+    "workplace_safety": 3.413,
+    "work_life_balance": 3.717,
+    "stability": 2.435,
+    "compensation": 2.652
+  },
+  "skills": {
+    "reading_comprehension": 4.935,
+    "active_listening": 6.522,
+    "writing": 5.087,
+    "speaking": 5.435,
+    "foreign_language_reading": 1.63,
+    "foreign_language_listening": 1.283,
+    "foreign_language_writing": 0.913,
+    "foreign_language_speaking": 1.109,
+    "mathematics": 1.848,
+    "science": 1.957,
+    "critical_thinking": 4.348,
+    "active_learning": 4.522,
+    "learning_strategies": 4.261,
+    "monitoring": 4.913,
+    "social_perceptiveness": 6.109,
+    "coordination": 4.804,
+    "persuasion": 4.304,
+    "negotiation": 4.304,
+    "instructing": 3.37,
+    "service_orientation": 5.522,
+    "complex_problem_solving": 4.761,
+    "operations_analysis": 2.37,
+    "technology_design": 2.109,
+    "equipment_selection": 1.5,
+    "installation": 1.087,
+    "programming": 0.761,
+    "operations_monitoring": 0.804,
+    "operation_and_control": 0.87,
+    "equipment_maintenance": 0.696,
+    "troubleshooting": 0.739,
+    "repairing": 0.674,
+    "quality_control_analysis": 0.63,
+    "judgment_decision_making": 2.152,
+    "systems_analysis": 2.109,
+    "systems_evaluation": 1.891,
+    "time_management": 3.217,
+    "financial_resources_management": 0.804,
+    "material_resources_management": 0.848,
+    "personnel_resources_management": 2.087
+  },
+  "knowledge": {
+    "business_management": 1.109,
+    "clerical": 2.37,
+    "economics_accounting": 0.87,
+    "sales_marketing": 0.761,
+    "customer_personal_service": 2.152,
+    "personnel_hr": 1.196,
+    "transportation": 0.261,
+    "production_processing": 0.217,
+    "agriculture_livestock": 0.239,
+    "engineering": 0.261,
+    "computers_electronics": 0.63,
+    "design": 0.261,
+    "building_construction": 0.196,
+    "mechanical": 0.239,
+    "mathematics_kn": 0.804,
+    "physics": 0.5,
+    "chemistry": 0.543,
+    "biology": 0.957,
+    "psychology": 4.0,
+    "sociology": 3.13,
+    "geography": 0.696,
+    "medicine_dentistry": 2.717,
+    "therapy_counseling": 4.022,
+    "education_training_kn": 3.217,
+    "japanese_language": 2.565,
+    "foreign_language_kn": 1.761,
+    "fine_arts": 1.239,
+    "history_archaeology": 1.0,
+    "philosophy_theology": 2.0,
+    "public_safety_security": 2.065,
+    "law_government": 1.761,
+    "telecommunications": 0.848,
+    "communications_media": 2.304
+  },
+  "abilities": {
+    "oral_comprehension": 4.036,
+    "written_comprehension": 3.821,
+    "oral_expression": 4.089,
+    "written_expression": 3.875,
+    "fluency_of_ideas": 3.161,
+    "originality": 3.089,
+    "problem_sensitivity": 3.964,
+    "deductive_reasoning": 3.536,
+    "inductive_reasoning": 3.482,
+    "information_ordering": 2.786,
+    "category_flexibility": 2.911,
+    "mathematical_reasoning": 2.071,
+    "number_facility": 1.946,
+    "memorization": 3.161,
+    "perceptual_speed": 2.571,
+    "spatial_orientation": 2.661,
+    "visualization": 2.839,
+    "selective_attention": 3.196,
+    "time_sharing": 3.161,
+    "arm_hand_steadiness": 1.643,
+    "manual_dexterity": 1.518,
+    "finger_dexterity": 1.589,
+    "reaction_time": 2.321,
+    "wrist_finger_speed": 1.589,
+    "speed_of_limb_movement": 1.536,
+    "static_strength": 1.518,
+    "stamina": 2.196,
+    "gross_body_equilibrium": 1.857,
+    "near_vision": 1.732,
+    "far_vision": 1.643,
+    "visual_color_discrimination": 1.696,
+    "depth_perception": 1.714,
+    "hearing_sensitivity": 2.125,
+    "auditory_attention": 2.393,
+    "speech_clarity": 3.179
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.761,
+    "face_to_face_discussions": 4.196,
+    "telephone_communication": 3.522,
+    "business_writing": 3.761,
+    "conflict_situations": 2.391,
+    "time_pressure": 2.935,
+    "teamwork": 3.804,
+    "dealing_with_external_customers": 3.522,
+    "coordinate_lead_others": 3.543,
+    "exactness_accuracy": 3.804,
+    "repetitive_tasks": 2.5,
+    "pace_determined_by_machine": 2.196,
+    "responsibility_for_outcomes": 3.37,
+    "indoor_climate_controlled": 4.478,
+    "indoor_non_climate_controlled": 2.152,
+    "outdoor_work": 1.565,
+    "sitting": 4.326,
+    "standing": 1.957,
+    "repetition_of_activities": 1.978,
+    "consequence_of_error": 2.957,
+    "freedom_to_make_decisions": 3.783,
+    "set_own_goals": 3.696,
+    "regular_schedule": 0.652,
+    "irregular_schedule": 0.283,
+    "seasonal_schedule": 0.065,
+    "email_communication": 3.783,
+    "cramped_uncomfortable": 1.696,
+    "disease_infection_risk": 2.348,
+    "minor_injury_risk": 1.304,
+    "standard_protective_equipment": 1.413,
+    "specialized_protective_equipment": 1.174,
+    "dealing_with_violent_people": 1.957,
+    "walking_running": 1.826,
+    "handling_objects_tools": 1.522,
+    "physical_proximity": 3.457,
+    "work_automation": 1.783,
+    "responsibility_for_safety": 3.152,
+    "impact_of_decisions": 2.804,
+    "level_of_competition": 1.413
+  },
+  "work_activities": {
+    "getting_information": 3.804,
+    "monitor_processes": 3.768,
+    "identifying_objects": 3.625,
+    "inspecting_equipment": 1.893,
+    "estimating_quantifiable": 2.0,
+    "judging_quality": 2.464,
+    "evaluating_compliance": 3.054,
+    "processing_information": 2.857,
+    "analyzing_data": 3.036,
+    "making_decisions": 3.536,
+    "thinking_creatively": 3.107,
+    "updating_knowledge": 3.696,
+    "developing_objectives": 3.321,
+    "scheduling_work": 3.036,
+    "organizing_planning": 3.464,
+    "physical_activities": 2.143,
+    "handling_objects": 1.857,
+    "controlling_machines": 1.518,
+    "operating_vehicles": 1.411,
+    "computer_work": 2.482,
+    "drafting_specifications": 1.429,
+    "repairing_mechanical": 1.393,
+    "repairing_electronic": 1.429,
+    "documenting_information": 2.982,
+    "interpreting_information": 3.232,
+    "communicating_inside": 3.75,
+    "communicating_outside": 3.536,
+    "building_relationships": 3.911,
+    "assisting_caring": 4.268,
+    "selling_influencing": 2.964,
+    "resolving_conflicts": 3.321,
+    "performing_for_public": 2.696,
+    "coordinating_others": 2.393,
+    "developing_teams": 3.304,
+    "training_teaching": 2.804,
+    "guiding_subordinates": 2.036,
+    "coaching_developing": 2.536,
+    "providing_consultation": 3.339,
+    "performing_administrative": 2.464,
+    "staffing_organizational": 1.75,
+    "monitoring_resources": 1.661
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.043,
+    "vocational_school": 0.043,
+    "junior_college": 0.022,
+    "technical_college": 0.0,
+    "university": 0.435,
+    "masters": 0.587,
+    "doctorate": 0.217,
+    "unknown": 0.022
+  },
+  "training_pre": {
+    "not_required": 0.152,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.087,
+    "6_months_to_1_year": 0.087,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.043,
+    "3_to_5_years": 0.217,
+    "5_to_10_years": 0.239,
+    "over_10_years": 0.043,
+    "unknown": 0.087
+  },
+  "training_post": {
+    "not_required": 0.087,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.087,
+    "6_months_to_1_year": 0.087,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.152,
+    "3_to_5_years": 0.174,
+    "5_to_10_years": 0.13,
+    "over_10_years": 0.065,
+    "unknown": 0.152
+  },
+  "experience": {
+    "not_required": 0.261,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.087,
+    "1_to_2_years": 0.109,
+    "2_to_3_years": 0.109,
+    "3_to_5_years": 0.152,
+    "5_to_10_years": 0.087,
+    "over_10_years": 0.043,
+    "unknown": 0.13
+  },
+  "employment_type": {
+    "regular_employee": 0.239,
+    "part_time": 0.435,
+    "dispatched": 0.043,
+    "contract": 0.435,
+    "self_employed_freelance": 0.326,
+    "executive": 0.022,
+    "casual_non_student": 0.065,
+    "casual_student": 0.022,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "臨床心理に関する専門知識を活かし、学校現場で、児童や生徒及び保護者、教職員に相談・支援を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "児童・生徒のカウンセリングを行う。",
+      "execution_rate": 0.982,
+      "importance": 4.436
+    },
+    {
+      "task_id": 2,
+      "description_ja": "相談室に直行してきた不登校児童生徒の相談にのる。",
+      "execution_rate": 0.964,
+      "importance": 4.204
+    },
+    {
+      "task_id": 3,
+      "description_ja": "不登校児童生徒に対し手紙を書く。",
+      "execution_rate": 0.696,
+      "importance": 2.744
+    },
+    {
+      "task_id": 4,
+      "description_ja": "保護者との面談を実施する。",
+      "execution_rate": 0.982,
+      "importance": 4.127
+    },
+    {
+      "task_id": 5,
+      "description_ja": "保護者からの相談に対応する。",
+      "execution_rate": 0.982,
+      "importance": 4.218
+    },
+    {
+      "task_id": 6,
+      "description_ja": "児童・生徒への対応について、教職員にコンサルテーションを行う。",
+      "execution_rate": 0.964,
+      "importance": 4.056
+    },
+    {
+      "task_id": 7,
+      "description_ja": "教職員のメンタルケアを行う。",
+      "execution_rate": 0.964,
+      "importance": 3.537
+    },
+    {
+      "task_id": 8,
+      "description_ja": "相談者に対するアセスメント、検査をする。",
+      "execution_rate": 0.875,
+      "importance": 3.816
+    },
+    {
+      "task_id": 9,
+      "description_ja": "危機対応時における心のケアをする。",
+      "execution_rate": 1.0,
+      "importance": 4.161
+    },
+    {
+      "task_id": 10,
+      "description_ja": "教員や保護者に対する研修および講話をする。",
+      "execution_rate": 0.893,
+      "importance": 3.22
+    },
+    {
+      "task_id": 11,
+      "description_ja": "児童・生徒向けに授業を実施する。",
+      "execution_rate": 0.554,
+      "importance": 3.065
+    },
+    {
+      "task_id": 12,
+      "description_ja": "授業を観察する。",
+      "execution_rate": 0.893,
+      "importance": 3.22
+    },
+    {
+      "task_id": 13,
+      "description_ja": "校内の会議等に出席する。",
+      "execution_rate": 0.893,
+      "importance": 3.26
+    },
+    {
+      "task_id": 14,
+      "description_ja": "職員会議等に出席し、学年主任、養護教諭との情報交換・共有をする。",
+      "execution_rate": 0.875,
+      "importance": 3.531
+    },
+    {
+      "task_id": 15,
+      "description_ja": "他の関係機関と連携する。",
+      "execution_rate": 0.946,
+      "importance": 3.623
+    },
+    {
+      "task_id": 16,
+      "description_ja": "教職員や保護者・児童向けのお便りを作成する。",
+      "execution_rate": 0.839,
+      "importance": 2.745
+    },
+    {
+      "task_id": 17,
+      "description_ja": "児童・生徒の家庭を訪問する。",
+      "execution_rate": 0.643,
+      "importance": 2.75
+    },
+    {
+      "task_id": 18,
+      "description_ja": "相談記録等の整理を行う。",
+      "execution_rate": 0.982,
+      "importance": 3.727
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人東京公認心理師協会",
+      "url": "http://www.tsccp.jp/"
+    },
+    {
+      "name_ja": "公益財団法人　日本臨床心理士資格認定協会",
+      "url": "http://fjcbcp.or.jp/"
+    },
+    {
+      "name_ja": "一般財団法人  日本心理研修センター",
+      "url": "https://www.jccpp.or.jp/Top.cgi"
+    }
+  ],
+  "related_certs_ja": [
+    "公認心理師",
+    "臨床心理士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/412",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

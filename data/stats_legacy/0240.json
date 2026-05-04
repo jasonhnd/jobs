@@ -1,0 +1,11 @@
+{
+  "id": 240,
+  "schema_version": "1.0",
+  "source": "jobtag_scrape_2026-04-25",
+  "salary_man_yen": 690.7,
+  "workers": 120576,
+  "monthly_hours": 156,
+  "average_age": 42.0,
+  "recruit_wage_man_yen": 26.4,
+  "recruit_ratio": 0.54
+}

@@ -1,0 +1,480 @@
+{
+  "id": 289,
+  "ipd_id": "IPD_01_01_289",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "靴製造",
+  "aliases_ja": [
+    "革靴製造工",
+    "革裁断工",
+    "革サンダル製造工"
+  ],
+  "classifications": {
+    "mhlw_main": "12_073-99",
+    "mhlw_all": [
+      "12_073-99"
+    ],
+    "jsoc_main": "H539",
+    "jsoc_all": [
+      "H539"
+    ]
+  },
+  "description": {
+    "summary_ja": "皮革靴のデザイン、設計、パーツの型づくり、皮革の裁断、縫製、釣り込み・底付け、仕上げの作業を行う。",
+    "what_it_is_ja": "靴を製造する。靴の材料には、皮革、布、ゴム、プラスチック等があるが、ここでは主に皮革靴を製造する仕事について記述する。\n　仕事は次の工程に分かれている。「デザイン・設計工程」では靴型の甲部に紙やテープ紙を張り、それを展開して甲部パーツの型を作る。CAD（コンピュータ）を使って設計するところが増えている。それを受けて「裁断工程」では、油圧式裁断機を使って皮革を裁断する。「縫製工程」では、裁断されたパーツのふちをすいたり折り曲げたりした後、裏材を重ねてミシンで縫い合わせ甲部を作る。さらに、「釣り込み・底付け工程」では、釣込機で甲部を靴型に密着させ、底材料を接着剤で貼り付けるか、ミシンで縫い付ける。最後に、「仕上げ工程」で、靴底やかかとの不要な部分を機械で削り、仕上剤で化粧をして靴ができあがる。一人で複数の工程を受け持つ場合も多い。\n\n◇　よく使う道具、機材、情報技術等\n　CAD、油圧式裁断機、ミシン、釣込機",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。デザイン・設計の仕事の場合は、高校や専門学校等でデザインを学んでいたり、CADの使い方を知っていると有利となることがある。\n　入職後は簡単な作業から仕事を覚え、次第に熟練を必要とする仕事に移行していくのが一般的である。先輩からマンツーマンで指導を受け、知識や技術を身に付ける。\n　付加価値の高い商品を求める顧客もおり、多様な技術をマスターした熟練工が高い評価を受けている。\n　独立の道もあり、デザイン性を重視したオーダーメイド等のオリジナルの靴を製造する場合もある。\n　モノづくりが好きで、手先が器用なことは重要である。地道な作業を続けられる集中力、粘り強さも求められる。",
+    "working_conditions_ja": "革製履物製造業の事業所は、東京都、兵庫県、大阪府で約6割を占めている。（2021年時点*1）。\n　労働環境は作業により差があり、騒音や振動を伴う作業、接着剤・仕上げ剤による刺激臭の強い作業もある。立ち仕事が多い。\n　賃金、労働時間等労働条件は職場によって異なり、勤務先の規定による。\n　機械化は進んできているが、労働集約型産業であることは変わっていない。近年は多品種少量生産、しかも付加価値の高い商品が求められている。2024年後半の革靴の生産量は前年同期比で5.3％減となった。前年同期比で減少となるのは2年連続となる（2024年時点*2）。\n\n*1　総務省 2021経済センサスから\n　　「参考表１」産業（小分類），経営組織（２区分）別事業所数及び従業者数－全国，都道府県\n*2　一般社団法人日本皮靴産業連合会 生産・消費概況（革靴生産）2024年後半から"
+  },
+  "interests": {
+    "realistic": 3.667,
+    "investigative": 3.429,
+    "artistic": 3.381,
+    "social": 2.762,
+    "enterprising": 3.238,
+    "conventional": 3.048
+  },
+  "work_values": {
+    "achievement": 3.174,
+    "autonomy": 3.348,
+    "expertise": 3.522,
+    "self_growth": 3.13,
+    "social_recognition": 2.435,
+    "service_contribution": 2.565,
+    "good_relationships": 3.174,
+    "workplace_safety": 2.87,
+    "work_life_balance": 2.826,
+    "stability": 2.478,
+    "compensation": 2.435
+  },
+  "skills": {
+    "reading_comprehension": 3.609,
+    "active_listening": 3.826,
+    "writing": 3.565,
+    "speaking": 3.696,
+    "foreign_language_reading": 1.565,
+    "foreign_language_listening": 1.348,
+    "foreign_language_writing": 1.217,
+    "foreign_language_speaking": 1.174,
+    "mathematics": 2.348,
+    "science": 1.261,
+    "critical_thinking": 2.435,
+    "active_learning": 2.957,
+    "learning_strategies": 2.609,
+    "monitoring": 3.304,
+    "social_perceptiveness": 2.783,
+    "coordination": 2.783,
+    "persuasion": 2.609,
+    "negotiation": 2.913,
+    "instructing": 3.565,
+    "service_orientation": 2.522,
+    "complex_problem_solving": 3.13,
+    "operations_analysis": 3.304,
+    "technology_design": 3.13,
+    "equipment_selection": 3.957,
+    "installation": 3.261,
+    "programming": 1.217,
+    "operations_monitoring": 1.783,
+    "operation_and_control": 2.609,
+    "equipment_maintenance": 2.478,
+    "troubleshooting": 2.652,
+    "repairing": 3.13,
+    "quality_control_analysis": 3.87,
+    "judgment_decision_making": 2.826,
+    "systems_analysis": 2.522,
+    "systems_evaluation": 2.304,
+    "time_management": 2.957,
+    "financial_resources_management": 2.174,
+    "material_resources_management": 3.13,
+    "personnel_resources_management": 2.174
+  },
+  "knowledge": {
+    "business_management": 1.04,
+    "clerical": 1.12,
+    "economics_accounting": 1.08,
+    "sales_marketing": 1.4,
+    "customer_personal_service": 1.36,
+    "personnel_hr": 0.8,
+    "transportation": 1.24,
+    "production_processing": 2.92,
+    "agriculture_livestock": 0.52,
+    "engineering": 0.8,
+    "computers_electronics": 0.84,
+    "design": 0.8,
+    "building_construction": 0.6,
+    "mechanical": 1.04,
+    "mathematics_kn": 0.8,
+    "physics": 0.6,
+    "chemistry": 0.72,
+    "biology": 0.44,
+    "psychology": 0.6,
+    "sociology": 0.52,
+    "geography": 0.44,
+    "medicine_dentistry": 0.32,
+    "therapy_counseling": 0.28,
+    "education_training_kn": 0.56,
+    "japanese_language": 0.8,
+    "foreign_language_kn": 0.76,
+    "fine_arts": 0.72,
+    "history_archaeology": 0.36,
+    "philosophy_theology": 0.36,
+    "public_safety_security": 0.52,
+    "law_government": 0.52,
+    "telecommunications": 0.64,
+    "communications_media": 0.96
+  },
+  "abilities": {
+    "oral_comprehension": 2.591,
+    "written_comprehension": 2.636,
+    "oral_expression": 2.818,
+    "written_expression": 2.682,
+    "fluency_of_ideas": 3.0,
+    "originality": 3.318,
+    "problem_sensitivity": 3.318,
+    "deductive_reasoning": 2.773,
+    "inductive_reasoning": 2.727,
+    "information_ordering": 2.727,
+    "category_flexibility": 2.636,
+    "mathematical_reasoning": 2.636,
+    "number_facility": 2.682,
+    "memorization": 2.909,
+    "perceptual_speed": 2.818,
+    "spatial_orientation": 2.455,
+    "visualization": 2.727,
+    "selective_attention": 3.091,
+    "time_sharing": 2.818,
+    "arm_hand_steadiness": 2.955,
+    "manual_dexterity": 3.273,
+    "finger_dexterity": 3.318,
+    "reaction_time": 2.773,
+    "wrist_finger_speed": 2.864,
+    "speed_of_limb_movement": 2.909,
+    "static_strength": 2.818,
+    "stamina": 2.591,
+    "gross_body_equilibrium": 2.636,
+    "near_vision": 2.727,
+    "far_vision": 2.455,
+    "visual_color_discrimination": 2.955,
+    "depth_perception": 2.545,
+    "hearing_sensitivity": 2.545,
+    "auditory_attention": 2.409,
+    "speech_clarity": 2.5
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.72,
+    "face_to_face_discussions": 2.92,
+    "telephone_communication": 3.2,
+    "business_writing": 2.44,
+    "conflict_situations": 2.32,
+    "time_pressure": 3.12,
+    "teamwork": 2.44,
+    "dealing_with_external_customers": 2.72,
+    "coordinate_lead_others": 2.4,
+    "exactness_accuracy": 3.6,
+    "repetitive_tasks": 3.36,
+    "pace_determined_by_machine": 2.92,
+    "responsibility_for_outcomes": 3.28,
+    "indoor_climate_controlled": 3.36,
+    "indoor_non_climate_controlled": 3.16,
+    "outdoor_work": 2.04,
+    "sitting": 3.24,
+    "standing": 3.12,
+    "repetition_of_activities": 3.6,
+    "consequence_of_error": 2.92,
+    "freedom_to_make_decisions": 3.48,
+    "set_own_goals": 3.52,
+    "regular_schedule": 0.48,
+    "irregular_schedule": 0.44,
+    "seasonal_schedule": 0.08,
+    "email_communication": 2.64,
+    "cramped_uncomfortable": 2.6,
+    "disease_infection_risk": 2.52,
+    "minor_injury_risk": 2.56,
+    "standard_protective_equipment": 2.36,
+    "specialized_protective_equipment": 1.56,
+    "dealing_with_violent_people": 1.48,
+    "walking_running": 2.2,
+    "handling_objects_tools": 3.68,
+    "physical_proximity": 3.2,
+    "work_automation": 1.72,
+    "responsibility_for_safety": 2.04,
+    "impact_of_decisions": 2.16,
+    "level_of_competition": 2.0
+  },
+  "work_activities": {
+    "getting_information": 2.955,
+    "monitor_processes": 3.136,
+    "identifying_objects": 2.773,
+    "inspecting_equipment": 3.227,
+    "estimating_quantifiable": 2.727,
+    "judging_quality": 3.045,
+    "evaluating_compliance": 2.909,
+    "processing_information": 2.682,
+    "analyzing_data": 2.864,
+    "making_decisions": 3.091,
+    "thinking_creatively": 3.182,
+    "updating_knowledge": 3.227,
+    "developing_objectives": 2.818,
+    "scheduling_work": 3.136,
+    "organizing_planning": 2.955,
+    "physical_activities": 2.455,
+    "handling_objects": 3.0,
+    "controlling_machines": 2.773,
+    "operating_vehicles": 2.136,
+    "computer_work": 2.682,
+    "drafting_specifications": 2.773,
+    "repairing_mechanical": 3.045,
+    "repairing_electronic": 2.864,
+    "documenting_information": 2.727,
+    "interpreting_information": 2.455,
+    "communicating_inside": 3.0,
+    "communicating_outside": 3.0,
+    "building_relationships": 2.727,
+    "assisting_caring": 2.682,
+    "selling_influencing": 2.773,
+    "resolving_conflicts": 2.636,
+    "performing_for_public": 2.545,
+    "coordinating_others": 2.591,
+    "developing_teams": 2.727,
+    "training_teaching": 2.727,
+    "guiding_subordinates": 2.682,
+    "coaching_developing": 2.5,
+    "providing_consultation": 2.409,
+    "performing_administrative": 2.591,
+    "staffing_organizational": 2.5,
+    "monitoring_resources": 2.773
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.52,
+    "vocational_school": 0.12,
+    "junior_college": 0.04,
+    "technical_college": 0.0,
+    "university": 0.16,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.28
+  },
+  "training_pre": {
+    "not_required": 0.64,
+    "up_to_1_month": 0.12,
+    "1_to_6_months": 0.12,
+    "6_months_to_1_year": 0.04,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.08
+  },
+  "training_post": {
+    "not_required": 0.12,
+    "up_to_1_month": 0.04,
+    "1_to_6_months": 0.32,
+    "6_months_to_1_year": 0.16,
+    "1_to_2_years": 0.04,
+    "2_to_3_years": 0.16,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.04,
+    "over_10_years": 0.04,
+    "unknown": 0.08
+  },
+  "experience": {
+    "not_required": 0.64,
+    "up_to_1_month": 0.04,
+    "1_to_6_months": 0.16,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.08,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.08
+  },
+  "employment_type": {
+    "regular_employee": 0.64,
+    "part_time": 0.08,
+    "dispatched": 0.0,
+    "contract": 0.08,
+    "self_employed_freelance": 0.24,
+    "executive": 0.0,
+    "casual_non_student": 0.04,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.04
+  },
+  "tasks_lead_ja": "皮革靴のデザイン、設計、パーツの型づくり、皮革の裁断、縫製、釣り込み・底付け、仕上げ、の作業を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "靴のデザイン・設計をする。",
+      "execution_rate": 0.818,
+      "importance": 4.111
+    },
+    {
+      "task_id": 2,
+      "description_ja": "靴型の甲部に紙やテープ紙を張り、それを展開して甲部パーツの型を作る。",
+      "execution_rate": 0.864,
+      "importance": 3.895
+    },
+    {
+      "task_id": 3,
+      "description_ja": "靴に使用する皮革を選択する。",
+      "execution_rate": 0.818,
+      "importance": 3.389
+    },
+    {
+      "task_id": 4,
+      "description_ja": "油圧式裁断機を使って型どおりに皮革を裁断する。",
+      "execution_rate": 0.773,
+      "importance": 3.529
+    },
+    {
+      "task_id": 5,
+      "description_ja": "裁断されたパーツのふちをすいたり折り曲げたりした後、縫い目、端、印にそって針の下に置く。",
+      "execution_rate": 0.864,
+      "importance": 3.684
+    },
+    {
+      "task_id": 6,
+      "description_ja": "縫製機械を使用するための準備やセッティングを行う。",
+      "execution_rate": 0.818,
+      "importance": 3.778
+    },
+    {
+      "task_id": 7,
+      "description_ja": "押さえやローラーで皮の部品を固定し、手、足、ひざで操作する制御装置を使用して機械縫製をする。",
+      "execution_rate": 0.773,
+      "importance": 3.824
+    },
+    {
+      "task_id": 8,
+      "description_ja": "靴に装飾的な部品を縫い付けるために縫製機械を操作する。",
+      "execution_rate": 0.818,
+      "importance": 3.556
+    },
+    {
+      "task_id": 9,
+      "description_ja": "釣込機で甲部を靴型に密着させ、底材料を接着剤で貼り付けるか、ミシンで縫いつける。",
+      "execution_rate": 0.727,
+      "importance": 3.813
+    },
+    {
+      "task_id": 10,
+      "description_ja": "甲部を機械釣りして、電気釜に入れる。",
+      "execution_rate": 0.727,
+      "importance": 3.125
+    },
+    {
+      "task_id": 11,
+      "description_ja": "圧着をした靴から型を抜き、熱風やコテで仕上げ作業をする。",
+      "execution_rate": 0.864,
+      "importance": 3.474
+    },
+    {
+      "task_id": 12,
+      "description_ja": "コテやアイロンを使って、靴のしわを取る。",
+      "execution_rate": 0.818,
+      "importance": 3.222
+    },
+    {
+      "task_id": 13,
+      "description_ja": "はさみやナイフを使用して、靴の部品から余計な糸や材料を切り取る。",
+      "execution_rate": 0.955,
+      "importance": 3.238
+    },
+    {
+      "task_id": 14,
+      "description_ja": "靴底やかかとの不要な部分を機械で削り、仕上剤で化粧をする。",
+      "execution_rate": 0.864,
+      "importance": 3.579
+    },
+    {
+      "task_id": 15,
+      "description_ja": "バフを使って靴の表面を起毛する。",
+      "execution_rate": 0.773,
+      "importance": 3.118
+    },
+    {
+      "task_id": 16,
+      "description_ja": "生産過程で靴に付いた汚れ等をとる。",
+      "execution_rate": 0.909,
+      "importance": 3.7
+    },
+    {
+      "task_id": 17,
+      "description_ja": "塗料やクリ－ムを使用して、革の艶や色感を表現する。",
+      "execution_rate": 0.864,
+      "importance": 2.947
+    },
+    {
+      "task_id": 18,
+      "description_ja": "靴に中敷きを入れる。",
+      "execution_rate": 0.955,
+      "importance": 3.429
+    },
+    {
+      "task_id": 19,
+      "description_ja": "靴を接着、縫製、補強する自動装置の運転を監視する。",
+      "execution_rate": 0.727,
+      "importance": 3.563
+    },
+    {
+      "task_id": 20,
+      "description_ja": "仕様書への適合性を確認するために、靴の部品を取り外し、部品とデザインを調べる。",
+      "execution_rate": 0.818,
+      "importance": 3.5
+    },
+    {
+      "task_id": 21,
+      "description_ja": "完成した靴を検品する。",
+      "execution_rate": 0.864,
+      "importance": 3.632
+    },
+    {
+      "task_id": 22,
+      "description_ja": "お客から預かった靴を修理する。",
+      "execution_rate": 0.773,
+      "importance": 3.059
+    },
+    {
+      "task_id": 23,
+      "description_ja": "必要な材料を調達する。",
+      "execution_rate": 0.818,
+      "importance": 3.389
+    },
+    {
+      "task_id": 24,
+      "description_ja": "取引先である問屋や小売、仕入先の担当者と商談をする。",
+      "execution_rate": 0.727,
+      "importance": 3.0
+    },
+    {
+      "task_id": 25,
+      "description_ja": "材料や機能を研究開発する。",
+      "execution_rate": 0.818,
+      "importance": 3.333
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全日本革靴工業協同組合連合会",
+      "url": "http://www.zkkr.jp"
+    },
+    {
+      "name_ja": "一般社団法人日本皮靴産業連合会",
+      "url": "https://www.jlia.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/289",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

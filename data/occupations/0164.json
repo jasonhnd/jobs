@@ -1,0 +1,448 @@
+{
+  "id": 164,
+  "ipd_id": "IPD_01_01_164",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "臨床工学技士",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "04_024-02",
+    "mhlw_all": [
+      "04_024-02"
+    ],
+    "jsoc_main": "B142",
+    "jsoc_all": [
+      "B142"
+    ]
+  },
+  "description": {
+    "summary_ja": "医師の指示のもと、人工呼吸器・人工透析装置・人工心肺などの生命維持管理装置の操作を行うほか、多種にわたる医療機器の保守点検・管理を行う。",
+    "what_it_is_ja": "医師の指示のもと、人工呼吸器・人工透析装置・人工心肺などの生命維持管理装置の操作を行うほか、多種にわたる医療機器の保守点検・管理を行う技術者である。\n　臨床工学技士の代表的な業務としては、人工呼吸器の作動確認をする呼吸治療業務や体外循環装置の操作や点検をする人工心肺業務、血管治療に伴う穿刺や人工透析装置の操作をする血液浄化業務、手術室の機器操作や管理を行う手術室業務などのほか、医療施設の様々な分野で使用される医療機器を、安全に使用できるようにまた、機器の性能が維持できるように保守・点検をする医療機器管理業務などを行っている。あらゆる医療スタッフが使いやすい機器を他職種と連携して選定し、いつでも安心して使用できるように点検・整備を行い、故障に対しては速かに修理する等医療機器のトータルケアを担当し、そこには医療に必要な工学的知識が要求される。\n　生命維持管理装置、人工透析装置や人工心肺装置等は、操作を誤ったり故障したりすると生命に直接かかわる重要な装置でるため、その取扱いには細心の注意を払う必要がある。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン、医療機器（人工呼吸器、人工透析装置、体外循環装置、人工心肺装置等）",
+    "how_to_become_ja": "臨床工学技士国家試験に合格し、厚生労働省医政局医事課試験免許室に申請することによって臨床工学技士名簿に登録が行われ、厚生労働大臣による免許が発行される。受験資格を得るためには、高校卒業後、臨床工学技士養成校で専門教育を3年間受けるほか、医療系（医師、看護師、その他の医療技術職）の学校や医用工学系の大学で必要な専門科目を履修したうえで1～2年の短期コースを修了するか、大学で指定科目を修了して卒業することでも受験資格が得られる。\n　また、国家資格を取得した臨床工学技士に対し、関連学会が独自に行っている透析技術認定士、体外循環技術認定士などの学会認定資格制度もある。これは臨床工学技士がより高度で専門性の高い業務に従事できるための能力の向上と、よりよい医療サービスを目指したものである。生命にかかわる仕事であるため、異常事態が起きた時、冷静沈着な対応が要求される。絶えず慎重に仕事を行い、細心の注意を払うことが必要である。",
+    "working_conditions_ja": "多くは人工透析を行う総合病院やクリニックに勤務している。人工心肺装置が必要な分野や人工呼吸器や麻酔機を扱う手術室・ICU（集中治療室）分野などでも働いている。そのほか、機器の保守管理を専門に行う人や、医療機器メーカーに勤めている人もいる。\n　地域的には、全国各地域で就業しているが、高度医療を担う大きな病院があるところに多く集まっている。男女比では男性が大半であるが、女性が増えつつある。\n　勤務体制は、緊急手術や人工透析などに対応するため、交替制で夜間・休日の勤務をすることもある。特に人工透析の場合は、仕事など社会活動を行っている患者のために夕方5時以降も透析できる施設もあり、昼間と夜間のシフト制を採用している場合もある。\n　人工透析の技術者の需要は、慢性腎疾患への治療の普及とともに増加してきた。今後も、各種の生命維持管理装置の開発に伴って高度の医療を求める患者が増加し、また、機器の高度化とともに、安全管理・信頼性管理も更に重要な業務となる。"
+  },
+  "interests": {
+    "realistic": 3.932,
+    "investigative": 3.378,
+    "artistic": 2.392,
+    "social": 3.851,
+    "enterprising": 3.216,
+    "conventional": 3.351
+  },
+  "work_values": {
+    "achievement": 3.288,
+    "autonomy": 3.186,
+    "expertise": 3.831,
+    "self_growth": 3.475,
+    "social_recognition": 2.746,
+    "service_contribution": 3.271,
+    "good_relationships": 3.237,
+    "workplace_safety": 2.864,
+    "work_life_balance": 3.0,
+    "stability": 3.136,
+    "compensation": 2.475
+  },
+  "skills": {
+    "reading_comprehension": 4.559,
+    "active_listening": 4.576,
+    "writing": 3.661,
+    "speaking": 4.034,
+    "foreign_language_reading": 1.339,
+    "foreign_language_listening": 1.186,
+    "foreign_language_writing": 0.881,
+    "foreign_language_speaking": 0.881,
+    "mathematics": 2.898,
+    "science": 3.085,
+    "critical_thinking": 3.475,
+    "active_learning": 3.61,
+    "learning_strategies": 3.542,
+    "monitoring": 3.525,
+    "social_perceptiveness": 3.966,
+    "coordination": 3.763,
+    "persuasion": 3.746,
+    "negotiation": 3.136,
+    "instructing": 4.153,
+    "service_orientation": 3.576,
+    "complex_problem_solving": 3.492,
+    "operations_analysis": 3.186,
+    "technology_design": 2.814,
+    "equipment_selection": 4.085,
+    "installation": 3.746,
+    "programming": 2.22,
+    "operations_monitoring": 3.932,
+    "operation_and_control": 4.186,
+    "equipment_maintenance": 4.458,
+    "troubleshooting": 4.034,
+    "repairing": 4.305,
+    "quality_control_analysis": 3.492,
+    "judgment_decision_making": 3.237,
+    "systems_analysis": 3.119,
+    "systems_evaluation": 2.847,
+    "time_management": 3.407,
+    "financial_resources_management": 1.797,
+    "material_resources_management": 3.068,
+    "personnel_resources_management": 2.542
+  },
+  "knowledge": {
+    "business_management": 0.961,
+    "clerical": 1.412,
+    "economics_accounting": 0.667,
+    "sales_marketing": 0.392,
+    "customer_personal_service": 1.667,
+    "personnel_hr": 1.216,
+    "transportation": 0.431,
+    "production_processing": 0.431,
+    "agriculture_livestock": 0.216,
+    "engineering": 2.431,
+    "computers_electronics": 1.922,
+    "design": 0.667,
+    "building_construction": 0.275,
+    "mechanical": 2.392,
+    "mathematics_kn": 1.922,
+    "physics": 1.686,
+    "chemistry": 1.608,
+    "biology": 2.333,
+    "psychology": 1.922,
+    "sociology": 1.373,
+    "geography": 0.314,
+    "medicine_dentistry": 4.412,
+    "therapy_counseling": 2.255,
+    "education_training_kn": 2.392,
+    "japanese_language": 1.647,
+    "foreign_language_kn": 0.804,
+    "fine_arts": 0.235,
+    "history_archaeology": 0.275,
+    "philosophy_theology": 0.471,
+    "public_safety_security": 2.078,
+    "law_government": 1.118,
+    "telecommunications": 1.176,
+    "communications_media": 1.98
+  },
+  "abilities": {
+    "oral_comprehension": 3.17,
+    "written_comprehension": 3.064,
+    "oral_expression": 3.128,
+    "written_expression": 3.106,
+    "fluency_of_ideas": 2.702,
+    "originality": 2.638,
+    "problem_sensitivity": 3.83,
+    "deductive_reasoning": 2.915,
+    "inductive_reasoning": 2.723,
+    "information_ordering": 2.617,
+    "category_flexibility": 2.574,
+    "mathematical_reasoning": 2.489,
+    "number_facility": 2.702,
+    "memorization": 2.915,
+    "perceptual_speed": 2.957,
+    "spatial_orientation": 2.553,
+    "visualization": 2.702,
+    "selective_attention": 3.34,
+    "time_sharing": 3.17,
+    "arm_hand_steadiness": 2.787,
+    "manual_dexterity": 2.894,
+    "finger_dexterity": 3.043,
+    "reaction_time": 3.277,
+    "wrist_finger_speed": 2.83,
+    "speed_of_limb_movement": 2.66,
+    "static_strength": 2.298,
+    "stamina": 2.553,
+    "gross_body_equilibrium": 2.234,
+    "near_vision": 2.553,
+    "far_vision": 2.383,
+    "visual_color_discrimination": 2.681,
+    "depth_perception": 2.468,
+    "hearing_sensitivity": 2.809,
+    "auditory_attention": 2.83,
+    "speech_clarity": 2.936
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.863,
+    "face_to_face_discussions": 3.765,
+    "telephone_communication": 3.98,
+    "business_writing": 2.902,
+    "conflict_situations": 2.922,
+    "time_pressure": 3.647,
+    "teamwork": 4.235,
+    "dealing_with_external_customers": 3.373,
+    "coordinate_lead_others": 3.431,
+    "exactness_accuracy": 4.471,
+    "repetitive_tasks": 4.059,
+    "pace_determined_by_machine": 3.745,
+    "responsibility_for_outcomes": 4.0,
+    "indoor_climate_controlled": 4.843,
+    "indoor_non_climate_controlled": 1.569,
+    "outdoor_work": 1.275,
+    "sitting": 2.216,
+    "standing": 4.039,
+    "repetition_of_activities": 3.314,
+    "consequence_of_error": 4.333,
+    "freedom_to_make_decisions": 3.118,
+    "set_own_goals": 3.471,
+    "regular_schedule": 0.706,
+    "irregular_schedule": 0.294,
+    "seasonal_schedule": 0.0,
+    "email_communication": 3.078,
+    "cramped_uncomfortable": 2.373,
+    "disease_infection_risk": 4.765,
+    "minor_injury_risk": 2.216,
+    "standard_protective_equipment": 3.765,
+    "specialized_protective_equipment": 2.608,
+    "dealing_with_violent_people": 2.157,
+    "walking_running": 3.412,
+    "handling_objects_tools": 3.667,
+    "physical_proximity": 4.078,
+    "work_automation": 2.471,
+    "responsibility_for_safety": 4.039,
+    "impact_of_decisions": 3.235,
+    "level_of_competition": 1.922
+  },
+  "work_activities": {
+    "getting_information": 3.426,
+    "monitor_processes": 3.574,
+    "identifying_objects": 3.617,
+    "inspecting_equipment": 3.0,
+    "estimating_quantifiable": 2.851,
+    "judging_quality": 2.979,
+    "evaluating_compliance": 3.532,
+    "processing_information": 3.191,
+    "analyzing_data": 3.106,
+    "making_decisions": 3.17,
+    "thinking_creatively": 2.723,
+    "updating_knowledge": 3.596,
+    "developing_objectives": 3.0,
+    "scheduling_work": 2.851,
+    "organizing_planning": 3.255,
+    "physical_activities": 2.617,
+    "handling_objects": 2.787,
+    "controlling_machines": 3.277,
+    "operating_vehicles": 1.723,
+    "computer_work": 2.809,
+    "drafting_specifications": 2.489,
+    "repairing_mechanical": 4.085,
+    "repairing_electronic": 3.383,
+    "documenting_information": 3.191,
+    "interpreting_information": 3.234,
+    "communicating_inside": 3.553,
+    "communicating_outside": 3.426,
+    "building_relationships": 3.447,
+    "assisting_caring": 3.362,
+    "selling_influencing": 2.574,
+    "resolving_conflicts": 2.872,
+    "performing_for_public": 2.447,
+    "coordinating_others": 2.979,
+    "developing_teams": 3.0,
+    "training_teaching": 3.149,
+    "guiding_subordinates": 3.255,
+    "coaching_developing": 3.213,
+    "providing_consultation": 2.681,
+    "performing_administrative": 3.043,
+    "staffing_organizational": 2.745,
+    "monitoring_resources": 2.809
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.0,
+    "vocational_school": 0.784,
+    "junior_college": 0.078,
+    "technical_college": 0.0,
+    "university": 0.49,
+    "masters": 0.02,
+    "doctorate": 0.0,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.235,
+    "up_to_1_month": 0.039,
+    "1_to_6_months": 0.059,
+    "6_months_to_1_year": 0.039,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.078,
+    "3_to_5_years": 0.333,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.196
+  },
+  "training_post": {
+    "not_required": 0.02,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.118,
+    "6_months_to_1_year": 0.196,
+    "1_to_2_years": 0.235,
+    "2_to_3_years": 0.137,
+    "3_to_5_years": 0.157,
+    "5_to_10_years": 0.039,
+    "over_10_years": 0.02,
+    "unknown": 0.078
+  },
+  "experience": {
+    "not_required": 0.608,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.118,
+    "6_months_to_1_year": 0.02,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.039,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.157
+  },
+  "employment_type": {
+    "regular_employee": 1.0,
+    "part_time": 0.039,
+    "dispatched": 0.0,
+    "contract": 0.0,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "医師の指示のもとに人工呼吸器などの生命維持管理装置の操作をするほか、医療機器の保守点検や管理をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "医療用機器の部品や稼動に必要な試薬や備品を準備し、管理する。",
+      "execution_rate": 1.0,
+      "importance": 3.745
+    },
+    {
+      "task_id": 2,
+      "description_ja": "患者の不安を軽減し、医療用機器の使用が安全に実施できるように、内容や手順を説明する。",
+      "execution_rate": 0.957,
+      "importance": 3.978
+    },
+    {
+      "task_id": 3,
+      "description_ja": "患者を誘導し、危険物などを身につけていないか確認する。",
+      "execution_rate": 0.851,
+      "importance": 3.25
+    },
+    {
+      "task_id": 4,
+      "description_ja": "医療用機器を使用するために、制御用のコンピュータを操作する。",
+      "execution_rate": 0.872,
+      "importance": 3.537
+    },
+    {
+      "task_id": 5,
+      "description_ja": "医師の指示あるいは所定の手順に従い、医療用機器を調節・制御する。",
+      "execution_rate": 1.0,
+      "importance": 4.234
+    },
+    {
+      "task_id": 6,
+      "description_ja": "医療用機器を使用している間、計器、記録計、モニター画面を監視・調整する。",
+      "execution_rate": 1.0,
+      "importance": 4.064
+    },
+    {
+      "task_id": 7,
+      "description_ja": "検査中、患者の状態を観察し、異常や変化が見られた場合には処置を取り、医師に知らせる。",
+      "execution_rate": 0.915,
+      "importance": 4.047
+    },
+    {
+      "task_id": 8,
+      "description_ja": "電子測定装置や記録装置を使用し、患者の状態の測定をする。",
+      "execution_rate": 0.957,
+      "importance": 3.689
+    },
+    {
+      "task_id": 9,
+      "description_ja": "検査結果その他のデータをカルテに記録し、医師に報告する。",
+      "execution_rate": 0.915,
+      "importance": 3.581
+    },
+    {
+      "task_id": 10,
+      "description_ja": "透析患者にシャント穿刺を行う。",
+      "execution_rate": 0.957,
+      "importance": 4.111
+    },
+    {
+      "task_id": 11,
+      "description_ja": "手術での機械出し業務を行う。",
+      "execution_rate": 0.532,
+      "importance": 2.8
+    },
+    {
+      "task_id": 12,
+      "description_ja": "医療機器の仕様・取扱いに関して現場スタッフに教育し、安全に操作できるようにする。",
+      "execution_rate": 0.979,
+      "importance": 4.0
+    },
+    {
+      "task_id": 13,
+      "description_ja": "医療機器を操作するためのマニュアルを作成する。",
+      "execution_rate": 0.979,
+      "importance": 3.804
+    },
+    {
+      "task_id": 14,
+      "description_ja": "院内で研修会を実施する。",
+      "execution_rate": 0.936,
+      "importance": 3.591
+    },
+    {
+      "task_id": 15,
+      "description_ja": "緊急症例の呼び出しに対応する。",
+      "execution_rate": 0.787,
+      "importance": 3.811
+    },
+    {
+      "task_id": 16,
+      "description_ja": "新しい医療機器の選定や導入、古い機器の廃棄をする。",
+      "execution_rate": 0.936,
+      "importance": 3.614
+    },
+    {
+      "task_id": 17,
+      "description_ja": "医療機器を点検し、修理や調整をする。",
+      "execution_rate": 1.0,
+      "importance": 4.255
+    },
+    {
+      "task_id": 18,
+      "description_ja": "手術室やカテーテル室を清掃・消毒する。",
+      "execution_rate": 0.575,
+      "importance": 2.741
+    },
+    {
+      "task_id": 19,
+      "description_ja": "機器のトラブルがあった場合は、原因を探り、必要な対応をとる。",
+      "execution_rate": 0.979,
+      "importance": 4.196
+    },
+    {
+      "task_id": 20,
+      "description_ja": "機器の安全情報を収集する。",
+      "execution_rate": 0.979,
+      "importance": 3.761
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本臨床工学技士会",
+      "url": "https://www.ja-ces.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本臨床工学技士教育施設協議会",
+      "url": "http://www.jaefce.org/"
+    }
+  ],
+  "related_certs_ja": [
+    "臨床工学技士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/164",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

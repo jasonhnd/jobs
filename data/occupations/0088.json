@@ -1,0 +1,438 @@
+{
+  "id": 88,
+  "ipd_id": "IPD_01_01_088",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "通訳者",
+  "aliases_ja": [
+    "英語通訳"
+  ],
+  "classifications": {
+    "mhlw_main": "03_020-02",
+    "mhlw_all": [
+      "03_020-02"
+    ],
+    "jsoc_main": "B249",
+    "jsoc_all": [
+      "B249"
+    ]
+  },
+  "description": {
+    "summary_ja": "異なる言語を使う人たちの間に入り、話されている言語を相手方の話し言葉に訳し、相手に伝える。",
+    "what_it_is_ja": "異なる言語を使う人たちの間に入り、話されている言語を相手方の話し言葉に訳し、相手に伝える仕事である。\n　ここでは国際会議、放送、商談、法廷などの分野で働く通訳者について記述する。\n　通訳の方法は大きく3つに分けられる。「adhoc（アドホック）通訳」は、少人数の人が日常的な話をする場合などに、相手の言っていることを相互に伝えるもので、特に決められた通訳の仕方はなく、臨機応変に双方の言いたいことを伝える。\n　「逐次（ちくじ）通訳」は話し手が一定のまとまりで話し、通訳者がそれまでの分を通訳する、というやり方で話を進めていく。話の内容を覚えていなくてはならないため、記憶の補助として、メモ(通訳ノート)を取るのが普通である。著名な人が講演をするような場合や外交交渉・会議・商談・座談会などに使われ、内容も高度なことが多い。\n　「同時通訳」は、通訳者が「ブース」と呼ばれる通訳室に入り、発言者の言うことをヘッドフォンで聞きながら通訳していき、会場で聞いている人に伝える方法である。内容を理解し、同時に話さなくてはならないため、高度の集中力を要し、3人くらいのチームを組んで、15分～30分で交代する。使用言語数が多い国際会議や放送通訳の場合などに用いられる。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、オンライン会議ツール、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。実績と能力によって仕事を得ることができる、実力本位の世界である。一般的に大学卒業程度の学力は最低限必要とされ、大学、通訳学校、大学院などの通訳養成コースを修了した者が多い。\n　ビジネス通訳検定（TOBIS）の資格を取ると、仕事を得るうえで有利になることがある。\n　通訳の仕事をするには、派遣会社に登録して仕事を得るケース、知り合いや各種団体、学校関係から仕事を紹介してもらうケース、企業に雇用されるケースがある。\n　高度な語学力だけでなく、一般常識、通訳する分野についての背景知識、理解力が求められる。",
+    "working_conditions_ja": "通訳の場としては国際会議・国際セミナー、外国人との交渉・親善活動、テレビ局や外資系企業などがある。\n　高度な逐次通訳と同時通訳のできる通訳者は多くない。翻訳家、大学教員、文筆家など他の仕事と兼業している場合も多い。\n　関連団体の調査結果によると、就業者のうち約7割を女性が占める。さらに女性を年代別でみると、40代と50代が約7割を占める（2022年時点*）。\n　通訳者は、企業に雇用されている社内通訳者を除き、仕事のあるときだけ現場で業務を行うのが普通である。放送通訳者の場合はほぼ定期的に仕事がある。\n　報酬は、一日の仕事あたりいくら、という形で支払われる場合が多い。報酬の額には実績や能力によってかなりの幅がある。\n　いわゆる自動音声翻訳（機械通訳）の精度がAIにより向上してきており、スピードや利便性の観点で活用場面も見られるようになってきた。しかし、話し手側の話し方に左右されること、表情やボディランゲージを把握できないため訳文に感情が表現できないなど課題も多く、今後も通訳者に一定の需要はあると見込まれる。\n\n*日本翻訳連盟(JTF)「翻訳・通訳業界調査」アンケート"
+  },
+  "interests": {
+    "realistic": 2.822,
+    "investigative": 3.521,
+    "artistic": 2.986,
+    "social": 3.973,
+    "enterprising": 3.151,
+    "conventional": 3.274
+  },
+  "work_values": {
+    "achievement": 4.0,
+    "autonomy": 3.421,
+    "expertise": 4.263,
+    "self_growth": 4.105,
+    "social_recognition": 3.526,
+    "service_contribution": 3.737,
+    "good_relationships": 3.816,
+    "workplace_safety": 3.5,
+    "work_life_balance": 3.842,
+    "stability": 2.553,
+    "compensation": 3.263
+  },
+  "skills": {
+    "reading_comprehension": 4.895,
+    "active_listening": 5.368,
+    "writing": 4.316,
+    "speaking": 4.842,
+    "foreign_language_reading": 5.474,
+    "foreign_language_listening": 5.526,
+    "foreign_language_writing": 4.605,
+    "foreign_language_speaking": 5.737,
+    "mathematics": 2.474,
+    "science": 2.105,
+    "critical_thinking": 3.105,
+    "active_learning": 3.895,
+    "learning_strategies": 3.395,
+    "monitoring": 3.289,
+    "social_perceptiveness": 4.079,
+    "coordination": 3.632,
+    "persuasion": 3.132,
+    "negotiation": 3.079,
+    "instructing": 2.842,
+    "service_orientation": 3.868,
+    "complex_problem_solving": 2.868,
+    "operations_analysis": 2.026,
+    "technology_design": 1.684,
+    "equipment_selection": 1.684,
+    "installation": 1.605,
+    "programming": 0.974,
+    "operations_monitoring": 0.895,
+    "operation_and_control": 1.132,
+    "equipment_maintenance": 1.026,
+    "troubleshooting": 1.132,
+    "repairing": 1.0,
+    "quality_control_analysis": 1.711,
+    "judgment_decision_making": 1.553,
+    "systems_analysis": 1.553,
+    "systems_evaluation": 1.447,
+    "time_management": 3.0,
+    "financial_resources_management": 1.579,
+    "material_resources_management": 1.105,
+    "personnel_resources_management": 1.105
+  },
+  "knowledge": {
+    "business_management": 1.477,
+    "clerical": 1.909,
+    "economics_accounting": 1.318,
+    "sales_marketing": 1.455,
+    "customer_personal_service": 2.364,
+    "personnel_hr": 1.159,
+    "transportation": 1.0,
+    "production_processing": 0.886,
+    "agriculture_livestock": 0.727,
+    "engineering": 1.023,
+    "computers_electronics": 1.023,
+    "design": 0.795,
+    "building_construction": 0.795,
+    "mechanical": 0.909,
+    "mathematics_kn": 0.841,
+    "physics": 0.773,
+    "chemistry": 0.818,
+    "biology": 0.773,
+    "psychology": 1.341,
+    "sociology": 1.568,
+    "geography": 1.386,
+    "medicine_dentistry": 1.295,
+    "therapy_counseling": 1.159,
+    "education_training_kn": 1.159,
+    "japanese_language": 3.386,
+    "foreign_language_kn": 3.523,
+    "fine_arts": 1.341,
+    "history_archaeology": 1.795,
+    "philosophy_theology": 1.636,
+    "public_safety_security": 1.364,
+    "law_government": 1.432,
+    "telecommunications": 1.295,
+    "communications_media": 2.159
+  },
+  "abilities": {
+    "oral_comprehension": 4.073,
+    "written_comprehension": 3.707,
+    "oral_expression": 4.049,
+    "written_expression": 3.634,
+    "fluency_of_ideas": 2.537,
+    "originality": 2.439,
+    "problem_sensitivity": 3.415,
+    "deductive_reasoning": 2.829,
+    "inductive_reasoning": 2.732,
+    "information_ordering": 2.341,
+    "category_flexibility": 2.366,
+    "mathematical_reasoning": 1.902,
+    "number_facility": 1.976,
+    "memorization": 3.61,
+    "perceptual_speed": 2.171,
+    "spatial_orientation": 2.488,
+    "visualization": 2.146,
+    "selective_attention": 3.073,
+    "time_sharing": 3.366,
+    "arm_hand_steadiness": 1.488,
+    "manual_dexterity": 1.463,
+    "finger_dexterity": 1.463,
+    "reaction_time": 2.22,
+    "wrist_finger_speed": 1.854,
+    "speed_of_limb_movement": 1.39,
+    "static_strength": 1.39,
+    "stamina": 2.732,
+    "gross_body_equilibrium": 1.683,
+    "near_vision": 1.829,
+    "far_vision": 1.805,
+    "visual_color_discrimination": 1.805,
+    "depth_perception": 1.683,
+    "hearing_sensitivity": 2.317,
+    "auditory_attention": 2.488,
+    "speech_clarity": 3.22
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.25,
+    "face_to_face_discussions": 3.386,
+    "telephone_communication": 3.545,
+    "business_writing": 3.227,
+    "conflict_situations": 2.091,
+    "time_pressure": 2.773,
+    "teamwork": 2.818,
+    "dealing_with_external_customers": 3.5,
+    "coordinate_lead_others": 2.886,
+    "exactness_accuracy": 4.091,
+    "repetitive_tasks": 2.523,
+    "pace_determined_by_machine": 2.273,
+    "responsibility_for_outcomes": 3.205,
+    "indoor_climate_controlled": 4.25,
+    "indoor_non_climate_controlled": 1.864,
+    "outdoor_work": 2.205,
+    "sitting": 3.795,
+    "standing": 2.568,
+    "repetition_of_activities": 2.0,
+    "consequence_of_error": 2.955,
+    "freedom_to_make_decisions": 3.318,
+    "set_own_goals": 3.364,
+    "regular_schedule": 0.318,
+    "irregular_schedule": 0.682,
+    "seasonal_schedule": 0.082,
+    "email_communication": 3.977,
+    "cramped_uncomfortable": 2.182,
+    "disease_infection_risk": 2.432,
+    "minor_injury_risk": 1.205,
+    "standard_protective_equipment": 1.432,
+    "specialized_protective_equipment": 1.227,
+    "dealing_with_violent_people": 1.545,
+    "walking_running": 2.295,
+    "handling_objects_tools": 1.955,
+    "physical_proximity": 3.409,
+    "work_automation": 1.886,
+    "responsibility_for_safety": 2.045,
+    "impact_of_decisions": 2.318,
+    "level_of_competition": 2.159
+  },
+  "work_activities": {
+    "getting_information": 3.805,
+    "monitor_processes": 3.415,
+    "identifying_objects": 3.415,
+    "inspecting_equipment": 2.244,
+    "estimating_quantifiable": 2.049,
+    "judging_quality": 2.634,
+    "evaluating_compliance": 2.732,
+    "processing_information": 2.805,
+    "analyzing_data": 2.707,
+    "making_decisions": 2.634,
+    "thinking_creatively": 2.707,
+    "updating_knowledge": 3.61,
+    "developing_objectives": 2.732,
+    "scheduling_work": 3.122,
+    "organizing_planning": 3.366,
+    "physical_activities": 1.805,
+    "handling_objects": 1.537,
+    "controlling_machines": 1.439,
+    "operating_vehicles": 1.415,
+    "computer_work": 2.585,
+    "drafting_specifications": 1.415,
+    "repairing_mechanical": 1.317,
+    "repairing_electronic": 1.39,
+    "documenting_information": 2.707,
+    "interpreting_information": 3.049,
+    "communicating_inside": 3.195,
+    "communicating_outside": 3.659,
+    "building_relationships": 3.39,
+    "assisting_caring": 2.634,
+    "selling_influencing": 2.122,
+    "resolving_conflicts": 2.366,
+    "performing_for_public": 2.585,
+    "coordinating_others": 1.951,
+    "developing_teams": 2.293,
+    "training_teaching": 2.049,
+    "guiding_subordinates": 1.659,
+    "coaching_developing": 1.707,
+    "providing_consultation": 2.024,
+    "performing_administrative": 2.39,
+    "staffing_organizational": 1.488,
+    "monitoring_resources": 1.61
+  },
+  "education_distribution": {
+    "below_high_school": 0.023,
+    "high_school": 0.045,
+    "vocational_school": 0.136,
+    "junior_college": 0.091,
+    "technical_college": 0.0,
+    "university": 0.659,
+    "masters": 0.068,
+    "doctorate": 0.023,
+    "unknown": 0.159
+  },
+  "training_pre": {
+    "not_required": 0.182,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.068,
+    "6_months_to_1_year": 0.068,
+    "1_to_2_years": 0.068,
+    "2_to_3_years": 0.068,
+    "3_to_5_years": 0.114,
+    "5_to_10_years": 0.136,
+    "over_10_years": 0.091,
+    "unknown": 0.205
+  },
+  "training_post": {
+    "not_required": 0.136,
+    "up_to_1_month": 0.045,
+    "1_to_6_months": 0.114,
+    "6_months_to_1_year": 0.091,
+    "1_to_2_years": 0.114,
+    "2_to_3_years": 0.091,
+    "3_to_5_years": 0.114,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.023,
+    "unknown": 0.25
+  },
+  "experience": {
+    "not_required": 0.25,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.045,
+    "6_months_to_1_year": 0.068,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.136,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.023,
+    "over_10_years": 0.068,
+    "unknown": 0.227
+  },
+  "employment_type": {
+    "regular_employee": 0.205,
+    "part_time": 0.136,
+    "dispatched": 0.068,
+    "contract": 0.182,
+    "self_employed_freelance": 0.614,
+    "executive": 0.0,
+    "casual_non_student": 0.068,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.023
+  },
+  "tasks_lead_ja": "異なる言語を使う人たちの間に入り、話されている言語を相手方の言語に訳し、相手に伝える。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "少人数の人が日常的な話をする場合などに、相手の言っていることを相互に伝える。",
+      "execution_rate": 0.927,
+      "importance": 3.605
+    },
+    {
+      "task_id": 2,
+      "description_ja": "交渉や会議などに立ち会って双方の話の内容を正確に訳し、相手に伝える。",
+      "execution_rate": 0.951,
+      "importance": 4.154
+    },
+    {
+      "task_id": 3,
+      "description_ja": "講演会などで講師の傍らに位置し、公演の内容を記憶した上で、適切な区切りごとに通訳する。",
+      "execution_rate": 0.732,
+      "importance": 3.9
+    },
+    {
+      "task_id": 4,
+      "description_ja": "電子音響システムを使用して講演者の話の内容を聞き、講演に並行して同時通訳する。",
+      "execution_rate": 0.61,
+      "importance": 2.92
+    },
+    {
+      "task_id": 5,
+      "description_ja": "技術研修の場などに立ち会い、機械などの操作手順やメカニズムなどについて通訳する。",
+      "execution_rate": 0.732,
+      "importance": 3.467
+    },
+    {
+      "task_id": 6,
+      "description_ja": "話し手がしばらくの間話したことを記憶して後で通訳するためにメモを取る。",
+      "execution_rate": 0.902,
+      "importance": 3.595
+    },
+    {
+      "task_id": 7,
+      "description_ja": "あらかじめ会議や講演のテーマについて調査研究し、予習しておく。",
+      "execution_rate": 0.878,
+      "importance": 4.056
+    },
+    {
+      "task_id": 8,
+      "description_ja": "記録された放送や映像を翻訳する。",
+      "execution_rate": 0.463,
+      "importance": 2.684
+    },
+    {
+      "task_id": 9,
+      "description_ja": "メールや資料などの文書を翻訳する。",
+      "execution_rate": 0.854,
+      "importance": 3.571
+    },
+    {
+      "task_id": 10,
+      "description_ja": "英文の契約書や覚書作成を支援する。",
+      "execution_rate": 0.561,
+      "importance": 3.391
+    },
+    {
+      "task_id": 11,
+      "description_ja": "クライアントや学生に日本語を教える。",
+      "execution_rate": 0.439,
+      "importance": 2.889
+    },
+    {
+      "task_id": 12,
+      "description_ja": "外国人の日本における官公署での手続きを支援する。",
+      "execution_rate": 0.585,
+      "importance": 3.25
+    },
+    {
+      "task_id": 13,
+      "description_ja": "病院に付き添い、医師等との会話や手続きを支援する。",
+      "execution_rate": 0.707,
+      "importance": 2.793
+    },
+    {
+      "task_id": 14,
+      "description_ja": "宿泊施設への入居・退去に関わる手続きを支援する。",
+      "execution_rate": 0.61,
+      "importance": 3.0
+    },
+    {
+      "task_id": 15,
+      "description_ja": "海外でのツアーに同行し、通訳する。",
+      "execution_rate": 0.342,
+      "importance": 2.714
+    },
+    {
+      "task_id": 16,
+      "description_ja": "営業や工場見学など、企業の海外出張に同行して通訳する。",
+      "execution_rate": 0.659,
+      "importance": 3.556
+    },
+    {
+      "task_id": 17,
+      "description_ja": "本などを読み、母国語を勉強する。",
+      "execution_rate": 0.805,
+      "importance": 3.394
+    },
+    {
+      "task_id": 18,
+      "description_ja": "各種令状執行時に通訳を担当する。",
+      "execution_rate": 0.244,
+      "importance": 4.0
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "日本通訳翻訳学会",
+      "url": "http://jaits.jpn.org/home/index.html"
+    },
+    {
+      "name_ja": "特定非営利活動法人 通訳技能向上センター",
+      "url": "https://www.cais.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "ビジネス通訳検定（TOBIS）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/88",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

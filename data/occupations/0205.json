@@ -1,0 +1,468 @@
+{
+  "id": 205,
+  "ipd_id": "IPD_01_01_205",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "客室乗務員",
+  "aliases_ja": [
+    "キャビンアテンダント（CA）",
+    "航空客室乗務員",
+    "フライトアテンダント"
+  ],
+  "classifications": {
+    "mhlw_main": "09_056-06",
+    "mhlw_all": [
+      "09_056-06"
+    ],
+    "jsoc_main": "E404",
+    "jsoc_all": [
+      "E404"
+    ]
+  },
+  "description": {
+    "summary_ja": "乗客が安全で快適に旅行ができるように、航空機内で乗客の世話など様々なサービスや緊急時の保安対応を行う。",
+    "what_it_is_ja": "乗客が安全で快適に旅行ができるように、航空機内で乗客の世話など様々なサービスや緊急時の保安対応を行う。キャビンアテンダント（CA）、フライトアテンダントとも呼ばれる。\n　出発前に、空港で身だしなみの点検と体調の確認を行い、同時にフライトコース、目的地までの天候などのブリーフィングを受ける。気象状況を読み取り、必要があれば事故を未然に防ぐためにシートベルトの着用を促すポイントなども打ち合わせる。\n　機内では、乗客を出迎え、必要があれば座席まで案内する。また、非常脱出手順、酸素マスク、ドアの開閉、シートベルトの着用などの安全確認を行い、離陸前に乗客に対し飛行中の留意点や緊急時等の対応について説明する。更に目視により、エンジンや翼等機体の異常の有無を確認し、機長に報告する。\n　安定飛行に移った後は、お茶やコーヒー、雑誌や新聞などを配り、国際線のフライトの場合には、機内食を提供する。乗客の申出に応じて毛布を配ったり、入国書類の書き方をアドバイスしたり、様々な世話を行う。ほとんどの国際路線では免税品の機内販売を行う。\n　目的地に到着後は、機内から乗客を送り出し、破損した設備がないか、乗客の忘れ物がないかなど機内を点検し、フライトの状況をレポートにまとめる。\n　また、急病人が出た場合には適切な対応をとる。緊急事態などトラブルが発生した場合には、冷静に状況を判断し、乗客を落ち着かせ、機内から脱出するときは、非常口を開き、秩序を維持して避難させるなど必要な対応を行わなければならない。\n\n◇　よく使う道具、機材、情報技術等\n　タブレット端末",
+    "how_to_become_ja": "学歴は短大卒以上が一般的だが、特別な資格は必要とされない。ただし、英語力が求められる場合が多い。また、視力について基準等を設けている会社もある。\n　航空会社などに入職し、機内サービスや保安に関する専門的な訓練を受け、乗務員として勤務する。国内の航空会社に勤務する場合であれば、最初は国内線を中心に乗務経験を重ね、保安やサービスの内容を体得する。基礎的な能力を身につけた後に国際線に乗務するなどして、専門性や経験を身につける。機種により設備等が異なるため機種別の訓練も受ける。経験を積み、機内の責任者や地上勤務の管理職に昇進する場合もある。",
+    "working_conditions_ja": "国内外の航空会社に所属し、所定の空港をベースに勤務する。\n　機内勤務のため、勤務時間や休日は不規則となる。会社指定のホテルに宿泊しながら乗務し、その後に休みをとるシフト勤務となる。国際線に乗務する場合、長距離のフライトでは10数時間にわたって勤務したり、数日間日本に帰れないこともある。\n　契約社員として採用し、一定の経験を積んだ後に正社員へ登用する会社もある。国内線での乗務と地上での勤務を組み合わせた勤務形態もある。就業者は女性の割合が多い。"
+  },
+  "interests": {
+    "realistic": 2.935,
+    "investigative": 2.545,
+    "artistic": 2.727,
+    "social": 4.416,
+    "enterprising": 3.221,
+    "conventional": 3.364
+  },
+  "work_values": {
+    "achievement": 3.561,
+    "autonomy": 3.316,
+    "expertise": 3.842,
+    "self_growth": 3.596,
+    "social_recognition": 3.491,
+    "service_contribution": 3.105,
+    "good_relationships": 3.719,
+    "workplace_safety": 3.123,
+    "work_life_balance": 3.561,
+    "stability": 2.842,
+    "compensation": 2.719
+  },
+  "skills": {
+    "reading_comprehension": 4.158,
+    "active_listening": 5.561,
+    "writing": 3.228,
+    "speaking": 4.439,
+    "foreign_language_reading": 4.404,
+    "foreign_language_listening": 4.175,
+    "foreign_language_writing": 3.298,
+    "foreign_language_speaking": 4.035,
+    "mathematics": 1.702,
+    "science": 1.14,
+    "critical_thinking": 3.035,
+    "active_learning": 3.105,
+    "learning_strategies": 3.14,
+    "monitoring": 3.228,
+    "social_perceptiveness": 4.316,
+    "coordination": 3.667,
+    "persuasion": 3.825,
+    "negotiation": 3.105,
+    "instructing": 3.912,
+    "service_orientation": 4.193,
+    "complex_problem_solving": 3.053,
+    "operations_analysis": 2.053,
+    "technology_design": 1.596,
+    "equipment_selection": 1.807,
+    "installation": 1.298,
+    "programming": 0.719,
+    "operations_monitoring": 1.281,
+    "operation_and_control": 1.421,
+    "equipment_maintenance": 1.491,
+    "troubleshooting": 1.561,
+    "repairing": 1.018,
+    "quality_control_analysis": 2.193,
+    "judgment_decision_making": 2.368,
+    "systems_analysis": 1.877,
+    "systems_evaluation": 1.842,
+    "time_management": 3.456,
+    "financial_resources_management": 1.07,
+    "material_resources_management": 0.982,
+    "personnel_resources_management": 2.123
+  },
+  "knowledge": {
+    "business_management": 1.324,
+    "clerical": 1.135,
+    "economics_accounting": 0.568,
+    "sales_marketing": 1.324,
+    "customer_personal_service": 3.946,
+    "personnel_hr": 1.081,
+    "transportation": 1.973,
+    "production_processing": 0.541,
+    "agriculture_livestock": 0.324,
+    "engineering": 0.216,
+    "computers_electronics": 0.405,
+    "design": 0.459,
+    "building_construction": 0.243,
+    "mechanical": 0.459,
+    "mathematics_kn": 0.297,
+    "physics": 0.324,
+    "chemistry": 0.27,
+    "biology": 0.189,
+    "psychology": 1.73,
+    "sociology": 1.622,
+    "geography": 1.324,
+    "medicine_dentistry": 1.189,
+    "therapy_counseling": 1.054,
+    "education_training_kn": 2.135,
+    "japanese_language": 2.811,
+    "foreign_language_kn": 3.243,
+    "fine_arts": 0.811,
+    "history_archaeology": 0.486,
+    "philosophy_theology": 0.811,
+    "public_safety_security": 1.892,
+    "law_government": 0.676,
+    "telecommunications": 0.459,
+    "communications_media": 1.784
+  },
+  "abilities": {
+    "oral_comprehension": 3.436,
+    "written_comprehension": 3.077,
+    "oral_expression": 3.641,
+    "written_expression": 3.154,
+    "fluency_of_ideas": 3.026,
+    "originality": 2.795,
+    "problem_sensitivity": 3.923,
+    "deductive_reasoning": 3.231,
+    "inductive_reasoning": 2.974,
+    "information_ordering": 2.744,
+    "category_flexibility": 2.641,
+    "mathematical_reasoning": 2.256,
+    "number_facility": 2.282,
+    "memorization": 3.205,
+    "perceptual_speed": 2.744,
+    "spatial_orientation": 2.974,
+    "visualization": 3.0,
+    "selective_attention": 3.205,
+    "time_sharing": 3.615,
+    "arm_hand_steadiness": 3.179,
+    "manual_dexterity": 2.795,
+    "finger_dexterity": 2.641,
+    "reaction_time": 3.487,
+    "wrist_finger_speed": 2.718,
+    "speed_of_limb_movement": 2.872,
+    "static_strength": 3.436,
+    "stamina": 3.692,
+    "gross_body_equilibrium": 3.59,
+    "near_vision": 3.205,
+    "far_vision": 3.282,
+    "visual_color_discrimination": 3.256,
+    "depth_perception": 3.103,
+    "hearing_sensitivity": 3.333,
+    "auditory_attention": 3.333,
+    "speech_clarity": 3.487
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.514,
+    "face_to_face_discussions": 3.568,
+    "telephone_communication": 1.784,
+    "business_writing": 2.189,
+    "conflict_situations": 2.649,
+    "time_pressure": 4.135,
+    "teamwork": 4.432,
+    "dealing_with_external_customers": 4.351,
+    "coordinate_lead_others": 3.919,
+    "exactness_accuracy": 4.27,
+    "repetitive_tasks": 3.568,
+    "pace_determined_by_machine": 2.378,
+    "responsibility_for_outcomes": 3.649,
+    "indoor_climate_controlled": 4.27,
+    "indoor_non_climate_controlled": 2.0,
+    "outdoor_work": 1.838,
+    "sitting": 2.054,
+    "standing": 4.486,
+    "repetition_of_activities": 3.676,
+    "consequence_of_error": 4.054,
+    "freedom_to_make_decisions": 3.189,
+    "set_own_goals": 3.297,
+    "regular_schedule": 0.162,
+    "irregular_schedule": 0.784,
+    "seasonal_schedule": 0.054,
+    "email_communication": 3.243,
+    "cramped_uncomfortable": 3.405,
+    "disease_infection_risk": 3.649,
+    "minor_injury_risk": 2.297,
+    "standard_protective_equipment": 1.676,
+    "specialized_protective_equipment": 1.676,
+    "dealing_with_violent_people": 2.0,
+    "walking_running": 4.081,
+    "handling_objects_tools": 3.054,
+    "physical_proximity": 3.892,
+    "work_automation": 1.946,
+    "responsibility_for_safety": 3.703,
+    "impact_of_decisions": 3.243,
+    "level_of_competition": 1.973
+  },
+  "work_activities": {
+    "getting_information": 3.462,
+    "monitor_processes": 3.821,
+    "identifying_objects": 3.564,
+    "inspecting_equipment": 3.308,
+    "estimating_quantifiable": 2.795,
+    "judging_quality": 3.436,
+    "evaluating_compliance": 3.641,
+    "processing_information": 2.949,
+    "analyzing_data": 2.923,
+    "making_decisions": 3.538,
+    "thinking_creatively": 3.128,
+    "updating_knowledge": 3.769,
+    "developing_objectives": 3.359,
+    "scheduling_work": 2.974,
+    "organizing_planning": 3.744,
+    "physical_activities": 3.667,
+    "handling_objects": 3.667,
+    "controlling_machines": 2.538,
+    "operating_vehicles": 2.282,
+    "computer_work": 2.744,
+    "drafting_specifications": 2.205,
+    "repairing_mechanical": 2.385,
+    "repairing_electronic": 2.436,
+    "documenting_information": 2.641,
+    "interpreting_information": 2.718,
+    "communicating_inside": 3.974,
+    "communicating_outside": 3.308,
+    "building_relationships": 3.59,
+    "assisting_caring": 3.641,
+    "selling_influencing": 2.923,
+    "resolving_conflicts": 3.487,
+    "performing_for_public": 3.385,
+    "coordinating_others": 3.436,
+    "developing_teams": 3.718,
+    "training_teaching": 3.692,
+    "guiding_subordinates": 3.513,
+    "coaching_developing": 3.333,
+    "providing_consultation": 2.795,
+    "performing_administrative": 3.256,
+    "staffing_organizational": 2.615,
+    "monitoring_resources": 2.487
+  },
+  "education_distribution": {
+    "below_high_school": 0.027,
+    "high_school": 0.108,
+    "vocational_school": 0.108,
+    "junior_college": 0.135,
+    "technical_college": 0.027,
+    "university": 0.838,
+    "masters": 0.027,
+    "doctorate": 0.0,
+    "unknown": 0.054
+  },
+  "training_pre": {
+    "not_required": 0.162,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.73,
+    "6_months_to_1_year": 0.054,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.027,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.027
+  },
+  "training_post": {
+    "not_required": 0.054,
+    "up_to_1_month": 0.054,
+    "1_to_6_months": 0.324,
+    "6_months_to_1_year": 0.27,
+    "1_to_2_years": 0.108,
+    "2_to_3_years": 0.027,
+    "3_to_5_years": 0.054,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.108
+  },
+  "experience": {
+    "not_required": 0.568,
+    "up_to_1_month": 0.054,
+    "1_to_6_months": 0.216,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.054,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.108
+  },
+  "employment_type": {
+    "regular_employee": 0.892,
+    "part_time": 0.108,
+    "dispatched": 0.027,
+    "contract": 0.135,
+    "self_employed_freelance": 0.054,
+    "executive": 0.054,
+    "casual_non_student": 0.027,
+    "casual_student": 0.108,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "航空機の乗客が安全で快適な旅行ができるように、乗客の世話などの様々なサービスや緊急時の保安対応を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "乗務前には、搭乗人数や乳幼児の数など必要事項を確認する。",
+      "execution_rate": 0.949,
+      "importance": 4.27
+    },
+    {
+      "task_id": 2,
+      "description_ja": "出発前に機内に必要な非常用装備品やサービス物品が揃っていること、客室内に異常が無いことを確認する。",
+      "execution_rate": 0.974,
+      "importance": 4.368
+    },
+    {
+      "task_id": 3,
+      "description_ja": "機長らと飛行中の揺れや天候などについてブリーフィングをする。",
+      "execution_rate": 0.974,
+      "importance": 4.316
+    },
+    {
+      "task_id": 4,
+      "description_ja": "客室乗務員内でミーティングをする。",
+      "execution_rate": 0.974,
+      "importance": 4.368
+    },
+    {
+      "task_id": 5,
+      "description_ja": "搭乗時には、乗客を迎えて指定のシートに案内する。",
+      "execution_rate": 0.974,
+      "importance": 3.526
+    },
+    {
+      "task_id": 6,
+      "description_ja": "出発前には、目的地や到着時刻の案内や非常の際の行動方法についての説明をする。",
+      "execution_rate": 0.974,
+      "importance": 4.263
+    },
+    {
+      "task_id": 7,
+      "description_ja": "機内食や飲み物をカートに乗せて座席まで運び、乗客に提供する。",
+      "execution_rate": 0.974,
+      "importance": 3.5
+    },
+    {
+      "task_id": 8,
+      "description_ja": "客の要望に応じて新聞や雑誌を提供する。",
+      "execution_rate": 0.846,
+      "importance": 3.121
+    },
+    {
+      "task_id": 9,
+      "description_ja": "機内でお土産や免税品の販売をする。",
+      "execution_rate": 0.897,
+      "importance": 2.629
+    },
+    {
+      "task_id": 10,
+      "description_ja": "国際線の場合は、CIQ（税関、出入国管理、検疫）の関連業務をする。",
+      "execution_rate": 0.923,
+      "importance": 3.75
+    },
+    {
+      "task_id": 11,
+      "description_ja": "乗客の通訳をする。",
+      "execution_rate": 0.872,
+      "importance": 3.235
+    },
+    {
+      "task_id": 12,
+      "description_ja": "乗客のクレームに対応する。",
+      "execution_rate": 0.974,
+      "importance": 3.421
+    },
+    {
+      "task_id": 13,
+      "description_ja": "旅客の健康情報を把握し、必要な対応を行う。",
+      "execution_rate": 0.923,
+      "importance": 4.083
+    },
+    {
+      "task_id": 14,
+      "description_ja": "急病人発生時は対応をする。",
+      "execution_rate": 0.974,
+      "importance": 4.526
+    },
+    {
+      "task_id": 15,
+      "description_ja": "飛行中の異常事態発生時に、機長と連絡をとり、乗客に行動や避難の指示をする。",
+      "execution_rate": 0.974,
+      "importance": 4.605
+    },
+    {
+      "task_id": 16,
+      "description_ja": "ハイジャックなどの緊急事態に備え、航行中は常に機内の状況を把握する。",
+      "execution_rate": 0.974,
+      "importance": 4.553
+    },
+    {
+      "task_id": 17,
+      "description_ja": "機内のアナウンスで、到着予定時刻や揺れの状況を乗客に伝える。",
+      "execution_rate": 0.949,
+      "importance": 3.757
+    },
+    {
+      "task_id": 18,
+      "description_ja": "目的地に到着後は、出口において乗客を見送る。",
+      "execution_rate": 0.974,
+      "importance": 3.632
+    },
+    {
+      "task_id": 19,
+      "description_ja": "忘れ物の有無や機材の破損など、客室内の確認をする。",
+      "execution_rate": 0.974,
+      "importance": 4.053
+    },
+    {
+      "task_id": 20,
+      "description_ja": "機内のトイレやギャレーを清掃し、消毒する。",
+      "execution_rate": 0.949,
+      "importance": 3.676
+    },
+    {
+      "task_id": 21,
+      "description_ja": "フライトの状況をレポートにまとめる。",
+      "execution_rate": 0.872,
+      "importance": 3.353
+    },
+    {
+      "task_id": 22,
+      "description_ja": "客室乗務員の健康管理をする。",
+      "execution_rate": 0.923,
+      "importance": 4.0
+    },
+    {
+      "task_id": 23,
+      "description_ja": "非常救難訓練を受け、非常時に備える。",
+      "execution_rate": 0.974,
+      "importance": 4.553
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本CA協会",
+      "url": "https://ca-jpn.net/"
+    },
+    {
+      "name_ja": "一般社団法人　日本キャビンアテンダント協会",
+      "url": "http://crew-tokyo.org/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/205",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "id": 439,
+  "ipd_id": "IPD_01_01_439",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "貿易事務",
+  "aliases_ja": [
+    "通関業務係",
+    "輸出入事務員"
+  ],
+  "classifications": {
+    "mhlw_main": "06_040-02",
+    "mhlw_all": [
+      "06_040-02"
+    ],
+    "jsoc_main": "C281",
+    "jsoc_all": [
+      "C281"
+    ]
+  },
+  "description": {
+    "summary_ja": "原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う。",
+    "what_it_is_ja": "原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う。\n　貿易手続全般の流れを把握し、輸出入する商品や原材料、値段、数量、取引先を決定するための情報を収集・整理する。輸出入を行う商品は、関連する国際法や輸出入国双方の法律の適用を受けるので、取り扱う商品には輸出入の許認可や検査が必要かどうかなど、相手国と国内の法律を調査する。次に、取引金額、決済方法、取引数量、輸送手段、納期、保険、決裁方法などの商談がまとまれば、輸出入に関する各種書類（インボイス、船荷証券、梱包明細書等）を作成する。\n　貨物輸送の手配としては、商品の到着予定や船便の運行状況を把握し、関係者からの問い合わせに対応する。また、輸入されてきた商品を国内に配送する手続きや、輸出入品の在庫を管理する。\n　企業によっては、法務・審査、財務・経理、保険、運輸・通関などの様々なセクションのスタッフとして、営業部門と連携して貿易事務を行っている。一般事務と兼務することもある。商社等から通関手続の代行を委託されている企業（通関業者）でスタッフとして働く人もいる。\n　現在、貿易手続はインターネットを利用した電子化が進められている。\n\n◇　よく使う道具、機材、情報技術等\n　表計算ソフト（Excel、Googleスプレッドシート等）、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、語学力は業務を行う上で必要であり、採用にあたり一定水準の語学力を求める企業もある。多くの企業は入職後に語学研修を実施し、語学力の向上を図っている。中途採用については、経験者が求められる傾向にある。\n　配属先は新入社員研修の過程で本人の適性や希望を踏まえて決定される場合もある。通関士など関係する資格があれば、貿易事務の関連部門に配属されることもある。配属後も、語学研修をはじめとして貿易実務、経理等の多彩な研修プログラムが用意されており、スキルアップが図られる。\n　担当する取引についての関心と責任感に加えて、諸外国の言語や法律、ビジネスの慣習等の知識が求められる。",
+    "working_conditions_ja": "勤務先は商社、通関業者等である。職場は本社が集中している都市部が多い。また、海外貿易を直接行う大手のメーカーや百貨店の海外事業部で勤務する場合もある。\n　オフィス内での業務が中心となるが、業務内容によっては、銀行をはじめ関係機関に出向くこともある。\n　賃金、労働時間等労働条件は勤務先の規定による。就業時間は規則的なことが多く基本的には残業が少ない。土日祝日は休みとなることが多い。"
+  },
+  "interests": {
+    "realistic": 3.113,
+    "investigative": 2.968,
+    "artistic": 2.5,
+    "social": 3.081,
+    "enterprising": 3.032,
+    "conventional": 3.323
+  },
+  "work_values": {
+    "achievement": 3.086,
+    "autonomy": 3.172,
+    "expertise": 3.5,
+    "self_growth": 3.31,
+    "social_recognition": 2.776,
+    "service_contribution": 2.707,
+    "good_relationships": 3.241,
+    "workplace_safety": 3.31,
+    "work_life_balance": 3.293,
+    "stability": 3.172,
+    "compensation": 2.914
+  },
+  "skills": {
+    "reading_comprehension": 4.138,
+    "active_listening": 4.293,
+    "writing": 4.207,
+    "speaking": 4.069,
+    "foreign_language_reading": 4.017,
+    "foreign_language_listening": 3.466,
+    "foreign_language_writing": 3.828,
+    "foreign_language_speaking": 3.345,
+    "mathematics": 2.603,
+    "science": 1.621,
+    "critical_thinking": 2.966,
+    "active_learning": 2.741,
+    "learning_strategies": 2.879,
+    "monitoring": 3.034,
+    "social_perceptiveness": 3.259,
+    "coordination": 3.379,
+    "persuasion": 3.034,
+    "negotiation": 3.586,
+    "instructing": 3.655,
+    "service_orientation": 2.603,
+    "complex_problem_solving": 3.121,
+    "operations_analysis": 2.362,
+    "technology_design": 2.017,
+    "equipment_selection": 2.103,
+    "installation": 2.069,
+    "programming": 1.534,
+    "operations_monitoring": 1.345,
+    "operation_and_control": 1.569,
+    "equipment_maintenance": 1.31,
+    "troubleshooting": 1.414,
+    "repairing": 1.431,
+    "quality_control_analysis": 1.741,
+    "judgment_decision_making": 2.414,
+    "systems_analysis": 2.414,
+    "systems_evaluation": 2.379,
+    "time_management": 2.655,
+    "financial_resources_management": 2.138,
+    "material_resources_management": 2.086,
+    "personnel_resources_management": 1.793
+  },
+  "knowledge": {
+    "business_management": 1.34,
+    "clerical": 3.226,
+    "economics_accounting": 1.396,
+    "sales_marketing": 1.396,
+    "customer_personal_service": 1.981,
+    "personnel_hr": 1.038,
+    "transportation": 3.057,
+    "production_processing": 1.509,
+    "agriculture_livestock": 0.396,
+    "engineering": 0.755,
+    "computers_electronics": 0.943,
+    "design": 0.792,
+    "building_construction": 0.434,
+    "mechanical": 0.906,
+    "mathematics_kn": 1.057,
+    "physics": 0.698,
+    "chemistry": 0.868,
+    "biology": 0.415,
+    "psychology": 0.547,
+    "sociology": 0.66,
+    "geography": 0.83,
+    "medicine_dentistry": 0.396,
+    "therapy_counseling": 0.396,
+    "education_training_kn": 0.943,
+    "japanese_language": 1.925,
+    "foreign_language_kn": 2.736,
+    "fine_arts": 0.283,
+    "history_archaeology": 0.321,
+    "philosophy_theology": 0.377,
+    "public_safety_security": 1.075,
+    "law_government": 1.302,
+    "telecommunications": 0.83,
+    "communications_media": 0.849
+  },
+  "abilities": {
+    "oral_comprehension": 2.849,
+    "written_comprehension": 3.132,
+    "oral_expression": 2.868,
+    "written_expression": 3.094,
+    "fluency_of_ideas": 2.283,
+    "originality": 2.245,
+    "problem_sensitivity": 3.34,
+    "deductive_reasoning": 2.792,
+    "inductive_reasoning": 2.755,
+    "information_ordering": 2.566,
+    "category_flexibility": 2.509,
+    "mathematical_reasoning": 2.057,
+    "number_facility": 2.396,
+    "memorization": 2.717,
+    "perceptual_speed": 2.226,
+    "spatial_orientation": 2.264,
+    "visualization": 2.17,
+    "selective_attention": 2.528,
+    "time_sharing": 2.755,
+    "arm_hand_steadiness": 1.698,
+    "manual_dexterity": 1.755,
+    "finger_dexterity": 1.623,
+    "reaction_time": 1.774,
+    "wrist_finger_speed": 1.66,
+    "speed_of_limb_movement": 1.509,
+    "static_strength": 1.528,
+    "stamina": 1.736,
+    "gross_body_equilibrium": 1.509,
+    "near_vision": 1.698,
+    "far_vision": 1.566,
+    "visual_color_discrimination": 1.698,
+    "depth_perception": 1.679,
+    "hearing_sensitivity": 1.472,
+    "auditory_attention": 1.547,
+    "speech_clarity": 1.943
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.491,
+    "face_to_face_discussions": 3.264,
+    "telephone_communication": 4.132,
+    "business_writing": 4.17,
+    "conflict_situations": 2.358,
+    "time_pressure": 3.415,
+    "teamwork": 3.358,
+    "dealing_with_external_customers": 3.434,
+    "coordinate_lead_others": 3.226,
+    "exactness_accuracy": 4.113,
+    "repetitive_tasks": 3.679,
+    "pace_determined_by_machine": 2.943,
+    "responsibility_for_outcomes": 3.019,
+    "indoor_climate_controlled": 4.755,
+    "indoor_non_climate_controlled": 1.604,
+    "outdoor_work": 1.623,
+    "sitting": 4.792,
+    "standing": 1.528,
+    "repetition_of_activities": 2.811,
+    "consequence_of_error": 3.17,
+    "freedom_to_make_decisions": 3.094,
+    "set_own_goals": 3.604,
+    "regular_schedule": 0.604,
+    "irregular_schedule": 0.358,
+    "seasonal_schedule": 0.038,
+    "email_communication": 4.849,
+    "cramped_uncomfortable": 1.528,
+    "disease_infection_risk": 1.472,
+    "minor_injury_risk": 1.151,
+    "standard_protective_equipment": 1.509,
+    "specialized_protective_equipment": 1.132,
+    "dealing_with_violent_people": 1.057,
+    "walking_running": 1.774,
+    "handling_objects_tools": 1.547,
+    "physical_proximity": 3.208,
+    "work_automation": 2.34,
+    "responsibility_for_safety": 1.849,
+    "impact_of_decisions": 2.434,
+    "level_of_competition": 2.113
+  },
+  "work_activities": {
+    "getting_information": 2.83,
+    "monitor_processes": 2.962,
+    "identifying_objects": 2.887,
+    "inspecting_equipment": 2.208,
+    "estimating_quantifiable": 2.226,
+    "judging_quality": 2.453,
+    "evaluating_compliance": 3.321,
+    "processing_information": 2.849,
+    "analyzing_data": 2.755,
+    "making_decisions": 2.849,
+    "thinking_creatively": 2.208,
+    "updating_knowledge": 3.226,
+    "developing_objectives": 2.434,
+    "scheduling_work": 2.792,
+    "organizing_planning": 3.396,
+    "physical_activities": 1.698,
+    "handling_objects": 1.698,
+    "controlling_machines": 1.623,
+    "operating_vehicles": 1.509,
+    "computer_work": 3.189,
+    "drafting_specifications": 1.642,
+    "repairing_mechanical": 1.377,
+    "repairing_electronic": 1.434,
+    "documenting_information": 3.038,
+    "interpreting_information": 2.887,
+    "communicating_inside": 3.34,
+    "communicating_outside": 3.453,
+    "building_relationships": 3.075,
+    "assisting_caring": 2.472,
+    "selling_influencing": 2.283,
+    "resolving_conflicts": 2.736,
+    "performing_for_public": 1.925,
+    "coordinating_others": 2.245,
+    "developing_teams": 2.434,
+    "training_teaching": 2.453,
+    "guiding_subordinates": 2.472,
+    "coaching_developing": 2.189,
+    "providing_consultation": 2.0,
+    "performing_administrative": 2.849,
+    "staffing_organizational": 1.887,
+    "monitoring_resources": 1.811
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.226,
+    "vocational_school": 0.094,
+    "junior_college": 0.094,
+    "technical_college": 0.019,
+    "university": 0.717,
+    "masters": 0.075,
+    "doctorate": 0.0,
+    "unknown": 0.113
+  },
+  "training_pre": {
+    "not_required": 0.472,
+    "up_to_1_month": 0.057,
+    "1_to_6_months": 0.094,
+    "6_months_to_1_year": 0.075,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.057,
+    "5_to_10_years": 0.019,
+    "over_10_years": 0.0,
+    "unknown": 0.189
+  },
+  "training_post": {
+    "not_required": 0.132,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.189,
+    "6_months_to_1_year": 0.226,
+    "1_to_2_years": 0.113,
+    "2_to_3_years": 0.17,
+    "3_to_5_years": 0.094,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.057
+  },
+  "experience": {
+    "not_required": 0.434,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.075,
+    "6_months_to_1_year": 0.075,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.132,
+    "5_to_10_years": 0.019,
+    "over_10_years": 0.0,
+    "unknown": 0.17
+  },
+  "employment_type": {
+    "regular_employee": 0.83,
+    "part_time": 0.057,
+    "dispatched": 0.17,
+    "contract": 0.151,
+    "self_employed_freelance": 0.019,
+    "executive": 0.057,
+    "casual_non_student": 0.019,
+    "casual_student": 0.019,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "海外との取引をする際に必要なデータや情報を整理して、引合いや契約に必要な書類を作成する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "営業部門と連絡をとり、連携して行動する。",
+      "execution_rate": 0.943,
+      "importance": 3.12
+    },
+    {
+      "task_id": 2,
+      "description_ja": "輸出入をする商品や原材料の値段、数量、取引先の情報を収集し、整理する。",
+      "execution_rate": 0.925,
+      "importance": 3.51
+    },
+    {
+      "task_id": 3,
+      "description_ja": "輸出入の許可や承諾、検査の必要の有無などに関する相手国と国内の法律を調査する。",
+      "execution_rate": 0.943,
+      "importance": 3.72
+    },
+    {
+      "task_id": 4,
+      "description_ja": "仕入先との交渉や調整をする。",
+      "execution_rate": 0.868,
+      "importance": 3.848
+    },
+    {
+      "task_id": 5,
+      "description_ja": "安全保障貿易に関する確認をする。",
+      "execution_rate": 0.793,
+      "importance": 3.143
+    },
+    {
+      "task_id": 6,
+      "description_ja": "取扱い商品の輸出入の許可や検査に関する手続きをする。",
+      "execution_rate": 0.962,
+      "importance": 3.804
+    },
+    {
+      "task_id": 7,
+      "description_ja": "契約書や輸出入に関する各種書類を作成する。",
+      "execution_rate": 0.943,
+      "importance": 3.86
+    },
+    {
+      "task_id": 8,
+      "description_ja": "輸入代金の支払い手続きをする。",
+      "execution_rate": 0.793,
+      "importance": 3.643
+    },
+    {
+      "task_id": 9,
+      "description_ja": "貨物の通関手続きをする。",
+      "execution_rate": 0.887,
+      "importance": 3.766
+    },
+    {
+      "task_id": 10,
+      "description_ja": "商品の到着予定や船便の運行状況を把握し、関係者からの問い合わせに対応する。",
+      "execution_rate": 0.925,
+      "importance": 3.918
+    },
+    {
+      "task_id": 11,
+      "description_ja": "輸入されてきた商品を国内に配送する手続きをする。",
+      "execution_rate": 0.83,
+      "importance": 3.636
+    },
+    {
+      "task_id": 12,
+      "description_ja": "納期の管理や調整をする。",
+      "execution_rate": 0.943,
+      "importance": 3.86
+    },
+    {
+      "task_id": 13,
+      "description_ja": "輸出入品の在庫を管理する。",
+      "execution_rate": 0.849,
+      "importance": 3.311
+    },
+    {
+      "task_id": 14,
+      "description_ja": "銀行での外国為替事務や為替管理をする。",
+      "execution_rate": 0.623,
+      "importance": 3.061
+    },
+    {
+      "task_id": 15,
+      "description_ja": "信用状などにより信用リスクを管理する。",
+      "execution_rate": 0.604,
+      "importance": 3.313
+    },
+    {
+      "task_id": 16,
+      "description_ja": "危険物の管理をする。",
+      "execution_rate": 0.566,
+      "importance": 3.2
+    },
+    {
+      "task_id": 17,
+      "description_ja": "統計品目コード（HSコード）の採番や管理をする。",
+      "execution_rate": 0.83,
+      "importance": 3.068
+    },
+    {
+      "task_id": 18,
+      "description_ja": "AEO事業所として自主監査をする。",
+      "execution_rate": 0.547,
+      "importance": 3.0
+    },
+    {
+      "task_id": 19,
+      "description_ja": "外国の顧客の通訳をする。",
+      "execution_rate": 0.679,
+      "importance": 3.056
+    },
+    {
+      "task_id": 20,
+      "description_ja": "外国の書類の翻訳をする。",
+      "execution_rate": 0.849,
+      "importance": 3.044
+    },
+    {
+      "task_id": 21,
+      "description_ja": "海外の新規顧客を開拓する。",
+      "execution_rate": 0.717,
+      "importance": 2.658
+    },
+    {
+      "task_id": 22,
+      "description_ja": "売上の管理など経理関係の業務をする。",
+      "execution_rate": 0.811,
+      "importance": 3.163
+    },
+    {
+      "task_id": 23,
+      "description_ja": "商品のパッケージや表示を作成する。",
+      "execution_rate": 0.623,
+      "importance": 2.606
+    }
+  ],
+  "related_orgs": [],
+  "related_certs_ja": [
+    "通関士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/439",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,462 @@
+{
+  "id": 417,
+  "ipd_id": "IPD_01_01_417",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ホールスタッフ（レストラン）",
+  "aliases_ja": [
+    "フロア係（飲食店）",
+    "フロアスタッフ（飲食店）",
+    "ホール係（飲食店）",
+    "ウエイター",
+    "ウエイトレス"
+  ],
+  "classifications": {
+    "mhlw_main": "09_056-03",
+    "mhlw_all": [
+      "09_056-03"
+    ],
+    "jsoc_main": "E403",
+    "jsoc_all": [
+      "E403"
+    ]
+  },
+  "description": {
+    "summary_ja": "外食店舗、特にレストラン等で来店するお客と直接接し、料理やサービスを提供する。",
+    "what_it_is_ja": "外食店舗、特にレストラン等で来店するお客と直接接し、料理やサービスを提供する。ウェイター・ウェイトレスと呼ばれることもある。\n　料理のオーダーを取ったり料理を運んだり、食器類を下げることだけではなく、店舗内における様々な業務も受け持つことが多い。例えば、予約の電話受付を行い、来店したお客を入り口で出迎え、席まで案内し、オーダーを取りそれをキッチンへ伝え、出来上がった料理を運ぶ。食事が済んだら会計を行い、終わった食器を片付け、テーブルを拭いて次のお客様を出迎える用意する。\n　空いた時間には客席の紙ナプキン等を補充したり、テーブルと椅子を拭いたりすることもある。お客が過ごすスペースを清潔に保ち、気持ちよく食事ができるようにするのも大切な仕事である。同じ職場で働くスタッフとも連携、協調しながら常に客席に注意を配り、クレームなどがあった場合、迅速に対応する。食事だけでなく、時間と空間を楽しめるようにするのが役割であり、お客にメニューの説明をしたり、料理について聞かれた際に答えられるよう、料理等の知識も求められる。\n　店舗では、正社員のほかパート・アルバイトとして働くスタッフが多い。パート・アルバイトスタッフは接客を中心に受け持ち、正社員や店長の仕事をサポートしている。正社員の場合は、新しく入ったアルバイトや社員への指導を行うのも仕事である。\n\n◇　よく使う道具、機材、情報技術等\n　レジ（小売店、レストラン等）、調理道具",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。未経験でも働けるが、接客の経験がある人は有利である。入職後は一定の研修を経てから店に出る。多店舗展開をしている飲食店の場合、ホールスタッフが幹部社員養成のスタートとして位置づけられることもある。\n　中途採用の場合は外食産業経験者が比較的多い。\n　入職の際には特別な知識は要求されないが、店舗で経験を積む過程で、接客やサービスのスキルを磨く。補助的業務から始め、次第にステップアップしていく。主任、店長、いくつかの店舗を統括する地区マネージャー（スーパーバイザー）などを経験し、本部で適性に応じた職務に就くこともある。\n　厚生労働省が定めた技能検定の「レストランサービス技能士」を取得することで、接客サービスのスキルが評価される。\n　食物を取り扱い、接客サービスを行うので、清潔を保ち、料理などの運び方や置き方、身のこなし、言葉遣いなど丁寧な対応が求められる。また、食事の進行状況を見ながら次の料理を出すタイミングを厨房に伝えるなど、接客スキルと気配りが重要となる。長時間の立ち仕事に耐えられる体力と、お客の要望に常に安定した気持ちで対応できることも必要である。",
+    "working_conditions_ja": "就業場所となる店舗は、都市部を中心に全国に分布している。ファミリーレストランの場合、一つの店舗では正社員が数人、パート・アルバイトが登録者を含め数十人であるところが多い。正社員のホールスタッフは若い年齢層の人が多く、パート・アルバイトのホールスタッフは、学生、主婦などが多く、年齢層は幅広い。\n　店舗の営業時間は業態や出店地域等によりさまざまであり、早朝、深夜、24時間営業など、一般的に営業時間が長時間にわたることから、交替勤務（シフト制）としている場合が多い。また、土日祝日に営業することが多く、年中無休としている店舗もあることから、休日は交替で取る場合が多い。\n　正社員の賃金は月給制で、勤務先の規定による。パート・アルバイトは時給制がほとんどで、地域や出店場所、本人の経験・スキル等により異なる。\n　日本人のライフスタイルの多様化、外国人観光客の増加に伴って、ホールスタッフが就業するレストランは増加傾向が続いてきたこともあり、慢性的な人手不足となっている。\n　人材確保を図る上でも、リフレッシュのための連続休暇制度等、労働条件の改善に取り組む外食企業が出てきている。"
+  },
+  "interests": {
+    "realistic": 2.758,
+    "investigative": 2.629,
+    "artistic": 2.581,
+    "social": 3.452,
+    "enterprising": 2.919,
+    "conventional": 3.048
+  },
+  "work_values": {
+    "achievement": 3.361,
+    "autonomy": 3.344,
+    "expertise": 3.115,
+    "self_growth": 3.344,
+    "social_recognition": 2.77,
+    "service_contribution": 2.787,
+    "good_relationships": 3.508,
+    "workplace_safety": 3.213,
+    "work_life_balance": 3.115,
+    "stability": 2.967,
+    "compensation": 2.77
+  },
+  "skills": {
+    "reading_comprehension": 2.787,
+    "active_listening": 3.541,
+    "writing": 2.574,
+    "speaking": 3.148,
+    "foreign_language_reading": 0.885,
+    "foreign_language_listening": 0.82,
+    "foreign_language_writing": 0.689,
+    "foreign_language_speaking": 0.918,
+    "mathematics": 1.721,
+    "science": 0.738,
+    "critical_thinking": 1.82,
+    "active_learning": 2.131,
+    "learning_strategies": 1.967,
+    "monitoring": 1.918,
+    "social_perceptiveness": 2.738,
+    "coordination": 2.23,
+    "persuasion": 2.393,
+    "negotiation": 1.967,
+    "instructing": 2.689,
+    "service_orientation": 2.541,
+    "complex_problem_solving": 2.344,
+    "operations_analysis": 1.574,
+    "technology_design": 1.525,
+    "equipment_selection": 1.77,
+    "installation": 1.639,
+    "programming": 0.869,
+    "operations_monitoring": 1.049,
+    "operation_and_control": 1.41,
+    "equipment_maintenance": 1.098,
+    "troubleshooting": 1.41,
+    "repairing": 1.18,
+    "quality_control_analysis": 1.607,
+    "judgment_decision_making": 1.557,
+    "systems_analysis": 1.475,
+    "systems_evaluation": 1.541,
+    "time_management": 2.164,
+    "financial_resources_management": 1.574,
+    "material_resources_management": 1.295,
+    "personnel_resources_management": 1.541
+  },
+  "knowledge": {
+    "business_management": 0.784,
+    "clerical": 0.608,
+    "economics_accounting": 0.51,
+    "sales_marketing": 1.275,
+    "customer_personal_service": 2.745,
+    "personnel_hr": 0.941,
+    "transportation": 0.157,
+    "production_processing": 0.765,
+    "agriculture_livestock": 0.471,
+    "engineering": 0.176,
+    "computers_electronics": 0.078,
+    "design": 0.039,
+    "building_construction": 0.039,
+    "mechanical": 0.039,
+    "mathematics_kn": 0.235,
+    "physics": 0.137,
+    "chemistry": 0.059,
+    "biology": 0.078,
+    "psychology": 0.882,
+    "sociology": 0.863,
+    "geography": 0.059,
+    "medicine_dentistry": 0.216,
+    "therapy_counseling": 0.216,
+    "education_training_kn": 0.667,
+    "japanese_language": 1.078,
+    "foreign_language_kn": 0.745,
+    "fine_arts": 0.196,
+    "history_archaeology": 0.118,
+    "philosophy_theology": 0.078,
+    "public_safety_security": 0.49,
+    "law_government": 0.255,
+    "telecommunications": 0.176,
+    "communications_media": 0.843
+  },
+  "abilities": {
+    "oral_comprehension": 2.813,
+    "written_comprehension": 2.146,
+    "oral_expression": 2.896,
+    "written_expression": 2.458,
+    "fluency_of_ideas": 2.104,
+    "originality": 2.042,
+    "problem_sensitivity": 2.979,
+    "deductive_reasoning": 2.333,
+    "inductive_reasoning": 2.125,
+    "information_ordering": 2.021,
+    "category_flexibility": 1.938,
+    "mathematical_reasoning": 1.604,
+    "number_facility": 2.083,
+    "memorization": 2.521,
+    "perceptual_speed": 1.833,
+    "spatial_orientation": 2.042,
+    "visualization": 1.958,
+    "selective_attention": 2.146,
+    "time_sharing": 2.542,
+    "arm_hand_steadiness": 2.333,
+    "manual_dexterity": 2.146,
+    "finger_dexterity": 2.146,
+    "reaction_time": 2.375,
+    "wrist_finger_speed": 2.25,
+    "speed_of_limb_movement": 2.208,
+    "static_strength": 2.5,
+    "stamina": 2.708,
+    "gross_body_equilibrium": 2.458,
+    "near_vision": 2.188,
+    "far_vision": 2.063,
+    "visual_color_discrimination": 2.063,
+    "depth_perception": 1.917,
+    "hearing_sensitivity": 2.188,
+    "auditory_attention": 2.292,
+    "speech_clarity": 2.417
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.804,
+    "face_to_face_discussions": 2.843,
+    "telephone_communication": 3.392,
+    "business_writing": 2.216,
+    "conflict_situations": 1.98,
+    "time_pressure": 2.216,
+    "teamwork": 3.824,
+    "dealing_with_external_customers": 3.745,
+    "coordinate_lead_others": 3.431,
+    "exactness_accuracy": 3.549,
+    "repetitive_tasks": 2.765,
+    "pace_determined_by_machine": 2.196,
+    "responsibility_for_outcomes": 2.608,
+    "indoor_climate_controlled": 4.804,
+    "indoor_non_climate_controlled": 1.333,
+    "outdoor_work": 1.176,
+    "sitting": 1.275,
+    "standing": 4.863,
+    "repetition_of_activities": 3.039,
+    "consequence_of_error": 2.686,
+    "freedom_to_make_decisions": 3.353,
+    "set_own_goals": 3.588,
+    "regular_schedule": 0.667,
+    "irregular_schedule": 0.275,
+    "seasonal_schedule": 0.059,
+    "email_communication": 2.039,
+    "cramped_uncomfortable": 1.627,
+    "disease_infection_risk": 1.863,
+    "minor_injury_risk": 2.608,
+    "standard_protective_equipment": 1.431,
+    "specialized_protective_equipment": 1.235,
+    "dealing_with_violent_people": 1.431,
+    "walking_running": 4.196,
+    "handling_objects_tools": 2.725,
+    "physical_proximity": 3.902,
+    "work_automation": 1.824,
+    "responsibility_for_safety": 2.412,
+    "impact_of_decisions": 2.255,
+    "level_of_competition": 1.843
+  },
+  "work_activities": {
+    "getting_information": 2.146,
+    "monitor_processes": 2.271,
+    "identifying_objects": 2.229,
+    "inspecting_equipment": 2.208,
+    "estimating_quantifiable": 1.896,
+    "judging_quality": 2.208,
+    "evaluating_compliance": 2.021,
+    "processing_information": 1.875,
+    "analyzing_data": 1.854,
+    "making_decisions": 2.021,
+    "thinking_creatively": 1.958,
+    "updating_knowledge": 2.042,
+    "developing_objectives": 2.0,
+    "scheduling_work": 1.938,
+    "organizing_planning": 2.458,
+    "physical_activities": 2.354,
+    "handling_objects": 2.521,
+    "controlling_machines": 1.938,
+    "operating_vehicles": 1.396,
+    "computer_work": 1.604,
+    "drafting_specifications": 1.438,
+    "repairing_mechanical": 1.438,
+    "repairing_electronic": 1.354,
+    "documenting_information": 1.708,
+    "interpreting_information": 1.792,
+    "communicating_inside": 2.875,
+    "communicating_outside": 2.229,
+    "building_relationships": 2.854,
+    "assisting_caring": 2.354,
+    "selling_influencing": 2.021,
+    "resolving_conflicts": 2.188,
+    "performing_for_public": 2.688,
+    "coordinating_others": 2.229,
+    "developing_teams": 2.292,
+    "training_teaching": 2.104,
+    "guiding_subordinates": 2.104,
+    "coaching_developing": 2.042,
+    "providing_consultation": 1.688,
+    "performing_administrative": 1.813,
+    "staffing_organizational": 1.625,
+    "monitoring_resources": 1.792
+  },
+  "education_distribution": {
+    "below_high_school": 0.059,
+    "high_school": 0.392,
+    "vocational_school": 0.196,
+    "junior_college": 0.118,
+    "technical_college": 0.0,
+    "university": 0.216,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.392
+  },
+  "training_pre": {
+    "not_required": 0.647,
+    "up_to_1_month": 0.157,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.118
+  },
+  "training_post": {
+    "not_required": 0.098,
+    "up_to_1_month": 0.176,
+    "1_to_6_months": 0.431,
+    "6_months_to_1_year": 0.098,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.157
+  },
+  "experience": {
+    "not_required": 0.784,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.02,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.039,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.098
+  },
+  "employment_type": {
+    "regular_employee": 0.333,
+    "part_time": 0.627,
+    "dispatched": 0.078,
+    "contract": 0.098,
+    "self_employed_freelance": 0.098,
+    "executive": 0.059,
+    "casual_non_student": 0.275,
+    "casual_student": 0.373,
+    "unknown": 0.0,
+    "other": 0.02
+  },
+  "tasks_lead_ja": "外食店舗で直接お客に接し、料理のオーダーを取って運び、店舗内の様々な業務を受け持つ。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "お客を迎え、席に案内する。",
+      "execution_rate": 0.917,
+      "importance": 3.341
+    },
+    {
+      "task_id": 2,
+      "description_ja": "客にメニューを提示し、飲食物を勧めたり、料理に関する質問に答える。",
+      "execution_rate": 0.917,
+      "importance": 3.295
+    },
+    {
+      "task_id": 3,
+      "description_ja": "お客から注文を聞いて伝票に書くか端末に入力する。",
+      "execution_rate": 0.792,
+      "importance": 3.789
+    },
+    {
+      "task_id": 4,
+      "description_ja": "厨房に注文を伝える。",
+      "execution_rate": 0.833,
+      "importance": 3.85
+    },
+    {
+      "task_id": 5,
+      "description_ja": "厨房から出た料理に付け合せをのせるなどの仕上げをする。",
+      "execution_rate": 0.771,
+      "importance": 2.946
+    },
+    {
+      "task_id": 6,
+      "description_ja": "飲み物を注いだり、デザートを盛り付ける。",
+      "execution_rate": 0.958,
+      "importance": 3.37
+    },
+    {
+      "task_id": 7,
+      "description_ja": "お客に注文された食事や飲物を運ぶ。",
+      "execution_rate": 0.979,
+      "importance": 3.723
+    },
+    {
+      "task_id": 8,
+      "description_ja": "オーダーに対応したり、飲食が終わる時期を見きわめるためにお客に目を配る。",
+      "execution_rate": 0.958,
+      "importance": 3.5
+    },
+    {
+      "task_id": 9,
+      "description_ja": "店内の不審者などを監視し、必要な場合は注意する。",
+      "execution_rate": 0.75,
+      "importance": 3.167
+    },
+    {
+      "task_id": 10,
+      "description_ja": "料金を受け取っておつりを返すか、またはキャッシャーで会計をする。",
+      "execution_rate": 0.813,
+      "importance": 4.0
+    },
+    {
+      "task_id": 11,
+      "description_ja": "退店時にはお客に挨拶する。",
+      "execution_rate": 0.958,
+      "importance": 4.0
+    },
+    {
+      "task_id": 12,
+      "description_ja": "テーブルやカウンターから食器を片付け、テーブルを整える。",
+      "execution_rate": 0.979,
+      "importance": 3.745
+    },
+    {
+      "task_id": 13,
+      "description_ja": "テーブル上の調味料やナプキンを補充する。",
+      "execution_rate": 0.896,
+      "importance": 3.233
+    },
+    {
+      "task_id": 14,
+      "description_ja": "運ばれてきた食器類を洗う。",
+      "execution_rate": 0.875,
+      "importance": 3.357
+    },
+    {
+      "task_id": 15,
+      "description_ja": "料理や食材の仕込み作業を行う。",
+      "execution_rate": 0.646,
+      "importance": 3.29
+    },
+    {
+      "task_id": 16,
+      "description_ja": "出前の対応をする。",
+      "execution_rate": 0.458,
+      "importance": 3.227
+    },
+    {
+      "task_id": 17,
+      "description_ja": "開店や閉店時の作業をする。",
+      "execution_rate": 0.896,
+      "importance": 3.767
+    },
+    {
+      "task_id": 18,
+      "description_ja": "食品、食器、リネンの管理をする。",
+      "execution_rate": 0.875,
+      "importance": 3.024
+    },
+    {
+      "task_id": 19,
+      "description_ja": "店舗設備を点検管理する。",
+      "execution_rate": 0.646,
+      "importance": 3.065
+    },
+    {
+      "task_id": 20,
+      "description_ja": "新人の教育や、他のスタッフへの指導を行う。",
+      "execution_rate": 0.875,
+      "importance": 3.19
+    },
+    {
+      "task_id": 21,
+      "description_ja": "スタッフのシフトを管理する。",
+      "execution_rate": 0.521,
+      "importance": 3.32
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人日本フードサービス協会",
+      "url": "http://www.jfnet.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人日本ホテル・レストランサービス技能協会",
+      "url": "http://www.hrs.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "1級レストランサービス技能士",
+    "2級レストランサービス技能士",
+    "3級レストランサービス技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/417",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

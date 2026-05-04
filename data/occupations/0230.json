@@ -1,0 +1,541 @@
+{
+  "id": 230,
+  "ipd_id": "IPD_01_01_230",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "林業作業",
+  "aliases_ja": [
+    "山林苗木植付作業員",
+    "山林枝打作業員",
+    "山林下刈作業員",
+    "植林作業員",
+    "除伐作業員",
+    "地ごしらえ作業員（林業）",
+    "運材作業員",
+    "間伐作業員",
+    "集運材機械運転工",
+    "集材作業員",
+    "造材作業員",
+    "伐木作業員",
+    "伐木造材機械運転工"
+  ],
+  "classifications": {
+    "mhlw_main": "11_065-01",
+    "mhlw_all": [
+      "11_065-01",
+      "11_065-02"
+    ],
+    "jsoc_main": "G471",
+    "jsoc_all": [
+      "G471",
+      "G472"
+    ]
+  },
+  "description": {
+    "summary_ja": "森林の整備や林業のための地ごしらえ、植付け、下刈り、枝打、伐木、造材、集材、運材などの作業をする。",
+    "what_it_is_ja": "森林を維持管理しながら、育成した樹木を伐採して木材資源を生産する。\n　林業作業の仕事には、植林がしやすいように整地をする「地ごしらえ」、苗木を植えていく「植林」、苗木の周辺に生えた雑草を刈り払う「下刈り」、節のない木材を生産するために枝を切り落とす「枝打ち」、全体に十分な光と養分がいきわたるように木の本数を減らす「間伐」、最終的に残った大きな木を伐採して収穫する「主伐（しゅばつ）」がある。\n　作業は、チェーンソーでの伐採や刈払機、枝払いから一定の長さにそろえて切る測尺（そくじゃく）・玉切り（たまぎり）や集積作業までを一貫して行うハーベスタやプロセッサ、集材専用車両のフォワーダなどの大型森林機械の操作、更にはフォークリフト、クレーンなどの操縦により行う。伐採した木材の運搬や、運搬のための林道建設も仕事に含まれる。自然を対象にする仕事なので、季節によって仕事内容も大きく変わる。\n　自然に囲まれた環境で仕事ができることや、時間の経過とともに植林した樹木の成長がはっきり目で見えることにやりがいを感じる人が多い。\n\n◇　よく使う道具、機材、情報技術等\n　大型森林機械（ハーベスタ、プロセッサ、フォワーダ（集材専用車両）等）、フォークリフト、クレーン、刈払機、普通自動車（普通免許（第一種、第二種）で運転可能なもの）、工具（のこぎり等の手動工具、チェーンソー、ドリル等の電動工具）、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。学校卒業後、森林組合や林業会社等の林業事業体に就職するのが一般的である。公的補助を受けて関連団体が実施する林業の担い手を育成するための公的就職支援事業（「緑の雇用」など）を経由して入職する人もいる。\n　チェーンソーや刈払機を使用する仕事をする場合には、安全衛生のため公的機関などが実施している講習を受ける。林道建設に役立つ測量士や、ハーベスタなど大型林業機械の取扱い資格、労働安全関連の資格があれば就職には有利となる。\n　林業従事者数は長期的に減少傾向で推移しており令和2年(2020年)には約44,000人となっている。\n　林業作業の仕事に新たに就く人は年間で概ね3,000人前後で推移し、直近では3,333人となっている。（2023年時点*1）。約半数が50歳以上で占められていて、様々な職業を経て30代、40代で初めて林業作業の職に就く人もいる。自然が好きで林業をやりたいという気持ちがあれば、学歴や職歴、年齢などの制限は比較的少ない職種といえる。\n　育林・伐採・運搬など、林業の業務は班単位で作業を行うため、協調性が求められる。\n\n*1 林野庁　林業労働力の動向",
+    "working_conditions_ja": "雇用する林業会社は、北海道、岩手、岐阜、広島等森林の多い地域に多く、個人経営のような、規模の小さい会社の比率が高い。\n　事務所から作業現場である森林までの距離が遠く、明るいうちに作業を終える必要があるため、林業作業の朝は早い。夏には、仕事内容によって朝５時半頃から仕事を開始することもある。\n　仕事の機械化も進んでいるが、体力を必要とする。斜面での伐採作業などでは危険を伴うこともある。雇用形態は有期雇用が多く、季節や天候によって仕事の内容や労働時間は変動する。農業との兼業者もいる。\n　地球温暖化の問題等で森林の保全の重要性は見直されている。また、林業の振興が進められており、木材の自給率は最低を記録した2002年(18.8％)から概ね年々上昇し、直近では43.0％(2023年)となっている(*2)。\n\n*2　林野庁　令和5年度木材需給表"
+  },
+  "interests": {
+    "realistic": 3.708,
+    "investigative": 2.958,
+    "artistic": 2.271,
+    "social": 2.875,
+    "enterprising": 2.646,
+    "conventional": 2.875
+  },
+  "work_values": {
+    "achievement": 3.829,
+    "autonomy": 3.756,
+    "expertise": 3.878,
+    "self_growth": 3.732,
+    "social_recognition": 2.902,
+    "service_contribution": 3.244,
+    "good_relationships": 3.488,
+    "workplace_safety": 2.78,
+    "work_life_balance": 3.537,
+    "stability": 3.098,
+    "compensation": 2.488
+  },
+  "skills": {
+    "reading_comprehension": 2.927,
+    "active_listening": 3.415,
+    "writing": 2.585,
+    "speaking": 3.073,
+    "foreign_language_reading": 0.707,
+    "foreign_language_listening": 0.659,
+    "foreign_language_writing": 0.683,
+    "foreign_language_speaking": 0.659,
+    "mathematics": 1.878,
+    "science": 1.268,
+    "critical_thinking": 2.293,
+    "active_learning": 2.512,
+    "learning_strategies": 2.659,
+    "monitoring": 2.78,
+    "social_perceptiveness": 3.0,
+    "coordination": 2.976,
+    "persuasion": 2.585,
+    "negotiation": 2.61,
+    "instructing": 3.195,
+    "service_orientation": 2.0,
+    "complex_problem_solving": 2.415,
+    "operations_analysis": 2.366,
+    "technology_design": 2.098,
+    "equipment_selection": 3.341,
+    "installation": 2.512,
+    "programming": 1.049,
+    "operations_monitoring": 1.659,
+    "operation_and_control": 2.439,
+    "equipment_maintenance": 2.878,
+    "troubleshooting": 2.512,
+    "repairing": 2.78,
+    "quality_control_analysis": 2.512,
+    "judgment_decision_making": 2.805,
+    "systems_analysis": 2.22,
+    "systems_evaluation": 2.22,
+    "time_management": 2.488,
+    "financial_resources_management": 1.61,
+    "material_resources_management": 2.341,
+    "personnel_resources_management": 2.488
+  },
+  "knowledge": {
+    "business_management": 0.69,
+    "clerical": 0.762,
+    "economics_accounting": 0.452,
+    "sales_marketing": 0.595,
+    "customer_personal_service": 0.738,
+    "personnel_hr": 0.738,
+    "transportation": 0.81,
+    "production_processing": 1.119,
+    "agriculture_livestock": 1.31,
+    "engineering": 0.571,
+    "computers_electronics": 0.429,
+    "design": 0.405,
+    "building_construction": 0.81,
+    "mechanical": 1.357,
+    "mathematics_kn": 0.667,
+    "physics": 0.643,
+    "chemistry": 0.381,
+    "biology": 0.81,
+    "psychology": 0.5,
+    "sociology": 0.762,
+    "geography": 0.69,
+    "medicine_dentistry": 0.5,
+    "therapy_counseling": 0.405,
+    "education_training_kn": 0.881,
+    "japanese_language": 0.548,
+    "foreign_language_kn": 0.405,
+    "fine_arts": 0.405,
+    "history_archaeology": 0.405,
+    "philosophy_theology": 0.357,
+    "public_safety_security": 0.762,
+    "law_government": 0.786,
+    "telecommunications": 0.619,
+    "communications_media": 0.833
+  },
+  "abilities": {
+    "oral_comprehension": 2.5,
+    "written_comprehension": 2.313,
+    "oral_expression": 2.625,
+    "written_expression": 2.396,
+    "fluency_of_ideas": 2.417,
+    "originality": 2.271,
+    "problem_sensitivity": 3.229,
+    "deductive_reasoning": 2.479,
+    "inductive_reasoning": 2.25,
+    "information_ordering": 2.188,
+    "category_flexibility": 2.021,
+    "mathematical_reasoning": 2.042,
+    "number_facility": 2.083,
+    "memorization": 2.5,
+    "perceptual_speed": 2.25,
+    "spatial_orientation": 2.479,
+    "visualization": 2.375,
+    "selective_attention": 2.667,
+    "time_sharing": 2.333,
+    "arm_hand_steadiness": 3.063,
+    "manual_dexterity": 2.667,
+    "finger_dexterity": 2.438,
+    "reaction_time": 3.0,
+    "wrist_finger_speed": 2.688,
+    "speed_of_limb_movement": 2.688,
+    "static_strength": 3.146,
+    "stamina": 3.104,
+    "gross_body_equilibrium": 3.125,
+    "near_vision": 2.396,
+    "far_vision": 2.625,
+    "visual_color_discrimination": 2.521,
+    "depth_perception": 2.75,
+    "hearing_sensitivity": 2.75,
+    "auditory_attention": 2.438,
+    "speech_clarity": 2.229
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.286,
+    "face_to_face_discussions": 2.405,
+    "telephone_communication": 2.81,
+    "business_writing": 1.833,
+    "conflict_situations": 1.857,
+    "time_pressure": 2.0,
+    "teamwork": 3.286,
+    "dealing_with_external_customers": 2.214,
+    "coordinate_lead_others": 2.19,
+    "exactness_accuracy": 2.69,
+    "repetitive_tasks": 2.976,
+    "pace_determined_by_machine": 2.667,
+    "responsibility_for_outcomes": 2.952,
+    "indoor_climate_controlled": 1.786,
+    "indoor_non_climate_controlled": 2.143,
+    "outdoor_work": 4.595,
+    "sitting": 1.667,
+    "standing": 4.381,
+    "repetition_of_activities": 3.31,
+    "consequence_of_error": 2.5,
+    "freedom_to_make_decisions": 3.214,
+    "set_own_goals": 3.095,
+    "regular_schedule": 0.262,
+    "irregular_schedule": 0.595,
+    "seasonal_schedule": 0.143,
+    "email_communication": 1.833,
+    "cramped_uncomfortable": 2.167,
+    "disease_infection_risk": 1.333,
+    "minor_injury_risk": 2.31,
+    "standard_protective_equipment": 3.143,
+    "specialized_protective_equipment": 2.214,
+    "dealing_with_violent_people": 1.262,
+    "walking_running": 3.619,
+    "handling_objects_tools": 3.524,
+    "physical_proximity": 2.286,
+    "work_automation": 1.5,
+    "responsibility_for_safety": 2.381,
+    "impact_of_decisions": 2.214,
+    "level_of_competition": 1.476
+  },
+  "work_activities": {
+    "getting_information": 2.458,
+    "monitor_processes": 2.521,
+    "identifying_objects": 2.417,
+    "inspecting_equipment": 2.5,
+    "estimating_quantifiable": 2.229,
+    "judging_quality": 2.208,
+    "evaluating_compliance": 2.875,
+    "processing_information": 2.354,
+    "analyzing_data": 2.333,
+    "making_decisions": 2.625,
+    "thinking_creatively": 2.583,
+    "updating_knowledge": 2.896,
+    "developing_objectives": 2.854,
+    "scheduling_work": 2.875,
+    "organizing_planning": 3.188,
+    "physical_activities": 3.25,
+    "handling_objects": 3.208,
+    "controlling_machines": 2.917,
+    "operating_vehicles": 3.25,
+    "computer_work": 2.104,
+    "drafting_specifications": 2.063,
+    "repairing_mechanical": 3.125,
+    "repairing_electronic": 2.271,
+    "documenting_information": 2.271,
+    "interpreting_information": 2.458,
+    "communicating_inside": 3.208,
+    "communicating_outside": 3.042,
+    "building_relationships": 3.292,
+    "assisting_caring": 2.708,
+    "selling_influencing": 2.417,
+    "resolving_conflicts": 2.333,
+    "performing_for_public": 2.354,
+    "coordinating_others": 2.875,
+    "developing_teams": 2.938,
+    "training_teaching": 2.833,
+    "guiding_subordinates": 3.0,
+    "coaching_developing": 2.646,
+    "providing_consultation": 2.104,
+    "performing_administrative": 2.458,
+    "staffing_organizational": 2.292,
+    "monitoring_resources": 2.583
+  },
+  "education_distribution": {
+    "below_high_school": 0.143,
+    "high_school": 0.595,
+    "vocational_school": 0.095,
+    "junior_college": 0.048,
+    "technical_college": 0.048,
+    "university": 0.214,
+    "masters": 0.024,
+    "doctorate": 0.0,
+    "unknown": 0.143
+  },
+  "training_pre": {
+    "not_required": 0.667,
+    "up_to_1_month": 0.024,
+    "1_to_6_months": 0.19,
+    "6_months_to_1_year": 0.024,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.095
+  },
+  "training_post": {
+    "not_required": 0.286,
+    "up_to_1_month": 0.024,
+    "1_to_6_months": 0.167,
+    "6_months_to_1_year": 0.167,
+    "1_to_2_years": 0.024,
+    "2_to_3_years": 0.095,
+    "3_to_5_years": 0.095,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.143
+  },
+  "experience": {
+    "not_required": 0.762,
+    "up_to_1_month": 0.024,
+    "1_to_6_months": 0.071,
+    "6_months_to_1_year": 0.024,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.119
+  },
+  "employment_type": {
+    "regular_employee": 0.381,
+    "part_time": 0.167,
+    "dispatched": 0.048,
+    "contract": 0.143,
+    "self_employed_freelance": 0.286,
+    "executive": 0.071,
+    "casual_non_student": 0.262,
+    "casual_student": 0.024,
+    "unknown": 0.0,
+    "other": 0.024
+  },
+  "tasks_lead_ja": "森林の整備や林業のための地ごしらえ、植付け、下刈り、枝打、伐木、造材、集材、運材などの作業をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "山などに森林を育成するため、苗木を植えられるように整地をする。",
+      "execution_rate": 0.792,
+      "importance": 3.132
+    },
+    {
+      "task_id": 2,
+      "description_ja": "定められた植林計画に基づき、植林を予定している土地に苗木を搬入し、植え付けをする。",
+      "execution_rate": 0.771,
+      "importance": 3.378
+    },
+    {
+      "task_id": 3,
+      "description_ja": "植林した植物が苗木から成育樹になるまで見回りをする。",
+      "execution_rate": 0.792,
+      "importance": 3.263
+    },
+    {
+      "task_id": 4,
+      "description_ja": "雑木や雑草の下刈りをする。",
+      "execution_rate": 0.958,
+      "importance": 3.609
+    },
+    {
+      "task_id": 5,
+      "description_ja": "下枝や枯枝などを切り落とす。",
+      "execution_rate": 0.917,
+      "importance": 3.227
+    },
+    {
+      "task_id": 6,
+      "description_ja": "間伐を行う。",
+      "execution_rate": 0.917,
+      "importance": 3.614
+    },
+    {
+      "task_id": 7,
+      "description_ja": "機械などを用いて、指示された立木を切り倒す。",
+      "execution_rate": 0.875,
+      "importance": 3.262
+    },
+    {
+      "task_id": 8,
+      "description_ja": "伐採した木の枝払いや皮はぎを行い運搬する丸太にする。",
+      "execution_rate": 0.813,
+      "importance": 2.974
+    },
+    {
+      "task_id": 9,
+      "description_ja": "伐採された原木を集め、山のふもとにある集積地まで搬出する。",
+      "execution_rate": 0.75,
+      "importance": 3.278
+    },
+    {
+      "task_id": 10,
+      "description_ja": "製材所に合わせて、丸太を選別する。",
+      "execution_rate": 0.563,
+      "importance": 2.63
+    },
+    {
+      "task_id": 11,
+      "description_ja": "集積地に集められた原木を製材工場などへ運搬する。",
+      "execution_rate": 0.667,
+      "importance": 3.406
+    },
+    {
+      "task_id": 12,
+      "description_ja": "原木を加工する。",
+      "execution_rate": 0.5,
+      "importance": 2.625
+    },
+    {
+      "task_id": 13,
+      "description_ja": "伐採した原木を、しいたけ用のおがこに加工し、販売する。",
+      "execution_rate": 0.521,
+      "importance": 2.24
+    },
+    {
+      "task_id": 14,
+      "description_ja": "原木を配達する。",
+      "execution_rate": 0.521,
+      "importance": 2.28
+    },
+    {
+      "task_id": 15,
+      "description_ja": "風雪害木の処理を行う。",
+      "execution_rate": 0.813,
+      "importance": 2.744
+    },
+    {
+      "task_id": 16,
+      "description_ja": "植林地の獣害の予防を行う。",
+      "execution_rate": 0.771,
+      "importance": 3.243
+    },
+    {
+      "task_id": 17,
+      "description_ja": "病害虫の被害のあった木の伐採や防虫の作業をする。",
+      "execution_rate": 0.75,
+      "importance": 3.222
+    },
+    {
+      "task_id": 18,
+      "description_ja": "伐採、運搬、育林などの作業を行うための作業用道路を建設し維持する。",
+      "execution_rate": 0.75,
+      "importance": 3.389
+    },
+    {
+      "task_id": 19,
+      "description_ja": "国道の草刈りをする。",
+      "execution_rate": 0.667,
+      "importance": 2.625
+    },
+    {
+      "task_id": 20,
+      "description_ja": "運材用の架線を設置する。",
+      "execution_rate": 0.458,
+      "importance": 2.591
+    },
+    {
+      "task_id": 21,
+      "description_ja": "コンパス、ロープ、ポールなどを用いて森林を測量する。",
+      "execution_rate": 0.625,
+      "importance": 2.533
+    },
+    {
+      "task_id": 22,
+      "description_ja": "伐採や植栽の計画を作成する。",
+      "execution_rate": 0.75,
+      "importance": 3.111
+    },
+    {
+      "task_id": 23,
+      "description_ja": "植栽用の苗木を育成する。",
+      "execution_rate": 0.5,
+      "importance": 2.542
+    },
+    {
+      "task_id": 24,
+      "description_ja": "災害時には山林の被害状況を調査する。",
+      "execution_rate": 0.646,
+      "importance": 2.806
+    },
+    {
+      "task_id": 25,
+      "description_ja": "荒廃森林の状況を調査する。",
+      "execution_rate": 0.646,
+      "importance": 2.581
+    },
+    {
+      "task_id": 26,
+      "description_ja": "山林の囲障を修理する。",
+      "execution_rate": 0.542,
+      "importance": 2.423
+    },
+    {
+      "task_id": 27,
+      "description_ja": "植物や動物の個体確認や識別、定点観測を行う。",
+      "execution_rate": 0.479,
+      "importance": 2.478
+    },
+    {
+      "task_id": 28,
+      "description_ja": "漆の樹液を採取する。",
+      "execution_rate": 0.375,
+      "importance": 2.278
+    },
+    {
+      "task_id": 29,
+      "description_ja": "作業コストを見積もり、交渉する。",
+      "execution_rate": 0.729,
+      "importance": 2.8
+    },
+    {
+      "task_id": 30,
+      "description_ja": "林業試験場や圃場を委託管理する。",
+      "execution_rate": 0.458,
+      "importance": 2.455
+    },
+    {
+      "task_id": 31,
+      "description_ja": "伝票や証明書など、各種書類を作成する。",
+      "execution_rate": 0.708,
+      "importance": 2.706
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "緑の雇用総合ウェブサイト",
+      "url": "https://www.ringyou.net"
+    },
+    {
+      "name_ja": "全国森林組合連合会",
+      "url": "http://zenmori.org"
+    },
+    {
+      "name_ja": "林業・木材製造業労働災害防止協会",
+      "url": "http://www.rinsaibou.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人 林業技能向上センター",
+      "url": "https://ringyou-gino.org/"
+    }
+  ],
+  "related_certs_ja": [
+    "測量士",
+    "1級林業技能士",
+    "2級林業技能士",
+    "3級林業技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/230",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

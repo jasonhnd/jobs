@@ -9,8 +9,14 @@
 //     - UNOFFICIAL banner + site mark
 //
 // The card is generated at request time (not pre-built), so any change to this
-// file or to data.json takes effect on the next social-platform re-scrape — we
-// do NOT have to regenerate 552 PNGs every time the design or data shifts.
+// file or to /data.detail/<id>.json takes effect on the next social-platform
+// re-scrape — we do NOT have to regenerate 556 PNGs every time the design or
+// data shifts.
+//
+// v1.0.8 (Phase 3): switched from a single /data.json fetch (~275 KB gz) to
+// a per-occupation /data.detail/<padded>.json fetch (~3.5 KB gz each). One
+// edge function instance no longer pulls the entire dataset just to render
+// one card.
 //
 // Vercel CDN caches each unique URL. First request ≈ 200–500 ms (cold start +
 // font fetch); subsequent identical requests are CDN hits.
@@ -51,15 +57,19 @@ function fmtNumber(n: number): string {
   return n.toLocaleString("en-US");
 }
 
-interface OccupationRecord {
+// Shape of /data.detail/<padded>.json (DetailProjectionSchema; see DATA_ARCHITECTURE.md §6.2).
+// Only the fields actually consumed by the OG card are typed here — the JSON has more.
+interface DetailRecord {
   id: number;
-  name_ja?: string;
-  name_en?: string;
-  ai_risk?: number;
-  workers?: number;
-  salary?: number;
-  ai_rationale_ja?: string;
-  ai_rationale_en?: string;
+  title?: { ja?: string; en?: string | null };
+  ai_risk?: { score?: number; rationale_ja?: string; rationale_en?: string } | null;
+  stats?: { workers?: number | null; salary_man_yen?: number | null } | null;
+}
+
+function padId(idDigits: string): string {
+  // /data.detail/<id>.json is 4-digit zero-padded per §3A.2 (e.g. "0042.json").
+  // Bound the digit count defensively — we won't ever serve more than 9999 occupations.
+  return idDigits.padStart(4, "0").slice(-4);
 }
 
 export default async function handler(req: Request): Promise<Response> {
@@ -71,25 +81,24 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response("Bad request: ?id= required (numeric)", { status: 400 });
   }
 
-  // Fetch the dataset from the same origin. Vercel caches this internally,
-  // so concurrent OG requests share one upstream fetch.
-  const dataUrl = new URL("/data.json", url.origin);
-  const dataRes = await fetch(dataUrl.toString());
-  if (!dataRes.ok) {
-    return new Response("Upstream data.json fetch failed", { status: 502 });
-  }
-  const data = (await dataRes.json()) as OccupationRecord[];
-  const rec = data.find((r) => String(r.id) === idParam);
-  if (!rec) {
+  // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the
+  // upstream fetch by URL, so concurrent OG requests for the same id share it.
+  const detailUrl = new URL(`/data.detail/${padId(idParam)}.json`, url.origin);
+  const detailRes = await fetch(detailUrl.toString());
+  if (detailRes.status === 404) {
     return new Response("Occupation not found", { status: 404 });
   }
+  if (!detailRes.ok) {
+    return new Response("Upstream detail fetch failed", { status: 502 });
+  }
+  const rec = (await detailRes.json()) as DetailRecord;
 
-  const risk = rec.ai_risk ?? null;
+  const risk = rec.ai_risk?.score ?? null;
   const riskColor = risk != null ? (RISK_COLORS[risk] ?? "#8a93a3") : "#8a93a3";
-  const nameJa = rec.name_ja ?? "";
-  const nameEn = rec.name_en ?? "";
-  const workers = rec.workers ?? 0;
-  const salary = rec.salary ?? 0;
+  const nameJa = rec.title?.ja ?? "";
+  const nameEn = rec.title?.en ?? "";
+  const workers = rec.stats?.workers ?? 0;
+  const salary = rec.stats?.salary_man_yen ?? 0;
 
   const primaryName = lang === "ja" ? nameJa : (nameEn || nameJa);
   const subName = lang === "ja" ? nameEn : nameJa;

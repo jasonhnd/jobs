@@ -1,0 +1,418 @@
+/* ─────────────────────────────────────────────────────────────
+   未来の仕事 — Mobile-Web Component CSS
+   Per docs/MOBILE_DESIGN.md §4 (Shared Primitives)
+
+   Depends on:  styles/mobile-tokens.css (--m-* CSS variables)
+   Loaded by:   every /m/{ja,en}/* page
+
+   Class naming: `m-` prefix on every class to isolate from desktop CSS.
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Resets scoped to mobile pages ──────────────────────────── */
+.m-page * { box-sizing: border-box; }
+.m-page,
+.m-page body { margin: 0; padding: 0; }
+
+.m-page {
+  background: var(--m-color-bg-1);
+  color: var(--m-color-ink);
+  font-family: var(--m-font-sans);
+  font-size: var(--m-text-body);
+  line-height: 1.65;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Color helpers (used by i18n inline tags) ──────────────── */
+.m-color-accent     { color: var(--m-color-accent); }
+.m-color-sage-deep  { color: var(--m-color-sage-deep); }
+.m-color-muted      { color: var(--m-color-muted); }
+
+/* ── S1Frame — page outer shell ────────────────────────────── */
+.m-frame {
+  width: 100%;
+  max-width: var(--m-max-width);
+  margin: 0 auto;
+  background: var(--m-color-bg-1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.m-frame__main {
+  flex: 1 0 auto;
+  padding: 0 var(--m-gutter);
+}
+
+/* ── S1NavBar — sticky brand bar ───────────────────────────── */
+.m-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--m-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--m-gutter);
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  border-bottom: 1px solid rgba(36, 30, 24, 0.10);
+}
+
+.m-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--m-space-2);
+  text-decoration: none;
+  color: var(--m-color-ink);
+}
+
+.m-navbar__wordmark {
+  font-family: var(--m-font-serif);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.005em;
+  color: var(--m-color-ink);
+}
+
+.m-navbar__right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--m-space-2);
+}
+
+.m-navbar__lang {
+  font-family: var(--m-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--m-color-muted);
+  text-decoration: none;
+  padding: 6px 10px;
+  border: 1px solid rgba(36, 30, 24, 0.15);
+  border-radius: var(--m-radius-pill);
+  transition: background-color 150ms;
+}
+.m-navbar__lang:hover,
+.m-navbar__lang:focus-visible {
+  background: rgba(36, 30, 24, 0.06);
+}
+
+.m-navbar__menu-btn {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--m-color-card);
+  border: 1px solid rgba(36, 30, 24, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 0;
+  color: var(--m-color-ink);
+}
+.m-navbar__menu-btn:hover,
+.m-navbar__menu-btn:focus-visible {
+  background: rgba(36, 30, 24, 0.04);
+}
+
+/* ── S1Logo — brand glyph ──────────────────────────────────── */
+.m-logo {
+  display: inline-flex;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+}
+.m-logo__svg { width: 100%; height: 100%; display: block; }
+
+/* ── S1Menu — full-viewport overlay ────────────────────────── */
+.m-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--m-color-bg-1);
+  display: none;
+  flex-direction: column;
+  padding: var(--m-gutter);
+  overflow-y: auto;
+}
+.m-menu[data-open="true"] { display: flex; }
+
+.m-menu__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--m-header-height);
+  margin: -24px -24px 0;
+  padding: 0 var(--m-gutter);
+  border-bottom: 1px solid rgba(36, 30, 24, 0.08);
+}
+
+.m-menu__close {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(36, 30, 24, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--m-color-ink);
+}
+
+.m-menu__list {
+  list-style: none;
+  margin: var(--m-space-12) 0 0;
+  padding: 0;
+}
+.m-menu__item { margin: 0; }
+.m-menu__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--m-space-5) 0;
+  border-bottom: 1px solid rgba(36, 30, 24, 0.08);
+  font-family: var(--m-font-serif);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.30;
+  color: var(--m-color-ink);
+  text-decoration: none;
+}
+.m-menu__link[aria-current="page"] { color: var(--m-color-accent); }
+.m-menu__chevron {
+  font-family: var(--m-font-sans);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--m-color-muted-2);
+}
+
+.m-menu__footer {
+  margin-top: auto;
+  padding-top: var(--m-space-10);
+  font-family: var(--m-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--m-color-muted);
+  line-height: 1.6;
+}
+
+/* ── S1BackLink — inline ← 戻る ────────────────────────────── */
+.m-backlink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--m-space-1);
+  margin: var(--m-space-4) 0 var(--m-space-2);
+  padding: 0;
+  font-family: var(--m-font-sans);
+  font-weight: 500;
+  font-size: var(--m-text-caption);
+  color: var(--m-color-muted);
+  text-decoration: none;
+}
+.m-backlink:hover,
+.m-backlink:focus-visible { color: var(--m-color-ink); }
+
+/* ── S1Footer — long editorial footer ──────────────────────── */
+.m-footer {
+  margin-top: var(--m-space-12);
+  padding: var(--m-space-10) var(--m-gutter) var(--m-space-12);
+  background: var(--m-color-bg-2);
+  border-top: 1px solid rgba(36, 30, 24, 0.08);
+}
+
+.m-footer__cta {
+  display: block;
+  width: 100%;
+  padding: var(--m-space-5) var(--m-space-6);
+  background: var(--m-color-accent);
+  color: var(--m-color-bg-1);
+  font-family: var(--m-font-sans);
+  font-weight: 700;
+  font-size: var(--m-text-h3);
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--m-radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: opacity 150ms;
+}
+.m-footer__cta:hover,
+.m-footer__cta:focus-visible { opacity: 0.92; }
+
+.m-footer__brand {
+  margin-top: var(--m-space-10);
+}
+.m-footer__tagline {
+  margin: var(--m-space-3) 0 0;
+  color: var(--m-color-muted);
+  font-size: var(--m-text-body);
+  line-height: 1.6;
+}
+
+.m-footer__nav {
+  margin-top: var(--m-space-10);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--m-space-4) var(--m-space-6);
+}
+.m-footer__nav a {
+  font-family: var(--m-font-sans);
+  font-weight: 700;
+  font-size: var(--m-text-h3);
+  color: var(--m-color-ink);
+  text-decoration: none;
+}
+.m-footer__nav a:hover,
+.m-footer__nav a:focus-visible { color: var(--m-color-accent); }
+
+.m-footer__legal {
+  margin-top: var(--m-space-10);
+  padding-top: var(--m-space-5);
+  border-top: 1px solid rgba(36, 30, 24, 0.10);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--m-space-4);
+  font-size: var(--m-text-caption);
+}
+.m-footer__legal a {
+  color: var(--m-color-muted);
+  text-decoration: none;
+}
+.m-footer__legal a:hover,
+.m-footer__legal a:focus-visible { color: var(--m-color-ink); }
+
+.m-footer__sns {
+  margin-top: var(--m-space-5);
+  display: flex;
+  gap: var(--m-space-2);
+}
+.m-footer__sns a {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--m-color-card);
+  border: 1px solid rgba(36, 30, 24, 0.10);
+  border-radius: var(--m-radius-pill);
+  font-family: var(--m-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--m-color-ink);
+  text-decoration: none;
+}
+
+.m-footer__copyright {
+  margin-top: var(--m-space-8);
+  padding-top: var(--m-space-5);
+  border-top: 1px solid rgba(36, 30, 24, 0.06);
+  font-family: var(--m-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--m-color-muted);
+  line-height: 1.7;
+}
+.m-footer__sources {
+  margin-top: var(--m-space-2);
+  font-family: var(--m-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--m-color-muted-2);
+  line-height: 1.7;
+  text-transform: none;
+}
+
+/* ── S1Chip — pill chip ────────────────────────────────────── */
+.m-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--m-space-2) var(--m-space-4);
+  background: var(--m-color-card);
+  border: 1px solid rgba(36, 30, 24, 0.10);
+  border-radius: var(--m-radius-pill);
+  font-size: var(--m-text-caption);
+  font-weight: 500;
+  color: var(--m-color-ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.m-chip:hover,
+.m-chip:focus-visible { background: rgba(36, 30, 24, 0.04); }
+.m-chip[data-active="true"] {
+  background: var(--m-color-ink);
+  color: var(--m-color-bg-1);
+  border-color: var(--m-color-ink);
+}
+
+/* ── S1MonoTag — uppercase mono eyebrow ────────────────────── */
+.m-mono-tag {
+  display: inline-block;
+  font-family: var(--m-font-mono);
+  font-weight: 600;
+  font-size: var(--m-text-mono-stat);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--m-color-muted);
+}
+.m-mono-tag--accent { color: var(--m-color-accent); }
+.m-mono-tag--sage   { color: var(--m-color-sage-deep); }
+
+/* ── S1ScoreBadge — circular AI risk badge ─────────────────── */
+.m-score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-family: var(--m-font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1;
+}
+.m-score-badge__sub {
+  font-family: var(--m-font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-left: var(--m-space-1);
+  font-style: normal;
+  opacity: 0.8;
+}
+.m-score-badge[data-band="low"]  { color: var(--m-color-sage-deep); background: rgba(110, 155, 137, 0.12); }
+.m-score-badge[data-band="mid"]  { color: #8B6B2A;                  background: rgba(212, 167, 73, 0.16); }
+.m-score-badge[data-band="high"] { color: var(--m-color-accent);    background: rgba(217, 107, 61, 0.12); }
+
+/* ── Inline desktop-version escape link (above NavBar on /m/<lang>/<id>) ── */
+.m-desktop-link {
+  display: block;
+  padding: var(--m-space-2) var(--m-gutter);
+  background: var(--m-color-bg-2);
+  font-family: var(--m-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--m-color-muted);
+  text-decoration: none;
+  text-align: center;
+  border-bottom: 1px solid rgba(36, 30, 24, 0.06);
+}
+.m-desktop-link:hover,
+.m-desktop-link:focus-visible { color: var(--m-color-ink); }
+
+/* ── View Transitions API hook ──────────────────────────────
+   When supported, the browser fades between same-origin navigation
+   automatically. No JS needed. Disable on reduced-motion.
+   ────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}

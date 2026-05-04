@@ -1,0 +1,466 @@
+{
+  "id": 528,
+  "ipd_id": "IPD_01_01_528",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "自動運転開発エンジニア（自動車）",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "02_006-04",
+    "mhlw_all": [
+      "02_006-04"
+    ],
+    "jsoc_main": "B074",
+    "jsoc_all": [
+      "B074"
+    ]
+  },
+  "description": {
+    "summary_ja": "一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う。",
+    "what_it_is_ja": "一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う。自動運転車を開発する場合、最初の設計から最後のテスト走行まで仕事は多岐にわたる。自動車開発全体のプロジェクト責任者のもと、自動運転開発エンジニアは自動運転に関する設計、開発、評価等を担当する。\n　自動車産業は完成車メーカーと直接取引する１次サプライヤー（ティア１サプライヤー:tier 1 supplier）、その下のサプライヤー（tier 2 supplier）、またその下のサプライヤー、等々とピラミッド構造になっているが、自動運転開発エンジニアは完成車メーカーとティア１サプライヤーで自動運転の開発を行っている。\n　自動運転では周辺の状況を「認知」し、それに基づきどのような運転をするか「判断」し、実際に車を「操作」するという流れになるが、この中で、「認知」ではGPS、カメラ、ライダー（Lidar）等からの情報で周囲の状況や車の位置を認識し、「判断」では車の加速、減速、方向調整を決め、「操作」では実際に車の加速、減速、方向調整を行う。例えば、高速道路の走行において、カメラで車線を認識し（「認知」）、中央を走行するよう（「判断」）、方向調整を行う（「操作」）。車線は光の当たり方、車からみた角度等々、カメラでとらえた映像は実際には非常に様々となる。そのためAI（人工知能）の深層学習(deep learning)の技術を使い、様々な映像から正しく車線が認識できるよう学習させる。このように自動運転開発エンジニアは「認知」、「判断」、「操作」に関する開発を行うが、AI技術が大きな役割を果たしている。\n　自動運転開発エンジニアのバックグラウンドは「メカ」（エンジン、操舵等の機械）、電子、電気の「エレクトロニクス」、AIを含めたDX技術の「ソフトウェア」が多く、共同して開発にあたる。大きな完成車メーカーの自動運転開発では、会社全体では数千名のエンジニアが開発に関わる。「メカ」、「エレクトロニクス」、「ソフトウェア」の中で最近の開発では「ソフトウェア」の比重が高まっている。\n　開発では仕様の検討、基本設計、詳細設計と進める。既存の部品を組み合わせたり、新たな部品から装置を試作し、試作した装置が仕様を満たしているかテストする。試作した装置を品質、性能の面から入念に確認し、車に取り付けテストコース、公道でのテストを行う。なお、近年、実際の道路走行ではなく、道路や走行環境をコンピュータ内に再現し、その中でテストを行うことが多くなっている。このような様々なテストにおいて必要であれば設計を見直し、装置を作り直す。開発した装置と車両に問題が無くなり、量産体制に入る。\n　車の事故は人命にかかわることから、２重化、３重化（「認知」、「判断」を同時に２系統、３系統で行い確実性を確保）の安全対策を行い、どこかに故障が生じても事故に至らないよう信頼性を高めている。また、自動運転の車の「認知」、「判断」、「操作」の過程はログが残されており、事故や不具合の際、どこに原因があったかわかるようにされている。自動運転がレベル３（条件付き自動運転。この条件以外は人間が操作）、レベル4（高速道路、限定地域等特定条件下における完全自動運転）となると、自動運転中の事故の責任は運転者ではなく車側が負うことになり、このログは重要である。自動運転開発エンジニアは万が一の事故や不具合が起こった場合は何が原因か究明し対応策を検討する。\n　\n◇　よく使う道具、機材、情報技術等\n　コンピュータ・シミュレーション、プログラミング言語、AI開発ソフトウェア、３D-CAD、データロガー、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン、スマートフォン",
+    "how_to_become_ja": "入職にあたって特に学歴や資格は必要とされないが、新卒で入職する場合、工学、理学等を専攻していた大学院修士課程修了者が多い。中途採用の場合は自社にない技術を持っている家電メーカーや通信会社からが多く、同業の自動車メーカー、ティア1サプライヤーからの転職者も居る。\n　新卒の場合、完成車メーカー、ティア1サプライヤーの開発エンジニアとして採用され、数ヶ月から半年程度の研修があり、同期入社のエンジニアの中から自動運転の開発部門に配属される。中途採用の場合は即戦力が求められる。経験を重ねより大きな開発が任されるようになり、一つの開発プロジェクトを任されるようになる。\n　設計ソフト、シミュレーション・ソフト、AI開発ソフト等を使いこなすことが求められるが、これらのスキルは入社後、研修と実際の仕事の中で身につける。海外サプライヤーとの共同作業も多く、英語を読む、話すといった力が必要となる。中国語やドイツ語のドキュメントが開発に必要になることもある。\n　報告書、マニュアル、設計基準、規格、法規等を読みこなし、理解できることが求められる。ミスは開発の遅れや事故に繋がることから、ミスが起きない開発体制がとられているが、本人にも注意深さが必要である。開発は数名から数十名のチームで行い、サプライヤーとの連携もあることから、何よりもまずコミュニケーション能力が求められる。必要な知識やスキルは後でも身に着けられる。自動車運転に関する研究開発は世界各国で盛んに行われており、最新情報の収集、新しい技術や装置に強い関心を持つことも重要である。",
+    "working_conditions_ja": "勤務先は自動車完成車メーカーかティア１サプライヤーであり、就業する地域は自動車メーカーが集中する関東、中部に多い。開発拠点が複数ある場合は転勤もある。スタートアップ企業が自動運転の社会実証実験を行っている場合もある。\n　就業者数はどこまでを自動運転開発エンジニアとするかにもより、就業者人数の統計調査等もないが、大きな完成車メーカーでは1社で数千名規模のエンジニアがおり、ティア１サプライヤーにもそれぞれ数百名規模のエンジニアが居る。現状では男性の割合が多い。\n　就業者は30代から50代が中心であるが、年齢層は幅広い。雇用形態は多くは正社員であるが、派遣の技術者や協力会社の技術者が出向し、開発に参加することもある。賃金は社内規定による月給制が多い。通常の朝から夕方までの勤務であるが、多くはフレックスタイム制や裁量労働制をとっている。休日は週休2日制が徹底されているが、開発の完成間近、また、開発に遅れが生じたり、問題点が見つかった場合など、残業が多くなることもある。長期連続休暇の制度を持つ会社もある。\n　自動運転に関する法律やガイドラインの整備が国の内外で進められており、その展開に合わせ、また、それよりも先をいく技術開発が行われている。自動車は輸出、現地生産の比重が高いため、国際的な、あるいは各国の法律やガイドラインの整備が開発に影響する。\n　自動運転はレベル1（運転支援。自動ブレーキ、車線からはみ出さない等）、レベル2（特定条件下での自動運転。車線を維持し前の車に追従等）、レベル3（条件付き自動運転。この条件以外は人間が操作）、レベル4（高速道路、限定地域等特定条件下における完全自動運転）、レベル5（完全自動運転）に分けられるが、現在、レベル２までは多く一般市販車で可能であり、レベル３の自動運転を実現した車の販売も始まっている。自動運転の技術は交通の安全性も高めることから、より安全でよりレベルの高い自動運転を巡って、世界各国の自動車メーカー、サプライヤーが競い合っており、開発の成否が各社の販売シェアを大きく左右し、さらには各国の自動車産業の盛衰にも繋がる。"
+  },
+  "interests": {
+    "realistic": 3.909,
+    "investigative": 3.682,
+    "artistic": 2.636,
+    "social": 3.636,
+    "enterprising": 3.727,
+    "conventional": 3.409
+  },
+  "work_values": {
+    "achievement": 3.128,
+    "autonomy": 3.282,
+    "expertise": 3.513,
+    "self_growth": 3.282,
+    "social_recognition": 3.0,
+    "service_contribution": 2.821,
+    "good_relationships": 3.026,
+    "workplace_safety": 3.308,
+    "work_life_balance": 3.103,
+    "stability": 3.282,
+    "compensation": 3.077
+  },
+  "skills": {
+    "reading_comprehension": 4.436,
+    "active_listening": 4.205,
+    "writing": 4.436,
+    "speaking": 4.231,
+    "foreign_language_reading": 3.179,
+    "foreign_language_listening": 2.692,
+    "foreign_language_writing": 2.615,
+    "foreign_language_speaking": 2.59,
+    "mathematics": 3.974,
+    "science": 3.769,
+    "critical_thinking": 4.103,
+    "active_learning": 3.897,
+    "learning_strategies": 3.692,
+    "monitoring": 3.615,
+    "social_perceptiveness": 3.718,
+    "coordination": 4.077,
+    "persuasion": 3.923,
+    "negotiation": 3.667,
+    "instructing": 3.872,
+    "service_orientation": 3.077,
+    "complex_problem_solving": 4.128,
+    "operations_analysis": 4.308,
+    "technology_design": 3.59,
+    "equipment_selection": 3.769,
+    "installation": 3.513,
+    "programming": 3.205,
+    "operations_monitoring": 2.974,
+    "operation_and_control": 2.897,
+    "equipment_maintenance": 2.513,
+    "troubleshooting": 3.564,
+    "repairing": 2.795,
+    "quality_control_analysis": 3.872,
+    "judgment_decision_making": 4.0,
+    "systems_analysis": 3.513,
+    "systems_evaluation": 3.282,
+    "time_management": 4.051,
+    "financial_resources_management": 3.077,
+    "material_resources_management": 2.359,
+    "personnel_resources_management": 3.051
+  },
+  "knowledge": {
+    "business_management": 1.933,
+    "clerical": 2.2,
+    "economics_accounting": 1.267,
+    "sales_marketing": 1.367,
+    "customer_personal_service": 1.767,
+    "personnel_hr": 1.1,
+    "transportation": 0.867,
+    "production_processing": 2.3,
+    "agriculture_livestock": 0.5,
+    "engineering": 3.033,
+    "computers_electronics": 2.5,
+    "design": 3.133,
+    "building_construction": 0.433,
+    "mechanical": 2.667,
+    "mathematics_kn": 2.533,
+    "physics": 2.567,
+    "chemistry": 2.067,
+    "biology": 0.767,
+    "psychology": 1.067,
+    "sociology": 1.167,
+    "geography": 0.633,
+    "medicine_dentistry": 0.5,
+    "therapy_counseling": 0.7,
+    "education_training_kn": 1.167,
+    "japanese_language": 2.067,
+    "foreign_language_kn": 2.033,
+    "fine_arts": 0.333,
+    "history_archaeology": 0.4,
+    "philosophy_theology": 0.367,
+    "public_safety_security": 1.133,
+    "law_government": 1.2,
+    "telecommunications": 1.4,
+    "communications_media": 1.5
+  },
+  "abilities": {
+    "oral_comprehension": 2.914,
+    "written_comprehension": 2.914,
+    "oral_expression": 3.286,
+    "written_expression": 3.2,
+    "fluency_of_ideas": 3.429,
+    "originality": 3.286,
+    "problem_sensitivity": 3.571,
+    "deductive_reasoning": 3.4,
+    "inductive_reasoning": 3.343,
+    "information_ordering": 3.229,
+    "category_flexibility": 3.029,
+    "mathematical_reasoning": 3.114,
+    "number_facility": 3.143,
+    "memorization": 3.286,
+    "perceptual_speed": 2.886,
+    "spatial_orientation": 2.771,
+    "visualization": 2.943,
+    "selective_attention": 3.171,
+    "time_sharing": 3.257,
+    "arm_hand_steadiness": 2.714,
+    "manual_dexterity": 2.686,
+    "finger_dexterity": 2.486,
+    "reaction_time": 2.743,
+    "wrist_finger_speed": 2.657,
+    "speed_of_limb_movement": 2.629,
+    "static_strength": 2.543,
+    "stamina": 2.571,
+    "gross_body_equilibrium": 2.571,
+    "near_vision": 2.457,
+    "far_vision": 2.514,
+    "visual_color_discrimination": 2.543,
+    "depth_perception": 2.543,
+    "hearing_sensitivity": 2.571,
+    "auditory_attention": 2.486,
+    "speech_clarity": 2.657
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.433,
+    "face_to_face_discussions": 4.033,
+    "telephone_communication": 3.633,
+    "business_writing": 4.133,
+    "conflict_situations": 2.367,
+    "time_pressure": 3.133,
+    "teamwork": 3.933,
+    "dealing_with_external_customers": 3.4,
+    "coordinate_lead_others": 3.7,
+    "exactness_accuracy": 4.0,
+    "repetitive_tasks": 2.833,
+    "pace_determined_by_machine": 2.733,
+    "responsibility_for_outcomes": 3.7,
+    "indoor_climate_controlled": 4.467,
+    "indoor_non_climate_controlled": 2.567,
+    "outdoor_work": 2.233,
+    "sitting": 4.067,
+    "standing": 2.233,
+    "repetition_of_activities": 2.1,
+    "consequence_of_error": 3.067,
+    "freedom_to_make_decisions": 3.5,
+    "set_own_goals": 3.7,
+    "regular_schedule": 0.433,
+    "irregular_schedule": 0.5,
+    "seasonal_schedule": 0.067,
+    "email_communication": 4.733,
+    "cramped_uncomfortable": 2.0,
+    "disease_infection_risk": 1.6,
+    "minor_injury_risk": 1.6,
+    "standard_protective_equipment": 2.733,
+    "specialized_protective_equipment": 1.767,
+    "dealing_with_violent_people": 1.133,
+    "walking_running": 2.1,
+    "handling_objects_tools": 2.367,
+    "physical_proximity": 3.233,
+    "work_automation": 2.367,
+    "responsibility_for_safety": 2.3,
+    "impact_of_decisions": 2.833,
+    "level_of_competition": 2.833
+  },
+  "work_activities": {
+    "getting_information": 2.943,
+    "monitor_processes": 3.171,
+    "identifying_objects": 3.314,
+    "inspecting_equipment": 2.886,
+    "estimating_quantifiable": 3.343,
+    "judging_quality": 3.429,
+    "evaluating_compliance": 3.514,
+    "processing_information": 3.343,
+    "analyzing_data": 3.343,
+    "making_decisions": 3.457,
+    "thinking_creatively": 3.457,
+    "updating_knowledge": 3.4,
+    "developing_objectives": 3.457,
+    "scheduling_work": 3.314,
+    "organizing_planning": 3.457,
+    "physical_activities": 2.686,
+    "handling_objects": 2.657,
+    "controlling_machines": 2.771,
+    "operating_vehicles": 2.743,
+    "computer_work": 3.286,
+    "drafting_specifications": 2.971,
+    "repairing_mechanical": 2.8,
+    "repairing_electronic": 2.743,
+    "documenting_information": 3.143,
+    "interpreting_information": 3.057,
+    "communicating_inside": 3.457,
+    "communicating_outside": 3.4,
+    "building_relationships": 3.457,
+    "assisting_caring": 2.943,
+    "selling_influencing": 2.629,
+    "resolving_conflicts": 2.943,
+    "performing_for_public": 2.771,
+    "coordinating_others": 3.286,
+    "developing_teams": 3.286,
+    "training_teaching": 2.8,
+    "guiding_subordinates": 3.257,
+    "coaching_developing": 3.114,
+    "providing_consultation": 2.943,
+    "performing_administrative": 3.0,
+    "staffing_organizational": 3.0,
+    "monitoring_resources": 3.086
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.4,
+    "vocational_school": 0.167,
+    "junior_college": 0.1,
+    "technical_college": 0.1,
+    "university": 0.567,
+    "masters": 0.233,
+    "doctorate": 0.1,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.433,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.1,
+    "6_months_to_1_year": 0.133,
+    "1_to_2_years": 0.1,
+    "2_to_3_years": 0.067,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.167
+  },
+  "training_post": {
+    "not_required": 0.1,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.1,
+    "6_months_to_1_year": 0.067,
+    "1_to_2_years": 0.233,
+    "2_to_3_years": 0.167,
+    "3_to_5_years": 0.067,
+    "5_to_10_years": 0.167,
+    "over_10_years": 0.033,
+    "unknown": 0.067
+  },
+  "experience": {
+    "not_required": 0.433,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.167,
+    "1_to_2_years": 0.033,
+    "2_to_3_years": 0.1,
+    "3_to_5_years": 0.033,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.033,
+    "unknown": 0.2
+  },
+  "employment_type": {
+    "regular_employee": 0.933,
+    "part_time": 0.067,
+    "dispatched": 0.067,
+    "contract": 0.067,
+    "self_employed_freelance": 0.0,
+    "executive": 0.033,
+    "casual_non_student": 0.0,
+    "casual_student": 0.033,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "実現する自動運転装置の仕様を検討する。",
+      "execution_rate": 0.771,
+      "importance": 3.481
+    },
+    {
+      "task_id": 2,
+      "description_ja": "自動運転装置の基本設計を行う。",
+      "execution_rate": 0.8,
+      "importance": 3.357
+    },
+    {
+      "task_id": 3,
+      "description_ja": "自動運転装置の詳細設計を行う。",
+      "execution_rate": 0.771,
+      "importance": 3.37
+    },
+    {
+      "task_id": 4,
+      "description_ja": "自動運転装置をCADで設計する。",
+      "execution_rate": 0.743,
+      "importance": 3.423
+    },
+    {
+      "task_id": 5,
+      "description_ja": "自動運転装置の動きをコンピュータ上でシミュレーションする。",
+      "execution_rate": 0.829,
+      "importance": 3.448
+    },
+    {
+      "task_id": 6,
+      "description_ja": "自動運転装置を試作し、動作を確認する。",
+      "execution_rate": 0.829,
+      "importance": 3.517
+    },
+    {
+      "task_id": 7,
+      "description_ja": "自動運転装置に問題が見つかった場合は原因を究明し、解決策を検討する。",
+      "execution_rate": 0.857,
+      "importance": 3.6
+    },
+    {
+      "task_id": 8,
+      "description_ja": "教師データ（結果が分っている既存のデータ）を投入し、AIに学習させる。",
+      "execution_rate": 0.829,
+      "importance": 2.897
+    },
+    {
+      "task_id": 9,
+      "description_ja": "学習結果の検証を踏まえて、必要な修正を行う。",
+      "execution_rate": 0.8,
+      "importance": 3.393
+    },
+    {
+      "task_id": 10,
+      "description_ja": "AIの学習結果をルールベース制御に反映する。",
+      "execution_rate": 0.743,
+      "importance": 3.231
+    },
+    {
+      "task_id": 11,
+      "description_ja": "自動運転装置を車全体の設計者と検討する。",
+      "execution_rate": 0.829,
+      "importance": 3.207
+    },
+    {
+      "task_id": 12,
+      "description_ja": "必要に応じて自動運転装置の設計を変更する。",
+      "execution_rate": 0.829,
+      "importance": 3.379
+    },
+    {
+      "task_id": 13,
+      "description_ja": "コンピュータ・シミュレーションにより車全体の動作を確認する。",
+      "execution_rate": 0.857,
+      "importance": 3.567
+    },
+    {
+      "task_id": 14,
+      "description_ja": "実際に車（実験車両、試作車）をテストコースで動かし動作を確認する。",
+      "execution_rate": 0.857,
+      "importance": 3.667
+    },
+    {
+      "task_id": 15,
+      "description_ja": "実際に車（実験車両、試作車）を公道で動かし動作を確認する。",
+      "execution_rate": 0.857,
+      "importance": 3.467
+    },
+    {
+      "task_id": 16,
+      "description_ja": "車（実験車両、試作車）に問題が生じた場合、原因を究明し、解決策を検討する。",
+      "execution_rate": 0.914,
+      "importance": 3.469
+    },
+    {
+      "task_id": 17,
+      "description_ja": "開発の各段階で社内の評価を受け、会社として方針決定し、その記録を残す。",
+      "execution_rate": 0.914,
+      "importance": 3.438
+    },
+    {
+      "task_id": 18,
+      "description_ja": "開発チーム内でミーティングを行う。",
+      "execution_rate": 0.886,
+      "importance": 3.548
+    },
+    {
+      "task_id": 19,
+      "description_ja": "開発チーム内で電子的に情報共有する。",
+      "execution_rate": 0.914,
+      "importance": 3.375
+    },
+    {
+      "task_id": 20,
+      "description_ja": "サプライヤーと打合わせを行う。",
+      "execution_rate": 0.914,
+      "importance": 3.375
+    },
+    {
+      "task_id": 21,
+      "description_ja": "展示会で開発した自動運転装置の説明をする。",
+      "execution_rate": 0.857,
+      "importance": 2.833
+    },
+    {
+      "task_id": 22,
+      "description_ja": "関連する論文や記事を読む。",
+      "execution_rate": 0.857,
+      "importance": 2.833
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般財団法人　日本自動車研究所",
+      "url": "https://www.jari.or.jp/default.aspx"
+    },
+    {
+      "name_ja": "公益財団法人　自動車技術会",
+      "url": "https://www.jsae.or.jp/"
+    },
+    {
+      "name_ja": "国土交通省　自動車局",
+      "url": "https://www.mlit.go.jp/about/soshiki_jidousya.html"
+    },
+    {
+      "name_ja": "経済産業省　製造産業局",
+      "url": "https://www.meti.go.jp/intro/data/akikou07_1j.html"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/528",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2021,
+    "classifications": 2022,
+    "description": 2021
+  }
+}

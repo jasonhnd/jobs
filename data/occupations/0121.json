@@ -1,0 +1,481 @@
+{
+  "id": 121,
+  "ipd_id": "IPD_01_01_121",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "自動車教習指導員",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "05_031-99",
+    "mhlw_all": [
+      "05_031-99"
+    ],
+    "jsoc_main": "B199",
+    "jsoc_all": [
+      "B199"
+    ]
+  },
+  "description": {
+    "summary_ja": "自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える。",
+    "what_it_is_ja": "自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える。\n　自動車教習所は自動車学校、ドライビングスクール等とも呼ばれる。\n　技能教習では、まず教習所内のコースでハンドル操作やブレーキ操作、車を走らせる位置や止まる位置、狭い道路や交差点、曲がり角の運転、坂道発進、進路変更、駐車の方法など、運転操作について指導する。指導員は助手席に座って原則1対1で指導し、時には運転の手本を見せてポイントを教える。必要な教習を修了し、修了検定・仮免学科試験に合格し、仮免許証を取得した教習生には、一般道路に出て路上教習を行う。1時限ごとに教習生が次のステップに進めるかどうかを判断し、記録をつけ、未熟な運転操作などについては指導する。\n　学科教習では、技能教習と並行して、運転者の心得、運転に必要な道路交通法規や安全運転に必要な知識を教本やビデオを使って教える。また、応急救護処置の実技教習も行う。\n　都道府県の公安委員会から法に定められた基準に適合しているものとして指定を受けた自動車教習所では、教習を終えた人に対して技能検定員の資格を持つ指導員が技能検定を行い、一定の基準を満たした者に対し、卒業証明書を発行する。指導員のうち技能検定員の資格を持つ者は約6割となっている（2024年時点*）。\n　マンツーマンの指導を行う技能教習では、毎回違った教習生を教えるのが一般的である。運転シミュレーターなどを使って、複数の教習生を教えることもある。\n\n*警察庁交通局運転免許課、運転免許統計　令和6年版\n\n◇　よく使う道具、機材、情報技術等\n　普通自動車（普通免許（第一種、第二種）で運転可能なもの）、大型、中型、準中型、特殊自動車等（普通免許だけでは運転できないもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴は必要とされないが、指導資格を取得するには車種に応じた運転免許が必要とされる。\n　教習所に採用されると「現場事前教養」と「職員講習」を受けるか、自動車安全運転センターが行う研修課程を修了し、公安委員会の教習指導員資格審査を受ける。なお、教習指導員資格審査の受験資格は満21歳以上となっている。合格すると「教習指導員資格者証」が得られ、「現場事後教養」を受けてから指導員として仕事を始める。\n　管理者の推薦申請により公安委員会の行う技能検定員資格審査を受け、合格すると技能検定員となることができる。優秀な運転技術や車の構造、運転に必要なルールなどの知識が欠かせない。また、わかりやすく説明できること、教習生に対しての思いやりが必要であり、事故が起きないように細心の注意を払って丁寧に教えることなども求められる。",
+    "working_conditions_ja": "自動車教習所には、届出自動車教習所（カリキュラムや最低教習時間の定めがない教習所で、公安委員会に届出はしているが、指定を受けていない教習所）と指定自動車教習所（公安委員会の指定を受けた教習所）とがある。指定自動車教習所は、法に定めた一定の基準に適合している場合、申請によって都道府県の公安委員会が「指定」する。指定自動車教習所は、市区町村の人口に比例して設置されているが、交通の便の良い所に集中する傾向がある。\n　就業者は約28,588人となっている（2024年末時点*）。男性が多かったが、女性指導員や技能検定員も増えている。\n　年末年始を除いて年中無休の教習所や、土日、早朝、夜間教習を実施している教習所もあり、時差出勤や交替勤務で働くことになる。\n　自動車教習所では一般の教習のほか、ペーパードライバーの再教育、安全運転のための講習、高齢運転者の再教育なども行っている。また、教習所の施設、機材、知識、技能を活用して交通安全の普及のために各種の講習や交通安全教室などを行い、地域の交通安全の拠点としての役割も果している。\n\n*警察庁交通局運転免許課、運転免許統計　令和6年版"
+  },
+  "interests": {
+    "realistic": 3.529,
+    "investigative": 3.5,
+    "artistic": 2.443,
+    "social": 4.1,
+    "enterprising": 3.243,
+    "conventional": 3.786
+  },
+  "work_values": {
+    "achievement": 3.37,
+    "autonomy": 3.222,
+    "expertise": 3.759,
+    "self_growth": 3.463,
+    "social_recognition": 3.278,
+    "service_contribution": 3.426,
+    "good_relationships": 3.426,
+    "workplace_safety": 2.963,
+    "work_life_balance": 2.944,
+    "stability": 3.037,
+    "compensation": 2.333
+  },
+  "skills": {
+    "reading_comprehension": 4.093,
+    "active_listening": 4.519,
+    "writing": 3.704,
+    "speaking": 4.426,
+    "foreign_language_reading": 1.241,
+    "foreign_language_listening": 1.056,
+    "foreign_language_writing": 0.852,
+    "foreign_language_speaking": 1.259,
+    "mathematics": 1.704,
+    "science": 1.407,
+    "critical_thinking": 2.944,
+    "active_learning": 2.981,
+    "learning_strategies": 3.667,
+    "monitoring": 3.222,
+    "social_perceptiveness": 3.796,
+    "coordination": 3.185,
+    "persuasion": 3.63,
+    "negotiation": 2.852,
+    "instructing": 4.556,
+    "service_orientation": 3.37,
+    "complex_problem_solving": 3.0,
+    "operations_analysis": 2.407,
+    "technology_design": 2.037,
+    "equipment_selection": 2.593,
+    "installation": 2.13,
+    "programming": 1.278,
+    "operations_monitoring": 1.741,
+    "operation_and_control": 2.574,
+    "equipment_maintenance": 3.204,
+    "troubleshooting": 2.648,
+    "repairing": 2.593,
+    "quality_control_analysis": 2.37,
+    "judgment_decision_making": 2.389,
+    "systems_analysis": 2.056,
+    "systems_evaluation": 2.0,
+    "time_management": 3.148,
+    "financial_resources_management": 1.481,
+    "material_resources_management": 1.593,
+    "personnel_resources_management": 2.056
+  },
+  "knowledge": {
+    "business_management": 0.739,
+    "clerical": 1.543,
+    "economics_accounting": 0.522,
+    "sales_marketing": 0.935,
+    "customer_personal_service": 2.783,
+    "personnel_hr": 1.022,
+    "transportation": 0.63,
+    "production_processing": 0.152,
+    "agriculture_livestock": 0.109,
+    "engineering": 0.261,
+    "computers_electronics": 0.239,
+    "design": 0.087,
+    "building_construction": 0.043,
+    "mechanical": 0.348,
+    "mathematics_kn": 0.174,
+    "physics": 0.457,
+    "chemistry": 0.217,
+    "biology": 0.152,
+    "psychology": 1.978,
+    "sociology": 1.239,
+    "geography": 0.522,
+    "medicine_dentistry": 0.37,
+    "therapy_counseling": 0.957,
+    "education_training_kn": 2.196,
+    "japanese_language": 1.348,
+    "foreign_language_kn": 0.783,
+    "fine_arts": 0.13,
+    "history_archaeology": 0.152,
+    "philosophy_theology": 0.283,
+    "public_safety_security": 0.848,
+    "law_government": 1.196,
+    "telecommunications": 0.217,
+    "communications_media": 1.0
+  },
+  "abilities": {
+    "oral_comprehension": 3.133,
+    "written_comprehension": 3.111,
+    "oral_expression": 3.333,
+    "written_expression": 3.267,
+    "fluency_of_ideas": 2.978,
+    "originality": 2.822,
+    "problem_sensitivity": 3.267,
+    "deductive_reasoning": 3.022,
+    "inductive_reasoning": 2.822,
+    "information_ordering": 3.111,
+    "category_flexibility": 2.844,
+    "mathematical_reasoning": 2.533,
+    "number_facility": 2.711,
+    "memorization": 3.133,
+    "perceptual_speed": 2.822,
+    "spatial_orientation": 2.889,
+    "visualization": 3.022,
+    "selective_attention": 3.178,
+    "time_sharing": 3.311,
+    "arm_hand_steadiness": 3.067,
+    "manual_dexterity": 2.933,
+    "finger_dexterity": 2.733,
+    "reaction_time": 3.311,
+    "wrist_finger_speed": 2.867,
+    "speed_of_limb_movement": 2.978,
+    "static_strength": 2.422,
+    "stamina": 2.6,
+    "gross_body_equilibrium": 2.933,
+    "near_vision": 3.089,
+    "far_vision": 3.422,
+    "visual_color_discrimination": 3.467,
+    "depth_perception": 3.467,
+    "hearing_sensitivity": 3.378,
+    "auditory_attention": 3.244,
+    "speech_clarity": 3.378
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.5,
+    "face_to_face_discussions": 3.326,
+    "telephone_communication": 2.739,
+    "business_writing": 2.217,
+    "conflict_situations": 2.196,
+    "time_pressure": 3.043,
+    "teamwork": 2.717,
+    "dealing_with_external_customers": 3.043,
+    "coordinate_lead_others": 2.565,
+    "exactness_accuracy": 3.391,
+    "repetitive_tasks": 3.109,
+    "pace_determined_by_machine": 2.0,
+    "responsibility_for_outcomes": 3.13,
+    "indoor_climate_controlled": 3.652,
+    "indoor_non_climate_controlled": 1.913,
+    "outdoor_work": 3.457,
+    "sitting": 4.109,
+    "standing": 2.087,
+    "repetition_of_activities": 2.87,
+    "consequence_of_error": 3.848,
+    "freedom_to_make_decisions": 3.239,
+    "set_own_goals": 3.283,
+    "regular_schedule": 0.783,
+    "irregular_schedule": 0.109,
+    "seasonal_schedule": 0.109,
+    "email_communication": 2.043,
+    "cramped_uncomfortable": 1.674,
+    "disease_infection_risk": 2.957,
+    "minor_injury_risk": 1.13,
+    "standard_protective_equipment": 2.174,
+    "specialized_protective_equipment": 1.283,
+    "dealing_with_violent_people": 1.739,
+    "walking_running": 2.065,
+    "handling_objects_tools": 2.717,
+    "physical_proximity": 3.783,
+    "work_automation": 1.761,
+    "responsibility_for_safety": 3.174,
+    "impact_of_decisions": 2.761,
+    "level_of_competition": 1.739
+  },
+  "work_activities": {
+    "getting_information": 2.756,
+    "monitor_processes": 2.844,
+    "identifying_objects": 2.889,
+    "inspecting_equipment": 3.022,
+    "estimating_quantifiable": 2.733,
+    "judging_quality": 2.889,
+    "evaluating_compliance": 3.356,
+    "processing_information": 2.889,
+    "analyzing_data": 2.867,
+    "making_decisions": 3.089,
+    "thinking_creatively": 2.889,
+    "updating_knowledge": 3.422,
+    "developing_objectives": 2.956,
+    "scheduling_work": 3.111,
+    "organizing_planning": 3.111,
+    "physical_activities": 2.622,
+    "handling_objects": 2.578,
+    "controlling_machines": 2.622,
+    "operating_vehicles": 3.489,
+    "computer_work": 2.778,
+    "drafting_specifications": 2.333,
+    "repairing_mechanical": 2.756,
+    "repairing_electronic": 2.578,
+    "documenting_information": 2.8,
+    "interpreting_information": 2.889,
+    "communicating_inside": 3.156,
+    "communicating_outside": 3.022,
+    "building_relationships": 3.222,
+    "assisting_caring": 2.933,
+    "selling_influencing": 2.844,
+    "resolving_conflicts": 2.756,
+    "performing_for_public": 2.8,
+    "coordinating_others": 2.867,
+    "developing_teams": 2.756,
+    "training_teaching": 3.111,
+    "guiding_subordinates": 3.089,
+    "coaching_developing": 3.0,
+    "providing_consultation": 2.467,
+    "performing_administrative": 3.0,
+    "staffing_organizational": 2.778,
+    "monitoring_resources": 2.667
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.565,
+    "vocational_school": 0.152,
+    "junior_college": 0.043,
+    "technical_college": 0.065,
+    "university": 0.457,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.109
+  },
+  "training_pre": {
+    "not_required": 0.13,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.457,
+    "6_months_to_1_year": 0.217,
+    "1_to_2_years": 0.065,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.109
+  },
+  "training_post": {
+    "not_required": 0.065,
+    "up_to_1_month": 0.109,
+    "1_to_6_months": 0.348,
+    "6_months_to_1_year": 0.239,
+    "1_to_2_years": 0.087,
+    "2_to_3_years": 0.043,
+    "3_to_5_years": 0.022,
+    "5_to_10_years": 0.022,
+    "over_10_years": 0.0,
+    "unknown": 0.065
+  },
+  "experience": {
+    "not_required": 0.478,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.13,
+    "6_months_to_1_year": 0.043,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.087,
+    "3_to_5_years": 0.022,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.196
+  },
+  "employment_type": {
+    "regular_employee": 0.761,
+    "part_time": 0.174,
+    "dispatched": 0.0,
+    "contract": 0.261,
+    "self_employed_freelance": 0.0,
+    "executive": 0.043,
+    "casual_non_student": 0.022,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.022
+  },
+  "tasks_lead_ja": "自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "教習生と面接して本人に適する教習指導方法を考え、教習方法の概要説明をする。",
+      "execution_rate": 0.889,
+      "importance": 3.475
+    },
+    {
+      "task_id": 2,
+      "description_ja": "教習生の名簿や教習原簿を作成し、教習スケジュールを策定する。",
+      "execution_rate": 0.933,
+      "importance": 3.214
+    },
+    {
+      "task_id": 3,
+      "description_ja": "教習生の運転する教習車の助手席に乗り込み、運転操作について指導し、運転を観察する。",
+      "execution_rate": 0.978,
+      "importance": 4.0
+    },
+    {
+      "task_id": 4,
+      "description_ja": "教習項目ごとに教習生に対するアドバイス、終了結果を説明する。",
+      "execution_rate": 0.956,
+      "importance": 3.93
+    },
+    {
+      "task_id": 5,
+      "description_ja": "教室において、教本やビデオを使って道路交通法、安全運転、自動車の構造を講義する。",
+      "execution_rate": 0.911,
+      "importance": 3.854
+    },
+    {
+      "task_id": 6,
+      "description_ja": "仮免許試験を実施する。",
+      "execution_rate": 0.956,
+      "importance": 4.233
+    },
+    {
+      "task_id": 7,
+      "description_ja": "協議により仮免許合格者を決定する。",
+      "execution_rate": 0.6,
+      "importance": 4.111
+    },
+    {
+      "task_id": 8,
+      "description_ja": "教習車で一般道路に出て路上教習をする。",
+      "execution_rate": 0.933,
+      "importance": 4.214
+    },
+    {
+      "task_id": 9,
+      "description_ja": "技能検定を実施する。",
+      "execution_rate": 0.956,
+      "importance": 4.186
+    },
+    {
+      "task_id": 10,
+      "description_ja": "協議により技能検定合格者を決定する。",
+      "execution_rate": 0.644,
+      "importance": 3.759
+    },
+    {
+      "task_id": 11,
+      "description_ja": "運転適性診断を行い、結果を本人に説明する。",
+      "execution_rate": 0.911,
+      "importance": 3.61
+    },
+    {
+      "task_id": 12,
+      "description_ja": "協議により、教習課程が修了と認めるかどうか決定する。",
+      "execution_rate": 0.733,
+      "importance": 3.97
+    },
+    {
+      "task_id": 13,
+      "description_ja": "運転免許試験場での学科試験のための指導をする。",
+      "execution_rate": 0.867,
+      "importance": 3.769
+    },
+    {
+      "task_id": 14,
+      "description_ja": "運転免許試験場での技能試験のための指導をする。",
+      "execution_rate": 0.644,
+      "importance": 3.724
+    },
+    {
+      "task_id": 15,
+      "description_ja": "修了証明書や卒業証明書を発行する。",
+      "execution_rate": 0.911,
+      "importance": 4.22
+    },
+    {
+      "task_id": 16,
+      "description_ja": "認知機能検査を実施し、採点する。",
+      "execution_rate": 0.911,
+      "importance": 3.805
+    },
+    {
+      "task_id": 17,
+      "description_ja": "高齢者講習の講師を務める。",
+      "execution_rate": 0.956,
+      "importance": 3.767
+    },
+    {
+      "task_id": 18,
+      "description_ja": "高齢者講習の予約管理等の事務処理を行う。",
+      "execution_rate": 0.844,
+      "importance": 3.421
+    },
+    {
+      "task_id": 19,
+      "description_ja": "初心運転者違反者や、免許取消者向けに講習する。",
+      "execution_rate": 0.822,
+      "importance": 3.595
+    },
+    {
+      "task_id": 20,
+      "description_ja": "地域や学校向けの交通安全教室を実施する。",
+      "execution_rate": 0.844,
+      "importance": 3.553
+    },
+    {
+      "task_id": 21,
+      "description_ja": "企業向けの講習を実施する。",
+      "execution_rate": 0.844,
+      "importance": 3.158
+    },
+    {
+      "task_id": 22,
+      "description_ja": "教習生の保険手続きを行う。",
+      "execution_rate": 0.489,
+      "importance": 2.909
+    },
+    {
+      "task_id": 23,
+      "description_ja": "教習生を送迎する。",
+      "execution_rate": 0.822,
+      "importance": 2.865
+    },
+    {
+      "task_id": 24,
+      "description_ja": "新規顧客を獲得するために営業する。",
+      "execution_rate": 0.867,
+      "importance": 3.436
+    },
+    {
+      "task_id": 25,
+      "description_ja": "教習所のコースを管理し、必要に応じて補修する。",
+      "execution_rate": 0.911,
+      "importance": 3.707
+    },
+    {
+      "task_id": 26,
+      "description_ja": "教習所の清掃や消毒を行う。",
+      "execution_rate": 0.911,
+      "importance": 3.537
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人   全日本指定自動車教習所協会連合会",
+      "url": "http://www.zensiren.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "指定自動車教習所指導員",
+    "二級自動車整備士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/121",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

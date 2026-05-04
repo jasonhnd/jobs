@@ -1,0 +1,468 @@
+{
+  "id": 295,
+  "ipd_id": "IPD_01_01_295",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "医薬品製造",
+  "aliases_ja": [
+    "医薬品製造設備オペレーター",
+    "アンプル充填工",
+    "医薬品仕上工",
+    "漢方薬製造工",
+    "原薬製造工",
+    "抗生物質種母培養工",
+    "製剤工",
+    "注射液製造工"
+  ],
+  "classifications": {
+    "mhlw_main": "12_069-01",
+    "mhlw_all": [
+      "12_069-01",
+      "12_073-01"
+    ],
+    "jsoc_main": "H501",
+    "jsoc_all": [
+      "H501",
+      "H531"
+    ]
+  },
+  "description": {
+    "summary_ja": "製薬工場において製造ラインを運転し、医薬品を製造する。",
+    "what_it_is_ja": "錠剤、カプセル剤、軟膏剤、注射剤などの医薬品を製造する。\n　医薬品の製造工程は、その原薬をつくる「原薬製造工程」、原薬を加工して実際に使われる医薬品にする「製剤工程」、完成した医薬品を包装する「包装工程」に大きく分けられる。\n　「原薬製造工程」では、数段階の培養を経て増殖させた生物由来の細胞を分離・精製したり、原料を化学的に合成・加工するなどして、原薬をつくる。バイオ医薬品の場合は、細胞を培養し、原薬を精製する。\n　「製剤工程」では、原薬を使用目的や使用量に合った形態にするために医薬品添加剤などと混ぜ合わせ、錠剤、カプセル剤、軟膏剤、注射剤などに加工する。\n　「包装・充填工程」では、品質を維持するための包装を行い、誤った使い方を防ぐための用法・用量・注意事項が記載された文書を添付（封入）する。\n　医薬品の製造工程は、自動化が進んでいるが、品質を保証するために定めた手順に従って、各工程の管理・監視、機械の操作、最終製品の検査などを人が行う。",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。工業系の高校、大学等で化学・機械などを専攻した者が多い。\n　医薬品製造の作業は工程や製造する薬の種類などによって作業内容がかなり異なってくるため、入職後はそれぞれの作業に必要な知識・技能について企業内研修が行われる。\n　関連資格として、国家資格である危険物取扱者や毒物劇物取扱責任者の資格を取得すれば、工場内での仕事の幅が広がる。\n　機械化が進んでいるため、電気や機械の基礎知識も必要となる。医薬品という製品の特殊性から、化学や生物学の専門知識、更には微生物・発酵、物理といった知識が求められる。人の健康にかかわる仕事なので、細心の注意力をもって製造と品質管理の規則を守ることが必要とされる。",
+    "working_conditions_ja": "勤務先は製薬会社の工場である。大手製薬企業から、生薬・漢方薬やビタミン剤などを専門に製造したり、製薬工程の一部分を担当する中小企業まである。\n　賃金、労働時間等労働条件は勤務先の規定による。年間の生産計画によって作業が平均化されているが、季節や疾病の発生状況等による作業量の変化もある。２４時間操業が見られる場合もある。\n　これまで治療法や治療薬のなかった難病に対して、医学やバイオ技術の発達によって新薬が次々と生まれており、それに伴って新しい製造方法も開発されている。"
+  },
+  "interests": {
+    "realistic": 3.292,
+    "investigative": 2.958,
+    "artistic": 2.833,
+    "social": 3.0,
+    "enterprising": 2.917,
+    "conventional": 3.125
+  },
+  "work_values": {
+    "achievement": 3.278,
+    "autonomy": 3.315,
+    "expertise": 3.574,
+    "self_growth": 3.389,
+    "social_recognition": 3.093,
+    "service_contribution": 3.259,
+    "good_relationships": 3.278,
+    "workplace_safety": 3.444,
+    "work_life_balance": 3.352,
+    "stability": 3.537,
+    "compensation": 3.148
+  },
+  "skills": {
+    "reading_comprehension": 4.056,
+    "active_listening": 3.889,
+    "writing": 3.926,
+    "speaking": 3.796,
+    "foreign_language_reading": 3.093,
+    "foreign_language_listening": 2.315,
+    "foreign_language_writing": 2.352,
+    "foreign_language_speaking": 1.833,
+    "mathematics": 2.556,
+    "science": 3.556,
+    "critical_thinking": 3.759,
+    "active_learning": 3.333,
+    "learning_strategies": 3.056,
+    "monitoring": 3.278,
+    "social_perceptiveness": 3.333,
+    "coordination": 3.278,
+    "persuasion": 3.056,
+    "negotiation": 2.852,
+    "instructing": 3.519,
+    "service_orientation": 2.296,
+    "complex_problem_solving": 3.37,
+    "operations_analysis": 3.0,
+    "technology_design": 2.463,
+    "equipment_selection": 3.0,
+    "installation": 2.907,
+    "programming": 1.648,
+    "operations_monitoring": 2.444,
+    "operation_and_control": 2.981,
+    "equipment_maintenance": 2.463,
+    "troubleshooting": 2.574,
+    "repairing": 2.204,
+    "quality_control_analysis": 3.148,
+    "judgment_decision_making": 2.981,
+    "systems_analysis": 2.815,
+    "systems_evaluation": 2.352,
+    "time_management": 2.815,
+    "financial_resources_management": 1.87,
+    "material_resources_management": 2.37,
+    "personnel_resources_management": 2.167
+  },
+  "knowledge": {
+    "business_management": 1.633,
+    "clerical": 2.041,
+    "economics_accounting": 1.429,
+    "sales_marketing": 1.388,
+    "customer_personal_service": 1.633,
+    "personnel_hr": 1.388,
+    "transportation": 1.347,
+    "production_processing": 2.694,
+    "agriculture_livestock": 0.551,
+    "engineering": 1.776,
+    "computers_electronics": 1.408,
+    "design": 1.102,
+    "building_construction": 0.612,
+    "mechanical": 1.551,
+    "mathematics_kn": 1.694,
+    "physics": 1.408,
+    "chemistry": 2.796,
+    "biology": 2.347,
+    "psychology": 1.102,
+    "sociology": 1.041,
+    "geography": 0.673,
+    "medicine_dentistry": 2.49,
+    "therapy_counseling": 0.796,
+    "education_training_kn": 1.939,
+    "japanese_language": 2.02,
+    "foreign_language_kn": 2.122,
+    "fine_arts": 0.449,
+    "history_archaeology": 0.469,
+    "philosophy_theology": 0.551,
+    "public_safety_security": 1.571,
+    "law_government": 1.429,
+    "telecommunications": 1.061,
+    "communications_media": 1.327
+  },
+  "abilities": {
+    "oral_comprehension": 2.841,
+    "written_comprehension": 3.0,
+    "oral_expression": 3.045,
+    "written_expression": 3.114,
+    "fluency_of_ideas": 2.864,
+    "originality": 2.682,
+    "problem_sensitivity": 3.455,
+    "deductive_reasoning": 3.0,
+    "inductive_reasoning": 2.977,
+    "information_ordering": 2.955,
+    "category_flexibility": 2.932,
+    "mathematical_reasoning": 2.886,
+    "number_facility": 2.909,
+    "memorization": 2.841,
+    "perceptual_speed": 2.886,
+    "spatial_orientation": 2.773,
+    "visualization": 2.591,
+    "selective_attention": 3.159,
+    "time_sharing": 3.045,
+    "arm_hand_steadiness": 2.727,
+    "manual_dexterity": 2.591,
+    "finger_dexterity": 2.545,
+    "reaction_time": 2.477,
+    "wrist_finger_speed": 2.364,
+    "speed_of_limb_movement": 2.364,
+    "static_strength": 2.409,
+    "stamina": 2.409,
+    "gross_body_equilibrium": 2.273,
+    "near_vision": 2.591,
+    "far_vision": 2.227,
+    "visual_color_discrimination": 2.614,
+    "depth_perception": 2.364,
+    "hearing_sensitivity": 2.318,
+    "auditory_attention": 2.295,
+    "speech_clarity": 2.477
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.347,
+    "face_to_face_discussions": 3.592,
+    "telephone_communication": 3.592,
+    "business_writing": 3.388,
+    "conflict_situations": 2.245,
+    "time_pressure": 3.204,
+    "teamwork": 3.673,
+    "dealing_with_external_customers": 2.837,
+    "coordinate_lead_others": 3.388,
+    "exactness_accuracy": 4.286,
+    "repetitive_tasks": 3.327,
+    "pace_determined_by_machine": 3.082,
+    "responsibility_for_outcomes": 3.755,
+    "indoor_climate_controlled": 4.653,
+    "indoor_non_climate_controlled": 2.041,
+    "outdoor_work": 1.714,
+    "sitting": 3.714,
+    "standing": 2.469,
+    "repetition_of_activities": 2.408,
+    "consequence_of_error": 3.429,
+    "freedom_to_make_decisions": 3.367,
+    "set_own_goals": 3.531,
+    "regular_schedule": 0.592,
+    "irregular_schedule": 0.306,
+    "seasonal_schedule": 0.102,
+    "email_communication": 4.367,
+    "cramped_uncomfortable": 1.816,
+    "disease_infection_risk": 1.408,
+    "minor_injury_risk": 1.837,
+    "standard_protective_equipment": 2.939,
+    "specialized_protective_equipment": 1.918,
+    "dealing_with_violent_people": 1.184,
+    "walking_running": 2.306,
+    "handling_objects_tools": 2.633,
+    "physical_proximity": 3.082,
+    "work_automation": 2.367,
+    "responsibility_for_safety": 2.776,
+    "impact_of_decisions": 3.082,
+    "level_of_competition": 2.306
+  },
+  "work_activities": {
+    "getting_information": 3.341,
+    "monitor_processes": 3.545,
+    "identifying_objects": 3.636,
+    "inspecting_equipment": 3.591,
+    "estimating_quantifiable": 3.636,
+    "judging_quality": 3.523,
+    "evaluating_compliance": 4.023,
+    "processing_information": 3.682,
+    "analyzing_data": 3.636,
+    "making_decisions": 3.636,
+    "thinking_creatively": 3.318,
+    "updating_knowledge": 3.523,
+    "developing_objectives": 3.386,
+    "scheduling_work": 3.568,
+    "organizing_planning": 3.5,
+    "physical_activities": 2.795,
+    "handling_objects": 2.909,
+    "controlling_machines": 3.364,
+    "operating_vehicles": 2.659,
+    "computer_work": 3.182,
+    "drafting_specifications": 2.977,
+    "repairing_mechanical": 3.25,
+    "repairing_electronic": 3.25,
+    "documenting_information": 3.682,
+    "interpreting_information": 3.386,
+    "communicating_inside": 3.386,
+    "communicating_outside": 3.364,
+    "building_relationships": 3.341,
+    "assisting_caring": 3.091,
+    "selling_influencing": 2.795,
+    "resolving_conflicts": 3.068,
+    "performing_for_public": 2.636,
+    "coordinating_others": 3.068,
+    "developing_teams": 3.068,
+    "training_teaching": 3.386,
+    "guiding_subordinates": 3.045,
+    "coaching_developing": 3.091,
+    "providing_consultation": 2.773,
+    "performing_administrative": 3.25,
+    "staffing_organizational": 2.886,
+    "monitoring_resources": 3.159
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.245,
+    "vocational_school": 0.041,
+    "junior_college": 0.041,
+    "technical_college": 0.122,
+    "university": 0.469,
+    "masters": 0.388,
+    "doctorate": 0.143,
+    "unknown": 0.122
+  },
+  "training_pre": {
+    "not_required": 0.429,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.163,
+    "6_months_to_1_year": 0.061,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.061,
+    "3_to_5_years": 0.082,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.02,
+    "unknown": 0.163
+  },
+  "training_post": {
+    "not_required": 0.061,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.204,
+    "6_months_to_1_year": 0.204,
+    "1_to_2_years": 0.143,
+    "2_to_3_years": 0.122,
+    "3_to_5_years": 0.143,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.02,
+    "unknown": 0.082
+  },
+  "experience": {
+    "not_required": 0.51,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.041,
+    "6_months_to_1_year": 0.041,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.082,
+    "3_to_5_years": 0.082,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.204
+  },
+  "employment_type": {
+    "regular_employee": 0.857,
+    "part_time": 0.122,
+    "dispatched": 0.184,
+    "contract": 0.184,
+    "self_employed_freelance": 0.02,
+    "executive": 0.061,
+    "casual_non_student": 0.02,
+    "casual_student": 0.02,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "製薬工場において製造ラインを運転し、医薬品を製造する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "異物混入を防ぐため制服や作業着に着替え、消毒、除菌等を行う。",
+      "execution_rate": 0.977,
+      "importance": 4.116
+    },
+    {
+      "task_id": 2,
+      "description_ja": "製造ラインの運転を監視する。",
+      "execution_rate": 0.932,
+      "importance": 3.78
+    },
+    {
+      "task_id": 3,
+      "description_ja": "規定量となるよう原料を計量する。",
+      "execution_rate": 0.955,
+      "importance": 4.071
+    },
+    {
+      "task_id": 4,
+      "description_ja": "計量した原料を装置に投入する装置を操作する。",
+      "execution_rate": 0.955,
+      "importance": 4.0
+    },
+    {
+      "task_id": 5,
+      "description_ja": "原薬を自動的に製造する装置の運転・監視をする。",
+      "execution_rate": 0.932,
+      "importance": 3.78
+    },
+    {
+      "task_id": 6,
+      "description_ja": "各段階でサンプリングし、原薬の状態を確認するための分析をする。",
+      "execution_rate": 0.955,
+      "importance": 3.905
+    },
+    {
+      "task_id": 7,
+      "description_ja": "原薬を秤量するため、指示された数量を正確に量り取る機械を操作する。",
+      "execution_rate": 0.955,
+      "importance": 3.857
+    },
+    {
+      "task_id": 8,
+      "description_ja": "原薬を様々な形に成形する機械を操作する。",
+      "execution_rate": 0.841,
+      "importance": 3.784
+    },
+    {
+      "task_id": 9,
+      "description_ja": "製品サンプルを抜き取り、分析のために実験室に送る。",
+      "execution_rate": 0.955,
+      "importance": 4.0
+    },
+    {
+      "task_id": 10,
+      "description_ja": "不純物除去のため、製品に処理剤や中和剤を加えてフィルターや遠心分離機を通す機械を操作する。",
+      "execution_rate": 0.886,
+      "importance": 3.923
+    },
+    {
+      "task_id": 11,
+      "description_ja": "製品を容器に充填するため、自動充填装置の運転・監視をする。",
+      "execution_rate": 0.886,
+      "importance": 3.718
+    },
+    {
+      "task_id": 12,
+      "description_ja": "製品の充填された容器から定期的にサンプリングを行い、品質検査をする。",
+      "execution_rate": 0.909,
+      "importance": 3.975
+    },
+    {
+      "task_id": 13,
+      "description_ja": "充填されたものにラベルを貼り、説明書と一緒に箱に入れる機械を操作する。",
+      "execution_rate": 0.841,
+      "importance": 3.865
+    },
+    {
+      "task_id": 14,
+      "description_ja": "調整タンクや容器の洗浄・減菌をするために、ヒビかけ検査機、自動洗浄・減菌装置の監視をする。",
+      "execution_rate": 0.864,
+      "importance": 3.921
+    },
+    {
+      "task_id": 15,
+      "description_ja": "製造機械の部品を組み立てる。",
+      "execution_rate": 0.864,
+      "importance": 3.789
+    },
+    {
+      "task_id": 16,
+      "description_ja": "製造装置を保守・点検する。",
+      "execution_rate": 0.955,
+      "importance": 3.929
+    },
+    {
+      "task_id": 17,
+      "description_ja": "装置を洗浄するために、洗浄機械を操作する。",
+      "execution_rate": 0.886,
+      "importance": 3.769
+    },
+    {
+      "task_id": 18,
+      "description_ja": "自動充填装置に製品用容器を供給する。",
+      "execution_rate": 0.886,
+      "importance": 3.821
+    },
+    {
+      "task_id": 19,
+      "description_ja": "作業に伴う製造記録の記入やデータ入力をする。",
+      "execution_rate": 0.932,
+      "importance": 4.073
+    },
+    {
+      "task_id": 20,
+      "description_ja": "各種規制等に従い、医薬品の品質保証をする。",
+      "execution_rate": 0.977,
+      "importance": 4.279
+    },
+    {
+      "task_id": 21,
+      "description_ja": "製品の製造プロセスや品質を管理する。",
+      "execution_rate": 0.909,
+      "importance": 4.025
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "日本製薬工業協会",
+      "url": "http://www.jpma.or.jp"
+    },
+    {
+      "name_ja": "日本製薬団体連合会",
+      "url": "http://www.fpmaj.gr.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "毒物劇物取扱責任者",
+    "危険物取扱者（甲種）",
+    "危険物取扱者（乙種）",
+    "危険物取扱者（丙種）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/295",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

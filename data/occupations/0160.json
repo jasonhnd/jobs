@@ -1,0 +1,452 @@
+{
+  "id": 160,
+  "ipd_id": "IPD_01_01_160",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "保健師",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "04_022-01",
+    "mhlw_all": [
+      "04_022-01"
+    ],
+    "jsoc_main": "B131",
+    "jsoc_all": [
+      "B131"
+    ]
+  },
+  "description": {
+    "summary_ja": "地域住民の健康を守るために家庭訪問、巡回指導、講習会などにより、保健衛生に関する知識の普及を行い、指導をする。",
+    "what_it_is_ja": "保健師は、主に、自治体（保健所・市区町村など）に勤務しており、保健、医療、福祉、介護などの分野で、乳幼児から高齢者までのすべての住民を対象に必要な保健サービスを提供している。\n　例えば、生活習慣病対策としては、高血圧や糖尿病などの生活習慣病を予防するための教室、たばこ対策では喫煙者に対する保健指導、母子保健対策として乳幼児健康診査や両親学級などを実施するとともに、場合によっては家庭訪問をして個別の健康相談に応じるなど住民が健康で質の高い生活を送ることを支援するための保健活動を実施している。\n　また、地域保健関連施策の企画、立案、実施及び評価、総合的な健康政策へ関わっているほか、最近では、これらの活動に加えて、持続可能でかつ地域特性をいかした健康なまちづくりや災害対策などにおいても役割を果たすことが求められている。\n　この他、企業や学校で、社員や生徒の健康管理に携わる保健師もいる。企業で働く産業保健師は、職場でのメンタルヘルス不調を未然に防止するため2015年12月より一定規模以上の職場で義務づけられたストレスチェックの実施や、その診断結果の通知等の仕事を担っている。\n◇　よく使う道具、機材、情報技術等\n　パソコン、事務処理ソフト（文書作成、表計算）",
+    "how_to_become_ja": "保健師になるには保健師国家試験に合格する必要がある。この試験の受験資格は看護師国家試験に合格していることが前提となるため、看護師国家試験合格に向け、高校卒業後、看護系大学、短大又は専門学校にて3～4年専門教育を修めたのち、試験に臨む。試験合格後、看護系大学にて保健師選択課程を選択した人は保健師国家試験の受験資格を得る。この他の選択をしていた者は、看護系大学院で2年間又は、看護大学専攻科・別科、看護短期大学専攻科、保健師養成所のいずれかで1年間の専門教育を修めたのち、保健師国家試験の受験資格を得る。いずれの過程においても保健師国家試験に合格後、保健師となることができる。\n　なお、医療・保健に関する専門知識や職業能力はもちろん、保健指導・面談においてクライエントを正しく理解するための基本的なカウンセリングの知識・技術等があると有用である。",
+    "working_conditions_ja": "保健師は、主に、自治体（保健所・市区町村など）、病院・診療所、産業保健、学校保健を含む多様な場所で勤務している。多くの保健師が自治体に勤務しており、保健、医療、福祉、介護などの分野で、乳幼児から高齢者まで全ての住民を対象に必要な保健サービスを提供している。その他には、企業の従業員の健康管理に携わる保健師や学校で児童・生徒の健康管理に携わる保健師、病院や診療所などで保健指導や療養生活の相談をする保健師がいる。\n　保健師は公務員の割合が高く、その場合賃金や労働条件は公務員として扱われる。\n　訪問看護ステーションや居宅介護支援事業所等での業務などの場合、休日や夜間にも働くケースもある。"
+  },
+  "interests": {
+    "realistic": 2.605,
+    "investigative": 3.434,
+    "artistic": 2.355,
+    "social": 4.474,
+    "enterprising": 3.908,
+    "conventional": 3.329
+  },
+  "work_values": {
+    "achievement": 3.094,
+    "autonomy": 3.566,
+    "expertise": 3.83,
+    "self_growth": 3.434,
+    "social_recognition": 3.0,
+    "service_contribution": 3.566,
+    "good_relationships": 3.453,
+    "workplace_safety": 3.472,
+    "work_life_balance": 3.283,
+    "stability": 3.642,
+    "compensation": 2.906
+  },
+  "skills": {
+    "reading_comprehension": 4.34,
+    "active_listening": 5.774,
+    "writing": 4.453,
+    "speaking": 4.547,
+    "foreign_language_reading": 1.17,
+    "foreign_language_listening": 1.057,
+    "foreign_language_writing": 0.849,
+    "foreign_language_speaking": 0.962,
+    "mathematics": 2.019,
+    "science": 1.34,
+    "critical_thinking": 3.264,
+    "active_learning": 3.472,
+    "learning_strategies": 3.604,
+    "monitoring": 3.528,
+    "social_perceptiveness": 5.0,
+    "coordination": 4.226,
+    "persuasion": 4.132,
+    "negotiation": 3.453,
+    "instructing": 4.132,
+    "service_orientation": 4.509,
+    "complex_problem_solving": 4.019,
+    "operations_analysis": 2.698,
+    "technology_design": 1.811,
+    "equipment_selection": 2.038,
+    "installation": 1.585,
+    "programming": 0.906,
+    "operations_monitoring": 0.811,
+    "operation_and_control": 1.132,
+    "equipment_maintenance": 0.868,
+    "troubleshooting": 0.906,
+    "repairing": 0.925,
+    "quality_control_analysis": 1.264,
+    "judgment_decision_making": 2.283,
+    "systems_analysis": 2.245,
+    "systems_evaluation": 2.038,
+    "time_management": 3.019,
+    "financial_resources_management": 1.283,
+    "material_resources_management": 1.415,
+    "personnel_resources_management": 1.887
+  },
+  "knowledge": {
+    "business_management": 1.054,
+    "clerical": 2.696,
+    "economics_accounting": 0.821,
+    "sales_marketing": 0.589,
+    "customer_personal_service": 2.946,
+    "personnel_hr": 1.536,
+    "transportation": 0.321,
+    "production_processing": 0.339,
+    "agriculture_livestock": 0.232,
+    "engineering": 0.393,
+    "computers_electronics": 0.643,
+    "design": 0.375,
+    "building_construction": 0.286,
+    "mechanical": 0.339,
+    "mathematics_kn": 0.768,
+    "physics": 0.464,
+    "chemistry": 0.696,
+    "biology": 1.875,
+    "psychology": 3.268,
+    "sociology": 2.804,
+    "geography": 0.661,
+    "medicine_dentistry": 4.25,
+    "therapy_counseling": 3.518,
+    "education_training_kn": 2.625,
+    "japanese_language": 2.179,
+    "foreign_language_kn": 1.375,
+    "fine_arts": 0.5,
+    "history_archaeology": 0.5,
+    "philosophy_theology": 0.946,
+    "public_safety_security": 3.625,
+    "law_government": 2.0,
+    "telecommunications": 0.911,
+    "communications_media": 2.571
+  },
+  "abilities": {
+    "oral_comprehension": 3.571,
+    "written_comprehension": 3.408,
+    "oral_expression": 3.673,
+    "written_expression": 3.51,
+    "fluency_of_ideas": 3.286,
+    "originality": 2.98,
+    "problem_sensitivity": 3.755,
+    "deductive_reasoning": 3.082,
+    "inductive_reasoning": 3.204,
+    "information_ordering": 2.796,
+    "category_flexibility": 3.0,
+    "mathematical_reasoning": 2.347,
+    "number_facility": 2.163,
+    "memorization": 2.714,
+    "perceptual_speed": 2.367,
+    "spatial_orientation": 2.571,
+    "visualization": 2.633,
+    "selective_attention": 2.776,
+    "time_sharing": 3.265,
+    "arm_hand_steadiness": 2.082,
+    "manual_dexterity": 2.061,
+    "finger_dexterity": 2.0,
+    "reaction_time": 2.571,
+    "wrist_finger_speed": 2.184,
+    "speed_of_limb_movement": 1.959,
+    "static_strength": 2.041,
+    "stamina": 2.429,
+    "gross_body_equilibrium": 2.041,
+    "near_vision": 2.041,
+    "far_vision": 1.959,
+    "visual_color_discrimination": 2.041,
+    "depth_perception": 1.918,
+    "hearing_sensitivity": 2.265,
+    "auditory_attention": 2.122,
+    "speech_clarity": 2.653
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.964,
+    "face_to_face_discussions": 4.339,
+    "telephone_communication": 4.804,
+    "business_writing": 4.446,
+    "conflict_situations": 2.393,
+    "time_pressure": 2.929,
+    "teamwork": 4.143,
+    "dealing_with_external_customers": 3.857,
+    "coordinate_lead_others": 3.696,
+    "exactness_accuracy": 4.018,
+    "repetitive_tasks": 3.429,
+    "pace_determined_by_machine": 2.696,
+    "responsibility_for_outcomes": 3.429,
+    "indoor_climate_controlled": 4.768,
+    "indoor_non_climate_controlled": 2.036,
+    "outdoor_work": 2.429,
+    "sitting": 3.875,
+    "standing": 2.554,
+    "repetition_of_activities": 2.143,
+    "consequence_of_error": 2.982,
+    "freedom_to_make_decisions": 3.536,
+    "set_own_goals": 3.75,
+    "regular_schedule": 0.464,
+    "irregular_schedule": 0.482,
+    "seasonal_schedule": 0.054,
+    "email_communication": 4.571,
+    "cramped_uncomfortable": 1.804,
+    "disease_infection_risk": 2.964,
+    "minor_injury_risk": 1.25,
+    "standard_protective_equipment": 1.625,
+    "specialized_protective_equipment": 1.161,
+    "dealing_with_violent_people": 1.857,
+    "walking_running": 2.411,
+    "handling_objects_tools": 1.679,
+    "physical_proximity": 3.75,
+    "work_automation": 2.054,
+    "responsibility_for_safety": 3.411,
+    "impact_of_decisions": 2.696,
+    "level_of_competition": 1.482
+  },
+  "work_activities": {
+    "getting_information": 3.653,
+    "monitor_processes": 3.816,
+    "identifying_objects": 3.531,
+    "inspecting_equipment": 2.102,
+    "estimating_quantifiable": 2.673,
+    "judging_quality": 2.816,
+    "evaluating_compliance": 3.51,
+    "processing_information": 3.306,
+    "analyzing_data": 3.469,
+    "making_decisions": 3.551,
+    "thinking_creatively": 3.102,
+    "updating_knowledge": 3.878,
+    "developing_objectives": 3.469,
+    "scheduling_work": 3.571,
+    "organizing_planning": 3.796,
+    "physical_activities": 2.694,
+    "handling_objects": 2.429,
+    "controlling_machines": 1.98,
+    "operating_vehicles": 2.02,
+    "computer_work": 3.102,
+    "drafting_specifications": 1.714,
+    "repairing_mechanical": 1.694,
+    "repairing_electronic": 1.653,
+    "documenting_information": 3.286,
+    "interpreting_information": 3.571,
+    "communicating_inside": 3.939,
+    "communicating_outside": 3.837,
+    "building_relationships": 3.857,
+    "assisting_caring": 3.837,
+    "selling_influencing": 3.245,
+    "resolving_conflicts": 3.082,
+    "performing_for_public": 3.286,
+    "coordinating_others": 3.143,
+    "developing_teams": 3.306,
+    "training_teaching": 3.041,
+    "guiding_subordinates": 2.837,
+    "coaching_developing": 2.755,
+    "providing_consultation": 2.51,
+    "performing_administrative": 2.735,
+    "staffing_organizational": 2.143,
+    "monitoring_resources": 2.163
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.018,
+    "vocational_school": 0.286,
+    "junior_college": 0.036,
+    "technical_college": 0.018,
+    "university": 0.857,
+    "masters": 0.089,
+    "doctorate": 0.0,
+    "unknown": 0.018
+  },
+  "training_pre": {
+    "not_required": 0.286,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.089,
+    "6_months_to_1_year": 0.089,
+    "1_to_2_years": 0.071,
+    "2_to_3_years": 0.036,
+    "3_to_5_years": 0.268,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.125
+  },
+  "training_post": {
+    "not_required": 0.0,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.054,
+    "6_months_to_1_year": 0.214,
+    "1_to_2_years": 0.339,
+    "2_to_3_years": 0.214,
+    "3_to_5_years": 0.125,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.054
+  },
+  "experience": {
+    "not_required": 0.482,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.036,
+    "6_months_to_1_year": 0.125,
+    "1_to_2_years": 0.054,
+    "2_to_3_years": 0.054,
+    "3_to_5_years": 0.089,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.125
+  },
+  "employment_type": {
+    "regular_employee": 0.857,
+    "part_time": 0.179,
+    "dispatched": 0.107,
+    "contract": 0.179,
+    "self_employed_freelance": 0.018,
+    "executive": 0.018,
+    "casual_non_student": 0.018,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.036
+  },
+  "tasks_lead_ja": "地域住民の健康を守るために家庭訪問、巡回指導、講習会などにより、保健衛生に関する知識の普及を行い、指導をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "自宅療養患者や高齢者の家庭を訪問して聞き取り調査を行い、助言をする。",
+      "execution_rate": 0.694,
+      "importance": 3.147
+    },
+    {
+      "task_id": 2,
+      "description_ja": "家庭を訪問し、乳幼児の体重を量ったり聴診器で心音を聞くなどして、発育の状態を確認する。",
+      "execution_rate": 0.633,
+      "importance": 3.548
+    },
+    {
+      "task_id": 3,
+      "description_ja": "乳幼児をもつ親からの相談を受けて育児についての指導や助言をする。",
+      "execution_rate": 0.633,
+      "importance": 3.645
+    },
+    {
+      "task_id": 4,
+      "description_ja": "乳幼児などに予防接種を実施する。",
+      "execution_rate": 0.571,
+      "importance": 2.821
+    },
+    {
+      "task_id": 5,
+      "description_ja": "地域の保育園や幼稚園と連携し、子育て支援をする。",
+      "execution_rate": 0.571,
+      "importance": 3.286
+    },
+    {
+      "task_id": 6,
+      "description_ja": "園児の保護者に対して乳幼児の保健全般にかかわる情報を提供する。",
+      "execution_rate": 0.531,
+      "importance": 3.192
+    },
+    {
+      "task_id": 7,
+      "description_ja": "乳幼児や児童の虐待を防ぐため、家庭への支援や関係機関との連携を行う。",
+      "execution_rate": 0.694,
+      "importance": 3.588
+    },
+    {
+      "task_id": 8,
+      "description_ja": "高齢者の権利擁護にかかる事務作業を行う。",
+      "execution_rate": 0.551,
+      "importance": 2.778
+    },
+    {
+      "task_id": 9,
+      "description_ja": "高齢者の入退院の支援を行う。",
+      "execution_rate": 0.51,
+      "importance": 2.56
+    },
+    {
+      "task_id": 10,
+      "description_ja": "医師との連携をとり、さまざまな健康診断をする。",
+      "execution_rate": 0.878,
+      "importance": 3.512
+    },
+    {
+      "task_id": 11,
+      "description_ja": "健診データを分析する。",
+      "execution_rate": 0.898,
+      "importance": 3.659
+    },
+    {
+      "task_id": 12,
+      "description_ja": "地域住民からの健康、保健、栄養についての相談を受けて助言や指導をする。",
+      "execution_rate": 0.898,
+      "importance": 3.523
+    },
+    {
+      "task_id": 13,
+      "description_ja": "生活上の支援が必要な人に対して支援プランを作成したり、関係機関とのコーディネートをする。",
+      "execution_rate": 0.694,
+      "importance": 3.235
+    },
+    {
+      "task_id": 14,
+      "description_ja": "地域の医療システム構築を支援する。",
+      "execution_rate": 0.755,
+      "importance": 3.108
+    },
+    {
+      "task_id": 15,
+      "description_ja": "講習会などによって、疾病を予防する方法の普及を図る。",
+      "execution_rate": 0.959,
+      "importance": 3.213
+    },
+    {
+      "task_id": 16,
+      "description_ja": "精神疾患を持つ患者への生活指導および助言や援助をする。",
+      "execution_rate": 0.816,
+      "importance": 3.375
+    },
+    {
+      "task_id": 17,
+      "description_ja": "難病患者の療養支援のためのサービスをコーディネートする。",
+      "execution_rate": 0.674,
+      "importance": 2.879
+    },
+    {
+      "task_id": 18,
+      "description_ja": "企業や学校に所属して社員や生徒の健康を管理する。",
+      "execution_rate": 0.653,
+      "importance": 3.656
+    },
+    {
+      "task_id": 19,
+      "description_ja": "学生の健康管理を支援し、必要な保健指導を行う。",
+      "execution_rate": 0.367,
+      "importance": 2.556
+    },
+    {
+      "task_id": 20,
+      "description_ja": "職員の健康管理を行う。",
+      "execution_rate": 0.612,
+      "importance": 3.4
+    },
+    {
+      "task_id": 21,
+      "description_ja": "労働安全衛生委員会に出席する。",
+      "execution_rate": 0.571,
+      "importance": 2.714
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本看護協会",
+      "url": "https://www.nurse.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "産業カウンセラー",
+    "看護師",
+    "保健師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/160",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

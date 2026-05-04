@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "source_file": "data/.archive/v0.6/data.json",
+  "source_sha256": "181b4542760160d59b84dccdde25927d677257427e94ca0bd3ee7862412b6560",
+  "source_tag": "jobtag_scrape_2026-04-25",
+  "migrated_at": "2026-05-04",
+  "migrator_script": "scripts/migrate_stats_legacy.py",
+  "output_dir": "data/stats_legacy",
+  "files_written": 552,
+  "skipped_empty": 0,
+  "field_coverage": {
+    "salary_man_yen": 540,
+    "workers": 552,
+    "monthly_hours": 540,
+    "average_age": 540,
+    "recruit_wage_man_yen": 541,
+    "recruit_ratio": 541
+  },
+  "note": "One-shot migration; source is v0.6.x scraped data.json (now archived)."
+}

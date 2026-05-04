@@ -1,0 +1,450 @@
+{
+  "id": 80,
+  "ipd_id": "IPD_01_01_080",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "中小企業診断士",
+  "aliases_ja": [
+    "経営指導員（商工会議所、商工会）"
+  ],
+  "classifications": {
+    "mhlw_main": "03_013-99",
+    "mhlw_all": [
+      "03_013-99"
+    ],
+    "jsoc_main": "B189",
+    "jsoc_all": [
+      "B189"
+    ]
+  },
+  "description": {
+    "summary_ja": "中小企業の経営者等からの依頼に応じて、企業の経営内容を診断し、改善方法を提案して支援する。",
+    "what_it_is_ja": "中小企業の経営者等からの依頼に応じて、企業の経営内容を診断し、改善方法を提案して支援する。\n　まず、依頼された企業の希望に沿って診断方針を作る。次に、経営状態を判断するために、貸借対照表、損益計算書などの財務諸表やその他の経営に関する資料を提出してもらい、経営内容や問題点などについてヒアリングを行う。こうした資料や説明から経営上の問題点を判断する。実際の問題点は、経営者も自覚していない場合があるので、鋭い洞察力と的確な判断力が求められる。\n　問題点を明確にした上で、実態を更に詳しく調査する。社内の情報や資料を分析するとともに、必要に応じて社外の情報や資料を収集し、それらを総合的に判断して生産管理や経営に関する課題、収益性改善やコスト削減など生産性向上の改善案を診断報告書にまとめ、改善に当たっての具体的な方法を提案する。提案を踏まえた、経営計画策定の支援、実行後の実績等を踏まえたフォローアップ支援等を行う場合もある。\n　企業経営全般にかかわる課題であるため、支援分野は広い。専門知識を活用するだけではなく、企業と行政や金融機関をつなげるパイプ役になったり、国・自治体の中小企業支援施策の活用を助言したりする。また、最近では、事業基盤の強化、そして従業員の働きがいや満足度など企業と従業員の関係性などが経営課題として注目されており、コンサルティングニーズが高まっている。\n\n◇　よく使う道具、機材、情報技術等\n　プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "中小企業診断士の資格が必要である。そのためには、まず、中小企業診断協会が実施する1次試験に合格する必要がある。その後は2つの方法があり、1つめは同協会が実施する2次試験に合格し実務補習を修了するか、15日以上の診断実務を行う。もう1つは中小企業基盤整備機構又は登録養成機関が実施する養成課程を修了する方法である。中小企業診断士の登録には、経済産業大臣の登録を受ける必要がある。登録は5年ごとの更新が必要で、更新の際は研修を受講することや一定の実務経験があることなどが要件となる。\n　関連する資格を併せて取得し、中小企業を全般的に助言、支援する中小企業診断士として開業しているケースもある。\n　企業経営全般についての豊富な知識と経験を持ち、依頼者に信頼される誠実さが求められる。また、企業の経営環境は日々変化しており、絶えず専門能力の維持・向上に努めていく姿勢が必要である。",
+    "working_conditions_ja": "問題点を判断する。実際の問題点は、経営者も自覚していない場合があるので、鋭い洞察力と的確な判断力が求められる。\n　問題点を明確にした上で、実態を更に詳しく調査する。社内の情報や資料を分析するとともに、必要に応じて社外の情報や資料を収集し、それらを総合的に判断して生産管理や経営に関する課題、収益性改善やコスト削減など生産性向上の改善案を診断報告書にまとめ、改善に当たっての具体的な方法を提案する。提案を踏まえた、経営計画策定の支援、実行後の実績等を踏まえたフォローアップ支援等を行う場合もある。\n　企業経営全般にかかわる課題であるため、支援分野は広い。専門知識を活用するだけではなく、企業と行政や金融機関をつなげるパイプ役になったり、国・自治体の中小企業支援施策の活用を助言したりする。また、最近では、事業基盤の強化、そして従業員の働きがいや満足度など企業と従業員の関係性などが経営課題として注目されており、コンサルティングニーズが高まっている。\n\n*独立行政法人中小企業基盤整備機構、データでみる中小企業診断士2016年版～中小企業診断士アンケート結果から～"
+  },
+  "interests": {
+    "realistic": 2.765,
+    "investigative": 3.324,
+    "artistic": 2.706,
+    "social": 3.676,
+    "enterprising": 3.926,
+    "conventional": 2.765
+  },
+  "work_values": {
+    "achievement": 4.082,
+    "autonomy": 4.041,
+    "expertise": 4.122,
+    "self_growth": 3.98,
+    "social_recognition": 3.469,
+    "service_contribution": 3.776,
+    "good_relationships": 3.939,
+    "workplace_safety": 3.531,
+    "work_life_balance": 3.449,
+    "stability": 3.163,
+    "compensation": 3.204
+  },
+  "skills": {
+    "reading_comprehension": 5.0,
+    "active_listening": 5.673,
+    "writing": 5.184,
+    "speaking": 5.286,
+    "foreign_language_reading": 2.49,
+    "foreign_language_listening": 2.122,
+    "foreign_language_writing": 1.98,
+    "foreign_language_speaking": 2.122,
+    "mathematics": 3.755,
+    "science": 2.694,
+    "critical_thinking": 5.306,
+    "active_learning": 4.939,
+    "learning_strategies": 4.571,
+    "monitoring": 5.02,
+    "social_perceptiveness": 4.735,
+    "coordination": 4.98,
+    "persuasion": 4.898,
+    "negotiation": 4.939,
+    "instructing": 5.02,
+    "service_orientation": 4.49,
+    "complex_problem_solving": 4.837,
+    "operations_analysis": 4.347,
+    "technology_design": 3.857,
+    "equipment_selection": 3.735,
+    "installation": 3.102,
+    "programming": 2.143,
+    "operations_monitoring": 1.796,
+    "operation_and_control": 2.0,
+    "equipment_maintenance": 1.755,
+    "troubleshooting": 1.98,
+    "repairing": 1.796,
+    "quality_control_analysis": 2.776,
+    "judgment_decision_making": 4.918,
+    "systems_analysis": 5.082,
+    "systems_evaluation": 5.102,
+    "time_management": 4.408,
+    "financial_resources_management": 4.49,
+    "material_resources_management": 3.51,
+    "personnel_resources_management": 3.898
+  },
+  "knowledge": {
+    "business_management": 4.132,
+    "clerical": 3.211,
+    "economics_accounting": 3.974,
+    "sales_marketing": 3.816,
+    "customer_personal_service": 3.579,
+    "personnel_hr": 3.132,
+    "transportation": 1.658,
+    "production_processing": 2.211,
+    "agriculture_livestock": 1.289,
+    "engineering": 1.684,
+    "computers_electronics": 2.184,
+    "design": 1.368,
+    "building_construction": 1.289,
+    "mechanical": 1.316,
+    "mathematics_kn": 2.079,
+    "physics": 1.184,
+    "chemistry": 0.947,
+    "biology": 0.763,
+    "psychology": 2.579,
+    "sociology": 2.632,
+    "geography": 1.684,
+    "medicine_dentistry": 0.868,
+    "therapy_counseling": 1.921,
+    "education_training_kn": 2.711,
+    "japanese_language": 2.789,
+    "foreign_language_kn": 1.526,
+    "fine_arts": 1.026,
+    "history_archaeology": 1.026,
+    "philosophy_theology": 1.026,
+    "public_safety_security": 2.421,
+    "law_government": 2.763,
+    "telecommunications": 2.053,
+    "communications_media": 2.947
+  },
+  "abilities": {
+    "oral_comprehension": 3.378,
+    "written_comprehension": 3.405,
+    "oral_expression": 3.541,
+    "written_expression": 3.486,
+    "fluency_of_ideas": 3.595,
+    "originality": 3.514,
+    "problem_sensitivity": 3.514,
+    "deductive_reasoning": 3.432,
+    "inductive_reasoning": 3.378,
+    "information_ordering": 3.216,
+    "category_flexibility": 3.243,
+    "mathematical_reasoning": 3.189,
+    "number_facility": 3.027,
+    "memorization": 2.919,
+    "perceptual_speed": 2.892,
+    "spatial_orientation": 2.919,
+    "visualization": 2.865,
+    "selective_attention": 2.973,
+    "time_sharing": 3.0,
+    "arm_hand_steadiness": 1.676,
+    "manual_dexterity": 1.568,
+    "finger_dexterity": 1.541,
+    "reaction_time": 2.0,
+    "wrist_finger_speed": 1.568,
+    "speed_of_limb_movement": 1.486,
+    "static_strength": 1.405,
+    "stamina": 2.405,
+    "gross_body_equilibrium": 1.703,
+    "near_vision": 1.568,
+    "far_vision": 1.595,
+    "visual_color_discrimination": 1.676,
+    "depth_perception": 1.568,
+    "hearing_sensitivity": 1.73,
+    "auditory_attention": 1.595,
+    "speech_clarity": 2.514
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.184,
+    "face_to_face_discussions": 4.026,
+    "telephone_communication": 4.184,
+    "business_writing": 4.289,
+    "conflict_situations": 2.342,
+    "time_pressure": 3.053,
+    "teamwork": 3.0,
+    "dealing_with_external_customers": 4.0,
+    "coordinate_lead_others": 3.5,
+    "exactness_accuracy": 4.184,
+    "repetitive_tasks": 2.632,
+    "pace_determined_by_machine": 2.079,
+    "responsibility_for_outcomes": 3.711,
+    "indoor_climate_controlled": 4.579,
+    "indoor_non_climate_controlled": 1.947,
+    "outdoor_work": 2.237,
+    "sitting": 4.079,
+    "standing": 1.895,
+    "repetition_of_activities": 1.947,
+    "consequence_of_error": 3.053,
+    "freedom_to_make_decisions": 4.184,
+    "set_own_goals": 4.079,
+    "regular_schedule": 0.211,
+    "irregular_schedule": 0.737,
+    "seasonal_schedule": 0.053,
+    "email_communication": 4.763,
+    "cramped_uncomfortable": 1.868,
+    "disease_infection_risk": 2.079,
+    "minor_injury_risk": 1.342,
+    "standard_protective_equipment": 1.447,
+    "specialized_protective_equipment": 1.263,
+    "dealing_with_violent_people": 1.421,
+    "walking_running": 2.079,
+    "handling_objects_tools": 1.605,
+    "physical_proximity": 3.211,
+    "work_automation": 2.079,
+    "responsibility_for_safety": 1.816,
+    "impact_of_decisions": 3.421,
+    "level_of_competition": 2.579
+  },
+  "work_activities": {
+    "getting_information": 3.865,
+    "monitor_processes": 3.568,
+    "identifying_objects": 3.676,
+    "inspecting_equipment": 2.838,
+    "estimating_quantifiable": 3.405,
+    "judging_quality": 3.378,
+    "evaluating_compliance": 3.514,
+    "processing_information": 3.189,
+    "analyzing_data": 3.595,
+    "making_decisions": 3.838,
+    "thinking_creatively": 3.649,
+    "updating_knowledge": 3.838,
+    "developing_objectives": 4.081,
+    "scheduling_work": 3.622,
+    "organizing_planning": 3.892,
+    "physical_activities": 2.216,
+    "handling_objects": 2.081,
+    "controlling_machines": 2.216,
+    "operating_vehicles": 1.514,
+    "computer_work": 2.973,
+    "drafting_specifications": 1.892,
+    "repairing_mechanical": 1.595,
+    "repairing_electronic": 1.649,
+    "documenting_information": 3.081,
+    "interpreting_information": 3.108,
+    "communicating_inside": 2.838,
+    "communicating_outside": 3.432,
+    "building_relationships": 3.486,
+    "assisting_caring": 2.811,
+    "selling_influencing": 2.757,
+    "resolving_conflicts": 2.919,
+    "performing_for_public": 2.784,
+    "coordinating_others": 2.892,
+    "developing_teams": 3.135,
+    "training_teaching": 3.027,
+    "guiding_subordinates": 2.811,
+    "coaching_developing": 3.189,
+    "providing_consultation": 3.486,
+    "performing_administrative": 2.892,
+    "staffing_organizational": 2.324,
+    "monitoring_resources": 2.432
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.079,
+    "vocational_school": 0.026,
+    "junior_college": 0.026,
+    "technical_college": 0.0,
+    "university": 0.921,
+    "masters": 0.105,
+    "doctorate": 0.026,
+    "unknown": 0.026
+  },
+  "training_pre": {
+    "not_required": 0.211,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.079,
+    "6_months_to_1_year": 0.053,
+    "1_to_2_years": 0.158,
+    "2_to_3_years": 0.132,
+    "3_to_5_years": 0.105,
+    "5_to_10_years": 0.105,
+    "over_10_years": 0.132,
+    "unknown": 0.026
+  },
+  "training_post": {
+    "not_required": 0.026,
+    "up_to_1_month": 0.053,
+    "1_to_6_months": 0.053,
+    "6_months_to_1_year": 0.184,
+    "1_to_2_years": 0.184,
+    "2_to_3_years": 0.184,
+    "3_to_5_years": 0.079,
+    "5_to_10_years": 0.105,
+    "over_10_years": 0.079,
+    "unknown": 0.053
+  },
+  "experience": {
+    "not_required": 0.184,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.053,
+    "6_months_to_1_year": 0.079,
+    "1_to_2_years": 0.026,
+    "2_to_3_years": 0.079,
+    "3_to_5_years": 0.105,
+    "5_to_10_years": 0.211,
+    "over_10_years": 0.184,
+    "unknown": 0.079
+  },
+  "employment_type": {
+    "regular_employee": 0.474,
+    "part_time": 0.053,
+    "dispatched": 0.026,
+    "contract": 0.105,
+    "self_employed_freelance": 0.579,
+    "executive": 0.132,
+    "casual_non_student": 0.026,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.026
+  },
+  "tasks_lead_ja": "中小企業の経営者からの依頼により、企業の経営内容を診断し、改善方法を提案して支援する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "依頼された企業の希望に沿って診断方針を作る。",
+      "execution_rate": 0.973,
+      "importance": 3.528
+    },
+    {
+      "task_id": 2,
+      "description_ja": "経営に関する資料を読み、経営内容、問題点の説明を受けて、経営上の問題点を判断する。",
+      "execution_rate": 1.0,
+      "importance": 3.757
+    },
+    {
+      "task_id": 3,
+      "description_ja": "企業の問題点をさらに調べるために、企業に出向いて現場を調査する。",
+      "execution_rate": 1.0,
+      "importance": 3.811
+    },
+    {
+      "task_id": 4,
+      "description_ja": "社内の情報や資料を分析するとともに、必要に応じて社外の情報や資料を収集する。",
+      "execution_rate": 1.0,
+      "importance": 3.757
+    },
+    {
+      "task_id": 5,
+      "description_ja": "集めた資料を総合的に判断し、改善案を診断報告書にまとめ、具体的な方法を提案する。",
+      "execution_rate": 1.0,
+      "importance": 3.892
+    },
+    {
+      "task_id": 6,
+      "description_ja": "業務の効率化を図るために経営者と話し合い、問題点と改善案を確認する。",
+      "execution_rate": 1.0,
+      "importance": 3.892
+    },
+    {
+      "task_id": 7,
+      "description_ja": "改善案を実行するためのマニュアルを作成し、手順について従業員を研修する。",
+      "execution_rate": 0.892,
+      "importance": 3.242
+    },
+    {
+      "task_id": 8,
+      "description_ja": "関係者と話し合い、新しいシステムや手法が円滑に機能しているかどうかを確認する。",
+      "execution_rate": 0.946,
+      "importance": 3.543
+    },
+    {
+      "task_id": 9,
+      "description_ja": "国の施策を経営に活用できるよう支援する。",
+      "execution_rate": 1.0,
+      "importance": 3.378
+    },
+    {
+      "task_id": 10,
+      "description_ja": "企業のマーケティングについて調査し、販路を開拓する。",
+      "execution_rate": 0.973,
+      "importance": 3.389
+    },
+    {
+      "task_id": 11,
+      "description_ja": "見込取引先となる企業を紹介する。",
+      "execution_rate": 0.892,
+      "importance": 2.636
+    },
+    {
+      "task_id": 12,
+      "description_ja": "創業計画書の作成を支援する。",
+      "execution_rate": 0.973,
+      "importance": 3.444
+    },
+    {
+      "task_id": 13,
+      "description_ja": "企業の資金調達を支援する。",
+      "execution_rate": 0.919,
+      "importance": 3.176
+    },
+    {
+      "task_id": 14,
+      "description_ja": "新規事業の立ち上げを支援する。",
+      "execution_rate": 0.919,
+      "importance": 3.353
+    },
+    {
+      "task_id": 15,
+      "description_ja": "新規事業の開業場所を調査し、情報を提供する。",
+      "execution_rate": 0.811,
+      "importance": 3.067
+    },
+    {
+      "task_id": 16,
+      "description_ja": "人材の採用や育成を支援する。",
+      "execution_rate": 0.892,
+      "importance": 3.0
+    },
+    {
+      "task_id": 17,
+      "description_ja": "企業の労務管理を支援する。",
+      "execution_rate": 0.838,
+      "importance": 2.742
+    },
+    {
+      "task_id": 18,
+      "description_ja": "従業員をカウンセリングする。",
+      "execution_rate": 0.703,
+      "importance": 2.5
+    },
+    {
+      "task_id": 19,
+      "description_ja": "他の支援機関やステークホルダーと連携して支援する。",
+      "execution_rate": 0.973,
+      "importance": 3.306
+    },
+    {
+      "task_id": 20,
+      "description_ja": "研修やセミナーの講師を務める。",
+      "execution_rate": 0.865,
+      "importance": 3.188
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　中小企業診断協会",
+      "url": "https://www.j-smeca.jp/"
+    },
+    {
+      "name_ja": "中小企業庁",
+      "url": "https://www.chusho.meti.go.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "中小企業診断士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/80",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

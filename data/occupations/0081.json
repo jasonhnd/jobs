@@ -1,0 +1,454 @@
+{
+  "id": 81,
+  "ipd_id": "IPD_01_01_081",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "経営コンサルタント",
+  "aliases_ja": [
+    "経営指導員（商工会議所、商工会）",
+    "中小企業診断士"
+  ],
+  "classifications": {
+    "mhlw_main": "03_013-99",
+    "mhlw_all": [
+      "03_013-99"
+    ],
+    "jsoc_main": "B189",
+    "jsoc_all": [
+      "B189"
+    ]
+  },
+  "description": {
+    "summary_ja": "企業に対して、経営戦略、組織・人事戦略、マーケティング、業務改善などを提案し、その実現へ向けてアドバイスや支援をする。",
+    "what_it_is_ja": "企業に対して、経営戦略、組織・人事戦略、マーケティング、業務改善などを提案し、その実現へ向けてアドバイスや支援をする。\n　経営コンサルタントの仕事の範囲は広く、相談・診断・調査・企画・支援・教育訓練などが含まれ、DXの進展や経済のグローバル化の中、経営上の様々な問題を経営者や現場の社員とともに解決していく。\n　仕事の流れとしては、まず、経営課題について経営者をはじめ各層の社員から情報を収集し、整理する。また、取引先を含めた関係者と話し合いの場を持ち、現場視察を行って実態を把握する。収集した定量面・定性面のデータを分析し、課題を明らかにするとともに、報告書等にまとめ、経営戦略、組織・人事戦略、業務改善等の課題解決策を経営者等に提案する。提案が会社から承認されたら、その方針に沿った具体的な計画やマニュアルを作成したり、方針が実現されるよう従業員に対する研修を行う。その後、改革や改善が適切に実施されているか、現場での視察や聞き取りを行い、経営が改善されるよう支援やアドバイスを続けていく。\n　企業のM&A、知的所有権の活用、技術マネジメント、人材育成など専門性が高いサービスについては、中小企業診断士や公認会計士、弁理士、弁護士、社会保険労務士などの専門家とチームを組んで業務を行うこともある。\n　また、経営コンサルタントの仕事としてデジタル技術を用い業務改革、企業の海外事業戦略の立案、生産性の向上に関するコンサルティング等が、最近では注目されている。\n\n◇　よく使う道具、機材、情報技術等\n　プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "新卒者が経営コンサルタントになるには、経営学部や商学部、工学部（経営工学科）などの大学や大学院を卒業して経営コンサルティング会社（コンサルティングファーム）に就職するのが一般的である。外資系の経営コンサルティング会社では、MBA取得者の割合が高い。\n　経営コンサルタント関連の資格としては中小企業診断士や経営士などがある。ただし、これらの資格がなくても経営コンサルタントになることは可能である。また、税理士などの士業が専門知識を活かして経営コンサルタントを行う業務に参入する例もある。\n　大企業等において、金融、財務、国際、技術、人事など、様々な専門業務を経験した後、その経験を活かして経営コンサルタントに転身する人もいる。その場合は学歴よりも、どのような専門業務を経験してきたかという職歴が重視される。また、専門分野を特化し、「ISOコンサルタント」など、得意分野がわかる肩書を名乗るコンサルタントもいる。比較的若い30～40代の経営コンサルタントはDXコンサルティングなどを行う者が多い。\n　経営コンサルタントは経営環境の変化に対応できるよう、絶えず専門分野を中心に様々な分野の情報を収集していくことが求められる。また、論理的な思考、分析力、自分の考え方を表現する能力、更に人間性など、幅広い様々な能力と資質が必要とされる。",
+    "working_conditions_ja": "経営コンサルタントは全国に分布しているものの、大手のコンサルティング会社（コンサルティングファーム）は顧客となる企業が多い大都市圏に集中している。\n　経営コンサルタントの勤務時間は、クライアントや顧問先の都合が優先されるためフレックスタイム制が採用されるケースが多い。\n　給料は固定給に実績給が加算される形が一般的である。実力が反映されるため、賃金額に個人差が大きい。\n　経営コンサルタントは他の業界での経験を活かして参入することもできる職業である。また、実力と実績があれば独立開業の可能性もある。\n　クライアント側のニーズの高度化や多様化から、一人では対応が困難なこともあり、様々な分野の専門家が集まってチームコンサルティングにあたることが多くなっている。"
+  },
+  "interests": {
+    "realistic": 2.984,
+    "investigative": 3.508,
+    "artistic": 2.738,
+    "social": 3.721,
+    "enterprising": 3.885,
+    "conventional": 2.721
+  },
+  "work_values": {
+    "achievement": 4.063,
+    "autonomy": 4.0,
+    "expertise": 4.125,
+    "self_growth": 3.813,
+    "social_recognition": 3.438,
+    "service_contribution": 3.271,
+    "good_relationships": 3.729,
+    "workplace_safety": 3.292,
+    "work_life_balance": 3.146,
+    "stability": 3.104,
+    "compensation": 3.354
+  },
+  "skills": {
+    "reading_comprehension": 4.792,
+    "active_listening": 5.146,
+    "writing": 4.833,
+    "speaking": 5.021,
+    "foreign_language_reading": 2.688,
+    "foreign_language_listening": 2.125,
+    "foreign_language_writing": 2.167,
+    "foreign_language_speaking": 2.208,
+    "mathematics": 3.354,
+    "science": 2.188,
+    "critical_thinking": 4.604,
+    "active_learning": 4.292,
+    "learning_strategies": 4.333,
+    "monitoring": 4.646,
+    "social_perceptiveness": 4.521,
+    "coordination": 4.646,
+    "persuasion": 4.396,
+    "negotiation": 4.792,
+    "instructing": 4.854,
+    "service_orientation": 4.125,
+    "complex_problem_solving": 4.271,
+    "operations_analysis": 3.917,
+    "technology_design": 3.5,
+    "equipment_selection": 3.083,
+    "installation": 2.896,
+    "programming": 1.604,
+    "operations_monitoring": 1.667,
+    "operation_and_control": 1.896,
+    "equipment_maintenance": 1.604,
+    "troubleshooting": 1.813,
+    "repairing": 1.75,
+    "quality_control_analysis": 2.521,
+    "judgment_decision_making": 4.271,
+    "systems_analysis": 4.521,
+    "systems_evaluation": 4.5,
+    "time_management": 4.208,
+    "financial_resources_management": 3.917,
+    "material_resources_management": 2.729,
+    "personnel_resources_management": 3.875
+  },
+  "knowledge": {
+    "business_management": 3.623,
+    "clerical": 2.642,
+    "economics_accounting": 2.566,
+    "sales_marketing": 2.66,
+    "customer_personal_service": 2.906,
+    "personnel_hr": 2.245,
+    "transportation": 1.264,
+    "production_processing": 1.774,
+    "agriculture_livestock": 0.774,
+    "engineering": 1.717,
+    "computers_electronics": 1.83,
+    "design": 1.566,
+    "building_construction": 1.057,
+    "mechanical": 1.302,
+    "mathematics_kn": 1.566,
+    "physics": 1.189,
+    "chemistry": 1.208,
+    "biology": 1.038,
+    "psychology": 1.774,
+    "sociology": 1.868,
+    "geography": 0.962,
+    "medicine_dentistry": 1.075,
+    "therapy_counseling": 1.434,
+    "education_training_kn": 2.094,
+    "japanese_language": 2.019,
+    "foreign_language_kn": 1.679,
+    "fine_arts": 0.717,
+    "history_archaeology": 0.925,
+    "philosophy_theology": 0.849,
+    "public_safety_security": 2.038,
+    "law_government": 2.057,
+    "telecommunications": 1.453,
+    "communications_media": 2.226
+  },
+  "abilities": {
+    "oral_comprehension": 3.408,
+    "written_comprehension": 3.327,
+    "oral_expression": 3.469,
+    "written_expression": 3.531,
+    "fluency_of_ideas": 3.388,
+    "originality": 3.245,
+    "problem_sensitivity": 3.408,
+    "deductive_reasoning": 3.531,
+    "inductive_reasoning": 3.531,
+    "information_ordering": 3.184,
+    "category_flexibility": 3.265,
+    "mathematical_reasoning": 3.184,
+    "number_facility": 2.857,
+    "memorization": 2.939,
+    "perceptual_speed": 2.857,
+    "spatial_orientation": 2.714,
+    "visualization": 2.796,
+    "selective_attention": 3.041,
+    "time_sharing": 3.0,
+    "arm_hand_steadiness": 1.857,
+    "manual_dexterity": 1.776,
+    "finger_dexterity": 1.653,
+    "reaction_time": 2.265,
+    "wrist_finger_speed": 1.755,
+    "speed_of_limb_movement": 1.735,
+    "static_strength": 1.612,
+    "stamina": 2.224,
+    "gross_body_equilibrium": 1.959,
+    "near_vision": 1.857,
+    "far_vision": 1.796,
+    "visual_color_discrimination": 1.918,
+    "depth_perception": 1.837,
+    "hearing_sensitivity": 1.878,
+    "auditory_attention": 1.755,
+    "speech_clarity": 2.347
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.057,
+    "face_to_face_discussions": 3.547,
+    "telephone_communication": 3.887,
+    "business_writing": 3.943,
+    "conflict_situations": 2.132,
+    "time_pressure": 2.642,
+    "teamwork": 3.226,
+    "dealing_with_external_customers": 3.604,
+    "coordinate_lead_others": 3.472,
+    "exactness_accuracy": 3.717,
+    "repetitive_tasks": 2.528,
+    "pace_determined_by_machine": 2.0,
+    "responsibility_for_outcomes": 3.66,
+    "indoor_climate_controlled": 4.245,
+    "indoor_non_climate_controlled": 2.094,
+    "outdoor_work": 2.132,
+    "sitting": 4.113,
+    "standing": 1.906,
+    "repetition_of_activities": 1.849,
+    "consequence_of_error": 2.868,
+    "freedom_to_make_decisions": 3.981,
+    "set_own_goals": 4.094,
+    "regular_schedule": 0.34,
+    "irregular_schedule": 0.547,
+    "seasonal_schedule": 0.113,
+    "email_communication": 4.396,
+    "cramped_uncomfortable": 1.679,
+    "disease_infection_risk": 1.66,
+    "minor_injury_risk": 1.189,
+    "standard_protective_equipment": 1.453,
+    "specialized_protective_equipment": 1.302,
+    "dealing_with_violent_people": 1.113,
+    "walking_running": 1.811,
+    "handling_objects_tools": 1.623,
+    "physical_proximity": 2.887,
+    "work_automation": 2.113,
+    "responsibility_for_safety": 2.132,
+    "impact_of_decisions": 3.189,
+    "level_of_competition": 2.566
+  },
+  "work_activities": {
+    "getting_information": 3.633,
+    "monitor_processes": 3.469,
+    "identifying_objects": 3.633,
+    "inspecting_equipment": 2.429,
+    "estimating_quantifiable": 3.102,
+    "judging_quality": 3.204,
+    "evaluating_compliance": 3.367,
+    "processing_information": 3.122,
+    "analyzing_data": 3.408,
+    "making_decisions": 3.837,
+    "thinking_creatively": 3.408,
+    "updating_knowledge": 3.592,
+    "developing_objectives": 3.755,
+    "scheduling_work": 3.49,
+    "organizing_planning": 3.653,
+    "physical_activities": 1.98,
+    "handling_objects": 1.918,
+    "controlling_machines": 1.857,
+    "operating_vehicles": 1.51,
+    "computer_work": 2.898,
+    "drafting_specifications": 1.673,
+    "repairing_mechanical": 1.51,
+    "repairing_electronic": 1.653,
+    "documenting_information": 2.633,
+    "interpreting_information": 3.061,
+    "communicating_inside": 3.265,
+    "communicating_outside": 3.327,
+    "building_relationships": 3.469,
+    "assisting_caring": 2.796,
+    "selling_influencing": 2.755,
+    "resolving_conflicts": 2.694,
+    "performing_for_public": 2.102,
+    "coordinating_others": 2.776,
+    "developing_teams": 2.918,
+    "training_teaching": 2.837,
+    "guiding_subordinates": 2.939,
+    "coaching_developing": 2.98,
+    "providing_consultation": 3.49,
+    "performing_administrative": 2.837,
+    "staffing_organizational": 2.673,
+    "monitoring_resources": 2.449
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.075,
+    "vocational_school": 0.019,
+    "junior_college": 0.019,
+    "technical_college": 0.038,
+    "university": 0.66,
+    "masters": 0.283,
+    "doctorate": 0.057,
+    "unknown": 0.094
+  },
+  "training_pre": {
+    "not_required": 0.264,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.038,
+    "6_months_to_1_year": 0.057,
+    "1_to_2_years": 0.094,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.132,
+    "5_to_10_years": 0.075,
+    "over_10_years": 0.075,
+    "unknown": 0.226
+  },
+  "training_post": {
+    "not_required": 0.094,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.038,
+    "6_months_to_1_year": 0.094,
+    "1_to_2_years": 0.094,
+    "2_to_3_years": 0.208,
+    "3_to_5_years": 0.189,
+    "5_to_10_years": 0.113,
+    "over_10_years": 0.019,
+    "unknown": 0.151
+  },
+  "experience": {
+    "not_required": 0.264,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.038,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.057,
+    "2_to_3_years": 0.019,
+    "3_to_5_years": 0.132,
+    "5_to_10_years": 0.113,
+    "over_10_years": 0.113,
+    "unknown": 0.226
+  },
+  "employment_type": {
+    "regular_employee": 0.358,
+    "part_time": 0.0,
+    "dispatched": 0.0,
+    "contract": 0.075,
+    "self_employed_freelance": 0.434,
+    "executive": 0.189,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "企業に対して、経営戦略、人事戦略、業務改革などを提案し、その実現へ向けてアドバイスや支援をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "経営上の問題について経営者や各層の社員から情報を収集し、整理する。",
+      "execution_rate": 0.959,
+      "importance": 3.617
+    },
+    {
+      "task_id": 2,
+      "description_ja": "取引先を含めた関係者と話し合いの場を持ち、現場視察を行って実態を把握する。",
+      "execution_rate": 0.939,
+      "importance": 3.543
+    },
+    {
+      "task_id": 3,
+      "description_ja": "収集した情報を分析し、問題点を明らかにした報告書を作成する。",
+      "execution_rate": 0.939,
+      "importance": 3.63
+    },
+    {
+      "task_id": 4,
+      "description_ja": "調査や分析に基づき、経営戦略、人事戦略、業務改革等の案を作成する。",
+      "execution_rate": 0.939,
+      "importance": 3.5
+    },
+    {
+      "task_id": 5,
+      "description_ja": "経営戦略、人事戦略、業務改革の案を経営者等にプレゼンテーションする。",
+      "execution_rate": 0.939,
+      "importance": 3.63
+    },
+    {
+      "task_id": 6,
+      "description_ja": "会社から承認された方針に基づいて、具体的な計画やマニュアルを作成する。",
+      "execution_rate": 0.898,
+      "importance": 3.227
+    },
+    {
+      "task_id": 7,
+      "description_ja": "戦略や改革案が適切に実行されるよう、社員等に対して研修を行う。",
+      "execution_rate": 0.898,
+      "importance": 3.068
+    },
+    {
+      "task_id": 8,
+      "description_ja": "従業員と面接をして聞き取りし、戦略や改革案が実行されているか確認する。",
+      "execution_rate": 0.898,
+      "importance": 3.182
+    },
+    {
+      "task_id": 9,
+      "description_ja": "戦略や改革案の実施状況を調べるために現場を視察し、チェックをする。",
+      "execution_rate": 0.918,
+      "importance": 3.444
+    },
+    {
+      "task_id": 10,
+      "description_ja": "視察やチェックに基づき、担当部門や経営者にアドバイスや支援を行う。",
+      "execution_rate": 0.898,
+      "importance": 3.568
+    },
+    {
+      "task_id": 11,
+      "description_ja": "関連事業や新規事業の提案をする。",
+      "execution_rate": 0.898,
+      "importance": 3.045
+    },
+    {
+      "task_id": 12,
+      "description_ja": "特に人材育成面で管理者、職場責任者と面接し、指導したり改善案の提示をする。",
+      "execution_rate": 0.878,
+      "importance": 2.93
+    },
+    {
+      "task_id": 13,
+      "description_ja": "経営者の経営戦略に基づき、組織構造、組織運営の仕組みを提案する。",
+      "execution_rate": 0.878,
+      "importance": 3.209
+    },
+    {
+      "task_id": 14,
+      "description_ja": "新しい評価・等級・報酬の仕組み等、人事制度の仕組みを作る。",
+      "execution_rate": 0.837,
+      "importance": 2.561
+    },
+    {
+      "task_id": 15,
+      "description_ja": "情報システムの効率性、有効性、経済性などを調べて経営者に報告する。",
+      "execution_rate": 0.857,
+      "importance": 2.929
+    },
+    {
+      "task_id": 16,
+      "description_ja": "ガバナンスや法務などのリスク管理について、助言や指導を行う。",
+      "execution_rate": 0.857,
+      "importance": 2.857
+    },
+    {
+      "task_id": 17,
+      "description_ja": "企業の合併や買収等に関するアドバイスや仲介業務をする。",
+      "execution_rate": 0.755,
+      "importance": 2.73
+    },
+    {
+      "task_id": 18,
+      "description_ja": "関係省庁からの情報収集や、折衝を行う。",
+      "execution_rate": 0.816,
+      "importance": 2.775
+    },
+    {
+      "task_id": 19,
+      "description_ja": "補助金獲得の支援を行う。",
+      "execution_rate": 0.755,
+      "importance": 2.405
+    },
+    {
+      "task_id": 20,
+      "description_ja": "ＩＳＯ認証取得の支援を行う。",
+      "execution_rate": 0.714,
+      "importance": 2.429
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "特定非営利活動法人　日本経営士協会",
+      "url": "https://www.jmca.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　中小企業診断協会",
+      "url": "https://www.j-smeca.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "中小企業診断士",
+    "公認会計士",
+    "経営士",
+    "税理士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/81",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

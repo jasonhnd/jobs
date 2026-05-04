@@ -1,0 +1,445 @@
+{
+  "id": 355,
+  "ipd_id": "IPD_01_01_355",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "商業カメラマン",
+  "aliases_ja": [
+    "営業写真家",
+    "フォトグラファー"
+  ],
+  "classifications": {
+    "mhlw_main": "03_016-02",
+    "mhlw_all": [
+      "03_016-02"
+    ],
+    "jsoc_main": "B225",
+    "jsoc_all": [
+      "B225"
+    ]
+  },
+  "description": {
+    "summary_ja": "依頼者の要望を受けて、主に広告・宣伝用に、特定の人物や商品、自然や風景などの写真を撮影する。",
+    "what_it_is_ja": "主に広告・宣伝用に、依頼者の要望を受けて、特定の人物や商品、自然や風景などの写真を撮影する。\n　被写体や撮影目的に応じてどのレンズを使うか、どのような角度からどんなライティング（照明）で、どんな効果を持たせて被写体を撮影するかを工夫し、写真を撮影する。モデルを撮影する場合はスタイリストやヘアメイクとの共同作業となる。また、屋外撮影の場合は撮影場所、時間、天候の検討もする。標準レンズの他に望遠、広角、接写など様々な交換レンズ、各種フィルター、ライトやストロボを使用する。\n　デジタルカメラでの撮影が主であり、仕上がりをチェックして、必要な修正を行うなどパソコンでの作業が増え、多様な表現方法を用いるようになっている。また、ほとんどのカメラマンは得意の分野を持っており、依頼に応えることを基本としながらも芸術性やセンスを生かし仕事をしている。\n\n◇　よく使う道具、機材、情報技術等\n　カメラ（交換レンズ(望遠、広角、接写)を含む）、フィルター、ライト、ストロボ、画像等編集ソフト（Photoshop、GIMP等）、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、専門学校などで写真撮影に関する専門的な技術や知識を学ぶのが一般的である。\n　専門学校などで勉強した後、学校の紹介などでカメラマンの助手になったり、広告制作会社等に就職して実務経験を積む。個人の能力や努力によって異なるが、数年の経験で一人前のカメラマンと認められるようになる。継続的に受注があれば、フリーとして独立することもできる。\n　芸術的・創造的なセンスやアイディア、撮影に関する知識が必要である。重い機材を運搬したり、長時間の撮影に耐えられる一定の体力も求められる。また、シャッターチャンスを逃さない機敏さも必要とされる。その他、人物写真が専門の場合はモデルをリラックスさせる技術、広告写真が専門の場合は被写体の特徴を的確に表現できることなど、専門の分野によって必要とされる技術や資質等は異なる。\n　なお、関連資格として、厚生労働省の定める技能検定である「写真技能士」がある。",
+    "working_conditions_ja": "広告制作会社、広告代理店などに勤務している場合が多い。また、フリーの立場でも発注先と長期にわたる専属契約を結ぶ場合もある。\n　フリーカメラマンの場合は発注者が大都市に多いため、都市部に集中しているが、風景や動物が専門の場合は特定の地域に住んでいることもある。\n　長時間の撮影や長期間のロケのため、勤務時間や休日は不規則になりがちである。会社に勤務するカメラマンの場合は勤務先の規定により賃金が支払われる。フリーのカメラマンの場合は、テーマに対して契約を結び料金を得る場合と、作品の点数によって料金を得る場合がある。また、作品の買い上げ方式をとるケースと作品の使用に対して使用料金を得るというケースがある。著作権の使用料という形で、料金を得ることも多い。写真を特定のサイトに素材として登録し、その写真が使われた場合、その使用料として料金を得ることも多くなっている。\n　広告業界ではビジュアルに訴える写真に対する需要は根強く、今後もカメラマンの仕事は一定の需要が見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.833,
+    "investigative": 3.303,
+    "artistic": 3.955,
+    "social": 3.515,
+    "enterprising": 3.47,
+    "conventional": 2.879
+  },
+  "work_values": {
+    "achievement": 3.895,
+    "autonomy": 3.737,
+    "expertise": 4.123,
+    "self_growth": 3.807,
+    "social_recognition": 2.912,
+    "service_contribution": 2.842,
+    "good_relationships": 3.632,
+    "workplace_safety": 3.316,
+    "work_life_balance": 3.474,
+    "stability": 2.316,
+    "compensation": 2.526
+  },
+  "skills": {
+    "reading_comprehension": 3.684,
+    "active_listening": 4.14,
+    "writing": 3.386,
+    "speaking": 3.754,
+    "foreign_language_reading": 1.667,
+    "foreign_language_listening": 1.596,
+    "foreign_language_writing": 1.684,
+    "foreign_language_speaking": 1.544,
+    "mathematics": 1.982,
+    "science": 1.807,
+    "critical_thinking": 2.719,
+    "active_learning": 3.105,
+    "learning_strategies": 2.772,
+    "monitoring": 2.632,
+    "social_perceptiveness": 3.211,
+    "coordination": 3.316,
+    "persuasion": 2.947,
+    "negotiation": 3.018,
+    "instructing": 3.175,
+    "service_orientation": 2.474,
+    "complex_problem_solving": 2.684,
+    "operations_analysis": 2.702,
+    "technology_design": 2.632,
+    "equipment_selection": 4.211,
+    "installation": 3.649,
+    "programming": 1.544,
+    "operations_monitoring": 2.246,
+    "operation_and_control": 3.263,
+    "equipment_maintenance": 2.579,
+    "troubleshooting": 2.561,
+    "repairing": 2.614,
+    "quality_control_analysis": 3.246,
+    "judgment_decision_making": 2.912,
+    "systems_analysis": 2.0,
+    "systems_evaluation": 1.789,
+    "time_management": 2.965,
+    "financial_resources_management": 2.561,
+    "material_resources_management": 2.719,
+    "personnel_resources_management": 1.947
+  },
+  "knowledge": {
+    "business_management": 1.436,
+    "clerical": 1.982,
+    "economics_accounting": 1.255,
+    "sales_marketing": 2.164,
+    "customer_personal_service": 2.727,
+    "personnel_hr": 0.982,
+    "transportation": 0.782,
+    "production_processing": 1.036,
+    "agriculture_livestock": 0.273,
+    "engineering": 0.982,
+    "computers_electronics": 1.909,
+    "design": 0.436,
+    "building_construction": 0.527,
+    "mechanical": 0.836,
+    "mathematics_kn": 0.8,
+    "physics": 0.855,
+    "chemistry": 0.727,
+    "biology": 0.618,
+    "psychology": 1.909,
+    "sociology": 1.436,
+    "geography": 1.018,
+    "medicine_dentistry": 0.491,
+    "therapy_counseling": 0.545,
+    "education_training_kn": 0.764,
+    "japanese_language": 1.727,
+    "foreign_language_kn": 1.182,
+    "fine_arts": 2.982,
+    "history_archaeology": 1.127,
+    "philosophy_theology": 1.055,
+    "public_safety_security": 1.073,
+    "law_government": 1.2,
+    "telecommunications": 1.345,
+    "communications_media": 2.309
+  },
+  "abilities": {
+    "oral_comprehension": 3.283,
+    "written_comprehension": 3.117,
+    "oral_expression": 3.383,
+    "written_expression": 3.183,
+    "fluency_of_ideas": 3.7,
+    "originality": 3.85,
+    "problem_sensitivity": 3.583,
+    "deductive_reasoning": 3.383,
+    "inductive_reasoning": 3.133,
+    "information_ordering": 2.867,
+    "category_flexibility": 2.75,
+    "mathematical_reasoning": 2.567,
+    "number_facility": 2.467,
+    "memorization": 2.983,
+    "perceptual_speed": 2.867,
+    "spatial_orientation": 3.033,
+    "visualization": 3.733,
+    "selective_attention": 3.583,
+    "time_sharing": 3.183,
+    "arm_hand_steadiness": 3.317,
+    "manual_dexterity": 3.217,
+    "finger_dexterity": 3.167,
+    "reaction_time": 3.75,
+    "wrist_finger_speed": 3.25,
+    "speed_of_limb_movement": 3.117,
+    "static_strength": 3.167,
+    "stamina": 3.5,
+    "gross_body_equilibrium": 3.267,
+    "near_vision": 3.317,
+    "far_vision": 3.317,
+    "visual_color_discrimination": 3.917,
+    "depth_perception": 3.667,
+    "hearing_sensitivity": 2.65,
+    "auditory_attention": 2.483,
+    "speech_clarity": 2.817
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.964,
+    "face_to_face_discussions": 3.255,
+    "telephone_communication": 3.582,
+    "business_writing": 3.018,
+    "conflict_situations": 1.745,
+    "time_pressure": 2.836,
+    "teamwork": 2.727,
+    "dealing_with_external_customers": 3.345,
+    "coordinate_lead_others": 2.891,
+    "exactness_accuracy": 4.0,
+    "repetitive_tasks": 3.018,
+    "pace_determined_by_machine": 2.909,
+    "responsibility_for_outcomes": 3.891,
+    "indoor_climate_controlled": 4.018,
+    "indoor_non_climate_controlled": 2.855,
+    "outdoor_work": 3.364,
+    "sitting": 3.109,
+    "standing": 3.236,
+    "repetition_of_activities": 2.564,
+    "consequence_of_error": 3.436,
+    "freedom_to_make_decisions": 4.036,
+    "set_own_goals": 4.145,
+    "regular_schedule": 0.073,
+    "irregular_schedule": 0.855,
+    "seasonal_schedule": 0.073,
+    "email_communication": 3.964,
+    "cramped_uncomfortable": 2.218,
+    "disease_infection_risk": 1.582,
+    "minor_injury_risk": 1.273,
+    "standard_protective_equipment": 1.364,
+    "specialized_protective_equipment": 1.236,
+    "dealing_with_violent_people": 1.145,
+    "walking_running": 2.636,
+    "handling_objects_tools": 3.764,
+    "physical_proximity": 2.982,
+    "work_automation": 1.945,
+    "responsibility_for_safety": 2.164,
+    "impact_of_decisions": 2.964,
+    "level_of_competition": 2.582
+  },
+  "work_activities": {
+    "getting_information": 3.317,
+    "monitor_processes": 3.033,
+    "identifying_objects": 3.133,
+    "inspecting_equipment": 3.083,
+    "estimating_quantifiable": 2.75,
+    "judging_quality": 3.617,
+    "evaluating_compliance": 3.1,
+    "processing_information": 2.917,
+    "analyzing_data": 2.783,
+    "making_decisions": 3.217,
+    "thinking_creatively": 3.967,
+    "updating_knowledge": 3.95,
+    "developing_objectives": 3.2,
+    "scheduling_work": 3.567,
+    "organizing_planning": 3.483,
+    "physical_activities": 3.217,
+    "handling_objects": 3.233,
+    "controlling_machines": 3.017,
+    "operating_vehicles": 2.45,
+    "computer_work": 3.917,
+    "drafting_specifications": 2.35,
+    "repairing_mechanical": 2.7,
+    "repairing_electronic": 2.85,
+    "documenting_information": 2.7,
+    "interpreting_information": 2.683,
+    "communicating_inside": 2.767,
+    "communicating_outside": 3.5,
+    "building_relationships": 3.567,
+    "assisting_caring": 2.5,
+    "selling_influencing": 2.8,
+    "resolving_conflicts": 2.55,
+    "performing_for_public": 2.4,
+    "coordinating_others": 2.517,
+    "developing_teams": 2.683,
+    "training_teaching": 2.267,
+    "guiding_subordinates": 2.283,
+    "coaching_developing": 2.3,
+    "providing_consultation": 2.217,
+    "performing_administrative": 2.667,
+    "staffing_organizational": 2.183,
+    "monitoring_resources": 2.533
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.236,
+    "vocational_school": 0.345,
+    "junior_college": 0.109,
+    "technical_college": 0.0,
+    "university": 0.4,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.255
+  },
+  "training_pre": {
+    "not_required": 0.364,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.055,
+    "6_months_to_1_year": 0.055,
+    "1_to_2_years": 0.127,
+    "2_to_3_years": 0.036,
+    "3_to_5_years": 0.018,
+    "5_to_10_years": 0.073,
+    "over_10_years": 0.018,
+    "unknown": 0.255
+  },
+  "training_post": {
+    "not_required": 0.055,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.109,
+    "6_months_to_1_year": 0.055,
+    "1_to_2_years": 0.109,
+    "2_to_3_years": 0.2,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.091,
+    "over_10_years": 0.073,
+    "unknown": 0.255
+  },
+  "experience": {
+    "not_required": 0.327,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.055,
+    "6_months_to_1_year": 0.091,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.091,
+    "3_to_5_years": 0.036,
+    "5_to_10_years": 0.073,
+    "over_10_years": 0.018,
+    "unknown": 0.2
+  },
+  "employment_type": {
+    "regular_employee": 0.2,
+    "part_time": 0.091,
+    "dispatched": 0.0,
+    "contract": 0.055,
+    "self_employed_freelance": 0.855,
+    "executive": 0.018,
+    "casual_non_student": 0.055,
+    "casual_student": 0.036,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "主に広告・宣伝用に、依頼者の要望を受けて、特定の人物や商品、自然や風景などの写真を撮影する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "クライアントと打ち合わせをする。",
+      "execution_rate": 1.0,
+      "importance": 3.95
+    },
+    {
+      "task_id": 2,
+      "description_ja": "撮影のモデルを手配する。",
+      "execution_rate": 0.6,
+      "importance": 3.028
+    },
+    {
+      "task_id": 3,
+      "description_ja": "スタジオにカメラや照明などの必要な機材を運び込んで設置する。",
+      "execution_rate": 0.917,
+      "importance": 3.673
+    },
+    {
+      "task_id": 4,
+      "description_ja": "風景や建物の撮影や屋外での撮影のため、機材を持って現地に出向く。",
+      "execution_rate": 1.0,
+      "importance": 3.583
+    },
+    {
+      "task_id": 5,
+      "description_ja": "撮影場所にカメラや照明などの機材を運び込んで設置する。",
+      "execution_rate": 0.967,
+      "importance": 3.828
+    },
+    {
+      "task_id": 6,
+      "description_ja": "背景や撮影場所を選び、使用するレンズや撮影の効果を決める。",
+      "execution_rate": 0.983,
+      "importance": 4.034
+    },
+    {
+      "task_id": 7,
+      "description_ja": "撮影中にモデルとコミュニケーションをとる。",
+      "execution_rate": 0.933,
+      "importance": 3.5
+    },
+    {
+      "task_id": 8,
+      "description_ja": "構図や照明を調節しながら被写体の撮影をする。",
+      "execution_rate": 1.0,
+      "importance": 4.25
+    },
+    {
+      "task_id": 9,
+      "description_ja": "レンズやアングルを変えたり、照明やカメラの設定を変えるなどして撮影する。",
+      "execution_rate": 1.0,
+      "importance": 4.2
+    },
+    {
+      "task_id": 10,
+      "description_ja": "デジタルカメラからデータをパソコンに取り込み、写真を選んだり、修正をする。",
+      "execution_rate": 1.0,
+      "importance": 4.067
+    },
+    {
+      "task_id": 11,
+      "description_ja": "撮影したフィルムを現像に出したり、自ら現像を行ったりして、仕上がりをチェックする。",
+      "execution_rate": 0.7,
+      "importance": 3.81
+    },
+    {
+      "task_id": 12,
+      "description_ja": "撮影した写真からポスターを作成する。",
+      "execution_rate": 0.6,
+      "importance": 3.028
+    },
+    {
+      "task_id": 13,
+      "description_ja": "写真に添えるキャプションや記事を書く。",
+      "execution_rate": 0.6,
+      "importance": 2.75
+    },
+    {
+      "task_id": 14,
+      "description_ja": "写真を印刷して、冊子を作る。",
+      "execution_rate": 0.55,
+      "importance": 2.697
+    },
+    {
+      "task_id": 15,
+      "description_ja": "企業などから依頼を受け、雑誌や新聞の広告などに掲載する商品や人物の写真を撮影する。",
+      "execution_rate": 0.85,
+      "importance": 3.902
+    },
+    {
+      "task_id": 16,
+      "description_ja": "学校などからの依頼を受けて、卒業アルバムを作成する。",
+      "execution_rate": 0.517,
+      "importance": 3.355
+    },
+    {
+      "task_id": 17,
+      "description_ja": "見積書や請求書を作成する。",
+      "execution_rate": 0.983,
+      "importance": 3.169
+    },
+    {
+      "task_id": 18,
+      "description_ja": "撮影スケジュールを管理する。",
+      "execution_rate": 1.0,
+      "importance": 3.817
+    },
+    {
+      "task_id": 19,
+      "description_ja": "取引先を訪問し、営業活動をする。",
+      "execution_rate": 0.7,
+      "importance": 2.714
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人日本写真家協会",
+      "url": "https://www.jps.gr.jp/"
+    },
+    {
+      "name_ja": "公益社団法人日本広告写真家協会",
+      "url": "https://apa.or.jp/news/"
+    }
+  ],
+  "related_certs_ja": [
+    "写真技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/355",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

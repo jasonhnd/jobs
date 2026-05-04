@@ -1,0 +1,479 @@
+{
+  "id": 257,
+  "ipd_id": "IPD_01_01_257",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "めっき工",
+  "aliases_ja": [
+    "めっき設備オペレーター",
+    "アルマイト工",
+    "化学めっき工",
+    "気相めっき工",
+    "化成処理工",
+    "真空めっき工",
+    "電気めっき工",
+    "防錆処理工",
+    "溶射めっき工",
+    "溶融めっき工"
+  ],
+  "classifications": {
+    "mhlw_main": "12_067-07",
+    "mhlw_all": [
+      "12_067-07",
+      "12_071-11"
+    ],
+    "jsoc_main": "H497",
+    "jsoc_all": [
+      "H497",
+      "H527"
+    ]
+  },
+  "description": {
+    "summary_ja": "金属、プラスチック、セラミックスなどの表面を薄い金属の被膜で覆う「めっき」を行う。",
+    "what_it_is_ja": "金属、プラスチック、セラミックスなどの表面を薄い金属の被膜で覆う「めっき」を行う。\n　めっきは、さびや腐食を防いだり（防錆機能）、品物を美しく見せることによって価値を高める（装飾機能）、また、傷や摩耗を防いだり（機械的特性）、電気を伝わりやすくする（電気的特性）などの目的で広く使われている。\n　めっきの方法は、水溶液を用いてめっきする「湿式めっき」と真空中で蒸発させた金属を用いる「乾式めっき」に大別される。「湿式めっき」には、電気を用いてめっきする「電気めっき」と化学反応を用いてめっきする「化学めっき(無電解めっき)」が、「乾式めっき」には「真空めっき」などがある。普通、めっきというと電気めっきや化学めっきをさす。電気めっきは、金属塩を含む電解質溶液の中でめっきされる金属を陰極として電気分解し、陰極の表面にめっき金属が析出する電気化学反応を利用して行う。\n　めっき工は、通常、まず治具（じぐ）にかけられた素材を、酸、アルカリ、脱脂液、めっき液、水の入った処理槽に何回も出し入れする作業を行う。次に、乾燥を終えためっき製品を治具から取りはずし、検査後、梱包作業にまわす。\n　処理槽への治具の出し入れと搬送は、昔は手作業であったが、最近は、一部ホイストなどによる半自動式の他、自動めっき装置で脱脂から乾燥までの全工程を行う完全自動装置が普及している。これにともなって、めっき工の仕事は、めっきの前処理のための素材のブラッシングや重量物の運搬といった肉体労働中心から、ホイストの操作や自動めっき装置による電流・時間調整の作業に変わってきている。\n\n◇　よく使う道具、機材、情報技術等\n　治具（じぐ）、ホイスト、自動めっき装置、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。工業系の高校等を卒業し入職するのが一般的である。また、他の職業からの中途採用もある。\n　新規学卒者は、学校、ハローワークの紹介がほとんどである。中途採用は、ハローワーク、新聞、求人広告等で行われている。\n　入職後、現場でのめっき作業の実務経験を重ねる中で各種の資格を取得していくのが一般的である。公共職業訓練校に入校してめっき技術を習得することもできる。\n　関連資格として厚生労働省が定める技能検定の「めっき技能士」がある。また、労働安全衛生法に定める「特定化学物質作業主任者」や「有機溶剤作業主任者」などの資格がある。この他にも「毒物劇物取扱責任者」、「公害防止管理者」などの国家資格も持っていると有利である。\n　めっきの段取りやめっきの厚み指定を行うために、めっきの種類、品物、要求品質に応じた薬品層の組成と処理条件など、めっきに関する基礎知識を持っている必要がある。高温多湿の作業環境の中で立ち作業を行う場合もあり、一定の体力が必要である。",
+    "working_conditions_ja": "勤務先はめっき工場等である。素材加工からめっき加工まで一貫して行う工場と、めっき加工だけを受注して専業で生産を行う下請めっき工場がある。数の上では、下請めっき工場が圧倒的に多い。\n　賃金、労働時間等労働条件は、勤務先の規定による。日勤が多いが、2ないし３交替制による勤務体制となっている工場もある。\n　めっき作業は、常に水、重金属、毒物劇物などを大量に取り扱うほか、めっき液が高温のため作業環境は高温多湿となる場合も多い。また脱脂や酸洗といった前処理工程やめっき工程では有機溶剤や毒物劇物を扱うため、こうした化学物質や電気による危険、あるいは薬品の臭いが伴う。このため、局所排気装置の取り付けなど労働安全衛生面で厳重な指導が行われている。\n　めっき加工の仕事は、機械化や自動化が進んできてはいるが、人の手による作業も行われており、労働条件の改善や労働安全に関する環境の整備などが進められてきている。"
+  },
+  "interests": {
+    "realistic": 3.2,
+    "investigative": 2.982,
+    "artistic": 2.236,
+    "social": 2.545,
+    "enterprising": 2.564,
+    "conventional": 2.964
+  },
+  "work_values": {
+    "achievement": 3.354,
+    "autonomy": 3.188,
+    "expertise": 3.354,
+    "self_growth": 3.125,
+    "social_recognition": 2.458,
+    "service_contribution": 2.417,
+    "good_relationships": 3.146,
+    "workplace_safety": 2.813,
+    "work_life_balance": 3.167,
+    "stability": 3.333,
+    "compensation": 2.458
+  },
+  "skills": {
+    "reading_comprehension": 3.042,
+    "active_listening": 3.5,
+    "writing": 2.833,
+    "speaking": 2.979,
+    "foreign_language_reading": 0.792,
+    "foreign_language_listening": 0.708,
+    "foreign_language_writing": 0.75,
+    "foreign_language_speaking": 0.583,
+    "mathematics": 2.0,
+    "science": 2.583,
+    "critical_thinking": 2.458,
+    "active_learning": 2.333,
+    "learning_strategies": 2.333,
+    "monitoring": 2.417,
+    "social_perceptiveness": 2.479,
+    "coordination": 2.396,
+    "persuasion": 2.208,
+    "negotiation": 2.146,
+    "instructing": 3.313,
+    "service_orientation": 1.917,
+    "complex_problem_solving": 2.229,
+    "operations_analysis": 2.063,
+    "technology_design": 1.75,
+    "equipment_selection": 2.854,
+    "installation": 2.208,
+    "programming": 0.771,
+    "operations_monitoring": 2.333,
+    "operation_and_control": 3.0,
+    "equipment_maintenance": 2.854,
+    "troubleshooting": 2.917,
+    "repairing": 3.042,
+    "quality_control_analysis": 3.146,
+    "judgment_decision_making": 2.313,
+    "systems_analysis": 2.188,
+    "systems_evaluation": 1.854,
+    "time_management": 2.396,
+    "financial_resources_management": 1.021,
+    "material_resources_management": 1.625,
+    "personnel_resources_management": 1.542
+  },
+  "knowledge": {
+    "business_management": 0.979,
+    "clerical": 1.234,
+    "economics_accounting": 0.553,
+    "sales_marketing": 0.404,
+    "customer_personal_service": 0.766,
+    "personnel_hr": 0.681,
+    "transportation": 0.468,
+    "production_processing": 2.66,
+    "agriculture_livestock": 0.17,
+    "engineering": 1.277,
+    "computers_electronics": 0.574,
+    "design": 0.574,
+    "building_construction": 0.191,
+    "mechanical": 1.574,
+    "mathematics_kn": 1.085,
+    "physics": 0.83,
+    "chemistry": 1.915,
+    "biology": 0.213,
+    "psychology": 0.468,
+    "sociology": 0.468,
+    "geography": 0.234,
+    "medicine_dentistry": 0.34,
+    "therapy_counseling": 0.383,
+    "education_training_kn": 1.085,
+    "japanese_language": 0.596,
+    "foreign_language_kn": 0.404,
+    "fine_arts": 0.128,
+    "history_archaeology": 0.17,
+    "philosophy_theology": 0.213,
+    "public_safety_security": 0.702,
+    "law_government": 0.596,
+    "telecommunications": 0.404,
+    "communications_media": 0.574
+  },
+  "abilities": {
+    "oral_comprehension": 2.571,
+    "written_comprehension": 2.357,
+    "oral_expression": 2.5,
+    "written_expression": 2.619,
+    "fluency_of_ideas": 2.738,
+    "originality": 2.548,
+    "problem_sensitivity": 3.476,
+    "deductive_reasoning": 2.643,
+    "inductive_reasoning": 2.738,
+    "information_ordering": 2.5,
+    "category_flexibility": 2.524,
+    "mathematical_reasoning": 2.548,
+    "number_facility": 2.571,
+    "memorization": 2.595,
+    "perceptual_speed": 2.619,
+    "spatial_orientation": 2.5,
+    "visualization": 2.643,
+    "selective_attention": 2.786,
+    "time_sharing": 2.881,
+    "arm_hand_steadiness": 2.643,
+    "manual_dexterity": 2.905,
+    "finger_dexterity": 2.738,
+    "reaction_time": 2.929,
+    "wrist_finger_speed": 2.571,
+    "speed_of_limb_movement": 2.619,
+    "static_strength": 2.786,
+    "stamina": 2.786,
+    "gross_body_equilibrium": 2.643,
+    "near_vision": 2.595,
+    "far_vision": 2.333,
+    "visual_color_discrimination": 2.857,
+    "depth_perception": 2.452,
+    "hearing_sensitivity": 2.524,
+    "auditory_attention": 2.5,
+    "speech_clarity": 2.405
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.809,
+    "face_to_face_discussions": 2.766,
+    "telephone_communication": 2.957,
+    "business_writing": 2.404,
+    "conflict_situations": 1.979,
+    "time_pressure": 3.213,
+    "teamwork": 3.043,
+    "dealing_with_external_customers": 1.83,
+    "coordinate_lead_others": 2.383,
+    "exactness_accuracy": 3.34,
+    "repetitive_tasks": 3.234,
+    "pace_determined_by_machine": 3.021,
+    "responsibility_for_outcomes": 2.766,
+    "indoor_climate_controlled": 3.468,
+    "indoor_non_climate_controlled": 3.426,
+    "outdoor_work": 1.787,
+    "sitting": 2.234,
+    "standing": 3.915,
+    "repetition_of_activities": 3.34,
+    "consequence_of_error": 3.043,
+    "freedom_to_make_decisions": 3.426,
+    "set_own_goals": 3.319,
+    "regular_schedule": 0.426,
+    "irregular_schedule": 0.447,
+    "seasonal_schedule": 0.128,
+    "email_communication": 3.064,
+    "cramped_uncomfortable": 2.681,
+    "disease_infection_risk": 1.894,
+    "minor_injury_risk": 2.957,
+    "standard_protective_equipment": 3.957,
+    "specialized_protective_equipment": 2.511,
+    "dealing_with_violent_people": 1.213,
+    "walking_running": 3.234,
+    "handling_objects_tools": 3.681,
+    "physical_proximity": 3.021,
+    "work_automation": 2.255,
+    "responsibility_for_safety": 2.277,
+    "impact_of_decisions": 2.383,
+    "level_of_competition": 1.745
+  },
+  "work_activities": {
+    "getting_information": 2.786,
+    "monitor_processes": 3.0,
+    "identifying_objects": 3.071,
+    "inspecting_equipment": 3.286,
+    "estimating_quantifiable": 3.048,
+    "judging_quality": 3.095,
+    "evaluating_compliance": 3.262,
+    "processing_information": 3.048,
+    "analyzing_data": 2.952,
+    "making_decisions": 3.19,
+    "thinking_creatively": 2.69,
+    "updating_knowledge": 2.881,
+    "developing_objectives": 3.0,
+    "scheduling_work": 2.833,
+    "organizing_planning": 3.405,
+    "physical_activities": 2.929,
+    "handling_objects": 2.952,
+    "controlling_machines": 2.929,
+    "operating_vehicles": 2.548,
+    "computer_work": 2.643,
+    "drafting_specifications": 2.548,
+    "repairing_mechanical": 3.167,
+    "repairing_electronic": 2.952,
+    "documenting_information": 2.786,
+    "interpreting_information": 2.643,
+    "communicating_inside": 3.262,
+    "communicating_outside": 2.881,
+    "building_relationships": 2.976,
+    "assisting_caring": 2.643,
+    "selling_influencing": 2.619,
+    "resolving_conflicts": 2.69,
+    "performing_for_public": 2.452,
+    "coordinating_others": 2.929,
+    "developing_teams": 2.833,
+    "training_teaching": 2.81,
+    "guiding_subordinates": 2.881,
+    "coaching_developing": 2.714,
+    "providing_consultation": 2.548,
+    "performing_administrative": 2.833,
+    "staffing_organizational": 2.619,
+    "monitoring_resources": 2.929
+  },
+  "education_distribution": {
+    "below_high_school": 0.021,
+    "high_school": 0.617,
+    "vocational_school": 0.106,
+    "junior_college": 0.021,
+    "technical_college": 0.043,
+    "university": 0.383,
+    "masters": 0.021,
+    "doctorate": 0.0,
+    "unknown": 0.043
+  },
+  "training_pre": {
+    "not_required": 0.574,
+    "up_to_1_month": 0.106,
+    "1_to_6_months": 0.085,
+    "6_months_to_1_year": 0.064,
+    "1_to_2_years": 0.021,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.021,
+    "5_to_10_years": 0.021,
+    "over_10_years": 0.0,
+    "unknown": 0.106
+  },
+  "training_post": {
+    "not_required": 0.128,
+    "up_to_1_month": 0.043,
+    "1_to_6_months": 0.362,
+    "6_months_to_1_year": 0.191,
+    "1_to_2_years": 0.085,
+    "2_to_3_years": 0.043,
+    "3_to_5_years": 0.064,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.085
+  },
+  "experience": {
+    "not_required": 0.681,
+    "up_to_1_month": 0.085,
+    "1_to_6_months": 0.085,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.021,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.128
+  },
+  "employment_type": {
+    "regular_employee": 0.83,
+    "part_time": 0.128,
+    "dispatched": 0.043,
+    "contract": 0.064,
+    "self_employed_freelance": 0.021,
+    "executive": 0.021,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "金属、プラスチック、セラミックスなどの表面を薄い金属被膜で覆う、めっき加工を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "めっき処理方法の条件を検討し、設定する。",
+      "execution_rate": 0.929,
+      "importance": 3.615
+    },
+    {
+      "task_id": 2,
+      "description_ja": "加工に使うめっき液や前処理剤を選定する。",
+      "execution_rate": 0.952,
+      "importance": 3.425
+    },
+    {
+      "task_id": 3,
+      "description_ja": "素材の洗浄、研磨といった前処理を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 4,
+      "description_ja": "素材をラックにかける前に傷や変形がないかどうか検査する。",
+      "execution_rate": 0.905,
+      "importance": 3.632
+    },
+    {
+      "task_id": 5,
+      "description_ja": "素材をラックにかける。",
+      "execution_rate": 0.905,
+      "importance": 3.395
+    },
+    {
+      "task_id": 6,
+      "description_ja": "処理槽の溶液の配合や点検・供給を行う。",
+      "execution_rate": 0.976,
+      "importance": 4.122
+    },
+    {
+      "task_id": 7,
+      "description_ja": "ラックにかけた素材を、酸、アルカリ、脱脂液、めっき液、水の入った処理槽から手作業で出し入れする。",
+      "execution_rate": 0.81,
+      "importance": 3.882
+    },
+    {
+      "task_id": 8,
+      "description_ja": "乾燥を終えためっき製品をラックから外す。",
+      "execution_rate": 0.905,
+      "importance": 3.342
+    },
+    {
+      "task_id": 9,
+      "description_ja": "自動めっき装置の操作や運転の監視を行う。",
+      "execution_rate": 0.786,
+      "importance": 3.818
+    },
+    {
+      "task_id": 10,
+      "description_ja": "自動めっき装置へ、めっき液の供給や保守・点検を行う。",
+      "execution_rate": 0.81,
+      "importance": 3.882
+    },
+    {
+      "task_id": 11,
+      "description_ja": "検査工程に進むため製品の搬出を行う。",
+      "execution_rate": 0.952,
+      "importance": 3.325
+    },
+    {
+      "task_id": 12,
+      "description_ja": "めっき加工後の製品の検査を行う。",
+      "execution_rate": 0.976,
+      "importance": 3.756
+    },
+    {
+      "task_id": 13,
+      "description_ja": "不良品を調査・分析し、対策を立案する。",
+      "execution_rate": 0.952,
+      "importance": 3.725
+    },
+    {
+      "task_id": 14,
+      "description_ja": "小型部品にバレルめっき加工をする。",
+      "execution_rate": 0.81,
+      "importance": 3.559
+    },
+    {
+      "task_id": 15,
+      "description_ja": "処理液の管理方法を検討し、確立する。",
+      "execution_rate": 0.952,
+      "importance": 3.65
+    },
+    {
+      "task_id": 16,
+      "description_ja": "めっき製品の洗浄水を管理する。",
+      "execution_rate": 0.929,
+      "importance": 3.564
+    },
+    {
+      "task_id": 17,
+      "description_ja": "原材料や部品の品質管理をする。",
+      "execution_rate": 0.976,
+      "importance": 3.341
+    },
+    {
+      "task_id": 18,
+      "description_ja": "検査用テストピースの品質をチェックする。",
+      "execution_rate": 0.857,
+      "importance": 3.528
+    },
+    {
+      "task_id": 19,
+      "description_ja": "ラックの汚れを取り除いたり、洗浄を行う。",
+      "execution_rate": 0.881,
+      "importance": 3.622
+    },
+    {
+      "task_id": 20,
+      "description_ja": "めっき処理槽や治具（ジグ）の保守・点検を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.786
+    },
+    {
+      "task_id": 21,
+      "description_ja": "必要な素材や工具を仕入れる。",
+      "execution_rate": 0.929,
+      "importance": 3.256
+    },
+    {
+      "task_id": 22,
+      "description_ja": "製品を客先へ納品する。",
+      "execution_rate": 0.929,
+      "importance": 3.821
+    },
+    {
+      "task_id": 23,
+      "description_ja": "新たなめっき技術や製品を開発する。",
+      "execution_rate": 0.833,
+      "importance": 3.486
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国鍍金工業組合連合会",
+      "url": "https://zentoren.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "めっき技能士",
+    "特定化学物質作業主任者",
+    "有機溶剤作業主任者",
+    "毒物劇物取扱責任者",
+    "公害防止管理者"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/257",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

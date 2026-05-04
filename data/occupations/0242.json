@@ -1,0 +1,455 @@
+{
+  "id": 242,
+  "ipd_id": "IPD_01_01_242",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "学童保育指導員",
+  "aliases_ja": [
+    "放課後児童クラブ支援員",
+    "放課後児童支援員"
+  ],
+  "classifications": {
+    "mhlw_main": "05_030-01",
+    "mhlw_all": [
+      "05_030-01"
+    ],
+    "jsoc_main": "E429",
+    "jsoc_all": [
+      "E429"
+    ]
+  },
+  "description": {
+    "summary_ja": "保護者が就労などで日中家庭にいない小学生を対象に、放課後や土曜日、春・夏・冬休みなどに学童保育施設（放課後児童クラブ）で、遊びや生活の場を提供する。",
+    "what_it_is_ja": "保護者が就労などによって日中、家庭にいない小学生を対象に放課後や土曜日、春・夏・冬休みなどに学童保育（放課後児童クラブ）施設（学校の余裕教室、児童館、公民館などに設置）で、遊びや生活の場を提供し、子どもに適切な援助を行う。任用資格を満たしている場合の名称は、「放課後児童支援員」である。\n　子どもが自ら進んで通い続けられるよう出欠席と心身の状態を把握する。その上で、子ども自身が学童保育施設で主体的に過ごし、日常生活に必要となる基本的な生活習慣を習得し、発達段階に応じた主体的な遊びや生活ができ、自分の気持ちや意見を表現できるように適切な援助を行う。また、子どもにとって放課後の時間帯に栄養面や活力面から必要とされるおやつの提供、安全に安心して過ごすことができる環境整備、緊急時に子ども自らが適切な対応ができるような援助も行う。更に、子どもの様子を日常的に保護者に伝え、家庭と連携することも重要な職務である。その他、学校、地域関係者との連携も行う。\n　具体的な1日の仕事の流れは次のとおりである。午前中には施設の維持管理と受け入れ態勢など環境の整備、おやつの準備、保育日誌・業務日誌・出勤簿の記入などを行う。昼には学校休業日の昼食の準備及び受け入れの準備をし、子どもを出迎える。その後、それぞれの宿題を見たり、おやつの提供、遊びなどをして、夕方に保護者の出迎えがある場合は、保護者に一日の子どもの様子を伝える。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン、事務処理ソフト（文書作成等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが任用資格として都道府県の認定する「放課後児童支援員」があり、おおむね児童40人につき2名以上の同認定者を配置することが定められている。\n　放課後児童支援員の任用資格の要件は、保育士・社会福祉士・教員免許などの有資格者、大学で社会福祉学等の一定の課程を履修した者のほか、5年以上（高卒以上相当の学歴の者は2年以上）の関連する実務経験があり市町村長が適当と認めた者なども含まれているため、入職後に取得を目指すことも可能である。\n　要件を満たしている者は都道府県が実施する16科目24時間の「放課後児童支援員認定資格研修」を受講、修了することで資格を取得できる。その際、保育士など特定の資格保持者は一部の研修が免除となる。\n　なお、学童保育の事業者に対して放課後児童支援員の資格保持者の人員配置を「2名以上」と義務付ける全国統一基準が示されていたが、人材確保が難しいとの意見を受け、2020年度以降は市町村に人員配置規定の取り扱いが委ねられることとなっている。\n　学童保育指導員は子どもの生活と直接的にかかわるため、仕事の遂行にあたって人権やプライバシーの尊重、児童・保護者との信頼関係の構築、保育関連の専門性が求められる。また、業務遂行にあたって同僚とのチームワーク、必要に応じ学校、地域の関係者との連携が重要であり協調性やコミュニケーション力も必要である。更に最近では、外国籍の子どもや保護者が増えていることから、外国語の日常的な会話能力が求められるケースもある。",
+    "working_conditions_ja": "平日の勤務時間は3時間以上6時間未満というケースが多いが、土曜日や学校休業日などで一日保育が必要となる場合には8時間以上となることもある。また、勤務形態としては、朝から夕方までの通常勤務と交代制勤務がある。勤務場所は全国各地に所在する学童保育施設（「放課後児童クラブ」と呼ばれることもある。）となるが、子どもの受入れ人数は10人から40人を超える施設まで各地域によって違いがある。更にクラブの運営主体も公立・公営、社会福祉協議会、地域運営委員会はじめNPO法人や民間企業、その他法人、保護者会など様々である。休日に関しては、施設の運営形態による。\n　就業者は正規職員が約34%、アルバイト・パートタイマーが約66％と正規職員の割合は3分の1程度となっている。"
+  },
+  "interests": {
+    "realistic": 3.017,
+    "investigative": 2.983,
+    "artistic": 2.949,
+    "social": 3.542,
+    "enterprising": 3.051,
+    "conventional": 3.0
+  },
+  "work_values": {
+    "achievement": 3.328,
+    "autonomy": 3.574,
+    "expertise": 3.574,
+    "self_growth": 3.689,
+    "social_recognition": 3.0,
+    "service_contribution": 3.689,
+    "good_relationships": 3.705,
+    "workplace_safety": 3.443,
+    "work_life_balance": 3.738,
+    "stability": 3.246,
+    "compensation": 2.426
+  },
+  "skills": {
+    "reading_comprehension": 3.426,
+    "active_listening": 4.902,
+    "writing": 3.738,
+    "speaking": 4.098,
+    "foreign_language_reading": 0.902,
+    "foreign_language_listening": 0.787,
+    "foreign_language_writing": 0.689,
+    "foreign_language_speaking": 0.639,
+    "mathematics": 1.541,
+    "science": 0.82,
+    "critical_thinking": 2.656,
+    "active_learning": 2.787,
+    "learning_strategies": 3.23,
+    "monitoring": 3.197,
+    "social_perceptiveness": 4.082,
+    "coordination": 3.689,
+    "persuasion": 3.574,
+    "negotiation": 3.246,
+    "instructing": 3.951,
+    "service_orientation": 3.934,
+    "complex_problem_solving": 3.148,
+    "operations_analysis": 1.803,
+    "technology_design": 1.689,
+    "equipment_selection": 2.18,
+    "installation": 1.82,
+    "programming": 0.869,
+    "operations_monitoring": 0.77,
+    "operation_and_control": 1.279,
+    "equipment_maintenance": 1.557,
+    "troubleshooting": 1.508,
+    "repairing": 1.77,
+    "quality_control_analysis": 1.475,
+    "judgment_decision_making": 1.721,
+    "systems_analysis": 1.934,
+    "systems_evaluation": 1.393,
+    "time_management": 2.918,
+    "financial_resources_management": 1.508,
+    "material_resources_management": 1.525,
+    "personnel_resources_management": 1.885
+  },
+  "knowledge": {
+    "business_management": 0.754,
+    "clerical": 1.544,
+    "economics_accounting": 0.316,
+    "sales_marketing": 0.298,
+    "customer_personal_service": 1.544,
+    "personnel_hr": 1.123,
+    "transportation": 0.246,
+    "production_processing": 0.088,
+    "agriculture_livestock": 0.088,
+    "engineering": 0.105,
+    "computers_electronics": 0.193,
+    "design": 0.07,
+    "building_construction": 0.088,
+    "mechanical": 0.07,
+    "mathematics_kn": 0.316,
+    "physics": 0.14,
+    "chemistry": 0.14,
+    "biology": 0.228,
+    "psychology": 2.246,
+    "sociology": 1.632,
+    "geography": 0.263,
+    "medicine_dentistry": 0.93,
+    "therapy_counseling": 1.421,
+    "education_training_kn": 1.93,
+    "japanese_language": 1.14,
+    "foreign_language_kn": 0.579,
+    "fine_arts": 0.684,
+    "history_archaeology": 0.421,
+    "philosophy_theology": 0.368,
+    "public_safety_security": 1.193,
+    "law_government": 0.421,
+    "telecommunications": 0.281,
+    "communications_media": 1.088
+  },
+  "abilities": {
+    "oral_comprehension": 3.091,
+    "written_comprehension": 2.836,
+    "oral_expression": 3.273,
+    "written_expression": 3.036,
+    "fluency_of_ideas": 2.873,
+    "originality": 2.818,
+    "problem_sensitivity": 3.836,
+    "deductive_reasoning": 3.018,
+    "inductive_reasoning": 2.836,
+    "information_ordering": 2.436,
+    "category_flexibility": 2.291,
+    "mathematical_reasoning": 1.982,
+    "number_facility": 2.145,
+    "memorization": 2.618,
+    "perceptual_speed": 2.273,
+    "spatial_orientation": 2.527,
+    "visualization": 2.418,
+    "selective_attention": 2.764,
+    "time_sharing": 2.691,
+    "arm_hand_steadiness": 2.091,
+    "manual_dexterity": 2.436,
+    "finger_dexterity": 2.4,
+    "reaction_time": 2.782,
+    "wrist_finger_speed": 2.182,
+    "speed_of_limb_movement": 2.236,
+    "static_strength": 2.473,
+    "stamina": 2.636,
+    "gross_body_equilibrium": 2.236,
+    "near_vision": 2.382,
+    "far_vision": 2.436,
+    "visual_color_discrimination": 2.218,
+    "depth_perception": 2.255,
+    "hearing_sensitivity": 2.436,
+    "auditory_attention": 2.418,
+    "speech_clarity": 2.836
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.632,
+    "face_to_face_discussions": 3.947,
+    "telephone_communication": 3.561,
+    "business_writing": 2.825,
+    "conflict_situations": 2.526,
+    "time_pressure": 2.228,
+    "teamwork": 4.035,
+    "dealing_with_external_customers": 2.982,
+    "coordinate_lead_others": 3.018,
+    "exactness_accuracy": 2.912,
+    "repetitive_tasks": 2.526,
+    "pace_determined_by_machine": 1.684,
+    "responsibility_for_outcomes": 2.965,
+    "indoor_climate_controlled": 4.509,
+    "indoor_non_climate_controlled": 2.228,
+    "outdoor_work": 3.561,
+    "sitting": 2.526,
+    "standing": 3.719,
+    "repetition_of_activities": 2.246,
+    "consequence_of_error": 3.035,
+    "freedom_to_make_decisions": 3.544,
+    "set_own_goals": 3.263,
+    "regular_schedule": 0.667,
+    "irregular_schedule": 0.263,
+    "seasonal_schedule": 0.07,
+    "email_communication": 2.895,
+    "cramped_uncomfortable": 1.561,
+    "disease_infection_risk": 3.491,
+    "minor_injury_risk": 1.737,
+    "standard_protective_equipment": 1.368,
+    "specialized_protective_equipment": 1.263,
+    "dealing_with_violent_people": 1.877,
+    "walking_running": 3.333,
+    "handling_objects_tools": 1.965,
+    "physical_proximity": 4.263,
+    "work_automation": 1.561,
+    "responsibility_for_safety": 3.526,
+    "impact_of_decisions": 2.632,
+    "level_of_competition": 1.298
+  },
+  "work_activities": {
+    "getting_information": 2.564,
+    "monitor_processes": 2.873,
+    "identifying_objects": 3.0,
+    "inspecting_equipment": 2.764,
+    "estimating_quantifiable": 2.182,
+    "judging_quality": 2.564,
+    "evaluating_compliance": 2.818,
+    "processing_information": 2.309,
+    "analyzing_data": 2.473,
+    "making_decisions": 2.855,
+    "thinking_creatively": 3.0,
+    "updating_knowledge": 3.2,
+    "developing_objectives": 2.764,
+    "scheduling_work": 3.145,
+    "organizing_planning": 3.382,
+    "physical_activities": 2.927,
+    "handling_objects": 2.655,
+    "controlling_machines": 1.709,
+    "operating_vehicles": 1.509,
+    "computer_work": 2.236,
+    "drafting_specifications": 1.545,
+    "repairing_mechanical": 1.582,
+    "repairing_electronic": 1.564,
+    "documenting_information": 2.655,
+    "interpreting_information": 2.655,
+    "communicating_inside": 3.618,
+    "communicating_outside": 3.018,
+    "building_relationships": 3.618,
+    "assisting_caring": 3.455,
+    "selling_influencing": 2.109,
+    "resolving_conflicts": 3.327,
+    "performing_for_public": 2.709,
+    "coordinating_others": 3.164,
+    "developing_teams": 3.273,
+    "training_teaching": 2.782,
+    "guiding_subordinates": 2.727,
+    "coaching_developing": 2.6,
+    "providing_consultation": 2.164,
+    "performing_administrative": 2.764,
+    "staffing_organizational": 2.455,
+    "monitoring_resources": 2.255
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.175,
+    "vocational_school": 0.07,
+    "junior_college": 0.246,
+    "technical_college": 0.0,
+    "university": 0.456,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.263
+  },
+  "training_pre": {
+    "not_required": 0.596,
+    "up_to_1_month": 0.158,
+    "1_to_6_months": 0.07,
+    "6_months_to_1_year": 0.018,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.035,
+    "3_to_5_years": 0.035,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.088
+  },
+  "training_post": {
+    "not_required": 0.228,
+    "up_to_1_month": 0.105,
+    "1_to_6_months": 0.158,
+    "6_months_to_1_year": 0.193,
+    "1_to_2_years": 0.123,
+    "2_to_3_years": 0.018,
+    "3_to_5_years": 0.053,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.123
+  },
+  "experience": {
+    "not_required": 0.737,
+    "up_to_1_month": 0.035,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.018,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.07,
+    "3_to_5_years": 0.035,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.105
+  },
+  "employment_type": {
+    "regular_employee": 0.351,
+    "part_time": 0.579,
+    "dispatched": 0.018,
+    "contract": 0.07,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.123,
+    "casual_student": 0.158,
+    "unknown": 0.0,
+    "other": 0.018
+  },
+  "tasks_lead_ja": "放課後などに、学童保育施設で小学生の子どもたちを預かり、面倒を見る。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "学童保育施設の清掃・整理整頓をする。",
+      "execution_rate": 1.0,
+      "importance": 3.636
+    },
+    {
+      "task_id": 2,
+      "description_ja": "学童保育施設の設備等について故障、破損がないか点検し必要な対応をとる。",
+      "execution_rate": 1.0,
+      "importance": 3.782
+    },
+    {
+      "task_id": 3,
+      "description_ja": "指導員間で子どもについての情報共有、保育内容等について打合せをする。",
+      "execution_rate": 1.0,
+      "importance": 4.327
+    },
+    {
+      "task_id": 4,
+      "description_ja": "子どもたちの出欠確認、子どもの状況の確認をする。",
+      "execution_rate": 1.0,
+      "importance": 4.564
+    },
+    {
+      "task_id": 5,
+      "description_ja": "子どもたちの学習できる環境を整え、必要な援助をする。",
+      "execution_rate": 1.0,
+      "importance": 3.327
+    },
+    {
+      "task_id": 6,
+      "description_ja": "子どもたちと遊びや活動ができる環境を整え、必要な援助をする。",
+      "execution_rate": 1.0,
+      "importance": 3.982
+    },
+    {
+      "task_id": 7,
+      "description_ja": "子どもたちのおやつを準備し、提供をする。",
+      "execution_rate": 0.946,
+      "importance": 3.154
+    },
+    {
+      "task_id": 8,
+      "description_ja": "子どもの話を聞いたり、子どもだち同士のコミュニケーションを促進する。",
+      "execution_rate": 0.982,
+      "importance": 3.87
+    },
+    {
+      "task_id": 9,
+      "description_ja": "子どもたちに活動への協力や分担、決まり事を理解させ必要に応じ指導する。",
+      "execution_rate": 0.982,
+      "importance": 3.741
+    },
+    {
+      "task_id": 10,
+      "description_ja": "子供がケガをしないかなど、安全を見守る。",
+      "execution_rate": 1.0,
+      "importance": 4.491
+    },
+    {
+      "task_id": 11,
+      "description_ja": "手洗いや消毒などの感染症対策を実施し、子どもにも指導する。",
+      "execution_rate": 0.982,
+      "importance": 3.963
+    },
+    {
+      "task_id": 12,
+      "description_ja": "障害をもつ子どもの付き添いや見守り、介助をする。",
+      "execution_rate": 0.855,
+      "importance": 4.0
+    },
+    {
+      "task_id": 13,
+      "description_ja": "保護者と連絡帳等を使って子どもの様子を日常的に共有する。",
+      "execution_rate": 0.964,
+      "importance": 3.66
+    },
+    {
+      "task_id": 14,
+      "description_ja": "保護者全体に向けたおたより等を使って活動方針等を発信、共有する。",
+      "execution_rate": 0.946,
+      "importance": 3.327
+    },
+    {
+      "task_id": 15,
+      "description_ja": "保護者の勤務状況などを確認する。",
+      "execution_rate": 0.909,
+      "importance": 2.74
+    },
+    {
+      "task_id": 16,
+      "description_ja": "緊急時に学校等関係機関と連携し必要な対応を行う。",
+      "execution_rate": 0.982,
+      "importance": 3.981
+    },
+    {
+      "task_id": 17,
+      "description_ja": "緊急時に保護者と連絡をとり対応を検討したり、報告を行う。",
+      "execution_rate": 0.982,
+      "importance": 4.222
+    },
+    {
+      "task_id": 18,
+      "description_ja": "学童保育施設のガス栓、電気器具の確認を行い、戸締まりをする。",
+      "execution_rate": 0.982,
+      "importance": 3.852
+    },
+    {
+      "task_id": 19,
+      "description_ja": "保育内容の記録、子どもの出欠管理簿の記入等必要な事務を行う。",
+      "execution_rate": 0.982,
+      "importance": 3.907
+    },
+    {
+      "task_id": 20,
+      "description_ja": "指導員の労務管理をする。",
+      "execution_rate": 0.927,
+      "importance": 3.235
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国学童保育連絡協議会",
+      "url": "http://www2s.biglobe.ne.jp/Gakudou/"
+    },
+    {
+      "name_ja": "こども家庭庁　放課後児童健全育成事業（放課後児童クラブ）",
+      "url": "https://www.cfa.go.jp/policies/kosodateshien/houkago-jidou/"
+    },
+    {
+      "name_ja": "一般財団法人児童健全育成推進財団",
+      "url": "https://www.jidoukan.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "放課後児童支援員"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/242",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

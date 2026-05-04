@@ -1,0 +1,60 @@
+name: Data validation
+
+# Per DATA_ARCHITECTURE.md §7.6.4:
+#   L1 schema + L2 consistency: build_data.py --validate-only
+#   L1 + L2 + full build:        build_data.py
+#   L3 projection sanity:        test_data_consistency.py
+#   L4 end-to-end smoke:         done by Vercel deploy preview (not in CI)
+#
+# Runs on every push to main and every PR. Blocks merge on failure.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: L1 + L2 — schema + consistency validation
+        run: uv run python scripts/build_data.py --validate-only
+
+      - name: Full build (Planned projections)
+        run: uv run python scripts/build_data.py
+
+      - name: L3 — projection sanity
+        run: uv run python scripts/test_data_consistency.py
+
+      - name: Verify dist/ unchanged after fresh build
+        # Drift catch: committed dist/ must equal what `build:data` would produce now.
+        # Catches forgotten rebuilds + nondeterministic projection bugs.
+        run: |
+          if ! git diff --quiet -- dist/; then
+            echo "::error::dist/ drift detected — committed projections do not match a fresh build."
+            echo "Run 'npm run build:data' locally and commit the result."
+            git diff --stat -- dist/
+            exit 1
+          fi

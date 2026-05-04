@@ -46,8 +46,8 @@
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/" />
     <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
-    <!-- Start downloading data.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. -->
-    <link rel="preload" href="/data.json" as="fetch" crossorigin="anonymous" />
+    <!-- Start downloading data.treemap.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. -->
+    <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" />
 
     <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
@@ -136,7 +136,7 @@
             {
               "@type": "DataDownload",
               "encodingFormat": "application/json",
-              "contentUrl": "https://mirai-shigoto.com/data.json"
+              "contentUrl": "https://mirai-shigoto.com/data.treemap.json"
             }
           ]
         },
@@ -254,7 +254,7 @@
               "name": "Is the data downloadable?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. A complete JSON of all 552 occupations is at https://mirai-shigoto.com/data.json (~1.3 MB). Source code and scoring scripts are at https://github.com/jasonhnd/jobs. MIT licensed."
+                "text": "Yes. A compact JSON of all 552 occupations (treemap-shape) is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped). Per-occupation detail records and the AI-scoring runs are at https://github.com/jasonhnd/jobs. MIT licensed; underlying IPD data © JILPT, used per their TOS Article 9."
               }
             },
             {
@@ -3264,13 +3264,13 @@
         if (!ls) return;
         ls.className = "error-state";
         ls.innerHTML = `
-          <div>${lang === "ja" ? "⚠️ data.json の読み込みに失敗しました" : "⚠️ Failed to load data.json"}</div>
+          <div>${lang === "ja" ? "⚠️ データの読み込みに失敗しました" : "⚠️ Failed to load data"}</div>
           <div style="font-size:0.78rem;color:var(--fg2);margin-top:6px">${(err && err.message) || err || ""}</div>
           <button onclick="location.reload()">${lang === "ja" ? "再読込" : "Retry"}</button>
         `;
       }
 
-      fetch("data.json", { credentials: "omit" })
+      fetch("data.treemap.json", { credentials: "omit" })
         .then(r => {
           if (!r.ok) throw new Error("HTTP " + r.status);
           return r.json();

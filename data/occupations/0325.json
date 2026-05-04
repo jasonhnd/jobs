@@ -1,0 +1,412 @@
+{
+  "id": 325,
+  "ipd_id": "IPD_01_01_325",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "AIエンジニア",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "02_010-99",
+    "mhlw_all": [
+      "02_010-99"
+    ],
+    "jsoc_main": "B109",
+    "jsoc_all": [
+      "B109"
+    ]
+  },
+  "description": {
+    "summary_ja": "AI（人工知能）の様々な分野での活用に関して研究開発を行う。",
+    "what_it_is_ja": "AI（人工知能）の様々な分野での活用に関して研究開発を行う。\n　ディープラーニング（深層学習）などの手法により、AIによる処理を実現するエンジニアである。ビッグデータを分析するデータサイエンティストをAIエンジニアに含める場合もあるが、ここでは狭義のAIエンジニアである、機械学習のエンジニアを解説する。\n　現在、AIの応用は、顔認証、疾病の画像診断、自動車の自動運転、カスタマーセンターの相談支援、異常や障害の検知等々、様々な分野で研究開発が進んでいる。\n　仕事を進行に沿ってみていくと、まずチームで開発目標を設定し、どのような開発を行うか計画を策定する。受託して開発する会社では、クライアントから要件を聞き、提供されるデータを確認してから開発設計を行う。開発に入ると最適な実現方法を検討し、AIを実行するマシンの性能が低い場合は、処理性能も考慮に入れながらＡＩを実装する。平行して、教師データ（結果が分っている既存のデータ）を投入しAIに学習させる仕組みを検討し、教師データの管理方法、加工方法を設計する。設計やプログラムはクラウドに上げてチームで共有することが多い。\n　効率の良い学習のためにデータを管理する画面やツールを準備し、膨大な教師データを投入し、診断、判定等の精度を上げていく。この学習には何日もかかることがあるため、AI学習用の専用のマシンやスーパーコンピューター（高度な演算処理を高速に行うことができる）などが使われる。スーパーコンピューターはリモートで利用されることが多い。\n　AIの学習の進み具合をみるため、正解率が目標に達したり、エラー率が十分に下がったところで学習は完了となる。AIに検証用のテストデータを投入し、どのような診断、判定になるか、様々な分野の専門家とエンジニアで検証する。この検証を経て、出来上がったシステムを納入する。システムが実際に運営されるようになるが、運用段階のデータからもAIを成長させていく。\n　関連技術が急激に発展しているため、常にWeb上で公開されている関連論文を調べて読んだり、大学、研究機関の研究者と意見交換し、関連する最新情報は押さえておくことが必要である。\n\n◇　よく使う道具、機材、情報技術等\n　スーパーコンピューター、クラウドストレッジ、統合開発環境（ＩＤＥ: Integrated Development Environment）、プログラミング言語（Python、C言語、JAVA、等）、生成AI（コードを仮作成し人間が手直しする等）、GoogleGoogleスプレッドシート、パソコン",
+    "how_to_become_ja": "この仕事に就くためには、特に学歴や資格は必要とされず、現状では求められる要件や水準も明確でないが、大学院で情報科学あるいは工学部、理学部の様々な分野の修士か博士号取得者が多くを占める。大学学部卒の割合がそれに続き、高専卒も若干いる。新卒者を採用する場合は、大学での研究実績、国際学会での発表、また、AI（人工知能）関連の各種コンペティションでの入賞等が評価される。\n　研究機関、メーカー、情報通信会社、ベンチャー企業などに採用される。システムエンジニアとは別にAIエンジニアとして採用されることが多い。\n　機械学習やディープラーニングの専門家は日本全国で1万人を超えると考えられ（AI開発会社の数、関連学会の会員数、関連コミュニティの参加者数から推定）、実績のあるAIエンジニアの中途採用、優秀な大学院生・大学生の新卒採用は争奪戦となっている。データサイエンティストなど隣接する分野から転身してくる人もいる。\n　転職する場合は、同業他社でAIエンジニアになるというケースもあるが、大学や研究機関に移るケースも多い。\n　ディープラーニングやその他の機械学習の手法に精通していること、この分野でメジャーなプログラミング言語であるPython（パイソン）などを使いこなせること、データ分析の技術やツールが十分に使えること等が求められる。また、その上に、例えば、画像処理、自然言語処理、音声処理などの技術に精通していることや、医学、農学などの特定の分野における専門知識が求められることもある。\n　新しい分野であり、人材の育成方法はまだ確立していないが、大学で学んだ専門知識、個人のポテンシャルや閃きが新しい発明に繋がることも多く、開発する力は年齢や経験年数と必ずしも比例しない。\n　進歩が速い分野であり、常に情報収集が必要で、論文を読んだり、また、自ら書いたりすることが多い。",
+    "working_conditions_ja": "AI（人工知能）開発のベンチャー企業、研究所、IT企業、大手メーカーなどに勤務するため、職場は都市部に集中している。AI開発のベンチャー企業はスタートアップ支援をしている自治体に多い。大学との共同研究等の関係もあり、大学のあるところに多い傾向もある。海外に開発拠点がある場合は海外勤務もある。ベトナムなど日本以外の国で一部の開発を行うオフショア開発も行われている。\n　人材不足の状態であり、雇用形態や契約形態は正社員が多いが、個人事業主、フリーランスもいる。新しい仕事であり、年齢は20歳代、30歳代が多い。就業者は現状では男性が多い。\n　勤務はフレックスタイム制やリモートでの勤務も多い。リモート勤務の場合、開発の打合せ等にはオンライン・ミーティングが活用される。\n　AI（人工知能）は個人の開発目標や方法を明確にしにくく、成果に基づく報酬と馴染まないことも多く、給料は正社員の場合は通常の月給制が多い。一方、フリーランスや個人事業主の場合は準委任契約になり、人月単価により報酬が決まる。AIエンジニアに限定した高い賃金体系となっている会社もある。\n　生成AIによりコードの下書きをすることも広がっており、AIに適切に指示を出す「プロンプト・エンジニアリング」が話題になるなど、AIエンジニアに関連する話題は多い。\n　AIの様々な分野での応用が広がる今日、AIエンジニアの需要は極めて高い。しかしながら、今日、急速に拡大するAI開発において、著作権等の法律問題、またAI開発の危険性や倫理も話題になっており、このような動きが今後、AI開発に影響し、AIエンジニアの働き方が変わる可能性もある。"
+  },
+  "interests": {
+    "realistic": 3.485,
+    "investigative": 3.758,
+    "artistic": 3.0,
+    "social": 2.97,
+    "enterprising": 2.939,
+    "conventional": 2.818
+  },
+  "work_values": {
+    "achievement": 3.929,
+    "autonomy": 3.964,
+    "expertise": 4.179,
+    "self_growth": 3.929,
+    "social_recognition": 3.429,
+    "service_contribution": 3.464,
+    "good_relationships": 3.357,
+    "workplace_safety": 3.821,
+    "work_life_balance": 3.214,
+    "stability": 3.714,
+    "compensation": 3.536
+  },
+  "skills": {
+    "reading_comprehension": 5.25,
+    "active_listening": 4.607,
+    "writing": 4.571,
+    "speaking": 4.786,
+    "foreign_language_reading": 3.786,
+    "foreign_language_listening": 2.357,
+    "foreign_language_writing": 2.464,
+    "foreign_language_speaking": 2.036,
+    "mathematics": 4.893,
+    "science": 3.571,
+    "critical_thinking": 5.036,
+    "active_learning": 4.929,
+    "learning_strategies": 4.893,
+    "monitoring": 4.857,
+    "social_perceptiveness": 4.25,
+    "coordination": 4.036,
+    "persuasion": 3.786,
+    "negotiation": 3.643,
+    "instructing": 4.393,
+    "service_orientation": 3.643,
+    "complex_problem_solving": 4.75,
+    "operations_analysis": 4.536,
+    "technology_design": 4.786,
+    "equipment_selection": 4.536,
+    "installation": 4.5,
+    "programming": 5.286,
+    "operations_monitoring": 3.143,
+    "operation_and_control": 3.786,
+    "equipment_maintenance": 2.536,
+    "troubleshooting": 3.929,
+    "repairing": 3.107,
+    "quality_control_analysis": 4.357,
+    "judgment_decision_making": 4.0,
+    "systems_analysis": 3.679,
+    "systems_evaluation": 3.357,
+    "time_management": 3.857,
+    "financial_resources_management": 2.893,
+    "material_resources_management": 2.714,
+    "personnel_resources_management": 3.25
+  },
+  "knowledge": {
+    "business_management": 2.455,
+    "clerical": 2.394,
+    "economics_accounting": 1.97,
+    "sales_marketing": 2.121,
+    "customer_personal_service": 2.242,
+    "personnel_hr": 1.636,
+    "transportation": 1.576,
+    "production_processing": 1.636,
+    "agriculture_livestock": 1.424,
+    "engineering": 3.333,
+    "computers_electronics": 3.727,
+    "design": 3.212,
+    "building_construction": 1.576,
+    "mechanical": 2.303,
+    "mathematics_kn": 3.515,
+    "physics": 2.727,
+    "chemistry": 1.97,
+    "biology": 1.939,
+    "psychology": 2.242,
+    "sociology": 2.182,
+    "geography": 1.697,
+    "medicine_dentistry": 1.97,
+    "therapy_counseling": 1.636,
+    "education_training_kn": 1.97,
+    "japanese_language": 2.848,
+    "foreign_language_kn": 2.909,
+    "fine_arts": 1.848,
+    "history_archaeology": 1.576,
+    "philosophy_theology": 1.485,
+    "public_safety_security": 1.97,
+    "law_government": 1.788,
+    "telecommunications": 3.091,
+    "communications_media": 2.576
+  },
+  "abilities": null,
+  "work_characteristics": {
+    "contact_with_others": 4.364,
+    "face_to_face_discussions": 4.061,
+    "telephone_communication": 3.333,
+    "business_writing": 3.848,
+    "conflict_situations": 3.121,
+    "time_pressure": 3.364,
+    "teamwork": 3.606,
+    "dealing_with_external_customers": 3.121,
+    "coordinate_lead_others": 3.515,
+    "exactness_accuracy": 3.667,
+    "repetitive_tasks": 3.242,
+    "pace_determined_by_machine": 3.303,
+    "responsibility_for_outcomes": 3.424,
+    "indoor_climate_controlled": 4.545,
+    "indoor_non_climate_controlled": 2.273,
+    "outdoor_work": 2.212,
+    "sitting": 4.485,
+    "standing": 1.879,
+    "repetition_of_activities": 2.303,
+    "consequence_of_error": 2.97,
+    "freedom_to_make_decisions": 3.848,
+    "set_own_goals": 3.576,
+    "regular_schedule": 0.424,
+    "irregular_schedule": 0.515,
+    "seasonal_schedule": 0.061,
+    "email_communication": 4.622,
+    "cramped_uncomfortable": 2.27,
+    "disease_infection_risk": 1.514,
+    "minor_injury_risk": 1.243,
+    "standard_protective_equipment": 1.486,
+    "specialized_protective_equipment": 1.378,
+    "dealing_with_violent_people": 1.324,
+    "walking_running": 1.541,
+    "handling_objects_tools": 1.838,
+    "physical_proximity": 2.243,
+    "work_automation": 2.757,
+    "responsibility_for_safety": 1.73,
+    "impact_of_decisions": 2.703,
+    "level_of_competition": 3.027
+  },
+  "work_activities": {
+    "getting_information": 3.703,
+    "monitor_processes": 3.459,
+    "identifying_objects": 3.73,
+    "inspecting_equipment": 2.568,
+    "estimating_quantifiable": 3.514,
+    "judging_quality": 3.297,
+    "evaluating_compliance": 3.0,
+    "processing_information": 3.838,
+    "analyzing_data": 3.919,
+    "making_decisions": 3.405,
+    "thinking_creatively": 3.568,
+    "updating_knowledge": 3.811,
+    "developing_objectives": 3.703,
+    "scheduling_work": 3.216,
+    "organizing_planning": 3.324,
+    "physical_activities": 1.784,
+    "handling_objects": 1.757,
+    "controlling_machines": 2.027,
+    "operating_vehicles": 1.459,
+    "computer_work": 3.946,
+    "drafting_specifications": 1.892,
+    "repairing_mechanical": 1.622,
+    "repairing_electronic": 1.676,
+    "documenting_information": 3.108,
+    "interpreting_information": 3.486,
+    "communicating_inside": 3.405,
+    "communicating_outside": 3.459,
+    "building_relationships": 3.324,
+    "assisting_caring": 2.595,
+    "selling_influencing": 2.811,
+    "resolving_conflicts": 2.919,
+    "performing_for_public": 2.081,
+    "coordinating_others": 2.838,
+    "developing_teams": 2.973,
+    "training_teaching": 2.865,
+    "guiding_subordinates": 2.973,
+    "coaching_developing": 2.946,
+    "providing_consultation": 2.946,
+    "performing_administrative": 2.892,
+    "staffing_organizational": 2.27,
+    "monitoring_resources": 2.351
+  },
+  "education_distribution": {
+    "below_high_school": 0.03,
+    "high_school": 0.03,
+    "vocational_school": 0.061,
+    "junior_college": 0.0,
+    "technical_college": 0.03,
+    "university": 0.576,
+    "masters": 0.636,
+    "doctorate": 0.303,
+    "unknown": 0.03
+  },
+  "training_pre": {
+    "not_required": 0.212,
+    "up_to_1_month": 0.03,
+    "1_to_6_months": 0.061,
+    "6_months_to_1_year": 0.242,
+    "1_to_2_years": 0.121,
+    "2_to_3_years": 0.121,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.03,
+    "over_10_years": 0.0,
+    "unknown": 0.091
+  },
+  "training_post": {
+    "not_required": 0.091,
+    "up_to_1_month": 0.061,
+    "1_to_6_months": 0.061,
+    "6_months_to_1_year": 0.152,
+    "1_to_2_years": 0.212,
+    "2_to_3_years": 0.091,
+    "3_to_5_years": 0.061,
+    "5_to_10_years": 0.091,
+    "over_10_years": 0.03,
+    "unknown": 0.152
+  },
+  "experience": {
+    "not_required": 0.303,
+    "up_to_1_month": 0.03,
+    "1_to_6_months": 0.121,
+    "6_months_to_1_year": 0.121,
+    "1_to_2_years": 0.061,
+    "2_to_3_years": 0.091,
+    "3_to_5_years": 0.061,
+    "5_to_10_years": 0.061,
+    "over_10_years": 0.061,
+    "unknown": 0.091
+  },
+  "employment_type": {
+    "regular_employee": 0.686,
+    "part_time": 0.0,
+    "dispatched": 0.0,
+    "contract": 0.086,
+    "self_employed_freelance": 0.171,
+    "executive": 0.057,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.029,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "AI（人工知能）の様々な分野での活用に関して研究開発を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "データを確認し、全体的な設計を考える。",
+      "execution_rate": 0.943,
+      "importance": 3.636
+    },
+    {
+      "task_id": 2,
+      "description_ja": "データに合った、AI開発の方向性を検討する。",
+      "execution_rate": 0.943,
+      "importance": 3.727
+    },
+    {
+      "task_id": 3,
+      "description_ja": "AIに流し込むデータの管理・加工の方法を設計する。",
+      "execution_rate": 0.943,
+      "importance": 3.545
+    },
+    {
+      "task_id": 4,
+      "description_ja": "教師データを投入し、AIに学習させる。",
+      "execution_rate": 0.943,
+      "importance": 3.182
+    },
+    {
+      "task_id": 5,
+      "description_ja": "学習結果の検証を踏まえて、必要な修正を行う。",
+      "execution_rate": 0.943,
+      "importance": 3.606
+    },
+    {
+      "task_id": 6,
+      "description_ja": "レスポンスを良くするために、計算処理の近似化など適切な処理を考える。",
+      "execution_rate": 0.943,
+      "importance": 3.394
+    },
+    {
+      "task_id": 7,
+      "description_ja": "AIの全体的な動き、データの流れを確認する。",
+      "execution_rate": 0.971,
+      "importance": 3.471
+    },
+    {
+      "task_id": 8,
+      "description_ja": "プロジェクトに合ったデータ管理の仕組みを考える。",
+      "execution_rate": 0.943,
+      "importance": 3.545
+    },
+    {
+      "task_id": 9,
+      "description_ja": "効率良くデータを入力するための管理画面やツールを準備する。",
+      "execution_rate": 0.971,
+      "importance": 3.294
+    },
+    {
+      "task_id": 10,
+      "description_ja": "オペレータの負荷を軽減するツールを設計する。",
+      "execution_rate": 0.943,
+      "importance": 3.364
+    },
+    {
+      "task_id": 11,
+      "description_ja": "システムを設計して、プロジェクト関係者に提示する。",
+      "execution_rate": 0.914,
+      "importance": 3.531
+    },
+    {
+      "task_id": 12,
+      "description_ja": "システムを運営しながらAIを成長させる。",
+      "execution_rate": 0.943,
+      "importance": 3.545
+    },
+    {
+      "task_id": 13,
+      "description_ja": "チーム内ミーティングで情報共有する。",
+      "execution_rate": 0.943,
+      "importance": 3.455
+    },
+    {
+      "task_id": 14,
+      "description_ja": "関連のコミュニティに参加し、情報交換する。",
+      "execution_rate": 0.914,
+      "importance": 3.281
+    },
+    {
+      "task_id": 15,
+      "description_ja": "関連する論文を読む。",
+      "execution_rate": 0.914,
+      "importance": 2.938
+    },
+    {
+      "task_id": 16,
+      "description_ja": "関連する論文を書く。",
+      "execution_rate": 0.8,
+      "importance": 2.964
+    },
+    {
+      "task_id": 17,
+      "description_ja": "ディープラーニングツールを習得する。",
+      "execution_rate": 0.886,
+      "importance": 3.032
+    },
+    {
+      "task_id": 18,
+      "description_ja": "関係するシステムのAPIを調査する。",
+      "execution_rate": 0.943,
+      "importance": 2.939
+    },
+    {
+      "task_id": 19,
+      "description_ja": "モデルの更新タイミングを設計する。",
+      "execution_rate": 0.886,
+      "importance": 3.065
+    },
+    {
+      "task_id": 20,
+      "description_ja": "市場動向を調査する。",
+      "execution_rate": 0.943,
+      "importance": 3.182
+    },
+    {
+      "task_id": 21,
+      "description_ja": "勉強会や講習会で関連分野の講師をする。",
+      "execution_rate": 0.886,
+      "importance": 3.226
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人 人工知能学会",
+      "url": "https://www.ai-gakkai.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/325",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2024
+  }
+}

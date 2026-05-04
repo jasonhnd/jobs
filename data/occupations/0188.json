@@ -1,0 +1,446 @@
+{
+  "id": 188,
+  "ipd_id": "IPD_01_01_188",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "タクシー運転手",
+  "aliases_ja": [
+    "タクシー乗務員",
+    "タクシードライバー",
+    "乗合タクシー運転手",
+    "ハイヤー運転手"
+  ],
+  "classifications": {
+    "mhlw_main": "13_085-03",
+    "mhlw_all": [
+      "13_085-03"
+    ],
+    "jsoc_main": "I612",
+    "jsoc_all": [
+      "I612"
+    ]
+  },
+  "description": {
+    "summary_ja": "乗客を希望する目的地まで安全に輸送し、料金メーターに表示された運賃を受け取る。",
+    "what_it_is_ja": "乗客を希望する目的地まで安全に輸送し、料金メーターに表示された運賃を受け取る。\n　タクシー会社に勤めている場合は、担当の時刻に会社に出勤し、乗務服に着替えて点呼を受け、車の運行前点検を行ってから、営業を開始する。効率よく営業するために、最寄り駅や繁華街などで待機することもあるが、会社の無線指示で迎車として対応するケースもある。タクシー会社にかかってくる電話を待つ場合や客が多い地域を流す場合もある。\n　タクシーに客を乗せると、希望の場所まで安全に送り届け、料金メーターに表示された運賃を受け取る。その際、乗務記録に走行経路、キロ数、乗降時刻、人員、運賃などを記入する。万が一事故が発生した場合には、救急措置などを行うとともに、速かに会社へ連絡して指示を受ける。乗客の忘れ物は、車庫に帰ってから運行管理者へ引き渡すなどの対応を行う。終業時刻に帰社し1日の記録を整理、売上高を計算する。出勤時に受け取った釣銭などを会社に返納し、車両の異常の有無を報告し、車を洗い、車庫に車両を格納する。\n　介護タクシー、観光タクシー、乗合タクシーなど、一般的なタクシー以外の様々なサービスを展開する会社もあり、そのための仕事もある。\n　近年、GPSの付いた車両が増えている。タクシー会社はこの位置情報を利用し、より効率的な配車ができるようになっている。また、この位置情報を使って、お客がスマートフォンのアプリから直接、近くに居るタクシーを呼ぶこともできるようになっている。\n\n◇　よく使う道具、機材、情報技術等\n　無線機、カーナビゲーションシステム、普通自動車（タクシー：普通免許（第二種）で運転可能なもの）",
+    "how_to_become_ja": "学歴、経験は問われないが、普通第二種運転免許証が必要となる。また、一部指定の地域で働くには、「タクシーセンター」の試験に合格する必要がある。第一種免許の保有者を採用し、第二種免許取得のため養成訓練を行う会社もある。\n　募集は、ハローワークの他に、新聞、就職情報誌などの求人広告も多く利用される。初めて仕事に就く場合、研修を受けてから乗務する。最初の数日はベテランが同乗して接客技術などについて指導する。\n　一定の年数を経験し、所定の条件を満たした者は、管轄する運輸局の免許を受けて、独立して個人タクシー事業を開業することもできる。\n　交通法規を守り、よい接客態度を保つ必要がある。また、近年ではカーナビゲーションシステムを利用することも多いが、迅速に乗客を輸送するために地理や道路事情をよく知っておくことが重要となる。",
+    "working_conditions_ja": "タクシー会社に勤務するか、個人で営業する。\n　勤務時間は地域や事業所によって異なるが、昼夜の毎日8時間制のほか、大都市では1回の勤務で19時間という隔日勤務制をとるケースもある。19時間のうち3時間休憩し、翌日は休みで月に12回から13回乗車する。乗客の要望によっては長時間の連続運転となることもあるため、休憩時間をいつ取るかはある程度個人の裁量となる。地方では1～2日目は昼間勤務し、3日目は朝から翌日午前2時ごろまで勤務し、4日目は休むというような勤務形態をとる場合もある。\n　基本給などの他に、売上高に応じて給料が支払われる歩合制度を採用しているところが多い。\n　近年では、女性運転手も増加しており、職場と家庭生活が両立できるような勤務体制や職場施設の環境改善に力を入れている。女性や高齢の就業者が増えていることから労働時間、労働日数の少ない短時間勤務制度を採用したり健康管理に注力する事業所もある。また、タクシー運転手の安全確保、事故の際の危機管理の観点等からドライブレコーダーの設置が進められており、約8割の車両に設置されている。\n　個人タクシーは約25,000人での事業者が各都市で営業を行っている。平均年齢は64.5歳、女性個人タクシー事業者は376人となっている（2025年4月時点*）。\n　すぐに普及する状況ではないが、タクシーの自動運転に関して、東京五輪のときに、無人に近い状態でタクシーを運行することが目標とされたり、過疎地での高齢者の足として、自動運転のタクシーが期待されたりしてきている。\n\n*一般社団法人 全国個人タクシー協会　ホームページより"
+  },
+  "interests": {
+    "realistic": 3.122,
+    "investigative": 2.73,
+    "artistic": 2.459,
+    "social": 3.757,
+    "enterprising": 2.649,
+    "conventional": 2.986
+  },
+  "work_values": {
+    "achievement": 2.903,
+    "autonomy": 3.194,
+    "expertise": 2.919,
+    "self_growth": 2.839,
+    "social_recognition": 2.194,
+    "service_contribution": 2.984,
+    "good_relationships": 2.984,
+    "workplace_safety": 2.839,
+    "work_life_balance": 2.887,
+    "stability": 2.5,
+    "compensation": 2.29
+  },
+  "skills": {
+    "reading_comprehension": 2.629,
+    "active_listening": 3.726,
+    "writing": 2.274,
+    "speaking": 2.823,
+    "foreign_language_reading": 1.065,
+    "foreign_language_listening": 1.274,
+    "foreign_language_writing": 0.806,
+    "foreign_language_speaking": 1.242,
+    "mathematics": 1.677,
+    "science": 0.79,
+    "critical_thinking": 1.565,
+    "active_learning": 1.903,
+    "learning_strategies": 1.935,
+    "monitoring": 2.113,
+    "social_perceptiveness": 2.5,
+    "coordination": 1.758,
+    "persuasion": 1.774,
+    "negotiation": 1.935,
+    "instructing": 1.855,
+    "service_orientation": 2.226,
+    "complex_problem_solving": 1.742,
+    "operations_analysis": 1.306,
+    "technology_design": 0.952,
+    "equipment_selection": 1.548,
+    "installation": 1.242,
+    "programming": 0.548,
+    "operations_monitoring": 1.29,
+    "operation_and_control": 1.629,
+    "equipment_maintenance": 2.016,
+    "troubleshooting": 1.984,
+    "repairing": 1.629,
+    "quality_control_analysis": 1.113,
+    "judgment_decision_making": 1.548,
+    "systems_analysis": 1.129,
+    "systems_evaluation": 1.065,
+    "time_management": 2.0,
+    "financial_resources_management": 1.258,
+    "material_resources_management": 0.952,
+    "personnel_resources_management": 0.758
+  },
+  "knowledge": {
+    "business_management": 0.435,
+    "clerical": 0.5,
+    "economics_accounting": 0.37,
+    "sales_marketing": 0.478,
+    "customer_personal_service": 1.891,
+    "personnel_hr": 0.609,
+    "transportation": 2.587,
+    "production_processing": 0.261,
+    "agriculture_livestock": 0.152,
+    "engineering": 0.174,
+    "computers_electronics": 0.304,
+    "design": 0.174,
+    "building_construction": 0.174,
+    "mechanical": 0.478,
+    "mathematics_kn": 0.522,
+    "physics": 0.326,
+    "chemistry": 0.283,
+    "biology": 0.239,
+    "psychology": 0.913,
+    "sociology": 0.783,
+    "geography": 1.217,
+    "medicine_dentistry": 0.348,
+    "therapy_counseling": 0.391,
+    "education_training_kn": 0.63,
+    "japanese_language": 1.152,
+    "foreign_language_kn": 1.152,
+    "fine_arts": 0.348,
+    "history_archaeology": 0.652,
+    "philosophy_theology": 0.391,
+    "public_safety_security": 1.174,
+    "law_government": 0.87,
+    "telecommunications": 0.674,
+    "communications_media": 1.13
+  },
+  "abilities": {
+    "oral_comprehension": 2.72,
+    "written_comprehension": 2.38,
+    "oral_expression": 2.8,
+    "written_expression": 2.36,
+    "fluency_of_ideas": 2.1,
+    "originality": 2.08,
+    "problem_sensitivity": 3.28,
+    "deductive_reasoning": 2.54,
+    "inductive_reasoning": 2.4,
+    "information_ordering": 2.48,
+    "category_flexibility": 2.12,
+    "mathematical_reasoning": 2.06,
+    "number_facility": 2.66,
+    "memorization": 2.96,
+    "perceptual_speed": 2.52,
+    "spatial_orientation": 2.76,
+    "visualization": 2.42,
+    "selective_attention": 2.78,
+    "time_sharing": 3.16,
+    "arm_hand_steadiness": 2.8,
+    "manual_dexterity": 2.46,
+    "finger_dexterity": 2.18,
+    "reaction_time": 3.66,
+    "wrist_finger_speed": 2.5,
+    "speed_of_limb_movement": 2.92,
+    "static_strength": 2.32,
+    "stamina": 2.82,
+    "gross_body_equilibrium": 2.72,
+    "near_vision": 2.9,
+    "far_vision": 3.28,
+    "visual_color_discrimination": 3.32,
+    "depth_perception": 3.42,
+    "hearing_sensitivity": 3.18,
+    "auditory_attention": 2.88,
+    "speech_clarity": 2.78
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.435,
+    "face_to_face_discussions": 1.848,
+    "telephone_communication": 2.5,
+    "business_writing": 1.565,
+    "conflict_situations": 2.152,
+    "time_pressure": 2.63,
+    "teamwork": 1.587,
+    "dealing_with_external_customers": 3.413,
+    "coordinate_lead_others": 1.783,
+    "exactness_accuracy": 3.065,
+    "repetitive_tasks": 2.457,
+    "pace_determined_by_machine": 2.304,
+    "responsibility_for_outcomes": 2.348,
+    "indoor_climate_controlled": 2.326,
+    "indoor_non_climate_controlled": 1.304,
+    "outdoor_work": 3.413,
+    "sitting": 4.587,
+    "standing": 1.543,
+    "repetition_of_activities": 3.043,
+    "consequence_of_error": 3.652,
+    "freedom_to_make_decisions": 3.413,
+    "set_own_goals": 3.739,
+    "regular_schedule": 0.652,
+    "irregular_schedule": 0.304,
+    "seasonal_schedule": 0.043,
+    "email_communication": 1.913,
+    "cramped_uncomfortable": 3.065,
+    "disease_infection_risk": 3.457,
+    "minor_injury_risk": 1.174,
+    "standard_protective_equipment": 1.891,
+    "specialized_protective_equipment": 1.413,
+    "dealing_with_violent_people": 2.087,
+    "walking_running": 1.978,
+    "handling_objects_tools": 2.848,
+    "physical_proximity": 3.935,
+    "work_automation": 1.804,
+    "responsibility_for_safety": 3.674,
+    "impact_of_decisions": 2.5,
+    "level_of_competition": 2.043
+  },
+  "work_activities": {
+    "getting_information": 2.72,
+    "monitor_processes": 2.68,
+    "identifying_objects": 2.66,
+    "inspecting_equipment": 2.42,
+    "estimating_quantifiable": 2.14,
+    "judging_quality": 2.52,
+    "evaluating_compliance": 3.28,
+    "processing_information": 2.34,
+    "analyzing_data": 2.38,
+    "making_decisions": 2.76,
+    "thinking_creatively": 2.16,
+    "updating_knowledge": 2.72,
+    "developing_objectives": 2.64,
+    "scheduling_work": 2.28,
+    "organizing_planning": 2.76,
+    "physical_activities": 2.18,
+    "handling_objects": 2.4,
+    "controlling_machines": 2.24,
+    "operating_vehicles": 3.92,
+    "computer_work": 2.02,
+    "drafting_specifications": 1.92,
+    "repairing_mechanical": 2.56,
+    "repairing_electronic": 2.44,
+    "documenting_information": 2.58,
+    "interpreting_information": 2.4,
+    "communicating_inside": 2.42,
+    "communicating_outside": 2.52,
+    "building_relationships": 2.66,
+    "assisting_caring": 2.52,
+    "selling_influencing": 2.16,
+    "resolving_conflicts": 2.54,
+    "performing_for_public": 2.66,
+    "coordinating_others": 2.08,
+    "developing_teams": 1.94,
+    "training_teaching": 1.9,
+    "guiding_subordinates": 2.0,
+    "coaching_developing": 1.96,
+    "providing_consultation": 1.98,
+    "performing_administrative": 2.3,
+    "staffing_organizational": 1.98,
+    "monitoring_resources": 2.1
+  },
+  "education_distribution": {
+    "below_high_school": 0.109,
+    "high_school": 0.326,
+    "vocational_school": 0.087,
+    "junior_college": 0.043,
+    "technical_college": 0.0,
+    "university": 0.13,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.348
+  },
+  "training_pre": {
+    "not_required": 0.348,
+    "up_to_1_month": 0.326,
+    "1_to_6_months": 0.152,
+    "6_months_to_1_year": 0.043,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.043,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.065
+  },
+  "training_post": {
+    "not_required": 0.174,
+    "up_to_1_month": 0.304,
+    "1_to_6_months": 0.261,
+    "6_months_to_1_year": 0.043,
+    "1_to_2_years": 0.087,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.065,
+    "5_to_10_years": 0.022,
+    "over_10_years": 0.0,
+    "unknown": 0.043
+  },
+  "experience": {
+    "not_required": 0.565,
+    "up_to_1_month": 0.109,
+    "1_to_6_months": 0.087,
+    "6_months_to_1_year": 0.022,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.043,
+    "5_to_10_years": 0.022,
+    "over_10_years": 0.022,
+    "unknown": 0.13
+  },
+  "employment_type": {
+    "regular_employee": 0.783,
+    "part_time": 0.022,
+    "dispatched": 0.0,
+    "contract": 0.109,
+    "self_employed_freelance": 0.087,
+    "executive": 0.0,
+    "casual_non_student": 0.043,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "乗客を希望する目的地まで安全、快適に輸送し、料金メーターの表示した運賃を受け取る。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "車内と車外の清掃をする。",
+      "execution_rate": 1.0,
+      "importance": 3.7
+    },
+    {
+      "task_id": 2,
+      "description_ja": "車両の運行前点検をする。",
+      "execution_rate": 1.0,
+      "importance": 3.58
+    },
+    {
+      "task_id": 3,
+      "description_ja": "無線でタクシー配車係と通話する。",
+      "execution_rate": 0.76,
+      "importance": 2.605
+    },
+    {
+      "task_id": 4,
+      "description_ja": "乗客を探すために、施設の近くで待機したり、道路を巡回する。",
+      "execution_rate": 0.96,
+      "importance": 3.125
+    },
+    {
+      "task_id": 5,
+      "description_ja": "ドアを開けてお客の乗降を助ける。",
+      "execution_rate": 0.94,
+      "importance": 3.234
+    },
+    {
+      "task_id": 6,
+      "description_ja": "大きな荷物を受け取ってトランクに預かる。",
+      "execution_rate": 1.0,
+      "importance": 3.16
+    },
+    {
+      "task_id": 7,
+      "description_ja": "障害者の乗り降りや車椅子などの積み込みを補助する。",
+      "execution_rate": 1.0,
+      "importance": 3.58
+    },
+    {
+      "task_id": 8,
+      "description_ja": "お客に目的地を聞き、交通状況を考慮しながらルートを臨機応変に選ぶ。",
+      "execution_rate": 1.0,
+      "importance": 4.1
+    },
+    {
+      "task_id": 9,
+      "description_ja": "シートベルトの装着を促す。",
+      "execution_rate": 1.0,
+      "importance": 3.48
+    },
+    {
+      "task_id": 10,
+      "description_ja": "乗客の特徴に合わせて、運転速度やルートを調整する。",
+      "execution_rate": 1.0,
+      "importance": 3.08
+    },
+    {
+      "task_id": 11,
+      "description_ja": "道路状況などお客からの質問に答える。",
+      "execution_rate": 1.0,
+      "importance": 3.2
+    },
+    {
+      "task_id": 12,
+      "description_ja": "タクシーメーターの表示によって決まる料金を徴収し、文書で記録する。",
+      "execution_rate": 0.88,
+      "importance": 4.045
+    },
+    {
+      "task_id": 13,
+      "description_ja": "車内の忘れ物を確認する。",
+      "execution_rate": 1.0,
+      "importance": 3.78
+    },
+    {
+      "task_id": 14,
+      "description_ja": "遺失物がある場合は、会社もしくは警察に報告する。",
+      "execution_rate": 1.0,
+      "importance": 4.02
+    },
+    {
+      "task_id": 15,
+      "description_ja": "事故やトラブルに対応する。",
+      "execution_rate": 1.0,
+      "importance": 4.1
+    },
+    {
+      "task_id": 16,
+      "description_ja": "病院からの患者を搬送する。",
+      "execution_rate": 0.7,
+      "importance": 3.086
+    },
+    {
+      "task_id": 17,
+      "description_ja": "子育て支援タクシー業務をする。",
+      "execution_rate": 0.62,
+      "importance": 2.71
+    },
+    {
+      "task_id": 18,
+      "description_ja": "タイヤ交換などの車両の整備をする。",
+      "execution_rate": 0.84,
+      "importance": 3.595
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "国土交通省自動車交通局旅客課",
+      "url": "http://www.mlit.go.jp"
+    },
+    {
+      "name_ja": "一般社団法人 全国ハイヤー・タクシー連合会",
+      "url": "http://www.taxi-japan.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人 全国個人タクシー協会",
+      "url": "http://www.kojin-taxi.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "普通第二種自動車運転免許",
+    "普通自動車免許"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/188",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

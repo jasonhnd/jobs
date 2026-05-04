@@ -1,0 +1,513 @@
+{
+  "id": 426,
+  "ipd_id": "IPD_01_01_426",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "秘書",
+  "aliases_ja": [
+    "セクレタリー"
+  ],
+  "classifications": {
+    "mhlw_main": "06_034-02",
+    "mhlw_all": [
+      "06_034-02"
+    ],
+    "jsoc_main": "C255",
+    "jsoc_all": [
+      "C255"
+    ]
+  },
+  "description": {
+    "summary_ja": "企業や団体の社長、役員などの幹部が職務に専念できるように、幹部を補佐する様々な仕事を行う。",
+    "what_it_is_ja": "企業や団体の社長や役員など幹部が職務に専念できるように、幹部を補佐する様々な仕事を行う。\n　基本的に幹部よりも早く出勤し、郵便物、FAX、電子メールなどに目を通し、緊急のもの、返事が必要なものなど重要度に応じて振り分ける。幹部のその日のスケジュールを確認し、必要な社内外への連絡・調整を行う。スケジュールに関する社内外からの問い合わせにも対応する。緊急のスケジュール変更の場合には、関係者への連絡など迅速に対応を行う。\n　来客や電話があった場合には、取次ぎと応対を行う。手紙など文書の作成や会議の資料作成や日程調整等をすることもある。\n　口頭や文書でよせられる膨大な情報のなかから必要な情報だけを取捨選択し、わかりやすい形にまとめて幹部に報告する。\n　海外との取引がある企業や団体では来客時に会議や商談に立ち会って通訳を務めたり、文書の翻訳を担うこともある。\n　また、出張の手配、慶弔の対応、取引先の人事情報のチェック、業界情報の収集整理なども行う。\n\n◇　よく使う道具、機材、情報技術等\n　FAX、電子メール、文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、オンライン会議ツール、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　短大や専門学校などで秘書の専門教育を受けるか、又は大学を卒業して企業や団体に入職し、秘書課などに配属される。また、一般の職員が秘書として異動することもある。\n　関連の資格としては、実務技能検定協会の「秘書検定」がある。秘書検定では、秘書としての業務を遂行する知識や能力を持っているか審査される。\n　外資系企業などでは、入職時点で高度な語学力や実務能力などが求められる。バイリンガル秘書の検定試験である国際秘書検定試験（CBS）に合格しCBS認定証（CBS Certificate）を取得すると、国際的に活躍するためには有利である。\n　経験を積み、経営情報の収集・分析などの高度な業務を任されたり、時には幹部の補佐・代理を務めることもある。\n　機転がきき積極的で他人に気配りができること、記憶力がよいことなどが求められる。また、パソコンのスキルや事務処理能力が必要とされる。",
+    "working_conditions_ja": "職場は企業や団体であり、全国に広がっている。\n　比較的責任の軽い仕事から重要な仕事まで幅広い職務を行うため、新卒者からベテランまで幅広い年齢層が活躍している。\n　男性の秘書もいるが、日本ではその数は少なく、女性が多い。\n　働く時間や休日は所属している企業などの規定に準じるが、幹部のスケジュールにあわせて朝早く出勤したり、残業したり、休日に出勤することもあり、就業時間が不規則になる場合もある。\n　ビジネスがグローバル化する中で、経営者を支えるエキスパートとしての秘書は、専門職として企業内での重要度が高まっている。そのため、より広い知識と教養を持った人材が求められる傾向にある。"
+  },
+  "interests": {
+    "realistic": 3.302,
+    "investigative": 2.984,
+    "artistic": 2.667,
+    "social": 3.651,
+    "enterprising": 3.127,
+    "conventional": 3.683
+  },
+  "work_values": {
+    "achievement": 3.088,
+    "autonomy": 3.14,
+    "expertise": 3.246,
+    "self_growth": 3.368,
+    "social_recognition": 2.947,
+    "service_contribution": 3.14,
+    "good_relationships": 3.649,
+    "workplace_safety": 3.491,
+    "work_life_balance": 3.333,
+    "stability": 3.14,
+    "compensation": 3.193
+  },
+  "skills": {
+    "reading_comprehension": 4.123,
+    "active_listening": 4.649,
+    "writing": 3.947,
+    "speaking": 4.07,
+    "foreign_language_reading": 2.86,
+    "foreign_language_listening": 2.456,
+    "foreign_language_writing": 2.263,
+    "foreign_language_speaking": 2.298,
+    "mathematics": 1.842,
+    "science": 1.105,
+    "critical_thinking": 2.807,
+    "active_learning": 2.772,
+    "learning_strategies": 2.877,
+    "monitoring": 2.895,
+    "social_perceptiveness": 3.456,
+    "coordination": 4.053,
+    "persuasion": 3.333,
+    "negotiation": 3.228,
+    "instructing": 3.193,
+    "service_orientation": 2.965,
+    "complex_problem_solving": 2.807,
+    "operations_analysis": 2.491,
+    "technology_design": 1.526,
+    "equipment_selection": 2.0,
+    "installation": 1.93,
+    "programming": 0.965,
+    "operations_monitoring": 0.719,
+    "operation_and_control": 1.263,
+    "equipment_maintenance": 0.667,
+    "troubleshooting": 0.789,
+    "repairing": 0.772,
+    "quality_control_analysis": 1.667,
+    "judgment_decision_making": 1.895,
+    "systems_analysis": 1.579,
+    "systems_evaluation": 1.579,
+    "time_management": 3.228,
+    "financial_resources_management": 1.86,
+    "material_resources_management": 1.561,
+    "personnel_resources_management": 1.614
+  },
+  "knowledge": {
+    "business_management": 1.0,
+    "clerical": 3.414,
+    "economics_accounting": 1.138,
+    "sales_marketing": 0.672,
+    "customer_personal_service": 1.466,
+    "personnel_hr": 1.155,
+    "transportation": 0.448,
+    "production_processing": 0.259,
+    "agriculture_livestock": 0.224,
+    "engineering": 0.259,
+    "computers_electronics": 0.534,
+    "design": 0.345,
+    "building_construction": 0.362,
+    "mechanical": 0.345,
+    "mathematics_kn": 0.5,
+    "physics": 0.276,
+    "chemistry": 0.345,
+    "biology": 0.362,
+    "psychology": 1.034,
+    "sociology": 0.983,
+    "geography": 0.31,
+    "medicine_dentistry": 0.793,
+    "therapy_counseling": 0.517,
+    "education_training_kn": 0.776,
+    "japanese_language": 2.052,
+    "foreign_language_kn": 1.466,
+    "fine_arts": 0.397,
+    "history_archaeology": 0.31,
+    "philosophy_theology": 0.293,
+    "public_safety_security": 0.828,
+    "law_government": 0.862,
+    "telecommunications": 0.534,
+    "communications_media": 1.155
+  },
+  "abilities": {
+    "oral_comprehension": 3.25,
+    "written_comprehension": 3.133,
+    "oral_expression": 3.133,
+    "written_expression": 3.217,
+    "fluency_of_ideas": 2.533,
+    "originality": 2.4,
+    "problem_sensitivity": 3.467,
+    "deductive_reasoning": 2.667,
+    "inductive_reasoning": 2.483,
+    "information_ordering": 2.45,
+    "category_flexibility": 2.533,
+    "mathematical_reasoning": 2.083,
+    "number_facility": 2.083,
+    "memorization": 3.067,
+    "perceptual_speed": 2.233,
+    "spatial_orientation": 2.3,
+    "visualization": 2.033,
+    "selective_attention": 2.567,
+    "time_sharing": 3.15,
+    "arm_hand_steadiness": 1.683,
+    "manual_dexterity": 1.833,
+    "finger_dexterity": 1.817,
+    "reaction_time": 2.267,
+    "wrist_finger_speed": 1.983,
+    "speed_of_limb_movement": 1.767,
+    "static_strength": 1.667,
+    "stamina": 2.05,
+    "gross_body_equilibrium": 1.817,
+    "near_vision": 1.883,
+    "far_vision": 1.8,
+    "visual_color_discrimination": 1.867,
+    "depth_perception": 1.75,
+    "hearing_sensitivity": 1.9,
+    "auditory_attention": 2.0,
+    "speech_clarity": 2.4
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.741,
+    "face_to_face_discussions": 2.983,
+    "telephone_communication": 4.293,
+    "business_writing": 3.948,
+    "conflict_situations": 1.897,
+    "time_pressure": 2.638,
+    "teamwork": 3.103,
+    "dealing_with_external_customers": 3.121,
+    "coordinate_lead_others": 3.086,
+    "exactness_accuracy": 4.0,
+    "repetitive_tasks": 3.431,
+    "pace_determined_by_machine": 2.534,
+    "responsibility_for_outcomes": 2.517,
+    "indoor_climate_controlled": 4.776,
+    "indoor_non_climate_controlled": 1.414,
+    "outdoor_work": 1.31,
+    "sitting": 4.69,
+    "standing": 1.793,
+    "repetition_of_activities": 2.483,
+    "consequence_of_error": 2.517,
+    "freedom_to_make_decisions": 3.207,
+    "set_own_goals": 3.431,
+    "regular_schedule": 0.793,
+    "irregular_schedule": 0.172,
+    "seasonal_schedule": 0.034,
+    "email_communication": 4.672,
+    "cramped_uncomfortable": 1.69,
+    "disease_infection_risk": 1.931,
+    "minor_injury_risk": 1.172,
+    "standard_protective_equipment": 1.259,
+    "specialized_protective_equipment": 1.19,
+    "dealing_with_violent_people": 1.103,
+    "walking_running": 1.948,
+    "handling_objects_tools": 1.345,
+    "physical_proximity": 2.983,
+    "work_automation": 2.293,
+    "responsibility_for_safety": 1.707,
+    "impact_of_decisions": 2.017,
+    "level_of_competition": 1.397
+  },
+  "work_activities": {
+    "getting_information": 3.117,
+    "monitor_processes": 3.083,
+    "identifying_objects": 3.067,
+    "inspecting_equipment": 1.833,
+    "estimating_quantifiable": 2.017,
+    "judging_quality": 2.3,
+    "evaluating_compliance": 2.483,
+    "processing_information": 2.65,
+    "analyzing_data": 2.55,
+    "making_decisions": 2.417,
+    "thinking_creatively": 2.433,
+    "updating_knowledge": 3.067,
+    "developing_objectives": 2.417,
+    "scheduling_work": 3.283,
+    "organizing_planning": 3.367,
+    "physical_activities": 2.1,
+    "handling_objects": 1.933,
+    "controlling_machines": 1.733,
+    "operating_vehicles": 1.65,
+    "computer_work": 3.15,
+    "drafting_specifications": 1.617,
+    "repairing_mechanical": 1.65,
+    "repairing_electronic": 1.7,
+    "documenting_information": 2.6,
+    "interpreting_information": 2.35,
+    "communicating_inside": 3.667,
+    "communicating_outside": 3.417,
+    "building_relationships": 3.417,
+    "assisting_caring": 2.583,
+    "selling_influencing": 2.067,
+    "resolving_conflicts": 2.35,
+    "performing_for_public": 2.133,
+    "coordinating_others": 2.117,
+    "developing_teams": 2.067,
+    "training_teaching": 2.15,
+    "guiding_subordinates": 2.067,
+    "coaching_developing": 1.883,
+    "providing_consultation": 1.75,
+    "performing_administrative": 2.583,
+    "staffing_organizational": 1.817,
+    "monitoring_resources": 1.983
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.138,
+    "vocational_school": 0.069,
+    "junior_college": 0.19,
+    "technical_college": 0.017,
+    "university": 0.69,
+    "masters": 0.086,
+    "doctorate": 0.086,
+    "unknown": 0.069
+  },
+  "training_pre": {
+    "not_required": 0.534,
+    "up_to_1_month": 0.103,
+    "1_to_6_months": 0.103,
+    "6_months_to_1_year": 0.017,
+    "1_to_2_years": 0.052,
+    "2_to_3_years": 0.017,
+    "3_to_5_years": 0.017,
+    "5_to_10_years": 0.017,
+    "over_10_years": 0.0,
+    "unknown": 0.138
+  },
+  "training_post": {
+    "not_required": 0.155,
+    "up_to_1_month": 0.017,
+    "1_to_6_months": 0.31,
+    "6_months_to_1_year": 0.121,
+    "1_to_2_years": 0.138,
+    "2_to_3_years": 0.103,
+    "3_to_5_years": 0.017,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.138
+  },
+  "experience": {
+    "not_required": 0.517,
+    "up_to_1_month": 0.052,
+    "1_to_6_months": 0.069,
+    "6_months_to_1_year": 0.017,
+    "1_to_2_years": 0.052,
+    "2_to_3_years": 0.069,
+    "3_to_5_years": 0.034,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.19
+  },
+  "employment_type": {
+    "regular_employee": 0.707,
+    "part_time": 0.19,
+    "dispatched": 0.224,
+    "contract": 0.138,
+    "self_employed_freelance": 0.017,
+    "executive": 0.034,
+    "casual_non_student": 0.017,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "企業や団体の社長や役員など幹部が職務に専念できるように、幹部を補佐する様々な仕事を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "郵便物、ＦＡＸ、電子メールなどに目を通し、重要度に応じて振り分ける。",
+      "execution_rate": 0.917,
+      "importance": 3.164
+    },
+    {
+      "task_id": 2,
+      "description_ja": "幹部のその日のスケジュールを確認し、必要な社内外への連絡・調整をする。",
+      "execution_rate": 0.95,
+      "importance": 3.912
+    },
+    {
+      "task_id": 3,
+      "description_ja": "日程表を維持管理し、スケジュールを調整する。",
+      "execution_rate": 0.9,
+      "importance": 4.019
+    },
+    {
+      "task_id": 4,
+      "description_ja": "電話の応対をする。",
+      "execution_rate": 0.933,
+      "importance": 3.661
+    },
+    {
+      "task_id": 5,
+      "description_ja": "社内外からの幹部への問い合わせに対し、答えられるものには直接答える。",
+      "execution_rate": 0.9,
+      "importance": 3.556
+    },
+    {
+      "task_id": 6,
+      "description_ja": "必要な情報だけを取捨選択し、わかりやすい形にまとめて幹部に報告する。",
+      "execution_rate": 0.967,
+      "importance": 3.672
+    },
+    {
+      "task_id": 7,
+      "description_ja": "社内外へ幹部の意向や指示を的確に伝える。",
+      "execution_rate": 0.95,
+      "importance": 3.825
+    },
+    {
+      "task_id": 8,
+      "description_ja": "来客の取次ぎと応接をする。",
+      "execution_rate": 0.867,
+      "importance": 3.577
+    },
+    {
+      "task_id": 9,
+      "description_ja": "海外からの来客に対応する。",
+      "execution_rate": 0.433,
+      "importance": 3.308
+    },
+    {
+      "task_id": 10,
+      "description_ja": "英文のビジネス文書の作成および翻訳・通訳をする。",
+      "execution_rate": 0.35,
+      "importance": 3.143
+    },
+    {
+      "task_id": 11,
+      "description_ja": "速記や機械で口述記録をとり、情報を転記して文書をつくる。",
+      "execution_rate": 0.533,
+      "importance": 2.969
+    },
+    {
+      "task_id": 12,
+      "description_ja": "手紙など文書の作成や会議の資料を作成する。",
+      "execution_rate": 0.867,
+      "importance": 3.385
+    },
+    {
+      "task_id": 13,
+      "description_ja": "書類のファイリングをする。",
+      "execution_rate": 0.917,
+      "importance": 3.164
+    },
+    {
+      "task_id": 14,
+      "description_ja": "出張のスケジュールを立てて予約を取る。",
+      "execution_rate": 0.717,
+      "importance": 3.721
+    },
+    {
+      "task_id": 15,
+      "description_ja": "郵便物の発送をする。",
+      "execution_rate": 0.95,
+      "importance": 3.333
+    },
+    {
+      "task_id": 16,
+      "description_ja": "会議の準備をする。",
+      "execution_rate": 0.767,
+      "importance": 3.109
+    },
+    {
+      "task_id": 17,
+      "description_ja": "会食や飲み会、接待のセッティングや調整をする。",
+      "execution_rate": 0.683,
+      "importance": 3.317
+    },
+    {
+      "task_id": 18,
+      "description_ja": "会食や飲み会の当日の受付などをする。",
+      "execution_rate": 0.483,
+      "importance": 3.0
+    },
+    {
+      "task_id": 19,
+      "description_ja": "慶弔の対応をする。",
+      "execution_rate": 0.783,
+      "importance": 3.596
+    },
+    {
+      "task_id": 20,
+      "description_ja": "顧客情報を管理する。",
+      "execution_rate": 0.7,
+      "importance": 3.333
+    },
+    {
+      "task_id": 21,
+      "description_ja": "社有車や携帯電話などの備品を管理する。",
+      "execution_rate": 0.45,
+      "importance": 2.63
+    },
+    {
+      "task_id": 22,
+      "description_ja": "業績などのデータを集計する。",
+      "execution_rate": 0.55,
+      "importance": 3.242
+    },
+    {
+      "task_id": 23,
+      "description_ja": "幹部の出退勤を管理する。",
+      "execution_rate": 0.417,
+      "importance": 2.76
+    },
+    {
+      "task_id": 24,
+      "description_ja": "予算や経費などの会計を管理する。",
+      "execution_rate": 0.567,
+      "importance": 3.353
+    },
+    {
+      "task_id": 25,
+      "description_ja": "社内のイベントを企画、運営する。",
+      "execution_rate": 0.417,
+      "importance": 2.92
+    },
+    {
+      "task_id": 26,
+      "description_ja": "会社全体にかかわるプロジェクトをサポートする。",
+      "execution_rate": 0.517,
+      "importance": 2.968
+    },
+    {
+      "task_id": 27,
+      "description_ja": "経営や企画をサポートする。",
+      "execution_rate": 0.5,
+      "importance": 3.233
+    },
+    {
+      "task_id": 28,
+      "description_ja": "部屋の清掃や整頓をする。",
+      "execution_rate": 0.75,
+      "importance": 2.756
+    },
+    {
+      "task_id": 29,
+      "description_ja": "幹部の食事や日用品を購入する。",
+      "execution_rate": 0.667,
+      "importance": 2.75
+    },
+    {
+      "task_id": 30,
+      "description_ja": "幹部の健康管理をサポートする。",
+      "execution_rate": 0.45,
+      "importance": 3.185
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人 日本秘書協会",
+      "url": "https://www.hishokyokai.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人 実務技能検定協会",
+      "url": "https://jitsumu-kentei.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "秘書検定1級",
+    "秘書検定2級",
+    "秘書検定3級",
+    "CBS（国際秘書）検定"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/426",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

@@ -1,0 +1,453 @@
+{
+  "id": 473,
+  "ipd_id": "IPD_01_01_473",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "マンション管理員",
+  "aliases_ja": [
+    "マンション管理人",
+    "アパート管理人",
+    "下宿管理人",
+    "住込管理人（マンション）"
+  ],
+  "classifications": {
+    "mhlw_main": "09_057-01",
+    "mhlw_all": [
+      "09_057-01"
+    ],
+    "jsoc_main": "E411",
+    "jsoc_all": [
+      "E411"
+    ]
+  },
+  "description": {
+    "summary_ja": "マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、居住者応対やその他日常管理業務を行う。",
+    "what_it_is_ja": "マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、居住者応対やその他日常管理業務を行う。マンション居住者からは「管理人さん」と呼ばれることが多い。\n　マンション管理員の仕事は、管理委託契約書の雛形となる、国土交通省作成の「マンション標準管理委託契約書」（2018年3月改訂版）に典型例が示されており、これに基づくと、①受付等業務（訪問者や居住者の応接・電話の応対、管理組合が定める各種届出の受理、宅配物の預かり・引渡し、管理用備品・鍵の管理など）、②点検業務（建物・諸設備の外観目視点検・記録、照明・管球類等の点検・交換、不審者や不審物・無断駐車等の確認など）、③立会業務（保守・営繕等外注業務の着手・実施の立会い、ゴミ搬出や清掃業務の立会い、災害・事故等処理の立会いなど）、④報告連絡業務（管理組合の文書の配付・掲示、各種届出・点検結果・立会結果等の報告、災害・事故等発生時の連絡・報告、居住者間のトラブルやクレーム発生時の報告など）に整理できる。清掃業務そのものは含まれていないが、マンションの規模により、清掃を兼務しているところも少なくない。\n　契約に定められた業務をこなすだけではなく、マンション管理にかかわる業務全般にわたって対応を求められることが多い。マンションの現場で居住者のみならず近隣地域の住民と日常的に接することを踏まえると、マンション管理の仕事は、居住者からは管理会社の、地域の住民からはそのマンションの「顔」として見られる立場にある。それだけに、想定外の事態に対しても、コミュニケーション能力、とっさの判断、機転、公平な対応、守秘義務（居住者の日常生活と接することから個人情報の適正な取扱いは特に重要）などが問われる仕事と言える。ただし、マンション管理員の仕事の範囲は限られており、自分だけの判断で動くことなく、管理会社の担当者（マンション管理フロント）をはじめとするスタッフとの緊密な連絡のもとに行動することが求められる。\n　なお、マンション管理員とは別に、居住者からの問い合せや要望への対応、集会室やパーティールーム、ライブラリー、フィットネスルーム、来客用駐車場等の共有施設の予約受付等の業務を専門に行うスタッフを配置する例もある。このような専門スタッフは一般的に「コンシェルジュ」と呼ばれる。",
+    "how_to_become_ja": "入職にあたって、必要な資格や免許はなく、学歴や経験も不問であるが、新卒採用はほぼ無く、定年退職者等が再就職先として選択するケースが大半である。同職業は求人の年齢設定が60歳代のものが多く、また実際の勤務は70歳代になっても可能であることが一般的である。\n　採用は、各管理会社が新規に管理マンションを受託したとき、あるいは担当者が退職したときなどに行われる。新聞や雑誌、インターネットなどの求人広告やハローワークへの求人申込みが多いが、管理会社が自社のホームページで募集するケースも増えている。採用後は、各社独自の研修を受けた後、現場実習を経て勤務に就くことになるが、配属後も定期的な研修を義務づけ、スキル向上をセールスポイントとする会社もある。\n　コミュニケーション能力、ホスピタリティの精神、コンプライアンス意識といった社会人としての豊富な人生経験や対人対応力が重要であり、同時に、健康でフットワーク良く動けることが求められる。",
+    "working_conditions_ja": "マンションの管理方式には、24時間常駐する「常駐管理」、通勤して、日中のみマンションを管理する「日勤管理」、定期的に複数のマンションを見回る「巡回管理」、マンション管理する者を置かない「無人管理」の4種類がある。常駐では、マンションに住み込むケース、昼間のみの勤務で夜間は警備員が分担するケースなどがある。防犯や安全性という面では常駐が好ましいが、管理費が高額になるので人の駐在時間を少なくして、機械による24時間管理システムを導入する管理会社も増えてきた。巡回の場合は、担当マンションが決められており、曜日や時間帯によって勤務するマンションが変わることになる。無人管理は管理組合が自主管理をするもので、管理費は少なくて済むが管理組合の負担は大きく、この方式をとっているところは少ない。\n　管理方式によって勤務体系は異なるが、いずれの場合でも休日や勤務時間はあらかじめ決められている。一般的には週休2日制だが、マンション管理組合の理事会や総会は土日、や夕方に開催されることが多いので、立会を求められる場合は出席しなければならない。点検などでの外回りや、台風や雪といった荒天時には見回りや点検も必要で、夜間に緊急のトラブルへの対応を求められることもある。\n　資格や経験不問で、中高年の再就職がほとんどという事情もあり、正社員雇用はほとんどなく、大半が契約期間が1年以下の契約社員、アルバイト、パートとしての雇用になる。複数年の期間雇用とする管理会社も出てきている。\n　賃金形態は、契約社員は月給制、アルバイト、パートは時給制をとっているところが多い。\n　就業者は男性がほとんどで、女性比率は1割程度と見られている。ただし女性専用マンションもあり、マンション管理を行う女性へのニーズ拡大の動きも見られる。"
+  },
+  "interests": {
+    "realistic": 3.138,
+    "investigative": 2.646,
+    "artistic": 2.292,
+    "social": 3.508,
+    "enterprising": 2.938,
+    "conventional": 3.385
+  },
+  "work_values": {
+    "achievement": 3.03,
+    "autonomy": 3.333,
+    "expertise": 2.788,
+    "self_growth": 2.758,
+    "social_recognition": 2.455,
+    "service_contribution": 2.909,
+    "good_relationships": 3.5,
+    "workplace_safety": 3.273,
+    "work_life_balance": 3.5,
+    "stability": 3.288,
+    "compensation": 2.318
+  },
+  "skills": {
+    "reading_comprehension": 3.212,
+    "active_listening": 3.985,
+    "writing": 3.303,
+    "speaking": 3.455,
+    "foreign_language_reading": 0.909,
+    "foreign_language_listening": 0.682,
+    "foreign_language_writing": 0.545,
+    "foreign_language_speaking": 0.545,
+    "mathematics": 1.652,
+    "science": 1.288,
+    "critical_thinking": 2.424,
+    "active_learning": 2.379,
+    "learning_strategies": 2.091,
+    "monitoring": 2.47,
+    "social_perceptiveness": 2.833,
+    "coordination": 2.788,
+    "persuasion": 2.803,
+    "negotiation": 2.652,
+    "instructing": 2.561,
+    "service_orientation": 2.909,
+    "complex_problem_solving": 2.379,
+    "operations_analysis": 1.742,
+    "technology_design": 1.773,
+    "equipment_selection": 2.5,
+    "installation": 1.985,
+    "programming": 1.136,
+    "operations_monitoring": 2.576,
+    "operation_and_control": 2.47,
+    "equipment_maintenance": 2.621,
+    "troubleshooting": 2.439,
+    "repairing": 2.439,
+    "quality_control_analysis": 2.0,
+    "judgment_decision_making": 2.182,
+    "systems_analysis": 1.818,
+    "systems_evaluation": 1.712,
+    "time_management": 2.667,
+    "financial_resources_management": 1.833,
+    "material_resources_management": 2.106,
+    "personnel_resources_management": 1.53
+  },
+  "knowledge": {
+    "business_management": 0.269,
+    "clerical": 1.596,
+    "economics_accounting": 0.25,
+    "sales_marketing": 0.269,
+    "customer_personal_service": 2.058,
+    "personnel_hr": 0.365,
+    "transportation": 0.173,
+    "production_processing": 0.096,
+    "agriculture_livestock": 0.135,
+    "engineering": 0.231,
+    "computers_electronics": 0.327,
+    "design": 0.096,
+    "building_construction": 0.846,
+    "mechanical": 0.712,
+    "mathematics_kn": 0.308,
+    "physics": 0.154,
+    "chemistry": 0.25,
+    "biology": 0.212,
+    "psychology": 0.865,
+    "sociology": 0.769,
+    "geography": 0.442,
+    "medicine_dentistry": 0.423,
+    "therapy_counseling": 0.538,
+    "education_training_kn": 0.481,
+    "japanese_language": 1.212,
+    "foreign_language_kn": 0.577,
+    "fine_arts": 0.192,
+    "history_archaeology": 0.154,
+    "philosophy_theology": 0.135,
+    "public_safety_security": 1.327,
+    "law_government": 0.846,
+    "telecommunications": 0.481,
+    "communications_media": 0.981
+  },
+  "abilities": {
+    "oral_comprehension": 2.541,
+    "written_comprehension": 2.541,
+    "oral_expression": 2.59,
+    "written_expression": 2.623,
+    "fluency_of_ideas": 2.066,
+    "originality": 1.803,
+    "problem_sensitivity": 3.066,
+    "deductive_reasoning": 2.197,
+    "inductive_reasoning": 2.23,
+    "information_ordering": 2.213,
+    "category_flexibility": 1.984,
+    "mathematical_reasoning": 1.82,
+    "number_facility": 2.082,
+    "memorization": 2.393,
+    "perceptual_speed": 2.0,
+    "spatial_orientation": 2.115,
+    "visualization": 2.066,
+    "selective_attention": 2.279,
+    "time_sharing": 2.082,
+    "arm_hand_steadiness": 2.197,
+    "manual_dexterity": 2.066,
+    "finger_dexterity": 1.918,
+    "reaction_time": 2.016,
+    "wrist_finger_speed": 1.967,
+    "speed_of_limb_movement": 2.049,
+    "static_strength": 2.197,
+    "stamina": 2.213,
+    "gross_body_equilibrium": 2.148,
+    "near_vision": 2.049,
+    "far_vision": 2.016,
+    "visual_color_discrimination": 1.967,
+    "depth_perception": 2.0,
+    "hearing_sensitivity": 2.066,
+    "auditory_attention": 2.082,
+    "speech_clarity": 2.295
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.231,
+    "face_to_face_discussions": 2.692,
+    "telephone_communication": 3.904,
+    "business_writing": 3.615,
+    "conflict_situations": 2.192,
+    "time_pressure": 2.192,
+    "teamwork": 2.115,
+    "dealing_with_external_customers": 3.25,
+    "coordinate_lead_others": 2.212,
+    "exactness_accuracy": 2.942,
+    "repetitive_tasks": 2.981,
+    "pace_determined_by_machine": 2.038,
+    "responsibility_for_outcomes": 2.288,
+    "indoor_climate_controlled": 4.019,
+    "indoor_non_climate_controlled": 3.519,
+    "outdoor_work": 4.462,
+    "sitting": 2.596,
+    "standing": 3.481,
+    "repetition_of_activities": 3.058,
+    "consequence_of_error": 2.365,
+    "freedom_to_make_decisions": 3.269,
+    "set_own_goals": 3.731,
+    "regular_schedule": 0.712,
+    "irregular_schedule": 0.288,
+    "seasonal_schedule": 0.062,
+    "email_communication": 3.269,
+    "cramped_uncomfortable": 2.231,
+    "disease_infection_risk": 1.885,
+    "minor_injury_risk": 1.75,
+    "standard_protective_equipment": 2.058,
+    "specialized_protective_equipment": 1.558,
+    "dealing_with_violent_people": 1.558,
+    "walking_running": 3.212,
+    "handling_objects_tools": 2.365,
+    "physical_proximity": 2.462,
+    "work_automation": 1.346,
+    "responsibility_for_safety": 1.942,
+    "impact_of_decisions": 2.192,
+    "level_of_competition": 1.327
+  },
+  "work_activities": {
+    "getting_information": 2.213,
+    "monitor_processes": 2.41,
+    "identifying_objects": 2.361,
+    "inspecting_equipment": 2.344,
+    "estimating_quantifiable": 1.967,
+    "judging_quality": 2.033,
+    "evaluating_compliance": 2.623,
+    "processing_information": 2.0,
+    "analyzing_data": 1.951,
+    "making_decisions": 2.279,
+    "thinking_creatively": 2.033,
+    "updating_knowledge": 2.295,
+    "developing_objectives": 1.918,
+    "scheduling_work": 2.393,
+    "organizing_planning": 2.721,
+    "physical_activities": 2.246,
+    "handling_objects": 2.246,
+    "controlling_machines": 1.787,
+    "operating_vehicles": 1.361,
+    "computer_work": 2.016,
+    "drafting_specifications": 1.475,
+    "repairing_mechanical": 1.787,
+    "repairing_electronic": 1.639,
+    "documenting_information": 2.246,
+    "interpreting_information": 2.033,
+    "communicating_inside": 2.934,
+    "communicating_outside": 2.689,
+    "building_relationships": 2.885,
+    "assisting_caring": 2.344,
+    "selling_influencing": 1.803,
+    "resolving_conflicts": 2.393,
+    "performing_for_public": 2.23,
+    "coordinating_others": 2.082,
+    "developing_teams": 2.049,
+    "training_teaching": 1.967,
+    "guiding_subordinates": 1.836,
+    "coaching_developing": 1.77,
+    "providing_consultation": 1.721,
+    "performing_administrative": 3.164,
+    "staffing_organizational": 1.492,
+    "monitoring_resources": 2.049
+  },
+  "education_distribution": {
+    "below_high_school": 0.019,
+    "high_school": 0.231,
+    "vocational_school": 0.038,
+    "junior_college": 0.058,
+    "technical_college": 0.0,
+    "university": 0.404,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.365
+  },
+  "training_pre": {
+    "not_required": 0.538,
+    "up_to_1_month": 0.308,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.038
+  },
+  "training_post": {
+    "not_required": 0.231,
+    "up_to_1_month": 0.327,
+    "1_to_6_months": 0.231,
+    "6_months_to_1_year": 0.115,
+    "1_to_2_years": 0.058,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.019
+  },
+  "experience": {
+    "not_required": 0.75,
+    "up_to_1_month": 0.115,
+    "1_to_6_months": 0.038,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.019,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.038,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.019
+  },
+  "employment_type": {
+    "regular_employee": 0.192,
+    "part_time": 0.423,
+    "dispatched": 0.058,
+    "contract": 0.385,
+    "self_employed_freelance": 0.038,
+    "executive": 0.0,
+    "casual_non_student": 0.077,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、マンションの共有部分の管理を行う。（フロント業務が主な仕事の場合は「マンション管理フロント」へ）",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "外部訪問者やマンション居住者の応接、電話に応対する。",
+      "execution_rate": 0.967,
+      "importance": 3.305
+    },
+    {
+      "task_id": 2,
+      "description_ja": "管理組合が定める各種使用申込に係る受理及び報告を行う。",
+      "execution_rate": 0.902,
+      "importance": 3.618
+    },
+    {
+      "task_id": 3,
+      "description_ja": "管理組合が定める入退去等の異動届出の受理及び報告を行う。",
+      "execution_rate": 0.885,
+      "importance": 3.593
+    },
+    {
+      "task_id": 4,
+      "description_ja": "利害関係人からの管理規約等閲覧依頼に対応する。",
+      "execution_rate": 0.721,
+      "importance": 2.795
+    },
+    {
+      "task_id": 5,
+      "description_ja": "共用部分の鍵の管理及び貸出しを行う。",
+      "execution_rate": 0.918,
+      "importance": 3.679
+    },
+    {
+      "task_id": 6,
+      "description_ja": "管理用備品の在庫管理を行う。",
+      "execution_rate": 0.885,
+      "importance": 3.111
+    },
+    {
+      "task_id": 7,
+      "description_ja": "建物、諸設備及び諸施設の外観目視点検を行う。",
+      "execution_rate": 0.967,
+      "importance": 3.475
+    },
+    {
+      "task_id": 8,
+      "description_ja": "照明の点灯・消灯など管球類等の点検を行い、必要な交換を行う（高所等危険箇所は除く）。",
+      "execution_rate": 0.967,
+      "importance": 3.424
+    },
+    {
+      "task_id": 9,
+      "description_ja": "諸設備の運転・作動状況を点検し記録する。",
+      "execution_rate": 0.787,
+      "importance": 3.229
+    },
+    {
+      "task_id": 10,
+      "description_ja": "引越業者等に対し必要な指示を行う。",
+      "execution_rate": 0.902,
+      "importance": 2.782
+    },
+    {
+      "task_id": 11,
+      "description_ja": "外注業者の業務（保守点検・営繕工事）の着手時及び適宜実施中に立ち会い、業者報告等により完了を確認する。",
+      "execution_rate": 0.918,
+      "importance": 3.143
+    },
+    {
+      "task_id": 12,
+      "description_ja": "ゴミ搬出時や清掃業務の際に立ち会う。",
+      "execution_rate": 0.803,
+      "importance": 2.837
+    },
+    {
+      "task_id": 13,
+      "description_ja": "災害、事故等の処理に立ち会う。",
+      "execution_rate": 0.902,
+      "importance": 3.255
+    },
+    {
+      "task_id": 14,
+      "description_ja": "各種届出、点検結果、立会結果等の報告を行う。",
+      "execution_rate": 0.918,
+      "importance": 3.375
+    },
+    {
+      "task_id": 15,
+      "description_ja": "災害、事故等発生時の連絡、報告を行う。",
+      "execution_rate": 0.967,
+      "importance": 3.678
+    },
+    {
+      "task_id": 16,
+      "description_ja": "居住者間のトラブルやクレーム発生時の報告を行う。",
+      "execution_rate": 0.967,
+      "importance": 3.271
+    },
+    {
+      "task_id": 17,
+      "description_ja": "不審者や不審物、違法・無断駐車等がないか確認する。",
+      "execution_rate": 0.967,
+      "importance": 3.203
+    },
+    {
+      "task_id": 18,
+      "description_ja": "マンション内の共有スペース、敷地内の掃除、清掃を行う。",
+      "execution_rate": 0.918,
+      "importance": 3.071
+    },
+    {
+      "task_id": 19,
+      "description_ja": "管理規約の遵守を居住者に求める。",
+      "execution_rate": 0.853,
+      "importance": 3.212
+    },
+    {
+      "task_id": 20,
+      "description_ja": "管理組合の文書を配付または掲示する。",
+      "execution_rate": 0.885,
+      "importance": 3.37
+    },
+    {
+      "task_id": 21,
+      "description_ja": "理事会や総会に参加し、議事録を作成・確認する。",
+      "execution_rate": 0.41,
+      "importance": 3.16
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　マンション管理業協会",
+      "url": "https://www.kanrikyo.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/473",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

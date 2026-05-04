@@ -1,0 +1,481 @@
+{
+  "id": 42,
+  "ipd_id": "IPD_01_01_042",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "内装工",
+  "aliases_ja": [
+    "クロス張り職",
+    "ゴム床張工",
+    "室内装飾工",
+    "じゅうたん張工",
+    "プラスチック床張工",
+    "壁装工",
+    "リノリウム床張工"
+  ],
+  "classifications": {
+    "mhlw_main": "14_091-07",
+    "mhlw_all": [
+      "14_091-07"
+    ],
+    "jsoc_main": "J669",
+    "jsoc_all": [
+      "J669"
+    ]
+  },
+  "description": {
+    "summary_ja": "建物の室内を快適な居住空間とするため、床、天井・壁などの内装の仕上げを行う。",
+    "what_it_is_ja": "建物の室内を快適な居住空間とするため、床、天井・壁などの内装の仕上げを行う。\n　内装仕上げには床仕上げと壁・天井仕上げなどがあり、建物の種別、用途などにより、それぞれ用いられる材料が異なる。建物の用途、種類、面積によっては、建築基準法と消防法や条例などによって材料、施工方法が規制を受ける。\n　用いられる材料は、寸法、色調、デザインなど材料メーカー独自のものも多く、用途によって非常に多様である。このため、内装仕上げに従事する内装工の仕事は多くの専門領域に分かれ、その主なものは床仕上げ工、鋼製下地組立工、ボード張り工、壁装工であるが、様々な作業をこなせる多能工を目指す人も多い。\n　床仕上げ工は、左官が仕上げたコンクリート床や大工が仕上げた木造床の床面に基準線を引いて、中心からタイル、フローリング、シート類を張ったり、カーペットやじゅうたんを敷き込む。鋼製下地組立工は、軽量鉄骨や付属金物を使って、各部屋を仕切る壁や二重天井の下地を組み立てる。ボード張り工は、鋼製下地組立工が組み立てた鋼製下地や大工が作った木製下地に、合板、繊維板、石膏ボードなどを張って仕上げる。壁装工は、左官仕上げされた壁、天井、ボード張り面などの下地に、ビニールクロスなどの壁紙類を張る。\n　カーテンの縫製取付やブラインドの取付、ふすまや障子の紙張りなども内装工の仕事である。\n\n◇　よく使う道具、機材、情報技術等\n　工具（かなづち、のこぎり等の手動工具、ドリル等の電動工具）、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。一般に、内装工事会社に入職し、見習からスタートして徐々に専門的な仕事をマスターしていくというケースが多い。また職業訓練校へ入って、各種内装仕上工としての訓練を受けて基礎を固めてから入職することで、その後の技能の習得を効率化させるケースもある。\n　厚生労働省の技能検定の「内装仕上げ施工技能士」、「表装技能士」の資格を取得すると、技術の証明となり、仕事の幅が広がる。\n　一人前の内装仕上げができるようになるには、ある程度の時間が必要だが、技能が身につけば若くして独立することも可能である。\n　内装仕上げの各職種とも、基本的には肉体労働で、壁・天井仕上げ施工では足場作業などもあるため、体力が求められる。また、いずれも仕上げの美しさに関係する仕事であることから、美的感覚や空間判断力が望まれる。\n　様々なライフスタイルに合わせてニーズが多様化しているため、トータルインテリアの提案や施工が求められている。",
+    "working_conditions_ja": "内装工は建設現場をはじめ、建築物のあるところが職場となり、建築物の完成に伴って職場が次々に変わっていく。\n　就業者は男性がほとんどで、女性比率は約1％と少数である（2016年2月時点*）。\n　労働条件として、賃金の体系は、日給又は月給制であるが、技能が一定の基準に達してからは、月給制から出来高給に変わるというケースが多い。\n　労働時間については、午前8時頃始業、午後5時頃終業というケースが一般的であるが、工事現場の作業環境、工期、施工時期などの関係で、一定しない場合もある。内装仕上げは建築工事の最終工程であるため、他の工程の影響を受けやすい。また、改装工事の場合は建物の使用者がいない夜間や休日に工事を行うことから、残業や夜間作業・休日出勤などになることもある。ただ、屋内作業のため、屋外作業の建築系職種のように天候に左右されることはほとんどない。\n\n*一般社団法人日本建設業連合会、女性技能者の現況等に関するアンケート調査結果"
+  },
+  "interests": {
+    "realistic": 3.519,
+    "investigative": 2.75,
+    "artistic": 2.827,
+    "social": 3.096,
+    "enterprising": 2.654,
+    "conventional": 3.058
+  },
+  "work_values": {
+    "achievement": 3.725,
+    "autonomy": 3.525,
+    "expertise": 3.7,
+    "self_growth": 3.325,
+    "social_recognition": 2.7,
+    "service_contribution": 2.75,
+    "good_relationships": 3.1,
+    "workplace_safety": 2.925,
+    "work_life_balance": 3.1,
+    "stability": 2.85,
+    "compensation": 2.85
+  },
+  "skills": {
+    "reading_comprehension": 3.3,
+    "active_listening": 3.7,
+    "writing": 2.825,
+    "speaking": 3.275,
+    "foreign_language_reading": 0.95,
+    "foreign_language_listening": 0.575,
+    "foreign_language_writing": 0.575,
+    "foreign_language_speaking": 0.4,
+    "mathematics": 3.2,
+    "science": 1.6,
+    "critical_thinking": 2.075,
+    "active_learning": 2.725,
+    "learning_strategies": 2.825,
+    "monitoring": 2.975,
+    "social_perceptiveness": 3.1,
+    "coordination": 3.325,
+    "persuasion": 2.8,
+    "negotiation": 3.175,
+    "instructing": 3.35,
+    "service_orientation": 2.175,
+    "complex_problem_solving": 2.725,
+    "operations_analysis": 3.0,
+    "technology_design": 2.75,
+    "equipment_selection": 4.225,
+    "installation": 3.375,
+    "programming": 1.025,
+    "operations_monitoring": 1.3,
+    "operation_and_control": 2.075,
+    "equipment_maintenance": 1.95,
+    "troubleshooting": 2.55,
+    "repairing": 3.175,
+    "quality_control_analysis": 2.6,
+    "judgment_decision_making": 2.725,
+    "systems_analysis": 2.25,
+    "systems_evaluation": 1.9,
+    "time_management": 2.925,
+    "financial_resources_management": 2.8,
+    "material_resources_management": 3.275,
+    "personnel_resources_management": 2.425
+  },
+  "knowledge": {
+    "business_management": 0.863,
+    "clerical": 1.529,
+    "economics_accounting": 1.098,
+    "sales_marketing": 1.098,
+    "customer_personal_service": 1.314,
+    "personnel_hr": 0.941,
+    "transportation": 0.784,
+    "production_processing": 1.0,
+    "agriculture_livestock": 0.333,
+    "engineering": 0.588,
+    "computers_electronics": 0.529,
+    "design": 1.196,
+    "building_construction": 2.471,
+    "mechanical": 1.667,
+    "mathematics_kn": 1.333,
+    "physics": 0.863,
+    "chemistry": 0.784,
+    "biology": 0.373,
+    "psychology": 0.784,
+    "sociology": 0.725,
+    "geography": 0.647,
+    "medicine_dentistry": 0.51,
+    "therapy_counseling": 0.51,
+    "education_training_kn": 0.902,
+    "japanese_language": 1.118,
+    "foreign_language_kn": 0.647,
+    "fine_arts": 0.549,
+    "history_archaeology": 0.49,
+    "philosophy_theology": 0.451,
+    "public_safety_security": 0.824,
+    "law_government": 0.667,
+    "telecommunications": 0.745,
+    "communications_media": 0.784
+  },
+  "abilities": {
+    "oral_comprehension": 2.571,
+    "written_comprehension": 2.571,
+    "oral_expression": 2.714,
+    "written_expression": 2.619,
+    "fluency_of_ideas": 2.476,
+    "originality": 2.571,
+    "problem_sensitivity": 3.167,
+    "deductive_reasoning": 2.619,
+    "inductive_reasoning": 2.476,
+    "information_ordering": 2.333,
+    "category_flexibility": 2.357,
+    "mathematical_reasoning": 2.333,
+    "number_facility": 2.619,
+    "memorization": 2.786,
+    "perceptual_speed": 2.571,
+    "spatial_orientation": 2.476,
+    "visualization": 2.524,
+    "selective_attention": 2.714,
+    "time_sharing": 2.452,
+    "arm_hand_steadiness": 2.833,
+    "manual_dexterity": 3.238,
+    "finger_dexterity": 3.119,
+    "reaction_time": 2.762,
+    "wrist_finger_speed": 2.786,
+    "speed_of_limb_movement": 2.762,
+    "static_strength": 3.024,
+    "stamina": 2.857,
+    "gross_body_equilibrium": 3.0,
+    "near_vision": 2.881,
+    "far_vision": 2.524,
+    "visual_color_discrimination": 2.69,
+    "depth_perception": 2.619,
+    "hearing_sensitivity": 2.214,
+    "auditory_attention": 2.143,
+    "speech_clarity": 2.286
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.941,
+    "face_to_face_discussions": 2.745,
+    "telephone_communication": 3.529,
+    "business_writing": 2.627,
+    "conflict_situations": 2.216,
+    "time_pressure": 2.922,
+    "teamwork": 2.51,
+    "dealing_with_external_customers": 2.549,
+    "coordinate_lead_others": 2.529,
+    "exactness_accuracy": 3.412,
+    "repetitive_tasks": 2.882,
+    "pace_determined_by_machine": 2.431,
+    "responsibility_for_outcomes": 3.157,
+    "indoor_climate_controlled": 2.765,
+    "indoor_non_climate_controlled": 3.196,
+    "outdoor_work": 2.02,
+    "sitting": 2.373,
+    "standing": 3.51,
+    "repetition_of_activities": 3.078,
+    "consequence_of_error": 2.725,
+    "freedom_to_make_decisions": 3.255,
+    "set_own_goals": 3.098,
+    "regular_schedule": 0.49,
+    "irregular_schedule": 0.471,
+    "seasonal_schedule": 0.039,
+    "email_communication": 3.157,
+    "cramped_uncomfortable": 2.588,
+    "disease_infection_risk": 1.529,
+    "minor_injury_risk": 2.569,
+    "standard_protective_equipment": 2.706,
+    "specialized_protective_equipment": 1.922,
+    "dealing_with_violent_people": 1.373,
+    "walking_running": 2.902,
+    "handling_objects_tools": 3.098,
+    "physical_proximity": 2.784,
+    "work_automation": 1.471,
+    "responsibility_for_safety": 2.039,
+    "impact_of_decisions": 2.255,
+    "level_of_competition": 2.098
+  },
+  "work_activities": {
+    "getting_information": 2.571,
+    "monitor_processes": 2.69,
+    "identifying_objects": 2.643,
+    "inspecting_equipment": 2.786,
+    "estimating_quantifiable": 2.857,
+    "judging_quality": 2.714,
+    "evaluating_compliance": 2.595,
+    "processing_information": 2.476,
+    "analyzing_data": 2.429,
+    "making_decisions": 2.571,
+    "thinking_creatively": 2.524,
+    "updating_knowledge": 2.762,
+    "developing_objectives": 2.548,
+    "scheduling_work": 3.119,
+    "organizing_planning": 3.238,
+    "physical_activities": 3.167,
+    "handling_objects": 3.19,
+    "controlling_machines": 2.524,
+    "operating_vehicles": 2.429,
+    "computer_work": 2.0,
+    "drafting_specifications": 2.214,
+    "repairing_mechanical": 2.119,
+    "repairing_electronic": 1.929,
+    "documenting_information": 2.214,
+    "interpreting_information": 2.286,
+    "communicating_inside": 2.667,
+    "communicating_outside": 2.929,
+    "building_relationships": 3.143,
+    "assisting_caring": 2.476,
+    "selling_influencing": 2.381,
+    "resolving_conflicts": 2.5,
+    "performing_for_public": 2.31,
+    "coordinating_others": 2.643,
+    "developing_teams": 2.452,
+    "training_teaching": 2.381,
+    "guiding_subordinates": 2.619,
+    "coaching_developing": 2.571,
+    "providing_consultation": 2.238,
+    "performing_administrative": 2.548,
+    "staffing_organizational": 2.5,
+    "monitoring_resources": 2.667
+  },
+  "education_distribution": {
+    "below_high_school": 0.176,
+    "high_school": 0.529,
+    "vocational_school": 0.098,
+    "junior_college": 0.02,
+    "technical_college": 0.039,
+    "university": 0.255,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.157
+  },
+  "training_pre": {
+    "not_required": 0.49,
+    "up_to_1_month": 0.039,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.098,
+    "1_to_2_years": 0.039,
+    "2_to_3_years": 0.039,
+    "3_to_5_years": 0.039,
+    "5_to_10_years": 0.039,
+    "over_10_years": 0.02,
+    "unknown": 0.118
+  },
+  "training_post": {
+    "not_required": 0.176,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.098,
+    "6_months_to_1_year": 0.137,
+    "1_to_2_years": 0.137,
+    "2_to_3_years": 0.078,
+    "3_to_5_years": 0.098,
+    "5_to_10_years": 0.118,
+    "over_10_years": 0.039,
+    "unknown": 0.118
+  },
+  "experience": {
+    "not_required": 0.451,
+    "up_to_1_month": 0.059,
+    "1_to_6_months": 0.098,
+    "6_months_to_1_year": 0.039,
+    "1_to_2_years": 0.078,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.059,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.02,
+    "unknown": 0.157
+  },
+  "employment_type": {
+    "regular_employee": 0.471,
+    "part_time": 0.098,
+    "dispatched": 0.039,
+    "contract": 0.039,
+    "self_employed_freelance": 0.471,
+    "executive": 0.039,
+    "casual_non_student": 0.039,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "新築や改装・改築工事の際に、建物の室内の床、壁、天井などの表面をシート、壁紙、カーペットなどで整える。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "工事の見積書を作成する。",
+      "execution_rate": 0.691,
+      "importance": 3.759
+    },
+    {
+      "task_id": 2,
+      "description_ja": "使用する材料の品番を決定する。",
+      "execution_rate": 0.738,
+      "importance": 3.742
+    },
+    {
+      "task_id": 3,
+      "description_ja": "作業をするために足場を組む。",
+      "execution_rate": 0.667,
+      "importance": 2.893
+    },
+    {
+      "task_id": 4,
+      "description_ja": "水、蒸気機械、化学除去剤、スクレーパーを使用して、古い壁紙を除去する。",
+      "execution_rate": 0.714,
+      "importance": 3.167
+    },
+    {
+      "task_id": 5,
+      "description_ja": "壁と天井の穴やひびをしっくいで埋めたり、紙やすりを使用して凹凸を滑らかにする。",
+      "execution_rate": 0.762,
+      "importance": 3.469
+    },
+    {
+      "task_id": 6,
+      "description_ja": "ペイント除去剤とソーダ液を使用して、塗装、ニス、油を除去し、下地をととのえる。",
+      "execution_rate": 0.429,
+      "importance": 2.611
+    },
+    {
+      "task_id": 7,
+      "description_ja": "ナイフを使用して、天井や幅木の余分な材料を取り除き、平らにする。",
+      "execution_rate": 0.643,
+      "importance": 3.259
+    },
+    {
+      "task_id": 8,
+      "description_ja": "下げ振りと白墨線を使用して、壁に垂直線をつける。",
+      "execution_rate": 0.714,
+      "importance": 3.233
+    },
+    {
+      "task_id": 9,
+      "description_ja": "表面を覆うのに必要な布や壁紙片の数と長さを計算するために、壁と天井を測る。",
+      "execution_rate": 0.738,
+      "importance": 3.516
+    },
+    {
+      "task_id": 10,
+      "description_ja": "大ばさみやかみそりを使用して、ロールから壁紙や布を測って適切な大きさに切り取る。",
+      "execution_rate": 0.691,
+      "importance": 3.345
+    },
+    {
+      "task_id": 11,
+      "description_ja": "布や壁紙を揃えて置いて、隣り合った端を合わせる。",
+      "execution_rate": 0.714,
+      "importance": 3.633
+    },
+    {
+      "task_id": 12,
+      "description_ja": "壁や天井に塗る接着剤を作るために、クロス原液のりを水で薄め撹拌する。",
+      "execution_rate": 0.667,
+      "importance": 3.393
+    },
+    {
+      "task_id": 13,
+      "description_ja": "はけ、ローラー、ペースティング機を使用して、壁や天井に接着剤を薄く塗る。",
+      "execution_rate": 0.571,
+      "importance": 3.042
+    },
+    {
+      "task_id": 14,
+      "description_ja": "機械を使ってクロスに糊付けし、壁に張って、へらとカッターを使って余分な部分を切り取る。",
+      "execution_rate": 0.691,
+      "importance": 3.759
+    },
+    {
+      "task_id": 15,
+      "description_ja": "しわや泡を取り除き、接合部を滑らかにするために、ブラシやローラーで接合部をなでつける。",
+      "execution_rate": 0.714,
+      "importance": 3.867
+    },
+    {
+      "task_id": 16,
+      "description_ja": "左官や大工が仕上げた床に基準線を引き、タイルやシートを張ったり、カーペットを敷き込む。",
+      "execution_rate": 0.619,
+      "importance": 3.538
+    },
+    {
+      "task_id": 17,
+      "description_ja": "カーペットの張り込みをするためにキッカーなどの専用工具を使う。",
+      "execution_rate": 0.643,
+      "importance": 3.519
+    },
+    {
+      "task_id": 18,
+      "description_ja": "くし籠手を使い、床に接着剤を塗布し、クッションフロアの張り込みをする。",
+      "execution_rate": 0.643,
+      "importance": 3.444
+    },
+    {
+      "task_id": 19,
+      "description_ja": "床材のりを塗ったあとにオープンタイムをとる。",
+      "execution_rate": 0.691,
+      "importance": 3.276
+    },
+    {
+      "task_id": 20,
+      "description_ja": "電動ドライバーを使い、石膏ボードを留め付ける。",
+      "execution_rate": 0.762,
+      "importance": 3.406
+    },
+    {
+      "task_id": 21,
+      "description_ja": "床材にあった適切なボンドを選択し、仕入れる。",
+      "execution_rate": 0.691,
+      "importance": 3.448
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "日本建設インテリア事業協同組合連合会（J.C.I.F)",
+      "url": "http://jeicif.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　全国建設室内工事業協会",
+      "url": "http://www.zsk.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人日本インテリア協会",
+      "url": "https://www.nif.or.jp/"
+    },
+    {
+      "name_ja": "日本室内装飾事業協同組合連合会",
+      "url": "http://www.nissouren.jp/"
+    },
+    {
+      "name_ja": "一般社団法人 日本シヤッター・ドア協会",
+      "url": "https://www.jsd-a.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "１級表装技能士",
+    "２級表装技能士",
+    "１級内装仕上げ施工技能士",
+    "２級内装仕上げ施工技能士",
+    "３級内装仕上げ施工技能士",
+    "1級シャッター施工技能士",
+    "2級シャッター施工技能士",
+    "3級シャッター施工技能士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/42",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

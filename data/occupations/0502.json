@@ -1,0 +1,449 @@
+{
+  "id": 502,
+  "ipd_id": "IPD_01_01_502",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "酪農従事者",
+  "aliases_ja": [
+    "搾乳作業員",
+    "肉牛飼育作業員",
+    "乳牛飼育作業員",
+    "酪農作業員"
+  ],
+  "classifications": {
+    "mhlw_main": "11_064-03",
+    "mhlw_all": [
+      "11_064-03"
+    ],
+    "jsoc_main": "G462",
+    "jsoc_all": [
+      "G462"
+    ]
+  },
+  "description": {
+    "summary_ja": "乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する。",
+    "what_it_is_ja": "乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する。\n　酪農だけを専門に行っている酪農家は平均40～50頭の成長した乳牛を飼養している。酪農には乳牛、施設・機械、農地などの経営資産が必要であり、これらを新規に取得することは難しいため、ほとんどの場合、親族から継承するか、新規参入の場合も後継者のいない酪農家から継承する。\n　1日の仕事は、早朝6時頃の飼料給与（しりょうきゅうよ：エサやり）と搾乳に始まる。朝のうちに牛舎の清掃を済ませ、昼間は牛の健康チェックや堆肥生産作業などをする。また、春から秋にかけては飼料の生産を行う。夕方には再び飼料給与、搾乳、牛舎の清掃を行い、夜8時頃には作業が終了する。\n　搾乳は、乳牛1頭から1日あたり20kg以上の生乳を搾るという最も重要な作業である。以前は手搾りであったが機械化が進んでおり、「搾乳ロボット」も実用化されつつある。\n　搾った生乳は衛生管理に配慮して保存し、農協等を通じて出荷する。最近では、牛乳やチーズ等乳製品の生産・販売を自ら行う酪農家も増加している。その他にも生乳からソフトクリーム・ヨーグルトなどを地元特産品として生産・販売したり、体験型の観光としてアグリツーリズムや青少年のための酪農教育施設などがあり、地域の活性化につながっている。\n\n◇　よく使う道具、機材、情報技術等\n　搾乳ロボット、搾乳機械、トラクター、パソコン、普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "酪農家の親族のもとで経験を積み、家業を継ぐケースが多い。転職で就農する場合は、酪農ヘルパー、海外研修や酪農家手伝い、牧場従業員を経験してから就農する道がある。\n　自宅が酪農家でない場合は、農業大学校や研修施設などで基礎を学び、酪農家のもとで実習を行って技術を身につける。酪農ヘルパーとして経験を積む方法もある。\n　酪農経営には、乳牛の管理、飼養管理、育種改良、繁殖管理、飼料生産、搾乳機械等の衛生管理、ふん尿処理などに関する知識と技術が必要である。また、搾乳や牧草生産など機械化が進んでいるので、機械の操作やパソコンを使っての生産管理の技術も重要である。\n　飼料生産に用いるトラクターを運転するための大型特殊自動車免許やけん引免許を取得しておくと役に立つ。また、「家畜人工授精師」の資格を取得すると、乳牛の繁殖を自ら行うことができる。「家畜人工授精師」は、家畜の人工授精が円滑に行われるための国家資格で農林水産大臣の指定する者又は都道府県が家畜種類別に行う講習会の課程を修了してその修業試験に合格した者に与えられる。\n　体を動かす仕事であるため、一定の体力が必要とされる。生物が好きであることが不可欠で、自営の場合は経営センスも必要とされる。",
+    "working_conditions_ja": "酪農のみを専門に行う家族経営の酪農家のほかに、肉用牛生産や農作物の栽培を兼ねている酪農家もいる。他の農業と異なり、毎日の搾乳があるため、農業以外の仕事との兼業は難しい。\n　一般的に、朝6時頃から夜8時頃までが作業時間であるが、昼間は比較的時間が自由になる。\n　搾乳や飼料給与を毎日行う必要があるため、基本的には休日が確保できない。そこで、酪農家の休日確保のため、酪農家の作業を請け負う酪農ヘルパーの制度があり利用が進んできている。\n　収益は、技術差などによる生産コストの違いによって個人差がかなりある。\n　生乳の需要増に対する生産増が必要とされているので、雇用労働力の確保・省力化機械の導入等で労働環境の改善が進められている。\n　家畜管理等の技術が進み家畜にICチップを導入して個体を管理する事で、搾乳、給餌、繁殖、乳製品製造の自動化が進み、行動観察等から得たデータをシステムで一元管理でき、事務処理までも一連の流れとして管理できるようになっている。\n　従来からの酪農家は高齢化し後継者が不足しており、経営資産を継承して新規に参入する機会は増えていくものと考えられる。"
+  },
+  "interests": {
+    "realistic": 3.409,
+    "investigative": 3.0,
+    "artistic": 2.364,
+    "social": 2.864,
+    "enterprising": 2.545,
+    "conventional": 3.364
+  },
+  "work_values": {
+    "achievement": 3.59,
+    "autonomy": 3.487,
+    "expertise": 3.487,
+    "self_growth": 3.564,
+    "social_recognition": 2.667,
+    "service_contribution": 2.564,
+    "good_relationships": 2.821,
+    "workplace_safety": 2.615,
+    "work_life_balance": 3.077,
+    "stability": 2.923,
+    "compensation": 2.718
+  },
+  "skills": {
+    "reading_comprehension": 2.923,
+    "active_listening": 3.154,
+    "writing": 2.333,
+    "speaking": 2.923,
+    "foreign_language_reading": 0.949,
+    "foreign_language_listening": 0.897,
+    "foreign_language_writing": 0.744,
+    "foreign_language_speaking": 0.641,
+    "mathematics": 1.897,
+    "science": 1.872,
+    "critical_thinking": 2.385,
+    "active_learning": 2.821,
+    "learning_strategies": 2.359,
+    "monitoring": 3.103,
+    "social_perceptiveness": 2.128,
+    "coordination": 2.282,
+    "persuasion": 2.103,
+    "negotiation": 2.179,
+    "instructing": 2.795,
+    "service_orientation": 1.949,
+    "complex_problem_solving": 2.128,
+    "operations_analysis": 1.667,
+    "technology_design": 1.205,
+    "equipment_selection": 2.564,
+    "installation": 1.897,
+    "programming": 0.846,
+    "operations_monitoring": 2.205,
+    "operation_and_control": 2.154,
+    "equipment_maintenance": 2.41,
+    "troubleshooting": 2.154,
+    "repairing": 2.769,
+    "quality_control_analysis": 1.923,
+    "judgment_decision_making": 2.128,
+    "systems_analysis": 1.974,
+    "systems_evaluation": 1.744,
+    "time_management": 1.974,
+    "financial_resources_management": 2.154,
+    "material_resources_management": 2.333,
+    "personnel_resources_management": 1.538
+  },
+  "knowledge": {
+    "business_management": 1.256,
+    "clerical": 1.436,
+    "economics_accounting": 1.205,
+    "sales_marketing": 1.051,
+    "customer_personal_service": 0.692,
+    "personnel_hr": 1.128,
+    "transportation": 1.051,
+    "production_processing": 2.231,
+    "agriculture_livestock": 4.026,
+    "engineering": 1.077,
+    "computers_electronics": 0.872,
+    "design": 0.872,
+    "building_construction": 0.795,
+    "mechanical": 1.846,
+    "mathematics_kn": 1.256,
+    "physics": 0.949,
+    "chemistry": 1.308,
+    "biology": 2.641,
+    "psychology": 0.923,
+    "sociology": 0.897,
+    "geography": 1.231,
+    "medicine_dentistry": 1.154,
+    "therapy_counseling": 0.615,
+    "education_training_kn": 0.744,
+    "japanese_language": 0.821,
+    "foreign_language_kn": 0.59,
+    "fine_arts": 0.41,
+    "history_archaeology": 0.564,
+    "philosophy_theology": 0.359,
+    "public_safety_security": 1.359,
+    "law_government": 0.769,
+    "telecommunications": 0.59,
+    "communications_media": 0.821
+  },
+  "abilities": {
+    "oral_comprehension": 2.636,
+    "written_comprehension": 2.636,
+    "oral_expression": 2.545,
+    "written_expression": 2.682,
+    "fluency_of_ideas": 2.455,
+    "originality": 2.455,
+    "problem_sensitivity": 3.773,
+    "deductive_reasoning": 3.091,
+    "inductive_reasoning": 2.773,
+    "information_ordering": 2.091,
+    "category_flexibility": 2.273,
+    "mathematical_reasoning": 2.273,
+    "number_facility": 2.5,
+    "memorization": 3.409,
+    "perceptual_speed": 2.636,
+    "spatial_orientation": 2.545,
+    "visualization": 2.727,
+    "selective_attention": 2.864,
+    "time_sharing": 3.0,
+    "arm_hand_steadiness": 3.045,
+    "manual_dexterity": 2.864,
+    "finger_dexterity": 2.5,
+    "reaction_time": 3.091,
+    "wrist_finger_speed": 2.955,
+    "speed_of_limb_movement": 2.955,
+    "static_strength": 3.5,
+    "stamina": 3.818,
+    "gross_body_equilibrium": 3.136,
+    "near_vision": 2.909,
+    "far_vision": 2.818,
+    "visual_color_discrimination": 2.818,
+    "depth_perception": 3.136,
+    "hearing_sensitivity": 3.136,
+    "auditory_attention": 3.136,
+    "speech_clarity": 2.5
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.897,
+    "face_to_face_discussions": 2.41,
+    "telephone_communication": 2.872,
+    "business_writing": 2.026,
+    "conflict_situations": 2.205,
+    "time_pressure": 2.692,
+    "teamwork": 3.308,
+    "dealing_with_external_customers": 2.205,
+    "coordinate_lead_others": 2.564,
+    "exactness_accuracy": 3.462,
+    "repetitive_tasks": 3.436,
+    "pace_determined_by_machine": 2.897,
+    "responsibility_for_outcomes": 3.154,
+    "indoor_climate_controlled": 1.923,
+    "indoor_non_climate_controlled": 3.462,
+    "outdoor_work": 4.641,
+    "sitting": 1.744,
+    "standing": 4.564,
+    "repetition_of_activities": 4.051,
+    "consequence_of_error": 2.795,
+    "freedom_to_make_decisions": 3.821,
+    "set_own_goals": 3.692,
+    "regular_schedule": 0.462,
+    "irregular_schedule": 0.359,
+    "seasonal_schedule": 0.179,
+    "email_communication": 2.41,
+    "cramped_uncomfortable": 2.462,
+    "disease_infection_risk": 2.231,
+    "minor_injury_risk": 3.436,
+    "standard_protective_equipment": 2.846,
+    "specialized_protective_equipment": 1.821,
+    "dealing_with_violent_people": 1.359,
+    "walking_running": 4.128,
+    "handling_objects_tools": 3.949,
+    "physical_proximity": 2.821,
+    "work_automation": 2.205,
+    "responsibility_for_safety": 2.59,
+    "impact_of_decisions": 2.282,
+    "level_of_competition": 1.564
+  },
+  "work_activities": {
+    "getting_information": 3.273,
+    "monitor_processes": 3.727,
+    "identifying_objects": 3.455,
+    "inspecting_equipment": 3.545,
+    "estimating_quantifiable": 3.455,
+    "judging_quality": 3.0,
+    "evaluating_compliance": 3.455,
+    "processing_information": 3.273,
+    "analyzing_data": 3.591,
+    "making_decisions": 3.5,
+    "thinking_creatively": 3.182,
+    "updating_knowledge": 3.636,
+    "developing_objectives": 3.455,
+    "scheduling_work": 3.273,
+    "organizing_planning": 3.636,
+    "physical_activities": 3.591,
+    "handling_objects": 3.545,
+    "controlling_machines": 3.545,
+    "operating_vehicles": 4.0,
+    "computer_work": 2.909,
+    "drafting_specifications": 2.273,
+    "repairing_mechanical": 3.455,
+    "repairing_electronic": 2.773,
+    "documenting_information": 2.727,
+    "interpreting_information": 2.591,
+    "communicating_inside": 3.273,
+    "communicating_outside": 3.136,
+    "building_relationships": 3.364,
+    "assisting_caring": 2.364,
+    "selling_influencing": 2.136,
+    "resolving_conflicts": 2.591,
+    "performing_for_public": 2.0,
+    "coordinating_others": 2.864,
+    "developing_teams": 2.636,
+    "training_teaching": 2.773,
+    "guiding_subordinates": 3.045,
+    "coaching_developing": 2.682,
+    "providing_consultation": 2.273,
+    "performing_administrative": 2.909,
+    "staffing_organizational": 2.0,
+    "monitoring_resources": 2.955
+  },
+  "education_distribution": {
+    "below_high_school": 0.026,
+    "high_school": 0.436,
+    "vocational_school": 0.231,
+    "junior_college": 0.051,
+    "technical_college": 0.026,
+    "university": 0.41,
+    "masters": 0.026,
+    "doctorate": 0.0,
+    "unknown": 0.231
+  },
+  "training_pre": {
+    "not_required": 0.692,
+    "up_to_1_month": 0.051,
+    "1_to_6_months": 0.051,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.051,
+    "2_to_3_years": 0.026,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.128
+  },
+  "training_post": {
+    "not_required": 0.128,
+    "up_to_1_month": 0.103,
+    "1_to_6_months": 0.333,
+    "6_months_to_1_year": 0.051,
+    "1_to_2_years": 0.205,
+    "2_to_3_years": 0.026,
+    "3_to_5_years": 0.051,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.103
+  },
+  "experience": {
+    "not_required": 0.769,
+    "up_to_1_month": 0.026,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.026,
+    "2_to_3_years": 0.051,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.051
+  },
+  "employment_type": {
+    "regular_employee": 0.641,
+    "part_time": 0.205,
+    "dispatched": 0.026,
+    "contract": 0.077,
+    "self_employed_freelance": 0.205,
+    "executive": 0.051,
+    "casual_non_student": 0.154,
+    "casual_student": 0.128,
+    "unknown": 0.026,
+    "other": 0.051
+  },
+  "tasks_lead_ja": "乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "飼料を牛に与える。",
+      "execution_rate": 1.0,
+      "importance": 4.773
+    },
+    {
+      "task_id": 2,
+      "description_ja": "搾乳機などを使い、衛生的に搾乳する。",
+      "execution_rate": 1.0,
+      "importance": 4.864
+    },
+    {
+      "task_id": 3,
+      "description_ja": "搾乳した牛乳を冷却保存し、出荷する。",
+      "execution_rate": 0.955,
+      "importance": 4.857
+    },
+    {
+      "task_id": 4,
+      "description_ja": "牛舎を清掃し、快適で清潔な環境を保つ。",
+      "execution_rate": 1.0,
+      "importance": 4.636
+    },
+    {
+      "task_id": 5,
+      "description_ja": "集めたフンを処理して堆肥をつくる。",
+      "execution_rate": 0.955,
+      "importance": 4.0
+    },
+    {
+      "task_id": 6,
+      "description_ja": "防疫や消毒をする。",
+      "execution_rate": 1.0,
+      "importance": 4.227
+    },
+    {
+      "task_id": 7,
+      "description_ja": "牛の健康を管理し、必要に応じて獣医の診察を受けさせる。",
+      "execution_rate": 1.0,
+      "importance": 4.545
+    },
+    {
+      "task_id": 8,
+      "description_ja": "牛の除角をする。",
+      "execution_rate": 0.864,
+      "importance": 4.0
+    },
+    {
+      "task_id": 9,
+      "description_ja": "牛の爪切りをする。",
+      "execution_rate": 0.909,
+      "importance": 4.25
+    },
+    {
+      "task_id": 10,
+      "description_ja": "必要な飼料を購入する。",
+      "execution_rate": 0.955,
+      "importance": 4.524
+    },
+    {
+      "task_id": 11,
+      "description_ja": "生育状態に合わせて飼料を調合し、与える。",
+      "execution_rate": 0.955,
+      "importance": 4.19
+    },
+    {
+      "task_id": 12,
+      "description_ja": "飼料用の作物や牧草を育て、時期を見て刈り取り、サイロなどに貯蔵する。",
+      "execution_rate": 0.909,
+      "importance": 4.65
+    },
+    {
+      "task_id": 13,
+      "description_ja": "親牛に適切な時期に種付けをして計画的に出産させる。",
+      "execution_rate": 0.909,
+      "importance": 4.75
+    },
+    {
+      "task_id": 14,
+      "description_ja": "新たに生まれた子牛を哺育する。",
+      "execution_rate": 1.0,
+      "importance": 4.591
+    },
+    {
+      "task_id": 15,
+      "description_ja": "家畜市場に子牛を出荷する。",
+      "execution_rate": 0.909,
+      "importance": 4.25
+    },
+    {
+      "task_id": 16,
+      "description_ja": "必要のなくなった家畜を処分する。",
+      "execution_rate": 0.909,
+      "importance": 3.95
+    },
+    {
+      "task_id": 17,
+      "description_ja": "放牧場を管理し、牛を放牧させる。",
+      "execution_rate": 0.636,
+      "importance": 3.857
+    },
+    {
+      "task_id": 18,
+      "description_ja": "搾乳した牛乳を乳製品に加工し、販売する。",
+      "execution_rate": 0.5,
+      "importance": 3.455
+    },
+    {
+      "task_id": 19,
+      "description_ja": "設備の点検管理や修理をする。",
+      "execution_rate": 1.0,
+      "importance": 4.273
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人 酪農ヘルパー全国協会",
+      "url": "http://d-helper.lin.gr.jp"
+    },
+    {
+      "name_ja": "全国新規就農相談センター",
+      "url": "https://www.be-farmer.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "大型特殊自動車運転免許",
+    "牽引免許",
+    "家畜人工授精師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/502",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

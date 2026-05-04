@@ -1,0 +1,442 @@
+{
+  "id": 223,
+  "ipd_id": "IPD_01_01_223",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "獣医師",
+  "aliases_ja": [
+    "家畜診療所獣医師",
+    "小動物臨床獣医師",
+    "動物病院獣医師"
+  ],
+  "classifications": {
+    "mhlw_main": "04_021-03",
+    "mhlw_all": [
+      "04_021-03"
+    ],
+    "jsoc_main": "B123",
+    "jsoc_all": [
+      "B123"
+    ]
+  },
+  "description": {
+    "summary_ja": "犬や猫などのペット、牛や馬などの家畜鶏などの家きんについて、病気や傷の治療、出産介助伝染病の予防などを行う。",
+    "what_it_is_ja": "牛、馬、豚、鶏、犬、猫などの動物の健康や生命を守る仕事及び人の健康に関する仕事に従事する。\n　専門分野は「産業動物分野」、「伴侶動物分野」、「公衆衛生分野」、「バイオメディカル分野」、「野生動物関係分野」など多岐に及び人の健康や社会生活にも密接に関わっている。\n　産業動物分野の仕事には、家畜保健衛生所、畜産試験場などでの肉や牛乳を生産するための牛、馬、豚、鶏などの家畜について病気の予防や衛生管理、ワクチン接種などによる伝染病の予防、人工授精や授精卵移植技術を用いた品種の改良と繁殖、動物用医薬品の安全性確保のための検定試験やその製造、流通、使用の監視などがある。\n　伴侶動物分野の仕事には、動物病院での犬や猫、小鳥など、いろいろな種類の小動物の病気の診断や治療、あるいは動物の飼い方やしつけの相談・指導などがある。\n　公衆衛生分野の仕事には、食肉衛生検査所や動物検疫所等での肉や牛乳あるいは魚介類などの食品の安全性を確保するための監視や指導、と畜検査や食鳥検査、動物と人が共通して感染する人獣共通感染症の予防、あるいは家畜伝染病の海外からの侵入を防ぐ検疫業務などがある。\n　バイオメディカル分野の仕事には、製薬会社等での医薬品の開発や各種安全性、有効性の試験などに不可欠な実験動物を用いた医薬品の開発研究、あるいは遺伝子工学や生命科学に関する研究活動などがある。\n　野生動物関係分野の仕事には、地球上に棲息する様々な野生動物たちの管理・保全、動物園や水族館での展示動物の飼育、繁殖や病気になった動物の診療などがある。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン、医療機器（聴診器、注射器、CT、MRI等）",
+    "how_to_become_ja": "獣医師になるためには、まず獣医学科のある大学に入学し、6年間の獣医学教育を履修した後、農林水産省が行う獣医師国家試験に合格しなければならない。\n　合格後、農林水産省に免許の交付申請手続を行い、農林水産大臣による獣医師免許を取得し、獣医師名簿に登録されると、獣医師としての仕事ができる。\n　獣医師として国家公務員、地方公務員になる場合は、公務員試験と獣医師国家試験の双方に合格することが必要である。農業共済団体や民間企業などの場合は、それぞれ独自に採用試験を行っている。\n　臨床獣医師は免許を取得してもすぐに独り立ちできるわけではなく、臨床経験を積む必要がある。牛や馬、豚や家禽などの産業動物関係の場合は、農業共済団体の家畜診療所などに勤務し、先輩獣医師と一緒に診療活動に従事しながら経験を積んでいくのが一般的である。小動物関係の場合は、動物病院に研修医として勤務したり、獣医系大学の付属動物病院で研修するのが一般的である。",
+    "working_conditions_ja": "公務員の場合、給与は国や自治体の給与体系に従って処遇される。農業共済団体の家畜診療所に勤務する場合の給与も、地方公務員に準じたものとなっている。一方、民間企業の場合は、給与体系はまちまちで、初任給にもばらつきがある。\n　個人で開業している小動物臨床獣医師の場合、その所得は様々である。動物の診療費はいわゆる自由診療料金制で、診療料金はそれぞれの動物病院で設定している。\n　一方、産業動物を対象とした開業獣医師の場合、農業災害補償法という法律に基づく家畜共済保険制度によって、人と同様の診療点数制度が採用されている。しかし診療料金が一律に決められていても、診療頭数や診療内容によって、その収入にも開きがでてくる。\n　小動物でも産業動物でも、診療業務に従事する臨床獣医師は、命ある動物を対象としているため、昼夜、休日を問わず、飼い主の要望に応えなければならない場合が多い。特に産業動物の場合は長距離を往診し、体重400～500キロもある牛などを相手に手術することもあり、相当の体力を必要とする。\n　獣医師の免許所持者(届出者総数)は全体で39,664人、そのうち女性は13,788人で全体の34.8％となっている。また、全体の平均年齢は50.2歳である（2024年12月時点*）。\n　最近では、鳥インフルエンザや豚コレラなどの感染症が発生した際に、感染源動物の確保や移動制限、場合によっては殺処分などを行う。また、動物保護センターなどで感染症等の発生予防にも努めている。地震等の災害発生時には、避難所等においてペットの飼い主に対しペットの検診や治療などの支援等を行うなど、様々な場面でその役割が期待されている。\n\n*農林水産省　令和6年度獣医師の届出状況"
+  },
+  "interests": {
+    "realistic": 3.915,
+    "investigative": 3.803,
+    "artistic": 2.606,
+    "social": 3.817,
+    "enterprising": 3.197,
+    "conventional": 3.197
+  },
+  "work_values": {
+    "achievement": 3.841,
+    "autonomy": 3.714,
+    "expertise": 4.365,
+    "self_growth": 3.873,
+    "social_recognition": 3.127,
+    "service_contribution": 3.429,
+    "good_relationships": 3.397,
+    "workplace_safety": 2.603,
+    "work_life_balance": 2.857,
+    "stability": 3.27,
+    "compensation": 2.794
+  },
+  "skills": {
+    "reading_comprehension": 5.302,
+    "active_listening": 5.254,
+    "writing": 4.603,
+    "speaking": 4.841,
+    "foreign_language_reading": 3.079,
+    "foreign_language_listening": 1.81,
+    "foreign_language_writing": 1.873,
+    "foreign_language_speaking": 1.635,
+    "mathematics": 2.73,
+    "science": 3.016,
+    "critical_thinking": 4.127,
+    "active_learning": 4.175,
+    "learning_strategies": 3.698,
+    "monitoring": 3.825,
+    "social_perceptiveness": 3.952,
+    "coordination": 3.381,
+    "persuasion": 3.984,
+    "negotiation": 3.508,
+    "instructing": 4.159,
+    "service_orientation": 3.444,
+    "complex_problem_solving": 3.698,
+    "operations_analysis": 2.746,
+    "technology_design": 2.27,
+    "equipment_selection": 3.476,
+    "installation": 2.746,
+    "programming": 1.159,
+    "operations_monitoring": 2.238,
+    "operation_and_control": 2.429,
+    "equipment_maintenance": 2.254,
+    "troubleshooting": 2.063,
+    "repairing": 2.063,
+    "quality_control_analysis": 2.127,
+    "judgment_decision_making": 2.81,
+    "systems_analysis": 2.571,
+    "systems_evaluation": 2.286,
+    "time_management": 2.778,
+    "financial_resources_management": 2.492,
+    "material_resources_management": 2.698,
+    "personnel_resources_management": 2.429
+  },
+  "knowledge": {
+    "business_management": 1.891,
+    "clerical": 2.073,
+    "economics_accounting": 1.4,
+    "sales_marketing": 1.673,
+    "customer_personal_service": 2.764,
+    "personnel_hr": 1.764,
+    "transportation": 0.564,
+    "production_processing": 0.873,
+    "agriculture_livestock": 1.582,
+    "engineering": 0.727,
+    "computers_electronics": 0.818,
+    "design": 0.527,
+    "building_construction": 0.455,
+    "mechanical": 0.709,
+    "mathematics_kn": 1.273,
+    "physics": 0.855,
+    "chemistry": 1.8,
+    "biology": 3.564,
+    "psychology": 1.655,
+    "sociology": 1.309,
+    "geography": 0.582,
+    "medicine_dentistry": 3.836,
+    "therapy_counseling": 2.018,
+    "education_training_kn": 1.745,
+    "japanese_language": 2.055,
+    "foreign_language_kn": 1.345,
+    "fine_arts": 0.382,
+    "history_archaeology": 0.364,
+    "philosophy_theology": 0.673,
+    "public_safety_security": 1.836,
+    "law_government": 1.745,
+    "telecommunications": 0.764,
+    "communications_media": 1.291
+  },
+  "abilities": {
+    "oral_comprehension": 3.4,
+    "written_comprehension": 3.15,
+    "oral_expression": 3.383,
+    "written_expression": 3.183,
+    "fluency_of_ideas": 2.7,
+    "originality": 2.417,
+    "problem_sensitivity": 3.417,
+    "deductive_reasoning": 3.0,
+    "inductive_reasoning": 2.95,
+    "information_ordering": 2.817,
+    "category_flexibility": 2.567,
+    "mathematical_reasoning": 2.267,
+    "number_facility": 2.3,
+    "memorization": 2.7,
+    "perceptual_speed": 2.583,
+    "spatial_orientation": 2.283,
+    "visualization": 2.517,
+    "selective_attention": 2.8,
+    "time_sharing": 2.8,
+    "arm_hand_steadiness": 3.233,
+    "manual_dexterity": 3.317,
+    "finger_dexterity": 3.25,
+    "reaction_time": 2.7,
+    "wrist_finger_speed": 2.633,
+    "speed_of_limb_movement": 2.517,
+    "static_strength": 2.367,
+    "stamina": 2.783,
+    "gross_body_equilibrium": 2.2,
+    "near_vision": 2.85,
+    "far_vision": 1.867,
+    "visual_color_discrimination": 2.95,
+    "depth_perception": 2.5,
+    "hearing_sensitivity": 2.767,
+    "auditory_attention": 2.767,
+    "speech_clarity": 2.45
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.582,
+    "face_to_face_discussions": 3.655,
+    "telephone_communication": 4.291,
+    "business_writing": 3.382,
+    "conflict_situations": 2.509,
+    "time_pressure": 3.255,
+    "teamwork": 3.218,
+    "dealing_with_external_customers": 3.545,
+    "coordinate_lead_others": 3.018,
+    "exactness_accuracy": 4.127,
+    "repetitive_tasks": 3.164,
+    "pace_determined_by_machine": 2.709,
+    "responsibility_for_outcomes": 3.727,
+    "indoor_climate_controlled": 4.473,
+    "indoor_non_climate_controlled": 1.927,
+    "outdoor_work": 2.164,
+    "sitting": 2.673,
+    "standing": 3.636,
+    "repetition_of_activities": 2.4,
+    "consequence_of_error": 4.182,
+    "freedom_to_make_decisions": 4.2,
+    "set_own_goals": 4.182,
+    "regular_schedule": 0.455,
+    "irregular_schedule": 0.455,
+    "seasonal_schedule": 0.091,
+    "email_communication": 3.582,
+    "cramped_uncomfortable": 2.418,
+    "disease_infection_risk": 4.4,
+    "minor_injury_risk": 3.982,
+    "standard_protective_equipment": 3.0,
+    "specialized_protective_equipment": 2.509,
+    "dealing_with_violent_people": 1.673,
+    "walking_running": 2.727,
+    "handling_objects_tools": 3.164,
+    "physical_proximity": 3.691,
+    "work_automation": 1.818,
+    "responsibility_for_safety": 3.309,
+    "impact_of_decisions": 3.164,
+    "level_of_competition": 2.091
+  },
+  "work_activities": {
+    "getting_information": 3.583,
+    "monitor_processes": 3.467,
+    "identifying_objects": 3.433,
+    "inspecting_equipment": 2.3,
+    "estimating_quantifiable": 2.4,
+    "judging_quality": 2.55,
+    "evaluating_compliance": 2.95,
+    "processing_information": 2.717,
+    "analyzing_data": 2.983,
+    "making_decisions": 3.417,
+    "thinking_creatively": 2.433,
+    "updating_knowledge": 3.7,
+    "developing_objectives": 2.8,
+    "scheduling_work": 2.667,
+    "organizing_planning": 3.183,
+    "physical_activities": 2.567,
+    "handling_objects": 2.75,
+    "controlling_machines": 2.117,
+    "operating_vehicles": 1.617,
+    "computer_work": 2.433,
+    "drafting_specifications": 1.583,
+    "repairing_mechanical": 1.717,
+    "repairing_electronic": 1.767,
+    "documenting_information": 2.467,
+    "interpreting_information": 3.0,
+    "communicating_inside": 2.867,
+    "communicating_outside": 2.933,
+    "building_relationships": 2.9,
+    "assisting_caring": 2.75,
+    "selling_influencing": 2.233,
+    "resolving_conflicts": 2.183,
+    "performing_for_public": 2.283,
+    "coordinating_others": 2.35,
+    "developing_teams": 2.417,
+    "training_teaching": 2.417,
+    "guiding_subordinates": 2.567,
+    "coaching_developing": 2.383,
+    "providing_consultation": 2.083,
+    "performing_administrative": 2.367,
+    "staffing_organizational": 2.167,
+    "monitoring_resources": 2.2
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.018,
+    "vocational_school": 0.036,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.473,
+    "masters": 0.618,
+    "doctorate": 0.073,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.291,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.036,
+    "6_months_to_1_year": 0.018,
+    "1_to_2_years": 0.055,
+    "2_to_3_years": 0.182,
+    "3_to_5_years": 0.164,
+    "5_to_10_years": 0.127,
+    "over_10_years": 0.0,
+    "unknown": 0.109
+  },
+  "training_post": {
+    "not_required": 0.055,
+    "up_to_1_month": 0.018,
+    "1_to_6_months": 0.073,
+    "6_months_to_1_year": 0.073,
+    "1_to_2_years": 0.091,
+    "2_to_3_years": 0.273,
+    "3_to_5_years": 0.218,
+    "5_to_10_years": 0.073,
+    "over_10_years": 0.036,
+    "unknown": 0.091
+  },
+  "experience": {
+    "not_required": 0.382,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.036,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.055,
+    "2_to_3_years": 0.2,
+    "3_to_5_years": 0.145,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.0,
+    "unknown": 0.145
+  },
+  "employment_type": {
+    "regular_employee": 0.473,
+    "part_time": 0.109,
+    "dispatched": 0.018,
+    "contract": 0.018,
+    "self_employed_freelance": 0.436,
+    "executive": 0.109,
+    "casual_non_student": 0.018,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "犬や猫などのペット、牛や馬などの家畜鶏などの家きんについて、病気や傷の治療、出産介助伝染病の予防などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "飼主からペット動物や家畜、家きんなどの状態を聞き、診察をして病気や怪我を診断する。",
+      "execution_rate": 0.883,
+      "importance": 4.83
+    },
+    {
+      "task_id": 2,
+      "description_ja": "診断に基づいて処置や投薬を行う。",
+      "execution_rate": 0.883,
+      "importance": 4.736
+    },
+    {
+      "task_id": 3,
+      "description_ja": "飼主に動物の病気や怪我の状態と治療方法や生活上の注意事項を説明する。",
+      "execution_rate": 0.883,
+      "importance": 4.642
+    },
+    {
+      "task_id": 4,
+      "description_ja": "治療や断種のための手術を行う。",
+      "execution_rate": 0.817,
+      "importance": 4.551
+    },
+    {
+      "task_id": 5,
+      "description_ja": "動物の飼育について飼い主からの相談を受け、指導をする。",
+      "execution_rate": 0.933,
+      "importance": 4.232
+    },
+    {
+      "task_id": 6,
+      "description_ja": "伝染病などの予防接種をする。",
+      "execution_rate": 0.9,
+      "importance": 4.241
+    },
+    {
+      "task_id": 7,
+      "description_ja": "動物の出産に立会い、必要な介助をする。",
+      "execution_rate": 0.75,
+      "importance": 3.622
+    },
+    {
+      "task_id": 8,
+      "description_ja": "農場での衛生管理、飼養管理、生産管理業務をする。",
+      "execution_rate": 0.467,
+      "importance": 3.75
+    },
+    {
+      "task_id": 9,
+      "description_ja": "家畜伝染病発生時には、強制的に農場などに立ち入り検査をして防疫対策をとる。",
+      "execution_rate": 0.433,
+      "importance": 4.115
+    },
+    {
+      "task_id": 10,
+      "description_ja": "家畜の病気や怪我を診断し、食用に適するかを判定する。",
+      "execution_rate": 0.433,
+      "importance": 3.923
+    },
+    {
+      "task_id": 11,
+      "description_ja": "公衆衛生業務を行う。",
+      "execution_rate": 0.5,
+      "importance": 3.767
+    },
+    {
+      "task_id": 12,
+      "description_ja": "医薬品の開発や各種安全性、有効性の試験などに不可欠な実験動物の管理や試験をする。",
+      "execution_rate": 0.383,
+      "importance": 3.391
+    },
+    {
+      "task_id": 13,
+      "description_ja": "野生動物の保護や治療を行う。",
+      "execution_rate": 0.45,
+      "importance": 2.667
+    },
+    {
+      "task_id": 14,
+      "description_ja": "動物福祉に関する助言をする。",
+      "execution_rate": 0.783,
+      "importance": 3.064
+    },
+    {
+      "task_id": 15,
+      "description_ja": "家畜の人口受精や、受精卵の移植・採取を行う。",
+      "execution_rate": 0.317,
+      "importance": 3.737
+    },
+    {
+      "task_id": 16,
+      "description_ja": "特定損害防止事業の関連業務を行う。",
+      "execution_rate": 0.317,
+      "importance": 3.263
+    },
+    {
+      "task_id": 17,
+      "description_ja": "食肉衛生検査を実施する。",
+      "execution_rate": 0.317,
+      "importance": 4.053
+    },
+    {
+      "task_id": 18,
+      "description_ja": "動物園で動物の診療と治療をする。",
+      "execution_rate": 0.283,
+      "importance": 3.471
+    },
+    {
+      "task_id": 19,
+      "description_ja": "動物園の施設管理や、動物管理のサポートをする。",
+      "execution_rate": 0.283,
+      "importance": 3.059
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人   日本獣医師会",
+      "url": "http://nichiju.lin.gr.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "獣医師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/223",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

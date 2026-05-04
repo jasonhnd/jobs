@@ -1,0 +1,526 @@
+{
+  "id": 411,
+  "ipd_id": "IPD_01_01_411",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "カウンセラー（医療福祉分野）",
+  "aliases_ja": [
+    "公認心理師（医療福祉分野）",
+    "心理カウンセラー（医療福祉分野）",
+    "臨床心理士（医療福祉分野）"
+  ],
+  "classifications": {
+    "mhlw_main": "04_027-99",
+    "mhlw_all": [
+      "04_027-99",
+      "08_049-99"
+    ],
+    "jsoc_main": "B159",
+    "jsoc_all": [
+      "B159",
+      "B162"
+    ]
+  },
+  "description": {
+    "summary_ja": "臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う。",
+    "what_it_is_ja": "臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う。\n　心理的なサポートへのニーズは高まる傾向にあり、カウンセラーの活躍分野は医療、福祉、教育、企業、地域コミュニティーなど広がってきている。ここでは、主に病院、クリニック等医療機関や地方自治体の精神保健福祉センター、児童相談所等に勤務するカウンセラーについて記述する＊。\n　医療機関では精神科医の指示により、クライアントに対し専門的技法を用いてカウンセリングを行う。カウンセリングでは対話を通してクライアントとの信頼関係を築き、クライアント自身が問題を整理し問題解決に近づくとともに、症状の緩和を促す心理的な支援を行う。心理検査等を行う場合もある。医師、看護師等他の医療スタッフともクライアントについて情報共有を行う。\n　地方自治体の精神保健福祉センターなどでは地域住民の相談に対応するが、本人のみならず家族等の相談に応じる場合もある。児童相談所などでは、虐待や家庭内不和・暴力から児童・子供を保護し心理面のケアを行う場合もある。\n　メンタルクリニックの心理カウンセラーの仕事の例でみると、当日のカウンセリングの予約状況等を確認し、必要に応じ、医師等とクライアントの状況等について情報共有の打合せを行う。メールや電話で担当するクライアントからの相談等があれば対応する。面談予約のクライアントには、事前に前回までの状況を面談記録等で確認の上、相談室で決まった時間のカウンセリングを行う。カウンセリングが終了すると面談記録を作成する。記録を整理し、クライアントの状況の見立てを行い医師等と今後のカウンセリングの進め方等を検討する。一日に複数のクライアントの面談を実施することが多い。翌日の準備や必要な事務仕事等も行う。\n　＊「スクールカウンセラー」「キャリアカウンセラー、キャリアコンサルタント」についてはそれぞれの職業解説を参照のこと。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、パソコン",
+    "how_to_become_ja": "カウンセリングに関連する資格には、臨床心理士、公認心理師などがあり、この仕事に従事している者はいずれかの資格を保有している場合がほとんどである。学歴面では大卒・大学院卒の割合が高く、専攻は心理学系学部、学科の卒業者が多い。\n　臨床心理士は、指定大学院を修了した者でなければ受験資格が与えられない。公認心理師は、2018年に試験が開始された国家資格である。試験にはいくつかの受験区分がある。その他医療福祉分野では精神保健福祉士（PSW）が相談に対応する場合もある。\n　入職後は、職場でのOJTで経験を積む場合が多いが、カウンセリングのスキルの習得に際しては、先輩カウンセラーからのSVを受ける場合もある。カウンセラーとして一人前と認められるには数年の臨床経験が必要とされている。臨床経験を積んでフリーランスや独立開業する場合もある。\n　心理カウンセラーには、コミュニケーション能力のほかクライアントとのラポールを形成するスキル（相手の心を開かせ良好な人間関係を構築するスキル）など心理面からのアプローチ技術に加えて、継続的にクライアントに関わることができる粘り強さが求められる。面接記録等を作成する事務処理能力も必要である。また、カウンセラーには、厳重な守秘義務が課されており、個人情報保護や倫理規定の遵守などコンプライアンスに関わる高い見識も求められる。",
+    "working_conditions_ja": "勤務先は、精神病院、総合病院の心療内科、メンタルクリニック、地方自治体の精神保健福祉センター、児童相談所などである。職場は全国に広がっている。\n　就業者は、女性が多く年齢層は幅広い。\n　雇用形態は、病院に所属している臨床心理士であるカウンセラーは常勤職員もいるが、非常勤職員等の場合も多い。複数の職場を掛け持ちしている場合もある。\n　賃金は、常勤職員の場合は月給制がほとんどだが、非常勤職員では時給制、日給制が一般的であり、収入に関しては個人差が大きい。勤務形態は、クライアントが利用しやすいように、職場によっては夜間勤務や土日勤務もある。\n　近年は、電話のみならずインターネットを利用したカウンセリングなど手法が多様化してきている。また、日本にいる外国人の増加等により外国語でのカウンセリングのニーズもある。"
+  },
+  "interests": {
+    "realistic": 2.947,
+    "investigative": 3.368,
+    "artistic": 3.053,
+    "social": 3.93,
+    "enterprising": 2.912,
+    "conventional": 2.649
+  },
+  "work_values": {
+    "achievement": 3.459,
+    "autonomy": 3.77,
+    "expertise": 4.131,
+    "self_growth": 3.902,
+    "social_recognition": 3.18,
+    "service_contribution": 3.934,
+    "good_relationships": 3.459,
+    "workplace_safety": 3.279,
+    "work_life_balance": 3.279,
+    "stability": 2.672,
+    "compensation": 2.557
+  },
+  "skills": {
+    "reading_comprehension": 4.689,
+    "active_listening": 5.951,
+    "writing": 5.049,
+    "speaking": 5.23,
+    "foreign_language_reading": 2.557,
+    "foreign_language_listening": 2.098,
+    "foreign_language_writing": 1.754,
+    "foreign_language_speaking": 1.803,
+    "mathematics": 2.164,
+    "science": 2.082,
+    "critical_thinking": 4.311,
+    "active_learning": 3.852,
+    "learning_strategies": 4.164,
+    "monitoring": 4.295,
+    "social_perceptiveness": 5.557,
+    "coordination": 4.361,
+    "persuasion": 4.262,
+    "negotiation": 3.934,
+    "instructing": 4.115,
+    "service_orientation": 4.934,
+    "complex_problem_solving": 4.066,
+    "operations_analysis": 2.557,
+    "technology_design": 2.197,
+    "equipment_selection": 2.197,
+    "installation": 1.902,
+    "programming": 1.426,
+    "operations_monitoring": 1.295,
+    "operation_and_control": 1.59,
+    "equipment_maintenance": 1.131,
+    "troubleshooting": 1.115,
+    "repairing": 1.016,
+    "quality_control_analysis": 1.475,
+    "judgment_decision_making": 2.672,
+    "systems_analysis": 2.377,
+    "systems_evaluation": 2.311,
+    "time_management": 3.508,
+    "financial_resources_management": 1.787,
+    "material_resources_management": 1.59,
+    "personnel_resources_management": 2.18
+  },
+  "knowledge": {
+    "business_management": 1.019,
+    "clerical": 2.077,
+    "economics_accounting": 0.788,
+    "sales_marketing": 0.865,
+    "customer_personal_service": 2.404,
+    "personnel_hr": 1.173,
+    "transportation": 0.346,
+    "production_processing": 0.308,
+    "agriculture_livestock": 0.25,
+    "engineering": 0.269,
+    "computers_electronics": 0.538,
+    "design": 0.288,
+    "building_construction": 0.192,
+    "mechanical": 0.212,
+    "mathematics_kn": 0.731,
+    "physics": 0.404,
+    "chemistry": 0.462,
+    "biology": 1.192,
+    "psychology": 4.423,
+    "sociology": 3.577,
+    "geography": 0.904,
+    "medicine_dentistry": 3.692,
+    "therapy_counseling": 4.577,
+    "education_training_kn": 3.192,
+    "japanese_language": 2.788,
+    "foreign_language_kn": 1.288,
+    "fine_arts": 1.365,
+    "history_archaeology": 1.077,
+    "philosophy_theology": 2.577,
+    "public_safety_security": 2.25,
+    "law_government": 1.962,
+    "telecommunications": 0.769,
+    "communications_media": 2.115
+  },
+  "abilities": {
+    "oral_comprehension": 3.78,
+    "written_comprehension": 3.525,
+    "oral_expression": 3.949,
+    "written_expression": 3.576,
+    "fluency_of_ideas": 3.186,
+    "originality": 3.119,
+    "problem_sensitivity": 3.78,
+    "deductive_reasoning": 3.39,
+    "inductive_reasoning": 3.441,
+    "information_ordering": 3.119,
+    "category_flexibility": 2.983,
+    "mathematical_reasoning": 2.424,
+    "number_facility": 2.424,
+    "memorization": 2.915,
+    "perceptual_speed": 2.695,
+    "spatial_orientation": 2.695,
+    "visualization": 2.932,
+    "selective_attention": 3.288,
+    "time_sharing": 3.237,
+    "arm_hand_steadiness": 1.983,
+    "manual_dexterity": 2.051,
+    "finger_dexterity": 1.983,
+    "reaction_time": 2.475,
+    "wrist_finger_speed": 2.034,
+    "speed_of_limb_movement": 1.966,
+    "static_strength": 1.898,
+    "stamina": 2.542,
+    "gross_body_equilibrium": 2.017,
+    "near_vision": 1.949,
+    "far_vision": 1.78,
+    "visual_color_discrimination": 2.0,
+    "depth_perception": 1.932,
+    "hearing_sensitivity": 2.373,
+    "auditory_attention": 2.678,
+    "speech_clarity": 3.237
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.788,
+    "face_to_face_discussions": 4.173,
+    "telephone_communication": 3.865,
+    "business_writing": 3.5,
+    "conflict_situations": 2.596,
+    "time_pressure": 3.038,
+    "teamwork": 3.635,
+    "dealing_with_external_customers": 3.385,
+    "coordinate_lead_others": 3.365,
+    "exactness_accuracy": 3.788,
+    "repetitive_tasks": 2.827,
+    "pace_determined_by_machine": 2.096,
+    "responsibility_for_outcomes": 3.577,
+    "indoor_climate_controlled": 4.635,
+    "indoor_non_climate_controlled": 1.885,
+    "outdoor_work": 1.904,
+    "sitting": 4.308,
+    "standing": 1.846,
+    "repetition_of_activities": 1.923,
+    "consequence_of_error": 3.5,
+    "freedom_to_make_decisions": 3.962,
+    "set_own_goals": 3.942,
+    "regular_schedule": 0.538,
+    "irregular_schedule": 0.385,
+    "seasonal_schedule": 0.077,
+    "email_communication": 3.558,
+    "cramped_uncomfortable": 2.077,
+    "disease_infection_risk": 3.327,
+    "minor_injury_risk": 1.25,
+    "standard_protective_equipment": 1.327,
+    "specialized_protective_equipment": 1.212,
+    "dealing_with_violent_people": 2.231,
+    "walking_running": 2.0,
+    "handling_objects_tools": 1.615,
+    "physical_proximity": 3.346,
+    "work_automation": 2.019,
+    "responsibility_for_safety": 3.442,
+    "impact_of_decisions": 3.096,
+    "level_of_competition": 1.5
+  },
+  "work_activities": {
+    "getting_information": 3.678,
+    "monitor_processes": 3.525,
+    "identifying_objects": 3.695,
+    "inspecting_equipment": 2.288,
+    "estimating_quantifiable": 2.525,
+    "judging_quality": 2.932,
+    "evaluating_compliance": 3.288,
+    "processing_information": 3.271,
+    "analyzing_data": 3.39,
+    "making_decisions": 3.525,
+    "thinking_creatively": 3.356,
+    "updating_knowledge": 3.814,
+    "developing_objectives": 3.373,
+    "scheduling_work": 3.305,
+    "organizing_planning": 3.475,
+    "physical_activities": 2.356,
+    "handling_objects": 2.237,
+    "controlling_machines": 1.831,
+    "operating_vehicles": 1.78,
+    "computer_work": 2.797,
+    "drafting_specifications": 1.576,
+    "repairing_mechanical": 1.559,
+    "repairing_electronic": 1.644,
+    "documenting_information": 3.339,
+    "interpreting_information": 3.373,
+    "communicating_inside": 3.627,
+    "communicating_outside": 3.576,
+    "building_relationships": 3.729,
+    "assisting_caring": 3.949,
+    "selling_influencing": 2.729,
+    "resolving_conflicts": 2.966,
+    "performing_for_public": 2.797,
+    "coordinating_others": 2.814,
+    "developing_teams": 3.169,
+    "training_teaching": 3.017,
+    "guiding_subordinates": 2.763,
+    "coaching_developing": 2.763,
+    "providing_consultation": 3.017,
+    "performing_administrative": 2.644,
+    "staffing_organizational": 2.237,
+    "monitoring_resources": 2.0
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.058,
+    "vocational_school": 0.058,
+    "junior_college": 0.0,
+    "technical_college": 0.019,
+    "university": 0.404,
+    "masters": 0.558,
+    "doctorate": 0.058,
+    "unknown": 0.038
+  },
+  "training_pre": {
+    "not_required": 0.115,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.096,
+    "1_to_2_years": 0.096,
+    "2_to_3_years": 0.173,
+    "3_to_5_years": 0.096,
+    "5_to_10_years": 0.096,
+    "over_10_years": 0.038,
+    "unknown": 0.212
+  },
+  "training_post": {
+    "not_required": 0.038,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.058,
+    "1_to_2_years": 0.154,
+    "2_to_3_years": 0.115,
+    "3_to_5_years": 0.25,
+    "5_to_10_years": 0.058,
+    "over_10_years": 0.115,
+    "unknown": 0.115
+  },
+  "experience": {
+    "not_required": 0.327,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.058,
+    "6_months_to_1_year": 0.096,
+    "1_to_2_years": 0.135,
+    "2_to_3_years": 0.077,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.077,
+    "over_10_years": 0.019,
+    "unknown": 0.192
+  },
+  "employment_type": {
+    "regular_employee": 0.596,
+    "part_time": 0.308,
+    "dispatched": 0.0,
+    "contract": 0.231,
+    "self_employed_freelance": 0.288,
+    "executive": 0.019,
+    "casual_non_student": 0.038,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "患者にカウンセリングを行う前に過去の面談記録等を確認する。",
+      "execution_rate": 0.949,
+      "importance": 3.75
+    },
+    {
+      "task_id": 2,
+      "description_ja": "医者の指示で専門的技法を用いて患者にカウンセリングを行う。",
+      "execution_rate": 0.881,
+      "importance": 3.481
+    },
+    {
+      "task_id": 3,
+      "description_ja": "患者に心理検査等を行う。",
+      "execution_rate": 0.78,
+      "importance": 3.435
+    },
+    {
+      "task_id": 4,
+      "description_ja": "心理検査の結果を医師や患者、その家族に報告する。",
+      "execution_rate": 0.78,
+      "importance": 3.696
+    },
+    {
+      "task_id": 5,
+      "description_ja": "医師、看護師等の医療スタッフと患者について情報共有する。",
+      "execution_rate": 0.864,
+      "importance": 3.961
+    },
+    {
+      "task_id": 6,
+      "description_ja": "面談記録を作成する。",
+      "execution_rate": 0.983,
+      "importance": 3.897
+    },
+    {
+      "task_id": 7,
+      "description_ja": "カウンセリングの内容を踏まえ患者の状況について見立てを行う。",
+      "execution_rate": 0.932,
+      "importance": 4.036
+    },
+    {
+      "task_id": 8,
+      "description_ja": "医師等と今後のカウンセリングの進め方等について検討する。",
+      "execution_rate": 0.848,
+      "importance": 3.66
+    },
+    {
+      "task_id": 9,
+      "description_ja": "メール、電話等での患者からの相談等に対応する。",
+      "execution_rate": 0.848,
+      "importance": 3.26
+    },
+    {
+      "task_id": 10,
+      "description_ja": "クライアントの家族等の相談に応じる。",
+      "execution_rate": 0.915,
+      "importance": 3.389
+    },
+    {
+      "task_id": 11,
+      "description_ja": "虐待、家庭内不和・暴力を受けた児童・子どもの心理面のケアを行う。",
+      "execution_rate": 0.78,
+      "importance": 4.13
+    },
+    {
+      "task_id": 12,
+      "description_ja": "集団療法を実施する。",
+      "execution_rate": 0.712,
+      "importance": 2.857
+    },
+    {
+      "task_id": 13,
+      "description_ja": "公的機関や学校、他職種等と連携する。",
+      "execution_rate": 0.898,
+      "importance": 3.566
+    },
+    {
+      "task_id": 14,
+      "description_ja": "学校の教職員や外部機関へコンサルテーションを行う。",
+      "execution_rate": 0.78,
+      "importance": 3.065
+    },
+    {
+      "task_id": 15,
+      "description_ja": "自傷他害のリスクに対応する。",
+      "execution_rate": 0.932,
+      "importance": 3.818
+    },
+    {
+      "task_id": 16,
+      "description_ja": "発達障害者への心理アセスメントと支援を行う。",
+      "execution_rate": 0.898,
+      "importance": 3.679
+    },
+    {
+      "task_id": 17,
+      "description_ja": "発達障害者やその家族にカウンセリングを行う。",
+      "execution_rate": 0.864,
+      "importance": 3.431
+    },
+    {
+      "task_id": 18,
+      "description_ja": "患者の就労を支援する。",
+      "execution_rate": 0.78,
+      "importance": 2.935
+    },
+    {
+      "task_id": 19,
+      "description_ja": "治療やリハビリに継続的に取り組む（デイケア）。",
+      "execution_rate": 0.695,
+      "importance": 3.415
+    },
+    {
+      "task_id": 20,
+      "description_ja": "不登校児童やその家族を支援する。",
+      "execution_rate": 0.763,
+      "importance": 3.489
+    },
+    {
+      "task_id": 21,
+      "description_ja": "患者の社会生活技能訓練を行う。",
+      "execution_rate": 0.661,
+      "importance": 3.026
+    },
+    {
+      "task_id": 22,
+      "description_ja": "児童に学習指導をする。",
+      "execution_rate": 0.509,
+      "importance": 2.6
+    },
+    {
+      "task_id": 23,
+      "description_ja": "認知症患者やその家族を支援する。",
+      "execution_rate": 0.627,
+      "importance": 3.135
+    },
+    {
+      "task_id": 24,
+      "description_ja": "刑事裁判の心理鑑定を行う。",
+      "execution_rate": 0.424,
+      "importance": 2.96
+    },
+    {
+      "task_id": 25,
+      "description_ja": "カウンセリングに関する講義や研修を実施する。",
+      "execution_rate": 0.949,
+      "importance": 3.286
+    },
+    {
+      "task_id": 26,
+      "description_ja": "各種の委員会や会合の運営や事務作業をする。",
+      "execution_rate": 0.814,
+      "importance": 2.521
+    },
+    {
+      "task_id": 27,
+      "description_ja": "他のカウンセラーやスタッフに指導・助言する。",
+      "execution_rate": 0.898,
+      "importance": 2.906
+    },
+    {
+      "task_id": 28,
+      "description_ja": "精神的な疾患や治療方法について情報を収集する。",
+      "execution_rate": 0.864,
+      "importance": 3.784
+    },
+    {
+      "task_id": 29,
+      "description_ja": "学会や雑誌で研究発表する。",
+      "execution_rate": 0.746,
+      "importance": 2.5
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本臨床心理士会",
+      "url": "https://www.jsccp.jp/"
+    },
+    {
+      "name_ja": "公益財団法人　日本臨床心理士資格認定協会",
+      "url": "http://fjcbcp.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　公認心理師の会",
+      "url": "https://cpp-network.com"
+    },
+    {
+      "name_ja": "公益社団法人　日本公認心理師協会",
+      "url": "https://www.jacpp.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本心理研修センター",
+      "url": "https://www.jccpp.or.jp/Top.cgi"
+    },
+    {
+      "name_ja": "公益社団法人　日本精神保健福祉士協会",
+      "url": "https://www.jamhsw.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "公認心理師",
+    "臨床心理士",
+    "精神保健福祉士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/411",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

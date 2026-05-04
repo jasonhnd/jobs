@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-05-04T03:25:10+00:00",
+  "summary": {
+    "total_occupations": 556,
+    "assigned": 556,
+    "uncategorized": 0,
+    "ambiguous": 0,
+    "override_count": 3
+  },
+  "uncategorized": [],
+  "ambiguous": [],
+  "instructions": "To resolve an entry: edit data/sectors/overrides.json with {\"<padded>\": \"<sector_id>\"} and rebuild. To resolve many at once, extend the relevant sector's mhlw_seed_codes in data/sectors/sectors.ja-en.json."
+}

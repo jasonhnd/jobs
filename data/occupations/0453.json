@@ -1,0 +1,470 @@
+{
+  "id": 453,
+  "ipd_id": "IPD_01_01_453",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "保険営業（生命保険、損害保険）",
+  "aliases_ja": [
+    "生命保険営業員",
+    "損害保険営業員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_048-07",
+    "mhlw_all": [
+      "07_048-07"
+    ],
+    "jsoc_main": "D346",
+    "jsoc_all": [
+      "D346"
+    ]
+  },
+  "description": {
+    "summary_ja": "一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する。",
+    "what_it_is_ja": "一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する。ここでは、個人を対象とした保険営業について記載する。\n　病気や不時の災害、事故に遭遇したときなどに経済的な助けとなるのが保険商品であり、主には生命保険と損害保険（自動車保険、火災保険、地震保険等）がある。販売ルートとしては、保険会社の直販、代理店、保険仲介人（保険ブローカー）がある。\n　生命保険と損害保険の違いは、契約期間、保険金の性格、保険加入の目的とその販売形態などが挙げられる。生命保険の多くが、10年、20年又は一生という長いスパンの契約で、保険金は契約した金額が支払われる。一方、損害保険は、ほとんどの場合1年契約で、事故や災害で発生した損害分だけが損害補償金として支払われる。\n　また、生命保険はセールスを受けて契約する場合が多いのに対し自動車保険等の場合、自動車購入とセットで自分から加入するケースが多く、自動車のディーラーや整備工場など販売代理店で直接契約する比率が高い。\n　生命保険は保険業法によって人の生死に関して保険金を支払う保険で終身保険、定額保険、養老保険等がある。一方、損害保険は自動車保険や火災保険、地震保険等がある。\n　具体的には、新規の顧客開拓にあたっては、チラシやパンフレットを活用し主力・人気保険商品を紹介し、不慮の事故等の発生や損害を被った際に必要となる費用の試算あるいは入院日数など顧客に役立つ情報を提供する。既存の契約内容の不足分を補うため、特約等への加入を勧めたり、ライフスタイルに合わせた貯蓄型保険などの紹介も行う。\n　保険営業の仕事を流れでみると、新商品情報を共有するためミーティングを行う。訪問先のアポイントを取り、顧客に相応しい保険商品を立案し、持参する資料を作成する。顧客宅等を訪問し、保険商品の提案や最新情報の提供をする。顧客のライフイベント（人生の大きなできごと）を把握した場合は、後日の営業に活用する。帰社後は、日誌などの作成、上司とのミーティングを行い情報の共有を図る。翌日以降の訪問先のアポイント取る。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン、普通自動車（普通免許（第一種、第二種）で運転可能なもの",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、保険を取り扱う営業活動を行うためには「生命保険一般課程試験」（一般社団法人生命保険協会）、「損害保険募集人一般試験」（一般社団法人日本損害保険協会）に合格し、「生命保険募集人」「損保保険募集人」として登録することが義務付けられている。\n　生命保険の営業の場合、一般課程試験に合格すると、業界団体等でさらに高いレベルの専門的・段階的な教育を受け、ライフ・コンサルタント、シニア・ライフ・コンサルタントやトータル・ライフ・コンサルタントなど上級の称号を得ることができる。\n　損害保険の営業の場合も一般試験のほかに業界団体が実施する損害保険大学課程専門コース試験、損害保険大学課程コンサルティングコース試験等がある。\n　関連資格として厚生労働省が定める技能検定の「ファイナンシャル・プランニング技能士（FP技能士）」もある。\n　顧客のライフスタイルや志向に合った商品を提案・契約することができるようになるには10年以上を要する場合もある。\n　基本用語や保険契約の約款、事務手続きなど商品知識、税務知識、公的年金・健康保険等の社会保険に関する知識、福利厚生制度の知識などが必要である。\n　また、顧客との信頼関係を築くためには、社交性、粘り強さのほかコミュニケーション力や顧客のニーズを過不足なく把握できる理解力も重要である。",
+    "working_conditions_ja": "生命保険会社、損害保険会社等に所属し、地方支社や支店、営業所を拠点に営業活動を行うことが多い。就業者の年齢層は幅広い。\n　賃金、労働時間等労働条件は勤務先の規定による。給与などの待遇面の特徴として、月給など固定給のほかに営業活動の実績に応じた歩合給が支払われることもある。\n　最近はプライバシー保護やセキュリティー強化で個人や職場での営業活動が制限され、直接の営業範囲が狭まり、代わって保険ショップやインターネット、銀行窓販など保険商品の販売チャンネルは広がってきている。少子高齢化社会を迎え、生きるための補償、生活環境のリスクに備える補償制度など生命保険、損害保険に対する関心とニーズは引き続き高い。"
+  },
+  "interests": {
+    "realistic": 2.909,
+    "investigative": 2.982,
+    "artistic": 2.673,
+    "social": 3.455,
+    "enterprising": 3.218,
+    "conventional": 3.182
+  },
+  "work_values": {
+    "achievement": 3.541,
+    "autonomy": 3.639,
+    "expertise": 3.754,
+    "self_growth": 3.508,
+    "social_recognition": 2.951,
+    "service_contribution": 3.115,
+    "good_relationships": 3.361,
+    "workplace_safety": 3.41,
+    "work_life_balance": 3.328,
+    "stability": 3.164,
+    "compensation": 2.967
+  },
+  "skills": {
+    "reading_comprehension": 3.803,
+    "active_listening": 4.721,
+    "writing": 3.738,
+    "speaking": 3.951,
+    "foreign_language_reading": 0.689,
+    "foreign_language_listening": 0.508,
+    "foreign_language_writing": 0.328,
+    "foreign_language_speaking": 0.377,
+    "mathematics": 1.869,
+    "science": 0.607,
+    "critical_thinking": 2.557,
+    "active_learning": 2.82,
+    "learning_strategies": 2.689,
+    "monitoring": 2.984,
+    "social_perceptiveness": 3.59,
+    "coordination": 3.426,
+    "persuasion": 3.607,
+    "negotiation": 3.639,
+    "instructing": 3.213,
+    "service_orientation": 2.951,
+    "complex_problem_solving": 2.738,
+    "operations_analysis": 2.164,
+    "technology_design": 1.689,
+    "equipment_selection": 1.082,
+    "installation": 1.098,
+    "programming": 1.066,
+    "operations_monitoring": 0.803,
+    "operation_and_control": 1.033,
+    "equipment_maintenance": 0.738,
+    "troubleshooting": 0.557,
+    "repairing": 0.607,
+    "quality_control_analysis": 1.098,
+    "judgment_decision_making": 2.115,
+    "systems_analysis": 1.885,
+    "systems_evaluation": 2.098,
+    "time_management": 2.967,
+    "financial_resources_management": 1.574,
+    "material_resources_management": 1.082,
+    "personnel_resources_management": 1.689
+  },
+  "knowledge": {
+    "business_management": 1.765,
+    "clerical": 2.569,
+    "economics_accounting": 1.843,
+    "sales_marketing": 3.275,
+    "customer_personal_service": 3.824,
+    "personnel_hr": 1.51,
+    "transportation": 0.49,
+    "production_processing": 0.412,
+    "agriculture_livestock": 0.255,
+    "engineering": 0.373,
+    "computers_electronics": 0.745,
+    "design": 0.353,
+    "building_construction": 0.471,
+    "mechanical": 0.314,
+    "mathematics_kn": 0.608,
+    "physics": 0.294,
+    "chemistry": 0.255,
+    "biology": 0.294,
+    "psychology": 1.686,
+    "sociology": 1.529,
+    "geography": 0.627,
+    "medicine_dentistry": 1.176,
+    "therapy_counseling": 0.941,
+    "education_training_kn": 1.333,
+    "japanese_language": 1.824,
+    "foreign_language_kn": 0.588,
+    "fine_arts": 0.294,
+    "history_archaeology": 0.412,
+    "philosophy_theology": 0.373,
+    "public_safety_security": 1.098,
+    "law_government": 1.392,
+    "telecommunications": 0.745,
+    "communications_media": 1.471
+  },
+  "abilities": {
+    "oral_comprehension": 3.103,
+    "written_comprehension": 3.052,
+    "oral_expression": 3.207,
+    "written_expression": 3.121,
+    "fluency_of_ideas": 2.862,
+    "originality": 2.603,
+    "problem_sensitivity": 3.19,
+    "deductive_reasoning": 2.828,
+    "inductive_reasoning": 2.81,
+    "information_ordering": 2.879,
+    "category_flexibility": 2.621,
+    "mathematical_reasoning": 2.328,
+    "number_facility": 2.483,
+    "memorization": 2.81,
+    "perceptual_speed": 2.397,
+    "spatial_orientation": 2.207,
+    "visualization": 2.224,
+    "selective_attention": 2.431,
+    "time_sharing": 2.517,
+    "arm_hand_steadiness": 1.724,
+    "manual_dexterity": 1.759,
+    "finger_dexterity": 1.69,
+    "reaction_time": 1.983,
+    "wrist_finger_speed": 1.672,
+    "speed_of_limb_movement": 1.672,
+    "static_strength": 1.638,
+    "stamina": 1.914,
+    "gross_body_equilibrium": 1.759,
+    "near_vision": 1.707,
+    "far_vision": 1.603,
+    "visual_color_discrimination": 1.707,
+    "depth_perception": 1.621,
+    "hearing_sensitivity": 1.707,
+    "auditory_attention": 1.741,
+    "speech_clarity": 2.603
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.706,
+    "face_to_face_discussions": 3.784,
+    "telephone_communication": 4.569,
+    "business_writing": 3.745,
+    "conflict_situations": 1.98,
+    "time_pressure": 2.863,
+    "teamwork": 2.922,
+    "dealing_with_external_customers": 4.314,
+    "coordinate_lead_others": 3.118,
+    "exactness_accuracy": 4.294,
+    "repetitive_tasks": 3.137,
+    "pace_determined_by_machine": 2.314,
+    "responsibility_for_outcomes": 3.137,
+    "indoor_climate_controlled": 4.51,
+    "indoor_non_climate_controlled": 2.314,
+    "outdoor_work": 3.275,
+    "sitting": 3.529,
+    "standing": 2.176,
+    "repetition_of_activities": 2.059,
+    "consequence_of_error": 3.392,
+    "freedom_to_make_decisions": 3.549,
+    "set_own_goals": 3.686,
+    "regular_schedule": 0.549,
+    "irregular_schedule": 0.431,
+    "seasonal_schedule": 0.02,
+    "email_communication": 4.353,
+    "cramped_uncomfortable": 1.647,
+    "disease_infection_risk": 1.902,
+    "minor_injury_risk": 1.176,
+    "standard_protective_equipment": 1.294,
+    "specialized_protective_equipment": 1.196,
+    "dealing_with_violent_people": 1.294,
+    "walking_running": 2.353,
+    "handling_objects_tools": 1.549,
+    "physical_proximity": 3.745,
+    "work_automation": 2.451,
+    "responsibility_for_safety": 2.059,
+    "impact_of_decisions": 2.471,
+    "level_of_competition": 3.137
+  },
+  "work_activities": {
+    "getting_information": 3.328,
+    "monitor_processes": 3.293,
+    "identifying_objects": 3.276,
+    "inspecting_equipment": 2.155,
+    "estimating_quantifiable": 2.569,
+    "judging_quality": 2.793,
+    "evaluating_compliance": 3.379,
+    "processing_information": 2.931,
+    "analyzing_data": 2.948,
+    "making_decisions": 3.207,
+    "thinking_creatively": 2.759,
+    "updating_knowledge": 3.293,
+    "developing_objectives": 3.172,
+    "scheduling_work": 3.259,
+    "organizing_planning": 3.397,
+    "physical_activities": 2.121,
+    "handling_objects": 1.862,
+    "controlling_machines": 1.741,
+    "operating_vehicles": 2.293,
+    "computer_work": 3.241,
+    "drafting_specifications": 1.655,
+    "repairing_mechanical": 1.466,
+    "repairing_electronic": 1.724,
+    "documenting_information": 2.655,
+    "interpreting_information": 2.707,
+    "communicating_inside": 2.776,
+    "communicating_outside": 2.793,
+    "building_relationships": 3.293,
+    "assisting_caring": 2.759,
+    "selling_influencing": 2.862,
+    "resolving_conflicts": 2.672,
+    "performing_for_public": 2.293,
+    "coordinating_others": 2.276,
+    "developing_teams": 2.31,
+    "training_teaching": 2.362,
+    "guiding_subordinates": 2.483,
+    "coaching_developing": 2.414,
+    "providing_consultation": 2.81,
+    "performing_administrative": 2.517,
+    "staffing_organizational": 2.19,
+    "monitoring_resources": 1.983
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.314,
+    "vocational_school": 0.137,
+    "junior_college": 0.059,
+    "technical_college": 0.0,
+    "university": 0.549,
+    "masters": 0.02,
+    "doctorate": 0.02,
+    "unknown": 0.157
+  },
+  "training_pre": {
+    "not_required": 0.216,
+    "up_to_1_month": 0.137,
+    "1_to_6_months": 0.353,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.059,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.137
+  },
+  "training_post": {
+    "not_required": 0.098,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.098,
+    "6_months_to_1_year": 0.235,
+    "1_to_2_years": 0.216,
+    "2_to_3_years": 0.137,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.02,
+    "unknown": 0.157
+  },
+  "experience": {
+    "not_required": 0.529,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.137,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.039,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.176
+  },
+  "employment_type": {
+    "regular_employee": 0.824,
+    "part_time": 0.02,
+    "dispatched": 0.039,
+    "contract": 0.059,
+    "self_employed_freelance": 0.157,
+    "executive": 0.039,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "新商品など連絡事項の共有をする。",
+      "execution_rate": 0.793,
+      "importance": 3.565
+    },
+    {
+      "task_id": 2,
+      "description_ja": "同僚との間でロールプレイング（営業シュミレーション）をする。",
+      "execution_rate": 0.69,
+      "importance": 2.4
+    },
+    {
+      "task_id": 3,
+      "description_ja": "訪問先のアポイントを取る。",
+      "execution_rate": 0.897,
+      "importance": 3.846
+    },
+    {
+      "task_id": 4,
+      "description_ja": "訪問先に持参する資料の整理をする。",
+      "execution_rate": 0.914,
+      "importance": 3.906
+    },
+    {
+      "task_id": 5,
+      "description_ja": "家庭、企業に訪問する。",
+      "execution_rate": 0.914,
+      "importance": 3.792
+    },
+    {
+      "task_id": 6,
+      "description_ja": "顧客の家庭環境立地環境に適合する商品の設計提案する。",
+      "execution_rate": 0.931,
+      "importance": 3.667
+    },
+    {
+      "task_id": 7,
+      "description_ja": "訪問先顧客のライフイベント情報を入手活用する。",
+      "execution_rate": 0.931,
+      "importance": 3.407
+    },
+    {
+      "task_id": 8,
+      "description_ja": "契約手続きを行う。",
+      "execution_rate": 0.983,
+      "importance": 4.105
+    },
+    {
+      "task_id": 9,
+      "description_ja": "顧客の来店や電話に対応する。",
+      "execution_rate": 0.914,
+      "importance": 3.66
+    },
+    {
+      "task_id": 10,
+      "description_ja": "Web会議ツールなどを利用して顧客とコミュニケーションをとる。",
+      "execution_rate": 0.828,
+      "importance": 2.958
+    },
+    {
+      "task_id": 11,
+      "description_ja": "帰社日誌などの作成する。",
+      "execution_rate": 0.776,
+      "importance": 2.6
+    },
+    {
+      "task_id": 12,
+      "description_ja": "時間外活動の一環として電話による翌日以降のアポイントを取る。",
+      "execution_rate": 0.828,
+      "importance": 3.063
+    },
+    {
+      "task_id": 13,
+      "description_ja": "所長など上司を交えたミーティングする。",
+      "execution_rate": 0.776,
+      "importance": 2.356
+    },
+    {
+      "task_id": 14,
+      "description_ja": "同僚所長など上司との情報共有（営業ノルマの設定など）を行う。",
+      "execution_rate": 0.828,
+      "importance": 2.625
+    },
+    {
+      "task_id": 15,
+      "description_ja": "保険業界共通体系の研修をする。",
+      "execution_rate": 0.879,
+      "importance": 3.353
+    },
+    {
+      "task_id": 16,
+      "description_ja": "担当者が不在になった顧客、企業、地域の引き継ぎ、訪問、開拓をする。",
+      "execution_rate": 0.845,
+      "importance": 3.367
+    },
+    {
+      "task_id": 17,
+      "description_ja": "顧客に対する最新商品の見直し、アフターサービスを実施する。",
+      "execution_rate": 0.931,
+      "importance": 3.537
+    },
+    {
+      "task_id": 18,
+      "description_ja": "定期的な顧客先訪問とアフターケアをする。",
+      "execution_rate": 0.914,
+      "importance": 3.642
+    },
+    {
+      "task_id": 19,
+      "description_ja": "保険事故が発生した場合に必要な対応をする。",
+      "execution_rate": 0.931,
+      "importance": 4.185
+    },
+    {
+      "task_id": 20,
+      "description_ja": "従業員の採用や教育、人事評価を行う。",
+      "execution_rate": 0.672,
+      "importance": 2.821
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　生命保険協会",
+      "url": "https://www.seiho.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人　生命保険文化センター",
+      "url": "https://www.jili.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本損害保険協会",
+      "url": "https://www.sonpo.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　日本損害保険代理業協会",
+      "url": "https://www.nihondaikyo.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　外国損害保険協会",
+      "url": "http://www.fnlia.gr.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "生命保険業界共通教育制度一般課程試験",
+    "損保保険募集人",
+    "1級ファイナンシャル・プランニング技能士",
+    "2級ファイナンシャル・プランニング技能士",
+    "3級ファイナンシャル・プランニング技能士",
+    "ライフ・コンサルタント",
+    "シニア・ライフ・コンサルタント",
+    "トータル・ライフ・コンサルタント"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/453",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

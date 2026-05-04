@@ -20,7 +20,10 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-INPUT = ROOT / "data.json"
+# v1.0.8: source switched from repo-root data.json (deleted in Phase 4) to the
+# treemap projection. Same flat record shape (name_ja / ai_risk / salary / education_pct etc.)
+# so the rest of this file is unchanged.
+INPUT = ROOT / "dist" / "data.treemap.json"
 OUTPUT_DIR = ROOT / "data" / "prompts"
 OUTPUT_JA = OUTPUT_DIR / "prompt.ja.md"
 OUTPUT_EN = OUTPUT_DIR / "prompt.en.md"

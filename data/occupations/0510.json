@@ -1,0 +1,431 @@
+{
+  "id": 510,
+  "ipd_id": "IPD_01_01_510",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "動物看護",
+  "aliases_ja": [
+    "アニマルヘルステクニシャン",
+    "動物病院アシスタント",
+    "動物看護師",
+    "動物病院助手"
+  ],
+  "classifications": {
+    "mhlw_main": "04_028-99",
+    "mhlw_all": [
+      "04_028-99"
+    ],
+    "jsoc_main": "E379",
+    "jsoc_all": [
+      "E379"
+    ]
+  },
+  "description": {
+    "summary_ja": "動物病院などにおいて、獣医師の助手として、動物に対する診療の補助や世話を行う。",
+    "what_it_is_ja": "動物病院などにおいて、主にペットの看護師として、獣医師の指示の下での診療の補助、動物の看護、栄養管理、飼育指導等を行う。\n　受付窓口での対応、電話やメールでの問い合わせ対応を行いつつ、診療前には、診察室の消毒を行って清潔な医療環境を整える。病気やケガをした動物を連れて訪れた飼主から話を聞き、状況を把握して獣医師に伝える。診療中は、診察がしやすいように注意を惹いたり、動物を押えたり（動物の保定）、診療に必要な器具をそろえるなど、獣医師の補助を行う。体温や脈拍の測定やレントゲン撮影の補助を行うこともある。\n　家庭でのケアの方法、しつけの仕方、飼育の仕方などの相談を受けることもある。診察終了後は、カルテの整理、院内の清掃、薬の注文などを行う。\n　また入院中の動物に対しては、容態の確認、食事の世話、ゲージの清掃などを行う。健康が回復した動物については、散歩をさせる。\n　手術を行う場合は、まず手術器具の滅菌などの準備を行い、手術中は獣医に器具を手渡すなど助手としての役割を果たす。術後は動物の容態をチェックし、手術に使用した器具の片づけなどを行う。\n\n◇　よく使う道具、機材、情報技術等\n　医療機器",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格を必要としない病院もあるが、専門学校に入学し、動物看護に関する専門的な知識や技術を身につけるのが一般的である。動物看護について学べる大学や短期大学、専門学校もある。動物の臨床検査や栄養学、保育、グルーミングなど、幅広い知識や技術を身につける必要がある。卒業後は動物病院などに就職し、実務経験を積む。\n　また、令和４年５月より国家資格「愛玩動物看護師」が創設された。愛玩動物看護師資格を取ると、上記の業務のうち、獣医師の指示の下での診療の補助（採血やマイクロチップの装着等）を行うことができるようになる。資格を取得するためには、愛玩動物看護師を養成するとして指定された大学や短期大学、専門学校に通い、国家試験を受験・合格の上、愛玩動物看護師名簿に登録される必要がある。\n　動物が好きなことに加え、動物の命に関わる仕事のため、幅広い経験と知識、様々な事態に対し冷静に対処する能力が求められる。診療のために暴れる動物を押さえつけたり、動けない動物を運んだりするなど、一定の体力が必要とされる。また、動物は言葉を話せないため、飼主から症状などの情報を的確に得る必要があり、コミュニケーション能力も重要である。",
+    "working_conditions_ja": "賃金、労働時間等の労働条件は勤務先の規定による。勤務時間は動物病院によって異なるが、シフト制になっていることも多い。土日診療があるところも多いので土日が休みになるとは限らない。入院している動物の世話のために残業となることもある。\n　年齢構成では、若い人の割合が高く、男女比では、女性の割合が高い。\n　ペットを飼う人が増加しており、ペットが病気になったときに高度な治療を求める飼主も多くなっている。今後も需要が高くなっていくと思われる。"
+  },
+  "interests": {
+    "realistic": 3.432,
+    "investigative": 3.27,
+    "artistic": 2.351,
+    "social": 3.919,
+    "enterprising": 2.432,
+    "conventional": 3.243
+  },
+  "work_values": {
+    "achievement": 3.833,
+    "autonomy": 3.556,
+    "expertise": 4.222,
+    "self_growth": 4.148,
+    "social_recognition": 2.926,
+    "service_contribution": 3.259,
+    "good_relationships": 3.463,
+    "workplace_safety": 2.593,
+    "work_life_balance": 2.907,
+    "stability": 2.685,
+    "compensation": 2.056
+  },
+  "skills": {
+    "reading_comprehension": 3.722,
+    "active_listening": 5.37,
+    "writing": 3.407,
+    "speaking": 4.333,
+    "foreign_language_reading": 1.056,
+    "foreign_language_listening": 1.0,
+    "foreign_language_writing": 0.685,
+    "foreign_language_speaking": 0.889,
+    "mathematics": 2.5,
+    "science": 1.796,
+    "critical_thinking": 2.926,
+    "active_learning": 3.296,
+    "learning_strategies": 3.241,
+    "monitoring": 3.204,
+    "social_perceptiveness": 3.833,
+    "coordination": 3.296,
+    "persuasion": 3.296,
+    "negotiation": 2.352,
+    "instructing": 4.093,
+    "service_orientation": 3.537,
+    "complex_problem_solving": 3.056,
+    "operations_analysis": 2.13,
+    "technology_design": 1.611,
+    "equipment_selection": 2.593,
+    "installation": 2.093,
+    "programming": 0.907,
+    "operations_monitoring": 1.537,
+    "operation_and_control": 2.185,
+    "equipment_maintenance": 2.0,
+    "troubleshooting": 1.833,
+    "repairing": 1.5,
+    "quality_control_analysis": 1.759,
+    "judgment_decision_making": 2.019,
+    "systems_analysis": 1.981,
+    "systems_evaluation": 1.611,
+    "time_management": 2.537,
+    "financial_resources_management": 1.315,
+    "material_resources_management": 2.037,
+    "personnel_resources_management": 1.852
+  },
+  "knowledge": {
+    "business_management": 0.404,
+    "clerical": 1.635,
+    "economics_accounting": 0.673,
+    "sales_marketing": 1.135,
+    "customer_personal_service": 2.731,
+    "personnel_hr": 0.769,
+    "transportation": 0.346,
+    "production_processing": 0.288,
+    "agriculture_livestock": 0.827,
+    "engineering": 0.365,
+    "computers_electronics": 0.327,
+    "design": 0.154,
+    "building_construction": 0.154,
+    "mechanical": 0.442,
+    "mathematics_kn": 1.077,
+    "physics": 0.308,
+    "chemistry": 0.942,
+    "biology": 3.058,
+    "psychology": 1.365,
+    "sociology": 1.404,
+    "geography": 0.327,
+    "medicine_dentistry": 2.538,
+    "therapy_counseling": 1.827,
+    "education_training_kn": 1.212,
+    "japanese_language": 1.481,
+    "foreign_language_kn": 0.827,
+    "fine_arts": 0.173,
+    "history_archaeology": 0.231,
+    "philosophy_theology": 0.212,
+    "public_safety_security": 1.115,
+    "law_government": 0.673,
+    "telecommunications": 0.365,
+    "communications_media": 0.865
+  },
+  "abilities": {
+    "oral_comprehension": 3.315,
+    "written_comprehension": 3.315,
+    "oral_expression": 3.426,
+    "written_expression": 3.241,
+    "fluency_of_ideas": 2.704,
+    "originality": 2.389,
+    "problem_sensitivity": 3.574,
+    "deductive_reasoning": 2.833,
+    "inductive_reasoning": 2.796,
+    "information_ordering": 2.648,
+    "category_flexibility": 2.556,
+    "mathematical_reasoning": 2.389,
+    "number_facility": 2.722,
+    "memorization": 3.074,
+    "perceptual_speed": 2.611,
+    "spatial_orientation": 2.333,
+    "visualization": 2.37,
+    "selective_attention": 2.889,
+    "time_sharing": 3.037,
+    "arm_hand_steadiness": 3.37,
+    "manual_dexterity": 3.259,
+    "finger_dexterity": 3.278,
+    "reaction_time": 3.426,
+    "wrist_finger_speed": 2.926,
+    "speed_of_limb_movement": 2.963,
+    "static_strength": 3.481,
+    "stamina": 3.13,
+    "gross_body_equilibrium": 2.593,
+    "near_vision": 2.741,
+    "far_vision": 2.222,
+    "visual_color_discrimination": 2.778,
+    "depth_perception": 2.352,
+    "hearing_sensitivity": 2.796,
+    "auditory_attention": 2.667,
+    "speech_clarity": 2.963
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.769,
+    "face_to_face_discussions": 2.865,
+    "telephone_communication": 4.635,
+    "business_writing": 3.442,
+    "conflict_situations": 2.096,
+    "time_pressure": 2.865,
+    "teamwork": 4.135,
+    "dealing_with_external_customers": 4.077,
+    "coordinate_lead_others": 3.385,
+    "exactness_accuracy": 4.462,
+    "repetitive_tasks": 3.692,
+    "pace_determined_by_machine": 3.096,
+    "responsibility_for_outcomes": 3.269,
+    "indoor_climate_controlled": 4.923,
+    "indoor_non_climate_controlled": 1.212,
+    "outdoor_work": 1.519,
+    "sitting": 1.981,
+    "standing": 4.519,
+    "repetition_of_activities": 2.885,
+    "consequence_of_error": 3.596,
+    "freedom_to_make_decisions": 3.192,
+    "set_own_goals": 3.5,
+    "regular_schedule": 0.615,
+    "irregular_schedule": 0.365,
+    "seasonal_schedule": 0.019,
+    "email_communication": 2.577,
+    "cramped_uncomfortable": 1.981,
+    "disease_infection_risk": 3.962,
+    "minor_injury_risk": 4.058,
+    "standard_protective_equipment": 2.519,
+    "specialized_protective_equipment": 2.577,
+    "dealing_with_violent_people": 1.5,
+    "walking_running": 3.654,
+    "handling_objects_tools": 3.154,
+    "physical_proximity": 3.962,
+    "work_automation": 2.231,
+    "responsibility_for_safety": 2.615,
+    "impact_of_decisions": 2.673,
+    "level_of_competition": 1.481
+  },
+  "work_activities": {
+    "getting_information": 3.13,
+    "monitor_processes": 3.278,
+    "identifying_objects": 3.296,
+    "inspecting_equipment": 2.944,
+    "estimating_quantifiable": 2.87,
+    "judging_quality": 2.815,
+    "evaluating_compliance": 3.037,
+    "processing_information": 3.0,
+    "analyzing_data": 2.907,
+    "making_decisions": 3.167,
+    "thinking_creatively": 2.722,
+    "updating_knowledge": 3.537,
+    "developing_objectives": 3.185,
+    "scheduling_work": 2.926,
+    "organizing_planning": 3.537,
+    "physical_activities": 3.185,
+    "handling_objects": 3.259,
+    "controlling_machines": 2.907,
+    "operating_vehicles": 1.833,
+    "computer_work": 2.944,
+    "drafting_specifications": 2.019,
+    "repairing_mechanical": 2.204,
+    "repairing_electronic": 2.148,
+    "documenting_information": 2.87,
+    "interpreting_information": 3.074,
+    "communicating_inside": 3.685,
+    "communicating_outside": 3.389,
+    "building_relationships": 3.667,
+    "assisting_caring": 3.63,
+    "selling_influencing": 2.722,
+    "resolving_conflicts": 2.741,
+    "performing_for_public": 2.611,
+    "coordinating_others": 2.815,
+    "developing_teams": 3.037,
+    "training_teaching": 3.111,
+    "guiding_subordinates": 3.093,
+    "coaching_developing": 2.759,
+    "providing_consultation": 2.13,
+    "performing_administrative": 2.759,
+    "staffing_organizational": 2.222,
+    "monitoring_resources": 2.537
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.115,
+    "vocational_school": 0.865,
+    "junior_college": 0.173,
+    "technical_college": 0.0,
+    "university": 0.308,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.038
+  },
+  "training_pre": {
+    "not_required": 0.25,
+    "up_to_1_month": 0.019,
+    "1_to_6_months": 0.154,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.096,
+    "2_to_3_years": 0.212,
+    "3_to_5_years": 0.038,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.192
+  },
+  "training_post": {
+    "not_required": 0.038,
+    "up_to_1_month": 0.077,
+    "1_to_6_months": 0.173,
+    "6_months_to_1_year": 0.346,
+    "1_to_2_years": 0.154,
+    "2_to_3_years": 0.096,
+    "3_to_5_years": 0.058,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.058
+  },
+  "experience": {
+    "not_required": 0.577,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.077,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.058,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.231
+  },
+  "employment_type": {
+    "regular_employee": 0.885,
+    "part_time": 0.346,
+    "dispatched": 0.019,
+    "contract": 0.0,
+    "self_employed_freelance": 0.058,
+    "executive": 0.0,
+    "casual_non_student": 0.038,
+    "casual_student": 0.077,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "動物病院などにおいて、獣医師の助手として、動物に対する診療の補助や世話を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "診療が終わるたびに診察台の清掃と消毒をする。",
+      "execution_rate": 1.0,
+      "importance": 4.593
+    },
+    {
+      "task_id": 2,
+      "description_ja": "診療中、動物が動かないように押さえる。",
+      "execution_rate": 0.982,
+      "importance": 4.491
+    },
+    {
+      "task_id": 3,
+      "description_ja": "診療のための医療器具の準備や医療品の補充をする。",
+      "execution_rate": 1.0,
+      "importance": 4.333
+    },
+    {
+      "task_id": 4,
+      "description_ja": "獣医師の指示により、動物の検査や治療の補助をする。",
+      "execution_rate": 1.0,
+      "importance": 4.537
+    },
+    {
+      "task_id": 5,
+      "description_ja": "獣医師の監督のもと、投薬などの処置をする。",
+      "execution_rate": 0.982,
+      "importance": 4.415
+    },
+    {
+      "task_id": 6,
+      "description_ja": "動物の診療結果をカルテに記録する。",
+      "execution_rate": 0.889,
+      "importance": 4.292
+    },
+    {
+      "task_id": 7,
+      "description_ja": "飼主への投薬や家庭でのケアの仕方の説明をする。",
+      "execution_rate": 0.982,
+      "importance": 4.208
+    },
+    {
+      "task_id": 8,
+      "description_ja": "飼主からの相談にのり、しつけ指導などをする。",
+      "execution_rate": 0.907,
+      "importance": 3.816
+    },
+    {
+      "task_id": 9,
+      "description_ja": "手術前の部位の剃毛、消毒などの処置をする。",
+      "execution_rate": 0.944,
+      "importance": 4.353
+    },
+    {
+      "task_id": 10,
+      "description_ja": "手術中、獣医師を助けて器具の受け渡しや器具の操作をする。",
+      "execution_rate": 0.87,
+      "importance": 4.043
+    },
+    {
+      "task_id": 11,
+      "description_ja": "病院内や入院用のゲージを清掃する。",
+      "execution_rate": 1.0,
+      "importance": 4.444
+    },
+    {
+      "task_id": 12,
+      "description_ja": "入院している動物の容態を確認し、食事や排泄の世話をする。",
+      "execution_rate": 1.0,
+      "importance": 4.519
+    },
+    {
+      "task_id": 13,
+      "description_ja": "動物病院の受付や電話応対、会計事務をする。",
+      "execution_rate": 0.982,
+      "importance": 4.321
+    },
+    {
+      "task_id": 14,
+      "description_ja": "動物のトリミングをする。",
+      "execution_rate": 0.5,
+      "importance": 3.037
+    },
+    {
+      "task_id": 15,
+      "description_ja": "動物のリハビリをする。",
+      "execution_rate": 0.5,
+      "importance": 3.407
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般財団法人 動物看護師統一認定機構",
+      "url": "https://www.ccrvn.jp/index.html"
+    },
+    {
+      "name_ja": "一般社団法人 日本動物看護職協会",
+      "url": "http://www.jvna.or.jp/"
+    },
+    {
+      "name_ja": "公益社団法人　日本獣医師会",
+      "url": "http://nichiju.lin.gr.jp/"
+    },
+    {
+      "name_ja": "公益社団法人 日本動物病院協会",
+      "url": "https://www.jaha.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "愛玩動物看護師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/510",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

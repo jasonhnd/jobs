@@ -1,0 +1,213 @@
+{
+  "dimension": "work_activities",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 41,
+  "labels": {
+    "getting_information": {
+      "ja": "情報を取得する",
+      "en": "Getting Information",
+      "onet_id": "IPD_04_10_001"
+    },
+    "monitor_processes": {
+      "ja": "継続的に状況を把握する",
+      "en": "Monitor Processes / Materials / Surroundings",
+      "onet_id": "IPD_04_10_002"
+    },
+    "identifying_objects": {
+      "ja": "情報の整理と検知を行う",
+      "en": "Identifying Objects, Actions & Events",
+      "onet_id": "IPD_04_10_003"
+    },
+    "inspecting_equipment": {
+      "ja": "設備、構造物、材料を検査する",
+      "en": "Inspecting Equipment, Structures & Materials",
+      "onet_id": "IPD_04_10_004"
+    },
+    "estimating_quantifiable": {
+      "ja": "数値の算出・推計を行う",
+      "en": "Estimating Quantifiable Characteristics",
+      "onet_id": "IPD_04_10_005"
+    },
+    "judging_quality": {
+      "ja": "クオリティを判断する",
+      "en": "Judging the Qualities of Things",
+      "onet_id": "IPD_04_10_006"
+    },
+    "evaluating_compliance": {
+      "ja": "法律や規定、基準を適用する",
+      "en": "Evaluating Information for Compliance",
+      "onet_id": "IPD_04_10_007"
+    },
+    "processing_information": {
+      "ja": "情報やデータを処理する",
+      "en": "Processing Information",
+      "onet_id": "IPD_04_10_008"
+    },
+    "analyzing_data": {
+      "ja": "情報やデータを分析する",
+      "en": "Analyzing Data or Information",
+      "onet_id": "IPD_04_10_009"
+    },
+    "making_decisions": {
+      "ja": "意思決定と問題解決を行う",
+      "en": "Making Decisions & Solving Problems",
+      "onet_id": "IPD_04_10_010"
+    },
+    "thinking_creatively": {
+      "ja": "創造的に考える",
+      "en": "Thinking Creatively",
+      "onet_id": "IPD_04_10_011"
+    },
+    "updating_knowledge": {
+      "ja": "仕事に関連する知識を更新し、活用する",
+      "en": "Updating & Using Relevant Knowledge",
+      "onet_id": "IPD_04_10_012"
+    },
+    "developing_objectives": {
+      "ja": "目標と戦略を策定する",
+      "en": "Developing Objectives & Strategies",
+      "onet_id": "IPD_04_10_013"
+    },
+    "scheduling_work": {
+      "ja": "スケジュールを作成する",
+      "en": "Scheduling Work & Activities",
+      "onet_id": "IPD_04_10_014"
+    },
+    "organizing_planning": {
+      "ja": "仕事を整理、計画する、優先順序を決める",
+      "en": "Organizing, Planning & Prioritizing Work",
+      "onet_id": "IPD_04_10_015"
+    },
+    "physical_activities": {
+      "ja": "全身を使って身体的な活動を行う",
+      "en": "Performing General Physical Activities",
+      "onet_id": "IPD_04_10_016"
+    },
+    "handling_objects": {
+      "ja": "手と腕を使って物を取り扱い動かす",
+      "en": "Handling & Moving Objects",
+      "onet_id": "IPD_04_10_017"
+    },
+    "controlling_machines": {
+      "ja": "機械、および機械製造のプロセスをコントロールする",
+      "en": "Controlling Machines & Processes",
+      "onet_id": "IPD_04_10_018"
+    },
+    "operating_vehicles": {
+      "ja": "乗り物を運転・操縦する",
+      "en": "Operating Vehicles & Mechanized Devices",
+      "onet_id": "IPD_04_10_019"
+    },
+    "computer_work": {
+      "ja": "コンピュータを用いて作業を行う",
+      "en": "Interacting with Computers",
+      "onet_id": "IPD_04_10_020"
+    },
+    "drafting_specifications": {
+      "ja": "装置、部品、機器の図面を作成する、配列や仕様を設定する",
+      "en": "Drafting, Laying Out & Specifying Equipment",
+      "onet_id": "IPD_04_10_021"
+    },
+    "repairing_mechanical": {
+      "ja": "機械装置の修理と保守を行う",
+      "en": "Repairing & Maintaining Mechanical Equipment",
+      "onet_id": "IPD_04_10_022"
+    },
+    "repairing_electronic": {
+      "ja": "電子機器の修理と保守を行う",
+      "en": "Repairing & Maintaining Electronic Equipment",
+      "onet_id": "IPD_04_10_023"
+    },
+    "documenting_information": {
+      "ja": "情報の文書化と記録を行う",
+      "en": "Documenting / Recording Information",
+      "onet_id": "IPD_04_10_024"
+    },
+    "interpreting_information": {
+      "ja": "情報の意味を他者に説明する",
+      "en": "Interpreting Information for Others",
+      "onet_id": "IPD_04_10_025"
+    },
+    "communicating_inside": {
+      "ja": "上司、同僚、部下とコミュニケーションを取る",
+      "en": "Communicating with Supervisors / Peers / Subordinates",
+      "onet_id": "IPD_04_10_026"
+    },
+    "communicating_outside": {
+      "ja": "組織外の人々とコミュニケーションを取る",
+      "en": "Communicating with People Outside the Organization",
+      "onet_id": "IPD_04_10_027"
+    },
+    "building_relationships": {
+      "ja": "人間関係を構築し、維持する",
+      "en": "Establishing & Maintaining Relationships",
+      "onet_id": "IPD_04_10_028"
+    },
+    "assisting_caring": {
+      "ja": "他者に対する支援とケアを行う",
+      "en": "Assisting & Caring for Others",
+      "onet_id": "IPD_04_10_029"
+    },
+    "selling_influencing": {
+      "ja": "他者に対して売り込む、または他者の思考・行動が変容するよう働きかける",
+      "en": "Selling or Influencing Others",
+      "onet_id": "IPD_04_10_030"
+    },
+    "resolving_conflicts": {
+      "ja": "対立を解消させる、他者と交渉する",
+      "en": "Resolving Conflicts & Negotiating",
+      "onet_id": "IPD_04_10_031"
+    },
+    "performing_for_public": {
+      "ja": "公共の場で一般の人々のために働いたり、直接応対する",
+      "en": "Performing for or Working Directly with the Public",
+      "onet_id": "IPD_04_10_032"
+    },
+    "coordinating_others": {
+      "ja": "メンバーの仕事量や活動内容を調整する",
+      "en": "Coordinating Work & Activities of Others",
+      "onet_id": "IPD_04_10_033"
+    },
+    "developing_teams": {
+      "ja": "チームを構築する",
+      "en": "Developing & Building Teams",
+      "onet_id": "IPD_04_10_034"
+    },
+    "training_teaching": {
+      "ja": "他者の訓練と教育を行う",
+      "en": "Training & Teaching Others",
+      "onet_id": "IPD_04_10_035"
+    },
+    "guiding_subordinates": {
+      "ja": "部下への指導、指示、動機づけを行う",
+      "en": "Guiding, Directing & Motivating Subordinates",
+      "onet_id": "IPD_04_10_036"
+    },
+    "coaching_developing": {
+      "ja": "他者をコーチし、能力開発を行う",
+      "en": "Coaching & Developing Others",
+      "onet_id": "IPD_04_10_037"
+    },
+    "providing_consultation": {
+      "ja": "コンサルティングと他者へのアドバイスを行う",
+      "en": "Providing Consultation & Advice",
+      "onet_id": "IPD_04_10_038"
+    },
+    "performing_administrative": {
+      "ja": "管理業務を遂行する",
+      "en": "Performing Administrative Activities",
+      "onet_id": "IPD_04_10_039"
+    },
+    "staffing_organizational": {
+      "ja": "組織の人事管理を行う",
+      "en": "Staffing Organizational Units",
+      "onet_id": "IPD_04_10_040"
+    },
+    "monitoring_resources": {
+      "ja": "資源、資材、財源の監視と管理を行う",
+      "en": "Monitoring & Controlling Resources",
+      "onet_id": "IPD_04_10_041"
+    }
+  }
+}

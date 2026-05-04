@@ -27,7 +27,11 @@ desktop.ini
 *.swo
 
 # Build artifacts
-dist/
+# dist/ IS tracked per DATA_ARCHITECTURE.md D-009 (Vercel has no Python build server,
+# so projections are built locally and committed). dist.next/ + dist.prev/ are atomic
+# staging dirs and must NOT be committed.
+dist.next/
+dist.prev/
 build/
 .cache/
 

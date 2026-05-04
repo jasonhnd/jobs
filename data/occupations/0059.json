@@ -1,0 +1,478 @@
+{
+  "id": 59,
+  "ipd_id": "IPD_01_01_059",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "住宅・不動産営業",
+  "aliases_ja": [
+    "住宅・不動産会社営業部員",
+    "宅地建物営業員",
+    "建売住宅営業員",
+    "マンション販売営業員",
+    "用地仕入営業員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_048-08",
+    "mhlw_all": [
+      "07_048-08"
+    ],
+    "jsoc_main": "D347",
+    "jsoc_all": [
+      "D347"
+    ]
+  },
+  "description": {
+    "summary_ja": "住宅・土地の購入あるいは売却・賃貸を考えている顧客に接し、様々な要望に応えながら取引をまとめる。",
+    "what_it_is_ja": "住宅・土地の購入あるいは売却・賃貸を考えている顧客に接し、様々な要望に応えながら取引をまとめていく仕事である。\n　顧客と接するには様々なケースがあるが、新人の営業はまず、新規顧客を獲得しなければならない。契約が成立し、信頼されるようになると、顧客を紹介してもらえることもある。その他に、広告などを見た顧客から問い合わせがある場合もある。\n　住宅・土地の購入に際しては、買い物や通勤の利便性、住宅の間取り、日当たり、機能性など、様々な点が考慮されるので、営業は幅広い知識と確実な情報を提供し、コンサルタント的な役割を果たす。住宅の間取りや内装、防音材など機能的な面の細部に渡る説明を行うとともに、購入に際して必要となる金融（ローン）、法律、税金などの問題についても説明を行う。\n　現地に案内し、商談がまとまったら契約書を作成する。契約までは、不動産取引の専門家としての宅地建物取引士が、取引の条件や代金の支払方法、その他重要事項について十分に説明した上で手続を進める。住宅や土地を顧客に引き渡した後も、メンテナンスなどきめの細かいサービスを提供し、信用を築いていくことが重要となる。\n\n◇　よく使う道具、機材、情報技術等\n　普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　「宅地建物取引士」（業務に従事する者5名に1名以上の割合で専任の宅地建物取引士を事務所に設置する必要がある）の資格を取得すると、仕事を進める上で有利である。受験資格に制限はないが、土地や建物についての法令上の知識、税法上の知識、実務上の知識が必要である。\n　顧客が求める情報を正確に提供することが大切であるため、必要な知識を仕入れていく意欲と能力が要求される。",
+    "working_conditions_ja": "勤務先は、住宅・不動産会社（宅地建物取引業者）、住宅メーカー、建設会社などである。\n　顧客の都合に合わせて、日曜、祝日に訪問したり、現地に案内することが必要なので、労働時間・休日は不規則である。休日は平日に取得するところが多い。\n　給与は各企業の規定によるが、基本給の他に売上に応じた歩合給がつく場合もある。\n　仕事を円滑に行うためにも土地・建物についての専門的な知識を積極的に習得する必要がある。"
+  },
+  "interests": {
+    "realistic": 2.71,
+    "investigative": 2.551,
+    "artistic": 2.391,
+    "social": 4.014,
+    "enterprising": 3.522,
+    "conventional": 3.333
+  },
+  "work_values": {
+    "achievement": 3.824,
+    "autonomy": 3.51,
+    "expertise": 3.588,
+    "self_growth": 3.588,
+    "social_recognition": 3.235,
+    "service_contribution": 3.294,
+    "good_relationships": 3.549,
+    "workplace_safety": 3.314,
+    "work_life_balance": 3.157,
+    "stability": 3.294,
+    "compensation": 3.471
+  },
+  "skills": {
+    "reading_comprehension": 3.863,
+    "active_listening": 4.392,
+    "writing": 3.745,
+    "speaking": 3.961,
+    "foreign_language_reading": 1.118,
+    "foreign_language_listening": 1.02,
+    "foreign_language_writing": 0.863,
+    "foreign_language_speaking": 0.784,
+    "mathematics": 2.647,
+    "science": 1.0,
+    "critical_thinking": 3.333,
+    "active_learning": 3.02,
+    "learning_strategies": 3.118,
+    "monitoring": 3.059,
+    "social_perceptiveness": 3.569,
+    "coordination": 3.745,
+    "persuasion": 3.863,
+    "negotiation": 4.157,
+    "instructing": 3.725,
+    "service_orientation": 3.314,
+    "complex_problem_solving": 3.549,
+    "operations_analysis": 2.98,
+    "technology_design": 2.314,
+    "equipment_selection": 2.235,
+    "installation": 1.961,
+    "programming": 1.333,
+    "operations_monitoring": 1.314,
+    "operation_and_control": 1.627,
+    "equipment_maintenance": 1.569,
+    "troubleshooting": 1.902,
+    "repairing": 1.588,
+    "quality_control_analysis": 1.784,
+    "judgment_decision_making": 2.922,
+    "systems_analysis": 2.275,
+    "systems_evaluation": 2.706,
+    "time_management": 3.098,
+    "financial_resources_management": 2.863,
+    "material_resources_management": 2.176,
+    "personnel_resources_management": 2.412
+  },
+  "knowledge": {
+    "business_management": 1.947,
+    "clerical": 2.789,
+    "economics_accounting": 1.684,
+    "sales_marketing": 2.474,
+    "customer_personal_service": 3.237,
+    "personnel_hr": 1.526,
+    "transportation": 0.763,
+    "production_processing": 0.5,
+    "agriculture_livestock": 0.368,
+    "engineering": 0.5,
+    "computers_electronics": 0.632,
+    "design": 1.211,
+    "building_construction": 2.447,
+    "mechanical": 0.658,
+    "mathematics_kn": 1.158,
+    "physics": 0.447,
+    "chemistry": 0.421,
+    "biology": 0.263,
+    "psychology": 1.553,
+    "sociology": 1.526,
+    "geography": 1.421,
+    "medicine_dentistry": 0.263,
+    "therapy_counseling": 0.5,
+    "education_training_kn": 0.816,
+    "japanese_language": 1.763,
+    "foreign_language_kn": 1.0,
+    "fine_arts": 0.553,
+    "history_archaeology": 0.5,
+    "philosophy_theology": 0.474,
+    "public_safety_security": 1.289,
+    "law_government": 2.289,
+    "telecommunications": 0.842,
+    "communications_media": 1.447
+  },
+  "abilities": {
+    "oral_comprehension": 2.733,
+    "written_comprehension": 2.683,
+    "oral_expression": 2.833,
+    "written_expression": 2.783,
+    "fluency_of_ideas": 2.717,
+    "originality": 2.583,
+    "problem_sensitivity": 3.3,
+    "deductive_reasoning": 2.617,
+    "inductive_reasoning": 2.55,
+    "information_ordering": 2.417,
+    "category_flexibility": 2.25,
+    "mathematical_reasoning": 2.133,
+    "number_facility": 2.317,
+    "memorization": 2.8,
+    "perceptual_speed": 2.217,
+    "spatial_orientation": 2.383,
+    "visualization": 2.3,
+    "selective_attention": 2.567,
+    "time_sharing": 2.4,
+    "arm_hand_steadiness": 1.9,
+    "manual_dexterity": 1.85,
+    "finger_dexterity": 1.85,
+    "reaction_time": 2.133,
+    "wrist_finger_speed": 1.817,
+    "speed_of_limb_movement": 1.767,
+    "static_strength": 1.783,
+    "stamina": 2.117,
+    "gross_body_equilibrium": 1.883,
+    "near_vision": 1.85,
+    "far_vision": 1.817,
+    "visual_color_discrimination": 1.883,
+    "depth_perception": 1.867,
+    "hearing_sensitivity": 1.833,
+    "auditory_attention": 1.783,
+    "speech_clarity": 2.133
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.684,
+    "face_to_face_discussions": 3.763,
+    "telephone_communication": 4.342,
+    "business_writing": 4.0,
+    "conflict_situations": 2.737,
+    "time_pressure": 3.079,
+    "teamwork": 2.816,
+    "dealing_with_external_customers": 3.816,
+    "coordinate_lead_others": 3.263,
+    "exactness_accuracy": 3.711,
+    "repetitive_tasks": 2.763,
+    "pace_determined_by_machine": 2.237,
+    "responsibility_for_outcomes": 3.316,
+    "indoor_climate_controlled": 4.789,
+    "indoor_non_climate_controlled": 2.105,
+    "outdoor_work": 3.158,
+    "sitting": 3.842,
+    "standing": 2.316,
+    "repetition_of_activities": 2.211,
+    "consequence_of_error": 3.105,
+    "freedom_to_make_decisions": 3.474,
+    "set_own_goals": 3.447,
+    "regular_schedule": 0.474,
+    "irregular_schedule": 0.5,
+    "seasonal_schedule": 0.026,
+    "email_communication": 4.632,
+    "cramped_uncomfortable": 1.737,
+    "disease_infection_risk": 1.789,
+    "minor_injury_risk": 1.263,
+    "standard_protective_equipment": 1.289,
+    "specialized_protective_equipment": 1.158,
+    "dealing_with_violent_people": 1.526,
+    "walking_running": 2.342,
+    "handling_objects_tools": 1.658,
+    "physical_proximity": 3.368,
+    "work_automation": 1.789,
+    "responsibility_for_safety": 2.368,
+    "impact_of_decisions": 2.789,
+    "level_of_competition": 2.658
+  },
+  "work_activities": {
+    "getting_information": 3.3,
+    "monitor_processes": 2.95,
+    "identifying_objects": 2.85,
+    "inspecting_equipment": 2.867,
+    "estimating_quantifiable": 2.65,
+    "judging_quality": 2.817,
+    "evaluating_compliance": 3.333,
+    "processing_information": 2.717,
+    "analyzing_data": 2.783,
+    "making_decisions": 3.017,
+    "thinking_creatively": 2.617,
+    "updating_knowledge": 3.25,
+    "developing_objectives": 2.883,
+    "scheduling_work": 3.05,
+    "organizing_planning": 3.2,
+    "physical_activities": 2.117,
+    "handling_objects": 1.967,
+    "controlling_machines": 1.9,
+    "operating_vehicles": 2.117,
+    "computer_work": 2.717,
+    "drafting_specifications": 2.083,
+    "repairing_mechanical": 1.883,
+    "repairing_electronic": 1.85,
+    "documenting_information": 2.55,
+    "interpreting_information": 2.65,
+    "communicating_inside": 2.833,
+    "communicating_outside": 2.933,
+    "building_relationships": 2.817,
+    "assisting_caring": 2.317,
+    "selling_influencing": 2.683,
+    "resolving_conflicts": 2.817,
+    "performing_for_public": 2.217,
+    "coordinating_others": 2.6,
+    "developing_teams": 2.533,
+    "training_teaching": 2.45,
+    "guiding_subordinates": 2.583,
+    "coaching_developing": 2.517,
+    "providing_consultation": 2.467,
+    "performing_administrative": 2.783,
+    "staffing_organizational": 2.333,
+    "monitoring_resources": 2.25
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.105,
+    "vocational_school": 0.105,
+    "junior_college": 0.026,
+    "technical_college": 0.0,
+    "university": 0.737,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.105
+  },
+  "training_pre": {
+    "not_required": 0.421,
+    "up_to_1_month": 0.079,
+    "1_to_6_months": 0.079,
+    "6_months_to_1_year": 0.105,
+    "1_to_2_years": 0.132,
+    "2_to_3_years": 0.053,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.026,
+    "over_10_years": 0.0,
+    "unknown": 0.105
+  },
+  "training_post": {
+    "not_required": 0.079,
+    "up_to_1_month": 0.053,
+    "1_to_6_months": 0.105,
+    "6_months_to_1_year": 0.184,
+    "1_to_2_years": 0.158,
+    "2_to_3_years": 0.132,
+    "3_to_5_years": 0.158,
+    "5_to_10_years": 0.026,
+    "over_10_years": 0.0,
+    "unknown": 0.105
+  },
+  "experience": {
+    "not_required": 0.553,
+    "up_to_1_month": 0.079,
+    "1_to_6_months": 0.079,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.105,
+    "2_to_3_years": 0.053,
+    "3_to_5_years": 0.026,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.105
+  },
+  "employment_type": {
+    "regular_employee": 0.789,
+    "part_time": 0.079,
+    "dispatched": 0.0,
+    "contract": 0.079,
+    "self_employed_freelance": 0.211,
+    "executive": 0.079,
+    "casual_non_student": 0.0,
+    "casual_student": 0.026,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "住宅や土地の購入あるいは売却・賃貸を考えているお客に接し、様々な要望に応えながら取引をまとめる。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "来店客の接客をする。",
+      "execution_rate": 0.8,
+      "importance": 3.354
+    },
+    {
+      "task_id": 2,
+      "description_ja": "お客の希望条件を聞き取って記録し、条件に合う物件を探す。",
+      "execution_rate": 0.85,
+      "importance": 3.569
+    },
+    {
+      "task_id": 3,
+      "description_ja": "お客を現地に案内し、不動産を見せながら説明し、販売や賃貸の条件を話し合う。",
+      "execution_rate": 0.833,
+      "importance": 3.56
+    },
+    {
+      "task_id": 4,
+      "description_ja": "お客からの不動産取引に関する質問に答える。",
+      "execution_rate": 0.867,
+      "importance": 3.596
+    },
+    {
+      "task_id": 5,
+      "description_ja": "契約について、お客に説明する。",
+      "execution_rate": 0.933,
+      "importance": 3.768
+    },
+    {
+      "task_id": 6,
+      "description_ja": "賃貸契約書を作成し、敷金や家賃を受け取る。",
+      "execution_rate": 0.75,
+      "importance": 3.289
+    },
+    {
+      "task_id": 7,
+      "description_ja": "不動産売買契約書を作成する。",
+      "execution_rate": 0.883,
+      "importance": 3.774
+    },
+    {
+      "task_id": 8,
+      "description_ja": "重要事項説明書や不動産査定書などの必要書類を作成し、管理する。",
+      "execution_rate": 0.85,
+      "importance": 3.686
+    },
+    {
+      "task_id": 9,
+      "description_ja": "重要事項に係る内容を、現地や役所等で確認・調査する。",
+      "execution_rate": 0.833,
+      "importance": 3.66
+    },
+    {
+      "task_id": 10,
+      "description_ja": "宅地建物取引士として、重要事項をお客に伝える。",
+      "execution_rate": 0.783,
+      "importance": 3.872
+    },
+    {
+      "task_id": 11,
+      "description_ja": "賃貸契約を更新する。",
+      "execution_rate": 0.667,
+      "importance": 3.4
+    },
+    {
+      "task_id": 12,
+      "description_ja": "出店企業に物件の情報を提供する。",
+      "execution_rate": 0.583,
+      "importance": 2.971
+    },
+    {
+      "task_id": 13,
+      "description_ja": "地主の要望を聞き、条件の合った出店企業を紹介する。",
+      "execution_rate": 0.567,
+      "importance": 2.941
+    },
+    {
+      "task_id": 14,
+      "description_ja": "顧客のクレームに対応する。",
+      "execution_rate": 0.85,
+      "importance": 3.549
+    },
+    {
+      "task_id": 15,
+      "description_ja": "未開発の建築用地を見つけ、売買契約締結に向けての活動をする。",
+      "execution_rate": 0.733,
+      "importance": 3.136
+    },
+    {
+      "task_id": 16,
+      "description_ja": "入手可能な賃貸の不動産物件リストを整理し、保管する。",
+      "execution_rate": 0.683,
+      "importance": 2.902
+    },
+    {
+      "task_id": 17,
+      "description_ja": "お客が不動産の所有権を持っていることを確認するため、登記記録を調査する。",
+      "execution_rate": 0.833,
+      "importance": 3.78
+    },
+    {
+      "task_id": 18,
+      "description_ja": "物件の外観・内観の写真を撮影する。",
+      "execution_rate": 0.883,
+      "importance": 3.17
+    },
+    {
+      "task_id": 19,
+      "description_ja": "物件の情報をインターネットに掲載する。",
+      "execution_rate": 0.783,
+      "importance": 3.319
+    },
+    {
+      "task_id": 20,
+      "description_ja": "物件の需給などを踏まえ、賃貸募集条件を見直す。",
+      "execution_rate": 0.683,
+      "importance": 3.244
+    },
+    {
+      "task_id": 21,
+      "description_ja": "お客の不動産にサービス供給が受けられるように公益事業会社と連絡を取る。",
+      "execution_rate": 0.667,
+      "importance": 2.825
+    },
+    {
+      "task_id": 22,
+      "description_ja": "土地家屋の状態を点検し、必要な保守を手配するか、所有者に通知する。",
+      "execution_rate": 0.767,
+      "importance": 3.152
+    },
+    {
+      "task_id": 23,
+      "description_ja": "施主から注文住宅の建築を受注する。",
+      "execution_rate": 0.533,
+      "importance": 3.063
+    },
+    {
+      "task_id": 24,
+      "description_ja": "不動産市場についての知識を保つため、関連する文献を精査し、業界の会合に出席する。",
+      "execution_rate": 0.75,
+      "importance": 2.889
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　全日本不動産協会",
+      "url": "https://www.zennichi.or.jp/"
+    },
+    {
+      "name_ja": "公益社団法人　全国宅地建物取引業協会連合会",
+      "url": "https://www.zentaku.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "宅地建物取引士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/59",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

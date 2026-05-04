@@ -1,0 +1,492 @@
+{
+  "id": 123,
+  "ipd_id": "IPD_01_01_123",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ビデオレンタル店店員",
+  "aliases_ja": [
+    "レンタルショップ店員"
+  ],
+  "classifications": {
+    "mhlw_main": "09_058-03",
+    "mhlw_all": [
+      "09_058-03"
+    ],
+    "jsoc_main": "E423",
+    "jsoc_all": [
+      "E423"
+    ]
+  },
+  "description": {
+    "summary_ja": "ビデオレンタル店で、映画やドラマなどのDVD、ブルーレイ、音楽CDなどの貸出と返却の受付を行うほか、商品管理や顧客情報の管理などを行う。",
+    "what_it_is_ja": "ビデオレンタル店で、映画やドラマなどのビデオ（DVD、ブルーレイ）、音楽CDなどの貸出と返却の受付を行うほか、商品管理や顧客情報の管理などを行う。\n　ほとんどの店舗が会員制を採用しており、初めて利用するお客には入会手続をしてもらう。免許証などで本人確認をして会員証を発行し、利用方法を案内する。\n　貸出の際には、お客がカウンターにビデオやCDを持ってくると、まず会員証を提示してもらい、会員番号と商品バーコードをバーコードリーダーで読み取る。代金を受取、返却期限を確認して、商品を貸し出す。返却の際には、再び商品データを読み取り、期限内に返却されているか確認する。ただし、近年ではお客が自分で貸出・返却処理を行うセルフサービスの店舗も増えてきている。\n　返却されたビデオやCDに傷などの異常がないかチェックし、店内の棚に戻す。また、会員からの問い合わせに対応するほか、返却予定日を過ぎても商品が返却されない場合には、電話による督促なども行う。\n　このほかに商品仕入れの仕事がある。最新作品や、入会時に登録された会員のニーズにあわせて商品を揃え、店内に陳列する。毎月数多くの新作ビデオやCDが発売される中から、会員のニーズにあった商品を仕入れる必要があるため、日頃から情報誌やメディアをチェックするなどして、幅広い商品知識を持つことが必要となる。\n　また、店舗独自のコーナーを企画し、音楽や映画などの最新情報を会員にダイレクトメールで案内するなどの販売促進を行うこともある。\n\n◇　よく使う道具、機材、情報技術等\n　電話、POSシステム、バーコードリーダー",
+    "how_to_become_ja": "入職にあたって特に学歴や資格は必要とされない。採用に関しては、高校や大学等の新卒者を定期的に採用することもあるが、人員補充が必要になった場合にその都度、ハローワークや求人広告を通じて中途採用を行う企業が多い。採用されると、一般的に、基本的な接客、端末操作、店舗管理、商品管理・陳列などに関する研修及び指導を受ける。その後は配属先の店舗においてOJTにより仕事を覚える。\n　映画や音楽が好きであること、サービス精神を持って接客できることが求められる。消費者ニーズに合った品揃えができるよう、独自性の高い販売促進を展開するための企画力も求められる。\n　1～3年くらい経験を積むと、主任となって、アルバイトやパート従業員の管理、売上・経費などのお金の管理、商品の仕入れ・発注、会員や商品のデータ管理などを行うようになる。\n　更に経験を積むと、店長として店舗全体の運営管理を任されるケースや、多店舗経営を展開している企業の場合には、地域ブロックのスーパーバイザーとなって、担当地区の店長やスタッフの指導などを任されるケースもある。",
+    "working_conditions_ja": "ビデオレンタル店に勤務する。店舗の規模は、従業員が1～2名のところから、駐車場を備えた郊外型の大型店まで様々で、書籍、文具、ゲームソフトの販売も行う店もある。\n　店舗で勤務する者は、アルバイト、パートタイマーが多い。\n　店舗の多くが午前10時から夜間まで長時間営業しており、アルバイトやパートタイマーを含めて交替制を採用している。また、ほとんどの店舗が年中無休で営業しているため、交替で休みを取っている。\n　最近では、発売されるビデオやCDなどの製作本数がインターネット配信などの増加に伴い減少傾向にあるため、ビデオレンタル店の店舗数は減少傾向にある。\n　POSシステムによる商品・会員管理の機械化や省力化なども進んでいる。最近は大手FCに加入しているビデオレンタル店が増え、これらの店舗では商品管理から顧客情報の管理に至るまでFC本部のノウハウに従った店舗運営がなされている。"
+  },
+  "interests": {
+    "realistic": 3.135,
+    "investigative": 2.635,
+    "artistic": 2.946,
+    "social": 3.743,
+    "enterprising": 2.716,
+    "conventional": 3.432
+  },
+  "work_values": {
+    "achievement": 2.791,
+    "autonomy": 3.233,
+    "expertise": 2.93,
+    "self_growth": 3.14,
+    "social_recognition": 2.279,
+    "service_contribution": 2.581,
+    "good_relationships": 3.512,
+    "workplace_safety": 3.465,
+    "work_life_balance": 3.535,
+    "stability": 2.535,
+    "compensation": 2.209
+  },
+  "skills": {
+    "reading_comprehension": 3.116,
+    "active_listening": 3.837,
+    "writing": 2.465,
+    "speaking": 3.023,
+    "foreign_language_reading": 0.86,
+    "foreign_language_listening": 0.86,
+    "foreign_language_writing": 0.442,
+    "foreign_language_speaking": 0.605,
+    "mathematics": 1.116,
+    "science": 0.233,
+    "critical_thinking": 2.14,
+    "active_learning": 1.558,
+    "learning_strategies": 1.93,
+    "monitoring": 1.419,
+    "social_perceptiveness": 2.442,
+    "coordination": 1.651,
+    "persuasion": 2.07,
+    "negotiation": 1.744,
+    "instructing": 2.953,
+    "service_orientation": 2.326,
+    "complex_problem_solving": 1.86,
+    "operations_analysis": 1.302,
+    "technology_design": 0.93,
+    "equipment_selection": 1.233,
+    "installation": 1.14,
+    "programming": 0.651,
+    "operations_monitoring": 0.744,
+    "operation_and_control": 1.488,
+    "equipment_maintenance": 0.86,
+    "troubleshooting": 1.023,
+    "repairing": 1.047,
+    "quality_control_analysis": 1.558,
+    "judgment_decision_making": 1.349,
+    "systems_analysis": 1.279,
+    "systems_evaluation": 1.372,
+    "time_management": 1.628,
+    "financial_resources_management": 1.116,
+    "material_resources_management": 1.0,
+    "personnel_resources_management": 1.233
+  },
+  "knowledge": {
+    "business_management": 0.743,
+    "clerical": 0.857,
+    "economics_accounting": 0.543,
+    "sales_marketing": 1.857,
+    "customer_personal_service": 2.743,
+    "personnel_hr": 0.914,
+    "transportation": 0.257,
+    "production_processing": 0.2,
+    "agriculture_livestock": 0.057,
+    "engineering": 0.057,
+    "computers_electronics": 0.371,
+    "design": 0.114,
+    "building_construction": 0.114,
+    "mechanical": 0.257,
+    "mathematics_kn": 0.429,
+    "physics": 0.029,
+    "chemistry": 0.029,
+    "biology": 0.029,
+    "psychology": 0.771,
+    "sociology": 0.343,
+    "geography": 0.057,
+    "medicine_dentistry": 0.029,
+    "therapy_counseling": 0.057,
+    "education_training_kn": 0.743,
+    "japanese_language": 1.143,
+    "foreign_language_kn": 0.629,
+    "fine_arts": 0.429,
+    "history_archaeology": 0.257,
+    "philosophy_theology": 0.229,
+    "public_safety_security": 1.029,
+    "law_government": 0.457,
+    "telecommunications": 0.486,
+    "communications_media": 1.6
+  },
+  "abilities": {
+    "oral_comprehension": 2.854,
+    "written_comprehension": 2.854,
+    "oral_expression": 2.976,
+    "written_expression": 2.683,
+    "fluency_of_ideas": 2.341,
+    "originality": 2.22,
+    "problem_sensitivity": 2.976,
+    "deductive_reasoning": 2.488,
+    "inductive_reasoning": 2.61,
+    "information_ordering": 2.463,
+    "category_flexibility": 2.341,
+    "mathematical_reasoning": 2.024,
+    "number_facility": 2.146,
+    "memorization": 2.561,
+    "perceptual_speed": 2.098,
+    "spatial_orientation": 2.098,
+    "visualization": 2.024,
+    "selective_attention": 2.049,
+    "time_sharing": 2.439,
+    "arm_hand_steadiness": 1.902,
+    "manual_dexterity": 2.0,
+    "finger_dexterity": 1.805,
+    "reaction_time": 2.146,
+    "wrist_finger_speed": 2.073,
+    "speed_of_limb_movement": 2.073,
+    "static_strength": 2.122,
+    "stamina": 2.049,
+    "gross_body_equilibrium": 1.732,
+    "near_vision": 1.878,
+    "far_vision": 1.659,
+    "visual_color_discrimination": 2.0,
+    "depth_perception": 1.854,
+    "hearing_sensitivity": 1.927,
+    "auditory_attention": 1.902,
+    "speech_clarity": 2.512
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.514,
+    "face_to_face_discussions": 2.543,
+    "telephone_communication": 4.371,
+    "business_writing": 3.143,
+    "conflict_situations": 2.257,
+    "time_pressure": 2.429,
+    "teamwork": 3.086,
+    "dealing_with_external_customers": 3.257,
+    "coordinate_lead_others": 2.543,
+    "exactness_accuracy": 3.343,
+    "repetitive_tasks": 3.371,
+    "pace_determined_by_machine": 2.486,
+    "responsibility_for_outcomes": 2.514,
+    "indoor_climate_controlled": 4.314,
+    "indoor_non_climate_controlled": 1.714,
+    "outdoor_work": 1.429,
+    "sitting": 1.486,
+    "standing": 4.857,
+    "repetition_of_activities": 3.371,
+    "consequence_of_error": 2.371,
+    "freedom_to_make_decisions": 3.171,
+    "set_own_goals": 3.114,
+    "regular_schedule": 0.771,
+    "irregular_schedule": 0.143,
+    "seasonal_schedule": 0.086,
+    "email_communication": 2.914,
+    "cramped_uncomfortable": 1.629,
+    "disease_infection_risk": 2.2,
+    "minor_injury_risk": 1.086,
+    "standard_protective_equipment": 1.114,
+    "specialized_protective_equipment": 1.086,
+    "dealing_with_violent_people": 1.6,
+    "walking_running": 3.829,
+    "handling_objects_tools": 2.829,
+    "physical_proximity": 3.657,
+    "work_automation": 2.457,
+    "responsibility_for_safety": 1.714,
+    "impact_of_decisions": 2.0,
+    "level_of_competition": 1.943
+  },
+  "work_activities": {
+    "getting_information": 2.341,
+    "monitor_processes": 2.537,
+    "identifying_objects": 2.488,
+    "inspecting_equipment": 2.39,
+    "estimating_quantifiable": 2.488,
+    "judging_quality": 2.732,
+    "evaluating_compliance": 3.268,
+    "processing_information": 2.659,
+    "analyzing_data": 2.659,
+    "making_decisions": 2.732,
+    "thinking_creatively": 2.244,
+    "updating_knowledge": 2.927,
+    "developing_objectives": 2.78,
+    "scheduling_work": 2.732,
+    "organizing_planning": 3.049,
+    "physical_activities": 2.488,
+    "handling_objects": 2.634,
+    "controlling_machines": 2.561,
+    "operating_vehicles": 1.537,
+    "computer_work": 2.39,
+    "drafting_specifications": 1.805,
+    "repairing_mechanical": 1.927,
+    "repairing_electronic": 1.902,
+    "documenting_information": 2.195,
+    "interpreting_information": 2.049,
+    "communicating_inside": 3.024,
+    "communicating_outside": 2.537,
+    "building_relationships": 2.707,
+    "assisting_caring": 2.366,
+    "selling_influencing": 2.585,
+    "resolving_conflicts": 2.902,
+    "performing_for_public": 2.366,
+    "coordinating_others": 2.732,
+    "developing_teams": 2.512,
+    "training_teaching": 2.732,
+    "guiding_subordinates": 2.634,
+    "coaching_developing": 2.463,
+    "providing_consultation": 2.146,
+    "performing_administrative": 2.634,
+    "staffing_organizational": 2.366,
+    "monitoring_resources": 2.317
+  },
+  "education_distribution": {
+    "below_high_school": 0.114,
+    "high_school": 0.457,
+    "vocational_school": 0.143,
+    "junior_college": 0.143,
+    "technical_college": 0.057,
+    "university": 0.343,
+    "masters": 0.029,
+    "doctorate": 0.029,
+    "unknown": 0.286
+  },
+  "training_pre": {
+    "not_required": 0.543,
+    "up_to_1_month": 0.171,
+    "1_to_6_months": 0.114,
+    "6_months_to_1_year": 0.029,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.143
+  },
+  "training_post": {
+    "not_required": 0.114,
+    "up_to_1_month": 0.143,
+    "1_to_6_months": 0.343,
+    "6_months_to_1_year": 0.086,
+    "1_to_2_years": 0.114,
+    "2_to_3_years": 0.029,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.171
+  },
+  "experience": {
+    "not_required": 0.657,
+    "up_to_1_month": 0.029,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.029,
+    "1_to_2_years": 0.029,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.257
+  },
+  "employment_type": {
+    "regular_employee": 0.257,
+    "part_time": 0.657,
+    "dispatched": 0.029,
+    "contract": 0.029,
+    "self_employed_freelance": 0.029,
+    "executive": 0.0,
+    "casual_non_student": 0.343,
+    "casual_student": 0.257,
+    "unknown": 0.029,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "ビデオレンタル店でＣＤ、ＤＶＤ、ＢＤ等の貸出と返却・販売をするほか、商品管理や顧客管理を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "顧客の需要に合わせてレンタル品を仕入れ、そろえる。",
+      "execution_rate": 0.805,
+      "importance": 3.061
+    },
+    {
+      "task_id": 2,
+      "description_ja": "入荷されたＣＤ、ＤＶＤ、ＢＤ等をレンタルできる状態に加工する。",
+      "execution_rate": 0.902,
+      "importance": 3.946
+    },
+    {
+      "task_id": 3,
+      "description_ja": "身分証を確認し、レンタル会員の登録をする。",
+      "execution_rate": 1.0,
+      "importance": 4.268
+    },
+    {
+      "task_id": 4,
+      "description_ja": "会員情報をデータベースに入力する。",
+      "execution_rate": 1.0,
+      "importance": 4.098
+    },
+    {
+      "task_id": 5,
+      "description_ja": "ＣＤ、ＤＶＤ、ＢＤ等を客に貸し出す。",
+      "execution_rate": 1.0,
+      "importance": 3.976
+    },
+    {
+      "task_id": 6,
+      "description_ja": "貸し出し期間などによりレンタル料金を計算し、客から受け取る。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 7,
+      "description_ja": "ＣＤ、ＤＶＤ、ＢＤ等の返却手続きをする。",
+      "execution_rate": 1.0,
+      "importance": 4.0
+    },
+    {
+      "task_id": 8,
+      "description_ja": "返却されたＣＤ、ＤＶＤ、ＢＤ等の傷や汚れを点検する。",
+      "execution_rate": 1.0,
+      "importance": 3.415
+    },
+    {
+      "task_id": 9,
+      "description_ja": "ＣＤ、ＤＶＤ、ＢＤ等やそのケースの汚れをとる。",
+      "execution_rate": 1.0,
+      "importance": 3.146
+    },
+    {
+      "task_id": 10,
+      "description_ja": "返却されてきた商品を、所定の位置に戻す。",
+      "execution_rate": 1.0,
+      "importance": 3.854
+    },
+    {
+      "task_id": 11,
+      "description_ja": "書籍、電池、ＣＤ、ＤＶＤ、ＢＤ、ヘッドフォンなどを販売する。",
+      "execution_rate": 0.951,
+      "importance": 3.051
+    },
+    {
+      "task_id": 12,
+      "description_ja": "ゲーム機を販売する際に、保証サービスをお客に提案する。",
+      "execution_rate": 0.854,
+      "importance": 3.686
+    },
+    {
+      "task_id": 13,
+      "description_ja": "お客からの問い合わせに対応する。",
+      "execution_rate": 1.0,
+      "importance": 3.829
+    },
+    {
+      "task_id": 14,
+      "description_ja": "お客が探している商品を探す。",
+      "execution_rate": 1.0,
+      "importance": 3.512
+    },
+    {
+      "task_id": 15,
+      "description_ja": "お客の希望に合わせて、商品やレンタル品を取り寄せる。",
+      "execution_rate": 0.732,
+      "importance": 2.867
+    },
+    {
+      "task_id": 16,
+      "description_ja": "お客のニーズに合わせた商品を勧める。",
+      "execution_rate": 0.878,
+      "importance": 2.833
+    },
+    {
+      "task_id": 17,
+      "description_ja": "延滞しているお客に連絡する。",
+      "execution_rate": 0.902,
+      "importance": 3.27
+    },
+    {
+      "task_id": 18,
+      "description_ja": "お客からのクレームに対応する。",
+      "execution_rate": 1.0,
+      "importance": 3.732
+    },
+    {
+      "task_id": 19,
+      "description_ja": "入荷商品に合わせて売り場を作り、販促のPOP等やポスターを掲示する。",
+      "execution_rate": 1.0,
+      "importance": 3.244
+    },
+    {
+      "task_id": 20,
+      "description_ja": "特集コーナーやランキングを変更する。",
+      "execution_rate": 0.976,
+      "importance": 3.275
+    },
+    {
+      "task_id": 21,
+      "description_ja": "レンタルサイトを運営・管理する。",
+      "execution_rate": 0.61,
+      "importance": 2.76
+    },
+    {
+      "task_id": 22,
+      "description_ja": "レンタルとしての需要が見込めなくなった商品を中古販売商品に振り替える。",
+      "execution_rate": 1.0,
+      "importance": 3.244
+    },
+    {
+      "task_id": 23,
+      "description_ja": "古くなったり、あまりレンタルされなくなったＣＤ、ＤＶＤ、ＢＤ等を廃棄する。",
+      "execution_rate": 0.878,
+      "importance": 2.889
+    },
+    {
+      "task_id": 24,
+      "description_ja": "リースアップした商品を返送する。",
+      "execution_rate": 0.976,
+      "importance": 3.2
+    },
+    {
+      "task_id": 25,
+      "description_ja": "店舗の清掃や、陳列棚の整頓を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.659
+    },
+    {
+      "task_id": 26,
+      "description_ja": "商品を陳列する什器を組み立てる。",
+      "execution_rate": 0.927,
+      "importance": 3.026
+    },
+    {
+      "task_id": 27,
+      "description_ja": "店舗の運営や、売上や利益、経費等を管理する。",
+      "execution_rate": 0.976,
+      "importance": 3.525
+    },
+    {
+      "task_id": 28,
+      "description_ja": "CD、DVD、BD等のレンタル料金や泊数を変更する。",
+      "execution_rate": 0.927,
+      "importance": 3.526
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "日本コンパクトディスク・ビデオレンタル商業組合",
+      "url": "http://www.cdvnet.jp"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/123",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

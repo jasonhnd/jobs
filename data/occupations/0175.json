@@ -1,0 +1,449 @@
+{
+  "id": 175,
+  "ipd_id": "IPD_01_01_175",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "はり師・きゅう師",
+  "aliases_ja": [
+    "灸師",
+    "鍼灸師",
+    "鍼師"
+  ],
+  "classifications": {
+    "mhlw_main": "04_026-01",
+    "mhlw_all": [
+      "04_026-01"
+    ],
+    "jsoc_main": "B152",
+    "jsoc_all": [
+      "B152"
+    ]
+  },
+  "description": {
+    "summary_ja": "東洋医学や現代医学に基づき、患者の症状の改善のためにはりやきゅうでツボを刺激する。",
+    "what_it_is_ja": "はり師は身体のツボをはりで刺激し、きゅう師はツボをきゅうで暖めることで、人間の自然治癒力を活性化させて病気を治療する。\n　はり・きゅう治療の背景である東洋医学では、「気」（生命エネルギー）が全身をめぐり生命を保っていて、「気」のめぐりが悪くなると病気になると考える。「気」のとどこおりや詰まりを調整する場所がツボ（経穴）であり、ここを刺激することで人間の自然治癒力を高める。副作用がほとんど見られない医療法といわれている。\n　はり治療に用いるはりは直径0.2㎜の髪の毛ほどの太さである。患者の症状に応じて、ツボを指で探し当てて、消毒したはりをトントンと叩くようにして瞬間的に皮膚を通過させる。患部だけでなく、その周辺の神経にも刺激を与える。また、皮膚に刺したはりを電極にして弱い電流を流すことによって、はりの効果を倍増させる方法も行われている。\n　きゅう治療の場合は、指で患部周辺を押してツボを探し、ツボに適量のもぐさをのせ線香の火をつけて燃やし、熱の刺激で治療する。また、皮膚の上ではなく台座の上にもぐさを置く方法もある。\n　実際にははり師ときゅう師の両方の免許を持って施術をしている人が多い。\n\n◇　よく使う道具、機材、情報技術等\n　はり、きゅう",
+    "how_to_become_ja": "職業としてはり・きゅうを行うには、はり師免許、きゅう師免許を取る必要がある。\n　はり師試験、きゅう師試験を受けるには、認定された専門学校か大学・短大ではり・きゅうの技能と知識を３年以上修学する必要がある。視力障害者の場合は、盲学校や視力障害センターなどで学ぶことが多い。なお、視覚障害者の場合には、中学校卒でも5年の教育を受ければ、国家試験の受験資格が得られる。\n　はり・きゅう治療院などに数年間勤務して経験を積んでから、独立開業するケースが多く見られる。\n　患者に直接接して治療することから、治療技術に加えて適切なコミュニケーションを通して相手の気持ちを和ませ、信頼関係を築くことが求められる。",
+    "working_conditions_ja": "働く場としては、はり・きゅう治療院、病院・医院、養成機関などがあり、これらに勤務するほか、独立して開業する人もいる。\n　就業はり師は136,736人、就業きゅう師は134,730人（2024年末時点*）となっている。\n　スポーツ選手がはり治療を受けることもあり、サッカー、水泳、テニス、陸上競技など多くの分野で利用されている。\n　はり・きゅうには、治療効果だけでなく、肉体の疲労を取り除いて活性化させたり、精神的なリラクセーション効果も期待されている。東洋医学が見直されるとともに、はり・きゅうへの関心も高まっており、さまざまな症状への治療や、痛みを取り除いたり緩和する効果が研究されている。\n\n*厚生労働省　衛生行政報告例（就業医療関係者）の概況"
+  },
+  "interests": {
+    "realistic": 3.179,
+    "investigative": 3.776,
+    "artistic": 3.015,
+    "social": 4.075,
+    "enterprising": 2.94,
+    "conventional": 2.985
+  },
+  "work_values": {
+    "achievement": 3.919,
+    "autonomy": 4.032,
+    "expertise": 4.194,
+    "self_growth": 3.903,
+    "social_recognition": 2.661,
+    "service_contribution": 3.613,
+    "good_relationships": 3.548,
+    "workplace_safety": 3.581,
+    "work_life_balance": 3.355,
+    "stability": 2.71,
+    "compensation": 2.419
+  },
+  "skills": {
+    "reading_comprehension": 4.306,
+    "active_listening": 5.194,
+    "writing": 4.065,
+    "speaking": 4.79,
+    "foreign_language_reading": 1.371,
+    "foreign_language_listening": 1.065,
+    "foreign_language_writing": 0.758,
+    "foreign_language_speaking": 0.935,
+    "mathematics": 1.323,
+    "science": 1.694,
+    "critical_thinking": 3.323,
+    "active_learning": 3.516,
+    "learning_strategies": 3.484,
+    "monitoring": 3.387,
+    "social_perceptiveness": 4.452,
+    "coordination": 3.065,
+    "persuasion": 3.694,
+    "negotiation": 3.177,
+    "instructing": 3.435,
+    "service_orientation": 3.419,
+    "complex_problem_solving": 3.145,
+    "operations_analysis": 2.129,
+    "technology_design": 2.097,
+    "equipment_selection": 3.145,
+    "installation": 2.355,
+    "programming": 0.887,
+    "operations_monitoring": 1.226,
+    "operation_and_control": 1.597,
+    "equipment_maintenance": 1.468,
+    "troubleshooting": 1.597,
+    "repairing": 1.548,
+    "quality_control_analysis": 1.452,
+    "judgment_decision_making": 2.258,
+    "systems_analysis": 1.403,
+    "systems_evaluation": 1.645,
+    "time_management": 2.71,
+    "financial_resources_management": 2.484,
+    "material_resources_management": 2.113,
+    "personnel_resources_management": 1.532
+  },
+  "knowledge": {
+    "business_management": 2.061,
+    "clerical": 2.061,
+    "economics_accounting": 1.633,
+    "sales_marketing": 2.367,
+    "customer_personal_service": 3.224,
+    "personnel_hr": 1.673,
+    "transportation": 0.367,
+    "production_processing": 0.327,
+    "agriculture_livestock": 0.245,
+    "engineering": 0.286,
+    "computers_electronics": 0.51,
+    "design": 0.204,
+    "building_construction": 0.265,
+    "mechanical": 0.265,
+    "mathematics_kn": 0.449,
+    "physics": 0.408,
+    "chemistry": 0.531,
+    "biology": 1.959,
+    "psychology": 2.673,
+    "sociology": 1.796,
+    "geography": 0.714,
+    "medicine_dentistry": 3.857,
+    "therapy_counseling": 3.429,
+    "education_training_kn": 1.612,
+    "japanese_language": 1.694,
+    "foreign_language_kn": 1.0,
+    "fine_arts": 0.531,
+    "history_archaeology": 0.673,
+    "philosophy_theology": 1.184,
+    "public_safety_security": 1.408,
+    "law_government": 1.408,
+    "telecommunications": 0.714,
+    "communications_media": 2.02
+  },
+  "abilities": {
+    "oral_comprehension": 3.25,
+    "written_comprehension": 2.964,
+    "oral_expression": 3.464,
+    "written_expression": 2.964,
+    "fluency_of_ideas": 2.696,
+    "originality": 2.911,
+    "problem_sensitivity": 3.714,
+    "deductive_reasoning": 2.821,
+    "inductive_reasoning": 2.75,
+    "information_ordering": 2.5,
+    "category_flexibility": 2.411,
+    "mathematical_reasoning": 2.161,
+    "number_facility": 2.286,
+    "memorization": 3.232,
+    "perceptual_speed": 2.554,
+    "spatial_orientation": 2.25,
+    "visualization": 2.518,
+    "selective_attention": 3.179,
+    "time_sharing": 2.75,
+    "arm_hand_steadiness": 3.75,
+    "manual_dexterity": 3.839,
+    "finger_dexterity": 3.821,
+    "reaction_time": 3.107,
+    "wrist_finger_speed": 3.482,
+    "speed_of_limb_movement": 3.107,
+    "static_strength": 2.911,
+    "stamina": 3.107,
+    "gross_body_equilibrium": 2.857,
+    "near_vision": 2.821,
+    "far_vision": 2.25,
+    "visual_color_discrimination": 2.768,
+    "depth_perception": 2.429,
+    "hearing_sensitivity": 2.839,
+    "auditory_attention": 2.607,
+    "speech_clarity": 3.196
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.653,
+    "face_to_face_discussions": 3.469,
+    "telephone_communication": 3.98,
+    "business_writing": 2.776,
+    "conflict_situations": 2.184,
+    "time_pressure": 2.592,
+    "teamwork": 2.408,
+    "dealing_with_external_customers": 3.469,
+    "coordinate_lead_others": 2.837,
+    "exactness_accuracy": 3.694,
+    "repetitive_tasks": 2.898,
+    "pace_determined_by_machine": 2.327,
+    "responsibility_for_outcomes": 3.878,
+    "indoor_climate_controlled": 4.796,
+    "indoor_non_climate_controlled": 1.837,
+    "outdoor_work": 1.551,
+    "sitting": 2.449,
+    "standing": 3.755,
+    "repetition_of_activities": 3.224,
+    "consequence_of_error": 3.776,
+    "freedom_to_make_decisions": 4.082,
+    "set_own_goals": 3.898,
+    "regular_schedule": 0.612,
+    "irregular_schedule": 0.388,
+    "seasonal_schedule": 0.0,
+    "email_communication": 3.306,
+    "cramped_uncomfortable": 2.347,
+    "disease_infection_risk": 4.02,
+    "minor_injury_risk": 2.327,
+    "standard_protective_equipment": 2.02,
+    "specialized_protective_equipment": 1.531,
+    "dealing_with_violent_people": 1.49,
+    "walking_running": 2.51,
+    "handling_objects_tools": 2.918,
+    "physical_proximity": 4.571,
+    "work_automation": 1.551,
+    "responsibility_for_safety": 4.082,
+    "impact_of_decisions": 3.245,
+    "level_of_competition": 2.694
+  },
+  "work_activities": {
+    "getting_information": 3.518,
+    "monitor_processes": 3.661,
+    "identifying_objects": 3.625,
+    "inspecting_equipment": 3.089,
+    "estimating_quantifiable": 2.786,
+    "judging_quality": 2.982,
+    "evaluating_compliance": 3.304,
+    "processing_information": 2.75,
+    "analyzing_data": 2.911,
+    "making_decisions": 3.607,
+    "thinking_creatively": 3.125,
+    "updating_knowledge": 3.821,
+    "developing_objectives": 3.036,
+    "scheduling_work": 2.857,
+    "organizing_planning": 3.036,
+    "physical_activities": 2.821,
+    "handling_objects": 3.125,
+    "controlling_machines": 2.143,
+    "operating_vehicles": 1.946,
+    "computer_work": 2.196,
+    "drafting_specifications": 1.929,
+    "repairing_mechanical": 1.964,
+    "repairing_electronic": 1.982,
+    "documenting_information": 2.946,
+    "interpreting_information": 3.0,
+    "communicating_inside": 2.036,
+    "communicating_outside": 2.714,
+    "building_relationships": 3.304,
+    "assisting_caring": 3.518,
+    "selling_influencing": 2.482,
+    "resolving_conflicts": 2.464,
+    "performing_for_public": 2.446,
+    "coordinating_others": 2.161,
+    "developing_teams": 1.929,
+    "training_teaching": 2.232,
+    "guiding_subordinates": 2.125,
+    "coaching_developing": 2.125,
+    "providing_consultation": 1.946,
+    "performing_administrative": 2.536,
+    "staffing_organizational": 1.875,
+    "monitoring_resources": 2.536
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.102,
+    "vocational_school": 0.694,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.347,
+    "masters": 0.041,
+    "doctorate": 0.0,
+    "unknown": 0.02
+  },
+  "training_pre": {
+    "not_required": 0.061,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.102,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.224,
+    "3_to_5_years": 0.306,
+    "5_to_10_years": 0.082,
+    "over_10_years": 0.041,
+    "unknown": 0.143
+  },
+  "training_post": {
+    "not_required": 0.041,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.082,
+    "6_months_to_1_year": 0.184,
+    "1_to_2_years": 0.184,
+    "2_to_3_years": 0.082,
+    "3_to_5_years": 0.061,
+    "5_to_10_years": 0.122,
+    "over_10_years": 0.061,
+    "unknown": 0.163
+  },
+  "experience": {
+    "not_required": 0.306,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.082,
+    "6_months_to_1_year": 0.061,
+    "1_to_2_years": 0.041,
+    "2_to_3_years": 0.061,
+    "3_to_5_years": 0.184,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.02,
+    "unknown": 0.204
+  },
+  "employment_type": {
+    "regular_employee": 0.347,
+    "part_time": 0.082,
+    "dispatched": 0.0,
+    "contract": 0.0,
+    "self_employed_freelance": 0.633,
+    "executive": 0.0,
+    "casual_non_student": 0.041,
+    "casual_student": 0.041,
+    "unknown": 0.041,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "東洋医学や現代医学に基づき、患者の症状の改善のためにはりやきゅうでツボを刺激する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "患者に症状を聞き、体の状態を観察・確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.679
+    },
+    {
+      "task_id": 2,
+      "description_ja": "患者の体に触れ、患者の症状に応じて、ツボを指で探し当てる。",
+      "execution_rate": 1.0,
+      "importance": 4.429
+    },
+    {
+      "task_id": 3,
+      "description_ja": "脈を診て患者の状態を確認する。",
+      "execution_rate": 0.875,
+      "importance": 3.286
+    },
+    {
+      "task_id": 4,
+      "description_ja": "人体の所定のツボを確認し、身体表面の部位を消毒する。",
+      "execution_rate": 1.0,
+      "importance": 4.536
+    },
+    {
+      "task_id": 5,
+      "description_ja": "決められた方式に従ってステンレスなどのはりを刺し入れ、患部とその周辺の神経に刺激を与える。",
+      "execution_rate": 1.0,
+      "importance": 4.375
+    },
+    {
+      "task_id": 6,
+      "description_ja": "はりの刺し入れを何度か繰り返したり、刺さずに触れるなどの方法により施術する。",
+      "execution_rate": 0.964,
+      "importance": 4.037
+    },
+    {
+      "task_id": 7,
+      "description_ja": "はりに微弱な電流を流して電気的な刺激を与える方法により施術する。",
+      "execution_rate": 0.661,
+      "importance": 3.541
+    },
+    {
+      "task_id": 8,
+      "description_ja": "よもぎなどを原料とするもぐさを燃焼させ、患部とその周辺の神経に温熱的な刺激を与える｡",
+      "execution_rate": 0.893,
+      "importance": 3.92
+    },
+    {
+      "task_id": 9,
+      "description_ja": "症状によっては、皮膚にきゅうの痕がつくまで燃焼させ、急激な刺激を与える。",
+      "execution_rate": 0.464,
+      "importance": 2.615
+    },
+    {
+      "task_id": 10,
+      "description_ja": "台座灸を用いて患者のつぼを刺激する。",
+      "execution_rate": 0.732,
+      "importance": 3.317
+    },
+    {
+      "task_id": 11,
+      "description_ja": "はりや灸に合わせてこりや圧痛点を指圧する。",
+      "execution_rate": 0.857,
+      "importance": 3.625
+    },
+    {
+      "task_id": 12,
+      "description_ja": "各種治療器など専用の機器を用いて治療をする。",
+      "execution_rate": 0.857,
+      "importance": 3.979
+    },
+    {
+      "task_id": 13,
+      "description_ja": "骨盤の矯正をする。",
+      "execution_rate": 0.589,
+      "importance": 2.818
+    },
+    {
+      "task_id": 14,
+      "description_ja": "治療中に患者と会話し、治療後には体の状態を確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.286
+    },
+    {
+      "task_id": 15,
+      "description_ja": "健康状態を改善するためのアドバイスを患者に伝える。",
+      "execution_rate": 1.0,
+      "importance": 4.268
+    },
+    {
+      "task_id": 16,
+      "description_ja": "治療後に会計をする。",
+      "execution_rate": 0.982,
+      "importance": 3.945
+    },
+    {
+      "task_id": 17,
+      "description_ja": "治療後に鍼の本数を確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.339
+    },
+    {
+      "task_id": 18,
+      "description_ja": "症状や施術内容をカルテに記入する。",
+      "execution_rate": 1.0,
+      "importance": 4.089
+    },
+    {
+      "task_id": 19,
+      "description_ja": "院内の清掃や衛生管理をする。",
+      "execution_rate": 1.0,
+      "importance": 4.393
+    },
+    {
+      "task_id": 20,
+      "description_ja": "営業先を訪問する。",
+      "execution_rate": 0.554,
+      "importance": 2.484
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益財団法人   東洋療法研修試験財団",
+      "url": "http://www.ahaki.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "はり師",
+    "きゅう師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/175",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

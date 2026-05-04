@@ -1,0 +1,451 @@
+{
+  "id": 450,
+  "ipd_id": "IPD_01_01_450",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "携帯電話販売",
+  "aliases_ja": [
+    "携帯電話販売店員",
+    "携帯電話ショップ店員",
+    "携帯電話ショップ販売員",
+    "携帯電話販売員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_045-11",
+    "mhlw_all": [
+      "07_045-11"
+    ],
+    "jsoc_main": "D323",
+    "jsoc_all": [
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "携帯電話（スマートフォンを含む）、タブレット、周辺商品・機器の販売や各種契約を行う。",
+    "what_it_is_ja": "携帯電話（スマートフォンを含む）、タブレット、周辺商品・機器の販売や各種契約を行う。\n　携帯電話の販売店には、通信事業者による直営店と代理店がある。通信事業者の委託を受けて販売する代理店には、専売店（キャリアショップ）、量販店（家電量販店等のコーナー）、併売店（複数のキャリアの機種を販売する店舗）がある。この他、格安スマホを取り扱うショップがあるが、仕事の内容は基本的には変わらない。\n　仕事の一日の流れを見ると、出勤し店内を清掃、朝礼が終わると仕掛り業務の進捗をチェック、当日の目標を確認する。その後、店頭で来店者に声がけし、ライフスタイルに適した携帯端末、タブレット端末を紹介・提示し、通信プランの提案をする。契約、解約、プラン変更の手続きを行うと同時に、顧客の疑問や質問に対応し詳細な説明を行う。端末の破損や故障などトラブルにも適切な対応を行う。また、店舗前で広告の入ったティッシュペーパーや店名入りのうちわなど手軽な販売促進物の配布を行うこともある。\n　また、高齢者には端末の取扱方法をセミナー等で紹介したり、未成年者にはスマホの安心安全な利用について案内するなど、カウンターでの接客業務にとどまらない幅広い活動も行なっている。\n　一日の終わりには日報の記帳を行い、店内の整理を終え退勤する。\n\n◇　よく使う道具、機材、情報技術等\n　パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　入職後は、商品知識やサービスの基本、個人情報の守秘義務などコンプライアンスについての集合研修を受けた後、1ヶ月から2カ月間のOJTによる店舗研修等を行う場合が多い。\n　店頭での接客、窓口業務が仕事の柱となっているので、コミュニケーション能力や手際の良い問題解決能力、顧客の様々な要求・質問に根気よく対応できる力、臨機応変で的確な対応、提案の際のプレゼンテーション能力が求められる。窓口業務の基本は、顧客との契約、端末の販売など接客対応にあるので、身だしなみや言葉遣いに加え、ビジネスマナーも必要とされる。\n　昨今の外国人顧客の増大に対応し、日常会話程度の語学力が必要とされる店舗もある。",
+    "working_conditions_ja": "携帯電話の販売店は日本全国に広がっており、職場は全都道府県にある。\n　賃金形態は正社員や契約社員では月給制が多い。時給制の派遣社員もいる。\n　勤務形態は、シフト制が多く土日の勤務は一般的である。残業は少ないが、夏・冬のボーナス期などの商戦期や新商品の発売時期には残業が増えることもある。週休は2日制だが、土日が休日になるとは限らない。店舗間の異動もある。\n　高齢者のスマートフォンの普及率はまだまだ低くガラケーを好む高齢者顧客に対して、専門スタッフを置いて対応する販売店も登場している。\n　格安スマホの普及や5Gの開始、新規参入を目指す企業もあり競争は激しい。スマートフォンの新規契約件数が頭打ち状況にあり、携帯電話販売店業界の集約化も進んでいる。携帯電話の販売がネット販売にシフトする傾向も見られる。一方、生活必需品となりつつあるスマートフォン等の利用をサポートする地域に密着したICT（情報通信技術：Information and Communication Technology）拠点としても携帯電話販売店等の役割は増しており、引き続き人材の需要が見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.133,
+    "investigative": 2.683,
+    "artistic": 2.567,
+    "social": 3.8,
+    "enterprising": 3.167,
+    "conventional": 2.967
+  },
+  "work_values": {
+    "achievement": 3.087,
+    "autonomy": 3.174,
+    "expertise": 3.261,
+    "self_growth": 3.152,
+    "social_recognition": 2.783,
+    "service_contribution": 3.0,
+    "good_relationships": 3.217,
+    "workplace_safety": 3.174,
+    "work_life_balance": 3.13,
+    "stability": 3.087,
+    "compensation": 3.022
+  },
+  "skills": {
+    "reading_comprehension": 3.565,
+    "active_listening": 4.935,
+    "writing": 3.63,
+    "speaking": 4.196,
+    "foreign_language_reading": 1.37,
+    "foreign_language_listening": 1.065,
+    "foreign_language_writing": 0.957,
+    "foreign_language_speaking": 1.043,
+    "mathematics": 2.022,
+    "science": 0.674,
+    "critical_thinking": 2.891,
+    "active_learning": 3.109,
+    "learning_strategies": 2.935,
+    "monitoring": 3.043,
+    "social_perceptiveness": 3.478,
+    "coordination": 3.326,
+    "persuasion": 3.63,
+    "negotiation": 3.565,
+    "instructing": 3.609,
+    "service_orientation": 3.326,
+    "complex_problem_solving": 3.0,
+    "operations_analysis": 2.109,
+    "technology_design": 2.022,
+    "equipment_selection": 1.739,
+    "installation": 1.826,
+    "programming": 1.261,
+    "operations_monitoring": 0.87,
+    "operation_and_control": 1.5,
+    "equipment_maintenance": 1.022,
+    "troubleshooting": 1.522,
+    "repairing": 0.848,
+    "quality_control_analysis": 1.391,
+    "judgment_decision_making": 1.87,
+    "systems_analysis": 1.826,
+    "systems_evaluation": 1.957,
+    "time_management": 2.478,
+    "financial_resources_management": 1.217,
+    "material_resources_management": 1.13,
+    "personnel_resources_management": 1.913
+  },
+  "knowledge": {
+    "business_management": 1.388,
+    "clerical": 1.51,
+    "economics_accounting": 0.694,
+    "sales_marketing": 3.224,
+    "customer_personal_service": 3.469,
+    "personnel_hr": 1.061,
+    "transportation": 0.224,
+    "production_processing": 0.245,
+    "agriculture_livestock": 0.163,
+    "engineering": 0.265,
+    "computers_electronics": 0.796,
+    "design": 0.122,
+    "building_construction": 0.102,
+    "mechanical": 0.286,
+    "mathematics_kn": 0.735,
+    "physics": 0.224,
+    "chemistry": 0.122,
+    "biology": 0.102,
+    "psychology": 1.265,
+    "sociology": 1.163,
+    "geography": 0.163,
+    "medicine_dentistry": 0.122,
+    "therapy_counseling": 0.408,
+    "education_training_kn": 1.0,
+    "japanese_language": 1.755,
+    "foreign_language_kn": 0.837,
+    "fine_arts": 0.184,
+    "history_archaeology": 0.163,
+    "philosophy_theology": 0.184,
+    "public_safety_security": 0.898,
+    "law_government": 0.592,
+    "telecommunications": 1.694,
+    "communications_media": 1.571
+  },
+  "abilities": {
+    "oral_comprehension": 3.164,
+    "written_comprehension": 2.927,
+    "oral_expression": 3.455,
+    "written_expression": 3.091,
+    "fluency_of_ideas": 3.109,
+    "originality": 2.764,
+    "problem_sensitivity": 3.655,
+    "deductive_reasoning": 3.0,
+    "inductive_reasoning": 2.873,
+    "information_ordering": 2.891,
+    "category_flexibility": 2.782,
+    "mathematical_reasoning": 2.382,
+    "number_facility": 2.418,
+    "memorization": 3.055,
+    "perceptual_speed": 2.4,
+    "spatial_orientation": 2.4,
+    "visualization": 2.273,
+    "selective_attention": 2.782,
+    "time_sharing": 3.273,
+    "arm_hand_steadiness": 1.982,
+    "manual_dexterity": 1.945,
+    "finger_dexterity": 2.0,
+    "reaction_time": 2.418,
+    "wrist_finger_speed": 2.018,
+    "speed_of_limb_movement": 1.873,
+    "static_strength": 1.745,
+    "stamina": 1.982,
+    "gross_body_equilibrium": 1.8,
+    "near_vision": 2.109,
+    "far_vision": 1.891,
+    "visual_color_discrimination": 2.218,
+    "depth_perception": 2.018,
+    "hearing_sensitivity": 2.2,
+    "auditory_attention": 2.145,
+    "speech_clarity": 2.6
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.429,
+    "face_to_face_discussions": 3.327,
+    "telephone_communication": 4.265,
+    "business_writing": 2.959,
+    "conflict_situations": 2.571,
+    "time_pressure": 2.837,
+    "teamwork": 3.673,
+    "dealing_with_external_customers": 3.653,
+    "coordinate_lead_others": 3.082,
+    "exactness_accuracy": 4.02,
+    "repetitive_tasks": 3.51,
+    "pace_determined_by_machine": 2.735,
+    "responsibility_for_outcomes": 3.163,
+    "indoor_climate_controlled": 4.816,
+    "indoor_non_climate_controlled": 1.51,
+    "outdoor_work": 1.735,
+    "sitting": 3.551,
+    "standing": 3.184,
+    "repetition_of_activities": 2.347,
+    "consequence_of_error": 3.531,
+    "freedom_to_make_decisions": 3.122,
+    "set_own_goals": 3.143,
+    "regular_schedule": 0.531,
+    "irregular_schedule": 0.408,
+    "seasonal_schedule": 0.061,
+    "email_communication": 3.735,
+    "cramped_uncomfortable": 1.673,
+    "disease_infection_risk": 2.531,
+    "minor_injury_risk": 1.082,
+    "standard_protective_equipment": 1.122,
+    "specialized_protective_equipment": 1.0,
+    "dealing_with_violent_people": 1.551,
+    "walking_running": 2.735,
+    "handling_objects_tools": 2.714,
+    "physical_proximity": 3.653,
+    "work_automation": 2.571,
+    "responsibility_for_safety": 1.796,
+    "impact_of_decisions": 2.571,
+    "level_of_competition": 2.939
+  },
+  "work_activities": {
+    "getting_information": 3.291,
+    "monitor_processes": 3.291,
+    "identifying_objects": 3.291,
+    "inspecting_equipment": 2.636,
+    "estimating_quantifiable": 2.709,
+    "judging_quality": 2.927,
+    "evaluating_compliance": 3.636,
+    "processing_information": 3.182,
+    "analyzing_data": 3.236,
+    "making_decisions": 3.218,
+    "thinking_creatively": 2.982,
+    "updating_knowledge": 3.473,
+    "developing_objectives": 3.436,
+    "scheduling_work": 3.145,
+    "organizing_planning": 3.382,
+    "physical_activities": 2.109,
+    "handling_objects": 2.2,
+    "controlling_machines": 2.345,
+    "operating_vehicles": 1.745,
+    "computer_work": 2.945,
+    "drafting_specifications": 1.909,
+    "repairing_mechanical": 2.145,
+    "repairing_electronic": 2.2,
+    "documenting_information": 2.582,
+    "interpreting_information": 2.964,
+    "communicating_inside": 3.382,
+    "communicating_outside": 3.218,
+    "building_relationships": 3.364,
+    "assisting_caring": 2.927,
+    "selling_influencing": 3.109,
+    "resolving_conflicts": 3.0,
+    "performing_for_public": 2.545,
+    "coordinating_others": 3.182,
+    "developing_teams": 3.109,
+    "training_teaching": 3.109,
+    "guiding_subordinates": 3.145,
+    "coaching_developing": 3.073,
+    "providing_consultation": 2.964,
+    "performing_administrative": 2.927,
+    "staffing_organizational": 2.8,
+    "monitoring_resources": 2.709
+  },
+  "education_distribution": {
+    "below_high_school": 0.02,
+    "high_school": 0.429,
+    "vocational_school": 0.122,
+    "junior_college": 0.143,
+    "technical_college": 0.041,
+    "university": 0.51,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.143
+  },
+  "training_pre": {
+    "not_required": 0.429,
+    "up_to_1_month": 0.061,
+    "1_to_6_months": 0.367,
+    "6_months_to_1_year": 0.041,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.102
+  },
+  "training_post": {
+    "not_required": 0.061,
+    "up_to_1_month": 0.061,
+    "1_to_6_months": 0.367,
+    "6_months_to_1_year": 0.327,
+    "1_to_2_years": 0.061,
+    "2_to_3_years": 0.041,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.082
+  },
+  "experience": {
+    "not_required": 0.633,
+    "up_to_1_month": 0.061,
+    "1_to_6_months": 0.143,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.143
+  },
+  "employment_type": {
+    "regular_employee": 0.857,
+    "part_time": 0.122,
+    "dispatched": 0.184,
+    "contract": 0.204,
+    "self_employed_freelance": 0.02,
+    "executive": 0.02,
+    "casual_non_student": 0.041,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "携帯電話（スマートフォンを含む）、タブレット、周辺商品・機器の販売や各種契約を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "携帯端末、タブレット端末のディスプレイを行い、スペック、価格の表示をする。",
+      "execution_rate": 0.927,
+      "importance": 3.392
+    },
+    {
+      "task_id": 2,
+      "description_ja": "店頭で来店者に声がけし、周辺機器の紹介、希望があれば店内への勧誘を行う。",
+      "execution_rate": 0.836,
+      "importance": 3.478
+    },
+    {
+      "task_id": 3,
+      "description_ja": "店舗前で広告の入ったティッシュペーパーや店名入りのうちわなど手軽な販売促進商品の配布を行う。",
+      "execution_rate": 0.727,
+      "importance": 2.475
+    },
+    {
+      "task_id": 4,
+      "description_ja": "顧客の要望を確認する。",
+      "execution_rate": 1.0,
+      "importance": 4.327
+    },
+    {
+      "task_id": 5,
+      "description_ja": "顧客のニーズと好みに合う携帯端末の提示を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.273
+    },
+    {
+      "task_id": 6,
+      "description_ja": "通信プランの提案を行う。",
+      "execution_rate": 1.0,
+      "importance": 4.255
+    },
+    {
+      "task_id": 7,
+      "description_ja": "周辺機器の紹介、希望があれば勧誘も行う。",
+      "execution_rate": 0.927,
+      "importance": 3.353
+    },
+    {
+      "task_id": 8,
+      "description_ja": "契約・解約・プラン変更の手続きを行う。",
+      "execution_rate": 0.964,
+      "importance": 3.906
+    },
+    {
+      "task_id": 9,
+      "description_ja": "顧客の疑問、質問への対応をする。",
+      "execution_rate": 1.0,
+      "importance": 3.927
+    },
+    {
+      "task_id": 10,
+      "description_ja": "端末の故障や破損などのトラブルに対応する。",
+      "execution_rate": 0.873,
+      "importance": 3.646
+    },
+    {
+      "task_id": 11,
+      "description_ja": "顧客のクレームに対応する。",
+      "execution_rate": 0.982,
+      "importance": 4.074
+    },
+    {
+      "task_id": 12,
+      "description_ja": "イベントや端末の取扱方法のセミナーの企画・運営をする。",
+      "execution_rate": 0.818,
+      "importance": 2.511
+    },
+    {
+      "task_id": 13,
+      "description_ja": "日報の記帳（応接した顧客データの整理）をする。",
+      "execution_rate": 0.782,
+      "importance": 3.163
+    },
+    {
+      "task_id": 14,
+      "description_ja": "個人情報確認・管理の徹底をする。",
+      "execution_rate": 0.946,
+      "importance": 4.519
+    },
+    {
+      "task_id": 15,
+      "description_ja": "予算や売上を管理する。",
+      "execution_rate": 0.746,
+      "importance": 3.195
+    },
+    {
+      "task_id": 16,
+      "description_ja": "従業員のスケジュールを管理する。",
+      "execution_rate": 0.782,
+      "importance": 3.186
+    },
+    {
+      "task_id": 17,
+      "description_ja": "販売におけるコンプライアンス遵守をチェックする。",
+      "execution_rate": 0.964,
+      "importance": 4.604
+    },
+    {
+      "task_id": 18,
+      "description_ja": "スタッフの教育や指導をする。",
+      "execution_rate": 0.964,
+      "importance": 3.849
+    },
+    {
+      "task_id": 19,
+      "description_ja": "法人営業や商談を行う。",
+      "execution_rate": 0.673,
+      "importance": 3.297
+    },
+    {
+      "task_id": 20,
+      "description_ja": "会議などの資料を作成する。",
+      "execution_rate": 0.691,
+      "importance": 2.789
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　電気通信事業者協会",
+      "url": "https://www.tca.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　全国携帯電話販売代理店協会",
+      "url": "http://keitai.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/450",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

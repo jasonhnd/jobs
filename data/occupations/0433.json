@@ -1,0 +1,491 @@
+{
+  "id": 433,
+  "ipd_id": "IPD_01_01_433",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "総務事務",
+  "aliases_ja": [
+    "総務係事務員",
+    "文書係事務員",
+    "庶務係事務員（総務事務の仕事に従事するもの）"
+  ],
+  "classifications": {
+    "mhlw_main": "06_033-01",
+    "mhlw_all": [
+      "06_033-01"
+    ],
+    "jsoc_main": "C251",
+    "jsoc_all": [
+      "C251"
+    ]
+  },
+  "description": {
+    "summary_ja": "文書の分類・整理・保管、固定資産の管理、株式関連、株主総会・取締役会の準備・運営などの組織全体に関係する仕事に従事する。",
+    "what_it_is_ja": "文書の分類・整理・保管、建物・設備などの固定資産の管理、株式関連、株主総会・取締役会の準備・運営などの組織全体に関係する仕事に従事する。社内外から寄せられる問い合わせや電話対応にはじまり、社内会議、役員会、株主総会の招集・運営、議事録の作成まで幅広く担当している。事務所の契約やリース、設備・施設の保全・管理、様々な文書・契約書の作成・保管はもとより、社内規定や社内ルールの作成や改定と社員への周知徹底などは総務事務の重要な役割となっている。\n　また、防災訓練や社員旅行、社内報の作成・配布などから社員の慶弔関連行事の手配や運営といった全社にまたがるサービスやイベントの企画、実行も業務範囲に入る場合がある。\n　さらに人事異動に際しては、国内・海外を問わず、異動対象者に住宅情報を提供したり、契約の手配、異動先から事務所までの交通機関や商業施設、学校や病院・医療機関などの環境情報についても詳細に調査して提示・紹介する場合もある。\n　総務事務担当の一日の流れを例でみると、朝、出社するとメールのチェックをしたり、社員の問い合わせに対応する。一方で、勤務表のチェックも行う。必要に応じチーム内ミーティングを行い、情報を共有する。その後も、各種手続き書類のチェック、支店、営業所など拠点への発送物準備などの業務をこなし、夕方になると、一日の業務のまとめを行い終了するという流れになる。このほかにも、国内外の出張の手配、人事異動期には異動該当者への対応などの業務が随時入り込んでくる。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、パソコン、プリンター、コピー機",
+    "how_to_become_ja": "この仕事に就くためには、特に学歴や資格は必要とされない。\n　新卒採用と同時に、総務事務に配属されるケースもあるが、現場や技術、営業、企画などに配属され、いくつかの仕事を経験して総務事務に配属されることもある。\n　総務事務では企業内の様々な部門との交渉があって、提案や依頼などに速やかな対応が求められるので一定以上の社内での勤務経験があると役に立つ。\n　仕事に役に立つ資格として、例えば、「第一種衛生管理者資格」、「日商簿記2級資格」、「第三種電気主任技術者」、「防火管理者」などがあげられるが、何れも入社前に取得することは求められておらず、入社後に必要に応じて、企業の研修制度等を利用して取得する場合が多い。\n　担当として社内で発生する様々な問題に対応するには、少なくとも3年程度の経験が必要とされる。\n　正確かつ迅速な判断力と主体的な行動力が必要とされる。また、他部署・他担当との調整、交渉も多く、コミュニケーション能力や相手への気配りも求められる。同業他社の動向や取引業者、地域住民との関係についても、普段から正確な情報収集を心がけることも大切である。",
+    "working_conditions_ja": "勤務地は企業の本社が置かれている都市部に多い。\n　賃金、労働時間等労働条件は、勤務先の規定による。賃金は正社員は月給制、派遣・パートタイマーは時給制となることが多い。火事や災害、事件・事故など不測の事態に対応するため、時間外に出勤をする場合もある。年度末など定例の人事異動期や株主総会の前後は残業が多くなることもある。\n　業務の自動化、効率化（RPA=ロボティック・プロセス・オートメーション）が求められており、総務事務部門におけるデジタル化が加速している。こうした傾向に伴い、総務事務担当が使用する機器や装置も高度化し、書類を減らすためのデータベース化やペーパーレス化、さらには勤怠管理にはクラウドの利用が一般的になってきたこともあり、総務事務担当にもこれらを使いこなすことが求められるようになっている。"
+  },
+  "interests": {
+    "realistic": 3.361,
+    "investigative": 3.246,
+    "artistic": 2.738,
+    "social": 3.328,
+    "enterprising": 3.41,
+    "conventional": 3.443
+  },
+  "work_values": {
+    "achievement": 3.218,
+    "autonomy": 3.309,
+    "expertise": 3.255,
+    "self_growth": 3.145,
+    "social_recognition": 3.073,
+    "service_contribution": 3.164,
+    "good_relationships": 3.291,
+    "workplace_safety": 3.582,
+    "work_life_balance": 3.4,
+    "stability": 3.473,
+    "compensation": 3.109
+  },
+  "skills": {
+    "reading_comprehension": 3.309,
+    "active_listening": 3.8,
+    "writing": 3.691,
+    "speaking": 3.509,
+    "foreign_language_reading": 1.309,
+    "foreign_language_listening": 0.945,
+    "foreign_language_writing": 0.891,
+    "foreign_language_speaking": 0.855,
+    "mathematics": 2.0,
+    "science": 1.018,
+    "critical_thinking": 2.709,
+    "active_learning": 2.818,
+    "learning_strategies": 2.564,
+    "monitoring": 2.836,
+    "social_perceptiveness": 3.055,
+    "coordination": 3.291,
+    "persuasion": 3.273,
+    "negotiation": 3.073,
+    "instructing": 3.291,
+    "service_orientation": 2.764,
+    "complex_problem_solving": 2.418,
+    "operations_analysis": 2.291,
+    "technology_design": 1.818,
+    "equipment_selection": 2.509,
+    "installation": 2.345,
+    "programming": 1.182,
+    "operations_monitoring": 1.091,
+    "operation_and_control": 1.655,
+    "equipment_maintenance": 1.4,
+    "troubleshooting": 1.418,
+    "repairing": 1.673,
+    "quality_control_analysis": 1.964,
+    "judgment_decision_making": 2.255,
+    "systems_analysis": 2.364,
+    "systems_evaluation": 2.382,
+    "time_management": 2.727,
+    "financial_resources_management": 2.745,
+    "material_resources_management": 2.455,
+    "personnel_resources_management": 2.418
+  },
+  "knowledge": {
+    "business_management": 1.648,
+    "clerical": 3.685,
+    "economics_accounting": 1.852,
+    "sales_marketing": 1.037,
+    "customer_personal_service": 1.889,
+    "personnel_hr": 2.778,
+    "transportation": 0.722,
+    "production_processing": 0.722,
+    "agriculture_livestock": 0.315,
+    "engineering": 0.611,
+    "computers_electronics": 1.074,
+    "design": 0.704,
+    "building_construction": 0.685,
+    "mechanical": 0.667,
+    "mathematics_kn": 1.185,
+    "physics": 0.722,
+    "chemistry": 0.574,
+    "biology": 0.315,
+    "psychology": 1.093,
+    "sociology": 1.185,
+    "geography": 0.519,
+    "medicine_dentistry": 0.537,
+    "therapy_counseling": 0.833,
+    "education_training_kn": 1.426,
+    "japanese_language": 1.87,
+    "foreign_language_kn": 0.963,
+    "fine_arts": 0.444,
+    "history_archaeology": 0.352,
+    "philosophy_theology": 0.37,
+    "public_safety_security": 1.463,
+    "law_government": 1.5,
+    "telecommunications": 1.389,
+    "communications_media": 1.648
+  },
+  "abilities": {
+    "oral_comprehension": 2.833,
+    "written_comprehension": 2.833,
+    "oral_expression": 2.833,
+    "written_expression": 2.833,
+    "fluency_of_ideas": 2.271,
+    "originality": 2.375,
+    "problem_sensitivity": 2.958,
+    "deductive_reasoning": 2.604,
+    "inductive_reasoning": 2.583,
+    "information_ordering": 2.563,
+    "category_flexibility": 2.563,
+    "mathematical_reasoning": 2.375,
+    "number_facility": 2.604,
+    "memorization": 2.729,
+    "perceptual_speed": 2.5,
+    "spatial_orientation": 2.396,
+    "visualization": 2.333,
+    "selective_attention": 2.729,
+    "time_sharing": 2.667,
+    "arm_hand_steadiness": 2.042,
+    "manual_dexterity": 2.0,
+    "finger_dexterity": 1.917,
+    "reaction_time": 2.292,
+    "wrist_finger_speed": 2.021,
+    "speed_of_limb_movement": 1.938,
+    "static_strength": 1.958,
+    "stamina": 2.063,
+    "gross_body_equilibrium": 2.042,
+    "near_vision": 2.063,
+    "far_vision": 2.0,
+    "visual_color_discrimination": 1.979,
+    "depth_perception": 2.021,
+    "hearing_sensitivity": 2.083,
+    "auditory_attention": 2.083,
+    "speech_clarity": 2.25
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.759,
+    "face_to_face_discussions": 3.389,
+    "telephone_communication": 4.352,
+    "business_writing": 4.056,
+    "conflict_situations": 2.019,
+    "time_pressure": 2.944,
+    "teamwork": 3.315,
+    "dealing_with_external_customers": 2.944,
+    "coordinate_lead_others": 3.093,
+    "exactness_accuracy": 3.907,
+    "repetitive_tasks": 3.481,
+    "pace_determined_by_machine": 2.796,
+    "responsibility_for_outcomes": 3.148,
+    "indoor_climate_controlled": 4.796,
+    "indoor_non_climate_controlled": 1.704,
+    "outdoor_work": 1.796,
+    "sitting": 4.611,
+    "standing": 1.796,
+    "repetition_of_activities": 2.5,
+    "consequence_of_error": 2.963,
+    "freedom_to_make_decisions": 3.315,
+    "set_own_goals": 3.481,
+    "regular_schedule": 0.63,
+    "irregular_schedule": 0.259,
+    "seasonal_schedule": 0.111,
+    "email_communication": 4.722,
+    "cramped_uncomfortable": 1.944,
+    "disease_infection_risk": 1.87,
+    "minor_injury_risk": 1.167,
+    "standard_protective_equipment": 1.426,
+    "specialized_protective_equipment": 1.148,
+    "dealing_with_violent_people": 1.296,
+    "walking_running": 1.963,
+    "handling_objects_tools": 1.704,
+    "physical_proximity": 3.352,
+    "work_automation": 2.519,
+    "responsibility_for_safety": 2.37,
+    "impact_of_decisions": 2.444,
+    "level_of_competition": 1.889
+  },
+  "work_activities": {
+    "getting_information": 2.604,
+    "monitor_processes": 2.771,
+    "identifying_objects": 2.75,
+    "inspecting_equipment": 2.396,
+    "estimating_quantifiable": 2.417,
+    "judging_quality": 2.521,
+    "evaluating_compliance": 2.917,
+    "processing_information": 2.813,
+    "analyzing_data": 2.688,
+    "making_decisions": 2.792,
+    "thinking_creatively": 2.417,
+    "updating_knowledge": 2.771,
+    "developing_objectives": 2.688,
+    "scheduling_work": 2.938,
+    "organizing_planning": 3.0,
+    "physical_activities": 2.042,
+    "handling_objects": 2.104,
+    "controlling_machines": 1.833,
+    "operating_vehicles": 1.833,
+    "computer_work": 3.063,
+    "drafting_specifications": 2.021,
+    "repairing_mechanical": 2.188,
+    "repairing_electronic": 2.229,
+    "documenting_information": 2.917,
+    "interpreting_information": 2.646,
+    "communicating_inside": 3.083,
+    "communicating_outside": 2.771,
+    "building_relationships": 2.979,
+    "assisting_caring": 2.75,
+    "selling_influencing": 2.208,
+    "resolving_conflicts": 2.542,
+    "performing_for_public": 2.396,
+    "coordinating_others": 2.646,
+    "developing_teams": 2.646,
+    "training_teaching": 2.563,
+    "guiding_subordinates": 2.583,
+    "coaching_developing": 2.625,
+    "providing_consultation": 2.167,
+    "performing_administrative": 3.042,
+    "staffing_organizational": 2.438,
+    "monitoring_resources": 2.5
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.333,
+    "vocational_school": 0.167,
+    "junior_college": 0.148,
+    "technical_college": 0.019,
+    "university": 0.556,
+    "masters": 0.093,
+    "doctorate": 0.0,
+    "unknown": 0.167
+  },
+  "training_pre": {
+    "not_required": 0.481,
+    "up_to_1_month": 0.093,
+    "1_to_6_months": 0.185,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.093,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.037,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.111
+  },
+  "training_post": {
+    "not_required": 0.056,
+    "up_to_1_month": 0.037,
+    "1_to_6_months": 0.259,
+    "6_months_to_1_year": 0.148,
+    "1_to_2_years": 0.222,
+    "2_to_3_years": 0.093,
+    "3_to_5_years": 0.074,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.019,
+    "unknown": 0.093
+  },
+  "experience": {
+    "not_required": 0.481,
+    "up_to_1_month": 0.074,
+    "1_to_6_months": 0.093,
+    "6_months_to_1_year": 0.037,
+    "1_to_2_years": 0.074,
+    "2_to_3_years": 0.037,
+    "3_to_5_years": 0.056,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.148
+  },
+  "employment_type": {
+    "regular_employee": 0.907,
+    "part_time": 0.148,
+    "dispatched": 0.111,
+    "contract": 0.13,
+    "self_employed_freelance": 0.0,
+    "executive": 0.019,
+    "casual_non_student": 0.0,
+    "casual_student": 0.019,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "社員が快適に働くための環境を整える。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "社員の問い合わせに対応する。",
+      "execution_rate": 0.896,
+      "importance": 3.326
+    },
+    {
+      "task_id": 2,
+      "description_ja": "勤務表をチェックする。",
+      "execution_rate": 0.896,
+      "importance": 2.93
+    },
+    {
+      "task_id": 3,
+      "description_ja": "各種手続き書類をチェックする。",
+      "execution_rate": 0.958,
+      "importance": 3.348
+    },
+    {
+      "task_id": 4,
+      "description_ja": "郵便物をチェックする。支店、営業所など拠点への発送物準備をする。",
+      "execution_rate": 0.875,
+      "importance": 2.905
+    },
+    {
+      "task_id": 5,
+      "description_ja": "異動該当者（国内・海外とも）の対応準備をする。",
+      "execution_rate": 0.75,
+      "importance": 2.889
+    },
+    {
+      "task_id": 6,
+      "description_ja": "備品等の管理をする。",
+      "execution_rate": 0.917,
+      "importance": 2.886
+    },
+    {
+      "task_id": 7,
+      "description_ja": "文書の管理をする。",
+      "execution_rate": 0.938,
+      "importance": 3.089
+    },
+    {
+      "task_id": 8,
+      "description_ja": "緊急連絡網の作成・施行・管理をする。",
+      "execution_rate": 0.708,
+      "importance": 2.941
+    },
+    {
+      "task_id": 9,
+      "description_ja": "出張者の申請文書等の管理をする。",
+      "execution_rate": 0.688,
+      "importance": 2.667
+    },
+    {
+      "task_id": 10,
+      "description_ja": "各種保険類の管理する。",
+      "execution_rate": 0.771,
+      "importance": 3.081
+    },
+    {
+      "task_id": 11,
+      "description_ja": "予算実績の管理をする。",
+      "execution_rate": 0.667,
+      "importance": 3.188
+    },
+    {
+      "task_id": 12,
+      "description_ja": "流動資産（現金預金、有価証券等）の管理をする。",
+      "execution_rate": 0.625,
+      "importance": 2.967
+    },
+    {
+      "task_id": 13,
+      "description_ja": "社員寮、社宅など不動産の管理をする。",
+      "execution_rate": 0.5,
+      "importance": 2.75
+    },
+    {
+      "task_id": 14,
+      "description_ja": "経費支払を処理する。",
+      "execution_rate": 0.75,
+      "importance": 3.028
+    },
+    {
+      "task_id": 15,
+      "description_ja": "福利厚生関連の事務手続き、手配・対応をする。",
+      "execution_rate": 0.729,
+      "importance": 3.171
+    },
+    {
+      "task_id": 16,
+      "description_ja": "役員会、株主総会の手配・準備、全社会議の運営をする。",
+      "execution_rate": 0.667,
+      "importance": 2.813
+    },
+    {
+      "task_id": 17,
+      "description_ja": "社内規定の策定と改定をする。",
+      "execution_rate": 0.813,
+      "importance": 3.103
+    },
+    {
+      "task_id": 18,
+      "description_ja": "コンプライアンスの確認をする。",
+      "execution_rate": 0.813,
+      "importance": 3.41
+    },
+    {
+      "task_id": 19,
+      "description_ja": "社員名刺の手配、取引先等への挨拶状の管理・手配をする。",
+      "execution_rate": 0.75,
+      "importance": 2.556
+    },
+    {
+      "task_id": 20,
+      "description_ja": "慶弔関係の手配をする。（社内外、祝い金・見舞金、弔電・祝電など）",
+      "execution_rate": 0.771,
+      "importance": 2.757
+    },
+    {
+      "task_id": 21,
+      "description_ja": "官公庁へ届出や申請をする。",
+      "execution_rate": 0.708,
+      "importance": 3.353
+    },
+    {
+      "task_id": 22,
+      "description_ja": "業界団体との調整をする。",
+      "execution_rate": 0.5,
+      "importance": 2.75
+    },
+    {
+      "task_id": 23,
+      "description_ja": "社内外イベントを企画する。",
+      "execution_rate": 0.521,
+      "importance": 2.6
+    },
+    {
+      "task_id": 24,
+      "description_ja": "社内外イベントの運営を行う。",
+      "execution_rate": 0.479,
+      "importance": 2.696
+    },
+    {
+      "task_id": 25,
+      "description_ja": "経営に関する企画を立てる。",
+      "execution_rate": 0.479,
+      "importance": 3.13
+    },
+    {
+      "task_id": 26,
+      "description_ja": "経営に関する企画の運営を行う。",
+      "execution_rate": 0.479,
+      "importance": 3.13
+    },
+    {
+      "task_id": 27,
+      "description_ja": "営業に関する企画や準備をする。",
+      "execution_rate": 0.563,
+      "importance": 2.778
+    }
+  ],
+  "related_orgs": [],
+  "related_certs_ja": [
+    "第三種電気主任技術者",
+    "第一種衛生管理者",
+    "第二種衛生管理者",
+    "日商簿記1級",
+    "日商簿記2級",
+    "日商簿記3級",
+    "防火管理者（甲種・乙種）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/433",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

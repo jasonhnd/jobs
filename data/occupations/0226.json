@@ -1,0 +1,226 @@
+{
+  "id": 226,
+  "ipd_id": "IPD_01_01_226",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "犬訓練士",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "03_020-99",
+    "mhlw_all": [
+      "03_020-99"
+    ],
+    "jsoc_main": "B249",
+    "jsoc_all": [
+      "B249"
+    ]
+  },
+  "description": {
+    "summary_ja": "犬の特性や嗅覚などの能力を活用するために専門的な訓練を行うほか、家庭用の犬のしつけも行う。",
+    "what_it_is_ja": "警察犬、盲導犬、災害救助犬、空港などにいる麻薬捜査犬や、ガス漏れを嗅ぎつけたり、ガードマンの代わりをする犬など、犬はさまざまな分野で活躍している。犬の特性や嗅覚などの能力を活用するために専門的な訓練を行うほか、普通の家庭用の犬のしつけも行う。\n　「訓練」には、訓練所が犬を預かる場合と飼主のもとへ出張訓練に出かける場合があるが、本格的なしつけや教育をするには、訓練所で預かって基本から応用までの訓練を行うのが一般的である。まず、犬と親和を図りながら「座れ」や「伏せ」といった服従を主とする基本訓練を行う。\n　普通の家庭用の犬はこの単純なしつけで十分であるが、専門的な仕事を担うためにはさらなる訓練が必要となる。\n　警察犬の場合は「臭気選別」と「足跡追及」などの特殊能力を習得するための応用訓練を行う。警察犬はシェパードなどが多く、臭いから犯人を追跡する訓練や、犯罪現場に犯人が残した物品の臭いと容疑者の臭いとを選別する訓練の他、施設の警護などの訓練を行う。\n　盲導犬はラブラドルレトリーバーなどが多く、生後12ヶ月から訓練を始め、障害物をよけること、交差点で止まること、階段の昇降など、視覚障害者を誘導する方法を教える。最後に盲導犬としての適性を判断し、視覚障害者との共同訓練を行う。\n　災害救助犬、麻薬捜査犬等についても、それぞれ仕事の内容に応じて専門的な訓練が行われる。また、身体障害者の生活を助ける「介助犬」や「聴導犬」も普及してきており、犬訓練士の仕事は広がっている。\n　訓練期間中は、給餌、排便の処理をはじめとする日常の健康管理も行う。飼い主に、犬の状態や訓練の内容、進み具合などを説明し、犬の飼い方などを指導することもある。\n　犬の訓練技術が最も明確に評価されるのが、警察が実施している嘱託警察犬の審査である。嘱託警察犬制度とは、各道府県警察が民間で飼育している警察犬を指定して、犯罪捜査などに協力を求める制度である。各道府県では、毎年１～２回、嘱託の審査会を実施しており、訓練した犬がこれに合格すると一人前の訓練士として認められる。この他にも、各種団体が開催する訓練競技会があり、これらに出場して犬がよい成績をあげられるよう訓練することも大切な仕事である。",
+    "how_to_become_ja": "犬の訓練士になるには、日本警察犬協会、ジャパンケネルクラブ、日本シェパード犬登録協会、日本盲導犬協会、日本聴導犬協会が実施している所定の試験に合格して、訓練士の資格を取得する必要がある。\n　まず見習として訓練所に入って技術を身につけ、資格を取得後、訓練士として訓練所で働く。その後は、独立・開業する場合もある。\n　盲導犬訓練士の場合は、国家公安委員会が指定する訓練施設で研修を受け、盲導犬訓練施設に採用されることが必要である。聴導犬訓練士あるいは介助犬訓練士の場合は、指定訓練施設で研修を受け、聴導犬又は介助犬の訓練施設に採用されることが必要である。\n　犬が好きというだけでは務まらず、犬を指示通りに動かすことができる技能や根気、飼い犬を預かる責任感、一定の体力が求められる。",
+    "working_conditions_ja": "訓練士には、住込みの見習訓練士、住込み訓練士、訓練所をかまえている訓練士、訓練所は持たないが独立して出張訓練などを行う訓練士の4つの類型がある。\n　訓練所は年中無休で、休日は当番制が一般的である。展覧会や競技会の開催は日曜日が多くなっている。"
+  },
+  "interests": {
+    "realistic": 3.8,
+    "investigative": 3.657,
+    "artistic": 3.143,
+    "social": 4.143,
+    "enterprising": 3.057,
+    "conventional": 2.914
+  },
+  "work_values": null,
+  "skills": {
+    "reading_comprehension": 3.314,
+    "active_listening": 5.029,
+    "writing": 3.314,
+    "speaking": 5.0,
+    "foreign_language_reading": 1.371,
+    "foreign_language_listening": 1.571,
+    "foreign_language_writing": 1.171,
+    "foreign_language_speaking": 1.114,
+    "mathematics": 1.629,
+    "science": 1.743,
+    "critical_thinking": 4.029,
+    "active_learning": 4.229,
+    "learning_strategies": 4.343,
+    "monitoring": 4.343,
+    "social_perceptiveness": 4.857,
+    "coordination": 3.714,
+    "persuasion": 5.0,
+    "negotiation": 4.486,
+    "instructing": 5.229,
+    "service_orientation": 4.4,
+    "complex_problem_solving": 4.229,
+    "operations_analysis": 2.571,
+    "technology_design": 2.657,
+    "equipment_selection": 2.714,
+    "installation": 1.771,
+    "programming": 1.143,
+    "operations_monitoring": 1.4,
+    "operation_and_control": 1.2,
+    "equipment_maintenance": 1.171,
+    "troubleshooting": 1.371,
+    "repairing": 1.257,
+    "quality_control_analysis": 1.543,
+    "judgment_decision_making": 2.486,
+    "systems_analysis": 1.943,
+    "systems_evaluation": 1.857,
+    "time_management": 3.829,
+    "financial_resources_management": 2.629,
+    "material_resources_management": 2.257,
+    "personnel_resources_management": 2.057
+  },
+  "knowledge": {
+    "business_management": 1.457,
+    "clerical": 1.6,
+    "economics_accounting": 1.4,
+    "sales_marketing": 1.686,
+    "customer_personal_service": 2.914,
+    "personnel_hr": 1.143,
+    "transportation": 0.829,
+    "production_processing": 0.743,
+    "agriculture_livestock": 1.257,
+    "engineering": 0.543,
+    "computers_electronics": 0.514,
+    "design": 0.514,
+    "building_construction": 0.486,
+    "mechanical": 0.486,
+    "mathematics_kn": 0.857,
+    "physics": 0.686,
+    "chemistry": 0.886,
+    "biology": 2.514,
+    "psychology": 3.343,
+    "sociology": 2.114,
+    "geography": 1.057,
+    "medicine_dentistry": 1.657,
+    "therapy_counseling": 2.514,
+    "education_training_kn": 2.8,
+    "japanese_language": 1.4,
+    "foreign_language_kn": 0.714,
+    "fine_arts": 0.829,
+    "history_archaeology": 0.629,
+    "philosophy_theology": 0.8,
+    "public_safety_security": 0.914,
+    "law_government": 1.086,
+    "telecommunications": 0.571,
+    "communications_media": 1.686
+  },
+  "abilities": null,
+  "work_characteristics": {
+    "contact_with_others": 4.6,
+    "face_to_face_discussions": 4.114,
+    "telephone_communication": 4.229,
+    "business_writing": 3.4,
+    "conflict_situations": 2.514,
+    "time_pressure": 3.229,
+    "teamwork": 2.571,
+    "dealing_with_external_customers": 3.829,
+    "coordinate_lead_others": 3.4,
+    "exactness_accuracy": 3.486,
+    "repetitive_tasks": 3.314,
+    "pace_determined_by_machine": 2.229,
+    "responsibility_for_outcomes": 4.057,
+    "indoor_climate_controlled": 3.657,
+    "indoor_non_climate_controlled": 3.343,
+    "outdoor_work": 4.457,
+    "sitting": 2.229,
+    "standing": 3.971,
+    "repetition_of_activities": 2.629,
+    "consequence_of_error": 3.743,
+    "freedom_to_make_decisions": 4.286,
+    "set_own_goals": 4.371,
+    "regular_schedule": 0.143,
+    "irregular_schedule": 0.771,
+    "seasonal_schedule": 0.086
+  },
+  "work_activities": null,
+  "education_distribution": {
+    "below_high_school": 0.114,
+    "high_school": 0.314,
+    "vocational_school": 0.486,
+    "junior_college": 0.086,
+    "technical_college": 0.0,
+    "university": 0.171,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.171
+  },
+  "training_pre": {
+    "not_required": 0.114,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.114,
+    "6_months_to_1_year": 0.057,
+    "1_to_2_years": 0.143,
+    "2_to_3_years": 0.229,
+    "3_to_5_years": 0.057,
+    "5_to_10_years": 0.114,
+    "over_10_years": 0.086,
+    "unknown": 0.086
+  },
+  "training_post": {
+    "not_required": 0.0,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.114,
+    "6_months_to_1_year": 0.057,
+    "1_to_2_years": 0.229,
+    "2_to_3_years": 0.143,
+    "3_to_5_years": 0.143,
+    "5_to_10_years": 0.143,
+    "over_10_years": 0.114,
+    "unknown": 0.057
+  },
+  "experience": {
+    "not_required": 0.2,
+    "up_to_1_month": 0.057,
+    "1_to_6_months": 0.086,
+    "6_months_to_1_year": 0.029,
+    "1_to_2_years": 0.114,
+    "2_to_3_years": 0.143,
+    "3_to_5_years": 0.171,
+    "5_to_10_years": 0.114,
+    "over_10_years": 0.0,
+    "unknown": 0.086
+  },
+  "employment_type": null,
+  "tasks_lead_ja": null,
+  "tasks": [],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人   ジャパンケネルクラブ",
+      "url": "https://www.jkc.or.jp"
+    },
+    {
+      "name_ja": "公益社団法人　日本警察犬協会",
+      "url": "https://www.policedog.or.jp/index2.htm"
+    },
+    {
+      "name_ja": "公益社団法人　日本シェパード犬登録協会",
+      "url": "http://www.jsv.ne.jp/"
+    },
+    {
+      "name_ja": "公益財団法人　日本盲導犬協会",
+      "url": "https://www.moudouken.net/"
+    },
+    {
+      "name_ja": "社会福祉法人　日本聴導犬協会",
+      "url": "http://hearingdog9192.ww8.jp/"
+    },
+    {
+      "name_ja": "社会福祉法人　日本介助犬福祉協会",
+      "url": "http://www.kaijoken.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/226",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

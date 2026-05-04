@@ -1,0 +1,511 @@
+{
+  "id": 276,
+  "ipd_id": "IPD_01_01_276",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "プラント設計技術者",
+  "aliases_ja": [
+    "化学プラント設計技術者"
+  ],
+  "classifications": {
+    "mhlw_main": "02_006-03",
+    "mhlw_all": [
+      "02_006-03"
+    ],
+    "jsoc_main": "B073",
+    "jsoc_all": [
+      "B073"
+    ]
+  },
+  "description": {
+    "summary_ja": "プラントの基本設計、詳細設計等を行う。",
+    "what_it_is_ja": "プラントの基本設計、詳細設計等を行う。\n　プラントには製品（石油・化学・鉄・非鉄等）を製造するもの、エネルギー（電気・ガス）を得るもの、ごみ等の廃棄物や水を処理するものなど様々な種類があるが、プラント建設の流れはほぼ共通で、基本設計、詳細設計、見積、機器の調達、建設工事、試運転、装置の引渡しのステップで行われる。\n　主要業務は基本設計と詳細設計であるが、調達機器のレビュー（仕様と価格の評価）と設計チェック、建設工事の支援と完成検査、試運転要領書の作成や試運転の実施と性能確認等も業務に含まれる。プラントは求められる機能・性能等を発揮するために多くの装置から成り立っており、基本設計では、これらの装置の組み合わせを考え、装置の中での原料の温度・圧力・流量を決め、装置の大きさや全体の構造・配置を決定する。\n　詳細設計では、基本設計に基づき、燃焼炉、ボイラー、反応器や熱交換機など各種機器の設計、機器間で気体や液体を移送するパイプを最も効率的に接続するための配管設計、プラントを建てるための土木工事・建築工事の設計、プラントを動かす電力設備や制御システムの設計、プラントに使用される回転機械（コンプレッサー、タービン、ポンプ等）、発電設備や防消火設備などの設計を分担して担当する。\n　機器の調達では、設計した機器仕様書に基づき、各種メーカーに見積を依頼し、提出された仕様を確認し、費用や工期等も考慮しながらメーカーを決定する。メーカー決定後は、要求仕様の確認のための打合せを行い、随時メーカーが作成する設計図書（仕様書、計算書、機器や設備の図面等から構成される図書）が要求に合っているかや誤りが無いかをチェックする。メーカーの工場で完成した機器が、仕様通りに製作されているか、性能が満足できるものとなっているかの検査も業務の一部である。\n　建設工事の段階では、定期的に建設現場に出向き、建設担当者と確認や調整を行ったり、設計した図面に基づいて各種機器、設備が取り付けられているか、不具合が無いかを確認する。\n　試運転の段階では、設計した仕様通りに機器が動作するか、プラント全体に要求されている性能が発揮できているか、安全面に配慮できているか、あらゆる条件を考慮した試運転の計画を行う。その上で、計画に基づき、多くのメーカーや協力作業員と共に実施するプラント建設現場での試運転を主導する。\n　プラント設計技術者は、理工学の基礎知識や高度な専門知識、専門技術に実務経験から得られたノウハウを組み合わせて、経済的で、地球環境に十分配慮した、かつ安全なプラントを設計する重要な役割を担っている。これらの分野別に専門技術を持った多種多様な設計者が協働してプラント設計を遂行する。一方で、設計全般を統括して分野間の調整を行うエンジニアリングマネージャー（設計統括責任者）は、幅広い分野の知識と経験が必要とされる。\n\n◇　よく使う道具、機材、情報技術等\n　シミュレーター、CADシステム、設計ツール、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "一般的に大学の理工学部卒業者が多く、修士課程以上を修了した者の比率も高くなっている。専攻としては、応用化学、化学工学、機械工学、土木工学、建築工学、電気・電子工学、システム工学、制御工学、情報科学などが多い。\n　入社後は、仕事をしながらOJTによって指導・育成される。入社して２～３年を経過し、自分の専門分野のことがある程度理解できるようになると、ローテーションで他部門へ異動したりすることによって、自分の専門分野の周辺技術を身につけ、技術の幅を広げていく。さらに、６～７年経つと担当分野の設計技術者の指導者的な立場を務める場合もある。\n　関連資格としては「技術士」（建設、機械、化学、環境、衛生工学、上下水道等）や「一級建築士」、「エネルギー管理士」、「高圧ガス製造保安責任者」、「ガス主任技術者」、「公害防止管理者」、「施工管理技士」（管工事、建築、土木、電気工事等）、「電気主任技術者」、「情報処理技術者」、等、様々な資格がある。プラント設計や建設に必要とされる技術の幅は広く、入職後、仕事の幅を広げるため、必要に応じて取得する場合が多い。近年は、国際的な認知度の高い米国ライセンスである「PE（Profesional Engineer）」を取得する者もいる。\n　専門分野の知識に加え、分野ごとに分担・協力して設計を進めるので、情報伝達を円滑に行えるコミュニケーション能力が必要である。近年では海外の仕事も増加し、英語力が必要になってきている。また、設計にはシミュレーターやCADシステムなど様々な解析ツールや設計システムを用いられており、それらの専門技術も必要である。",
+    "working_conditions_ja": "勤務先は、大手・中堅のプラント建設専門のエンジニアリング会社をはじめとして、建設会社等である。\n　就業者は男性が多かったが、最近は女性の採用を積極的に行っている会社も多い。\n　賃金、労働時間等労働条件は勤務先の規定による。フレックスタイム制度を導入している企業が多い。\n　海外にプラントを建設する仕事に関わる場合には、現地に出向いて設計図通りに建設が進められているかチェックを行い、建設完了後は試運転を実施する。また、プラントに関する知見を生かし、プラント運営事業や、発電事業に従事することもある。\n　世界的なSDGｓの推進に伴い、プラントを取り巻く環境も大きく変貌しつつある。これまでの省エネや効率化重視の技術から、再生可能エネルギー、カーボンフリー、ライフサイクルや天然素材を重視した環境負荷軽減など新しい技術開発が急速に進んでおり、エネルギーと環境技術と製品製造技術を複合した新たなプラント建設などが増えると見込まれる。\n　広範な専門技術を持つプラント設計技術者は不足しており、人材確保が課題となっている。また、シミュレーターやCADシステム等の設計ツールのみならずプラントを構成する機器自体も、従来の技術に加え、デジタル化、IoT化が進んでおり、新たな技術を柔軟に取り込み、融合し、活用できる人材が必要とされている。"
+  },
+  "interests": {
+    "realistic": 3.362,
+    "investigative": 3.0,
+    "artistic": 2.569,
+    "social": 3.155,
+    "enterprising": 3.19,
+    "conventional": 3.017
+  },
+  "work_values": {
+    "achievement": 3.72,
+    "autonomy": 3.44,
+    "expertise": 3.86,
+    "self_growth": 3.64,
+    "social_recognition": 2.96,
+    "service_contribution": 3.14,
+    "good_relationships": 3.26,
+    "workplace_safety": 2.96,
+    "work_life_balance": 2.76,
+    "stability": 3.24,
+    "compensation": 3.16
+  },
+  "skills": {
+    "reading_comprehension": 4.74,
+    "active_listening": 4.62,
+    "writing": 4.5,
+    "speaking": 4.26,
+    "foreign_language_reading": 2.9,
+    "foreign_language_listening": 2.22,
+    "foreign_language_writing": 2.24,
+    "foreign_language_speaking": 2.3,
+    "mathematics": 4.08,
+    "science": 3.98,
+    "critical_thinking": 4.32,
+    "active_learning": 4.2,
+    "learning_strategies": 4.04,
+    "monitoring": 4.22,
+    "social_perceptiveness": 3.82,
+    "coordination": 4.36,
+    "persuasion": 4.16,
+    "negotiation": 4.14,
+    "instructing": 4.24,
+    "service_orientation": 3.18,
+    "complex_problem_solving": 4.42,
+    "operations_analysis": 4.62,
+    "technology_design": 4.34,
+    "equipment_selection": 4.62,
+    "installation": 4.52,
+    "programming": 3.0,
+    "operations_monitoring": 3.5,
+    "operation_and_control": 3.72,
+    "equipment_maintenance": 3.16,
+    "troubleshooting": 4.18,
+    "repairing": 3.52,
+    "quality_control_analysis": 3.78,
+    "judgment_decision_making": 3.94,
+    "systems_analysis": 3.72,
+    "systems_evaluation": 3.64,
+    "time_management": 4.18,
+    "financial_resources_management": 3.5,
+    "material_resources_management": 3.3,
+    "personnel_resources_management": 3.58
+  },
+  "knowledge": {
+    "business_management": 1.911,
+    "clerical": 2.289,
+    "economics_accounting": 1.378,
+    "sales_marketing": 1.378,
+    "customer_personal_service": 2.067,
+    "personnel_hr": 1.378,
+    "transportation": 1.467,
+    "production_processing": 2.511,
+    "agriculture_livestock": 0.533,
+    "engineering": 3.556,
+    "computers_electronics": 2.644,
+    "design": 3.822,
+    "building_construction": 2.422,
+    "mechanical": 3.756,
+    "mathematics_kn": 3.111,
+    "physics": 2.933,
+    "chemistry": 2.889,
+    "biology": 1.222,
+    "psychology": 1.244,
+    "sociology": 1.289,
+    "geography": 1.111,
+    "medicine_dentistry": 0.667,
+    "therapy_counseling": 0.667,
+    "education_training_kn": 1.778,
+    "japanese_language": 2.244,
+    "foreign_language_kn": 2.133,
+    "fine_arts": 0.711,
+    "history_archaeology": 0.711,
+    "philosophy_theology": 0.644,
+    "public_safety_security": 1.933,
+    "law_government": 1.733,
+    "telecommunications": 1.822,
+    "communications_media": 1.778
+  },
+  "abilities": {
+    "oral_comprehension": 3.14,
+    "written_comprehension": 3.24,
+    "oral_expression": 3.22,
+    "written_expression": 3.28,
+    "fluency_of_ideas": 3.08,
+    "originality": 2.98,
+    "problem_sensitivity": 3.52,
+    "deductive_reasoning": 3.18,
+    "inductive_reasoning": 3.2,
+    "information_ordering": 3.1,
+    "category_flexibility": 2.94,
+    "mathematical_reasoning": 3.18,
+    "number_facility": 3.2,
+    "memorization": 3.12,
+    "perceptual_speed": 2.54,
+    "spatial_orientation": 2.62,
+    "visualization": 2.8,
+    "selective_attention": 2.84,
+    "time_sharing": 2.86,
+    "arm_hand_steadiness": 1.84,
+    "manual_dexterity": 1.86,
+    "finger_dexterity": 1.88,
+    "reaction_time": 2.14,
+    "wrist_finger_speed": 1.86,
+    "speed_of_limb_movement": 1.8,
+    "static_strength": 1.62,
+    "stamina": 1.98,
+    "gross_body_equilibrium": 1.78,
+    "near_vision": 1.8,
+    "far_vision": 1.78,
+    "visual_color_discrimination": 1.98,
+    "depth_perception": 1.92,
+    "hearing_sensitivity": 1.86,
+    "auditory_attention": 1.82,
+    "speech_clarity": 2.24
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.467,
+    "face_to_face_discussions": 3.933,
+    "telephone_communication": 4.044,
+    "business_writing": 4.178,
+    "conflict_situations": 2.511,
+    "time_pressure": 3.022,
+    "teamwork": 3.511,
+    "dealing_with_external_customers": 3.711,
+    "coordinate_lead_others": 3.756,
+    "exactness_accuracy": 3.956,
+    "repetitive_tasks": 3.022,
+    "pace_determined_by_machine": 2.867,
+    "responsibility_for_outcomes": 3.489,
+    "indoor_climate_controlled": 4.844,
+    "indoor_non_climate_controlled": 2.133,
+    "outdoor_work": 1.889,
+    "sitting": 4.6,
+    "standing": 1.489,
+    "repetition_of_activities": 1.933,
+    "consequence_of_error": 3.178,
+    "freedom_to_make_decisions": 3.778,
+    "set_own_goals": 3.756,
+    "regular_schedule": 0.467,
+    "irregular_schedule": 0.4,
+    "seasonal_schedule": 0.133,
+    "email_communication": 4.8,
+    "cramped_uncomfortable": 2.022,
+    "disease_infection_risk": 1.756,
+    "minor_injury_risk": 1.533,
+    "standard_protective_equipment": 2.067,
+    "specialized_protective_equipment": 1.689,
+    "dealing_with_violent_people": 1.489,
+    "walking_running": 1.8,
+    "handling_objects_tools": 1.733,
+    "physical_proximity": 3.022,
+    "work_automation": 2.333,
+    "responsibility_for_safety": 2.378,
+    "impact_of_decisions": 2.911,
+    "level_of_competition": 2.6
+  },
+  "work_activities": {
+    "getting_information": 3.24,
+    "monitor_processes": 3.34,
+    "identifying_objects": 3.28,
+    "inspecting_equipment": 3.08,
+    "estimating_quantifiable": 3.6,
+    "judging_quality": 3.02,
+    "evaluating_compliance": 3.64,
+    "processing_information": 3.24,
+    "analyzing_data": 3.28,
+    "making_decisions": 3.54,
+    "thinking_creatively": 3.3,
+    "updating_knowledge": 3.54,
+    "developing_objectives": 3.32,
+    "scheduling_work": 3.6,
+    "organizing_planning": 3.68,
+    "physical_activities": 2.3,
+    "handling_objects": 2.22,
+    "controlling_machines": 2.52,
+    "operating_vehicles": 2.04,
+    "computer_work": 3.2,
+    "drafting_specifications": 3.54,
+    "repairing_mechanical": 2.58,
+    "repairing_electronic": 2.3,
+    "documenting_information": 2.98,
+    "interpreting_information": 3.28,
+    "communicating_inside": 3.52,
+    "communicating_outside": 3.5,
+    "building_relationships": 3.28,
+    "assisting_caring": 2.76,
+    "selling_influencing": 2.52,
+    "resolving_conflicts": 2.76,
+    "performing_for_public": 2.24,
+    "coordinating_others": 2.98,
+    "developing_teams": 3.02,
+    "training_teaching": 2.96,
+    "guiding_subordinates": 3.08,
+    "coaching_developing": 3.0,
+    "providing_consultation": 2.82,
+    "performing_administrative": 2.84,
+    "staffing_organizational": 2.36,
+    "monitoring_resources": 2.52
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.111,
+    "vocational_school": 0.022,
+    "junior_college": 0.0,
+    "technical_college": 0.022,
+    "university": 0.489,
+    "masters": 0.511,
+    "doctorate": 0.067,
+    "unknown": 0.022
+  },
+  "training_pre": {
+    "not_required": 0.378,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.156,
+    "6_months_to_1_year": 0.067,
+    "1_to_2_years": 0.067,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.089,
+    "5_to_10_years": 0.067,
+    "over_10_years": 0.089,
+    "unknown": 0.089
+  },
+  "training_post": {
+    "not_required": 0.044,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.067,
+    "6_months_to_1_year": 0.044,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.156,
+    "3_to_5_years": 0.289,
+    "5_to_10_years": 0.2,
+    "over_10_years": 0.133,
+    "unknown": 0.044
+  },
+  "experience": {
+    "not_required": 0.467,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.111,
+    "6_months_to_1_year": 0.022,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.044,
+    "3_to_5_years": 0.044,
+    "5_to_10_years": 0.044,
+    "over_10_years": 0.067,
+    "unknown": 0.156
+  },
+  "employment_type": {
+    "regular_employee": 0.844,
+    "part_time": 0.0,
+    "dispatched": 0.044,
+    "contract": 0.067,
+    "self_employed_freelance": 0.111,
+    "executive": 0.044,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "石油化学プラント建設において、見積のための設計、基本設計、詳細設計をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "発注検討者から要望等を聞き取り、見積もりのための設計を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.68
+    },
+    {
+      "task_id": 2,
+      "description_ja": "発注者と打合せてプラント全体のプラン作成や基本設計を行う。",
+      "execution_rate": 0.94,
+      "importance": 3.979
+    },
+    {
+      "task_id": 3,
+      "description_ja": "基本設計で決定した数値に基づいて、詳細な設計をする。",
+      "execution_rate": 0.92,
+      "importance": 3.848
+    },
+    {
+      "task_id": 4,
+      "description_ja": "設計図の製作のため、ＣＡＤを操作する。",
+      "execution_rate": 0.86,
+      "importance": 3.605
+    },
+    {
+      "task_id": 5,
+      "description_ja": "プラントを建てる場所の土木工事の設計をする。",
+      "execution_rate": 0.48,
+      "importance": 2.667
+    },
+    {
+      "task_id": 6,
+      "description_ja": "プラントに関連する建築物の設計をする。",
+      "execution_rate": 0.6,
+      "importance": 2.767
+    },
+    {
+      "task_id": 7,
+      "description_ja": "プラント内部の機械を設計する。",
+      "execution_rate": 0.88,
+      "importance": 3.682
+    },
+    {
+      "task_id": 8,
+      "description_ja": "プラント内部の加熱炉を設計する。",
+      "execution_rate": 0.64,
+      "importance": 2.781
+    },
+    {
+      "task_id": 9,
+      "description_ja": "プラント内部の制御装置を設計する。",
+      "execution_rate": 0.84,
+      "importance": 3.429
+    },
+    {
+      "task_id": 10,
+      "description_ja": "プラントに使用する電力関係の設備を設計する。",
+      "execution_rate": 0.7,
+      "importance": 3.029
+    },
+    {
+      "task_id": 11,
+      "description_ja": "プラントに使用する回転機械を選択する。",
+      "execution_rate": 0.82,
+      "importance": 3.732
+    },
+    {
+      "task_id": 12,
+      "description_ja": "配管の圧力損失計算、熱交換器の熱計算をする。",
+      "execution_rate": 0.84,
+      "importance": 3.714
+    },
+    {
+      "task_id": 13,
+      "description_ja": "装置の温度、圧力、流量の想定から各装置のサイズや構造、装置を結ぶパイプの太さを決める。",
+      "execution_rate": 0.88,
+      "importance": 3.932
+    },
+    {
+      "task_id": 14,
+      "description_ja": "パイプの熱応力を計算する。",
+      "execution_rate": 0.66,
+      "importance": 3.303
+    },
+    {
+      "task_id": 15,
+      "description_ja": "装置を結んでいる多数のパイプの配管レイアウトを決める。",
+      "execution_rate": 0.82,
+      "importance": 3.732
+    },
+    {
+      "task_id": 16,
+      "description_ja": "高圧ガス及びそれに準ずる機器の設計や強度計算を行い、関連する申請書を作成する。",
+      "execution_rate": 0.68,
+      "importance": 3.382
+    },
+    {
+      "task_id": 17,
+      "description_ja": "設計変更によるコストを検討する。",
+      "execution_rate": 0.92,
+      "importance": 3.587
+    },
+    {
+      "task_id": 18,
+      "description_ja": "機器の購入を手配し、仕様書を作成する。",
+      "execution_rate": 0.88,
+      "importance": 3.614
+    },
+    {
+      "task_id": 19,
+      "description_ja": "業務フローやライン、プロセスを検討し決める。",
+      "execution_rate": 0.92,
+      "importance": 3.63
+    },
+    {
+      "task_id": 20,
+      "description_ja": "プロセスの潜在的な危険をみつけ、対策を検討する。",
+      "execution_rate": 0.88,
+      "importance": 3.841
+    },
+    {
+      "task_id": 21,
+      "description_ja": "運転法案（Process Operation Diagram: POD）の仕様を決定する。",
+      "execution_rate": 0.8,
+      "importance": 3.55
+    },
+    {
+      "task_id": 22,
+      "description_ja": "装置の試運転を行い、不具合がないか確認する。",
+      "execution_rate": 0.88,
+      "importance": 4.068
+    },
+    {
+      "task_id": 23,
+      "description_ja": "プラントの完成後に最終検査を行い、顧客に引き渡す（検収）。",
+      "execution_rate": 0.88,
+      "importance": 3.773
+    },
+    {
+      "task_id": 24,
+      "description_ja": "発生したトラブルを解析する。",
+      "execution_rate": 0.92,
+      "importance": 3.87
+    },
+    {
+      "task_id": 25,
+      "description_ja": "事業の経済性を評価する。",
+      "execution_rate": 0.82,
+      "importance": 3.244
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般財団法人エンジニアリング協会",
+      "url": "http://www.enaa.or.jp"
+    },
+    {
+      "name_ja": "公益社団法人日本技術士会",
+      "url": "https://www.engineer.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "技術士（環境部門）",
+    "技術士（化学部門）",
+    "技術士（建設部門）",
+    "技術士（機械部門）",
+    "技術士（衛生工学部門）",
+    "技術士（上下水道部門）",
+    "第一種電気主任技術者",
+    "第二種電気主任技術者",
+    "第三種電気主任技術者",
+    "一級建築士",
+    "エネルギー管理士",
+    "高圧ガス製造保安責任者（甲種化学）",
+    "高圧ガス製造保安責任者（甲種機械）",
+    "高圧ガス製造保安責任者（第一種冷凍機械）",
+    "ガス主任技術者",
+    "公害防止管理者",
+    "１級電気工事施工管理技士",
+    "２級電気工事施工管理技士",
+    "１級建築施工管理技士",
+    "２級建築施工管理技士",
+    "１級土木施工管理技士",
+    "２級土木施工管理技士",
+    "１級管工事施工管理技士",
+    "２級管工事施工管理技士",
+    "１級電気工事施工管理技士補",
+    "２級電気工事施工管理技士補",
+    "１級建築施工管理技士補",
+    "２級建築施工管理技士補",
+    "１級土木施工管理技士補",
+    "２級土木施工管理技士補",
+    "１級管工事施工管理技士補",
+    "２級管工事施工管理技士補"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/276",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

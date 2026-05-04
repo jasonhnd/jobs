@@ -1,0 +1,488 @@
+{
+  "id": 119,
+  "ipd_id": "IPD_01_01_119",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "クリーニング師",
+  "aliases_ja": [
+    "アイロン仕上工（クリーニング）",
+    "クリーニング工",
+    "クリーニング仕上工",
+    "クリーニングプレス工",
+    "しみ抜き工",
+    "ドライクリーニング工",
+    "リネンサプライ業従事者（洗濯・洗濯仕上げに従事するもの）"
+  ],
+  "classifications": {
+    "mhlw_main": "09_054-02",
+    "mhlw_all": [
+      "09_054-02"
+    ],
+    "jsoc_main": "E385",
+    "jsoc_all": [
+      "E385"
+    ]
+  },
+  "description": {
+    "summary_ja": "クリーニング店やクリーニング工場において、衣類、皮革製品や特殊素材などのクリーニング処理を行う。",
+    "what_it_is_ja": "クリーニング店やクリーニング工場において、各種衣類、皮革製品や特殊素材などのクリーニング処理を行う。\n　クリーニング師は、公衆衛生及び洗濯処理に関する専門知識を併せ持ったクリーニング店の管理責任者である。クリーニング業法では、取次のみを行う店を除き、クリーニング店には1人以上のクリーニング師を置かなければならないと定められている。\n　お客から洗濯物を受け取ると、相互確認の上、洗濯表示、素材を確認し分類する。更に、汚れのひどいものと少ないものを見きわめ、ドライクリーニング機あるいは水洗機にかけ、洗い上がるとプレス機、アイロンなどで仕上げて綺麗にたたみ、包装する。デザインや素材、汚れのつき具合も確認し、適切な洗濯方法を判断する。たくさんの人が着用している衣類を同時に洗うため、衛生には厳重に注意を払う必要がある。\n　洗濯の他に、和服や毛皮、じゅうたんなどの保管も行う場合もある。また、はっ水・防水加工、防虫加工、ひだの折り目加工などの各種加工や補修を引き受けることもある。\n\n◇　よく使う道具、機材、情報技術等\n　ドライクリーニング機、水洗機、プレス機、アイロン、ドライ機、ランドリー機、プレス機",
+    "how_to_become_ja": "クリーニング師になるには、各都道府県で行われるクリーニング師試験に合格後、申請して免許を取得する。クリーニング師試験は中学卒業以上の者であれば、年齢などの制限はない。\n　試験学科は衛生法規に関する知識、公衆衛生に関する知識、洗濯物の処理に関する知識等であり、実地試験はワイシャツのアイロン仕上げ、繊維の識別、しみの識別等である。\n　3年ごとに最新の知識習得、技術研鑽を目的とした資格の更新講習がある。\n　現場で技術や経営法を学び、免許を取り、独立開業することもできる。お客に対する奉仕の気持ちがあり、汚れの原因を究明して対処する粘り強さ、客の品物を預かって確実に返すという責任感などが求められる。",
+    "working_conditions_ja": "クリーニング店やクリーニング工場で勤務する。クリーニング工場では仕事はドライ機、ランドリー機、プレス機などの機械操作が中心になる。クリーニング店では、それに加えて店舗を訪れるお客の対応を行う場合もある。\n　クリーニング店で勤務する人の年齢層としては、50歳代の割合が22％程度と高くなっている。また、クリーニング師として従事している人数は、32,525人となっている（2024年時点*）。\n　クリーニング店については、約半数が個人経営の店舗であるが、近年はチェーン店の台頭等により個人経営の店舗数は減少傾向にある。\n　クリーニング業には繁忙期と閑散期があり、各家庭で衣替えが行われる4～6月、10～11月は仕事量が多く労働時間が長くなるが、逆に7～8月はカジュアルな夏服が中心のため仕事量が減る。このため、年間を通じての変形労働時間制を採用している店も多い。\n\n*厚生労働省　令和6年度衛生行政報告"
+  },
+  "interests": {
+    "realistic": 3.71,
+    "investigative": 3.188,
+    "artistic": 2.652,
+    "social": 3.478,
+    "enterprising": 2.783,
+    "conventional": 3.71
+  },
+  "work_values": {
+    "achievement": 3.174,
+    "autonomy": 3.413,
+    "expertise": 3.522,
+    "self_growth": 3.109,
+    "social_recognition": 2.848,
+    "service_contribution": 3.13,
+    "good_relationships": 3.261,
+    "workplace_safety": 3.304,
+    "work_life_balance": 3.413,
+    "stability": 2.783,
+    "compensation": 2.587
+  },
+  "skills": {
+    "reading_comprehension": 3.0,
+    "active_listening": 3.478,
+    "writing": 2.543,
+    "speaking": 3.022,
+    "foreign_language_reading": 0.978,
+    "foreign_language_listening": 0.804,
+    "foreign_language_writing": 0.717,
+    "foreign_language_speaking": 0.804,
+    "mathematics": 1.522,
+    "science": 1.63,
+    "critical_thinking": 2.0,
+    "active_learning": 2.217,
+    "learning_strategies": 2.109,
+    "monitoring": 2.326,
+    "social_perceptiveness": 2.478,
+    "coordination": 2.5,
+    "persuasion": 2.435,
+    "negotiation": 2.152,
+    "instructing": 2.587,
+    "service_orientation": 2.565,
+    "complex_problem_solving": 2.239,
+    "operations_analysis": 1.63,
+    "technology_design": 1.696,
+    "equipment_selection": 2.326,
+    "installation": 2.239,
+    "programming": 1.174,
+    "operations_monitoring": 1.826,
+    "operation_and_control": 2.109,
+    "equipment_maintenance": 2.087,
+    "troubleshooting": 2.0,
+    "repairing": 1.978,
+    "quality_control_analysis": 2.087,
+    "judgment_decision_making": 2.065,
+    "systems_analysis": 1.783,
+    "systems_evaluation": 1.891,
+    "time_management": 2.261,
+    "financial_resources_management": 1.739,
+    "material_resources_management": 2.065,
+    "personnel_resources_management": 1.565
+  },
+  "knowledge": {
+    "business_management": 0.627,
+    "clerical": 0.902,
+    "economics_accounting": 0.647,
+    "sales_marketing": 0.647,
+    "customer_personal_service": 1.882,
+    "personnel_hr": 0.706,
+    "transportation": 0.588,
+    "production_processing": 0.902,
+    "agriculture_livestock": 0.216,
+    "engineering": 0.412,
+    "computers_electronics": 0.392,
+    "design": 0.275,
+    "building_construction": 0.255,
+    "mechanical": 0.647,
+    "mathematics_kn": 0.451,
+    "physics": 0.333,
+    "chemistry": 0.471,
+    "biology": 0.275,
+    "psychology": 0.51,
+    "sociology": 0.569,
+    "geography": 0.294,
+    "medicine_dentistry": 0.255,
+    "therapy_counseling": 0.333,
+    "education_training_kn": 0.431,
+    "japanese_language": 0.667,
+    "foreign_language_kn": 0.431,
+    "fine_arts": 0.333,
+    "history_archaeology": 0.275,
+    "philosophy_theology": 0.275,
+    "public_safety_security": 0.608,
+    "law_government": 0.392,
+    "telecommunications": 0.294,
+    "communications_media": 0.745
+  },
+  "abilities": {
+    "oral_comprehension": 2.404,
+    "written_comprehension": 2.17,
+    "oral_expression": 2.426,
+    "written_expression": 2.34,
+    "fluency_of_ideas": 2.234,
+    "originality": 2.149,
+    "problem_sensitivity": 3.106,
+    "deductive_reasoning": 2.319,
+    "inductive_reasoning": 2.213,
+    "information_ordering": 1.979,
+    "category_flexibility": 2.064,
+    "mathematical_reasoning": 1.851,
+    "number_facility": 2.021,
+    "memorization": 2.362,
+    "perceptual_speed": 2.106,
+    "spatial_orientation": 1.851,
+    "visualization": 1.936,
+    "selective_attention": 2.319,
+    "time_sharing": 2.277,
+    "arm_hand_steadiness": 2.574,
+    "manual_dexterity": 2.766,
+    "finger_dexterity": 2.532,
+    "reaction_time": 2.255,
+    "wrist_finger_speed": 2.468,
+    "speed_of_limb_movement": 2.447,
+    "static_strength": 2.511,
+    "stamina": 2.447,
+    "gross_body_equilibrium": 2.043,
+    "near_vision": 2.255,
+    "far_vision": 1.787,
+    "visual_color_discrimination": 2.702,
+    "depth_perception": 1.957,
+    "hearing_sensitivity": 1.894,
+    "auditory_attention": 1.936,
+    "speech_clarity": 2.106
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.098,
+    "face_to_face_discussions": 2.549,
+    "telephone_communication": 3.059,
+    "business_writing": 2.275,
+    "conflict_situations": 1.804,
+    "time_pressure": 2.882,
+    "teamwork": 2.843,
+    "dealing_with_external_customers": 2.765,
+    "coordinate_lead_others": 2.235,
+    "exactness_accuracy": 3.216,
+    "repetitive_tasks": 2.98,
+    "pace_determined_by_machine": 2.667,
+    "responsibility_for_outcomes": 2.98,
+    "indoor_climate_controlled": 3.451,
+    "indoor_non_climate_controlled": 2.431,
+    "outdoor_work": 1.686,
+    "sitting": 1.667,
+    "standing": 4.471,
+    "repetition_of_activities": 3.51,
+    "consequence_of_error": 2.451,
+    "freedom_to_make_decisions": 3.216,
+    "set_own_goals": 2.961,
+    "regular_schedule": 0.647,
+    "irregular_schedule": 0.235,
+    "seasonal_schedule": 0.118,
+    "email_communication": 1.961,
+    "cramped_uncomfortable": 2.137,
+    "disease_infection_risk": 2.0,
+    "minor_injury_risk": 2.137,
+    "standard_protective_equipment": 1.471,
+    "specialized_protective_equipment": 1.294,
+    "dealing_with_violent_people": 1.255,
+    "walking_running": 2.902,
+    "handling_objects_tools": 3.49,
+    "physical_proximity": 3.275,
+    "work_automation": 1.765,
+    "responsibility_for_safety": 1.863,
+    "impact_of_decisions": 2.039,
+    "level_of_competition": 1.824
+  },
+  "work_activities": {
+    "getting_information": 2.298,
+    "monitor_processes": 2.723,
+    "identifying_objects": 2.426,
+    "inspecting_equipment": 2.702,
+    "estimating_quantifiable": 2.17,
+    "judging_quality": 2.745,
+    "evaluating_compliance": 2.574,
+    "processing_information": 2.298,
+    "analyzing_data": 2.34,
+    "making_decisions": 2.915,
+    "thinking_creatively": 2.426,
+    "updating_knowledge": 2.809,
+    "developing_objectives": 2.277,
+    "scheduling_work": 2.298,
+    "organizing_planning": 2.809,
+    "physical_activities": 2.511,
+    "handling_objects": 2.936,
+    "controlling_machines": 2.809,
+    "operating_vehicles": 2.021,
+    "computer_work": 1.83,
+    "drafting_specifications": 1.745,
+    "repairing_mechanical": 2.277,
+    "repairing_electronic": 1.894,
+    "documenting_information": 2.064,
+    "interpreting_information": 2.191,
+    "communicating_inside": 2.277,
+    "communicating_outside": 2.191,
+    "building_relationships": 2.553,
+    "assisting_caring": 2.298,
+    "selling_influencing": 2.234,
+    "resolving_conflicts": 2.426,
+    "performing_for_public": 2.0,
+    "coordinating_others": 2.447,
+    "developing_teams": 2.319,
+    "training_teaching": 2.277,
+    "guiding_subordinates": 2.319,
+    "coaching_developing": 2.191,
+    "providing_consultation": 1.979,
+    "performing_administrative": 2.383,
+    "staffing_organizational": 2.128,
+    "monitoring_resources": 2.319
+  },
+  "education_distribution": {
+    "below_high_school": 0.118,
+    "high_school": 0.471,
+    "vocational_school": 0.059,
+    "junior_college": 0.059,
+    "technical_college": 0.0,
+    "university": 0.059,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.275
+  },
+  "training_pre": {
+    "not_required": 0.549,
+    "up_to_1_month": 0.098,
+    "1_to_6_months": 0.078,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.039,
+    "over_10_years": 0.0,
+    "unknown": 0.216
+  },
+  "training_post": {
+    "not_required": 0.176,
+    "up_to_1_month": 0.098,
+    "1_to_6_months": 0.255,
+    "6_months_to_1_year": 0.118,
+    "1_to_2_years": 0.078,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.235
+  },
+  "experience": {
+    "not_required": 0.588,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.098,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.275
+  },
+  "employment_type": {
+    "regular_employee": 0.255,
+    "part_time": 0.549,
+    "dispatched": 0.02,
+    "contract": 0.02,
+    "self_employed_freelance": 0.196,
+    "executive": 0.0,
+    "casual_non_student": 0.039,
+    "casual_student": 0.02,
+    "unknown": 0.039,
+    "other": 0.02
+  },
+  "tasks_lead_ja": "クリーニング店や工場において各種衣類、皮革製品や特殊素材などのクリーニング処理をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "クリーニングに伴うリスクを客に説明し、了解を得る。",
+      "execution_rate": 0.83,
+      "importance": 4.103
+    },
+    {
+      "task_id": 2,
+      "description_ja": "物品を受取り、手動または動力式のマーカーを使用し、水洗いやドライクリーニングの印をつける。",
+      "execution_rate": 0.66,
+      "importance": 3.29
+    },
+    {
+      "task_id": 3,
+      "description_ja": "商品を受け取るときに、ポケット等に何か入っていないか確認する。",
+      "execution_rate": 0.936,
+      "importance": 3.841
+    },
+    {
+      "task_id": 4,
+      "description_ja": "クリーニングする物を調べて、色、布、汚れ具合、クリーニング方法に従って分類する。",
+      "execution_rate": 0.957,
+      "importance": 3.8
+    },
+    {
+      "task_id": 5,
+      "description_ja": "汚れやシミの部分洗いをする。",
+      "execution_rate": 0.894,
+      "importance": 3.738
+    },
+    {
+      "task_id": 6,
+      "description_ja": "デリケートな素材の品や毛皮のライニングを手洗いする。",
+      "execution_rate": 0.681,
+      "importance": 3.781
+    },
+    {
+      "task_id": 7,
+      "description_ja": "洗濯機やドライクリーニング機への品物の出し入れをする。",
+      "execution_rate": 0.894,
+      "importance": 3.0
+    },
+    {
+      "task_id": 8,
+      "description_ja": "洗濯機、乾燥機、遠心分離式脱水機の運転と監視をする。",
+      "execution_rate": 0.894,
+      "importance": 3.095
+    },
+    {
+      "task_id": 9,
+      "description_ja": "乾燥機から取り出した物を選別して吊るす。",
+      "execution_rate": 0.809,
+      "importance": 3.0
+    },
+    {
+      "task_id": 10,
+      "description_ja": "洗浄後の品物を乾かすためにストレッチフレームの上にかけ、特定の場所に運ぶ。",
+      "execution_rate": 0.681,
+      "importance": 2.688
+    },
+    {
+      "task_id": 11,
+      "description_ja": "アイロンやプレス機を使用して、品物にアイロンをかけたりプレスをする。",
+      "execution_rate": 0.83,
+      "importance": 3.795
+    },
+    {
+      "task_id": 12,
+      "description_ja": "ほころびや破れを手縫いや接着剤で修繕したり、ボタン付けをする。",
+      "execution_rate": 0.809,
+      "importance": 2.789
+    },
+    {
+      "task_id": 13,
+      "description_ja": "毛皮の毛並みを整え、羽毛と毛布をきれいにして殺菌し、ふわっとふくらませるための自動機械の運転と手入れをする。",
+      "execution_rate": 0.575,
+      "importance": 3.0
+    },
+    {
+      "task_id": 14,
+      "description_ja": "洗濯や加工のため、洗剤や加工用の化学物質を混ぜる。",
+      "execution_rate": 0.809,
+      "importance": 3.158
+    },
+    {
+      "task_id": 15,
+      "description_ja": "ドライクリーニング溶剤を排出し、再利用する蒸留システムを操作する。",
+      "execution_rate": 0.723,
+      "importance": 2.971
+    },
+    {
+      "task_id": 16,
+      "description_ja": "機械のフィルターをきれいにし、装置に潤滑剤を注す。",
+      "execution_rate": 0.809,
+      "importance": 3.447
+    },
+    {
+      "task_id": 17,
+      "description_ja": "洗濯後の衣服に撥水加工をする。",
+      "execution_rate": 0.575,
+      "importance": 2.259
+    },
+    {
+      "task_id": 18,
+      "description_ja": "洗濯後の衣類をたたむ。",
+      "execution_rate": 0.915,
+      "importance": 3.302
+    },
+    {
+      "task_id": 19,
+      "description_ja": "仕上がり品を包装する。",
+      "execution_rate": 0.915,
+      "importance": 3.302
+    },
+    {
+      "task_id": 20,
+      "description_ja": "皮革製品を補修する。",
+      "execution_rate": 0.362,
+      "importance": 2.588
+    },
+    {
+      "task_id": 21,
+      "description_ja": "クリーニングの代金を会計する。",
+      "execution_rate": 0.872,
+      "importance": 3.634
+    },
+    {
+      "task_id": 22,
+      "description_ja": "家庭等を訪問し、物品を集配する。",
+      "execution_rate": 0.702,
+      "importance": 3.03
+    },
+    {
+      "task_id": 23,
+      "description_ja": "宅配する仕上がり品を仕分ける。",
+      "execution_rate": 0.766,
+      "importance": 3.306
+    },
+    {
+      "task_id": 24,
+      "description_ja": "衣類の回収数と納品数を確認する。",
+      "execution_rate": 0.957,
+      "importance": 4.0
+    },
+    {
+      "task_id": 25,
+      "description_ja": "作業者に技術を指導する。",
+      "execution_rate": 0.745,
+      "importance": 3.343
+    },
+    {
+      "task_id": 26,
+      "description_ja": "クリーニング工場での生産管理を行う。",
+      "execution_rate": 0.787,
+      "importance": 3.243
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "全国クリーニング生活衛生同業組合連合会",
+      "url": "http://www.zenkuren.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "クリーニング師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/119",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

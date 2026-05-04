@@ -1,0 +1,471 @@
+{
+  "id": 430,
+  "ipd_id": "IPD_01_01_430",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "経理事務",
+  "aliases_ja": [
+    "会計経理事務員",
+    "会計事務員"
+  ],
+  "classifications": {
+    "mhlw_main": "06_038-03",
+    "mhlw_all": [
+      "06_038-03"
+    ],
+    "jsoc_main": "C263",
+    "jsoc_all": [
+      "C263"
+    ]
+  },
+  "description": {
+    "summary_ja": "経理・会計管理のソフトウェア、システム等を使い、社外との取引に伴う入出金、社内の資金管理、給料の支払等を行う。",
+    "what_it_is_ja": "経理・会計管理のソフトウェア、システム等を使い、社外との取引に伴う入出金、社内の資金管理、給料の支払等を行う。\n　まず、毎日の金銭管理として入出金伝票や振替伝票を起こし、現金出納帳や総勘定元帳などの帳簿に記入する。\n　毎月の月末には、勘定科目ごとに集計を行って帳簿の残高を確定させ、実際の預金残高などと一致しているかどうか確認し、月次決算書類を作成する。\n　各期の決算時には、勘定科目ごとに集計を行って試算表などを作成する。棚卸を行って在庫商品の残高を把握し、棚卸表を作成する。これらの金額をもとにして、貸借対照表や損益計算書などの決算に必要な財務諸表を作成する。\n　また、会社の健全で合理的な経営を行うため、予算編成や経営の進捗管理に必要な資料を作成する。社員の給料計算、現金の出納管理、小切手の処理などの仕事も行う。\n　会計監査や税務調査等への立ち会う場合もある。\n　近年は、経理・会計管理のソフトウェアやクラウドが広く導入されており、計算や帳簿作成などの作業は手作業ではなくコンピュータ化されている会社が多い。\n\n◇　よく使う道具、機材、情報技術等\n　経理・会計管理のソフト、クラウド、表計算ソフト（Excel、Googleスプレッドシート等）、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。新規学卒者の場合は、商業系の高等学校、経理や会計等の専門学校、大学の場合は経済・経営・商学を専攻している者が多い。入職後様々な部署を経験した後、経理部署に配属される場合もある。\n　中途採用については、決算や財務にかかわる業務がこなせるなどの経験が求められる傾向にある。\n　伝票の作成、記帳、計算、集計などの簡単な仕事から始めて経験を積み、予算・決算・資金計画などの仕事をするようになる。経理業務全般をマスターして一人前となるには数年程度かかる。\n　関連資格としては、「日商簿記検定」、「簿記能力検定」があり、取得していると仕事の役に立つ。\n　金銭を扱うため仕事の正確さ、注意力、几帳面さが求められる。また、決算期等の繁忙期は締め切りに間に合わせるため仕事の速さと粘り強さも必要である。",
+    "working_conditions_ja": "経理部門は企業、団体、官公庁等、どの組織でも必要なセクションであり、職場は全国に広がっている。\n　就業者は女性が多く、年齢層は幅広い。\n　賃金、労働時間等労働条件は勤務先の規定による。就業時間は規則的なことが多く基本的には残業が少ない。土日祝日は休みとなることが多い。ただし、決算期には日常業務と並行して決算処理を行うため、残業時間が多くなることがある。\n　オフィス内での仕事がほとんどであり、営業職などのように顧客先を回ることは少ない。\n　経理・会計は管理システムの導入等機械化が進んでおり、単純な計算や帳票作成は少なくなり、業務は高度化、専門化している。また、アウトソーシングにより給与計算など経理業務の一部を外部の会社に委託するところも出てきている。"
+  },
+  "interests": {
+    "realistic": 2.891,
+    "investigative": 2.703,
+    "artistic": 2.172,
+    "social": 2.781,
+    "enterprising": 3.016,
+    "conventional": 3.234
+  },
+  "work_values": {
+    "achievement": 3.3,
+    "autonomy": 3.417,
+    "expertise": 3.6,
+    "self_growth": 3.217,
+    "social_recognition": 2.817,
+    "service_contribution": 2.483,
+    "good_relationships": 3.283,
+    "workplace_safety": 3.5,
+    "work_life_balance": 3.55,
+    "stability": 3.333,
+    "compensation": 2.95
+  },
+  "skills": {
+    "reading_comprehension": 3.4,
+    "active_listening": 3.567,
+    "writing": 3.417,
+    "speaking": 3.383,
+    "foreign_language_reading": 0.7,
+    "foreign_language_listening": 0.583,
+    "foreign_language_writing": 0.667,
+    "foreign_language_speaking": 0.483,
+    "mathematics": 2.683,
+    "science": 0.75,
+    "critical_thinking": 2.217,
+    "active_learning": 2.25,
+    "learning_strategies": 2.417,
+    "monitoring": 2.6,
+    "social_perceptiveness": 2.583,
+    "coordination": 3.0,
+    "persuasion": 2.667,
+    "negotiation": 2.6,
+    "instructing": 2.917,
+    "service_orientation": 1.833,
+    "complex_problem_solving": 2.433,
+    "operations_analysis": 1.95,
+    "technology_design": 1.267,
+    "equipment_selection": 1.9,
+    "installation": 1.783,
+    "programming": 1.25,
+    "operations_monitoring": 0.683,
+    "operation_and_control": 1.3,
+    "equipment_maintenance": 0.633,
+    "troubleshooting": 1.0,
+    "repairing": 0.883,
+    "quality_control_analysis": 1.383,
+    "judgment_decision_making": 2.05,
+    "systems_analysis": 1.967,
+    "systems_evaluation": 2.05,
+    "time_management": 2.567,
+    "financial_resources_management": 3.467,
+    "material_resources_management": 1.667,
+    "personnel_resources_management": 1.567
+  },
+  "knowledge": {
+    "business_management": 1.255,
+    "clerical": 3.0,
+    "economics_accounting": 2.364,
+    "sales_marketing": 1.073,
+    "customer_personal_service": 1.127,
+    "personnel_hr": 1.527,
+    "transportation": 0.582,
+    "production_processing": 0.564,
+    "agriculture_livestock": 0.273,
+    "engineering": 0.327,
+    "computers_electronics": 0.4,
+    "design": 0.327,
+    "building_construction": 0.364,
+    "mechanical": 0.382,
+    "mathematics_kn": 1.036,
+    "physics": 0.4,
+    "chemistry": 0.327,
+    "biology": 0.291,
+    "psychology": 0.491,
+    "sociology": 0.545,
+    "geography": 0.291,
+    "medicine_dentistry": 0.273,
+    "therapy_counseling": 0.345,
+    "education_training_kn": 0.727,
+    "japanese_language": 1.345,
+    "foreign_language_kn": 0.618,
+    "fine_arts": 0.327,
+    "history_archaeology": 0.364,
+    "philosophy_theology": 0.327,
+    "public_safety_security": 0.873,
+    "law_government": 0.927,
+    "telecommunications": 0.545,
+    "communications_media": 0.855
+  },
+  "abilities": {
+    "oral_comprehension": 2.714,
+    "written_comprehension": 3.0,
+    "oral_expression": 2.837,
+    "written_expression": 3.0,
+    "fluency_of_ideas": 2.469,
+    "originality": 2.388,
+    "problem_sensitivity": 3.245,
+    "deductive_reasoning": 2.837,
+    "inductive_reasoning": 2.755,
+    "information_ordering": 2.898,
+    "category_flexibility": 2.429,
+    "mathematical_reasoning": 2.816,
+    "number_facility": 3.265,
+    "memorization": 2.918,
+    "perceptual_speed": 2.796,
+    "spatial_orientation": 2.388,
+    "visualization": 2.388,
+    "selective_attention": 2.878,
+    "time_sharing": 2.857,
+    "arm_hand_steadiness": 2.102,
+    "manual_dexterity": 1.878,
+    "finger_dexterity": 1.98,
+    "reaction_time": 2.102,
+    "wrist_finger_speed": 2.0,
+    "speed_of_limb_movement": 1.857,
+    "static_strength": 1.735,
+    "stamina": 1.878,
+    "gross_body_equilibrium": 1.796,
+    "near_vision": 1.878,
+    "far_vision": 1.694,
+    "visual_color_discrimination": 1.776,
+    "depth_perception": 1.714,
+    "hearing_sensitivity": 1.735,
+    "auditory_attention": 1.694,
+    "speech_clarity": 1.98
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.473,
+    "face_to_face_discussions": 3.255,
+    "telephone_communication": 4.073,
+    "business_writing": 4.055,
+    "conflict_situations": 2.018,
+    "time_pressure": 2.509,
+    "teamwork": 2.891,
+    "dealing_with_external_customers": 2.509,
+    "coordinate_lead_others": 2.655,
+    "exactness_accuracy": 3.727,
+    "repetitive_tasks": 3.564,
+    "pace_determined_by_machine": 2.636,
+    "responsibility_for_outcomes": 3.0,
+    "indoor_climate_controlled": 4.527,
+    "indoor_non_climate_controlled": 2.218,
+    "outdoor_work": 1.655,
+    "sitting": 4.709,
+    "standing": 1.327,
+    "repetition_of_activities": 2.855,
+    "consequence_of_error": 2.982,
+    "freedom_to_make_decisions": 3.182,
+    "set_own_goals": 3.418,
+    "regular_schedule": 0.873,
+    "irregular_schedule": 0.073,
+    "seasonal_schedule": 0.055,
+    "email_communication": 4.455,
+    "cramped_uncomfortable": 1.891,
+    "disease_infection_risk": 1.727,
+    "minor_injury_risk": 1.182,
+    "standard_protective_equipment": 1.236,
+    "specialized_protective_equipment": 1.218,
+    "dealing_with_violent_people": 1.255,
+    "walking_running": 1.691,
+    "handling_objects_tools": 1.527,
+    "physical_proximity": 3.236,
+    "work_automation": 2.382,
+    "responsibility_for_safety": 1.945,
+    "impact_of_decisions": 2.364,
+    "level_of_competition": 1.527
+  },
+  "work_activities": {
+    "getting_information": 2.816,
+    "monitor_processes": 2.898,
+    "identifying_objects": 2.857,
+    "inspecting_equipment": 2.102,
+    "estimating_quantifiable": 2.898,
+    "judging_quality": 2.551,
+    "evaluating_compliance": 2.939,
+    "processing_information": 3.184,
+    "analyzing_data": 2.959,
+    "making_decisions": 3.02,
+    "thinking_creatively": 2.49,
+    "updating_knowledge": 3.102,
+    "developing_objectives": 2.816,
+    "scheduling_work": 2.796,
+    "organizing_planning": 3.224,
+    "physical_activities": 2.02,
+    "handling_objects": 2.02,
+    "controlling_machines": 2.041,
+    "operating_vehicles": 1.837,
+    "computer_work": 3.408,
+    "drafting_specifications": 1.918,
+    "repairing_mechanical": 1.98,
+    "repairing_electronic": 2.0,
+    "documenting_information": 2.898,
+    "interpreting_information": 2.571,
+    "communicating_inside": 3.041,
+    "communicating_outside": 2.918,
+    "building_relationships": 2.837,
+    "assisting_caring": 2.327,
+    "selling_influencing": 2.102,
+    "resolving_conflicts": 2.306,
+    "performing_for_public": 2.082,
+    "coordinating_others": 2.51,
+    "developing_teams": 2.469,
+    "training_teaching": 2.388,
+    "guiding_subordinates": 2.551,
+    "coaching_developing": 2.408,
+    "providing_consultation": 2.347,
+    "performing_administrative": 3.02,
+    "staffing_organizational": 2.429,
+    "monitoring_resources": 2.653
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.255,
+    "vocational_school": 0.127,
+    "junior_college": 0.091,
+    "technical_college": 0.0,
+    "university": 0.636,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.145
+  },
+  "training_pre": {
+    "not_required": 0.582,
+    "up_to_1_month": 0.091,
+    "1_to_6_months": 0.109,
+    "6_months_to_1_year": 0.055,
+    "1_to_2_years": 0.036,
+    "2_to_3_years": 0.055,
+    "3_to_5_years": 0.018,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.055
+  },
+  "training_post": {
+    "not_required": 0.164,
+    "up_to_1_month": 0.091,
+    "1_to_6_months": 0.182,
+    "6_months_to_1_year": 0.109,
+    "1_to_2_years": 0.182,
+    "2_to_3_years": 0.073,
+    "3_to_5_years": 0.109,
+    "5_to_10_years": 0.036,
+    "over_10_years": 0.0,
+    "unknown": 0.055
+  },
+  "experience": {
+    "not_required": 0.545,
+    "up_to_1_month": 0.036,
+    "1_to_6_months": 0.073,
+    "6_months_to_1_year": 0.018,
+    "1_to_2_years": 0.073,
+    "2_to_3_years": 0.055,
+    "3_to_5_years": 0.091,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.109
+  },
+  "employment_type": {
+    "regular_employee": 0.727,
+    "part_time": 0.164,
+    "dispatched": 0.109,
+    "contract": 0.091,
+    "self_employed_freelance": 0.055,
+    "executive": 0.091,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "企業の日々の金銭的な活動状況の計算・記録・管理をし、資金の流れや経営の状態を把握して報告する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "毎日の金銭的な活動に対して伝票を起こし、帳簿に記録する。",
+      "execution_rate": 0.857,
+      "importance": 3.571
+    },
+    {
+      "task_id": 2,
+      "description_ja": "帳簿への記録に間違いや実際との矛盾がないかチェックをする。",
+      "execution_rate": 0.918,
+      "importance": 3.844
+    },
+    {
+      "task_id": 3,
+      "description_ja": "現金や小切手の処理と管理をする。",
+      "execution_rate": 0.816,
+      "importance": 4.025
+    },
+    {
+      "task_id": 4,
+      "description_ja": "請求書を発行し、入金を確認して顧客の管理をする。",
+      "execution_rate": 0.898,
+      "importance": 3.614
+    },
+    {
+      "task_id": 5,
+      "description_ja": "社員の給与計算をする。",
+      "execution_rate": 0.755,
+      "importance": 3.838
+    },
+    {
+      "task_id": 6,
+      "description_ja": "月単位で各勘定科目について集計をする（月次決算）。",
+      "execution_rate": 0.837,
+      "importance": 3.854
+    },
+    {
+      "task_id": 7,
+      "description_ja": "製造原価の管理をする。",
+      "execution_rate": 0.551,
+      "importance": 3.556
+    },
+    {
+      "task_id": 8,
+      "description_ja": "商品の仕入れに関わる手続きをする。",
+      "execution_rate": 0.551,
+      "importance": 3.333
+    },
+    {
+      "task_id": 9,
+      "description_ja": "棚卸を行って在庫商品の残高を把握し、棚卸表を作成する。",
+      "execution_rate": 0.551,
+      "importance": 3.333
+    },
+    {
+      "task_id": 10,
+      "description_ja": "決算期ごとに各勘定科目を集計し、貸借対照表や損益計算書などの財務諸表を作成して、決算をする。",
+      "execution_rate": 0.816,
+      "importance": 3.975
+    },
+    {
+      "task_id": 11,
+      "description_ja": "会計ソフトを使用し、金額の記録、計算、帳簿記入・報告書作成をする。",
+      "execution_rate": 0.816,
+      "importance": 3.875
+    },
+    {
+      "task_id": 12,
+      "description_ja": "事務用品などの消耗品の発注および在庫の管理をする。",
+      "execution_rate": 0.796,
+      "importance": 3.0
+    },
+    {
+      "task_id": 13,
+      "description_ja": "予算の編成や経営計画のための資料を作成する。",
+      "execution_rate": 0.694,
+      "importance": 3.324
+    },
+    {
+      "task_id": 14,
+      "description_ja": "経営計画の進捗を管理する。",
+      "execution_rate": 0.653,
+      "importance": 3.188
+    },
+    {
+      "task_id": 15,
+      "description_ja": "会社の財務状況を分析する。",
+      "execution_rate": 0.878,
+      "importance": 3.395
+    },
+    {
+      "task_id": 16,
+      "description_ja": "取引先の状況を調査し、取引金額を設定する（与信管理）。",
+      "execution_rate": 0.551,
+      "importance": 3.481
+    },
+    {
+      "task_id": 17,
+      "description_ja": "固定資産を管理する。",
+      "execution_rate": 0.755,
+      "importance": 3.324
+    },
+    {
+      "task_id": 18,
+      "description_ja": "会社の資金を運用する。",
+      "execution_rate": 0.694,
+      "importance": 3.441
+    },
+    {
+      "task_id": 19,
+      "description_ja": "保険に関わる手続きを行う。",
+      "execution_rate": 0.714,
+      "importance": 3.171
+    },
+    {
+      "task_id": 20,
+      "description_ja": "従業員の労務管理を行う。",
+      "execution_rate": 0.694,
+      "importance": 3.382
+    },
+    {
+      "task_id": 21,
+      "description_ja": "会計システムを管理する。",
+      "execution_rate": 0.776,
+      "importance": 3.421
+    },
+    {
+      "task_id": 22,
+      "description_ja": "会計検査、税務調査などへの立会いをする。",
+      "execution_rate": 0.796,
+      "importance": 3.667
+    },
+    {
+      "task_id": 23,
+      "description_ja": "法人税や地方税などの申告をする。",
+      "execution_rate": 0.837,
+      "importance": 3.634
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人 全国経理教育協会",
+      "url": "http://www.zenkei.or.jp"
+    }
+  ],
+  "related_certs_ja": [
+    "日商簿記1級",
+    "日商簿記2級",
+    "日商簿記3級",
+    "簿記能力検定（全経上級）",
+    "簿記能力検定（全経１級）",
+    "簿記能力検定（全経２級）",
+    "簿記能力検定（全経３級）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/430",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

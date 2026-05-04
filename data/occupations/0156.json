@@ -1,0 +1,519 @@
+{
+  "id": 156,
+  "ipd_id": "IPD_01_01_156",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "看護師",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "04_023-00",
+    "mhlw_all": [
+      "04_023-00",
+      "04_023-01",
+      "04_023-02",
+      "04_023-03",
+      "04_023-99"
+    ],
+    "jsoc_main": "B133",
+    "jsoc_all": [
+      "B133"
+    ]
+  },
+  "description": {
+    "summary_ja": "「診療の補助」と「療養上の世話」を通じて、病気やけがの治療を受ける人々や介護を必要とする人々、体や心の健康上の様々な問題を抱えながら生活する人々を支える。",
+    "what_it_is_ja": "「診療の補助」と「療養上の世話」を通じて、病気やけがの治療を受ける人々や介護を必要とする人々、体や心の健康上の様々な問題を抱えながら生活する人々を支える。\n　病院・診療所などの医療施設では、患者への医療の提供に、医師・薬剤師・栄養士・臨床検査技師・理学療法士・作業療法士・医療ソーシャルワーカーなどの専門職種とともに医療チームの一員として参加する。現代医療には、救命救急医療・高度先進医療・リハビリテーション・生活習慣病の管理・精神医療・終末期医療など多様な側面があり、看護師は、医師が診断や治療を効果的に進められるよう、診察や検査、処置を補助する（診療の補助）。採血や注射、点滴の一部は医師の指示を受けて看護師が行うこともある。常に変化する患者の状態（体温や脈拍、呼吸、血圧、痛みや苦痛の程度、意識状態など）を把握し、医師の判断を助ける。介護保険施設・社会福祉施設では、医療施設と比べて医師の関与が少ないため、看護師は日常的な医療管理や緊急時の判断を求められることが多い。訪問看護ステーションの看護師は患者宅を訪問してケアを行うほか、家族への支援も行う。学校や企業の健康管理部門では健康管理や心身の保健相談に応じている。\n　どのような領域にあっても、ひとの「食べる」「休息する」「排泄する」「清潔を保つ」などの営みが安全に苦痛なく、その人らしい尊厳を保ちながら快適にできるよう、環境を整え手助けすること（療養上の世話）は、患者やその家族への心理的なサポートとともに、看護師の仕事の中でも重要な位置を占めている。またケアの受け手との間での確かなコミュニケーションを図る能力も求められている。\n\n◇　よく使う道具、機材、情報技術等\n医療機器（聴診器、注射器、点滴、体温計、血圧計等）",
+    "how_to_become_ja": "中学を卒業して5年一貫看護師養成課校に通うか、高校卒業後、看護大学・看護短期大学・看護師養成所（看護専門学校など）で4年あるいは3年の専門教育を修めたのち、国家試験に合格する必要がある。\n　学校では、基礎・専門科目の講義の他に、療養上の世話や診療補助業務の実践能力を身につけるための技術教育が行われるが、あわせて医療施設だけでなく介護・福祉施設や訪問看護ステーションなどでの実習を経験する。\n　看護師の免許を得た人は、更に1年以上の専門教育を修めた上で保健師・助産師それぞれの国家試験受験資格を得ることができる。\n　准看護師は准看護師学校や看護高等学校を卒業し、都道府県の試験に合格すると准看護師の免許が交付される。現在、准看護師の数は減少してきている。また、特定の領域について高度な知識と実践力をもつ「専門看護師」（がん看護、老人看護等14の分野：2023年9月現在）、「認定看護師」（糖尿病看護、皮膚・排泄ケア等19の認定看護分野：2021年5月現在）、「認定看護管理者」（地域連携を促進し、地域医療・看護の質の向上に向けて取り組む）資格の職能団体による認定制度がある。\n　なお、医療・保健に関する専門知識はもちろん、患者との対応や面談においてクライエントを正しく理解するための基本的なカウンセリングの知識・技術が有用である。",
+    "working_conditions_ja": "医療や介護の現場では24時間、365日を通じてケアの提供が求められており、これに応えるための勤務形態がとられている。交替制の勤務は、1日を2ないし3のシフトからなるローテーション勤務でカバーする。たとえば病院の入院部門で3交替制で勤務する1人の看護師の1週間は、1回8時間労働の昼間の勤務（日勤）を3回と、夕方から真夜中にかけての8時間労働の夜勤（準夜勤）を1回、真夜中から朝までの8時間労働の夜勤（深夜勤）を1回の、計5回の勤務からなる場合もある。土日祝日も交替で出勤するため、これらの日が必ずしも休日にならないこともある。夜間の対応体制は働く場の特徴に応じて様々であり、看護師の勤務も、夜間は緊急時の呼び出しに応じる待機体制をとるもの、利用者からの電話対応のみのもの、夜間対応を要しないものなどがある。\n　夜勤がある職場では夜勤回数に応じて夜勤手当が付加される。一般的な事務の仕事等と比較して給与水準は高い傾向がある。なお、看護師のうち男性の割合は8.6％となっている（2024年現在*）。\n　看護師の職場では、長く働き続けられるように個々のライフステージに応じた働き方や働く場を選ぶことができる環境づくりが進められている。\n\n*厚生労働省　令和6年衛生行政報告例（就業医療関係者）の概況"
+  },
+  "interests": {
+    "realistic": 3.325,
+    "investigative": 2.792,
+    "artistic": 2.416,
+    "social": 4.078,
+    "enterprising": 2.805,
+    "conventional": 3.182
+  },
+  "work_values": {
+    "achievement": 3.475,
+    "autonomy": 3.339,
+    "expertise": 3.678,
+    "self_growth": 3.356,
+    "social_recognition": 3.271,
+    "service_contribution": 3.492,
+    "good_relationships": 3.068,
+    "workplace_safety": 3.153,
+    "work_life_balance": 2.814,
+    "stability": 3.441,
+    "compensation": 3.034
+  },
+  "skills": {
+    "reading_comprehension": 3.644,
+    "active_listening": 4.847,
+    "writing": 3.797,
+    "speaking": 4.017,
+    "foreign_language_reading": 0.949,
+    "foreign_language_listening": 0.864,
+    "foreign_language_writing": 0.695,
+    "foreign_language_speaking": 0.61,
+    "mathematics": 1.949,
+    "science": 1.492,
+    "critical_thinking": 2.898,
+    "active_learning": 3.169,
+    "learning_strategies": 3.339,
+    "monitoring": 3.373,
+    "social_perceptiveness": 4.085,
+    "coordination": 3.61,
+    "persuasion": 3.373,
+    "negotiation": 3.169,
+    "instructing": 3.661,
+    "service_orientation": 3.763,
+    "complex_problem_solving": 3.373,
+    "operations_analysis": 2.525,
+    "technology_design": 1.949,
+    "equipment_selection": 2.627,
+    "installation": 1.847,
+    "programming": 1.169,
+    "operations_monitoring": 1.559,
+    "operation_and_control": 1.576,
+    "equipment_maintenance": 1.814,
+    "troubleshooting": 1.322,
+    "repairing": 1.39,
+    "quality_control_analysis": 1.763,
+    "judgment_decision_making": 2.203,
+    "systems_analysis": 1.797,
+    "systems_evaluation": 1.746,
+    "time_management": 3.085,
+    "financial_resources_management": 1.407,
+    "material_resources_management": 1.644,
+    "personnel_resources_management": 2.119
+  },
+  "knowledge": {
+    "business_management": 1.059,
+    "clerical": 1.569,
+    "economics_accounting": 0.569,
+    "sales_marketing": 0.451,
+    "customer_personal_service": 2.078,
+    "personnel_hr": 1.275,
+    "transportation": 0.333,
+    "production_processing": 0.471,
+    "agriculture_livestock": 0.216,
+    "engineering": 0.314,
+    "computers_electronics": 0.902,
+    "design": 0.235,
+    "building_construction": 0.216,
+    "mechanical": 0.627,
+    "mathematics_kn": 1.137,
+    "physics": 0.922,
+    "chemistry": 1.216,
+    "biology": 2.157,
+    "psychology": 2.882,
+    "sociology": 2.02,
+    "geography": 0.392,
+    "medicine_dentistry": 4.235,
+    "therapy_counseling": 3.333,
+    "education_training_kn": 2.51,
+    "japanese_language": 1.863,
+    "foreign_language_kn": 1.039,
+    "fine_arts": 0.51,
+    "history_archaeology": 0.392,
+    "philosophy_theology": 1.059,
+    "public_safety_security": 1.706,
+    "law_government": 1.412,
+    "telecommunications": 0.529,
+    "communications_media": 1.765
+  },
+  "abilities": {
+    "oral_comprehension": 2.942,
+    "written_comprehension": 2.942,
+    "oral_expression": 3.135,
+    "written_expression": 3.038,
+    "fluency_of_ideas": 2.558,
+    "originality": 2.558,
+    "problem_sensitivity": 3.404,
+    "deductive_reasoning": 2.923,
+    "inductive_reasoning": 2.904,
+    "information_ordering": 2.712,
+    "category_flexibility": 2.577,
+    "mathematical_reasoning": 2.442,
+    "number_facility": 2.365,
+    "memorization": 2.769,
+    "perceptual_speed": 2.538,
+    "spatial_orientation": 2.423,
+    "visualization": 2.462,
+    "selective_attention": 2.75,
+    "time_sharing": 2.885,
+    "arm_hand_steadiness": 2.865,
+    "manual_dexterity": 2.769,
+    "finger_dexterity": 2.731,
+    "reaction_time": 2.885,
+    "wrist_finger_speed": 2.596,
+    "speed_of_limb_movement": 2.538,
+    "static_strength": 2.769,
+    "stamina": 2.962,
+    "gross_body_equilibrium": 2.596,
+    "near_vision": 2.5,
+    "far_vision": 2.481,
+    "visual_color_discrimination": 2.615,
+    "depth_perception": 2.481,
+    "hearing_sensitivity": 2.615,
+    "auditory_attention": 2.558,
+    "speech_clarity": 2.635
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.863,
+    "face_to_face_discussions": 4.098,
+    "telephone_communication": 4.353,
+    "business_writing": 3.51,
+    "conflict_situations": 3.275,
+    "time_pressure": 3.667,
+    "teamwork": 4.471,
+    "dealing_with_external_customers": 3.588,
+    "coordinate_lead_others": 4.0,
+    "exactness_accuracy": 4.627,
+    "repetitive_tasks": 3.373,
+    "pace_determined_by_machine": 3.02,
+    "responsibility_for_outcomes": 3.804,
+    "indoor_climate_controlled": 4.765,
+    "indoor_non_climate_controlled": 1.843,
+    "outdoor_work": 1.569,
+    "sitting": 2.176,
+    "standing": 4.235,
+    "repetition_of_activities": 2.863,
+    "consequence_of_error": 4.392,
+    "freedom_to_make_decisions": 3.176,
+    "set_own_goals": 3.627,
+    "regular_schedule": 0.627,
+    "irregular_schedule": 0.314,
+    "seasonal_schedule": 0.059,
+    "email_communication": 2.882,
+    "cramped_uncomfortable": 2.098,
+    "disease_infection_risk": 4.745,
+    "minor_injury_risk": 2.569,
+    "standard_protective_equipment": 2.922,
+    "specialized_protective_equipment": 2.725,
+    "dealing_with_violent_people": 3.255,
+    "walking_running": 3.804,
+    "handling_objects_tools": 2.843,
+    "physical_proximity": 4.216,
+    "work_automation": 2.137,
+    "responsibility_for_safety": 4.137,
+    "impact_of_decisions": 3.333,
+    "level_of_competition": 1.569
+  },
+  "work_activities": {
+    "getting_information": 3.327,
+    "monitor_processes": 3.25,
+    "identifying_objects": 3.327,
+    "inspecting_equipment": 2.75,
+    "estimating_quantifiable": 2.5,
+    "judging_quality": 2.635,
+    "evaluating_compliance": 2.75,
+    "processing_information": 2.692,
+    "analyzing_data": 2.731,
+    "making_decisions": 3.058,
+    "thinking_creatively": 2.846,
+    "updating_knowledge": 3.135,
+    "developing_objectives": 3.0,
+    "scheduling_work": 2.981,
+    "organizing_planning": 3.269,
+    "physical_activities": 3.058,
+    "handling_objects": 3.038,
+    "controlling_machines": 2.481,
+    "operating_vehicles": 1.788,
+    "computer_work": 2.519,
+    "drafting_specifications": 1.942,
+    "repairing_mechanical": 2.058,
+    "repairing_electronic": 2.058,
+    "documenting_information": 2.558,
+    "interpreting_information": 2.788,
+    "communicating_inside": 3.385,
+    "communicating_outside": 3.077,
+    "building_relationships": 3.115,
+    "assisting_caring": 3.288,
+    "selling_influencing": 2.827,
+    "resolving_conflicts": 2.712,
+    "performing_for_public": 2.538,
+    "coordinating_others": 2.962,
+    "developing_teams": 3.058,
+    "training_teaching": 2.865,
+    "guiding_subordinates": 2.885,
+    "coaching_developing": 2.808,
+    "providing_consultation": 2.365,
+    "performing_administrative": 2.596,
+    "staffing_organizational": 2.442,
+    "monitoring_resources": 2.442
+  },
+  "education_distribution": {
+    "below_high_school": 0.02,
+    "high_school": 0.039,
+    "vocational_school": 0.824,
+    "junior_college": 0.039,
+    "technical_college": 0.039,
+    "university": 0.431,
+    "masters": 0.02,
+    "doctorate": 0.0,
+    "unknown": 0.039
+  },
+  "training_pre": {
+    "not_required": 0.157,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.059,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.078,
+    "2_to_3_years": 0.255,
+    "3_to_5_years": 0.255,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.137
+  },
+  "training_post": {
+    "not_required": 0.039,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.098,
+    "6_months_to_1_year": 0.157,
+    "1_to_2_years": 0.314,
+    "2_to_3_years": 0.196,
+    "3_to_5_years": 0.118,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.059
+  },
+  "experience": {
+    "not_required": 0.353,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.137,
+    "2_to_3_years": 0.196,
+    "3_to_5_years": 0.098,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.0,
+    "unknown": 0.118
+  },
+  "employment_type": {
+    "regular_employee": 0.922,
+    "part_time": 0.294,
+    "dispatched": 0.098,
+    "contract": 0.098,
+    "self_employed_freelance": 0.02,
+    "executive": 0.02,
+    "casual_non_student": 0.02,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "病院・診療所・社会福祉施設などにおいて、医師の診療を補助し、処置や看護をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "医師が診察、検査、手術などの治療・処置を行う際に補助する。",
+      "execution_rate": 0.865,
+      "importance": 3.2
+    },
+    {
+      "task_id": 2,
+      "description_ja": "外来を受診した患者の症状や訴えをあらかじめ把握し、医師の診断を助ける。",
+      "execution_rate": 0.75,
+      "importance": 3.282
+    },
+    {
+      "task_id": 3,
+      "description_ja": "多数の傷病者がいる場合等、重症度と緊急性によって医師の診察の優先順位を調整する（トリアージ）。",
+      "execution_rate": 0.769,
+      "importance": 3.7
+    },
+    {
+      "task_id": 4,
+      "description_ja": "患者の診療記録や経過をカルテに記入し、整理する。",
+      "execution_rate": 0.942,
+      "importance": 3.408
+    },
+    {
+      "task_id": 5,
+      "description_ja": "患者の顔色や患部の様子を観察し、健康状態や症状をチェックする。",
+      "execution_rate": 0.962,
+      "importance": 3.88
+    },
+    {
+      "task_id": 6,
+      "description_ja": "患者の体温・脈拍・血圧を計測して、健康状態や症状をチェックする。",
+      "execution_rate": 0.962,
+      "importance": 3.76
+    },
+    {
+      "task_id": 7,
+      "description_ja": "医師の指示を受けて患者に薬の塗布、注射、吸入、吸引、点滴などの処置をする。",
+      "execution_rate": 0.942,
+      "importance": 3.98
+    },
+    {
+      "task_id": 8,
+      "description_ja": "透析回路を組み立てる。",
+      "execution_rate": 0.423,
+      "importance": 2.818
+    },
+    {
+      "task_id": 9,
+      "description_ja": "検査のために患者から検体（血液・尿など）を採取する。",
+      "execution_rate": 0.885,
+      "importance": 3.739
+    },
+    {
+      "task_id": 10,
+      "description_ja": "患者に服薬の方法や注意事項の指導をする。",
+      "execution_rate": 0.885,
+      "importance": 3.435
+    },
+    {
+      "task_id": 11,
+      "description_ja": "医師と協力し、クリニカルパス（治療計画書）を作成する。",
+      "execution_rate": 0.577,
+      "importance": 2.633
+    },
+    {
+      "task_id": 12,
+      "description_ja": "入院患者の看護計画を立てる。",
+      "execution_rate": 0.808,
+      "importance": 3.048
+    },
+    {
+      "task_id": 13,
+      "description_ja": "入院患者の服薬や食事・排泄の介助など日常の世話をする。",
+      "execution_rate": 0.865,
+      "importance": 3.267
+    },
+    {
+      "task_id": 14,
+      "description_ja": "寝たきりの入院患者の体位変換をする。",
+      "execution_rate": 0.846,
+      "importance": 3.318
+    },
+    {
+      "task_id": 15,
+      "description_ja": "患者の精神面・心理面をサポートする。",
+      "execution_rate": 0.904,
+      "importance": 3.17
+    },
+    {
+      "task_id": 16,
+      "description_ja": "患者の行動変容を促すため、動機づけ面談をする。",
+      "execution_rate": 0.577,
+      "importance": 2.8
+    },
+    {
+      "task_id": 17,
+      "description_ja": "病院や施設で、感染予防の措置を患者や外来者に指導する。",
+      "execution_rate": 0.885,
+      "importance": 3.261
+    },
+    {
+      "task_id": 18,
+      "description_ja": "交代制勤務の交代時に、患者に関する情報や検査・治療・看護の予定を申し送りする。",
+      "execution_rate": 0.808,
+      "importance": 3.524
+    },
+    {
+      "task_id": 19,
+      "description_ja": "カンファレンスに参加する。",
+      "execution_rate": 0.808,
+      "importance": 3.048
+    },
+    {
+      "task_id": 20,
+      "description_ja": "診療に用いる医療品の準備や補充など在庫を管理し記録する。",
+      "execution_rate": 0.904,
+      "importance": 3.255
+    },
+    {
+      "task_id": 21,
+      "description_ja": "病室や処置室の準備、器具・装置・備品の管理をする。",
+      "execution_rate": 0.923,
+      "importance": 3.208
+    },
+    {
+      "task_id": 22,
+      "description_ja": "使用した器具やベッドを清掃する。",
+      "execution_rate": 0.789,
+      "importance": 3.122
+    },
+    {
+      "task_id": 23,
+      "description_ja": "看護記録を監査する。",
+      "execution_rate": 0.635,
+      "importance": 2.667
+    },
+    {
+      "task_id": 24,
+      "description_ja": "他の看護師を指導し、教育する。",
+      "execution_rate": 0.769,
+      "importance": 3.125
+    },
+    {
+      "task_id": 25,
+      "description_ja": "医療スタッフの業務管理を行う。",
+      "execution_rate": 0.692,
+      "importance": 3.0
+    },
+    {
+      "task_id": 26,
+      "description_ja": "地域や学校で、衛生管理・病気予防・家庭看護などの相談に応じる。",
+      "execution_rate": 0.654,
+      "importance": 2.941
+    },
+    {
+      "task_id": 27,
+      "description_ja": "家庭看護の契約をしている患者を訪問し、所定の処置や健康のチェックをする。",
+      "execution_rate": 0.635,
+      "importance": 3.03
+    },
+    {
+      "task_id": 28,
+      "description_ja": "訪問診療を補助する。",
+      "execution_rate": 0.519,
+      "importance": 2.593
+    },
+    {
+      "task_id": 29,
+      "description_ja": "緩和ケア、ホスピスケア、看取りケアなどを行う。",
+      "execution_rate": 0.673,
+      "importance": 3.029
+    },
+    {
+      "task_id": 30,
+      "description_ja": "産業医の業務を補助する。",
+      "execution_rate": 0.462,
+      "importance": 2.542
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "厚生労働省医政局看護課",
+      "url": "https://www.mhlw.go.jp/index.html"
+    },
+    {
+      "name_ja": "公益社団法人　日本看護協会",
+      "url": "https://www.nurse.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "看護師",
+    "准看護師",
+    "保健師",
+    "助産師",
+    "専門看護師",
+    "認定看護師",
+    "認定看護管理者",
+    "特定行為研修修了者"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/156",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

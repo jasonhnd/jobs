@@ -1,0 +1,38 @@
+{
+  "dimension": "interests",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 6,
+  "labels": {
+    "realistic": {
+      "ja": "現実的",
+      "en": "Realistic",
+      "onet_id": "IPD_04_01_001"
+    },
+    "investigative": {
+      "ja": "研究的",
+      "en": "Investigative",
+      "onet_id": "IPD_04_01_002"
+    },
+    "artistic": {
+      "ja": "芸術的",
+      "en": "Artistic",
+      "onet_id": "IPD_04_01_003"
+    },
+    "social": {
+      "ja": "社会的",
+      "en": "Social",
+      "onet_id": "IPD_04_01_004"
+    },
+    "enterprising": {
+      "ja": "企業的",
+      "en": "Enterprising",
+      "onet_id": "IPD_04_01_005"
+    },
+    "conventional": {
+      "ja": "慣習的",
+      "en": "Conventional",
+      "onet_id": "IPD_04_01_006"
+    }
+  }
+}

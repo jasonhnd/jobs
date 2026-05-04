@@ -1,0 +1,194 @@
+{
+  "id": 500,
+  "ipd_id": "IPD_01_01_500",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ブリーダー",
+  "aliases_ja": [
+    "動物繁殖作業員"
+  ],
+  "classifications": {
+    "mhlw_main": "11_064-04",
+    "mhlw_all": [
+      "11_064-04"
+    ],
+    "jsoc_main": "G462",
+    "jsoc_all": [
+      "G462"
+    ]
+  },
+  "description": {
+    "summary_ja": "ペットや家畜などの動物の繁殖（ブリーディング）、飼育、販売を行う。",
+    "what_it_is_ja": "ペットや家畜などの動物の繁殖（ブリーディング）、飼育、販売を行う。\n　ペットなど愛玩動物を扱うブリーダーは血統の良い雌雄を交配し優良種の繁殖、飼育、販売を行っている。一方、家畜などの産業用動物のブリーダーの場合は産業の求めに応じた良質の雌雄を交配、業界のニーズに応えた繁殖、飼育を行い販売している。ここでは主にペット用の犬のブリーダーについて記載する。\n　犬の日々の食事の世話、排泄物の処理等日常の世話や健康管理、出産介助などが重要な仕事になっている。\n　仕事を流れでみると、起床すると飼育中の犬たちの様子に異変がないか確認する。確認を終えると散歩に行き、適度な運動と排尿、排便をさせる。その後、食事を与える。食事は、犬の年齢、成長具合、健康状態に合った分量、栄養の調整等を心がける。日常的に犬の健康状態に気を配るが、尿便の回数や色、歩き方、呼吸、心音のチェックは怠らない。犬のケージの清掃も行い、清潔・快適な環境を整える。ブリーダーによりドッグショーやコンテストなどイベントに向け必要な点検を行い準備することもある。ペットショップなど卸先や顧客からの連絡やメールをチェックし対応する。犬の販売に際しては、飼い主に犬の健康管理や食事、散歩など日常的な世話について注意事項の説明や助言を行う。状況に応じ、交配の補助、出産の介助を行う。出産に備えて、事前に緊急時の病院の連絡先等準備も整えておく。",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。個人でブリーダーとなる場合が多いが、最初はブリーディングを実施している会社へ入職したり、個人経営のブリーダーのアシスタントや補助で働く場合が多い。ペットショップや動物病院の経営者がブリーダーをやっていることもあり、そこに入職する場合もある。入職前に通信講座やブリーダー養成の専門学校等で学んでいる場合が多い。\n　一人前のブリーダーとなるには、交配の補助、出産の介助、動物の飼育はもとより病気や事故など不測の事態も含め実務経験を重ね、最短でも5年程度が必要とされている。\n　個人経営が多いが、独立・開業し動物の販売を行うためには、動物取扱業の届出を都道府県、政令指定都市に登録を行う必要があり、そのためには「動物取扱責任者」の資格が必要となる。資格維持を図るためには年に1度の講習会への参加が義務付けられている。また自治体により違いはあるが、5年に1度は立ち入り検査、指導がある。敷地、飼育場所の衛生管理、繁殖記録、販売記録など記録の確認が行われる。講習会では最近では伝染病や衛生面についての講習・指導が重点的に行われている。講習会は受講者間の情報交換にも役立っており、各地で発生している感染症等の情報をいち早く知り対応策を考えるための有効な場所にもなっている。\n　関連資格としては、「愛玩動物看護師」、「愛玩動物飼養管理士」等がある。\n　生命のある動物を扱う仕事であり責任感と深い愛情が必須である。また、ブリーダーの最終目的は繁殖、飼育した動物を販売することである。そのため、購入希望者への気配りと円滑なコミュニケーション力が必要であり、買い手から信頼され安心して貰うことが重要である。動物の健康維持のため、消毒液の種類や効用、害虫やウイルス、伝染病に関する知識も大切である。また、海外から動物を購入したり、冷凍精液を調達したりする場合に英語ができると役に立つ。",
+    "working_conditions_ja": "就業先は、個人経営のブリーダーのところや、ブリーディングを実施している会社、ペットショップ等である。ペットブームもあり職場は全国に分布している。犬の遠吠えや悪臭などが嫌われ、都心や住宅密集地では敬遠されることが多いので、郊外で営業する場合が多い。\n　雇用労働者の場合は、賃金、労働時間等労働条件は勤務先の規定による。\n　個人経営の場合は、就業時間には特に定めがなく、朝早くから動物の飼育にあたり、土日もドッグショーなどに参加する場合も多い。動物の病気や交配、出産といった特殊な状況もあり時間に関係なく動物の生活が優先される。夜も動物の世話で遅くなることがある。動物を飼育しているため、家を宿泊等で空けることができない。"
+  },
+  "interests": null,
+  "work_values": null,
+  "skills": null,
+  "knowledge": {
+    "business_management": 1.25,
+    "clerical": 1.25,
+    "economics_accounting": 1.0,
+    "sales_marketing": 1.65,
+    "customer_personal_service": 1.9,
+    "personnel_hr": 0.95,
+    "transportation": 1.15,
+    "production_processing": 1.55,
+    "agriculture_livestock": 2.15,
+    "engineering": 0.15,
+    "computers_electronics": 0.4,
+    "design": 0.1,
+    "building_construction": 0.25,
+    "mechanical": 0.3,
+    "mathematics_kn": 0.6,
+    "physics": 0.15,
+    "chemistry": 0.45,
+    "biology": 2.5,
+    "psychology": 0.85,
+    "sociology": 0.45,
+    "geography": 0.65,
+    "medicine_dentistry": 0.65,
+    "therapy_counseling": 0.3,
+    "education_training_kn": 0.35,
+    "japanese_language": 0.3,
+    "foreign_language_kn": 0.25,
+    "fine_arts": 0.1,
+    "history_archaeology": 0.25,
+    "philosophy_theology": 0.25,
+    "public_safety_security": 0.45,
+    "law_government": 0.8,
+    "telecommunications": 0.3,
+    "communications_media": 0.45
+  },
+  "abilities": null,
+  "work_characteristics": {
+    "contact_with_others": 3.25,
+    "face_to_face_discussions": 2.2,
+    "telephone_communication": 2.25,
+    "business_writing": 2.55,
+    "conflict_situations": 1.8,
+    "time_pressure": 2.25,
+    "teamwork": 2.25,
+    "dealing_with_external_customers": 2.4,
+    "coordinate_lead_others": 1.95,
+    "exactness_accuracy": 2.85,
+    "repetitive_tasks": 2.45,
+    "pace_determined_by_machine": 1.7,
+    "responsibility_for_outcomes": 2.95,
+    "indoor_climate_controlled": 3.85,
+    "indoor_non_climate_controlled": 2.05,
+    "outdoor_work": 2.85,
+    "sitting": 1.85,
+    "standing": 4.4,
+    "repetition_of_activities": 3.45,
+    "consequence_of_error": 2.95,
+    "freedom_to_make_decisions": 3.75,
+    "set_own_goals": 3.3,
+    "regular_schedule": 0.65,
+    "irregular_schedule": 0.25,
+    "seasonal_schedule": 0.1,
+    "email_communication": 2.3,
+    "cramped_uncomfortable": 2.4,
+    "disease_infection_risk": 2.05,
+    "minor_injury_risk": 3.3,
+    "standard_protective_equipment": 2.3,
+    "specialized_protective_equipment": 1.5,
+    "dealing_with_violent_people": 1.05,
+    "walking_running": 3.1,
+    "handling_objects_tools": 2.35,
+    "physical_proximity": 2.35,
+    "work_automation": 1.15,
+    "responsibility_for_safety": 1.65,
+    "impact_of_decisions": 2.4,
+    "level_of_competition": 1.85
+  },
+  "work_activities": null,
+  "education_distribution": {
+    "below_high_school": 0.05,
+    "high_school": 0.15,
+    "vocational_school": 0.15,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.1,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.55
+  },
+  "training_pre": {
+    "not_required": 0.6,
+    "up_to_1_month": 0.05,
+    "1_to_6_months": 0.05,
+    "6_months_to_1_year": 0.05,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.05,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.2
+  },
+  "training_post": {
+    "not_required": 0.2,
+    "up_to_1_month": 0.25,
+    "1_to_6_months": 0.15,
+    "6_months_to_1_year": 0.1,
+    "1_to_2_years": 0.05,
+    "2_to_3_years": 0.05,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.2
+  },
+  "experience": {
+    "not_required": 0.55,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.05,
+    "6_months_to_1_year": 0.05,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.1,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.25
+  },
+  "employment_type": {
+    "regular_employee": 0.25,
+    "part_time": 0.35,
+    "dispatched": 0.0,
+    "contract": 0.0,
+    "self_employed_freelance": 0.4,
+    "executive": 0.05,
+    "casual_non_student": 0.1,
+    "casual_student": 0.1,
+    "unknown": 0.05,
+    "other": 0.0
+  },
+  "tasks_lead_ja": null,
+  "tasks": [],
+  "related_orgs": [
+    {
+      "name_ja": "公益社団法人　日本愛玩動物協会",
+      "url": "https://www.jpc.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人　全国ペット協会",
+      "url": "https://zpk.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "動物取扱責任者",
+    "愛玩動物看護師",
+    "愛玩動物飼養管理士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/500",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

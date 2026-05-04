@@ -1,6 +1,6 @@
 # 日本の職業 AI 影響マップ — Japan Jobs × AI Impact Map
 
-> An independent (unofficial) analysis site that visualizes Japan's 552 occupations from MHLW jobtag, scored 0–10 for AI replacement risk by Claude Opus 4.7. Bilingual (Japanese + English). MIT licensed.
+> An independent (unofficial) analysis site that visualizes Japan's 556 occupations from JILPT IPD v7.00 (MHLW jobtag), scored 0–10 for AI replacement risk by Claude Opus 4.7 (552 currently scored; 4 newer occupations like 声優 and ブロックチェーン・エンジニア await scoring). Bilingual (Japanese + English). MIT licensed.
 
 This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or JILPT. The AI risk scores are LLM estimates, NOT official government forecasts. Treat them as opinion-grade visualization, not statistical truth.
 
@@ -13,7 +13,7 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 - **Operator:** Jason (individual)
 - **License:** MIT (data + code)
 - **Hosted on:** Vercel (Tokyo edge node)
-- **Version:** 0.5.0 (2026-04-30)
+- **Version:** 0.7.0 (2026-05-04 — IPD v7.00 source migration)
 
 ## Pages
 
@@ -22,7 +22,9 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 
 ## Data
 
-- [data.json](https://mirai-shigoto.com/data.json) — Compact JSON of all 552 occupations (~1.3 MB). Bilingual labels and rationales.
+- [data.treemap.json](https://mirai-shigoto.com/data.treemap.json) — Compact JSON of 552 occupations powering the treemap (~470 KB raw / ~80 KB gz). Bilingual labels, AI rationales, salary/workforce/age, education and employment distributions.
+- [data.detail/<id>.json](https://mirai-shigoto.com/data.detail/0001.json) — Per-occupation detail (~3.5 KB gz each). Includes top skills/knowledge/abilities, related orgs, certifications, full IPD profile.
+- [data.search.json](https://mirai-shigoto.com/data.search.json) — Search index over 556 occupations (~28 KB gz). Includes JA + EN aliases.
 - [llms-full.txt](https://mirai-shigoto.com/llms-full.txt) — Extended GEO companion with full FAQ, methodology, and citation guide.
 - [sitemap.xml](https://mirai-shigoto.com/sitemap.xml) — Crawler index with hreflang alternates.
 - [GitHub repository](https://github.com/jasonhnd/jobs) — Source code, scraping pipeline, AI risk scoring scripts, change log.
@@ -63,7 +65,7 @@ A: About 34% of Japan's working population is in occupations scoring 7 or higher
 A: 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7.
 
 **Q: Is the data downloadable?**
-A: Yes. A complete JSON of all 552 occupations is at https://mirai-shigoto.com/data.json (~1.3 MB), MIT licensed.
+A: Yes. The main treemap dataset is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped, 552 occupations). Per-occupation detail records are at /data.detail/<id>.json (e.g. /data.detail/0001.json). Code MIT licensed; underlying IPD data © JILPT, used per their TOS Article 9 with attribution.
 
 ## Sources
 

@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.0",
+  "description": "未来の仕事 16-sector consumer-friendly taxonomy. Maps every IPD occupation (mhlw_main code) to one sector. Drives mobile treemap grouping, search filter chips, detail-page sector tag, and 関連職業 candidate pool. See data/schema/sector.py for resolution rules and DATA_ARCHITECTURE.md §6.11 for the architecture decision.",
+  "sectors": [
+    {
+      "id": "iryo",
+      "ja": "医療・保健",
+      "en": "Medical & Health",
+      "hue": "safe",
+      "description_ja": "看護師・医師・薬剤師・検査技師など、医療現場の専門職。",
+      "mhlw_seed_codes": ["04_*"]
+    },
+    {
+      "id": "fukushi",
+      "ja": "福祉・介護",
+      "en": "Welfare & Care",
+      "hue": "safe",
+      "description_ja": "ケアマネジャー・ホームヘルパー・施設介護員・ソーシャルワーカー等。",
+      "mhlw_seed_codes": ["08_*"]
+    },
+    {
+      "id": "kyoiku",
+      "ja": "教育・指導",
+      "en": "Education & Instruction",
+      "hue": "safe",
+      "description_ja": "学校教員・保育士・各種インストラクター。",
+      "mhlw_seed_codes": ["05_*"]
+    },
+    {
+      "id": "hoan",
+      "ja": "保安・公安",
+      "en": "Public Safety",
+      "hue": "safe",
+      "description_ja": "警察官・自衛官・消防官・救急救命士・警備等。",
+      "mhlw_seed_codes": ["10_*"]
+    },
+    {
+      "id": "noringyo",
+      "ja": "農林・水産",
+      "en": "Agriculture & Fishing",
+      "hue": "safe",
+      "description_ja": "農業者・林業作業・水産養殖・畜産・園芸等の一次産業。",
+      "mhlw_seed_codes": ["11_*"]
+    },
+    {
+      "id": "senmon",
+      "ja": "専門・技術",
+      "en": "Specialist & Technical",
+      "hue": "safe",
+      "description_ja": "建築・土木・機械・化学・電気・農学等の技術者・研究者（IT 系を除く）。",
+      "mhlw_seed_codes": [
+        "02_004*", "02_005*", "02_006*", "02_007*", "02_008*", "02_011*"
+      ]
+    },
+    {
+      "id": "it",
+      "ja": "IT・通信",
+      "en": "IT & Communications",
+      "hue": "safe",
+      "description_ja": "システムエンジニア・AI エンジニア・データサイエンティスト・DX 系職種。",
+      "mhlw_seed_codes": ["02_009*", "02_010*"]
+    },
+    {
+      "id": "shigyo",
+      "ja": "士業・経営・コンサル",
+      "en": "Professional Services & Management",
+      "hue": "safe",
+      "description_ja": "弁護士・会計士・税理士・FP・社労士・経営コンサル・経営者層。",
+      "mhlw_seed_codes": [
+        "01_*",
+        "03_012*", "03_013*", "03_014*", "03_019*", "03_020*"
+      ]
+    },
+    {
+      "id": "creative",
+      "ja": "クリエイティブ・メディア",
+      "en": "Creative & Media",
+      "hue": "warm",
+      "description_ja": "デザイナー・イラストレーター・カメラマン・編集者・記者・放送・通訳・翻訳・録音。",
+      "mhlw_seed_codes": [
+        "03_015*", "03_016*", "03_017*", "03_018*",
+        "12_080*", "12_081*"
+      ]
+    },
+    {
+      "id": "jimu",
+      "ja": "事務・公務",
+      "en": "Office & Public Service",
+      "hue": "mid",
+      "description_ja": "一般事務・経理・人事・コールセンター・公務員（事務）・空港・駅務。",
+      "mhlw_seed_codes": ["06_*"]
+    },
+    {
+      "id": "hanbai",
+      "ja": "販売・営業",
+      "en": "Sales & Retail",
+      "hue": "mid",
+      "description_ja": "営業職・店員・販売員・MR・自動車営業等。",
+      "mhlw_seed_codes": ["07_*"]
+    },
+    {
+      "id": "service",
+      "ja": "サービス・接客",
+      "en": "Service & Hospitality",
+      "hue": "mid",
+      "description_ja": "ホテル・調理人・バーテンダー・美容・理容・冠婚葬祭等の対人サービス。",
+      "mhlw_seed_codes": ["09_*"]
+    },
+    {
+      "id": "seizo",
+      "ja": "製造・職人",
+      "en": "Manufacturing & Craft",
+      "hue": "mid",
+      "description_ja": "食品・金属・化学・繊維・印刷・伝統工芸など、ものづくりの現場職。",
+      "mhlw_seed_codes": [
+        "12_067*", "12_069*", "12_070*", "12_071*", "12_072*", "12_073*",
+        "12_077*", "12_078*", "12_079*"
+      ]
+    },
+    {
+      "id": "maint",
+      "ja": "設備・保守",
+      "en": "Facilities & Maintenance",
+      "hue": "warm",
+      "description_ja": "産業用ロボット保守・太陽光メンテ・機械組立・ビル施設管理・点検整備。",
+      "mhlw_seed_codes": [
+        "12_074*", "12_075*", "12_076*", "13_*"
+      ]
+    },
+    {
+      "id": "kensetu",
+      "ja": "建設・土木",
+      "en": "Construction & Civil",
+      "hue": "mid",
+      "description_ja": "大工・とび・鉄筋工・建設作業員・舗装・潜水士。",
+      "mhlw_seed_codes": ["14_*"]
+    },
+    {
+      "id": "keiseki",
+      "ja": "軽作業・清掃",
+      "en": "Light Work & Cleaning",
+      "hue": "warm",
+      "description_ja": "ビル清掃・倉庫・引越・ピッキング・ハウスクリーニング等の軽作業。",
+      "mhlw_seed_codes": ["15_*"]
+    }
+  ]
+}

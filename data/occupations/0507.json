@@ -1,0 +1,441 @@
+{
+  "id": 507,
+  "ipd_id": "IPD_01_01_507",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "花き栽培者",
+  "aliases_ja": [
+    "植木栽培作業員",
+    "花き栽培作業員"
+  ],
+  "classifications": {
+    "mhlw_main": "11_064-02",
+    "mhlw_all": [
+      "11_064-02"
+    ],
+    "jsoc_main": "G461",
+    "jsoc_all": [
+      "G461"
+    ]
+  },
+  "description": {
+    "summary_ja": "観賞用の花や観葉植物などの「花卉（き）」を生産する。",
+    "what_it_is_ja": "観賞用の花や観葉植物などの「花卉（き）」を生産する。花きは本来花と草の意味であるが、現在では観賞用の植物全般を指す言葉になっている。\n　花きには、切り花として出荷するもの（キク、バラ、カーネーションなど）、鉢に入れて出荷する鉢物（シクラメン、ラン、観葉植物など）、花壇用に苗物として出荷するもの（パンジーなど）、花木類（サツキ、ツツジなど）、球根を生産し出荷するもの（ユリ、チューリップなど）、芝や地被植物など多くの種類がある。品質による価格差が大きいため、生産者は品質を保つために細心の注意を払う。また、花きは、し好品であり、消費者の好みも様々で、中には、新しい品種を作り出すために、育種に取り組んでいる花き生産者や企業もある。出荷された花きは、流通を経て消費者に届けられる。野菜や果物と同様に、花きの流通は、卸売市場を経由する「市場流通」と卸売市場を経由しない「市場外流通」がある。市場流通が主となるが、近年は直売やインターネット取引などの流通の多様化により、市場外流通が増加傾向にある。また、花きの種類では、店舗で販売される家庭用の花き以外に、贈答や冠婚葬祭に使用される商業用の花きなどもある。\n　多品目の花きを組み合わせて生産することが多く、年間を通じて花きの成長段階に応じた作業がある。\n　花きの種類に応じて栽培技術を使い分け、ガラス温室やビニールハウスなどの施設、あるいは露地で生産する。\n　具体的な作業は、土作り、種まき又は苗の植えつけ、肥料の施用、水やり、薬剤の散布などによる病虫害の防除、温室の窓の開閉や冷暖房機の運転などによる温度管理、収穫作業、出荷作業などである。\n　管理が的確に行われなかった場合、美しい草姿や色合いにならず商品として販売できなかったり、需要期に合った出荷ができずに取引価格が低迷するので、きめ細かな管理が必要となる。\n\n◇　よく使う道具、機材、情報技術等\n　冷暖房機、農業機械、普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。以前は、農業系の高校や大学の農学部、園芸学部などで専門的な知識や技術を習得してから就業する人が多かったが、農業関係の知識がなくても、異業種から就業する社会人経験者も増えてきている。\n　花き栽培者の多くは自営で、親族のあとを継ぐケースが最も多く、米や野菜など他の作物を生産していた農家が新たに花きの栽培を行う場合もある。新規就農者の場合、研修生を受け入れている花き栽培農家などで実習生として技術を習得してから独立する場合が多い。\n　また、花きの生産・販売を行っている農業法人に就職し、栽培管理から出荷まで、生産における各工程の仕事の流れを学ぶ場合もある。比較的大きな規模の法人などでは、基本的な生産業務や生産管理業務を経験した後、営業や管理職になる場合もある。その後独立することも可能である。\n　就農相談に応える機関としては、「全国新規就農相談センター」があり、各都道府県にも同様のセンターがある。更に、技術習得への支援としては、都道府県の普及指導センターが就農前の研修場所の相談や斡旋をしている。未経験から始めた人や他業種から転身している人もいる。\n　花きは需要期を外すと販売価格が低迷するため、病害虫被害を受けないように注意しながら生育の状況を見守り、一番良いタイミングで消費者に届くよう調整を行っていく仕事であり、植物体の異変等を見逃さないように細かいところに注意を払いながら仕事を続けていくことができる人が向いている。流行や消費者のニーズを汲み取る感性も求められる。鉢ものやトレイ単位の苗を扱うこともあり、ある程度体力は必要である。\n　農業機械や車両等の運転をする必要があるため、普通自動車免許、大型特殊免許が必要な場合もある。",
+    "working_conditions_ja": "花きの主要産地は、愛知県、千葉県、福岡県、埼玉県、静岡県などである（2016年時点*1）。\n　花き栽培の労働時間は、季節や勤務形態によって異なる。繁忙期には朝早くに仕事を始め、夜遅くまで働くこともある。多くの女性が活躍している（*2）。パート、アルバイトの雇用も多い。\n　多くの生産者は、出荷グループや農協等に属して出荷している。\n　水やりやハウス内の温度管理などの環境制御は、自動的に行う装置が幅広く利用されている。また、急激な天候の変化には遠隔地からスマホやパソコンで制御することができる装置も開発されており、このような技術や計画的な栽培計画の検討により、休日の確保等労働条件も改善されてきている。\n\n*1　農林水産省園芸作物課「平成28年花木生産状況調査」から\n*2　新潟農業大学校ホームページから"
+  },
+  "interests": {
+    "realistic": 4.051,
+    "investigative": 3.872,
+    "artistic": 2.872,
+    "social": 2.974,
+    "enterprising": 2.897,
+    "conventional": 3.564
+  },
+  "work_values": {
+    "achievement": 3.577,
+    "autonomy": 3.596,
+    "expertise": 3.615,
+    "self_growth": 3.404,
+    "social_recognition": 2.462,
+    "service_contribution": 2.808,
+    "good_relationships": 3.385,
+    "workplace_safety": 2.981,
+    "work_life_balance": 3.327,
+    "stability": 2.731,
+    "compensation": 2.442
+  },
+  "skills": {
+    "reading_comprehension": 2.654,
+    "active_listening": 2.731,
+    "writing": 2.25,
+    "speaking": 2.385,
+    "foreign_language_reading": 0.558,
+    "foreign_language_listening": 0.365,
+    "foreign_language_writing": 0.5,
+    "foreign_language_speaking": 0.423,
+    "mathematics": 1.558,
+    "science": 1.654,
+    "critical_thinking": 2.212,
+    "active_learning": 2.442,
+    "learning_strategies": 2.154,
+    "monitoring": 2.596,
+    "social_perceptiveness": 2.154,
+    "coordination": 2.327,
+    "persuasion": 1.904,
+    "negotiation": 2.058,
+    "instructing": 2.019,
+    "service_orientation": 1.596,
+    "complex_problem_solving": 2.019,
+    "operations_analysis": 1.5,
+    "technology_design": 1.635,
+    "equipment_selection": 2.385,
+    "installation": 1.942,
+    "programming": 0.635,
+    "operations_monitoring": 1.346,
+    "operation_and_control": 1.712,
+    "equipment_maintenance": 1.673,
+    "troubleshooting": 1.846,
+    "repairing": 2.173,
+    "quality_control_analysis": 1.942,
+    "judgment_decision_making": 1.885,
+    "systems_analysis": 1.558,
+    "systems_evaluation": 1.615,
+    "time_management": 2.154,
+    "financial_resources_management": 1.904,
+    "material_resources_management": 2.096,
+    "personnel_resources_management": 1.404
+  },
+  "knowledge": {
+    "business_management": 1.453,
+    "clerical": 1.113,
+    "economics_accounting": 1.132,
+    "sales_marketing": 1.623,
+    "customer_personal_service": 1.34,
+    "personnel_hr": 0.925,
+    "transportation": 1.208,
+    "production_processing": 2.17,
+    "agriculture_livestock": 3.113,
+    "engineering": 0.755,
+    "computers_electronics": 0.623,
+    "design": 0.434,
+    "building_construction": 0.453,
+    "mechanical": 0.962,
+    "mathematics_kn": 0.83,
+    "physics": 0.679,
+    "chemistry": 0.943,
+    "biology": 1.792,
+    "psychology": 0.509,
+    "sociology": 0.83,
+    "geography": 1.113,
+    "medicine_dentistry": 0.321,
+    "therapy_counseling": 0.453,
+    "education_training_kn": 0.774,
+    "japanese_language": 0.66,
+    "foreign_language_kn": 0.453,
+    "fine_arts": 0.642,
+    "history_archaeology": 0.377,
+    "philosophy_theology": 0.358,
+    "public_safety_security": 0.415,
+    "law_government": 0.415,
+    "telecommunications": 0.547,
+    "communications_media": 0.868
+  },
+  "abilities": {
+    "oral_comprehension": 2.381,
+    "written_comprehension": 2.238,
+    "oral_expression": 2.357,
+    "written_expression": 2.143,
+    "fluency_of_ideas": 2.286,
+    "originality": 2.357,
+    "problem_sensitivity": 2.857,
+    "deductive_reasoning": 2.452,
+    "inductive_reasoning": 2.238,
+    "information_ordering": 2.071,
+    "category_flexibility": 2.024,
+    "mathematical_reasoning": 1.786,
+    "number_facility": 2.381,
+    "memorization": 2.452,
+    "perceptual_speed": 2.262,
+    "spatial_orientation": 2.071,
+    "visualization": 2.143,
+    "selective_attention": 2.619,
+    "time_sharing": 2.214,
+    "arm_hand_steadiness": 2.714,
+    "manual_dexterity": 2.929,
+    "finger_dexterity": 3.024,
+    "reaction_time": 2.262,
+    "wrist_finger_speed": 2.405,
+    "speed_of_limb_movement": 2.31,
+    "static_strength": 3.071,
+    "stamina": 2.762,
+    "gross_body_equilibrium": 2.286,
+    "near_vision": 2.69,
+    "far_vision": 2.048,
+    "visual_color_discrimination": 3.19,
+    "depth_perception": 2.119,
+    "hearing_sensitivity": 1.81,
+    "auditory_attention": 1.714,
+    "speech_clarity": 1.786
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.283,
+    "face_to_face_discussions": 2.17,
+    "telephone_communication": 2.321,
+    "business_writing": 1.849,
+    "conflict_situations": 1.264,
+    "time_pressure": 1.792,
+    "teamwork": 2.434,
+    "dealing_with_external_customers": 2.132,
+    "coordinate_lead_others": 2.151,
+    "exactness_accuracy": 2.698,
+    "repetitive_tasks": 2.736,
+    "pace_determined_by_machine": 1.83,
+    "responsibility_for_outcomes": 2.472,
+    "indoor_climate_controlled": 2.189,
+    "indoor_non_climate_controlled": 3.283,
+    "outdoor_work": 4.17,
+    "sitting": 2.226,
+    "standing": 3.736,
+    "repetition_of_activities": 3.226,
+    "consequence_of_error": 2.17,
+    "freedom_to_make_decisions": 3.604,
+    "set_own_goals": 3.208,
+    "regular_schedule": 0.264,
+    "irregular_schedule": 0.585,
+    "seasonal_schedule": 0.151,
+    "email_communication": 2.038,
+    "cramped_uncomfortable": 2.245,
+    "disease_infection_risk": 1.302,
+    "minor_injury_risk": 1.887,
+    "standard_protective_equipment": 1.868,
+    "specialized_protective_equipment": 1.189,
+    "dealing_with_violent_people": 1.019,
+    "walking_running": 2.717,
+    "handling_objects_tools": 2.887,
+    "physical_proximity": 2.472,
+    "work_automation": 1.434,
+    "responsibility_for_safety": 2.0,
+    "impact_of_decisions": 2.245,
+    "level_of_competition": 1.547
+  },
+  "work_activities": {
+    "getting_information": 2.881,
+    "monitor_processes": 2.786,
+    "identifying_objects": 2.667,
+    "inspecting_equipment": 2.738,
+    "estimating_quantifiable": 2.405,
+    "judging_quality": 2.571,
+    "evaluating_compliance": 2.405,
+    "processing_information": 2.405,
+    "analyzing_data": 2.619,
+    "making_decisions": 2.81,
+    "thinking_creatively": 2.571,
+    "updating_knowledge": 3.048,
+    "developing_objectives": 2.786,
+    "scheduling_work": 2.857,
+    "organizing_planning": 3.119,
+    "physical_activities": 3.071,
+    "handling_objects": 3.429,
+    "controlling_machines": 2.31,
+    "operating_vehicles": 2.714,
+    "computer_work": 2.0,
+    "drafting_specifications": 1.381,
+    "repairing_mechanical": 2.405,
+    "repairing_electronic": 1.952,
+    "documenting_information": 2.214,
+    "interpreting_information": 1.952,
+    "communicating_inside": 2.31,
+    "communicating_outside": 2.429,
+    "building_relationships": 2.619,
+    "assisting_caring": 2.19,
+    "selling_influencing": 2.095,
+    "resolving_conflicts": 2.167,
+    "performing_for_public": 1.905,
+    "coordinating_others": 2.119,
+    "developing_teams": 2.167,
+    "training_teaching": 2.071,
+    "guiding_subordinates": 2.214,
+    "coaching_developing": 2.071,
+    "providing_consultation": 1.738,
+    "performing_administrative": 2.286,
+    "staffing_organizational": 1.667,
+    "monitoring_resources": 2.643
+  },
+  "education_distribution": {
+    "below_high_school": 0.038,
+    "high_school": 0.472,
+    "vocational_school": 0.132,
+    "junior_college": 0.057,
+    "technical_college": 0.0,
+    "university": 0.208,
+    "masters": 0.019,
+    "doctorate": 0.019,
+    "unknown": 0.226
+  },
+  "training_pre": {
+    "not_required": 0.717,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.019,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.057,
+    "2_to_3_years": 0.057,
+    "3_to_5_years": 0.019,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.019,
+    "unknown": 0.113
+  },
+  "training_post": {
+    "not_required": 0.245,
+    "up_to_1_month": 0.113,
+    "1_to_6_months": 0.094,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.132,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.132,
+    "5_to_10_years": 0.057,
+    "over_10_years": 0.038,
+    "unknown": 0.132
+  },
+  "experience": {
+    "not_required": 0.774,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.057,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.132
+  },
+  "employment_type": {
+    "regular_employee": 0.094,
+    "part_time": 0.377,
+    "dispatched": 0.0,
+    "contract": 0.057,
+    "self_employed_freelance": 0.434,
+    "executive": 0.038,
+    "casual_non_student": 0.057,
+    "casual_student": 0.0,
+    "unknown": 0.038,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "観賞用の花や観葉植物などの「花卉（き）」を生産する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "市場の状況を見て栽培する花の品種や数量を決め、生産計画を立てる。",
+      "execution_rate": 0.81,
+      "importance": 3.235
+    },
+    {
+      "task_id": 2,
+      "description_ja": "耕運機など農業機械を操作、運転して土作りをする。",
+      "execution_rate": 0.667,
+      "importance": 3.214
+    },
+    {
+      "task_id": 3,
+      "description_ja": "種まきや苗の植えつけ、挿し木をする。",
+      "execution_rate": 0.952,
+      "importance": 3.6
+    },
+    {
+      "task_id": 4,
+      "description_ja": "苗をポットで育成する。",
+      "execution_rate": 0.714,
+      "importance": 3.667
+    },
+    {
+      "task_id": 5,
+      "description_ja": "生育の状態を見ながら水やりや肥料の施用、病虫害の防除をする。",
+      "execution_rate": 0.905,
+      "importance": 4.079
+    },
+    {
+      "task_id": 6,
+      "description_ja": "天候や気温に応じてビニールハウスの窓を開閉したり、暖房機を調節して温度を管理する。",
+      "execution_rate": 0.81,
+      "importance": 4.176
+    },
+    {
+      "task_id": 7,
+      "description_ja": "花きの生育状況と市場状況をみて出荷時期を判断する。",
+      "execution_rate": 0.952,
+      "importance": 3.425
+    },
+    {
+      "task_id": 8,
+      "description_ja": "花きを収穫して仕分けし、種類に応じた包装をして出荷する。",
+      "execution_rate": 0.905,
+      "importance": 3.658
+    },
+    {
+      "task_id": 9,
+      "description_ja": "収穫した後、残った球根の肥育や、管理をする。",
+      "execution_rate": 0.786,
+      "importance": 3.212
+    },
+    {
+      "task_id": 10,
+      "description_ja": "生育状況を記録する。",
+      "execution_rate": 0.762,
+      "importance": 2.813
+    },
+    {
+      "task_id": 11,
+      "description_ja": "花きの寄せ植えや、鉢への植え替え（鉢上げ）をする。",
+      "execution_rate": 0.571,
+      "importance": 3.375
+    },
+    {
+      "task_id": 12,
+      "description_ja": "芽を吹かせるため茎や枝の先端を切る（ピンチ）。",
+      "execution_rate": 0.571,
+      "importance": 3.625
+    },
+    {
+      "task_id": 13,
+      "description_ja": "組織培養による大量増殖を行う。",
+      "execution_rate": 0.381,
+      "importance": 2.5
+    },
+    {
+      "task_id": 14,
+      "description_ja": "市場関係者や研究者からの依頼で、少量の品種を栽培する。",
+      "execution_rate": 0.381,
+      "importance": 2.563
+    },
+    {
+      "task_id": 15,
+      "description_ja": "土地や気候に合わせて品種改良する。",
+      "execution_rate": 0.381,
+      "importance": 2.563
+    },
+    {
+      "task_id": 16,
+      "description_ja": "資材の在庫管理をする。",
+      "execution_rate": 0.929,
+      "importance": 2.744
+    },
+    {
+      "task_id": 17,
+      "description_ja": "花きをインターネットや店舗で販売する。",
+      "execution_rate": 0.429,
+      "importance": 2.5
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般財団法人 日本花普及センター",
+      "url": "https://www.jfpc.or.jp/"
+    },
+    {
+      "name_ja": "一般社団法人 日本花き生産協会",
+      "url": "https://www.jfga.or.jp/"
+    },
+    {
+      "name_ja": "全国新規就農相談センター",
+      "url": "https://www.be-farmer.jp/"
+    },
+    {
+      "name_ja": "公益社団法人 日本農業法人協会",
+      "url": "http://hojin.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "大型特殊自動車免許"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/507",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

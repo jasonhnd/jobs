@@ -1,0 +1,461 @@
+{
+  "id": 124,
+  "ipd_id": "IPD_01_01_124",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "レンタカー店舗スタッフ",
+  "aliases_ja": [
+    "レンタカー営業所員"
+  ],
+  "classifications": {
+    "mhlw_main": "09_058-03",
+    "mhlw_all": [
+      "09_058-03"
+    ],
+    "jsoc_main": "E423",
+    "jsoc_all": [
+      "E423"
+    ]
+  },
+  "description": {
+    "summary_ja": "レンタカーの営業所で、自動車を貸し出す際の接客、車両の点検、車両の掃除などを行う。",
+    "what_it_is_ja": "レンタカーの営業所で、自動車を貸し出す際の接客、車両の点検、車両の掃除などを行う。\n　自動車の賃貸借業には、短期間自動車を貸し出すレンタカーと、長期間自動車を貸し出すカーリースとがある。また、個人向けだけでなく、企業向けのビジネスレンタカーもある。貸し出す車には、低燃費のハイブリッド車や、車いすに座ったまま乗車できる福祉車両などもある。利用者によって必要とする車は様々であるため、お客のニーズに最もマッチする車両を勧めるほか、交通、運搬に関するコンサルタントの役割も果たす。\n　車両は点検・洗車し、貸し出し可能な状態にしておく。自動車の安全性をチェックし、必要な整備を指示する。また、お客に快適なドライブを提供できるよう、車内の清掃を行う。貸し出し可能となった車両は、見やすいように工夫して並べる。\n　お客から予約を受けると、日時や車種などの予約内容を予約管理システムに入力して、車両の稼動状況を把握できるようにする。お客が希望する車種が営業所にない場合は、近隣の営業所や管理センターに連絡し、用意する。\n　車両を貸し出す際には、車の操作方法や契約事項を説明し、お客とともに車両の点検を行い、ドライバーの免許証を確認して、必要な書類を記入してもらう。車両が戻ってきた時には、キズや故障などがないかを確認をして、料金の精算を行う。\n　お客が事故や故障に遭遇した場合には、必要なアドバイスを行うほか、本部の指示に従い、その処理を行う。法人の利用客には、法人の契約条件を説明するほか、必要に応じて訪問セールスを行うこともある。\n\n◇　よく使う道具、機材、情報技術等\n　予約管理システム、普通自動車（普通免許（第一種、第二種）で運転可能なもの）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、普通自動車運転免許が必要となる。新卒の場合は入社後、自動車教習所に通って免許を取得できるケースもある。\n　入職後は、レンタカーのサービス体系の理解、仕事の基本（接客、車両点検、店舗や車両の清掃など）の習得に取り組む。新入社員研修をはじめ、中堅社員研修、営業所長研修などの階層別研修を実施する企業もある。「大型自動車運転免許」、「自動車整備士」、「損害保険代理店資格」などの資格を取得していると仕事の幅が広がるため、取得のための援助制度を設けている企業もある。\n　接客が中心となるので、言葉遣いや接客態度、身だしなみの基本が身についていること、サービス精神を持って対応できることが求められる。また、仕事は営業所のチームワークで成り立っているため、協調性も必要となる。\n　経験を積むと、売上を伸ばすための営業活動や職員の指導なども行うようになる。また、実績や能力などによって営業所の所長、更にブロック長、支配人へと昇進するケースもある。本人の適性や希望により、自動車整備、営業などレンタカーに関係した部門へ進む道もある。",
+    "working_conditions_ja": "レンタカーの営業所は、他の交通の接点としての駅、空港、港に多く置かれるほか、住宅街やビジネス街、繁華街など、幅広い地域にある。\n　比較的若年者が多い職場であるが、高齢者が働いているところもある。女性の就業者も増えている。\n　勤務体制は交替制を採っているケースが多い。都市部では24時間営業のところもあるほか、事業の性格上、日曜・祝日に勤務することもある。観光やレジャー以外に、ビジネスでもレンタカーは利用されており、レンタカーの台数は年々増加傾向にある。ガソリンスタンドなどが格安のレンタカーを始める動きもある。\n　一方で、駐車場運営会社などが中心となってカーシェアリング事業を展開する動きがみられ、レンタカー事業と一部競合し始めている。"
+  },
+  "interests": {
+    "realistic": 3.267,
+    "investigative": 2.653,
+    "artistic": 2.48,
+    "social": 3.72,
+    "enterprising": 3.227,
+    "conventional": 3.2
+  },
+  "work_values": {
+    "achievement": 2.864,
+    "autonomy": 2.881,
+    "expertise": 2.814,
+    "self_growth": 2.814,
+    "social_recognition": 2.61,
+    "service_contribution": 2.898,
+    "good_relationships": 3.068,
+    "workplace_safety": 2.949,
+    "work_life_balance": 3.085,
+    "stability": 2.915,
+    "compensation": 2.678
+  },
+  "skills": {
+    "reading_comprehension": 2.898,
+    "active_listening": 4.051,
+    "writing": 2.678,
+    "speaking": 3.034,
+    "foreign_language_reading": 1.051,
+    "foreign_language_listening": 0.932,
+    "foreign_language_writing": 0.661,
+    "foreign_language_speaking": 0.847,
+    "mathematics": 1.508,
+    "science": 0.356,
+    "critical_thinking": 1.763,
+    "active_learning": 1.864,
+    "learning_strategies": 1.797,
+    "monitoring": 2.0,
+    "social_perceptiveness": 2.237,
+    "coordination": 2.034,
+    "persuasion": 2.119,
+    "negotiation": 2.339,
+    "instructing": 2.797,
+    "service_orientation": 2.102,
+    "complex_problem_solving": 2.169,
+    "operations_analysis": 1.39,
+    "technology_design": 1.305,
+    "equipment_selection": 1.508,
+    "installation": 1.356,
+    "programming": 0.746,
+    "operations_monitoring": 0.746,
+    "operation_and_control": 1.559,
+    "equipment_maintenance": 2.186,
+    "troubleshooting": 1.61,
+    "repairing": 1.678,
+    "quality_control_analysis": 1.814,
+    "judgment_decision_making": 1.847,
+    "systems_analysis": 1.627,
+    "systems_evaluation": 1.576,
+    "time_management": 2.22,
+    "financial_resources_management": 1.475,
+    "material_resources_management": 1.136,
+    "personnel_resources_management": 1.644
+  },
+  "knowledge": {
+    "business_management": 1.244,
+    "clerical": 1.805,
+    "economics_accounting": 0.976,
+    "sales_marketing": 1.463,
+    "customer_personal_service": 2.756,
+    "personnel_hr": 1.049,
+    "transportation": 1.537,
+    "production_processing": 0.512,
+    "agriculture_livestock": 0.244,
+    "engineering": 0.341,
+    "computers_electronics": 0.341,
+    "design": 0.244,
+    "building_construction": 0.341,
+    "mechanical": 0.829,
+    "mathematics_kn": 0.463,
+    "physics": 0.293,
+    "chemistry": 0.317,
+    "biology": 0.146,
+    "psychology": 0.732,
+    "sociology": 0.756,
+    "geography": 0.463,
+    "medicine_dentistry": 0.122,
+    "therapy_counseling": 0.268,
+    "education_training_kn": 0.659,
+    "japanese_language": 1.073,
+    "foreign_language_kn": 0.61,
+    "fine_arts": 0.122,
+    "history_archaeology": 0.122,
+    "philosophy_theology": 0.122,
+    "public_safety_security": 0.878,
+    "law_government": 0.537,
+    "telecommunications": 0.293,
+    "communications_media": 0.854
+  },
+  "abilities": {
+    "oral_comprehension": 2.683,
+    "written_comprehension": 2.61,
+    "oral_expression": 2.78,
+    "written_expression": 2.61,
+    "fluency_of_ideas": 2.122,
+    "originality": 1.976,
+    "problem_sensitivity": 3.171,
+    "deductive_reasoning": 2.415,
+    "inductive_reasoning": 2.341,
+    "information_ordering": 2.244,
+    "category_flexibility": 1.951,
+    "mathematical_reasoning": 1.732,
+    "number_facility": 2.22,
+    "memorization": 2.585,
+    "perceptual_speed": 2.073,
+    "spatial_orientation": 2.415,
+    "visualization": 2.171,
+    "selective_attention": 2.463,
+    "time_sharing": 2.634,
+    "arm_hand_steadiness": 1.976,
+    "manual_dexterity": 1.976,
+    "finger_dexterity": 1.805,
+    "reaction_time": 2.341,
+    "wrist_finger_speed": 1.951,
+    "speed_of_limb_movement": 1.927,
+    "static_strength": 1.902,
+    "stamina": 2.268,
+    "gross_body_equilibrium": 2.073,
+    "near_vision": 2.122,
+    "far_vision": 2.22,
+    "visual_color_discrimination": 2.22,
+    "depth_perception": 2.317,
+    "hearing_sensitivity": 2.268,
+    "auditory_attention": 2.195,
+    "speech_clarity": 2.244
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.805,
+    "face_to_face_discussions": 2.683,
+    "telephone_communication": 4.146,
+    "business_writing": 3.0,
+    "conflict_situations": 2.293,
+    "time_pressure": 3.024,
+    "teamwork": 3.463,
+    "dealing_with_external_customers": 3.78,
+    "coordinate_lead_others": 2.976,
+    "exactness_accuracy": 3.61,
+    "repetitive_tasks": 3.39,
+    "pace_determined_by_machine": 2.463,
+    "responsibility_for_outcomes": 2.61,
+    "indoor_climate_controlled": 3.854,
+    "indoor_non_climate_controlled": 2.951,
+    "outdoor_work": 4.561,
+    "sitting": 2.902,
+    "standing": 3.39,
+    "repetition_of_activities": 3.293,
+    "consequence_of_error": 2.707,
+    "freedom_to_make_decisions": 3.39,
+    "set_own_goals": 3.488,
+    "regular_schedule": 0.512,
+    "irregular_schedule": 0.366,
+    "seasonal_schedule": 0.122,
+    "email_communication": 3.22,
+    "cramped_uncomfortable": 1.659,
+    "disease_infection_risk": 1.976,
+    "minor_injury_risk": 1.512,
+    "standard_protective_equipment": 1.976,
+    "specialized_protective_equipment": 1.366,
+    "dealing_with_violent_people": 1.341,
+    "walking_running": 2.976,
+    "handling_objects_tools": 2.951,
+    "physical_proximity": 3.341,
+    "work_automation": 1.927,
+    "responsibility_for_safety": 2.122,
+    "impact_of_decisions": 2.537,
+    "level_of_competition": 1.902
+  },
+  "work_activities": {
+    "getting_information": 2.268,
+    "monitor_processes": 2.415,
+    "identifying_objects": 2.268,
+    "inspecting_equipment": 2.122,
+    "estimating_quantifiable": 1.78,
+    "judging_quality": 2.195,
+    "evaluating_compliance": 2.415,
+    "processing_information": 2.122,
+    "analyzing_data": 2.171,
+    "making_decisions": 2.463,
+    "thinking_creatively": 2.22,
+    "updating_knowledge": 2.659,
+    "developing_objectives": 2.439,
+    "scheduling_work": 2.561,
+    "organizing_planning": 2.829,
+    "physical_activities": 2.098,
+    "handling_objects": 2.293,
+    "controlling_machines": 2.049,
+    "operating_vehicles": 3.195,
+    "computer_work": 2.537,
+    "drafting_specifications": 1.512,
+    "repairing_mechanical": 2.098,
+    "repairing_electronic": 1.683,
+    "documenting_information": 2.024,
+    "interpreting_information": 2.073,
+    "communicating_inside": 2.878,
+    "communicating_outside": 2.585,
+    "building_relationships": 2.854,
+    "assisting_caring": 2.22,
+    "selling_influencing": 2.366,
+    "resolving_conflicts": 2.341,
+    "performing_for_public": 2.146,
+    "coordinating_others": 2.22,
+    "developing_teams": 2.146,
+    "training_teaching": 2.024,
+    "guiding_subordinates": 2.22,
+    "coaching_developing": 2.049,
+    "providing_consultation": 1.756,
+    "performing_administrative": 2.146,
+    "staffing_organizational": 1.805,
+    "monitoring_resources": 1.683
+  },
+  "education_distribution": {
+    "below_high_school": 0.024,
+    "high_school": 0.366,
+    "vocational_school": 0.195,
+    "junior_college": 0.024,
+    "technical_college": 0.024,
+    "university": 0.415,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.22
+  },
+  "training_pre": {
+    "not_required": 0.537,
+    "up_to_1_month": 0.244,
+    "1_to_6_months": 0.122,
+    "6_months_to_1_year": 0.024,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.073
+  },
+  "training_post": {
+    "not_required": 0.098,
+    "up_to_1_month": 0.146,
+    "1_to_6_months": 0.415,
+    "6_months_to_1_year": 0.195,
+    "1_to_2_years": 0.049,
+    "2_to_3_years": 0.049,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.049
+  },
+  "experience": {
+    "not_required": 0.732,
+    "up_to_1_month": 0.073,
+    "1_to_6_months": 0.049,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.024,
+    "over_10_years": 0.0,
+    "unknown": 0.122
+  },
+  "employment_type": {
+    "regular_employee": 0.537,
+    "part_time": 0.293,
+    "dispatched": 0.098,
+    "contract": 0.049,
+    "self_employed_freelance": 0.024,
+    "executive": 0.024,
+    "casual_non_student": 0.293,
+    "casual_student": 0.098,
+    "unknown": 0.024,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "レンタカーの営業所で、車両を貸し出し・返却とその接客、車両点検、車両の掃除などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "電話などでレンタカーの予約を受け付ける。",
+      "execution_rate": 0.902,
+      "importance": 3.703
+    },
+    {
+      "task_id": 2,
+      "description_ja": "用途や乗車人数から、客にあった車種を決める。",
+      "execution_rate": 0.902,
+      "importance": 3.081
+    },
+    {
+      "task_id": 3,
+      "description_ja": "お客の免許証を確認し、貸出しの契約書類を作成する。",
+      "execution_rate": 0.902,
+      "importance": 4.27
+    },
+    {
+      "task_id": 4,
+      "description_ja": "車種や貸し出し期間により料金を計算し、客から現金、クレジットカードで料金を受け取る。",
+      "execution_rate": 0.829,
+      "importance": 4.147
+    },
+    {
+      "task_id": 5,
+      "description_ja": "目的地への道順を客に教える。",
+      "execution_rate": 0.707,
+      "importance": 1.931
+    },
+    {
+      "task_id": 6,
+      "description_ja": "クルマの操作方法や契約事項を客に説明する。",
+      "execution_rate": 0.951,
+      "importance": 3.282
+    },
+    {
+      "task_id": 7,
+      "description_ja": "返却されたクルマにキズがないか点検する。",
+      "execution_rate": 1.0,
+      "importance": 3.976
+    },
+    {
+      "task_id": 8,
+      "description_ja": "超過料金が発生した場合は、その金額を計算し、客から受け取る。",
+      "execution_rate": 0.878,
+      "importance": 4.111
+    },
+    {
+      "task_id": 9,
+      "description_ja": "お客が事故や故障に遭遇した場合にはアドバイスを行い、本部の指示に従って処理をする。",
+      "execution_rate": 0.927,
+      "importance": 3.947
+    },
+    {
+      "task_id": 10,
+      "description_ja": "レンタカーのボディー、ガラス、室内を清掃する。",
+      "execution_rate": 0.976,
+      "importance": 3.9
+    },
+    {
+      "task_id": 11,
+      "description_ja": "車両の整備および点検をする。",
+      "execution_rate": 0.927,
+      "importance": 4.132
+    },
+    {
+      "task_id": 12,
+      "description_ja": "店内や店先を清掃する。",
+      "execution_rate": 0.951,
+      "importance": 3.0
+    },
+    {
+      "task_id": 13,
+      "description_ja": "古くなった車両など、廃棄する車両を決める。",
+      "execution_rate": 0.781,
+      "importance": 2.344
+    },
+    {
+      "task_id": 14,
+      "description_ja": "営業所間の車両回送をする。",
+      "execution_rate": 0.878,
+      "importance": 3.0
+    },
+    {
+      "task_id": 15,
+      "description_ja": "お客のもとに車両を配送したり、引き取ったりする。",
+      "execution_rate": 0.878,
+      "importance": 3.167
+    },
+    {
+      "task_id": 16,
+      "description_ja": "お客からのクレームに対応する。",
+      "execution_rate": 0.927,
+      "importance": 3.421
+    },
+    {
+      "task_id": 17,
+      "description_ja": "保険に関連する業務を行う。",
+      "execution_rate": 0.683,
+      "importance": 2.857
+    },
+    {
+      "task_id": 18,
+      "description_ja": "店舗の備品や消耗品を管理し、必要に応じて発注する。",
+      "execution_rate": 0.902,
+      "importance": 2.649
+    },
+    {
+      "task_id": 19,
+      "description_ja": "売上や債権の管理など、経理関係の作業を行う。",
+      "execution_rate": 0.683,
+      "importance": 3.071
+    },
+    {
+      "task_id": 20,
+      "description_ja": "従業員の人事労務管理をする。",
+      "execution_rate": 0.659,
+      "importance": 2.741
+    },
+    {
+      "task_id": 21,
+      "description_ja": "従業員やスタッフを指導し、育成する。",
+      "execution_rate": 0.805,
+      "importance": 3.424
+    },
+    {
+      "task_id": 22,
+      "description_ja": "法人等を訪問し、営業活動や新規顧客の開拓を行う。",
+      "execution_rate": 0.707,
+      "importance": 2.931
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　全国レンタカー協会",
+      "url": "http://www.rentacar.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "普通自動車運転免許",
+    "大型自動車運転免許",
+    "二級自動車整備士",
+    "損害保険代理店資格"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/124",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

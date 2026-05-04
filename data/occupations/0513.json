@@ -1,0 +1,460 @@
+{
+  "id": 513,
+  "ipd_id": "IPD_01_01_513",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "国際協力専門家",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "03_020-99",
+    "mhlw_all": [
+      "03_020-99"
+    ],
+    "jsoc_main": "B249",
+    "jsoc_all": [
+      "B249"
+    ]
+  },
+  "description": {
+    "summary_ja": "国際協力の豊かな実務経験、リーダーシップ、人的ネットワーク等を基に、国際協力機構（JICA）や国連機関などが実施する各種国際協力事業に携わる。",
+    "what_it_is_ja": "国際協力の豊かな実務経験、リーダーシップ、人的ネットワーク等を基に、国際協力機構（JICA）や国連機関などが実施する各種国際協力事業に携わる。\n　一般的に国際協力専門家は、相手国の政策担当者や実務担当者、技術者などに技術や知識・助言を伝えたり、国の開発や復興のための計画を共に検討したり、人材の育成を図ることなどを通じ、その国が自立的に発展、復興していくよう促すことを目的として活動している。短期の調査団員や長期の専門家等として海外での業務に派遣されるのが一般的である。\n　世界には、経済の低迷や貧困などによって困難に直面している開発途上諸国や、紛争や内戦、自然災害などにより国土や人々の生活が破壊され復興途上にある国が少なくない。これらの国々では、人々が安心して生活できるような社会づくりや経済の発展のために、様々な方面で、日本など先進諸国の経験や技術・ノウハウを求めている。こうした要望にこたえて、国際協力機構（JICA）や国連機関などから、多くの分野の国際協力専門家が派遣されている。\n　こうした活動は、農業から工業、保健医療や運輸交通、労働、社会福祉、あるいは法整備や政策提言まで広範な分野にわたっている。とりわけ近年では、紛争、テロ、犯罪、人権侵害、難民の発生、感染症の蔓延、環境破壊、経済危機、災害といった「恐怖」や、貧困、飢餓、教育・保健医療サービスの欠如などの「欠乏」を、「人間の生を脅かし、自由と可能性を奪うもの」ととらえている。これらに対する地球規模の取組を「人間の安全保障」として、これらの観点から専門家としての人材を確保し、活用する動きが高まっている。\n　世界に散在する問題を解決するための縁の下の力持ちとして働くという、誇りとやりがいを持てる仕事でもある。\n　近年では、地方自治体からの派遣もある。日本の地方自治体には様々な分野において経験豊富ですぐれたノウハウを持つ人材が数多くおり、技術指導・支援、研修員の受入れなどを通じ海外の地方自治体との相互協力において幅広い分野での高い成果が期待できる。そのため、海外の地方自治体などの行政システムの向上、技術力の向上、人材育成、相互の友好協力関係の構築等を目的に、海外地方政府（地方自治体）からの要請に基づき、自治体国際化協会（CLAIR）の「自治体国際協力人材バンク」の登録者から候補者を選考し派遣している。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、オンライン会議ツール、パソコン",
+    "how_to_become_ja": "専門家として活動する分野により、資格や学歴の要件は異なる。\n　入職経路として、国連邦人職員の場合は、所定の試験を通じて職員や専門家となる。\n　JICAでは、派遣先のニーズに応じ、一般公募のほか、関係省庁、自治体など行政機関を通じて専門人材を求めている。開発コンサルタントのような民間企業、NGOやNPOに所属して、自分のスキルを発揮する方法もある。\n　活動分野は多岐にわたり、さまざまな職種や業務があるが、共通していることは、自立的かつ計画的に行動し、求められる成果を的確にあげることである。そのためには、専門知識や技術だけでなく、情報収集能力や総合的な判断力を備えていることが必要となる。求められる資質と能力は個々の案件により異なるが、JICAでは、一般的に「分野・課題専門力」、「総合マネジメント力」、「問題発見・調査分析力」、「対話力」、「地域関連知識・経験」、「援助関連知識」をあげている。\n　また、気候風土はもちろん、生活習慣や文化の異なる国々において活動するためには、自国での経験を押し付けたり、そのまま流用するのではなく、その土地にあった方法を現地の人々とともに考え適用する柔軟性や適応力も必要となってくる。仕事によっては、多国籍の人々とのチームワークも求められる。国際協力専門員の仕事は、高度な知識と経験が必要であるだけでなく、相手国の人々への思いやりや相手に寄り添えることが求められる。発展途上国のために自分の技術を生かし、役に立ちたいという熱意も重要である。",
+    "working_conditions_ja": "JICAの場合、現在アジアやアフリカ、中南米など、援助対象の開発途上国146ヶ国・地域に対し、約1万人（2017年時点）の専門家などの人材が様々な分野・職種で派遣されている。こうした人材は通常、招聘する国の要請に基づき派遣されることとなっている。また派遣に際しては、業務内容や要件に応じ、派遣契約、業務実施契約又は役務提供契約などをJICAとの間で締結する。派遣期間も数週間から数年に及ぶものまで多様で、中には繰り返し長期で派遣される人もいる。\n　派遣にあたっては、契約並びに諸規程に基づき、現地での生活や居住に必要な手当・経費が支給される。またJICAでは、海外約100ヶ所に海外事務所を設置し、こうした人材の支援や安全確保に必要な措置を講じている。\n　JICA以外の場合は、所属先により労働条件等は異なる。\n　専門家による支援を必要とする国や地域は世界に数多く存在しており、最近では新たな感染症対策に関する支援、市場経済化や法整備に対する支援、平和構築・復興支援など、多岐にわたる活動が展開されており、今後も国際協力専門家として様々な分野で活動できる専門人材に対するニーズは大きい。"
+  },
+  "interests": {
+    "realistic": 3.333,
+    "investigative": 3.762,
+    "artistic": 3.19,
+    "social": 3.952,
+    "enterprising": 3.714,
+    "conventional": 2.81
+  },
+  "work_values": {
+    "achievement": 3.889,
+    "autonomy": 3.667,
+    "expertise": 3.778,
+    "self_growth": 4.037,
+    "social_recognition": 3.37,
+    "service_contribution": 3.815,
+    "good_relationships": 3.778,
+    "workplace_safety": 3.148,
+    "work_life_balance": 2.963,
+    "stability": 2.852,
+    "compensation": 3.111
+  },
+  "skills": {
+    "reading_comprehension": 4.926,
+    "active_listening": 4.889,
+    "writing": 4.926,
+    "speaking": 4.815,
+    "foreign_language_reading": 5.111,
+    "foreign_language_listening": 4.519,
+    "foreign_language_writing": 4.667,
+    "foreign_language_speaking": 4.926,
+    "mathematics": 3.778,
+    "science": 3.37,
+    "critical_thinking": 4.37,
+    "active_learning": 4.556,
+    "learning_strategies": 4.333,
+    "monitoring": 4.37,
+    "social_perceptiveness": 4.556,
+    "coordination": 5.074,
+    "persuasion": 4.593,
+    "negotiation": 4.556,
+    "instructing": 4.556,
+    "service_orientation": 4.741,
+    "complex_problem_solving": 4.444,
+    "operations_analysis": 4.074,
+    "technology_design": 3.593,
+    "equipment_selection": 3.519,
+    "installation": 3.037,
+    "programming": 2.111,
+    "operations_monitoring": 2.333,
+    "operation_and_control": 2.593,
+    "equipment_maintenance": 2.37,
+    "troubleshooting": 2.444,
+    "repairing": 2.444,
+    "quality_control_analysis": 3.259,
+    "judgment_decision_making": 4.037,
+    "systems_analysis": 3.852,
+    "systems_evaluation": 3.741,
+    "time_management": 4.259,
+    "financial_resources_management": 4.185,
+    "material_resources_management": 3.444,
+    "personnel_resources_management": 4.0
+  },
+  "knowledge": {
+    "business_management": 2.462,
+    "clerical": 3.038,
+    "economics_accounting": 2.192,
+    "sales_marketing": 2.038,
+    "customer_personal_service": 2.269,
+    "personnel_hr": 1.731,
+    "transportation": 1.615,
+    "production_processing": 1.423,
+    "agriculture_livestock": 1.808,
+    "engineering": 2.423,
+    "computers_electronics": 2.154,
+    "design": 1.769,
+    "building_construction": 1.692,
+    "mechanical": 1.615,
+    "mathematics_kn": 1.577,
+    "physics": 1.423,
+    "chemistry": 1.692,
+    "biology": 1.615,
+    "psychology": 1.692,
+    "sociology": 2.346,
+    "geography": 2.308,
+    "medicine_dentistry": 1.154,
+    "therapy_counseling": 1.192,
+    "education_training_kn": 2.154,
+    "japanese_language": 2.615,
+    "foreign_language_kn": 3.5,
+    "fine_arts": 1.269,
+    "history_archaeology": 1.577,
+    "philosophy_theology": 1.538,
+    "public_safety_security": 2.615,
+    "law_government": 2.231,
+    "telecommunications": 2.192,
+    "communications_media": 2.538
+  },
+  "abilities": {
+    "oral_comprehension": 3.476,
+    "written_comprehension": 3.381,
+    "oral_expression": 3.476,
+    "written_expression": 3.476,
+    "fluency_of_ideas": 3.429,
+    "originality": 3.143,
+    "problem_sensitivity": 3.571,
+    "deductive_reasoning": 3.524,
+    "inductive_reasoning": 3.524,
+    "information_ordering": 3.286,
+    "category_flexibility": 3.19,
+    "mathematical_reasoning": 2.571,
+    "number_facility": 2.571,
+    "memorization": 2.714,
+    "perceptual_speed": 2.524,
+    "spatial_orientation": 2.429,
+    "visualization": 2.333,
+    "selective_attention": 2.762,
+    "time_sharing": 2.952,
+    "arm_hand_steadiness": 1.667,
+    "manual_dexterity": 1.571,
+    "finger_dexterity": 1.619,
+    "reaction_time": 1.81,
+    "wrist_finger_speed": 1.619,
+    "speed_of_limb_movement": 1.571,
+    "static_strength": 1.667,
+    "stamina": 2.524,
+    "gross_body_equilibrium": 1.762,
+    "near_vision": 1.714,
+    "far_vision": 1.667,
+    "visual_color_discrimination": 1.619,
+    "depth_perception": 1.762,
+    "hearing_sensitivity": 1.667,
+    "auditory_attention": 1.952,
+    "speech_clarity": 2.81
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.462,
+    "face_to_face_discussions": 3.846,
+    "telephone_communication": 3.654,
+    "business_writing": 3.962,
+    "conflict_situations": 2.615,
+    "time_pressure": 3.154,
+    "teamwork": 4.192,
+    "dealing_with_external_customers": 3.962,
+    "coordinate_lead_others": 4.038,
+    "exactness_accuracy": 4.154,
+    "repetitive_tasks": 3.077,
+    "pace_determined_by_machine": 2.385,
+    "responsibility_for_outcomes": 3.654,
+    "indoor_climate_controlled": 4.538,
+    "indoor_non_climate_controlled": 2.154,
+    "outdoor_work": 2.346,
+    "sitting": 4.154,
+    "standing": 1.962,
+    "repetition_of_activities": 1.769,
+    "consequence_of_error": 2.692,
+    "freedom_to_make_decisions": 3.615,
+    "set_own_goals": 3.731,
+    "regular_schedule": 0.269,
+    "irregular_schedule": 0.577,
+    "seasonal_schedule": 0.154,
+    "email_communication": 4.769,
+    "cramped_uncomfortable": 2.0,
+    "disease_infection_risk": 2.231,
+    "minor_injury_risk": 1.538,
+    "standard_protective_equipment": 1.654,
+    "specialized_protective_equipment": 1.423,
+    "dealing_with_violent_people": 1.5,
+    "walking_running": 1.923,
+    "handling_objects_tools": 1.615,
+    "physical_proximity": 2.885,
+    "work_automation": 1.923,
+    "responsibility_for_safety": 2.154,
+    "impact_of_decisions": 3.038,
+    "level_of_competition": 2.308
+  },
+  "work_activities": {
+    "getting_information": 3.762,
+    "monitor_processes": 3.762,
+    "identifying_objects": 3.619,
+    "inspecting_equipment": 2.619,
+    "estimating_quantifiable": 2.524,
+    "judging_quality": 3.095,
+    "evaluating_compliance": 3.571,
+    "processing_information": 3.143,
+    "analyzing_data": 3.333,
+    "making_decisions": 3.429,
+    "thinking_creatively": 3.238,
+    "updating_knowledge": 3.286,
+    "developing_objectives": 3.571,
+    "scheduling_work": 3.476,
+    "organizing_planning": 3.714,
+    "physical_activities": 2.143,
+    "handling_objects": 2.143,
+    "controlling_machines": 2.0,
+    "operating_vehicles": 1.762,
+    "computer_work": 3.333,
+    "drafting_specifications": 1.762,
+    "repairing_mechanical": 1.952,
+    "repairing_electronic": 1.952,
+    "documenting_information": 2.905,
+    "interpreting_information": 3.095,
+    "communicating_inside": 3.524,
+    "communicating_outside": 3.571,
+    "building_relationships": 3.619,
+    "assisting_caring": 2.762,
+    "selling_influencing": 2.667,
+    "resolving_conflicts": 3.095,
+    "performing_for_public": 2.524,
+    "coordinating_others": 3.095,
+    "developing_teams": 3.286,
+    "training_teaching": 2.857,
+    "guiding_subordinates": 3.0,
+    "coaching_developing": 3.048,
+    "providing_consultation": 3.095,
+    "performing_administrative": 3.286,
+    "staffing_organizational": 2.714,
+    "monitoring_resources": 2.667
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.038,
+    "vocational_school": 0.0,
+    "junior_college": 0.0,
+    "technical_college": 0.0,
+    "university": 0.385,
+    "masters": 0.615,
+    "doctorate": 0.308,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.231,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.077,
+    "1_to_2_years": 0.115,
+    "2_to_3_years": 0.038,
+    "3_to_5_years": 0.077,
+    "5_to_10_years": 0.115,
+    "over_10_years": 0.154,
+    "unknown": 0.192
+  },
+  "training_post": {
+    "not_required": 0.077,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.154,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.154,
+    "3_to_5_years": 0.192,
+    "5_to_10_years": 0.115,
+    "over_10_years": 0.038,
+    "unknown": 0.192
+  },
+  "experience": {
+    "not_required": 0.269,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.038,
+    "1_to_2_years": 0.038,
+    "2_to_3_years": 0.115,
+    "3_to_5_years": 0.077,
+    "5_to_10_years": 0.115,
+    "over_10_years": 0.154,
+    "unknown": 0.192
+  },
+  "employment_type": {
+    "regular_employee": 0.538,
+    "part_time": 0.038,
+    "dispatched": 0.038,
+    "contract": 0.385,
+    "self_employed_freelance": 0.231,
+    "executive": 0.0,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.038
+  },
+  "tasks_lead_ja": "十分な国際協力の実務経験、高いリーダーシップ、幅広い人的ネットワーク等を基に、国際協力機構（ＪＩＣＡ）や国連機関などが実施する各種事業に携わる。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "派遣に備え、国内で技術や知識を深める。",
+      "execution_rate": 1.0,
+      "importance": 3.286
+    },
+    {
+      "task_id": 2,
+      "description_ja": "派遣先機関と契約を締結する。",
+      "execution_rate": 0.81,
+      "importance": 3.529
+    },
+    {
+      "task_id": 3,
+      "description_ja": "派遣先国での活動を円滑に進めるための体制を整える。",
+      "execution_rate": 0.905,
+      "importance": 3.474
+    },
+    {
+      "task_id": 4,
+      "description_ja": "派遣された国の言語や文化、社会制度を理解する。",
+      "execution_rate": 0.905,
+      "importance": 3.684
+    },
+    {
+      "task_id": 5,
+      "description_ja": "派遣された国の政府、関係機関等から要請を受けたテーマに関する現状、政策、要望等に関してヒアリング等を行い課題を把握する。",
+      "execution_rate": 0.952,
+      "importance": 3.7
+    },
+    {
+      "task_id": 6,
+      "description_ja": "現場の実態調査を行い課題等について具体的な情報を収集する。",
+      "execution_rate": 1.0,
+      "importance": 4.048
+    },
+    {
+      "task_id": 7,
+      "description_ja": "派遣先国の政府（政策担当者）などに必要な助言や提案を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.524
+    },
+    {
+      "task_id": 8,
+      "description_ja": "派遣先国の技術者などに技術や知識等を伝える。",
+      "execution_rate": 0.952,
+      "importance": 3.4
+    },
+    {
+      "task_id": 9,
+      "description_ja": "講義の通訳をする。",
+      "execution_rate": 0.714,
+      "importance": 2.4
+    },
+    {
+      "task_id": 10,
+      "description_ja": "派遣先国の政府（政策担当者）と国の開発や復興のための計画を共に検討する。",
+      "execution_rate": 0.905,
+      "importance": 3.737
+    },
+    {
+      "task_id": 11,
+      "description_ja": "派遣先国の自立的な発展、復興を促すための人材育成を支援する。",
+      "execution_rate": 0.952,
+      "importance": 3.95
+    },
+    {
+      "task_id": 12,
+      "description_ja": "派遣された国の様々な人と交流し、人脈を広げる。",
+      "execution_rate": 1.0,
+      "importance": 3.81
+    },
+    {
+      "task_id": 13,
+      "description_ja": "派遣先国でのプロジェクトの進捗を管理する。",
+      "execution_rate": 0.905,
+      "importance": 3.947
+    },
+    {
+      "task_id": 14,
+      "description_ja": "派遣終了後、報告書をまとめ、関係機関等に報告する。",
+      "execution_rate": 1.0,
+      "importance": 3.619
+    },
+    {
+      "task_id": 15,
+      "description_ja": "開発や復興計画の事業評価をする。",
+      "execution_rate": 1.0,
+      "importance": 3.0
+    },
+    {
+      "task_id": 16,
+      "description_ja": "相手機関との折衝や交渉、トラブル対応をする。",
+      "execution_rate": 0.952,
+      "importance": 3.4
+    },
+    {
+      "task_id": 17,
+      "description_ja": "国内のスタッフや専門家を育成する。",
+      "execution_rate": 0.905,
+      "importance": 3.158
+    },
+    {
+      "task_id": 18,
+      "description_ja": "監査法人への対応など、会計関係の処理をする。",
+      "execution_rate": 0.857,
+      "importance": 2.667
+    },
+    {
+      "task_id": 19,
+      "description_ja": "国内や派遣先国内で広報業務を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.0
+    },
+    {
+      "task_id": 20,
+      "description_ja": "派遣先国から留学生を受け入れる。",
+      "execution_rate": 0.81,
+      "importance": 2.882
+    },
+    {
+      "task_id": 21,
+      "description_ja": "民間企業の海外進出を支援する。",
+      "execution_rate": 0.81,
+      "importance": 2.941
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "独立行政法人国際協力機構 国際協力人材部国際協力人材センター",
+      "url": "http://partner.jica.go.jp/"
+    },
+    {
+      "name_ja": "独立行政法人国際協力機構（JICA）",
+      "url": "https://www.jica.go.jp/"
+    },
+    {
+      "name_ja": "外務省 国際機関人事センター",
+      "url": "https://www.mofa-irc.go.jp/"
+    },
+    {
+      "name_ja": "一般財団法人自治体国際化協会（CLAIR/クレア）",
+      "url": "http://www.clair.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/513",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

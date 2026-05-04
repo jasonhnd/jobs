@@ -1,0 +1,453 @@
+{
+  "id": 71,
+  "ipd_id": "IPD_01_01_071",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "ホームセンター店員",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "07_045-04",
+    "mhlw_all": [
+      "07_045-04"
+    ],
+    "jsoc_main": "D323",
+    "jsoc_all": [
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "ホームセンターでDIY（Do IT Yourself）用品、住関連商品を販売する。",
+    "what_it_is_ja": "ホームセンターでDIY（Do IT Yourself）用品、住関連商品を販売する。\n　ホームセンターでは、住まいの手入れ、補修、改善などを自ら行う際に必要な商品を総合的、系統的に品揃えしている。したがって、販売商品は完成品よりも材料や道具が多く、一般家庭で使われる木材、建材、道具・工具、塗料、水道・電気用品、インテリア用品、エクステリア用品をはじめ、日用品、ペット用品、園芸用品、カー用品、アウトドア用品まで幅広く取り扱っている。\n　接客業務では、顧客のニーズに応じて適切な商品を選択し、相談に乗るとともに、その使用方法や用品の安全性について必要なアドバイスを行う。顧客のニーズや意見を吸収して、次の商品企画、営業企画に反映させることも重要となる。\n　補充発注業務では、通常、週の前半は担当部門・売場の定番商品や特売商品の在庫点検、発注を行い、週の後半は注文した商品を検品して陳列する。期間ごとに企画を決めて売り出す特売商品は、見やすく買いやすいようにディスプレイする。\n　大規模な店舗では、接客業務を行う売場担当者、補充発注業務を行う仕入れ担当者、商品や売場の企画を行う販売促進担当者など、専門の担当者を設けていることが多い。\n　現在では、省エネや防災などの目的のために手軽に作ることのできるキットも充実しており、顧客のニーズも多様化している。\n\n◇　よく使う道具、機材、情報技術等\n　レジ（小売店、レストラン等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、関連する資格としては「DIYアドバイザー」や「販売士」がある。\n　住まいに関する顧客の疑問、質問、相談は千差万別で、多岐に渡る。そのため、住まいの手入れ、補修に関するノウハウや商品知識、使い方など幅広い知識が必要となる。このため、併せて、担当する商品分野に関する深い専門知識が求められる。",
+    "working_conditions_ja": "ホームセンターは年々数を増やし全国各地の都市や郊外に5,020店舗ある（2024年時点*）。\n　賃金、労働時間等労働条件は勤務先の規定によるが、勤務体制としては、営業時間の長い店の場合2交替制を採用しているケースもある。日曜・祝日も営業するため、平日に交替で休日を取っているところが多い。\n\n*一般社団法人　日本DIY・ホームセンター協会、年間総売上高とホームセンター数の推移（推計値）"
+  },
+  "interests": {
+    "realistic": 3.533,
+    "investigative": 2.773,
+    "artistic": 2.84,
+    "social": 3.827,
+    "enterprising": 3.053,
+    "conventional": 3.28
+  },
+  "work_values": {
+    "achievement": 2.913,
+    "autonomy": 3.116,
+    "expertise": 3.058,
+    "self_growth": 3.116,
+    "social_recognition": 2.42,
+    "service_contribution": 2.87,
+    "good_relationships": 3.29,
+    "workplace_safety": 3.116,
+    "work_life_balance": 3.333,
+    "stability": 3.087,
+    "compensation": 2.493
+  },
+  "skills": {
+    "reading_comprehension": 2.928,
+    "active_listening": 3.957,
+    "writing": 2.652,
+    "speaking": 3.101,
+    "foreign_language_reading": 0.681,
+    "foreign_language_listening": 0.652,
+    "foreign_language_writing": 0.551,
+    "foreign_language_speaking": 0.681,
+    "mathematics": 2.029,
+    "science": 0.594,
+    "critical_thinking": 2.087,
+    "active_learning": 2.145,
+    "learning_strategies": 2.116,
+    "monitoring": 1.797,
+    "social_perceptiveness": 2.725,
+    "coordination": 1.928,
+    "persuasion": 2.261,
+    "negotiation": 2.232,
+    "instructing": 2.913,
+    "service_orientation": 2.594,
+    "complex_problem_solving": 2.261,
+    "operations_analysis": 1.449,
+    "technology_design": 1.0,
+    "equipment_selection": 1.899,
+    "installation": 1.464,
+    "programming": 0.638,
+    "operations_monitoring": 0.609,
+    "operation_and_control": 1.507,
+    "equipment_maintenance": 1.072,
+    "troubleshooting": 1.232,
+    "repairing": 1.348,
+    "quality_control_analysis": 1.188,
+    "judgment_decision_making": 1.362,
+    "systems_analysis": 1.304,
+    "systems_evaluation": 1.203,
+    "time_management": 1.783,
+    "financial_resources_management": 0.797,
+    "material_resources_management": 0.739,
+    "personnel_resources_management": 1.101
+  },
+  "knowledge": {
+    "business_management": 0.891,
+    "clerical": 1.364,
+    "economics_accounting": 0.691,
+    "sales_marketing": 2.218,
+    "customer_personal_service": 2.709,
+    "personnel_hr": 0.836,
+    "transportation": 0.964,
+    "production_processing": 0.873,
+    "agriculture_livestock": 0.673,
+    "engineering": 0.455,
+    "computers_electronics": 0.473,
+    "design": 0.364,
+    "building_construction": 0.836,
+    "mechanical": 0.836,
+    "mathematics_kn": 0.764,
+    "physics": 0.4,
+    "chemistry": 0.436,
+    "biology": 0.491,
+    "psychology": 0.782,
+    "sociology": 0.836,
+    "geography": 0.4,
+    "medicine_dentistry": 0.327,
+    "therapy_counseling": 0.291,
+    "education_training_kn": 0.8,
+    "japanese_language": 0.891,
+    "foreign_language_kn": 0.618,
+    "fine_arts": 0.4,
+    "history_archaeology": 0.2,
+    "philosophy_theology": 0.236,
+    "public_safety_security": 0.8,
+    "law_government": 0.545,
+    "telecommunications": 0.364,
+    "communications_media": 0.782
+  },
+  "abilities": {
+    "oral_comprehension": 3.035,
+    "written_comprehension": 2.825,
+    "oral_expression": 3.07,
+    "written_expression": 2.895,
+    "fluency_of_ideas": 2.614,
+    "originality": 2.439,
+    "problem_sensitivity": 3.316,
+    "deductive_reasoning": 2.702,
+    "inductive_reasoning": 2.737,
+    "information_ordering": 2.754,
+    "category_flexibility": 2.526,
+    "mathematical_reasoning": 2.351,
+    "number_facility": 2.667,
+    "memorization": 2.912,
+    "perceptual_speed": 2.404,
+    "spatial_orientation": 2.579,
+    "visualization": 2.649,
+    "selective_attention": 2.702,
+    "time_sharing": 2.737,
+    "arm_hand_steadiness": 2.456,
+    "manual_dexterity": 2.614,
+    "finger_dexterity": 2.561,
+    "reaction_time": 2.649,
+    "wrist_finger_speed": 2.474,
+    "speed_of_limb_movement": 2.526,
+    "static_strength": 2.982,
+    "stamina": 2.965,
+    "gross_body_equilibrium": 2.614,
+    "near_vision": 2.456,
+    "far_vision": 2.088,
+    "visual_color_discrimination": 2.509,
+    "depth_perception": 2.491,
+    "hearing_sensitivity": 2.351,
+    "auditory_attention": 2.333,
+    "speech_clarity": 2.649
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.527,
+    "face_to_face_discussions": 3.091,
+    "telephone_communication": 3.582,
+    "business_writing": 2.909,
+    "conflict_situations": 2.327,
+    "time_pressure": 2.636,
+    "teamwork": 3.182,
+    "dealing_with_external_customers": 3.218,
+    "coordinate_lead_others": 2.855,
+    "exactness_accuracy": 3.255,
+    "repetitive_tasks": 2.873,
+    "pace_determined_by_machine": 2.182,
+    "responsibility_for_outcomes": 2.455,
+    "indoor_climate_controlled": 4.545,
+    "indoor_non_climate_controlled": 2.764,
+    "outdoor_work": 2.873,
+    "sitting": 1.455,
+    "standing": 4.618,
+    "repetition_of_activities": 3.109,
+    "consequence_of_error": 2.345,
+    "freedom_to_make_decisions": 3.127,
+    "set_own_goals": 3.2,
+    "regular_schedule": 0.673,
+    "irregular_schedule": 0.255,
+    "seasonal_schedule": 0.073,
+    "email_communication": 2.709,
+    "cramped_uncomfortable": 2.073,
+    "disease_infection_risk": 2.455,
+    "minor_injury_risk": 1.836,
+    "standard_protective_equipment": 2.073,
+    "specialized_protective_equipment": 1.291,
+    "dealing_with_violent_people": 1.6,
+    "walking_running": 4.145,
+    "handling_objects_tools": 2.691,
+    "physical_proximity": 3.545,
+    "work_automation": 2.309,
+    "responsibility_for_safety": 1.818,
+    "impact_of_decisions": 1.927,
+    "level_of_competition": 1.673
+  },
+  "work_activities": {
+    "getting_information": 2.912,
+    "monitor_processes": 2.702,
+    "identifying_objects": 2.684,
+    "inspecting_equipment": 2.316,
+    "estimating_quantifiable": 2.404,
+    "judging_quality": 2.754,
+    "evaluating_compliance": 2.737,
+    "processing_information": 2.807,
+    "analyzing_data": 2.842,
+    "making_decisions": 2.825,
+    "thinking_creatively": 2.439,
+    "updating_knowledge": 2.877,
+    "developing_objectives": 2.702,
+    "scheduling_work": 2.544,
+    "organizing_planning": 3.421,
+    "physical_activities": 3.035,
+    "handling_objects": 3.14,
+    "controlling_machines": 2.772,
+    "operating_vehicles": 2.263,
+    "computer_work": 2.649,
+    "drafting_specifications": 2.018,
+    "repairing_mechanical": 2.211,
+    "repairing_electronic": 2.158,
+    "documenting_information": 2.579,
+    "interpreting_information": 2.702,
+    "communicating_inside": 3.404,
+    "communicating_outside": 3.088,
+    "building_relationships": 3.298,
+    "assisting_caring": 2.561,
+    "selling_influencing": 2.509,
+    "resolving_conflicts": 2.632,
+    "performing_for_public": 2.842,
+    "coordinating_others": 2.684,
+    "developing_teams": 2.877,
+    "training_teaching": 2.719,
+    "guiding_subordinates": 2.649,
+    "coaching_developing": 2.456,
+    "providing_consultation": 2.281,
+    "performing_administrative": 2.526,
+    "staffing_organizational": 2.386,
+    "monitoring_resources": 2.509
+  },
+  "education_distribution": {
+    "below_high_school": 0.018,
+    "high_school": 0.273,
+    "vocational_school": 0.055,
+    "junior_college": 0.073,
+    "technical_college": 0.018,
+    "university": 0.382,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.364
+  },
+  "training_pre": {
+    "not_required": 0.527,
+    "up_to_1_month": 0.182,
+    "1_to_6_months": 0.091,
+    "6_months_to_1_year": 0.036,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.164
+  },
+  "training_post": {
+    "not_required": 0.127,
+    "up_to_1_month": 0.091,
+    "1_to_6_months": 0.327,
+    "6_months_to_1_year": 0.145,
+    "1_to_2_years": 0.073,
+    "2_to_3_years": 0.036,
+    "3_to_5_years": 0.018,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.018,
+    "unknown": 0.164
+  },
+  "experience": {
+    "not_required": 0.527,
+    "up_to_1_month": 0.127,
+    "1_to_6_months": 0.036,
+    "6_months_to_1_year": 0.018,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.018,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.018,
+    "unknown": 0.255
+  },
+  "employment_type": {
+    "regular_employee": 0.364,
+    "part_time": 0.6,
+    "dispatched": 0.018,
+    "contract": 0.073,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.164,
+    "casual_student": 0.091,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "ホームセンターでＤＩＹ（Do IT Yourself）用品、住関連商品を販売する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "店内を掃除する。",
+      "execution_rate": 0.947,
+      "importance": 3.574
+    },
+    {
+      "task_id": 2,
+      "description_ja": "商品の補充をし、陳列を整える。",
+      "execution_rate": 0.983,
+      "importance": 3.857
+    },
+    {
+      "task_id": 3,
+      "description_ja": "販売を促進するため、商品にＰＯＰ広告などをつけ、陳列を工夫する。",
+      "execution_rate": 0.965,
+      "importance": 3.673
+    },
+    {
+      "task_id": 4,
+      "description_ja": "売り場に立って接客する。",
+      "execution_rate": 0.983,
+      "importance": 4.054
+    },
+    {
+      "task_id": 5,
+      "description_ja": "お客の相談にのり、商品を選んで勧める。",
+      "execution_rate": 0.965,
+      "importance": 3.745
+    },
+    {
+      "task_id": 6,
+      "description_ja": "お客に商品の使用法、操作法、手入れの仕方などを説明する。",
+      "execution_rate": 0.947,
+      "importance": 3.5
+    },
+    {
+      "task_id": 7,
+      "description_ja": "お客の注文に応じて商品の加工や加工の取次ぎをする。",
+      "execution_rate": 0.877,
+      "importance": 3.42
+    },
+    {
+      "task_id": 8,
+      "description_ja": "販売額を合計し、現金を受け取って釣り銭を渡すか、クレジット取引の手続きをする。",
+      "execution_rate": 0.965,
+      "importance": 4.164
+    },
+    {
+      "task_id": 9,
+      "description_ja": "商品を包装する。",
+      "execution_rate": 0.825,
+      "importance": 2.745
+    },
+    {
+      "task_id": 10,
+      "description_ja": "商品の配達および配送手配をする。",
+      "execution_rate": 0.912,
+      "importance": 3.404
+    },
+    {
+      "task_id": 11,
+      "description_ja": "販売に関する記録をつける。",
+      "execution_rate": 0.79,
+      "importance": 3.156
+    },
+    {
+      "task_id": 12,
+      "description_ja": "商品の販売価格や値引き額を計算する。",
+      "execution_rate": 0.842,
+      "importance": 3.396
+    },
+    {
+      "task_id": 13,
+      "description_ja": "商品の修理や手直しの費用を見積る。",
+      "execution_rate": 0.737,
+      "importance": 3.405
+    },
+    {
+      "task_id": 14,
+      "description_ja": "イベントなどの企画を実施する。",
+      "execution_rate": 0.649,
+      "importance": 2.649
+    },
+    {
+      "task_id": 15,
+      "description_ja": "バイヤーと相談し、販売する商品を選定する。",
+      "execution_rate": 0.649,
+      "importance": 3.054
+    },
+    {
+      "task_id": 16,
+      "description_ja": "商品を発注する。",
+      "execution_rate": 0.895,
+      "importance": 4.039
+    },
+    {
+      "task_id": 17,
+      "description_ja": "配送された商品を検収する。",
+      "execution_rate": 0.912,
+      "importance": 3.385
+    },
+    {
+      "task_id": 18,
+      "description_ja": "商品のトラックへの積み下ろしを行う。",
+      "execution_rate": 0.597,
+      "importance": 2.706
+    },
+    {
+      "task_id": 19,
+      "description_ja": "商品在庫の整理や棚卸しを行う。",
+      "execution_rate": 0.947,
+      "importance": 3.611
+    },
+    {
+      "task_id": 20,
+      "description_ja": "従業員のシフトを作成し、労務管理を行う。",
+      "execution_rate": 0.754,
+      "importance": 3.442
+    },
+    {
+      "task_id": 21,
+      "description_ja": "防火や防犯、空調等、店内設備を管理する。",
+      "execution_rate": 0.79,
+      "importance": 3.267
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本DIY・ホームセンター協会",
+      "url": "https://www.diy.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "１級販売士",
+    "２級販売士",
+    "３級販売士",
+    "ＤＩＹアドバイザー"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/71",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

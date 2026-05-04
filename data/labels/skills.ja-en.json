@@ -1,0 +1,203 @@
+{
+  "dimension": "skills",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 39,
+  "labels": {
+    "reading_comprehension": {
+      "ja": "読解力",
+      "en": "Reading Comprehension",
+      "onet_id": "IPD_04_03_01_001"
+    },
+    "active_listening": {
+      "ja": "傾聴力",
+      "en": "Active Listening",
+      "onet_id": "IPD_04_03_01_002"
+    },
+    "writing": {
+      "ja": "文章力",
+      "en": "Writing",
+      "onet_id": "IPD_04_03_01_003"
+    },
+    "speaking": {
+      "ja": "説明力",
+      "en": "Speaking",
+      "onet_id": "IPD_04_03_01_004"
+    },
+    "foreign_language_reading": {
+      "ja": "外国語を読む",
+      "en": "Foreign Language Reading",
+      "onet_id": "IPD_04_03_01_005"
+    },
+    "foreign_language_listening": {
+      "ja": "外国語を聞く",
+      "en": "Foreign Language Listening",
+      "onet_id": "IPD_04_03_01_006"
+    },
+    "foreign_language_writing": {
+      "ja": "外国語で書く",
+      "en": "Foreign Language Writing",
+      "onet_id": "IPD_04_03_01_007"
+    },
+    "foreign_language_speaking": {
+      "ja": "外国語で話す",
+      "en": "Foreign Language Speaking",
+      "onet_id": "IPD_04_03_01_008"
+    },
+    "mathematics": {
+      "ja": "数学的素養",
+      "en": "Mathematics",
+      "onet_id": "IPD_04_03_01_009"
+    },
+    "science": {
+      "ja": "科学的素養",
+      "en": "Science",
+      "onet_id": "IPD_04_03_01_010"
+    },
+    "critical_thinking": {
+      "ja": "論理と推論（批判的思考）",
+      "en": "Critical Thinking",
+      "onet_id": "IPD_04_03_01_011"
+    },
+    "active_learning": {
+      "ja": "新しい情報の応用力",
+      "en": "Active Learning",
+      "onet_id": "IPD_04_03_01_012"
+    },
+    "learning_strategies": {
+      "ja": "学習方法の選択・実践",
+      "en": "Learning Strategies",
+      "onet_id": "IPD_04_03_01_013"
+    },
+    "monitoring": {
+      "ja": "継続的観察と評価",
+      "en": "Monitoring",
+      "onet_id": "IPD_04_03_01_014"
+    },
+    "social_perceptiveness": {
+      "ja": "他者の反応の理解",
+      "en": "Social Perceptiveness",
+      "onet_id": "IPD_04_03_01_015"
+    },
+    "coordination": {
+      "ja": "他者との調整",
+      "en": "Coordination",
+      "onet_id": "IPD_04_03_01_016"
+    },
+    "persuasion": {
+      "ja": "説得",
+      "en": "Persuasion",
+      "onet_id": "IPD_04_03_01_017"
+    },
+    "negotiation": {
+      "ja": "交渉",
+      "en": "Negotiation",
+      "onet_id": "IPD_04_03_01_018"
+    },
+    "instructing": {
+      "ja": "指導",
+      "en": "Instructing",
+      "onet_id": "IPD_04_03_01_019"
+    },
+    "service_orientation": {
+      "ja": "対人援助サービス",
+      "en": "Service Orientation",
+      "onet_id": "IPD_04_03_01_020"
+    },
+    "complex_problem_solving": {
+      "ja": "複雑な問題解決",
+      "en": "Complex Problem Solving",
+      "onet_id": "IPD_04_03_01_021"
+    },
+    "operations_analysis": {
+      "ja": "要件分析（仕様作成）",
+      "en": "Operations Analysis",
+      "onet_id": "IPD_04_03_01_022"
+    },
+    "technology_design": {
+      "ja": "カスタマイズと開発",
+      "en": "Technology Design",
+      "onet_id": "IPD_04_03_01_023"
+    },
+    "equipment_selection": {
+      "ja": "道具、機器、設備の選択",
+      "en": "Equipment Selection",
+      "onet_id": "IPD_04_03_01_024"
+    },
+    "installation": {
+      "ja": "設置と設定",
+      "en": "Installation",
+      "onet_id": "IPD_04_03_01_025"
+    },
+    "programming": {
+      "ja": "プログラミング",
+      "en": "Programming",
+      "onet_id": "IPD_04_03_01_026"
+    },
+    "operations_monitoring": {
+      "ja": "計器監視",
+      "en": "Operations Monitoring",
+      "onet_id": "IPD_04_03_01_027"
+    },
+    "operation_and_control": {
+      "ja": "操作と制御",
+      "en": "Operation and Control",
+      "onet_id": "IPD_04_03_01_028"
+    },
+    "equipment_maintenance": {
+      "ja": "保守点検",
+      "en": "Equipment Maintenance",
+      "onet_id": "IPD_04_03_01_029"
+    },
+    "troubleshooting": {
+      "ja": "故障等の原因特定",
+      "en": "Troubleshooting",
+      "onet_id": "IPD_04_03_01_030"
+    },
+    "repairing": {
+      "ja": "修理",
+      "en": "Repairing",
+      "onet_id": "IPD_04_03_01_031"
+    },
+    "quality_control_analysis": {
+      "ja": "クオリティチェック",
+      "en": "Quality Control Analysis",
+      "onet_id": "IPD_04_03_01_032"
+    },
+    "judgment_decision_making": {
+      "ja": "合理的な意思決定",
+      "en": "Judgment & Decision Making",
+      "onet_id": "IPD_04_03_01_033"
+    },
+    "systems_analysis": {
+      "ja": "企業・組織の活動の分析",
+      "en": "Systems Analysis",
+      "onet_id": "IPD_04_03_01_034"
+    },
+    "systems_evaluation": {
+      "ja": "企業・組織の活動の評価",
+      "en": "Systems Evaluation",
+      "onet_id": "IPD_04_03_01_035"
+    },
+    "time_management": {
+      "ja": "時間管理",
+      "en": "Time Management",
+      "onet_id": "IPD_04_03_01_036"
+    },
+    "financial_resources_management": {
+      "ja": "資金管理",
+      "en": "Management of Financial Resources",
+      "onet_id": "IPD_04_03_01_037"
+    },
+    "material_resources_management": {
+      "ja": "資材管理",
+      "en": "Management of Material Resources",
+      "onet_id": "IPD_04_03_01_038"
+    },
+    "personnel_resources_management": {
+      "ja": "人材管理",
+      "en": "Management of Personnel Resources",
+      "onet_id": "IPD_04_03_01_039"
+    }
+  }
+}

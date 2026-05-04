@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "description": "Per-occupation manual sector overrides. Use this when an occupation's MHLW code does not uniquely match a sector (multi-match) or matches none of the seed_codes (unmatched). Edit + rebuild → effective immediately. Format: { padded_id_string: sector_id }. Padded id matches data/occupations/<padded>.json filename. To find candidates that need overrides, run a build and inspect dist/data.review_queue.json.",
+  "overrides": {
+    "0025": "it",
+    "0043": "kensetu",
+    "0584": "maint"
+  }
+}

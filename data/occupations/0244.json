@@ -1,0 +1,489 @@
+{
+  "id": 244,
+  "ipd_id": "IPD_01_01_244",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "障害者福祉施設指導専門員（生活支援員、就労支援員等）",
+  "aliases_ja": [
+    "作業指導員（障害者施設）",
+    "社会福祉士（障害者福祉施設：相談・助言・支援業務）",
+    "職業指導員（障害者施設）",
+    "就労支援員（障害者施設）",
+    "生活支援員（障害者支援施設：生活介護を除く）"
+  ],
+  "classifications": {
+    "mhlw_main": "08_049-04",
+    "mhlw_all": [
+      "08_049-04"
+    ],
+    "jsoc_main": "B162",
+    "jsoc_all": [
+      "B162"
+    ]
+  },
+  "description": {
+    "summary_ja": "障害者福祉施設に入所又は通所している利用者が快適で自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う。",
+    "what_it_is_ja": "身体や精神に障害があり、自立した日常生活を送るのが難しく、障害者福祉施設に入所又は通所している利用者が快適で自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う。\n　具体的には、日常生活の相談や指導を行う生活支援員、技術指導や職業訓練を行う職業指導員、求職活動の支援や職場開拓等を行う就労支援員、作業を通じて必要な指導を行う作業指導員として、障害者が自立した生活を行えるように支援する。\n　また、行政や利用者の主治医など医療機関、関係専門団体との連絡調整も行う。就労を希望する利用者のために、ハローワーク等に同行し就職の斡旋を依頼したり、企業等に赴いて障害者の仕事を開拓する場合もある。加えて、障害者の雇用を考えている企業などに支援・助言も行う。このほか、施設職員の資質向上のため研修、勉強会を企画、実施したり、この職業を目指す学生を実習生として受け入れ、研修を行うなどの業務もある。\n\n\n◇　よく使う道具、機材、情報技術等\n　パソコン、事務処理ソフト（文書作成等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、専門的な知識や技術が求められる職業だけに、新卒で福祉施設に入職するのは、社会福祉系の学部がある大学・短大や福祉系の専門学校の卒業生が多い。公営の施設の場合は、地方公務員の試験に合格することが前提となる。\n　この職業に就くには、何よりもまず障害者の人権、人間としての尊厳を重んじること、そして愛情と共感をもって利用者に接し、穏やかな態度で仕事に臨むことが求められる。障害者のなかには、自分の意思を伝えるのが苦手な人もいるので、相手の気持ちに寄り添い、何を求めているのかをしっかりと理解するコミュニケーション能力も必要である。利用者との信頼関係を築き、利用者が自立に向かう過程に立ち会えたり、自分なりの創意工夫が成果に結びつくことに「働きがい」を感じている人が多い。\n　人手不足が続いている職業であり、欠員補充など中途採用の募集は常に行われており、入職の機会は多い。かつては即戦力として、経験者を求める傾向が強かったが、最近では多彩な社会経験をもつ人材の入職が増えつつある。全体的な傾向として、新卒者よりも中途入職者の方が多い。\n　なお、就職の際には、国家資格である社会福祉士や精神保健福祉士などの資格を取得していると有利である。施設によっては、こうした資格を保有していることを入職の要件としているところもある。\n　入職後は、新卒や異業種からの中途入職者は、OJTや必要に応じて地方自治体などが主催する講習会で知識と経験を積むことで仕事を覚えていく。ただ、様々な事態にも対応できるようになるには、その後もさらなる研鑽を積んでいくことが求められる。",
+    "working_conditions_ja": "勤務体制としては、通所型施設の場合は、例えば9時から夕方5時までの8時間勤務で残業はあっても1，2時間程度、入所型施設の場合はシフト勤務で、3交代制のところが多い。休暇は週休2日制だが、特に入所型施設の場合は土日に固定されてはいない。給与は、公営施設の場合は公務員規定に準拠するが、私営の場合は施設によって様々である。\n　障害者支援施設は5,457施設（利用者定員185,482人）あり、就業者は107,844人である（2024年10月1日時点*）。\n　介護を含めた福祉施設全体では女性の比率が高く、年齢構成としては40代から50代が多い(2023年度時点*2)。また勤続年数は、同じ職場で経験を積んでベテランとして活躍する人がいる一方で、5年未満の人が4割近くに達している。他業界への転職は多くないが、同一職場における流動性は高い。\n\n*厚生労働省、令和5年社会福祉施設等調査の概況"
+  },
+  "interests": {
+    "realistic": 2.807,
+    "investigative": 2.825,
+    "artistic": 2.702,
+    "social": 3.228,
+    "enterprising": 2.947,
+    "conventional": 2.86
+  },
+  "work_values": {
+    "achievement": 3.14,
+    "autonomy": 3.1,
+    "expertise": 3.22,
+    "self_growth": 3.32,
+    "social_recognition": 2.68,
+    "service_contribution": 3.54,
+    "good_relationships": 3.24,
+    "workplace_safety": 2.88,
+    "work_life_balance": 3.22,
+    "stability": 3.3,
+    "compensation": 2.42
+  },
+  "skills": {
+    "reading_comprehension": 3.5,
+    "active_listening": 4.44,
+    "writing": 3.58,
+    "speaking": 3.68,
+    "foreign_language_reading": 0.3,
+    "foreign_language_listening": 0.28,
+    "foreign_language_writing": 0.16,
+    "foreign_language_speaking": 0.1,
+    "mathematics": 1.24,
+    "science": 0.54,
+    "critical_thinking": 2.7,
+    "active_learning": 2.56,
+    "learning_strategies": 2.82,
+    "monitoring": 3.22,
+    "social_perceptiveness": 4.22,
+    "coordination": 3.3,
+    "persuasion": 3.4,
+    "negotiation": 3.08,
+    "instructing": 3.9,
+    "service_orientation": 3.94,
+    "complex_problem_solving": 3.2,
+    "operations_analysis": 2.2,
+    "technology_design": 1.74,
+    "equipment_selection": 2.0,
+    "installation": 2.06,
+    "programming": 0.7,
+    "operations_monitoring": 0.98,
+    "operation_and_control": 1.2,
+    "equipment_maintenance": 1.46,
+    "troubleshooting": 1.44,
+    "repairing": 1.52,
+    "quality_control_analysis": 1.44,
+    "judgment_decision_making": 2.0,
+    "systems_analysis": 1.94,
+    "systems_evaluation": 1.58,
+    "time_management": 2.52,
+    "financial_resources_management": 1.4,
+    "material_resources_management": 1.44,
+    "personnel_resources_management": 1.88
+  },
+  "knowledge": {
+    "business_management": 1.185,
+    "clerical": 1.852,
+    "economics_accounting": 0.741,
+    "sales_marketing": 0.833,
+    "customer_personal_service": 2.241,
+    "personnel_hr": 1.407,
+    "transportation": 0.537,
+    "production_processing": 0.852,
+    "agriculture_livestock": 0.37,
+    "engineering": 0.167,
+    "computers_electronics": 0.5,
+    "design": 0.148,
+    "building_construction": 0.167,
+    "mechanical": 0.13,
+    "mathematics_kn": 0.407,
+    "physics": 0.222,
+    "chemistry": 0.167,
+    "biology": 0.333,
+    "psychology": 3.074,
+    "sociology": 2.444,
+    "geography": 0.333,
+    "medicine_dentistry": 2.019,
+    "therapy_counseling": 2.722,
+    "education_training_kn": 2.204,
+    "japanese_language": 1.407,
+    "foreign_language_kn": 0.296,
+    "fine_arts": 0.685,
+    "history_archaeology": 0.13,
+    "philosophy_theology": 0.37,
+    "public_safety_security": 1.259,
+    "law_government": 0.944,
+    "telecommunications": 0.315,
+    "communications_media": 1.556
+  },
+  "abilities": {
+    "oral_comprehension": 3.491,
+    "written_comprehension": 3.291,
+    "oral_expression": 3.455,
+    "written_expression": 3.345,
+    "fluency_of_ideas": 2.982,
+    "originality": 3.018,
+    "problem_sensitivity": 3.8,
+    "deductive_reasoning": 3.345,
+    "inductive_reasoning": 3.309,
+    "information_ordering": 3.0,
+    "category_flexibility": 2.909,
+    "mathematical_reasoning": 2.327,
+    "number_facility": 2.236,
+    "memorization": 2.909,
+    "perceptual_speed": 2.727,
+    "spatial_orientation": 2.655,
+    "visualization": 2.782,
+    "selective_attention": 3.055,
+    "time_sharing": 3.182,
+    "arm_hand_steadiness": 2.473,
+    "manual_dexterity": 2.455,
+    "finger_dexterity": 2.309,
+    "reaction_time": 2.855,
+    "wrist_finger_speed": 2.4,
+    "speed_of_limb_movement": 2.455,
+    "static_strength": 2.636,
+    "stamina": 2.891,
+    "gross_body_equilibrium": 2.473,
+    "near_vision": 2.327,
+    "far_vision": 2.164,
+    "visual_color_discrimination": 2.4,
+    "depth_perception": 2.309,
+    "hearing_sensitivity": 2.527,
+    "auditory_attention": 2.491,
+    "speech_clarity": 2.691
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.722,
+    "face_to_face_discussions": 3.889,
+    "telephone_communication": 3.981,
+    "business_writing": 2.852,
+    "conflict_situations": 2.741,
+    "time_pressure": 2.796,
+    "teamwork": 3.87,
+    "dealing_with_external_customers": 3.278,
+    "coordinate_lead_others": 3.519,
+    "exactness_accuracy": 3.519,
+    "repetitive_tasks": 3.463,
+    "pace_determined_by_machine": 2.296,
+    "responsibility_for_outcomes": 3.167,
+    "indoor_climate_controlled": 4.796,
+    "indoor_non_climate_controlled": 2.352,
+    "outdoor_work": 2.926,
+    "sitting": 3.019,
+    "standing": 3.593,
+    "repetition_of_activities": 3.019,
+    "consequence_of_error": 2.907,
+    "freedom_to_make_decisions": 3.5,
+    "set_own_goals": 3.593,
+    "regular_schedule": 0.778,
+    "irregular_schedule": 0.167,
+    "seasonal_schedule": 0.056,
+    "email_communication": 3.093,
+    "cramped_uncomfortable": 2.13,
+    "disease_infection_risk": 3.389,
+    "minor_injury_risk": 2.259,
+    "standard_protective_equipment": 1.685,
+    "specialized_protective_equipment": 1.296,
+    "dealing_with_violent_people": 2.722,
+    "walking_running": 3.167,
+    "handling_objects_tools": 2.722,
+    "physical_proximity": 4.093,
+    "work_automation": 1.648,
+    "responsibility_for_safety": 3.407,
+    "impact_of_decisions": 2.796,
+    "level_of_competition": 1.63
+  },
+  "work_activities": {
+    "getting_information": 3.164,
+    "monitor_processes": 3.473,
+    "identifying_objects": 3.527,
+    "inspecting_equipment": 3.109,
+    "estimating_quantifiable": 2.709,
+    "judging_quality": 3.073,
+    "evaluating_compliance": 3.309,
+    "processing_information": 2.927,
+    "analyzing_data": 3.036,
+    "making_decisions": 3.527,
+    "thinking_creatively": 3.309,
+    "updating_knowledge": 3.491,
+    "developing_objectives": 3.436,
+    "scheduling_work": 3.473,
+    "organizing_planning": 3.455,
+    "physical_activities": 3.109,
+    "handling_objects": 3.073,
+    "controlling_machines": 2.345,
+    "operating_vehicles": 2.473,
+    "computer_work": 2.655,
+    "drafting_specifications": 1.927,
+    "repairing_mechanical": 2.0,
+    "repairing_electronic": 1.982,
+    "documenting_information": 2.818,
+    "interpreting_information": 3.018,
+    "communicating_inside": 3.818,
+    "communicating_outside": 3.436,
+    "building_relationships": 3.618,
+    "assisting_caring": 3.727,
+    "selling_influencing": 2.764,
+    "resolving_conflicts": 3.273,
+    "performing_for_public": 2.745,
+    "coordinating_others": 3.382,
+    "developing_teams": 3.418,
+    "training_teaching": 3.145,
+    "guiding_subordinates": 3.164,
+    "coaching_developing": 3.145,
+    "providing_consultation": 2.709,
+    "performing_administrative": 3.309,
+    "staffing_organizational": 3.073,
+    "monitoring_resources": 2.891
+  },
+  "education_distribution": {
+    "below_high_school": 0.037,
+    "high_school": 0.352,
+    "vocational_school": 0.333,
+    "junior_college": 0.259,
+    "technical_college": 0.037,
+    "university": 0.519,
+    "masters": 0.019,
+    "doctorate": 0.0,
+    "unknown": 0.148
+  },
+  "training_pre": {
+    "not_required": 0.426,
+    "up_to_1_month": 0.074,
+    "1_to_6_months": 0.13,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.056,
+    "2_to_3_years": 0.037,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.259
+  },
+  "training_post": {
+    "not_required": 0.148,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.426,
+    "6_months_to_1_year": 0.093,
+    "1_to_2_years": 0.074,
+    "2_to_3_years": 0.056,
+    "3_to_5_years": 0.037,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.167
+  },
+  "experience": {
+    "not_required": 0.537,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.111,
+    "6_months_to_1_year": 0.019,
+    "1_to_2_years": 0.074,
+    "2_to_3_years": 0.019,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.019,
+    "unknown": 0.222
+  },
+  "employment_type": {
+    "regular_employee": 0.722,
+    "part_time": 0.444,
+    "dispatched": 0.019,
+    "contract": 0.13,
+    "self_employed_freelance": 0.019,
+    "executive": 0.056,
+    "casual_non_student": 0.111,
+    "casual_student": 0.037,
+    "unknown": 0.0,
+    "other": 0.037
+  },
+  "tasks_lead_ja": "障害者福祉施設に入所あるいは通所している利用者が自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "本人及び家族と施設利用に当たっての相談に応じる。",
+      "execution_rate": 0.946,
+      "importance": 3.077
+    },
+    {
+      "task_id": 2,
+      "description_ja": "施設利用にあっての契約手続き等を行う。",
+      "execution_rate": 0.982,
+      "importance": 3.352
+    },
+    {
+      "task_id": 3,
+      "description_ja": "利用者の直近の状況に合った提供サービスを計画、立案する。",
+      "execution_rate": 0.982,
+      "importance": 3.593
+    },
+    {
+      "task_id": 4,
+      "description_ja": "新しい利用者について施設職員と情報共有し受け入れ体制を準備する。",
+      "execution_rate": 0.964,
+      "importance": 3.528
+    },
+    {
+      "task_id": 5,
+      "description_ja": "利用者の障害の状況に応じて、日常生活の支援、身体の機能や生活能力の向上のための指導等を行う。",
+      "execution_rate": 0.964,
+      "importance": 3.642
+    },
+    {
+      "task_id": 6,
+      "description_ja": "利用者の障害の状況に応じて、各種作業等を計画し指導等を行う。",
+      "execution_rate": 0.964,
+      "importance": 3.585
+    },
+    {
+      "task_id": 7,
+      "description_ja": "利用者の障害の状況に応じて、職業上の技術・技能等を習得するための訓練等を計画し指導等を行う。",
+      "execution_rate": 0.909,
+      "importance": 3.44
+    },
+    {
+      "task_id": 8,
+      "description_ja": "利用者の障害の状況に応じて、用具を改良する。",
+      "execution_rate": 0.782,
+      "importance": 3.372
+    },
+    {
+      "task_id": 9,
+      "description_ja": "障害の状況に応じて適切な食事を提供する。",
+      "execution_rate": 0.891,
+      "importance": 3.755
+    },
+    {
+      "task_id": 10,
+      "description_ja": "利用者の体調を管理する。",
+      "execution_rate": 0.982,
+      "importance": 3.981
+    },
+    {
+      "task_id": 11,
+      "description_ja": "利用者を送迎する。",
+      "execution_rate": 0.836,
+      "importance": 3.5
+    },
+    {
+      "task_id": 12,
+      "description_ja": "必要に応じ、本人及び家族の相談に応じる。",
+      "execution_rate": 0.964,
+      "importance": 3.566
+    },
+    {
+      "task_id": 13,
+      "description_ja": "本人に同行してハローワーク等へ行き、就職の斡旋を依頼する。",
+      "execution_rate": 0.564,
+      "importance": 2.677
+    },
+    {
+      "task_id": 14,
+      "description_ja": "企業等を訪問し、利用者の仕事等を確保する。",
+      "execution_rate": 0.582,
+      "importance": 3.0
+    },
+    {
+      "task_id": 15,
+      "description_ja": "就職した利用者が職場に定着できるよう職場訪問等のフォローアップを行う。",
+      "execution_rate": 0.6,
+      "importance": 3.364
+    },
+    {
+      "task_id": 16,
+      "description_ja": "障害者の雇用を考えている企業等への助言、支援等を行う。",
+      "execution_rate": 0.582,
+      "importance": 3.25
+    },
+    {
+      "task_id": 17,
+      "description_ja": "緊急事態等が発生した場合には利用者及び家族と面談し必要な対応を図る。",
+      "execution_rate": 0.873,
+      "importance": 3.5
+    },
+    {
+      "task_id": 18,
+      "description_ja": "活動の記録、利用者の出欠管理簿の記入等必要な事務を行う。",
+      "execution_rate": 0.982,
+      "importance": 3.667
+    },
+    {
+      "task_id": 19,
+      "description_ja": "利用者の支援のため、必要に応じ行政、医療機関等と連携する。",
+      "execution_rate": 0.927,
+      "importance": 3.686
+    },
+    {
+      "task_id": 20,
+      "description_ja": "自治体や利用者に、利用料を請求する。",
+      "execution_rate": 0.836,
+      "importance": 3.457
+    },
+    {
+      "task_id": 21,
+      "description_ja": "施設の管理や運営を行う。",
+      "execution_rate": 0.982,
+      "importance": 3.519
+    },
+    {
+      "task_id": 22,
+      "description_ja": "各種指導のマニュアルを作成する。",
+      "execution_rate": 0.873,
+      "importance": 3.271
+    },
+    {
+      "task_id": 23,
+      "description_ja": "地域住民、地域関係機関等との連携、交流及び苦情等の処理、対応を行う。",
+      "execution_rate": 0.873,
+      "importance": 3.396
+    },
+    {
+      "task_id": 24,
+      "description_ja": "施設職員の資質向上のため研修、勉強会等を企画、実施する。",
+      "execution_rate": 0.927,
+      "importance": 3.471
+    },
+    {
+      "task_id": 25,
+      "description_ja": "学生の実習、インターンシップ等の受入れ調整、実習時の指導、研修等対応全般を行う。",
+      "execution_rate": 0.818,
+      "importance": 3.156
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "きょうされん",
+      "url": "https://www.kyosaren.or.jp/"
+    },
+    {
+      "name_ja": "公益財団法人　社会福祉振興・試験センター",
+      "url": "http://www.sssc.or.jp/"
+    },
+    {
+      "name_ja": "社会福祉法人　全国社会福祉協議会",
+      "url": "https://www.shakyo.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "社会福祉士",
+    "精神保健福祉士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/244",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

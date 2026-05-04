@@ -1,0 +1,446 @@
+{
+  "id": 498,
+  "ipd_id": "IPD_01_01_498",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "こん包作業員",
+  "aliases_ja": [
+    "出荷作業員（荷造を主とするもの）",
+    "荷造機械操作員",
+    "荷造検査工",
+    "荷造工",
+    "箱詰荷造工"
+  ],
+  "classifications": {
+    "mhlw_main": "15_095-04",
+    "mhlw_all": [
+      "15_095-04"
+    ],
+    "jsoc_main": "K706",
+    "jsoc_all": [
+      "K706"
+    ]
+  },
+  "description": {
+    "summary_ja": "輸送の目的のため、段ボール箱・木箱の組立、品物の箱詰・袋詰、テープ止め・バンド掛けなどのこん（梱）包の作業を行う。",
+    "what_it_is_ja": "輸送の目的のため、段ボール箱・木箱の組立、品物の箱詰・袋詰（小袋詰を除く）、テープ止め・バンド掛けなどのこん（梱）包の作業を行う。\n　こん包には、素材別に「木製梱包」「スチール梱包」「ダンボール梱包」、形状別に「密閉箱」「透かし箱(木枠梱包)」「スキッド梱包」「パレット梱包」などと、製品の保護に関する「バリア梱包」「緩衝包装」等があり、また、こん包する製品の形状や質量、大きさ、錆びやすいものであるか否か、振動への対応の有無、更には最終目的地までの流通条件を考慮して選択する。輸出梱包では、輸送方法が「海上輸送」か「航空輸送」かが考慮するポイントが異なる。\n　まず、こん包する品物の種類や数量に間違いがないかどうか検査する検品作業を行う。\n　加工作業では、包装済みの品物にメーカー名を表示したタグを取り付ける作業を行う。\n　個装作業では、ダンボール箱などの大きな箱に入れる前に、商品個別の箱などに詰める作業を行う。\n　製箱・組立作業では、輸送用のダンボール箱などを組み立てる作業を行う。製かん（函）機など専用の機械を使用することが多い。また、輸出する機械などの場合には、木箱やわく箱を作るなど専門的な作業を行う。鋸（のこぎり）盤などの機械を使用して材料の木材を所定の大きさに切断し、自動くぎ打機を使用して箱の側面を製作し、それらの面を集めて箱を組み立てる。機械などの形状に応じて、設計にしたがって手作業で製作する場合が多い。\n　箱詰・内装作業では、単に箱に詰めるだけではなく、緩衝材を入れたり、防湿などのために二重・三重の内装と呼ばれる包装を行ったりする。\n　封かん・結束・表示作業では、ダンボール箱のふたをテープでとめたり、木箱のふたをくぎでとめたりする他、補強のためにバンドがけをすることもある。また、箱に紙を貼り付けたり、塗料を吹き付けて送り先を表示する。\n\n◇　よく使う道具、機材、情報技術等\n　製かん（函）機、鋸（のこぎり）盤、自動くぎ打機、木工機械",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　こん包業務はこん包業者のほか、運送会社等が兼業で行っている場合が多く、これらの会社に雇用されて働く。最近ではインターネットの通信販売事業者や大手スーパーの物流センターに入職することもある。正社員だけではなく、派遣やアルバイト、パートタイマーなども多い。ハローワークの紹介、求人広告等により入職することが多い。\n　入職の際に機械の取り扱い経験が必ずしも必要ということはなく、職場で訓練を受けて経験を積み重ねる。最初は箱詰めなどの簡単な仕事から始めて、だんだんと技術を要する仕事を任されて、班長や職長などの責任者に昇進していく。\n　関連資格として、厚生労働省の定める技能検定の「工業包装技能士」がある。この他、こん包部材の設計、作業能力、こん包に関する知識等に対する「包装管理士」などの資格もある。\n　体を動かす仕事のため、一定の体力が必要である。輸出こん包では、木箱などを製作するため、木工機械の扱いなどの技術を必要とする場合がある。大規模な倉庫や工場になると、仕分け・検品・こん包が流れ作業になっており、効率的に作業をするためには早さと正確さが求められる。また、大きな箱の中に効率よく品物を詰める必要があるため、空間認識力や一定の作業能率を維持できる忍耐力と手先の器用さも必要となる。",
+    "working_conditions_ja": "勤務先はこん包業、こん包業を兼業する運送業、卸・小売業の配送センター等である。製造業の工場でも生産ラインの最終工程に包装、こん包の仕事がある。製造業とのつながりが深いことから、職場は都市部だけでなく工業地帯周辺にも多い。輸出こん包では、輸出港の近辺に集まっている。\n　こん包すべき商品数は季節や日によって異なり、お中元やお歳暮、あるいはクリスマスなど買い物が増えるシーズンは、こん包するものも増える傾向があるなど、シーズンによって業務量に繁閑があることが多い。24時間態勢で稼働する倉庫等もあり、勤務時間はシフト制が多い。\n　雇用形態、賃金、休暇等労働条件は勤務先により異なるが、こん包作業には短期のアルバイトも多く、賃金の日払い、週払いも行われている。\n　全体としてこん包作業に従事する就業者は高齢化している。\n　物流単位の小口のこん包や、高度なこん包から輸送までをトータルに行う物流分野などでは物流倉庫の省人化が進んでいるが、一方でインターネット等の通信販売の拡大等に伴い一定の需要が続くものと見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.321,
+    "investigative": 2.643,
+    "artistic": 2.536,
+    "social": 2.857,
+    "enterprising": 2.661,
+    "conventional": 3.518
+  },
+  "work_values": {
+    "achievement": 2.923,
+    "autonomy": 2.731,
+    "expertise": 2.327,
+    "self_growth": 2.423,
+    "social_recognition": 2.077,
+    "service_contribution": 2.269,
+    "good_relationships": 2.981,
+    "workplace_safety": 3.038,
+    "work_life_balance": 3.288,
+    "stability": 2.788,
+    "compensation": 2.442
+  },
+  "skills": {
+    "reading_comprehension": 2.058,
+    "active_listening": 2.269,
+    "writing": 1.519,
+    "speaking": 1.865,
+    "foreign_language_reading": 0.423,
+    "foreign_language_listening": 0.173,
+    "foreign_language_writing": 0.173,
+    "foreign_language_speaking": 0.212,
+    "mathematics": 0.865,
+    "science": 0.5,
+    "critical_thinking": 1.019,
+    "active_learning": 1.212,
+    "learning_strategies": 1.154,
+    "monitoring": 1.096,
+    "social_perceptiveness": 1.385,
+    "coordination": 1.192,
+    "persuasion": 1.519,
+    "negotiation": 1.25,
+    "instructing": 1.865,
+    "service_orientation": 1.212,
+    "complex_problem_solving": 1.404,
+    "operations_analysis": 1.038,
+    "technology_design": 0.673,
+    "equipment_selection": 1.038,
+    "installation": 0.788,
+    "programming": 0.558,
+    "operations_monitoring": 0.731,
+    "operation_and_control": 1.173,
+    "equipment_maintenance": 0.577,
+    "troubleshooting": 0.75,
+    "repairing": 0.712,
+    "quality_control_analysis": 1.058,
+    "judgment_decision_making": 1.154,
+    "systems_analysis": 1.192,
+    "systems_evaluation": 0.846,
+    "time_management": 1.442,
+    "financial_resources_management": 0.519,
+    "material_resources_management": 1.077,
+    "personnel_resources_management": 0.923
+  },
+  "knowledge": {
+    "business_management": 0.388,
+    "clerical": 0.469,
+    "economics_accounting": 0.306,
+    "sales_marketing": 0.306,
+    "customer_personal_service": 0.429,
+    "personnel_hr": 0.306,
+    "transportation": 0.653,
+    "production_processing": 0.857,
+    "agriculture_livestock": 0.204,
+    "engineering": 0.204,
+    "computers_electronics": 0.286,
+    "design": 0.224,
+    "building_construction": 0.122,
+    "mechanical": 0.224,
+    "mathematics_kn": 0.245,
+    "physics": 0.143,
+    "chemistry": 0.122,
+    "biology": 0.102,
+    "psychology": 0.143,
+    "sociology": 0.184,
+    "geography": 0.082,
+    "medicine_dentistry": 0.082,
+    "therapy_counseling": 0.224,
+    "education_training_kn": 0.347,
+    "japanese_language": 0.408,
+    "foreign_language_kn": 0.122,
+    "fine_arts": 0.061,
+    "history_archaeology": 0.061,
+    "philosophy_theology": 0.082,
+    "public_safety_security": 0.347,
+    "law_government": 0.163,
+    "telecommunications": 0.122,
+    "communications_media": 0.184
+  },
+  "abilities": {
+    "oral_comprehension": 2.351,
+    "written_comprehension": 2.333,
+    "oral_expression": 2.298,
+    "written_expression": 2.281,
+    "fluency_of_ideas": 1.895,
+    "originality": 1.807,
+    "problem_sensitivity": 2.842,
+    "deductive_reasoning": 2.07,
+    "inductive_reasoning": 2.018,
+    "information_ordering": 2.246,
+    "category_flexibility": 2.088,
+    "mathematical_reasoning": 1.877,
+    "number_facility": 2.105,
+    "memorization": 2.456,
+    "perceptual_speed": 2.281,
+    "spatial_orientation": 2.14,
+    "visualization": 2.105,
+    "selective_attention": 2.421,
+    "time_sharing": 2.193,
+    "arm_hand_steadiness": 2.632,
+    "manual_dexterity": 2.509,
+    "finger_dexterity": 2.404,
+    "reaction_time": 2.316,
+    "wrist_finger_speed": 2.474,
+    "speed_of_limb_movement": 2.474,
+    "static_strength": 2.965,
+    "stamina": 2.667,
+    "gross_body_equilibrium": 2.298,
+    "near_vision": 2.246,
+    "far_vision": 2.053,
+    "visual_color_discrimination": 2.228,
+    "depth_perception": 2.0,
+    "hearing_sensitivity": 1.877,
+    "auditory_attention": 1.842,
+    "speech_clarity": 2.088
+  },
+  "work_characteristics": {
+    "contact_with_others": 2.98,
+    "face_to_face_discussions": 1.714,
+    "telephone_communication": 1.959,
+    "business_writing": 1.776,
+    "conflict_situations": 1.429,
+    "time_pressure": 2.531,
+    "teamwork": 2.878,
+    "dealing_with_external_customers": 1.694,
+    "coordinate_lead_others": 2.041,
+    "exactness_accuracy": 3.143,
+    "repetitive_tasks": 2.857,
+    "pace_determined_by_machine": 2.204,
+    "responsibility_for_outcomes": 2.184,
+    "indoor_climate_controlled": 3.408,
+    "indoor_non_climate_controlled": 2.367,
+    "outdoor_work": 1.633,
+    "sitting": 1.837,
+    "standing": 4.245,
+    "repetition_of_activities": 4.02,
+    "consequence_of_error": 2.714,
+    "freedom_to_make_decisions": 2.939,
+    "set_own_goals": 2.694,
+    "regular_schedule": 0.694,
+    "irregular_schedule": 0.224,
+    "seasonal_schedule": 0.082,
+    "email_communication": 1.857,
+    "cramped_uncomfortable": 1.98,
+    "disease_infection_risk": 1.327,
+    "minor_injury_risk": 1.714,
+    "standard_protective_equipment": 1.857,
+    "specialized_protective_equipment": 1.551,
+    "dealing_with_violent_people": 1.061,
+    "walking_running": 3.224,
+    "handling_objects_tools": 3.449,
+    "physical_proximity": 3.041,
+    "work_automation": 1.878,
+    "responsibility_for_safety": 1.755,
+    "impact_of_decisions": 1.776,
+    "level_of_competition": 1.408
+  },
+  "work_activities": {
+    "getting_information": 1.825,
+    "monitor_processes": 2.123,
+    "identifying_objects": 2.105,
+    "inspecting_equipment": 2.228,
+    "estimating_quantifiable": 2.193,
+    "judging_quality": 2.14,
+    "evaluating_compliance": 2.105,
+    "processing_information": 2.07,
+    "analyzing_data": 2.0,
+    "making_decisions": 2.281,
+    "thinking_creatively": 1.877,
+    "updating_knowledge": 2.228,
+    "developing_objectives": 1.982,
+    "scheduling_work": 2.158,
+    "organizing_planning": 2.632,
+    "physical_activities": 2.632,
+    "handling_objects": 3.175,
+    "controlling_machines": 2.035,
+    "operating_vehicles": 1.895,
+    "computer_work": 2.158,
+    "drafting_specifications": 1.807,
+    "repairing_mechanical": 2.0,
+    "repairing_electronic": 1.93,
+    "documenting_information": 2.193,
+    "interpreting_information": 2.07,
+    "communicating_inside": 2.579,
+    "communicating_outside": 1.877,
+    "building_relationships": 2.544,
+    "assisting_caring": 2.14,
+    "selling_influencing": 1.86,
+    "resolving_conflicts": 1.912,
+    "performing_for_public": 1.912,
+    "coordinating_others": 2.281,
+    "developing_teams": 2.246,
+    "training_teaching": 2.158,
+    "guiding_subordinates": 1.982,
+    "coaching_developing": 1.982,
+    "providing_consultation": 1.737,
+    "performing_administrative": 1.982,
+    "staffing_organizational": 1.807,
+    "monitoring_resources": 1.895
+  },
+  "education_distribution": {
+    "below_high_school": 0.041,
+    "high_school": 0.388,
+    "vocational_school": 0.102,
+    "junior_college": 0.082,
+    "technical_college": 0.0,
+    "university": 0.122,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.347
+  },
+  "training_pre": {
+    "not_required": 0.714,
+    "up_to_1_month": 0.143,
+    "1_to_6_months": 0.041,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.102
+  },
+  "training_post": {
+    "not_required": 0.347,
+    "up_to_1_month": 0.143,
+    "1_to_6_months": 0.306,
+    "6_months_to_1_year": 0.102,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.02,
+    "unknown": 0.061
+  },
+  "experience": {
+    "not_required": 0.735,
+    "up_to_1_month": 0.102,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.143
+  },
+  "employment_type": {
+    "regular_employee": 0.204,
+    "part_time": 0.653,
+    "dispatched": 0.184,
+    "contract": 0.082,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.122,
+    "casual_student": 0.061,
+    "unknown": 0.02,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "輸送の目的のため、段ボール箱・木箱の組立、品物の箱詰・袋詰（小袋詰を除く）、テープ止め・バンド掛けなどのこん（梱）包の作業を行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "梱包する品物を検品する。",
+      "execution_rate": 0.947,
+      "importance": 3.556
+    },
+    {
+      "task_id": 2,
+      "description_ja": "梱包する荷物を仕分ける。",
+      "execution_rate": 0.86,
+      "importance": 3.408
+    },
+    {
+      "task_id": 3,
+      "description_ja": "商品の消費期限や鮮度をチェックする。",
+      "execution_rate": 0.597,
+      "importance": 3.0
+    },
+    {
+      "task_id": 4,
+      "description_ja": "内容物、重量、運送方法などに応じてこん包材やこん包方法を決める。",
+      "execution_rate": 0.825,
+      "importance": 3.362
+    },
+    {
+      "task_id": 5,
+      "description_ja": "こん包する品物の種類や数量に間違いがないかどうか確認する。",
+      "execution_rate": 0.947,
+      "importance": 4.0
+    },
+    {
+      "task_id": 6,
+      "description_ja": "メーカー名を表示したタグを取り付けるなど包装に付随した作業をする。",
+      "execution_rate": 0.667,
+      "importance": 3.184
+    },
+    {
+      "task_id": 7,
+      "description_ja": "バラの商品を商品個別の箱などに詰める。",
+      "execution_rate": 0.754,
+      "importance": 3.186
+    },
+    {
+      "task_id": 8,
+      "description_ja": "品物を包装紙やビニールなどで包む。",
+      "execution_rate": 0.772,
+      "importance": 2.977
+    },
+    {
+      "task_id": 9,
+      "description_ja": "小箱詰・かん詰・びん詰された品物を、大箱の中に詰める。",
+      "execution_rate": 0.509,
+      "importance": 2.655
+    },
+    {
+      "task_id": 10,
+      "description_ja": "個包装した品物をダンボール箱や木箱に詰める。",
+      "execution_rate": 0.702,
+      "importance": 3.225
+    },
+    {
+      "task_id": 11,
+      "description_ja": "精密機器を専用の箱に梱包する。",
+      "execution_rate": 0.404,
+      "importance": 2.913
+    },
+    {
+      "task_id": 12,
+      "description_ja": "中の品物を保護するために、発泡スチロールやウレタンなどのクッション材料を詰める。",
+      "execution_rate": 0.754,
+      "importance": 3.093
+    },
+    {
+      "task_id": 13,
+      "description_ja": "ふたをし、ワイヤーやひもなどを掛けて荷造りする。",
+      "execution_rate": 0.561,
+      "importance": 2.75
+    },
+    {
+      "task_id": 14,
+      "description_ja": "板枠をつくり、包装された品物などを板枠の中に入れる。",
+      "execution_rate": 0.421,
+      "importance": 2.625
+    },
+    {
+      "task_id": 15,
+      "description_ja": "包装された製品を板枠で外装し、ふたをして釘留めし、縄がけする。",
+      "execution_rate": 0.404,
+      "importance": 2.522
+    },
+    {
+      "task_id": 16,
+      "description_ja": "梱包されたダンボールなどに宛先別の荷札やラベルを貼り付ける。",
+      "execution_rate": 0.895,
+      "importance": 3.686
+    },
+    {
+      "task_id": 17,
+      "description_ja": "品目や顧客の名前や宛先をチェックする。",
+      "execution_rate": 0.895,
+      "importance": 3.706
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "日本梱包工業組合連合会",
+      "url": "http://www.epa.ne.jp/jpa/p-jpa.html"
+    },
+    {
+      "name_ja": "東日本梱包工業組合",
+      "url": "http://www.epa.ne.jp/"
+    },
+    {
+      "name_ja": "西日本梱包工業組合",
+      "url": "http://www.wpa.ne.jp/"
+    },
+    {
+      "name_ja": "公益社団法人 日本包装技術協会",
+      "url": "http://www.jpi.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "1級工業包装技能士",
+    "2級工業包装技能士",
+    "包装管理士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/498",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

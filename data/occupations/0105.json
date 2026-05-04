@@ -1,0 +1,466 @@
+{
+  "id": 105,
+  "ipd_id": "IPD_01_01_105",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "カフェ店員",
+  "aliases_ja": [
+    "コーヒー販売店員"
+  ],
+  "classifications": {
+    "mhlw_main": "07_045-06",
+    "mhlw_all": [
+      "07_045-06"
+    ],
+    "jsoc_main": "D323",
+    "jsoc_all": [
+      "D323"
+    ]
+  },
+  "description": {
+    "summary_ja": "カフェにおいてコーヒーなどの飲み物や軽食の調理・提供、レジ、店内清掃などを行う。",
+    "what_it_is_ja": "カフェ（コーヒーショップ）においてコーヒーなどの飲み物や軽食の調理・提供、商品展示、レジ、店内清掃などを行う。個人経営のコーヒー専門店もあるが、ここではそれ以外のチェーン展開しているカフェについて記述する。\n　多くのカフェはセルフサービス方式で、客は会計後にカウンターで商品を受け取って好きな場所で飲んだり食べたりする。店には店長と社員スタッフ、アルバイトスタッフがおり、客にコーヒーなど各種飲料、軽食・菓子などを提供する。\n　カウンターで客に応対するのは、主にアルバイトスタッフの仕事で、注文を受けると、大型のコーヒーマシンで手際よくコーヒーを入れ、客に渡す。他に、ジュース類などの飲み物や、ホットドックなど簡単な食べ物を作って出す。店舗によってはサンドイッチ、調理済みのパン、クッキー等の販売も行っている。\n　社員スタッフは、アルバイトスタッフを指導したり、サポートしたりする。また、コーヒー豆や器具を販売している場合は、豆の種類、挽き方、器具の使い方の知識が必要であり、主に社員スタッフが対応する。\n　店長はスタッフ全員を統率し、商品の味・品質やサービスを管理し、売上げを伸ばすなど、店の経営者としての責任を持っている。\n\n◇　よく使う道具、機材、情報技術等\n　レジ（小売店、レストラン等）、コーヒーマシン、調理道具（包丁、ガスコンロ等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　立ち仕事なので一定の体力があること、また、店の雰囲気に合った接客ができることが求められる。食品の衛生管理、金銭の取扱いも必要となる。\n　正社員のキャリアパスとしては、カフェ経営会社に入社し、いくつかの店を経験しながら、店長になる。その後は各店舗の経営指導にあたるフランチャイズチェーン本部のスーパーバイザーになったり、経営会社の幹部社員となっていく。\n　チェーン展開しているカフェは、店舗としてはカフェ経営会社が直接経営を行っている「直営店」と、フランチャイズ契約を結んだオーナーが経営者である「フランチャイズ店（FC店）」の２種類がある。FC店ではオーナーが店長を兼ねている場合もある。",
+    "working_conditions_ja": "多くのカフェはモーニングサービスを提供する早朝から夜遅くまで長時間営業していることが多いため、交替で働く。社員スタッフの1日の労働時間は７～8時間程度であるが、アルバイトスタッフはそれよりも短く、スポット的な勤務もある。土日祝日もほとんどの店が営業しているため、休日も交替で取る。\n　店長とそれを補佐する数名の社員スタッフ、アルバイトスタッフが交替で働くような場合が多いが、アルバイトスタッフは店の規模によっては数十名が在籍する。社員スタッフは月給制、アルバイトスタッフは時給制となっていることが多い。\n　若い人が多く働いているのが特徴で、アルバイトスタッフは学生が中心となっている。\n　最近では、国内でのコーヒーの消費量の増加などを背景にして、カフェの店舗数は増加傾向にある。"
+  },
+  "interests": {
+    "realistic": 3.224,
+    "investigative": 2.632,
+    "artistic": 3.0,
+    "social": 4.224,
+    "enterprising": 2.934,
+    "conventional": 3.434
+  },
+  "work_values": {
+    "achievement": 3.525,
+    "autonomy": 3.475,
+    "expertise": 3.186,
+    "self_growth": 3.322,
+    "social_recognition": 2.966,
+    "service_contribution": 3.017,
+    "good_relationships": 3.695,
+    "workplace_safety": 3.542,
+    "work_life_balance": 3.508,
+    "stability": 3.085,
+    "compensation": 2.559
+  },
+  "skills": {
+    "reading_comprehension": 2.288,
+    "active_listening": 3.322,
+    "writing": 2.424,
+    "speaking": 2.627,
+    "foreign_language_reading": 1.0,
+    "foreign_language_listening": 1.136,
+    "foreign_language_writing": 0.746,
+    "foreign_language_speaking": 1.169,
+    "mathematics": 1.424,
+    "science": 0.627,
+    "critical_thinking": 1.831,
+    "active_learning": 2.203,
+    "learning_strategies": 2.034,
+    "monitoring": 1.712,
+    "social_perceptiveness": 2.898,
+    "coordination": 2.136,
+    "persuasion": 2.271,
+    "negotiation": 1.949,
+    "instructing": 2.559,
+    "service_orientation": 2.492,
+    "complex_problem_solving": 2.017,
+    "operations_analysis": 1.373,
+    "technology_design": 1.407,
+    "equipment_selection": 1.797,
+    "installation": 1.492,
+    "programming": 0.678,
+    "operations_monitoring": 0.814,
+    "operation_and_control": 1.424,
+    "equipment_maintenance": 1.237,
+    "troubleshooting": 1.407,
+    "repairing": 1.525,
+    "quality_control_analysis": 1.559,
+    "judgment_decision_making": 1.424,
+    "systems_analysis": 1.305,
+    "systems_evaluation": 1.169,
+    "time_management": 1.966,
+    "financial_resources_management": 1.593,
+    "material_resources_management": 1.458,
+    "personnel_resources_management": 1.627
+  },
+  "knowledge": {
+    "business_management": 1.022,
+    "clerical": 0.935,
+    "economics_accounting": 0.891,
+    "sales_marketing": 1.935,
+    "customer_personal_service": 2.652,
+    "personnel_hr": 0.87,
+    "transportation": 0.522,
+    "production_processing": 0.957,
+    "agriculture_livestock": 0.5,
+    "engineering": 0.326,
+    "computers_electronics": 0.348,
+    "design": 0.261,
+    "building_construction": 0.217,
+    "mechanical": 0.261,
+    "mathematics_kn": 0.435,
+    "physics": 0.304,
+    "chemistry": 0.37,
+    "biology": 0.326,
+    "psychology": 1.217,
+    "sociology": 1.0,
+    "geography": 0.413,
+    "medicine_dentistry": 0.261,
+    "therapy_counseling": 0.37,
+    "education_training_kn": 0.609,
+    "japanese_language": 1.043,
+    "foreign_language_kn": 0.804,
+    "fine_arts": 0.391,
+    "history_archaeology": 0.239,
+    "philosophy_theology": 0.261,
+    "public_safety_security": 0.565,
+    "law_government": 0.261,
+    "telecommunications": 0.304,
+    "communications_media": 1.043
+  },
+  "abilities": {
+    "oral_comprehension": 2.809,
+    "written_comprehension": 2.511,
+    "oral_expression": 2.894,
+    "written_expression": 2.532,
+    "fluency_of_ideas": 2.702,
+    "originality": 2.638,
+    "problem_sensitivity": 3.234,
+    "deductive_reasoning": 2.617,
+    "inductive_reasoning": 2.468,
+    "information_ordering": 2.489,
+    "category_flexibility": 2.255,
+    "mathematical_reasoning": 2.085,
+    "number_facility": 2.596,
+    "memorization": 2.83,
+    "perceptual_speed": 2.17,
+    "spatial_orientation": 2.298,
+    "visualization": 2.426,
+    "selective_attention": 2.447,
+    "time_sharing": 2.596,
+    "arm_hand_steadiness": 2.851,
+    "manual_dexterity": 2.915,
+    "finger_dexterity": 2.745,
+    "reaction_time": 2.766,
+    "wrist_finger_speed": 2.872,
+    "speed_of_limb_movement": 2.681,
+    "static_strength": 2.851,
+    "stamina": 2.872,
+    "gross_body_equilibrium": 2.553,
+    "near_vision": 2.574,
+    "far_vision": 2.511,
+    "visual_color_discrimination": 2.511,
+    "depth_perception": 2.362,
+    "hearing_sensitivity": 2.468,
+    "auditory_attention": 2.447,
+    "speech_clarity": 2.617
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.413,
+    "face_to_face_discussions": 2.522,
+    "telephone_communication": 3.478,
+    "business_writing": 2.478,
+    "conflict_situations": 1.783,
+    "time_pressure": 2.391,
+    "teamwork": 3.413,
+    "dealing_with_external_customers": 3.739,
+    "coordinate_lead_others": 3.109,
+    "exactness_accuracy": 3.717,
+    "repetitive_tasks": 3.152,
+    "pace_determined_by_machine": 2.587,
+    "responsibility_for_outcomes": 2.978,
+    "indoor_climate_controlled": 4.587,
+    "indoor_non_climate_controlled": 1.761,
+    "outdoor_work": 1.522,
+    "sitting": 1.348,
+    "standing": 4.696,
+    "repetition_of_activities": 3.239,
+    "consequence_of_error": 2.5,
+    "freedom_to_make_decisions": 3.37,
+    "set_own_goals": 3.239,
+    "regular_schedule": 0.63,
+    "irregular_schedule": 0.283,
+    "seasonal_schedule": 0.087,
+    "email_communication": 2.304,
+    "cramped_uncomfortable": 1.391,
+    "disease_infection_risk": 2.109,
+    "minor_injury_risk": 2.152,
+    "standard_protective_equipment": 1.217,
+    "specialized_protective_equipment": 1.217,
+    "dealing_with_violent_people": 1.239,
+    "walking_running": 4.043,
+    "handling_objects_tools": 2.87,
+    "physical_proximity": 3.848,
+    "work_automation": 2.087,
+    "responsibility_for_safety": 2.63,
+    "impact_of_decisions": 2.196,
+    "level_of_competition": 1.674
+  },
+  "work_activities": {
+    "getting_information": 2.34,
+    "monitor_processes": 2.681,
+    "identifying_objects": 2.638,
+    "inspecting_equipment": 2.702,
+    "estimating_quantifiable": 2.511,
+    "judging_quality": 2.915,
+    "evaluating_compliance": 2.553,
+    "processing_information": 2.319,
+    "analyzing_data": 2.319,
+    "making_decisions": 2.638,
+    "thinking_creatively": 2.617,
+    "updating_knowledge": 2.766,
+    "developing_objectives": 2.617,
+    "scheduling_work": 2.617,
+    "organizing_planning": 3.191,
+    "physical_activities": 2.745,
+    "handling_objects": 2.915,
+    "controlling_machines": 2.447,
+    "operating_vehicles": 1.809,
+    "computer_work": 2.234,
+    "drafting_specifications": 2.021,
+    "repairing_mechanical": 1.894,
+    "repairing_electronic": 1.83,
+    "documenting_information": 1.936,
+    "interpreting_information": 2.021,
+    "communicating_inside": 2.979,
+    "communicating_outside": 2.553,
+    "building_relationships": 3.128,
+    "assisting_caring": 2.596,
+    "selling_influencing": 2.234,
+    "resolving_conflicts": 2.404,
+    "performing_for_public": 2.745,
+    "coordinating_others": 2.851,
+    "developing_teams": 2.723,
+    "training_teaching": 2.511,
+    "guiding_subordinates": 2.511,
+    "coaching_developing": 2.34,
+    "providing_consultation": 2.191,
+    "performing_administrative": 2.362,
+    "staffing_organizational": 2.234,
+    "monitoring_resources": 2.319
+  },
+  "education_distribution": {
+    "below_high_school": 0.022,
+    "high_school": 0.348,
+    "vocational_school": 0.174,
+    "junior_college": 0.152,
+    "technical_college": 0.022,
+    "university": 0.348,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.304
+  },
+  "training_pre": {
+    "not_required": 0.565,
+    "up_to_1_month": 0.109,
+    "1_to_6_months": 0.152,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.022,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.13
+  },
+  "training_post": {
+    "not_required": 0.196,
+    "up_to_1_month": 0.174,
+    "1_to_6_months": 0.326,
+    "6_months_to_1_year": 0.087,
+    "1_to_2_years": 0.065,
+    "2_to_3_years": 0.022,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.13
+  },
+  "experience": {
+    "not_required": 0.696,
+    "up_to_1_month": 0.065,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.022,
+    "1_to_2_years": 0.022,
+    "2_to_3_years": 0.022,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.174
+  },
+  "employment_type": {
+    "regular_employee": 0.283,
+    "part_time": 0.587,
+    "dispatched": 0.043,
+    "contract": 0.043,
+    "self_employed_freelance": 0.087,
+    "executive": 0.022,
+    "casual_non_student": 0.283,
+    "casual_student": 0.348,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "コーヒーショップにおいて飲み物や軽食の調理・提供、会計、店内清掃をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "お客にメニュー表を示す。",
+      "execution_rate": 0.936,
+      "importance": 3.614
+    },
+    {
+      "task_id": 2,
+      "description_ja": "セットメニューやおすすめの商品をお客に提案する。",
+      "execution_rate": 0.915,
+      "importance": 3.372
+    },
+    {
+      "task_id": 3,
+      "description_ja": "カウンターでお客から注文を取り、会計をする。",
+      "execution_rate": 0.979,
+      "importance": 4.065
+    },
+    {
+      "task_id": 4,
+      "description_ja": "コーヒーメーカーやミキサーを操作し、注文された飲み物を用意する。",
+      "execution_rate": 0.979,
+      "importance": 4.152
+    },
+    {
+      "task_id": 5,
+      "description_ja": "軽食やお菓子を調理したり、保管場所から取り出して盛り付ける。",
+      "execution_rate": 0.957,
+      "importance": 4.044
+    },
+    {
+      "task_id": 6,
+      "description_ja": "注文の品をそろえてカウンターでお客に渡すか、席まで運ぶ。",
+      "execution_rate": 0.957,
+      "importance": 4.222
+    },
+    {
+      "task_id": 7,
+      "description_ja": "注文の品を持ち帰り用の容器に入れ、お客に渡す。",
+      "execution_rate": 0.83,
+      "importance": 4.026
+    },
+    {
+      "task_id": 8,
+      "description_ja": "コーヒー豆を量り売りをする。",
+      "execution_rate": 0.447,
+      "importance": 3.429
+    },
+    {
+      "task_id": 9,
+      "description_ja": "コーヒー器具などコーヒー関連商品を販売する。",
+      "execution_rate": 0.489,
+      "importance": 3.304
+    },
+    {
+      "task_id": 10,
+      "description_ja": "カウンター、テーブル、椅子をきれいにし、店内を清掃する。",
+      "execution_rate": 1.0,
+      "importance": 4.149
+    },
+    {
+      "task_id": 11,
+      "description_ja": "ゴミを回収する。",
+      "execution_rate": 1.0,
+      "importance": 3.979
+    },
+    {
+      "task_id": 12,
+      "description_ja": "使用済みのカップや皿を回収し、洗浄する。",
+      "execution_rate": 0.979,
+      "importance": 4.087
+    },
+    {
+      "task_id": 13,
+      "description_ja": "ミルクや砂糖、ナプキンなどを補充し、整える。",
+      "execution_rate": 0.957,
+      "importance": 4.0
+    },
+    {
+      "task_id": 14,
+      "description_ja": "空調機器を操作して店内温度を適切に調節する。",
+      "execution_rate": 0.936,
+      "importance": 3.5
+    },
+    {
+      "task_id": 15,
+      "description_ja": "在庫をみて、不足しそうなものを発注する。",
+      "execution_rate": 0.979,
+      "importance": 4.0
+    },
+    {
+      "task_id": 16,
+      "description_ja": "食材の仕込みを行う。",
+      "execution_rate": 0.936,
+      "importance": 3.727
+    },
+    {
+      "task_id": 17,
+      "description_ja": "売上や経費を計算し、管理する。",
+      "execution_rate": 0.894,
+      "importance": 3.595
+    },
+    {
+      "task_id": 18,
+      "description_ja": "業務終了後に日報を作成する。",
+      "execution_rate": 0.702,
+      "importance": 3.242
+    },
+    {
+      "task_id": 19,
+      "description_ja": "新人に仕事を教えたり、スタッフのミスについて指導を行う。",
+      "execution_rate": 0.617,
+      "importance": 3.828
+    },
+    {
+      "task_id": 20,
+      "description_ja": "適切な人員を確保するため、パート・アルバイトを採用する。",
+      "execution_rate": 0.532,
+      "importance": 3.24
+    },
+    {
+      "task_id": 21,
+      "description_ja": "従業員のシフトを作成する。",
+      "execution_rate": 0.575,
+      "importance": 3.444
+    },
+    {
+      "task_id": 22,
+      "description_ja": "販促用のPOPを作成し、掲示する。",
+      "execution_rate": 0.809,
+      "importance": 3.132
+    },
+    {
+      "task_id": 23,
+      "description_ja": "広告宣伝のため、店内にポスターなどを掲示する。",
+      "execution_rate": 0.702,
+      "importance": 3.0
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人 全日本コーヒー協会",
+      "url": "http://coffee.ajca.or.jp"
+    },
+    {
+      "name_ja": "一般社団法人 日本フランチャイズチェーン協会",
+      "url": "https://www.jfa-fc.or.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/105",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

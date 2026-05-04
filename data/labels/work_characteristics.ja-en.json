@@ -1,0 +1,203 @@
+{
+  "dimension": "work_characteristics",
+  "source": "IPD 細目 v7.00 (JA) + Claude-curated O*NET-aligned EN (draft v0.1)",
+  "license": "JA labels: see jobtag TOS Article 9; EN labels: original work, public domain",
+  "count": 39,
+  "labels": {
+    "contact_with_others": {
+      "ja": "他者とのかかわり",
+      "en": "Contact with Others",
+      "onet_id": "IPD_04_05_001"
+    },
+    "face_to_face_discussions": {
+      "ja": "対面での議論",
+      "en": "Face-to-Face Discussions",
+      "onet_id": "IPD_04_05_002"
+    },
+    "telephone_communication": {
+      "ja": "電話での会話",
+      "en": "Telephone Communication",
+      "onet_id": "IPD_04_05_003"
+    },
+    "business_writing": {
+      "ja": "ビジネスレターやメモの作成",
+      "en": "Writing Business Letters & Memos",
+      "onet_id": "IPD_04_05_004"
+    },
+    "conflict_situations": {
+      "ja": "仕事上での他者との対立",
+      "en": "Workplace Conflict Situations",
+      "onet_id": "IPD_04_05_005"
+    },
+    "time_pressure": {
+      "ja": "時間的切迫",
+      "en": "Time Pressure",
+      "onet_id": "IPD_04_05_006"
+    },
+    "teamwork": {
+      "ja": "グループやチームでの仕事",
+      "en": "Working in a Group or Team",
+      "onet_id": "IPD_04_05_007"
+    },
+    "dealing_with_external_customers": {
+      "ja": "外部の顧客等との接触",
+      "en": "Dealing with External Customers",
+      "onet_id": "IPD_04_05_008"
+    },
+    "coordinate_lead_others": {
+      "ja": "他者と調整し、リードする",
+      "en": "Coordinating & Leading Others",
+      "onet_id": "IPD_04_05_009"
+    },
+    "exactness_accuracy": {
+      "ja": "厳密さ、正確さ",
+      "en": "Exactness & Accuracy",
+      "onet_id": "IPD_04_05_010"
+    },
+    "repetitive_tasks": {
+      "ja": "同一作業の反復",
+      "en": "Repetitive Tasks",
+      "onet_id": "IPD_04_05_011"
+    },
+    "pace_determined_by_machine": {
+      "ja": "機器等の速度に応じた作業",
+      "en": "Pace Determined by Machine Speed",
+      "onet_id": "IPD_04_05_012"
+    },
+    "responsibility_for_outcomes": {
+      "ja": "結果・成果への責任",
+      "en": "Responsibility for Outcomes",
+      "onet_id": "IPD_04_05_013"
+    },
+    "indoor_climate_controlled": {
+      "ja": "空調のきいた屋内作業",
+      "en": "Indoor Climate-Controlled Environment",
+      "onet_id": "IPD_04_05_014"
+    },
+    "indoor_non_climate_controlled": {
+      "ja": "空調のきいていない屋内作業",
+      "en": "Indoor Non-Climate-Controlled Environment",
+      "onet_id": "IPD_04_05_015"
+    },
+    "outdoor_work": {
+      "ja": "屋外作業",
+      "en": "Outdoor Work",
+      "onet_id": "IPD_04_05_016"
+    },
+    "sitting": {
+      "ja": "座り作業",
+      "en": "Sitting",
+      "onet_id": "IPD_04_05_017"
+    },
+    "standing": {
+      "ja": "立ち作業",
+      "en": "Standing",
+      "onet_id": "IPD_04_05_018"
+    },
+    "repetition_of_activities": {
+      "ja": "反復作業",
+      "en": "Repetition of Activities",
+      "onet_id": "IPD_04_05_019"
+    },
+    "consequence_of_error": {
+      "ja": "ミスの影響度",
+      "en": "Consequence of Error",
+      "onet_id": "IPD_04_05_020"
+    },
+    "freedom_to_make_decisions": {
+      "ja": "意思決定の自由",
+      "en": "Freedom to Make Decisions",
+      "onet_id": "IPD_04_05_021"
+    },
+    "set_own_goals": {
+      "ja": "優先順位や目標の自己設定",
+      "en": "Setting Own Goals & Priorities",
+      "onet_id": "IPD_04_05_022"
+    },
+    "regular_schedule": {
+      "ja": "規則的（ルーチンやスケジュールが決まっている）",
+      "en": "Regular Schedule (Routine)",
+      "onet_id": "IPD_04_05_023_01"
+    },
+    "irregular_schedule": {
+      "ja": "不規則（天候、生産需要、契約期間などで変わる）",
+      "en": "Irregular Schedule",
+      "onet_id": "IPD_04_05_023_02"
+    },
+    "seasonal_schedule": {
+      "ja": "季節的（一年のうちの一定の時期だけ）",
+      "en": "Seasonal Schedule",
+      "onet_id": "IPD_04_05_023_03"
+    },
+    "email_communication": {
+      "ja": "電子メール",
+      "en": "Email Communication",
+      "onet_id": "IPD_04_05_024"
+    },
+    "cramped_uncomfortable": {
+      "ja": "窮屈な仕事の場所、居心地が悪い姿勢",
+      "en": "Cramped Work Space / Uncomfortable Positions",
+      "onet_id": "IPD_04_05_025"
+    },
+    "disease_infection_risk": {
+      "ja": "病気、感染症のリスク",
+      "en": "Risk of Disease & Infection",
+      "onet_id": "IPD_04_05_026"
+    },
+    "minor_injury_risk": {
+      "ja": "軽度の火傷、切り傷、噛まれ傷、刺し傷",
+      "en": "Risk of Minor Burns, Cuts, Bites, Stings",
+      "onet_id": "IPD_04_05_027"
+    },
+    "standard_protective_equipment": {
+      "ja": "一般的な保護・安全装備の着用",
+      "en": "Wearing Standard Protective Equipment",
+      "onet_id": "IPD_04_05_028"
+    },
+    "specialized_protective_equipment": {
+      "ja": "特殊な保護・安全装備の着用",
+      "en": "Wearing Specialized Protective Equipment",
+      "onet_id": "IPD_04_05_029"
+    },
+    "dealing_with_violent_people": {
+      "ja": "暴力的な人々への対応",
+      "en": "Dealing with Violent People",
+      "onet_id": "IPD_04_05_030"
+    },
+    "walking_running": {
+      "ja": "歩行、走行",
+      "en": "Walking & Running",
+      "onet_id": "IPD_04_05_031"
+    },
+    "handling_objects_tools": {
+      "ja": "モノ、道具、制御装置を扱う手作業",
+      "en": "Manual Handling of Objects, Tools & Controls",
+      "onet_id": "IPD_04_05_032"
+    },
+    "physical_proximity": {
+      "ja": "他者との身体的近接",
+      "en": "Physical Proximity to Others",
+      "onet_id": "IPD_04_05_033"
+    },
+    "work_automation": {
+      "ja": "機械やコンピュータによる仕事の自動化",
+      "en": "Work Automation by Machines / Computers",
+      "onet_id": "IPD_04_05_034"
+    },
+    "responsibility_for_safety": {
+      "ja": "他者の健康・安全への責任",
+      "en": "Responsibility for Others' Health & Safety",
+      "onet_id": "IPD_04_05_035"
+    },
+    "impact_of_decisions": {
+      "ja": "意思決定が他者や企業に及ぼす影響力",
+      "en": "Impact of Decisions on Others / Organization",
+      "onet_id": "IPD_04_05_036"
+    },
+    "level_of_competition": {
+      "ja": "競争水準",
+      "en": "Level of Competition",
+      "onet_id": "IPD_04_05_037"
+    }
+  }
+}

@@ -1,0 +1,457 @@
+{
+  "id": 195,
+  "ipd_id": "IPD_01_01_195",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "駅務員",
+  "aliases_ja": [
+    "駅出改札係",
+    "鉄道旅客係"
+  ],
+  "classifications": {
+    "mhlw_main": "06_042-01",
+    "mhlw_all": [
+      "06_042-01"
+    ],
+    "jsoc_main": "C301",
+    "jsoc_all": [
+      "C301"
+    ]
+  },
+  "description": {
+    "summary_ja": "鉄道の駅で切符の出札・改札・集札、乗り越し運賃の精算、ICカード関連のサービス提供、ホームでの乗客整理などを行う。",
+    "what_it_is_ja": "鉄道の駅で切符の出札・改札・集札、乗り越し運賃の精算、ICカード関連のサービス提供、ホームでの乗客整理などを行う。\n　出札係は、自動券売機の点検や窓口での切符販売などを行う。まず、自動券売機を点検し、切符の用紙や釣銭を補充するなど販売の準備を行う。機械にトラブルが生じた場合には、迅速に対応を行う。また、窓口では、販売開始前に釣銭などの準備を行い、窓口を訪れた旅客に対して、乗車券、指定券、定期券などの販売を行う。行き先や列車の変更、切符の払い戻しなどをすることもある。誤った切符を販売したり、釣銭を間違わないよう、細心の注意を払う。販売終了後には、券売機に記録された売り上げと現金の残高が一致しているか確認し、金庫に現金を納める。\n　改札係は、自動改札機を点検し、回収された切符を集めるなどの準備を行う。改札口では、乗り越しの乗客に対して、運賃の精算を行う。自動精算機を導入している駅もある。行き先やホームの案内、遺失物の捜索なども改札係の仕事となる。\n　更に、乗客からの問い合わせの対応や、ホームでの列車の対応を行うほか、朝夕のラッシュ時には、乗客の整理や案内、安全確認を行うこともある。また、クレーム対応や乗客同士のトラブル対応、傷病人への対応、障害者の乗降時の支援なども行う。事故や災害時の遅延、運休、振替輸送の際の乗客への案内も仕事となる。\n\n◇　よく使う道具、機材、情報技術等\n　券売機、自動改札機、乗り越し精算機、パソコン",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされない。\n　高校や大学などを卒業後、鉄道会社に入社する。新入社員教育や機器の取り扱い方のトレーニングを受けて、駅務員として各駅に配属される。\n　出札・改札の業務を経験し、その後試験を受けて、車掌や運転士に進む道もある。また、昇進試験に合格し、助役や駅長などの管理職に進むこともある。\n　駅の出札・改札業務では多額の現金を扱うため、金銭を管理できる能力が求められる。乗客に気持ちよく駅を利用してもらうため、接客マナーも重要である。",
+    "working_conditions_ja": "鉄道の駅は全国にあり、特に大都市に多いが、駅務員は採用された鉄道会社の営業地域内にある駅に勤務する。\n　大半は正社員である。また、これまでは男性が大部分であったが、女性の駅務員も増加している。\n　鉄道は休みなく動いているため、交替制で勤務する。深夜や早朝の勤務、宿泊勤務などがあり、休日も交替で取る。駅の規模や勤務時間帯によっては、一人で勤務をすることもある。\n　自動券売機、自動改札機、乗り越し精算機などが普及し、機械化された業務も多いが、旅客への案内や列車の運行管理など、駅務員の仕事の重要性は変わらない。"
+  },
+  "interests": {
+    "realistic": 2.946,
+    "investigative": 2.432,
+    "artistic": 2.176,
+    "social": 3.541,
+    "enterprising": 2.986,
+    "conventional": 3.541
+  },
+  "work_values": {
+    "achievement": 2.627,
+    "autonomy": 2.627,
+    "expertise": 3.186,
+    "self_growth": 3.034,
+    "social_recognition": 2.78,
+    "service_contribution": 3.136,
+    "good_relationships": 3.119,
+    "workplace_safety": 3.068,
+    "work_life_balance": 3.102,
+    "stability": 3.237,
+    "compensation": 2.661
+  },
+  "skills": {
+    "reading_comprehension": 3.492,
+    "active_listening": 4.136,
+    "writing": 3.085,
+    "speaking": 3.542,
+    "foreign_language_reading": 1.61,
+    "foreign_language_listening": 1.441,
+    "foreign_language_writing": 0.881,
+    "foreign_language_speaking": 1.492,
+    "mathematics": 1.814,
+    "science": 0.678,
+    "critical_thinking": 2.458,
+    "active_learning": 2.288,
+    "learning_strategies": 2.458,
+    "monitoring": 2.254,
+    "social_perceptiveness": 2.932,
+    "coordination": 2.525,
+    "persuasion": 2.814,
+    "negotiation": 2.39,
+    "instructing": 3.508,
+    "service_orientation": 3.322,
+    "complex_problem_solving": 2.475,
+    "operations_analysis": 1.559,
+    "technology_design": 1.61,
+    "equipment_selection": 1.831,
+    "installation": 1.458,
+    "programming": 0.644,
+    "operations_monitoring": 1.508,
+    "operation_and_control": 2.0,
+    "equipment_maintenance": 1.407,
+    "troubleshooting": 1.847,
+    "repairing": 1.559,
+    "quality_control_analysis": 1.542,
+    "judgment_decision_making": 1.746,
+    "systems_analysis": 1.729,
+    "systems_evaluation": 1.525,
+    "time_management": 2.729,
+    "financial_resources_management": 1.085,
+    "material_resources_management": 1.017,
+    "personnel_resources_management": 1.593
+  },
+  "knowledge": {
+    "business_management": 0.867,
+    "clerical": 1.6,
+    "economics_accounting": 0.6,
+    "sales_marketing": 1.067,
+    "customer_personal_service": 2.8,
+    "personnel_hr": 0.756,
+    "transportation": 2.378,
+    "production_processing": 0.2,
+    "agriculture_livestock": 0.111,
+    "engineering": 0.378,
+    "computers_electronics": 0.489,
+    "design": 0.311,
+    "building_construction": 0.222,
+    "mechanical": 0.289,
+    "mathematics_kn": 0.756,
+    "physics": 0.311,
+    "chemistry": 0.178,
+    "biology": 0.133,
+    "psychology": 0.911,
+    "sociology": 0.956,
+    "geography": 0.867,
+    "medicine_dentistry": 0.244,
+    "therapy_counseling": 0.467,
+    "education_training_kn": 0.933,
+    "japanese_language": 1.378,
+    "foreign_language_kn": 1.244,
+    "fine_arts": 0.244,
+    "history_archaeology": 0.267,
+    "philosophy_theology": 0.244,
+    "public_safety_security": 1.111,
+    "law_government": 0.822,
+    "telecommunications": 0.8,
+    "communications_media": 1.222
+  },
+  "abilities": {
+    "oral_comprehension": 3.082,
+    "written_comprehension": 2.755,
+    "oral_expression": 3.224,
+    "written_expression": 2.878,
+    "fluency_of_ideas": 2.49,
+    "originality": 2.367,
+    "problem_sensitivity": 3.592,
+    "deductive_reasoning": 2.878,
+    "inductive_reasoning": 2.714,
+    "information_ordering": 2.714,
+    "category_flexibility": 2.429,
+    "mathematical_reasoning": 2.429,
+    "number_facility": 2.796,
+    "memorization": 2.98,
+    "perceptual_speed": 2.735,
+    "spatial_orientation": 2.878,
+    "visualization": 2.653,
+    "selective_attention": 3.041,
+    "time_sharing": 2.898,
+    "arm_hand_steadiness": 2.429,
+    "manual_dexterity": 2.408,
+    "finger_dexterity": 2.408,
+    "reaction_time": 3.224,
+    "wrist_finger_speed": 2.306,
+    "speed_of_limb_movement": 2.469,
+    "static_strength": 2.286,
+    "stamina": 2.694,
+    "gross_body_equilibrium": 2.49,
+    "near_vision": 2.918,
+    "far_vision": 3.102,
+    "visual_color_discrimination": 3.347,
+    "depth_perception": 2.959,
+    "hearing_sensitivity": 3.184,
+    "auditory_attention": 3.082,
+    "speech_clarity": 3.02
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.489,
+    "face_to_face_discussions": 2.956,
+    "telephone_communication": 3.956,
+    "business_writing": 3.133,
+    "conflict_situations": 2.844,
+    "time_pressure": 3.089,
+    "teamwork": 3.511,
+    "dealing_with_external_customers": 3.511,
+    "coordinate_lead_others": 2.711,
+    "exactness_accuracy": 4.089,
+    "repetitive_tasks": 3.733,
+    "pace_determined_by_machine": 2.8,
+    "responsibility_for_outcomes": 2.889,
+    "indoor_climate_controlled": 4.533,
+    "indoor_non_climate_controlled": 2.867,
+    "outdoor_work": 3.022,
+    "sitting": 3.022,
+    "standing": 3.089,
+    "repetition_of_activities": 3.489,
+    "consequence_of_error": 3.556,
+    "freedom_to_make_decisions": 2.578,
+    "set_own_goals": 2.956,
+    "regular_schedule": 0.756,
+    "irregular_schedule": 0.244,
+    "seasonal_schedule": 0.014,
+    "email_communication": 3.356,
+    "cramped_uncomfortable": 2.111,
+    "disease_infection_risk": 2.933,
+    "minor_injury_risk": 1.6,
+    "standard_protective_equipment": 2.022,
+    "specialized_protective_equipment": 1.378,
+    "dealing_with_violent_people": 2.889,
+    "walking_running": 2.867,
+    "handling_objects_tools": 2.689,
+    "physical_proximity": 3.689,
+    "work_automation": 2.444,
+    "responsibility_for_safety": 2.822,
+    "impact_of_decisions": 2.4,
+    "level_of_competition": 1.733
+  },
+  "work_activities": {
+    "getting_information": 2.592,
+    "monitor_processes": 2.673,
+    "identifying_objects": 2.714,
+    "inspecting_equipment": 2.49,
+    "estimating_quantifiable": 2.204,
+    "judging_quality": 2.367,
+    "evaluating_compliance": 3.122,
+    "processing_information": 2.592,
+    "analyzing_data": 2.49,
+    "making_decisions": 2.898,
+    "thinking_creatively": 2.551,
+    "updating_knowledge": 3.061,
+    "developing_objectives": 2.531,
+    "scheduling_work": 2.633,
+    "organizing_planning": 3.061,
+    "physical_activities": 2.714,
+    "handling_objects": 2.776,
+    "controlling_machines": 2.592,
+    "operating_vehicles": 2.51,
+    "computer_work": 2.796,
+    "drafting_specifications": 2.163,
+    "repairing_mechanical": 2.449,
+    "repairing_electronic": 2.367,
+    "documenting_information": 2.755,
+    "interpreting_information": 2.694,
+    "communicating_inside": 3.306,
+    "communicating_outside": 3.02,
+    "building_relationships": 3.143,
+    "assisting_caring": 3.061,
+    "selling_influencing": 2.408,
+    "resolving_conflicts": 2.735,
+    "performing_for_public": 3.265,
+    "coordinating_others": 2.857,
+    "developing_teams": 2.837,
+    "training_teaching": 2.898,
+    "guiding_subordinates": 3.122,
+    "coaching_developing": 3.02,
+    "providing_consultation": 2.449,
+    "performing_administrative": 2.816,
+    "staffing_organizational": 2.51,
+    "monitoring_resources": 2.408
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.622,
+    "vocational_school": 0.289,
+    "junior_college": 0.2,
+    "technical_college": 0.022,
+    "university": 0.644,
+    "masters": 0.0,
+    "doctorate": 0.0,
+    "unknown": 0.067
+  },
+  "training_pre": {
+    "not_required": 0.244,
+    "up_to_1_month": 0.222,
+    "1_to_6_months": 0.4,
+    "6_months_to_1_year": 0.044,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.089
+  },
+  "training_post": {
+    "not_required": 0.089,
+    "up_to_1_month": 0.022,
+    "1_to_6_months": 0.533,
+    "6_months_to_1_year": 0.156,
+    "1_to_2_years": 0.044,
+    "2_to_3_years": 0.044,
+    "3_to_5_years": 0.022,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.089
+  },
+  "experience": {
+    "not_required": 0.444,
+    "up_to_1_month": 0.156,
+    "1_to_6_months": 0.2,
+    "6_months_to_1_year": 0.044,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.0,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.156
+  },
+  "employment_type": {
+    "regular_employee": 0.911,
+    "part_time": 0.0,
+    "dispatched": 0.022,
+    "contract": 0.111,
+    "self_employed_freelance": 0.0,
+    "executive": 0.022,
+    "casual_non_student": 0.067,
+    "casual_student": 0.133,
+    "unknown": 0.0,
+    "other": 0.022
+  },
+  "tasks_lead_ja": "鉄道の駅において切符の販売や改札・集札、ホームでの出発合図や乗客の整理などをする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "電車の出発や到着時にアナウンスを行い、乗客に出口や乗換えを案内したり、安全を促す。",
+      "execution_rate": 0.959,
+      "importance": 3.596
+    },
+    {
+      "task_id": 2,
+      "description_ja": "自動券売機の点検や窓口での切符の販売をする。",
+      "execution_rate": 0.959,
+      "importance": 3.511
+    },
+    {
+      "task_id": 3,
+      "description_ja": "券売機、改札機のトラブルに対処する。",
+      "execution_rate": 0.98,
+      "importance": 3.896
+    },
+    {
+      "task_id": 4,
+      "description_ja": "自動改札機を通過する乗客の監視をする。",
+      "execution_rate": 0.878,
+      "importance": 3.093
+    },
+    {
+      "task_id": 5,
+      "description_ja": "乗り越し運賃の精算をする。",
+      "execution_rate": 0.918,
+      "importance": 3.667
+    },
+    {
+      "task_id": 6,
+      "description_ja": "お客への行き先やホームの案内、遺失物の捜索をする。",
+      "execution_rate": 1.0,
+      "importance": 3.857
+    },
+    {
+      "task_id": 7,
+      "description_ja": "身体障害者に対する乗車補助をする。",
+      "execution_rate": 0.959,
+      "importance": 3.979
+    },
+    {
+      "task_id": 8,
+      "description_ja": "電車の運転手に進行・停止やドアの開閉の合図をする。",
+      "execution_rate": 0.857,
+      "importance": 3.714
+    },
+    {
+      "task_id": 9,
+      "description_ja": "乗客の質問、要請、苦情に答える。",
+      "execution_rate": 1.0,
+      "importance": 3.714
+    },
+    {
+      "task_id": 10,
+      "description_ja": "乗換や駅内施設の案内を行う。",
+      "execution_rate": 1.0,
+      "importance": 3.633
+    },
+    {
+      "task_id": 11,
+      "description_ja": "列車に残っている乗客の降車案内をする。",
+      "execution_rate": 0.837,
+      "importance": 3.61
+    },
+    {
+      "task_id": 12,
+      "description_ja": "遅延時に乗客の対応をする。",
+      "execution_rate": 1.0,
+      "importance": 3.776
+    },
+    {
+      "task_id": 13,
+      "description_ja": "非常時には乗客の安全を確保する。",
+      "execution_rate": 1.0,
+      "importance": 4.388
+    },
+    {
+      "task_id": 14,
+      "description_ja": "列車の運転・運行を管理する。",
+      "execution_rate": 0.735,
+      "importance": 3.889
+    },
+    {
+      "task_id": 15,
+      "description_ja": "売上金を管理する。",
+      "execution_rate": 0.898,
+      "importance": 4.045
+    },
+    {
+      "task_id": 16,
+      "description_ja": "社員の労務管理や業務状況の管理を行う。",
+      "execution_rate": 0.816,
+      "importance": 3.625
+    },
+    {
+      "task_id": 17,
+      "description_ja": "駅構内の清掃や消毒をする。",
+      "execution_rate": 0.939,
+      "importance": 3.239
+    },
+    {
+      "task_id": 18,
+      "description_ja": "車両の入換業務を行う。",
+      "execution_rate": 0.653,
+      "importance": 3.406
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "北海道旅客鉄道株式会社",
+      "url": "http://www.jrhokkaido.co.jp"
+    },
+    {
+      "name_ja": "東日本旅客鉄道株式会社",
+      "url": "https://www.jreast.co.jp/"
+    },
+    {
+      "name_ja": "東海旅客鉄道株式会社",
+      "url": "https://jr-central.co.jp/"
+    },
+    {
+      "name_ja": "西日本旅客鉄道株式会社",
+      "url": "https://www.westjr.co.jp/"
+    },
+    {
+      "name_ja": "四国旅客鉄道株式会社",
+      "url": "http://www.jr-shikoku.co.jp"
+    },
+    {
+      "name_ja": "九州旅客鉄道株式会社",
+      "url": "http://www.jrkyushu.co.jp"
+    },
+    {
+      "name_ja": "一般社団法人   日本民営鉄道協会",
+      "url": "https://www.mintetsu.or.jp"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/195",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

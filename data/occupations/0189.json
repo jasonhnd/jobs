@@ -1,0 +1,450 @@
+{
+  "id": 189,
+  "ipd_id": "IPD_01_01_189",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "パイロット",
+  "aliases_ja": [
+    "機長",
+    "航空機副操縦士",
+    "ヘリコプター操縦士"
+  ],
+  "classifications": {
+    "mhlw_main": "13_087-04",
+    "mhlw_all": [
+      "13_087-04"
+    ],
+    "jsoc_main": "I624",
+    "jsoc_all": [
+      "I624"
+    ]
+  },
+  "description": {
+    "summary_ja": "乗客や貨物を運ぶ国内・国際路線の航空機を操縦したり、写真撮影、遊覧飛行、航空測量などを行う小型飛行機やヘリコプターを操縦する。",
+    "what_it_is_ja": "乗客や貨物を運ぶ国内・国際路線の航空機を操縦したり、写真撮影、遊覧飛行、航空測量などを行う小型飛行機やヘリコプターを操縦する。\n　ここでは旅客機のパイロットについて記述する。\n　旅客機は、機長と副操縦士が協力して操縦を行う。機長は、飛行についての全責任を負い、他の乗務員の指揮監督も行う。機長を含むパイロットは、航空機の操縦のほか、地上の航空管制官との通信、飛行計器類の監視などを行う。副操縦士は、機長に不測の事態が生じた場合、直ちにその職務を引き継ぐ。\n　出発前に気象データなどを考慮にいれて、ディスパッチャー（運航管理者）とともに安全で経済的な飛行プランを立案し、飛行高度・飛行速度や燃料の量などを決定する。エンジンや操縦装置・計器の点検を行った後、離陸する。飛行中は飛行プランを守って運航し、地上の管制機関と交信したり、通信モニターや計器の監視をするなど、常に安全運航に気を配る。また、病人やハイジャックなどの不測の事態にも冷静に対処する。着陸後は、所定の飛行日誌を記入し、到着地の整備担当者に航空機の状態を報告する。また後続の便のためにディスパッチャーへ航路の気象状態を伝達する。\n\n◇　よく使う道具、機材、情報技術等\n　航空機（旅客機）、飛行計器類、操縦装置",
+    "how_to_become_ja": "旅客機を運航するには定期運送用操縦士の資格が必要となる。通常、自家用操縦士の資格取得後、事業用操縦士、定期運送用操縦士の順に資格を取得していく。旅客機のパイロットとして働くには、国土交通大臣による航空従事者技能証明を受けなければならない。\n　資格取得のためには、航空会社に入社して養成訓練を受ける方法と航空大学校に入学する方法がある。航空会社では筆記試験や面接、パイロットとしての適性検査を経て採用される。航空大学校の入学試験には学力検査、身体検査、心理検査、口述試験、操縦適性検査等がある。この他、一部の大学でも航空操縦学科が設けられている。一定期間海外に留学し、操縦免許を取得し、日本の操縦免許に書き換えるコースを受ける場合もある。\n　航空会社に入社後しばらくは地上勤務などに就き、航空会社社員としての経験を積む。所定の訓練を受けて、20代後半から副操縦士として飛行経験を積み、30代後半から40代前半にかけて機長に昇格するのが一般的である。\n　パイロットはどんな事態にも落ち着いて対応できるよう、情緒の安定と冷静な判断力が必要となる。管制機関との交信は英語で行われるため、英語力も必要になる。",
+    "working_conditions_ja": "航空機の中で働くが、予備勤務として自宅や空港で待機したり、定期訓練を受ける日も勤務日数に含まれる。\n　就業者のうち、女性はごくわずかで、大半が男性となっている。\n　給与は基本賃金と乗務手当からなる。乗務手当は基本単価に乗務時間をかけた金額が支給される。乗務手当は一定額が保障される仕組みみとなっており、機長か副操縦士か、また経験年数によっても異なる。数日間の乗務の後、数日間の休日をとるサイクルになっている。運航の安全確保のため、また定期運送用操縦士資格を維持するために、健康管理が重要である。\n　飛行ダイヤに合わせて乗務するので早朝乗務や夜間飛行がある上、国際線の場合には時差もあり、勤務時間帯は変則的となる。また、日本から飛行して現地に宿泊し、翌日再び乗務に就くなど外泊の機会も多い。\n　また、コロナ禍において一時減少した飛行機の利用者が増えLCC（Low Cost  Carrier)も含めて便数が増加していることや、パイロットの高齢化とその引退により、今後パイロットは一定の人材需要が見込まれる。"
+  },
+  "interests": {
+    "realistic": 3.859,
+    "investigative": 3.406,
+    "artistic": 2.594,
+    "social": 3.625,
+    "enterprising": 3.109,
+    "conventional": 3.563
+  },
+  "work_values": {
+    "achievement": 3.774,
+    "autonomy": 3.452,
+    "expertise": 3.71,
+    "self_growth": 3.484,
+    "social_recognition": 3.613,
+    "service_contribution": 3.645,
+    "good_relationships": 3.516,
+    "workplace_safety": 3.129,
+    "work_life_balance": 3.323,
+    "stability": 3.161,
+    "compensation": 3.516
+  },
+  "skills": {
+    "reading_comprehension": 4.516,
+    "active_listening": 4.903,
+    "writing": 3.839,
+    "speaking": 4.323,
+    "foreign_language_reading": 4.0,
+    "foreign_language_listening": 3.613,
+    "foreign_language_writing": 3.323,
+    "foreign_language_speaking": 3.806,
+    "mathematics": 3.452,
+    "science": 3.065,
+    "critical_thinking": 3.871,
+    "active_learning": 3.968,
+    "learning_strategies": 3.806,
+    "monitoring": 3.871,
+    "social_perceptiveness": 3.935,
+    "coordination": 3.968,
+    "persuasion": 3.677,
+    "negotiation": 3.71,
+    "instructing": 3.871,
+    "service_orientation": 3.29,
+    "complex_problem_solving": 4.194,
+    "operations_analysis": 3.419,
+    "technology_design": 2.516,
+    "equipment_selection": 2.516,
+    "installation": 2.323,
+    "programming": 1.774,
+    "operations_monitoring": 4.903,
+    "operation_and_control": 5.097,
+    "equipment_maintenance": 2.806,
+    "troubleshooting": 4.097,
+    "repairing": 2.161,
+    "quality_control_analysis": 2.774,
+    "judgment_decision_making": 3.839,
+    "systems_analysis": 2.452,
+    "systems_evaluation": 2.484,
+    "time_management": 3.742,
+    "financial_resources_management": 2.097,
+    "material_resources_management": 1.903,
+    "personnel_resources_management": 2.194
+  },
+  "knowledge": {
+    "business_management": 1.672,
+    "clerical": 1.766,
+    "economics_accounting": 1.016,
+    "sales_marketing": 1.0,
+    "customer_personal_service": 1.641,
+    "personnel_hr": 1.516,
+    "transportation": 3.406,
+    "production_processing": 1.313,
+    "agriculture_livestock": 0.844,
+    "engineering": 2.344,
+    "computers_electronics": 2.078,
+    "design": 1.391,
+    "building_construction": 1.047,
+    "mechanical": 2.344,
+    "mathematics_kn": 2.406,
+    "physics": 2.609,
+    "chemistry": 1.641,
+    "biology": 1.063,
+    "psychology": 2.141,
+    "sociology": 1.797,
+    "geography": 2.766,
+    "medicine_dentistry": 1.766,
+    "therapy_counseling": 1.484,
+    "education_training_kn": 2.734,
+    "japanese_language": 1.938,
+    "foreign_language_kn": 2.609,
+    "fine_arts": 0.797,
+    "history_archaeology": 0.828,
+    "philosophy_theology": 0.766,
+    "public_safety_security": 2.484,
+    "law_government": 2.531,
+    "telecommunications": 2.922,
+    "communications_media": 2.422
+  },
+  "abilities": {
+    "oral_comprehension": 3.304,
+    "written_comprehension": 2.826,
+    "oral_expression": 3.391,
+    "written_expression": 2.609,
+    "fluency_of_ideas": 2.522,
+    "originality": 2.261,
+    "problem_sensitivity": 4.043,
+    "deductive_reasoning": 3.478,
+    "inductive_reasoning": 3.0,
+    "information_ordering": 3.0,
+    "category_flexibility": 2.87,
+    "mathematical_reasoning": 2.87,
+    "number_facility": 2.826,
+    "memorization": 3.087,
+    "perceptual_speed": 3.0,
+    "spatial_orientation": 3.696,
+    "visualization": 3.174,
+    "selective_attention": 3.522,
+    "time_sharing": 4.0,
+    "arm_hand_steadiness": 2.652,
+    "manual_dexterity": 2.565,
+    "finger_dexterity": 2.522,
+    "reaction_time": 3.261,
+    "wrist_finger_speed": 2.348,
+    "speed_of_limb_movement": 2.478,
+    "static_strength": 2.391,
+    "stamina": 2.826,
+    "gross_body_equilibrium": 3.304,
+    "near_vision": 3.043,
+    "far_vision": 3.087,
+    "visual_color_discrimination": 3.13,
+    "depth_perception": 3.13,
+    "hearing_sensitivity": 3.217,
+    "auditory_attention": 2.957,
+    "speech_clarity": 3.13
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.375,
+    "face_to_face_discussions": 3.828,
+    "telephone_communication": 3.328,
+    "business_writing": 3.172,
+    "conflict_situations": 3.094,
+    "time_pressure": 4.156,
+    "teamwork": 4.328,
+    "dealing_with_external_customers": 3.453,
+    "coordinate_lead_others": 4.203,
+    "exactness_accuracy": 4.625,
+    "repetitive_tasks": 4.125,
+    "pace_determined_by_machine": 4.359,
+    "responsibility_for_outcomes": 4.422,
+    "indoor_climate_controlled": 4.484,
+    "indoor_non_climate_controlled": 2.625,
+    "outdoor_work": 3.094,
+    "sitting": 4.516,
+    "standing": 2.031,
+    "repetition_of_activities": 3.0,
+    "consequence_of_error": 4.688,
+    "freedom_to_make_decisions": 3.609,
+    "set_own_goals": 3.813,
+    "regular_schedule": 0.203,
+    "irregular_schedule": 0.781,
+    "seasonal_schedule": 0.016,
+    "email_communication": 3.581,
+    "cramped_uncomfortable": 2.86,
+    "disease_infection_risk": 2.907,
+    "minor_injury_risk": 1.814,
+    "standard_protective_equipment": 2.953,
+    "specialized_protective_equipment": 2.256,
+    "dealing_with_violent_people": 1.698,
+    "walking_running": 2.163,
+    "handling_objects_tools": 3.0,
+    "physical_proximity": 3.256,
+    "work_automation": 2.791,
+    "responsibility_for_safety": 3.419,
+    "impact_of_decisions": 3.302,
+    "level_of_competition": 1.837
+  },
+  "work_activities": {
+    "getting_information": 3.217,
+    "monitor_processes": 3.652,
+    "identifying_objects": 3.348,
+    "inspecting_equipment": 2.522,
+    "estimating_quantifiable": 2.609,
+    "judging_quality": 2.783,
+    "evaluating_compliance": 4.043,
+    "processing_information": 3.304,
+    "analyzing_data": 3.13,
+    "making_decisions": 4.261,
+    "thinking_creatively": 2.913,
+    "updating_knowledge": 4.0,
+    "developing_objectives": 3.087,
+    "scheduling_work": 2.696,
+    "organizing_planning": 3.739,
+    "physical_activities": 2.739,
+    "handling_objects": 2.739,
+    "controlling_machines": 2.913,
+    "operating_vehicles": 4.261,
+    "computer_work": 3.304,
+    "drafting_specifications": 2.13,
+    "repairing_mechanical": 2.174,
+    "repairing_electronic": 2.261,
+    "documenting_information": 2.652,
+    "interpreting_information": 3.0,
+    "communicating_inside": 3.348,
+    "communicating_outside": 3.348,
+    "building_relationships": 3.304,
+    "assisting_caring": 2.522,
+    "selling_influencing": 2.261,
+    "resolving_conflicts": 2.826,
+    "performing_for_public": 2.609,
+    "coordinating_others": 3.043,
+    "developing_teams": 3.913,
+    "training_teaching": 3.348,
+    "guiding_subordinates": 3.261,
+    "coaching_developing": 3.043,
+    "providing_consultation": 2.783,
+    "performing_administrative": 2.696,
+    "staffing_organizational": 1.957,
+    "monitoring_resources": 1.913
+  },
+  "education_distribution": {
+    "below_high_school": 0.016,
+    "high_school": 0.156,
+    "vocational_school": 0.031,
+    "junior_college": 0.047,
+    "technical_college": 0.016,
+    "university": 0.859,
+    "masters": 0.094,
+    "doctorate": 0.047,
+    "unknown": 0.016
+  },
+  "training_pre": {
+    "not_required": 0.047,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.016,
+    "6_months_to_1_year": 0.0,
+    "1_to_2_years": 0.125,
+    "2_to_3_years": 0.234,
+    "3_to_5_years": 0.422,
+    "5_to_10_years": 0.063,
+    "over_10_years": 0.063,
+    "unknown": 0.031
+  },
+  "training_post": {
+    "not_required": 0.0,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.031,
+    "6_months_to_1_year": 0.125,
+    "1_to_2_years": 0.172,
+    "2_to_3_years": 0.281,
+    "3_to_5_years": 0.125,
+    "5_to_10_years": 0.125,
+    "over_10_years": 0.109,
+    "unknown": 0.031
+  },
+  "experience": {
+    "not_required": 0.313,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.063,
+    "6_months_to_1_year": 0.094,
+    "1_to_2_years": 0.063,
+    "2_to_3_years": 0.219,
+    "3_to_5_years": 0.172,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.078,
+    "unknown": 0.0
+  },
+  "employment_type": {
+    "regular_employee": 0.837,
+    "part_time": 0.07,
+    "dispatched": 0.023,
+    "contract": 0.116,
+    "self_employed_freelance": 0.023,
+    "executive": 0.047,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "国内・国際路線の航空機を操縦したり、写真撮影や広告宣伝、遊覧飛行、航空測量などのための小型飛行機やヘリコプターを操縦する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "空港などの設備や状態（NOTAM）を確認する。",
+      "execution_rate": 0.957,
+      "importance": 4.136
+    },
+    {
+      "task_id": 2,
+      "description_ja": "乗務前に運行管理者と飛行コース・時間・燃料積載量などの飛行計画を作成し、提出する。",
+      "execution_rate": 0.957,
+      "importance": 4.455
+    },
+    {
+      "task_id": 3,
+      "description_ja": "作成されたフライトプランを確認し、承認する。",
+      "execution_rate": 0.913,
+      "importance": 4.143
+    },
+    {
+      "task_id": 4,
+      "description_ja": "搭乗機の装置や計器を点検し、必要な調整をする。",
+      "execution_rate": 0.957,
+      "importance": 4.318
+    },
+    {
+      "task_id": 5,
+      "description_ja": "管制塔と交信して離陸許可を受け、航空機を離陸させる。",
+      "execution_rate": 0.957,
+      "importance": 4.318
+    },
+    {
+      "task_id": 6,
+      "description_ja": "巡航高度まで上昇させ、自動操縦装置に切り換える。",
+      "execution_rate": 0.87,
+      "importance": 3.7
+    },
+    {
+      "task_id": 7,
+      "description_ja": "地上の管制センターと交信し、現在位置や指定高度を確認する。",
+      "execution_rate": 0.957,
+      "importance": 3.909
+    },
+    {
+      "task_id": 8,
+      "description_ja": "管制塔と交信し、管制圏や訓練空域にかかわる飛行調整を行う。",
+      "execution_rate": 0.913,
+      "importance": 3.905
+    },
+    {
+      "task_id": 9,
+      "description_ja": "機長と副機長で協力しあい、大型旅客機を運航する。",
+      "execution_rate": 0.826,
+      "importance": 4.421
+    },
+    {
+      "task_id": 10,
+      "description_ja": "飛行中、通信モニターや計器の監視をする。",
+      "execution_rate": 0.957,
+      "importance": 4.136
+    },
+    {
+      "task_id": 11,
+      "description_ja": "エンジンや機体の状況を把握し、気象や周囲の状況を確認しながら操縦する。",
+      "execution_rate": 0.957,
+      "importance": 4.409
+    },
+    {
+      "task_id": 12,
+      "description_ja": "管制塔と交信して着陸許可を受け、高揚力装置を操作して徐々に降下させ、航空機を着陸させる。",
+      "execution_rate": 0.913,
+      "importance": 4.238
+    },
+    {
+      "task_id": 13,
+      "description_ja": "機器やエンジンの故障、ハイジャックなどの緊急事態には、所定の手順に従い緊急着陸など乗客の安全を守るための措置をとる。",
+      "execution_rate": 0.957,
+      "importance": 4.545
+    },
+    {
+      "task_id": 14,
+      "description_ja": "運航終了後には、飛行日誌を提出し、整備担当者に航空機の状態を報告する。",
+      "execution_rate": 0.957,
+      "importance": 4.136
+    },
+    {
+      "task_id": 15,
+      "description_ja": "運行管理者に航路の気象状態を後続の便のために伝達する。",
+      "execution_rate": 0.957,
+      "importance": 3.864
+    },
+    {
+      "task_id": 16,
+      "description_ja": "小型飛行機やヘリコプターの操縦をする。",
+      "execution_rate": 0.391,
+      "importance": null
+    },
+    {
+      "task_id": 17,
+      "description_ja": "技量を維持するための定期訓練や技能審査を受ける。",
+      "execution_rate": 0.957,
+      "importance": 4.227
+    },
+    {
+      "task_id": 18,
+      "description_ja": "他のパイロットの教育・育成を行う。",
+      "execution_rate": 0.913,
+      "importance": 3.762
+    },
+    {
+      "task_id": 19,
+      "description_ja": "乗務員の労務管理をする。",
+      "execution_rate": 0.87,
+      "importance": 3.55
+    },
+    {
+      "task_id": 20,
+      "description_ja": "航空写真撮影、測量、遊覧や視察などのために航空機を操縦する。",
+      "execution_rate": 0.304,
+      "importance": null
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "国土交通省   パイロットになるには",
+      "url": "http://www.mlit.go.jp/about/file000041.html"
+    }
+  ],
+  "related_certs_ja": [
+    "定期運送用操縦士",
+    "事業用操縦士（飛行機）",
+    "自家用操縦士（飛行機）"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/189",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

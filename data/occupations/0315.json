@@ -1,0 +1,475 @@
+{
+  "id": 315,
+  "ipd_id": "IPD_01_01_315",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "システムエンジニア（組込み、IoT）",
+  "aliases_ja": [
+    "組込系ソフトウェア開発技術者",
+    "制御系ソフトウェア開発技術者",
+    "ファームウェア開発技術者",
+    "組込みエンジニア"
+  ],
+  "classifications": {
+    "mhlw_main": "02_009-02",
+    "mhlw_all": [
+      "02_009-02"
+    ],
+    "jsoc_main": "B104",
+    "jsoc_all": [
+      "B104"
+    ]
+  },
+  "description": {
+    "summary_ja": "各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする。",
+    "what_it_is_ja": "各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする。最近はこのような製品や装置はIoTとして、インターネットを経由したデータ連携を行うことが多くなっている。以下では短くエンジニアとしている。\n　組み込まれる製品や装置では、センサーにより周辺環境の情報を収集し、それによって製品や装置が何らかの動作をしたり、IoTであればセンサーからの情報をサーバーに送り、サーバー側で処理した結果をまた製品や装置に送り、それによって製品や装置が何らか動作をする。このような処理には小型コンピュータが必要であり、このコンピュータのプログラムを開発する。センサーで取得した情報は誤差やノイズが含まれている場合があり、小型コンピュータはこれらを補正する役割もある。製品や装置が行った動作も小型コンピュータで確かめ、適切に行われているか確認する必要がある。\n　多くの場合、小型コンピュータと周辺回路が乗るプリント基盤、そして製品や装置の機械的な部分（温度や湿度の上げ下げ、水流や送風の調節、照明や日照の調整、レーザーやGPSによる移動や定位、カメラ、等々）のエンジニアと共同で開発にあたる。ソフトウェア、プリント基板、機械的な部分のエンジニアをまとめ、システム全体を開発する場合もある。自分でプログラミングを行う場合もあるが、プログラマーにプログラム作成を依頼する場合もある。\n　ソフトウェアを開発する場合、既にあるソフトウェアモジュールを組み合わせて開発することが多く、足りない部分を自分でプログラミングしたり、プログラマーに依頼したりする。\n　仕事としては、製品や装置を動かすためにソフトウェアを開発する場合と（ここでは以下「組込み開発」とする）、その製品や装置を含めシステム全体を開発する場合の二つがある（ここでは以下「システム開発」とする）。\n　「組込み開発」の典型的な例がエアコン、テレビ、洗濯機といった家電等の制御である。例えば、エアコンであれば設定された室温に温度に保つよう、センサーが温度の上昇を感知すると冷却能力を高め温度を一定にする。リモコンからの指示を受け取り、エアコンをオン、オフしたり、温度を設定するのもこの小型コンピュータである。組込み開発は製品開発の中で平行して行われており、製品開発のエンジニアが行っている場合もある。また、最近、家電もインターネットと接続されるものも出てきており、インターネットを介して指令を受け取ったり、逆に情報をインターネットに送信したりしている。\n　組込み開発は、大きく分けてハードウェア開発とファームウェア開発に分類される。ハードウェア開発は、組込み装置の用途や、大きさや価格といった制約を踏まえて、どのような部品を使ってどう構成するのがよいかを設計し、プリント基板制作や部品の取り付けなどの実装を行う。ファームウェア開発はプリント基板に搭載されている小型コンピュータ（マイコン）の上で動作するプログラムを設計、作成する。組込み開発では多くはC言語系でプログラムを開発する。機会は少なくなっているがアセンブラなどを使うこともある。組込み開発では処理時間や使用できるメモリ等が限られていることが多く、このような制約のもと、目的としたプログラムを開発する必要がある。\n　一方、「システム開発」では、まず、顧客の現状とニーズを把握し、開発の要件を明確にすることから始め、設計、開発という流れとなる。システム開発のための製品や装置を選択し、コンピュータ言語で制御プログラムを作成する。周辺環境からの情報を受け取る各種センサー、逆に何らかの動作をするパーツの選定もする。製品や装置はインターネットを介してサーバーに接続されており、サーバー側の設定をしたり、サーバー側のプログラミングも行う。出来上がったら顧客と共にテストしたり、実際の利用者に使ってもらい、不具合や改善点があれば、設定やプログラムを修正したり、場合によってはセンサー等を入れ替えることもある。製品や装置は広範囲に多数、設置されるため、信頼性、耐久性、安全性等のチェックが重要となる。\n　具体的な例として、農業の例を挙げると、農業用ハウスで以前は手動で窓の開け閉めをしたり、時間によって開け閉めをしていた。農業用ハウスに装置を設置し、その装置で室温、湿度、日照等の情報を集めサーバーに送り、この情報をもとにハウスの窓の開閉を行ったり、送風機を回したり、ハウスの環境を整えることができるようになっている。この装置の選択と設定、装置のプログラム作成、サーバーの設定とプログラム開発等をこのエンジニアが行っている。\n　以上のように製品や装置を制御する組込みのソフトウェアを開発する場合と、システムとして全体を開発する場合があるが、IoTが広がる今日、実際の開発や仕事の内容は類似してきている。\n\n◇　よく使う道具、機材、情報技術等\n　OS（オペレーティングシステム:Linux 、ITRON）、データベース(MySQL)、プログラミング言語（C言語系、JAVA、Python、Ruby等）、サーバー、パソコン、表計算ソフト（Excel、Googleスプレッドシート等）",
+    "how_to_become_ja": "入職にあたって、特に学歴や資格は必要とされないが、大学・大学院卒、高専卒が多い。新卒採用に場合は、電気、電子、情報等を履修している者が多い。中途採用の場合は、学部学科よりも、どのような開発をしてきたかという経験が重視される。\n　開発では最新の情報も必要になるが、大学・大学院、高専等で開発手法や各種部品の基礎知識を身につけておくことが重要である。なお、このエンジニアに求められる詳細なスキルとしては情報処理推進機構（IPA）の「組込みスキル標準」が参考になる。\n　入職後、仕事をしながら経験を積み、技術やスキルを身につけていく。複数の開発を経験し、顧客の要件を聞き取り、実際の開発までを過不足なくできるようになれば、一人前のエンジニアと見なされる。一つの領域を深めるだけでなく、機械的な部分、通信など複数のジャンルにわたって幅広く経験することも重要である。開発実績を積み、プロジェクトマネージャー等となっていく。 \n　転職する場合は、同業他社に移ったり、技術が生かせる周辺分野の他社に移ることがある。しかし、この分野のエンジニアは、他社に移動することが比較的少ない。経験を積み、人脈を広げ、独立して自分の会社を始める人もいる。\n　製品や装置の小型コンピュータのプログラム開発では、プログラミング言語の選択肢は概ね決まっていることが多く、C言語系などが使われ、OS（オペレーティングシステム）はLinuxやITRONが多い。サーバー側のプログラム開発では言語はC言語系、PHP、Javaなどが使われる。また、サーバー側の開発ではOSはLinux、データベースはMySQL等が使われる。今日ではセキュリティに関する知識も重要になっている。\n　開発で必要となる情報は日本語のものもあるが、英語のものも多い。海外メーカーの部品やソフトウェアを利用することも多く、それらを不自由なく読める英語力が必要となる。\n　開発は共同作業となることから、チームワークが重要であり、人柄も重視される。言われたことを実現するだけでなく、新たな仕組みを提案するような能動的な姿勢も求められる。",
+    "working_conditions_ja": "メーカーやシステム開発会社に勤務する者が多い。職場の多くが都市部に集中している。就業者の年齢は30歳代～50歳代が中心であり、男性が多い。\n　メーカーやシステム開発会社、また、開発の一部を委託された会社の正社員として働いていくことが多い、これは、今日、会社の情報保護、コンプライアンスがより重視されるようになっているためである。このため、フリーランスはほとんど見られないが、自分で会社を興し開発に参加している人はいる。\n　実際の製品や装置、またネットワークやサーバーが必要であり、在宅での仕事は難しい。また、機密情報を扱う場合は自宅ではなく職場で仕事をすることになる。ただし、コロナ禍以降、仕事の一部を在宅でしたり、リモートでの打合せも多くなっている。\n　賃金は月給制が一般的であり、収入は比較的安定している。土日祝日が休みということが多く、フレックスタイム制、裁量労働制をとっている会社が多い。効率的な働き方で労働時間の短縮を目指している会社も多くなっている。\n　今日、製品や装置はますます多機能になっているが、これは「組込み開発」による。また、IoTによって多くの製品や装置がインターネットに繋がり、様々なサービスが生まれている。「組込み開発」、「システム開発」にAIの技術なども取り入れられ始め、このエンジニアの活躍の場は広がっている。"
+  },
+  "interests": {
+    "realistic": 3.742,
+    "investigative": 3.682,
+    "artistic": 2.864,
+    "social": 3.364,
+    "enterprising": 3.136,
+    "conventional": 3.045
+  },
+  "work_values": {
+    "achievement": 3.654,
+    "autonomy": 3.596,
+    "expertise": 3.827,
+    "self_growth": 3.538,
+    "social_recognition": 2.981,
+    "service_contribution": 2.827,
+    "good_relationships": 3.135,
+    "workplace_safety": 3.346,
+    "work_life_balance": 3.173,
+    "stability": 3.327,
+    "compensation": 3.173
+  },
+  "skills": {
+    "reading_comprehension": 4.654,
+    "active_listening": 4.558,
+    "writing": 4.462,
+    "speaking": 4.346,
+    "foreign_language_reading": 2.846,
+    "foreign_language_listening": 1.942,
+    "foreign_language_writing": 1.942,
+    "foreign_language_speaking": 1.788,
+    "mathematics": 3.769,
+    "science": 3.115,
+    "critical_thinking": 4.346,
+    "active_learning": 4.077,
+    "learning_strategies": 3.712,
+    "monitoring": 3.865,
+    "social_perceptiveness": 3.731,
+    "coordination": 4.212,
+    "persuasion": 3.75,
+    "negotiation": 3.481,
+    "instructing": 3.962,
+    "service_orientation": 3.192,
+    "complex_problem_solving": 3.923,
+    "operations_analysis": 4.538,
+    "technology_design": 4.077,
+    "equipment_selection": 4.077,
+    "installation": 4.192,
+    "programming": 5.038,
+    "operations_monitoring": 3.135,
+    "operation_and_control": 3.423,
+    "equipment_maintenance": 2.404,
+    "troubleshooting": 3.808,
+    "repairing": 3.019,
+    "quality_control_analysis": 4.115,
+    "judgment_decision_making": 3.731,
+    "systems_analysis": 2.885,
+    "systems_evaluation": 2.75,
+    "time_management": 3.981,
+    "financial_resources_management": 2.404,
+    "material_resources_management": 2.442,
+    "personnel_resources_management": 2.962
+  },
+  "knowledge": {
+    "business_management": 1.48,
+    "clerical": 2.02,
+    "economics_accounting": 0.96,
+    "sales_marketing": 1.08,
+    "customer_personal_service": 1.44,
+    "personnel_hr": 0.66,
+    "transportation": 0.52,
+    "production_processing": 1.2,
+    "agriculture_livestock": 0.28,
+    "engineering": 3.22,
+    "computers_electronics": 4.16,
+    "design": 3.48,
+    "building_construction": 0.32,
+    "mechanical": 1.62,
+    "mathematics_kn": 2.72,
+    "physics": 2.34,
+    "chemistry": 1.08,
+    "biology": 0.4,
+    "psychology": 0.74,
+    "sociology": 0.66,
+    "geography": 0.42,
+    "medicine_dentistry": 0.38,
+    "therapy_counseling": 0.38,
+    "education_training_kn": 1.08,
+    "japanese_language": 1.98,
+    "foreign_language_kn": 1.86,
+    "fine_arts": 0.4,
+    "history_archaeology": 0.26,
+    "philosophy_theology": 0.34,
+    "public_safety_security": 1.36,
+    "law_government": 1.06,
+    "telecommunications": 3.14,
+    "communications_media": 2.0
+  },
+  "abilities": {
+    "oral_comprehension": 2.937,
+    "written_comprehension": 3.111,
+    "oral_expression": 2.968,
+    "written_expression": 3.063,
+    "fluency_of_ideas": 2.873,
+    "originality": 2.73,
+    "problem_sensitivity": 3.302,
+    "deductive_reasoning": 2.952,
+    "inductive_reasoning": 2.952,
+    "information_ordering": 2.889,
+    "category_flexibility": 2.794,
+    "mathematical_reasoning": 2.952,
+    "number_facility": 2.714,
+    "memorization": 2.714,
+    "perceptual_speed": 2.556,
+    "spatial_orientation": 2.286,
+    "visualization": 2.476,
+    "selective_attention": 2.714,
+    "time_sharing": 2.651,
+    "arm_hand_steadiness": 1.825,
+    "manual_dexterity": 1.905,
+    "finger_dexterity": 1.841,
+    "reaction_time": 2.016,
+    "wrist_finger_speed": 2.095,
+    "speed_of_limb_movement": 1.794,
+    "static_strength": 1.603,
+    "stamina": 2.016,
+    "gross_body_equilibrium": 1.698,
+    "near_vision": 1.937,
+    "far_vision": 1.698,
+    "visual_color_discrimination": 1.968,
+    "depth_perception": 1.762,
+    "hearing_sensitivity": 1.857,
+    "auditory_attention": 1.841,
+    "speech_clarity": 2.016
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.72,
+    "face_to_face_discussions": 4.1,
+    "telephone_communication": 3.64,
+    "business_writing": 3.8,
+    "conflict_situations": 2.42,
+    "time_pressure": 3.22,
+    "teamwork": 3.76,
+    "dealing_with_external_customers": 2.96,
+    "coordinate_lead_others": 3.34,
+    "exactness_accuracy": 3.74,
+    "repetitive_tasks": 2.6,
+    "pace_determined_by_machine": 2.64,
+    "responsibility_for_outcomes": 3.3,
+    "indoor_climate_controlled": 4.98,
+    "indoor_non_climate_controlled": 1.56,
+    "outdoor_work": 1.4,
+    "sitting": 4.86,
+    "standing": 1.48,
+    "repetition_of_activities": 1.84,
+    "consequence_of_error": 3.14,
+    "freedom_to_make_decisions": 3.54,
+    "set_own_goals": 3.62,
+    "regular_schedule": 0.42,
+    "irregular_schedule": 0.54,
+    "seasonal_schedule": 0.04,
+    "email_communication": 4.82,
+    "cramped_uncomfortable": 1.6,
+    "disease_infection_risk": 1.46,
+    "minor_injury_risk": 1.28,
+    "standard_protective_equipment": 1.38,
+    "specialized_protective_equipment": 1.24,
+    "dealing_with_violent_people": 1.14,
+    "walking_running": 1.54,
+    "handling_objects_tools": 2.12,
+    "physical_proximity": 3.18,
+    "work_automation": 2.6,
+    "responsibility_for_safety": 2.08,
+    "impact_of_decisions": 2.82,
+    "level_of_competition": 2.66
+  },
+  "work_activities": {
+    "getting_information": 3.159,
+    "monitor_processes": 3.079,
+    "identifying_objects": 3.127,
+    "inspecting_equipment": 2.683,
+    "estimating_quantifiable": 2.81,
+    "judging_quality": 2.984,
+    "evaluating_compliance": 3.032,
+    "processing_information": 3.111,
+    "analyzing_data": 3.254,
+    "making_decisions": 3.333,
+    "thinking_creatively": 3.079,
+    "updating_knowledge": 3.143,
+    "developing_objectives": 3.048,
+    "scheduling_work": 3.333,
+    "organizing_planning": 3.317,
+    "physical_activities": 2.079,
+    "handling_objects": 1.937,
+    "controlling_machines": 2.27,
+    "operating_vehicles": 1.746,
+    "computer_work": 3.508,
+    "drafting_specifications": 2.508,
+    "repairing_mechanical": 1.889,
+    "repairing_electronic": 1.984,
+    "documenting_information": 3.0,
+    "interpreting_information": 2.937,
+    "communicating_inside": 3.095,
+    "communicating_outside": 2.968,
+    "building_relationships": 2.873,
+    "assisting_caring": 2.444,
+    "selling_influencing": 2.317,
+    "resolving_conflicts": 2.444,
+    "performing_for_public": 1.952,
+    "coordinating_others": 2.873,
+    "developing_teams": 2.841,
+    "training_teaching": 2.556,
+    "guiding_subordinates": 2.683,
+    "coaching_developing": 2.571,
+    "providing_consultation": 2.286,
+    "performing_administrative": 2.778,
+    "staffing_organizational": 2.206,
+    "monitoring_resources": 2.302
+  },
+  "education_distribution": {
+    "below_high_school": 0.02,
+    "high_school": 0.08,
+    "vocational_school": 0.14,
+    "junior_college": 0.02,
+    "technical_college": 0.08,
+    "university": 0.72,
+    "masters": 0.44,
+    "doctorate": 0.08,
+    "unknown": 0.02
+  },
+  "training_pre": {
+    "not_required": 0.28,
+    "up_to_1_month": 0.04,
+    "1_to_6_months": 0.22,
+    "6_months_to_1_year": 0.06,
+    "1_to_2_years": 0.1,
+    "2_to_3_years": 0.04,
+    "3_to_5_years": 0.0,
+    "5_to_10_years": 0.08,
+    "over_10_years": 0.02,
+    "unknown": 0.16
+  },
+  "training_post": {
+    "not_required": 0.02,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.16,
+    "6_months_to_1_year": 0.12,
+    "1_to_2_years": 0.18,
+    "2_to_3_years": 0.14,
+    "3_to_5_years": 0.18,
+    "5_to_10_years": 0.1,
+    "over_10_years": 0.0,
+    "unknown": 0.1
+  },
+  "experience": {
+    "not_required": 0.36,
+    "up_to_1_month": 0.04,
+    "1_to_6_months": 0.12,
+    "6_months_to_1_year": 0.1,
+    "1_to_2_years": 0.1,
+    "2_to_3_years": 0.12,
+    "3_to_5_years": 0.02,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.02,
+    "unknown": 0.12
+  },
+  "employment_type": {
+    "regular_employee": 0.849,
+    "part_time": 0.038,
+    "dispatched": 0.057,
+    "contract": 0.075,
+    "self_employed_freelance": 0.075,
+    "executive": 0.038,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "ニーズを聴取する。",
+      "execution_rate": 0.849,
+      "importance": 3.356
+    },
+    {
+      "task_id": 2,
+      "description_ja": "要件の定義を行う。",
+      "execution_rate": 0.925,
+      "importance": 3.592
+    },
+    {
+      "task_id": 3,
+      "description_ja": "関係者と開発について検討する。",
+      "execution_rate": 0.925,
+      "importance": 3.51
+    },
+    {
+      "task_id": 4,
+      "description_ja": "ソフトウエアを設計する。",
+      "execution_rate": 0.887,
+      "importance": 3.723
+    },
+    {
+      "task_id": 5,
+      "description_ja": "ソフトウェアモジュールを組み合わせて開発を行う。",
+      "execution_rate": 0.868,
+      "importance": 3.652
+    },
+    {
+      "task_id": 6,
+      "description_ja": "自分でプログラムを作成する。",
+      "execution_rate": 0.83,
+      "importance": 3.455
+    },
+    {
+      "task_id": 7,
+      "description_ja": "プログラム作成をプログラマーに依頼する。",
+      "execution_rate": 0.774,
+      "importance": 3.146
+    },
+    {
+      "task_id": 8,
+      "description_ja": "パソコンやスマートフォンなどから制御するための画面を設計し、開発する。",
+      "execution_rate": 0.774,
+      "importance": 3.341
+    },
+    {
+      "task_id": 9,
+      "description_ja": "テストを行う。",
+      "execution_rate": 0.887,
+      "importance": 3.787
+    },
+    {
+      "task_id": 10,
+      "description_ja": "テストで支障があればプログラムを修正する。",
+      "execution_rate": 0.849,
+      "importance": 3.911
+    },
+    {
+      "task_id": 11,
+      "description_ja": "プロジェクトの進捗やリソースを管理する。",
+      "execution_rate": 0.868,
+      "importance": 3.587
+    },
+    {
+      "task_id": 12,
+      "description_ja": "関係者と出来上がったシステムを確認する。",
+      "execution_rate": 0.849,
+      "importance": 3.8
+    },
+    {
+      "task_id": 13,
+      "description_ja": "安全性、耐障害性をチェックする。",
+      "execution_rate": 0.868,
+      "importance": 3.609
+    },
+    {
+      "task_id": 14,
+      "description_ja": "各種規格への準拠を確認する。",
+      "execution_rate": 0.83,
+      "importance": 3.682
+    },
+    {
+      "task_id": 15,
+      "description_ja": "使用法や仕様に関するマニュアルや資料を作成する。",
+      "execution_rate": 0.868,
+      "importance": 3.5
+    },
+    {
+      "task_id": 16,
+      "description_ja": "開発過程をドキュメントとしてまとめる。",
+      "execution_rate": 0.83,
+      "importance": 3.341
+    },
+    {
+      "task_id": 17,
+      "description_ja": "仕様書や成果物をレビューする。",
+      "execution_rate": 0.868,
+      "importance": 3.674
+    },
+    {
+      "task_id": 18,
+      "description_ja": "熱暴走などの問題をチェック・監視する。",
+      "execution_rate": 0.83,
+      "importance": 3.318
+    },
+    {
+      "task_id": 19,
+      "description_ja": "セキュリティ対策を取る。",
+      "execution_rate": 0.849,
+      "importance": 3.467
+    },
+    {
+      "task_id": 20,
+      "description_ja": "新規事業を企画する。",
+      "execution_rate": 0.774,
+      "importance": 3.098
+    },
+    {
+      "task_id": 21,
+      "description_ja": "製品のマーケティングをする。",
+      "execution_rate": 0.717,
+      "importance": 3.105
+    },
+    {
+      "task_id": 22,
+      "description_ja": "顧客にシステムの新設・改良を提案する。",
+      "execution_rate": 0.755,
+      "importance": 3.375
+    },
+    {
+      "task_id": 23,
+      "description_ja": "研究開発や技術開発を行う。",
+      "execution_rate": 0.849,
+      "importance": 3.467
+    },
+    {
+      "task_id": 24,
+      "description_ja": "開発プロセスを設計し、成果物を定義する。",
+      "execution_rate": 0.83,
+      "importance": 3.386
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　組込みシステム技術協会（JASA）",
+      "url": "https://www.jasa.or.jp/"
+    },
+    {
+      "name_ja": "独立行政法人　情報処理推進機構（IPA）",
+      "url": "https://www.ipa.go.jp/"
+    }
+  ],
+  "related_certs_ja": [],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/315",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2024
+  }
+}

@@ -1,0 +1,450 @@
+{
+  "id": 91,
+  "ipd_id": "IPD_01_01_091",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "弁理士",
+  "aliases_ja": [],
+  "classifications": {
+    "mhlw_main": "03_012-02",
+    "mhlw_all": [
+      "03_012-02"
+    ],
+    "jsoc_main": "B174",
+    "jsoc_all": [
+      "B174"
+    ]
+  },
+  "description": {
+    "summary_ja": "知的財産に関する専門知識を活かし、特許庁への手続き等をはじめ企業の産業財産権全般についての業務に携わる。",
+    "what_it_is_ja": "知的財産に関する専門知識を活かし、特許庁への手続き等をはじめ企業の産業財産権全般についての業務に携わる。\n　特許庁に対する出願書類の作成や登録申請が主な仕事であるが、知的財産に関する専門家として、知的財産権の取得についての相談をはじめ、自社製品を模倣されたときの対策、他社の権利を侵害していないか等の相談まで、知的財産全般について相談を受け、助言、コンサルティングも行う。顧客のニーズも多様化し、出願以外の仕事も増加してきている。\n　知的財産権には、新規な発明を創作した者に与えられる独占権である「特許権」、物品の美的外観を保護する「意匠権」、商品やサービスの名前、マークを保護する「商標権」などがある。\n　特許の仕事では、依頼者からの資料をもとに、発明などの特徴を見出し、その特徴を分かりやすく説明した書類や図面を作成する。作成した出願書類を特許庁に提出し、登録できるかどうかの審査を受ける。審査において登録できないと判断された場合でも、反論や書類の修正を行って登録が可能となるよう手続きを継続する。特許権を取得する際には権利範囲が重要である。単に商品や技術をそのまま出願すればよいというものではなく、その商品や技術を特許の観点から適切に捉えて出願することが必要である。\n　意匠の仕事は、そのデザインの特徴や、その製品の機能・用途等をヒアリングした上で、出願の内容を出願人とともに検討し、必要な書類、図面を作成する。他者の意匠が登録されている場合にはそのデザインを採用できないので、事前調査をすることもある。\n　商標の仕事は、依頼者の業務内容を分析し、対象となる商品やサービス、商標の態様等を依頼者とともに検討する。対象商品・サービスについては権利の範囲を画することになるので、その選定は重要である。他人の商標が登録されている場合には、使用ができないので、使用できるか否か事前調査をする。そして適切な権利範囲を見極めて出願書類を作成し特許庁に提出する。\n　その他、競合他社の権利登録への無効審判請求や権利侵害に対して弁護士と共同で代理人となるなど、紛争処理も扱う場合もある。\n　弁理士法では、「弁理士は、知的財産に関する専門家として、知的財産権の適正な保護及び利用の促進その他の知的財産に係る制度の適正な運用に寄与し、もって経済及び産業の発展に資すること使命とする」と規定している。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、パソコン",
+    "how_to_become_ja": "弁理士の国家試験に合格し、弁理士会へ登録する必要がある。この試験は学歴に関係なく受験することができるが、現在活躍している弁理士のほとんどが大学卒業者であり、理工系出身者が大半を占めている。\n　弁理士試験に合格する他、特許庁において、通算7年以上審判官又は審査官として、審判又は審査の事務に従事した者、又は、弁護士法により弁護士と認められる者も弁理士になれる資格がある。\n　上記資格に該当し、経済産業大臣又は大臣から指定を受けた機関が実施する、弁理士法に定められた実務修習を経て初めて弁理士登録をすることができる。\n　特許事務所や企業の知的財産部門に数年間勤務し、経験を積んでから独立するケースが多い。\n　仕事を通して、知的財産権を中心とする法律などの諸問題に精通することが求められる。特定の技術分野を専門とする人は、電気、機械、化学等、それぞれの分野の最先端技術の知識が必要となる。また、国際的にも知的財産権を巡っての競争や紛争は激しさを増しており、外国への出願、外国から日本への出願も多く、外国の弁理士と提携して仕事をすることもあり、英語をはじめ外国語の能力も必要とされる。",
+    "working_conditions_ja": "職場は、企業が集まる東京、大阪等、大都市に集中しているが、知的財産権のニーズの高まりとともに地方で開業するケースも見られる。\n　働き方は大きく分けて、特許事務所で働く場合と企業の知的財産部門で働く場合がある。経験を積んで独立開業する弁理士もいる。\n　企業の特許部や知的財産部に所属している場合、社内の知的財産権にかかわる様々な職務を幅広く経験することができる。給与は各企業及び特許事務所の基準に準ずるが、実績に応じた報酬体系を取っているケースもある。\n　開業している場合は、出願手数料や成功報酬、その他の業務についての手数料が収入となる。手数料は、依頼者との契約で決められるため、実績のある弁理士とそうでない弁理士では収入に大きな開きがある。実績次第で高収入が得られる仕事といえる。\n　企業の特許部門で働く場合も、定年後嘱託として働き続ける人が多くみられるなど幅広い年齢層が活躍している。\n　現在、我が国の特許出願の9割近くが弁理士によるとされる中、弁理士数は増加しているものの、我が国の出願件数と比べてもその数は少ないといえる。日本弁理士会の会員数(弁理士数)は11,857人である（2025年7月）。"
+  },
+  "interests": {
+    "realistic": 3.544,
+    "investigative": 3.721,
+    "artistic": 2.544,
+    "social": 3.338,
+    "enterprising": 3.029,
+    "conventional": 3.309
+  },
+  "work_values": {
+    "achievement": 3.761,
+    "autonomy": 3.87,
+    "expertise": 4.239,
+    "self_growth": 3.717,
+    "social_recognition": 3.478,
+    "service_contribution": 3.043,
+    "good_relationships": 3.37,
+    "workplace_safety": 3.783,
+    "work_life_balance": 3.478,
+    "stability": 3.435,
+    "compensation": 3.565
+  },
+  "skills": {
+    "reading_comprehension": 5.804,
+    "active_listening": 5.522,
+    "writing": 5.891,
+    "speaking": 5.543,
+    "foreign_language_reading": 4.978,
+    "foreign_language_listening": 2.978,
+    "foreign_language_writing": 3.783,
+    "foreign_language_speaking": 2.848,
+    "mathematics": 3.913,
+    "science": 4.37,
+    "critical_thinking": 5.065,
+    "active_learning": 5.065,
+    "learning_strategies": 4.043,
+    "monitoring": 3.891,
+    "social_perceptiveness": 3.826,
+    "coordination": 3.826,
+    "persuasion": 4.0,
+    "negotiation": 3.957,
+    "instructing": 3.87,
+    "service_orientation": 3.522,
+    "complex_problem_solving": 4.435,
+    "operations_analysis": 3.978,
+    "technology_design": 3.239,
+    "equipment_selection": 2.783,
+    "installation": 2.348,
+    "programming": 1.826,
+    "operations_monitoring": 1.783,
+    "operation_and_control": 1.848,
+    "equipment_maintenance": 1.413,
+    "troubleshooting": 1.63,
+    "repairing": 1.348,
+    "quality_control_analysis": 2.065,
+    "judgment_decision_making": 3.174,
+    "systems_analysis": 2.804,
+    "systems_evaluation": 2.587,
+    "time_management": 3.87,
+    "financial_resources_management": 2.239,
+    "material_resources_management": 1.587,
+    "personnel_resources_management": 2.304
+  },
+  "knowledge": {
+    "business_management": 1.853,
+    "clerical": 3.441,
+    "economics_accounting": 1.265,
+    "sales_marketing": 1.382,
+    "customer_personal_service": 1.971,
+    "personnel_hr": 0.735,
+    "transportation": 0.412,
+    "production_processing": 0.971,
+    "agriculture_livestock": 0.676,
+    "engineering": 3.088,
+    "computers_electronics": 2.824,
+    "design": 2.147,
+    "building_construction": 1.529,
+    "mechanical": 2.588,
+    "mathematics_kn": 2.382,
+    "physics": 2.676,
+    "chemistry": 2.824,
+    "biology": 2.265,
+    "psychology": 0.882,
+    "sociology": 0.676,
+    "geography": 0.618,
+    "medicine_dentistry": 1.471,
+    "therapy_counseling": 0.559,
+    "education_training_kn": 0.971,
+    "japanese_language": 3.706,
+    "foreign_language_kn": 3.441,
+    "fine_arts": 0.5,
+    "history_archaeology": 0.294,
+    "philosophy_theology": 0.265,
+    "public_safety_security": 0.765,
+    "law_government": 3.676,
+    "telecommunications": 2.559,
+    "communications_media": 2.235
+  },
+  "abilities": {
+    "oral_comprehension": 3.727,
+    "written_comprehension": 3.97,
+    "oral_expression": 3.485,
+    "written_expression": 3.97,
+    "fluency_of_ideas": 3.242,
+    "originality": 2.97,
+    "problem_sensitivity": 3.061,
+    "deductive_reasoning": 3.061,
+    "inductive_reasoning": 3.03,
+    "information_ordering": 3.152,
+    "category_flexibility": 2.879,
+    "mathematical_reasoning": 2.636,
+    "number_facility": 2.727,
+    "memorization": 3.212,
+    "perceptual_speed": 2.848,
+    "spatial_orientation": 2.636,
+    "visualization": 2.848,
+    "selective_attention": 3.394,
+    "time_sharing": 2.97,
+    "arm_hand_steadiness": 1.697,
+    "manual_dexterity": 1.727,
+    "finger_dexterity": 1.636,
+    "reaction_time": 1.879,
+    "wrist_finger_speed": 1.636,
+    "speed_of_limb_movement": 1.697,
+    "static_strength": 1.606,
+    "stamina": 2.152,
+    "gross_body_equilibrium": 1.758,
+    "near_vision": 1.97,
+    "far_vision": 1.788,
+    "visual_color_discrimination": 1.879,
+    "depth_perception": 1.818,
+    "hearing_sensitivity": 1.788,
+    "auditory_attention": 1.758,
+    "speech_clarity": 2.576
+  },
+  "work_characteristics": {
+    "contact_with_others": 3.912,
+    "face_to_face_discussions": 3.0,
+    "telephone_communication": 3.176,
+    "business_writing": 3.941,
+    "conflict_situations": 1.735,
+    "time_pressure": 3.324,
+    "teamwork": 2.235,
+    "dealing_with_external_customers": 3.029,
+    "coordinate_lead_others": 2.794,
+    "exactness_accuracy": 4.265,
+    "repetitive_tasks": 2.647,
+    "pace_determined_by_machine": 1.824,
+    "responsibility_for_outcomes": 3.5,
+    "indoor_climate_controlled": 4.618,
+    "indoor_non_climate_controlled": 1.294,
+    "outdoor_work": 1.176,
+    "sitting": 4.941,
+    "standing": 1.088,
+    "repetition_of_activities": 2.059,
+    "consequence_of_error": 3.706,
+    "freedom_to_make_decisions": 3.794,
+    "set_own_goals": 3.941,
+    "regular_schedule": 0.588,
+    "irregular_schedule": 0.382,
+    "seasonal_schedule": 0.029,
+    "email_communication": 4.735,
+    "cramped_uncomfortable": 1.265,
+    "disease_infection_risk": 1.235,
+    "minor_injury_risk": 1.0,
+    "standard_protective_equipment": 1.0,
+    "specialized_protective_equipment": 1.0,
+    "dealing_with_violent_people": 1.059,
+    "walking_running": 1.294,
+    "handling_objects_tools": 1.206,
+    "physical_proximity": 2.647,
+    "work_automation": 2.176,
+    "responsibility_for_safety": 1.471,
+    "impact_of_decisions": 2.824,
+    "level_of_competition": 2.294
+  },
+  "work_activities": {
+    "getting_information": 3.485,
+    "monitor_processes": 3.242,
+    "identifying_objects": 3.303,
+    "inspecting_equipment": 2.03,
+    "estimating_quantifiable": 2.273,
+    "judging_quality": 2.606,
+    "evaluating_compliance": 3.97,
+    "processing_information": 3.03,
+    "analyzing_data": 3.03,
+    "making_decisions": 3.0,
+    "thinking_creatively": 2.97,
+    "updating_knowledge": 3.727,
+    "developing_objectives": 2.909,
+    "scheduling_work": 3.303,
+    "organizing_planning": 3.515,
+    "physical_activities": 2.152,
+    "handling_objects": 2.0,
+    "controlling_machines": 1.758,
+    "operating_vehicles": 1.758,
+    "computer_work": 3.394,
+    "drafting_specifications": 2.091,
+    "repairing_mechanical": 1.667,
+    "repairing_electronic": 1.606,
+    "documenting_information": 3.061,
+    "interpreting_information": 3.182,
+    "communicating_inside": 3.152,
+    "communicating_outside": 3.485,
+    "building_relationships": 3.121,
+    "assisting_caring": 2.667,
+    "selling_influencing": 2.303,
+    "resolving_conflicts": 2.606,
+    "performing_for_public": 2.121,
+    "coordinating_others": 2.515,
+    "developing_teams": 2.455,
+    "training_teaching": 2.424,
+    "guiding_subordinates": 2.727,
+    "coaching_developing": 2.636,
+    "providing_consultation": 2.667,
+    "performing_administrative": 2.848,
+    "staffing_organizational": 2.485,
+    "monitoring_resources": 2.303
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.0,
+    "vocational_school": 0.0,
+    "junior_college": 0.0,
+    "technical_college": 0.029,
+    "university": 0.735,
+    "masters": 0.735,
+    "doctorate": 0.294,
+    "unknown": 0.0
+  },
+  "training_pre": {
+    "not_required": 0.206,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.059,
+    "1_to_2_years": 0.147,
+    "2_to_3_years": 0.235,
+    "3_to_5_years": 0.176,
+    "5_to_10_years": 0.029,
+    "over_10_years": 0.059,
+    "unknown": 0.088
+  },
+  "training_post": {
+    "not_required": 0.0,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.0,
+    "6_months_to_1_year": 0.088,
+    "1_to_2_years": 0.118,
+    "2_to_3_years": 0.294,
+    "3_to_5_years": 0.294,
+    "5_to_10_years": 0.118,
+    "over_10_years": 0.0,
+    "unknown": 0.088
+  },
+  "experience": {
+    "not_required": 0.353,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.059,
+    "6_months_to_1_year": 0.029,
+    "1_to_2_years": 0.088,
+    "2_to_3_years": 0.118,
+    "3_to_5_years": 0.176,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.059,
+    "unknown": 0.118
+  },
+  "employment_type": {
+    "regular_employee": 0.853,
+    "part_time": 0.059,
+    "dispatched": 0.029,
+    "contract": 0.088,
+    "self_employed_freelance": 0.265,
+    "executive": 0.088,
+    "casual_non_student": 0.029,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "特許庁に対して産業財産権の出願や登録申請を、個人の発明家や企業の代理として行う。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "依頼人から発明についての相談を受け、その技術内容を把握し、有用であるか、特許権や実用新案権などの権利が認められるかどうか検討する。",
+      "execution_rate": 0.939,
+      "importance": 3.742
+    },
+    {
+      "task_id": 2,
+      "description_ja": "先行出願・登録状況や審決例を調査し、権利が取得できるかを判断する。",
+      "execution_rate": 0.909,
+      "importance": 3.733
+    },
+    {
+      "task_id": 3,
+      "description_ja": "商標の登録可能性・使用可能性の調査と検討をする。",
+      "execution_rate": 0.758,
+      "importance": 3.44
+    },
+    {
+      "task_id": 4,
+      "description_ja": "特許庁に提出する願書や技術内容を説明した図面などの必要書類を作成する。",
+      "execution_rate": 0.909,
+      "importance": 4.133
+    },
+    {
+      "task_id": 5,
+      "description_ja": "特許庁に対して特許の出願の手続きをする。",
+      "execution_rate": 0.939,
+      "importance": 3.903
+    },
+    {
+      "task_id": 6,
+      "description_ja": "意匠や商標に関して、特許庁への登録など必要な手続きの代理作業を行う。",
+      "execution_rate": 0.788,
+      "importance": 3.654
+    },
+    {
+      "task_id": 7,
+      "description_ja": "出願が拒絶された場合、依頼者からの求めに応じて不服審判の請求をする。",
+      "execution_rate": 0.909,
+      "importance": 4.1
+    },
+    {
+      "task_id": 8,
+      "description_ja": "外国へ出願するため、書類の作成や翻訳を行い、現地の代理人へ依頼する。",
+      "execution_rate": 0.818,
+      "importance": 3.963
+    },
+    {
+      "task_id": 9,
+      "description_ja": "外国からの出願に対して、在外代理人としての業務を行う。",
+      "execution_rate": 0.818,
+      "importance": 3.481
+    },
+    {
+      "task_id": 10,
+      "description_ja": "依頼人の発明と他者の発明との侵害・抵触関係について鑑定評価を行う。",
+      "execution_rate": 0.879,
+      "importance": 3.448
+    },
+    {
+      "task_id": 11,
+      "description_ja": "競合他社の権利登録への無効審判請求や、権利侵害に対して弁護士と共同で代理人となるなど紛争処理を扱う。",
+      "execution_rate": 0.849,
+      "importance": 3.536
+    },
+    {
+      "task_id": 12,
+      "description_ja": "著作権や商標権などが侵害される製品が輸入されそうな場合には、税関に対して輸入の差し止めを申し立てる。",
+      "execution_rate": 0.636,
+      "importance": 3.238
+    },
+    {
+      "task_id": 13,
+      "description_ja": "自社事業を保護する特許や、他社事業をカバーする特許を権利化する。",
+      "execution_rate": 0.939,
+      "importance": 3.774
+    },
+    {
+      "task_id": 14,
+      "description_ja": "企業の開発者とコミュニケーションをとり、権利取得につながるアイディアや事業を発掘する。",
+      "execution_rate": 0.879,
+      "importance": 3.759
+    },
+    {
+      "task_id": 15,
+      "description_ja": "企業の特許戦略を検討する。",
+      "execution_rate": 0.849,
+      "importance": 3.214
+    },
+    {
+      "task_id": 16,
+      "description_ja": "特許維持のために納付する特許料（年金）を管理する。",
+      "execution_rate": 1.0,
+      "importance": 3.182
+    },
+    {
+      "task_id": 17,
+      "description_ja": "出願等にかかる予算や費用の実績を管理する。",
+      "execution_rate": 0.758,
+      "importance": 2.64
+    },
+    {
+      "task_id": 18,
+      "description_ja": "提出済みの書類を管理する。",
+      "execution_rate": 0.939,
+      "importance": 3.355
+    },
+    {
+      "task_id": 19,
+      "description_ja": "手続き等の期限を管理する。",
+      "execution_rate": 1.0,
+      "importance": 3.667
+    },
+    {
+      "task_id": 20,
+      "description_ja": "セミナーの講師として、知的財産に関わる講義をする。",
+      "execution_rate": 0.758,
+      "importance": 2.4
+    },
+    {
+      "task_id": 21,
+      "description_ja": "市場の技術動向を調査する。",
+      "execution_rate": 0.849,
+      "importance": 2.857
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "日本弁理士会",
+      "url": "https://www.jpaa.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "弁理士"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/91",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

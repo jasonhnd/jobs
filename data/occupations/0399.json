@@ -1,0 +1,463 @@
+{
+  "id": 399,
+  "ipd_id": "IPD_01_01_399",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "職業訓練指導員",
+  "aliases_ja": [
+    "職業訓練指導員（障害者職業能力開発校）",
+    "職業訓練指導員（職業能力開発促進センター）",
+    "職業訓練指導員（認定職業訓練施設）",
+    "職業能力開発校指導員"
+  ],
+  "classifications": {
+    "mhlw_main": "05_031-99",
+    "mhlw_all": [
+      "05_031-99"
+    ],
+    "jsoc_main": "B199",
+    "jsoc_all": [
+      "B199"
+    ]
+  },
+  "description": {
+    "summary_ja": "公共職業能力開発施設や、認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導や就職支援を行う。",
+    "what_it_is_ja": "職業能力開発促進法に規定された公共職業能力開発施設や、事業主団体や職業訓練法人が設置している認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導やキャリアコンサルティングを通じた就職支援、ジョブ・カードの作成などを行う。「テクノインストラクター」とも呼ばれる。\n　まず、必要とされる職業能力を確立し、効率的に訓練するために、訓練目標の設定及びカリキュラムを策定する。次に、訓練を行う各科目の指導案を作成し、訓練で使用する教材の準備や資材の手配など、事前準備を行う。\n　訓練実施時には、訓練に使用する機械・設備を調整し、安全を確認する。訓練科目に応じて、訓練生に対し、電気工事、機械加工、自動車整備、溶接、情報処理などの技術習得に必要な訓練指導を行い、教室での座学では専門科目の講義をする。訓練中は、訓練生の技能習得度、知識の理解度などを把握しながら適切な指示を与えるとともに、作業の安全に十分に気を使う必要がある。所定の技術が習得できたかどうか、修了試験を兼ねた技能照査を実施する。\n　また、訓練生への技能・技術指導や若年者を対象とする場合の生活指導、求職者に対する就職活動の支援の他に、事業主や業界などのニーズ及び技術動向の把握、事業主などに対する能力開発に関する相談援助などの業務がある。\n　専門的な技能・技術を活かし、技能検定や技能五輪などの各種の大会で検定員や審査委員・競技委員を務めることもある。\n\n◇　よく使う道具、機材、情報技術等\n　文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン",
+    "how_to_become_ja": "職業訓練指導員になるためには、各都道府県に対して職業訓練指導員免許交付の申請を行い、免許を取得する必要がある。申請の要件としては、①職業能力開発総合大学校の指導員養成課程を修了する、②職業能力開発促進法に基づく技能検定に合格したのち、所定の講習の修了または試験に合格する、③大学等卒業後、実務経験を積み、所定の講習の修了または試験に合格する、④所定の免許職種に関する高等学校普通教育免許を取得する、等がある。\n　募集・採用は、公共職業能力開発施設の場合は、各都道府県や(独)高齢・障害・求職者雇用支援機構が行う。事業主団体や職業訓練法人が設置している認定職業訓練施設の場合は、関係事業所等の従業員の中から有資格者を選ぶこともある。\n　職業訓練指導員には、担当する分野の技能・技術・知識とともに、指導者として、訓練生に対する理解ときめ細かな配慮が望まれる。担当する教科により、講義や実技指導での立ち時間が多く、一定の体力も必要である。さらに、各専門分野で高度な知識を常に得ようとする研究心も求められる。",
+    "working_conditions_ja": "勤務先は、公共職業能力開発施設や認定職業訓練施設、民間の教育訓練機関や事業所、さらには、職業訓練を実施している矯正施設(法務省所管)があり、職場は全国に広がっている。\n　公共職業能力開発施設の職業訓練指導員は全国で約4000人であり、中高年齢層が多い（*）。男性が多いが、女性も増えている。\n　公共職業能力開発施設で働く場合は、地方公務員あるいは独立行政法人等の職員となり、労働条件は各都道府県や法人の規定による。企業のニーズに対応した訓練コースを実施するため、施設外での訓練指導(勤務)も多く、また、土日夜間の訓練指導もある。認定職業訓練施設で働く場合は、施設を運営する事業主により、一般企業の社員や職業訓練法人の職員などで勤務し、施設によって、その労働条件は様々である。\n　職業訓練指導員は、多様な人材育成ニーズ、経済構造・社会環境の変化、技術革新の進展などに対応して、常に時代のニーズに合った訓練を訓練生に対して行う必要があることから、訓練科目やカリキュラム、訓練手法の見直し・拡充を絶えず行っている。今後も、様々な分野の人材の開発・育成に向けて、職業訓練指導を担う職業訓練指導員が果たす役割は大きい。\n\n*厚労省資料「職業訓練指導員養成に関する現状と課題」から"
+  },
+  "interests": {
+    "realistic": 3.649,
+    "investigative": 3.333,
+    "artistic": 2.86,
+    "social": 3.965,
+    "enterprising": 3.351,
+    "conventional": 3.439
+  },
+  "work_values": {
+    "achievement": 3.741,
+    "autonomy": 3.63,
+    "expertise": 3.944,
+    "self_growth": 3.704,
+    "social_recognition": 3.056,
+    "service_contribution": 3.278,
+    "good_relationships": 3.426,
+    "workplace_safety": 3.704,
+    "work_life_balance": 3.463,
+    "stability": 3.37,
+    "compensation": 2.815
+  },
+  "skills": {
+    "reading_comprehension": 4.352,
+    "active_listening": 4.741,
+    "writing": 4.259,
+    "speaking": 5.037,
+    "foreign_language_reading": 1.685,
+    "foreign_language_listening": 1.444,
+    "foreign_language_writing": 1.111,
+    "foreign_language_speaking": 1.481,
+    "mathematics": 3.0,
+    "science": 2.333,
+    "critical_thinking": 3.537,
+    "active_learning": 3.685,
+    "learning_strategies": 4.222,
+    "monitoring": 3.796,
+    "social_perceptiveness": 4.056,
+    "coordination": 3.852,
+    "persuasion": 3.833,
+    "negotiation": 3.278,
+    "instructing": 4.963,
+    "service_orientation": 3.685,
+    "complex_problem_solving": 3.5,
+    "operations_analysis": 3.426,
+    "technology_design": 3.037,
+    "equipment_selection": 3.481,
+    "installation": 3.0,
+    "programming": 2.481,
+    "operations_monitoring": 2.167,
+    "operation_and_control": 2.5,
+    "equipment_maintenance": 2.519,
+    "troubleshooting": 2.444,
+    "repairing": 2.519,
+    "quality_control_analysis": 3.0,
+    "judgment_decision_making": 3.426,
+    "systems_analysis": 2.796,
+    "systems_evaluation": 2.815,
+    "time_management": 3.481,
+    "financial_resources_management": 2.278,
+    "material_resources_management": 2.519,
+    "personnel_resources_management": 3.167
+  },
+  "knowledge": {
+    "business_management": 1.122,
+    "clerical": 1.898,
+    "economics_accounting": 0.857,
+    "sales_marketing": 0.98,
+    "customer_personal_service": 1.755,
+    "personnel_hr": 1.061,
+    "transportation": 0.531,
+    "production_processing": 0.857,
+    "agriculture_livestock": 0.429,
+    "engineering": 1.184,
+    "computers_electronics": 1.49,
+    "design": 0.796,
+    "building_construction": 0.633,
+    "mechanical": 1.0,
+    "mathematics_kn": 1.245,
+    "physics": 0.959,
+    "chemistry": 0.898,
+    "biology": 0.714,
+    "psychology": 1.735,
+    "sociology": 1.612,
+    "geography": 0.592,
+    "medicine_dentistry": 1.163,
+    "therapy_counseling": 1.531,
+    "education_training_kn": 2.837,
+    "japanese_language": 1.633,
+    "foreign_language_kn": 0.776,
+    "fine_arts": 0.612,
+    "history_archaeology": 0.612,
+    "philosophy_theology": 0.673,
+    "public_safety_security": 1.265,
+    "law_government": 1.102,
+    "telecommunications": 1.082,
+    "communications_media": 1.918
+  },
+  "abilities": {
+    "oral_comprehension": 3.314,
+    "written_comprehension": 3.255,
+    "oral_expression": 3.51,
+    "written_expression": 3.333,
+    "fluency_of_ideas": 3.098,
+    "originality": 2.902,
+    "problem_sensitivity": 3.608,
+    "deductive_reasoning": 3.216,
+    "inductive_reasoning": 3.02,
+    "information_ordering": 2.961,
+    "category_flexibility": 2.882,
+    "mathematical_reasoning": 2.922,
+    "number_facility": 2.843,
+    "memorization": 3.118,
+    "perceptual_speed": 3.0,
+    "spatial_orientation": 2.784,
+    "visualization": 3.118,
+    "selective_attention": 3.353,
+    "time_sharing": 3.039,
+    "arm_hand_steadiness": 2.569,
+    "manual_dexterity": 2.49,
+    "finger_dexterity": 2.529,
+    "reaction_time": 2.569,
+    "wrist_finger_speed": 2.431,
+    "speed_of_limb_movement": 2.412,
+    "static_strength": 2.039,
+    "stamina": 2.451,
+    "gross_body_equilibrium": 2.275,
+    "near_vision": 2.373,
+    "far_vision": 2.118,
+    "visual_color_discrimination": 2.471,
+    "depth_perception": 2.431,
+    "hearing_sensitivity": 2.275,
+    "auditory_attention": 2.294,
+    "speech_clarity": 2.804
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.184,
+    "face_to_face_discussions": 3.449,
+    "telephone_communication": 3.49,
+    "business_writing": 2.694,
+    "conflict_situations": 2.143,
+    "time_pressure": 2.469,
+    "teamwork": 3.224,
+    "dealing_with_external_customers": 2.939,
+    "coordinate_lead_others": 2.857,
+    "exactness_accuracy": 3.531,
+    "repetitive_tasks": 2.98,
+    "pace_determined_by_machine": 2.633,
+    "responsibility_for_outcomes": 2.918,
+    "indoor_climate_controlled": 4.429,
+    "indoor_non_climate_controlled": 2.265,
+    "outdoor_work": 1.939,
+    "sitting": 3.163,
+    "standing": 3.163,
+    "repetition_of_activities": 2.592,
+    "consequence_of_error": 2.449,
+    "freedom_to_make_decisions": 3.469,
+    "set_own_goals": 3.408,
+    "regular_schedule": 0.673,
+    "irregular_schedule": 0.224,
+    "seasonal_schedule": 0.102,
+    "email_communication": 3.592,
+    "cramped_uncomfortable": 2.122,
+    "disease_infection_risk": 2.469,
+    "minor_injury_risk": 1.878,
+    "standard_protective_equipment": 2.245,
+    "specialized_protective_equipment": 1.551,
+    "dealing_with_violent_people": 1.796,
+    "walking_running": 2.51,
+    "handling_objects_tools": 2.367,
+    "physical_proximity": 3.694,
+    "work_automation": 1.857,
+    "responsibility_for_safety": 2.653,
+    "impact_of_decisions": 2.51,
+    "level_of_competition": 1.735
+  },
+  "work_activities": {
+    "getting_information": 3.333,
+    "monitor_processes": 3.196,
+    "identifying_objects": 3.255,
+    "inspecting_equipment": 2.725,
+    "estimating_quantifiable": 2.725,
+    "judging_quality": 3.137,
+    "evaluating_compliance": 3.137,
+    "processing_information": 2.824,
+    "analyzing_data": 2.902,
+    "making_decisions": 3.294,
+    "thinking_creatively": 3.255,
+    "updating_knowledge": 3.745,
+    "developing_objectives": 3.294,
+    "scheduling_work": 3.373,
+    "organizing_planning": 3.333,
+    "physical_activities": 2.471,
+    "handling_objects": 2.529,
+    "controlling_machines": 2.49,
+    "operating_vehicles": 2.0,
+    "computer_work": 3.235,
+    "drafting_specifications": 2.431,
+    "repairing_mechanical": 2.431,
+    "repairing_electronic": 2.412,
+    "documenting_information": 3.059,
+    "interpreting_information": 3.078,
+    "communicating_inside": 3.569,
+    "communicating_outside": 3.353,
+    "building_relationships": 3.333,
+    "assisting_caring": 3.333,
+    "selling_influencing": 2.667,
+    "resolving_conflicts": 2.725,
+    "performing_for_public": 2.784,
+    "coordinating_others": 2.902,
+    "developing_teams": 3.039,
+    "training_teaching": 3.412,
+    "guiding_subordinates": 2.882,
+    "coaching_developing": 3.314,
+    "providing_consultation": 2.765,
+    "performing_administrative": 2.627,
+    "staffing_organizational": 2.235,
+    "monitoring_resources": 2.529
+  },
+  "education_distribution": {
+    "below_high_school": 0.02,
+    "high_school": 0.367,
+    "vocational_school": 0.204,
+    "junior_college": 0.041,
+    "technical_college": 0.02,
+    "university": 0.49,
+    "masters": 0.102,
+    "doctorate": 0.041,
+    "unknown": 0.122
+  },
+  "training_pre": {
+    "not_required": 0.265,
+    "up_to_1_month": 0.02,
+    "1_to_6_months": 0.082,
+    "6_months_to_1_year": 0.082,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.041,
+    "3_to_5_years": 0.082,
+    "5_to_10_years": 0.102,
+    "over_10_years": 0.102,
+    "unknown": 0.204
+  },
+  "training_post": {
+    "not_required": 0.143,
+    "up_to_1_month": 0.061,
+    "1_to_6_months": 0.184,
+    "6_months_to_1_year": 0.143,
+    "1_to_2_years": 0.102,
+    "2_to_3_years": 0.041,
+    "3_to_5_years": 0.041,
+    "5_to_10_years": 0.02,
+    "over_10_years": 0.041,
+    "unknown": 0.224
+  },
+  "experience": {
+    "not_required": 0.388,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.02,
+    "6_months_to_1_year": 0.061,
+    "1_to_2_years": 0.02,
+    "2_to_3_years": 0.02,
+    "3_to_5_years": 0.122,
+    "5_to_10_years": 0.041,
+    "over_10_years": 0.163,
+    "unknown": 0.163
+  },
+  "employment_type": {
+    "regular_employee": 0.51,
+    "part_time": 0.265,
+    "dispatched": 0.0,
+    "contract": 0.184,
+    "self_employed_freelance": 0.102,
+    "executive": 0.041,
+    "casual_non_student": 0.0,
+    "casual_student": 0.0,
+    "unknown": 0.0,
+    "other": 0.02
+  },
+  "tasks_lead_ja": "公私の職業能力開発施設の受講者に対し、一定のカリキュラムに基づいて職業に必要な専門知識を教え、技能・技術を訓練する。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "訓練目標の設定およびカリキュラムの策定をする。",
+      "execution_rate": 0.922,
+      "importance": 3.596
+    },
+    {
+      "task_id": 2,
+      "description_ja": "教育訓練のスケジュールを管理する。",
+      "execution_rate": 0.882,
+      "importance": 3.356
+    },
+    {
+      "task_id": 3,
+      "description_ja": "資材計画書を作成し、訓練に必要な資材を手配するなど訓練の事前準備をする。",
+      "execution_rate": 0.941,
+      "importance": 3.313
+    },
+    {
+      "task_id": 4,
+      "description_ja": "訓練の教材や資料を作成する。",
+      "execution_rate": 0.902,
+      "importance": 3.391
+    },
+    {
+      "task_id": 5,
+      "description_ja": "訓練に使用する機械の調整や安全の確認をする。",
+      "execution_rate": 0.961,
+      "importance": 3.714
+    },
+    {
+      "task_id": 6,
+      "description_ja": "受講生に対して職業能力の技術習得の指導をする。",
+      "execution_rate": 0.98,
+      "importance": 3.9
+    },
+    {
+      "task_id": 7,
+      "description_ja": "教室において専門科目の講義をする。",
+      "execution_rate": 0.922,
+      "importance": 3.447
+    },
+    {
+      "task_id": 8,
+      "description_ja": "検定試験に向けた指導をする。",
+      "execution_rate": 0.804,
+      "importance": 3.39
+    },
+    {
+      "task_id": 9,
+      "description_ja": "必要資格取得のための補習をする。",
+      "execution_rate": 0.843,
+      "importance": 2.977
+    },
+    {
+      "task_id": 10,
+      "description_ja": "訓練中、訓練生の技能習得度、知識の理解度などを把握しながら適切な指示を与える。",
+      "execution_rate": 0.98,
+      "importance": 4.02
+    },
+    {
+      "task_id": 11,
+      "description_ja": "安全のため、訓練中の訓練生の作業を見守る。",
+      "execution_rate": 0.98,
+      "importance": 3.86
+    },
+    {
+      "task_id": 12,
+      "description_ja": "所定の技術が習得できたかどうか、実技試験や学科試験を実施する。",
+      "execution_rate": 0.843,
+      "importance": 3.372
+    },
+    {
+      "task_id": 13,
+      "description_ja": "就職試験や履歴書、面接など、就職に向けた指導をする。",
+      "execution_rate": 0.765,
+      "importance": 3.256
+    },
+    {
+      "task_id": 14,
+      "description_ja": "再就職に向けての職業相談をする。",
+      "execution_rate": 0.863,
+      "importance": 3.386
+    },
+    {
+      "task_id": 15,
+      "description_ja": "就職先の事業主を開拓する。",
+      "execution_rate": 0.726,
+      "importance": 2.919
+    },
+    {
+      "task_id": 16,
+      "description_ja": "事業主などに対する能力開発に関する相談や援助をする。",
+      "execution_rate": 0.843,
+      "importance": 3.047
+    },
+    {
+      "task_id": 17,
+      "description_ja": "障害をもつ受講生に対応する。",
+      "execution_rate": 0.706,
+      "importance": 3.194
+    },
+    {
+      "task_id": 18,
+      "description_ja": "最新の技術を習得する。",
+      "execution_rate": 0.961,
+      "importance": 3.102
+    },
+    {
+      "task_id": 19,
+      "description_ja": "訓練生を募集するため広報活動を行う。",
+      "execution_rate": 0.882,
+      "importance": 3.111
+    },
+    {
+      "task_id": 20,
+      "description_ja": "指導員の労務管理を行う。",
+      "execution_rate": 0.726,
+      "importance": 2.676
+    },
+    {
+      "task_id": 21,
+      "description_ja": "訓練施設を維持管理する。",
+      "execution_rate": 0.922,
+      "importance": 3.064
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "独立行政法人高齢・障害・求職者雇用支援機構",
+      "url": "https://www.jeed.go.jp/"
+    },
+    {
+      "name_ja": "中央職業能力開発協会",
+      "url": "https://www.javada.or.jp/index.html"
+    },
+    {
+      "name_ja": "厚生労働省",
+      "url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/jinzaikaihatsu/shidoin-top.html"
+    }
+  ],
+  "related_certs_ja": [
+    "職業訓練指導員免許"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/399",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2019,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

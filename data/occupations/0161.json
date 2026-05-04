@@ -1,0 +1,454 @@
+{
+  "id": 161,
+  "ipd_id": "IPD_01_01_161",
+  "schema_version": "7.00",
+  "ingested_at": "2026-05-04",
+  "title_ja": "臨床検査技師",
+  "aliases_ja": [
+    "衛生検査技師",
+    "心電図検査員",
+    "超音波検査員（臨床検査）"
+  ],
+  "classifications": {
+    "mhlw_main": "04_024-03",
+    "mhlw_all": [
+      "04_024-03"
+    ],
+    "jsoc_main": "B143",
+    "jsoc_all": [
+      "B143"
+    ]
+  },
+  "description": {
+    "summary_ja": "医師又は歯科医師の指示の下に、主に医療機関で臨床検査を行う。",
+    "what_it_is_ja": "医師又は歯科医師の指示の下に、主に医療機関で臨床検査とよばれる検査を行う。\n　臨床検査には、患者の体から血液、尿、組織の一部などを取り出して行う「検体検査」と、体の表面や内部を検査する「生体検査」の2種類がある。検査結果は、正しい診断と効果的な治療を行うために重要な情報となる。\n　検体検査にはいくつもの分野がある。たとえば、患者の血液、尿、便などからそこに含まれる細菌、ウイルスなどを調べ、病気の原因となる微生物を探し出す。また、血液中に含まれる酵素、脂質、腫瘍（しゅよう）蛋白、ホルモン等を分析して健康の状態や病気を調べる検査もある。遺伝子分野などにも仕事の範囲が広がっている。\n　生体検査では、体の表面や内部の状態を、人体に測定器を付けて計測し、データをとる。たとえば、心電図で心臓の機能を検査したり、脳機能の状態を脳波計でとらえたり、腫瘍の診断のために超音波診断装置を用いて画像を記録する。\n　規模が大きく検査技師の多い病院や診療所では、より細かく専門分化が行われている。規模が小さいところでは、1人の検査技師がいくつかの部門の検査をかけ持ちで行っている施設もある。\n\n◇　よく使う道具、機材、情報技術等\n　医療機器（心電図、脳波計、超音波診断装置等）",
+    "how_to_become_ja": "臨床検査技師国家試験に合格して免許を取得する必要がある。\n　国家試験は年1回行われ、臨床検査技師養成所（大学・短大・専門学校）を卒業した者、大学の獣医学部、薬学部で厚生労働大臣の指定する科目を修めた者、大学の医学部、歯学部を卒業した者が受験できる。\n　免許取得後、新規採用の場合は、学校のあっ旋で就職することが多く、転職の際には、就職情報サイトなどのほか、日本臨床衛生検査技師会が行っている無料職業紹介所や出身学校の紹介、学会誌などの求人広告を介して再就職する。\n　臨床検査技師は、血液の採取や生理学的検査では直接患者と接する医療行為を担当し、また、患者の生命にかかわる正確さを要求される作業に携わることから、検査を行う際の慎重さ、冷静な判断力、責任感と忍耐力が必要である。医療の高度化、成人病予防検診の普及などによる臨床検査の量や種類の増大、扱う検査機器の高度化、多様化が進む中、常に知識、技術の修得、研鑽が求められる。\n　基礎医学の知識にはじまり、機器の扱い、統計的知識も重要となる。",
+    "working_conditions_ja": "臨床検査技師の多くは、病院や診療所、臨床検査センターなどに勤務している。臨床検査センターでは、1日の中で検査・分析の仕事の占める割合がほとんどだが、病院や診療所では、患者への検査対応、検査スケジュールのミーティング、医師・看護師への検査結果の報告、臨床検査センターへの注文等検査・分析以外の仕事も多い。また、医学・衛生関係研究機関、製薬会社、保健所などで働いている人もいる。\n　就業者は女性の占める割合が高い。\n　勤務時間は、一般的には日勤であるが、検査技術の専門化と医療機関の緊急検査等に備えた休日・夜間待機体制の普及により、休日出勤や夜間当直のある職場もある。\n　臨床検査の作業は、ほとんど1日中座ったまま患者や機器、検査材料に向かって仕事をする。検査材料や薬品の管理にも注意する必要がある。"
+  },
+  "interests": {
+    "realistic": 3.803,
+    "investigative": 3.746,
+    "artistic": 2.268,
+    "social": 3.535,
+    "enterprising": 2.704,
+    "conventional": 3.592
+  },
+  "work_values": {
+    "achievement": 3.393,
+    "autonomy": 3.197,
+    "expertise": 3.934,
+    "self_growth": 3.492,
+    "social_recognition": 2.918,
+    "service_contribution": 3.492,
+    "good_relationships": 3.213,
+    "workplace_safety": 2.984,
+    "work_life_balance": 3.082,
+    "stability": 3.377,
+    "compensation": 2.836
+  },
+  "skills": {
+    "reading_comprehension": 4.41,
+    "active_listening": 4.328,
+    "writing": 3.902,
+    "speaking": 4.262,
+    "foreign_language_reading": 1.557,
+    "foreign_language_listening": 1.148,
+    "foreign_language_writing": 1.066,
+    "foreign_language_speaking": 1.148,
+    "mathematics": 2.672,
+    "science": 3.246,
+    "critical_thinking": 3.59,
+    "active_learning": 3.393,
+    "learning_strategies": 3.607,
+    "monitoring": 3.426,
+    "social_perceptiveness": 3.311,
+    "coordination": 3.426,
+    "persuasion": 3.311,
+    "negotiation": 3.098,
+    "instructing": 4.164,
+    "service_orientation": 3.131,
+    "complex_problem_solving": 3.148,
+    "operations_analysis": 2.738,
+    "technology_design": 2.246,
+    "equipment_selection": 3.41,
+    "installation": 2.967,
+    "programming": 1.377,
+    "operations_monitoring": 2.639,
+    "operation_and_control": 3.23,
+    "equipment_maintenance": 3.049,
+    "troubleshooting": 2.951,
+    "repairing": 2.59,
+    "quality_control_analysis": 3.131,
+    "judgment_decision_making": 2.738,
+    "systems_analysis": 2.639,
+    "systems_evaluation": 2.279,
+    "time_management": 2.934,
+    "financial_resources_management": 1.459,
+    "material_resources_management": 2.115,
+    "personnel_resources_management": 2.279
+  },
+  "knowledge": {
+    "business_management": 0.5,
+    "clerical": 1.466,
+    "economics_accounting": 0.31,
+    "sales_marketing": 0.241,
+    "customer_personal_service": 1.828,
+    "personnel_hr": 0.724,
+    "transportation": 0.259,
+    "production_processing": 0.207,
+    "agriculture_livestock": 0.069,
+    "engineering": 0.621,
+    "computers_electronics": 0.81,
+    "design": 0.155,
+    "building_construction": 0.052,
+    "mechanical": 0.793,
+    "mathematics_kn": 1.034,
+    "physics": 0.862,
+    "chemistry": 1.828,
+    "biology": 2.621,
+    "psychology": 1.362,
+    "sociology": 0.81,
+    "geography": 0.138,
+    "medicine_dentistry": 4.224,
+    "therapy_counseling": 1.31,
+    "education_training_kn": 1.534,
+    "japanese_language": 1.224,
+    "foreign_language_kn": 0.776,
+    "fine_arts": 0.121,
+    "history_archaeology": 0.103,
+    "philosophy_theology": 0.379,
+    "public_safety_security": 1.672,
+    "law_government": 0.741,
+    "telecommunications": 0.552,
+    "communications_media": 1.0
+  },
+  "abilities": {
+    "oral_comprehension": 3.0,
+    "written_comprehension": 2.889,
+    "oral_expression": 2.852,
+    "written_expression": 2.981,
+    "fluency_of_ideas": 2.5,
+    "originality": 2.259,
+    "problem_sensitivity": 3.407,
+    "deductive_reasoning": 2.63,
+    "inductive_reasoning": 2.648,
+    "information_ordering": 2.574,
+    "category_flexibility": 2.444,
+    "mathematical_reasoning": 2.481,
+    "number_facility": 2.407,
+    "memorization": 2.981,
+    "perceptual_speed": 2.741,
+    "spatial_orientation": 2.537,
+    "visualization": 2.722,
+    "selective_attention": 3.148,
+    "time_sharing": 3.13,
+    "arm_hand_steadiness": 2.944,
+    "manual_dexterity": 3.037,
+    "finger_dexterity": 2.981,
+    "reaction_time": 3.019,
+    "wrist_finger_speed": 2.778,
+    "speed_of_limb_movement": 2.481,
+    "static_strength": 2.278,
+    "stamina": 2.407,
+    "gross_body_equilibrium": 2.204,
+    "near_vision": 2.667,
+    "far_vision": 2.222,
+    "visual_color_discrimination": 2.907,
+    "depth_perception": 2.37,
+    "hearing_sensitivity": 2.463,
+    "auditory_attention": 2.37,
+    "speech_clarity": 2.574
+  },
+  "work_characteristics": {
+    "contact_with_others": 4.552,
+    "face_to_face_discussions": 3.052,
+    "telephone_communication": 3.81,
+    "business_writing": 2.793,
+    "conflict_situations": 2.414,
+    "time_pressure": 3.448,
+    "teamwork": 3.466,
+    "dealing_with_external_customers": 3.017,
+    "coordinate_lead_others": 2.793,
+    "exactness_accuracy": 4.362,
+    "repetitive_tasks": 3.897,
+    "pace_determined_by_machine": 3.483,
+    "responsibility_for_outcomes": 3.603,
+    "indoor_climate_controlled": 4.741,
+    "indoor_non_climate_controlled": 1.69,
+    "outdoor_work": 1.155,
+    "sitting": 3.241,
+    "standing": 3.241,
+    "repetition_of_activities": 3.431,
+    "consequence_of_error": 4.155,
+    "freedom_to_make_decisions": 3.155,
+    "set_own_goals": 3.276,
+    "regular_schedule": 0.776,
+    "irregular_schedule": 0.19,
+    "seasonal_schedule": 0.034,
+    "email_communication": 3.328,
+    "cramped_uncomfortable": 1.966,
+    "disease_infection_risk": 4.552,
+    "minor_injury_risk": 1.983,
+    "standard_protective_equipment": 3.259,
+    "specialized_protective_equipment": 1.966,
+    "dealing_with_violent_people": 1.793,
+    "walking_running": 2.776,
+    "handling_objects_tools": 3.724,
+    "physical_proximity": 3.638,
+    "work_automation": 2.862,
+    "responsibility_for_safety": 3.328,
+    "impact_of_decisions": 2.586,
+    "level_of_competition": 1.5
+  },
+  "work_activities": {
+    "getting_information": 3.241,
+    "monitor_processes": 3.333,
+    "identifying_objects": 3.278,
+    "inspecting_equipment": 3.019,
+    "estimating_quantifiable": 3.167,
+    "judging_quality": 3.111,
+    "evaluating_compliance": 3.167,
+    "processing_information": 3.296,
+    "analyzing_data": 3.204,
+    "making_decisions": 3.167,
+    "thinking_creatively": 2.648,
+    "updating_knowledge": 3.444,
+    "developing_objectives": 2.907,
+    "scheduling_work": 2.944,
+    "organizing_planning": 3.352,
+    "physical_activities": 2.519,
+    "handling_objects": 2.963,
+    "controlling_machines": 2.87,
+    "operating_vehicles": 1.63,
+    "computer_work": 3.222,
+    "drafting_specifications": 2.259,
+    "repairing_mechanical": 3.037,
+    "repairing_electronic": 2.852,
+    "documenting_information": 3.0,
+    "interpreting_information": 3.0,
+    "communicating_inside": 3.259,
+    "communicating_outside": 3.037,
+    "building_relationships": 3.204,
+    "assisting_caring": 3.111,
+    "selling_influencing": 2.37,
+    "resolving_conflicts": 2.444,
+    "performing_for_public": 2.722,
+    "coordinating_others": 2.926,
+    "developing_teams": 3.148,
+    "training_teaching": 2.889,
+    "guiding_subordinates": 3.019,
+    "coaching_developing": 2.778,
+    "providing_consultation": 2.537,
+    "performing_administrative": 2.704,
+    "staffing_organizational": 2.481,
+    "monitoring_resources": 2.537
+  },
+  "education_distribution": {
+    "below_high_school": 0.0,
+    "high_school": 0.017,
+    "vocational_school": 0.603,
+    "junior_college": 0.293,
+    "technical_college": 0.034,
+    "university": 0.707,
+    "masters": 0.069,
+    "doctorate": 0.0,
+    "unknown": 0.034
+  },
+  "training_pre": {
+    "not_required": 0.155,
+    "up_to_1_month": 0.017,
+    "1_to_6_months": 0.172,
+    "6_months_to_1_year": 0.069,
+    "1_to_2_years": 0.0,
+    "2_to_3_years": 0.069,
+    "3_to_5_years": 0.19,
+    "5_to_10_years": 0.034,
+    "over_10_years": 0.0,
+    "unknown": 0.293
+  },
+  "training_post": {
+    "not_required": 0.017,
+    "up_to_1_month": 0.017,
+    "1_to_6_months": 0.207,
+    "6_months_to_1_year": 0.259,
+    "1_to_2_years": 0.121,
+    "2_to_3_years": 0.172,
+    "3_to_5_years": 0.034,
+    "5_to_10_years": 0.034,
+    "over_10_years": 0.0,
+    "unknown": 0.138
+  },
+  "experience": {
+    "not_required": 0.345,
+    "up_to_1_month": 0.0,
+    "1_to_6_months": 0.138,
+    "6_months_to_1_year": 0.103,
+    "1_to_2_years": 0.034,
+    "2_to_3_years": 0.052,
+    "3_to_5_years": 0.086,
+    "5_to_10_years": 0.0,
+    "over_10_years": 0.0,
+    "unknown": 0.241
+  },
+  "employment_type": {
+    "regular_employee": 0.81,
+    "part_time": 0.466,
+    "dispatched": 0.052,
+    "contract": 0.121,
+    "self_employed_freelance": 0.0,
+    "executive": 0.0,
+    "casual_non_student": 0.069,
+    "casual_student": 0.0,
+    "unknown": 0.017,
+    "other": 0.0
+  },
+  "tasks_lead_ja": "医療機関または検査機関で病気の発見のための検体検査や生体検査をする。",
+  "tasks": [
+    {
+      "task_id": 1,
+      "description_ja": "患者に検査の実施手順を説明し、誘導する。",
+      "execution_rate": 0.796,
+      "importance": 3.558
+    },
+    {
+      "task_id": 2,
+      "description_ja": "医師からの検査の指示に従って採血をする。",
+      "execution_rate": 0.741,
+      "importance": 3.6
+    },
+    {
+      "task_id": 3,
+      "description_ja": "採取した血液、尿、便などの検体を、検査キットや検査装置で分析する。",
+      "execution_rate": 0.833,
+      "importance": 3.911
+    },
+    {
+      "task_id": 4,
+      "description_ja": "細菌や微生物への感染を調べるため、検体から微生物を培養する。",
+      "execution_rate": 0.556,
+      "importance": 4.0
+    },
+    {
+      "task_id": 5,
+      "description_ja": "病理組織検査をする。",
+      "execution_rate": 0.519,
+      "importance": 3.929
+    },
+    {
+      "task_id": 6,
+      "description_ja": "心電図計、脳波計、筋電図計などの測定機器を操作して生理機能を検査する。",
+      "execution_rate": 0.889,
+      "importance": 3.917
+    },
+    {
+      "task_id": 7,
+      "description_ja": "検査の結果を精査し、検査結果を判定して報告書を作成する。",
+      "execution_rate": 0.889,
+      "importance": 3.896
+    },
+    {
+      "task_id": 8,
+      "description_ja": "検査の内容や結果を患者に説明する。",
+      "execution_rate": 0.574,
+      "importance": 3.516
+    },
+    {
+      "task_id": 9,
+      "description_ja": "眼底や眼圧を検査する。",
+      "execution_rate": 0.444,
+      "importance": 3.333
+    },
+    {
+      "task_id": 10,
+      "description_ja": "肺機能を検査する。",
+      "execution_rate": 0.759,
+      "importance": 3.61
+    },
+    {
+      "task_id": 11,
+      "description_ja": "輸血用血液を管理し、術前には準備作業を行う。",
+      "execution_rate": 0.593,
+      "importance": 3.781
+    },
+    {
+      "task_id": 12,
+      "description_ja": "輸血検査を実施する。",
+      "execution_rate": 0.648,
+      "importance": 3.943
+    },
+    {
+      "task_id": 13,
+      "description_ja": "細胞検査を実施する。",
+      "execution_rate": 0.5,
+      "importance": 3.667
+    },
+    {
+      "task_id": 14,
+      "description_ja": "PCR検査を実施する。",
+      "execution_rate": 0.667,
+      "importance": 3.889
+    },
+    {
+      "task_id": 15,
+      "description_ja": "検査に使用する試薬や備品を準備し、保管する。",
+      "execution_rate": 0.852,
+      "importance": 3.739
+    },
+    {
+      "task_id": 16,
+      "description_ja": "検査データの整理や保存をする。",
+      "execution_rate": 0.907,
+      "importance": 3.592
+    },
+    {
+      "task_id": 17,
+      "description_ja": "検体の保管や使用した器具の廃棄をする。",
+      "execution_rate": 0.907,
+      "importance": 3.429
+    },
+    {
+      "task_id": 18,
+      "description_ja": "検査に使う機器を点検し、定期的にメンテナンスする。",
+      "execution_rate": 0.926,
+      "importance": 3.74
+    },
+    {
+      "task_id": 19,
+      "description_ja": "検査システムや精度を管理する。",
+      "execution_rate": 0.796,
+      "importance": 3.744
+    },
+    {
+      "task_id": 20,
+      "description_ja": "他の臨床検査技師や学生を指導する。",
+      "execution_rate": 0.741,
+      "importance": 3.15
+    },
+    {
+      "task_id": 21,
+      "description_ja": "新たな知識や技能を共有するため、勉強会に出席、または開催する。",
+      "execution_rate": 0.852,
+      "importance": 3.109
+    }
+  ],
+  "related_orgs": [
+    {
+      "name_ja": "一般社団法人　日本臨床衛生検査技師会",
+      "url": "http://www.jamt.or.jp/"
+    }
+  ],
+  "related_certs_ja": [
+    "臨床検査技師"
+  ],
+  "url": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/161",
+  "data_source_versions": {
+    "ipd_numeric": "v7.00",
+    "ipd_description": "v7.00",
+    "ipd_retrieved_at": "2026-05-04"
+  },
+  "last_updated_per_section": {
+    "ipd_id": 2018,
+    "classifications": 2022,
+    "description": 2019
+  }
+}

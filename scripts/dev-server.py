@@ -36,8 +36,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(body)
             return
 
-        # Vercel cleanUrls equivalents — mirror vercel.json: cleanUrls: true.
+        # v1.0.9: mirror vercel.json's 301 for legacy /data.json (kept for ext links).
         path = self.path.split("?", 1)[0]
+        if path == "/data.json":
+            self.send_response(301)
+            self.send_header("Location", "/data.treemap.json")
+            self.end_headers()
+            return
+
+        # Vercel cleanUrls equivalents — mirror vercel.json: cleanUrls: true.
         if path == "/privacy":
             self.path = "/privacy.html"
         elif path == "/about":
@@ -52,6 +59,37 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             # (see vercel.json), but locally serve the HTML directly so old
             # links still preview without a redirect-loop hop.
             self.path = path + ".html"
+        # v1.1.0: mobile-web pages live under /m/{ja,en}/* (MOBILE_DESIGN.md §3, §6, §9)
+        elif re.match(r"^/m/(ja|en)/?$", path):
+            # Mobile home: /m/ja/ → /m/ja/index.html
+            self.path = path.rstrip("/") + "/index.html"
+        elif re.match(r"^/m/(ja|en)/\d+$", path):
+            # Mobile detail: /m/ja/427 → /m/ja/427.html
+            self.path = path + ".html"
+        elif re.match(r"^/m/(ja|en)/[a-z][a-z0-9_-]*$", path):
+            # Mobile static screens: /m/ja/map → /m/ja/map.html  (also: search, compare, ranking, about)
+            self.path = path + ".html"
+        elif path == "/m" or path == "/m/":
+            # Bare /m → 301 to default-language home (Japanese)
+            self.send_response(301)
+            self.send_header("Location", "/m/ja/")
+            self.end_headers()
+            return
+        # v1.0.8: mirror vercel.json rewrites — projection paths live under dist/
+        elif path == "/data.treemap.json":
+            self.path = "/dist/data.treemap.json"
+        elif path == "/data.search.json":
+            self.path = "/dist/data.search.json"
+        elif path == "/data.sectors.json":  # v1.1.0
+            self.path = "/dist/data.sectors.json"
+        elif path == "/data.profile5.json":  # v1.1.0 phase 2
+            self.path = "/dist/data.profile5.json"
+        elif path == "/data.transfer_paths.json":  # v1.1.0 phase 2
+            self.path = "/dist/data.transfer_paths.json"
+        elif path.startswith("/data.detail/"):
+            self.path = "/dist" + path
+        elif path.startswith("/data.labels/"):
+            self.path = "/dist" + path
         return super().do_GET()
 
     do_HEAD = do_GET
