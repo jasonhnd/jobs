@@ -54,6 +54,9 @@
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
     <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 
     <!-- Schema.org JSON-LD: Organization + Person + WebSite + Dataset + ItemList + FAQPage.
@@ -301,40 +304,39 @@
         padding: 0;
         box-sizing: border-box;
       }
+      /* Direction C: Warm Editorial — palette synced from styles/mobile-tokens.css.
+         v1.2.0 convergence: PC adopts mobile design language. Single warm-cream theme.
+         Theme toggle is preserved for future dark variant but currently no-op. */
       :root {
-        --bg: #0b0d10;
-        --bg2: #14171c;
-        --fg: #e9eef5;
-        --fg2: #8a93a3;
-        --accent: #ffb84d;
-        --border: rgba(255, 255, 255, 0.08);
+        --bg: #FAF6EE;     /* warm cream canvas */
+        --bg2: #FFFFFF;    /* elevated surface (cards) */
+        --bg3: #F2EADB;    /* recessed section */
+        --fg: #241E18;     /* primary text */
+        --fg2: #7A6F5E;    /* secondary muted */
+        --fg3: #A39785;    /* tertiary hairline */
+        --accent: #D96B3D; /* terracotta — CTA, italic emphasis */
+        --accent-2: #6E9B89;     /* sage green — safe / low-risk */
+        --accent-deep: #48705F;  /* sage deep — heading on warm */
+        --border: rgba(36, 30, 24, 0.10);
+        --shadow-card: 0 1px 0 rgba(36, 30, 24, 0.04), 0 8px 24px -12px rgba(36, 30, 24, 0.10);
+        --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+        --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       }
-      /* Light mode follows system preference unless user explicitly chose 'dark'. */
+      /* Both prefers-color-scheme variants and explicit data-theme overrides
+         resolve to the same Direction C palette — single theme by design. */
       @media (prefers-color-scheme: light) {
         :root:not([data-theme="dark"]) {
-          --bg: #fafafa;
-          --bg2: #ffffff;
-          --fg: #0f1217;
-          --fg2: #5a6470;
-          --accent: #d97706;
-          --border: rgba(0, 0, 0, 0.10);
+          --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+          --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+          --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+          --border: rgba(36, 30, 24, 0.10);
         }
       }
-      :root[data-theme="light"] {
-        --bg: #fafafa;
-        --bg2: #ffffff;
-        --fg: #0f1217;
-        --fg2: #5a6470;
-        --accent: #d97706;
-        --border: rgba(0, 0, 0, 0.10);
-      }
-      :root[data-theme="dark"] {
-        --bg: #0b0d10;
-        --bg2: #14171c;
-        --fg: #e9eef5;
-        --fg2: #8a93a3;
-        --accent: #ffb84d;
-        --border: rgba(255, 255, 255, 0.08);
+      :root[data-theme="light"], :root[data-theme="dark"] {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
       }
       /* Theme toggle button (sits next to lang-switch) */
       .theme-toggle {
@@ -384,11 +386,25 @@
       body {
         background: var(--bg);
         color: var(--fg);
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI",
-          "Segoe UI", Roboto, sans-serif;
+        font-family: var(--font-sans);
         -webkit-font-smoothing: antialiased;
       }
+      /* Direction C convergence: serif headlines (warm editorial voice). */
+      h1, h2, h3,
+      .dh-title, .mobile-hero-title {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        letter-spacing: -0.005em;
+      }
+      /* Direction C signature: italic terra-cotta emphasis on accent words. */
+      .dh-title .acc, .mobile-hero-title .acc, h1 .accent {
+        color: var(--accent);
+        font-style: italic;
+        font-weight: 600;
+      }
+      /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM
+         for future dark-variant work; restore by removing this rule. */
+      .theme-toggle { display: none !important; }
       #wrapper {
         max-width: 1400px;
         margin: 0 auto;
@@ -1699,12 +1715,12 @@
           </div>
           <div class="desktop-hero-inner">
             <h2 class="dh-title">
-              <span data-i18n="ja" class="active">あなたの仕事は<span class="acc">AI 時代</span>にどう変わる？</span>
-              <span data-i18n="en">How will your job change in the <span class="acc">AI era</span>?</span>
+              <span data-i18n="ja" class="active">AIの時代でも、<span class="acc">あなたらしい</span>働き方を。</span>
+              <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
             </h2>
             <p class="dh-lead">
-              <span data-i18n="ja" class="active">職業名を入力すると、AI による影響度と変化しやすい作業を確認できます。<br>転職、リスキリング、キャリアの見直しの参考に。</span>
-              <span data-i18n="en">Enter your occupation to see its AI impact score and which tasks are likely to change.<br>A reference for career change, reskilling, and career planning.</span>
+              <span data-i18n="ja" class="active">552 の職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。<br>新しい道を、いっしょに見つけましょう。</span>
+              <span data-i18n="en">552 occupations analyzed by AI impact, workforce size, salary, and a 5-dimension profile.<br>Let's find your new path together.</span>
             </p>
             <form class="desktop-hero-search" id="dhSearchForm" role="search" autocomplete="off">
               <input id="searchInputDesktop" type="search" autocomplete="off"
@@ -1713,8 +1729,8 @@
                      data-i18n-en-placeholder="e.g. Clerk, Accountant, Sales, Nurse"
                      aria-label="Search occupations" />
               <button type="submit" id="dhSearchBtn">
-                <span data-i18n="ja" class="active">AI 影響度をチェック</span>
-                <span data-i18n="en">Check AI Impact</span>
+                <span data-i18n="ja" class="active">気になる職業から始める</span>
+                <span data-i18n="en">Start with what interests you</span>
               </button>
               <ul class="search-suggest" id="searchSuggest" role="listbox" aria-label="Search suggestions"></ul>
             </form>
@@ -1723,8 +1739,8 @@
               <span data-i18n="en">No matching occupation found. Please pick one of the popular jobs below.</span>
             </div>
             <div class="desktop-hero-popular-label">
-              <span data-i18n="ja" class="active">人気の職業から探す</span>
-              <span data-i18n="en">Popular occupations</span>
+              <span data-i18n="ja" class="active">よく検索される職業</span>
+              <span data-i18n="en">Frequently searched</span>
             </div>
             <div class="desktop-hero-chips" role="list">
               <button type="button" data-chip="事務職" role="listitem">事務職</button>
@@ -1756,12 +1772,12 @@
              search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="Mobile quick-search hero">
           <h2 class="mobile-hero-title">
-            <span data-i18n="ja" class="active">あなたの仕事の <span class="acc">AI 影響度</span> を見る</span>
-            <span data-i18n="en">See your job's <span class="acc">AI impact</span></span>
+            <span data-i18n="ja" class="active">AIの時代でも、<span class="acc">あなたらしい</span>働き方を。</span>
+            <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
           </h2>
           <div class="mobile-hero-trust">
-            <span data-i18n="ja" class="active">552 職業 ・ LLM スコア ・ 公開データ由来</span>
-            <span data-i18n="en">552 occupations ・ LLM-scored ・ from public data</span>
+            <span data-i18n="ja" class="active">552 の職業を、AI 影響度で多角的に分析</span>
+            <span data-i18n="en">552 occupations analyzed by AI impact</span>
           </div>
           <div class="mobile-hero-search">
             <span class="mhs-icon" aria-hidden="true">🔍</span>
