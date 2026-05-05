@@ -253,7 +253,7 @@ def render_jsonld(sector: dict, occs: list[dict], lang: str) -> str:
     crumb_root = "Mirai Shigoto" if lang == "en" else "未来の仕事"
     crumb_sectors = "Sectors" if lang == "en" else "セクター"
     home_href = f"{SITE}/" if lang == "ja" else f"{SITE}/?lang=en"
-    sectors_index_href = f"{SITE}/{lang}/"
+    sectors_index_href = f"{SITE}/{lang}/sectors"
 
     item_list = []
     for i, o in enumerate(sorted(occs, key=lambda r: (-(r["ai_risk"] or -1), r["id"])), 1):
@@ -469,7 +469,7 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
       <nav class="crumb" aria-label="Breadcrumb">
         <a href="{home_href}" rel="up">{escape(crumb_root)}</a>
         <span aria-hidden="true">›</span>
-        <span>{escape(crumb_sectors)}</span>
+        <a href="/{lang}/sectors" rel="up">{escape(crumb_sectors)}</a>
         <span aria-hidden="true">›</span>
         <span>{escape(name_loc)}</span>
       </nav>
@@ -535,6 +535,254 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     return html
 
 
+# ────────────────────────── sectors index page ──────────────────────────────
+
+def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str:
+    """Hub-of-hubs: lists all 16 sectors with stats, links to each sector hub."""
+    canonical = f"{SITE}/{lang}/sectors"
+    alt_lang = "en" if lang == "ja" else "ja"
+    alt_url = f"{SITE}/{alt_lang}/sectors"
+
+    total_occ = sum(len(items) for items in by_sector.values())
+
+    if lang == "ja":
+        title = f"全 16 セクター｜556 職業を業界別に分類 | 未来の仕事"
+        og_title = "全 16 セクター｜業界別 職業ランキング・AI 影響度・年収"
+        seo_desc = (
+            f"日本の{total_occ}職業を 16 業界（医療・保健、IT・通信、士業、製造、建設 ほか）に分類。"
+            f"業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。Claude Opus 4.7 独自分析（非公式）。"
+        )
+        crumb_root = "未来の仕事"
+        site_name = "未来の仕事 — Mirai Shigoto（非公式）"
+        og_locale = "ja_JP"
+        og_locale_alt = "en_US"
+        h1 = "全 16 セクター"
+        sub = f"<strong>556 職業</strong> を 16 業界に分類。クリックで業界別の AI 影響度ランキング・代表職業へ。"
+        intro = "業界別に職業を一覧化したインデックスです。各セクターを開くと、AI 影響度・就業者数・年収のランキング、その業界に属する全職業の一覧が確認できます。"
+        h_list = "業界 一覧"
+        crumb_self = "セクター"
+        about_link = "データについて"
+        lang_switch_label = "English"
+        skip_label = "本文へスキップ"
+        unit_jobs = lambda n: f"{n} 職業"
+        unit_workers = lambda n: f"{fmt_int(n)} 人"
+        unit_risk = lambda r: f"AI 影響 平均 {r:.1f}/10"
+        keywords = "業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, 552 職業, セクター"
+    else:
+        title = f"All 16 Sectors | {total_occ} Occupations Classified by Industry | Mirai Shigoto"
+        og_title = "All 16 Sectors | Occupation Rankings by Industry"
+        seo_desc = (
+            f"{total_occ} Japanese occupations classified into 16 industries "
+            f"(Medical, IT, Professional Services, Manufacturing, Construction etc). "
+            f"Each sector ranked by AI impact, workforce, and salary. Claude Opus 4.7 independent analysis."
+        )
+        crumb_root = "Mirai Shigoto"
+        site_name = "Mirai Shigoto — Future of Work (unofficial)"
+        og_locale = "en_US"
+        og_locale_alt = "ja_JP"
+        h1 = "All 16 Sectors"
+        sub = f"<strong>556 occupations</strong> grouped into 16 industries. Click any sector for AI impact rankings and the full occupation list."
+        intro = "An index of occupations grouped by industry. Each sector page shows AI impact rankings, workforce-size rankings, and the full list of occupations in that sector."
+        h_list = "Sector list"
+        crumb_self = "Sectors"
+        about_link = "About the data"
+        lang_switch_label = "日本語"
+        skip_label = "Skip to content"
+        unit_jobs = lambda n: f"{n} jobs"
+        unit_workers = lambda n: f"{fmt_int(n)} workers"
+        unit_risk = lambda r: f"mean AI impact {r:.1f}/10"
+        keywords = "Japan occupations by industry, sector ranking, AI impact by sector, industry jobs, 16 sectors"
+
+    cards = []
+    for s in sectors:
+        sid = s["id"]
+        occs = by_sector.get(sid, [])
+        n = len(occs)
+        risks = [o["ai_risk"] for o in occs if o["ai_risk"] is not None]
+        mean_risk = (sum(risks) / len(risks)) if risks else 0
+        workforce = sum(o["workers"] or 0 for o in occs)
+        sample_titles = []
+        for o in sorted(occs, key=lambda r: -(r["workers"] or 0))[:3]:
+            t = o["title_en"] if lang == "en" else o["title_ja"]
+            if t:
+                sample_titles.append(t)
+        sample_str = " ・ ".join(sample_titles) if lang == "ja" else " · ".join(sample_titles)
+        name = s["en"] if lang == "en" else s["ja"]
+        risk_class = "low" if mean_risk <= 3.5 else ("high" if mean_risk >= 6.5 else "mid")
+        cards.append(
+            f'<li class="sector-card">'
+            f'<a href="/{lang}/sectors/{sid}">'
+            f'<div class="sc-head">'
+            f'<h3 class="sc-name">{escape(name)}</h3>'
+            f'<span class="sc-count">{escape(unit_jobs(n))}</span>'
+            f'</div>'
+            f'<div class="sc-stats">'
+            f'<span class="sc-risk risk-pill {risk_class}">{escape(unit_risk(mean_risk))}</span>'
+            f'<span class="sc-workers">{escape(unit_workers(workforce))}</span>'
+            f'</div>'
+            f'<p class="sc-samples">{escape(sample_str)}</p>'
+            f'</a>'
+            f'</li>'
+        )
+    cards_html = "\n        ".join(cards)
+
+    # JSON-LD: WebPage + BreadcrumbList + ItemList of 16 hub URLs
+    item_list = []
+    for i, s in enumerate(sectors, 1):
+        item_list.append({
+            "@type": "ListItem",
+            "position": i,
+            "url": hub_url(s["id"], lang),
+            "name": s["en"] if lang == "en" else s["ja"],
+        })
+    jsonld = json.dumps({
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebPage",
+                "@id": f"{canonical}#webpage",
+                "url": canonical,
+                "name": h1,
+                "description": seo_desc,
+                "isPartOf": {"@id": f"{SITE}/#website"},
+                "inLanguage": lang,
+                "datePublished": DATE_PUBLISHED,
+                "dateModified": DATE_MODIFIED,
+                "publisher": {"@id": f"{SITE}/#organization"},
+                "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": f"{canonical}#breadcrumb",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": crumb_root,
+                     "item": f"{SITE}/" if lang == "ja" else f"{SITE}/?lang=en"},
+                    {"@type": "ListItem", "position": 2, "name": crumb_self, "item": canonical},
+                ],
+            },
+            {
+                "@type": "ItemList",
+                "@id": f"{canonical}#sectors",
+                "name": h_list,
+                "numberOfItems": len(sectors),
+                "itemListElement": item_list,
+            },
+        ],
+    }, ensure_ascii=False, indent=2)
+
+    home_href = "/" if lang == "ja" else "/?lang=en"
+    about_href = f"/about{'?lang=en' if lang == 'en' else ''}"
+
+    return f"""<!doctype html>
+<html lang="{lang}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>(function(){{try{{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}}})();</script>
+    <title>{escape(title)}</title>
+    <meta name="description" content="{escape(seo_desc)}" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="{escape(keywords)}" />
+
+    <link rel="canonical" href="{canonical}" />
+    <link rel="alternate" hreflang="ja" href="{SITE}/ja/sectors" />
+    <link rel="alternate" hreflang="en" href="{SITE}/en/sectors" />
+    <link rel="alternate" hreflang="x-default" href="{SITE}/ja/sectors" />
+
+    <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{escape(site_name)}" />
+    <meta property="og:locale" content="{og_locale}" />
+    <meta property="og:locale:alternate" content="{og_locale_alt}" />
+    <meta property="og:title" content="{escape(og_title)}" />
+    <meta property="og:description" content="{escape(seo_desc)}" />
+    <meta property="og:url" content="{canonical}" />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{escape(og_title)}" />
+    <meta name="twitter:description" content="{escape(seo_desc)}" />
+    <meta name="twitter:image" content="/og.png" />
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
+
+    <script type="application/ld+json">
+{jsonld}
+    </script>
+
+{ANALYTICS_BLOCK}
+
+    <style>{CSS_BLOCK}
+.sector-cards{{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:0;padding:0}}
+.sector-card{{background:var(--bg2);border:1px solid var(--border);border-radius:8px;transition:border-color 150ms ease, transform 150ms ease}}
+.sector-card:hover{{border-color:var(--accent);transform:translateY(-1px)}}
+.sector-card a{{display:block;padding:18px 18px 16px;text-decoration:none;color:var(--fg)}}
+.sc-head{{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}}
+.sc-name{{font-family:var(--font-serif);font-size:1.15rem;font-weight:600;color:var(--fg);margin:0}}
+.sc-count{{color:var(--fg2);font-size:.78rem;font-variant-numeric:tabular-nums;white-space:nowrap}}
+.sc-stats{{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}}
+.sc-risk{{font-size:.72rem!important;padding:2px 9px}}
+.sc-workers{{display:inline-block;padding:2px 9px;background:var(--bg3);border-radius:12px;font-size:.72rem;color:var(--fg2);font-variant-numeric:tabular-nums}}
+.sc-samples{{font-size:.82rem;color:var(--fg2);line-height:1.5;margin:0}}
+.sector-card a:hover .sc-name{{color:var(--accent-deep)}}</style>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">{escape(skip_label)}</a>
+    <div class="top-banner" role="note">
+      <span class="badge">UNOFFICIAL</span>
+      <span>{('Independent analysis · not endorsed by MHLW / jobtag / JILPT' if lang == 'en' else '独立分析・厚労省 / jobtag / JILPT 非公式')}</span>
+    </div>
+
+    <div id="wrapper">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="{home_href}" rel="up">{escape(crumb_root)}</a>
+        <span aria-hidden="true">›</span>
+        <span>{escape(crumb_self)}</span>
+      </nav>
+
+      <header id="content">
+        <h1>
+          <span class="accent">{escape(h1)}</span>
+          <span class="lang-switch"><a href="{alt_url}" hreflang="{alt_lang}" rel="alternate">{escape(lang_switch_label)}</a></span>
+        </h1>
+        <p class="sub">{sub}</p>
+        <p class="intro">{escape(intro)}</p>
+      </header>
+
+      <section aria-label="{escape(h_list)}">
+        <h2>{escape(h_list)}</h2>
+        <ul class="sector-cards">
+        {cards_html}
+        </ul>
+      </section>
+
+      <footer>
+        <span>© <a href="{home_href}">mirai-shigoto.com</a> · MIT</span>
+        <span>
+          <a href="{about_href}">{escape(about_link)}</a> ·
+          <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a> ·
+          <a href="/privacy{'?lang=en' if lang == 'en' else ''}">Privacy</a>
+        </span>
+        <span style="font-size:.75rem;color:var(--fg3);line-height:1.55">
+          {('Source: MHLW &amp; JILPT Occupational Information Database (job tag) v7.00. AI impact scores are independent Claude Opus 4.7 estimates, not government forecasts.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。')}
+        </span>
+      </footer>
+    </div>
+  </body>
+</html>
+"""
+
+
 # ────────────────────────── sitemap rewrite ──────────────────────────────────
 
 SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
@@ -597,6 +845,29 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 
 def write_sitemap(sectors: list[dict], occ_manifest: list[dict] | None, lastmod: str = DATE_MODIFIED) -> None:
     sector_lines: list[str] = []
+    # Sectors index pages (hub-of-hubs) come first in the sector block.
+    sector_lines.append(
+        f"  <url>\n"
+        f"    <loc>{SITE}/ja/sectors</loc>\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>0.8</priority>\n"
+        f'    <xhtml:link rel="alternate" hreflang="ja" href="{SITE}/ja/sectors" />\n'
+        f'    <xhtml:link rel="alternate" hreflang="en" href="{SITE}/en/sectors" />\n'
+        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/ja/sectors" />\n'
+        f"  </url>\n"
+    )
+    sector_lines.append(
+        f"  <url>\n"
+        f"    <loc>{SITE}/en/sectors</loc>\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>0.8</priority>\n"
+        f'    <xhtml:link rel="alternate" hreflang="ja" href="{SITE}/ja/sectors" />\n'
+        f'    <xhtml:link rel="alternate" hreflang="en" href="{SITE}/en/sectors" />\n'
+        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/ja/sectors" />\n'
+        f"  </url>\n"
+    )
     for s in sectors:
         ja_u = hub_url(s["id"], "ja")
         en_u = hub_url(s["id"], "en")
@@ -682,12 +953,19 @@ def main() -> int:
             "en_url": hub_url(sid, "en"),
         })
 
+    # Sectors index page (hub-of-hubs) — 2 pages, one per language.
+    for lang, out_dir in (("ja", OUT_DIR_JA), ("en", OUT_DIR_EN)):
+        idx_html = render_sectors_index(sectors, by_sector, lang)
+        idx_path = out_dir / "index.html"
+        idx_path.write_text(idx_html, encoding="utf-8")
+        bytes_total += idx_path.stat().st_size
+
     SECTOR_MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
-    pages = len(manifest) * 2
-    print(f"Generated {pages} hub pages ({len(manifest)} sectors × 2 langs)")
+    pages = len(manifest) * 2 + 2  # 32 hubs + 2 index pages
+    print(f"Generated {pages} pages ({len(manifest)} sectors × 2 langs + 2 index pages)")
     print(f"Total size: {bytes_total / 1024:.1f} KB · Avg: {bytes_total / pages / 1024:.1f} KB/page")
     print(f"Manifest: {SECTOR_MANIFEST_PATH}")
 

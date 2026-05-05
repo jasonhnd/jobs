@@ -44,6 +44,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 5 — sectors index page (hub-of-hubs)** — new `/ja/sectors` and
+  `/en/sectors` listing all 16 sectors as cards (name + count + mean AI risk
+  + total workforce + 3 sample titles), each linking into its dedicated
+  sector hub. Fixes the previously dangling "セクター / Sectors" breadcrumb
+  step that landed back on the homepage; now it's a real intermediate page.
+  Schema.org JSON-LD: WebPage + BreadcrumbList + ItemList of 16 hub URLs.
+  Sitemap entries added with `priority=0.8` (between hubs at 0.7 and home
+  at 1.0). Hub-page breadcrumb's "セクター / Sectors" link retargeted from
+  `/<lang>/` to `/<lang>/sectors`.
 - **Phase 4 — detail-page title intent-keyword expansion**
   (`scripts/build_occupations.py`): old template was
   `{name} — AI 影響 X/10｜mirai-shigoto.com`, only matching AI-impact intent.
