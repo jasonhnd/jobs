@@ -167,24 +167,25 @@ def render_jsonld(rec: dict, lang: str) -> str:
     canonical = ja_url(id_) if lang == "ja" else en_url(id_)
 
     if lang == "ja":
+        # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
         page_name = (
-            f"{name_ja}（{name_en}） — AI 影響 {risk}/10"
-            if (name_en and risk is not None)
+            f"{name_ja} — AI 影響 {risk}/10"
+            if risk is not None
             else f"{name_ja} — mirai-shigoto.com"
         )
-        page_desc = rationale_ja or desc_ja or rationale_en or desc_en or name_ja
+        page_desc = rationale_ja or desc_ja or name_ja
         breadcrumb_root = "日本の職業 AI 影響マップ"
-        breadcrumb_self = f"{name_ja}" + (f" / {name_en}" if name_en else "")
+        breadcrumb_self = name_ja
         home_url = "https://mirai-shigoto.com/"
     else:
         page_name = (
-            f"{name_en} ({name_ja}) — AI Impact {risk}/10"
-            if (name_en and risk is not None)
+            f"{(name_en or name_ja)} — AI Impact {risk}/10"
+            if risk is not None
             else f"{name_en or name_ja} — mirai-shigoto.com"
         )
-        page_desc = rationale_en or desc_en or rationale_ja or desc_ja or name_en or name_ja
+        page_desc = rationale_en or desc_en or name_en or name_ja
         breadcrumb_root = "Japan Jobs × AI Impact Map"
-        breadcrumb_self = f"{name_en} / {name_ja}" if name_en else name_ja
+        breadcrumb_self = name_en or name_ja
         home_url = "https://mirai-shigoto.com/?lang=en"
 
     additional = []
@@ -421,30 +422,20 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         _meta_age = f"avg age {age}" if age else "avg age data unavailable"
 
     if lang == "ja":
-        title = (
-            f"{name_ja}（{name_en}） — AI 影響 {risk_str}｜mirai-shigoto.com"
-            if name_en
-            else f"{name_ja} — AI 影響 {risk_str}｜mirai-shigoto.com"
-        )
+        # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
+        title = f"{name_ja} — AI 影響 {risk_str}｜mirai-shigoto.com"
         seo_desc = (
-            (
-                f"{name_ja}（{name_en}）：{_meta_workers} / {_meta_salary} "
-                f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
-            )
-            if name_en
-            else (
-                f"{name_ja}：{_meta_workers} / {_meta_salary} "
-                f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
-            )
+            f"{name_ja}：{_meta_workers} / {_meta_salary} "
+            f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
         )
         og_locale = "ja_JP"
         og_locale_alt = "en_US"
         site_name = "日本の職業 AI 影響マップ（非公式）"
         home_href = "/"
         crumb_root = "日本の職業 AI 影響マップ"
-        crumb_self_label = f"{name_ja} / {name_en}" if name_en else name_ja
+        crumb_self_label = name_ja
         h1_main = name_ja
-        h1_sub = name_en
+        h1_sub = ""
         risk_label = "AI 影響"
         rationale = rationale_ja or desc_ja
         st_workers = "就業者数"
@@ -473,30 +464,20 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
             f'{("¥" + fmt_int(int(salary_man * 10000))) if salary_man else "—"}（{int(salary_man) if salary_man else "—"} 万円）'
         )
     else:
-        title = (
-            f"{name_en} ({name_ja}) — AI Impact {risk_str}｜mirai-shigoto.com"
-            if name_en
-            else f"{name_ja} — AI Impact {risk_str}｜mirai-shigoto.com"
-        )
+        # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
+        title = f"{(name_en or name_ja)} — AI Impact {risk_str}｜mirai-shigoto.com"
         seo_desc = (
-            (
-                f"{name_en} ({name_ja}): {_meta_workers} / {_meta_salary} "
-                f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
-            )
-            if name_en
-            else (
-                f"{name_ja}: {_meta_workers} / {_meta_salary} "
-                f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
-            )
+            f"{(name_en or name_ja)}: {_meta_workers} / {_meta_salary} "
+            f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
         )
         og_locale = "en_US"
         og_locale_alt = "ja_JP"
         site_name = "Japan Jobs × AI Impact Map (unofficial)"
         home_href = "/?lang=en"
         crumb_root = "Japan Jobs × AI Impact Map"
-        crumb_self_label = f"{name_en} / {name_ja}" if name_en else name_ja
+        crumb_self_label = name_en or name_ja
         h1_main = name_en or name_ja
-        h1_sub = name_ja if name_en else ""
+        h1_sub = ""
         risk_label = "AI Impact"
         rationale = rationale_en or desc_en
         st_workers = "Workforce"
@@ -511,7 +492,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         ctx_h2 = "About this occupation"
         ctx_p = desc_en or rationale_en
         src_h2 = "Sources / Related"
-        src_mhlw_label = f"MHLW jobtag — {name_ja} (official source)"
+        src_mhlw_label = f"MHLW jobtag — {(name_en or name_ja)} (official source)"
         src_method_label = "Methodology / scoring rubric"
         src_back_label = "Back to the 552-occupation map"
         rel_h2 = "Related occupations"
