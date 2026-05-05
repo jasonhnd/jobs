@@ -344,9 +344,10 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
             + (f" · 平均 AI 影響 <strong>{mean_risk:.1f}/10</strong>" if mean_risk is not None else "")
             + f" · 就業者数 計 <strong>{fmt_int(workforce_total)}</strong> 人"
         )
-        h_high = "AI 影響 が高い職業 TOP 5"
-        h_low = "AI 影響 が低い職業 TOP 5"
-        h_pop = "就業者数 TOP 5"
+        # H2 with sector name embedded — matches "{sector} AI 影響" / "{sector} 就業者数" intent.
+        h_high = f"{name_loc} の AI 影響 が高い職業 TOP 5"
+        h_low = f"{name_loc} の AI 影響 が低い職業 TOP 5"
+        h_pop = f"{name_loc} の 就業者数 TOP 5"
         h_full = f"{name_loc} の全 {n} 職業（AI 影響度 高い順）"
         h_related = "他のセクター"
         about_link = "データについて"
@@ -374,9 +375,10 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
             + (f" · mean AI impact <strong>{mean_risk:.1f}/10</strong>" if mean_risk is not None else "")
             + f" · total workforce <strong>{fmt_int(workforce_total)}</strong>"
         )
-        h_high = "Top 5 highest AI impact"
-        h_low = "Top 5 lowest AI impact"
-        h_pop = "Top 5 by workforce size"
+        # H2 with sector name embedded — matches "{sector} AI impact" / "{sector} workforce" intent.
+        h_high = f"Top 5 {name_loc} occupations — highest AI impact"
+        h_low = f"Top 5 {name_loc} occupations — lowest AI impact"
+        h_pop = f"Top 5 {name_loc} occupations — by workforce size"
         h_full = f"All {n} {name_loc} occupations (sorted by AI impact desc)"
         h_related = "Other sectors"
         about_link = "About the data"
