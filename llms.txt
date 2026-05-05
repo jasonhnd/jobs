@@ -9,7 +9,7 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 - **552 occupations** sourced from 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets
 - **Per-occupation fields:** AI risk score (0–10), annual salary (万円), workforce size, average age, monthly work hours, effective recruit ratio, education distribution, employment-type distribution, hourly wage
 - **AI risk score interpretation:** "How much the work may be reshaped by AI" — NOT "probability the job disappears." High-risk occupations may see task restructuring; low-risk occupations require physical presence, on-site judgment, or human-to-human interaction.
-- **Methodology:** Scored by Claude Opus 4.7 using a calibrated rubric across all 552 occupations, anchored on Karpathy's BLS exposure rubric (https://github.com/karpathy/jobs/blob/main/score.py) and ported to Japan's labor market context.
+- **Methodology:** Scored by Claude Opus 4.7 using a calibrated 0–10 rubric across all 552 occupations, ported to Japan's labor market context (task substitutability, automation depth, and residual human-judgment requirements with 5-step anchors).
 - **Operator:** Jason (individual)
 - **License:** MIT (data + code)
 - **Hosted on:** Vercel (Tokyo edge node)
@@ -27,8 +27,6 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 - [data.search.json](https://mirai-shigoto.com/data.search.json) — Search index over 556 occupations (~28 KB gz). Includes JA + EN aliases.
 - [llms-full.txt](https://mirai-shigoto.com/llms-full.txt) — Extended GEO companion with full FAQ, methodology, and citation guide.
 - [sitemap.xml](https://mirai-shigoto.com/sitemap.xml) — Crawler index with hreflang alternates.
-- [GitHub repository](https://github.com/jasonhnd/jobs) — Source code, scraping pipeline, AI risk scoring scripts, change log.
-- [CHANGELOG](https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md) — Versioned release notes.
 
 ## Notable findings
 
@@ -71,7 +69,6 @@ A: Yes. The main treemap dataset is at https://mirai-shigoto.com/data.treemap.js
 
 - 厚生労働省 職業情報提供サイト（job tag）: https://shigoto.mhlw.go.jp/User/
 - 独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース: https://www.jil.go.jp/
-- Inspiration: [karpathy/jobs](https://github.com/karpathy/jobs) (US BLS counterpart)
 
 ## How to cite
 

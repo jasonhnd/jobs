@@ -522,10 +522,9 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
           <a href="{about_href}">{('About' if lang == 'en' else 'データについて')}</a>
           <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a>
           <a href="/privacy{'?lang=en' if lang == 'en' else ''}">{('Privacy' if lang == 'en' else 'プライバシー')}</a>
-          <a href="/llms-full.txt">{('Methodology' if lang == 'en' else '算出方法')}</a>
         </div>
         <div class="footer-meta">
-          © <a href="{home_href}">mirai-shigoto.com</a> · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br>
+          © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
           {('Source: MHLW &amp; JILPT Occupational Information Database (job tag) v7.00 — processed as derivative work. AI impact scores are independent Claude Opus 4.7 estimates, not government forecasts.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。')}
         </div>
       </footer>
