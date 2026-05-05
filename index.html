@@ -680,7 +680,9 @@
           display: block;
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(36,30,24,0.18);
+          /* Full-screen solid cream so the menu visually obliterates the
+             page underneath. Inner panel grows to fill via min-height. */
+          background: var(--bg);
           z-index: 49;
           opacity: 0;
           pointer-events: none;
@@ -691,13 +693,13 @@
           pointer-events: auto;
         }
         .m-topbar-menu-inner {
-          margin-top: 60px;
+          margin-top: 64px;             /* clear sticky topbar */
+          min-height: calc(100vh - 64px);
           background: var(--bg);
-          border-bottom: 1px solid var(--border);
-          padding: 22px 24px 26px;
+          padding: 28px 24px 40px;
           display: flex;
           flex-direction: column;
-          gap: 22px;
+          gap: 26px;
           transform: translateY(-12px);
           transition: transform 220ms ease;
         }
