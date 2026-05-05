@@ -13,7 +13,7 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 - **Operator:** Jason (individual)
 - **License:** MIT (data + code)
 - **Hosted on:** Vercel (Tokyo edge node)
-- **Version:** 0.7.0 (2026-05-04 — IPD v7.00 source migration)
+- **Version:** 1.3.0 (2026-05-06 — SEO/GEO sector cluster: 32 sector hub pages + 2 sectors index + homepage sector navigation + detail-page intent-keyword titles + dynamic sector OG cards)
 
 ## Pages
 

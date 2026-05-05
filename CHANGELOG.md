@@ -10,6 +10,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+(empty — new work lands here)
+
+---
+
+## [1.3.0] - 2026-05-06
+
+SEO/GEO sector cluster · 32 sector hub pages · 2 sectors index · homepage sector navigation · detail-page title + H2 intent-keyword expansion · dynamic sector OG cards · llms-txt sector taxonomy · CDN cache headers · keyword coverage gap closure.
+
 ### Sector hub pages — 32 new SEO landing pages
 
 - **16 sector hubs × 2 langs = 32 static pages** at `/<lang>/sectors/<sector_id>`
