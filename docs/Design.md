@@ -12,7 +12,7 @@
 ## 0. 适用范围
 
 - `index.html`（首页 treemap，桌面 + 既有"宽响应式至 mobile"实现）
-- `privacy.html` / `compliance.html` / `about.html`（既有静态页）
+- `privacy.html` / `compliance.html` / `about.html` / `404.html`（既有静态页）
 - `scripts/build_occupations.py` 生成的 1112 个 `ja/<id>.html` / `en/<id>.html` 职业详情页（556 × 2 语言；桌面 + 既有响应式至 mobile）
 
 > 当下设计源自 v0.4.x 系列，桌面版当前规范版本 v1.x（见 §15 修订历史）。
@@ -541,6 +541,80 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 
 **UTM 契约**：所有 share URL 都携带 `?utm_source=<platform>&utm_medium=<social|im|copylink|share_api>&utm_campaign=footer_share&utm_content=site|occ`。
 
+### 7.14 404 错误页（`/404.html`）
+
+Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTTP 404；本页是站点最后一道兜底，必须延续 Direction C 视觉语言、保持 4-tracker analytics、双语 + 双主题。
+
+**与其他静态页的差异**：本页**不挂 §7.1 top-banner**。理由：用户落到 404 是因为 URL 错了，需要的是「快速回到正轨」的引导，不是品牌 disclaimer。banner 的红色高对比块会和大字 404 抢主视觉，让页面读起来像系统报错叠了一层"我们也很非公式"的免责声明，信息层次混乱。
+
+**版面**：
+
+```
+（无 top-banner）
+
+#wrapper { max-width 560px; margin: 0 auto; padding 28px 28px 80px; }
+  .top-bar （← マップへ戻る ｜ JP/EN ｜ theme-toggle）
+
+  .four-oh-four
+    font-family: var(--font-serif)         /* Noto Serif JP */
+    font-size:   clamp(5rem, 18vw, 9rem)
+    font-weight: 700
+    line-height: 0.9
+    letter-spacing: -0.04em
+    color:       var(--fg)
+    margin:      24px 0 4px
+
+    .four-oh-four .accent  /* 中间的 "0" */
+      color: var(--accent)
+      font-style: italic
+      display: inline-block
+      transform: translateY(-4%) rotate(-6deg)   /* 编辑式倾斜，避免模板感 */
+
+  h1.title { 1.4rem · serif · weight 600 · margin-bottom 8px }
+  p.subtitle { 0.95rem · color var(--fg2) · margin-bottom 24px }
+
+  .cta-primary  /* 主 CTA，回首页 */
+    display:        inline-flex
+    align-items:    center
+    gap:            8px
+    background:     var(--accent)
+    color:          #fff
+    padding:        12px 22px
+    border-radius:  6px
+    font-weight:    600
+    font-size:      0.95rem
+    text-decoration: none
+    transition:     transform 150ms ease, box-shadow 150ms ease
+    hover:          transform translateY(-1px); box-shadow 0 4px 14px rgba(217,107,61,0.28)
+
+  .helpful-links     /* 二级链接列表 */
+    margin-top:    32px
+    border-top:    1px solid var(--border)
+    padding-top:   18px
+    a              { color var(--fg) · border-bottom 1px solid var(--border) · padding 10px 0 · display block }
+    a:hover        { color var(--accent) · border-bottom-color var(--accent) }
+
+  footer  /* 同 about.html 页脚 */
+```
+
+**复用**：§7.4 颜色契约（accent = `#D96B3D` 暖橙、fg2 = `#7A6F5E` 软棕）、§7.10 footer 简版。
+**不复用**：§7.1 top-banner（见本节"与其他静态页的差异"）、share buttons（404 不该被分享）、follow CTA（避免视觉抢主 CTA）。
+
+**SEO**：
+- `<meta name="robots" content="noindex, follow">` —— 错误页不入索引
+- 不设 `<link rel="canonical">`
+- `lang="ja"` 默认；`?lang=en` 切英文
+- 仍带 4-tracker analytics（per `feedback_analytics_consistency.md`）
+
+**文案**：
+- ja: 大字 `404` → h1「ページが見つかりません」→ 副 「指定された URL は存在しないか、変更された可能性があります。」
+- en: same with `Page not found` / `This URL doesn't exist or may have moved.`
+- 主 CTA: ja「トップへ戻る →」/ en「Back to home →」 → `/`
+- 二级链接 4 个：データについて (`/about`) · 利用規約 (`/compliance`) · プライバシー (`/privacy`) · GitHub Issues
+- 不暴露搜索框（首页已有，避免双重入口稀释）
+
+**dev-server**：`scripts/dev-server.py` 在所有 cleanUrl 重写之后、文件存在性检查后，对不存在的 path 用 `404.html` 内容 + HTTP 404 状态作兜底（镜像 Vercel 行为）。
+
 ---
 
 ## 8. 移动端自适应规则汇总
@@ -679,6 +753,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 | 2026-05-02 | §6.2, §6.5, §6.6, §6.7 | Mobile tooltip 三件 fix（Mirai Mobile Fix 提案）| FIX 01 加 `.tt-cta`「詳細を見る →」按钮（漏斗大漏点）；FIX 02 重写 touch 状态机，touchstart `passive: true` + touchend 位移 < 10px 才视为 tap（修 treemap 区滚动死区）；FIX 03 close button 22×22→32×32 visual + **44×44 hit area**（HIG 合规）。CTA 与双击 tile 打开详情并存，不替换。|
 | 2026-05-02 | §1, §7.11, §7.12, §7.13 | Stage 1：首页转向「自查路径优先」 | 新增 §7.12 桌面 hero（搜索 + 下拉建议 + 5 chips + 1 步直达 `/ja/<id>`），新增 §7.13 全站统一 follow + share footer（X follow CTA + 6 share 含新加 Facebook）。§7.11 移动 chip 行为从「填充 + 过滤」改为「1 步直达」，chip 名单 + 桌面统一为 `事務職 / 経理 / 営業 / カスタマーサポート / 看護師`（mobile 上 CS 缩写）。§1 第 1 条调整：「数据是主角」→「自查路径优先于纯展示，但数据仍是品牌资产」。原 explainer 区（meta-card + disclaimer + intro）从首页搬到独立 `/about` 页。背景：第一轮 X Ads 流量 491 link clicks 但站内 click 率仅 7.1%，需要把站点从展示型升级为查询工具。|
 | 2026-05-04 | 头部, §0, §0.1 | 文档分裂：移动版独立设计文档 | 移动版 v1.1.0 起用 Direction C: Warm Editorial（sage 绿 + テラコッタ橙 + 暖米底 + 衬线大字），跟桌面 dashboard 风格在视觉哲学上完全不同。新建 `docs/MOBILE_DESIGN.md` 承载移动版规范；本文件继续是桌面版 single source of truth。两套设计 token 隔离（桌面无前缀，移动 `--m-*` 前缀）；数据层共享同一份 `dist/data.*.json` 投影。详见 §0.1。|
+| 2026-05-05 | §0, §7.14 | 新增 `/404.html` 静态页规范 | Vercel 静态部署默认查找 root `/404.html`，本站之前没有自定义错误页，未命中路径回落到 Vercel 平台白屏。新增 §7.14 定义 404 页版面（serif 大字 404 + 主 CTA 回首页 + 4 个二级链接 + 双语 + 双主题），延续 Direction C tokens、4-tracker analytics、no-index meta。同步要求 `dev-server.py` 模拟 Vercel 兜底行为。|
 
 ---
 

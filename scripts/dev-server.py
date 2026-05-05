@@ -18,11 +18,26 @@ Bind port: 8765.
 """
 from __future__ import annotations
 import http.server
+import os
 import re
 import socketserver
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
+    def _serve_404(self):
+        """Mirror Vercel: any unknown path falls back to root /404.html with HTTP 404.
+        Per docs/Design.md §7.14."""
+        try:
+            with open("404.html", "rb") as f:
+                body = f.read()
+        except FileNotFoundError:
+            body = b"<h1>404 Not Found</h1>"
+        self.send_response(404)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_GET(self):
         # Serve sitemap.xml with localhost-rebased URLs so seo-check.sh
         # can crawl the listed paths against the local server.
@@ -93,6 +108,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.path = "/dist" + path
         elif path.startswith("/data.labels/"):
             self.path = "/dist" + path
+
+        # Mirror Vercel 404: if the (possibly rewritten) target file doesn't
+        # exist on disk and isn't a directory, fall back to /404.html with
+        # HTTP 404 status. Only check for paths that look like files (have
+        # a final segment, no trailing slash); directory listings are left
+        # to the parent handler.
+        resolved = self.path.split("?", 1)[0].split("#", 1)[0].lstrip("/")
+        if resolved and not resolved.endswith("/"):
+            disk_path = os.path.join(os.getcwd(), resolved)
+            if not os.path.exists(disk_path):
+                self._serve_404()
+                return
         return super().do_GET()
 
     do_HEAD = do_GET

@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+    <title>ページが見つかりません / Page Not Found — mirai-shigoto.com</title>
+    <meta name="description" content="404 — 指定されたページは存在しないか、移動した可能性があります。" />
+    <meta name="robots" content="noindex, follow" />
+
+    <!-- Warm up TCP/TLS to analytics origins while HTML parses. -->
+    <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
+    <!-- Open Graph (kept minimal — 404s shouldn't be shared, but if a stale link is unfurled the brand still reads correctly). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="日本の職業 AI 影響マップ（非公式）" />
+    <meta property="og:title" content="ページが見つかりません — mirai-shigoto.com" />
+    <meta property="og:description" content="404 — 指定されたページは存在しないか、移動した可能性があります。" />
+    <meta property="og:url" content="https://mirai-shigoto.com/404" />
+    <meta property="og:image" content="https://mirai-shigoto.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GLDNBDPF13');
+    </script>
+
+    <!-- Vercel Web Analytics + Speed Insights — same 4-tracker policy as the rest of the site. -->
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
+
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      /* Direction C: Warm Editorial — synced from styles/mobile-tokens.css. v1.2.0 PC convergence. */
+      :root {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
+        --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+        --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+      }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme="dark"]) {
+          --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+          --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+          --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+          --border: rgba(36, 30, 24, 0.10);
+        }
+      }
+      :root[data-theme="light"], :root[data-theme="dark"] {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
+      }
+      html, body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.7;
+        min-height: 100vh;
+      }
+      h1, h2, h3 {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        letter-spacing: -0.005em;
+      }
+      .theme-toggle { display: none !important; }
+
+      #wrapper {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 28px 28px 80px;
+      }
+      .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .top-bar .back {
+        color: var(--fg2);
+        text-decoration: none;
+        font-size: 0.85rem;
+      }
+      .top-bar .back:hover { color: var(--accent); }
+      .top-bar .lang-switch {
+        margin-left: auto;
+        display: inline-flex;
+        gap: 4px;
+        font-size: 0.8rem;
+      }
+      .top-bar .lang-switch button {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg2);
+        padding: 4px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .top-bar .lang-switch button[aria-pressed="true"] {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .theme-toggle {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg2);
+        width: 28px; height: 28px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 0; margin-left: 4px;
+        transition: color 150ms ease, border-color 150ms ease;
+      }
+      .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+      .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
+      .theme-toggle .icon-sun { display: inline-block; }
+      .theme-toggle .icon-moon { display: none; }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+        :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: inline-block; }
+      }
+      :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+      :root[data-theme="light"] .theme-toggle .icon-moon { display: inline-block; }
+      :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline-block; }
+      :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+      /* Hero: oversized 404 + headline */
+      .four-oh-four {
+        font-family: var(--font-serif);
+        font-size: clamp(5rem, 18vw, 9rem);
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.04em;
+        color: var(--fg);
+        margin: 24px 0 4px;
+        user-select: none;
+      }
+      .four-oh-four .accent {
+        color: var(--accent);
+        font-style: italic;
+        display: inline-block;
+        transform: translateY(-4%) rotate(-6deg);
+      }
+      h1.title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-top: 6px;
+        margin-bottom: 8px;
+        color: var(--fg);
+      }
+      p.subtitle {
+        font-size: 0.95rem;
+        color: var(--fg2);
+        margin-bottom: 26px;
+        max-width: 44ch;
+      }
+
+      /* Primary CTA */
+      .cta-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        padding: 12px 22px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+      }
+      .cta-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+        background: var(--accent-deep);
+        color: #fff;
+        text-decoration: none;
+      }
+      .cta-primary .arrow {
+        display: inline-block;
+        transition: transform 200ms ease;
+      }
+      .cta-primary:hover .arrow { transform: translateX(3px); }
+
+      /* Helpful links */
+      .helpful-links {
+        margin-top: 36px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+      }
+      .helpful-links .label {
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--fg3);
+        margin-bottom: 6px;
+      }
+      .helpful-links a {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        color: var(--fg);
+        text-decoration: none;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.92rem;
+        transition: color 150ms ease, border-bottom-color 150ms ease, padding-left 150ms ease;
+      }
+      .helpful-links a:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+        padding-left: 4px;
+      }
+      .helpful-links a .desc {
+        color: var(--fg2);
+        font-size: 0.78rem;
+        margin-left: 16px;
+        flex-shrink: 0;
+      }
+      .helpful-links a:hover .desc { color: var(--accent); }
+
+      footer {
+        margin-top: 56px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        font-size: 0.8rem;
+        color: var(--fg2);
+        text-align: center;
+      }
+      footer a { color: var(--accent); text-decoration: none; }
+      footer a:hover { text-decoration: underline; }
+      [data-i18n]:not(.active) { display: none; }
+
+      @media (max-width: 540px) {
+        #wrapper { padding: 18px 16px 60px; }
+        h1.title { font-size: 1.2rem; }
+        .four-oh-four { margin: 16px 0 2px; }
+        .helpful-links a .desc { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="wrapper">
+      <div class="top-bar">
+        <a class="back" href="/">
+          <span data-i18n="ja" class="active">← マップへ戻る</span>
+          <span data-i18n="en">← Back to map</span>
+        </a>
+        <span class="lang-switch" role="group" aria-label="Language">
+          <button data-set="ja" aria-pressed="true">日本語</button>
+          <button data-set="en" aria-pressed="false">English</button>
+        </span>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        </button>
+      </div>
+
+      <div class="four-oh-four" aria-hidden="true">4<span class="accent">0</span>4</div>
+
+      <h1 class="title">
+        <span data-i18n="ja" class="active">ページが見つかりません</span>
+        <span data-i18n="en">Page not found</span>
+      </h1>
+      <p class="subtitle">
+        <span data-i18n="ja" class="active">指定された URL は存在しないか、変更された可能性があります。トップページから職業を検索してみてください。</span>
+        <span data-i18n="en">This URL doesn't exist or may have moved. Try searching for an occupation from the home page.</span>
+      </p>
+
+      <a class="cta-primary" href="/">
+        <span data-i18n="ja" class="active">トップへ戻る</span>
+        <span data-i18n="en">Back to home</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+
+      <div class="helpful-links">
+        <div class="label">
+          <span data-i18n="ja" class="active">こちらもどうぞ</span>
+          <span data-i18n="en">You may also want</span>
+        </div>
+        <a href="/about">
+          <span>
+            <span data-i18n="ja" class="active">データについて</span>
+            <span data-i18n="en">About the data</span>
+          </span>
+          <span class="desc">
+            <span data-i18n="ja" class="active">ソース・スコア算出方法・FAQ</span>
+            <span data-i18n="en">Sources, methodology, FAQ</span>
+          </span>
+        </a>
+        <a href="/compliance">
+          <span>
+            <span data-i18n="ja" class="active">利用規約・コンプライアンス</span>
+            <span data-i18n="en">Terms &amp; Compliance</span>
+          </span>
+          <span class="desc">
+            <span data-i18n="ja" class="active">免責事項・引用ポリシー</span>
+            <span data-i18n="en">Disclaimer &amp; citation policy</span>
+          </span>
+        </a>
+        <a href="/privacy">
+          <span>
+            <span data-i18n="ja" class="active">プライバシーポリシー</span>
+            <span data-i18n="en">Privacy Policy</span>
+          </span>
+          <span class="desc">
+            <span data-i18n="ja" class="active">アクセス解析と Cookie</span>
+            <span data-i18n="en">Analytics &amp; cookies</span>
+          </span>
+        </a>
+        <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">
+          <span>
+            <span data-i18n="ja" class="active">不具合・要望を報告</span>
+            <span data-i18n="en">Report a bug / request</span>
+          </span>
+          <span class="desc">
+            <span data-i18n="ja" class="active">GitHub Issues</span>
+            <span data-i18n="en">GitHub Issues</span>
+          </span>
+        </a>
+      </div>
+
+      <footer>
+        <span data-i18n="ja" class="active">
+          <a href="/">トップ</a> ·
+          <a href="/about">データについて</a> ·
+          <a href="/privacy">プライバシー</a> ·
+          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
+        </span>
+        <span data-i18n="en">
+          <a href="/?lang=en">Home</a> ·
+          <a href="/about?lang=en">About</a> ·
+          <a href="/privacy?lang=en">Privacy</a> ·
+          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
+        </span>
+      </footer>
+    </div>
+
+    <script>
+      // Theme toggle
+      (function () {
+        const root = document.documentElement;
+        const tt = document.getElementById("themeToggle");
+        if (!tt) return;
+        tt.addEventListener("click", () => {
+          const cur = root.getAttribute("data-theme");
+          const sysIsLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+          const effective = cur || (sysIsLight ? "light" : "dark");
+          const next = effective === "light" ? "dark" : "light";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("theme", next); } catch (e) {}
+        });
+      })();
+
+      // Language switch — toggles all data-i18n elements between "ja" and "en"
+      (function () {
+        function setLang(target) {
+          document.documentElement.lang = target;
+          document.querySelectorAll("[data-i18n]").forEach(el => {
+            el.classList.toggle("active", el.getAttribute("data-i18n") === target);
+          });
+          document.querySelectorAll(".lang-switch button[data-set]").forEach(b => {
+            b.setAttribute("aria-pressed", b.getAttribute("data-set") === target ? "true" : "false");
+          });
+          document.title = target === "en"
+            ? "Page Not Found — mirai-shigoto.com"
+            : "ページが見つかりません — mirai-shigoto.com";
+        }
+        const params = new URLSearchParams(window.location.search);
+        const initial = params.get("lang") === "en" ? "en" : "ja";
+        if (initial === "en") setLang("en");
+        document.querySelectorAll(".lang-switch button[data-set]").forEach(btn => {
+          btn.addEventListener("click", () => setLang(btn.getAttribute("data-set")));
+        });
+      })();
+
+      // Track 404 path so we know which dead links are landing on this page (GA4 custom event)
+      (function () {
+        try {
+          if (typeof gtag === "function") {
+            gtag("event", "page_not_found", {
+              page_location: window.location.href,
+              page_path: window.location.pathname + window.location.search,
+              page_referrer: document.referrer || "(direct)"
+            });
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </body>
+</html>
