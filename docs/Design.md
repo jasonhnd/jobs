@@ -500,12 +500,12 @@ footer .footer-meta { color: var(--fg2); font-size: 0.7-0.78rem; line-height: 1.
 footer .footer-meta a { color: var(--accent); }
 ```
 
-**链接清单契约（v1.2.1 起）**：
-- ✅ 主链接 chip：トップ / データについて / コンプライアンス / プライバシー（按页面取舍当前页自身的链接）
-- ✅ 页面专属 chip：index 加「変更履歴 / Changelog」；sector hub 加「算出方法 / Methodology」
-- ❌ **禁止**「GitHub」纯文本 chip —— v1.2.1 全站移除（不再把 repo 直链丢给普通访客）
-- ✅ footer-meta 内的 `MIT` 链接保留指向 GitHub LICENSE（功能性链接，不是导航）
-- ✅ 内容正文里的 GitHub Issues 链接（compliance / about 中的「バグ報告は GitHub Issues」）属于功能性内容，不在 footer 范围内，保留
+**链接清单契约（v1.2.2 起 — 严格 3 / 4 chip 规则 + GitHub 完全切断）**：
+- ✅ **index.html**: **正好 3 chip** —— `データについて / コンプライアンス / プライバシー`（不放トップ，因为已在首页）
+- ✅ **其他所有页面**（404 / about / compliance / privacy / 1112 detail / 32 sector hub）: **正好 4 chip** —— `トップ / データについて / コンプライアンス / プライバシー`
+- ❌ **禁止**任何额外 chip：原本 index 上的「変更履歴 / Changelog」与 sector hub 上的「算出方法 / Methodology」均已在 v1.2.2 删除
+- ❌ **禁止**站内任何 `<a href="https://github.com/...">` —— 全站完全切断 GitHub 链接（包括 footer-meta 的 `MIT` 链接、JSON-LD 的 `sameAs`、content body 的 GitHub Issues 引用、llms.txt / llms-full.txt 中的 source code 引用、make_prompt.py 生成的 prompt 文件）；`MIT` 在 footer-meta 改为纯文本
+- ✅ 自指 chip 是有意行为：在 `/about` 页 footer 仍展示「データについて」chip（4 chip 规则要求严格一致），点击会刷新当前页
 
 **理由**：
 - `·` 中点把 5-7 个链接挤在一行，在 mobile 容易折行成两半混杂、视觉权重不清；用户反馈「区分不开」。
@@ -808,6 +808,7 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 | 2026-05-04 | 头部, §0, §0.1 | 文档分裂：移动版独立设计文档 | 移动版 v1.1.0 起用 Direction C: Warm Editorial（sage 绿 + テラコッタ橙 + 暖米底 + 衬线大字），跟桌面 dashboard 风格在视觉哲学上完全不同。新建 `docs/MOBILE_DESIGN.md` 承载移动版规范；本文件继续是桌面版 single source of truth。两套设计 token 隔离（桌面无前缀，移动 `--m-*` 前缀）；数据层共享同一份 `dist/data.*.json` 投影。详见 §0.1。|
 | 2026-05-05 | §0, §7.14 | 新增 `/404.html` 静态页规范 | Vercel 静态部署默认查找 root `/404.html`，本站之前没有自定义错误页，未命中路径回落到 Vercel 平台白屏。新增 §7.14 定义 404 页版面（serif 大字 404 + 主 CTA 回首页 + 4 个二级链接 + 双语 + 双主题），延续 Direction C tokens、4-tracker analytics、no-index meta。同步要求 `dev-server.py` 模拟 Vercel 兜底行为。|
 | 2026-05-05 | §7.10 | 全站 footer 重写：`·` 中点列表 → pill chip + footer-meta 两层结构 | 用户反馈「全站页脚链接区分不开」。原 footer `<a>トップ</a> · <a>データについて</a> · <a>プライバシー</a> · <a>GitHub</a>` 在 mobile 容易折行混杂、视觉权重不清。新规范：主导航用 pill chip（独立 border + hover 高亮），出典 / 许可下沉到 footer-meta 小字。同步移除全站 footer 的 GitHub chip（v1.2.1 把 repo 直链从访客主路径剥离，跟移除「非公式」banner 同一波清理）；MIT 许可链接保留在 meta 区域。覆盖 5 张静态页 + 1112 detail + 32 sector hub。|
+| 2026-05-05 | §7.10 | footer 严格化 3/4 chip 规则 + GitHub 完全切断 | 用户进一步要求：footer chip index 只要 3 个、其他页面只要 4 个；整站不要跟 GitHub 有任何链接。删除 index 的「変更履歴」chip、sector hub 的「算出方法」chip；footer-meta 的 `MIT` 链接改为纯文本（不再指向 LICENSE）；content body 的 GitHub Issues 引用（compliance / about）改为 `mailto:privacy@mirai-shigoto.com` 或纯文本说明；index JSON-LD 的 `sameAs` / `measurementTechnique` / FAQ answer 中的 GitHub URL 移除；llms.txt / llms-full.txt / make_prompt.py 生成的 prompt files 全部清理。最终全仓 grep `github\.com` 在所有 served HTML / TXT / MD 文件命中数 0。|
 
 ---
 

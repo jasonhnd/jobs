@@ -78,10 +78,7 @@
           "name": "mirai-shigoto.com",
           "alternateName": ["日本の職業 AI 影響マップ（非公式）", "Japan Jobs × AI Impact Map"],
           "url": "https://mirai-shigoto.com/",
-          "logo": "https://mirai-shigoto.com/og.png",
-          "sameAs": [
-            "https://github.com/jasonhnd/jobs"
-          ]
+          "logo": "https://mirai-shigoto.com/og.png"
         },
         {
           "@type": "WebSite",
@@ -109,7 +106,6 @@
           "alternateName": "日本 552 職種の AI 影響マップ",
           "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Bilingual JA/EN. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
           "url": "https://mirai-shigoto.com/",
-          "sameAs": "https://github.com/jasonhnd/jobs",
           "creator": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
           "license": "https://opensource.org/licenses/MIT",
@@ -120,11 +116,10 @@
           "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
           "spatialCoverage": { "@type": "Place", "name": "Japan" },
           "temporalCoverage": "2025/2026",
-          "measurementTechnique": "LLM-based scoring: Claude Opus 4.7 against a calibrated 0-10 rubric, anchored on Karpathy's BLS exposure framework (https://github.com/karpathy/jobs/blob/main/score.py) and ported to Japan's labor market context. Each of 552 occupations evaluated independently.",
+          "measurementTechnique": "LLM-based scoring: Claude Opus 4.7 against a calibrated 0-10 rubric ported to Japan's labor market context. Each of 552 occupations evaluated independently.",
           "citation": [
             "厚生労働省 職業情報提供サイト（jobtag）— https://shigoto.mhlw.go.jp/User/",
-            "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/",
-            "Andrej Karpathy. jobs (US BLS exposure rubric) — https://github.com/karpathy/jobs"
+            "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/"
           ],
           "includedInDataCatalog": {
             "@type": "DataCatalog",
@@ -264,7 +259,7 @@
               "name": "Is the data downloadable?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. A compact JSON of all 552 occupations (treemap-shape) is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped). Per-occupation detail records and the AI-scoring runs are at https://github.com/jasonhnd/jobs. MIT licensed; underlying IPD data © JILPT, used per their TOS Article 9."
+                "text": "Yes. A compact JSON of all 552 occupations (treemap-shape) is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped). Per-occupation detail records are at https://mirai-shigoto.com/data.detail/<id>.json. MIT licensed; underlying IPD data © JILPT, used per their TOS Article 9."
               }
             },
             {
@@ -616,9 +611,14 @@
           align-items: center;
           justify-content: space-between;
           gap: 12px;
-          padding: 12px 20px;
-          background: var(--bg);
-          border-bottom: 1px solid var(--border);
+          padding: 14px 22px;
+          /* Frosted glass: half-transparent warm cream + blur backdrop so
+             content scrolling underneath gets a soft veil instead of hard
+             cut-off. iOS Safari supports -webkit-backdrop-filter. */
+          background: rgba(250, 246, 238, 0.85);
+          backdrop-filter: saturate(180%) blur(14px);
+          -webkit-backdrop-filter: saturate(180%) blur(14px);
+          border-bottom: 1px solid rgba(36, 30, 24, 0.06);
           position: sticky;
           top: 0;
           z-index: 50;
@@ -630,11 +630,20 @@
           color: var(--accent);
           text-decoration: none;
           font-family: var(--font-serif);
-          font-size: 1.08rem;
+          font-size: 1.12rem;
           font-weight: 600;
+          letter-spacing: -0.005em;
         }
         .m-topbar-brand:hover { text-decoration: none; }
-        .m-topbar-mark { display: inline-flex; }
+        .m-topbar-mark {
+          display: inline-flex;
+          width: 30px; height: 30px;
+          align-items: center; justify-content: center;
+          background: var(--bg3);
+          border-radius: 999px;
+          color: var(--accent);
+        }
+        .m-topbar-mark svg { width: 18px; height: 18px; }
         .m-topbar-name [data-i18n]:not(.active) { display: none; }
         .m-topbar-burger {
           display: inline-flex;
@@ -642,15 +651,15 @@
           justify-content: center;
           align-items: center;
           gap: 4px;
-          width: 36px; height: 36px;
-          background: transparent;
+          width: 38px; height: 38px;
+          background: var(--bg2);
           border: 1px solid var(--border);
           border-radius: 999px;
           padding: 0;
           cursor: pointer;
-          transition: border-color 150ms;
+          transition: border-color 150ms, background 150ms;
         }
-        .m-topbar-burger:hover { border-color: var(--accent); }
+        .m-topbar-burger:hover { border-color: var(--accent); background: var(--bg3); }
         .m-topbar-burger span {
           display: block;
           width: 16px;
@@ -727,7 +736,9 @@
           font-size: 0.86rem;
           cursor: pointer;
         }
-        .m-topbar-menu-langs button[aria-pressed="true"] {
+        /* Higher specificity than .lang-switch button[aria-pressed="true"]
+           which would otherwise paint terracotta-on-terracotta (invisible). */
+        .m-topbar-menu .m-topbar-menu-langs button[aria-pressed="true"] {
           background: var(--accent);
           border-color: var(--accent);
           color: #fff;
@@ -1410,8 +1421,11 @@
         background: rgba(217, 107, 61, 0.06);
         text-decoration: none;
       }
-      footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; }
+      footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
       footer .footer-meta a { color: var(--accent); }
+      @media (max-width: 540px) {
+        footer .footer-meta { font-size: 0.66rem; line-height: 1.55; }
+      }
       [data-i18n]:not(.active) {
         display: none;
       }
@@ -2027,10 +2041,21 @@
         font-size: 0.86rem;
         line-height: 1.7;
         color: var(--fg2);
+        text-wrap: pretty;
       }
       .data-summary strong { color: var(--fg); }
       .data-summary a { color: var(--accent); }
       .data-summary a:hover { text-decoration: underline; }
+      /* Mobile: stack segments vertically, hide wide-space separators. */
+      @media (max-width: 540px) {
+        .data-summary {
+          font-size: 0.78rem;
+          padding: 12px 14px;
+          line-height: 1.6;
+        }
+        .data-summary .ds-seg { display: block; padding: 3px 0; }
+        .data-summary .ds-sep { display: none; }
+      }
       .data-summary .about-link { font-weight: 600; }
       @media (max-width: 540px) {
         .data-summary { font-size: 0.8rem; padding: 12px 14px; }
@@ -2365,10 +2390,11 @@
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
 
-      <!-- Stage 1: compact data attribution. Full content moved to /about. -->
+      <!-- Stage 1: compact data attribution. Full content moved to /about.
+           Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
       <p class="data-summary" aria-label="Data sources summary">
-        <span data-i18n="ja" class="active"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT　／　<strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）　·　<a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span>
-        <span data-i18n="en"><strong>📊 Data:</strong> <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a> + JILPT　/　<strong>AI score:</strong> Claude Opus 4.7 independent analysis (2026-04-25)　·　<a class="about-link" href="/about?lang=en" id="about-link-en">Read more about the data →</a></span>
+        <span data-i18n="ja" class="active"><span class="ds-seg"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT</span><span class="ds-sep">　／　</span><span class="ds-seg"><strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span></span>
+        <span data-i18n="en"><span class="ds-seg"><strong>📊 Data:</strong> <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a> + JILPT</span><span class="ds-sep">　/　</span><span class="ds-seg"><strong>AI score:</strong> Claude Opus 4.7 independent analysis (2026-04-25)</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about?lang=en" id="about-link-en">Read more about the data →</a></span></span>
       </p>
 
       <!-- Stage 1 PREVIEW — Follow + Share section with visual layering.
@@ -2426,23 +2452,21 @@
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
-          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md" rel="external">変更履歴</a>
         </div>
         <div class="footer-links" data-i18n="en">
           <a href="/about?lang=en">About</a>
           <a href="/compliance?lang=en">Compliance</a>
           <a href="/privacy?lang=en">Privacy</a>
-          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md" rel="external">Changelog</a>
         </div>
         <div class="footer-meta">
           <span data-i18n="ja" class="active">
-            v0.5.0 · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br />
+            v0.5.0 · MIT<br />
             出典：厚生労働省・独立行政法人 労働政策研究・研修機構（JILPT）<br />
             <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">「職業情報データベース（job tag）」</a> v7.00（2026-05-03 ダウンロード）<em> を加工して作成</em><br />
             <em>※ 本サイトは独自分析サイトであり、厚生労働省・job tag・JILPT の公式見解ではありません。詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
           </span>
           <span data-i18n="en">
-            v0.5.0 · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br />
+            v0.5.0 · MIT<br />
             Source: Ministry of Health, Labour and Welfare (MHLW) and Japan Institute for Labour Policy and Training (JILPT)<br />
             <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">"Occupational Information Database (job tag)"</a> v7.00 (downloaded 2026-05-03)<em> — processed and visualized as derivative work.</em><br />
             <em>※ This is an independent-analysis site; it does not represent the official views of MHLW, jobtag, or JILPT. See the <a href="/compliance?lang=en">Compliance</a> page for details.</em>

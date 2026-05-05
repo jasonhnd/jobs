@@ -53,6 +53,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   primacy and the disclaimer is irrelevant context for someone who just hit a
   broken URL.
 
+### Footer chip strictification + complete GitHub link severance (site-wide)
+
+User policy: footer chips are **exactly 3 on index** (`データについて / コンプライアンス / プライバシー`) and **exactly 4 on every other page** (`トップ / データについて / コンプライアンス / プライバシー`). No exceptions, no extras.
+
+- **Removed `変更履歴 / Changelog` chip** from `index.html` footer-links (was the 4th chip on index — now 3).
+- **Removed `算出方法 / Methodology` chip** from sector-hub footer (template `scripts/build_sector_hubs.py` + 32 regenerated hubs — was the 5th chip, now 4). Methodology content still lives at `/llms-full.txt`; just no longer surfaced from the footer.
+- **404 / about / privacy** chip rows realigned to the 4-chip canonical (some were missing `コンプライアンス` or `データについて`).
+- **All `github.com` URLs purged from served surfaces:**
+  - footer-meta `MIT` links (5 static pages + detail + sector templates) → plain text "MIT"
+  - `index.html` JSON-LD: removed `sameAs: [github.com/...]` from Organization + Dataset schemas; stripped Karpathy URL from `measurementTechnique`; removed Karpathy citation from Dataset citations; removed GitHub URL from FAQ "is data downloadable" answer
+  - `about.html` body: rewrote "Scoring scale" Sources row to describe the in-house rubric without linking to karpathy/jobs; replaced "Please use GitHub Issues for inquiries" sentence with "Do not contact public institutions" guidance
+  - `compliance.html` body: bug-report / feature-request / score-dispute CTA repointed from GitHub Issues to `mailto:privacy@mirai-shigoto.com`
+  - `llms.txt`: dropped `[GitHub repository]` and `[CHANGELOG]` link bullets, removed Karpathy URL from methodology line, removed Karpathy bullet from Sources
+  - `llms-full.txt`: removed `Source code: github.com/...` bullet, dropped GitHub URL from rubric anchor description, dropped GitHub link from FAQ "is data downloadable", removed `DATA_ARCHITECTURE.md` GitHub link from technical section, replaced `MIT — see github.com/.../LICENSE` with plain `MIT.`, removed GitHub bullet from Contact section
+  - `scripts/make_prompt.py`: deleted `KARPATHY_URL` and `REPO_URL` constants and all 4 usages; replaced "Source: github.com/..." line with nothing; replaced "Scoring scale: Ported anchors from karpathy/jobs" with description of in-house rubric. Regenerated `data/prompts/prompt.{ja,en}.md`.
+- **Final audit:** `grep -rln 'github\.com' --include='*.html' --include='*.txt' --include='*.md'` returns 0 hits across all 1147 served HTML files, both `llms.txt` / `llms-full.txt`, and both prompt MD files. Same wave as the v1.2.1 banner removal — completing the cleanup of developer-facing surfaces from the visitor primary path.
+
+---
+
 ### Footer overhaul — pill chips + GitHub link removal (site-wide)
 
 - **Visual:** all footers across the site rewritten from a flat

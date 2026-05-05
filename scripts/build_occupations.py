@@ -1308,7 +1308,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
           <a href="/privacy{'?lang=en' if lang == 'en' else ''}">{('Privacy' if lang == 'en' else 'プライバシー')}</a>
         </div>
         <div class="footer-meta">
-          © <a href="{home_href}">mirai-shigoto.com</a> · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br>
+          © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
           {('Source: MHLW &amp; JILPT &quot;Occupational Information Database (job tag)&quot; v7.00 (downloaded 2026-05-03) — processed as derivative work. Independent analysis, not endorsed by MHLW / jobtag / JILPT.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析。')}
         </div>
       </footer>

@@ -32,8 +32,6 @@ SCORING_LLM = "Claude Opus 4.7 (Anthropic)"
 SCORED_ON = "2026-04-25"
 TRANSLATED_ON = "2026-04-25"
 JOBTAG_URL = "https://shigoto.mhlw.go.jp/User/"
-KARPATHY_URL = "https://github.com/karpathy/jobs"
-REPO_URL = "https://github.com/jasonhnd/jobs"
 LIVE_URL = "https://mirai-shigoto.com/"
 
 # 8 official MHLW education buckets (in display order)
@@ -216,7 +214,6 @@ def build_header(lang: str) -> list[str]:
         )
         lines.append("")
         lines.append(f"- ライブ可視化: {LIVE_URL}")
-        lines.append(f"- ソース: {REPO_URL}")
         lines.append(f"- 元データ出典: 厚生労働省 jobtag（{JOBTAG_URL}）")
         lines.append("")
         lines.append("## 採点メソドロジー")
@@ -225,7 +222,7 @@ def build_header(lang: str) -> list[str]:
         lines.append(f"- **採点日:** {SCORED_ON}")
         lines.append(f"- **英訳日:** {TRANSLATED_ON}")
         lines.append("- **就業者・賃金データ:** 厚労省 2023 年度委託調査（jobtag 掲載値）")
-        lines.append(f"- **採点スケール:** {KARPATHY_URL} の 0〜10 アンカーを移植")
+        lines.append("- **採点スケール:** 独自設計の 0〜10 ルーブリック（業務代替性・自動化深度・人間判断要素を 5 段階アンカーで採点）")
         lines.append("")
         lines.append(
             "AI リスクは 0〜10 の単一軸で「AI が今後その職業をどれほど作り変えるか」を推定します。"
@@ -259,7 +256,6 @@ def build_header(lang: str) -> list[str]:
     )
     lines.append("")
     lines.append(f"- Live visualization: {LIVE_URL}")
-    lines.append(f"- Source: {REPO_URL}")
     lines.append(
         f"- Original data: MHLW Occupational Information Site / jobtag ({JOBTAG_URL})"
     )
@@ -270,7 +266,7 @@ def build_header(lang: str) -> list[str]:
     lines.append(f"- **Scored on:** {SCORED_ON}")
     lines.append(f"- **Translated on:** {TRANSLATED_ON}")
     lines.append("- **Workforce / wage data:** MHLW FY2023 commissioned survey (via jobtag)")
-    lines.append(f"- **Scoring scale:** Ported 0–10 anchors from {KARPATHY_URL}")
+    lines.append("- **Scoring scale:** In-house 0–10 rubric (task substitutability, automation depth, residual human-judgment requirements via 5-step anchors)")
     lines.append("")
     lines.append(
         "AI risk is a single 0–10 axis estimating how much AI will reshape each occupation. "
