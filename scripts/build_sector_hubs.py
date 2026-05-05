@@ -119,8 +119,12 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .related-sectors a:hover{background:var(--bg3);color:var(--accent-deep)}
 .related-sectors .ja-name{font-family:var(--font-serif);font-weight:500}
 .related-sectors .count{color:var(--fg2);font-size:.8rem;display:block;margin-top:2px}
-footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:.85rem;color:var(--fg2);display:grid;gap:12px}
-footer a{color:var(--fg2)}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:.85rem;color:var(--fg2);text-align:center}
+footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
+footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
+footer .footer-meta{color:var(--fg2);font-size:.72rem;line-height:1.55}
+footer .footer-meta a{color:var(--accent)}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
 """
 
@@ -513,17 +517,17 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
       </section>
 
       <footer>
-        <span>© <a href="{home_href}">mirai-shigoto.com</a> · MIT</span>
-        <span>
-          <a href="{about_href}">{escape(about_link)}</a> ·
-          <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a> ·
-          <a href="/privacy{'?lang=en' if lang == 'en' else ''}">Privacy</a> ·
-          <a href="/llms-full.txt">{('Methodology' if lang == 'en' else '算出方法')}</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
-        </span>
-        <span style="font-size:.75rem;color:var(--fg3);line-height:1.55">
+        <div class="footer-links">
+          <a href="{home_href}">{('Home' if lang == 'en' else 'トップ')}</a>
+          <a href="{about_href}">{('About' if lang == 'en' else 'データについて')}</a>
+          <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a>
+          <a href="/privacy{'?lang=en' if lang == 'en' else ''}">{('Privacy' if lang == 'en' else 'プライバシー')}</a>
+          <a href="/llms-full.txt">{('Methodology' if lang == 'en' else '算出方法')}</a>
+        </div>
+        <div class="footer-meta">
+          © <a href="{home_href}">mirai-shigoto.com</a> · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br>
           {('Source: MHLW &amp; JILPT Occupational Information Database (job tag) v7.00 — processed as derivative work. AI impact scores are independent Claude Opus 4.7 estimates, not government forecasts.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。')}
-        </span>
+        </div>
       </footer>
     </div>
   </body>

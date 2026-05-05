@@ -455,9 +455,62 @@ hover (各平台品牌色覆盖):
 
 ### 7.10 Footer
 
-- `font-size: 0.72rem` (≤480: 0.66rem)
-- `color: #555c69`（独立色，不用 var）
-- 链接颜色 `var(--accent)`
+**全站统一规范（v1.2.1 起）**：footer 不再用 `·` 中点连接的扁平链接列表，改为 **pill chip + footer-meta 两层结构**，全站（index / about / compliance / privacy / 404 / detail × 1112 / sector × 32）一致。
+
+**版面**：
+
+```
+<footer>
+  <div class="footer-links">          ← 主导航 chip 行（pill 圆角边框）
+    <a>トップ</a>
+    <a>データについて</a>
+    <a>コンプライアンス</a>
+    <a>プライバシー</a>
+    （+ 页面相关的额外 chip：变更履歴 / 算出方法）
+  </div>
+  <div class="footer-meta">           ← 版本 / 许可 / 出典 / 免责（小字）
+    v0.5.0 · MIT · 出典：MHLW · JILPT job tag v7.00 …
+  </div>
+</footer>
+```
+
+**chip 样式**：
+
+```css
+footer .footer-links {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; align-items: center;
+  margin-bottom: 14px;
+}
+footer .footer-links a {
+  color: var(--fg2);
+  padding: 5px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  text-decoration: none;
+  transition: color 150ms, border-color 150ms, background 150ms;
+}
+footer .footer-links a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(217,107,61,0.06);
+}
+footer .footer-meta { color: var(--fg2); font-size: 0.7-0.78rem; line-height: 1.55; opacity: 0.92; }
+footer .footer-meta a { color: var(--accent); }
+```
+
+**链接清单契约（v1.2.1 起）**：
+- ✅ 主链接 chip：トップ / データについて / コンプライアンス / プライバシー（按页面取舍当前页自身的链接）
+- ✅ 页面专属 chip：index 加「変更履歴 / Changelog」；sector hub 加「算出方法 / Methodology」
+- ❌ **禁止**「GitHub」纯文本 chip —— v1.2.1 全站移除（不再把 repo 直链丢给普通访客）
+- ✅ footer-meta 内的 `MIT` 链接保留指向 GitHub LICENSE（功能性链接，不是导航）
+- ✅ 内容正文里的 GitHub Issues 链接（compliance / about 中的「バグ報告は GitHub Issues」）属于功能性内容，不在 footer 范围内，保留
+
+**理由**：
+- `·` 中点把 5-7 个链接挤在一行，在 mobile 容易折行成两半混杂、视觉权重不清；用户反馈「区分不开」。
+- pill chip 用 border + padding 让每个链接有独立 hit area + 视觉容器，hover 高亮单个 chip 更清晰。
+- 移除 GitHub 链接是配合首页去掉「非公式」banner 的同一波清理：把开发者向元素从访客主路径剥离。
 
 ### 7.11 Mobile Hero（Variant C, mobile-only）
 
@@ -754,6 +807,7 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 | 2026-05-02 | §1, §7.11, §7.12, §7.13 | Stage 1：首页转向「自查路径优先」 | 新增 §7.12 桌面 hero（搜索 + 下拉建议 + 5 chips + 1 步直达 `/ja/<id>`），新增 §7.13 全站统一 follow + share footer（X follow CTA + 6 share 含新加 Facebook）。§7.11 移动 chip 行为从「填充 + 过滤」改为「1 步直达」，chip 名单 + 桌面统一为 `事務職 / 経理 / 営業 / カスタマーサポート / 看護師`（mobile 上 CS 缩写）。§1 第 1 条调整：「数据是主角」→「自查路径优先于纯展示，但数据仍是品牌资产」。原 explainer 区（meta-card + disclaimer + intro）从首页搬到独立 `/about` 页。背景：第一轮 X Ads 流量 491 link clicks 但站内 click 率仅 7.1%，需要把站点从展示型升级为查询工具。|
 | 2026-05-04 | 头部, §0, §0.1 | 文档分裂：移动版独立设计文档 | 移动版 v1.1.0 起用 Direction C: Warm Editorial（sage 绿 + テラコッタ橙 + 暖米底 + 衬线大字），跟桌面 dashboard 风格在视觉哲学上完全不同。新建 `docs/MOBILE_DESIGN.md` 承载移动版规范；本文件继续是桌面版 single source of truth。两套设计 token 隔离（桌面无前缀，移动 `--m-*` 前缀）；数据层共享同一份 `dist/data.*.json` 投影。详见 §0.1。|
 | 2026-05-05 | §0, §7.14 | 新增 `/404.html` 静态页规范 | Vercel 静态部署默认查找 root `/404.html`，本站之前没有自定义错误页，未命中路径回落到 Vercel 平台白屏。新增 §7.14 定义 404 页版面（serif 大字 404 + 主 CTA 回首页 + 4 个二级链接 + 双语 + 双主题），延续 Direction C tokens、4-tracker analytics、no-index meta。同步要求 `dev-server.py` 模拟 Vercel 兜底行为。|
+| 2026-05-05 | §7.10 | 全站 footer 重写：`·` 中点列表 → pill chip + footer-meta 两层结构 | 用户反馈「全站页脚链接区分不开」。原 footer `<a>トップ</a> · <a>データについて</a> · <a>プライバシー</a> · <a>GitHub</a>` 在 mobile 容易折行混杂、视觉权重不清。新规范：主导航用 pill chip（独立 border + hover 高亮），出典 / 许可下沉到 footer-meta 小字。同步移除全站 footer 的 GitHub chip（v1.2.1 把 repo 直链从访客主路径剥离，跟移除「非公式」banner 同一波清理）；MIT 许可链接保留在 meta 区域。覆盖 5 张静态页 + 1112 detail + 32 sector hub。|
 
 ---
 

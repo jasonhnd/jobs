@@ -241,13 +241,38 @@
       .callout strong { color: var(--accent); }
       footer {
         margin-top: 56px;
-        padding-top: 20px;
+        padding-top: 22px;
         border-top: 1px solid var(--border);
         font-size: 0.75rem;
         color: var(--fg2);
         text-align: center;
       }
-      footer a { color: var(--accent); }
+      footer .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      footer .footer-links a {
+        color: var(--fg2);
+        text-decoration: none;
+        padding: 5px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      footer .footer-links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.06);
+        text-decoration: none;
+      }
+      footer .footer-meta { color: var(--fg2); font-size: 0.72rem; }
+      footer .footer-meta a { color: var(--accent); }
       .updated-table {
         width: 100%;
         font-size: 0.85rem;
@@ -511,18 +536,19 @@
       </table>
 
       <footer>
-        <span data-i18n="ja" class="active">
-          v0.5.0 ・ <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a> ・
-          <a href="/privacy">プライバシー</a> ・
-          <a href="/about">データについて</a> ・
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
-        </span>
-        <span data-i18n="en">
-          v0.5.0 ・ <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a> ・
-          <a href="/privacy?lang=en">Privacy</a> ・
-          <a href="/about?lang=en">About the Data</a> ・
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
-        </span>
+        <div class="footer-links active" data-i18n="ja">
+          <a href="/">トップ</a>
+          <a href="/about">データについて</a>
+          <a href="/privacy">プライバシー</a>
+        </div>
+        <div class="footer-links" data-i18n="en">
+          <a href="/?lang=en">Home</a>
+          <a href="/about?lang=en">About</a>
+          <a href="/privacy?lang=en">Privacy</a>
+        </div>
+        <div class="footer-meta">
+          v0.5.0 · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a>
+        </div>
       </footer>
     </div>
 

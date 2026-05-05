@@ -43,15 +43,41 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   HTTP 404 for any unmatched route; previously unmatched paths fell through to
   Vercel's default white page. Direction C tokens (sage / terracotta / warm
   cream serif), oversized "404" with rotated italic accent on the middle "0",
-  primary CTA back to home, 4 secondary links (About / Compliance / Privacy /
-  GitHub Issues), bilingual ja/en (default ja, `?lang=en` switches), full
-  4-tracker analytics block per `feedback_analytics_consistency.md`,
-  `noindex, follow` meta. Fires a `page_not_found` GA4 event with the
-  attempted path + referrer so we can spot dead inbound links. **Deliberately
-  omits the global "non-official" top banner** (Design.md §7.1) — a 404 is a
-  navigation dead-end, not branded content; the banner's red-tone block fights
-  the oversized "404" for visual primacy and the disclaimer is irrelevant
-  context for someone who just hit a broken URL.
+  primary CTA back to home, 3 secondary links (About / Compliance / Privacy),
+  bilingual ja/en (default ja, `?lang=en` switches), full 4-tracker analytics
+  block per `feedback_analytics_consistency.md`, `noindex, follow` meta.
+  Fires a `page_not_found` GA4 event with the attempted path + referrer so we
+  can spot dead inbound links. **Deliberately omits the global "non-official"
+  top banner** (Design.md §7.1) — a 404 is a navigation dead-end, not branded
+  content; the banner's red-tone block fights the oversized "404" for visual
+  primacy and the disclaimer is irrelevant context for someone who just hit a
+  broken URL.
+
+### Footer overhaul — pill chips + GitHub link removal (site-wide)
+
+- **Visual:** all footers across the site rewritten from a flat
+  `<a>トップ</a> · <a>データについて</a> · …` middot list to a two-tier layout:
+  a row of **pill chips** for navigation links (independent border, padding,
+  and hover highlight per chip) followed by a smaller `.footer-meta` line for
+  version / license / source attribution. User feedback: the middot list
+  became unreadable on mobile when wrapping, with visual weight smeared
+  across all links — chips give each link its own hit area and visual
+  container.
+- **GitHub link removed from every footer** — the standalone `<a>GitHub</a>`
+  chip is gone from the index footer, mobile burger menu, about / compliance /
+  privacy / 404 footers, all 1112 detail-page footers (template +
+  regenerated), and all 32 sector-hub footers (template + regenerated). The
+  `MIT` license link still points to the GitHub LICENSE since it's a
+  functional license citation rather than navigation; content-body
+  references to GitHub Issues (compliance dispute filing, about contact)
+  remain functional content. Same cleanup wave as the recent removal of the
+  "non-official" top banner — pruning developer-facing surfaces from the
+  visitor primary path.
+- **Files touched:** `index.html`, `about.html`, `compliance.html`,
+  `privacy.html`, `404.html`, `scripts/build_occupations.py` (template +
+  1112 regenerated pages), `scripts/build_sector_hubs.py` (template + 32
+  regenerated pages), `docs/Design.md` §7.10 rewritten with the new
+  two-tier spec.
 - **`docs/Design.md` §7.14** — new component spec for the 404 page (layout,
   tokens, copy, SEO meta). Scope list in §0 updated to include `404.html`.
 - **`scripts/dev-server.py`** — mirrors Vercel: any path that resolves to a

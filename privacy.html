@@ -286,13 +286,38 @@
       .third-party-row .role { color: var(--fg2); }
       footer {
         margin-top: 40px;
-        padding-top: 18px;
+        padding-top: 22px;
         border-top: 1px solid var(--border);
         font-size: 0.8rem;
         color: var(--fg2);
         text-align: center;
       }
-      footer a { color: var(--accent); }
+      footer .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      footer .footer-links a {
+        color: var(--fg2);
+        text-decoration: none;
+        padding: 5px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      footer .footer-links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.06);
+        text-decoration: none;
+      }
+      footer .footer-meta { color: var(--fg2); font-size: 0.72rem; opacity: 0.85; }
+      footer .footer-meta a { color: var(--accent); }
       [data-i18n]:not(.active) { display: none; }
 
       @media (max-width: 540px) {
@@ -556,12 +581,20 @@
       </ul>
 
       <footer>
-        <span data-i18n="ja" class="active"><a href="/">mirai-shigoto.com</a> ・ MIT ・ <a href="/about">データについて</a> ・ <a href="/compliance">コンプライアンス</a> ・ <a href="https://github.com/jasonhnd/jobs">GitHub</a><br>
-          <em style="font-size:0.7rem;opacity:0.85">出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成・非公式</em>
-        </span>
-        <span data-i18n="en"><a href="/">mirai-shigoto.com</a> ・ MIT ・ <a href="/about?lang=en">About</a> ・ <a href="/compliance?lang=en">Compliance</a> ・ <a href="https://github.com/jasonhnd/jobs">GitHub</a><br>
-          <em style="font-size:0.7rem;opacity:0.85">Source: MHLW &amp; JILPT "Occupational Information Database (job tag)" v7.00 (downloaded 2026-05-03), processed as derivative work · unofficial</em>
-        </span>
+        <div class="footer-links active" data-i18n="ja">
+          <a href="/">トップ</a>
+          <a href="/about">データについて</a>
+          <a href="/compliance">コンプライアンス</a>
+        </div>
+        <div class="footer-links" data-i18n="en">
+          <a href="/?lang=en">Home</a>
+          <a href="/about?lang=en">About</a>
+          <a href="/compliance?lang=en">Compliance</a>
+        </div>
+        <div class="footer-meta">
+          <span data-i18n="ja" class="active"><em>出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成</em></span>
+          <span data-i18n="en"><em>Source: MHLW &amp; JILPT "Occupational Information Database (job tag)" v7.00 (downloaded 2026-05-03), processed as derivative work</em></span>
+        </div>
       </footer>
     </div>
 
