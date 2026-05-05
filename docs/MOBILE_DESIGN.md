@@ -1,6 +1,12 @@
-# MOBILE_DESIGN.md — mirai-shigoto.com 移动版设计规范
+# MOBILE_DESIGN.md — mirai-shigoto.com 移动版设计规范（**已归档 / ARCHIVED**）
 
-> **Status**: v1.1.0 spec (2026-05-04). 配套数据架构见 [DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md)；桌面版（既有 `index.html` + `/ja/<id>` + `/en/<id>`）设计规范见 [Design.md](./Design.md)。本文档描述全新的移动网站（`/m/ja/*` + `/m/en/*`，Direction C: Warm Editorial）。
+> ⚠️ **Status v1.2.0 (2026-05-05)**：本文档已**归档**。所述的 `/m/ja/*` + `/m/en/*` 路径在 v1.2.0 已**全部删除**，移动用户体验合并到主 URL `/<lang>/<id>`，靠 CSS `@media` 在不同 viewport 自适应。
+>
+> 本文件保留作为 **v1.1.0 历史记录 + Direction C 设计语言的设计规范来源** —— `index.html` / `scripts/build_occupations.py` 详情页模板 / 静态页的视觉 token 仍引用这里的色板、字号、间距规范（comments 中标注 "synced from styles/mobile-tokens.css"）。
+>
+> 单一 URL 架构下的设计规范现在归 [Design.md](./Design.md) 唯一管辖。
+
+> **Legacy Status**: v1.1.0 spec (2026-05-04). 本文档原描述独立的移动网站（`/m/ja/*` + `/m/en/*`，Direction C: Warm Editorial）。配套数据架构见 [DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md)。
 
 ---
 

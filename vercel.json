@@ -53,12 +53,6 @@
       ]
     },
     {
-      "source": "/m/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" }
-      ]
-    },
-    {
       "source": "/styles/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
@@ -79,16 +73,6 @@
       "source": "/data.json",
       "destination": "/data.treemap.json",
       "permanent": true
-    },
-    {
-      "source": "/m",
-      "destination": "/m/ja/",
-      "permanent": false
-    },
-    {
-      "source": "/m/",
-      "destination": "/m/ja/",
-      "permanent": false
     },
     {
       "source": "/occ/:id(\\d+)-:slug*",
