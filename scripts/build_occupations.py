@@ -890,7 +890,10 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
 
     if lang == "ja":
         # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
-        title = f"{name_ja} — AI 影響 {risk_str}｜mirai-shigoto.com"
+        # SEO intent-keyword expansion (Phase 4): adds 将来性 / 年収 / なるには long-tail
+        # so the page also matches "{職業名} 将来性", "{職業名} なるには", "{職業名} 年収"
+        # queries — the three highest-volume search intents around occupation pages.
+        title = f"{name_ja} — AI 影響 {risk_str}・将来性・年収・なるには｜未来の仕事"
         seo_desc = (
             f"{name_ja}：{_meta_workers} / {_meta_salary} "
             f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
@@ -937,7 +940,9 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         )
     else:
         # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
-        title = f"{(name_en or name_ja)} — AI Impact {risk_str}｜mirai-shigoto.com"
+        # SEO intent-keyword expansion (Phase 4): match "salary / outlook / career path"
+        # search intents alongside the AI-impact-anchor keyword.
+        title = f"{(name_en or name_ja)} — AI Impact {risk_str}: Outlook, Salary, Career Path | Mirai Shigoto"
         seo_desc = (
             f"{(name_en or name_ja)}: {_meta_workers} / {_meta_salary} "
             f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."

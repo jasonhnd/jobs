@@ -44,6 +44,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 4 — detail-page title intent-keyword expansion**
+  (`scripts/build_occupations.py`): old template was
+  `{name} — AI 影響 X/10｜mirai-shigoto.com`, only matching AI-impact intent.
+  New template adds the three highest-volume long-tail intents around an
+  occupation page:
+  - JA: `{name} — AI 影響 X/10・将来性・年収・なるには｜未来の仕事`
+  - EN: `{name} — AI Impact X/10: Outlook, Salary, Career Path | Mirai Shigoto`
+  Effect: a single page now competes for `{職業名} 将来性`, `{職業名} なるには`,
+  `{職業名} 年収` queries in addition to `{職業名} AI 影響`. Applied to all
+  1112 detail pages.
 
 ### Custom 404 page
 
