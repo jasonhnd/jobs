@@ -254,7 +254,12 @@
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
-      footer{margin-top:24px;padding:18px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+      footer{margin-top:24px;padding:22px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);text-align:center}
+      footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
+      footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+      footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
+      footer .footer-meta{color:var(--fg2);font-size:0.7rem;line-height:1.55;opacity:0.92}
+      footer .footer-meta a{color:var(--accent)}
       /* Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) */
       .follow-share-section{margin:48px auto 8px;text-align:center}
       .follow-block{margin-bottom:28px}
@@ -504,10 +509,15 @@
       </div>
 
       <footer>
-        <span>© <a href="/">mirai-shigoto.com</a> · MIT</span>
-        <span><a href="/about">データについて →</a> · <a href="/compliance">コンプライアンス</a> · <a href="/privacy">Privacy</a> · <a href="https://github.com/jasonhnd/jobs">GitHub</a></span>
-        <div class="attribution-line" style="grid-column:1/-1;font-size:0.7rem;color:var(--fg2);margin-top:8px;line-height:1.55">
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析・非公式。
+        <div class="footer-links">
+          <a href="/">トップ</a>
+          <a href="/about">データについて</a>
+          <a href="/compliance">コンプライアンス</a>
+          <a href="/privacy">プライバシー</a>
+        </div>
+        <div class="footer-meta">
+          © <a href="/">mirai-shigoto.com</a> · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br>
+          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析。
         </div>
       </footer>
     </div>

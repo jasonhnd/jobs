@@ -1373,6 +1373,8 @@
       }
       footer {
         margin-top: 22px;
+        padding-top: 22px;
+        border-top: 1px solid var(--border);
         font-size: 0.72rem;
         color: #555c69;
         text-align: center;
@@ -1384,6 +1386,32 @@
       footer a:hover {
         text-decoration: underline;
       }
+      footer .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      footer .footer-links a {
+        color: var(--fg2);
+        text-decoration: none;
+        padding: 5px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      footer .footer-links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.06);
+        text-decoration: none;
+      }
+      footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; }
+      footer .footer-meta a { color: var(--accent); }
       [data-i18n]:not(.active) {
         display: none;
       }
@@ -2125,7 +2153,6 @@
             <span data-i18n="en">Compliance</span>
           </a>
           <a href="/privacy">Privacy</a>
-          <a href="https://github.com/jasonhnd/jobs" rel="external">GitHub</a>
         </div>
       </div>
     </div>
@@ -2394,34 +2421,32 @@
       </div>
 
       <footer>
-        <span data-i18n="ja" class="active">
-          v0.5.0 ·
-          <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a> ·
-          <a href="/privacy">プライバシー</a> ·
-          <a href="/about">データについて</a> ·
-          <a href="/compliance">コンプライアンス</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
-          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
-            >変更履歴</a
-          ><br />
-          出典：厚生労働省・独立行政法人 労働政策研究・研修機構（JILPT）<br />
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">「職業情報データベース（job tag）」</a> v7.00（2026-05-03 ダウンロード）<em> を加工して作成</em><br />
-          <em>※ 本サイトは独自分析の非公式サイトであり、厚生労働省・job tag・JILPT の公式見解ではありません。詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-        </span>
-        <span data-i18n="en">
-          v0.5.0 ·
-          <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a> ·
-          <a href="/privacy?lang=en">Privacy</a> ·
-          <a href="/about?lang=en">About</a> ·
-          <a href="/compliance?lang=en">Compliance</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a> ·
-          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
-            >Changelog</a
-          ><br />
-          Source: Ministry of Health, Labour and Welfare (MHLW) and Japan Institute for Labour Policy and Training (JILPT)<br />
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">"Occupational Information Database (job tag)"</a> v7.00 (downloaded 2026-05-03)<em> — processed and visualized as derivative work.</em><br />
-          <em>※ This is an unofficial independent-analysis site; it does not represent the official views of MHLW, jobtag, or JILPT. See the <a href="/compliance?lang=en">Compliance</a> page for details.</em>
-        </span>
+        <div class="footer-links active" data-i18n="ja">
+          <a href="/about">データについて</a>
+          <a href="/compliance">コンプライアンス</a>
+          <a href="/privacy">プライバシー</a>
+          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md" rel="external">変更履歴</a>
+        </div>
+        <div class="footer-links" data-i18n="en">
+          <a href="/about?lang=en">About</a>
+          <a href="/compliance?lang=en">Compliance</a>
+          <a href="/privacy?lang=en">Privacy</a>
+          <a href="https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md" rel="external">Changelog</a>
+        </div>
+        <div class="footer-meta">
+          <span data-i18n="ja" class="active">
+            v0.5.0 · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br />
+            出典：厚生労働省・独立行政法人 労働政策研究・研修機構（JILPT）<br />
+            <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">「職業情報データベース（job tag）」</a> v7.00（2026-05-03 ダウンロード）<em> を加工して作成</em><br />
+            <em>※ 本サイトは独自分析サイトであり、厚生労働省・job tag・JILPT の公式見解ではありません。詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
+          </span>
+          <span data-i18n="en">
+            v0.5.0 · <a href="https://github.com/jasonhnd/jobs/blob/main/LICENSE">MIT</a><br />
+            Source: Ministry of Health, Labour and Welfare (MHLW) and Japan Institute for Labour Policy and Training (JILPT)<br />
+            <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">"Occupational Information Database (job tag)"</a> v7.00 (downloaded 2026-05-03)<em> — processed and visualized as derivative work.</em><br />
+            <em>※ This is an independent-analysis site; it does not represent the official views of MHLW, jobtag, or JILPT. See the <a href="/compliance?lang=en">Compliance</a> page for details.</em>
+          </span>
+        </div>
       </footer>
     </div>
 

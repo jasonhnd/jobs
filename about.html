@@ -352,13 +352,38 @@
 
       footer {
         margin-top: 48px;
-        padding-top: 18px;
+        padding-top: 22px;
         border-top: 1px solid var(--border);
         font-size: 0.8rem;
         color: var(--fg2);
         text-align: center;
       }
-      footer a { color: var(--accent); }
+      footer .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      footer .footer-links a {
+        color: var(--fg2);
+        text-decoration: none;
+        padding: 5px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      footer .footer-links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.06);
+        text-decoration: none;
+      }
+      footer .footer-meta { color: var(--fg2); font-size: 0.78rem; }
+      footer .footer-meta a { color: var(--accent); }
       [data-i18n]:not(.active) { display: none; }
 
       @media (max-width: 540px) {
@@ -613,19 +638,24 @@
       </div>
 
       <footer>
-        <span data-i18n="ja" class="active">
-          <a href="/">トップ</a> ·
-          <a href="/privacy">プライバシー</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a><br>
-          データ：
-          <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>
-        </span>
-        <span data-i18n="en">
-          <a href="/">Home</a> ·
-          <a href="/privacy?lang=en">Privacy</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a><br>
-          Data: <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a>
-        </span>
+        <div class="footer-links active" data-i18n="ja">
+          <a href="/">トップ</a>
+          <a href="/compliance">コンプライアンス</a>
+          <a href="/privacy">プライバシー</a>
+        </div>
+        <div class="footer-links" data-i18n="en">
+          <a href="/?lang=en">Home</a>
+          <a href="/compliance?lang=en">Compliance</a>
+          <a href="/privacy?lang=en">Privacy</a>
+        </div>
+        <div class="footer-meta">
+          <span data-i18n="ja" class="active">
+            データ：<a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>
+          </span>
+          <span data-i18n="en">
+            Data: <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a>
+          </span>
+        </div>
       </footer>
     </div>
 
