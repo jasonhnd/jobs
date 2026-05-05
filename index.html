@@ -408,6 +408,197 @@
          title fits on one line. */
       .ja-phrase-break { display: inline; }
       @media (min-width: 769px) { .ja-phrase-break { display: none; } }
+
+      /* ═══════════ v1.2.x mobile TOP 10 horizontal-swipe carousel ═══════════ */
+      /* Hidden on desktop (≥769px) — desktop keeps the 6 stat-cards block.
+         At ≤768px, swap: TOP 10 carousel replaces the stat panel block visually. */
+      .m-top10 { display: none; }
+      @media (max-width: 768px) {
+        .m-top10 {
+          display: block;
+          margin: 28px -20px 24px;  /* bleed to viewport edges so cards swipe past content padding */
+          padding: 0 20px;
+        }
+        /* Hide the desktop's 6 stat-card panel on mobile per Direction C
+           homepage design (carousel is the mobile feature surface). */
+        .stats-panel { display: none !important; }
+      }
+      .m-top10-head {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .m-top10-eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.74rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent-deep);
+        font-weight: 600;
+      }
+      .m-top10-eyebrow:not(.active) { display: none; }
+      .m-top10-title {
+        font-family: var(--font-serif);
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--fg);
+        margin: 0;
+        letter-spacing: -0.005em;
+      }
+      .m-top10-track {
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 20px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 6px 20px 8px;
+        margin: 0 -20px;
+      }
+      .m-top10-track::-webkit-scrollbar { display: none; }
+      .m-top10-card {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        flex: 0 0 86%;
+        max-width: 320px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--fg);
+        position: relative;
+        box-shadow: 0 1px 0 rgba(36,30,24,0.04), 0 8px 24px -12px rgba(36,30,24,0.10);
+      }
+      .m-top10-card:hover { text-decoration: none; }
+      .m-top10-card-rank {
+        position: absolute;
+        top: 14px; right: 14px;
+        background: var(--accent);
+        color: #fff;
+        padding: 2px 9px;
+        border-radius: 999px;
+        font-family: var(--font-sans);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+      }
+      .m-top10-card-head {
+        display: flex; flex-direction: column; gap: 4px;
+        padding-right: 38px;  /* leave room for the rank pill */
+      }
+      .m-top10-card-name {
+        font-family: var(--font-serif);
+        font-size: 1.18rem;
+        font-weight: 600;
+        line-height: 1.25;
+        color: var(--fg);
+      }
+      .m-top10-card-name-en {
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        color: var(--fg2);
+        font-weight: 500;
+      }
+      .m-top10-card-score {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .m-top10-card-score .num {
+        font-family: var(--font-serif);
+        font-size: 2.6rem;
+        font-weight: 600;
+        line-height: 1;
+        color: var(--accent);
+      }
+      .m-top10-card-score .denom {
+        font-family: var(--font-sans);
+        font-size: 0.84rem;
+        color: var(--fg2);
+      }
+      .m-top10-card-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-family: var(--font-sans);
+        font-size: 0.74rem;
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .m-top10-card-tag::before {
+        content: "▲";
+        font-size: 0.66em;
+      }
+      .m-top10-card-rationale {
+        font-size: 0.84rem;
+        line-height: 1.5;
+        color: var(--fg2);
+        margin: 0;
+        /* clamp to 2 lines */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .m-top10-card-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: auto;
+      }
+      .m-top10-card-stat {
+        background: var(--bg3);
+        border-radius: 10px;
+        padding: 8px 10px;
+        display: flex; flex-direction: column; gap: 2px;
+      }
+      .m-top10-card-stat .v {
+        font-family: var(--font-serif);
+        font-size: 1.08rem;
+        font-weight: 600;
+        color: var(--fg);
+      }
+      .m-top10-card-stat .l {
+        font-family: var(--font-sans);
+        font-size: 0.66rem;
+        color: var(--fg2);
+        letter-spacing: 0.04em;
+      }
+      .m-top10-progress {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .m-top10-bar {
+        flex: 1;
+        height: 3px;
+        background: rgba(36,30,24,0.10);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .m-top10-bar-fill {
+        display: block;
+        height: 100%;
+        width: 10%;
+        background: var(--accent);
+        border-radius: 999px;
+        transition: width 200ms ease;
+      }
+      .m-top10-counter {
+        font-family: var(--font-sans);
+        font-size: 0.74rem;
+        color: var(--fg2);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.04em;
+      }
       /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM
          for future dark-variant work; restore by removing this rule. */
       .theme-toggle { display: none !important; }
@@ -1802,6 +1993,23 @@
             <button type="button" data-chip="看護師" role="listitem"><span data-i18n="ja" class="active">看護師</span><span data-i18n="en">Nurse</span></button>
           </div>
         </div>
+        <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations.
+             Visible only at ≤768px (matches .mobile-hero breakpoint). Cards built client-side
+             from `data` array sorted by ai_risk desc after fetch resolves. -->
+        <section class="m-top10" id="mTop10" aria-label="AI に変わる仕事 TOP 10" hidden>
+          <header class="m-top10-head">
+            <span class="m-top10-eyebrow" data-i18n="ja">AI に変わる仕事</span>
+            <span class="m-top10-eyebrow" data-i18n="en">Most AI-impacted jobs</span>
+            <h2 class="m-top10-title">TOP 10</h2>
+          </header>
+          <div class="m-top10-track" id="mTop10Track" role="list">
+            <!-- cards injected by renderMobileTop10() -->
+          </div>
+          <div class="m-top10-progress" aria-hidden="true">
+            <div class="m-top10-bar"><span class="m-top10-bar-fill" id="mTop10Fill"></span></div>
+            <span class="m-top10-counter"><span id="mTop10Idx">1</span> / 10</span>
+          </div>
+        </section>
 
         <div class="controls">
           <label data-i18n="ja" class="active">色：</label>
@@ -2116,7 +2324,7 @@
           const overridePh = el.getAttribute(`data-i18n-${next}-placeholder`);
           el.placeholder = overridePh || I18N.searchPlaceholder[next];
         });
-        if (data.length) { updateStats(); drawGradientLegend(); draw(); }
+        if (data.length) { updateStats(); drawGradientLegend(); draw(); renderMobileTop10(); }
       }
       document.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => {
         const from = lang;
@@ -3312,6 +3520,93 @@
         `;
       }
 
+      // v1.2.x: render mobile-only TOP 10 horizontal-swipe carousel.
+      // Pulls top-10 by ai_risk desc from the loaded `data` array (treemap projection).
+      // Visible only at ≤768px (CSS media query). Lang-aware — re-renders on setLang.
+      function renderMobileTop10() {
+        const track = document.getElementById("mTop10Track");
+        const section = document.getElementById("mTop10");
+        if (!track || !section || !data.length) return;
+        const top10 = [...data]
+          .filter(d => d.ai_risk != null)
+          .sort((a, b) => b.ai_risk - a.ai_risk)
+          .slice(0, 10);
+        if (top10.length === 0) return;
+        const tagJa = "大きく変わる仕事";
+        const tagEn = "Job that will transform";
+        const workersLabelJa = "就業者";
+        const workersLabelEn = "Workforce";
+        const salaryLabelJa = "年収";
+        const salaryLabelEn = "Salary";
+        const fmtMan = n => {
+          if (n == null) return "—";
+          if (n >= 10000) return (n / 10000).toFixed(0) + "万";
+          if (n >= 1000)  return (n / 1000).toFixed(1) + "千";
+          return String(n);
+        };
+        const fmtSalary = (manYen, lang) => {
+          if (manYen == null) return "—";
+          return lang === "en"
+            ? "¥" + (manYen / 100).toFixed(2) + "M"
+            : (Math.round(manYen) + "万円");
+        };
+        track.innerHTML = top10.map((rec, i) => {
+          const rank = i + 1;
+          const nameJa = rec.name_ja || "";
+          const nameEn = rec.name_en || "";
+          const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
+          const sub = lang === "en" ? nameJa : nameEn;
+          const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
+          const rationaleRaw = lang === "en"
+            ? (rec.ai_rationale_en || rec.ai_rationale_ja || "")
+            : (rec.ai_rationale_ja || rec.ai_rationale_en || "");
+          const tag = lang === "en" ? tagEn : tagJa;
+          const wLabel = lang === "en" ? workersLabelEn : workersLabelJa;
+          const sLabel = lang === "en" ? salaryLabelEn : salaryLabelJa;
+          const wValue = (rec.workers != null) ? (lang === "en" ? Number(rec.workers).toLocaleString() : (fmtMan(rec.workers) + "人")) : "—";
+          const sValue = fmtSalary(rec.salary, lang);
+          const href = (lang === "en" ? "/en/" : "/ja/") + Number(rec.id);
+          return (
+            '<a class="m-top10-card" role="listitem" href="' + href + '">' +
+              '<span class="m-top10-card-rank">' + rank + (lang === "en" ? "" : " 位") + '</span>' +
+              '<div class="m-top10-card-head">' +
+                '<span class="m-top10-card-name">' + escapeHtml(display) + '</span>' +
+                (sub ? '<span class="m-top10-card-name-en">' + escapeHtml(sub) + '</span>' : "") +
+              '</div>' +
+              '<div class="m-top10-card-score">' +
+                '<span class="num">' + score + '</span>' +
+                '<span class="denom">/ 10</span>' +
+                '<span class="m-top10-card-tag">' + escapeHtml(tag) + '</span>' +
+              '</div>' +
+              '<p class="m-top10-card-rationale">' + escapeHtml(rationaleRaw) + '</p>' +
+              '<div class="m-top10-card-stats">' +
+                '<div class="m-top10-card-stat"><span class="v">' + wValue + '</span><span class="l">' + wLabel + '</span></div>' +
+                '<div class="m-top10-card-stat"><span class="v">' + sValue + '</span><span class="l">' + sLabel + '</span></div>' +
+              '</div>' +
+            '</a>'
+          );
+        }).join("");
+        section.hidden = false;
+
+        // Wire scroll → progress bar + counter update.
+        const fill = document.getElementById("mTop10Fill");
+        const counter = document.getElementById("mTop10Idx");
+        if (fill && counter) {
+          let scrollTimer = null;
+          track.addEventListener("scroll", () => {
+            if (scrollTimer) clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => {
+              const cards = track.querySelectorAll(".m-top10-card");
+              if (!cards.length) return;
+              const cardWidth = cards[0].offsetWidth + 14; /* gap */
+              const idx = Math.min(top10.length - 1, Math.max(0, Math.round(track.scrollLeft / cardWidth)));
+              counter.textContent = String(idx + 1);
+              fill.style.width = ((idx + 1) / top10.length * 100) + "%";
+            }, 60);
+          }, { passive: true });
+        }
+      }
+
       fetch("data.treemap.json", { credentials: "omit" })
         .then(r => {
           if (!r.ok) throw new Error("HTTP " + r.status);
@@ -3347,6 +3642,7 @@
           updateDimensionHint();
           drawGradientLegend();
           resize();
+          renderMobileTop10();   // v1.2.x: TOP 10 carousel (mobile only via CSS @media)
           // Apply hash deep-link if present
           if (location.hash) setTimeout(applyHash, 50);
           // GA4 map_loaded — typed signal that initial render finished. Lets
