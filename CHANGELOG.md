@@ -37,6 +37,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   `.sector_manifest.json` and re-injects sector URLs whenever it runs, so the
   sector entries survive any future occupation rebuild.
 
+### Custom 404 page
+
+- **`/404.html`** — new static error page at root. Vercel auto-serves this with
+  HTTP 404 for any unmatched route; previously unmatched paths fell through to
+  Vercel's default white page. Direction C tokens (sage / terracotta / warm
+  cream serif), oversized "404" with rotated italic accent on the middle "0",
+  primary CTA back to home, 4 secondary links (About / Compliance / Privacy /
+  GitHub Issues), bilingual ja/en (default ja, `?lang=en` switches), full
+  4-tracker analytics block per `feedback_analytics_consistency.md`,
+  `noindex, follow` meta. Fires a `page_not_found` GA4 event with the
+  attempted path + referrer so we can spot dead inbound links. **Deliberately
+  omits the global "non-official" top banner** (Design.md §7.1) — a 404 is a
+  navigation dead-end, not branded content; the banner's red-tone block fights
+  the oversized "404" for visual primacy and the disclaimer is irrelevant
+  context for someone who just hit a broken URL.
+- **`docs/Design.md` §7.14** — new component spec for the 404 page (layout,
+  tokens, copy, SEO meta). Scope list in §0 updated to include `404.html`.
+- **`scripts/dev-server.py`** — mirrors Vercel: any path that resolves to a
+  non-existent file (after the existing cleanUrl rewrites) now serves
+  `404.html` with HTTP 404 instead of the SimpleHTTPServer plain-text default.
+
 ---
 
 ## [1.2.0] - 2026-05-05
