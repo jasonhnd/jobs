@@ -53,6 +53,26 @@
       ]
     },
     {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=600" },
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" }
+      ]
+    },
+    {
+      "source": "/llms(-full)?\\.txt",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" },
+        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+      ]
+    },
+    {
       "source": "/styles/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
