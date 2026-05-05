@@ -917,12 +917,14 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         st_hours_unit = " 時間/月"
         st_recruit = "求人倍率"
         st_hourly = "時給"
-        ctx_h2 = "この職業について"
+        # Phase 7: H2 headings now embed occupation name to match the highest-volume
+        # long-tail intents — "{name} とは", "{name} になるには", "{name} 労働条件".
+        ctx_h2 = f"{name_ja}とは"
         # Prefer long-form what_it_is when available; fall back to summary, then rationale.
         ctx_p = long_what_ja or desc_ja or rationale_ja
-        how_h2 = "なるには（経路・資格）"
+        how_h2 = f"{name_ja}になるには・必要な資格"
         how_p = long_how_ja
-        cond_h2 = "労働条件・働き方"
+        cond_h2 = f"{name_ja}の労働条件・働き方"
         cond_p = long_cond_ja
         src_h2 = "出典 / 関連リンク"
         src_mhlw_label = f"厚生労働省 job tag — {name_ja}（公式）"
@@ -966,12 +968,15 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         st_hours_unit = " h/mo"
         st_recruit = "Recruit ratio"
         st_hourly = "Hourly wage"
-        ctx_h2 = "About this occupation"
+        # Phase 7: H2 headings embed occupation name to match the highest-volume
+        # long-tail intents — "what is a {name}", "how to become a {name}".
+        _name = name_en or name_ja
+        ctx_h2 = f"What is a {_name}?"
         # Prefer long-form what_it_is when available; fall back to summary, then rationale.
         ctx_p = long_what_en or desc_en or rationale_en
-        how_h2 = "How to enter the field"
+        how_h2 = f"How to become a {_name}"
         how_p = long_how_en
-        cond_h2 = "Working conditions"
+        cond_h2 = f"Working conditions for {_name}"
         cond_p = long_cond_en
         src_h2 = "Sources / Related"
         src_mhlw_label = f"MHLW jobtag — {(name_en or name_ja)} (official source)"
