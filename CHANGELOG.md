@@ -10,7 +10,31 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
-(empty — new work lands here)
+### Convergence to single-URL responsive architecture
+
+- **Direction C visual + voice converged to PC** (commits `7f8ce55` → `3da1729`):
+  warm-cream palette, Noto Serif JP headings, italic terracotta accent,
+  hero copy rewritten as emotional vision ("AIの時代でも、あなたらしい働き方を。"),
+  CTA softened, theme toggle hidden (single theme).
+- **Detail-page strict per-language separation** (`d33eda4`): each `/<lang>/<id>`
+  page renders ONLY its language; no cross-language bleed in H1, breadcrumb,
+  page title, JSON-LD.
+- **OG card regenerated** in Direction C (`d33eda4` → `og.png`).
+- **Lang-switch button uses relative href** (`351a9a2`): preview / staging
+  domains stay within their environment instead of jumping to production.
+- **Schema-1.1 rich data integrated into PC detail page** (`58349ee`):
+  5-axis radar (340x340 desktop, 280x280 mobile), top-10 skills + top-5
+  knowledge + top-5 abilities, transfer-paths career suggestions (replaces
+  legacy "same risk-band 5"), sector chip + risk/workforce/demand bands,
+  related orgs + certs, AI model + scored_at + IPD provenance footnote.
+  JSON-LD enriched with alternateName / industry / occupationalCategory /
+  skills / qualifications.
+- **`/m/` pipeline removed**: 1127 mobile HTML files + mobile templates +
+  mobile build scripts + mobile-only CSS deleted. `vercel.json` `/m/*`
+  redirects removed. `MOBILE_DESIGN.md` archived (preserved as Direction C
+  token reference). Single URL `/<lang>/<id>` now serves all viewports
+  via CSS `@media` adaptation. No 301 redirects added — `/m/` was only
+  one day live with no SEO assets to preserve.
 
 ---
 
@@ -18,7 +42,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 Mobile-web pivot · 8 dedicated `/m/{ja,en}/*` screens · sector taxonomy subsystem · multi-axis bands · 5次元 profile · transfer-paths recommendations · bilingual (JA + EN).
 
-- **Mobile-web v1.1.0 — Direction C: Warm Editorial** — 8 dedicated mobile screens at `/m/{ja,en}/`: ① ホーム / ② 職業マップ / ③ 検索結果 / ④⑤ 詳細 (× 1112 mobile detail pages, canonical → desktop) / ⑥ 比較 / ⑦ ランキング / ⑩ About. Sage green + テラコッタ橙 + 暖米底, Noto Serif JP + Plus Jakarta Sans + JetBrains Mono. 8 screens × 2 languages = 16 entry pages + 1112 detail HTML.
+- **Mobile-web v1.1.0 — Direction C: Warm Editorial** — 6 unique static screens + 1 detail-page family at `/m/{ja,en}/`: ① ホーム (`index`) / ② 職業マップ (`map`) / ③ 検索結果 (`search`) / ④⑤ 詳細 (`<id>`, 556 occupations × 2 langs = 1,112 detail HTML, canonical → desktop) / ⑥ 比較 (`compare`) / ⑦ ランキング (`ranking`) / ⑩ About (`about`). Numbering ① through ⑩ corresponds to the user-flow screen IDs in MOBILE_DESIGN.md (⑧⑨ reserved for future); on disk that's 6 unique static templates. Sage green + テラコッタ橙 + 暖米底, Noto Serif JP + Plus Jakarta Sans + JetBrains Mono. 6 static × 2 langs = 12 entry pages + 1,112 detail HTML = 1,124 mobile pages total.
 - **Sector taxonomy subsystem (§6.11 + D-014)** — 16 consumer-friendly sectors (`data/sectors/sectors.ja-en.json`) with MHLW seed_codes + manual override file (`data/sectors/overrides.json`). 100% auto-derivation: 556/556 occupations classified with 3 manual overrides, 0 uncategorized, 0 ambiguous. Distribution range 14-63 occupations per sector. New projection `data.sectors.json` (~3 KB gz) + ops `data.review_queue.json`.
 - **Multi-axis bands** (`scripts/lib/bands.py`) — `risk_band` (low/mid/high), `workforce_band` (small/mid/large), `demand_band` (cold/normal/hot) attached to every record in treemap / search / detail projections. Single-source thresholds shared by all 3 projections.
 - **5次元 profile projection** (`data.profile5.json`, ~8 KB gz) — derives 創造性 / 対人 / 判断 / 体力 / 反復性 from existing IPD work_characteristics + skills + abilities + work_activities. 0-100 scale. Renders as 5-axis radar SVG on detail pages.

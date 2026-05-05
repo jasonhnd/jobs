@@ -4,7 +4,8 @@
 > 今后任何桌面侧视觉/交互/响应式行为变更，**先改这个文件**，再让代码跟随这个文件。
 > 代码与本文件冲突时，**以本文件为准**，代码视为应当被修正的偏差。
 >
-> **移动版（v1.1.0+ 起）的设计规范在 [MOBILE_DESIGN.md](./MOBILE_DESIGN.md)**。本文件不覆盖 `/m/ja/*` + `/m/en/*` 这一系列移动版页面。两个文档的关系详见 §0.1。
+> **v1.2.0 起单一 URL 架构**：v1.1.0 引入的 `/m/ja/*` + `/m/en/*` 已全部删除，移动体验合并到主 URL `/<lang>/<id>`，靠 CSS `@media` 自适应。Direction C 设计语言已合入桌面（视觉 + 文案），详见 §0.1。
+> [MOBILE_DESIGN.md](./MOBILE_DESIGN.md) 保留作为 **v1.1.0 历史 + Direction C token 来源**（index.html / 详情页 CSS comments 引用 `synced from styles/mobile-tokens.css`）。
 
 ---
 
