@@ -44,6 +44,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 6 — Vercel cache headers for SEO assets** (`vercel.json`):
+  added `Cache-Control` for `/sitemap.xml` (`max-age=300, s-maxage=600` — 5 min
+  browser, 10 min CDN), `/robots.txt` (10 min / 1 hr), and `/llms.txt` /
+  `/llms-full.txt` (10 min / 1 hr) plus explicit `Content-Type` for sitemap
+  and llms-txt. Previously sitemap relied on default 1-hour CDN TTL — slow
+  feedback loop after content changes. Now changes are visible to crawlers
+  within 10 minutes of deploy.
 - **Phase 5 — sectors index page (hub-of-hubs)** — new `/ja/sectors` and
   `/en/sectors` listing all 16 sectors as cards (name + count + mean AI risk
   + total workforce + 3 sample titles), each linking into its dedicated
