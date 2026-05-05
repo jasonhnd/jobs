@@ -17,6 +17,9 @@
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
     <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
     <!-- Open Graph (social sharing of /about) -->
@@ -91,47 +94,43 @@
 
     <style>
       *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      /* Direction C: Warm Editorial — synced from styles/mobile-tokens.css. v1.2.0 PC convergence. */
       :root {
-        --bg: #0b0d10;
-        --bg2: #14171c;
-        --fg: #e9eef5;
-        --fg2: #8a93a3;
-        --accent: #ffb84d;
-        --border: rgba(255, 255, 255, 0.08);
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
+        --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+        --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       }
       @media (prefers-color-scheme: light) {
         :root:not([data-theme="dark"]) {
-          --bg: #fafafa;
-          --bg2: #ffffff;
-          --fg: #0f1217;
-          --fg2: #5a6470;
-          --accent: #d97706;
-          --border: rgba(0, 0, 0, 0.10);
+          --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+          --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+          --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+          --border: rgba(36, 30, 24, 0.10);
         }
       }
-      :root[data-theme="light"] {
-        --bg: #fafafa;
-        --bg2: #ffffff;
-        --fg: #0f1217;
-        --fg2: #5a6470;
-        --accent: #d97706;
-        --border: rgba(0, 0, 0, 0.10);
-      }
-      :root[data-theme="dark"] {
-        --bg: #0b0d10;
-        --bg2: #14171c;
-        --fg: #e9eef5;
-        --fg2: #8a93a3;
-        --accent: #ffb84d;
-        --border: rgba(255, 255, 255, 0.08);
+      :root[data-theme="light"], :root[data-theme="dark"] {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
       }
       html, body {
         background: var(--bg);
         color: var(--fg);
-        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+        font-family: var(--font-sans);
         -webkit-font-smoothing: antialiased;
         line-height: 1.75;
       }
+      h1, h2, h3 {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        letter-spacing: -0.005em;
+      }
+      h1 .accent, h2 .accent { color: var(--accent); font-style: italic; }
+      .theme-toggle { display: none !important; }
       /* Top "non-official" banner — same look as index.html §7.1 */
       .top-banner {
         background: linear-gradient(90deg, rgba(255,80,80,0.18), rgba(255,138,61,0.14));
