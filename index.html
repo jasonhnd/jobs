@@ -1184,7 +1184,7 @@
       }
       .search-suggest li:last-child { border-bottom: none; }
       .search-suggest li:hover,
-      .search-suggest li.focused { background: rgba(255, 184, 77, 0.10); }
+      .search-suggest li.focused { background: rgba(217, 107, 61, 0.10); }
       .search-suggest .ss-name { color: var(--fg); }
       .search-suggest .ss-risk {
         color: var(--fg2);
@@ -1786,6 +1786,7 @@
                    data-i18n-en-placeholder="Search occupations (e.g. clerk)"
                    placeholder="職業名で検索（例：事務職）"
                    aria-label="Search occupations" />
+            <ul class="search-suggest" id="searchSuggestMobile" role="listbox" aria-label="Search suggestions"></ul>
           </div>
           <div class="mobile-hero-chips" role="list">
             <button type="button" data-chip="事務職" role="listitem"><span data-i18n="ja" class="active">事務職</span><span data-i18n="en">Clerical</span></button>
@@ -2993,92 +2994,98 @@
         });
       }
 
-      // Live autocomplete dropdown — top 8 matches as user types in the desktop hero.
-      const suggestEl = document.getElementById("searchSuggest");
-      const suggestInput = document.getElementById("searchInputDesktop");
-      let suggestFocused = -1;
-      function renderSuggest(q) {
-        if (!suggestEl) return;
-        const matches = rankMatches(q, 8);
-        if (matches.length === 0) {
-          suggestEl.classList.remove("visible");
-          suggestEl.innerHTML = "";
-          suggestFocused = -1;
-          return;
+      // Live autocomplete dropdown — top 8 matches as user types.
+      // v1.2.0: wired to BOTH desktop hero (#searchInputDesktop / #searchSuggest)
+      // AND mobile hero (#searchInputMobile / #searchSuggestMobile) so mobile
+      // users get the same suggest experience.
+      function attachSuggest(inputId, suggestId, parentSelector) {
+        const inputEl = document.getElementById(inputId);
+        const suggestEl = document.getElementById(suggestId);
+        if (!inputEl || !suggestEl) return;
+        let focusedIdx = -1;
+
+        function render(q) {
+          const matches = rankMatches(q, 8);
+          if (matches.length === 0) {
+            suggestEl.classList.remove("visible");
+            suggestEl.innerHTML = "";
+            focusedIdx = -1;
+            return;
+          }
+          suggestEl.innerHTML = matches.map((rec, i) => {
+            const nameJa = rec.name_ja || "";
+            const nameEn = rec.name_en || "";
+            const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
+            const risk = rec.ai_risk != null ? rec.ai_risk : 0;
+            const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
+            const riskLabel = lang === "en" ? ("AI risk " + risk + "/10") : ("AI 影響度 " + risk + "/10");
+            return '<li role="option" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
+              '<span class="ss-name">' + escapeHtml(display) + '</span>' +
+              '<span class="ss-risk ' + tier + '">' + escapeHtml(riskLabel) + '</span>' +
+              '</li>';
+          }).join("");
+          suggestEl.classList.add("visible");
+          focusedIdx = -1;
         }
-        suggestEl.innerHTML = matches.map((rec, i) => {
-          const nameJa = rec.name_ja || "";
-          const nameEn = rec.name_en || "";
-          const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
-          const risk = rec.ai_risk != null ? rec.ai_risk : 0;
-          const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
-          const riskLabel = lang === "en" ? ("AI risk " + risk + "/10") : ("AI 影響度 " + risk + "/10");
-          // All interpolated values escape — `display` flows from data.json
-          // and could in principle carry HTML if the upstream LLM rationale
-          // generation ever leaks markup into a name field.
-          return '<li role="option" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
-            '<span class="ss-name">' + escapeHtml(display) + '</span>' +
-            '<span class="ss-risk ' + tier + '">' + escapeHtml(riskLabel) + '</span>' +
-            '</li>';
-        }).join("");
-        suggestEl.classList.add("visible");
-        suggestFocused = -1;
-      }
-      if (suggestInput) {
-        suggestInput.addEventListener("input", () => {
-          renderSuggest(suggestInput.value);
+
+        inputEl.addEventListener("input", () => {
+          render(inputEl.value);
           const nr = document.getElementById("searchNoResult");
           if (nr) nr.classList.remove("visible");
         });
-        suggestInput.addEventListener("focus", () => {
-          if (suggestInput.value.trim()) renderSuggest(suggestInput.value);
+        inputEl.addEventListener("focus", () => {
+          if (inputEl.value.trim()) render(inputEl.value);
         });
-        suggestInput.addEventListener("blur", () => {
-          // Delay so click-on-item still registers as a click, not a blur-then-no-target.
-          setTimeout(() => { if (suggestEl) suggestEl.classList.remove("visible"); }, 150);
+        inputEl.addEventListener("blur", () => {
+          // Delay so click/touch-on-item registers before blur hides the list.
+          setTimeout(() => { suggestEl.classList.remove("visible"); }, 150);
         });
-        suggestInput.addEventListener("keydown", (e) => {
-          if (!suggestEl || !suggestEl.classList.contains("visible")) return;
+        inputEl.addEventListener("keydown", (e) => {
+          if (!suggestEl.classList.contains("visible")) return;
           const items = suggestEl.querySelectorAll("li");
           if (!items.length) return;
           if (e.key === "ArrowDown") {
             e.preventDefault();
-            suggestFocused = (suggestFocused + 1) % items.length;
-            items.forEach((el, i) => el.classList.toggle("focused", i === suggestFocused));
-            items[suggestFocused].scrollIntoView({ block: "nearest" });
+            focusedIdx = (focusedIdx + 1) % items.length;
+            items.forEach((el, i) => el.classList.toggle("focused", i === focusedIdx));
+            items[focusedIdx].scrollIntoView({ block: "nearest" });
           } else if (e.key === "ArrowUp") {
             e.preventDefault();
-            suggestFocused = suggestFocused <= 0 ? items.length - 1 : suggestFocused - 1;
-            items.forEach((el, i) => el.classList.toggle("focused", i === suggestFocused));
-            items[suggestFocused].scrollIntoView({ block: "nearest" });
-          } else if (e.key === "Enter" && suggestFocused >= 0) {
+            focusedIdx = focusedIdx <= 0 ? items.length - 1 : focusedIdx - 1;
+            items.forEach((el, i) => el.classList.toggle("focused", i === focusedIdx));
+            items[focusedIdx].scrollIntoView({ block: "nearest" });
+          } else if (e.key === "Enter" && focusedIdx >= 0) {
             e.preventDefault();
-            const id = parseInt(items[suggestFocused].dataset.jobId, 10);
+            const id = parseInt(items[focusedIdx].dataset.jobId, 10);
             const rec = data.find(d => d.id === id);
             if (rec) navigateToJob(rec, "suggest_keyboard");
           } else if (e.key === "Escape") {
             suggestEl.classList.remove("visible");
-            suggestFocused = -1;
+            focusedIdx = -1;
           }
         });
-      }
-      if (suggestEl) {
-        suggestEl.addEventListener("mousedown", (e) => {
-          // mousedown (not click) so the input's blur handler doesn't hide us first.
+
+        // mousedown (not click) so input's blur handler doesn't hide us first.
+        // Also handle touchstart so iOS/Android tap on suggest item registers.
+        const selectFromEvent = (e) => {
           const li = e.target.closest("li");
           if (!li) return;
           e.preventDefault();
           const id = parseInt(li.dataset.jobId, 10);
           const rec = data.find(d => d.id === id);
           if (rec) navigateToJob(rec, "suggest_click");
+        };
+        suggestEl.addEventListener("mousedown", selectFromEvent);
+        suggestEl.addEventListener("touchstart", selectFromEvent, { passive: false });
+
+        // Click outside the hero-search container closes the dropdown.
+        document.addEventListener("click", (e) => {
+          const inside = e.target.closest(parentSelector);
+          if (!inside) suggestEl.classList.remove("visible");
         });
       }
-      // Click outside hero-search closes dropdown
-      document.addEventListener("click", (e) => {
-        if (!suggestEl) return;
-        const inside = e.target.closest(".desktop-hero-search");
-        if (!inside) suggestEl.classList.remove("visible");
-      });
+      attachSuggest("searchInputDesktop", "searchSuggest",       ".desktop-hero-search");
+      attachSuggest("searchInputMobile",  "searchSuggestMobile", ".mobile-hero-search");
 
       // ---- Pointer/Touch handling for mobile vs desktop ----
       // Touch state machine — Design.md §6.7. Distinguishes scroll-intent vs tap-intent
