@@ -8,6 +8,7 @@
     <title>貴金属装身具製作 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="貴金属装身具製作：就業者 約71,828人 / 平均年収 412万円 / 平均年齢 42.9 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="貴金属装身具製作, 貝細工工, 貴金属細工工, 甲細工工, 真珠加工工, 水晶研磨工, 宝石細工工, 貴金属装身具製造工, 貴金属彫刻工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/292" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/292" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "292",
+      "occupationalCategory": "12_073-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/292",
       "additionalProperty": [
         {
@@ -122,7 +123,34 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Jewelry Craftsman",
+      "alternateName": [
+        "Jewelry Craftsman",
+        "貝細工工",
+        "貴金属細工工",
+        "甲細工工",
+        "真珠加工工",
+        "水晶研磨工",
+        "宝石細工工",
+        "貴金属装身具製造工",
+        "貴金属彫刻工"
+      ],
+      "industry": "Manufacturing & Craft",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Writing",
+        "Quality Control Analysis",
+        "Monitoring",
+        "Equipment Selection",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Active Learning",
+        "Negotiation"
+      ],
+      "qualifications": [
+        "１級貴金属装身具製作技能士",
+        "２級貴金属装身具製作技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +234,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +290,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +385,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +407,41 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>金やプラチナなどの素材を使い、ダイヤモンドやルビー等の宝石類をあしらって美しい宝飾品（ジュエリー）を作り上げる。</p>
+        <p>金やプラチナなどの素材を使い、ダイヤモンドやルビー等の宝石類をあしらって美しい宝飾品（ジュエリー）を作り上げる。「クラフトマン」や錺（かざり）職人とも呼ばれる。</p>
+        <p>金やプラチナなどの合金地金を作ることから始まって、鍛金（たんきん）、やすりがけ、糸のこ作業、へらがけ、ろう付け、彫金、研磨、石留めなど様々な技術を使って、宝飾品を作り上げる。鋳造技術、プレス加工、自動編み機、カット技術などを用いて機械を使う場合もある。</p>
+        <p>また、鎖を編んだり、貴金属や宝石のカットは機械を使って行う場合でも、原型づくりやろう付け、細工、仕上げ磨きなどは手作業となる。</p>
+        <p>貴金属の素材は他の金属と異なり、ねばりがあって融点が比較的高いという特性をもっているので、加工が難しい。高価な素材を使い、創作性の高い製品を作り上げる仕事であり、高度な技術や経験が求められる。現在は商品の種類もデザインも極めて多様化し、商品ごとに専門化してきている。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>工具（手動工具、電動工具</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/290">かばん・袋物製造</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/289">靴製造</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/287">建具製造</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/291">漆器製造</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/295">医薬品製造</a><span class="r-risk">AI 影響 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。</p>
+        <p>新規学卒者の場合、デザインや彫金関係の専門学校卒業生等が多い。他の職業からの転職者もいる。</p>
+        <p>関連資格として、厚生労働省が定める技能検定の「貴金属装身具製作技能士」があり、資格を取得すると技能の証明として評価される。</p>
+        <p>感性を養い、技術・知識を習得して一人前になるには、先輩を見習いながら少なくとも３年ほどの修業が必要といわれている。</p>
+        <p>ものづくりに興味があり、細かい仕事なので手先が器用で仕事が丁寧な人、美的センスや創作能力のある人が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>事業所は東京、山梨の２県で４割以上を占める。事業所の規模は従業員５人以下の家内工業的なところが７割を占める。男女比は男性が6割、女性が4割程度である（2021年時点*）。</p>
+        <p>職人的な技能が求められるため、いったんこの業界に入ると、職場は変わっても業界からは離れない傾向がある。経験を積んで独立する場合もある。また、熟年技能者の高齢化が進んでいる。</p>
+        <p>雇用形態、賃金、労働時間等の労働条件は、職場によって異なり社内規定による。</p>
+        <p>宝飾品の需要は景気動向により変動し、また海外製品の流入もあるが、インバウンド消費の伸びなどにより日本製品が見直される動きもある。デザインや加工技術の高度化に伴い、ジュエリー製作マニュアルの整備、技術用語の統一など、業界全体としてジュエリー製作の技術向上に努めている。</p>
+        <p>*総務省2021経済センサスから</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,91.6 237.1,148.2 213.2,229.5 130.8,224.0 107.7,149.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>60</dd><dt>対人</dt><dd>54</dd><dt>判断</dt><dd>56</dd><dt>身体</dt><dd>51</dd><dt>定型</dt><dd>50</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">3.9</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.7</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">3.4</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.3</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">3.3</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.2</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.8</span></li><li><span class="topn-name">芸術</span><span class="topn-score">1.7</span></li><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">1.7</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">1.5</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">1.3</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">指先の器用さ</span><span class="topn-score">3.5</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">3.3</span></li><li><span class="topn-name">独創性</span><span class="topn-score">3.1</span></li><li><span class="topn-name">腕と手の安定</span><span class="topn-score">3.0</span></li><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/17"><span class="tc-name">陶磁器製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/3"><span class="tc-name">洋菓子製造、パティシエ</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/10"><span class="tc-name">みそ製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://jja.ne.jp/" rel="external" target="_blank">一般社団法人 日本ジュエリー協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>１級貴金属装身具製作技能士</li><li>２級貴金属装身具製作技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +450,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

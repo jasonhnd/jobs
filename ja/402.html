@@ -8,6 +8,7 @@
     <title>外科医 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="外科医：就業者 約43,380人 / 平均年収 1338万円 / 平均年齢 44.1 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="外科医, 医師" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/402" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/402" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "402",
+      "occupationalCategory": "04_021-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/402",
       "additionalProperty": [
         {
@@ -122,7 +123,26 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Surgeon",
+      "alternateName": [
+        "Surgeon",
+        "医師"
+      ],
+      "industry": "Medical & Health",
+      "skills": [
+        "Reading Comprehension",
+        "Speaking",
+        "Active Listening",
+        "Active Learning",
+        "Writing",
+        "Social Perceptiveness",
+        "Critical Thinking",
+        "Monitoring",
+        "Instructing",
+        "Complex Problem Solving"
+      ],
+      "qualifications": [
+        "医師"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +226,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +282,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +377,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=iryo">医療・保健</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -309,18 +400,40 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>主に手術等により、患者の病気や外傷の治療を行う。</p>
+        <p>外科医の中でも脳神経外科、心臓血管外科、消化器外科、整形外科等様々に分かれておりそれぞれの専門に応じた知識、技術が求められるが、ここでは共通した主な仕事の内容について記述する。</p>
+        <p>まず、患者や家族からの症状やけがの状況の聞き取り、各種検査等（X線やCT、MRIなどの画像診断や血液検査など）の結果から総合的に判断して傷病名を診断する。その上で、どのような治療を行うか、手術を適用するか否かを検討する。患者が手術に耐えられる状態かどうかも吟味する。手術計画を立て、患者と家族に内容を正確、丁寧に説明するのも重要な仕事である。</p>
+        <p>業務は患部の洗浄、切開、縫合などの簡易な処置から、複数の医師や看護師と協力して数時間かけて行う大手術まである。手術では患者の体にメスを入れて、患部を取り除いたり、外傷部位を修復したりする。この他に、人工物を使用したり、内視鏡を用いた検査、患部の切除及び治療、がんなどの悪性腫瘍に対する抗がん剤治療等を行う業務もある。</p>
+        <p>手術後は、経過や回復状況を観察、確認した上で、必要な対応を図る。それについて本人、家族に伝えることも必要である。また、抜糸をしたり、リハビリの指示等も行う。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>内視鏡、医療機器（聴診器、注射器、CT、MRI等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/401">救急救命士</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/413">ベビーシッター</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/419">調香師</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/403">小児科医</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/400">社会教育主事</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>外科医として仕事をするには、医師国家試験に合格して医師免許を取得することが必須である。まず、大学医学部で6年間にわたって専門的な知識を身につけ、同時に実習も行う。大学の卒業試験に合格すると国家試験を受験することができる。国家試験に合格すると、医師免許が与えられる。更に大学病院や大病院などの臨床研修病院で研修医として最低2年間の臨床研修を積み、実際の患者を診察しながら知識を身につける。この研修終了後に外科の診療科に所属して外科医となる。所定の要件を満たせば専門医に認定される制度がある。</p>
+        <p>臨床研修後には、病院などに勤務医として勤め、多くの経験を積んでいく。勤務先の病院で診療科長になるケースや、独立して開業医となるケースがある。診療所の開業は外科単科の開業というよりも、総合的に幅広く患者を診る外科医が多い。大学で研究を続けながら講師や教授になることもある。</p>
+        <p>医学の知識や治療技術の進歩は急速であり、外科医にとって不断の技術トレーニングが必須である。患者の命を預かる責任は重く、急患の処置における迅速な判断力や長時間にわたる診療、手術等に耐えられる精神力や忍耐力、体力も必要とされる。また、手術を中心とした医療行為を行うには、看護師や麻酔科医、放射線技師など、他の診療科や他の職種の人たちと良好な関係を保つことが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は医療機関等である。1人で行うことができる外科の手術は技術的に容易なものに限られているため、ある程度大きな手術治療を行うためには、2人以上の複数の外科医がいる医療機関（病院）に所属することが必要であり、外科の専門医は比較的大きな医療機関に勤務することが多い。</p>
+        <p>外科医全体の人数は62,110人（外科、呼吸外科、心臓血管外科、乳腺外科、気管食道外科、消化器外科（胃腸外科）、肛門外科、脳神経外科、整形外科、形成外科、美容外科、小児外科）である。診療科の構成割合を性別にみると、男性医師では内科（19.9％）に次いで、整形外科が多い（8.5％）。また、外科全体における女性医師は1割に満たない程度である（2022年時点*1）。</p>
+        <p>入院患者や救急の対応がある病院では、基本的に24時間、患者の状況把握が必要であり、交代制で夜間・早朝・休日の勤務もある。長時間の手術や急患の処置などもあり、勤務が不規則になりがちである。一般的に賃金水準は高い。</p>
+        <p>地方では医師不足に悩んでいるところも多く、地域的なアンバランスの解消が課題となっている。医療の高度化、技術進歩が急速であり、医療サービスの提供のあり方も変化してきている。</p>
+        <p>*1　令和4(2022)年医師・歯科医師・薬剤師調査の概況から
+診療科別にみた医師数</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,80.0 278.1,134.9 233.0,256.8 124.2,233.0 101.3,147.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>69</dd><dt>対人</dt><dd>87</dd><dt>判断</dt><dd>82</dd><dt>身体</dt><dd>59</dd><dt>定型</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">説明力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">5.1</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.7</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">4.6</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">4.6</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.5</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">4.5</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">医学・歯学</span><span class="topn-score">4.7</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">3.0</span></li><li><span class="topn-name">生物学</span><span class="topn-score">2.8</span></li><li><span class="topn-name">心理学</span><span class="topn-score">2.5</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">2.1</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.7</span></li><li><span class="topn-name">指先の器用さ</span><span class="topn-score">3.4</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">3.4</span></li><li><span class="topn-name">腕と手の安定</span><span class="topn-score">3.4</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/173"><span class="tc-name">柔道整復師</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 97%</span></span></a><a class="transfer-card" href="/ja/175"><span class="tc-name">はり師・きゅう師</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 97%</span></span></a><a class="transfer-card" href="/ja/172"><span class="tc-name">あんまマッサージ指圧師</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 96%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.med.or.jp/" rel="external" target="_blank">公益社団法人日本医師会</a></li><li><a href="https://www.jssoc.or.jp/" rel="external" target="_blank">一般社団法人日本外科学会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>医師</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +442,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

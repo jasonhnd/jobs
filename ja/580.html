@@ -8,6 +8,7 @@
     <title>障害福祉サービス管理責任者 — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="障害福祉サービス管理責任者：就業者 約44,392人 / 平均年収 441万円 / 平均年齢 45.4 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="障害福祉サービス管理責任者" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/580" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/580" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "580",
+      "occupationalCategory": "08_049-09",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/580",
       "additionalProperty": [
         {
@@ -123,6 +124,10 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Welfare Service Manager",
+      "industry": "Welfare & Care",
+      "qualifications": [
+        "障害福祉サービス管理責任者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=fukushi">福祉・介護</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,8 +384,45 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>障害福祉サービス事業所において、個々の利用者や家族のニーズに応じた自立のための一連のサービス提供プロセスを管理する。</p>
+        <p>障害福祉サービス事業所において、個々の利用者や家族のニーズに応じた自立のための一連のサービス提供プロセスを管理する責任者である（以下「サビ管」という。）。2006年の障害者自立支援法の施行より配置され、2013年の障害者総合支援法の施行より多くの障害福祉サービス事業に必置とされた。</p>
+        <p>なお、サビ管の従事する障害福祉サービスは18歳以上の障害者が対象であり、18歳未満の障害児支援の現場においては、児童発達支援管理責任者（以下「児発管」という。）が同様の職務を担っている。</p>
+        <p>サビ管の最も重要な業務が「個別支援計画」の作成に関する業務である。利用者に適切な支援を提供するためには、支援開始時のアセスメントにおいて、利用者の生活状況や障害特性、成育歴等を把握するとともに、利用者の自己決定の尊重及び意思決定の支援に配慮するため、利用者や家族の「こうなりたい」という希望をよく聞き取って（発語のない利用者の場合はよく推察して）、最適な目標や支援方法を決定することが必要である。それらを書面化した「個別支援計画」に基づいて日々の支援が行われ、6か月に一度以上、支援の成果や目標への到達度等を継続的に確認（モニタリング）して個別支援計画を更新する。これらの一連の業務は各障害福祉サービスの基準省令に定められていることから、確実な業務遂行が求められる。</p>
+        <p>障害福祉サービスには、生活介護、就労支援、共同生活援助（グループホーム）をはじめさまざまな種類があり、自宅訪問、日中の通所、宿泊を伴う入所といった利用形態も各様である。また、障害の態様も身体、知的、精神及びこれらの重複があり、軽度、重度といった程度の違いによっても利用者へのアプローチや配慮すべき点が異なる。例えば、ADL（日常生活動作）の維持や向上のため、安全を確保しつつできることは自分で行ってもらうことや、一般企業への就労移行支援においては、自らの障害特性を理解して周囲に伝えられるようにする等である。しかし、どのような場合であっても、利用者のことを知り、利用者の希望を聞き、利用者中心の支援を大事にする姿勢は共通である。</p>
+        <p>実際の支援提供は事業所内のスタッフが行うが、可能な限りサビ管も支援に同席または携わり、必要に応じて、保護者等への報告や面談も行う。また、サビ管は、利用者の状態や課題等について事業所内で日々きめ細かな情報共有を図り、より良い支援を行うためスタッフへの助言・指導を行う。スタッフの話を丁寧に聞き、支援の方向性や具体的な支援方法を伝授するコミュニケーションは時に難しいが、OJTや各種の研修機会を通じたスタッフの育成もサビ管の重要な役割である。</p>
+        <p>利用者への支援が事業所内のみで完結することはなく、相談支援事業所や他の障害福祉サービス事業所、行政、医療機関等、地域の関係機関との連携が不可欠である。こうした支援ネットワークを円滑に機能させるため、日常的なメールでの調整や会議への出席が必要になることがある。個別支援計画の作成の他、日々の業務記録、行政への報告等を含め、サビ管が行わなくてはならない事務作業は多岐にわたる。</p>
+        <p>利用者に接する際の苦労としては、利用者に合わせた言葉選びや表情に特に気をつけなければいけないことや、クレームやトラブルが発生した際には率先して、その対応に当たることである。</p>
+        <p>しかし、支援を重ねて利用者の目標が達成されたり、時に人生が様変わりするほどの成長や変化を支援の最前線で目の当たりにできることは大きなやりがいである。また、利用者や家族から感謝の言葉を伝えられると、提供してきた支援が本当に役に立ったのだと意義を感じられて嬉しい気持ちになる。
+＜就業希望者へのメッセージ＞</p>
+        <p>利用者の成長や生活の改善を間近で見届けられることが何よりの喜びです。「ここへ来て良かった」と言っていただく言葉が宝物です。（就業者　共通）</p>
+        <p>福祉の専門職としてスキルを高められる機会が多く、チームの中心で決定権を持って働けることに誇りと意義を感じています。（就業者　30代）</p>
+        <p>仕事をしていく中で「障害」を誰もが持つ「個性」として捉えられるようになりました。障害者をもっと身近に感じられる社会になると良い。そのために力を尽くしたいです。（就業者　40代）</p>
+        <p>福祉業界の中では給与水準が高いこともあり、福祉に関心のある方は目指してほしいです。元々は事業所からのすすめでサビ管になりましたが、今ではサビ管になって本当に良かったです。（就業者　60代）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>パソコン、事務処理ソフト（文書作成、表計算）、（個別支援計画作成等のための）専用ソフトやアプリ等、（記録用の）ボールペン、手作りの支援ツール</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>サビ管になるには所定の実務要件や研修修了要件があり、新卒採用で就くことはない。具体的には、相談支援業務または直接支援業務3～8年の実務要件を満たした上で、基礎研修（26時間）、OJT（原則2年以上）及び実践研修（14.5時間）の研修修了要件を満たす必要がある。その後も5年ごとに更新研修を受講し、更新研修の受講に当たっても2年以上の実務経験が求められる。これらの研修は各都道府県等が実施しており、勤務先である障害福祉サービス事業所からの推薦をもらい受講することが多い。</p>
+        <p>障害福祉サービス事業所に入職する者について、新卒の場合は社会福祉系の大学を卒業し、社会福祉士や介護福祉士等の資格を有していることが多い。中途採用の場合の前職はさまざまだが、広く福祉分野からの転職がある。新卒と中途採用の割合は事業所によって異なるが、中途採用が少なくない傾向にある。</p>
+        <p>サビ管となった後も、日々の業務の振り返りや自己学習、研修の受講等により新たな知見を身に付け、障害者福祉のスペシャリストとして研鑽を深めていくことが重要である。事業所によっては、外部のスーパーバイザーから指導を受ける機会もある。自らの志す支援や好待遇を求めて他の障害福祉サービス事業所に転職したり、サビ管としての経験を踏まえて障害児支援に転向し、児発管へのキャリアチェンジを行う者もいる。また、事業所の管理者やスーパーバイザーを目指したり、自ら障害福祉サービス事業所を立ち上げる道もある。</p>
+        <p>障害特性や支援方法に加え、法令遵守の観点から障害者福祉制度に関する専門的な知識が必須である。障害の診断名ではなく「その人」に関心を持ち、利用者一人ひとりの障害特性や支援ニーズを的確に見極めるスキルが特に重要である。必要なことをわかりやすく伝える言語化・コミュニケーション能力や外部への発信力、事業所内外での支援を推進する強いリーダーシップも求められる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>サビ管の就業（配置）場所は、各種の障害福祉サービス事業所である。国が障害者の地域移行を推進する流れの中で障害福祉サービスの利用者数は年々増加しており、サビ管の養成には一定年数を要することからも労働市場での需要は高い。</p>
+        <p>週休2日で平日の日勤が基本であるが、事業所の営業日に応じて土曜勤務があったり、グループホーム等においては時に夜勤が生じることもある。事業所は全国に存在し、提供するサービス内容等によって立地もさまざまである。</p>
+        <p>30代、40代を中心に20～60代の幅広い年齢層のサビ管が活躍している。多くが常勤の正社員であるが、1事業所に複数のサビ管を配置している場合は非常勤もあり得る。サビ管は資格手当や役職手当が支給されたり他の事業所スタッフより基本給が高いことが多く、福祉職の中では給与水準が高い。</p>
+        <p>障害者福祉に関する国の制度や自治体施策はたびたび変更があり、その都度、最新の内容を熟知して適切に支援に反映していく必要がある。新型コロナウイルス感染症や熱中症対策等、その時々の社会状況への対応も必要である。また、近年、発達障害のある者等の増加など、従来の身体、知的、精神障害者に加え、障害福祉サービスの利用者の裾野が広がっている。今後、AIや介護ロボット等の普及により業務の一部が自動化されるなど、サビ管の業務遂行や支援現場の様相に変化が生じる可能性もある。</p>
+        <p>こうした流動的な状況下において、人対人の支援を担うサビ管には、ますます専門性が期待され、地域で展開される障害者支援の重要な役割を果たしていくことが求められている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -318,9 +431,11 @@
           <li><a class="r-name" href="/ja/570">耐震診断</a><span class="r-risk">AI 影響 6/10</span></li>
           <li><a class="r-name" href="/ja/568">児童発達支援管理責任者</a><span class="r-risk">AI 影響 6/10</span></li>
           <li><a class="r-name" href="/ja/579">自動車検査員</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/581">ブロックチェーン・エンジニア</a><span class="r-risk">AI 影響 —</span></li>
+          <li><a class="r-name" href="/ja/581">ブロックチェーン・エンジニア</a><span class="r-risk">AI 影響 8/10</span></li>
         </ul>
       </section>
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.mhlw.go.jp/index.html" rel="external" target="_blank">厚生労働省 社会･援護局 障害保健福祉部</a></li><li><a href="https://www.jdnet.gr.jp/" rel="external" target="_blank">特定非営利活動法人 日本障害者協議会（JD）</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>障害福祉サービス管理責任者</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

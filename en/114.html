@@ -8,6 +8,7 @@
     <title>Tour Interpreter Guide (Tsuyaku-Annai-shi) — AI Impact 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="Tour Interpreter Guide (Tsuyaku-Annai-shi): workforce ~7,930 / annual salary 396万円 / avg age 43.1 / AI impact 5/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Tour Interpreter Guide (Tsuyaku-Annai-shi)" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/114" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/114" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "114",
+      "occupationalCategory": "09_058-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/114",
       "additionalProperty": [
         {
@@ -122,7 +123,29 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Tour Interpreter Guide (Tsuyaku-Annai-shi)",
+      "alternateName": [
+        "Tour Interpreter Guide (Tsuyaku-Annai-shi)",
+        "観光通訳案内人",
+        "通訳案内士",
+        "通訳案内人"
+      ],
+      "industry": "Service & Hospitality",
+      "skills": [
+        "Foreign Language Listening",
+        "Speaking",
+        "Foreign Language Speaking",
+        "Foreign Language Reading",
+        "Active Listening",
+        "Foreign Language Writing",
+        "Social Perceptiveness",
+        "Reading Comprehension",
+        "Time Management",
+        "Service Orientation"
+      ],
+      "qualifications": [
+        "全国通訳案内士",
+        "地域通訳案内士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +229,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +285,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +380,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=service">Service &amp; Hospitality</a><span class="band band-mid">Mid AI risk</span><span class="band band-low">Small workforce</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +402,37 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Licensed guide who narrates Japan tours in foreign languages; AI translation rivals.</p>
+        <p>The tour interpreter guide (tsuyaku guide; used here to refer to anyone providing interpretation and guiding services, regardless of qualification status) accompanies foreign visitors to Japan and guides them through their travels using a foreign language. The work of guiding foreign visitors — combining interpretation with sightseeing commentary — is referred to here as tsuyaku-annai (interpretation and guiding).
+	Starting with airport arrivals and extending through the entire duration of a stay, the tour interpreter guide also plays the role of accompanying escort. Visits for non-tourism purposes — corporate inspections, training programs, and similar events — are also common, and at government offices or factory visits the guide must interpret specialist terminology accurately.
+	Because the work combines &#x27;interpreting&#x27; with &#x27;guiding,&#x27; broad and deep knowledge is essential alongside foreign language fluency. Understanding what a visitor wants, being attuned to their state of mind, and conveying accurate information about Japan from the visitor&#x27;s own perspective are all crucial. Since the interpreter guide is often the face of Japan for foreign visitors, they must be conscious of that responsibility in every interaction.</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/110">Tour Conductor</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/107">Bartender</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/106">Sommelier</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/113">Caddie</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/115">Barber</a><span class="r-risk">AI 2/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No educational background is required for this work. Regarding qualifications: until January 2018, paid interpretation and guiding services legally required either a Zenkoku Tsuyaku Annai-shi (National Interpreter Guide) or a Chiiki Gentei Tsuyaku Annai-shi (Regionally Limited Interpreter Guide) credential, but an amendment to the relevant legislation now permits non-qualified individuals to provide interpretation and guiding services for remuneration. However, the titles &#x27;Zenkoku Tsuyaku Annai-shi&#x27; (National Interpreter Guide), &#x27;Chiiki Tsuyaku Annai-shi&#x27; (Regional Interpreter Guide), and similar designations may only be used by credentialed holders.
+	The Zenkoku Tsuyaku Annai-shi credential is obtained by passing the National Interpreter Guide Examination and then registering with the prefectural governor. The Chiiki Tsuyaku Annai-shi credential is obtained by completing training courses organized by local authorities in accordance with plans agreed upon by the Japan Tourism Agency. Holding either credential serves as recognized proof of language ability and guiding skill.
+	Guides typically register with interpreter guide associations, travel agents, or interpreter guide dispatch companies, through which they are introduced to foreign visitors and groups seeking their services. Some combine guiding with childcare as working mothers; others pursue guiding as a second career in retirement or following a job change.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Because the work involves accompanying foreign visitors to locations across Japan, it takes place nationwide.
+	Some interpreter guides are contracted exclusively by tourism operators, but the majority work as independent contractors on a project basis.
+	Income is heavily dependent on the number of visitors handled and fluctuates significantly by season. Some interpreter guide associations set a basic daily rate of approximately ¥30,000–36,000, scaled by group size (as of March 2020).
+	Working hours are determined by the terms and content of each engagement. Interpretation is required whenever a visitor needs it — from the moment they arrive until they depart.
+	The number of foreign visitors to Japan has been recovering from the decline caused by the COVID-19 pandemic. Visitors from neighboring countries — China, Southeast Asia — and from Europe and North America in particular have been increasing, and sustained demand is anticipated going forward.</p>
+        <p>*Japan Tourism Agency, Tourism Resources Division; &#x27;Survey on Employment and Working Conditions of Interpreter Guides&#x27;</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,68.7 271.9,136.9 220.7,239.7 119.3,239.8 111.0,150.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>77</dd><dt>Social</dt><dd>82</dd><dt>Judgment</dt><dd>66</dd><dt>Physical</dt><dd>66</dd><dt>Routine</dt><dd>47</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Foreign Language Listening</span><span class="topn-score">5.9</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">5.7</span></li><li><span class="topn-name">Foreign Language Speaking</span><span class="topn-score">5.6</span></li><li><span class="topn-name">Foreign Language Reading</span><span class="topn-score">5.6</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">5.5</span></li><li><span class="topn-name">Foreign Language Writing</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Service Orientation</span><span class="topn-score">4.7</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Foreign Language (Vocabulary &amp; Grammar)</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">3.0</span></li><li><span class="topn-name">History &amp; Archaeology</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Philosophy &amp; Theology</span><span class="topn-score">2.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/205"><span class="tc-name">Cabin Crew / Flight Attendant</span><span class="tc-meta"><span class="tc-risk">AI 4/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/413"><span class="tc-name">Babysitter</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 93%</span></span></a><a class="transfer-card" href="/en/423"><span class="tc-name">Kimono Dressing Instructor</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 93%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.mlit.go.jp/kankocho/shisaku/kokusai/tsuyaku.html" rel="external" target="_blank">観光庁</a></li><li><a href="http://www.mlit.go.jp/index.html" rel="external" target="_blank">国土交通省総合政策局旅行振興課</a></li><li><a href="https://www.jga21c.or.jp/" rel="external" target="_blank">一般財団法人　日本観光通訳協会</a></li><li><a href="https://jfg.jp/" rel="external" target="_blank">協同組合 全日本通訳案内士連盟</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>全国通訳案内士</li><li>地域通訳案内士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +441,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

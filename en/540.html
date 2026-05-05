@@ -8,6 +8,7 @@
     <title>Software Tester (Debug) — AI Impact 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="Software Tester (Debug): workforce ~48,720 / annual salary 574万円 / avg age 38.0 / AI impact 8/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Software Tester (Debug), Debug Technician, Debug Worker, QA (Quality Assurance) Tester, QA Engineer, Game Tester" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/540" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/540" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "540",
+      "occupationalCategory": "02_009-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/540",
       "additionalProperty": [
         {
@@ -122,7 +123,32 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Software Tester (Debug)",
+      "alternateName": [
+        "Software Tester (Debug)",
+        "デバック技術員",
+        "デバック作業員",
+        "QA（Quality Assurance）テスター",
+        "QAエンジニア",
+        "ゲームテスター",
+        "Debug Technician",
+        "Debug Worker",
+        "QA (Quality Assurance) Tester",
+        "QA Engineer",
+        "Game Tester"
+      ],
+      "industry": "IT & Communications",
+      "skills": [
+        "Reading Comprehension",
+        "Writing",
+        "Quality Control Analysis",
+        "Speaking",
+        "Active Listening",
+        "Instructing",
+        "Time Management",
+        "Coordination",
+        "Complex Problem Solving",
+        "Monitoring"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +232,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +288,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +383,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=it">IT &amp; Communications</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +405,44 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Tests software for bugs; AI-driven automated testing rising.</p>
+        <p>Software testers find and fix errors (bugs) in computer software.</p>
+        <p>The scope of the work varies: some practitioners focus exclusively on finding bugs, while others investigate root causes and proceed through to fixing the bugs they discover. In computer game development, game testers typically concentrate on finding bugs and generally do not fix them. The general workflow involves determining the testing policy for a piece of software, preparing a checklist of items to verify, considering the required number of days and personnel, forming a team, and then working through the checklist systematically — often employing a brute-force, all-hands approach to catch bugs that appear in unexpected places.</p>
+        <p>When computer software is developed, programming is carried out in accordance with a basic design and a detailed design. Once the software is complete, testers verify that it operates as specified by the design and perform debugging (bug correction). For large-scale software, verification and debugging begin on completed sections as they become available (unit testing). As completed sections are integrated and assembled, operation is verified again at that stage (integration testing) and further debugging is performed. Once the entire product is complete, overall operation is verified (system testing) and final debugging takes place. For large-scale, complex, or substantially new software, the cycle of finding bugs, fixing them, and re-verifying can repeat for months or even years. As noted above, some practitioners only find bugs, while others also investigate root causes and carry out fixes. When only bug discovery is performed, findings are compiled into a report describing the conditions under which the erroneous behavior occurs and communicated to the software developers.</p>
+        <p>The process of repeatedly testing from an independent, third-party standpoint — verifying that the software operates correctly and checking for potential problems — to assure the quality of the software as a whole is called QA (Quality Assurance). Practitioners who focus exclusively on this function are called QA testers or QA engineers.</p>
+        <p>Today, a large volume of existing software is already in operation. OS updates may require modifications to existing software, improvements may call for further changes, or new hardware related to software systems may necessitate updates. In such cases, debugging is required to verify that the modifications have not introduced new bugs. In recent years, computers have been embedded in an ever-wider range of devices with software controlling device operations, and some practitioners involved in bug fixing extend their work to the hardware level as well.</p>
+        <p>Practitioners who focus solely on finding bugs in computer games are known as game testers. Recent computer games are predominantly smartphone titles, though games for personal computers and dedicated gaming consoles also exist. Modern computer games have grown increasingly complex, and the latter stages of development are largely consumed by adjusting game flow and timing and by running operational checks and debugging — a phase that can take six months to a year or more. Because smartphones are released in many models, testers must verify that there are no problems across all commonly used models (which across iPhone and Android can number in the dozens). Debugging a modern computer game is a large-scale operation, often involving teams of tens or even hundreds of people. For young gaming enthusiasts, game debugging is a highly coveted job, and high school and university students frequently participate on a part-time basis. In such cases, strict confidentiality obligations are enforced to prevent pre-launch game content from being leaked.</p>
+        <p>◇ Commonly used tools, equipment, and software
+Personal computers, smartphones (various models), word processing software (Word, etc.), spreadsheet software (Excel, etc.), programming languages (Java, C++, Visual Basic, etc.), software development environments</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/542">Shipping/Receiving Clerk</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/543">Postal Window Clerk</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/528">Autonomous Driving Developer</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/539">Sales Section Chief</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/541">Narrator</a><span class="r-risk">AI 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No particular educational background or qualifications are required for entry. In software development debugging, however, the work is frequently carried out by experienced veterans who have worked in systems development, as bugs can arise from a wide variety of causes. Having encountered many different development situations and built up a broad repertoire of scenarios makes middle-aged and senior practitioners well-suited for this work, and experienced workers of all ages remain active in the field.</p>
+        <p>In computer game testing, high school and university students who love gaming are recruited to test centers (facilities specializing in game debugging) to play games and find bugs. From this starting point, one typical path is to join a testing company or game developer as a full-time employee. Upon joining as a full-time employee, the practitioner typically takes on a team leadership role overseeing testing operations.</p>
+        <p>For practitioners who also fix bugs themselves, knowledge of programming languages and operating systems is required. Those who also address hardware issues will additionally need hardware knowledge. For computer game testing, years of experience playing a wide variety of games is a direct asset in finding bugs.</p>
+        <p>Recent computer games are sold internationally and are developed in multiple languages, making proficiency in English, Chinese, and other languages an asset in some cases. Awareness of cultural and legal differences is also necessary, and some projects hire people locally in the target market.</p>
+        <p>Persistent attention to detail — the ability to repeatedly and methodically work through checks to prevent system failures caused by bugs — is an essential quality. Because the work involves access to highly confidential information (client systems, pre-launch games), strict observance of confidentiality obligations is also required. Since debugging is performed by teams and coordination with developers is sometimes necessary, communication skills are equally important.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Workplaces include software development companies, manufacturing companies, and firms that specialize exclusively in debugging. Such companies are concentrated in major urban areas but also exist in regional cities. With the expansion of remote infrastructure, it has become possible for workers in regional cities to perform debugging work for companies based in major metropolitan areas.</p>
+        <p>Because the work involves highly confidential information, however, it is not performed from home — it takes place within company offices or testing centers.</p>
+        <p>Because some practitioners who perform debugging are also engaged in development work, the boundary between this role and software engineers is not clearly defined, making exact workforce figures difficult to determine. That said, debugging is an ever-present necessity in software production, and as software grows in scale, the personnel required for debugging grows in turn — meaning a substantial number of people are engaged in this work. For game testing alone, while precise statistics are unavailable, testing centers exist throughout the country with hundreds of people working at any given time; in aggregate, thousands are engaged in the field, and because game testing operates in time-limited shifts with rotating staff, the total number of people involved is several times that figure.</p>
+        <p>Currently, men make up a larger share of the workforce. In software development and systems debugging, workers in their 40s and 50s are predominant. Game testers tend to be younger — high school and university students working part-time — and the proportion of women is growing.</p>
+        <p>In terms of employment type, the majority of those performing software development and systems debugging are regular employees or full-time employees of partner companies. Compensation is typically a monthly salary set by company regulations. Standard hours are morning through evening on weekdays, with two days off per week. Overtime can increase during critical development periods or when problems are discovered.</p>
+        <p>Today, the digitization of society is advancing across all sectors, and digital transformation (DX) is being driven forward in many areas. Debugging is an indispensable part of this progress — development and debugging are two sides of the same coin. While some portions of individual program testing have been automated, human verification remains necessary at the final stage, and complete automation is difficult — making this a field with lasting demand.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,102.1 242.1,146.6 209.0,223.7 140.7,210.4 100.5,147.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>52</dd><dt>Social</dt><dd>58</dd><dt>Judgment</dt><dd>51</dd><dt>Physical</dt><dd>38</dd><dt>Routine</dt><dd>56</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Writing</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Quality Control Analysis</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Complex Problem Solving</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">2.7</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">2.2</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">1.8</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">1.5</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">1.3</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">1.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">2.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/321"><span class="tc-name">Security Operations Expert</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/322"><span class="tc-name">IT Project Manager</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/362"><span class="tc-name">IT Consultant</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人　情報処理推進機構（ＩＰＡ）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +451,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

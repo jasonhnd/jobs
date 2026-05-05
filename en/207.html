@@ -8,6 +8,7 @@
     <title>Ship Crew Member — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Ship Crew Member: workforce ~14,360 / annual salary 467万円 / avg age 48.0 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Ship Crew Member" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/207" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/207" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "207",
+      "occupationalCategory": "13_088-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/207",
       "additionalProperty": [
         {
@@ -122,7 +123,31 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Ship Crew Member",
+      "alternateName": [
+        "Ship Crew Member",
+        "甲板手",
+        "甲板部員",
+        "機関部員",
+        "操機員",
+        "操機手",
+        "海上無線通信士"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Equipment Maintenance",
+        "Repairing",
+        "Troubleshooting",
+        "Active Listening",
+        "Instructing",
+        "Operation and Control",
+        "Speaking",
+        "Equipment Selection",
+        "Operations Monitoring",
+        "Writing"
+      ],
+      "qualifications": [
+        "海技士免許（航海・機関・通信）"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +231,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +287,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +382,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=maint">Facilities &amp; Maintenance</a><span class="band band-low">Low AI risk</span><span class="band band-low">Small workforce</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +404,38 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Performs on-board duties on cargo, fishing, or passenger ships.</p>
+        <p>Ship crew members work on domestic vessels—car ferries, cargo ships, and sightseeing boats—as well as international vessels such as tankers, container ships, and cruise liners, engaged in transporting passengers and cargo.
+	Ship personnel are divided into officers (such as the captain, chief engineer, and navigating officers) and ratings (such as deckhands and engine-room crew). This description covers ratings.
+	Aboard a large vessel, the crew is organized under the captain into departments: deck, engine room, radio, and administration. The composition varies considerably depending on the size, type, and route of the vessel.
+	The deck department includes navigating officers and deckhands, who handle steering and lookout, port entry and departure operations, mooring and berthing, cargo loading and unloading preparation, and vessel upkeep.
+	The engine room department includes engineering officers and engine-room crew, who operate and maintain the engines and generators. On refrigerated ships and container ships, they may also operate and service refrigeration machinery.
+	The radio department handles radio and satellite communications with shore stations and other vessels. The administration department handles ship&#x27;s business, including the preparation of immigration documents. Cooks (officers&#x27; and crew&#x27;s cook) are also classified as crew.</p>
+        <p>Tools and equipment commonly used:
+	Vessels (car ferries, cargo ships, sightseeing boats, etc.)</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/199">Road Patrol Worker</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/219">Outdoor Activity Instructor</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/192">Train Driver</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/206">Aircraft Mechanic</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/208">Newspaper Reporter</a><span class="r-risk">AI 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>The typical path to becoming a deckhand or engine-room crew member is to graduate from a fisheries high school or similar institution, obtain a marine officer&#x27;s license (kaigishi menkyo), and then join a company that owns vessels. Some crew work toward obtaining officer qualifications (navigating officer, engineering officer) while building the required sea-service record.
+	Strong physical endurance and resilience to cope with harsh natural conditions and irregular working patterns are essential. Because a ship is a community of fate centered on the captain, strict observance of order and shipboard discipline is a hard requirement. Officers are expected to support the captain, maintain their own discipline, directly command deckhands and engine-room crew, and demonstrate the leadership needed to build effective teamwork.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Once a vessel leaves port, it sails continuously until the next port of call, so crew cannot take leave while at sea. On international routes, the standard arrangement is to accumulate all the rest days that could not be taken at sea and use them as shore leave in a block, based on a two-days-off-per-week baseline. For domestic coastal shipping (naiko), the typical pattern is two months at sea followed by 20–30 days of shore leave; for deep-sea shipping (gaiko), it is eight to nine months at sea followed by three to four months of leave.
+	Pay is set by company regulations and consists of a base salary plus overtime and special-duty allowances. Seamen&#x27;s insurance (sen&#x27;in hoken) covers work-related illness (equivalent to health insurance for non-seafarers) and provides benefits tailored to the nature of seafaring employment. (Since 2010, occupational illness/pension benefits and unemployment benefits have been integrated into the general workers&#x27; accident compensation insurance and employment insurance systems, respectively.)
+	In recent years, an increasing number of vessels have been re-flagged overseas and operated with mixed crews of core Japanese seafarers and foreign crew. Vessel modernization has also reduced crew sizes. Crew are expected to possess more advanced technical knowledge and skills and to work cooperatively with non-Japanese crew members.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,109.0 242.7,146.4 211.6,227.3 121.4,236.9 104.5,148.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>46</dd><dt>Social</dt><dd>58</dd><dt>Judgment</dt><dd>54</dd><dt>Physical</dt><dd>63</dd><dt>Routine</dt><dd>53</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Equipment Maintenance</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Repairing</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Troubleshooting</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Operation and Control</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Equipment Selection</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Operations Monitoring</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Writing</span><span class="topn-score">2.9</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Mechanical</span><span class="topn-score">2.0</span></li><li><span class="topn-name">Transportation</span><span class="topn-score">2.0</span></li><li><span class="topn-name">Geography</span><span class="topn-score">1.9</span></li><li><span class="topn-name">Public Safety &amp; Security</span><span class="topn-score">1.5</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">1.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/48"><span class="tc-name">Elevator Installer</span><span class="tc-meta"><span class="tc-risk">AI 2/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/35"><span class="tc-name">Boring/Drilling Worker</span><span class="tc-meta"><span class="tc-risk">AI 2/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.mlit.go.jp" rel="external" target="_blank">国土交通省</a></li><li><a href="http://www.kaijipr.or.jp/" rel="external" target="_blank">公益財団法人 日本海事広報協会</a></li><li><a href="http://www.uminoshigoto.com" rel="external" target="_blank">海の仕事.com</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>海技士免許（航海・機関・通信）</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

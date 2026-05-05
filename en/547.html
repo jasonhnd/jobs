@@ -8,6 +8,7 @@
     <title>Shipbuilder — AI Impact 2/10｜mirai-shigoto.com</title>
     <meta name="description" content="Shipbuilder: workforce ~26,830 / annual salary 466万円 / avg age 42.7 / AI impact 2/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Shipbuilder, Shipyard Worker, Shipbuilding Ironworker, Hull Block Assembly Worker, Ship Carpenter, Ship Interior Lining Worker, Ship Outfitter, Marine Engineering Outfitter, Ship Accommodation Outfitter" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/547" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/547" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "547",
+      "occupationalCategory": "12_071-08",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/547",
       "additionalProperty": [
         {
@@ -122,7 +123,61 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Shipbuilder",
+      "alternateName": [
+        "Shipbuilder",
+        "造船工",
+        "造船鉄工",
+        "船体ブロック組立工",
+        "船大工",
+        "船舶内張工",
+        "船舶艤装工",
+        "船舶機関部艤装工",
+        "船舶居住部艤装工",
+        "船舶甲板部艤装工",
+        "船舶検査工",
+        "船舶塗装工",
+        "船舶配管工",
+        "船舶配線作業員",
+        "Shipyard Worker",
+        "Shipbuilding Ironworker",
+        "Hull Block Assembly Worker",
+        "Ship Carpenter",
+        "Ship Interior Lining Worker",
+        "Ship Outfitter",
+        "Marine Engineering Outfitter",
+        "Ship Accommodation Outfitter",
+        "Ship Deck Outfitter",
+        "Ship Inspector",
+        "Ship Painter",
+        "Ship Pipefitter",
+        "Ship Electrician"
+      ],
+      "industry": "Manufacturing & Craft",
+      "qualifications": [
+        "アーク溶接技能者（専門級）",
+        "アーク溶接技能者（基本級）",
+        "ガス溶接技能者",
+        "溶接士技量資格",
+        "ガス溶接作業主任者",
+        "アルミニウム溶接技能者（専門級）",
+        "アルミニウム溶接技能者（基本級）",
+        "溶接管理技術者１級",
+        "溶接管理技術者２級",
+        "溶接作業指導者",
+        "自由研削砥石特別教育修了",
+        "移動式クレーン運転士",
+        "クレーン・デリック運転士（クレーン限定）",
+        "クレーン・デリック運転士（限定なし）",
+        "玉掛技能者",
+        "フォークリフト運転技能者",
+        "高所作業車運転技能者",
+        "船舶電装士",
+        "主任船舶電装士",
+        "船舶電装管理者",
+        "航海用レーダー整備士",
+        "航海用無線設備整備士",
+        "主任技術者（小型船造船）"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +261,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +317,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +412,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=seizo">Manufacturing &amp; Craft</a><span class="band band-low">Low AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-2">
@@ -308,8 +434,51 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Constructs and outfits ships in shipyards; field hand work.</p>
+        <p>Shipbuilders cut and process components from steel plates and other materials, join and assemble them to form the hull, and install the necessary equipment and systems to build a seaworthy vessel.</p>
+        <p>Ship construction is broadly divided into two major phases: the &quot;hull process,&quot; in which plates, structural steel, and other steel materials are cut, formed, and welded to build the structural hull; and the &quot;outfitting process,&quot; in which propulsion machinery, equipment and systems, and accommodation spaces required for navigation and cargo operations are manufactured and installed. The hull process involves creating full-scale drawings, scribing (marking lines on steel plates), cutting, drilling, bending (forming steel plates), assembling, joining, and chipping. The outfitting process includes engineering outfitting (installing main engines, generators, screws, and other ship machinery), deck outfitting (installing cargo-handling gear and similar equipment), accommodation outfitting (fabricating and installing ventilation systems and living quarters), electrical outfitting (installing communication equipment and instruments), and piping outfitting (running and connecting the various pipe systems). Additionally, hull painting is carried out, and inspection of the hull&#x27;s appearance, operation, and functions — using visual checks, measuring instruments, and testing equipment — takes place throughout the construction process, along with testing of propulsion machinery, steering systems, communication equipment, and instruments.</p>
+        <p>In a broader sense, shipbuilding also encompasses the construction of wooden vessels and FRP (fiber-reinforced plastic) vessels.</p>
+        <p>Vessels include wooden ships, FRP vessels, and steel ships. By purpose, types include container ships, LNG carriers (liquefied natural gas), crude oil tankers, pure car carriers, bulk carriers (for ore and grain), heavy-lift cargo ships, car ferries, passenger ships (cruise ships), fishing vessels, work boats, ocean survey vessels, and patrol vessels and warships. Wooden and FRP vessels follow somewhat different construction processes. The following describes the general new-vessel construction process for steel ships.</p>
+        <p>In broad overview: ship construction is fundamentally made-to-order. The process begins with understanding the shipowner&#x27;s requirements, conducting basic design to meet those requirements in terms of performance and structure, submitting a cost estimate, receiving an order, executing a contract, performing model tests in a tank, and preparing specifications and various design drawings. Materials are then ordered, and after raw material processing, component assembly, pipe fabrication, and block assembly, the vessel is fully assembled near the dock, transported there, erected on the building dock, launched, put through various outfitting phases, and sea-trialed before delivery to the shipowner.</p>
+        <p>Once basic design, specifications, and design drawings are complete, the process proceeds: original drawing → scribing → cutting → bending. The first manufacturing step for shipbuilders is scribing — transferring the hull form drawings to steel plates using marking devices. In the past, full-scale wooden templates were made, but today CAD systems transfer the data directly to automatic scribing machines, which mark each component with all information needed for fabrication.</p>
+        <p>Scribed steel plates then move to cutting. Gas, plasma, or laser cutting is used — with the appropriate method selected based on plate thickness and shape. Today, most parts are cut using NC (numerically controlled) automatic cutting machines.</p>
+        <p>The bending process then shapes each piece to the geometry required for assembly. Cutting marks include lines and part numbers. In bending, press machines and bending rollers are used for rolling and pressing to match the vessel&#x27;s various curved sections. While simple shapes and rough bending can be done by machine, the complex flowing lines of the bow and stern must be formed by repeatedly heating and cooling the steel by hand — a skilled craftsman&#x27;s technique called gyotetsu (steel bending), representing true artisanal mastery.</p>
+        <p>The shaped components are then joined by welding and assembled — the first stage is called small assembly. Welding methods — arc welding, gas welding, or aluminum (TIG) welding — are selected according to materials and location. Weld seams are then cleaned up using disc grinders. Assembly progresses from small assembly to medium assembly and then to large assembly: in medium assembly, small-assembly parts and other processed components are combined to form larger sections; in large assembly, the blocks that make up the divided hull are fabricated. Completed blocks are then joined together in the grand assembly stage. While automated welding robots have mechanized parts of this process, the abundance of intricate areas and confined compartments means much work remains manual. Even the welding time alone is enormous for a large vessel. After these indoor manufacturing steps, blocks are transported outdoors on large transport vehicles and lifted by Goliath cranes or other large mobile cranes to be placed on building berths or into the dock.</p>
+        <p>Outfitting is divided into two phases: pre-outfitting, carried out in parallel with the hull process on the ground before the vessel is launched; and inboard outfitting, carried out dockside after the hull is complete and the vessel is afloat. Outfitting includes hull and deck outfitting (steering gear, mooring equipment, cargo-handling gear, various piping), machinery outfitting (main engines, generators, boilers, propellers), and electrical outfitting (electrical cabling, electrical equipment, radar, radio equipment, antennas). Block outfitting and unit outfitting methods are used: block outfitting installs fittings as blocks are assembled (such as piping runs), while unit outfitting pre-assembles related fittings into a unit before attaching it to a block — a method used in fitting-intensive spaces like the engine room.</p>
+        <p>This method of assembling the hull from multiple blocks is called the &quot;block construction method&quot; and enables both work efficiency and shorter build times. Developed in Japan, it is now the dominant method of shipbuilding worldwide.</p>
+        <p>After grand assembly is complete for the hull, anti-rust paint is applied, followed by topcoat paint for the outer hull color and waterline markings and similar identifying features. Much of this work is done using aerial work platforms.</p>
+        <p>Once the hull phase is complete, the launching ceremony takes place — and the vessel is actually set afloat on the sea. It is said that at this moment, the shipbuilders who made it feel a profound sense of achievement.</p>
+        <p>The vessel is then moored at the quayside for final outfitting: interior decoration of the wheelhouse and accommodation areas, final connection and completion of the piping and cabling installed during pre-outfitting, and installation of remaining equipment and systems. Once this outfitting phase is complete, the vessel proceeds to sea trials. Speed trials, functional tests of all systems, and inspection of steering gear, main engines, navigation instruments, and other systems verify that the vessel meets its designed performance specifications before delivery to the shipowner. Depending on hull size and vessel type, this entire process typically takes 8 months to over 2 years.</p>
+        <p>◇ Commonly used tools, equipment, and software
+Design drawings, specifications, spirit levels, tablets, IC tags, lasers, CAD systems, NC marking devices (automatic scribing machines), NC automatic cutting machines, automatic welding robots, large press machines, bending rollers, gas burners, dedicated lighters, flammable gas cylinders, oxygen cylinders, pressure regulators, arc welding machines, gas welding machines, TIG welding machines, welding rods, welding torches, disc grinders, welding shields, protective masks, leather gloves, welding face shields, protective clothing, foot covers, hard hats, mobile cranes, overhead cranes, Goliath cranes, forklifts, large transport vehicles, aerial work platforms, and various outfitting and painting equipment</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or specialization is ordinarily required for entry. New graduate entrants are relatively often graduates of shipbuilding or industrial high schools, though graduates from non-industrial tracks are also widely represented. Mid-career hiring also occurs from seafarers and other maritime workers, as well as from other fields. New graduates are primarily introduced through schools or Hello Work. Mid-career hiring is conducted through Hello Work and job advertisements, and those without experience or qualifications are also hired. After joining, they receive practical instruction from mentors and acquire skills through skill-up training, accumulating experience and earning the necessary qualifications. Many companies have qualification support programs and encourage employees to obtain certifications. Additionally, the Japan Small and Medium Shipbuilders Association, through &quot;Vocational Training Centers&quot; at six locations nationwide, actively develops shipbuilding technicians through new employee training for new graduates and mid-career hires, and professional skills training in welding, gyotetsu (steel bending), hull assembly, piping outfitting, electrical outfitting, painting, and machinery finishing — reflecting an industry-wide commitment to developing this workforce.</p>
+        <p>For shipbuilders, various welding skills are required. For arc welding and gas welding, completing the legally mandated training courses for &quot;arc welding workers&quot; and &quot;gas welding technicians&quot; is required; the Japan Classification Society (NK) offers &quot;Welder Qualification Certification&quot; for ship construction welding. Additional qualifications include Gas Welding Work Supervisor (requiring 3+ years of relevant experience), Disc Grinding Special Training completion, and others. Related certifications issued by industry organizations include Aluminum Welding Technician, Welding Management Engineer (required for quality control), and Welding Work Instructor (for supervising welders).</p>
+        <p>As noted above, while scribing, cutting, forming, and welding are extensively mechanized, the complex three-dimensional geometries of bow and stern shapes cannot be machined — requiring experienced, highly skilled manual workers, particularly gyotetsu practitioners. Preserving and transmitting this specialized manual skill is a significant industry challenge, and research into visually recording and quantifying the movements of skilled practitioners is actively underway.</p>
+        <p>For outfitting, the installation of various systems and equipment, ship interior work, electrical work, HVAC work, and plumbing work require skills similar to construction work. However, multi-skilling is increasingly being promoted, with job categories being consolidated.</p>
+        <p>Holding the following qualifications supports career advancement: crane operator, mobile crane operator, crane/derrick operator, slinging technique course completion, forklift operation course completion, aerial work platform operation course completion — all needed for moving completed components and performing high-altitude work during construction; and ship electrician, chief ship electrician, ship electrical systems manager, navigational radar maintenance engineer, and maritime radio equipment maintenance engineer — needed for ship outfitting. For technical management of small vessel manufacturing, the Chief Engineer (Small Shipbuilding) qualification is also beneficial. Basic English proficiency may also be needed in some situations.</p>
+        <p>Both the hull and outfitting phases involve standing work and work in specific postures for extended periods, so a certain level of physical fitness is required.</p>
+        <p>Career paths typically progress from accumulating experience in a section and becoming a senior specialist, then team leader with responsibility for guiding subordinates, then to team leader or group leader managing an entire department, and potentially to safety and health supervisor or factory manager in a management role. For example, it is said that achieving independence in gyotetsu bending or welding work requires more than 5 years of experience, and reaching a team leader position with responsibility for guiding others requires more than 10 years.</p>
+        <p>Shipbuilding is a project-based endeavor where teamwork is paramount. Workers from various departments and specializations work within the same shipyard, making cooperation, mutual understanding, and accurate handoffs at each stage of the process indispensable. Group coordination is fundamental, making interpersonal adjustment, cooperation, information transmission, communication ability, and the willingness to speak up when necessary all important qualities.</p>
+        <p>For long-term career satisfaction, genuine interest in manufacturing is essential, along with affinity for operating machinery and equipment and the persistence to see tasks through. Since each vessel being built is custom-made, a sense of responsibility and trustworthiness — qualities that underpin quality assurance and customer confidence — are also required.</p>
+        <p>Because the objects being handled are enormous and heavy, requiring crane lifting and high-altitude work, a safety-first mindset is always required. While comprehensive in-house safety education is provided, accurate and careful operation, sound judgment, and focused attention to safety are equally essential.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employers are shipbuilding manufacturers and their affiliated companies. Shipyards are typically concentrated in specific regions, chosen for accessibility by road and sea, mild climate, proximity to major materials, and ease of environmental management. Concentrations are found along Tokyo Bay, the Osaka Bay and Ise Bay coasts, throughout the Seto Inland Sea, the coastlines from Beppu Bay to the Bungo Channel, and along the Nagasaki Prefecture coast — with some presence in Hokkaido, Niigata, and Miyagi. Companies range from large corporations to small and medium enterprises. Since ships consist of tens of thousands of parts and require many specialized fields of expertise, the industry is deeply embedded in local economies — and large vessel construction in particular tends to attract a concentration of contractor companies in the region.</p>
+        <p>Compensation and working conditions are governed by the employer&#x27;s regulations. Typical working hours are approximately 8 hours during daytime, Monday to Friday, with two weekend days off — and regular employee status is the norm. Other conditions vary by company size and the type of vessel built.</p>
+        <p>In recent years, improvements in working environment have advanced, including the introduction of NC automatic scribing, NC plasma automatic cutting, automated welding robots, large press machines, and all-weather enclosed shipbuilding factories. The number of workers employed in the shipbuilding industry has remained at approximately 70,000 to 80,000. Of these, approximately 47,000 are in-house and contract workers performing skilled work on the shop floor. Active efforts are being made to employ older workers (as of 2025).</p>
+        <p>Global maritime cargo volumes have been trending upward with growing trade, and further increases are expected as economies around the world develop. With approximately 40% of domestic cargo also moving by sea, and government policy promoting modal shift from road freight to sea or rail, the role of maritime transport is expected to grow further. At the same time, amid intense international competition, the government is pursuing a strengthened industry base through business restructuring and productivity improvement — while working to build non-price competitiveness by developing world-leading technologies such as zero-emission vessels (ships that emit no greenhouse gases during operation) and autonomous ships.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,103.7 257.2,141.7 216.8,234.5 126.6,229.7 101.8,147.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>51</dd><dt>Social</dt><dd>70</dd><dt>Judgment</dt><dd>61</dd><dt>Physical</dt><dd>56</dd><dt>Routine</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Production &amp; Processing</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Mechanical</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Design</span><span class="topn-score">2.2</span></li><li><span class="topn-name">Business &amp; Management</span><span class="topn-score">2.1</span></li><li><span class="topn-name">Personnel &amp; Human Resources</span><span class="topn-score">1.9</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Deductive Reasoning</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Memorization</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Number Facility</span><span class="topn-score">2.8</span></li></ol></div></div></section>
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +491,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.mlit.go.jp/maritime/" rel="external" target="_blank">国土交通省　海事局</a></li><li><a href="https://www.sajn.or.jp/" rel="external" target="_blank">一般社団法人　日本造船工業会</a></li><li><a href="https://www.cajs.or.jp/" rel="external" target="_blank">一般社団法人　日本中小型造船工業会</a></li><li><a href="https://www.ship-densou.or.jp/index.html" rel="external" target="_blank">一般社団法人　日本船舶電装協会</a></li><li><a href="https://www.classnk.or.jp/hp/ja/" rel="external" target="_blank">一般財団法人　日本海事協会</a></li><li><a href="http://www.jwes.or.jp/" rel="external" target="_blank">一般社団法人　日本溶接協会</a></li><li><a href="http://www.jlwa.or.jp/qualification/weld/index.html" rel="external" target="_blank">一般社団法人　軽金属溶接協会</a></li><li><a href="https://www.exam.or.jp/" rel="external" target="_blank">公益財団法人　安全衛生技術試験協会</a></li><li><a href="https://www.kensaibou.or.jp/seminar/branch004.html?page=1" rel="external" target="_blank">建設業労働災害防止協会</a></li><li><a href="https://www.bcsa.or.jp/" rel="external" target="_blank">公益社団法人　ボイラ・クレーン安全協会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>アーク溶接技能者（専門級）</li><li>アーク溶接技能者（基本級）</li><li>ガス溶接技能者</li><li>溶接士技量資格</li><li>ガス溶接作業主任者</li><li>アルミニウム溶接技能者（専門級）</li><li>アルミニウム溶接技能者（基本級）</li><li>溶接管理技術者１級</li><li>溶接管理技術者２級</li><li>溶接作業指導者</li><li>自由研削砥石特別教育修了</li><li>移動式クレーン運転士</li><li>クレーン・デリック運転士（クレーン限定）</li><li>クレーン・デリック運転士（限定なし）</li><li>玉掛技能者</li><li>フォークリフト運転技能者</li><li>高所作業車運転技能者</li><li>船舶電装士</li><li>主任船舶電装士</li><li>船舶電装管理者</li><li>航海用レーダー整備士</li><li>航海用無線設備整備士</li><li>主任技術者（小型船造船）</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +500,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

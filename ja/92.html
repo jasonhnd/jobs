@@ -8,6 +8,7 @@
     <title>税理士 — AI 影響 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="税理士：就業者 約63,850人 / 平均年収 856万円 / 平均年齢 43.1 / AI 影響 8/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="税理士" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/92" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/92" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "92",
+      "occupationalCategory": "03_013-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/92",
       "additionalProperty": [
         {
@@ -123,6 +124,30 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Tax Accountant (Zeirishi)",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Active Listening",
+        "Reading Comprehension",
+        "Speaking",
+        "Instructing",
+        "Writing",
+        "Negotiation",
+        "Persuasion",
+        "Social Perceptiveness",
+        "Coordination",
+        "Complex Problem Solving"
+      ],
+      "qualifications": [
+        "公認会計士",
+        "税理士",
+        "簿記能力検定（全経上級）",
+        "簿記能力検定（全経１級）",
+        "簿記能力検定（全経２級）",
+        "簿記能力検定（全経３級）",
+        "日商簿記１級",
+        "日商簿記２級",
+        "日商簿記３級"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +231,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +287,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +382,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=shigyo">士業・経営・コンサル</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +404,38 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>企業や個人の依頼により、所得税、法人税、住民税などの税金についての相談を受けたり、申告や申請に伴う税務書類の作成や手続きの代行を行う。</p>
+        <p>所得税や法人税、消費税などの税金は、納税者が自分で申告をして納めることになっている（申告納税制度）が、税法はかなり複雑で、いくら税金を払ったらいいのか一般の人には分かりにくいため、納税者の相談相手になり、納税者に代わって税額の計算や申告書の作成などをするのが税理士の仕事である。また電子納税申告「e-Tax」の代理送信なども行う。</p>
+        <p>税理士法では、「税理士は、税務に関する専門家として、独立した公正な立場において、申告納税制度の理念にそって、納税義務者の信頼にこたえ、租税に関する法令に規定された納税義務の適正な実現を図ることを使命とする」と規定している。主な仕事としては、個人や企業などの納税者と税務署の間に立って税金の申告・申請・不服申立てなどの代理を行う「税務代理」、税務署に提出する書類を作成する「税務書類の作成」、税金に関して困ったとき、わからないとき、知りたいときに相談に応じる「税務相談」がある。</p>
+        <p>また、税務職員が一定の法定権限の下に納税者に対して納税に関する質問や検査をする税務調査の際に、税理士が納税者に代わって税務調査に立会い、納税者の権益を擁護することもある。更に、税務訴訟において納税者の正当な権利、利益の救済を援助するため、補佐人として、弁護士である訴訟代理人とともに裁判所に出頭し、陳述（出廷陳述）することもある（「補佐人制度」）。</p>
+        <p>その他、会計帳簿の記帳など財務・会計に関する業務も行う（「会計業務」）。また、経営の問題や、財産の運用・管理などのアドバイスを求められるケースが増えている。</p>
+        <p>税理士は、申告納税制度をスムーズに進めていくうえで重要な責任を持つとともに、経営者の相談相手としての役割も大きくなっている。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、会計・給与ソフト、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/88">通訳者</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/74">検針員</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/25">CADオペレーター</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/91">弁理士</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/93">不動産鑑定士</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>税理士になるには、弁護士や公認会計士の資格を持っていること又は、税理士試験に合格した後、2年間の実務経験（合格前でも可）を経て、日本税理士会連合会に登録し、地域の税理士会に入会することが必要である。税理士として実務修習を積んだ後、個人事務所を開業するケースがほとんどである。また、顧客の要望が多様化したため、数人の税理士が共同して事務所を持ったり法人化するケースも増えている。</p>
+        <p>税法に関する専門知識の他、業務を正確に行うための計算能力や事務処理能力が求められる。</p>
+        <p>税理士試験は科目ごとに合格していけばよいため、多くの人は受験のために専門学校で勉強し、数年かけて資格取得に至る。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>独立開業の場合は、決まった時間帯に仕事をする必要はない。ただし、顧客の都合によって打ち合わせが夜間や休日になったり、出張が多くなることもある。2月中旬から3月中旬の所得税の確定申告の時期と、法人税の申告が集中する5月が最も忙しい。</p>
+        <p>税理士の収入は、契約した顧客から主に顧問報酬という形で支払われる。報酬の金額や形態は、顧客の業務の種類や依頼内容などによって異なる。</p>
+        <p>最近では全自動会計ソフトも普及してきており、税理士も単純な会計業務をこなすだけではなく、高度な税知識に裏打ちされた税の相談者となることが求められている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,94.1 268.5,138.0 227.8,249.6 142.3,208.1 101.6,147.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>58</dd><dt>対人</dt><dd>79</dd><dt>判断</dt><dd>75</dd><dt>身体</dt><dd>36</dd><dt>定型</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.1</span></li><li><span class="topn-name">読解力</span><span class="topn-score">5.0</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.6</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">交渉</span><span class="topn-score">4.3</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.3</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.2</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.2</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">4.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">経済学・会計学</span><span class="topn-score">3.7</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">3.5</span></li><li><span class="topn-name">法律学、政治学</span><span class="topn-score">2.8</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.5</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">2.4</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">記述表現</span><span class="topn-score">3.4</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.4</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.3</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/538"><span class="tc-name">経理課長</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/524"><span class="tc-name">独立系ファイナンシャル・アドバイザー（IFA）</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/85"><span class="tc-name">行政書士</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.nichizeiren.or.jp/" rel="external" target="_blank">日本税理士会連合会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>公認会計士</li><li>税理士</li><li>簿記能力検定（全経上級）</li><li>簿記能力検定（全経１級）</li><li>簿記能力検定（全経２級）</li><li>簿記能力検定（全経３級）</li><li>日商簿記１級</li><li>日商簿記２級</li><li>日商簿記３級</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

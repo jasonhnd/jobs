@@ -8,6 +8,7 @@
     <title>Orchestra Musician — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Orchestra Musician: workforce ~26,080 / annual salary 589万円 / avg age 40.0 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Orchestra Musician, Orchestra Member" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/573" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/573" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "573",
+      "occupationalCategory": "03_018-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/573",
       "additionalProperty": [
         {
@@ -122,7 +123,12 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Orchestra Musician",
+      "alternateName": [
+        "Orchestra Musician",
+        "オーケストラの楽員",
+        "Orchestra Member"
+      ],
+      "industry": "Creative & Media",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +212,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +268,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +363,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=creative">Creative &amp; Media</a><span class="band band-low">Low AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +385,40 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Performs as a member of professional orchestras; live performance art.</p>
+        <p>Orchestra musicians perform their principal instrument in regular concerts, recitals, and subscription series. Beyond concerts, they also perform music recorded for musicals, operas, films, dramas, and animation productions.</p>
+        <p>Orchestras fall into two categories: professional orchestras (pro orchestras), composed of musicians for whom performance is a full-time profession; and amateur orchestras, composed of members who hold other occupations, with no employed musicians. This description focuses on musicians performing in professional orchestras (referred to below as &quot;members&quot; or &quot;musicians&quot;).</p>
+        <p>The main activity of an orchestra consists of subscription concerts and recitals held several times per year. Once the program and repertoire for a concert are determined, the musical scores are prepared by the orchestra&#x27;s librarian and distributed to the participating musicians. Each musician studies the assigned works, considers their own interpretive approaches, and works on technical challenges in individual practice to prepare for rehearsals. For some instruments, ensemble practice with colleagues who play the same instrument—in order to achieve unified intonation and articulation—is also necessary. As the concert approaches, full-orchestra rehearsals are held with all musicians present. Depending on the instrumentation and scale of the program, full rehearsals typically run four to five hours per day over one to three days; the conductor guides a wide range of adjustments to the expression and interpretation of the works. Musicians follow the conductor&#x27;s intentions and instructions while remaining constantly aware of the overall balance and harmony with the sounds being produced by all other instruments, and play their own part within this ensemble. On the day of the concert, musicians travel to the concert hall or other venue and perform the program.</p>
+        <p>Beyond subscription concerts and recitals, musicians have additional performance opportunities before audiences in musicals and operas. In such cases, they perform in the orchestra pit—the space at the front or below the stage—accompanying the drama and story as it unfolds. Music for films, dramas, and animation is typically recorded in concert halls or recording studios. In recording studio work, musicians are sometimes required to sight-read scores they have never seen before, performing on the spot.</p>
+        <p>Some orchestral organizations, during their off-season periods when no major concerts are scheduled, carry out educational programs by visiting schools or hosting listening events for school students, as well as cultural community outreach through music. Orchestra musicians participate in these activities as well, engaging with students and community members through performance and helping to cultivate a broader interest in music.</p>
+        <p>In addition to musicians who belong to a single orchestra as members, there are also freelance performers who have no fixed affiliation and accept individual invitations based on program needs, performing as extras with various orchestras. Such performers participate in concerts and irregular musical events of various orchestras, work in studio recording, offer instrument performance instruction in school classes and extracurricular activities, and serve as instructors at music schools—engaging in a wide range of activities. Even musicians who belong to a specific orchestra must, with a few exceptions (those in large ensembles that pay a fixed salary), supplement their income through multiple music-related activities for financial reasons. Holding multiple concurrent music-related positions is common, as is the difficulty of taking regular time off given that concerts and recitals often fall on weekends and holidays.</p>
+        <p>Maintaining a high level of performance technique and continuing to refine it is the most essential condition for working as an orchestra musician. This requires practicing one&#x27;s instrument every day without fail and continuously striving to develop one&#x27;s skills. The fruits of this sustained effort—when a performance brings together all the musicians, the conductor, and every instrument in just the way one had envisioned, and one receives a thunderous ovation from the audience and experiences the joy of having moved them—is a reward that is unique to this profession.</p>
+        <p>&lt;Message to prospective workers&gt;
+The fulfillment of creating music together with colleagues is unlike anything else. Preparation and practice are demanding, but when the audience applauds, all the hard work disappears. (Worker in their 40s)
+You perform a great variety of works and encounter the achievements of great predecessors. It is also meaningful work in which you can pass those works on to the next generation. (Worker in their 40s)
+When I listen back to something I recorded in a studio, or when something I performed goes out into the world, I feel real satisfaction. (Worker in their 40s)</p>
+        <p>Tools and equipment commonly used: the player&#x27;s instrument; performance attire (tailcoat, stage dress, etc.); tablet and digital score application; PC</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>To become an orchestra musician, most people begin learning their instrument in early childhood or school years, build foundational musical knowledge and performance skills, study their principal instrument in the instrumental music department of a music university or similar institution, and develop professional-level technique. To join a specific orchestra as a member, candidates must pass the audition that each organization holds for the instruments it is seeking. Auditions are generally held only when a vacancy arises due to a departure; depending on the instrument, there may be almost no openings at all, and the number of available positions may be highly limited. For some instruments, several hundred applicants may compete for a single or double vacancy, making the competition ratio for passing the selection process extremely high. The standard for selection is purely the level of performance technique, so awards at competitions or experience from overseas study or graduate school do not confer an advantage in the audition. Such is the standard that a musician may pass an audition even while still enrolled at a music university. Even after passing an audition, however, there is typically a probationary period of several months to one year, during which official appointment is not guaranteed if the performance level is found to be insufficient.</p>
+        <p>Thus, securing a stable position as an orchestra member requires cultivating a love of music and instrument performance from an early age, developing broad and specialized musical knowledge and experience, and demonstrating the ability to perform with high technical skill—all of this as a prerequisite, before then clearing the formidable hurdle of passing an audition. For this reason, many musicians who graduate from music university abandon the goal of becoming orchestra musicians and pivot to other careers—such as becoming music teachers in primary or secondary education, or pursuing academic careers by completing graduate programs and seeking university faculty positions.</p>
+        <p>The qualities required of an orchestra musician include: genuine passion for music and instrument performance; outstanding performance technique on one&#x27;s instrument; an inquisitive drive to continue improving; broad and specialized musical knowledge and sensibility; and the ability to communicate and collaborate effectively with musicians playing different instruments, the conductor, and the administrative staff involved in the orchestra&#x27;s operations. The mental fortitude and composure to perform before large audiences on the concert hall stage, the perseverance and tenacity to continue practicing daily without fail, the concentration and physical stamina to sustain long performances—all are indispensable.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Japan has orchestras of various sizes. According to data from the Japan Orchestra Association (公益社団法人日本オーケストラ連盟)—which many organizations have joined—approximately 40 orchestras hold full or associate membership, with approximately 2,300 musicians in total (*).</p>
+        <p>In terms of employment, musicians belonging to large orchestras are typically employed on a permanent basis with a fixed salary or annual salary and can continue working until retirement age. Most medium- and small-scale orchestras, by contrast, operate with limited funds supplemented by public subsidies; these organizations typically engage musicians on a service agreement basis, meaning that musicians must combine multiple income sources to make a living. In addition to income-generating work, daily practice on the instrument for several hours is essential, so schedules for days off and the working patterns week by week and month by month vary considerably between individuals.</p>
+        <p>Orchestra musician positions include: concertmaster; principal players (leading each instrumental section); associate principals; and rank-and-file tutti players. There is also a role called inspector—filled by a musician who also handles coordination between administration and musicians. Most principal positions are filled through recruitment at the time of joining. When a principal player retires and the position becomes vacant, a section member may be promoted to associate principal and then to principal based on their experience as a musician and their approach to performance. Some musicians, having built their credentials and refined their skills, transfer to other domestic or international orchestras.</p>
+        <p>* Japan Orchestra Association (2025), Japan Professional Orchestra Yearbook 2024, p. 161</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +431,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.orchestra.or.jp/" rel="external" target="_blank">公益社団法人日本オーケストラ連盟</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

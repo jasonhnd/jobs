@@ -8,6 +8,7 @@
     <title>フォークリフト運転作業員 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="フォークリフト運転作業員：就業者 約50,350人 / 平均年収 467万円 / 平均年齢 48.0 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="フォークリフト運転作業員, フォークリフト運転手" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/237" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/237" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "237",
+      "occupationalCategory": "13_088-04",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/237",
       "additionalProperty": [
         {
@@ -122,7 +123,30 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Forklift Operator",
+      "alternateName": [
+        "Forklift Operator",
+        "フォークリフト運転手"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Active Listening",
+        "Instructing",
+        "Social Perceptiveness",
+        "Reading Comprehension",
+        "Speaking",
+        "Coordination",
+        "Writing",
+        "Operation and Control",
+        "Learning Strategies",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "フォークリフト運転技能者",
+        "小型特殊自動車運転免許",
+        "大型特殊自動車運転免許",
+        "陸災防フォークリフト荷役技能検定1級",
+        "陸災防フォークリフト荷役技能検定2級"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +230,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +286,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +381,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +403,42 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>倉庫、工場等でフォークリフトを運転して荷物の運搬や、積み卸しを行う。</p>
+        <p>倉庫、工場等でフォークリフトを運転して荷物を運搬したり、積み卸ししたりする。フォークリフトオペレーター、フォークマン、リフトマンなどとも呼ばれている。</p>
+        <p>フォークリフトは、車体前方のフォークを荷物を積んだパレットに差し込んで荷物を持ち上げ、運搬する車両である。様々な形、大きさ、重さの荷物を運搬するためフォークリフトにはカウンタバランスフォークリフト、リーチフォークリフト、サイドフォークリフト等、荷重や用途に応じた様々な種類がある。</p>
+        <p>入庫・荷受作業の場合、倉庫、工場等にトラック等で運び込まれた荷物を所定の保管場所へフォークリフトを運転し運ぶ。荷物がパレットに載っていない場合は、パレットに積んでから運び、乗っている場合はそのまま運ぶ。この作業をトラックが着くたびに繰り返す。</p>
+        <p>出荷作業の場合、倉庫に保管されている荷物をフォークリフトを運転して荷物を積み込むトラックの後部まで運ぶ。貨物が全て積み込まれたあとはパレットを片付ける。</p>
+        <p>鉄道コンテナターミナルや港湾では、大型のフォークリフトにより、コンテナを貨物列車や船からトラックへ積み替えたり、トラックからコンテナを貨物列車や船に積み替える作業を行う。</p>
+        <p>1日の流れとしては、出勤後、フォークリフトの始業前点検をし、指示書等で当日の荷下ろし、出荷作業の内容を確認する。その後、分担している運搬作業を時間通りに全て完了させる。作業が終了したらフォークリフトを所定の場所（バッテリー式の場合は、充電場所）に戻す。</p>
+        <p>基本的にはフォークリフトによる荷物の運搬・積み卸しが仕事であるが、職場によっては、前段階のピックアップや後工程の仕分けなどをフォークリフト運転作業員が行うところもある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>フォークリフト（カウンタバランスフォークリフト、リーチフォークリフト、サイドフォークリフト等）、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/236">太陽光発電のメンテナンス</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/241">施設警備員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/242">学童保育指導員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/238">ネット通販の企画開発</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/235">太陽光発電の設計・施工</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>フォークリフト運転作業員として働くためには、年齢が18歳以上で、国家資格である「フォークリフト運転技能講習修了証」を取得していなければならない。作業の都合上、公道を走行する必要がある場合は、事業者がフォークリフトを特殊車両として登録してナンバーを取得し、オペレーターは車両に応じて小型又は大型特殊自動車運転免許を別途取得することが必要になる。</p>
+        <p>新規学卒者の場合は倉庫会社や物流会社に採用された後、フォークリフト担当部署に配属される。入職時には経験、資格は問われず、配属後に資格を取得するケースがほとんどである。資格取得後は班長などから指導を受けて、OJTで仕事に慣れ、経験を積めば一人前と見なされる。技能を磨き経験を積むことによって、班長、主任などに昇進していく場合もある。フォークリフト担当部署から他部署に異動になる場合もある。</p>
+        <p>中途採用については人手不足が続いていることもあり、欠員募集などの採用が常時行われており、入職機会は多い。派遣会社に登録し、働く場合もある。かつては経験者が多かったが、最近では異業種からの応募も増えており、その場合は新規学卒と同じく入職してから資格を取得することになる。</p>
+        <p>荷物を受取、所定の場所に収め、それを後工程に回すという仕事なので、時間をきちんと守ることが必要となる。また、重い荷物の積み卸しを車両の運転・操作をしながら正確に、素早く続けられること、事故なく安全に作業ができる慎重さが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>倉庫、工場、港湾、鉄道コンテナターミナル、あるいは特設のイベント会場などで働く。</p>
+        <p>基本的には、物流や生産工程のなかで、構内における荷物移動を担う職種であり、勤務体制は職場によって大きく異なる。倉庫であれば、9時から18時の勤務体制のところが多いが、24時間稼働する工場の場合は、2交代なり3交代の勤務となる。トラックターミナルや鉄道コンテナターミナルであれば、荷物の発着が夜中や早朝になることも多いので、早出と遅出の時差勤務体制をとる場合もある。</p>
+        <p>就業者はほとんどが男性で、年齢的には40代、50代が中心だったが、最近では高齢者や女性が増えている。高齢者の場合は定年退職後も再雇用や再就職で従事しているケースが多い。</p>
+        <p>最近ではネット通販等の利用者の増加に伴い、宅配便取扱い量が増え続ける中、倉庫内の作業の機械化による無人化への取組みが進展している。貨物の管理・入出庫をコンピューター制御する自動倉庫やAGV（無人搬送車）、搬送ロボットなどを採用する事業所が増えつつある。また、無人フォークリフト型AGVの開発も進展しており、人間が運転・操作する有人フォークリフトは大きな転機を迎えている。しかしながら搬送作業には定型的な大量処理に適さないものも多く、扱う貨物によってはベテラン作業員によるきめ細やかな対応が求められる業務も少なくない。このため、求められる作業の種類や技術水準などに変化は出てくるとしても、小回りが効き、多様な要求に応えられるフォークリフト運転作業員の需要は続くものと思われる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,113.1 232.3,149.8 206.1,219.7 124.6,232.5 101.1,147.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>43</dd><dt>対人</dt><dd>50</dd><dt>判断</dt><dd>47</dd><dt>身体</dt><dd>59</dd><dt>定型</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">2.9</span></li><li><span class="topn-name">指導</span><span class="topn-score">2.5</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">2.4</span></li><li><span class="topn-name">読解力</span><span class="topn-score">2.4</span></li><li><span class="topn-name">説明力</span><span class="topn-score">2.4</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">2.3</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.2</span></li><li><span class="topn-name">操作と制御</span><span class="topn-score">2.2</span></li><li><span class="topn-name">学習方法の選択・実践</span><span class="topn-score">2.1</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">2.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">輸送</span><span class="topn-score">1.4</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">1.0</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.0</span></li><li><span class="topn-name">人事労務管理</span><span class="topn-score">0.8</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">0.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.0</span></li><li><span class="topn-name">筋力</span><span class="topn-score">2.9</span></li><li><span class="topn-name">持久力（スタミナ）</span><span class="topn-score">2.8</span></li><li><span class="topn-name">奥行きの知覚（遠近感覚、深視力）</span><span class="topn-score">2.8</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">2.8</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/48"><span class="tc-name">エレベーター据付</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/35"><span class="tc-name">さく井工/ボーリング工</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.jiva.or.jp/" rel="external" target="_blank">一般社団法人日本産業車両協会</a></li><li><a href="http://www.lmuse.or.jp/" rel="external" target="_blank">物流博物館（公益財団法人　利用運送振興会）</a></li><li><a href="https://rikusai.or.jp/" rel="external" target="_blank">陸上貨物運送事業労働災害防止協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>フォークリフト運転技能者</li><li>小型特殊自動車運転免許</li><li>大型特殊自動車運転免許</li><li>陸災防フォークリフト荷役技能検定1級</li><li>陸災防フォークリフト荷役技能検定2級</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +447,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

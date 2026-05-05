@@ -8,6 +8,7 @@
     <title>Shipping/Receiving Clerk — AI Impact 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="Shipping/Receiving Clerk: workforce ~292,325 / annual salary 521万円 / avg age 45.1 / AI impact 8/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Shipping/Receiving Clerk, Transportation Clerk, Receiving Inspector, Shipping Clerk, Warehouse Clerk, Inventory Control Clerk" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/542" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/542" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "542",
+      "occupationalCategory": "06_039-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/542",
       "additionalProperty": [
         {
@@ -122,7 +123,39 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Shipping/Receiving Clerk",
+      "alternateName": [
+        "Shipping/Receiving Clerk",
+        "運送事務員",
+        "検収・検品係員",
+        "出荷・発送係員",
+        "倉庫事務員",
+        "保管・管理係員",
+        "Transportation Clerk",
+        "Receiving Inspector",
+        "Shipping Clerk",
+        "Warehouse Clerk",
+        "Inventory Control Clerk"
+      ],
+      "industry": "Office & Public Service",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Time Management",
+        "Writing",
+        "Reading Comprehension",
+        "Instructing",
+        "Coordination",
+        "Negotiation",
+        "Management of Material Resources",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "倉庫管理主任者",
+        "物流経営士",
+        "防火管理者（甲種）",
+        "防火管理者（乙種）",
+        "食品衛生管理者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +239,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +295,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +390,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=jimu">Office &amp; Public Service</a><span class="band band-high">High AI risk</span><span class="band band-high">Large workforce</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +412,52 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Handles inbound and outbound shipping documentation; AI rising.</p>
+        <p>Shipping/receiving clerks perform administrative tasks related to the receipt, inspection, storage, and dispatch of materials and products.</p>
+        <p>This occupation encompasses three main categories: inspection and receiving work, storage and inventory management work, and shipping and dispatch work.</p>
+        <p>In &quot;inspection and receiving work&quot; (performed at delivery locations for materials and products), clerks verify that quantities, dimensions, and other specifications match the purchase order and related documents. Various titles are used for this role, including receiving inspector, materials receiving clerk, warehouse receiving clerk, and delivery inspection clerk.</p>
+        <p>In &quot;storage and inventory management work&quot; at factories and warehouses, clerks receive, store, and manage machinery, equipment, goods, and materials. Titles include inventory clerk, materials management clerk, merchandise management clerk, and warehouse management clerk.</p>
+        <p>In &quot;shipping and dispatch work&quot; for sending out materials, components, and products, clerks prepare and manage shipping documents such as waybills, dispatch notices, delivery slips, and shipping instructions. Titles include transportation clerk, shipping clerk, dispatch management clerk, and marine cargo shipping clerk.</p>
+        <p>In all cases, maintaining appropriate inventory of products, materials, and raw materials — eliminating stockouts and excess inventory to reduce costs, and preventing damage and deterioration to preserve quality — is the central function.</p>
+        <p>In inspection and receiving work, when goods are delivered to a warehouse, clerks verify the contents and quantity of the shipment, register the information in a computer system, prepare a management ledger, assign a management number to each item, and print barcode or QR code labels. Warehouse workers are then asked to affix the labels to the items, which are stored on designated shelves based on the management ledger. Where codes are already assigned, a handheld terminal or scanner is used to read them.</p>
+        <p>In distribution warehouses handling food, clothing, and daily goods, clerks cross-check quantities, dimensions, and other specifications on shipping slips and order documents against the actual goods, arrange for storage in the designated warehouse area, hand the receiving slip to the consignor, and record the transaction in the management ledger. For each item delivered from suppliers or markets, they check that the content, quantity, color, and price tags match the delivery slip and that the goods are undamaged. For deliveries from the company&#x27;s own distribution center, total quantities are often the main check. Once correct delivery is confirmed, the acceptance stamp for that day is applied to the purchase slip, and a copy is returned to the supplier. Purchase slips are filed by category and managed appropriately.</p>
+        <p>In storage and inventory management work at factories and warehouses — and for fresh food, clothing, and daily goods at department stores and supermarkets — clerks receive shipments arriving daily from suppliers, markets, or the company&#x27;s own distribution centers. They verify goods against purchase slips and return slips at time of delivery and maintain an accurate and detailed picture of overall inventory. They also confirm that goods have been delivered and stored in the correct designated location. When shortages are identified, purchase slips are corrected; defective goods are returned from the store to the supplier.</p>
+        <p>In shipping and dispatch work, clerks coordinate delivery deadlines with business partners, prepare waybills, shipping notices, delivery slips, and shipping instructions, and may also perform supplementary tasks such as weighing, packing, and sorting goods in preparation for dispatch.</p>
+        <p>In small and medium-sized warehousing companies, it is common for the same staff to handle both warehouse operations and shipping/receiving administration.</p>
+        <p>The logistics industry has built sophisticated information systems linking physical goods to information, with four system categories: order processing systems (information on outbound shipments), purchasing systems (information on inbound shipments), warehouse management information systems (information on movement of goods at logistics hubs), and transportation management systems (tracking and monitoring of goods). Barcodes and barcode-reading terminals are widely used on the shop floor. Inventory management systems — which track quantity changes from receiving, shipping, storage, returns, and inventory counts — are standard, and those working in warehouse management are expected to use them.</p>
+        <p>◇ Commonly used tools, equipment, and software
+Spreadsheet software, personal computers, tablets, various logistics management system terminals, handheld terminals, handheld scanners, barcodes, QR codes, order processing systems, purchasing systems, warehouse management information systems, transportation management systems</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/543">Postal Window Clerk</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/540">Software Tester (Debug)</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/528">Autonomous Driving Developer</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/541">Narrator</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/544">Merchandiser / Buyer</a><span class="r-risk">AI 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required for entry. However, since information technology is widely used in distribution management, PC skills are an asset — data entry into Excel and management systems is standard day-to-day work.</p>
+        <p>Entry includes both new graduates and mid-career hires.</p>
+        <p>Because this is a suitable workplace for gaining foundational knowledge of the distribution industry, new employees are frequently assigned here. Mid-career hires are recruited through Hello Work listings, newspaper job advertisements, and personal referrals, and after a period of training they take up their duties. They learn practical knowledge, work rules, labor agreements, customer service skills, and operational techniques from workplace supervisors and team leaders, and then begin working. After a period of experience, promotion to team leader or senior staff is possible; advancement to administrative management positions may also occur.</p>
+        <p>Qualifications useful for career advancement into supervisory roles managing and developing shipping/receiving staff include — depending on the goods handled — Warehouse Management Supervisor, Logistics Management Professional, Fire Safety Manager (Class A or Class B), and Food Sanitation Manager.</p>
+        <p>Specialized knowledge may be required depending on the goods or services handled; this can be acquired through on-the-job training. Desirable qualities and skills include numerical management ability, information analysis ability, basic PC skills (Word, Excel, etc.), and computational ability — since the work involves invoices and cash-related transactions. Foreign language proficiency (particularly English) is an asset when dealing with international trade partners. Since the work involves frequent interaction with customers and other departments, communication skills, adaptability, and the ability to persist methodically through detailed tasks are also required.</p>
+        <p>A degree of physical fitness is also needed, as the work may involve cargo handling and auxiliary work, and early-morning starts are sometimes required.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Workplaces extend nationwide — including various types of warehouses, factories, retail stores, freight companies, distribution centers, and e-commerce logistics hubs.</p>
+        <p>Opportunities are plentiful at stores that handle large volumes of goods: department stores, supermarkets, discount stores, specialty retailers, chain stores, and wholesale businesses. Employment opportunities exist in major cities as well as regional cities where large supermarkets have been opening.</p>
+        <p>The nature of the work and working conditions vary depending on whether the workplace is indoors (including refrigerated warehouses), a factory, or a retail store, and depending on whether the goods handled are industrial products, apparel, daily goods, food, or beverages.</p>
+        <p>For companies dealing in import/export cargo, working hours may be irregular due to ship arrival and departure schedules. Companies handling perishable goods or import/export cargo tend to have more overtime. When trading internationally, time differences with counterpart countries may affect working hours.</p>
+        <p>In terms of employment type, part-time workers and fixed-term contract workers make up a high proportion of the workforce.</p>
+        <p>For example, in a general supermarket setting, staff receive and transport incoming goods, manage delivery slips, and in some cases use pricing systems to enter discount rates — and frequently combine roles with warehouse workers, packing staff, and product packaging workers.</p>
+        <p>Systematization of shipping and receiving operations is expected to continue advancing, while the terminals and devices used are becoming lighter and easier to operate. The use of fax and email for ordering is expected to decline, with internet-based ordering systems becoming more prevalent.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,112.3 242.7,146.4 205.5,218.9 132.9,221.0 101.8,147.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>44</dd><dt>Social</dt><dd>58</dd><dt>Judgment</dt><dd>46</dd><dt>Physical</dt><dd>48</dd><dt>Routine</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Writing</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Negotiation</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Management of Material Resources</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">2.6</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Clerical</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Transportation</span><span class="topn-score">1.8</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">1.5</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">1.2</span></li><li><span class="topn-name">Production &amp; Processing</span><span class="topn-score">1.0</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Memorization</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Static Strength</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">2.5</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/139"><span class="tc-name">Local Civil Servant (Administrative)</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/138"><span class="tc-name">National Civil Servant (Administrative)</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/442"><span class="tc-name">School Office Clerk</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.nissokyo.or.jp" rel="external" target="_blank">一般社団法人　日本倉庫協会</a></li><li><a href="http://www.jarw.or.jp/" rel="external" target="_blank">一般社団法人　日本冷蔵倉庫協会</a></li><li><a href="https://jta.or.jp/association.html" rel="external" target="_blank">公益社団法人　全日本トラック協会</a></li><li><a href="http://www.t-renmei.or.jp/" rel="external" target="_blank">公益社団法人　全国通運連盟</a></li><li><a href="http://www.epa.ne.jp/jpa/p-jpa.html" rel="external" target="_blank">日本梱包工業組合連合会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>倉庫管理主任者</li><li>物流経営士</li><li>防火管理者（甲種）</li><li>防火管理者（乙種）</li><li>食品衛生管理者</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +466,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>Mortician (Nokanshi) — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Mortician (Nokanshi): workforce ~24,600 / annual salary 396万円 / avg age 43.1 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Mortician (Nokanshi)" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/569" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/569" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "569",
+      "occupationalCategory": "09_058-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/569",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Mortician (Nokanshi)",
+      "industry": "Service & Hospitality",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=service">Service &amp; Hospitality</a><span class="band band-low">Low AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +381,41 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Prepares deceased for funerals; in-person hand work.</p>
+        <p>Morticians (nokanshi) carry out post-mortem care, prepare the deceased for viewing, and place the body in a casket—all so that the bereaved family can say farewell to their loved one in peace. The role is often referred to by the title of the film that depicted this work: &quot;Departures&quot; (おくりびと, &quot;Okuribito&quot;).</p>
+        <p>Although the word &quot;nokan&quot; means placing the body in a casket, the work of a mortician extends well beyond that act. First, post-mortem care is performed to preserve the body in a stable condition until the funeral. The entire body is examined for marks left by intravenous lines or other medical devices, and for pressure ulcers (bedsores) or other skin damage. Any such marks are closed using medical-grade adhesive tape. Cotton wadding is packed into the nasal passages and other body cavities to prevent body fluids from leaking out and to suppress decomposition odor. The body is then wiped with alcohol-soaked cotton to clean it, and facial expressions are arranged so that the deceased appears to be resting peacefully—beginning with gently working out post-mortem rigidity.</p>
+        <p>Next, the body is prepared for viewing. This is commonly referred to as the mortuary toilet or &quot;death makeup&quot; (shi-keshō). Following the family&#x27;s wishes, the mortician styles the hair, shapes the beard or shaves it, and applies makeup to help the skin look healthy. In recent years, it has become increasingly common to perform this step together with the family. Once grooming is complete, the body is dressed. The garments are chosen and applied in accordance with the family&#x27;s wishes, regional customs, and the rules of the deceased&#x27;s religion or sect. During dressing, the mortician consults with the funeral director to determine whether clothing is appropriate for cremation and removes any metal fittings or makes other necessary adjustments.</p>
+        <p>Finally, the body is gently placed in the casket and set in repose.</p>
+        <p>Most morticians work for companies that specialize in mortuary services. Work is typically performed under commission from a funeral home. At least two morticians usually work together per assignment, though in some regions or at some operators a mortician may work alone.</p>
+        <p>After the procedure is complete, a report is submitted to the funeral director and an internal report is prepared that records in detail which areas of the body received which treatment. This information is shared so that if changes occur in the body&#x27;s condition before the funeral and the original mortician is unavailable, another mortician can respond promptly.</p>
+        <p>Some operators also offer ritual bathing services (yukan) at the family&#x27;s request before the laying-in; in such cases a ritual bathing specialist (yukanshi) typically accompanies the team, though at some operators the two roles are combined.</p>
+        <p>Some operators have morticians with expertise in reconstruction who, at the request of law enforcement and others, travel to disaster or accident sites nationwide to perform reconstruction procedures on severely damaged remains.</p>
+        <p>Among experienced morticians, some serve as instructors at funeral service vocational schools, or accept requests from hospitals, care facilities, and other funeral service operators to conduct training sessions on laying-in and post-mortem care.</p>
+        <p>The bodies morticians encounter are not always in a pristine state. Some may have been discovered long after death; others may be severely damaged by accidents or disasters. Even in such cases, arranging a peaceful expression that reflects the person&#x27;s appearance in life is both a technical challenge and a personal hardship. Beyond technical skill, morticians are called upon to be present for the family&#x27;s grief, offering reassurance as the family says their final farewell. Because the work involves the body of someone precious to the family, there is no room for error, and the role carries constant pressure. Yet when a family expresses heartfelt gratitude after the procedure, or when one sees a look of relief on their faces, the sense of professional fulfillment is profound.</p>
+        <p>Tools and equipment commonly used: tweezers, cotton wadding, medical-grade adhesive tape, waterproof sheeting, makeup tools, nail clippers, scissors</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Neither educational credentials nor professional qualifications are required for new graduates or mid-career applicants. For new graduates, some students from funeral service vocational schools enter through internship programs. Many entrants are mid-career hires, and previous occupations are diverse; conversions from nursing, caregiving, and hair and beauty work are relatively common.</p>
+        <p>No qualifications are required to enter the field, but holding a standard driver&#x27;s license is advisable since travel to assignment sites is usually by company vehicle. Job listings are primarily posted on Hello Work and private job sites; operators with offices in multiple regions typically hire for each office independently.</p>
+        <p>Post-hire training is primarily on-the-job, conducted by senior staff. Some skills—such as dress application—can be practiced at the office; however, most procedural skills are difficult to practice in advance and must be learned in the field, under a mentor&#x27;s guidance. Training duration varies with the individual&#x27;s pace of learning, but typically ranges from about six months to one year; at some operators, new graduates participate in group training on business etiquette and similar topics before beginning OJT.</p>
+        <p>Most morticians work for companies specializing in mortuary services. When a position is advertised specifically as a mortician role, the new hire is placed as a mortician from the start and receives training accordingly. Salary increases and promotion opportunities are governed by the operator&#x27;s policies. After gaining field experience, some advance to site supervisor, area manager, or management roles in branch offices or headquarters.</p>
+        <p>Given that the work involves the final farewell of a beloved family member, a clean and presentable appearance, proper manners, and strong interpersonal communication skills for smooth coordination with the family and funeral director are all important. Empathy—the capacity to walk alongside the grief of the bereaved—is also essential, as is the professional ability to reset one&#x27;s emotions between assignments. Because the work is handled by a small team, teamwork and coordination skills matter as well.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Morticians typically report to their assigned office and then travel by company vehicle to the location where the body is being kept—a funeral hall, the deceased&#x27;s home, a temple or shrine. One session covering all procedures generally takes one to one and a half hours, and it is common to handle several sites in a single day. If a significant amount of time elapses before the funeral, or if changes occur in the body&#x27;s condition, the mortician may return to the site for additional care.</p>
+        <p>The number of morticians assigned to a single office varies by region and operational scale. Even at operators with offices in multiple regions, regional funeral customs often differ significantly, so inter-office transfers and nationwide reassignments are uncommon. Women are highly active in the field. The predominant employment type is full-time regular employment.</p>
+        <p>Shifts are primarily daytime, but early and late shifts may be rotated to align with the office&#x27;s operating hours. At offices that operate on weekends, shift-based scheduling is used. After developing a solid set of skills, some morticians go on to establish their own operations or work as independent contractors.</p>
+        <p>In recent years, the trend toward smaller and simpler funerals has continued—driven by nuclear family structures and economic considerations. Because mortician services are not always included in standard funeral packages, this trend has had some impact. At the same time, the heartfelt wish of many bereaved families to do everything possible for their loved one&#x27;s send-off means that demand for mortician services continues to grow year on year. The social importance of the role is increasingly recognized, and the occupation is expected to be valued more and more by society going forward.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +428,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +437,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

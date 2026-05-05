@@ -8,6 +8,7 @@
     <title>花き栽培者 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="花き栽培者：就業者 約290,556人 / 平均年収 351万円 / 平均年齢 42.5 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="花き栽培者, 植木栽培作業員, 花き栽培作業員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/507" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/507" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "507",
+      "occupationalCategory": "11_064-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/507",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Flower Grower",
+      "alternateName": [
+        "Flower Grower",
+        "植木栽培作業員",
+        "花き栽培作業員"
+      ],
+      "industry": "Agriculture & Fishing",
+      "skills": [
+        "Active Listening",
+        "Reading Comprehension",
+        "Monitoring",
+        "Active Learning",
+        "Speaking",
+        "Equipment Selection",
+        "Coordination",
+        "Writing",
+        "Critical Thinking",
+        "Repairing"
+      ],
+      "qualifications": [
+        "大型特殊自動車免許"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=noringyo">農林・水産</a><span class="band band-low">AI 影響 低</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +400,45 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>観賞用の花や観葉植物などの「花卉（き）」を生産する。</p>
+        <p>観賞用の花や観葉植物などの「花卉（き）」を生産する。花きは本来花と草の意味であるが、現在では観賞用の植物全般を指す言葉になっている。</p>
+        <p>花きには、切り花として出荷するもの（キク、バラ、カーネーションなど）、鉢に入れて出荷する鉢物（シクラメン、ラン、観葉植物など）、花壇用に苗物として出荷するもの（パンジーなど）、花木類（サツキ、ツツジなど）、球根を生産し出荷するもの（ユリ、チューリップなど）、芝や地被植物など多くの種類がある。品質による価格差が大きいため、生産者は品質を保つために細心の注意を払う。また、花きは、し好品であり、消費者の好みも様々で、中には、新しい品種を作り出すために、育種に取り組んでいる花き生産者や企業もある。出荷された花きは、流通を経て消費者に届けられる。野菜や果物と同様に、花きの流通は、卸売市場を経由する「市場流通」と卸売市場を経由しない「市場外流通」がある。市場流通が主となるが、近年は直売やインターネット取引などの流通の多様化により、市場外流通が増加傾向にある。また、花きの種類では、店舗で販売される家庭用の花き以外に、贈答や冠婚葬祭に使用される商業用の花きなどもある。</p>
+        <p>多品目の花きを組み合わせて生産することが多く、年間を通じて花きの成長段階に応じた作業がある。</p>
+        <p>花きの種類に応じて栽培技術を使い分け、ガラス温室やビニールハウスなどの施設、あるいは露地で生産する。</p>
+        <p>具体的な作業は、土作り、種まき又は苗の植えつけ、肥料の施用、水やり、薬剤の散布などによる病虫害の防除、温室の窓の開閉や冷暖房機の運転などによる温度管理、収穫作業、出荷作業などである。</p>
+        <p>管理が的確に行われなかった場合、美しい草姿や色合いにならず商品として販売できなかったり、需要期に合った出荷ができずに取引価格が低迷するので、きめ細かな管理が必要となる。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>冷暖房機、農業機械、普通自動車（普通免許（第一種、第二種）で運転可能なもの）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/506">果樹栽培者</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/510">動物看護</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/502">酪農従事者</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/508">畜産技術者</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/505">ハウス野菜栽培者</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。以前は、農業系の高校や大学の農学部、園芸学部などで専門的な知識や技術を習得してから就業する人が多かったが、農業関係の知識がなくても、異業種から就業する社会人経験者も増えてきている。</p>
+        <p>花き栽培者の多くは自営で、親族のあとを継ぐケースが最も多く、米や野菜など他の作物を生産していた農家が新たに花きの栽培を行う場合もある。新規就農者の場合、研修生を受け入れている花き栽培農家などで実習生として技術を習得してから独立する場合が多い。</p>
+        <p>また、花きの生産・販売を行っている農業法人に就職し、栽培管理から出荷まで、生産における各工程の仕事の流れを学ぶ場合もある。比較的大きな規模の法人などでは、基本的な生産業務や生産管理業務を経験した後、営業や管理職になる場合もある。その後独立することも可能である。</p>
+        <p>就農相談に応える機関としては、「全国新規就農相談センター」があり、各都道府県にも同様のセンターがある。更に、技術習得への支援としては、都道府県の普及指導センターが就農前の研修場所の相談や斡旋をしている。未経験から始めた人や他業種から転身している人もいる。</p>
+        <p>花きは需要期を外すと販売価格が低迷するため、病害虫被害を受けないように注意しながら生育の状況を見守り、一番良いタイミングで消費者に届くよう調整を行っていく仕事であり、植物体の異変等を見逃さないように細かいところに注意を払いながら仕事を続けていくことができる人が向いている。流行や消費者のニーズを汲み取る感性も求められる。鉢ものやトレイ単位の苗を扱うこともあり、ある程度体力は必要である。</p>
+        <p>農業機械や車両等の運転をする必要があるため、普通自動車免許、大型特殊免許が必要な場合もある。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>花きの主要産地は、愛知県、千葉県、福岡県、埼玉県、静岡県などである（2016年時点*1）。</p>
+        <p>花き栽培の労働時間は、季節や勤務形態によって異なる。繁忙期には朝早くに仕事を始め、夜遅くまで働くこともある。多くの女性が活躍している（*2）。パート、アルバイトの雇用も多い。</p>
+        <p>多くの生産者は、出荷グループや農協等に属して出荷している。</p>
+        <p>水やりやハウス内の温度管理などの環境制御は、自動的に行う装置が幅広く利用されている。また、急激な天候の変化には遠隔地からスマホやパソコンで制御することができる装置も開発されており、このような技術や計画的な栽培計画の検討により、休日の確保等労働条件も改善されてきている。</p>
+        <p>*1　農林水産省園芸作物課「平成28年花木生産状況調査」から
+*2　新潟農業大学校ホームページから</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,107.2 224.8,152.2 204.8,218.0 126.6,229.7 116.8,152.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>48</dd><dt>対人</dt><dd>44</dd><dt>判断</dt><dd>45</dd><dt>身体</dt><dd>56</dd><dt>定型</dt><dd>43</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">2.7</span></li><li><span class="topn-name">読解力</span><span class="topn-score">2.7</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">2.6</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">2.4</span></li><li><span class="topn-name">説明力</span><span class="topn-score">2.4</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">2.4</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">2.3</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.2</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">2.2</span></li><li><span class="topn-name">修理</span><span class="topn-score">2.2</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">農業・畜産業</span><span class="topn-score">3.1</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">2.2</span></li><li><span class="topn-name">生物学</span><span class="topn-score">1.8</span></li><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">1.6</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">1.5</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">筋力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">指先の器用さ</span><span class="topn-score">3.0</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">2.9</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">2.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/230"><span class="tc-name">林業作業</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/220"><span class="tc-name">動物園飼育員</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/509"><span class="tc-name">沿岸漁業従事者</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 97%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jfpc.or.jp/" rel="external" target="_blank">一般財団法人 日本花普及センター</a></li><li><a href="https://www.jfga.or.jp/" rel="external" target="_blank">一般社団法人 日本花き生産協会</a></li><li><a href="https://www.be-farmer.jp/" rel="external" target="_blank">全国新規就農相談センター</a></li><li><a href="http://hojin.or.jp/" rel="external" target="_blank">公益社団法人 日本農業法人協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>大型特殊自動車免許</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +447,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

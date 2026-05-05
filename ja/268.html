@@ -8,6 +8,7 @@
     <title>半導体製造 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="半導体製造：就業者 約121,440人 / 平均年収 428万円 / 平均年齢 43.5 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="半導体製造, 半導体製品製造設備オペレーター, 半導体組立設備オペレーター, 半導体組立工, 半導体集積回路（IC）製造工, 半導体チップ製造工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/268" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/268" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "268",
+      "occupationalCategory": "12_074-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/268",
       "additionalProperty": [
         {
@@ -122,7 +123,32 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Semiconductor Manufacturing Worker",
+      "alternateName": [
+        "Semiconductor Manufacturing Worker",
+        "半導体製品製造設備オペレーター",
+        "半導体組立設備オペレーター",
+        "半導体組立工",
+        "半導体集積回路（IC）製造工",
+        "半導体チップ製造工"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Instructing",
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Operation and Control",
+        "Quality Control Analysis",
+        "Monitoring",
+        "Operations Monitoring",
+        "Writing",
+        "Complex Problem Solving"
+      ],
+      "qualifications": [
+        "特級半導体製品製造技能士",
+        "１級半導体製品製造技能士",
+        "２級半導体製品製造技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +232,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +288,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +383,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-mid">AI 影響 中</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -309,18 +406,46 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>半導体の製造工程で設備、装置、機械を操作、監視し半導体を製造する。</p>
+        <p>半導体は、シリコンなどの元素半導体を材料として作られる電子部品で、トランジスターやダイオードなどの素子単体（ディスクリート半導体部品）とトランジスターなどで構成されるLSIがある。コンピュータ、冷蔵庫、電子レンジ等の家電製品、スマートフォン、タブレット等の一般消費者向け製品から産業用機械まで、小型化、軽量化、省エネルギー化が実現されているのは、半導体がチップやLSIに大量に組み込まれるように設計・開発を進め、効率よく基盤の中に収めることに成功した成果といえる。</p>
+        <p>生産職は、半導体工場の中で、半導体の量産、組み立て、検査の工程を担っている。生産の自動化が進み、仕事は製造のための設備、装置、機械の操作、監視が中心となっている。設備、装置、機械は非常に精密であり、仕様書、マニュアル等の操作手順に従った正確な操作を行い、担当する装置等が順調に動いているかを常に監視する。軽微なトラブルには対応するが、解決が困難な場合にはエンジニア等に状況を報告し、相談するなど対応を図る。</p>
+        <p>半導体の製造は、高い製品歩留まりや品質管理を実現するために、クリーンルーム内で各種の装置等を操作する。</p>
+        <p>総工程数は400～600工程に及ぶが、前工程（ウェーハ処理工程：表面に電気回路を作る）と後工程（組み立て工程）に大きく分けることができる。</p>
+        <p>具体的な仕事を工程に沿ってみると、前工程では、単結晶棒をスライスしてシリコンウェーハに加工し、成膜（せいまく）工程で熱処理装置を使って、CVD（化学気相蒸着）法によりウェーハ上にシリコン窒化膜を蓄積させる。コーター（塗工機）でウェーハを高速回転させながら、ウェーハの全面に感光材（フォトレジスト）を塗布する。このウェーハにIC回路を描いたガラスマスクをあてて、露光機でその回路を転写する。これを現像することによりフォトレジストに形成されたパターンに従って、プラズマエッチング装置で薄膜を削り、フォトレジストで保護されている部分を残すことによって配線などの形に加工する。最後に不要なレジストや不純物を取り除き、絶縁膜を埋め込み、でこぼこの膜面を研磨して平坦にする。これで1層分の回路ができるので、この工程を繰り返すことにより、何層もの配線回路ができる。ウェーハ上に形成されたデバイスの電気特性を検査した後、後工程に送る。</p>
+        <p>後工程は、ダイシング工程でウェーハから半導体素子であるチップ（ダイと呼ばれる）を切り出し、マウンティング工程でこのダイを支持体（回路基板）に固定し、ボンディング工程でチップとリード線をつなぎ、モールド工程でチップをセラミックや樹脂などのケースに固定し、製品名などを刻印するマーキング工程を経て、電気特性や外観検査や信頼性試験をパスした良品をパッケージ化して製品となる。（*1）（*2）（*3）。</p>
+        <p>*1　株式会社日立ハイテクノロジー　「ホームページ」から
+半導体の製造　半導体製造工程
+*2　日本半導体製造装置協会　「半導体のできるまで」から
+*3　東京エレクトロン株式会社　「半導体ができるまで」から</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>手袋、マスク</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/269">物流設備管理・保全</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/259">鉄鋼製造オペレーター</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/278">織布工/織機オペレーター</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/267">半導体技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/266">計器組立</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。高校卒業後、入職する場合が多い。特に専攻も問われない。入職後は、各半導体メーカーによって異なるが、1～6カ月にわたってOJTによる教育が行われる。操作手順をきちんと理解すれば、一応の操作はできるようになる。その後、現場での経験を重ねて、迅速かつ間違いのないオペレーションができるように熟練していく。</p>
+        <p>現場経験を積み、工程の管理者、クリーンルーム全体の管理者等になる者や専門性を高めエンジニアになる者もいる。また、生産職から本社等で生産管理の仕事に従事する場合もある。</p>
+        <p>関連資格としては、厚生労働省が定める技能検定の「半導体製品製造技能士」がある。</p>
+        <p>半導体製造装置は、きわめて複雑で精密な装置なので、その取り扱いには注意力が求められる。操作手順もマニュアル通りの操作が要求されるため、マニュアルをきちんと理解し、教えられた通りのオペレーションを継続できる正確性、几帳面さが必要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は、半導体メーカーの工場である。郊外に立地している場合が多い。</p>
+        <p>就業者は男性が多い。比較的正社員が多い。派遣労働者もいる。</p>
+        <p>賃金、労働条件等は勤務先の規定による。事業所によって違いはあるが、24時間稼働が多く、8時間勤務の3交代制や12時間勤務の2交替制が一般的である。シフトはローテーションになるが、交替のパターンも事業所によって異なる。休日はローテーションで取得する。</p>
+        <p>半導体製造工程では目に見えないチリ、ホコリが不良の原因となるため、作業環境の特色としてクリーンルームでの作業が挙げられる。作業者は、ホコリが出にくいナイロン製の白衣に着替え、帽子・手袋・マスクを着用し、靴も履き替え、エアシャワーを浴びてからクリーンルームに入室する。クリーンルーム内の温度、湿度は品質管理上、温度25℃、湿度50％程度に常時保たれている。</p>
+        <p>世界の半導体売上高に占める日本のシェアは1988年に50％を超えていたが、1990年代以降、国際的にその地位は低下し、2019年時点では日本のシェアは1割程度となっている。ただし、一部の半導体、例えば、コントローラとしてのマイコン、電力を制御するパワー半導体、画像センサーは国際的に高いシェアを維持している。これらは現在、急激に進んでいる車の電動化、EV化、自動化等で重要な役割を果たしている。また、半導体製造装置の市場シェアも高い。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,99.1 241.3,146.8 211.3,226.9 128.4,227.3 99.5,147.1" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>54</dd><dt>対人</dt><dd>57</dd><dt>判断</dt><dd>54</dd><dt>身体</dt><dd>54</dd><dt>定型</dt><dd>57</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">指導</span><span class="topn-score">3.2</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">操作と制御</span><span class="topn-score">3.1</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">2.9</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">2.9</span></li><li><span class="topn-name">計器監視</span><span class="topn-score">2.9</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.8</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.7</span></li><li><span class="topn-name">機械</span><span class="topn-score">1.8</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.7</span></li><li><span class="topn-name">化学</span><span class="topn-score">1.6</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.6</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.5</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">3.0</span></li><li><span class="topn-name">演算力</span><span class="topn-score">3.0</span></li><li><span class="topn-name">演繹的推論</span><span class="topn-score">2.9</span></li><li><span class="topn-name">マルチタスク</span><span class="topn-score">2.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/263"><span class="tc-name">光学機器組立</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/264"><span class="tc-name">自動車組立</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/266"><span class="tc-name">計器組立</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jeita.or.jp/japanese/" rel="external" target="_blank">一般社団法人　電子情報技術産業協会</a></li><li><a href="http://www.seaj.or.jp/" rel="external" target="_blank">一般社団法人　日本半導体製造装置協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>特級半導体製品製造技能士</li><li>１級半導体製品製造技能士</li><li>２級半導体製品製造技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +454,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

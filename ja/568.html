@@ -8,6 +8,7 @@
     <title>児童発達支援管理責任者 — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="児童発達支援管理責任者：就業者 約44,392人 / 平均年収 441万円 / 平均年齢 45.4 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="児童発達支援管理責任者, 児発管" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/568" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/568" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "568",
+      "occupationalCategory": "08_049-09",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/568",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Child Development Support Manager",
+      "alternateName": [
+        "Child Development Support Manager",
+        "児発管",
+        "Jihatsu-kan"
+      ],
+      "industry": "Welfare & Care",
+      "skills": [
+        "Active Listening",
+        "Service Orientation",
+        "Instructing",
+        "Social Perceptiveness",
+        "Speaking",
+        "Coordination",
+        "Writing",
+        "Complex Problem Solving",
+        "Reading Comprehension",
+        "Persuasion"
+      ],
+      "qualifications": [
+        "児童発達支援管理責任者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=fukushi">福祉・介護</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,19 +400,42 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>児童発達支援や放課後等デイサービス等、障害のあるこどもに対して療育を行う現場において、個々のこどもや家族のニーズに応じた一連のサービス提供プロセスを管理する。</p>
+        <p>児童発達支援管理責任者（以下「児発管（じはつかん）」という。）は、児童発達支援や放課後等デイサービス等、障害のあるこどもに対して療育を行う現場において、個々のこどもや家族のニーズに応じた一連のサービス提供プロセスを管理する支援提供の責任者である。2012年の児童福祉法改正により新たに位置付けられた職業であり、児童発達支援（主に未就学児を対象）や放課後等デイサービス（就学児対象）などの障害児通所支援及び障害児入所支援（以下「障害児支援」という。）において1名以上必置とされている。</p>
+        <p>児発管の重要な業務として、個別支援計画の作成が挙げられる。発達支援の適切な実施に当たっては、支援開始時のアセスメントによりこどもの状態や家族の困りごと、希望等を把握し、発達段階に応じた長期目標や短期目標等を設定する等、事業所が提供すべき支援内容を踏まえた個別支援計画を作成することが求められる。また、計画に基づいた適切な支援提供を実施しながら、6か月に一度以上の頻度で、支援の成果や目標への到達度等をモニタリングして個別支援計画を更新する。</p>
+        <p>実際の支援提供は、個別支援計画に基づき事業所内の保育士や児童指導員等が行うが、児発管も可能な限り支援提供の場に同席したりするなどして、こどもや家族への支援に積極的に関わることが多い。</p>
+        <p>障害児支援で提供される支援は事業種別や事業所によって様々だが、例えば、手作りカードや簡単な遊び等を通じてこどもと向き合い、コミュニケーションスキルを高める等の支援を行うことや、障害のあるこどもの家族の相談に乗り、必要に応じてペアレントトレーニングを行う等の家族支援も重要な取組である。さらに、保育所や学校等へ出向いて集団内での支援対象のこどもの行動を観察したり、保育士や教員に支援方法を助言したりすることもある。</p>
+        <p>児発管は、こうした支援の内容やこどもの様子、家族の意向等について、保育士や児童指導員等と常にきめ細かな情報共有を図る。また、個別支援計画の作成やモニタリングに当たっても、事業所内の担当者会議で検討するなど、チームとして対応することが多く、全スタッフが個別支援計画に基づいた支援提供をするために調整や助言等を行うことも重要な役割である。このほか、地域の関係機関が連携を図りながらこどもや家族に対する支援を行うため、行政、相談支援事業所や保育所・学校等との会議にも参加する。個別支援計画を始めとし、種々の記録や会議資料の作成等、児発管の業務には一定の事務作業があり、当該業務に特化したソフトウェアやアプリ等が使用されている場合もある。</p>
+        <p>児発管は、こどもの個々の状況等をきめ細かく把握して個別支援計画を作成するため、利用児童数に比例して把握すべきことが多くなったり、こどもの障害を含め、こどもの成長や発達の過程で様々な葛藤に直面している家族への支援が難しいと感じたりすることがある。</p>
+        <p>しかし、日に日にできることが増えていくこどもたちの成長を目の当たりにできるのは児発管の大きなやりがい、醍醐味であり、またその成長を家族やスタッフと喜びをもって分かち合うことができる。こどもや家族から感謝の言葉を伝えられた時は、役に立てたことに喜びを感じる。</p>
+        <p>◇よく使う道具、機材、情報技術</p>
+        <p>パソコン、事務処理ソフト（文書作成、表計算）、（個別支援計画作成等のための）専用ソフトやアプリ等、（記録用の）ボールペン、発達支援に使う教材</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/570">耐震診断</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/576">衛生管理者</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/580">障害福祉サービス管理責任者</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/567">学校事務（私立大学）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/569">納棺師</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>児発管になるには所定の実務要件や研修修了要件があり、新卒採用で就くことはない。具体的には、相談支援業務または直接支援業務3～8年の実務要件を満たしていることに加え、基礎研修（26時間）、OJT（原則2年以上）及び実践研修（14.5時間）の研修修了要件を満たす必要がある。その後も、5年に一度更新研修を受講する必要があり、更新研修の受講に当たっても2年以上の実務経験が求められる。</p>
+        <p>なお、障害児支援における児発管以外の入職については、事業所によって新卒と中途採用の割合は異なるが、新卒の場合、保育・福祉・心理系の大学等を卒業し、保育士、児童指導員（任用資格）、介護福祉士、公認心理師等の資格を有していることが多い。中途採用の場合、保育所や幼稚園、学童クラブ等からの転職が一定程度ある。</p>
+        <p>児発管となった後は、日々の業務や自己学習、外部研修の受講等により研鑽を深めるほか、事業所によっては外部のアドバイザーやスーパーバイザーの指導を受けることもある。自らの志す支援分野においてこつこつと専門性を高めていくことが、児発管としてのキャリアアップであると言える。本人の希望があれば事業所の管理者となる道もあるが、専ら支援の実務に携わりたいと考える児発管も少なくない。</p>
+        <p>求められる資質として、障害や発達段階に関する知識とこどもに対応するスキルは必須である。また、個別支援計画の作成や家族等への説明に当たり簡潔な言葉でわかりやすく伝える技術や、現場をとりまとめるリーダーシップも求められる。常にこども中心で考えることが重要であり、どのようなアプローチでこどもの発達を支援できるかという点で、思考が柔軟でアイディア豊富な者が向いている。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>児発管の就業（配置）場所として、障害児通所支援事業所と障害児入所施設がある。近年の児童発達支援等に対するニーズの高まりを受け、障害児通所支援事業所の数は飛躍的に増加しており、必置である児発管の就業者数も増加している。</p>
+        <p>児発管は平日の日勤が基本であり、事業所の営業日に応じて日曜祝日と平日1日が休みであることが多い。残業は比較的少ないが、支援提供が終わった後に事務作業を集中してこなすこともある。多くのこどもの個別支援計画の作成やモニタリングが重なる時期は、計画作成に係る業務が多くなり、これらの時期が繁忙期となる。</p>
+        <p>常勤の正社員が多いが、１事業所に2名以上の児発管を配置している場合は非常勤もあり得る。児発管には資格手当が支給されたり、事業所の他の職員より基本給のベースが高く設定されることが多く、福祉職の中で比較的給与が高い。</p>
+        <p>現在、児発管の求人は豊富であり将来性もあると言えるが、継続的な施設の運営は国の制度改正や自治体の施策に影響を受けやすい側面もある。また、必要な支援が広く行きわたるよう支援拠点のさらなる増加が望まれる一方で、サービスの質の担保も今後の業界の課題であると言える。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,79.4 280.5,134.1 224.6,245.2 127.7,228.3 110.9,150.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>69</dd><dt>対人</dt><dd>89</dd><dt>判断</dt><dd>71</dd><dt>身体</dt><dd>55</dd><dt>定型</dt><dd>47</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.2</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">5.1</span></li><li><span class="topn-name">指導</span><span class="topn-score">5.0</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.8</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.7</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">4.4</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">3.3</span></li><li><span class="topn-name">心理学</span><span class="topn-score">3.0</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">3.0</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.9</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">4.0</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.7</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.7</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.7</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">3.6</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/409"><span class="tc-name">福祉ソーシャルワーカー</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/245"><span class="tc-name">老人福祉施設生活相談員</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/130"><span class="tc-name">福祉事務所ケースワーカー</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.cfa.go.jp/top/" rel="external" target="_blank">こども家庭庁支援局</a></li><li><a href="https://www.cdsjapan.jp/" rel="external" target="_blank">一般社団法人全国児童発達支援協議会（CDS-Japan）</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>児童発達支援管理責任者</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

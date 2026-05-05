@@ -8,6 +8,7 @@
     <title>分析化学技術者 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="分析化学技術者：就業者 約30,450人 / 平均年収 613万円 / 平均年齢 40.5 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="分析化学技術者, 無機薬品分析検査技術員, 有機薬品分析技術員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/303" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/303" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "303",
+      "occupationalCategory": "02_007-08",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/303",
       "additionalProperty": [
         {
@@ -122,7 +123,34 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Analytical Chemist",
+      "alternateName": [
+        "Analytical Chemist",
+        "無機薬品分析検査技術員",
+        "有機薬品分析技術員"
+      ],
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Reading Comprehension",
+        "Science",
+        "Writing",
+        "Speaking",
+        "Active Listening",
+        "Instructing",
+        "Equipment Selection",
+        "Critical Thinking",
+        "Active Learning",
+        "Quality Control Analysis"
+      ],
+      "qualifications": [
+        "第一種作業環境測定士",
+        "第二種作業環境測定士",
+        "１級化学分析技能士",
+        "２級化学分析技能士",
+        "環境計量士",
+        "環境測定分析士１級",
+        "環境測定分析士２級",
+        "環境測定分析士３級"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +234,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +290,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +385,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -309,18 +408,40 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>物質に含まれる成分やその量などを知るため、化学反応を用いた分析や分析機器を用いた分析を行う。</p>
+        <p>分析する対象によって、大気、排水、土壌などの環境分析、化学工業や鉄鋼・非鉄金属材料などの製造現場の工業分析、食品分析などがある。</p>
+        <p>環境計量証明事業などを行う分析会社では、依頼者から提供されるサンプルを酸で分解して溶液にし、化学反応を行なわせるなどして成分の量を求める。あるいは、サンプルを切断、切削、粉砕するなどして分析機器にかけて成分の量を求める。分析結果を整理して報告書を作成して依頼者へ報告する。生産工場などの分析部門では、製造工程で採取したサンプルを化学分析法や機器分析法で成分量を測り製造現場にフィードバックし、現場では分析結果を基に操業条件を決めるなどの必要な措置を講じる。分析技術は高度化し、自動化が進んでいる部門も多い。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>分析機器、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/301">原子力技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/305">ファインセラミックス製造技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/308">高分子化学技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/302">発電所運転管理</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/304">陶磁器技術者</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、専門学校や大学の理学系、工学系専攻の卒業者が多い。中途採用もある。</p>
+        <p>採用に際しては、化学などの基礎学力、知識、判断力などが問われる。</p>
+        <p>入職後は、最初は熟練者の補助をしながら分析技術を習得し、実践を重ねて技術力を養成する。各種原理の分析方法について学習し、実験を重ねて順次マスターするとともに、各種講習会などにも参加して技術力を高める。様々な対象物質を分析して実戦力を身に付け、依頼者の高度な分析への要求に対しても、それに適合した分析の仕方を設計できるベテラン技術者になるためには10年以上の経験が必要となる。</p>
+        <p>分析値には信頼性が要求されるため、分析化学技術者は分析試験所の認定を受けるなど、技術力の第三者による評価が必要になっている。そのためには、技術者の教育訓練も日常的に行ない、外部機関による分析技能試験に参加することなどが要求される。</p>
+        <p>関連資格として厚生労働省の定める技能検定の「化学分析技能士」がある。また、関係団体の「環境計量士」、「環境測定分析士」等の資格を持っていれば仕事の幅が広がる。</p>
+        <p>分析結果に対する責任を持ち、正確で迅速な判断力、注意力、忍耐力、几帳面さが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>分析化学は理学・工学・農学・医学・薬学など幅広い分野に共通する基礎部門なので、いろいろな職業分野の分析技術の専門家として働くことができる。各種の企業、分析受託会社、食品などの検査機関、地方自治体など職場は広い範囲に及び都市部や工業地域に多いが、全国に広がっている。</p>
+        <p>就業者の年齢層は幅広く、女性比率が比較的高くなっている。</p>
+        <p>賃金、労働時間等労働条件は勤務先の規定による。夜間も稼動する工場などの分析部門では日勤以外に一部交代制の場合もある。中途採用を含め正社員が多いが、派遣社員として就業する場合もある。</p>
+        <p>空調が完備され、整理整頓された環境で、清浄な着衣で作業する必要があることから、作業環境は良好なところが多い。分析設備の関係で外部と閉鎖された実験室での作業もある。化学分析作業は、薬品を多く使い危険が伴うが、排気設備なども完備されている。</p>
+        <p>新素材や高機能の製品開発が盛んであり、成分や量を分析し化学的な解析を行うことが必須となっている。また、環境保全や人の健康のための規制が厳しくなってきていることもあり、分析する成分の多様化や、微量しか検出されない物質の分析など、技術の向上も図られつつ、分析需要は増加傾向にある。従って、技術者もより専門的な知識や技術力を求められるようになっている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,82.5 259.9,140.8 222.0,241.5 133.1,220.8 96.4,146.1" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>67</dd><dt>対人</dt><dd>72</dd><dt>判断</dt><dd>68</dd><dt>身体</dt><dd>48</dd><dt>定型</dt><dd>59</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">科学的素養</span><span class="topn-score">4.6</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.3</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">4.2</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">4.2</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">化学</span><span class="topn-score">3.8</span></li><li><span class="topn-name">工学</span><span class="topn-score">2.3</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.1</span></li><li><span class="topn-name">数学</span><span class="topn-score">1.8</span></li><li><span class="topn-name">物理学</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.5</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.2</span></li><li><span class="topn-name">帰納的推論</span><span class="topn-score">3.2</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/258"><span class="tc-name">非鉄金属製錬技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/304"><span class="tc-name">陶磁器技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/212"><span class="tc-name">テレビ・ラジオ放送技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jsac.jp/" rel="external" target="_blank">公益社団法人　日本分析化学会</a></li><li><a href="https://www.jemca.or.jp/" rel="external" target="_blank">一般社団法人　日本環境測定分析協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>第一種作業環境測定士</li><li>第二種作業環境測定士</li><li>１級化学分析技能士</li><li>２級化学分析技能士</li><li>環境計量士</li><li>環境測定分析士１級</li><li>環境測定分析士２級</li><li>環境測定分析士３級</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +450,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

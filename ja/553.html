@@ -8,6 +8,7 @@
     <title>アニメ制作進行管理 — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="アニメ制作進行管理：就業者 約120,576人 / 平均年収 481万円 / 平均年齢 43.5 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="アニメ制作進行管理" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/553" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/553" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "553",
+      "occupationalCategory": "06_035-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/553",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Anime Production Manager",
+      "industry": "Office & Public Service",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-mid">AI 影響 中</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,8 +381,41 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>アニメ制作の工程をスケジュールに沿って進めていくために、作画作業の割振り、作業の進捗状況の把握、各作業担当者との連絡調整、予算の管理などを行う。</p>
+        <p>アニメ制作の工程をスケジュールに沿って進めていくために、作画作業の割振り、進捗状況の把握、各作業担当者との連絡調整、予算の管理などを行う。</p>
+        <p>アニメの制作は、放送や配信など決められた公開日(もしくは納品日)に向けて、多くの専門職が分担して作業を進めていくのが一般的であり、緻密なスケジュール管理と関係者間の連携を円滑に進めるための連絡調整が不可欠である。アニメ制作進行管理の仕事は、制作プロジェクト全体を統括するプロデューサーや作品の総責任者である監督の方針のもとに、工程がスケジュール通り進むよう進捗管理を行うことである。作品全体の制作進行管理の責任者である制作デスクの下に、作品の一定部分（テレビアニメであれば各話など）の担当が置かれることが多く、以下では、このような担当者（以下、「制作進行」という。）の仕事について述べる。</p>
+        <p>アニメ作品が世の中に出るまでには、企画・基本的な設定・主要スタッフの決定・製作委員会の組織化・資金調達などの段階、作品を構成する各素材の制作から撮影・編集を経て完成するまでの段階、完成した作品の放送・配信・上映や関連商品・イベント等の展開、など多くのプロセスがあるが、制作進行は主に作品の制作過程で仕事をする。</p>
+        <p>まず、監督をはじめとする主要スタッフが、作品全体の流れや構成、キャラクター設定などの基本的な方向性を決定し、各話の構成、脚本、作画、美術、撮影、音響など各部門の担当者と打ち合わせを重ねながら細部を詰め、場面ごとの設計図に当たる絵コンテを作成する。制作進行は、絵コンテに基づいて、担当する各話に必要な素材や作業の見積りや割振りを行い、スタッフを確保し、具体的な作業スケジュールを立てる。</p>
+        <p>制作プロダクションや監督の方針などにより制作進行の仕事の範囲や進め方はさまざまであるが、一般的には、まず、絵コンテをもとに、香盤表と呼ばれる作業進行のための総括表と、各シーンをカットに割って作画担当者を指定するシーン割表、作業のスケジュール表を作成する。必要な原画、動画、背景等の数を見積り、納期までに作品を完成させるためのスケジュールを組み立て、スタッフごとの作業の割振りを行う。作画を担当するスタッフ（アニメーター）は制作デスクが確保することもあるが、経験を積んだ制作進行に任されることも多い。自社内だけでなく、フリーランスのアニメーターや海外企業も含め、社外にも多くの作業を発注する。</p>
+        <p>制作作業が始まったら、スケジュール表に基づいて各工程の進捗状況をこまめにチェックする。例えば、原画制作の作業が滞ると、その後の動画制作や撮影、編集等のスケジュールに余裕がなくなるなど、前の工程の進捗が後ろの工程に影響するため、全体を見渡しながら関係者と調整し、必要に応じてスケジュールの修正を行う。作画担当者から提出された素材は回収して演出・作画監督のチェックを受け、修正点をフィードバックする。演出・作画監督のOKが出れば、とりまとめて次の工程に送る。近年は作業のデジタル化が進んでいるが、すべてがデータでやりとりされるわけではなく、紙で提出された素材を回収に出向き、スキャンしてデータ化したり、カットごとに素材を袋に入れて整理・保管するといった作業もある。</p>
+        <p>仕上げという着色作業が終わった素材や背景素材を撮影に入れ、その後の編集、音入れなどの作業も円滑に進むよう関係者間の連絡調整に当たる。撮影後の映像素材を監督や演出をはじめとする関係者が見て修正部分を見つけるラッシュチェックにより指示されたリテイク作業 を一覧表にまとめ、効率よく修正作業が行われるよう進行管理をする。ここが制作進行の仕事の後半の山場である。これらのリテイクが反映されたマスター映像に入れるスタッフクレジット（役職・名前のリスト）を準備し、最終のクライアントチェック を経て、公開される映像が完成する。</p>
+        <p>打合せ会議の設定や会議資料の作成、素材の整理・保管、経費の精算などの事務的な仕事も作業を円滑に進めるために重要である。</p>
+        <p>テレビアニメの場合、一般的に1クール（3か月）の放送話数は30分枠12話前後であるので、制作進行は並行して複数話数を担当することが多く、１話分が完成して納品した後も次の担当分について同様に仕事を進めることになる。映画の場合は、より長期の制作スケジュールとなることが多い。納期が厳しく時間に追われることも多い仕事であるが、担当した作品が完成し、反響に手応えを感じた時などの達成感は大きい。</p>
+        <p>参考資料
+「TVアニメシリーズ制作における制作進行のマニュアル」日本動画協会人材育成委員会</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>パソコン、タブレット、文書作成ソフト、画像処理ソフト、カット袋</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって必須となる学歴や資格はない。アニメ制作会社（プロダクション）に入社して制作工程を支援・管理する部署に配置されるのが一般的である。制作進行の業務は事務的な仕事が中心であるので、採用に当たって絵を描くスキルは求められないことが多い。仕事を進める上でアニメ制作の工程全般を理解していることが必要になるため、専門学校等のアニメ関連学科で基礎知識を身につけておくと入職に有利である。入職後は先輩についてOJTを中心に仕事を覚えていくことが多い。</p>
+        <p>制作進行はアニメ制作の仕事の入り口の一つであり、経験を積んで、さらに裁量が大きい仕事をめざす人が多い。作品全体の制作進行の責任者である制作デスクを経てプロデューサー業務に進む方向や、演出、脚本、監督などをめざす方向、管理・事務部門に進む道もある。現場をよく知り、人脈を広げることにより、自分の志向に応じたキャリアの展開が可能である。</p>
+        <p>制作進行に必要な資質としては、まず、的確なスケジュール管理ができることである。厳しい日程の中で多くの部門とスタッフが連携しながら作業を積み重ねることから、全体を俯瞰しながら早めに必要な準備をすることが求められる。このためには、相手先の意向を尊重しつつ、こまめな気配りで人間関係を円滑に調整できるコミュニケーション能力、細かい点にもよく気がつき、状況を先読みできる力が必要である。制作スタッフが作業を進めやすいよう、正確な文書の作成、経費の管理など事務的スキルも重要である。また、アニメ作品は知的財産として厳重な情報管理が行われており、秘密保持などビジネスルールを守れることも求められる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>職場となるアニメの制作プロダクションは東京を中心に主に都市部に立地している。制作工程や業務上の打合せはリモート化が進んでいるが、制作進行の仕事は多くの関係者との連絡調整が中心となるので、機動的に対応できるよう出社することが多い。正社員のほか、契約社員としての採用、業務委託契約として募集されていることもある。</p>
+        <p>就業者は比較的若い年齢層が多く、男女を問わず活躍している。</p>
+        <p>賃金・労働条件は会社の規定による。賃金はおおむね各社の事務職の体系によることが多い。労働時間帯はやや夜型になる傾向がある。アニメの現場は、納期の厳しさや作品のクオリティへのこだわりなどにより慢性的な長時間労働となることが多かったが、近年は人材確保のためにも業界全体として働き方の改善に向けた取り組みが進んでいる。しかし、作業の遅れが生じた場合や納期の直前などに残業が多くなりがちである。</p>
+        <p>近年、アニメは日本を代表する文化のひとつとして広く認知されている。日本のアニメ産業は成長が続いており、世界市場への進出の動きも活発である。アニメ制作ツールや画像処理ソフトなどの技術進歩により、制作現場では労働集約的な手作業が減少し、海外への外注が増えるなど、業界のあり方は大きく変化しつつあるが、コンテンツの多様化や配信をはじめとする市場拡大に伴い、円滑で効率的な工程管理を行うことができる制作進行への人材需要は今後も大きいと見込まれる。業界団体を中心に、制作進行を含むアニメ人材育成のためのプロジェクトなども進められている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +428,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://aja.gr.jp" rel="external" target="_blank">一般社団法人　日本動画協会</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +437,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

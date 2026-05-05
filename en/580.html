@@ -8,6 +8,7 @@
     <title>Welfare Service Manager — AI Impact 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="Welfare Service Manager: workforce ~44,392 / annual salary 441万円 / avg age 45.4 / AI impact 6/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Welfare Service Manager" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/580" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/580" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "580",
+      "occupationalCategory": "08_049-09",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/580",
       "additionalProperty": [
         {
@@ -123,6 +124,10 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Welfare Service Manager",
+      "industry": "Welfare & Care",
+      "qualifications": [
+        "障害福祉サービス管理責任者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=fukushi">Welfare &amp; Care</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,8 +384,42 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Manages disability welfare service operations.</p>
+        <p>The welfare service manager (abbreviated &quot;sabi-kan,&quot; for障害福祉サービス管理責任者) is the supervisor responsible for managing the entire cycle of service provision—tailored to the needs of each individual user and their family—to support independence at disability welfare service providers. The position was established when the Act for the Support of Independent Daily Life and Social Life for Persons with Disabilities (commonly known as the Disability Independence Support Act) took effect in 2006, and since the enactment of the Act for Comprehensive Support for Persons with Disabilities in 2013 (Disability Comprehensive Support Act), designation of at least one sabi-kan has been required at most disability welfare service businesses.</p>
+        <p>Note that disability welfare services under the sabi-kan&#x27;s jurisdiction cover individuals aged 18 and over; at facilities providing services for children under 18, the equivalent role is filled by the child development support manager (jihatsu-kan).</p>
+        <p>The sabi-kan&#x27;s most important function is the preparation of the &quot;individual support plan&quot; (個別支援計画). Appropriate support begins with an assessment at the outset of services: understanding the user&#x27;s living situation, disability characteristics, and developmental history, while respecting the user&#x27;s right to self-determination and supporting their decision-making capacity. This requires carefully listening to—and where the user cannot speak, carefully inferring—what the user and family want to become, then determining the optimal goals and support methods and documenting them in the individual support plan. Day-to-day support is then delivered in accordance with this plan, and at least every six months the outcomes and degree of goal attainment are assessed through continuous review (monitoring), leading to an updated version of the plan. These sequential responsibilities are prescribed by ministerial ordinances governing each disability welfare service; reliable execution is required.</p>
+        <p>Disability welfare services span many types—life care, employment support, shared living assistance (group homes), and more—with service modalities that include home visits, daytime outpatient attendance, and residential placement. The nature of disability also varies widely across physical, intellectual, and psychiatric categories, and between mild and severe degrees; the approach and considerations required of the sabi-kan differ accordingly. For example, maintaining or improving activities of daily living (ADL) may require ensuring safety while encouraging users to do for themselves what they are capable of; for supported employment transition to open-market employment, it may mean helping users understand and communicate their own disability characteristics to others. Across all situations, however, the consistent principle is to know the user, listen to the user&#x27;s wishes, and keep the user at the center of all support.</p>
+        <p>While actual support is delivered by facility staff, the sabi-kan participates in or is engaged with service delivery whenever possible, and conducts reporting and meetings with guardians as needed. The sabi-kan also ensures detailed daily information-sharing with all facility staff about each user&#x27;s condition and challenges, and provides guidance and advice to staff to promote better support. Communicating the direction and specific methods of support to staff through careful listening and guidance—and doing so in a way that each staff member can understand—is sometimes challenging, but mentoring staff through OJT and various training opportunities is also a key responsibility of the sabi-kan. Connecting with external agencies—consultation support providers, other disability welfare service providers, government bodies, and medical institutions—and building a local network of support is essential; coordination via email and participation in meetings may be required as a routine part of the work. In addition to preparing individual support plans, administrative tasks—daily service records, reports to government agencies, and more—are extensive and varied.</p>
+        <p>Challenges in working with users include the need to be especially careful about word choice and facial expressions when interacting with them, and being the first to respond when complaints or incidents arise.</p>
+        <p>However, the opportunity to witness firsthand—at the front line of support—users achieving their goals, or undergoing growth and change so profound that it transforms their lives, is an immense source of professional fulfillment. When users and families express words of gratitude, the feeling that the support provided has truly been of value brings genuine joy.</p>
+        <p>&lt;Message to prospective workers&gt;
+Being able to witness the growth and improvement in the lives of the people I support up close is the greatest joy. The words &quot;I&#x27;m glad I came here&quot; are a treasure. (Worker, general)
+Having many opportunities to build skills as a specialist in welfare, working as a central figure with real decision-making authority within a team—that fills me with pride and a sense of purpose. (Worker in their 30s)
+Through the work, I have come to see &quot;disability&quot; as an &quot;individuality&quot; that everyone can have. I want society to become more familiar with people with disabilities. I will continue to devote my efforts to that end. (Worker in their 40s)
+Compensation in welfare is relatively high, and I would encourage anyone interested in welfare to aim for this role. I became a sabi-kan at the suggestion of my facility, but now I am truly glad I did. (Worker in their 60s)</p>
+        <p>Tools and equipment commonly used: PC; office software (word processing, spreadsheets); specialized software or applications (for individual support plan preparation, etc.); ballpoint pens (for records); handmade support tools</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Becoming a sabi-kan requires meeting prescribed practical experience and training completion requirements; the role cannot be entered as a new graduate. Specifically, candidates must satisfy practical experience requirements of three to eight years in consultation support work or direct support work, and must also complete a foundational training course (26 hours), an OJT period (minimum of two years in principle), and a practical training course (14.5 hours). Thereafter, a renewal training course must be completed every five years, with at least two years of practical experience required for the renewal training as well. These training programs are conducted by each prefecture, and attendance is typically arranged through a recommendation from the disability welfare service provider where the candidate works.</p>
+        <p>For those entering disability welfare service providers in roles other than sabi-kan: new graduates typically hold degrees from social welfare-focused universities and often hold qualifications such as Social Worker (社会福祉士) or Certified Care Worker (介護福祉士). Mid-career entrants come from a variety of backgrounds, though transitions from elsewhere in the welfare sector are common. The proportion of new graduates versus mid-career hires varies by facility, but mid-career hires are not uncommon.</p>
+        <p>After becoming a sabi-kan, ongoing development of knowledge through daily practice, self-study, and training attendance is important; learning from external supervisors may also be possible at some facilities. Some sabi-kan transfer to other disability welfare service providers seeking their preferred type of support or better conditions; others make a career change to child disability support and become a jihatsu-kan. Additional paths include becoming a facility manager, becoming a supervisor, or establishing one&#x27;s own disability welfare service provider.</p>
+        <p>Specialized knowledge of disability characteristics, support methods, and the disability welfare system and regulations—with strong compliance awareness—is essential. The ability to focus on &quot;the person&quot;—not the diagnostic label—and to accurately assess each user&#x27;s disability characteristics and support needs is of central importance. Language and communication skills for conveying necessary information clearly, the ability to engage externally and communicate proactively, and the strong leadership to drive support both within and beyond the facility are also required.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Sabi-kan are deployed at various types of disability welfare service providers. As the national government has promoted the transition of persons with disabilities to community living, the number of disability welfare service users has grown year on year, and because it takes time to develop sabi-kan, demand in the labor market is high.</p>
+        <p>The standard schedule is a five-day week of weekday day shifts, though Saturday work may be required depending on the facility&#x27;s operating schedule; at group homes and similar settings, night shifts may occasionally arise. Facilities exist nationwide in a wide range of locations depending on the type of services provided.</p>
+        <p>Sabi-kan range broadly in age from their twenties to their sixties, with those in their thirties and forties being the most common. Most are full-time regular employees; non-permanent employment is possible when two or more sabi-kan are assigned to a single facility. Sabi-kan typically receive a qualification allowance or role-based allowance and earn a higher base salary than other facility staff, placing their compensation among the higher tiers in the welfare sector.</p>
+        <p>National disability welfare policies and local government programs are subject to frequent change, requiring sabi-kan to stay current with the latest developments and incorporate them appropriately into service delivery. Responses to COVID-19, heat illness prevention, and other evolving social conditions are also required. In recent years, the range of disability welfare service users has broadened to include a growing number of individuals with developmental disabilities and similar conditions, adding to the traditional population of individuals with physical, intellectual, and psychiatric disabilities. Going forward, the spread of AI and care robots may automate some tasks, potentially changing aspects of the sabi-kan role and the nature of the service floor. In this fluid environment, sabi-kan are expected to demonstrate increasing specialization in person-to-person support, and to continue fulfilling an important role in community-based support for people with disabilities.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -318,9 +428,11 @@
           <li><a class="r-name" href="/en/570">Seismic Inspector</a><span class="r-risk">AI 6/10</span></li>
           <li><a class="r-name" href="/en/568">Child Development Support Manager</a><span class="r-risk">AI 6/10</span></li>
           <li><a class="r-name" href="/en/579">Auto Inspector</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/581">ブロックチェーン・エンジニア</a><span class="r-risk">AI —</span></li>
+          <li><a class="r-name" href="/en/581">Blockchain Engineer</a><span class="r-risk">AI 8/10</span></li>
         </ul>
       </section>
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.mhlw.go.jp/index.html" rel="external" target="_blank">厚生労働省 社会･援護局 障害保健福祉部</a></li><li><a href="https://www.jdnet.gr.jp/" rel="external" target="_blank">特定非営利活動法人 日本障害者協議会（JD）</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>障害福祉サービス管理責任者</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +441,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

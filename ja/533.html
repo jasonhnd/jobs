@@ -8,6 +8,7 @@
     <title>セキュリティエキスパート（デジタルフォレンジック） — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="セキュリティエキスパート（デジタルフォレンジック）：就業者 約25,925人 / 平均年収 628万円 / 平均年齢 43.4 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="セキュリティエキスパート（デジタルフォレンジック）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/533" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/533" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "533",
+      "occupationalCategory": "02_010-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/533",
       "additionalProperty": [
         {
@@ -123,6 +124,10 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Digital Forensics Specialist",
+      "industry": "IT & Communications",
+      "qualifications": [
+        "情報処理安全確保支援士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=it">IT・通信</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,8 +384,45 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等、また、これらに至る未遂行為に対して、デジタルデータを保全し、調査・分析を行う。</p>
+        <p>コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等、また、これらに至る未遂行為に対して、デジタルデータを保全し、調査・分析を行う。分析結果からこれら行為や事象への対応を検討することもある。係争や訴訟において、デジタルデータの改ざん等の証拠が必要な場合、それについての調査、分析を行う。
+フォレンジック調査士と呼ばれることもあり、海外ではForensic Analyst, Forensic Investigatorと呼ばれる。デジタルフォレンジックをDFと短く表記することもある。フォレンジック(forensics)の意味は科学捜査、鑑識であるが、デジタルフォレンジックは、元々、欧米では企業会計での情報改ざんなどの不正を見つけるサービスとして始まっている。国内でも証拠のデータが改ざんされる事件などがあり、デジタルフォレンジックが注目された。</p>
+        <p>現在は犯罪捜査よりも、コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等の調査、分析の方が多く、顧客に対する情報セキュリティ・サービスの一つとして行われている。金融業、製造業をはじめ幅広い業界で行われている。監査法人のフォレンジックでは不正会計や書類の偽造等が調べられている。さらに、海外の訴訟に関連したものや、海外の当局への協力など、国際的なデジタルフォレンジックも行われている。</p>
+        <p>デジタルフォレンジックの対象は、コンピュータ、ネットワーク、モバイルデバイス等、様々であるが、情報化の進展に伴って広がっていくと考えられる。</p>
+        <p>デジタルフォレンジックの一般的な流れは次のようになる。</p>
+        <p>最初に分析対象や内容に関して顧客からヒアリングする。顧客が求める分析項目をリストアップし、分析の作業方針、実施内容等を顧客と確認する。この段階で所要時間と費用を顧客に提示し、顧客と秘密保持契約を締結し、調査・分析を開始する。情報漏洩やサイバー攻撃被害を受けた等、顧客は切迫した混乱状態であることもあり、そのような顧客を落ち着かせながら対応していくことも多い。</p>
+        <p>調査・分析では、まず、情報媒体の保全を行う。ハードディスク等デジタルフォレンジックの対象となる媒体を、専用機器で全体を複製する。この専用機器は元媒体への書込みができないようになっており、原本となる対象媒体のデジタルデータが改変されることなく複製される。デジタルフォレンジックの過程でデジタルデータが改変されていないことを証明するため、最初にオリジナルデータの保全を行うことは証拠を残す意味で重要である。</p>
+        <p>次に、この複製したデジタルデータに対して情報の抽出、解析を行う。例えば、媒体にあるファイルの確保、削除されたファイルの復元、削除されたものも含めインターネット閲覧履歴やメールの抽出等を行う。そして、確保あるいは復元したファイルに対して、キーワードや特定文字列による検索を行う。分析対象の期間中に作成・更新されたと考えられるファイルに関してはファイルの作成日時、更新日時、アクセス記録を確認する。このような作業によって、コンピュータやネットワークに何が行われたか浮かび上がらせ、行為や事象を再現する。</p>
+        <p>その後、今回の問題の原因や過程、影響範囲など分析結果を文書としてまとめ、顧客に報告する。分析結果から必要な対策を顧客と検討することもある。そして、案件終了から一定期間後、調査対象データや顧客から預かっている機密情報を適切に破棄する。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>フォレンジックデュプリケーター（情報媒体複製装置）、フォレンジック調査分析ソフトウェア・ツール、仮想化ソフトウェア（調査・分析対象のシステムを仮想システムとして作成）、Write Blocker（証拠保全用書込防止機器）、統計解析ソフトウェア、テキストエディタ、文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン、大容量外部記憶装置、DVD‐R、USBメモリー</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>2000年に入ってから生まれた職業であり、まだ定型的な入職ルートはない。高専や専門学校で情報系を学んだ者も、大学卒や大学院卒も居る。理系をイメージするが文系も多い。セキュリティ・キャンプ(学生に対して情報セキュリティに関する高度な教育を実施し、次代を担う情報セキュリティ人材を発掘・育成するために情報処理推進機構が実施している事業)に参加した学生は、このような分野に関心があり知識があるとして採用されることもある。</p>
+        <p>システム開発、システムの運用、脆弱性診断を行ってきた者がデジタルフォレンジックの仕事に移ってくることもある。同業他社からの移動もある。</p>
+        <p>新卒採用の場合、社会人の基礎、コンピュータの基礎から始まり、デジタルフォレンジックを実践的に学ぶ半年程度の研修があることが多い。研修後、関係部門に配属され、デジタルデータの保全など基礎となる作業を行い、その後、先輩社員と一緒に実際の案件を調査・分析する。徐々に独り立ちできるよう、チームの中で仕事をしながら知識を広め、スキルを高めていく。２年目以降はプレゼンテーション等ビジネススキルを高める研修、より高度なデジタルフォレンジックに関係する知識・技術の研修、また、プロジェクトを進めていくための研修等がある。これら研修は社内で行うものと外部の研修に参加するものがある。中途採用は即戦力が求められ、得意な分野を活かし配属される。</p>
+        <p>関連する免許資格として国際的なデジタルフォレンジックのスキル認証があり、仕事をしながら資格取得を目指す人もいる。情報処理推進機構の試験の中では「情報処理安全確保支援士」（登録セキスぺ）が関係し、資格取得の支援制度がある会社もある。</p>
+        <p>新しい仕事ということもあり、社内のキャリアコースは固まっていないが、技術を磨いてチーム内の技術リーダー的な役割を担うようになる者もいれば、グループをまとめるマネジメント的な役割を担う者もいる。または、デジタルフォレンジックの経験を活かし、インシデントハンドラー（インシデント全体を担当する責任者）、EDR分析アナリスト（EDRはEndpoint Detection and Responseであり、ユーザーが利用するパソコン等における不審な動きを検知・分析し、対処する）、セキュリティコンサルタント、セキュリティ関連の講師等になる者もいる。</p>
+        <p>コンピュータ、ネットワーク、クラウドの構築・運用の知識、マルウェア解析、攻撃手法の知識、スレットインテリジェンス（Threat Intelligence：セキュリティの脅威について収集・分析した情報とそれに対する洞察）、また、ペネトレーションテスト、脆弱性診断などに関する知識とスキル、そして、エンドポイント、ネットワーク、クラウドなどのセキュリティ対策の知識とスキルが求められる。情報セキュリティに関する最新情報は海外発信が多いことから、英語の記事を読む力も求められる。新しいシステムや新しい攻撃手法等が次々に登場する中、常に探求心、向上心を持つことも求められる。不正会計に関するデジタルフォレンジックの場合は公認会計士の専門知識が必要になることもある。</p>
+        <p>この仕事では調査・分析のスキル以上に、高い倫理観と使命感が求められる。顧客の機密情報や個人情報を扱い、分析結果は顧客企業のその後に影響したり、裁判の行方に関係したりと、大きな社会的な影響がある。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>デジタルフォレンジックを行うIT企業で働いている者が多いが、会計事務所、警察などで働いている場合もある。顧客となる大手企業が東京に集まっていることから、デジタルフォレンジックを行う会社も都内に集中している。</p>
+        <p>就業者数、年齢構成、男女比等の統計はない。情報セキュリティに関する仕事の経験を活かして就業する人がみられる。</p>
+        <p>顧客のセキュリティ対策、機密情報に接することから、大半は正社員である。</p>
+        <p>土日祝日が休みの場合が多いが、緊急対応の場合等休日出勤・時間外勤務もある。フレックスタイム制をとる会社が多い。</p>
+        <p>賃金は勤務先の規定によるが、通常のIT企業の技術系社員と同程度である。特殊な経験とスキルを必要とされることから、賃金が高い場合もある。</p>
+        <p>社会全体が情報化する中で、情報漏洩、情報改ざん、運用妨害等は増加しており、犯罪捜査でデジタルフォレンジックが必要となることも多くなっている。このようなことから仕事は増加傾向である。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +435,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://digitalforensic.jp/" rel="external" target="_blank">特定非営利活動法人　デジタル・フォレンジック研究会</a></li><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人 情報処理推進機構</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>情報処理安全確保支援士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>臨床開発モニター — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="臨床開発モニター：就業者 約120,576人 / 平均年収 481万円 / 平均年齢 43.5 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="臨床開発モニター, 臨床開発モニター（CRA）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/530" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/530" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "530",
+      "occupationalCategory": "06_037-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/530",
       "additionalProperty": [
         {
@@ -122,7 +123,32 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Clinical Research Monitor",
+      "alternateName": [
+        "Clinical Research Monitor",
+        "臨床開発モニター（CRA）"
+      ],
+      "industry": "Office & Public Service",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Writing",
+        "Coordination",
+        "Persuasion",
+        "Social Perceptiveness",
+        "Monitoring",
+        "Active Learning",
+        "Critical Thinking"
+      ],
+      "qualifications": [
+        "薬剤師",
+        "保健師",
+        "看護師",
+        "臨床検査技師",
+        "ＭＲ認定試験",
+        "CRA教育研修修了認定",
+        "JSCTR認定GCPパスポート・GCPエキスパート"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +232,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +288,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +383,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-high">AI 影響 高</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -309,18 +406,59 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>開発された新薬の有効性・安全性を確認するための治験実施の開始の準備、医療機関等との調整、治験実施中のモニタリング及び報告書の作成等を行う。</p>
+        <p>CRA（Clinical　Research　Associate）という略称でも呼称される。</p>
+        <p>製薬会社又は医療品開発業務受託機関（CRO：Contract Research Organization）に就業し、治験の標準業務手順書（SOP）の確認、治験実施計画書（プロトコール）策定の準備、治験を依頼する医療機関、治験責任医師等の選定と治験参加依頼・契約の締結、治験開始後の治験薬の交付・管理、治験実施計画書（プロトコール）等に基づくモニタリング、データの収集・確認及び報告書の作成等が一連の業務の流れである。</p>
+        <p>なお、医療品開発業務受託機関（CRO）は、1997年に改定された医薬品医療機器等法に基づく「医薬品の臨床試験の実施の基準に関する省令(厚生省令第二十八号)」において、法令的に認められた製薬会社からの治験の業務受託機関(企業)である。</p>
+        <p>関係職種として治験コーディネーター（CRC）があるが、これは医療機関側の立場から医師や関係部局と連携・調整し被験者を支援するのに対し、臨床開発モニターは製薬会社側の立場から治験の実施を進捗管理する。</p>
+        <p>治験開始前は、治験にかかる業務内容を体系的にまとめた手順書である標準業務手順書を確認し内容を把握する。これは医薬品医療機器等法に基づく「医薬品の臨床試験の実施に関する省令」に準拠し、治験実施計画書、治験薬概要、安全情報取扱い、治験薬管理、モニタリング等に関する基本的内容となっているが、これに規定された基準に沿って治験全般を進めていくことになる。</p>
+        <p>次に、治験実施の必要条件を確認し、当該必要条件を満たし治験を適正に実施できると思われる医療機関、治験責任医師、治験審査委員会（IRB）等を調査の上選定する。</p>
+        <p>治験実施計画書（プロトコール）のドラフト（原案）を事前に医療機関に持参して、治験の実施可能性等について医師の意見を聴く等の情報収集を行う。この際、治験審査委員会が「治験を実施する際に遵守すべき基準（GCP）」に沿って運営されているか確認することも重要である。この結果、治験実施可能と判断された場合、医療機関に治験参加の依頼と契約の締結を行う。</p>
+        <p>治験実施の契約後に治験を開始するに際し、治験責任医師、担当看護師、薬剤師、治験薬管理者、治験コーディネーター等との合同会議を開催し、治験実施計画書（プロトコール）のドラフト（原案）内容、薬剤の特性、被験者の条件、薬剤の保管の方法、調剤方法等治験の手順等に関する説明や対象者の選択基準・除外基準、目標症例数、治験実施期間、治験方法及び投与方法、被験者募集・登録方法、治験中止等基準、被験者機密保持方法、データ解析方法等より具体的な内容を定めた治験実施計画書（プロトコール）の遵守等のために充分な打合せを行う。特に、院内で様々な業務を調整する治験コーディネーターとは念入りに打合せする。策定された治験実施計画書（プロトコール）は、治験審査委員会に審議され承認を得る。</p>
+        <p>治験参加者（被験者）に効能・副作用とも充分に説明した上で、自由意思で参加してもらうことが必要条件となっているため、説明時に被験者に渡す同意説明文書の作成を依頼し、同意文書のひな型等必要な資料・情報を提供するなど支援する。また、治験に登録する被験者を増やすため、治験コーディネーターの協力も得て、治験参加の資料の作成や広報の利用など様々な手法で登録促進を図る。</p>
+        <p>治験開始にあたり治験薬を医療機関に交付するが、交付後に適切に管理されているか適時、確認する。治験が開始されたら、「治験を実施する際に遵守すべき基準」や治験実施計画書（プロトコール）に従って用法・用量や投与量を遵守し治験が実施されているか、併用禁止薬が使用されていないか、有害事象（重篤な副作用等好ましくない出来事）の発生の有無等進捗状況をモニタリングする。</p>
+        <p>平行して治験コーディネーターや治験責任医師から症例報告書（CRF）を回収し、個々のカルテ等の原データとの内容の照合を行い、必要な情報及びデータ等について欠落の有無や整合性について確認を行う。その際、カルテとの内容照合で疑義がある場合、医師や治験コーディネーターなどから聴取する。全ての症例報告書データは医療機関がデータベースに入力し、製薬会社又は医療品開発業務受託機関の担当部門が統計解析しやすい状態に整備する。最終的にこれら内容を治験総括報告書として作成する。</p>
+        <p>なお、治験中に発生した有害事象への対応を行うこともあり、場合によっては治験審査委員会へ報告を行い、必要な安全性についての情報を他の治験参加医療機関や治験責任医師に情報提供する。</p>
+        <p>標準業務手順書に従って、残薬の回収や必要文書の確認の後、終了手続きを経て治験を終了する。</p>
+        <p>一つの治験の期間は数ヶ月から数年と様々であるが、通常は一つ治験が開始された後は当該治験の期間が終了するまで担当することが多いが、業務量が落ち着く後期では新人等に担当者が入れ替わることもある。</p>
+        <p>また、一つの治験実施は、複数の医療機関において同時並行で進めるため、何人かの臨床開発モニターがチームを組み幾つかの医療機関を分担して行うことが一般的である。特に治験の立上げ時は担当者が多く配置される。</p>
+        <p>いずれにせよ、新薬開発の最前線の仕事に携わることで社会的に大きな意義を感じることができる仕事である。</p>
+        <p>◇よく使う道具、機材、情報技術等
+標準業務手順書（SOP）、治験実施計画書（プロトコール）、治験を実施する際に遵守すべき基準（GCP）、医薬品医療機器等法、パソコン、ダブレット、スマートフォン、出張用グッズ</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/529">医療機器開発技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/533">セキュリティエキスパート（デジタルフォレンジック）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/534">セキュリティエキスパート（情報セキュリティ監査）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/531">キッティング作業員（PCセットアップ作業員）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/528">自動運転開発エンジニア（自動車）</a><span class="r-risk">AI 影響 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>この仕事に就くために特別の学歴は必要とされないが、業務遂行上、医学、薬学に関する知識が不可欠なため実態的には薬剤師、看護師、臨床検査技師などの医療系の資格を取得できる薬学系、医学系の卒業者が多い。</p>
+        <p>製薬会社では新卒採用がほとんどだが、医療品開発業務受託機関（CRO）でも新卒者が採用される機会も増えてきており、薬学系、医学系の他に理工学系卒の者が採用されることもある。</p>
+        <p>中途採用の場合は、薬剤師、看護師、臨床検査技師等医療系の分野である程度の臨床経験年数を積んだ後に採用される。中途採用は、医療品開発業務受託機関（CRO）に多い。治験コーディネーターからの転職もある。</p>
+        <p>キャリアルートとして、企業により異なるが就業後概ね数年から、７～８年程度の経験を経るとチームリーダーとなり後輩を指導・支援する立場となり、その後、開発企画や品質管理、安全性情報担当等の管理的部門へ異動することもある。</p>
+        <p>特段の資格を必要とされていないが、治験実施計画書（プロトコール）等を理解し説明することやカルテを閲覧して理解できる程度の医学的・薬学的知識は必須であり、現状では薬剤師の資格所有者や経験者が最も多く、次いで公益財団法人ＭＲ認定センターが実施しているＭＲ（Medical Representatives：医薬情報担当者）、看護師、臨床検査技師、保険師の資格所有者や経験者が多い。関連資格として一般社団法人日本臨床試験学会が実施しているJSCTR認定GCPパスポート・GCPエキスパートがある。また、臨床開発モニター（CRA）に特化したものとして、一般社団法人日本CRO協会が実施しているCRA教育研修修了認定がある。各社とも当該資格等取得や社内独自研修・資格に力をいれており、入社後に様々な研修の機会がある。</p>
+        <p>なお、国際共同治験などで薬学に関する海外文献や薬の説明書を原文で読むことや報告書を原語で作成すること、国際会議に出席することもあるため、英語等の語学力が必要な機会が増えている。</p>
+        <p>治験の実施には、治験に関係するルールを遵守することと可能な範囲で早期に治験を終了させることが必要とされている。このため、医療機関との契約締結等に係る交渉能力、説明会でのプレゼンテーション能力・説明能力、モニタリング時におけるスケジュール管理能力が求められ、また、治験進行時の治験責任医師、担当看護師、治験薬管理者、治験コーディネーター等多くの医療機関関係者とのコミュニケーション能力や調整能力及び信頼関係を築く能力も欠くことはできない。</p>
+        <p>また、薬品の安全性に直接影響することもあり、責任感があり信頼を得られる人柄が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>一般的に、製薬会社や医療品開発業務受託機関（CRO）で就業することがほとんどである。</p>
+        <p>就業地域は製薬会社や医療品開発業務受託機関（CRO）の本拠地がある主要大都市に限られる。転勤は東京-大阪間以外はほとんど無い。</p>
+        <p>労働条件は、雇用先の規定に従う。正社員として採用される場合が多いが、業務量の変動に伴い、医療品開発業務受託機関（CRO）から製薬会社や他の医療品開発業務受託機関（CRO）へ出向することもある。また、労働者派遣の形態での就業も少数ある。正社員の場合は月給制で年俸制の場合もある。就業者の男女の比率は女性の割合がやや多い。</p>
+        <p>夜勤は無く、日勤である。フレックスタイム制の場合もある。医療機関の都合で土日出勤となるケースもある。残業時間は、医療機関関係者との打合せ・調整の頻度や受け持つ医療施設数、治験期間の節目等により変動がある。</p>
+        <p>受け持つ医療機関数や地理的環境などにもよるが出張の機会が多いのが一般的である。</p>
+        <p>勤務形態は医療機関を訪問する外勤と報告書を作成する等の内勤に大きく分かれる。ただし、最近では医師等医療関係者との面談や合同会議等もウェブでのオンライン会議が多く、カルテ閲覧を除き医療機関を直接訪問する機会は以前より減少した。</p>
+        <p>一般社団法人日本CRO協会によるCRA認定試験合格者は累計8,714人（2009年～2025年）となっている。</p>
+        <p>新薬開発の競争は世界的に厳しい状況にあるが、新型コロナウイルス感染症の世界的蔓延等新たなウイルスに対する有効なワクチンや治療薬の早急な開発が求められており、また超高齢化社会を迎えた長寿社会の進展の状況下での健康維持確保のニーズの増大等、新薬開発の必要性は急激に拡大しているところ、治験実施の活躍の場は増加しており、今後さらに増えていくものと予想される。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.5 273.7,136.3 222.6,242.4 144.0,205.8 103.5,148.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>63</dd><dt>対人</dt><dd>83</dd><dt>判断</dt><dd>68</dd><dt>身体</dt><dd>34</dd><dt>定型</dt><dd>53</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">5.2</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">5.1</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.3</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.3</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">4.3</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">4.2</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">医学・歯学</span><span class="topn-score">4.1</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">3.4</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li><li><span class="topn-name">生物学</span><span class="topn-score">2.8</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">2.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">4.1</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.7</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.7</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.6</span></li><li><span class="topn-name">演繹的推論</span><span class="topn-score">3.5</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/151"><span class="tc-name">国際公務員</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/194"><span class="tc-name">空港グランドスタッフ</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/522"><span class="tc-name">NPO法人職員（企画・運営）</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.jpma.or.jp/" rel="external" target="_blank">日本製薬工業協会</a></li><li><a href="https://www.pmda.go.jp/" rel="external" target="_blank">独立行政法人医薬品医療機器総合機構</a></li><li><a href="https://www.jcroa.or.jp/" rel="external" target="_blank">一般社団法人日本CRO協会</a></li><li><a href="https://www.mre.or.jp/" rel="external" target="_blank">公益財団法人ＭＲ認定センター</a></li><li><a href="https://www.j-sctr.org/" rel="external" target="_blank">一般社団法人日本臨床試験学会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>薬剤師</li><li>保健師</li><li>看護師</li><li>臨床検査技師</li><li>ＭＲ認定試験</li><li>CRA教育研修修了認定</li><li>JSCTR認定GCPパスポート・GCPエキスパート</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +467,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

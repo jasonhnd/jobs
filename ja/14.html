@@ -8,6 +8,7 @@
     <title>ビール製造 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="ビール製造：就業者 約15,050人 / 平均年収 366万円 / 平均年齢 43.5 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="ビール製造, 酒類製造工（清酒を除く）, ビール製造工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/14" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/14" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "14",
+      "occupationalCategory": "12_072-07",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/14",
       "additionalProperty": [
         {
@@ -122,7 +123,24 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Beer Brewer",
+      "alternateName": [
+        "Beer Brewer",
+        "酒類製造工（清酒を除く）",
+        "ビール製造工"
+      ],
+      "industry": "Manufacturing & Craft",
+      "skills": [
+        "Quality Control Analysis",
+        "Equipment Maintenance",
+        "Operations Monitoring",
+        "Active Listening",
+        "Complex Problem Solving",
+        "Repairing",
+        "Time Management",
+        "Troubleshooting",
+        "Management of Material Resources",
+        "Critical Thinking"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-mid">AI 影響 中</span><span class="band band-low">規模 小</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -309,18 +398,37 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>ビール醸造所（ブルワリー）において、ビールの製造に従事する。</p>
+        <p>日本のビール業界は、長い間大手メーカーによる寡占状態が続いてきたが、1994年の酒税法改正による規制緩和で日本各地の小規模醸造所で“地ビール”や“クラフトビール”と呼ばれるビールが造られている。ビール製造の仕事内容は醸造所の規模によって異なるが、基本工程は同じである。</p>
+        <p>ビール造りでは、タンクや配管の洗浄・消毒を丁寧に行うことが大切である。ビールの場合アルコール度が低く、ビール酵母もどちらかといえば弱い発酵力しかないので、洗浄・消毒がおいしいビール造りの基本となる。</p>
+        <p>仕込みは、粉砕した麦芽を湯に浸して麦汁を造ることから始まる。麦汁に苦みをつけるホップを投入して約一時間煮込み、最後に香り用のホップを投入する。煮込みの終了した麦汁は、熱交換器を通して急冷しながら発酵タンクに移し、ここに酵母を投入すれば仕込みが完了する。</p>
+        <p>これから数十日間をかけて発酵・熟成させ、出来上がったビールをろ過した後、製品タンクに移し、アルミ缶やびんに詰めて出荷する。</p>
+        <p>大きなビール工場では、作業マニュアル等により、全く同じ品質のビールが造られるが、小さな醸造所では多くの作業が手作業であり、個人の経験や技能が製品の質に反映される余地が大きい。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>麦汁醸造機、発酵タンク、濾過機、製品タンク</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/6">水産ねり製品製造</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/5">乳製品製造</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/54">デパート店員</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/13">ワイン製造</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/15">かん詰・びん詰・レトルト食品製造</a><span class="r-risk">AI 影響 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。学校を卒業後、ビール醸造所などに就職する。食品衛生の知識や醸造の知識があることが望ましい。入職経路は、新卒の場合は学校からの紹介、中途採用の場合は、ハローワークと求人広告がほとんどである。</p>
+        <p>ビール造りは、最初は作業を習いながら手伝いから始め、様々な工程を経験する。地ビールやクラフトビールの製造では、ビール醸造の経験を積み重ねるうちに自分でコントロールできる部分が広がり、味を意図的に調整したり、新しいレシピを作ったりすることもできるようになる。熟練すると、単に与えられたレシピに従って作業をするのではなく、経営者や顧客と一緒に、新たなビール造りにも挑戦できる。このような過程を通じ、製造だけでなくマーケティングやセールスに精通することも必要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>個性的で様々な味のビールを作り出している、小規模な醸造所は全国に383場ある（2024年12月時点*）。このような醸造所では、タンクの洗浄は夏暑く、冬寒い自然条件の中で行われる。仕込みの原材料や製品の運搬は重労働であるが、醸造所の規模によってはそれらの移動を機械で行う場合もある。発酵・熟成期間は作業が少ない反面、仕込みやびん詰めでは朝から夜までの作業となる。また、夏や観光シーズンなどには需要が大幅に高まるため、繁忙期となることが多い。</p>
+        <p>ヨーロッパでは２千年近くに渡りビールの文化が育まれてきたが、日本では大手メーカー以外では、小規模でのビール造りが認められた歴史も浅く、地ビールやクラフトビールを造る小規模醸造所も、ようやく近年、地場産業の一つとして力をつけつつあると言える。</p>
+        <p>*国税庁　酒類製造業及び酒類卸売業の概況(令和6年アンケート)</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,83.4 256.7,141.8 219.4,237.9 129.1,226.3 105.1,148.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>66</dd><dt>対人</dt><dd>70</dd><dt>判断</dt><dd>64</dd><dt>身体</dt><dd>53</dd><dt>定型</dt><dd>52</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">クオリティチェック</span><span class="topn-score">4.2</span></li><li><span class="topn-name">保守点検</span><span class="topn-score">4.0</span></li><li><span class="topn-name">計器監視</span><span class="topn-score">4.0</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.9</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">3.9</span></li><li><span class="topn-name">修理</span><span class="topn-score">3.9</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">3.9</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">3.8</span></li><li><span class="topn-name">資材管理</span><span class="topn-score">3.8</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.3</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.7</span></li><li><span class="topn-name">機械</span><span class="topn-score">1.7</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.4</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">1.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/13"><span class="tc-name">ワイン製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/10"><span class="tc-name">みそ製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/1"><span class="tc-name">豆腐製造、豆腐職人</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.brewers.or.jp/" rel="external" target="_blank">ビール酒造組合</a></li><li><a href="http://www.beertaster.org/" rel="external" target="_blank">日本地ビール協会</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +437,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

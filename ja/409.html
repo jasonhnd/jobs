@@ -8,6 +8,7 @@
     <title>福祉ソーシャルワーカー — AI 影響 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="福祉ソーシャルワーカー：就業者 約44,392人 / 平均年収 441万円 / 平均年齢 45.4 / AI 影響 5/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="福祉ソーシャルワーカー, 家庭相談員, ケースワーカー（障害者更生相談所）, 児童福祉司, 障害者福祉司, 母子自立支援員, 児童心理司, 福祉事務所地区担当員, 相談員（社会福祉協議会）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/409" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/409" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "409",
+      "occupationalCategory": "08_049-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/409",
       "additionalProperty": [
         {
@@ -122,7 +123,44 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Welfare Social Worker",
+      "alternateName": [
+        "Welfare Social Worker",
+        "家庭相談員",
+        "ケースワーカー（障害者更生相談所）",
+        "児童福祉司",
+        "障害者福祉司",
+        "母子自立支援員",
+        "児童心理司",
+        "福祉事務所地区担当員",
+        "相談員（社会福祉協議会）",
+        "相談員（地域包括支援センター）",
+        "社会福祉士（福祉事務所：相談・助言・援助業務）",
+        "児童相談所相談員",
+        "相談支援専門員（福祉事務所）",
+        "福祉事務所ケースワーカー",
+        "福祉事務所面接員",
+        "婦人相談所相談員"
+      ],
+      "industry": "Welfare & Care",
+      "skills": [
+        "Active Listening",
+        "Service Orientation",
+        "Social Perceptiveness",
+        "Coordination",
+        "Persuasion",
+        "Complex Problem Solving",
+        "Instructing",
+        "Negotiation",
+        "Monitoring",
+        "Reading Comprehension"
+      ],
+      "qualifications": [
+        "社会福祉士",
+        "精神保健福祉士",
+        "認定社会福祉士",
+        "社会福祉主事資格",
+        "社会福祉主事任用資格"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +244,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +300,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +395,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=fukushi">福祉・介護</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +417,38 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>福祉等に関する専門知識を活かし、社会生活に困難がある人々の相談に乗ったり、社会的支援を行う。</p>
+        <p>福祉等に関する専門知識を活かし、社会生活に困難や支障のある人々の相談に乗ったり、社会的支援を行う。ソーシャルワーカーと呼ばれることが多い。ここでは以下、ソーシャルワーカーという。</p>
+        <p>職務内容としては、高齢者、障がい者、ひとり親、生活困窮者等を対象に相談・支援業務及び関係機関との連絡・調整を行う。「社会福祉士」、「精神保健福祉士」の資格を取得しソーシャルワーカーとして就業していることが多い。ソーシャルワーカーの具体的な業務内容は就労先によって異なる。例えば、病院なら「医療ソーシャルワーカー」や「医療相談員」、高齢者施設なら「生活相談員」などとして活動している。</p>
+        <p>ソーシャルワーカーには、相談者の話をじっくりと聞いて、ニーズを聞き出し、適切な行政サービス等を紹介したり、相談者が自立した生活を送れるように支援する。地域の福祉ニーズを把握して、不足するサービスの充実を提案したり、サービス提供者のネットワークを構築するなど、その仕事内容は多岐にわたる。</p>
+        <p>地域包括支援センターに勤務するソーシャルワーカー（社会福祉士）を例に、1日の仕事の流れをみると、出勤後、その日の面談予定を確認し、朝会で情報を共有してから、施設入所希望者とその家族の相談に応じたり、ケアマネージャーとの連絡を行う。必要に応じて相談者宅を訪問し、本人や家族と面談する。その後病院を訪問し、入院患者と面談するなど外回りをこなすこともある。センターに戻り、その日の相談の記録を作成したり、翌日の準備を行う。急な案件が入り残業をすることもある。</p>
+        <p>最近は司法関係の案件も増えており、検察や弁護士と連携して受刑者や刑期満了者への生活・自立支援などを行う場合がある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/408">医療ソーシャルワーカー</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/411">カウンセラー（医療福祉分野）</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/412">スクールカウンセラー</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/410">施設管理者（介護施設）</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/407">治験コーディネーター</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>ソーシャルワーカーになるには、国家資格である「社会福祉士」か「精神保健福祉士」の資格を取得することが一般的である。公務員として都道府県や市町村の福祉事務所で働くためには、任用資格である「社会福祉主事資格」を取得しなければならない。</p>
+        <p>それぞれの職場に入職後はOJTで経験を積みながら仕事をしていくことになる。研鑽を求められる職業であり、社会福祉士の場合、日本社会福祉会の生涯研修センターでの「生涯研修制度」を利用している人も多い。社会福祉士のスキルアップを支援し、キャリアアップにつなげる仕組みとして、認定社会福祉士認証・認定機構では、実務経験5年以上の「社会福祉士の実践力」を認証する「認定社会福祉士」制度がある。</p>
+        <p>ソーシャルワーカーの仕事は相談業務が中心となるだけに、人とのコミュニケーション能力が高いことが求められる。利用者やその家族はもとより、医療機関や行政などとの折衝・連携も欠かせない職業であるので、コーディネート能力も重要である。支援を必要としている利用者と向きあう仕事なので、使命感や正義感、思いやりも大切である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は全国に分布している。高齢者福祉施設が多く、児童福祉施設、障害者施設、地方自治体の福祉事務所、保健所、医療機関、福祉サービスを行う民間企業など幅広い分野で活動している。就業している年代は幅広く女性が多い。</p>
+        <p>勤務は、相談業務が中心なので、日勤となり、原則として夜勤はなく土日は休みとなる。ただし、急な相談依頼があったりすると時間外に勤務する場合がある。また、就労先によっては24時間対応を行っているところもあり、その場合はシフト制の勤務となり、土日が休日となるとは限らない。</p>
+        <p>社会的に必要性が高まっている職業であり、幅広い世代に入職を促していく施策が推進されている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.8 279.3,134.5 221.9,241.4 133.2,220.7 108.9,150.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>63</dd><dt>対人</dt><dd>88</dd><dt>判断</dt><dd>67</dd><dt>身体</dt><dd>48</dd><dt>定型</dt><dd>49</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.5</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">4.8</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.8</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.4</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">4.3</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.2</span></li><li><span class="topn-name">交渉</span><span class="topn-score">4.2</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">4.2</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">心理学</span><span class="topn-score">3.3</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">3.2</span></li><li><span class="topn-name">医学・歯学</span><span class="topn-score">2.9</span></li><li><span class="topn-name">社会学</span><span class="topn-score">2.9</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">発話表現</span><span class="topn-score">3.5</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.5</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.4</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.3</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/133"><span class="tc-name">訪問介護員/ホームヘルパー</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/244"><span class="tc-name">障害者福祉施設指導専門員（生活支援員、就労支援員等）</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/243"><span class="tc-name">児童指導員</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jacsw.or.jp/" rel="external" target="_blank">公益財団法人　日本社会福祉士会</a></li><li><a href="https://www.jamhsw.or.jp/" rel="external" target="_blank">公益財団法人　日本精神保健福祉士協会</a></li><li><a href="http://www.jaswhs.or.jp/" rel="external" target="_blank">公益財団法人　日本医療社会福祉協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>社会福祉士</li><li>精神保健福祉士</li><li>認定社会福祉士</li><li>社会福祉主事資格</li><li>社会福祉主事任用資格</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +457,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

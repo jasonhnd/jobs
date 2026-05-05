@@ -8,6 +8,7 @@
     <title>ドローンパイロット — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="ドローンパイロット：就業者 約50,350人 / 平均年収 467万円 / 平均年齢 48.0 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="ドローンパイロット" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/511" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/511" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "511",
+      "occupationalCategory": "13_088-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/511",
       "additionalProperty": [
         {
@@ -123,6 +124,10 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Drone Pilot",
+      "industry": "Facilities & Maintenance",
+      "qualifications": [
+        "無人航空機操縦者技能証明等"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,8 +384,37 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>ドローンを操縦し、上空からの撮影、測量、点検、観察、捜索、農薬散布などを行う。</p>
+        <p>ドローンを操縦し、上空からの撮影、測量、点検、観察、捜索、農薬散布などを行う。なお、ドローンとは本来は無人航空機（UAV: Unmanned Aerial Vehicle）のことであり、固定翼のある普通の飛行機のような形のものも含まれるが、ここでは一般にイメージされる複数のプロペラを持つマルチコプター型のドローンについて解説している。</p>
+        <p>ドローンはこれまでヘリコプターや小型飛行機で行われていた空撮や農薬散布を代替するだけでなく、橋梁を下から点検したり、対象の上を縦横に飛行し、立体地図を作成するなど、これまでできなかったことを可能にしている。プログラムされて飛行しているものであるが最近では多数のドローンを夜空に飛ばす、ドローン・ショーもよく行われるようになった。ドローンスクールが各地にでき（国土交通省「登録講習機関」は全国に約800箇所）、その講師などの仕事もある。</p>
+        <p>当初からドローンでの物流が期待されたが、住宅地上空を飛ぶ際の懸念や騒音から現状としては実用面での広がりは限定的である。また、ドローンによる上空からの施設等の警備も考えられるが、ドローンはバッテリー駆動であり、長時間の飛行には向いておらず、これについても限定的な実用に留まっている現状にある。</p>
+        <p>ドローンを飛行させる際には、航空法をはじめとした各種法令に基づき様々な手続が必要となることから、国土交通省のホームページなどで必要な手続や対応を確認しておく必要がある。航空法で必要とされるドローンの飛行に必要な手続は、Webサイト「ドローン情報基盤システム2.0（DIPS2.0）」で行うことができる。さらに、私有地の上を飛ぶ場合にはその土地の所有者の許可を得る必要がある。私有地以外の場所では、現在、ほとんどが無許可の飛行を禁止しているため、地方自治体の条例等に従い、飛行を申請し承認を得る必要がある。</p>
+        <p>必要となる申請を行い承認されたら、飛行前に気象や機体の状況、飛行経路、他のドローンの飛行等々について、安全に飛行できるか確認する。問題がなければ、必要な場合、操縦者とは別の補助者に周辺を監視してもらいながら、的確にドローンを操縦し、撮影、測量、点検等々、それぞれの業務を行う。</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>ドローンはまだまだ様々な可能性を秘めており、ドローン活用のアイディアを持つ方が多くいます。ドローンパイロットの国家資格はその入り口になります。（就業者）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>ドローン（本体機器、コントローラ、バッテリー）、スマートフォン、タブレット、パソコン、風速計、SDカード（空撮時の画像や動画の保存のため）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>特に学歴は必要とされないが、ドローンは空撮、測量、農薬散布等それぞれの業務を行うために使われる。そのため空撮であれば撮影や映像制作の技術が必要となり、測量であれば測量の知識と技術、農薬散布であれば農薬取扱に関する知識が必要となる。ドローンを飛ばせる以前に、それぞれの業務の知識や技術が求められ、そのために大学や専門学校での教育が必要となる。それに加えて、安全を最優先し、関係法規、規則、飛行方法等を遵守することが求められる。さらに、状況に応じて飛行の可否の判断、また、緊急時に対応できることも必要である。突然の強風やGPSの機能不全等は起こりうることなので、そのような事態に備え、事前の訓練による飛行の習熟が必要となり、これらをドローンスクール（国土交通省から指定を受けた「登録講習機関」等）で学ぶ。</p>
+        <p>現在、ドローンスクールでの実習を含めた講習を受け、国家資格「無人航空機操縦技能証明」の二等無人航空機操縦士か一等無人航空機操縦士を取得している人が多い。ドローンスクールでの講習を含め二等無人航空機操縦士の取得までに４日程度、40万円程度、一等無人航空機操縦士では６日程度、60万円程度の費用となる。ドローンスクールでの実習はスクール側が用意する機体で実際の操縦を学び、ドローンスクールを出ていると国家資格の技能証明試験での実地試験が免除される。ドローンスクールに行かず、直接、無人航空機操縦士の技能証明試験を受験することはできるが、実際にはかなり難しい。</p>
+        <p>二等無人航空機操縦士の資格を持っており、認証された機体を用いること等、その他条件を満たせば、毎回の国土交通省への飛行申請を省略することができることから、ドローンを仕事で使う人はこの資格を持っていることが多い。一等無人航空機操縦士は、その他条件を満たせば、人口密集地や大規模イベント会場での飛行が可能であり、有人地域での目視外飛行（レベル４飛行）も可能であることからドローンを使った業務の幅が広がる。二等無人航空機操縦士、一等無人航空機操縦士の有効期間は３年で更新が必要である。</p>
+        <p>技能証明を持っていなくてもドローンを飛ばすことはできるが、違法にならないよう、また、トラブルにならないよう、細かな法律や規則を熟知している必要があり、飛行のたびに国土交通省への申請と承認も求められ、一定レベルの操縦技術が必要なことから、仕事でドローンを使う場合はドローンスクールで学び、無人航空機操縦士（一等、二等）の資格を取得するという人が多い。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は、映像制作会社、測量会社、インフラ点検を行う建設会社、農薬の散布を行う事業者等様々である。また、個人事業主、フリーランスとして、ドローンで撮影を行っていたり、測量や農薬散布を行っている人もいる。</p>
+        <p>ドローン操縦だけで職業としている者はほとんどなく、本業の中でドローン操縦をしている。そのため、賃金、労働時間等労働条件は本業の勤務先次第であり、個人事業主やフリーランスの場合は契約条件による。</p>
+        <p>ドローンはプログラミングによって、定められたコースを自動的に飛行したり、ドローン・ショーのように人間の操作ではできない飛行ができるようになっている。また、ドローンの撮影機材はより高性能になり、8Kの高精細画像や高倍率ズームでの撮影が可能になっている。赤外線カメラで夜間の遭難者捜索や野生動物の監視も行われている。バッテリーの性能向上とドローン本体と積載機材の小型化、軽量化によって、飛行時間も伸びている。ドローンの基本的な機能には大きな変化はないが、このような進歩により、ドローンは活用場面が広がっている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 170.0,170.0 170.0,170.0 170.0,170.0 170.0,170.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>50</dd><dt>対人</dt><dd>0</dd><dt>判断</dt><dd>0</dd><dt>身体</dt><dd>0</dd><dt>定型</dt><dd>0</dd></dl></div></section>
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +427,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.classnk.or.jp/hp/ja/" rel="external" target="_blank">一般財団法人 日本海事協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>無人航空機操縦者技能証明等</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +436,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

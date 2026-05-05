@@ -8,6 +8,7 @@
     <title>バイオマス発電プラントの設計 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="バイオマス発電プラントの設計：就業者 約48,516人 / 平均年収 641万円 / 平均年齢 43.6 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="バイオマス発電プラントの設計, 建築設計技術者, 建築構造設計技術者, 建築設備設計技術者" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/551" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/551" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "551",
+      "occupationalCategory": "02_008-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/551",
       "additionalProperty": [
         {
@@ -122,7 +123,23 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Biomass Power Plant Designer",
+      "alternateName": [
+        "Biomass Power Plant Designer",
+        "建築設計技術者",
+        "建築構造設計技術者",
+        "建築設備設計技術者",
+        "Building Design Engineer",
+        "Building Structural Design Engineer",
+        "Building Systems Design Engineer"
+      ],
+      "industry": "Specialist & Technical",
+      "qualifications": [
+        "エネルギー管理士",
+        "技術士（機械部門）",
+        "技術士（衛生工学部門）",
+        "技術士（環境部門）",
+        "公害防止管理者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,8 +396,39 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>バイオマス発電のプラントを設計する。</p>
+        <p>バイオマス発電のプラントを設計する。バイオマス発電プラントを建設する場合、基本設計、詳細設計、建設工事、試運転・検査、引き渡しという流れになるが、この中で基本設計と詳細設計を担当する。建設の途中で建設現場に行き、設計と建設の調整等を行うこともある。</p>
+        <p>バイオマス発電では、石炭、石油、天然ガスのような化石燃料ではなく、木材や農産物残渣 など生物由来の原料をそのまま燃焼したり、ガス化して発電を行う。バイオマス発電プラントは大きく分けて、燃料供給設備、燃焼機、ボイラー 、タービン 、発電機、排ガス処理設備等の各機器から構成される。</p>
+        <p>バイオマスプラントを建設する場合、事前の環境調査、役所への届出等が必要になるがこれはプラントの発注者が行い、必要であればバイオマス発電の設計者はそれを支援する。プラントの発注者は発電事業者、豊富な燃焼材がある会社、農産物残渣や食品廃棄物を焼却する会社等である。二酸化炭素排出量削減のために再生可能エネルギー の固定価格買取制度 が導入されており、新規参入する会社もある。また、自らの工場や店舗で使う電力を太陽光、風力とともにバイオマス発電で賄い、消費電力に占める再生可能エネルギーの比率を高めている会社もある。</p>
+        <p>基本設計では、バイオマスプラントの発注者から示された事業の概要と事業形態（売電か自家用かなど）、要望、予算等から、求められる性能を満たすために、どのような機器を組み合わせるか、また、各機器の仕様をどうするか、そしてプラント全体の機器配置をどうするか等を検討する。検討結果は発注者に報告し協議する。</p>
+        <p>詳細設計では基本設計に基づき、各機器の詳細な設計、各機器を繋ぐ配管等の設計を行う。また、プラントを建てるための建築工事の設計、プラントを動かすための電力設備や制御システムの設計を行う場合もある。この詳細設計で各機器の設計図、配置図、また、配管等の各種図面を作成する。</p>
+        <p>バイオマスプラントでの燃料供給設備、ボイラー、タービン、発電機等の各機器は自社製の場合もあるが、他社から調達する場合もある。他社から調達する場合、海外メーカーの機器を採用することもある。</p>
+        <p>設計にはCAD、３D CAD等のソフトウェアを用いる。また、熱、構造、ガスの流れ等の計算、シミュレーションを行うソフトウェアも用いられる。最近ではVRゴーグル でプラントの中に入ったように、作業員の動線や配管等の設計をバーチャルで確認することもできる。</p>
+        <p>バイオマス発電に使う燃料としては、木質ペレット 、木質チップ等均一のものもあれば、農産物残渣、食品残渣等様々なものがあり、水分を多く含むものもある。様々な状態の様々な燃料を効率的に、有害物質等を出さないよう燃焼させなくてはならず、高度な設計技術が必要となるが、プラントが出来上がったときには達成感を得られる。また、今日、バイオマス発電に関わる様々な研究開発が行われており、技術の進歩も感じられる。世界的な温室効果ガス削減、カーボンニュートラルの動きの中で、また、GX（グリーントランスフォーメーション） としても、バイオマス発電は社会から期待されており、その一翼を担う職業である。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>パソコン、各種設計ソフトウェア（CAD、３D CAD）、各種計算ソフトウェア（熱、構造、流体）、コラボレーションツール（情報共有、文書管理、ビデオ会議、チャット、スケジュール管理等）、ヘルメット等（建設現場に行くとき）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>バイオマス発電の建設だけを行う会社は少なく、様々なプラントを建設する会社が多い。そのため新卒の場合は様々なプラント建設会社に技術系の総合職として採用され、やがてバイオマス発電のエキスパートになっていく者もいる。機械、化学、電気、エネルギー、環境等理工系分野を学んだ院卒、大卒、高専卒の出身者が多い。プラント運転の効率化や自動化のため、電子、情報等を履修した者もいる。</p>
+        <p>中途採用の場合は発電事業者、建設会社、機器メーカー等の技術者が持っている技術に期待され、入社することが多い。</p>
+        <p>免許資格としては必須ではないが、経済産業者の国家資格であるエネルギー管理士を入社してから取得する者が多い。その他、関連する免許資格として、技術士（機械部門、衛生工学部門、環境部門）、公害防止管理者がある。</p>
+        <p>先に述べた理工系の基礎能力とともに、多くの関係者が協力して作る巨大設備のため、協調性、コミュニケーション能力、調整力、誠実さが求められ、設計には専門性もあることから、粘り強さ、忍耐力も必要とされる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は各種プラントの建設会社が多い。就業場所は、本社の設計部門であり大都市周辺が多く、全国各地の建設現場に出張に行くこともある。</p>
+        <p>就業者は男性が多く、年齢層としては若年から中高年まで幅広い。大半が正社員であり、給与は月給制が多い。</p>
+        <p>通常は平日の日勤であり、土日祝日が休みとなる。</p>
+        <p>バイオマス発電は世界的な温室効果ガス削減、カーボンニュートラルの動きから期待されており、国内だけでなく、東南アジア等海外での建設も多くなっている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +441,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.enecho.meti.go.jp/" rel="external" target="_blank">経済産業省　資源エネルギー庁</a></li><li><a href="http://www.j-biopower-ass.jp/" rel="external" target="_blank">一般社団法人 バイオマス発電協会</a></li><li><a href="https://jwba.or.jp/" rel="external" target="_blank">一般社団法人 日本木質バイオマスエネルギー協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>エネルギー管理士</li><li>技術士（機械部門）</li><li>技術士（衛生工学部門）</li><li>技術士（環境部門）</li><li>公害防止管理者</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +450,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

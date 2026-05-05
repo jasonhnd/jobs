@@ -8,6 +8,7 @@
     <title>施設介護員 — AI 影響 2/10｜mirai-shigoto.com</title>
     <meta name="description" content="施設介護員：就業者 約1,358,960人 / 平均年収 376万円 / 平均年齢 45.2 / AI 影響 2/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="施設介護員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/134" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/134" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "134",
+      "occupationalCategory": "08_050-00",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/134",
       "additionalProperty": [
         {
@@ -123,6 +124,23 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Facility Care Worker",
+      "industry": "Welfare & Care",
+      "skills": [
+        "Active Listening",
+        "Service Orientation",
+        "Social Perceptiveness",
+        "Speaking",
+        "Writing",
+        "Reading Comprehension",
+        "Instructing",
+        "Persuasion",
+        "Coordination",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "介護職員初任者研修修了者",
+        "介護福祉士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=fukushi">福祉・介護</a><span class="band band-low">AI 影響 低</span><span class="band band-high">規模 大</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-2">
@@ -309,18 +398,38 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>高齢者や、障害があり自立して日常生活を送ることが困難な人など、社会福祉施設に入所したり通所で利用する人々の世話をし、話し相手ともなる。</p>
+        <p>基本的な仕事は、施設の利用者がより自立した生活を送れるよう、援助していくことである。</p>
+        <p>生活全般の自立が難しい場合には、食事、入浴、排泄の世話をはじめ、身体を動かす必要のあるときには介助し、清潔を保つなど、様々なケアをする。目の不自由な人には、読み書きの代行をしたり、歩行が不自由な人には車椅子を押すなど日常生活を助ける。</p>
+        <p>単に介助をするだけでなく、本人の能力や気力を引き出すように働きかけ、レクリエーションを計画したり、周りとコミュニケーションをとって楽しく前向きに暮らせるようにすることも大切である。</p>
+        <p>介護の記録をつけたり、報告書や会議を通して、生活相談員（生活支援員）、看護師、栄養士、調理員といったスタッフと連携をとり、チームワークで仕事を進める。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>車椅子、介護用ベッド</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/133">訪問介護員/ホームヘルパー</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/128">ネイリスト</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/127">ピアノ調律師</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/135">手話通訳者</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/132">介護支援専門員/ケアマネジャー</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、大学や専門学校等で社会福祉について学び、介護福祉士等を取得した人の就職が多い。</p>
+        <p>高齢者や障害のある人など、日常生活や心身の機能に困難のある人と接することが多いため、それぞれの状況について深い知識と理解が必要である。また、障害の内容や程度について正確に知っていること、全ての利用者に公平に接していくことが求められる。利用者を介助するための体力と責任感も必要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>高齢者や障害のある人のための施設などが職場であり、多くは老人福祉施設で働いている。特に、生活全般の自立が難しい高齢者や認知症の高齢者を主な対象とする特別養護老人ホームで働いている人が多い。この他、介護保険制度に基づく介護老人保健施設、介護医療型施設（病院）でも多くの介護職員が働いている。</p>
+        <p>公益財団法人介護労働安定センターの令和6年度介護労働実態調査における回答者をみると、就業者の平均年齢は48.7歳で、女性比率は約75.2％となっている（2024年10月時点）。</p>
+        <p>24時間介護サービスを提供している施設が多いため、交替勤務や夜間勤務がある。</p>
+        <p>介助の仕事は、寝たきりの人の体の向きを一定時間ごとに変えたり、ベッドから起こしたり、入浴の手伝いをしたり、身体を拭いたりするなど、体力が必要な動作が多い。</p>
+        <p>人口の高齢化に伴い、高齢者介護に対する需要は更に高まることが予想され、障害者のための施設に対する需要も高い。介護人材の大幅な不足に対応するため、介護保険による事業所への介護報酬の改定もたびたび行われており、人材確保や処遇改善を目的として、一定の要件を満たした介護事業所への加算手当が拡充されるなど、労働環境や賃金の改善が図られている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,98.5 254.8,142.4 207.7,221.8 118.7,240.7 106.9,149.5" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>55</dd><dt>対人</dt><dd>68</dd><dt>判断</dt><dd>49</dd><dt>身体</dt><dd>67</dd><dt>定型</dt><dd>51</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">3.6</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.0</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.0</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.0</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">2.7</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.7</span></li><li><span class="topn-name">心理学</span><span class="topn-score">2.5</span></li><li><span class="topn-name">医学・歯学</span><span class="topn-score">2.5</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">2.3</span></li><li><span class="topn-name">社会学</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.4</span></li><li><span class="topn-name">筋力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">持久力（スタミナ）</span><span class="topn-score">3.1</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.0</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">2.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/133"><span class="tc-name">訪問介護員/ホームヘルパー</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/243"><span class="tc-name">児童指導員</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/244"><span class="tc-name">障害者福祉施設指導専門員（生活支援員、就労支援員等）</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.shakyo.or.jp" rel="external" target="_blank">社会福祉法人   全国社会福祉協議会</a></li><li><a href="http://www.jaccw.or.jp" rel="external" target="_blank">公益社団法人   日本介護福祉士会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>介護職員初任者研修修了者</li><li>介護福祉士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

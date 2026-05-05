@@ -8,6 +8,7 @@
     <title>M&amp;Aマネージャー、M&amp;Aコンサルタント/M&amp;Aアドバイザー — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="M&amp;Aマネージャー、M&amp;Aコンサルタント/M&amp;Aアドバイザー：就業者 約9,213人 / 平均年収 903万円 / 平均年齢 39.5 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="M&amp;Aマネージャー、M&amp;Aコンサルタント/M&amp;Aアドバイザー" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/471" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/471" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "471",
+      "occupationalCategory": "03_013-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/471",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "M&A Manager / Advisor",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Active Listening",
+        "Negotiation",
+        "Persuasion",
+        "Speaking",
+        "Coordination",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Writing",
+        "Systems Evaluation",
+        "Instructing"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=shigyo">士業・経営・コンサル</a><span class="band band-high">AI 影響 高</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +393,43 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>法律、財務などの専門スキルを活用して、対象企業・事業の選定から、交渉、契約締結に至るまでのM&amp;A（企業合併・事業買収）のプロセスを適切に進捗管理する。</p>
+        <p>M&amp;A（Mergers and Acquisitions：企業合併・事業買収）がその目的を達成するよう、法律、財務などの専門スキルを活用して、対象企業・事業の選定から、交渉、契約締結に至るまでのプロセスを適切に進捗管理する。</p>
+        <p>M&amp;Aの目的は、企業の持続的発展のための新規事業や市場への参入、企業グループの再編、事業統合、あるいは、経営不振企業の救済、後継者のいない企業の事業承継など多様である。</p>
+        <p>業務をM&amp;Aのプロセスに沿って具体的にみると、次のとおりである。まず、「事前検討段階」として、①経営企画部などが行う経営戦略・M&amp;A戦略の策定を支援し、あるいは②M&amp;Aを検討する企業との相談を受け、③M&amp;A戦略に適合する、あるいは相談を踏まえたM&amp;A対象企業・事業を選定して、④選定したM&amp;A対象企業と接触してM&amp;Aの可能性を協議する。次いで、「交渉段階」に入り、⑤本格的M&amp;A交渉開始に合意した場合には基本合意（LOI：Letter of Intent）を締結して、⑥弁護士、公認会計士などの専門家と協力して、M&amp;A対象企業について事業・財務・法務・人事・システム・環境等を詳細に調査しM&amp;Aに適する企業かを評価するデューディリジェンス（DD：Due Diligence）を行い、⑦その結果を踏まえた買収価額算定評価を実施、併せて⑧金融機関と資金調達交渉を行う。そして、「実行段階」であり、⑨DDと買収価額算定評価に基づき買収価額を協議し、合意に達すれば売買契約を締結、⑩当該M&amp;Aに係る広報を行うとともに、⑪所有権移転、対価支払い、合併などの諸手続きを行う。また、⑫新組織の人材（社長・CFO等）の採用・確保など、M&amp;Aの効果の実現を図るための統合プロセス（PMI：Post Merger Integration）を実施する。</p>
+        <p>M&amp;A進捗管理を行う仕事には２つの態様がある。「事業会社等の内部において自社のM&amp;Aの進捗管理を担うもの」と「他社のM&amp;Aの補佐や進捗管理を請け負って担うもの」であり、一般的に、前者の担当者は「M&amp;Aマネージャー」、後者の担当者は「M&amp;Aコンサルタント」や「M&amp;Aアドバイザー」とも呼ばれる。</p>
+        <p>したがって、M&amp;Aマネージャーは、経営戦略・事業戦略などを策定する社長直属の社長室、経営企画部、経営戦略部等や、これらの下の1セクションとして設置されたM&amp;A担当部署に配置される例が多い。一方、M&amp;Aコンサルタント・M&amp;Aアドバイザーは、「M&amp;Aコンサルティング会社」「M&amp;A仲介会社」等に所属するものが多く、上記のM&amp;A進捗管理の具体的業務の「事前検討段階」②と③の「企業との相談」に係るものは、専らM&amp;Aコンサルタント・M&amp;Aアドバイザーの業務である。</p>
+        <p>これらM&amp;A専門部門設置や担当者配置、専門企業の伸長が見られるようになったのは比較的最近（リーマンショック後）であるといわれる。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/469">内部監査人</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/462">OA機器営業</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/461">商品企画開発（チェーンストア）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/470">ファンドマネージャー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/472">代理店営業（保険会社）</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>この仕事に就くためには、特に学歴や資格は必要とされないが、大学・大学院卒がほとんどである。専攻分野としては、経済・経営・商学・法律専攻が多い。理系専攻もいる。専攻が多様なのは、自らビジネス法務、財務等の情報を理解するとともに、経営・法律・会計・システム等の専門家をコーディネートするという仕事の性質による。ただし、重要なのはあくまで実務経験と専門知識の豊富さとされる。</p>
+        <p>そのため、中途採用者がほとんどである。前職は、銀行、証券会社、投資会社、コンサルティング会社、会計事務所、法律事務所などで、そこでの業務経験・専門知識を土台に、M&amp;Aを数多く経験することにより、交渉力・合意形成力など必要な知識・スキル・ノウハウなどを習得すると共に、関係する専門家とのネットワークを形成し、担当者として成長して行く。したがって未経験者がM&amp;Aの実務経験を積んでいくのは容易ではないが、最近では新卒採用者をプロパーとして育成する動きもある。</p>
+        <p>事前検討から交渉、実行までM&amp;Aのプロセスを一人で遂行できるようになれば一人前と見なされるが、ここまで成長するには5～8年かかるといわれている。</p>
+        <p>一つの組織におけるM&amp;Aの実務経験を活かして他社のM&amp;Aマネージャー、M&amp;Aコンサルタント・M&amp;Aアドバイザー、経営コンサルタント等に転職していくといわれる。</p>
+        <p>M&amp;Aは、刻々と変動する経済等の状況下、一定の期限内に多額の資金を動かすものであることから、期限遵守、情報管理、公平性・説明責任等の高いコンプライアンスが求められる。加えて、論理的に考える力、社内外の専門家に劣らない専門知識（経営、財務、会計、税制、ビジネス法務など）、専門知識を統合し実践に応用する力、多くの関係者とのコミュニケーション力、交渉などにおける的確な洞察力・判断力があげられる。読解力、海外事業の状況把握のための語学力（英語）も不可欠である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は、企業のM&amp;A部門やM&amp;Aコンサルティング会社などであり、企業の本社が所在する大都市圏に集中している。M&amp;Aマネージャーについていえば、一部の大企業を除き、M&amp;A専任者は少なく、数人（3～4名程度）の企業が多い。ほとんど正社員である。</p>
+        <p>年齢的には、一人前になるまでに5～8年かかること、特にリーマンショック後に多く配置されるようになったことを反映して、30～50歳層が中心である。就業者は男性が多い。</p>
+        <p>賃金は月給制が多い。大型のM&amp;Aの経験があれば、ヘッドハンティングなどにより高ポジション、高収入への道が開ける場合もある。</p>
+        <p>勤務形態は勤務先の規定による。フレックスタイム制や裁量労働制をとっている企業もある。M&amp;Aの進捗状況により繁閑の差が大きく残業が増える場合もある。</p>
+        <p>企業は、経済の成熟化の中、成長力・収益力の強化、持続的発展の維持のため、技術開発・事業開発の自前主義を見直し、自社の弱み（経営資源の不足分野）を迅速に補強するM&amp;Aを積極的に活用するようになっている。この傾向は今後も更に強まると予想される。加えて、中小の事業承継に係るM&amp;Aに対する要請も強まる可能性が高いことから、人材ニーズは高まると考えられる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,79.3 273.1,136.5 227.2,248.7 131.9,222.4 108.7,150.1" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>69</dd><dt>対人</dt><dd>83</dd><dt>判断</dt><dd>74</dd><dt>身体</dt><dd>49</dd><dt>定型</dt><dd>49</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">交渉</span><span class="topn-score">4.7</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.4</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.2</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">企業・組織の活動の評価</span><span class="topn-score">3.9</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.9</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">3.1</span></li><li><span class="topn-name">経済学・会計学</span><span class="topn-score">3.0</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">3.0</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.8</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">2.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.9</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.8</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.7</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.6</span></li><li><span class="topn-name">マルチタスク</span><span class="topn-score">3.6</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/93"><span class="tc-name">不動産鑑定士</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/225"><span class="tc-name">調教師</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/185"><span class="tc-name">学芸員</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

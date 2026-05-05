@@ -8,6 +8,7 @@
     <title>Family Court Investigator — AI Impact 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="Family Court Investigator: workforce ~6,118 / annual salary 765万円 / avg age 47.2 / AI impact 6/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Family Court Investigator" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/146" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/146" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "146",
+      "occupationalCategory": "03_012-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/146",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Family Court Investigator",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Active Listening",
+        "Social Perceptiveness",
+        "Writing",
+        "Speaking",
+        "Persuasion",
+        "Reading Comprehension",
+        "Critical Thinking",
+        "Service Orientation",
+        "Coordination",
+        "Negotiation"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=shigyo">Professional Services &amp; Management</a><span class="band band-mid">Mid AI risk</span><span class="band band-low">Small workforce</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,19 +393,41 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Investigates family disputes and juvenile cases for the family court.</p>
+        <p>Drawing on specialist knowledge and techniques from the behavioral sciences and related fields, the family court investigator (katei saibansho chōsa-kan) conducts investigations aimed at resolving disputes within families and helping juvenile offenders get their lives back on track.
+	The family court resolves problems that arise within the family — such as disputes between spouses and between relatives — through conciliation, adjudication (shinpan), and litigation; it also determines appropriate dispositions for juveniles who have committed delinquent acts. In both areas, the goal is not merely a legal resolution but one that takes account of the human relationships and environment behind each case. Family court investigators work in this context alongside judges and court clerks as a team, applying specialist knowledge and techniques from psychology, sociology, education, and social welfare to conduct investigations aimed at resolving disputes and facilitating rehabilitation.
+	In family matters (katei jikenaka) — including divorce, disputes over parental and custodial rights, appointment of guardians, and permission for adoption — the family court investigator&#x27;s work includes, for example, observing the interaction between parent and child and interviewing the child during a custody dispute in a divorce conciliation proceeding, in order to convey the child&#x27;s feelings to the conciliation commissioners and parents, and to submit an opinion to the judge giving priority to the child&#x27;s welfare. Where the parties&#x27; claims diverge and reaching agreement is difficult, the investigator interviews both parties individually, receives each person&#x27;s feelings and objectively confirms the facts, then uses those findings to submit an opinion to the judge on how to proceed with the conciliation.
+	In juvenile cases (shōnen jikenaka), which involve determining dispositions for juveniles who have committed delinquent acts, the family court investigator investigates the juvenile&#x27;s character, habitual behavior, developmental history, and surrounding environment in order to analyze why the juvenile engaged in delinquency and to consider what it will take for them to turn their life around. These findings are compiled in a written report for the judge. If a decision of trial observation (shiken kansatsu) is made, the investigator may also meet periodically with the juvenile and their guardians during that period.
+	Family court investigators work as a team alongside judges and court clerks, supporting fair and prompt adjudication at the family court. They also liaise and coordinate with schools, child consultation centers, and other related agencies, working toward a resolution of the problems that juveniles and the parties in family cases face.</p>
+        <p>◇ Commonly used tools, equipment, and technology
+Word-processing software (Word, Ichitaro, etc.); personal computer</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/145">Prosecutor</a><span class="r-risk">AI 6/10</span></li>
-          <li><a class="r-name" href="/en/144">Judge</a><span class="r-risk">AI 6/10</span></li>
-          <li><a class="r-name" href="/en/150">Diplomat</a><span class="r-risk">AI 6/10</span></li>
-          <li><a class="r-name" href="/en/147">Corrections Education Officer</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/148">Prison Officer</a><span class="r-risk">AI 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Candidates must pass the Comprehensive Judicial Personnel Recruitment Examination (Katei Saibansho Chōsa-kan-ho category, graduate-degree or university-degree level). Both the graduate-degree and university-degree categories require candidates to be under 30 years of age. The examination consists of two stages.
+	Those hired as assistant family court investigators (katei saibansho chōsa-kan-ho) undergo approximately two years of training at the Court Officials Research and Training Institute and at the family court to which they are assigned; upon completing this training, they are appointed as family court investigators.
+	At the research institute, participants attend joint training sessions including lectures and practical exercises; at the family court, they receive education and training covering all aspects of investigative practice from a supervisor — a lead family court investigator.
+	Because the role involves specialist tasks such as fact-finding and managing interpersonal relationships, specialists must possess specialist knowledge and techniques in psychology and related fields, as well as knowledge of law — and must be committed to continuous self-improvement to deepen that expertise. High ethical standards and a strong sense of mission as a court official are essential, as is the flexibility and cooperative spirit needed to work effectively as part of a multidisciplinary team and alongside staff from related agencies.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Family court investigators are posted at the main offices and major branch offices of family courts throughout the country, and there are nationwide transfers every few years. They hold the status of national civil servants in the special service category — court personnel — with an authorized headcount of 1,598 (as of 2022).
+	Pay, holidays, working hours, and other working conditions are broadly the same as for general national civil servants.
+	Women account for approximately 80% of current staff (based on the FY2025 examination results*).
+	As the economy and culture become increasingly internationalized, as economic conditions fluctuate, and as values and lifestyles among the public continue to diversify, the way families are structured and the values associated with family life have changed dramatically, as have the social circumstances and educational environment surrounding young people. Reflecting these social changes, the family and juvenile cases brought before family courts are growing more complex and serious. The role of the family court investigator has become increasingly important — particularly as the court now also handles family-related civil actions (jinji soshō) concerning family and marital relationships.</p>
+        <p>*Courts — FY2025 Comprehensive Civil Service Examination Results (Family Court Investigator — Assistant Track)</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 298.3,128.3 233.9,257.9 144.0,205.8 115.1,152.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>100</dd><dt>Social</dt><dd>103</dd><dt>Judgment</dt><dd>83</dd><dt>Physical</dt><dd>34</dd><dt>Routine</dt><dd>44</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">6.7</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">6.3</span></li><li><span class="topn-name">Writing</span><span class="topn-score">5.8</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">5.7</span></li><li><span class="topn-name">Persuasion</span><span class="topn-score">5.7</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">5.7</span></li><li><span class="topn-name">Critical Thinking</span><span class="topn-score">5.5</span></li><li><span class="topn-name">Service Orientation</span><span class="topn-score">5.5</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">5.2</span></li><li><span class="topn-name">Negotiation</span><span class="topn-score">5.0</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Psychology</span><span class="topn-score">5.0</span></li><li><span class="topn-name">Law &amp; Government / Political Science</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Sociology</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Therapy &amp; Counseling</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">4.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/516"><span class="tc-name">Corrections Psychology Specialist</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/412"><span class="tc-name">School Counselor</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/135"><span class="tc-name">Sign Language Interpreter</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.courts.go.jp/" rel="external" target="_blank">裁判所ウェブサイト</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +436,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

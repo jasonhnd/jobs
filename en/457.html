@@ -8,6 +8,7 @@
     <title>Equity Research Analyst — AI Impact 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="Equity Research Analyst: workforce ~9,213 / annual salary 903万円 / avg age 39.5 / AI impact 8/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Equity Research Analyst" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/457" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/457" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "457",
+      "occupationalCategory": "03_013-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/457",
       "additionalProperty": [
         {
@@ -123,6 +124,22 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Equity Research Analyst",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Active Listening",
+        "Writing",
+        "Reading Comprehension",
+        "Speaking",
+        "Monitoring",
+        "Active Learning",
+        "Complex Problem Solving",
+        "Systems Analysis",
+        "Critical Thinking",
+        "Time Management"
+      ],
+      "qualifications": [
+        "日本証券アナリスト協会認定アナリスト（CMA）"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=shigyo">Professional Services &amp; Management</a><span class="band band-high">High AI risk</span><span class="band band-low">Small workforce</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +396,38 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Analyzes stocks and writes investment reports; AI analytics rapid.</p>
+        <p>Equity research analysts (securities analysts) gather and analyze information on listed companies, industries, and macroeconomic conditions, then produce research reports with investment opinions (buy, hold, sell) and earnings forecasts. Their work helps fund managers, institutional investors, and retail investors make informed investment decisions.</p>
+        <p>Analysts typically specialize in a particular industry—automotive, electronics, pharmaceuticals, banking, and so on—and cover a portfolio of companies within that sector. They gather information from company financial statements, earnings releases and conference calls, meetings with corporate management, industry statistics, and government data. They build financial models to project future earnings and cash flows, and derive fair-value estimates using valuation methodologies such as DCF (discounted cash flow) analysis and comparable-company analysis.</p>
+        <p>Finished reports are published to institutional clients (fund managers, pension funds, etc.) and, depending on the firm, to retail investors as well. Analysts also present their views at investor conferences and briefings.</p>
+        <p>Analysts at securities firms are classified under the Financial Instruments and Exchange Act and are registered with the Japan Securities Dealers Association as licensed securities representatives (外務員).</p>
+        <p>Tools and equipment commonly used: PC, financial data terminals (Bloomberg, Refinitiv), financial modeling software (Excel), report-writing tools</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/456">Market Researcher</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/455">Securities Trader</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/463">Securities Representative</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/454">Bank Corporate Officer (Outside Sales)</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/453">Insurance Sales</a><span class="r-risk">AI 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>University or graduate school graduation is typically required. Economics, finance, accounting, and business administration are common backgrounds; engineering or science degrees are valued for technology-sector coverage.</p>
+        <p>The path into equity research typically starts with joining a securities firm or asset management company. New hires usually begin as research associates supporting senior analysts before taking on their own coverage.</p>
+        <p>The Chartered Member of the Securities Analysts Association of Japan (CMA) credential is the most recognized professional qualification in the field. Passing the two-part CMA examination requires knowledge of financial analysis, portfolio management, ethics, and economics. The CFA (Chartered Financial Analyst) designation is also valued, particularly at internationally oriented firms.</p>
+        <p>Successful analysts combine deep expertise in their covered industry with strong financial modeling skills and clear communication—the ability to synthesize complex information into concise, well-reasoned investment views.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Equity research analysts are employed at securities firms (in their research departments), asset management companies, investment banks, and independent research houses. Major securities firms in Tokyo concentrate the largest research teams.</p>
+        <p>Work hours tend to be long, particularly during earnings seasons when multiple companies report simultaneously. Travel to company visits, industry conferences, and investor roadshows is part of the role.</p>
+        <p>Compensation varies by firm and seniority. Top-ranked analysts at major sell-side firms can earn high incomes, particularly if they rank well in institutional investor surveys. Buy-side (asset manager) analysts may have different compensation structures tied to fund performance.</p>
+        <p>The profession demands rigorous analytical skills, a thorough grasp of accounting and finance, intellectual curiosity about industries and businesses, and the ability to form and defend an independent investment view.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,79.1 266.4,138.7 233.0,256.7 143.0,207.2 110.9,150.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>69</dd><dt>Social</dt><dd>78</dd><dt>Judgment</dt><dd>82</dd><dt>Physical</dt><dd>35</dd><dt>Routine</dt><dd>47</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">5.5</span></li><li><span class="topn-name">Writing</span><span class="topn-score">5.4</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">5.4</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Complex Problem Solving</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Systems Analysis</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Critical Thinking</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">4.7</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Economics &amp; Accounting</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Business &amp; Management</span><span class="topn-score">2.0</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">1.8</span></li><li><span class="topn-name">Mathematics</span><span class="topn-score">1.7</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Written Expression</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Mathematical Reasoning</span><span class="topn-score">3.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/534"><span class="tc-name">Information Security Auditor</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/365"><span class="tc-name">IP Coordinator</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/202"><span class="tc-name">Customs Broker (Tsukanshi)</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.saa.or.jp/" rel="external" target="_blank">公益社団法人 日本証券アナリスト協会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>日本証券アナリスト協会認定アナリスト（CMA）</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +436,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

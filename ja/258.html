@@ -8,6 +8,7 @@
     <title>非鉄金属製錬技術者 — AI 影響 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="非鉄金属製錬技術者：就業者 約25,660人 / 平均年収 577万円 / 平均年齢 41.1 / AI 影響 5/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="非鉄金属製錬技術者, 圧延開発技術者, 金属製錬開発技術者, 合金開発技術者, 鍛造開発技術者, 鋳造開発技術者, 鋳物開発技術者, 電気精錬開発技術者, 転炉オペレーター（製鋼）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/258" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/258" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "258",
+      "occupationalCategory": "02_007-07",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/258",
       "additionalProperty": [
         {
@@ -122,7 +123,34 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Nonferrous Metal Engineer",
+      "alternateName": [
+        "Nonferrous Metal Engineer",
+        "圧延開発技術者",
+        "金属製錬開発技術者",
+        "合金開発技術者",
+        "鍛造開発技術者",
+        "鋳造開発技術者",
+        "鋳物開発技術者",
+        "電気精錬開発技術者",
+        "転炉オペレーター（製鋼）"
+      ],
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Instructing",
+        "Active Listening",
+        "Reading Comprehension",
+        "Equipment Selection",
+        "Speaking",
+        "Writing",
+        "Persuasion",
+        "Operation and Control",
+        "Time Management",
+        "Installation"
+      ],
+      "qualifications": [
+        "公害防止管理者",
+        "エネルギー管理士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +234,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +290,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +385,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +407,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>非鉄金属の製錬技術の開発・改良及び現場作業員を監督する立場での生産工程の管理を行う。</p>
+        <p>非鉄金属の製錬技術の開発・改良及び現場作業員を監督する立場で生産工程の管理を行う。非鉄金属は鋼以外の金属を指し、銅、亜鉛、鉛などのベースメタルやアルミなどの軽金属、最近注目されているレアメタルやレアアース、金や銀などの貴金属がある。</p>
+        <p>非鉄金属の生産工程は、銅を例にとると、原料である銅精鉱を自溶炉で製錬して、銅品位65％のマットと酸化鉄などを含むスラグに分離する。マットは転炉で酸化させることにより銅品位99％の粗銅（そどう）となり、粗銅は精製炉でブタンガスを還元剤として吹き込むことにより酸素が除去されて銅品位が99.5％の精製粗銅となる。これを鋳造機でアノード（陽極版）に鋳造する。ここまでの工程にかかる時間はほぼ1日である。電解プラントでは、このアノードと、銅品位99.99％以上の純銅をカソード（陰極版）として電気分解槽に交互に組み入れて、10日から2週間かけて、直流電流を流してアノードの銅分のみをカソードに電着させる。こうして、純度99.99％以上の銅が付着したカソードが最終製品である銅地金となる。</p>
+        <p>製錬技術者は、製錬技術の開発・改良、生産工程の管理や品質管理を通じた生産性の向上、設備の見直しや投資計画の立案、生産現場の監督・管理や指導、人材育成などを担当する。</p>
+        <p>製錬技術者のなかでも、研究開発を担当する場合は、非鉄金属製錬・精製及び環境・リサイクルにおけるプロセスの改良や新規プロセス開発の研究を行う。SDGsの観点から、環境・社会課題の解決が謳われている現在、新たなリサイクルプロセスの研究は重要な課題となっている。</p>
+        <p>また、より製造現場に近い生産技術を担当する場合は、製造現場の安全管理を第一とし、非鉄金属製錬・精製及びこれら関連材料の製造に関する技術開発・生産管理に加え、品質管理も重要な業務になる。具体的には、職級や経験に応じて業務内容は異なるが、生産計画の立案から、生産現場の指揮、問題への対処など工程管理を行う。最終製品の品質チェック、さらに製造工程で発生したり、発見された問題を研究チームにフィードバックすることも重要な業務である。こうした日々の業務のほかに、工場の管理、事業の運営・管理、計画の立案などのマネジメント業務や人材の育成・教育などの業務も行う場合もある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/256">NC工作機械オペレーター</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/248">植物工場の設計、施工</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/245">老人福祉施設生活相談員</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/257">めっき工</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/259">鉄鋼製造オペレーター</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、資格は特に必要とされないが、学歴は大学、大学院卒が多く、金属工学、材料工学、化学、化学工学に関連する分野を専攻している者が多い。高卒者もいる。中途採用もあるが、専門性の高い業務だけに工場や製造現場の操業管理や技術開発関係の経験者が多い。中途採用の場合はその専門性を活かし研究開発や分析、製造・生産技術などの部署に配属されるのが一般的である。</p>
+        <p>入職から2～3年は、OJTとOFF-JTで専門技術とビジネススキルを身に付ける。OJT では担当業務を持ち、先輩社員から指導を受けながら、企業でのものづくりを学ぶ。OFF-JTでは育成カリキュラムに従ってプレゼンテーション技術や論理的思考法といった各種ビジネススキル・知識を習得、実務レベルで課題解決を行い、一定の研修を受ける。その後、現場の作業長から係長を経て部長・工場長などマネジメントへのコースをたどる場合が多い。各種階層別の研修もありチームマネジメントのスキル、コンプライアンス、経営スキルなどを学ぶ場合もある。</p>
+        <p>工場管理者など特定の業務に就く場合には「公害防止管理者」や「エネルギー管理士」などの免許・資格が求められる。</p>
+        <p>専門知識に加え、品質管理・安全衛生・環境への配慮や工程管理、現場管理・監督などに関する高い知識と専門性が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務地は原則として製錬工場になるが、立地は各企業により異なる</p>
+        <p>賃金、労働時間等労働条件は勤務先の規定によるが、フレックスタイム制を採用しているところもある。</p>
+        <p>女性比率は低いが、最近では労働環境を整備するなど、女性を採用する企業が増えつつある。</p>
+        <p>各企業、職場、担当業務により異なるが、国内転勤は数年に一度程度、海外転勤は少ない。国内外の出張もある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,98.0 246.0,145.3 213.6,230.1 127.5,228.5 105.1,148.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>55</dd><dt>対人</dt><dd>61</dd><dt>判断</dt><dd>57</dd><dt>身体</dt><dd>55</dd><dt>定型</dt><dd>52</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">指導</span><span class="topn-score">3.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">3.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.2</span></li><li><span class="topn-name">操作と制御</span><span class="topn-score">3.2</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">3.1</span></li><li><span class="topn-name">設置と設定</span><span class="topn-score">3.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.5</span></li><li><span class="topn-name">機械</span><span class="topn-score">1.9</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.6</span></li><li><span class="topn-name">数学</span><span class="topn-score">1.5</span></li><li><span class="topn-name">化学</span><span class="topn-score">1.4</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.1</span></li><li><span class="topn-name">記憶力</span><span class="topn-score">2.8</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">2.7</span></li><li><span class="topn-name">モノの見え方に関する想像力</span><span class="topn-score">2.6</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">2.6</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/229"><span class="tc-name">林業技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.mmij.or.jp" rel="external" target="_blank">一般社団法人　資源・素材学会</a></li><li><a href="http://www.kogyo-kyokai.gr.jp/" rel="external" target="_blank">日本鉱業協会（JMIA）</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>公害防止管理者</li><li>エネルギー管理士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +449,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

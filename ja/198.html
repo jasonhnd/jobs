@@ -8,6 +8,7 @@
     <title>ガソリンスタンド・スタッフ — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="ガソリンスタンド・スタッフ：就業者 約143,090人 / 平均年収 369万円 / 平均年齢 42.7 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="ガソリンスタンド・スタッフ, ガススタンド充填員, ガソリンスタンドサービスマン, セルフスタンド店員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/198" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/198" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "198",
+      "occupationalCategory": "07_045-13",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/198",
       "additionalProperty": [
         {
@@ -122,7 +123,31 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Gas Station Staff",
+      "alternateName": [
+        "Gas Station Staff",
+        "ガススタンド充填員",
+        "ガソリンスタンドサービスマン",
+        "セルフスタンド店員"
+      ],
+      "industry": "Sales & Retail",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Instructing",
+        "Reading Comprehension",
+        "Writing",
+        "Service Orientation",
+        "Equipment Maintenance",
+        "Social Perceptiveness",
+        "Critical Thinking",
+        "Negotiation"
+      ],
+      "qualifications": [
+        "危険物取扱者（甲種）",
+        "危険物取扱者（乙種）",
+        "危険物取扱者（丙種）",
+        "二級自動車整備士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +231,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +287,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +382,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=hanbai">販売・営業</a><span class="band band-high">AI 影響 高</span><span class="band band-high">規模 大</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +404,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う。</p>
+        <p>ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う。また、お客の車のエンジンの点検や洗車なども行う。</p>
+        <p>フルサービス式のスタンドの場合は、入ってきた車を誘導し、所定の位置に停止させる。給油する燃料の種類・数量や支払方法を確認し、自動車の給油口にノズルを差し込んで給油する。給油中には、ガラスや灰皿の清掃などを行う。所定の量が給油されると自動的に停止するので、ノズルを外して自動車の給油口のふたをしっかりと閉める。</p>
+        <p>また、点検の依頼を受けた場合には、エンジンルームを開けて、エンジンオイル、冷却水、バッテリー液などのチェックを行う。寒冷地では、スノータイヤの交換を行うこともある。洗車の依頼を受けた場合には、車を運転して所定の位置に止め、洗車機を操作する。</p>
+        <p>POSレジスターから出力された帳票に基づいて現金やカードなどで支払を受け、歩行者や道路上の車両の有無などを確認してからお客の車を送り出す。</p>
+        <p>ガソリンスタンドによっては窓拭きや車内の清掃などのクリーニングサービス、タイヤなど自動車関連商品の販売や、車検の受付などをすることもある。また、最近多くなったセルフ式のガソリンスタンドでは給油の監視を行うほか、お客に給油の操作方法や支払方法を案内することもある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>給油用ノズル、洗車機、POSレジスター</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/196">鉄道運転計画・運行管理</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/195">駅務員</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/202">通関士</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/197">自動車整備士</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/199">道路パトロール隊員</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。新規採用の場合は、学校卒業後、石油製品販売企業に採用されてガソリンスタンドに勤務する。学科などの制限はないが、機械の知識を持っていれば有利である。</p>
+        <p>入職後に、「危険物取扱者」、「自動車整備士」などの資格を取得すると、仕事の幅が拡がる。</p>
+        <p>中途採用は、欠員が生じた場合など常時行われており、就職の機会は多い。アルバイトが募集される機会も多い。スタッフの仕事をしながら自動車整備士の資格を得て、自動車の整備や簡単な修理をするようになる場合もある。</p>
+        <p>自動車やメカニックが好きで関心や知識のある人、人と接するのが好きな人、体を動かすことが好きな人に向いている。また、危険物を取り扱うため、慎重さが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>ガソリンスタンドは市街地や主要幹線道路沿いなどに立地しており、職場は全国に広がる。</p>
+        <p>ガソリンスタンドの営業時間に合わせて、交替制で勤務を行う。早朝や夜間の勤務、24時間営業のスタンドでは、夜勤もある。日曜・祝日に営業しているスタンドの場合には、平日に交替で休日をとる。朝夕など、客が集中して忙しくなる時間帯がある。屋外での作業が主になる。</p>
+        <p>就業者は男性の割合が多いが、女性も増えつつある。また、パートタイマー、アルバイトが多い。</p>
+        <p>スタンド同士の競争によって閉店するスタンドがある一方で、セルフ方式のスタンドが増加し、ショップ等を併設する業態が定着してきたため、ガソリンスタンド・スタッフの職務内容も販売にかかわる仕事が増えるなど変化しつつある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,115.1 231.1,150.2 203.5,216.1 126.0,230.6 106.0,149.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>42</dd><dt>対人</dt><dd>49</dd><dt>判断</dt><dd>43</dd><dt>身体</dt><dd>57</dd><dt>定型</dt><dd>51</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">説明力</span><span class="topn-score">2.6</span></li><li><span class="topn-name">指導</span><span class="topn-score">2.5</span></li><li><span class="topn-name">読解力</span><span class="topn-score">2.5</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.3</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">2.2</span></li><li><span class="topn-name">保守点検</span><span class="topn-score">2.1</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">2.1</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">2.0</span></li><li><span class="topn-name">交渉</span><span class="topn-score">2.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.7</span></li><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">2.0</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.1</span></li><li><span class="topn-name">公衆安全・危機管理</span><span class="topn-score">1.1</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">1.1</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.3</span></li><li><span class="topn-name">記憶力</span><span class="topn-score">2.8</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">2.7</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">2.7</span></li><li><span class="topn-name">聴覚の感度</span><span class="topn-score">2.7</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/67"><span class="tc-name">電器店店員</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/70"><span class="tc-name">スポーツ用品販売</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 97%</span></span></a><a class="transfer-card" href="/ja/69"><span class="tc-name">メガネ販売</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 97%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.zensekiren.or.jp" rel="external" target="_blank">全国石油業共済協同組合連合会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>危険物取扱者（甲種）</li><li>危険物取扱者（乙種）</li><li>危険物取扱者（丙種）</li><li>二級自動車整備士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +446,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

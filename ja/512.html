@@ -8,6 +8,7 @@
     <title>国会議員 — AI 影響 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="国会議員：就業者 約51,870人 / 平均年収データなし / 平均年齢データなし / AI 影響 5/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="国会議員, 衆議院議員, 参議院議員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/512" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/512" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "512",
+      "occupationalCategory": "01_003-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/512",
       "additionalProperty": [
         {
@@ -105,7 +106,12 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Diet Member (National Politician)"
+      "alternateName": [
+        "Diet Member (National Politician)",
+        "衆議院議員",
+        "参議院議員"
+      ],
+      "industry": "Professional Services & Management"
     },
     {
       "@type": "BreadcrumbList",
@@ -182,7 +188,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -238,6 +244,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -263,6 +339,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=shigyo">士業・経営・コンサル</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -284,8 +361,34 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>国民から選挙で選ばれて、国の最高議決機関である国会で、法律の制定、予算の議決と決算の審議、条約締結の承認、内閣総理大臣の指名などを行う。</p>
+        <p>国民から選挙で選ばれて、国の最高議決機関である国会で、法律の制定、予算の議決と決算の審議、条約締結の承認、内閣総理大臣の指名などを行う。日本の国会は衆議院（定数465人）と参議院（同248人）の二院制をとっている。</p>
+        <p>国会議員の仕事は、国民の代表として議会での審議や決定に参加して、国民の意思を行政や財政に反映させることである。具体的には、議員が立案して提出した法案、内閣から提出された法案を所属委員会で審議し本会議で採決することと、内閣が作成する予算案を審議して決定することが最も重要な仕事となる。さらに、各種委員会に所属して、特定の分野について継続的に調査や審議をしたり、議会で決定された法律や予算が適正に執行されているかどうか監視すること、内閣総理大臣を選出すること、内閣が外国と条約を締結することを承認するなどの仕事もある。</p>
+        <p>国会が開会していないときでも、各種勉強会に出て知識や識見を深める。地元だけに目を向けるのではなく、国民の代表として選挙区外の有権者や日本で暮らす外国人などの声などにも広く耳を傾けたり、従来型のメディアだけでなくSNSなども活用して情報や自らの考えを広く発信していくことも求められるようになってきた。</p>
+        <p>仕事の流れを例でみると、午前中は、秘書との打ち合わせを済ませ、所属政党等の会合へ出席し、その後、登院して所属の委員会に出席し、議論する。審議・採決を経て成立した法案は本会議に送られる。予算審議などで本会議が開かれれば出席して、審議や採決に加わる。本会議がなければ、議員連盟などの勉強会や関係団体の会合に出席したり、関係省庁からのブリーフィング（報告、状況説明）を受けたり、マスコミ取材、面談などに対応する。その他政治家や支援者などとの会合や懇談会に出席することもある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>パソコン</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。国会議員は立候補したうえで、選挙によって有権者から選ばれなければならない。被選挙権の年齢要件である衆議院議員は満25歳以上、参議院議員は満30歳以上の日本国民でなければならない。また、公務員は一部の公務員を除いて立候補できないほか、禁錮以上の刑に処せられその執行を終わっていない者、選挙権や被選挙権が停止されている者なども立候補できないなどの欠格事由がある。さらに、立候補をする場合は供託金を法務局に預ける必要もある。</p>
+        <p>国会議員への経路としては、首長や都道府県議会議員から転身する、国会議員の秘書（公設・私設）を経る、政党の公募に応募する、政党の党員で経験を積む、政治塾を経る、公務員から転身する、などがある。</p>
+        <p>国会議員になると各種委員会の委員となり経験を積む。各委員会の委員長や議長になる場合もある。また、政府の一員として各省の政務官、副大臣、大臣等に就任することもある。</p>
+        <p>政治家に求められる資質として、まず、ものごとの緊急性や重要性を判断し、関係者と交渉して政策としてまとめ上げる企画力が重要である。国内外の問題が山積するなか、政策立案能力の向上など議員としての資質向上が求められている。また、議員、有権者、行政関係者、マスコミなど、様々な人々と的確な意思疎通ができるコミュニケーション能力、自分の政策やメッセージなどをわかりやすく的確に伝え、自らの主張をアピールできるプレゼンテーション能力が求められる。国民の負託を受けて国の将来に関わる重要な決定に関わることもあるだけに、高い識見と倫理性が重要である。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>衆議院は任期が4年、参議院は任期が6年となっている。</p>
+        <p>報酬等については、法令（*）で規定されている。歳費のほか文書通信交通滞在費、立法事務費、秘書給与（3人まで）などが支給され、国政業務に専念できるだけの配慮がなされている。活動時間が決められている職業ではなく国会の審議が深夜に及ぶこともある。</p>
+        <p>*国会議員の歳費、旅費及び手当等に関する法律</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -298,6 +401,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -305,6 +410,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

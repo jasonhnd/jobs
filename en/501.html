@@ -8,6 +8,7 @@
     <title>Park Ranger (Nature Conservation Officer) — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Park Ranger (Nature Conservation Officer): workforce ~16,944 / annual salary 329万円 / avg age 53.0 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Park Ranger (Nature Conservation Officer)" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/501" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/501" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "501",
+      "occupationalCategory": "10_063-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/501",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Park Ranger (Nature Conservation Officer)",
+      "industry": "Public Safety",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=hoan">Public Safety</a><span class="band band-low">Low AI risk</span><span class="band band-low">Small workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +381,33 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Patrols national parks and conducts conservation work.</p>
+        <p>Park rangers belong to Regional Environment Offices under the Ministry of the Environment and work on conserving protected natural areas such as national parks, while also promoting interaction with nature and revitalizing local communities through the use of natural resources. Their official title is Nature Conservation Officer or National Park Management Officer (*), though they are commonly known as rangers.</p>
+        <p>The work covers managing national parks, maintaining facilities that allow visitors to engage with nature, and protecting and managing wildlife. Specific duties include drafting park plans — the foundational management documents for national parks — reviewing and guiding various development activities, patrolling hiking trails and conducting patrols within parks, maintaining and managing access and conservation infrastructure (bamboo clearing, rope installation, etc.), promoting appropriate use through measures such as private vehicle restrictions, planning, developing, and operating visitor centers and similar facilities, protecting and surveying endangered wildlife, managing and culling overabundant animals and invasive species, and carrying out environmental education programs such as nature observation tours — a wide range of work related to natural environment conservation.</p>
+        <p>Carrying out this work requires the understanding and cooperation of stakeholders including local residents. It is equally important to work together with local stakeholders to develop mechanisms that conserve the natural environment while allowing it to be utilized sustainably into the future, and to connect that work to regional revitalization.</p>
+        <p>(*) Job title for rangers stationed at National Park Management Offices.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Presentation software (PowerPoint, Keynote, etc.), personal computers, standard automobiles (drivable with a standard driver&#x27;s license, Class 1 or Class 2)</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Candidates must pass a national civil service examination administered by the National Personnel Authority — specifically one of the following: the National Civil Service Senior Career Examination (Forestry and Natural Environment; or Chemistry, Biology, and Pharmacy) or the General Service Examination (university graduate level) in Forestry, Agriculture, Civil Engineering, Agricultural and Rural Engineering, or Architecture — and then clear the Ministry of the Environment&#x27;s selection process for natural environment staff before being hired as a ranger.</p>
+        <p>The Ministry of the Environment hires roughly ten to several dozen rangers per year across the Senior Career and General Service tracks combined.</p>
+        <p>To succeed as a ranger, broad knowledge of and genuine interest in nature is required, along with the drive to keep learning. Because close collaboration with local stakeholders is essential, cooperative spirit, flexibility, a sincere commitment to tackling challenges, and strong communication skills are also important. Work and surveys are conducted in national parks and wildlife habitats, which sometimes means traveling on foot through forests, mountains, and lakeshores inaccessible by vehicle while carrying various equipment, so a reasonable level of physical fitness is necessary.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Rangers are stationed at Nature Conservation Officer Offices or National Park Management Offices within the Regional Environment Offices that the Ministry of the Environment has established across seven blocks nationwide. Protected natural areas where they work include national parks, natural environment conservation areas, and nationally designated wildlife sanctuaries. These areas are rich in nature but are often less convenient as living environments compared to urban centers.</p>
+        <p>Salary, leave, and working hours are governed by the same regulations that apply to general civil servants. However, events such as nature observation tours are frequently held on weekends and public holidays, so weekend work is common. Rangers work in cooperation with part-time national civil servants such as assistant nature conservation officers.</p>
+        <p>Personnel transfers typically occur every two to three years and span the entire country, from Hokkaido in the north to Okinawa in the south. The frequency differs between Senior Career and General Service tracks, but rangers may also engage in policy planning work at the Ministry of the Environment&#x27;s headquarters in Tokyo and, on occasion, serve overseas.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +420,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +429,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

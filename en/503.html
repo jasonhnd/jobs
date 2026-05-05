@@ -8,6 +8,7 @@
     <title>Aquaculture Worker — AI Impact 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="Aquaculture Worker: workforce ~16,990 / annual salary 351万円 / avg age 42.5 / AI impact 4/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Aquaculture Worker" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/503" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/503" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "503",
+      "occupationalCategory": "11_066-04",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/503",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Aquaculture Worker",
+      "alternateName": [
+        "Aquaculture Worker",
+        "うなぎ養殖作業員",
+        "金魚養殖作業員",
+        "鯉養殖作業員",
+        "たい養殖作業員",
+        "はまち養殖作業員",
+        "ふぐ養殖作業員",
+        "かき養殖作業員",
+        "しじみ養殖作業員",
+        "帆立貝養殖作業員",
+        "昆布養殖作業員",
+        "のり養殖作業員",
+        "わかめ養殖作業員",
+        "貝類養殖作業員",
+        "魚類養殖作業員"
+      ],
+      "industry": "Agriculture & Fishing",
+      "qualifications": [
+        "小型船舶操縦士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=noringyo">Agriculture &amp; Fishing</a><span class="band band-mid">Mid AI risk</span><span class="band band-low">Small workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,8 +400,41 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Raises fish and shellfish in aquaculture facilities.</p>
+        <p>Aquaculture workers artificially manage, raise, and ship seafood products — primarily fish, shellfish, and seaweed — intended for human consumption.</p>
+        <p>Aquaculture takes place not only in the sea but also in rivers, lakes, and on land. Methods vary significantly depending on the species being cultivated and whether rearing occurs on the water surface or in land-based tanks, and the specific tasks involved differ accordingly.</p>
+        <p>For fish aquaculture in open water, fish are raised in net cages; on land, large tanks similar to pools are used, filled with natural seawater or artificially adjusted saltwater. Daily tasks center on feeding with specially developed feed. Net cage operations require periodic net cleaning and replacement, and when typhoons or red tides occur, the cages must be towed to safety or submerged. In land-based tank systems, waste and feed residue that accumulates on the bottom must be removed periodically.</p>
+        <p>When using artificially fertilized hatchery fry, broodstock are raised and induced to spawn; the fertilized eggs hatch, and the larvae are fed cultured plankton in tanks until they reach a certain size before being transferred to the aquaculture facility (seed production).</p>
+        <p>For shellfish, seed stock is placed in containers or attached to substrates and suspended from rafts or longlines in the sea (suspended cultivation), or seeds are scattered on the sea floor (bottom sowing). Tasks include cleaning fouling organisms from containers and substrates, exchanging containers as the animals grow, and adjusting stocking density. Seaweeds such as nori and wakame are cultivated by attaching spores to oyster shells and growing them on substrate.</p>
+        <p>Because the work involves raising living creatures, thorough knowledge of their biology is required, along with constant attention to the environment — water temperature, water quality, plankton conditions — to ensure healthy growth and proper quality management. Medication, disinfection, and cleaning are carried out as needed.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Nets, rafts, longlines, standard automobiles (drivable with a standard driver&#x27;s license, Class 1 or Class 2)</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific qualifications or educational background are required for entry. Basic knowledge and skills can be acquired at fisheries high schools or universities, but specialized techniques and practical judgment must be developed through on-the-job experience.</p>
+        <p>The most common path is to join a company engaged in aquaculture operations and learn the necessary knowledge and skills there. A shortage of successors is a shared challenge nationwide, and in some regions fishery cooperatives actively recruit successors.</p>
+        <p>After joining, most workers start by taking guidance from experienced colleagues without any formal training, and gradually develop the ability to work independently as they accumulate experience and practice. There is much to learn — daily observation, preparing for unexpected problems, and more — and a willingness to keep studying the relevant biology and science is also expected.</p>
+        <p>Joining a fishery cooperative and obtaining a demarcated fishery right allows for independent operation. Those who go independent will need a small vessel operator&#x27;s license and similar credentials since they will work with their own small boat.</p>
+        <p>An interest in living organisms, the physical stamina to work under harsh conditions such as bad weather, and the ability to properly manage water quality and temperature are required.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Individual family-run aquaculture operations are the norm, though large-scale facilities for yellowtail, red sea bream, pearl oysters, and similar species are often corporate entities. Except for fish aquaculture — which requires daily feeding and observation of fish conditions — and pearl oyster cultivation — which requires frequent maintenance — most aquaculture workers also engage in other types of fishing as a combined livelihood.</p>
+        <p>Production areas are concentrated by species: marine fish and pearl oysters are predominantly found in western Japan; scallop cultivation in Hokkaido and Aomori; oyster cultivation in Miyagi and Hiroshima; eel cultivation in Shizuoka, Aichi, and Kagoshima; nori cultivation in Kyushu; and kelp cultivation in Hokkaido. Aquaculture facilities require large land areas and good-quality rearing water, so they are mostly located in coastal fishing communities and rural areas.</p>
+        <p>Work hours are longer during harvest and shipping periods, while other periods are less intensive and are used for repairing nets and cages. Because caring for living organisms is the core of the job, emergencies such as disease outbreaks or sudden weather changes due to typhoons require around-the-clock response.</p>
+        <p>For sea-surface aquaculture, working hours are generally from early morning until around noon; for land-based aquaculture, roughly 8 a.m. to 5 p.m. is common. Irregular working hours are frequent because of the nature of the work. After arriving, workers check juvenile fish and cages (inspecting and maintaining tanks, facilities, and equipment), then distribute feed, harvest, prepare shipments, handle paperwork, and finish their shift.</p>
+        <p>Almost all work is outdoors, and in sea-surface aquaculture, offshore work is central.</p>
+        <p>Because growth rates are highly sensitive to environmental conditions and product prices fluctuate with changes in supply and demand from year to year, income can vary considerably between years.</p>
+        <p>In recent years, new forms of aquaculture have attracted attention: branded fish raised on feed mixed with citrus fruit to suppress discoloration in sashimi and sushi; puffer fish and soft-shell turtle cultivated in hot spring water to accelerate growth; juvenile fish produced and raised for release into the wild; farming of large migratory fish; and research into land-based aquaculture of shellfish and adult fish.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +447,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.zengyoren.or.jp/" rel="external" target="_blank">全国漁業協同組合連合会</a></li><li><a href="https://www.yoshoku.or.jp/" rel="external" target="_blank">一般社団法人全国海水養魚協会</a></li><li><a href="http://www.zennori.or.jp/" rel="external" target="_blank">全国海苔貝類漁業協同組合連合会</a></li><li><a href="https://www.asc-aqua.org/ja/" rel="external" target="_blank">水産養殖管理協議会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>小型船舶操縦士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +456,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>配電盤・制御盤等組立 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="配電盤・制御盤等組立：就業者 約121,440人 / 平均年収 428万円 / 平均年齢 43.5 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="配電盤・制御盤等組立, 配電盤組立工, 制御盤組立工, 配電装置組立工, 電気制御盤組立工, 開閉制御機器組立工, 制御機器製造工, 制御装置組立工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/559" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/559" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "559",
+      "occupationalCategory": "12_074-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/559",
       "additionalProperty": [
         {
@@ -122,7 +123,40 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Switchgear/Control Panel Assembler",
+      "alternateName": [
+        "Switchgear/Control Panel Assembler",
+        "配電盤組立工",
+        "制御盤組立工",
+        "配電装置組立工",
+        "電気制御盤組立工",
+        "開閉制御機器組立工",
+        "制御機器製造工",
+        "制御装置組立工",
+        "Distribution Board Assembler",
+        "Control Panel Assembler",
+        "Electrical Distribution Assembler",
+        "Electrical Control Panel Assembler",
+        "Switching Control Device Assembler",
+        "Control Equipment Manufacturer",
+        "Control Device Assembler"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Installation",
+        "Troubleshooting",
+        "Operation and Control",
+        "Equipment Selection",
+        "Reading Comprehension",
+        "Repairing",
+        "Quality Control Analysis",
+        "Coordination",
+        "Operations Analysis",
+        "Speaking"
+      ],
+      "qualifications": [
+        "１級電気機器組立て技能士",
+        "２級電気機器組立て技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +240,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +296,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +391,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-low">AI 影響 低</span><span class="band band-high">規模 大</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +413,43 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>主に機械器具・道具等を用いて、配電盤・制御盤・分電盤・監視制御装置等を組み立て、配線し、仕様・規格どおりになっているかの試験を行う。</p>
+        <p>主に機械器具・道具等を用いて、配電盤・制御盤・分電盤・監視制御装置等（以下「配電盤等」という。）を組み立て、配線し、仕様・規格どおりになっているかの試験を行う。</p>
+        <p>配電盤とは高電圧の電気を変圧して複数の回路に送るもの、制御盤とは電動設備や機械における電気の流れを把握し調節を行うためのもの、分電盤とは配電盤から送られた電気を建物や施設内の各場所に分けるもの、監視制御装置とは防災情報システムなど各種のデータを一つにまとめて監視・制御するものである。これらは、ビル、商業施設、工場などにおける空調、照明、エレベーターなどの電気設備を稼働させるために不可欠な電気機械の一種である。</p>
+        <p>配電盤等の組立作業は、盤に取り付ける器具の位置等を示した図面や配線に関する接続図等に従って行われる。組立は手作業で行い一つの盤ができあがるまで基本的には一人で担当する。以下では、配電盤等組立の実際の仕事のながれ等について、ある配電盤メーカーの例を述べる。</p>
+        <p>毎朝の組立部門におけるミーティングにおいて、当日の作業予定・目標及び指示事項が説明され、グループの全員に共有された後に、各自の作業が始まる。配電盤等の組立は、下記に述べるとおり、器具取付け、導体組立、配線、構造検査・電気試験の順に進められる。</p>
+        <p>器具等の取付けについては、まず、盤の枠組である板金部品を組立図面どおりに取り付ける。次に、器具等の配置位置などが記載された図面を見ながら、スイッチ、ブレーカー、ヒューズ、保安装置などの器具を順に取り付けていく。板金部品に器具の大きさに合ったねじやボルトを入れて用途に合ったドライバー、ラチェット 等で締める。器具によって締め付ける強さが指定されている場合もあり、その際はトルクレンチ で締め付ける。さらに、大きい電流を流すための導体を取り付ける。作業後、取り付けた器具等が正しい位置にあるか、締め付けの強さが決められたとおりか等について、チェックシートに基づきまず作業者自身がチェックを行い、次に一定レベルの技能を持つ点検者が再チェック（ダブルチェック）を行う。万一不備があった場合には設置先の建物で盤が発火する可能性があるため、厳密なチェック体制が取られている。</p>
+        <p>配線については、器具を取付け後、接続図を見ながら制御回路 、主回路 の配線を行う。配線を行う前に、作業が効率良く進められるように配線の順番を考えておく。また、電線の被覆をはがす端末処理や電線サイズに合った端子への圧着も事前に準備しておく。配線が終わったら束線材を使用して電線を結束するが、回路の種類によって固定の仕方も異なるため注意が必要である。配線作業終了後には、器具等の取付け時と同様に、チェックシートに基づくダブルチェックを行う。</p>
+        <p>最後に、発注者が注文したとおりの寸法、高さ、色、器具の位置になっているか等の構造検査を行い、実際に完成した盤に電気を流し、発注者が注文したとおりの電気の流れになっているかの電気試験を行う。これらの作業については、器具等の取付け及び配線を行った作業者とは別の品質保証部門の試験員が担当する。これらの検査・試験の結果、必要があれば再度調整を行って完成させる。組立部門において盤面の貼付ラベルや盤の清掃等の出荷対応作業を行い、製品の納入前には、品質保証部門による出荷検査を行い合格判定後出荷する。</p>
+        <p>組立を行うためには、まず作業ごとに決められている作業基準やマニュアルを学習して多くのことを覚える必要があり、慣れるまでは苦労する。一方で、組立後の検査・試験の結果、ミスが一つもなかったときには達成感がある。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>ドライバー、ラチェット、トルクレンチ、スパナ、配線点検用具（ブザー等）、作業帽、保護めがね、安全靴</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/558">自動車板金塗装</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/557">汎用金属工作機械工（旋盤工、ボール盤工等）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/556">障害者グループホーム世話人</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/560">社会学研究者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/561">鉄道車両の設計・開発</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要ない。工業高校・工科高校や電気・機械専攻の専門学校の新規学卒がメインであり、中途採用は少なく組立の経験者がほとんどである。</p>
+        <p>入職後の研修や配置、昇進は会社によって異なる。上述の配電メーカーでは、工場での安全教育や基礎的な技能の研修後、製造部門での短期研修を経てから適材適所に配置され、OJT で作業を習得する。また、昇進については、入職6年程度で作業リーダー、その後班長・作業長と組立の経験を積み、10年目を目安に課長等に昇進する。</p>
+        <p>関連資格としては、厚生労働省の定める技能検定の「電気機器組立て（配電盤・制御盤組立て作業）技能士」があり、入職後に３～5年程度で2級、その後、実務経験を積んで1級を取得することが可能である。</p>
+        <p>配電盤等組立の知識やスキルは入職後に習得することができる。工場においては図面通りの組立と規格、規定に合わせた製品を組み立て、納期を守ることが重要であるため、常にチームワークを大切にし、仕事のルールを守れること、忍耐強さが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は、配電盤メーカーの工場である。職場は全国に広がっている。</p>
+        <p>雇用形態は、勤務先により異なるが正社員が中心である。男女内訳や年齢構成は会社により異なる。</p>
+        <p>賃金、労働時間等の労働条件は、勤務先の規定による。基本的に日勤・土日祝日休みであるが、納期が切迫している時期などに残業が多くなる場合もある。</p>
+        <p>コロナ禍を契機として世界的な半導体や金属などの供給不足により器具類の納期が遅延しており、発注者への出荷時期も遅れるケースがあり懸念されている。一方、近年のIT化、DX 化の進展に伴い、配電盤等の製造においても、機材や製品の自動搬送、紙からタブレット等へのペーパーレス化などの「ものづくりDX」に力を入れている。配電盤等は、電気を適切にビル・工場等に届けて制御する役割を持ち、社会生活に不可欠な分野であり、引き続き需要が続くものと考えられる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,103.7 237.1,148.2 213.2,229.5 126.3,230.2 106.6,149.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>51</dd><dt>対人</dt><dd>54</dd><dt>判断</dt><dd>56</dd><dt>身体</dt><dd>57</dd><dt>定型</dt><dd>51</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">設置と設定</span><span class="topn-score">3.7</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">3.6</span></li><li><span class="topn-name">操作と制御</span><span class="topn-score">3.6</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">3.4</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">修理</span><span class="topn-score">3.3</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">3.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.1</span></li><li><span class="topn-name">要件分析（仕様作成）</span><span class="topn-score">3.0</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">設計</span><span class="topn-score">2.2</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">2.1</span></li><li><span class="topn-name">機械</span><span class="topn-score">2.1</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.8</span></li><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">1.8</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/48"><span class="tc-name">エレベーター据付</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/35"><span class="tc-name">さく井工/ボーリング工</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://jsia.or.jp/" rel="external" target="_blank">一般社団法人日本配電制御システム工業会</a></li><li><a href="https://www.javada.or.jp/" rel="external" target="_blank">中央職業能力開発協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>１級電気機器組立て技能士</li><li>２級電気機器組立て技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +458,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>人事課長 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="人事課長：就業者 約24,084人 / 平均年収 917万円 / 平均年齢 51.2 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="人事課長" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/537" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/537" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "537",
+      "occupationalCategory": "01_002-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/537",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "HR Section Chief",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Active Listening",
+        "Management of Personnel Resources",
+        "Writing",
+        "Time Management",
+        "Reading Comprehension",
+        "Speaking",
+        "Social Perceptiveness",
+        "Coordination",
+        "Persuasion",
+        "Instructing"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=shigyo">士業・経営・コンサル</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +393,45 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>国・地方公共団体・会社・社団法人・財団法人等の法人組織において、人事課(課相当を含む)の業務を管理・監督する仕事に従事する。</p>
+        <p>国・地方公共団体・会社・社団法人・財団法人等の法人組織において、人事課(課相当を含む)の業務を管理・監督する仕事に従事する。組織によって課や職位の名称が異なる場合があるが、ここでは、一般的に人事課長といわれる職業について記述する。</p>
+        <p>人事の仕事とは、就業者の採用、配置、定着、能力開発から退職までの人事・雇用管理、労働時間・給与関連の労務管理、法定内・法定外の福利厚生の手続きなどをいう。</p>
+        <p>人事課長は管理職として、人事課の業務の進捗管理に加えて、部下に対して、就業に関わる指導・助言、また、部下の人事評価や勤務管理等の人事労務管理を行う。課の業務の一部を担当することもある。</p>
+        <p>人事課長は、一年を通じて、人事課が行っている就業者の出退勤管理、休日・休暇の取得状況の把握といった労働時間管理に加え、給与計算などの賃金管理全般についての承認も行う。また、法定内の福利厚生では、年金、医療、介護、労災、雇用の社会保険に加え、法定外の福利厚生としての企業年金などの事務手続きについての承認も担当する。関連法令に沿った職場の安全衛生管理、メンタルヘルス対策などを担当することもある。</p>
+        <p>要員計画に沿って定期採用を実施している場合には、業績や景気、さらに同業他社の動向も踏まえて、次年度に向けた新規採用者の募集計画を立案し、経営層との協議を経て、採用計画を策定する。募集要項の作成、書類選考、数次にわたる筆記試験及び面接、経営幹部層との最終面接など、他部門の協力を得つつ、多段階にわたる採用プロセスを計画通りに進める役割を担う。併せて、経営層・各部門の意向を踏まえて、中途採用の計画も策定する。</p>
+        <p>人事異動・昇進などの人事管理上の業務を管理・監督する。人事制度に関する社員向け説明資料を的確に作成し、人事評価や昇進・昇格等の制度運用に当たっては、現場に対して効果的な指導・助言を行う。また、法令や人員計画を踏まえ、外国人スタッフの採用・退職及び人事・労務管理や、海外に勤務する日本人要員に対する人事・労務管理を行っている場合もある。
+就業者の職場定着を推進するため、組織の設立理念や行動規範を整備し就業者に周知している例や、業務改善提案活動等により働きがいを感じられる組織文化の形成を図っている例もある。</p>
+        <p>就業者の教育訓練・能力開発についても、新入社員研修から階層別研修、年代別研修、管理職研修のほか、自己啓発を含めた人材育成関連の制度の設計や年間を通じた計画的な実施について、総括的な担当者としての役割を担うことがある。</p>
+        <p>経営戦略・計画との関連で、策定・見直しが必要になる人事・評価制度について、制度の企画・立案後、上司との相談や経営層への説明に加え、労働組合等との折衝を行うことがある。また、賃金・労働条件の決定や変更に関連して、年間を通じて労働組合及び従業員代表との協議・交渉窓口としての役割を担うこともある。労働法規関連の業務の一環として、労働局やハローワーク、労働基準監督署の窓口となることも多い。</p>
+        <p>◇　よく使う道具、機材、情報技術等
+パソコン、プレゼン資料作成ソフト（PowerPoint等）、表計算ソフト（Excel等）、オンライン会議用のシステム、労働関係法令</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/536">総務課長</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/538">経理課長</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/539">営業課長</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/535">風力発電のメンテナンス</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/534">セキュリティエキスパート（情報セキュリティ監査）</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>内部登用の場合と、外部から中途採用される場合がある。内部登用では、一般職・総合職等を問わず定期異動で他部門へ配属された後に、人事部門での一定年数の経験を積んで就く場合や、営業等の経験を積んだ後に就く場合もある。一方、中途採用では、課長職に応募して就く場合と、他の勤務先での人事・労務関連の経験を活かして転職し、数年勤務した後、課長に就く場合等がある。</p>
+        <p>管理職へ昇進する際には、セクハラやパワハラ研修などの社内コンプライアンス遵守に関する研修や部下の能力評価などの人事労務管理に関する研修、リーダーシップの発揮や部下のサポートの仕方、より良好な組織風土の作り方の研修等の何らかの管理職研修を受ける場合が多い。</p>
+        <p>人事課長の資質としては、様々な部署との調整が多いことから、高いコミュニケーション能力が求められる。さらに人事制度などの構築にあたっては、さまざまな文献・資料を読み込み、文章化することが多いことから、文章を読み・書く能力も必要になる。また、方針や制度案が固まった後は経営層及び労働組合等と話し合い・協議することが多いため、論理的に説明するプレゼンテーション能力や折衝力も求められる。</p>
+        <p>働き方改革等の進展によって人事労務にかかわる法令改正が多いことから、日常的に法律・制度の見直し関連の情報収集に努める必要がある。管理職に昇進した後に、法令で定められている安全衛生管理者の資格を取得しなければならないことがある。専門性を高めるために、キャリアコンサルタントや社会保険労務士等の資格試験に取り組む人もいる。</p>
+        <p>人事・労務に関連する書類のペーパレス化に加え、採用活動におけるエントリーシートの読み込みや人員配置の適性判断にAI等のデジタル技術の活用が広がる可能性も出てきており、デジタルリテラシーが求められている。</p>
+        <p>管理職としては、年齢や職務経験などさまざまな背景を持つ部下がいる中で、コミュニケーションを密にして、それぞれの持ち味をいかし、やる気を引き出させるような指導力、悩みを抱えている部下への配慮も必要となる。また、定期的に従業員に対する意識・満足度調査を実施し、現場の課題把握に努めることも必要になる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は主に所属組織の本部等だが、工場や支社・支店レベルで人事・労務関連の仕事に従事することもある。研修センター等の教育訓練機関を設置している場合は、同施設で勤務することもある。</p>
+        <p>賃金、労働時間等労働条件は勤務先の規定による。賃金はおおむね月給制で、雇用形態は正社員である。フレックスタイムを採用する会社が増えている。休日に関しては土日祝日の休みが基本である。</p>
+        <p>新型コロナウィルス感染予防対策により、テレワークやオンライン会議等の導入が進んだことで、出勤とリモートワークを組み合わせる会社も出てきている。人事課では、各部署におけるリモートワークを行う就業者の業務の進捗や上司や同僚とのコミュニケーションの状況、モチベーションの維持等について日頃から情報収集し、今後のリモートワーク等の制度設計に活かすよう努めている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,79.8 278.2,134.8 229.4,251.8 137.9,214.2 109.0,150.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>69</dd><dt>対人</dt><dd>87</dd><dt>判断</dt><dd>77</dd><dt>身体</dt><dd>42</dd><dt>定型</dt><dd>49</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">人材管理</span><span class="topn-score">5.0</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">4.8</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.6</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.6</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.5</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.5</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">人事労務管理</span><span class="topn-score">3.8</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">2.8</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.7</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">2.3</span></li><li><span class="topn-name">法律学、政治学</span><span class="topn-score">2.1</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.6</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.3</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/225"><span class="tc-name">調教師</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/93"><span class="tc-name">不動産鑑定士</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/185"><span class="tc-name">学芸員</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

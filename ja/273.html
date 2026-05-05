@@ -8,6 +8,7 @@
     <title>電子機器技術者 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="電子機器技術者：就業者 約61,038人 / 平均年収 755万円 / 平均年齢 43.8 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="電子機器技術者, 電子機器生産技術者, 電子機器設計技術者" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/273" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/273" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "273",
+      "occupationalCategory": "02_006-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/273",
       "additionalProperty": [
         {
@@ -122,7 +123,24 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Electronics Engineer",
+      "alternateName": [
+        "Electronics Engineer",
+        "電子機器生産技術者",
+        "電子機器設計技術者"
+      ],
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Writing",
+        "Critical Thinking",
+        "Operations Analysis",
+        "Technology Design",
+        "Speaking",
+        "Equipment Selection",
+        "Active Learning",
+        "Instructing"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +397,39 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>携帯電話、テレビ、パソコンから産業用の各種機器・装置等までの電子機器の開発、設計及び製造工程の技術開発、管理を行う。</p>
+        <p>携帯電話、テレビ、パソコンから産業用の各種機器・装置等まで電子機器の開発、設計及び製造工程の技術開発、管理を行う。</p>
+        <p>電子機器技術者が扱う電子機器は生活に密着した、携帯電話等の通信機器やテレビ、パソコンなどから、産業用の制御装置、通信装置、自動化装置等多岐にわたる。</p>
+        <p>電子機器の製品化は、一般的に技術開発、製品設計、製造・組立という流れで行われる。技術者が担当するのは技術や製品の開発・設計がメインの業務であるが、製造現場で効率よく生産ができるように、作業工程の管理・改善や作業員に対する技術的な指導を行ったり、製造工程で不都合が発生した場合には設計や工程の変更など必要な改良を行う。このほか、特許出願を技術者の業務としている企業もある。</p>
+        <p>電子機器技術者の業務を一般消費者向けの液晶テレビの製造の例でみると、まず市場調査などの結果をもとに、ユーザビリティ（使いやすさ）に配慮した新製品の企画を立案し、開発計画を立てる。次いで、キーデバイスであるLSI（大規模集積回路）の高集積化、液晶の低消費電力化や高機能化など、仕様に合わせた部材の開発を進める。液晶の製造と並行して、電子工学などの専門的な知見・知識、映像に関する技術やスピーカーなどの音声に関する技術を駆使して必要な部品を製造し、これらの部品を組み立てて、新製品の試作品をつくる。試作品について耐久性などのテストを行い、本生産のための設計図を引き、生産ラインを整備、作業員の教育などを経て商業生産に入るという流れになる。製品の発売後も、現行製品に対する利用者からの意見を収集して、改良や新製品開発を行う。</p>
+        <p>また、産業用に使用されるインバータの例でもみてみる。インバータはモーターの回転数を変えられるため工場内の生産設備、ビルの空調設備、エレベータ等産業用に、また、ハイブリッド車、電気自動車等民生用にも、様々な場面で幅広く利用されている。業務の大きな流れは、テレビと大差はないが、産業用の場合は、顧客企業等からの製品のスペック、機能等への要望に対応して開発が進められる場合が多い。顧客が業界を牽引する企業等であれば、その開発成果が業界標準になる場合もある。技術者はインバータに内蔵するプリント基板、パワー半導体（IGBT：Insulated Gate Bipolar Transistor）、操作パネル、冷却フィン等を小型化、省エネルギー化といった課題にも応えられるようにハードウェアを設計する。海外での販売、使用を想定し海外規格への対応等も考慮する。同時に制御等のソフトウェアに関わる技術者が精緻で高度な制御を実現するプログラム等を開発する。このようにハードウェアの技術者とソフトウェアの技術者がそれぞれに技術開発を進めつつ連携して一つの製品に仕上げていく。新技術等を取り込んだ試作品が完成すると連続運転や様々な環境下での耐久性、信頼性の評価等を行う。そこで把握された不備や障害を分析の上、解決し、製品の量産を行う。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/272">電気技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/274">電気通信技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/271">精密機器技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/275">家電修理</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/270">自動車技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、新規学卒の場合は、大学、大学院で電気・電子、機械工学を専攻している者が多い。工業系高校、高専卒業者もいる。</p>
+        <p>電子機器メーカーに新卒で就職した場合は、新卒研修を手始めに、社内や現場で様々な研修を受ける。キャリアパスとしては、技術者から開発チームのリーダー等を経て管理職となり、マネジメントに進む場合と技術者としての専門性を高めスペシャリストとなる場合がある。</p>
+        <p>数的処理能力、新製品開発のアイデアを企画書としてまとめる能力、生産管理におけるリーダーシップや協調性、多岐にわたる社内外のパートナーと的確な意思疎通を図るためのコミュニケーション能力も求められる。協業先が海外の場合には、英語でのコミュニケーション能力が必要となる。英文資料等を読むため英語の読解力も必須である。企業間の技術開発競争が激しいので、速く、効率よく、しかも新しい発想のものを作ることを要求される。製品開発意欲があり、アイデアや創造性豊かな人が力を発揮できる。物理、数学など、理数系が得意で、機器の構造に強く、分析力があり、好奇心旺盛で探究心があることが望まれる。困難にぶつかっても諦めない粘り強さも重要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は電子機器メーカーである。就業地は都市部に多い。また、海外工場の新設や提携企業への技術指導等で海外に駐在することもある。海外出張もある。</p>
+        <p>大手企業の場合、雇用形態は正社員がほとんどである。就業者は男性が多いが女性も増加傾向にある。</p>
+        <p>賃金、労働時間等労働条件は勤務先の規定による。自分の研究開発や実験の進捗状況に合わせて勤務時間を調整できるようフレックスタイム制を導入しているところが多い。研究開発した技術や製品について特許を出願し、それが実用化されて企業に利益をもたらした場合に、技術者に報奨金を出す企業もある。</p>
+        <p>最近の傾向として、例えば、自動車メーカーが自動運転時代の到来を見据えてセンサーやそこから得られる信号を処理するための電子回路の研究を進めていたり、流通や運輸さらには農業・畜産などの分野でもIoT化を進めている。こうした動きの中、電子機器技術者は、従来の電気・電子製品メーカー以外にも様々な業種で需要が高まっている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,82.8 266.1,138.8 225.9,247.0 137.8,214.4 112.0,151.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>67</dd><dt>対人</dt><dd>77</dd><dt>判断</dt><dd>73</dd><dt>身体</dt><dd>42</dd><dt>定型</dt><dd>46</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">4.6</span></li><li><span class="topn-name">要件分析（仕様作成）</span><span class="topn-score">4.6</span></li><li><span class="topn-name">カスタマイズと開発</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">4.3</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.3</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">設計</span><span class="topn-score">3.5</span></li><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">3.3</span></li><li><span class="topn-name">工学</span><span class="topn-score">2.9</span></li><li><span class="topn-name">数学</span><span class="topn-score">2.6</span></li><li><span class="topn-name">物理学</span><span class="topn-score">2.4</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.2</span></li><li><span class="topn-name">独創性</span><span class="topn-score">3.0</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.0</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">3.0</span></li><li><span class="topn-name">数学的推論</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/21"><span class="tc-name">建築施工管理技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/228"><span class="tc-name">水産技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/258"><span class="tc-name">非鉄金属製錬技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jeita.or.jp/japanese/" rel="external" target="_blank">一般社団法人　電子情報技術産業協会（JEITA）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

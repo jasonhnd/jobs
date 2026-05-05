@@ -8,6 +8,7 @@
     <title>Rail Vehicle Designer — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Rail Vehicle Designer: workforce ~34,368 / annual salary 700万円 / avg age 42.0 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Rail Vehicle Designer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/561" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/561" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "561",
+      "occupationalCategory": "02_006-05",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/561",
       "additionalProperty": [
         {
@@ -123,6 +124,22 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Rail Vehicle Designer",
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Reading Comprehension",
+        "Writing",
+        "Active Listening",
+        "Speaking",
+        "Active Learning",
+        "Coordination",
+        "Monitoring",
+        "Operations Analysis",
+        "Critical Thinking",
+        "Instructing"
+      ],
+      "qualifications": [
+        "鉄道設計技士(鉄道土木/鉄道電気/鉄道車両)"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=senmon">Specialist &amp; Technical</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +396,45 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Designs trains and rail vehicles; CAD and AI design tools.</p>
+        <p>Rail vehicle design and development engineers work in teams to design and develop railway vehicles for manufacture.</p>
+        <p>The production of a railway vehicle generally follows this sequence: conceptual design (determining what kind of vehicle to build) carried out primarily by the railway operator; basic design (exploring the vehicle&#x27;s appearance, required performance, safety, comfort, structure, strength, aerodynamics, and running characteristics); detailed design (creating manufacturing drawings based on the basic design); prototyping; testing; and factory manufacture. Design and development engineers focus on the basic and detailed design stages, typically working in teams of several to several dozen people. Some teams also handle prototyping and testing. Technical proposals may be made to railway operators during the conceptual design stage. The overall look and design of a new vehicle is sometimes handled by an external design firm. Engineers also collaborate with manufacturing and production engineering departments on the preparation of facilities, machinery, and tooling for factory production. They may also address defects that emerge after vehicles enter service. When a vehicle incorporates new structures or technologies, the design and development cycle—including repeated prototyping and testing—can span many years.</p>
+        <p>In railway vehicle design and development, the railway operator plays a deep and direct role: they own the tracks, bridges, tunnels, signals, platforms, and station structures, so design and development is optimized to integrate with all of these.</p>
+        <p>Because the skills required for rail vehicle design and development cannot be acquired quickly, systematic mentoring of junior staff and newer employees is an ongoing priority alongside the design work itself. Multiple projects also commonly run in parallel—for example, conducting basic design on one vehicle while repeatedly prototyping and testing another.</p>
+        <p>Railway vehicle design is broadly divided into four domains: the bogie (the undercarriage with the wheelsets), the car body (the body mounted on the bogie, including passenger seating, interior, air conditioning, and lighting), the equipping (pantograph, underfloor equipment, and cab layout), and the electrical systems (communications, digital devices, and wire harnesses/cabling). Engineers are assigned to one of these domains. Lighting, seating, and furnishings are often designed and manufactured by other suppliers, making co-development with suppliers a common arrangement. A related field—railway operations systems development—is handled by separate engineers. While automated train operation has attracted considerable attention recently, it is primarily operations systems developers, including electrical equipment manufacturers, who play the leading role there.</p>
+        <p>Because design and development must be approached from many angles, teams are the primary working unit; input from senior colleagues, veterans, and knowledgeable people inside and outside the company is frequently sought. Several manufacturers sometimes collaborate on rail vehicle design and development. When device and component suppliers are included, dozens of companies may be involved in a single project.</p>
+        <p>Design uses 2D and 3D CAD software. Structural, aerodynamic, vibration, and noise analyses are conducted using simulation software. Collaboration tools are also used for information sharing and schedule management across large teams. Remote meetings and conferences have become much more common since the COVID-19 pandemic.</p>
+        <p>Railway vehicle design and development must comply with domestic laws such as the Railway Business Act and JIS standards, and—for vehicles intended for export—the laws and standards of each destination country.</p>
+        <p>Safety is paramount in railway vehicle design and development. Engineers must give detailed consideration to weight reduction while maintaining structural integrity, noise and vibration reduction, passenger comfort, ease of manufacture, maintainability, durability, and the optimal integration of numerous subsystems—making this a highly sophisticated technical discipline. New vehicle types are repeatedly prototyped and tested, and the design may be revised multiple times. Despite the difficulty, each milestone achieved within the team brings a real sense of accomplishment. When a new Shinkansen or new limited express train draws public attention and the engineers see the vehicle they designed enter service, the sense of fulfillment is immense.</p>
+        <p>Tools and equipment commonly used: PC; design software (2D/3D CAD); simulation software (structural, aerodynamic, vibration, noise); collaboration tools (information sharing, document management, scheduling, video conferencing); helmet and protective goggles (when visiting manufacturing sites)</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/560">Sociology Researcher</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/566">Event Planner / Operator</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/567">Private University Office Clerk</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/562">Detective (Private Investigator)</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/559">Switchgear/Control Panel Assembler</a><span class="r-risk">AI 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>New graduates typically hold university or graduate school degrees in mechanical engineering or electrical/electronic engineering; some entrants come from technical colleges (kosen) with mechanical or electrical specializations. Most are hired as new graduates through internships, application documents, company briefings, entrance examinations, and interviews (open recruitment), or through school recommendations; school recommendations are common at technical colleges. Mid-career hiring also occurs when new development projects or strategic workforce needs arise, in which case companies post openings on their own websites and engage recruitment agencies.</p>
+        <p>Rail vehicle design and development is not something that can be done immediately after joining a company; engineers build their capabilities over many years, working under the guidance of senior colleagues on design and development projects. New hires join projects alongside senior staff and accumulate experience. For this reason, long-term new-graduate hiring and development has been the norm, though mid-career hiring has grown more common in recent years.</p>
+        <p>No licenses or certifications are required at the point of joining. The Rail Vehicle Design Engineer (鉄道設計技士（鉄道土木/鉄道電気/鉄道車両）) qualification offered by the Railway Technical Research Institute can be advantageous in procurement and serves as evidence of technical competency.</p>
+        <p>For new graduates, the initial months involve introductory training, followed by several months of hands-on experience in the vehicle manufacturing plant; thereafter, the engineer is assigned to the design and development department. Some companies instead assign new hires to the manufacturing floor for the first two or three years before moving them into design and development. Various technical training courses are available throughout one&#x27;s career and at key career milestones, including role-specific training for new managers.</p>
+        <p>Once assigned to a domain—bogie, car body, equipping, or electrical systems—engineers rarely rotate to other domains. Instead, they deepen and expand their technical expertise by working on a succession of vehicles within the same area. Career titles vary by company, but a typical progression is: lead engineer/engineer (section-chief level) → senior engineer (division-chief level) → leader or group leader. Broad cross-domain design and development experience may be accumulated when preparing for management roles.</p>
+        <p>University and technical college coursework in mechanical engineering, electrical/electronic engineering, and related fields provides the essential foundation; skills are then honed further through on-the-job experience. The ability to consider complex factors with precision is required, and broad knowledge and experience are essential. As noted above, design and development involves many companies and a large number of stakeholders, so teamwork is of fundamental importance.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Japan has five major railway vehicle manufacturers, and engineers join one of these companies in a technical role to work in rail vehicle design and development. Each of the five manufacturers employs several hundred engineers in this function. Some companies have their design/development offices and vehicle factories on the same site; others have headquarters and offices in major metropolitan areas while factories are located in the regions, requiring travel to the factory as needed.</p>
+        <p>Approximately 90% of design and development personnel are men. The age distribution spans from veterans to younger engineers, and most companies actively recruit younger talent. The large majority are regular full-time employees on a monthly salary. In some cases, engineers from co-developing electrical equipment manufacturers or railway operators work alongside the primary manufacturer&#x27;s engineers, but they remain employees of their own companies. Dispatched workers from staffing agencies are present but relatively few.</p>
+        <p>The standard schedule is weekday days with weekends and public holidays off. Flextime and discretionary work arrangements are common at many companies, and remote work has been incorporated since the COVID-19 pandemic.</p>
+        <p>Railways are critical social infrastructure with stable domestic demand. Given that the service life of a vehicle is twenty to thirty years, the design and development of the next generation of vehicles is always ongoing. In a global context moving toward decarbonization, railways are receiving increased attention; though development activity was somewhat constrained during the pandemic, a rebound is anticipated. World-leading rail vehicle manufacturers exist in Germany, France, and Canada, with China also rising as a competitive force. Despite this, Japanese railway vehicles have been exported to Europe and Southeast Asia, with some contracts encompassing the entire transportation infrastructure including operations systems.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,79.0 267.1,138.5 227.8,249.6 132.1,222.2 170.0,170.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>70</dd><dt>Social</dt><dd>78</dd><dt>Judgment</dt><dd>75</dd><dt>Physical</dt><dd>49</dd><dt>Routine</dt><dd>0</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Operations Analysis</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Critical Thinking</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">4.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Deductive Reasoning</span><span class="topn-score">3.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/228"><span class="tc-name">Fisheries Engineer</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/21"><span class="tc-name">Building Construction Manager</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/258"><span class="tc-name">Nonferrous Metal Engineer</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>鉄道設計技士(鉄道土木/鉄道電気/鉄道車両)</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

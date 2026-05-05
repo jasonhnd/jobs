@@ -8,6 +8,7 @@
     <title>マーチャンダイザー、バイヤー — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="マーチャンダイザー、バイヤー：就業者 約29,500人 / 平均年収 473万円 / 平均年齢 42.3 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="マーチャンダイザー、バイヤー, MD, 食料品マーチャンダイザー, アパレルバイヤー, マーチャンダイザー（百貨店）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/544" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/544" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "544",
+      "occupationalCategory": "07_046-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/544",
       "additionalProperty": [
         {
@@ -122,7 +123,30 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Merchandiser / Buyer",
+      "alternateName": [
+        "Merchandiser / Buyer",
+        "MD",
+        "食料品マーチャンダイザー",
+        "アパレルバイヤー",
+        "マーチャンダイザー（百貨店）",
+        "MD",
+        "Food Merchandiser",
+        "Apparel Buyer",
+        "Merchandiser (Department Store)"
+      ],
+      "industry": "Sales & Retail",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Negotiation",
+        "Reading Comprehension",
+        "Persuasion",
+        "Writing",
+        "Coordination",
+        "Time Management",
+        "Instructing",
+        "Active Learning"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +230,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +286,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +381,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=hanbai">販売・営業</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -309,18 +404,46 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>店舗で扱う商品を検討し、売れる商品を仕入れる。販売戦略を考えたり、生産者と一緒に商品を開発することもある。</p>
+        <p>バイヤーとは商品の買い付け、仕入れを行う担当者であるが、今日では単なる買い付けにとどまらず、マーチャンダイザーとして商品を生産者とともに開発したり、買い付けた商品の販売戦略まで考えることが多く、ここではバイヤーを含めマーチャンダイザーについて解説する。マーチャンダイザーがバイヤーを兼任していることも多く、マーチャンダイザー（merchandiser）は短くMDと呼ばれることもある。</p>
+        <p>マーチャンダイジングとは、売れる商品のために、商品の企画開発、商品の調達、そして商品の販売戦略まで検討する活動であり、この中で商品の調達の部分に比重があるのがバイヤーである。市場に潤沢に商品があり、その中から購入すればよいのであれば、バイヤーとしての仕事になるが、より良い商品を仕入れようとすると、生産者に働きかけ、生産者とともに商品を開発していくことが必要になる。また、現在はすでに多くの商品が流通し飽和状態といえ、このような状況では販売戦略が重要であり、この面ではバイヤーというよりもマーチャンダイザーとしての仕事となる。</p>
+        <p>ここでは、マーチャンダイザー、バイヤーが活躍する主な分野として、食料品とアパレルの小売りについて記述する。なお、類似した仕事として「商社営業」、「商品企画開発（チェーンストア）」、「ネット通販の企画開発」は別途、本サイトで解説されている。</p>
+        <p>マーチャンダイザーの仕事は市場調査、売れ行きなどの情報からどのような商品が売れるか予測することに始まる。最近ではお客のポイントカード等の情報から、どのような商品が売れているかリアルタイムでわかる。消費行動に関するビッグデータを解析し提供している会社もあり、そのような情報も利用される。天候と売れ行きの関係など、一部はAIも活用されている。このように市場の動向を常に把握し、食料品であればどのような食料品が売れるか、アパレルであれば流行のトレンドを押さえておく必要がある。</p>
+        <p>この予測に基づき商品を仕入れるが、マーチャンダイザーは生産者と一緒に商品開発まで行う。野菜であれば、卸売市場で仕入れるだけではなく、契約農家とともに、安心・安全やSDGs（持続可能な開発目標）も配慮し、JGAP（Japan Good Agricultural Practice）等食料品生産の規格にも沿って野菜を生産する。これらの野菜は事前の契約に基づき仕入れる。近年では野菜の生産農家は減少しており、市場に潤沢に野菜が出回っているわけではない。消費者に喜ばれる野菜を生産者とともに作らなくてはならない。</p>
+        <p>生産の途中でも出来具合や天候を継続してチェックしていく。気象条件が毎年異なり、最近では異常気象も頻発することから、良い野菜を生産するためには知恵と工夫が必要である。</p>
+        <p>加工食品であれば、メーカーから仕入れるだけではなく、グループ企業内のマーチャンダイザーが集まり、新商品やPB（プライベートブランド）商品の開発を検討する。</p>
+        <p>チェーンストアでは、マーチャンダイザーがまとめて仕入れた商品を、店舗の店員がEOS（Electronic Ordering System、電子発注システム）によって、タブレット端末などから発注し、翌日、翌々日に店舗に商品が届くという流れになる。</p>
+        <p>アパレルのマーチャンダイザーは展示会に出席したりメーカーを回り様々な既製品を検討し、そこから仕入れることもあるが、生地やデザイン、製造工程に関して、デザイナー、パタンナー、生地生産者、服飾メーカーとともに検討し、自社のブランドにふさわしい衣料品を作ることもある。アパレルの場合は現物を見て対面で発注することが多い。アパレルに関してもSDGsやフェアトレードに関する消費者の関心が高まっており、このような点も配慮して、企画する。</p>
+        <p>マーチャンダイザーは販売戦略でも大きな役割を果たしており、どのようなCMを流し、どのように店頭で陳列するか等検討する場合もある。売れ行きがよければ会社の利益となり、逆に、売れ残った商品は会社の損失となるため、マーチャンダイザーの責任は重大である。一方、自分が担当する商品に関して、専門知識を有するエキスパートであることにやりがいを感じることもできる。商品の企画や開発まで行う点では、関係者、生産者と一緒に新しいものを作り上げていくという醍醐味もある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、プレゼン資料作成ソフト（Power Point等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/541">ナレーター</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/539">営業課長</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/538">経理課長</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/543">郵便局郵便窓口業務</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/545">歯科助手</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>マーチャンダイザーになるために、特に学歴や資格は問われないが、市場調査や商品開発まで行い、様々な関係者と共同で仕事をし、会社として大きな資金が動くことから、会社の基幹社員として採用されることが多い。</p>
+        <p>食料品のマーチャンダイザーの場合、正社員として入社し、売り場での販売を何年か経験し、店舗の売り場責任者や副店長を経験したりし、マーチャンダイザーになることが多い。</p>
+        <p>アパレルの場合も売り場での接客、店長等を経験したり、バイヤーの仕事やマーチャンダイザーのアシスタントをし、マーチャンダイザーになる。</p>
+        <p>マーチャンダイザーのその後のキャリアとしては、会社の経営層になっていくか、担当する分野の専門家、エキスパートになっていくルートがある。数は少ないが、専門知識と人脈を生かし、コンサルタントとして独立する人も中にはいる。</p>
+        <p>商品の売れ行きやトレンドに敏感で、論理的な思考、戦略的な思考ができることが必要である。生産者や幅広い関係者との仕事となり、初対面の人に会ったり、目上の人に会うことも多い。このような対人関係に苦手意識がなく、スムーズにコミュニケーションが行えることが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>食料品、アパレルの店舗は日本各地にあるが、マーチャンダイザーはこれら店舗の本社に配属されており、大都市、地方都市での勤務となる。ただし、週の半分以上、生産者、関係者を回ることもあり、本社に居る時間よりも長い時間となることが多い。仕入れのために海外出張することもある。</p>
+        <p>食料品のマーチャンダイザーは男性も女性もいる。アパレルではレディースは女性のマーチャンダイザーが多く、メンズは男性が多い。それまでにいろいろな経験をしてから就く仕事であり、責任も重いことから中高年齢者が多い。</p>
+        <p>雇用形態としては正社員であり、賃金はほとんどの企業で月給制がとられている。通常の朝から夕方までの勤務であり、週休2日制となっている。卸売市場に行くときには早朝から働き、市場が閉じると会社に戻るが、このようなときは早く退社となる。食料品もアパレルも一年の中で商品の動きが激しい時期があり、それに備えるために残業が多くなる時期もある。</p>
+        <p>マーチャンダイザーを取り巻く状況は日々、変化している。食料品に関しては安心・安全が重視され、健康志向も高まっている。SDGsへの関心も強い。インターネットでのショッピングが広がり、実店舗でもインターネットや宅配への対応を進めている。また、アパレルではネット・ショッピングの広がりの中、この仕入れもマーチャンダイザーの大きな役割となっている。今日、商品があれば売れるという時代ではなく、売り上げを伸ばすためには、マーチャンダイザーの役割が重要になっている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,80.6 266.7,138.6 220.7,239.8 133.8,219.9 109.7,150.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>68</dd><dt>対人</dt><dd>78</dd><dt>判断</dt><dd>66</dd><dt>身体</dt><dd>47</dd><dt>定型</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">交渉</span><span class="topn-score">4.3</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.1</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.0</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.9</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">3.7</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.7</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">3.6</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">3.3</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.9</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">2.3</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">2.2</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.2</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.6</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">法則に基づいた情報の並べ替え</span><span class="topn-score">3.4</span></li><li><span class="topn-name">独創性</span><span class="topn-score">3.3</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/527"><span class="tc-name">食品営業（食品メーカー）</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/73"><span class="tc-name">衣料品販売</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/59"><span class="tc-name">住宅・不動産営業</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +452,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>Data Engineer — AI Impact 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="Data Engineer: workforce ~25,925 / annual salary 628万円 / avg age 43.4 / AI impact 9/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Data Engineer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/523" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/523" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "523",
+      "occupationalCategory": "02_010-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/523",
       "additionalProperty": [
         {
@@ -122,7 +123,26 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Data Engineer",
+      "alternateName": [
+        "Data Engineer",
+        "ビッグデータエンジニア"
+      ],
+      "industry": "IT & Communications",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Operations Analysis",
+        "Installation",
+        "Writing",
+        "Programming",
+        "Coordination",
+        "Instructing",
+        "Active Learning"
+      ],
+      "qualifications": [
+        "Google認定プロフェッショナルデータエンジニア"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +226,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +282,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +377,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=it">IT &amp; Communications</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -308,19 +399,50 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Builds data pipelines and infrastructure; works with AI tools.</p>
+        <p>Data engineers organize and manage vast amounts of data to enable analysis, and design, build, and operate the information infrastructure that makes complex, large-scale data usable.</p>
+        <p>In today&#x27;s highly digitized world, enormous volumes of data (big data) have accumulated and are being used and leveraged in a wide range of contexts. AI (artificial intelligence) is also finding applications in many areas, and large amounts of data are essential for making AI practical. Data engineers are the experts in this massive, complex data.</p>
+        <p>A profession closely related to data engineering is data science. While data scientists analyze data to generate insights for creating new products and services or innovating business processes, data engineers handle the collection, organization, management, and infrastructure needed to make that analysis possible.</p>
+        <p>Also worth noting: some system engineers who were not called &quot;data engineers&quot; have long performed work similar to data engineering — development related to data collection and organization, and building and operating the information infrastructure needed to leverage data. Within data engineering, some practitioners deepen their expertise in analysis to become data scientists, while others specialize in machine learning and become AI engineers. The relationship between data engineers and system engineers, data scientists, and AI engineers can be understood in this way.</p>
+        <p>The concrete work of a data engineer encompasses three main areas:</p>
+        <p>First, data preprocessing: most raw data cannot be used as-is. This involves filling in missing data, eliminating duplicates, standardizing notation inconsistencies (e.g., &quot;server&quot; vs. &quot;server&quot; without the trailing &quot;r&quot;, Japanese calendar vs. Western calendar, age classifications, &quot;center&quot; vs. &quot;centre&quot;, etc.), and organizing and processing data with tools so it can be analyzed. Programs may also be written specifically for this data organization and processing.</p>
+        <p>Second, information infrastructure development: this involves designing and building the information infrastructure that collects, stores, and makes data usable. Concretely, this means creating databases from the enormous volumes of data arriving via IoT and other sources, and developing the information infrastructure that lets data scientists and others retrieve data in the form they need. In recent years, cloud services are frequently used to store and use massive amounts of data economically and efficiently. In these cases, the data engineer stores data on the cloud and develops and operates the information systems that use it there. Data may also be visualized in accessible forms such as graphs. While overlapping somewhat with data science work, consideration of how to leverage data for business purposes is also part of the role.</p>
+        <p>Third, creating training data for AI development: AI must be trained, and the &quot;training data&quot; for that process must be created — an activity that involves organizing data and preparing it in the right form. Programs may be written specifically for this data organization work. Training data may also be recreated based on the results of operating AI systems.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Data collection and analysis tools (Elastic Stack, comprising Elasticsearch for search and collection, Kibana for visualization, Beats, and Logstash), integrated development environments (IDEs: Visual Studio, Eclipse, Xcode, etc.), cloud data storage (AWS: Amazon Web Services, GCP: Google Cloud Platform, etc.), Hadoop for distributed processing of big data, spreadsheet tools (Google Sheets, etc.), personal computers</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/552">UX/UI Designer</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/443">Medical Office Clerk</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/440">P&amp;C Insurance Clerk</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/522">NPO Staff (Planning/Operations)</a><span class="r-risk">AI 6/10</span></li>
-          <li><a class="r-name" href="/en/524">Independent Financial Advisor (IFA)</a><span class="r-risk">AI 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Among new graduates, those from science and engineering universities and graduate schools are common, but there are also many from humanities backgrounds — including graduates who handled data in fields such as psychology or economics. Information technology graduates from technical colleges and vocational schools are also present. Some companies hire science and engineering graduates collectively as system engineers and then develop them into data engineers.</p>
+        <p>For mid-career hiring, many candidates transition from system engineers and other IT engineering roles. Having domain knowledge in a particular field — finance, healthcare, manufacturing, education, and so on — is advantageous in mid-career hiring.</p>
+        <p>In terms of qualifications, internationally recognized private-sector certifications exist (such as the Google Professional Data Engineer), and holding such certifications signals data engineering skills recognized both within Japan and abroad.</p>
+        <p>While not data engineering certifications per se, the Information-technology Promotion Agency (IPA) Database Specialist Examination and Systems Architect Examination are recognized as evidence of relevant knowledge.</p>
+        <p>For new graduates, many companies provide internal training in areas such as fundamental skills (programming, mathematics, data analysis, databases, distributed processing, machine learning, AI, etc.), domain knowledge acquisition (understanding the customer&#x27;s business to grasp the context behind the data), and project management (team management and agile development). With demands for faster development today, agile development skills — as opposed to the traditional waterfall approach — are increasingly required.</p>
+        <p>After this training, practitioners join projects within the company and develop their skills further through on-the-job experience, as well as by participating in communities such as Kaggle. Kaggle, as described on its homepage — &quot;Your Machine Learning and Data Science Community&quot; — is a community gathering hundreds of thousands of practitioners in machine learning and data science worldwide.</p>
+        <p>From that point, careers branch: some follow a management path — progressing to project management and then group management — while others deepen their technical expertise to become specialists. Some go on to become data scientists or AI engineers.</p>
+        <p>Required skills for data engineers include: mathematics (calculus, linear algebra, probability and statistics); programming (Python, Scala, Java, R, and others); skills for designing, building, and operating data analytics environments on cloud platforms such as Amazon and Google; and knowledge of distributed large-scale data processing using Hadoop and similar tools. With AI development advancing rapidly, machine learning knowledge is also frequently required. Domain knowledge of the target field is critically important — without it, one cannot know what data to use or how to process it. Keeping up with technology trends and movements in society and the economy is also necessary.</p>
+        <p>Generative AI is increasingly used for creating programs needed for data collection and analysis — using AI to generate a draft, then refining, supplementing, verifying operation, and putting it to use.</p>
+        <p>Because enormous and complex data must be painstakingly processed, patience and persistence are required. In data analysis, the ability to step back from one&#x27;s own assumptions and view one&#x27;s own thinking objectively is also necessary. Intellectual curiosity about technology and analysis, and a spirit of challenge to actively adopt new methods, are equally important.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Most data engineers work at systems integrators (SIers) — companies that take on integrated contracts for planning, building, and operating information systems — or at small-to-medium specialist data analysis companies. Since such companies often have research relationships with universities, there is a tendency for them to be concentrated in areas with universities.</p>
+        <p>Basically, work is performed from the employee&#x27;s own office, and since almost all tasks can be done on a PC alone, remote work from home is also possible. When working with highly confidential client data, work is performed in a room with strict access controls (a security room). Work at a client&#x27;s location is also sometimes required. Client visits for meetings and reporting are also part of the role.</p>
+        <p>No statistics exist specifically for this occupation, but based on community participation and similar indicators, it is estimated that there are tens of thousands of data engineers in Japan. This includes people whose job title is &quot;system engineer&quot; but who are effectively doing data engineering work. Freelancers are rare; the large majority work as full-time company employees. Based on community participation data, those in their 30s are the largest group, followed by those in their 40s; the gender ratio is estimated at approximately 7:3 to 8:2 (male:female).</p>
+        <p>Income and working hours are not substantially different from those of system engineers, but as the use of big data expands and work volumes grow, skilled people are scarce, and mid-career hires and others with strong skills may command higher salaries.</p>
+        <p>Today, the widespread digitization of industry and society — driven by IoT (the Internet of Things), digital transformation (DX), and other trends — continues to expand the use and application of data. Work related to AI development is also growing. At the same time, talent with specialized knowledge and advanced skills remains scarce, and the outlook is that demand for data engineers will continue to exceed supply.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,91.1 258.5,141.2 218.8,237.2 140.4,210.7 105.0,148.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>60</dd><dt>Social</dt><dd>71</dd><dt>Judgment</dt><dd>63</dd><dt>Physical</dt><dd>38</dd><dt>Routine</dt><dd>52</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.0</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Operations Analysis</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Installation</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Writing</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Programming</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">3.5</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">2.5</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">1.9</span></li><li><span class="topn-name">Design</span><span class="topn-score">1.8</span></li><li><span class="topn-name">Mathematics</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Inductive Reasoning</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Deductive Reasoning</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Category Flexibility</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Mathematical Reasoning</span><span class="topn-score">3.1</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/315"><span class="tc-name">Embedded/IoT Systems Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/274"><span class="tc-name">Telecom Engineer</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/319"><span class="tc-name">IT Operations Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 100%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>Google認定プロフェッショナルデータエンジニア</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +451,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

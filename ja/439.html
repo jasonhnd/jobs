@@ -8,6 +8,7 @@
     <title>貿易事務 — AI 影響 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="貿易事務：就業者 約174,488人 / 平均年収 511万円 / 平均年齢 42.4 / AI 影響 8/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="貿易事務, 通関業務係, 輸出入事務員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/439" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/439" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "439",
+      "occupationalCategory": "06_040-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/439",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Trade Office Clerk",
+      "alternateName": [
+        "Trade Office Clerk",
+        "通関業務係",
+        "輸出入事務員"
+      ],
+      "industry": "Office & Public Service",
+      "skills": [
+        "Active Listening",
+        "Writing",
+        "Reading Comprehension",
+        "Speaking",
+        "Foreign Language Reading",
+        "Foreign Language Writing",
+        "Instructing",
+        "Negotiation",
+        "Foreign Language Listening",
+        "Coordination"
+      ],
+      "qualifications": [
+        "通関士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-high">AI 影響 高</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -309,18 +401,37 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う。</p>
+        <p>貿易手続全般の流れを把握し、輸出入する商品や原材料、値段、数量、取引先を決定するための情報を収集・整理する。輸出入を行う商品は、関連する国際法や輸出入国双方の法律の適用を受けるので、取り扱う商品には輸出入の許認可や検査が必要かどうかなど、相手国と国内の法律を調査する。次に、取引金額、決済方法、取引数量、輸送手段、納期、保険、決裁方法などの商談がまとまれば、輸出入に関する各種書類（インボイス、船荷証券、梱包明細書等）を作成する。</p>
+        <p>貨物輸送の手配としては、商品の到着予定や船便の運行状況を把握し、関係者からの問い合わせに対応する。また、輸入されてきた商品を国内に配送する手続きや、輸出入品の在庫を管理する。</p>
+        <p>企業によっては、法務・審査、財務・経理、保険、運輸・通関などの様々なセクションのスタッフとして、営業部門と連携して貿易事務を行っている。一般事務と兼務することもある。商社等から通関手続の代行を委託されている企業（通関業者）でスタッフとして働く人もいる。</p>
+        <p>現在、貿易手続はインターネットを利用した電子化が進められている。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>表計算ソフト（Excel、Googleスプレッドシート等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/437">生産・工程管理事務</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/434">企画・調査担当</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/433">総務事務</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/438">銀行等窓口事務</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/440">損害保険事務</a><span class="r-risk">AI 影響 9/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、語学力は業務を行う上で必要であり、採用にあたり一定水準の語学力を求める企業もある。多くの企業は入職後に語学研修を実施し、語学力の向上を図っている。中途採用については、経験者が求められる傾向にある。</p>
+        <p>配属先は新入社員研修の過程で本人の適性や希望を踏まえて決定される場合もある。通関士など関係する資格があれば、貿易事務の関連部門に配属されることもある。配属後も、語学研修をはじめとして貿易実務、経理等の多彩な研修プログラムが用意されており、スキルアップが図られる。</p>
+        <p>担当する取引についての関心と責任感に加えて、諸外国の言語や法律、ビジネスの慣習等の知識が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は商社、通関業者等である。職場は本社が集中している都市部が多い。また、海外貿易を直接行う大手のメーカーや百貨店の海外事業部で勤務する場合もある。</p>
+        <p>オフィス内での業務が中心となるが、業務内容によっては、銀行をはじめ関係機関に出向くこともある。</p>
+        <p>賃金、労働時間等労働条件は勤務先の規定による。就業時間は規則的なことが多く基本的には残業が少ない。土日祝日は休みとなることが多い。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,108.4 254.2,142.6 214.0,230.6 142.3,208.1 100.0,147.3" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>47</dd><dt>対人</dt><dd>68</dd><dt>判断</dt><dd>57</dd><dt>身体</dt><dd>36</dd><dt>定型</dt><dd>56</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">外国語を読む</span><span class="topn-score">4.0</span></li><li><span class="topn-name">外国語で書く</span><span class="topn-score">3.8</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.7</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.6</span></li><li><span class="topn-name">外国語を聞く</span><span class="topn-score">3.5</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.4</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">事務処理</span><span class="topn-score">3.2</span></li><li><span class="topn-name">輸送</span><span class="topn-score">3.1</span></li><li><span class="topn-name">外国語の語彙・文法</span><span class="topn-score">2.7</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.0</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">1.9</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.3</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.1</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.1</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">2.9</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">2.8</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/194"><span class="tc-name">空港グランドスタッフ</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/530"><span class="tc-name">臨床開発モニター</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/151"><span class="tc-name">国際公務員</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>通関士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

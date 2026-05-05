@@ -8,6 +8,7 @@
     <title>治験コーディネーター — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="治験コーディネーター：就業者 約27,292人 / 平均年収 430万円 / 平均年齢 39.9 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="治験コーディネーター, 治験コーディネーター（CRC）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/407" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/407" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "407",
+      "occupationalCategory": "04_027-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/407",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Clinical Research Coordinator",
+      "alternateName": [
+        "Clinical Research Coordinator",
+        "治験コーディネーター（CRC）"
+      ],
+      "industry": "Medical & Health",
+      "skills": [
+        "Coordination",
+        "Active Listening",
+        "Reading Comprehension",
+        "Speaking",
+        "Time Management",
+        "Writing",
+        "Social Perceptiveness",
+        "Instructing",
+        "Persuasion",
+        "Negotiation"
+      ],
+      "qualifications": [
+        "日本臨床薬理学会認定CRC制度",
+        "日本SMO協会公認CRC制度"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=iryo">医療・保健</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -309,18 +401,38 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>治験が円滑に行われるよう準備、調整、運営の支援を行う。</p>
+        <p>治験とは医薬品等が人の体に有効で安全であることを立証し、承認申請するための臨床試験のことである。治験がスムーズに行われるよう、治験参加者をサポートしたり、関係者のスケジュールを調整したりする。CRC（Clinical Research Coordinator）とも呼ばれる。</p>
+        <p>基本的な仕事としては、治験が始まる前の事前準備、実際の治験が始まってからの業務、治験の結果報告という３段階に分けられる。一つの治験を実施するためには病院内で様々な部門、医師や看護師などへの説明やスケジュールの調整、具体的な作業の依頼が必要になる。治験がスムーズに行われるためには、治験コーディネーターの調整が不可欠である。また、治験に参加する患者がとまどったり、服薬の方法を誤ったりすることのないよう、わかりやすい説明や間違えないようにする工夫が必要となる。</p>
+        <p>具体的な仕事としては、まず、治験の実施計画書を読み、製薬会社が行う医師、看護師、臨床検査技師、薬剤師、病院の治験事務局への説明会に参加する。製薬会社から医薬品や検査キットを受け取り、被験者が来院するときの準備をする。治験の実施計画書に基づき、被験者の募集とスクリーニングを行う。被験者に渡す治験の説明や同意書を作成し、医師が被験者に説明する際、同席する。医師と患者が決める診察の日時、投薬や検査の日時などの予定表を作成する。医師の診察に同席し、服薬状況、有害事象などを記録する。医師の確認も得ながら、製薬会社に報告する症例報告書を作成する。有害事象が生じた場合、経緯や関係すると考えられる情報から報告書を作成し、製薬会社と病院に提出する。治験が終了したら、治験終了の報告書を作成し、製薬会社と病院に提出する。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/410">施設管理者（介護施設）</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/414">フロント（ホテル・旅館）</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/396">学習塾教師</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/406">産婦人科医</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/408">医療ソーシャルワーカー</a><span class="r-risk">AI 影響 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、医学、薬学等の知識があると仕事に役立つ。民間会社のSMO（Site Management Organization：治験施設支援機関）や医療機関（病院等）に就職する。SMOは治験を依頼する製薬会社と医療機関の間に入り、各種支援を行う会社であり、新卒の採用も行っている。SMOに所属し、複数の医療機関での治験を担当する場合もある。医療機関は新卒で治験コーディネーターを採用することは少なく、看護師、薬剤師、臨床検査技師などが治験コーディネーターを兼務することが多い。大きな医療機関の場合は、治験事務局に医療従事者や治験コーディネーターの経験者が、治験コーディネーターとして直接雇用される場合もある。</p>
+        <p>関連資格として日本臨床薬理学会と関連協会の認定試験がある。治験コーディネーターとして働きながら2～3年で取得を目指すのが一般的である。</p>
+        <p>医学、薬学の基礎知識、薬事関連法規への理解、統計処理や文書作成等を行う事務処理能力が求められる。医師をはじめとする医療スタッフや被験者等関係者間を調整する能力、コミュニケーション能力等が重要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先はSMO（Site Management Organization：治験施設支援機関）や医療機関（病院等）である。</p>
+        <p>SMOの治験コーディネーターは正社員の場合もあるが、嘱託や非常勤などのこともある。</p>
+        <p>賃金は所属するSMOの規定による。医療機関（病院）の治験コーディネーターは看護師、薬剤師、臨床検査技師等が行っていることが多く、その医療資格に基づく給与となっている。</p>
+        <p>夜勤はなく、日勤である。残業は少ないが、診療時間後に医師との打合せなどが入ることがある。また、治験によっては被験者の就業時間後の夕方等に対応することもある。</p>
+        <p>専任の治験コーディネーターは全国で数千人程度とみられる。治験には必要な人材であり一定の需要がある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.7 270.8,137.3 215.8,233.0 129.2,226.2 98.4,146.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>63</dd><dt>対人</dt><dd>81</dd><dt>判断</dt><dd>59</dd><dt>身体</dt><dd>53</dd><dt>定型</dt><dd>57</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">他者との調整</span><span class="topn-score">5.0</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">5.0</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">4.1</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.0</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.9</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.9</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.8</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.6</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">医学・歯学</span><span class="topn-score">3.8</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">3.2</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">2.1</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">1.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/564"><span class="tc-name">検疫官（看護師）</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/405"><span class="tc-name">精神科医</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/411"><span class="tc-name">カウンセラー（医療福祉分野）</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jscpt.jp" rel="external" target="_blank">一般社団法人　日本臨床薬理学会</a></li><li><a href="http://www.jasmo.org" rel="external" target="_blank">日本SMO協会</a></li><li><a href="http://www.smona.ne.jp" rel="external" target="_blank">SMONA（協同組合 臨床開発支援ネットワーク）</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>日本臨床薬理学会認定CRC制度</li><li>日本SMO協会公認CRC制度</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +441,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>Industrial Robot Developer — AI Impact 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="Industrial Robot Developer: workforce ~48,564 / annual salary 669万円 / avg age 42.2 / AI impact 8/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Industrial Robot Developer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/231" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/231" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "231",
+      "occupationalCategory": "02_006-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/231",
       "additionalProperty": [
         {
@@ -122,7 +123,14 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Industrial Robot Developer",
+      "alternateName": [
+        "Industrial Robot Developer",
+        "工作機械設計技術者",
+        "産業用ロボット設計技術者",
+        "自動化機械開発技術者",
+        "半導体製造装置設計技術者"
+      ],
+      "industry": "Specialist & Technical",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +214,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +270,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +365,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=senmon">Specialist &amp; Technical</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,8 +387,38 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Designs industrial robots and the AI/control systems that drive them.</p>
+        <p>Industrial robot developers conduct research and development of industrial robots. Industrial robots are widely deployed in factory settings for assembly, welding, painting, and material handling, among other tasks. Broadly, robots fall into two categories: industrial robots operating in factory production processes, and service robots that support human activities. Service robots are used in surgical assistance, cleaning and patrol, caregiving support, and front desk and floor service in commercial settings. This description covers industrial robots. Under ISO and JIS definitions, an industrial robot is &quot;an automatically controlled, reprogrammable, multipurpose manipulator, programmable in three or more axes, which can be either fixed in place or mobile for use in industrial automation applications.&quot; In recent years, the development of collaborative robots (cobots) that work alongside humans without safety guarding has become more common. Cobots are fundamentally designed to stop when they detect contact with a worker, but when a cobot is operating, multiple layers of safety measures—including sensors in the surrounding environment—are put in place to prevent contact between the robot and workers in the first place.
+	Industrial robots are developed either from scratch to meet customer specifications or as improvements to existing products or as part of a series that carries forward an established concept and design. From-scratch development follows a sequence of conceptual design based on customer requirements, detailed design, prototyping, testing, and then mass production and delivery. Such ground-up development is relatively rare; improving the performance and functionality of existing industrial robots makes up the larger share of work. Either type of development may involve collaboration with partner companies.
+	Software has become increasingly important in industrial robots: image recognition from sensor inputs and high-speed, high-precision movements are all handled through programming (coding). Performance improvements to robots already deployed at customer sites are sometimes requested and addressed through software updates.
+	While much R&amp;D is carried out in project teams, industrial robot development is typically organized into mechanical design (mechatronics), electrical/electronic, and software divisions, with each working in teams to improve robot performance and functionality.
+	The satisfaction of realizing a robot that has never existed before—enabling production that was previously impossible—is what makes this work rewarding.</p>
+        <p>&lt;Message to prospective workers&gt;
+	&quot;R&amp;D in industrial robots is directly connected to innovation in manufacturing.&quot; (Head of Development Department)
+	&quot;Robot development requires broad knowledge, and the opportunity to develop diverse skills through varied experiences is what makes it so appealing.&quot; (Development Department Chief)</p>
+        <p>Tools and equipment commonly used:
+	ROS (Robot Operating System, open-source middleware running on Linux), programming languages (C++, C#, Java, Python, etc.), CAD, personal computers, various measurement instruments, testing machines, inspection equipment, work clothing, helmets, goggles</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Industrial robot R&amp;D requires broad engineering knowledge. Most practitioners have studied mechanical engineering, electrical/electronic engineering, or control engineering at a university, graduate school, or technical college (kōsen). In recent years, candidates with a background in information processing—including artificial intelligence—have also been in demand.
+	After joining, it typically takes three to four years at the earliest, and on average five to six years, before an engineer can independently conduct R&amp;D that meets customer requirements and earns the trust of stakeholders.
+	Industrial robots must operate at high speed and precision, with reliability and safety as paramount concerns; a patient, methodical approach to research and development is essential. Because R&amp;D is carried out in teams, teamwork is also required. Earning the trust of customers and co-development partners is important. English or other foreign language skills are also needed for communication with overseas customers and for exchanging and gathering information with relevant parties.
+	The typical career path for an industrial robot development engineer is progression to team leader, section manager, and other management roles within the company. Independent startup ventures are relatively uncommon.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employers include private companies and national and private research institutions. Most engineers work in the research facilities or R&amp;D departments of large corporations. For those in private-sector employment, the standard arrangement—per company regulations—is an eight-hour workday with weekends and public holidays off, though overtime is common during peak development periods. The large majority are full-time employees on monthly salaries.
+	Industrial robots are widely exported to Europe, North America, and Asia. Within Japan, the adoption of collaborative robots is accelerating due to labor shortages caused by demographic aging.
+	AI is beginning to be applied to perception from sensors and to the learning of motion. Physical AI—which gives robots a body (actuation mechanism) and perception (various sensors) and enables them to learn movements in the real world—is described as the next big wave after generative AI. Humanoid robots that resemble humans and can perform a wide variety of tasks like humans are also attracting attention. Nevertheless, today&#x27;s industrial robots already operate at high speed and precision with very high reliability and safety; in that respect, practical AI application in industrial settings remains limited at present, though interest is extremely high, and while future progress and adoption are uncertain, the potential is substantial.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,78.6 271.9,136.9 220.3,239.2 132.6,221.4 112.6,151.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>70</dd><dt>Social</dt><dd>82</dd><dt>Judgment</dt><dd>65</dd><dt>Physical</dt><dd>48</dd><dt>Routine</dt><dd>46</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Design</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Engineering</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Mechanical</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Physics</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Fluency of Ideas</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Originality</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Inductive Reasoning</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +431,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.jara.jp/" rel="external" target="_blank">一般社団法人　日本ロボット工業会</a></li><li><a href="https://www.rsj.or.jp/" rel="external" target="_blank">一般社団法人日本ロボット学会</a></li><li><a href="https://www.jsme.or.jp/" rel="external" target="_blank">一般社団法人　日本機械学会</a></li><li><a href="https://www.nedo.go.jp/" rel="external" target="_blank">国立研究開発法人　新エネルギー・産業技術総合開発機構（NEDO）</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

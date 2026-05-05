@@ -8,6 +8,7 @@
     <title>整形外科医 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="整形外科医：就業者 約43,380人 / 平均年収 1338万円 / 平均年齢 44.1 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="整形外科医, 医師" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/575" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/575" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "575",
+      "occupationalCategory": "04_021-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/575",
       "additionalProperty": [
         {
@@ -122,7 +123,15 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Orthopedic Surgeon",
+      "alternateName": [
+        "Orthopedic Surgeon",
+        "医師",
+        "Physician"
+      ],
+      "industry": "Medical & Health",
+      "qualifications": [
+        "医師"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +215,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +271,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +366,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=iryo">医療・保健</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +388,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>主に骨・軟骨・筋・靭帯・神経などから構成される運動器官の病気や怪我の診断・治療を行い、体の動きや機能を回復させる。</p>
+        <p>主に骨・軟骨・筋・靭帯・神経などから構成される運動器官の病気や怪我の診断・治療を行い、体の動きや機能を回復させる。主な診療内容は患者の年代によっても異なり、幼少期には健全な発育をサポートし、青年期にはスポーツ障害や外傷の治療・予防を担う。壮年期・中年期には変性疾患や外傷の治療を通じて社会復帰や社会との共存を支援し、高齢期には運動器官の治療により寝たきりを防ぎ、健康寿命を延ばす。</p>
+        <p>整形外科で診る怪我や病気には骨折、脱臼、靭帯損傷、関節炎（変形性関節症、リウマチなど）、スポーツ障害、脊椎疾患（椎間板ヘルニアなど）、骨・軟部腫瘍などがある。診断には、Ｘ線やMRI、CTなどの画像検査を用いることが多い。治療としては、脱臼や骨折の整復や固定、外科手術などを行うほか、患者の状態に応じて、保存療法（リハビリや投薬）を選択する場合もある。手術後や慢性的な運動器疾患の患者に対しては、理学療法士や作業療法士と連携してリハビリテーションのプランを立てる。</p>
+        <p>一般的な外来の業務では、まず患者や同伴者から怪我や症状の状況を聞き、触診などを行う。必要に応じて画像検査などを追加し、診察・検査で得られた情報から、総合的な診断を行う。診断に基づいて治療方針を決定し、方針に沿って投薬などの治療を行う。救急外来では、脱臼の整復や、外傷（骨折）、脊髄損傷などに対する緊急手術を行う場合もある。</p>
+        <p>大学病院の外来では、より詳しい検査や専門的な治療を受ける目的で、他の病院や他の診療科からの紹介で受診する患者が多いため、問診や触診、画像検査に加えて、紹介状に書かれている今までの症状の経緯なども踏まえた診断、治療を行う。</p>
+        <p>整形外科と聞くと、急性期のケガへの対応やスポーツドクターをイメージしやすいが、それだけではなく、変性疾患といった、年齢とともに高齢者に障害が起きやすい関節の障害や脊椎疾患も含まれる。また、リウマチなどの全身性疾患、生まれながらにして足が内側に向いてしまってまっすぐ歩けない内反足、主に代謝内分泌内科が診療するくる病や、骨粗鬆症などの骨の代謝異常など、整形外科が扱う分野は幅広く、患者の年齢層も幅広い。</p>
+        <p>業務上の接点が多いのは、看護師、理学療法士、作業療法士、医師の指導の下にリハビリを行うトレーナーであり、これらの職業の人たちと連携して治療に当たる。また、救急科とも関係が強い。</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>整形外科は新たな技術や診断方法が常に現れ、自分の医師としての価値を見出せる仕事です。治療をして感謝されることには大きな喜びがあります。（就業者　30代）</p>
+        <p>整形外科では手術も保存治療も含めて始めから最後まで診ることになるため、治療を完結できます。また、手術のオペレーター（執刀医）としての独り立ちが比較的早く、やりがいを早く持てるようになります。（就業者　40代）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>PC（電子カルテ）、手術用顕微鏡、X線透視装置、打鍵器、握力計、音叉、手術道具（骨を扱う、電動ドリルや電動のこぎり、ハンマーやノミなど）、研究用ソフト（統計解析ソフト、Excel、PowerPointなど）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>整形外科医として仕事をするには、まず大学医学部に入学し、6年間の医学教育を通して医学に関する専門的な知識、技術を身に付け、大学を卒業し、医師国家試験に合格して医師免許を取得する必要がある。その後、都道府県から指定された臨床研修病院で研修医としての最低2年間の臨床研修を受ける。臨床研修を受けた後、整形外科医は最短4年間の専門研修における実務経験を経て、専門医試験に合格すると整形外科専門医となることができる。専門研修中は整形外科医（専攻医）として働くことになり、整形外科専門医でなくとも整形外科医として就業できるが、専門医となることで、整形外科医としての力量が認められる。</p>
+        <p>専攻医は、指導医（後述）の指導を受けながら、患者の主治医として診療を行う。手術の時は、指導医が執刀する手術の助手として手術に参加し、研鑽を積む。指導医に助手として立ち会ってもらい、自身が執刀する機会も多くある。他にも、整形外科医としての資質や技量を高め、学会発表などを行うこともある。</p>
+        <p>最初の10年程度は1～2年ごとに様々な病院に勤務して経験を積むことが多い。専門医取得後に大学院の博士課程に進学し医学博士の学位を取得する人もいる。専門医を取得して5年後、１回目の専門医の更新後に指導医としての認定を受けることができる。指導医は、専門研修において専攻医の指導をすることができる。指導医の取得後は、整形外科クリニックを開業したり、継承する人もいる（30代半ばから50代前半くらいまで）。</p>
+        <p>さらにその後、脊椎外科、関節外科、手の外科、足の外科、骨・軟部腫瘍外科、関節リウマチ外科、スポーツ整形外科、外傷整形外科、小児整形外科などの専門分野をサブスペシャルティとして追求していく。</p>
+        <p>整形外科医には、運動器疾患全般の診察・画像による診断スキル、手術の技術、後輩の指導スキル、患者やメディカルスタッフとの信頼関係を深めるコミュニケーション能力などが求められる。針を刺す深さや奥行きを認識する空間判断力、また指先の器用さなども高いほうがよいが、それがすべての手術に求められるわけではない。また、高い倫理観が求められ、自分の家族だったらどのような治療をするかなど患者に寄り添う気持ちが大切になる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先には、病院やクリニック、リハビリテーション施設などがある。我が国の整形外科医全体の人数は約2万人で男性医師が多く、女性医師は6％程度である。大学病院では、外来日、手術日、病棟業務を行う日など、1週間のスケジュールがある程度決められている。午前中に回診・病棟業務と外来業務があり、午後からは手術、大学院生や研修医への教育などの業務が多くなる。他にも大学の医局員の確保や、自らの研究活動などもあり、学会等での発表も求められる。また、特定の曜日を終日外来、終日手術などに充てる場合もある。手術の執刀は年間100件程度が目安であり、１か月8件程度だが、手術は2～3人で行うため、助手として手術に参加する件数を含めると、実際は2～3倍の症例を経験することができる。</p>
+        <p>整形外科は比較的新しい診療科であり、新たな技術・診断が次々と出現しており、新薬や治療技術について常に研鑽することが求められる。</p>
+        <p>整形外科クリニックの開業医は、基本的に終日外来を行っている。クリニックでは保存療法が基本であり、手術が必要な場合には紹介状を書いて、手術のできる病院を紹介する。開業には、X線関連の装置の導入及びスペース、また、リハビリテーションの施設・設備やスペース、そして理学療法士、看護師、医療事務員等の人件費など多くの経費が必要である。近年、高齢者の増加とともに受診者は増加傾向であり、整形外科クリニックは地域医療の中で大きな役割を果たしている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +434,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.joa.or.jp/" rel="external" target="_blank">公益社団法人日本整形外科学会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>医師</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

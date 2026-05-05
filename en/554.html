@@ -8,6 +8,7 @@
     <title>Pro Sports Org Staff (Planning/Ops) — AI Impact 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="Pro Sports Org Staff (Planning/Ops): workforce ~120,576 / annual salary 690万円 / avg age 42.0 / AI impact 6/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Pro Sports Org Staff (Planning/Ops), Sports Promoter" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/554" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/554" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "554",
+      "occupationalCategory": "06_033-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/554",
       "additionalProperty": [
         {
@@ -122,7 +123,15 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Pro Sports Org Staff (Planning/Ops)",
+      "alternateName": [
+        "Pro Sports Org Staff (Planning/Ops)",
+        "スポーツプロモーター",
+        "Sports Promoter"
+      ],
+      "industry": "Office & Public Service",
+      "qualifications": [
+        "普通自動車免許"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +215,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +271,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +366,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=jimu">Office &amp; Public Service</a><span class="band band-mid">Mid AI risk</span><span class="band band-high">Large workforce</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,8 +388,35 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Manages professional sports league operations and events.</p>
+        <p>Professional sports organization staff working in planning and operations manage ticket sales promotion, initiatives to raise team visibility, fan club operations, and similar activities for professional sports teams in baseball, soccer, basketball, volleyball, and other leagues.</p>
+        <p>Professional sports organizations are no longer limited to baseball teams backed by major corporate sponsors; self-sustaining professional teams in a variety of sports have become increasingly common. This description uses as an example a mid-sized organization in the B.League (professional basketball), operating on an independent revenue basis.</p>
+        <p>The employees primarily engaged in planning and operations at such an organization work in the marketing department. This department is typically divided into functional teams: a ticketing team, a promotions team, and a fan club team (in basketball, often called a boosters club team). Other units—such as an events operations division that handles match-day production, a team branding division that plans and sells merchandise and communicates the team&#x27;s appeal to the public, and an academy activities division overseeing youth teams and cheerleading squads—may also exist, though these functions are sometimes outsourced in smaller organizations.</p>
+        <p>The ticketing team manages the existing customer base and promotes season and single-game ticket sales. Once the league schedule and match venues are confirmed, the team formulates a general ticket sales plan. Season tickets are sold first—reaching out to previous-year holders to confirm renewals and soliciting new season-ticket buyers—followed by single-game tickets sold through the organization&#x27;s website. Plans are also developed for corporate group tickets, complimentary tickets for employees and players, and invitations to local residents, schoolchildren, and students, requiring negotiations and approvals with local governments, schools, and merchant associations.</p>
+        <p>The promotions team works to increase team visibility and attract new fans. This includes planning and preparing advertisements for television, newspapers, station signage, and shopping-district banners; drafting and launching campaigns such as news releases and discounted ticket promotions; and managing the rollout. In addition to the team website, the organization leverages social media and devises strategies to grow its follower base. When attendance projections come in from the ticketing team, the promotions team develops outreach plans to fill gaps—planning community events to raise awareness in areas with low name recognition, coordinating with local governments, soliciting assistance, and placing advertising. Sponsor requests must also be accommodated, sometimes requiring negotiations with operations, government, sponsors, and the league during the planning phase. While the scope varies by project, cross-departmental collaboration is the norm, and large events may involve up to a hundred stakeholders. Promotional campaigns are refreshed every year with new ideas, and initiatives that are genuinely rooted in the community—such as sending welcome packets to new residents—are especially valued.</p>
+        <p>The fan club team handles membership management, email newsletters, campaigns to recruit new members, and merchandise planning. It designs membership benefits such as introductory perks, point programs, and tiered membership tiers, and works to attract new members and provide value to existing ones. Activities include planning events for point redemption—such as invitations to open practices or player handshake sessions—and developing and selling merchandise. The team also fields member inquiries and must be able to handle complaints, such as when events are cancelled.</p>
+        <p>Most employees enter the field because of their passion for sports, so engagement with the work is high. Staff find deep satisfaction when fans enjoy events they have planned, when the appeal of a featured product lands, or when the team receives expressions of gratitude and support from the local community.</p>
+        <p>Tools and equipment commonly used: PC, smartphone, collaboration tools, word-processing software, spreadsheet software, statistical analysis software</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required, but new-graduate hires are uncommon; mid-career candidates with immediately applicable skills are the norm. In practice, most entrants hold a bachelor&#x27;s or associate&#x27;s degree. Given the breadth of responsibilities, having a background in talent management (helpful for fan club operations) or data mining skills (valued for market analysis) can be an asset. Job postings can be found on team websites and job listing platforms. After joining, new staff go through general HR onboarding and then receive team-specific training followed by OJT.</p>
+        <p>After joining, employees are assigned to a functional team and may advance to team leader, department head, division head, and eventually executive level. Transfers to other departments are generally possible upon request.</p>
+        <p>Key skills and knowledge include proficiency with collaboration tools (for information sharing, document management, scheduling, video conferencing, and chat), ticketing systems, membership management systems, and email distribution platforms. While no specific license is required, a standard driver&#x27;s license is sometimes requested for transporting event materials. Backgrounds in business or strategic planning, corporate operations or management consulting, or sports-related business experience are additional advantages. Interest in team sports is expected, but competitive experience is not required.</p>
+        <p>Beyond a love of sports, the role demands strong communication skills, since it involves frequent negotiation with a wide range of stakeholders. Analytical skills using digital tools, and the ability to plan, propose, and drive execution, are also essential.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Workplaces are located across Japan, typically at the home base of the organization. The number of employees in planning and operations varies with the size of the organization. Gender ratios and age profiles differ by organization; hiring tends to skew toward candidates in their late twenties to thirties. Most are employed as full-time regular employees. Salaries, hours, and other conditions are set by the organization. Flextime and deemed-working-hours arrangements may be in place. Depending on the nature of the work, weekend and evening hours are common.</p>
+        <p>For professional sports outside baseball, most teams operate on a self-sustaining basis, and there is growing recognition that future success depends not only on on-field performance but also on financial health, facility quality (such as seating capacity and VIP accommodations), and revenue-generating infrastructure. League-level support also continues to strengthen, helping all member clubs achieve stable operations.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +429,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.bleague.jp/" rel="external" target="_blank">公益社団法人ジャパン・プロフェッショナル・バスケットボールリーグ（Bリーグ）</a></li><li><a href="https://www.jleague.jp/" rel="external" target="_blank">公益社団法人日本プロサッカーリーグ（Jリーグ）</a></li><li><a href="https://www.vleague.jp/" rel="external" target="_blank">一般社団法人日本バレーボールリーグ機構（Vリーグ）</a></li><li><a href="https://npb.jp/" rel="external" target="_blank">一般社団法人日本野球機構</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>普通自動車免許</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

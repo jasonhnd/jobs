@@ -8,6 +8,7 @@
     <title>Diet Member (National Politician) — AI Impact 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="Diet Member (National Politician): workforce ~51,870 / annual salary data unavailable / avg age data unavailable / AI impact 5/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Diet Member (National Politician)" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/512" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/512" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "512",
+      "occupationalCategory": "01_003-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/512",
       "additionalProperty": [
         {
@@ -105,7 +106,12 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Diet Member (National Politician)"
+      "alternateName": [
+        "Diet Member (National Politician)",
+        "衆議院議員",
+        "参議院議員"
+      ],
+      "industry": "Professional Services & Management"
     },
     {
       "@type": "BreadcrumbList",
@@ -182,7 +188,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -238,6 +244,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -263,6 +339,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=shigyo">Professional Services &amp; Management</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -284,8 +361,34 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Serves as a member of the National Diet (Japan&#x27;s parliament).</p>
+        <p>Diet members are elected by the public and serve in the National Diet — Japan&#x27;s supreme deliberative body — where they enact legislation, deliberate and vote on budgets, review accounts, approve treaty ratification, and nominate the Prime Minister. Japan&#x27;s National Diet is a bicameral legislature consisting of the House of Representatives (465 seats) and the House of Councillors (248 seats).</p>
+        <p>The work of a Diet member is to participate, as a representative of the people, in parliamentary debate and decision-making in order to reflect the public&#x27;s will in governance and fiscal policy. The most important tasks are deliberating on legislation — both bills introduced by members and bills submitted by the Cabinet — in the relevant committees and then voting on them in plenary session, and deliberating on and approving the budget drafted by the Cabinet. Additional responsibilities include serving on various committees to conduct ongoing investigations and deliberations in specific fields; monitoring whether laws and budgets passed by the Diet are being properly implemented; electing the Prime Minister; and approving the Cabinet&#x27;s conclusion of treaties with foreign countries.</p>
+        <p>Even when the Diet is not in session, members attend various study groups to deepen their knowledge and insights. Rather than focusing solely on their own constituency, members are also expected to listen broadly to the voices of voters beyond their district and of foreigners living in Japan — representing all citizens — and to use not only traditional media but also social media to disseminate information and communicate their own views widely.</p>
+        <p>A typical day might unfold as follows: in the morning, the member holds a briefing with their secretaries, attends party and other caucus meetings, then goes to the Diet building to attend and participate in a committee. Bills that pass through deliberation and a vote are sent to the plenary session. If a plenary session is convened for budget deliberations or similar matters, the member attends and takes part in debate and voting. When no plenary session is scheduled, the member attends cross-party study groups, meetings with relevant organizations, receives briefings from relevant ministries and agencies, handles media interviews, and holds meetings. Other meetings and social gatherings with politicians, supporters, and others may also take place.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Personal computers</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No particular educational background or qualifications are required for entry. Diet members must stand for election and be chosen by voters. To be eligible for election, a candidate must be a Japanese national aged 25 or older for the House of Representatives, or 30 or older for the House of Councillors. Civil servants are generally prohibited from standing (with some exceptions). People who have been sentenced to imprisonment or heavier punishment and have not completed their sentence, and those whose voting or electoral rights have been suspended, are also disqualified. Candidates must also deposit a security deposit with the local Legal Affairs Bureau.</p>
+        <p>Common paths to becoming a Diet member include: transitioning from a role as a prefectural governor or prefectural assembly member; working as a Diet member&#x27;s secretary (official or private); responding to a political party&#x27;s public recruitment; building experience as a party member; attending a political leadership school; or transitioning from a civil service position.</p>
+        <p>Once elected, members serve on various committees to gain experience. Some become committee chairs or presiding officers. Members may also serve in government as parliamentary secretaries, vice ministers, or ministers of various ministries.</p>
+        <p>Key qualities sought in politicians include first and foremost strategic planning ability — the capacity to assess the urgency and importance of issues, negotiate with stakeholders, and consolidate policy. With pressing problems accumulating at home and abroad, ongoing development of policy-formulation capability and other qualities befitting a legislator is expected. Communication skills — the ability to engage effectively with a wide range of people including legislators, voters, administrative officials, and media — are also essential, as is presentation ability: conveying policy positions and messages clearly and persuasively. Given that members are entrusted by the public with consequential decisions about the nation&#x27;s future, high levels of insight and ethical integrity are paramount.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>The term of office is four years for the House of Representatives and six years for the House of Councillors.</p>
+        <p>Remuneration and allowances are stipulated by law (*). In addition to their annual salary (歳費), members receive communication and transportation allowances, legislative activity expenses, and salaries for up to three secretaries, among other support designed to allow them to concentrate on national legislative duties. There are no fixed working hours, and Diet deliberations can extend into the night.</p>
+        <p>* Act on the Annual Salary, Travel Expenses, and Allowances of Members of the National Diet</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -298,6 +401,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -305,6 +410,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

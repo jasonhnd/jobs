@@ -8,6 +8,7 @@
     <title>アニメーター — AI 影響 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="アニメーター：就業者 約58,245人 / 平均年収 442万円 / 平均年齢 41.0 / AI 影響 8/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="アニメーター, デジタルペインター, 動画作画家" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/343" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/343" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "343",
+      "occupationalCategory": "12_080-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/343",
       "additionalProperty": [
         {
@@ -122,7 +123,24 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Animator",
+      "alternateName": [
+        "Animator",
+        "デジタルペインター",
+        "動画作画家"
+      ],
+      "industry": "Creative & Media",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Writing",
+        "Operations Analysis",
+        "Coordination",
+        "Social Perceptiveness",
+        "Active Learning",
+        "Instructing",
+        "Learning Strategies"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=creative">クリエイティブ・メディア</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +397,44 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>アニメーション制作という共同作業の中で、絵を描き、映像に動きを与える。</p>
+        <p>アニメーション制作という共同作業の中で、絵を描き、映像に動きを与える。アニメーションには平面上のイラストに動きをつくる２Ｄアニメーションと、コンピュータグラフィックスを用いて立体的なキャラクターや物体を作成して動きを与える３Ｄアニメーションの２つがあるが、ここでは２Ｄアニメーションに携わるアニメーターをとりあげる。</p>
+        <p>アニメーションは「プリプロダクション」といわれる企画、シナリオ、絵コンテの制作から、それらを元に背景画、原画、動画を作成し、彩色、撮影等を行う「プロダクション」、これに編集や音声を入れる「ポストプロダクション」の順で３つの工程から、一つの作品が完成する。</p>
+        <p>この制作工程の中で、アニメーターは主に「プロダクション」にあたるシナリオのイメージをビジュアル化する重要な部分を受け持つ。実写映画の役者が自分で演じるのに対し、絵を描くことで表現するのがアニメーターで、作画監督、キャラクターデザイナー、原画マン、動画検査担当、動画マン等の総称となる。</p>
+        <p>アニメーターの大まかな仕事の流れは、はじめに企画書を元にキャラクターデザイナーがキャラクターを作成し、絵コンテから原画マンが画面構成（レイアウト）をする。絵コンテ、キャラクター設定を基に原画マンが原画を作成し、動画マンは原画と原画との間に一連の動きのある絵を描いていく。動画マンが作成した動画を作画のミスがないか、必要な素材が揃っているか等、作画素材の検査を動画検査担当が確認をする。アニメーション制作の作画工程を統括する重要なポジョションである作画監督が、多人数によって描かれた絵を統一感のあるものにし、一つの作品にまとめる。他にも作品のキャラクターグッズやポスター等、制作会社や出版社等の著作権を有する版権元が、制作・監修を行った上で公開される版権イラストの制作もある。</p>
+        <p>アニメーションの制作現場では、紙の作画からデジタルの作画に移行し、デジタルツールやPCスキルは必須となっている。しかし、アニメーターのスキルの基礎となる線画の画力も求められるため、手描きによる作画の技術習得も不可欠である。</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>アニメが好きな人なら、子供の頃に感動し、大人になった今でも繰り返し観ている作品があると思います。娯楽の枠だけにとどまらない、人の一生の記憶に残るものづくりができる仕事にやりがいを感じています。（動画監督）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>デジタルペイントツールソフトウエア（CLIP STUDIO PAINT）、2Dアニメーション制作ソフトウエア（TVPaint Animation）、パソコン、ペンタブレット、液晶タブレット、iPad</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/345">テクニカルイラストレーター</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/347">ブックデザイナー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/348">テキスタイルデザイナー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/342">イラストレーター</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/344">看板制作</a><span class="r-risk">AI 影響 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。アニメーターを養成する専門学校等を卒業後、アニメーション制作会社（スタジオ）に正社員として就職、もしくは、アニメーション制作会社と業務委託契約を結びフリーランスとして働くのが一般的である。</p>
+        <p>長らくフリーランスの割合が多い業界とされてきたが、近年では制作会社がアニメーターの育成に力を入れ、正社員の数が増えている。即戦力となる経験者を中途採用するケースも多く、アニメーション制作会社からSNSを通して仕事の依頼が来ることもある。</p>
+        <p>就職活動の際に必要となるのは、ポートフォリオといわれる自身の作品集であり、これをアニメーション制作会社に送って審査を受けることがほとんどである。ポートフォリオでは時間をかけて完璧に描いた一つの作品よりも、短時間で描き上げたラフスケッチや、動きのあるイラスト、画面に奥行きや立体感を表現するパースの技法を使ったイラストなどをできるだけ多く提示できるとよい。</p>
+        <p>アニメーターのキャリア形成は、新人は原画に動きをつける動画マンからスタートするケースが多い。動画枚数を仕上げる描画スピードや基礎画力などのスキルを磨き、作画工程の最終確認を担う動画検査担当へ進むか、原画マンになる。作品の要となる原画カットを制作する原画マンは、作品の雰囲気やタッチを決める重要な役割を持つ。こうして動画と原画のスペシャリストとして技術を十分磨いた者の中から、作画工程全体を統括する責任者である作画監督になる。また、原画マンからキャラクターデザイナーになる人もいる。キャラクターデザイナーはプロデューサーや監督がイメージする作品の世界観を表現するだけでなく、作品のグッズやポスター、テレビや雑誌などのメディアに載せる版権イラストを手がけることができる。作画監督とキャラクターデザイナーは、作品の看板となる人物であり、多くのアニメーターが目標とする。</p>
+        <p>入職後は、実写の映画を多く観ることが大切といわれている。立体的でリアルな実写の映像を２Dのアニメーションにいかに落とし込むかを考え、新しい表現を生み出すための研鑽となる。</p>
+        <p>アニメーターの適性は、アニメーションが好きなことは当然であるが、人や自然を深く観察し、それを表現できる作画力、さらには創造力、作品の構成力、デッサン力などが求められる。さらには、長時間の繰り返し作業が連続するため、粘り強い性格と一定の体力も必要となるが、作品を観る人に感動を与え、時にはその人の生きる支えや生涯の思い出になる“ものづくり”ができる職業として、大きなやりがいが感じられる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>主な就職先はアニメーション制作会社であるが、近年ゲームソフト制作会社やインターネットのコンテンツ制作会社へと職場が広がっている。勤務地は、アニメーション制作会社の多くが東京をはじめとする都市部に集中しているが、首都圏外に本拠地を置く制作会社も増える傾向にある。また日本のアニメーションに対する世界的な注目度の上昇により、相当数の作品制作が同時期に進行することから、海外への制作発注が増えている。</p>
+        <p>就業形態は、アニメーション制作会社が業務委託としてフリーランスのアニメーターに依頼するケースが多い。その場合は、委託元にデスクを置くか自宅などで個別に作画する。アニメーション制作会社に正社員として入職し、経験を積んだアニメーターがフリーランスとして独立するケースもよくある。</p>
+        <p>正社員の場合の賃金、労働時間、労働条件は勤務先の規定により異なる。フリーランスは、動画や原画の単価で支払われる出来高払の賃金形態が主流である。そのため能力による収入の差は大きい。フリーランス法（特定受託事業者に関する取引の適正化等に関する法律）の施行等により、フリーランスとして働くアニメーターの就業環境は整備されてきている。</p>
+        <p>配信メディアの拡大により、世界中に展開されている日本のアニメーションの制作本数が増加し、アニメーターは不足している。そうした中、業界として、スキルを評価する検定試験を立ち上げたり、制作会社が新卒を積極的に採用する等の動きが見られる。また、海外勢によるアニメーションが市場を広げる状況から、日本人スタッフによる国産アニメを目指す動きもあり、アニメーターの需要は今後も拡大が見込まれる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,74.6 245.4,145.5 207.9,222.2 170.0,170.0 170.0,170.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>73</dd><dt>対人</dt><dd>61</dd><dt>判断</dt><dd>49</dd><dt>身体</dt><dd>0</dd><dt>定型</dt><dd>0</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.0</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.9</span></li><li><span class="topn-name">要件分析（仕様作成）</span><span class="topn-score">3.8</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.8</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.6</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.5</span></li><li><span class="topn-name">学習方法の選択・実践</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/341"><span class="tc-name">パタンナー</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/338"><span class="tc-name">インテリアコーディネーター</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/210"><span class="tc-name">図書編集者</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://aja.gr.jp/" rel="external" target="_blank">一般社団法人 日本動画協会</a></li><li><a href="https://www.janica.jp/" rel="external" target="_blank">一般社団法人 日本アニメーター・演出協会</a></li><li><a href="https://www.jaa.gr.jp/" rel="external" target="_blank">日本アニメーション協会</a></li><li><a href="https://nafca.jp/" rel="external" target="_blank">一般社団法人 日本アニメフィルム文化連盟（NAFCA）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

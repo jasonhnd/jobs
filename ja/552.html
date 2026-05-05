@@ -8,6 +8,7 @@
     <title>UX/UIデザイナー — AI 影響 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="UX/UIデザイナー：就業者 約48,720人 / 平均年収 574万円 / 平均年齢 38.0 / AI 影響 9/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="UX/UIデザイナー, UI/UXデザイナー" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/552" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/552" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "552",
+      "occupationalCategory": "02_009-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/552",
       "additionalProperty": [
         {
@@ -122,7 +123,12 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "UX/UI Designer",
+      "alternateName": [
+        "UX/UI Designer",
+        "UI/UXデザイナー",
+        "UI/UX Designer"
+      ],
+      "industry": "IT & Communications",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +212,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +268,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +363,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=it">IT・通信</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -309,7 +386,37 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>デジタルサービス（Webサイトや電子機器での情報提供と操作）の開発等において、ユーザーに提案する魅力的な体験とより使いやすいインターフェースを設計し、デザインする。</p>
+        <p>UX（ユーザーエクスペリエンス）はデジタルサービスをユーザーがどのように使用するか、ユーザーの体験としても快適になるよう設計し、デザインする。UI（ユーザーインターフェース）はデジタルサービスの開発においてより利用しやすいよう画面等を設計し、デザインする。</p>
+        <p>UX/UIの対象となるデジタルサービスの開発としては、パソコン、タブレットから利用するWebサイトや業務アプリケーション、スマートフォン（以下「スマホ」という。）のアプリケーション（以下「アプリ」という。）のように汎用の機材を前提としたものがあり、このWebサイト、アプリのデザインの仕事が多い。一方、デジタルサイネージ（施設、店舗の情報案内装置）や手術支援ロボット のような専用の機器についてUX/UIデザインを行う場合もある。</p>
+        <p>UX/UIデザインの分かりやすい例として、スマホの登場がある。洗練された、直感的で分かりやすい操作はユーザーに新たな体験をもたらした。これ以降、様々なスマホが世界中で使われ、社会生活を一変させた。UX/UIの身近な例としてネットバンキングがあり、UX/UIデザイナーが活躍して、グッドデザイン賞を獲得した例もある。ネットバンキングでは銀行に行かなくても銀行サービスを利用できる。デジタルによってユーザーの行動が変わり、社会生活が変わり、DX（デジタルトランスフォーメーション） の一例と言える。そして社会にはこの他にも多くのUX/UIデザインがあり、様々なDXといえる開発がある。</p>
+        <p>UX/UIデザイナーの具体的な仕事としては新規開発と継続開発がある。いずれの場合もまず、開発の大きな方向性をUX/UIデザイナーも加わった開発関係者の中で検討し、どのような利用の流れにし、どのような操作法にするか、どのようなインタフェースにするかをデザインする。このデザインに沿って、プログラマーや様々なエンジニアがそのデザインを実現する具体的な開発を行う。この場合、UX/UIデザイナーが簡単なプログラム作成まで行うこともある。開発が進むと実際にユーザーに使用してもらい、ユーザーがスムーズに、的確に操作できているかをUX/UIデザイナーが確認し、開発関係者の中でさらに検討して、より良いサイト、アプリ、デジタル機器にしていく。設計、デザインにあたっては誰にでも使いやすいようユニバーサルデザインも配慮する。</p>
+        <p>社会や生活を変えていく仕事であることにやりがいや達成感を感じられる。一方、機材、画面、通信、処理速度、また予算等の制約の中で、求められるデザインを実現する難しさもある。さらに、開発は多くの関係者との共同作業であり、議論が白熱し意見がぶつかることもある。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>デザインのためのソフトウェア、プログラミング言語、ソフトウェア開発環境、パソコン、スマートフォン（動作テストのため）、タブレット（動作テストのため）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>UX/UIデザイナーは新しい仕事であり、大学等での教育は確立されていない。現在、UX/UIデザイナーとして活躍している人は、グラフィックデザイナーとして画面設計をする中で、経験を積んでUX/UIデザイナーとなったり、システム開発に携わる中でUX/UIデザイナーとなったという人が多い。最近出てきた企業では新入社員に必要な知識とスキルを集中的に教育訓練し、UX/UIデザイナーとして養成している会社もある。</p>
+        <p>新しい仕事のため、20歳代から40歳代までの比較的若い層が多い。新しい仕事であり、中高年の決まったキャリア・ルートはないが、広告業界でのデザイナーと同じように、マネジメントや会社経営の側に移り会社の役職に就いても、現場でデザインの指揮をとるような人が多い。</p>
+        <p>デザインの基礎、情報設計の基礎等の知識が必要であり、ユーザーの側に立った設計をするため、人間中心の設計や心理学の知識も必要となる。さらに、プログラミング、また、機材、通信等の知識が必要になる場合もある。</p>
+        <p>免許・資格に関しては、デザインのためのソフトウェアの資格があるが必須ではない。デザインの基礎、情報設計の基礎の上に、自分の仕事が実績となり、それによってより大きな仕事を任されたり、より良い仕事が得られる。それまでの仕事の実績が名刺代わりとなっている。</p>
+        <p>新しい技術、新しい機器が次々と生まれるため、それらに関心を持ち、必要に応じてそれらを取り入れ、使いこなしていくことが求められる。開発にあたっては多くの関係者との共同作業となることから、協調性、場合によってはリーダーシップが求められる。プレゼンテーション能力が求められる場面もある。また、サイトがより使われるようにという点からマーケティングの知識も必要となる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先はデザイン会社、IT企業等であり、このような会社は大都市に多い。ただし、リモート環境が広く整備されてきたことによって、在宅での仕事、オンラインでのミーティングが主流になっている。</p>
+        <p>DXの進展に伴い注目度が増しており、人材ニーズが高まっている。力のあるUX/UIデザイナーは売り手市場となっている。DXはある程度、規模が大きな開発となることから、長期間を要し正社員が担っている。また、協力会社の社員として開発プロジェクトに参加する場合もあるが、この場合も協力会社の正社員である。賃金は月給制が多く、実績がボーナスや昇給に反映される。フリーランスとして、一定期間、開発の一部を任されることもある。この場合、報酬は最初の契約で決まる。</p>
+        <p>若い時、実績がない時は時間に追われるような仕事になるが、実績を積み、認められるようになると、主体的に働けるようになり、時間の調整も自分でできるようになる。</p>
+        <p>DXは現在、社会で注目されており、新たな技術や機材が出てくると、それを取り込みながらUX/UIデザインは発展している。現状でも仕事は多いが、活躍の場はさらに拡大していくと考えられる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,170.0 265.9,138.8 218.8,237.2 146.2,202.7 119.9,153.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>0</dd><dt>対人</dt><dd>77</dd><dt>判断</dt><dd>63</dd><dt>身体</dt><dd>31</dd><dt>定型</dt><dd>40</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">2.5</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.4</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">2.4</span></li><li><span class="topn-name">心理学</span><span class="topn-score">2.3</span></li><li><span class="topn-name">芸術</span><span class="topn-score">2.1</span></li></ol></div></div></section>
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +429,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人　情報処理推進機構（IPA）</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

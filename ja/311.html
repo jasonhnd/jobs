@@ -8,6 +8,7 @@
     <title>航空機開発エンジニア（ジェットエンジン） — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="航空機開発エンジニア（ジェットエンジン）：就業者 約48,564人 / 平均年収 669万円 / 平均年齢 42.2 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="航空機開発エンジニア（ジェットエンジン）, 航空機エンジン開発技術者" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/311" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/311" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "311",
+      "occupationalCategory": "02_006-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/311",
       "additionalProperty": [
         {
@@ -122,7 +123,23 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Aircraft Engine (Jet) Developer",
+      "alternateName": [
+        "Aircraft Engine (Jet) Developer",
+        "航空機エンジン開発技術者"
+      ],
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Reading Comprehension",
+        "Complex Problem Solving",
+        "Coordination",
+        "Instructing",
+        "Critical Thinking",
+        "Monitoring",
+        "Persuasion",
+        "Writing",
+        "Negotiation",
+        "Troubleshooting"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -309,18 +397,48 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>航空機のジェットエンジンを研究開発する。</p>
+        <p>現代のジェット機はジェットエンジンと機体を別々の会社が開発し、ジェットエンジンメーカーは機体メーカーからの受注による開発を行うのが一般的である。ここでは航空機開発のうちジェットエンジンの開発を行うエンジニアについて記載する。以下の解説では短く「エンジニア」としている。</p>
+        <p>ジェットエンジンの開発は、大きく分類して「設計」、「型式証明」、「量産」の３つの段階に分かれる。</p>
+        <p>まず、「設計」の段階では概念設計、基本設計、詳細設計の順番に行う。</p>
+        <p>概念設計では機体メーカーの要望を踏まえ、エンジンの主要な仕様（推力、燃費、ファン直径、重量等）を決定する。</p>
+        <p>次に基本設計ではエンジンに吸入した空気がエンジン内をどのように流れていくか空力検討や構造・レイアウト検討を行う。同時に、潤滑システム、燃料システム、冷却システム、制御システムなどエンジン全体にかかわるシステム設計や圧縮機、燃焼器、タービンなどの各モジュール設計を行う。</p>
+        <p>詳細設計ではブレード、ディスク、シャフト、軸受、静止部品、補機、制御部品など個々の部品設計を行う。部品設計では熱解析、空力解析、強度解析、振動・衝撃解析等に関する各種計算ソフトを使用する。計算ソフトは自社開発のものもあれば、市販されている汎用ソフトを目的に合わせてカスタマイズして使うものもある。</p>
+        <p>このような過程を経て設計が確定するとエンジン部品の試作を行ない、空力性能確認、ジェットエンジン特有の問題であるバードストライクなどの強度・信頼性確認、耐久性確認など多くの部品単体試験やエンジン試験を行う。</p>
+        <p>次に「型式証明」を取得する段階となる。「型式証明」とは、国が民間航空機を対象に機体やエンジン設計が安全基準に適合しているか耐空性を審査・確認する制度であり、認定試験に合格すると各国の航空局から型式証明が発行される。航空局としては例えば米国では連邦航空局（Federal Aviation Administration、通称FAA）、欧州では欧州航空安全機関（European Aviation Safety Agency、通称EASA）がある。この認定試験は耐久性、振動、過温度、バードストライクなどの強度・信頼性試験など大項目だけでも100を超える。この型式証明を取るために認定試験のほかに航空局に提出する認定レポート、メンテナンスマニュアル等各種書類を作成することもエンジニアの仕事である。</p>
+        <p>型式証明を取得すると「量産」の段階となる。部品を量産し、エンジン組立を行う。量産エンジンが完成すると性能や重量等が設計通りになっているかエンジン出荷試験や各種検査を行った上で、機体メーカーに納品する。部品の量産やエンジン組立にも生産技術や検査技術の面からエンジニアが関わる。</p>
+        <p>最終的に機体メーカーが開発した機体にエンジンメーカーが開発したエンジンを搭載し、航空機としての完成機となる。その後、エアラインやビジネスジェット運航会社などエンドユーザーに引き渡される。市場で技術的な問題が発見された場合には、メンテナンスやサービスの専門家と共に開発に関わったエンジニアが問題解決にあたる場合もある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>計算（解析）ソフト、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/310">宇宙開発技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/309">バイオテクノロジー技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/308">高分子化学技術者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/312">システムエンジニア（受託開発）</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/313">プログラマー</a><span class="r-risk">AI 影響 9/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職者の学歴は大卒と大学院卒（修士）が多い。工学系の基礎知識に加え、機械系であれば機械の知識や理論、流体系であれば流体の知識や理論を身につけていることが要求される。就職時に必要な免許や資格はない。</p>
+        <p>定期採用の他に中途採用によりジェットエンジンメーカーに就職するチャンスもあるが、その場合、産業用ガスタービン等ジェットエンジンに関連する業種からの転職者が多い。機体やジェットエンジン開発経験を活かして転出する者もいるがエアライン会社に転職するという例もある。</p>
+        <p>航空機の機体メーカーは多くが米国はじめとする外国企業であり、文書や資料はほぼすべて英語である。外国籍のエンジニアとの共同作業も多く、その場合、英語によるコミュニケーションとなる。</p>
+        <p>一人前のエンジニアになるには担当分野にもよるが概ね入社から数年から10年近くを要する。</p>
+        <p>エンジニアの専門性は、製図、構造解析、空力解析、燃焼、振動・衝撃解析、制御、材料、生産技術、エンジン組立、各種試験、検査など、多岐にわたっている。</p>
+        <p>ジェットエンジンの開発は一人でできるものではなく、各専門領域のエンジニアと協力して行うため、コミュニケーション能力や協調性が求められる。チームやプロジェクトをまとめる立場になると、調整能力やリーダーシップが必要になる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>機体開発を含めエンジニアの多くが太平洋ベルト沿いの工業地帯で就業している。航空機産業は欧米がビジネスの中心であるため、国内外問わず、出張や転勤の可能性はある。また、開発や生産の拠点が海外にも存在する場合、開発や生産段階のエンジニアとして海外へ駐在員として赴任する可能性もある。海外出張は会議、学会や展示会等も含めて頻繁に機会がある。</p>
+        <p>男性エンジニアが多いが女性エンジニアも増加傾向で幅広く活躍している。正社員だけでなく、データ整理や製図作成等指示に基づいて業務をする契約社員のエンジニアもいる。</p>
+        <p>賃金形態は月給制で収入は安定している。ほとんどの企業が週休2日制を採用している。</p>
+        <p>航空機開発は複数の国の企業が協力して行っており、世界各国との研究、開発、生産等での分業はこれからも進んでいく方向である。航空機開発のエンジニアは今後も世界各国で活躍すると考えられる。</p>
+        <p>世界的にみて航空機の需要は拡大し続けており、ジェットエンジンのエンジニアへの期待は大きい。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,80.7 259.0,141.1 221.0,240.1 134.8,218.5 110.7,150.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>68</dd><dt>対人</dt><dd>72</dd><dt>判断</dt><dd>66</dd><dt>身体</dt><dd>46</dd><dt>定型</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">4.0</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.0</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.9</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">3.7</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.6</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.6</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.5</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">3.5</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">機械</span><span class="topn-score">3.0</span></li><li><span class="topn-name">工学</span><span class="topn-score">2.9</span></li><li><span class="topn-name">設計</span><span class="topn-score">2.9</span></li><li><span class="topn-name">数学</span><span class="topn-score">2.8</span></li><li><span class="topn-name">物理学</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.9</span></li><li><span class="topn-name">数学的推論</span><span class="topn-score">3.6</span></li><li><span class="topn-name">演繹的推論</span><span class="topn-score">3.5</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.4</span></li><li><span class="topn-name">帰納的推論</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/228"><span class="tc-name">水産技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/258"><span class="tc-name">非鉄金属製錬技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/221"><span class="tc-name">農業技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jaea.or.jp/" rel="external" target="_blank">公益社団法人　日本航空技術協会</a></li><li><a href="https://www.jsass.or.jp/" rel="external" target="_blank">一般社団法人　日本航空宇宙学会</a></li><li><a href="http://www.jaxa.jp/" rel="external" target="_blank">国立研究開発法人　宇宙航空研究開発機構（JAXA）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +447,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

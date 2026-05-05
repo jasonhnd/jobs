@@ -8,6 +8,7 @@
     <title>日本料理調理人（板前） — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="日本料理調理人（板前）：就業者 約227,809人 / 平均年収 369万円 / 平均年齢 45.2 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="日本料理調理人（板前）, 天ぷら揚げ職人（飲食店）, ふぐ調理師, 和食調理人" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/100" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/100" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "100",
+      "occupationalCategory": "09_055-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/100",
       "additionalProperty": [
         {
@@ -122,7 +123,31 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Japanese Cuisine Chef (Itamae)",
+      "alternateName": [
+        "Japanese Cuisine Chef (Itamae)",
+        "天ぷら揚げ職人（飲食店）",
+        "ふぐ調理師",
+        "和食調理人"
+      ],
+      "industry": "Service & Hospitality",
+      "skills": [
+        "Active Listening",
+        "Instructing",
+        "Speaking",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Active Learning",
+        "Coordination",
+        "Equipment Selection",
+        "Time Management",
+        "Writing"
+      ],
+      "qualifications": [
+        "調理師",
+        "専門調理師",
+        "調理技能士",
+        "ふぐ調理師"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +231,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +287,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +382,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=service">サービス・接客</a><span class="band band-low">AI 影響 低</span><span class="band band-high">規模 大</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +404,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>会席料理や懐石料理、天ぷら料理、うなぎ料理、ふぐ料理などの日本料理を調理する。</p>
+        <p>日本料理には会席料理や懐石料理、天ぷら料理、うなぎ料理、ふぐ料理など様々な種類があり、これら各種の料理を調理する。</p>
+        <p>日本料理は割烹（かっぽう）料理とも言うが、割烹とは材料を「切って煮る」という意味で、日本料理の基本を表している。</p>
+        <p>小さな店ではほとんどの作業をひとりでやることもあるが、料亭、旅館等では仕事が分業化されている。呼び名も店によって異なるが、掃除、洗い物、野菜の下処理等下積みの「追い回し」、盛り付けをする「先付け、八寸場」、焼き魚、天ぷら等加熱調理を担当する「焼き場、揚げ場」、煮物、吸い物等だしを使った味付けを担当する「蒸し場、煮方」、刺身を切る「板場」に分かれる。</p>
+        <p>日本料理は味覚だけでなく、盛り付けの美しさや季節感を大事にしているので、器選びと盛り付けも重要な仕事となる。また、料理の味を左右するのはやはり材料であり、新鮮で良質な材料を求めて早朝から市場へ仕入れに出向くことが多い。</p>
+        <p>なお、セントラルキッチンでかなりのところまで調理し、店舗では簡単な調理を行う和食レストランチェーンも都市部を中心に増えている。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>調理道具（包丁、ガスコンロ等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/99">西洋料理調理人（コック）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/101">すし職人</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/98">鉄道車両清掃</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/102">そば・うどん調理人</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/97">ビル清掃</a><span class="r-risk">AI 影響 2/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。高校、大学などを卒業後、見習として修業する場合と、調理師、専門調理師、調理技能士などの免許を取得して入職する場合がある。修業をしながら調理師免許を取得するケースもある。</p>
+        <p>ふぐを扱う場合、ふぐの持つ猛毒による中毒事故を防ぐためにほとんどの自治体でふぐ調理師資格を必要としている。</p>
+        <p>店に住み込んで2～10年程度修業することもある。立ち仕事のため、一定の体力を必要とする。また調理する上で細かい作業があるので手先の器用さも必要とされる。料理技術だけでなく「段取り」を組む力も求められる。料理に興味があり、優れた味覚を持っていることも重要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>会席料理、懐石料理、天ぷら料理、うなぎ料理、ふぐ料理などそれぞれを専門とする日本料理店、高級料亭、旅館などで働いている。</p>
+        <p>板前は、以前はほとんどが男性であったが、最近では女性も増えている。</p>
+        <p>営業時間は店舗によって様々だが、仕入れのために早朝から出勤したり、夜遅くまで営業しているケースもある。こうした店舗では、出勤時間をずらしたり、交替で休憩をとる。</p>
+        <p>土日祝日も営業する店がほとんどで、出勤日にあたることが多くなる。</p>
+        <p>給料は、働く店の大きさや、高級料亭か庶民的な店かなど働く環境によって違う。どのような料理店で何年働いたかというキャリアが重視される世界であり、経験や技術によっても差が出てくる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,89.9 246.4,145.2 211.4,227.0 120.2,238.6 109.0,150.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>61</dd><dt>対人</dt><dd>61</dd><dt>判断</dt><dd>54</dd><dt>身体</dt><dd>65</dd><dt>定型</dt><dd>49</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">3.7</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.3</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.0</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">2.9</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">2.8</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">2.2</span></li><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">2.0</span></li><li><span class="topn-name">人事労務管理</span><span class="topn-score">1.5</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">1.5</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">指先の器用さ</span><span class="topn-score">3.1</span></li><li><span class="topn-name">独創性</span><span class="topn-score">3.1</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">3.0</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">3.0</span></li><li><span class="topn-name">持久力（スタミナ）</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/116"><span class="tc-name">美容師</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/115"><span class="tc-name">理容師</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/117"><span class="tc-name">エステティシャン</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.japca.or.jp" rel="external" target="_blank">公益社団法人   日本全職業調理士協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>調理師</li><li>専門調理師</li><li>調理技能士</li><li>ふぐ調理師</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +446,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

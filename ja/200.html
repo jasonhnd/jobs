@@ -8,6 +8,7 @@
     <title>タクシー配車オペレーター — AI 影響 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="タクシー配車オペレーター：就業者 約43,566人 / 平均年収 506万円 / 平均年齢 45.9 / AI 影響 8/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="タクシー配車オペレーター, タクシー運行管理事務員, ハイヤー管理事務員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/200" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/200" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "200",
+      "occupationalCategory": "06_042-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/200",
       "additionalProperty": [
         {
@@ -122,7 +123,29 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Taxi Dispatcher",
+      "alternateName": [
+        "Taxi Dispatcher",
+        "タクシー運行管理事務員",
+        "ハイヤー管理事務員"
+      ],
+      "industry": "Office & Public Service",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Writing",
+        "Instructing",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Coordination",
+        "Persuasion",
+        "Service Orientation",
+        "Active Learning"
+      ],
+      "qualifications": [
+        "第一級陸上特殊無線技士",
+        "第二級陸上特殊無線技士",
+        "第三級陸上特殊無線技士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +229,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +285,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +380,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -309,18 +403,38 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>タクシー会社で利用客からの電話を受け、無線設備や車両検索用端末、電話機など通信関係機器を操作して送迎の手配をする。</p>
+        <p>配車に関しては、利用客への適切で丁寧な対応を行うとともに、車両の効率的な運行管理をする必要があるため、車両の位置を的確に把握し、迅速に配車を指示しなければならない。</p>
+        <p>利用客からの電話を受け、必要な台数、行き先と時間などの希望を聞き、氏名、電話番号、配車場所などを確認する。依頼を受けた場所周辺にいる空車を端末で検索し、空車が見つかると、車両番号を確認し、無線で配車の指示を出して、お客の氏名、電話番号、場所を伝える。待たせていたお客に、手配したタクシーの車両番号と到着時間を回答して電話を切る。お客を電話口で待たせないために、これらの一連の作業を短時間で行うよう心がける。</p>
+        <p>配車指示を行うごとに、配車タクシーの車両番号、配車場所等の記録を端末に入力する。また、無線によってタクシー運転者から伝えられる交通事故などの緊急事態へ対応したり、お客の忘れ物を探すための連絡や手配などのサービスも行う。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>車両検索用端末、電話、配車アプリ、無線設備、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/214">映像編集者</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/174">診療情報管理士</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/231">産業用ロボット開発技術者</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/199">道路パトロール隊員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/201">引越作業員</a><span class="r-risk">AI 影響 2/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。無線局を設置しているタクシー会社の配車センターでは、無線設備を操作する一定の資格をもった無線従事者を配置するように義務づけられているため、「無線従事者（陸上）」の資格（第3級陸上特殊無線技士以上）があると有利である。高校で電気、電気通信関係の学科を学習するか、同等以上の知識をもっていると有利である。事務関係の職員としてハローワークや求人広告等により採用しているが、同じ会社のタクシー運転者や事務員からの配置転換や中途採用するケースもある。</p>
+        <p>資格や業務知識がない場合、入社後に研修を行い、養成課程の講習会に参加、無線従事者の資格を取得させる場合がある。電話応対、端末操作、地理知識の習得などは、就職後に会社で職場研修として実際の仕事を通して、経験者が訓練する方法などがとられている。</p>
+        <p>電話での応対には丁寧で明瞭な言葉遣いが必要となる。また、配車の指示は、正確ですばやい対応が求められる。仕事の性質上、地理にも詳しい必要がある。緊急時には迅速、的確な対応が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>配車センターなどで働いている。大都市の大きな配車センターでは常に複数の配車オペレーターが働いている。</p>
+        <p>タクシーは24時間営業なので、夜間や休日も含めて3交替制などがとられている。夜間や悪天候の日などは客の配車依頼が集中する。また電車やバスの最終便前後の時間帯も、タクシー利用者が集中する傾向がある。混雑時には、客との電話の対応と無線を使った配車指示を分担して行うことがある。</p>
+        <p>交替制勤務のため、賃金は、夜勤手当、休日給などの諸手当を含めた月給制がとられていて、運転者とは違った賃金体系となっている。</p>
+        <p>業務のデジタル化、自動化が進み、配車センターの統合・集約も進んでいる。またシステムによる自動化も検討されている。</p>
+        <p>最近では配車アプリの台頭に伴い、タクシー配車オペレーターの業務をアプリで行えるようになりつつある。このため、オペレーター業務は拠点の統廃合などの動きなどから需要は縮小することが見込まれる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,109.9 249.5,144.2 210.4,225.6 139.1,212.5 100.6,147.5" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>46</dd><dt>対人</dt><dd>64</dd><dt>判断</dt><dd>52</dd><dt>身体</dt><dd>40</dd><dt>定型</dt><dd>56</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.8</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.3</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.2</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.0</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">2.9</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.5</span></li><li><span class="topn-name">輸送</span><span class="topn-score">2.1</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.9</span></li><li><span class="topn-name">人事労務管理</span><span class="topn-score">1.4</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">1.3</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.6</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.3</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.1</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.0</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">2.8</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/195"><span class="tc-name">駅務員</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/474"><span class="tc-name">マンション管理フロント</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/138"><span class="tc-name">国家公務員（行政事務）</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.disclo-koeki.org/02b/00510/" rel="external" target="_blank">一般社団法人   全国自動車無線連合会</a></li><li><a href="https://www.soumu.go.jp/" rel="external" target="_blank">総務省総合通信基盤局電波部電波政策課</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>第一級陸上特殊無線技士</li><li>第二級陸上特殊無線技士</li><li>第三級陸上特殊無線技士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

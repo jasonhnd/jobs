@@ -8,6 +8,7 @@
     <title>プロスポーツ運営団体職員（企画・運営） — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="プロスポーツ運営団体職員（企画・運営）：就業者 約120,576人 / 平均年収 690万円 / 平均年齢 42.0 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="プロスポーツ運営団体職員（企画・運営）, スポーツプロモーター" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/554" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/554" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "554",
+      "occupationalCategory": "06_033-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/554",
       "additionalProperty": [
         {
@@ -122,7 +123,15 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Pro Sports Org Staff (Planning/Ops)",
+      "alternateName": [
+        "Pro Sports Org Staff (Planning/Ops)",
+        "スポーツプロモーター",
+        "Sports Promoter"
+      ],
+      "industry": "Office & Public Service",
+      "qualifications": [
+        "普通自動車免許"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +215,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +271,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +366,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-mid">AI 影響 中</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -309,7 +389,36 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>野球、サッカー、バスケットボール、バレーボールなどのプロスポーツチーム運営団体において、試合チケットの販売促進、チームの認知度の向上のための取組み、ファンクラブの運営等を行う。</p>
+        <p>プロスポーツ運営団体は大手企業がスポンサーとなって経営する野球だけでなく、地域の支援と独立採算で運営するプロスポーツが多くなってきた。ここでは独立採算で運営しているプロスポーツとして、Bリーグ(バスケットボール)の中の中規模運営団体の例を述べる。</p>
+        <p>この運営団体において主に企画・運営業務に携わるのは、マーケティング部職員である。マーケティング部は、チケットチーム、プロモーションチーム、ファンクラブチーム（バスケットではブースタークラブと呼ぶ。）などの業務に分かれている。</p>
+        <p>これ以外にも試合時の企画・運営を行う興行統括部やグッズの企画・販売やチームの魅力を対外的に発信するチームブランディング部、ユースチームの運営管理などチアリーディングチームを含めたアカデミー活動部などもあるが、団体の規模によっては、これらは外部委託されている。</p>
+        <p>チケットチームの仕事には、チケット購入顧客の管理、シーズンチケットや一般チケットの販売促進などがある。リーグ戦の年間スケジュールが確定し、試合会場が決定したら一般チケット販売の計画を立てる。まずはシーズンチケット販売が先行し、昨年度の顧客に継続の確認連絡をするとともに新規のシーズンチケット購入者を募集する。その後、一般チケットの販売へと進む。一般チケットはウェブサイトの販売システムによって販売する。また、法人対象の販売チケット、社員や選手からの招待や地域の市民、学校の児童生徒の招待などのチケットの手配についても一般販売チケットと合わせて計画を立てる。そのためには地域の行政との交渉、学校や地域商店会との交渉や許可を取って進めなければならない。</p>
+        <p>プロモーションチームの仕事には、新規の観客を増やすことを目的としたチームの認知度を高めるための業務がある。例えば、テレビや新聞、駅や商店街のフラッグなどへの広告掲載の企画・準備を行ったり、ニュースの発信や観戦チケット優待のキャンペーンなどを企画・起案し、部内のチェックを受けた上で運営・管理していく。情報発信に当たっては、ホームページに加えてSNSも活用しており、SNS登録者を増やすための方策を検討し、実施する。チケットチームからの集客の予想が出ると、それを基に集客のための企画を立案し、認知度の低い地域では認知を広げていくイベントを企画したり、行政、地域への協力要請を行ったり、広告を出したりする。また、スポンサーからの要望にも対応が求められ、企画の段階で興行部門、行政、スポンサー、リーグとの折衝などが必要になることもある。プロジェクト単位での違いはあるが、複数部門との連携協力が必要となり、イベントによっては100人もの関係者が関わることがある。集客のための企画は毎年新しく創意工夫し、地域の新規転入者への案内送付など地域に根付いた取組みが特に重視されている。</p>
+        <p>ファンクラブチームの仕事には、会員管理、メルマガ配信、新規会員獲得の企画・運営などの業務があり、入会時の特典やポイント制度、会員のランク制度の設計などの商品開発を行い、会員へのサービスや会員獲得に努める。ポイントの特典として公開練習の見学や選手との握手会などのイベントへの招待を企画したり、グッズの商品企画や販売計画を行う。また、会員からの各種問い合わせに応じることもあり、イベントが中止になった等のクレームにも適切に対応するスキルが必要となる。</p>
+        <p>スポーツが好きで入職する人が多いので、仕事そのものに対する関心は高く、企画したものが来場者やファンに楽しんでもらえたり、地域からの応援や感謝の言葉などを受けることにやりがいを感じている。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>パソコン、スマートフォン、コラボレーションツール、文書作成ソフト、表計算ソフト、統計処理ソフト</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって必要とされる特定の学歴や資格はないが、新卒採用は少なく、中途採用での即戦力が求められる。現状では大学卒や専門学校卒が多い。業務については多岐にわたるので、ファンクラブ運営はタレントのマネジメント経験などがあると有利なことがあり、市場分析の場面ではデータマイニングのスキルが評価される。求人情報は、チームのホームページや求人情報サイトでも検索することができる。採用後は、人事部門での共通の研修もあるが、実務に関してはチーム内での研修とその後のOJTが中心となる。</p>
+        <p>入職後は採用するチームに所属し、その後、チームリーダー、統括チームリーダー（部長）、本部長、役員等への昇進の機会がある。他部門への異動は、希望があれば可能である場合が多い。</p>
+        <p>求められる知識やスキル等では、パソコンでのコラボレーションツール（情報共有、文書管理、スケジュール管理、ビデオ会議、チャット等）の使用、チケット販売システムや会員管理システム、メール配信システムの扱いなどが挙げられる。必須の資格はないが、関連資格としては、イベント等での荷物運搬のための普通自動車免許を求められることもある。また、経営・事業企画などに携わった経験や事業企画・経営企画、経営コンサルタント経験、スポーツ関連のビジネスの経験などがあればより入職に有利である。団体スポーツに関心があることは必要だが競技経験は問われない。</p>
+        <p>スポーツが好きなことに加え、仕事の上で多くの関係者と折衝する場面が多いのでコミュニケーション能力が必要となる。さらに、デジタルスキルを用いた現状の把握・分析力、企画・立案・実行推進力などが求められる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務地は主に団体の本拠地になる場合が多く全国に所在している。企画・運営業務を担当している職員数は、運営団体の規模により異なる。男女比率や年齢構成は団体により異なる。20代後半から30代での採用が多い傾向にある。雇用形態は、正社員が多い。賃金、労働時間等の労働条件は勤務先の規定による。フレックスタイム制や見なし労働時間制が導入されている場合もある。また、業務の内容によって、土日勤務や夜間の勤務を行う場合もある。</p>
+        <p>野球以外のプロスポーツはチームでの独立採算で経営している場合が多いため、今後もさらにスポーツの強さだけでなく、財務体質などビジネスとしての基盤の評価や施設のキャパシティー、VIPルーム設置など収益にも配慮した体制づくりが求められている。また、リーグからのサポートもチームに対して手厚く行われ、リーグ所属のチーム全体が安定して運営できるように支援されている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +431,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.bleague.jp/" rel="external" target="_blank">公益社団法人ジャパン・プロフェッショナル・バスケットボールリーグ（Bリーグ）</a></li><li><a href="https://www.jleague.jp/" rel="external" target="_blank">公益社団法人日本プロサッカーリーグ（Jリーグ）</a></li><li><a href="https://www.vleague.jp/" rel="external" target="_blank">一般社団法人日本バレーボールリーグ機構（Vリーグ）</a></li><li><a href="https://npb.jp/" rel="external" target="_blank">一般社団法人日本野球機構</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>普通自動車免許</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

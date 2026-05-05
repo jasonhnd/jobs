@@ -8,6 +8,7 @@
     <title>パン製造、パン職人 — AI 影響 2/10｜mirai-shigoto.com</title>
     <meta name="description" content="パン製造、パン職人：就業者 約94,422人 / 平均年収 366万円 / 平均年齢 43.5 / AI 影響 2/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="パン製造、パン職人, パン製造設備オペレーター, 食パン製造工, パン生地仕込工, パン製造工, パン焼成工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/2" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/2" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "2",
+      "occupationalCategory": "12_072-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/2",
       "additionalProperty": [
         {
@@ -122,7 +123,33 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Bread Maker / Baker",
+      "alternateName": [
+        "Bread Maker / Baker",
+        "パン製造設備オペレーター",
+        "食パン製造工",
+        "パン生地仕込工",
+        "パン製造工",
+        "パン焼成工"
+      ],
+      "industry": "Manufacturing & Craft",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Instructing",
+        "Speaking",
+        "Writing",
+        "Social Perceptiveness",
+        "Coordination",
+        "Service Orientation",
+        "Time Management",
+        "Persuasion"
+      ],
+      "qualifications": [
+        "食品衛生責任者",
+        "特級パン製造技能士",
+        "１級パン製造技能士",
+        "２級パン製造技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +233,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +289,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +384,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-2">
@@ -309,18 +407,40 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>製パン工場や個人経営店（ホームベーカリー）でパンを製造する。</p>
+        <p>原材料の選択から焼き上げまでの全てを、一人から数人で行う小規模なベーカリーもあれば、一方では、自動化された生産ラインで100種類以上のパンを大量につくる大規模な工場もある。工場では仕事が分業化されており、生地をつくる仕事、成形の仕事、焼き上げの仕事に分かれる。</p>
+        <p>パン製造の仕事は朝が早い。小麦粉、イースト、塩、砂糖、油脂、粉乳、卵などの配合原料を、ミキサーと呼ばれる機械を使って混ぜ合わせ、練り上げて生地をつくる「仕込み」から始まる。次にパンに使うクリームを炊き上げたり、ジャムやあんの硬さを調節したり、レーズンのようなドライフルーツ類を細かく切るなど製造のために必要な準備をする。</p>
+        <p>仕込みが終わった生地の練り具合、硬さ、温度はパンの品質や出来映えに影響するので、細心の注意が求められる。生地を発酵させた後、一定量に分割し、手や機械を使ってパンの形を整える。成形した生地を型や鉄板の上に収め、一定の温度・湿度に保たれたホイロ（醗酵室）に入れて生地を膨脹させる。</p>
+        <p>パンの種類に応じてオーブンの温度、時間を設定し焼き上げるが、この工程での的確な調節によって、パンの焼色や香りが作り出される。焼き上げたパンは、網棚状のラックに並べ自然放冷した後、そのまま店頭に並べたり、食パンのようにスライス、包装などの加工をして販売する。機械化された工場では温度、湿度をコントロールした冷却工程によって冷却後、包装工程を経て出荷される。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>ミキサー、オーブン、調理道具（包丁、ガスコンロ等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/1">豆腐製造、豆腐職人</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/3">洋菓子製造、パティシエ</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/4">和菓子製造、和菓子職人</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/5">乳製品製造</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/6">水産ねり製品製造</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、食品についての基礎的な知識を持っていることが望まれる。パンは種類によって原料配合や製造方法が異なるため、パンづくりの技術を習得するにはかなりの実務経験が必要となる。一般的にはパン製造の現場で経験を積んでいく。</p>
+        <p>機械化された大規模な製パン工場では、製パン工程が分業化されているケースもある。</p>
+        <p>一般的な製パン工場では入職後、原料の秤量などパン製造の準備工程を担当し、製造するパンの種類や製造の流れを覚えた後、成形や焼き上げの工程を担当して機械の操作を習得し、経験を積むとパンの品質にとって重要な仕込みの工程を担当するようになる。企業によって期間は異なるが、入職後6～7年程度で、本人の適性と能力により「班長・主任」などの現場の監督職に昇進する可能性がある。</p>
+        <p>また、専門学校などで指定された学科を卒業した人や2年以上実務を経験していれば、厚生労働省の定める技能検定の「パン製造技能士」の受験資格を得ることができ、キャリアアップする際に有利となる。</p>
+        <p>独立して開業する人もおり、パンを焼く小型のオーブンを設置し、焼きたてのパンを売る店が話題を集めることもある。また、独立開業する場合には、「食品衛生責任者」の資格の取得なども必要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>ホームベーカリーやパン製造工場以外にも、菓子製造業や大きなホテル、デパート、スーパー等の中にパンをつくる部門を持っているところがある。</p>
+        <p>大規模な工場ではパン製造工程が細かく分けられるなど作業が単純化しており、パートタイマーも多い。</p>
+        <p>パンの製造は、仕込みから包装まで長時間かかるため、早朝から深夜までの作業が必要となる場合もあり、勤務は交替制を採ることもある。屋内での立ち作業が中心で、機械化の進んでいない小規模なベーカリーでは、パンを焼く作業では高温の環境で仕事をするなど、ある程度の体力が必要である。</p>
+        <p>大規模な製パン工場では機械化が進み、機械の監視作業などが中心となっている。小規模なベーカリーでは、洋菓子製造などと兼業し店の特色を出すケースもある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,112.2 228.9,150.9 203.4,216.0 125.2,231.6 108.4,150.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>44</dd><dt>対人</dt><dd>47</dd><dt>判断</dt><dd>43</dd><dt>身体</dt><dd>58</dd><dt>定型</dt><dd>49</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">2.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">2.4</span></li><li><span class="topn-name">指導</span><span class="topn-score">2.4</span></li><li><span class="topn-name">説明力</span><span class="topn-score">2.4</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.2</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">2.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">2.1</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">2.1</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">2.1</span></li><li><span class="topn-name">説得</span><span class="topn-score">2.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.8</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">1.8</span></li><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">1.5</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">1.1</span></li><li><span class="topn-name">人事労務管理</span><span class="topn-score">1.0</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">2.9</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">2.8</span></li><li><span class="topn-name">指先の器用さ</span><span class="topn-score">2.8</span></li><li><span class="topn-name">手首と指の動作速度</span><span class="topn-score">2.8</span></li><li><span class="topn-name">持久力（スタミナ）</span><span class="topn-score">2.7</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/19"><span class="tc-name">プラスチック成形</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/261"><span class="tc-name">電子機器組立</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/7"><span class="tc-name">冷凍加工食品製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.pankougyokai.or.jp/" rel="external" target="_blank">一般社団法人　日本パン工業会</a></li><li><a href="http://www.jibt.com/" rel="external" target="_blank">一般社団法人　日本パン技術研究所</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>食品衛生責任者</li><li>特級パン製造技能士</li><li>１級パン製造技能士</li><li>２級パン製造技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +449,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

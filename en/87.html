@@ -8,6 +8,7 @@
     <title>Translator — AI Impact 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="Translator: workforce ~15,065 / annual salary 680万円 / avg age 41.5 / AI impact 9/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Translator" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/87" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/87" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "87",
+      "occupationalCategory": "03_015-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/87",
       "additionalProperty": [
         {
@@ -123,6 +124,22 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Translator",
+      "industry": "Creative & Media",
+      "skills": [
+        "Foreign Language Reading",
+        "Reading Comprehension",
+        "Writing",
+        "Foreign Language Writing",
+        "Speaking",
+        "Foreign Language Listening",
+        "Active Listening",
+        "Foreign Language Speaking",
+        "Coordination",
+        "Time Management"
+      ],
+      "qualifications": [
+        "JTA公認翻訳専門職資格"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=creative">Creative &amp; Media</a><span class="band band-high">High AI risk</span><span class="band band-low">Small workforce</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -308,19 +396,40 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Translates written documents between languages; one of the largest AI impact areas.</p>
+        <p>Translates a wide range of written material — literary works, academic texts, news articles, legal documents, manuals, and more — between foreign languages and Japanese, and between Japanese and foreign languages.</p>
+        <p>Translation divides broadly into two categories: publication translation and industrial translation.</p>
+        <p>Publication translation involves translating academic works and literary or non-fiction titles. It requires both scholarly knowledge and literary sensibility.</p>
+        <p>Industrial translation covers documents required in international business — contracts, manuals, and similar materials — and demands specialist knowledge in each relevant field. Overall, industrial translation accounts for the overwhelming majority of the translation industry&#x27;s workload.</p>
+        <p>For general-audience translation, the goal is accurate and accessible language for a broad readership; for specialist translation, the most universally accepted terminology in the field must be selected. In industrial translation especially — where demand is greatest in cutting-edge technical fields — a proactive effort to absorb and understand specialist knowledge is indispensable.</p>
+        <p>◇ Commonly used tools, equipment, and technology
+Word processing software (Word, Ichitaro, etc.); translation memory tools; machine translation software; computer; dictionaries</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/64">Call Center Operator</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/56">Supermarket Cashier</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/312">Systems Engineer (Custom Software)</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/86">Land and House Investigator (Tochikaokuchosashi)</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/88">Interpreter</a><span class="r-risk">AI 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific qualifications or licenses are required to enter the field, but building strong language proficiency through translation schools or correspondence courses is necessary. Certification in the relevant language (such as Eiken for English, or the French Language Proficiency Test for French), or for English, a high TOEIC score, may be requested as evidence of language ability; credentials such as the JTA Certified Translation Professional (JTA konin honyaku senmonshoku shikaku) may also be required.</p>
+        <p>For publication translation, work is obtained through submissions to publishers, entries in translation contests, or referrals from translation schools. For industrial translation, practical knowledge of the relevant technology or business area is necessary — most candidates are practitioners from the relevant field who then sit a trial test administered by a translation agency, with registration and job assignments determined by the results.</p>
+        <p>In the beginning, translators take on sub-translation work, simpler texts, or assignments with long lead times, during which their accuracy and ability to meet deadlines are evaluated. As their skill is recognized, they gain access to a stable flow of work and higher per-unit rates.</p>
+        <p>Fluency in the foreign language is of course essential, but the ability to express ideas correctly in Japanese is equally indispensable. Beyond language ability, strong information-gathering skills in the relevant field are also important.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employment arrangements include: working independently as a freelancer receiving assignments directly; working under contract with a translation agency, publisher, or trading company; or working as a full-time employee at a translation agency. In publication translation, freelance translators are the norm; in industrial translation, those working under contract with translation agencies are most common.</p>
+        <p>Meeting deadlines is critical. Publication translation deadlines are typically measured in months; industrial translation deadlines are often measured in days or weeks, and Friday commissions with Monday deliveries are not unusual.</p>
+        <p>Compensation is typically paid on a piece-rate basis (per 400-character manuscript page) or as a royalty (a percentage of the book&#x27;s list price).</p>
+        <p>AI-powered machine translation has improved significantly, making it easier for non-professionals to process translations. A new type of work called post-editing — revising machine-translated text into fluent, readable prose — has also emerged. That said, machine translation still cannot adequately handle reading between the lines, nuanced expression, or highly specialized fields, and a steady demand for human translators is expected to continue.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,94.6 236.5,148.4 209.8,224.8 145.9,203.1 105.1,148.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>58</dd><dt>Social</dt><dd>53</dd><dt>Judgment</dt><dd>52</dd><dt>Physical</dt><dd>31</dd><dt>Routine</dt><dd>52</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Foreign Language Reading</span><span class="topn-score">5.9</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">5.4</span></li><li><span class="topn-name">Writing</span><span class="topn-score">5.4</span></li><li><span class="topn-name">Foreign Language Writing</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Foreign Language Listening</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Foreign Language Speaking</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">3.3</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Foreign Language (Vocabulary &amp; Grammar)</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">2.4</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">1.9</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Written Expression</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Selective Attention</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Memorization</span><span class="topn-score">3.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/209"><span class="tc-name">Magazine Reporter</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 94%</span></span></a><a class="transfer-card" href="/en/211"><span class="tc-name">Magazine Editor</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 93%</span></span></a><a class="transfer-card" href="/en/357"><span class="tc-name">Press/News Photographer</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 93%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.jta-net.or.jp" rel="external" target="_blank">一般社団法人　日本翻訳協会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>JTA公認翻訳専門職資格</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

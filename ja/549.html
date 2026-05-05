@@ -8,6 +8,7 @@
     <title>クレーン運転士 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="クレーン運転士：就業者 約48,070人 / 平均年収 526万円 / 平均年齢 46.6 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="クレーン運転士, クレーンオペレーター, クレーン運転工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/549" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/549" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "549",
+      "occupationalCategory": "13_089-04",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/549",
       "additionalProperty": [
         {
@@ -122,7 +123,37 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Crane Operator",
+      "alternateName": [
+        "Crane Operator",
+        "クレーンオペレーター",
+        "クレーン運転工",
+        "Crane Operator (Equipment)",
+        "Crane Driver"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Operation and Control",
+        "Equipment Maintenance",
+        "Troubleshooting",
+        "Instructing",
+        "Equipment Selection",
+        "Repairing",
+        "Active Listening",
+        "Coordination",
+        "Operations Monitoring",
+        "Installation"
+      ],
+      "qualifications": [
+        "クレーン・デリック運転士（クレーン限定）",
+        "クレーン・デリック運転士(限定なし)",
+        "床上操作式クレーン運転技能講習修了",
+        "クレーン運転特別教育",
+        "移動式クレーン運転士",
+        "小型移動式クレーン運転技能者",
+        "小型移動式クレーン運転特別教育",
+        "玉掛技能者",
+        "玉掛け業務特別教育"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +237,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +293,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +388,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +410,44 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>工業、倉庫、建設工事現場、港湾等で使用されているクレーンを運転して貨物・資材などの重量物の運搬などの作業に従事する。</p>
+        <p>工場、倉庫、建設工事現場、港湾等で使用されているクレーンを運転して貨物・資材などの重量物の運搬などの作業に従事する。クレーンオペレーターとも呼ばれている。</p>
+        <p>クレーンは、貨物・資材などの荷物を動力を用いて吊り上げて、これを水平に運搬する機械装置である。様々な形、大きさ、重さの荷物を運搬するため、荷重や用途に応じた様々な種類がある。クレーンには、固定式のものと移動式のものがある。固定式クレーンには、天井クレーン、ガントリークレーン、橋形クレーン、タワークレーン、ジブクレーン等がある。不特定の場所に移動させることができる移動式クレーンには、トラッククレーン、ホイールクレーン、クローラクレーン等がある。</p>
+        <p>工場などの天井クレーンを運転する場合には、当日の作業内容を把握した後、高所に設置された運転室に入る。クレーンは天井近くの柱に取り付けられたレールに沿って移動する。装置に異常がないか点検してから、レバーやハンドルなどの操作を行う。地上からの指示に従い、ワイヤーの巻き上げを行って荷物を吊り上げる。クレーンを所定の場所まで移動させ、荷物を運搬する。地上の安全を確認し、揺れないように注意しながら所定の位置に荷物を下ろす。なお、ペンダントスイッチ等で床上で操作するものもある。</p>
+        <p>クレーンの運転のほかに、玉掛け作業（荷物の運搬の際に専用のワイヤーなどでクレーンのフックに荷物を掛け、また荷物を外す作業。クレーン運転とは別の資格が必要。）や、地上においてクレーン運転者を補佐する作業（手元作業）を行うこともある。</p>
+        <p>1日の終わりには、作業に伴う後片付けを行う。</p>
+        <p>なお、建設工事現場で移動式クレーンを運転する場合には、作業開始前に、建設会社等の車庫にあるクレーンを道路の走行によって現場まで移動させることもある。</p>
+        <p>クレーンを運転するに当たっては、重量物を取り扱うことから事故の危険が伴うため、指差し確認を行う、重量物を下ろす位置や近くの状況に十分注意を払うなどの安全管理が重要である。職場では、日頃のミーティングや社内研修等を通じて災害事例の紹介などにより運転時の安全管理の重要性を徹底している場合が多い。</p>
+        <p>仕事中は安全に注意しながら時間通りに作業を進めることに神経を使うが、自分の運転技能を使って重量物を的確に動かすことにやりがいを感じることができる。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>クレーン（天井クレーン、ジブクレーン等）、移動式クレーン（トラッククレーン、ホイールクレーン、クローラクレーン等）、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴、耳栓、脚絆、反射ベスト、墜落制止用器具等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/546">保育補助者</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/556">障害者グループホーム世話人</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/557">汎用金属工作機械工（旋盤工、ボール盤工等）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/548">検査工（食料品等）</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/550">造船技術者（船舶の開発・設計）</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>クレーン運転士として働くためには、年齢が18歳以上で、運転するクレーンや移動式クレーンに該当する免許（国家資格）の取得、または吊り上げ荷重等による区分に基づく運転技能講習や特別教育を修了しなければならない。</p>
+        <p>新規学卒者ばかりでなく、中途採用者も多い。</p>
+        <p>新規学卒者の場合、多くは高卒等で、製造業等の会社の工場や倉庫、建設会社等に採用された後、クレーンの運転の仕事に配属される。社内で別の仕事を経験した後に配属される場合もある。入職時には経験、資格は問われず、配属後に免許・資格を取得するケースがほとんどである。免許・資格取得後は、OJTで仕事に慣れていく。技能を磨き経験を積むことによって、班長、係長、課長などに昇進していく場合もある。</p>
+        <p>中途採用の場合は、クレーン運転の経験者以外であっても採用されることはあるが、その場合は新規学卒者と同じく入職してから免許・資格を取得することになる。</p>
+        <p>クレーン運転士として働くには、クレーンの仕組みや整備・点検の仕方等に関する知識を学ぶとともに、玉掛け作業を行う場合には、玉掛け技能講習等を修了することが求められる。また、周りの状況をよく注意し危険の先読みができること、冷静かつ慎重に作業を行うこと、集中力を切らさず緊張感を持って仕事をすることが必要である。大型のクレーンの場合、運転席とクレーンの先端が離れているので視力の良さと遠近感を把握する能力を持っていることも望ましい。</p>
+        <p>近年では、デジタル制御や自動化技術の進化により、運転の正確性、効率性や安全性が向上しており、それに対応する運転士のスキルアップが期待されている。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>就業場所は、倉庫、工場、建設工事現場、港湾等である。勤務体制は職場によって異なる。通常の倉庫や建設工事現場であれば、朝から夕方までの勤務体制のところが多いが、24時間稼働する工場の場合は、2交代や3交代の勤務となる。港湾などであれば、荷物の発着が夜中や早朝になることも多いので、早出と遅出の時差勤務体制をとる場合もある。また、賃金は、勤務先の規定による。運転するクレーンの種類や吊り上げ荷重等によって異なる場合もある。</p>
+        <p>就業形態や就業者の年代も職場によって異なる。男性が多いが、近年、女性もみられるようになってきている。</p>
+        <p>倉庫の自動化が進み物流ロボットが普及しているが、クレーン運転は人手不足の状況が続いており、今後も一定の需要が期待される。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,104.3 250.7,143.8 213.9,230.5 125.7,231.0 94.2,145.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>50</dd><dt>対人</dt><dd>65</dd><dt>判断</dt><dd>57</dd><dt>身体</dt><dd>58</dd><dt>定型</dt><dd>61</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">操作と制御</span><span class="topn-score">4.0</span></li><li><span class="topn-name">保守点検</span><span class="topn-score">4.0</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">3.9</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.7</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">3.6</span></li><li><span class="topn-name">修理</span><span class="topn-score">3.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.4</span></li><li><span class="topn-name">計器監視</span><span class="topn-score">3.2</span></li><li><span class="topn-name">設置と設定</span><span class="topn-score">3.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">機械</span><span class="topn-score">2.1</span></li><li><span class="topn-name">輸送</span><span class="topn-score">1.9</span></li><li><span class="topn-name">建築・建設</span><span class="topn-score">1.6</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">1.6</span></li><li><span class="topn-name">物理学</span><span class="topn-score">1.6</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">奥行きの知覚（遠近感覚、深視力）</span><span class="topn-score">3.6</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">遠隔視力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.2</span></li><li><span class="topn-name">腕や脚の動作速度</span><span class="topn-score">3.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/48"><span class="tc-name">エレベーター据付</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/35"><span class="tc-name">さく井工/ボーリング工</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.cranenet.or.jp/" rel="external" target="_blank">一般社団法人日本クレーン協会</a></li><li><a href="https://www.exam.or.jp/" rel="external" target="_blank">公益財団法人安全衛生技術試験協会</a></li><li><a href="#" rel="external" target="_blank">公益社団法人　各都道府県労働基準協会（連合会）</a></li><li><a href="https://bcsa.or.jp/" rel="external" target="_blank">公益社団法人ボイラ・クレーン安全協会</a></li><li><a href="https://anteikyoukai.or.jp/" rel="external" target="_blank">一般財団法人　港湾労働安定協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>クレーン・デリック運転士（クレーン限定）</li><li>クレーン・デリック運転士(限定なし)</li><li>床上操作式クレーン運転技能講習修了</li><li>クレーン運転特別教育</li><li>移動式クレーン運転士</li><li>小型移動式クレーン運転技能者</li><li>小型移動式クレーン運転特別教育</li><li>玉掛技能者</li><li>玉掛け業務特別教育</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +456,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>社会学研究者 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="社会学研究者：就業者 約2,950人 / 平均年収 750万円 / 平均年齢 40.6 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="社会学研究者" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/560" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/560" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "560",
+      "occupationalCategory": "02_004-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/560",
       "additionalProperty": [
         {
@@ -118,6 +119,23 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Sociology Researcher",
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Reading Comprehension",
+        "Writing",
+        "Speaking",
+        "Active Listening",
+        "Critical Thinking",
+        "Foreign Language Reading",
+        "Persuasion",
+        "Instructing",
+        "Active Learning",
+        "Social Perceptiveness"
+      ],
+      "qualifications": [
+        "社会調査士",
+        "専門社会調査士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -201,7 +219,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -257,6 +275,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -282,6 +370,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-high">AI 影響 高</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -304,18 +393,44 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>社会の仕組みやさまざまな現象、動向について、人間が行う社会的な行為と関連付けて、実地調査や資料・データの分析等を通じて研究する。</p>
+        <p>社会学は、さまざまな価値観や背景をもつ人々が行動し生活する空間である「社会」について研究し、解明しようとする学問である。研究テーマは幅広く、家族、世代、地域、組織、産業、労働、教育、社会階層、社会運動、社会意識、多文化共生など多岐にわたる。</p>
+        <p>社会学は、調査などにより収集したデータに基づいて社会の現実を説明しようとする実証的学問であると同時に、社会関係や社会構造などの概念によって社会現象を理解しようとする理論的学問でもある。さらに、社会的課題の変革や対策につながる視点を提示する実践的学問の面も持つ。以下では主に「社会調査」分野の研究者について述べる。</p>
+        <p>社会学研究者は一般的に調査研究機関や大学等に所属して情報収集や社会調査に携わり、データの分析を通して自分が研究テーマとしている課題の解明を進めていく。日頃より社会の動きや変化に気を配り、注意深く観察して、自分が関心を持つ分野において重要と思われる課題を発見し、考察を深める。</p>
+        <p>例えば、若者の職業問題を専門分野としている研究者であれば、さまざまなメディアを通して若者の就職実態や企業の採用動向、産業構造の変化等の情報を収集するとともに、政府統計をはじめとする各種統計情報を継続的に把握・分析して、長期のトレンドや短期的な変化を観察する。今後の大きな社会的変動につながる可能性がある新たな変化を見出した場合は、その背景や要因に関する仮説の枠組みを構築し、それを実証的に説明するための研究計画を立てる。</p>
+        <p>実証的な社会学研究の手法としては、既存データや資料の分析に加えて、質問紙調査、インタビュー調査、フィールドワークなどの社会調査が行われるのが一般的である。課題検証のために必要な調査対象者の範囲や人数、質問項目、調査に要する費用や手続きなどについて検討し、実行可能な研究計画を策定する。社会調査の実施には一定の時間や予算、人手がかかるので、研究機関などで調査を行う場合には、その必要性や意義、実現可能性などを精査し、チームによるプロジェクトとして取り組まれることも多い。</p>
+        <p>プロジェクトの進め方はさまざまであるが、研究会等を開催して調査手法や手順、時期・期間などを検討し、必要な予算を確保する企画段階から、調査の実施、データの回収とデータクリーニングなどの実査段階、データの分析や仮説の枠組みの検証、結果の検討、報告書の作成といった成果のとりまとめ段階を経て、得られた知見を学会や社会に発信する広報・普及段階まで、数カ月から数年以上の長期にわたることもある。</p>
+        <p>若手研究者の場合、大きなプロジェクトの一員として参加して調査の経験を積み、調査票の設計、ヒアリングの手法、データ解析方法、研究会の運営など社会学研究の手法を学ぶことが多い。他の研究者との交流を通じて人脈を広げ、いずれ自分が中心となって研究プロジェクトを進められるように専門性を高めていく。</p>
+        <p>調査研究で得られた膨大なデータを解析し、結果をわかりやすい形でまとめるのは地道で時間がかかる作業であるが、新たな知見が得られ自らの疑問が解けた時、またそれにより人々の理解が進んだ時には、研究者ならではの達成感を味わうことができる。
+関係学会における研究成果の発表や専門研究誌等へ投稿する学術論文の執筆なども、研究者としての評価を得るために重要である。専門分野の講演を行ったり、大学等での講義を行うこともある。（大学教員としての仕事については「大学・短期大学教員」を参照。）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>パソコン、ボイスレコーダー、ビデオカメラ、統計解析ソフト、事務処理ソフト、プレゼン資料作成ソフト</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/561">鉄道車両の設計・開発</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/566">イベントの企画・運営</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/567">学校事務（私立大学）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/559">配電盤・制御盤等組立</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/558">自動車板金塗装</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>社会学研究者となるには、大学で社会学系の学科を卒業し、さらに大学院の社会学系研究科に進んで修士課程・博士課程で研究者としての基礎を学ぶのが一般的である。社会学は研究対象の幅が広いので、大学の学科名称も「社会学」だけでなく、教育社会学、メディア学、社会政策学など多様であり、進学後どのような分野について学ぶことができるのか、大学のホームページや進学希望者向けガイダンスなどで情報収集することが大切である。また、社会人となったのち関心のあるテーマを見出し、大学院等に入学して研究者をめざす人もいる。</p>
+        <p>大学院の修士課程・博士課程と進むうちに自分の専門テーマを絞り込み、論文をまとめ、学会発表などを積み重ねて、大学の教員や調査研究機関の研究員などの募集に応募してポストを得るのが一般的である。研究職の募集では任期付のポストが多く、任期中に一定の研究成果をあげて無期雇用に登用されるケース、より自分の条件に適うポストを他に求めるケースなど、就職後も次のステップを目指して実績を積む努力が求められる。民間の調査会社やシンクタンク等では、大学院修了者に限らず学部卒を採用することもあり、仕事で実務を積む中で実践的な研究力を身につけることができる。</p>
+        <p>研究者として必須の要件ではないが、大学・大学院卒業(修了)時に取得できる資格として、一般社団法人社会調査協会が認定する「社会調査士」（学部レベル）、「専門社会調査士」（大学院レベル）がある。民間調査会社で調査活動に従事する場合などには、この資格が評価されることが多い。</p>
+        <p>社会学は、常に変動している社会を対象とする学問であり、人間や社会に対する関心や問題意識、変化をとらえることができる観察力や洞察力が求められる。統計解析や実施した調査のデータ処理を行うことが多く、統計学の知識やデータ取扱いのスキルも必要となる。報告書や論文をまとめるにあたっての文章力、国内外の研究動向を把握し発信するための読解力や語学力も重要である。自分の研究テーマを長期にわたり追及していける粘り強さも研究者として必要な資質である。また、調査を行う際の関係先が多く、調査研究の実現に向けて支援や助成を求める場合もあるので、折衝力やコーディネート力も大切である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>主な職場は調査研究機関や大学などであり、都市部に立地していることが多い。研究テーマによっては特定の地域に居住して研究活動を行うこともある。</p>
+        <p>雇用形態としては、若手の時代は任期付研究員や非常勤職員など、有期雇用やアルバイト等で雇用され、研究成果を認められて正規雇用のポストを得ることが多い。年齢層は幅広く、社会科学分野の研究領域の中では女性の研究者が多いほうである。</p>
+        <p>賃金など労働条件は所属する組織の規定による。裁量労働制や在宅勤務など研究職が柔軟に働けるような仕組みとしている職場が多い。調査の実施期間や報告書等の提出期限など、関係している研究プロジェクトの進行状況に応じて作業が立て込み、労働時間が長くなりがちな時期もある。調査対象地域の関係者や調査研究の依頼主との打合せなどで出張することもある。</p>
+        <p>近年、社会の多様化が進み、変化の速度が速まる中で、さまざまな社会現象を読み解き、将来動向を予測する研究成果に対する社会の関心やニーズは高い。個人・企業・行政などさまざまな方面から寄せられる期待は大きく、エビデンスに基づく実証的研究成果を提供する社会学研究者の役割は今後ますます重要になるとみられる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,56.9 282.3,133.5 233.2,257.0 132.0,222.3 170.0,170.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>87</dd><dt>対人</dt><dd>90</dd><dt>判断</dt><dd>82</dd><dt>身体</dt><dd>49</dd><dt>定型</dt><dd>0</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">文章力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">説明力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">5.1</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">5.0</span></li><li><span class="topn-name">外国語を読む</span><span class="topn-score">4.8</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.8</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.7</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">記述表現</span><span class="topn-score">4.3</span></li><li><span class="topn-name">独創性</span><span class="topn-score">4.3</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">演繹的推論</span><span class="topn-score">4.2</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">4.1</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/203"><span class="tc-name">航空管制官</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/228"><span class="tc-name">水産技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 97%</span></span></a><a class="transfer-card" href="/ja/221"><span class="tc-name">農業技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 97%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://jss-sociology.org/" rel="external" target="_blank">一般社団法人日本社会学会</a></li><li><a href="https://jasr.or.jp/" rel="external" target="_blank">一般社団法人社会調査協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>社会調査士</li><li>専門社会調査士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -324,6 +439,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>Sewer Pipe Inspector — AI Impact 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="Sewer Pipe Inspector: workforce ~52,774 / annual salary 596万円 / avg age 46.0 / AI impact 5/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Sewer Pipe Inspector" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/572" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/572" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "572",
+      "occupationalCategory": "02_008-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/572",
       "additionalProperty": [
         {
@@ -123,6 +124,12 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Sewer Pipe Inspector",
+      "industry": "Specialist & Technical",
+      "qualifications": [
+        "下水道管路管理専門技士",
+        "下水道管路管理主任技士",
+        "下水道管路管理総合技士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +213,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +269,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +364,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=senmon">Specialist &amp; Technical</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +386,58 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Inspects sewer pipes using cameras and AI image analysis.</p>
+        <p>Sewer pipe inspection technicians inspect sewer pipe infrastructure (pipes, manholes, and related structures) for deterioration, damage, blockages, and other anomalies, and assess the need for and urgency of repairs.</p>
+        <p>Sewers collect wastewater and rainwater from homes and businesses through underground pipes, convey it to treatment plants for purification, and discharge the treated water to rivers and the sea. Sewer systems are operated primarily by municipal governments, and the total length of sewer pipes laid across Japan has reached approximately 500,000 km.* As the proportion of pipes that have exceeded their standard service life of 50 years is rapidly increasing, the Sewer Act requires planned maintenance management, and pipes at high risk of corrosion must be inspected at least once every five years. Many specialized technical professionals are engaged in these inspection and maintenance activities.</p>
+        <p>Periodic inspections are generally carried out by specialized companies that have contracted with the local government body operating the sewer system, which prepares a construction plan for the work. Since manholes are typically located on roads and main pipes run under roads, preparatory procedures—including public notification to nearby residents and road use permit applications—are required before work begins.</p>
+        <p>On the day of work, a team travels to the site in a work vehicle, then inspects the interior of the pipes by visual observation from manholes or by inserting cameras. Visual inspection checks the condition of the manhole cover and surrounding area as well as the inside of the manhole. Interior inspection of the pipes is most commonly done by lowering a television (TV) camera through a manhole from the surface and filming the interior to review the footage.</p>
+        <p>When corrosion, deterioration, damage, deformation, or blockages are found during visual inspection or camera footage review—or when pipes are classified as priority inspection targets—further detailed investigation is carried out as appropriate. Methods include direct visual inspection by personnel entering the pipe, or deploying a self-propelled TV camera system to collect data; various approaches are available depending on the severity of the anomaly and the urgency of the situation. In recent years, development of inspection and survey equipment suited to pipes of various shapes and diameters has been advancing, with the goal of reducing the need for personnel to enter pipes and improving both safety and efficiency.</p>
+        <p>To improve inspection accuracy, pipes may be cleaned before inspection; when blockages or similar anomalies are discovered, obstacles may be removed or emergency repairs made as needed.</p>
+        <p>Pipe interiors are enclosed spaces; oxygen concentration and the presence of toxic substances such as hydrogen sulfide must always be measured before and during any inspection or survey. The risk of sudden increases in flow during heavy rain must also be considered; weather forecasts are checked in advance and safety is carefully verified.</p>
+        <p>After completing the inspection, the results are compiled into a report and organized as a permanent record. The data underpinning decisions about repair needs and deterioration prevention are systematically organized and reported to the sewer operator in a standardized format, ensuring that changes can be tracked at the time of the next inspection.</p>
+        <p>In emergency situations—such as road cave-ins caused by pipe failure or flooding from heavy rain—technicians may be called out for emergency response at the request of local governments. During large-scale disasters such as earthquakes, specialists may be dispatched from across the country to assist in restoration work, joining local recovery teams through coordinated deployment by industry associations.</p>
+        <p>Maintaining sewer pipe infrastructure is directly connected to safe and comfortable everyday infrastructure, and carries an important role from an environmental protection and disaster-prevention perspective as well. The sense of fulfillment is especially strong when one has contributed to restoring residents&#x27; daily lives following a disaster.</p>
+        <p>* As of the end of FY2023. Source: Ministry of Land, Infrastructure, Transport and Tourism website</p>
+        <p>&lt;Message to prospective workers&gt;
+Getting used to it can take time, but when I pass a site I worked on in my private life, I feel very proud knowing that &quot;I&#x27;m the one supporting this town&#x27;s daily life.&quot; (Worker in their 50s)
+The fun of using special machines, and knowing things about work that ordinary people in their everyday lives would never know—those are the interesting parts of this job. (Worker in their 40s)
+After experiencing disaster relief activities following an earthquake or other disaster, I feel pride knowing that this is a job where people appreciate you. (Worker in their 50s)</p>
+        <p>Tools and equipment commonly used: work clothing (helmet, work shoes, gloves, etc.); tools; safety equipment; environmental monitoring instruments; cameras; TV camera system; PC; tablet; mapping software; data processing software; photo management software; report preparation software; word processing software (Word, etc.); spreadsheet software (Excel, Google Sheets, etc.)</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>There are no mandatory requirements for entry into this occupation. A background in civil engineering, environmental engineering, or similar fields from a university helps facilitate the work, but because the job is not directly tied to any particular educational track, specialization is rarely a requirement at the time of hiring. Mid-career hires are also not usually limited to those with prior experience. A standard driver&#x27;s license is frequently required at the time of entry because work vehicles are used to travel between sites.</p>
+        <p>The typical path is to join a company engaged in sewer maintenance operations, a sewer facility management contractor, or a local government sewer department, and acquire foundational knowledge and techniques through training and OJT. At specialized sewer maintenance firms, new hires generally attend an initial training course, are assigned to a team, and then—as they accumulate field experience—work toward obtaining the qualifications relevant to the role. Those who develop advanced proficiency in specialized surveys, diagnostics, and maintenance planning may go on to lead teams or take on managerial roles.</p>
+        <p>The primary qualifications for sewer pipe inspection work are the certifications offered by the Japan Association of Sewer Pipeline Management Business (公益社団法人日本下水道管路管理業協会): of these, the &quot;Sewer Pipeline Management Professional Technician (Survey Category)&quot; (下水道管路管理専門技士（調査部門）) corresponds most directly to inspection and survey work. For a broader range of maintenance management duties, there is the &quot;Sewer Pipeline Management Chief Technician&quot; (下水道管路管理主任技士, inspection and diagnosis) and the &quot;Sewer Pipeline Management General Technician&quot; (下水道管路管理総合技士, planning, survey, and design). In addition, the &quot;Civil Construction Management Technician&quot; (土木施工管理技士) is useful for repair work, and companies may also encourage the acquisition of large vehicle driver&#x27;s licenses required to operate specialized work vehicles.</p>
+        <p>Inspection technicians must carry out their work safely and reliably, in accordance with established procedures; attentiveness and observational skill to notice even minor anomalies are essential. Skills in operating cameras and other equipment and in managing data are also required. Because work is performed in teams, the ability to communicate effectively with colleagues is important. Outdoor work is the norm, and entering pipe interiors may also be required, so a certain level of physical fitness is necessary.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Sewer pipes are installed throughout Japan, so workplaces exist in every prefecture. The most common arrangement is employment by a company conducting sewer maintenance operations, a sewer facility management contractor, or a local government; full-time regular employment is the predominant type. The age distribution of workers is broad, and the proportion of men is high. Efforts are underway to create a working environment accessible to people of all ages and genders.</p>
+        <p>Salaries and working hours are governed by the employing organization&#x27;s policies. Inspection work is planned in advance, so scheduling is relatively predictable; however, because of constraints imposed by road management and similar factors, some work may occur during nighttime or weekend hours outside normal working times. Emergency situations—such as pipe failure accidents or disaster recovery work—may also generate unplanned work demands. Because work often follows local government annual plans, there is a tendency toward increased workloads in the second half of the fiscal year.</p>
+        <p>Inspection work is conducted outdoors, making it susceptible to cold and heat. Pipe interiors may contain hazardous substances, so environmental monitoring during work and continuous confirmation of safety are required.</p>
+        <p>Sewer pipe infrastructure is critical social infrastructure, but the rapid increase in pipes exceeding their service life has become a major problem in recent years. Large-scale road cave-ins and other serious accidents caused by pipe failure have occurred, and social awareness of the urgency of the issue has grown. As a result, reviews of inspection frequency and advanced inspection methods are being urgently pursued, and demand for inspection and survey work is expanding. The need for inspection technicians is expected to remain high going forward. At the same time, the use of robots, drones, and AI is being pursued to improve work efficiency, enhance safety, and reduce the physical burden of the work.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
         <ul>
           <li><a class="r-name" href="/en/571">Working Environment Measurement Specialist</a><span class="r-risk">AI 5/10</span></li>
           <li><a class="r-name" href="/en/562">Detective (Private Investigator)</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/555">Home Care Service Manager</a><span class="r-risk">AI 5/10</span></li>
+          <li><a class="r-name" href="/en/583">Industrial Physician (Occupational Physician)</a><span class="r-risk">AI 5/10</span></li>
           <li><a class="r-name" href="/en/573">Orchestra Musician</a><span class="r-risk">AI 3/10</span></li>
           <li><a class="r-name" href="/en/570">Seismic Inspector</a><span class="r-risk">AI 6/10</span></li>
         </ul>
       </section>
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.jascoma.com/system/certificate/index.html" rel="external" target="_blank">公益社団法人　日本下水道管路管理業協会</a></li><li><a href="https://www.jswa.jp/sewage/" rel="external" target="_blank">公益社団法人　日本下水道協会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>下水道管路管理専門技士</li><li>下水道管路管理主任技士</li><li>下水道管路管理総合技士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +446,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

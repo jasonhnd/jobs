@@ -8,6 +8,7 @@
     <title>雑踏・交通誘導警備員 — AI 影響 2/10｜mirai-shigoto.com</title>
     <meta name="description" content="雑踏・交通誘導警備員：就業者 約16,944人 / 平均年収 329万円 / 平均年齢 53.0 / AI 影響 2/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="雑踏・交通誘導警備員, 建設現場交通誘導員, 交通誘導員, イベント警備員, 催事警備員, 会場警備員, 会場整理員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/475" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/475" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "475",
+      "occupationalCategory": "10_059-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/475",
       "additionalProperty": [
         {
@@ -122,7 +123,36 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Crowd/Traffic Security Guard",
+      "alternateName": [
+        "Crowd/Traffic Security Guard",
+        "建設現場交通誘導員",
+        "交通誘導員",
+        "イベント警備員",
+        "催事警備員",
+        "会場警備員",
+        "会場整理員"
+      ],
+      "industry": "Public Safety",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Reading Comprehension",
+        "Instructing",
+        "Writing",
+        "Service Orientation",
+        "Social Perceptiveness",
+        "Coordination",
+        "Critical Thinking",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "警備員検定試験（1級）",
+        "警備員検定試験（2級）",
+        "雑踏警備業務検定1級",
+        "雑踏警備業務検定2級",
+        "交通誘導警備業務検定1級",
+        "交通誘導警備業務検定2級"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +236,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +292,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +387,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=hoan">保安・公安</a><span class="band band-low">AI 影響 低</span><span class="band band-low">規模 小</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-2">
@@ -308,19 +409,47 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>イベントやお祭りなどでの警備や誘導や、道路工事や建設現場、駐車場での交通整理を行う。</p>
+        <p>雑踏警備員は、イベントや祭りなど大勢の人が集まる場所で雑踏事故や混乱が起きないように警備・誘導を行う。交通誘導警備員は、道路工事や建築現場などで車両や通行人の誘導、交通整理を行う。</p>
+        <p>警備業法では、警備業務を1号業務（施設警備、巡回警備、保安警備、空港保安警備、機械警備）、2号業務（交通誘導警備、雑踏警備）、3号業務（貴重品運搬警備、危険物運搬警備）、4号業務（身辺警備）に分けており、雑踏警備と交通誘導警備はこのうちの2号業務にあたる。</p>
+        <p>雑踏警備・交通誘導警備は、1号及び3～4号の警備業務と同じく、民間の警備業者が依頼者との契約に基づいて行うもので、警備員は警察官と違って法的強制力をもたない。このため、警備対象者には任意で協力を求めることになる。</p>
+        <p>雑踏警備員は、イベントや祭りなど大勢の人が集まる場所で雑踏事故や混乱が起きないように人の分散誘導、人の流れの誘導を行う。また、会場等に不審者が侵入しないよう監視したり、立ち入り禁止区域の監視も行う。さらに、その他、周辺の交通案内等も行う。</p>
+        <p>交通誘導警備員は、道路工事や建築現場周辺で交通整理のため、道路で誘導灯を振って走行する車両や通行人の誘導、道路の利用車線数のコントロール、交通規制等を行う。商業施設などでは車の駐車場への誘導や交通案内等も行う。</p>
+        <p>いずれの警備員も状況に応じ、気分が悪くなった人の保護や車椅子を利用する人の誘導等も行う。</p>
+        <p>2号業務の仕事の流れを、夜勤の交通誘導警備員の場合を例にとってみると、20時から朝5時までの警備の場合、19時半頃に工事現場に出勤し、所属する警備会社に出勤したことを報告し、チームミーティングで仕事内容を確認する。20時に交通誘導の警備業務に入り、午前1時に休憩に入り（交代制で夜食を取ったり、仮眠したりする）、2時から警備業務を再開し、5時に業務を終了する。警備会社に勤務が終了したことを報告し、連絡事項があればそれを伝えて帰宅する。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/487">ハウスクリーニング</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/490">工場労務作業員</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/494">ごみ収集作業員</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/474">マンション管理フロント</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/476">ボイラーオペレーター</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、警備業法によって、18歳未満の未成年者、破産者で復権を得ないもの、禁固以上の刑に処せられ、その執行を終わり、又は、執行を受けることがなくなった日から起算して5年を経過しないもの、暴力団員、アルコールや覚醒剤などの中毒者などは就くことができない。</p>
+        <p>入職後は、警備業法で定める20時間以上の新任教育を受けたあと、警備員登録を経て、現場での警備業務にあたる。正社員や契約社員だけではなく、アルバイトでイベント警備を1日だけするという場合でも、この研修を受けなければならない。</p>
+        <p>研修を修了すれば現場に出ることができるが、警備業務の遂行にあたって、責任感が求められる。</p>
+        <p>警備員の仕事に関連する資格には、国家公安委員会規則の定める「警備員指導教育責任者」、「交通誘導警備業務」「雑踏警備業務」などの公的検定資格がある。</p>
+        <p>資格を取得して、営業所や営業所内の警備業務ごとに選任が義務づけられている警備員指導教育責任者になったり、現場のリーダーから内勤のマネジメント部門へ異動する人もいる。登用試験を受けて契約社員等から正社員になる制度のある警備会社もある。</p>
+        <p>車両や通行人を誘導したり、所定の場所に立って周囲を注視（監視）するなど突発的な事案に対応できるよう、集中力を切らさない努力が求められる。また、チームを組んで業務にあたるので、警備の目的を理解して、その目的に沿って行動し、指揮系統をきちんと理解して、自分だけの判断で動くことのないよう、注意することも重要である。また、就業者の年齢幅が広く、世代間の意思疎通をはかるためのコミュニケーション能力も欠かせない。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務地は全国に広がっている。交通誘導警備はインフラ整備で工事の多い地域に集中し、雑踏警備は季節性があり、イベントの多い場所に集中する傾向がある。</p>
+        <p>就業者は男性が多いが、女性も増えている。</p>
+        <p>施設警備などと異なり、新卒採用はほとんどなく、中高齢者の再就職が多い。前職は警備関係に限定されず幅広いが、転職先は同業の警備会社が多い。</p>
+        <p>雑踏警備や交通誘導警備業務は繁閑の差が大きいこともあり、パート、アルバイトの比率が高い。正社員は依頼主との交渉などマネジメント業務が中心であるが、急な欠員が生ずる場合は自ら現場業務に当たることもある。</p>
+        <p>勤務体制は、「日勤」「夜勤」等の現場の状況に応じての適正な時間帯での勤務が一般的である。道路工事で交通量の多い主要幹線道路での警備の場合は、工事が交通量の少ない夜間に行われることが多く、夜間勤務が多い。近年は、雇用改善に向け見直され始めている。イベント終了時間後の警備依頼があることもあり、警備が長時間にわたる場合は3交替制等となる。休日も交替制で、土、日が休みとは限らない。</p>
+        <p>最近では、警備員と無線制御式工事用信号（GYシステム（ガードシグナルシステム））の組み合わせによる交通誘導システム、ウェアラブルカメラ（帽子に貼付する小型カメラ）等による情報の迅速な収集と的確な人員配置、ドローンを活用した警備など業務支援システムが進んで来ている。</p>
+        <p>また、オリンピックや万国博覧会などの国際行事や外国人観光客が増えるなか、英語等も必要となり、警備員が自動通訳機を活用するケースも出てきている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,119.8 241.1,146.9 206.2,219.9 128.4,227.2 113.4,151.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>38</dd><dt>対人</dt><dd>57</dd><dt>判断</dt><dd>47</dd><dt>身体</dt><dd>54</dd><dt>定型</dt><dd>45</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.0</span></li><li><span class="topn-name">指導</span><span class="topn-score">2.9</span></li><li><span class="topn-name">文章力</span><span class="topn-score">2.7</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">2.7</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">2.7</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">2.7</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">2.6</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">2.4</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">公衆安全・危機管理</span><span class="topn-score">1.3</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">1.3</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">0.9</span></li><li><span class="topn-name">法律学、政治学</span><span class="topn-score">0.9</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">0.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.2</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">3.0</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">2.8</span></li><li><span class="topn-name">持久力（スタミナ）</span><span class="topn-score">2.8</span></li><li><span class="topn-name">自他の位置関係の把握</span><span class="topn-score">2.7</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/140"><span class="tc-name">警察官（都道府県警察）</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/148"><span class="tc-name">刑務官</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/401"><span class="tc-name">救急救命士</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.ajssa.or.jp/" rel="external" target="_blank">一般社団法人　全国警備業協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>警備員検定試験（1級）</li><li>警備員検定試験（2級）</li><li>雑踏警備業務検定1級</li><li>雑踏警備業務検定2級</li><li>交通誘導警備業務検定1級</li><li>交通誘導警備業務検定2級</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +458,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

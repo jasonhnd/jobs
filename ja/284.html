@@ -8,6 +8,7 @@
     <title>紡織設備管理・保全 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="紡織設備管理・保全：就業者 約133,717人 / 平均年収 586万円 / 平均年齢 43.4 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="紡織設備管理・保全, 繊維機械修理工, 紡織設備管理・保全工, 紡績機械保全工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/284" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/284" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "284",
+      "occupationalCategory": "12_075-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/284",
       "additionalProperty": [
         {
@@ -122,7 +123,18 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Textile Equipment Maintenance",
+      "alternateName": [
+        "Textile Equipment Maintenance",
+        "繊維機械修理工",
+        "紡織設備管理・保全工",
+        "紡績機械保全工"
+      ],
+      "industry": "Facilities & Maintenance",
+      "qualifications": [
+        "特級機械保全技能士",
+        "１級機械保全技能士",
+        "２級機械保全技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +218,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +274,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +369,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-mid">AI 影響 中</span><span class="band band-high">規模 大</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -309,7 +392,36 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>紡績業・織布業の生産工場で、機械設備の整備・修理等の保全作業に従事する。</p>
+        <p>一般的に紡績・織布工程の工程ごとに設備管理・保全の担当が配属され、その工程専門に保全作業を行う。保全作業の目的は機械の能力を最大限に発揮させることにあり、仕事は次の５種類に集約することができる。</p>
+        <p>「定期的保全」は、機械設備の機能をベストの状態に保持しながらその使用年数を最大限に保つために、日常の仕事として計画を立てて定期的に行うもので、設備管理・保全の仕事の中でも最も重要で、比重が高い。</p>
+        <p>「受入検査」は、各種の機械や器具、部品などを購入又は受け入れる際に、工場の受入基準に合致しているかどうかを検査する仕事で、定期的保全に次いで重要な仕事である。</p>
+        <p>「故障箇所の修理」は、運転中の機械が何らかの原因によって故障を起こした場合に、その修復に当たる。故障の原因には色々なケースが考えられるので、そうした原因を分析し、同じ種類の故障が繰り返されることがないよう事前の対策を講じる。</p>
+        <p>「機具、部品、用具の管理」は、機械の部品や保全に必要な機具、用材などの保管や手入れを行い、保全作業が効率よく行えるように日頃から管理する。</p>
+        <p>「据付、組立、調整」は、機械設備を新設・増設・更新する場合や技能者養成のための実地訓練の場合などに行われる。保全や受入検査などと違って常時行われるものではないが、この種の仕事ができれば一人前といわれるほど高い技能を必要とされる仕事である。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>工具（かなづち等の手動工具、電動工具）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。新規学卒者の場合は、学校やハローワークの紹介によって入職する人がほとんどである。工業高校を卒業している者も多い。転職者の場合には、ハローワークの紹介のほか求人誌などにより入職するケースもある。</p>
+        <p>紡績会社、織物工場などに入職して、見習いとしてキャリアを積んで行くのが一般的である。研修の方法や期間は、扱う機械や職務分担などにより変わり、工場毎に行なわれるが、扱う機械に関する技術水準を初歩的なものから高度なものまで、段階的に習得していく方法がとられている。</p>
+        <p>関連する資格として、厚生労働省の技能検定である「機械保全技能士」があり、資格を取得すると技能の証明として評価される。</p>
+        <p>機械の点検・調整や修理を行う仕事なので、機械に興味のある人が望ましい。また、破損部分を削ったり、研いだり、部品を組み立てたりする作業も多いので、物体の形態を知覚する能力や手腕の器用さなども求められる。同じ職場で機械を運転・操作して生産の仕事をしている紡績オペレーターや織布オペレーターにアドバイスすることもあるので、説明力なども求められる。安全設備や防火施設の点検なども大切な仕事であり、緊急時も冷静に対処できることが求められる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>就業場所は紡織工場の多い東海、北陸、近畿地方などに集中している。就業者は男性が多く、年齢構成では中高年齢者が比較的多くなっている。</p>
+        <p>勤務形態は交替制で、深夜勤務を行う場合もある。賃金等の労働条件は職場によって異なり社内規定によるが、「機械保全技能士」の資格取得者に手当を支給する企業もある。</p>
+        <p>工程（機械）の連続・自動・短縮化が進み、コンピュータを導入して工場の生産ラインをシステム的に運営する傾向が強まっていること、さらには従業員の職務内容の充実を図る要請があることなどから、設備管理・保全の仕事においても単一工程だけではなく、近接する複数の工程を担当させる傾向が目立ってきている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +434,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.jsa-jp.org" rel="external" target="_blank">日本紡績協会</a></li><li><a href="https://www.jcfa.gr.jp/" rel="external" target="_blank">日本化学繊維協会</a></li><li><a href="https://www.jcwa.jp/" rel="external" target="_blank">日本綿スフ織物工業組合連合会</a></li><li><a href="http://www.jtf-net.com/" rel="external" target="_blank">日本繊維産業連盟</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>特級機械保全技能士</li><li>１級機械保全技能士</li><li>２級機械保全技能士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

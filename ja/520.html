@@ -8,6 +8,7 @@
     <title>セキュリティエキスパート（脆弱性診断） — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="セキュリティエキスパート（脆弱性診断）：就業者 約25,925人 / 平均年収 628万円 / 平均年齢 43.4 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="セキュリティエキスパート（脆弱性診断）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/520" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/520" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "520",
+      "occupationalCategory": "02_010-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/520",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Vulnerability Assessment Specialist",
+      "industry": "IT & Communications",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=it">IT・通信</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,8 +381,52 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>様々な情報システムについて、外部からの侵入や攻撃に対して弱点や問題点がないかを診断する。</p>
+        <p>様々な情報システムが外部からの侵入や攻撃に対して弱点や問題点がないか診断する。そのため情報システムを擬似的に攻撃するが、実際にシステムを壊し、サービスが停止する事態は避ける。脆弱性診断士、脆弱性診断エンジニアと呼ばれることもある。</p>
+        <p>情報セキュリティ関係の仕事としては様々なものがある。情報システムがセキュリティ上問題ないか監査したり（セキュリティ監査）、情報システムの脆弱性の診断をしたり（脆弱性診断）、攻撃による事故等が発生したときに痕跡や原因を調べたり（デジタルフォレンジック）、そして、システムへの外部からの攻撃や不正アクセスを監視し、インシデント発生時の対応を行うセキュリティエキスパート（オペレーション）の仕事もある。これらの中でここでは脆弱性診断を解説する。</p>
+        <p>脆弱性診断の対象となるハードウェアはWebサーバーが多いが、スマートフォン、PC、IoT機器等も含まれ、幅広い。さらには最近では自動運転等の開発が進む自動車や、AI（人口知能）のシステムも対象となる。対象となるソフトウェアも、Windows、Linux等OS（オペレーティングシステム）、データベース等ミドルウェア、更にこれらの上で動くアプリ（アプリケーションソフトウェア）等、幅広い。</p>
+        <p>脆弱性を狙った攻撃は政治的、経済的意図による海外からのものが多く、国内からの本格的な攻撃は少ない。</p>
+        <p>情報システムのセキュリティに関して検討する方法としては「脆弱性診断」と「ペネトレーションテスト」がある。脆弱性診断とはシステムに存在する脆弱性やセキュリティ上の不備についてツール等を使用して網羅的に診断するものである。ペネトレーションテストとは、情報サービスを止める、システムに侵入する、内部情報を不正に取得する等、特定の意図による攻撃が成功するかどうか、テストするものである。情報システムの脆弱性だけでなく、従業員教育も含め組織が様々な攻撃に対して問題ないか検討する。</p>
+        <p>脆弱性診断の方法としては「自動診断」と「手動診断」がある。「自動診断」では、製品版あるいは無料の自動検査ソフトウェアを使用して脆弱性を診断する。Webサイトの診断ではWebアプリケーションスキャナ（略して「スキャナ」）が用いられる。マニュアルに従って行うこともでき、脆弱性診断にそれほど詳しくなくてもできる。「手動診断」では脆弱性診断の専門知識を持つ者が直接、各種検査を実施する。なお、手動診断の中でも効率的な作業のために各種ソフトウェアは利用される。診断に用いるソフトウェアやツールは大半が米国等海外のものである。</p>
+        <p>診断は概ね、①診断前の打合せと準備→②診断の実施、脆弱性評価、レポート作成→③診断結果の報告とアフターフォローという流れになる。</p>
+        <p>「①診断前の打合せと準備」では顧客と打合せをしながら、診断対象を確認し、どこに重点を置くか等診断の順位づけを行う。ここで診断対象となるシステムは様々なため、対象システムについて事前に勉強する必要もある。例えば医療系のシステムであれば、そのシステムがどのように医療現場で利用されるか知っておく必要がある。診断の内容と方法の説明を行い、経費の見積もりを顧客に提示する。また、作業に必要なアカウントや権限を顧客から提供を受けたり、診断対象への接続方法や作業場所の準備も行う。多くは自社からネットワーク経由で接続し、診断作業は自社で行うが、データセンター等顧客のシステムの設置場所で行う場合もある。この診断前の打合せと準備に基づき診断実施計画書を作成する。</p>
+        <p>「②診断の実施、脆弱性評価、レポート作成」では診断実施計画書を基に、自動診断、手動診断により診断を行う。自動診断、手動診断が適切に行われているか確認し、診断ツールからの出力結果も利用しながら、脆弱性の評価を行い、レポートを作成する。</p>
+        <p>「③診断結果の報告とアフターフォロー」では、診断結果を顧客に報告し、対処法を顧客と検討する。対処が行われた後、対処が適切に行われ、脆弱性が解消したか、再診断を行い確認する。</p>
+        <p>脆弱性診断がどの程度の期間になるかは、Webサイトのページ数等、対象システムの大きさ、また、診断実施の難しさ等による。短ければ数日で終わる場合もあるが、1か月程度かかることもある。診断の経費としても数十万円から数百万円、中には数千万円と様々である。</p>
+        <p>脆弱性診断は２、３人のチームで行うことが多い。これは診断作業を手分けしたり、それぞれの得意分野を組み合わせたり、診断の評価を相互にチェックするためである。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>脆弱性診断ツール、自動検査ソフトウェア、Webアプリケーションスキャナ、文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>2000年頃から生まれた職業であり、まだ定型的な入職ルートはない。高専や専門学校で情報系を学んだ者も、大学卒や大学院卒も居る。大学卒、大学院卒の理系をイメージするが文系も多い。セキュリティ・キャンプ(学生に対して情報セキュリティに関する高度な教育を実施し、次代を担う情報セキュリティ人材を発掘・育成するために情報処理推進機構が実施している事業)に参加した学生は、この分野の基礎は身に着けていると評価される。また、脆弱性診断に関する世界的なコンテストがあり、その上位者は実力が認められ、仕事をオファーされたり、ヘッドハントされたりする。</p>
+        <p>システム開発を行ってきた者がこの仕事をするようになることも多い。システムの中身を知っていることが脆弱性診断を行う上で強みとなる。デジタルフォレンジックを行っていた者やシステムの運用を行っていた者が移ってくることも多い。ただし、開発を行うエンジニア等が仕事の一部として行っていることは少なく、多くの場合、脆弱性診断を専門に行っている。同業他社間での移動は非常に多い。個人としての転職の動機は「自分の強みを発揮したい」、「新たな仕事にチャレンジしたい」等が多く、会社側は「強化したい分野の人材を求める」等の理由が多い。話題性のある新しい、チャレンジしたい仕事がある会社に専門能力を高めたい人材が流れていく傾向がある。</p>
+        <p>関係団体が仕事に必要とされるスキルを体系化するプロジェクト（スキルマッププロジェクト）を進めており、「技術に関する基礎知識」、「脆弱性に関する基礎知識」、「診断業務の基礎知識」、「評価に関する知識」、「報告に関する知識」、「関係法令の知識」として整理されている。スキルの体系から教育訓練カリキュラム（シラバス）を作成する動きもあり、さらに資格化も検討されている。ただし、手動診断などでの高度な診断は専門性が非常に高く、状況の変化も激しいため、会社や団体が教育訓練を行うことは難しい。自身の興味、関心から、専門知識を深め実務の経験等を通してスキルを極めていく形で自分の能力を高めていく場合が多い。</p>
+        <p>必要な情報の大半は英語のため、英語能力も必要であるが、自動翻訳の性能が向上しそれも使いながら情報を得られればよい。</p>
+        <p>仕事に必要な新鮮な情報は関係コミュニティや業界団体から得ることが多い。新しいセキュリティの問題点等、コミュニティ参加者のSNSで話題になることが多い。</p>
+        <p>ある程度の知識とスキルを身に着け会社に入り、仕事をしながら力を付けていく。典型的なコースとしては、まず、プロジェクトマネージャ等のもと、診断のガイドラインに沿って、スキャナを使用した自動検査を担当する。診断実施計画書に沿ってこのレベルの作業を行うだけであれば、数か月から半年でもできる。このような自動検査の経験を積み、手動検査を担当するようになる。手動検査では脆弱性の診断実施計画書、ガイドラインに沿って作業を行うが、非定型な要素が多くなり、経験に基づく勘や閃きのようなものが必要となる。このためこのレベルになるには３～５年かかる。</p>
+        <p>キャリアの次の段階は診断プロジェクトのマネジメントであり、経験を積んだ者が診断案件を担当し、顧客との交渉や診断プロジェクトの管理を行う。診断のスキルに加えてビジネススキルやマネジメントスキルが求められる。</p>
+        <p>その次の段階がグループのマネジメントであり、会社の課長、部長に相当する。会社の経営計画に沿って、診断プロジェクトのマネジメントを行う者をまとめたり、新たな事業展開を進める。グループを引っ張るリーダーシップ、社会や技術の先を読む先見性、周辺分野の動きが分かる広い視野が求められる。</p>
+        <p>一方でこのようなマネジメントに進むのではなく、顧客や一般向けの研修の担当者となったり、脆弱性診断の特定分野の専門性を高めていく者もいる。</p>
+        <p>診断スキル以上に、この仕事では高い倫理観と使命感が求められる。診断のスキルや知識を悪用し、情報システムを攻撃したり、情報を盗み取ることもできてしまうためである。脆弱性診断はより高度な細分化された知識が必要になっており、新しいシステムも次々に登場するため、探求心、好奇心が求められる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>脆弱性診断を専門に行う会社で働いている場合が大半であるが、情報システムを運営する会社や情報システムを開発する会社に所属し、脆弱性診断を行っている場合もある。顧客となる大手企業が東京等大都市に集まっているため、脆弱性診断を行う会社も都内に集中している。診断はリモートでもできるため地方に拠点がある会社もある。脆弱性診断を専門に行っているのは日本の企業であり、外資系の企業はほとんどない。</p>
+        <p>新しい職業でもあり、就業者数、年齢構成、男女比等の統計はない。この分野の専門家が集まるコミュニティの構成人数等から、日本全体で数百人程度、年齢は30歳代が多く、20歳代が次いで多く、女性は１割程度であると考えられる。</p>
+        <p>顧客のセキュリティ、機密情報に接することから、大半は正社員であるが、中には高い診断スキルを買われ、フリーランス、請負等で診断プロジェクトに参加する者もいる。</p>
+        <p>賃金、労働時間、休日等は勤務先の規定によるが、通常のIT企業の会社員とあまり変わらない。特殊なスキルを必要とされることから、賃金が高い場合もある。</p>
+        <p>システムやソフトウェアの脆弱性やバグを発見すると、賞金を出すというような仕組みがあり（バグバウンティ；脆弱性報奨金制度；バグ報奨金制度）、その賞金が副収入となったり、また、脆弱性やバグの発見能力を買われて、海外の会社に転職する者もそれほど多くはないがいる。バグバウンティで副収入を得ることは大半の会社が認めている。</p>
+        <p>情報システムの利用が広がる中で、サイバー攻撃の件数も年々増加傾向にあり、攻撃手法自体も高度化、複雑化していることからセキュリティの重要性は増しており、仕事も就業者も増加傾向である。システムの開発や運用において、脆弱性診断を義務づける動きもあり、このことからも仕事が増える傾向にある。</p>
+        <p>診断ツールが良くなり、これまで3人で行っていたものを一人でできるようになったりはするが、それ以上に仕事が増えている。自動車の自動運転のような新しい技術が出てくると、そこにはまた新たにセキュリティの問題も生じる。新しい情報システムが生まれれば、セキュリティの仕事も増えるという具合に仕事は広がり続けている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,94.2 170.0,170.0 170.0,170.0 170.0,170.0 170.0,170.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>58</dd><dt>対人</dt><dd>0</dd><dt>判断</dt><dd>0</dd><dt>身体</dt><dd>0</dd><dt>定型</dt><dd>0</dd></dl></div></section>
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +439,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jnsa.org/" rel="external" target="_blank">特定非営利活動法人 日本ネットワークセキュリティ協会(JNSA:Japan Network Security Association)</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +448,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

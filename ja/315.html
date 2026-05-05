@@ -8,6 +8,7 @@
     <title>システムエンジニア（組込み、IoT） — AI 影響 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="システムエンジニア（組込み、IoT）：就業者 約48,720人 / 平均年収 574万円 / 平均年齢 38.0 / AI 影響 8/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="システムエンジニア（組込み、IoT）, 組込系ソフトウェア開発技術者, 制御系ソフトウェア開発技術者, ファームウェア開発技術者, 組込みエンジニア" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/315" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/315" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "315",
+      "occupationalCategory": "02_009-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/315",
       "additionalProperty": [
         {
@@ -122,7 +123,26 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Embedded/IoT Systems Engineer",
+      "alternateName": [
+        "Embedded/IoT Systems Engineer",
+        "組込系ソフトウェア開発技術者",
+        "制御系ソフトウェア開発技術者",
+        "ファームウェア開発技術者",
+        "組込みエンジニア"
+      ],
+      "industry": "IT & Communications",
+      "skills": [
+        "Programming",
+        "Reading Comprehension",
+        "Active Listening",
+        "Operations Analysis",
+        "Writing",
+        "Speaking",
+        "Critical Thinking",
+        "Coordination",
+        "Installation",
+        "Quality Control Analysis"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +226,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +282,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +377,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=it">IT・通信</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +399,49 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする。</p>
+        <p>各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする。最近はこのような製品や装置はIoTとして、インターネットを経由したデータ連携を行うことが多くなっている。以下では短くエンジニアとしている。</p>
+        <p>組み込まれる製品や装置では、センサーにより周辺環境の情報を収集し、それによって製品や装置が何らかの動作をしたり、IoTであればセンサーからの情報をサーバーに送り、サーバー側で処理した結果をまた製品や装置に送り、それによって製品や装置が何らか動作をする。このような処理には小型コンピュータが必要であり、このコンピュータのプログラムを開発する。センサーで取得した情報は誤差やノイズが含まれている場合があり、小型コンピュータはこれらを補正する役割もある。製品や装置が行った動作も小型コンピュータで確かめ、適切に行われているか確認する必要がある。</p>
+        <p>多くの場合、小型コンピュータと周辺回路が乗るプリント基盤、そして製品や装置の機械的な部分（温度や湿度の上げ下げ、水流や送風の調節、照明や日照の調整、レーザーやGPSによる移動や定位、カメラ、等々）のエンジニアと共同で開発にあたる。ソフトウェア、プリント基板、機械的な部分のエンジニアをまとめ、システム全体を開発する場合もある。自分でプログラミングを行う場合もあるが、プログラマーにプログラム作成を依頼する場合もある。</p>
+        <p>ソフトウェアを開発する場合、既にあるソフトウェアモジュールを組み合わせて開発することが多く、足りない部分を自分でプログラミングしたり、プログラマーに依頼したりする。</p>
+        <p>仕事としては、製品や装置を動かすためにソフトウェアを開発する場合と（ここでは以下「組込み開発」とする）、その製品や装置を含めシステム全体を開発する場合の二つがある（ここでは以下「システム開発」とする）。</p>
+        <p>「組込み開発」の典型的な例がエアコン、テレビ、洗濯機といった家電等の制御である。例えば、エアコンであれば設定された室温に温度に保つよう、センサーが温度の上昇を感知すると冷却能力を高め温度を一定にする。リモコンからの指示を受け取り、エアコンをオン、オフしたり、温度を設定するのもこの小型コンピュータである。組込み開発は製品開発の中で平行して行われており、製品開発のエンジニアが行っている場合もある。また、最近、家電もインターネットと接続されるものも出てきており、インターネットを介して指令を受け取ったり、逆に情報をインターネットに送信したりしている。</p>
+        <p>組込み開発は、大きく分けてハードウェア開発とファームウェア開発に分類される。ハードウェア開発は、組込み装置の用途や、大きさや価格といった制約を踏まえて、どのような部品を使ってどう構成するのがよいかを設計し、プリント基板制作や部品の取り付けなどの実装を行う。ファームウェア開発はプリント基板に搭載されている小型コンピュータ（マイコン）の上で動作するプログラムを設計、作成する。組込み開発では多くはC言語系でプログラムを開発する。機会は少なくなっているがアセンブラなどを使うこともある。組込み開発では処理時間や使用できるメモリ等が限られていることが多く、このような制約のもと、目的としたプログラムを開発する必要がある。</p>
+        <p>一方、「システム開発」では、まず、顧客の現状とニーズを把握し、開発の要件を明確にすることから始め、設計、開発という流れとなる。システム開発のための製品や装置を選択し、コンピュータ言語で制御プログラムを作成する。周辺環境からの情報を受け取る各種センサー、逆に何らかの動作をするパーツの選定もする。製品や装置はインターネットを介してサーバーに接続されており、サーバー側の設定をしたり、サーバー側のプログラミングも行う。出来上がったら顧客と共にテストしたり、実際の利用者に使ってもらい、不具合や改善点があれば、設定やプログラムを修正したり、場合によってはセンサー等を入れ替えることもある。製品や装置は広範囲に多数、設置されるため、信頼性、耐久性、安全性等のチェックが重要となる。</p>
+        <p>具体的な例として、農業の例を挙げると、農業用ハウスで以前は手動で窓の開け閉めをしたり、時間によって開け閉めをしていた。農業用ハウスに装置を設置し、その装置で室温、湿度、日照等の情報を集めサーバーに送り、この情報をもとにハウスの窓の開閉を行ったり、送風機を回したり、ハウスの環境を整えることができるようになっている。この装置の選択と設定、装置のプログラム作成、サーバーの設定とプログラム開発等をこのエンジニアが行っている。</p>
+        <p>以上のように製品や装置を制御する組込みのソフトウェアを開発する場合と、システムとして全体を開発する場合があるが、IoTが広がる今日、実際の開発や仕事の内容は類似してきている。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>OS（オペレーティングシステム:Linux 、ITRON）、データベース(MySQL)、プログラミング言語（C言語系、JAVA、Python、Ruby等）、サーバー、パソコン、表計算ソフト（Excel、Googleスプレッドシート等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/319">運用・管理（IT）</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/323">データサイエンティスト</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/324">DXプロデューサー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/314">システムエンジニア（Webサービス開発）</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/316">ソフトウェア開発（パッケージソフト）</a><span class="r-risk">AI 影響 9/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、大学・大学院卒、高専卒が多い。新卒採用に場合は、電気、電子、情報等を履修している者が多い。中途採用の場合は、学部学科よりも、どのような開発をしてきたかという経験が重視される。</p>
+        <p>開発では最新の情報も必要になるが、大学・大学院、高専等で開発手法や各種部品の基礎知識を身につけておくことが重要である。なお、このエンジニアに求められる詳細なスキルとしては情報処理推進機構（IPA）の「組込みスキル標準」が参考になる。</p>
+        <p>入職後、仕事をしながら経験を積み、技術やスキルを身につけていく。複数の開発を経験し、顧客の要件を聞き取り、実際の開発までを過不足なくできるようになれば、一人前のエンジニアと見なされる。一つの領域を深めるだけでなく、機械的な部分、通信など複数のジャンルにわたって幅広く経験することも重要である。開発実績を積み、プロジェクトマネージャー等となっていく。</p>
+        <p>転職する場合は、同業他社に移ったり、技術が生かせる周辺分野の他社に移ることがある。しかし、この分野のエンジニアは、他社に移動することが比較的少ない。経験を積み、人脈を広げ、独立して自分の会社を始める人もいる。</p>
+        <p>製品や装置の小型コンピュータのプログラム開発では、プログラミング言語の選択肢は概ね決まっていることが多く、C言語系などが使われ、OS（オペレーティングシステム）はLinuxやITRONが多い。サーバー側のプログラム開発では言語はC言語系、PHP、Javaなどが使われる。また、サーバー側の開発ではOSはLinux、データベースはMySQL等が使われる。今日ではセキュリティに関する知識も重要になっている。</p>
+        <p>開発で必要となる情報は日本語のものもあるが、英語のものも多い。海外メーカーの部品やソフトウェアを利用することも多く、それらを不自由なく読める英語力が必要となる。</p>
+        <p>開発は共同作業となることから、チームワークが重要であり、人柄も重視される。言われたことを実現するだけでなく、新たな仕組みを提案するような能動的な姿勢も求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>メーカーやシステム開発会社に勤務する者が多い。職場の多くが都市部に集中している。就業者の年齢は30歳代～50歳代が中心であり、男性が多い。</p>
+        <p>メーカーやシステム開発会社、また、開発の一部を委託された会社の正社員として働いていくことが多い、これは、今日、会社の情報保護、コンプライアンスがより重視されるようになっているためである。このため、フリーランスはほとんど見られないが、自分で会社を興し開発に参加している人はいる。</p>
+        <p>実際の製品や装置、またネットワークやサーバーが必要であり、在宅での仕事は難しい。また、機密情報を扱う場合は自宅ではなく職場で仕事をすることになる。ただし、コロナ禍以降、仕事の一部を在宅でしたり、リモートでの打合せも多くなっている。</p>
+        <p>賃金は月給制が一般的であり、収入は比較的安定している。土日祝日が休みということが多く、フレックスタイム制、裁量労働制をとっている会社が多い。効率的な働き方で労働時間の短縮を目指している会社も多くなっている。</p>
+        <p>今日、製品や装置はますます多機能になっているが、これは「組込み開発」による。また、IoTによって多くの製品や装置がインターネットに繋がり、様々なサービスが生まれている。「組込み開発」、「システム開発」にAIの技術なども取り入れられ始め、このエンジニアの活躍の場は広がっている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.1 265.9,138.8 224.0,244.4 140.5,210.6 114.4,151.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>63</dd><dt>対人</dt><dd>77</dd><dt>判断</dt><dd>70</dd><dt>身体</dt><dd>38</dd><dt>定型</dt><dd>45</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">プログラミング</span><span class="topn-score">5.0</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">要件分析（仕様作成）</span><span class="topn-score">4.5</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">4.3</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.2</span></li><li><span class="topn-name">設置と設定</span><span class="topn-score">4.2</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">4.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">4.2</span></li><li><span class="topn-name">設計</span><span class="topn-score">3.5</span></li><li><span class="topn-name">工学</span><span class="topn-score">3.2</span></li><li><span class="topn-name">通信技術</span><span class="topn-score">3.1</span></li><li><span class="topn-name">数学</span><span class="topn-score">2.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.3</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.1</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.1</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.0</span></li><li><span class="topn-name">演繹的推論</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/274"><span class="tc-name">電気通信技術者</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/321"><span class="tc-name">セキュリティエキスパート（オペレーション）</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/362"><span class="tc-name">ITコンサルタント</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jasa.or.jp/" rel="external" target="_blank">一般社団法人　組込みシステム技術協会（JASA）</a></li><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人　情報処理推進機構（IPA）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +450,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

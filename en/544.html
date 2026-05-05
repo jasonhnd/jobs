@@ -8,6 +8,7 @@
     <title>Merchandiser / Buyer — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Merchandiser / Buyer: workforce ~29,500 / annual salary 473万円 / avg age 42.3 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Merchandiser / Buyer, MD, Food Merchandiser, Apparel Buyer, Merchandiser (Department Store)" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/544" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/544" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "544",
+      "occupationalCategory": "07_046-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/544",
       "additionalProperty": [
         {
@@ -122,7 +123,30 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Merchandiser / Buyer",
+      "alternateName": [
+        "Merchandiser / Buyer",
+        "MD",
+        "食料品マーチャンダイザー",
+        "アパレルバイヤー",
+        "マーチャンダイザー（百貨店）",
+        "MD",
+        "Food Merchandiser",
+        "Apparel Buyer",
+        "Merchandiser (Department Store)"
+      ],
+      "industry": "Sales & Retail",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Negotiation",
+        "Reading Comprehension",
+        "Persuasion",
+        "Writing",
+        "Coordination",
+        "Time Management",
+        "Instructing",
+        "Active Learning"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +230,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +286,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +381,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=hanbai">Sales &amp; Retail</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +403,46 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Buys merchandise for retailers; AI demand analysis support.</p>
+        <p>Merchandisers and buyers identify products to carry in stores and source merchandise that will sell. They develop sales strategies and may collaborate with producers to develop new products.</p>
+        <p>A buyer is the person responsible for purchasing and sourcing products, but today the role extends well beyond simple procurement — increasingly encompassing product development alongside producers and the formulation of sales strategies for purchased goods. This entry covers merchandisers broadly, including buyers. Merchandisers frequently serve concurrently as buyers; the term &quot;merchandiser&quot; is sometimes abbreviated to &quot;MD.&quot;</p>
+        <p>Merchandising refers to the full activity of identifying sellable products — from product planning and development, through procurement, to the development of sales strategies. Buyers represent the portion of this work with a heavier emphasis on procurement. Where the market offers an abundance of goods and simply purchasing the right ones will suffice, the work is essentially buying; but when the goal is to source better products, it becomes necessary to engage with producers and develop products together. In today&#x27;s saturated marketplace, sales strategy is equally important — and this is where the work shifts more squarely toward merchandising.</p>
+        <p>This entry focuses on the main fields where merchandisers and buyers operate — food and apparel retail. Related occupations including &quot;trading company sales,&quot; &quot;product planning and development (chain stores),&quot; and &quot;online retail planning and development&quot; are covered separately on this site.</p>
+        <p>Merchandisers begin with market research — predicting what products will sell based on sales data and market trends. In recent years, loyalty card data and similar information allow real-time visibility into what is selling. Companies that analyze and provide consumer behavior big data are also leveraged, and AI is increasingly applied to certain tasks such as analyzing the relationship between weather and sales. Keeping a constant finger on market trends is essential — for food, this means knowing what categories will sell; for apparel, it means tracking the latest fashion trends.</p>
+        <p>Based on these forecasts, merchandise is sourced — but merchandisers often take this further and co-develop products with producers. For vegetables, rather than simply purchasing from wholesale markets, they work with contracted farms to grow produce that meets safety, sustainability, and JGAP (Japan Good Agricultural Practice) standards, then purchase based on advance contracts. With the number of vegetable producers declining in recent years, simply waiting for supply on the open market is not realistic — merchandisers must co-create the products consumers want together with growers. They continue monitoring growing conditions and weather throughout the production cycle. Because weather conditions differ year to year and extreme weather events have become more frequent, ingenuity and resourcefulness are required to bring quality produce to market.</p>
+        <p>For processed foods, rather than simply ordering from manufacturers, merchandisers within a corporate group come together to plan new products and private-brand (PB) product development.</p>
+        <p>In a chain store model, once a merchandiser has consolidated a bulk purchase, individual store staff use EOS (Electronic Ordering System) via tablets or similar devices to order products, which are then delivered to the store the next day or the day after.</p>
+        <p>Apparel merchandisers attend trade shows and visit manufacturers to evaluate a wide range of ready-made products and source from them, but they also work alongside designers, pattern-makers, fabric producers, and apparel manufacturers to develop fabrics and designs suited to their brand&#x27;s identity. In apparel, in-person ordering based on seeing actual products is common. Consumer interest in SDGs and fair trade is growing in apparel as well, and these considerations are factored into planning.</p>
+        <p>Merchandisers also play a significant role in sales strategy — sometimes deciding what types of commercials to run and how products should be displayed on the shop floor. When products sell well, it translates directly to company profits; unsold inventory becomes a loss. The responsibility is therefore substantial. At the same time, being the acknowledged expert on one&#x27;s assigned category is a genuine source of professional satisfaction. The involvement in product planning and development also carries the gratification of creating something new alongside producers and other collaborators.</p>
+        <p>◇ Commonly used tools, equipment, and software
+Word processing software (Word, Ichitaro, etc.), presentation software (PowerPoint, etc.), personal computers</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/541">Narrator</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/539">Sales Section Chief</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/538">Accounting Section Chief</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/543">Postal Window Clerk</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/545">Dental Aide</a><span class="r-risk">AI 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required to become a merchandiser, but given the scope of the work — market research, product development, collaboration with a wide range of partners, and the movement of significant company funds — hiring is most commonly done as core regular employees.</p>
+        <p>For food merchandisers, the typical path is to join as a full-time employee, gain several years of experience in the retail sales floor including store floor management and assistant store management roles, and then move into merchandising.</p>
+        <p>In apparel, the typical path involves customer-facing retail experience, store management, and then time as a buyer&#x27;s assistant or merchandiser&#x27;s assistant before taking on the full role.</p>
+        <p>Career paths from merchandising tend to lead either toward company leadership and management, or toward becoming a recognized expert in one&#x27;s specialty. A small number leverage their expertise and professional networks to establish themselves as independent consultants.</p>
+        <p>Required qualities include sensitivity to trends and product performance, the ability to think logically and strategically, and strong interpersonal skills. The work involves dealing with producers and a wide range of stakeholders, and frequently meeting people for the first time — including senior figures. The ability to communicate smoothly and naturally with a wide range of people, without discomfort in interpersonal situations, is essential.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Food and apparel stores are located throughout Japan, but merchandisers are typically based at the head offices of these retail chains — working in major cities and regional cities. That said, more than half of their time is often spent visiting producers and other stakeholders rather than at headquarters. Overseas business travel for sourcing purposes also occurs.</p>
+        <p>Food merchandisers include both men and women. In apparel, women tend to work in womenswear and men in menswear. Because the role typically follows a period of varied experience and carries significant responsibility, practitioners tend to skew toward middle age.</p>
+        <p>Employment is as regular employees, with compensation typically structured as a monthly salary at most companies. Standard working hours run morning to evening, with two days off per week. Visits to wholesale markets require early starts, though such days typically end early as well. Both food and apparel have busy seasonal periods where product movement intensifies, and overtime increases accordingly.</p>
+        <p>The landscape for merchandisers is changing constantly. In food, safety and quality are paramount concerns, and health-conscious consumer preferences continue to grow. Interest in SDGs is strong. As online shopping expands, physical stores are also expanding their internet and home delivery capabilities — and online purchasing is becoming a major part of apparel merchandisers&#x27; responsibilities as well. Today, simply having products available no longer guarantees sales, and the role of the merchandiser in driving revenue growth has never been more important.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,80.6 266.7,138.6 220.7,239.8 133.8,219.9 109.7,150.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>68</dd><dt>Social</dt><dd>78</dd><dt>Judgment</dt><dd>66</dd><dt>Physical</dt><dd>47</dd><dt>Routine</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Negotiation</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Persuasion</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.0</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">3.6</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Sales &amp; Marketing</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Production &amp; Processing</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Business &amp; Management</span><span class="topn-score">2.2</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">2.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Fluency of Ideas</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Information Ordering</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Originality</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/527"><span class="tc-name">Food Maker Sales</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/73"><span class="tc-name">Apparel Sales</span><span class="tc-meta"><span class="tc-risk">AI 4/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/59"><span class="tc-name">Real Estate Sales (Housing)</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +451,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

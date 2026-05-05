@@ -8,6 +8,7 @@
     <title>納棺師 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="納棺師：就業者 約24,600人 / 平均年収 396万円 / 平均年齢 43.1 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="納棺師" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/569" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/569" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "569",
+      "occupationalCategory": "09_058-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/569",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Mortician (Nokanshi)",
+      "industry": "Service & Hospitality",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=service">サービス・接客</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +381,42 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>遺族が故人を安心して見送ることができるよう、遺体に処置を施して保全をし、身支度を整え棺に納める。</p>
+        <p>遺族が故人を安心して見送ることができるよう、遺体に処置を施して保全をし、身支度を整え棺に納める。納棺師の仕事を扱った映画タイトルにちなんで「おくりびと」と呼ばれることも多い。</p>
+        <p>納棺とは遺体を棺に納めることを意味しているが、納棺師の仕事はそれだけに留まらない。まず、葬儀まで遺体を安定した状態に保つため、死後処置を行う。遺体に点滴等医療器具による傷跡や褥瘡（じょくそう）等がないか全身を確認する。傷跡がある場合は、医療用のテーピングテープ等を用いて塞ぐ。遺体から血液などの体液が漏れ出たり死臭が発生したりすることを防ぐため、遺体の鼻腔内等に脱脂綿をつめる。その後、アルコール消毒液を含んだ脱脂綿で遺体を拭き、清潔な状態にする。そして、死後硬直をほぐし、故人が安らかに眠っているように見えるよう表情を整える。</p>
+        <p>次に、遺体の身支度を整える。一般的に死化粧と呼ばれるものがこれにあたる。遺族の要望に沿って髪型やひげを整えたり、肌の状態がよく見えるように化粧を施したりする。この施術は、遺族と一緒に行うことも近年多くなっている。身支度を整えたら、着付けを行う。遺族の意向や地域の風習、宗教や宗派のルールに合った衣装を着付ける。着付けの際には、火葬が可能な衣装であるか等、葬儀社の担当者と相談しながら、必要に応じて金具を取り外す等衣装の調整も行う。なお、遺体の着付けを先に行い、その後に身支度を整える場合もある。</p>
+        <p>最後に、遺体を棺に納め、安置する。</p>
+        <p>納棺師の多くは納棺業を専門とする事業所に勤務している。業務は、葬儀社からの依頼を受けて行うことが多い。１件の現場につき２人以上の納棺師が一緒に業務を行うことが多いが、事業所や地域によっては納棺師一人で対応する場合もある。</p>
+        <p>納棺が終了した後には、葬儀社への報告書や社内用の報告書を作成する。社内の報告書には、遺体のどの箇所にどのような処置を行ったか詳細を記録し、情報共有をしている。これらを共有することで、仮に葬儀までの間に遺体に変化が生じ、担当した納棺師がすぐに対応できないような場合でも、他の納棺師が速やかに対応することができる。</p>
+        <p>事業所によっては、納棺の前に遺族の意向を受けて湯灌を実施している。その場合は現場に湯灌師が同行することが多いが、事業所によっては納棺師が湯灌師を兼ねている場合もある。</p>
+        <p>また、事業所によっては、遺体の復元に関する技術を持つ納棺師が警察等の要請を受け、全国で発生した災害や事故の現場に赴き、損傷が著しい遺体の復元業務に従事することがある。</p>
+        <p>熟練の納棺師の中には、葬祭業を専攻する専門学校の講師をしたり、病院や介護施設、他の葬祭事業者からの依頼を受け、納棺や死後処置に関する講習の講師を務めたりする人もいる。</p>
+        <p>納棺師が対面する遺体は必ずしもきれいな状態とは限らない。亡くなってから時間が経っていたり、事故や災害によって損傷が著しい遺体の場合もある。そのような場合でも、生前の故人らしさを感じられる安らかな表情に整えるのは技術的にも苦労する点である。一方、納棺師はそういった技術だけを提供するのではなく、遺族が安心して故人との最後の別れが迎えられるよう、遺族の心情に寄り添うことも求められている。また、遺族にとって大切な故人の身体に施術を行うため失敗は許されず、常に緊張感が伴う仕事でもある。しかしながら、施術後に遺族から感謝を伝えられた時や遺族の安心した表情を見た時には、大きなやりがいを感じる。</p>
+        <p>◇よく使う道具、機材、情報技術</p>
+        <p>ピンセット、脱脂綿、医療用テーピングテープ、防水シーツ、メイク道具、爪切り、はさみ</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>新卒、中途採用ともに学歴は問われない。新卒の場合、葬祭業を専攻する専門学校の学生がインターンシップを経て入職に至るケースもある。中途採用による入職者も多く、前職の業種や職種もさまざまであるが、看護師や介護士、理美容師からの転職者が比較的多い。</p>
+        <p>入職にあたって必要な資格はないが、自動車で仕事現場に移動することが多いため普通自動車免許の保有が望ましい。求人情報はハローワークや民間の求人サイトへの掲載が中心であり、複数の地域に営業所をもつ事業所の場合、営業所ごとに採用を行っていることも多い。</p>
+        <p>入職後の研修は先輩社員による現場でのOJTが中心である。着付けのように営業所で練習が可能な技術もあるが、多くの処置技術は事前に練習することが難しいため、先輩社員から現場で学び、身に付けていくことになる。研修期間は入職者の習熟度によって幅があるが、おおよそ半年から１年程度で、新卒の場合はOJTの前に、ビジネスマナー等を身に付けるグループ研修を実施している事業所もある。</p>
+        <p>多くの納棺師は納棺業を専門とする業者に勤めている。納棺師として募集されている場合は、入職後すぐに納棺師として配置され、研修を受ける。昇給や昇進機会は事業所の規定による。現場で経験を積んだのち、現場の責任者やエリアマネージャー、営業所や本社の管理職に昇進する道もある。</p>
+        <p>遺族にとって大切な故人を見送る場に立ち会うことから、清潔感のある身だしなみや礼儀作法が身に付いていること、そして、遺族や葬儀社の担当者と円滑なやり取りを行うためのコミュニケーション能力を有していることが望ましい。また、遺族の悲しみに寄り添うことができる共感性をもちながらも、プロとして現場ごとに気持ちを切り替えることも求められる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>通常、所属の営業所に出勤後、葬祭場や故人宅、寺社等遺体が安置されている場所に社用車で移動し業務にあたる。基本的に１件につき１時間から１時間半ですべての施術を行い、１日に数件の現場を担当することも多い。施術から葬儀まで日数が空いていたり、遺体の状態に変化が見られたりした場合は再度現場に向かい、施術する場合もある。</p>
+        <p>１つの営業所に配属される納棺師の人数は、地域や事業規模によっても異なる。複数の地域に営業所を有する事業所であっても、地域によって葬儀の風習が異なることが多いため、営業所間の異動や全国転勤はほとんどない。女性が多く活躍している。就業形態は正社員がほとんどである。</p>
+        <p>勤務は日勤であるが、営業所の営業時間に合わせて早番や遅番を交代で担当することもある。土日も営業している事業所では、シフト制を採用している。納棺師として一定の技術を身に付けた後に、独立開業をしたりフリーランスとして業務を請け負ったりすることも可能である。</p>
+        <p>近年、核家族化や経済的理由等から葬儀の規模の縮小や簡素化の傾向が続いている。納棺師による施術は必ずしも葬儀社が提供する葬儀プランに含まれてはいないため、このような時勢の影響は少なからずみられるものの、その一方で、最後に故人に対して精一杯のことをして見送りたいという遺族の強い思いから、納棺師による施術を希望するケースは年々増加している。納棺師は技術だけでなく、その社会的役割の重要性も認識されつつあり、今後ますます社会に必要とされる職業である。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +429,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

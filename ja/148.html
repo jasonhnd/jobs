@@ -8,6 +8,7 @@
     <title>刑務官 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="刑務官：就業者 約7,335人 / 平均年収データなし / 平均年齢データなし / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="刑務官" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/148" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/148" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "148",
+      "occupationalCategory": "10_062-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/148",
       "additionalProperty": [
         {
@@ -110,7 +111,20 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Prison Officer"
+      "alternateName": "Prison Officer",
+      "industry": "Public Safety",
+      "skills": [
+        "Instructing",
+        "Active Listening",
+        "Persuasion",
+        "Writing",
+        "Speaking",
+        "Social Perceptiveness",
+        "Monitoring",
+        "Coordination",
+        "Negotiation",
+        "Reading Comprehension"
+      ]
     },
     {
       "@type": "BreadcrumbList",
@@ -187,7 +201,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -243,6 +257,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -268,6 +352,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=hoan">保安・公安</a><span class="band band-low">AI 影響 低</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -289,19 +374,35 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>刑務所や少年刑務所、拘置所に収容されている者に対し、日常生活の指導、職業訓練指導、悩みごとに対する助言指導を行う。</p>
+        <p>原則として、刑務所や少年刑務所、拘置所に勤務し、収容されている者に対し、日常生活の指導、職業訓練指導、悩みごとに対する助言指導を行う。また、刑務所等の保安警備にも従事する。</p>
+        <p>刑務所及び少年刑務所は、主に刑が確定した受刑者を収容し、社会復帰（改善更生）のための働き掛けを行う施設であり、拘置所は主に刑事裁判で刑が確定していない未決拘禁者を収容する施設である。</p>
+        <p>刑務官は、刑務所及び少年刑務所では、受刑者への指導を通じて、その社会復帰（改善更生）を実現するよう、様々な働き掛けを行う。</p>
+        <p>また、拘置所では、主として勾留中の被疑者、被告人について、逃走や証拠の隠滅を防止するとともに、公平な裁判を受けられるように配慮している。</p>
+        <p>具体的には、刑務所や拘置所などの巡回警備業務に始まり、受刑者が刑務作業を行う工場や、被収容者が生活している居室棟での、指導や監督といった担当業務、改善指導の実施や出所後の帰住先や就労の調整、施設運営を支える事務系の業務などに従事する。</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/152">陸上自衛官</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/153">海上自衛官</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/141">海上保安官</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/147">法務教官</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/149">税務事務官</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>国家公務員採用試験である刑務官A（男性）又は刑務官B（女性）試験に合格すると採用候補者名簿に登載され、この名簿の中から採用が決定される。一次試験で公務員として必要な基礎能力を確認され、二次試験で個別面接・身体検査・視力測定・体力検査が行われる。また、29歳以下を対象に「武道（柔道又は剣道）」を実技試験として実施する刑務官A（男性）（武道）、刑務官B（女性）（武道）区分や、40歳未満の社会人経験者を対象とした刑務官A（男性）（社会人）、刑務官B（女性）（社会人）区分もある。なお、「武道」の区分で受験して採用された場合には、主に刑事施設の保安警備など、技能を生かした業務に従事することが多くなる。</p>
+        <p>刑務官は、受刑者等に直接接し、その生活指導、職業訓練指導などを行い、その者の改善更生や円滑な社会復帰を促していくという、社会の安心・安全を守るための仕事に従事するため、職務に対する強い情熱や使命感、高い倫理観が求められる。また、受刑者などの被収容者の身柄を拘束して様々な処遇を行うため、刑事収容施設法はもとより、刑法、刑事訴訟法など職務に関連する法律などについての知識、心理学、教育学などの人間科学に関する知識や、それを高めていく自己研さんが常に求められる。さらに、同僚と協力して職務に当たったり、検察庁、保護観察所など関係機関の職員と協力して仕事を進める協調性や柔軟性も不可欠である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>刑務官は、受刑者や未決拘禁者等を収容し、24時間体制でその身柄の確保や施設内外の保安警備を行うとともに、被収容者の処遇や生活指導に当たるなどの職務に従事していることから、一般の国家公務員に適用される行政職俸給表（一）に比べて12％程度給与水準の高い公安職俸給表（一）が適用されるほか、扶養手当、住居手当、通勤手当、期末・勤勉手当、超過勤務手当等の各種手当が支給される。１週当たりの勤務時間は38時間45分（週休2日制）で、採用後数年間は、主として交替制勤務（昼間勤務と昼夜間勤務がある。）に従事する。</p>
+        <p>勤務地については、本人の希望を考慮して決定され、原則として採用施設を所管する矯正管区の管轄地域内で異動する。制服は、季節に応じて定期的に貸与される。宿舎は、勤務する庁舎の近隣に設けられている。</p>
+        <p>なお、刑務所、少年刑務所は全国に66庁、拘置所は8庁が設置され、それぞれで刑務官が勤務している。（2024年現在）</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,98.5 264.0,139.5 214.4,231.1 126.9,229.3 99.3,147.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>55</dd><dt>対人</dt><dd>76</dd><dt>判断</dt><dd>58</dd><dt>身体</dt><dd>56</dd><dt>定型</dt><dd>57</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">指導</span><span class="topn-score">4.2</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.1</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.9</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.9</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.8</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.7</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.7</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.7</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.7</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">法律学、政治学</span><span class="topn-score">3.5</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.7</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">2.6</span></li><li><span class="topn-name">心理学</span><span class="topn-score">2.5</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">2.4</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.7</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">3.2</span></li><li><span class="topn-name">演繹的推論</span><span class="topn-score">3.2</span></li><li><span class="topn-name">帰納的推論</span><span class="topn-score">3.1</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">3.1</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/475"><span class="tc-name">雑踏・交通誘導警備員</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -310,6 +411,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

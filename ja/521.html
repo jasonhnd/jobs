@@ -8,6 +8,7 @@
     <title>特許審査官 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="特許審査官：就業者 約6,118人 / 平均年収 765万円 / 平均年齢 47.2 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="特許審査官" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/521" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/521" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "521",
+      "occupationalCategory": "03_012-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/521",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Patent Examiner",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Reading Comprehension",
+        "Writing",
+        "Foreign Language Reading",
+        "Critical Thinking",
+        "Active Learning",
+        "Speaking",
+        "Active Listening",
+        "Instructing",
+        "Foreign Language Writing",
+        "Persuasion"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=shigyo">士業・経営・コンサル</a><span class="band band-high">AI 影響 高</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +393,37 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>特許庁に出願された発明を審査し、特許性を判断する。</p>
+        <p>特許庁は、生活を支える様々な発明を守り、次世代のイノベーションを促す役割を担う。具体的には、知的財産権のうち特許、実用新案、商標、意匠の4つの権利（産業財産権）を所管しており、このうち特許は、発明、すなわち、自然法則を利用した技術的思想の創作のうち高度なものを保護の対象としている。特許審査官は、特許庁に勤務し、出願された発明を最新技術や法律的な知識に基づき審査し、特許性を判断する。</p>
+        <p>特許審査官は、まず、出願された書類を精査し、発明内容を理解するとともに、庁内外の検索システムを用いて、世界中の特許文献や学術論文のデータベースから過去に類似の技術がないか、先行技術調査を行う。出願された発明と先行技術との比較を行い、特許性があると判断した場合は特許査定を、ないと判断した場合は拒絶理由通知を行う。拒絶理由通知に対しては、出願人は意見・補正等の応答を行うことができ、出願人とのやり取り（基本的には書面であるが、面接審査が行われる場合もある）を踏まえて再度審査をし、最終的に特許査定、拒絶査定をする。審査は審査官が単独で行うが、判断が難しい場合など必要に応じて他の審査官との意見交換や協議も行われる。特許となった出願については特許公報が発行されるが、その特許公報には特許査定をした審査官名も掲載される。特許権を適切に設定することで、日本の産業の発展に貢献する。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>特許検索システム、文書作成ソフト（Word、一太郎等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/520">セキュリティエキスパート（脆弱性診断）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/519">労働基準監督官</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/518">検察事務官</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/522">NPO法人職員（企画・運営）</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/523">データエンジニア</a><span class="r-risk">AI 影響 9/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>国家公務員総合職試験（大卒程度試験、院卒者試験）の技術系区分に合格する必要がある。専門分野としては、工学系、化学・生物・薬学系、数理科学・物理・地球科学系、農学系のあらゆる試験区分の合格者の中からまんべんなく採用されている。採用人数は年度によって異なるが、2025年度は65人、そのうち女性は24人である。</p>
+        <p>採用後は約3か月の研修を経て審査官補に任用され、指導審査官によるマンツーマン指導の下に実際の出願案件の審査を行う。また、法令、条約、審査実務の専門知識を習得する前期研修（約2か月）、後期研修（約1か月）のほか、英語研修や企業での技術研修などを経て、大卒では入庁5年目に審査官に昇任するのが一般的である。修士卒は4年目、博士卒は3年目に審査官に昇任することができる。</p>
+        <p>基礎的な知識の習得のための研修のほか、技術動向、法律、海外判例等を把握できる研修制度、留学制度も充実している。</p>
+        <p>発明の審査という高度な専門性を必要とする仕事であり、最新の技術動向に関心を持ち、担当分野の研究開発情報を収集する向上心が求められる。また、出願人や利害関係者が納得できる審査を行うためには、論理的な思考力や合理的な判断力、バランス感覚が必要である。さらに、書面でのやり取りが多いため、論述能力も重要であり、海外論文を調査することも多いことから、英語力も不可欠である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>主な就業場所は東京の特許庁である。ただし、他省庁や関係機関、大学等へ出向、海外勤務の機会もある。</p>
+        <p>特許審査官の定員は2025年度現在1,668名であり、特許庁定員の60.0%を占める。近年は採用者のうち女性の割合は3分の1程度である。</p>
+        <p>給与、勤務時間、休暇、福利厚生等の労働条件は国家公務員法の規定による。</p>
+        <p>審査業務は基本的に審査官が単独で案件を担当する形を取っており、ある程度自分のペースで仕事を進めることができる。フレックスタイム制度などを活用し、ライフスタイルに合わせて働くことも可能である。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,32.5 257.5,141.6 224.3,244.7 151.5,195.5 107.3,149.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>105</dd><dt>対人</dt><dd>70</dd><dt>判断</dt><dd>71</dd><dt>身体</dt><dd>24</dd><dt>定型</dt><dd>50</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">6.4</span></li><li><span class="topn-name">文章力</span><span class="topn-score">5.6</span></li><li><span class="topn-name">外国語を読む</span><span class="topn-score">5.3</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">5.3</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">5.3</span></li><li><span class="topn-name">説明力</span><span class="topn-score">5.2</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.6</span></li><li><span class="topn-name">外国語で書く</span><span class="topn-score">4.1</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">4.0</span></li><li><span class="topn-name">法律学、政治学</span><span class="topn-score">3.8</span></li><li><span class="topn-name">工学</span><span class="topn-score">3.4</span></li><li><span class="topn-name">化学</span><span class="topn-score">3.2</span></li><li><span class="topn-name">物理学</span><span class="topn-score">3.1</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/419"><span class="tc-name">調香師</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 96%</span></span></a><a class="transfer-card" href="/ja/185"><span class="tc-name">学芸員</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 95%</span></span></a><a class="transfer-card" href="/ja/144"><span class="tc-name">裁判官</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 95%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +432,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

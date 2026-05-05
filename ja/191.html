@@ -8,6 +8,7 @@
     <title>船舶機関士 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="船舶機関士：就業者 約6,470人 / 平均年収 467万円 / 平均年齢 48.0 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="船舶機関士" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/191" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/191" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "191",
+      "occupationalCategory": "13_087-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/191",
       "additionalProperty": [
         {
@@ -118,6 +119,22 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Marine Engineer",
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Equipment Maintenance",
+        "Repairing",
+        "Operations Monitoring",
+        "Troubleshooting",
+        "Active Listening",
+        "Operation and Control",
+        "Reading Comprehension",
+        "Speaking",
+        "Instructing",
+        "Equipment Selection"
+      ],
+      "qualifications": [
+        "海技士（機関）免許"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -201,7 +218,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -257,6 +274,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -282,6 +369,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-mid">AI 影響 中</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -304,18 +392,39 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>船舶の機関部で機関員を指揮しながら、エンジン（主機関）、発電機、ボイラー、その他の各種機器の管理を行う。</p>
+        <p>航海中は、機関制御室で各種計測装置から状況や記録を監視し、航海に支障がないよう努める。定期的に機関室を見回って、主機関や発電機などの回転音、冷却水や潤滑油の温度・圧力をチェックして、音や数値に異常がないことを確認する。また、計画されている保守整備作業なども行う。</p>
+        <p>異状発生時には、直ちに応急処置をとるとともに、その原因を調べ、機関長に状況を報告する。荒天や非常事態の場合には、所定の位置について船長や機関長の指示に基づいて行動する。自らの判断で緊急に取った措置については、すぐに機関長に報告する。</p>
+        <p>停泊中は、主機関、発電機、ボイラーなどの整備を行い、燃料や備品・消耗品を補給して次の航海に備える。航海中の機器運転管理の他に、整備計画を立案し、その時々の状況に応じて必要な点検整備、故障箇所の修理を行う。</p>
+        <p>最も安全に気を使う出入港時は、所定の配置につき、主機関や関連する補助機械類が船長の指示に対し確実に対応するように機関室全域を点検する。</p>
+        <p>大型の船舶では機関長を含めて複数の機関士が同乗しており、機関長は機関部の最高責任者として責任を負い、他の機関士を指揮する。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>計測装置、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/190">航海士</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/189">パイロット</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/188">タクシー運転手</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/192">電車運転士</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/193">鉄道車掌</a><span class="r-risk">AI 影響 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>船舶機関士になるには、海技従事者国家試験に合格して、海技士（機関）免許を取得する必要がある。</p>
+        <p>一般的には、旧商船大学（現在は東京海洋大学と神戸大学）、商船高等専門学校、海上技術の学校等に進学し、各種の機関・機器に関する理論と実技両面について所定の修業年限を積んだ後、在学中又は卒業後に乗船実習を航海訓練所や学校所属の練習船で行う。大型の船舶に乗るには上級の免許が求められ、それに応じた乗船経験も必要となる。</p>
+        <p>船上では船長を中心とした秩序が大切であり、規律を守ることが求められる。また、機関員を指導し、チームワークを作り上げるリーダーシップも必要となる。騒音や気温の変化などの厳しい作業環境や不規則な勤務形態の他、時差がある場合もあり、このような環境での仕事に耐えられる体力と忍耐力が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>船は港を出ると次の港まで休みなく稼働し、港に着いた後も荷役を行いながら必要な補給を行うため休みが取りにくい。このため、下船するとまとまった休暇がとれる制度が一般的に採用されている。例えば、外国航路などでは８～９月乗船し３～４ヶ月休みをとるといった形態が一般的である。</p>
+        <p>航海中は、所定の時間で交替勤務を行うのが一般的だが、出入港時や緊急時には船長の命令によって労働時間外でも配置につき、作業を行う。以前と比べて、作業環境は大幅に改善されており、機関制御室で計器類を監視し、遠隔操作を行うことが多くなっている。就業者はほとんど男性である。また、外航船では外国人船員と一緒に船に乗り、働くことが多い。</p>
+        <p>給料は会社の規定によって定められており、基本給の他に、時間外手当や特殊作業手当などが支給される。また、職務外疾病（健康保険相当部分）及び船員労働の特性に応じた独自・上乗せ給付は船員保険が適用される（平成22年から、船員保険の一部は一般の労災保険制度及び雇用保険制度に統合されている。）。</p>
+        <p>船舶運航の自動化などに伴い、一つの船舶の運航に要する船員数が少なくなっているが、機関士には高度な技術と知識が求められるようになっている。また、船員としての経験を活かして、陸上勤務を行うこともある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,104.5 247.6,144.8 217.1,234.9 126.4,230.1 93.6,145.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>50</dd><dt>対人</dt><dd>62</dd><dt>判断</dt><dd>61</dd><dt>身体</dt><dd>57</dd><dt>定型</dt><dd>61</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">保守点検</span><span class="topn-score">4.3</span></li><li><span class="topn-name">修理</span><span class="topn-score">4.2</span></li><li><span class="topn-name">計器監視</span><span class="topn-score">4.0</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">3.9</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.8</span></li><li><span class="topn-name">操作と制御</span><span class="topn-score">3.7</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.4</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">3.3</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">機械</span><span class="topn-score">3.2</span></li><li><span class="topn-name">輸送</span><span class="topn-score">2.2</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.9</span></li><li><span class="topn-name">物理学</span><span class="topn-score">1.9</span></li><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">1.9</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.7</span></li><li><span class="topn-name">聴覚の感度</span><span class="topn-score">3.1</span></li><li><span class="topn-name">聴覚的注意（特定の音を聞き分ける力）</span><span class="topn-score">2.9</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">2.9</span></li><li><span class="topn-name">指先の器用さ</span><span class="topn-score">2.8</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/207"><span class="tc-name">船員</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/48"><span class="tc-name">エレベーター据付</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/549"><span class="tc-name">クレーン運転士</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.marine-engineer.or.jp/" rel="external" target="_blank">一般社団法人　日本船舶機関士協会</a></li><li><a href="http://www.jsanet.or.jp" rel="external" target="_blank">一般社団法人   日本船主協会</a></li><li><a href="http://www.uminoshigoto.com" rel="external" target="_blank">海の仕事.com</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>海技士（機関）免許</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -324,6 +433,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">
