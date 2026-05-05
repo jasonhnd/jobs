@@ -599,6 +599,165 @@
         font-variant-numeric: tabular-nums;
         letter-spacing: 0.04em;
       }
+
+      /* ═══════════ v1.2.x mobile-only compact top bar (brand + hamburger) ═══════════ */
+      .m-topbar { display: none; }
+      .m-topbar-menu { display: none; }
+      @media (max-width: 768px) {
+        .m-topbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 12px 20px;
+          background: var(--bg);
+          border-bottom: 1px solid var(--border);
+          position: sticky;
+          top: 0;
+          z-index: 50;
+        }
+        .m-topbar-brand {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          color: var(--accent);
+          text-decoration: none;
+          font-family: var(--font-serif);
+          font-size: 1.08rem;
+          font-weight: 600;
+        }
+        .m-topbar-brand:hover { text-decoration: none; }
+        .m-topbar-mark { display: inline-flex; }
+        .m-topbar-name [data-i18n]:not(.active) { display: none; }
+        .m-topbar-burger {
+          display: inline-flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 4px;
+          width: 36px; height: 36px;
+          background: transparent;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          padding: 0;
+          cursor: pointer;
+          transition: border-color 150ms;
+        }
+        .m-topbar-burger:hover { border-color: var(--accent); }
+        .m-topbar-burger span {
+          display: block;
+          width: 16px;
+          height: 1.5px;
+          background: var(--fg);
+          transition: transform 200ms ease, opacity 150ms ease;
+        }
+        .m-topbar-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+        .m-topbar-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .m-topbar-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+        /* Hide the legacy desktop utility row + h1 brand block on mobile —
+           the top-bar above replaces them. */
+        .desktop-hero-utility { display: none !important; }
+        #wrapper > header > h1 { display: none !important; }
+
+        .m-topbar-menu {
+          display: block;
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(36,30,24,0.18);
+          z-index: 49;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 200ms ease;
+        }
+        .m-topbar-menu:not([hidden]) {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .m-topbar-menu-inner {
+          margin-top: 60px;
+          background: var(--bg);
+          border-bottom: 1px solid var(--border);
+          padding: 22px 24px 26px;
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+          transform: translateY(-12px);
+          transition: transform 220ms ease;
+        }
+        .m-topbar-menu:not([hidden]) .m-topbar-menu-inner { transform: translateY(0); }
+        .m-topbar-menu-section { display: flex; flex-direction: column; gap: 10px; }
+        .m-topbar-menu-section a {
+          color: var(--fg);
+          text-decoration: none;
+          font-size: 1rem;
+          padding: 8px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .m-topbar-menu-section a:hover { color: var(--accent); }
+        .m-topbar-menu-section a:last-child { border-bottom: none; }
+        .m-topbar-menu-section a [data-i18n]:not(.active) { display: none; }
+        .m-topbar-menu-label {
+          font-family: var(--font-sans);
+          font-size: 0.74rem;
+          color: var(--fg2);
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          font-weight: 600;
+        }
+        .m-topbar-menu-label[data-i18n]:not(.active) { display: none; }
+        .m-topbar-menu-langs {
+          display: inline-flex;
+          gap: 6px;
+        }
+        .m-topbar-menu-langs button {
+          background: transparent;
+          border: 1px solid var(--border);
+          color: var(--fg);
+          padding: 6px 14px;
+          border-radius: 999px;
+          font: inherit;
+          font-size: 0.86rem;
+          cursor: pointer;
+        }
+        .m-topbar-menu-langs button[aria-pressed="true"] {
+          background: var(--accent);
+          border-color: var(--accent);
+          color: #fff;
+        }
+      }
+
+      /* Treemap section header — desktop hidden (controls block above already does it),
+         mobile shows it as a clear section break per Direction C design. */
+      .m-map-head { display: none; }
+      @media (max-width: 768px) {
+        .m-map-head {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin: 24px 0 12px;
+          padding-top: 18px;
+          border-top: 1px solid var(--border);
+        }
+        .m-map-title {
+          font-family: var(--font-serif);
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: var(--fg);
+          margin: 0;
+          letter-spacing: -0.005em;
+        }
+        .m-map-title [data-i18n]:not(.active) { display: none; }
+        .m-map-meta {
+          font-family: var(--font-sans);
+          font-size: 0.74rem;
+          color: var(--fg2);
+          letter-spacing: 0.02em;
+        }
+        .m-map-meta [data-i18n]:not(.active) { display: none; }
+      }
       /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM
          for future dark-variant work; restore by removing this rule. */
       .theme-toggle { display: none !important; }
@@ -1448,10 +1607,11 @@
         font-size: 0.95rem;
         opacity: 0.7;
         pointer-events: none;
+        z-index: 2;
       }
       .mobile-hero-search input {
         width: 100%;
-        padding: 11px 14px 11px 40px;
+        padding: 11px 96px 11px 40px;  /* right padding leaves room for the inline 診断 CTA */
         background: var(--bg2);
         border: 1px solid var(--border);
         border-radius: 999px;
@@ -1460,6 +1620,32 @@
         font-size: 0.92rem;
         outline: none;
       }
+      .mobile-hero-search .mhs-cta {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        padding: 7px 18px;
+        border-radius: 999px;
+        font: inherit;
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 0.86rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: filter 150ms ease, transform 100ms ease;
+        z-index: 2;
+      }
+      .mobile-hero-search .mhs-cta:hover { filter: brightness(1.05); }
+      .mobile-hero-search .mhs-cta:active { transform: translateY(calc(-50% + 1px)); }
+      .mobile-hero-search .mhs-cta:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .mobile-hero-search .mhs-cta [data-i18n]:not(.active) { display: none; }
       .mobile-hero-search input:focus-visible {
         border-color: var(--accent);
         box-shadow: 0 0 0 2px rgba(255, 184, 77, 0.18);
@@ -1506,9 +1692,12 @@
         header { display: contents; }
         header h1 { order: -5; }
         .mobile-hero { display: block; order: -4; }
-        #loadingState { order: -3; }
-        #treemap { order: -2; }
-        .controls { order: -1; }
+        .m-top10 { order: -3; }        /* TOP 10 carousel — between hero and map header */
+        #loadingState { order: -3; }   /* same slot as TOP 10; DOM order keeps loading first while it exists */
+        .m-map-head { order: -2; }     /* "職業マップ" section header above treemap */
+        #treemap { order: -1; }
+        .controls { order: 0; }
+        .stats-panel { order: 1; }     /* hidden on mobile but order kept consistent */
         .dimension-hint { display: none; }
         .search-row { display: none; }
         h1 {
@@ -1893,6 +2082,51 @@
       <span class="banner-text active" data-i18n="ja">独自分析サイト ・ 厚労省 / job tag / JILPT の<strong>公式見解ではありません</strong></span>
       <span class="banner-text" data-i18n="en">Independent analysis ・ <strong>Not endorsed by</strong> MHLW / jobtag / JILPT</span>
     </div>
+    <!-- v1.2.x mobile-only compact top bar: brand mark + hamburger menu.
+         Hidden on ≥769px — desktop has its own utility row inside .desktop-hero-utility. -->
+    <nav class="m-topbar" aria-label="Site">
+      <a class="m-topbar-brand" href="/" aria-label="未来の仕事 — Future of Work">
+        <span class="m-topbar-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18 L9 10 L13 14 L21 6"/>
+            <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+            <circle cx="13" cy="14" r="1.5" fill="currentColor"/>
+            <circle cx="21" cy="6" r="1.5" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="m-topbar-name">
+          <span data-i18n="ja" class="active">未来の仕事</span>
+          <span data-i18n="en">Mirai Shigoto</span>
+        </span>
+      </a>
+      <button type="button" class="m-topbar-burger" id="mTopbarBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mTopbarMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="m-topbar-menu" id="mTopbarMenu" hidden>
+      <div class="m-topbar-menu-inner">
+        <div class="m-topbar-menu-section">
+          <span class="m-topbar-menu-label" data-i18n="ja">言語</span>
+          <span class="m-topbar-menu-label" data-i18n="en">Language</span>
+          <div class="m-topbar-menu-langs lang-switch" role="group">
+            <button data-set="ja" aria-pressed="true">日本語</button>
+            <button data-set="en" aria-pressed="false">English</button>
+          </div>
+        </div>
+        <div class="m-topbar-menu-section">
+          <a href="/about">
+            <span data-i18n="ja" class="active">このサイトについて</span>
+            <span data-i18n="en">About this site</span>
+          </a>
+          <a href="/compliance">
+            <span data-i18n="ja" class="active">コンプライアンス</span>
+            <span data-i18n="en">Compliance</span>
+          </a>
+          <a href="/privacy">Privacy</a>
+          <a href="https://github.com/jasonhnd/jobs" rel="external">GitHub</a>
+        </div>
+      </div>
+    </div>
     <div id="wrapper">
       <header>
         <!-- Desktop Hero — search-first entry. On desktop, this replaces the old h1 / controls / search-row.
@@ -1912,7 +2146,7 @@
           </div>
           <div class="desktop-hero-inner">
             <h2 class="dh-title">
-              <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span>働き方を。</span>
+              <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。</span>
               <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
             </h2>
             <p class="dh-lead">
@@ -1969,22 +2203,26 @@
              search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="Mobile quick-search hero">
           <h2 class="mobile-hero-title">
-            <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span>働き方を。</span>
+            <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。</span>
             <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
           </h2>
           <div class="mobile-hero-trust">
             <span data-i18n="ja" class="active">552 の職業を、AI 影響度で多角的に分析</span>
             <span data-i18n="en">552 occupations analyzed by AI impact</span>
           </div>
-          <div class="mobile-hero-search">
+          <form class="mobile-hero-search" id="mhSearchForm" role="search" autocomplete="off">
             <span class="mhs-icon" aria-hidden="true">🔍</span>
             <input id="searchInputMobile" type="search" autocomplete="off"
-                   data-i18n-ja-placeholder="職業名で検索（例：事務職）"
-                   data-i18n-en-placeholder="Search occupations (e.g. clerk)"
-                   placeholder="職業名で検索（例：事務職）"
+                   data-i18n-ja-placeholder="気になる職業を入力"
+                   data-i18n-en-placeholder="Enter an occupation"
+                   placeholder="気になる職業を入力"
                    aria-label="Search occupations" />
+            <button type="submit" class="mhs-cta" id="mhSearchBtn">
+              <span data-i18n="ja" class="active">診断</span>
+              <span data-i18n="en">Search</span>
+            </button>
             <ul class="search-suggest" id="searchSuggestMobile" role="listbox" aria-label="Search suggestions"></ul>
-          </div>
+          </form>
           <div class="mobile-hero-chips" role="list">
             <button type="button" data-chip="事務職" role="listitem"><span data-i18n="ja" class="active">事務職</span><span data-i18n="en">Clerical</span></button>
             <button type="button" data-chip="経理" role="listitem"><span data-i18n="ja" class="active">経理</span><span data-i18n="en">Accounting</span></button>
@@ -2080,6 +2318,17 @@
         <span data-i18n="ja" class="active">読み込み中…</span>
         <span data-i18n="en">Loading…</span>
       </div>
+      <!-- v1.2.x mobile-only treemap section header (matches Direction C homepage layout) -->
+      <header class="m-map-head">
+        <h2 class="m-map-title">
+          <span data-i18n="ja" class="active">職業マップ</span>
+          <span data-i18n="en">Occupation Map</span>
+        </h2>
+        <span class="m-map-meta">
+          <span data-i18n="ja" class="active">全 552 職業 ・ 面積＝就業者数 ・ 色＝AI影響</span>
+          <span data-i18n="en">552 occupations · area = workforce · color = AI impact</span>
+        </span>
+      </header>
       <canvas id="treemap" tabindex="0" role="application"
               aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
               style="visibility:hidden"></canvas>
@@ -3189,12 +3438,13 @@
         });
       });
 
-      // Form submit (Enter / click "AI影響度をチェック") → direct nav to top match.
-      const dhForm = document.getElementById("dhSearchForm");
-      if (dhForm) {
-        dhForm.addEventListener("submit", (e) => {
+      // Form submit (Enter / click "気になる職業から始める" desktop / 診断 mobile) → direct nav to top match.
+      function wireSearchSubmit(formId, inputId) {
+        const form = document.getElementById(formId);
+        if (!form) return;
+        form.addEventListener("submit", (e) => {
           e.preventDefault();
-          const inp = document.getElementById("searchInputDesktop");
+          const inp = document.getElementById(inputId);
           const q = inp ? inp.value.trim() : "";
           const noResultEl = document.getElementById("searchNoResult");
           if (!q) return;
@@ -3207,6 +3457,40 @@
           navigateToJob(matches[0], "search_submit");
         });
       }
+      wireSearchSubmit("dhSearchForm", "searchInputDesktop");
+      wireSearchSubmit("mhSearchForm", "searchInputMobile");
+
+      // v1.2.x mobile hamburger menu — toggle expand/collapse + close on link click + Esc.
+      (function wireMobileTopbarMenu() {
+        const burger = document.getElementById("mTopbarBurger");
+        const menu   = document.getElementById("mTopbarMenu");
+        if (!burger || !menu) return;
+        function setOpen(open) {
+          burger.setAttribute("aria-expanded", String(open));
+          if (open) {
+            menu.hidden = false;
+            document.body.style.overflow = "hidden";  // lock background scroll while menu open
+          } else {
+            menu.hidden = true;
+            document.body.style.overflow = "";
+          }
+        }
+        burger.addEventListener("click", () => {
+          setOpen(burger.getAttribute("aria-expanded") !== "true");
+        });
+        menu.addEventListener("click", (e) => {
+          // Click on the dim backdrop (outside .m-topbar-menu-inner) → close.
+          if (e.target === menu) setOpen(false);
+        });
+        // Close after navigation (link click) so the page doesn't load with menu still over it.
+        menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
+        // Esc closes (keyboard a11y).
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && burger.getAttribute("aria-expanded") === "true") setOpen(false);
+        });
+        // Lang button click inside menu → close after lang switch fires (existing setLang already wired).
+        menu.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => setOpen(false)));
+      })();
 
       // Live autocomplete dropdown — top 8 matches as user types.
       // v1.2.0: wired to BOTH desktop hero (#searchInputDesktop / #searchSuggest)
