@@ -20,7 +20,7 @@
 
     <!-- Open Graph (kept minimal — 404s shouldn't be shared, but if a stale link is unfurled the brand still reads correctly). -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="日本の職業 AI 影響マップ（非公式）" />
+    <meta property="og:site_name" content="日本の職業 AI 影響マップ" />
     <meta property="og:title" content="ページが見つかりません — mirai-shigoto.com" />
     <meta property="og:description" content="404 — 指定されたページは存在しないか、移動した可能性があります。" />
     <meta property="og:url" content="https://mirai-shigoto.com/404" />
@@ -248,14 +248,35 @@
 
       footer {
         margin-top: 56px;
-        padding-top: 18px;
+        padding-top: 22px;
         border-top: 1px solid var(--border);
         font-size: 0.8rem;
         color: var(--fg2);
         text-align: center;
       }
-      footer a { color: var(--accent); text-decoration: none; }
-      footer a:hover { text-decoration: underline; }
+      footer .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+      }
+      footer .footer-links a {
+        color: var(--fg2);
+        text-decoration: none;
+        padding: 5px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        line-height: 1.2;
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      footer .footer-links a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.06);
+        text-decoration: none;
+      }
       [data-i18n]:not(.active) { display: none; }
 
       @media (max-width: 540px) {
@@ -336,31 +357,19 @@
             <span data-i18n="en">Analytics &amp; cookies</span>
           </span>
         </a>
-        <a href="https://github.com/jasonhnd/jobs/issues" target="_blank" rel="noopener noreferrer">
-          <span>
-            <span data-i18n="ja" class="active">不具合・要望を報告</span>
-            <span data-i18n="en">Report a bug / request</span>
-          </span>
-          <span class="desc">
-            <span data-i18n="ja" class="active">GitHub Issues</span>
-            <span data-i18n="en">GitHub Issues</span>
-          </span>
-        </a>
       </div>
 
       <footer>
-        <span data-i18n="ja" class="active">
-          <a href="/">トップ</a> ·
-          <a href="/about">データについて</a> ·
-          <a href="/privacy">プライバシー</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
-        </span>
-        <span data-i18n="en">
-          <a href="/?lang=en">Home</a> ·
-          <a href="/about?lang=en">About</a> ·
-          <a href="/privacy?lang=en">Privacy</a> ·
-          <a href="https://github.com/jasonhnd/jobs">GitHub</a>
-        </span>
+        <div class="footer-links active" data-i18n="ja">
+          <a href="/">トップ</a>
+          <a href="/about">データについて</a>
+          <a href="/privacy">プライバシー</a>
+        </div>
+        <div class="footer-links" data-i18n="en">
+          <a href="/?lang=en">Home</a>
+          <a href="/about?lang=en">About</a>
+          <a href="/privacy?lang=en">Privacy</a>
+        </div>
       </footer>
     </div>
 
