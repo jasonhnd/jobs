@@ -44,6 +44,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 7 — H2 headings embed occupation name** (`scripts/build_occupations.py`):
+  detail-page H2s now incorporate the occupation name to match the long-tail
+  intent queries the Phase 4 title rewrite anchored on:
+  - JA: `この職業について` → `{name}とは`,  `なるには（経路・資格）` → `{name}になるには・必要な資格`,  `労働条件・働き方` → `{name}の労働条件・働き方`
+  - EN: `About this occupation` → `What is a {name}?`,  `How to enter the field` → `How to become a {name}`,  `Working conditions` → `Working conditions for {name}`
+  Effect: the page surfaces `{職業名} とは`, `{職業名} になるには`,
+  `{職業名} 労働条件` keywords in H2 (next-strongest signal after H1 / title)
+  on top of the title-level coverage. Applied to all 1112 detail pages.
 - **Phase 6 — Vercel cache headers for SEO assets** (`vercel.json`):
   added `Cache-Control` for `/sitemap.xml` (`max-age=300, s-maxage=600` — 5 min
   browser, 10 min CDN), `/robots.txt` (10 min / 1 hr), and `/llms.txt` /
