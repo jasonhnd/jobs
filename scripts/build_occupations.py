@@ -256,8 +256,9 @@ def _render_meta_row(rec: dict, lang: str) -> str:
     sector = rec.get("sector") or {}
     sector_name = (sector.get("en") if lang == "en" else sector.get("ja")) or ""
     if sector_name:
-        # link to /<lang>/?sector=<id> for future filtering, harmless 200 today.
-        sector_href = f"/?sector={sector.get('id')}" if lang == "ja" else f"/?lang=en&sector={sector.get('id')}"
+        # link to dedicated sector hub page; gives every detail page an internal
+        # link into the 16 hub-page graph (build_sector_hubs.py).
+        sector_href = f"/{lang}/sectors/{sector.get('id')}"
         parts.append(
             f'<a class="sector-chip" href="{escape(sector_href)}">{escape(sector_name)}</a>'
         )
