@@ -544,7 +544,11 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
 
     og_title = title[:120]
     og_desc = seo_desc[:300]
+    # alternate_url is the absolute production URL — used for SEO hreflang in <head>.
+    # alternate_path is the relative path — used for the visible lang-switch button so
+    # users on preview / staging domains stay within their current environment.
     alternate_url = en_url(id_) if lang == "ja" else ja_url(id_)
+    alternate_path = f"/en/{id_}" if lang == "ja" else f"/ja/{id_}"
     h1_sub_html = f'<span class="h1-sub">{escape(h1_sub)}</span>' if h1_sub else ""
 
     related_li_html_parts = []
@@ -676,7 +680,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
       <header id="content">
         <h1>
           <span class="accent">{escape(h1_main)}</span>{h1_sub_html}
-          <span class="lang-switch"><a href="{alternate_url}" hreflang="{lang_switch_target_lang}" rel="alternate">{lang_switch_label}</a></span>
+          <span class="lang-switch"><a href="{alternate_path}" hreflang="{lang_switch_target_lang}" rel="alternate">{lang_switch_label}</a></span>
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
