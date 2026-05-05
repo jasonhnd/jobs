@@ -8,6 +8,7 @@
     <title>ナレーター — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="ナレーター：就業者 約15,540人 / 平均年収 589万円 / 平均年齢 40.0 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="ナレーター" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/541" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/541" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "541",
+      "occupationalCategory": "03_018-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/541",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Narrator",
+      "industry": "Creative & Media",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=creative">クリエイティブ・メディア</a><span class="band band-high">AI 影響 高</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -309,7 +382,38 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>映像やオーディオ作品、広告・広報、施設・車内案内などで音声により情報を伝える。</p>
+        <p>ナレーターの仕事には、放送番組や映像作品、教材、広告などのナレーション、美術館・博物館などの音声ガイド、展示会場の商品説明、駅や車内、大規模施設の案内アナウンスなど、さまざまな分野がある。映像に合わせた「語り」により内容の理解や情感を深めるナレーションが代表的なイメージであるが、ナレーターの仕事は日常生活のさまざまな場にも広がっている。</p>
+        <p>ナレーションは、専業のナレーターのほか、アナウンサーや声優、俳優、タレントなどが担当することも多いが、ここでは主に、ナレーションを中心に活動している専業のナレーターについて述べる。</p>
+        <p>テレビ・ラジオなどの放送番組や映画などの映像作品の場合、作品の内容に合わせて制作者側が候補者を集め、オーディションなどを経て候補者の中からナレーターが決まる。各自が事前に用意したボイスサンプル（いくつかのパターンの音声を吹き込んだもの）によって選考されることもあるが、大きな作品やレギュラー放送番組などの場合は、面接やマイクの前で原稿を読む音声テストなどが行われることが多い。</p>
+        <p>指名されてナレーションを担当することになれば、台本を読み込み、制作意図と全体の中での役割を理解し、作品に合う語りのトーンやテンポを考えて準備する。リハーサルを経て制作側とイメージをすり合わせ、調整しながら本番の音声収録を行う。締切りや納品など時間の制約が厳しい中で、柔軟で臨機応変な対応も求められる。</p>
+        <p>レギュラー番組や継続的なシリーズのナレーションを担当している場合は、一定のスケジュールに沿って収録の仕事が続くが、単発の仕事が中心である場合は、ボイスサンプルの作成など次のオーディションの準備や仕事情報の収集をする。</p>
+        <p>企業のプロモーションビデオなどのナレーションを担当した場合は、関連するイベントで司会やアナウンスなどを行うこともある。ベテランのナレーターの中には、専門学校などでナレーション講座の講師などを務める人もいる。語りや音声の録音だけでなく、さまざまな「声の仕事」を手掛けることにより、仕事の幅を広げる努力をしている人が多い。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>録音機材（マイク、ヘッドセット等）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって必須となる学歴や資格はない。一般的には、専門学校のアナウンサー養成コースや声優養成コース、ナレーター養成講座などでナレーションのスキルを習得し、事務所やプロダクションに所属して仕事の機会を待つ。ナレーションの仕事は作品やプロジェクトごとの契約となるのが一般的なので、特定の企業に専業ナレーターとして雇用されることはほとんどなく、オーディションなどを通して仕事を獲得していくことが必要になる。</p>
+        <p>スキルを磨き、人脈を広げるため、勉強会やワークショップなどに参加する人も多い。</p>
+        <p>一定の経験と実績を積んで指名の仕事が来るようになれば、所属先から独立できることもあるが、フリーランスとして個人で安定した活動をできる人はごく一部である。評価を確立するまで生活が厳しい期間が長いため、他の仕事へ転じる人も多い。</p>
+        <p>ナレーターに求められるスキルとしては、聞きやすい安定した発声、正確なアクセント、場面に応じた表現力などの語りの技術が必須である。台本の読解力、作品への理解力、制作側の指示に機敏に対応する柔軟性なども重要である。</p>
+        <p>文章を読み、声で表現する仕事であるので、本を読むこと、人と話すこと、日頃から人に関心を持って観察することが好きな人に向いている。また、新しい仕事を獲得するために自ら動くことが必要となるので、チャレンジ精神や向上心も重要である。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>ナレーションを必要とするコンテンツ制作会社などが多く立地する都市部が主な就業場所となるが、最近では、リモート収録により在宅での仕事が可能なケースもある。専業ナレーターとして雇用されることはあまりなく、一件ごとの契約となることがほとんどである。女性の就業者が多いが、さまざまな属性の声にニーズがあるため、性別・年齢は幅広い。</p>
+        <p>労働時間は作品やプロジェクトによりさまざまである。テレビ・ラジオの情報番組などの場合は深夜・早朝時間帯の仕事になることもある。</p>
+        <p>仕事量や単価により収入にも個人差が大きく、レギュラーの仕事を持って安定した収入を得ている人もいる一方、ナレーション以外の副業を持って生計を立てている人もいる。</p>
+        <p>ネット配信番組の増加や音声ガイドの普及などにより、ナレーションを伴うコンテンツは増加している。一方、タレントなど専業ナレーター以外の活動も活発化し、また、ネット上での仕事の受発注が可能となったことにより、一般の人も参入しやすくなってきている。さらにＡＩ音声による代替などの新しい動きもある。今後も、ナレーターの個性や実力が問われる状況が続くと見込まれる。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +426,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +435,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

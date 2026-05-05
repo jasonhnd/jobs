@@ -8,6 +8,7 @@
     <title>児童指導員 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="児童指導員：就業者 約44,392人 / 平均年収 441万円 / 平均年齢 45.4 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="児童指導員, 指導員（放課後等デイサービス事業所）, 社会福祉士（児童福祉施設：相談・助言・支援業務）, 少年指導員, 児童自立支援専門員, 児童生活支援員, 母子支援員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/243" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/243" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "243",
+      "occupationalCategory": "08_049-05",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/243",
       "additionalProperty": [
         {
@@ -122,7 +123,36 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Child Care Counselor",
+      "alternateName": [
+        "Child Care Counselor",
+        "指導員（放課後等デイサービス事業所）",
+        "社会福祉士（児童福祉施設：相談・助言・支援業務）",
+        "少年指導員",
+        "児童自立支援専門員",
+        "児童生活支援員",
+        "母子支援員"
+      ],
+      "industry": "Welfare & Care",
+      "skills": [
+        "Active Listening",
+        "Social Perceptiveness",
+        "Instructing",
+        "Service Orientation",
+        "Coordination",
+        "Speaking",
+        "Persuasion",
+        "Writing",
+        "Reading Comprehension",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "幼稚園教諭免許",
+        "小学校教諭免許（専修・１種・２種）",
+        "中学校教諭免許（専修・１種・２種）",
+        "高等学校教諭免許（専修・１種）",
+        "社会福祉士",
+        "精神保健福祉士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +236,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +292,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +387,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=fukushi">福祉・介護</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +409,38 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>家庭環境上養護を必要とする子どもが入所する施設等で、子どもたちの育成、生活指導等を行う。</p>
+        <p>児童指導員は、保護者のいない児童や虐待されている児童など、家庭環境上養護を必要とする子どもが入所する施設等で子どもたちの育成、生活指導等を行う。</p>
+        <p>例えば、児童養護施設は、基本的に2歳から18歳未満の子どもを対象とし、子どもとその家族への支援を行い、入所した子どもたちが健全に成長・自立できるよう、18歳以降のアフターケアも含めて援助、育成、生活指導を行うものであり、子どもたちの家庭の事情や成長の様子を見極め、一人ひとりに合わせた支援計画をたて、サポートする。</p>
+        <p>児童指導員は子どもの日常生活の支援、社会ルールの習得、学習や遊びなどの支援・指導に当たる。</p>
+        <p>児童指導員の仕事は、基本的に子どもたちの生活時間と連動している。朝は子どもを学校に送り出し、その後は日誌を記録するなど事務作業を行い、子どもたちが学校から帰ってきたら、学年別に勉強の手伝いや身の回りの世話等を行う。発達に特性がある子どもも少なくなく、対応には様々な工夫が求められる。必要に応じて保護者や児童相談所などと面談し、対応方針等の検討も行う。</p>
+        <p>進路相談の際には、子ども一人ひとりに対して異なる対応が求められる。例えば、中学卒業時はほとんどの子どもが高校などに進学をするが、進学先は様々であり、個々の状況に応じた支援が必要となる。また、高校卒業時においても、子どもの希望に応じて就職・進学できるよう支援することが必要である。子どもとより良いコミュニケーションを図り、いかに親身になって満足のいく進路相談ができるか、平素から子どもたちとの信頼関係を築き、適切なアドバイスをすることが求められる。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>パソコン、事務処理ソフト（文書作成等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/242">学童保育指導員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/244">障害者福祉施設指導専門員（生活支援員、就労支援員等）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/241">施設警備員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/245">老人福祉施設生活相談員</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/240">Webマーケティング（ネット広告・販売促進）</a><span class="r-risk">AI 影響 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>児童指導員となるには指導員任用資格が必要となる。</p>
+        <p>任用資格は、以下の条件のうちいずれかを満たすことで取得できる。(ⅰ)4年制大学や通信制大学で社会福祉学、心理学、教育学、社会学を専修する学部、学科を卒業すること、(ⅱ)社会福祉士、精神保健福祉士のいずれかの資格を取得していること、(ⅲ)高校若しくは中等教育学校を卒業し、2年以上児童福祉事業に従事すること、(ⅳ)3年以上児童福祉事業に従事し、厚生労働大臣又は都道府県知事から認定されること、(ⅴ)幼稚園教諭、小中学校、高等学校の教員免許を所有しており、厚生労働大臣又は都道府県知事から認定されることである。任用資格を満たした上で、自治体等の施設で勤務する場合は公務員試験、社会福祉法人等の民間施設で勤務する場合は施設の採用試験に合格する必要がある。採用後、児童指導員として勤務することとなる。</p>
+        <p>子どもの生活と安全を預かる仕事であるため、優しさや包容力、公平さなどが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>自治体や社会福祉法人等が運営する児童養護施設や乳児院、児童心理治療施設等で勤務する。児童養護施設の場合は、24時間体制で運営されており、児童指導員は宿直も含め交替制で働く。勤務時間や休暇制度などは、施設ごとの規定等によるが、子どもの学校が休みの時等には通常時と勤務時間が異なることもある。</p>
+        <p>子どもの病気や事故など即座の対応が必要になった場合、急な残業が発生することもある。</p>
+        <p>給与については、公営施設の場合は公務員規定に準じている。民間施設の場合、公務員規定を参考にした待遇となっているが、施設ごとに相違がある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,92.4 268.5,138.0 211.1,226.6 125.1,231.8 117.3,152.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>59</dd><dt>対人</dt><dd>79</dd><dt>判断</dt><dd>53</dd><dt>身体</dt><dd>58</dd><dt>定型</dt><dd>42</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.3</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.2</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">4.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.0</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.8</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.7</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.4</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">心理学</span><span class="topn-score">2.8</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">2.5</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">2.2</span></li><li><span class="topn-name">社会学</span><span class="topn-score">2.2</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.1</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.8</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.5</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.3</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.2</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.1</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/134"><span class="tc-name">施設介護員</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/133"><span class="tc-name">訪問介護員/ホームヘルパー</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.zenyokyo.gr.jp" rel="external" target="_blank">全国児童養護施設協議会</a></li><li><a href="https://www.shakyo.or.jp/" rel="external" target="_blank">社会福祉法人　全国社会福祉協議会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>幼稚園教諭免許</li><li>小学校教諭免許（専修・１種・２種）</li><li>中学校教諭免許（専修・１種・２種）</li><li>高等学校教諭免許（専修・１種）</li><li>社会福祉士</li><li>精神保健福祉士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +449,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>Programmer — AI Impact 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="Programmer: workforce ~48,720 / annual salary 574万円 / avg age 38.0 / AI impact 9/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Programmer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/313" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/313" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "313",
+      "occupationalCategory": "02_009-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/313",
       "additionalProperty": [
         {
@@ -122,7 +123,30 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Programmer",
+      "alternateName": [
+        "Programmer",
+        "コーダー（プログラミング）",
+        "コンピュータゲームプログラマー",
+        "ソフトウェアプログラマー",
+        "Webアプリケーションプログラマー",
+        "Webプログラマー"
+      ],
+      "industry": "IT & Communications",
+      "skills": [
+        "Programming",
+        "Active Listening",
+        "Reading Comprehension",
+        "Writing",
+        "Speaking",
+        "Technology Design",
+        "Quality Control Analysis",
+        "Operations Analysis",
+        "Installation",
+        "Active Learning"
+      ],
+      "qualifications": [
+        "基本情報技術者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +230,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +286,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +381,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=it">IT &amp; Communications</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -308,19 +403,49 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Writes software code; AI copilot tools pervasive in daily work.</p>
+        <p>In system development, writes programs based on the detailed design produced by a systems engineer (SE).</p>
+        <p>In the system development process, the SE interviews the client to define requirements, then produces a basic design from those requirements. From the basic design, a detailed design is produced that specifies processing logic down to the finest detail.</p>
+        <p>Based on this detailed design, the programmer writes code to build the program. The programmer also performs unit testing—running each completed program individually to verify its behavior. Programmers may also participate with the SE in integration testing (combining multiple programs) and system testing (examining overall system behavior). When bugs are found they are analyzed and fixed (debugging). Once a program is complete, the programmer produces the documentation needed for future maintenance—descriptions of the program and test results.</p>
+        <p>Fundamentally, the SE&#x27;s responsibilities are basic design, detailed design, integration testing, acceptance testing, and post-delivery aftercare, while the programmer&#x27;s responsibilities are coding, unit testing, and delivering the program.</p>
+        <p>In agile development, prototyping is repeated in cycles—first a rough overall build, then individual feature development within that, then increasingly detailed implementation—with programmers handling software creation at each prototyping iteration.</p>
+        <p>Programs come in many varieties: business application software for accounting and other functions, web-based programs for e-commerce sites, control programs for home appliances and electronic devices, PC software, smartphone apps, game programs, programs controlling telecommunications and online services, and programs for large mainframes. Development languages and environments differ for each, and programmers typically specialize in the type of software they write.</p>
+        <p>Many information systems are already in production, and a significant portion of programmers&#x27; work involves modifying existing systems to adapt them to changing requirements or add features.</p>
+        <p>Development scale varies widely; small systems may be built by a single programmer, while large systems may involve hundreds of programmers organized into teams.</p>
+        <p>For web screen development, design tools can automatically generate HTML and similar code, reducing the need for manual programming. Tools, libraries, and modules have also matured to the point where system development can proceed substantially without an SE explicitly commissioning a programmer to write code.</p>
+        <p>However, automatically generated code tends to be disorganized, making subsequent modification and feature additions difficult. The craft of writing efficient, well-organized, and readable programs is still expected of programmers. Additionally, as programming experts, programmers may write creative programs beyond the reach of automated tools, or produce highly specialized programs for specific domains such as blockchain and AI.</p>
+        <p>◇ Commonly used tools, equipment, and IT
+OS (Linux, CentOS, Ubuntu), integrated development environments, programming languages (C, Java, Python, Ruby, HTML, etc.), design tools (Figma), databases (MySQL, Oracle, MongoDB, etc.), personal computer</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/312">Systems Engineer (Custom Software)</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/314">Systems Engineer (Web Services)</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/316">Package Software Developer</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/311">Aircraft Engine (Jet) Developer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/315">Embedded/IoT Systems Engineer</a><span class="r-risk">AI 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required for entry, and no particular major is required; recently, programmers with humanities backgrounds are common. Having studied programming at a vocational school or holding credentials such as the Fundamental Information Technology Engineer certificate is not mandatory but can be advantageous at entry.</p>
+        <p>Whether joining as a new graduate or making a career change from another field without prior experience, employees typically receive company training for a defined period before being assigned as programmers. During the first six months to a year after assignment, they gain experience handling partial programs under the guidance of senior programmers and SEs. Reaching a level where one is recognized as a capable programmer—able to independently read and interpret detailed design documents and sometimes identify errors within them—is said to take three to four years.</p>
+        <p>Subsequent career paths include advancing from programmer to team leader and then into management; transitioning to SE roles to engage in system design; moving into sales leveraging accumulated knowledge and experience; and deepening skills and expertise to become a programming expert. Skilled and specialized programmers are also in demand, and many practitioners focus on honing their craft and becoming programming authorities.</p>
+        <p>Required qualities for programmers include IT literacy and a high awareness of information security. While direct client contact is less frequent than for SEs, programmers often handle clients&#x27; internal information, so careful attention to personal data handling and compliance is expected.</p>
+        <p>Many programming languages are used. Web programs typically use Java, PHP, or Ruby. Games for PC and smartphones commonly use C. Python and similar languages are prevalent in AI (artificial intelligence) development.</p>
+        <p>With web-based programming work being predominant today, programmers may also be expected to know the Linux server OS, the Apache web server, and database systems such as MySQL, Oracle, and MongoDB.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Most programmers work in major metropolitan areas and their surroundings—centered on Tokyo and Osaka. Typical employers are IT companies such as system development firms and web development companies, and companies that subcontract program development from manufacturing, financial, insurance, and construction industries or research institutions.</p>
+        <p>The workforce skews male, with the highest concentration in the late-twenties to forties age range.</p>
+        <p>Although a computer is sufficient for writing programs, development may sometimes be conducted in an internet-isolated environment for security reasons, in which case remote work is not possible. Because of client confidentiality and incident response responsibilities, most programmers work as regular full-time employees of the firms that accept the development contracts.</p>
+        <p>Wages, working hours, and other conditions are governed by each employer&#x27;s rules, but when a development deadline is approaching or a problem arises, work may extend into weekends or evenings.</p>
+        <p>Offshore programming outsourcing to foreign vendors has been growing, though the trend toward yen depreciation means it is not currently expanding rapidly.</p>
+        <p>As noted, HTML can now be automatically generated from screen designs, and general-purpose system development can increasingly be conducted using cloud services; so-called &#x27;no-code&#x27; approaches allow substantial portions of system development without any programming. Generative AI is also producing increasingly high-quality code year by year, with appropriately placed comments making it more readable. Within this environment, programmers are evolving into engineers who take responsibility for entire system development, or who master the craft and fill indispensable roles in development, leveraging specialized expertise in areas such as blockchain, AI, and gaming. Some have even earned the distinction of being called super-programmers or genius programmers.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,91.1 242.1,146.6 213.1,229.3 143.9,205.9 110.3,150.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>60</dd><dt>Social</dt><dd>58</dd><dt>Judgment</dt><dd>56</dd><dt>Physical</dt><dd>34</dd><dt>Routine</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Programming</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Writing</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Technology Design</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Quality Control Analysis</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Operations Analysis</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Installation</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">3.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Design</span><span class="topn-score">2.4</span></li><li><span class="topn-name">Mathematics</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">2.1</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Fluency of Ideas</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/315"><span class="tc-name">Embedded/IoT Systems Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/325"><span class="tc-name">AI Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/319"><span class="tc-name">IT Operations Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人 情報処理推進機構（IPA）</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>基本情報技術者</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +454,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

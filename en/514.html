@@ -8,6 +8,7 @@
     <title>Company Owner / Executive — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Company Owner / Executive: workforce ~456,745 / annual salary data unavailable / avg age data unavailable / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Company Owner / Executive" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/514" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/514" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "514",
+      "occupationalCategory": "01_001-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/514",
       "additionalProperty": [
         {
@@ -105,7 +106,25 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Company Owner / Executive"
+      "alternateName": [
+        "Company Owner / Executive",
+        "会社会長",
+        "CEO（会社最高経営責任者）",
+        "会社社長"
+      ],
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Negotiation",
+        "Reading Comprehension",
+        "Writing",
+        "Persuasion",
+        "Coordination",
+        "Management of Financial Resources",
+        "Judgment & Decision Making",
+        "Instructing"
+      ]
     },
     {
       "@type": "BreadcrumbList",
@@ -182,7 +201,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -238,6 +257,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -263,6 +352,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=shigyo">Professional Services &amp; Management</a><span class="band band-high">High AI risk</span><span class="band band-high">Large workforce</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -284,19 +374,45 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Owns and runs a company; AI tools support strategy.</p>
+        <p>A company executive runs the company and bears ultimate management responsibility. They are sometimes called the president (社長) or CEO (Chief Executive Officer).</p>
+        <p>In a stock company (kabushiki kaisha), final decisions on important management matters are made by shareholders at the general meeting of shareholders. For this reason, the position of a founder who created the company, an owner-manager who holds a large number of shares, or a manager who inherited a substantial shareholding from family — differs significantly from that of an executive who holds relatively few shares. If the executive holds a large share of the company, they also make the final decisions on management.</p>
+        <p>There are three routes to becoming a company executive: business succession, entrepreneurship (founding a new company), or nomination by shareholders or the board of directors. Business succession can itself take three forms: succession within the family, succession by an employee, or succession by a third party. The role that is expected and the specific activities involved differ depending on which of these routes is taken. When one founds and runs a company independently, a firm conviction and strategy to lead the organization toward sustained growth are required. When one is nominated by shareholders or the board and entrusted with steering the company, one must grow the business based on the company&#x27;s vision and meet shareholder expectations.</p>
+        <p>The scope of a company executive&#x27;s duties also varies by size of the company. In firms with fewer than ten employees, the executive may personally handle sales, accounting and finance, general affairs, and human resources, among other functions.</p>
+        <p>Common activities of a company executive include: monitoring social and economic trends through news and the internet; discussing short-, medium-, and long-term management plans with senior staff and consolidating them; reviewing and approving internal matters such as submitted approval requests (ringisho); communicating with employees, understanding their views, and instilling the company&#x27;s vision throughout the organization; attending business association meetings to expand their professional network; and building relationships of trust with other executives, which may lead to joint ventures and similar opportunities. Executives also serve as the public &quot;face&quot; of the company.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Accounting and payroll software, personal computers</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/513">International Development Specialist</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/517">Immigration Inspector</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/518">Prosecutor&#x27;s Affairs Officer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/515">Toy Maker</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/512">Diet Member (National Politician)</a><span class="r-risk">AI 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No particular educational background or qualifications are required to become company president. University graduates have become the norm in recent years, and some hold an MBA (Master of Business Administration). Knowledge of corporate management, finance, and accounting gained through a business school or faculty of economics is often directly applicable to management.</p>
+        <p>There are several routes to becoming a company executive: business succession, entrepreneurship, or being nominated by the board of directors and approved by the general meeting of shareholders. Business succession encompasses three forms: within-family succession, employee succession, and third-party succession. National and local governments have implemented various measures to encourage entrepreneurship and business founding, and many people aspire to start their own companies. Increasing attention is also being paid to companies that shut down not due to management problems but due to a lack of successors; there are cases of company employees taking over such businesses. Company executives may also be entrusted with running another company.</p>
+        <p>Among the qualities sought are logical and strategic thinking. Foresight and insight to identify opportunities where the company&#x27;s inherent strengths can meet market needs are also assets. The ability to grasp the big picture of the economy, society, and technology; to look ahead; and to adapt flexibly and think creatively in response to market changes are also required. Decisiveness in taking on risk is sometimes necessary. Staying attuned to information and keeping up with the latest developments in economic, social, and technological fields is also essential. To unite people inside the organization and collaborate with external partners, empathy and communication skills are vital. On one hand, the charisma to inspire confidence that the company will succeed under this leader, and the leadership to rally employees, are necessary; on the other, employees will not follow a leader who does not genuinely care for each individual employee and their family.</p>
+        <p>In today&#x27;s world, where corporate compliance and social responsibility are paramount, a commitment to pursuing business operations that can contribute meaningfully to society is also important. A broader sense of purpose — running the company in service of society at large — matters as well.</p>
+        <p>Many books written by Japan&#x27;s celebrated executives share a common theme: the importance of cultivating one&#x27;s own character and integrity as a leader. Without this, uniting the organization is impossible, collaborating with other companies is impossible, and ultimately the expectations of shareholders cannot be met. In terms of running the business itself — finance, technology, and other functions can be delegated to specialists. But character cannot be delegated to someone else. Developing one&#x27;s own character is therefore critically important for a company executive.</p>
+        <p>Having a clear and firm guiding philosophy — a fundamental conviction about what the company should be and how it should operate — is equally important. Without it, the direction of the company cannot be set and the organization cannot be unified.</p>
+        <p>Knowing the actual workplace well is also important. Many executives regularly visit factories and stores to understand ground-level operations.</p>
+        <p>Health management is another priority for company executives. Many regularly undergo comprehensive medical check-ups and play sports with friends on days off.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Companies exist throughout Japan, and every company has an executive — so the distribution of workplaces mirrors the distribution of companies nationwide.</p>
+        <p>Nationwide, there are approximately 1.75 million companies (as counted in the survey&#x27;s &quot;company enterprises&quot; category), and there are roughly the same number of company executives. The same survey shows that there are 3,722 companies with 1,000 or more employees; the vast majority of companies are small (*1).</p>
+        <p>Compensation is most often structured as an annual salary. In some cases, remuneration is also earned through stock options tied to the company&#x27;s share price appreciation. However, income and compensation depend on the company&#x27;s financial condition and will reflect business performance.</p>
+        <p>There are no statutory working-hour limits for executives, and many work long hours — from early morning to late at night, including weekends. Executives engaged in joint ventures with overseas companies also travel abroad frequently.</p>
+        <p>*1 2024 Economic Census — Basic Survey</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.5 263.1,139.8 226.0,247.1 138.8,212.9 117.5,152.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>63</dd><dt>Social</dt><dd>75</dd><dt>Judgment</dt><dd>73</dd><dt>Physical</dt><dd>40</dd><dt>Routine</dt><dd>42</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">4.5</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Negotiation</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Persuasion</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Management of Financial Resources</span><span class="topn-score">4.0</span></li><li><span class="topn-name">Judgment &amp; Decision Making</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Business &amp; Management</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Sales &amp; Marketing</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Economics &amp; Accounting</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">2.5</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Originality</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Fluency of Ideas</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/93"><span class="tc-name">Real Estate Appraiser</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/225"><span class="tc-name">Racehorse Trainer (Choukyoshi)</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/185"><span class="tc-name">Museum Curator (Gakugeiin)</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.keidanren.or.jp/" rel="external" target="_blank">一般社団法人　日本経済団体連合会（経団連）</a></li><li><a href="https://www.doyukai.or.jp/" rel="external" target="_blank">公益社団法人　経済同友会</a></li><li><a href="https://www.jcci.or.jp" rel="external" target="_blank">日本商工会議所</a></li><li><a href="https://www.chuokai.or.jp/" rel="external" target="_blank">全国中小企業団体中央会</a></li><li><a href="https://www.smrj.go.jp/" rel="external" target="_blank">独立行政法人　中小企業基盤整備機構（中小機構）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -305,6 +421,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

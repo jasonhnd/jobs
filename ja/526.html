@@ -8,6 +8,7 @@
     <title>検査工（工業製品） — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="検査工（工業製品）：就業者 約42,930人 / 平均年収 427万円 / 平均年齢 42.4 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="検査工（工業製品）, 金属製品検査工, 金属プレス検査工, 製缶検査工, 鉄骨製作検査工, 板金検査工, めっき検査工, 金属溶接検査工, 医薬品検査工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/526" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/526" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "526",
+      "occupationalCategory": "12_076-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/526",
       "additionalProperty": [
         {
@@ -122,7 +123,57 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Industrial Product Inspector",
+      "alternateName": [
+        "Industrial Product Inspector",
+        "金属製品検査工",
+        "金属プレス検査工",
+        "製缶検査工",
+        "鉄骨製作検査工",
+        "板金検査工",
+        "めっき検査工",
+        "金属溶接検査工",
+        "医薬品検査工",
+        "加工油脂製品検査工",
+        "化粧品検査工",
+        "ゴム製品検査工",
+        "タイヤ検査工",
+        "プラスチック製品検査工",
+        "液晶パネル製造装置検査工",
+        "機械部品検査工",
+        "業務用空調機器検査工",
+        "建設機械検査工",
+        "原動機検査工",
+        "半導体製造装置検査工",
+        "電気機械検査工",
+        "電気機械部品検査工",
+        "電気通信機械器具検査工",
+        "電子機器部品検査工",
+        "半導体製品検査工"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Quality Control Analysis",
+        "Instructing",
+        "Active Listening",
+        "Reading Comprehension",
+        "Speaking",
+        "Writing",
+        "Equipment Selection",
+        "Monitoring",
+        "Operations Monitoring",
+        "Coordination"
+      ],
+      "qualifications": [
+        "非破壊検査総合管理技術者",
+        "非破壊試験技術者レベル１",
+        "非破壊試験技術者レベル２",
+        "非破壊試験技術者レベル３",
+        "特級機械検査技能士",
+        "１級機械検査技能士",
+        "２級機械検査技能士",
+        "３級機械検査技能士",
+        "品質管理（QC）検定"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +257,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +313,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +408,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,19 +430,93 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>製造工程における工業製品の外観、品質、機能等が規格どおりであるか等瑕疵（かし）の有無を様々な手法により検査、確認する。</p>
+        <p>製造工程における中間生産物等や最終生産物（製品）の外観、品質、機能等が規格どおりであるか等瑕疵（かし）の有無を様々な手法により検査、確認する仕事である。</p>
+        <p>工業製品の品目は多岐に渡り、検査をする製品によりそれぞれ仕事内容は異なるが、まずは一般的な検査の種類や方法等について説明する。</p>
+        <p>生産工程に沿って、原材料・部品の受入検査、製造過程の工程内検査及び製品完成後の完成品検査などがある。</p>
+        <p>検査には、すべての製品を検査する全数検査（不良品が一つも許されない場合など）、サンプルを抜き取って検査をする抜取検査（計数抜取、計量抜取など）がある。これらを組み合わせ、自動検査装置での全数検査に加え、目視で抜取検査を行う場合もある。</p>
+        <p>生産ラインとの関係では、生産ラインに外観検査を組み込んだインライン検査及び生産ラインとは別に検査工程を設けるオフライン検査がある。インライン検査は、全数検査がしやすいがスピードが求められ、画像センサなどを用いた自動化とセットで行う。一方、オフライン検査は、精密な検査を実施しやすい反面、ラインからの運搬や計測などを手作業で行うケースが多く手間と時間を要する。
+製品を目視や測定機器等を用いて品質、寸法、外観、強度、数量等が規格に合致しているかを検査するのが検査　の基本である。検査・測定結果のデータを入力する場合もある。</p>
+        <p>以下、主な検査について説明する。目視検査は官能検査（人間の五感による検査）の代表的なものである。不良品の有無の確認のための全数検査や外観検査（傷や変色の有無等外観に特化した確認）を目的として実施することが多い。目視のほか、例えばタイヤなどの製品について、触診によりバランス・凹凸・ゆがみの有無などを確認する方法や、目で確認できない製品の傷等を触診により調べる方法もある。ただし、これらはヒューマンエラーや判定基準にばらつきが生じる可能性がある。</p>
+        <p>完成した機械器具の動作や機能が仕様どおり正常に作動するかどうかを確認したり、耐久性能・強度等を確認する機能検査も重要なものである。その一つとして、モニター画面を使用し、機械等の動作状況を確認する検査（モニターチェック）がある。</p>
+        <p>検査に使用する測定機器には、一般的な測定機器と特殊な測定機器がある。特殊測定機器は、例えば、作動機構や高温室における精密測定・検査などの品質管理のための検査に使用される。これらの特殊な測定機器の操作には、専門的知識・技能が必要とされる。</p>
+        <p>一般的な測定機器には、ノギス、すきまゲージ、マイクロメーター、シリンダゲージ、光学的測定機器として投影機、二次元測定器、三次元測定器、画像寸法測定器などがある。社内で独自に作成された検治具を用いる場合もある。</p>
+        <p>細かな部品を扱う場合は顕微鏡、マイクロスコープ、拡大鏡、ルーペ等の機器を使用し、外見上の異常の有無だけでなく質的な分析も行う。小型化・薄型化した半導体パッケージ・コンデンサは、顕微鏡検査を行うのが一般的であるが、カメラを応用した画像センサ・画像処理システムを用いて外観の自動検査を行う例がある。また、ネジ、ナット、ボルト、歯車等金属製部品等の細かい線傷や小さな凹み・打痕、異物の混入等一般的な検査方法では発見が困難なものも、同様に画像センサ・画像処理システムを用いて、寸法測定と外観検査を同時に実施できる例がある。</p>
+        <p>なお、機械の検査で測定機器を使用する場合には、測定機器の信頼性の確保のための適正な管理と測定機器の構造や取扱要領に精通していることが必要である。</p>
+        <p>また、製品内部のヒビ・傷等の異常の有無について当該製品を破壊せずに確認するためには、超音波や放射線を用いた非破壊検査を行う。</p>
+        <p>検査対象が液体やペースト状のものの場合は、製品の成分の分析やデータ整理などの分析補助を検査として行う。</p>
+        <p>いずれの場合においても　一定のスピードの下での高度な測定精度が求められるので、必要以上の時間がかかったり、正確性に欠けたりすると生産性に影響する。</p>
+        <p>検査の対象となる工業製品の品目は多岐にわたるが、以下ではこのうち4分野（インキ・塗料の原料の検査、半導体等の検査、空調機器の検査、金属加工製品の検査）を例に具体的に述べる。
+＜金属加工製品の検査＞</p>
+        <p>工作機械による金属加工とその後の検査を1人の検査工が続けて実施。製品の大きさは、20センチ～80センチと様々。全数検査。
+（検査の種類）
+・外観の目視：通常は目視検査であるが、異常があった場合には、拡大鏡でさらに検査する。
+・寸法：オーダーメイドによる特殊な製品は、会社専用のノギスで、また大きな製品は専用のゲージで、寸法が規準内であるかを検査する。
+(検査の流れ)
+・１人の検査工が、１つの製品につき加工作業を５～30分程度行った後、５分程度で約20項目の検査項目を確認する。なお、同一製品のうち、最初に検査した製品、全体の製品数の一定割合ごとの時点で検査した製品、最後に検査した製品について全項目の検査結果を記録する。そのほか、規準外だった製品の数及びその理由については全て記録する。
+＜インキ・塗料の原料の検査＞</p>
+        <p>インキ・塗料の原料（液体からペースト状までの流体物）の検査。抜取検査で数百キロの原料を生産する場合に、数百グラムのサンプル検査を行う。
+（検査の種類）
+・外観の目視：ガラスビーカーに注いで静止している状態で、異物の有無、他のサンプルと比べて違いがないか等を確認。異物がある場合、拡大鏡や顕微鏡を使用して判断する。
+・粘度の確認：原料がシャバシャバかドロドロかの粘度を数値にして管理。原料を回転式粘度計という専門機械に挿入し、5分～10分回転させることにより、粘度が数値化される。サンプルごとに検査値を管理し、粘度の推移を確認。数値が規格内でも、数値の傾向が他のサンプルとずれている場合には異常と判断する場合もある。
+・塗膜試験：専用試験紙等に、バーコーター（均一に塗ることができる専用の棒）で塗り、透明であるか、紙上ではじかれないできれいに塗れているか、乾燥後の状態が適切か否か等を確認する。
+・原料のｐｈや伝導度の確認：１日に１つか２つのサンプルについて測定する。
+（検査の流れ）
+・製品により原料の種類が異なるので細かな検査項目も異なる。オフラインで数人の検査工が製品ごとに分担して実施する。外観検査が先で、その後他の検査をすることが多い。
+＜エアコン、室外機、空気清浄機等の空調機器の検査＞</p>
+        <p>出荷前の製品の低温や高温下での作動確認を行う前段階での最終検査。全数検査。
+（検査の種類）
+・外観の目視：製品にバリ、欠け、穴、へこみ等がないかを目視する。不具合の有無、デリケートな部品の先端等に対しては、マイクロスコープや拡大鏡を使用する。
+・ノギス（寸法を測定するとPC上に自動的に数値表示）や検査治具（社内独自に作成）による寸法確認：部品が組みつけられるべき場所にはまっているか、当該製品の正しい部品か等について、寸法測定により確認する。
+・すきまゲージによるすきまの幅の確認：製品の正しい場所に正しい幅のすきまが確保されているか否か、すきまに専用のゲージを入れて確認する。
+・触診による確認：取れやすい部品が落ちずに取り付けられているかを触って確認する。
+（検査の流れ）
+・部品の入荷・受入れ検査から、製品の梱包・出荷まで、工場内でラインになっている。
+・検査の部署には、生産ラインからベルトコンベア、又は手押し車で製品が運びこまれ、基本的に１人の検査工が製品１台をすべて検査する。検査時間は、１台につき15分～20分程度である。
+・検査終了後、出荷前の製品の低温や高温下での作動確認を行う場所へ運搬する。
+＜半導体等の検査＞</p>
+        <p>フッ素樹脂加工品（半導体）及び金属加工品の検査。全数検査か抜取検査かは製品の検査数によって異なる。
+（検査の種類）
+・寸法：ノギスや用途に合わせた専用の計測ゲージで測定できるものについては、これらを使用し、寸法が規準内であるかを確認する。計測結果については、PCにデータ入力する。形状が複雑な場合や小さいものなどは、二次元測定器（顕微鏡のようなもの）を使用して映像やデータ等に拡大して計測する。場合によっては、三次元測定器を使用することもある。
+・外観の目視：傷や異物が付いていないか等、外観を目で確認する。判別が難しい場合には、顕微鏡やルーペの使用や、触診で確かめることもある。
+（検査の流れ）</p>
+        <p>１人の検査工ごとに、オフラインで一通りの検査を30分程度で実施する。検査後に出荷となるので、包装業務も行う。検査に付随する改善業務を行っており、不良品が出た場合に、生産部門にヒアリングして不良品が出ないようにするためのフィードバックを行う。</p>
+        <p>◇よく使う道具、機材、情報技術
+検査マニュアル、ノギス、すきまゲージ、マイクロメーター、シリンダゲージ、顕微鏡、マイクロスコープ、拡大鏡、ルーペ、特別な検査治具（社内独自作成）、カメラ、モニター画面、投影機、二次元測定器、三次元測定器、画像寸法法測定器、非破壊検査機器、特殊作業服、専用ブーツ、手袋</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/545">歯科助手</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/505">ハウス野菜栽培者</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/504">稲作農業者</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/525">タンクローリー乗務員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/527">食品営業（食品メーカー）</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職に当たって、特に学歴は問われないのが一般的である。資格や職務経験は、検査対象となる製品により検査の種類が異なり、初心者でも可能なものから、特定の資格所有が望ましいもの、ある程度の経験年数が必要なものまで千差万別である。</p>
+        <p>特別な資格を有さなくとも就業可能なものも多く、特に最近では、測定機器の発達により、経験の少ない人でも高精度の検査が可能となってきている。ただし、高度な検査や専門性が必要とされる検査は、測定の基礎や製品加工に関する知識を身に付けていることが入職に当たって有利であり、大学工学部系や工業高校の機械学科系卒業者が比較的多いようである。このような場合でも、入職後すぐに検査工になることはなく、製造部門からの社内異動を経て就くことが多い。</p>
+        <p>製品ごとに検査手順、検査項目は定まっているが、検査効率にも留意しなければならないので、経験により重点的に時間をかける項目が判断できるようになるなどのノウハウの蓄積が必要である。キャリア展開として、難易度が低い検査の担当から経験により難易度の高い検査の担当となる。一定程度の経験年数を積んだ後、主任やその後課長代理等に昇格し、さらに管理者や監督者などの管理・指導的立場の役職に就くこともある。
+各種測定機器を用いて機械部品の検査を行う職種については、厚生労働省の技能検定である「機械検査技能士」　の資格を有していると入職に当たって有利である。非破壊検査を行う場合は、関連資格として一般社団法人日本非破壊検査協会が実施している「非破壊試験技術者」、「非破壊検査総合管理技術者」などがある。その他関連資格として一般財団法人日本規格協会等が主催し、一般社団法人日本品質管理学会が認定している「品質管理（QC）検定」などがある。</p>
+        <p>検査の仕事の質を高めるために取扱製品に関係する知識を広めることも重要であり、検査対象によっては電気・電子、機械、化学等の知識があることが検査業務の質の向上に繋がる。さらに最近では、検査数値の管理に重点が置かれ、統計的な数値管理の知識も必要となる場合がある。</p>
+        <p>検査の仕事は、定められた細かな作業、同一過程を繰り返す過程で正確性を必要とする作業となるので、判別能力や集中力が継続でき、同じ過程の作業を毎日飽きずに黙々とこなすことに適応できる資質や、納期が重要であることから効率的な手順で段取りよく作業でき多角的に解決策を提案できることが求められる。</p>
+        <p>また、立ち仕事や特定の姿勢での作業もあり、一定程度の体力も必要である。なお、目視検査の場合は、一定の視力が必要とされることがある。製品によっては、触覚や聴覚を用いる検査もある。</p>
+        <p>工場内で生産部門の他の担当者との調整・協調、トラブル時に上司等に報告・相談する等の情報伝達を行うことも多く、コミュニケーション能力が重要である。</p>
+        <p>就業を長く続けるには、ものづくりに関心があることが大切であり、機械・器具を操作することに親しみが持てることが望まれる。また、製品の品質を保持し顧客に対する信用に関わる仕事であるため、責任感があり信頼を得られる人柄が求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は全国に幅広く広がっている。勤務場所は製造工場内であることが多い。</p>
+        <p>労働条件は、勤務先の規定に従うが、正社員、契約社員、労働者派遣による就業など、就業先により雇用形態は様々である。労働時間や週休制度なども取扱商品や企業により異なる。工場によっては24時間稼働により、交代制となることもある。生産数の増加時や新製品の生産開始時、製造工程でトラブルの発生時、検査に長時間を要する製品を取扱う場合等に残業が発生する。</p>
+        <p>検査の作業自体は、工場内での座り仕事が多いが、目視検査の場合は立ち仕事である場合も多く、大きな製品等によっては検査者が移動しながら検査作業を行う。</p>
+        <p>医療機器や電子機器などの検査の場合はクリーンルーム内で特殊作業服、専用ブーツ、手袋を着用して検査することが多い。</p>
+        <p>就業者の男女比率や年齢構成も、取扱商品や検査手法により状況が異なるが、概して幅広い層が活躍している。</p>
+        <p>最近では、ヒューマンエラー排除とコスト削減のため、外観検査などの品質検査を高性能カメラやAIにより自動化する例も増えてきている。また、製品開発の変化が早く、市場に流通する製品の寿命が短くなっていることを背景に、製品を市場に出すまでの時間を早めるため、検査コストを下げる設計上の工夫がされるようになっていて、検査手法が大きく変化してきている。</p>
+        <p>いずれにせよ、これら製品検査の目的は、顧客に対して信頼性のある製品を提供することにあり、不適正な事象が生ずると大きな社会問題になるばかりか、貿易に係る国際的な問題に発展しかねないことから、今後とも検査を適切に実施することが重要となっている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,125.3 223.3,152.7 202.3,214.5 130.3,224.7 95.0,145.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>34</dd><dt>対人</dt><dd>43</dd><dt>判断</dt><dd>42</dd><dt>身体</dt><dd>52</dd><dt>定型</dt><dd>60</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">クオリティチェック</span><span class="topn-score">2.7</span></li><li><span class="topn-name">指導</span><span class="topn-score">2.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">2.3</span></li><li><span class="topn-name">読解力</span><span class="topn-score">2.3</span></li><li><span class="topn-name">説明力</span><span class="topn-score">2.1</span></li><li><span class="topn-name">文章力</span><span class="topn-score">1.9</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">1.9</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">1.8</span></li><li><span class="topn-name">計器監視</span><span class="topn-score">1.8</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.1</span></li><li><span class="topn-name">機械</span><span class="topn-score">1.5</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.1</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">0.8</span></li><li><span class="topn-name">数学</span><span class="topn-score">0.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.0</span></li><li><span class="topn-name">近接視力</span><span class="topn-score">2.9</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">2.7</span></li><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">2.6</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">2.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/263"><span class="tc-name">光学機器組立</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/266"><span class="tc-name">計器組立</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/237"><span class="tc-name">フォークリフト運転作業員</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.javada.or.jp/" rel="external" target="_blank">中央職業能力開発協会</a></li><li><a href="http://www.jsndi.jp/" rel="external" target="_blank">一般社団法人日本非破壊検査協会</a></li><li><a href="https://www.jima.jp/content/jigyonaiyo.html" rel="external" target="_blank">一般社団法人日本検査機器工業会</a></li><li><a href="https://webdesk.jsa.or.jp/common/W10K0500/index/qc/" rel="external" target="_blank">一般財団法人日本規格協会</a></li><li><a href="https://jsqc.org/" rel="external" target="_blank">一般社団法人日本品質管理学会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>非破壊検査総合管理技術者</li><li>非破壊試験技術者レベル１</li><li>非破壊試験技術者レベル２</li><li>非破壊試験技術者レベル３</li><li>特級機械検査技能士</li><li>１級機械検査技能士</li><li>２級機械検査技能士</li><li>３級機械検査技能士</li><li>品質管理（QC）検定</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +525,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

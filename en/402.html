@@ -8,6 +8,7 @@
     <title>Surgeon — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Surgeon: workforce ~43,380 / annual salary 1338万円 / avg age 44.1 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Surgeon" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/402" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/402" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "402",
+      "occupationalCategory": "04_021-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/402",
       "additionalProperty": [
         {
@@ -122,7 +123,26 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Surgeon",
+      "alternateName": [
+        "Surgeon",
+        "医師"
+      ],
+      "industry": "Medical & Health",
+      "skills": [
+        "Reading Comprehension",
+        "Speaking",
+        "Active Listening",
+        "Active Learning",
+        "Writing",
+        "Social Perceptiveness",
+        "Critical Thinking",
+        "Monitoring",
+        "Instructing",
+        "Complex Problem Solving"
+      ],
+      "qualifications": [
+        "医師"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +226,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +282,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +377,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=iryo">Medical &amp; Health</a><span class="band band-low">Low AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +399,40 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Performs surgical operations; primarily manual technique.</p>
+        <p>Surgeons treat patients&#x27; diseases and injuries primarily through operations and other surgical interventions. Within surgery, there are many subspecialties — neurosurgery, cardiovascular surgery, gastrointestinal surgery, orthopedic surgery, and others — each requiring specialized knowledge and skill. This profile describes the core duties shared across subspecialties.</p>
+        <p>The process begins with taking a history from the patient and family, then synthesizing the results of various tests (imaging such as X-ray, CT, and MRI; blood work; etc.) to arrive at a diagnosis. The surgeon then determines the appropriate treatment plan, including whether surgery is indicated, and evaluates whether the patient is fit to undergo the procedure. Drawing up a surgical plan and explaining it accurately and carefully to the patient and family is an important part of the role.</p>
+        <p>Work ranges from straightforward procedures — wound irrigation, incision, and suturing — to major operations lasting several hours involving multiple physicians and nurses. In surgery, the surgeon opens the patient&#x27;s body, removes diseased tissue, or repairs traumatic injuries. Other activities include the use of implants, endoscopic examination and resection, and chemotherapy for malignancies.</p>
+        <p>After surgery, the surgeon monitors the patient&#x27;s progress and recovery, communicates relevant findings to the patient and family, removes sutures, and issues rehabilitation instructions as needed.</p>
+        <p>◇ Commonly used tools, equipment, and technology
+Endoscope, medical devices (stethoscope, syringes, CT, MRI, etc.), computer</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/401">Emergency Medical Technician (EMT)</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/413">Babysitter</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/419">Perfumer</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/403">Pediatrician</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/400">Social Education Officer (Shakaikyoiku-shuji)</a><span class="r-risk">AI 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Becoming a surgeon requires passing the National Medical Licensing Examination and obtaining a medical license. Candidates first complete six years of specialized medical education at a university medical school, including clinical training. Passing the university graduation examination makes one eligible to sit the national examination; passing the examination confers the medical license.</p>
+        <p>The next step is a minimum two-year clinical residency at a university hospital or other designated training hospital, developing knowledge through hands-on patient care. After completing the residency, the physician joins a surgical department and becomes a surgeon. A board certification system exists for those who meet the specified requirements.</p>
+        <p>Following residency, most surgeons work as employed hospital physicians and accumulate extensive experience. Career paths include becoming head of a department or opening a private practice. Academic careers — continuing research while teaching as a lecturer or professor — are also possible.</p>
+        <p>Medical knowledge and surgical technique advance rapidly, making continuous technical training essential for surgeons. The responsibility of holding patients&#x27; lives is immense. Swift decision-making in emergencies, the mental fortitude to endure long procedures and extended shifts, and the physical stamina required are all prerequisites. Surgeons must also maintain positive relationships with nurses, anesthesiologists, radiology technicians, and other specialists within and across departments.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Surgeons are employed at hospitals and other medical institutions. Because many surgical procedures require more than one surgeon, specialists in surgery most often work at larger hospitals that can field at least two surgeons for more complex operations.</p>
+        <p>The total number of surgeons is 62,110 (encompassing general surgery, thoracic surgery, cardiovascular surgery, breast surgery, esophageal and tracheal surgery, gastrointestinal surgery, colorectal surgery, neurosurgery, orthopedic surgery, plastic surgery, cosmetic surgery, and pediatric surgery). By gender, among male physicians, orthopedic surgery is the second most common specialty after internal medicine (8.5% vs. 19.9%). Female physicians account for less than 10% of the total surgical workforce (as of 2022*).</p>
+        <p>Hospitals admitting inpatients and handling emergencies require 24-hour coverage; physicians work rotating shifts including nights, early mornings, and holidays. Long operations and emergency interventions make schedules irregular. Compensation levels are generally high.</p>
+        <p>Physician shortages in rural areas remain a persistent problem, as does the geographic imbalance in distribution. The increasingly complex and highly specialized nature of modern medicine, combined with an aging population, continues to reshape how medical services are delivered.</p>
+        <p>*Source: Overview of the 2022 Survey of Physicians, Dentists, and Pharmacists — Number of physicians by clinical specialty</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,80.0 278.1,134.9 233.0,256.8 124.2,233.0 101.3,147.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>69</dd><dt>Social</dt><dd>87</dd><dt>Judgment</dt><dd>82</dd><dt>Physical</dt><dd>59</dd><dt>Routine</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">5.3</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">5.3</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Critical Thinking</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">4.5</span></li><li><span class="topn-name">Complex Problem Solving</span><span class="topn-score">4.5</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Medicine &amp; Dentistry</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Therapy &amp; Counseling</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Biology</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Psychology</span><span class="topn-score">2.5</span></li><li><span class="topn-name">Education &amp; Training</span><span class="topn-score">2.1</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Finger Dexterity</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Selective Attention</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Arm-Hand Steadiness</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Manual Dexterity</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/173"><span class="tc-name">Judo Therapist (Bonesetter)</span><span class="tc-meta"><span class="tc-risk">AI 2/10</span><span class="tc-similarity">similarity 97%</span></span></a><a class="transfer-card" href="/en/175"><span class="tc-name">Acupuncturist / Moxibustionist</span><span class="tc-meta"><span class="tc-risk">AI 2/10</span><span class="tc-similarity">similarity 97%</span></span></a><a class="transfer-card" href="/en/172"><span class="tc-name">Massage/Anma/Shiatsu Therapist</span><span class="tc-meta"><span class="tc-risk">AI 2/10</span><span class="tc-similarity">similarity 96%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.med.or.jp/" rel="external" target="_blank">公益社団法人日本医師会</a></li><li><a href="https://www.jssoc.or.jp/" rel="external" target="_blank">一般社団法人日本外科学会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>医師</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +441,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

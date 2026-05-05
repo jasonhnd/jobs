@@ -8,6 +8,7 @@
     <title>Hello Work (Public Employment Office) Staff — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Hello Work (Public Employment Office) Staff: workforce ~120,576 / annual salary 481万円 / avg age 43.5 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Hello Work (Public Employment Office) Staff" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/574" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/574" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "574",
+      "occupationalCategory": "03_019-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/574",
       "additionalProperty": [
         {
@@ -123,6 +124,7 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Hello Work (Public Employment Office) Staff",
+      "industry": "Professional Services & Management",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +208,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +264,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +359,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=shigyo">Professional Services &amp; Management</a><span class="band band-high">High AI risk</span><span class="band band-high">Large workforce</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,8 +381,32 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Helps job seekers at public employment offices; AI matching rising.</p>
+        <p>Hello Work (public employment security office) staff provide employment consultation and placement services—connecting job seekers with employers—as well as vocational training consultation and unemployment insurance procedures at their service windows. They also support businesses seeking workers by providing guidance on how to describe job openings effectively and by organizing job fairs.</p>
+        <p>In employment consultation and placement, staff work with job seekers through individual counseling sessions to understand each person&#x27;s desired conditions, skills and experience, and aptitudes; they then offer job-searching advice, provide job vacancy information, arrange job referrals, and introduce vocational training programs. Where additional support is needed, a dedicated case-worker approach delivers tailored assistance, including career counseling (キャリアコンサルティング), help preparing application documents, and mock interview practice. Specialized windows serve the distinct needs of groups such as parents raising children, new graduates, young people with limited full-time employment experience, and people with disabilities. Staff also plan and lead seminars on job-hunting, serving as presenters who share practical job-search knowledge with attendees.</p>
+        <p>In employer support, staff check submitted job listings for compliance with labor law, advise on how job descriptions can be improved, and visit business sites to provide job seekers&#x27; profile information and propose adjustments to job requirements. They plan and manage recruitment events—such as job fairs for older workers, people with disabilities, and new graduates—for both job seekers and hiring companies. Staff may also assist with informing employers about various employment-related subsidies and grants.</p>
+        <p>In unemployment insurance administration, staff process benefit payments to unemployed workers, including standard unemployment allowances, educational training benefits (which support workers&#x27; voluntary efforts at skill development), and parental leave benefits (for workers taking leave to raise children). Eligibility determination and verification of unemployed status, along with other required procedural checks, are all part of this work. On the employer side, staff process applications for sewer coverage enrollment and changes to insured-person status for individual employees, and provide information on various employment grants aimed at stabilizing employment and promoting skill development.</p>
+        <p>Hello Work integrates job placement services, unemployment insurance and job-seeker support, and various employment policy measures (employer guidance and support) into a unified, three-in-one function delivered through a nationwide network of locations. Hello Work staff draw on these distinctive strengths each day to provide comprehensive labor administration services to users, playing a significant role in maintaining regional employment stability and livelihoods.</p>
+        <p>Tools and equipment commonly used: word-processing software (Word, etc.), spreadsheet software (Excel, Google Sheets, etc.), PC</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Candidates are selected through the National Personnel Authority&#x27;s general-service national civil servant examination (university-graduate level) or high-school-level equivalent, and are hired as civil servants of the Ministry of Health, Labour and Welfare (MHLW, titled koseirodo jimukan) following a ministry-visit process conducted by each of the 47 prefectural labor bureaus. Selection recruitment may also be conducted in some cases.</p>
+        <p>Among MHLW general-service civil servants employed through prefectural labor bureaus, there are two primary career paths: one centered on Hello Work and labor bureau assignments, and another centered on labor standards inspection offices and labor bureau assignments. Hello Work staff follow the former track.</p>
+        <p>No specialized knowledge is required at the time of hiring, but because public employment security administration is closely connected to people&#x27;s daily lives and tends to attract broad public attention, it is desirable to maintain an ongoing interest in labor and employment issues.</p>
+        <p>Depending on the department to which one is assigned after entry, it is possible to accumulate knowledge and experience applicable toward obtaining qualifications such as Career Consultant (キャリアコンサルタント) or Social Insurance and Labor Consultant (社会保険労務士).</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Staff are assigned primarily to the labor bureau in the prefecture where they were hired and to Hello Work offices within that bureau&#x27;s jurisdiction. Salaries, leave, and other working conditions are governed by the National Civil Servants Act and related statutes. Working hours are 38 hours and 45 minutes per week, excluding break time. Days off include Sundays, Saturdays, national holidays, and similar designated non-work days. Staff become members of the MHLW Mutual Aid Association and are covered by its various welfare and benefit programs.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +419,8 @@
         </ul>
       </section>
 
+      
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +428,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

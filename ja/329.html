@@ -8,6 +8,7 @@
     <title>CG制作 — AI 影響 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="CG制作：就業者 約14,364人 / 平均年収 483万円 / 平均年齢 38.5 / AI 影響 9/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="CG制作, CGデザイナー, CG制作者" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/329" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/329" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "329",
+      "occupationalCategory": "03_017-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/329",
       "additionalProperty": [
         {
@@ -122,7 +123,24 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "CG/3D Creator",
+      "alternateName": [
+        "CG/3D Creator",
+        "CGデザイナー",
+        "CG制作者"
+      ],
+      "industry": "Creative & Media",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Coordination",
+        "Quality Control Analysis",
+        "Writing",
+        "Social Perceptiveness",
+        "Persuasion",
+        "Active Learning",
+        "Equipment Selection"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=creative">クリエイティブ・メディア</a><span class="band band-high">AI 影響 高</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -308,19 +397,41 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>コンピュータのグラフィックス機能を用いて、CGによる静止画や動画を作成する。</p>
+        <p>コンピュータで図形、絵、映像、アニメーションなどのコンピュータグラフィック（CG）を制作する。CGクリエイターと呼ばれることもある。</p>
+        <p>近年CGは長足の進歩を遂げ、テレビ番組や映画、アニメ、ゲーム、広告、ステージ等の背景から機械や建築の設計、医療に至るまで様々な分野で活用されている。</p>
+        <p>CGには「2次元」（2D）と「3次元」（3D）があり、2次元は平面で奥行き情報がなく、3次元には奥行き情報があり、現実の空間のようなリアルな映像表現ができる。3D CGは外科手術の医療シミュレーター、航空機や電車の操縦などの訓練用シミュレーター、機械や建築のデザインなど、多方面に使われている。</p>
+        <p>CG制作では専用のソフトウェアを使用する。3D CGは次のような一連の工程で作成される。仮想の3次元空間の中でCGによるモデル（立体形状）を作成し（モデリング）、モデルに質感をあたえ（マテリアル設定）、骨格や構造等仕組みの技術的な設定を行い（リギング）、モデルに動きを付ける（アニメーション付け）。そして、モデルをシーン内に配置し、カメラとライト（光源）を設定し（シーン構築）、爆発などの映像効果を加え（エフェクト）、仮想の3次元空間内に設定されたモデル、カメラ、ライトなどの情報から画面を生成する（レンダリング）。このように作られた画面を合成しCGとして完成する（コンポジット）。</p>
+        <p>媒体がWebサイト、デジタルサイネージ、広告、ポスター等、平面の場合、また、スマホ等軽量な画面が求められる場合は2D CGが利用される。2D CGでは、コンセプトを決め、ラフなスケッチを描き、線画を作成し、色付け等を行い仕上げる。Webサイトやスマホではユーザーインターフェースに配慮する。Webデザイナー、Webディレクターと共同で制作し、主に画面の一部、アイコンやパーツを担当する場合もある。広告、ポスターではどのようにアピールするか考える。広告ディレクター、広告デザイナーと制作する場合もある。</p>
+        <p>簡単なスマホ画面などの場合は、全ての工程を1人のCG制作者が担当する場合もあるが、映画や大作ゲームなどきめ細かな画面、高度な技術をふんだんに取り込んだCGを制作する場合は、多くのCG制作者が分業して作成する。</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>自分が制作した作品が広く世の中に発信されることが魅力です。締め切りのある仕事のため、忙しい時期には勤務時間が長くなることもあります。その一方で、基本的には勤務時間や働く場所を選択でき、働き方も多様なので、たとえば子育てや介護と両立できる職場をみつけることもできると思います。（就業者）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>CG制作ソフト、3D CG制作ソフト、イラスト・デザイン作成ソフト（Illustrator、Clip Studio等）、画像編集ソフト（Photoshop、GIMP等）、動画編集ソフト、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/328">動画制作</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/326">Webデザイナー（Web制作会社）</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/332">広告デザイナー</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/330">ゲームクリエーター</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/327">Webディレクター（Web制作会社）</a><span class="r-risk">AI 影響 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされないが、興味を持ち動画や教則本でスキルを身につけて応募する人が多い。造形力やセンスが重視されるため、大学や専門学校などでデザインを勉強していたり、CGの知識や経験がある人が多くなっている。</p>
+        <p>中途採用ではCG制作の経験者が求められる。</p>
+        <p>Webブラウザやスマートフォン用の簡易なCG制作と、映画や大作ゲームのCG制作とでは、求められる能力が異なる。前者の場合、様々な役割を1人でこなせるジェネラリストが求められ、後者の場合は仕事の分業化が進んでいるため、1つの役割に特化したスペシャリストが必要とされる。例えばモデリングのスペシャリストは造形力が重視され、アニメーションのスペシャリストは演技や演出の技術が重視される。ただし、集団作業を円滑に行うためには、担当以外の作業に関する知識も積極的に吸収しようとする姿勢が大切である。チームによる制作ではコミュニケーション能力や協調性が重視される。長時間におよぶ地道な作業が多く、根気強さも必要である。日ごろから映画やゲームなどのCG作品を鑑賞し、センスや技術を磨くことも重要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は、映像制作会社、デザイン事務所、広告制作会社等のCG制作スタジオであり、職場は東京等都市部が多い。フリーランスで仕事をしている人もいる。就業者は比較的若い人が多い。</p>
+        <p>企業で雇用される場合は、賃金、労働時間等労働条件は勤務先の規定による。経験や能力が評価されて、賃金等に反映される。自分一人で担当部分の作業を行うことが多く、労働時間や休日は比較的自由な体制をとっている職場が多い。ただし、締め切りが迫ると、残業や土日祝日に仕事をすることもある。</p>
+        <p>CGの技術は年々高度になっており、高い技術とセンスのあるCG制作者が求められている。一定レベルのCGは生成AIで作れるようになり、初歩的な仕事、入門的な仕事は置き換えられることもみられる。また、制作体制の国際化も進行しており、中国、韓国、インドネシア等、東南アジアの制作会社と協力して作成したり、欧米の会社から制作を依頼されることも多い。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,69.6 261.1,140.4 221.5,240.9 139.1,212.6 109.8,150.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>77</dd><dt>対人</dt><dd>73</dd><dt>判断</dt><dd>67</dd><dt>身体</dt><dd>40</dd><dt>定型</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.3</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">4.2</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.1</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.0</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">4.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">芸術</span><span class="topn-score">3.1</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">2.6</span></li><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">2.6</span></li><li><span class="topn-name">設計</span><span class="topn-score">2.3</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.0</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">3.7</span></li><li><span class="topn-name">独創性</span><span class="topn-score">3.7</span></li><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">モノの見え方に関する想像力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/337"><span class="tc-name">インテリアデザイナー</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/354"><span class="tc-name">インダストリアルデザイナー</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/340"><span class="tc-name">ファッションデザイナー</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.dcaj.or.jp/" rel="external" target="_blank">一般財団法人 デジタルコンテンツ協会</a></li><li><a href="https://www.cgarts.or.jp/" rel="external" target="_blank">公益財団法人 画像情報教育振興協会(CG-ARTS)</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>UX/UI Designer — AI Impact 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="UX/UI Designer: workforce ~48,720 / annual salary 574万円 / avg age 38.0 / AI impact 9/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="UX/UI Designer, UI/UX Designer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/552" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/552" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "552",
+      "occupationalCategory": "02_009-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/552",
       "additionalProperty": [
         {
@@ -122,7 +123,12 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "UX/UI Designer",
+      "alternateName": [
+        "UX/UI Designer",
+        "UI/UXデザイナー",
+        "UI/UX Designer"
+      ],
+      "industry": "IT & Communications",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +212,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +268,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +363,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=it">IT &amp; Communications</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -308,8 +385,38 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Designs user interfaces for digital products; generative AI tools rising.</p>
+        <p>UX/UI designers design appealing user experiences and more intuitive interfaces for digital services — websites, information provision and operation on electronic devices — in the development of those services.</p>
+        <p>UX (User Experience) involves designing and creating digital services so that the way users interact with them is as comfortable as possible from the user&#x27;s perspective. UI (User Interface) involves designing and creating screens and other interface elements so that digital services are as easy to use as possible.</p>
+        <p>Digital services that fall within the scope of UX/UI design include websites and business applications accessed from PCs and tablets, and smartphone apps — all based on general-purpose devices. This category — website and app design — accounts for the largest portion of the work. However, UX/UI design is also applied to dedicated hardware such as digital signage (information display systems at facilities and stores) and surgical support robots.</p>
+        <p>A clear example of impactful UX/UI design is the arrival of the smartphone. The polished, intuitive, and immediately understandable operation brought users an entirely new kind of experience. Since then, smartphones have been used all over the world, transforming everyday social life. A more everyday example is online banking — where UX/UI designers have played an active role, and in some cases their work has won the Good Design Award. Online banking allows users to access banking services without visiting a branch — digital technology has changed how people behave, changed social life, and this is one example of DX (Digital Transformation). Many other UX/UI designs exist in society, and the range of DX-style developments continues to expand.</p>
+        <p>UX/UI designers&#x27; concrete work encompasses both new development and ongoing development. In both cases, the first step is for the designer — along with other stakeholders — to discuss the overall direction of the development and determine what the user flow should be, what the interaction model should look like, and what the interface should be. Based on that design, programmers and various engineers carry out the concrete development to realize it. In some cases, the UX/UI designer also creates simple programs themselves. As development progresses, real users test the product, and the designer confirms whether users can operate it smoothly and accurately — feeding findings back into the team for further iteration to improve the site, app, or device. Design and development is carried out with an awareness of universal design, so that the result is accessible and usable by everyone.</p>
+        <p>The work carries a strong sense of purpose and achievement — because it is work that changes society and daily life. At the same time, there are genuine challenges in realizing the required design within constraints of hardware, screen, communications, processing speed, and budget. Development is a collaborative effort involving many stakeholders, and sometimes discussions become heated and opinions clash.</p>
+        <p>◇ Commonly used tools, equipment, and software
+Design software, programming languages, software development environments, personal computers, smartphones (for functional testing), tablets (for functional testing)</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>UX/UI design is a relatively new field, and formal educational pathways at universities and similar institutions have not yet been fully established. Many of those currently working as UX/UI designers came to the role through accumulating experience in screen design as graphic designers, or through involvement in system development. Some newer companies provide intensive training in the required knowledge and skills for new employees, developing them directly as UX/UI designers.</p>
+        <p>Because the field is new, practitioners tend to be relatively young — commonly in their 20s through 40s. There is no established mid-career path yet, but similar to designers in the advertising industry, many practitioners remain hands-on in directing design even after moving into management or company executive roles.</p>
+        <p>Required knowledge includes foundational knowledge of design, information architecture, and human-centered design — along with psychological understanding of users. Programming knowledge and awareness of hardware and communications may also be required.</p>
+        <p>Regarding qualifications: certification examinations exist for design software but are not required. Design fundamentals and information architecture knowledge, combined with a track record of completed work, are what lead to being entrusted with larger projects and better opportunities. A portfolio of past work effectively serves as a professional calling card.</p>
+        <p>Because new technologies and new devices emerge continuously, staying curious and engaged with them — and incorporating and mastering them as needed — is a core expectation. Development work is collaborative, so cooperativeness and, in some situations, leadership are also important. Presentation skills are required in some contexts. Marketing knowledge is also useful, as making a site more widely used is part of the mission.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employers are design firms, IT companies, and similar organizations — concentrated in major cities. However, with remote working infrastructure now widely in place, working from home and conducting online meetings have become the norm.</p>
+        <p>Awareness of and demand for UX/UI designers has grown with the advancement of DX, and the talent market for skilled practitioners is strongly candidate-driven. Because DX projects tend to be large in scale and long in duration, regular employee status is typical. Staff from partner companies also participate in development projects, though in those cases they are also regular employees of their respective partner companies. Compensation is most often structured as a monthly salary, with bonuses and pay raises reflecting results. Freelancers may also be contracted to handle specific portions of a development project for a defined period, with compensation set in the initial contract.</p>
+        <p>Early in one&#x27;s career — before a track record is established — the work can feel like a race against time. As a reputation builds and recognition comes, more autonomy and flexibility over how one works, including managing one&#x27;s own schedule, becomes possible.</p>
+        <p>DX is currently in the social spotlight, and UX/UI design continues to evolve as new technologies and devices emerge and are incorporated. Demand today is strong, and the field of opportunity is expected to continue expanding.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,170.0 265.9,138.8 218.8,237.2 146.2,202.7 119.9,153.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>0</dd><dt>Social</dt><dd>77</dd><dt>Judgment</dt><dd>63</dd><dt>Physical</dt><dd>31</dd><dt>Routine</dt><dd>40</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Sales &amp; Marketing</span><span class="topn-score">2.5</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">2.4</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">2.4</span></li><li><span class="topn-name">Psychology</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Fine Arts</span><span class="topn-score">2.1</span></li></ol></div></div></section>
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +429,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人　情報処理推進機構（IPA）</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +438,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>入国警備官 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="入国警備官：就業者 約16,944人 / 平均年収 329万円 / 平均年齢 53.0 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="入国警備官" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/143" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/143" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "143",
+      "occupationalCategory": "10_063-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/143",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Immigration Enforcement Officer",
+      "industry": "Public Safety",
+      "skills": [
+        "Active Listening",
+        "Persuasion",
+        "Writing",
+        "Speaking",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Instructing",
+        "Critical Thinking",
+        "Negotiation",
+        "Coordination"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=hoan">保安・公安</a><span class="band band-mid">AI 影響 中</span><span class="band band-low">規模 小</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,19 +393,36 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>不法入国者、不法残留者、不法就労等の在留目的外の活動を行う者など法に違反する疑いのある外国人を調査し、国外に退去させるための手続を行う。</p>
+        <p>日本に入国する外国人は空港、海港の入国審査において在留目的別に在留資格と在留期間が定められ入国を許可される。入国警備官は、不法入国者、不法残留者、不法就労等の在留目的外の活動を行う者など法に違反する疑いのある外国人を調査し、国外に退去させるための手続を行う。</p>
+        <p>具体的には、調査は違反調査と言われ、収集した情報等に基づき、法違反の疑いのある外国人や関係者から事情聴取を行う。違反調査では、強制的な調査も可能で、違反が判明すれば主任審査官が発付する収容令書に基づき身柄を収容する。法違反の疑いのある外国人を入国警備官が捕まえる摘発という手段もあり、警察官と連携して行う場合もある。</p>
+        <p>摘発された外国人等は、地方出入国在留管理局に設置された施設に収容される。そこでは、入国警備官が施設の警備、収容時の手続、収容された外国人の対応等を行う。また、入国審査官による違反審査等の結果、強制退去が決定した外国人を送還先国まで護送し、退去強制手続を完了させるのも入国警備官の仕事である。</p>
+        <p>入国警備官が退去強制手続または出国命令手続を執った外国人は1万8,908人（2024年）となっている。</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/142">麻薬取締官</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/140">警察官（都道府県警察）</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/154">航空自衛官</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/144">裁判官</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/141">海上保安官</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>法務省の外局である出入国在留管理庁所属の国家公務員であり、入国警備官採用試験に合格する必要がある。入国警備官採用試験では、筆記試験、人物試験のほか、身体測定や体力検査の試験が実施され、合格後は全国の地方出入国在留管理局又は入国管理センターに採用される。採用後には、様々な研修が用意されている。地方出入国在留管理官署で若干期間勤務した後、研修施設において「初任科研修」を受ける。この研修は全寮制で約3か月間にわたり、業務に必要な基礎的な法律知識や、外国語、逮捕術・拳銃操作訓練などが行われる。採用後4年以上の職員を対象として実施される「中等科研修」では、より高度な法律知識の習得や実務の習熟を図るための講義・実習が行われる。この他、「語学委託研修」として、語学学校の専門課程で英語、中国語などを学ぶ「長期委託研修」（3か月程度）や、勤務終了後に語学学校に通学する「在勤地研修」などがある。</p>
+        <p>入国警備官には、警守、警守長、警備士補、警備士、警備士長、警備長、警備監の7つの階級があり、努力次第で上位の階級に昇進することができる。</p>
+        <p>外国人と接する機会が多いため、広範囲な法律知識のほか、高い品性と豊かな国際感覚が求められ、優れた語学力も備える必要がある。また、国の安全と国民生活を守るための強い正義感、強固な意志、機敏な行動力も要求される。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>札幌、仙台、東京、名古屋、大阪、広島、高松、福岡にある地方出入国在留管理局、その下部機関である7支局（成田空港、羽田空港、横浜、中部空港、関西空港、神戸、那覇）と61か所の出張所、そして2か所の入国管理センターに勤務することとなり、全国的な転勤がある。入国警備官は全国で1,687人である(2025年時点)。</p>
+        <p>給与について、入国警備官は公安職として公安職俸給表（一）が適用されるため、行政職の国家公務員に比べて高い水準の俸給が支給される。</p>
+        <p>勤務時間は、１週間当たり38時間45分（週休２日制）であり、1日7時間45分の勤務を行う場合と交替制勤務（昼間勤務と昼夜間勤務）を行う場合がある。</p>
+        <p>また、外務省に出向し、在外公館勤務となり、諸外国に一定期間居住し、査証（ビザ）発給事務などを行うこともある。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,92.0 268.4,138.0 218.5,236.8 138.8,212.9 105.5,149.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>60</dd><dt>対人</dt><dd>79</dd><dt>判断</dt><dd>63</dd><dt>身体</dt><dd>40</dd><dt>定型</dt><dd>52</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.5</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.6</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.1</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.8</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">3.8</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.7</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.6</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">法律学、政治学</span><span class="topn-score">3.8</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">3.3</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">3.0</span></li><li><span class="topn-name">外国語の語彙・文法</span><span class="topn-score">2.4</span></li><li><span class="topn-name">社会学</span><span class="topn-score">2.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/475"><span class="tc-name">雑踏・交通誘導警備員</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 96%</span></span></a><a class="transfer-card" href="/ja/148"><span class="tc-name">刑務官</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 95%</span></span></a><a class="transfer-card" href="/ja/401"><span class="tc-name">救急救命士</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 94%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jinji.go.jp/" rel="external" target="_blank">人事院</a></li><li><a href="https://www.moj.go.jp/" rel="external" target="_blank">法務省</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +431,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

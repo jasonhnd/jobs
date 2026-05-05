@@ -8,6 +8,7 @@
     <title>フードコーディネーター — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="フードコーディネーター：就業者 約9,971人 / 平均年収 591万円 / 平均年齢 42.7 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="フードコーディネーター" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/351" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/351" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "351",
+      "occupationalCategory": "03_020-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/351",
       "additionalProperty": [
         {
@@ -123,6 +124,10 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Food Coordinator",
+      "industry": "Professional Services & Management",
+      "qualifications": [
+        "フードコーディネーター"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=shigyo">士業・経営・コンサル</a><span class="band band-high">AI 影響 高</span><span class="band band-low">規模 小</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -309,7 +385,32 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>食に関する幅広い知識に基づき、料理人、栄養士、商品開発者、店舗設計の建築士などと協働して、フードビジネスの企画やコーディネートを行う。</p>
+        <p>ホテルやレストラン、食品メーカー、スーパーマーケット、弁当惣菜製造会社などにおいて、新しいメニューの開発、テーブル回りのコーディネート、レシピの作成、調理技術の指導、食に関するセミナー、レストラン開店のプロデュースなどを手掛ける。食品関係の業界だけではなく、テレビ番組やコマーシャル等の撮影と演出、ポスターやパンフレットの作成と編集、食に関するイベントの企画などを行うこともある。</p>
+        <p>仕事として接するのは、直接の消費者ではなく、食品メーカーの業務担当者、レストランの経営者、テレビや雑誌などの制作担当者である。日常の業務は、要望に応じた企画を考え提案し、採用されると、実行していくことである。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>調理道具（包丁、ガスコンロ等）、パソコン</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>食に関する知識が必要であるため、大学・短大の食物関係学科や専門学校の調理師科等を卒業している場合が多い。</p>
+        <p>資格としては、日本フードコーディネーター協会が認定する「フードコーディネーター」がある。また、調理師、栄養士、製菓衛生師などの資格を取得していると、その知識等を仕事に生かせる。</p>
+        <p>食品メーカーや外食産業の食に関する現場において、商品開発や店舗運営等を経験し、フードコーディネーターとしての仕事をしていく場合が多い。実績を積んで独立し、フリーランスになることもある。</p>
+        <p>必要な知識としては、食材や調理、テーブルウェアと食器の配置、食事のスタイルとサービスの技法などである。それに加えて、情報収集力、実践的な企画力、関係者とのチームワーク、プレゼンテーション能力やコミュニケーション能力なども必要である。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>就業場所は、飲食店の数が多い都市部の場合が多い。就業者は女性が大半を占めている。</p>
+        <p>勤務時間は、食品メーカー、外食産業などの企業に所属する場合であっても、土日のイベント等で勤務が不規則になる場合がある。フリーランスで仕事をする場合には、依頼を受けた店舗の営業時間外に打ち合わせや作業をすることが多く、メディアで仕事をする場合には、撮影のスケジュールにあわせて休日に働くこともある。</p>
+        <p>報酬は、フリーランスの場合、仕事内容、期間、報酬額を合わせて、契約時に決定することが多い。自分の専門分野を活かした仕事を選べるが、収入は依頼によって変動する。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +423,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.fcaj.or.jp/" rel="external" target="_blank">特定非営利活動法人日本フードコーディネーター協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>フードコーディネーター</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +432,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

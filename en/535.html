@@ -8,6 +8,7 @@
     <title>Wind Power Maintenance Tech — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Wind Power Maintenance Tech: workforce ~31,023 / annual salary 586万円 / avg age 43.4 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Wind Power Maintenance Tech" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/535" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/535" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "535",
+      "occupationalCategory": "12_075-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/535",
       "additionalProperty": [
         {
@@ -123,6 +124,15 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Wind Power Maintenance Tech",
+      "industry": "Facilities & Maintenance",
+      "qualifications": [
+        "GWO BST(Global Wind Organization Basic Safety Training)",
+        "フルハーネス型墜落制止用器具特別教育",
+        "ロープ高所作業特別教育",
+        "第一種電気主任技術者",
+        "第二種電気主任技術者",
+        "第三種電気主任技術者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +216,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +272,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +367,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=maint">Facilities &amp; Maintenance</a><span class="band band-low">Low AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +389,40 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Maintains wind turbines, often at extreme heights.</p>
+        <p>Wind power maintenance technicians inspect, repair, and refurbish wind power generation equipment. They inspect the equipment to prevent malfunctions from occurring and repair and refurbish any damaged or deteriorated components, ensuring the wind power installation operates without disruption. Wind power generation is one of the vital infrastructure assets underpinning society, and keeping the equipment in good condition is essential.</p>
+        <p>A wind turbine assembly consists of the &quot;rotor&quot; — the blades (which capture the wind) combined with the hub — the &quot;nacelle&quot; (the housing containing the mechanism that receives the rotor&#x27;s rotation), the tall vertical &quot;tower,&quot; and other components. Counting smaller items, a turbine can use anywhere from 10,000 to 20,000 parts — covering electrical and mechanical systems — centered in the nacelle, and all of these must function normally to generate electricity. Maintenance of wind power equipment is indispensable for keeping the machinery in normal condition and supports this critical piece of society&#x27;s infrastructure. Maintenance tasks include routine inspections, periodic inspections conducted at defined intervals, and repairs and refurbishment carried out when damage, failure, or deterioration is identified. When repair is not feasible, components or assemblies may be replaced. Some component or assembly replacements require large cranes and constitute substantial operations.</p>
+        <p>The blades — which directly receive the wind energy that powers the turbine — are inherently exposed to constant solar radiation, wind, and rain, making them more susceptible to deterioration than other components. Their refurbishment (grinding, laminating, polishing, repainting) is especially important. Moreover, on the main turbines currently in service, the nacelle top sits at approximately 90 meters above ground, requiring heavy equipment and specialized techniques. One such technique is rope-access work at height. This is a technique originally developed for cave exploration (caving) that has been adapted for high-altitude work: technicians manipulate ropes freely to move up, down, left, and right while inspecting and repairing blades.</p>
+        <p>More recently, drones are being used for inspection, and small cranes installed in the nacelle are being used when replacing components or assemblies, reflecting how the work is evolving with technological advancement.</p>
+        <p>Depending on the maintenance company, tasks may also include maintaining and managing ground-level battery storage equipment, monitoring wind power generation around the clock from a remote control room, adjusting power output, or managing the entire operation on behalf of the turbine owner.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Personal computers, mobile phones, personal protective equipment (safety boots, dust masks, protective clothing, helmets, goggles, protective gloves, full-body fall-arrest harnesses, lanyards, etc.), general hand tools (pliers, wrenches, spanners, screwdrivers, etc.), grinders, testers, handheld terminals, ropes, descenders, ascenders (allowing climbing by leg power alone), drones, standard automobiles</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Entry is typically by joining a company that performs wind power maintenance after completing high school or as a mid-career hire. No particular educational background or qualifications are required, but because the work involves work at height, completing a special training course in full-body fall-arrest harnesses under the Industrial Safety and Health Act is required. Rope access work at height also cannot be performed without completing the &quot;Special Training for Rope Access Work at Height&quot; course. Companies typically provide initial training of a set duration after joining that covers these requirements. Both domestic and international qualifications exist for work at height and rope access work.</p>
+        <p>Because each wind power generation site must have a licensed Electrical Supervisor, holding this qualification is advantageous when seeking employment. Because turbine design and mechanisms differ by manufacturer, knowledge of each manufacturer&#x27;s specific turbine design is also necessary. Because blades are made of glass fiber reinforced plastic (GFRP), proficiency in GFRP repair techniques is also required.</p>
+        <p>Among new graduates, industrial high school graduates in industrial, electrical, and mechanical tracks are most common, though graduates from various disciplines are represented. After joining, technicians undergo classroom and hands-on practical training at training facilities and on actual turbines for several months to half a year, and obtain the aforementioned work-at-height qualifications. After completing this training, they are assigned as members of a field team, where they start with simpler tasks under the guidance of senior staff and gradually take on more advanced work. Mid-career hires undergo the same training process as new graduates — since almost none of them have height-access experience — then obtain the work-at-height qualifications before being assigned to the field.</p>
+        <p>After approximately three years of field experience, technicians become fully independent and are typically given responsibility for leading small teams of several people. From there they progress to leading roles that coordinate the entire maintenance team.</p>
+        <p>Recently, electric hoists have been installed inside towers, and rope access systems (ascenders) allow climbing by leg power alone — meaning significant muscular strength is no longer required, and female technicians are also working in this field.</p>
+        <p>Because field work sometimes involves hazardous locations, closely following the field leader&#x27;s instructions and working well cooperatively as a team are essential. A fine eye for small anomalies, the uncompromising thoroughness to carry out repairs properly — since inadequate repairs cause serious problems later — and the drive to continuously improve one&#x27;s skills are also required qualities.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Technicians work at companies that perform wind power maintenance, with workplaces distributed across Japan. Because most turbines are installed in hilly terrain, mountain ridges, and coastal areas, travel time to the site is substantial. For this reason, technicians typically stay near the turbines for approximately one week to several months during a maintenance assignment.</p>
+        <p>Maintenance of wind turbine blades, nacelles, towers, and other components is most often performed from spring through autumn. Winter brings strong winds favorable for power generation, but the conditions are not suitable for work at height. During periods when turbine maintenance work cannot be performed, technicians work on maintaining ground equipment.</p>
+        <p>Because work at height requires special training and qualifications, the large majority of technicians are full-time employees.</p>
+        <p>There are no special compensation arrangements specific to wind power maintenance, but additional allowances for relevant qualifications may be paid.</p>
+        <p>Rather than concentrated work periods followed by extended leave, the typical pattern is working Monday through Friday with Saturday and Sunday off. Overtime and weekend work can occur in emergency situations such as lightning strikes or equipment malfunctions.</p>
+        <p>New onshore turbine installations have been gradually increasing in recent years, but offshore wind power generation is projected to see large-scale growth going forward — requiring maintenance in those environments. Offshore work will take place at sea but will involve the same high-altitude work as onshore. Within the global decarbonization trend, maintenance personnel are already in short supply, and as offshore wind expands, the shortage is expected to worsen further — making talent acquisition a topic of active planning now. The U.S. Department of Labor&#x27;s Occupational Outlook Handbook ranked wind turbine service technicians as the occupation with the highest projected growth rate between 2019 and 2029 (https://www.bls.gov/ooh/fastest-growing.htm).</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +435,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://jwpa.jp/" rel="external" target="_blank">一般社団法人　日本風力発電協会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>GWO BST(Global Wind Organization Basic Safety Training)</li><li>フルハーネス型墜落制止用器具特別教育</li><li>ロープ高所作業特別教育</li><li>第一種電気主任技術者</li><li>第二種電気主任技術者</li><li>第三種電気主任技術者</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

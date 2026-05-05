@@ -8,6 +8,7 @@
     <title>外務公務員（外交官） — AI 影響 6/10｜mirai-shigoto.com</title>
     <meta name="description" content="外務公務員（外交官）：就業者 約120,576人 / 平均年収 481万円 / 平均年齢 43.5 / AI 影響 6/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="外務公務員（外交官）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/150" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/150" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "150",
+      "occupationalCategory": "06_035-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/150",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Diplomat",
+      "industry": "Office & Public Service",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Foreign Language Reading",
+        "Writing",
+        "Foreign Language Listening",
+        "Reading Comprehension",
+        "Foreign Language Speaking",
+        "Critical Thinking",
+        "Negotiation",
+        "Persuasion"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-mid">AI 影響 中</span><span class="band band-high">規模 大</span></div>
       </header>
 
       <div class="risk-card risk-6">
@@ -308,19 +393,38 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>政治、経済、文化、社会などあらゆる分野において、日本の国益と国際的な共通利益の増進のため、多国間あるいは２国間で国際的交渉や政策の調整を行う。</p>
+        <p>相互依存が深まる世界の中で、日本の将来は、国際社会全体の未来と不可分に結びついている。「外交」の目的は、日本が平和で安全な国際社会の発展に寄与しつつ、その中で日本の安全と繁栄を確保し、国民の生命と財産を守ることである。</p>
+        <p>「外交」を担う外務公務員は日本では外交政策の企画・立案を担う行政官として、海外では大使館や政府代表部といった在外公館を拠点に外交の最前線で、国際社会における日本国及び日本国民の利益の追求というミッションを遂行する。外務省全体としては、世界中の国・地域や国際機関との関係構築、安全保障、経済外交、国際協力、地球規模課題、軍縮、広報文化外交、国際法と、幅広い所掌分野を担当する。</p>
+        <p>日本における業務内容は、情報の総合的な分析、国内の諸関係先との調整、方針決定、在外公館への「指示」を行い、その後政策の実施状況や結果を検証し、新たな施策に反映させる等の外交政策の企画・立案である。</p>
+        <p>在外公館における業務内容は、相手国政府との調整や交渉、情報収集、邦人保護を含む領事業務、日本企業支援、広報文化活動と、多岐にわたり、赴任する在外公館を拠点に、その国や担当地域、国際機関において、日本の代表として、外交の最前線で業務に当たる。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、パソコン、普通自動車（普通免許（第一種、第二種）で運転可能なもの）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/151">国際公務員</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/146">家庭裁判所調査官</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/145">検察官</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/149">税務事務官</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/148">刑務官</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>外務公務員の採用試験としては、国家公務員採用総合職試験、外務省専門職員採用試験、国家公務員採用一般職試験（大卒・技術系、高卒程度）、国家公務員経験者採用試験等がある。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>外務公務員は、国内における勤務に加え、275の在外公館（大使館、総領事館、政府代表部）で勤務する。外務本省には約2,800人の職員が働き、在外公館では約3,500人の職員が働いている。（2025年現在）</p>
+        <p>総合職は、英、仏、独、西、露、中、アラビア、朝鮮語のうち一言語が希望・適正等を考慮した上で割り振られ、入省後約２年間本省にて実務研修、3～5年目に在外研修、5～7年目に在外勤務となる。その後、本省と在外勤務を繰り返しながら、外交にかかわる政策立案・企画の中枢や外交の最前線にて外交活動に携わる。</p>
+        <p>専門職は、40余の言語から希望・適性等を考慮した上で専門言語を割り振られ、入省後約１年間の本省における実務研修、2年目以降2～3年間の在外研修の後、在外公館勤務となる。その後おおむね5～6年ごとに本省と在外公館の勤務を繰り返す中で、多様な視点から自分の専門性を発展させつつ、新たな専門分野も発掘しながら、主に外交の最前線で地域・言語・専門分野のスペシャリストとして活躍する。</p>
+        <p>一般職（大卒・技術系）は、入省後約２～３年間本省にて勤務する。本省勤務中の１～３年は英語研修、その後3年目以降に１年間の在外語学研修を受講する。４年～５年目には在外公館勤務となり、その後はおおむね５～６年ごとに本省と在外公館の勤務を繰り返し、主に情報通信業務，営繕業務、画像情報分析業務を通じて日本外交を支える重要な任務を担っている。</p>
+        <p>一般職（高卒程度）は、原則として入省後約４年間本省において、会計、営繕、文書管理、通信、秘書的業務等に従事する。本省勤務中の2～3年目には英語研修、4年目には専門語研修（英、仏、西、中、露、ポルトガル語のうち一言語）を受講する。また、これら各種語学研修で優秀な成績を収めた職員が半年から１年間の在外語学研修を受講できる制度もある。5年目には在外公館勤務となり、その後はおおむね5～6年ごとに本省と在外公館の勤務を繰り返し、在外公館では主に会計、営繕、通信、領事業務に従事し、外交の幅広い業務を支えている。</p>
+        <p>勤務体制は実働で7時間45分の土日祝日休みで、他に各種休暇制度がある。在外に勤務する場合には、健康管理のための休暇制度等が整えられており、職員だけでなくその家族への支援も充実している。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,37.5 283.6,133.1 227.8,249.5 148.1,200.1 107.3,149.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>101</dd><dt>対人</dt><dd>91</dd><dt>判断</dt><dd>75</dd><dt>身体</dt><dd>28</dd><dt>定型</dt><dd>50</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.8</span></li><li><span class="topn-name">説明力</span><span class="topn-score">5.7</span></li><li><span class="topn-name">外国語を読む</span><span class="topn-score">5.6</span></li><li><span class="topn-name">文章力</span><span class="topn-score">5.6</span></li><li><span class="topn-name">外国語を聞く</span><span class="topn-score">5.5</span></li><li><span class="topn-name">読解力</span><span class="topn-score">5.5</span></li><li><span class="topn-name">外国語で話す</span><span class="topn-score">5.4</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">5.3</span></li><li><span class="topn-name">交渉</span><span class="topn-score">5.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">5.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">外国語の語彙・文法</span><span class="topn-score">4.2</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">3.8</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">3.5</span></li><li><span class="topn-name">歴史学・考古学</span><span class="topn-score">3.3</span></li><li><span class="topn-name">法律学、政治学</span><span class="topn-score">3.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/531"><span class="tc-name">キッティング作業員（PCセットアップ作業員）</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 84%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.mofa.go.jp/mofaj/" rel="external" target="_blank">外務省ホームページ</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +433,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

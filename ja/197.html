@@ -8,6 +8,7 @@
     <title>自動車整備士 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="自動車整備士：就業者 約188,035人 / 平均年収 513万円 / 平均年齢 40.5 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="自動車整備士, 自動車エンジン整備工, 自動車修理工, 自動車整備工, 自動車電装品整備工, メカニック（自動車修理）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/197" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/197" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "197",
+      "occupationalCategory": "12_075-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/197",
       "additionalProperty": [
         {
@@ -122,7 +123,34 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Auto Mechanic",
+      "alternateName": [
+        "Auto Mechanic",
+        "自動車エンジン整備工",
+        "自動車修理工",
+        "自動車整備工",
+        "自動車電装品整備工",
+        "メカニック（自動車修理）"
+      ],
+      "industry": "Facilities & Maintenance",
+      "skills": [
+        "Repairing",
+        "Equipment Maintenance",
+        "Troubleshooting",
+        "Active Listening",
+        "Quality Control Analysis",
+        "Equipment Selection",
+        "Speaking",
+        "Reading Comprehension",
+        "Coordination",
+        "Instructing"
+      ],
+      "qualifications": [
+        "二級自動車整備士",
+        "普通自動車免許",
+        "危険物取扱者（乙種）",
+        "ガス溶接技能者",
+        "アーク溶接技能者（基本級）"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +234,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +290,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +385,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-mid">AI 影響 中</span><span class="band band-high">規模 大</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,19 +407,38 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>自動車の走行の安全確保、有害排出ガスや騒音の抑制などの環境保全のために、専門的な知識と技術を駆使して自動車の点検と整備を行う。</p>
+        <p>自動車は、バスやタクシーのように人々の移動を支えたり、トラックのように物流の基盤を支えたりして、私たちの暮らしには無くてはならないものとなっている一方で、数多くの部品で構成されており、走行するに伴って劣化・摩耗が進み、その構造や装置の性能が低下するものである。そのため、自動車の走行の安全確保、及び有害排出ガスや騒音の抑制などの環境保全のために点検・整備が必要であり、その点検・整備を実施するのが自動車整備士である。さらに近年、技術開発の進展の結果、自動車には数多くの電子機器が搭載されるようになっており、その不具合の対処のため、専門的な技能を有する自動車整備士の役割は、ますます重要となっている。</p>
+        <p>自動車の点検・整備には、定期的に各部を点検し、機能の低下した部分を整備する定期点検整備と、交通事故などによる破損箇所の修理や、異常箇所の整備などがある。自動車は車種によって構造が異なるため、自動車の種類、エンジンの種類、部位別などにより整備分野が分かれている。</p>
+        <p>自動車整備士は、整備工場に持ち込まれた自動車について、原動機(エンジン、モーター)、操縦(ハンドル)、制動(ブレーキ)、緩衝(サスペンション)、動力伝達(トランスミッション)などの各装置や燃料・電気関係の部品などを点検し、性能が低下及び故障している箇所を発見し、お客様に説明して部品を交換・修理することが仕事である。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）、自動車の電子部品の整備作業に必要な道具(スキャンツール)</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/191">船舶機関士</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/190">航海士</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/189">パイロット</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/196">鉄道運転計画・運行管理</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/198">ガソリンスタンド・スタッフ</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>就業先としては、一般的に整備工場となるが、整備工場に就職するには、国家資格である自動車整備士の資格を取得している方が有利である。一方、資格を取得していなくても就職することは可能であり、整備工場に就職後、勤務をしながら夜間や休日に講習を受けられる養成施設（自動車整備技術講習所）に半年～1年半通い、資格を取得することも可能である。また、自動車整備に関して学ぶ工業高校の自動車整備科や、自動車整備の専門学校等の出身者だけでなく、高等学校や大学などで機械や電気に関する基礎的な知識を学んでいると有利である。このほか、自動車の運転免許や危険物取扱者乙種第四類、ガス溶接技能者、アーク溶接技能者（基本級）の資格があれば入職に有利となることが多い。上記については、中途採用の場合も、同様である。</p>
+        <p>自動車整備士の資格を取得するには、整備専門学校等の養成施設に通う方法と、前述のとおり整備工場で働きながら養成施設（自動車整備技術講習所）に通う方法がある。これらの養成施設を修了すると実技試験が免除となり、学科試験のみの受験となる。</p>
+        <p>進化を続ける自動車は、近年、カメラやセンサーなどの電子技術が多く導入されるようになり、構造や装置は、複雑化、精密化している。そのため、自動車整備士が仕事をするためには、新たにスキャンツール（自動車の電子的な故障の原因究明に必要な機器）を使いこなすための知識や、新技術に対応できる技術力が要求されるようになっている。さらに、環境や騒音などの各種規制は年々強化されており、変化する規制に対応する新たな整備方法や検査方法を学び続けることも必要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>自動車は法律によって所定の期間ごとに必ず点検・整備及び車検を行わなければならないため、職場（整備工場）は全国にあり、メーカー系自動車販売会社（自動車ディーラー）の整備工場や点検・整備を主な事業とする専業工場などがある。</p>
+        <p>地域に密着した業態のため、自動車ユーザーの利便性を第一に考えて、日曜・祝日に営業したり、夜間に営業することが多かったが、最近は従業員の働き方を最優先と考えて、休日を交替制にしたり、週休二日制を採用する企業も増えてきている。なお、外気が入る作業場であり、騒音、振動の発生、油脂による汚れなどがあるが、最近は空調設備の導入や電動車（電気自動車やハイブリッド車）を整備する割合が増加していることにより、そのようなことは減っている。</p>
+        <p>就業者のうち、整備士数は33万3047人、そのうち女性は1万567人で全体の3.2％となっている（2025年1月時点＊）。業界全体で女性に配慮した働く環境の整備や省力化機器の導入などにより女性の整備士を積極的に採用する傾向にある。</p>
+        <p>最近では、衝突被害軽減ブレーキなどの先進安全技術や電動車などの普及に伴い、国家資格である自動車整備士資格を持つ者が求められている。</p>
+        <p>*一般社団法人日本自動車整備振興会連合会、令和6年度自動車分解整備業実態調査結果の概要について</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,102.5 246.9,145.0 218.2,236.4 121.5,236.8 101.5,147.7" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>51</dd><dt>対人</dt><dd>62</dd><dt>判断</dt><dd>63</dd><dt>身体</dt><dd>63</dd><dt>定型</dt><dd>55</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">修理</span><span class="topn-score">4.8</span></li><li><span class="topn-name">保守点検</span><span class="topn-score">4.1</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">4.1</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.0</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">3.8</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">3.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.2</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.1</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">機械</span><span class="topn-score">3.0</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.3</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.9</span></li><li><span class="topn-name">数学</span><span class="topn-score">1.8</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">指先の器用さ</span><span class="topn-score">3.3</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.2</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">3.2</span></li><li><span class="topn-name">筋力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">聴覚の感度</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/48"><span class="tc-name">エレベーター据付</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/275"><span class="tc-name">家電修理</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/31"><span class="tc-name">建設機械オペレーター</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jaspa.or.jp/" rel="external" target="_blank">一般社団法人日本自動車整備振興会連合会</a></li><li><a href="https://www.jasca.or.jp/" rel="external" target="_blank">日本自動車整備商工組合連合会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>二級自動車整備士</li><li>普通自動車免許</li><li>危険物取扱者（乙種）</li><li>ガス溶接技能者</li><li>アーク溶接技能者（基本級）</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +447,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

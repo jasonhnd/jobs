@@ -8,6 +8,7 @@
     <title>自動車検査員 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="自動車検査員：就業者 約87,440人 / 平均年収 562万円 / 平均年齢 43.3 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="自動車検査員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/579" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/579" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "579",
+      "occupationalCategory": "12_079-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/579",
       "additionalProperty": [
         {
@@ -123,6 +124,11 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Auto Inspector",
+      "industry": "Manufacturing & Craft",
+      "qualifications": [
+        "一級自動車整備士",
+        "二級自動車整備士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +212,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +268,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +363,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,8 +385,46 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>指定整備工場において、自動車整備士によって整備された自動車が、国の定める保安基準に適合しているかを確認する「完成検査」を行い、自動車が安全に走行できる状態であるかの合否を判定する。</p>
+        <p>自動車検査員は、指定整備工場において、自動車整備士によって整備された自動車が、国の定める保安基準に適合しているかを確認する「完成検査」を行い、自動車が安全に走行できる状態であるかの合否を判定する。</p>
+        <p>「完成検査」は、自動車の安全性を確保するために重要な工程であり、その時点において自動車が道路を安全に走行でき、環境への基準を満足しているかを確認することであり、検査を適切に行うことによって、整備不良や不正改造箇所のある自動車が公道を走行することを防いでいる。もし完成検査をした車に不具合があれば、人命に関わる事故の原因となりうるため、完成検査は継続検査（車検）の中で最も責任感が問われる重要な仕事である。</p>
+        <p>具体的には、自らの指定整備工場で整備された自動車について、構造に関する検査として、車検証に記載されている寸法との同一性や最低地上高等を視認等により検査する。装置に関する検査として、制動装置（ブレーキ）の性能及び制動能力や前照灯（ヘッドライト）の明るさ及び主光軸の向き等を検査機器を用いて基準値内であるかを検査するほか、動力伝達装置、走行装置、制動装置、灯火装置等の自動車の各装置について、検査用ハンマーを用いる方法や目視等により検査する。</p>
+        <p>継続検査の場合、一連の工程を見ると、車検用車両の受け入れ、整備における作業指示、計測機械等を用いた完成検査、指定整備記録簿への検査結果記載、保安基準適合証への証明を行う書類作成、車検依頼者への報告という流れが一般的である。使用者に交付する記録簿には、測定結果、消耗品の残量等、点検結果、整備の内容などが記載され、自動車検査員が、車両の改善提案やメンテナンスの助言を行うこともある。</p>
+        <p>指定整備工場における完成検査は、１台あたり数十分程度の所要時間である。検査工場の規模にもよるが自動車検査員１人あたり１日に４～５台、多くても８台ほどである場合が多い。普通乗用車の場合、所有者への引き渡しまで１日、トラック等で２～３日というのが一般的である。</p>
+        <p>また、指定整備工場における完成検査として扱える車種は、指定を受けた自動車の種類に限られるものであるが、実際には勤務している現場が取り扱っている車種のみを日常的には検査するというのが一般的となる。</p>
+        <p>働く場所が同じであることから混同されることもある自動車整備士は、定期点検や車検などにおいて、不具合・故障箇所がないかを点検し、それらがあった場合の修理・整備などメンテナンスを行うことが主な業務である。他方、自動車検査員は自動車整備士が行った整備に不備・漏れがないか、整備後の自動車が国の基準に適合し問題なく安全に走行できるかについて検査と確認をする。言い換えるならば、自動車整備士は自動車の整備全般を行い、車検に合格するよう点検と整備をするが、車検における完成検査を行うことはできず、自動車検査員による最終判断が必要となる。また、自動車検査員は、整備と検査を同一の者が行うことはできない。</p>
+        <p>自社工場で車検を行うことができる指定整備工場においては、自動車検査員を最低でも１名を配置する必要がある。自動車検査員は、現場において、資格を持たない工員や自動車整備士の監督業務を行うこともあることから、自動車整備士の仕事にも深い理解が必要である。</p>
+        <p>自動車検査員は、人の命に関わる大きな責任を伴う仕事を行うことから、まずは自動車に関する豊富な知識を持つことが大前提となる。細部に亘る項目の検査をするためには、曖昧な知識では通用せず、自動車検査員の選任を受けた後も、自動車の基本構造から最新の技術やシステムの動向等、常に新しい知識を吸収し続ける必要がある。その上で、「安心・安全な車を社会に届けたい」といった強い責任感を持って仕事に取り組むことができる者が向いている。また、日常の作業動作としては、微細な異状を察知する力や、集中力があり繰り返しの同じ作業が苦にならない者が向いている。</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>自動車整備士の仕事に興味がある人は、次のステップとして自動車検査員があるということを知ってほしいと思います。“みなし公務員”として、人命に関わる仕事に誇りと責任を持って取り組めます。安全な車社会をつくる一員としてやりがいのある仕事です。（就業者　30代）</p>
+        <p>車が無事検査に合格し、お客様が安心して乗っていただけることは我が身のことのように嬉しいものです。自動運転などの技術が年々進化し、自動車業界は新しい可能性が広がっていて面白いです。（就業者　50代）</p>
+        <p>自動車検査員の資格取得後は、車の構造だけでなく法律にも興味を持つことができ、車に対する理解がより深くなりました。仕事をしながら車の知識が学べるところも魅力のひとつです。（就業者　30代）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>検査用機器（サイドスリップ・テスタ、ブレーキテスタ、ヘッドライトテスター、スピードメーターテスター、検査用スキャンツール等）、ペンライト、点検ハンマー、デジタルカメラ、寝板等</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>自動車検査員が行う完成検査は本来、国が行う業務を代わりに行っているため、「みなし公務員」として扱われ、自動車の検査に必要な知識及び技能について地方運輸局長が行う自動車検査員教習を修了する（自動車検査員の資格）必要がある。また、勤務している指定整備工場において、勤務先から自動車検査員の選任を受けなければ、自動車検査員の業務をすることができない。現場では、「みなし公務員として、人命に関わる仕事に誇りと責任を持って取り組める」といった声が多い。</p>
+        <p>自動車検査員教習の受験資格は、整備主任者としての実務経験が二級自動車整備士の場合は１年以上、一級自動車整備士の場合は６ヶ月以上必要であること（整備主任者になるには、二級自動車整備士又は一級自動車整備士の資格が必要）、直近の整備主任者研修を受講修了していること、勤務先が「指定整備工場」であることなどである。</p>
+        <p>自動車検査員の選任を受けた後は、地方運輸局長が行う「自動車検査員研修」の受講が必要になっており、構造・装置、関係法令・主要通達等について常に最新の情報の習得に努める必要がある。</p>
+        <p>一般的なキャリアルートとしては、自動車整備学科のある専門学校を卒業し二級自動車整備士資格を取得、指定工場に入職後に整備主任者に選任される等、自動車検査員教習の受験資格要件を満たす経験を積み、自動車検査員教習を受験して、終了試問に合格後自動車検査員に選任されるというケースが多い。また、自動車検査員としての経験を積んでいき、整備工場を管理する立場や工場長になるケースも多く見られる。培ったスキルや後進指導の経験を活かし、自動車整備関連の専門学校の教員に転職する例もみられる。</p>
+        <p>自動車検査員の資格は、一度取得すれば原則失効することはないが、自動車検査員として働き続けるためには定期的な研修の受講が必要となる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>自動車検査員は高い専門性を有し、同一の現場でみた場合、自動車整備士と比較して、賃金水準が高いことが一般的である。</p>
+        <p>指定整備工場においては、完成検査をするために必ず１人は自動車検査員が必要であり、業界全体としてもその人材は不足していることから、転職において自動車検査員の資格は有利である。</p>
+        <p>男女構成比は、圧倒的に男性が多い。年齢層としては自動車整備士や整備主任者としての経験年数を積む必要があることから、３０代以降の自動車検査員が多く見られる。</p>
+        <p>最近の動きとしては、令和６年10月より車検に電子的な検査（OBD検査）が導入されたことに伴い、「検査用スキャンツール」という器具が新たに使われるようになっている。車両に搭載された故障診断装置（OBD）と国の専用システムとを接続し、合否を判定する際に用いられる。</p>
+        <p>近年、完成検査へのAI活用が進められ、検査の効率化やコスト削減につながることが期待されている。また、AIは、人間の目では発見しにくいような不具合を検出できるなど、検査の精度向上への寄与にも期待が集まっている。このような新たな技術の導入や、今後更に加速することが見込まれる自動運転など、自動車業界を取り巻く新しい動きもある。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +437,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.jama.or.jp/" rel="external" target="_blank">一般社団法人　日本自動車工業会</a></li><li><a href="https://www.jaspa.or.jp/" rel="external" target="_blank">一般社団法人日本自動車整備振興会連合会</a></li><li><a href="https://www.jasca.or.jp/" rel="external" target="_blank">日本自動車整備商工組合連合会</a></li><li><a href="http://www.jaw.or.jp" rel="external" target="_blank">全日本自動車産業労働組合総連合会（自動車総連）</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>一級自動車整備士</li><li>二級自動車整備士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +446,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

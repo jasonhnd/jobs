@@ -8,6 +8,7 @@
     <title>Working Environment Measurement Specialist — AI Impact 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="Working Environment Measurement Specialist: workforce ~11,323 / annual salary 573万円 / avg age 43.0 / AI impact 5/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Working Environment Measurement Specialist" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/571" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/571" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "571",
+      "occupationalCategory": "02_011-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/571",
       "additionalProperty": [
         {
@@ -123,6 +124,11 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Working Environment Measurement Specialist",
+      "industry": "Specialist & Technical",
+      "qualifications": [
+        "第一種作業環境測定士",
+        "第二種作業環境測定士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +212,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +268,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +363,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=senmon">Specialist &amp; Technical</a><span class="band band-mid">Mid AI risk</span><span class="band band-low">Small workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +385,60 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Measures workplace environmental hazards; field inspection.</p>
+        <p>Working environment measurement specialists (sakugyo kankyō sokutei-shi) are experts who contribute to the protection of worker health. At indoor workplaces and other work areas where hazardous operations are performed—such as factories—they measure the concentrations of hazardous substances (organic solvents, dust, etc.), and based on the results, evaluate the working environment and propose improvements to prevent occupational health impairment in workers.</p>
+        <p>Under the Industrial Safety and Health Act (労働安全衛生法), employers are required to carry out necessary working environment measurements at certain indoor work areas involving hazardous operations and to record the results. Furthermore, the Working Environment Measurement Act (作業環境測定法) specifically requires that working environment measurements at indoor workplaces handling organic solvents, specific chemical substances, dust, and similar materials be performed by a working environment measurement specialist. In some cases, specialists may also measure, record, and conduct risk assessments of WBGT (wet-bulb globe temperature, a measure of heat stress) values as part of employer obligations for heat illness countermeasures, even when the Working Environment Measurement Act does not specifically mandate specialist involvement. Working environment measurement specialists are divided into two main categories: first-class specialists can perform all functions—design, sampling, and analysis (*1); second-class specialists can perform design, sampling, and analysis using simplified measurement instruments only.</p>
+        <p>The general workflow for working environment measurement consists of the following stages: design (developing the measurement plan), sampling (collecting samples), analysis of collected samples, evaluation and report writing, and improvement proposals. The knowledge and skills required at each stage are described below; in all cases, a broad knowledge of the types and characteristics of hazardous agents—including dust and chemical substances—is required, based on the Industrial Safety and Health Act and the Working Environment Measurement Act. In addition to the ability to operate a range of measurement instruments, specialists need the technical expertise to calibrate analytical instruments according to the target substance when analyzing collected samples.</p>
+        <p>In the design (measurement planning) phase, the specialist identifies the scope of the workplace to be measured and determines the measurement method at each sampling point. Advance knowledge of the types of chemical substances handled at the factory and the working conditions under which they are used is essential at this stage; the sampling method, measurement equipment, and instruments differ depending on the anticipated substances.</p>
+        <p>In the sampling phase, a team of specialists travels to the site and conducts measurements while normal work operations are in progress. This is essential because accurate evaluation for disease prevention requires that air samples be collected under typical working conditions, not under conditions that deviate from routine. For gas concentration measurements, simplified meters may be used on-site; alternatively, the substance is adsorbed onto collection devices or air is directly collected into specialized bags and brought back for analysis. For the legally mandated semi-annual measurement of small-scale facilities, sampling may be completed in half a day; larger facilities may require nearly a week.</p>
+        <p>In the analysis phase, the collected samples are run through analytical instruments appropriate to each substance, and the concentration of chemical substances at each measurement point is calculated.</p>
+        <p>In the evaluation, reporting, and improvement proposal phase, the analysis results are used to assess whether the working environment poses a risk to worker health, and a report is prepared. The working environment is classified into one of three management categories based on the measurement results—&quot;maintain current status,&quot; &quot;improvement required,&quot; or &quot;immediate improvement required&quot;—and when improvement is needed, specific remediation measures are proposed to the employer to support the maintenance of a safe and healthy working environment.</p>
+        <p>Working environment measurement is not a one-time activity; legally mandated periodic measurements must be conducted, and follow-up measurements and verification of whether improvement measures have been properly implemented are required at facilities where remediation proposals have been made. As a result, specialists build long-term relationships spanning many years with the companies and sites they measure.</p>
+        <p>Some working environment measurement agencies (companies specializing in working environment measurement) also operate improvement construction departments; in such cases, specialists may recommend the installation of local exhaust ventilation systems as a concrete remediation measure and then follow through on this work while monitoring the ongoing improvement in environmental conditions.</p>
+        <p>Against a backdrop of growing occupational safety and health awareness among client companies, the nature of requests has been shifting: rather than measuring simply because the law requires it, clients are increasingly seeking proactive proposals for improvement measures from a worker health protection perspective.</p>
+        <p>Many working environment measurement specialists find deep professional satisfaction in cases where companies, motivated by heightened occupational safety and health awareness, actively accept improvement proposals—and when the effectiveness of those improvements is confirmed in subsequent measurements.</p>
+        <p>(*1) Analysis is divided into five categories: &quot;radioactive substances,&quot; &quot;mineral dust,&quot; &quot;specific chemical substances,&quot; &quot;metals,&quot; and &quot;organic solvents.&quot; The types of chemical substances that can be analyzed differ depending on the category under which the specialist is registered.</p>
+        <p>&lt;Message to prospective workers&gt;
+In the future, companies&#x27; responsibilities in occupational safety and health will only grow. I take pride in being involved in &quot;preventive medicine&quot; in a broad sense—preventing illness before it occurs. (Worker in their 50s)
+Reports are produced under the individual specialist&#x27;s name, so the sense of responsibility is significant. When an improvement I proposed is implemented at the next measurement and the results show genuine improvement, I feel real satisfaction and a sense that the work matters. (Worker in their 50s)</p>
+        <p>Tools and equipment commonly used: sampling pumps and substance-specific sample collection devices; various analytical instruments (spectrophotometer, gas chromatograph, ICP-MS, etc.); detector tubes; digital dust meter; protective equipment (gas-type respirator, dust-type respirator, protective goggles, chemical-resistant gloves, earplugs, safety shoes); chemical protective clothing; long-sleeved work attire</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>To conduct working environment measurements as a working environment measurement specialist, candidates must pass the first- or second-class working environment measurement specialist examination, complete a training program run by a training institution registered with the relevant prefectural labor bureau director, and then register with the Japan Industrial Safety and Health Technology Testing Association (公財・労働安全衛生技術試験協会) as a working environment measurement specialist. Specialists may be employed by a company that handles chemical substances and conducts measurements in-house, or by a working environment measurement agency (a company specializing in working environment measurement); in practice, the large majority of active specialists work for measurement agencies. New graduates joining a measurement agency almost never hold the certification at the time of hire; instead, they typically accompany more experienced staff on-site measurements and receive on-the-job guidance while preparing to take the licensing exam.</p>
+        <p>New graduates tend to hold bachelor&#x27;s or master&#x27;s degrees in science or engineering, though some enter with a high school diploma. A portion of hires are mid-career applicants from diverse professional backgrounds. The national exam offers both first- and second-class certifications, which differ in the scope of measurements that can be performed in the field as described above. In most cases, specialists begin by obtaining a second-class certification and then, as they accumulate practical experience, pursue a first-class certification. Some also obtain related qualifications such as Environmental Measurement Technician (環境計量士) or Labor Health Consultant (労働衛生コンサルタント).</p>
+        <p>Generally, specialists spend five to ten years building field measurement experience and learning how to build relationships with client companies, before taking on leadership or management roles at a measurement agency. Those employed by manufacturing companies and similar organizations often work as working environment measurement specialists within a factory setting and eventually advance to management positions within the company.</p>
+        <p>Required competencies include: in the design (measurement planning) phase, the ability to communicate plans clearly; in the evaluation phase, the ability to assess results appropriately and report them clearly, along with the ability to propose improvement measures. In the sampling phase, effective communication with site managers is important—field measurement is not merely a technical exercise but also demands strong interpersonal skills.</p>
+        <p>Because the industrial characteristics of different regions give rise to very different substances being handled at local facilities, specialists must continuously build the specialized knowledge and skills relevant to the substances they encounter in their work area.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Salaries, working hours, and other working conditions are governed by the employing organization&#x27;s policies. Some workplaces offer a qualification allowance. Annual scheduling for working environment measurements is relatively predictable—appointments with client companies can be coordinated in advance—though client scheduling preferences occasionally require work outside normal hours.</p>
+        <p>Working environment measurement specialists are active at sites where legally mandated hazardous operations are performed; the most common industry is manufacturing. Examples include factories using organic solvents, facilities handling radioactive materials, sites with extremely high or low temperatures, and factories generating intense noise.</p>
+        <p>In recent years, corporate awareness of and concern for occupational safety and health has grown. As companies seek to maintain a working environment where employees can work safely and in good health—achieving both health and productivity, and building better working relationships for both companies and workers—the role of the working environment measurement specialist is becoming increasingly important.</p>
+        <p>Note: An amendment to the Industrial Safety and Health Act enacted in 2025 (*2) has formally incorporated personal exposure measurement as one category of working environment measurement, expanding the scope of working environment measurement specialist activities.</p>
+        <p>(*2) The Act Partially Amending the Industrial Safety and Health Act and the Working Environment Measurement Act (Act No. 33 of 2025, promulgated in May 2025) has mandated personal exposure measurement for certain continuously performed metallic arc welding operations in indoor workplaces, and has also formally designated—as a category of working environment measurement—the personal exposure measurement conducted as part of risk estimation in risk assessments, requiring its implementation by working environment measurement specialists who have completed additional specified training (effective October 1, 2026).</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
         <ul>
           <li><a class="r-name" href="/en/572">Sewer Pipe Inspector</a><span class="r-risk">AI 5/10</span></li>
           <li><a class="r-name" href="/en/562">Detective (Private Investigator)</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/555">Home Care Service Manager</a><span class="r-risk">AI 5/10</span></li>
+          <li><a class="r-name" href="/en/583">Industrial Physician (Occupational Physician)</a><span class="r-risk">AI 5/10</span></li>
           <li><a class="r-name" href="/en/570">Seismic Inspector</a><span class="r-risk">AI 6/10</span></li>
           <li><a class="r-name" href="/en/569">Mortician (Nokanshi)</a><span class="r-risk">AI 3/10</span></li>
         </ul>
       </section>
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>第一種作業環境測定士</li><li>第二種作業環境測定士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +447,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

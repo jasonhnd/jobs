@@ -8,6 +8,7 @@
     <title>CNC Machine Operator — AI Impact 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="CNC Machine Operator: workforce ~76,070 / annual salary 465万円 / avg age 42.5 / AI impact 5/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="CNC Machine Operator" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/256" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/256" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "256",
+      "occupationalCategory": "12_071-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/256",
       "additionalProperty": [
         {
@@ -123,6 +124,25 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "CNC Machine Operator",
+      "industry": "Manufacturing & Craft",
+      "skills": [
+        "Operation and Control",
+        "Quality Control Analysis",
+        "Equipment Maintenance",
+        "Equipment Selection",
+        "Operations Monitoring",
+        "Troubleshooting",
+        "Repairing",
+        "Active Listening",
+        "Mathematics",
+        "Time Management"
+      ],
+      "qualifications": [
+        "特級機械加工技能士",
+        "１級機械加工技能士",
+        "２級機械加工技能士",
+        "３級機械加工技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +226,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +282,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +377,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=seizo">Manufacturing &amp; Craft</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +399,48 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Operates computer-controlled machine tools; substantial automation.</p>
+        <p>Operates NC machine tools — which are run by computer numerical control (CNC) — to perform cutting operations on metal materials.
+	Machine tools, also known as metal-cutting machine tools, are machines that shape metal workpieces into specified forms through cutting or grinding. They include manually operated conventional machine tools (where the operator turns handwheels) and NC machine tools. NC machine tools offer advantages such as minimal variation in machining accuracy, consistent results regardless of the operator&#x27;s skill level, the ability for one operator to run multiple machines, and greater process efficiency. Today, NC machine tools account for more than 90% of machine tool production output in Japan (*1).
+	Machine tools can be subdivided into roughly 300 types by application; major types include lathes, drilling machines, boring machines, milling machines, grinding machines (which use abrasive wheels rather than cutting tools), and gear-cutting machines. When equipped with NC functionality, these are referred to as NC lathes, NC milling machines, and so on.
+	Because of their high production efficiency, the machines in widest use today are turning centers — which combine multiple lathe functions and an automatic tool changer (ATC) to perform turning, milling, and drilling in a single setup — and machining centers (MC), which can perform multiple operations including turning, boring, drilling, tapping, and reaming continuously on a single machine.
+	An NC operator&#x27;s work consists of two parts: programming and operating. Programming is the &quot;teaching&quot; step that instructs the machine what to do, while operating involves checking that the machine runs as programmed, monitoring machine operation, and verifying finished parts.
+	In detail: the operator first creates the program by reading the drawing to understand the shape to be machined and selecting the fixtures and tools to be used. A coordinate system (three axes: x, y, z) is set, and the machining sequence — including the order of tools, direction of rotation, RPM, and cutting speed — is defined. Commands for tool movement to achieve the drawn shape and signals to end machining when complete are then configured.
+	NC programming is performed either manually (the operator records coordinates and movements on a coordinate calculation sheet, which is then converted to NC data) or automatically. Automatic programming uses a CAD/CAM system or the NC unit&#x27;s built-in programming function. It requires fewer personnel and less data creation time, and is generally used when complex multi-operation machining is needed.
+	Once programming is complete, the operator runs a simulation on a PC to confirm the machining matches the drawing. A dry run is performed without material to check for physical issues such as interference. When everything checks out, the operator proceeds to operation.
+	Tool inventory is verified, and tools are inspected under a microscope for wear or chips before being set in the machine. A fixture is then set to hold the workpiece, the workpiece is loaded into the fixture, and it is aligned parallel or perpendicular to the machine axis. A high-precision stylus probe is used to measure the center of the workpiece. When all preparations are complete, the program is loaded and machining proceeds automatically. Some operations take tens of hours, but since it runs automatically the machine can operate overnight without a worker present. Once machining is complete, the finished part is inspected.
+	Before the end of the shift, tool wear inspections and machine cleaning are carried out in accordance with standard procedures.</p>
+        <p>*1 From the Japan Machine Tool Builders&#x27; Association website</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+	Computers, NC machine tools, metal-cutting machine tools, conventional machine tools, lathes, drilling machines, boring machines, milling machines, cutting tools, abrasive wheels, grinding machines, gear-cutting machines, NC lathes, NC milling machines, milling machines, turning centers, machining centers, fixtures, CAD, CAM, microscopes, high-precision measuring instruments, stylus probes, cutting tools, personal protective equipment (helmets, goggles, gloves, safety shoes, etc.)</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/258">Nonferrous Metal Engineer</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/248">Plant Factory Designer/Installer</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/245">Elderly Welfare Counselor</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/255">Welder</a><span class="r-risk">AI 2/10</span></li>
-          <li><a class="r-name" href="/en/257">Plating Worker</a><span class="r-risk">AI 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No particular educational background or qualifications are required. Many workers have a technical high school background. Mid-career hires often transfer from the same industry.
+	Post-entry training varies by employer. Some companies provide a training period of about one year, during which workers build foundational knowledge while developing practical skills. Others provide brief onboarding and then deploy workers to the shop floor, where skills are developed through OJT and other hands-on training.
+	A typical career path involves accumulating experience as a worker, becoming a team leader (section chief or department manager), and then moving into management or pursuing a specialist track by deepening technical knowledge and skills.
+	A relevant qualification is the Machining Technician certification (機械加工技能士) defined by the Ministry of Health, Labour and Welfare (MHLW). The exam is divided by type of conventional or NC machine tool.
+	Required knowledge includes machine tools, cutting methods, cutting tools, materials, programming, measurement methods, and drawing reading. Practical skills required include accurate NC milling machine operation, NC program creation, job setup, and quick, accurate responses to machining conditions. Because new technology is continually being incorporated into modern machine tools, staying curious about technical developments is also important.
+	Spatial reasoning to understand flat and three-dimensional geometry, mathematical aptitude for programming, the ability to visually assess machining conditions accurately, and the manual dexterity to move quickly are all important capabilities.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employers include machinery manufacturers and machine parts manufacturers. NC machine tools are used across all industrial sectors, from large enterprises to small single-operator workshops, and workplaces are found nationwide, not only in major industrial zones but also in regional industrial towns.
+	The workforce is predominantly male, though the number of female workers is increasing.
+	Wages, working hours, and other employment conditions are governed by the employer&#x27;s policies. Day shifts are the norm, though some large corporations operate day/night shift systems. Once programming is complete and the machine enters automatic operation — unlike conventional machines — one operator can oversee multiple machines. As a result, operators often take on responsibilities beyond programming and operation, including machining scheduling and production management.
+	As AI continues to develop and the techniques of skilled workers become more widely shareable, the way CNC machine operators work may change significantly in the future.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,107.2 232.6,149.7 209.7,224.7 126.8,229.5 102.4,148.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>48</dd><dt>Social</dt><dd>50</dd><dt>Judgment</dt><dd>52</dd><dt>Physical</dt><dd>56</dd><dt>Routine</dt><dd>54</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Operation and Control</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Quality Control Analysis</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Equipment Maintenance</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Equipment Selection</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Operations Monitoring</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Troubleshooting</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Repairing</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Mathematics</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Time Management</span><span class="topn-score">2.9</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Production &amp; Processing</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Mechanical</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Mathematics</span><span class="topn-score">2.2</span></li><li><span class="topn-name">Engineering</span><span class="topn-score">1.7</span></li><li><span class="topn-name">Design</span><span class="topn-score">1.6</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Number Facility</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Memorization</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Selective Attention</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Visualization</span><span class="topn-score">2.6</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/278"><span class="tc-name">Weaving Machine Operator</span><span class="tc-meta"><span class="tc-risk">AI 4/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/253"><span class="tc-name">Die Maker</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/286"><span class="tc-name">Spinning Machine Operator</span><span class="tc-meta"><span class="tc-risk">AI 4/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.jmtba.or.jp/" rel="external" target="_blank">一般社団法人　日本工作機械工業会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>特級機械加工技能士</li><li>１級機械加工技能士</li><li>２級機械加工技能士</li><li>３級機械加工技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +449,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

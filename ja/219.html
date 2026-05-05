@@ -8,6 +8,7 @@
     <title>アウトドアインストラクター — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="アウトドアインストラクター：就業者 約60,235人 / 平均年収 438万円 / 平均年齢 38.5 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="アウトドアインストラクター" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/219" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/219" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "219",
+      "occupationalCategory": "05_032-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/219",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Outdoor Activity Instructor",
+      "industry": "Education & Instruction",
+      "skills": [
+        "Instructing",
+        "Speaking",
+        "Social Perceptiveness",
+        "Active Listening",
+        "Service Orientation",
+        "Persuasion",
+        "Learning Strategies",
+        "Active Learning",
+        "Coordination",
+        "Monitoring"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=kyoiku">教育・指導</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +393,37 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>キャンプや、自然保護や環境教育を目的とした野外活動等を通じて、自然との関わり方について利用者に指導・助言を行う。</p>
+        <p>キャンプ等の余暇目的の野外活動のほか、自然保護や環境教育を目的とした野外活動等を通じて、自然との関わり方について利用者に指導・助言を行う。</p>
+        <p>自然にかかわる活動の指導者（インストラクター）を総称したもので、個々の活動内容及び資格名称は分野によって異なる。</p>
+        <p>キャンプやサイクリングなどの野外活動のインストラクターの場合、地域の青少年研修施設等を活用して、教育的な目的で開催される講座や研修会での講師として必要な知識や技術を指導するほか、一般市民向けの行事や教室等を通じて、それぞれの活動を生涯にわたる楽しみとなる自然体験活動として幅広い年齢層の利用者や参加者に伝達する。</p>
+        <p>自然保護系、環境教育系のインストラクターの場合、自然観察会などを通じて、自然と人間との関係など自然を守るために必要な視点を身につけさせることを目的とした指導を行ったり、環境問題の解説者（インタープリター）として、国立公園や観光地等に設置されているビジターセンターの訪問者を対象として解説を行うなどの活動を行う。また最近は、野外活動を通じて、主に子どもの自然体験の必要性について社会にアピールする活動などもある。</p>
+        <p>自然志向は年々拡大傾向にあり、特に学校教育現場において環境教育に対するニーズが高まっており、野外活動での安全性の確保における専門的知識・技能を備えた人材が必要とされている。</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/222">造園工</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/225">調教師</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/207">船員</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/218">厩舎スタッフ</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/220">動物園飼育員</a><span class="r-risk">AI 影響 2/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>アウトドアインストラクターになるのに学歴や資格は特に必要とされないが、活動領域によって様々な資格があり、年齢にも制限等があるケースも見られる。</p>
+        <p>例えば、野外活動指導者の場合、キャンプ、サイクリング、ホステリング、オリエンテーリングの４つの分野ごとに資格がある。また、自然保護系のインストラクターの場合には、例えば、日本自然保護協会が主催する養成講習会を修了することで、自然観察指導員として登録される。この職業に就いてから一人前に仕事ができるようになるためには多くの現場経験が必要である。近年では活動内容がより高度化し、単に経験の年数だけでなく、指導する内容の「質」が問われている。また、独立してフリーで活動する道も考えられる。</p>
+        <p>野外活動を先導できる基礎体力とともに、常に新しい知識を吸収する向上心、人に奉仕することをいとわない気持ちやホスピタリティ・マインドが求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>アウトドアインストラクターの主な活動地域は、自然活動を実際に行う山間部、海浜、里山等、若しくはそれらに隣接する施設等のほか、アウトドアショップ、スポーツ用品店等がある。</p>
+        <p>活動や業務の中心が人々の余暇活動のサポートであるため、土日や休日を中心とした勤務になる場合が多く、キャンプ中などは終日勤務になる場合もある。ボランタリー的活動が中心になることも多く、報酬は平均して高いとはいえない。収入は個人差が大きいことも特徴である。</p>
+        <p>年齢層は幅広く、個人の体力が続けば高齢期まで働ける。最近は女性も増えている。</p>
+        <p>将来的にアウトドアの専門家の需要は広がる可能性があるが、安定した収入を維持するにはかなりの専門性と自助努力が必要とされる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,82.1 263.6,139.6 219.8,238.6 121.6,236.7 112.5,151.3" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>67</dd><dt>対人</dt><dd>75</dd><dt>判断</dt><dd>65</dd><dt>身体</dt><dd>63</dd><dt>定型</dt><dd>46</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">指導</span><span class="topn-score">4.6</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.3</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">3.9</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.7</span></li><li><span class="topn-name">学習方法の選択・実践</span><span class="topn-score">3.6</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.6</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.6</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">2.1</span></li><li><span class="topn-name">販売・マーケティング</span><span class="topn-score">2.0</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">1.9</span></li><li><span class="topn-name">地理学</span><span class="topn-score">1.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/399"><span class="tc-name">職業訓練指導員</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/179"><span class="tc-name">小学校教員</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/120"><span class="tc-name">スポーツインストラクター</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.camping.or.jp/" rel="external" target="_blank">公益社団法人　日本キャンプ協会</a></li><li><a href="https://cone.jp/" rel="external" target="_blank">NPO法人 自然体験活動推進協議会</a></li><li><a href="http://www.jyh.or.jp/" rel="external" target="_blank">一般財団法人　日本ユースホステル協会</a></li><li><a href="https://www.recreation.or.jp/" rel="external" target="_blank">公益財団法人　日本レクリエーション協会</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +432,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

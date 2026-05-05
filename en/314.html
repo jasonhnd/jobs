@@ -8,6 +8,7 @@
     <title>Systems Engineer (Web Services) — AI Impact 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="Systems Engineer (Web Services): workforce ~48,720 / annual salary 574万円 / avg age 38.0 / AI impact 9/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Systems Engineer (Web Services)" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/314" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/314" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "314",
+      "occupationalCategory": "02_009-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/314",
       "additionalProperty": [
         {
@@ -122,7 +123,23 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Systems Engineer (Web Services)",
+      "alternateName": [
+        "Systems Engineer (Web Services)",
+        "WEB系ソフトウェア開発技術者"
+      ],
+      "industry": "IT & Communications",
+      "skills": [
+        "Programming",
+        "Active Listening",
+        "Reading Comprehension",
+        "Writing",
+        "Operations Analysis",
+        "Speaking",
+        "Coordination",
+        "Active Learning",
+        "Critical Thinking",
+        "Technology Design"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=it">IT &amp; Communications</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -308,19 +396,47 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Designs and builds web service backends; AI code generation common.</p>
+        <p>Designs and develops web-based services as part of a team. Whereas early websites predominantly displayed static content, the web has evolved into a platform for dynamic, program-driven services; such websites are now delivered as standalone &#x27;products.&#x27;</p>
+        <p>In practice, the team discusses what web services are needed by society, defines what functionality is required, and determines what kind of website to build (requirements definition). Much of the work involves improving existing services already in operation. From the requirements, the team finalizes screen content and functionality, database design, and integration with external systems (via APIs, etc.) (basic design). Following the basic design, the team specifies precise screen layouts, the details of the features being provided, and internal processing logic, and produces a design document that makes the screen and processing flows explicit (detailed design). Software that must be created from scratch is either commissioned from programmers based on the detailed design, or the designers write the code themselves.</p>
+        <p>Deciding what kind of web service to build (requirements definition) is sometimes the responsibility of a product manager, or it is worked out collaboratively between the product manager and the engineering team. Since screen design is critical for the web, a web designer often handles that aspect. Screen mockups are reviewed jointly with the web designer, and after the design is approved, it is incorporated into the website being developed. Development is thus conducted by a team comprising a producer (product manager), designers, and others. Teams of four to six engineers and designers are common. With today&#x27;s mature development environments, a small team can build a fairly sophisticated web service. Regular team meetings are held during development, with collaboration tools (Slack, etc.) used for information sharing, progress management, and similar coordination.</p>
+        <p>Agile development methodologies are widely used in recent projects. In this approach, a rough overall prototype is built first, followed by progressively more detailed screens and more concrete features.</p>
+        <p>Within agile development, software developed by programmers is tested at the module or screen level (unit testing). Defects in the software are corrected. Once modules and screens have accumulated, integration between external systems and transitions between screens are tested (integration testing). When all elements are in place, overall system behavior is tested (system testing). This testing must meet predefined quality management and information security standards. At the final stage of web service development, prospective users serve as monitors to surface usability issues and problems (usability testing). Before release, a final test is conducted and any defects or improvements are addressed.</p>
+        <p>Development frequently encounters various problems, and errors can occur in the deployed web service. In most cases these can be traced and resolved by reviewing error messages and source code, though online resources are also consulted for solutions. Because new technologies emerge rapidly, information from the internet often proves more valuable than that from print sources.</p>
+        <p>Today, websites are accessed more often from smartphones than from PCs. Engineers develop either smartphone-specific programs or shared screens and features accessible from both, and this smartphone accommodation is incorporated into design and development. Smartphone app development itself is a separate occupation (see the &#x27;Mobile App Development&#x27; entry).</p>
+        <p>After launch, engineers who operate and manage web services may receive training on operations and usage (deployment). Web service operations are sometimes handled by a separate company. Once a web service is live, ongoing problem resolution and aftercare are also part of the role (maintenance and management).</p>
+        <p>&lt;Message to prospective workers&gt;
+What makes the web exciting is that a site can be used without constraints on location or audience size. I find great satisfaction as an engineer in developing web services that are used by many people across many different contexts. (Current practitioner, 20s)</p>
+        <p>◇ Commonly used tools, equipment, and IT
+Cloud services (AWS, GFS), OS (Linux), web screen development software (HTML, CSS, etc.), programming languages (Java, Python, Ruby, Go, etc.), web server software (Apache), databases (SQL Server, MySQL, PostgreSQL, Oracle, etc.), APIs, collaboration tools (Slack, etc.), personal computer, smartphone</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/313">Programmer</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/312">Systems Engineer (Custom Software)</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/316">Package Software Developer</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/315">Embedded/IoT Systems Engineer</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/311">Aircraft Engine (Jet) Developer</a><span class="r-risk">AI 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required for entry, though most practitioners have studied computer-related subjects at universities, vocational schools, or technical colleges. Some develop their skills independently during their student years out of personal interest.</p>
+        <p>New graduates learn development skills through coursework and OJT. Once capable of handling requirements definition, basic design, detailed design, development, and post-launch support, they can not only build web services independently but also contribute those capabilities when working as part of a team. There are also cases where young professionals make career transitions after vocational training. Mid-career hires with experience and a proven track record are also sought.</p>
+        <p>Programming languages commonly used in web service development include PHP, JavaScript, and Ruby. Web development also requires knowledge of the Linux server OS, the Apache web server, MySQL and PostgreSQL databases, and programming languages. Today, security knowledge is increasingly important in development.</p>
+        <p>Detailed and up-to-date information about development is often available not only in Japanese but also in English-language websites and communities. English reading and writing ability is therefore essential for development work.</p>
+        <p>Because new functionality emerges in web services every day and development technology advances rapidly, a proactive attitude toward information gathering and skill and technique development is required.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employers are web service companies that develop and provide web services. Because the companies collaborating on services are concentrated in urban areas, most practitioners work in cities and their surroundings. Since these companies typically do not have nationwide branch locations, transfers are infrequent. Remote work from home is common. While remote work expanded during the pandemic, the advantages of in-person collaboration in development have been reappreciated.</p>
+        <p>The workforce skews male, with the thirties age bracket being comparatively well-represented.</p>
+        <p>Because information protection and compliance are important, and to retain talent, regular full-time employment is the predominant form. Some practitioners participate in development under freelance business-commission arrangements.</p>
+        <p>Flex-time arrangements are common. Overtime increases ahead of new service releases.</p>
+        <p>As web-based service provision expands, demand for development talent is growing further. While a variety of tools have emerged to support development and the barriers to building services are lowering, there is growing demand for people with the skills to plan services and think through the business implications.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,86.8 259.8,140.8 222.8,242.7 142.4,208.0 105.8,149.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>64</dd><dt>Social</dt><dd>72</dd><dt>Judgment</dt><dd>69</dd><dt>Physical</dt><dd>36</dd><dt>Routine</dt><dd>51</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Programming</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.5</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Operations Analysis</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Critical Thinking</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Technology Design</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Design</span><span class="topn-score">2.5</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">2.5</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">2.5</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">2.0</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Fluency of Ideas</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/315"><span class="tc-name">Embedded/IoT Systems Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/319"><span class="tc-name">IT Operations Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/325"><span class="tc-name">AI Engineer</span><span class="tc-meta"><span class="tc-risk">AI 8/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +445,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

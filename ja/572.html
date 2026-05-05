@@ -8,6 +8,7 @@
     <title>下水道管路施設の点検・調査 — AI 影響 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="下水道管路施設の点検・調査：就業者 約52,774人 / 平均年収 596万円 / 平均年齢 46.0 / AI 影響 5/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="下水道管路施設の点検・調査" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/572" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/572" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "572",
+      "occupationalCategory": "02_008-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/572",
       "additionalProperty": [
         {
@@ -123,6 +124,12 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Sewer Pipe Inspector",
+      "industry": "Specialist & Technical",
+      "qualifications": [
+        "下水道管路管理専門技士",
+        "下水道管路管理主任技士",
+        "下水道管路管理総合技士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +213,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +269,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +364,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=senmon">専門・技術</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -309,18 +387,58 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>下水道管路施設（下水道管やマンホールなど）を点検し、劣化や破損、詰まりなど異状の有無を調査し、補修の必要性や緊急度などを検討する。</p>
+        <p>下水道は、家庭や事業所などの汚水や雨水を地下の管に集め、下水処理場に送って浄化し、川や海などに排出する水処理の仕組みである。下水道事業は原則として市町村等の地方自治体により運営され、整備された全国の下水道管路の総延長は約50万㎞に達する*。このうち標準的な耐用年数である50年を超過した管路が急速に増加していることから、下水道法により、計画的な維持管理に加えて、腐食の恐れが大きい管路には5年に1回以上の頻度での点検が義務づけられている。これらの点検・調査や維持管理には多くの専門技術者が従事している。</p>
+        <p>定期的な点検・調査は、一般的に、下水道事業を運営する地方自治体等の発注に基づき、作業を受託した専門企業が施工計画を立てる。点検・調査の現場となるマンホールは道路上に、主要な管路は道路の地下にあることが多いため、作業に先立って、周辺住民への広報や道路使用許可申請といった手続きも必要となる。</p>
+        <p>作業当日は数人のチームが作業車で現場に向かい、マンホールからの目視やカメラの挿入などにより内部を確認する。目視点検では、マンホール蓋やその周辺、マンホール内部の状況を目で見てチェックする。管路内の点検は、地上からテレビカメラをマンホールに挿入し、管路内の状況を撮影して映像により確認することが多い。</p>
+        <p>目視やカメラ映像により腐食や劣化、損傷、変形、詰まりなどが発見された場合や、重点的な点検対象となっている管路施設では、状況に応じてさらに詳細な調査が行われる。管路内に人が入って目視する方法や下水道管に自走式テレビカメラシステムを走らせてデータを収集する方法などさまざまな手段により、対応が必要な範囲や異状の程度など確認し、緊急度を判断する。近年は、管路内へ人が立ち入る作業をできるだけ減らし、作業の安全とスピードアップを図るため、多様な形状や口径の管路に対応した点検・調査機材の開発が進んでいる。</p>
+        <p>調査の精度を上げるため、点検の前には管路の清掃を行い、また、点検により目詰まりなどが発見された場合は必要に応じて障害物の除去や応急的な補修などを行うこともある。</p>
+        <p>管路内は密閉空間であり、点検・調査時には必ず酸素濃度や硫化水素など有毒物質の有無を測定する。また、急な大雨による流量増加などの恐れもあるため、天気予報も事前にチェックし、足場の確認など安全面での配慮を入念に行う。</p>
+        <p>点検・調査の実施後は、結果を報告書にまとめ、記録として整備する。補修の必要性や劣化防止対策などの根拠となるデータを整理し、次回の点検に向けて変化を把握できるよう、所定の形式で下水道を運営する事業者に報告する。</p>
+        <p>下水道管路の破損に伴う道路の陥没や大雨で下水があふれるなど緊急事態が生じた場合には、自治体などの要請に応じて、応急作業に出動することもある。震災などの大規模災害時には全国から技術者が復旧作業の応援に赴くことがあり、業界団体を通じた派遣により現地の復旧作業チームに参加することもある。</p>
+        <p>下水道管路の維持管理は安全・快適な生活インフラに直結し、環境保護や防災の観点からも重要な役割を担っている。災害現場で地域住民の生活復旧に貢献できた時などには、特に大きなやりがいを感じることができる。</p>
+        <p>＊2023年度末時点。資料出所：国土交通省HP</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>身体が慣れるまでは大変な時もあったが、自分が担当した現場にプライベートで通りかかったりしたときは、『自分がこの町の暮らしを支えているんだ』と、とても誇らしく感じることができます。（就業者　50代）</p>
+        <p>特殊な機械を使える面白さ、普通に生活していたらわからない仕事を自分が知っているというところにも面白さがあります。（就業者　40代）</p>
+        <p>震災等の災害支援活動を経験すると、人に感謝される仕事でもあるなと誇りに思えます。（就業者　50代）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>作業服（ヘルメット、作業靴、手袋等）、工具、保安用具、環境測定機器、カメラ、テレビカメラシステム、パソコン、タブレット、地図ソフト、データ処理ソフト、写真整理ソフト、報告書作成ソフト、文書作成ソフト（Word等）、表計算ソフト（Excel、Googleスプレッドシート等）</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>この職業に就くために必須の要件はない。大学等で土木工学や環境工学などを学んでいると仕事が進めやすいが、学校教育と直結した仕事ではないため、採用時に専門を問われることは少ない。中途採用の場合も経験者に限定されることはあまりない。現場には作業車で移動するため、入職時に普通運転免許の所持が求められることは多い。</p>
+        <p>下水道の維持管理業務を行う企業や下水道施設の管理事業者、地方自治体の下水道部門などに就職し、研修やOJTにより基礎知識と技術を身につけていく。下水道維持管理の専門企業では、初任研修の後、チームに配属されて現場経験を積みながら、仕事に必要な資格の取得に取り組むことが多い。専門的な調査や診断、維持管理計画の立案に参画できるようになると、チームリーダーや管理職になることもある。</p>
+        <p>下水道管路点検に関する主な資格としては、公益社団法人日本下水道管路管理業協会が認定する「下水道管路管理技士認定制度」があり、このうち「下水道管路管理専門技士（調査部門）」が主に点検・調査業務に対応する資格である。さらに幅広い維持管理業務に対応する資格として、「下水道管路管理主任技士」（点検・診断）、「下水道管路管理総合技士」（計画・調査・設計）がある。このほか、補修工事などに従事する際に活用される「土木施工管理技士」や特殊作業車両の運転に必要な大型免許の取得なども企業により奨励されている。</p>
+        <p>点検技術者の仕事は、安全に配慮しながら確実に実施していくことが必要であり、決められた手順に沿ってていねいに作業を行い、細かな異変にも気がつく注意力や観察力が重要である。カメラ等の機材の扱いやデータ整理のスキルも求められる。チームでの作業となるため、周囲とのコミュニケーションを図れることも大切である。屋外作業が中心であり、管路内に入る場合もあるので、一定の体力が必要となる。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>下水道管路は全国くまなく埋設されており、就業場所は全都道府県にある。下水道の維持管理業務を行う企業や下水道施設の管理事業者、地方自治体などに雇用されて働くのが一般的であり、雇用形態は正社員が多い。就業者の年齢構成は幅広く、性別では男性の比率が高い。人材確保のために年齢や性別に関わらず働きやすい環境整備を模索する動きもある。</p>
+        <p>賃金や労働時間は所属する組織の規定による。点検作業は計画的に行われるので、勤務スケジュールの見通しは立ちやすいが、道路管理との関係で、夜間や休日など通常の勤務時間外の作業となることもある。また、下水道管の破損事故や災害復旧などの緊急時には、出動要請を受けて突発的に業務が発生することもある。地方自治体の年度計画に基づいて作業が行われることが多いため、年度後半に向けて繁忙になる傾向がある。</p>
+        <p>点検作業は屋外の環境となるので、寒暑の影響を受けやすい。また、管路内は有害物質が発生する可能性があるので、環境をモニターし、安全を確認しながらの作業となる。</p>
+        <p>下水道管路は重要な社会インフラであるが、近年、耐用年数が超過した管路が急増していることが大きな問題となっている。実際に下水道管の破損に伴う大規模な道路陥没などの重大事故も発生し、対応が急務であることへの社会的な認識も高まっている。このため、点検・調査頻度の見直しや方法の高度化など対策の充実・強化が急がれており、点検・調査事業への需要も拡大している。今後も点検技術者に対するニーズは大きいと見込まれる。一方で、ロボットやドローン、ＡＩの活用など技術開発への取り組みにより、作業の効率化や安全性の向上、負荷の軽減が進むとみられる。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
         <ul>
           <li><a class="r-name" href="/ja/571">作業環境測定士</a><span class="r-risk">AI 影響 5/10</span></li>
           <li><a class="r-name" href="/ja/562">探偵</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/555">訪問介護のサービス提供責任者</a><span class="r-risk">AI 影響 5/10</span></li>
+          <li><a class="r-name" href="/ja/583">産業医</a><span class="r-risk">AI 影響 5/10</span></li>
           <li><a class="r-name" href="/ja/573">オーケストラ奏者（団員）</a><span class="r-risk">AI 影響 3/10</span></li>
           <li><a class="r-name" href="/ja/570">耐震診断</a><span class="r-risk">AI 影響 6/10</span></li>
         </ul>
       </section>
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jascoma.com/system/certificate/index.html" rel="external" target="_blank">公益社団法人　日本下水道管路管理業協会</a></li><li><a href="https://www.jswa.jp/sewage/" rel="external" target="_blank">公益社団法人　日本下水道協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>下水道管路管理専門技士</li><li>下水道管路管理主任技士</li><li>下水道管路管理総合技士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +447,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

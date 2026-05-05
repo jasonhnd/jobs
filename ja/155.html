@@ -8,6 +8,7 @@
     <title>消防官 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="消防官：就業者 約74,290人 / 平均年収 329万円 / 平均年齢 53.0 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="消防官, 救急救命士（消防員）, 救急隊員, 消防士, 消防吏員, 消防隊員, レスキュー隊員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/155" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/155" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "155",
+      "occupationalCategory": "10_062-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/155",
       "additionalProperty": [
         {
@@ -122,7 +123,33 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Firefighter",
+      "alternateName": [
+        "Firefighter",
+        "救急救命士（消防員）",
+        "救急隊員",
+        "消防士",
+        "消防吏員",
+        "消防隊員",
+        "レスキュー隊員"
+      ],
+      "industry": "Public Safety",
+      "skills": [
+        "Active Listening",
+        "Instructing",
+        "Speaking",
+        "Writing",
+        "Persuasion",
+        "Reading Comprehension",
+        "Coordination",
+        "Social Perceptiveness",
+        "Service Orientation",
+        "Negotiation"
+      ],
+      "qualifications": [
+        "救急救命士",
+        "甲種消防設備士",
+        "乙種消防設備士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +233,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +289,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +384,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=hoan">保安・公安</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +406,41 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>火災や交通事故、地震、水害などのさまざまな災害現場に急行し、火災の消火や人命救助にあたる。</p>
+        <p>火災や交通事故更に地震、水害などのさまざまな災害現場に急行し、火災の消火や人命救助にあたる。</p>
+        <p>24時間交替制で消防署に待機し、119番通報による災害発生の連絡を受けて、消防車で現場に出場する。</p>
+        <p>火災の場合には、ポンプ車を消火栓や防火水槽などの消防水利付近に停め、消防車の中から吸管を伸ばし、吸水を行う。空気呼吸器を背負って建物内に入り、室内を注水しながら、逃げ遅れた人がいないかどうか確認を行う。高所に逃げ遅れた人がいる場合には、はしご車の梯体を伸ばして救出を行う。石油や化学薬品などの危険物火災の場合には、化学車などから泡消火薬剤を使用して消火する。鎮火の後には、焼け残ったものから再び火が出ることがないように、水をかけて完全に消火する。火災現場を検証し、原因の調査なども行う。</p>
+        <p>交通事故の場合には、救助資器材を活用して事故車両のドアをこじ開けたり、車体を切断するなどして、車内に取り残された要救助者を救出する。水難救助や山岳救助に出動することもある。</p>
+        <p>出動のないときには、事務処理、機材の整備点検、消火や救助の訓練を行う。夜間には仮眠もとる。</p>
+        <p>また、火災予防にかかわる消防職員は、ビルや建物などに赴いて火災報知器やスプリンクラーなどの防災設備の設置状況の検査や改善指導を行う。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>ポンプ車、化学車、空気呼吸器、救助資器材、作業中の保護具（ヘルメット、ゴーグル、グローブ、安全靴等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/153">海上自衛官</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/157">助産師</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/152">陸上自衛官</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/154">航空自衛官</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/156">看護師</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>消防組織は市町村単位で運営されているため、公務員試験（消防職員採用試験）に合格し、採用されることが必要である。採用後は、都道府県などに設置された消防学校に入学し、半年から1年かけて、消防法など消防にかかわる基礎的な知識、消防活動に必要な実務的な知識、消火の技術や機材の扱い方などの実務的な訓練を受けて、各消防署に配属される。危険物や人命救助にかかわる専門的な教育を受けてから、特別な勤務に就く場合もある。</p>
+        <p>危険を伴う仕事のため、何よりも体力が必要である。そのため、採用基準として、身長、体重、視力などの条件が求められる場合が多い。採用試験の際には、体力検査も実施される。</p>
+        <p>キャリア形成については、自治体の規模により最大10段階の階級制度がある。必要な勤続年数が満たされると昇進試験を受けることができる。現場での経験を積み、昇進試験に合格することで「消防士」から「消防士長」や「消防司令」などに昇進していく。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務体制は、交替制勤務と毎日勤務とに分かれる。交替制勤務は、消火活動にあたる職員が交替で24時間勤務にあたる。当番と非番を繰り返し、交替で休みを取る。週の平均勤務時間は38時間45分となる。毎日勤務は、予防にかかわる職員が昼間の勤務にあたる。多くの場合、週38時間45分勤務で週休2日制となる。</p>
+        <p>待遇については、職務の特殊性や危険性が考慮され、各市町村の条例で定められている。</p>
+        <p>命をかけて人命を救う職業であり、勤務時間中は気が休まることはない。体力が必要な仕事である。</p>
+        <p>現在、当番と非番を組み合わせた二部制の勤務が主流であるが、当番、非番、日勤を組み合わせた三部制導入の動きもある。消防本部は全国に720あり、1,716の消防署が設置されている。消防職員数は16万8,898人で、このうち女性は6,705人である。消防職員数は年々増加している（2024年4月現在*）。</p>
+        <p>*総務省消防庁　令和6年版　消防白書の概要</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,91.9 269.4,137.7 220.9,240.0 122.2,235.7 108.2,149.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>60</dd><dt>対人</dt><dd>80</dd><dt>判断</dt><dd>66</dd><dt>身体</dt><dd>62</dd><dt>定型</dt><dd>50</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.4</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.1</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.0</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.0</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.8</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">3.8</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">教育訓練</span><span class="topn-score">2.8</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.5</span></li><li><span class="topn-name">医学・歯学</span><span class="topn-score">2.4</span></li><li><span class="topn-name">法律学、政治学</span><span class="topn-score">2.2</span></li><li><span class="topn-name">人事労務管理</span><span class="topn-score">2.2</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">持久力（スタミナ）</span><span class="topn-score">3.8</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.7</span></li><li><span class="topn-name">筋力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">一瞬で素早く反応する力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">マルチタスク</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/475"><span class="tc-name">雑踏・交通誘導警備員</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>救急救命士</li><li>甲種消防設備士</li><li>乙種消防設備士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +449,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

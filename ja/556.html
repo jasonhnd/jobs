@@ -8,6 +8,7 @@
     <title>障害者グループホーム世話人 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="障害者グループホーム世話人：就業者 約65,227人 / 平均年収 396万円 / 平均年齢 43.1 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="障害者グループホーム世話人" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/556" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/556" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "556",
+      "occupationalCategory": "09_058-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/556",
       "additionalProperty": [
         {
@@ -123,6 +124,31 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Disability Group Home Caretaker",
+      "industry": "Service & Hospitality",
+      "skills": [
+        "Active Listening",
+        "Social Perceptiveness",
+        "Speaking",
+        "Service Orientation",
+        "Reading Comprehension",
+        "Writing",
+        "Persuasion",
+        "Monitoring",
+        "Coordination",
+        "Instructing"
+      ],
+      "qualifications": [
+        "介護職員初任者研修修了者",
+        "介護福祉士実務者研修修了者",
+        "介護福祉士",
+        "社会福祉士",
+        "精神保健福祉士",
+        "公認心理師",
+        "強度行動障害支援者養成研修修了者",
+        "ガイドヘルパー養成研修修了者",
+        "動機づけ面接技能検定",
+        "産業カウンセラー"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +232,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +288,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +383,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=service">サービス・接客</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,19 +405,59 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>障害者グループホームにおいて、障害のある利用者が地域において自立した生活を送ることができるようになるよう、日常生活上の援助の提供や入居者間の調整等をする。</p>
+        <p>障害者グループホーム(以下「グループホーム」という。)において、障害のある利用者が地域において自立した生活を送ることができるようになるよう、日常生活上の援助の提供や入居者間の調整等をする。</p>
+        <p>グループホームは、障害者総合支援法に基づく共同生活援助の趣旨の下、社会福祉法人やNPO法人等により運営される共同生活を営む住居において、日常生活の援助・相談を行い、自立した日常生活への移行や移行後の定着に関する相談等を行うものである。日常生活上の援助は、様々な生活技術を支援することで、食事提供、家事のサポート、金銭管理、健康・服薬管理、生活相談、余暇利用・地域活動への助言等、生活の多様な面に渡っている。人間関係の調整は、入浴の順番や夕食時間等の生活面の共同ルールを、入居者同士の合意で決めるように誘導したり、入居者の対人関係トラブルに介入・調整したりする。</p>
+        <p>サービス類型として、介護サービス包括型（主に夜間に介護・支援）、外部サービス利用型（必要な介護等は介護事業者に委託してサポート）、日中サービス支援型（夜間に加え日中も介護・支援）がある。これら類型や入居者の障害特性により、グループホーム世話人（以下「世話人」という。）の仕事の範囲も異なる。基本的に入居者の自立に向けての援助であるため、できる能力がある事柄については、世話人はできるだけ自立してできるように援助する姿勢で臨む。</p>
+        <p>グループホームの建物は、戸建てタイプとアパート・マンションタイプがあり、それぞれ、個室住居（原則）、居間・食堂、トイレ・風呂等の設備がある。入居者数は、4名程度の小規模から10名以上の大規模なものがあり、同性専用と男女混在のものがある。</p>
+        <p>グループホームを運営する職員は、世話人のほかに、管理者、サービス管理責任者（個別支援計画の作成、アセスメント、日中活動先との連絡調整等）、生活支援員（入浴、排泄、食事の介護）が配置されており、夜勤者又は宿直者が配置される場合もあり、世話人は他の職員と役割分担・協力しながら仕事を進める。なお、小規模のところや介護サービス包括型等は世話人が生活支援員等、他の職務を兼務する場合もある。また、一人で２つのグループホームを掛持ちして担当することもある。</p>
+        <p>一般的な1日の業務の流れを見ると、朝は起床の確認、歯みがき・洗顔の確認、必要に応じて体温や血圧測定等、排便の有無等も確認し、健康状態のチェックや処方された薬を服用しているかの服薬管理、必要な場合には病院等との連絡調整を行い、定期的な訪問看護に立ち会う場合もある。</p>
+        <p>次に、朝食の準備を行う。食事調理については、自立支援という観点から自ら調理できるように支援することが基本であるが、あらかじめ選択したメニューによりフードサポート会社から材料が毎日送られてくる場合と世話人自らメニューを考え買い出しで材料をそろえる場合、出来上がりの弁当が配達される場合、入居者自身が調理したり、購入したりする場合など様々な形態がある。なお、食器洗浄や風呂準備、洗濯等できることは自分でやれるように支援していることが多い。</p>
+        <p>朝食後に、持ち物・身支度の支援をするが、季節に適した服装をアドバイスすることもある。その後、利用者の日中活動である就労先企業、就労移行支援事業所 、就労継続支援事業所 、各種訓練施設、生活介護などの福祉事業所、通所リハビリテーション、病院等へ送り出し、必要に応じて随行する。その後、グループホーム内共用スペースの清掃と、食材・日用品の買い出しをする。また、入居者在宅時に洗濯、各部屋の掃除、部屋の片付け、買い物等の支援をする。</p>
+        <p>続いて夕食の準備や食器洗い等の支援、風呂を沸かす準備、入浴等の支援を行い、食後の歯みがきの確認も行う。その間にその日の出来事を聞いたり、必要に応じて健康チェック・服薬管理を行い、様々な生活相談にも乗ったりする。</p>
+        <p>定刻になったら、火の元や戸締まり等の安全確認、支援記録の記載、翌日の支度等を行い、入居者が安全に就寝できるよう整える。続けて世話人が夜勤又は宿直に入る場合もある。夜間の見回りは、例えば、零時、午前３時頃等、定時刻に各部屋で入居者が心身とも問題なく就寝していることを確認する。</p>
+        <p>これらルーチン業務のほか、必要に応じて、毎日一定金額を渡したり、小遣い帳の記入支援をはじめとした金銭管理、行政手続きの代行や今後の自立生活相談に乗ったり、余暇利用・地域活動への助言等を行う。余暇活動の一環として入居者参加の花見や旅行、レクリエーション等の企画・補助、引率を定期的に行うこともある。</p>
+        <p>その他に、他の部屋に迷惑をかける音量を発生させないように注意する、音量を発生させている場合に注意する等、入居者同士のトラブル防止や入居者同士の些細な事でのトラブルに仲介することもある。</p>
+        <p>入居者が地域に溶け込んで普通の生活を営んでいくことが目的の一つなので、近所の方々への挨拶やごみ出しの方法等、地域生活のルールを習得してもらうほか、地域の様々な社会資源（行政機関、相談支援機関、医療関係機関、自治会、商店街、ボランティア団体等）の利用や連携ができるようにすることや、地域住民の一人として暮らしていけるよう、町内清掃活動など地域の様々なイベントに参加できるよう誘導する。</p>
+        <p>コミュニケーションが円滑にできるようになったり、笑顔が引き出されたり、できなかったことができるようになることが増える（こと）などの自立に向かう過程に立ち会えることに、働きがいを感じる世話人が多い。</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>調理用具、清掃用具、パソコン、タイマー時計、スマートフォン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/557">汎用金属工作機械工（旋盤工、ボール盤工等）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/558">自動車板金塗装</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/559">配電盤・制御盤等組立</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/555">訪問介護のサービス提供責任者</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/554">プロスポーツ運営団体職員（企画・運営）</a><span class="r-risk">AI 影響 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特別の学歴や資格は必要とされないが、調理、洗濯、掃除等家事全般が苦にならず一定のスキルがあることや障害者に関する基本的な知識・理解が必要となる。日常生活の援助に関する経験があれば望ましい。就業者の経歴・資格の例としては、特別養護老人ホームの介護職員、障害者福祉施設の生活支援員、介護老人保健施設のケアワーカー、特別支援学校教員、看護師、ホームヘルパー等がある。</p>
+        <p>人材不足が続いている職業であり、欠員補充など中途採用の募集はハローワークや求人広告等で常に行われており、入職の機会は多い。即戦力として、経験者を求める傾向も強いが、多彩な社会経験を持つ人材の入職が増えつつある。全体的な傾向としては、新卒者よりも中途入職者の方が多い。</p>
+        <p>入職後は、新卒者や異業種からの中途入職者は、OJT、マニュアル、援助のポイントに関する参考冊子、動画資料等で研修を受け、実績が長いグループホームに数日間実地研修へ行くこともある。必要に応じて地方自治体などが主催する研修会で知識と経験を積むことで仕事を覚えていく。ただ、様々な事態にも対応できるようになるには、その後もさらなる研鑽を積んでいくことが求められる。</p>
+        <p>キャリアルートとしては、世話人から生活支援員などの経験も積み、指導的職員となりサービス管理責任者、管理者となる場合もある。</p>
+        <p>障害者支援施設などの入所型サービス全体で見ると、利用者の男女比はおおよそ男性6：女性4である。（2025年時点*1）</p>
+        <p>障害特性は幅広く、グループホームへの入居前の利用施設の種類は様々である。また、入居年数は1年未満から20年以上と多様であることから（2023年時点*2）、まずは個々の入居者のパーソナリティ特徴やニーズをよく理解し個別の配慮をすることに心掛ける。その上で、障害者の人権、人間としての尊厳を重んじること、共感をもって、受容的な態度で入居者に接することが重要である。障害者の中には、自分の意思を伝えるのが苦手な場合や、特定のことにこだわりを持つこともあるので、じっくり話を聞き、相手の気持ちに寄り添い、ささいな困りごとでも何を求めているのか正確に理解する傾聴能力や障害特性を理解し受け入れることが求められる。</p>
+        <p>入居者のプライバシーの尊重や自主性の尊重も常に念頭に置いて支援を行う必要があるが、一方で、入居者の変化に気づく観察力・洞察力も必要で、例えばいつもと違う高級品を身につけたり高額商品を購入したり、郵便物がたくさん届いたり、お金を借りに来たりするときは注意が必要である。</p>
+        <p>なお、介護の知識や障害者への理解が深められるため、就職の際には、介護職員初任者研修、介護福祉士実務者研修、介護福祉士、社会福祉士、精神保健福祉士、公認心理師、強度行動障害支援者養成研修、ガイドヘルパー、産業カウンセラーなどの資格等を取得しておくと業務に生かすことができる。また、認知行動療法や動機づけ面接法の専門的技法で入居者の自立的行動を引き出すことができる場合もあり、これら資格・技法を身につけていると賃金面でも優遇される場合があり、また、介護職員初任者研修やガイドヘルパー等の資格取得支援制度のある事業所も多い。</p>
+        <p>*1厚生労働省社会・援護局障害保健福祉部障害福祉課　障害者の地域生活支援も踏まえた障害者支援施設の在り方に係る検討会資料
+*2 令和5年度全国グループホーム実態調査報告</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>就労先となるグループホームの事業所数は、全国各地に13,351事業所あり、利用者数は172,423人で、年々増加している（2023年時点*3）。これは、障害のある人を施設に収容して指導訓練をするという隔離的な政策から、施設内の特別な環境ではなく地域の普通の環境で地域住民の一人として生活を送ることができるよう支援する方針に転換された結果であるが、今後も増えることが予想され、雇用機会は全国で増加するものと推測される。</p>
+        <p>勤務体制としては、日中の時間帯が少なく、例えば朝6時半から10時半まで、午後17時半から21時半まで、6時半から15時半まで、12時半から21時半までの勤務などの３～４のパターンのシフト制など変則的なものが多い。通勤が多いが住込みの就業形態もある。</p>
+        <p>常用雇用の場合は、１カ月単位の変形労働時間制をとることが多く、パート雇用の場合は、１カ月単位の変形労働時間制のほか、いくつかの勤務時間パターンからの選択制となっていることもある。定年退職後の勤務や副業として従事している就業者もおり、週１日～2日の午後から朝までのパートタイム勤務者も多い。</p>
+        <p>賃金や労働時間、休日、雇用形態等は勤務先により様々であり、勤務先の規定による。給与は、それぞれの勤務時間のシフトパターンや夜勤・宿直勤務の有無等により異なる。</p>
+        <p>勤務体制としては、グループホームに従事する職員間の意思疎通が円滑に行かないと運営に支障が出る場合があり、コミュニケーションに工夫が必要となる。</p>
+        <p>世話人の属性では、受入れ入居者の性別により異なるが、全体としては女性の割合が高く、年齢的には40代から60代の年齢層が最も多い割合を占めるようであるが、70代も活躍しており、またそれ以下の若い世代も活躍していて幅広い。</p>
+        <p>増加が続いているグループホームであるが、今後は、入居者の障害の重度化・高齢化に対応したサービスの充実やより高いサービス提供のための質の向上に向けた研修等への取組等に努力が続けられているところである。</p>
+        <p>*3 令和5年 社会福祉施設等調査の概況</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,102.5 254.4,142.6 205.4,218.7 131.9,222.5 111.5,151.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>51</dd><dt>対人</dt><dd>68</dd><dt>判断</dt><dd>46</dd><dt>身体</dt><dd>49</dd><dt>定型</dt><dd>47</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.0</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.8</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">3.7</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.2</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.1</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.0</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">心理学</span><span class="topn-score">2.5</span></li><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">2.5</span></li><li><span class="topn-name">医学・歯学</span><span class="topn-score">2.3</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">1.9</span></li><li><span class="topn-name">社会学</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">発話理解</span><span class="topn-score">3.5</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.5</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.5</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.3</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/126"><span class="tc-name">家政婦（夫）</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 97%</span></span></a><a class="transfer-card" href="/ja/227"><span class="tc-name">トリマー</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 97%</span></span></a><a class="transfer-card" href="/ja/117"><span class="tc-name">エステティシャン</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 97%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/shougaishahukushi/index.html" rel="external" target="_blank">厚生労働省社会・援護局障害保健福祉部</a></li><li><a href="https://jgh-gakkai.com/" rel="external" target="_blank">日本グループホーム学会</a></li><li><a href="http://www.aigo.or.jp/" rel="external" target="_blank">公益財団法人　日本知的障害者福祉協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>介護職員初任者研修修了者</li><li>介護福祉士実務者研修修了者</li><li>介護福祉士</li><li>社会福祉士</li><li>精神保健福祉士</li><li>公認心理師</li><li>強度行動障害支援者養成研修修了者</li><li>ガイドヘルパー養成研修修了者</li><li>動機づけ面接技能検定</li><li>産業カウンセラー</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +466,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

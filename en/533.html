@@ -8,6 +8,7 @@
     <title>Digital Forensics Specialist — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Digital Forensics Specialist: workforce ~25,925 / annual salary 628万円 / avg age 43.4 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Digital Forensics Specialist" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/533" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/533" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "533",
+      "occupationalCategory": "02_010-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/533",
       "additionalProperty": [
         {
@@ -123,6 +124,10 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Digital Forensics Specialist",
+      "industry": "IT & Communications",
+      "qualifications": [
+        "情報処理安全確保支援士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=it">IT &amp; Communications</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,8 +384,45 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Analyzes computer/mobile evidence in investigations; AI analysis support.</p>
+        <p>Digital forensics specialists preserve digital data and conduct investigations and analysis in response to information leaks, data tampering, operational disruption, and similar incidents on computers and networks, as well as attempted incidents falling short of completion. They may also consider responses to these acts and events based on their analysis findings. When disputes or litigation require evidence of digital data tampering and similar, specialists investigate and analyze those matters.</p>
+        <p>Practitioners are sometimes called forensic investigators. Overseas, the role is referred to as Forensic Analyst or Forensic Investigator. Digital forensics is sometimes abbreviated as DF. The term forensics means scientific investigation or criminology, but digital forensics originally emerged in Europe and the United States as a service for detecting corporate accounting fraud and data falsification. In Japan too, cases of evidence data being falsified brought digital forensics into the spotlight.</p>
+        <p>Today, digital forensics investigations of information leaks, data tampering, and operational disruption on computers and networks are more common than criminal investigations, and the service is provided as one component of information security services to clients. It is practiced across a wide range of industries, including finance and manufacturing. In accounting firm forensics, fraudulent accounting and document forgery are investigated. International digital forensics — linked to overseas litigation or cooperating with overseas authorities — is also conducted.</p>
+        <p>The targets of digital forensics range across computers, networks, mobile devices, and more, and are expected to expand further as society becomes increasingly digitized.</p>
+        <p>The general flow of a digital forensics engagement is as follows.</p>
+        <p>First, the client is interviewed about the subject and scope of the analysis. The analysis items the client requires are listed, and the work approach and planned activities are confirmed with the client. At this stage, the required time and cost are presented to the client, a confidentiality agreement is executed, and investigation and analysis begin. Because clients may have suffered information breaches or cyberattacks and may be in a state of urgent confusion, calming the client while proceeding with the work is often part of the role.</p>
+        <p>In the investigation and analysis phase, the first step is preserving the storage medium. The target medium — a hard disk or similar digital forensics subject — is fully duplicated using a specialized device. This device is designed so that it cannot write to the original medium, and the digital data on the original subject medium is duplicated without modification. Preserving the original data at the outset is important as an evidentiary measure, proving that digital data has not been altered in the course of the digital forensics process.</p>
+        <p>Next, information is extracted and analyzed from this duplicated digital data. For example, this involves securing files present on the medium, recovering deleted files, and extracting internet browsing history and email — including deleted items. The secured or recovered files are then searched using keywords and specific strings. For files believed to have been created or modified during the period under analysis, the file creation date, modification date, and access records are examined. Through this type of work, what happened on the computer or network is brought to light and the sequence of events is reconstructed.</p>
+        <p>Afterwards, the findings — covering the cause and process of the issue and the scope of impact — are compiled into a written report and presented to the client. Reviewing with the client what countermeasures are needed based on the analysis results is also part of the work. A set period after the case closes, the investigation data and confidential client information are properly destroyed.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Forensic duplicators (storage medium duplication devices), forensic investigation and analysis software and tools, virtualization software (to create the subject system as a virtual system), write blockers (evidence preservation write-prevention devices), statistical analysis software, text editors, word processing software (Word, Ichitaro, etc.), spreadsheet software (Excel, Google Sheets, etc.), presentation software (PowerPoint, Keynote, etc.), personal computers, high-capacity external storage devices, DVD-R, USB memory</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>This profession emerged in the 2000s, and no standardized entry pathway yet exists. Practitioners include graduates of technical colleges and vocational schools in information-related fields, as well as university and graduate school graduates. The image is that of a science or engineering background, but there are also many from humanities disciplines. Students who have participated in Security Camp — a program run by the Information-technology Promotion Agency to provide advanced security education to students and discover and cultivate the next generation of information security talent — may be hired based on their demonstrated interest and knowledge in this area.</p>
+        <p>People who have worked in systems development, system operations, or vulnerability assessment sometimes move into digital forensics work. Transitions from other companies in the same field also occur.</p>
+        <p>For new graduates, there is typically a training period of approximately six months beginning with social skills basics and foundational computer knowledge, then moving into practical digital forensics. After training, employees are assigned to the relevant department, where they start with foundational tasks such as preserving digital data, then investigate and analyze actual cases alongside senior staff. Working as part of a team, they gradually broaden their knowledge and develop skills toward independent operation. From the second year onward, training covers business skills such as presentation, more advanced knowledge and techniques related to digital forensics, and project management skills. These include both internal training and participation in external programs. Mid-career hires are expected to contribute immediately and are placed based on their areas of strength.</p>
+        <p>International digital forensics skill certifications exist as related qualifications, and some practitioners work toward certification while on the job. Among IPA examinations, the Registered Information Security Specialist (登録セキスぺ) is relevant, and some companies provide support for obtaining this qualification.</p>
+        <p>As a new field, in-house career paths are not yet set, but some practitioners develop into technical leadership roles within their teams while others take on group management and leadership roles. Others leverage their digital forensics experience to become incident handlers (responsible for overseeing entire incidents), EDR analysts (EDR stands for Endpoint Detection and Response — detecting, analyzing, and responding to suspicious activity on endpoint devices such as PCs), security consultants, or security educators.</p>
+        <p>Required knowledge and skills include: computer, network, and cloud construction and operations knowledge; malware analysis and attack methodology knowledge; threat intelligence (collecting, analyzing, and developing insights on security threats); knowledge and skills related to penetration testing and vulnerability assessment; and knowledge and skills in endpoint, network, and cloud security measures. Because the latest information security information is most often published overseas, the ability to read English articles is also required. As new systems and new attack methods continue to emerge, maintaining an inquiring and growth-oriented mindset at all times is equally important. Digital forensics for fraudulent accounting cases may also require the specialized knowledge of a certified public accountant.</p>
+        <p>This work demands a high level of ethics and a strong sense of mission above and beyond investigation and analysis skills. Practitioners handle clients&#x27; confidential and personal information, and analysis results can affect the future trajectory of client companies and the outcome of legal proceedings — carrying major social impact.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Most practitioners work at IT companies that conduct digital forensics, though some work at accounting firms or in law enforcement. Because large corporate clients are concentrated in Tokyo, digital forensics companies are also concentrated in the capital.</p>
+        <p>No statistics exist on workforce numbers, age distribution, or gender composition. People who leverage experience in information security-related work are common entrants to this field.</p>
+        <p>Because the work involves access to client security information and confidential data, the large majority of practitioners are full-time employees.</p>
+        <p>Weekends and public holidays are generally days off, but emergency response situations require holiday and after-hours work. Many companies use flextime arrangements.</p>
+        <p>Salary follows employer regulations and is comparable to that of technical employees at typical IT companies. Because the work requires specialized experience and skills, higher compensation may be paid in some cases.</p>
+        <p>As society as a whole becomes increasingly digitized, information leaks, data tampering, and operational disruption are increasing, and the need for digital forensics in criminal investigations is also growing. As a result, the volume of work is trending upward.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +435,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://digitalforensic.jp/" rel="external" target="_blank">特定非営利活動法人　デジタル・フォレンジック研究会</a></li><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人 情報処理推進機構</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>情報処理安全確保支援士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

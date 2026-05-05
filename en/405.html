@@ -8,6 +8,7 @@
     <title>Psychiatrist — AI Impact 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="Psychiatrist: workforce ~43,380 / annual salary 1338万円 / avg age 44.1 / AI impact 4/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Psychiatrist" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/405" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/405" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "405",
+      "occupationalCategory": "04_021-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/405",
       "additionalProperty": [
         {
@@ -122,7 +123,26 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Psychiatrist",
+      "alternateName": [
+        "Psychiatrist",
+        "医師"
+      ],
+      "industry": "Medical & Health",
+      "skills": [
+        "Active Listening",
+        "Social Perceptiveness",
+        "Speaking",
+        "Writing",
+        "Reading Comprehension",
+        "Service Orientation",
+        "Persuasion",
+        "Instructing",
+        "Coordination",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "医師"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +226,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +282,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +377,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=iryo">Medical &amp; Health</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,19 +399,42 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Diagnoses and treats mental disorders through interview and medication.</p>
+        <p>Psychiatrists treat conditions including schizophrenia, depression, stress-related disorders, insomnia, anorexia, autism, dementia, and alcohol and substance use disorders.</p>
+        <p>At a clinic or outpatient psychiatric practice, the process begins with reviewing the referral letter and intake questionnaire to understand the patient&#x27;s situation, then conducting a conversation to hear the patient&#x27;s concerns and provide a supportive ear. The physician gathers information about appetite, sleep, and functioning through interviewing and general conversation. Psychological testing is used to clarify the patient&#x27;s condition. Treatment is tailored by combining psychotherapies appropriate for the patient — cognitive behavioral therapy, behavioral therapy, cognitive therapy, and others. Pharmacotherapy is also employed. When the patient needs to be off work or school, the physician writes a medical certificate.</p>
+        <p>At a hospital psychiatric unit, the focus is typically on treating severely ill patients requiring hospitalization. Treatment centers on pharmacotherapy supplemented by various psychotherapies. In emergencies, involuntary hospitalization may be necessary regardless of the patient&#x27;s wishes. At general hospitals, the psychiatrist may be consulted by physicians in other departments — internal medicine, surgery — regarding patients&#x27; mental health concerns (consultation-liaison psychiatry).</p>
+        <p>The work involves close collaboration with nurses, counselors, psychiatric social workers, and community social welfare professionals, as well as cooperation with the patient&#x27;s family.</p>
+        <p>For patients with psychosomatic disorders or autonomic nervous system dysfunction, the psychiatrist works jointly with internists and other specialists.</p>
+        <p>Some psychiatrists also serve as occupational physicians in companies, conducting employee health consultations, delivering health guidance, and performing workplace walkthroughs.</p>
+        <p>◇ Commonly used tools, equipment, and technology
+Medical devices (stethoscope, syringes, CT, MRI, etc.), computer</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/404">Internal Medicine Physician</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/406">Obstetrician/Gynecologist</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/403">Pediatrician</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/407">Clinical Research Coordinator</a><span class="r-risk">AI 6/10</span></li>
-          <li><a class="r-name" href="/en/402">Surgeon</a><span class="r-risk">AI 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Becoming a psychiatrist requires passing the National Medical Licensing Examination and obtaining a medical license. Candidates first complete six years of specialized medical education at a university medical school, including clinical training. Passing the university graduation examination makes one eligible to sit the national examination, and passing it confers the medical license. Physicians then complete a two-year clinical residency at a university hospital or other designated training hospital, gaining knowledge through hands-on patient care. After the residency, the physician joins the psychiatry department and becomes a psychiatrist. A board certification system exists for those who meet the specified requirements.</p>
+        <p>After residency, physicians work as employed hospital physicians and build extensive experience. Career paths include becoming a department head, opening a private practice, or pursuing an academic career as a lecturer or professor.</p>
+        <p>In addition to specialized knowledge, working with patients who exhibit a wide range of behaviors and expressions demands calm judgment and a warm, non-judgmental approach.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Psychiatrists work either as employed physicians at hospitals and other medical institutions or as independent practitioners running their own clinics. There are 16,817 psychiatrists, of whom approximately 20% are women (*).</p>
+        <p>Working hours and other conditions vary widely depending on the structure and consultation hours of the employing institution.</p>
+        <p>Employed physicians at large hospitals with inpatients work rotating shifts. Night and holiday coverage is required to respond to sudden deterioration in inpatients and emergency admissions. Compensation levels are generally high.</p>
+        <p>Private practitioners work according to the clinic&#x27;s set consultation hours, typically 9:00 to 18:00. In urban areas, evening and Saturday sessions are offered. Time spent preparing before and charting after consultations means total working hours exceed official consultation hours. After-hours consultations are required for emergency cases.</p>
+        <p>Stress arising from the rapid pace of social change has increased the number of people experiencing mental fatigue in daily life. As mental health care initiatives expand and more workplaces seek psychiatrists as occupational physicians, demand for psychiatrists exceeds supply.</p>
+        <p>*Source: Overview of the 2022 Survey of Physicians, Dentists, and Pharmacists — Number of physicians by clinical specialty</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,89.8 272.4,136.7 220.8,239.9 135.2,217.9 116.0,152.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>61</dd><dt>Social</dt><dd>82</dd><dt>Judgment</dt><dd>66</dd><dt>Physical</dt><dd>45</dd><dt>Routine</dt><dd>43</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">5.2</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">5.2</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Service Orientation</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Persuasion</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">4.4</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">4.3</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Medicine &amp; Dentistry</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Therapy &amp; Counseling</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Psychology</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Sociology</span><span class="topn-score">2.4</span></li><li><span class="topn-name">Education &amp; Training</span><span class="topn-score">2.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/157"><span class="tc-name">Midwife</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/169"><span class="tc-name">Speech-Language Therapist</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/167"><span class="tc-name">Physical Therapist</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.med.or.jp/" rel="external" target="_blank">公益社団法人　日本医師会</a></li><li><a href="https://www.jspn.or.jp/" rel="external" target="_blank">公益社団法人　日本精神神経学会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>医師</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -8,6 +8,7 @@
     <title>自動車教習指導員 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="自動車教習指導員：就業者 約23,604人 / 平均年収 491万円 / 平均年齢 45.6 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="自動車教習指導員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/121" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/121" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "121",
+      "occupationalCategory": "05_031-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/121",
       "additionalProperty": [
         {
@@ -123,6 +124,23 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Driving School Instructor",
+      "industry": "Education & Instruction",
+      "skills": [
+        "Instructing",
+        "Active Listening",
+        "Speaking",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Writing",
+        "Learning Strategies",
+        "Persuasion",
+        "Service Orientation",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "指定自動車教習所指導員",
+        "二級自動車整備士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=kyoiku">教育・指導</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -309,18 +398,41 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える。</p>
+        <p>自動車教習所は自動車学校、ドライビングスクール等とも呼ばれる。</p>
+        <p>技能教習では、まず教習所内のコースでハンドル操作やブレーキ操作、車を走らせる位置や止まる位置、狭い道路や交差点、曲がり角の運転、坂道発進、進路変更、駐車の方法など、運転操作について指導する。指導員は助手席に座って原則1対1で指導し、時には運転の手本を見せてポイントを教える。必要な教習を修了し、修了検定・仮免学科試験に合格し、仮免許証を取得した教習生には、一般道路に出て路上教習を行う。1時限ごとに教習生が次のステップに進めるかどうかを判断し、記録をつけ、未熟な運転操作などについては指導する。</p>
+        <p>学科教習では、技能教習と並行して、運転者の心得、運転に必要な道路交通法規や安全運転に必要な知識を教本やビデオを使って教える。また、応急救護処置の実技教習も行う。</p>
+        <p>都道府県の公安委員会から法に定められた基準に適合しているものとして指定を受けた自動車教習所では、教習を終えた人に対して技能検定員の資格を持つ指導員が技能検定を行い、一定の基準を満たした者に対し、卒業証明書を発行する。指導員のうち技能検定員の資格を持つ者は約6割となっている（2024年時点*）。</p>
+        <p>マンツーマンの指導を行う技能教習では、毎回違った教習生を教えるのが一般的である。運転シミュレーターなどを使って、複数の教習生を教えることもある。</p>
+        <p>*警察庁交通局運転免許課、運転免許統計　令和6年版</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>普通自動車（普通免許（第一種、第二種）で運転可能なもの）、大型、中型、準中型、特殊自動車等（普通免許だけでは運転できないもの）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/120">スポーツインストラクター</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/122">音楽教室講師</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/118">メイクアップアーティスト</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/119">クリーニング師</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/123">ビデオレンタル店店員</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴は必要とされないが、指導資格を取得するには車種に応じた運転免許が必要とされる。</p>
+        <p>教習所に採用されると「現場事前教養」と「職員講習」を受けるか、自動車安全運転センターが行う研修課程を修了し、公安委員会の教習指導員資格審査を受ける。なお、教習指導員資格審査の受験資格は満21歳以上となっている。合格すると「教習指導員資格者証」が得られ、「現場事後教養」を受けてから指導員として仕事を始める。</p>
+        <p>管理者の推薦申請により公安委員会の行う技能検定員資格審査を受け、合格すると技能検定員となることができる。優秀な運転技術や車の構造、運転に必要なルールなどの知識が欠かせない。また、わかりやすく説明できること、教習生に対しての思いやりが必要であり、事故が起きないように細心の注意を払って丁寧に教えることなども求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>自動車教習所には、届出自動車教習所（カリキュラムや最低教習時間の定めがない教習所で、公安委員会に届出はしているが、指定を受けていない教習所）と指定自動車教習所（公安委員会の指定を受けた教習所）とがある。指定自動車教習所は、法に定めた一定の基準に適合している場合、申請によって都道府県の公安委員会が「指定」する。指定自動車教習所は、市区町村の人口に比例して設置されているが、交通の便の良い所に集中する傾向がある。</p>
+        <p>就業者は約28,588人となっている（2024年末時点*）。男性が多かったが、女性指導員や技能検定員も増えている。</p>
+        <p>年末年始を除いて年中無休の教習所や、土日、早朝、夜間教習を実施している教習所もあり、時差出勤や交替勤務で働くことになる。</p>
+        <p>自動車教習所では一般の教習のほか、ペーパードライバーの再教育、安全運転のための講習、高齢運転者の再教育なども行っている。また、教習所の施設、機材、知識、技能を活用して交通安全の普及のために各種の講習や交通安全教室などを行い、地域の交通安全の拠点としての役割も果している。</p>
+        <p>*警察庁交通局運転免許課、運転免許統計　令和6年版</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,94.1 257.8,141.5 214.9,231.7 128.2,227.5 109.9,150.5" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>58</dd><dt>対人</dt><dd>71</dd><dt>判断</dt><dd>58</dd><dt>身体</dt><dd>54</dd><dt>定型</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">指導</span><span class="topn-score">4.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">3.8</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.7</span></li><li><span class="topn-name">学習方法の選択・実践</span><span class="topn-score">3.7</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.6</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">3.4</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.2</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">2.2</span></li><li><span class="topn-name">心理学</span><span class="topn-score">2.0</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.5</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">1.3</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">奥行きの知覚（遠近感覚、深視力）</span><span class="topn-score">3.5</span></li><li><span class="topn-name">遠隔視力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">聴覚の感度</span><span class="topn-score">3.4</span></li><li><span class="topn-name">発話明瞭性</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/399"><span class="tc-name">職業訓練指導員</span><span class="tc-meta"><span class="tc-risk">AI 影響 4/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/147"><span class="tc-name">法務教官</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/120"><span class="tc-name">スポーツインストラクター</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.zensiren.or.jp/" rel="external" target="_blank">一般社団法人   全日本指定自動車教習所協会連合会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>指定自動車教習所指導員</li><li>二級自動車整備士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +441,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

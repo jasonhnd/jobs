@@ -8,6 +8,7 @@
     <title>水産養殖従事者 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="水産養殖従事者：就業者 約16,990人 / 平均年収 351万円 / 平均年齢 42.5 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="水産養殖従事者, うなぎ養殖作業員, 金魚養殖作業員, 鯉養殖作業員, たい養殖作業員, はまち養殖作業員, ふぐ養殖作業員, かき養殖作業員, しじみ養殖作業員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/503" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/503" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "503",
+      "occupationalCategory": "11_066-04",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/503",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Aquaculture Worker",
+      "alternateName": [
+        "Aquaculture Worker",
+        "うなぎ養殖作業員",
+        "金魚養殖作業員",
+        "鯉養殖作業員",
+        "たい養殖作業員",
+        "はまち養殖作業員",
+        "ふぐ養殖作業員",
+        "かき養殖作業員",
+        "しじみ養殖作業員",
+        "帆立貝養殖作業員",
+        "昆布養殖作業員",
+        "のり養殖作業員",
+        "わかめ養殖作業員",
+        "貝類養殖作業員",
+        "魚類養殖作業員"
+      ],
+      "industry": "Agriculture & Fishing",
+      "qualifications": [
+        "小型船舶操縦士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=noringyo">農林・水産</a><span class="band band-mid">AI 影響 中</span><span class="band band-low">規模 小</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -309,7 +401,40 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>主に食用の魚類・貝類・海藻類などの水産物を、人工的に管理・育成し出荷する。</p>
+        <p>養殖は海だけでなく川や湖、陸上でも行われている。対象とする生物の種類や、水面で飼育するのか、陸上水槽で飼育するのかなどにより養殖方法が大きく異なり、具体的な作業も様々である。</p>
+        <p>魚類の養殖は、水面では網イケス、陸上ではプールのように大きな水槽を設置し、自然の海水や人工的に調整した塩水で行う。毎日の作業は専用に開発された餌を与えることが中心で、イケス網の場合には定期的に網の清掃を行ったり、網を交換したりといった作業があるほか、台風や赤潮の時にはイケスごと安全な場所に避難させたり、イケスを沈下させなければならない。陸上水槽の場合は、底面に堆積する糞や餌の残りなどを定期的に除去する。</p>
+        <p>また、人工的に受精させた人工稚魚を用いる場合には、親魚を養成し、産卵・受精させたふ化仔魚に水槽で培養したプランクトンなどを与えて、ある程度の大きさの稚魚まで育ててから養殖場に移す（種苗生産）。</p>
+        <p>貝類は、種苗（しゅびょう）を容器に収容したり、付着器につけた状態で筏（いかだ）や延縄（はえなわ）から海中につるす垂下式養殖のほか、種苗を海底に撒いて養殖する地まき式養殖がある。容器や付着器の付着生物を清掃したり、成長に応じて容器を交換したり、飼育密度を調節する作業がある。ノリやワカメなどの海藻類は、カキなどの貝殻を利用し、種を付けて栽培養殖する。</p>
+        <p>生き物を育てる作業なので、その性質をよく知ったうえで、健全に生育するよう水温、水質、プランクトンの発生状況などの環境に常に気を配り、品質管理に注意を払う。必要に応じて投薬、消毒、清掃などを行う。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>網、筏（いかだ）、延縄（はえなわ）、普通自動車（普通免許（第一種、第二種）で運転可能なもの）◇　よく使う道具、機材、情報技術等</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に資格や学歴は必要とされない。基本的な知識や技術は、水産系の高校や大学で習得することが可能であるが、専門的な技術や勘は現場での経験によって身につける必要がある。</p>
+        <p>養殖業を営む企業に就職し、必要な知識や技術を学ぶのが一般的である。後継者不足が全国共通の課題になっており、漁業協同組合が後継者を募集している地域もある。</p>
+        <p>入職後は、多くの場合、特別な教育訓練などは受けずに職場の熟練者等の指導を受けながら作業を行い、経験と訓練を積むにしたがって自らの判断で仕事ができるようになる。日々の観察、想定外のトラブルに備える方法など学ぶべきことは多い。生物学的知識などについては、自らの力で学ぶ姿勢も要求される。</p>
+        <p>漁業協同組合に入り、区画漁業権を得ると独立開業も可能である。独立する場合は、小型船を所有して個人で仕事をするので小型船舶操縦士免許などが必要となる。</p>
+        <p>生き物に対する興味、悪天候下などの厳しい環境条件でも作業ができる一定の体力、水質や水温を適切に管理する能力が要求される。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>個人経営の養殖場が中心であるが、ブリ類やマダイ、真珠養殖などの大規模な養殖場では会社組織もある。毎日のように餌をやったり、魚の状況を観察する必要がある魚類養殖や、ひんぱんな手入れが必要な真珠養殖を除くと、養殖以外の漁業との兼業がほとんどである。</p>
+        <p>養殖する生物の種類によって特定の地域に産地が形成されており、海産魚類や真珠養殖は西日本、ホタテガイ養殖は北海道と青森、カキ養殖は宮城と広島、ウナギ養殖は静岡、愛知、鹿児島、ノリ類は九州、昆布は北海道などで多く行われている。養殖場は広い敷地や良好な飼育水を必要とするため、沿岸漁業地域や郊外などに多くある。</p>
+        <p>労働時間は、収穫時や出荷時には長くなる一方、作業の少ない時期もあり、網やイケスの修理を行ったりする。生物の飼育作業が主体なので、病害発生時や台風による天候の急変などの緊急時には、24時間体制での対応が必要となる。</p>
+        <p>勤務時間は海面養殖では早朝から昼頃まで、陸上養殖では午前8時ぐらいから午後5時ぐらいまでが一般的である。生き物が相手の仕事なので、勤務が不規則になることが多い。出勤後稚魚やイケスの確認（水槽・設備・機器の点検、保守作業）の後、餌の投与や漁獲、そして出荷作業、事務などをして終業するというのが一日の仕事の流れとなっている。</p>
+        <p>屋外の作業がほとんどで、特に海面養殖の場合は海上作業が中心となる。</p>
+        <p>生育の良否が育成環境に左右されやすいこと、年ごとの需給バランスの変化によって生産物価格が変動しやすいことから、年によって収入に変動がある。</p>
+        <p>最近では、刺し身やすしでの変色を抑制するために餌にかんきつ系の果実を混ぜて育てたブランド魚、成長を早めるため温泉水によるトラフグやスッポンの養殖、自然界に放流するための稚魚の生産・養殖、大型回遊魚の養殖、また、貝類や成魚の陸上養殖の研究など、新しい水産養殖が注目されている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +447,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.zengyoren.or.jp/" rel="external" target="_blank">全国漁業協同組合連合会</a></li><li><a href="https://www.yoshoku.or.jp/" rel="external" target="_blank">一般社団法人全国海水養魚協会</a></li><li><a href="http://www.zennori.or.jp/" rel="external" target="_blank">全国海苔貝類漁業協同組合連合会</a></li><li><a href="https://www.asc-aqua.org/ja/" rel="external" target="_blank">水産養殖管理協議会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>小型船舶操縦士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +456,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

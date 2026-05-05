@@ -8,6 +8,7 @@
     <title>プログラマー — AI 影響 9/10｜mirai-shigoto.com</title>
     <meta name="description" content="プログラマー：就業者 約48,720人 / 平均年収 574万円 / 平均年齢 38.0 / AI 影響 9/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="プログラマー, コーダー（プログラミング）, コンピュータゲームプログラマー, ソフトウェアプログラマー, Webアプリケーションプログラマー, Webプログラマー" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/313" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/313" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "313",
+      "occupationalCategory": "02_009-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/313",
       "additionalProperty": [
         {
@@ -122,7 +123,30 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Programmer",
+      "alternateName": [
+        "Programmer",
+        "コーダー（プログラミング）",
+        "コンピュータゲームプログラマー",
+        "ソフトウェアプログラマー",
+        "Webアプリケーションプログラマー",
+        "Webプログラマー"
+      ],
+      "industry": "IT & Communications",
+      "skills": [
+        "Programming",
+        "Active Listening",
+        "Reading Comprehension",
+        "Writing",
+        "Speaking",
+        "Technology Design",
+        "Quality Control Analysis",
+        "Operations Analysis",
+        "Installation",
+        "Active Learning"
+      ],
+      "qualifications": [
+        "基本情報技術者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +230,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +286,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +381,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=it">IT・通信</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-9">
@@ -309,18 +404,47 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>システム開発において、システムエンジニア（SE）が作成した詳細設計に基づきプログラムを作成する。</p>
+        <p>システム開発の流れをみていくと、SEが顧客の要望をヒアリングし要件定義を行い、この要件定義に基づいて基本設計を行う。この基本設計を基に細部に至るまで処理方法を確定する詳細設計を行う。</p>
+        <p>この詳細設計に基づきプログラマーがコーディングし、プログラムを作成する。また、プログラマーは出来上がったプログラムを個々に動作させて確認を行う単体テストを行う。複数のプログラムを組み合わせて行う結合テスト、そしてシステムとしての動きを見る総合テストをSEとともに行うこともある。バグが見つかればそれを解析の上、修正する（「デバッグ」）。担当したプログラムが出来上ると、今後の保守に必要なドキュメント（開発したプログラムの説明、テスト結果等）を作成するのもプログラマーの仕事である。基本的にはSEの仕事は基本設計や詳細設計と結合テストや受け入れテスト、また納品後のアフターケアであり、プログラマーはコーディングし、プログラムの単体テストを行い、担当したプログラムを完成させる。</p>
+        <p>アジャイル開発ではプロトタイピングを繰り返し、最初は荒い全体の開発、その中での個別機能の開発、さらにその中の開発という具合に、徐々に詳細な開発をプロトタイプとして行っていく。このプロトタイプ作成の中でプログラマーがソフトウェア作成を担当することもある。</p>
+        <p>プログラムには様々な種類がある。経理等各種業務用のソフトウェア、ショッピングサイトなどWeb用のプログラム、家電製品や電子機器などを制御するプログラム、PC向けソフトウェア、スマートフォン向けアプリ、ゲームのプログラム、さらに、通信やオンラインを制御するプログラム、また、大型汎用計算機のプログラムなど、様々である。開発言語や開発環境はそれぞれ異なり、プログラマーは得意とする分野のソフトウェアを作成する。</p>
+        <p>また、今日、多くの情報システムが稼働しており、それら既存のシステムを修正し、変化に対応したり、機能を追加する開発も多く、このような開発に関わるプログラマーもかなりいる。</p>
+        <p>開発するシステムの規模は様々であり、小さいものは１人で作成したり、大規模なシステムでは数百人のプログラマーがチームに分かれ、開発する場合もある。</p>
+        <p>Web画面の開発ではデザインツールから自動的にHTMLなどが作られ、プログラミングの必要がなくなっている。また、プログラムのツール、ライブラリー、モジュール等が整備され、SEがプログラム作成をプログラマーに依頼しなくても、システム開発がかなりの程度できるようになっている。</p>
+        <p>しかしながら、ツール等で作られたプログラムは整理されておらず、その後の修正や機能追加が難しい。プログラマーには効率的で整理された分りやすいプログラムを作成する、職人的な仕事が期待されている。また、プログラミングのエキスパートとして、ツール等ではできないクリエイティブなプログラムを作成したり、ブロックチェーン、AIなど特定分野に特化した専門性の高いプログラムを作る場合もある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>OS（オペレーションシステム：Linux、CentOS、ubuntu）、統合開発環境、プログラミング言語（C言語、Java、Python、Ruby、HTML等）、デザインツール（Figma）、データベース（MySQL、Oracle、MongoDB等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/312">システムエンジニア（受託開発）</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/314">システムエンジニア（Webサービス開発）</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/316">ソフトウェア開発（パッケージソフト）</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/311">航空機開発エンジニア（ジェットエンジン）</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/315">システムエンジニア（組込み、IoT）</a><span class="r-risk">AI 影響 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。専攻も特に問われず、最近は文系出身のプログラマーも多い。ただし、専門学校等でプログラミングを学んでいたり、必須ではないが、基本情報技術者等の資格を持っていると入職時に有利になる。</p>
+        <p>新卒で入職、あるいは未経験で他の仕事から入職した場合、企業内で一定期間の教育を受けた後に、プログラマーとして配属される。配属後、半年から１年間程度、先輩プログラマーやSEなどの指導を受けながら、部分的なプログラムを担当したり等、プログラマーとしての経験を積んでゆく。一人前のプログラマーとして認められ、詳細設計書を自分で読み解き、時にはその中の誤りを指摘できるレベルになるには、3～4年かかるといわれる。</p>
+        <p>その後のキャリアパスとしては、プログラマーからチームリーダーになり、管理職になっていくというルートがある。それ以外にSEに転身してシステム設計に携わる人、また、知識と経験を活かして、営業になる人もいる。高い技能や専門性を持ったプログラマーも求められおり、プログラマーとしてのスキルを磨き、プログラミングのエキスパートとなる人も少なくない。</p>
+        <p>プログラマーになる資質としては、ITリテラシーがあり、情報セキュリティに対する意識が高いこと、SEとは違い、顧客に直接接することは少ないが、顧客の内部情報に触れることもあるため、個人情報の取扱い、コンプライアンスに注意を払うことが求められる。</p>
+        <p>使用するプログラミング言語は色々なものがある。WebサイトのプログラムではJava、PHP、Rubyなどの言語が使われる。PCやスマホのゲームではC言語が多く用いられる。AI（人工知能）の開発ではPythonなどが多い。</p>
+        <p>今日、Webサイトのためのプログラミングの仕事が多いが、このためにサーバのOS（オペレーティングシステム）であるLinux、Webサイトを実現するApache、データベースのMySQL、Oracle、MongoDBなどの知識がプログラマーに求められることもある。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>東京や大阪を中心とする大都市とその周辺で就業することが多い。システム開発会社やWeb開発会社などのIT企業、また、製造業、金融・保険業、建設業などの企業や研究機関からプログラム作成を受託した会社で働くことが多い。</p>
+        <p>就業者は男性の割合が高く、20歳代後半から40歳代が多い。</p>
+        <p>コンピューターがあればプログラム作成はできるが、セキュリティの観点からインターネットを遮断した環境下で開発をすることもあり、この場合、リモートでの働き方はできない。顧客との守秘義務やトラブル対応の関係もあり、プログラム作成を受託した会社の正社員として働いていることが多い。</p>
+        <p>賃金、労働時間等労働条件は勤務先の規定によるが、開発期限が迫っていたり、開発に問題が生じたような場合は、休日や夜間に仕事をすることもある。</p>
+        <p>プログラミングを海外に発注するオフショアも広がってきたが、最近の円安傾向もあり、現在、拡大しているという状況ではない。</p>
+        <p>先に述べたように画面デザインから自動的にHTMLが作成されたり、一般的なシステム開発はクラウドサービスでも行われるようになったり、「ノーコード」と言われるように、プログラミングの必要なく、かなりの部分のシステム開発ができるようになっている。生成AIによるプログラムも年々、質が良いものになっており、コメントアウトなども適切に配置され、分かりやすくなっている。このような中、プログラマーはエンジニアとしてシステム全体の開発を担当するようになったり、プログラミングの技を磨き、開発になくてはならない役割を果たすようになったりであたり、ブロックチェーン、AI、ゲームなど特定分野の専門性を活かし活躍している人もいる。さらには、スーパープログラマーや天才プログラマーと呼ばれ、活躍している人もいる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,91.1 242.1,146.6 213.1,229.3 143.9,205.9 110.3,150.6" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>60</dd><dt>対人</dt><dd>58</dd><dt>判断</dt><dd>56</dd><dt>身体</dt><dd>34</dd><dt>定型</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">プログラミング</span><span class="topn-score">4.9</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.7</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">カスタマイズと開発</span><span class="topn-score">3.4</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">3.4</span></li><li><span class="topn-name">要件分析（仕様作成）</span><span class="topn-score">3.3</span></li><li><span class="topn-name">設置と設定</span><span class="topn-score">3.2</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">3.2</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">3.3</span></li><li><span class="topn-name">設計</span><span class="topn-score">2.4</span></li><li><span class="topn-name">数学</span><span class="topn-score">2.3</span></li><li><span class="topn-name">通信技術</span><span class="topn-score">2.1</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.8</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.2</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.2</span></li><li><span class="topn-name">アイデアや代案を数多く生み出す力</span><span class="topn-score">3.1</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.0</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/315"><span class="tc-name">システムエンジニア（組込み、IoT）</span><span class="tc-meta"><span class="tc-risk">AI 影響 8/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/325"><span class="tc-name">AIエンジニア</span><span class="tc-meta"><span class="tc-risk">AI 影響 8/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/319"><span class="tc-name">運用・管理（IT）</span><span class="tc-meta"><span class="tc-risk">AI 影響 8/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.ipa.go.jp/" rel="external" target="_blank">独立行政法人 情報処理推進機構（IPA）</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>基本情報技術者</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +453,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

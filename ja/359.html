@@ -8,6 +8,7 @@
     <title>製版オペレーター、DTPオペレーター — AI 影響 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="製版オペレーター、DTPオペレーター：就業者 約60,233人 / 平均年収 463万円 / 平均年齢 45.3 / AI 影響 8/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="製版オペレーター、DTPオペレーター, オフセット製版作業員, グラビア製版作業員, スクリーン製版作業員, 製版カメラ作業員, 電子製版作業員, 版下製作作業員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/359" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/359" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "359",
+      "occupationalCategory": "12_073-06",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/359",
       "additionalProperty": [
         {
@@ -122,7 +123,31 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "DTP Operator (Pre-Press)",
+      "alternateName": [
+        "DTP Operator (Pre-Press)",
+        "オフセット製版作業員",
+        "グラビア製版作業員",
+        "スクリーン製版作業員",
+        "製版カメラ作業員",
+        "電子製版作業員",
+        "版下製作作業員"
+      ],
+      "industry": "Manufacturing & Craft",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Writing",
+        "Speaking",
+        "Quality Control Analysis",
+        "Time Management",
+        "Installation",
+        "Equipment Selection",
+        "Coordination",
+        "Instructing"
+      ],
+      "qualifications": [
+        "プリプレス技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +231,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +287,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +382,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -309,18 +405,45 @@
       <section class="context">
         <h2>この職業について</h2>
         <p>印刷物の制作過程において、仕様に基づいて印刷物の紙面の割り付け作業を行い、印刷するための刷版を作成する。</p>
+        <p>印刷という作業は、出版印刷でみると、原稿入稿から、組版・製版などのDTP処理を経て刷版を作成するプリプレス工程、印刷機を動かして実際に印刷を行うプレス工程、印刷された刷本（すりほん）を、断裁、丁合、製本など処理を行うポストプレス工程がある。製版はプリプレス工程を指す。</p>
+        <p>製版は、文字データと画像データをレイアウトデータに基づいてコンピューター上でレイアウトし、最終的に刷版として仕上げる作業を指すが、その工程は、分解、集版、校正に分けることができる。</p>
+        <p>カラー印刷の場合は、写真・イラストをデザイナーの指示に基づいて色調や濃度の調整、デザイン原稿と出来上がり寸法の倍率調整を行った上で、カラースキャナーを使って原稿を黄・赤・青・黒の4原色に色分解し、4色データを作成する（分解）が、モノクロ印刷の場合もデータの仕様が異なるだけで、工程に違いはない。</p>
+        <p>具体的な工程としては、まずカラースキャナーで読み取ってデジタル化された写真やイラストの情報をコンピューターのディスプレイ上で確認し、必要であれば修整を行う。次いで、写真とキャプションなどの文字を組み合わせた場合の文字やロゴマークなどの色分けや配置を行い、さらにオリジナルのレイアウトの寸法を測って、貼り込み校了紙のための写真の縮小・拡大に必要な比率を決定して、それに基づいて写真やイラストのトリミング、拡大、縮小などの加工を行う。こうしてできあがった画像データを原稿のレイアウト指示に従って本文の文字データと組み合わせ、印刷原版となる刷版データを作り上げる（集版）。データを原色４枚のフィルムに出力して、印刷原版を作成するか、直接データをDDCPで出力する。カラー製版の方が、色を見て判断する必要があるため、モノクロ印刷の場合より高いスキルが求められる。</p>
+        <p>印刷原版を元に試験刷りまたはDDCPで出力した校正紙で、誤植やレイアウトの誤り、4枚の版のずれ、色調などを念入りにチェックして修整する（校正）。さらに、注文主のチェックを受けて、必要であれば修整して、次の印刷工程に送る。</p>
+        <p>最終的に刷版を作成する工程には、アナログ製版とCTP（ダイレクト刷版）の2種類がある。アナログ製版では、組版工程を経て作成された版下を製版フィルムに撮り、これをPS版に密着露光させてから現像処理する焼き付け工程により刷版を作成する。これに対して、製版フィルムを作成しないで、DTPで作成したデータを印刷用原板となるPS版にレーザー光線で直接焼き付けて刷版を作製する方式がCTPである。CTPは、製版フィルムを作成する工程が省略されるため、処理時間の短縮やコスト削減に結びつくとともに、刷版作成直前で修正が入っても対応できたり、フィルムからの焼き付けというアナログな工程がないため印刷の品質向上につながるなどのメリットがある。日本の印刷業界は中小規模の企業が圧倒的に多いこともあり、導入費用や操作習熟の負担がかさむなどの理由で導入が進んでいなかったが、現在、急速に普及してきている。</p>
+        <p>また最近では、刷版を作製しないで、紙面レイアウトしたデジタルデータを高性能レーザープリンターでそのまま印刷するオンデマンド印刷が注目されている。工程が少なく、少部数でも採算がとれるため、大量印刷を得意とする現在主流のオフセット印刷（平版印刷）と違って、多品種少量印刷に向いており、需要に応じた棲み分けが進みつつある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>プリンター、カラースキャナー、DDCP、高性能レーザープリンター、イラスト、デザイン作成ソフト（Illustrator、Clip Studio等）、画像等編集ソフト（Photoshop、GIMP等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/366">知的財産サーチャー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/348">テキスタイルデザイナー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/347">ブックデザイナー</a><span class="r-risk">AI 影響 8/10</span></li>
-          <li><a class="r-name" href="/ja/358">テクニカルライター</a><span class="r-risk">AI 影響 9/10</span></li>
-          <li><a class="r-name" href="/ja/360">印刷オペレーター</a><span class="r-risk">AI 影響 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。高校、専門学校、大学や職業訓練校で印刷、デザイン、DTP、写真関係の学科を学んでいることが多い。</p>
+        <p>採用後は、印刷全般に関する研修を受けてから配属され、OJTによって仕事を覚えていくのが一般的である。組版や画像処理などのスキルに加え、製本など最終工程まで視野に入れた作業がこなせるようになることがDTPオペレーターとして一人前と認められる目安となり、5-10年程度の経験が必要とされている。</p>
+        <p>関連資格として、厚生労働省が定める技能検定に「プリプレス技能士」があり、取得すると技術が評価される。</p>
+        <p>色彩感覚やデザイン感覚が鋭い人、コンピューターに対する興味がある人が向いている。発注主や営業、デザイナーとの意思疎通なしには作業が進まない仕事であり、印刷や製本など後工程との連携が必要なことから、コミュニケーション能力や協調性は欠かせない。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>印刷会社の製版部門や、製版を専門とする会社等で働いている。製版業は全国で711事業所、従業員数は16,627人で、年間出荷額は2,992億円となっている（2023年時点*1）。就業者は男性が多いが、最近ではDTPが主流になっており、女性も増えている（*2）。</p>
+        <p>賃金、労働時間等労働条件は、勤務先の規定による。</p>
+        <p>納期が決められているため、残業が必要になることも多く、繁忙期には昼夜の二交替制を採ることもある。</p>
+        <p>職場の環境は、工場労働というよりはオフィス労働に近く、分解・集版の工程では、コンピューターやカラースキャナーなどの操作、校正の工程では、デスク上で出力物の目視検査を行っている。</p>
+        <p>*1　一般社団法人日本印刷産業連合会
+「2023年経済構造実態調査」製造業事業所調査より、2022年の実績値
+*2　取材結果から</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,100.5 228.2,151.1 208.5,223.0 138.0,214.1 100.5,147.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>53</dd><dt>対人</dt><dd>47</dd><dt>判断</dt><dd>50</dd><dt>身体</dt><dd>41</dd><dt>定型</dt><dd>56</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">読解力</span><span class="topn-score">3.6</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.0</span></li><li><span class="topn-name">説明力</span><span class="topn-score">2.8</span></li><li><span class="topn-name">クオリティチェック</span><span class="topn-score">2.8</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">2.5</span></li><li><span class="topn-name">設置と設定</span><span class="topn-score">2.3</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">2.2</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">2.2</span></li><li><span class="topn-name">指導</span><span class="topn-score">2.2</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">2.0</span></li><li><span class="topn-name">コンピュータと電子工学</span><span class="topn-score">1.5</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.5</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">1.5</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">1.5</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">3.5</span></li><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.2</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">3.0</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.0</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">2.8</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/8"><span class="tc-name">惣菜製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/12"><span class="tc-name">ハム・ソーセージ・ベーコン製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/280"><span class="tc-name">ミシン縫製</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jfpi.or.jp/" rel="external" target="_blank">一般社団法人　日本印刷産業連合会</a></li><li><a href="https://www.gcj-page.or.jp/" rel="external" target="_blank">日本グラフィックコミュニケーションズ工業組合連合会(GCJ)</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>プリプレス技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +452,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

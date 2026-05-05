@@ -8,6 +8,7 @@
     <title>ディスパッチャー（航空機運航管理者） — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="ディスパッチャー（航空機運航管理者）：就業者 約43,566人 / 平均年収 506万円 / 平均年齢 45.9 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="ディスパッチャー（航空機運航管理者）, 航空運航管理者, 航空ディスパッチャー" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/204" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/204" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "204",
+      "occupationalCategory": "06_042-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/204",
       "additionalProperty": [
         {
@@ -122,7 +123,28 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Flight Dispatcher",
+      "alternateName": [
+        "Flight Dispatcher",
+        "航空運航管理者",
+        "航空ディスパッチャー"
+      ],
+      "industry": "Office & Public Service",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Reading Comprehension",
+        "Active Learning",
+        "Complex Problem Solving",
+        "Coordination",
+        "Writing",
+        "Foreign Language Reading",
+        "Time Management",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "運航管理者技能検定",
+        "航空無線通信士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +228,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +284,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +379,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=jimu">事務・公務</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +401,41 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>目的地までの航空機運航に関わる情報を分析し、飛行計画を作成するほか、運行状況を地上で把握して運行のサポートをする。</p>
+        <p>航空機の運航管理を行う。</p>
+        <p>運航管理業務は大別して２種類ある。</p>
+        <p>一つは、目的地までの航空機運航にかかわる情報を分析し、最も安全で効率のよい飛行コースや高度などを決定して、飛行計画の作成を行う業務である。</p>
+        <p>飛行ルート上の気流や雲の状況や目的地の飛行場の風向きや風速など気象に関する情報、飛行場や航路付近の運航を支援する各種施設の情報、自衛隊の訓練に関する情報、乗客や貨物の重量、等々、運航に関するあらゆる情報を収集し分析を行う。</p>
+        <p>毎日運航されている定期便であっても、天気は常に変化し、乗客の数も便ごとに変化する。そこで、飛行中の天候を予測して飛行コースや高度を決め、乗客や貨物の総重量を計算し、燃料をどれくらい積載すればよいかを考え、端末を使用して飛行計画（フライトプラン）を作成する。</p>
+        <p>これを機長に説明し（ブリーフィング）、機長の同意を得ると飛行計画は正式に承認され、国土交通省航空交通管制センターに提出される。</p>
+        <p>もう一つは、航空機が離陸してから着陸するまで、運航状況を地上側でモニターし、適宜機長を支援する飛行監視業務である。</p>
+        <p>航空機は通常飛行計画にしたがって飛行するが、天候の急変や飛行中の旅客の急病、航空機の故障、ハイジャックなど不測の事態が発生した場合、ルートの変更や代替空港を手配するなど、適切な緊急時対応が求められる。現在では、リアルタイムの運航・整備関連情報をデータ通信によって飛行中の航空機に送れるようになっている。また、GPSや衛星通信による航空管制を含む航空航法システムも実用化されている。なお、コンピュータ化により飛行前の情報収集が容易になり、業務の中心は飛行中のパイロットへの支援に移行しつつある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>航空航法システム、表計算ソフト（Excel、Googleスプレッドシート等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/202">通関士</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/208">新聞記者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/209">雑誌記者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/203">航空管制官</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/205">客室乗務員</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>航空会社に採用された後、適性があると判断された人が社内研修や正規のディスパッチャーの補助要員として経験を積み、正規のディスパッチャーになるのが一般的である。また、航空会社によっては運航管理関連業務を専門に行うグループ会社を設けているところがあり、そうした会社でも募集が行われている。航空会社等への入職にあたって、資格は必要とされないが、学歴は大卒以上が一般的である。</p>
+        <p>訓練を受けた後に、国土交通省所管の国家試験である運航管理者技能検定を受け、合格後更に経験を積み、社内審査に合格して正式なディスパッチャーとなる。</p>
+        <p>国家試験を受けるには、航空無線通信士の資格を取得していること、21歳以上で、運行管理者の補助業務など2年以上の実務経験があることが必要である。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>ディスパッチャーは旅客・貨物を輸送する航空会社に必ず配置するように義務付けられているため、全国の空港にある航空会社の支店に勤務している。日本に乗り入れている外国の航空会社の空港支店や日本の航空会社が乗り入れている海外の空港支店に勤務する場合もある。</p>
+        <p>交替制の勤務形態が一般的で、夜勤がある会社もある。また、海外の空港に勤務する場合や国際線を担当する場合には、航空機の発着に合わせた不規則な勤務をする場合もある。</p>
+        <p>運航管理者資格は希少であり、航空機の運航便数や寄航地も増加の傾向にあるので、一定の労働需要が見込まれている。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,49.0 270.9,137.2 226.8,248.1 143.0,207.2 96.2,146.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>93</dd><dt>対人</dt><dd>81</dd><dt>判断</dt><dd>74</dd><dt>身体</dt><dd>35</dd><dt>定型</dt><dd>59</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">新しい情報の応用力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">4.5</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.5</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">外国語を読む</span><span class="topn-score">4.4</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">4.3</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">4.3</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">輸送</span><span class="topn-score">3.2</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.7</span></li><li><span class="topn-name">外国語の語彙・文法</span><span class="topn-score">2.6</span></li><li><span class="topn-name">地理学</span><span class="topn-score">2.6</span></li><li><span class="topn-name">通信技術</span><span class="topn-score">2.2</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/194"><span class="tc-name">空港グランドスタッフ</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/151"><span class="tc-name">国際公務員</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/150"><span class="tc-name">外務公務員（外交官）</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 96%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.mlit.go.jp/koku/" rel="external" target="_blank">国土交通省－航空局</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>運航管理者技能検定</li><li>航空無線通信士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

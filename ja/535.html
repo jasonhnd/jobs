@@ -8,6 +8,7 @@
     <title>風力発電のメンテナンス — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="風力発電のメンテナンス：就業者 約31,023人 / 平均年収 586万円 / 平均年齢 43.4 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="風力発電のメンテナンス" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/535" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/535" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "535",
+      "occupationalCategory": "12_075-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/535",
       "additionalProperty": [
         {
@@ -123,6 +124,15 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Wind Power Maintenance Tech",
+      "industry": "Facilities & Maintenance",
+      "qualifications": [
+        "GWO BST(Global Wind Organization Basic Safety Training)",
+        "フルハーネス型墜落制止用器具特別教育",
+        "ロープ高所作業特別教育",
+        "第一種電気主任技術者",
+        "第二種電気主任技術者",
+        "第三種電気主任技術者"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +216,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +272,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +367,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=maint">設備・保守</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +389,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>風力発電設備の点検、修理・補修を行う。</p>
+        <p>風力発電設備の点検、修理・補修を行う。風力発電設備が稼働する上で支障が出ないよう、不具合の発生を未然に防止するため点検し、破損箇所等は修理・補修を行う。風力発電は社会を支える重要なインフラ設備の一つであり、設備を良好な状態に保つことが求められる。</p>
+        <p>風力発電の装置（風車）は、風を受ける羽根「ブレード」とハブを組み合わせた「ローター」、この回転を受ける装置が入った「ナセル」、垂直に高い「タワー」等で構成されている。風車にはナセル内を中心に、細かいものまで含めると、電気関係、機械関係など１万点から２万点に及ぶ部品が使用されており、これら一つ一つが正常に機能することで電力を供給することができる。風力発電のメンテナンスは機器の状態を正常に保つために不可欠な作業であり、社会の重要インフラを支えている。メンテナンス作業には日常的に行う点検、実施間隔を定めて定期的に行う点検、損傷や故障、劣化などが確認された際に行う修理・補修などがある。また、修理・補修が困難な場合には部品や装置を交換することもある。部品や装置によっては大型クレーンが必要になるなど大掛かりな作業が必要になることもある。</p>
+        <p>風力発電のエネルギー源である風を直接受けるブレードは、その特性上、日射や風雨にさらされ続けているため、他の部品に比べて劣化の影響を受けやすく、その補修（研削、積層、研磨、再塗装）が特に重要となる。しかも現在、主力となっている風車ではナセル上部で地上約90ｍに達するため、重機や特殊な技術が必要とされる。その中の一つがロープによる高所作業の技術である。この技術は洞窟探検（ケービング）のために生まれた技術を高所作業に転用したものであり、作業員はロープを自在に操り、上下左右に移動しブレードの点検・補修を行う。</p>
+        <p>また、最近では点検にドローンを用いたり、部品や装置を交換する際、ナセルに設置された小型クレーンを用いるなど、技術の進歩に伴い仕事も変わってきている。</p>
+        <p>メンテナンスを担当する会社によっては、地上の蓄電設備の保守・管理を行っていたり、遠隔の監視室で風力発電を24時間監視していたり、発電量を調整する等風車の設置者に代わって運営まで行っているところもある。</p>
+        <p>◇　よく使う道具、機材、情報技術等
+パソコン、携帯電話、安全保護具（安全靴、防塵マスク、防護服、ヘルメット、ゴーグル、保護手袋、フルハーネス型墜落制止用器具、ランヤード等）、一般手持ち工具(ニッパー、レンチ、スパナ、ドライバー等)、グラインダー、テスター、ハンディターミナル、ロープ、下降器、登高器（足の力でロープを登れる）、ドローン、普通自動車</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>高校等を卒業後、あるいは中途採用で、風力発電のメンテナンスを行う企業等に就職する。入職にあたって、特に学歴や資格は必要とされないが、高所での作業を伴うことから、労働安全衛生法に基づく「フルハーネス型墜落制止用器具」の特別教育の受講が必要とされる。また、ロープ高所作業を安全に行うためには「ロープ高所作業特別教育」を受講しないと作業ができない。これらも含め企業では入社後に一定期間の研修が行われる場合が多い。高所作業、ロープ高所作業に関しては国内の資格と国際的な資格がある。</p>
+        <p>風力発電のサイトごとに電気主任技術者が居なくてはならないことから、この資格を持っていると採用に有利になる。また、風車はメーカーごとに設計と仕組みが異なることから、各メーカーの風車に関する知識も必要である。ブレードはガラス繊維強化ブラスチック（GFRP：Glass Fiber Reinforced Plastics）製のため、この補修技術も求められる。</p>
+        <p>新卒採用では工業高校の工業系、電気系、機械系が多いが、専攻は様々である。入社後、数か月から半年程度、訓練施設と実機で座学と実習の訓練を行い、先に述べた高所作業の資格を取得する。この訓練修了後、現場のチームの一員として配属され、先輩社員の指導のもと、平易な作業から始め、徐々に高度な作業を任されるようになる。中途採用の場合も高所作業をしてきたという者はほとんどいないため、新卒者と同じように訓練機関で訓練を行い、高所作業の資格を取得し、その後、現場に配属される。</p>
+        <p>現場での作業経験が3年前後で一人前になり、数人の班を任されることが多い。その後はメンテナンス作業全体のチームをまとめるリーダー等になっていく。</p>
+        <p>最近ではタワー内に電動の昇降機が設置され、また、ロープ高所作業では装置（登高器）によって、登ることができることから、それほど筋力は必要とされず、女性の作業者も居る。</p>
+        <p>現場での作業は危険な場所での作業もあるため、現場リーダーの話をよく聞き、仲間と協力してチームワークよく作業することが求められる。細かな個所に気づく繊細さを持ち、きちんと補修しないと後で大変なことになることから、妥協を許さない徹底した仕事に対する姿勢、また、スキルを高めていく向上心も必要である。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>風力発電のメンテナンスを行う会社で働き、職場は全国にわたる。風車の大半は丘陵地帯や山の尾根、海岸などに設置されており、現場への移動時間も長くなる。このためメンテナンスの間、１週間程度から数か月、風車の近くで宿泊することが多い。</p>
+        <p>風力発電のブレード、ナセル、タワー等のメンテナンスは春から秋にかけて行われることが多い。冬は風が強く発電に適している一方、高所での作業に適さないためである。風車のメンテナンス作業ができない時期は、地上設備の保守作業を行う。</p>
+        <p>高所作業は特別な訓練と資格が必要なことから、大半が正社員として勤めている。</p>
+        <p>風力発電のメンテナンスの担当者として特別な給与の設定等はないが、関係する資格を取得していると資格手当などが付くこともある。</p>
+        <p>まとめて作業し、まとめて休暇というよりも、月曜から金曜で作業し、土日は休みという働き方が多い。落雷等の非常時や不具合に対応するため時間外労働や休日出勤となることもある。</p>
+        <p>陸上での風車の新規設置は近年でも徐々に増えているが、今後は洋上での風力発電が大きく伸びるとされており、このような場所でのメンテナンスが必要となる。作業は洋上となるが陸上と同じく高所での作業である。世界的な脱炭素の流れの中、現状でもメンテナンス要員は不足しており、洋上での風力発電が増えるとますます要員不足が懸念され、今から人材確保が検討されている。また、米国労働省のサイトOccupational Outlook Handbookでは、今後、就業者が増える職業をランキングで示しているが（https://www.bls.gov/ooh/fastest-growing.htm）、2019年から2029年で最も増加率が高い職業は風力発電のメンテナンス（wind turbine service technicians）としている。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +435,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://jwpa.jp/" rel="external" target="_blank">一般社団法人　日本風力発電協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>GWO BST(Global Wind Organization Basic Safety Training)</li><li>フルハーネス型墜落制止用器具特別教育</li><li>ロープ高所作業特別教育</li><li>第一種電気主任技術者</li><li>第二種電気主任技術者</li><li>第三種電気主任技術者</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

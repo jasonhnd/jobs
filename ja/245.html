@@ -8,6 +8,7 @@
     <title>老人福祉施設生活相談員 — AI 影響 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="老人福祉施設生活相談員：就業者 約44,392人 / 平均年収 441万円 / 平均年齢 45.4 / AI 影響 5/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="老人福祉施設生活相談員, 支援相談員（介護老人保健施設）, 社会福祉士（高齢者福祉施設：相談・助言・援助業務）, 生活指導員（老人福祉施設）, 生活相談員（老人福祉施設）, 生活相談員（有料老人ホーム）" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/245" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/245" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "245",
+      "occupationalCategory": "08_049-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/245",
       "additionalProperty": [
         {
@@ -122,7 +123,34 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Elderly Welfare Counselor",
+      "alternateName": [
+        "Elderly Welfare Counselor",
+        "支援相談員（介護老人保健施設）",
+        "社会福祉士（高齢者福祉施設：相談・助言・援助業務）",
+        "生活指導員（老人福祉施設）",
+        "生活相談員（老人福祉施設）",
+        "生活相談員（有料老人ホーム）"
+      ],
+      "industry": "Welfare & Care",
+      "skills": [
+        "Active Listening",
+        "Service Orientation",
+        "Social Perceptiveness",
+        "Reading Comprehension",
+        "Speaking",
+        "Coordination",
+        "Persuasion",
+        "Writing",
+        "Instructing",
+        "Negotiation"
+      ],
+      "qualifications": [
+        "社会福祉士",
+        "精神保健福祉士",
+        "社会福祉主事任用資格",
+        "介護福祉士",
+        "介護支援専門員（ケアマネージャー）"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +234,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +290,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +385,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=fukushi">福祉・介護</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,19 +407,39 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>老人福祉施設に入所あるいは通所している利用者が、快適に、可能な範囲で自立的に日常生活を送ることができるように、相談、援助や連絡調整などを行う。</p>
+        <p>老人福祉施設に入所あるいは通所している利用者が、快適に、可能な範囲で自立的に日常生活を送ることができるように、相談、援助や連絡調整などを行う。一般的に施設名称を省いて「生活相談員」と呼ばれている。</p>
+        <p>具体的な仕事としては、新しい入所等希望者に対し施設やサービス等の説明をしたり、相談に応じ、利用が決まれば入所等の契約手続を行う。入所後は、本人や家族の状況を把握し利用者の状況に合ったサービス等について本人や家族と相談を行う。その際、利用者の主治医、介護支援専門員（ケアマネジャー）とも適宜、連絡調整を行う。入所時だけではなく、必要に応じて、本人や家族と面談し、状況の報告、問題があれば解決に向けた対応策の検討を行う。地域の行政機関や保健・医療機関などと連携して支援策を検討することもある。</p>
+        <p>職場によっては、介護職員が行う介護業務を兼務する場合もある。一方で、施設長や、ケアマネジャーが生活相談員を兼務している場合もある。</p>
+        <p>また、施設職員の資質向上のため研修、勉強会を企画、実施したり、この職業を目指す学生を実習生として受け入れ、研修を行う場合もある。</p>
+        <p>更に、地域住民との交流の企画や苦情等への対応を生活相談員が行う場合もある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>パソコン、事務処理ソフト（文書作成等）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/248">植物工場の設計、施工</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/256">NC工作機械オペレーター</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/258">非鉄金属製錬技術者</a><span class="r-risk">AI 影響 5/10</span></li>
-          <li><a class="r-name" href="/ja/244">障害者福祉施設指導専門員（生活支援員、就労支援員等）</a><span class="r-risk">AI 影響 3/10</span></li>
-          <li><a class="r-name" href="/ja/246">看護助手</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>老人福祉施設生活相談員は、社会福祉士、精神保健福祉士、社会福祉主事任用資格（自治体での勤務に必要だが大学等で指定された科目の修了又は厚生労働大臣が指定する養成機関又は講習会の修了により取得できる。）が必要となるのが一般的である。自治体によっては、介護福祉士や介護支援専門員の資格を有している者も対象となる場合もある。</p>
+        <p>個々の高齢者の状況をよく理解し、関係者と連携してよりよい援助を実現するための専門性、コミュニケーション能力が重要である。本人や家族と介護職員をはじめとする関係者、関係機関との調整役となることが多く、客観的なものの見方や的確な判断力も求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>入所又は通所の老人福祉施設に勤務する。老人福祉施設には、老人デイサービスセンター、老人短期入所施設、養護老人ホーム、特別養護老人ホーム、軽費老人ホーム、老人福祉センター、老人介護支援センターがある。職場は全国に広がっている。生活相談員は、施設の規模等により配置基準は異なるが、施設に必ず１人以上の配置が義務づけられている。</p>
+        <p>勤務は、仕事が相談、連絡調整及びそれに伴う事務業務が中心であるため、介護業務との兼務等がなければ早朝、夜間の勤務はない。休日については週休2日制だが、土日に固定されない場合が多い。相談、連絡調整に時間がかかり、その後の事務作業を残業で行う場合もある。いずれにしても入所者を担当する場合と通所者を担当する場合で、残業や休日の取得方法等にも相違があり、実状は施設の規定等により様々となっている。</p>
+        <p>最初にあげた老人福祉施設は全体で5,126 施設（利用者定員156,591人）あり、就業者は38,743人である（2023年10月1日時点*1）。</p>
+        <p>人手不足が続いている職業であり、欠員補充など中途採用の募集は常に行われており、入職の機会は多い。</p>
+        <p>*厚生労働省、令和5年社会福祉施設等調査の概況</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.2 278.4,134.8 220.0,238.9 126.7,229.6 104.8,148.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>63</dd><dt>対人</dt><dd>87</dd><dt>判断</dt><dd>65</dd><dt>身体</dt><dd>56</dd><dt>定型</dt><dd>52</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">5.2</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">5.0</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.5</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.3</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.2</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.2</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.2</span></li><li><span class="topn-name">交渉</span><span class="topn-score">3.9</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">セラピーとカウンセリング</span><span class="topn-score">3.1</span></li><li><span class="topn-name">医学・歯学</span><span class="topn-score">3.0</span></li><li><span class="topn-name">心理学</span><span class="topn-score">2.9</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.8</span></li><li><span class="topn-name">社会学</span><span class="topn-score">2.4</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.8</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.5</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.5</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/133"><span class="tc-name">訪問介護員/ホームヘルパー</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/244"><span class="tc-name">障害者福祉施設指導専門員（生活支援員、就労支援員等）</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/134"><span class="tc-name">施設介護員</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.roushikyo.or.jp/" rel="external" target="_blank">公益社団法人　全国老人福祉施設協議会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>社会福祉士</li><li>精神保健福祉士</li><li>社会福祉主事任用資格</li><li>介護福祉士</li><li>介護支援専門員（ケアマネージャー）</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +448,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

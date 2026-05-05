@@ -8,6 +8,7 @@
     <title>Auto Inspector — AI Impact 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="Auto Inspector: workforce ~87,440 / annual salary 562万円 / avg age 43.3 / AI impact 4/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Auto Inspector" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/579" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/579" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "579",
+      "occupationalCategory": "12_079-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/579",
       "additionalProperty": [
         {
@@ -123,6 +124,11 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Auto Inspector",
+      "industry": "Manufacturing & Craft",
+      "qualifications": [
+        "一級自動車整備士",
+        "二級自動車整備士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +212,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +268,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +363,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=seizo">Manufacturing &amp; Craft</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,8 +385,46 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Conducts vehicle inspections and certifications.</p>
+        <p>Auto inspectors (自動車検査員) work at designated maintenance shops (指定整備工場) to conduct the &quot;completion inspection&quot; (完成検査)—verifying that vehicles maintained by automotive technicians comply with the safety standards set by the national government—and to render a pass/fail determination on whether the vehicle is safe to operate on public roads.</p>
+        <p>The &quot;completion inspection&quot; is a critical step in ensuring vehicle safety, confirming that at the inspection date the vehicle can safely operate on roads and meets environmental standards. By properly conducting this inspection, inspectors prevent vehicles with maintenance defects or illegal modifications from operating on public roads. If a defect is found in a vehicle that has passed a completion inspection, it could become a cause of a life-threatening accident—making the completion inspection the most responsibility-intensive task in the periodic vehicle inspection (shaken) process.</p>
+        <p>Specifically, for vehicles maintained at the inspector&#x27;s designated shop, the structural inspection uses visual confirmation and other means to verify consistency with the dimensions recorded in the vehicle registration certificate and to check minimum ground clearance. The device inspection uses testing equipment to verify that the braking system (brakes) meets performance and braking capacity standards and that the headlights meet brightness and main beam axis angle standards; other vehicle systems—drivetrain, running gear, braking system, and lighting—are also inspected using an inspection hammer or by visual means.</p>
+        <p>For a typical periodic inspection (shaken), the general workflow is: vehicle intake, work instructions for the maintenance staff, completion inspection using measurement equipment, recording of inspection results in the designated maintenance record book, documentation for the safety compliance certificate, and reporting to the vehicle owner.</p>
+        <p>The maintenance record book issued to the vehicle owner records measurement results, remaining service life of consumables, inspection findings, and the content of any maintenance performed; auto inspectors may also make improvement recommendations and maintenance advice to the vehicle owner.</p>
+        <p>A completion inspection at a designated shop typically takes several tens of minutes per vehicle. Depending on the size of the shop, one auto inspector generally handles four to five vehicles per day, and in most cases no more than eight. For ordinary passenger vehicles, delivery to the owner typically occurs within one day; for trucks and similar vehicles, two to three days is common.</p>
+        <p>The range of vehicle types that a designated shop&#x27;s completion inspection authority covers is limited to those for which the shop has received designation, but in practice inspectors typically examine only the types of vehicles their shop handles on a day-to-day basis.</p>
+        <p>Although they work in the same location, auto inspectors and automotive technicians are distinct roles and are sometimes confused. An automotive technician&#x27;s primary duties are to inspect vehicles for defects and malfunctions in periodic or shaken inspections and to carry out any necessary repairs and maintenance. Auto inspectors, by contrast, verify that no maintenance deficiencies or omissions remain in the technician&#x27;s work and confirm that the vehicle meets national standards and can operate safely—rendering a final determination. In other words, while an automotive technician handles all aspects of vehicle maintenance and prepares the vehicle to pass the inspection, they cannot conduct the completion inspection itself; the final determination belongs solely to the auto inspector. Furthermore, the same individual may not perform both the maintenance work and the completion inspection for the same vehicle.</p>
+        <p>Designated maintenance shops are required to designate at least one auto inspector. Because the auto inspector sometimes supervises workers without the qualification and automotive technicians, a deep understanding of the automotive technician&#x27;s work is also necessary.</p>
+        <p>Auto inspectors perform work that carries serious responsibility for human life, so comprehensive knowledge of vehicles is an absolute prerequisite. Even after receiving the auto inspector designation, inspectors must continuously absorb new knowledge—from the fundamental structure of vehicles to the latest technological and systems developments—because vague knowledge is simply not sufficient for the inspection to be done properly. Beyond this, a strong sense of responsibility to &quot;deliver safe vehicles to society&quot; is required, as is the daily attentiveness to notice even minor anomalies and the concentration to sustain repetitive tasks without fatigue.</p>
+        <p>&lt;Message to prospective workers&gt;
+I want people interested in automotive technology to know that the auto inspector role is a next step beyond automotive technician. As a &quot;quasi-public official,&quot; you work with pride and responsibility in a role that involves human life. It is fulfilling work as a contributor to a safe automotive society. (Worker in their 30s)
+When a vehicle passes inspection without issues and the customer rides it with peace of mind—that brings the same joy as if it were my own achievement. The automotive industry is fascinating, with constant advances in autonomous driving and other technologies opening up new possibilities. (Worker in their 50s)
+After obtaining the auto inspector qualification, I developed an interest not just in vehicle structure but in law as well, and my understanding of cars deepened. Being able to learn about vehicle knowledge through one&#x27;s work is also part of the appeal. (Worker in their 30s)</p>
+        <p>Tools and equipment commonly used: inspection equipment (side-slip tester, brake tester, headlight tester, speedometer tester, inspection scan tool, etc.); penlight; inspection hammer; digital camera; creeper board, etc.</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Because the completion inspection performed by auto inspectors is a function that is inherently a government responsibility—carried out by inspectors acting in place of the government—auto inspectors are treated as &quot;quasi-public officials&quot; (みなし公務員). To perform the role, a candidate must complete the Auto Inspector Training (自動車検査員教習) conducted by the relevant regional transport bureau director, thereby obtaining the Auto Inspector Qualification (自動車検査員の資格). In addition, the candidate must be formally designated as an auto inspector by the designated shop where they work before they can perform the inspector&#x27;s duties. Practitioners often note a sense of pride and responsibility in serving as &quot;a quasi-public official engaged in work that involves human life.&quot;</p>
+        <p>Eligibility to sit for the Auto Inspector Training requires, among other things: at least one year of practical experience as a maintenance supervisor (整備主任者) for those who hold a second-class automotive technician license, or at least six months for first-class license holders (becoming a maintenance supervisor itself requires a first- or second-class license); completion of the most recent maintenance supervisor training; and employment at a designated maintenance shop.</p>
+        <p>After receiving the auto inspector designation, participation in the &quot;Auto Inspector Training&quot; (自動車検査員研修) conducted by the regional transport bureau director is required; inspectors must make ongoing efforts to stay current on structural and equipment matters and relevant laws and regulations.</p>
+        <p>The typical career path is: graduation from a vocational school with an automotive technology program (obtaining a second-class automotive technician license) → designation as maintenance supervisor at a designated shop, or accumulation of other experience meeting the training eligibility requirements → completion of the Auto Inspector Training → passing the final examination → designation as auto inspector. After building experience as an auto inspector, many progress to roles managing the maintenance shop or become shop managers. Some also transfer to instructional positions at vocational schools specializing in automotive technology, leveraging their cultivated skills and experience in mentoring the next generation.</p>
+        <p>Once obtained, the Auto Inspector Qualification does not in principle expire, but continuing to work as an auto inspector requires periodic training attendance.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Auto inspectors command a higher level of specialized expertise and, when compared within the same workplace, generally earn higher wages than automotive technicians.</p>
+        <p>At designated maintenance shops, at least one auto inspector must always be available to perform completion inspections. Across the industry as a whole, auto inspectors are in short supply, making the qualification an advantage in job changes.</p>
+        <p>Men make up the overwhelming majority. In terms of age, because practical experience as an automotive technician and maintenance supervisor is required before taking the Auto Inspector Training, most auto inspectors are in their thirties or older.</p>
+        <p>A recent development: since October 2024 (Reiwa 6), OBD (on-board diagnostic) inspection—electronic vehicle inspection—has been introduced for periodic vehicle inspections, and a new device called an &quot;inspection scan tool&quot; is now in use. It connects the vehicle&#x27;s on-board fault diagnostic system (OBD) to the government&#x27;s dedicated system to render a pass/fail determination.</p>
+        <p>In recent years, AI applications in completion inspection have been advancing, with expectations that AI will improve inspection efficiency and reduce costs. AI is also anticipated to detect defects that are difficult for the human eye to identify, raising hopes for improvements in inspection accuracy. These new technologies, along with further acceleration of autonomous driving and other developments in the automotive industry, represent the evolving landscape surrounding this profession.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +437,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.jama.or.jp/" rel="external" target="_blank">一般社団法人　日本自動車工業会</a></li><li><a href="https://www.jaspa.or.jp/" rel="external" target="_blank">一般社団法人日本自動車整備振興会連合会</a></li><li><a href="https://www.jasca.or.jp/" rel="external" target="_blank">日本自動車整備商工組合連合会</a></li><li><a href="http://www.jaw.or.jp" rel="external" target="_blank">全日本自動車産業労働組合総連合会（自動車総連）</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>一級自動車整備士</li><li>二級自動車整備士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +446,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

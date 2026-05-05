@@ -8,6 +8,7 @@
     <title>Forestry Worker — AI Impact 2/10｜mirai-shigoto.com</title>
     <meta name="description" content="Forestry Worker: workforce ~17,480 / annual salary 351万円 / avg age 42.5 / AI impact 2/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Forestry Worker" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/230" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/230" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "230",
+      "occupationalCategory": "11_065-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/230",
       "additionalProperty": [
         {
@@ -122,7 +123,41 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Forestry Worker",
+      "alternateName": [
+        "Forestry Worker",
+        "山林苗木植付作業員",
+        "山林枝打作業員",
+        "山林下刈作業員",
+        "植林作業員",
+        "除伐作業員",
+        "地ごしらえ作業員（林業）",
+        "運材作業員",
+        "間伐作業員",
+        "集運材機械運転工",
+        "集材作業員",
+        "造材作業員",
+        "伐木作業員",
+        "伐木造材機械運転工"
+      ],
+      "industry": "Agriculture & Fishing",
+      "skills": [
+        "Active Listening",
+        "Equipment Selection",
+        "Instructing",
+        "Speaking",
+        "Social Perceptiveness",
+        "Coordination",
+        "Reading Comprehension",
+        "Equipment Maintenance",
+        "Judgment & Decision Making",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "測量士",
+        "1級林業技能士",
+        "2級林業技能士",
+        "3級林業技能士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +241,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +297,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +392,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=noringyo">Agriculture &amp; Fishing</a><span class="band band-low">Low AI risk</span><span class="band band-low">Small workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-2">
@@ -308,19 +414,41 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Logs, plants, and maintains forests; physical outdoor labor.</p>
+        <p>Forestry workers maintain and manage forests while felling the timber they have raised to produce wood resources.
+	Forestry operations encompass the full production cycle. Site preparation (jigoshire) clears and readies the land for planting. Planting (shokurin) establishes seedlings. Undergrowth cutting (shitagari) removes weeds growing around young trees. Pruning (edauchi) trims branches to produce clear, knot-free timber. Thinning (kanbatsu) reduces tree density to allow adequate light and nutrients to reach the remaining trees. Final felling (shubatsu) harvests the mature, large trees.
+	Work is carried out using chainsaws and brush cutters, and through the operation of large-scale forestry machinery: harvesters and processors, which cut, debranch, and cross-cut logs to length in a single integrated sequence; and forwarders, which are purpose-built extraction vehicles. Forklifts and cranes are also used. The work includes transporting felled timber and constructing forest roads for that purpose. Because the work is done in a natural environment, the type of work changes considerably with the seasons.
+	Many workers find deep satisfaction in the natural surroundings and in watching trees they planted visibly grow over the years.</p>
+        <p>Tools and equipment commonly used:
+	Large forestry machinery (harvesters, processors, forwarders, etc.), forklifts, cranes, brush cutters, passenger vehicles (standard Class 1 or Class 2 driving license), hand tools (handsaws and other manual tools; chainsaws, drills, and other power tools), personal protective equipment (helmet, goggles, gloves, safety shoes, etc.)</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/227">Pet Groomer (Trimmer)</a><span class="r-risk">AI 2/10</span></li>
-          <li><a class="r-name" href="/en/226">Dog Trainer</a><span class="r-risk">AI 2/10</span></li>
-          <li><a class="r-name" href="/en/224">Aquarium Keeper</a><span class="r-risk">AI 2/10</span></li>
-          <li><a class="r-name" href="/en/229">Forestry Engineer</a><span class="r-risk">AI 4/10</span></li>
-          <li><a class="r-name" href="/en/231">Industrial Robot Developer</a><span class="r-risk">AI 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required. The typical path after school is to join a forestry cooperative (shinrin kumiai) or a forestry company. Some enter the field through publicly subsidized employment support programs for developing the next generation of forestry workers, such as the &quot;Green Employment&quot; (Midori no Koyō) initiative.
+	Workers who operate chainsaws or brush cutters must complete safety and health training courses offered by public agencies and similar organizations. Having a surveying license (useful for forest road construction), qualifications for operating large forestry machinery such as harvesters, and occupational safety-related certifications improves employment prospects.
+	The number of forestry workers has been declining on a long-term trend, reaching approximately 44,000 in 2020. New entrants to forestry work have been running at roughly 3,000 per year; the most recent figure is 3,333 (as of 2023).*1 About half of current workers are aged 50 or older. Some people enter the field for the first time in their 30s or 40s, after working in various other occupations. For those who love nature and want to work in forestry, this is a field with relatively few restrictions on educational background, work history, or age.
+	Forestry tasks—planting, harvesting, transportation—are carried out in crews, so cooperative teamwork is essential.</p>
+        <p>*1 Forestry Agency, Trends in Forestry Labor Force</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Forestry companies that employ workers are concentrated in forest-rich regions such as Hokkaido, Iwate, Gifu, and Hiroshima, with a high proportion of small operations including sole proprietorships.
+	Because work sites in the forest are often far from the office and all work must be completed in daylight, forestry workers start early. In summer, some tasks begin as early as 5:30 a.m.
+	The work is increasingly mechanized but still physically demanding. Felling on steep slopes and similar tasks involve some danger. Fixed-term employment is common, and the type and hours of work fluctuate with the season and weather. Some workers also farm as a sideline.
+	The importance of forest conservation has been re-evaluated in light of global warming and other environmental concerns. Forestry is also being actively promoted as an industry: Japan&#x27;s timber self-sufficiency rate has risen almost every year since hitting a record low of 18.8% in 2002, reaching 43.0% in 2023.*2</p>
+        <p>*2 Forestry Agency, FY2023 Timber Supply and Demand Table</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,106.4 239.6,147.4 210.2,225.3 120.9,237.6 111.1,150.9" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>48</dd><dt>Social</dt><dd>56</dd><dt>Judgment</dt><dd>52</dd><dt>Physical</dt><dd>64</dd><dt>Routine</dt><dd>47</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Equipment Selection</span><span class="topn-score">3.3</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Equipment Maintenance</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Judgment &amp; Decision Making</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">2.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Mechanical</span><span class="topn-score">1.4</span></li><li><span class="topn-name">Agriculture &amp; Livestock</span><span class="topn-score">1.3</span></li><li><span class="topn-name">Production &amp; Processing</span><span class="topn-score">1.1</span></li><li><span class="topn-name">Education &amp; Training</span><span class="topn-score">0.9</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">0.8</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Static Strength</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Gross Body Equilibrium</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Stamina</span><span class="topn-score">3.1</span></li><li><span class="topn-name">Arm-Hand Steadiness</span><span class="topn-score">3.1</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/222"><span class="tc-name">Landscape Gardener</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/506"><span class="tc-name">Fruit Grower</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/507"><span class="tc-name">Flower Grower</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.ringyou.net" rel="external" target="_blank">緑の雇用総合ウェブサイト</a></li><li><a href="http://zenmori.org" rel="external" target="_blank">全国森林組合連合会</a></li><li><a href="http://www.rinsaibou.or.jp" rel="external" target="_blank">林業・木材製造業労働災害防止協会</a></li><li><a href="https://ringyou-gino.org/" rel="external" target="_blank">一般社団法人 林業技能向上センター</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>測量士</li><li>1級林業技能士</li><li>2級林業技能士</li><li>3級林業技能士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +457,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

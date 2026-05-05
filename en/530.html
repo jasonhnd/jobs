@@ -8,6 +8,7 @@
     <title>Clinical Research Monitor — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Clinical Research Monitor: workforce ~120,576 / annual salary 481万円 / avg age 43.5 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Clinical Research Monitor" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/530" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/530" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "530",
+      "occupationalCategory": "06_037-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/530",
       "additionalProperty": [
         {
@@ -122,7 +123,32 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Clinical Research Monitor",
+      "alternateName": [
+        "Clinical Research Monitor",
+        "臨床開発モニター（CRA）"
+      ],
+      "industry": "Office & Public Service",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Writing",
+        "Coordination",
+        "Persuasion",
+        "Social Perceptiveness",
+        "Monitoring",
+        "Active Learning",
+        "Critical Thinking"
+      ],
+      "qualifications": [
+        "薬剤師",
+        "保健師",
+        "看護師",
+        "臨床検査技師",
+        "ＭＲ認定試験",
+        "CRA教育研修修了認定",
+        "JSCTR認定GCPパスポート・GCPエキスパート"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +232,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +288,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +383,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=jimu">Office &amp; Public Service</a><span class="band band-high">High AI risk</span><span class="band band-high">Large workforce</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +405,58 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Monitors clinical trials at hospital sites for sponsors.</p>
+        <p>Clinical Research Monitors (CRAs: Clinical Research Associates) prepare for the initiation of clinical trials to confirm the efficacy and safety of newly developed drugs, coordinate with medical institutions, monitor trials in progress, and prepare reports.</p>
+        <p>CRAs are employed at pharmaceutical companies or Contract Research Organizations (CROs). The overall workflow covers: reviewing the trial&#x27;s Standard Operating Procedures (SOP); preparing for the drafting of the Clinical Trial Protocol; selecting the medical institutions, principal investigators (PIs), and Institutional Review Boards (IRBs) to whom the trial will be entrusted, and requesting and contracting for their participation; distributing and managing the investigational drug after the trial begins; monitoring based on the Clinical Trial Protocol and similar documents; collecting and reviewing data; and preparing reports.</p>
+        <p>CROs are companies legally authorized to conduct contracted clinical trial work on behalf of pharmaceutical companies — recognized under the Ministerial Ordinance on Good Clinical Practice (MHL Minister&#x27;s Ordinance No. 28), issued in accordance with the Pharmaceuticals and Medical Devices Act as revised in 1997.</p>
+        <p>A related role is the Clinical Research Coordinator (CRC), who supports trial subjects by coordinating with physicians and relevant departments from the medical institution&#x27;s perspective; the CRA, by contrast, manages trial implementation progress from the pharmaceutical company&#x27;s perspective.</p>
+        <p>Before a trial begins, the CRA reviews and familiarizes themselves with the Standard Operating Procedures — a systematic guide covering all trial-related work. These are based on the Ministerial Ordinance on Good Clinical Practice and cover foundational content relating to the clinical trial protocol, investigational drug summary, safety information handling, investigational drug management, monitoring, and more — and the entire trial is conducted in accordance with the standards set out therein.</p>
+        <p>The CRA then identifies and confirms the conditions required for the trial, and investigates and selects medical institutions, principal investigators, and IRBs that appear capable of properly conducting the trial.</p>
+        <p>A draft Clinical Trial Protocol is brought to candidate medical institutions in advance, and information is gathered — including physicians&#x27; views on the feasibility of the trial. At this stage, confirming whether the IRB is operating in accordance with Good Clinical Practice (GCP) standards is also important. When a medical institution is judged capable of conducting the trial, the CRA requests the institution&#x27;s participation and executes a contract.</p>
+        <p>In preparation for starting the trial after contracting, a joint meeting is held with the principal investigator, nurses, pharmacists, investigational drug manager, CRC, and others to ensure full alignment on the draft protocol content, drug characteristics, subject eligibility criteria, drug storage methods, dispensing procedures, and other trial procedures — as well as on more specific content now defined in the finalized protocol, including inclusion and exclusion criteria, target case numbers, trial duration, trial methodology and dosing regimen, subject recruitment and enrollment methods, trial discontinuation criteria, subject confidentiality procedures, and data analysis methods. Particularly thorough alignment with the CRC — who coordinates all aspects of the trial within the institution — is carried out. The finalized protocol is then reviewed and approved by the IRB.</p>
+        <p>Because participating subjects must be given a thorough explanation of both efficacy and potential adverse effects before giving their free consent to participate, the CRA assists with the preparation of informed consent documents to be given to subjects during the explanation, and provides necessary materials and information such as consent document templates. To increase subject enrollment, the CRA also works with the CRC to promote enrollment through a range of methods — creating promotional materials and using publicity channels.</p>
+        <p>At the start of the trial, the investigational drug is distributed to the medical institution, and whether the drug is subsequently being stored appropriately is confirmed periodically. Once the trial is underway, the CRA monitors progress — checking whether the drug is being administered at the correct dose and dosage schedule in accordance with GCP standards and the Clinical Trial Protocol, whether prohibited concomitant medications are being used, and whether adverse events (serious side effects and other undesirable occurrences) have occurred.</p>
+        <p>In parallel, Case Report Forms (CRFs) are collected from the CRC and PI, and their content is cross-checked against source data such as individual medical records, verifying for any omissions and ensuring consistency among the information and data obtained. When there are discrepancies found during cross-checking against medical records, the CRA gathers clarification from the physician or CRC. All CRF data is entered into a database by the medical institution, and the relevant department at the pharmaceutical company or CRO organizes it into a form ready for statistical analysis. This content is ultimately compiled into a Clinical Study Report.</p>
+        <p>During the trial, the CRA may also need to respond to adverse events — in some cases reporting to the IRB and providing necessary safety information to other participating medical institutions and PIs.</p>
+        <p>Following the SOP, residual investigational drug is recovered, required documents are confirmed, and end-of-trial procedures are completed to formally close the trial.</p>
+        <p>The duration of a single trial ranges from several months to several years. CRAs typically remain in charge of a trial from start to finish, though in the later, less intensive stages, responsibility may be handed over to junior CRAs and similar.</p>
+        <p>Because a single trial is conducted simultaneously at multiple medical institutions, a team of CRAs typically divides responsibility across the institutions. A larger number of CRAs are assigned during the trial start-up phase in particular.</p>
+        <p>In any case, this work — at the front lines of new drug development — carries great social significance.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Standard Operating Procedures (SOP), Clinical Trial Protocol, Good Clinical Practice (GCP) standards, Pharmaceuticals and Medical Devices Act, personal computers, tablets, smartphones, business travel supplies</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/529">Medical Device Developer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/533">Digital Forensics Specialist</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/534">Information Security Auditor</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/531">PC Kitting Worker</a><span class="r-risk">AI 3/10</span></li>
-          <li><a class="r-name" href="/en/528">Autonomous Driving Developer</a><span class="r-risk">AI 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No particular educational background is required for this role, but because medical and pharmacological knowledge is indispensable for carrying out the work, most practitioners in practice hold healthcare-related qualifications — the majority hold degrees from pharmacy or medicine programs that confer pharmacist, nurse, or clinical laboratory technician credentials.</p>
+        <p>Pharmaceutical companies primarily hire new graduates, but CROs are also increasingly hiring new graduates — including graduates from science and engineering disciplines in addition to pharmacy and medicine. For mid-career hires, people who have accumulated a certain number of years of clinical experience as pharmacists, nurses, clinical laboratory technicians, or similar healthcare professionals are typically hired. Mid-career hiring is particularly common at CROs. Career changers from CRC roles also occur.</p>
+        <p>Career paths vary by company, but after approximately seven to eight years of experience, CRAs typically become team leaders responsible for mentoring and supporting junior colleagues, and may subsequently transfer to management-oriented departments such as development planning, quality management, or safety information.</p>
+        <p>No specific qualification is formally required, but medical and pharmacological knowledge sufficient to understand and explain clinical trial protocols and to read and understand medical records is essential. Currently, the largest proportion of practitioners hold or have experience with a pharmacist license, followed by MR (Medical Representative) credentials issued by the Japan MR Certification Center, and then nursing, clinical laboratory technician, and public health nursing credentials. Related qualifications include the JSCTR-accredited GCP Passport and GCP Expert designations offered by the Japanese Society of Clinical Trial Research. Specific to the CRA role, the Japan CRO Association offers the CRA Education and Training Completion Certification. All companies invest significantly in these and similar credentials, as well as internally developed training and certifications, and there are many training opportunities after joining.</p>
+        <p>For international collaborative trials, opportunities to read overseas literature in pharmacology in the original language, prepare reports in a foreign language, and attend international conferences are increasing, making foreign language ability — particularly English — increasingly necessary.</p>
+        <p>Conducting a trial requires adhering to all trial-related rules and concluding the trial as early as possible within those constraints. This demands: negotiation skills for contracting with medical institutions; presentation and explanatory skills for information sessions; schedule management ability during monitoring; and the communication skills, coordination ability, and capacity to build trusted relationships with the many medical institution stakeholders involved — the PI, nurses, investigational drug manager, CRC, and others.</p>
+        <p>Because the work can directly affect drug safety, a sense of responsibility and a trustworthy personal character are required.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Most practitioners work at pharmaceutical companies or CROs.</p>
+        <p>Work locations are generally limited to major metropolitan areas where pharmaceutical companies and CROs are based. Transfers outside the Tokyo-Osaka corridor are rare.</p>
+        <p>Working conditions follow the employer&#x27;s regulations. Full-time employment is most common, though secondment from a CRO to a pharmaceutical company or another CRO also occurs in response to workload fluctuations. A small number of workers are employed as dispatched staff. Full-time employees are most often on a monthly salary; annual salary arrangements also exist. Women make up a slightly larger proportion of the workforce.</p>
+        <p>There are no night shifts — work is day-shift only. Flextime may be available. Weekend work can occur when medical institutions require it. Overtime varies depending on the frequency of meetings and coordination with medical institution staff, the number of institutions the CRA is responsible for, and milestones in the trial timeline.</p>
+        <p>The frequency of business travel is generally high, though this varies by the number of institutions managed and their geographic spread.</p>
+        <p>Work style divides broadly into external (visiting medical institutions) and internal (writing reports). However, in recent years, meetings with physicians and other healthcare professionals and joint conferences have increasingly moved to online video conferencing, and the frequency of direct on-site visits to medical institutions — except for medical record review — has decreased compared to the past.</p>
+        <p>The cumulative number of CRA certification examination passers through the Japan CRO Association is 8,714 (2009–2025).</p>
+        <p>Competition in new drug development is globally intense, but the urgency of rapidly developing effective vaccines and treatments for emerging viruses — such as COVID-19 — and the expanding need for health maintenance in the context of a super-aged society and growing longevity have dramatically increased the necessity of new drug development. Opportunities to conduct clinical trials are expanding and are expected to continue growing.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,87.5 273.7,136.3 222.6,242.4 144.0,205.8 103.5,148.4" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>63</dd><dt>Social</dt><dd>83</dd><dt>Judgment</dt><dd>68</dd><dt>Physical</dt><dd>34</dd><dt>Routine</dt><dd>53</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">5.2</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">4.5</span></li><li><span class="topn-name">Persuasion</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Monitoring</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Critical Thinking</span><span class="topn-score">4.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Medicine &amp; Dentistry</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">3.4</span></li><li><span class="topn-name">Customer &amp; Personal Service</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Biology</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">2.7</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.7</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Deductive Reasoning</span><span class="topn-score">3.5</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/151"><span class="tc-name">International Civil Servant</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/194"><span class="tc-name">Airport Ground Staff</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/522"><span class="tc-name">NPO Staff (Planning/Operations)</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://www.jpma.or.jp/" rel="external" target="_blank">日本製薬工業協会</a></li><li><a href="https://www.pmda.go.jp/" rel="external" target="_blank">独立行政法人医薬品医療機器総合機構</a></li><li><a href="https://www.jcroa.or.jp/" rel="external" target="_blank">一般社団法人日本CRO協会</a></li><li><a href="https://www.mre.or.jp/" rel="external" target="_blank">公益財団法人ＭＲ認定センター</a></li><li><a href="https://www.j-sctr.org/" rel="external" target="_blank">一般社団法人日本臨床試験学会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>薬剤師</li><li>保健師</li><li>看護師</li><li>臨床検査技師</li><li>ＭＲ認定試験</li><li>CRA教育研修修了認定</li><li>JSCTR認定GCPパスポート・GCPエキスパート</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +465,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

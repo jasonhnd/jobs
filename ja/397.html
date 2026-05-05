@@ -8,6 +8,7 @@
     <title>日本語教師 — AI 影響 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="日本語教師：就業者 約23,604人 / 平均年収 491万円 / 平均年齢 45.6 / AI 影響 7/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="日本語教師" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/397" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/397" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "397",
+      "occupationalCategory": "05_031-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/397",
       "additionalProperty": [
         {
@@ -123,6 +124,22 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "Japanese Language Teacher",
+      "industry": "Education & Instruction",
+      "skills": [
+        "Speaking",
+        "Active Listening",
+        "Writing",
+        "Reading Comprehension",
+        "Social Perceptiveness",
+        "Learning Strategies",
+        "Instructing",
+        "Coordination",
+        "Persuasion",
+        "Service Orientation"
+      ],
+      "qualifications": [
+        "登録日本語教員"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +223,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +279,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +374,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=kyoiku">教育・指導</a><span class="band band-high">AI 影響 高</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +396,42 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>学校や自宅などで外国人の学生に日本語の会話や読み書きを教える。</p>
+        <p>日本語学校の他、地域、職場などで外国人に日本語を教える。日本語学習者は留学生、就労者など多岐にわたり、その学習目的も多様であるため、教え方や教材、教える場所や立場なども様々である。</p>
+        <p>一般的な日本語学校は、1クラス20人以下の少人数で、おおむね１年から２年かけて日本語の教育を行う。</p>
+        <p>日本語を「読む」「話す（やりとり）」「話す（発表）」「書く」「聞く」の言語活動ごとに捉え、それぞれの能力を高める。具体的には、授業計画を作成し、スライドや配付資料等を使った教材を準備し、学生のレベルに応じた授業を行う。他にも、テストなどにより学生の日本語能力を評価したり、出席や成績等の管理業務を行ったり、学生自身の学習や進学に関する相談にも乗る。また、日本の習慣やマナー、生活上のルールなどを含む日本文化、進学先や就職先の見つけ方や履歴書等の書き方を含む進路指導など、学習者に応じて様々なサポートをする。</p>
+        <p>日本語を学ぶ外国人それぞれが必要とする日本語能力が身につけられるように、日本語教育の質を確保・向上することを目的に、2024年4月に日本語教育機関認定制度が始まった。この制度では留学生、就労者、生活者それぞれの目的に応じた「留学」「就労」「生活」の3つの分野ごとに、教職員の体制、施設設備、教育課程等の基準を満たした日本語教育機関が文部科学大臣に認定される。認定日本語教育機関の教員になるためには、国家資格「登録日本語教員」の取得が必要となる。例えば「留学」の日本語教育課程では、日本語だけではなく進学指導や、日本という外国で暮らす上での生活のアドバイスなども求められる。また、認定日本語教育機関では、企業等で働く外国人向けの授業や教材の提供、就労希望の留学生に向けた支援など、教員の業務の幅が広がっている。</p>
+        <p>認定日本語教育機関以外では、数か月だけ日本に滞在する人を対象とする日本語学校、地域で生活する人を対象とする地域日本語教室、外国人従業員を抱える企業・施設等でも日本語教育が行われている。オンラインによるプライベートレッスンで教える場合もある。</p>
+        <p>国内の日本語学校以外にも、海外の大学や日本語学校、ＪＩＣＡ（独立行政法人国際協力機構）などの発展途上国の教育支援、ＪＦ（独立行政法人国際交流基金）による海外の日本語教育環境整備を目的とした海外派遣（日本語専門家等）があり、日本語教師の活躍の場は幅広い。</p>
+        <p>＜就業希望者へのメッセージ＞</p>
+        <p>教室は国境を越えた対話の場で、日本語教師は日本人のイメージ形成に重要な役割を果たします。学習者の心に残る信頼と尊敬の対象となる、とてもやりがいのある仕事です。（日本語教師養成講師）</p>
+        <p>◇よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word等）、オンライン会議ツール、パソコン、プレゼンテーションソフト（PowerPoint等) 、プロジェクター、電子ホワイトボード、AIツール（作文添削、翻訳）、LMS（学習教材提供、お知らせ機能）、クラウド（共同編集、資料共有）</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/398">英会話教師</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/400">社会教育主事</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/393">バイオテクノロジー研究者</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/396">学習塾教師</a><span class="r-risk">AI 影響 6/10</span></li>
-          <li><a class="r-name" href="/ja/395">特別支援学校教員、特別支援学級教員</a><span class="r-risk">AI 影響 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>認定日本語教育機関に入職するには登録日本語教員の資格が必要となる。学歴や国籍は不問だが、国が実施する日本語教員試験（基礎試験と応用試験）に合格するとともに、国の登録を受けた機関で実施される実践研修（教育実習）を受けることで資格を取得できる。また、国の登録を受けた登録日本語教員養成機関の養成課程を修了した人は、日本語教員試験の基礎試験は免除となる。養成課程と実践研修は、同一の機関で一体的に実施される場合も多い。</p>
+        <p>なお、国内の日本語学校では「日本語を日本語で教える」指導のため、入職にあたり英語能力は特に必要とされない場合が多い。一方、海外の教育機関では、現地の言語を媒介語として用いる間接法が採用されることもあり、勤務先によっては外国語能力が求められる場合もある。</p>
+        <p>「留学」の日本語教育課程を実施する認定日本語教育機関を例にキャリア形成をみると、初任教員から中堅教員は、スキルにあわせて各レベルのクラスや、大学試験対応のアカデミック・ライティング等、留学生のニーズに合った様々な授業を担当する。主任教員はクラスごとの学習内容、指導方法、計画などのカリキュラムを組むなどのマネージメント業務を担うことになる。これらの経験をもとに、日本語教師を養成する講師に進むこともある。</p>
+        <p>入職後の自己研鑽として、企業や関連団体などが実施する研修などを通じて、指導技術や専門知識の向上に努める。</p>
+        <p>外国人と交流することから、それぞれの国の社会、文化、経済事情に明るいことが望まれ、あわせて、日本の文化や慣習についての深い理解も欠かせない。毎日の授業が多様な人たちの異文化交流の場であり、教師自身も学び手となって異文化を受け入れる柔軟な姿勢や、外国人にとって初めて密に接する日本人になることが多いことから、日本人の“顔”として信頼される人物であることも求められる。日本語を教えることは、単なる言語指導ではなく、人と人との理解を深めることであり、また、その積み重ねが日本語教師としての成長や大きなやりがいにつながる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>留学生を対象に教育を行う日本語学校の場合、午前クラスと午後クラスの２部制であることが多い。勤務形態について、常勤教師は朝から夕方までの勤務であるが、非常勤教師の場合は自分の担当する授業に合わせて出勤する。賃金、労働時間等労働条件は勤務先の規定による。非常勤教師の場合、授業1コマ単位で給料が計算され、担当授業数が多いほど収入が増える。経験やスキルにより単価が上がることもある。家庭や他の仕事との両立のため、非常勤教師を選択している人もみられる。</p>
+        <p>留学生が多いのは中国、ネパール、ベトナム、ミャンマー等であり、今後も日本語教育への需要が見込まれる。登録日本語教員の国家資格化は、在留外国人の増加という社会の変化を支える存在として、質の高い日本語教師が求められたことが背景にある。今後、登録日本語教員の需要は一層増加し、優れた教師を確保するために、教師の待遇改善に取り組む日本語教育機関が拡大すると考えられる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,82.8 270.5,137.3 212.7,228.8 138.2,213.8 110.0,150.5" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>67</dd><dt>対人</dt><dd>81</dd><dt>判断</dt><dd>55</dd><dt>身体</dt><dd>41</dd><dt>定型</dt><dd>48</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">説明力</span><span class="topn-score">5.2</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">5.1</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.8</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.5</span></li><li><span class="topn-name">学習方法の選択・実践</span><span class="topn-score">4.5</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.4</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.9</span></li><li><span class="topn-name">対人援助サービス</span><span class="topn-score">3.9</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">4.7</span></li><li><span class="topn-name">外国語の語彙・文法</span><span class="topn-score">3.3</span></li><li><span class="topn-name">教育訓練</span><span class="topn-score">3.0</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">2.3</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">2.3</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">発話表現</span><span class="topn-score">4.1</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">4.0</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.9</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">3.8</span></li><li><span class="topn-name">発話明瞭性</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/396"><span class="tc-name">学習塾教師</span><span class="tc-meta"><span class="tc-risk">AI 影響 6/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/183"><span class="tc-name">高等学校教員</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 98%</span></span></a><a class="transfer-card" href="/ja/178"><span class="tc-name">幼稚園教員</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 97%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.nihongokyouiku.mext.go.jp/top/guide-japanese-language-institution" rel="external" target="_blank">日本語教育機関認定法ポータル</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>登録日本語教員</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

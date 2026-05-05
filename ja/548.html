@@ -8,6 +8,7 @@
     <title>検査工（食料品等） — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="検査工（食料品等）：就業者 約48,280人 / 平均年収 426万円 / 平均年齢 43.6 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="検査工（食料品等）, 食料品検査工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/548" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/548" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "548",
+      "occupationalCategory": "12_077-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/548",
       "additionalProperty": [
         {
@@ -122,7 +123,34 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Food Inspector",
+      "alternateName": [
+        "Food Inspector",
+        "食料品検査工",
+        "Food Quality Inspector"
+      ],
+      "industry": "Manufacturing & Craft",
+      "skills": [
+        "Quality Control Analysis",
+        "Speaking",
+        "Coordination",
+        "Instructing",
+        "Active Listening",
+        "Reading Comprehension",
+        "Monitoring",
+        "Time Management",
+        "Writing",
+        "Persuasion"
+      ],
+      "qualifications": [
+        "食品衛生管理者",
+        "食品衛生責任者",
+        "１級食品微生物検査技士",
+        "２級食品微生物検査技士",
+        "3級食品微生物検査技士",
+        "細菌検査技能評価試験",
+        "放射性物質測定技能試験",
+        "食品衛生指導員"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +234,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +290,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +385,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,19 +407,60 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置により、製品の品質・成分・外観・数量、異物の混入及び微生物等による汚染の有無などの検査を行う。</p>
+        <p>食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置等により、製品の品質・成分・外観・充填量・数量、異物の混入及び微生物等による汚染の有無などの検査を行う。原材料や半製品も対象となる。</p>
+        <p>食料品等の品目は調味食品、麺類、パン、菓子、豆腐、こんにゃく、缶詰・瓶詰食品、レトルト食品、乳製品、食肉・水産加工品、冷凍加工食品、弁当、惣菜類、漬物、茶、酒類、清涼飲料水、珈琲豆等多岐に渡り、穀物の精穀・製粉やコーヒー豆の焙煎等原材料の加工工程のものも含まれる。</p>
+        <p>検査する製品や検査対象によりそれぞれ仕事内容は異なり、専門性が高くなると食品製造技術者や食品衛生監視員等に類似した仕事になる。</p>
+        <p>ここでは、一般的な食料品等の検査の仕事内容の種類や方法等について解説する。</p>
+        <p>検査は大別して、食品安全衛生の確保のための食品衛生法等法令上の規定による検査と品質管理等の検査・検品がある。また、製造過程と検査の関係は、製造前の原料の検査や製造品を充填する容器の検査、製造途中の検査及び完成品の検査がある。</p>
+        <p>まず、品質管理等の検査の具体例を挙げると、クッキー、チョコレート、パン菓子類等の仕上げ段階で、割れ、欠け、ひび、崩れ等外観上の形状不全・欠損の確認や製品が箱・袋へ規定の数量が納入されているか、破損が無いかを目視により検査する。飲料製品やクリーム状等の半固体  食品の場合は、納入容器に汚れや破損が無いか、規定の量が充填されているかを目視検査する。ラベルの賞味期限や消費期限に誤りが無いかも確認する。</p>
+        <p>品質管理における官能検査（人間の五感による検査）としては、商品の品質水準の保持やばらつきを防止する等の目的で、甘味、塩味、酸味、苦味、旨味、とろみ等の味覚検査、完成商品の色度合いを確認する色覚検査、臭いの質を確認する臭覚検査などをサンプリングにより検査する。</p>
+        <p>安全衛生面の検査では、原材料の検査、半製品   の検査及び完成品の検査と製造・加工過程全てにわたる。検査の種類として微生物検査、理化学検査及び異物検査等がある。</p>
+        <p>異物検査は、外観検査と同時に行うことが多いが、食品に混入してはならない異物の混入が無いか全品検査する。目視の他にルーペ、金属探知機、専用測定機器・検査装置等で異物混入が無いか監視する。食品により異なるが、髪の毛や製造過程の他の食品の付着がクレームに繋がる場合が多い。</p>
+        <p>異常のある製品を発見した場合、異物などの付着は可能な場合はピンセットで取り除くが、除去では不適切な場合は迅速にライン上から取り除き、廃棄処分にするか外観破損の程度ではアウトレットに回すかを判断する。</p>
+        <p>微生物検査では、大腸菌等一般細菌数検査、食中毒菌検査及び寄生虫検査等があり、対象食品等から採取した試料を、一定時間・日数培養して菌や寄生虫の数を目視、顕微鏡等で測定する。具体的には、フラスコ等に寒天等の各種粉末培地（菌の栄養になる）を溶かして高圧蒸気滅菌器（オートクレーブ）や乾熱滅菌器で滅菌作業を行って下準備し、それを冷ましてから液状化した検査対象が入ったシャーレに注ぐ。これをインキュベーター（恒温器）に入れ菌等の育成を行い、一定時間経過ごとに菌等の数量を計測する。なお、微生物検査は検査結果が出るまで数日を要するので通常は一定間隔で定期的に行う。</p>
+        <p>理化学検査では、PH、水分含有量、水分活性値、甘味度、酸度、塩分・糖分、栄養成分、食品添加物、重金属、残留農薬、残留動物用医薬品、放射線物質等を専用測定機器・検査装置等で測定する。</p>
+        <p>検査の実施前後には作業スペースや測定機器・検査装置を次亜塩素酸ナトリウムやアルコール消毒液、熱湯等で滅菌作業を行う。また、検査前には、従業員の健康（下痢、発熱、手指の傷）と身だしなみ（髪の毛の衛生帽子からのはみ出し）をチェックする。検査後は検査結果をパソコンにより所定の様式へデータ入力し報告書を作成する。</p>
+        <p>顧客からのクレームがあった場合、事実確認、原因究明、再発防止策への迅速な対応が求められることもある。</p>
+        <p>検査の作業自体は、工場内での座り仕事もあるが、目視検査の場合は立ち仕事である場合も多く、原材料検査など商品によっては検査者が移動しながら検査作業を行う。</p>
+        <p>検査の服装は、検査対象により多少異なるが、一般的に、衛生帽子、白衣、エプロン又は特殊作業服、専用ブーツ、アームカバー、マスク、保護メガネ、手袋等を着用する。微生物検査、理化学検査、官能検査などの場合はクリーンルーム等室温や空気等の環境が一定に保たれた部屋で行われる。</p>
+        <p>なお、専属の検査工として従事するというより、食品製造過程の職務の一環として従事することも多く、例えば、食品製造工の職務と検査工の職務をグループ内の職員で午前・午後輪番制で行うような場合もある。また、合わせて付帯業務として食品製造施設及びその従業員の衛生管理業務も行うこともある。</p>
+        <p>◇よく使う道具、機材、情報技術</p>
+        <p>検査マニュアル、ピンセット、ルーペ、顕微鏡、フラスコ、ビーカー、シャーレ、各種培地、高圧蒸気滅菌器（オートクレーブ）、乾熱滅菌器、インキュベーター（恒温器）、金属探知機、専用測定機器・検査装置、白衣、エプロン、衛生帽子、アームカバー、マスク、保護メガネ、特殊作業服、専用ブーツ、手袋、滅菌消毒医薬品（次亜塩素酸ナトリウム、アルコール消毒液等）、熱湯</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/545">歯科助手</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/564">検疫官（看護師）</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/526">検査工（工業製品）</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/547">造船技能者（造船工、船舶艤装工等）</a><span class="r-risk">AI 影響 2/10</span></li>
-          <li><a class="r-name" href="/ja/549">クレーン運転士</a><span class="r-risk">AI 影響 3/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職に当たって、特に学歴は問われないことが多い。入職後すぐに検査工になることはなく、製造部門からの異動で就くことが多い。</p>
+        <p>資格や職務経験は、検査対象により異なり、初心者でも可能なものから、特定の資格所有が望ましいもの、ある程度の経験年数が必要なものまで千差万別である。特に最近では、測定機器の発達により、経験の少ない人でも高精度の検査が可能となってきており、中途採用も多い。ただし、専門性  が必要とされる検査の場合は、測定の基礎や食品加工に関する知識があることが入職に有利であり、大学で微生物学系、発酵系、食品系、畜産・水産学系等の専門分野を学んだ者や調理や食品製造の専門学校卒業者が比較的多いようである。</p>
+        <p>いずれの場合も、入社後に安全衛生管理者による食品安全衛生講習などの研修や保健所や薬品メーカーが開催する講習会やセミナーを定期的に受講し、食品衛生管理に関する知識を深めていく。</p>
+        <p>製品ごとに検査手順、検査項目は定まっているが、検査効率にも留意しなければならないので、経験により重点的に時間をかける項目が判断できるようになるなどのノウハウの蓄積が必要である。キャリア展開として、難易度が低い検査の担当から経験により難易度の高い検査の担当への異動や研究開発部門や商品開発部門への異動によりキャリアを積む場合もある。一定程度の経験年数を積んだ後、主任（サ  ブリーダー）やその後課長（リーダー）代理等に昇格し、さらに副工場長、工場長等管理者や監督者などの管理・指導的立場の役職に就くこともある。その場合、食品衛生法上置かなければならない「食品衛生管理者」や「食品衛生責任者」の資格を、前者は大学等所定課程の修了や公益社団法人日本食品衛生協会や公益社団法人全国食肉学校の講習受講等により、後者は各都道府県食品衛生協会等が実施する養成講習を受講して取得することが望まれる。</p>
+        <p>関連資格等として公益社団法人日本べんとう振興協会が実施している「食品微生物検査技士」、一般財団法人日本食品検査が実施している「細菌検査技能評価試験」、「放射性物質測定技能試験」等がある。その他関連資格として公益社団法人日本食品衛生協会が実施している「食品衛生指導員」などがある。</p>
+        <p>検査の仕事の質を高めるために取扱製品に関係する知識を広めることも重要であり、検査対象によっては食物学、畜産学、水産学、農芸化学等の知識が検査業務の質の向上に繋がる。さらに最近では、検査数値の管理に重点が置かれ、統計的な数値管理の知識も必要となる場合がある。また、通常、パソコンでワード、エクセル等のソフトの基本操作が求められる。</p>
+        <p>検査の仕事は、定められた細かな作業、同一過程を繰り返す過程で正確性を必要とする作業となるので、判別能力や集中力が持続でき、同じ過程の作業を毎日飽きずに黙々とこなすことに適応できる資質や、納期が重要であることから効率的な手順で段取りよく作業でき、また、製造過程全体を見渡し多角的に解決策を提案できる視野の広さが必要である。</p>
+        <p>立ち仕事が続く場合や特定の姿勢での作業もあり、一定程度の体力も必要である。</p>
+        <p>目視検査の場合は、一定の視力が必要とされるが、視力補強の場合はコンタクトレンズではなく眼鏡を求められることもある（コンタクトレンズは落ちて商品に混入すると見つかりにく  いため）。製品によっては、触覚や聴覚を用いる検査もある。</p>
+        <p>工場内で生産部門の他の担当者との調整・協調、トラブル時に上司等に報告・相談する等の情報伝達を行うことも多く、コミュニケーション能力が重要であり、また、心に余裕を持って冷静・適切に対応でき、顧客の信頼を確保できるような責任感と誠実性があることが必要である。</p>
+        <p>就業を長く続けるには、食品に関心があることが大切であり、食品を作ることに親しみが持てることが望まれる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>就業場所は全国各地津々浦々に幅広く広がっている。勤務先は製造工場内であることが多いが、食品衛生法上の登録検査機関である場合もある。立地場所は工業団地や湧水が大量に取得できるところである場合も多く交通の便が良いところに限らない。海外の輸入拠点の事務所が勤務先となる場合もある。</p>
+        <p>労働条件は、勤務先の規定に従うが、正社員、契約社員、労働者派遣による就業など、就業先により雇用形態は様々である。労働時間や週休制度なども取扱商品や企業により異なる。季節性による生産数の増加時や新製品の生産開始時、製造工程での異物混入や消費者クレームなどのトラブルの発生時に残業が発生する場合がある。生産拠点等が複数ある場合は、正社員は転勤があることも  ある。</p>
+        <p>就業環境に関しては、例えばケーキやアイスクリーム製造等では室温は寒く、豆腐製造等では室温が暑いなど食品により高低差がある。湿度が高いことや、取扱商品によっては特定の臭いがある場合もある。水を多く使用する商品では床が滑りやすく注意する必要がある。</p>
+        <p>就業者の男女比率や年齢構成も、取扱商品や検査手法により状況が異なり、幅広い層が活躍しているが、一般的に、目視検査による品質管理や微生物検査では女性の割合が高い。</p>
+        <p>いずれにせよ、食料品等の検査の目的は、消費者に対して安全・安心のある商品を提供する重要なものであり、不適正な事象が生ずると大きな社会問題になる。日本の食料品への信頼を支えることが貿易の発展にも大切であることから、  適切・的確な検査の実施が求められる。</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,110.5 242.5,146.5 211.0,226.4 127.2,228.9 99.7,147.1" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>45</dd><dt>対人</dt><dd>58</dd><dt>判断</dt><dd>53</dd><dt>身体</dt><dd>56</dd><dt>定型</dt><dd>56</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">クオリティチェック</span><span class="topn-score">4.2</span></li><li><span class="topn-name">説明力</span><span class="topn-score">3.4</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.4</span></li><li><span class="topn-name">指導</span><span class="topn-score">3.4</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">読解力</span><span class="topn-score">3.3</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.2</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">3.2</span></li><li><span class="topn-name">文章力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">説得</span><span class="topn-score">2.9</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.2</span></li><li><span class="topn-name">化学</span><span class="topn-score">1.2</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.2</span></li><li><span class="topn-name">数学</span><span class="topn-score">1.1</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.0</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.5</span></li><li><span class="topn-name">色の違いを見分ける力</span><span class="topn-score">3.2</span></li><li><span class="topn-name">手腕の器用さ</span><span class="topn-score">3.0</span></li><li><span class="topn-name">指先の器用さ</span><span class="topn-score">3.0</span></li><li><span class="topn-name">記述理解</span><span class="topn-score">2.9</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/12"><span class="tc-name">ハム・ソーセージ・ベーコン製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/3"><span class="tc-name">洋菓子製造、パティシエ</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/9"><span class="tc-name">清酒製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.mhlw.go.jp/general/saiyo/shokukan.html" rel="external" target="_blank">厚生労働省医薬・生活衛生局検疫所業務課</a></li><li><a href="http://www.n-shokuei.jp/index.html" rel="external" target="_blank">公益社団法人 日本食品衛生協会</a></li><li><a href="http://www.fma.ac.jp/index.html" rel="external" target="_blank">公益社団法人 全国食肉学校</a></li><li><a href="#" rel="external" target="_blank">各都道府県食品衛生協会等</a></li><li><a href="https://www.bentou-shinkou.or.jp/wp/" rel="external" target="_blank">公益社団法人 日本べんとう振興協会</a></li><li><a href="https://www.jffic.or.jp/" rel="external" target="_blank">一般財団法人 日本食品検査</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>食品衛生管理者</li><li>食品衛生責任者</li><li>１級食品微生物検査技士</li><li>２級食品微生物検査技士</li><li>3級食品微生物検査技士</li><li>細菌検査技能評価試験</li><li>放射性物質測定技能試験</li><li>食品衛生指導員</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +469,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

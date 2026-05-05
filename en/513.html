@@ -8,6 +8,7 @@
     <title>International Development Specialist — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="International Development Specialist: workforce ~9,971 / annual salary 591万円 / avg age 42.7 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="International Development Specialist" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/513" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/513" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "513",
+      "occupationalCategory": "03_020-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/513",
       "additionalProperty": [
         {
@@ -123,6 +124,19 @@
         "@id": "https://mirai-shigoto.com/#dataset"
       },
       "alternateName": "International Development Specialist",
+      "industry": "Professional Services & Management",
+      "skills": [
+        "Foreign Language Reading",
+        "Coordination",
+        "Reading Comprehension",
+        "Writing",
+        "Foreign Language Speaking",
+        "Active Listening",
+        "Speaking",
+        "Service Orientation",
+        "Foreign Language Writing",
+        "Persuasion"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +220,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +276,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +371,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=shigyo">Professional Services &amp; Management</a><span class="band band-high">High AI risk</span><span class="band band-low">Small workforce</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +393,42 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Works on international cooperation projects through JICA and similar agencies.</p>
+        <p>Drawing on extensive practical experience in international cooperation, leadership, and professional networks, international development specialists work on various development cooperation projects implemented by the Japan International Cooperation Agency (JICA) and United Nations agencies.</p>
+        <p>In general, international cooperation specialists work toward the goal of enabling recipient countries to develop and recover independently — by transferring technology and knowledge and providing advice to policy officials, field practitioners, and technical staff in the host country, jointly exploring development and reconstruction plans, and supporting human resource development. They are typically dispatched for overseas assignments either as short-term survey team members or long-term specialists.</p>
+        <p>Many developing countries around the world face hardship from economic stagnation and poverty, or have had their territory and people&#x27;s livelihoods devastated by conflict, civil war, or natural disasters and are in the process of recovery. These countries seek the experience, technology, and expertise of Japan and other developed nations across a broad range of domains to help build a society in which people can live safely and to advance their economic development. In response to these needs, international cooperation specialists from many fields are dispatched through JICA and United Nations agencies.</p>
+        <p>These activities span an extensive range — from agriculture and industry to public health and transportation, labor, social welfare, legal reform, and policy advocacy. Particularly in recent years, threats such as conflict, terrorism, crime, human rights violations, refugee flows, infectious disease outbreaks, environmental destruction, economic crises, and disasters — collectively understood as threats to &quot;freedom from fear&quot; — together with poverty, hunger, and the absence of educational and healthcare services — &quot;freedom from want&quot; — are framed as things that &quot;threaten human lives and rob people of their freedom and potential.&quot; The global effort to address these through the lens of &quot;human security&quot; is driving growing momentum to identify and deploy specialist professionals from this perspective.</p>
+        <p>This work offers a sense of pride and fulfillment — serving as the unseen force behind efforts to solve problems scattered across the globe.</p>
+        <p>In recent years, dispatches from local governments have also occurred. Japan&#x27;s local governments include many people with deep experience and excellent expertise across various fields, and high levels of achievement are expected across a broad range of domains through technical guidance and support, acceptance of trainees, and mutual cooperation with overseas local governments. To this end, candidates are selected from those registered in the Council of Local Authorities for International Relations (CLAIR) &quot;Local Government International Cooperation Human Resources Bank&quot; and dispatched based on requests from foreign local governments — with the aim of improving their administrative systems, technical capacity, and human resources, and building mutual relations of friendship and cooperation.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+Word processing software (Word, Ichitaro, etc.), spreadsheet software (Excel, Google Sheets, etc.), presentation software (PowerPoint, Keynote, etc.), online meeting tools, personal computers</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/514">Company Owner / Executive</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/517">Immigration Inspector</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/518">Prosecutor&#x27;s Affairs Officer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/512">Diet Member (National Politician)</a><span class="r-risk">AI 5/10</span></li>
-          <li><a class="r-name" href="/en/511">Drone Pilot</a><span class="r-risk">AI 6/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>Qualification and educational requirements vary by field of specialization.</p>
+        <p>In terms of entry routes: for those seeking positions as Japanese staff in UN agencies, the path is through designated examinations to become staff or specialists.</p>
+        <p>JICA recruits specialists through open public recruitment as well as through relevant ministries, agencies, and local government administrative bodies to meet the needs of the countries it serves. Working for a private-sector development consulting firm or an NGO or NPO is another way to deploy one&#x27;s skills.</p>
+        <p>The fields of activity are diverse and encompass a wide range of job types and duties, but the common thread is the ability to act independently and systematically and to deliver the required results effectively. This requires not only specialized knowledge and technical skill, but also information-gathering capability and comprehensive judgment. The qualities and capabilities required differ by assignment, but JICA generally lists the following as important: &quot;sectoral and thematic expertise,&quot; &quot;comprehensive management capability,&quot; &quot;problem identification and investigative and analytical skills,&quot; &quot;dialogue skills,&quot; &quot;regional knowledge and experience,&quot; and &quot;development assistance knowledge.&quot;</p>
+        <p>In addition, working in countries with different climates, customs, and cultures requires flexibility and adaptability — not imposing or directly transplanting one&#x27;s own national experience, but thinking together with local people to find and apply methods suited to the local context. Teamwork with multinational colleagues is required for some assignments. International development specialist work not only demands advanced knowledge and experience but also calls for genuine empathy and the capacity to stand alongside the people of the host country. Enthusiasm for wanting to apply one&#x27;s skills for the benefit of developing countries and make a meaningful contribution is equally important.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>In the case of JICA, approximately 10,000 specialists and other personnel (as of 2017) are currently dispatched across some 146 countries and regions in Asia, Africa, Latin America, and other development-aid recipient areas, working in a wide range of fields and roles. These personnel are normally dispatched based on requests from the recipient country. Dispatch contracts — whether a dispatch agreement, a project implementation contract, or a service provision contract — are concluded with JICA based on the nature of the work and requirements. Assignment durations also vary widely, from a few weeks to several years, and some individuals are repeatedly dispatched for long terms.</p>
+        <p>During the assignment, allowances and expenses necessary for life and accommodation at the posting location are provided in accordance with the contract and applicable regulations. JICA also maintains approximately 100 overseas offices to provide support and take the necessary measures to ensure the safety of dispatched personnel.</p>
+        <p>For positions outside JICA, working conditions vary depending on the employer.</p>
+        <p>Numerous countries and regions around the world require specialist-led support, and in recent years activities have diversified — covering support for new infectious disease control, assistance with market economy transitions and legal reform, and peace-building and reconstruction support, among others. Demand for specialist professionals capable of working in various fields as international development specialists remains significant and is expected to continue going forward.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,76.7 281.5,133.8 228.0,249.8 140.1,211.1 112.4,151.3" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>71</dd><dt>Social</dt><dd>90</dd><dt>Judgment</dt><dd>75</dd><dt>Physical</dt><dd>39</dd><dt>Routine</dt><dd>46</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Foreign Language Reading</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">5.1</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Foreign Language Speaking</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.8</span></li><li><span class="topn-name">Service Orientation</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Foreign Language Writing</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Persuasion</span><span class="topn-score">4.6</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Foreign Language (Vocabulary &amp; Grammar)</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Clerical</span><span class="topn-score">3.0</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Public Safety &amp; Security</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">2.5</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Deductive Reasoning</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Inductive Reasoning</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Oral Comprehension</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Oral Expression</span><span class="topn-score">3.5</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/185"><span class="tc-name">Museum Curator (Gakugeiin)</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/419"><span class="tc-name">Perfumer</span><span class="tc-meta"><span class="tc-risk">AI 3/10</span><span class="tc-similarity">similarity 97%</span></span></a><a class="transfer-card" href="/en/93"><span class="tc-name">Real Estate Appraiser</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 97%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="http://partner.jica.go.jp/" rel="external" target="_blank">独立行政法人国際協力機構 国際協力人材部国際協力人材センター</a></li><li><a href="https://www.jica.go.jp/" rel="external" target="_blank">独立行政法人国際協力機構（JICA）</a></li><li><a href="https://www.mofa-irc.go.jp/" rel="external" target="_blank">外務省 国際機関人事センター</a></li><li><a href="http://www.clair.or.jp/" rel="external" target="_blank">一般財団法人自治体国際化協会（CLAIR/クレア）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +437,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

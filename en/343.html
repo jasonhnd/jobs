@@ -8,6 +8,7 @@
     <title>Animator — AI Impact 8/10｜mirai-shigoto.com</title>
     <meta name="description" content="Animator: workforce ~58,245 / annual salary 442万円 / avg age 41.0 / AI impact 8/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Animator" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/343" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/343" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "343",
+      "occupationalCategory": "12_080-03",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/343",
       "additionalProperty": [
         {
@@ -122,7 +123,24 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Animator",
+      "alternateName": [
+        "Animator",
+        "デジタルペインター",
+        "動画作画家"
+      ],
+      "industry": "Creative & Media",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Speaking",
+        "Writing",
+        "Operations Analysis",
+        "Coordination",
+        "Social Perceptiveness",
+        "Active Learning",
+        "Instructing",
+        "Learning Strategies"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +224,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +280,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +375,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=creative">Creative &amp; Media</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-8">
@@ -308,19 +397,44 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Animates characters and scenes; AI in-betweening tools rising.</p>
+        <p>Draws images and gives motion to them as part of the collaborative process of animation production. Animation comes in two forms—2D animation, which creates motion by drawing on flat illustrations, and 3D animation, which uses computer graphics to create three-dimensional characters and objects and gives them motion—but this description focuses on animators working in 2D animation.</p>
+        <p>Animation production proceeds through three stages: &#x27;pre-production&#x27; (planning, script, and storyboard creation), &#x27;production&#x27; (creating background art, key animation, and in-between animation, followed by coloring and photography based on those materials), and &#x27;post-production&#x27; (editing and adding audio). A finished work emerges from these three stages in sequence.</p>
+        <p>Within this production process, the animator bears primary responsibility for the &#x27;production&#x27; phase—the critical part that visualizes the story&#x27;s imagery. While live-action films have actors performing roles themselves, animators express characters by drawing. The term covers the animation director, character designer, key animator, genga (key drawing) checker, and in-between animator.</p>
+        <p>The broad workflow for animators begins with the character designer creating characters based on the script, and the key animator devising the screen composition (layout) from the storyboard. Based on the storyboard and character specifications, the key animator creates key animation drawings, while the in-between animator draws the sequential motion drawings that fill the gaps between key frames. The in-between drawings produced by the in-between animators are then reviewed by the genga checker (key-drawing inspector) to verify that there are no drawing errors and that all required materials are present. The animation director—who holds a critical position overseeing the entire drawing process—unifies the drawings produced by many contributors to give the work a consistent look and bring it together as a single completed work. Additional work includes producing licensed illustrations (版権イラスト) for character goods, posters, and media appearances in TV and magazines, created and supervised by the production company or publisher that holds the copyright.</p>
+        <p>In animation production settings, the workflow has transitioned from hand-drawn on paper to digital drawing, making digital tools and PC skills essential. However, since line-drawing skill remains a foundational animator competency, mastering hand-drawn technique is also indispensable.</p>
+        <p>&lt;Message to prospective workers&gt;
+For anyone who loves animation, there is probably a work from childhood that moved you deeply and that you still watch repeatedly as an adult. I find great fulfillment in this work of creating things—not just entertainment, but something that stays with a person throughout their life. (Animation director)</p>
+        <p>◇ Commonly used tools, equipment, and IT
+Digital paint tool software (CLIP STUDIO PAINT), 2D animation production software (TVPaint Animation), personal computer, pen tablet, display tablet, iPad</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/345">Technical Illustrator</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/347">Book Designer</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/348">Textile Designer</a><span class="r-risk">AI 8/10</span></li>
-          <li><a class="r-name" href="/en/342">Illustrator</a><span class="r-risk">AI 9/10</span></li>
-          <li><a class="r-name" href="/en/344">Sign Maker</a><span class="r-risk">AI 5/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required for entry. The typical path is to graduate from a vocational school or similar institution that trains animators and then join an animation production company (studio) as a regular full-time employee, or sign a business-commission contract with an animation studio and work as a freelancer.</p>
+        <p>For a long time, freelancers made up a large proportion of the industry, but in recent years production companies have focused on animator training, and the number of regular employees has been growing. Mid-career hiring of experienced practitioners is also common, and animation production companies sometimes make direct commissions through social media.</p>
+        <p>In job applications, a portfolio—a collection of one&#x27;s own works—is typically required; applicants send this to animation production companies for review. For the portfolio, a large quantity of rough sketches drawn quickly, illustrations showing motion, and illustrations using perspective (perspective drawing) to express depth and three-dimensionality are more effective than a single work drawn slowly and carefully to perfection.</p>
+        <p>Animator career development typically begins with new entrants starting as in-between animators, who add motion to key drawings. By polishing drawing speed and foundational drawing skills, they may progress to the genga checker role—responsible for the final confirmation of the drawing process—or become key animators. Key animators, who produce the key-drawing cuts at the heart of a work, play an important role in determining the work&#x27;s atmosphere and style. From among those who have thoroughly honed their skills as both in-between and key animator specialists, some become animation directors—the overall supervisors of the drawing process. Some key animators also become character designers. Character designers not only express the world view imagined by the producer and director but can also handle the licensed illustrations that appear in the work&#x27;s goods, posters, and TV and magazine media coverage. Animation director and character designer are the roles that define a work and are goals aspired to by many animators.</p>
+        <p>After joining, watching many live-action films is considered important. Thinking about how to translate three-dimensional, realistic live-action footage into 2D animation, and striving to create new expressions, is fundamental to professional development.</p>
+        <p>The qualities suited to animation include, obviously, a love of animation, but also the drawing ability to deeply observe people and nature and express them, as well as creative power, compositional ability, and drawing skill. Additionally, because the work involves sustained repetitive tasks over long periods, perseverance and a certain level of physical endurance are required; but creating something that can move and perhaps sustain a person through their life—a &#x27;thing made&#x27; that can become a lifelong memory—is a role that offers tremendous satisfaction.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>The primary employers are animation production companies, though in recent years positions at game software development companies and internet content production companies have expanded the range of workplaces. Workplaces are concentrated in urban areas such as Tokyo, home to most animation production companies, though studios based outside the capital region are increasing in number. With rising global attention to Japanese animation, a substantial number of works are in simultaneous production, driving an increase in overseas production outsourcing.</p>
+        <p>In terms of employment, animation production companies frequently commission freelance animators under business-delegation arrangements. In such cases, the animator is given a desk at the commissioning studio or works individually from home or a similar location. There are also cases where animators join an animation production company as regular employees, accumulate experience, and then go independent as freelancers.</p>
+        <p>For regular employees, wages, working hours, and other conditions vary according to each employer&#x27;s rules. For freelancers, a piece-rate compensation structure—payment per in-between drawing or per key drawing—is the norm, and income variation by skill level is significant. With the enforcement of the Freelance Act (Act on the Optimization of Transactions with Specified Commissioned Business Operators), the working environment for freelance animators is being progressively improved.</p>
+        <p>With streaming media expanding and Japanese animation being distributed worldwide, the number of productions is increasing and animators are in short supply. In response, the industry has launched skill-assessment examinations and production companies are proactively recruiting new graduates. With foreign animation expanding the market, there are also movements to pursue domestic anime made entirely by Japanese staff; demand for animators is expected to continue growing going forward.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,74.6 245.4,145.5 207.9,222.2 170.0,170.0 170.0,170.0" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>73</dd><dt>Social</dt><dd>61</dd><dt>Judgment</dt><dd>49</dd><dt>Physical</dt><dd>0</dd><dt>Routine</dt><dd>0</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.5</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.0</span></li><li><span class="topn-name">Writing</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Operations Analysis</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Social Perceptiveness</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Active Learning</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Learning Strategies</span><span class="topn-score">3.4</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/341"><span class="tc-name">Pattern Maker</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/338"><span class="tc-name">Interior Coordinator</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 98%</span></span></a><a class="transfer-card" href="/en/210"><span class="tc-name">Book Editor</span><span class="tc-meta"><span class="tc-risk">AI 7/10</span><span class="tc-similarity">similarity 98%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://aja.gr.jp/" rel="external" target="_blank">一般社団法人 日本動画協会</a></li><li><a href="https://www.janica.jp/" rel="external" target="_blank">一般社団法人 日本アニメーター・演出協会</a></li><li><a href="https://www.jaa.gr.jp/" rel="external" target="_blank">日本アニメーション協会</a></li><li><a href="https://nafca.jp/" rel="external" target="_blank">一般社団法人 日本アニメフィルム文化連盟（NAFCA）</a></li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +443,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

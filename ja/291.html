@@ -8,6 +8,7 @@
     <title>漆器製造 — AI 影響 2/10｜mirai-shigoto.com</title>
     <meta name="description" content="漆器製造：就業者 約71,828人 / 平均年収 412万円 / 平均年齢 42.9 / AI 影響 2/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="漆器製造, 漆工, 漆器加飾工, 漆器工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/291" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/291" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "291",
+      "occupationalCategory": "12_073-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/291",
       "additionalProperty": [
         {
@@ -122,7 +123,16 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Lacquerware (Shikki) Maker",
+      "alternateName": [
+        "Lacquerware (Shikki) Maker",
+        "漆工",
+        "漆器加飾工",
+        "漆器工"
+      ],
+      "industry": "Manufacturing & Craft",
+      "qualifications": [
+        "伝統工芸士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +216,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +272,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +367,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-2">
@@ -308,8 +389,36 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>食器、工芸品、家具調度品、仏具などの漆器（しっき）を製造する。</p>
+        <p>食器、工芸品、家具調度品、仏具などの漆器（しっき）を製造する。漆器とは漆（うるし）の木から採った樹液を塗って作られる日本を代表する工芸品であり、漆器製造の仕事は、日本が世界に誇る技法を守り、後世に伝えるという役割を担っている。</p>
+        <p>漆器製造には、素地（そじ）製造工、下地工、漆塗工、蒔絵師（まきえし）、沈金工（ちんきんこう）など多くの人が関わっている。まず素地製造工が漆器の素材となる部分を作る。木地師（きじし）とも呼ばれ、板を貼り合わせて作る板物素地やロクロを使って作る挽物素地などによって器の形を作っていく。下地工は出来あがった素地の木目を整えたり補強を加え、下地を整える。さらに、漆塗工によって幾重にも漆が塗られ、最後に蒔絵師や沈金工が金や銀で装飾を施したり、青貝師(あおがいし)が貝をはめ込むなどして完成する。</p>
+        <p>木製を素地とし精製加工した漆を手作業で塗る漆器から、近年では機械化による大量生産商品、合成樹脂を使用するものまである。また、手作業と機械の融合によって、新しい漆器づくりもなされている。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>ろくろ、刷毛、箆（へら）、絵筆</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたって、特に学歴や資格は必要とされない。木材加工や漆の性質、塗装、デザインなどの基礎知識を学んでおくと役に立つ。また、職業訓練校、漆芸科のある工業高校など漆工に関わる実技を習得できる学校で学んでおくと有利である。</p>
+        <p>多くの場合は高校等を卒業してから、家内工業的な事業所で見習として4～5年間働き、素地、塗り、加飾といったそれぞれの仕事を覚え、独立していく。</p>
+        <p>また、産地によっては、働きながら技能を磨く研究所、技術研修所もある。そうした施設のない産地でも、近年では、継承者育成が重視され、様々な形で研修が行われている。</p>
+        <p>特に独立を志向するには、各工程の総合的な知識が大切な要素となる。独立については、展覧会活動を通して漆芸家を志す者、量産品の製造に従事しながら販路を広げる者など様々な方向性がみられる。</p>
+        <p>関連する資格として、一般社団法人伝統的工芸品産業振興協会が実施している「伝統工芸士」がある。</p>
+        <p>細かい手作業がほとんどであるため、ものづくりが好きで、手先が器用な人が求められる。また、漆芸家をめざす場合は芸術的センス、自営での漆製品の制作販売等をめざす場合は経営的なセンスも必要である。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>地場産業としての伝統的工芸品や工業的な量産品をつくる生産地は全国的にある。漆器工は一人前になると独立する場合もあり、従業員が5人未満の小さな事業所が大半を占める。</p>
+        <p>漆器の製造は室内で行われ、研磨作業のように他の人と一緒に行うものもあれば、塗立て作業のようにホコリのつかない部屋で一人で行うものもある。素地の製造や吹き付け塗装などでは機械による振動、騒音があり、材料の取り扱いには常に注意深さが必要になる。</p>
+        <p>大幅な残業はあまりなく、日給月給の賃金形態が多い。事業所の中で中心となるのは経験豊かな中高年である。生産工程の中間にある研磨などの軽作業にはパートタイマーも従事している。</p>
+        <p>労働需要は減少傾向であるが、最近は伝統美にひかれて、漆の技術を習得したいという人も出てきており、伝統漆工芸の継承者としての自立を目的とした見習就業者もいる。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +431,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="http://www.shikki.or.jp/" rel="external" target="_blank">日本漆器共同組合連合会</a></li><li><a href="http://www.nihon-shikkou-kyokai.or.jp/" rel="external" target="_blank">一般社団法人 日本漆工協会</a></li><li><a href="https://kyokai.kougeihin.jp/" rel="external" target="_blank">一般財団法人 伝統的工芸品産業振興協会</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>伝統工芸士</li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +440,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

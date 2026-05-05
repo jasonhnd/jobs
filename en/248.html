@@ -8,6 +8,7 @@
     <title>Plant Factory Designer/Installer — AI Impact 5/10｜mirai-shigoto.com</title>
     <meta name="description" content="Plant Factory Designer/Installer: workforce ~48,516 / annual salary 641万円 / avg age 43.6 / AI impact 5/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Plant Factory Designer/Installer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/248" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/248" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "248",
+      "occupationalCategory": "02_008-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/248",
       "additionalProperty": [
         {
@@ -122,7 +123,11 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Plant Factory Designer/Installer",
+      "alternateName": [
+        "Plant Factory Designer/Installer",
+        "植物工場施工管理技術者"
+      ],
+      "industry": "Specialist & Technical",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +211,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +267,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +362,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=senmon">Specialist &amp; Technical</a><span class="band band-mid">Mid AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-5">
@@ -308,8 +384,33 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Designs and installs hydroponic plant factory facilities.</p>
+        <p>Plant factory designers and installers design plant factories—either for their own company or on commission from corporations, agricultural corporations, or individual farmers—and manage the construction work.
+	Plant factories produce crops—primarily vegetables and seedlings—continuously and automatically in controlled-environment facilities where light, temperature, humidity, CO2 concentration, and nutrient solutions are artificially managed, independent of season, weather, region, or location. Plant factories come in three types: artificial-light type, solar-light type, and hybrid solar/artificial-light type. Profitability and efficiency of the production system are paramount.
+	In design, the starting point is identifying the optimal location within the planned construction site for the crops to be grown. The designer must also consider the types and placement of the necessary equipment, and plan efficient movement flows within the factory for production. Specific equipment includes environment-control controllers, lighting fixtures, air conditioning units, and sensors; the designer must combine these components to enable efficient and stable vegetable production and shipping. In construction management, the engineer arranges materials and subcontractors needed for the factory build and manages the construction process.
+	For artificial-light type plant factories, the initial facility investment includes not only the building but also lighting, electrical, and air conditioning systems, as well as water supply and drainage, hydroponic equipment, and mechanical systems. The facility comprises a seedling nursery room, cultivation room, shipping and work room, management and sorting room, warehouse, and connecting passages. In particular, the ceilings and side walls of the nursery and cultivation rooms must use highly insulating materials to block external light and heat. Designing and constructing double-door entry points with air showers to prevent insects and pathogens from entering while plants are being grown is also part of the artificial-light type engineer&#x27;s responsibilities.
+	For solar-light type plant factories, the construction typically uses glass or plastic panels for the greenhouse. In this type, ensuring stable year-round production requires supplementary lighting to compensate for overcast days when efficient use of sunlight is difficult. Special films and other covering materials that absorb and reflect the infrared radiation that causes temperature rise must be applied to the glass or plastic to stabilize the temperature and environment inside the greenhouse. Where ordinary glass is used, summer solutions such as shading curtains are also indispensable.</p>
+        <p>Tools and equipment commonly used:
+	Design software (CAD, etc.), personal computers, tools (hammers, handsaws, and other hand tools; drills and other power tools), personal protective equipment (helmet, goggles, gloves, safety shoes, etc.)</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required, but a background in civil engineering, architecture, electrical engineering, or mechanical engineering from a university or specialist school is typical. Because factory design uses CAD, knowledge of and experience with CAD software is an advantage.
+	Additionally, research into LEDs as a light source for plant cultivation is advancing—specifically the ability to control the wavelength and intensity of the illumination. Because LEDs are compact, lightweight, low-power, and produce minimal heat radiation, there is growing expectation that they will reduce the electricity costs that make up a large share of artificial-light plant factory operating costs. As a result, candidates with knowledge of and interest in electrical design and construction are increasingly sought.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Plant factories take many organizational forms: large corporations from other industries may operate them as new business ventures through subsidiaries; agricultural-sector venture companies; joint ventures established by university research laboratories and local companies; or local farmers&#x27; cooperatives.
+	Employers include plant factory design and construction divisions, as well as construction companies and design firms that have entered the plant factory design and construction market.
+	Working conditions follow the employing company&#x27;s internal regulations, and pay—including allowances—is also governed by each company&#x27;s regulations.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +423,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://jpfia.org/" rel="external" target="_blank">一般社団法人日本植物工場産業協会（JPFIA）</a></li><li><a href="https://jgha.com/" rel="external" target="_blank">一般社団法人日本施設園芸協会（JGHA）</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +432,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

@@ -32,6 +32,14 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 DATA_PATH = REPO / "dist" / "data.detail"  # v1.0.8: per-occupation files (was REPO/data.json)
+PROFILE5_PATH = REPO / "dist" / "data.profile5.json"
+TRANSFER_PATHS_PATH = REPO / "dist" / "data.transfer_paths.json"
+
+# Module-level caches populated by main() — used by render helpers (avoid threading
+# them through every helper signature). Reset each main() call.
+PROFILE5: dict = {}
+TRANSFER_PATHS: dict = {}
+NAME_LOOKUP: dict = {}  # id (int) -> (name_ja, name_en)
 OUT_DIR_JA = REPO / "ja"
 OUT_DIR_EN = REPO / "en"
 MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
@@ -39,6 +47,20 @@ SITEMAP_PATH = REPO / "sitemap.xml"
 DATE_PUBLISHED = "2026-04-25"
 DATE_MODIFIED = "2026-04-30"
 RELATED_COUNT = 5
+
+
+def _load_profile5() -> dict:
+    """Returns {id_str: {creative, social, judgment, physical, routine}} (values 0-100)."""
+    if not PROFILE5_PATH.exists():
+        return {}
+    return json.loads(PROFILE5_PATH.read_text(encoding="utf-8")).get("profiles", {})
+
+
+def _load_transfer_paths() -> dict:
+    """Returns {id_str: {source_id, candidates: [{id, title_ja, ai_risk, similarity, sector_id}, ...]}}."""
+    if not TRANSFER_PATHS_PATH.exists():
+        return {}
+    return json.loads(TRANSFER_PATHS_PATH.read_text(encoding="utf-8")).get("paths", {})
 
 
 def _load_legacy_shape_corpus() -> list[dict]:
@@ -70,6 +92,12 @@ def _load_legacy_shape_corpus() -> list[dict]:
             "name_en": d["title"].get("en"),
             "desc_ja": d["description"].get("summary_ja"),
             "desc_en": d["description"].get("summary_en"),
+            "what_it_is_ja":         d["description"].get("what_it_is_ja"),
+            "what_it_is_en":         d["description"].get("what_it_is_en"),
+            "how_to_become_ja":      d["description"].get("how_to_become_ja"),
+            "how_to_become_en":      d["description"].get("how_to_become_en"),
+            "working_conditions_ja": d["description"].get("working_conditions_ja"),
+            "working_conditions_en": d["description"].get("working_conditions_en"),
             "salary": stats.get("salary_man_yen"),
             "workers": stats.get("workers"),
             "hours": stats.get("monthly_hours"),
@@ -81,6 +109,24 @@ def _load_legacy_shape_corpus() -> list[dict]:
             "ai_rationale_ja": ai.get("rationale_ja"),
             "ai_rationale_en": ai.get("rationale_en"),
             "url": d.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{d['id']}",
+            # v1.2.0 schema-1.1 rich fields (Push 1: integrate into desktop detail).
+            "aliases_ja":     (d.get("title") or {}).get("aliases_ja", []),
+            "aliases_en":     (d.get("title") or {}).get("aliases_en", []),
+            "classifications": d.get("classifications", {}),
+            "sector":          d.get("sector"),                  # {id, ja, en, hue, provenance}
+            "risk_band":       d.get("risk_band"),               # "low" / "mid" / "high"
+            "workforce_band":  d.get("workforce_band"),
+            "demand_band":     d.get("demand_band"),
+            "ai_model":        ai.get("model"),
+            "ai_scored_at":    ai.get("scored_at"),
+            "skills_top10":    d.get("skills_top10", []),        # [{key, label_ja, label_en, score}]
+            "knowledge_top5":  d.get("knowledge_top5", []),
+            "abilities_top5":  d.get("abilities_top5", []),
+            "tasks_count":     d.get("tasks_count"),
+            "tasks_lead_ja":   d.get("tasks_lead_ja"),
+            "related_orgs":    d.get("related_orgs", []),        # [{name_ja, url}]
+            "related_certs_ja": d.get("related_certs_ja", []),
+            "data_source_versions": d.get("data_source_versions", {}),
         })
     return out
 
@@ -89,6 +135,25 @@ def fmt_int(n) -> str:
     if n is None:
         return "—"
     return f"{int(n):,}"
+
+
+def _format_paragraphs(text: str) -> str:
+    """Split long-form text into <p> blocks.
+
+    MHLW source uses a mix of '\\n\\n', '\\n　' (Japanese full-width-space indent),
+    or single '\\n' between logical paragraphs. We normalize all of them and emit
+    one escaped <p> per non-empty chunk so the page reads as multi-paragraph
+    rather than a single wall of text.
+    """
+    if not text:
+        return ""
+    # Normalize: collapse '\n　' (newline + indent marker) into '\n\n', then split.
+    normalized = text.replace("\n　", "\n\n").replace("\r\n", "\n")
+    chunks = [c.strip() for c in re.split(r"\n\s*\n+", normalized) if c.strip()]
+    if not chunks:
+        # Fall back: single line — still wrap in <p>
+        return f"<p>{escape(text.strip())}</p>"
+    return "\n        ".join(f"<p>{escape(c)}</p>" for c in chunks)
 
 
 def ja_url(id_: int) -> str:
@@ -138,6 +203,291 @@ def pick_related(rec: dict, all_records: list[dict], count: int = RELATED_COUNT)
         chosen_ids.add(r["id"])
 
     return chosen[:count]
+
+
+# ════════════════════ v1.2.0 schema-1.1 rich section renderers ════════════════════
+# All return "" if the underlying data is missing — sections degrade gracefully.
+
+def _band_label(field: str, band: str | None, lang: str) -> str | None:
+    """Map (band_field, value) → user-facing label.
+
+    Disambiguates because risk_band and workforce_band both use "mid" as a value.
+    field ∈ {"risk_band", "workforce_band", "demand_band"}.
+    """
+    if not band:
+        return None
+    labels = {
+        "risk_band": {
+            "ja": {"low": "AI 影響 低", "mid": "AI 影響 中", "high": "AI 影響 高"},
+            "en": {"low": "Low AI risk", "mid": "Mid AI risk", "high": "High AI risk"},
+        },
+        "workforce_band": {
+            "ja": {"small": "規模 小", "mid": "規模 中", "medium": "規模 中", "large": "規模 大"},
+            "en": {"small": "Small workforce", "mid": "Medium workforce", "medium": "Medium workforce", "large": "Large workforce"},
+        },
+        "demand_band": {
+            "ja": {"cool": "需要 安定", "warm": "需要 旺盛", "hot": "需要 過熱"},
+            "en": {"cool": "Steady demand", "warm": "Active demand", "hot": "Hot demand"},
+        },
+    }
+    return labels.get(field, {}).get(lang, {}).get(band)
+
+
+def _band_class(field: str, band: str | None) -> str:
+    """Band CSS class — maps each field's bands to one of band-{low,mid,high}.
+
+    risk_band → low/mid/high directly. workforce_band: small→low, mid/medium→mid, large→high.
+    demand_band: cool→low, warm→mid, hot→high (visual intensity escalation).
+    """
+    if not band:
+        return ""
+    if field == "risk_band":
+        return f"band-{band}"
+    if field == "workforce_band":
+        return {"small": "band-low", "mid": "band-mid", "medium": "band-mid", "large": "band-high"}.get(band, "")
+    if field == "demand_band":
+        return {"cool": "band-low", "warm": "band-mid", "hot": "band-high"}.get(band, "")
+    return ""
+
+
+def _render_meta_row(rec: dict, lang: str) -> str:
+    """Sector chip + risk/workforce/demand band badges, shown right under H1."""
+    parts = []
+    sector = rec.get("sector") or {}
+    sector_name = (sector.get("en") if lang == "en" else sector.get("ja")) or ""
+    if sector_name:
+        # link to /<lang>/?sector=<id> for future filtering, harmless 200 today.
+        sector_href = f"/?sector={sector.get('id')}" if lang == "ja" else f"/?lang=en&sector={sector.get('id')}"
+        parts.append(
+            f'<a class="sector-chip" href="{escape(sector_href)}">{escape(sector_name)}</a>'
+        )
+    for b_field in ("risk_band", "workforce_band", "demand_band"):
+        b = rec.get(b_field)
+        label = _band_label(b_field, b, lang)
+        if label:
+            parts.append(f'<span class="band {_band_class(b_field, b)}">{escape(label)}</span>')
+    if not parts:
+        return ""
+    return f'<div class="meta-row">{"".join(parts)}</div>'
+
+
+def _render_profile_radar(rec: dict, lang: str) -> str:
+    """5-axis profile radar SVG (data from data.profile5.json indexed by id_str).
+
+    Algorithm copied from scripts/templates/mobile/detail.py to ensure visual parity.
+    Returns "" if profile data is unavailable for this occupation.
+    """
+    import math
+    profile = PROFILE5.get(str(rec["id"]))
+    if not profile:
+        return ""
+    axes = ["creative", "social", "judgment", "physical", "routine"]
+    values = [profile.get(a) or 0 for a in axes]
+    if not any(values):
+        return ""
+    labels_map = {
+        "ja": ["創造性", "対人", "判断", "身体", "定型"],
+        "en": ["Creative", "Social", "Judgment", "Physical", "Routine"],
+    }
+    labels = labels_map.get(lang, labels_map["ja"])
+
+    cx, cy, r = 170, 170, 130
+    pts = []
+    for i, v in enumerate(values):
+        ang = math.radians(-90 + i * 72)
+        scale = (v or 0) / 100
+        x = cx + math.cos(ang) * r * scale
+        y = cy + math.sin(ang) * r * scale
+        pts.append(f"{x:.1f},{y:.1f}")
+
+    grid_layers = ""
+    for level in (0.25, 0.5, 0.75, 1.0):
+        layer_pts = []
+        for i in range(5):
+            ang = math.radians(-90 + i * 72)
+            x = cx + math.cos(ang) * r * level
+            y = cy + math.sin(ang) * r * level
+            layer_pts.append(f"{x:.1f},{y:.1f}")
+        grid_layers += (
+            f'<polygon points="{" ".join(layer_pts)}" fill="none" '
+            f'stroke="rgba(36,30,24,0.10)" stroke-width="1"/>'
+        )
+
+    label_html = ""
+    for i, lab in enumerate(labels):
+        ang = math.radians(-90 + i * 72)
+        lx = cx + math.cos(ang) * (r + 22)
+        ly = cy + math.sin(ang) * (r + 22)
+        label_html += (
+            f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" '
+            f'dominant-baseline="middle" font-size="13" '
+            f'font-family="Plus Jakarta Sans, sans-serif" font-weight="600" '
+            f'fill="#7A6F5E" letter-spacing="0.04em">{escape(lab)}</text>'
+        )
+
+    legend_html = "".join(
+        f'<dt>{escape(labels[i])}</dt><dd>{int(values[i])}</dd>'
+        for i in range(5)
+    )
+
+    h2 = "5 次元プロファイル" if lang == "ja" else "5-Dimension Profile"
+    return (
+        f'<section class="profile" aria-label="{escape(h2)}">'
+        f'<h2>{escape(h2)}</h2>'
+        f'<div class="radar-wrap">'
+        f'<svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="{escape(h2)}">'
+        f'{grid_layers}'
+        f'<polygon points="{" ".join(pts)}" '
+        f'fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/>'
+        f'{label_html}'
+        f'</svg>'
+        f'<dl class="radar-legend">{legend_html}</dl>'
+        f'</div>'
+        f'</section>'
+    )
+
+
+def _render_topn(rec: dict, lang: str) -> str:
+    """Top-N skills (10) / knowledge (5) / abilities (5) panels."""
+    skills = rec.get("skills_top10") or []
+    knowledge = rec.get("knowledge_top5") or []
+    abilities = rec.get("abilities_top5") or []
+    if not (skills or knowledge or abilities):
+        return ""
+    label_key = "label_en" if lang == "en" else "label_ja"
+
+    def _block(title: str, items: list[dict]) -> str:
+        if not items:
+            return ""
+        lis = "".join(
+            f'<li><span class="topn-name">{escape(it.get(label_key) or it.get("label_ja") or "")}</span>'
+            f'<span class="topn-score">{it.get("score", 0):.1f}</span></li>'
+            for it in items
+        )
+        return f'<div class="topn-block"><h3>{escape(title)}</h3><ol>{lis}</ol></div>'
+
+    if lang == "ja":
+        h2 = "必要なスキル・知識・能力"
+        t_skills, t_knowledge, t_abilities = "スキル Top 10", "知識 Top 5", "能力 Top 5"
+    else:
+        h2 = "Required Skills, Knowledge & Abilities"
+        t_skills, t_knowledge, t_abilities = "Top 10 Skills", "Top 5 Knowledge", "Top 5 Abilities"
+
+    body = (
+        _block(t_skills, skills)
+        + _block(t_knowledge, knowledge)
+        + _block(t_abilities, abilities)
+    )
+    return (
+        f'<section class="topn" aria-label="{escape(h2)}">'
+        f'<h2>{escape(h2)}</h2>'
+        f'<div class="topn-grid">{body}</div>'
+        f'</section>'
+    )
+
+
+def _render_transfer(rec: dict, lang: str) -> str:
+    """Career-change candidates from data.transfer_paths (top 3).
+
+    Replaces the legacy "same risk-band 5" related-occupations list when
+    transfer paths data exists; the legacy `related` section is rendered
+    only as fallback.
+    """
+    path = TRANSFER_PATHS.get(str(rec["id"]))
+    if not path:
+        return ""
+    candidates = (path.get("candidates") or [])[:3]
+    if not candidates:
+        return ""
+
+    cards = ""
+    for c in candidates:
+        cid = c["id"]
+        # Look up name in this language; fall back to JA.
+        name_ja, name_en = NAME_LOOKUP.get(cid, (None, None))
+        name = (name_en if lang == "en" else name_ja) or name_ja or c.get("title_ja") or "?"
+        href = (f"/en/{cid}" if lang == "en" else f"/ja/{cid}")
+        risk = c.get("ai_risk")
+        sim = c.get("similarity")
+        risk_str = f"{risk}/10" if risk is not None else "—"
+        if lang == "ja":
+            risk_label = f"AI 影響 {risk_str}"
+            sim_label = f"類似度 {sim:.0%}" if sim is not None else ""
+        else:
+            risk_label = f"AI {risk_str}"
+            sim_label = f"similarity {sim:.0%}" if sim is not None else ""
+        sim_html = f'<span class="tc-similarity">{escape(sim_label)}</span>' if sim_label else ""
+        cards += (
+            f'<a class="transfer-card" href="{href}">'
+            f'<span class="tc-name">{escape(name)}</span>'
+            f'<span class="tc-meta"><span class="tc-risk">{escape(risk_label)}</span>{sim_html}</span>'
+            f'</a>'
+        )
+
+    h2 = "似た仕事 / キャリア転換の候補" if lang == "ja" else "Similar work / Career transitions"
+    return (
+        f'<section class="transfer" aria-label="{escape(h2)}">'
+        f'<h2>{escape(h2)}</h2>'
+        f'<div class="transfer-grid">{cards}</div>'
+        f'</section>'
+    )
+
+
+def _render_orgs_certs(rec: dict, lang: str) -> str:
+    """Industry organizations + certifications side-by-side."""
+    orgs = rec.get("related_orgs") or []
+    certs = rec.get("related_certs_ja") or []
+    if not (orgs or certs):
+        return ""
+
+    if lang == "ja":
+        h_orgs, h_certs = "関連業界団体", "関連資格"
+    else:
+        h_orgs, h_certs = "Industry Organizations", "Related Certifications"
+
+    org_block = ""
+    if orgs:
+        items = "".join(
+            f'<li><a href="{escape(o.get("url") or "#")}" rel="external" target="_blank">'
+            f'{escape(o.get("name_ja") or "")}</a></li>'
+            for o in orgs if o.get("name_ja")
+        )
+        org_block = f'<div class="org-cert-block"><h3>{escape(h_orgs)}</h3><ul class="org-list">{items}</ul></div>'
+
+    cert_block = ""
+    if certs:
+        items = "".join(f'<li>{escape(c)}</li>' for c in certs)
+        cert_block = f'<div class="org-cert-block"><h3>{escape(h_certs)}</h3><ul class="cert-list">{items}</ul></div>'
+
+    return (
+        f'<section class="orgs-certs">'
+        f'<div class="org-cert-grid">{org_block}{cert_block}</div>'
+        f'</section>'
+    )
+
+
+def _render_provenance(rec: dict, lang: str) -> str:
+    """Compact provenance footnote: AI model, scored_at, IPD versions."""
+    model = rec.get("ai_model")
+    scored_at = rec.get("ai_scored_at")
+    dsv = rec.get("data_source_versions") or {}
+    ipd_num = dsv.get("ipd_numeric")
+    ipd_desc = dsv.get("ipd_description")
+    bits = []
+    if model and scored_at:
+        if lang == "ja":
+            bits.append(f"AI 影響度 — モデル <code>{escape(model)}</code> · スコア取得 <code>{escape(scored_at[:10])}</code>")
+        else:
+            bits.append(f"AI impact — model <code>{escape(model)}</code> · scored on <code>{escape(scored_at[:10])}</code>")
+    if ipd_num or ipd_desc:
+        v = ipd_num or ipd_desc
+        if lang == "ja":
+            bits.append(f"データ — 厚労省 / JILPT IPD <code>{escape(v)}</code>")
+        else:
+            bits.append(f"Data — MHLW / JILPT IPD <code>{escape(v)}</code>")
+    if not bits:
+        return ""
+    return f'<p class="provenance">{" · ".join(bits)}</p>'
 
 
 def render_jsonld(rec: dict, lang: str) -> str:
@@ -220,8 +570,36 @@ def render_jsonld(rec: dict, lang: str) -> str:
         "additionalProperty": additional,
         "isPartOf": {"@id": "https://mirai-shigoto.com/#dataset"},
     }
-    if name_en:
-        occupation_node["alternateName"] = name_en
+    # v1.2.0 schema-1.1 enrichment: alternateName aggregates JA/EN names + aliases.
+    alt_names = []
+    if name_en and name_en != name_ja:
+        alt_names.append(name_en)
+    alt_names.extend(rec.get("aliases_ja") or [])
+    alt_names.extend(rec.get("aliases_en") or [])
+    if alt_names:
+        # Schema.org alternateName accepts string or array; use array for multi.
+        occupation_node["alternateName"] = alt_names if len(alt_names) > 1 else alt_names[0]
+    # Industry / sector → Schema.org "industry"
+    sector = rec.get("sector") or {}
+    if sector.get("ja") or sector.get("en"):
+        occupation_node["industry"] = sector.get("en") or sector.get("ja")
+    # MHLW classifications → occupationalCategory (replace bare id with codes if present)
+    cls = rec.get("classifications") or {}
+    if cls.get("mhlw_main") or cls.get("jsoc_main"):
+        occupation_node["occupationalCategory"] = (
+            cls.get("mhlw_main") or cls.get("jsoc_main") or str(id_)
+        )
+    # Top skills → Schema.org "skills" (string list)
+    skills_top10 = rec.get("skills_top10") or []
+    if skills_top10:
+        occupation_node["skills"] = [
+            s.get("label_en") or s.get("label_ja") for s in skills_top10
+            if (s.get("label_en") or s.get("label_ja"))
+        ]
+    # Required certifications (Japanese names; informational)
+    certs = rec.get("related_certs_ja") or []
+    if certs:
+        occupation_node["qualifications"] = certs
     if salary_man:
         occupation_node["estimatedSalary"] = {
             "@type": "MonetaryAmountDistribution",
@@ -294,7 +672,7 @@ CSS_BLOCK = """
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -350,6 +728,76 @@ CSS_BLOCK = """
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 """
 
 
@@ -390,6 +838,12 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     rationale_en = rec.get("ai_rationale_en") or ""
     desc_ja = (rec.get("desc_ja") or "")[:240]
     desc_en = (rec.get("desc_en") or "")[:200]
+    long_what_ja = rec.get("what_it_is_ja") or ""
+    long_what_en = rec.get("what_it_is_en") or ""
+    long_how_ja = rec.get("how_to_become_ja") or ""
+    long_how_en = rec.get("how_to_become_en") or ""
+    long_cond_ja = rec.get("working_conditions_ja") or ""
+    long_cond_en = rec.get("working_conditions_en") or ""
 
     # Audit CODE-004: keep None as None instead of `or 0` so SEO meta
     # descriptions never claim "平均年収 0万円 / 平均年齢 0" for occupations
@@ -448,7 +902,12 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         st_recruit = "求人倍率"
         st_hourly = "時給"
         ctx_h2 = "この職業について"
-        ctx_p = desc_ja or rationale_ja
+        # Prefer long-form what_it_is when available; fall back to summary, then rationale.
+        ctx_p = long_what_ja or desc_ja or rationale_ja
+        how_h2 = "なるには（経路・資格）"
+        how_p = long_how_ja
+        cond_h2 = "労働条件・働き方"
+        cond_p = long_cond_ja
         src_h2 = "出典 / 関連リンク"
         src_mhlw_label = f"厚生労働省 job tag — {name_ja}（公式）"
         src_method_label = "方法論 / スコアリングルーブリック"
@@ -490,7 +949,12 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         st_recruit = "Recruit ratio"
         st_hourly = "Hourly wage"
         ctx_h2 = "About this occupation"
-        ctx_p = desc_en or rationale_en
+        # Prefer long-form what_it_is when available; fall back to summary, then rationale.
+        ctx_p = long_what_en or desc_en or rationale_en
+        how_h2 = "How to enter the field"
+        how_p = long_how_en
+        cond_h2 = "Working conditions"
+        cond_p = long_cond_en
         src_h2 = "Sources / Related"
         src_mhlw_label = f"MHLW jobtag — {(name_en or name_ja)} (official source)"
         src_method_label = "Methodology / scoring rubric"
@@ -607,6 +1071,48 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     occ_id_js = id_
     lang_js = lang
 
+    # v1.1.0 long-form sections — pre-render so the f-string template stays clean.
+    # ctx_html always renders (with fallback chain). how/cond sections only render
+    # when the source has the field (occupations missing IPD long-form stay short).
+    ctx_html = _format_paragraphs(ctx_p) if ctx_p else f"<p>{escape('')}</p>"
+    how_section = (
+        f'<section class="how-to-become" aria-label="{escape(how_h2)}">\n'
+        f'        <h2>{escape(how_h2)}</h2>\n'
+        f'        {_format_paragraphs(how_p)}\n'
+        f'      </section>'
+    ) if how_p else ""
+    cond_section = (
+        f'<section class="working-conditions" aria-label="{escape(cond_h2)}">\n'
+        f'        <h2>{escape(cond_h2)}</h2>\n'
+        f'        {_format_paragraphs(cond_p)}\n'
+        f'      </section>'
+    ) if cond_p else ""
+
+    # v1.2.0 schema-1.1 rich sections (graceful empty fallback).
+    # SEO keywords from current-language name + aliases (still used by Bing/Yandex).
+    aliases = rec.get("aliases_en") if lang == "en" else rec.get("aliases_ja")
+    kw_terms = [name_en or name_ja] if lang == "en" else [name_ja]
+    if aliases:
+        kw_terms.extend(aliases[:8])
+    keywords_meta = (
+        f'<meta name="keywords" content="{escape(", ".join(t for t in kw_terms if t))}" />'
+        if kw_terms else ""
+    )
+    meta_row_html   = _render_meta_row(rec, lang)
+    profile_html    = _render_profile_radar(rec, lang)
+    topn_html       = _render_topn(rec, lang)
+    transfer_html   = _render_transfer(rec, lang)
+    orgs_certs_html = _render_orgs_certs(rec, lang)
+    provenance_html = _render_provenance(rec, lang)
+    # When transfer_paths supplied a section, suppress the legacy "same risk-band 5"
+    # related list to avoid two near-duplicate sections. Legacy stays as fallback.
+    legacy_related_html = "" if transfer_html else (
+        f'<section class="related" aria-label="{escape(rel_h2)}">\n'
+        f'        <h2>{escape(rel_h2)}</h2>\n'
+        f'        <ul>\n          {related_html}\n        </ul>\n'
+        f'      </section>'
+    )
+
     html = f"""<!doctype html>
 <html lang="{lang}">
   <head>
@@ -617,6 +1123,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     <title>{escape(title)}</title>
     <meta name="description" content="{escape(seo_desc)}" />
     <meta name="robots" content="index, follow" />
+    {keywords_meta}
 
     <link rel="canonical" href="{canonical}" />
     <link rel="alternate" hreflang="ja" href="{ja_url(id_)}" />
@@ -686,6 +1193,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        {meta_row_html}
       </header>
 
       <div class="risk-card {risk_class}">
@@ -707,15 +1215,22 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
 
       <section class="context">
         <h2>{ctx_h2}</h2>
-        <p>{escape(ctx_p)}</p>
+        {ctx_html}
       </section>
 
-      <section class="related" aria-label="{escape(rel_h2)}">
-        <h2>{rel_h2}</h2>
-        <ul>
-          {related_html}
-        </ul>
-      </section>
+      {how_section}
+
+      {cond_section}
+
+      {profile_html}
+
+      {topn_html}
+
+      {transfer_html}
+
+      {legacy_related_html}
+
+      {orgs_certs_html}
 
       <section class="sources">
         <h2>{src_h2}</h2>
@@ -724,6 +1239,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
           <li><a href="/llms-full.txt" rel="noopener">{src_method_label}</a></li>
           <li><a href="{home_href}" rel="up">{src_back_label}</a></li>
         </ul>
+        {provenance_html}
       </section>
 
       <p class="disclaimer">
@@ -943,6 +1459,11 @@ def main() -> int:
     OUT_DIR_EN.mkdir(parents=True, exist_ok=True)
 
     all_data = _load_legacy_shape_corpus()
+    # v1.2.0: load extra projections used by new sections.
+    global PROFILE5, TRANSFER_PATHS, NAME_LOOKUP
+    PROFILE5 = _load_profile5()
+    TRANSFER_PATHS = _load_transfer_paths()
+    NAME_LOOKUP = {r["id"]: (r.get("name_ja"), r.get("name_en")) for r in all_data}
     is_full_run = args.ids is None and args.limit is None
 
     if args.ids:

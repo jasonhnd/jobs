@@ -8,6 +8,7 @@
     <title>Electrical Engineer — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Electrical Engineer: workforce ~61,038 / annual salary 755万円 / avg age 43.8 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Electrical Engineer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/272" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/272" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "272",
+      "occupationalCategory": "02_006-02",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/272",
       "additionalProperty": [
         {
@@ -122,7 +123,36 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Electrical Engineer",
+      "alternateName": [
+        "Electrical Engineer",
+        "電気設備設計技術者",
+        "電気機器生産技術者",
+        "電気機械製造技術者"
+      ],
+      "industry": "Specialist & Technical",
+      "skills": [
+        "Reading Comprehension",
+        "Active Listening",
+        "Writing",
+        "Instructing",
+        "Operations Analysis",
+        "Speaking",
+        "Installation",
+        "Mathematics",
+        "Coordination",
+        "Troubleshooting"
+      ],
+      "qualifications": [
+        "ボイラー・タービン主任技術者",
+        "第一種電気主任技術者",
+        "第二種電気主任技術者",
+        "第三種電気主任技術者",
+        "１級電気工事施工管理技士",
+        "２級電気工事施工管理技士",
+        "１級電気工事施工管理技士補",
+        "２級電気工事施工管理技士補",
+        "エネルギー管理士"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +236,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +292,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +387,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=senmon">Specialist &amp; Technical</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span><span class="band band-high">Hot demand</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +409,41 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Designs electrical power and control systems; AI tools rising.</p>
+        <p>Develops and improves electrical equipment and facilities, and carries out maintenance, management, and upgrade works to ensure their safe operation.
+	Electricity is divided into power (strong current) and signals (weak current). Power electricity, used as a driving force for equipment and machinery, encompasses representative equipment such as power generation systems, power receiving and transformation systems, and lighting systems. Weak-current electricity transmits electrical signals or uses those signals to control devices; typical examples include communications equipment such as telephones and devices such as televisions.
+	At a power plant — one of the typical workplaces for electrical engineers — engineers are involved in designing generators and power facilities, managing operations, and conducting analysis and testing of generator materials such as newly developed substances. At factories, they oversee the assembly of generators. At power facility construction sites, they check the status of processes and construction, provide technical guidance to workers, and when facilities are commissioned and brought online they make technical adjustments and provide guidance to workers to ensure safe and efficient power supply based on specialized knowledge. They may also provide technical advice on facility improvements.
+	Looking at the specific work of an electrical engineer at a railway company as an example: key tasks include formulating plans for the construction and renovation of various railway electrical facilities — including power receiving and transformation systems, overhead contact wire systems, and lighting — as well as maintenance plans, repairing facilities, responding to equipment failures, and renovating aging electrical equipment. In the power substation section or department, power received at extra-high voltage from the power company is stepped down at on-site substations to voltages suitable for train operations and station lighting, then supplied to each station. Maintenance, inspection, and repair of all electrical equipment inside the substations is also part of the job.
+	In the electrical maintenance section or power department, work includes inspection and maintenance of the overhead contact wire that supplies electricity to trains, as well as station electrical equipment, installation work, and upgrade work. Inspections begin with visual checks for anomalies; this may involve walking through tunnels or riding in train cabs for observation, followed by measurement with measuring instruments. The contact wire in particular is subject to constant wear from pantograph contact, and it must be inspected by actually climbing a ladder at the site. Worn trolley wire must be replaced during train-free overnight outages.
+	In the signal communications section or department, engineers manage and maintain a diverse range of equipment — from equipment directly related to train operations (such as switches that set train routes and ATC systems that control train speed) to station passenger information displays, intercoms used by station staff, and public address systems — and also supervise construction when new equipment is installed. The scope of responsibility is broad and demands a wide range of knowledge and skills.</p>
+        <p>◇ Commonly used tools, equipment, and technologies
+	Ladders, measuring instruments, spreadsheet software (Excel, Google Sheets, etc.), personal computers</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/271">Precision Instrument Engineer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/273">Electronics Engineer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/270">Automotive Engineer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/274">Telecom Engineer</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/269">Logistics Equipment Maintenance</a><span class="r-risk">AI 4/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No particular educational background or qualifications are formally required, though the most common path is to specialize in electrical or electronic engineering at an industrial high school, science and engineering technical college, or university/graduate school before entering the field.
+	Common employers include electric power companies, railway companies, and electrical equipment manufacturers producing heavy-duty electrical equipment such as transformers, switchgear, and control systems, and electrical substation equipment. After joining, employees receive new employee orientation and department-specific specialist training before going out to the field to build practical knowledge and skills through hands-on experience. Even after starting work, employees may periodically attend training to keep up with the latest knowledge and improve their specialization.
+	For qualifications related to construction and installation work, there is the Construction Electrical Work Management Engineer (電気工事施工管理技士). For supervisory and safety management roles concerning the construction, maintenance, and operation of electrical facilities, there is the Electrical Safety Engineer (電気主任技術者). Both are national qualifications, with eligibility based on practical experience. Additional qualifications such as First-Class Boiler and Turbine Chief Inspector (第１種ボイラー・タービン主任技術者) and Energy Manager (エネルギー管理士) may also be required depending on the work content.
+	An interest in and knowledge of electricity and power is necessary. Small anomalies can lead to accidents, so meticulous attention to detail and a strong safety consciousness are required. Environmental awareness is also important.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Employers include electric power companies, railway companies, and electrical equipment manufacturers, and workplaces are spread across the country.
+	The vast majority of workers are full-time employees.
+	Wages, working hours, and other employment conditions vary by workplace and are governed by the employer&#x27;s policies.
+	At a railway company, for example, trains run from the first to the last service, and there are also inspections and repairs that can only be done when trains are not running, so a shift system is generally in place.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,93.3 259.8,140.8 222.1,241.7 135.0,218.2 110.8,150.8" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>59</dd><dt>Social</dt><dd>72</dd><dt>Judgment</dt><dd>68</dd><dt>Physical</dt><dd>45</dd><dt>Routine</dt><dd>47</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.5</span></li><li><span class="topn-name">Active Listening</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Instructing</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Operations Analysis</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.0</span></li><li><span class="topn-name">Installation</span><span class="topn-score">4.0</span></li><li><span class="topn-name">Mathematics</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">3.9</span></li><li><span class="topn-name">Troubleshooting</span><span class="topn-score">3.9</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Engineering</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Design</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Mechanical</span><span class="topn-score">2.4</span></li><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">2.3</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">2.1</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.2</span></li><li><span class="topn-name">Written Expression</span><span class="topn-score">2.9</span></li><li><span class="topn-name">Written Comprehension</span><span class="topn-score">2.8</span></li><li><span class="topn-name">Selective Attention</span><span class="topn-score">2.7</span></li><li><span class="topn-name">Mathematical Reasoning</span><span class="topn-score">2.7</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/258"><span class="tc-name">Nonferrous Metal Engineer</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/21"><span class="tc-name">Building Construction Manager</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 100%</span></span></a><a class="transfer-card" href="/en/304"><span class="tc-name">Ceramics Engineer</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.jeea.or.jp/" rel="external" target="_blank">公益社団法人 日本電気技術者協会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>ボイラー・タービン主任技術者</li><li>第一種電気主任技術者</li><li>第二種電気主任技術者</li><li>第三種電気主任技術者</li><li>１級電気工事施工管理技士</li><li>２級電気工事施工管理技士</li><li>１級電気工事施工管理技士補</li><li>２級電気工事施工管理技士補</li><li>エネルギー管理士</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +452,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

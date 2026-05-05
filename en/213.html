@@ -8,6 +8,7 @@
     <title>Audio/Recording Engineer — AI Impact 7/10｜mirai-shigoto.com</title>
     <meta name="description" content="Audio/Recording Engineer: workforce ~61,760 / annual salary 453万円 / avg age 41.9 / AI impact 7/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Audio/Recording Engineer" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/213" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/213" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "213",
+      "occupationalCategory": "12_081-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/213",
       "additionalProperty": [
         {
@@ -122,7 +123,27 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Audio/Recording Engineer",
+      "alternateName": [
+        "Audio/Recording Engineer",
+        "PAミキサー",
+        "ミキサー（録音スタジオ）"
+      ],
+      "industry": "Creative & Media",
+      "skills": [
+        "Active Listening",
+        "Speaking",
+        "Installation",
+        "Reading Comprehension",
+        "Quality Control Analysis",
+        "Equipment Selection",
+        "Operation and Control",
+        "Troubleshooting",
+        "Writing",
+        "Coordination"
+      ],
+      "qualifications": [
+        "サウンドレコーディング技術認定試験"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +227,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +283,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +378,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=creative">Creative &amp; Media</a><span class="band band-high">High AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-7">
@@ -308,19 +400,40 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Records and mixes audio for music, broadcast, and film; AI processing rising.</p>
+        <p>Recording engineers capture and process audio to produce music and other content.
+	Using electronic and electrical equipment, they record and adjust the sound of performers to create a musical work that fulfills the vision of the producer and director. They choose the appropriate microphones, set them up, capture the source sound, and then use a mixing console to balance levels, tone, reverb, and the mix between instruments. They are also known as mixers.
+	In a recording studio, the primary method is multitrack recording. The instrumentalists&#x27; tracks are recorded first, the vocalist&#x27;s take follows, and together these form the multitrack master. In the mixdown phase, the master is mixed on the console to achieve the right balance. Computers are used to translate the producer&#x27;s and director&#x27;s creative vision into sound as efficiently as possible.
+	At concert halls, engineers capture performances live, taking into account balance and the room&#x27;s acoustics, and later assemble the best passages into a finished edit. For a CD release, the individual two-channel masters are collected and passed through mastering to complete the album. The recording engineer participates in mastering sessions, discussing how the sound will translate to CD with the mastering engineer to achieve the best possible result.
+	Some recording engineers specialize in audio for broadcast programs, films, DVDs, and Blu-ray and other video formats. They capture actors&#x27; dialogue, ambient sound from on-location shoots, and then edit the recorded audio in studio or editing suites to sync it with the picture.
+	The above describes conventional stereo (two-channel) recording and editing. In recent years, 5.1-channel surround sound—five speakers positioned front center, front left and right, and rear left and right, plus one subwoofer—has spread from cinemas into home theater systems. 5.1ch delivers a more three-dimensional, immersive experience than stereo. High-resolution (hi-res) audio, offering greater information density than CD, has also attracted attention. Distribution formats have shifted from CD to downloads and further to streaming. While technology continues to advance in many directions, the fundamentals described here form the foundation of recording engineering, onto which these new developments are layered.</p>
+        <p>Tools and equipment commonly used:
+	Microphones, mixing consoles, recorders, audio editing software, personal computers</p>
       </section>
 
-      <section class="related" aria-label="Related occupations">
-        <h2>Related occupations</h2>
-        <ul>
-          <li><a class="r-name" href="/en/211">Magazine Editor</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/210">Book Editor</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/209">Magazine Reporter</a><span class="r-risk">AI 7/10</span></li>
-          <li><a class="r-name" href="/en/212">Broadcast Engineer</a><span class="r-risk">AI 6/10</span></li>
-          <li><a class="r-name" href="/en/214">Video Editor</a><span class="r-risk">AI 8/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>No specific educational background or qualifications are required. Most engineers enter the field by graduating from a specialist school in sound recording, broadcasting arts, or recording technology and then being hired as an assistant at a recording studio or joining a staffing agency that places engineers at record labels and rental studios. Some study electronic engineering, acoustics, arts, or music at university and are then hired directly by a record label.
+	The Japan Music Studio Association (JMSA) offers a recognized certification—the Sound Recording Technology Certification Examination—as proof of technical ability. Recording engineers work in two main roles: the recording engineer, who primarily uses the mixing console to shape the final sound, and the assistant engineer, who handles tasks such as microphone setup and recorder operation. Newcomers start as assistant engineers, developing their ear and distinctive sound while waiting for opportunities to be recognized as recording engineers.
+	Beyond a love of music, engineers need the ability to repair equipment and manual dexterity. Being able to read music notation is desirable. Engineers working on video productions must also have strong visual sensibility.
+	In both roles, collaboration with singers, instrumentalists, actors, directors, and composers is fundamental, making interpersonal skills critical. Because schedules are dictated by the availability of artists and performers, irregular hours are common; physical endurance and self-management are necessary.</p>
       </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Most music recording engineers are based at studios concentrated in Tokyo, Osaka, Kanagawa, and similar areas. Others are employed directly by record labels or work independently as freelancers. Many work on fixed-term contracts with record labels. The field is male-dominated, though the number of women is growing.
+	Recording studios operate seven days a week including holidays, and sessions often run late into the night, making hours irregular and frequently long.
+	Recording engineers working on video content are typically employed by broadcasters or video production companies, or work independently as freelancers on a per-project contract basis. Working hours are dictated by shooting schedules and therefore tend to be irregular.</p>
+      </section>
+
+      <section class="profile" aria-label="5-Dimension Profile"><h2>5-Dimension Profile</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5-Dimension Profile"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.0 257.2,141.7 223.8,244.0 128.4,227.2 105.8,149.2" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Creative</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Social</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Judgment</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Physical</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">Routine</text></svg><dl class="radar-legend"><dt>Creative</dt><dd>75</dd><dt>Social</dt><dd>70</dd><dt>Judgment</dt><dd>70</dd><dt>Physical</dt><dd>54</dd><dt>Routine</dt><dd>51</dd></dl></div></section>
+
+      <section class="topn" aria-label="Required Skills, Knowledge &amp; Abilities"><h2>Required Skills, Knowledge &amp; Abilities</h2><div class="topn-grid"><div class="topn-block"><h3>Top 10 Skills</h3><ol><li><span class="topn-name">Active Listening</span><span class="topn-score">5.4</span></li><li><span class="topn-name">Speaking</span><span class="topn-score">4.9</span></li><li><span class="topn-name">Installation</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Reading Comprehension</span><span class="topn-score">4.7</span></li><li><span class="topn-name">Quality Control Analysis</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Equipment Selection</span><span class="topn-score">4.6</span></li><li><span class="topn-name">Operation and Control</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Troubleshooting</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Writing</span><span class="topn-score">4.2</span></li><li><span class="topn-name">Coordination</span><span class="topn-score">4.2</span></li></ol></div><div class="topn-block"><h3>Top 5 Knowledge</h3><ol><li><span class="topn-name">Fine Arts</span><span class="topn-score">3.5</span></li><li><span class="topn-name">Communications &amp; Media</span><span class="topn-score">2.6</span></li><li><span class="topn-name">Computers &amp; Electronics</span><span class="topn-score">2.2</span></li><li><span class="topn-name">Telecommunications Technology</span><span class="topn-score">1.9</span></li><li><span class="topn-name">Japanese Language (Vocabulary &amp; Grammar)</span><span class="topn-score">1.6</span></li></ol></div><div class="topn-block"><h3>Top 5 Abilities</h3><ol><li><span class="topn-name">Hearing Sensitivity</span><span class="topn-score">4.3</span></li><li><span class="topn-name">Auditory Attention</span><span class="topn-score">4.1</span></li><li><span class="topn-name">Problem Sensitivity</span><span class="topn-score">3.8</span></li><li><span class="topn-name">Originality</span><span class="topn-score">3.6</span></li><li><span class="topn-name">Selective Attention</span><span class="topn-score">3.5</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="Similar work / Career transitions"><h2>Similar work / Career transitions</h2><div class="transfer-grid"><a class="transfer-card" href="/en/353"><span class="tc-name">Stage Lighting Designer</span><span class="tc-meta"><span class="tc-risk">AI 4/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/355"><span class="tc-name">Commercial Photographer</span><span class="tc-meta"><span class="tc-risk">AI 6/10</span><span class="tc-similarity">similarity 99%</span></span></a><a class="transfer-card" href="/en/356"><span class="tc-name">TV Cameraman</span><span class="tc-meta"><span class="tc-risk">AI 5/10</span><span class="tc-similarity">similarity 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.riaj.or.jp" rel="external" target="_blank">一般社団法人   日本レコード協会</a></li><li><a href="https://www.japrs.or.jp" rel="external" target="_blank">一般社団法人 日本音楽スタジオ協会</a></li><li><a href="https://aes-japan.org/wordpress/" rel="external" target="_blank">AES（Audio Engineering Society)日本支部</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>サウンドレコーディング技術認定試験</li></ul></div></div></section>
 
       <section class="sources">
         <h2>Sources / Related</h2>
@@ -329,6 +442,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

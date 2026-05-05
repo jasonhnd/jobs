@@ -8,6 +8,7 @@
     <title>玩具（おもちゃ）製作 — AI 影響 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="玩具（おもちゃ）製作：就業者 約71,828人 / 平均年収 412万円 / 平均年齢 42.9 / AI 影響 3/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="玩具（おもちゃ）製作, がん具製造設備オペレーター, がん具組立工, 人形製造工, がん具製造工" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/515" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/515" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "515",
+      "occupationalCategory": "12_069-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/515",
       "additionalProperty": [
         {
@@ -122,7 +123,14 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Toy Maker",
+      "alternateName": [
+        "Toy Maker",
+        "がん具製造設備オペレーター",
+        "がん具組立工",
+        "人形製造工",
+        "がん具製造工"
+      ],
+      "industry": "Manufacturing & Craft",
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +214,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +270,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +365,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=seizo">製造・職人</a><span class="band band-low">AI 影響 低</span><span class="band band-mid">規模 中</span><span class="band band-high">需要 過熱</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +387,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>おもちゃの新商品や改良商品の発案、企画、設計、開発等を行う。または工場内で、一定の手順に従いおもちゃの製造、組立を行う。</p>
+        <p>おもちゃは乳児、幼児向けのものから大人向けのものまで幅広く、また男児向け、女児向けなど遊ぶ対象によっても様々な種類がある。それらのおもちゃの企画・開発、製造を行う。</p>
+        <p>新しいおもちゃを商品化するためには、まず企画・開発担当がアイディアを考える。企画を専門に行う会社もある。企画を元に、社内の関係者（営業、設計、製造等）で検討を重ね商品のイメージを固めていく。対象層の好みやトレンドを取り入れ、素材、色やデザインも決定していく。新商品のデザイン画を書いたり見本を作る場合もある。次に具体化した商品の設計、図面制作を行う。設計には3DCAD等を使用する場合が多い。</p>
+        <p>商品の生産に入ると、量産に向けて商品の見本等と設計図に基づいて金型や電子部品等、生産に必要な型・部材の作製・発注をし、出来上がってきた部品等で試作品を作成する。試作品の品質が十分であるかのテストをした後に生産はスタートさせる。生産計画を立てたり、生産が納期までに間に合うように生産の工程管理も企画・開発担当が行う場合もある。</p>
+        <p>プラスチック製おもちゃの場合は、おもちゃの部品を製造するため、プラスチック成形機を操作し、成形機で製造した部品等のチェックやバリ取りを行う。部品を組み立てたり、彩色やめっきも必要に応じ実施する。また、電動のおもちゃにはモーターや電子部品などの組み込みも行う。また、製品を検査し、規格通りに出来ているか、不具合はないかを点検する。製品や取り扱い説明書をそろえて箱詰めし、包装等も行う。</p>
+        <p>ブリキや布、プラスチック、紙、木など、おもちゃには様々な素材が使用されており、年齢や時代により求められるものは多様である。</p>
+        <p>生産工程の仕事は、熟練した職人が手作業で組立てる仕事等もあるが、一般的に機械化・自動化が進み、製品製造機械の操作、監視の仕事が多くなってきている。</p>
+        <p>企画開発は国内で行い生産拠点はアジアなど海外という場合も多い。国内での生産品は、比較的技術力が高い商品が多い。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>3DCAD、手工芸道具、プラスチック成形機、製品製造機械</p>
       </section>
+
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>入職にあたり、特に学歴や資格は必要とされない。おもちゃの企画開発やデザインに関する専門学校もある。</p>
+        <p>企画・開発の仕事は、企業にもよるが新規学卒者として入社後、他の部署で経験を積んだ後に配属される場合が多い。</p>
+        <p>生産工程の仕事は転職者やパートタイマーなどの中途採用もある。入職後は、一つの工程の仕事を覚えると次の新しい工程に進むなど、OJTで技能を習得していく。</p>
+        <p>企画・開発の仕事では、新しいトレンドやおもちゃへのニーズを的確に把握できる情報収集力、アイディアを生み出す発想力が求められる。また、商品化のためには様々な関係者との連携・協力が欠かせないためコミュニケーション能力も重要である。</p>
+        <p>生産工程の仕事では、自動化が進む中、製造装置等の操作を正確に覚え、取り扱える注意深さや根気強さが求められる。</p>
+        <p>また、自分で企画を考え、ひとつひとつ手作りで製作するおもちゃの場合には、発想力に加え細かい作業等を続けられる粘り強さ等も必要である。</p>
+      </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>企画・開発の仕事は、おもちゃメーカーやおもちゃ企画の専門会社等に勤務する。生産工程の仕事は玩具メーカーの工場等生産現場で働く。</p>
+        <p>いずれの場合も賃金、労働時間等労働条件は勤務先の規定による。</p>
+        <p>おもちゃの最需要期はクリスマス・正月で、そのほかゴールデンウィーク、夏休みや春休みなどが需要期といえる。そうした時期に向けて新商品の開発を行う場合もあり、企画の詰めの時期や、生産現場では商品を間に合わせるための生産計画により、需要期の前が繁忙期となることもある。また、ヒット商品が出た場合は忙しくなる。</p>
+        <p>おもちゃ業界は、少子化の中ではあるが、サプライズトイ、キッズPC等、多様で新しい商品が生み出され、大人を含む購買層の広がり、グローバル市場の伸びとも相まって堅調に推移している。</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="類似する職業">
         <h2>類似する職業</h2>
@@ -322,6 +433,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.toys.or.jp/" rel="external" target="_blank">一般社団法人 日本玩具協会</a></li><li><a href="http://www.nippra.or.jp/" rel="external" target="_blank">日本プラスチック玩具工業協同組合</a></li><li><a href="http://toyculture.org/" rel="external" target="_blank">一般財団法人 日本玩具文化財団</a></li></ul></div></div></section>
+
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
         <ul>
@@ -329,6 +442,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

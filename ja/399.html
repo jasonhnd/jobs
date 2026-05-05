@@ -8,6 +8,7 @@
     <title>職業訓練指導員 — AI 影響 4/10｜mirai-shigoto.com</title>
     <meta name="description" content="職業訓練指導員：就業者 約23,604人 / 平均年収 491万円 / 平均年齢 45.6 / AI 影響 4/10。Claude Opus 4.7 による独自スコア（非公式）。" />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="職業訓練指導員, 職業訓練指導員（障害者職業能力開発校）, 職業訓練指導員（職業能力開発促進センター）, 職業訓練指導員（認定職業訓練施設）, 職業能力開発校指導員" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/ja/399" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/399" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "399",
+      "occupationalCategory": "05_031-99",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/399",
       "additionalProperty": [
         {
@@ -122,7 +123,33 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Vocational Training Instructor",
+      "alternateName": [
+        "Vocational Training Instructor",
+        "職業訓練指導員（障害者職業能力開発校）",
+        "職業訓練指導員（職業能力開発促進センター）",
+        "職業訓練指導員（認定職業訓練施設）",
+        "職業能力開発校指導員",
+        "Vocational Training Instructor (Disabled Persons Vocational Ability Development School)",
+        "Vocational Training Instructor (Vocational Ability Development Promotion Center)",
+        "Vocational Training Instructor (Certified Vocational Training Facility)",
+        "Vocational Ability Development School Instructor"
+      ],
+      "industry": "Education & Instruction",
+      "skills": [
+        "Speaking",
+        "Instructing",
+        "Active Listening",
+        "Reading Comprehension",
+        "Writing",
+        "Learning Strategies",
+        "Social Perceptiveness",
+        "Coordination",
+        "Persuasion",
+        "Monitoring"
+      ],
+      "qualifications": [
+        "職業訓練指導員免許"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +233,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +289,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +384,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?sector=kyoiku">教育・指導</a><span class="band band-mid">AI 影響 中</span><span class="band band-mid">規模 中</span></div>
       </header>
 
       <div class="risk-card risk-4">
@@ -308,19 +406,40 @@
 
       <section class="context">
         <h2>この職業について</h2>
-        <p>公共職業能力開発施設や、認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導や就職支援を行う。</p>
+        <p>職業能力開発促進法に規定された公共職業能力開発施設や、事業主団体や職業訓練法人が設置している認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導やキャリアコンサルティングを通じた就職支援、ジョブ・カードの作成などを行う。「テクノインストラクター」とも呼ばれる。</p>
+        <p>まず、必要とされる職業能力を確立し、効率的に訓練するために、訓練目標の設定及びカリキュラムを策定する。次に、訓練を行う各科目の指導案を作成し、訓練で使用する教材の準備や資材の手配など、事前準備を行う。</p>
+        <p>訓練実施時には、訓練に使用する機械・設備を調整し、安全を確認する。訓練科目に応じて、訓練生に対し、電気工事、機械加工、自動車整備、溶接、情報処理などの技術習得に必要な訓練指導を行い、教室での座学では専門科目の講義をする。訓練中は、訓練生の技能習得度、知識の理解度などを把握しながら適切な指示を与えるとともに、作業の安全に十分に気を使う必要がある。所定の技術が習得できたかどうか、修了試験を兼ねた技能照査を実施する。</p>
+        <p>また、訓練生への技能・技術指導や若年者を対象とする場合の生活指導、求職者に対する就職活動の支援の他に、事業主や業界などのニーズ及び技術動向の把握、事業主などに対する能力開発に関する相談援助などの業務がある。</p>
+        <p>専門的な技能・技術を活かし、技能検定や技能五輪などの各種の大会で検定員や審査委員・競技委員を務めることもある。</p>
+        <p>◇　よく使う道具、機材、情報技術等</p>
+        <p>文書作成ソフト（Word、一太郎等）、表計算ソフト（Excel、Googleスプレッドシート等）、プレゼン資料作成ソフト（PowerPoint、Keynote等）、パソコン</p>
       </section>
 
-      <section class="related" aria-label="類似する職業">
-        <h2>類似する職業</h2>
-        <ul>
-          <li><a class="r-name" href="/ja/395">特別支援学校教員、特別支援学級教員</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/403">小児科医</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/404">内科医</a><span class="r-risk">AI 影響 4/10</span></li>
-          <li><a class="r-name" href="/ja/398">英会話教師</a><span class="r-risk">AI 影響 7/10</span></li>
-          <li><a class="r-name" href="/ja/400">社会教育主事</a><span class="r-risk">AI 影響 7/10</span></li>
-        </ul>
+      <section class="how-to-become" aria-label="なるには（経路・資格）">
+        <h2>なるには（経路・資格）</h2>
+        <p>職業訓練指導員になるためには、各都道府県に対して職業訓練指導員免許交付の申請を行い、免許を取得する必要がある。申請の要件としては、①職業能力開発総合大学校の指導員養成課程を修了する、②職業能力開発促進法に基づく技能検定に合格したのち、所定の講習の修了または試験に合格する、③大学等卒業後、実務経験を積み、所定の講習の修了または試験に合格する、④所定の免許職種に関する高等学校普通教育免許を取得する、等がある。</p>
+        <p>募集・採用は、公共職業能力開発施設の場合は、各都道府県や(独)高齢・障害・求職者雇用支援機構が行う。事業主団体や職業訓練法人が設置している認定職業訓練施設の場合は、関係事業所等の従業員の中から有資格者を選ぶこともある。</p>
+        <p>職業訓練指導員には、担当する分野の技能・技術・知識とともに、指導者として、訓練生に対する理解ときめ細かな配慮が望まれる。担当する教科により、講義や実技指導での立ち時間が多く、一定の体力も必要である。さらに、各専門分野で高度な知識を常に得ようとする研究心も求められる。</p>
       </section>
+
+      <section class="working-conditions" aria-label="労働条件・働き方">
+        <h2>労働条件・働き方</h2>
+        <p>勤務先は、公共職業能力開発施設や認定職業訓練施設、民間の教育訓練機関や事業所、さらには、職業訓練を実施している矯正施設(法務省所管)があり、職場は全国に広がっている。</p>
+        <p>公共職業能力開発施設の職業訓練指導員は全国で約4000人であり、中高年齢層が多い（*）。男性が多いが、女性も増えている。</p>
+        <p>公共職業能力開発施設で働く場合は、地方公務員あるいは独立行政法人等の職員となり、労働条件は各都道府県や法人の規定による。企業のニーズに対応した訓練コースを実施するため、施設外での訓練指導(勤務)も多く、また、土日夜間の訓練指導もある。認定職業訓練施設で働く場合は、施設を運営する事業主により、一般企業の社員や職業訓練法人の職員などで勤務し、施設によって、その労働条件は様々である。</p>
+        <p>職業訓練指導員は、多様な人材育成ニーズ、経済構造・社会環境の変化、技術革新の進展などに対応して、常に時代のニーズに合った訓練を訓練生に対して行う必要があることから、訓練科目やカリキュラム、訓練手法の見直し・拡充を絶えず行っている。今後も、様々な分野の人材の開発・育成に向けて、職業訓練指導を担う職業訓練指導員が果たす役割は大きい。</p>
+        <p>*厚労省資料「職業訓練指導員養成に関する現状と課題」から</p>
+      </section>
+
+      <section class="profile" aria-label="5 次元プロファイル"><h2>5 次元プロファイル</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="5 次元プロファイル"><polygon points="170.0,137.5 200.9,160.0 189.1,196.3 150.9,196.3 139.1,160.0" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,105.0 231.8,149.9 208.2,222.6 131.8,222.6 108.2,149.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,72.5 262.7,139.9 227.3,248.9 112.7,248.9 77.3,139.9" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,40.0 293.6,129.8 246.4,275.2 93.6,275.2 46.4,129.8" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/><polygon points="170.0,85.9 264.8,139.2 218.3,236.5 130.0,225.1 108.7,150.1" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/><text x="170.0" y="18.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">創造性</text><text x="314.6" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">対人</text><text x="259.3" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">判断</text><text x="80.7" y="293.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">身体</text><text x="25.4" y="123.0" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">定型</text></svg><dl class="radar-legend"><dt>創造性</dt><dd>64</dd><dt>対人</dt><dd>76</dd><dt>判断</dt><dd>63</dd><dt>身体</dt><dd>52</dd><dt>定型</dt><dd>49</dd></dl></div></section>
+
+      <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">説明力</span><span class="topn-score">5.0</span></li><li><span class="topn-name">指導</span><span class="topn-score">5.0</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">4.7</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.4</span></li><li><span class="topn-name">文章力</span><span class="topn-score">4.3</span></li><li><span class="topn-name">学習方法の選択・実践</span><span class="topn-score">4.2</span></li><li><span class="topn-name">他者の反応の理解</span><span class="topn-score">4.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">3.9</span></li><li><span class="topn-name">説得</span><span class="topn-score">3.8</span></li><li><span class="topn-name">継続的観察と評価</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">教育訓練</span><span class="topn-score">2.8</span></li><li><span class="topn-name">コミュニケーションとメディア</span><span class="topn-score">1.9</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.9</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">1.8</span></li><li><span class="topn-name">心理学</span><span class="topn-score">1.7</span></li></ol></div><div class="topn-block"><h3>能力 Top 5</h3><ol><li><span class="topn-name">トラブルの察知</span><span class="topn-score">3.6</span></li><li><span class="topn-name">発話表現</span><span class="topn-score">3.5</span></li><li><span class="topn-name">選択的注意（集中する力）</span><span class="topn-score">3.4</span></li><li><span class="topn-name">記述表現</span><span class="topn-score">3.3</span></li><li><span class="topn-name">発話理解</span><span class="topn-score">3.3</span></li></ol></div></div></section>
+
+      <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/219"><span class="tc-name">アウトドアインストラクター</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/120"><span class="tc-name">スポーツインストラクター</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/121"><span class="tc-name">自動車教習指導員</span><span class="tc-meta"><span class="tc-risk">AI 影響 3/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
+
+      
+
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list"><li><a href="https://www.jeed.go.jp/" rel="external" target="_blank">独立行政法人高齢・障害・求職者雇用支援機構</a></li><li><a href="https://www.javada.or.jp/index.html" rel="external" target="_blank">中央職業能力開発協会</a></li><li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/jinzaikaihatsu/shidoin-top.html" rel="external" target="_blank">厚生労働省</a></li></ul></div><div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list"><li>職業訓練指導員免許</li></ul></div></div></section>
 
       <section class="sources">
         <h2>出典 / 関連リンク</h2>
@@ -329,6 +448,7 @@
           <li><a href="/llms-full.txt" rel="noopener">方法論 / スコアリングルーブリック</a></li>
           <li><a href="/" rel="up">552 職種マップに戻る</a></li>
         </ul>
+        <p class="provenance">AI 影響度 — モデル <code>claude-opus-4-7</code> · スコア取得 <code>2026-04-25</code> · データ — 厚労省 / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">

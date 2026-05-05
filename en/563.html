@@ -8,6 +8,7 @@
     <title>Anesthesiologist — AI Impact 3/10｜mirai-shigoto.com</title>
     <meta name="description" content="Anesthesiologist: workforce ~43,380 / annual salary 1338万円 / avg age 44.1 / AI impact 3/10. Independent score by Claude Opus 4.7 (unofficial)." />
     <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="Anesthesiologist, Physician" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/en/563" />
     <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/ja/563" />
@@ -86,7 +87,7 @@
         "@type": "Country",
         "name": "Japan"
       },
-      "occupationalCategory": "563",
+      "occupationalCategory": "04_021-01",
       "sameAs": "https://shigoto.mhlw.go.jp/User/Occupation/Detail/563",
       "additionalProperty": [
         {
@@ -122,7 +123,18 @@
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#dataset"
       },
-      "alternateName": "Anesthesiologist",
+      "alternateName": [
+        "Anesthesiologist",
+        "医師",
+        "Physician"
+      ],
+      "industry": "Medical & Health",
+      "qualifications": [
+        "医師",
+        "麻酔科標榜医（厚生労働省）",
+        "日本専門医機構認定麻酔科専門医",
+        "日本麻酔科学会認定麻酔科指導医"
+      ],
       "estimatedSalary": {
         "@type": "MonetaryAmountDistribution",
         "name": "Annual salary (estimated mean from MHLW jobtag)",
@@ -206,7 +218,7 @@
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
-      section.context,section.sources,section.related{margin-top:28px}
+      section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
@@ -262,6 +274,76 @@
       :root[data-theme="light"] .theme-toggle .icon-moon{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-sun{display:inline-block}
       :root[data-theme="dark"] .theme-toggle .icon-moon{display:none}
+
+      /* ═══════════ v1.2.0 schema-1.1 rich-detail components ═══════════ */
+      /* Sector chip + band row right under H1 */
+      .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px}
+      .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;padding:4px 11px;background:var(--bg3);color:var(--accent-deep);border-radius:999px;text-decoration:none;font-weight:500}
+      .sector-chip:hover{background:var(--accent-2);color:#fff;text-decoration:none}
+      .band{font-family:var(--font-sans);font-size:0.7rem;padding:3px 10px;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+      .band-low{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+      .band-mid{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-high{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-hot{background:rgba(217,107,61,0.18);color:var(--accent)}
+      .band-warm{background:rgba(212,167,73,0.18);color:#8B6B2A}
+      .band-cool{background:rgba(110,155,137,0.18);color:var(--accent-deep)}
+
+      /* 5-dim profile radar */
+      section.profile{margin-top:32px}
+      .radar-wrap{display:flex;gap:32px;align-items:center;margin:18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px}
+      .radar-svg{width:340px;height:340px;flex-shrink:0}
+      .radar-legend{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:0}
+      .radar-legend dt{font-family:var(--font-sans);font-size:0.74rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.06em;margin:0}
+      .radar-legend dd{font-family:var(--font-serif);font-size:1.3rem;color:var(--fg);margin:0;font-variant-numeric:tabular-nums}
+      @media (max-width:768px){
+        .radar-wrap{flex-direction:column;gap:18px;padding:18px}
+        .radar-svg{width:280px;height:280px}
+        .radar-legend{grid-template-columns:1fr 1fr;width:100%}
+      }
+      @media (max-width:380px){
+        .radar-svg{width:240px;height:240px}
+        .radar-legend dd{font-size:1.1rem}
+      }
+
+      /* Top-N: skills / knowledge / abilities */
+      section.topn{margin-top:32px}
+      .topn-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:14px 0}
+      @media (max-width:900px){.topn-grid{grid-template-columns:1fr;gap:14px}}
+      .topn-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+      .topn-block h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);margin:0 0 12px;font-weight:600;font-style:normal}
+      .topn-block ol{list-style:none;padding:0;margin:0;counter-reset:rank}
+      .topn-block li{counter-increment:rank;display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--border);font-size:0.92rem}
+      .topn-block li:last-child{border-bottom:none}
+      .topn-block li::before{content:counter(rank);font-family:ui-monospace,monospace;color:var(--fg3);font-size:0.78rem;font-variant-numeric:tabular-nums}
+      .topn-block .topn-name{color:var(--fg)}
+      .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
+
+      /* Transfer paths (career change candidates) */
+      section.transfer{margin-top:32px}
+      .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+      @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
+      .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
+      .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+      .transfer-card .tc-name{font-family:var(--font-serif);font-size:1.02rem;color:var(--fg);line-height:1.35}
+      .transfer-card .tc-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:0.76rem;color:var(--fg2)}
+      .transfer-card .tc-meta .tc-risk{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+      .transfer-card .tc-similarity{font-family:ui-monospace,monospace;color:var(--fg3)}
+
+      /* Related orgs / certs side-by-side */
+      section.orgs-certs{margin-top:32px}
+      .org-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0}
+      @media (max-width:768px){.org-cert-grid{grid-template-columns:1fr;gap:16px}}
+      .org-cert-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px}
+      .org-cert-block h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent);margin:0 0 10px;font-weight:600}
+      .org-list,.cert-list{list-style:none;padding:0;margin:0}
+      .org-list li,.cert-list li{padding:5px 0;font-size:0.92rem;color:var(--fg);border-bottom:1px dashed var(--border)}
+      .org-list li:last-child,.cert-list li:last-child{border-bottom:none}
+      .org-list a{color:var(--accent);text-decoration:none}
+      .org-list a:hover{text-decoration:underline}
+
+      /* Provenance footnote */
+      .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
+      .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
 </style>
   </head>
   <body>
@@ -287,6 +369,7 @@
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
         </h1>
+        <div class="meta-row"><a class="sector-chip" href="/?lang=en&amp;sector=iryo">Medical &amp; Health</a><span class="band band-low">Low AI risk</span><span class="band band-mid">Medium workforce</span></div>
       </header>
 
       <div class="risk-card risk-3">
@@ -308,8 +391,38 @@
 
       <section class="context">
         <h2>About this occupation</h2>
-        <p>Administers anesthesia and monitors patients during surgery.</p>
+        <p>Anesthesiologists are primarily responsible for managing anesthesia during surgical procedures and overseeing the patient&#x27;s overall physiological status. Their duties are wide-ranging; the following describes the principal aspects of the work.</p>
+        <p>Before surgery, the anesthesiologist examines the patient&#x27;s health status and determines the most appropriate anesthetic technique. The patient and family are briefed on the anesthetic method and potential complications, and informed consent is obtained. On the day of surgery, for general anesthesia, the anesthesiologist administers anesthetic agents to induce anesthesia, then secures the airway and initiates mechanical ventilation. During surgery, a patient monitor is used to continuously track the patient&#x27;s respiratory function, cardiovascular status, body temperature, and other vital parameters; anesthetic depth is adjusted as needed, and interventions such as intravenous fluid administration or blood transfusion are performed as circumstances require.</p>
+        <p>After surgery concludes, the anesthesiologist confirms the patient&#x27;s emergence from anesthesia and issues instructions for postoperative pain management and complication prevention. During postoperative rounds, the patient&#x27;s recovery is assessed, and pain management or countermeasures against complications are initiated as needed.</p>
+        <p>Beyond the operating room, anesthesiologists may be involved in the management of critically ill patients in the intensive care unit (ICU), as well as in pain treatment at pain clinics and palliative care settings. On-call duties for emergency surgery and obstetric anesthesia during evenings and on holidays are also part of the role.</p>
+        <p>The scope of responsibilities varies somewhat with hospital size and subspecialty focus. At university hospitals and large general hospitals, anesthesiologists frequently manage highly specialized procedures such as cardiac anesthesia, pediatric anesthesia, and obstetric anesthesia. At smaller hospitals, a broader range of case types is expected.</p>
+        <p>Some anesthesiologists transition into the specialty from other clinical departments after additional training.</p>
+        <p>Tools and equipment commonly used: anesthesia machine, patient monitor, laryngoscope, ultrasound diagnostic device, mechanical ventilator</p>
       </section>
+
+      <section class="how-to-become" aria-label="How to enter the field">
+        <h2>How to enter the field</h2>
+        <p>To work as an anesthesiologist, candidates must first complete a six-year medical school program and pass the national licensing examination to obtain a medical license. After medical school, a minimum of two years of clinical residency training at a designated teaching hospital is required. To hold out a practice as an anesthesiologist (i.e., to advertise or practice using the designation), physicians must satisfy one of two criteria: (I) complete at least two years of training specifically in anesthesiology at a hospital qualified to provide such training; or (II) have at least two years of anesthesia practice experience, including administration of general anesthesia via endotracheal intubation in at least 300 cases as the physician primarily responsible for anesthesia. Upon passing an administrative review, the physician receives authorization from the Minister of Health, Labour and Welfare (MHLW) to practice as an anesthesiologist. In addition, completing the four-year specialist training program defined by the Japan Specialty Board (日本専門医機構) and passing the Japan Society of Anesthesiologists&#x27; (日本麻酔科学会) certification examination allows physicians to obtain board certification as an anesthesiology specialist. After five years as a specialist (one renewal cycle), board-certified anesthesiologists can apply to become a certified anesthesiology trainer by submitting required documentation.</p>
+        <p>For ongoing professional development, anesthesiologists participate in academic conferences, journal-based learning, and case seminars organized by professional societies, keeping current with knowledge of new drugs and advances in medical technology. Subspecialty certifications include, among others, cardiovascular anesthesiology specialist, pediatric anesthesia certified physician, regional anesthesia certified physician, and intensive care subspecialist.</p>
+        <p>At university hospitals, physicians hold academic titles such as assistant professor, lecturer, associate professor, and professor. At general hospitals, titles such as deputy chief of anesthesiology, chief of anesthesiology, deputy director, and hospital director are assigned according to the institution&#x27;s organizational structure.</p>
+        <p>Anesthesiologists require specialized expertise in anesthesiology, physiology, and pharmacology. In addition to subspecialties such as cardiovascular anesthesia, obstetric anesthesia, and pediatric anesthesia, broad experience across thoracic surgery, neurosurgery, and other surgical anesthesia types is expected. Rapid clinical reasoning—quickly assessing and acting on what is happening in an emergency—is essential, as is the ability to build a trusting relationship with an anxious patient and support them through the postoperative period. Since effective collaboration with surgeons and nursing staff during a procedure is necessary, empathy and strong interpersonal skills are also required.</p>
+      </section>
+
+      <section class="working-conditions" aria-label="Working conditions">
+        <h2>Working conditions</h2>
+        <p>Anesthesiologists work primarily at hospitals with anesthesiology departments that perform surgical operations, typically mid-size to large facilities. Some also work at hospitals without their own anesthesiology department when surgical cases arise. Pain clinics and palliative care settings also require anesthesiologists.</p>
+        <p>The total number of practicing anesthesiologists in Japan is approximately 10,350, of whom 94.8% work in hospital settings. Women account for approximately 40% of anesthesiologists. (Source: MHLW FY2022 Survey of Physicians, Dentists, and Pharmacists, &quot;Number of Physicians Employed in Medical Facilities by Primary Clinical Department and Facility Type.&quot;)</p>
+        <p>Because most surgeries requiring anesthesia are elective and scheduled during daytime hours, regular daytime shifts are the norm; some departments operate rotating shift schedules with early and late shifts, making work-life balance management relatively feasible.</p>
+        <p>Employment types include regular positions as the primary arrangement; other arrangements include fixed-term contract, part-time, agency staff, and self-employed practice. Some anesthesiologists are affiliated with specialist dispatch agencies and work exclusively in part-time or dispatched roles, though specialist certification requirements specify at least three shifts per week at the same institution.</p>
+        <p>On-call physicians work regular hours outside of emergency coverage, though scheduled surgical cases may occasionally extend beyond normal hours.</p>
+        <p>The number of practicing anesthesiologists has grown, but the scope of the specialty has expanded concurrently, increasing the overall burden on the workforce. As one countermeasure, nurses have been authorized to perform specified intraoperative anesthetic assistance procedures after completing specialized training programs; however, because nurses are also in short supply and their schedules are full, the degree of task-shifting in intraoperative anesthesia has not expanded to the extent initially anticipated.</p>
+      </section>
+
+      
+
+      
+
+      
 
       <section class="related" aria-label="Related occupations">
         <h2>Related occupations</h2>
@@ -322,6 +435,8 @@
         </ul>
       </section>
 
+      <section class="orgs-certs"><div class="org-cert-grid"><div class="org-cert-block"><h3>Industry Organizations</h3><ul class="org-list"><li><a href="https://www.med.or.jp" rel="external" target="_blank">公益社団法人日本医師会</a></li><li><a href="https://anesth.or.jp/" rel="external" target="_blank">公益社団法人 日本麻酔科学会</a></li></ul></div><div class="org-cert-block"><h3>Related Certifications</h3><ul class="cert-list"><li>医師</li><li>麻酔科標榜医（厚生労働省）</li><li>日本専門医機構認定麻酔科専門医</li><li>日本麻酔科学会認定麻酔科指導医</li></ul></div></div></section>
+
       <section class="sources">
         <h2>Sources / Related</h2>
         <ul>
@@ -329,6 +444,7 @@
           <li><a href="/llms-full.txt" rel="noopener">Methodology / scoring rubric</a></li>
           <li><a href="/?lang=en" rel="up">Back to the 552-occupation map</a></li>
         </ul>
+        <p class="provenance">AI impact — model <code>claude-opus-4-7</code> · scored on <code>2026-04-25</code> · Data — MHLW / JILPT IPD <code>v7.00</code></p>
       </section>
 
       <p class="disclaimer">
