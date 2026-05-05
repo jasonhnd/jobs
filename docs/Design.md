@@ -13,7 +13,7 @@
 
 - `index.html`（首页 treemap，桌面 + 既有"宽响应式至 mobile"实现）
 - `privacy.html` / `compliance.html` / `about.html`（既有静态页）
-- `scripts/build_occupations.py` 生成的 1104 个 `ja/<id>.html` / `en/<id>.html` 职业详情页（桌面 + 既有响应式至 mobile）
+- `scripts/build_occupations.py` 生成的 1112 个 `ja/<id>.html` / `en/<id>.html` 职业详情页（556 × 2 语言；桌面 + 既有响应式至 mobile）
 
 > 当下设计源自 v0.4.x 系列，桌面版当前规范版本 v1.x（见 §15 修订历史）。
 
@@ -527,7 +527,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 
 ### 7.13 Footer Follow + Share（Stage 1，全站统一）
 
-首页 + 1104 个 `/ja/<id>` 和 `/en/<id>` 详情页**统一**使用同一个 footer follow + share 区块。视觉分两层：
+首页 + 1112 个 `/ja/<id>` 和 `/en/<id>` 详情页**统一**使用同一个 footer follow + share 区块。视觉分两层：
 
 1. **Follow CTA（突出）**：橙色块 `.follow-cta`，链 `https://x.com/miraishigotocom`。
    - 内容：📬 icon + 「X でフォローする / 毎日の職業分析を受け取る」(EN: 「Follow on X / Daily occupation insights」)
