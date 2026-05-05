@@ -884,7 +884,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         )
         og_locale = "ja_JP"
         og_locale_alt = "en_US"
-        site_name = "日本の職業 AI 影響マップ（非公式）"
+        site_name = "未来の仕事 — Mirai Shigoto（非公式）"
         home_href = "/"
         crumb_root = "日本の職業 AI 影響マップ"
         crumb_self_label = name_ja
@@ -931,7 +931,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         )
         og_locale = "en_US"
         og_locale_alt = "ja_JP"
-        site_name = "Japan Jobs × AI Impact Map (unofficial)"
+        site_name = "Mirai Shigoto — Future of Work (unofficial)"
         home_href = "/?lang=en"
         crumb_root = "Japan Jobs × AI Impact Map"
         crumb_self_label = name_en or name_ja
