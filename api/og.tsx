@@ -25,13 +25,14 @@ import { ImageResponse } from "@vercel/og";
 
 export const config = { runtime: "edge" };
 
-// Risk-band → tile color, identical to the per-occupation page CSS.
+// Risk-band → tile color, aligned with Direction C palette (mobile-tokens.css).
+// Sage green for low risk, warm gold for mid, terracotta for high.
 const RISK_COLORS: Record<number, string> = {
-  0: "#7ddc7d", 1: "#7ddc7d", 2: "#7ddc7d",
-  3: "#a8d572", 4: "#a8d572",
-  5: "#ffd84d", 6: "#ffd84d",
-  7: "#ff8a3d", 8: "#ff8a3d",
-  9: "#ff5050", 10: "#ff5050",
+  0: "#6E9B89", 1: "#6E9B89", 2: "#6E9B89",   // sage — safe / low
+  3: "#93A879", 4: "#93A879",                   // sage-gold transition — mid-low
+  5: "#D4A749", 6: "#D4A749",                   // warm gold — mid
+  7: "#D96B3D", 8: "#D96B3D",                   // terracotta — high
+  9: "#B85535", 10: "#B85535",                  // deep terracotta — max
 };
 
 // Pull a Google-Fonts subset that covers exactly the characters we will draw.
@@ -120,10 +121,22 @@ export default async function handler(req: Request): Promise<Response> {
     `UNOFFICIAL ${siteMark} ${primaryName} ${subName} ${riskLabel} ` +
     `${workersLabel} ${salaryLabel} ${riskNumberStr} / 10 ·`;
 
-  const [fontBoldBuf, fontRegBuf] = await Promise.all([
-    loadGoogleFont("Noto+Sans+JP", 800, subsetText),
-    loadGoogleFont("Noto+Sans+JP", 500, subsetText),
+  // v1.2.0 Direction C convergence: serif for the occupation name, sans for everything else.
+  const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
+    loadGoogleFont("Noto+Serif+JP", 600, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  800, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  500, subsetText),
   ]);
+
+  // Direction C palette (synced from styles/mobile-tokens.css).
+  const C = {
+    bg:        "#FAF6EE",  // warm cream canvas
+    ink:       "#241E18",  // primary ink
+    muted:     "#7A6F5E",  // secondary muted
+    hairline:  "rgba(36, 30, 24, 0.12)",
+    accent:    "#D96B3D",  // terracotta — UNOFFICIAL + accent
+    bg2:       "#FFFFFF",  // elevated card surface
+  };
 
   return new ImageResponse(
     (
@@ -133,8 +146,8 @@ export default async function handler(req: Request): Promise<Response> {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: "#0b0d10",
-          color: "#e9eef5",
+          background: C.bg,
+          color: C.ink,
           fontFamily: "NotoSansJP",
           padding: "48px 64px",
         }}
@@ -149,18 +162,18 @@ export default async function handler(req: Request): Promise<Response> {
         >
           <div
             style={{
-              background: "#ff8a3d",
-              color: "#0b0d10",
+              background: C.accent,
+              color: "#FFFFFF",
               padding: "8px 18px",
-              borderRadius: "6px",
+              borderRadius: "999px",
               fontWeight: 800,
               fontSize: "22px",
-              letterSpacing: "0.06em",
+              letterSpacing: "0.08em",
             }}
           >
             UNOFFICIAL
           </div>
-          <div style={{ fontSize: "24px", color: "#8a93a3", fontWeight: 500 }}>
+          <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
             {siteMark}
           </div>
         </div>
@@ -177,8 +190,9 @@ export default async function handler(req: Request): Promise<Response> {
         >
           <div
             style={{
-              background: riskColor,
-              color: "#0b0d10",
+              background: C.bg2,
+              border: `4px solid ${riskColor}`,
+              color: riskColor,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -189,15 +203,23 @@ export default async function handler(req: Request): Promise<Response> {
               flexShrink: 0,
             }}
           >
-            <div style={{ fontSize: "200px", fontWeight: 800, lineHeight: 1 }}>
+            <div
+              style={{
+                fontFamily: "NotoSerifJP",
+                fontSize: "200px",
+                fontWeight: 600,
+                lineHeight: 1,
+              }}
+            >
               {riskNumberStr}
             </div>
             <div
               style={{
-                fontSize: "44px",
-                fontWeight: 800,
-                marginTop: "-12px",
-                opacity: 0.85,
+                fontSize: "36px",
+                fontWeight: 600,
+                marginTop: "-4px",
+                color: C.muted,
+                letterSpacing: "0.04em",
               }}
             >
               / 10
@@ -215,9 +237,9 @@ export default async function handler(req: Request): Promise<Response> {
             <div
               style={{
                 fontSize: "26px",
-                color: "#8a93a3",
+                color: C.muted,
                 fontWeight: 500,
-                letterSpacing: "0.08em",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
               }}
             >
@@ -225,16 +247,18 @@ export default async function handler(req: Request): Promise<Response> {
             </div>
             <div
               style={{
-                fontSize: "68px",
-                fontWeight: 800,
-                lineHeight: 1.08,
-                color: "#ffb84d",
+                fontFamily: "NotoSerifJP",
+                fontSize: "72px",
+                fontWeight: 600,
+                lineHeight: 1.12,
+                color: C.ink,
+                letterSpacing: "-0.01em",
               }}
             >
               {primaryName}
             </div>
             {subName ? (
-              <div style={{ fontSize: "32px", color: "#8a93a3", fontWeight: 500 }}>
+              <div style={{ fontSize: "30px", color: C.muted, fontWeight: 500 }}>
                 {subName}
               </div>
             ) : null}
@@ -247,15 +271,15 @@ export default async function handler(req: Request): Promise<Response> {
             display: "flex",
             gap: "28px",
             fontSize: "26px",
-            color: "#e9eef5",
+            color: C.ink,
             fontWeight: 500,
-            borderTop: "1px solid #2a2f38",
+            borderTop: `1px solid ${C.hairline}`,
             paddingTop: "24px",
             marginTop: "32px",
           }}
         >
           <span>{workersLabel}</span>
-          <span style={{ color: "#3a4150" }}>·</span>
+          <span style={{ color: C.muted, opacity: 0.5 }}>·</span>
           <span>{salaryLabel}</span>
         </div>
       </div>
@@ -264,8 +288,9 @@ export default async function handler(req: Request): Promise<Response> {
       width: 1200,
       height: 630,
       fonts: [
-        { name: "NotoSansJP", data: fontBoldBuf, weight: 800, style: "normal" },
-        { name: "NotoSansJP", data: fontRegBuf, weight: 500, style: "normal" },
+        { name: "NotoSerifJP", data: fontSerifBuf,  weight: 600, style: "normal" },
+        { name: "NotoSansJP",  data: fontSansBoldBuf, weight: 800, style: "normal" },
+        { name: "NotoSansJP",  data: fontSansRegBuf, weight: 500, style: "normal" },
       ],
       headers: {
         // Tell Vercel CDN + downstream caches to keep this card for a day,
