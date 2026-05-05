@@ -1468,7 +1468,8 @@
         font-size: 0.95rem;
         line-height: 1.75;
         margin: 0 auto 26px;
-        max-width: 540px;
+        max-width: 640px;             /* widened from 540 — first JA sentence orphaned "析。" at 540 */
+        text-wrap: pretty;            /* progressive enhancement: avoids single-char orphans on supporting browsers */
       }
       .desktop-hero-search {
         position: relative;
