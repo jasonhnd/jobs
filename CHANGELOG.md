@@ -10,31 +10,145 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
-### Convergence to single-URL responsive architecture
+### Sector hub pages — 32 new SEO landing pages
 
-- **Direction C visual + voice converged to PC** (commits `7f8ce55` → `3da1729`):
-  warm-cream palette, Noto Serif JP headings, italic terracotta accent,
-  hero copy rewritten as emotional vision ("AIの時代でも、あなたらしい働き方を。"),
-  CTA softened, theme toggle hidden (single theme).
-- **Detail-page strict per-language separation** (`d33eda4`): each `/<lang>/<id>`
-  page renders ONLY its language; no cross-language bleed in H1, breadcrumb,
-  page title, JSON-LD.
-- **OG card regenerated** in Direction C (`d33eda4` → `og.png`).
-- **Lang-switch button uses relative href** (`351a9a2`): preview / staging
-  domains stay within their environment instead of jumping to production.
-- **Schema-1.1 rich data integrated into PC detail page** (`58349ee`):
-  5-axis radar (340x340 desktop, 280x280 mobile), top-10 skills + top-5
-  knowledge + top-5 abilities, transfer-paths career suggestions (replaces
-  legacy "same risk-band 5"), sector chip + risk/workforce/demand bands,
-  related orgs + certs, AI model + scored_at + IPD provenance footnote.
-  JSON-LD enriched with alternateName / industry / occupationalCategory /
-  skills / qualifications.
-- **`/m/` pipeline removed**: 1127 mobile HTML files + mobile templates +
-  mobile build scripts + mobile-only CSS deleted. `vercel.json` `/m/*`
-  redirects removed. `MOBILE_DESIGN.md` archived (preserved as Direction C
-  token reference). Single URL `/<lang>/<id>` now serves all viewports
-  via CSS `@media` adaptation. No 301 redirects added — `/m/` was only
-  one day live with no SEO assets to preserve.
+- **16 sector hubs × 2 langs = 32 static pages** at `/<lang>/sectors/<sector_id>`
+  (e.g. `/ja/sectors/it`, `/en/sectors/iryo`). Each hub aggregates the
+  occupations belonging to one of the 16 consumer-friendly sectors and surfaces
+  TOP 5 highest-AI-impact, TOP 5 lowest-AI-impact, TOP 5 by workforce, plus the
+  full sorted occupation list. Direct internal links to all detail pages.
+- **SEO targeting** — title template
+  `{sector}の職業一覧 — N職業｜AI 影響度ランキング・年収・就業者数 | 未来の仕事`
+  captures sector-intent queries (`IT 業界 AI 影響`, `医療系 仕事 将来性`)
+  that the per-occupation detail pages alone could not.
+- **Schema.org JSON-LD per hub** — WebPage + BreadcrumbList + ItemList
+  (occupations enumerated with rank). hreflang ja/en/x-default + canonical +
+  Open Graph + Twitter Card on every hub. Full 4-tracker analytics block
+  (Cloudflare WA / GA4 / Vercel WA / Speed Insights) per
+  `feedback_analytics_consistency.md`.
+- **`scripts/build_sector_hubs.py`** — generator reads
+  `data/sectors/sectors.ja-en.json` + `dist/data.detail/*.json`, groups by
+  sector, emits hub HTML, writes `scripts/.sector_manifest.json`, rewrites
+  `sitemap.xml` with the 32 hub URLs in addition to the 6 statics + 1112
+  occupation URLs (1150 total).
+- **`scripts/dev-server.py`** — added `cleanUrls` rewrite for
+  `/<lang>/sectors/<sector_id>` so local previews resolve to the `.html` file.
+- **`scripts/build_occupations.py`** — sitemap rewriter now reads
+  `.sector_manifest.json` and re-injects sector URLs whenever it runs, so the
+  sector entries survive any future occupation rebuild.
+
+---
+
+## [1.2.0] - 2026-05-05
+
+Convergence to single-URL responsive architecture · Direction C unified · schema-1.1 rich detail integration · `/m/` pipeline removed.
+
+### Direction C convergence (PC adopts mobile design language)
+
+- **Visual + voice migration** (`7f8ce55` → `3da1729`) — warm-cream palette
+  (`#FAF6EE` bg / `#241E18` ink / `#D96B3D` terracotta / `#6E9B89` sage),
+  Noto Serif JP headings, italic terracotta accent on signature words.
+  Hero rewritten from utility question ("あなたの仕事は AI 時代にどう変わる？")
+  to emotional vision ("AIの時代でも、あなたらしい働き方を。"). CTA softened
+  ("AI 影響度をチェック" → "気になる職業から始める"). Theme toggle hidden —
+  single Direction C theme.
+- **Detail-page strict per-language** (`d33eda4`) — each `/<lang>/<id>` renders
+  ONLY its language; H1, breadcrumb, page title, JSON-LD all single-language.
+- **Lang-switch relative href** (`351a9a2`) — switching JA↔EN on a detail
+  page stays on the current domain (no preview→production leakage).
+- **Hero Japanese phrase-break** (`70c8a84`, `3fd1270`) — 3-line semantic
+  layout on mobile: "AIの時代でも、" / "あなたらしい" (italic terracotta) /
+  "働き方を。"; collapses to one line ≥769px.
+- **Mobile search "診断" inline CTA** (`3fd1270`) — pill-shaped terracotta
+  button inside the search input on mobile-hero, mirrors desktop submit
+  behavior.
+- **Mobile compact top bar** (`3fd1270`) — sticky brand "未来の仕事" + chart-line
+  SVG mark + hamburger menu (lang switch + about/compliance/privacy/GitHub).
+  Replaces verbose h1 + lang switcher on small viewports.
+- **TOP 10 horizontal-swipe carousel** (`107c395`, `3fd1270`) — mobile-only
+  `.m-top10` section right under the hero. Cards built client-side from the
+  treemap projection sorted by `ai_risk` desc, top 10. Card content: rank
+  pill, occupation name (serif + sub-language), big terracotta score, tag,
+  AI rationale (2-line clamp), workers + salary stats. Native CSS
+  `scroll-snap-type: x mandatory` for swipe; progress bar + N/10 counter.
+- **Mobile autocomplete suggest dropdown** (`13e25ac`) — `attachSuggest()`
+  refactor wires the same dropdown logic to both `#searchInputDesktop` and
+  `#searchInputMobile`. Touch-event support for iOS/Android.
+- **Treemap "職業マップ" section header** (`3fd1270`) — mobile-only header
+  above the canvas: serif title + sans subtitle "全 552 職業 ・ 面積＝就業者数
+  ・ 色＝AI影響".
+- **EN homepage Japanese-bleed fix** (`3da1729`) — chips, search placeholders,
+  salary tier labels (JS-generated) all localize correctly. Salary tiers
+  use ¥XM / ¥X.XM in English (no "万" leak).
+
+### Schema-1.1 rich data integration into desktop detail (Push 1)
+
+- **Adapter expansion** (`58349ee`) — `_load_legacy_shape_corpus()` carries 13
+  new fields from `dist/data.detail/<id>.json` v1.1: aliases (ja/en),
+  classifications, sector, risk/workforce/demand bands, ai_risk
+  metadata (model + scored_at), skills_top10, knowledge_top5, abilities_top5,
+  tasks_count + tasks_lead_ja, related_orgs, related_certs_ja,
+  data_source_versions. Module loads `dist/data.profile5.json` and
+  `dist/data.transfer_paths.json` once at main entry.
+- **6 new detail-page sections**:
+  - Sector chip + risk/workforce/demand band badges under H1
+  - 5-axis profile radar SVG (340×340 desktop / 280×280 mobile, algorithm
+    parity with retired mobile detail.py)
+  - Top-N: skills 10 / knowledge 5 / abilities 5 in 3-column grid
+  - Transfer paths: 3-up career-change candidate cards from
+    `data.transfer_paths.json` (replaces legacy "same risk-band 5")
+  - Industry organizations + certifications side-by-side
+  - Provenance footnote: AI model + scored_at + IPD source version
+- **JSON-LD enrichment** — `alternateName` aggregates JA/EN names + aliases;
+  `industry` from sector; `occupationalCategory` from MHLW classifications;
+  `skills` from skills_top10 labels; `qualifications` from related_certs_ja.
+- **`<meta name="keywords">`** — name + top-8 aliases for additional SEO
+  signal on Bing/Yandex.
+- Page size 30→46 KB (+50%) per detail; trade-off accepted for feature parity.
+
+### `/m/` pipeline removal (Push 2)
+
+- **1140 files deleted** — `m/ja/*.html` × 556, `m/en/*.html` × 556, `m/islands/*.js` × 3,
+  static index pages × 12, all 8 mobile template files, `mobile_render.py`,
+  `i18n.py`, `mobile_strings.json`, `build_mobile.py`, `build_mobile_detail.py`,
+  `mobile-components.css`, `mobile-screen-*.css` × 7.
+- **Kept**: `styles/mobile-tokens.css` + `mobile-tokens.json` as Direction C
+  design-token reference (cited by index.html / build_occupations.py CSS
+  comments). `scripts/lib/bands.py` and friends kept (used by data
+  projections).
+- **Configuration**: `vercel.json` `/m/*` redirect/header rules removed.
+  `docs/MOBILE_DESIGN.md` archived (banner header marks it as v1.1.0
+  history + Direction C token reference). `docs/Design.md` §0 updated to
+  describe single-URL architecture.
+- **No 301 redirects added** — `/m/` was only one day live with no SEO
+  assets, no external backlinks. `/m/*` paths now return 404 (acceptable).
+
+### OG / SNS sharing
+
+- **Static homepage `og.png` regenerated** (`d33eda4`) in Direction C: warm-cream
+  background, italic terracotta "AIの時代でも、**あなたらしい**働き方を。", soft
+  warm-circle backdrop + paper grain. Stats: 552 / 5,449万人 / 5次元 / 独自
+  (no fear framing).
+- **Dynamic `/api/og?id=N&lang=L` Edge Function rewritten** (`3bf0787`) —
+  cream background, white risk-block with colored border (sage / gold /
+  terracotta tier), Noto Serif JP for occupation name, "UNOFFICIAL" pill in
+  terracotta. Risk-band palette aligned with mobile-tokens.css.
+- **Homepage meta tags Direction C voice** (`4163cd0`) — `<title>`, `og:title`,
+  `og:description`, `twitter:title`, `twitter:description`, `og:site_name`
+  ("未来の仕事 — Mirai Shigoto（非公式）"), `og:image:alt` all rewritten.
+- **Detail-page `og:site_name`** (`4163cd0`) — JA: "未来の仕事 — Mirai Shigoto
+  （非公式）" / EN: "Mirai Shigoto — Future of Work (unofficial)".
+- **`og:image` absolute production URL** (`aa9b4be`) — strict OG-spec compliance
+  for Twitter / LinkedIn. Brief `f2e26dc` experiment with relative URLs
+  reverted before production merge.
+
+### Operational
+
+- **Two-environment workflow** documented and tested:
+  `preview` branch → `https://pre.mirai-shigoto.com` (verified during this
+  release) → merge to `main` → `https://mirai-shigoto.com`. The preview
+  domain was set up with custom subdomain bound to the `preview` Git branch
+  via Vercel project domain configuration with `gitBranch: "preview"`.
 
 ---
 
