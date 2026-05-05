@@ -51,7 +51,33 @@ The UI is bilingual (Japanese and English), with an explicit toggle in the heade
 - Treemap dataset (552 occupations, all index.html consumes): https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped)
 - Per-occupation detail: https://mirai-shigoto.com/data.detail/<id>.json (e.g. /data.detail/0001.json, ~3.5 KB gz each, 556 records including 4 newer occupations like 声優 / ブロックチェーン・エンジニア)
 - Search index: https://mirai-shigoto.com/data.search.json (556 records with JA + EN aliases)
+- Sector projection: https://mirai-shigoto.com/data.sectors.json (16 industry sectors with occupation count, mean AI risk, total workforce, sample titles)
 - Code MIT licensed; underlying IPD source data © JILPT, used per their TOS Article 9 with attribution
+
+### 2.5 Sector taxonomy (16 industries)
+
+Every occupation is classified into one of 16 consumer-friendly industry sectors. Sector hubs at `/<lang>/sectors/<sector_id>` aggregate the occupations in one industry and rank them by AI impact (TOP 5 highest / TOP 5 lowest) and workforce size (TOP 5 largest). The sectors-index page at `/<lang>/sectors` lists all 16 with stats.
+
+| Sector ID | JA | EN | Count | Mean AI risk |
+|---|---|---|---|---|
+| iryo | 医療・保健 | Medical & Health | 36 | 4.1 / 10 |
+| fukushi | 福祉・介護 | Welfare & Care | 15 | 4.6 / 10 |
+| kyoiku | 教育・指導 | Education & Instruction | 20 | 4.2 / 10 |
+| hoan | 保安・公安 | Public Safety | 15 | 3.5 / 10 |
+| noringyo | 農林・水産 | Agriculture & Fishing | 14 | 2.9 / 10 |
+| senmon | 専門・技術 | Specialist & Technical | 51 | 6.5 / 10 |
+| it | IT・通信 | IT & Communications | 22 | 8.1 / 10 |
+| shigyo | 士業・経営・コンサル | Professional Services & Management | 63 | 6.7 / 10 |
+| creative | クリエイティブ・メディア | Creative & Media | 37 | 6.9 / 10 |
+| jimu | 事務・公務 | Office & Public Service | 57 | 7.5 / 10 |
+| hanbai | 販売・営業 | Sales & Retail | 41 | 5.4 / 10 |
+| service | サービス・接客 | Service & Hospitality | 41 | 3.7 / 10 |
+| seizo | 製造・職人 | Manufacturing & Craft | 59 | 3.3 / 10 |
+| maint | 設備・保守 | Facilities & Maintenance | 49 | 3.7 / 10 |
+| kensetu | 建設・土木 | Construction & Civil | 20 | 2.0 / 10 |
+| keiseki | 軽作業・清掃 | Light Work & Cleaning | 16 | 2.6 / 10 |
+
+Cross-sector observations: **IT & Communications (8.1)** has the highest mean AI risk among the 16 sectors — almost every IT role scores 7+/10 because the work is keyboard-completable. **Construction & Civil (2.0)** has the lowest — physical, on-site work AI cannot substitute. **Office & Public Service (7.5)** is the second highest and also the largest by workforce (~11.5M workers), which is the central population-level finding.
 
 ---
 
@@ -181,7 +207,8 @@ No accounts, no logins, no user submissions stored beyond newsletter opt-in (Res
 - **Frontend:** Single static `index.html` (~150 KB) + `data.treemap.json` (~80 KB gz, 552 records) + per-occupation `data.detail/<id>.json` (~3.5 KB gz each, fetched on-demand). No framework, no bundler. Vanilla DOM + Canvas treemap renderer.
 - **Hosting:** Vercel (Tokyo edge node, `hnd1`). HTTP/2, HSTS, gzip/brotli on text assets.
 - **Data pipeline:** Python ingests JILPT IPD v7.00 xlsx files into per-occupation `data/occupations/<padded>.json` × 556. A build step joins source data + AI scores + translations + stats and emits 9 projection families to `dist/`. AI risk scoring is driven by Claude Opus 4.7 against the calibrated rubric.
-- **SEO/GEO surface:** Schema.org JSON-LD (Organization + Person + WebSite + Dataset + ItemList + FAQPage), Open Graph + Twitter Card, hreflang (JA / EN / x-default), sitemap.xml, robots.txt with explicit AI crawler whitelist, llms.txt + llms-full.txt.
+- **SEO/GEO surface:** Schema.org JSON-LD (Organization + Person + WebSite + Dataset + ItemList + FAQPage on home; WebPage + Occupation + BreadcrumbList on detail; WebPage + BreadcrumbList + ItemList on sector hubs and sectors index), Open Graph + Twitter Card, hreflang (JA / EN / x-default), sitemap.xml (1152 URLs: 6 statics + 2 sectors index + 32 sector hubs + 1112 occupation pages), robots.txt with explicit AI crawler whitelist (17 bots — GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc), llms.txt + llms-full.txt.
+- **Site URL surface (3-tier hierarchy):** homepage → sector hubs (16 industries) → occupation detail pages. The sectors index at `/<lang>/sectors` is the hub-of-hubs; each sector hub at `/<lang>/sectors/<sector_id>` aggregates and ranks the occupations in one industry; each detail page at `/<lang>/<id>` carries the full IPD profile, AI risk score with bilingual rationale, transfer-path career suggestions, and 5-axis personality profile.
 
 ---
 

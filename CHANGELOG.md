@@ -44,6 +44,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 8 — llms.txt + llms-full.txt surface sector hierarchy** —
+  the GEO companion files (read by ChatGPT, Claude, Perplexity, Gemini for
+  retrieval / citation) now describe the new sector cluster:
+  - `llms.txt` Pages section adds sectors index URLs, the 16 sector IDs
+    with occupation counts, and the per-occupation detail URL pattern.
+  - `llms-full.txt` gets a new §2.5 Sector taxonomy table (16 sectors
+    × ja/en name × occupation count × mean AI risk) plus cross-sector
+    observations (IT highest at 8.1, Construction lowest at 2.0,
+    Office & Public Service largest by workforce). §7 Technical architecture
+    updated with the 3-tier URL surface (home → sector hubs → detail) and
+    the new sitemap totals (1152 URLs).
+  AI search engines now have explicit pointers to the sector hubs instead
+  of having to discover them via sitemap crawl alone.
 - **Phase 7 — H2 headings embed occupation name** (`scripts/build_occupations.py`):
   detail-page H2s now incorporate the occupation name to match the long-tail
   intent queries the Phase 4 title rewrite anchored on:
