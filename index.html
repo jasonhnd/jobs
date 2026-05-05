@@ -28,8 +28,12 @@
     <meta property="og:title" content="AIの時代でも、あなたらしい働き方を。— 未来の仕事（非公式）" />
     <meta property="og:description" content="日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。" />
     <meta property="og:url" content="https://mirai-shigoto.com/" />
-    <meta property="og:image" content="https://mirai-shigoto.com/og.png" />
-    <meta property="og:image:secure_url" content="https://mirai-shigoto.com/og.png" />
+    <!-- og:image is RELATIVE so preview/staging deployments serve their own
+         current og.png. Modern OG crawlers (Twitter/X, Facebook, LinkedIn,
+         LINE, Telegram, Discord) resolve relative URLs against the page URL.
+         Each deployment domain (mirai-shigoto.com, pre.mirai-shigoto.com,
+         vercel preview URLs) thus shows its own og.png. -->
+    <meta property="og:image" content="/og.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -39,7 +43,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AIの時代でも、あなたらしい働き方を。— 未来の仕事（非公式）" />
     <meta name="twitter:description" content="日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。" />
-    <meta name="twitter:image" content="https://mirai-shigoto.com/og.png" />
+    <meta name="twitter:image" content="/og.png" />
     <meta name="twitter:image:alt" content="未来の仕事 — AIの時代でも、あなたらしい働き方を。" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/" />
