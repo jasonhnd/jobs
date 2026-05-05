@@ -44,6 +44,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 10 — SEO keyword coverage gap closure** — site-wide audit found
+  4 pages missing intent keywords; all 4 patched in this commit:
+  - `about.html` — added `<meta name="keywords">` covering 算出方法 / データ出典 /
+    厚生労働省 jobtag / JILPT / Claude Opus 4.7 / methodology / scoring rubric
+  - `compliance.html` — added keywords covering 著作権帰属 / 二次利用 / 派生作品 /
+    商標 / MIT / attribution / derivative work
+  - `privacy.html` — added keywords covering 個人情報保護 / Cookie / 第三者提供 /
+    GA4 / Cloudflare / APPI / GDPR / privacy policy
+  - `404.html` — added `<link rel="canonical">` (was missing — minor hygiene
+    even on `noindex` pages); kept noindex policy intact
+  - **Sector hub H2 sector-name embed** — the 3 TOP-5 H2s
+    (`AI 影響 が高い職業 TOP 5` / `AI 影響 が低い職業 TOP 5` / `就業者数 TOP 5`)
+    rewritten to lead with the sector name (`IT・通信 の AI 影響 が高い職業
+    TOP 5` etc.). Same H2-keyword strategy as Phase 7 detail pages but applied
+    to the 32 sector hubs. Captures `{sector} AI 影響` / `{sector} 就業者数`
+    long-tail queries at H2 strength.
 - **Phase 9 — sector dynamic OG cards** (`api/og.tsx` extended) — sector hubs
   now ship a dedicated 1200×630 social preview rendered at request time:
   - new query branch `/api/og?sector=<sector_id>&lang=<ja|en>` reads
