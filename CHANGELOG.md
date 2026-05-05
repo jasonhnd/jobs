@@ -44,6 +44,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
   hover). Each pill is an internal link straight into a sector hub, closing
   the homepage → hub → detail traffic funnel.
+- **Phase 9 — sector dynamic OG cards** (`api/og.tsx` extended) — sector hubs
+  now ship a dedicated 1200×630 social preview rendered at request time:
+  - new query branch `/api/og?sector=<sector_id>&lang=<ja|en>` reads
+    `/data.sectors.json`, finds the sector, and renders a card with the
+    sector name (Noto Serif JP, 104px), an INDUSTRY SECTOR eyebrow tinted
+    by the sector's hue (sage / gold / terracotta from Direction C palette),
+    a 14px hue-tinted left border, the 3 most-populous sample titles, and
+    a stats row with occupation count + mean AI risk + total workforce.
+  - `scripts/build_sector_hubs.py`: per-hub `og:image` and `twitter:image`
+    retargeted from the site-wide `/og.png` to the dynamic endpoint, so
+    every X / LINE / Slack / Discord share of a sector hub URL now shows
+    a card that's actually about *that* sector.
+  - The 2 sectors-index pages keep `/og.png` (site-wide brand card) since
+    a "16 sectors at once" card has weaker share-card legibility than
+    the brand mark.
+  - Card cached at the CDN with `s-maxage=86400, stale-while-revalidate=
+    604800` so cold edges don't thunder against the @vercel/og runtime.
 - **Phase 8 — llms.txt + llms-full.txt surface sector hierarchy** —
   the GEO companion files (read by ChatGPT, Claude, Perplexity, Gemini for
   retrieval / citation) now describe the new sector cluster:

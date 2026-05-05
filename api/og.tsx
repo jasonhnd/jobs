@@ -67,19 +67,242 @@ interface DetailRecord {
   stats?: { workers?: number | null; salary_man_yen?: number | null } | null;
 }
 
+// Shape of /data.sectors.json — used by the sector-card branch (Phase 9).
+interface SectorRecord {
+  id: string;
+  ja: string;
+  en: string;
+  hue: "safe" | "mid" | "warm";
+  occupation_count: number;
+  mean_ai_risk: number;
+  total_workforce: number;
+  sample_titles_ja?: string[];
+}
+interface SectorsProjection {
+  sectors: SectorRecord[];
+}
+
+// Map sector hue to Direction C accent color for the OG card border.
+const SECTOR_HUE_COLOR: Record<string, string> = {
+  safe: "#6E9B89", // sage
+  mid:  "#D4A749", // warm gold
+  warm: "#D96B3D", // terracotta
+};
+
 function padId(idDigits: string): string {
   // /data.detail/<id>.json is 4-digit zero-padded per §3A.2 (e.g. "0042.json").
   // Bound the digit count defensively — we won't ever serve more than 9999 occupations.
   return idDigits.padStart(4, "0").slice(-4);
 }
 
+// Phase 9: sector hub OG card. Source = /data.sectors.json (16-sector projection).
+async function renderSectorCard(url: URL, sectorId: string, lang: "ja" | "en"): Promise<Response> {
+  if (!/^[a-z_]+$/.test(sectorId)) {
+    return new Response("Bad request: invalid sector id", { status: 400 });
+  }
+
+  const sectorsUrl = new URL("/data.sectors.json", url.origin);
+  const res = await fetch(sectorsUrl.toString());
+  if (!res.ok) {
+    return new Response("Upstream sectors fetch failed", { status: 502 });
+  }
+  const projection = (await res.json()) as SectorsProjection;
+  const sector = projection.sectors.find((s) => s.id === sectorId);
+  if (!sector) {
+    return new Response("Sector not found", { status: 404 });
+  }
+
+  const accent = SECTOR_HUE_COLOR[sector.hue] ?? "#6E9B89";
+  const nameLoc = lang === "en" ? sector.en : sector.ja;
+  const nameAlt = lang === "en" ? sector.ja : sector.en;
+  const siteMark = "mirai-shigoto.com";
+
+  const headlineLabel = lang === "ja" ? "業界 / SECTOR" : "INDUSTRY SECTOR";
+  const countLabel =
+    lang === "ja"
+      ? `${sector.occupation_count} 職業`
+      : `${sector.occupation_count} occupations`;
+  const riskLabel =
+    lang === "ja"
+      ? `平均 AI 影響 ${sector.mean_ai_risk.toFixed(1)} / 10`
+      : `mean AI impact ${sector.mean_ai_risk.toFixed(1)} / 10`;
+  const workforceLabel =
+    lang === "ja"
+      ? `就業者 計 ${fmtNumber(sector.total_workforce)} 人`
+      : `Workforce ${fmtNumber(sector.total_workforce)}`;
+
+  const samples = (sector.sample_titles_ja ?? []).slice(0, 3).join("　・　");
+
+  const subsetText =
+    `UNOFFICIAL ${siteMark} ${nameLoc} ${nameAlt} ${headlineLabel} ` +
+    `${countLabel} ${riskLabel} ${workforceLabel} ${samples} ・ /`;
+
+  const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
+    loadGoogleFont("Noto+Serif+JP", 600, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  800, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  500, subsetText),
+  ]);
+
+  const C = {
+    bg:        "#FAF6EE",
+    ink:       "#241E18",
+    muted:     "#7A6F5E",
+    hairline:  "rgba(36, 30, 24, 0.12)",
+    accent:    "#D96B3D",
+    bg2:       "#FFFFFF",
+  };
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          background: C.bg,
+          color: C.ink,
+          fontFamily: "NotoSansJP",
+          padding: "48px 64px",
+          borderLeft: `14px solid ${accent}`,
+        }}
+      >
+        {/* Top bar — UNOFFICIAL badge + site mark */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              background: C.accent,
+              color: "#FFFFFF",
+              padding: "8px 18px",
+              borderRadius: "999px",
+              fontWeight: 800,
+              fontSize: "22px",
+              letterSpacing: "0.08em",
+            }}
+          >
+            UNOFFICIAL
+          </div>
+          <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
+            {siteMark}
+          </div>
+        </div>
+
+        {/* Sector eyebrow + name */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "26px",
+              color: accent,
+              fontWeight: 800,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              marginBottom: "16px",
+            }}
+          >
+            {headlineLabel}
+          </div>
+          <div
+            style={{
+              fontFamily: "NotoSerifJP",
+              fontSize: "104px",
+              fontWeight: 600,
+              lineHeight: 1.05,
+              color: C.ink,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {nameLoc}
+          </div>
+          {nameAlt ? (
+            <div
+              style={{
+                fontSize: "32px",
+                color: C.muted,
+                fontWeight: 500,
+                marginTop: "12px",
+              }}
+            >
+              {nameAlt}
+            </div>
+          ) : null}
+          {samples ? (
+            <div
+              style={{
+                fontSize: "24px",
+                color: C.muted,
+                fontWeight: 500,
+                marginTop: "20px",
+              }}
+            >
+              {samples}
+            </div>
+          ) : null}
+        </div>
+
+        {/* Bottom stats row */}
+        <div
+          style={{
+            display: "flex",
+            gap: "28px",
+            fontSize: "26px",
+            color: C.ink,
+            fontWeight: 500,
+            borderTop: `1px solid ${C.hairline}`,
+            paddingTop: "24px",
+            marginTop: "20px",
+          }}
+        >
+          <span>{countLabel}</span>
+          <span style={{ color: C.muted, opacity: 0.5 }}>·</span>
+          <span>{riskLabel}</span>
+          <span style={{ color: C.muted, opacity: 0.5 }}>·</span>
+          <span>{workforceLabel}</span>
+        </div>
+      </div>
+    ),
+    {
+      width: 1200,
+      height: 630,
+      fonts: [
+        { name: "NotoSerifJP", data: fontSerifBuf,  weight: 600, style: "normal" },
+        { name: "NotoSansJP",  data: fontSansBoldBuf, weight: 800, style: "normal" },
+        { name: "NotoSansJP",  data: fontSansRegBuf, weight: 500, style: "normal" },
+      ],
+      headers: {
+        "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+      },
+    }
+  );
+}
+
+
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
+  const sectorParam = url.searchParams.get("sector");
   const idParam = url.searchParams.get("id");
   const lang = url.searchParams.get("lang") === "en" ? "en" : "ja";
 
+  // Phase 9: sector-card branch — /api/og?sector=<sector_id>&lang=<ja|en>
+  if (sectorParam) {
+    return renderSectorCard(url, sectorParam, lang);
+  }
+
   if (!idParam || !/^\d+$/.test(idParam)) {
-    return new Response("Bad request: ?id= required (numeric)", { status: 400 });
+    return new Response("Bad request: ?id= or ?sector= required", { status: 400 });
   }
 
   // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the
