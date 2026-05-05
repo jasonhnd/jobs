@@ -36,6 +36,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 - **`scripts/build_occupations.py`** — sitemap rewriter now reads
   `.sector_manifest.json` and re-injects sector URLs whenever it runs, so the
   sector entries survive any future occupation rebuild.
+- **Phase 2 — homepage sector navigation** (`index.html`): pre-rendered
+  `<nav class="sector-nav">` block sits between the treemap and the data
+  attribution, listing all 16 sectors as pill chips with occupation counts.
+  Both `ja/` and `en/` link sets emitted statically and toggled via the
+  existing `data-i18n` mechanism — first paint shows the entry list with no
+  fetch. Direction C tokens (`--bg2` surface, `--bg3` pill, `--accent`
+  hover). Each pill is an internal link straight into a sector hub, closing
+  the homepage → hub → detail traffic funnel.
 
 ### Custom 404 page
 

@@ -1425,8 +1425,11 @@
       }
       footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
       footer .footer-meta a { color: var(--accent); }
+      footer .footer-meta .m-only { display: none; }
+      footer .footer-meta .nowrap { white-space: nowrap; }
       @media (max-width: 540px) {
-        footer .footer-meta { font-size: 0.66rem; line-height: 1.55; }
+        footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+        footer .footer-meta .m-only { display: inline; }
       }
       [data-i18n]:not(.active) {
         display: none;
@@ -2059,6 +2062,78 @@
         .data-summary .ds-sep { display: none; }
       }
       .data-summary .about-link { font-weight: 600; }
+
+      /* Sector navigation block — Phase 2 of sector hub rollout.
+         Sits between treemap and data attribution, gives every visitor a
+         direct route into the 16 sector hubs. Pill chips mirror the footer
+         token system but inverted: warm-cream pill on bg2 surface. */
+      .sector-nav {
+        margin: 28px 0 18px;
+        padding: 22px 18px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .sector-nav-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+        padding: 0 2px;
+      }
+      .sector-nav-title {
+        font-family: var(--font-serif);
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--fg);
+        margin: 0;
+      }
+      .sector-nav-sub {
+        font-size: 0.78rem;
+        color: var(--fg2);
+      }
+      .sector-nav-grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .sector-nav-grid li { margin: 0; }
+      .sector-nav-grid a {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        padding: 7px 14px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--fg);
+        text-decoration: none;
+        font-size: 0.85rem;
+        line-height: 1.2;
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      .sector-nav-grid a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.08);
+        text-decoration: none;
+      }
+      .sector-nav-grid .count {
+        color: var(--fg2);
+        font-size: 0.74rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .sector-nav-grid a:hover .count { color: var(--accent); }
+      @media (max-width: 540px) {
+        .sector-nav { margin: 22px 0 14px; padding: 16px 14px; }
+        .sector-nav-title { font-size: 0.98rem; }
+        .sector-nav-grid a { padding: 6px 11px; font-size: 0.8rem; }
+      }
       @media (max-width: 540px) {
         .data-summary { font-size: 0.8rem; padding: 12px 14px; }
       }
@@ -2391,6 +2466,58 @@
               style="visibility:hidden"></canvas>
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
+
+      <!-- Phase 2: Sector navigation — direct entry to 16 sector hub pages.
+           Each pill = sector name + occupation count. Pre-rendered static HTML
+           (no fetch) so first paint shows the entry list immediately. -->
+      <nav class="sector-nav" aria-label="Browse occupations by sector">
+        <div class="sector-nav-head">
+          <h2 class="sector-nav-title">
+            <span data-i18n="ja" class="active">セクターから探す</span>
+            <span data-i18n="en">Browse by sector</span>
+          </h2>
+          <span class="sector-nav-sub">
+            <span data-i18n="ja" class="active">16 セクター・556 職業</span>
+            <span data-i18n="en">16 sectors · 556 occupations</span>
+          </span>
+        </div>
+        <ul class="sector-nav-grid" data-i18n="ja">
+          <li><a href="/ja/sectors/iryo">医療・保健 <span class="count">36</span></a></li>
+          <li><a href="/ja/sectors/fukushi">福祉・介護 <span class="count">15</span></a></li>
+          <li><a href="/ja/sectors/kyoiku">教育・指導 <span class="count">20</span></a></li>
+          <li><a href="/ja/sectors/hoan">保安・公安 <span class="count">15</span></a></li>
+          <li><a href="/ja/sectors/noringyo">農林・水産 <span class="count">14</span></a></li>
+          <li><a href="/ja/sectors/senmon">専門・技術 <span class="count">51</span></a></li>
+          <li><a href="/ja/sectors/it">IT・通信 <span class="count">22</span></a></li>
+          <li><a href="/ja/sectors/shigyo">士業・経営・コンサル <span class="count">63</span></a></li>
+          <li><a href="/ja/sectors/creative">クリエイティブ・メディア <span class="count">37</span></a></li>
+          <li><a href="/ja/sectors/jimu">事務・公務 <span class="count">57</span></a></li>
+          <li><a href="/ja/sectors/hanbai">販売・営業 <span class="count">41</span></a></li>
+          <li><a href="/ja/sectors/service">サービス・接客 <span class="count">41</span></a></li>
+          <li><a href="/ja/sectors/seizo">製造・職人 <span class="count">59</span></a></li>
+          <li><a href="/ja/sectors/maint">設備・保守 <span class="count">49</span></a></li>
+          <li><a href="/ja/sectors/kensetu">建設・土木 <span class="count">20</span></a></li>
+          <li><a href="/ja/sectors/keiseki">軽作業・清掃 <span class="count">16</span></a></li>
+        </ul>
+        <ul class="sector-nav-grid" data-i18n="en">
+          <li><a href="/en/sectors/iryo">Medical &amp; Health <span class="count">36</span></a></li>
+          <li><a href="/en/sectors/fukushi">Welfare &amp; Care <span class="count">15</span></a></li>
+          <li><a href="/en/sectors/kyoiku">Education &amp; Instruction <span class="count">20</span></a></li>
+          <li><a href="/en/sectors/hoan">Public Safety <span class="count">15</span></a></li>
+          <li><a href="/en/sectors/noringyo">Agriculture &amp; Fishing <span class="count">14</span></a></li>
+          <li><a href="/en/sectors/senmon">Specialist &amp; Technical <span class="count">51</span></a></li>
+          <li><a href="/en/sectors/it">IT &amp; Communications <span class="count">22</span></a></li>
+          <li><a href="/en/sectors/shigyo">Professional Services <span class="count">63</span></a></li>
+          <li><a href="/en/sectors/creative">Creative &amp; Media <span class="count">37</span></a></li>
+          <li><a href="/en/sectors/jimu">Office &amp; Public Service <span class="count">57</span></a></li>
+          <li><a href="/en/sectors/hanbai">Sales &amp; Retail <span class="count">41</span></a></li>
+          <li><a href="/en/sectors/service">Service &amp; Hospitality <span class="count">41</span></a></li>
+          <li><a href="/en/sectors/seizo">Manufacturing &amp; Craft <span class="count">59</span></a></li>
+          <li><a href="/en/sectors/maint">Facilities &amp; Maintenance <span class="count">49</span></a></li>
+          <li><a href="/en/sectors/kensetu">Construction &amp; Civil <span class="count">20</span></a></li>
+          <li><a href="/en/sectors/keiseki">Light Work &amp; Cleaning <span class="count">16</span></a></li>
+        </ul>
+      </nav>
 
       <!-- Stage 1: compact data attribution. Full content moved to /about.
            Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
