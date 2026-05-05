@@ -402,6 +402,12 @@
         font-style: italic;
         font-weight: 600;
       }
+      /* Mobile hero title line-break point: "AIの時代でも、" stays on line 1,
+         "あなたらしい働き方を。" stays on line 2 — semantic Japanese phrase boundary
+         instead of mid-word "を。" orphan. Hidden on wider viewports where the
+         title fits on one line. */
+      .ja-phrase-break { display: inline; }
+      @media (min-width: 769px) { .ja-phrase-break { display: none; } }
       /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM
          for future dark-variant work; restore by removing this rule. */
       .theme-toggle { display: none !important; }
@@ -1715,7 +1721,7 @@
           </div>
           <div class="desktop-hero-inner">
             <h2 class="dh-title">
-              <span data-i18n="ja" class="active">AIの時代でも、<span class="acc">あなたらしい</span>働き方を。</span>
+              <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span>働き方を。</span>
               <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
             </h2>
             <p class="dh-lead">
@@ -1772,7 +1778,7 @@
              search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="Mobile quick-search hero">
           <h2 class="mobile-hero-title">
-            <span data-i18n="ja" class="active">AIの時代でも、<span class="acc">あなたらしい</span>働き方を。</span>
+            <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span>働き方を。</span>
             <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
           </h2>
           <div class="mobile-hero-trust">
