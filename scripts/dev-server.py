@@ -54,6 +54,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         elif re.match(r"^/(ja|en)/\d+$", path):
             # Stage 1 numeric-id occupation URLs (Design.md §0).
             self.path = path + ".html"
+        elif re.match(r"^/(ja|en)/sectors/[a-z_]+$", path):
+            # Sector hub pages: /<lang>/sectors/<sector_id> → file.html.
+            self.path = path + ".html"
         elif path.startswith("/occ/") and "." not in path.rsplit("/", 1)[-1]:
             # Legacy slug URLs — Vercel 301-redirects these in production
             # (see vercel.json), but locally serve the HTML directly so old
