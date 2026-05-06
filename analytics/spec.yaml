@@ -281,6 +281,53 @@ events:
       - { name: system_pref, type: string, desc: "browser-reported prefers-color-scheme — 'light' | 'dark'" }
     conversion: false
 
+  # ---- /map page (Design-Mobile.md §4.8) ----
+  # Mobile-first independent occupation map with sector segmented treemap +
+  # bottom sheet detail preview. These 4 events let us measure the discovery
+  # → exploration → detail-jump funnel separately from the homepage flows.
+
+  - name: map_open
+    description: |
+      User landed on /map. Fires once per page load after data finishes loading.
+      Use the `referrer` param to attribute back to the entry point: home_card
+      (mobile preview-card tap), direct (typed URL / bookmark / external),
+      detail (back-navigation from a /ja/<id> page), internal (from another
+      site page), external (from a different host).
+    params:
+      - { name: referrer, type: string, desc: "'home_card' | 'direct' | 'detail' | 'internal' | 'external'" }
+    conversion: false
+
+  - name: map_filter
+    description: |
+      User changed the sector chip OR the sort dropdown on /map. Fires per
+      change (not debounced). Use to understand which sectors get explored
+      and which sort order users prefer.
+    params:
+      - { name: sector, type: string, desc: "selected sector_id, or 'all'" }
+      - { name: sort, type: string, desc: "'ai_risk_desc' | 'ai_risk_asc' | 'salary_desc' | 'workers_desc'" }
+    conversion: false
+
+  - name: map_cell_tap
+    description: |
+      User tapped a treemap cell on /map, opening the bottom sheet. Distinct
+      from map_detail_click (which fires when they then jump to the detail
+      page). The gap between map_cell_tap and map_detail_click counts is the
+      "preview-only" funnel — users who looked but didn't go deeper.
+    params:
+      - { name: job_id, type: int, desc: "occupation id (1..556)" }
+      - { name: sector, type: string, desc: "occupation's sector_id" }
+      - { name: rank, type: int, desc: "global ranking by ai_risk desc (1..552), 0 if outside Top 50" }
+    conversion: false
+
+  - name: map_detail_click
+    description: |
+      Bottom-sheet "詳細を見る" CTA tap on /map → /ja/<id>. This is the /map
+      → detail conversion event; pair with map_open as denominator for funnel
+      conversion rate.
+    params:
+      - { name: job_id, type: int, desc: "occupation id (1..556)" }
+    conversion: true   # /map → detail jump is the page's primary funnel goal
+
 # ----------------------------------------------------------------------
 # Custom Dimensions — event-scoped
 # ----------------------------------------------------------------------
@@ -407,6 +454,27 @@ event_scoped_dimensions:
   - parameter_name: system_pref
     display_name: System Color Preference
     description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
+
+  # ---- /map page params (Design-Mobile.md §4.8) ----
+  - parameter_name: referrer
+    display_name: Map Page Referrer
+    description: How the user arrived at /map. Values - home_card, direct, detail, internal, external. Used by `map_open` to attribute the funnel.
+
+  - parameter_name: sector
+    display_name: Sector ID
+    description: JILPT 大分類 sector identifier (e.g. iryo, jimu, seizo). Used by `map_filter` and `map_cell_tap` on the /map page; can also appear on other events that need sector grouping.
+
+  - parameter_name: sort
+    display_name: Map Sort Order
+    description: Active sort order on /map. Values - ai_risk_desc, ai_risk_asc, salary_desc, workers_desc. Used by `map_filter`.
+
+  - parameter_name: rank
+    display_name: Global AI Risk Rank
+    description: 1-based ranking of an occupation by ai_risk desc (then workers desc as tiebreaker). 0 if outside the Top 50 we use to gate the bottom-sheet ranking badge. Used by `map_cell_tap`.
+
+  - parameter_name: job_id
+    display_name: Job ID
+    description: Numeric occupation id (1..580). Used by `map_cell_tap` and `map_detail_click`. Distinct from `occupation_id` which is the existing dimension used by treemap-canvas events; both reference the same id space and can be unified later.
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — user-scoped (persist across sessions)
