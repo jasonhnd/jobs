@@ -284,11 +284,11 @@ event_scoped_dimensions:
     description: Numeric ID matching jobtag (1..580).
 
   - parameter_name: occupation_name_ja
-    display_name: Occupation (JA)
+    display_name: Occupation JA
     description: Japanese occupation title from data.treemap.json.
 
   - parameter_name: occupation_name_en
-    display_name: Occupation (EN)
+    display_name: Occupation EN
     description: English occupation title from data.treemap.json.
 
   - parameter_name: ai_risk_score
@@ -337,12 +337,7 @@ event_scoped_dimensions:
 
   - parameter_name: source
     display_name: Navigation Source
-    description: |
-      How the user arrived at the navigation event:
-      `desktop_click` / `touch_tap` / `keyboard` (occupation_tile_click);
-      `chip` (popular_job_click);
-      `search_submit` / `suggest_click` / `suggest_keyboard` (job_search_navigate).
-      Lets dashboards union all 3 events into one funnel grouped by entry path.
+    description: How user arrived at navigation. Values include desktop_click, touch_tap, keyboard, chip, search_submit, suggest_click, suggest_keyboard.
 
   - parameter_name: query
     display_name: Search Query
@@ -354,12 +349,7 @@ event_scoped_dimensions:
 
   - parameter_name: intent_source
     display_name: Search Intent Source
-    description: |
-      How a `job_search_intent` was triggered. `submit` (Enter on input or
-      click search button), `arrow_keys` (↑↓ inside dropdown), `hover`
-      (mouse hover ≥ 500ms on a suggestion), `click` (mousedown / touchstart
-      on a suggestion). Lets dashboards split keyboard vs mouse vs touch
-      engagement patterns.
+    description: How job_search_intent was triggered. Values - submit, arrow_keys, hover, click. Lets dashboards split keyboard vs mouse vs touch engagement.
 
   - parameter_name: platform
     display_name: Share Platform
@@ -378,11 +368,11 @@ event_scoped_dimensions:
     description: Previously active color layer at the moment of a `layer_change` (paired with `layer_name` which is the new value).
 
   - parameter_name: time_open_ms
-    display_name: Modal Open Duration (ms)
+    display_name: Modal Open Duration ms
     description: How long the occupation modal was open before being closed. Used to score "engaged but didn't convert" sessions.
 
   - parameter_name: freetext_length
-    display_name: Feedback Free-Text Length
+    display_name: Feedback Freetext Length
     description: Character count of the free-text feedback field. The text itself is NOT logged (PII risk) — only the length, as a proxy for thoughtfulness.
 
   - parameter_name: success

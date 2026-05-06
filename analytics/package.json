@@ -5,6 +5,7 @@
   "description": "One-shot GA4 property setup script. Reads spec.yaml, applies via Admin API.",
   "type": "module",
   "scripts": {
+    "oauth-init": "node oauth-init.mjs",
     "discover": "node setup-ga4.mjs --discover",
     "setup": "node setup-ga4.mjs",
     "setup:dry": "node setup-ga4.mjs --dry-run"
