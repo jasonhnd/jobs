@@ -143,21 +143,6 @@ A Python build pipeline (requires [uv](https://docs.astral.sh/uv/)) ingests gove
 
 ---
 
-## Local development
-
-The site is a static `index.html` plus pre-built data in `dist/`. To view it locally:
-
-```bash
-git clone https://github.com/jasonhnd/jobs.git
-cd jobs
-python -m http.server 8000
-# open http://localhost:8000/
-```
-
-To re-run the build pipeline, see [`scripts/README.md`](scripts/README.md). You will need [uv](https://docs.astral.sh/uv/) and an LLM API key.
-
----
-
 ## Repository structure
 
 ```text
