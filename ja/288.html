@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/288#webpage",
       "url": "https://mirai-shigoto.com/ja/288",
       "name": "食品技術者 — AI 影響 7/10",
-      "description": "食品技術者、AI研究支援",
+      "description": "食品技術者とは、加工食品の開発、生産工程や品質の管理などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/288#occupation",
       "name": "食品技術者",
-      "description": "食品技術者、AI研究支援",
+      "description": "食品技術者とは、加工食品の開発、生産工程や品質の管理などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>食品技術者とは</h2>
+        <p class="definition">食品技術者とは、加工食品の開発、生産工程や品質の管理などを行う職業です。</p>
         <p>加工食品の開発、生産工程や品質の管理などを行う。</p>
         <p>化学、工学、微生物学などの知識に基づき、原料・材料に何らかの加工処理を行う加工食品の企画開発、生産工程の技術開発、技術指導、検査、作業管理などを担当する。</p>
         <p>企画開発担当の食品技術者は、商品化計画及び工場生産・運営計画の二つの仕事を担当している。商品化計画では、消費者のニーズを的確に把握し、そのニーズにしたがって、食品の中身とイメージ、サイズや品質、容量、パッケージ、価格設定などを検討し、商品開発を決定する。</p>

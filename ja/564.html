@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/564#webpage",
       "url": "https://mirai-shigoto.com/ja/564",
       "name": "検疫官（看護師） — AI 影響 4/10",
-      "description": "検疫官、現場検査+書類",
+      "description": "検疫官（看護師）とは、国際線の発着がある空港や港湾で、海外からの入国者・帰国者に対する検疫、感染症を媒介する動物の捕獲調査、国際航行する船舶内の衛生状態の確認等を行い、海外からの感染症の流入やまん延を防ぐ職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/564#occupation",
       "name": "検疫官（看護師）",
-      "description": "検疫官、現場検査+書類",
+      "description": "検疫官（看護師）とは、国際線の発着がある空港や港湾で、海外からの入国者・帰国者に対する検疫、感染症を媒介する動物の捕獲調査、国際航行する船舶内の衛生状態の確認等を行い、海外からの感染症の流入やまん延を防ぐ職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>検疫官（看護師）とは</h2>
+        <p class="definition">検疫官（看護師）とは、国際線の発着がある空港や港湾で、海外からの入国者・帰国者に対する検疫、感染症を媒介する動物の捕獲調査、国際航行する船舶内の衛生状態の確認等を行い、海外からの感染症の流入やまん延を防ぐ職業です。</p>
         <p>国際線の発着がある空港や港湾で、海外からの入国者・帰国者に対する検疫、感染症を媒介する動物の捕獲調査、国際航行する船舶内の衛生状態の確認等を行い、海外からの感染症の流入やまん延を防ぐ。</p>
         <p>厚生労働省所管の検疫所には、検疫官（看護師）のほか、検疫医療専門職（医師）や一般職（事務官）、食品衛生監視員といったさまざまな職種がおり、互いに連携しながら業務にあたっている。その中で、検疫官（看護師）は、主に検疫業務と港湾衛生業務を担当している。</p>
         <p>検疫業務には、すべての入国者・帰国者の健康状態の確認や体調に異状がある人への対応業務がある。入国者・帰国者が感染症にり患しているかどうかは、サーモグラフィにおける発熱の確認、目視での観察や問診、触診等から総合的に判断する。また、入国・帰国時には、体調に異状のある人だけではなく、体調に心配がある人からの健康相談も対応している。また、ポスターやリーフレット、ホームページなどで感染症に関する情報発信も行っている。電話による相談対応では、帰国して時間が経ってからの体調不良に関することや、これから渡航する国の衛生状態や感染症の流行状況、渡航前に必要な予防接種の種類等の相談を受けることが多い。感染症に関する情報発信は検疫所内等で常時行っているだけでなく、空港・港湾で開催されるイベント等への出展によっても実施している。なお、一部の検疫所では検疫官（看護師）が海外渡航者に対する黄熱等の予防接種の補助を行っている。</p>

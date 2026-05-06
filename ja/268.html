@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/268#webpage",
       "url": "https://mirai-shigoto.com/ja/268",
       "name": "半導体製造 — AI 影響 4/10",
-      "description": "半導体製造、自動化進行",
+      "description": "半導体製造とは、半導体の製造工程で設備、装置、機械を操作、監視し半導体を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/268#occupation",
       "name": "半導体製造",
-      "description": "半導体製造、自動化進行",
+      "description": "半導体製造とは、半導体の製造工程で設備、装置、機械を操作、監視し半導体を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>半導体製造とは</h2>
+        <p class="definition">半導体製造とは、半導体の製造工程で設備、装置、機械を操作、監視し半導体を製造する職業です。</p>
         <p>半導体の製造工程で設備、装置、機械を操作、監視し半導体を製造する。</p>
         <p>半導体は、シリコンなどの元素半導体を材料として作られる電子部品で、トランジスターやダイオードなどの素子単体（ディスクリート半導体部品）とトランジスターなどで構成されるLSIがある。コンピュータ、冷蔵庫、電子レンジ等の家電製品、スマートフォン、タブレット等の一般消費者向け製品から産業用機械まで、小型化、軽量化、省エネルギー化が実現されているのは、半導体がチップやLSIに大量に組み込まれるように設計・開発を進め、効率よく基盤の中に収めることに成功した成果といえる。</p>
         <p>生産職は、半導体工場の中で、半導体の量産、組み立て、検査の工程を担っている。生産の自動化が進み、仕事は製造のための設備、装置、機械の操作、監視が中心となっている。設備、装置、機械は非常に精密であり、仕様書、マニュアル等の操作手順に従った正確な操作を行い、担当する装置等が順調に動いているかを常に監視する。軽微なトラブルには対応するが、解決が困難な場合にはエンジニア等に状況を報告し、相談するなど対応を図る。</p>

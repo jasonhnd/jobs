@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/584#webpage",
       "url": "https://mirai-shigoto.com/ja/584",
       "name": "3Dプリンター技術者 — mirai-shigoto.com",
-      "description": "ものづくりの現場などにおいて、デジタルデータをもとに３Ｄプリンターを操作し、金属、樹脂などさまざまな材料から立体物の試作品や製品を造形する。",
+      "description": "3Dプリンター技術者とは、ものづくりの現場などにおいて、デジタルデータをもとに３Ｄプリンターを操作し、金属、樹脂などさまざまな材料から立体物の試作品や製品を造形する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/584#occupation",
       "name": "3Dプリンター技術者",
-      "description": "ものづくりの現場などにおいて、デジタルデータをもとに３Ｄプリンターを操作し、金属、樹脂などさまざまな材料から立体物の試作品や製品を造形する。",
+      "description": "3Dプリンター技術者とは、ものづくりの現場などにおいて、デジタルデータをもとに３Ｄプリンターを操作し、金属、樹脂などさまざまな材料から立体物の試作品や製品を造形する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -176,6 +176,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -346,6 +350,7 @@
 
       <section class="context">
         <h2>3Dプリンター技術者とは</h2>
+        <p class="definition">3Dプリンター技術者とは、ものづくりの現場などにおいて、デジタルデータをもとに３Ｄプリンターを操作し、金属、樹脂などさまざまな材料から立体物の試作品や製品を造形する職業です。</p>
         <p>ものづくりの現場などにおいて、デジタルデータをもとに３Ｄプリンターを操作し、金属、樹脂などさまざまな材料から、立体物の試作品や少量生産品を造形する。</p>
         <p>３Ｄプリンター技術はデジタル設計データをもとに、材料を一層ずつ積み重ねていく（＝積層）ことにより、立体物を造形する製造技術であり、ＡＭ技術（アディティブ・マニュファクチャリング：付加製造、積層造形）と表現されることもある。３ＤプリンターはこのＡＭ技術を応用した装置といえる。</p>
         <p>例えば、旋盤やフライス盤などに代表される従来からの切削加工は、切る・削ることで不要な部分を除去する製造技術である。これに対して、ＡＭ技術は立体物のスライスされた２次元の層を一枚ずつ積み重ねていく“足し算”式の製造技術といえる。国際的にはＡＭ技術という表現が一般的だが、国内では３Ｄプリンター技術と呼ばれている。</p>

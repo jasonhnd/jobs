@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/488#webpage",
       "url": "https://mirai-shigoto.com/ja/488",
       "name": "ペストコントロール従事者（害虫等防除・駆除従事者） — AI 影響 3/10",
-      "description": "害虫駆除、現場対応",
+      "description": "ペストコントロール従事者（害虫等防除・駆除従事者）とは、人間にとって有害な生物（害獣・害虫・細菌等）の防除・駆除を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/488#occupation",
       "name": "ペストコントロール従事者（害虫等防除・駆除従事者）",
-      "description": "害虫駆除、現場対応",
+      "description": "ペストコントロール従事者（害虫等防除・駆除従事者）とは、人間にとって有害な生物（害獣・害虫・細菌等）の防除・駆除を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>ペストコントロール従事者（害虫等防除・駆除従事者）とは</h2>
+        <p class="definition">ペストコントロール従事者（害虫等防除・駆除従事者）とは、人間にとって有害な生物（害獣・害虫・細菌等）の防除・駆除を行う職業です。</p>
         <p>人間にとって有害な生物（害獣・害虫・細菌等）の防除・駆除を行う。</p>
         <p>ペストコントロール従事者（PCO：Pest Control Operator）の「ペスト」という単語は、病名だけではなく、有害生物全般を意味する。主な活動としては、一般家庭や公共施設、事業所などの害虫駆除から博覧会等の大規模イベントでの衛生環境の維持・管理、水害等の自然災害後の消毒作業、感染症発生時の薬剤散布等をあげることができる。依頼先を訪問し、調査を行って最適な方法を検討し防除・駆除にあたる。方法は様々で、対象となるペスト（有害生物）や現場の状況によって最適・最善の対応策を講じる。</p>
         <p>飲食店や事業所・オフィスなどの「特定建築物（一定以上の面積の百貨店、図書館、遊技場、店舗または事務所、研修所、旅館など）」については、有害生物の防除にあたり、薬剤散布においても環境への影響を配慮し、総合的な対策を講じる「総合的有害生物管理（IPM：Integrated Pest Management）（有害生物の発生状況に応じて、薬剤による科学的防除や粘着板など捕獲機を用いた物理的防除といった防除方法を併用し、環境に負担をかけないように有害生物の発生を抑制する手法）」が求められている。</p>

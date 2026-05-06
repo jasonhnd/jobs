@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/511#webpage",
       "url": "https://mirai-shigoto.com/ja/511",
       "name": "ドローンパイロット — AI 影響 6/10",
-      "description": "ドローンパイロット、AI自律化",
+      "description": "ドローンパイロットとは、ドローンを操縦し、上空からの撮影、測量、点検、観察、捜索、農薬散布などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/511#occupation",
       "name": "ドローンパイロット",
-      "description": "ドローンパイロット、AI自律化",
+      "description": "ドローンパイロットとは、ドローンを操縦し、上空からの撮影、測量、点検、観察、捜索、農薬散布などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -213,6 +213,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -383,6 +387,7 @@
 
       <section class="context">
         <h2>ドローンパイロットとは</h2>
+        <p class="definition">ドローンパイロットとは、ドローンを操縦し、上空からの撮影、測量、点検、観察、捜索、農薬散布などを行う職業です。</p>
         <p>ドローンを操縦し、上空からの撮影、測量、点検、観察、捜索、農薬散布などを行う。なお、ドローンとは本来は無人航空機（UAV: Unmanned Aerial Vehicle）のことであり、固定翼のある普通の飛行機のような形のものも含まれるが、ここでは一般にイメージされる複数のプロペラを持つマルチコプター型のドローンについて解説している。</p>
         <p>ドローンはこれまでヘリコプターや小型飛行機で行われていた空撮や農薬散布を代替するだけでなく、橋梁を下から点検したり、対象の上を縦横に飛行し、立体地図を作成するなど、これまでできなかったことを可能にしている。プログラムされて飛行しているものであるが最近では多数のドローンを夜空に飛ばす、ドローン・ショーもよく行われるようになった。ドローンスクールが各地にでき（国土交通省「登録講習機関」は全国に約800箇所）、その講師などの仕事もある。</p>
         <p>当初からドローンでの物流が期待されたが、住宅地上空を飛ぶ際の懸念や騒音から現状としては実用面での広がりは限定的である。また、ドローンによる上空からの施設等の警備も考えられるが、ドローンはバッテリー駆動であり、長時間の飛行には向いておらず、これについても限定的な実用に留まっている現状にある。</p>

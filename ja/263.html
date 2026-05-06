@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/263#webpage",
       "url": "https://mirai-shigoto.com/ja/263",
       "name": "光学機器組立 — AI 影響 3/10",
-      "description": "光学機器組立、精密手作業",
+      "description": "光学機器組立とは、望遠鏡、顕微鏡、カメラ、測定機器などの光学機器を組み立てる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/263#occupation",
       "name": "光学機器組立",
-      "description": "光学機器組立、精密手作業",
+      "description": "光学機器組立とは、望遠鏡、顕微鏡、カメラ、測定機器などの光学機器を組み立てる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>光学機器組立とは</h2>
+        <p class="definition">光学機器組立とは、望遠鏡、顕微鏡、カメラ、測定機器などの光学機器を組み立てる職業です。</p>
         <p>望遠鏡、顕微鏡、カメラ、測定機器などの光学機器を組み立てる。</p>
         <p>事前にセットされた部品を確認し、紙やモニターに表示された設計図と指示書に沿って製品を組み立てる。製品にもよるが、組立は手作業で行い製品に仕上がるまで一人で担当する。</p>
         <p>光学測定機器の組立の例で仕事の流れをみると、当日の組立作業指示に従い組立作業に入る。まず、事前に用意された精密機械部品が設計図面通りできているか確認する。その後、紙やモニターに表示された設計図、指示書に従って工程順に組み立てて行く。ネジやビス止めを確認しながら一つ一つ丁寧に組み立てていく。組み立て作業の途中で生じた問題については、担当責任者に相談するなどして解決する。</p>

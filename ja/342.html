@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/342#webpage",
       "url": "https://mirai-shigoto.com/ja/342",
       "name": "イラストレーター — AI 影響 9/10",
-      "description": "イラストレーター、生成AI急進",
+      "description": "イラストレーターとは、広告会社、出版会社、印刷会社などからの依頼を受けて、制作目的に沿ったイラストを描く職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/342#occupation",
       "name": "イラストレーター",
-      "description": "イラストレーター、生成AI急進",
+      "description": "イラストレーターとは、広告会社、出版会社、印刷会社などからの依頼を受けて、制作目的に沿ったイラストを描く職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>イラストレーターとは</h2>
+        <p class="definition">イラストレーターとは、広告会社、出版会社、印刷会社などからの依頼を受けて、制作目的に沿ったイラストを描く職業です。</p>
         <p>広告会社、出版会社、印刷会社などから依頼を受けて、制作目的に沿ったイラストを描く。</p>
         <p>紙と筆記用具、筆と絵具、色鉛筆、マーカー、ペンなどを使用し、写実、デフォルメ（変形）、戯画化などの手法を駆使する。人物やスポーツ、植物や動物、自動車や飛行機などメカニックなもの、キャラクターを使用したもの、風景画など、自分が得意とする分野のイラストを描き、締め切りに間に合うように仕上げる。透視図や精密画を描いたり、切絵、貼絵、影絵などのペーパークラフトを制作したり、エアーブラシなどの道具を使用して描くなど、様々な表現技法を用いて、発注者の望む効果が得られる作品を制作する。</p>
         <p>現在は描画ソフト、画像処理ソフト等を使用し、パソコンやペンタブレットを用いて描くデジタルイラストが主流となってきている。3次元CG（computer graphics）の技術も活用されるようになっている。CGデザイナーが兼務する傾向も強まっている。連絡や納品にもメールやインターネットを使うようになっている。</p>

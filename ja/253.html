@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/253#webpage",
       "url": "https://mirai-shigoto.com/ja/253",
       "name": "金型工 — AI 影響 3/10",
-      "description": "金型工、手作業の精密仕事",
+      "description": "金型工とは、工作機械を操作して大量生産の部品を作るための金型を製作する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/253#occupation",
       "name": "金型工",
-      "description": "金型工、手作業の精密仕事",
+      "description": "金型工とは、工作機械を操作して大量生産の部品を作るための金型を製作する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>金型工とは</h2>
+        <p class="definition">金型工とは、工作機械を操作して大量生産の部品を作るための金型を製作する職業です。</p>
         <p>工作機械を操作して大量生産の部品を作るための金型を製作する。</p>
         <p>金型とは、同じ形の製品や部品を同じ品質で大量に効率よく製造するために、金属材料で作られた「型」のことで、身のまわりのプラスチック製品から、電機・自動車部品、光学機器、生産機器、医療機器、建築資材などの同じ製品を大量に作る時に欠かせないものである。</p>
         <p>金型は、大きいものは100トン以上、小さいものは手のひらに載るサイズまで製品に応じて多種多様で、精度ではサブミクロン（1万分の1ミリ）の超精密が要求されるものもある。</p>

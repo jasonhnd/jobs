@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/299#webpage",
       "url": "https://mirai-shigoto.com/ja/299",
       "name": "石油精製オペレーター — AI 影響 5/10",
-      "description": "石油精製、計装制御+判断",
+      "description": "石油精製オペレーターとは、原油を処理して各種石油製品を製造するための精製装置を運転・制御する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/299#occupation",
       "name": "石油精製オペレーター",
-      "description": "石油精製、計装制御+判断",
+      "description": "石油精製オペレーターとは、原油を処理して各種石油製品を製造するための精製装置を運転・制御する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>石油精製オペレーターとは</h2>
+        <p class="definition">石油精製オペレーターとは、原油を処理して各種石油製品を製造するための精製装置を運転・制御する職業です。</p>
         <p>原油を処理してつくられる石油製品にはLPG、ナフサ、ガソリン、灯油、軽油、重油、潤滑油、アスファルトなどがあり、これらを製造する石油精製装置を運転・制御する。</p>
         <p>石油の精製工程では、まず、原油を常圧蒸留装置でガス、ナフサ、灯油、軽油、常圧残油などに分ける。このままで製品となるものはほとんどなく、さらに、減圧蒸留、水素化精製、脱硫、接触改質、接触分解、水素化分解などの精製装置で処理して初めて製品となる。これらの石油精製装置は高度に自動化されており、コンピュータによって中央制御されているが、さらに無人化のシステム開発が進められている。</p>
         <p>オペレーターの職場は現場と制御室に分かれ、現場の担当者「フィールドマン」は装置の巡回業務、制御室の担当者「ボードマン」は装置の制御が主な仕事になる。「フィールドマン」は装置の日常・定期点検を通して異常の早期発見、トラブルの未然防止や機器・設備の調整操作を行い、異常を発見すると素早く関連部署に連絡し、対応にあたる。「ボードマン」は通常は制御センター(計器室)内でコンピュータ画面を通じて装置の温度や圧力の変化などを監視し、異常を察知すると、現場と連絡を取りながらマニュアルにしたがって措置し、必要に応じて装置を安全に停止することで事故を防止する。</p>

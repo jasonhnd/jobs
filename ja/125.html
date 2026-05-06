@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/125#webpage",
       "url": "https://mirai-shigoto.com/ja/125",
       "name": "ブライダルコーディネーター — AI 影響 5/10",
-      "description": "ブライダル、対面+提案AI支援",
+      "description": "ブライダルコーディネーターとは、結婚式を予定しているお客に対して、挙式の相談にのり、企画・提案、費用の見積りを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/125#occupation",
       "name": "ブライダルコーディネーター",
-      "description": "ブライダル、対面+提案AI支援",
+      "description": "ブライダルコーディネーターとは、結婚式を予定しているお客に対して、挙式の相談にのり、企画・提案、費用の見積りを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>ブライダルコーディネーターとは</h2>
+        <p class="definition">ブライダルコーディネーターとは、結婚式を予定しているお客に対して、挙式の相談にのり、企画・提案、費用の見積りを行う職業です。</p>
         <p>結婚式を予定しているお客に対して、挙式の相談にのり、企画・提案、費用の見積りを行う。予約を受けた後は、必要な段取り・手配を行い、挙式・披露宴が終わるまで必要な調整・進行管理を行う。</p>
         <p>まず、お客の希望をよく聞いて、適切なプランを示し、わかりやすく説明する。お客に見積を示し、規約等をよく説明して予約（仮契約）を受ける。一定期間内に正式な契約（本契約）を結び、挙式・披露宴までの詳細について打ち合わせを行い、結婚式の進行、演出、装飾の企画・提案、見積書の作成、段取り・手配確認を行う。</p>
         <p>挙式・披露宴当日は、受付のセッティングから衣装小物、美容着付、控室、席札、進行表、引き出物、両家紹介等の確認、司会、カメラマン、神官や牧師等との打合せ、ウエディングケーキ、食事、テーブルサービス、介添え・車の手配などに至るまで、約30～40項目にわたる調整と進行管理を行う。挙式・披露宴が終了したら、経費の精算を行い、お客に対して当日の報告をする。</p>

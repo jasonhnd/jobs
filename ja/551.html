@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/551#webpage",
       "url": "https://mirai-shigoto.com/ja/551",
       "name": "バイオマス発電プラントの設計 — AI 影響 7/10",
-      "description": "バイオマス発電設計",
+      "description": "バイオマス発電プラントの設計とは、バイオマス発電のプラントを設計する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/551#occupation",
       "name": "バイオマス発電プラントの設計",
-      "description": "バイオマス発電設計",
+      "description": "バイオマス発電プラントの設計とは、バイオマス発電のプラントを設計する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>バイオマス発電プラントの設計とは</h2>
+        <p class="definition">バイオマス発電プラントの設計とは、バイオマス発電のプラントを設計する職業です。</p>
         <p>バイオマス発電のプラントを設計する。バイオマス発電プラントを建設する場合、基本設計、詳細設計、建設工事、試運転・検査、引き渡しという流れになるが、この中で基本設計と詳細設計を担当する。建設の途中で建設現場に行き、設計と建設の調整等を行うこともある。</p>
         <p>バイオマス発電では、石炭、石油、天然ガスのような化石燃料ではなく、木材や農産物残渣 など生物由来の原料をそのまま燃焼したり、ガス化して発電を行う。バイオマス発電プラントは大きく分けて、燃料供給設備、燃焼機、ボイラー 、タービン 、発電機、排ガス処理設備等の各機器から構成される。</p>
         <p>バイオマスプラントを建設する場合、事前の環境調査、役所への届出等が必要になるがこれはプラントの発注者が行い、必要であればバイオマス発電の設計者はそれを支援する。プラントの発注者は発電事業者、豊富な燃焼材がある会社、農産物残渣や食品廃棄物を焼却する会社等である。二酸化炭素排出量削減のために再生可能エネルギー の固定価格買取制度 が導入されており、新規参入する会社もある。また、自らの工場や店舗で使う電力を太陽光、風力とともにバイオマス発電で賄い、消費電力に占める再生可能エネルギーの比率を高めている会社もある。</p>

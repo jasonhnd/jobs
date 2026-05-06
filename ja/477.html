@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/477#webpage",
       "url": "https://mirai-shigoto.com/ja/477",
       "name": "トラックドライバー — AI 影響 4/10",
-      "description": "トラック、自動運転接近中",
+      "description": "トラックドライバーとは、トラックなどの貨物自動車を運転して貨物を輸送する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/477#occupation",
       "name": "トラックドライバー",
-      "description": "トラック、自動運転接近中",
+      "description": "トラックドライバーとは、トラックなどの貨物自動車を運転して貨物を輸送する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -241,6 +241,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -411,6 +415,7 @@
 
       <section class="context">
         <h2>トラックドライバーとは</h2>
+        <p class="definition">トラックドライバーとは、トラックなどの貨物自動車を運転して貨物を輸送する職業です。</p>
         <p>トラックやトレーラーなどの貨物自動車を運転して貨物を輸送する。</p>
         <p>仕事内容は、貨物の種類、トラックの形状、輸送距離などにより違いがある。例えば、小型トラックはコンビニ配送や宅配便など近距離向け、大型トラックは都市間など長距離、大量輸送向けである。その他、タンクローリー、ミキサー車のような特殊なトラック、海外から輸入されたコンテナや特大貨物を輸送するトレーラーなど特別な用途のものがある。トラック輸送には、自社の貨物を輸送する自家用トラック（白地のナンバープレート）と、他社の貨物を有償で輸送する営業用トラック（緑地のナンバープレート）の2種類がある。</p>
         <p>国内の貨物総輸送量のうち、トラックの占める割合はトンベースで９割、トンキロベース（トン数に輸送距離を乗じて仕事量を表す単位）で６割を占める。また、伸長が著しいインターネット通販の市場では、翌日配達、細かな時間指定や温度管理等のサービスの高度化が消費者や荷主の支持を得ており、これを支えているのは小型トラック等による宅配便の輸送である。</p>

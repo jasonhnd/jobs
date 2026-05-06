@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/484#webpage",
       "url": "https://mirai-shigoto.com/ja/484",
       "name": "新聞配達員 — AI 影響 3/10",
-      "description": "新聞配達、現場業務",
+      "description": "新聞配達員とは、購読契約をしている家庭や職場などに新聞を配達する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/484#occupation",
       "name": "新聞配達員",
-      "description": "新聞配達、現場業務",
+      "description": "新聞配達員とは、購読契約をしている家庭や職場などに新聞を配達する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>新聞配達員とは</h2>
+        <p class="definition">新聞配達員とは、購読契約をしている家庭や職場などに新聞を配達する職業です。</p>
         <p>購読契約をしている家庭や職場などに新聞を配達する。</p>
         <p>日本は世界で最も新聞発行部数が多く、新聞の普及率も世界でトップレベルとなっている。これは、読者の家庭や職場などに直接配達する戸別配達制度を採用しているからであり、日本の新聞の9割以上が新聞配達員の手で直接配達され、新聞の普及に役立っている。</p>
         <p>新聞販売所の配達区域はいくつかのコースに分けられ、それぞれを配達員が担当する。朝刊は、一般的に午前6時過ぎまでに配り終えるようにコースが設定されており、配達する家庭の名前や順路、配達する新聞の種類が書かれた「順路帳」にしたがって配達する。系列のスポーツ紙や小中学生新聞、専門紙なども一緒に配達する。</p>

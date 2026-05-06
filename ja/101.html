@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/101#webpage",
       "url": "https://mirai-shigoto.com/ja/101",
       "name": "すし職人 — AI 影響 3/10",
-      "description": "すし職人、手仕事の極み",
+      "description": "すし職人とは、すし店でお客に提供するためにすしを調理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/101#occupation",
       "name": "すし職人",
-      "description": "すし職人、手仕事の極み",
+      "description": "すし職人とは、すし店でお客に提供するためにすしを調理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>すし職人とは</h2>
+        <p class="definition">すし職人とは、すし店でお客に提供するためにすしを調理する職業です。</p>
         <p>魚介類と米飯（べいはん）などを調理して、日本を代表する料理「すし」を作るのが仕事である。</p>
         <p>仕事は、魚市場ですし種（すしだね）の魚介類を仕入れることから始まる。次に、材料を仕込み「ネタ」にする。仕込みによってすしの味が決まると言われるだけあってこの仕事は極めて大切な過程である。更に、ご飯を炊き、酢などの調味料をまぜて味つけをし、「シャリ（酢飯）」として用意する。そしてお客と接しながら「つけ場」で、包丁、「巻き簀（まきす）」などを使い、仕込んだネタとシャリから「にぎりずし」、「巻きずし」、「ちらしずし」等を作っていく。</p>
         <p>多くの場合、最初の1～2年は見習い仕事で、店内の清掃や食器洗い、雑用、出前などを行い、その後包丁を持つことができ、材料の選び方、仕込みやにぎり方を学び、一人前のすし職人として腕を磨いていく。</p>

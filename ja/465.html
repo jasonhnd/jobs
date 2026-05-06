@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/465#webpage",
       "url": "https://mirai-shigoto.com/ja/465",
       "name": "化粧品訪問販売 — AI 影響 4/10",
-      "description": "化粧品訪問販売、対面+商品提案",
+      "description": "化粧品訪問販売とは、家庭や職場を訪問しながら、口紅、ファンデーション、化粧水、乳液などの化粧品を美容相談に乗りながら販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/465#occupation",
       "name": "化粧品訪問販売",
-      "description": "化粧品訪問販売、対面+商品提案",
+      "description": "化粧品訪問販売とは、家庭や職場を訪問しながら、口紅、ファンデーション、化粧水、乳液などの化粧品を美容相談に乗りながら販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>化粧品訪問販売とは</h2>
+        <p class="definition">化粧品訪問販売とは、家庭や職場を訪問しながら、口紅、ファンデーション、化粧水、乳液などの化粧品を美容相談に乗りながら販売する職業です。</p>
         <p>家庭や職場を訪問しながら、口紅、ファンデーション、化粧水、乳液などの化粧品を美容相談にのりながら販売する。</p>
         <p>仕事の流れとしては、まず、所属する会社の営業所で開かれる定例のミーティングに参加し、自分の販売計画や目標を確認する。その後、自分の担当する販売地域の顧客を訪問し、まずカタログなどで説明する。訪問先では、顧客が興味を示したら、肌の状態や手入れ方法について会話をしながら、商品の説明や正しいメーキャップの方法などを指導し、肌の状態に合った化粧品をすすめ、専門的なアドバイスを行う。顧客が購入の意思を示した場合は、勧誘の最初にあらかじめ知らせている価格を提示し販売の契約をする。季節ごとに発売される新商品の紹介を行うこともある。販売後は、顧客の肌の状態や、商品に対する満足感をたずねるなどのアフターサービスを行う。購入した商品の返品を求められた場合、クーリング・オフ制度によって速かに返金を行うこともある。</p>
         <p>このほか、多様化するニーズに応えて、美容機器、健康食品や女性用下着などの販売を行うこともある。</p>

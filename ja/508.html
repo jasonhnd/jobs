@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/508#webpage",
       "url": "https://mirai-shigoto.com/ja/508",
       "name": "畜産技術者 — AI 影響 5/10",
-      "description": "畜産技術、AI監視+管理",
+      "description": "畜産技術者とは、育種繁殖、飼養技術、牧草・飼料作物や畜産物の生産技術を開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/508#occupation",
       "name": "畜産技術者",
-      "description": "畜産技術、AI監視+管理",
+      "description": "畜産技術者とは、育種繁殖、飼養技術、牧草・飼料作物や畜産物の生産技術を開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>畜産技術者とは</h2>
+        <p class="definition">畜産技術者とは、育種繁殖、飼養技術、牧草・飼料作物や畜産物の生産技術を開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及する職業です。</p>
         <p>育種繁殖、飼養技術、牧草・飼料作物の生産技術や畜産物生産技術を実験、開発したり、新しい技術や経営方法、環境対策等を畜産家に対して指導、普及することである。</p>
         <p>現在、我が国で畜産といっているのは、牛、馬、豚、ひつじ、やぎなどの家畜、鶏やあひるなどの家きん、ミンクやきつねなどの毛皮動物、蜜蜂の飼育、牧草や飼料用作物の生産・利用、牛乳・肉・卵などの加工と利用などであるが、畜産技術者はこれらの全てに通じているのはなく、それぞれ自分の専門とする対象や分野が決まっている。</p>
         <p>畜産農家に対して直接技術援助を行う畜産技術者には、都道府県の普及指導事業に従事する普及指導員、農業協同組合職員の技術者などがおり、畜産農家に育種改良や飼育管理、飼料用作物の生産技術の研究開発などの成果を指導、普及させる。また民間企業には、乳業などの食品メーカー、飼料メーカー、製薬会社、商社などの技術社員として、自社商品の販売とアフターケアのために、畜産家の技術援助をする人たちがいる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/502#webpage",
       "url": "https://mirai-shigoto.com/ja/502",
       "name": "酪農従事者 — AI 影響 3/10",
-      "description": "酪農、動物世話手作業",
+      "description": "酪農従事者とは、乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/502#occupation",
       "name": "酪農従事者",
-      "description": "酪農、動物世話手作業",
+      "description": "酪農従事者とは、乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>酪農従事者とは</h2>
+        <p class="definition">酪農従事者とは、乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する職業です。</p>
         <p>乳牛を飼養し、牛乳やチーズなど乳製品の原料となる生乳を生産する。</p>
         <p>酪農だけを専門に行っている酪農家は平均40～50頭の成長した乳牛を飼養している。酪農には乳牛、施設・機械、農地などの経営資産が必要であり、これらを新規に取得することは難しいため、ほとんどの場合、親族から継承するか、新規参入の場合も後継者のいない酪農家から継承する。</p>
         <p>1日の仕事は、早朝6時頃の飼料給与（しりょうきゅうよ：エサやり）と搾乳に始まる。朝のうちに牛舎の清掃を済ませ、昼間は牛の健康チェックや堆肥生産作業などをする。また、春から秋にかけては飼料の生産を行う。夕方には再び飼料給与、搾乳、牛舎の清掃を行い、夜8時頃には作業が終了する。</p>

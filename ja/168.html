@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/168#webpage",
       "url": "https://mirai-shigoto.com/ja/168",
       "name": "作業療法士（OT） — AI 影響 3/10",
-      "description": "作業療法士、対面リハビリ",
+      "description": "作業療法士（OT）とは、身体や精神に障害がある人が心身の機能を回復し、日常生活や社会に復帰できるよう作業療法を用いて訓練を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/168#occupation",
       "name": "作業療法士（OT）",
-      "description": "作業療法士、対面リハビリ",
+      "description": "作業療法士（OT）とは、身体や精神に障害がある人が心身の機能を回復し、日常生活や社会に復帰できるよう作業療法を用いて訓練を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>作業療法士（OT）とは</h2>
+        <p class="definition">作業療法士（OT）とは、身体や精神に障害がある人が心身の機能を回復し、日常生活や社会に復帰できるよう作業療法を用いて訓練を行う職業です。</p>
         <p>作業療法士は体や精神に障害のある人がその心身機能を回復し、日常生活・社会生活に復帰できるように、食事、歯みがきなど日常生活の動作、家事、芸術活動、遊び、スポーツといった生活の中における作業や動作などを用いて訓練・指導・援助を行う医療技術者である。OT（Occupational Therapist）とも呼ばれる。</p>
         <p>作業療法士は、病院の場合はカルテや患者との面接などから、訪問介護の場合は患者から直接ヒアリングを行って、医学的情報や生活情報を集める。そして、筋力や反射などの身体機能、認知機能や日常生活動作の能力について観察や検査を行い、患者の問題点を探る。これらの結果をもとに、患者それぞれの訓練目標を決め、具体的な訓練プログラムを作り、作業療法を実施する。</p>
         <p>病院の場合、医師、看護師、理学療法士などから成るリハビリテーションチームでこれらを行う。</p>

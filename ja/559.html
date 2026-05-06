@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/559#webpage",
       "url": "https://mirai-shigoto.com/ja/559",
       "name": "配電盤・制御盤等組立 — AI 影響 3/10",
-      "description": "配電盤組立、精密手作業",
+      "description": "配電盤・制御盤等組立とは、主に機械器具・道具等を用いて、配電盤・制御盤・分電盤・監視制御装置等を組み立て、配線し、仕様・規格どおりになっているかの試験を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/559#occupation",
       "name": "配電盤・制御盤等組立",
-      "description": "配電盤組立、精密手作業",
+      "description": "配電盤・制御盤等組立とは、主に機械器具・道具等を用いて、配電盤・制御盤・分電盤・監視制御装置等を組み立て、配線し、仕様・規格どおりになっているかの試験を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>配電盤・制御盤等組立とは</h2>
+        <p class="definition">配電盤・制御盤等組立とは、主に機械器具・道具等を用いて、配電盤・制御盤・分電盤・監視制御装置等を組み立て、配線し、仕様・規格どおりになっているかの試験を行う職業です。</p>
         <p>主に機械器具・道具等を用いて、配電盤・制御盤・分電盤・監視制御装置等（以下「配電盤等」という。）を組み立て、配線し、仕様・規格どおりになっているかの試験を行う。</p>
         <p>配電盤とは高電圧の電気を変圧して複数の回路に送るもの、制御盤とは電動設備や機械における電気の流れを把握し調節を行うためのもの、分電盤とは配電盤から送られた電気を建物や施設内の各場所に分けるもの、監視制御装置とは防災情報システムなど各種のデータを一つにまとめて監視・制御するものである。これらは、ビル、商業施設、工場などにおける空調、照明、エレベーターなどの電気設備を稼働させるために不可欠な電気機械の一種である。</p>
         <p>配電盤等の組立作業は、盤に取り付ける器具の位置等を示した図面や配線に関する接続図等に従って行われる。組立は手作業で行い一つの盤ができあがるまで基本的には一人で担当する。以下では、配電盤等組立の実際の仕事のながれ等について、ある配電盤メーカーの例を述べる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/232#webpage",
       "url": "https://mirai-shigoto.com/ja/232",
       "name": "産業用ロボットの設置・設定 — AI 影響 4/10",
-      "description": "ロボ設置、現場作業",
+      "description": "産業用ロボットの設置・設定とは、工場などの生産ラインに産業用ロボットを設置し稼働させるための機械の据え付け調整、初期設定、システムの構築等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/232#occupation",
       "name": "産業用ロボットの設置・設定",
-      "description": "ロボ設置、現場作業",
+      "description": "産業用ロボットの設置・設定とは、工場などの生産ラインに産業用ロボットを設置し稼働させるための機械の据え付け調整、初期設定、システムの構築等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -214,6 +214,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -384,6 +388,7 @@
 
       <section class="context">
         <h2>産業用ロボットの設置・設定とは</h2>
+        <p class="definition">産業用ロボットの設置・設定とは、工場などの生産ラインに産業用ロボットを設置し稼働させるための機械の据え付け調整、初期設定、システムの構築等を行う職業です。</p>
         <p>産業用ロボットを設置し、稼働させるための機械の据え付け調整、初期設定、及びシステムの構築等を行う。</p>
         <p>ロボットには、生産工程等で使用される産業用ロボット、危険な環境の中で作業を代行するロボット、家事や介護等を支援する日常生活支援ロボットなどがある。ここでは主に産業用ロボットについて述べる。なお、産業用ロボットとは、自動制御によるマニピュレーション機能又は移動機能をもち，各種の作業をプログラムにより実行でき，産業に使用される機械のことを言う。産業用ロボットは、FA（factory automation）などの自動化システムに組み込まれて初めてその機能を発揮する。</p>
         <p>産業用ロボットの設置・設定の仕事は、その自動化システムの構築やそれに必要な部品の製作、ロボットティーチング、システムの組立・据え付けなどが主なものとなる。</p>

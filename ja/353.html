@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/353#webpage",
       "url": "https://mirai-shigoto.com/ja/353",
       "name": "舞台照明スタッフ — AI 影響 4/10",
-      "description": "舞台照明、現場機器操作",
+      "description": "舞台照明スタッフとは、劇場などのホールで上演される演劇やコンサート、イベント会場のステージなどで照明を担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/353#occupation",
       "name": "舞台照明スタッフ",
-      "description": "舞台照明、現場機器操作",
+      "description": "舞台照明スタッフとは、劇場などのホールで上演される演劇やコンサート、イベント会場のステージなどで照明を担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>舞台照明スタッフとは</h2>
+        <p class="definition">舞台照明スタッフとは、劇場などのホールで上演される演劇やコンサート、イベント会場のステージなどで照明を担当する職業です。</p>
         <p>劇場などのホールで上演される演劇やコンサート、イベント会場のステージなどで照明を担当する。</p>
         <p>単にステージ上やホール内を明るく照らすだけでなく、様々な工夫をこらした光を用いて、昼や夜などの時間の経過のほか、雨や雷などの天候、四季などを表現し、上演される作品の制作意図に合った舞台効果を演出する。</p>
         <p>上演や番組の収録までに、演出家を中心とした他のスタッフと制作意図について綿密に意見を交わし、照明のイメージを作り上げる。劇場やホールの特性に合わせて様々な角度からの照明を考慮し、各シーンの照明を決め、上演中に使用する光の全体像を書き込んだ「照明仕込み図」を作成する。また、舞台の進行に沿った照明の「キューシート」（タイムテーブル）を作成する。これらを元に照明装置の配置と配線作業などを行う。上演・収録が始まると、進行にしたがって、照明装置を操作するオペレーターに指示を出す。大きな会場では、チーフのオペレーターが調光室の操作卓で主な照明の操作を行い、他のオペレーターがスポットライトなどを操作する場合もある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/110#webpage",
       "url": "https://mirai-shigoto.com/ja/110",
       "name": "ツアーコンダクター — AI 影響 5/10",
-      "description": "ツアーコンダクター、対面引率",
+      "description": "ツアーコンダクターとは、団体旅行に同行して、予定通りの旅行ができるよう、また、参加者が快適な旅を楽しめるように世話をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/110#occupation",
       "name": "ツアーコンダクター",
-      "description": "ツアーコンダクター、対面引率",
+      "description": "ツアーコンダクターとは、団体旅行に同行して、予定通りの旅行ができるよう、また、参加者が快適な旅を楽しめるように世話をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>ツアーコンダクターとは</h2>
+        <p class="definition">ツアーコンダクターとは、団体旅行に同行して、予定通りの旅行ができるよう、また、参加者が快適な旅を楽しめるように世話をする職業です。</p>
         <p>団体旅行に同行して、予定通りの旅行ができるよう、また、参加者が快適な旅を楽しめるようにするのがツアーコンダクター（旅程管理主任者）である。添乗員とも呼ばれ、世界や日本全国を舞台に仕事をする。</p>
         <p>仕事は大きく二つに分けられる。一つはデスクワークで、出発前には、目的地の下調べや手配担当者との打ち合わせ、参加者に確認、連絡を行い、旅行から帰った後には精算やレポートの作成などをする。もう一つは添乗業務で、担当するツアーの責任者として、集合・出発から解散まで参加者と行動をともにする。集合場所で参加者の点呼をし、搭乗券等を受け渡し、旅行中の注意事項などを説明する。目的地に着くと、現地スタッフとスケジュールを再確認し、見学や観光に向かう。食事や観光施設の入場料の精算を行い、宿泊ホテルでは参加者全員のチェックインを行う。</p>
         <p>この他にも様々な役割があり、参加者の相談に応じたり、ツアーを盛り上げる企画を考えたり、交通機関の遅延等への対応や、病人・けが人が出た場合の対処等を行うのもツアーコンダクターの仕事となる。</p>

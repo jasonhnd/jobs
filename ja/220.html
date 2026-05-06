@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/220#webpage",
       "url": "https://mirai-shigoto.com/ja/220",
       "name": "動物園飼育員 — AI 影響 2/10",
-      "description": "動物園飼育員、世話手作業",
+      "description": "動物園飼育員とは、動物園で動物の飼育や繁殖のために様々な作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/220#occupation",
       "name": "動物園飼育員",
-      "description": "動物園飼育員、世話手作業",
+      "description": "動物園飼育員とは、動物園で動物の飼育や繁殖のために様々な作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>動物園飼育員とは</h2>
+        <p class="definition">動物園飼育員とは、動物園で動物の飼育や繁殖のために様々な作業を行う職業です。</p>
         <p>動物園で動物の飼育や繁殖のために様々な作業を行う。</p>
         <p>具体的には、担当する動物の毛のつや、動き、におい、餌の食べ残しや糞の状態を観察し、健康状態をチェックすることや、運動場に出して動物舎を掃除すること、動物の生育段階や健康状態に合わせて、飼料の配合・調理を行い、餌をつくることなどが業務である。なお、あらかじめ栄養を考えて調合された固形飼料（ペレット）が普及し、餌づくりの作業が簡単になっている。餌は夕方に与えることが多いが、朝夕２回与える動物もいる。</p>
         <p>また、動物舎の修理をしたり、病気の治療や予防接種を獣医と一緒に行ったりするのも重要な業務である。午後３時過ぎには、餌を動物舎に置いて動物を入れ、運動場を掃除する。１日の終わりには飼育日誌を書き、特に体調の異常などは細かく記録する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/417#webpage",
       "url": "https://mirai-shigoto.com/ja/417",
       "name": "ホールスタッフ（レストラン） — AI 影響 4/10",
-      "description": "レストランホール、対面サービス",
+      "description": "ホールスタッフ（レストラン）とは、外食店舗、特にレストラン等で来店するお客と直接接し、料理やサービスを提供する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/417#occupation",
       "name": "ホールスタッフ（レストラン）",
-      "description": "レストランホール、対面サービス",
+      "description": "ホールスタッフ（レストラン）とは、外食店舗、特にレストラン等で来店するお客と直接接し、料理やサービスを提供する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>ホールスタッフ（レストラン）とは</h2>
+        <p class="definition">ホールスタッフ（レストラン）とは、外食店舗、特にレストラン等で来店するお客と直接接し、料理やサービスを提供する職業です。</p>
         <p>外食店舗、特にレストラン等で来店するお客と直接接し、料理やサービスを提供する。ウェイター・ウェイトレスと呼ばれることもある。</p>
         <p>料理のオーダーを取ったり料理を運んだり、食器類を下げることだけではなく、店舗内における様々な業務も受け持つことが多い。例えば、予約の電話受付を行い、来店したお客を入り口で出迎え、席まで案内し、オーダーを取りそれをキッチンへ伝え、出来上がった料理を運ぶ。食事が済んだら会計を行い、終わった食器を片付け、テーブルを拭いて次のお客様を出迎える用意する。</p>
         <p>空いた時間には客席の紙ナプキン等を補充したり、テーブルと椅子を拭いたりすることもある。お客が過ごすスペースを清潔に保ち、気持ちよく食事ができるようにするのも大切な仕事である。同じ職場で働くスタッフとも連携、協調しながら常に客席に注意を配り、クレームなどがあった場合、迅速に対応する。食事だけでなく、時間と空間を楽しめるようにするのが役割であり、お客にメニューの説明をしたり、料理について聞かれた際に答えられるよう、料理等の知識も求められる。</p>

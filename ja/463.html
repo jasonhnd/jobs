@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/463#webpage",
       "url": "https://mirai-shigoto.com/ja/463",
       "name": "証券外務員 — AI 影響 8/10",
-      "description": "証券外務員、AI取引拡大",
+      "description": "証券外務員とは、証券会社の営業員として、株式、債券、投資信託などの有価証券を投資家に提案し、売買取引の委託業務などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/463#occupation",
       "name": "証券外務員",
-      "description": "証券外務員、AI取引拡大",
+      "description": "証券外務員とは、証券会社の営業員として、株式、債券、投資信託などの有価証券を投資家に提案し、売買取引の委託業務などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>証券外務員とは</h2>
+        <p class="definition">証券外務員とは、証券会社の営業員として、株式、債券、投資信託などの有価証券を投資家に提案し、売買取引の委託業務などを行う職業です。</p>
         <p>証券会社の営業員として、株式、債券、投資信託などの有価証券を投資家に提案し、売買取引の委託業務などを行う。</p>
         <p>証券会社に所属し、顧客の運用意向やニーズをくみ取り、株や債券などの有価証券を提案し、売買注文の取次ぎを行う。資産管理の方法や個別商品の特長、売買のタイミングについての相談を受けたり、顧客からの電話での注文に対応し、売買の委託取引を行うこともある。また、資産運用のコンサルティングを行うために、顧客のニーズや人生設計、資金計画などを元に、将来必要な資金や具体的な資産配分等を試算する専門的なツールを使い、それぞれの顧客に合った適切なアドバイスを行う。商品の提案やコンサルティングを行う際は、電話だけでなく実際に顧客と会って対面でアドバイスすることが多い。</p>
         <p>個人の顧客だけでなく、企業等法人も担当しており、法人の財務や資産運用についてアドバイスすることも多くある。</p>

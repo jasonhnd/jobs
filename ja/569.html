@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/569#webpage",
       "url": "https://mirai-shigoto.com/ja/569",
       "name": "納棺師 — AI 影響 3/10",
-      "description": "納棺師、対面+手作業",
+      "description": "納棺師とは、遺族が故人を安心して見送ることができるよう、遺体に処置を施して保全をし、身支度を整え棺に納める職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/569#occupation",
       "name": "納棺師",
-      "description": "納棺師、対面+手作業",
+      "description": "納棺師とは、遺族が故人を安心して見送ることができるよう、遺体に処置を施して保全をし、身支度を整え棺に納める職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -210,6 +210,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -380,6 +384,7 @@
 
       <section class="context">
         <h2>納棺師とは</h2>
+        <p class="definition">納棺師とは、遺族が故人を安心して見送ることができるよう、遺体に処置を施して保全をし、身支度を整え棺に納める職業です。</p>
         <p>遺族が故人を安心して見送ることができるよう、遺体に処置を施して保全をし、身支度を整え棺に納める。納棺師の仕事を扱った映画タイトルにちなんで「おくりびと」と呼ばれることも多い。</p>
         <p>納棺とは遺体を棺に納めることを意味しているが、納棺師の仕事はそれだけに留まらない。まず、葬儀まで遺体を安定した状態に保つため、死後処置を行う。遺体に点滴等医療器具による傷跡や褥瘡（じょくそう）等がないか全身を確認する。傷跡がある場合は、医療用のテーピングテープ等を用いて塞ぐ。遺体から血液などの体液が漏れ出たり死臭が発生したりすることを防ぐため、遺体の鼻腔内等に脱脂綿をつめる。その後、アルコール消毒液を含んだ脱脂綿で遺体を拭き、清潔な状態にする。そして、死後硬直をほぐし、故人が安らかに眠っているように見えるよう表情を整える。</p>
         <p>次に、遺体の身支度を整える。一般的に死化粧と呼ばれるものがこれにあたる。遺族の要望に沿って髪型やひげを整えたり、肌の状態がよく見えるように化粧を施したりする。この施術は、遺族と一緒に行うことも近年多くなっている。身支度を整えたら、着付けを行う。遺族の意向や地域の風習、宗教や宗派のルールに合った衣装を着付ける。着付けの際には、火葬が可能な衣装であるか等、葬儀社の担当者と相談しながら、必要に応じて金具を取り外す等衣装の調整も行う。なお、遺体の着付けを先に行い、その後に身支度を整える場合もある。</p>

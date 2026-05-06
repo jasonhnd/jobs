@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/254#webpage",
       "url": "https://mirai-shigoto.com/ja/254",
       "name": "金属プレス工 — AI 影響 3/10",
-      "description": "金属プレス、機械操作",
+      "description": "金属プレス工とは、プレス機械に製品の原型となる金型を取り付け、金属板に必要に応じて圧力を加え、様々な形に成形する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/254#occupation",
       "name": "金属プレス工",
-      "description": "金属プレス、機械操作",
+      "description": "金属プレス工とは、プレス機械に製品の原型となる金型を取り付け、金属板に必要に応じて圧力を加え、様々な形に成形する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -239,6 +239,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -409,6 +413,7 @@
 
       <section class="context">
         <h2>金属プレス工とは</h2>
+        <p class="definition">金属プレス工とは、プレス機械に製品の原型となる金型を取り付け、金属板に必要に応じて圧力を加え、様々な形に成形する職業です。</p>
         <p>プレス機械に製品の原型となる金型を取り付け、金属板を打ち抜いたり、曲げたり、絞ったりと必要に応じて圧力を加え、様々な形に成形する。</p>
         <p>プレス加工は生産性が高く、大きいものでは自動車の屋根やドア、小さいものでは腕時計やカメラ・携帯電話などの精密機器の部品まで、幅広い製品や部品の加工に利用されている。</p>
         <p>プレス作業は、まず上下に分かれた金型を機械に取り付ける。加工する材料を下型のネストの中に収まるように入れて試し打ちを行い、その結果が作業標準、検査基準に合っているかどうかを測定器などで確認し、必要がある場合は金型を調整する。材料をプレス機の所定の位置に入れてスイッチを押すと、上型がおりてきて材料が加工される。自動化された金属プレス設備を用いる場合には、金型取り付けを行い、金属板の打抜き、曲げ、絞り加工の工程で制御盤の監視・操作を行う。</p>

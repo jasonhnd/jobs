@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/161#webpage",
       "url": "https://mirai-shigoto.com/ja/161",
       "name": "臨床検査技師 — AI 影響 7/10",
-      "description": "臨床検査技師、AI解析急進",
+      "description": "臨床検査技師とは、医師又は歯科医師の指示の下に、主に医療機関で臨床検査を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/161#occupation",
       "name": "臨床検査技師",
-      "description": "臨床検査技師、AI解析急進",
+      "description": "臨床検査技師とは、医師又は歯科医師の指示の下に、主に医療機関で臨床検査を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>臨床検査技師とは</h2>
+        <p class="definition">臨床検査技師とは、医師又は歯科医師の指示の下に、主に医療機関で臨床検査を行う職業です。</p>
         <p>医師又は歯科医師の指示の下に、主に医療機関で臨床検査とよばれる検査を行う。</p>
         <p>臨床検査には、患者の体から血液、尿、組織の一部などを取り出して行う「検体検査」と、体の表面や内部を検査する「生体検査」の2種類がある。検査結果は、正しい診断と効果的な治療を行うために重要な情報となる。</p>
         <p>検体検査にはいくつもの分野がある。たとえば、患者の血液、尿、便などからそこに含まれる細菌、ウイルスなどを調べ、病気の原因となる微生物を探し出す。また、血液中に含まれる酵素、脂質、腫瘍（しゅよう）蛋白、ホルモン等を分析して健康の状態や病気を調べる検査もある。遺伝子分野などにも仕事の範囲が広がっている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/419#webpage",
       "url": "https://mirai-shigoto.com/ja/419",
       "name": "調香師 — AI 影響 3/10",
-      "description": "調香師、嗅覚と感覚仕事",
+      "description": "調香師とは、香水、化粧品、ボディソープなどのパーソナルケアから、液体洗剤、柔軟剤、芳香剤などのホームケアまでの様々な製品に使用される調合香料（フレグランス）を創る職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/419#occupation",
       "name": "調香師",
-      "description": "調香師、嗅覚と感覚仕事",
+      "description": "調香師とは、香水、化粧品、ボディソープなどのパーソナルケアから、液体洗剤、柔軟剤、芳香剤などのホームケアまでの様々な製品に使用される調合香料（フレグランス）を創る職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>調香師とは</h2>
+        <p class="definition">調香師とは、香水、化粧品、ボディソープなどのパーソナルケアから、液体洗剤、柔軟剤、芳香剤などのホームケアまでの様々な製品に使用される調合香料（フレグランス）を創る職業です。</p>
         <p>香水、化粧品、ボディソープ、シャンプー、入浴剤などのパーソナルケアから、液体洗剤、柔軟剤、芳香剤、食器洗剤などのホームケアまで様々な製品に使用される調合香料（フレグランス）を創る。「パフューマ－」と呼ばれることもある。</p>
         <p>まず、依頼主（企業・部門）から依頼を受けて、どのような香りが人々に好まれているか、どのような製品に使われるのかを把握し、その条件に適合した香りを思い描く。そして、数百～数千もある香料の中から使用する原料を選定して調合割合を決め、処方箋を作成する。</p>
         <p>調合香料は処方箋にしたがって、精密天秤で正確に調合される。香料が完成すると、それぞれの製品に合わせた基材に賦香し、においの強さや良し悪しを評価する。その後、要望に沿った香りに仕上がるまで何度か改良を繰り返し、処方箋を完成させる。</p>

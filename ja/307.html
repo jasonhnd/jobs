@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/307#webpage",
       "url": "https://mirai-shigoto.com/ja/307",
       "name": "花火師 — AI 影響 2/10",
-      "description": "花火師、手作業の専門技",
+      "description": "花火師とは、花火大会などで打ち揚げられる美しく大きな花火を製作し、打ち揚げる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/307#occupation",
       "name": "花火師",
-      "description": "花火師、手作業の専門技",
+      "description": "花火師とは、花火大会などで打ち揚げられる美しく大きな花火を製作し、打ち揚げる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -217,6 +217,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -387,6 +391,7 @@
 
       <section class="context">
         <h2>花火師とは</h2>
+        <p class="definition">花火師とは、花火大会などで打ち揚げられる美しく大きな花火を製作し、打ち揚げる職業です。</p>
         <p>花火大会などで打ち揚げられる美しく大きな花火を製作し、打ち揚げる。</p>
         <p>主に花火を作る(製造作業)、花火大会のための準備作業(花火・打揚筒等各種機材を現場へ搬入し、設置作業をおこなう)、花火を打ち揚げる、花火大会後の片付け作業(各種機材の撤収・搬出、落下物の点検、回収・処理玉殻等ゴミの収集)の４つがある。</p>
         <p>花火（煙火）の製造は、火薬を扱う作業のため電気製品等の使用が難しく、機械化ができない工程もあり、熟練した手作業を必要とする。製造工程では、星掛け機以外はほとんど手作業である。</p>

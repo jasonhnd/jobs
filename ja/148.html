@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/148#webpage",
       "url": "https://mirai-shigoto.com/ja/148",
       "name": "刑務官 — AI 影響 3/10",
-      "description": "刑務官、対面警備",
+      "description": "刑務官とは、刑務所や少年刑務所、拘置所に収容されている者に対し、日常生活の指導、職業訓練指導、悩みごとに対する助言指導を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/148#occupation",
       "name": "刑務官",
-      "description": "刑務官、対面警備",
+      "description": "刑務官とは、刑務所や少年刑務所、拘置所に収容されている者に対し、日常生活の指導、職業訓練指導、悩みごとに対する助言指導を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -203,6 +203,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -373,6 +377,7 @@
 
       <section class="context">
         <h2>刑務官とは</h2>
+        <p class="definition">刑務官とは、刑務所や少年刑務所、拘置所に収容されている者に対し、日常生活の指導、職業訓練指導、悩みごとに対する助言指導を行う職業です。</p>
         <p>原則として、刑務所や少年刑務所、拘置所に勤務し、収容されている者に対し、日常生活の指導、職業訓練指導、悩みごとに対する助言指導を行う。また、刑務所等の保安警備にも従事する。</p>
         <p>刑務所及び少年刑務所は、主に刑が確定した受刑者を収容し、社会復帰（改善更生）のための働き掛けを行う施設であり、拘置所は主に刑事裁判で刑が確定していない未決拘禁者を収容する施設である。</p>
         <p>刑務官は、刑務所及び少年刑務所では、受刑者への指導を通じて、その社会復帰（改善更生）を実現するよう、様々な働き掛けを行う。</p>

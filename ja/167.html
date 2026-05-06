@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/167#webpage",
       "url": "https://mirai-shigoto.com/ja/167",
       "name": "理学療法士（PT） — AI 影響 3/10",
-      "description": "理学療法士、手技+対面",
+      "description": "理学療法士（PT）とは、医師の指示の下、身体に障害がある人等の身体運動機能の回復や維持・向上を図り、自立した日常生活が送れるよう、運動の指導や物理療法を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/167#occupation",
       "name": "理学療法士（PT）",
-      "description": "理学療法士、手技+対面",
+      "description": "理学療法士（PT）とは、医師の指示の下、身体に障害がある人等の身体運動機能の回復や維持・向上を図り、自立した日常生活が送れるよう、運動の指導や物理療法を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>理学療法士（PT）とは</h2>
+        <p class="definition">理学療法士（PT）とは、医師の指示の下、身体に障害がある人等の身体運動機能の回復や維持・向上を図り、自立した日常生活が送れるよう、運動の指導や物理療法を行う職業です。</p>
         <p>理学療法士は身体に障害がある人等の身体運動機能の回復や維持・向上を図り自立した日常生活が送れるよう、医師の指示の下、運動の指導や物理療法を行う医療技術者である。PT（Physical Therapist）とも呼ばれる。</p>
         <p>理学療法は、脳性マヒ、事故や病気による障害、脳卒中後遺症や老化による障害など、幼年期から老年期にわたるさまざまな障害を対象にしている。理学療法士は、医師から依頼された理学療法の内容を点検し、注意する点や行ってはいけない動作を考えたうえで、患者の筋力などを検査する。その結果をもとに患者の障害の状況を評価し、他の診療部門からの情報も加えて理学療法の目標を立て、そのための具体的方法・手順などのプログラムを作成する。</p>
         <p>理学療法の中心は運動療法である。理学療法士は身体機能回復のための関節可動域練習、筋力増強練習、神経筋促通運動、歩行動作などの日常生活動作練習を通じて、自立した生活ができるように指導する。温熱を利用したり、電気刺激や超音波などの物理療法を行うこともある。</p>

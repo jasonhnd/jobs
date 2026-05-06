@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/255#webpage",
       "url": "https://mirai-shigoto.com/ja/255",
       "name": "溶接工 — AI 影響 2/10",
-      "description": "溶接、現場手作業",
+      "description": "溶接工とは、熱を利用して金属材料を接合する溶接を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/255#occupation",
       "name": "溶接工",
-      "description": "溶接、現場手作業",
+      "description": "溶接工とは、熱を利用して金属材料を接合する溶接を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>溶接工とは</h2>
+        <p class="definition">溶接工とは、熱を利用して金属材料を接合する溶接を行う職業です。</p>
         <p>熱を利用して金属材料を接合する溶接を行う。</p>
         <p>溶接は、その接合の仕方により「融接」、「圧接」及び「ろう接」に分類される。</p>
         <p>ここでは最も広く利用されている融接について記載する。被溶接材(母材)の接合しようとする部分をガス炎、アーク、電子ビーム、レーザーなどの熱を用いて加熱し、母材と溶加材（溶接棒、ワイヤなど）を融合させてできた溶融金属を凝固させて接合する方法である。この接合方法では、アーク熱を利用して行うアーク溶接が最も一般的で、超高層ビル、工場や住宅などの建築物、橋、タンクや容器、ガスや石油などのパイプライン、船、発電設備などを作るときの金属材料の接合に利用されている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/116#webpage",
       "url": "https://mirai-shigoto.com/ja/116",
       "name": "美容師 — AI 影響 2/10",
-      "description": "美容師、手作業の感覚仕事",
+      "description": "美容師とは、カット、パーマ、カラーリング（毛染め）、化粧などの技術を使い、美しいヘアファッションやメイクアップを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/116#occupation",
       "name": "美容師",
-      "description": "美容師、手作業の感覚仕事",
+      "description": "美容師とは、カット、パーマ、カラーリング（毛染め）、化粧などの技術を使い、美しいヘアファッションやメイクアップを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>美容師とは</h2>
+        <p class="definition">美容師とは、カット、パーマ、カラーリング（毛染め）、化粧などの技術を使い、美しいヘアファッションやメイクアップを行う職業です。</p>
         <p>カット、パーマ、カラーリング（毛染め）、化粧などの技術を使い、美しいヘアファッションやメイクアップを行い、容姿を美しくすることが美容師の仕事である。</p>
         <p>さらに、ヘアファッションやメイクだけでなく、ネイルや着付けまで、美容師が行うことも多い。顧客の要望に最大限こたえ、それに自分の技術と美的センスを加味して、初めて評価を得ることができる。</p>
         <p>まず、顧客とコミュニケーションをとりながら髪の状態を見る。そして顧客の要望をしっかりと聞き、ヘアスタイルを決めてから作業に入る。馴染みの顧客ならカルテを見て検討する。カットには、シザース（はさみ）、レザー（かみそり）、コーム（くし）などが使われる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/363#webpage",
       "url": "https://mirai-shigoto.com/ja/363",
       "name": "広報コンサルタント — AI 影響 7/10",
-      "description": "広報コンサル、AI支援助言",
+      "description": "広報コンサルタントとは、広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/363#occupation",
       "name": "広報コンサルタント",
-      "description": "広報コンサル、AI支援助言",
+      "description": "広報コンサルタントとは、広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>広報コンサルタントとは</h2>
+        <p class="definition">広報コンサルタントとは、広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する職業です。</p>
         <p>広告会社等に所属し、企業や団体などの広報活動について、目的や課題を分析し戦略を立て、実施について助言する。</p>
         <p>広報の主な役割には、企業環境や社会からの要望の把握、自社の自己認識と外部からの評価、企業文化の変革と維持、広報マインドの醸成、企業イメージの向上と変革、企業防衛等がある。こうした多様な役割を果たすため、広報コンサルタントが行う仕事の範囲は多岐にわたる。</p>
         <p>具体的な仕事として、パブリシティーの企画・実施、セミナー・シンポジウムの企画・運営、ポスターやPR紙誌等の企画・編集、メディア報道のモニタリングなどがある。危機管理広報、マスコミ対応、地域住民や一般消費者とのコミュニケーション活動の企画・実施なども行う。</p>

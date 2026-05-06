@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/527#webpage",
       "url": "https://mirai-shigoto.com/ja/527",
       "name": "食品営業（食品メーカー） — AI 影響 6/10",
-      "description": "食品メーカー営業、対面+提案",
+      "description": "食品営業（食品メーカー）とは、食品メーカーの工場で生産された自社の製品を取引先（顧客）の売り場で取り扱ってもらえるように提案し、営業活動を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/527#occupation",
       "name": "食品営業（食品メーカー）",
-      "description": "食品メーカー営業、対面+提案",
+      "description": "食品営業（食品メーカー）とは、食品メーカーの工場で生産された自社の製品を取引先（顧客）の売り場で取り扱ってもらえるように提案し、営業活動を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>食品営業（食品メーカー）とは</h2>
+        <p class="definition">食品営業（食品メーカー）とは、食品メーカーの工場で生産された自社の製品を取引先（顧客）の売り場で取り扱ってもらえるように提案し、営業活動を行う職業です。</p>
         <p>食品メーカーの工場で生産された自社の製品を取引先（顧客）の売り場で取り扱ってもらえるように提案し、営業活動を行う。</p>
         <p>食品は、大きく分けると、野菜や精肉、鮮魚等を含む「生鮮食品」と、食品になんらかの加工を施した、パン、菓子類、乳製品、食肉加工、調味料、冷凍食品、レトルト食品等を含む「加工食品」の２つに分けられる。食品メーカーでは主に後者の加工食品を扱う。食品営業は、主に、レストランなどの業者向けに販売される「業務用食品」とスーパーマーケットなどで一般の消費者に販売される「家庭用食品」の二種類を扱う。ここでは、食品メーカーの法人を対象としたルート営業を中心に述べる。食品メーカーの取引先には、スーパーマーケットやコンビニエンスストアなどの販売店のほか、卸業者や飲食店などがある。</p>
         <p>食品営業の業務は大きく分けて３つある。</p>

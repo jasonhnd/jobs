@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/358#webpage",
       "url": "https://mirai-shigoto.com/ja/358",
       "name": "テクニカルライター — AI 影響 9/10",
-      "description": "テクニカルライター、AI生成",
+      "description": "テクニカルライターとは、家電、情報機器、自動車などに添付されるマニュアル（取扱説明書）を制作する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/358#occupation",
       "name": "テクニカルライター",
-      "description": "テクニカルライター、AI生成",
+      "description": "テクニカルライターとは、家電、情報機器、自動車などに添付されるマニュアル（取扱説明書）を制作する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>テクニカルライターとは</h2>
+        <p class="definition">テクニカルライターとは、家電、情報機器、自動車などに添付されるマニュアル（取扱説明書）を制作する職業です。</p>
         <p>家電、情報機器、自動車などに添付されるマニュアル（取扱説明書）を制作する。</p>
         <p>多くの電化製品や精密機械などにコンピュータが搭載され、テレビや冷蔵庫、エアコンなどの家電製品もネットワークに接続できる製品も増えており、機能や用途が複雑化している。このため、ユーザーが製品を理解し、安全に使いこなせるよう、正確でわかりやすいマニュアルが必要となっている。</p>
         <p>マニュアル制作の手順は、まず、製品を開発した開発者や技術者から製品の構造、機能、操作方法等を詳しく聞き、情報を収集する。実際に製品を使い、製品の特徴をよく理解したり、ユーザーから出てきそうな疑問や利用上の注意点を想定するなど、どのようなマニュアルを作るのか、方向性を決める。製品が専門家向けなのか一般ユーザー向けなのか、また、海外向けなのかなどによって、マニュアルの作り方が変わる。</p>

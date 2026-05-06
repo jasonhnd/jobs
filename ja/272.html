@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/272#webpage",
       "url": "https://mirai-shigoto.com/ja/272",
       "name": "電気技術者 — AI 影響 7/10",
-      "description": "電気技術者、設計AI支援",
+      "description": "電気技術者とは、電気設備や機器の技術開発や改良、安全な運転のための保守・管理、更新工事などをする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/272#occupation",
       "name": "電気技術者",
-      "description": "電気技術者、設計AI支援",
+      "description": "電気技術者とは、電気設備や機器の技術開発や改良、安全な運転のための保守・管理、更新工事などをする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>電気技術者とは</h2>
+        <p class="definition">電気技術者とは、電気設備や機器の技術開発や改良、安全な運転のための保守・管理、更新工事などをする職業です。</p>
         <p>電気設備や機器の技術開発や改良、安全な運転のための保守・管理、更新工事などをする。</p>
         <p>電気には強電と弱電がある。強電は、装置や機器を動かす動力源としての電気（電力）を対象とし、強電分野の代表的な機器・設備としては発電設備、受変電設備、電灯設備などがある。弱電は電気的な信号を伝えたり、その信号によって機器を制御するもので、弱電分野の代表的な機器は電話などの通信機器やテレビなどである。</p>
         <p>電気技術者の代表的な職場のひとつである発電所では、発電機や発電施設などの設計、運転の管理、新しく開発された素材など発電機の材料に関する分析や試験などを行っている。工場では発電機の組み立て、発電施設の建設現場においては、工程や建設の状況などを確認し、作業員に対する技術的な指導を行い、施設を稼動させて発電を行う場合には、専門的な知識に基づき、安全かつ効率的に電気を供給できるように技術的な調整や作業員に対する指導などを行う。施設の改良に関する技術的な助言を行うこともある。</p>

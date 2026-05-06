@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/401#webpage",
       "url": "https://mirai-shigoto.com/ja/401",
       "name": "救急救命士 — AI 影響 3/10",
-      "description": "救急救命士、現場救急対応",
+      "description": "救急救命士とは、現場及び病院への搬送の途中、救急車などの中で、救護行為を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/401#occupation",
       "name": "救急救命士",
-      "description": "救急救命士、現場救急対応",
+      "description": "救急救命士とは、現場及び病院への搬送の途中、救急車などの中で、救護行為を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>救急救命士とは</h2>
+        <p class="definition">救急救命士とは、現場及び病院への搬送の途中、救急車などの中で、救護行為を行う職業です。</p>
         <p>現場及び病院への搬送の途中、救急車などの中で、救護行為を行う。また、生命の危険のある病気やけが人に対しては、特定医療行為を含む必要な救急救命処置を行う。消防機関に所属していない救急救命士もいるが、ここでは主に消防署に勤務する救急救命士について記載する。</p>
         <p>消防本部の指令センターから指令を受け、救急車などに乗って現場に急行する。傷病者の症状を確認し、その場で必要な応急処置を行う。傷病者を救急車に収容し、搬送先の病院に向かう。その車内において、聴診器による心音・呼吸音の確認、心電図の測定、酸素吸入器による酸素吸入、自動体外式除細動器（AED）による除細動などの処置を行う。更に、専用端末で救急指導医師の指示を受けながら、輸液や気管内チューブによる気道確保などの救急救命処置を行うこともある。</p>
         <p>病院に到着してからは、傷病者を病院の担当者に引き継ぎ、症状や応急処置の内容を医師に報告する。署に戻って報告書を作成し、次の出動に備える。救急現場の場所によってはヘリコプターで出動することもあり、機内において処置をする場合もある。</p>

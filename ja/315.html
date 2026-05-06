@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/315#webpage",
       "url": "https://mirai-shigoto.com/ja/315",
       "name": "システムエンジニア（組込み、IoT） — AI 影響 8/10",
-      "description": "組込みSE、AI支援設計",
+      "description": "システムエンジニア（組込み、IoT）とは、各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/315#occupation",
       "name": "システムエンジニア（組込み、IoT）",
-      "description": "組込みSE、AI支援設計",
+      "description": "システムエンジニア（組込み、IoT）とは、各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>システムエンジニア（組込み、IoT）とは</h2>
+        <p class="definition">システムエンジニア（組込み、IoT）とは、各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする職業です。</p>
         <p>各種の製品や装置に組み込まれた、制御のための小型コンピュータ（マイコン： microcontroller）のソフトウェアを開発したり、製品や装置を含めシステム全体の設計や開発をする。最近はこのような製品や装置はIoTとして、インターネットを経由したデータ連携を行うことが多くなっている。以下では短くエンジニアとしている。</p>
         <p>組み込まれる製品や装置では、センサーにより周辺環境の情報を収集し、それによって製品や装置が何らかの動作をしたり、IoTであればセンサーからの情報をサーバーに送り、サーバー側で処理した結果をまた製品や装置に送り、それによって製品や装置が何らか動作をする。このような処理には小型コンピュータが必要であり、このコンピュータのプログラムを開発する。センサーで取得した情報は誤差やノイズが含まれている場合があり、小型コンピュータはこれらを補正する役割もある。製品や装置が行った動作も小型コンピュータで確かめ、適切に行われているか確認する必要がある。</p>
         <p>多くの場合、小型コンピュータと周辺回路が乗るプリント基盤、そして製品や装置の機械的な部分（温度や湿度の上げ下げ、水流や送風の調節、照明や日照の調整、レーザーやGPSによる移動や定位、カメラ、等々）のエンジニアと共同で開発にあたる。ソフトウェア、プリント基板、機械的な部分のエンジニアをまとめ、システム全体を開発する場合もある。自分でプログラミングを行う場合もあるが、プログラマーにプログラム作成を依頼する場合もある。</p>

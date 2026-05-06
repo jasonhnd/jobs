@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/14#webpage",
       "url": "https://mirai-shigoto.com/ja/14",
       "name": "ビール製造 — AI 影響 4/10",
-      "description": "大規模工場で高度に自動化",
+      "description": "ビール製造とは、ビール醸造所（ブルワリー）において、ビールの製造に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/14#occupation",
       "name": "ビール製造",
-      "description": "大規模工場で高度に自動化",
+      "description": "ビール製造とは、ビール醸造所（ブルワリー）において、ビールの製造に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>ビール製造とは</h2>
+        <p class="definition">ビール製造とは、ビール醸造所（ブルワリー）において、ビールの製造に従事する職業です。</p>
         <p>ビール醸造所（ブルワリー）において、ビールの製造に従事する。</p>
         <p>日本のビール業界は、長い間大手メーカーによる寡占状態が続いてきたが、1994年の酒税法改正による規制緩和で日本各地の小規模醸造所で“地ビール”や“クラフトビール”と呼ばれるビールが造られている。ビール製造の仕事内容は醸造所の規模によって異なるが、基本工程は同じである。</p>
         <p>ビール造りでは、タンクや配管の洗浄・消毒を丁寧に行うことが大切である。ビールの場合アルコール度が低く、ビール酵母もどちらかといえば弱い発酵力しかないので、洗浄・消毒がおいしいビール造りの基本となる。</p>

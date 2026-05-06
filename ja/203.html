@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/203#webpage",
       "url": "https://mirai-shigoto.com/ja/203",
       "name": "航空管制官 — AI 影響 5/10",
-      "description": "航空管制、AI支援+判断",
+      "description": "航空管制官とは、航空機相互間や航空機と他の車両などの間に安全な間隔を保ち、効率的な交通流を形成するため、無線を使用してパイロットに指示や許可を与える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/203#occupation",
       "name": "航空管制官",
-      "description": "航空管制、AI支援+判断",
+      "description": "航空管制官とは、航空機相互間や航空機と他の車両などの間に安全な間隔を保ち、効率的な交通流を形成するため、無線を使用してパイロットに指示や許可を与える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>航空管制官とは</h2>
+        <p class="definition">航空管制官とは、航空機相互間や航空機と他の車両などの間に安全な間隔を保ち、効率的な交通流を形成するため、無線を使用してパイロットに指示や許可を与える職業です。</p>
         <p>航空管制官は、航空機相互間や航空機と他の車両などの間に安全な間隔を保ち、効率的な交通流を形成するため、無線を使用してパイロットに指示や許可を与える。</p>
         <p>航空管制官は、主に空港の管制塔やレーダー管制室と全国に４カ所ある航空交通管制部で業務にあたる。空港の管制塔では、目視で飛行場と周辺空域（空港から半径9ｋｍ、上空約900ｍ）の航空機の位置や動きを監視し、航空機への離着陸の許可や地上を走行する航空機や他の車両に走行経路の指示などを出す。風向きや風速などを考慮し、使用する滑走路を変更する際の判断も行う。</p>
         <p>空港にあるレーダー管制室では、空港の周りや上空の経路を飛行する航空機の位置をレーダー画面で確認しながら着陸の順位付けなどを行い、飛行経路や高度、スピードなどをパイロットに無線で指示していく。</p>

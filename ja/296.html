@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/296#webpage",
       "url": "https://mirai-shigoto.com/ja/296",
       "name": "生産・品質管理技術者 — AI 影響 7/10",
-      "description": "品質管理技術、AI解析拡大",
+      "description": "生産・品質管理技術者とは、製品の生産について具体的な生産計画を立案し、生産工程や品質の管理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/296#occupation",
       "name": "生産・品質管理技術者",
-      "description": "品質管理技術、AI解析拡大",
+      "description": "生産・品質管理技術者とは、製品の生産について具体的な生産計画を立案し、生産工程や品質の管理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>生産・品質管理技術者とは</h2>
+        <p class="definition">生産・品質管理技術者とは、製品の生産について具体的な生産計画を立案し、生産工程や品質の管理を行う職業です。</p>
         <p>製品の生産について具体的な生産計画を立案し、生産工程や品質の管理を行う。</p>
         <p>製造業では、顧客が求める製品は何か、いつ頃どのくらいの数量の生産が必要かといった市場調査・営業情報をもとに経営幹部が生産計画の大枠を決定する。生産・品質管理技術者は専門的な知識と経験に基づき、生産計画の大枠に沿って、短期・中期・長期の生産計画を立案し、生産工程や品質の管理を行う。</p>
         <p>生産計画の立案にあたっては、営業・技術・製造・資材・人事など関係部門との間で合議し、人員、製造設備の手配、材料の在庫調整、外部への発注、生産・品質・検査工程の構築、包装物流体制などについて調整する。これに基づいて、安全で品質の良い製品を経済的に作り、顧客の求めに応じて市場に供給するために最適な生産計画を策定し、経営幹部の承認を得て実行に移す。</p>

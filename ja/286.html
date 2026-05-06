@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/286#webpage",
       "url": "https://mirai-shigoto.com/ja/286",
       "name": "紡績機械オペレーター — AI 影響 4/10",
-      "description": "紡績機、自動化進行",
+      "description": "紡績機械オペレーターとは、紡績機を操作し、短繊維を加工して精製した長い糸をつくる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/286#occupation",
       "name": "紡績機械オペレーター",
-      "description": "紡績機、自動化進行",
+      "description": "紡績機械オペレーターとは、紡績機を操作し、短繊維を加工して精製した長い糸をつくる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>紡績機械オペレーターとは</h2>
+        <p class="definition">紡績機械オペレーターとは、紡績機を操作し、短繊維を加工して精製した長い糸をつくる職業です。</p>
         <p>絹以外の短い天然繊維を紡績工程で連続した長い糸に作り直すため、この工程で機械を操作して糸を作る仕事である。</p>
         <p>繊維製品は綿花、羊毛、絹、麻のような天然繊維やレーヨン、ナイロン、ポリエステルのような化学繊維をベースにして糸や布をつくり、それに色や柄をつけ、縫製加工して製造する。</p>
         <p>綿紡績を例にとると、次の工程から成り立っている。まず、数種類の原料を混合し、原料の中のゴミ等の異物を取り除き混合した綿を均一の幅、厚さにしてラップする（シート状の綿を捲(ま)いたもの）（混打綿：こんだめん）。次にもつれあった繊維を解きほぐし1本1本の繊維に分離し、繊維をまっすぐに引き伸ばし平行にそろえる（梳綿：りゅうめん）。次に8本～10本のスライバーを併合し供給することで、より太さを均一にしてスライバーを引き伸ばし繊維を平行にし（練条：れんじょう）、同時にスライバーを引き伸ばし細くし、よりをかけて粗糸にし（粗紡：そぼう）、粗糸を引き伸ばしよりを加えて強度を持たせ糸を作る（精紡：せいぼう）。精紡で作られた糸を用途に応じ、色々な仕上げや加工を施し、糸は円筒状のチーズや円錐状のコーンという状態に捲く（捲糸：まきいと）。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/332#webpage",
       "url": "https://mirai-shigoto.com/ja/332",
       "name": "広告デザイナー — AI 影響 9/10",
-      "description": "広告デザイナー、生成AI併用",
+      "description": "広告デザイナーとは、広告会社等において、テレビCMやポスター、新聞や雑誌、Webなど様々な媒体の広告のデザインを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/332#occupation",
       "name": "広告デザイナー",
-      "description": "広告デザイナー、生成AI併用",
+      "description": "広告デザイナーとは、広告会社等において、テレビCMやポスター、新聞や雑誌、Webなど様々な媒体の広告のデザインを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>広告デザイナーとは</h2>
+        <p class="definition">広告デザイナーとは、広告会社等において、テレビCMやポスター、新聞や雑誌、Webなど様々な媒体の広告のデザインを行う職業です。</p>
         <p>広告会社等において、テレビCMやポスター、新聞や雑誌、Webなど様々な媒体の広告のデザインを行う。広告デザインの一部として、新商品や製品パッケージのデザインを行うこともある。</p>
         <p>仕事の流れとしては、まず、広告主と打合せをし、意図や要望などを把握する。これをもとに大まかなスケッチ等を描く。広告の文章であるコピーとともにラフ案をまとめ、広告主に提案する。提案が承認されたら、イラストや写真を必要に応じて外部に発注するなどして作成し、コピーと合わせて広告を完成させる。</p>
         <p>広告の仕事はチームで行うことが多い。広告デザイナーはコピーライターやCMの企画や内容を考えるCMプランナーなどで構成されるチームに配属される。チームリーダーである広告ディレクターやデザイナーのまとめ役であるアートディレクターの下で仕事を進める。</p>

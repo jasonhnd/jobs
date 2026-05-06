@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/396#webpage",
       "url": "https://mirai-shigoto.com/ja/396",
       "name": "学習塾教師 — AI 影響 6/10",
-      "description": "塾講師、AI教材+対面指導",
+      "description": "学習塾教師とは、民間の教育機関である学習塾において、小学生、中学生、高校生等を対象に学習指導をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/396#occupation",
       "name": "学習塾教師",
-      "description": "塾講師、AI教材+対面指導",
+      "description": "学習塾教師とは、民間の教育機関である学習塾において、小学生、中学生、高校生等を対象に学習指導をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>学習塾教師とは</h2>
+        <p class="definition">学習塾教師とは、民間の教育機関である学習塾において、小学生、中学生、高校生等を対象に学習指導をする職業です。</p>
         <p>民間の教育機関である学習塾において、小学生、中学生、高校生等を対象に学習指導をする。</p>
         <p>学習塾の規模や形態は、大人数を一斉に教える大きな塾から、個別指導が中心の塾まで様々である。また、塾によって、学習の目的にも違いがある。学校の授業の理解を補う補習塾、志望校を目指して受験指導をする進学塾など、目標や学習レベルがそれぞれ設定されている。それぞれの塾の指導方針と運営形態にしたがって指導の内容や方法を決め、カリキュラムを練り、問題を作り、テストの採点をして個々の生徒の課題を分析する。また、保護者会や個別相談で、学習や進学に関する説明やアドバイスを行う。</p>
         <p>いずれの塾でも、生徒ひとりひとりの能力に応じて対応し、保護者や生徒に満足感をもってもらわなければならない。勉強を教えるプロとして、担当教科の内容をしっかり把握し、生徒が興味を持つように教え、成果を上げることが求められる。</p>

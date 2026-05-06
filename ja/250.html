@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/250#webpage",
       "url": "https://mirai-shigoto.com/ja/250",
       "name": "起業、創業 — AI 影響 7/10",
-      "description": "起業、AI支援企画書",
+      "description": "起業、創業とは、自分で新しく事業を計画し、資金を調達し、企業として存続させる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/250#occupation",
       "name": "起業、創業",
-      "description": "起業、AI支援企画書",
+      "description": "起業、創業とは、自分で新しく事業を計画し、資金を調達し、企業として存続させる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -203,6 +203,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -373,6 +377,7 @@
 
       <section class="context">
         <h2>起業、創業とは</h2>
+        <p class="definition">起業、創業とは、自分で新しく事業を計画し、資金を調達し、企業として存続させる職業です。</p>
         <p>新しく事業を起こすこと、新しく事業を始めること。こうして設立された企業は、スタートアップ企業、ベンチャー企業などと呼ばれ、これらの企業を起こす人を起業家、アントレプレナーなどと言う。業種的には、最先端のデジタル技術やAI、バイオなどを手がける開発型ベンチャーが話題になることが多いが、それらに限定されるわけではなく、サービス、医療・福祉、飲食、小売、建設、金融、不動産など多岐にわたっている。</p>
         <p>積極的に新しいことに取り組む活力のある企業を増やすことで経済活性化につなげ、新たな製品やサービスの開発により日本の競争力強化を進めたい政府と、起業を地方活性化や雇用創出の切り札の一つとしたい地方自治体が様々な支援策を講じている。</p>
         <p>日本では若者ばかりでなく、結婚や子育てで家庭に入っていた女性や、転職を考える中高年、退職した高齢者などの起業も増えており、人材も業種も裾野が急速に広がってきている。しかし、世界的に見るとベンチャー先進国との差はまだまだ大きい上、起業後数年にして行き詰まることも少なくない。もちろん起業家自身の問題もあるが、これまでの支援策が、創業時の資金支援など一過性のものが多く、企業が成長過程でぶつかる問題に効果的に対応できていなかったケースもある。最近では、起業から企業として独り立ちするまで、一貫性のある統合的な支援を行うベンチャー・エコシステムの創設なども構想され、起業し、事業として成長できる環境が整いつつある。</p>

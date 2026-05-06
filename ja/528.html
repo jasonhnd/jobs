@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/528#webpage",
       "url": "https://mirai-shigoto.com/ja/528",
       "name": "自動運転開発エンジニア（自動車） — AI 影響 8/10",
-      "description": "自動運転開発、AI/ML技術",
+      "description": "自動運転開発エンジニア（自動車）とは、一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/528#occupation",
       "name": "自動運転開発エンジニア（自動車）",
-      "description": "自動運転開発、AI/ML技術",
+      "description": "自動運転開発エンジニア（自動車）とは、一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>自動運転開発エンジニア（自動車）とは</h2>
+        <p class="definition">自動運転開発エンジニア（自動車）とは、一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う職業です。</p>
         <p>一般公道を走る自動車の自動運転に関する設計、開発、評価等を行う。自動運転車を開発する場合、最初の設計から最後のテスト走行まで仕事は多岐にわたる。自動車開発全体のプロジェクト責任者のもと、自動運転開発エンジニアは自動運転に関する設計、開発、評価等を担当する。</p>
         <p>自動車産業は完成車メーカーと直接取引する１次サプライヤー（ティア１サプライヤー:tier 1 supplier）、その下のサプライヤー（tier 2 supplier）、またその下のサプライヤー、等々とピラミッド構造になっているが、自動運転開発エンジニアは完成車メーカーとティア１サプライヤーで自動運転の開発を行っている。</p>
         <p>自動運転では周辺の状況を「認知」し、それに基づきどのような運転をするか「判断」し、実際に車を「操作」するという流れになるが、この中で、「認知」ではGPS、カメラ、ライダー（Lidar）等からの情報で周囲の状況や車の位置を認識し、「判断」では車の加速、減速、方向調整を決め、「操作」では実際に車の加速、減速、方向調整を行う。例えば、高速道路の走行において、カメラで車線を認識し（「認知」）、中央を走行するよう（「判断」）、方向調整を行う（「操作」）。車線は光の当たり方、車からみた角度等々、カメラでとらえた映像は実際には非常に様々となる。そのためAI（人工知能）の深層学習(deep learning)の技術を使い、様々な映像から正しく車線が認識できるよう学習させる。このように自動運転開発エンジニアは「認知」、「判断」、「操作」に関する開発を行うが、AI技術が大きな役割を果たしている。</p>

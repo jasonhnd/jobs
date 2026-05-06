@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/223#webpage",
       "url": "https://mirai-shigoto.com/ja/223",
       "name": "獣医師 — AI 影響 4/10",
-      "description": "獣医、手技+診断AI支援",
+      "description": "獣医師とは、犬や猫などのペット、牛や馬などの家畜鶏などの家きんについて、病気や傷の治療、出産介助伝染病の予防などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/223#occupation",
       "name": "獣医師",
-      "description": "獣医、手技+診断AI支援",
+      "description": "獣医師とは、犬や猫などのペット、牛や馬などの家畜鶏などの家きんについて、病気や傷の治療、出産介助伝染病の予防などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>獣医師とは</h2>
+        <p class="definition">獣医師とは、犬や猫などのペット、牛や馬などの家畜鶏などの家きんについて、病気や傷の治療、出産介助伝染病の予防などを行う職業です。</p>
         <p>牛、馬、豚、鶏、犬、猫などの動物の健康や生命を守る仕事及び人の健康に関する仕事に従事する。</p>
         <p>専門分野は「産業動物分野」、「伴侶動物分野」、「公衆衛生分野」、「バイオメディカル分野」、「野生動物関係分野」など多岐に及び人の健康や社会生活にも密接に関わっている。</p>
         <p>産業動物分野の仕事には、家畜保健衛生所、畜産試験場などでの肉や牛乳を生産するための牛、馬、豚、鶏などの家畜について病気の予防や衛生管理、ワクチン接種などによる伝染病の予防、人工授精や授精卵移植技術を用いた品種の改良と繁殖、動物用医薬品の安全性確保のための検定試験やその製造、流通、使用の監視などがある。</p>

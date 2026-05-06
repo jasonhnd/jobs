@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/100#webpage",
       "url": "https://mirai-shigoto.com/ja/100",
       "name": "日本料理調理人（板前） — AI 影響 3/10",
-      "description": "日本料理板前、伝統的職人技",
+      "description": "日本料理調理人（板前）とは、会席料理や懐石料理、天ぷら料理、うなぎ料理、ふぐ料理などの日本料理を調理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/100#occupation",
       "name": "日本料理調理人（板前）",
-      "description": "日本料理板前、伝統的職人技",
+      "description": "日本料理調理人（板前）とは、会席料理や懐石料理、天ぷら料理、うなぎ料理、ふぐ料理などの日本料理を調理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>日本料理調理人（板前）とは</h2>
+        <p class="definition">日本料理調理人（板前）とは、会席料理や懐石料理、天ぷら料理、うなぎ料理、ふぐ料理などの日本料理を調理する職業です。</p>
         <p>日本料理には会席料理や懐石料理、天ぷら料理、うなぎ料理、ふぐ料理など様々な種類があり、これら各種の料理を調理する。</p>
         <p>日本料理は割烹（かっぽう）料理とも言うが、割烹とは材料を「切って煮る」という意味で、日本料理の基本を表している。</p>
         <p>小さな店ではほとんどの作業をひとりでやることもあるが、料亭、旅館等では仕事が分業化されている。呼び名も店によって異なるが、掃除、洗い物、野菜の下処理等下積みの「追い回し」、盛り付けをする「先付け、八寸場」、焼き魚、天ぷら等加熱調理を担当する「焼き場、揚げ場」、煮物、吸い物等だしを使った味付けを担当する「蒸し場、煮方」、刺身を切る「板場」に分かれる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/249#webpage",
       "url": "https://mirai-shigoto.com/ja/249",
       "name": "植物工場の栽培管理 — AI 影響 4/10",
-      "description": "植物工場栽培、自動化進行",
+      "description": "植物工場の栽培管理とは、植物工場内で野菜等の栽培、管理、収穫を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/249#occupation",
       "name": "植物工場の栽培管理",
-      "description": "植物工場栽培、自動化進行",
+      "description": "植物工場の栽培管理とは、植物工場内で野菜等の栽培、管理、収穫を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -211,6 +211,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -381,6 +385,7 @@
 
       <section class="context">
         <h2>植物工場の栽培管理とは</h2>
+        <p class="definition">植物工場の栽培管理とは、植物工場内で野菜等の栽培、管理、収穫を行う職業です。</p>
         <p>植物工場内で野菜等の栽培、管理、収穫を行う。</p>
         <p>植物工場では、野菜や苗を中心とした作物を施設内で、光、温度、湿度、二酸化炭素濃度、培養液などの環境条件を人工的に制御し、季節や天候、地域、場所等にとらわれずに自動的に連続生産する。植物工場には人工光型、太陽光型、太陽光・人工光併用型があり、生産システムの採算性、効率性が重視される。ここでは、人口光型の植物工場を例に業務内容について説明する。</p>
         <p>栽培管理の仕事では、育苗室で野菜等の種子を発芽させ、苗が育ったら栽培室に移し、生育用の栽培棚等で培養液を与えて生育を促す。工場内では、ハウスの奥行き、畝幅、株間を考慮し設定された平方メートルあたりの適正値に従い、室内の光量と温度及び培養液の温度と湿度が常に最適な状態を維持できるよう確認する。また、外部と遮断された植物工場でも種子や培地などから細菌が侵入する可能性があるので、適時洗浄作業することも大切である。太陽光型の植物工場では、更に、一定期間栽培した後の栽培棚は殺菌噴霧、乾燥させてから抗菌加工するなどの対策も必要とされる。</p>

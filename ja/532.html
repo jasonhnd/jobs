@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/532#webpage",
       "url": "https://mirai-shigoto.com/ja/532",
       "name": "フードデリバリー（料理配達員） — AI 影響 3/10",
-      "description": "フードデリバリー、配達現場",
+      "description": "フードデリバリー（料理配達員）とは、客の注文を受けた料理や飲料などを店舗から客先へ配達する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/532#occupation",
       "name": "フードデリバリー（料理配達員）",
-      "description": "フードデリバリー、配達現場",
+      "description": "フードデリバリー（料理配達員）とは、客の注文を受けた料理や飲料などを店舗から客先へ配達する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>フードデリバリー（料理配達員）とは</h2>
+        <p class="definition">フードデリバリー（料理配達員）とは、客の注文を受けた料理や飲料などを店舗から客先へ配達する職業です。</p>
         <p>客の注文を受けた料理や飲料などを店舗から客先へ配達する。</p>
         <p>飲食店の料理の宅配は従来から「出前」としてそれぞれの店により行われてきたが、近年、宅配専門店や配達代行サービスの拡大により、さまざまな形態で行われるようになっている。ここでは主に、宅配専門店の配達員、フードデリバリーサービス会社に雇用される配達員、フードデリバリーサービス会社と個人で契約して配達を請負う配達員の仕事について述べる。</p>
         <p>宅配ピザ、宅配寿司などの宅配専門店や飲食店の宅配専門部門の配達員は、各店舗の配達専門スタッフとして雇用され、注文された料理を店舗の調理スタッフから受け取り、客先へ届ける。店舗によっては、配達だけでなく、電話等による注文の受付や店内の清掃、洗いもの、空き時間にチラシのポスティングなどを行うこともある。</p>

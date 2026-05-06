@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/260#webpage",
       "url": "https://mirai-shigoto.com/ja/260",
       "name": "非破壊検査技術者 — AI 影響 6/10",
-      "description": "非破壊検査、AI画像解析",
+      "description": "非破壊検査技術者とは、金属材料、機械の部品、金属の溶接部、構造物などを、分解したり破壊したりせずにその内部や表面に欠陥などがないかを調べる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/260#occupation",
       "name": "非破壊検査技術者",
-      "description": "非破壊検査、AI画像解析",
+      "description": "非破壊検査技術者とは、金属材料、機械の部品、金属の溶接部、構造物などを、分解したり破壊したりせずにその内部や表面に欠陥などがないかを調べる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>非破壊検査技術者とは</h2>
+        <p class="definition">非破壊検査技術者とは、金属材料、機械の部品、金属の溶接部、構造物などを、分解したり破壊したりせずにその内部や表面に欠陥などがないかを調べる職業です。</p>
         <p>金属材料、機械の部品、金属の溶接部、構造物などを分解したり破壊したりせずにその内部や表面に欠陥などがないかを調べる。</p>
         <p>非破壊検査の検査対象となるのは、原子力発電所、大型プラント、鉄道、航空機、ビル、橋などの大型建造物から、工業製品や各種部品に至るまで多岐にわたる。検査物の種類や検査目的に応じて、放射線や超音波、磁気などを使って、内部の傷の有無、安全性、補修の要否などを判定する。非破壊検査は、あくまでも間接的な検査方法であるため、ある程度の不確実性は避けられないが、検査対象物の製造方法や素材、使われ方、使用期間などから、存在する可能性のある傷を予測し、もっとも適切な検査方法を組み合わせて使用することで判断の確実性を高めている。</p>
         <p>製造業の場合、素材から加工過程の中間生産物、最終製品の検査に非破壊検査を用いて不良品を出荷しないようにしている。また製造設備の保守検査に適用することで事故を防ぎ、長く安全に設備を使用できるようにする。これにより無駄な廃棄物を減らして資源の有効活用につなげている。</p>

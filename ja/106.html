@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/106#webpage",
       "url": "https://mirai-shigoto.com/ja/106",
       "name": "ソムリエ — AI 影響 5/10",
-      "description": "ソムリエ、対面のテイスティング",
+      "description": "ソムリエとは、ワインを中心とする飲料のスペシャリストとして、ホテルやレストランでワインの仕入れから接客サービスまでを担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/106#occupation",
       "name": "ソムリエ",
-      "description": "ソムリエ、対面のテイスティング",
+      "description": "ソムリエとは、ワインを中心とする飲料のスペシャリストとして、ホテルやレストランでワインの仕入れから接客サービスまでを担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>ソムリエとは</h2>
+        <p class="definition">ソムリエとは、ワインを中心とする飲料のスペシャリストとして、ホテルやレストランでワインの仕入れから接客サービスまでを担当する職業です。</p>
         <p>ワインを中心とする飲料等のスペシャリストとして、幅広い分野で、飲料等の提供、紹介、啓蒙、普及等のために専門的な助言等を行う。ここでは、主に、ホテルやレストランで働くソムリエについて記述する。</p>
         <p>ソムリエとは、飲食、酒類・飲料の仕入れ、管理、輸出入、流通、販売、教育機関、酒類製造のいずれかの分類に属し、酒類、飲料、食全般の専門的知識・テイスティング能力を有するプロフェッショナルをいう。</p>
         <p>ソムリエの役割は、飲食店もしくは酒類・飲料を販売する施設における飲料等の提供、ならびに商品の適切な紹介とサービスの提供を中心に、啓蒙・普及・研究・教育を目的とした専門的な助言や清潔で衛生的な食事環境の維持など広範に及ぶ。</p>

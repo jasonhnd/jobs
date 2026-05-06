@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/542#webpage",
       "url": "https://mirai-shigoto.com/ja/542",
       "name": "出荷・受荷事務 — AI 影響 8/10",
-      "description": "出荷受荷事務、AI処理拡大",
+      "description": "出荷・受荷事務とは、資材・製品などの受け入れ・検品・保管・発送に関する事務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/542#occupation",
       "name": "出荷・受荷事務",
-      "description": "出荷受荷事務、AI処理拡大",
+      "description": "出荷・受荷事務とは、資材・製品などの受け入れ・検品・保管・発送に関する事務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>出荷・受荷事務とは</h2>
+        <p class="definition">出荷・受荷事務とは、資材・製品などの受け入れ・検品・保管・発送に関する事務を行う職業です。</p>
         <p>資材・製品などの受け入れ・検品・保管・発送に関する事務の仕事を行う。</p>
         <p>具体的には、資材・製品などの納入場所において、発注控などの書類に記載された数量・寸法などと現品とを照合する「検収・検品事務」で、検品検収員、資材検収事務員、倉庫検収係員、納品検査係員等呼称されているもの、工場・倉庫などにおいて、機械・器具・商品・資材などの受け入れ、保管、管理の仕事に従事する「保管・管理事務」で、在庫管理事務員、資材管理事務員、商品管理係、倉庫管理係等呼称されているもの、資材・部品・製品などを出荷・発送するため、送り状・出荷案内書・納品書・出荷指示書などの書類の作成・管理などを行う「出荷・発送事務」で、運送事務員、出荷事務員、出庫管理係、船積出荷係員等呼称されているものがある。いずれにせよ、これら在庫・商品管理は、製品、資材、原料の在庫量を把握して、在庫切れや過剰在庫を無くし適正在庫を確保することでコストを低減させ、在庫の破損や消耗を無くして品質保持することが重要な役割である。</p>
         <p>「検収・検品事務」では、荷物等を倉庫に納入する場合、荷物の内容と個数を確認し、当該荷物の内容・個数等をコンピュータに登録、管理台帳を作成、各荷物に管理番号を付与し、バーコードやQRコードのシールに印刷する。その後、倉庫作業員に依頼して各荷物にシールを貼り、管理台帳に基づいて指定の倉庫内の棚に保管する。既にコードが付与されている場合は、ハンディターミナルやハンディスキャナーでコードを読み取っていく。</p>

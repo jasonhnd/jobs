@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/137#webpage",
       "url": "https://mirai-shigoto.com/ja/137",
       "name": "福祉用具専門相談員 — AI 影響 5/10",
-      "description": "福祉用具相談員、対面+商品提案",
+      "description": "福祉用具専門相談員とは、車椅子や特殊ベッドなどの福祉用具の貸与サービス・販売を行う事業所に勤務し、利用者や家族に対して適切な用具の選び方、使い方をアドバイスする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/137#occupation",
       "name": "福祉用具専門相談員",
-      "description": "福祉用具相談員、対面+商品提案",
+      "description": "福祉用具専門相談員とは、車椅子や特殊ベッドなどの福祉用具の貸与サービス・販売を行う事業所に勤務し、利用者や家族に対して適切な用具の選び方、使い方をアドバイスする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>福祉用具専門相談員とは</h2>
+        <p class="definition">福祉用具専門相談員とは、車椅子や特殊ベッドなどの福祉用具の貸与サービス・販売を行う事業所に勤務し、利用者や家族に対して適切な用具の選び方、使い方をアドバイスする職業です。</p>
         <p>介護を必要とする高齢者や障害者が自宅で安心して暮らすことができるよう、車椅子や特殊ベッドなどの福祉用具の貸与サービス・販売を行う事業所に勤務し、利用者や家族に対して適切な用具の選び方、使い方をアドバイスする。</p>
         <p>「福祉用具」とは、心身の機能が低下し日常生活を営むのに支障のある高齢者や障害者の日常生活上の便宜を図るための用具、これらの人たちの機能訓練のための用具をいう。その種類は、車椅子、特殊ベッド、褥瘡予防用具、体位変換器、手すり、スロープ、歩行器、移動用リフトといった大きなものから、障害者用の食器のような小さいものまで多岐にわたっている。最近では、新しい技術が次々に福祉機器・用具に導入され、応用分野も種類も多くなっていることから、その利用には専門的知識が必要となってきている。</p>
         <p>主な業務としては、利用者と福祉用具で解決できることをともに考えて、利用者に合った福祉用具選定のアドバイス、利用者との相談を踏まえた福祉用具利用計画の作成、利用者の障害、要介護の程度、住宅の構造、環境に合わせた福祉用具の適合・調整、取扱説明、定期的に利用者宅で福祉用具の点検をおこなう訪問確認などがある。</p>

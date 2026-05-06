@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/558#webpage",
       "url": "https://mirai-shigoto.com/ja/558",
       "name": "自動車板金塗装 — AI 影響 3/10",
-      "description": "自動車板金塗装、手仕事",
+      "description": "自動車板金塗装とは、自動車のフレームの損傷やボディのへこみ・きずを修復し（板金作業）、修復箇所を塗装する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/558#occupation",
       "name": "自動車板金塗装",
-      "description": "自動車板金塗装、手仕事",
+      "description": "自動車板金塗装とは、自動車のフレームの損傷やボディのへこみ・きずを修復し（板金作業）、修復箇所を塗装する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -241,6 +241,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -411,6 +415,7 @@
 
       <section class="context">
         <h2>自動車板金塗装とは</h2>
+        <p class="definition">自動車板金塗装とは、自動車のフレームの損傷やボディのへこみ・きずを修復し（板金作業）、修復箇所を塗装する職業です。</p>
         <p>自動車のフレームの損傷やボディのへこみ・きずを修復し（板金作業）、修復箇所を塗装する。</p>
         <p>自動車の整備は、エンジンやブレーキ等の走行関連部位に対する「分解整備」とフレームやボディに対する「車体整備」に分かれ、自動車板金塗装では後者を担う。事故車の修理や少し擦ってしまった等の軽補修がメインであり、機能及び美観を限りなく元の状態に回復させることを目的とする。また、顧客の要望に応じてさまざまなパーツを取り付けたり塗装するカスタマイズや、何十年も前の自動車を蘇らせるレストアを行うこともある。</p>
         <p>板金作業においてフレームの損傷が見られる場合、フレーム修正機という大型の装置に載せ油圧をかけて修復する。ボディのへこみについては、ハンマーと当て板で押し叩く、スライドハンマー で引き出す等の手法により大まかな成形を行い、パテ塗り と研磨で表面をなめらかにする。作業の過程で、必要なパーツの脱着、溶接や交換を行う。</p>

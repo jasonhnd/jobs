@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/226#webpage",
       "url": "https://mirai-shigoto.com/ja/226",
       "name": "犬訓練士 — AI 影響 2/10",
-      "description": "犬訓練、対面訓練手作業",
+      "description": "犬訓練士とは、犬の特性や嗅覚などの能力を活用するために専門的な訓練を行うほか、家庭用の犬のしつけも行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/226#occupation",
       "name": "犬訓練士",
-      "description": "犬訓練、対面訓練手作業",
+      "description": "犬訓練士とは、犬の特性や嗅覚などの能力を活用するために専門的な訓練を行うほか、家庭用の犬のしつけも行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>犬訓練士とは</h2>
+        <p class="definition">犬訓練士とは、犬の特性や嗅覚などの能力を活用するために専門的な訓練を行うほか、家庭用の犬のしつけも行う職業です。</p>
         <p>警察犬、盲導犬、災害救助犬、空港などにいる麻薬捜査犬や、ガス漏れを嗅ぎつけたり、ガードマンの代わりをする犬など、犬はさまざまな分野で活躍している。犬の特性や嗅覚などの能力を活用するために専門的な訓練を行うほか、普通の家庭用の犬のしつけも行う。</p>
         <p>「訓練」には、訓練所が犬を預かる場合と飼主のもとへ出張訓練に出かける場合があるが、本格的なしつけや教育をするには、訓練所で預かって基本から応用までの訓練を行うのが一般的である。まず、犬と親和を図りながら「座れ」や「伏せ」といった服従を主とする基本訓練を行う。</p>
         <p>普通の家庭用の犬はこの単純なしつけで十分であるが、専門的な仕事を担うためにはさらなる訓練が必要となる。</p>

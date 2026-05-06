@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/291#webpage",
       "url": "https://mirai-shigoto.com/ja/291",
       "name": "漆器製造 — AI 影響 2/10",
-      "description": "漆器製造、伝統手仕事",
+      "description": "漆器製造とは、食器、工芸品、家具調度品、仏具などの漆器（しっき）を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/291#occupation",
       "name": "漆器製造",
-      "description": "漆器製造、伝統手仕事",
+      "description": "漆器製造とは、食器、工芸品、家具調度品、仏具などの漆器（しっき）を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -218,6 +218,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -388,6 +392,7 @@
 
       <section class="context">
         <h2>漆器製造とは</h2>
+        <p class="definition">漆器製造とは、食器、工芸品、家具調度品、仏具などの漆器（しっき）を製造する職業です。</p>
         <p>食器、工芸品、家具調度品、仏具などの漆器（しっき）を製造する。漆器とは漆（うるし）の木から採った樹液を塗って作られる日本を代表する工芸品であり、漆器製造の仕事は、日本が世界に誇る技法を守り、後世に伝えるという役割を担っている。</p>
         <p>漆器製造には、素地（そじ）製造工、下地工、漆塗工、蒔絵師（まきえし）、沈金工（ちんきんこう）など多くの人が関わっている。まず素地製造工が漆器の素材となる部分を作る。木地師（きじし）とも呼ばれ、板を貼り合わせて作る板物素地やロクロを使って作る挽物素地などによって器の形を作っていく。下地工は出来あがった素地の木目を整えたり補強を加え、下地を整える。さらに、漆塗工によって幾重にも漆が塗られ、最後に蒔絵師や沈金工が金や銀で装飾を施したり、青貝師(あおがいし)が貝をはめ込むなどして完成する。</p>
         <p>木製を素地とし精製加工した漆を手作業で塗る漆器から、近年では機械化による大量生産商品、合成樹脂を使用するものまである。また、手作業と機械の融合によって、新しい漆器づくりもなされている。</p>

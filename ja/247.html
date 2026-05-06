@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/247#webpage",
       "url": "https://mirai-shigoto.com/ja/247",
       "name": "植物工場の研究開発 — AI 影響 7/10",
-      "description": "植物工場研究、AIモデル拡大",
+      "description": "植物工場の研究開発とは、植物工場で生産する野菜等の植物やその栽培方法等について研究・開発を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/247#occupation",
       "name": "植物工場の研究開発",
-      "description": "植物工場研究、AIモデル拡大",
+      "description": "植物工場の研究開発とは、植物工場で生産する野菜等の植物やその栽培方法等について研究・開発を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -211,6 +211,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -381,6 +385,7 @@
 
       <section class="context">
         <h2>植物工場の研究開発とは</h2>
+        <p class="definition">植物工場の研究開発とは、植物工場で生産する野菜等の植物やその栽培方法等について研究・開発を行う職業です。</p>
         <p>植物工場で生産する野菜等植物やその栽培方法等について研究・開発を行う。</p>
         <p>植物工場では野菜や苗を中心とした作物を、光、温度、湿度、二酸化炭素濃度、培養液などの環境条件を人工的に制御した施設内で、季節や天候、地域、場所等にとらわれずに効率的に連続生産する。植物工場には人工光型、太陽光型、太陽光・人工光併用型があり、生産システムの採算性、効率性が重視される。研究開発は、①建物、設備、機器とその管理、②生産する野菜等とその栽培方法の両面から進められている。ここでは、後者の研究開発について述べる。</p>
         <p>主な研究内容としては、工場生産に適した植物の選定と品種改良、生産性向上のための栽培プロセスのシステム化、経済的で効率的な育成環境の開発などがある。新しい品種やプロセス、環境を、実際に工場で試してみる実証栽培研究も行う。</p>

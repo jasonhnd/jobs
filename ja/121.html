@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/121#webpage",
       "url": "https://mirai-shigoto.com/ja/121",
       "name": "自動車教習指導員 — AI 影響 3/10",
-      "description": "教習所指導員、車内指導",
+      "description": "自動車教習指導員とは、自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/121#occupation",
       "name": "自動車教習指導員",
-      "description": "教習所指導員、車内指導",
+      "description": "自動車教習指導員とは、自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>自動車教習指導員とは</h2>
+        <p class="definition">自動車教習指導員とは、自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える職業です。</p>
         <p>自動車教習所で、法律に定められたカリキュラムに沿って自動車の安全運転に必要な技能と知識を教える。</p>
         <p>自動車教習所は自動車学校、ドライビングスクール等とも呼ばれる。</p>
         <p>技能教習では、まず教習所内のコースでハンドル操作やブレーキ操作、車を走らせる位置や止まる位置、狭い道路や交差点、曲がり角の運転、坂道発進、進路変更、駐車の方法など、運転操作について指導する。指導員は助手席に座って原則1対1で指導し、時には運転の手本を見せてポイントを教える。必要な教習を修了し、修了検定・仮免学科試験に合格し、仮免許証を取得した教習生には、一般道路に出て路上教習を行う。1時限ごとに教習生が次のステップに進めるかどうかを判断し、記録をつけ、未熟な運転操作などについては指導する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/576#webpage",
       "url": "https://mirai-shigoto.com/ja/576",
       "name": "衛生管理者 — AI 影響 6/10",
-      "description": "衛生管理者、企画+検査",
+      "description": "衛生管理者とは、職場環境の改善や健康管理の取組みを通じて、労働者が健康で安全に働ける環境づくりを推進する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/576#occupation",
       "name": "衛生管理者",
-      "description": "衛生管理者、企画+検査",
+      "description": "衛生管理者とは、職場環境の改善や健康管理の取組みを通じて、労働者が健康で安全に働ける環境づくりを推進する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>衛生管理者とは</h2>
+        <p class="definition">衛生管理者とは、職場環境の改善や健康管理の取組みを通じて、労働者が健康で安全に働ける環境づくりを推進する職業です。</p>
         <p>労働者の健康を守る専門家として、職場環境の改善や健康管理の取組みを通じて、労働者が健康で安全に働ける環境づくりを推進する。健康診断の結果に基づく事後措置、作業環境の維持管理、作業の管理及び健康教育、健康相談その他労働者の健康の保持増進を図るために必要な措置等を行う。</p>
         <p>労働者数に応じて一定数以上の衛生管理者を選任するよう労働安全衛生法で定められている。常時50人以上の労働者が働く事業場では必ず1人以上の衛生管理者を選任する必要があるが、必要な免許はその業種によって異なる。また、常時1,000人を超える労働者を使用する事業場や、常時500人を超える労働者を使用する事業場で、坑内労働又は一定の健康上有害な業務に常時30人以上の労働者を働かせている事業場では、衛生管理者のうち少なくとも1人を専任とする必要がある。</p>
         <p>衛生管理者の業務としては、週1回の職場巡視や、月1回の衛生委員会への出席等がある。職場巡視とは、作業場等を巡視し、設備、作業方法、衛生状態に有害の恐れがないか細かく点検をするとともに、改善すべき問題点を発見した場合には、すぐに労働者の健康障害を防止するために必要な措置を講じることである。化学物質管理やメンタルヘルス問題等の事業場における安全衛生上の課題に対応するため、組織に働きかけることは重要な業務である。</p>

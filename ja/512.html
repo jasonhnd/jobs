@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/512#webpage",
       "url": "https://mirai-shigoto.com/ja/512",
       "name": "国会議員 — AI 影響 5/10",
-      "description": "国会議員、対面政治+AI支援",
+      "description": "国会議員とは、国民から選挙で選ばれて、国の最高議決機関である国会で、法律の制定、予算の議決と決算の審議、条約締結の承認、内閣総理大臣の指名などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/512#occupation",
       "name": "国会議員",
-      "description": "国会議員、対面政治+AI支援",
+      "description": "国会議員とは、国民から選挙で選ばれて、国の最高議決機関である国会で、法律の制定、予算の議決と決算の審議、条約締結の承認、内閣総理大臣の指名などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -190,6 +190,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -360,6 +364,7 @@
 
       <section class="context">
         <h2>国会議員とは</h2>
+        <p class="definition">国会議員とは、国民から選挙で選ばれて、国の最高議決機関である国会で、法律の制定、予算の議決と決算の審議、条約締結の承認、内閣総理大臣の指名などを行う職業です。</p>
         <p>国民から選挙で選ばれて、国の最高議決機関である国会で、法律の制定、予算の議決と決算の審議、条約締結の承認、内閣総理大臣の指名などを行う。日本の国会は衆議院（定数465人）と参議院（同248人）の二院制をとっている。</p>
         <p>国会議員の仕事は、国民の代表として議会での審議や決定に参加して、国民の意思を行政や財政に反映させることである。具体的には、議員が立案して提出した法案、内閣から提出された法案を所属委員会で審議し本会議で採決することと、内閣が作成する予算案を審議して決定することが最も重要な仕事となる。さらに、各種委員会に所属して、特定の分野について継続的に調査や審議をしたり、議会で決定された法律や予算が適正に執行されているかどうか監視すること、内閣総理大臣を選出すること、内閣が外国と条約を締結することを承認するなどの仕事もある。</p>
         <p>国会が開会していないときでも、各種勉強会に出て知識や識見を深める。地元だけに目を向けるのではなく、国民の代表として選挙区外の有権者や日本で暮らす外国人などの声などにも広く耳を傾けたり、従来型のメディアだけでなくSNSなども活用して情報や自らの考えを広く発信していくことも求められるようになってきた。</p>

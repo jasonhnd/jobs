@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/133#webpage",
       "url": "https://mirai-shigoto.com/ja/133",
       "name": "訪問介護員/ホームヘルパー — AI 影響 2/10",
-      "description": "訪問介護は身体介助中心",
+      "description": "訪問介護員/ホームヘルパーとは、要介護認定を受けている高齢者や、障害支援区分の認定を受けている障害のある人の居宅を訪問して、身体介護や家事支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/133#occupation",
       "name": "訪問介護員/ホームヘルパー",
-      "description": "訪問介護は身体介助中心",
+      "description": "訪問介護員/ホームヘルパーとは、要介護認定を受けている高齢者や、障害支援区分の認定を受けている障害のある人の居宅を訪問して、身体介護や家事支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>訪問介護員/ホームヘルパーとは</h2>
+        <p class="definition">訪問介護員/ホームヘルパーとは、要介護認定を受けている高齢者や、障害支援区分の認定を受けている障害のある人の居宅を訪問して、身体介護や家事支援を行う職業です。</p>
         <p>要介護認定を受けている高齢者や、障害支援区分の認定を受けている障害のある人の居宅を訪問して、身体介護や家事支援を行う。在宅の高齢者のための介護保険サービスの利用が増加する中で、在宅介護サービスの中心的担い手となって活動している。</p>
         <p>公的制度としては、高齢者を対象とする場合は介護保険制度により、障害児・障害者を対象とする場合は障害者総合支援法により、障害福祉サービスが運営されている。</p>
         <p>介護サービスでは、食事、寝返りの介助、入浴、排泄、衣服の着脱など、在宅での基本的な生活を継続できるように援助する。家事支援サービスは、調理、洗濯、掃除、買物などを援助したり代行する。利用者本人や家族への精神的ケアを行うことや、家族に介護の技術的な指導を行うことも大切な仕事である。</p>

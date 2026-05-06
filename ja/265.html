@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/265#webpage",
       "url": "https://mirai-shigoto.com/ja/265",
       "name": "生産用機械組立 — AI 影響 3/10",
-      "description": "生産機械組立、手作業",
+      "description": "生産用機械組立とは、受注した特注の単品や多品種少量製品の生産用機械を、提供された設計図に基づいて組み立てる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/265#occupation",
       "name": "生産用機械組立",
-      "description": "生産機械組立、手作業",
+      "description": "生産用機械組立とは、受注した特注の単品や多品種少量製品の生産用機械を、提供された設計図に基づいて組み立てる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>生産用機械組立とは</h2>
+        <p class="definition">生産用機械組立とは、受注した特注の単品や多品種少量製品の生産用機械を、提供された設計図に基づいて組み立てる職業です。</p>
         <p>受注した特注の単品や多品種少量製品の生産用機械を提供された設計図に基づいて組み立てる。</p>
         <p>生産用機械の種類は非常に多く、金属の切削や曲げ加工を行う工作機械や鍛造機械、プラスチック製品を作る合成樹脂加工機械、溶接などを行う産業用ロボット、土木・建設工事に使用される土木建設機械、プレス周辺機器など工場の生産設備を自動化する機械、省力機械などが代表的である。</p>
         <p>大量生産の場合は「ライン生産方式」により、業務を細かく分けて1人1人の組立担当に割り当て、レーンを流れてくる仕掛品に同じ部品を組み付ける作業を繰り返す。これに対して、製造する機械が毎回変わる、いわばオーダーメイドの単品製造の場合は、ベルトコンベア方式では生産品目の変更に柔軟に対応できない。そこで1990年代に登場したのが、1人若しくはチームでセルを組んで、セルごとに部品を組み立てて完成品に仕上げる「セル生産方式」である。セル生産方式はリードタイムが短くて済み、生産品目の切り替えが簡単で、在庫も少なく抑えられるなどのメリットがある。</p>

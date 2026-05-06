@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/509#webpage",
       "url": "https://mirai-shigoto.com/ja/509",
       "name": "沿岸漁業従事者 — AI 影響 2/10",
-      "description": "沿岸漁業、現場肉体労働",
+      "description": "沿岸漁業従事者とは、比較的小さな漁船で主に日帰りで魚介類を獲る沿岸漁業に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/509#occupation",
       "name": "沿岸漁業従事者",
-      "description": "沿岸漁業、現場肉体労働",
+      "description": "沿岸漁業従事者とは、比較的小さな漁船で主に日帰りで魚介類を獲る沿岸漁業に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>沿岸漁業従事者とは</h2>
+        <p class="definition">沿岸漁業従事者とは、比較的小さな漁船で主に日帰りで魚介類を獲る沿岸漁業に従事する職業です。</p>
         <p>比較的小さな漁船で主に日帰りで魚介類を獲る沿岸漁業に従事する。</p>
         <p>漁業には、沿岸漁業のほか、比較的大きな漁船で数日間かける沖合漁業、さらに大きな漁船で半年から1年かけて外国の海にいく遠洋漁業がある。沿岸漁業従事者は日本の漁師の大部分を占め（2017年時点1*）、魚類や昆布、貝類まで幅広く漁獲する。漁法は多彩で、釣り漁の他、魚が通りそうな場所に網を仕掛けておく定置網漁や刺し網漁、魚を船で追いかけて漁獲する方法として、海底に下ろした網を船で引っ張る小型底引き網漁、大きな網で魚群をぐるっと巻き上げる巻き網漁、たくさんの針を流すはえなわ漁などがある。また、カニ・イカ・タコなどには、独特の漁法がある。</p>
         <p>仕事は早朝、場合によっては午前2時や3時に出港する。漁場に着くまでに、船上で準備を終え、到着と同時に作業に取りかかる。網おろし、網の巻き上げ、漁獲物の仕分けなどを行う。市場での価格に大きく影響するため、魚の仕分けは慎重に素早く行う。小さな魚は海にもどし、市場でのセリの時間までに港に戻る。</p>

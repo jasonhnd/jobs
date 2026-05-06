@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/493#webpage",
       "url": "https://mirai-shigoto.com/ja/493",
       "name": "給食調理員 — AI 影響 3/10",
-      "description": "給食調理員、手仕事",
+      "description": "給食調理員とは、給食施設の調理場において献立表等に基づき、給食用料理を調理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/493#occupation",
       "name": "給食調理員",
-      "description": "給食調理員、手仕事",
+      "description": "給食調理員とは、給食施設の調理場において献立表等に基づき、給食用料理を調理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>給食調理員とは</h2>
+        <p class="definition">給食調理員とは、給食施設の調理場において献立表等に基づき、給食用料理を調理する職業です。</p>
         <p>給食施設の調理場において献立表等に基づき、給食用料理を調理する。</p>
         <p>給食の提供場所は事業所(社員食堂)、学校、病院、保育所、介護施設など多岐にわたる。</p>
         <p>給食調理員は、管理栄養士、栄養士などの指示・献立表に基づいて食材の発注、納品確認、材料の下処理、各種調理器具を用いた大量の調理、盛り付け、配膳、器材の洗浄消毒、食器洗浄、ゴミ処理、調理場の清掃などを行う。通常の調理以外にアレルギー除去食の調理も行う。</p>

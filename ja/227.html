@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/227#webpage",
       "url": "https://mirai-shigoto.com/ja/227",
       "name": "トリマー — AI 影響 2/10",
-      "description": "トリマー、犬猫の手作業",
+      "description": "トリマーとは、飼い犬や猫などのペットの毛を洗ったり整えるなど手入れ全般を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/227#occupation",
       "name": "トリマー",
-      "description": "トリマー、犬猫の手作業",
+      "description": "トリマーとは、飼い犬や猫などのペットの毛を洗ったり整えるなど手入れ全般を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>トリマーとは</h2>
+        <p class="definition">トリマーとは、飼い犬や猫などのペットの毛を洗ったり整えるなど手入れ全般を行う職業です。</p>
         <p>飼い犬や猫などのペットの毛を洗ったり整えるなど手入れ全般を行う。毛をカットする意味のトリミングから、日本では「トリマー」の名称で呼ばれている。</p>
         <p>トリミングをするペットはほとんどが室内で飼う犬が多い。飼い主にとって大型犬や長毛犬の毛を洗ったり、カットするのは難しく、犬の美容師としてトリマーが必要とされるようになってきた。</p>
         <p>人間の美容室などと同じように、予約を受け、来店した飼い主から希望を聞いて、作業を進める。健康状態をチェックし、毛をとかし、シャンプー・リンス・ドライヤーや耳そうじ、また、爪きりなどグルーミング（手入れ全般）を中心に行い、長毛犬種はトリミングも行う。カットにはシザー、クリッパー、プラッキングナイフ（毛を抜く道具）などの道具を使用し、犬の種類によって使い分ける。プードルのカットは300種類もあり、トリマーのセンスと技術が求められる。</p>

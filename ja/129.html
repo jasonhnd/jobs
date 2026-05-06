@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/129#webpage",
       "url": "https://mirai-shigoto.com/ja/129",
       "name": "児童相談所相談員 — AI 影響 5/10",
-      "description": "児童相談所、対面相談中心",
+      "description": "児童相談所相談員とは、心理学や社会福祉などの専門的な立場から、児童相談所において子どもとその家庭が抱える問題の相談に応じ、解決のための調査や助言、援助を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/129#occupation",
       "name": "児童相談所相談員",
-      "description": "児童相談所、対面相談中心",
+      "description": "児童相談所相談員とは、心理学や社会福祉などの専門的な立場から、児童相談所において子どもとその家庭が抱える問題の相談に応じ、解決のための調査や助言、援助を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>児童相談所相談員とは</h2>
+        <p class="definition">児童相談所相談員とは、心理学や社会福祉などの専門的な立場から、児童相談所において子どもとその家庭が抱える問題の相談に応じ、解決のための調査や助言、援助を行う職業です。</p>
         <p>心理学や社会福祉などの専門的な立場から、児童相談所において子どもとその家庭が抱える問題の相談に応じ、解決のための調査や助言、援助を行う。</p>
         <p>児童相談所相談員には「児童心理司」と「児童福祉司」がいる。自治体が設置する児童相談所には「児童福祉司」を置かなければならない。また、児童心理司は配置することが標準とされている。</p>
         <p>児童心理司は子どもと面接したり、行動を観察したり、心理検査を実施したりして、子どもの心の状態や知能、生活能力などを調査、診断する。児童福祉司は保護者との面接や家庭訪問などを行い、家庭環境や生育歴等を調査、診断し、問題の原因を探る。児童相談所では把握した問題の他、必要に応じて医学、心理、行動等の面から診断し、児童相談所相談員、医師、保育士など、関係する専門職が援助方針会議で話し合い、子どもにとって最も適切と思われる指導や援助の方法を検討し、児童相談所として処遇を決定する。</p>

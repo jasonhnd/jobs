@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/130#webpage",
       "url": "https://mirai-shigoto.com/ja/130",
       "name": "福祉事務所ケースワーカー — AI 影響 5/10",
-      "description": "ケースワーカー、家庭訪問",
+      "description": "福祉事務所ケースワーカーとは、病気や高齢、貧困などで生活に困っている人々に対し、福祉事務所で一人ひとりの問題（ケース）について相談を受け、必要な支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/130#occupation",
       "name": "福祉事務所ケースワーカー",
-      "description": "ケースワーカー、家庭訪問",
+      "description": "福祉事務所ケースワーカーとは、病気や高齢、貧困などで生活に困っている人々に対し、福祉事務所で一人ひとりの問題（ケース）について相談を受け、必要な支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>福祉事務所ケースワーカーとは</h2>
+        <p class="definition">福祉事務所ケースワーカーとは、病気や高齢、貧困などで生活に困っている人々に対し、福祉事務所で一人ひとりの問題（ケース）について相談を受け、必要な支援を行う職業です。</p>
         <p>病気や高齢、貧困で生活に困っている人々に対し、福祉事務所で一人ひとりの問題（ケース）について相談を受け、必要な支援を行う。</p>
         <p>福祉事務所では、生活上の悩みや問題を抱えた人が相談に来ると、面接担当のケースワーカーが相談を受け、何が問題で、どのような支援が必要なのかを把握する。支援が必要と判断されると、支援の種類や方法を決め、具体的な手続を行い、他に利用できる支援についても説明する。</p>
         <p>以上の手続が済むと、面接担当職員は地区を担当するケースワーカーに引き継ぐ。地区担当職員は家庭訪問や面接を行って、家族構成、収入、住宅などの生活実態を把握し、生活保護や施設入所など具体的な支援の方針を立てる。支援がスタートすると、定期的に家庭訪問をし、支援がうまくいっているかを確認する。家庭訪問の他に、支援内容の変更手続、面接記録の整理、報告書の作成を行う。</p>

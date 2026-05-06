@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/467#webpage",
       "url": "https://mirai-shigoto.com/ja/467",
       "name": "自転車販売 — AI 影響 4/10",
-      "description": "自転車販売、対面+組立",
+      "description": "自転車販売とは、お客の希望と使用目的を聞いて自転車を販売したり、持ち込まれた自転車の修理をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/467#occupation",
       "name": "自転車販売",
-      "description": "自転車販売、対面+組立",
+      "description": "自転車販売とは、お客の希望と使用目的を聞いて自転車を販売したり、持ち込まれた自転車の修理をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>自転車販売とは</h2>
+        <p class="definition">自転車販売とは、お客の希望と使用目的を聞いて自転車を販売したり、持ち込まれた自転車の修理をする職業です。</p>
         <p>お客の希望と使用目的を聞きながら自転車を勧めて販売したり、持ち込まれた自転車の修理をする。</p>
         <p>まず、お客が求める売れ筋の自転車のニーズを把握して仕入れる。仕入れの段階では七分組（70％組立済み）の状態で納入されるため、店内で完成品へと仕上げる作業が必要になる。組み立てた自転車を店内に陳列する。お客が来店したら使用目的や予算に合わせて最適な自転車を選び、勧める。購入車が決定したら、最終整備を行い、安全性を確認してお客に引き渡す。このときに、自転車の使用方法や保守点検方法などを説明し、防犯登録を行い、取扱説明書等の資料を渡す。</p>
         <p>持ち込まれた自転車を修理する場合は、単に修理するだけでなく、他にも問題のある部分がないかどうかを調べ、自転車の状態をくわしく説明することもある。</p>

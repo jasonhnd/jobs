@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/533#webpage",
       "url": "https://mirai-shigoto.com/ja/533",
       "name": "セキュリティエキスパート（デジタルフォレンジック） — AI 影響 7/10",
-      "description": "フォレンジック、AI解析支援",
+      "description": "セキュリティエキスパート（デジタルフォレンジック）とは、コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等、また、これらに至る未遂行為に対して、デジタルデータを保全し、調査・分析を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/533#occupation",
       "name": "セキュリティエキスパート（デジタルフォレンジック）",
-      "description": "フォレンジック、AI解析支援",
+      "description": "セキュリティエキスパート（デジタルフォレンジック）とは、コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等、また、これらに至る未遂行為に対して、デジタルデータを保全し、調査・分析を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -213,6 +213,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -383,6 +387,7 @@
 
       <section class="context">
         <h2>セキュリティエキスパート（デジタルフォレンジック）とは</h2>
+        <p class="definition">セキュリティエキスパート（デジタルフォレンジック）とは、コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等、また、これらに至る未遂行為に対して、デジタルデータを保全し、調査・分析を行う職業です。</p>
         <p>コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等、また、これらに至る未遂行為に対して、デジタルデータを保全し、調査・分析を行う。分析結果からこれら行為や事象への対応を検討することもある。係争や訴訟において、デジタルデータの改ざん等の証拠が必要な場合、それについての調査、分析を行う。
 フォレンジック調査士と呼ばれることもあり、海外ではForensic Analyst, Forensic Investigatorと呼ばれる。デジタルフォレンジックをDFと短く表記することもある。フォレンジック(forensics)の意味は科学捜査、鑑識であるが、デジタルフォレンジックは、元々、欧米では企業会計での情報改ざんなどの不正を見つけるサービスとして始まっている。国内でも証拠のデータが改ざんされる事件などがあり、デジタルフォレンジックが注目された。</p>
         <p>現在は犯罪捜査よりも、コンピュータやネットワークの情報漏洩、情報改ざん、運用妨害等の調査、分析の方が多く、顧客に対する情報セキュリティ・サービスの一つとして行われている。金融業、製造業をはじめ幅広い業界で行われている。監査法人のフォレンジックでは不正会計や書類の偽造等が調べられている。さらに、海外の訴訟に関連したものや、海外の当局への協力など、国際的なデジタルフォレンジックも行われている。</p>

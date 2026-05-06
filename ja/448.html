@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/448#webpage",
       "url": "https://mirai-shigoto.com/ja/448",
       "name": "医薬品販売/登録販売者 — AI 影響 5/10",
-      "description": "医薬品販売、対面+商品案内",
+      "description": "医薬品販売/登録販売者とは、薬局、ドラッグストア等で市販されている医薬品を販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/448#occupation",
       "name": "医薬品販売/登録販売者",
-      "description": "医薬品販売、対面+商品案内",
+      "description": "医薬品販売/登録販売者とは、薬局、ドラッグストア等で市販されている医薬品を販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>医薬品販売/登録販売者とは</h2>
+        <p class="definition">医薬品販売/登録販売者とは、薬局、ドラッグストア等で市販されている医薬品を販売する職業です。</p>
         <p>薬局、ドラッグストア等で市販されている医薬品を販売する。</p>
         <p>市販されている医薬品は一般用医薬品と言われ、販売できるのは薬剤師と登録販売者に限られている。ここでは登録販売者の仕事について記載する。</p>
         <p>登録販売者と薬剤師の違いは、一般用医薬品の中でも副作用や薬の飲み合わせについて特に注意を要する一部の医薬品（第1類医薬品）は薬剤師しか販売できず、登録販売者はそれ以外の医薬品（第2類医薬品、第3類医薬品）の販売のみを行うことである。いずれの医薬品も販売時の情報提供のルール等が決められており、販売時には、顧客の質問、要望に親切・丁寧にわかりやすく対応し、親身なアドバイスも行う。店舗のタイプによって取り扱っている商品は様々であるが、医薬品以外の商品の販売対応も行う。</p>

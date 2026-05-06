@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/318#webpage",
       "url": "https://mirai-shigoto.com/ja/318",
       "name": "システムエンジニア（基盤システム） — AI 影響 9/10",
-      "description": "基盤SE、AI構成支援",
+      "description": "システムエンジニア（基盤システム）とは、ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/318#occupation",
       "name": "システムエンジニア（基盤システム）",
-      "description": "基盤SE、AI構成支援",
+      "description": "システムエンジニア（基盤システム）とは、ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>システムエンジニア（基盤システム）とは</h2>
+        <p class="definition">システムエンジニア（基盤システム）とは、ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する職業です。</p>
         <p>ITインフラ（情報システムのインフラ：基盤システム）を設計、開発する。サーバーを設置、設定し、OS（オペレーティングシステム）等をインストールし、ストレージ（記憶装置）やネットワークを設定するエンジニアであるが、最近はクラウド上にバーチャルでシステムを構築することも多くなっており、この場合、ハードウェアにまったく触れず、設計、開発を行う。インフラエンジニアとも呼ばれる。</p>
         <p>ITインフラには、サーバー、ストレージ、ネットワーク、パソコンなどのハードウェア、またデータベースなどのミドルウェア、その上で動くアプリケーションがある。大規模なシステムでは、専門のネットワークエンジニア、データベースエンジニア等が分担して行う場合もあるが、ITインフラの開発として一人で行う場合もある。既存のITインフラの拡張や機能追加を行う場合もある。</p>
         <p>仕事の流れをみると、顧客の要望を聞取り、どのようなITインフラが求められているか明確にする（要件定義）。次いで使用するハードウェアやOSなどのソフトウェアを選択し、ITインフラの構成を決めていく（設計）。この工程で設計書を作成するが、主な内容は、機能、構成、性能、信頼性、予算、開発工程である。</p>

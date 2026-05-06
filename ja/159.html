@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/159#webpage",
       "url": "https://mirai-shigoto.com/ja/159",
       "name": "歯科医師 — AI 影響 4/10",
-      "description": "歯科医師、技術+診断AI支援",
+      "description": "歯科医師とは、虫歯や歯のまわりの病気を治療するとともに予防指導にあたる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/159#occupation",
       "name": "歯科医師",
-      "description": "歯科医師、技術+診断AI支援",
+      "description": "歯科医師とは、虫歯や歯のまわりの病気を治療するとともに予防指導にあたる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>歯科医師とは</h2>
+        <p class="definition">歯科医師とは、虫歯や歯のまわりの病気を治療するとともに予防指導にあたる職業です。</p>
         <p>虫歯や歯のまわりの病気を治療するとともに予防指導にあたる。</p>
         <p>具体的に虫歯を治療するためには、高速で回転するエアタービンを使って歯の悪い部分を削り、レジン（プラスチック）、金属をつめるなどの処置を施す。抜歯鉗子（かんし）や歯科用へーベルを使って歯を抜き、義歯やインプラントを入れる場合もある。</p>
         <p>診療を行う時には、器具の消毒や安全に配慮し、血液を介して感染する疾患にも十分気をつける必要がある。</p>

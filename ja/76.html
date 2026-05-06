@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/76#webpage",
       "url": "https://mirai-shigoto.com/ja/76",
       "name": "シューフィッター — AI 影響 5/10",
-      "description": "シューフィッターは対面足計測",
+      "description": "シューフィッターとは、靴専門店や百貨店などの靴売場で、お客の足型を計測し、足の病気予防の観点から、最適な靴の選定をアドバイスし、靴の調整や販売を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/76#occupation",
       "name": "シューフィッター",
-      "description": "シューフィッターは対面足計測",
+      "description": "シューフィッターとは、靴専門店や百貨店などの靴売場で、お客の足型を計測し、足の病気予防の観点から、最適な靴の選定をアドバイスし、靴の調整や販売を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>シューフィッターとは</h2>
+        <p class="definition">シューフィッターとは、靴専門店や百貨店などの靴売場で、お客の足型を計測し、足の病気予防の観点から、最適な靴の選定をアドバイスし、靴の調整や販売を行う職業です。</p>
         <p>靴専門店や百貨店などの靴売場で、顧客の足型を計測し、足の病気予防の観点から、最適な靴の選定をアドバイスし、靴の調整や販売を行う。</p>
         <p>まず、複数の計測用具を用いて、顧客の足底の形、踏付部の足囲、足の各部位の高さや形状などを測定し、足を立体的に把握する。足型計測の結果をもとに、顧客に対する問診、足の視診、触診などを行う。問診結果と顧客の意向をもとに、適した靴の選定をアドバイスする。顧客の選定した靴は顧客に試着してもらって、複数の項目からなる適性度（フィッティング）をチェックする。更に、左右の足の履き心地を整えるために、中敷きの調整などのパッキングワークを行うこともある。靴や足の健康に関する顧客の質問に的確に対応し、情報の提供なども行う。</p>
         <p>中高年齢層を中心とした健康志向によるウォーキングへの興味の高まりや、外反母趾など様々な足の障害への対応から、足に合った靴を選ぶことへの関心も高まりつつある。</p>

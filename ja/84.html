@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/84#webpage",
       "url": "https://mirai-shigoto.com/ja/84",
       "name": "司法書士 — AI 影響 7/10",
-      "description": "司法書士、登記書類のAI化進行",
+      "description": "司法書士とは、専門的な法律知識に基づき、不動産や会社の登記を代理で行ったり、裁判所等に提出する書類を作成する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/84#occupation",
       "name": "司法書士",
-      "description": "司法書士、登記書類のAI化進行",
+      "description": "司法書士とは、専門的な法律知識に基づき、不動産や会社の登記を代理で行ったり、裁判所等に提出する書類を作成する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>司法書士とは</h2>
+        <p class="definition">司法書士とは、専門的な法律知識に基づき、不動産や会社の登記を代理で行ったり、裁判所等に提出する書類を作成する職業です。</p>
         <p>専門的な法律知識に基づき、不動産や会社の登記を代理したり、裁判所等に提出する書類を作成する。また一定の条件のもとに簡易裁判所における民事訴訟・和解・調停などの代理業務を行う。このほか、高齢者や障がい者などの判断能力が不十分な人々の権利や財産を保護するため、専門職後見人として財産管理や法律面での支援を行っている。</p>
         <p>土地を購入・相続したり、家を新築した場合に、法的な権利を主張するためには登記の手続が必要となる。新たに会社を設立した場合にも登記の手続が必要となる。また、金銭の貸し借りでトラブルが起きた場合などには、法律に基づいて所要の手続をしなければならず、訴訟が必要になることもある。これらの手続は法律の専門的な知識に基づいて的確に行うことが必要であり、このような市民社会を支える法律手続を代理して行っているのが司法書士である。</p>
         <p>仕事の範囲は広く、その中で最も多いのが、土地や建物を売買するときに必要な「不動産登記」の手続である。「登記」とは、土地や建物などの財産についての権利を公的に示すために、法務局にある「登記ファイル（登記簿）」と呼ばれる台帳に記録することである。</p>

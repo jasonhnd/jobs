@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/543#webpage",
       "url": "https://mirai-shigoto.com/ja/543",
       "name": "郵便局郵便窓口業務 — AI 影響 8/10",
-      "description": "郵便窓口、業務縮小+AI",
+      "description": "郵便局郵便窓口業務とは、郵便局において、郵便物・荷物等の引き受け、切手・はがき等の販売などの郵便窓口の仕事に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/543#occupation",
       "name": "郵便局郵便窓口業務",
-      "description": "郵便窓口、業務縮小+AI",
+      "description": "郵便局郵便窓口業務とは、郵便局において、郵便物・荷物等の引き受け、切手・はがき等の販売などの郵便窓口の仕事に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>郵便局郵便窓口業務とは</h2>
+        <p class="definition">郵便局郵便窓口業務とは、郵便局において、郵便物・荷物等の引き受け、切手・はがき等の販売などの郵便窓口の仕事に従事する職業です。</p>
         <p>郵便局において、郵便物・荷物等の引き受け、切手・はがき等の販売などの郵便窓口の仕事に従事する。</p>
         <p>郵便局は、切手・はがきの販売、郵便物・荷物の引き受けの窓口であるほか、金融・保険に関する業務も行われているが、ここでは、郵便局の郵便窓口の仕事について記述する。</p>
         <p>郵便窓口では、主に書留類、ゆうパック、別納後納郵便、国際郵便等の郵便物等の引き受け、切手・はがき・収入印紙等の販売、各種のカタログによる販売品の注文の受付、不在票の提示による荷物の交付、転居届けの引き受けなどの仕事に従事する。</p>

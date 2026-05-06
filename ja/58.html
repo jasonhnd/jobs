@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/58#webpage",
       "url": "https://mirai-shigoto.com/ja/58",
       "name": "商社営業 — AI 影響 7/10",
-      "description": "商社営業、関係性多いがAI支援高",
+      "description": "商社営業とは、国や地域、会社の間に立って、原材料や製品の売り買いの仲介役をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/58#occupation",
       "name": "商社営業",
-      "description": "商社営業、関係性多いがAI支援高",
+      "description": "商社営業とは、国や地域、会社の間に立って、原材料や製品の売り買いの仲介役をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>商社営業とは</h2>
+        <p class="definition">商社営業とは、国や地域、会社の間に立って、原材料や製品の売り買いの仲介役をする職業です。</p>
         <p>国や地域、会社の間に立って、原材料や製品の売り買いの仲介役をするのが基本的な仕事である。</p>
         <p>大手商社の場合、取引の約半分は国内取引、残りの半分は貿易取引で、我が国の輸出・輸入だけでなく、我が国を経由しない外国と外国との第三国間取引も行っている。</p>
         <p>仕事は、どこでどんな品物を売りたがっているか、又は買いたがっているか、数量や価格はどのようになっているかなどを調査することから始まる。取り扱う商品は「ミネラルウォーターから通信衛星まで（日本貿易会HPより引用）」と多種多様で、非常に幅広い情報を組織的に収集する。その中で、数量や価格、時期などの取引条件のまとまったものについて契約を結ぶ。この際、取引先がきちんと商品や代金を準備できるか、経営に不安がないかといった信用状態を調査することも重要である。また、貿易取引の場合は為替相場の動向に注意を払い、為替差損を生じないようにすることも必要である。</p>

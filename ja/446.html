@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/446#webpage",
       "url": "https://mirai-shigoto.com/ja/446",
       "name": "企業法務担当 — AI 影響 8/10",
-      "description": "企業法務、AI契約書解析",
+      "description": "企業法務担当とは、企業活動に伴う法的リスクの最小化など、企業が直面する法律問題への対処を担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/446#occupation",
       "name": "企業法務担当",
-      "description": "企業法務、AI契約書解析",
+      "description": "企業法務担当とは、企業活動に伴う法的リスクの最小化など、企業が直面する法律問題への対処を担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>企業法務担当とは</h2>
+        <p class="definition">企業法務担当とは、企業活動に伴う法的リスクの最小化など、企業が直面する法律問題への対処を担当する職業です。</p>
         <p>企業活動にともなう法的リスクの最小化など、企業が直面する法律問題への対処を担当する。相当程度の法律知識と会社の業務全般に対する理解をベースに、現実的な問題解決へと導く仕事である。</p>
         <p>かつては総務部や庶務部の一部門としての位置付けであったが、最近では、企業経営における法務の重要性が高まる中、特に大企業の場合は「法務部」「法務室」など独立した組織となっているところがほとんどである。</p>
         <p>その担当業務を具体的にみると、まず、「企業業務に関する法律的サポート」であり、①各種契約書の作成、審査及び締結交渉への関与、②担保管理、建設プロジェクト運営等の不動産管理、③ライセンスの取得・使用許認可、商標調査等の知的財産管理、そして④各部門からの法律相談、訴訟・係争への対応がこれに含まれる。次いで、⑤株主総会や取締役会の実施に係る総務部門サポート、⑥証券の発行・管理、配当金支払い、取引所への報告、⑦新入社員教育等の社内・グループ向け教育、勉強会の実施、といった「定例的業務」もある。さらに、⑧内部統制、コンプライアンスプログラムの策定など、コーポレートガバナンス体制の構築・維持を通じた「リスクマネジメント」も担当する。加えて、⑨顧問弁護士や外部の専門家との相談、官公庁との交渉や、⑩立法・判例動向の調査・分析、社内への適切なフィードバックも、日常的な業務である。</p>

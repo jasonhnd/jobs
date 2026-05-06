@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/281#webpage",
       "url": "https://mirai-shigoto.com/ja/281",
       "name": "木材製造 — AI 影響 3/10",
-      "description": "木材製造、機械+判断",
+      "description": "木材製造とは、製材工場、製材所において、国内で生産された原木や海外から輸入された原木を、用途に応じて、製材機械により板や角材等の材木にする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/281#occupation",
       "name": "木材製造",
-      "description": "木材製造、機械+判断",
+      "description": "木材製造とは、製材工場、製材所において、国内で生産された原木や海外から輸入された原木を、用途に応じて、製材機械により板や角材等の材木にする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>木材製造とは</h2>
+        <p class="definition">木材製造とは、製材工場、製材所において、国内で生産された原木や海外から輸入された原木を、用途に応じて、製材機械により板や角材等の材木にする職業です。</p>
         <p>製材工場、製材所において、国内で生産された原木や、海外から輸入された原木を用途に応じて、製材機械により板や角材等の材木にする。</p>
         <p>製材の工程は、製材工場等の規模、使用する丸太、木取り、製品の内容によって異なるが、一般に材木製造の仕事は、その内容によって「土場（どば）作業」、「送材車ハンドルマン」、「腹押（はらおし）」、「はな（先）取」、「選別格付」、「のこ目立（めたて）」などに大別される。工場での自動化が進み、一人でいくつかの工程を受け持つことも多くなっている。</p>
         <p>作業の流れは、まず、「土場作業」で入荷した丸太を木の種類や太さ、長さ、品質によって仕分けし、クレーンやフォークリフトを使って、貯木場に積みそろえる。次に、「送材車ハンドルマン」が丸太を台車にのせ、装置を操作して、帯のこで縦に丸太を大割りする。</p>

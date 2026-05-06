@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/170#webpage",
       "url": "https://mirai-shigoto.com/ja/170",
       "name": "視能訓練士 — AI 影響 4/10",
-      "description": "視能訓練士、検査+訓練",
+      "description": "視能訓練士とは、眼科医の指導のもと、患者の目の機能を検査し、視力や目の機能を訓練によって回復させる｡職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/170#occupation",
       "name": "視能訓練士",
-      "description": "視能訓練士、検査+訓練",
+      "description": "視能訓練士とは、眼科医の指導のもと、患者の目の機能を検査し、視力や目の機能を訓練によって回復させる｡職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>視能訓練士とは</h2>
+        <p class="definition">視能訓練士とは、眼科医の指導のもと、患者の目の機能を検査し、視力や目の機能を訓練によって回復させる｡職業です。</p>
         <p>乳児から高齢者までの幅広い年齢層の目の複雑な視機能を検査すること、弱視や斜視により発達が滞ってしまった視機能を訓練によって回復させることが主な仕事である。</p>
         <p>眼光学の専門知識を生かして、眼科検査で遠視、近視、乱視、白内障、緑内障等の眼の異常・疾患を把握する。また、眼鏡やコンタクトレンズの処方に必要な検査を行う他、医師の指示により精密光学機器を使って目の構造や機能を調べ、視力、視野、色覚、眼球運動等を評価し、医師が診療を行うためのデータを提供する。</p>
         <p>眼鏡を装用しても良好な視力が得られない「弱視」や、両眼が同時に一つのものを見ることができない「斜視」といった眼の病気は、幼少期に訓練を行うことによって視機能を回復する可能性がある。弱視の原因や斜視の状態などを評価し、医師と相談して患者ごとのプログラムを計画し訓練を行っていく。</p>

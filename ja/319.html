@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/319#webpage",
       "url": "https://mirai-shigoto.com/ja/319",
       "name": "運用・管理（IT） — AI 影響 8/10",
-      "description": "IT運用、AI監視拡大",
+      "description": "運用・管理（IT）とは、サーバー等情報システムがトラブルや不具合で停止することなく安定して稼働するよう運用・管理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/319#occupation",
       "name": "運用・管理（IT）",
-      "description": "IT運用、AI監視拡大",
+      "description": "運用・管理（IT）とは、サーバー等情報システムがトラブルや不具合で停止することなく安定して稼働するよう運用・管理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>運用・管理（IT）とは</h2>
+        <p class="definition">運用・管理（IT）とは、サーバー等情報システムがトラブルや不具合で停止することなく安定して稼働するよう運用・管理する職業です。</p>
         <p>サーバー等情報システムがトラブルや不具合で停止することなく安定して稼働するよう運用・管理する。</p>
         <p>運用・管理には定常業務と非定常業務がある。定常業務ではサーバーのリソース監視を行ったり、トラブル・不具合、外部からの攻撃、異常なアクセスなどがないかログファイルをチェックするなど、稼働状況を監視する。また定期的にデータやシステムのバックアップを行う。</p>
         <p>非定常業務ではハードウエアの故障やソフトウェアの異常など、障害が起こったときに保守担当に連絡し、運用・管理担当においても早期に復旧するよう作業を行う。</p>

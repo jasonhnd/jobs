@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/579#webpage",
       "url": "https://mirai-shigoto.com/ja/579",
       "name": "自動車検査員 — AI 影響 4/10",
-      "description": "自動車検査員、点検+書類",
+      "description": "自動車検査員とは、指定整備工場において、自動車整備士によって整備された自動車が、国の定める保安基準に適合しているかを確認する「完成検査」を行い、自動車が安全に走行できる状態であるかの合否を判定する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/579#occupation",
       "name": "自動車検査員",
-      "description": "自動車検査員、点検+書類",
+      "description": "自動車検査員とは、指定整備工場において、自動車整備士によって整備された自動車が、国の定める保安基準に適合しているかを確認する「完成検査」を行い、自動車が安全に走行できる状態であるかの合否を判定する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -214,6 +214,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -384,6 +388,7 @@
 
       <section class="context">
         <h2>自動車検査員とは</h2>
+        <p class="definition">自動車検査員とは、指定整備工場において、自動車整備士によって整備された自動車が、国の定める保安基準に適合しているかを確認する「完成検査」を行い、自動車が安全に走行できる状態であるかの合否を判定する職業です。</p>
         <p>自動車検査員は、指定整備工場において、自動車整備士によって整備された自動車が、国の定める保安基準に適合しているかを確認する「完成検査」を行い、自動車が安全に走行できる状態であるかの合否を判定する。</p>
         <p>「完成検査」は、自動車の安全性を確保するために重要な工程であり、その時点において自動車が道路を安全に走行でき、環境への基準を満足しているかを確認することであり、検査を適切に行うことによって、整備不良や不正改造箇所のある自動車が公道を走行することを防いでいる。もし完成検査をした車に不具合があれば、人命に関わる事故の原因となりうるため、完成検査は継続検査（車検）の中で最も責任感が問われる重要な仕事である。</p>
         <p>具体的には、自らの指定整備工場で整備された自動車について、構造に関する検査として、車検証に記載されている寸法との同一性や最低地上高等を視認等により検査する。装置に関する検査として、制動装置（ブレーキ）の性能及び制動能力や前照灯（ヘッドライト）の明るさ及び主光軸の向き等を検査機器を用いて基準値内であるかを検査するほか、動力伝達装置、走行装置、制動装置、灯火装置等の自動車の各装置について、検査用ハンマーを用いる方法や目視等により検査する。</p>

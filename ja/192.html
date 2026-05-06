@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/192#webpage",
       "url": "https://mirai-shigoto.com/ja/192",
       "name": "電車運転士 — AI 影響 3/10",
-      "description": "電車運転士、ATO/ATC運転支援",
+      "description": "電車運転士とは、乗客や貨物をのせた電車を運転し、安全かつ正確に目的地まで運ぶため、発車の準備、運転、到着後の報告、事故があった場合の処置などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/192#occupation",
       "name": "電車運転士",
-      "description": "電車運転士、ATO/ATC運転支援",
+      "description": "電車運転士とは、乗客や貨物をのせた電車を運転し、安全かつ正確に目的地まで運ぶため、発車の準備、運転、到着後の報告、事故があった場合の処置などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>電車運転士とは</h2>
+        <p class="definition">電車運転士とは、乗客や貨物をのせた電車を運転し、安全かつ正確に目的地まで運ぶため、発車の準備、運転、到着後の報告、事故があった場合の処置などを行う職業です。</p>
         <p>乗客や貨物をのせた電車を運転し、安全かつ正確に目的地まで運ぶため、発車の準備、運転、到着後の報告、事故があった場合の処置などを行う。鉄道路線によっては電気機関車を運転する場合もある。</p>
         <p>運転前には、所属する電車区・運転区で点呼を受け、キーと運転予定の書かれた時刻表を受け取る。担当車両のモーター等に通電して車両の調子を点検する。ブレーキやパンタグラフ（集電装置）を作動させ正常であることを確認して、車庫から電車を出庫させ駅のホームまで移動させる。</p>
         <p>駅では乗客が安全に乗降したのを確認し、車掌がドアを閉め、その出発合図に従って電車運転士が信号を確認し、発車する。運転中は、信号や踏切、線路の状態に注意し、車両の型、車両数や車両のくせ、混み具合や積載量、天候などにより加速・制動の具合が変わるので、これらに十分に配慮して時刻表どおりの正確な発着に努める。また、到着時間の遅れや病人の発生などの不測の事態に際しては適切に対応し、できるだけスムーズに電車を運行させる。決められた区間の運転が終わると、次の運転士に交替し、所属する電車区・運転区の助役に運転状況を報告する。</p>

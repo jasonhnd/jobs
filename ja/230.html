@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/230#webpage",
       "url": "https://mirai-shigoto.com/ja/230",
       "name": "林業作業 — AI 影響 2/10",
-      "description": "林業作業、現場肉体労働",
+      "description": "林業作業とは、森林の整備や林業のための地ごしらえ、植付け、下刈り、枝打、伐木、造材、集材、運材などの作業をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/230#occupation",
       "name": "林業作業",
-      "description": "林業作業、現場肉体労働",
+      "description": "林業作業とは、森林の整備や林業のための地ごしらえ、植付け、下刈り、枝打、伐木、造材、集材、運材などの作業をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -243,6 +243,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -413,6 +417,7 @@
 
       <section class="context">
         <h2>林業作業とは</h2>
+        <p class="definition">林業作業とは、森林の整備や林業のための地ごしらえ、植付け、下刈り、枝打、伐木、造材、集材、運材などの作業をする職業です。</p>
         <p>森林を維持管理しながら、育成した樹木を伐採して木材資源を生産する。</p>
         <p>林業作業の仕事には、植林がしやすいように整地をする「地ごしらえ」、苗木を植えていく「植林」、苗木の周辺に生えた雑草を刈り払う「下刈り」、節のない木材を生産するために枝を切り落とす「枝打ち」、全体に十分な光と養分がいきわたるように木の本数を減らす「間伐」、最終的に残った大きな木を伐採して収穫する「主伐（しゅばつ）」がある。</p>
         <p>作業は、チェーンソーでの伐採や刈払機、枝払いから一定の長さにそろえて切る測尺（そくじゃく）・玉切り（たまぎり）や集積作業までを一貫して行うハーベスタやプロセッサ、集材専用車両のフォワーダなどの大型森林機械の操作、更にはフォークリフト、クレーンなどの操縦により行う。伐採した木材の運搬や、運搬のための林道建設も仕事に含まれる。自然を対象にする仕事なので、季節によって仕事内容も大きく変わる。</p>

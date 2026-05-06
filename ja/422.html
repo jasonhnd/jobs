@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/422#webpage",
       "url": "https://mirai-shigoto.com/ja/422",
       "name": "葬祭ディレクター — AI 影響 4/10",
-      "description": "葬祭ディレクター、対面進行",
+      "description": "葬祭ディレクターとは、葬儀の企画から会場設営、儀式の運営・司会・進行などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/422#occupation",
       "name": "葬祭ディレクター",
-      "description": "葬祭ディレクター、対面進行",
+      "description": "葬祭ディレクターとは、葬儀の企画から会場設営、儀式の運営・司会・進行などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>葬祭ディレクターとは</h2>
+        <p class="definition">葬祭ディレクターとは、葬儀の企画から会場設営、儀式の運営・司会・進行などを行う職業です。</p>
         <p>葬儀の企画から会場設営、儀式の運営・司会・進行などを行う。</p>
         <p>葬儀は死者を悼（いた）み、その一生をしめくくる大事な儀式である。遺族にとって意味のある、心に残る葬儀を実現するため、遺族を支え、行事全般を円滑に進める役割を果たしているのが葬祭ディレクターである。</p>
         <p>具体的な仕事としては、まず、病院などから遺体を自宅又は葬儀会場に搬送し、遺体を棺に収めて通夜の準備をする。次に喪主・遺族の希望を聞いて、葬儀の日時、場所、規模、宗派、予算などの打ち合わせを行い、企画書と見積書を作成する。</p>

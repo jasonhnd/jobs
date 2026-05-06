@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/13#webpage",
       "url": "https://mirai-shigoto.com/ja/13",
       "name": "ワイン製造 — AI 影響 2/10",
-      "description": "ワイン醸造は職人技と土地に依存",
+      "description": "ワイン製造とは、ブドウからワインを醸造する作業に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/13#occupation",
       "name": "ワイン製造",
-      "description": "ワイン醸造は職人技と土地に依存",
+      "description": "ワイン製造とは、ブドウからワインを醸造する作業に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>ワイン製造とは</h2>
+        <p class="definition">ワイン製造とは、ブドウからワインを醸造する作業に従事する職業です。</p>
         <p>ブドウからワインを醸造する作業に従事する。</p>
         <p>ワイン造りは、ブドウをつぶして皮ごと発酵させる方法（赤ワイン製造）と、ブドウの皮や種を除いて、しぼりとった果汁のみを発酵させる方法（白ワイン製造）に分かれる。まず、つぶしたブドウやしぼった果汁の入った発酵タンクに、純粋酵母をブドウ果汁で培養した酒母（しゅぼ）を加える。すぐに発酵が始まり、1～2週間、毎日「諸味（もろみ）」の温度やアルコール度を測定したり、利き酒をして、発酵の正常な進行を確認する。赤ワインの場合は、発酵によって浮かび上がるブドウの皮を棒で突き崩してワインの中に沈める。発酵が終わると「おり」と呼ばれる残りかすを取り除いて熟成させる。</p>
         <p>仕込み作業が集中する秋以外は、ワインの熟成・貯蔵管理、樽の詰め替え、ワインの濾過（ろか）なども行う。ワイン造りはヨーロッパでは2千年の歴史があるものの、日本の酒類製造の中では比較的新しい職業である。機械化が進んではいるが、基本的な製造工程に大きな変化はない。</p>

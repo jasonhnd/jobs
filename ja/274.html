@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/274#webpage",
       "url": "https://mirai-shigoto.com/ja/274",
       "name": "電気通信技術者 — AI 影響 7/10",
-      "description": "通信技術、AI設計+構築",
+      "description": "電気通信技術者とは、電気通信のインフラ（ネットワークの基盤）の構築と維持・運用を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/274#occupation",
       "name": "電気通信技術者",
-      "description": "通信技術、AI設計+構築",
+      "description": "電気通信技術者とは、電気通信のインフラ（ネットワークの基盤）の構築と維持・運用を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>電気通信技術者とは</h2>
+        <p class="definition">電気通信技術者とは、電気通信のインフラ（ネットワークの基盤）の構築と維持・運用を行う職業です。</p>
         <p>電気通信のインフラ（ネットワークの基盤）の構築と維持・運用を行う。ネットワーク構築時の各装置（無線、伝送、交換）の配置計画、設計を行うとともに、構築後は各装置をメンテナンスし、安定した通信が行えるようにする。</p>
         <p>電気通信技術者の具体的な仕事内容として、「設計」、「工事」、「運用・保守」がある。無線通信を例にとると、「設計」として需要予測に基づき、エリアの広さや必要な容量を算出しエリア計画を作り、効率性等を勘案し、基地局や中継局の設置場所や仕様（アンテナの高さ、装置種別、電源容量等）を決め、交換機、無線設備等、最適な機材を調達する。「工事」としては、工事会社と請負契約を締結し、適切な施工管理（品質、安全、進捗等）を行い、計画通り工事が竣工するようにする。「運用・保守」としては、通信サービスの開始後、日常的なメンテナンスやアフターサービス、また、障害や災害が発生したときの復旧等を行う。</p>
         <p>交換機、無線装置、端末、携帯電話等、機材自体は、社内の別の技術者が担当する。交換機、無線機、端末等はこの担当者が企画、設計し、別の製造会社が開発、製造する。電気通信技術者はこの製造会社が開発、製造した機材を調達し、通信ネットワークを構築する。</p>

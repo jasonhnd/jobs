@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/258#webpage",
       "url": "https://mirai-shigoto.com/ja/258",
       "name": "非鉄金属製錬技術者 — AI 影響 5/10",
-      "description": "非鉄金属技術、AI制御拡大",
+      "description": "非鉄金属製錬技術者とは、非鉄金属の製錬技術の開発・改良及び現場作業員を監督する立場での生産工程の管理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/258#occupation",
       "name": "非鉄金属製錬技術者",
-      "description": "非鉄金属技術、AI制御拡大",
+      "description": "非鉄金属製錬技術者とは、非鉄金属の製錬技術の開発・改良及び現場作業員を監督する立場での生産工程の管理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>非鉄金属製錬技術者とは</h2>
+        <p class="definition">非鉄金属製錬技術者とは、非鉄金属の製錬技術の開発・改良及び現場作業員を監督する立場での生産工程の管理を行う職業です。</p>
         <p>非鉄金属の製錬技術の開発・改良及び現場作業員を監督する立場で生産工程の管理を行う。非鉄金属は鋼以外の金属を指し、銅、亜鉛、鉛などのベースメタルやアルミなどの軽金属、最近注目されているレアメタルやレアアース、金や銀などの貴金属がある。</p>
         <p>非鉄金属の生産工程は、銅を例にとると、原料である銅精鉱を自溶炉で製錬して、銅品位65％のマットと酸化鉄などを含むスラグに分離する。マットは転炉で酸化させることにより銅品位99％の粗銅（そどう）となり、粗銅は精製炉でブタンガスを還元剤として吹き込むことにより酸素が除去されて銅品位が99.5％の精製粗銅となる。これを鋳造機でアノード（陽極版）に鋳造する。ここまでの工程にかかる時間はほぼ1日である。電解プラントでは、このアノードと、銅品位99.99％以上の純銅をカソード（陰極版）として電気分解槽に交互に組み入れて、10日から2週間かけて、直流電流を流してアノードの銅分のみをカソードに電着させる。こうして、純度99.99％以上の銅が付着したカソードが最終製品である銅地金となる。</p>
         <p>製錬技術者は、製錬技術の開発・改良、生産工程の管理や品質管理を通じた生産性の向上、設備の見直しや投資計画の立案、生産現場の監督・管理や指導、人材育成などを担当する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/439#webpage",
       "url": "https://mirai-shigoto.com/ja/439",
       "name": "貿易事務 — AI 影響 8/10",
-      "description": "貿易事務、AI書類処理",
+      "description": "貿易事務とは、原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/439#occupation",
       "name": "貿易事務",
-      "description": "貿易事務、AI書類処理",
+      "description": "貿易事務とは、原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>貿易事務とは</h2>
+        <p class="definition">貿易事務とは、原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う職業です。</p>
         <p>原材料や商品の輸出・輸入といった海外との取引を行う際に、営業部門と連携しながら、必要なデータや情報を整理して、契約に必要な書類を作成したり、貨物輸送の手配を行う。</p>
         <p>貿易手続全般の流れを把握し、輸出入する商品や原材料、値段、数量、取引先を決定するための情報を収集・整理する。輸出入を行う商品は、関連する国際法や輸出入国双方の法律の適用を受けるので、取り扱う商品には輸出入の許認可や検査が必要かどうかなど、相手国と国内の法律を調査する。次に、取引金額、決済方法、取引数量、輸送手段、納期、保険、決裁方法などの商談がまとまれば、輸出入に関する各種書類（インボイス、船荷証券、梱包明細書等）を作成する。</p>
         <p>貨物輸送の手配としては、商品の到着予定や船便の運行状況を把握し、関係者からの問い合わせに対応する。また、輸入されてきた商品を国内に配送する手続きや、輸出入品の在庫を管理する。</p>

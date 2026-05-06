@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/41#webpage",
       "url": "https://mirai-shigoto.com/ja/41",
       "name": "サッシ取付 — AI 影響 2/10",
-      "description": "サッシ取付は現場作業",
+      "description": "サッシ取付とは、建築物の開口部に「窓」や「扉」などのサッシを取り付ける作業を専門に行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/41#occupation",
       "name": "サッシ取付",
-      "description": "サッシ取付は現場作業",
+      "description": "サッシ取付とは、建築物の開口部に「窓」や「扉」などのサッシを取り付ける作業を専門に行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>サッシ取付とは</h2>
+        <p class="definition">サッシ取付とは、建築物の開口部に「窓」や「扉」などのサッシを取り付ける作業を専門に行う職業です。</p>
         <p>建築物の開口部に「窓」や「扉」などのサッシを取り付ける作業を専門に行う。</p>
         <p>作業に当たっては、開口部の出入り、高さなどを正確に計測し、曲りやゆがみのないように取り付ける。また、開閉装置などの金物類を確実に取付けて、サッシの性能が十分発揮できるようにする。</p>
         <p>サッシの大きさや種類は様々で、施工法もそれぞれ異なる。コンクリート手順の場合、あらかじめ取り付ける部分に引かれた「墨」を見て取付位置を確認し、サッシ枠を仮に位置決めし、くさび等を使って取付位置を微調整の上、決定する。そしてコンクリート壁に埋め込まれた鉄筋とサッシ枠に装着の溶接用アンカー（鉄片）を電気溶接して固定した後、サッシ枠とコンクリート面の隙間にセメントと砂を水で練り合わせたモルタルを詰め込んでふさぐ。最後にガラスや金物などを取り付け、動きを調整する。</p>

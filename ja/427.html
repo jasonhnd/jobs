@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/427#webpage",
       "url": "https://mirai-shigoto.com/ja/427",
       "name": "受付事務 — AI 影響 8/10",
-      "description": "受付、対面減+チャットボット",
+      "description": "受付事務とは、企業や団体等の受付において来客を出迎えて応対し、訪問目的を的確に把握して、担当者への連絡や訪問先等の案内などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/427#occupation",
       "name": "受付事務",
-      "description": "受付、対面減+チャットボット",
+      "description": "受付事務とは、企業や団体等の受付において来客を出迎えて応対し、訪問目的を的確に把握して、担当者への連絡や訪問先等の案内などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>受付事務とは</h2>
+        <p class="definition">受付事務とは、企業や団体等の受付において来客を出迎えて応対し、訪問目的を的確に把握して、担当者への連絡や訪問先等の案内などを行う職業です。</p>
         <p>企業や団体等の受付において来客を出迎えて応対し、訪問目的を的確に把握して、担当者への連絡や訪問先等の案内などを行う。</p>
         <p>玄関フロアなどに設けられた受付専用のカウンターに待機し、来客に対応する。簡単な挨拶を交わし、訪問先の社員や部署を聞き、社員名簿などで確認し、内線等を使って用件を伝える。事前に予約されている来客の場合には、予約表などで確認して所定の応接室や会議室などへ案内する。急な来客の場合には、社員に指示を求めて対応を行う。役員への来客の場合には、秘書室に取り次ぐこともある。</p>
         <p>また、訪問先が明確ではない来客の場合は、用件をよく聞き、該当する部署を判断して連絡する。不審な来客があった場合には、必要に応じて警備室へ連絡する。</p>

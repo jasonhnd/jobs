@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/394#webpage",
       "url": "https://mirai-shigoto.com/ja/394",
       "name": "エコノミスト — AI 影響 8/10",
-      "description": "エコノミスト、AI予測拡大",
+      "description": "エコノミストとは、日々変化する経済状況について調査・研究を行い、分析結果やそれに基づく将来の予測、政策提言を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/394#occupation",
       "name": "エコノミスト",
-      "description": "エコノミスト、AI予測拡大",
+      "description": "エコノミストとは、日々変化する経済状況について調査・研究を行い、分析結果やそれに基づく将来の予測、政策提言を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -209,6 +209,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -379,6 +383,7 @@
 
       <section class="context">
         <h2>エコノミストとは</h2>
+        <p class="definition">エコノミストとは、日々変化する経済状況について調査・研究を行い、分析結果やそれに基づく将来の予測、政策提言を行う職業です。</p>
         <p>日々変化する経済状況について調査・研究を行い、分析結果やそれに基づく将来の予測、政策提言を行う。ここでは、主に経済関連分野のシンクタンク・研究所等で活動している者について記述する。</p>
         <p>分析対象は経済動向に影響を与えるあらゆる事象であり、消費、貿易などの経済動向、国際情勢、技術開発、人口変化、政治、法律・税制などの制度、気象・災害などの自然要因など多岐にわたる。これらの情報を適切に集約し、現在の経済の姿や将来予測を組み立てていく。情報を適切に集約できる指標や分析手法を開発する場合もある。</p>
         <p>多くの人が経済や金融市場の動向に関心を寄せるため、得られた知見や成果を論文や報告書にまとめたり、各種メディアなどを通じて公表する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/123#webpage",
       "url": "https://mirai-shigoto.com/ja/123",
       "name": "ビデオレンタル店店員 — AI 影響 7/10",
-      "description": "ビデオレンタル衰退、需要減少",
+      "description": "ビデオレンタル店店員とは、ビデオレンタル店で、映画やドラマなどのDVD、ブルーレイ、音楽CDなどの貸出と返却の受付を行うほか、商品管理や顧客情報の管理などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/123#occupation",
       "name": "ビデオレンタル店店員",
-      "description": "ビデオレンタル衰退、需要減少",
+      "description": "ビデオレンタル店店員とは、ビデオレンタル店で、映画やドラマなどのDVD、ブルーレイ、音楽CDなどの貸出と返却の受付を行うほか、商品管理や顧客情報の管理などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>ビデオレンタル店店員とは</h2>
+        <p class="definition">ビデオレンタル店店員とは、ビデオレンタル店で、映画やドラマなどのDVD、ブルーレイ、音楽CDなどの貸出と返却の受付を行うほか、商品管理や顧客情報の管理などを行う職業です。</p>
         <p>ビデオレンタル店で、映画やドラマなどのビデオ（DVD、ブルーレイ）、音楽CDなどの貸出と返却の受付を行うほか、商品管理や顧客情報の管理などを行う。</p>
         <p>ほとんどの店舗が会員制を採用しており、初めて利用するお客には入会手続をしてもらう。免許証などで本人確認をして会員証を発行し、利用方法を案内する。</p>
         <p>貸出の際には、お客がカウンターにビデオやCDを持ってくると、まず会員証を提示してもらい、会員番号と商品バーコードをバーコードリーダーで読み取る。代金を受取、返却期限を確認して、商品を貸し出す。返却の際には、再び商品データを読み取り、期限内に返却されているか確認する。ただし、近年ではお客が自分で貸出・返却処理を行うセルフサービスの店舗も増えてきている。</p>

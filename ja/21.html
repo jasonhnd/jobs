@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/21#webpage",
       "url": "https://mirai-shigoto.com/ja/21",
       "name": "建築施工管理技術者 — AI 影響 5/10",
-      "description": "現場管理は対面と判断必須",
+      "description": "建築施工管理技術者とは、住宅・学校・オフィスビル・工場などの建築現場において、施工が適正かつ計画どおりに行われるよう建築工事の監督・指導を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/21#occupation",
       "name": "建築施工管理技術者",
-      "description": "現場管理は対面と判断必須",
+      "description": "建築施工管理技術者とは、住宅・学校・オフィスビル・工場などの建築現場において、施工が適正かつ計画どおりに行われるよう建築工事の監督・指導を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>建築施工管理技術者とは</h2>
+        <p class="definition">建築施工管理技術者とは、住宅・学校・オフィスビル・工場などの建築現場において、施工が適正かつ計画どおりに行われるよう建築工事の監督・指導を行う職業です。</p>
         <p>住宅・学校・オフィスビル・工場などの建築現場において、施工が適正かつ計画通りに行われるよう建築工事の監督・指導を行う。</p>
         <p>施工図を基に、使用する機材や必要な作業員の人数、工期などを検討し、詳細な施工計画を立てる。建築工事には様々な職種の業者が下請に入るため、これらの選定、工事費や工期の調整を行う。</p>
         <p>工事開始後は進捗状況を常に把握し、工事の品質を確認しながら必要な指示を行う。また、施工に当たっては、事故や労働災害がないように配慮が必要であるため、工事を行う施設や作業方法を事前に検討し、作業員の教育を行うなど適切な安全管理を行う。工事中は騒音・振動など近隣に悪い影響を与えないように十分に留意し、必要な場合は調整を行うこともある。工事終了後は所定の手続を行い、建築物を発注者に引き渡す。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/175#webpage",
       "url": "https://mirai-shigoto.com/ja/175",
       "name": "はり師・きゅう師 — AI 影響 2/10",
-      "description": "鍼灸師、手仕事の伝統技",
+      "description": "はり師・きゅう師とは、東洋医学や現代医学に基づき、患者の症状の改善のためにはりやきゅうでツボを刺激する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/175#occupation",
       "name": "はり師・きゅう師",
-      "description": "鍼灸師、手仕事の伝統技",
+      "description": "はり師・きゅう師とは、東洋医学や現代医学に基づき、患者の症状の改善のためにはりやきゅうでツボを刺激する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>はり師・きゅう師とは</h2>
+        <p class="definition">はり師・きゅう師とは、東洋医学や現代医学に基づき、患者の症状の改善のためにはりやきゅうでツボを刺激する職業です。</p>
         <p>はり師は身体のツボをはりで刺激し、きゅう師はツボをきゅうで暖めることで、人間の自然治癒力を活性化させて病気を治療する。</p>
         <p>はり・きゅう治療の背景である東洋医学では、「気」（生命エネルギー）が全身をめぐり生命を保っていて、「気」のめぐりが悪くなると病気になると考える。「気」のとどこおりや詰まりを調整する場所がツボ（経穴）であり、ここを刺激することで人間の自然治癒力を高める。副作用がほとんど見られない医療法といわれている。</p>
         <p>はり治療に用いるはりは直径0.2㎜の髪の毛ほどの太さである。患者の症状に応じて、ツボを指で探し当てて、消毒したはりをトントンと叩くようにして瞬間的に皮膚を通過させる。患部だけでなく、その周辺の神経にも刺激を与える。また、皮膚に刺したはりを電極にして弱い電流を流すことによって、はりの効果を倍増させる方法も行われている。</p>

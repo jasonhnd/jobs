@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/65#webpage",
       "url": "https://mirai-shigoto.com/ja/65",
       "name": "せり人 — AI 影響 3/10",
-      "description": "せり人は対面の場のスキル",
+      "description": "せり人とは、卸売市場において生鮮食料品などの「せり」を行い、市場内の卸売業者と仲卸業者・売買参加者などの間で商品の売買が公正かつ効率的に行われるようにする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/65#occupation",
       "name": "せり人",
-      "description": "せり人は対面の場のスキル",
+      "description": "せり人とは、卸売市場において生鮮食料品などの「せり」を行い、市場内の卸売業者と仲卸業者・売買参加者などの間で商品の売買が公正かつ効率的に行われるようにする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>せり人とは</h2>
+        <p class="definition">せり人とは、卸売市場において生鮮食料品などの「せり」を行い、市場内の卸売業者と仲卸業者・売買参加者などの間で商品の売買が公正かつ効率的に行われるようにする職業です。</p>
         <p>卸売市場において生鮮食料品（魚・野菜・果物・肉）や花き（切花・鉢物）などの「せり」を行い、市場内の卸売業者と仲卸業者・売買参加者などの間で商品の売買が公正かつ効率的に行われるようにする。</p>
         <p>卸売業者が行う販売方法には、主に「せり取引」と「相対（あいたい）取引」がある。せり取引では、せり人が商品の産地・数量などの情報を提示し価格を競わせ、指先又はせり機械により、最も高い価格を提示した取引参加者がせり落とすことになる。</p>
         <p>手やり（指先）によるせりは青果・水産物の取引で行われる。せり人は、多くの取引参加者が提示する価格を瞬時に読み取り、買受人を決定して、その取引を成立させる。せり人はこの他、商品の集荷、生産者に対する指導、生産・消費に関する情報の収集・提供なども行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/276#webpage",
       "url": "https://mirai-shigoto.com/ja/276",
       "name": "プラント設計技術者 — AI 影響 7/10",
-      "description": "プラント設計、CAD/AI設計",
+      "description": "プラント設計技術者とは、プラントの基本設計、詳細設計等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/276#occupation",
       "name": "プラント設計技術者",
-      "description": "プラント設計、CAD/AI設計",
+      "description": "プラント設計技術者とは、プラントの基本設計、詳細設計等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -257,6 +257,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -427,6 +431,7 @@
 
       <section class="context">
         <h2>プラント設計技術者とは</h2>
+        <p class="definition">プラント設計技術者とは、プラントの基本設計、詳細設計等を行う職業です。</p>
         <p>プラントの基本設計、詳細設計等を行う。</p>
         <p>プラントには製品（石油・化学・鉄・非鉄等）を製造するもの、エネルギー（電気・ガス）を得るもの、ごみ等の廃棄物や水を処理するものなど様々な種類があるが、プラント建設の流れはほぼ共通で、基本設計、詳細設計、見積、機器の調達、建設工事、試運転、装置の引渡しのステップで行われる。</p>
         <p>主要業務は基本設計と詳細設計であるが、調達機器のレビュー（仕様と価格の評価）と設計チェック、建設工事の支援と完成検査、試運転要領書の作成や試運転の実施と性能確認等も業務に含まれる。プラントは求められる機能・性能等を発揮するために多くの装置から成り立っており、基本設計では、これらの装置の組み合わせを考え、装置の中での原料の温度・圧力・流量を決め、装置の大きさや全体の構造・配置を決定する。</p>

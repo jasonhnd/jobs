@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/51#webpage",
       "url": "https://mirai-shigoto.com/ja/51",
       "name": "解体工 — AI 影響 2/10",
-      "description": "解体工は重機+手作業",
+      "description": "解体工とは、既存の建築物や工作物を道具や機械を用いて取り壊し（解体工事）、特定の建材については分別を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/51#occupation",
       "name": "解体工",
-      "description": "解体工は重機+手作業",
+      "description": "解体工とは、既存の建築物や工作物を道具や機械を用いて取り壊し（解体工事）、特定の建材については分別を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>解体工とは</h2>
+        <p class="definition">解体工とは、既存の建築物や工作物を道具や機械を用いて取り壊し（解体工事）、特定の建材については分別を行う職業です。</p>
         <p>既存の建築物や工作物を道具や機械を用いて取り壊し（解体工事）、特定の建材については分別を行う。</p>
         <p>取り壊しに当たっては、先ず対象となるビルなどを調べ、取り壊しの方法や手順などを決定し、足場を組みシートなどでビルを覆って、破片などが周囲に飛び散るのを防止するなどの準備作業を行う。</p>
         <p>次に、工事の計画書にしたがって本格的な取り壊し・撤去作業を行う。その際、環境面にも配慮し水をかけて粉塵が飛ばないように注意しながら作業し、建物の土台部分までを取り壊していく。なお、以前は機械で一気に壊す（ミンチ解体）ということもあったが、現在は特定の建設廃棄物資材は有効に利用することが求められているので、大型機械を用いる場合でも分別を考えて作業する。</p>

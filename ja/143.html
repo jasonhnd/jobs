@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/143#webpage",
       "url": "https://mirai-shigoto.com/ja/143",
       "name": "入国警備官 — AI 影響 4/10",
-      "description": "入国警備官、現場対応中心",
+      "description": "入国警備官とは、不法入国者、不法残留者、不法就労等の在留目的外の活動を行う者など法に違反する疑いのある外国人を調査し、国外に退去させるための手続を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/143#occupation",
       "name": "入国警備官",
-      "description": "入国警備官、現場対応中心",
+      "description": "入国警備官とは、不法入国者、不法残留者、不法就労等の在留目的外の活動を行う者など法に違反する疑いのある外国人を調査し、国外に退去させるための手続を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>入国警備官とは</h2>
+        <p class="definition">入国警備官とは、不法入国者、不法残留者、不法就労等の在留目的外の活動を行う者など法に違反する疑いのある外国人を調査し、国外に退去させるための手続を行う職業です。</p>
         <p>日本に入国する外国人は空港、海港の入国審査において在留目的別に在留資格と在留期間が定められ入国を許可される。入国警備官は、不法入国者、不法残留者、不法就労等の在留目的外の活動を行う者など法に違反する疑いのある外国人を調査し、国外に退去させるための手続を行う。</p>
         <p>具体的には、調査は違反調査と言われ、収集した情報等に基づき、法違反の疑いのある外国人や関係者から事情聴取を行う。違反調査では、強制的な調査も可能で、違反が判明すれば主任審査官が発付する収容令書に基づき身柄を収容する。法違反の疑いのある外国人を入国警備官が捕まえる摘発という手段もあり、警察官と連携して行う場合もある。</p>
         <p>摘発された外国人等は、地方出入国在留管理局に設置された施設に収容される。そこでは、入国警備官が施設の警備、収容時の手続、収容された外国人の対応等を行う。また、入国審査官による違反審査等の結果、強制退去が決定した外国人を送還先国まで護送し、退去強制手続を完了させるのも入国警備官の仕事である。</p>

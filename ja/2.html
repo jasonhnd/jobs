@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/2#webpage",
       "url": "https://mirai-shigoto.com/ja/2",
       "name": "パン製造、パン職人 — AI 影響 2/10",
-      "description": "手作業のパン製造、官能評価が中心",
+      "description": "パン製造、パン職人とは、製パン工場や個人経営店（ホームベーカリー）でパンを製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/2#occupation",
       "name": "パン製造、パン職人",
-      "description": "手作業のパン製造、官能評価が中心",
+      "description": "パン製造、パン職人とは、製パン工場や個人経営店（ホームベーカリー）でパンを製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>パン製造、パン職人とは</h2>
+        <p class="definition">パン製造、パン職人とは、製パン工場や個人経営店（ホームベーカリー）でパンを製造する職業です。</p>
         <p>製パン工場や個人経営店（ホームベーカリー）でパンを製造する。</p>
         <p>原材料の選択から焼き上げまでの全てを、一人から数人で行う小規模なベーカリーもあれば、一方では、自動化された生産ラインで100種類以上のパンを大量につくる大規模な工場もある。工場では仕事が分業化されており、生地をつくる仕事、成形の仕事、焼き上げの仕事に分かれる。</p>
         <p>パン製造の仕事は朝が早い。小麦粉、イースト、塩、砂糖、油脂、粉乳、卵などの配合原料を、ミキサーと呼ばれる機械を使って混ぜ合わせ、練り上げて生地をつくる「仕込み」から始まる。次にパンに使うクリームを炊き上げたり、ジャムやあんの硬さを調節したり、レーズンのようなドライフルーツ類を細かく切るなど製造のために必要な準備をする。</p>

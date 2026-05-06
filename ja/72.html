@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/72#webpage",
       "url": "https://mirai-shigoto.com/ja/72",
       "name": "ペットショップ店員 — AI 影響 4/10",
-      "description": "ペットショップ、動物世話+接客",
+      "description": "ペットショップ店員とは、ペットショップで、ペットや、ペットに関する様々な用具・用品を販売するほか、ペットに関する相談へのアドバイスなどを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/72#occupation",
       "name": "ペットショップ店員",
-      "description": "ペットショップ、動物世話+接客",
+      "description": "ペットショップ店員とは、ペットショップで、ペットや、ペットに関する様々な用具・用品を販売するほか、ペットに関する相談へのアドバイスなどを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>ペットショップ店員とは</h2>
+        <p class="definition">ペットショップ店員とは、ペットショップで、ペットや、ペットに関する様々な用具・用品を販売するほか、ペットに関する相談へのアドバイスなどを行う職業です。</p>
         <p>ペットショップで、ペットそのもの（生体と呼ぶ）やペットを育てるために必要なペットフード、様々な用具・用品を販売するほか、ペットに関する相談にのったりアドバイスを行う。</p>
         <p>飼育ケースの清掃や食事作り、給餌など「生体管理」と呼ばれるペットの世話のほか、専門的知識に基づいて顧客の相談や質問に応じたり、商品の販売を行う。</p>
         <p>顧客のペットの特徴を理解し、現在の年齢、体重、健康状態、飼育方法も確認したうえで、顧客の要望に合った商品を説明したり、飼育方法をアドバイスしたりする。</p>

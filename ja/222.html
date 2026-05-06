@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/222#webpage",
       "url": "https://mirai-shigoto.com/ja/222",
       "name": "造園工 — AI 影響 3/10",
-      "description": "造園、現場の手作業",
+      "description": "造園工とは、日本庭園や集合住宅等の緑地を設計し又は設計図により工事を指揮監督するとともに,自ら作業を行い、完成後はその維持管理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/222#occupation",
       "name": "造園工",
-      "description": "造園、現場の手作業",
+      "description": "造園工とは、日本庭園や集合住宅等の緑地を設計し又は設計図により工事を指揮監督するとともに,自ら作業を行い、完成後はその維持管理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>造園工とは</h2>
+        <p class="definition">造園工とは、日本庭園や集合住宅等の緑地を設計し又は設計図により工事を指揮監督するとともに,自ら作業を行い、完成後はその維持管理を行う職業です。</p>
         <p>日本庭園や集合住宅等の緑地を設計し又は設計図により工事を指揮監督するとともに自ら作業を行い、完成後はその維持管理を行う。</p>
         <p>造園の注文を受けたら、まず、注文者の要望に合わせて図面を作成し、土地の測量、地割（じわり）を行って施工計画を立てる。公共工事の場合など、設計は役所や設計会社が行う場合も増えてきている。</p>
         <p>実際の造園工事は、人力やブルドーザーなどの建設機械を使って開墾、切土（きりど）、盛土（もりど）、除草、客土（きゃくど）を行い、地盤を整備することから始める。次に、給水・排水や照明灯など地下配線のための配管やケーブル線を敷地の地下に埋めるが、この作業は専門の業者に委託して行うことが多い。</p>

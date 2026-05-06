@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/483#webpage",
       "url": "https://mirai-shigoto.com/ja/483",
       "name": "宅配便配達員 — AI 影響 4/10",
-      "description": "宅配便、AI配送+ロボ研究",
+      "description": "宅配便配達員とは、担当する地域内で荷物の集荷・配達を行う業務のほか、営業活動や集金も行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/483#occupation",
       "name": "宅配便配達員",
-      "description": "宅配便、AI配送+ロボ研究",
+      "description": "宅配便配達員とは、担当する地域内で荷物の集荷・配達を行う業務のほか、営業活動や集金も行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>宅配便配達員とは</h2>
+        <p class="definition">宅配便配達員とは、担当する地域内で荷物の集荷・配達を行う業務のほか、営業活動や集金も行う職業です。</p>
         <p>担当する地域内で荷物の集荷・配達を行う業務のほか、営業活動や集金も行う。</p>
         <p>集荷業務では、企業や個人宅、取次店から、宅配便で取り扱う小荷物（通常25キログラム以下の重さで、縦・横・高さの合計が1.6メートル以内の荷物）を2トン前後のトラックや普通自動車の集配車両を使って集め、営業所に持ち帰り、配達先の方面別に仕分けする。仕分けられた荷物は、さらに営業所から物流ターミナルに輸送され、全国各地に向けて大型トラックなどで輸送される。</p>
         <p>配達業務では、朝、営業所に到着した荷物を大まかな配達順を考慮して仕分け、壊れやすいものなど、荷物の内容や形状に注意しながら集配車両に積み込む。効率よく、時間どおりに配達できるよう配達ルートを決める。配達先では荷物と引き換えに配送票に受領印を受ける。配達先が不在の場合や住所不明の場合は、不在連絡票を置くなどして荷物を持ち帰り、配達先からの再配達依頼の連絡などを受けて、再度配達する。</p>

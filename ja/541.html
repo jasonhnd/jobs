@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/541#webpage",
       "url": "https://mirai-shigoto.com/ja/541",
       "name": "ナレーター — AI 影響 7/10",
-      "description": "ナレーター、AI音声合成接近",
+      "description": "ナレーターとは、映像やオーディオ作品、広告・広報、施設・車内案内などで音声により情報を伝える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/541#occupation",
       "name": "ナレーター",
-      "description": "ナレーター、AI音声合成接近",
+      "description": "ナレーターとは、映像やオーディオ作品、広告・広報、施設・車内案内などで音声により情報を伝える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -210,6 +210,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -380,6 +384,7 @@
 
       <section class="context">
         <h2>ナレーターとは</h2>
+        <p class="definition">ナレーターとは、映像やオーディオ作品、広告・広報、施設・車内案内などで音声により情報を伝える職業です。</p>
         <p>映像やオーディオ作品、広告・広報、施設・車内案内などで音声により情報を伝える。</p>
         <p>ナレーターの仕事には、放送番組や映像作品、教材、広告などのナレーション、美術館・博物館などの音声ガイド、展示会場の商品説明、駅や車内、大規模施設の案内アナウンスなど、さまざまな分野がある。映像に合わせた「語り」により内容の理解や情感を深めるナレーションが代表的なイメージであるが、ナレーターの仕事は日常生活のさまざまな場にも広がっている。</p>
         <p>ナレーションは、専業のナレーターのほか、アナウンサーや声優、俳優、タレントなどが担当することも多いが、ここでは主に、ナレーションを中心に活動している専業のナレーターについて述べる。</p>

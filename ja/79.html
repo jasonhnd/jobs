@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/79#webpage",
       "url": "https://mirai-shigoto.com/ja/79",
       "name": "ベーカリーショップ店員 — AI 影響 4/10",
-      "description": "ベーカリー店員、接客+陳列",
+      "description": "ベーカリーショップ店員とは、ベーカリーショップでパンを販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/79#occupation",
       "name": "ベーカリーショップ店員",
-      "description": "ベーカリー店員、接客+陳列",
+      "description": "ベーカリーショップ店員とは、ベーカリーショップでパンを販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>ベーカリーショップ店員とは</h2>
+        <p class="definition">ベーカリーショップ店員とは、ベーカリーショップでパンを販売する職業です。</p>
         <p>ベーカリーショップでパンを販売する。</p>
         <p>パンの製造販売には工場で大量生産したものをスーパーマーケット、コンビニエンスストアなどで販売するホールセールベーカリー方式と、店舗の設備でパンを焼き、そこで直接販売するリテールベーカリー方式がある。</p>
         <p>ベーカリーショップ店員の主な仕事は、商品の説明、予約受付等の来店客への応対、レジ、包装、商品の陳列・補充、パンのスライスなどの加工、店の清掃などである。また、イートインスペースのある店舗では、パンとともに飲料の販売なども行っているほか、多少の調理を行うこともある。このため、調理のほか、顧客の座席までの配膳などの業務が加わることもある。</p>

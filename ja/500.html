@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/500#webpage",
       "url": "https://mirai-shigoto.com/ja/500",
       "name": "ブリーダー — AI 影響 2/10",
-      "description": "ブリーダー、動物世話",
+      "description": "ブリーダーとは、ペットや家畜などの動物の繁殖（ブリーディング）、飼育、販売を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/500#occupation",
       "name": "ブリーダー",
-      "description": "ブリーダー、動物世話",
+      "description": "ブリーダーとは、ペットや家畜などの動物の繁殖（ブリーディング）、飼育、販売を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -216,6 +216,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -386,6 +390,7 @@
 
       <section class="context">
         <h2>ブリーダーとは</h2>
+        <p class="definition">ブリーダーとは、ペットや家畜などの動物の繁殖（ブリーディング）、飼育、販売を行う職業です。</p>
         <p>ペットや家畜などの動物の繁殖（ブリーディング）、飼育、販売を行う。</p>
         <p>ペットなど愛玩動物を扱うブリーダーは血統の良い雌雄を交配し優良種の繁殖、飼育、販売を行っている。一方、家畜などの産業用動物のブリーダーの場合は産業の求めに応じた良質の雌雄を交配、業界のニーズに応えた繁殖、飼育を行い販売している。ここでは主にペット用の犬のブリーダーについて記載する。</p>
         <p>犬の日々の食事の世話、排泄物の処理等日常の世話や健康管理、出産介助などが重要な仕事になっている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/504#webpage",
       "url": "https://mirai-shigoto.com/ja/504",
       "name": "稲作農業者 — AI 影響 4/10",
-      "description": "稲作、AI営農拡大中",
+      "description": "稲作農業者とは、水田で稲を栽培し、米を収穫して出荷する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/504#occupation",
       "name": "稲作農業者",
-      "description": "稲作、AI営農拡大中",
+      "description": "稲作農業者とは、水田で稲を栽培し、米を収穫して出荷する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>稲作農業者とは</h2>
+        <p class="definition">稲作農業者とは、水田で稲を栽培し、米を収穫して出荷する職業です。</p>
         <p>水田で稲を栽培し、米を収穫して出荷する。</p>
         <p>日本の稲作は田んぼに水を張り、苗を植えて育てる「水田稲作」がほとんどである。苗づくりや水田・稲穂の管理など、季節や天候に合わせた細やかな栽培管理が必要である。</p>
         <p>稲作農業者は自ら経営者を兼ねて家族農業経営の形をとっていることが多く、生産のみならず経営・販売など幅広い仕事を行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/567#webpage",
       "url": "https://mirai-shigoto.com/ja/567",
       "name": "学校事務（私立大学） — AI 影響 7/10",
-      "description": "私大事務、AI事務化",
+      "description": "学校事務（私立大学）とは、大学の運営が円滑に行われるように、必要な事務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/567#occupation",
       "name": "学校事務（私立大学）",
-      "description": "私大事務、AI事務化",
+      "description": "学校事務（私立大学）とは、大学の運営が円滑に行われるように、必要な事務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>学校事務（私立大学）とは</h2>
+        <p class="definition">学校事務（私立大学）とは、大学の運営が円滑に行われるように、必要な事務を行う職業です。</p>
         <p>大学の運営が円滑に行われるように、必要な事務を行う。業務内容は、教学分野と管理分野の大きく２つに分けられる。教学分野では、学生の授業・生活の支援、入学者選抜、大学の広報、学生の就職活動の支援を行う。また教員と話し合いながら、カリキュラムなどの規定改定なども行う。管理分野では、経営、施設管理、財務、総務、人事、税務などを行う。</p>
         <p>大学における学校事務が一般企業の事務と大きく異なるのは、教育や研究をサポートする役割を担う点である。ここでは、学校事務の内容として特徴的な教学分野について述べる。大学により組織体制や設置されている部署が異なるため、一般的な例を説明する。</p>
         <p>教務・学生支援業務では、時間割の作成、教室の決定、学割や在学証明書などの発行、課外活動支援、機器トラブルの対応、留学生対応、奨学金対応などを行う。</p>

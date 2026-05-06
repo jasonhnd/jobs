@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/75#webpage",
       "url": "https://mirai-shigoto.com/ja/75",
       "name": "フランチャイズチェーン・スーパーバイザー — AI 影響 7/10",
-      "description": "FCスーパーバイザー、店舗指導",
+      "description": "フランチャイズチェーン・スーパーバイザーとは、フランチャイズチェーン本部のスタッフとして加盟店を定期的に巡回し加盟店への経営指導を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/75#occupation",
       "name": "フランチャイズチェーン・スーパーバイザー",
-      "description": "FCスーパーバイザー、店舗指導",
+      "description": "フランチャイズチェーン・スーパーバイザーとは、フランチャイズチェーン本部のスタッフとして加盟店を定期的に巡回し加盟店への経営指導を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>フランチャイズチェーン・スーパーバイザーとは</h2>
+        <p class="definition">フランチャイズチェーン・スーパーバイザーとは、フランチャイズチェーン本部のスタッフとして加盟店を定期的に巡回し加盟店への経営指導を行う職業です。</p>
         <p>フランチャイズチェーン本部のスタッフとして加盟店を定期的に巡回し、本部の経営方針の実行状況を確認しながら、独立した事業者である加盟店への経営指導を行うなど、本部と加盟店とのパイプ役としての役割を果たす。店舗巡回指導員とも呼ばれる。</p>
         <p>加盟店（フランチャイズチェーン店）とは、本部と契約して、加盟金やロイヤルティを払い、その対価として商売上のノウハウや経営指導、ブランド名などの提供を受けて経営している店舗のことである。</p>
         <p>スーパーバイザーは加盟店に出向き、本部の経営方針や売れ筋商品の情報などを伝え、同時に、本部の経営方針が加盟店でどう実行されているかを確認し、本部へ伝える。また、商品の仕入れと販売、従業員教育などについて、本部のノウハウや情報を伝達し、助言や指導を行う。本部では、各店の経営情報を分析し、加盟店が確実に利益を上げているかなどを確認し、問題がある場合は改善計画を立案し次回訪問時に指導する。更に、加盟店の立地に合わせた経営のアドバイスを行うこともある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/455#webpage",
       "url": "https://mirai-shigoto.com/ja/455",
       "name": "ディーラー — AI 影響 8/10",
-      "description": "ディーラー、AI取引拡大",
+      "description": "ディーラーとは、証券会社や銀行などで自社資金を使い、株式、債券、為替などの売買を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/455#occupation",
       "name": "ディーラー",
-      "description": "ディーラー、AI取引拡大",
+      "description": "ディーラーとは、証券会社や銀行などで自社資金を使い、株式、債券、為替などの売買を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>ディーラーとは</h2>
+        <p class="definition">ディーラーとは、証券会社や銀行などで自社資金を使い、株式、債券、為替などの売買を行う職業です。</p>
         <p>証券会社や銀行などで自社資金を使い、株式、債券、為替などの売買を行う。これをディーリングといい、その業務を担当するのがディーラーである。</p>
         <p>扱う商品は、株式や為替などだけに留まらず、先物為替、金利スワップや通貨スワップ、オプション取引などのデリバティブ（金融派生商品）にまで広がっている。いずれの場合にも共通するのは、資産(株式、債券、外貨など)を安く買い高く売る、あるいは、低いコストで調達して、高い運用益を上げるということである。</p>
         <p>類似の職業として、証券会社ではトレーダーがあるが、これは自己資金を使わず、顧客など他者からの売買の注文を受けて、取引仲介をするブローカーに注文を出す。またファンドマネージャーは、ディーラーが短期的な売買をするのに対して、投資信託や年金基金など長期資金の運用を行っており、資産運用会社や生命保険会社などに所属している。</p>

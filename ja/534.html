@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/534#webpage",
       "url": "https://mirai-shigoto.com/ja/534",
       "name": "セキュリティエキスパート（情報セキュリティ監査） — AI 影響 7/10",
-      "description": "セキュリティ監査、AI支援",
+      "description": "セキュリティエキスパート（情報セキュリティ監査）とは、コンピュータやネットワークに情報セキュリティ上の問題がないか客観的な立場から監査する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/534#occupation",
       "name": "セキュリティエキスパート（情報セキュリティ監査）",
-      "description": "セキュリティ監査、AI支援",
+      "description": "セキュリティエキスパート（情報セキュリティ監査）とは、コンピュータやネットワークに情報セキュリティ上の問題がないか客観的な立場から監査する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>セキュリティエキスパート（情報セキュリティ監査）とは</h2>
+        <p class="definition">セキュリティエキスパート（情報セキュリティ監査）とは、コンピュータやネットワークに情報セキュリティ上の問題がないか客観的な立場から監査する職業です。</p>
         <p>コンピュータやネットワークに情報セキュリティ上の問題がないか客観的な立場から監査する。コンピュータやネットワークに対する攻撃に対して脆弱性がないか、情報漏洩に繋がるような問題点がないか、等々を一定の基準に基づき点検する。情報セキュリティ監査人と呼ばれることもある。</p>
         <p>情報セキュリティ監査には「保証型監査」と「助言型監査」がある。対象となるコンピュータやネットワークが監査基準に照らして適切であると保証するのが「保証型監査」であり、監査対象の情報セキュリティ上の問題点を指摘し、改善に向けた助言を行うのが「助言型監査」である。セキュリティ監査を行う目的としては、会社や団体の情報セキュリティが適切か組織内で点検する「内部目的」と、会社や団体として外部に情報セキュリティが適切に行われていることを示すための「外部目的」がある。助言型監査は主に内部目的のために行われ、保証型監査は主に外部目的のために行われる。</p>
         <p>監査の基準としては、経済産業省の「情報セキュリティ管理基準」及び「情報セキュリティ監査基準」並びに総務省の「地方公共団体における情報セキュリティ監査ガイドライン」等がある。経済産業省の「情報セキュリティ管理基準」では、情報セキュリティのマネジメントにおける計画、実行、点検、処置に必要な事項を示し、実施方法の例も記載されている。「情報セキュリティ監査基準」では、誰が監査するか、監査での遵守事項、監査実施の枠組み、監査報告での留意事項、監査報告書の記載方法が示されている。「地方公共団体における情報セキュリティ監査ガイドライン」では、地方自治体での実施を前提に、監査の手順、監査の項目等が示されている。また、国際標準化機構 (ISO) と 国際電気標準会議 (IEC) が共同で策定した、情報セキュリティのマネジメントに関する規格もある（ISO/IEC 27002）。これら監査基準、ガイドラインをもとに各組織が組織内でより具体的な監査基準を作成している場合が多い。</p>

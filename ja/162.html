@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/162#webpage",
       "url": "https://mirai-shigoto.com/ja/162",
       "name": "細胞検査士 — AI 影響 8/10",
-      "description": "細胞検査、AI画像診断置換",
+      "description": "細胞検査士とは、疾患に関連する細胞や病原体を発見するため、患者から採取した組織を検査する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/162#occupation",
       "name": "細胞検査士",
-      "description": "細胞検査、AI画像診断置換",
+      "description": "細胞検査士とは、疾患に関連する細胞や病原体を発見するため、患者から採取した組織を検査する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>細胞検査士とは</h2>
+        <p class="definition">細胞検査士とは、疾患に関連する細胞や病原体を発見するため、患者から採取した組織を検査する職業です。</p>
         <p>細胞検査士は、臨床検査技師の仕事の一部が専門化して独立した医療技術者である。</p>
         <p>日本人の死亡原因の第1位となっているがんの細胞をはじめ、疾患に関連する細胞、病原体等を検査によって発見する。細胞の検査は、がんの発見にとって重要な検査法で、医師の診断と治療に役立っている。</p>
         <p>検査作業では、標本作製（検体処理：塗抹、固定、染色、封入）及び顕微鏡による異型細胞やがん細胞のスクリーニングを行う。具体的には、細胞診検査では、剥離細胞や擦過、穿刺（せんし）等で得た材料で標本を作る。例えば、喀痰（かくたん）や尿、婦人科の医師が綿棒を使って取った子宮膣部の細胞、乳房のしこりから穿刺吸引した材料などを用いて標本を作り、染色をして顕微鏡で見ることができるようにする。</p>

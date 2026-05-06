@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/544#webpage",
       "url": "https://mirai-shigoto.com/ja/544",
       "name": "マーチャンダイザー、バイヤー — AI 影響 7/10",
-      "description": "バイヤー、AI需要分析支援",
+      "description": "マーチャンダイザー、バイヤーとは、店舗で扱う商品を検討し、売れる商品を仕入れる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/544#occupation",
       "name": "マーチャンダイザー、バイヤー",
-      "description": "バイヤー、AI需要分析支援",
+      "description": "マーチャンダイザー、バイヤーとは、店舗で扱う商品を検討し、売れる商品を仕入れる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>マーチャンダイザー、バイヤーとは</h2>
+        <p class="definition">マーチャンダイザー、バイヤーとは、店舗で扱う商品を検討し、売れる商品を仕入れる職業です。</p>
         <p>店舗で扱う商品を検討し、売れる商品を仕入れる。販売戦略を考えたり、生産者と一緒に商品を開発することもある。</p>
         <p>バイヤーとは商品の買い付け、仕入れを行う担当者であるが、今日では単なる買い付けにとどまらず、マーチャンダイザーとして商品を生産者とともに開発したり、買い付けた商品の販売戦略まで考えることが多く、ここではバイヤーを含めマーチャンダイザーについて解説する。マーチャンダイザーがバイヤーを兼任していることも多く、マーチャンダイザー（merchandiser）は短くMDと呼ばれることもある。</p>
         <p>マーチャンダイジングとは、売れる商品のために、商品の企画開発、商品の調達、そして商品の販売戦略まで検討する活動であり、この中で商品の調達の部分に比重があるのがバイヤーである。市場に潤沢に商品があり、その中から購入すればよいのであれば、バイヤーとしての仕事になるが、より良い商品を仕入れようとすると、生産者に働きかけ、生産者とともに商品を開発していくことが必要になる。また、現在はすでに多くの商品が流通し飽和状態といえ、このような状況では販売戦略が重要であり、この面ではバイヤーというよりもマーチャンダイザーとしての仕事となる。</p>

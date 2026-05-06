@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/510#webpage",
       "url": "https://mirai-shigoto.com/ja/510",
       "name": "動物看護 — AI 影響 3/10",
-      "description": "動物看護、手技中心",
+      "description": "動物看護とは、動物病院などにおいて、獣医師の助手として、動物に対する診療の補助や世話を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/510#occupation",
       "name": "動物看護",
-      "description": "動物看護、手技中心",
+      "description": "動物看護とは、動物病院などにおいて、獣医師の助手として、動物に対する診療の補助や世話を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>動物看護とは</h2>
+        <p class="definition">動物看護とは、動物病院などにおいて、獣医師の助手として、動物に対する診療の補助や世話を行う職業です。</p>
         <p>動物病院などにおいて、主にペットの看護師として、獣医師の指示の下での診療の補助、動物の看護、栄養管理、飼育指導等を行う。</p>
         <p>受付窓口での対応、電話やメールでの問い合わせ対応を行いつつ、診療前には、診察室の消毒を行って清潔な医療環境を整える。病気やケガをした動物を連れて訪れた飼主から話を聞き、状況を把握して獣医師に伝える。診療中は、診察がしやすいように注意を惹いたり、動物を押えたり（動物の保定）、診療に必要な器具をそろえるなど、獣医師の補助を行う。体温や脈拍の測定やレントゲン撮影の補助を行うこともある。</p>
         <p>家庭でのケアの方法、しつけの仕方、飼育の仕方などの相談を受けることもある。診察終了後は、カルテの整理、院内の清掃、薬の注文などを行う。</p>

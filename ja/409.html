@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/409#webpage",
       "url": "https://mirai-shigoto.com/ja/409",
       "name": "福祉ソーシャルワーカー — AI 影響 5/10",
-      "description": "福祉ソーシャルワーカー、対面相談",
+      "description": "福祉ソーシャルワーカーとは、福祉等に関する専門知識を活かし、社会生活に困難がある人々の相談に乗ったり、社会的支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/409#occupation",
       "name": "福祉ソーシャルワーカー",
-      "description": "福祉ソーシャルワーカー、対面相談",
+      "description": "福祉ソーシャルワーカーとは、福祉等に関する専門知識を活かし、社会生活に困難がある人々の相談に乗ったり、社会的支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -246,6 +246,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -416,6 +420,7 @@
 
       <section class="context">
         <h2>福祉ソーシャルワーカーとは</h2>
+        <p class="definition">福祉ソーシャルワーカーとは、福祉等に関する専門知識を活かし、社会生活に困難がある人々の相談に乗ったり、社会的支援を行う職業です。</p>
         <p>福祉等に関する専門知識を活かし、社会生活に困難や支障のある人々の相談に乗ったり、社会的支援を行う。ソーシャルワーカーと呼ばれることが多い。ここでは以下、ソーシャルワーカーという。</p>
         <p>職務内容としては、高齢者、障がい者、ひとり親、生活困窮者等を対象に相談・支援業務及び関係機関との連絡・調整を行う。「社会福祉士」、「精神保健福祉士」の資格を取得しソーシャルワーカーとして就業していることが多い。ソーシャルワーカーの具体的な業務内容は就労先によって異なる。例えば、病院なら「医療ソーシャルワーカー」や「医療相談員」、高齢者施設なら「生活相談員」などとして活動している。</p>
         <p>ソーシャルワーカーには、相談者の話をじっくりと聞いて、ニーズを聞き出し、適切な行政サービス等を紹介したり、相談者が自立した生活を送れるように支援する。地域の福祉ニーズを把握して、不足するサービスの充実を提案したり、サービス提供者のネットワークを構築するなど、その仕事内容は多岐にわたる。</p>

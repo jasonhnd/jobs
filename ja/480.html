@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/480#webpage",
       "url": "https://mirai-shigoto.com/ja/480",
       "name": "送迎バス等運転手 — AI 影響 3/10",
-      "description": "送迎バス、現場対応",
+      "description": "送迎バス等運転手とは、幼稚園、学校の生徒等、高齢者施設の利用者、企業や工場の従業員、ホテルの宿泊客など特定の利用者を送迎するためのバス等を運転する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/480#occupation",
       "name": "送迎バス等運転手",
-      "description": "送迎バス、現場対応",
+      "description": "送迎バス等運転手とは、幼稚園、学校の生徒等、高齢者施設の利用者、企業や工場の従業員、ホテルの宿泊客など特定の利用者を送迎するためのバス等を運転する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>送迎バス等運転手とは</h2>
+        <p class="definition">送迎バス等運転手とは、幼稚園、学校の生徒等、高齢者施設の利用者、企業や工場の従業員、ホテルの宿泊客など特定の利用者を送迎するためのバス等を運転する職業です。</p>
         <p>幼稚園、学校の生徒等、障害者施設や高齢者施設の利用者、企業や工場の従業員、旅館やホテルの宿泊客、レジャー施設やショッピングモール、催事場の来場者など特定の利用者を送迎するためのバス等を運転する。</p>
         <p>送迎バスには、学校や会社の送迎バスのように時間限定で運行するものと商業施設や宿泊施設などへ利用者を終日送迎するものとがある。送迎バスの運行は、バス会社に業務を委託する場合と施設が自社サービスの一環として運行する場合がある。</p>
         <p>バスには、路線バス（高速バスも含む）、貸切バス（観光バス等）、送迎バスの3種類がある。このうち送迎バスは多くの場合は無料で利用できる。</p>

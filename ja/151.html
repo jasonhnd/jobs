@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/151#webpage",
       "url": "https://mirai-shigoto.com/ja/151",
       "name": "国際公務員 — AI 影響 6/10",
-      "description": "国際公務員、政策+情報処理",
+      "description": "国際公務員とは、国際機関に所属し、国際社会の平和と安全の維持、開発、貿易、環境、人権など、国際的な協議と協力を通じて、国家間の様々な問題に対する解決を図るため活動する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/151#occupation",
       "name": "国際公務員",
-      "description": "国際公務員、政策+情報処理",
+      "description": "国際公務員とは、国際機関に所属し、国際社会の平和と安全の維持、開発、貿易、環境、人権など、国際的な協議と協力を通じて、国家間の様々な問題に対する解決を図るため活動する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>国際公務員とは</h2>
+        <p class="definition">国際公務員とは、国際機関に所属し、国際社会の平和と安全の維持、開発、貿易、環境、人権など、国際的な協議と協力を通じて、国家間の様々な問題に対する解決を図るため活動する職業です。</p>
         <p>国際公務員（International Civil Servant）とは、国際連合（UN）のほか、国連開発計画（UNDP）、国連児童基金（UNICEF）等の下部組織、国際労働機関（ILO）、国連食糧農業機関（FAO）等の国連関連政府間機関（専門機関）、経済協力開発機構（OECD）、アジア開発銀行（ADB）等の国際機関に所属し、国際社会の平和と安全の維持、開発、貿易、環境、人権など、国際的な協議と協力を通じて、国家間の様々な問題に対する解決を図るため所定の公務を遂行する職員である。</p>
         <p>職種は「専門職」と「一般職」の2種類がある。</p>
         <p>「専門職」は専門性の高い知識や技術を用いて業務を行う。「専門職」の採用は空席ができると国際的に公告され、必要な能力を持った即戦力が求められる。職務内容は、各国際機関が取り組む開発、経済、環境等の活動に直接携わる業務と、それをサポートする財務、人事、総務、広報等の業務に分類できる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/115#webpage",
       "url": "https://mirai-shigoto.com/ja/115",
       "name": "理容師 — AI 影響 2/10",
-      "description": "理容師は完全な手仕事",
+      "description": "理容師とは、顧客の要望に合わせて、ヘアカット、顔そりなどを行って、容姿を整える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/115#occupation",
       "name": "理容師",
-      "description": "理容師は完全な手仕事",
+      "description": "理容師とは、顧客の要望に合わせて、ヘアカット、顔そりなどを行って、容姿を整える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>理容師とは</h2>
+        <p class="definition">理容師とは、顧客の要望に合わせて、ヘアカット、顔そりなどを行って、容姿を整える職業です。</p>
         <p>顧客の要望に合わせて、ヘアカット、顔そりなどを行って、容姿を整える。</p>
         <p>最近では髪型を「自分を表現するファッション」として考える人が増え、理髪店はさっぱりする快適さと、見栄えの両方を顧客から求められている。</p>
         <p>理容師は店に来た顧客の希望を聞き、相談を受けた場合には適切なアドバイスを与えながら、髪をどのぐらいの長さにするか、どんなヘアスタイルにするかを決め、作業を始める。髪の毛のカット、シャンプー、顔そり（シェービング）と進め、整髪料などを使って整髪（セット）して仕上げる。注文に応じて毛染め（カラーリング）をしたり、パーマを行うこともある。また、サービスの一環として、頭部や肩のマッサージをすることもある。</p>

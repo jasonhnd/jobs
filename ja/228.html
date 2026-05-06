@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/228#webpage",
       "url": "https://mirai-shigoto.com/ja/228",
       "name": "水産技術者 — AI 影響 5/10",
-      "description": "水産技術、AIモニタ拡大",
+      "description": "水産技術者とは、水産試験場や養殖場などにおいて、漁業技術、水産資源の管理、漁場環境の改善などの試験研究や水産業に関する技術指導をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/228#occupation",
       "name": "水産技術者",
-      "description": "水産技術、AIモニタ拡大",
+      "description": "水産技術者とは、水産試験場や養殖場などにおいて、漁業技術、水産資源の管理、漁場環境の改善などの試験研究や水産業に関する技術指導をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>水産技術者とは</h2>
+        <p class="definition">水産技術者とは、水産試験場や養殖場などにおいて、漁業技術、水産資源の管理、漁場環境の改善などの試験研究や水産業に関する技術指導をする職業です。</p>
         <p>都道府県の、水産研究所や水産試験場、水産事務所などにおいて、効率的な漁業技術、水産資源の管理や増養殖、漁場環境の改善、水産物の利用・加工・品質の保持を図るため、試験研究や水産業に関する技術開発、技術指導を行う。</p>
         <p>海・河川・湖沼の水産資源や環境の調査などを行い、水産生物を持続的に利用するための水産資源の管理や漁場環境の改善に関する研究を行う。また、養殖魚介類の品質改良（育種）や人工飼料の開発、病気への対応、更には安全かつ効率的で、資源にやさしい漁法や漁具の研究・開発を行ったり、よりよい漁場を作るための水産土木事業の設計・監理、中小企業への技術指導、開発途上国への技術指導なども手がけている。</p>
         <p>研究や開発で得られた技術や魚病の予防法などを漁業者に指導したり、食品としての加工技術の開発や、市場やスーパーマーケットなどで水産物の流通にかかわる技術者もいる。</p>

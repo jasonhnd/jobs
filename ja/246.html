@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/246#webpage",
       "url": "https://mirai-shigoto.com/ja/246",
       "name": "看護助手 — AI 影響 3/10",
-      "description": "看護助手、身体介助",
+      "description": "看護助手とは、看護チームの一員として、看護師等の指示の下に、看護の専門的判断を要しない看護補助業務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/246#occupation",
       "name": "看護助手",
-      "description": "看護助手、身体介助",
+      "description": "看護助手とは、看護チームの一員として、看護師等の指示の下に、看護の専門的判断を要しない看護補助業務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>看護助手とは</h2>
+        <p class="definition">看護助手とは、看護チームの一員として、看護師等の指示の下に、看護の専門的判断を要しない看護補助業務を行う職業です。</p>
         <p>看護チームの一員として、看護師等の指示の下に、看護の専門的判断を要しない看護補助業務を行う。看護補助者と呼ばれることもある。</p>
         <p>看護助手の仕事は、対象者に直接接しない「周辺業務」と、直接関わる「直接ケア」に大別することができる。具体的には、医療器具の洗浄や消毒、診察台のシーツ交換などの診察の準備や病棟のベッドメーキングなど環境を整えたり、入院患者の食事の配膳・下膳をする。また、状態が落ち着いている患者の着替えの手伝いや排泄介助、おむつの交換、入浴の介助を行う。検査時の移送なども行う。看護師とともに、決められた時間ごとに体位を変えて床ずれを予防したり、独り歩きに不安のある患者の介助や車椅子の手配・操作をすることもある。</p>
         <p>更に、検査・処置等の伝票類の準備・整備・補充、診療材料等の補充・整理等を受け持つ場合もある。</p>

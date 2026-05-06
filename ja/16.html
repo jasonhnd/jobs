@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/16#webpage",
       "url": "https://mirai-shigoto.com/ja/16",
       "name": "野菜つけ物製造 — AI 影響 3/10",
-      "description": "漬物製造、手作業の発酵管理",
+      "description": "野菜つけ物製造とは、野菜を材料にしたつけ物を製造するため、材料の選別、洗浄、カット、漬け込み、塩抜き、計量、殺菌、検査、包装などの作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/16#occupation",
       "name": "野菜つけ物製造",
-      "description": "漬物製造、手作業の発酵管理",
+      "description": "野菜つけ物製造とは、野菜を材料にしたつけ物を製造するため、材料の選別、洗浄、カット、漬け込み、塩抜き、計量、殺菌、検査、包装などの作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>野菜つけ物製造とは</h2>
+        <p class="definition">野菜つけ物製造とは、野菜を材料にしたつけ物を製造するため、材料の選別、洗浄、カット、漬け込み、塩抜き、計量、殺菌、検査、包装などの作業を行う職業です。</p>
         <p>野菜を材料にしたつけ物を製造するため、材料の選別、洗浄、カット、漬け込み、塩抜き、計量、殺菌、検査、包装などの作業を行う。</p>
         <p>つけ物は、平安時代の制度や儀式の作法書である「延喜式（えんぎしき）」に記述されているほど、日本古来の伝統的加工食品である。現在では、材料となる野菜等の種類が極めて多いということに加え、浅漬け、古漬の大別の下に多様な漬け込み方法がある。</p>
         <p>まず、受入・保管している材料（野菜等）を選別し、洗浄した後、塩漬け（下漬処理）する。その後、再度洗浄し、所定の大きさに切断（カット）する。次に脱塩（塩抜き）を行い、圧搾する。そして、最終調味料に漬け込んだ後、計量、包装、シール貼りを行い、異物混入等のチェックを行う。最後に加熱殺菌・冷却を行い、保管・出荷する。</p>

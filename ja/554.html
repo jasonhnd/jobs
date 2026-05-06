@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/554#webpage",
       "url": "https://mirai-shigoto.com/ja/554",
       "name": "プロスポーツ運営団体職員（企画・運営） — AI 影響 6/10",
-      "description": "スポーツ運営団体、企画+対面",
+      "description": "プロスポーツ運営団体職員（企画・運営）とは、野球、サッカー、バスケットボール、バレーボールなどのプロスポーツチーム運営団体において、試合チケットの販売促進、チームの認知度の向上のための取組み、ファンクラブの運営等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/554#occupation",
       "name": "プロスポーツ運営団体職員（企画・運営）",
-      "description": "スポーツ運営団体、企画+対面",
+      "description": "プロスポーツ運営団体職員（企画・運営）とは、野球、サッカー、バスケットボール、バレーボールなどのプロスポーツチーム運営団体において、試合チケットの販売促進、チームの認知度の向上のための取組み、ファンクラブの運営等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -214,6 +214,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -384,6 +388,7 @@
 
       <section class="context">
         <h2>プロスポーツ運営団体職員（企画・運営）とは</h2>
+        <p class="definition">プロスポーツ運営団体職員（企画・運営）とは、野球、サッカー、バスケットボール、バレーボールなどのプロスポーツチーム運営団体において、試合チケットの販売促進、チームの認知度の向上のための取組み、ファンクラブの運営等を行う職業です。</p>
         <p>野球、サッカー、バスケットボール、バレーボールなどのプロスポーツチーム運営団体において、試合チケットの販売促進、チームの認知度の向上のための取組み、ファンクラブの運営等を行う。</p>
         <p>プロスポーツ運営団体は大手企業がスポンサーとなって経営する野球だけでなく、地域の支援と独立採算で運営するプロスポーツが多くなってきた。ここでは独立採算で運営しているプロスポーツとして、Bリーグ(バスケットボール)の中の中規模運営団体の例を述べる。</p>
         <p>この運営団体において主に企画・運営業務に携わるのは、マーケティング部職員である。マーケティング部は、チケットチーム、プロモーションチーム、ファンクラブチーム（バスケットではブースタークラブと呼ぶ。）などの業務に分かれている。</p>

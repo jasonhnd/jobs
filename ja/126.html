@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/126#webpage",
       "url": "https://mirai-shigoto.com/ja/126",
       "name": "家政婦（夫） — AI 影響 2/10",
-      "description": "家政婦、家事の手作業",
+      "description": "家政婦（夫）とは、主に個人の家庭で掃除、洗濯、買い物、料理などの家事全般を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/126#occupation",
       "name": "家政婦（夫）",
-      "description": "家政婦、家事の手作業",
+      "description": "家政婦（夫）とは、主に個人の家庭で掃除、洗濯、買い物、料理などの家事全般を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>家政婦（夫）とは</h2>
+        <p class="definition">家政婦（夫）とは、主に個人の家庭で掃除、洗濯、買い物、料理などの家事全般を行う職業です。</p>
         <p>主に個人の家庭で掃除、洗濯、買い物、料理などの家事全般を行う。</p>
         <p>一般的な家事のほか、介護保険でカバーされる範囲以外の身の回りの世話なども行う。家政婦（夫）が対応する家庭生活支援（家事・介護）の範囲を求人者と取り決め、求人者に直接雇用されて主に個人家庭で勤務する。</p>
         <p>具体的な仕事の内容としては、洗濯や掃除、買い物、食事の準備、子供の世話、高齢者や病人の世話等があげられる。また、来客の応対や用件の取り次ぎ等を行うこともある。求人者の意向により泊まりこみや夜間勤務をする場合もある。</p>

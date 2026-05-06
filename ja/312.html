@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/312#webpage",
       "url": "https://mirai-shigoto.com/ja/312",
       "name": "システムエンジニア（受託開発） — AI 影響 9/10",
-      "description": "SE受託開発、AI生成コード",
+      "description": "システムエンジニア（受託開発）とは、顧客の情報システムの開発を受託し、ソフトウェアを開発する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/312#occupation",
       "name": "システムエンジニア（受託開発）",
-      "description": "SE受託開発、AI生成コード",
+      "description": "システムエンジニア（受託開発）とは、顧客の情報システムの開発を受託し、ソフトウェアを開発する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>システムエンジニア（受託開発）とは</h2>
+        <p class="definition">システムエンジニア（受託開発）とは、顧客の情報システムの開発を受託し、ソフトウェアを開発する職業です。</p>
         <p>顧客の情報システムの開発を受託し、ソフトウェアを開発する。アプリケーションエンジニア、アプリケーションスペシャリスト、業務系SE（システムエンジニア）などとも呼ばれる。ここでは以下、短くSEとしている。</p>
         <p>開発には顧客のサーバー上に開発するもの、クラウド上に開発するもの、また、スマホで利用するものなど様々な種類がある。これらのシステムを顧客の要求に応じて、パッケージやモジュールとして既にあるソフトウェアとオーダーメイドで作成するソフトウェアを組み合わせて、設計・開発する。以前は顧客のサーバー上にシステムを構築することが多かったが、近年はクラウドの利用が広がり、クラウド上にシステムを構築する仕事が大半となっている。既にあるパッケージやクラウドサービスを、顧客の目的に合うようカスタマイズする開発をSEとして行うこともある。</p>
         <p>隣接する職業としてプログラマーがあるが、プログラマーはSEが作成した詳細設計書（下で説明）に基づいてコーディングし、プログラムを作成する。</p>

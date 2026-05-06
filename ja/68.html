@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/68#webpage",
       "url": "https://mirai-shigoto.com/ja/68",
       "name": "書店員 — AI 影響 5/10",
-      "description": "書店員、棚整理+接客",
+      "description": "書店員とは、書店で新刊書籍や雑誌のレイアウトや販売、取次との連絡業務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/68#occupation",
       "name": "書店員",
-      "description": "書店員、棚整理+接客",
+      "description": "書店員とは、書店で新刊書籍や雑誌のレイアウトや販売、取次との連絡業務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>書店員とは</h2>
+        <p class="definition">書店員とは、書店で新刊書籍や雑誌のレイアウトや販売、取次との連絡業務を行う職業です。</p>
         <p>書店で新刊書籍や雑誌のレイアウトや販売、取次との連絡業務を行う。</p>
         <p>仕事は毎朝の荷受けから始まる。取次店（本の問屋）から配送された商品をチェックし、荷を解いて書棚に陳列し、棚の整理をして開店を待つ。開店後は、来店客の応対や販売、注文本の手配をし、閉店時に売上げを集計する。</p>
         <p>仕入れ計画の立案、売れ残った雑誌や書籍の返品作業も大切な仕事である。書籍・雑誌には全て返品期限が決められており、期限を過ぎて返品不能になるとその商品代金を支払わなければならないため、常に返品期日に留意する必要がある。返品するときは、書籍・雑誌別に包装し、包装紙の上に日付、返品先、冊数を表記する。</p>

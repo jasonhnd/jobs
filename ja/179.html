@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/179#webpage",
       "url": "https://mirai-shigoto.com/ja/179",
       "name": "小学校教員 — AI 影響 4/10",
-      "description": "小学校教員、対面+教材AI",
+      "description": "小学校教員とは、小学校で、一つの学級の担任として、すべての教科を教え、児童を指導する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/179#occupation",
       "name": "小学校教員",
-      "description": "小学校教員、対面+教材AI",
+      "description": "小学校教員とは、小学校で、一つの学級の担任として、すべての教科を教え、児童を指導する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>小学校教員とは</h2>
+        <p class="definition">小学校教員とは、小学校で、一つの学級の担任として、すべての教科を教え、児童を指導する職業です。</p>
         <p>大人になるための基礎的な学力、体力、そして人格が形成される場である小学校で、学級の担任として、国語、社会、算数、理科、生活、音楽、図画工作、家庭、体育、道徳、外国語（英語）、特別活動、総合的な学習の時間などを担当する。なお、音楽などの専科教員は別途配置されているケースがある。また、養護教諭は、学校の救急看護、集団の健康管理、保健指導などに当たり、日常は保健室が勤務場所となっている。</p>
         <p>学級担任は、児童の成長を考えた年間計画を立て、時間ごとに具体的な教育・指導計画を作成し、教材や教具の準備をする。</p>
         <p>学習指導のほかに、児童の出欠席の調査、健康状態の確認、教育環境の整備といった学級経営や、しつけなど日常生活の指導、遠足など学校行事の指導、PTAや地域社会への協力活動なども重要な仕事である。また、学校の運営組織である教務部、生活指導部、校内研究部などに所属し、それに関係する仕事（校務分掌）も担当する。そのほか、給食、清掃などに関する指導などもある。教師間で連携・協力しながら、いじめや不登校の未然防止や問題の解決に取り組むことも求められる。</p>

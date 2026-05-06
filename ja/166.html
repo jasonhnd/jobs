@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/166#webpage",
       "url": "https://mirai-shigoto.com/ja/166",
       "name": "歯科衛生士 — AI 影響 4/10",
-      "description": "歯科衛生士、手作業の口腔ケア",
+      "description": "歯科衛生士とは、歯科医師の直接指導の下に、虫歯や歯周疾患など歯や歯ぐきの病気の予防処置、歯科医師の診療の補助、歯科保健指導などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/166#occupation",
       "name": "歯科衛生士",
-      "description": "歯科衛生士、手作業の口腔ケア",
+      "description": "歯科衛生士とは、歯科医師の直接指導の下に、虫歯や歯周疾患など歯や歯ぐきの病気の予防処置、歯科医師の診療の補助、歯科保健指導などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>歯科衛生士とは</h2>
+        <p class="definition">歯科衛生士とは、歯科医師の直接指導の下に、虫歯や歯周疾患など歯や歯ぐきの病気の予防処置、歯科医師の診療の補助、歯科保健指導などを行う職業です。</p>
         <p>歯科医師の直接指導の下に、虫歯や歯周疾患など歯や歯ぐきの病気の予防処置、歯科医師の診療の補助、歯科保健指導などを行う。</p>
         <p>歯科予防の仕事では、歯や歯ぐきにたまった歯垢（しこう）や歯石を取り除いたり、フッ化物を歯に塗ったりする。歯科医師の診療を補助する仕事では、治療に使う器具を消毒したり、歯の型を取るための材料や薬剤を準備する。治療中の患者の状態に気を配りながら、診察や処置がスムーズに進むように歯科医師を補助し、また、歯科医師の指示を受けて歯科治療の一部を担当する。インプラント等の小手術の介助も行う。</p>
         <p>歯科衛生士には、歯の健康を取り戻すために助言や指導をする「歯科保健指導」という役割もある。保健所などで虫歯予防のアドバイスをしたり、通院が困難な高齢者や障害者を訪問し、正しい歯のみがき方を指導している。最近では、高齢者の摂食・嚥下の指導、口腔ケアなど、地域社会でも活躍している。</p>

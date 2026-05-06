@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/96#webpage",
       "url": "https://mirai-shigoto.com/ja/96",
       "name": "駐車場管理 — AI 影響 5/10",
-      "description": "駐車場管理、無人化進行中",
+      "description": "駐車場管理とは、駐車場に駐車する車の出入り・配置などを管理し、利用者の車を安全に保管する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/96#occupation",
       "name": "駐車場管理",
-      "description": "駐車場管理、無人化進行中",
+      "description": "駐車場管理とは、駐車場に駐車する車の出入り・配置などを管理し、利用者の車を安全に保管する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>駐車場管理とは</h2>
+        <p class="definition">駐車場管理とは、駐車場に駐車する車の出入り・配置などを管理し、利用者の車を安全に保管する職業です。</p>
         <p>駐車場に駐車する車の出入り・配置などを管理し、利用者の車を安全に保管する。</p>
         <p>自動車が入ってくると、まず車体を見て寸法や重量が制限以内かどうか確認する。駐車する位置を指示したり、誘導・整理する場合もある。駐車券の発行、駐車料金の徴収等は機械化されているところが増えている。</p>
         <p>車の出入りの少ない時間には駐車場内を巡回して、施設・装置の保守・点検や場内の清掃を行う。徴収した金銭の整理、お釣の用意、伝票の整理など事務的な仕事も行う。</p>

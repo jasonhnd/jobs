@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/445#webpage",
       "url": "https://mirai-shigoto.com/ja/445",
       "name": "IR広報担当 — AI 影響 7/10",
-      "description": "IR広報、AI支援資料作成",
+      "description": "IR広報担当とは、上場企業において、その企業の経営に関する事項をアナリストや投資家に対して提供する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/445#occupation",
       "name": "IR広報担当",
-      "description": "IR広報、AI支援資料作成",
+      "description": "IR広報担当とは、上場企業において、その企業の経営に関する事項をアナリストや投資家に対して提供する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>IR広報担当とは</h2>
+        <p class="definition">IR広報担当とは、上場企業において、その企業の経営に関する事項をアナリストや投資家に対して提供する職業です。</p>
         <p>上場企業において、その企業の経営に関する事項をアナリストや投資家に対して提供する。</p>
         <p>IR（インベスターリレーションズ）とは株主・投資家に対して投資判断に必要な企業情報を適時、公平に継続して提供する活動を意味し、アナリスト・投資家との間で良好な関係を築き、アナリストや投資家が企業価値を適正に評価できるようにするものである。PR広報もその企業の価値の増大を目的とするものであるが、「パブリック」リレーションのとおり、その対象が広範にわたっていることと対比させれば、IR広報は、企業広報の中の専門的な一分野であると位置付けることができる。</p>
         <p>具体的な業務としては、大きくは、対面（対人）活動と報告書・出版物の作成・発行とに分かれる。</p>

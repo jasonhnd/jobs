@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/402#webpage",
       "url": "https://mirai-shigoto.com/ja/402",
       "name": "外科医 — AI 影響 3/10",
-      "description": "外科医、手技手術中心",
+      "description": "外科医とは、主に手術等により、患者の病気や外傷の治療を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/402#occupation",
       "name": "外科医",
-      "description": "外科医、手技手術中心",
+      "description": "外科医とは、主に手術等により、患者の病気や外傷の治療を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>外科医とは</h2>
+        <p class="definition">外科医とは、主に手術等により、患者の病気や外傷の治療を行う職業です。</p>
         <p>主に手術等により、患者の病気や外傷の治療を行う。</p>
         <p>外科医の中でも脳神経外科、心臓血管外科、消化器外科、整形外科等様々に分かれておりそれぞれの専門に応じた知識、技術が求められるが、ここでは共通した主な仕事の内容について記述する。</p>
         <p>まず、患者や家族からの症状やけがの状況の聞き取り、各種検査等（X線やCT、MRIなどの画像診断や血液検査など）の結果から総合的に判断して傷病名を診断する。その上で、どのような治療を行うか、手術を適用するか否かを検討する。患者が手術に耐えられる状態かどうかも吟味する。手術計画を立て、患者と家族に内容を正確、丁寧に説明するのも重要な仕事である。</p>

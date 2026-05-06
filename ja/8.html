@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/8#webpage",
       "url": "https://mirai-shigoto.com/ja/8",
       "name": "惣菜製造 — AI 影響 3/10",
-      "description": "惣菜製造は手作業多めの工場",
+      "description": "惣菜製造とは、百貨店やスーパーマーケット、コンビニエンスストアなどで販売する各種惣菜を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/8#occupation",
       "name": "惣菜製造",
-      "description": "惣菜製造は手作業多めの工場",
+      "description": "惣菜製造とは、百貨店やスーパーマーケット、コンビニエンスストアなどで販売する各種惣菜を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>惣菜製造とは</h2>
+        <p class="definition">惣菜製造とは、百貨店やスーパーマーケット、コンビニエンスストアなどで販売する各種惣菜を製造する職業です。</p>
         <p>百貨店やスーパーマーケット、コンビニエンスストアなどで販売する各種惣菜を作る。</p>
         <p>惣菜とは、もともと日本人の主食である「ごはん」に対する副食の「おかず」のことであるが、現在では弁当や調理パンなどを含めた調理食品全般を指すようになった。惣菜には、和風、洋風、中華風のほか、季節の野菜・魚介類を使った商品や郷土料理など様々なバリエーションがある。</p>
         <p>仕事は、様々な食材を調理してそれを商品の形に整えることで、製造工程は、前処理、調理、包装の三部門に大きく分かれている。</p>

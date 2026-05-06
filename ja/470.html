@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/470#webpage",
       "url": "https://mirai-shigoto.com/ja/470",
       "name": "ファンドマネージャー — AI 影響 8/10",
-      "description": "ファンドマネ、AI/アルゴ拡大",
+      "description": "ファンドマネージャーとは、投資信託会社、投資顧問会社、機関投資家等の資金運用機関において資金（ファンド）の運用を担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/470#occupation",
       "name": "ファンドマネージャー",
-      "description": "ファンドマネ、AI/アルゴ拡大",
+      "description": "ファンドマネージャーとは、投資信託会社、投資顧問会社、機関投資家等の資金運用機関において資金（ファンド）の運用を担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>ファンドマネージャーとは</h2>
+        <p class="definition">ファンドマネージャーとは、投資信託会社、投資顧問会社、機関投資家等の資金運用機関において資金（ファンド）の運用を担当する職業です。</p>
         <p>投資信託会社、投資顧問会社、機関投資家等の資金運用機関において資金（ファンド）の運用を担当する。</p>
         <p>関連職業にアナリスト、トレーダーがあるが、アナリストは銘柄（企業）の調査担当者、トレーダーは有価証券の売買実施者である。ファンドマネージャーは、ファンドの運用方針を立てるとともに、社内のエコノミスト、アナリスト等と定期的にミーティングを行い、アナリストによる調査分析を踏まえて、必要なポートフォリオの組換え等を行い、トレーダーに発注を依頼する。ファンドの運用は、このようにチームで行われるのが一般的で、このチームの責任者がファンドマネージャーである。</p>
         <p>業務を具体的にみると次のとおりである。まず①金融市場、国内外の政治・経済・社会情勢に関する日々の最新ニュースをチェックする。海外の動向も把握するため、早朝からの対応が必須である。次いで②ファンドの運用業務として社内のさまざまなレベルでミーティングに出席し、社としての投資方針を把握、それを踏まえてファンドの運用方針を策定する。加えて、運用チームメンバーミーティングを行い、市場や銘柄分析などに基づいて投資銘柄等を選定、運用しているファンドのポートフォリオの状況をチェックし、必要に応じてリバイスをする。③企業情報の収集・分析を行う。これは基本的にはアナリストの業務であるが、最近ではアナリストとともに企業訪問を積極的に行い、企業経営者の経営方針や現場の声などを集めて、それを投資判断に生かす者も増えている。そして④投資家への説明をする。ファンドごとに運用報告書やレポートを作成・送付する等により、投資家（顧客）に運用状況を説明することもファンドマネージャーの重要な業務である。さらに、それほど頻度が高いものではないものの⑤全く新しいファンドを立ち上げることもある。</p>

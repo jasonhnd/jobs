@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/187#webpage",
       "url": "https://mirai-shigoto.com/ja/187",
       "name": "観光バス運転士 — AI 影響 3/10",
-      "description": "観光バス、案内+運転",
+      "description": "観光バス運転士とは、定期観光バスや、修学旅行やツアーなど団体旅行のための貸切観光バスを運転する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/187#occupation",
       "name": "観光バス運転士",
-      "description": "観光バス、案内+運転",
+      "description": "観光バス運転士とは、定期観光バスや、修学旅行やツアーなど団体旅行のための貸切観光バスを運転する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>観光バス運転士とは</h2>
+        <p class="definition">観光バス運転士とは、定期観光バスや、修学旅行やツアーなど団体旅行のための貸切観光バスを運転する職業です。</p>
         <p>名所旧跡や観光施設を巡る定期観光バスや、修学旅行やツアーなどの団体旅行で使用する貸切観光バスを運転する。</p>
         <p>貸切観光バスの場合は、通常、乗車予定の3日ほど前に担当業務が決定するので、運行予定に基づいて道路の渋滞状況などの情報を集めて出発に備える。当日は、所属する営業所に出勤し、その日の運行予定路線と乗務する車両の確認をする。エンジンオイルや燃料の油量の確認、ブレーキの利き具合のチェック、ドアの開閉装置の点検等を行う。運行管理者からの点呼（連絡・指示の伝達）時には、健康管理面の確認や、検知器によるアルコールチェックを受ける。特に、経由地、発着時刻、宿泊場所などについて、バスガイドが同乗する場合はバスガイドとともに、運行管理者から詳しい指示を受ける。</p>
         <p>集合した客をバスに乗せ、添乗員やバスガイド、また、複数台で運行する場合は同僚の運転士と打ち合わせて目的地に向かう。走行中は常に安全運転を心がけ、車内安全面とともに車内の雰囲気にも気を配って楽しい旅行を演出することも必要となる。カーナビゲーション機能の装備等の運転支援機器類の整備によって、以前よりも運転負担が軽減されている。交通渋滞などにより、必ずしも予定の走行ができない場合もあるが、概ね指示されたスケジュール通りに観光地、食事や休憩場所を回れるように発着時刻に留意して運転する。予定のコースを終えて乗客を降ろしたら、営業所に戻って、作業日報に走行距離などを記入する。運行記録に関しては、デジタルタコグラフにより運行管理者がリアルタイムに把握するバス事業者もみられ、エコ運転等の運転スキル向上に有効活用されたり、運転士の日報作成の事務負担が軽減されているケースもある。</p>

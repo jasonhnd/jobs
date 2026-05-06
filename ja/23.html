@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/23#webpage",
       "url": "https://mirai-shigoto.com/ja/23",
       "name": "土木施工管理技術者 — AI 影響 5/10",
-      "description": "現場マネジメント、対人多い",
+      "description": "土木施工管理技術者とは、橋梁、道路、鉄道、ダムなどの土木工事において、現場での施工（せこう）計画を立案し、工事の監督・指導を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/23#occupation",
       "name": "土木施工管理技術者",
-      "description": "現場マネジメント、対人多い",
+      "description": "土木施工管理技術者とは、橋梁、道路、鉄道、ダムなどの土木工事において、現場での施工（せこう）計画を立案し、工事の監督・指導を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>土木施工管理技術者とは</h2>
+        <p class="definition">土木施工管理技術者とは、橋梁、道路、鉄道、ダムなどの土木工事において、現場での施工（せこう）計画を立案し、工事の監督・指導を行う職業です。</p>
         <p>橋梁、道路、鉄道、ダムなどの土木工事において、現場での施工（せこう）計画を立案し、工事の監督・指導を行う。</p>
         <p>工事現場では、設計図、仕様書、施工基準、関係法規、工期などをもとに、施工計画を立案する。施工計画には、最適な施工法の決定、現場組織計画、機械設備計画、電力や給水、工事用道路などの仮設備計画、所定の品質を確保するための施工管理計画、環境対策などが含まれる。</p>
         <p>施工計画をもとに、実際の現場で施工管理、安全管理、品質管理、工程管理など、工事の監理を行う。工事の全体の流れを把握して、作業責任者に適切な指示を与えることが必要である。使用する資材、機械の手配や管理も行う。</p>

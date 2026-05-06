@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/313#webpage",
       "url": "https://mirai-shigoto.com/ja/313",
       "name": "プログラマー — AI 影響 9/10",
-      "description": "プログラマー、AIコパイロット",
+      "description": "プログラマーとは、システム開発において、システムエンジニア（SE）が作成した詳細設計に基づきプログラムを作成する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/313#occupation",
       "name": "プログラマー",
-      "description": "プログラマー、AIコパイロット",
+      "description": "プログラマーとは、システム開発において、システムエンジニア（SE）が作成した詳細設計に基づきプログラムを作成する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>プログラマーとは</h2>
+        <p class="definition">プログラマーとは、システム開発において、システムエンジニア（SE）が作成した詳細設計に基づきプログラムを作成する職業です。</p>
         <p>システム開発において、システムエンジニア（SE）が作成した詳細設計に基づきプログラムを作成する。</p>
         <p>システム開発の流れをみていくと、SEが顧客の要望をヒアリングし要件定義を行い、この要件定義に基づいて基本設計を行う。この基本設計を基に細部に至るまで処理方法を確定する詳細設計を行う。</p>
         <p>この詳細設計に基づきプログラマーがコーディングし、プログラムを作成する。また、プログラマーは出来上がったプログラムを個々に動作させて確認を行う単体テストを行う。複数のプログラムを組み合わせて行う結合テスト、そしてシステムとしての動きを見る総合テストをSEとともに行うこともある。バグが見つかればそれを解析の上、修正する（「デバッグ」）。担当したプログラムが出来上ると、今後の保守に必要なドキュメント（開発したプログラムの説明、テスト結果等）を作成するのもプログラマーの仕事である。基本的にはSEの仕事は基本設計や詳細設計と結合テストや受け入れテスト、また納品後のアフターケアであり、プログラマーはコーディングし、プログラムの単体テストを行い、担当したプログラムを完成させる。</p>

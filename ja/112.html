@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/112#webpage",
       "url": "https://mirai-shigoto.com/ja/112",
       "name": "遊園地スタッフ — AI 影響 3/10",
-      "description": "遊園地スタッフ、現場接客",
+      "description": "遊園地スタッフとは、遊園地で、アトラクションの設備・機器の運転・保守、案内、販売、清掃など各種の業務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/112#occupation",
       "name": "遊園地スタッフ",
-      "description": "遊園地スタッフ、現場接客",
+      "description": "遊園地スタッフとは、遊園地で、アトラクションの設備・機器の運転・保守、案内、販売、清掃など各種の業務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>遊園地スタッフとは</h2>
+        <p class="definition">遊園地スタッフとは、遊園地で、アトラクションの設備・機器の運転・保守、案内、販売、清掃など各種の業務を行う職業です。</p>
         <p>子どもから大人までが楽しめる遊園地で、事故がなく来園客が楽しく遊べるように、園内でアトラクションの設備・機器の運転・保守、案内、販売、清掃など各種の業務を行う。</p>
         <p>遊園地の乗り物を運転し、乗り降りの客の誘導、安全確認を担当するスタッフはアトラクションキャスト、アトラクションクルー、オペレータースタッフ等と呼ばれている。乗り物にお客を乗せ、ドアを閉めて安全確認をした後、機械のスタートボタンを押して運転し、一周したり、一定の時間がたったら停止させる。お客に危険がないよう常に注意する必要がある。</p>
         <p>その他に、入場券や乗り物券の販売、園内の飲食店やみやげ店での販売を行う仕事や、園内の案内の仕事もある。清掃や警備関係の他、装置や設備の保守管理など、直接客とかかわらない裏方の仕事もある。</p>

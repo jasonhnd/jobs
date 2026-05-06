@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/514#webpage",
       "url": "https://mirai-shigoto.com/ja/514",
       "name": "会社経営者 — AI 影響 7/10",
-      "description": "会社経営者、戦略+AI支援",
+      "description": "会社経営者とは、会社を運営し、最終的な経営責任を持つ職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/514#occupation",
       "name": "会社経営者",
-      "description": "会社経営者、戦略+AI支援",
+      "description": "会社経営者とは、会社を運営し、最終的な経営責任を持つ職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -203,6 +203,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -373,6 +377,7 @@
 
       <section class="context">
         <h2>会社経営者とは</h2>
+        <p class="definition">会社経営者とは、会社を運営し、最終的な経営責任を持つ職業です。</p>
         <p>会社を運営し、最終的な経営責任を持つ。社長、CEO（Chief Executive Officer: 最高経営責任者）と呼ばれることもある。</p>
         <p>会社経営の重要事項に関する最終的な決定は株式会社の場合、株主が株主総会で行う。このため自分が創業した会社経営者（「創業者」）、多くの株式を持っている会社経営者（「オーナー経営者」）、又は親族等から多くの株式を受継いだ会社経営者と、株式をあまり持っていない会社経営者では立場が大きく異なる。自分が多くの株式を持っていれば、会社経営に関する最終的な決定も自分が行うことになる。</p>
         <p>会社経営者になるルートには、事業承継、起業・創業、株主か取締役会からの指名の3つがある。事業承継はさらに親族内承継、従業員承継、第三者承継の3つに分けられる。この会社経営者になるルートによっても、期待される役割は異なり、具体的な活動も異なる。自分で起業・創業して企業運営をする場合、継続的な成長のために、経営をリードする確固とした信念や戦略が必要となる。株主や取締役会から指名を受けて、経営の舵取りを任された場合は、会社のビジョンを基に事業を成長させ、株主の期待に応えなくてはならない。</p>

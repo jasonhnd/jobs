@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/400#webpage",
       "url": "https://mirai-shigoto.com/ja/400",
       "name": "社会教育主事 — AI 影響 7/10",
-      "description": "社会教育主事、企画+AI",
+      "description": "社会教育主事とは、都道府県や市区町村教育委員会の事務局等において、地域の社会教育行政の企画・実施、社会教育を行う者に対する指導や助言を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/400#occupation",
       "name": "社会教育主事",
-      "description": "社会教育主事、企画+AI",
+      "description": "社会教育主事とは、都道府県や市区町村教育委員会の事務局等において、地域の社会教育行政の企画・実施、社会教育を行う者に対する指導や助言を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>社会教育主事とは</h2>
+        <p class="definition">社会教育主事とは、都道府県や市区町村教育委員会の事務局等において、地域の社会教育行政の企画・実施、社会教育を行う者に対する指導や助言を行う職業です。</p>
         <p>都道府県や市区町村の教育委員会の事務局等において、生涯学習、青少年教育、家庭教育といった学校教育以外で行われる社会教育を促進するため、地域の社会教育行政の企画・実施、社会教育を行う者に対する専門的・技術的な指導や助言を行う。</p>
         <p>地域の社会教育に関する事業計画の立案や、教育委員会が主催する講座などを企画し、実施する。また、公民館などの社会教育施設の運営や社会教育関係の職員に対して、それぞれの分野についての専門的知識や経験にもとづいて必要な指導や助言を行う。青少年団体、婦人団体、ＰＴＡなどの社会教育団体に対しては、支援や地域人材の育成などを行う。</p>
         <p>その他、社会教育に関する専門的事項について実情を調査し、問題点を明らかにして関係会議などで報告する。都道府県の社会教育主事は、更に、全県的な立場から市町村教育委員会に対する指導・助言を行う。</p>

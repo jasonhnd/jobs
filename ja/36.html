@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/36#webpage",
       "url": "https://mirai-shigoto.com/ja/36",
       "name": "舗装工 — AI 影響 2/10",
-      "description": "舗装工事は屋外肉体労働",
+      "description": "舗装工とは、道路工事現場でアスファルトやコンクリートで舗装を行い、標識を取り付け、路面に区画線を描く職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/36#occupation",
       "name": "舗装工",
-      "description": "舗装工事は屋外肉体労働",
+      "description": "舗装工とは、道路工事現場でアスファルトやコンクリートで舗装を行い、標識を取り付け、路面に区画線を描く職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -219,6 +219,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -389,6 +393,7 @@
 
       <section class="context">
         <h2>舗装工とは</h2>
+        <p class="definition">舗装工とは、道路工事現場でアスファルトやコンクリートで舗装を行い、標識を取り付け、路面に区画線を描く職業です。</p>
         <p>舗装工が従事する仕事は、アスファルト舗装、コンクリート舗装、道路付帯設備取付作業、道路区画線設置作業に分けられる。</p>
         <p>アスファルト舗装は、アスファルト乳剤を散布車で路面に散布後、アスファルトフィニッシャーを用いてアスファルト合材を均一な厚さに敷均し後、ロードローラーとタイヤローラーで締め固める。コンクリート舗装は、トラックから生コンクリートを施工路面に流し込んで、機械を使って平らにならす。ひび割れが発生しないように目地を設置する。</p>
         <p>道路付帯設備取付作業では、道路の脇に支柱を立てるほか、歩道橋などを利用して所定の道路標識などを設置する。</p>

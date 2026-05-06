@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/580#webpage",
       "url": "https://mirai-shigoto.com/ja/580",
       "name": "障害福祉サービス管理責任者 — AI 影響 6/10",
-      "description": "障害福祉サービス管理、対面+運営",
+      "description": "障害福祉サービス管理責任者とは、障害福祉サービス事業所において、個々の利用者や家族のニーズに応じた自立のための一連のサービス提供プロセスを管理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/580#occupation",
       "name": "障害福祉サービス管理責任者",
-      "description": "障害福祉サービス管理、対面+運営",
+      "description": "障害福祉サービス管理責任者とは、障害福祉サービス事業所において、個々の利用者や家族のニーズに応じた自立のための一連のサービス提供プロセスを管理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -213,6 +213,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -383,6 +387,7 @@
 
       <section class="context">
         <h2>障害福祉サービス管理責任者とは</h2>
+        <p class="definition">障害福祉サービス管理責任者とは、障害福祉サービス事業所において、個々の利用者や家族のニーズに応じた自立のための一連のサービス提供プロセスを管理する職業です。</p>
         <p>障害福祉サービス事業所において、個々の利用者や家族のニーズに応じた自立のための一連のサービス提供プロセスを管理する責任者である（以下「サビ管」という。）。2006年の障害者自立支援法の施行より配置され、2013年の障害者総合支援法の施行より多くの障害福祉サービス事業に必置とされた。</p>
         <p>なお、サビ管の従事する障害福祉サービスは18歳以上の障害者が対象であり、18歳未満の障害児支援の現場においては、児童発達支援管理責任者（以下「児発管」という。）が同様の職務を担っている。</p>
         <p>サビ管の最も重要な業務が「個別支援計画」の作成に関する業務である。利用者に適切な支援を提供するためには、支援開始時のアセスメントにおいて、利用者の生活状況や障害特性、成育歴等を把握するとともに、利用者の自己決定の尊重及び意思決定の支援に配慮するため、利用者や家族の「こうなりたい」という希望をよく聞き取って（発語のない利用者の場合はよく推察して）、最適な目標や支援方法を決定することが必要である。それらを書面化した「個別支援計画」に基づいて日々の支援が行われ、6か月に一度以上、支援の成果や目標への到達度等を継続的に確認（モニタリング）して個別支援計画を更新する。これらの一連の業務は各障害福祉サービスの基準省令に定められていることから、確実な業務遂行が求められる。</p>

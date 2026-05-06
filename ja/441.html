@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/441#webpage",
       "url": "https://mirai-shigoto.com/ja/441",
       "name": "通信販売受付事務 — AI 影響 10/10",
-      "description": "通販受付、AIチャット置換",
+      "description": "通信販売受付事務とは、カタログやWebサイトなどで商品を見つけた顧客からの商品やサービスについての問い合わせに応じ、注文を受けて処理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/441#occupation",
       "name": "通信販売受付事務",
-      "description": "通販受付、AIチャット置換",
+      "description": "通信販売受付事務とは、カタログやWebサイトなどで商品を見つけた顧客からの商品やサービスについての問い合わせに応じ、注文を受けて処理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>通信販売受付事務とは</h2>
+        <p class="definition">通信販売受付事務とは、カタログやWebサイトなどで商品を見つけた顧客からの商品やサービスについての問い合わせに応じ、注文を受けて処理する職業です。</p>
         <p>カタログやダイレクトメール、新聞広告やテレビ、Webサイトなどで商品を見つけた顧客が、電話やファックス、郵便、インターネットなどを通じて連絡をしてきた際に、商品やサービスについての問い合わせに応じたり、注文を受ける仕事に従事する。</p>
         <p>顧客から受けた注文は、コンピュータに入力する。入力したデータは配送伝票となり、商品を発送する部門へ送られる。商品は物流倉庫を通じて出荷され、顧客の手元に届く。顧客の注文内容に関するデータや問い合わせの内容は記録としてコンピュータに入力し、整理分類して、後の販売等に役立つデータとなる。</p>
         <p>なお、インターネット上の大手通信販売サイト等では上記の受注、伝達、記録がシステムにより自動化されている場合もある。</p>

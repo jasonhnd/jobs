@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/4#webpage",
       "url": "https://mirai-shigoto.com/ja/4",
       "name": "和菓子製造、和菓子職人 — AI 影響 2/10",
-      "description": "伝統的な和菓子の手仕事",
+      "description": "和菓子製造、和菓子職人とは、和菓子店で各種の和菓子を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/4#occupation",
       "name": "和菓子製造、和菓子職人",
-      "description": "伝統的な和菓子の手仕事",
+      "description": "和菓子製造、和菓子職人とは、和菓子店で各種の和菓子を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>和菓子製造、和菓子職人とは</h2>
+        <p class="definition">和菓子製造、和菓子職人とは、和菓子店で各種の和菓子を製造する職業です。</p>
         <p>和菓子店で各種の和菓子を製造する。</p>
         <p>和菓子の種類は、含まれる水分量によって、「生菓子」と「半生菓子」、「干菓子」に分けられる。「生菓子」には、大福やおはぎなどの餅もの、まんじゅうなどの蒸し物、ぎゅうひなどの練り物、どら焼きやカステラなどの焼き物（平鍋物）など、「半生菓子」には、石衣などのあん物、最中などのおか物、桃山などの焼き物、羊かんなどの流し物がある。また、「干菓子」には、落がんなどの打ち物、塩がまなどの押し物、おこしなどの掛け物、小麦せんべいなどの焼き物、有平糖などのあめ物がある。</p>
         <p>和菓子の代表である「まんじゅう」を作る場合は、まず材料選びから始める。製品の風味やよしあしは、材料の影響を大きく受ける。あんを作るには、材料となる小豆などをよく洗ってから水で炊き、柔らかくなってから砂糖など甘味料を加えて練る。できあがったあんを、米の粉や小麦粉、山芋などで作った生地に包み込んで形を作り、焼いたり蒸したりして仕上げる。あんにごまやみそを使ったり、生地にきな粉を使ったりなど、材料を変えることによって、いくつもの種類のまんじゅうを作り分けることができる。</p>

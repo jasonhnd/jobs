@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/43#webpage",
       "url": "https://mirai-shigoto.com/ja/43",
       "name": "建築塗装工 — AI 影響 2/10",
-      "description": "建築塗装は現場手作業",
+      "description": "建築塗装工とは、建築物の外部や内部に塗料を塗って美しく彩り、日光や雨、湿気、大気汚染などで傷んだり汚れたりするのを防ぎ、快適な室内空間となるように仕上げる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/43#occupation",
       "name": "建築塗装工",
-      "description": "建築塗装は現場手作業",
+      "description": "建築塗装工とは、建築物の外部や内部に塗料を塗って美しく彩り、日光や雨、湿気、大気汚染などで傷んだり汚れたりするのを防ぎ、快適な室内空間となるように仕上げる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>建築塗装工とは</h2>
+        <p class="definition">建築塗装工とは、建築物の外部や内部に塗料を塗って美しく彩り、日光や雨、湿気、大気汚染などで傷んだり汚れたりするのを防ぎ、快適な室内空間となるように仕上げる職業です。</p>
         <p>建築物の外部や内部に塗料を塗って美しく彩り、日光や雨、湿気、大気汚染などで傷んだり汚れたりするのを防ぎ、快適な室内空間となるように仕上げる。</p>
         <p>建物の持ち主と相談しながら建物の各部分の素材をよく調べ、適切な塗料や色合い（色彩設計）を決めて仕様書を作成、それに基づき施工計画書（施工要領書）を作成し、塗装作業に入る。</p>
         <p>塗装作業では、素地の状態を調べ、表面を塗装できる状態に調整した後、刷毛（はけ）やローラーブラシ、スプレーガンを使って塗装する。塗装工程はいろいろな異種塗料の組合せによってできているので、適切に施工すること、また、できた塗膜（とまく）の検査をすることも大事な仕事である。</p>

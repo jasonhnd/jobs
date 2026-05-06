@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/497#webpage",
       "url": "https://mirai-shigoto.com/ja/497",
       "name": "積卸作業員 — AI 影響 2/10",
-      "description": "積卸作業、肉体労働",
+      "description": "積卸作業員とは、荷物を輸送する場合に、トラック、コンテナなどへの積み込み・取り卸し、倉庫への入庫・出庫などの荷役作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/497#occupation",
       "name": "積卸作業員",
-      "description": "積卸作業、肉体労働",
+      "description": "積卸作業員とは、荷物を輸送する場合に、トラック、コンテナなどへの積み込み・取り卸し、倉庫への入庫・出庫などの荷役作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -241,6 +241,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -411,6 +415,7 @@
 
       <section class="context">
         <h2>積卸作業員とは</h2>
+        <p class="definition">積卸作業員とは、荷物を輸送する場合に、トラック、コンテナなどへの積み込み・取り卸し、倉庫への入庫・出庫などの荷役作業を行う職業です。</p>
         <p>荷物を輸送する場合に、トラック、コンテナなどへの積み込み・取り卸し、倉庫への入庫・出庫などの荷役作業を行う。荷役作業は作業指揮者のもとで行われ、作業点呼の後にグループ単位で作業を行う。</p>
         <p>トラックターミナルやコンテナターミナルなどにおいては、まず、伝票と照合して、荷物の数量や行き先などを確認する。所定の行き先のトラックやコンテナなどに、フォークリフトやコンベアなどの荷役機械を使用して、パレットやロールボックスなどにまとめた荷物を積み込む。小型の荷物の場合には、手作業で積み込むこともある。また、荷物を積んだトラックなどが到着した場合には、逆の手順でトラックから荷物を取り卸す。</p>
         <p>倉庫などにおいては、伝票にしたがって、保管されている荷物をフォークリフトなどで取り出し、トラックなどに積み込む出庫作業を行う。このときに、行き先ごとに荷物を仕分けする作業や荷物をそろえる作業をすることもある。また、逆の手順で、倉庫に荷物をしまう入庫作業を行う。</p>
