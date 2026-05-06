@@ -553,6 +553,8 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 3. `.dh-lead` — 3 行说明：「職業名を入力すると、AI による影響度と変化しやすい作業を確認できます。 / 転職、リスキリング、キャリアの見直しの参考に。」font 0.95rem，max-width 540px。
 4. `.desktop-hero-search` — 搜索 form：输入框（`#searchInputDesktop`）+ 「AI 影響度をチェック」按钮，max-width 560px。
 5. `.search-suggest` — 输入时实时下拉建议（top 8）：每条 `<li>` 显示职业名 + AI 影響度，按 (exact match → starts-with → contains → length asc) 排序。键盘 ↑↓ + Enter 可选，鼠标点击跳转。
+   - **首条自动高亮（v1.3.1, P0-B）**：render() 时第一个候选自动加 `.focused` 类（`focusedIdx = 0`），用户敲完 Enter **无需先按 ↓** 即可跳第一条。`rankMatches` 已经是「精確 → 前缀 → 包含 + 名称长度 asc」三层排序，第一条命中率最高。
+   - **键盘提示行（v1.3.1, P0-C）**：dropdown 顶部插入一个 `.ss-hint` 非交互行，文案「↑↓ で選択 · Enter で開く」/「↑↓ to select · Enter to open」。仅在 `matchMedia("(hover: none) and (pointer: coarse)")` 为 false（即非触屏设备）时渲染；触屏设备保持紧凑无 hint。`pointer-events: none` 确保 hint 不被 click/keyboard 选中，keydown / mousedown 都用 `li[data-job-id]` 选择器跳过它。
 6. `.desktop-hero-popular-label` + `.desktop-hero-chips` — 5 个固定 chips（与 §7.11 共用同一组）：**事務職 / 経理 / 営業 / カスタマーサポート / 看護師**。
 
 **桌面行为**（`min-width: 769px`）：`.desktop-hero { display: block }`。同时**隐藏**老的 `#wrapper > header > h1` / `.controls` / `.dimension-hint` / `.search-row`（这些被 hero 替代；DOM 保留以保 SEO/可访问性，但 `display: none`）。
@@ -572,7 +574,12 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 - 点下拉 li / 键盘 Enter → 跳到对应 `/ja/<id>`
 - 无匹配 → 不跳，显示 `.search-noresult` 「該当する職業が見つかりません」
 
-**GA4 事件**：`popular_job_click`（chip）/ `job_search_navigate`（Enter / button / suggest item）。
+**GA4 事件**：
+- `popular_job_click` — chip → 详情页跳转
+- `job_search_typed` — 用户键入并暂停 800ms（v1.3.1 之前叫 `job_search_submit`，但因为同时计入「视觉过滤意图」与「跳转意图」两类用户，CTR 分母被污染。此事件保留用于「热门搜索词 / 数据缺口」统计，**不再作为 CTR 分母**）。
+- `job_search_intent` — 用户对 autocomplete 表现出明确的跳转意图。触发源 `intent_source` 区分四种：`submit`（Enter / 按钮）、`arrow_keys`（↑↓）、`hover`（鼠标悬停 ≥ 500ms）、`click`（mousedown / touchstart）。每个查询去重一次。
+- `job_search_navigate` — 实际跳到 `/ja/<id>` 或 `/en/<id>`（Enter / button / suggest item）。
+- **真实搜索 CTR = `job_search_navigate` ÷ `job_search_intent`**（v1.3.1 起，2026-05-06 P0-A）。
 
 **chips 名单是 v1**：与 §7.11 共用一组 5 chips，一处改动两端同步。GA4 数据稳定（2-3 周）后应替换为 top-clicked / top-searched。
 
@@ -809,6 +816,7 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 | 2026-05-05 | §0, §7.14 | 新增 `/404.html` 静态页规范 | Vercel 静态部署默认查找 root `/404.html`，本站之前没有自定义错误页，未命中路径回落到 Vercel 平台白屏。新增 §7.14 定义 404 页版面（serif 大字 404 + 主 CTA 回首页 + 4 个二级链接 + 双语 + 双主题），延续 Direction C tokens、4-tracker analytics、no-index meta。同步要求 `dev-server.py` 模拟 Vercel 兜底行为。|
 | 2026-05-05 | §7.10 | 全站 footer 重写：`·` 中点列表 → pill chip + footer-meta 两层结构 | 用户反馈「全站页脚链接区分不开」。原 footer `<a>トップ</a> · <a>データについて</a> · <a>プライバシー</a> · <a>GitHub</a>` 在 mobile 容易折行混杂、视觉权重不清。新规范：主导航用 pill chip（独立 border + hover 高亮），出典 / 许可下沉到 footer-meta 小字。同步移除全站 footer 的 GitHub chip（v1.2.1 把 repo 直链从访客主路径剥离，跟移除「非公式」banner 同一波清理）；MIT 许可链接保留在 meta 区域。覆盖 5 张静态页 + 1112 detail + 32 sector hub。|
 | 2026-05-05 | §7.10 | footer 严格化 3/4 chip 规则 + GitHub 完全切断 | 用户进一步要求：footer chip index 只要 3 个、其他页面只要 4 个；整站不要跟 GitHub 有任何链接。删除 index 的「変更履歴」chip、sector hub 的「算出方法」chip；footer-meta 的 `MIT` 链接改为纯文本（不再指向 LICENSE）；content body 的 GitHub Issues 引用（compliance / about）改为 `mailto:privacy@mirai-shigoto.com` 或纯文本说明；index JSON-LD 的 `sameAs` / `measurementTechnique` / FAQ answer 中的 GitHub URL 移除；llms.txt / llms-full.txt / make_prompt.py 生成的 prompt files 全部清理。最终全仓 grep `github\.com` 在所有 served HTML / TXT / MD 文件命中数 0。|
+| 2026-05-06 | §7.12 | 搜索 autocomplete 三件 P0 改造（事件拆分 + 首条自动高亮 + 键盘提示行）| GA4 funnel 显示 `job_search_submit → job_search_navigate` 仅 22% CTR，但深挖发现该事件混合了「视觉过滤意图」与「跳转意图」两类用户，分母被污染。**P0-A**：`job_search_submit` 重命名为 `job_search_typed` 并降级为非 Key Event（保留用于热门查询/数据缺口统计）；新增 `job_search_intent` 作为新 KPI #1，仅在用户对 autocomplete 表现出明确跳转意图时触发（form submit / 方向键 / hover ≥500ms / 点击候选），按查询去重一次。**P0-B**：autocomplete render() 时第一条自动 `.focused`（`focusedIdx = 0`），用户敲完 Enter 无需先按 ↓ 即可跳第一条。**P0-C**：dropdown 顶部插入「↑↓ で選択 · Enter で開く」非交互提示行（`.ss-hint` + `pointer-events: none`），仅桌面渲染，触屏跳过。新真实 CTR 公式 = `job_search_navigate / job_search_intent`。|
 
 ---
 
