@@ -278,28 +278,40 @@
       }
       .sector-name { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; color: var(--fg); }
       .sector-meta { font-size: 0.74rem; color: var(--fg2); font-variant-numeric: tabular-nums; }
-      .sector-grid {
-        display: flex; flex-wrap: wrap; gap: 3px;
-        padding: 4px;
+      /* Squarified treemap container — cells inside are absolutely positioned
+         from the JS-side layout. Background fills the inset between cell gaps. */
+      .sector-canvas {
+        position: relative;
+        width: 100%;
         background: var(--bg3);
         border-radius: 8px;
+        overflow: hidden;
       }
       .cell {
-        flex: 0 0 auto;
-        min-width: 44px; min-height: 44px;
+        position: absolute;
         padding: 6px 8px;
-        border-radius: 4px;
+        border-radius: 3px;
         color: rgba(255,255,255,0.96);
         font-size: 0.7rem; font-weight: 500;
         line-height: 1.2;
         cursor: pointer; overflow: hidden; text-overflow: ellipsis;
         display: flex; align-items: flex-end;
-        transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: filter 120ms cubic-bezier(0.16, 1, 0.3, 1);
         -webkit-tap-highlight-color: transparent;
+        border: 0;
       }
-      .cell:hover { transform: translateY(-1px); }
-      .cell:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+      .cell:hover { filter: brightness(1.08); }
+      .cell:focus-visible {
+        outline: 2px solid var(--fg); outline-offset: -1px;
+        z-index: 2;
+      }
       .cell .name { text-shadow: 0 1px 2px rgba(0,0,0,0.25); max-width: 100%; }
+      .cell-others .name { font-style: italic; opacity: 0.92; }
+      /* Legacy .sector-grid kept only for the loading skeleton (below). */
+      .sector-grid {
+        background: var(--bg3);
+        border-radius: 8px;
+      }
 
       .map-skeleton .sector-grid {
         background: var(--bg3); min-height: 88px;
@@ -621,6 +633,126 @@
         $chips.appendChild(frag);
       }
 
+      // ── Squarified treemap (Bruls/Huijsen/van Wijk 2000) ─────────────────
+      // Implements the headline §4.4 D4=C approach: each sector gets its own
+      // proper squarified treemap (cell area exactly proportional to workers,
+      // aspect ratios kept close to 1). Beats the earlier flex-grid (D4=A
+      // fallback) by representing area faithfully and filling the container
+      // with no gaps. ~80 lines of math; cell DOM is unchanged.
+      function squarifyWorst(row, minSide) {
+        if (!row.length) return Infinity;
+        var sum = 0, mx = -Infinity, mn = Infinity;
+        for (var i = 0; i < row.length; i++) {
+          var a = row[i].area;
+          sum += a;
+          if (a > mx) mx = a;
+          if (a < mn) mn = a;
+        }
+        var sideSq = minSide * minSide;
+        var sumSq = sum * sum;
+        return Math.max((sideSq * mx) / sumSq, sumSq / (sideSq * mn));
+      }
+      function squarifyLayoutRow(row, x, y, w, h) {
+        // The shorter side is iterated; the longer side absorbs the row's
+        // total area divided by the shorter side. Each cell's other dimension
+        // is its area / row breadth.
+        var sum = 0;
+        for (var i = 0; i < row.length; i++) sum += row[i].area;
+        if (w >= h) {
+          // horizontal sweep — row stacks vertically along height h
+          var rowW = sum / h;
+          var cy = 0;
+          for (var j = 0; j < row.length; j++) {
+            var cellH = row[j].area / rowW;
+            row[j].rect = { x: x, y: y + cy, w: rowW, h: cellH };
+            cy += cellH;
+          }
+          return rowW;
+        } else {
+          var rowH = sum / w;
+          var cx = 0;
+          for (var k = 0; k < row.length; k++) {
+            var cellW = row[k].area / rowH;
+            row[k].rect = { x: x + cx, y: y, w: cellW, h: rowH };
+            cx += cellW;
+          }
+          return rowH;
+        }
+      }
+      function squarifyStep(items, row, x, y, w, h) {
+        if (!items.length) {
+          if (row.length) squarifyLayoutRow(row, x, y, w, h);
+          return;
+        }
+        var next = items[0];
+        var minSide = Math.min(w, h);
+        var tryRow = row.concat([next]);
+        if (row.length === 0 || squarifyWorst(tryRow, minSide) <= squarifyWorst(row, minSide)) {
+          squarifyStep(items.slice(1), tryRow, x, y, w, h);
+        } else {
+          var consumed = squarifyLayoutRow(row, x, y, w, h);
+          if (w >= h) {
+            squarifyStep(items, [], x + consumed, y, w - consumed, h);
+          } else {
+            squarifyStep(items, [], x, y + consumed, w, h - consumed);
+          }
+        }
+      }
+      function squarify(items, w, h) {
+        if (!items.length) return;
+        var totalValue = 0;
+        for (var i = 0; i < items.length; i++) totalValue += items[i].value;
+        if (totalValue <= 0) return;
+        var scale = (w * h) / totalValue;
+        var sorted = items.slice().sort(function (a, b) { return b.value - a.value; });
+        for (var j = 0; j < sorted.length; j++) sorted[j].area = sorted[j].value * scale;
+        squarifyStep(sorted, [], 0, 0, w, h);
+      }
+
+      // Section container height grows with occupation count; clamped so the
+      // smallest sectors don't look anemic and the largest don't take 2 screens.
+      function sectorContainerHeight(count) {
+        return Math.max(180, Math.min(480, count * 16));
+      }
+
+      // ── Min-size threshold + "その他" merge (Design-Mobile.md §4.4) ──────
+      // Cells smaller than 44×44 (touch target) are merged into a single
+      // "その他 (n 職業)" tile pinned to the end of the sector. Keeps every
+      // visible cell tappable without sacrificing the area-fidelity the
+      // squarified algorithm gives the rest.
+      function mergeSmallCells(records, container_w, container_h) {
+        var totalWorkers = 0;
+        for (var i = 0; i < records.length; i++) totalWorkers += (records[i].workers || 0);
+        if (totalWorkers <= 0) return records.slice();
+        var minArea = 44 * 44;
+        var areaScale = (container_w * container_h) / totalWorkers;
+        var kept = [];
+        var mergedWorkers = 0;
+        var mergedCount = 0;
+        var mergedRiskSum = 0;
+        records.forEach(function (r) {
+          var area = (r.workers || 0) * areaScale;
+          if (area >= minArea) {
+            kept.push(r);
+          } else {
+            mergedWorkers += (r.workers || 0);
+            mergedRiskSum += (r.ai_risk || 5);
+            mergedCount += 1;
+          }
+        });
+        if (mergedCount > 0) {
+          kept.push({
+            id: '__others__',
+            name_ja: 'その他 (' + mergedCount + ' 職業)',
+            workers: mergedWorkers,
+            ai_risk: Math.round(mergedRiskSum / mergedCount),
+            sector_id: records[0] && records[0].sector_id,
+            __synthetic: true
+          });
+        }
+        return kept;
+      }
+
       function renderMap() {
         $content.innerHTML = '';
         var frag = document.createDocumentFragment();
@@ -628,6 +760,9 @@
           ? sectorOrder
           : (bySector[currentSector] ? [currentSector] : sectorOrder);
         var sortFn = comparator();
+        // Container width: the live computed inner width of the content area.
+        // Falls back to viewport width if main isn't measurable yet.
+        var container_w = $content.clientWidth || (Math.min(window.innerWidth, 868) - 32);
         sectorsToShow.forEach(function (sid) {
           var recs = (bySector[sid] || []).slice().sort(sortFn);
           if (!recs.length) return;
@@ -648,30 +783,55 @@
           head.appendChild(meta);
           section.appendChild(head);
 
-          var grid = document.createElement('div');
-          grid.className = 'sector-grid';
-          var maxW = Math.max.apply(null, recs.map(function (r) { return r.workers || 1; }));
-          recs.forEach(function (r) {
+          var container_h = sectorContainerHeight(recs.length);
+          var laidOut = mergeSmallCells(recs, container_w, container_h);
+          // Squarified algorithm needs items with .value (== area weight).
+          var items = laidOut.map(function (r) {
+            return { ref: r, value: r.workers || 1 };
+          });
+          squarify(items, container_w, container_h);
+
+          var canvas = document.createElement('div');
+          canvas.className = 'sector-canvas';
+          canvas.style.height = container_h + 'px';
+          items.forEach(function (it) {
+            var r = it.ref;
+            var rect = it.rect;
+            if (!rect) return;
             var cell = document.createElement('button');
             cell.type = 'button';
-            cell.className = 'cell';
-            cell.dataset.id = r.id;
-            cell.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、就業者数 ' + fmtWorkers(r.workers));
-            var ratio = Math.sqrt((r.workers || 1) / maxW);
-            var w = Math.round(56 + ratio * 104);
-            cell.style.width = w + 'px';
+            cell.className = 'cell' + (r.__synthetic ? ' cell-others' : '');
+            if (!r.__synthetic) cell.dataset.id = r.id;
+            cell.setAttribute('aria-label', r.__synthetic
+              ? r.name_ja + '（小規模職業をまとめた領域）'
+              : r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、就業者数 ' + fmtWorkers(r.workers));
+            cell.style.left   = rect.x.toFixed(1) + 'px';
+            cell.style.top    = rect.y.toFixed(1) + 'px';
+            cell.style.width  = Math.max(0, rect.w - 2).toFixed(1) + 'px';
+            cell.style.height = Math.max(0, rect.h - 2).toFixed(1) + 'px';
             cell.style.background = colorForRisk(r.ai_risk || 5);
+            if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
             var span = document.createElement('span');
             span.className = 'name';
             span.textContent = r.name_ja;
             cell.appendChild(span);
-            grid.appendChild(cell);
+            canvas.appendChild(cell);
           });
-          section.appendChild(grid);
+          section.appendChild(canvas);
           frag.appendChild(section);
         });
         $content.appendChild(frag);
       }
+
+      // Re-layout on resize so cells stay area-faithful at the new width.
+      // Debounced to avoid thrashing during continuous drag-resize.
+      (function () {
+        var t = null;
+        window.addEventListener('resize', function () {
+          if (t) clearTimeout(t);
+          t = setTimeout(function () { if (!listMode && allRecords.length) renderMap(); }, 200);
+        });
+      })();
 
       function showError() {
         $content.innerHTML = '<div class="map-error"><p>データを読み込めません。<br />通信状況をご確認ください。</p><button type="button" id="retryBtn">再読み込み</button></div>';
