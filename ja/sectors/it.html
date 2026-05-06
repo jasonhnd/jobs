@@ -226,6 +226,53 @@
           "name": "ブロックチェーン・エンジニア"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/it#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "IT・通信業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IT・通信業界は22の職業に分類されており、代表的な職業はCADオペレーター、システムエンジニア（基盤システム）、プロジェクトマネージャ（IT）などです。就業者数の合計は約1,543,228人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IT・通信業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、システムエンジニア（受託開発）（AI影響 9/10）、プログラマー（AI影響 9/10）、システムエンジニア（Webサービス開発）（AI影響 9/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IT・通信業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、セキュリティエキスパート（デジタルフォレンジック）（AI影響 7/10）、セキュリティエキスパート（脆弱性診断）（AI影響 7/10）、ITコンサルタント（AI影響 7/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IT・通信業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IT・通信業界の22職業の平均 AI 影響度は10段階中 8.1 で、高めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IT・通信業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 8.1/10 で、業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な業界です。特に AI リスクが低い職業として セキュリティエキスパート（デジタルフォレンジック）、セキュリティエキスパート（脆弱性診断）、ITコンサルタント などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -311,7 +358,18 @@ footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:prett
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -365,6 +423,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
         <h2>IT・通信 の全 22 職業（AI 影響度 高い順）</h2>
         <ul class="full-list"><li><a href="/ja/312"><span class="risk-pill high">9/10</span>システムエンジニア（受託開発）</a></li><li><a href="/ja/313"><span class="risk-pill high">9/10</span>プログラマー</a></li><li><a href="/ja/314"><span class="risk-pill high">9/10</span>システムエンジニア（Webサービス開発）</a></li><li><a href="/ja/316"><span class="risk-pill high">9/10</span>ソフトウェア開発（パッケージソフト）</a></li><li><a href="/ja/317"><span class="risk-pill high">9/10</span>ソフトウェア開発（スマホアプリ）</a></li><li><a href="/ja/318"><span class="risk-pill high">9/10</span>システムエンジニア（基盤システム）</a></li><li><a href="/ja/320"><span class="risk-pill high">9/10</span>ヘルプデスク（IT）</a></li><li><a href="/ja/523"><span class="risk-pill high">9/10</span>データエンジニア</a></li><li><a href="/ja/552"><span class="risk-pill high">9/10</span>UX/UIデザイナー</a></li><li><a href="/ja/25"><span class="risk-pill high">8/10</span>CADオペレーター</a></li><li><a href="/ja/315"><span class="risk-pill high">8/10</span>システムエンジニア（組込み、IoT）</a></li><li><a href="/ja/319"><span class="risk-pill high">8/10</span>運用・管理（IT）</a></li><li><a href="/ja/324"><span class="risk-pill high">8/10</span>DXプロデューサー</a></li><li><a href="/ja/325"><span class="risk-pill high">8/10</span>AIエンジニア</a></li><li><a href="/ja/540"><span class="risk-pill high">8/10</span>デバッグ作業</a></li><li><a href="/ja/274"><span class="risk-pill high">7/10</span>電気通信技術者</a></li><li><a href="/ja/321"><span class="risk-pill high">7/10</span>セキュリティエキスパート（オペレーション）</a></li><li><a href="/ja/322"><span class="risk-pill high">7/10</span>プロジェクトマネージャ（IT）</a></li><li><a href="/ja/362"><span class="risk-pill high">7/10</span>ITコンサルタント</a></li><li><a href="/ja/520"><span class="risk-pill high">7/10</span>セキュリティエキスパート（脆弱性診断）</a></li><li><a href="/ja/533"><span class="risk-pill high">7/10</span>セキュリティエキスパート（デジタルフォレンジック）</a></li><li><a href="/ja/581"><span class="risk-pill mid">—</span>ブロックチェーン・エンジニア</a></li></ul>
       </section>
+
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>IT・通信業界にはどんな職業がありますか？</summary><div class="faq-answer">IT・通信業界は22の職業に分類されており、代表的な職業はCADオペレーター、システムエンジニア（基盤システム）、プロジェクトマネージャ（IT）などです。就業者数の合計は約1,543,228人にのぼります。</div></details><details class="faq-item"><summary>IT・通信業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、システムエンジニア（受託開発）（AI影響 9/10）、プログラマー（AI影響 9/10）、システムエンジニア（Webサービス開発）（AI影響 9/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>IT・通信業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、セキュリティエキスパート（デジタルフォレンジック）（AI影響 7/10）、セキュリティエキスパート（脆弱性診断）（AI影響 7/10）、ITコンサルタント（AI影響 7/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>IT・通信業界の平均 AI 影響度は？</summary><div class="faq-answer">IT・通信業界の22職業の平均 AI 影響度は10段階中 8.1 で、高めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>IT・通信業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 8.1/10 で、業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な業界です。特に AI リスクが低い職業として セキュリティエキスパート（デジタルフォレンジック）、セキュリティエキスパート（脆弱性診断）、ITコンサルタント などが挙げられます。</div></details></div></section>
 
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>
