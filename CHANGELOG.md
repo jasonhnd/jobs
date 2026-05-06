@@ -10,7 +10,89 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
-(empty — new work lands here)
+### English UI removal — site is now JA-only (BREAKING)
+
+The English UI was retired. The site renders only Japanese; legacy `/en/*` URLs
+301-redirect to their `/ja/*` equivalents.
+
+**Why:** GA4 + Vercel analytics showed almost zero EN sessions sustained over
+three months. Maintaining 1112 EN HTML pages, 51 in-page i18n spans, and a JS
+language-switcher infrastructure was a meaningful tax for traffic that didn't
+exist. JA-only is closer to the actual audience and keeps the surface
+maintainable.
+
+- **Source data preserved** — `data/translations/en/` (552 files) was moved to
+  `data/_archive/translations-en/` (still in repo, not deleted). EN fields
+  (`*_en`, `aliases_en`, `summary_en`, `rationale_en`, `sector.en`, etc.) on
+  `data/occupations/*.json` were left in place. The build pipeline simply
+  stops reading them. EN can be resurrected by reverting the build scripts
+  and restoring the archive folder.
+
+- **Build pipeline (Phase 1)** — strips EN code paths from
+  `scripts/build_occupations.py`, `scripts/build_sector_hubs.py`,
+  `scripts/build_data.py`, plus the seven affected `scripts/projections/*.py`
+  (labels, search, detail, treemap, sectors, featured, tasks, skills).
+  Single-language `render_html(rec, related)` replaces the previous
+  `render_html(rec, lang, related)`; `OUT_DIR_EN` removed; sitemap helpers
+  drop EN parallel rows.
+
+- **Generated output (Phase 2)** — re-running `npm run build`:
+  - `ja/<id>.html` × 556 (was 556 + en/<id>.html × 556 = 1112)
+  - `ja/sectors/<id>.html` × 16 + `ja/sectors/index.html` × 1 (was ×2)
+  - `dist/data.detail/<id>.json` × 556 — schema bumped 1.1 → 1.2; dropped
+    `title.en`, `aliases_en`, `desc_en`, `rationale_en`, `sector.en`
+  - `dist/data.search.json` — schema bumped 1.1 → 1.2; dropped `title_en` /
+    `aliases_en` per record
+  - `dist/data.sectors.json` — dropped `sector.en`
+  - `dist/data.treemap.json` — dropped `name_en`, `ai_rationale_en`
+  - `dist/data.labels/ja.json` — only this file (no `en.json`)
+  - `sitemap.xml`: 1152 → 579 URLs
+  - `git rm` of 573 files in `en/` (556 detail + 16 sector hubs + 1 index)
+
+- **Root HTML (Phase 3)** — `index.html`, `about.html`, `privacy.html`,
+  `compliance.html`, `404.html`:
+  - All `data-i18n="ja|en"` paired spans collapsed to JA text.
+  - All `class="active"` JA + plain EN `<p>` / `<div>` pairs collapsed.
+  - All three `<button data-set="en">English</button>` switchers removed
+    (with their JA counterparts and surrounding `.lang-switch` containers).
+  - `setLang()` / `?lang=en` URL handling removed; `let lang = "ja"` →
+    `const lang = "ja"`.
+  - `hreflang="en"` and `hreflang="x-default"` `<link>` tags removed;
+    `og:locale:alternate="en_US"` removed.
+  - FAQPage Schema.org JSON-LD (10 questions) translated EN → JA;
+    `inLanguage` arrays narrowed `["ja", "en"]` → `["ja"]`.
+  - Footer EN sector list (16 `<li>`) deleted from `index.html`.
+  - EN footer-links blocks (`<a href="/about?lang=en">…`) deleted from all
+    five files. Page titles narrowed (e.g. `'コンプライアンス / Compliance — …'`
+    → `'コンプライアンス — …'`).
+
+- **SEO/redirect layer (Phase 4)** —
+  - `vercel.json`: removed two legacy `/occ/<id> → /en/<id>` redirects;
+    added catch-all `/en/:path* → /ja/:path*` permanent (301). Covers
+    `/en/523`, `/en/sectors/it`, `/en/sectors`.
+  - `api/og.tsx`: removed `lang=en` parameter handling; OG card now JA-only
+    with no EN sub-name. `npx tsc --noEmit` passes.
+  - `llms.txt` / `llms-full.txt`: site description, sitemap URL count,
+    sector taxonomy table, and FAQ updated; new FAQ entry "Is there an
+    English version of the site?" → "No, retired in v1.4.0; /en/*
+    301-redirects".
+
+- **Files** — `scripts/projections/*.py` × 8, `scripts/build_*.py` × 3,
+  `scripts/test_data_consistency.py`, `index.html`, `about.html`,
+  `privacy.html`, `compliance.html`, `404.html`, `vercel.json`,
+  `api/og.tsx`, `llms.txt`, `llms-full.txt`,
+  `docs/Design.md` (§0 banner + §0.1 routes + §6.6 + §7.10 + §7.12 + §7.13
+  + §15 revision row), `docs/MOBILE_DESIGN.md` (archive banner update).
+  Source backup at `data/_archive/translations-en/`.
+
+- **Verified locally** —
+  - `npm run build` clean (build_data + build_occupations + build_sector_hubs)
+  - 5 root HTML pages serve 200; no `[data-i18n]`, no `/en/`, no
+    `?lang=en` in any served HTML
+  - Treemap renders 552 JA tiles, no console errors
+  - Hero text reads cleanly with no EN remnants
+
+(empty — new work lands below)
 
 ---
 
