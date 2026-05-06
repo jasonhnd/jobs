@@ -88,6 +88,14 @@
           "speakable": {
             "@type": "SpeakableSpecification",
             "cssSelector": ["h1 .accent", "h1 .h1-sub", ".banner-text"]
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://mirai-shigoto.com/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
           }
         },
         {
@@ -2666,6 +2674,7 @@
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
           <a href="/ja/sectors">セクター</a>
           <a href="/ja/rankings">ランキング</a>
         </div>
@@ -3699,6 +3708,60 @@
         return limit ? matches.slice(0, limit) : matches;
       }
 
+      // Schema.org SearchAction handler — matches WebSite#potentialAction.
+      // Reads ?q=... from URL, then either:
+      //   - exact name match → redirect to /ja/<id> (best UX from Google search box)
+      //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
+      // Called from the data.treemap.json .then() so `data` is guaranteed populated.
+      function handleSearchActionQuery() {
+        const params = new URLSearchParams(window.location.search);
+        const query = (params.get("q") || "").trim();
+        if (!query || !data.length) return;
+
+        const matches = rankMatches(query, 5);
+        if (matches.length > 0) {
+          const top = matches[0];
+          const topNameJa = (top.name_ja || "").toLowerCase();
+          const topNameEn = (top.name_en || "").toLowerCase();
+          const q = query.toLowerCase();
+          // Exact match → redirect (use replace so the back button skips this hop)
+          if (topNameJa === q || topNameEn === q) {
+            if (window.gtag) gtag("event", "search_action_redirect", {
+              query: query.slice(0, 100),
+              occupation_id: top.id,
+              language: "ja"
+            });
+            window.location.replace(occUrl(top));
+            return;
+          }
+        }
+
+        // Partial / no match → pre-fill all 3 hero inputs (only the visible one
+        // is seen; the other two are hidden but exist in the DOM)
+        ["searchInputDesktop", "searchInputMobile", "searchInput"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.value = query;
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        });
+
+        // Focus the visible one based on viewport
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const target = isMobile
+          ? document.getElementById("searchInputMobile")
+          : document.getElementById("searchInputDesktop");
+        if (target) {
+          try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); }
+        }
+
+        if (window.gtag) gtag("event", "search_action_landed", {
+          query: query.slice(0, 100),
+          match_count: matches.length,
+          language: "ja"
+        });
+      }
+
       // Chip click — direct nav (covers BOTH desktop-hero-chips and mobile-hero-chips).
       document.querySelectorAll(".desktop-hero-chips button, .mobile-hero-chips button").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -4331,6 +4394,10 @@
           renderMobileTop10();   // v1.2.x: TOP 10 carousel (mobile only via CSS @media)
           // Apply hash deep-link if present
           if (location.hash) setTimeout(applyHash, 50);
+          // Schema.org SearchAction — handle ?q=... from sitelinks search box,
+          // social shares, or direct URL access. Runs after data is loaded so
+          // exact-match redirect can resolve immediately.
+          handleSearchActionQuery();
           // GA4 map_loaded — typed signal that initial render finished. Lets
           // dashboards split sessions by device + occupation count without
           // relying on auto page_view (which fires before data.json arrives).
