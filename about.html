@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
     <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
-    <title>データについて / About the Data — mirai-shigoto.com</title>
+    <title>データについて — mirai-shigoto.com</title>
     <meta name="description" content="mirai-shigoto.com のデータソース、AI 影響度スコアの算出方法、FAQ、よくある質問。" />
     <meta name="keywords" content="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.7, ルーブリック, 独自分析, FAQ, mirai shigoto, methodology, scoring rubric" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://mirai-shigoto.com/about" />
-    <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/about" />
-    <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/about?lang=en" />
-    <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/about" />
 
     <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
@@ -53,7 +50,7 @@
           "name": "About the Data — mirai-shigoto.com",
           "url": "https://mirai-shigoto.com/about",
           "description": "Data sources (MHLW jobtag, JILPT, MIC), LLM scoring methodology, and FAQ for the mirai-shigoto.com occupation × AI impact map.",
-          "inLanguage": ["ja", "en"],
+          "inLanguage": ["ja"],
           "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
           "about": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -385,8 +382,6 @@
       }
       footer .footer-meta { color: var(--fg2); font-size: 0.78rem; }
       footer .footer-meta a { color: var(--accent); }
-      [data-i18n]:not(.active) { display: none; }
-
       @media (max-width: 540px) {
         #wrapper { padding: 18px 16px 60px; }
         h1 { font-size: 1.4rem; }
@@ -401,13 +396,8 @@
     <div id="wrapper">
       <div class="top-bar">
         <a class="back" href="/">
-          <span data-i18n="ja" class="active">← マップへ戻る</span>
-          <span data-i18n="en">← Back to map</span>
+          ← マップへ戻る
         </a>
-        <span class="lang-switch" role="group" aria-label="Language">
-          <button data-set="ja" aria-pressed="true">日本語</button>
-          <button data-set="en" aria-pressed="false">English</button>
-        </span>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
@@ -415,32 +405,25 @@
       </div>
 
       <h1>
-        <span data-i18n="ja" class="active">データについて</span>
-        <span data-i18n="en">About the Data</span>
+        データについて
       </h1>
       <p class="subtitle">
-        <span data-i18n="ja" class="active">本サイトのデータソース・スコア算出方法・よくある質問</span>
-        <span data-i18n="en">Sources, scoring methodology, and FAQ</span>
+        本サイトのデータソース・スコア算出方法・よくある質問
       </p>
       <p class="meta-line">
-        <span data-i18n="ja" class="active">最終更新：2026-04-25</span>
-        <span data-i18n="en">Last updated: 2026-04-25</span>
+        最終更新：2026-04-25
       </p>
 
       <!-- 1. データソース -->
       <h2>
-        <span data-i18n="ja" class="active">📊 データソース</span>
-        <span data-i18n="en">📊 Data Sources</span>
+        📊 データソース
       </h2>
 
-      <p data-i18n="ja" class="active">
+      <p>
         本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>から取得しています。AI 影響度スコアのみ独自分析です。
       </p>
-      <p data-i18n="en">
-        All foundational data comes from <strong>publicly available official sources</strong>. Only the AI impact score is our independent analysis.
-      </p>
 
-      <div class="source-card active" data-i18n="ja">
+      <div class="source-card">
         <div class="src-row">
           <span class="src-label">職業マスタ</span>
           <span class="src-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span>
@@ -471,52 +454,17 @@
         </div>
       </div>
 
-      <div class="source-card" data-i18n="en">
-        <div class="src-row">
-          <span class="src-label">Occupation roster</span>
-          <span class="src-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW "Occupational Information Site (jobtag)"</a></span>
-        </div>
-        <div class="src-row">
-          <span class="src-label">Copyright holder</span>
-          <span class="src-value">Japan Institute for Labour Policy and Training (<strong>JILPT</strong>) — "Occupational Information Database"</span>
-        </div>
-        <div class="src-row">
-          <span class="src-label">Version &amp; download date</span>
-          <span class="src-value"><strong>v7.00</strong> (released 2026-03-17 · downloaded 2026-05-03 as official XLSX)</span>
-        </div>
-        <div class="src-row">
-          <span class="src-label">Headcount / wages / hours</span>
-          <span class="src-value">Aggregated from the simplified-numeric and descriptive datasets in v7.00</span>
-        </div>
-        <div class="src-row">
-          <span class="src-label">AI risk score</span>
-          <span class="src-value">Our independent analysis (scored by Claude Opus 4.7, 2026-04-25)</span>
-        </div>
-        <div class="src-row">
-          <span class="src-label">Scoring scale</span>
-          <span class="src-value">In-house 0–10 rubric scoring task substitutability, automation depth, and residual human-judgment requirements via 5-step anchors</span>
-        </div>
-        <div class="src-row">
-          <span class="src-label">Processing</span>
-          <span class="src-value">Independently organized and visualized by this site (unofficial). See the <a href="/compliance?lang=en">Compliance</a> page for full TOS-compliance details.</span>
-        </div>
-      </div>
-
       <!-- 2. スコアの算出方法 -->
       <h2>
-        <span data-i18n="ja" class="active">📋 スコアの算出方法</span>
-        <span data-i18n="en">📋 How AI Impact Scores Are Calculated</span>
+        📋 スコアの算出方法
       </h2>
 
-      <p data-i18n="ja" class="active">
+      <p>
         AI 影響度スコアは <strong>0〜10</strong> の整数で、各職業を Anthropic 社の <strong>Claude Opus 4.7</strong> が 1 つずつ採点したものです。<br>
         統計調査ではなく、<strong>LLM の主観評価</strong>です。判断軸は次のとおり：
       </p>
-      <p data-i18n="en">
-        The AI impact score is an integer from <strong>0 to 10</strong>, assigned to each occupation by <strong>Claude Opus 4.7</strong> (Anthropic). It is <strong>not a statistical survey</strong> — it is an LLM subjective estimate. The heuristic is:
-      </p>
 
-      <div class="scale-table active" data-i18n="ja">
+      <div class="scale-table">
         <dl>
           <dt>0–1（最小）</dt><dd>物理的・現場仕事（潜水士、林業作業）</dd>
           <dt>2–3（低）</dt><dd>肉体労働＋一部対人（電気工事士、美容師）</dd>
@@ -527,72 +475,41 @@
         </dl>
       </div>
 
-      <div class="scale-table" data-i18n="en">
-        <dl>
-          <dt>0–1 (Minimal)</dt><dd>Physical / field work (commercial diver, logger)</dd>
-          <dt>2–3 (Low)</dt><dd>Manual labor + some interpersonal (electrician, hair stylist)</dd>
-          <dt>4–5 (Moderate)</dt><dd>Mix of physical and knowledge work (nurse, police officer)</dd>
-          <dt>6–7 (High)</dt><dd>Knowledge work with judgment (teacher, lawyer, accountant)</dd>
-          <dt>8–9 (Very high)</dt><dd>Predominantly computer-based (programmer, translator)</dd>
-          <dt>10 (Maximum)</dt><dd>Pure routine digital processing (data entry)</dd>
-        </dl>
-      </div>
-
-      <p data-i18n="ja" class="active">
+      <p>
         判断軸は<strong>「自宅の PC 1 台で完結できるか？」</strong>。yes ほど高得点。AI は数字／文章／画像／コード領域で急速に進化しているため、デジタル完結型は天然に高リスクとなります。
       </p>
-      <p data-i18n="en">
-        The core heuristic is <strong>"Can the job be done entirely from a single home computer?"</strong> — if yes, the score trends high. AI is advancing fastest in digital domains (text, image, code, analysis), so digital-native jobs face the highest exposure.
-      </p>
 
-      <p data-i18n="ja" class="active">
+      <p>
         <em>注意：高得点 ≠ 仕事が消える。</em>多くの高得点職は<strong>「置換」ではなく「再構成」</strong>される見込みです。プログラマーは 9/10 ですが、AI で生産性が上がる結果、需要がむしろ増える可能性もあります。
-      </p>
-      <p data-i18n="en">
-        <em>Important: a high score does NOT predict the job will disappear.</em> Most high-exposure jobs are likely to be <strong>reshaped, not replaced</strong>. Programmers score 9/10, but AI making each programmer more productive could grow total demand for programming.
       </p>
 
       <!-- 3. 注意事項 -->
       <h2>
-        <span data-i18n="ja" class="active">⚠️ 注意事項</span>
-        <span data-i18n="en">⚠️ Caveats</span>
+        ⚠️ 注意事項
       </h2>
 
-      <p data-i18n="ja" class="active">
+      <p>
         <strong>本サイトは非公式サイトです。</strong>厚生労働省、job tag、JILPT その他の公的機関と<strong>提携・協力・承認関係にあるものではありません</strong>。
       </p>
-      <p data-i18n="en">
-        <strong>This site is unofficial.</strong> It has <strong>no partnership, cooperation, or endorsement relationship</strong> with MHLW, jobtag, JILPT, or any other public institution.
-      </p>
 
-      <p data-i18n="ja" class="active">
+      <p>
         AI 影響度スコア、リスク分類、ランキング、可視化結果は、本サイト独自の分析・加工によるもので、<strong>公的機関の公式見解、評価、推奨を示すものではありません</strong>。
       </p>
-      <p data-i18n="en">
-        AI risk scores, categorizations, rankings, and visualizations are the result of this site's independent analysis and <strong>do not represent the official views, assessments, or recommendations of any public institution</strong>.
-      </p>
 
-      <p data-i18n="ja" class="active">
+      <p>
         本サイトの情報は、職業選択、転職、採用、人事判断等に関する<strong>参考情報</strong>として提供しており、特定の判断や結果を保証するものではありません。重要な意思決定にあたっては、複数の情報源をご確認ください。
       </p>
-      <p data-i18n="en">
-        Information on this site is provided as <strong>reference material</strong> for career selection, job changes, recruitment, and HR decisions. It does not guarantee any specific judgment or outcome. For important decisions, please consult multiple sources.
-      </p>
 
-      <p data-i18n="ja" class="active">
+      <p>
         掲載内容について公的機関（厚労省・JILPT）への問い合わせは行わないでください。本サイトは独自分析であり、公式見解とは独立しています。
-      </p>
-      <p data-i18n="en">
-        Please do not contact public institutions (MHLW / JILPT) about content on this site. This is an independent analysis, separate from any official assessment.
       </p>
 
       <!-- 4. FAQ -->
       <h2>
-        <span data-i18n="ja" class="active">❓ よくある質問</span>
-        <span data-i18n="en">❓ FAQ</span>
+        ❓ よくある質問
       </h2>
 
-      <div class="faq active" data-i18n="ja">
+      <div class="faq active">
         <details>
           <summary>このスコアは公式なものですか？</summary>
           <p>いいえ。<strong>厚生労働省や JILPT の公式評価ではありません</strong>。本サイトの独自分析（LLM による採点）です。参考情報としてご利用ください。</p>
@@ -615,7 +532,7 @@
         </details>
       </div>
 
-      <div class="faq" data-i18n="en">
+      <div class="faq">
         <details>
           <summary>Is this score official?</summary>
           <p>No. <strong>It is not an official assessment from MHLW or JILPT.</strong> This is independent analysis (LLM-scored) by this site. Use it as reference material only.</p>
@@ -639,25 +556,16 @@
       </div>
 
       <footer>
-        <div class="footer-links active" data-i18n="ja">
+        <div class="footer-links active">
           <a href="/">トップ</a>
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
-        <div class="footer-links" data-i18n="en">
-          <a href="/?lang=en">Home</a>
-          <a href="/about?lang=en">About</a>
-          <a href="/compliance?lang=en">Compliance</a>
-          <a href="/privacy?lang=en">Privacy</a>
-        </div>
         <div class="footer-meta">
-          <span data-i18n="ja" class="active">
+          
             データ：<a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>
-          </span>
-          <span data-i18n="en">
-            Data: <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a>
-          </span>
+          
         </div>
       </footer>
     </div>
@@ -678,28 +586,7 @@
         });
       })();
 
-      // Language switch — toggles all data-i18n elements between "ja" and "en"
-      (function () {
-        function setLang(target) {
-          document.documentElement.lang = target;
-          document.querySelectorAll("[data-i18n]").forEach(el => {
-            el.classList.toggle("active", el.getAttribute("data-i18n") === target);
-          });
-          document.querySelectorAll(".lang-switch button[data-set]").forEach(b => {
-            b.setAttribute("aria-pressed", b.getAttribute("data-set") === target ? "true" : "false");
-          });
-          document.title = target === "en"
-            ? "About the Data — mirai-shigoto.com"
-            : "データについて — mirai-shigoto.com";
-        }
-        // Initial: ja, but check ?lang=en in URL
-        const params = new URLSearchParams(window.location.search);
-        const initial = params.get("lang") === "en" ? "en" : "ja";
-        if (initial === "en") setLang("en");
-        document.querySelectorAll(".lang-switch button[data-set]").forEach(btn => {
-          btn.addEventListener("click", () => setLang(btn.getAttribute("data-set")));
-        });
-      })();
+      // v1.4.0: language switcher removed — site is JA-only.
     </script>
   </body>
 </html>

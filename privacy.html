@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
     <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
-    <title>プライバシーポリシー / Privacy Policy — mirai-shigoto.com</title>
+    <title>プライバシーポリシー — mirai-shigoto.com</title>
     <meta name="description" content="mirai-shigoto.com のプライバシーポリシー。収集する情報、利用目的、第三者提供、Cookie、保持期間、利用者の権利、お問い合わせ。" />
     <meta name="keywords" content="未来の仕事, プライバシーポリシー, 個人情報保護, Cookie, 第三者提供, GA4, Cloudflare, Vercel, Resend, 利用者の権利, APPI, GDPR, mirai shigoto, privacy policy, data handling" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://mirai-shigoto.com/privacy" />
-    <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/privacy" />
-    <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/privacy?lang=en" />
-    <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/privacy" />
 
     <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
@@ -53,7 +50,7 @@
           "name": "Privacy Policy — mirai-shigoto.com",
           "url": "https://mirai-shigoto.com/privacy",
           "description": "Privacy policy for mirai-shigoto.com — operator, data collection, third-party services (Google / Cloudflare / Vercel / Resend), cookies, retention, user rights, and contact.",
-          "inLanguage": ["ja", "en"],
+          "inLanguage": ["ja"],
           "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
           "about": { "@id": "https://mirai-shigoto.com/#organization" },
           "author": { "@id": "https://mirai-shigoto.com/#person" },
@@ -319,9 +316,7 @@
       }
       footer .footer-meta { color: var(--fg2); font-size: 0.72rem; opacity: 0.85; }
       footer .footer-meta a { color: var(--accent); }
-      [data-i18n]:not(.active) { display: none; }
-
-      @media (max-width: 540px) {
+@media (max-width: 540px) {
         #wrapper { padding: 18px 16px 60px; }
         h1 { font-size: 1.3rem; }
         h2 { font-size: 1rem; }
@@ -333,142 +328,113 @@
     <div id="wrapper">
       <div class="top-bar">
         <a class="back" href="/">
-          <span data-i18n="ja" class="active">← マップへ戻る</span>
-          <span data-i18n="en">← Back to map</span>
+          ← マップへ戻る
         </a>
-        <span class="lang-switch" role="group" aria-label="Language">
-          <button data-set="ja" aria-pressed="true">日本語</button>
-          <button data-set="en" aria-pressed="false">English</button>
-        </span>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
         </button>
       </div>
 
       <h1>
-        <span data-i18n="ja" class="active"><span class="accent">プライバシー</span>ポリシー</span>
-        <span data-i18n="en"><span class="accent">Privacy</span> Policy</span>
+        <span class="accent">プライバシー</span>ポリシー Policy</span>
       </h1>
       <p class="subtitle">
-        <span data-i18n="ja" class="active">mirai-shigoto.com — 日本の職業 AI 影響マップ（非公式・独自分析）</span>
-        <span data-i18n="en">mirai-shigoto.com — Japan Jobs × AI Impact Map (unofficial, independent analysis)</span>
+        mirai-shigoto.com — 日本の職業 AI 影響マップ（非公式・独自分析）
       </p>
       <p class="meta-line">
-        <span data-i18n="ja" class="active">最終更新：2026-04-30 ・ バージョン 1.0</span>
-        <span data-i18n="en">Last updated: 2026-04-30 ・ Version 1.0</span>
+        最終更新：2026-04-30 ・ バージョン 1.0
       </p>
 
       <!-- 1 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">1. 運営者</span>
-        <span data-i18n="en">1. Operator</span>
+        1. 運営者
       </h2>
       <p>
-        <span data-i18n="ja" class="active">本サイト「mirai-shigoto.com」（以下「本サイト」）は、<strong>mirai-shigoto プロジェクト</strong>が運営する独自分析サイトです（連絡先：<a href="mailto:privacy@mirai-shigoto.com">privacy@mirai-shigoto.com</a>）。厚生労働省・job tag・JILPT 等の公開情報を独自に整理・可視化したもので、これらの公的機関とは一切関係がなく、その公式見解を示すものではありません。</span>
-        <span data-i18n="en">This site ("mirai-shigoto.com", hereinafter "the Site") is an independent-analysis site operated by <strong>the mirai-shigoto project</strong> (contact: <a href="mailto:privacy@mirai-shigoto.com">privacy@mirai-shigoto.com</a>). The Site reorganizes and visualizes public information from MHLW jobtag, JILPT, and similar sources on an independent basis; it has no affiliation with these public agencies and does not represent their official views.</span>
+        本サイト「mirai-shigoto.com」（以下「本サイト」）は、<strong>mirai-shigoto プロジェクト</strong>が運営する独自分析サイトです（連絡先：<a href="mailto:privacy@mirai-shigoto.com">privacy@mirai-shigoto.com</a>）。厚生労働省・job tag・JILPT 等の公開情報を独自に整理・可視化したもので、これらの公的機関とは一切関係がなく、その公式見解を示すものではありません。
       </p>
 
       <!-- 2 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">2. 収集する情報</span>
-        <span data-i18n="en">2. Information We Collect</span>
+        2. 収集する情報
       </h2>
 
       <h3>
-        <span data-i18n="ja" class="active">2.1 アクセス解析（自動収集）</span>
-        <span data-i18n="en">2.1 Analytics (automatically collected)</span>
+        2.1 アクセス解析（自動収集）
       </h3>
       <p>
-        <span data-i18n="ja" class="active">本サイトは、利用状況の把握とサイト改善のため、以下のアクセス解析サービスを利用しています。これらのサービスは IP アドレス、参照元 URL、ブラウザ情報、ページ閲覧履歴等を収集します。<strong>個人を直接特定する情報（氏名・住所等）は収集しません。</strong></span>
-        <span data-i18n="en">The Site uses the following analytics services to understand usage and improve content. These services collect IP addresses, referrer URLs, browser information, and page-view history. <strong>We do not collect information that directly identifies you (name, address, etc.).</strong></span>
+        本サイトは、利用状況の把握とサイト改善のため、以下のアクセス解析サービスを利用しています。これらのサービスは IP アドレス、参照元 URL、ブラウザ情報、ページ閲覧履歴等を収集します。<strong>個人を直接特定する情報（氏名・住所等）は収集しません。</strong>
       </p>
 
       <h3>
-        <span data-i18n="ja" class="active">2.2 メールアドレス（任意提供）</span>
-        <span data-i18n="en">2.2 Email Address (provided voluntarily)</span>
+        2.2 メールアドレス（任意提供）
       </h3>
       <p>
-        <span data-i18n="ja" class="active">月次レポートの登録フォームに入力された場合のみ、メールアドレスを収集します。職業ごとの詳細レポート希望フォームに入力された場合、登録時に閲覧していた職業 ID も併せて記録します。</span>
-        <span data-i18n="en">We collect email addresses only when you enter them in the newsletter signup form. When submitted via the per-occupation detail-report form, we also record the occupation ID you were viewing at the time of submission.</span>
+        月次レポートの登録フォームに入力された場合のみ、メールアドレスを収集します。職業ごとの詳細レポート希望フォームに入力された場合、登録時に閲覧していた職業 ID も併せて記録します。
       </p>
 
       <h3>
-        <span data-i18n="ja" class="active">2.3 フィードバック（任意提供）</span>
-        <span data-i18n="en">2.3 Feedback (provided voluntarily)</span>
+        2.3 フィードバック（任意提供）
       </h3>
       <p>
-        <span data-i18n="ja" class="active">フィードバックフォームに入力された選択肢、自由記述、および任意で添えられたメールアドレスを収集します。メールアドレスは任意項目で、未入力の場合は匿名で受け付けます。</span>
-        <span data-i18n="en">We collect the options selected, free-text response, and optionally an email address submitted via the feedback form. The email field is optional; if left blank, the feedback is processed anonymously.</span>
+        フィードバックフォームに入力された選択肢、自由記述、および任意で添えられたメールアドレスを収集します。メールアドレスは任意項目で、未入力の場合は匿名で受け付けます。
       </p>
 
       <!-- 3 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">3. 利用目的</span>
-        <span data-i18n="en">3. Purpose of Use</span>
+        3. 利用目的
       </h2>
       <p>
-        <span data-i18n="ja" class="active">収集した情報は、以下の目的にのみ利用します。</span>
-        <span data-i18n="en">We use the collected information solely for the following purposes:</span>
+        収集した情報は、以下の目的にのみ利用します。
       </p>
       <ul>
         <li>
-          <span data-i18n="ja" class="active"><strong>アクセス解析</strong>：利用状況の把握、コンテンツ改善、サイトパフォーマンス最適化。</span>
-          <span data-i18n="en"><strong>Analytics:</strong> understanding usage, improving content, and optimizing site performance.</span>
+          <strong>アクセス解析</strong>：利用状況の把握、コンテンツ改善、サイトパフォーマンス最適化。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>メールアドレス</strong>：月次レポートおよび本サイトの更新通知の送信。職業 ID と紐づけて、関連性の高い情報の提供に利用する場合があります。</span>
-          <span data-i18n="en"><strong>Email:</strong> sending the monthly report and update notices for the Site. May be linked with the occupation ID to provide more relevant information.</span>
+          <strong>メールアドレス</strong>：月次レポートおよび本サイトの更新通知の送信。職業 ID と紐づけて、関連性の高い情報の提供に利用する場合があります。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>フィードバック</strong>：本サイトおよび将来のレポート内容の改善。集計された結果を匿名で公表する場合があります。</span>
-          <span data-i18n="en"><strong>Feedback:</strong> improving the Site and future reports. Aggregated results may be published anonymously.</span>
+          <strong>フィードバック</strong>：本サイトおよび将来のレポート内容の改善。集計された結果を匿名で公表する場合があります。
         </li>
       </ul>
       <p>
-        <span data-i18n="ja" class="active">これらの目的を超えて利用する場合は、事前に同意を得ます。広告配信目的での第三者への提供・販売は行いません。</span>
-        <span data-i18n="en">If we ever need to use the information beyond these purposes, we will seek prior consent. We do not sell or share data with third parties for advertising.</span>
+        これらの目的を超えて利用する場合は、事前に同意を得ます。広告配信目的での第三者への提供・販売は行いません。
       </p>
 
       <!-- 4 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">4. 第三者提供・委託先</span>
-        <span data-i18n="en">4. Third-Party Services</span>
+        4. 第三者提供・委託先
       </h2>
       <p>
-        <span data-i18n="ja" class="active">本サイトの運用にあたり、以下の事業者にデータ処理の一部を委託しています。各事業者は自社のプライバシーポリシーに従って情報を取り扱います。サーバー所在地の関係で、米国等の海外にデータが転送される場合があります。</span>
-        <span data-i18n="en">We use the following service providers to operate the Site. Each provider handles information under their own privacy policy. Due to server locations, data may be transferred outside Japan (notably to the United States).</span>
+        本サイトの運用にあたり、以下の事業者にデータ処理の一部を委託しています。各事業者は自社のプライバシーポリシーに従って情報を取り扱います。サーバー所在地の関係で、米国等の海外にデータが転送される場合があります。
       </p>
       <div class="third-party">
         <div class="third-party-row">
           <div class="name">Google LLC</div>
           <div class="role">
-            <span data-i18n="ja" class="active">アクセス解析（Google Analytics 4）</span>
-            <span data-i18n="en">Analytics (Google Analytics 4)</span>
+            アクセス解析（Google Analytics 4）
           </div>
           <div><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
         </div>
         <div class="third-party-row">
           <div class="name">Cloudflare, Inc.</div>
           <div class="role">
-            <span data-i18n="ja" class="active">DNS、Web Analytics（Cookie 不使用）</span>
-            <span data-i18n="en">DNS, Web Analytics (cookieless)</span>
+            DNS、Web Analytics（Cookie 不使用）
           </div>
           <div><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
         </div>
         <div class="third-party-row">
           <div class="name">Vercel Inc.</div>
           <div class="role">
-            <span data-i18n="ja" class="active">ホスティング、Web Analytics</span>
-            <span data-i18n="en">Hosting, Web Analytics</span>
+            ホスティング、Web Analytics
           </div>
           <div><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
         </div>
         <div class="third-party-row">
           <div class="name">Resend Inc.</div>
           <div class="role">
-            <span data-i18n="ja" class="active">メール配信（登録メールアドレスの保管・配信）</span>
-            <span data-i18n="en">Email delivery (storage of subscriber list, sending)</span>
+            メール配信（登録メールアドレスの保管・配信）
           </div>
           <div><a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">policy ↗</a></div>
         </div>
@@ -476,152 +442,105 @@
 
       <!-- 5 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">5. Cookie について</span>
-        <span data-i18n="en">5. Cookies</span>
+        5. Cookie について
       </h2>
       <p>
-        <span data-i18n="ja" class="active">本サイトは Google Analytics 等のサービス提供のため、以下の Cookie を利用します。広告目的の Cookie は設定しません。</span>
-        <span data-i18n="en">The Site uses cookies for the analytics services listed below. We do not set advertising cookies.</span>
+        本サイトは Google Analytics 等のサービス提供のため、以下の Cookie を利用します。広告目的の Cookie は設定しません。
       </p>
       <ul>
         <li>
           <code>_ga</code>, <code>_ga_*</code> —
-          <span data-i18n="ja" class="active">Google Analytics 4（保持期間：最長 2 年）</span>
-          <span data-i18n="en">Google Analytics 4 (retention: up to 2 years)</span>
+          Google Analytics 4（保持期間：最長 2 年）
         </li>
         <li>
           <code>__cf_bm</code> —
-          <span data-i18n="ja" class="active">Cloudflare ボット対策（保持期間：30 分）</span>
-          <span data-i18n="en">Cloudflare bot management (retention: 30 minutes)</span>
+          Cloudflare ボット対策（保持期間：30 分）
         </li>
       </ul>
       <p>
-        <span data-i18n="ja" class="active"><strong>Cookie を無効化する方法：</strong>ブラウザの設定から Cookie を拒否できます。Google Analytics については、<a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google の公式オプトアウト用ブラウザ拡張</a>でも無効化できます。Cookie を無効化しても本サイトの基本機能は利用できます。</span>
-        <span data-i18n="en"><strong>How to disable cookies:</strong> You can refuse cookies via your browser settings. For Google Analytics specifically, you can also use <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google's official opt-out browser add-on</a>. Disabling cookies does not affect the basic functionality of the Site.</span>
+        <strong>Cookie を無効化する方法：</strong>ブラウザの設定から Cookie を拒否できます。Google Analytics については、<a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google の公式オプトアウト用ブラウザ拡張</a>でも無効化できます。Cookie を無効化しても本サイトの基本機能は利用できます。
       </p>
 
       <!-- 6 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">6. 保持期間</span>
-        <span data-i18n="en">6. Retention</span>
+        6. 保持期間
       </h2>
       <ul>
         <li>
-          <span data-i18n="ja" class="active"><strong>メールアドレス</strong>：登録から配信停止までの期間 + 配信停止後 30 日間（監査・誤操作対応のため）。30 日経過後は速やかに削除します。</span>
-          <span data-i18n="en"><strong>Email:</strong> from subscription until unsubscribe + 30 days after unsubscribe (for audit and erroneous-operation handling). Deleted promptly thereafter.</span>
+          <strong>メールアドレス</strong>：登録から配信停止までの期間 + 配信停止後 30 日間（監査・誤操作対応のため）。30 日経過後は速やかに削除します。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>アクセス解析データ</strong>：14 ヶ月（Google Analytics 4 のデフォルト保持期間）。</span>
-          <span data-i18n="en"><strong>Analytics data:</strong> 14 months (Google Analytics 4 default retention).</span>
+          <strong>アクセス解析データ</strong>：14 ヶ月（Google Analytics 4 のデフォルト保持期間）。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>フィードバック</strong>：匿名フィードバックは無期限保管（個人を特定できないため）。メール付きフィードバックは利用者の削除依頼に従って削除します。</span>
-          <span data-i18n="en"><strong>Feedback:</strong> anonymous feedback is retained indefinitely (no personal identification). Feedback with an email attached will be deleted upon user request.</span>
+          <strong>フィードバック</strong>：匿名フィードバックは無期限保管（個人を特定できないため）。メール付きフィードバックは利用者の削除依頼に従って削除します。
         </li>
       </ul>
 
       <!-- 7 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">7. 利用者の権利</span>
-        <span data-i18n="en">7. Your Rights</span>
+        7. 利用者の権利
       </h2>
       <p>
-        <span data-i18n="ja" class="active">日本の個人情報保護法、および海外法令（EU GDPR、米国カリフォルニア州 CCPA/CPRA 等）が適用される場合、利用者は以下の権利を有します。</span>
-        <span data-i18n="en">Where Japan's APPI and applicable foreign laws (EU GDPR, California CCPA/CPRA, etc.) apply, you have the following rights:</span>
+        日本の個人情報保護法、および海外法令（EU GDPR、米国カリフォルニア州 CCPA/CPRA 等）が適用される場合、利用者は以下の権利を有します。
       </p>
       <ul>
         <li>
-          <span data-i18n="ja" class="active"><strong>開示請求</strong>：保有するあなたの情報の開示を求める権利。</span>
-          <span data-i18n="en"><strong>Access:</strong> request disclosure of the information we hold about you.</span>
+          <strong>開示請求</strong>：保有するあなたの情報の開示を求める権利。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>訂正・削除請求</strong>：誤った情報の訂正、または情報の削除を求める権利。</span>
-          <span data-i18n="en"><strong>Correction / Deletion:</strong> request correction of inaccurate information or deletion of your information.</span>
+          <strong>訂正・削除請求</strong>：誤った情報の訂正、または情報の削除を求める権利。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>配信停止</strong>：受信したすべてのメールに含まれる配信停止リンクから、いつでも配信を停止できます。</span>
-          <span data-i18n="en"><strong>Unsubscribe:</strong> every email we send includes an unsubscribe link; you can opt out at any time.</span>
+          <strong>配信停止</strong>：受信したすべてのメールに含まれる配信停止リンクから、いつでも配信を停止できます。
         </li>
         <li>
-          <span data-i18n="ja" class="active"><strong>苦情申立</strong>：日本の個人情報保護委員会等の監督機関への苦情申立権。</span>
-          <span data-i18n="en"><strong>Complaint:</strong> the right to lodge a complaint with the Personal Information Protection Commission (Japan) or a relevant supervisory authority.</span>
+          <strong>苦情申立</strong>：日本の個人情報保護委員会等の監督機関への苦情申立権。
         </li>
       </ul>
       <p>
-        <span data-i18n="ja" class="active">権利行使のご請求は、後述のお問い合わせ先までご連絡ください。本人確認の上、合理的な期間内（通常 7 日以内）に対応いたします。</span>
-        <span data-i18n="en">To exercise these rights, please contact us using the address below. After verifying your identity, we will respond within a reasonable period (typically 7 days).</span>
+        権利行使のご請求は、後述のお問い合わせ先までご連絡ください。本人確認の上、合理的な期間内（通常 7 日以内）に対応いたします。
       </p>
 
       <!-- 8 ----------------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">8. お問い合わせ</span>
-        <span data-i18n="en">8. Contact</span>
+        8. お問い合わせ
       </h2>
       <p>
-        <span data-i18n="ja" class="active">本ポリシーや個人情報の取扱いに関するお問い合わせは、以下までメールでお願いします。</span>
-        <span data-i18n="en">For inquiries about this policy or our handling of personal information, please email:</span>
+        本ポリシーや個人情報の取扱いに関するお問い合わせは、以下までメールでお願いします。
       </p>
       <p>
         <code>privacy@mirai-shigoto.com</code>
       </p>
       <p>
-        <span data-i18n="ja" class="active">通常 7 日以内にご返信いたします。</span>
-        <span data-i18n="en">We typically respond within 7 days.</span>
+        通常 7 日以内にご返信いたします。
       </p>
 
       <!-- changes ----------------------------------------------------- -->
       <h2>
-        <span data-i18n="ja" class="active">変更履歴</span>
-        <span data-i18n="en">Revision History</span>
+        変更履歴
       </h2>
       <ul>
         <li>
-          <span data-i18n="ja" class="active"><strong>2026-04-30 v1.0</strong>：初版公開。</span>
-          <span data-i18n="en"><strong>2026-04-30 v1.0:</strong> initial publication.</span>
+          <strong>2026-04-30 v1.0</strong>：初版公開。
         </li>
       </ul>
 
       <footer>
-        <div class="footer-links active" data-i18n="ja">
+        <div class="footer-links active">
           <a href="/">トップ</a>
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
-        <div class="footer-links" data-i18n="en">
-          <a href="/?lang=en">Home</a>
-          <a href="/about?lang=en">About</a>
-          <a href="/compliance?lang=en">Compliance</a>
-          <a href="/privacy?lang=en">Privacy</a>
-        </div>
         <div class="footer-meta">
-          <span data-i18n="ja" class="active"><em>出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成</em></span>
-          <span data-i18n="en"><em>Source: MHLW &amp; JILPT "Occupational Information Database (job tag)" v7.00 (downloaded 2026-05-03), processed as derivative work</em></span>
+          <em>出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成</em>
         </div>
       </footer>
     </div>
 
     <script>
-      let lang = "ja";
-      function setLang(next) {
-        lang = next;
-        document.documentElement.lang = next;
-        document.querySelectorAll("[data-i18n]").forEach(el =>
-          el.classList.toggle("active", el.dataset.i18n === next)
-        );
-        document.querySelectorAll(".lang-switch button").forEach(b =>
-          b.setAttribute("aria-pressed", String(b.dataset.set === next))
-        );
-        document.title = next === "ja"
-          ? "プライバシーポリシー — mirai-shigoto.com"
-          : "Privacy Policy — mirai-shigoto.com";
-      }
-      document.querySelectorAll(".lang-switch button").forEach(b =>
-        b.addEventListener("click", () => setLang(b.dataset.set))
-      );
-      // Default JA; opt-in detection only via ?lang=en for direct linking
-      const urlLang = new URLSearchParams(location.search).get("lang");
-      if (urlLang === "en") setLang("en");
+      // v1.4.0: language switcher removed — site is JA-only.
 
       // Theme toggle (light/dark)
       (function themeToggle() {
