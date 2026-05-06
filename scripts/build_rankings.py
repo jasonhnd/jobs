@@ -320,10 +320,6 @@ def render_page(
   </head>
   <body>
     <a class="skip-link" href="#content">本文へスキップ</a>
-    <div class="top-banner" role="note">
-      <span class="badge">UNOFFICIAL</span>
-      <span>独立分析・厚労省 / jobtag / JILPT 非公式</span>
-    </div>
 
     <div id="wrapper">
       <nav class="crumb" aria-label="パンくずリスト">
@@ -358,6 +354,9 @@ def render_page(
         <div class="footer-links">
           <a href="/">トップ</a>
           <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
@@ -467,10 +466,6 @@ def render_index(rankings: list[tuple[str, str, str, int]]) -> str:
   </head>
   <body>
     <a class="skip-link" href="#content">本文へスキップ</a>
-    <div class="top-banner" role="note">
-      <span class="badge">UNOFFICIAL</span>
-      <span>独立分析・厚労省 / jobtag / JILPT 非公式</span>
-    </div>
 
     <div id="wrapper">
       <nav class="crumb" aria-label="パンくずリスト">
@@ -496,6 +491,9 @@ def render_index(rankings: list[tuple[str, str, str, int]]) -> str:
         <div class="footer-links">
           <a href="/">トップ</a>
           <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>

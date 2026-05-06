@@ -1147,6 +1147,10 @@ def render_html(rec: dict, related: list[dict]) -> str:
       <footer>
         <div class="footer-links">
           <a href="{home_href}">トップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>

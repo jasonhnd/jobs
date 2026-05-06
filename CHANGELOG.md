@@ -10,6 +10,80 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### `/map` 独立页（mobile-first）— design spec only
+
+**Design only. No code yet.** Spec written into `docs/Design.md` §16
+(`/map` 页规范, mobile-first 独立页) — implementation to follow in a
+separate change.
+
+**IA decision.** Move the 552-occupation treemap off the mobile
+homepage and into a dedicated `/map` page. Mobile homepage gets a
+preview card (inline SVG thumbnail + CTA) instead of the embedded
+canvas. Desktop `index.html` embedded treemap is **completely
+unchanged** — the split is mobile-only IA surgery; desktop users who
+land on `/map` directly see the same mobile-first layout
+(`max-width: 900px`, centered).
+
+**`/map` page structure** (mobile-first, desktop-tolerant):
+
+- Three-layer sticky head (header / search / sector chips + sort
+  dropdown), total ~148px.
+- Search behavior identical to `§7.12` desktop hero (autocomplete →
+  jump to `/ja/<id>`); not a map-scoped filter.
+- Sector segmented treemap (D4 = C): each sector is its own
+  squarified treemap stacked vertically with collapse toggle.
+  Single-sector chip view auto-expands. `min cell size = 44×44px`
+  touch target; below threshold → merge into sector-tail "その他".
+  Fallback (D4 = A): single squarified treemap with pinch-zoom if
+  segmented turns out too costly.
+- Tap cell → bottom sheet (D2/D3) showing job name / ranking
+  badge (Top 50 only) / AI影響度 / 年収 / 就業者数 / "詳細を見る"
+  CTA / ✕. Drag-to-dismiss + backdrop tap + ✕. iOS safe-area aware.
+
+**URL state** (D5 = B). `URLSearchParams` two-way binding, no
+router. `?sector=` / `?sort=` / `?job=` deep links. `?job=12345`
+auto-opens the bottom sheet on load. Filter changes use
+`history.replaceState` (don't pollute back stack).
+
+**SEO.** Dedicated `<title>` / `<meta description>` / `og:image`
+(`/api/og?page=map`) / `Dataset` + `ItemList` schema (Top 50 by
+ranking). Single canonical `/map` regardless of query.
+
+**Analytics.** Four new GA4 events: `map_open` (params: referrer),
+`map_filter` (sector, sort), `map_cell_tap` (job_id, sector, rank),
+`map_detail_click` (job_id). Standard 4-tracker analytics in
+`<head>` (CF / GA4 / Vercel WA / Speed Insights — same hard rule
+as every other page).
+
+**Build.** `scripts/build_occupations.py` gets a new
+`generate_map_thumbnail()` step that writes
+`dist/map-thumb.snippet.html` (inline SVG, < 4KB, Top 30 by area
++ "その他" tail, 5-tier color quantization). `index.html`
+includes via `{{INCLUDE map-thumb}}` placeholder + sed replace.
+
+**Performance.** Mobile homepage stops paying the treemap cost:
+the existing `<link rel="preload" href="/data.treemap.json">`
+gets `media="(min-width: 769px)"` so only desktop preloads.
+`/map` page does its own preload in its own `<head>`. Treemap
+render runs in `requestIdleCallback` so the sticky head stays
+interactive during fetch.
+
+**Closure.** Detail page `/ja/<id>` gets a "← 職業マップへ"
+link above footer (always jumps to bare `/map`, no query). Site
+footer (`§7.13`) gets a "職業マップ" entry next to "About".
+`sitemap.xml` adds `/map` (priority 0.9) + 10-12
+`/map?sector=*` derivative URLs (priority 0.7).
+
+**Out of scope.** Dark-mode-specific design (inherits §3),
+landscape-specific layout, PWA / service worker, multilingual
+(JA-only stays locked from v1.4.0).
+
+**Pending.** §16.13 a11y "リスト表示に切り替え" toggle (screen
+reader / keyboard fallback for the treemap canvas) is suspended;
+`/map` ships with the minimum a11y line (`role="img"` + label,
+native `<button>`/`<select>` for chips, focus-visible, reduced-
+motion respect) and the list-view toggle decision is deferred.
+
 ### Analytics automation — OAuth user-credential path + spec validation fixes
 
 The `setup-ga4.mjs` script had never actually been run successfully against

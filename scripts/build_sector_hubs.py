@@ -459,6 +459,10 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
       <footer>
         <div class="footer-links">
           <a href="{home_href}">トップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="{about_href}">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
@@ -669,15 +673,20 @@ def render_sectors_index(sectors: list[dict], by_sector: dict) -> str:
       </section>
 
       <footer>
-        <span>© <a href="{home_href}">mirai-shigoto.com</a> · MIT</span>
-        <span>
-          <a href="{about_href}">{escape(about_link)}</a> ·
-          <a href="/compliance">コンプライアンス</a> ·
+        <div class="footer-links">
+          <a href="{home_href}">トップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
+          <a href="{about_href}">{escape(about_link)}</a>
+          <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
-        </span>
-        <span style="font-size:.75rem;color:var(--fg3);line-height:1.55">
+        </div>
+        <div class="footer-meta">
+          © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
           出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
-        </span>
+        </div>
       </footer>
     </div>
   </body>
