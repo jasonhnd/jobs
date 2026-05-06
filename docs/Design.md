@@ -1,38 +1,44 @@
-# Design.md — mirai-shigoto.com 设计规范
+# Design.md — mirai-shigoto.com 设计规范（桌面 + 共享）
 
-> 这是本站**桌面版**设计的唯一真相源（single source of truth）。
+> 这是本站**桌面版 + 共享底层**设计的唯一真相源（single source of truth）。
 > 今后任何桌面侧视觉/交互/响应式行为变更，**先改这个文件**，再让代码跟随这个文件。
 > 代码与本文件冲突时，**以本文件为准**，代码视为应当被修正的偏差。
 >
+> **移动版（≤768px）专属规范见 [Design-Mobile.md](./Design-Mobile.md)**：mobile hero、tooltip touch-mode、移动响应式规则、`/map` 独立页。共享 token / 主题 / 断点 / treemap 视觉 / 通用组件继续在本文件，移动文件通过引用复用。
+>
 > **v1.4.0 起 JA-only 架构**：英文版 UI 已下线。所有 `/en/*` URL 通过 vercel.json 301 → `/ja/*`。索引、详情、sector hub、`api/og.tsx`、`llms.txt` 全部缩减为日语单语。源数据保留在 `data/_archive/translations-en/` 以便日后恢复。
 >
-> **v1.2.0 起单一 URL 架构**：v1.1.0 引入的 `/m/ja/*` + `/m/en/*` 已全部删除，移动体验合并到主 URL `/ja/<id>`，靠 CSS `@media` 自适应。Direction C 设计语言已合入桌面（视觉 + 文案），详见 §0.1。
-> [MOBILE_DESIGN.md](./MOBILE_DESIGN.md) 保留作为 **v1.1.0 历史 + Direction C token 来源**（index.html / 详情页 CSS comments 引用 `synced from styles/mobile-tokens.css`）。
+> **v1.2.0 起单一 URL 架构**：v1.1.0 引入的 `/m/ja/*` + `/m/en/*` 已全部删除，移动体验合并到主 URL `/ja/<id>`，靠 CSS `@media` 自适应。Direction C 设计语言已合入桌面（视觉 + 文案），详见 §0.1。废弃的 `MOBILE_DESIGN.md` 已于 2026-05-06 删除（v1.1.0 已废弃 4 个月，零 active 引用）。
 
 ---
 
 ## 0. 适用范围
 
-- `index.html`（首页 treemap，桌面 + 既有"宽响应式至 mobile"实现）
-- `privacy.html` / `compliance.html` / `about.html` / `404.html`（既有静态页）
-- `scripts/build_occupations.py` 生成的 556 个 `ja/<id>.html` 职业详情页（v1.4.0 起 JA-only；桌面 + 既有响应式至 mobile）
+- `index.html`（首页 treemap，桌面段；mobile 段见 Design-Mobile.md §3）
+- `privacy.html` / `compliance.html` / `about.html` / `404.html`（既有静态页，桌面 + 共享）
+- `scripts/build_occupations.py` 生成的 556 个 `ja/<id>.html` 职业详情页（v1.4.0 起 JA-only；桌面段；mobile 段见 Design-Mobile.md §3）
+
+> **`map.html`**（mobile-first 独立职业地图页）的完整规范在 [Design-Mobile.md §4](./Design-Mobile.md#4-map-页规范mobile-first-独立页)。桌面访问 `/map` 时复用同一布局（max-width 900px 居中）。
 
 > 当下设计源自 v0.4.x 系列，桌面版当前规范版本 v1.x（见 §15 修订历史）。
 
-### 0.1 与 MOBILE_DESIGN.md 的关系
+### 0.1 与 Design-Mobile.md 的分工
 
-从 v1.1.0 起，本站长出**两套并存的设计语言**：
+2026-05-06 起，原单一 Design.md 拆分为两份 peer 文件，按"设备 vs 共享"分工：
 
-| 文档 | 适用 URL | 设计方向 | 设计 Token |
-|---|---|---|---|
-| **Design.md**（本文件）| `index.html`, `/ja/<id>`, `privacy.html`, `compliance.html`, `about.html` | **数据 dashboard** —— treemap 灵魂、暗色优先、信息密度高 | `--bg-*`, `--ink-*`（无前缀变量）|
-| **MOBILE_DESIGN.md** | `/m/ja/*`, `/m/ja/<id>`（已归档；v1.4.0 后无 `/m/en/*`） | **Direction C: Warm Editorial** —— 衬线大字、sage 绿 + テラコッタ橙 + 暖米底 | `--m-*` 前缀 |
+| 文档 | 管什么 |
+|---|---|
+| **Design.md**（本文件） | 桌面专属 + 跨端共享底层（颜色 token / 字体 / 间距 / 主题 / 断点 / treemap 视觉 / 通用组件 / 桌面 hero / 交互动效 / 可访问性 / palette 准则） |
+| **[Design-Mobile.md](./Design-Mobile.md)** | 移动专属（`@media (max-width: 768px)` 及更窄）：Mobile Hero (Variant C)、Tooltip touch-mode、移动响应式规则、`/map` 独立页 |
 
-两套设计**语义上隔离**（不同 token、不同字体、不同视觉哲学），但**数据层共享**（同一份 `dist/data.*.json` 投影喂给两边）。
+**共享内容只在 Design.md 出现一份**，Design-Mobile.md 用引用方式复用，避免 token / 主题等共享底层出现两处需要同步的问题。
 
-桌面版 detail `/ja/<id>` 和移动版 detail `/m/ja/<id>` 是**两套不同 HTML**，桌面通过 `<link rel="canonical">` 持有"唯一权威 URL"地位（移动版指向桌面版以避免 SEO 重复内容惩罚）。详见 [MOBILE_DESIGN.md §6](./MOBILE_DESIGN.md#6-移动版-detail-的-url-与-seo-策略)。v1.4.0 起两边都只剩 `ja` 一种 URL。
+跨端组件（同一个 component 在两端表现不同的）：本文件描述 desktop 行为 + 共享视觉，移动行为见 Design-Mobile.md 对应章节。例如：
+- Tooltip：本文件 §6.1 (Desktop hover) + §6.4 (视口溢出，共享) / Design-Mobile.md §2 (touch-mode 全套)
+- Hero：本文件 §7.12 (Desktop) / Design-Mobile.md §1 (Mobile)
+- 响应式：本文件 §4 (断点定义) / Design-Mobile.md §3 (移动各档详细规则)
 
-后续 minor / major 调整都以补丁形式追加在文末「修订历史」。
+后续 minor / major 调整都以补丁形式追加在各自文件末尾「修订历史」。
 
 ---
 
@@ -281,76 +287,29 @@ pointer-events: none  /* hover 模式不可点击 */
 
 ### 6.2 Mobile（touch-mode）
 
-- 添加 `.touch-mode` class
-- `pointer-events: auto`
-- 显示 `.tt-close` 关闭按钮（右上角 ×）— 详细规格见 §6.5
-- 显示 `.tt-cta` 按钮（"詳細を見る →" / "View details →"）— 详细规格见 §6.6
-- `max-width: calc(100vw - 32px)`
-- `max-height: calc(100vh - 32px)`
-- `overflow-y: auto` + `-webkit-overflow-scrolling: touch`
-- `font-size: 0.78rem`，`padding: 10px 12px`
+> **已迁出本文件**。Mobile tooltip 全套行为（touch-mode 入口、tap-outside、close button、CTA、touch 状态机）见 [Design-Mobile.md §2](./Design-Mobile.md#2-mobile-tooltip-行为)。
 
 ### 6.3 Tap-outside 行为（Mobile）
 
-点击 tooltip 外部任意位置自动关闭。点击 tile 切换 tooltip。
+> 见 [Design-Mobile.md §2.2](./Design-Mobile.md#22-tap-outside-行为)。
 
 ### 6.4 视口溢出处理
 
 JS 必须根据 `window.innerWidth` / `innerHeight` 动态调整 tooltip 位置，确保不溢出视口。详见 `index.html` 中 `positionTooltip()` 逻辑（v0.4.2 引入）。
 
+> 此节为 desktop / mobile 共享逻辑，留在本文件。
+
 ### 6.5 Close button (`.tt-close`) 触摸目标
 
-| 主题 | 数值 |
-|---|---|
-| Visual size | 32×32 px（圆形） |
-| Hit area (touch target) | **44×44 px**（Apple HIG 最小） — 用 padding / pseudo-element 扩出，不靠 visual size |
-| Background | `rgba(255,255,255,0.06)`（dark 主题）/ `rgba(0,0,0,0.05)`（light 主题） |
-| Border | `1px solid var(--border)` |
-| Radius | `50%` |
-| Color | `var(--fg2)`，hover `var(--accent)` |
-| Font-size | `1.1rem`（× 字符大小） |
-| Position | `top: 8px; right: 8px` 绝对定位 |
-
-> **不可低于 44×44 hit area**。这是 v0.4.2 之后追加的硬性最小。原 22×22 视觉 + ~22×22 hit 在测试中导致老人 / 大拇指用户高频 mis-tap，是漏斗里的隐形漏点。
+> 见 [Design-Mobile.md §2.3](./Design-Mobile.md#23-close-button-tt-close-触摸目标)。
 
 ### 6.6 Tooltip CTA (`.tt-cta`)
 
-Mobile touch-mode tooltip 必须有一个**显眼的"進入詳細页"按钮**，否则用户看到信息却不知道能点进去（实测漏斗大漏点）。
-
-| 字段 | 值 |
-|---|---|
-| 元素 | `<a id="tooltipCta" class="tt-cta" target="_blank" rel="noopener">` |
-| 文本 | JA `詳細を見る →` / EN `View details →` |
-| Background | `var(--accent)`（橙色） |
-| Color | dark 主题 `#0b0d10`，light 主题 `#fff` |
-| Padding | `10px 14px` |
-| Radius | 8px |
-| Font-weight | 600 |
-| Font-size | 0.88rem |
-| Display | block，`width: 100%`，`text-align: center` |
-| Margin | `12px 0 0`（与 tooltip 内容隔开） |
-| Hover | `filter: brightness(1.05)` |
-| Focus | `outline: 2px solid var(--accent); outline-offset: 2px` |
-
-**href 契约**：showTooltip() 时 JS 设置 `cta.href = occUrl(occupation)`（`/ja/<id>`，v1.4.0 起 JA-only）。
-
-**GA4 事件**：点击 fire `tooltip_cta_click` 事件，参数 `occupation_id` / `ai_risk_score` / `language` — 详见 `analytics/spec.yaml`。
-
-> **CTA 与"双击 tile 打开详情"并存**，不替换。CTA 是显式入口（大多数用户走），双击是隐式快捷（老用户走）。两条路径都进 `/ja/<id>`。GA4 用不同事件区分归因。
+> 见 [Design-Mobile.md §2.4](./Design-Mobile.md#24-tooltip-cta-tt-cta)。
 
 ### 6.7 Touch 行为契约（scroll vs tap）
 
-Canvas 必须正确区分用户**意图滚动**和**意图点击**，否则把 treemap 区域变成"滚动死区"。
-
-| 阶段 | 行为 |
-|---|---|
-| `touchstart` | 记录起点 `{ x, y, t }`。`passive: true` — **不调用 `preventDefault`**，让浏览器决定是否启动 native 滚动 |
-| `touchmove` | 不需要拦截。如果用户滚动，浏览器会自然处理 |
-| `touchend` | 计算位移 `Math.hypot(dx, dy)`：<br>• `< 10px` AND `duration < 500ms` → 视为 tap，调用 `handleTouchTap(x, y)`<br>• 否则 → 视为滚动结束，**不处理**（不出 tooltip、不导航） |
-
-> 现状 bug（v0.4.2 之前留下的）：`touchstart` 用 `passive: false` + `preventDefault` 后立刻 fire tap → tile 区域内任何手指落点都锁住 native scroll，treemap 变成"滚不动的图"。修复后 tile 区域内可以正常滚动列表。
-
-> Tap 触发延迟：从 touchstart 立即 → touchend 后 100–300ms。这是为了**正确判断意图**的代价，可接受。
+> 见 [Design-Mobile.md §2.5](./Design-Mobile.md#25-touch-行为契约scroll-vs-tap)。常量 `TAP_SLOP_PX = 10` / `TAP_MAX_MS = 500` 在 §7.12 desktop hero search autocomplete 触摸状态机中复用，全站统一。
 
 ---
 
@@ -457,21 +416,34 @@ hover (各平台品牌色覆盖):
 
 ### 7.10 Footer
 
-**全站统一规范（v1.2.1 起）**：footer 不再用 `·` 中点连接的扁平链接列表，改为 **pill chip + footer-meta 两层结构**，全站（index / about / compliance / privacy / 404 / detail × 1112 / sector × 32）一致。
+**全站统一规范（v1.3.x 起 — 两行 chip + footer-meta 三层结构）**：footer 改为 **导航 chip 行 + 法务/规约 chip 行 + footer-meta** 的三层结构，全站（index / about / compliance / privacy / 404 / detail × 556 / sector × 17 / ranking × 10）**完全一致**（包括首页）。
+
+**单一真相源（v1.3.x patch — partial 架构）**：footer 的 HTML 实体从全部 8 处复制粘贴（5 个静态 HTML + 3 个 Python 生成器）收敛为一个文件 `partials/footer.html`。改 footer 的唯一姿势：
+
+1. 编辑 `partials/footer.html`
+2. 跑 `npm run build:footer`（= `python3 scripts/build_partials.py`）— 静态 5 页之间 `<!-- FOOTER:START --> ... <!-- FOOTER:END -->` 标记之间的内容被替换
+3. 跑 `npm run build`（含 build:footer、build:occ、build:sectors、build:rankings）— 587 generated 页用 `FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text()` 直接读 partial，渲染到对应位置
+
+不要在静态页 marker 之间手改 footer，下一次 build 会被覆盖。不要在 build 脚本里硬编码 footer HTML，必须通过 `{FOOTER_PARTIAL}` 插入。
 
 **版面**：
 
 ```
 <footer>
-  <div class="footer-links">          ← 主导航 chip 行（pill 圆角边框）
-    <a>トップ</a>
-    <a>データについて</a>
-    <a>コンプライアンス</a>
-    <a>プライバシー</a>
-    （+ 页面相关的额外 chip：变更履歴 / 算出方法）
+  <div class="footer-links">          ← 第 1 行：导航 chip（pill 圆角边框）
+    <a href="/">トップ</a>
+    <a href="/ja/sectors">セクター</a>
+    <a href="/ja/rankings">ランキング</a>
   </div>
-  <div class="footer-meta">           ← 版本 / 许可 / 出典 / 免责（小字）
-    v0.5.0 · MIT · 出典：MHLW · JILPT job tag v7.00 …
+  <div class="footer-links">          ← 第 2 行：法务/规约 chip
+    <a href="/about">データについて</a>
+    <a href="/compliance">コンプライアンス</a>
+    <a href="/privacy">プライバシー</a>
+  </div>
+  <div class="footer-meta">           ← 第 3 层：版本 / 出典 / 免责（小字）
+    v1.3.0 · MIT<br />
+    出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+    <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
   </div>
 </footer>
 ```
@@ -498,47 +470,33 @@ footer .footer-links a:hover {
   border-color: var(--accent);
   background: rgba(217,107,61,0.06);
 }
-footer .footer-meta { color: var(--fg2); font-size: 0.7-0.78rem; line-height: 1.55; opacity: 0.92; }
+footer .footer-meta { color: var(--fg2); font-size: 0.7rem; line-height: 1.65; opacity: 0.92; text-wrap: pretty; }
 footer .footer-meta a { color: var(--accent); }
+footer .footer-meta .nowrap { white-space: nowrap; }   /* 全站强制：用于「独立行政法人 労働政策研究・研修機構（JILPT）」与「公式見解ではありません」防折行 */
+@media (max-width: 540px) {
+  footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+}
 ```
 
-**链接清单契约（v1.2.2 起 — 严格 3 / 4 chip 规则 + GitHub 完全切断）**：
-- ✅ **index.html**: **正好 3 chip** —— `データについて / コンプライアンス / プライバシー`（不放トップ，因为已在首页）
-- ✅ **其他所有页面**（404 / about / compliance / privacy / 1112 detail / 32 sector hub）: **正好 4 chip** —— `トップ / データについて / コンプライアンス / プライバシー`
-- ❌ **禁止**任何额外 chip：原本 index 上的「変更履歴 / Changelog」与 sector hub 上的「算出方法 / Methodology」均已在 v1.2.2 删除
+**链接清单契约（v1.3.x 起 — 严格两行 6 chip 规则 + GitHub 完全切断）**：
+- ✅ **全站每个页面（index / 404 / about / compliance / privacy / 556 detail / 17 sector / 9 ranking）**：**正好两行 6 chip**
+  - 第 1 行：`トップ / セクター / ランキング`（导航三件套）
+  - 第 2 行：`データについて / コンプライアンス / プライバシー`（法务/规约三件套）
+- ✅ **footer-meta**：`v1.3.0 · MIT` + 出典 + 独立分析サイト免責声明 + コンプライアンス链接（全站完全一致，包括 compliance.html 自身的自指链接）
+- ❌ **禁止**任何额外 chip：原本 index 上的「変更履歴 / Changelog」与 sector hub 上的「算出方法 / Methodology」均已在 v1.2.2 删除；旧的 4 chip 单行版本已在 v1.3.x 退役
 - ❌ **禁止**站内任何 `<a href="https://github.com/...">` —— 全站完全切断 GitHub 链接（包括 footer-meta 的 `MIT` 链接、JSON-LD 的 `sameAs`、content body 的 GitHub Issues 引用、llms.txt / llms-full.txt 中的 source code 引用、make_prompt.py 生成的 prompt 文件）；`MIT` 在 footer-meta 改为纯文本
-- ✅ 自指 chip 是有意行为：在 `/about` 页 footer 仍展示「データについて」chip（4 chip 规则要求严格一致），点击会刷新当前页
+- ✅ 自指 chip 是有意行为：在 `/about` / `/compliance` / `/privacy` 页 footer 仍展示对应自身的 chip（一致性优先于「不放自指链接」），点击会刷新当前页
 
 **理由**：
-- `·` 中点把 5-7 个链接挤在一行，在 mobile 容易折行成两半混杂、视觉权重不清；用户反馈「区分不开」。
+- 旧的 3 / 4 chip 单行版本把导航（トップ）和法务（コンプライアンス）混在一行，视觉权重不清；user 反馈「需要让 footer 也成为站点导航口」。
+- 拆为「导航 + 法务」两行后，第一行承担首页之外的兜底导航职责（特别是从详情页直跳セクター / ランキング），第二行回归法务/规约本职；mobile 上两行也比单行 6 chip 更不容易折行混乱。
 - pill chip 用 border + padding 让每个链接有独立 hit area + 视觉容器，hover 高亮单个 chip 更清晰。
+- footer-meta 在所有页面统一为「版本 + 出典 + 独立分析免責 + コンプライアンス链接」四件套，避免每页 disclaimer 内容飘移；用户反馈「所有页面 footer 要一模一样」。
 - 移除 GitHub 链接是配合首页去掉「非公式」banner 的同一波清理：把开发者向元素从访客主路径剥离。
 
 ### 7.11 Mobile Hero（Variant C, mobile-only）
 
-mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，不影响桌面版。
-
-**目的**：手机用户打开站点 10 秒内必须看到主图 / 工具入口，避免让 stats / toggles / 说明文字挤占首屏。
-
-**结构**（DOM 顺序自上而下）：
-
-1. `h2.mobile-hero-title` — `あなたの仕事の AI 影響度 を見る` / `See your job's AI impact`，字号 1.35rem (`≤480: 1.2rem`)，`AI 影響度` 用 `var(--accent)` 着色。
-2. `.mobile-hero-trust` — 单行信任信号：`552 職業 · LLM スコア · 公開データ由来`。font 0.74rem，`color: var(--fg2)`，居中或左对齐。
-3. `.mobile-hero-search` — 搜索输入框 + 🔍 icon prefix。input 占满宽，padding `10px 14px 10px 38px`（左侧留 icon 空间），radius 999px。`placeholder: 職業名で検索（例：事務職）`。绑定 `applyFilter()` + dropdown(共用 §7.12 的 search-suggest 逻辑)。
-4. `.mobile-hero-chips` — 5 个职业 chip，横排可 wrap：**事務職 / 経理 / 営業 / CS（カスタマーサポート 缩写）/ 看護師**（与桌面 §7.12 共用同一组）。chip padding `5px 11px`，radius 999px，`border: 1px solid var(--border)`，font 0.78rem。
-
-**桌面行为**（`min-width: 769px`）：`.mobile-hero { display: none }`。
-
-**移动行为**（`max-width: 768px`）：
-- `.mobile-hero { display: block }`，置于 h1 之下、treemap 之上。
-- DOM 重排：`.controls` / `.stats-panel` 移到 treemap **之后**（`#wrapper` 改 flex-column + `order` 控制），`.dimension-hint` / `.search-row`（旧的，原 desktop 位）`display: none`（mobile-hero 取代它们）。
-- 用户首屏看到：top-banner → h1 → mobile-hero → treemap 顶部。`.controls` / `.stats-panel` 滚下后可见，做"探索后操作"。
-
-**Chip 行为契约（Stage 1 起：1 步直达）**：
-- 点击 chip → 通过 `CHIP_TO_JOB` 映射 → `window.location.href = occUrl(matched_record)`，1 步跳到对应详情页。
-- chip 名 v1 占位（与 §7.12 共用），data-chip 是日文全名，可视显示在窄屏上可缩写（如 `カスタマーサポート` → `CS`）。
-- 应在 GA4 数据稳定（2-3 周）后用 top-clicked / top-searched 替换名单。
-- GA4 事件：`popular_job_click`，参数 `occupation_id` / `language`。
+> **已迁出本文件**。Mobile Hero 完整规范见 [Design-Mobile.md §1](./Design-Mobile.md#1-mobile-hero-variant-c-mobile-only)。Chip 名单与本文件 §7.12 桌面 hero 共用同一组（事務職 / 経理 / 営業 / カスタマーサポート / 看護師），任一处改动两端同步。
 
 ---
 
@@ -557,14 +515,14 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 5. `.search-suggest` — 输入时实时下拉建议（top 8）：每条 `<li>` 显示职业名 + AI 影響度，按 (exact match → starts-with → contains → length asc) 排序。键盘 ↑↓ + Enter 可选，鼠标点击跳转。
    - **首条自动高亮（v1.3.1, P0-B）**：render() 时第一个候选自动加 `.focused` 类（`focusedIdx = 0`），用户敲完 Enter **无需先按 ↓** 即可跳第一条。`rankMatches` 已经是「精確 → 前缀 → 包含 + 名称长度 asc」三层排序，第一条命中率最高。
    - **键盘提示行（v1.3.1, P0-C）**：dropdown 顶部插入一个 `.ss-hint` 非交互行，文案「↑↓ で選択 · Enter で開く」/「↑↓ to select · Enter to open」。仅在 `matchMedia("(hover: none) and (pointer: coarse)")` 为 false（即非触屏设备）时渲染；触屏设备保持紧凑无 hint。`pointer-events: none` 确保 hint 不被 click/keyboard 选中，keydown / mousedown 都用 `li[data-job-id]` 选择器跳过它。
-   - **触屏 tap-vs-scroll 状态机（v1.3.1, P0-D F2）**：mobile 上 `touchstart` 仅记录起点 + 时间戳（`{ passive: true }`，**不**调 `preventDefault`，让浏览器原生滚动接管），`touchend` 时计算位移和持续时长。位移 < 10px **且** 时长 < 500ms 才视为 tap → 触发 `navigateToJob`；否则视为滚动或长按 → no-op。常量 `TAP_SLOP_PX = 10` / `TAP_MAX_MS = 500` 与 §6.7 canvas 触摸状态机保持一致（同一套阈值适用全站）。Desktop 行为不变，仍走 `mousedown` 立即 `selectFromEvent`。
+   - **触屏 tap-vs-scroll 状态机（v1.3.1, P0-D F2）**：mobile 上 `touchstart` 仅记录起点 + 时间戳（`{ passive: true }`，**不**调 `preventDefault`，让浏览器原生滚动接管），`touchend` 时计算位移和持续时长。位移 < 10px **且** 时长 < 500ms 才视为 tap → 触发 `navigateToJob`；否则视为滚动或长按 → no-op。常量 `TAP_SLOP_PX = 10` / `TAP_MAX_MS = 500` 与 [Design-Mobile.md §2.5](./Design-Mobile.md#25-touch-行为契约scroll-vs-tap) canvas 触摸状态机保持一致（同一套阈值适用全站）。Desktop 行为不变，仍走 `mousedown` 立即 `selectFromEvent`。
    - **iOS 键盘自适应高度（v1.3.1, P0-D F1）**：iOS Safari 的 `100vh` 在键盘弹起时**不会**缩小（已知行为），导致固定 `max-height: 360px` 的下拉框被键盘压住一半。`fitDropdownToViewport()` 用 `window.visualViewport` API 监听 `resize` / `scroll` 事件，动态把 `suggestEl.style.maxHeight` 设为 `visualViewport.height - inputBottom - 12px`，下限 160px。Focus 时也调一次以确保第一次打开就贴合。`visualViewport` 不存在的旧浏览器降级到 CSS 默认 max-height。
    - **滚动期间不隐藏（v1.3.1, P0-D F3）**：iOS 上手指触碰下拉框会让 `<input>` 失去焦点，原 150ms blur-hide 会在用户滚动到一半时关闭下拉框。新增 `touchActiveOnDropdown` 标志：touchstart 置 true，touchend 350ms 延迟回 false。Blur-hide 检查标志，标志为 true 时不隐藏。350ms 窗口足够覆盖 navigateToJob 跳转完成。
 6. `.desktop-hero-popular-label` + `.desktop-hero-chips` — 5 个固定 chips（与 §7.11 共用同一组）：**事務職 / 経理 / 営業 / カスタマーサポート / 看護師**。
 
 **桌面行为**（`min-width: 769px`）：`.desktop-hero { display: block }`。同时**隐藏**老的 `#wrapper > header > h1` / `.controls` / `.dimension-hint` / `.search-row`（这些被 hero 替代；DOM 保留以保 SEO/可访问性，但 `display: none`）。
 
-**移动行为**（`max-width: 768px`）：`.desktop-hero { display: none }`，移动端继续用 §7.11 `.mobile-hero`。
+**移动行为**（`max-width: 768px`）：`.desktop-hero { display: none }`，移动端继续用 [Design-Mobile.md §1](./Design-Mobile.md#1-mobile-hero-variant-c-mobile-only) `.mobile-hero`。
 
 **交互契约（1 步直达）**：
 
@@ -684,47 +642,7 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 
 ## 8. 移动端自适应规则汇总
 
-### 8.1 ≤768px（mobile）
-
-- `#wrapper padding: 16px 16px 60px`，**改 `display: flex; flex-direction: column`** 以便 §7.11 mobile-hero / treemap / 旧 chrome 通过 `order` 重排
-- `h1 font 1.3rem`，flex-direction column，gap 8px
-- `h1 .lang-switch margin-left 0`（不再 push 到右）
-- **§7.11 `.mobile-hero` 显示**（`display: block`），插在 h1 之下
-- **DOM 重排（CSS `order`）**：mobile-hero / loadingState / treemap / .controls / .stats-panel 之间用 order 推 treemap 上来
-- **`.dimension-hint`、原 `.search-row` 在 mobile 上 `display: none`**（mobile-hero 取代它们）
-- `.intro font 0.88rem`, line-height 1.75
-- `.controls gap 10px, padding 10px 12px`，**移到 treemap 之后**
-- `.layer-toggle` 横向滚动
-- `.gradient-legend` 占满宽度 + 居中
-- `.stats-panel` **移到 treemap 之后**
-- `.stats-row gap 14px, font 0.78rem`
-- `#tooltip` 进入 touch-mode（详见 §6.2）
-- `.meta-card` 单列
-- treemap 高度切换为 `w × 2.6`，标签 minW/H 减半
-
-### 8.2 ≤480px（compact-mobile）
-
-- `top-banner` 缩字
-- `h1 font 1.2rem`
-- `stats-panel: 2 columns`
-- `stat-block padding 10px 12px`，stat-value 1rem
-- `tier-table font 0.7rem`
-- `mini-hist height 28px`（原 32px）
-- `dimension-hint` 改 column 排列
-- `layer-toggle` 改 wrap（不再滚动）
-- `palette-toggle margin-left 0`
-- `disclaimer / usage-notice / intro-details / meta-card` 全部缩字 + 缩 padding
-- `#wrapper padding 14px 12px 50px`
-
-### 8.3 ≤360px（tiny-mobile）
-
-- `stats-panel: 1 column`
-- `h1 font 1.1rem`
-- `h1 .h1-sub font 0.74rem`
-
-### 8.4 ≤540px（share buttons 触摸增强）
-
-- `share-btn 36×36`（默认 32×32）
+> **已迁出本文件**。移动端响应式规则全套（≤768 / ≤480 / ≤360 / ≤540 各档详细规则）见 [Design-Mobile.md §3](./Design-Mobile.md#3-移动端响应式规则汇总)。本文件 §4 仍持有断点的**定义**（768 / 480 / 360 / 540 阈值），具体每档要做什么交给 Design-Mobile.md。
 
 ---
 
@@ -824,6 +742,74 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 | 2026-05-06 | §7.12 | 搜索 autocomplete 三件 P0 改造（事件拆分 + 首条自动高亮 + 键盘提示行）| GA4 funnel 显示 `job_search_submit → job_search_navigate` 仅 22% CTR，但深挖发现该事件混合了「视觉过滤意图」与「跳转意图」两类用户，分母被污染。**P0-A**：`job_search_submit` 重命名为 `job_search_typed` 并降级为非 Key Event（保留用于热门查询/数据缺口统计）；新增 `job_search_intent` 作为新 KPI #1，仅在用户对 autocomplete 表现出明确跳转意图时触发（form submit / 方向键 / hover ≥500ms / 点击候选），按查询去重一次。**P0-B**：autocomplete render() 时第一条自动 `.focused`（`focusedIdx = 0`），用户敲完 Enter 无需先按 ↓ 即可跳第一条。**P0-C**：dropdown 顶部插入「↑↓ で選択 · Enter で開く」非交互提示行（`.ss-hint` + `pointer-events: none`），仅桌面渲染，触屏跳过。新真实 CTR 公式 = `job_search_navigate / job_search_intent`。|
 | 2026-05-06 | 头部, §0, §0.1, §6.6, §7.10, §7.12, §7.13 | v1.4.0 — 英文版 UI 全部下线 | GA4 + Vercel analytics 显示英文版会话占比近零（持续 3 个月）。维护 1112 个 EN HTML、51 处 i18n span、setLang() 切换器对当前流量来说成本过高。整站缩减为 JA-only：删除所有 `[data-i18n="ja\|en"]` 配对、3 个语言切换器、`?lang=en` URL 处理、`hreflang="en"`/`x-default`、英文页脚、`og:locale:alternate`；`/en/*` URL 在 `vercel.json` 加 catch-all 301 → `/ja/*` 保 SEO 权重；`api/og.tsx` 删 `lang=en` 参数；`build_occupations.py` / `build_sector_hubs.py` / projections 全删 EN 代码路径；FAQPage JSON-LD 10 题翻译为日文；`inLanguage` `["ja","en"]` → `["ja"]`。源数据 `data/translations/en/` 移动到 `data/_archive/translations-en/` 保留以便日后恢复，`data/occupations/*.json` 的 `*_en` 字段一字不动（仅 build 不读）。Sitemap 1152 → 579 URL，`ja/<id>.html` × 556 + `ja/sectors/<sector_id>.html` × 16 + `ja/sectors/index.html` × 1。|
 | 2026-05-06 | §7.12 | 搜索 autocomplete 移动端三件 P0-D 改造（iOS 键盘自适应 + tap-vs-scroll 状态机 + scroll 期间保持显示）| 用户在 iPhone 上录屏反馈：1) 键盘弹起后下拉框被压到只剩一条半的高度，下面看不见；2) 手指一碰下拉就立刻跳到那条，无法滚动浏览。诊断为三个独立但相关的 bug。**F1**：iOS Safari 的 `100vh` 不会因键盘弹起而缩小，固定 `max-height: 360px` 被键盘压住。引入 `fitDropdownToViewport()` 用 `window.visualViewport` API 监听 resize/scroll，动态计算 input 底部到键盘顶部的可用空间，赋给 `suggestEl.style.maxHeight`，下限 160px。**F2**：原 `touchstart` 立即调 `selectFromEvent` → `navigateToJob`，用户没机会滚动。改为 §6.7 canvas 同款触摸状态机：`touchstart`（passive: true）只记录起点 + t0；`touchend` 时位移 < 10px **且** 时长 < 500ms 视为 tap 才跳转，否则视为滚动 / 长按 → no-op。Desktop `mousedown` 路径不变。**F3**：iOS 上触摸下拉框会让 input 失焦，原 150ms blur-hide 会在用户滚动到一半时关闭下拉框。新增 `touchActiveOnDropdown` 标志：touchstart 置 true，touchend 350ms 延迟回 false；blur-hide 检查标志，true 时不隐藏。三件配套，单独做任一件都不完整。常量 `TAP_SLOP_PX=10` / `TAP_MAX_MS=500` 与 §6.7 一致，全站触摸阈值统一。|
+| 2026-05-06 | §0, §16（新）| 新增 §16 `/map` 页规范（mobile-first 独立页）| 设计决策：把 552 职业 treemap 从 mobile 首页拆出做独立页 `/map`，首页改放 preview 卡。桌面 `index.html` 嵌入式 treemap 完全不动。新页 IA：sticky header + 搜索 + sector chips + sector segmented treemap（D4=C），tap cell 升起 bottom sheet 预览（D2/D3），URL state 双向绑定深链 `?sector=&sort=&job=`（D5=B）。配套：`build_occupations.py` 新增 `generate_map_thumbnail()` 输出 inline SVG snippet 注入首页 preview 卡；详情页底部加 "← 職業マップへ" 闭环（D6）；GA4 加 4 个事件 `map_open` / `map_filter` / `map_cell_tap` / `map_detail_click`；专属 SEO（title / meta / OG / `Dataset` + `ItemList` schema）。Mobile 首页 `data.treemap.json` preload 加 `media="(min-width: 769px)"` 限定桌面，移动端不再为 treemap 付出 80KB 数据 + canvas 渲染成本。a11y "リスト表示に切り替え" toggle 暂列为 §16.13 PENDING（M8 待决策）。|
+| 2026-05-06 | §16（新）, §7.10 | Ranking Pages 扩充：4→9 ranking + 1 hub = 10 页 | 新增 5 个排名页（年収 / 初任給 / 平均年齢若い / 労働時間短い / 人手不足）。全 9 页追加 highlights 洞察 + sector 分布图 + FAQ（FAQPage JSON-LD）+ stats 面板拡張。Hub 页追加全局統計 + 9 卡片含 1 位预览 + 横断 insights。新 CSS 组件：demand-pill / rl-extra / highlights / sector-chart / faq / insights / rr-preview。Build: `build_rankings.py` 输出 10 HTML → 323 KB。|
+| 2026-05-06 | 头部, §0, §0.1, §6.2-§6.7, §7.11, §8, §16→§17 | 文件拆分：Design.md / Design-Mobile.md 两份 peer | 新增 §16 后 mobile 内容已超 doc 一半。按 Q1=C / Q2=A / Q3=B 决策：(1) 新建 `docs/Design-Mobile.md`，移入原 §6.2/§6.3/§6.5/§6.6/§6.7（mobile tooltip 全套）→ 新 §2、§7.11（Mobile Hero）→ 新 §1、§8 全部（移动响应式规则）→ 新 §3、§16 全部（`/map` 页规范）→ 新 §4。本文件保留桌面专属（§6.1 / §7.12 / §7.14）+ 跨端共享（§1 原则 / §2 token / §3 主题 / §4 断点 / §5 treemap 视觉 / §6.4 视口溢出 / §7 通用组件 / §9-§13 交互 a11y palette）。(2) 已迁出章节在本文件保留 stub 标题 + 跳转链，不留空白章节号；§7.12 desktop hero 中两处 `§7.11` / `§6.7` 引用更新为 `Design-Mobile.md §1` / `§2.5`。(3) 原 `docs/MOBILE_DESIGN.md`（v1.1.0 时代废弃 `/m/*` URL 架构存档，4 个月零 active 引用）一并删除（Q1=C）。共享内容只在本文件出现一份，避免 token / 主题 / treemap 视觉 token 出现两份需要同步的问题。|
+
+---
+
+## 16. Ranking Pages 规范（`/ja/rankings/*`）
+
+### 16.1 页面一览（9 ranking + 1 hub = 10 页）
+
+| slug | 标题 | 排序字段 | 额外列 |
+|------|------|---------|--------|
+| `ai-risk-high` | AIに奪われる仕事 TOP30 | `ai_risk` 降序 | — |
+| `ai-risk-low` | AI影響が少ない仕事 TOP30 | `ai_risk` 升序 | — |
+| `salary-safe` | 高年収×低AIリスク TOP30 | `salary` 降序（AI≤5） | — |
+| `workers` | 就業者数ランキング TOP30 | `workers` 降序 | — |
+| `salary` | 年収ランキング TOP30 | `salary` 降序 | — |
+| `entry-salary` | 初任給ランキング TOP30 | `recruit_wage` 降序 | 初任給（万円） |
+| `young-workforce` | 平均年齢が若い職業 TOP30 | `average_age` 升序 | 平均年齢（歳） |
+| `short-hours` | 労働時間が短い職業 TOP30 | `monthly_hours` 升序 | 月間時間（h） |
+| `high-demand` | 人手不足の職業 TOP30 | `demand_band` hot→warm | demand pill |
+
+Hub: `/ja/rankings/index.html` — 全局统计 + 9 卡片（含 1 位预览） + 数据洞察
+
+### 16.2 个别 ranking 页面结构
+
+```
+breadcrumb → h1（accent） → subtitle → intro
+→ stats panel（3-4 个指标，auto-fit grid）
+→ highlights（3 条自动生成洞察，accent-deep 左边框）
+→ sector chart（TOP30 内行业分布 CSS 条形图，最多 6 行）
+→ TOP 30 ranked list（rank counter + name + sector + risk pill + [extra col] + salary + workers）
+→ FAQ section（3 Q&A，`<details>` 折叠，FAQPage JSON-LD）
+→ related rankings grid（剩余 8 个 ranking 的交叉链接）
+→ footer（全站统一两行 6 chip）
+```
+
+### 16.3 Hub 页面结构
+
+```
+breadcrumb → h1 → subtitle → intro
+→ global stats panel（总职业数 / 全体平均 AI 影響 / 全体平均年収 / 総就業者数）
+→ ranking cards grid（9 卡，每卡含 title + desc + 1 位 preview + count）
+→ insights section（5 条跨排名横断洞察）
+→ footer
+```
+
+### 16.4 新增 CSS 组件
+
+- `.demand-pill` — 求人需要 badge（hot=绿 / warm=黄 / cool=蓝 / cold=灰），跟 `.risk-pill` 同尺寸
+- `.rl-extra` — rank item 额外列值（accent-deep 色 + tabular-nums）
+- `.highlights` — 洞察列表（bg2 + accent-deep 左边框 3px）
+- `.sector-chart` / `.sb-row` — CSS-only 水平条形图（sector 名 + track/fill + 数字）
+- `.faq` / `.faq details` — FAQ 折叠组件（Q. 前缀 accent 色，答案 fg2）
+- `.insights` — hub 页洞察列表（bg2 卡片式）
+- `.rr-preview` — hub 卡片 1 位预览行（accent-deep 小字 + 🥇）
+
+### 16.5 SEO
+
+每页 JSON-LD `@graph` 包含：`WebPage` + `BreadcrumbList` + `ItemList`（30 条）+ `FAQPage`（3 Q&A）。
+
+Build: `python3 scripts/build_rankings.py` → 输出 10 个 HTML 到 `ja/rankings/`。
+
+---
+
+## 17. `/map` 页规范（mobile-first 独立页）
+
+> **已迁出本文件**。完整规范见 [Design-Mobile.md §4](./Design-Mobile.md#4-map-页规范mobile-first-独立页)。
 
 ---
 

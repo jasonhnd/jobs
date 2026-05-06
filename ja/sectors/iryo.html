@@ -63,6 +63,30 @@
       }
     },
     {
+      "@type": "Article",
+      "@id": "https://mirai-shigoto.com/ja/sectors/iryo#article",
+      "headline": "医療・保健 の職業 — 36職業の AI 影響度・年収・就業者数",
+      "description": "医療・保健 業界の 36 職業を AI 影響度・年収・就業者数で一覧。",
+      "image": "https://mirai-shigoto.com/api/og?sector=iryo",
+      "url": "https://mirai-shigoto.com/ja/sectors/iryo",
+      "datePublished": "2026-05-05",
+      "dateModified": "2026-05-05",
+      "author": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "inLanguage": "ja",
+      "mainEntityOfPage": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/iryo#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/iryo#webpage"
+      },
+      "articleSection": "セクター"
+    },
+    {
       "@type": "BreadcrumbList",
       "@id": "https://mirai-shigoto.com/ja/sectors/iryo#breadcrumb",
       "itemListElement": [
@@ -310,6 +334,53 @@
           "name": "産業医"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/iryo#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "医療・保健業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "医療・保健業界は36の職業に分類されており、代表的な職業は看護師、検疫官（看護師）、薬剤師などです。就業者数の合計は約3,379,451人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "医療・保健業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、細胞検査士（AI影響 8/10）、薬剤師（AI影響 7/10）、臨床検査技師（AI影響 7/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "医療・保健業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、はり師・きゅう師（AI影響 2/10）、柔道整復師（AI影響 2/10）、あんまマッサージ指圧師（AI影響 2/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "医療・保健業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "医療・保健業界の36職業の平均 AI 影響度は10段階中 4.1 で、中程度の水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "医療・保健業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 4.1/10 で、職業によって AI 影響度に差があり、個別に検討が必要な業界です。特に AI リスクが低い職業として はり師・きゅう師、柔道整復師、あんまマッサージ指圧師 などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -319,13 +390,18 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights -->
@@ -386,9 +462,22 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
 footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-footer .footer-meta{color:var(--fg2);font-size:.72rem;line-height:1.55}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
 footer .footer-meta a{color:var(--accent)}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -443,23 +532,33 @@ footer .footer-meta a{color:var(--accent)}
         <ul class="full-list"><li><a href="/ja/162"><span class="risk-pill high">8/10</span>細胞検査士</a></li><li><a href="/ja/158"><span class="risk-pill high">7/10</span>薬剤師</a></li><li><a href="/ja/161"><span class="risk-pill high">7/10</span>臨床検査技師</a></li><li><a href="/ja/163"><span class="risk-pill high">7/10</span>診療放射線技師</a></li><li><a href="/ja/171"><span class="risk-pill mid">6/10</span>栄養士</a></li><li><a href="/ja/407"><span class="risk-pill mid">6/10</span>治験コーディネーター</a></li><li><a href="/ja/576"><span class="risk-pill mid">6/10</span>衛生管理者</a></li><li><a href="/ja/160"><span class="risk-pill mid">5/10</span>保健師</a></li><li><a href="/ja/411"><span class="risk-pill mid">5/10</span>カウンセラー（医療福祉分野）</a></li><li><a href="/ja/156"><span class="risk-pill mid">4/10</span>看護師</a></li><li><a href="/ja/159"><span class="risk-pill mid">4/10</span>歯科医師</a></li><li><a href="/ja/164"><span class="risk-pill mid">4/10</span>臨床工学技士</a></li><li><a href="/ja/166"><span class="risk-pill mid">4/10</span>歯科衛生士</a></li><li><a href="/ja/170"><span class="risk-pill mid">4/10</span>視能訓練士</a></li><li><a href="/ja/223"><span class="risk-pill mid">4/10</span>獣医師</a></li><li><a href="/ja/403"><span class="risk-pill mid">4/10</span>小児科医</a></li><li><a href="/ja/404"><span class="risk-pill mid">4/10</span>内科医</a></li><li><a href="/ja/405"><span class="risk-pill mid">4/10</span>精神科医</a></li><li><a href="/ja/406"><span class="risk-pill mid">4/10</span>産婦人科医</a></li><li><a href="/ja/545"><span class="risk-pill mid">4/10</span>歯科助手</a></li><li><a href="/ja/564"><span class="risk-pill mid">4/10</span>検疫官（看護師）</a></li><li><a href="/ja/157"><span class="risk-pill low">3/10</span>助産師</a></li><li><a href="/ja/165"><span class="risk-pill low">3/10</span>歯科技工士</a></li><li><a href="/ja/167"><span class="risk-pill low">3/10</span>理学療法士（PT）</a></li><li><a href="/ja/168"><span class="risk-pill low">3/10</span>作業療法士（OT）</a></li><li><a href="/ja/169"><span class="risk-pill low">3/10</span>言語聴覚士</a></li><li><a href="/ja/176"><span class="risk-pill low">3/10</span>義肢装具士</a></li><li><a href="/ja/246"><span class="risk-pill low">3/10</span>看護助手</a></li><li><a href="/ja/402"><span class="risk-pill low">3/10</span>外科医</a></li><li><a href="/ja/510"><span class="risk-pill low">3/10</span>動物看護</a></li><li><a href="/ja/563"><span class="risk-pill low">3/10</span>麻酔科医</a></li><li><a href="/ja/575"><span class="risk-pill low">3/10</span>整形外科医</a></li><li><a href="/ja/172"><span class="risk-pill low">2/10</span>あんまマッサージ指圧師</a></li><li><a href="/ja/173"><span class="risk-pill low">2/10</span>柔道整復師</a></li><li><a href="/ja/175"><span class="risk-pill low">2/10</span>はり師・きゅう師</a></li><li><a href="/ja/583"><span class="risk-pill mid">—</span>産業医</a></li></ul>
       </section>
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>医療・保健業界にはどんな職業がありますか？</summary><div class="faq-answer">医療・保健業界は36の職業に分類されており、代表的な職業は看護師、検疫官（看護師）、薬剤師などです。就業者数の合計は約3,379,451人にのぼります。</div></details><details class="faq-item"><summary>医療・保健業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、細胞検査士（AI影響 8/10）、薬剤師（AI影響 7/10）、臨床検査技師（AI影響 7/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>医療・保健業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、はり師・きゅう師（AI影響 2/10）、柔道整復師（AI影響 2/10）、あんまマッサージ指圧師（AI影響 2/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>医療・保健業界の平均 AI 影響度は？</summary><div class="faq-answer">医療・保健業界の36職業の平均 AI 影響度は10段階中 4.1 で、中程度の水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>医療・保健業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 4.1/10 で、職業によって AI 影響度に差があり、個別に検討が必要な業界です。特に AI リスクが低い職業として はり師・きゅう師、柔道整復師、あんまマッサージ指圧師 などが挙げられます。</div></details></div></section>
+
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>
         <ul class="related-sectors"><li><a href="/ja/sectors/fukushi"><span class="ja-name">福祉・介護</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/kyoiku"><span class="ja-name">教育・指導</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/hoan"><span class="ja-name">保安・公安</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/noringyo"><span class="ja-name">農林・水産</span><span class="count">14 職業</span></a></li><li><a href="/ja/sectors/senmon"><span class="ja-name">専門・技術</span><span class="count">51 職業</span></a></li><li><a href="/ja/sectors/it"><span class="ja-name">IT・通信</span><span class="count">22 職業</span></a></li><li><a href="/ja/sectors/shigyo"><span class="ja-name">士業・経営・コンサル</span><span class="count">63 職業</span></a></li><li><a href="/ja/sectors/creative"><span class="ja-name">クリエイティブ・メディア</span><span class="count">37 職業</span></a></li><li><a href="/ja/sectors/jimu"><span class="ja-name">事務・公務</span><span class="count">57 職業</span></a></li><li><a href="/ja/sectors/hanbai"><span class="ja-name">販売・営業</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/service"><span class="ja-name">サービス・接客</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/seizo"><span class="ja-name">製造・職人</span><span class="count">59 職業</span></a></li><li><a href="/ja/sectors/maint"><span class="ja-name">設備・保守</span><span class="count">49 職業</span></a></li><li><a href="/ja/sectors/kensetu"><span class="ja-name">建設・土木</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/keiseki"><span class="ja-name">軽作業・清掃</span><span class="count">16 職業</span></a></li></ul>
       </section>
 
+      <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-          © <a href="/">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
+            最終更新：<time datetime="2026-05-06T19:20:48+09:00">2026/05/06/19:20</time><br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>
       </footer>
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>

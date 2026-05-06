@@ -77,7 +77,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             # (see vercel.json), but locally serve the HTML directly so old
             # links still preview without a redirect-loop hop.
             self.path = path + ".html"
-        # v1.1.0: mobile-web pages live under /m/{ja,en}/* (MOBILE_DESIGN.md §3, §6, §9)
+        # DEAD CODE since v1.2.0: the /m/{ja,en}/* routing block below was for
+        # v1.1.0 mobile-web architecture. v1.2.0 retired /m/* in favor of
+        # single-URL responsive (no `m/` dir has been built since). vercel.json
+        # has no /m/ rules, sitemap.xml has 0 mentions. Spec doc MOBILE_DESIGN.md
+        # deleted 2026-05-06. Safe to delete the entire elif-block (lines 80-99)
+        # in a follow-up cleanup.
         elif re.match(r"^/m/(ja|en)/?$", path):
             # Mobile home: /m/ja/ → /m/ja/index.html
             self.path = path.rstrip("/") + "/index.html"

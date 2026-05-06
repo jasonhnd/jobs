@@ -63,6 +63,30 @@
       }
     },
     {
+      "@type": "Article",
+      "@id": "https://mirai-shigoto.com/ja/sectors/seizo#article",
+      "headline": "製造・職人 の職業 — 59職業の AI 影響度・年収・就業者数",
+      "description": "製造・職人 業界の 59 職業を AI 影響度・年収・就業者数で一覧。",
+      "image": "https://mirai-shigoto.com/api/og?sector=seizo",
+      "url": "https://mirai-shigoto.com/ja/sectors/seizo",
+      "datePublished": "2026-05-05",
+      "dateModified": "2026-05-05",
+      "author": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "inLanguage": "ja",
+      "mainEntityOfPage": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/seizo#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/seizo#webpage"
+      },
+      "articleSection": "セクター"
+    },
+    {
       "@type": "BreadcrumbList",
       "@id": "https://mirai-shigoto.com/ja/sectors/seizo#breadcrumb",
       "itemListElement": [
@@ -448,6 +472,53 @@
           "name": "造船技能者（造船工、船舶艤装工等）"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/seizo#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "製造・職人業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "製造・職人業界は59の職業に分類されており、代表的な職業は金型工、自動車板金塗装、溶接工などです。就業者数の合計は約4,537,008人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "製造・職人業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、製版オペレーター、DTPオペレーター（AI影響 8/10）、冷凍加工食品製造（AI影響 5/10）、かん詰・びん詰・レトルト食品製造（AI影響 5/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "製造・職人業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、造船技能者（造船工、船舶艤装工等）（AI影響 2/10）、花火師（AI影響 2/10）、石工（AI影響 2/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "製造・職人業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "製造・職人業界の59職業の平均 AI 影響度は10段階中 3.3 で、低めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "製造・職人業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 3.3/10 で、AIに代替されにくい職業が多く、将来性が比較的高いな業界です。特に AI リスクが低い職業として 造船技能者（造船工、船舶艤装工等）、花火師、石工 などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -457,13 +528,18 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights -->
@@ -524,9 +600,22 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
 footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-footer .footer-meta{color:var(--fg2);font-size:.72rem;line-height:1.55}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
 footer .footer-meta a{color:var(--accent)}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -581,23 +670,33 @@ footer .footer-meta a{color:var(--accent)}
         <ul class="full-list"><li><a href="/ja/359"><span class="risk-pill high">8/10</span>製版オペレーター、DTPオペレーター</a></li><li><a href="/ja/7"><span class="risk-pill mid">5/10</span>冷凍加工食品製造</a></li><li><a href="/ja/15"><span class="risk-pill mid">5/10</span>かん詰・びん詰・レトルト食品製造</a></li><li><a href="/ja/19"><span class="risk-pill mid">5/10</span>プラスチック成形</a></li><li><a href="/ja/256"><span class="risk-pill mid">5/10</span>NC工作機械オペレーター</a></li><li><a href="/ja/295"><span class="risk-pill mid">5/10</span>医薬品製造</a></li><li><a href="/ja/299"><span class="risk-pill mid">5/10</span>石油精製オペレーター</a></li><li><a href="/ja/360"><span class="risk-pill mid">5/10</span>印刷オペレーター</a></li><li><a href="/ja/361"><span class="risk-pill mid">5/10</span>製本オペレーター</a></li><li><a href="/ja/5"><span class="risk-pill mid">4/10</span>乳製品製造</a></li><li><a href="/ja/6"><span class="risk-pill mid">4/10</span>水産ねり製品製造</a></li><li><a href="/ja/14"><span class="risk-pill mid">4/10</span>ビール製造</a></li><li><a href="/ja/259"><span class="risk-pill mid">4/10</span>鉄鋼製造オペレーター</a></li><li><a href="/ja/278"><span class="risk-pill mid">4/10</span>織布工/織機オペレーター</a></li><li><a href="/ja/279"><span class="risk-pill mid">4/10</span>染色工/染色設備オペレーター</a></li><li><a href="/ja/282"><span class="risk-pill mid">4/10</span>合板製造</a></li><li><a href="/ja/285"><span class="risk-pill mid">4/10</span>紙器製造</a></li><li><a href="/ja/286"><span class="risk-pill mid">4/10</span>紡績機械オペレーター</a></li><li><a href="/ja/297"><span class="risk-pill mid">4/10</span>タイヤ製造</a></li><li><a href="/ja/298"><span class="risk-pill mid">4/10</span>化粧品製造</a></li><li><a href="/ja/300"><span class="risk-pill mid">4/10</span>化学製品製造オペレーター</a></li><li><a href="/ja/548"><span class="risk-pill mid">4/10</span>検査工（食料品等）</a></li><li><a href="/ja/579"><span class="risk-pill mid">4/10</span>自動車検査員</a></li><li><a href="/ja/8"><span class="risk-pill low">3/10</span>惣菜製造</a></li><li><a href="/ja/11"><span class="risk-pill low">3/10</span>しょうゆ製造</a></li><li><a href="/ja/12"><span class="risk-pill low">3/10</span>ハム・ソーセージ・ベーコン製造</a></li><li><a href="/ja/16"><span class="risk-pill low">3/10</span>野菜つけ物製造</a></li><li><a href="/ja/18"><span class="risk-pill low">3/10</span>ガラス食器製造</a></li><li><a href="/ja/251"><span class="risk-pill low">3/10</span>鋳造工/鋳造設備オペレーター</a></li><li><a href="/ja/252"><span class="risk-pill low">3/10</span>鍛造工/鍛造設備オペレーター</a></li><li><a href="/ja/253"><span class="risk-pill low">3/10</span>金型工</a></li><li><a href="/ja/254"><span class="risk-pill low">3/10</span>金属プレス工</a></li><li><a href="/ja/257"><span class="risk-pill low">3/10</span>めっき工</a></li><li><a href="/ja/261"><span class="risk-pill low">3/10</span>電子機器組立</a></li><li><a href="/ja/280"><span class="risk-pill low">3/10</span>ミシン縫製</a></li><li><a href="/ja/281"><span class="risk-pill low">3/10</span>木材製造</a></li><li><a href="/ja/283"><span class="risk-pill low">3/10</span>家具製造</a></li><li><a href="/ja/287"><span class="risk-pill low">3/10</span>建具製造</a></li><li><a href="/ja/289"><span class="risk-pill low">3/10</span>靴製造</a></li><li><a href="/ja/290"><span class="risk-pill low">3/10</span>かばん・袋物製造</a></li><li><a href="/ja/292"><span class="risk-pill low">3/10</span>貴金属装身具製作</a></li><li><a href="/ja/515"><span class="risk-pill low">3/10</span>玩具（おもちゃ）製作</a></li><li><a href="/ja/557"><span class="risk-pill low">3/10</span>汎用金属工作機械工（旋盤工、ボール盤工等）</a></li><li><a href="/ja/558"><span class="risk-pill low">3/10</span>自動車板金塗装</a></li><li><a href="/ja/1"><span class="risk-pill low">2/10</span>豆腐製造、豆腐職人</a></li><li><a href="/ja/2"><span class="risk-pill low">2/10</span>パン製造、パン職人</a></li><li><a href="/ja/3"><span class="risk-pill low">2/10</span>洋菓子製造、パティシエ</a></li><li><a href="/ja/4"><span class="risk-pill low">2/10</span>和菓子製造、和菓子職人</a></li><li><a href="/ja/9"><span class="risk-pill low">2/10</span>清酒製造</a></li><li><a href="/ja/10"><span class="risk-pill low">2/10</span>みそ製造</a></li><li><a href="/ja/13"><span class="risk-pill low">2/10</span>ワイン製造</a></li><li><a href="/ja/17"><span class="risk-pill low">2/10</span>陶磁器製造</a></li><li><a href="/ja/29"><span class="risk-pill low">2/10</span>鉄骨工</a></li><li><a href="/ja/40"><span class="risk-pill low">2/10</span>建築板金</a></li><li><a href="/ja/255"><span class="risk-pill low">2/10</span>溶接工</a></li><li><a href="/ja/291"><span class="risk-pill low">2/10</span>漆器製造</a></li><li><a href="/ja/306"><span class="risk-pill low">2/10</span>石工</a></li><li><a href="/ja/307"><span class="risk-pill low">2/10</span>花火師</a></li><li><a href="/ja/547"><span class="risk-pill low">2/10</span>造船技能者（造船工、船舶艤装工等）</a></li></ul>
       </section>
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>製造・職人業界にはどんな職業がありますか？</summary><div class="faq-answer">製造・職人業界は59の職業に分類されており、代表的な職業は金型工、自動車板金塗装、溶接工などです。就業者数の合計は約4,537,008人にのぼります。</div></details><details class="faq-item"><summary>製造・職人業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、製版オペレーター、DTPオペレーター（AI影響 8/10）、冷凍加工食品製造（AI影響 5/10）、かん詰・びん詰・レトルト食品製造（AI影響 5/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>製造・職人業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、造船技能者（造船工、船舶艤装工等）（AI影響 2/10）、花火師（AI影響 2/10）、石工（AI影響 2/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>製造・職人業界の平均 AI 影響度は？</summary><div class="faq-answer">製造・職人業界の59職業の平均 AI 影響度は10段階中 3.3 で、低めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>製造・職人業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 3.3/10 で、AIに代替されにくい職業が多く、将来性が比較的高いな業界です。特に AI リスクが低い職業として 造船技能者（造船工、船舶艤装工等）、花火師、石工 などが挙げられます。</div></details></div></section>
+
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>
         <ul class="related-sectors"><li><a href="/ja/sectors/iryo"><span class="ja-name">医療・保健</span><span class="count">36 職業</span></a></li><li><a href="/ja/sectors/fukushi"><span class="ja-name">福祉・介護</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/kyoiku"><span class="ja-name">教育・指導</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/hoan"><span class="ja-name">保安・公安</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/noringyo"><span class="ja-name">農林・水産</span><span class="count">14 職業</span></a></li><li><a href="/ja/sectors/senmon"><span class="ja-name">専門・技術</span><span class="count">51 職業</span></a></li><li><a href="/ja/sectors/it"><span class="ja-name">IT・通信</span><span class="count">22 職業</span></a></li><li><a href="/ja/sectors/shigyo"><span class="ja-name">士業・経営・コンサル</span><span class="count">63 職業</span></a></li><li><a href="/ja/sectors/creative"><span class="ja-name">クリエイティブ・メディア</span><span class="count">37 職業</span></a></li><li><a href="/ja/sectors/jimu"><span class="ja-name">事務・公務</span><span class="count">57 職業</span></a></li><li><a href="/ja/sectors/hanbai"><span class="ja-name">販売・営業</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/service"><span class="ja-name">サービス・接客</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/maint"><span class="ja-name">設備・保守</span><span class="count">49 職業</span></a></li><li><a href="/ja/sectors/kensetu"><span class="ja-name">建設・土木</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/keiseki"><span class="ja-name">軽作業・清掃</span><span class="count">16 職業</span></a></li></ul>
       </section>
 
+      <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-          © <a href="/">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
+            最終更新：<time datetime="2026-05-06T19:20:48+09:00">2026/05/06/19:20</time><br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>
       </footer>
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>
