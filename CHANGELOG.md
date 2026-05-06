@@ -10,6 +10,80 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### `/map` page — fix: scroll auto-jumps to top on mobile (resize × wipe-and-rebuild)
+
+Bug report (real-device, mobile): on `/map`, after the user scrolled
+down the page, swiping further would teleport them back to the top of
+the page (not the homepage — back to the top of `/map` itself). Two
+swipes were enough to trigger it consistently.
+
+**Root cause** (Design-Mobile.md §4.4.1):
+
+The `window.resize` listener at `map.html` line 830 (pre-fix)
+debounced 200ms and then called `renderMap()`, which started with
+`$content.innerHTML = ''`. That single line synchronously triggers a
+reflow with `$content` height = 0 → the document height collapses
+→ the browser clamps `scrollTop` to the new max (= 0) → the
+subsequent `appendChild(frag)` puts the content back, but the user's
+scroll position is already destroyed.
+
+The trigger that nobody saw on desktop: mobile Safari and Chrome
+auto-hide the URL bar on downward scroll, which fires
+`window.resize` even though the viewport WIDTH is unchanged.
+Squarified treemap layout depends only on width
+(`$content.clientWidth`), so the re-render was both incorrect (broke
+scroll) and unnecessary (nothing to recompute).
+
+**Fix — three orthogonal layers of defense** (Design-Mobile.md
+§4.4.1 L1 / L2 / L3, single PR):
+
+- **L1 (治本) — atomic DOM swap**: `renderMap()` and `renderList()`
+  no longer wipe `innerHTML` before rebuilding. They build the new
+  fragment off-DOM and attach it via a single `replaceChildren(frag)`
+  call. Document height steps from old to new without visiting 0,
+  so `scrollTop` is preserved by the browser. Any future caller of
+  `renderMap` (chip, sort, deep-link, A/B test, …) inherits the
+  guarantee for free.
+- **L2 (节流) — width-only re-render**: the resize handler caches
+  `prevWidth` and early-returns when only the height changed. URL bar
+  collapse, keyboard pop, on-screen overlay show / hide all become
+  no-ops (correct: squarify doesn't need height).
+- **L3 (精度 + future-proof) — `ResizeObserver($content)`** replaces
+  `window.addEventListener('resize', …)`. Observing the container
+  itself rather than the window catches a future sidebar / multi-pane
+  layout where window width stays constant while `$content` width
+  changes.
+
+**Files**:
+
+- `map.html` — `renderMap()`: drop `$content.innerHTML = ''`,
+  attach via `$content.replaceChildren(frag)` at the end (lines 757
+  / 823 → 757 / 832, with explanatory comments referencing the spec).
+  `renderList()`: same treatment (lines 1062 / 1099 → 1090 / 1131).
+  Resize listener (lines 826-834) replaced with `ResizeObserver` on
+  `$content` plus a `prevWidth` cache; runs `renderMap()` only when
+  the container width actually changes.
+- `docs/Design-Mobile.md` §4.4.1 — new section "重渲染契約（不可破壊
+  scroll · 硬規則）" codifying the three-layer rule, the
+  wipe-and-rebuild prohibition, the `ResizeObserver` over
+  `window.resize` rationale, and the manual real-device regression
+  checklist (5 cases). Revision-history table updated.
+
+**Verification (manual, real-device — required before promote to
+main)**: open `https://pre.mirai-shigoto.com/map` on iOS Safari and
+Android Chrome; scroll two screens down then continue swiping
+downward — page must NOT auto-jump to top. Then swipe upward to
+re-show URL bar (must remain anchored), rotate the device (re-layout
+expected, scroll position should remain visually anchored), tap a
+sector chip (jump to top OK — active user action), change the sort
+dropdown (jump to top OK — active user action). All five cases pass
+= ship to main.
+
+**Browser support of the new APIs**: `replaceChildren` (Safari 14+ /
+Chrome 86+ / Firefox 78+) and `ResizeObserver` (Safari 13.1+ /
+Chrome 64+ / Firefox 69+); both universally available on the
+2026-era devices that constitute the JA-only target audience.
+
 ### `/map` page — round 2: closure links + sheet drag + iOS keyboard + list view + dead code purge
 
 Follow-up to the /map MVP. Closes the IA loop (footer + detail page

@@ -754,14 +754,22 @@
       }
 
       function renderMap() {
-        $content.innerHTML = '';
+        // Build the new tree off-DOM first; we attach it via a single atomic
+        // replaceChildren() at the end. NEVER do `$content.innerHTML = ''` here
+        // — see Design-Mobile.md §4.4.1 (重渲染契約) for the bug that motivates
+        // this rule. Wipe-and-rebuild creates a synchronous reflow with
+        // height=0, the browser clamps scrollTop to 0, and the user gets
+        // teleported to the top whenever any code path calls renderMap()
+        // (most painfully: the resize handler firing on mobile URL-bar hide).
         var frag = document.createDocumentFragment();
         var sectorsToShow = (currentSector === 'all')
           ? sectorOrder
           : (bySector[currentSector] ? [currentSector] : sectorOrder);
         var sortFn = comparator();
         // Container width: the live computed inner width of the content area.
-        // Falls back to viewport width if main isn't measurable yet.
+        // Falls back to viewport width if main isn't measurable yet. Squarify
+        // depends ONLY on width — height is derived per-sector from record
+        // count — so width is the only resize signal we ever need to react to.
         var container_w = $content.clientWidth || (Math.min(window.innerWidth, 868) - 32);
         sectorsToShow.forEach(function (sid) {
           var recs = (bySector[sid] || []).slice().sort(sortFn);
@@ -820,17 +828,39 @@
           section.appendChild(canvas);
           frag.appendChild(section);
         });
-        $content.appendChild(frag);
+        // Atomic swap (Design-Mobile.md §4.4.1 L1). replaceChildren is one
+        // DOM operation; the document height steps from old to new without
+        // visiting 0, so scrollTop is preserved (only clamped in the rare
+        // case where new height < current scrollY).
+        $content.replaceChildren(frag);
       }
 
-      // Re-layout on resize so cells stay area-faithful at the new width.
-      // Debounced to avoid thrashing during continuous drag-resize.
+      // Re-layout when the container width actually changes — and ONLY then.
+      // (Design-Mobile.md §4.4.1 L2 + L3.) Two earlier-design pitfalls we
+      // explicitly avoid here:
+      //
+      //   1. We do NOT listen on window.resize. Mobile Safari / Chrome fire
+      //      that event when the URL bar collapses on downward scroll, even
+      //      though the viewport WIDTH is unchanged. With wipe-and-rebuild
+      //      rendering (now fixed via L1) that mis-trigger teleported the
+      //      user to the top on every other swipe.
+      //   2. We listen on the $content element itself, not the window. If a
+      //      future layout introduces a sidebar, the window width may stay
+      //      constant while $content's width shrinks — ResizeObserver catches
+      //      that, window.resize would not.
       (function () {
+        var prevWidth = 0;
         var t = null;
-        window.addEventListener('resize', function () {
+        var ro = new ResizeObserver(function (entries) {
+          var w = entries[0] && entries[0].contentRect ? entries[0].contentRect.width : $content.clientWidth;
+          if (w === prevWidth) return; // height-only change → no work
+          prevWidth = w;
           if (t) clearTimeout(t);
-          t = setTimeout(function () { if (!listMode && allRecords.length) renderMap(); }, 200);
+          t = setTimeout(function () {
+            if (!listMode && allRecords.length) renderMap();
+          }, 200);
         });
+        ro.observe($content);
       })();
 
       function showError() {
@@ -1059,7 +1089,9 @@
       var $viewToggle = document.getElementById('viewToggle');
       var listMode = false;
       function renderList() {
-        $content.innerHTML = '';
+        // Same atomic-swap contract as renderMap — see Design-Mobile.md
+        // §4.4.1. Build the new ordered-list tree off-DOM, attach via a
+        // single replaceChildren() at the end. Never wipe innerHTML first.
         var frag = document.createDocumentFragment();
         var sectorsToShow = (currentSector === 'all')
           ? sectorOrder
@@ -1096,7 +1128,7 @@
           section.appendChild(ol);
           frag.appendChild(section);
         });
-        $content.appendChild(frag);
+        $content.replaceChildren(frag);
       }
       function applyView() {
         if (listMode) renderList(); else renderMap();
