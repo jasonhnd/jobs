@@ -190,6 +190,53 @@
           "name": "積卸作業員"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/keiseki#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "軽作業・清掃業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "軽作業・清掃業界は16の職業に分類されており、代表的な職業はビル清掃、ピッキング作業員、工場労務作業員などです。就業者数の合計は約3,518,776人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "軽作業・清掃業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、ピッキング作業員（AI影響 4/10）、製品包装作業員（AI影響 4/10）、鉄道車両清掃（AI影響 3/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "軽作業・清掃業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、積卸作業員（AI影響 2/10）、産業廃棄物収集運搬作業員（AI影響 2/10）、ごみ収集作業員（AI影響 2/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "軽作業・清掃業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "軽作業・清掃業界の16職業の平均 AI 影響度は10段階中 2.6 で、低めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "軽作業・清掃業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 2.6/10 で、AIに代替されにくい職業が多く、将来性が比較的高いな業界です。特に AI リスクが低い職業として 積卸作業員、産業廃棄物収集運搬作業員、ごみ収集作業員 などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -275,7 +322,18 @@ footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:prett
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -329,6 +387,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
         <h2>軽作業・清掃 の全 16 職業（AI 影響度 高い順）</h2>
         <ul class="full-list"><li><a href="/ja/486"><span class="risk-pill mid">4/10</span>ピッキング作業員</a></li><li><a href="/ja/489"><span class="risk-pill mid">4/10</span>製品包装作業員</a></li><li><a href="/ja/98"><span class="risk-pill low">3/10</span>鉄道車両清掃</a></li><li><a href="/ja/485"><span class="risk-pill low">3/10</span>倉庫作業員</a></li><li><a href="/ja/488"><span class="risk-pill low">3/10</span>ペストコントロール従事者（害虫等防除・駆除従事者）</a></li><li><a href="/ja/491"><span class="risk-pill low">3/10</span>バックヤード作業員（スーパー食品部門）</a></li><li><a href="/ja/498"><span class="risk-pill low">3/10</span>こん包作業員</a></li><li><a href="/ja/499"><span class="risk-pill low">3/10</span>港湾荷役作業員</a></li><li><a href="/ja/97"><span class="risk-pill low">2/10</span>ビル清掃</a></li><li><a href="/ja/201"><span class="risk-pill low">2/10</span>引越作業員</a></li><li><a href="/ja/415"><span class="risk-pill low">2/10</span>客室清掃・整備担当（ホテル・旅館）</a></li><li><a href="/ja/487"><span class="risk-pill low">2/10</span>ハウスクリーニング</a></li><li><a href="/ja/490"><span class="risk-pill low">2/10</span>工場労務作業員</a></li><li><a href="/ja/494"><span class="risk-pill low">2/10</span>ごみ収集作業員</a></li><li><a href="/ja/496"><span class="risk-pill low">2/10</span>産業廃棄物収集運搬作業員</a></li><li><a href="/ja/497"><span class="risk-pill low">2/10</span>積卸作業員</a></li></ul>
       </section>
+
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>軽作業・清掃業界にはどんな職業がありますか？</summary><div class="faq-answer">軽作業・清掃業界は16の職業に分類されており、代表的な職業はビル清掃、ピッキング作業員、工場労務作業員などです。就業者数の合計は約3,518,776人にのぼります。</div></details><details class="faq-item"><summary>軽作業・清掃業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、ピッキング作業員（AI影響 4/10）、製品包装作業員（AI影響 4/10）、鉄道車両清掃（AI影響 3/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>軽作業・清掃業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、積卸作業員（AI影響 2/10）、産業廃棄物収集運搬作業員（AI影響 2/10）、ごみ収集作業員（AI影響 2/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>軽作業・清掃業界の平均 AI 影響度は？</summary><div class="faq-answer">軽作業・清掃業界の16職業の平均 AI 影響度は10段階中 2.6 で、低めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>軽作業・清掃業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 2.6/10 で、AIに代替されにくい職業が多く、将来性が比較的高いな業界です。特に AI リスクが低い職業として 積卸作業員、産業廃棄物収集運搬作業員、ごみ収集作業員 などが挙げられます。</div></details></div></section>
 
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>

@@ -132,7 +132,18 @@ footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:prett
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 """
 
 
@@ -248,7 +259,99 @@ def render_related_sectors(current_id: str, all_sectors: list[dict], occ_counts:
     return f'<ul class="related-sectors">{"".join(rows)}</ul>'
 
 
-def render_jsonld(sector: dict, occs: list[dict]) -> str:
+def _risk_tier_label(mean_risk: float | None) -> str:
+    """Plain-language tier for FAQ answers."""
+    if mean_risk is None:
+        return "データなし"
+    if mean_risk <= 3.5:
+        return "低め"
+    if mean_risk <= 5.5:
+        return "中程度"
+    if mean_risk <= 7.0:
+        return "やや高め"
+    return "高め"
+
+
+def _build_faqs(
+    name_loc: str,
+    n: int,
+    top_high: list[dict],
+    top_low: list[dict],
+    top_workers: list[dict],
+    mean_risk: float | None,
+    workforce_total: int,
+) -> list[tuple[str, str]]:
+    """Build 5 FAQ Q&A pairs from sector aggregate data.
+
+    All answers are auto-generated from the same data the page already shows,
+    so the visible FAQ stays consistent with the JSON-LD FAQPage schema.
+    """
+    faqs: list[tuple[str, str]] = []
+
+    # Q1: What occupations are in this sector?
+    sample_workers = [o for o in top_workers[:3] if o.get("title_ja")]
+    sample_str = "、".join(o["title_ja"] for o in sample_workers) if sample_workers else "—"
+    faqs.append((
+        f"{name_loc}業界にはどんな職業がありますか？",
+        f"{name_loc}業界は{n}の職業に分類されており、代表的な職業は{sample_str}などです。"
+        f"就業者数の合計は約{fmt_int(workforce_total)}人にのぼります。",
+    ))
+
+    # Q2: What jobs have highest AI impact?
+    if top_high:
+        top3_high = top_high[:3]
+        items_str = "、".join(
+            f"{o['title_ja']}（AI影響 {o['ai_risk']}/10）"
+            for o in top3_high if o.get("title_ja") and o.get("ai_risk") is not None
+        )
+        faqs.append((
+            f"{name_loc}業界で AI 影響度が最も高い職業は？",
+            f"AI影響度が高い順に、{items_str} です。"
+            f"これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。",
+        ))
+
+    # Q3: What jobs have lowest AI impact?
+    if top_low:
+        top3_low = top_low[:3]
+        items_str = "、".join(
+            f"{o['title_ja']}（AI影響 {o['ai_risk']}/10）"
+            for o in top3_low if o.get("title_ja") and o.get("ai_risk") is not None
+        )
+        faqs.append((
+            f"{name_loc}業界で AI 影響度が最も低い職業は？",
+            f"AI影響度が低い順に、{items_str} です。"
+            f"身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。",
+        ))
+
+    # Q4: Average AI impact + interpretation
+    if mean_risk is not None:
+        tier = _risk_tier_label(mean_risk)
+        faqs.append((
+            f"{name_loc}業界の平均 AI 影響度は？",
+            f"{name_loc}業界の{n}職業の平均 AI 影響度は10段階中 {mean_risk:.1f} で、{tier}の水準です。"
+            f"これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。",
+        ))
+
+    # Q5: Future outlook
+    if mean_risk is not None and top_low:
+        safe_jobs_str = "、".join(o["title_ja"] for o in top_low[:3] if o.get("title_ja"))
+        outlook = (
+            "AIに代替されにくい職業が多く、将来性が比較的高い"
+            if mean_risk <= 4.0
+            else "業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要"
+            if mean_risk >= 6.0
+            else "職業によって AI 影響度に差があり、個別に検討が必要"
+        )
+        faqs.append((
+            f"{name_loc}業界の将来性は？",
+            f"平均 AI 影響度 {mean_risk:.1f}/10 で、{outlook}な業界です。"
+            f"特に AI リスクが低い職業として {safe_jobs_str} などが挙げられます。",
+        ))
+
+    return faqs
+
+
+def render_jsonld(sector: dict, occs: list[dict], faqs: list[tuple[str, str]] | None = None) -> str:
     name_loc = sector["ja"]
     canonical = hub_url(sector["id"])
     crumb_root = "未来の仕事"
@@ -298,7 +401,47 @@ def render_jsonld(sector: dict, occs: list[dict]) -> str:
             "itemListElement": item_list,
         },
     ]
+
+    # SEO Phase 7: FAQPage schema for "People also ask" rich snippet eligibility.
+    # Generated from the same data shown visibly in the FAQ section below.
+    if faqs:
+        graph.append({
+            "@type": "FAQPage",
+            "@id": f"{canonical}#faq",
+            "inLanguage": "ja",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": q,
+                    "acceptedAnswer": {"@type": "Answer", "text": a},
+                }
+                for q, a in faqs
+            ],
+        })
+
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2)
+
+
+def render_faq_section(faqs: list[tuple[str, str]]) -> str:
+    """Render visible FAQ as <details> blocks (collapsible, semantic, no JS).
+
+    Required by Google: FAQPage schema must match visible page content.
+    """
+    if not faqs:
+        return ""
+    items = "".join(
+        f'<details class="faq-item">'
+        f'<summary>{escape(q)}</summary>'
+        f'<div class="faq-answer">{escape(a)}</div>'
+        f'</details>'
+        for q, a in faqs
+    )
+    return (
+        f'<section class="faq" aria-label="よくある質問">'
+        f'<h2>よくある質問</h2>'
+        f'<div class="faq-list">{items}</div>'
+        f'</section>'
+    )
 
 
 def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_counts: dict) -> str:
@@ -358,8 +501,10 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     keywords_list.extend([f"{name_loc} 仕事", f"{name_loc} 職業", f"{name_loc} AI 影響"])
     keywords_str = ", ".join(escape(k) for k in keywords_list)
 
-    jsonld = render_jsonld(sector, occs)
+    faqs = _build_faqs(name_loc, n, top_high, top_low, top_workers, mean_risk, workforce_total)
+    jsonld = render_jsonld(sector, occs, faqs)
     intro_section = f'<p class="intro">{escape(intro_text)}</p>' if intro_text else ""
+    faq_html = render_faq_section(faqs)
 
     html = f"""<!doctype html>
 <html lang="ja">
@@ -461,6 +606,8 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
         <h2>{escape(h_full)}</h2>
         {render_full_list(occs)}
       </section>
+
+      {faq_html}
 
       <section aria-label="{escape(h_related)}">
         <h2>{escape(h_related)}</h2>
@@ -733,11 +880,41 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
+  <!-- Rankings cluster: 1 index + 9 ranking pages at /ja/rankings/<slug>. Generated by scripts/build_rankings.py. -->
+{rankings}
   <!-- Sector hub pages: 16 JA hubs at /ja/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
 {sectors}
   <!-- Per-occupation pages: 556 JA at /ja/<id>. Generated by scripts/build_occupations.py. -->
 {occupations}</urlset>
 """
+
+
+RANKING_SLUGS = [
+    "ai-risk-high", "ai-risk-low", "salary-safe", "workers",
+    "salary", "entry-salary", "young-workforce", "short-hours", "high-demand",
+]
+
+
+def _rankings_sitemap_block(lastmod: str) -> str:
+    parts: list[str] = []
+    parts.append(
+        f"  <url>\n"
+        f"    <loc>{SITE}/ja/rankings</loc>\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>0.8</priority>\n"
+        f"  </url>\n"
+    )
+    for slug in RANKING_SLUGS:
+        parts.append(
+            f"  <url>\n"
+            f"    <loc>{SITE}/ja/rankings/{slug}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>0.7</priority>\n"
+            f"  </url>\n"
+        )
+    return "".join(parts)
 
 
 def write_sitemap(sectors: list[dict], occ_manifest: list[dict] | None, lastmod: str = DATE_MODIFIED) -> None:
@@ -779,6 +956,7 @@ def write_sitemap(sectors: list[dict], occ_manifest: list[dict] | None, lastmod:
         SITEMAP_TEMPLATE.format(
             site=SITE,
             lastmod=lastmod,
+            rankings=_rankings_sitemap_block(lastmod),
             sectors="".join(sector_lines),
             occupations="".join(occ_lines),
         ),

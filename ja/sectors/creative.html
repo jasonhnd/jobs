@@ -316,6 +316,53 @@
           "name": "声優"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/creative#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "クリエイティブ・メディア業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "クリエイティブ・メディア業界は37の職業に分類されており、代表的な職業は録音エンジニア、パタンナー、アニメーターなどです。就業者数の合計は約756,380人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クリエイティブ・メディア業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、翻訳者（AI影響 9/10）、Webデザイナー（Web制作会社）（AI影響 9/10）、CG制作（AI影響 9/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クリエイティブ・メディア業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、オーケストラ奏者（団員）（AI影響 3/10）、舞台照明スタッフ（AI影響 4/10）、舞台美術スタッフ（AI影響 4/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クリエイティブ・メディア業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "クリエイティブ・メディア業界の37職業の平均 AI 影響度は10段階中 6.9 で、やや高めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クリエイティブ・メディア業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 6.9/10 で、業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な業界です。特に AI リスクが低い職業として オーケストラ奏者（団員）、舞台照明スタッフ、舞台美術スタッフ などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -401,7 +448,18 @@ footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:prett
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -455,6 +513,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
         <h2>クリエイティブ・メディア の全 37 職業（AI 影響度 高い順）</h2>
         <ul class="full-list"><li><a href="/ja/87"><span class="risk-pill high">9/10</span>翻訳者</a></li><li><a href="/ja/326"><span class="risk-pill high">9/10</span>Webデザイナー（Web制作会社）</a></li><li><a href="/ja/329"><span class="risk-pill high">9/10</span>CG制作</a></li><li><a href="/ja/332"><span class="risk-pill high">9/10</span>広告デザイナー</a></li><li><a href="/ja/334"><span class="risk-pill high">9/10</span>グラフィックデザイナー</a></li><li><a href="/ja/335"><span class="risk-pill high">9/10</span>コピーライター</a></li><li><a href="/ja/342"><span class="risk-pill high">9/10</span>イラストレーター</a></li><li><a href="/ja/358"><span class="risk-pill high">9/10</span>テクニカルライター</a></li><li><a href="/ja/343"><span class="risk-pill high">8/10</span>アニメーター</a></li><li><a href="/ja/345"><span class="risk-pill high">8/10</span>テクニカルイラストレーター</a></li><li><a href="/ja/347"><span class="risk-pill high">8/10</span>ブックデザイナー</a></li><li><a href="/ja/348"><span class="risk-pill high">8/10</span>テキスタイルデザイナー</a></li><li><a href="/ja/208"><span class="risk-pill high">7/10</span>新聞記者</a></li><li><a href="/ja/209"><span class="risk-pill high">7/10</span>雑誌記者</a></li><li><a href="/ja/210"><span class="risk-pill high">7/10</span>図書編集者</a></li><li><a href="/ja/211"><span class="risk-pill high">7/10</span>雑誌編集者</a></li><li><a href="/ja/213"><span class="risk-pill high">7/10</span>録音エンジニア</a></li><li><a href="/ja/336"><span class="risk-pill high">7/10</span>ディスプレイデザイナー</a></li><li><a href="/ja/337"><span class="risk-pill high">7/10</span>インテリアデザイナー</a></li><li><a href="/ja/338"><span class="risk-pill high">7/10</span>インテリアコーディネーター</a></li><li><a href="/ja/339"><span class="risk-pill high">7/10</span>カラーコーディネーター</a></li><li><a href="/ja/340"><span class="risk-pill high">7/10</span>ファッションデザイナー</a></li><li><a href="/ja/350"><span class="risk-pill high">7/10</span>ジュエリーデザイナー</a></li><li><a href="/ja/354"><span class="risk-pill high">7/10</span>インダストリアルデザイナー</a></li><li><a href="/ja/541"><span class="risk-pill high">7/10</span>ナレーター</a></li><li><a href="/ja/215"><span class="risk-pill mid">6/10</span>放送記者</a></li><li><a href="/ja/217"><span class="risk-pill mid">6/10</span>放送ディレクター</a></li><li><a href="/ja/341"><span class="risk-pill mid">6/10</span>パタンナー</a></li><li><a href="/ja/355"><span class="risk-pill mid">6/10</span>商業カメラマン</a></li><li><a href="/ja/344"><span class="risk-pill mid">5/10</span>看板制作</a></li><li><a href="/ja/356"><span class="risk-pill mid">5/10</span>テレビカメラマン</a></li><li><a href="/ja/357"><span class="risk-pill mid">5/10</span>報道カメラマン</a></li><li><a href="/ja/349"><span class="risk-pill mid">4/10</span>フラワーデザイナー</a></li><li><a href="/ja/352"><span class="risk-pill mid">4/10</span>舞台美術スタッフ</a></li><li><a href="/ja/353"><span class="risk-pill mid">4/10</span>舞台照明スタッフ</a></li><li><a href="/ja/573"><span class="risk-pill low">3/10</span>オーケストラ奏者（団員）</a></li><li><a href="/ja/582"><span class="risk-pill mid">—</span>声優</a></li></ul>
       </section>
+
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>クリエイティブ・メディア業界にはどんな職業がありますか？</summary><div class="faq-answer">クリエイティブ・メディア業界は37の職業に分類されており、代表的な職業は録音エンジニア、パタンナー、アニメーターなどです。就業者数の合計は約756,380人にのぼります。</div></details><details class="faq-item"><summary>クリエイティブ・メディア業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、翻訳者（AI影響 9/10）、Webデザイナー（Web制作会社）（AI影響 9/10）、CG制作（AI影響 9/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>クリエイティブ・メディア業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、オーケストラ奏者（団員）（AI影響 3/10）、舞台照明スタッフ（AI影響 4/10）、舞台美術スタッフ（AI影響 4/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>クリエイティブ・メディア業界の平均 AI 影響度は？</summary><div class="faq-answer">クリエイティブ・メディア業界の37職業の平均 AI 影響度は10段階中 6.9 で、やや高めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>クリエイティブ・メディア業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 6.9/10 で、業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な業界です。特に AI リスクが低い職業として オーケストラ奏者（団員）、舞台照明スタッフ、舞台美術スタッフ などが挙げられます。</div></details></div></section>
 
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>

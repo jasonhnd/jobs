@@ -184,6 +184,53 @@
           "name": "施設介護員"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/fukushi#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "福祉・介護業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "福祉・介護業界は15の職業に分類されており、代表的な職業は施設介護員、訪問介護員/ホームヘルパー、児童相談所相談員などです。就業者数の合計は約2,188,687人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "福祉・介護業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、介護支援専門員/ケアマネジャー（AI影響 6/10）、施設管理者（介護施設）（AI影響 6/10）、児童発達支援管理責任者（AI影響 6/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "福祉・介護業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、施設介護員（AI影響 2/10）、訪問介護員/ホームヘルパー（AI影響 2/10）、障害者福祉施設指導専門員（生活支援員、就労支援員等）（AI影響 3/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "福祉・介護業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "福祉・介護業界の15職業の平均 AI 影響度は10段階中 4.6 で、中程度の水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "福祉・介護業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 4.6/10 で、職業によって AI 影響度に差があり、個別に検討が必要な業界です。特に AI リスクが低い職業として 施設介護員、訪問介護員/ホームヘルパー、障害者福祉施設指導専門員（生活支援員、就労支援員等） などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -269,7 +316,18 @@ footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:prett
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -323,6 +381,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
         <h2>福祉・介護 の全 15 職業（AI 影響度 高い順）</h2>
         <ul class="full-list"><li><a href="/ja/132"><span class="risk-pill mid">6/10</span>介護支援専門員/ケアマネジャー</a></li><li><a href="/ja/410"><span class="risk-pill mid">6/10</span>施設管理者（介護施設）</a></li><li><a href="/ja/568"><span class="risk-pill mid">6/10</span>児童発達支援管理責任者</a></li><li><a href="/ja/580"><span class="risk-pill mid">6/10</span>障害福祉サービス管理責任者</a></li><li><a href="/ja/129"><span class="risk-pill mid">5/10</span>児童相談所相談員</a></li><li><a href="/ja/130"><span class="risk-pill mid">5/10</span>福祉事務所ケースワーカー</a></li><li><a href="/ja/137"><span class="risk-pill mid">5/10</span>福祉用具専門相談員</a></li><li><a href="/ja/245"><span class="risk-pill mid">5/10</span>老人福祉施設生活相談員</a></li><li><a href="/ja/408"><span class="risk-pill mid">5/10</span>医療ソーシャルワーカー</a></li><li><a href="/ja/409"><span class="risk-pill mid">5/10</span>福祉ソーシャルワーカー</a></li><li><a href="/ja/555"><span class="risk-pill mid">5/10</span>訪問介護のサービス提供責任者</a></li><li><a href="/ja/243"><span class="risk-pill low">3/10</span>児童指導員</a></li><li><a href="/ja/244"><span class="risk-pill low">3/10</span>障害者福祉施設指導専門員（生活支援員、就労支援員等）</a></li><li><a href="/ja/133"><span class="risk-pill low">2/10</span>訪問介護員/ホームヘルパー</a></li><li><a href="/ja/134"><span class="risk-pill low">2/10</span>施設介護員</a></li></ul>
       </section>
+
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>福祉・介護業界にはどんな職業がありますか？</summary><div class="faq-answer">福祉・介護業界は15の職業に分類されており、代表的な職業は施設介護員、訪問介護員/ホームヘルパー、児童相談所相談員などです。就業者数の合計は約2,188,687人にのぼります。</div></details><details class="faq-item"><summary>福祉・介護業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、介護支援専門員/ケアマネジャー（AI影響 6/10）、施設管理者（介護施設）（AI影響 6/10）、児童発達支援管理責任者（AI影響 6/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>福祉・介護業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、施設介護員（AI影響 2/10）、訪問介護員/ホームヘルパー（AI影響 2/10）、障害者福祉施設指導専門員（生活支援員、就労支援員等）（AI影響 3/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>福祉・介護業界の平均 AI 影響度は？</summary><div class="faq-answer">福祉・介護業界の15職業の平均 AI 影響度は10段階中 4.6 で、中程度の水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>福祉・介護業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 4.6/10 で、職業によって AI 影響度に差があり、個別に検討が必要な業界です。特に AI リスクが低い職業として 施設介護員、訪問介護員/ホームヘルパー、障害者福祉施設指導専門員（生活支援員、就労支援員等） などが挙げられます。</div></details></div></section>
 
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>
