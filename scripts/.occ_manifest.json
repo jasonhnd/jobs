@@ -2,5561 +2,3893 @@
   {
     "id": 1,
     "name_ja": "豆腐製造、豆腐職人",
-    "name_en": "Tofu Maker / Tofu Craftsman",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/1",
-    "en_url": "https://mirai-shigoto.com/en/1",
-    "ja_size_bytes": 48160,
-    "en_size_bytes": 43789
+    "ja_size_bytes": 47707
   },
   {
     "id": 2,
     "name_ja": "パン製造、パン職人",
-    "name_en": "Bread Maker / Baker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/2",
-    "en_url": "https://mirai-shigoto.com/en/2",
-    "ja_size_bytes": 49583,
-    "en_size_bytes": 43999
+    "ja_size_bytes": 49100
   },
   {
     "id": 3,
     "name_ja": "洋菓子製造、パティシエ",
-    "name_en": "Western Confectioner / Pastry Chef",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/3",
-    "en_url": "https://mirai-shigoto.com/en/3",
-    "ja_size_bytes": 49365,
-    "en_size_bytes": 44176
+    "ja_size_bytes": 48880
   },
   {
     "id": 4,
     "name_ja": "和菓子製造、和菓子職人",
-    "name_en": "Japanese Confectioner (Wagashi Maker)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/4",
-    "en_url": "https://mirai-shigoto.com/en/4",
-    "ja_size_bytes": 49357,
-    "en_size_bytes": 44204
+    "ja_size_bytes": 48872
   },
   {
     "id": 5,
     "name_ja": "乳製品製造",
-    "name_en": "Dairy Product Manufacturer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/5",
-    "en_url": "https://mirai-shigoto.com/en/5",
-    "ja_size_bytes": 47990,
-    "en_size_bytes": 43621
+    "ja_size_bytes": 47519
   },
   {
     "id": 6,
     "name_ja": "水産ねり製品製造",
-    "name_en": "Surimi Product Manufacturer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/6",
-    "en_url": "https://mirai-shigoto.com/en/6",
-    "ja_size_bytes": 48783,
-    "en_size_bytes": 44060
+    "ja_size_bytes": 48292
   },
   {
     "id": 7,
     "name_ja": "冷凍加工食品製造",
-    "name_en": "Frozen Processed Food Manufacturer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/7",
-    "en_url": "https://mirai-shigoto.com/en/7",
-    "ja_size_bytes": 48693,
-    "en_size_bytes": 43909
+    "ja_size_bytes": 48168
   },
   {
     "id": 8,
     "name_ja": "惣菜製造",
-    "name_en": "Prepared Food Manufacturer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/8",
-    "en_url": "https://mirai-shigoto.com/en/8",
-    "ja_size_bytes": 48605,
-    "en_size_bytes": 43863
+    "ja_size_bytes": 48121
   },
   {
     "id": 9,
     "name_ja": "清酒製造",
-    "name_en": "Sake Brewer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/9",
-    "en_url": "https://mirai-shigoto.com/en/9",
-    "ja_size_bytes": 49374,
-    "en_size_bytes": 43525
+    "ja_size_bytes": 48929
   },
   {
     "id": 10,
     "name_ja": "みそ製造",
-    "name_en": "Miso Maker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/10",
-    "en_url": "https://mirai-shigoto.com/en/10",
-    "ja_size_bytes": 46351,
-    "en_size_bytes": 42861
+    "ja_size_bytes": 45846
   },
   {
     "id": 11,
     "name_ja": "しょうゆ製造",
-    "name_en": "Soy Sauce Brewer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/11",
-    "en_url": "https://mirai-shigoto.com/en/11",
-    "ja_size_bytes": 47420,
-    "en_size_bytes": 42751
+    "ja_size_bytes": 46913
   },
   {
     "id": 12,
     "name_ja": "ハム・ソーセージ・ベーコン製造",
-    "name_en": "Ham, Sausage, and Bacon Manufacturer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/12",
-    "en_url": "https://mirai-shigoto.com/en/12",
-    "ja_size_bytes": 49267,
-    "en_size_bytes": 44430
+    "ja_size_bytes": 48785
   },
   {
     "id": 13,
     "name_ja": "ワイン製造",
-    "name_en": "Wine Maker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/13",
-    "en_url": "https://mirai-shigoto.com/en/13",
-    "ja_size_bytes": 46992,
-    "en_size_bytes": 42767
+    "ja_size_bytes": 46542
   },
   {
     "id": 14,
     "name_ja": "ビール製造",
-    "name_en": "Beer Brewer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/14",
-    "en_url": "https://mirai-shigoto.com/en/14",
-    "ja_size_bytes": 47458,
-    "en_size_bytes": 42822
+    "ja_size_bytes": 46961
   },
   {
     "id": 15,
     "name_ja": "かん詰・びん詰・レトルト食品製造",
-    "name_en": "Canned/Bottled/Retort Food Manufacturer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/15",
-    "en_url": "https://mirai-shigoto.com/en/15",
-    "ja_size_bytes": 48572,
-    "en_size_bytes": 44405
+    "ja_size_bytes": 48044
   },
   {
     "id": 16,
     "name_ja": "野菜つけ物製造",
-    "name_en": "Pickle (Tsukemono) Manufacturer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/16",
-    "en_url": "https://mirai-shigoto.com/en/16",
-    "ja_size_bytes": 47969,
-    "en_size_bytes": 43690
+    "ja_size_bytes": 47500
   },
   {
     "id": 17,
     "name_ja": "陶磁器製造",
-    "name_en": "Pottery Maker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/17",
-    "en_url": "https://mirai-shigoto.com/en/17",
-    "ja_size_bytes": 47719,
-    "en_size_bytes": 43787
+    "ja_size_bytes": 47276
   },
   {
     "id": 18,
     "name_ja": "ガラス食器製造",
-    "name_en": "Glassware Maker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/18",
-    "en_url": "https://mirai-shigoto.com/en/18",
-    "ja_size_bytes": 47522,
-    "en_size_bytes": 43126
+    "ja_size_bytes": 47065
   },
   {
     "id": 19,
     "name_ja": "プラスチック成形",
-    "name_en": "Plastic Molder",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/19",
-    "en_url": "https://mirai-shigoto.com/en/19",
-    "ja_size_bytes": 49742,
-    "en_size_bytes": 44900
+    "ja_size_bytes": 49266
   },
   {
     "id": 20,
     "name_ja": "建築設計技術者",
-    "name_en": "Architectural Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/20",
-    "en_url": "https://mirai-shigoto.com/en/20",
-    "ja_size_bytes": 48526,
-    "en_size_bytes": 44273
+    "ja_size_bytes": 48037
   },
   {
     "id": 21,
     "name_ja": "建築施工管理技術者",
-    "name_en": "Building Construction Manager",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/21",
-    "en_url": "https://mirai-shigoto.com/en/21",
-    "ja_size_bytes": 48241,
-    "en_size_bytes": 43987
+    "ja_size_bytes": 47773
   },
   {
     "id": 22,
     "name_ja": "土木設計技術者",
-    "name_en": "Civil Engineer (Design)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/22",
-    "en_url": "https://mirai-shigoto.com/en/22",
-    "ja_size_bytes": 47662,
-    "en_size_bytes": 44142
+    "ja_size_bytes": 47196
   },
   {
     "id": 23,
     "name_ja": "土木施工管理技術者",
-    "name_en": "Civil Construction Manager",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/23",
-    "en_url": "https://mirai-shigoto.com/en/23",
-    "ja_size_bytes": 48321,
-    "en_size_bytes": 43620
+    "ja_size_bytes": 47818
   },
   {
     "id": 24,
     "name_ja": "測量士",
-    "name_en": "Surveyor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/24",
-    "en_url": "https://mirai-shigoto.com/en/24",
-    "ja_size_bytes": 47485,
-    "en_size_bytes": 42877
+    "ja_size_bytes": 47009
   },
   {
     "id": 25,
     "name_ja": "CADオペレーター",
-    "name_en": "CAD Operator",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/25",
-    "en_url": "https://mirai-shigoto.com/en/25",
-    "ja_size_bytes": 48455,
-    "en_size_bytes": 43821
+    "ja_size_bytes": 47991
   },
   {
     "id": 26,
     "name_ja": "大工",
-    "name_en": "Carpenter",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/26",
-    "en_url": "https://mirai-shigoto.com/en/26",
-    "ja_size_bytes": 47437,
-    "en_size_bytes": 43053
+    "ja_size_bytes": 46968
   },
   {
     "id": 27,
     "name_ja": "型枠大工",
-    "name_en": "Formwork Carpenter",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/27",
-    "en_url": "https://mirai-shigoto.com/en/27",
-    "ja_size_bytes": 47698,
-    "en_size_bytes": 43274
+    "ja_size_bytes": 47216
   },
   {
     "id": 28,
     "name_ja": "鉄筋工",
-    "name_en": "Reinforcement Worker (Rebar)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/28",
-    "en_url": "https://mirai-shigoto.com/en/28",
-    "ja_size_bytes": 46964,
-    "en_size_bytes": 43258
+    "ja_size_bytes": 46466
   },
   {
     "id": 29,
     "name_ja": "鉄骨工",
-    "name_en": "Steel Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/29",
-    "en_url": "https://mirai-shigoto.com/en/29",
-    "ja_size_bytes": 46811,
-    "en_size_bytes": 42963
+    "ja_size_bytes": 46320
   },
   {
     "id": 30,
     "name_ja": "とび",
-    "name_en": "Scaffolder (Tobi)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/30",
-    "en_url": "https://mirai-shigoto.com/en/30",
-    "ja_size_bytes": 47080,
-    "en_size_bytes": 43544
+    "ja_size_bytes": 46591
   },
   {
     "id": 31,
     "name_ja": "建設機械オペレーター",
-    "name_en": "Construction Equipment Operator",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/31",
-    "en_url": "https://mirai-shigoto.com/en/31",
-    "ja_size_bytes": 49756,
-    "en_size_bytes": 44822
+    "ja_size_bytes": 49236
   },
   {
     "id": 32,
     "name_ja": "建設・土木作業員",
-    "name_en": "Construction/Civil Laborer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/32",
-    "en_url": "https://mirai-shigoto.com/en/32",
-    "ja_size_bytes": 50834,
-    "en_size_bytes": 44369
+    "ja_size_bytes": 50352
   },
   {
     "id": 33,
     "name_ja": "潜水士",
-    "name_en": "Commercial Diver",
     "ai_risk": 1,
     "ja_url": "https://mirai-shigoto.com/ja/33",
-    "en_url": "https://mirai-shigoto.com/en/33",
-    "ja_size_bytes": 47775,
-    "en_size_bytes": 42974
+    "ja_size_bytes": 47305
   },
   {
     "id": 35,
     "name_ja": "さく井工/ボーリング工",
-    "name_en": "Boring/Drilling Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/35",
-    "en_url": "https://mirai-shigoto.com/en/35",
-    "ja_size_bytes": 48230,
-    "en_size_bytes": 43442
+    "ja_size_bytes": 47739
   },
   {
     "id": 36,
     "name_ja": "舗装工",
-    "name_en": "Pavement Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/36",
-    "en_url": "https://mirai-shigoto.com/en/36",
-    "ja_size_bytes": 42001,
-    "en_size_bytes": 38765
+    "ja_size_bytes": 41525
   },
   {
     "id": 37,
     "name_ja": "ブロック積み",
-    "name_en": "Block Layer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/37",
-    "en_url": "https://mirai-shigoto.com/en/37",
-    "ja_size_bytes": 48047,
-    "en_size_bytes": 42789
+    "ja_size_bytes": 47590
   },
   {
     "id": 38,
     "name_ja": "タイル工",
-    "name_en": "Tile Setter",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/38",
-    "en_url": "https://mirai-shigoto.com/en/38",
-    "ja_size_bytes": 46646,
-    "en_size_bytes": 42733
+    "ja_size_bytes": 46148
   },
   {
     "id": 39,
     "name_ja": "左官",
-    "name_en": "Plasterer (Sakan)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/39",
-    "en_url": "https://mirai-shigoto.com/en/39",
-    "ja_size_bytes": 47958,
-    "en_size_bytes": 43496
+    "ja_size_bytes": 47479
   },
   {
     "id": 40,
     "name_ja": "建築板金",
-    "name_en": "Architectural Sheet Metal Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/40",
-    "en_url": "https://mirai-shigoto.com/en/40",
-    "ja_size_bytes": 48377,
-    "en_size_bytes": 44166
+    "ja_size_bytes": 47865
   },
   {
     "id": 41,
     "name_ja": "サッシ取付",
-    "name_en": "Window Frame Installer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/41",
-    "en_url": "https://mirai-shigoto.com/en/41",
-    "ja_size_bytes": 47904,
-    "en_size_bytes": 43687
+    "ja_size_bytes": 47401
   },
   {
     "id": 42,
     "name_ja": "内装工",
-    "name_en": "Interior Finisher",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/42",
-    "en_url": "https://mirai-shigoto.com/en/42",
-    "ja_size_bytes": 49403,
-    "en_size_bytes": 44317
+    "ja_size_bytes": 48899
   },
   {
     "id": 43,
     "name_ja": "建築塗装工",
-    "name_en": "Building Painter",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/43",
-    "en_url": "https://mirai-shigoto.com/en/43",
-    "ja_size_bytes": 47610,
-    "en_size_bytes": 43493
+    "ja_size_bytes": 47136
   },
   {
     "id": 44,
     "name_ja": "防水工",
-    "name_en": "Waterproofing Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/44",
-    "en_url": "https://mirai-shigoto.com/en/44",
-    "ja_size_bytes": 46785,
-    "en_size_bytes": 43520
+    "ja_size_bytes": 46268
   },
   {
     "id": 45,
     "name_ja": "保温工事",
-    "name_en": "Insulation Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/45",
-    "en_url": "https://mirai-shigoto.com/en/45",
-    "ja_size_bytes": 47585,
-    "en_size_bytes": 42670
+    "ja_size_bytes": 47098
   },
   {
     "id": 46,
     "name_ja": "電気工事士",
-    "name_en": "Electrician",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/46",
-    "en_url": "https://mirai-shigoto.com/en/46",
-    "ja_size_bytes": 48727,
-    "en_size_bytes": 43853
+    "ja_size_bytes": 48250
   },
   {
     "id": 47,
     "name_ja": "配管工",
-    "name_en": "Plumber",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/47",
-    "en_url": "https://mirai-shigoto.com/en/47",
-    "ja_size_bytes": 49042,
-    "en_size_bytes": 43814
+    "ja_size_bytes": 48565
   },
   {
     "id": 48,
     "name_ja": "エレベーター据付",
-    "name_en": "Elevator Installer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/48",
-    "en_url": "https://mirai-shigoto.com/en/48",
-    "ja_size_bytes": 48056,
-    "en_size_bytes": 43269
+    "ja_size_bytes": 47566
   },
   {
     "id": 49,
     "name_ja": "鉄道線路管理",
-    "name_en": "Railway Track Maintenance Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/49",
-    "en_url": "https://mirai-shigoto.com/en/49",
-    "ja_size_bytes": 47135,
-    "en_size_bytes": 43235
+    "ja_size_bytes": 46639
   },
   {
     "id": 50,
     "name_ja": "送電線工事",
-    "name_en": "Power Transmission Line Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/50",
-    "en_url": "https://mirai-shigoto.com/en/50",
-    "ja_size_bytes": 47321,
-    "en_size_bytes": 42594
+    "ja_size_bytes": 46830
   },
   {
     "id": 51,
     "name_ja": "解体工",
-    "name_en": "Demolition Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/51",
-    "en_url": "https://mirai-shigoto.com/en/51",
-    "ja_size_bytes": 47756,
-    "en_size_bytes": 43782
+    "ja_size_bytes": 47280
   },
   {
     "id": 52,
     "name_ja": "ホテル・旅館支配人",
-    "name_en": "Hotel/Inn Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/52",
-    "en_url": "https://mirai-shigoto.com/en/52",
-    "ja_size_bytes": 47834,
-    "en_size_bytes": 43019
+    "ja_size_bytes": 47335
   },
   {
     "id": 53,
     "name_ja": "銀行支店長",
-    "name_en": "Bank Branch Manager",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/53",
-    "en_url": "https://mirai-shigoto.com/en/53",
-    "ja_size_bytes": 49030,
-    "en_size_bytes": 44294
+    "ja_size_bytes": 48483
   },
   {
     "id": 54,
     "name_ja": "デパート店員",
-    "name_en": "Department Store Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/54",
-    "en_url": "https://mirai-shigoto.com/en/54",
-    "ja_size_bytes": 48618,
-    "en_size_bytes": 43525
+    "ja_size_bytes": 48116
   },
   {
     "id": 55,
     "name_ja": "スーパー店長",
-    "name_en": "Supermarket Manager",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/55",
-    "en_url": "https://mirai-shigoto.com/en/55",
-    "ja_size_bytes": 48036,
-    "en_size_bytes": 43541
+    "ja_size_bytes": 47538
   },
   {
     "id": 56,
     "name_ja": "スーパーレジ係",
-    "name_en": "Supermarket Cashier",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/56",
-    "en_url": "https://mirai-shigoto.com/en/56",
-    "ja_size_bytes": 47488,
-    "en_size_bytes": 43415
+    "ja_size_bytes": 47026
   },
   {
     "id": 57,
     "name_ja": "スーパー店員",
-    "name_en": "Supermarket Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/57",
-    "en_url": "https://mirai-shigoto.com/en/57",
-    "ja_size_bytes": 46692,
-    "en_size_bytes": 43042
+    "ja_size_bytes": 46198
   },
   {
     "id": 58,
     "name_ja": "商社営業",
-    "name_en": "Trading Company Sales (Sosha)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/58",
-    "en_url": "https://mirai-shigoto.com/en/58",
-    "ja_size_bytes": 47389,
-    "en_size_bytes": 43375
+    "ja_size_bytes": 46890
   },
   {
     "id": 59,
     "name_ja": "住宅・不動産営業",
-    "name_en": "Real Estate Sales (Housing)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/59",
-    "en_url": "https://mirai-shigoto.com/en/59",
-    "ja_size_bytes": 47461,
-    "en_size_bytes": 43946
+    "ja_size_bytes": 46948
   },
   {
     "id": 60,
     "name_ja": "自動車営業",
-    "name_en": "Auto Sales",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/60",
-    "en_url": "https://mirai-shigoto.com/en/60",
-    "ja_size_bytes": 47915,
-    "en_size_bytes": 43296
+    "ja_size_bytes": 47435
   },
   {
     "id": 61,
     "name_ja": "広告営業",
-    "name_en": "Advertising Sales",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/61",
-    "en_url": "https://mirai-shigoto.com/en/61",
-    "ja_size_bytes": 47416,
-    "en_size_bytes": 43397
+    "ja_size_bytes": 46952
   },
   {
     "id": 62,
     "name_ja": "印刷営業",
-    "name_en": "Print Sales",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/62",
-    "en_url": "https://mirai-shigoto.com/en/62",
-    "ja_size_bytes": 48125,
-    "en_size_bytes": 43701
+    "ja_size_bytes": 47617
   },
   {
     "id": 63,
     "name_ja": "医薬情報担当者（MR）",
-    "name_en": "Medical Representative (MR)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/63",
-    "en_url": "https://mirai-shigoto.com/en/63",
-    "ja_size_bytes": 49358,
-    "en_size_bytes": 43626
+    "ja_size_bytes": 48845
   },
   {
     "id": 64,
     "name_ja": "コールセンターオペレーター",
-    "name_en": "Call Center Operator",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/64",
-    "en_url": "https://mirai-shigoto.com/en/64",
-    "ja_size_bytes": 49359,
-    "en_size_bytes": 43699
+    "ja_size_bytes": 48885
   },
   {
     "id": 65,
     "name_ja": "せり人",
-    "name_en": "Auctioneer (Seriin)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/65",
-    "en_url": "https://mirai-shigoto.com/en/65",
-    "ja_size_bytes": 45421,
-    "en_size_bytes": 42400
+    "ja_size_bytes": 44947
   },
   {
     "id": 66,
     "name_ja": "フラワーショップ店員",
-    "name_en": "Florist Shop Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/66",
-    "en_url": "https://mirai-shigoto.com/en/66",
-    "ja_size_bytes": 47610,
-    "en_size_bytes": 43466
+    "ja_size_bytes": 47118
   },
   {
     "id": 67,
     "name_ja": "電器店店員",
-    "name_en": "Electronics Shop Clerk",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/67",
-    "en_url": "https://mirai-shigoto.com/en/67",
-    "ja_size_bytes": 48558,
-    "en_size_bytes": 44042
+    "ja_size_bytes": 48058
   },
   {
     "id": 68,
     "name_ja": "書店員",
-    "name_en": "Bookstore Clerk",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/68",
-    "en_url": "https://mirai-shigoto.com/en/68",
-    "ja_size_bytes": 47022,
-    "en_size_bytes": 43195
+    "ja_size_bytes": 46526
   },
   {
     "id": 69,
     "name_ja": "メガネ販売",
-    "name_en": "Eyewear Sales",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/69",
-    "en_url": "https://mirai-shigoto.com/en/69",
-    "ja_size_bytes": 47861,
-    "en_size_bytes": 42946
+    "ja_size_bytes": 47378
   },
   {
     "id": 70,
     "name_ja": "スポーツ用品販売",
-    "name_en": "Sporting Goods Sales",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/70",
-    "en_url": "https://mirai-shigoto.com/en/70",
-    "ja_size_bytes": 48644,
-    "en_size_bytes": 43317
+    "ja_size_bytes": 48150
   },
   {
     "id": 71,
     "name_ja": "ホームセンター店員",
-    "name_en": "Hardware/Home Center Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/71",
-    "en_url": "https://mirai-shigoto.com/en/71",
-    "ja_size_bytes": 46839,
-    "en_size_bytes": 43311
+    "ja_size_bytes": 46320
   },
   {
     "id": 72,
     "name_ja": "ペットショップ店員",
-    "name_en": "Pet Shop Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/72",
-    "en_url": "https://mirai-shigoto.com/en/72",
-    "ja_size_bytes": 47148,
-    "en_size_bytes": 42979
+    "ja_size_bytes": 46664
   },
   {
     "id": 73,
     "name_ja": "衣料品販売",
-    "name_en": "Apparel Sales",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/73",
-    "en_url": "https://mirai-shigoto.com/en/73",
-    "ja_size_bytes": 48477,
-    "en_size_bytes": 43344
+    "ja_size_bytes": 48006
   },
   {
     "id": 74,
     "name_ja": "検針員",
-    "name_en": "Meter Reader",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/74",
-    "en_url": "https://mirai-shigoto.com/en/74",
-    "ja_size_bytes": 47825,
-    "en_size_bytes": 43437
+    "ja_size_bytes": 47350
   },
   {
     "id": 75,
     "name_ja": "フランチャイズチェーン・スーパーバイザー",
-    "name_en": "Franchise Chain Supervisor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/75",
-    "en_url": "https://mirai-shigoto.com/en/75",
-    "ja_size_bytes": 49246,
-    "en_size_bytes": 43775
+    "ja_size_bytes": 48730
   },
   {
     "id": 76,
     "name_ja": "シューフィッター",
-    "name_en": "Shoe Fitter",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/76",
-    "en_url": "https://mirai-shigoto.com/en/76",
-    "ja_size_bytes": 47056,
-    "en_size_bytes": 42961
+    "ja_size_bytes": 46570
   },
   {
     "id": 77,
     "name_ja": "駅構内売店店員",
-    "name_en": "Station Kiosk Clerk",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/77",
-    "en_url": "https://mirai-shigoto.com/en/77",
-    "ja_size_bytes": 46023,
-    "en_size_bytes": 42461
+    "ja_size_bytes": 45537
   },
   {
     "id": 78,
     "name_ja": "コンビニエンスストア店員",
-    "name_en": "Convenience Store Clerk",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/78",
-    "en_url": "https://mirai-shigoto.com/en/78",
-    "ja_size_bytes": 48044,
-    "en_size_bytes": 43848
+    "ja_size_bytes": 47562
   },
   {
     "id": 79,
     "name_ja": "ベーカリーショップ店員",
-    "name_en": "Bakery Shop Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/79",
-    "en_url": "https://mirai-shigoto.com/en/79",
-    "ja_size_bytes": 47336,
-    "en_size_bytes": 43500
+    "ja_size_bytes": 46849
   },
   {
     "id": 80,
     "name_ja": "中小企業診断士",
-    "name_en": "SMB Diagnostician (Shoshindanshi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/80",
-    "en_url": "https://mirai-shigoto.com/en/80",
-    "ja_size_bytes": 48887,
-    "en_size_bytes": 43837
+    "ja_size_bytes": 48428
   },
   {
     "id": 81,
     "name_ja": "経営コンサルタント",
-    "name_en": "Management Consultant",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/81",
-    "en_url": "https://mirai-shigoto.com/en/81",
-    "ja_size_bytes": 49367,
-    "en_size_bytes": 43845
+    "ja_size_bytes": 48905
   },
   {
     "id": 82,
     "name_ja": "ファイナンシャル・プランナー",
-    "name_en": "Financial Planner",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/82",
-    "en_url": "https://mirai-shigoto.com/en/82",
-    "ja_size_bytes": 48504,
-    "en_size_bytes": 44257
+    "ja_size_bytes": 47964
   },
   {
     "id": 83,
     "name_ja": "社会保険労務士",
-    "name_en": "Labor and Social Security Attorney (Sharoshi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/83",
-    "en_url": "https://mirai-shigoto.com/en/83",
-    "ja_size_bytes": 48842,
-    "en_size_bytes": 43861
+    "ja_size_bytes": 48317
   },
   {
     "id": 84,
     "name_ja": "司法書士",
-    "name_en": "Judicial Scrivener (Shihoshoshi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/84",
-    "en_url": "https://mirai-shigoto.com/en/84",
-    "ja_size_bytes": 48786,
-    "en_size_bytes": 43641
+    "ja_size_bytes": 48281
   },
   {
     "id": 85,
     "name_ja": "行政書士",
-    "name_en": "Administrative Scrivener (Gyoseishoshi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/85",
-    "en_url": "https://mirai-shigoto.com/en/85",
-    "ja_size_bytes": 48156,
-    "en_size_bytes": 44034
+    "ja_size_bytes": 47629
   },
   {
     "id": 86,
     "name_ja": "土地家屋調査士",
-    "name_en": "Land and House Investigator (Tochikaokuchosashi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/86",
-    "en_url": "https://mirai-shigoto.com/en/86",
-    "ja_size_bytes": 47976,
-    "en_size_bytes": 44290
+    "ja_size_bytes": 47460
   },
   {
     "id": 87,
     "name_ja": "翻訳者",
-    "name_en": "Translator",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/87",
-    "en_url": "https://mirai-shigoto.com/en/87",
-    "ja_size_bytes": 48083,
-    "en_size_bytes": 43368
+    "ja_size_bytes": 47578
   },
   {
     "id": 88,
     "name_ja": "通訳者",
-    "name_en": "Interpreter",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/88",
-    "en_url": "https://mirai-shigoto.com/en/88",
-    "ja_size_bytes": 48124,
-    "en_size_bytes": 43616
+    "ja_size_bytes": 47612
   },
   {
     "id": 89,
     "name_ja": "弁護士",
-    "name_en": "Lawyer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/89",
-    "en_url": "https://mirai-shigoto.com/en/89",
-    "ja_size_bytes": 48851,
-    "en_size_bytes": 43078
+    "ja_size_bytes": 48363
   },
   {
     "id": 90,
     "name_ja": "公認会計士",
-    "name_en": "Certified Public Accountant",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/90",
-    "en_url": "https://mirai-shigoto.com/en/90",
-    "ja_size_bytes": 48321,
-    "en_size_bytes": 43492
+    "ja_size_bytes": 47831
   },
   {
     "id": 91,
     "name_ja": "弁理士",
-    "name_en": "Patent Attorney (Benrishi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/91",
-    "en_url": "https://mirai-shigoto.com/en/91",
-    "ja_size_bytes": 49958,
-    "en_size_bytes": 43537
+    "ja_size_bytes": 49483
   },
   {
     "id": 92,
     "name_ja": "税理士",
-    "name_en": "Tax Accountant (Zeirishi)",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/92",
-    "en_url": "https://mirai-shigoto.com/en/92",
-    "ja_size_bytes": 48498,
-    "en_size_bytes": 44178
+    "ja_size_bytes": 47979
   },
   {
     "id": 93,
     "name_ja": "不動産鑑定士",
-    "name_en": "Real Estate Appraiser",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/93",
-    "en_url": "https://mirai-shigoto.com/en/93",
-    "ja_size_bytes": 47206,
-    "en_size_bytes": 43868
+    "ja_size_bytes": 46737
   },
   {
     "id": 94,
     "name_ja": "気象予報士",
-    "name_en": "Weather Forecaster",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/94",
-    "en_url": "https://mirai-shigoto.com/en/94",
-    "ja_size_bytes": 47407,
-    "en_size_bytes": 42934
+    "ja_size_bytes": 46963
   },
   {
     "id": 95,
     "name_ja": "ビル施設管理",
-    "name_en": "Building Facility Manager",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/95",
-    "en_url": "https://mirai-shigoto.com/en/95",
-    "ja_size_bytes": 48081,
-    "en_size_bytes": 44296
+    "ja_size_bytes": 47542
   },
   {
     "id": 96,
     "name_ja": "駐車場管理",
-    "name_en": "Parking Lot Attendant",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/96",
-    "en_url": "https://mirai-shigoto.com/en/96",
-    "ja_size_bytes": 47203,
-    "en_size_bytes": 43425
+    "ja_size_bytes": 46713
   },
   {
     "id": 97,
     "name_ja": "ビル清掃",
-    "name_en": "Building Cleaner",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/97",
-    "en_url": "https://mirai-shigoto.com/en/97",
-    "ja_size_bytes": 48226,
-    "en_size_bytes": 43741
+    "ja_size_bytes": 47753
   },
   {
     "id": 98,
     "name_ja": "鉄道車両清掃",
-    "name_en": "Train Cleaner",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/98",
-    "en_url": "https://mirai-shigoto.com/en/98",
-    "ja_size_bytes": 45834,
-    "en_size_bytes": 42782
+    "ja_size_bytes": 45372
   },
   {
     "id": 99,
     "name_ja": "西洋料理調理人（コック）",
-    "name_en": "Western Cuisine Chef",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/99",
-    "en_url": "https://mirai-shigoto.com/en/99",
-    "ja_size_bytes": 48483,
-    "en_size_bytes": 43461
+    "ja_size_bytes": 48017
   },
   {
     "id": 100,
     "name_ja": "日本料理調理人（板前）",
-    "name_en": "Japanese Cuisine Chef (Itamae)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/100",
-    "en_url": "https://mirai-shigoto.com/en/100",
-    "ja_size_bytes": 48110,
-    "en_size_bytes": 43893
+    "ja_size_bytes": 47635
   },
   {
     "id": 101,
     "name_ja": "すし職人",
-    "name_en": "Sushi Chef",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/101",
-    "en_url": "https://mirai-shigoto.com/en/101",
-    "ja_size_bytes": 47057,
-    "en_size_bytes": 43366
+    "ja_size_bytes": 46560
   },
   {
     "id": 102,
     "name_ja": "そば・うどん調理人",
-    "name_en": "Soba/Udon Chef",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/102",
-    "en_url": "https://mirai-shigoto.com/en/102",
-    "ja_size_bytes": 47798,
-    "en_size_bytes": 43661
+    "ja_size_bytes": 47311
   },
   {
     "id": 103,
     "name_ja": "中華料理調理人",
-    "name_en": "Chinese Cuisine Chef",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/103",
-    "en_url": "https://mirai-shigoto.com/en/103",
-    "ja_size_bytes": 47312,
-    "en_size_bytes": 43674
+    "ja_size_bytes": 46823
   },
   {
     "id": 104,
     "name_ja": "ハンバーガーショップ店長",
-    "name_en": "Burger Shop Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/104",
-    "en_url": "https://mirai-shigoto.com/en/104",
-    "ja_size_bytes": 46547,
-    "en_size_bytes": 42780
+    "ja_size_bytes": 46025
   },
   {
     "id": 105,
     "name_ja": "カフェ店員",
-    "name_en": "Cafe Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/105",
-    "en_url": "https://mirai-shigoto.com/en/105",
-    "ja_size_bytes": 47375,
-    "en_size_bytes": 42858
+    "ja_size_bytes": 46895
   },
   {
     "id": 106,
     "name_ja": "ソムリエ",
-    "name_en": "Sommelier",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/106",
-    "en_url": "https://mirai-shigoto.com/en/106",
-    "ja_size_bytes": 47768,
-    "en_size_bytes": 42804
+    "ja_size_bytes": 47305
   },
   {
     "id": 107,
     "name_ja": "バーテンダー",
-    "name_en": "Bartender",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/107",
-    "en_url": "https://mirai-shigoto.com/en/107",
-    "ja_size_bytes": 46685,
-    "en_size_bytes": 43343
+    "ja_size_bytes": 46199
   },
   {
     "id": 108,
     "name_ja": "ラーメン調理人",
-    "name_en": "Ramen Chef",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/108",
-    "en_url": "https://mirai-shigoto.com/en/108",
-    "ja_size_bytes": 47334,
-    "en_size_bytes": 43339
+    "ja_size_bytes": 46850
   },
   {
     "id": 109,
     "name_ja": "旅行会社カウンター係",
-    "name_en": "Travel Agency Counter Clerk",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/109",
-    "en_url": "https://mirai-shigoto.com/en/109",
-    "ja_size_bytes": 47563,
-    "en_size_bytes": 44042
+    "ja_size_bytes": 47057
   },
   {
     "id": 110,
     "name_ja": "ツアーコンダクター",
-    "name_en": "Tour Conductor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/110",
-    "en_url": "https://mirai-shigoto.com/en/110",
-    "ja_size_bytes": 49095,
-    "en_size_bytes": 44107
+    "ja_size_bytes": 48613
   },
   {
     "id": 111,
     "name_ja": "観光バスガイド",
-    "name_en": "Sightseeing Bus Guide",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/111",
-    "en_url": "https://mirai-shigoto.com/en/111",
-    "ja_size_bytes": 46857,
-    "en_size_bytes": 42512
+    "ja_size_bytes": 46351
   },
   {
     "id": 112,
     "name_ja": "遊園地スタッフ",
-    "name_en": "Theme Park Staff",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/112",
-    "en_url": "https://mirai-shigoto.com/en/112",
-    "ja_size_bytes": 47461,
-    "en_size_bytes": 43352
+    "ja_size_bytes": 46993
   },
   {
     "id": 113,
     "name_ja": "キャディ",
-    "name_en": "Caddie",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/113",
-    "en_url": "https://mirai-shigoto.com/en/113",
-    "ja_size_bytes": 47883,
-    "en_size_bytes": 43092
+    "ja_size_bytes": 47414
   },
   {
     "id": 114,
     "name_ja": "通訳ガイド",
-    "name_en": "Tour Interpreter Guide (Tsuyaku-Annai-shi)",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/114",
-    "en_url": "https://mirai-shigoto.com/en/114",
-    "ja_size_bytes": 47750,
-    "en_size_bytes": 43999
+    "ja_size_bytes": 47201
   },
   {
     "id": 115,
     "name_ja": "理容師",
-    "name_en": "Barber",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/115",
-    "en_url": "https://mirai-shigoto.com/en/115",
-    "ja_size_bytes": 48401,
-    "en_size_bytes": 43717
+    "ja_size_bytes": 47927
   },
   {
     "id": 116,
     "name_ja": "美容師",
-    "name_en": "Hair Stylist",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/116",
-    "en_url": "https://mirai-shigoto.com/en/116",
-    "ja_size_bytes": 48587,
-    "en_size_bytes": 43825
+    "ja_size_bytes": 48118
   },
   {
     "id": 117,
     "name_ja": "エステティシャン",
-    "name_en": "Esthetician",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/117",
-    "en_url": "https://mirai-shigoto.com/en/117",
-    "ja_size_bytes": 48203,
-    "en_size_bytes": 43442
+    "ja_size_bytes": 47694
   },
   {
     "id": 118,
     "name_ja": "メイクアップアーティスト",
-    "name_en": "Makeup Artist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/118",
-    "en_url": "https://mirai-shigoto.com/en/118",
-    "ja_size_bytes": 48989,
-    "en_size_bytes": 43186
+    "ja_size_bytes": 48513
   },
   {
     "id": 119,
     "name_ja": "クリーニング師",
-    "name_en": "Cleaner (Dry-Cleaning)",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/119",
-    "en_url": "https://mirai-shigoto.com/en/119",
-    "ja_size_bytes": 48399,
-    "en_size_bytes": 43864
+    "ja_size_bytes": 47930
   },
   {
     "id": 120,
     "name_ja": "スポーツインストラクター",
-    "name_en": "Sports Instructor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/120",
-    "en_url": "https://mirai-shigoto.com/en/120",
-    "ja_size_bytes": 49362,
-    "en_size_bytes": 44249
+    "ja_size_bytes": 48879
   },
   {
     "id": 121,
     "name_ja": "自動車教習指導員",
-    "name_en": "Driving School Instructor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/121",
-    "en_url": "https://mirai-shigoto.com/en/121",
-    "ja_size_bytes": 49125,
-    "en_size_bytes": 43654
+    "ja_size_bytes": 48619
   },
   {
     "id": 122,
     "name_ja": "音楽教室講師",
-    "name_en": "Music School Instructor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/122",
-    "en_url": "https://mirai-shigoto.com/en/122",
-    "ja_size_bytes": 47181,
-    "en_size_bytes": 43409
+    "ja_size_bytes": 46683
   },
   {
     "id": 123,
     "name_ja": "ビデオレンタル店店員",
-    "name_en": "Video Rental Clerk",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/123",
-    "en_url": "https://mirai-shigoto.com/en/123",
-    "ja_size_bytes": 48938,
-    "en_size_bytes": 43397
+    "ja_size_bytes": 48464
   },
   {
     "id": 124,
     "name_ja": "レンタカー店舗スタッフ",
-    "name_en": "Car Rental Counter Clerk",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/124",
-    "en_url": "https://mirai-shigoto.com/en/124",
-    "ja_size_bytes": 49328,
-    "en_size_bytes": 43883
+    "ja_size_bytes": 48790
   },
   {
     "id": 125,
     "name_ja": "ブライダルコーディネーター",
-    "name_en": "Wedding Planner / Bridal Coordinator",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/125",
-    "en_url": "https://mirai-shigoto.com/en/125",
-    "ja_size_bytes": 48590,
-    "en_size_bytes": 44200
+    "ja_size_bytes": 48084
   },
   {
     "id": 126,
     "name_ja": "家政婦（夫）",
-    "name_en": "Housekeeper",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/126",
-    "en_url": "https://mirai-shigoto.com/en/126",
-    "ja_size_bytes": 47065,
-    "en_size_bytes": 43767
+    "ja_size_bytes": 46613
   },
   {
     "id": 127,
     "name_ja": "ピアノ調律師",
-    "name_en": "Piano Tuner",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/127",
-    "en_url": "https://mirai-shigoto.com/en/127",
-    "ja_size_bytes": 48299,
-    "en_size_bytes": 42964
+    "ja_size_bytes": 47828
   },
   {
     "id": 128,
     "name_ja": "ネイリスト",
-    "name_en": "Nail Artist",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/128",
-    "en_url": "https://mirai-shigoto.com/en/128",
-    "ja_size_bytes": 48310,
-    "en_size_bytes": 43647
+    "ja_size_bytes": 47851
   },
   {
     "id": 129,
     "name_ja": "児童相談所相談員",
-    "name_en": "Child Welfare Counselor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/129",
-    "en_url": "https://mirai-shigoto.com/en/129",
-    "ja_size_bytes": 48133,
-    "en_size_bytes": 42953
+    "ja_size_bytes": 47662
   },
   {
     "id": 130,
     "name_ja": "福祉事務所ケースワーカー",
-    "name_en": "Welfare Office Caseworker",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/130",
-    "en_url": "https://mirai-shigoto.com/en/130",
-    "ja_size_bytes": 47622,
-    "en_size_bytes": 43491
+    "ja_size_bytes": 47142
   },
   {
     "id": 131,
     "name_ja": "保育士",
-    "name_en": "Nursery Teacher (Hoikushi)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/131",
-    "en_url": "https://mirai-shigoto.com/en/131",
-    "ja_size_bytes": 49812,
-    "en_size_bytes": 43795
+    "ja_size_bytes": 49292
   },
   {
     "id": 132,
     "name_ja": "介護支援専門員/ケアマネジャー",
-    "name_en": "Care Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/132",
-    "en_url": "https://mirai-shigoto.com/en/132",
-    "ja_size_bytes": 50128,
-    "en_size_bytes": 43920
+    "ja_size_bytes": 49644
   },
   {
     "id": 133,
     "name_ja": "訪問介護員/ホームヘルパー",
-    "name_en": "Home Care Worker / Helper",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/133",
-    "en_url": "https://mirai-shigoto.com/en/133",
-    "ja_size_bytes": 49711,
-    "en_size_bytes": 44066
+    "ja_size_bytes": 49205
   },
   {
     "id": 134,
     "name_ja": "施設介護員",
-    "name_en": "Facility Care Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/134",
-    "en_url": "https://mirai-shigoto.com/en/134",
-    "ja_size_bytes": 47735,
-    "en_size_bytes": 43627
+    "ja_size_bytes": 47237
   },
   {
     "id": 135,
     "name_ja": "手話通訳者",
-    "name_en": "Sign Language Interpreter",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/135",
-    "en_url": "https://mirai-shigoto.com/en/135",
-    "ja_size_bytes": 47821,
-    "en_size_bytes": 43145
+    "ja_size_bytes": 47329
   },
   {
     "id": 136,
     "name_ja": "キャリアカウンセラー/キャリアコンサルタント",
-    "name_en": "Career Counselor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/136",
-    "en_url": "https://mirai-shigoto.com/en/136",
-    "ja_size_bytes": 50225,
-    "en_size_bytes": 44271
+    "ja_size_bytes": 49750
   },
   {
     "id": 137,
     "name_ja": "福祉用具専門相談員",
-    "name_en": "Welfare Equipment Specialist",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/137",
-    "en_url": "https://mirai-shigoto.com/en/137",
-    "ja_size_bytes": 47801,
-    "en_size_bytes": 43641
+    "ja_size_bytes": 47306
   },
   {
     "id": 138,
     "name_ja": "国家公務員（行政事務）",
-    "name_en": "National Civil Servant (Administrative)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/138",
-    "en_url": "https://mirai-shigoto.com/en/138",
-    "ja_size_bytes": 47208,
-    "en_size_bytes": 43374
+    "ja_size_bytes": 46657
   },
   {
     "id": 139,
     "name_ja": "地方公務員（行政事務）",
-    "name_en": "Local Civil Servant (Administrative)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/139",
-    "en_url": "https://mirai-shigoto.com/en/139",
-    "ja_size_bytes": 47829,
-    "en_size_bytes": 43588
+    "ja_size_bytes": 47316
   },
   {
     "id": 140,
     "name_ja": "警察官（都道府県警察）",
-    "name_en": "Police Officer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/140",
-    "en_url": "https://mirai-shigoto.com/en/140",
-    "ja_size_bytes": 47355,
-    "en_size_bytes": 42891
+    "ja_size_bytes": 46839
   },
   {
     "id": 141,
     "name_ja": "海上保安官",
-    "name_en": "Coast Guard Officer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/141",
-    "en_url": "https://mirai-shigoto.com/en/141",
-    "ja_size_bytes": 46933,
-    "en_size_bytes": 42621
+    "ja_size_bytes": 46427
   },
   {
     "id": 142,
     "name_ja": "麻薬取締官",
-    "name_en": "Narcotics Control Officer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/142",
-    "en_url": "https://mirai-shigoto.com/en/142",
-    "ja_size_bytes": 46550,
-    "en_size_bytes": 42939
+    "ja_size_bytes": 46051
   },
   {
     "id": 143,
     "name_ja": "入国警備官",
-    "name_en": "Immigration Enforcement Officer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/143",
-    "en_url": "https://mirai-shigoto.com/en/143",
-    "ja_size_bytes": 47479,
-    "en_size_bytes": 42996
+    "ja_size_bytes": 46968
   },
   {
     "id": 144,
     "name_ja": "裁判官",
-    "name_en": "Judge",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/144",
-    "en_url": "https://mirai-shigoto.com/en/144",
-    "ja_size_bytes": 47702,
-    "en_size_bytes": 41823
+    "ja_size_bytes": 47215
   },
   {
     "id": 145,
     "name_ja": "検察官",
-    "name_en": "Prosecutor",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/145",
-    "en_url": "https://mirai-shigoto.com/en/145",
-    "ja_size_bytes": 46513,
-    "en_size_bytes": 41936
+    "ja_size_bytes": 46024
   },
   {
     "id": 146,
     "name_ja": "家庭裁判所調査官",
-    "name_en": "Family Court Investigator",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/146",
-    "en_url": "https://mirai-shigoto.com/en/146",
-    "ja_size_bytes": 48514,
-    "en_size_bytes": 42867
+    "ja_size_bytes": 48005
   },
   {
     "id": 147,
     "name_ja": "法務教官",
-    "name_en": "Corrections Education Officer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/147",
-    "en_url": "https://mirai-shigoto.com/en/147",
-    "ja_size_bytes": 47905,
-    "en_size_bytes": 42565
+    "ja_size_bytes": 47377
   },
   {
     "id": 148,
     "name_ja": "刑務官",
-    "name_en": "Prison Officer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/148",
-    "en_url": "https://mirai-shigoto.com/en/148",
-    "ja_size_bytes": 46614,
-    "en_size_bytes": 41873
+    "ja_size_bytes": 46107
   },
   {
     "id": 149,
     "name_ja": "税務事務官",
-    "name_en": "Tax Office Officer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/149",
-    "en_url": "https://mirai-shigoto.com/en/149",
-    "ja_size_bytes": 48893,
-    "en_size_bytes": 43267
+    "ja_size_bytes": 48386
   },
   {
     "id": 150,
     "name_ja": "外務公務員（外交官）",
-    "name_en": "Diplomat",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/150",
-    "en_url": "https://mirai-shigoto.com/en/150",
-    "ja_size_bytes": 48026,
-    "en_size_bytes": 42200
+    "ja_size_bytes": 47506
   },
   {
     "id": 151,
     "name_ja": "国際公務員",
-    "name_en": "International Civil Servant",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/151",
-    "en_url": "https://mirai-shigoto.com/en/151",
-    "ja_size_bytes": 47294,
-    "en_size_bytes": 42980
+    "ja_size_bytes": 46774
   },
   {
     "id": 152,
     "name_ja": "陸上自衛官",
-    "name_en": "Ground Self-Defense Force Officer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/152",
-    "en_url": "https://mirai-shigoto.com/en/152",
-    "ja_size_bytes": 47416,
-    "en_size_bytes": 42500
+    "ja_size_bytes": 46910
   },
   {
     "id": 153,
     "name_ja": "海上自衛官",
-    "name_en": "Maritime Self-Defense Force Officer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/153",
-    "en_url": "https://mirai-shigoto.com/en/153",
-    "ja_size_bytes": 47600,
-    "en_size_bytes": 42556
+    "ja_size_bytes": 47102
   },
   {
     "id": 154,
     "name_ja": "航空自衛官",
-    "name_en": "Air Self-Defense Force Officer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/154",
-    "en_url": "https://mirai-shigoto.com/en/154",
-    "ja_size_bytes": 48031,
-    "en_size_bytes": 42926
+    "ja_size_bytes": 47514
   },
   {
     "id": 155,
     "name_ja": "消防官",
-    "name_en": "Firefighter",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/155",
-    "en_url": "https://mirai-shigoto.com/en/155",
-    "ja_size_bytes": 47832,
-    "en_size_bytes": 42934
+    "ja_size_bytes": 47349
   },
   {
     "id": 156,
     "name_ja": "看護師",
-    "name_en": "Nurse",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/156",
-    "en_url": "https://mirai-shigoto.com/en/156",
-    "ja_size_bytes": 49738,
-    "en_size_bytes": 43589
+    "ja_size_bytes": 49257
   },
   {
     "id": 157,
     "name_ja": "助産師",
-    "name_en": "Midwife",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/157",
-    "en_url": "https://mirai-shigoto.com/en/157",
-    "ja_size_bytes": 48093,
-    "en_size_bytes": 43527
+    "ja_size_bytes": 47615
   },
   {
     "id": 158,
     "name_ja": "薬剤師",
-    "name_en": "Pharmacist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/158",
-    "en_url": "https://mirai-shigoto.com/en/158",
-    "ja_size_bytes": 48304,
-    "en_size_bytes": 43238
+    "ja_size_bytes": 47834
   },
   {
     "id": 159,
     "name_ja": "歯科医師",
-    "name_en": "Dentist",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/159",
-    "en_url": "https://mirai-shigoto.com/en/159",
-    "ja_size_bytes": 48023,
-    "en_size_bytes": 43172
+    "ja_size_bytes": 47561
   },
   {
     "id": 160,
     "name_ja": "保健師",
-    "name_en": "Public Health Nurse",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/160",
-    "en_url": "https://mirai-shigoto.com/en/160",
-    "ja_size_bytes": 47430,
-    "en_size_bytes": 43464
+    "ja_size_bytes": 46919
   },
   {
     "id": 161,
     "name_ja": "臨床検査技師",
-    "name_en": "Clinical Laboratory Technologist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/161",
-    "en_url": "https://mirai-shigoto.com/en/161",
-    "ja_size_bytes": 48287,
-    "en_size_bytes": 43713
+    "ja_size_bytes": 47836
   },
   {
     "id": 162,
     "name_ja": "細胞検査士",
-    "name_en": "Cytotechnologist",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/162",
-    "en_url": "https://mirai-shigoto.com/en/162",
-    "ja_size_bytes": 48121,
-    "en_size_bytes": 43118
+    "ja_size_bytes": 47655
   },
   {
     "id": 163,
     "name_ja": "診療放射線技師",
-    "name_en": "Radiology Technologist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/163",
-    "en_url": "https://mirai-shigoto.com/en/163",
-    "ja_size_bytes": 47486,
-    "en_size_bytes": 43721
+    "ja_size_bytes": 47013
   },
   {
     "id": 164,
     "name_ja": "臨床工学技士",
-    "name_en": "Clinical Engineer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/164",
-    "en_url": "https://mirai-shigoto.com/en/164",
-    "ja_size_bytes": 48172,
-    "en_size_bytes": 43517
+    "ja_size_bytes": 47662
   },
   {
     "id": 165,
     "name_ja": "歯科技工士",
-    "name_en": "Dental Technician",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/165",
-    "en_url": "https://mirai-shigoto.com/en/165",
-    "ja_size_bytes": 47553,
-    "en_size_bytes": 43384
+    "ja_size_bytes": 47082
   },
   {
     "id": 166,
     "name_ja": "歯科衛生士",
-    "name_en": "Dental Hygienist",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/166",
-    "en_url": "https://mirai-shigoto.com/en/166",
-    "ja_size_bytes": 46831,
-    "en_size_bytes": 43365
+    "ja_size_bytes": 46343
   },
   {
     "id": 167,
     "name_ja": "理学療法士（PT）",
-    "name_en": "Physical Therapist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/167",
-    "en_url": "https://mirai-shigoto.com/en/167",
-    "ja_size_bytes": 49554,
-    "en_size_bytes": 43597
+    "ja_size_bytes": 49090
   },
   {
     "id": 168,
     "name_ja": "作業療法士（OT）",
-    "name_en": "Occupational Therapist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/168",
-    "en_url": "https://mirai-shigoto.com/en/168",
-    "ja_size_bytes": 48334,
-    "en_size_bytes": 43640
+    "ja_size_bytes": 47853
   },
   {
     "id": 169,
     "name_ja": "言語聴覚士",
-    "name_en": "Speech-Language Therapist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/169",
-    "en_url": "https://mirai-shigoto.com/en/169",
-    "ja_size_bytes": 48810,
-    "en_size_bytes": 43638
+    "ja_size_bytes": 48315
   },
   {
     "id": 170,
     "name_ja": "視能訓練士",
-    "name_en": "Orthoptist",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/170",
-    "en_url": "https://mirai-shigoto.com/en/170",
-    "ja_size_bytes": 47261,
-    "en_size_bytes": 43272
+    "ja_size_bytes": 46770
   },
   {
     "id": 171,
     "name_ja": "栄養士",
-    "name_en": "Dietitian",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/171",
-    "en_url": "https://mirai-shigoto.com/en/171",
-    "ja_size_bytes": 49150,
-    "en_size_bytes": 43572
+    "ja_size_bytes": 48678
   },
   {
     "id": 172,
     "name_ja": "あんまマッサージ指圧師",
-    "name_en": "Massage/Anma/Shiatsu Therapist",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/172",
-    "en_url": "https://mirai-shigoto.com/en/172",
-    "ja_size_bytes": 48512,
-    "en_size_bytes": 44006
+    "ja_size_bytes": 48026
   },
   {
     "id": 173,
     "name_ja": "柔道整復師",
-    "name_en": "Judo Therapist (Bonesetter)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/173",
-    "en_url": "https://mirai-shigoto.com/en/173",
-    "ja_size_bytes": 47864,
-    "en_size_bytes": 43879
+    "ja_size_bytes": 47385
   },
   {
     "id": 174,
     "name_ja": "診療情報管理士",
-    "name_en": "Medical Records Manager",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/174",
-    "en_url": "https://mirai-shigoto.com/en/174",
-    "ja_size_bytes": 47392,
-    "en_size_bytes": 43165
+    "ja_size_bytes": 46907
   },
   {
     "id": 175,
     "name_ja": "はり師・きゅう師",
-    "name_en": "Acupuncturist / Moxibustionist",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/175",
-    "en_url": "https://mirai-shigoto.com/en/175",
-    "ja_size_bytes": 47768,
-    "en_size_bytes": 43692
+    "ja_size_bytes": 47276
   },
   {
     "id": 176,
     "name_ja": "義肢装具士",
-    "name_en": "Prosthetist & Orthotist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/176",
-    "en_url": "https://mirai-shigoto.com/en/176",
-    "ja_size_bytes": 48144,
-    "en_size_bytes": 43485
+    "ja_size_bytes": 47646
   },
   {
     "id": 178,
     "name_ja": "幼稚園教員",
-    "name_en": "Kindergarten Teacher",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/178",
-    "en_url": "https://mirai-shigoto.com/en/178",
-    "ja_size_bytes": 48754,
-    "en_size_bytes": 43917
+    "ja_size_bytes": 48246
   },
   {
     "id": 179,
     "name_ja": "小学校教員",
-    "name_en": "Elementary School Teacher",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/179",
-    "en_url": "https://mirai-shigoto.com/en/179",
-    "ja_size_bytes": 49487,
-    "en_size_bytes": 43796
+    "ja_size_bytes": 48992
   },
   {
     "id": 180,
     "name_ja": "中学校教員",
-    "name_en": "Middle School Teacher",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/180",
-    "en_url": "https://mirai-shigoto.com/en/180",
-    "ja_size_bytes": 49391,
-    "en_size_bytes": 43779
+    "ja_size_bytes": 48910
   },
   {
     "id": 181,
     "name_ja": "専門学校教員",
-    "name_en": "Vocational School Teacher",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/181",
-    "en_url": "https://mirai-shigoto.com/en/181",
-    "ja_size_bytes": 49299,
-    "en_size_bytes": 44264
+    "ja_size_bytes": 48815
   },
   {
     "id": 182,
     "name_ja": "図書館司書",
-    "name_en": "Librarian",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/182",
-    "en_url": "https://mirai-shigoto.com/en/182",
-    "ja_size_bytes": 48714,
-    "en_size_bytes": 43486
+    "ja_size_bytes": 48247
   },
   {
     "id": 183,
     "name_ja": "高等学校教員",
-    "name_en": "High School Teacher",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/183",
-    "en_url": "https://mirai-shigoto.com/en/183",
-    "ja_size_bytes": 48125,
-    "en_size_bytes": 43875
+    "ja_size_bytes": 47628
   },
   {
     "id": 184,
     "name_ja": "大学・短期大学教員",
-    "name_en": "University/College Faculty",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/184",
-    "en_url": "https://mirai-shigoto.com/en/184",
-    "ja_size_bytes": 44617,
-    "en_size_bytes": 38868
+    "ja_size_bytes": 44117
   },
   {
     "id": 185,
     "name_ja": "学芸員",
-    "name_en": "Museum Curator (Gakugeiin)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/185",
-    "en_url": "https://mirai-shigoto.com/en/185",
-    "ja_size_bytes": 48473,
-    "en_size_bytes": 43625
+    "ja_size_bytes": 48004
   },
   {
     "id": 186,
     "name_ja": "路線バス運転士",
-    "name_en": "Local Bus Driver",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/186",
-    "en_url": "https://mirai-shigoto.com/en/186",
-    "ja_size_bytes": 52939,
-    "en_size_bytes": 43534
+    "ja_size_bytes": 52424
   },
   {
     "id": 187,
     "name_ja": "観光バス運転士",
-    "name_en": "Sightseeing Bus Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/187",
-    "en_url": "https://mirai-shigoto.com/en/187",
-    "ja_size_bytes": 52162,
-    "en_size_bytes": 43472
+    "ja_size_bytes": 51637
   },
   {
     "id": 188,
     "name_ja": "タクシー運転手",
-    "name_en": "Taxi Driver",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/188",
-    "en_url": "https://mirai-shigoto.com/en/188",
-    "ja_size_bytes": 50105,
-    "en_size_bytes": 43881
+    "ja_size_bytes": 49629
   },
   {
     "id": 189,
     "name_ja": "パイロット",
-    "name_en": "Pilot",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/189",
-    "en_url": "https://mirai-shigoto.com/en/189",
-    "ja_size_bytes": 48655,
-    "en_size_bytes": 43399
+    "ja_size_bytes": 48174
   },
   {
     "id": 190,
     "name_ja": "航海士",
-    "name_en": "Navigator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/190",
-    "en_url": "https://mirai-shigoto.com/en/190",
-    "ja_size_bytes": 48570,
-    "en_size_bytes": 43430
+    "ja_size_bytes": 48076
   },
   {
     "id": 191,
     "name_ja": "船舶機関士",
-    "name_en": "Marine Engineer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/191",
-    "en_url": "https://mirai-shigoto.com/en/191",
-    "ja_size_bytes": 48547,
-    "en_size_bytes": 43383
+    "ja_size_bytes": 48021
   },
   {
     "id": 192,
     "name_ja": "電車運転士",
-    "name_en": "Train Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/192",
-    "en_url": "https://mirai-shigoto.com/en/192",
-    "ja_size_bytes": 48902,
-    "en_size_bytes": 43907
+    "ja_size_bytes": 48400
   },
   {
     "id": 193,
     "name_ja": "鉄道車掌",
-    "name_en": "Train Conductor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/193",
-    "en_url": "https://mirai-shigoto.com/en/193",
-    "ja_size_bytes": 48021,
-    "en_size_bytes": 43954
+    "ja_size_bytes": 47506
   },
   {
     "id": 194,
     "name_ja": "空港グランドスタッフ",
-    "name_en": "Airport Ground Staff",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/194",
-    "en_url": "https://mirai-shigoto.com/en/194",
-    "ja_size_bytes": 47835,
-    "en_size_bytes": 43048
+    "ja_size_bytes": 47330
   },
   {
     "id": 195,
     "name_ja": "駅務員",
-    "name_en": "Station Staff",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/195",
-    "en_url": "https://mirai-shigoto.com/en/195",
-    "ja_size_bytes": 47863,
-    "en_size_bytes": 43969
+    "ja_size_bytes": 47360
   },
   {
     "id": 196,
     "name_ja": "鉄道運転計画・運行管理",
-    "name_en": "Rail Operations Dispatcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/196",
-    "en_url": "https://mirai-shigoto.com/en/196",
-    "ja_size_bytes": 49253,
-    "en_size_bytes": 44341
+    "ja_size_bytes": 48756
   },
   {
     "id": 197,
     "name_ja": "自動車整備士",
-    "name_en": "Auto Mechanic",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/197",
-    "en_url": "https://mirai-shigoto.com/en/197",
-    "ja_size_bytes": 50519,
-    "en_size_bytes": 44002
+    "ja_size_bytes": 50032
   },
   {
     "id": 198,
     "name_ja": "ガソリンスタンド・スタッフ",
-    "name_en": "Gas Station Staff",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/198",
-    "en_url": "https://mirai-shigoto.com/en/198",
-    "ja_size_bytes": 48758,
-    "en_size_bytes": 43826
+    "ja_size_bytes": 48280
   },
   {
     "id": 199,
     "name_ja": "道路パトロール隊員",
-    "name_en": "Road Patrol Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/199",
-    "en_url": "https://mirai-shigoto.com/en/199",
-    "ja_size_bytes": 47394,
-    "en_size_bytes": 42883
+    "ja_size_bytes": 46901
   },
   {
     "id": 200,
     "name_ja": "タクシー配車オペレーター",
-    "name_en": "Taxi Dispatcher",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/200",
-    "en_url": "https://mirai-shigoto.com/en/200",
-    "ja_size_bytes": 49079,
-    "en_size_bytes": 43888
+    "ja_size_bytes": 48589
   },
   {
     "id": 201,
     "name_ja": "引越作業員",
-    "name_en": "Mover",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/201",
-    "en_url": "https://mirai-shigoto.com/en/201",
-    "ja_size_bytes": 47441,
-    "en_size_bytes": 43125
+    "ja_size_bytes": 46946
   },
   {
     "id": 202,
     "name_ja": "通関士",
-    "name_en": "Customs Broker (Tsukanshi)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/202",
-    "en_url": "https://mirai-shigoto.com/en/202",
-    "ja_size_bytes": 46957,
-    "en_size_bytes": 43628
+    "ja_size_bytes": 46421
   },
   {
     "id": 203,
     "name_ja": "航空管制官",
-    "name_en": "Air Traffic Controller",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/203",
-    "en_url": "https://mirai-shigoto.com/en/203",
-    "ja_size_bytes": 46840,
-    "en_size_bytes": 42817
+    "ja_size_bytes": 46304
   },
   {
     "id": 204,
     "name_ja": "ディスパッチャー（航空機運航管理者）",
-    "name_en": "Flight Dispatcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/204",
-    "en_url": "https://mirai-shigoto.com/en/204",
-    "ja_size_bytes": 48638,
-    "en_size_bytes": 43072
+    "ja_size_bytes": 48158
   },
   {
     "id": 205,
     "name_ja": "客室乗務員",
-    "name_en": "Cabin Crew / Flight Attendant",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/205",
-    "en_url": "https://mirai-shigoto.com/en/205",
-    "ja_size_bytes": 47702,
-    "en_size_bytes": 43736
+    "ja_size_bytes": 47177
   },
   {
     "id": 206,
     "name_ja": "航空整備士",
-    "name_en": "Aircraft Mechanic",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/206",
-    "en_url": "https://mirai-shigoto.com/en/206",
-    "ja_size_bytes": 47412,
-    "en_size_bytes": 43273
+    "ja_size_bytes": 46894
   },
   {
     "id": 207,
     "name_ja": "船員",
-    "name_en": "Ship Crew Member",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/207",
-    "en_url": "https://mirai-shigoto.com/en/207",
-    "ja_size_bytes": 47008,
-    "en_size_bytes": 42946
+    "ja_size_bytes": 46509
   },
   {
     "id": 208,
     "name_ja": "新聞記者",
-    "name_en": "Newspaper Reporter",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/208",
-    "en_url": "https://mirai-shigoto.com/en/208",
-    "ja_size_bytes": 48632,
-    "en_size_bytes": 43304
+    "ja_size_bytes": 48187
   },
   {
     "id": 209,
     "name_ja": "雑誌記者",
-    "name_en": "Magazine Reporter",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/209",
-    "en_url": "https://mirai-shigoto.com/en/209",
-    "ja_size_bytes": 47670,
-    "en_size_bytes": 43293
+    "ja_size_bytes": 47243
   },
   {
     "id": 210,
     "name_ja": "図書編集者",
-    "name_en": "Book Editor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/210",
-    "en_url": "https://mirai-shigoto.com/en/210",
-    "ja_size_bytes": 47553,
-    "en_size_bytes": 43162
+    "ja_size_bytes": 47087
   },
   {
     "id": 211,
     "name_ja": "雑誌編集者",
-    "name_en": "Magazine Editor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/211",
-    "en_url": "https://mirai-shigoto.com/en/211",
-    "ja_size_bytes": 48681,
-    "en_size_bytes": 43272
+    "ja_size_bytes": 48217
   },
   {
     "id": 212,
     "name_ja": "テレビ・ラジオ放送技術者",
-    "name_en": "Broadcast Engineer",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/212",
-    "en_url": "https://mirai-shigoto.com/en/212",
-    "ja_size_bytes": 48500,
-    "en_size_bytes": 43608
+    "ja_size_bytes": 48031
   },
   {
     "id": 213,
     "name_ja": "録音エンジニア",
-    "name_en": "Audio/Recording Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/213",
-    "en_url": "https://mirai-shigoto.com/en/213",
-    "ja_size_bytes": 50430,
-    "en_size_bytes": 43952
+    "ja_size_bytes": 49969
   },
   {
     "id": 214,
     "name_ja": "映像編集者",
-    "name_en": "Video Editor",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/214",
-    "en_url": "https://mirai-shigoto.com/en/214",
-    "ja_size_bytes": 47488,
-    "en_size_bytes": 43213
+    "ja_size_bytes": 47013
   },
   {
     "id": 215,
     "name_ja": "放送記者",
-    "name_en": "Broadcast Reporter",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/215",
-    "en_url": "https://mirai-shigoto.com/en/215",
-    "ja_size_bytes": 47310,
-    "en_size_bytes": 42747
+    "ja_size_bytes": 46837
   },
   {
     "id": 216,
     "name_ja": "アナウンサー",
-    "name_en": "Announcer",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/216",
-    "en_url": "https://mirai-shigoto.com/en/216",
-    "ja_size_bytes": 46865,
-    "en_size_bytes": 42676
+    "ja_size_bytes": 46370
   },
   {
     "id": 217,
     "name_ja": "放送ディレクター",
-    "name_en": "Broadcast Director",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/217",
-    "en_url": "https://mirai-shigoto.com/en/217",
-    "ja_size_bytes": 48372,
-    "en_size_bytes": 43336
+    "ja_size_bytes": 47911
   },
   {
     "id": 218,
     "name_ja": "厩舎スタッフ",
-    "name_en": "Stable Staff (Race Horse)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/218",
-    "en_url": "https://mirai-shigoto.com/en/218",
-    "ja_size_bytes": 48129,
-    "en_size_bytes": 42927
+    "ja_size_bytes": 47649
   },
   {
     "id": 219,
     "name_ja": "アウトドアインストラクター",
-    "name_en": "Outdoor Activity Instructor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/219",
-    "en_url": "https://mirai-shigoto.com/en/219",
-    "ja_size_bytes": 48066,
-    "en_size_bytes": 43238
+    "ja_size_bytes": 47590
   },
   {
     "id": 220,
     "name_ja": "動物園飼育員",
-    "name_en": "Zoo Keeper",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/220",
-    "en_url": "https://mirai-shigoto.com/en/220",
-    "ja_size_bytes": 47466,
-    "en_size_bytes": 42561
+    "ja_size_bytes": 47000
   },
   {
     "id": 221,
     "name_ja": "農業技術者",
-    "name_en": "Agricultural Engineer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/221",
-    "en_url": "https://mirai-shigoto.com/en/221",
-    "ja_size_bytes": 47203,
-    "en_size_bytes": 43235
+    "ja_size_bytes": 46753
   },
   {
     "id": 222,
     "name_ja": "造園工",
-    "name_en": "Landscape Gardener",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/222",
-    "en_url": "https://mirai-shigoto.com/en/222",
-    "ja_size_bytes": 49812,
-    "en_size_bytes": 44144
+    "ja_size_bytes": 49300
   },
   {
     "id": 223,
     "name_ja": "獣医師",
-    "name_en": "Veterinarian",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/223",
-    "en_url": "https://mirai-shigoto.com/en/223",
-    "ja_size_bytes": 49545,
-    "en_size_bytes": 43365
+    "ja_size_bytes": 49094
   },
   {
     "id": 224,
     "name_ja": "水族館飼育員",
-    "name_en": "Aquarium Keeper",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/224",
-    "en_url": "https://mirai-shigoto.com/en/224",
-    "ja_size_bytes": 47599,
-    "en_size_bytes": 42856
+    "ja_size_bytes": 47086
   },
   {
     "id": 225,
     "name_ja": "調教師",
-    "name_en": "Animal Trainer (Choukyoshi)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/225",
-    "en_url": "https://mirai-shigoto.com/en/225",
-    "ja_size_bytes": 47196,
-    "en_size_bytes": 42851
+    "ja_size_bytes": 46649
   },
   {
     "id": 226,
     "name_ja": "犬訓練士",
-    "name_en": "Dog Trainer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/226",
-    "en_url": "https://mirai-shigoto.com/en/226",
-    "ja_size_bytes": 48158,
-    "en_size_bytes": 43210
+    "ja_size_bytes": 47692
   },
   {
     "id": 227,
     "name_ja": "トリマー",
-    "name_en": "Pet Groomer (Trimmer)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/227",
-    "en_url": "https://mirai-shigoto.com/en/227",
-    "ja_size_bytes": 47622,
-    "en_size_bytes": 43553
+    "ja_size_bytes": 47154
   },
   {
     "id": 228,
     "name_ja": "水産技術者",
-    "name_en": "Fisheries Engineer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/228",
-    "en_url": "https://mirai-shigoto.com/en/228",
-    "ja_size_bytes": 46492,
-    "en_size_bytes": 42508
+    "ja_size_bytes": 46048
   },
   {
     "id": 229,
     "name_ja": "林業技術者",
-    "name_en": "Forestry Engineer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/229",
-    "en_url": "https://mirai-shigoto.com/en/229",
-    "ja_size_bytes": 48235,
-    "en_size_bytes": 43323
+    "ja_size_bytes": 47771
   },
   {
     "id": 230,
     "name_ja": "林業作業",
-    "name_en": "Forestry Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/230",
-    "en_url": "https://mirai-shigoto.com/en/230",
-    "ja_size_bytes": 49492,
-    "en_size_bytes": 44315
+    "ja_size_bytes": 49016
   },
   {
     "id": 231,
     "name_ja": "産業用ロボット開発技術者",
-    "name_en": "Industrial Robot Developer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/231",
-    "en_url": "https://mirai-shigoto.com/en/231",
-    "ja_size_bytes": 49881,
-    "en_size_bytes": 42652
+    "ja_size_bytes": 49390
   },
   {
     "id": 232,
     "name_ja": "産業用ロボットの設置・設定",
-    "name_en": "Industrial Robot Installer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/232",
-    "en_url": "https://mirai-shigoto.com/en/232",
-    "ja_size_bytes": 47964,
-    "en_size_bytes": 42379
+    "ja_size_bytes": 47464
   },
   {
     "id": 233,
     "name_ja": "産業用ロボットの保守・メンテナンス",
-    "name_en": "Industrial Robot Maintenance Tech",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/233",
-    "en_url": "https://mirai-shigoto.com/en/233",
-    "ja_size_bytes": 49695,
-    "en_size_bytes": 42692
+    "ja_size_bytes": 49187
   },
   {
     "id": 234,
     "name_ja": "太陽光発電の企画・調査",
-    "name_en": "Solar Power Project Planner",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/234",
-    "en_url": "https://mirai-shigoto.com/en/234",
-    "ja_size_bytes": 48333,
-    "en_size_bytes": 43927
+    "ja_size_bytes": 47817
   },
   {
     "id": 235,
     "name_ja": "太陽光発電の設計・施工",
-    "name_en": "Solar Power Designer/Installer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/235",
-    "en_url": "https://mirai-shigoto.com/en/235",
-    "ja_size_bytes": 47583,
-    "en_size_bytes": 43101
+    "ja_size_bytes": 47075
   },
   {
     "id": 236,
     "name_ja": "太陽光発電のメンテナンス",
-    "name_en": "Solar Power Maintenance Tech",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/236",
-    "en_url": "https://mirai-shigoto.com/en/236",
-    "ja_size_bytes": 48546,
-    "en_size_bytes": 43773
+    "ja_size_bytes": 48042
   },
   {
     "id": 237,
     "name_ja": "フォークリフト運転作業員",
-    "name_en": "Forklift Operator",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/237",
-    "en_url": "https://mirai-shigoto.com/en/237",
-    "ja_size_bytes": 51315,
-    "en_size_bytes": 43938
+    "ja_size_bytes": 50830
   },
   {
     "id": 238,
     "name_ja": "ネット通販の企画開発",
-    "name_en": "E-Commerce Product Planner",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/238",
-    "en_url": "https://mirai-shigoto.com/en/238",
-    "ja_size_bytes": 47073,
-    "en_size_bytes": 41613
+    "ja_size_bytes": 46563
   },
   {
     "id": 239,
     "name_ja": "ネット通販の運営",
-    "name_en": "E-Commerce Operations Manager",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/239",
-    "en_url": "https://mirai-shigoto.com/en/239",
-    "ja_size_bytes": 49319,
-    "en_size_bytes": 43595
+    "ja_size_bytes": 48837
   },
   {
     "id": 240,
     "name_ja": "Webマーケティング（ネット広告・販売促進）",
-    "name_en": "Web Marketer (Digital Ads/Promotion)",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/240",
-    "en_url": "https://mirai-shigoto.com/en/240",
-    "ja_size_bytes": 51276,
-    "en_size_bytes": 43946
+    "ja_size_bytes": 50785
   },
   {
     "id": 241,
     "name_ja": "施設警備員",
-    "name_en": "Facility Security Guard",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/241",
-    "en_url": "https://mirai-shigoto.com/en/241",
-    "ja_size_bytes": 49704,
-    "en_size_bytes": 43547
+    "ja_size_bytes": 49228
   },
   {
     "id": 242,
     "name_ja": "学童保育指導員",
-    "name_en": "After-School Care Staff",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/242",
-    "en_url": "https://mirai-shigoto.com/en/242",
-    "ja_size_bytes": 49355,
-    "en_size_bytes": 43901
+    "ja_size_bytes": 48846
   },
   {
     "id": 243,
     "name_ja": "児童指導員",
-    "name_en": "Child Care Counselor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/243",
-    "en_url": "https://mirai-shigoto.com/en/243",
-    "ja_size_bytes": 49003,
-    "en_size_bytes": 44066
+    "ja_size_bytes": 48528
   },
   {
     "id": 244,
     "name_ja": "障害者福祉施設指導専門員（生活支援員、就労支援員等）",
-    "name_en": "Disability Support Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/244",
-    "en_url": "https://mirai-shigoto.com/en/244",
-    "ja_size_bytes": 50490,
-    "en_size_bytes": 43988
+    "ja_size_bytes": 50001
   },
   {
     "id": 245,
     "name_ja": "老人福祉施設生活相談員",
-    "name_en": "Elderly Welfare Counselor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/245",
-    "en_url": "https://mirai-shigoto.com/en/245",
-    "ja_size_bytes": 49306,
-    "en_size_bytes": 44172
+    "ja_size_bytes": 48804
   },
   {
     "id": 246,
     "name_ja": "看護助手",
-    "name_en": "Nursing Aide",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/246",
-    "en_url": "https://mirai-shigoto.com/en/246",
-    "ja_size_bytes": 46810,
-    "en_size_bytes": 43425
+    "ja_size_bytes": 46348
   },
   {
     "id": 247,
     "name_ja": "植物工場の研究開発",
-    "name_en": "Plant Factory R&D Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/247",
-    "en_url": "https://mirai-shigoto.com/en/247",
-    "ja_size_bytes": 42272,
-    "en_size_bytes": 39066
+    "ja_size_bytes": 41768
   },
   {
     "id": 248,
     "name_ja": "植物工場の設計、施工",
-    "name_en": "Plant Factory Designer/Installer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/248",
-    "en_url": "https://mirai-shigoto.com/en/248",
-    "ja_size_bytes": 44190,
-    "en_size_bytes": 39015
+    "ja_size_bytes": 43670
   },
   {
     "id": 249,
     "name_ja": "植物工場の栽培管理",
-    "name_en": "Plant Factory Grower",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/249",
-    "en_url": "https://mirai-shigoto.com/en/249",
-    "ja_size_bytes": 46617,
-    "en_size_bytes": 42112
+    "ja_size_bytes": 46114
   },
   {
     "id": 250,
     "name_ja": "起業、創業",
-    "name_en": "Entrepreneur / Startup Founder",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/250",
-    "en_url": "https://mirai-shigoto.com/en/250",
-    "ja_size_bytes": 49728,
-    "en_size_bytes": 43091
+    "ja_size_bytes": 49203
   },
   {
     "id": 251,
     "name_ja": "鋳造工/鋳造設備オペレーター",
-    "name_en": "Foundry Worker / Casting Operator",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/251",
-    "en_url": "https://mirai-shigoto.com/en/251",
-    "ja_size_bytes": 49743,
-    "en_size_bytes": 44286
+    "ja_size_bytes": 49217
   },
   {
     "id": 252,
     "name_ja": "鍛造工/鍛造設備オペレーター",
-    "name_en": "Forging Worker / Forge Operator",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/252",
-    "en_url": "https://mirai-shigoto.com/en/252",
-    "ja_size_bytes": 49038,
-    "en_size_bytes": 43341
+    "ja_size_bytes": 48532
   },
   {
     "id": 253,
     "name_ja": "金型工",
-    "name_en": "Die Maker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/253",
-    "en_url": "https://mirai-shigoto.com/en/253",
-    "ja_size_bytes": 48202,
-    "en_size_bytes": 43489
+    "ja_size_bytes": 47732
   },
   {
     "id": 254,
     "name_ja": "金属プレス工",
-    "name_en": "Metal Press Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/254",
-    "en_url": "https://mirai-shigoto.com/en/254",
-    "ja_size_bytes": 48398,
-    "en_size_bytes": 44131
+    "ja_size_bytes": 47898
   },
   {
     "id": 255,
     "name_ja": "溶接工",
-    "name_en": "Welder",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/255",
-    "en_url": "https://mirai-shigoto.com/en/255",
-    "ja_size_bytes": 48947,
-    "en_size_bytes": 43833
+    "ja_size_bytes": 48456
   },
   {
     "id": 256,
     "name_ja": "NC工作機械オペレーター",
-    "name_en": "CNC Machine Operator",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/256",
-    "en_url": "https://mirai-shigoto.com/en/256",
-    "ja_size_bytes": 52837,
-    "en_size_bytes": 43698
+    "ja_size_bytes": 52324
   },
   {
     "id": 257,
     "name_ja": "めっき工",
-    "name_en": "Plating Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/257",
-    "en_url": "https://mirai-shigoto.com/en/257",
-    "ja_size_bytes": 49506,
-    "en_size_bytes": 43945
+    "ja_size_bytes": 49010
   },
   {
     "id": 258,
     "name_ja": "非鉄金属製錬技術者",
-    "name_en": "Nonferrous Metal Engineer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/258",
-    "en_url": "https://mirai-shigoto.com/en/258",
-    "ja_size_bytes": 49515,
-    "en_size_bytes": 43523
+    "ja_size_bytes": 49004
   },
   {
     "id": 259,
     "name_ja": "鉄鋼製造オペレーター",
-    "name_en": "Steel Mill Operator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/259",
-    "en_url": "https://mirai-shigoto.com/en/259",
-    "ja_size_bytes": 52345,
-    "en_size_bytes": 43703
+    "ja_size_bytes": 51873
   },
   {
     "id": 260,
     "name_ja": "非破壊検査技術者",
-    "name_en": "Nondestructive Testing Inspector",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/260",
-    "en_url": "https://mirai-shigoto.com/en/260",
-    "ja_size_bytes": 51443,
-    "en_size_bytes": 44451
+    "ja_size_bytes": 50964
   },
   {
     "id": 261,
     "name_ja": "電子機器組立",
-    "name_en": "Electronic Equipment Assembler",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/261",
-    "en_url": "https://mirai-shigoto.com/en/261",
-    "ja_size_bytes": 48759,
-    "en_size_bytes": 44390
+    "ja_size_bytes": 48273
   },
   {
     "id": 262,
     "name_ja": "機械設計技術者",
-    "name_en": "Mechanical Design Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/262",
-    "en_url": "https://mirai-shigoto.com/en/262",
-    "ja_size_bytes": 50426,
-    "en_size_bytes": 44194
+    "ja_size_bytes": 49985
   },
   {
     "id": 263,
     "name_ja": "光学機器組立",
-    "name_en": "Optical Equipment Assembler",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/263",
-    "en_url": "https://mirai-shigoto.com/en/263",
-    "ja_size_bytes": 48713,
-    "en_size_bytes": 43856
+    "ja_size_bytes": 48241
   },
   {
     "id": 264,
     "name_ja": "自動車組立",
-    "name_en": "Auto Assembly Line Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/264",
-    "en_url": "https://mirai-shigoto.com/en/264",
-    "ja_size_bytes": 50533,
-    "en_size_bytes": 43389
+    "ja_size_bytes": 50044
   },
   {
     "id": 265,
     "name_ja": "生産用機械組立",
-    "name_en": "Production Machine Assembler",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/265",
-    "en_url": "https://mirai-shigoto.com/en/265",
-    "ja_size_bytes": 51635,
-    "en_size_bytes": 44078
+    "ja_size_bytes": 51117
   },
   {
     "id": 266,
     "name_ja": "計器組立",
-    "name_en": "Instrument Assembler",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/266",
-    "en_url": "https://mirai-shigoto.com/en/266",
-    "ja_size_bytes": 47463,
-    "en_size_bytes": 43260
+    "ja_size_bytes": 46968
   },
   {
     "id": 267,
     "name_ja": "半導体技術者",
-    "name_en": "Semiconductor Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/267",
-    "en_url": "https://mirai-shigoto.com/en/267",
-    "ja_size_bytes": 52239,
-    "en_size_bytes": 43418
+    "ja_size_bytes": 51781
   },
   {
     "id": 268,
     "name_ja": "半導体製造",
-    "name_en": "Semiconductor Manufacturing Worker",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/268",
-    "en_url": "https://mirai-shigoto.com/en/268",
-    "ja_size_bytes": 51691,
-    "en_size_bytes": 44275
+    "ja_size_bytes": 51164
   },
   {
     "id": 269,
     "name_ja": "物流設備管理・保全",
-    "name_en": "Logistics Equipment Maintenance",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/269",
-    "en_url": "https://mirai-shigoto.com/en/269",
-    "ja_size_bytes": 51024,
-    "en_size_bytes": 44484
+    "ja_size_bytes": 50538
   },
   {
     "id": 270,
     "name_ja": "自動車技術者",
-    "name_en": "Automotive Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/270",
-    "en_url": "https://mirai-shigoto.com/en/270",
-    "ja_size_bytes": 49219,
-    "en_size_bytes": 43685
+    "ja_size_bytes": 48736
   },
   {
     "id": 271,
     "name_ja": "精密機器技術者",
-    "name_en": "Precision Instrument Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/271",
-    "en_url": "https://mirai-shigoto.com/en/271",
-    "ja_size_bytes": 48775,
-    "en_size_bytes": 43467
+    "ja_size_bytes": 48261
   },
   {
     "id": 272,
     "name_ja": "電気技術者",
-    "name_en": "Electrical Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/272",
-    "en_url": "https://mirai-shigoto.com/en/272",
-    "ja_size_bytes": 50420,
-    "en_size_bytes": 44287
+    "ja_size_bytes": 49942
   },
   {
     "id": 273,
     "name_ja": "電子機器技術者",
-    "name_en": "Electronics Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/273",
-    "en_url": "https://mirai-shigoto.com/en/273",
-    "ja_size_bytes": 50851,
-    "en_size_bytes": 43367
+    "ja_size_bytes": 50408
   },
   {
     "id": 274,
     "name_ja": "電気通信技術者",
-    "name_en": "Telecom Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/274",
-    "en_url": "https://mirai-shigoto.com/en/274",
-    "ja_size_bytes": 51228,
-    "en_size_bytes": 43955
+    "ja_size_bytes": 50771
   },
   {
     "id": 275,
     "name_ja": "家電修理",
-    "name_en": "Home Appliance Repair Tech",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/275",
-    "en_url": "https://mirai-shigoto.com/en/275",
-    "ja_size_bytes": 48189,
-    "en_size_bytes": 43859
+    "ja_size_bytes": 47694
   },
   {
     "id": 276,
     "name_ja": "プラント設計技術者",
-    "name_en": "Plant Designer (Industrial)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/276",
-    "en_url": "https://mirai-shigoto.com/en/276",
-    "ja_size_bytes": 54748,
-    "en_size_bytes": 46450
+    "ja_size_bytes": 54281
   },
   {
     "id": 277,
     "name_ja": "医療用画像機器組立",
-    "name_en": "Medical Imaging Equipment Assembler",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/277",
-    "en_url": "https://mirai-shigoto.com/en/277",
-    "ja_size_bytes": 47892,
-    "en_size_bytes": 42827
+    "ja_size_bytes": 47393
   },
   {
     "id": 278,
     "name_ja": "織布工/織機オペレーター",
-    "name_en": "Loom Operator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/278",
-    "en_url": "https://mirai-shigoto.com/en/278",
-    "ja_size_bytes": 48808,
-    "en_size_bytes": 43634
+    "ja_size_bytes": 48337
   },
   {
     "id": 279,
     "name_ja": "染色工/染色設備オペレーター",
-    "name_en": "Dye Operator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/279",
-    "en_url": "https://mirai-shigoto.com/en/279",
-    "ja_size_bytes": 50140,
-    "en_size_bytes": 43714
+    "ja_size_bytes": 49673
   },
   {
     "id": 280,
     "name_ja": "ミシン縫製",
-    "name_en": "Sewing Machine Operator",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/280",
-    "en_url": "https://mirai-shigoto.com/en/280",
-    "ja_size_bytes": 49411,
-    "en_size_bytes": 44518
+    "ja_size_bytes": 48939
   },
   {
     "id": 281,
     "name_ja": "木材製造",
-    "name_en": "Lumber Processor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/281",
-    "en_url": "https://mirai-shigoto.com/en/281",
-    "ja_size_bytes": 49591,
-    "en_size_bytes": 44230
+    "ja_size_bytes": 49081
   },
   {
     "id": 282,
     "name_ja": "合板製造",
-    "name_en": "Plywood Manufacturer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/282",
-    "en_url": "https://mirai-shigoto.com/en/282",
-    "ja_size_bytes": 44064,
-    "en_size_bytes": 39369
+    "ja_size_bytes": 43582
   },
   {
     "id": 283,
     "name_ja": "家具製造",
-    "name_en": "Furniture Maker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/283",
-    "en_url": "https://mirai-shigoto.com/en/283",
-    "ja_size_bytes": 49354,
-    "en_size_bytes": 43863
+    "ja_size_bytes": 48875
   },
   {
     "id": 284,
     "name_ja": "紡織設備管理・保全",
-    "name_en": "Textile Equipment Maintenance",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/284",
-    "en_url": "https://mirai-shigoto.com/en/284",
-    "ja_size_bytes": 44714,
-    "en_size_bytes": 39523
+    "ja_size_bytes": 44214
   },
   {
     "id": 285,
     "name_ja": "紙器製造",
-    "name_en": "Paper Container Manufacturer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/285",
-    "en_url": "https://mirai-shigoto.com/en/285",
-    "ja_size_bytes": 47993,
-    "en_size_bytes": 44241
+    "ja_size_bytes": 47488
   },
   {
     "id": 286,
     "name_ja": "紡績機械オペレーター",
-    "name_en": "Spinning Machine Operator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/286",
-    "en_url": "https://mirai-shigoto.com/en/286",
-    "ja_size_bytes": 48256,
-    "en_size_bytes": 43323
+    "ja_size_bytes": 47753
   },
   {
     "id": 287,
     "name_ja": "建具製造",
-    "name_en": "Joinery (Tategu) Maker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/287",
-    "en_url": "https://mirai-shigoto.com/en/287",
-    "ja_size_bytes": 48458,
-    "en_size_bytes": 43566
+    "ja_size_bytes": 47991
   },
   {
     "id": 288,
     "name_ja": "食品技術者",
-    "name_en": "Food Technologist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/288",
-    "en_url": "https://mirai-shigoto.com/en/288",
-    "ja_size_bytes": 48750,
-    "en_size_bytes": 43279
+    "ja_size_bytes": 48264
   },
   {
     "id": 289,
     "name_ja": "靴製造",
-    "name_en": "Shoemaker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/289",
-    "en_url": "https://mirai-shigoto.com/en/289",
-    "ja_size_bytes": 47160,
-    "en_size_bytes": 43174
+    "ja_size_bytes": 46713
   },
   {
     "id": 290,
     "name_ja": "かばん・袋物製造",
-    "name_en": "Bag and Pouch Maker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/290",
-    "en_url": "https://mirai-shigoto.com/en/290",
-    "ja_size_bytes": 47989,
-    "en_size_bytes": 43034
+    "ja_size_bytes": 47536
   },
   {
     "id": 291,
     "name_ja": "漆器製造",
-    "name_en": "Lacquerware (Shikki) Maker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/291",
-    "en_url": "https://mirai-shigoto.com/en/291",
-    "ja_size_bytes": 43655,
-    "en_size_bytes": 39147
+    "ja_size_bytes": 43155
   },
   {
     "id": 292,
     "name_ja": "貴金属装身具製作",
-    "name_en": "Jewelry Craftsman",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/292",
-    "en_url": "https://mirai-shigoto.com/en/292",
-    "ja_size_bytes": 47930,
-    "en_size_bytes": 43745
+    "ja_size_bytes": 47474
   },
   {
     "id": 295,
     "name_ja": "医薬品製造",
-    "name_en": "Pharmaceutical Manufacturer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/295",
-    "en_url": "https://mirai-shigoto.com/en/295",
-    "ja_size_bytes": 47748,
-    "en_size_bytes": 44196
+    "ja_size_bytes": 47273
   },
   {
     "id": 296,
     "name_ja": "生産・品質管理技術者",
-    "name_en": "Quality Control Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/296",
-    "en_url": "https://mirai-shigoto.com/en/296",
-    "ja_size_bytes": 47184,
-    "en_size_bytes": 43299
+    "ja_size_bytes": 46676
   },
   {
     "id": 297,
     "name_ja": "タイヤ製造",
-    "name_en": "Tire Manufacturer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/297",
-    "en_url": "https://mirai-shigoto.com/en/297",
-    "ja_size_bytes": 47365,
-    "en_size_bytes": 43375
+    "ja_size_bytes": 46920
   },
   {
     "id": 298,
     "name_ja": "化粧品製造",
-    "name_en": "Cosmetics Manufacturer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/298",
-    "en_url": "https://mirai-shigoto.com/en/298",
-    "ja_size_bytes": 46507,
-    "en_size_bytes": 43538
+    "ja_size_bytes": 45999
   },
   {
     "id": 299,
     "name_ja": "石油精製オペレーター",
-    "name_en": "Petroleum Refinery Operator",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/299",
-    "en_url": "https://mirai-shigoto.com/en/299",
-    "ja_size_bytes": 48171,
-    "en_size_bytes": 43723
+    "ja_size_bytes": 47660
   },
   {
     "id": 300,
     "name_ja": "化学製品製造オペレーター",
-    "name_en": "Chemical Plant Operator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/300",
-    "en_url": "https://mirai-shigoto.com/en/300",
-    "ja_size_bytes": 50211,
-    "en_size_bytes": 44694
+    "ja_size_bytes": 49694
   },
   {
     "id": 301,
     "name_ja": "原子力技術者",
-    "name_en": "Nuclear Power Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/301",
-    "en_url": "https://mirai-shigoto.com/en/301",
-    "ja_size_bytes": 47792,
-    "en_size_bytes": 43713
+    "ja_size_bytes": 47304
   },
   {
     "id": 302,
     "name_ja": "発電所運転管理",
-    "name_en": "Power Plant Operator",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/302",
-    "en_url": "https://mirai-shigoto.com/en/302",
-    "ja_size_bytes": 49406,
-    "en_size_bytes": 44410
+    "ja_size_bytes": 48937
   },
   {
     "id": 303,
     "name_ja": "分析化学技術者",
-    "name_en": "Analytical Chemist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/303",
-    "en_url": "https://mirai-shigoto.com/en/303",
-    "ja_size_bytes": 49542,
-    "en_size_bytes": 44079
+    "ja_size_bytes": 49084
   },
   {
     "id": 304,
     "name_ja": "陶磁器技術者",
-    "name_en": "Ceramics Engineer",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/304",
-    "en_url": "https://mirai-shigoto.com/en/304",
-    "ja_size_bytes": 47293,
-    "en_size_bytes": 43258
+    "ja_size_bytes": 46823
   },
   {
     "id": 305,
     "name_ja": "ファインセラミックス製造技術者",
-    "name_en": "Fine Ceramics Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/305",
-    "en_url": "https://mirai-shigoto.com/en/305",
-    "ja_size_bytes": 50314,
-    "en_size_bytes": 43650
+    "ja_size_bytes": 49873
   },
   {
     "id": 306,
     "name_ja": "石工",
-    "name_en": "Stonemason",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/306",
-    "en_url": "https://mirai-shigoto.com/en/306",
-    "ja_size_bytes": 48293,
-    "en_size_bytes": 43078
+    "ja_size_bytes": 47823
   },
   {
     "id": 307,
     "name_ja": "花火師",
-    "name_en": "Fireworks Maker (Hanabishi)",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/307",
-    "en_url": "https://mirai-shigoto.com/en/307",
-    "ja_size_bytes": 44126,
-    "en_size_bytes": 39362
+    "ja_size_bytes": 43621
   },
   {
     "id": 308,
     "name_ja": "高分子化学技術者",
-    "name_en": "Polymer Chemist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/308",
-    "en_url": "https://mirai-shigoto.com/en/308",
-    "ja_size_bytes": 47775,
-    "en_size_bytes": 43279
+    "ja_size_bytes": 47303
   },
   {
     "id": 309,
     "name_ja": "バイオテクノロジー技術者",
-    "name_en": "Biotechnology Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/309",
-    "en_url": "https://mirai-shigoto.com/en/309",
-    "ja_size_bytes": 50407,
-    "en_size_bytes": 43737
+    "ja_size_bytes": 49958
   },
   {
     "id": 310,
     "name_ja": "宇宙開発技術者",
-    "name_en": "Aerospace Engineer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/310",
-    "en_url": "https://mirai-shigoto.com/en/310",
-    "ja_size_bytes": 51176,
-    "en_size_bytes": 42684
+    "ja_size_bytes": 50696
   },
   {
     "id": 311,
     "name_ja": "航空機開発エンジニア（ジェットエンジン）",
-    "name_en": "Aircraft Engine (Jet) Developer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/311",
-    "en_url": "https://mirai-shigoto.com/en/311",
-    "ja_size_bytes": 52100,
-    "en_size_bytes": 43721
+    "ja_size_bytes": 51613
   },
   {
     "id": 312,
     "name_ja": "システムエンジニア（受託開発）",
-    "name_en": "Systems Engineer (Custom Software)",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/312",
-    "en_url": "https://mirai-shigoto.com/en/312",
-    "ja_size_bytes": 54231,
-    "en_size_bytes": 43979
+    "ja_size_bytes": 53733
   },
   {
     "id": 313,
     "name_ja": "プログラマー",
-    "name_en": "Programmer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/313",
-    "en_url": "https://mirai-shigoto.com/en/313",
-    "ja_size_bytes": 53491,
-    "en_size_bytes": 43492
+    "ja_size_bytes": 53052
   },
   {
     "id": 314,
     "name_ja": "システムエンジニア（Webサービス開発）",
-    "name_en": "Systems Engineer (Web Services)",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/314",
-    "en_url": "https://mirai-shigoto.com/en/314",
-    "ja_size_bytes": 53746,
-    "en_size_bytes": 43258
+    "ja_size_bytes": 53278
   },
   {
     "id": 315,
     "name_ja": "システムエンジニア（組込み、IoT）",
-    "name_en": "Embedded/IoT Systems Engineer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/315",
-    "en_url": "https://mirai-shigoto.com/en/315",
-    "ja_size_bytes": 55859,
-    "en_size_bytes": 43771
+    "ja_size_bytes": 55395
   },
   {
     "id": 316,
     "name_ja": "ソフトウェア開発（パッケージソフト）",
-    "name_en": "Package Software Developer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/316",
-    "en_url": "https://mirai-shigoto.com/en/316",
-    "ja_size_bytes": 49731,
-    "en_size_bytes": 43462
+    "ja_size_bytes": 49260
   },
   {
     "id": 317,
     "name_ja": "ソフトウェア開発（スマホアプリ）",
-    "name_en": "Mobile App Developer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/317",
-    "en_url": "https://mirai-shigoto.com/en/317",
-    "ja_size_bytes": 52928,
-    "en_size_bytes": 43683
+    "ja_size_bytes": 52492
   },
   {
     "id": 318,
     "name_ja": "システムエンジニア（基盤システム）",
-    "name_en": "Infrastructure Systems Engineer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/318",
-    "en_url": "https://mirai-shigoto.com/en/318",
-    "ja_size_bytes": 53684,
-    "en_size_bytes": 44379
+    "ja_size_bytes": 53193
   },
   {
     "id": 319,
     "name_ja": "運用・管理（IT）",
-    "name_en": "IT Operations Engineer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/319",
-    "en_url": "https://mirai-shigoto.com/en/319",
-    "ja_size_bytes": 51353,
-    "en_size_bytes": 44223
+    "ja_size_bytes": 50893
   },
   {
     "id": 320,
     "name_ja": "ヘルプデスク（IT）",
-    "name_en": "IT Help Desk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/320",
-    "en_url": "https://mirai-shigoto.com/en/320",
-    "ja_size_bytes": 50158,
-    "en_size_bytes": 44371
+    "ja_size_bytes": 49705
   },
   {
     "id": 321,
     "name_ja": "セキュリティエキスパート（オペレーション）",
-    "name_en": "Security Operations Expert",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/321",
-    "en_url": "https://mirai-shigoto.com/en/321",
-    "ja_size_bytes": 55334,
-    "en_size_bytes": 44407
+    "ja_size_bytes": 54881
   },
   {
     "id": 322,
     "name_ja": "プロジェクトマネージャ（IT）",
-    "name_en": "IT Project Manager",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/322",
-    "en_url": "https://mirai-shigoto.com/en/322",
-    "ja_size_bytes": 51927,
-    "en_size_bytes": 44256
+    "ja_size_bytes": 51418
   },
   {
     "id": 323,
     "name_ja": "データサイエンティスト",
-    "name_en": "Data Scientist",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/323",
-    "en_url": "https://mirai-shigoto.com/en/323",
-    "ja_size_bytes": 47726,
-    "en_size_bytes": 43223
+    "ja_size_bytes": 47277
   },
   {
     "id": 324,
     "name_ja": "DXプロデューサー",
-    "name_en": "DX (Digital Transformation) Producer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/324",
-    "en_url": "https://mirai-shigoto.com/en/324",
-    "ja_size_bytes": 50152,
-    "en_size_bytes": 42763
+    "ja_size_bytes": 49655
   },
   {
     "id": 325,
     "name_ja": "AIエンジニア",
-    "name_en": "AI Engineer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/325",
-    "en_url": "https://mirai-shigoto.com/en/325",
-    "ja_size_bytes": 50933,
-    "en_size_bytes": 42556
+    "ja_size_bytes": 50506
   },
   {
     "id": 326,
     "name_ja": "Webデザイナー（Web制作会社）",
-    "name_en": "Web Designer (Web Production)",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/326",
-    "en_url": "https://mirai-shigoto.com/en/326",
-    "ja_size_bytes": 49379,
-    "en_size_bytes": 43848
+    "ja_size_bytes": 48948
   },
   {
     "id": 327,
     "name_ja": "Webディレクター（Web制作会社）",
-    "name_en": "Web Director (Web Production)",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/327",
-    "en_url": "https://mirai-shigoto.com/en/327",
-    "ja_size_bytes": 50469,
-    "en_size_bytes": 43434
+    "ja_size_bytes": 49977
   },
   {
     "id": 328,
     "name_ja": "動画制作",
-    "name_en": "Video Producer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/328",
-    "en_url": "https://mirai-shigoto.com/en/328",
-    "ja_size_bytes": 49089,
-    "en_size_bytes": 42918
+    "ja_size_bytes": 48623
   },
   {
     "id": 329,
     "name_ja": "CG制作",
-    "name_en": "CG/3D Creator",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/329",
-    "en_url": "https://mirai-shigoto.com/en/329",
-    "ja_size_bytes": 50084,
-    "en_size_bytes": 43260
+    "ja_size_bytes": 49646
   },
   {
     "id": 330,
     "name_ja": "ゲームクリエーター",
-    "name_en": "Game Creator",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/330",
-    "en_url": "https://mirai-shigoto.com/en/330",
-    "ja_size_bytes": 45677,
-    "en_size_bytes": 40747
+    "ja_size_bytes": 45186
   },
   {
     "id": 331,
     "name_ja": "アートディレクター",
-    "name_en": "Art Director",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/331",
-    "en_url": "https://mirai-shigoto.com/en/331",
-    "ja_size_bytes": 47787,
-    "en_size_bytes": 43248
+    "ja_size_bytes": 47283
   },
   {
     "id": 332,
     "name_ja": "広告デザイナー",
-    "name_en": "Advertising Designer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/332",
-    "en_url": "https://mirai-shigoto.com/en/332",
-    "ja_size_bytes": 48115,
-    "en_size_bytes": 43339
+    "ja_size_bytes": 47643
   },
   {
     "id": 333,
     "name_ja": "広告ディレクター",
-    "name_en": "Advertising Director",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/333",
-    "en_url": "https://mirai-shigoto.com/en/333",
-    "ja_size_bytes": 47517,
-    "en_size_bytes": 43311
+    "ja_size_bytes": 46998
   },
   {
     "id": 334,
     "name_ja": "グラフィックデザイナー",
-    "name_en": "Graphic Designer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/334",
-    "en_url": "https://mirai-shigoto.com/en/334",
-    "ja_size_bytes": 49205,
-    "en_size_bytes": 43460
+    "ja_size_bytes": 48757
   },
   {
     "id": 335,
     "name_ja": "コピーライター",
-    "name_en": "Copywriter",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/335",
-    "en_url": "https://mirai-shigoto.com/en/335",
-    "ja_size_bytes": 47315,
-    "en_size_bytes": 43111
+    "ja_size_bytes": 46872
   },
   {
     "id": 336,
     "name_ja": "ディスプレイデザイナー",
-    "name_en": "Display Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/336",
-    "en_url": "https://mirai-shigoto.com/en/336",
-    "ja_size_bytes": 44518,
-    "en_size_bytes": 39075
+    "ja_size_bytes": 44067
   },
   {
     "id": 337,
     "name_ja": "インテリアデザイナー",
-    "name_en": "Interior Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/337",
-    "en_url": "https://mirai-shigoto.com/en/337",
-    "ja_size_bytes": 49857,
-    "en_size_bytes": 43866
+    "ja_size_bytes": 49412
   },
   {
     "id": 338,
     "name_ja": "インテリアコーディネーター",
-    "name_en": "Interior Coordinator",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/338",
-    "en_url": "https://mirai-shigoto.com/en/338",
-    "ja_size_bytes": 48483,
-    "en_size_bytes": 43376
+    "ja_size_bytes": 48024
   },
   {
     "id": 339,
     "name_ja": "カラーコーディネーター",
-    "name_en": "Color Coordinator",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/339",
-    "en_url": "https://mirai-shigoto.com/en/339",
-    "ja_size_bytes": 44251,
-    "en_size_bytes": 39097
+    "ja_size_bytes": 43783
   },
   {
     "id": 340,
     "name_ja": "ファッションデザイナー",
-    "name_en": "Fashion Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/340",
-    "en_url": "https://mirai-shigoto.com/en/340",
-    "ja_size_bytes": 48278,
-    "en_size_bytes": 43257
+    "ja_size_bytes": 47845
   },
   {
     "id": 341,
     "name_ja": "パタンナー",
-    "name_en": "Pattern Maker",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/341",
-    "en_url": "https://mirai-shigoto.com/en/341",
-    "ja_size_bytes": 48269,
-    "en_size_bytes": 43064
+    "ja_size_bytes": 47854
   },
   {
     "id": 342,
     "name_ja": "イラストレーター",
-    "name_en": "Illustrator",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/342",
-    "en_url": "https://mirai-shigoto.com/en/342",
-    "ja_size_bytes": 47949,
-    "en_size_bytes": 43351
+    "ja_size_bytes": 47506
   },
   {
     "id": 343,
     "name_ja": "アニメーター",
-    "name_en": "Animator",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/343",
-    "en_url": "https://mirai-shigoto.com/en/343",
-    "ja_size_bytes": 52003,
-    "en_size_bytes": 42366
+    "ja_size_bytes": 51583
   },
   {
     "id": 344,
     "name_ja": "看板制作",
-    "name_en": "Sign Maker",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/344",
-    "en_url": "https://mirai-shigoto.com/en/344",
-    "ja_size_bytes": 48382,
-    "en_size_bytes": 43646
+    "ja_size_bytes": 47945
   },
   {
     "id": 345,
     "name_ja": "テクニカルイラストレーター",
-    "name_en": "Technical Illustrator",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/345",
-    "en_url": "https://mirai-shigoto.com/en/345",
-    "ja_size_bytes": 43894,
-    "en_size_bytes": 38906
+    "ja_size_bytes": 43429
   },
   {
     "id": 346,
     "name_ja": "スタイリスト",
-    "name_en": "Stylist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/346",
-    "en_url": "https://mirai-shigoto.com/en/346",
-    "ja_size_bytes": 46427,
-    "en_size_bytes": 40883
+    "ja_size_bytes": 45951
   },
   {
     "id": 347,
     "name_ja": "ブックデザイナー",
-    "name_en": "Book Designer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/347",
-    "en_url": "https://mirai-shigoto.com/en/347",
-    "ja_size_bytes": 47295,
-    "en_size_bytes": 42072
+    "ja_size_bytes": 46851
   },
   {
     "id": 348,
     "name_ja": "テキスタイルデザイナー",
-    "name_en": "Textile Designer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/348",
-    "en_url": "https://mirai-shigoto.com/en/348",
-    "ja_size_bytes": 46635,
-    "en_size_bytes": 41820
+    "ja_size_bytes": 46171
   },
   {
     "id": 349,
     "name_ja": "フラワーデザイナー",
-    "name_en": "Floral Designer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/349",
-    "en_url": "https://mirai-shigoto.com/en/349",
-    "ja_size_bytes": 48698,
-    "en_size_bytes": 42920
+    "ja_size_bytes": 48213
   },
   {
     "id": 350,
     "name_ja": "ジュエリーデザイナー",
-    "name_en": "Jewelry Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/350",
-    "en_url": "https://mirai-shigoto.com/en/350",
-    "ja_size_bytes": 48533,
-    "en_size_bytes": 43074
+    "ja_size_bytes": 48083
   },
   {
     "id": 351,
     "name_ja": "フードコーディネーター",
-    "name_en": "Food Coordinator",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/351",
-    "en_url": "https://mirai-shigoto.com/en/351",
-    "ja_size_bytes": 42868,
-    "en_size_bytes": 38719
+    "ja_size_bytes": 42375
   },
   {
     "id": 352,
     "name_ja": "舞台美術スタッフ",
-    "name_en": "Stage Set Designer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/352",
-    "en_url": "https://mirai-shigoto.com/en/352",
-    "ja_size_bytes": 48001,
-    "en_size_bytes": 42697
+    "ja_size_bytes": 47523
   },
   {
     "id": 353,
     "name_ja": "舞台照明スタッフ",
-    "name_en": "Stage Lighting Designer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/353",
-    "en_url": "https://mirai-shigoto.com/en/353",
-    "ja_size_bytes": 48271,
-    "en_size_bytes": 43140
+    "ja_size_bytes": 47794
   },
   {
     "id": 354,
     "name_ja": "インダストリアルデザイナー",
-    "name_en": "Industrial Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/354",
-    "en_url": "https://mirai-shigoto.com/en/354",
-    "ja_size_bytes": 47913,
-    "en_size_bytes": 43157
+    "ja_size_bytes": 47484
   },
   {
     "id": 355,
     "name_ja": "商業カメラマン",
-    "name_en": "Commercial Photographer",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/355",
-    "en_url": "https://mirai-shigoto.com/en/355",
-    "ja_size_bytes": 48387,
-    "en_size_bytes": 43652
+    "ja_size_bytes": 47925
   },
   {
     "id": 356,
     "name_ja": "テレビカメラマン",
-    "name_en": "TV Cameraman",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/356",
-    "en_url": "https://mirai-shigoto.com/en/356",
-    "ja_size_bytes": 47383,
-    "en_size_bytes": 42977
+    "ja_size_bytes": 46924
   },
   {
     "id": 357,
     "name_ja": "報道カメラマン",
-    "name_en": "Press/News Photographer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/357",
-    "en_url": "https://mirai-shigoto.com/en/357",
-    "ja_size_bytes": 46926,
-    "en_size_bytes": 42715
+    "ja_size_bytes": 46439
   },
   {
     "id": 358,
     "name_ja": "テクニカルライター",
-    "name_en": "Technical Writer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/358",
-    "en_url": "https://mirai-shigoto.com/en/358",
-    "ja_size_bytes": 47788,
-    "en_size_bytes": 42692
+    "ja_size_bytes": 47351
   },
   {
     "id": 359,
     "name_ja": "製版オペレーター、DTPオペレーター",
-    "name_en": "DTP Operator (Pre-Press)",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/359",
-    "en_url": "https://mirai-shigoto.com/en/359",
-    "ja_size_bytes": 52172,
-    "en_size_bytes": 43962
+    "ja_size_bytes": 51695
   },
   {
     "id": 360,
     "name_ja": "印刷オペレーター",
-    "name_en": "Printing Press Operator",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/360",
-    "en_url": "https://mirai-shigoto.com/en/360",
-    "ja_size_bytes": 50952,
-    "en_size_bytes": 43863
+    "ja_size_bytes": 50456
   },
   {
     "id": 361,
     "name_ja": "製本オペレーター",
-    "name_en": "Bindery Operator",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/361",
-    "en_url": "https://mirai-shigoto.com/en/361",
-    "ja_size_bytes": 49611,
-    "en_size_bytes": 43615
+    "ja_size_bytes": 49125
   },
   {
     "id": 362,
     "name_ja": "ITコンサルタント",
-    "name_en": "IT Consultant",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/362",
-    "en_url": "https://mirai-shigoto.com/en/362",
-    "ja_size_bytes": 51093,
-    "en_size_bytes": 43478
+    "ja_size_bytes": 50642
   },
   {
     "id": 363,
     "name_ja": "広報コンサルタント",
-    "name_en": "PR Consultant",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/363",
-    "en_url": "https://mirai-shigoto.com/en/363",
-    "ja_size_bytes": 48727,
-    "en_size_bytes": 43496
+    "ja_size_bytes": 48230
   },
   {
     "id": 364,
     "name_ja": "人事コンサルタント",
-    "name_en": "HR Consultant",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/364",
-    "en_url": "https://mirai-shigoto.com/en/364",
-    "ja_size_bytes": 49876,
-    "en_size_bytes": 43285
+    "ja_size_bytes": 49382
   },
   {
     "id": 365,
     "name_ja": "知的財産コーディネーター",
-    "name_en": "IP Coordinator",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/365",
-    "en_url": "https://mirai-shigoto.com/en/365",
-    "ja_size_bytes": 50148,
-    "en_size_bytes": 43417
+    "ja_size_bytes": 49679
   },
   {
     "id": 366,
     "name_ja": "知的財産サーチャー",
-    "name_en": "IP Searcher",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/366",
-    "en_url": "https://mirai-shigoto.com/en/366",
-    "ja_size_bytes": 48553,
-    "en_size_bytes": 42686
+    "ja_size_bytes": 48080
   },
   {
     "id": 388,
     "name_ja": "土木・建築工学研究者",
-    "name_en": "Civil/Architectural Engineering Researcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/388",
-    "en_url": "https://mirai-shigoto.com/en/388",
-    "ja_size_bytes": 47913,
-    "en_size_bytes": 43971
+    "ja_size_bytes": 47433
   },
   {
     "id": 389,
     "name_ja": "情報工学研究者",
-    "name_en": "Computer Science Researcher",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/389",
-    "en_url": "https://mirai-shigoto.com/en/389",
-    "ja_size_bytes": 47668,
-    "en_size_bytes": 43490
+    "ja_size_bytes": 47189
   },
   {
     "id": 390,
     "name_ja": "医学研究者",
-    "name_en": "Medical Researcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/390",
-    "en_url": "https://mirai-shigoto.com/en/390",
-    "ja_size_bytes": 48179,
-    "en_size_bytes": 43944
+    "ja_size_bytes": 47678
   },
   {
     "id": 391,
     "name_ja": "科学捜査研究所鑑定技術職員",
-    "name_en": "Forensic Crime Lab Researcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/391",
-    "en_url": "https://mirai-shigoto.com/en/391",
-    "ja_size_bytes": 47333,
-    "en_size_bytes": 43573
+    "ja_size_bytes": 46838
   },
   {
     "id": 392,
     "name_ja": "薬学研究者",
-    "name_en": "Pharmaceutical Researcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/392",
-    "en_url": "https://mirai-shigoto.com/en/392",
-    "ja_size_bytes": 49680,
-    "en_size_bytes": 43754
+    "ja_size_bytes": 49200
   },
   {
     "id": 393,
     "name_ja": "バイオテクノロジー研究者",
-    "name_en": "Biotechnology Researcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/393",
-    "en_url": "https://mirai-shigoto.com/en/393",
-    "ja_size_bytes": 48343,
-    "en_size_bytes": 43481
+    "ja_size_bytes": 47858
   },
   {
     "id": 394,
     "name_ja": "エコノミスト",
-    "name_en": "Economist",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/394",
-    "en_url": "https://mirai-shigoto.com/en/394",
-    "ja_size_bytes": 45709,
-    "en_size_bytes": 40891
+    "ja_size_bytes": 45233
   },
   {
     "id": 395,
     "name_ja": "特別支援学校教員、特別支援学級教員",
-    "name_en": "Special-Needs Education Teacher",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/395",
-    "en_url": "https://mirai-shigoto.com/en/395",
-    "ja_size_bytes": 50217,
-    "en_size_bytes": 43536
+    "ja_size_bytes": 49721
   },
   {
     "id": 396,
     "name_ja": "学習塾教師",
-    "name_en": "Cram School Teacher",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/396",
-    "en_url": "https://mirai-shigoto.com/en/396",
-    "ja_size_bytes": 47389,
-    "en_size_bytes": 43367
+    "ja_size_bytes": 46917
   },
   {
     "id": 397,
     "name_ja": "日本語教師",
-    "name_en": "Japanese Language Teacher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/397",
-    "en_url": "https://mirai-shigoto.com/en/397",
-    "ja_size_bytes": 51529,
-    "en_size_bytes": 43600
+    "ja_size_bytes": 51014
   },
   {
     "id": 398,
     "name_ja": "英会話教師",
-    "name_en": "English Conversation Teacher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/398",
-    "en_url": "https://mirai-shigoto.com/en/398",
-    "ja_size_bytes": 47078,
-    "en_size_bytes": 43353
+    "ja_size_bytes": 46535
   },
   {
     "id": 399,
     "name_ja": "職業訓練指導員",
-    "name_en": "Vocational Training Instructor",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/399",
-    "en_url": "https://mirai-shigoto.com/en/399",
-    "ja_size_bytes": 50019,
-    "en_size_bytes": 44161
+    "ja_size_bytes": 49526
   },
   {
     "id": 400,
     "name_ja": "社会教育主事",
-    "name_en": "Social Education Officer (Shakaikyoiku-shuji)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/400",
-    "en_url": "https://mirai-shigoto.com/en/400",
-    "ja_size_bytes": 47886,
-    "en_size_bytes": 43870
+    "ja_size_bytes": 47364
   },
   {
     "id": 401,
     "name_ja": "救急救命士",
-    "name_en": "Emergency Medical Technician (EMT)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/401",
-    "en_url": "https://mirai-shigoto.com/en/401",
-    "ja_size_bytes": 48485,
-    "en_size_bytes": 43246
+    "ja_size_bytes": 47988
   },
   {
     "id": 402,
     "name_ja": "外科医",
-    "name_en": "Surgeon",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/402",
-    "en_url": "https://mirai-shigoto.com/en/402",
-    "ja_size_bytes": 49004,
-    "en_size_bytes": 43297
+    "ja_size_bytes": 48536
   },
   {
     "id": 403,
     "name_ja": "小児科医",
-    "name_en": "Pediatrician",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/403",
-    "en_url": "https://mirai-shigoto.com/en/403",
-    "ja_size_bytes": 48065,
-    "en_size_bytes": 43330
+    "ja_size_bytes": 47574
   },
   {
     "id": 404,
     "name_ja": "内科医",
-    "name_en": "Internal Medicine Physician",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/404",
-    "en_url": "https://mirai-shigoto.com/en/404",
-    "ja_size_bytes": 49781,
-    "en_size_bytes": 43591
+    "ja_size_bytes": 49289
   },
   {
     "id": 405,
     "name_ja": "精神科医",
-    "name_en": "Psychiatrist",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/405",
-    "en_url": "https://mirai-shigoto.com/en/405",
-    "ja_size_bytes": 48544,
-    "en_size_bytes": 43349
+    "ja_size_bytes": 48052
   },
   {
     "id": 406,
     "name_ja": "産婦人科医",
-    "name_en": "Obstetrician/Gynecologist",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/406",
-    "en_url": "https://mirai-shigoto.com/en/406",
-    "ja_size_bytes": 48885,
-    "en_size_bytes": 43580
+    "ja_size_bytes": 48411
   },
   {
     "id": 407,
     "name_ja": "治験コーディネーター",
-    "name_en": "Clinical Research Coordinator",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/407",
-    "en_url": "https://mirai-shigoto.com/en/407",
-    "ja_size_bytes": 48987,
-    "en_size_bytes": 43395
+    "ja_size_bytes": 48476
   },
   {
     "id": 408,
     "name_ja": "医療ソーシャルワーカー",
-    "name_en": "Medical Social Worker",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/408",
-    "en_url": "https://mirai-shigoto.com/en/408",
-    "ja_size_bytes": 49081,
-    "en_size_bytes": 43999
+    "ja_size_bytes": 48601
   },
   {
     "id": 409,
     "name_ja": "福祉ソーシャルワーカー",
-    "name_en": "Welfare Social Worker",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/409",
-    "en_url": "https://mirai-shigoto.com/en/409",
-    "ja_size_bytes": 50362,
-    "en_size_bytes": 44624
+    "ja_size_bytes": 49888
   },
   {
     "id": 410,
     "name_ja": "施設管理者（介護施設）",
-    "name_en": "Care Facility Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/410",
-    "en_url": "https://mirai-shigoto.com/en/410",
-    "ja_size_bytes": 52088,
-    "en_size_bytes": 44227
+    "ja_size_bytes": 51601
   },
   {
     "id": 411,
     "name_ja": "カウンセラー（医療福祉分野）",
-    "name_en": "Medical Counselor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/411",
-    "en_url": "https://mirai-shigoto.com/en/411",
-    "ja_size_bytes": 50950,
-    "en_size_bytes": 44249
+    "ja_size_bytes": 50507
   },
   {
     "id": 412,
     "name_ja": "スクールカウンセラー",
-    "name_en": "School Counselor",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/412",
-    "en_url": "https://mirai-shigoto.com/en/412",
-    "ja_size_bytes": 49801,
-    "en_size_bytes": 43745
+    "ja_size_bytes": 49358
   },
   {
     "id": 413,
     "name_ja": "ベビーシッター",
-    "name_en": "Babysitter",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/413",
-    "en_url": "https://mirai-shigoto.com/en/413",
-    "ja_size_bytes": 48745,
-    "en_size_bytes": 43497
+    "ja_size_bytes": 48281
   },
   {
     "id": 414,
     "name_ja": "フロント（ホテル・旅館）",
-    "name_en": "Hotel Front Desk Clerk",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/414",
-    "en_url": "https://mirai-shigoto.com/en/414",
-    "ja_size_bytes": 52978,
-    "en_size_bytes": 44276
+    "ja_size_bytes": 52498
   },
   {
     "id": 415,
     "name_ja": "客室清掃・整備担当（ホテル・旅館）",
-    "name_en": "Hotel Room Cleaner",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/415",
-    "en_url": "https://mirai-shigoto.com/en/415",
-    "ja_size_bytes": 49187,
-    "en_size_bytes": 43939
+    "ja_size_bytes": 48700
   },
   {
     "id": 416,
     "name_ja": "接客担当（ホテル・旅館）",
-    "name_en": "Hotel Customer Service",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/416",
-    "en_url": "https://mirai-shigoto.com/en/416",
-    "ja_size_bytes": 50828,
-    "en_size_bytes": 43991
+    "ja_size_bytes": 50334
   },
   {
     "id": 417,
     "name_ja": "ホールスタッフ（レストラン）",
-    "name_en": "Restaurant Server (Floor Staff)",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/417",
-    "en_url": "https://mirai-shigoto.com/en/417",
-    "ja_size_bytes": 50233,
-    "en_size_bytes": 44270
+    "ja_size_bytes": 49735
   },
   {
     "id": 418,
     "name_ja": "飲食チェーン店店員",
-    "name_en": "Chain Restaurant Staff",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/418",
-    "en_url": "https://mirai-shigoto.com/en/418",
-    "ja_size_bytes": 49851,
-    "en_size_bytes": 43718
+    "ja_size_bytes": 49362
   },
   {
     "id": 419,
     "name_ja": "調香師",
-    "name_en": "Perfumer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/419",
-    "en_url": "https://mirai-shigoto.com/en/419",
-    "ja_size_bytes": 47166,
-    "en_size_bytes": 42868
+    "ja_size_bytes": 46721
   },
   {
     "id": 420,
     "name_ja": "アロマセラピスト",
-    "name_en": "Aromatherapist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/420",
-    "en_url": "https://mirai-shigoto.com/en/420",
-    "ja_size_bytes": 49888,
-    "en_size_bytes": 43405
+    "ja_size_bytes": 49401
   },
   {
     "id": 421,
     "name_ja": "リフレクソロジスト",
-    "name_en": "Reflexologist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/421",
-    "en_url": "https://mirai-shigoto.com/en/421",
-    "ja_size_bytes": 48153,
-    "en_size_bytes": 43409
+    "ja_size_bytes": 47679
   },
   {
     "id": 422,
     "name_ja": "葬祭ディレクター",
-    "name_en": "Funeral Director",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/422",
-    "en_url": "https://mirai-shigoto.com/en/422",
-    "ja_size_bytes": 49540,
-    "en_size_bytes": 43679
+    "ja_size_bytes": 49061
   },
   {
     "id": 423,
     "name_ja": "きもの着付指導員",
-    "name_en": "Kimono Dressing Instructor",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/423",
-    "en_url": "https://mirai-shigoto.com/en/423",
-    "ja_size_bytes": 48221,
-    "en_size_bytes": 43658
+    "ja_size_bytes": 47734
   },
   {
     "id": 424,
     "name_ja": "速記者、音声反訳者",
-    "name_en": "Stenographer / Audio Transcriber",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/424",
-    "en_url": "https://mirai-shigoto.com/en/424",
-    "ja_size_bytes": 43977,
-    "en_size_bytes": 39095
+    "ja_size_bytes": 43485
   },
   {
     "id": 425,
     "name_ja": "パラリーガル（弁護士補助職）",
-    "name_en": "Paralegal (Lawyer's Assistant)",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/425",
-    "en_url": "https://mirai-shigoto.com/en/425",
-    "ja_size_bytes": 49015,
-    "en_size_bytes": 43760
+    "ja_size_bytes": 48510
   },
   {
     "id": 426,
     "name_ja": "秘書",
-    "name_en": "Secretary",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/426",
-    "en_url": "https://mirai-shigoto.com/en/426",
-    "ja_size_bytes": 47773,
-    "en_size_bytes": 43637
+    "ja_size_bytes": 47256
   },
   {
     "id": 427,
     "name_ja": "受付事務",
-    "name_en": "Receptionist",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/427",
-    "en_url": "https://mirai-shigoto.com/en/427",
-    "ja_size_bytes": 46787,
-    "en_size_bytes": 42894
+    "ja_size_bytes": 46314
   },
   {
     "id": 428,
     "name_ja": "一般事務",
-    "name_en": "General Office Clerk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/428",
-    "en_url": "https://mirai-shigoto.com/en/428",
-    "ja_size_bytes": 50039,
-    "en_size_bytes": 45560
+    "ja_size_bytes": 49542
   },
   {
     "id": 429,
     "name_ja": "データ入力",
-    "name_en": "Data Entry Operator",
     "ai_risk": 10,
     "ja_url": "https://mirai-shigoto.com/ja/429",
-    "en_url": "https://mirai-shigoto.com/en/429",
-    "ja_size_bytes": 47698,
-    "en_size_bytes": 43725
+    "ja_size_bytes": 47225
   },
   {
     "id": 430,
     "name_ja": "経理事務",
-    "name_en": "Accounting Clerk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/430",
-    "en_url": "https://mirai-shigoto.com/en/430",
-    "ja_size_bytes": 48149,
-    "en_size_bytes": 43926
+    "ja_size_bytes": 47640
   },
   {
     "id": 431,
     "name_ja": "営業事務",
-    "name_en": "Sales Office Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/431",
-    "en_url": "https://mirai-shigoto.com/en/431",
-    "ja_size_bytes": 46949,
-    "en_size_bytes": 43016
+    "ja_size_bytes": 46447
   },
   {
     "id": 432,
     "name_ja": "人事事務",
-    "name_en": "HR Office Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/432",
-    "en_url": "https://mirai-shigoto.com/en/432",
-    "ja_size_bytes": 48222,
-    "en_size_bytes": 43624
+    "ja_size_bytes": 47733
   },
   {
     "id": 433,
     "name_ja": "総務事務",
-    "name_en": "General Affairs Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/433",
-    "en_url": "https://mirai-shigoto.com/en/433",
-    "ja_size_bytes": 48996,
-    "en_size_bytes": 43833
+    "ja_size_bytes": 48491
   },
   {
     "id": 434,
     "name_ja": "企画・調査担当",
-    "name_en": "Planning/Research Officer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/434",
-    "en_url": "https://mirai-shigoto.com/en/434",
-    "ja_size_bytes": 48283,
-    "en_size_bytes": 43340
+    "ja_size_bytes": 47792
   },
   {
     "id": 435,
     "name_ja": "調剤薬局事務",
-    "name_en": "Pharmacy Office Clerk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/435",
-    "en_url": "https://mirai-shigoto.com/en/435",
-    "ja_size_bytes": 47360,
-    "en_size_bytes": 43396
+    "ja_size_bytes": 46866
   },
   {
     "id": 436,
     "name_ja": "介護事務",
-    "name_en": "Care Office Clerk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/436",
-    "en_url": "https://mirai-shigoto.com/en/436",
-    "ja_size_bytes": 49485,
-    "en_size_bytes": 43263
+    "ja_size_bytes": 49019
   },
   {
     "id": 437,
     "name_ja": "生産・工程管理事務",
-    "name_en": "Production Process Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/437",
-    "en_url": "https://mirai-shigoto.com/en/437",
-    "ja_size_bytes": 47289,
-    "en_size_bytes": 43761
+    "ja_size_bytes": 46786
   },
   {
     "id": 438,
     "name_ja": "銀行等窓口事務",
-    "name_en": "Bank Teller",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/438",
-    "en_url": "https://mirai-shigoto.com/en/438",
-    "ja_size_bytes": 48801,
-    "en_size_bytes": 43966
+    "ja_size_bytes": 48323
   },
   {
     "id": 439,
     "name_ja": "貿易事務",
-    "name_en": "Trade Office Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/439",
-    "en_url": "https://mirai-shigoto.com/en/439",
-    "ja_size_bytes": 47062,
-    "en_size_bytes": 43288
+    "ja_size_bytes": 46529
   },
   {
     "id": 440,
     "name_ja": "損害保険事務",
-    "name_en": "P&C Insurance Clerk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/440",
-    "en_url": "https://mirai-shigoto.com/en/440",
-    "ja_size_bytes": 48656,
-    "en_size_bytes": 43375
+    "ja_size_bytes": 48168
   },
   {
     "id": 441,
     "name_ja": "通信販売受付事務",
-    "name_en": "Mail-Order Receipt Clerk",
     "ai_risk": 10,
     "ja_url": "https://mirai-shigoto.com/ja/441",
-    "en_url": "https://mirai-shigoto.com/en/441",
-    "ja_size_bytes": 48104,
-    "en_size_bytes": 43777
+    "ja_size_bytes": 47597
   },
   {
     "id": 442,
     "name_ja": "学校事務",
-    "name_en": "School Office Clerk",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/442",
-    "en_url": "https://mirai-shigoto.com/en/442",
-    "ja_size_bytes": 46953,
-    "en_size_bytes": 42969
+    "ja_size_bytes": 46476
   },
   {
     "id": 443,
     "name_ja": "医療事務",
-    "name_en": "Medical Office Clerk",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/443",
-    "en_url": "https://mirai-shigoto.com/en/443",
-    "ja_size_bytes": 48271,
-    "en_size_bytes": 43996
+    "ja_size_bytes": 47771
   },
   {
     "id": 444,
     "name_ja": "広報・PR担当",
-    "name_en": "Public Relations / PR Officer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/444",
-    "en_url": "https://mirai-shigoto.com/en/444",
-    "ja_size_bytes": 48954,
-    "en_size_bytes": 43546
+    "ja_size_bytes": 48440
   },
   {
     "id": 445,
     "name_ja": "IR広報担当",
-    "name_en": "Investor Relations / IR Officer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/445",
-    "en_url": "https://mirai-shigoto.com/en/445",
-    "ja_size_bytes": 48351,
-    "en_size_bytes": 43515
+    "ja_size_bytes": 47855
   },
   {
     "id": 446,
     "name_ja": "企業法務担当",
-    "name_en": "Corporate Legal Officer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/446",
-    "en_url": "https://mirai-shigoto.com/en/446",
-    "ja_size_bytes": 49522,
-    "en_size_bytes": 43455
+    "ja_size_bytes": 49008
   },
   {
     "id": 447,
     "name_ja": "コンプライアンス推進担当",
-    "name_en": "Compliance Officer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/447",
-    "en_url": "https://mirai-shigoto.com/en/447",
-    "ja_size_bytes": 48851,
-    "en_size_bytes": 43385
+    "ja_size_bytes": 48384
   },
   {
     "id": 448,
     "name_ja": "医薬品販売/登録販売者",
-    "name_en": "OTC Drug Sales (Touroku Hanbaisha)",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/448",
-    "en_url": "https://mirai-shigoto.com/en/448",
-    "ja_size_bytes": 49201,
-    "en_size_bytes": 44020
+    "ja_size_bytes": 48714
   },
   {
     "id": 449,
     "name_ja": "リサイクルショップ店員",
-    "name_en": "Recycle Shop Clerk",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/449",
-    "en_url": "https://mirai-shigoto.com/en/449",
-    "ja_size_bytes": 48957,
-    "en_size_bytes": 42510
+    "ja_size_bytes": 48469
   },
   {
     "id": 450,
     "name_ja": "携帯電話販売",
-    "name_en": "Mobile Phone Sales",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/450",
-    "en_url": "https://mirai-shigoto.com/en/450",
-    "ja_size_bytes": 48446,
-    "en_size_bytes": 43575
+    "ja_size_bytes": 47949
   },
   {
     "id": 451,
     "name_ja": "CDショップ店員",
-    "name_en": "CD Shop Clerk",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/451",
-    "en_url": "https://mirai-shigoto.com/en/451",
-    "ja_size_bytes": 50164,
-    "en_size_bytes": 43105
+    "ja_size_bytes": 49670
   },
   {
     "id": 452,
     "name_ja": "コンサルティング営業（IT）",
-    "name_en": "IT Consulting Sales",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/452",
-    "en_url": "https://mirai-shigoto.com/en/452",
-    "ja_size_bytes": 49790,
-    "en_size_bytes": 43737
+    "ja_size_bytes": 49289
   },
   {
     "id": 453,
     "name_ja": "保険営業（生命保険、損害保険）",
-    "name_en": "Insurance Sales",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/453",
-    "en_url": "https://mirai-shigoto.com/en/453",
-    "ja_size_bytes": 51612,
-    "en_size_bytes": 44854
+    "ja_size_bytes": 51121
   },
   {
     "id": 454,
     "name_ja": "銀行・信用金庫渉外担当",
-    "name_en": "Bank Corporate Officer (Outside Sales)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/454",
-    "en_url": "https://mirai-shigoto.com/en/454",
-    "ja_size_bytes": 51128,
-    "en_size_bytes": 45549
+    "ja_size_bytes": 50625
   },
   {
     "id": 455,
     "name_ja": "ディーラー",
-    "name_en": "Securities Trader",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/455",
-    "en_url": "https://mirai-shigoto.com/en/455",
-    "ja_size_bytes": 49563,
-    "en_size_bytes": 43546
+    "ja_size_bytes": 49091
   },
   {
     "id": 456,
     "name_ja": "マーケティング・リサーチャー",
-    "name_en": "Market Researcher",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/456",
-    "en_url": "https://mirai-shigoto.com/en/456",
-    "ja_size_bytes": 48410,
-    "en_size_bytes": 43459
+    "ja_size_bytes": 47917
   },
   {
     "id": 457,
     "name_ja": "証券アナリスト",
-    "name_en": "Equity Research Analyst",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/457",
-    "en_url": "https://mirai-shigoto.com/en/457",
-    "ja_size_bytes": 47847,
-    "en_size_bytes": 43610
+    "ja_size_bytes": 47387
   },
   {
     "id": 461,
     "name_ja": "商品企画開発（チェーンストア）",
-    "name_en": "Product Planner (Chain Store)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/461",
-    "en_url": "https://mirai-shigoto.com/en/461",
-    "ja_size_bytes": 48258,
-    "en_size_bytes": 43460
+    "ja_size_bytes": 47732
   },
   {
     "id": 462,
     "name_ja": "OA機器営業",
-    "name_en": "Office Equipment Sales",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/462",
-    "en_url": "https://mirai-shigoto.com/en/462",
-    "ja_size_bytes": 47886,
-    "en_size_bytes": 43421
+    "ja_size_bytes": 47382
   },
   {
     "id": 463,
     "name_ja": "証券外務員",
-    "name_en": "Securities Representative",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/463",
-    "en_url": "https://mirai-shigoto.com/en/463",
-    "ja_size_bytes": 47830,
-    "en_size_bytes": 43536
+    "ja_size_bytes": 47322
   },
   {
     "id": 464,
     "name_ja": "化粧品販売/美容部員",
-    "name_en": "Cosmetics Sales / Beauty Advisor",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/464",
-    "en_url": "https://mirai-shigoto.com/en/464",
-    "ja_size_bytes": 47507,
-    "en_size_bytes": 43048
+    "ja_size_bytes": 47022
   },
   {
     "id": 465,
     "name_ja": "化粧品訪問販売",
-    "name_en": "Cosmetics Door-to-Door Sales",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/465",
-    "en_url": "https://mirai-shigoto.com/en/465",
-    "ja_size_bytes": 48121,
-    "en_size_bytes": 42928
+    "ja_size_bytes": 47647
   },
   {
     "id": 466,
     "name_ja": "清涼飲料ルートセールス",
-    "name_en": "Beverage Route Sales",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/466",
-    "en_url": "https://mirai-shigoto.com/en/466",
-    "ja_size_bytes": 48746,
-    "en_size_bytes": 43562
+    "ja_size_bytes": 48225
   },
   {
     "id": 467,
     "name_ja": "自転車販売",
-    "name_en": "Bicycle Sales",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/467",
-    "en_url": "https://mirai-shigoto.com/en/467",
-    "ja_size_bytes": 47399,
-    "en_size_bytes": 43317
+    "ja_size_bytes": 46906
   },
   {
     "id": 468,
     "name_ja": "アクチュアリー",
-    "name_en": "Actuary",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/468",
-    "en_url": "https://mirai-shigoto.com/en/468",
-    "ja_size_bytes": 51166,
-    "en_size_bytes": 43507
+    "ja_size_bytes": 50728
   },
   {
     "id": 469,
     "name_ja": "内部監査人",
-    "name_en": "Internal Auditor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/469",
-    "en_url": "https://mirai-shigoto.com/en/469",
-    "ja_size_bytes": 49916,
-    "en_size_bytes": 43576
+    "ja_size_bytes": 49431
   },
   {
     "id": 470,
     "name_ja": "ファンドマネージャー",
-    "name_en": "Fund Manager",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/470",
-    "en_url": "https://mirai-shigoto.com/en/470",
-    "ja_size_bytes": 51377,
-    "en_size_bytes": 43573
+    "ja_size_bytes": 50921
   },
   {
     "id": 471,
     "name_ja": "M&Aマネージャー、M&Aコンサルタント/M&Aアドバイザー",
-    "name_en": "M&A Manager / Advisor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/471",
-    "en_url": "https://mirai-shigoto.com/en/471",
-    "ja_size_bytes": 52414,
-    "en_size_bytes": 43080
+    "ja_size_bytes": 51906
   },
   {
     "id": 472,
     "name_ja": "代理店営業（保険会社）",
-    "name_en": "Insurance Agency Sales",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/472",
-    "en_url": "https://mirai-shigoto.com/en/472",
-    "ja_size_bytes": 48062,
-    "en_size_bytes": 43149
+    "ja_size_bytes": 47563
   },
   {
     "id": 473,
     "name_ja": "マンション管理員",
-    "name_en": "Apartment (Mansion) Manager",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/473",
-    "en_url": "https://mirai-shigoto.com/en/473",
-    "ja_size_bytes": 50675,
-    "en_size_bytes": 43486
+    "ja_size_bytes": 50189
   },
   {
     "id": 474,
     "name_ja": "マンション管理フロント",
-    "name_en": "Property Management Front (Mansion)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/474",
-    "en_url": "https://mirai-shigoto.com/en/474",
-    "ja_size_bytes": 49918,
-    "en_size_bytes": 43396
+    "ja_size_bytes": 49383
   },
   {
     "id": 475,
     "name_ja": "雑踏・交通誘導警備員",
-    "name_en": "Crowd/Traffic Security Guard",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/475",
-    "en_url": "https://mirai-shigoto.com/en/475",
-    "ja_size_bytes": 51925,
-    "en_size_bytes": 44230
+    "ja_size_bytes": 51470
   },
   {
     "id": 476,
     "name_ja": "ボイラーオペレーター",
-    "name_en": "Boiler Operator",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/476",
-    "en_url": "https://mirai-shigoto.com/en/476",
-    "ja_size_bytes": 48684,
-    "en_size_bytes": 44344
+    "ja_size_bytes": 48133
   },
   {
     "id": 477,
     "name_ja": "トラックドライバー",
-    "name_en": "Truck Driver",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/477",
-    "en_url": "https://mirai-shigoto.com/en/477",
-    "ja_size_bytes": 55155,
-    "en_size_bytes": 44389
+    "ja_size_bytes": 54658
   },
   {
     "id": 478,
     "name_ja": "トレーラートラックドライバー",
-    "name_en": "Trailer Truck Driver",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/478",
-    "en_url": "https://mirai-shigoto.com/en/478",
-    "ja_size_bytes": 54835,
-    "en_size_bytes": 44424
+    "ja_size_bytes": 54325
   },
   {
     "id": 479,
     "name_ja": "ダンプカー運転手",
-    "name_en": "Dump Truck Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/479",
-    "en_url": "https://mirai-shigoto.com/en/479",
-    "ja_size_bytes": 50323,
-    "en_size_bytes": 43555
+    "ja_size_bytes": 49821
   },
   {
     "id": 480,
     "name_ja": "送迎バス等運転手",
-    "name_en": "Shuttle Bus Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/480",
-    "en_url": "https://mirai-shigoto.com/en/480",
-    "ja_size_bytes": 50657,
-    "en_size_bytes": 43766
+    "ja_size_bytes": 50155
   },
   {
     "id": 481,
     "name_ja": "介護タクシー運転手",
-    "name_en": "Care Taxi Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/481",
-    "en_url": "https://mirai-shigoto.com/en/481",
-    "ja_size_bytes": 50692,
-    "en_size_bytes": 43470
+    "ja_size_bytes": 50187
   },
   {
     "id": 482,
     "name_ja": "ルート配送ドライバー",
-    "name_en": "Route Delivery Driver",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/482",
-    "en_url": "https://mirai-shigoto.com/en/482",
-    "ja_size_bytes": 49858,
-    "en_size_bytes": 43810
+    "ja_size_bytes": 49369
   },
   {
     "id": 483,
     "name_ja": "宅配便配達員",
-    "name_en": "Parcel Delivery Driver",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/483",
-    "en_url": "https://mirai-shigoto.com/en/483",
-    "ja_size_bytes": 50057,
-    "en_size_bytes": 43487
+    "ja_size_bytes": 49548
   },
   {
     "id": 484,
     "name_ja": "新聞配達員",
-    "name_en": "Newspaper Delivery",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/484",
-    "en_url": "https://mirai-shigoto.com/en/484",
-    "ja_size_bytes": 47514,
-    "en_size_bytes": 42991
+    "ja_size_bytes": 47003
   },
   {
     "id": 485,
     "name_ja": "倉庫作業員",
-    "name_en": "Warehouse Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/485",
-    "en_url": "https://mirai-shigoto.com/en/485",
-    "ja_size_bytes": 49471,
-    "en_size_bytes": 44648
+    "ja_size_bytes": 48980
   },
   {
     "id": 486,
     "name_ja": "ピッキング作業員",
-    "name_en": "Order Picker",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/486",
-    "en_url": "https://mirai-shigoto.com/en/486",
-    "ja_size_bytes": 48033,
-    "en_size_bytes": 43327
+    "ja_size_bytes": 47563
   },
   {
     "id": 487,
     "name_ja": "ハウスクリーニング",
-    "name_en": "House Cleaner",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/487",
-    "en_url": "https://mirai-shigoto.com/en/487",
-    "ja_size_bytes": 48541,
-    "en_size_bytes": 43535
+    "ja_size_bytes": 48074
   },
   {
     "id": 488,
     "name_ja": "ペストコントロール従事者（害虫等防除・駆除従事者）",
-    "name_en": "Pest Control Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/488",
-    "en_url": "https://mirai-shigoto.com/en/488",
-    "ja_size_bytes": 52198,
-    "en_size_bytes": 44328
+    "ja_size_bytes": 51725
   },
   {
     "id": 489,
     "name_ja": "製品包装作業員",
-    "name_en": "Product Packaging Worker",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/489",
-    "en_url": "https://mirai-shigoto.com/en/489",
-    "ja_size_bytes": 49289,
-    "en_size_bytes": 44192
+    "ja_size_bytes": 48796
   },
   {
     "id": 490,
     "name_ja": "工場労務作業員",
-    "name_en": "Factory Laborer",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/490",
-    "en_url": "https://mirai-shigoto.com/en/490",
-    "ja_size_bytes": 48609,
-    "en_size_bytes": 42891
+    "ja_size_bytes": 48134
   },
   {
     "id": 491,
     "name_ja": "バックヤード作業員（スーパー食品部門）",
-    "name_en": "Backyard Staff (Supermarket Food)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/491",
-    "en_url": "https://mirai-shigoto.com/en/491",
-    "ja_size_bytes": 48630,
-    "en_size_bytes": 43478
+    "ja_size_bytes": 48131
   },
   {
     "id": 492,
     "name_ja": "調理補助",
-    "name_en": "Cooking Aide",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/492",
-    "en_url": "https://mirai-shigoto.com/en/492",
-    "ja_size_bytes": 46610,
-    "en_size_bytes": 42845
+    "ja_size_bytes": 46141
   },
   {
     "id": 493,
     "name_ja": "給食調理員",
-    "name_en": "School Cafeteria Cook",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/493",
-    "en_url": "https://mirai-shigoto.com/en/493",
-    "ja_size_bytes": 48327,
-    "en_size_bytes": 43976
+    "ja_size_bytes": 47841
   },
   {
     "id": 494,
     "name_ja": "ごみ収集作業員",
-    "name_en": "Garbage Collector",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/494",
-    "en_url": "https://mirai-shigoto.com/en/494",
-    "ja_size_bytes": 46759,
-    "en_size_bytes": 43188
+    "ja_size_bytes": 46253
   },
   {
     "id": 495,
     "name_ja": "産業廃棄物処理技術者",
-    "name_en": "Industrial Waste Treatment Tech",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/495",
-    "en_url": "https://mirai-shigoto.com/en/495",
-    "ja_size_bytes": 50002,
-    "en_size_bytes": 44256
+    "ja_size_bytes": 49469
   },
   {
     "id": 496,
     "name_ja": "産業廃棄物収集運搬作業員",
-    "name_en": "Industrial Waste Transporter",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/496",
-    "en_url": "https://mirai-shigoto.com/en/496",
-    "ja_size_bytes": 51421,
-    "en_size_bytes": 45194
+    "ja_size_bytes": 50915
   },
   {
     "id": 497,
     "name_ja": "積卸作業員",
-    "name_en": "Loading/Unloading Worker",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/497",
-    "en_url": "https://mirai-shigoto.com/en/497",
-    "ja_size_bytes": 49284,
-    "en_size_bytes": 44901
+    "ja_size_bytes": 48780
   },
   {
     "id": 498,
     "name_ja": "こん包作業員",
-    "name_en": "Packing Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/498",
-    "en_url": "https://mirai-shigoto.com/en/498",
-    "ja_size_bytes": 50342,
-    "en_size_bytes": 43881
+    "ja_size_bytes": 49835
   },
   {
     "id": 499,
     "name_ja": "港湾荷役作業員",
-    "name_en": "Port Stevedore",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/499",
-    "en_url": "https://mirai-shigoto.com/en/499",
-    "ja_size_bytes": 49269,
-    "en_size_bytes": 44550
+    "ja_size_bytes": 48793
   },
   {
     "id": 500,
     "name_ja": "ブリーダー",
-    "name_en": "Animal Breeder",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/500",
-    "en_url": "https://mirai-shigoto.com/en/500",
-    "ja_size_bytes": 47569,
-    "en_size_bytes": 41743
+    "ja_size_bytes": 47078
   },
   {
     "id": 501,
     "name_ja": "自然保護官（レンジャー）",
-    "name_en": "Park Ranger (Nature Conservation Officer)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/501",
-    "en_url": "https://mirai-shigoto.com/en/501",
-    "ja_size_bytes": 43227,
-    "en_size_bytes": 38608
+    "ja_size_bytes": 42715
   },
   {
     "id": 502,
     "name_ja": "酪農従事者",
-    "name_en": "Dairy Farmer",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/502",
-    "en_url": "https://mirai-shigoto.com/en/502",
-    "ja_size_bytes": 49356,
-    "en_size_bytes": 43650
+    "ja_size_bytes": 48897
   },
   {
     "id": 503,
     "name_ja": "水産養殖従事者",
-    "name_en": "Aquaculture Worker",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/503",
-    "en_url": "https://mirai-shigoto.com/en/503",
-    "ja_size_bytes": 46648,
-    "en_size_bytes": 39583
+    "ja_size_bytes": 46161
   },
   {
     "id": 504,
     "name_ja": "稲作農業者",
-    "name_en": "Rice Farmer",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/504",
-    "en_url": "https://mirai-shigoto.com/en/504",
-    "ja_size_bytes": 49996,
-    "en_size_bytes": 43698
+    "ja_size_bytes": 49475
   },
   {
     "id": 505,
     "name_ja": "ハウス野菜栽培者",
-    "name_en": "Greenhouse Vegetable Grower",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/505",
-    "en_url": "https://mirai-shigoto.com/en/505",
-    "ja_size_bytes": 49503,
-    "en_size_bytes": 44197
+    "ja_size_bytes": 49045
   },
   {
     "id": 506,
     "name_ja": "果樹栽培者",
-    "name_en": "Fruit Grower",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/506",
-    "en_url": "https://mirai-shigoto.com/en/506",
-    "ja_size_bytes": 48362,
-    "en_size_bytes": 43563
+    "ja_size_bytes": 47854
   },
   {
     "id": 507,
     "name_ja": "花き栽培者",
-    "name_en": "Flower Grower",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/507",
-    "en_url": "https://mirai-shigoto.com/en/507",
-    "ja_size_bytes": 50278,
-    "en_size_bytes": 43664
+    "ja_size_bytes": 49842
   },
   {
     "id": 508,
     "name_ja": "畜産技術者",
-    "name_en": "Livestock Engineer",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/508",
-    "en_url": "https://mirai-shigoto.com/en/508",
-    "ja_size_bytes": 49127,
-    "en_size_bytes": 43883
+    "ja_size_bytes": 48670
   },
   {
     "id": 509,
     "name_ja": "沿岸漁業従事者",
-    "name_en": "Coastal Fisher",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/509",
-    "en_url": "https://mirai-shigoto.com/en/509",
-    "ja_size_bytes": 50145,
-    "en_size_bytes": 43732
+    "ja_size_bytes": 49640
   },
   {
     "id": 510,
     "name_ja": "動物看護",
-    "name_en": "Veterinary Nurse",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/510",
-    "en_url": "https://mirai-shigoto.com/en/510",
-    "ja_size_bytes": 48237,
-    "en_size_bytes": 43815
+    "ja_size_bytes": 47766
   },
   {
     "id": 511,
     "name_ja": "ドローンパイロット",
-    "name_en": "Drone Pilot",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/511",
-    "en_url": "https://mirai-shigoto.com/en/511",
-    "ja_size_bytes": 49537,
-    "en_size_bytes": 40799
+    "ja_size_bytes": 49056
   },
   {
     "id": 512,
     "name_ja": "国会議員",
-    "name_en": "Diet Member (National Politician)",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/512",
-    "en_url": "https://mirai-shigoto.com/en/512",
-    "ja_size_bytes": 43185,
-    "en_size_bytes": 37960
+    "ja_size_bytes": 42695
   },
   {
     "id": 513,
     "name_ja": "国際協力専門家",
-    "name_en": "International Development Specialist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/513",
-    "en_url": "https://mirai-shigoto.com/en/513",
-    "ja_size_bytes": 50985,
-    "en_size_bytes": 44053
+    "ja_size_bytes": 50432
   },
   {
     "id": 514,
     "name_ja": "会社経営者",
-    "name_en": "Company Owner / Executive",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/514",
-    "en_url": "https://mirai-shigoto.com/en/514",
-    "ja_size_bytes": 50968,
-    "en_size_bytes": 43338
+    "ja_size_bytes": 50434
   },
   {
     "id": 515,
     "name_ja": "玩具（おもちゃ）製作",
-    "name_en": "Toy Maker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/515",
-    "en_url": "https://mirai-shigoto.com/en/515",
-    "ja_size_bytes": 44884,
-    "en_size_bytes": 38760
+    "ja_size_bytes": 44409
   },
   {
     "id": 516,
     "name_ja": "法務技官（心理）（矯正心理専門職）",
-    "name_en": "Corrections Psychology Specialist",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/516",
-    "en_url": "https://mirai-shigoto.com/en/516",
-    "ja_size_bytes": 49327,
-    "en_size_bytes": 42683
+    "ja_size_bytes": 48823
   },
   {
     "id": 517,
     "name_ja": "入国審査官",
-    "name_en": "Immigration Inspector",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/517",
-    "en_url": "https://mirai-shigoto.com/en/517",
-    "ja_size_bytes": 48169,
-    "en_size_bytes": 42904
+    "ja_size_bytes": 47681
   },
   {
     "id": 518,
     "name_ja": "検察事務官",
-    "name_en": "Prosecutor's Affairs Officer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/518",
-    "en_url": "https://mirai-shigoto.com/en/518",
-    "ja_size_bytes": 48974,
-    "en_size_bytes": 42639
+    "ja_size_bytes": 48482
   },
   {
     "id": 519,
     "name_ja": "労働基準監督官",
-    "name_en": "Labor Standards Inspector",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/519",
-    "en_url": "https://mirai-shigoto.com/en/519",
-    "ja_size_bytes": 48645,
-    "en_size_bytes": 43046
+    "ja_size_bytes": 48142
   },
   {
     "id": 520,
     "name_ja": "セキュリティエキスパート（脆弱性診断）",
-    "name_en": "Vulnerability Assessment Specialist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/520",
-    "en_url": "https://mirai-shigoto.com/en/520",
-    "ja_size_bytes": 56283,
-    "en_size_bytes": 41069
+    "ja_size_bytes": 55767
   },
   {
     "id": 521,
     "name_ja": "特許審査官",
-    "name_en": "Patent Examiner",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/521",
-    "en_url": "https://mirai-shigoto.com/en/521",
-    "ja_size_bytes": 47270,
-    "en_size_bytes": 42348
+    "ja_size_bytes": 46766
   },
   {
     "id": 522,
     "name_ja": "NPO法人職員（企画・運営）",
-    "name_en": "NPO Staff (Planning/Operations)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/522",
-    "en_url": "https://mirai-shigoto.com/en/522",
-    "ja_size_bytes": 49540,
-    "en_size_bytes": 43127
+    "ja_size_bytes": 49023
   },
   {
     "id": 523,
     "name_ja": "データエンジニア",
-    "name_en": "Data Engineer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/523",
-    "en_url": "https://mirai-shigoto.com/en/523",
-    "ja_size_bytes": 54705,
-    "en_size_bytes": 43233
+    "ja_size_bytes": 54228
   },
   {
     "id": 524,
     "name_ja": "独立系ファイナンシャル・アドバイザー（IFA）",
-    "name_en": "Independent Financial Advisor (IFA)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/524",
-    "en_url": "https://mirai-shigoto.com/en/524",
-    "ja_size_bytes": 57385,
-    "en_size_bytes": 44948
+    "ja_size_bytes": 56865
   },
   {
     "id": 525,
     "name_ja": "タンクローリー乗務員",
-    "name_en": "Tanker Truck Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/525",
-    "en_url": "https://mirai-shigoto.com/en/525",
-    "ja_size_bytes": 56162,
-    "en_size_bytes": 44293
+    "ja_size_bytes": 55640
   },
   {
     "id": 526,
     "name_ja": "検査工（工業製品）",
-    "name_en": "Industrial Product Inspector",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/526",
-    "en_url": "https://mirai-shigoto.com/en/526",
-    "ja_size_bytes": 63857,
-    "en_size_bytes": 45639
+    "ja_size_bytes": 63361
   },
   {
     "id": 527,
     "name_ja": "食品営業（食品メーカー）",
-    "name_en": "Food Maker Sales",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/527",
-    "en_url": "https://mirai-shigoto.com/en/527",
-    "ja_size_bytes": 51332,
-    "en_size_bytes": 43856
+    "ja_size_bytes": 50844
   },
   {
     "id": 528,
     "name_ja": "自動運転開発エンジニア（自動車）",
-    "name_en": "Autonomous Driving Developer",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/528",
-    "en_url": "https://mirai-shigoto.com/en/528",
-    "ja_size_bytes": 54196,
-    "en_size_bytes": 43813
+    "ja_size_bytes": 53702
   },
   {
     "id": 529,
     "name_ja": "医療機器開発技術者",
-    "name_en": "Medical Device Developer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/529",
-    "en_url": "https://mirai-shigoto.com/en/529",
-    "ja_size_bytes": 50825,
-    "en_size_bytes": 43918
+    "ja_size_bytes": 50364
   },
   {
     "id": 530,
     "name_ja": "臨床開発モニター",
-    "name_en": "Clinical Research Monitor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/530",
-    "en_url": "https://mirai-shigoto.com/en/530",
-    "ja_size_bytes": 57763,
-    "en_size_bytes": 44396
+    "ja_size_bytes": 57289
   },
   {
     "id": 531,
     "name_ja": "キッティング作業員（PCセットアップ作業員）",
-    "name_en": "PC Kitting Worker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/531",
-    "en_url": "https://mirai-shigoto.com/en/531",
-    "ja_size_bytes": 51496,
-    "en_size_bytes": 43294
+    "ja_size_bytes": 51001
   },
   {
     "id": 532,
     "name_ja": "フードデリバリー（料理配達員）",
-    "name_en": "Food Delivery Driver",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/532",
-    "en_url": "https://mirai-shigoto.com/en/532",
-    "ja_size_bytes": 51627,
-    "en_size_bytes": 43150
+    "ja_size_bytes": 51164
   },
   {
     "id": 533,
     "name_ja": "セキュリティエキスパート（デジタルフォレンジック）",
-    "name_en": "Digital Forensics Specialist",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/533",
-    "en_url": "https://mirai-shigoto.com/en/533",
-    "ja_size_bytes": 51202,
-    "en_size_bytes": 39159
+    "ja_size_bytes": 50696
   },
   {
     "id": 534,
     "name_ja": "セキュリティエキスパート（情報セキュリティ監査）",
-    "name_en": "Information Security Auditor",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/534",
-    "en_url": "https://mirai-shigoto.com/en/534",
-    "ja_size_bytes": 54976,
-    "en_size_bytes": 44232
+    "ja_size_bytes": 54506
   },
   {
     "id": 535,
     "name_ja": "風力発電のメンテナンス",
-    "name_en": "Wind Power Maintenance Tech",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/535",
-    "en_url": "https://mirai-shigoto.com/en/535",
-    "ja_size_bytes": 48610,
-    "en_size_bytes": 39444
+    "ja_size_bytes": 48092
   },
   {
     "id": 536,
     "name_ja": "総務課長",
-    "name_en": "General Affairs Section Chief",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/536",
-    "en_url": "https://mirai-shigoto.com/en/536",
-    "ja_size_bytes": 49392,
-    "en_size_bytes": 43114
+    "ja_size_bytes": 48846
   },
   {
     "id": 537,
     "name_ja": "人事課長",
-    "name_en": "HR Section Chief",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/537",
-    "en_url": "https://mirai-shigoto.com/en/537",
-    "ja_size_bytes": 51237,
-    "en_size_bytes": 42904
+    "ja_size_bytes": 50703
   },
   {
     "id": 538,
     "name_ja": "経理課長",
-    "name_en": "Accounting Section Chief",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/538",
-    "en_url": "https://mirai-shigoto.com/en/538",
-    "ja_size_bytes": 48919,
-    "en_size_bytes": 43028
+    "ja_size_bytes": 48385
   },
   {
     "id": 539,
     "name_ja": "営業課長",
-    "name_en": "Sales Section Chief",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/539",
-    "en_url": "https://mirai-shigoto.com/en/539",
-    "ja_size_bytes": 50055,
-    "en_size_bytes": 42889
+    "ja_size_bytes": 49557
   },
   {
     "id": 540,
     "name_ja": "デバッグ作業",
-    "name_en": "Software Tester (Debug)",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/540",
-    "en_url": "https://mirai-shigoto.com/en/540",
-    "ja_size_bytes": 53724,
-    "en_size_bytes": 43542
+    "ja_size_bytes": 53235
   },
   {
     "id": 541,
     "name_ja": "ナレーター",
-    "name_en": "Narrator",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/541",
-    "en_url": "https://mirai-shigoto.com/en/541",
-    "ja_size_bytes": 44956,
-    "en_size_bytes": 38083
+    "ja_size_bytes": 44496
   },
   {
     "id": 542,
     "name_ja": "出荷・受荷事務",
-    "name_en": "Shipping/Receiving Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/542",
-    "en_url": "https://mirai-shigoto.com/en/542",
-    "ja_size_bytes": 54633,
-    "en_size_bytes": 44454
+    "ja_size_bytes": 54116
   },
   {
     "id": 543,
     "name_ja": "郵便局郵便窓口業務",
-    "name_en": "Postal Window Clerk",
     "ai_risk": 8,
     "ja_url": "https://mirai-shigoto.com/ja/543",
-    "en_url": "https://mirai-shigoto.com/en/543",
-    "ja_size_bytes": 49248,
-    "en_size_bytes": 43328
+    "ja_size_bytes": 48729
   },
   {
     "id": 544,
     "name_ja": "マーチャンダイザー、バイヤー",
-    "name_en": "Merchandiser / Buyer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/544",
-    "en_url": "https://mirai-shigoto.com/en/544",
-    "ja_size_bytes": 53386,
-    "en_size_bytes": 43046
+    "ja_size_bytes": 52899
   },
   {
     "id": 545,
     "name_ja": "歯科助手",
-    "name_en": "Dental Aide",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/545",
-    "en_url": "https://mirai-shigoto.com/en/545",
-    "ja_size_bytes": 49032,
-    "en_size_bytes": 43544
+    "ja_size_bytes": 48546
   },
   {
     "id": 546,
     "name_ja": "保育補助者",
-    "name_en": "Childcare Aide",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/546",
-    "en_url": "https://mirai-shigoto.com/en/546",
-    "ja_size_bytes": 48641,
-    "en_size_bytes": 43159
+    "ja_size_bytes": 48177
   },
   {
     "id": 547,
     "name_ja": "造船技能者（造船工、船舶艤装工等）",
-    "name_en": "Shipbuilder",
     "ai_risk": 2,
     "ja_url": "https://mirai-shigoto.com/ja/547",
-    "en_url": "https://mirai-shigoto.com/en/547",
-    "ja_size_bytes": 64919,
-    "en_size_bytes": 45419
+    "ja_size_bytes": 64444
   },
   {
     "id": 548,
     "name_ja": "検査工（食料品等）",
-    "name_en": "Food Inspector",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/548",
-    "en_url": "https://mirai-shigoto.com/en/548",
-    "ja_size_bytes": 59070,
-    "en_size_bytes": 44557
+    "ja_size_bytes": 58569
   },
   {
     "id": 549,
     "name_ja": "クレーン運転士",
-    "name_en": "Crane Operator",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/549",
-    "en_url": "https://mirai-shigoto.com/en/549",
-    "ja_size_bytes": 51805,
-    "en_size_bytes": 44524
+    "ja_size_bytes": 51322
   },
   {
     "id": 550,
     "name_ja": "造船技術者（船舶の開発・設計）",
-    "name_en": "Ship Designer (R&D)",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/550",
-    "en_url": "https://mirai-shigoto.com/en/550",
-    "ja_size_bytes": 62889,
-    "en_size_bytes": 42639
+    "ja_size_bytes": 62391
   },
   {
     "id": 551,
     "name_ja": "バイオマス発電プラントの設計",
-    "name_en": "Biomass Power Plant Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/551",
-    "en_url": "https://mirai-shigoto.com/en/551",
-    "ja_size_bytes": 47062,
-    "en_size_bytes": 39581
+    "ja_size_bytes": 46571
   },
   {
     "id": 552,
     "name_ja": "UX/UIデザイナー",
-    "name_en": "UX/UI Designer",
     "ai_risk": 9,
     "ja_url": "https://mirai-shigoto.com/ja/552",
-    "en_url": "https://mirai-shigoto.com/en/552",
-    "ja_size_bytes": 49597,
-    "en_size_bytes": 41363
+    "ja_size_bytes": 49093
   },
   {
     "id": 553,
     "name_ja": "アニメ制作進行管理",
-    "name_en": "Anime Production Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/553",
-    "en_url": "https://mirai-shigoto.com/en/553",
-    "ja_size_bytes": 49331,
-    "en_size_bytes": 38630
+    "ja_size_bytes": 48824
   },
   {
     "id": 554,
     "name_ja": "プロスポーツ運営団体職員（企画・運営）",
-    "name_en": "Pro Sports Org Staff (Planning/Ops)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/554",
-    "en_url": "https://mirai-shigoto.com/en/554",
-    "ja_size_bytes": 49007,
-    "en_size_bytes": 39579
+    "ja_size_bytes": 48485
   },
   {
     "id": 555,
     "name_ja": "訪問介護のサービス提供責任者",
-    "name_en": "Home Care Service Manager",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/555",
-    "en_url": "https://mirai-shigoto.com/en/555",
-    "ja_size_bytes": 49930,
-    "en_size_bytes": 43797
+    "ja_size_bytes": 49455
   },
   {
     "id": 556,
     "name_ja": "障害者グループホーム世話人",
-    "name_en": "Disability Group Home Caretaker",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/556",
-    "en_url": "https://mirai-shigoto.com/en/556",
-    "ja_size_bytes": 59377,
-    "en_size_bytes": 44611
+    "ja_size_bytes": 58874
   },
   {
     "id": 557,
     "name_ja": "汎用金属工作機械工（旋盤工、ボール盤工等）",
-    "name_en": "General Machinist (Lathe, Drill Press)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/557",
-    "en_url": "https://mirai-shigoto.com/en/557",
-    "ja_size_bytes": 52644,
-    "en_size_bytes": 44386
+    "ja_size_bytes": 52152
   },
   {
     "id": 558,
     "name_ja": "自動車板金塗装",
-    "name_en": "Auto Body Repair/Painter",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/558",
-    "en_url": "https://mirai-shigoto.com/en/558",
-    "ja_size_bytes": 53946,
-    "en_size_bytes": 44744
+    "ja_size_bytes": 53479
   },
   {
     "id": 559,
     "name_ja": "配電盤・制御盤等組立",
-    "name_en": "Switchgear/Control Panel Assembler",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/559",
-    "en_url": "https://mirai-shigoto.com/en/559",
-    "ja_size_bytes": 51492,
-    "en_size_bytes": 43491
+    "ja_size_bytes": 51010
   },
   {
     "id": 560,
     "name_ja": "社会学研究者",
-    "name_en": "Sociology Researcher",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/560",
-    "en_url": "https://mirai-shigoto.com/en/560",
-    "ja_size_bytes": 52644,
-    "en_size_bytes": 42910
+    "ja_size_bytes": 52147
   },
   {
     "id": 561,
     "name_ja": "鉄道車両の設計・開発",
-    "name_en": "Rail Vehicle Designer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/561",
-    "en_url": "https://mirai-shigoto.com/en/561",
-    "ja_size_bytes": 53916,
-    "en_size_bytes": 42779
+    "ja_size_bytes": 53457
   },
   {
     "id": 562,
     "name_ja": "探偵",
-    "name_en": "Detective (Private Investigator)",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/562",
-    "en_url": "https://mirai-shigoto.com/en/562",
-    "ja_size_bytes": 46026,
-    "en_size_bytes": 39078
+    "ja_size_bytes": 45505
   },
   {
     "id": 563,
     "name_ja": "麻酔科医",
-    "name_en": "Anesthesiologist",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/563",
-    "en_url": "https://mirai-shigoto.com/en/563",
-    "ja_size_bytes": 45858,
-    "en_size_bytes": 39117
+    "ja_size_bytes": 45354
   },
   {
     "id": 564,
     "name_ja": "検疫官（看護師）",
-    "name_en": "Quarantine Officer (Nurse)",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/564",
-    "en_url": "https://mirai-shigoto.com/en/564",
-    "ja_size_bytes": 52776,
-    "en_size_bytes": 43840
+    "ja_size_bytes": 52263
   },
   {
     "id": 565,
     "name_ja": "養護教諭",
-    "name_en": "School Nurse (Yogo Kyoyu)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/565",
-    "en_url": "https://mirai-shigoto.com/en/565",
-    "ja_size_bytes": 51197,
-    "en_size_bytes": 43202
+    "ja_size_bytes": 50669
   },
   {
     "id": 566,
     "name_ja": "イベントの企画・運営",
-    "name_en": "Event Planner / Operator",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/566",
-    "en_url": "https://mirai-shigoto.com/en/566",
-    "ja_size_bytes": 48804,
-    "en_size_bytes": 43379
+    "ja_size_bytes": 48293
   },
   {
     "id": 567,
     "name_ja": "学校事務（私立大学）",
-    "name_en": "Private University Office Clerk",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/567",
-    "en_url": "https://mirai-shigoto.com/en/567",
-    "ja_size_bytes": 49499,
-    "en_size_bytes": 43256
+    "ja_size_bytes": 48939
   },
   {
     "id": 568,
     "name_ja": "児童発達支援管理責任者",
-    "name_en": "Child Development Support Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/568",
-    "en_url": "https://mirai-shigoto.com/en/568",
-    "ja_size_bytes": 52569,
-    "en_size_bytes": 43901
+    "ja_size_bytes": 52047
   },
   {
     "id": 569,
     "name_ja": "納棺師",
-    "name_en": "Mortician (Nokanshi)",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/569",
-    "en_url": "https://mirai-shigoto.com/en/569",
-    "ja_size_bytes": 47449,
-    "en_size_bytes": 38292
+    "ja_size_bytes": 46945
   },
   {
     "id": 570,
     "name_ja": "耐震診断",
-    "name_en": "Seismic Inspector",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/570",
-    "en_url": "https://mirai-shigoto.com/en/570",
-    "ja_size_bytes": 49667,
-    "en_size_bytes": 39078
+    "ja_size_bytes": 49158
   },
   {
     "id": 571,
     "name_ja": "作業環境測定士",
-    "name_en": "Working Environment Measurement Specialist",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/571",
-    "en_url": "https://mirai-shigoto.com/en/571",
-    "ja_size_bytes": 51095,
-    "en_size_bytes": 39054
+    "ja_size_bytes": 50569
   },
   {
     "id": 572,
     "name_ja": "下水道管路施設の点検・調査",
-    "name_en": "Sewer Pipe Inspector",
     "ai_risk": 5,
     "ja_url": "https://mirai-shigoto.com/ja/572",
-    "en_url": "https://mirai-shigoto.com/en/572",
-    "ja_size_bytes": 50182,
-    "en_size_bytes": 39172
+    "ja_size_bytes": 49683
   },
   {
     "id": 573,
     "name_ja": "オーケストラ奏者（団員）",
-    "name_en": "Orchestra Musician",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/573",
-    "en_url": "https://mirai-shigoto.com/en/573",
-    "ja_size_bytes": 50471,
-    "en_size_bytes": 38621
+    "ja_size_bytes": 49992
   },
   {
     "id": 574,
     "name_ja": "ハローワーク職員",
-    "name_en": "Hello Work (Public Employment Office) Staff",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/574",
-    "en_url": "https://mirai-shigoto.com/en/574",
-    "ja_size_bytes": 43837,
-    "en_size_bytes": 38684
+    "ja_size_bytes": 43318
   },
   {
     "id": 575,
     "name_ja": "整形外科医",
-    "name_en": "Orthopedic Surgeon",
     "ai_risk": 3,
     "ja_url": "https://mirai-shigoto.com/ja/575",
-    "en_url": "https://mirai-shigoto.com/en/575",
-    "ja_size_bytes": 47830,
-    "en_size_bytes": 38716
+    "ja_size_bytes": 47328
   },
   {
     "id": 576,
     "name_ja": "衛生管理者",
-    "name_en": "Hygiene Manager (Eisei Kanrisha)",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/576",
-    "en_url": "https://mirai-shigoto.com/en/576",
-    "ja_size_bytes": 51637,
-    "en_size_bytes": 43495
+    "ja_size_bytes": 51117
   },
   {
     "id": 577,
     "name_ja": "風力発電の企画・調査",
-    "name_en": "Wind Power Project Planner",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/577",
-    "en_url": "https://mirai-shigoto.com/en/577",
-    "ja_size_bytes": 50019,
-    "en_size_bytes": 39311
+    "ja_size_bytes": 49510
   },
   {
     "id": 578,
     "name_ja": "税関職員",
-    "name_en": "Customs Officer",
     "ai_risk": 7,
     "ja_url": "https://mirai-shigoto.com/ja/578",
-    "en_url": "https://mirai-shigoto.com/en/578",
-    "ja_size_bytes": 45415,
-    "en_size_bytes": 38225
+    "ja_size_bytes": 44923
   },
   {
     "id": 579,
     "name_ja": "自動車検査員",
-    "name_en": "Auto Inspector",
     "ai_risk": 4,
     "ja_url": "https://mirai-shigoto.com/ja/579",
-    "en_url": "https://mirai-shigoto.com/en/579",
-    "ja_size_bytes": 50031,
-    "en_size_bytes": 39073
+    "ja_size_bytes": 49534
   },
   {
     "id": 580,
     "name_ja": "障害福祉サービス管理責任者",
-    "name_en": "Welfare Service Manager",
     "ai_risk": 6,
     "ja_url": "https://mirai-shigoto.com/ja/580",
-    "en_url": "https://mirai-shigoto.com/en/580",
-    "ja_size_bytes": 50337,
-    "en_size_bytes": 39057
+    "ja_size_bytes": 49847
   },
   {
     "id": 581,
     "name_ja": "ブロックチェーン・エンジニア",
-    "name_en": null,
     "ai_risk": null,
     "ja_url": "https://mirai-shigoto.com/ja/581",
-    "en_url": "https://mirai-shigoto.com/en/581",
-    "ja_size_bytes": 47444,
-    "en_size_bytes": 37382
+    "ja_size_bytes": 46985
   },
   {
     "id": 582,
     "name_ja": "声優",
-    "name_en": null,
     "ai_risk": null,
     "ja_url": "https://mirai-shigoto.com/ja/582",
-    "en_url": "https://mirai-shigoto.com/en/582",
-    "ja_size_bytes": 47857,
-    "en_size_bytes": 37420
+    "ja_size_bytes": 47426
   },
   {
     "id": 583,
     "name_ja": "産業医",
-    "name_en": null,
     "ai_risk": null,
     "ja_url": "https://mirai-shigoto.com/ja/583",
-    "en_url": "https://mirai-shigoto.com/en/583",
-    "ja_size_bytes": 46176,
-    "en_size_bytes": 37261
+    "ja_size_bytes": 45724
   },
   {
     "id": 584,
     "name_ja": "3Dプリンター技術者",
-    "name_en": null,
     "ai_risk": null,
     "ja_url": "https://mirai-shigoto.com/ja/584",
-    "en_url": "https://mirai-shigoto.com/en/584",
-    "ja_size_bytes": 48641,
-    "en_size_bytes": 37712
+    "ja_size_bytes": 48181
   }
 ]

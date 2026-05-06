@@ -96,24 +96,17 @@
     },
     {
       "source": "/occ/:id(\\d+)-:slug*",
-      "has": [{ "type": "query", "key": "lang", "value": "en" }],
-      "destination": "/en/:id",
-      "permanent": true
-    },
-    {
-      "source": "/occ/:id(\\d+)-:slug*",
       "destination": "/ja/:id",
       "permanent": true
     },
     {
       "source": "/occ/:id(\\d+)",
-      "has": [{ "type": "query", "key": "lang", "value": "en" }],
-      "destination": "/en/:id",
+      "destination": "/ja/:id",
       "permanent": true
     },
     {
-      "source": "/occ/:id(\\d+)",
-      "destination": "/ja/:id",
+      "source": "/en/:path*",
+      "destination": "/ja/:path*",
       "permanent": true
     }
   ]

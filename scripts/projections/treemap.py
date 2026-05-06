@@ -100,8 +100,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         if stats is None or score is None:
             continue
 
-        trans = indexes.trans_by_id.get(occ_id)
-
         # Sector enrichment (additive in v1.1.0). Falls back to None if the
         # sector subsystem is not yet active (no sectors.ja-en.json present).
         assignment = indexes.sector_by_occ.get(occ_id)
@@ -111,7 +109,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         records.append({
             "id": occ_id,
             "name_ja": occ.title_ja,
-            "name_en": trans.title_en if trans else None,
 
             # Stats — flat fields, legacy field names preserved
             "salary": stats.salary_man_yen,
@@ -125,7 +122,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
             # AI risk
             "ai_risk": score.ai_risk,
             "ai_rationale_ja": score.rationale_ja,
-            "ai_rationale_en": score.rationale_en,
 
             # Distributions — converted to legacy JA-key + percentage form
             "education_pct": _convert_to_legacy_pct(occ.education_distribution, EDU_KEY_EN_TO_JA),

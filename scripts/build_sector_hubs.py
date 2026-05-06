@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-build_sector_hubs.py — generate 32 static sector hub pages.
+build_sector_hubs.py — generate 16 static JA sector hub pages.
 
   ja/sectors/<sector_id>.html  (16 JA sector hubs)
-  en/sectors/<sector_id>.html  (16 EN sector hubs)
 
 Each hub aggregates the occupations belonging to one sector and surfaces:
   - sector overview (count, mean AI risk, total workforce)
@@ -12,18 +11,17 @@ Each hub aggregates the occupations belonging to one sector and surfaces:
   - TOP 5 workforce occupations in the sector
   - full occupation list (sorted by AI risk desc) with link to detail page
 
-Each page is single-language (no in-page toggle), linked via canonical +
-hreflang. Includes the same 4-tracker analytics block as every other page on
-the site. Schema.org JSON-LD: WebPage + BreadcrumbList + ItemList.
+JA-only as of v1.4.0 (English UI removed). Includes the same 4-tracker
+analytics block as every other page on the site. Schema.org JSON-LD:
+WebPage + BreadcrumbList + ItemList.
 
 Output:
   ja/sectors/<sector_id>.html × 16
-  en/sectors/<sector_id>.html × 16
-  scripts/.sector_manifest.json  (sector_id, ja_url, en_url, occupation_count, ...)
-  sitemap.xml                    rewritten to include the 32 hub URLs
+  scripts/.sector_manifest.json  (sector_id, ja_url, occupation_count, ...)
+  sitemap.xml                    rewritten to include the 16 hub URLs
 
 Usage:
-  python3 scripts/build_sector_hubs.py             # generate all 32 hubs + rewrite sitemap
+  python3 scripts/build_sector_hubs.py             # generate all 16 hubs + rewrite sitemap
   python3 scripts/build_sector_hubs.py --no-sitemap
 """
 from __future__ import annotations
@@ -39,7 +37,6 @@ OCC_MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
 SECTOR_MANIFEST_PATH = REPO / "scripts" / ".sector_manifest.json"
 SITEMAP_PATH = REPO / "sitemap.xml"
 OUT_DIR_JA = REPO / "ja" / "sectors"
-OUT_DIR_EN = REPO / "en" / "sectors"
 DATE_PUBLISHED = "2026-05-05"
 DATE_MODIFIED = "2026-05-05"
 TOP_N = 5
@@ -87,7 +84,6 @@ a:hover{color:var(--accent)}
 header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
 h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
 h1 .accent{color:var(--accent-deep)}
-h1 .lang-switch{font-family:var(--font-sans);font-size:.85rem;font-weight:400}
 .sub{color:var(--fg2);font-size:.95rem}
 .sub strong{color:var(--accent-deep);font-weight:600}
 .intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
@@ -173,53 +169,48 @@ def risk_band(score):
     return "high"
 
 
-def occ_url(id_: int, lang: str) -> str:
-    return f"{SITE}/{lang}/{id_}"
+def occ_url(id_: int) -> str:
+    return f"{SITE}/ja/{id_}"
 
 
-def hub_url(sector_id: str, lang: str) -> str:
-    return f"{SITE}/{lang}/sectors/{sector_id}"
+def hub_url(sector_id: str) -> str:
+    return f"{SITE}/ja/sectors/{sector_id}"
 
 
 # ────────────────────────── rendering ────────────────────────────────────────
 
-def render_top_list(items: list[dict], lang: str) -> str:
+def render_top_list(items: list[dict]) -> str:
     if not items:
         return ""
     rows = []
     for o in items:
-        title = o["title_en"] if lang == "en" else o["title_ja"]
-        if not title:
-            title = o["title_ja"] or f"#{o['id']}"
+        title = o["title_ja"] or f"#{o['id']}"
         score = o["ai_risk"]
         score_str = "—" if score is None else f"{score}/10"
         band = risk_band(score)
         workers = fmt_int(o["workers"])
-        meta_label = "workers" if lang == "en" else "就業者"
         rows.append(
             f'<li>'
-            f'<a href="/{lang}/{o["id"]}">'
+            f'<a href="/ja/{o["id"]}">'
             f'<span class="risk-pill {band}">{escape(score_str)}</span>'
             f'{escape(title)}'
             f'</a>'
-            f'<span class="meta">{workers} {meta_label}</span>'
+            f'<span class="meta">{workers} 就業者</span>'
             f'</li>'
         )
     return f'<ul class="top-list">{"".join(rows)}</ul>'
 
 
-def render_full_list(items: list[dict], lang: str) -> str:
+def render_full_list(items: list[dict]) -> str:
     rows = []
     for o in sorted(items, key=lambda r: (-(r["ai_risk"] or -1), r["id"])):
-        title = o["title_en"] if lang == "en" else o["title_ja"]
-        if not title:
-            title = o["title_ja"] or f"#{o['id']}"
+        title = o["title_ja"] or f"#{o['id']}"
         score = o["ai_risk"]
         score_str = "—" if score is None else f"{score}/10"
         band = risk_band(score)
         rows.append(
             f'<li>'
-            f'<a href="/{lang}/{o["id"]}">'
+            f'<a href="/ja/{o["id"]}">'
             f'<span class="risk-pill {band}">{escape(score_str)}</span>'
             f'{escape(title)}'
             f'</a>'
@@ -228,42 +219,39 @@ def render_full_list(items: list[dict], lang: str) -> str:
     return f'<ul class="full-list">{"".join(rows)}</ul>'
 
 
-def render_related_sectors(current_id: str, all_sectors: list[dict], occ_counts: dict, lang: str) -> str:
+def render_related_sectors(current_id: str, all_sectors: list[dict], occ_counts: dict) -> str:
     rows = []
     for s in all_sectors:
         if s["id"] == current_id:
             continue
-        name = s["en"] if lang == "en" else s["ja"]
+        name = s["ja"]
         count = occ_counts.get(s["id"], 0)
-        count_label = f"{count} jobs" if lang == "en" else f"{count} 職業"
         rows.append(
             f'<li>'
-            f'<a href="/{lang}/sectors/{s["id"]}">'
+            f'<a href="/ja/sectors/{s["id"]}">'
             f'<span class="ja-name">{escape(name)}</span>'
-            f'<span class="count">{count_label}</span>'
+            f'<span class="count">{count} 職業</span>'
             f'</a>'
             f'</li>'
         )
     return f'<ul class="related-sectors">{"".join(rows)}</ul>'
 
 
-def render_jsonld(sector: dict, occs: list[dict], lang: str) -> str:
-    name_loc = sector["en"] if lang == "en" else sector["ja"]
-    canonical = hub_url(sector["id"], lang)
-    crumb_root = "Mirai Shigoto" if lang == "en" else "未来の仕事"
-    crumb_sectors = "Sectors" if lang == "en" else "セクター"
-    home_href = f"{SITE}/" if lang == "ja" else f"{SITE}/?lang=en"
-    sectors_index_href = f"{SITE}/{lang}/sectors"
+def render_jsonld(sector: dict, occs: list[dict]) -> str:
+    name_loc = sector["ja"]
+    canonical = hub_url(sector["id"])
+    crumb_root = "未来の仕事"
+    crumb_sectors = "セクター"
+    home_href = f"{SITE}/"
+    sectors_index_href = f"{SITE}/ja/sectors"
 
     item_list = []
     for i, o in enumerate(sorted(occs, key=lambda r: (-(r["ai_risk"] or -1), r["id"])), 1):
-        title = o["title_en"] if lang == "en" else o["title_ja"]
-        if not title:
-            title = o["title_ja"] or f"#{o['id']}"
+        title = o["title_ja"] or f"#{o['id']}"
         item_list.append({
             "@type": "ListItem",
             "position": i,
-            "url": occ_url(o["id"], lang),
+            "url": occ_url(o["id"]),
             "name": title,
         })
 
@@ -272,14 +260,10 @@ def render_jsonld(sector: dict, occs: list[dict], lang: str) -> str:
             "@type": "WebPage",
             "@id": f"{canonical}#webpage",
             "url": canonical,
-            "name": f"{name_loc} occupations" if lang == "en" else f"{name_loc} の職業一覧",
-            "description": (
-                f"All {len(occs)} occupations in Japan's {name_loc} sector, ranked by AI impact."
-                if lang == "en"
-                else f"{name_loc} 業界の {len(occs)} 職業を AI 影響度・年収・就業者数で一覧。"
-            ),
+            "name": f"{name_loc} の職業一覧",
+            "description": f"{name_loc} 業界の {len(occs)} 職業を AI 影響度・年収・就業者数で一覧。",
             "isPartOf": {"@id": f"{SITE}/#website"},
-            "inLanguage": lang,
+            "inLanguage": "ja",
             "datePublished": DATE_PUBLISHED,
             "dateModified": DATE_MODIFIED,
             "publisher": {"@id": f"{SITE}/#organization"},
@@ -297,7 +281,7 @@ def render_jsonld(sector: dict, occs: list[dict], lang: str) -> str:
         {
             "@type": "ItemList",
             "@id": f"{canonical}#occupations",
-            "name": f"{name_loc} occupations" if lang == "en" else f"{name_loc} の職業",
+            "name": f"{name_loc} の職業",
             "numberOfItems": len(item_list),
             "itemListOrder": "https://schema.org/ItemListOrderDescending",
             "itemListElement": item_list,
@@ -306,12 +290,11 @@ def render_jsonld(sector: dict, occs: list[dict], lang: str) -> str:
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2)
 
 
-def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_counts: dict, lang: str) -> str:
+def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_counts: dict) -> str:
     sid = sector["id"]
-    name_loc = sector["en"] if lang == "en" else sector["ja"]
-    name_other = sector["ja"] if lang == "en" else sector["en"]
+    name_loc = sector["ja"]
     desc_intro = sector.get("description_ja", "")
-    canonical = hub_url(sid, lang)
+    canonical = hub_url(sid)
     n = len(occs)
 
     workforce_total = sum(o["workers"] or 0 for o in occs)
@@ -320,95 +303,55 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
 
     sample_titles = []
     for o in sorted(occs, key=lambda r: -(r["workers"] or 0))[:3]:
-        t = o["title_en"] if lang == "en" else o["title_ja"]
+        t = o["title_ja"]
         if t:
             sample_titles.append(t)
     samples_str = " / ".join(sample_titles) if sample_titles else ""
 
-    if lang == "ja":
-        title = f"{name_loc}の職業一覧 — {n}職業｜AI 影響度ランキング・年収・就業者数 | 未来の仕事"
-        og_title = f"{name_loc}の職業一覧 — {n}職業｜AI 影響度ランキング"
-        seo_desc = (
-            f"{name_loc} 業界の{n}職業をAI影響度・年収・就業者数で一覧。"
-            f"代表職業：{samples_str}。Claude Opus 4.7 による独自分析（非公式）。"
-        )
-        crumb_root = "未来の仕事"
-        crumb_sectors = "セクター"
-        site_name = "未来の仕事 — Mirai Shigoto（非公式）"
-        og_locale = "ja_JP"
-        og_locale_alt = "en_US"
-        intro_text = desc_intro
-        h1_main = f"{name_loc}の職業"
-        sub_text = (
-            f"<strong>{n} 職業</strong>"
-            + (f" · 平均 AI 影響 <strong>{mean_risk:.1f}/10</strong>" if mean_risk is not None else "")
-            + f" · 就業者数 計 <strong>{fmt_int(workforce_total)}</strong> 人"
-        )
-        # H2 with sector name embedded — matches "{sector} AI 影響" / "{sector} 就業者数" intent.
-        h_high = f"{name_loc} の AI 影響 が高い職業 TOP 5"
-        h_low = f"{name_loc} の AI 影響 が低い職業 TOP 5"
-        h_pop = f"{name_loc} の 就業者数 TOP 5"
-        h_full = f"{name_loc} の全 {n} 職業（AI 影響度 高い順）"
-        h_related = "他のセクター"
-        about_link = "データについて"
-        lang_switch_label = "English"
-        skip_label = "本文へスキップ"
-    else:
-        title = f"{name_loc} Occupations — {n} jobs | AI Impact Rankings, Salary, Workforce | Mirai Shigoto"
-        og_title = f"{name_loc} Occupations — {n} jobs | AI Impact Rankings"
-        seo_desc = (
-            f"{n} occupations in Japan's {name_loc} sector, ranked by AI impact, salary, and workforce. "
-            f"Featured: {samples_str}. Independent Claude Opus 4.7 analysis (unofficial)."
-        )
-        crumb_root = "Mirai Shigoto"
-        crumb_sectors = "Sectors"
-        site_name = "Mirai Shigoto — Future of Work (unofficial)"
-        og_locale = "en_US"
-        og_locale_alt = "ja_JP"
-        intro_text = (
-            f"All {n} occupations classified into Japan's {name_loc} sector, with AI impact scores, "
-            f"workforce size, and average salary. Click any occupation for the full profile."
-        )
-        h1_main = f"{name_loc} Occupations"
-        sub_text = (
-            f"<strong>{n} occupations</strong>"
-            + (f" · mean AI impact <strong>{mean_risk:.1f}/10</strong>" if mean_risk is not None else "")
-            + f" · total workforce <strong>{fmt_int(workforce_total)}</strong>"
-        )
-        # H2 with sector name embedded — matches "{sector} AI impact" / "{sector} workforce" intent.
-        h_high = f"Top 5 {name_loc} occupations — highest AI impact"
-        h_low = f"Top 5 {name_loc} occupations — lowest AI impact"
-        h_pop = f"Top 5 {name_loc} occupations — by workforce size"
-        h_full = f"All {n} {name_loc} occupations (sorted by AI impact desc)"
-        h_related = "Other sectors"
-        about_link = "About the data"
-        lang_switch_label = "日本語"
-        skip_label = "Skip to content"
+    title = f"{name_loc}の職業一覧 — {n}職業｜AI 影響度ランキング・年収・就業者数 | 未来の仕事"
+    og_title = f"{name_loc}の職業一覧 — {n}職業｜AI 影響度ランキング"
+    seo_desc = (
+        f"{name_loc} 業界の{n}職業をAI影響度・年収・就業者数で一覧。"
+        f"代表職業：{samples_str}。Claude Opus 4.7 による独自分析（非公式）。"
+    )
+    crumb_root = "未来の仕事"
+    crumb_sectors = "セクター"
+    site_name = "未来の仕事 — Mirai Shigoto（非公式）"
+    og_locale = "ja_JP"
+    intro_text = desc_intro
+    h1_main = f"{name_loc}の職業"
+    sub_text = (
+        f"<strong>{n} 職業</strong>"
+        + (f" · 平均 AI 影響 <strong>{mean_risk:.1f}/10</strong>" if mean_risk is not None else "")
+        + f" · 就業者数 計 <strong>{fmt_int(workforce_total)}</strong> 人"
+    )
+    # H2 with sector name embedded — matches "{sector} AI 影響" / "{sector} 就業者数" intent.
+    h_high = f"{name_loc} の AI 影響 が高い職業 TOP 5"
+    h_low = f"{name_loc} の AI 影響 が低い職業 TOP 5"
+    h_pop = f"{name_loc} の 就業者数 TOP 5"
+    h_full = f"{name_loc} の全 {n} 職業（AI 影響度 高い順）"
+    h_related = "他のセクター"
+    about_link = "データについて"
+    skip_label = "本文へスキップ"
 
     sorted_by_risk = sorted([o for o in occs if o["ai_risk"] is not None], key=lambda r: r["ai_risk"], reverse=True)
     top_high = sorted_by_risk[:TOP_N]
     top_low = sorted_by_risk[::-1][:TOP_N]
     top_workers = sorted([o for o in occs if o["workers"]], key=lambda r: -r["workers"])[:TOP_N]
 
-    home_href = "/" if lang == "ja" else "/?lang=en"
-    alternate_url = hub_url(sid, "en" if lang == "ja" else "ja")
-    about_href = f"/about{'?lang=en' if lang == 'en' else ''}"
+    home_href = "/"
+    about_href = "/about"
 
     keywords_list = [name_loc]
-    if name_other:
-        keywords_list.append(name_other)
     keywords_list.extend([t for t in sample_titles if t])
-    if lang == "ja":
-        keywords_list.extend([f"{name_loc} 仕事", f"{name_loc} 職業", f"{name_loc} AI 影響"])
-    else:
-        keywords_list.extend([f"{name_loc} jobs", f"{name_loc} careers", f"{name_loc} AI impact"])
+    keywords_list.extend([f"{name_loc} 仕事", f"{name_loc} 職業", f"{name_loc} AI 影響"])
     keywords_str = ", ".join(escape(k) for k in keywords_list)
 
-    jsonld = render_jsonld(sector, occs, lang)
+    jsonld = render_jsonld(sector, occs)
     intro_section = f'<p class="intro">{escape(intro_text)}</p>' if intro_text else ""
 
     html = f"""<!doctype html>
-<html lang="{lang}">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -419,9 +362,6 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     <meta name="keywords" content="{keywords_str}" />
 
     <link rel="canonical" href="{canonical}" />
-    <link rel="alternate" hreflang="ja" href="{hub_url(sid, 'ja')}" />
-    <link rel="alternate" hreflang="en" href="{hub_url(sid, 'en')}" />
-    <link rel="alternate" hreflang="x-default" href="{hub_url(sid, 'ja')}" />
 
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
@@ -434,11 +374,10 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="{escape(site_name)}" />
     <meta property="og:locale" content="{og_locale}" />
-    <meta property="og:locale:alternate" content="{og_locale_alt}" />
     <meta property="og:title" content="{escape(og_title)}" />
     <meta property="og:description" content="{escape(seo_desc)}" />
     <meta property="og:url" content="{canonical}" />
-    <meta property="og:image" content="/api/og?sector={sid}&amp;lang={lang}" />
+    <meta property="og:image" content="/api/og?sector={sid}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
@@ -447,7 +386,7 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{escape(og_title)}" />
     <meta name="twitter:description" content="{escape(seo_desc)}" />
-    <meta name="twitter:image" content="/api/og?sector={sid}&amp;lang={lang}" />
+    <meta name="twitter:image" content="/api/og?sector={sid}" />
     <meta name="twitter:image:alt" content="{escape(og_title)}" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
@@ -464,14 +403,14 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     <a class="skip-link" href="#content">{escape(skip_label)}</a>
     <div class="top-banner" role="note">
       <span class="badge">UNOFFICIAL</span>
-      <span>{('Independent analysis · not endorsed by MHLW / jobtag / JILPT' if lang == 'en' else '独立分析・厚労省 / jobtag / JILPT 非公式')}</span>
+      <span>独立分析・厚労省 / jobtag / JILPT 非公式</span>
     </div>
 
     <div id="wrapper">
       <nav class="crumb" aria-label="Breadcrumb">
         <a href="{home_href}" rel="up">{escape(crumb_root)}</a>
         <span aria-hidden="true">›</span>
-        <a href="/{lang}/sectors" rel="up">{escape(crumb_sectors)}</a>
+        <a href="/ja/sectors" rel="up">{escape(crumb_sectors)}</a>
         <span aria-hidden="true">›</span>
         <span>{escape(name_loc)}</span>
       </nav>
@@ -479,55 +418,54 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
       <header id="content">
         <h1>
           <span class="accent">{escape(h1_main)}</span>
-          <span class="lang-switch"><a href="{alternate_url}" hreflang="{'en' if lang == 'ja' else 'ja'}" rel="alternate">{escape(lang_switch_label)}</a></span>
         </h1>
         <p class="sub">{sub_text}</p>
         {intro_section}
       </header>
 
-      <section aria-label="{('Sector overview' if lang == 'en' else 'セクター概要')}">
+      <section aria-label="セクター概要">
         <dl class="stats">
-          <div><dt>{('Occupations' if lang == 'en' else '職業数')}</dt><dd>{n}</dd></div>
-          <div><dt>{('Mean AI impact' if lang == 'en' else '平均 AI 影響')}</dt><dd>{('—' if mean_risk is None else f'{mean_risk:.1f} / 10')}</dd></div>
-          <div><dt>{('Total workforce' if lang == 'en' else '就業者数 合計')}</dt><dd>{fmt_int(workforce_total)}</dd></div>
+          <div><dt>職業数</dt><dd>{n}</dd></div>
+          <div><dt>平均 AI 影響</dt><dd>{('—' if mean_risk is None else f'{mean_risk:.1f} / 10')}</dd></div>
+          <div><dt>就業者数 合計</dt><dd>{fmt_int(workforce_total)}</dd></div>
         </dl>
       </section>
 
       <section aria-label="{escape(h_high)}">
         <h2>{escape(h_high)}</h2>
-        {render_top_list(top_high, lang)}
+        {render_top_list(top_high)}
       </section>
 
       <section aria-label="{escape(h_low)}">
         <h2>{escape(h_low)}</h2>
-        {render_top_list(top_low, lang)}
+        {render_top_list(top_low)}
       </section>
 
       <section aria-label="{escape(h_pop)}">
         <h2>{escape(h_pop)}</h2>
-        {render_top_list(top_workers, lang)}
+        {render_top_list(top_workers)}
       </section>
 
       <section aria-label="{escape(h_full)}">
         <h2>{escape(h_full)}</h2>
-        {render_full_list(occs, lang)}
+        {render_full_list(occs)}
       </section>
 
       <section aria-label="{escape(h_related)}">
         <h2>{escape(h_related)}</h2>
-        {render_related_sectors(sid, all_sectors, occ_counts, lang)}
+        {render_related_sectors(sid, all_sectors, occ_counts)}
       </section>
 
       <footer>
         <div class="footer-links">
-          <a href="{home_href}">{('Home' if lang == 'en' else 'トップ')}</a>
-          <a href="{about_href}">{('About' if lang == 'en' else 'データについて')}</a>
-          <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a>
-          <a href="/privacy{'?lang=en' if lang == 'en' else ''}">{('Privacy' if lang == 'en' else 'プライバシー')}</a>
+          <a href="{home_href}">トップ</a>
+          <a href="{about_href}">データについて</a>
+          <a href="/compliance">コンプライアンス</a>
+          <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
           © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
-          {('Source: MHLW &amp; JILPT Occupational Information Database (job tag) v7.00 — processed as derivative work. AI impact scores are independent Claude Opus 4.7 estimates, not government forecasts.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。')}
+          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
         </div>
       </footer>
     </div>
@@ -539,61 +477,29 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
 
 # ────────────────────────── sectors index page ──────────────────────────────
 
-def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str:
-    """Hub-of-hubs: lists all 16 sectors with stats, links to each sector hub."""
-    canonical = f"{SITE}/{lang}/sectors"
-    alt_lang = "en" if lang == "ja" else "ja"
-    alt_url = f"{SITE}/{alt_lang}/sectors"
+def render_sectors_index(sectors: list[dict], by_sector: dict) -> str:
+    """Hub-of-hubs: lists all 16 sectors with stats, links to each sector hub (JA only)."""
+    canonical = f"{SITE}/ja/sectors"
 
     total_occ = sum(len(items) for items in by_sector.values())
 
-    if lang == "ja":
-        title = f"全 16 セクター｜556 職業を業界別に分類 | 未来の仕事"
-        og_title = "全 16 セクター｜業界別 職業ランキング・AI 影響度・年収"
-        seo_desc = (
-            f"日本の{total_occ}職業を 16 業界（医療・保健、IT・通信、士業、製造、建設 ほか）に分類。"
-            f"業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。Claude Opus 4.7 独自分析（非公式）。"
-        )
-        crumb_root = "未来の仕事"
-        site_name = "未来の仕事 — Mirai Shigoto（非公式）"
-        og_locale = "ja_JP"
-        og_locale_alt = "en_US"
-        h1 = "全 16 セクター"
-        sub = f"<strong>556 職業</strong> を 16 業界に分類。クリックで業界別の AI 影響度ランキング・代表職業へ。"
-        intro = "業界別に職業を一覧化したインデックスです。各セクターを開くと、AI 影響度・就業者数・年収のランキング、その業界に属する全職業の一覧が確認できます。"
-        h_list = "業界 一覧"
-        crumb_self = "セクター"
-        about_link = "データについて"
-        lang_switch_label = "English"
-        skip_label = "本文へスキップ"
-        unit_jobs = lambda n: f"{n} 職業"
-        unit_workers = lambda n: f"{fmt_int(n)} 人"
-        unit_risk = lambda r: f"AI 影響 平均 {r:.1f}/10"
-        keywords = "業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, 552 職業, セクター"
-    else:
-        title = f"All 16 Sectors | {total_occ} Occupations Classified by Industry | Mirai Shigoto"
-        og_title = "All 16 Sectors | Occupation Rankings by Industry"
-        seo_desc = (
-            f"{total_occ} Japanese occupations classified into 16 industries "
-            f"(Medical, IT, Professional Services, Manufacturing, Construction etc). "
-            f"Each sector ranked by AI impact, workforce, and salary. Claude Opus 4.7 independent analysis."
-        )
-        crumb_root = "Mirai Shigoto"
-        site_name = "Mirai Shigoto — Future of Work (unofficial)"
-        og_locale = "en_US"
-        og_locale_alt = "ja_JP"
-        h1 = "All 16 Sectors"
-        sub = f"<strong>556 occupations</strong> grouped into 16 industries. Click any sector for AI impact rankings and the full occupation list."
-        intro = "An index of occupations grouped by industry. Each sector page shows AI impact rankings, workforce-size rankings, and the full list of occupations in that sector."
-        h_list = "Sector list"
-        crumb_self = "Sectors"
-        about_link = "About the data"
-        lang_switch_label = "日本語"
-        skip_label = "Skip to content"
-        unit_jobs = lambda n: f"{n} jobs"
-        unit_workers = lambda n: f"{fmt_int(n)} workers"
-        unit_risk = lambda r: f"mean AI impact {r:.1f}/10"
-        keywords = "Japan occupations by industry, sector ranking, AI impact by sector, industry jobs, 16 sectors"
+    title = f"全 16 セクター｜556 職業を業界別に分類 | 未来の仕事"
+    og_title = "全 16 セクター｜業界別 職業ランキング・AI 影響度・年収"
+    seo_desc = (
+        f"日本の{total_occ}職業を 16 業界（医療・保健、IT・通信、士業、製造、建設 ほか）に分類。"
+        f"業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。Claude Opus 4.7 独自分析（非公式）。"
+    )
+    crumb_root = "未来の仕事"
+    site_name = "未来の仕事 — Mirai Shigoto（非公式）"
+    og_locale = "ja_JP"
+    h1 = "全 16 セクター"
+    sub = f"<strong>556 職業</strong> を 16 業界に分類。クリックで業界別の AI 影響度ランキング・代表職業へ。"
+    intro = "業界別に職業を一覧化したインデックスです。各セクターを開くと、AI 影響度・就業者数・年収のランキング、その業界に属する全職業の一覧が確認できます。"
+    h_list = "業界 一覧"
+    crumb_self = "セクター"
+    about_link = "データについて"
+    skip_label = "本文へスキップ"
+    keywords = "業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, 556 職業, セクター"
 
     cards = []
     for s in sectors:
@@ -605,22 +511,22 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
         workforce = sum(o["workers"] or 0 for o in occs)
         sample_titles = []
         for o in sorted(occs, key=lambda r: -(r["workers"] or 0))[:3]:
-            t = o["title_en"] if lang == "en" else o["title_ja"]
+            t = o["title_ja"]
             if t:
                 sample_titles.append(t)
-        sample_str = " ・ ".join(sample_titles) if lang == "ja" else " · ".join(sample_titles)
-        name = s["en"] if lang == "en" else s["ja"]
+        sample_str = " ・ ".join(sample_titles)
+        name = s["ja"]
         risk_class = "low" if mean_risk <= 3.5 else ("high" if mean_risk >= 6.5 else "mid")
         cards.append(
             f'<li class="sector-card">'
-            f'<a href="/{lang}/sectors/{sid}">'
+            f'<a href="/ja/sectors/{sid}">'
             f'<div class="sc-head">'
             f'<h3 class="sc-name">{escape(name)}</h3>'
-            f'<span class="sc-count">{escape(unit_jobs(n))}</span>'
+            f'<span class="sc-count">{n} 職業</span>'
             f'</div>'
             f'<div class="sc-stats">'
-            f'<span class="sc-risk risk-pill {risk_class}">{escape(unit_risk(mean_risk))}</span>'
-            f'<span class="sc-workers">{escape(unit_workers(workforce))}</span>'
+            f'<span class="sc-risk risk-pill {risk_class}">AI 影響 平均 {mean_risk:.1f}/10</span>'
+            f'<span class="sc-workers">{fmt_int(workforce)} 人</span>'
             f'</div>'
             f'<p class="sc-samples">{escape(sample_str)}</p>'
             f'</a>'
@@ -634,8 +540,8 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
         item_list.append({
             "@type": "ListItem",
             "position": i,
-            "url": hub_url(s["id"], lang),
-            "name": s["en"] if lang == "en" else s["ja"],
+            "url": hub_url(s["id"]),
+            "name": s["ja"],
         })
     jsonld = json.dumps({
         "@context": "https://schema.org",
@@ -647,7 +553,7 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
                 "name": h1,
                 "description": seo_desc,
                 "isPartOf": {"@id": f"{SITE}/#website"},
-                "inLanguage": lang,
+                "inLanguage": "ja",
                 "datePublished": DATE_PUBLISHED,
                 "dateModified": DATE_MODIFIED,
                 "publisher": {"@id": f"{SITE}/#organization"},
@@ -657,8 +563,7 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
                 "@type": "BreadcrumbList",
                 "@id": f"{canonical}#breadcrumb",
                 "itemListElement": [
-                    {"@type": "ListItem", "position": 1, "name": crumb_root,
-                     "item": f"{SITE}/" if lang == "ja" else f"{SITE}/?lang=en"},
+                    {"@type": "ListItem", "position": 1, "name": crumb_root, "item": f"{SITE}/"},
                     {"@type": "ListItem", "position": 2, "name": crumb_self, "item": canonical},
                 ],
             },
@@ -672,11 +577,11 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
         ],
     }, ensure_ascii=False, indent=2)
 
-    home_href = "/" if lang == "ja" else "/?lang=en"
-    about_href = f"/about{'?lang=en' if lang == 'en' else ''}"
+    home_href = "/"
+    about_href = "/about"
 
     return f"""<!doctype html>
-<html lang="{lang}">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -687,9 +592,6 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
     <meta name="keywords" content="{escape(keywords)}" />
 
     <link rel="canonical" href="{canonical}" />
-    <link rel="alternate" hreflang="ja" href="{SITE}/ja/sectors" />
-    <link rel="alternate" hreflang="en" href="{SITE}/en/sectors" />
-    <link rel="alternate" hreflang="x-default" href="{SITE}/ja/sectors" />
 
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
@@ -702,7 +604,6 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="{escape(site_name)}" />
     <meta property="og:locale" content="{og_locale}" />
-    <meta property="og:locale:alternate" content="{og_locale_alt}" />
     <meta property="og:title" content="{escape(og_title)}" />
     <meta property="og:description" content="{escape(seo_desc)}" />
     <meta property="og:url" content="{canonical}" />
@@ -742,7 +643,7 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
     <a class="skip-link" href="#content">{escape(skip_label)}</a>
     <div class="top-banner" role="note">
       <span class="badge">UNOFFICIAL</span>
-      <span>{('Independent analysis · not endorsed by MHLW / jobtag / JILPT' if lang == 'en' else '独立分析・厚労省 / jobtag / JILPT 非公式')}</span>
+      <span>独立分析・厚労省 / jobtag / JILPT 非公式</span>
     </div>
 
     <div id="wrapper">
@@ -755,7 +656,6 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
       <header id="content">
         <h1>
           <span class="accent">{escape(h1)}</span>
-          <span class="lang-switch"><a href="{alt_url}" hreflang="{alt_lang}" rel="alternate">{escape(lang_switch_label)}</a></span>
         </h1>
         <p class="sub">{sub}</p>
         <p class="intro">{escape(intro)}</p>
@@ -772,11 +672,11 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
         <span>© <a href="{home_href}">mirai-shigoto.com</a> · MIT</span>
         <span>
           <a href="{about_href}">{escape(about_link)}</a> ·
-          <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a> ·
-          <a href="/privacy{'?lang=en' if lang == 'en' else ''}">Privacy</a>
+          <a href="/compliance">コンプライアンス</a> ·
+          <a href="/privacy">プライバシー</a>
         </span>
         <span style="font-size:.75rem;color:var(--fg3);line-height:1.55">
-          {('Source: MHLW &amp; JILPT Occupational Information Database (job tag) v7.00. AI impact scores are independent Claude Opus 4.7 estimates, not government forecasts.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。')}
+          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
         </span>
       </footer>
     </div>
@@ -788,43 +688,30 @@ def render_sectors_index(sectors: list[dict], by_sector: dict, lang: str) -> str
 # ────────────────────────── sitemap rewrite ──────────────────────────────────
 
 SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>{site}/</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="{site}/" />
-    <xhtml:link rel="alternate" hreflang="en" href="{site}/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="{site}/" />
   </url>
   <url>
     <loc>{site}/privacy</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="{site}/privacy" />
-    <xhtml:link rel="alternate" hreflang="en" href="{site}/privacy?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="{site}/privacy" />
   </url>
   <url>
     <loc>{site}/about</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="{site}/about" />
-    <xhtml:link rel="alternate" hreflang="en" href="{site}/about?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="{site}/about" />
   </url>
   <url>
     <loc>{site}/compliance</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="{site}/compliance" />
-    <xhtml:link rel="alternate" hreflang="en" href="{site}/compliance?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="{site}/compliance" />
   </url>
   <url>
     <loc>{site}/llms.txt</loc>
@@ -838,71 +725,47 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
-  <!-- Sector hub pages: 16 sectors × 2 langs = 32 hubs at /<lang>/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
+  <!-- Sector hub pages: 16 JA hubs at /ja/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
 {sectors}
-  <!-- Per-occupation pages: 556 JA at /ja/<id> + 556 EN at /en/<id>. Generated by scripts/build_occupations.py. -->
+  <!-- Per-occupation pages: 556 JA at /ja/<id>. Generated by scripts/build_occupations.py. -->
 {occupations}</urlset>
 """
 
 
 def write_sitemap(sectors: list[dict], occ_manifest: list[dict] | None, lastmod: str = DATE_MODIFIED) -> None:
     sector_lines: list[str] = []
-    # Sectors index pages (hub-of-hubs) come first in the sector block.
+    # Sectors index page (hub-of-hubs).
     sector_lines.append(
         f"  <url>\n"
         f"    <loc>{SITE}/ja/sectors</loc>\n"
         f"    <lastmod>{lastmod}</lastmod>\n"
         f"    <changefreq>weekly</changefreq>\n"
         f"    <priority>0.8</priority>\n"
-        f'    <xhtml:link rel="alternate" hreflang="ja" href="{SITE}/ja/sectors" />\n'
-        f'    <xhtml:link rel="alternate" hreflang="en" href="{SITE}/en/sectors" />\n'
-        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/ja/sectors" />\n'
-        f"  </url>\n"
-    )
-    sector_lines.append(
-        f"  <url>\n"
-        f"    <loc>{SITE}/en/sectors</loc>\n"
-        f"    <lastmod>{lastmod}</lastmod>\n"
-        f"    <changefreq>weekly</changefreq>\n"
-        f"    <priority>0.8</priority>\n"
-        f'    <xhtml:link rel="alternate" hreflang="ja" href="{SITE}/ja/sectors" />\n'
-        f'    <xhtml:link rel="alternate" hreflang="en" href="{SITE}/en/sectors" />\n'
-        f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/ja/sectors" />\n'
         f"  </url>\n"
     )
     for s in sectors:
-        ja_u = hub_url(s["id"], "ja")
-        en_u = hub_url(s["id"], "en")
-        for primary in (ja_u, en_u):
-            sector_lines.append(
-                f"  <url>\n"
-                f"    <loc>{primary}</loc>\n"
-                f"    <lastmod>{lastmod}</lastmod>\n"
-                f"    <changefreq>weekly</changefreq>\n"
-                f"    <priority>0.7</priority>\n"
-                f'    <xhtml:link rel="alternate" hreflang="ja" href="{ja_u}" />\n'
-                f'    <xhtml:link rel="alternate" hreflang="en" href="{en_u}" />\n'
-                f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ja_u}" />\n'
-                f"  </url>\n"
-            )
+        ja_u = hub_url(s["id"])
+        sector_lines.append(
+            f"  <url>\n"
+            f"    <loc>{ja_u}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>0.7</priority>\n"
+            f"  </url>\n"
+        )
 
     occ_lines: list[str] = []
     if occ_manifest:
         for entry in occ_manifest:
             ja = entry["ja_url"]
-            en = entry["en_url"]
-            for primary in (ja, en):
-                occ_lines.append(
-                    f"  <url>\n"
-                    f"    <loc>{primary}</loc>\n"
-                    f"    <lastmod>{lastmod}</lastmod>\n"
-                    f"    <changefreq>monthly</changefreq>\n"
-                    f"    <priority>0.5</priority>\n"
-                    f'    <xhtml:link rel="alternate" hreflang="ja" href="{ja}" />\n'
-                    f'    <xhtml:link rel="alternate" hreflang="en" href="{en}" />\n'
-                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ja}" />\n'
-                    f"  </url>\n"
-                )
+            occ_lines.append(
+                f"  <url>\n"
+                f"    <loc>{ja}</loc>\n"
+                f"    <lastmod>{lastmod}</lastmod>\n"
+                f"    <changefreq>monthly</changefreq>\n"
+                f"    <priority>0.5</priority>\n"
+                f"  </url>\n"
+            )
 
     SITEMAP_PATH.write_text(
         SITEMAP_TEMPLATE.format(
@@ -934,40 +797,35 @@ def main() -> int:
     occ_counts = {sid: len(items) for sid, items in by_sector.items()}
 
     OUT_DIR_JA.mkdir(parents=True, exist_ok=True)
-    OUT_DIR_EN.mkdir(parents=True, exist_ok=True)
 
     manifest: list[dict] = []
     bytes_total = 0
     for sector in sectors:
         sid = sector["id"]
         occs = by_sector.get(sid, [])
-        for lang, out_dir in (("ja", OUT_DIR_JA), ("en", OUT_DIR_EN)):
-            html = render_hub(sector, occs, sectors, occ_counts, lang)
-            path = out_dir / f"{sid}.html"
-            path.write_text(html, encoding="utf-8")
-            bytes_total += path.stat().st_size
+        html = render_hub(sector, occs, sectors, occ_counts)
+        path = OUT_DIR_JA / f"{sid}.html"
+        path.write_text(html, encoding="utf-8")
+        bytes_total += path.stat().st_size
         manifest.append({
             "sector_id": sid,
             "ja": sector["ja"],
-            "en": sector["en"],
             "occupation_count": len(occs),
-            "ja_url": hub_url(sid, "ja"),
-            "en_url": hub_url(sid, "en"),
+            "ja_url": hub_url(sid),
         })
 
-    # Sectors index page (hub-of-hubs) — 2 pages, one per language.
-    for lang, out_dir in (("ja", OUT_DIR_JA), ("en", OUT_DIR_EN)):
-        idx_html = render_sectors_index(sectors, by_sector, lang)
-        idx_path = out_dir / "index.html"
-        idx_path.write_text(idx_html, encoding="utf-8")
-        bytes_total += idx_path.stat().st_size
+    # Sectors index page (hub-of-hubs) — JA only.
+    idx_html = render_sectors_index(sectors, by_sector)
+    idx_path = OUT_DIR_JA / "index.html"
+    idx_path.write_text(idx_html, encoding="utf-8")
+    bytes_total += idx_path.stat().st_size
 
     SECTOR_MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
-    pages = len(manifest) * 2 + 2  # 32 hubs + 2 index pages
-    print(f"Generated {pages} pages ({len(manifest)} sectors × 2 langs + 2 index pages)")
+    pages = len(manifest) + 1  # 16 hubs + 1 index page
+    print(f"Generated {pages} pages ({len(manifest)} sectors + 1 index page)")
     print(f"Total size: {bytes_total / 1024:.1f} KB · Avg: {bytes_total / pages / 1024:.1f} KB/page")
     print(f"Manifest: {SECTOR_MANIFEST_PATH}")
 
@@ -979,7 +837,7 @@ def main() -> int:
         else:
             print("WARNING: scripts/.occ_manifest.json not found — sitemap will only contain sectors + statics.")
         write_sitemap(sectors, occ_manifest)
-        total_urls = 6 + pages + (len(occ_manifest) * 2 if occ_manifest else 0)
+        total_urls = 6 + pages + (len(occ_manifest) if occ_manifest else 0)
         print(f"Sitemap rewritten: {SITEMAP_PATH} ({total_urls} URLs)")
 
     return 0

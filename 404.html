@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
     <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
-    <title>ページが見つかりません / Page Not Found — mirai-shigoto.com</title>
+    <title>ページが見つかりません — mirai-shigoto.com</title>
     <meta name="description" content="404 — 指定されたページは存在しないか、移動した可能性があります。" />
     <meta name="robots" content="noindex, follow" />
     <link rel="canonical" href="https://mirai-shigoto.com/404" />
@@ -278,9 +278,7 @@
         background: rgba(217, 107, 61, 0.06);
         text-decoration: none;
       }
-      [data-i18n]:not(.active) { display: none; }
-
-      @media (max-width: 540px) {
+@media (max-width: 540px) {
         #wrapper { padding: 18px 16px 60px; }
         h1.title { font-size: 1.2rem; }
         .four-oh-four { margin: 16px 0 2px; }
@@ -293,14 +291,9 @@
     <div id="wrapper">
       <div class="top-bar">
         <a class="back" href="/">
-          <span data-i18n="ja" class="active">← マップへ戻る</span>
-          <span data-i18n="en">← Back to map</span>
+          ← マップへ戻る
         </a>
-        <span class="lang-switch" role="group" aria-label="Language">
-          <button data-set="ja" aria-pressed="true">日本語</button>
-          <button data-set="en" aria-pressed="false">English</button>
-        </span>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme">
           <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
         </button>
@@ -309,69 +302,53 @@
       <div class="four-oh-four" aria-hidden="true">4<span class="accent">0</span>4</div>
 
       <h1 class="title">
-        <span data-i18n="ja" class="active">ページが見つかりません</span>
-        <span data-i18n="en">Page not found</span>
+        ページが見つかりません
       </h1>
       <p class="subtitle">
-        <span data-i18n="ja" class="active">指定された URL は存在しないか、変更された可能性があります。トップページから職業を検索してみてください。</span>
-        <span data-i18n="en">This URL doesn't exist or may have moved. Try searching for an occupation from the home page.</span>
+        指定された URL は存在しないか、変更された可能性があります。トップページから職業を検索してみてください。
       </p>
 
       <a class="cta-primary" href="/">
-        <span data-i18n="ja" class="active">トップへ戻る</span>
-        <span data-i18n="en">Back to home</span>
+        トップへ戻る
         <span class="arrow" aria-hidden="true">→</span>
       </a>
 
       <div class="helpful-links">
         <div class="label">
-          <span data-i18n="ja" class="active">こちらもどうぞ</span>
-          <span data-i18n="en">You may also want</span>
+          こちらもどうぞ
         </div>
         <a href="/about">
           <span>
-            <span data-i18n="ja" class="active">データについて</span>
-            <span data-i18n="en">About the data</span>
+            データについて
           </span>
           <span class="desc">
-            <span data-i18n="ja" class="active">ソース・スコア算出方法・FAQ</span>
-            <span data-i18n="en">Sources, methodology, FAQ</span>
+            ソース・スコア算出方法・FAQ
           </span>
         </a>
         <a href="/compliance">
           <span>
-            <span data-i18n="ja" class="active">利用規約・コンプライアンス</span>
-            <span data-i18n="en">Terms &amp; Compliance</span>
+            利用規約・コンプライアンス
           </span>
           <span class="desc">
-            <span data-i18n="ja" class="active">免責事項・引用ポリシー</span>
-            <span data-i18n="en">Disclaimer &amp; citation policy</span>
+            免責事項・引用ポリシー
           </span>
         </a>
         <a href="/privacy">
           <span>
-            <span data-i18n="ja" class="active">プライバシーポリシー</span>
-            <span data-i18n="en">Privacy Policy</span>
+            プライバシーポリシー
           </span>
           <span class="desc">
-            <span data-i18n="ja" class="active">アクセス解析と Cookie</span>
-            <span data-i18n="en">Analytics &amp; cookies</span>
+            アクセス解析と Cookie
           </span>
         </a>
       </div>
 
       <footer>
-        <div class="footer-links active" data-i18n="ja">
+        <div class="footer-links active">
           <a href="/">トップ</a>
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-links" data-i18n="en">
-          <a href="/?lang=en">Home</a>
-          <a href="/about?lang=en">About</a>
-          <a href="/compliance?lang=en">Compliance</a>
-          <a href="/privacy?lang=en">Privacy</a>
         </div>
       </footer>
     </div>
@@ -391,29 +368,7 @@
           try { localStorage.setItem("theme", next); } catch (e) {}
         });
       })();
-
-      // Language switch — toggles all data-i18n elements between "ja" and "en"
-      (function () {
-        function setLang(target) {
-          document.documentElement.lang = target;
-          document.querySelectorAll("[data-i18n]").forEach(el => {
-            el.classList.toggle("active", el.getAttribute("data-i18n") === target);
-          });
-          document.querySelectorAll(".lang-switch button[data-set]").forEach(b => {
-            b.setAttribute("aria-pressed", b.getAttribute("data-set") === target ? "true" : "false");
-          });
-          document.title = target === "en"
-            ? "Page Not Found — mirai-shigoto.com"
-            : "ページが見つかりません — mirai-shigoto.com";
-        }
-        const params = new URLSearchParams(window.location.search);
-        const initial = params.get("lang") === "en" ? "en" : "ja";
-        if (initial === "en") setLang("en");
-        document.querySelectorAll(".lang-switch button[data-set]").forEach(btn => {
-          btn.addEventListener("click", () => setLang(btn.getAttribute("data-set")));
-        });
-      })();
-
+      // v1.4.0: language switcher removed — site is JA-only.
       // Track 404 path so we know which dead links are landing on this page (GA4 custom event)
       (function () {
         try {

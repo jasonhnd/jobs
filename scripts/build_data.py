@@ -143,10 +143,9 @@ def run_projection_sanity(indexes: Indexes, dist_root: Path, enabled_keys: set[s
                 )
 
     if "labels" in enabled_keys:
-        for lang in ("ja", "en"):
-            f = dist_root / "data.labels" / f"{lang}.json"
-            if not f.exists():
-                failures.append(f"missing data.labels/{lang}.json")
+        f = dist_root / "data.labels" / "ja.json"
+        if not f.exists():
+            failures.append("missing data.labels/ja.json")
 
     if "sectors" in enabled_keys and indexes.sectors:
         # Sectors projection emits two files; review_queue is informational
