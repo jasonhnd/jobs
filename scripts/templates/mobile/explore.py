@@ -1,4 +1,14 @@
-"""② 職業マップ — `/m/{ja,en}/map` per MOBILE_DESIGN.md §5.2.
+"""② 職業マップ — `/m/{ja,en}/map`. DEAD CODE since v1.2.0.
+
+DEAD CODE: v1.1.0 mobile-web template for the retired `/m/*` URL
+architecture. Replaced by single-URL responsive design in v1.2.0; no
+`/m/` directory has been built or shipped since. Spec doc
+`docs/MOBILE_DESIGN.md` deleted 2026-05-06 (current mobile spec lives
+in `docs/Design-Mobile.md` — note: `Design-Mobile.md §4` describes the
+NEW `/map` independent page, which is unrelated to this old `/m/*/map`
+template). Entire `scripts/templates/mobile/` directory is safe to
+delete in a follow-up cleanup.
+
 
 Sector-grouped tile layout. Each tile = one of the 16 sectors, sized by
 workforce, colored by mean ai_risk. Tap a tile → goes to /m/{lang}/search?sector=<id>

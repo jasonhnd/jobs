@@ -255,7 +255,7 @@ def _render_meta_row(rec: dict) -> str:
 def _render_profile_radar(rec: dict) -> str:
     """5-axis profile radar SVG (data from data.profile5.json indexed by id_str).
 
-    Algorithm copied from scripts/templates/mobile/detail.py to ensure visual parity.
+    Algorithm copied from scripts/templates/mobile/detail.py to ensure visual parity. (Source template is DEAD CODE since v1.2.0 — see its docstring; the copy here is independent and remains live.)
     Returns "" if profile data is unavailable for this occupation.
     """
     import math
