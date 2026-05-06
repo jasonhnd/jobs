@@ -246,8 +246,10 @@
       footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
       footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
       footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-      footer .footer-meta{color:var(--fg2);font-size:0.7rem;line-height:1.55;opacity:0.92}
+      footer .footer-meta{color:var(--fg2);font-size:0.7rem;opacity:0.92;text-wrap:pretty;line-height:1.65}
       footer .footer-meta a{color:var(--accent)}
+      footer .footer-meta .nowrap{white-space:nowrap}
+      @media (max-width:540px){footer .footer-meta{font-size:0.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
       /* Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) */
       .follow-share-section{margin:48px auto 8px;text-align:center}
       .follow-block{margin-bottom:28px}
@@ -507,8 +509,9 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-          © <a href="/">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析。
+            v1.3.0 · MIT<br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>
       </footer>
     </div>
