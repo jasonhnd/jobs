@@ -1,6 +1,9 @@
 # MOBILE_DESIGN.md — mirai-shigoto.com 移动版设计规范（**已归档 / ARCHIVED**）
 
-> ⚠️ **Status v1.2.0 (2026-05-05)**：本文档已**归档**。所述的 `/m/ja/*` + `/m/en/*` 路径在 v1.2.0 已**全部删除**，移动用户体验合并到主 URL `/<lang>/<id>`，靠 CSS `@media` 在不同 viewport 自适应。
+> ⚠️ **Status v1.4.0 (2026-05-06)**：本文档已**归档**。
+>
+> - **v1.2.0 (2026-05-05)**：所述的 `/m/ja/*` + `/m/en/*` 路径**全部删除**，移动用户体验合并到主 URL `/<lang>/<id>`，靠 CSS `@media` 在不同 viewport 自适应。
+> - **v1.4.0 (2026-05-06)**：英文版 UI **整体下线**。本文档中所有 `/m/en/*` / `/en/<id>` 引用均不再存在；`/en/*` URL 在 `vercel.json` 通过 catch-all 301 → `/ja/*`。
 >
 > 本文件保留作为 **v1.1.0 历史记录 + Direction C 设计语言的设计规范来源** —— `index.html` / `scripts/build_occupations.py` 详情页模板 / 静态页的视觉 token 仍引用这里的色板、字号、间距规范（comments 中标注 "synced from styles/mobile-tokens.css"）。
 >

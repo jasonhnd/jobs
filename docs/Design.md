@@ -4,7 +4,9 @@
 > 今后任何桌面侧视觉/交互/响应式行为变更，**先改这个文件**，再让代码跟随这个文件。
 > 代码与本文件冲突时，**以本文件为准**，代码视为应当被修正的偏差。
 >
-> **v1.2.0 起单一 URL 架构**：v1.1.0 引入的 `/m/ja/*` + `/m/en/*` 已全部删除，移动体验合并到主 URL `/<lang>/<id>`，靠 CSS `@media` 自适应。Direction C 设计语言已合入桌面（视觉 + 文案），详见 §0.1。
+> **v1.4.0 起 JA-only 架构**：英文版 UI 已下线。所有 `/en/*` URL 通过 vercel.json 301 → `/ja/*`。索引、详情、sector hub、`api/og.tsx`、`llms.txt` 全部缩减为日语单语。源数据保留在 `data/_archive/translations-en/` 以便日后恢复。
+>
+> **v1.2.0 起单一 URL 架构**：v1.1.0 引入的 `/m/ja/*` + `/m/en/*` 已全部删除，移动体验合并到主 URL `/ja/<id>`，靠 CSS `@media` 自适应。Direction C 设计语言已合入桌面（视觉 + 文案），详见 §0.1。
 > [MOBILE_DESIGN.md](./MOBILE_DESIGN.md) 保留作为 **v1.1.0 历史 + Direction C token 来源**（index.html / 详情页 CSS comments 引用 `synced from styles/mobile-tokens.css`）。
 
 ---
@@ -13,7 +15,7 @@
 
 - `index.html`（首页 treemap，桌面 + 既有"宽响应式至 mobile"实现）
 - `privacy.html` / `compliance.html` / `about.html` / `404.html`（既有静态页）
-- `scripts/build_occupations.py` 生成的 1112 个 `ja/<id>.html` / `en/<id>.html` 职业详情页（556 × 2 语言；桌面 + 既有响应式至 mobile）
+- `scripts/build_occupations.py` 生成的 556 个 `ja/<id>.html` 职业详情页（v1.4.0 起 JA-only；桌面 + 既有响应式至 mobile）
 
 > 当下设计源自 v0.4.x 系列，桌面版当前规范版本 v1.x（见 §15 修订历史）。
 
@@ -23,12 +25,12 @@
 
 | 文档 | 适用 URL | 设计方向 | 设计 Token |
 |---|---|---|---|
-| **Design.md**（本文件）| `index.html`, `/ja/<id>`, `/en/<id>`, `privacy.html`, `compliance.html`, `about.html` | **数据 dashboard** —— treemap 灵魂、暗色优先、信息密度高 | `--bg-*`, `--ink-*`（无前缀变量）|
-| **MOBILE_DESIGN.md** | `/m/ja/*`, `/m/en/*`, `/m/ja/<id>`, `/m/en/<id>` | **Direction C: Warm Editorial** —— 衬线大字、sage 绿 + テラコッタ橙 + 暖米底 | `--m-*` 前缀 |
+| **Design.md**（本文件）| `index.html`, `/ja/<id>`, `privacy.html`, `compliance.html`, `about.html` | **数据 dashboard** —— treemap 灵魂、暗色优先、信息密度高 | `--bg-*`, `--ink-*`（无前缀变量）|
+| **MOBILE_DESIGN.md** | `/m/ja/*`, `/m/ja/<id>`（已归档；v1.4.0 后无 `/m/en/*`） | **Direction C: Warm Editorial** —— 衬线大字、sage 绿 + テラコッタ橙 + 暖米底 | `--m-*` 前缀 |
 
 两套设计**语义上隔离**（不同 token、不同字体、不同视觉哲学），但**数据层共享**（同一份 `dist/data.*.json` 投影喂给两边）。
 
-桌面版 detail `/ja/<id>` 和移动版 detail `/m/ja/<id>` 是**两套不同 HTML**，桌面通过 `<link rel="canonical">` 持有"唯一权威 URL"地位（移动版指向桌面版以避免 SEO 重复内容惩罚）。详见 [MOBILE_DESIGN.md §6](./MOBILE_DESIGN.md#6-移动版-detail-的-url-与-seo-策略)。
+桌面版 detail `/ja/<id>` 和移动版 detail `/m/ja/<id>` 是**两套不同 HTML**，桌面通过 `<link rel="canonical">` 持有"唯一权威 URL"地位（移动版指向桌面版以避免 SEO 重复内容惩罚）。详见 [MOBILE_DESIGN.md §6](./MOBILE_DESIGN.md#6-移动版-detail-的-url-与-seo-策略)。v1.4.0 起两边都只剩 `ja` 一种 URL。
 
 后续 minor / major 调整都以补丁形式追加在文末「修订历史」。
 
@@ -330,11 +332,11 @@ Mobile touch-mode tooltip 必须有一个**显眼的"進入詳細页"按钮**，
 | Hover | `filter: brightness(1.05)` |
 | Focus | `outline: 2px solid var(--accent); outline-offset: 2px` |
 
-**href 契约**：showTooltip() 时 JS 设置 `cta.href = occUrl(occupation)`（`/ja/<id>` 或 `/en/<id>`）。
+**href 契约**：showTooltip() 时 JS 设置 `cta.href = occUrl(occupation)`（`/ja/<id>`，v1.4.0 起 JA-only）。
 
 **GA4 事件**：点击 fire `tooltip_cta_click` 事件，参数 `occupation_id` / `ai_risk_score` / `language` — 详见 `analytics/spec.yaml`。
 
-> **CTA 与"双击 tile 打开详情"并存**，不替换。CTA 是显式入口（大多数用户走），双击是隐式快捷（老用户走）。两条路径都进 `/ja/<id>` 或 `/en/<id>`。GA4 用不同事件区分归因。
+> **CTA 与"双击 tile 打开详情"并存**，不替换。CTA 是显式入口（大多数用户走），双击是隐式快捷（老用户走）。两条路径都进 `/ja/<id>`。GA4 用不同事件区分归因。
 
 ### 6.7 Touch 行为契约（scroll vs tap）
 
@@ -564,7 +566,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 **交互契约（1 步直达）**：
 
 - 输入框 typing → `applyFilter()` live 高亮 treemap + 实时渲染下拉建议
-- Enter / 点「AI 影響度をチェック」按钮 → 跳到 top match 的 `/ja/<id>` 或 `/en/<id>`
+- Enter / 点「AI 影響度をチェック」按钮 → 跳到 top match 的 `/ja/<id>`
 - 点 chip → 通过 `CHIP_TO_JOB` 映射跳到对应职业详情页：
   - `事務職 → 一般事務` (id=428)
   - `経理 → 経理事務` (id=430)
@@ -578,7 +580,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 - `popular_job_click` — chip → 详情页跳转
 - `job_search_typed` — 用户键入并暂停 800ms（v1.3.1 之前叫 `job_search_submit`，但因为同时计入「视觉过滤意图」与「跳转意图」两类用户，CTR 分母被污染。此事件保留用于「热门搜索词 / 数据缺口」统计，**不再作为 CTR 分母**）。
 - `job_search_intent` — 用户对 autocomplete 表现出明确的跳转意图。触发源 `intent_source` 区分四种：`submit`（Enter / 按钮）、`arrow_keys`（↑↓）、`hover`（鼠标悬停 ≥ 500ms）、`click`（mousedown / touchstart）。每个查询去重一次。
-- `job_search_navigate` — 实际跳到 `/ja/<id>` 或 `/en/<id>`（Enter / button / suggest item）。
+- `job_search_navigate` — 实际跳到 `/ja/<id>`（Enter / button / suggest item）。
 - **真实搜索 CTR = `job_search_navigate` ÷ `job_search_intent`**（v1.3.1 起，2026-05-06 P0-A）。
 
 **chips 名单是 v1**：与 §7.11 共用一组 5 chips，一处改动两端同步。GA4 数据稳定（2-3 周）后应替换为 top-clicked / top-searched。
@@ -587,7 +589,7 @@ mobile (`≤768px`) 专用首屏 hero block。在 desktop 上 `display: none`，
 
 ### 7.13 Footer Follow + Share（Stage 1，全站统一）
 
-首页 + 1112 个 `/ja/<id>` 和 `/en/<id>` 详情页**统一**使用同一个 footer follow + share 区块。视觉分两层：
+首页 + 556 个 `/ja/<id>` 详情页**统一**使用同一个 footer follow + share 区块（v1.4.0 起 JA-only）。视觉分两层：
 
 1. **Follow CTA（突出）**：橙色块 `.follow-cta`，链 `https://x.com/miraishigotocom`。
    - 内容：📬 icon + 「X でフォローする / 毎日の職業分析を受け取る」(EN: 「Follow on X / Daily occupation insights」)
@@ -613,7 +615,7 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 （无 top-banner）
 
 #wrapper { max-width 560px; margin: 0 auto; padding 28px 28px 80px; }
-  .top-bar （← マップへ戻る ｜ JP/EN ｜ theme-toggle）
+  .top-bar （← マップへ戻る ｜ theme-toggle）
 
   .four-oh-four
     font-family: var(--font-serif)         /* Noto Serif JP */
@@ -817,6 +819,7 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 | 2026-05-05 | §7.10 | 全站 footer 重写：`·` 中点列表 → pill chip + footer-meta 两层结构 | 用户反馈「全站页脚链接区分不开」。原 footer `<a>トップ</a> · <a>データについて</a> · <a>プライバシー</a> · <a>GitHub</a>` 在 mobile 容易折行混杂、视觉权重不清。新规范：主导航用 pill chip（独立 border + hover 高亮），出典 / 许可下沉到 footer-meta 小字。同步移除全站 footer 的 GitHub chip（v1.2.1 把 repo 直链从访客主路径剥离，跟移除「非公式」banner 同一波清理）；MIT 许可链接保留在 meta 区域。覆盖 5 张静态页 + 1112 detail + 32 sector hub。|
 | 2026-05-05 | §7.10 | footer 严格化 3/4 chip 规则 + GitHub 完全切断 | 用户进一步要求：footer chip index 只要 3 个、其他页面只要 4 个；整站不要跟 GitHub 有任何链接。删除 index 的「変更履歴」chip、sector hub 的「算出方法」chip；footer-meta 的 `MIT` 链接改为纯文本（不再指向 LICENSE）；content body 的 GitHub Issues 引用（compliance / about）改为 `mailto:privacy@mirai-shigoto.com` 或纯文本说明；index JSON-LD 的 `sameAs` / `measurementTechnique` / FAQ answer 中的 GitHub URL 移除；llms.txt / llms-full.txt / make_prompt.py 生成的 prompt files 全部清理。最终全仓 grep `github\.com` 在所有 served HTML / TXT / MD 文件命中数 0。|
 | 2026-05-06 | §7.12 | 搜索 autocomplete 三件 P0 改造（事件拆分 + 首条自动高亮 + 键盘提示行）| GA4 funnel 显示 `job_search_submit → job_search_navigate` 仅 22% CTR，但深挖发现该事件混合了「视觉过滤意图」与「跳转意图」两类用户，分母被污染。**P0-A**：`job_search_submit` 重命名为 `job_search_typed` 并降级为非 Key Event（保留用于热门查询/数据缺口统计）；新增 `job_search_intent` 作为新 KPI #1，仅在用户对 autocomplete 表现出明确跳转意图时触发（form submit / 方向键 / hover ≥500ms / 点击候选），按查询去重一次。**P0-B**：autocomplete render() 时第一条自动 `.focused`（`focusedIdx = 0`），用户敲完 Enter 无需先按 ↓ 即可跳第一条。**P0-C**：dropdown 顶部插入「↑↓ で選択 · Enter で開く」非交互提示行（`.ss-hint` + `pointer-events: none`），仅桌面渲染，触屏跳过。新真实 CTR 公式 = `job_search_navigate / job_search_intent`。|
+| 2026-05-06 | 头部, §0, §0.1, §6.6, §7.10, §7.12, §7.13 | v1.4.0 — 英文版 UI 全部下线 | GA4 + Vercel analytics 显示英文版会话占比近零（持续 3 个月）。维护 1112 个 EN HTML、51 处 i18n span、setLang() 切换器对当前流量来说成本过高。整站缩减为 JA-only：删除所有 `[data-i18n="ja\|en"]` 配对、3 个语言切换器、`?lang=en` URL 处理、`hreflang="en"`/`x-default`、英文页脚、`og:locale:alternate`；`/en/*` URL 在 `vercel.json` 加 catch-all 301 → `/ja/*` 保 SEO 权重；`api/og.tsx` 删 `lang=en` 参数；`build_occupations.py` / `build_sector_hubs.py` / projections 全删 EN 代码路径；FAQPage JSON-LD 10 题翻译为日文；`inLanguage` `["ja","en"]` → `["ja"]`。源数据 `data/translations/en/` 移动到 `data/_archive/translations-en/` 保留以便日后恢复，`data/occupations/*.json` 的 `*_en` 字段一字不动（仅 build 不读）。Sitemap 1152 → 579 URL，`ja/<id>.html` × 556 + `ja/sectors/<sector_id>.html` × 16 + `ja/sectors/index.html` × 1。|
 
 ---
 
