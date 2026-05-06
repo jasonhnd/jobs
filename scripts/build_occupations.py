@@ -907,7 +907,6 @@ def render_html(rec: dict, related: list[dict]) -> str:
     rel_h2 = "類似する職業"
     rel_path = "/ja/"
     skip_label = "本文へ"
-    disclaim = "AI 影響スコアは Claude Opus 4.7 による独自推定（非公式）。MHLW / jobtag / JILPT の公式見解ではありません。個別の職業選択の唯一の根拠としては使わないでください。"
     salary_cell = (
         f'{("¥" + fmt_int(int(salary_man * 10000))) if salary_man else "—"}（{int(salary_man) if salary_man else "—"} 万円）'
     )
@@ -1143,17 +1142,12 @@ def render_html(rec: dict, related: list[dict]) -> str:
       <section class="sources">
         <h2>{src_h2}</h2>
         <ul>
-          <li><a href="{escape(mhlw_url)}" rel="external" target="_blank">{escape(src_mhlw_label)}</a></li>
+          <li><a href="{escape(mhlw_url)}" rel="external noopener noreferrer" target="_blank" data-jobtag-id="{id_}" data-ai-risk="{int(risk) if risk is not None else 0}" onclick="if(window.gtag)gtag('event','jobtag_outbound_click',{{occupation_id:{id_},ai_risk_score:{int(risk) if risk is not None else 0},language:'ja'}});">{escape(src_mhlw_label)}</a></li>
           <li><a href="/llms-full.txt" rel="noopener">{src_method_label}</a></li>
           <li><a href="{home_href}" rel="up">{src_back_label}</a></li>
         </ul>
         {provenance_html}
       </section>
-
-      <p class="disclaimer">
-        <strong>UNOFFICIAL.</strong>
-        {escape(disclaim)}
-      </p>
 
       <!-- Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) -->
       <div class="follow-share-section" aria-label="フォロー・シェア">
