@@ -10,6 +10,67 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Analytics automation — OAuth user-credential path + spec validation fixes
+
+The `setup-ga4.mjs` script had never actually been run successfully against
+the production GA4 property (`298707336`). The service-account auth path
+documented in `analytics/README.md` got blocked by GA4's cross-org
+validation quirk (`此电子邮件地址没有对应的 Google 账号` error). This
+change adds an OAuth user-credential path so the script can act as the
+GA4 admin (Jason) directly, bypassing the service-account block.
+
+After this change, **all 30 event-scoped custom dimensions, all 4
+user-scoped custom dimensions, and 7 Key Events (including
+`job_search_intent`)** are now actually configured on the live GA4
+property — not just declared in `spec.yaml`.
+
+- **`analytics/oauth-init.mjs`** — new file. One-time OAuth Desktop-app
+  flow with localhost callback. Reads
+  `~/.config/mirai-shigoto/oauth-client.json` (the `client_secret_*.json`
+  downloaded from GCP OAuth client setup), spins up a localhost HTTP
+  server on a random port, opens the browser to Google consent, captures
+  the auth code, exchanges for a refresh token, writes
+  `~/.config/mirai-shigoto/oauth-token.json` (perms 600). Run once via
+  `npm run oauth-init`; after that all script invocations are
+  non-interactive.
+
+- **`analytics/setup-ga4.mjs`** — `getAuthClient()` now tries the OAuth
+  user-credential token first and falls back to the existing
+  `GOOGLE_APPLICATION_CREDENTIALS` service-account path. New OAuth flow
+  is documented in the file header and as the preferred quickstart in
+  `analytics/README.md`.
+
+- **`analytics/package.json`** — new `npm run oauth-init` script.
+
+- **`analytics/spec.yaml`** — fixed five entries that GA4 Admin API
+  rejected on first apply:
+  - `occupation_name_ja` / `occupation_name_en` display names had
+    parentheses (`Occupation (JA)` → `Occupation JA`); GA4 only allows
+    alphanumeric + space + underscore in display names.
+  - `time_open_ms` display name had parentheses
+    (`Modal Open Duration (ms)` → `Modal Open Duration ms`).
+  - `freetext_length` display name had a hyphen
+    (`Feedback Free-Text Length` → `Feedback Freetext Length`).
+  - `source` and `intent_source` descriptions were >150 characters
+    (GA4 `description` field max is 150). Both rewritten compact while
+    still listing all enum values.
+
+- **`analytics/README.md`** — restructured. New "OAuth quick start
+  (~5 min, recommended)" section comes first; service-account setup is
+  now labeled "legacy path (~10 minutes)" and demoted below. Documents
+  the GA4 service-account block that motivated the OAuth path so the
+  next operator doesn't repeat the same dead-end debugging.
+
+### Operator follow-ups (manual, GA4 dashboard)
+
+- The old `job_search_submit` event (now renamed to `job_search_typed`
+  in code, demoted from Key Event in spec) was never actually marked as
+  a Key Event on the live property in the first place — verified during
+  this run. No demotion action required.
+- Data retention (Admin → Data Settings → Data Retention → Event data
+  retention: 14 months) and Enhanced Measurement still must be set
+  manually per `analytics/README.md`.
+
 ### Search autocomplete on mobile — P0-D iOS keyboard + touch fixes
 
 User-reported on iPhone: (1) when the soft keyboard opens, the autocomplete

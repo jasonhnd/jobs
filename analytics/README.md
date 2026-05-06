@@ -6,13 +6,91 @@ Single source of truth for the mirai-shigoto.com GA4 instrumentation:
 | --- | --- |
 | `spec.yaml` | All events, parameters, custom dimensions, key events. **The spec.** |
 | `setup-ga4.mjs` | Reads `spec.yaml`, applies via GA4 Admin API. Idempotent. |
+| `oauth-init.mjs` | One-time OAuth flow — exchanges your Google login for a refresh token. |
 | `package.json` | Deps: `googleapis`, `js-yaml`. |
 
 After editing `spec.yaml`, re-run `npm run setup` to sync GA4.
 
+## Auth: two paths, OAuth user-credential is preferred
+
+`setup-ga4.mjs` supports two authentication paths and tries them in this order:
+
+1. **OAuth user-credential** (`~/.config/mirai-shigoto/oauth-token.json`) —
+   acts as the logged-in human (you), inherits the GA4 admin access you
+   already have. **Preferred** because it bypasses GA4's known issue where
+   service-account emails get rejected with `此电子邮件地址没有对应的 Google 账号`
+   in cross-org / personal-account configurations. One-time setup via
+   `npm run oauth-init` (see "OAuth quick start" below). After that, all
+   script runs are non-interactive.
+
+2. **Service account JSON** (`GOOGLE_APPLICATION_CREDENTIALS` env var) —
+   fallback for CI / shared environments where a human OAuth flow isn't
+   appropriate. Requires the service-account email be granted access on
+   the GA4 account in Admin → Account Access Management. **Skip this path**
+   unless you actually need it.
+
 ---
 
-## One-time setup (~10 minutes)
+## OAuth quick start (~5 min, recommended)
+
+This is the path that *worked* on this machine (the service-account path
+got blocked by GA4 cross-org validation in 2026-05).
+
+### 1. Create an OAuth Desktop client in GCP
+
+https://console.cloud.google.com → APIs & Services → Credentials →
+**+ Create credentials** → **OAuth client ID** → application type
+**Desktop app**. Name: `mirai-shigoto-cli`. Click Create → click
+"Download JSON".
+
+If GCP makes you configure the OAuth consent screen first:
+- User type: **External**
+- Add yourself to **Test users** (else Google blocks login with
+  `Error 403: access_denied`)
+- Skip Branding / Scopes details — defaults are fine for Desktop apps
+
+### 2. Save the JSON in the standard location
+
+```bash
+mkdir -p ~/.config/mirai-shigoto
+mv ~/Downloads/client_secret_*.apps.googleusercontent.com.json \
+   ~/.config/mirai-shigoto/oauth-client.json
+chmod 600 ~/.config/mirai-shigoto/oauth-client.json
+```
+
+### 3. Run the one-time OAuth flow
+
+```bash
+cd analytics
+npm install            # if not already
+npm run oauth-init
+```
+
+This opens your browser to Google's OAuth consent page. Click "Advanced
+→ Go to mirai-shigoto-cli (unsafe)" past the unverified-app warning,
+sign in with the Google account that owns GA4, allow the
+`analytics.edit` scope. The browser shows "✓ Authentication successful".
+The script writes the refresh token to
+`~/.config/mirai-shigoto/oauth-token.json` (perms 600) and exits.
+
+### 4. Discover your property and apply the spec
+
+```bash
+npm run discover                                    # lists property_id
+GA4_PROPERTY_ID=298707336 npm run setup:dry         # preview changes
+GA4_PROPERTY_ID=298707336 npm run setup             # apply
+```
+
+After the first successful run, all future `npm run setup` invocations
+work non-interactively (refresh token auto-renews).
+
+---
+
+## Service-account setup (legacy path, ~10 minutes)
+
+> Only follow this section if you specifically need a service account
+> (e.g., CI pipeline). The OAuth path above is faster and avoids GA4's
+> service-account validation quirk.
 
 ### 1. Pick or create a GCP project
 

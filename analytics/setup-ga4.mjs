@@ -3,14 +3,24 @@
  * GA4 setup — applies analytics/spec.yaml to the configured GA4 property
  * idempotently using the Google Analytics Admin API.
  *
- * Usage:
- *   GOOGLE_APPLICATION_CREDENTIALS=/path/to/sa.json \
- *   GA4_PROPERTY_ID=123456789 \
- *     node analytics/setup-ga4.mjs
+ * Authentication (priority order):
+ *   1. ~/.config/mirai-shigoto/oauth-token.json — preferred path. Acts as the
+ *      logged-in user (full GA4 admin access). Created once by running
+ *      `node analytics/oauth-init.mjs`. No GA4 dashboard configuration
+ *      required since the user already has access.
+ *   2. GOOGLE_APPLICATION_CREDENTIALS env var — service account JSON.
+ *      Fallback path. Requires the service-account email be granted access
+ *      on the GA4 account / property in Admin → Account/Property Access
+ *      Management. NOTE: GA4 sometimes refuses service accounts cross-org
+ *      ("此电子邮件地址没有对应的 Google 账号"); if you hit that, switch to
+ *      the OAuth user-credential path (#1).
  *
- *   # Or just discover what properties your service account can access:
- *   GOOGLE_APPLICATION_CREDENTIALS=/path/to/sa.json \
- *     node analytics/setup-ga4.mjs --discover
+ * Usage:
+ *   # Once OAuth has been initialized:
+ *   GA4_PROPERTY_ID=123456789 node analytics/setup-ga4.mjs
+ *
+ *   # Or just discover what properties you can access:
+ *   node analytics/setup-ga4.mjs --discover
  *
  * What it does:
  *   1. Lists existing custom dimensions on the property
@@ -23,18 +33,15 @@
  *   - Create/update audiences (filter JSON too complex; create via dashboard)
  *   - Configure data retention (manual: Admin → Data Settings → Data Retention)
  *   - Configure enhanced measurement (manual: Admin → Data Streams → Web → ⚙)
+ *   - Demote previously-marked key events that are no longer in the spec —
+ *     do that manually in Admin → Key events.
  *
- * Required scopes on the service account JSON:
+ * Required OAuth scopes:
  *   - https://www.googleapis.com/auth/analytics.edit
- *
- * Required GA4 dashboard step (one-time):
- *   The service account email (from the JSON `client_email` field) must be
- *   added as an Editor on the GA4 property:
- *   GA4 Admin → Property Access Management → "+" → paste service account email
- *   → Role: Editor → Save.
  */
 
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import yaml from "js-yaml";
@@ -79,13 +86,33 @@ function loadSpec() {
 }
 
 function getAuthClient() {
+  // Priority 1: OAuth user-credential token (preferred — bypasses GA4
+  //             service-account access restrictions).
+  const oauthTokenPath = path.join(os.homedir(), ".config", "mirai-shigoto", "oauth-token.json");
+  if (fs.existsSync(oauthTokenPath)) {
+    log("info", `Authenticating via OAuth user credentials: ${oauthTokenPath}`);
+    const stored = JSON.parse(fs.readFileSync(oauthTokenPath, "utf8"));
+    if (!stored.refresh_token) {
+      throw new Error(`OAuth token file is missing refresh_token. Re-run \`node analytics/oauth-init.mjs\` to regenerate.`);
+    }
+    const oauth2 = new google.auth.OAuth2(stored.client_id, stored.client_secret);
+    oauth2.setCredentials({ refresh_token: stored.refresh_token });
+    return oauth2;
+  }
+
+  // Priority 2: service account JSON via env var (fallback).
   const credPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
   if (!credPath) {
-    throw new Error("Missing env var GOOGLE_APPLICATION_CREDENTIALS (path to service account JSON)");
+    throw new Error(
+      "No authentication configured. Either:\n" +
+      "  (a) Run `node analytics/oauth-init.mjs` to set up OAuth user credentials (recommended), or\n" +
+      "  (b) Set GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json (requires GA4-side access grant).",
+    );
   }
   if (!fs.existsSync(credPath)) {
     throw new Error(`Credential file not found: ${credPath}`);
   }
+  log("info", `Authenticating via service account: ${credPath}`);
   return new google.auth.GoogleAuth({ keyFile: credPath, scopes: SCOPES });
 }
 
