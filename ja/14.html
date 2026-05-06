@@ -161,6 +161,53 @@
           "item": "https://mirai-shigoto.com/ja/14"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/14#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "ビール製造の年収はいくらですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ビール製造の平均年収は約366万円（月収換算で約30万円）で、日本全体の平均年収（約460万円）を下回る水準です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ビール製造のAI代替リスクはどれくらいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ビール製造のAI影響度は10段階中 4 で、中程度で、業務の一部が AI 補助に移行する可能性です。主な要因は「大規模工場で高度に自動化」。これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ビール製造の将来性はどうですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度 4/10。AI 影響は中程度で、業務の一部が AI 補助に移行する可能性な職業です。日本での就業者数は約15,050人。求人倍率 4.07 倍。個別の状況に応じた判断が重要です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ビール製造になるにはどうすればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "入職にあたって、特に学歴や資格は必要とされない。詳しい流れは本ページ内の「ビール製造になるには・必要な資格」セクションをご覧ください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ビール製造に必要なスキルは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ビール製造で特に重視されるスキルは、クオリティチェック、保守点検、計器監視などです。加えて、傾聴力、複雑な問題解決も重要です。詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -238,6 +285,9 @@
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
+      .map-back-link{margin:32px 0 8px;text-align:center}
+      .map-back-link a{display:inline-block;color:var(--fg2);font-size:0.86rem;padding:10px 18px;border:1px solid var(--border);border-radius:999px;text-decoration:none;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+      .map-back-link a:hover,.map-back-link a:focus-visible{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06)}
       footer{margin-top:24px;padding:22px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);text-align:center}
       footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
       footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
@@ -360,6 +410,20 @@
       /* Provenance footnote */
       .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
       .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
+
+      /* SEO Phase 8: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+      section.faq{margin-top:32px}
+      section.faq h2{font-size:1.05rem;margin-bottom:12px;color:var(--accent)}
+      .faq-list{display:flex;flex-direction:column;gap:8px}
+      .faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 150ms ease}
+      .faq-item[open]{border-color:var(--accent)}
+      .faq-item summary{padding:14px 16px;font-family:var(--font-serif);font-size:0.98rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+      .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+      .faq-item summary:hover{color:var(--accent)}
+      .faq-answer{padding:0 16px 14px;color:var(--fg);font-size:0.9rem;line-height:1.7}
+      @media (max-width:600px){.faq-item summary{font-size:0.93rem;padding:12px 14px;padding-right:36px}}
 </style>
   </head>
   <body>
@@ -430,6 +494,8 @@
 
       <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">クオリティチェック</span><span class="topn-score">4.2</span></li><li><span class="topn-name">保守点検</span><span class="topn-score">4.0</span></li><li><span class="topn-name">計器監視</span><span class="topn-score">4.0</span></li><li><span class="topn-name">傾聴力</span><span class="topn-score">3.9</span></li><li><span class="topn-name">複雑な問題解決</span><span class="topn-score">3.9</span></li><li><span class="topn-name">修理</span><span class="topn-score">3.9</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">3.9</span></li><li><span class="topn-name">故障等の原因特定</span><span class="topn-score">3.8</span></li><li><span class="topn-name">資材管理</span><span class="topn-score">3.8</span></li><li><span class="topn-name">論理と推論（批判的思考）</span><span class="topn-score">3.8</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">生産・加工</span><span class="topn-score">2.3</span></li><li><span class="topn-name">事務処理</span><span class="topn-score">1.7</span></li><li><span class="topn-name">機械</span><span class="topn-score">1.7</span></li><li><span class="topn-name">工学</span><span class="topn-score">1.4</span></li><li><span class="topn-name">ビジネスと経営</span><span class="topn-score">1.3</span></li></ol></div></div></section>
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>ビール製造の年収はいくらですか？</summary><div class="faq-answer">ビール製造の平均年収は約366万円（月収換算で約30万円）で、日本全体の平均年収（約460万円）を下回る水準です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。</div></details><details class="faq-item"><summary>ビール製造のAI代替リスクはどれくらいですか？</summary><div class="faq-answer">ビール製造のAI影響度は10段階中 4 で、中程度で、業務の一部が AI 補助に移行する可能性です。主な要因は「大規模工場で高度に自動化」。これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。</div></details><details class="faq-item"><summary>ビール製造の将来性はどうですか？</summary><div class="faq-answer">AI影響度 4/10。AI 影響は中程度で、業務の一部が AI 補助に移行する可能性な職業です。日本での就業者数は約15,050人。求人倍率 4.07 倍。個別の状況に応じた判断が重要です。</div></details><details class="faq-item"><summary>ビール製造になるにはどうすればいいですか？</summary><div class="faq-answer">入職にあたって、特に学歴や資格は必要とされない。詳しい流れは本ページ内の「ビール製造になるには・必要な資格」セクションをご覧ください。</div></details><details class="faq-item"><summary>ビール製造に必要なスキルは何ですか？</summary><div class="faq-answer">ビール製造で特に重視されるスキルは、クオリティチェック、保守点検、計器監視などです。加えて、傾聴力、複雑な問題解決も重要です。詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。</div></details></div></section>
+
       <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/13"><span class="tc-name">ワイン製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/10"><span class="tc-name">みそ製造</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 100%</span></span></a><a class="transfer-card" href="/ja/1"><span class="tc-name">豆腐製造、豆腐職人</span><span class="tc-meta"><span class="tc-risk">AI 影響 2/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
 
       
@@ -490,10 +556,16 @@
         </div>
       </div>
 
+      <!-- Map closure link (Design-Mobile.md §4.11 / D6 — back to /map without query so user re-selects) -->
+      <nav class="map-back-link" aria-label="職業マップへ戻る">
+        <a href="/map">← 職業マップへ</a>
+      </nav>
+
       <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
           <a href="/ja/sectors">セクター</a>
           <a href="/ja/rankings">ランキング</a>
         </div>

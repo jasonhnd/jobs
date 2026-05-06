@@ -158,6 +158,53 @@
           "item": "https://mirai-shigoto.com/ja/352"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/352#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "舞台美術スタッフの年収はいくらですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "舞台美術スタッフの平均年収は約589万円（月収換算で約49万円）で、日本全体の平均年収（約460万円）を上回る水準です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "舞台美術スタッフのAI代替リスクはどれくらいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "舞台美術スタッフのAI影響度は10段階中 4 で、中程度で、業務の一部が AI 補助に移行する可能性です。主な要因は「舞台美術、現場手作業」。これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "舞台美術スタッフの将来性はどうですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度 4/10。AI 影響は中程度で、業務の一部が AI 補助に移行する可能性な職業です。日本での就業者数は約15,540人。求人倍率 0.38 倍。個別の状況に応じた判断が重要です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "舞台美術スタッフになるにはどうすればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "入職にあたって、特に学歴や資格は必要とされない。詳しい流れは本ページ内の「舞台美術スタッフになるには・必要な資格」セクションをご覧ください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "舞台美術スタッフに必要なスキルは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "舞台美術スタッフで特に重視されるスキルは、傾聴力、説明力、道具、機器、設備の選択などです。加えて、説得、合理的な意思決定も重要です。詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -235,6 +282,9 @@
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
+      .map-back-link{margin:32px 0 8px;text-align:center}
+      .map-back-link a{display:inline-block;color:var(--fg2);font-size:0.86rem;padding:10px 18px;border:1px solid var(--border);border-radius:999px;text-decoration:none;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+      .map-back-link a:hover,.map-back-link a:focus-visible{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06)}
       footer{margin-top:24px;padding:22px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);text-align:center}
       footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
       footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
@@ -357,6 +407,20 @@
       /* Provenance footnote */
       .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
       .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
+
+      /* SEO Phase 8: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+      section.faq{margin-top:32px}
+      section.faq h2{font-size:1.05rem;margin-bottom:12px;color:var(--accent)}
+      .faq-list{display:flex;flex-direction:column;gap:8px}
+      .faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 150ms ease}
+      .faq-item[open]{border-color:var(--accent)}
+      .faq-item summary{padding:14px 16px;font-family:var(--font-serif);font-size:0.98rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+      .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+      .faq-item summary:hover{color:var(--accent)}
+      .faq-answer{padding:0 16px 14px;color:var(--fg);font-size:0.9rem;line-height:1.7}
+      @media (max-width:600px){.faq-item summary{font-size:0.93rem;padding:12px 14px;padding-right:36px}}
 </style>
   </head>
   <body>
@@ -429,6 +493,8 @@
 
       <section class="topn" aria-label="必要なスキル・知識・能力"><h2>必要なスキル・知識・能力</h2><div class="topn-grid"><div class="topn-block"><h3>スキル Top 10</h3><ol><li><span class="topn-name">傾聴力</span><span class="topn-score">4.9</span></li><li><span class="topn-name">説明力</span><span class="topn-score">4.6</span></li><li><span class="topn-name">道具、機器、設備の選択</span><span class="topn-score">4.5</span></li><li><span class="topn-name">説得</span><span class="topn-score">4.1</span></li><li><span class="topn-name">合理的な意思決定</span><span class="topn-score">4.1</span></li><li><span class="topn-name">読解力</span><span class="topn-score">4.1</span></li><li><span class="topn-name">他者との調整</span><span class="topn-score">4.1</span></li><li><span class="topn-name">要件分析（仕様作成）</span><span class="topn-score">4.0</span></li><li><span class="topn-name">指導</span><span class="topn-score">4.0</span></li><li><span class="topn-name">時間管理</span><span class="topn-score">3.9</span></li></ol></div><div class="topn-block"><h3>知識 Top 5</h3><ol><li><span class="topn-name">芸術</span><span class="topn-score">3.2</span></li><li><span class="topn-name">顧客サービス・対人サービス</span><span class="topn-score">2.2</span></li><li><span class="topn-name">設計</span><span class="topn-score">2.1</span></li><li><span class="topn-name">日本語の語彙・文法</span><span class="topn-score">2.1</span></li><li><span class="topn-name">生産・加工</span><span class="topn-score">2.0</span></li></ol></div></div></section>
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>舞台美術スタッフの年収はいくらですか？</summary><div class="faq-answer">舞台美術スタッフの平均年収は約589万円（月収換算で約49万円）で、日本全体の平均年収（約460万円）を上回る水準です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。</div></details><details class="faq-item"><summary>舞台美術スタッフのAI代替リスクはどれくらいですか？</summary><div class="faq-answer">舞台美術スタッフのAI影響度は10段階中 4 で、中程度で、業務の一部が AI 補助に移行する可能性です。主な要因は「舞台美術、現場手作業」。これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。</div></details><details class="faq-item"><summary>舞台美術スタッフの将来性はどうですか？</summary><div class="faq-answer">AI影響度 4/10。AI 影響は中程度で、業務の一部が AI 補助に移行する可能性な職業です。日本での就業者数は約15,540人。求人倍率 0.38 倍。個別の状況に応じた判断が重要です。</div></details><details class="faq-item"><summary>舞台美術スタッフになるにはどうすればいいですか？</summary><div class="faq-answer">入職にあたって、特に学歴や資格は必要とされない。詳しい流れは本ページ内の「舞台美術スタッフになるには・必要な資格」セクションをご覧ください。</div></details><details class="faq-item"><summary>舞台美術スタッフに必要なスキルは何ですか？</summary><div class="faq-answer">舞台美術スタッフで特に重視されるスキルは、傾聴力、説明力、道具、機器、設備の選択などです。加えて、説得、合理的な意思決定も重要です。詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。</div></details></div></section>
+
       <section class="transfer" aria-label="似た仕事 / キャリア転換の候補"><h2>似た仕事 / キャリア転換の候補</h2><div class="transfer-grid"><a class="transfer-card" href="/ja/344"><span class="tc-name">看板制作</span><span class="tc-meta"><span class="tc-risk">AI 影響 5/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/337"><span class="tc-name">インテリアデザイナー</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a><a class="transfer-card" href="/ja/340"><span class="tc-name">ファッションデザイナー</span><span class="tc-meta"><span class="tc-risk">AI 影響 7/10</span><span class="tc-similarity">類似度 99%</span></span></a></div></section>
 
       
@@ -489,10 +555,16 @@
         </div>
       </div>
 
+      <!-- Map closure link (Design-Mobile.md §4.11 / D6 — back to /map without query so user re-selects) -->
+      <nav class="map-back-link" aria-label="職業マップへ戻る">
+        <a href="/map">← 職業マップへ</a>
+      </nav>
+
       <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
           <a href="/ja/sectors">セクター</a>
           <a href="/ja/rankings">ランキング</a>
         </div>
