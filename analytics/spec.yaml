@@ -334,9 +334,11 @@ event_scoped_dimensions:
     display_name: Submit Error Reason
     description: Error code when an email/feedback submit failed.
 
-  - parameter_name: from_modal
-    display_name: From Modal
-    description: Whether an outbound click came from the modal vs elsewhere.
+  # `from_modal` — REMOVED 2026-05-06 from spec. Was a parameter on the old
+  # `jobtag_outbound_click` event when both modal-path and per-page-path
+  # existed; v1.4.0 removed the modal entirely and the param was dropped
+  # from the event in favor of `ai_risk_score`. Live GA4 dimension preserved
+  # for historical data; spec just no longer syncs it.
 
   - parameter_name: tile_position_idx
     display_name: Tile Position Index
