@@ -114,36 +114,20 @@ All three are public Japanese government statistics. The site does not republish
 
 ## Pipeline
 
-The build pipeline is a Japan-localized port of [karpathy/jobs](https://github.com/karpathy/jobs)'s shape, with JA-focused outputs.
-
-| # | Script | What it does | Output |
-| --- | --- | --- | --- |
-| 1 | `scripts/import_ipd.py` | Ingest JILPT IPD v7.00 xlsx (downloaded from job tag) into per-occupation source JSON | `data/occupations/<padded>.json` × 556 |
-| 2 | `scripts/migrate_stats_legacy.py` | One-shot port of v0.6.x salary/workforce/age scrape into the new patch layer | `data/stats_legacy/<padded>.json` × 552 |
-| 3 | `scripts/migrate_translations.py` | One-shot port of v0.6.x English translations into per-occupation files | `data/translations/en/<padded>.json` × 552 |
-| 4 | `scripts/migrate_scores.py` | One-shot port of v0.6.x ai_scores into ScoreRun v2.0 schema with full audit metadata | `data/scores/occupations_<model>_<date>.json` |
-| 5 | `scripts/build_labels.py` | Generate 7 dimension label files (skills/knowledge/abilities/...) from IPD 細目 sheet | `data/labels/<dim>.ja-en.json` × 7 |
-| 6 | `scripts/make_prompt.py` | Build single-file Markdown bundles of all occupations for LLM scoring runs | `data/prompts/prompt.{ja,en}.md` |
-| 7 | `scripts/build_data.py` | Load all sources + Pydantic-validate + atomic build of 9 projection families to `dist/` | `dist/data.treemap.json`, `dist/data.detail/`, `dist/data.search.json`, `dist/data.labels/` (and 5 future-coded families behind `--enable-future`) |
-| 8 | `scripts/build_occupations.py` | Generate 556 static detail pages from `dist/data.detail/<id>.json` | `ja/<id>.html` |
-| 9 | `scripts/build_sector_hubs.py` | Generate 17 sector hub pages (16 sectors + 1 index) from `dist/data.detail/` + `data/sectors/` | `ja/sectors/<id>.html`, `ja/sectors/index.html` |
-
-Each step is incrementally cached: re-running skips work that already has output.
+A Python build pipeline (requires [uv](https://docs.astral.sh/uv/)) ingests government source data from MHLW jobtag, joins it with LLM-generated AI replacement risk scores, validates everything through Pydantic, and produces the static assets served by Vercel. Scripts live in `scripts/` and are incrementally cached — re-runs skip work that already has output. See [`scripts/README.md`](scripts/README.md) for per-script details.
 
 ---
 
 ## Production stack
 
-| Layer | What | Notes |
-| --- | --- | --- |
-| Hosting | Vercel (Tokyo edge `hnd1`) | Sub-50 ms TTFB for Japanese visitors. Auto-deploys from `main`. |
-| Domain | `mirai-shigoto.com` (Cloudflare Registrar) | DNS-only / grey-cloud `A 76.76.21.21` to Vercel. |
-| Email backend | Resend (full access key) | Two Edge Functions: `api/subscribe.js` (audience opt-in), `api/feedback.js` (transactional). Both run at the Tokyo edge. |
-| Email routing | Cloudflare Email Routing | `privacy@mirai-shigoto.com` → operator inbox. |
-| Analytics | 4 trackers in parallel | Cloudflare Web Analytics (cookieless), GA4 (`G-GLDNBDPF13`), Vercel Web Analytics, Vercel Speed Insights. Cross-validated. Spec: [`analytics/spec.yaml`](analytics/spec.yaml). |
-| SEO / GEO | `robots.txt` opts in 17 LLM crawlers; `sitemap.xml` covers 579 URLs; [`/llms.txt`](https://mirai-shigoto.com/llms.txt) per [llmstxt.org](https://llmstxt.org/); Schema.org `WebSite` + `Dataset` + `Person` graph in `<head>`. | Built for both Google search and AI search engines. |
-| Theme | Direction C warm editorial (single theme) | `prefers-color-scheme` built-in; manual toggle hidden. Warm-cream palette, Noto Serif JP headings, terracotta accents. |
-| Visual spec | [`docs/Design.md`](docs/Design.md) | Single source of truth for design tokens, theme system, breakpoints, treemap rendering, tooltip rules, per-component standards. Visual changes update this file first, code follows. |
+| Layer | What |
+| --- | --- |
+| Hosting | Vercel (Tokyo edge) — auto-deploys from `main` |
+| Domain | `mirai-shigoto.com` (Cloudflare Registrar → Vercel) |
+| Email | Resend via Edge Functions (`api/subscribe.js`, `api/feedback.js`) |
+| Analytics | Cloudflare WA, GA4, Vercel WA, Vercel Speed Insights ([spec](analytics/spec.yaml)) |
+| SEO | `robots.txt`, `sitemap.xml`, [`/llms.txt`](https://mirai-shigoto.com/llms.txt), Schema.org structured data |
+| Visual spec | [`docs/Design.md`](docs/Design.md) — single source of truth for design tokens and theme |
 
 ---
 
@@ -161,7 +145,7 @@ Each step is incrementally cached: re-running skips work that already has output
 
 ## Local development
 
-The site itself is a single static `index.html` plus a build pipeline. To just view the existing build:
+The site is a static `index.html` plus pre-built data in `dist/`. To view it locally:
 
 ```bash
 git clone https://github.com/jasonhnd/jobs.git
@@ -170,25 +154,7 @@ python -m http.server 8000
 # open http://localhost:8000/
 ```
 
-To re-run the full pipeline (you'll need [uv](https://docs.astral.sh/uv/) and an [OpenRouter](https://openrouter.ai) API key):
-
-```bash
-uv sync                              # install Python deps from pyproject.toml
-uv run playwright install chromium   # one-time browser binary (jobtag is behind Imperva CDN)
-export OPENROUTER_API_KEY=sk-or-...
-
-# v0.7+ pipeline (one-shot ingest + idempotent build):
-uv run python scripts/import_ipd.py            # IPD xlsx → data/occupations/<id>.json × 556
-uv run python scripts/build_labels.py          # IPD 細目 → data/labels/<dim>.ja-en.json × 7
-uv run python scripts/make_prompt.py           # build prompt bundles for AI scoring
-# (run scoring via Claude Code session against data/prompts/, write to data/scores/)
-uv run python scripts/build_data.py            # join + Pydantic-validate → dist/data.*  (atomic)
-uv run python scripts/build_occupations.py     # dist/data.detail/<id>.json → ja/<id>.html
-uv run python scripts/build_sector_hubs.py     # dist/data.detail/ + sectors → ja/sectors/*.html
-uv run python scripts/test_data_consistency.py # L3 sanity gate
-```
-
-Pipeline scripts have inline docstrings and skip work that already has output. See [`scripts/README.md`](scripts/README.md) for run-order details and per-script flags.
+To re-run the build pipeline, see [`scripts/README.md`](scripts/README.md). You will need [uv](https://docs.astral.sh/uv/) and an LLM API key.
 
 ---
 
@@ -196,68 +162,19 @@ Pipeline scripts have inline docstrings and skip work that already has output. S
 
 ```text
 jobs/
-├── index.html             # treemap front end (root, served by Vercel)
-├── about.html             # about page → /about via cleanUrls
-├── compliance.html        # compliance page → /compliance via cleanUrls
-├── privacy.html           # privacy policy → /privacy via cleanUrls
-├── 404.html               # custom 404 error page
-├── ja/<id>.html           # 556 per-occupation detail pages (Japanese)
-├── ja/sectors/            # 17 sector hub pages
-│   ├── index.html         # sectors index (all 16 sectors)
-│   └── <sector_id>.html   # per-sector hub (× 16)
-├── api/
-│   ├── og.tsx             # Edge Function — dynamic 1200×630 OG image per occupation + sector
-│   ├── subscribe.js       # Edge Function — email opt-in (Resend audiences)
-│   └── feedback.js        # Edge Function — bottom-of-page feedback form
-├── analytics/
-│   ├── spec.yaml          # GA4 instrumentation spec — events, dimensions, key events
-│   ├── setup-ga4.mjs      # idempotent script that applies the spec via GA4 Admin API
-│   └── README.md          # how to run the spec sync
-├── data/                  # SOURCE data (hand-curated, AI-curated; per-occupation files)
-│   ├── occupations/<padded>.json     # 556 per-occupation source records (IPD v7.00)
-│   ├── stats_legacy/<padded>.json    # 552 salary/workforce/age patch layer
-│   ├── translations/en/<padded>.json # 552 English translations (archived; not displayed)
-│   ├── scores/                        # AI scoring runs (append-only)
-│   ├── sectors/                       # sector taxonomy (16 sectors + overrides)
-│   ├── labels/<dim>.ja-en.json       # 7 dimension label dictionaries
-│   ├── schema/                        # Pydantic models for source validation
-│   ├── prompts/                       # LLM-ready Markdown bundles
-│   └── .archive/v0.6/                 # frozen pre-IPD source files (audit trail)
-├── dist/                  # BUILT projections (generated by scripts/build_data.py)
-│   ├── data.treemap.json             # main dataset for index.html (~80 KB gz)
-│   ├── data.detail/<padded>.json     # per-occupation detail (~3.5 KB gz each)
-│   ├── data.search.json              # search index over 556 occupations
-│   ├── data.sectors.json             # sector taxonomy with aggregated stats
-│   ├── data.profile5.json            # 5-axis profile scores per occupation
-│   ├── data.transfer_paths.json      # career transfer recommendations
-│   └── data.labels/ja.json           # flat label dictionary
-├── styles/                # CSS design tokens (Direction C)
-├── og.png                 # 1200×630 social card (default; per-occupation via api/og)
-├── robots.txt             # opts in major LLM crawlers
-├── sitemap.xml            # 579 URLs
-├── llms.txt               # per llmstxt.org — what AI search engines see
-├── scripts/               # IPD ingest + projection build pipeline (Python) + seo-check.sh
-│   ├── import_ipd.py            # one-shot: IPD xlsx → data/occupations/<id>.json × 556
-│   ├── migrate_*.py             # one-shot v0.6 → v0.7 migrators (kept for audit)
-│   ├── build_labels.py          # one-shot: IPD 細目 → data/labels/*.ja-en.json × 7
-│   ├── make_prompt.py           # build LLM scoring prompt bundles
-│   ├── build_data.py            # orchestrator: source → 9 projection families in dist/
-│   ├── build_occupations.py     # dist/data.detail/<id>.json → ja/<id>.html
-│   ├── build_sector_hubs.py     # sector hubs: ja/sectors/*.html (16 hubs + 1 index)
-│   ├── lib/                     # indexes / score_strategy / atomic_write
-│   ├── projections/             # 9 projection modules (treemap, detail, search, labels, ...)
-│   ├── test_data_consistency.py # L3 projection sanity gate
-│   ├── seo-check.sh
-│   └── README.md
-├── vercel.json            # static-site config — cleanUrls, redirects, headers
-├── docs/                  # specs (Design.md = visual SSOT) + archived CHANGELOG
-├── README.md              # English (this file)
-├── README.ja.md           # 日本語
-├── CHANGELOG.md           # release history (the only doc updated per-release)
-├── LICENSE                # MIT
-├── .gitattributes         # `* text=auto eol=lf`
-├── .vercelignore          # excludes non-deployed dirs from Vercel builds
-└── .gitignore
+├── index.html              # treemap front end (served by Vercel)
+├── privacy.html            # privacy policy
+├── ja/<id>.html            # per-occupation detail pages
+├── ja/sectors/<slug>.html  # sector hub pages
+├── api/                    # Vercel Edge Functions (OG image, subscribe, feedback)
+├── analytics/              # GA4 instrumentation spec + sync script
+├── data/                   # source data (per-occupation JSON, scores, labels)
+├── dist/                   # built projections (treemap, detail, search, labels)
+├── scripts/                # Python build pipeline
+├── docs/                   # specs (Design.md) + archived changelogs
+├── vercel.json             # static-site config
+├── CHANGELOG.md            # release history
+└── README.md / README.ja.md
 ```
 
 ---
