@@ -1606,6 +1606,19 @@
       .search-suggest .ss-risk.high { color: #ff5050; }
       .search-suggest .ss-risk.mid  { color: var(--accent); }
       .search-suggest .ss-risk.low  { color: #00b04b; }
+      /* P0-C: keyboard hint row at top of suggestions (desktop only — hidden on touch via JS render). */
+      .search-suggest .ss-hint {
+        cursor: default;
+        color: var(--fg2);
+        font-size: 0.74rem;
+        font-style: italic;
+        padding: 6px 14px;
+        background: rgba(255, 255, 255, 0.025);
+        pointer-events: none;
+        border-bottom: 1px solid var(--border);
+        justify-content: flex-start;
+      }
+      .search-suggest .ss-hint:hover { background: rgba(255, 255, 255, 0.025); }
       .search-noresult {
         display: none;
         text-align: center;
@@ -3508,10 +3521,24 @@
         return matchCount;
       }
       let searchDebounce = null;
-      // Separate, longer debounce so job_search_submit fires once per pause-in-typing
+      // Separate, longer debounce so job_search_typed fires once per pause-in-typing
       // instead of once per keystroke. 800 ms is the threshold treated as "user stopped".
       let searchAnalyticsDebounce = null;
       let lastSearchTracked = "";
+      // P0-A: split "typed" (every paused query) from "intent" (user actually engaged
+      // with autocomplete — arrow keys / hover ≥ 500ms / form submit / suggestion click).
+      // Real CTR = job_search_navigate / job_search_intent.
+      let lastIntentTracked = "";
+      function fireSearchIntent(source, query) {
+        const trimmed = (query || "").trim();
+        if (!trimmed || trimmed === lastIntentTracked) return;
+        lastIntentTracked = trimmed;
+        if (window.gtag) gtag("event", "job_search_intent", {
+          query: trimmed.slice(0, 100),
+          intent_source: source,
+          language: lang,
+        });
+      }
       // Both #searchInput (desktop) and #searchInputMobile (mobile-hero, Design.md §7.11)
       // call the same applyFilter pipeline. We mirror values across both so a viewport
       // resize never strands a query in the wrong field.
@@ -3526,16 +3553,16 @@
           searchInputs.forEach(other => { if (other !== inp) other.value = v; });
           clearTimeout(searchDebounce);
           searchDebounce = setTimeout(() => applyFilter(v), 100);
-          // Analytics: fire job_search_submit only after typing pauses, only on
-          // non-empty queries, and only when the query actually changed since the
-          // last reported value — backspacing back to a previously tracked query
-          // shouldn't re-fire the same signal.
+          // P0-A: rename job_search_submit → job_search_typed. This event is the
+          // raw "user paused while typing" signal — it fires for BOTH visual-filter
+          // intent AND navigate intent, so it can no longer be used as a CTR
+          // denominator. Use job_search_intent for that.
           clearTimeout(searchAnalyticsDebounce);
           searchAnalyticsDebounce = setTimeout(() => {
             const trimmed = v.trim();
             if (!trimmed || trimmed === lastSearchTracked) return;
             lastSearchTracked = trimmed;
-            if (window.gtag) gtag("event", "job_search_submit", {
+            if (window.gtag) gtag("event", "job_search_typed", {
               query: trimmed.slice(0, 100),
               match_count: dimmedIds ? dimmedIds.size : 0,
               language: lang,
@@ -3627,6 +3654,9 @@
           const q = inp ? inp.value.trim() : "";
           const noResultEl = document.getElementById("searchNoResult");
           if (!q) return;
+          // P0-A: form submit = clear navigate-intent, regardless of whether a
+          // match exists. "Submitted but no match" is a real funnel step.
+          fireSearchIntent("submit", q);
           const matches = rankMatches(q, 1);
           if (matches.length === 0) {
             if (noResultEl) noResultEl.classList.add("visible");
@@ -3689,20 +3719,33 @@
             focusedIdx = -1;
             return;
           }
-          suggestEl.innerHTML = matches.map((rec, i) => {
+          // P0-C: keyboard hint row at top of dropdown — desktop only.
+          // matchMedia detection: touch devices skip hint to keep dropdown compact.
+          const isTouchDevice = window.matchMedia &&
+            window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+          const hintLabel = lang === "en"
+            ? "↑↓ to select  ·  Enter to open"
+            : "↑↓ で選択  ·  Enter で開く";
+          const hintHtml = isTouchDevice
+            ? ""
+            : '<li class="ss-hint" aria-hidden="true">' + escapeHtml(hintLabel) + '</li>';
+          // P0-B: auto-highlight the first option so Enter just works without
+          // requiring the user to press ↓ first. data-idx="0" is the first match.
+          suggestEl.innerHTML = hintHtml + matches.map((rec, i) => {
             const nameJa = rec.name_ja || "";
             const nameEn = rec.name_en || "";
             const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
             const risk = rec.ai_risk != null ? rec.ai_risk : 0;
             const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
             const riskLabel = lang === "en" ? ("AI risk " + risk + "/10") : ("AI 影響度 " + risk + "/10");
-            return '<li role="option" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
+            const focusClass = i === 0 ? " focused" : "";
+            return '<li role="option" class="ss-item' + focusClass + '" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
               '<span class="ss-name">' + escapeHtml(display) + '</span>' +
               '<span class="ss-risk ' + tier + '">' + escapeHtml(riskLabel) + '</span>' +
               '</li>';
           }).join("");
           suggestEl.classList.add("visible");
-          focusedIdx = -1;
+          focusedIdx = 0;
         }
 
         inputEl.addEventListener("input", () => {
@@ -3719,20 +3762,27 @@
         });
         inputEl.addEventListener("keydown", (e) => {
           if (!suggestEl.classList.contains("visible")) return;
-          const items = suggestEl.querySelectorAll("li");
+          // P0-C: only data-job-id items are navigable. Skip the .ss-hint row.
+          const items = suggestEl.querySelectorAll("li[data-job-id]");
           if (!items.length) return;
           if (e.key === "ArrowDown") {
             e.preventDefault();
+            // P0-A: arrow-key navigation = clear keyboard intent.
+            fireSearchIntent("arrow_keys", inputEl.value);
             focusedIdx = (focusedIdx + 1) % items.length;
             items.forEach((el, i) => el.classList.toggle("focused", i === focusedIdx));
             items[focusedIdx].scrollIntoView({ block: "nearest" });
           } else if (e.key === "ArrowUp") {
             e.preventDefault();
+            fireSearchIntent("arrow_keys", inputEl.value);
             focusedIdx = focusedIdx <= 0 ? items.length - 1 : focusedIdx - 1;
             items.forEach((el, i) => el.classList.toggle("focused", i === focusedIdx));
             items[focusedIdx].scrollIntoView({ block: "nearest" });
           } else if (e.key === "Enter" && focusedIdx >= 0) {
             e.preventDefault();
+            // P0-A: Enter on a focused suggestion = strongest commit-intent signal.
+            // P0-B: focusedIdx now defaults to 0 on render(), so Enter works immediately.
+            fireSearchIntent("submit", inputEl.value);
             const id = parseInt(items[focusedIdx].dataset.jobId, 10);
             const rec = data.find(d => d.id === id);
             if (rec) navigateToJob(rec, "suggest_keyboard");
@@ -3744,16 +3794,36 @@
 
         // mousedown (not click) so input's blur handler doesn't hide us first.
         // Also handle touchstart so iOS/Android tap on suggest item registers.
+        // P0-C: closest("li[data-job-id]") skips the .ss-hint row so hint clicks no-op.
         const selectFromEvent = (e) => {
-          const li = e.target.closest("li");
+          const li = e.target.closest("li[data-job-id]");
           if (!li) return;
           e.preventDefault();
+          // P0-A: click/tap on a suggestion = strongest commit-intent signal.
+          fireSearchIntent("click", inputEl.value);
           const id = parseInt(li.dataset.jobId, 10);
           const rec = data.find(d => d.id === id);
           if (rec) navigateToJob(rec, "suggest_click");
         };
         suggestEl.addEventListener("mousedown", selectFromEvent);
         suggestEl.addEventListener("touchstart", selectFromEvent, { passive: false });
+
+        // P0-A: hover ≥ 500 ms on a suggestion = mouse-driven engagement intent.
+        // Fires once per query (deduped inside fireSearchIntent). Touch devices
+        // emit a synthetic mouseover after tap — guarded by no-op since by then
+        // mousedown's "click" intent has already set lastIntentTracked.
+        let hoverTimer = null;
+        suggestEl.addEventListener("mouseover", (e) => {
+          const li = e.target.closest("li[data-job-id]");
+          if (!li) return;
+          clearTimeout(hoverTimer);
+          hoverTimer = setTimeout(() => {
+            fireSearchIntent("hover", inputEl.value);
+          }, 500);
+        });
+        suggestEl.addEventListener("mouseout", () => {
+          clearTimeout(hoverTimer);
+        });
 
         // Click outside the hero-search container closes the dropdown.
         document.addEventListener("click", (e) => {

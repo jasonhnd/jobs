@@ -10,7 +10,67 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
-(empty — new work lands here)
+### Search autocomplete — P0 GA4 funnel + UX fixes
+
+GA4 path-exploration showed `job_search_submit → job_search_navigate` at only
+22% CTR. Investigation revealed the denominator was conflating two distinct
+user intents — visual filter ("typed 医 to dim non-medical tiles") and
+navigate ("typed 看護師 to open that page"). The 22% number was unusable as
+a real search-CTR, and the autocomplete UX itself had two latent issues
+(no pre-selection, no keyboard hint). This change unblocks decision-making
+on the search funnel.
+
+- **P0-A — split typed signal from intent signal** (`index.html`,
+  `analytics/spec.yaml`):
+  - Renamed `job_search_submit` → `job_search_typed`. Same trigger (typing
+    paused 800 ms), same params, but **demoted from Key Event** — kept as
+    a tool for surfacing popular queries / dataset coverage gaps, NOT as a
+    CTR denominator.
+  - Added `job_search_intent` (Key Event, KPI #1). Fires only when the user
+    shows clear navigate-intent on the autocomplete: form submit (Enter or
+    button), arrow-key navigation, mouse hover ≥ 500 ms, or
+    mousedown / touchstart on a suggestion. Deduped per distinct query.
+    `intent_source` param distinguishes `submit | arrow_keys | hover | click`.
+  - **Real search CTR formula** (effective 2026-05-06):
+    `job_search_navigate / job_search_intent`. Stays close to 100% when
+    the autocomplete UX is good; drops when users engage but can't find /
+    don't commit. Replaces the polluted
+    `job_search_navigate / job_search_submit` ratio that had been showing
+    22% in GA4 path-exploration reports.
+  - **Operator action required**: re-run `node analytics/setup-ga4.mjs`
+    to register the new event name and the new Key Event mapping in GA4.
+    Existing `job_search_submit` data continues to live in GA4 history;
+    going forward, the same payload is recorded under `job_search_typed`.
+
+- **P0-B — autocomplete first item auto-highlights on render**
+  (`index.html`, `docs/Design.md` §7.12):
+  - `render(q)` now sets `focusedIdx = 0` and adds `.focused` to the first
+    candidate. User can type and hit Enter immediately — no need to press
+    ↓ first. `rankMatches` already guarantees the first candidate is the
+    highest-relevance match (exact → starts-with → contains → name length
+    ascending), so first-item navigation is the right default.
+
+- **P0-C — keyboard hint row at top of dropdown**
+  (`index.html`, `docs/Design.md` §7.12):
+  - Adds a non-interactive `.ss-hint` row at the top of `.search-suggest`
+    showing「↑↓ で選択 · Enter で開く」/「↑↓ to select · Enter to open」.
+  - **Desktop only** — gated by
+    `matchMedia("(hover: none) and (pointer: coarse)")`. Touch devices
+    keep the dropdown compact (no hint).
+  - `pointer-events: none` on the hint, plus
+    `closest("li[data-job-id]")` in keydown / mousedown handlers, ensure
+    the hint is ignored by both keyboard and pointer selection paths.
+
+### Files
+
+- `index.html` — autocomplete `attachSuggest`, `wireSearchSubmit`,
+  search-typed analytics block, `.ss-hint` CSS rule.
+- `analytics/spec.yaml` — `job_search_submit` → `job_search_typed`
+  renamed and demoted; `job_search_intent` added; `intent_source`
+  parameter defined; `key_events` list updated.
+- `docs/Design.md` — §7.12 autocomplete sub-points 5.1 / 5.2 added,
+  GA4 event list expanded with `job_search_typed` + `job_search_intent`
+  + new CTR formula; revision history row appended.
 
 ---
 

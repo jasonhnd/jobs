@@ -85,16 +85,46 @@ events:
   # entirely by `job_search_submit` (which logs the query text). Removing from
   # spec so check_spec_vs_code.mjs doesn't flag it as a missing emit.
 
-  - name: job_search_submit
+  # P0-A (2026-05-06): `job_search_submit` was renamed to `job_search_typed` and
+  # demoted from a Key Event. Reason: it fired on every typing-pause and conflated
+  # two distinct user intents — visual filter ("typed 医 to dim non-medical tiles")
+  # vs navigate ("typed 看護師 to open that page"). The CTR denominator was
+  # polluted by filter-only users, making job_search_navigate / job_search_submit
+  # = 22% unusable as a real search-CTR. The new `job_search_intent` event
+  # captures only navigate-style engagement. See CHANGELOG 2026-05-06.
+
+  - name: job_search_typed
     description: |
       User typed in the treemap search box and paused (800 ms idle). Fires
       once per distinct query — backspacing back to a previously tracked
       query does not re-fire. Only fires when the trimmed query is non-empty.
+      Use this to surface popular queries / dataset coverage gaps. Do NOT
+      use it as a CTR denominator — it includes visual-filter users who
+      never intended to navigate. Use `job_search_intent` for CTR instead.
     params:
       - { name: query, type: string, desc: "Trimmed query, truncated to 100 chars (GA4 string-param max)" }
       - { name: match_count, type: int, desc: "Number of tiles matching the query at fire time. 0 = no results — useful for finding gaps in the dataset." }
       - { name: language, type: string }
-    conversion: true   # Yaku's推广方案 KPI #1 — promote to Key Event
+    conversion: false   # demoted from KPI — see job_search_intent for the new CTR denominator
+
+  - name: job_search_intent
+    description: |
+      User showed clear intent to navigate from the search box (not just
+      visual-filter intent). Fires from one of four triggers, deduped per
+      distinct query so the same query produces at most one intent event:
+        1. Form submit (Enter on input or click "AI 影響度をチェック" /
+           "診断" button), regardless of whether a match was found.
+        2. ArrowDown / ArrowUp pressed inside the autocomplete dropdown.
+        3. Mouse hover over an autocomplete suggestion ≥ 500 ms.
+        4. Mousedown / touchstart on an autocomplete suggestion.
+      Real search-CTR = job_search_navigate / job_search_intent. Stays close
+      to 100% when the autocomplete UX is good; drops when users engage but
+      can't find / don't commit.
+    params:
+      - { name: query, type: string, desc: "Trimmed query, truncated to 100 chars" }
+      - { name: intent_source, type: string, desc: "submit | arrow_keys | hover | click" }
+      - { name: language, type: string }
+    conversion: true   # KPI #1 (replaces the former job_search_submit role)
 
   - name: popular_job_click
     description: |
@@ -322,6 +352,15 @@ event_scoped_dimensions:
     display_name: Search Match Count
     description: Number of treemap tiles matching the query at fire time. 0 = surfaces dataset gaps (terms users want that we don't cover).
 
+  - parameter_name: intent_source
+    display_name: Search Intent Source
+    description: |
+      How a `job_search_intent` was triggered. `submit` (Enter on input or
+      click search button), `arrow_keys` (↑↓ inside dropdown), `hover`
+      (mouse hover ≥ 500ms on a suggestion), `click` (mousedown / touchstart
+      on a suggestion). Lets dashboards split keyboard vs mouse vs touch
+      engagement patterns.
+
   - parameter_name: platform
     display_name: Share Platform
     description: Which share platform the user picked. `x | line | hatena | linkedin | facebook | copy | native`. Used by `share_click`.
@@ -402,7 +441,7 @@ key_events:
   # — Funnel: arrival → occupation page —
   - occupation_tile_click   # treemap tile → /ja/<id> or /en/<id>
   - popular_job_click       # hero chip → /ja/<id> or /en/<id> (Stage 1)
-  - job_search_submit       # user typed a search query (KPI #1, paused 800 ms)
+  - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
   # — Conversion: occupation page → operator inbox —
@@ -410,7 +449,8 @@ key_events:
   # NOTE: `email_submit_modal` and `report_cta_click` were removed in 2026-05-02
   # along with the modal itself. `email_submit_header` is still in events: but
   # marked `unimplemented: planned` — promote it back here when the newsletter
-  # card lands on the page.
+  # card lands on the page. `job_search_submit` was renamed to `job_search_typed`
+  # and demoted from key_events on 2026-05-06 (see events: section).
 
 # ----------------------------------------------------------------------
 # Audiences — created MANUALLY in the GA4 dashboard
