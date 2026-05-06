@@ -150,6 +150,45 @@
           "item": "https://mirai-shigoto.com/ja/572"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/572#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "下水道管路施設の点検・調査の年収はいくらですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "下水道管路施設の点検・調査の平均年収は約596万円（月収換算で約49万円）で、日本全体の平均年収（約460万円）を上回る水準です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "下水道管路施設の点検・調査のAI代替リスクはどれくらいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "下水道管路施設の点検・調査のAI影響度は10段階中 5 で、中程度で、業務の一部が AI 補助に移行する可能性です。主な要因は「下水道点検、現場+AI解析」。これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "下水道管路施設の点検・調査の将来性はどうですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度 5/10。AI 影響は中程度で、業務の一部が AI 補助に移行する可能性な職業です。日本での就業者数は約52,774人。求人倍率 13.08 倍。個別の状況に応じた判断が重要です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "下水道管路施設の点検・調査になるにはどうすればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "この職業に就くために必須の要件はない。詳しい流れは本ページ内の「下水道管路施設の点検・調査になるには・必要な資格」セクションをご覧ください。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -227,6 +266,9 @@
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
+      .map-back-link{margin:32px 0 8px;text-align:center}
+      .map-back-link a{display:inline-block;color:var(--fg2);font-size:0.86rem;padding:10px 18px;border:1px solid var(--border);border-radius:999px;text-decoration:none;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+      .map-back-link a:hover,.map-back-link a:focus-visible{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06)}
       footer{margin-top:24px;padding:22px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);text-align:center}
       footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
       footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
@@ -349,6 +391,20 @@
       /* Provenance footnote */
       .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
       .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
+
+      /* SEO Phase 8: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+      section.faq{margin-top:32px}
+      section.faq h2{font-size:1.05rem;margin-bottom:12px;color:var(--accent)}
+      .faq-list{display:flex;flex-direction:column;gap:8px}
+      .faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 150ms ease}
+      .faq-item[open]{border-color:var(--accent)}
+      .faq-item summary{padding:14px 16px;font-family:var(--font-serif);font-size:0.98rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+      .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+      .faq-item summary:hover{color:var(--accent)}
+      .faq-answer{padding:0 16px 14px;color:var(--fg);font-size:0.9rem;line-height:1.7}
+      @media (max-width:600px){.faq-item summary{font-size:0.93rem;padding:12px 14px;padding-right:36px}}
 </style>
   </head>
   <body>
@@ -431,6 +487,8 @@
 
       
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>下水道管路施設の点検・調査の年収はいくらですか？</summary><div class="faq-answer">下水道管路施設の点検・調査の平均年収は約596万円（月収換算で約49万円）で、日本全体の平均年収（約460万円）を上回る水準です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。</div></details><details class="faq-item"><summary>下水道管路施設の点検・調査のAI代替リスクはどれくらいですか？</summary><div class="faq-answer">下水道管路施設の点検・調査のAI影響度は10段階中 5 で、中程度で、業務の一部が AI 補助に移行する可能性です。主な要因は「下水道点検、現場+AI解析」。これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。</div></details><details class="faq-item"><summary>下水道管路施設の点検・調査の将来性はどうですか？</summary><div class="faq-answer">AI影響度 5/10。AI 影響は中程度で、業務の一部が AI 補助に移行する可能性な職業です。日本での就業者数は約52,774人。求人倍率 13.08 倍。個別の状況に応じた判断が重要です。</div></details><details class="faq-item"><summary>下水道管路施設の点検・調査になるにはどうすればいいですか？</summary><div class="faq-answer">この職業に就くために必須の要件はない。詳しい流れは本ページ内の「下水道管路施設の点検・調査になるには・必要な資格」セクションをご覧ください。</div></details></div></section>
+
       
 
       <section class="related" aria-label="類似する職業">
@@ -500,10 +558,16 @@
         </div>
       </div>
 
+      <!-- Map closure link (Design-Mobile.md §4.11 / D6 — back to /map without query so user re-selects) -->
+      <nav class="map-back-link" aria-label="職業マップへ戻る">
+        <a href="/map">← 職業マップへ</a>
+      </nav>
+
       <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
           <a href="/ja/sectors">セクター</a>
           <a href="/ja/rankings">ランキング</a>
         </div>

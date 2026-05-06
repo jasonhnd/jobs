@@ -409,6 +409,123 @@ def _render_topn(rec: dict) -> str:
     )
 
 
+def _build_occ_faqs(rec: dict) -> list[tuple[str, str]]:
+    """Build 4-5 FAQ Q&A pairs from occupation data.
+
+    Targets the highest-volume search intents around occupation pages:
+    年収 / AI 影響 / 将来性 / なるには / 必要なスキル. Answers are auto-generated
+    from existing structured data so visible FAQ matches the JSON-LD schema.
+    """
+    name = rec.get("name_ja") or ""
+    salary = rec.get("salary")
+    workers = rec.get("workers")
+    age = rec.get("age")
+    hours = rec.get("hours")
+    recruit = rec.get("recruit_ratio")
+    risk = rec.get("ai_risk")
+    rationale = (rec.get("ai_rationale_ja") or "").strip().rstrip("。").strip()
+    how = (rec.get("how_to_become_ja") or "").strip()
+    skills = rec.get("skills_top10") or []
+
+    faqs: list[tuple[str, str]] = []
+
+    # Q1: Salary — highest search volume for occupation queries
+    if salary:
+        monthly = salary / 12
+        if salary > 500:
+            compare = "日本全体の平均年収（約460万円）を上回る水準"
+        elif salary < 420:
+            compare = "日本全体の平均年収（約460万円）を下回る水準"
+        else:
+            compare = "日本全体の平均年収（約460万円）と同程度"
+        faqs.append((
+            f"{name}の年収はいくらですか？",
+            f"{name}の平均年収は約{int(salary)}万円（月収換算で約{int(monthly)}万円）で、{compare}です。"
+            f"これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。",
+        ))
+
+    # Q2: AI risk — site's unique value proposition
+    if risk is not None:
+        if risk <= 3:
+            tier = "低めで、AI に代替されにくい職業"
+        elif risk <= 6:
+            tier = "中程度で、業務の一部が AI 補助に移行する可能性"
+        else:
+            tier = "高めで、業務の多くが AI による代替・補助の対象となる可能性"
+        rationale_str = f"主な要因は「{rationale}」。" if rationale else ""
+        faqs.append((
+            f"{name}のAI代替リスクはどれくらいですか？",
+            f"{name}のAI影響度は10段階中 {risk} で、{tier}です。{rationale_str}"
+            "これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。",
+        ))
+
+    # Q3: Future outlook — combines AI risk + workforce + demand
+    if risk is not None:
+        if risk <= 3:
+            outlook = "AI に代替されにくく、将来性は比較的安定"
+        elif risk >= 7:
+            outlook = "AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に"
+        else:
+            outlook = "AI 影響は中程度で、業務の一部が AI 補助に移行する可能性"
+        workers_str = f"日本での就業者数は約{fmt_int(workers)}人。" if workers else ""
+        recruit_str = f"求人倍率 {recruit:.2f} 倍。" if recruit else ""
+        faqs.append((
+            f"{name}の将来性はどうですか？",
+            f"AI影響度 {risk}/10。{outlook}な職業です。{workers_str}{recruit_str}"
+            "個別の状況に応じた判断が重要です。",
+        ))
+
+    # Q4: How to become — extract first sentence/section of how_to_become_ja
+    if how:
+        first = how.split("。")[0].strip()
+        if not first:
+            first = how[:200].strip()
+        if len(first) > 220:
+            first = first[:220].rstrip() + "…"
+        faqs.append((
+            f"{name}になるにはどうすればいいですか？",
+            f"{first}。詳しい流れは本ページ内の「{name}になるには・必要な資格」セクションをご覧ください。",
+        ))
+
+    # Q5: Required skills — uses skills_top10 data
+    if skills:
+        top_labels = [s.get("label_ja") for s in skills[:3] if s.get("label_ja")]
+        if top_labels:
+            skills_str = "、".join(top_labels)
+            extra = ""
+            if len(skills) >= 5:
+                tail_labels = [s.get("label_ja") for s in skills[3:5] if s.get("label_ja")]
+                if tail_labels:
+                    extra = f"加えて、{('、').join(tail_labels)}も重要です。"
+            faqs.append((
+                f"{name}に必要なスキルは何ですか？",
+                f"{name}で特に重視されるスキルは、{skills_str}などです。{extra}"
+                "詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。",
+            ))
+
+    return faqs
+
+
+def _render_occ_faq(rec: dict) -> str:
+    """Render visible FAQ as <details> blocks. Matches FAQPage JSON-LD."""
+    faqs = _build_occ_faqs(rec)
+    if not faqs:
+        return ""
+    items = "".join(
+        f'<details class="faq-item">'
+        f'<summary>{escape(q)}</summary>'
+        f'<div class="faq-answer">{escape(a)}</div>'
+        f'</details>'
+        for q, a in faqs
+    )
+    return (
+        f'<section class="faq" aria-label="よくある質問">'
+        f'<h2>よくある質問</h2>'
+        f'<div class="faq-list">{items}</div>'
+        f'</section>'
+    )
+
+
 def _render_transfer(rec: dict) -> str:
     """Career-change candidates from data.transfer_paths (top 3).
 
@@ -599,38 +716,59 @@ def render_jsonld(rec: dict) -> str:
             "median": int(salary_man * 10000),
         }
 
-    graph = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebPage",
-                "@id": f"{canonical}#webpage",
-                "url": canonical,
-                "name": page_name,
-                "description": page_desc,
-                "isPartOf": {"@id": "https://mirai-shigoto.com/#website"},
-                "about": {"@id": f"{canonical}#occupation"},
-                "mainEntity": {"@id": f"{canonical}#occupation"},
-                "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}",
-                "inLanguage": "ja",
-                "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
-                "datePublished": DATE_PUBLISHED,
-                "dateModified": DATE_MODIFIED,
-                "publisher": {"@id": "https://mirai-shigoto.com/#organization"},
-                "author": {"@id": "https://mirai-shigoto.com/#organization"},
-            },
-            occupation_node,
-            {
-                "@type": "BreadcrumbList",
-                "@id": f"{canonical}#breadcrumb",
-                "itemListElement": [
-                    {"@type": "ListItem", "position": 1, "name": breadcrumb_root, "item": home_url},
-                    {"@type": "ListItem", "position": 2, "name": breadcrumb_self, "item": canonical},
-                ],
-            },
-        ],
-    }
-    return json.dumps(graph, ensure_ascii=False, indent=2)
+    graph_nodes = [
+        {
+            "@type": "WebPage",
+            "@id": f"{canonical}#webpage",
+            "url": canonical,
+            "name": page_name,
+            "description": page_desc,
+            "isPartOf": {"@id": "https://mirai-shigoto.com/#website"},
+            "about": {"@id": f"{canonical}#occupation"},
+            "mainEntity": {"@id": f"{canonical}#occupation"},
+            "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}",
+            "inLanguage": "ja",
+            "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+            "datePublished": DATE_PUBLISHED,
+            "dateModified": DATE_MODIFIED,
+            "publisher": {"@id": "https://mirai-shigoto.com/#organization"},
+            "author": {"@id": "https://mirai-shigoto.com/#organization"},
+        },
+        occupation_node,
+        {
+            "@type": "BreadcrumbList",
+            "@id": f"{canonical}#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": breadcrumb_root, "item": home_url},
+                {"@type": "ListItem", "position": 2, "name": breadcrumb_self, "item": canonical},
+            ],
+        },
+    ]
+
+    # SEO Phase 8: FAQPage schema for "People also ask" rich-snippet eligibility.
+    # Q&As auto-generated from existing data; visible <details> section in HTML
+    # matches the schema exactly (Google requirement).
+    faqs = _build_occ_faqs(rec)
+    if faqs:
+        graph_nodes.append({
+            "@type": "FAQPage",
+            "@id": f"{canonical}#faq",
+            "inLanguage": "ja",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": q,
+                    "acceptedAnswer": {"@type": "Answer", "text": a},
+                }
+                for q, a in faqs
+            ],
+        })
+
+    return json.dumps(
+        {"@context": "https://schema.org", "@graph": graph_nodes},
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
 CSS_BLOCK = """
@@ -681,6 +819,9 @@ CSS_BLOCK = """
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
+      .map-back-link{margin:32px 0 8px;text-align:center}
+      .map-back-link a{display:inline-block;color:var(--fg2);font-size:0.86rem;padding:10px 18px;border:1px solid var(--border);border-radius:999px;text-decoration:none;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+      .map-back-link a:hover,.map-back-link a:focus-visible{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06)}
       footer{margin-top:24px;padding:22px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);text-align:center}
       footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
       footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
@@ -803,6 +944,20 @@ CSS_BLOCK = """
       /* Provenance footnote */
       .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
       .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
+
+      /* SEO Phase 8: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+      section.faq{margin-top:32px}
+      section.faq h2{font-size:1.05rem;margin-bottom:12px;color:var(--accent)}
+      .faq-list{display:flex;flex-direction:column;gap:8px}
+      .faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 150ms ease}
+      .faq-item[open]{border-color:var(--accent)}
+      .faq-item summary{padding:14px 16px;font-family:var(--font-serif);font-size:0.98rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+      .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+      .faq-item summary:hover{color:var(--accent)}
+      .faq-answer{padding:0 16px 14px;color:var(--fg);font-size:0.9rem;line-height:1.7}
+      @media (max-width:600px){.faq-item summary{font-size:0.93rem;padding:12px 14px;padding-right:36px}}
 """
 
 
@@ -1025,6 +1180,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
     meta_row_html   = _render_meta_row(rec)
     profile_html    = _render_profile_radar(rec)
     topn_html       = _render_topn(rec)
+    faq_html        = _render_occ_faq(rec)
     transfer_html   = _render_transfer(rec)
     orgs_certs_html = _render_orgs_certs(rec)
     provenance_html = _render_provenance(rec)
@@ -1141,6 +1297,8 @@ def render_html(rec: dict, related: list[dict]) -> str:
 
       {topn_html}
 
+      {faq_html}
+
       {transfer_html}
 
       {legacy_related_html}
@@ -1200,6 +1358,11 @@ def render_html(rec: dict, related: list[dict]) -> str:
           <span class="share-toast" id="share-toast" aria-live="polite"></span>
         </div>
       </div>
+
+      <!-- Map closure link (Design-Mobile.md §4.11 / D6 — back to /map without query so user re-selects) -->
+      <nav class="map-back-link" aria-label="職業マップへ戻る">
+        <a href="/map">← 職業マップへ</a>
+      </nav>
 
       <!-- FOOTER:START -->
       {FOOTER_PARTIAL}
@@ -1288,6 +1451,23 @@ SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+  <!-- /map sector-filtered variants (Design-Mobile.md §4.7 — 16 JILPT 大分類) -->
+  <url><loc>https://mirai-shigoto.com/map?sector=iryo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=fukushi</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=kyoiku</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=jimu</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=hanbai</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=service</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=hoan</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=noringyo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=seizo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=kensetu</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=maint</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=it</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=senmon</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=creative</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=keiseki</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=shigyo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url>
     <loc>https://mirai-shigoto.com/privacy</loc>
     <lastmod>{lastmod}</lastmod>
