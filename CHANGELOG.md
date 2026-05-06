@@ -10,6 +10,91 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### `/map` page — mobile-first independent occupation map (MVP)
+
+Per Design-Mobile.md §4. The CTA on the new mobile homepage preview
+card now lands on a real page instead of a 404.
+
+**`map.html`** — single-file static page (~36 KB), Direction C: Warm
+Editorial palette synced from styles/mobile-tokens.css to match
+about/privacy/compliance/404. mobile-first, desktop-tolerant
+(centered `max-width: 900px`). Standard 4-tracker analytics block
+(CF / GA4 / Vercel WA / Speed Insights) per site-wide hard rule.
+schema.org `Dataset` JSON-LD describes the 552-occupation set with
+JILPT + 厚労省 attribution. Self-contained — no external JS modules,
+no build-time templating beyond the existing `build_occupations.py`
+sitemap regen.
+
+**Page structure**:
+- 3-layer sticky head (header back link, search row, sector chips +
+  sort dropdown). Heights live in CSS custom properties (`--h-head`,
+  `--h-search`, `--h-chips`) so they're tweakable from one place.
+  iOS sticky-jump fix via `transform: translate3d(0,0,0)`.
+- Search box: autocomplete on `/data.search.json` (lazy-loaded on
+  first keystroke), exact → starts-with → contains ranking, first
+  match auto-focused, Enter / click → `/ja/<id>`. Same UX semantics
+  as desktop hero (Design.md §7.12) without the iOS keyboard
+  fitDropdownToViewport polish — that ships in a follow-up since
+  this MVP is scoped to ship the structure.
+- Sector chips horizontally scroll-snap. "全て" default; chip click
+  switches to single-sector view. `data.sectors.json` drives the
+  list (16 sectors, JILPT 大分類).
+- Sort dropdown: AI影響↓ default / AI影響↑ / 年収↓ / 就業者数↓.
+- Sector segmented treemap: each sector is a section with header
+  (name + occupation count + mean AI risk) and a flex-wrapping grid
+  of cells. Cell width scales with `sqrt(workers / max_workers)`
+  bounded to 56-160px; cell height min 44px (touch target). Color
+  via 5-tier ai_risk quantization. Per-cell `aria-label` reads the
+  job name + risk + workforce. The simpler-than-spec layout (flex
+  grid vs. true squarified treemap) is the spec's `D4=A` fallback;
+  segmented-by-sector grouping is the §4.4 `D4=C` headline decision
+  and is intact.
+- Bottom sheet: tap any cell → upward slide-in (280ms cubic-bezier,
+  reduced-motion respected). Title + ranking badge (Top 50 only) +
+  AI 影響度 / 年収 / 就業者数 + "詳細を見る →" CTA → `/ja/<id>`.
+  Close via ✕ button, drag-handle tap, backdrop tap, or Esc key.
+  iOS safe-area inset honored. Drag-to-dismiss gesture deferred.
+
+**URL state** (Design-Mobile.md §4.6, D5=B): `?sector=<id>` /
+`?sort=<key>` / `?job=<id>` two-way bound via `URLSearchParams` +
+`history.replaceState` (no router lib). `?job=<id>` deep links
+auto-open the bottom sheet on load. Defaults are stripped from the
+URL for clean shareable links.
+
+**Loading / error** (§4.9): sticky head + skeleton sector grids
+render instantly from inline HTML. Data fetch from
+`/data.treemap.json` + `/data.sectors.json` runs in parallel with a
+10s timeout. On failure: in-page retry button that reloads.
+Skeleton fade-pulse animation guarded by `prefers-reduced-motion`.
+
+**Analytics** (§4.8): four new GA4 events fired from the page —
+`map_open` (params: `referrer`), `map_filter` (sector, sort),
+`map_cell_tap` (job_id, sector, rank), `map_detail_click`
+(job_id). spec.yaml registration is a follow-up.
+
+**SEO** (§4.7): dedicated `<title>` / `<meta description>` /
+`og:title` / `og:description` / `og:url` / canonical for `/map`.
+schema.org `Dataset` describing the 552-occupation set.
+
+**`scripts/build_occupations.py`** — `SITEMAP_BASE` template gains
+a `/map` entry right after the homepage, `priority=0.9`,
+`changefreq=monthly`. Auto-applied to `sitemap.xml` on next full
+build (the pre-push hook already runs `build:occ`).
+
+**Out of scope for this MVP** (deferred to follow-ups):
+- Full squarified treemap algorithm per sector (current flex-grid
+  is the spec's fallback path).
+- Drag-to-dismiss bottom sheet gesture.
+- iOS visualViewport keyboard fitting on the search dropdown.
+- Detail page footer "← 職業マップへ" closure link (D6) — needs
+  template + 556-page regen.
+- Footer "職業マップ" link in the global site footer rows.
+- `?sector=*` URL variants in sitemap.xml.
+- `api/og.tsx ?page=map` variant.
+- `analytics/spec.yaml` formal registration of the 4 new events.
+- A11y "リスト表示に切り替え" toggle (Design-Mobile.md §4.13
+  PENDING — minimum a11y line is in).
+
 ### Footer — extract to single partial (`partials/footer.html`)
 
 Follow-up to the footer unification below. The footer HTML used to be copy-pasted in 8 places (5 static pages + 3 Python build scripts). Now it lives in one file and the build pipeline injects it everywhere.

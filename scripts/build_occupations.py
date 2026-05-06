@@ -1281,6 +1281,13 @@ SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <!-- /map: mobile-first independent occupation-map page (Design-Mobile.md §4) -->
+  <url>
+    <loc>https://mirai-shigoto.com/map</loc>
+    <lastmod>{lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
   <url>
     <loc>https://mirai-shigoto.com/privacy</loc>
     <lastmod>{lastmod}</lastmod>
