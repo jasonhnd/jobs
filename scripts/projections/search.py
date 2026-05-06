@@ -1,14 +1,16 @@
-"""data.search.json projection — per DATA_ARCHITECTURE.md §6.4 (revised v1.1.0).
+"""data.search.json projection — per DATA_ARCHITECTURE.md §6.4 (revised v1.2.0).
 
 Status: Planned
 Consumer: search page (mobile ③ 検索結果 + desktop), can feed FlexSearch / MiniSearch
 Shape: { schema_version, documents: [...] }
-Size target: < 200 KB gzipped (v1.0.x ~27 KB; v1.1.0 +sector_id + bands ~+5 KB)
+Size target: < 200 KB gzipped
 
 Per-document fields:
-    id, title_ja, title_en, aliases_ja, aliases_en,
+    id, title_ja, aliases_ja,
     sector_id (v1.1.0), risk_band (v1.1.0), workforce_band (v1.1.0),
     category_size (legacy alias kept for backward compat), ai_risk
+
+v1.2.0 — EN UI removal: title_en / aliases_en dropped.
 
 `workforce_band` and `category_size` are nearly identical (3-bucket worker
 counts) but use slightly different thresholds — `workforce_band` uses the
@@ -49,7 +51,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
     documents = []
     for occ_id in sorted(indexes.occ_by_id):
         occ = indexes.occ_by_id[occ_id]
-        trans = indexes.trans_by_id.get(occ_id)
         stats = indexes.stats_by_id.get(occ_id)
         score = indexes.latest_score_by_occ.get(occ_id)
         assignment = indexes.sector_by_occ.get(occ_id)
@@ -57,9 +58,7 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         documents.append({
             "id": occ_id,
             "title_ja": occ.title_ja,
-            "title_en": trans.title_en if trans else None,
             "aliases_ja": occ.aliases_ja,
-            "aliases_en": trans.aliases_en if trans else [],
 
             # v1.1.0 additive — sector + canonical bands
             "sector_id": assignment.sector_id if assignment else None,
@@ -72,7 +71,7 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         })
 
     payload = {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "document_count": len(documents),
         "documents": documents,

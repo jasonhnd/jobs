@@ -34,17 +34,14 @@ def _candidate(indexes: "Indexes", occ_id: int) -> dict | None:
         return None
     if score.ai_risk < 7 or stats.workers < 50_000:
         return None
-    trans = indexes.trans_by_id.get(occ_id)
     return {
         "id": occ_id,
         "title_ja": occ.title_ja,
-        "title_en": trans.title_en if trans else None,
         "ai_risk": score.ai_risk,
         "workers": stats.workers,
         "salary_man_yen": stats.salary_man_yen,
         "rationale_ja": score.rationale_ja,
         "summary_ja": occ.description.summary_ja,
-        "summary_en": trans.summary_en if trans else None,
         "url": occ.url,
     }
 

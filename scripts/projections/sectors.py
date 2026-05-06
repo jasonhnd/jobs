@@ -103,7 +103,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         sectors_out.append({
             "id": s.id,
             "ja": s.ja,
-            "en": s.en,
             "hue": s.hue,
             "description_ja": s.description_ja,
             "occupation_count": counts.get(s.id, 0),
@@ -118,7 +117,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         sectors_out.append({
             "id": SENTINEL_UNCATEGORIZED,
             "ja": "未分類",
-            "en": "Uncategorized",
             "hue": "warm",
             "description_ja": "MHLW コードがマッピングに合致しなかった職業（dist/data.review_queue.json で確認）",
             "occupation_count": counts[SENTINEL_UNCATEGORIZED],
