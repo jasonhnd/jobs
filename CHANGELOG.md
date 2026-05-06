@@ -10,6 +10,113 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### `/map` page — round 2: closure links + sheet drag + iOS keyboard + list view + dead code purge
+
+Follow-up to the /map MVP. Closes the IA loop (footer + detail page
+both link to /map), polishes the bottom-sheet UX (drag-to-dismiss),
+hardens iOS Safari behavior (visualViewport keyboard fit), ships the
+a11y list-view fallback, registers the 4 GA4 events properly, adds
+the dedicated OG card, and finally retires the v1.1.0 dead-code
+templates that have been unreferenced since v1.2.0 single-URL
+convergence.
+
+**Footer + detail closure (Design-Mobile.md §4.11 / D6)**:
+- `partials/footer.html` — global site footer row 1 gets a "職業マップ"
+  link between トップ and セクター. Edits propagate to every page that
+  uses the partial via `{FOOTER_PARTIAL}` substitution: index, 404,
+  about, privacy, compliance, sectors hub × 16, sectors index,
+  rankings × 9, ranking index, /map, and 556 detail pages on next
+  build.
+- `scripts/build_occupations.py` — detail page template gets a new
+  `<nav class="map-back-link"><a href="/map">← 職業マップへ</a></nav>`
+  block above the footer, with matching pill styles. Always points
+  at bare `/map` (no query) so the user re-selects from the full
+  16-sector view, per spec D6. Affects all 556 ja/<id>.html on next
+  full build.
+
+**sitemap.xml (Design-Mobile.md §4.7 / §4.11)**:
+- `SITEMAP_BASE` template now emits `/map` (priority 0.9, monthly)
+  AND 16 `/map?sector=<id>` derivatives (priority 0.7, monthly) for
+  the JILPT 大分類 sectors (iryo / fukushi / kyoiku / jimu / hanbai
+  / service / hoan / noringyo / seizo / kensetu / maint / it /
+  senmon / creative / keiseki / shigyo). Auto-applied to sitemap.xml
+  on next full build.
+
+**Bottom sheet drag-to-dismiss (Design-Mobile.md §4.5 D3=A)**:
+- `map.html` — touch state machine on the sheet. touchstart in the
+  upper 64px (handle zone) records start position; touchmove
+  translates the sheet downward and dims the backdrop progressively;
+  touchend closes if velocity > 0.3 px/ms OR drag exceeds half the
+  sheet height; otherwise snaps back via CSS transition. Touches
+  starting below 64px fall through to native scroll inside the sheet
+  body. touchcancel resets state cleanly.
+
+**iOS visualViewport keyboard fit (Design-Mobile.md §4.3.3, mirrors
+Design.md §7.12 P0-D F1)**:
+- `map.html` — `window.visualViewport` listener clamps the search
+  dropdown's `max-height` to the actual space between the input
+  bottom and the keyboard top. Floor at 160px so at least one full
+  result stays visible. Fires on `focus`, `resize`, and `scroll`.
+  Browsers without `visualViewport` (rare in 2026) keep the CSS
+  default 320px max-height.
+
+**List view a11y fallback (Design-Mobile.md §4.13)**:
+- `map.html` — toggle button to the right of the sort dropdown
+  (`#viewToggle`). Click flips between the visual treemap render and
+  an ordered-list `<ol>` representation grouped by sector. Each list
+  row is an anchor → `/ja/<id>` with rank number, color swatch, job
+  name, and AI-risk + workforce stats. Fully keyboard-navigable.
+  `aria-pressed` + dynamic `aria-label` reflect the current mode.
+  Settles the §4.13 PENDING decision: **YES, ship the toggle** —
+  the ~80 lines of code is small enough that the SR / keyboard
+  fallback is worth it even though the desktop treemap doesn't have
+  one.
+
+**OG card (Design-Mobile.md §4.7)**:
+- `api/og.tsx` — new `renderMapCard()` function + `?page=map`
+  dispatcher branch in the default handler. Returns a 1200×630 PNG
+  with UNOFFICIAL badge, "OCCUPATION MAP / 全 552 職業" eyebrow,
+  big serif "職業マップ" title, "AI 影響度 × 就業者数 ヒートマップ"
+  subtitle, a 5-band stylized swatch (cool→warm), and the legend
+  caption. Self-contained — no upstream fetch (so no extra latency
+  / failure surface). 24h CDN cache like the other OG cards.
+- `map.html` `og:image` updated from generic `/og.png` to
+  `https://mirai-shigoto.com/api/og?page=map`.
+
+**GA4 spec.yaml registration (Design-Mobile.md §4.8)**:
+- `analytics/spec.yaml` — `events:` section gains 4 new entries:
+  `map_open` (referrer), `map_filter` (sector + sort),
+  `map_cell_tap` (job_id + sector + rank), `map_detail_click`
+  (job_id, marked `conversion: true` as the page's primary funnel
+  goal). `Custom Dimensions — event-scoped` section gains 5 new
+  parameter registrations: `referrer`, `sector`, `sort`, `rank`,
+  `job_id`. The `job_id` dimension is documented as parallel to
+  the existing `occupation_id` (same id space, different event
+  group); a future cleanup can unify them. Re-running
+  `analytics/setup-ga4.mjs` will create these in the GA4 property.
+
+**v1.1.0 dead code purge (E1 follow-up)**:
+- Deleted `scripts/templates/mobile/__init__.py` and the 7 mobile
+  page templates (`about.py`, `compare.py`, `detail.py`,
+  `explore.py`, `home.py`, `ranking.py`, `search.py`) — all marked
+  `DEAD CODE since v1.2.0` in their docstrings during the earlier
+  cleanup pass; verified zero active imports (only docstring /
+  attribution references). v1.1.0's `/m/{ja,en}/*` URL space was
+  retired in v1.2.0 single-URL convergence; sitemap had 0 mentions,
+  vercel.json had 0 rules, no `m/` output dir has been built since.
+- Deleted `scripts/translate_descriptions.py` — `DEAD CODE since
+  v1.4.0` per its docstring; v1.4.0 archived all EN translations to
+  `data/_archive/translations-en/`. The script's destination no
+  longer ships to production.
+- Deleted `styles/mobile-tokens.json` — the unused machine-readable
+  mirror of the live `styles/mobile-tokens.css` (which IS the
+  site-wide token source post-v1.2.0). The `.json` had 0 known
+  consumers; `.css` is untouched and remains the single source of
+  truth for site-wide colors / typography / spacing.
+- `scripts/build_occupations.py:309` — attribution comment for the
+  copied profile-radar algorithm updated to note the source template
+  (which was deleted in this same commit) lived at the v1.1.0 path.
+
 ### `/map` page — mobile-first independent occupation map (MVP)
 
 Per Design-Mobile.md §4. The CTA on the new mobile homepage preview
