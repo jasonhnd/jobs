@@ -147,8 +147,8 @@ ANALYTICS_BLOCK = """\
 CSS_BLOCK = """\
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
-:root[data-theme="dark"]{--bg:#1A1814;--bg2:#241E18;--bg3:#2E2722;--fg:#F0EBE0;--fg2:#B8AC95;--fg3:#7A6F5E;--border:rgba(240,235,224,0.10)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A1814;--bg2:#241E18;--bg3:#2E2722;--fg:#F0EBE0;--fg2:#B8AC95;--fg3:#7A6F5E;--border:rgba(240,235,224,0.10)}}
+/* Direction C single-theme: prefers-color-scheme + data-theme all resolve to warm cream. */
+:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
 html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
@@ -185,18 +185,11 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .risk-pill.low{background:#E0EAE2;color:#48705F}
 .risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
 .risk-pill.high{background:#F5D5C7;color:#A24A28}
-:root[data-theme="dark"] .risk-pill.low{background:#2A3D34;color:#9DC4AD}
-:root[data-theme="dark"] .risk-pill.mid{background:#3D3424;color:#D4B97E}
-:root[data-theme="dark"] .risk-pill.high{background:#3D2620;color:#E89A7C}
 .demand-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
 .demand-pill.hot{background:#E0EAE2;color:#48705F}
 .demand-pill.warm{background:#F4E5C7;color:#8A6A2A}
 .demand-pill.cool{background:#D8E4F0;color:#3A5F7A}
 .demand-pill.cold{background:#E8E4DF;color:#7A6F5E}
-:root[data-theme="dark"] .demand-pill.hot{background:#2A3D34;color:#9DC4AD}
-:root[data-theme="dark"] .demand-pill.warm{background:#3D3424;color:#D4B97E}
-:root[data-theme="dark"] .demand-pill.cool{background:#253040;color:#8AB4D8}
-:root[data-theme="dark"] .demand-pill.cold{background:#2E2722;color:#B8AC95}
 .rl-salary,.rl-workers,.rl-extra{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
 .rl-extra{color:var(--accent-deep);font-weight:600}
 .highlights{margin:24px 0}
