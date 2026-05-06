@@ -1409,6 +1409,169 @@ def write_sitemap(manifest: list[dict], lastmod: str = DATE_MODIFIED) -> None:
     )
 
 
+# ─────────────────────────────────────────────────────────────────────
+# Mobile-homepage map preview thumbnail (Design-Mobile.md §4.2 + §4.10)
+# ─────────────────────────────────────────────────────────────────────
+# Per spec: mobile (<=768px) homepage no longer ships the embedded
+# treemap canvas. Instead it shows a static preview card with an inline
+# SVG thumbnail + CTA → /map. The thumbnail is generated at build time
+# (zero runtime fetch / zero JS), then injected into index.html via a
+# <!-- INCLUDE: map-thumb --> placeholder. Re-runs on every full build
+# so the thumbnail stays in sync with data.treemap.json.
+
+# 5-tier color quantization for ai_risk 1-10. Cool → warm. Hex values
+# roughly match the existing canvas treemap palette referenced in
+# Design.md §2.1 / styles/mobile-tokens.css risk-band tokens, without
+# needing a live color-function call.
+_RISK_PALETTE = (
+    "#0F8A66",  # tier 1 (ai_risk 1-2): cool teal-green
+    "#5BA84F",  # tier 2 (ai_risk 3-4): warm green
+    "#D9A03B",  # tier 3 (ai_risk 5-6): yellow-amber
+    "#E27A33",  # tier 4 (ai_risk 7-8): orange
+    "#C4422F",  # tier 5 (ai_risk 9-10): red
+)
+
+
+def _color_for_risk(risk: int) -> str:
+    """Map ai_risk score (1-10) to one of 5 quantized hex colors."""
+    if risk <= 2:
+        return _RISK_PALETTE[0]
+    if risk <= 4:
+        return _RISK_PALETTE[1]
+    if risk <= 6:
+        return _RISK_PALETTE[2]
+    if risk <= 8:
+        return _RISK_PALETTE[3]
+    return _RISK_PALETTE[4]
+
+
+def generate_map_thumbnail() -> None:
+    """Generate inline SVG thumbnail of the 552-occupation treemap for the
+    mobile homepage preview card. Per Design-Mobile.md §4.10.
+
+    Strategy: top 30 occupations by workers fill the upper 3 rows (10 cells
+    each), the remaining 522 occupations are aggregated into a single
+    full-width "その他" tile in the bottom row (per spec "底部一条").
+    Within each top-30 row, cells are sorted by ai_risk asc so colors flow
+    cool→warm left to right; cell width is proportional to workers within
+    the row. Color: 5-tier quantization on ai_risk via _color_for_risk().
+    Output target: <4KB inline SVG, written to dist/map-thumb.snippet.html
+    for the inject step.
+    """
+    src = REPO / "dist" / "data.treemap.json"
+    out = REPO / "dist" / "map-thumb.snippet.html"
+
+    if not src.exists():
+        print(f"WARN: {src.relative_to(REPO)} not found; skipping map thumbnail.")
+        return
+
+    records = json.loads(src.read_text())
+
+    # Top 30 by workers + sum the rest into a single "その他" bottom strip.
+    sorted_w = sorted(records, key=lambda r: r.get("workers") or 0, reverse=True)
+    top30 = sorted_w[:30]
+    rest = sorted_w[30:]
+    rest_workers = sum((r.get("workers") or 0) for r in rest)
+    rest_ai = (
+        round(sum((r.get("ai_risk") or 5) for r in rest) / len(rest))
+        if rest
+        else 5
+    )
+
+    # Sort top 30 by ai_risk asc, distribute round-robin into 3 rows so each
+    # row spans the full risk spectrum (matches mockup's L→R cool→warm look).
+    top30.sort(key=lambda r: ((r.get("ai_risk") or 5), -(r.get("workers") or 0)))
+    rows: list[list[tuple[int, int]]] = [[], [], []]
+    for i, r in enumerate(top30):
+        rows[i % 3].append(((r.get("workers") or 0), (r.get("ai_risk") or 5)))
+    # Within each row, sort by ai_risk asc → cool→warm L→R.
+    for row in rows:
+        row.sort(key=lambda c: c[1])
+
+    # Render SVG. preserveAspectRatio=none lets it stretch to its container.
+    W, H = 320, 130
+    top_band_h = H * 0.78  # upper 78% for top 30 cells
+    other_band_h = H - top_band_h  # bottom 22% for "その他"
+    row_h = top_band_h / 3
+
+    parts: list[str] = [
+        f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" '
+        f'preserveAspectRatio="none" role="img" '
+        f'aria-label="552 職業の AI 影響ヒートマップ プレビュー" '
+        f'class="m-map-preview-svg">'
+    ]
+    # Top 30 — 3 rows of ~10 cells each
+    for ri, row in enumerate(rows):
+        row_total = sum(c[0] for c in row)
+        x = 0.0
+        y = ri * row_h
+        for workers, risk in row:
+            w = (workers / row_total) * W if row_total > 0 else 0
+            color = _color_for_risk(risk)
+            parts.append(
+                f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" '
+                f'height="{row_h:.1f}" fill="{color}"/>'
+            )
+            x += w
+    # "その他" — single full-width bottom strip with average risk color
+    if rest_workers > 0:
+        parts.append(
+            f'<rect x="0.0" y="{top_band_h:.1f}" width="{W}" '
+            f'height="{other_band_h:.1f}" fill="{_color_for_risk(rest_ai)}" '
+            f'opacity="0.55"/>'
+        )
+    parts.append("</svg>")
+
+    snippet = "".join(parts)
+    out.write_text(snippet, encoding="utf-8")
+    print(f"Map thumbnail SVG: {len(snippet)} bytes → {out.relative_to(REPO)}")
+
+
+def inject_map_thumbnail_into_index() -> None:
+    """Replace the <!-- INCLUDE: map-thumb --> ... <!-- /INCLUDE: map-thumb -->
+    block in index.html with the freshly-generated SVG snippet.
+
+    By inlining the SVG we avoid a runtime fetch on the mobile homepage,
+    keeping the preview card zero-JS / zero-network. Per Design-Mobile.md
+    §4.10. The placeholder is preserved so subsequent builds re-inject
+    cleanly.
+    """
+    snippet_path = REPO / "dist" / "map-thumb.snippet.html"
+    index_path = REPO / "index.html"
+
+    if not snippet_path.exists():
+        print(f"WARN: {snippet_path.relative_to(REPO)} not found; skipping inject.")
+        return
+    if not index_path.exists():
+        print("WARN: index.html not found; skipping inject.")
+        return
+
+    snippet = snippet_path.read_text(encoding="utf-8").strip()
+    html = index_path.read_text(encoding="utf-8")
+
+    pattern = re.compile(
+        r"(<!-- INCLUDE: map-thumb -->)(.*?)(<!-- /INCLUDE: map-thumb -->)",
+        re.DOTALL,
+    )
+    match = pattern.search(html)
+    if not match:
+        print(
+            "WARN: <!-- INCLUDE: map-thumb --> markers not found in "
+            "index.html; skipping inject. (Add the placeholder to enable "
+            "auto-injection per Design-Mobile.md §4.10.)"
+        )
+        return
+
+    new_block = f"{match.group(1)}\n          {snippet}\n          {match.group(3)}"
+    html2 = html[: match.start()] + new_block + html[match.end():]
+
+    if html2 != html:
+        index_path.write_text(html2, encoding="utf-8")
+        print(f"Map thumbnail injected → index.html ({len(snippet)} bytes inline SVG)")
+    else:
+        print("Map thumbnail already up-to-date in index.html.")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=None, help="Generate only the first N records (smoke test).")
@@ -1472,6 +1635,14 @@ def main() -> int:
         print(f"Sitemap rewritten: {SITEMAP_PATH} ({pages} occupation URLs added)")
     elif not is_full_run:
         print("(partial run — sitemap NOT rewritten; pass --no-sitemap to silence this notice)")
+
+    # Mobile homepage map preview SVG (Design-Mobile.md §4.10).
+    # Regenerate + inject on every full build so the inline thumbnail in
+    # index.html stays in sync with dist/data.treemap.json.
+    if is_full_run:
+        generate_map_thumbnail()
+        inject_map_thumbnail_into_index()
+
     return 0
 
 

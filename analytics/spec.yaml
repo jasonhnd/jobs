@@ -73,13 +73,18 @@ events:
     conversion: true   # treemap → occupation page is the primary navigation funnel
 
   - name: tooltip_view
-    description: Desktop hover triggered tooltip display (proxy for desktop tile interest).
+    description: |
+      Desktop hover triggered tooltip display (proxy for desktop tile interest).
+      Sampled at 10% client-side (Math.random() < 0.10) — full rate would
+      dwarf every other event since tooltips fire on every hover. The 10%
+      sample is representative for "which occupations attract attention"
+      analysis. Multiply tooltip_view counts by 10 when extrapolating to
+      total tooltip volume.
     params:
       - { name: occupation_id, type: int }
       - { name: ai_risk_score, type: int }
       - { name: language, type: string }
-    conversion: false
-    unimplemented: planned   # would fire too often (every hover); deferred until we decide on a sample rate
+    conversion: false   # signal-only, not a conversion goal
 
   # `search_used` — REMOVED 2026-05-02. Was deprecated, never emitted; replaced
   # entirely by `job_search_submit` (which logs the query text). Removing from
@@ -200,13 +205,18 @@ events:
     conversion: true   # Yaku's推广方案 KPI #3 — promote to Key Event
 
   - name: jobtag_outbound_click
-    description: User clicked the secondary "open official jobtag page" link (was on modal; lives on per-occupation pages now).
+    description: |
+      User clicked the "出典 / 厚生労働省 job tag" link in the source-row of a
+      per-occupation page, navigating away to the MHLW jobtag site. Used to
+      measure flow of users who chose to verify against / continue at the
+      official source after consuming our analysis. Compliance-relevant —
+      proves the attribution chain ja/<id> → MHLW is being used. Wired in
+      scripts/build_occupations.py via inline onclick gtag('event', ...).
     params:
       - { name: occupation_id, type: int }
-      - { name: from_modal, type: string, desc: "true | false (was it from modal or other path?)" }
+      - { name: ai_risk_score, type: int }
       - { name: language, type: string }
-    conversion: false
-    unimplemented: planned   # link exists on /ja/<id> & /en/<id> as a 出典 / source row; gtag emit not wired yet
+    conversion: false   # informational, not a primary conversion goal
 
   # ---- Email capture ----
   # `email_submit_modal` — REMOVED 2026-05-02 along with the modal itself.
@@ -307,13 +317,10 @@ event_scoped_dimensions:
     display_name: Layer Name
     description: Active color layer at time of event.
 
-  - parameter_name: open_method
-    display_name: Modal Open Method
-    description: How the modal was triggered (tap / hash / keyboard).
-
-  - parameter_name: close_method
-    display_name: Modal Close Method
-    description: How the modal was dismissed (x / esc / backdrop).
+  # `open_method` / `close_method` — REMOVED 2026-05-06 from spec. They were
+  # introduced for the modal lifecycle (occupation_modal_open / modal_close)
+  # which was deleted 2026-05-02. The dimensions still exist on the live GA4
+  # property to preserve historical data; we just don't sync them anymore.
 
   - parameter_name: selected_options
     display_name: Feedback Selected Options
@@ -367,9 +374,8 @@ event_scoped_dimensions:
     display_name: Layer Switch Source
     description: Previously active color layer at the moment of a `layer_change` (paired with `layer_name` which is the new value).
 
-  - parameter_name: time_open_ms
-    display_name: Modal Open Duration ms
-    description: How long the occupation modal was open before being closed. Used to score "engaged but didn't convert" sessions.
+  # `time_open_ms` — REMOVED 2026-05-06 from spec (same reason as
+  # open_method / close_method above). Live GA4 dimension preserved for history.
 
   - parameter_name: freetext_length
     display_name: Feedback Freetext Length
@@ -434,6 +440,7 @@ key_events:
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
+  - email_submit_header     # newsletter card submit (QI 3); spec entry exists, UI not yet wired (unimplemented:planned)
   # — Conversion: occupation page → operator inbox —
   - feedback_submit         # QI 8 (feedback + tagging)
   # NOTE: `email_submit_modal` and `report_cta_click` were removed in 2026-05-02
