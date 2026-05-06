@@ -416,7 +416,15 @@ hover (各平台品牌色覆盖):
 
 ### 7.10 Footer
 
-**全站统一规范（v1.3.x 起 — 两行 chip + footer-meta 三层结构）**：footer 改为 **导航 chip 行 + 法务/规约 chip 行 + footer-meta** 的三层结构，全站（index / about / compliance / privacy / 404 / detail × 556 / sector × 17 / ranking × 9）**完全一致**（包括首页）。
+**全站统一规范（v1.3.x 起 — 两行 chip + footer-meta 三层结构）**：footer 改为 **导航 chip 行 + 法务/规约 chip 行 + footer-meta** 的三层结构，全站（index / about / compliance / privacy / 404 / detail × 556 / sector × 17 / ranking × 10）**完全一致**（包括首页）。
+
+**单一真相源（v1.3.x patch — partial 架构）**：footer 的 HTML 实体从全部 8 处复制粘贴（5 个静态 HTML + 3 个 Python 生成器）收敛为一个文件 `partials/footer.html`。改 footer 的唯一姿势：
+
+1. 编辑 `partials/footer.html`
+2. 跑 `npm run build:footer`（= `python3 scripts/build_partials.py`）— 静态 5 页之间 `<!-- FOOTER:START --> ... <!-- FOOTER:END -->` 标记之间的内容被替换
+3. 跑 `npm run build`（含 build:footer、build:occ、build:sectors、build:rankings）— 587 generated 页用 `FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text()` 直接读 partial，渲染到对应位置
+
+不要在静态页 marker 之间手改 footer，下一次 build 会被覆盖。不要在 build 脚本里硬编码 footer HTML，必须通过 `{FOOTER_PARTIAL}` 插入。
 
 **版面**：
 

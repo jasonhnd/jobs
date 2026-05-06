@@ -10,6 +10,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Footer — extract to single partial (`partials/footer.html`)
+
+Follow-up to the footer unification below. The footer HTML used to be copy-pasted in 8 places (5 static pages + 3 Python build scripts). Now it lives in one file and the build pipeline injects it everywhere.
+
+- **`partials/footer.html`** — single source of truth for the site-wide footer markup
+- **`scripts/build_partials.py`** — injects `partials/footer.html` between `<!-- FOOTER:START --> ... <!-- FOOTER:END -->` markers in the 5 static pages (index / 404 / about / compliance / privacy)
+- **3 Python generators** (`build_occupations.py`, `build_sector_hubs.py`, `build_rankings.py`) — each loads `FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text()` at module level and interpolates `{FOOTER_PARTIAL}` into the page template; the hardcoded footer HTML inside these scripts is gone
+- **npm scripts** — `npm run build:footer` runs the partial injector standalone; `npm run build` now chains data → footer → occ → sectors → rankings so a clean build always picks up the latest partial
+- **Design.md §7.10** — updated with the new partial architecture and the canonical edit flow ("edit `partials/footer.html` → `npm run build:footer` (static) or `npm run build` (everything)")
+
 ### Footer — site-wide unification (all pages identical)
 
 Aligns every page's footer to one canonical 3-layer structure (导航 chips + 法务 chips + footer-meta) so 404 / about / compliance / privacy / index / 556 detail / 17 sector / 10 ranking — every single HTML — renders the exact same footer HTML and CSS.

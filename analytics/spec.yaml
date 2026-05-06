@@ -30,13 +30,13 @@ events:
       - { name: tile_count, type: int, desc: "Number of tiles rendered (552 today)" }
     conversion: false
 
-  - name: language_switch
-    description: User toggled the JA/EN language switch.
-    params:
-      - { name: from_lang, type: string }
-      - { name: to_lang, type: string }
-      - { name: path, type: string, desc: "URL path at time of switch" }
-    conversion: false
+  # `language_switch` — REMOVED 2026-05-06. Was wired to the JA/EN language
+  # switcher that v1.4.0 deleted (site is now JA-only, /en/* 301 → /ja/*).
+  # Event will never fire again. Historical event data still in GA4 for
+  # the prior 14-month retention window. `from_lang` / `to_lang` / `path`
+  # parameters are left as global params (used by other events) — not
+  # specifically tied to language_switch any more, so no parameter cleanup
+  # needed.
 
   - name: layer_change
     description: User switched the color layer (AI risk / salary / age / etc.)

@@ -28,6 +28,10 @@ REPO = Path(__file__).resolve().parent.parent
 DETAIL_DIR = REPO / "dist" / "data.detail"
 SECTORS_PATH = REPO / "data" / "sectors" / "sectors.ja-en.json"
 OUT_DIR = REPO / "ja" / "rankings"
+
+# Single source of truth for the site-wide footer (see partials/footer.html
+# and scripts/build_partials.py).
+FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
 SITE = "https://mirai-shigoto.com"
 DATE_PUBLISHED = "2026-05-06"
 DATE_MODIFIED = "2026-05-06"
@@ -584,23 +588,9 @@ def render_page(
         {related_html}
       </section>
 
-      <footer>
-        <div class="footer-links">
-          <a href="/">トップ</a>
-          <a href="/ja/sectors">セクター</a>
-          <a href="/ja/rankings">ランキング</a>
-        </div>
-        <div class="footer-links">
-          <a href="/about">データについて</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-            v1.3.0 · MIT<br />
-            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
-            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-        </div>
-      </footer>
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>
@@ -747,23 +737,9 @@ def render_index(
 
       {insights_html}
 
-      <footer>
-        <div class="footer-links">
-          <a href="/">トップ</a>
-          <a href="/ja/sectors">セクター</a>
-          <a href="/ja/rankings">ランキング</a>
-        </div>
-        <div class="footer-links">
-          <a href="/about">データについて</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-            v1.3.0 · MIT<br />
-            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
-            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-        </div>
-      </footer>
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>
