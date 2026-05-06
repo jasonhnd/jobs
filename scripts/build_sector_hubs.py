@@ -407,7 +407,7 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     </div>
 
     <div id="wrapper">
-      <nav class="crumb" aria-label="Breadcrumb">
+      <nav class="crumb" aria-label="パンくずリスト">
         <a href="{home_href}" rel="up">{escape(crumb_root)}</a>
         <span aria-hidden="true">›</span>
         <a href="/ja/sectors" rel="up">{escape(crumb_sectors)}</a>
@@ -647,7 +647,7 @@ def render_sectors_index(sectors: list[dict], by_sector: dict) -> str:
     </div>
 
     <div id="wrapper">
-      <nav class="crumb" aria-label="Breadcrumb">
+      <nav class="crumb" aria-label="パンくずリスト">
         <a href="{home_href}" rel="up">{escape(crumb_root)}</a>
         <span aria-hidden="true">›</span>
         <span>{escape(crumb_self)}</span>
