@@ -10,6 +10,78 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Search autocomplete on mobile — P0-D iOS keyboard + touch fixes
+
+User-reported on iPhone: (1) when the soft keyboard opens, the autocomplete
+dropdown gets pushed half off-screen behind the keyboard, leaving only ~1.5
+items visible; (2) any finger contact on the dropdown immediately navigates
+to whichever item was touched, so the user can never scroll to browse other
+options. Both blockers are gone in this change.
+
+Three coordinated fixes (must ship together — any single one in isolation
+leaves a still-broken flow):
+
+- **F1 — visualViewport-aware max-height** (`index.html`):
+  - Root cause: iOS Safari's `100vh` does **not** shrink when the keyboard
+    opens (documented platform behavior). Fixed `max-height: 360px` on
+    `.search-suggest` left half the dropdown behind the keyboard.
+  - Fix: new `fitDropdownToViewport()` reads `window.visualViewport.height`
+    (which **does** reflect the keyboard) and writes
+    `suggestEl.style.maxHeight = max(160, vViewportHeight - inputBottom - 12)`.
+    Listeners on `visualViewport.resize` / `visualViewport.scroll` keep the
+    height in sync as the keyboard animates / the user scrolls. Also called
+    from the input's `focus` handler so the first open is already correctly
+    sized.
+  - Falls back gracefully on older browsers — if `window.visualViewport` is
+    undefined the function no-ops and the original CSS max-height takes over.
+
+- **F2 — tap-vs-scroll touch state machine** (`index.html`):
+  - Root cause: original `touchstart` listener (registered with
+    `{ passive: false }`) called `selectFromEvent` immediately, which
+    `e.preventDefault()`'d and ran `navigateToJob(rec, "suggest_click")` →
+    `window.location.href = …`. Any first finger contact = navigation. The
+    user had no opportunity to scroll without committing.
+  - Fix: mirror the canvas pattern documented in Design.md §6.7. `touchstart`
+    is now `{ passive: true }` and only records `{ x, y, t0, target }` —
+    no preventDefault, native scrolling proceeds normally. `touchend` reads
+    `changedTouches[0]` and only triggers nav when displacement
+    `Math.hypot(dx, dy) < TAP_SLOP_PX (10px)` **and** duration
+    `dt < TAP_MAX_MS (500ms)`. Drags (= scroll intent) and long-presses
+    no-op so the user can browse freely.
+  - Constants `TAP_SLOP_PX = 10` / `TAP_MAX_MS = 500` match §6.7 exactly so
+    the whole site shares one touch-decision threshold. Desktop `mousedown`
+    path is untouched.
+  - `touchcancel` resets state for system interruptions (alerts, gestures).
+
+- **F3 — defer blur-hide while a touch gesture is active** (`index.html`):
+  - Root cause: on iOS, touching the dropdown blurs the `<input>` (because
+    the touch target is outside the input). The 150 ms blur-hide timer then
+    fires mid-gesture and removes `.visible`, killing the scroll.
+  - Fix: a new closure-scoped `touchActiveOnDropdown` flag is set true on
+    `touchstart` and cleared 350 ms after `touchend` (the grace window
+    covers `navigateToJob` before the page actually changes). The blur-hide
+    callback now early-returns if the flag is true, so the dropdown stays
+    visible for the full duration of any in-flight gesture.
+
+### Files
+
+- `index.html` — `attachSuggest` rewritten to share `touchActiveOnDropdown` /
+  `touchState` across the new touchstart / touchend / touchcancel handlers;
+  `fitDropdownToViewport()` added at the end of the same closure;
+  blur-hide and focus handlers updated to participate.
+- `docs/Design.md` — §7.12 sub-points for F1 / F2 / F3 added; revision
+  history row appended for 2026-05-06.
+
+### Verification (manual, real-device)
+
+- iPhone Safari (iOS 17+): keyboard up → dropdown sits flush above keyboard,
+  all results scrollable; finger drag scrolls without selecting; tap < 500 ms
+  navigates as expected.
+- Android Chrome: same gesture set, no regression.
+- Desktop Chrome / Safari / Firefox: mouse / keyboard interactions unchanged.
+
+---
+
 ### English UI removal — site is now JA-only (BREAKING)
 
 The English UI was retired. The site renders only Japanese; legacy `/en/*` URLs

@@ -3546,6 +3546,14 @@
         const suggestEl = document.getElementById(suggestId);
         if (!inputEl || !suggestEl) return;
         let focusedIdx = -1;
+        // P0-D (2026-05-06): mobile touch state machine + iOS keyboard sizing.
+        //   touchActiveOnDropdown — set during touchstart…touchend+grace so the
+        //     blur-timeout doesn't hide the dropdown mid-scroll.
+        //   touchState — for tap-vs-scroll discrimination (mirrors §6.7 canvas).
+        const TAP_SLOP_PX = 10;
+        const TAP_MAX_MS = 500;
+        let touchActiveOnDropdown = false;
+        let touchState = null;
 
         function render(q) {
           const matches = rankMatches(q, 8);
@@ -3591,10 +3599,18 @@
         });
         inputEl.addEventListener("focus", () => {
           if (inputEl.value.trim()) render(inputEl.value);
+          // P0-D F1: ensure dropdown is sized to fit between input and keyboard.
+          fitDropdownToViewport();
         });
         inputEl.addEventListener("blur", () => {
           // Delay so click/touch-on-item registers before blur hides the list.
-          setTimeout(() => { suggestEl.classList.remove("visible"); }, 150);
+          // P0-D F3: if a finger is currently mid-gesture on the dropdown
+          // (scrolling or tapping), defer the hide — touchend will clear the
+          // flag once the gesture finishes.
+          setTimeout(() => {
+            if (touchActiveOnDropdown) return;
+            suggestEl.classList.remove("visible");
+          }, 150);
         });
         inputEl.addEventListener("keydown", (e) => {
           if (!suggestEl.classList.contains("visible")) return;
@@ -3628,8 +3644,13 @@
           }
         });
 
-        // mousedown (not click) so input's blur handler doesn't hide us first.
-        // Also handle touchstart so iOS/Android tap on suggest item registers.
+        // === Pointer / Touch handling — Design.md §6.7 + §7.12 (P0-D F2) ===
+        // Desktop (mousedown): immediate selection.
+        // Mobile: tap-vs-scroll state machine — touchstart only RECORDS the
+        //   start point + time; touchend evaluates whether the gesture was a
+        //   tap (< TAP_SLOP_PX displacement AND < TAP_MAX_MS duration). Only
+        //   taps trigger nav. Drags (= scroll intent) and long-presses get a
+        //   no-op so the user can browse the dropdown without picking by accident.
         // P0-C: closest("li[data-job-id]") skips the .ss-hint row so hint clicks no-op.
         const selectFromEvent = (e) => {
           const li = e.target.closest("li[data-job-id]");
@@ -3642,7 +3663,47 @@
           if (rec) navigateToJob(rec, "suggest_click");
         };
         suggestEl.addEventListener("mousedown", selectFromEvent);
-        suggestEl.addEventListener("touchstart", selectFromEvent, { passive: false });
+
+        suggestEl.addEventListener("touchstart", (e) => {
+          touchActiveOnDropdown = true;
+          const t = e.touches && e.touches[0];
+          if (!t) { touchState = null; return; }
+          touchState = {
+            x: t.clientX,
+            y: t.clientY,
+            t0: Date.now(),
+            target: e.target,
+          };
+        }, { passive: true });
+
+        suggestEl.addEventListener("touchend", (e) => {
+          // Hold the active flag briefly so a blur-timeout that fires during
+          // navigateToJob doesn't race the hide.
+          setTimeout(() => { touchActiveOnDropdown = false; }, 350);
+          if (!touchState) return;
+          const t = e.changedTouches && e.changedTouches[0];
+          const state = touchState;
+          touchState = null;
+          if (!t) return;
+          const dx = t.clientX - state.x;
+          const dy = t.clientY - state.y;
+          const dt = Date.now() - state.t0;
+          const wasTap = Math.hypot(dx, dy) < TAP_SLOP_PX && dt < TAP_MAX_MS;
+          if (!wasTap) return; // scroll or long-press — let the user keep browsing
+          const li = state.target && state.target.closest && state.target.closest("li[data-job-id]");
+          if (!li) return;
+          // Suppress the synthetic click that follows touchend so we don't double-fire.
+          e.preventDefault();
+          fireSearchIntent("click", inputEl.value);
+          const id = parseInt(li.dataset.jobId, 10);
+          const rec = data.find(d => d.id === id);
+          if (rec) navigateToJob(rec, "suggest_click");
+        });
+
+        suggestEl.addEventListener("touchcancel", () => {
+          touchState = null;
+          touchActiveOnDropdown = false;
+        });
 
         // P0-A: hover ≥ 500 ms on a suggestion = mouse-driven engagement intent.
         // Fires once per query (deduped inside fireSearchIntent). Touch devices
@@ -3660,6 +3721,26 @@
         suggestEl.addEventListener("mouseout", () => {
           clearTimeout(hoverTimer);
         });
+
+        // === P0-D F1: visualViewport-aware max-height ===
+        // iOS Safari's `100vh` does NOT shrink when the keyboard appears, so a
+        // fixed max-height: 360px gets pushed half-off-screen behind the keyboard.
+        // visualViewport.height reflects the real visible region — recompute on
+        // focus / resize / scroll so the dropdown always fits between the input
+        // bottom and the keyboard top. Falls back to the CSS max-height when
+        // visualViewport is unavailable (older browsers).
+        function fitDropdownToViewport() {
+          if (!window.visualViewport) return;
+          const vh = window.visualViewport.height;
+          const inputBottom = inputEl.getBoundingClientRect().bottom;
+          const available = vh - inputBottom - 12; // 12px breathing room
+          const next = Math.max(160, available);
+          suggestEl.style.maxHeight = next + "px";
+        }
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener("resize", fitDropdownToViewport);
+          window.visualViewport.addEventListener("scroll", fitDropdownToViewport);
+        }
 
         // Click outside the hero-search container closes the dropdown.
         document.addEventListener("click", (e) => {
