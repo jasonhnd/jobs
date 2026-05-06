@@ -35,7 +35,29 @@ SECTORS_PATH = REPO / "data" / "sectors" / "sectors.ja-en.json"
 
 # Single source of truth for the site-wide footer (see partials/footer.html
 # and scripts/build_partials.py).
-FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+def _get_last_commit_date() -> str:
+    """Return YYYY-MM-DD of the latest git commit. Used for footer 最終更新."""
+    try:
+        import subprocess
+        from datetime import date as _date
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cs"],
+            capture_output=True, text=True, cwd=REPO, timeout=5,
+        )
+        if result.returncode == 0:
+            stamp = result.stdout.strip()
+            if stamp:
+                return stamp
+        return _date.today().isoformat()
+    except Exception:
+        from datetime import date as _date
+        return _date.today().isoformat()
+
+
+FOOTER_PARTIAL = (
+    (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+    .replace("{{LAST_UPDATED}}", _get_last_commit_date())
+)
 DETAIL_DIR = REPO / "dist" / "data.detail"
 OCC_MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
 SECTOR_MANIFEST_PATH = REPO / "scripts" / ".sector_manifest.json"
@@ -369,19 +391,39 @@ def render_jsonld(sector: dict, occs: list[dict], faqs: list[tuple[str, str]] | 
             "name": title,
         })
 
+    page_title = f"{name_loc} の職業一覧"
+    page_desc = f"{name_loc} 業界の {len(occs)} 職業を AI 影響度・年収・就業者数で一覧。"
     graph = [
         {
             "@type": "WebPage",
             "@id": f"{canonical}#webpage",
             "url": canonical,
-            "name": f"{name_loc} の職業一覧",
-            "description": f"{name_loc} 業界の {len(occs)} 職業を AI 影響度・年収・就業者数で一覧。",
+            "name": page_title,
+            "description": page_desc,
             "isPartOf": {"@id": f"{SITE}/#website"},
             "inLanguage": "ja",
             "datePublished": DATE_PUBLISHED,
             "dateModified": DATE_MODIFIED,
             "publisher": {"@id": f"{SITE}/#organization"},
             "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+        },
+        # SEO Phase 9: Article schema — sector hub reads as editorial content
+        # (intro + stats + curated lists + FAQ), not just a data table.
+        {
+            "@type": "Article",
+            "@id": f"{canonical}#article",
+            "headline": f"{name_loc} の職業 — {len(occs)}職業の AI 影響度・年収・就業者数",
+            "description": page_desc,
+            "image": f"{SITE}/api/og?sector={sector['id']}",
+            "url": canonical,
+            "datePublished": DATE_PUBLISHED,
+            "dateModified": DATE_MODIFIED,
+            "author": {"@id": f"{SITE}/#organization"},
+            "publisher": {"@id": f"{SITE}/#organization"},
+            "inLanguage": "ja",
+            "mainEntityOfPage": {"@id": f"{canonical}#webpage"},
+            "isPartOf": {"@id": f"{canonical}#webpage"},
+            "articleSection": "セクター",
         },
         {
             "@type": "BreadcrumbList",

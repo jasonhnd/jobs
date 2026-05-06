@@ -31,7 +31,29 @@ OUT_DIR = REPO / "ja" / "rankings"
 
 # Single source of truth for the site-wide footer (see partials/footer.html
 # and scripts/build_partials.py).
-FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+def _get_last_commit_date() -> str:
+    """Return YYYY-MM-DD of the latest git commit. Used for footer 最終更新."""
+    try:
+        import subprocess
+        from datetime import date as _date
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cs"],
+            capture_output=True, text=True, cwd=REPO, timeout=5,
+        )
+        if result.returncode == 0:
+            stamp = result.stdout.strip()
+            if stamp:
+                return stamp
+        return _date.today().isoformat()
+    except Exception:
+        from datetime import date as _date
+        return _date.today().isoformat()
+
+
+FOOTER_PARTIAL = (
+    (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+    .replace("{{LAST_UPDATED}}", _get_last_commit_date())
+)
 SITE = "https://mirai-shigoto.com"
 DATE_PUBLISHED = "2026-05-06"
 DATE_MODIFIED = "2026-05-06"
@@ -429,6 +451,24 @@ def render_jsonld(
             "dateModified": DATE_MODIFIED,
             "publisher": {"@id": f"{SITE}/#organization"},
             "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+        },
+        # SEO Phase 9: Article schema — frames ranking pages as editorial content
+        # for content/article-rich-snippet eligibility (vs pure data list).
+        {
+            "@type": "Article",
+            "@id": f"{canonical}#article",
+            "headline": title,
+            "description": description,
+            "image": f"{SITE}/og.png",
+            "url": canonical,
+            "datePublished": DATE_PUBLISHED,
+            "dateModified": DATE_MODIFIED,
+            "author": {"@id": f"{SITE}/#organization"},
+            "publisher": {"@id": f"{SITE}/#organization"},
+            "inLanguage": "ja",
+            "mainEntityOfPage": {"@id": f"{canonical}#webpage"},
+            "isPartOf": {"@id": f"{canonical}#webpage"},
+            "articleSection": "ランキング",
         },
         {
             "@type": "BreadcrumbList",
