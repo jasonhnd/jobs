@@ -25,11 +25,37 @@ Or just `npm run build` since the toplevel target depends on this script.
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PARTIALS_DIR = ROOT / "partials"
+
+
+def get_last_commit_date() -> str:
+    """Return YYYY-MM-DD of the latest git commit on the current branch.
+
+    Used to bake a visible "最終更新" timestamp into the footer of every page
+    on each Vercel build. Falls back to today's date if git is unavailable
+    (e.g., zip download / detached environment).
+    """
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cs"],
+            capture_output=True,
+            text=True,
+            cwd=ROOT,
+            timeout=5,
+        )
+        if result.returncode == 0:
+            stamp = result.stdout.strip()
+            if stamp:
+                return stamp
+    except Exception:
+        pass
+    return date.today().isoformat()
 
 # Static pages that consume the footer partial via marker comments.
 # Generated pages handle the partial directly inside their build script.
@@ -51,7 +77,9 @@ def load_partial(name: str) -> str:
     path = PARTIALS_DIR / f"{name}.html"
     if not path.exists():
         raise FileNotFoundError(f"Partial not found: {path}")
-    return path.read_text(encoding="utf-8").rstrip("\n")
+    raw = path.read_text(encoding="utf-8").rstrip("\n")
+    # Substitute {{LAST_UPDATED}} placeholders with the latest git commit date.
+    return raw.replace("{{LAST_UPDATED}}", get_last_commit_date())
 
 
 def inject(html: str, name: str, partial: str) -> tuple[str, bool, bool]:

@@ -40,7 +40,29 @@ TRANSFER_PATHS_PATH = REPO / "dist" / "data.transfer_paths.json"
 # and propagated to static pages by scripts/build_partials.py; generated pages
 # (this script + build_sector_hubs.py + build_rankings.py) read it directly so
 # the same string lands everywhere.
-FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+def _get_last_commit_date() -> str:
+    """Return YYYY-MM-DD of the latest git commit. Used for footer 最終更新."""
+    try:
+        import subprocess
+        from datetime import date as _date
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cs"],
+            capture_output=True, text=True, cwd=REPO, timeout=5,
+        )
+        if result.returncode == 0:
+            stamp = result.stdout.strip()
+            if stamp:
+                return stamp
+        return _date.today().isoformat()
+    except Exception:
+        from datetime import date as _date
+        return _date.today().isoformat()
+
+
+FOOTER_PARTIAL = (
+    (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+    .replace("{{LAST_UPDATED}}", _get_last_commit_date())
+)
 
 # Module-level caches populated by main() — used by render helpers (avoid threading
 # them through every helper signature). Reset each main() call.
@@ -715,6 +737,34 @@ def render_jsonld(rec: dict) -> str:
             "duration": "P1Y",
             "median": int(salary_man * 10000),
         }
+
+    # SEO Phase 9: expanded Occupation schema fields. Each maps from existing
+    # MHLW jobtag data; covers high-volume long-tail intents like
+    # "{name} 労働時間" / "{name} 必要経験" / "{name} 資格".
+    if hours:
+        # workHours: Schema.org accepts free text; show monthly + annualized.
+        annual_hours = int(hours * 12)
+        occupation_node["workHours"] = (
+            f"月平均 {int(hours)} 時間（年間約 {annual_hours} 時間）"
+        )
+    tasks_lead = rec.get("tasks_lead_ja") or ""
+    if tasks_lead:
+        # responsibilities: high-level task summary. Cap at 600 chars to keep
+        # payload reasonable; tasks_lead is usually 50-200 chars in MHLW data.
+        occupation_node["responsibilities"] = tasks_lead[:600]
+    if certs:
+        # educationRequirements: list relevant certifications. JA-friendly text
+        # (Schema.org accepts string or EducationalOccupationalCredential).
+        occupation_node["educationRequirements"] = (
+            "関連資格：" + "、".join(certs)
+        )
+    long_how = rec.get("how_to_become_ja") or ""
+    if long_how:
+        # experienceRequirements: first sentence of "なるには" — usually
+        # describes years/experience. Cap at 240 chars.
+        first_how = long_how.split("。")[0].strip()
+        if first_how and len(first_how) <= 240:
+            occupation_node["experienceRequirements"] = f"{first_how}。"
 
     graph_nodes = [
         {
