@@ -858,23 +858,9 @@ def render_sectors_index(sectors: list[dict], by_sector: dict) -> str:
         </ul>
       </section>
 
-      <footer>
-        <div class="footer-links">
-          <a href="{home_href}">トップ</a>
-          <a href="/ja/sectors">セクター</a>
-          <a href="/ja/rankings">ランキング</a>
-        </div>
-        <div class="footer-links">
-          <a href="{about_href}">{escape(about_link)}</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-            v1.3.0 · MIT<br />
-            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
-            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-        </div>
-      </footer>
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>
