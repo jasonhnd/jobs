@@ -487,7 +487,7 @@ def render_jsonld(rec: dict) -> str:
                 "@type": "PropertyValue",
                 "name": "AI risk score (0-10)",
                 "value": risk,
-                "description": "Independent LLM estimate by Claude Opus 4.7. Reflects task-level exposure, not probability of job loss.",
+                "description": "Claude Opus 4.7 による独自 LLM 推定。タスクレベルの AI 影響度を表し、職が消える確率ではありません。",
             }
         )
     if workers:
@@ -1025,7 +1025,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
     <a class="skip-link" href="#content">{skip_label}</a>
 
     <div id="wrapper">
-      <nav class="crumb" aria-label="Breadcrumb">
+      <nav class="crumb" aria-label="パンくずリスト">
         <a href="{home_href}" rel="up">{escape(crumb_root)}</a>
         <span aria-hidden="true">›</span>
         <span>{escape(crumb_self_label)}</span>
@@ -1034,7 +1034,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
       <header id="content">
         <h1>
           <span class="accent">{escape(h1_main)}</span>{h1_sub_html}
-          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="ライト・ダークモード切替" title="ライト / ダーク切替">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
@@ -1050,7 +1050,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
         <div class="risk-rationale">{escape(rationale)}</div>
       </div>
 
-      <dl class="stats" aria-label="Key occupation statistics">
+      <dl class="stats" aria-label="主な職業統計">
         <div><dt>{st_workers}</dt><dd>{workers_cell}</dd></div>
         <div><dt>{st_salary}</dt><dd>{salary_cell}</dd></div>
         <div><dt>{st_age}</dt><dd>{age_cell}</dd></div>
@@ -1094,7 +1094,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
       </p>
 
       <!-- Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) -->
-      <div class="follow-share-section" aria-label="Follow and share">
+      <div class="follow-share-section" aria-label="フォロー・シェア">
         <div class="follow-block">
           <a class="follow-cta"
              id="x-follow-cta"

@@ -2171,7 +2171,7 @@
     </a>
     <!-- v1.2.x mobile-only compact top bar: brand mark + hamburger menu.
          Hidden on ≥769px — desktop has its own utility row inside .desktop-hero-utility. -->
-    <nav class="m-topbar" aria-label="Site">
+    <nav class="m-topbar" aria-label="サイト">
       <a class="m-topbar-brand" href="/" aria-label="未来の仕事 — Future of Work">
         <span class="m-topbar-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2185,7 +2185,7 @@
           未来の仕事
         </span>
       </a>
-      <button type="button" class="m-topbar-burger" id="mTopbarBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mTopbarMenu">
+      <button type="button" class="m-topbar-burger" id="mTopbarBurger" aria-label="メニューを開く" aria-expanded="false" aria-controls="mTopbarMenu">
         <span></span><span></span><span></span>
       </button>
     </nav>
@@ -2198,7 +2198,7 @@
           <a href="/compliance">
             コンプライアンス
           </a>
-          <a href="/privacy">Privacy</a>
+          <a href="/privacy">プライバシー</a>
         </div>
       </div>
     </div>
@@ -2206,10 +2206,10 @@
       <header>
         <!-- Desktop Hero — search-first entry. On desktop, this replaces the old h1 / controls / search-row.
              On mobile, this stays hidden — mobile uses §7.11 Mobile Hero block (see below). -->
-        <section class="desktop-hero" aria-label="Quick search hero">
-          <div class="desktop-hero-utility" aria-label="Site utilities">
+        <section class="desktop-hero" aria-label="クイック検索ヒーロー">
+          <div class="desktop-hero-utility" aria-label="サイトユーティリティ">
             日本の職業 AI 影響マップ
-            <button class="theme-toggle" id="themeToggleDesktop" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
+            <button class="theme-toggle" id="themeToggleDesktop" type="button" aria-label="ライト・ダークモード切替" title="ライト / ダーク切替">
               <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
               <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
             </button>
@@ -2225,11 +2225,11 @@
               <input id="searchInputDesktop" type="search" autocomplete="off"
                      placeholder="例：事務職、経理、営業、看護師"
                      placeholder="例：事務職、経理、営業、看護師"
-                     aria-label="Search occupations" />
+                     aria-label="職業を検索" />
               <button type="submit" id="dhSearchBtn">
                 気になる職業から始める
               </button>
-              <ul class="search-suggest" id="searchSuggest" role="listbox" aria-label="Search suggestions"></ul>
+              <ul class="search-suggest" id="searchSuggest" role="listbox" aria-label="検索候補"></ul>
             </form>
             <div class="search-noresult" id="searchNoResult">
               該当する職業が見つかりません。下の人気職業からお選びください。
@@ -2250,7 +2250,7 @@
         <h1>
           日本の職業 AI 影響マップ
           — 公開職業データをもとにした<strong>非公式</strong>の独自分析
-          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="ライト・ダークモード切替" title="ライト / ダーク切替">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
           </button>
@@ -2259,7 +2259,7 @@
         <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only.
              Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal +
              search input + 5 occupation chips, sitting just above the treemap on mobile. -->
-        <div class="mobile-hero" aria-label="Mobile quick-search hero">
+        <div class="mobile-hero" aria-label="モバイルクイック検索">
           <h2 class="mobile-hero-title">
             AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
           </h2>
@@ -2271,11 +2271,11 @@
             <input id="searchInputMobile" type="search" autocomplete="off"
                    placeholder="気になる職業を入力"
                    placeholder="気になる職業を入力"
-                   aria-label="Search occupations" />
+                   aria-label="職業を検索" />
             <button type="submit" class="mhs-cta" id="mhSearchBtn">
               診断
             </button>
-            <ul class="search-suggest" id="searchSuggestMobile" role="listbox" aria-label="Search suggestions"></ul>
+            <ul class="search-suggest" id="searchSuggestMobile" role="listbox" aria-label="検索候補"></ul>
           </form>
           <div class="mobile-hero-chips" role="list">
             <button type="button" data-chip="事務職" role="listitem">事務職</button>
@@ -2330,7 +2330,7 @@
             <canvas id="gradientLegend" width="80" height="8"></canvas>
             <span id="legendHigh"></span>
           </div>
-          <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="Toggle colorblind-safe viridis palette">
+          <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="色覚バリアフリーパレット切替">
             色覚配慮
           </button>
         </div>
@@ -2349,7 +2349,7 @@
 
         <div class="search-row">
           <input id="searchInput" type="search" autocomplete="off"
-                 aria-label="Search occupations" />
+                 aria-label="職業を検索" />
           <span id="searchCount" class="search-count"></span>
         </div>
 
@@ -2371,15 +2371,15 @@
         </span>
       </header>
       <canvas id="treemap" tabindex="0" role="application"
-              aria-label="Interactive treemap of 552 Japanese occupations. Use arrow keys to move between tiles, Enter to open the official page."
+              aria-label="日本 552 職業のインタラクティブ treemap。矢印キーで tile 間を移動、Enter で詳細ページを開く。"
               style="visibility:hidden"></canvas>
       <div id="tileHighlight" aria-hidden="true"></div>
-      <ul id="canvasFallback" class="visually-hidden" aria-label="Occupation list"></ul>
+      <ul id="canvasFallback" class="visually-hidden" aria-label="職業一覧"></ul>
 
       <!-- Phase 2: Sector navigation — direct entry to 16 sector hub pages.
            Each pill = sector name + occupation count. Pre-rendered static HTML
            (no fetch) so first paint shows the entry list immediately. -->
-      <nav class="sector-nav" aria-label="Browse occupations by sector">
+      <nav class="sector-nav" aria-label="セクターから職業を探す">
         <div class="sector-nav-head">
           <h2 class="sector-nav-title">
             セクターから探す
@@ -2410,13 +2410,13 @@
 
       <!-- Stage 1: compact data attribution. Full content moved to /about.
            Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
-      <p class="data-summary" aria-label="Data sources summary">
+      <p class="data-summary" aria-label="データ出典サマリー">
         <span class="ds-seg"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT</span><span class="ds-sep">　／　</span><span class="ds-seg"><strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span>
       </p>
 
       <!-- Stage 1 PREVIEW — Follow + Share section with visual layering.
            Follow CTA is the prominent block; share buttons sit below as a smaller row. -->
-      <div class="follow-share-section" aria-label="Follow and share">
+      <div class="follow-share-section" aria-label="フォロー・シェア">
         <div class="follow-block">
           <a class="follow-cta"
              id="x-follow-cta"
@@ -2476,7 +2476,7 @@
     </div>
 
     <div id="tooltip" role="tooltip" aria-live="polite" aria-atomic="true">
-      <button class="tt-close" type="button" aria-label="Close" id="tooltipClose">×</button>
+      <button class="tt-close" type="button" aria-label="閉じる" id="tooltipClose">×</button>
       <div class="tt-title"></div>
       <div class="tt-row" id="ttRow"></div>
       <a class="tt-cta" id="tooltipCta" target="_blank" rel="noopener noreferrer" href="#">
