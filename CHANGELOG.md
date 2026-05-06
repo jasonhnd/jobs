@@ -10,6 +10,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Rankings — expand from 4 to 9 ranking pages + enriched hub
+
+- **5 new ranking pages**: salary, entry-salary, young-workforce, short-hours, high-demand
+- **Enriched all 9 pages**: 3–4 stat panels, auto-generated highlights, sector distribution chart, FAQ section (3 Q&A each with FAQPage JSON-LD)
+- **Enriched hub page**: global stats (556 occupations overview), 9 cards with #1 preview, cross-ranking insights section
+- **New CSS components**: demand-pill, rl-extra, highlights, sector-chart, faq accordion, insights
+- **SEO**: FAQPage schema on all 9 ranking pages, expanded meta descriptions
+- **Build**: `build_rankings.py` outputs 10 HTML pages (323 KB total)
+
 ### Analytics — five-part optimization round (Tier 1 + Tier 2 + privacy/perf)
 
 Following the GA4 optimization audit on 2026-05-06, applies five changes

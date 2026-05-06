@@ -416,21 +416,26 @@ hover (各平台品牌色覆盖):
 
 ### 7.10 Footer
 
-**全站统一规范（v1.2.1 起）**：footer 不再用 `·` 中点连接的扁平链接列表，改为 **pill chip + footer-meta 两层结构**，全站（index / about / compliance / privacy / 404 / detail × 1112 / sector × 32）一致。
+**全站统一规范（v1.3.x 起 — 两行 chip + footer-meta 三层结构）**：footer 改为 **导航 chip 行 + 法务/规约 chip 行 + footer-meta** 的三层结构，全站（index / about / compliance / privacy / 404 / detail × 556 / sector × 17 / ranking × 9）**完全一致**（包括首页）。
 
 **版面**：
 
 ```
 <footer>
-  <div class="footer-links">          ← 主导航 chip 行（pill 圆角边框）
-    <a>トップ</a>
-    <a>データについて</a>
-    <a>コンプライアンス</a>
-    <a>プライバシー</a>
-    （+ 页面相关的额外 chip：变更履歴 / 算出方法）
+  <div class="footer-links">          ← 第 1 行：导航 chip（pill 圆角边框）
+    <a href="/">トップ</a>
+    <a href="/ja/sectors">セクター</a>
+    <a href="/ja/rankings">ランキング</a>
   </div>
-  <div class="footer-meta">           ← 版本 / 许可 / 出典 / 免责（小字）
-    v0.5.0 · MIT · 出典：MHLW · JILPT job tag v7.00 …
+  <div class="footer-links">          ← 第 2 行：法务/规约 chip
+    <a href="/about">データについて</a>
+    <a href="/compliance">コンプライアンス</a>
+    <a href="/privacy">プライバシー</a>
+  </div>
+  <div class="footer-meta">           ← 第 3 层：版本 / 出典 / 免责（小字）
+    v1.3.0 · MIT<br />
+    出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+    <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
   </div>
 </footer>
 ```
@@ -457,20 +462,28 @@ footer .footer-links a:hover {
   border-color: var(--accent);
   background: rgba(217,107,61,0.06);
 }
-footer .footer-meta { color: var(--fg2); font-size: 0.7-0.78rem; line-height: 1.55; opacity: 0.92; }
+footer .footer-meta { color: var(--fg2); font-size: 0.7rem; line-height: 1.65; opacity: 0.92; text-wrap: pretty; }
 footer .footer-meta a { color: var(--accent); }
+footer .footer-meta .nowrap { white-space: nowrap; }   /* 全站强制：用于「独立行政法人 労働政策研究・研修機構（JILPT）」与「公式見解ではありません」防折行 */
+@media (max-width: 540px) {
+  footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+}
 ```
 
-**链接清单契约（v1.2.2 起 — 严格 3 / 4 chip 规则 + GitHub 完全切断）**：
-- ✅ **index.html**: **正好 3 chip** —— `データについて / コンプライアンス / プライバシー`（不放トップ，因为已在首页）
-- ✅ **其他所有页面**（404 / about / compliance / privacy / 1112 detail / 32 sector hub）: **正好 4 chip** —— `トップ / データについて / コンプライアンス / プライバシー`
-- ❌ **禁止**任何额外 chip：原本 index 上的「変更履歴 / Changelog」与 sector hub 上的「算出方法 / Methodology」均已在 v1.2.2 删除
+**链接清单契约（v1.3.x 起 — 严格两行 6 chip 规则 + GitHub 完全切断）**：
+- ✅ **全站每个页面（index / 404 / about / compliance / privacy / 556 detail / 17 sector / 9 ranking）**：**正好两行 6 chip**
+  - 第 1 行：`トップ / セクター / ランキング`（导航三件套）
+  - 第 2 行：`データについて / コンプライアンス / プライバシー`（法务/规约三件套）
+- ✅ **footer-meta**：`v1.3.0 · MIT` + 出典 + 独立分析サイト免責声明 + コンプライアンス链接（全站完全一致，包括 compliance.html 自身的自指链接）
+- ❌ **禁止**任何额外 chip：原本 index 上的「変更履歴 / Changelog」与 sector hub 上的「算出方法 / Methodology」均已在 v1.2.2 删除；旧的 4 chip 单行版本已在 v1.3.x 退役
 - ❌ **禁止**站内任何 `<a href="https://github.com/...">` —— 全站完全切断 GitHub 链接（包括 footer-meta 的 `MIT` 链接、JSON-LD 的 `sameAs`、content body 的 GitHub Issues 引用、llms.txt / llms-full.txt 中的 source code 引用、make_prompt.py 生成的 prompt 文件）；`MIT` 在 footer-meta 改为纯文本
-- ✅ 自指 chip 是有意行为：在 `/about` 页 footer 仍展示「データについて」chip（4 chip 规则要求严格一致），点击会刷新当前页
+- ✅ 自指 chip 是有意行为：在 `/about` / `/compliance` / `/privacy` 页 footer 仍展示对应自身的 chip（一致性优先于「不放自指链接」），点击会刷新当前页
 
 **理由**：
-- `·` 中点把 5-7 个链接挤在一行，在 mobile 容易折行成两半混杂、视觉权重不清；用户反馈「区分不开」。
+- 旧的 3 / 4 chip 单行版本把导航（トップ）和法务（コンプライアンス）混在一行，视觉权重不清；user 反馈「需要让 footer 也成为站点导航口」。
+- 拆为「导航 + 法务」两行后，第一行承担首页之外的兜底导航职责（特别是从详情页直跳セクター / ランキング），第二行回归法务/规约本职；mobile 上两行也比单行 6 chip 更不容易折行混乱。
 - pill chip 用 border + padding 让每个链接有独立 hit area + 视觉容器，hover 高亮单个 chip 更清晰。
+- footer-meta 在所有页面统一为「版本 + 出典 + 独立分析免責 + コンプライアンス链接」四件套，避免每页 disclaimer 内容飘移；用户反馈「所有页面 footer 要一模一样」。
 - 移除 GitHub 链接是配合首页去掉「非公式」banner 的同一波清理：把开发者向元素从访客主路径剥离。
 
 ### 7.11 Mobile Hero（Variant C, mobile-only）
@@ -722,13 +735,73 @@ Vercel 静态部署在任何未匹配路由命中 root `/404.html` 并返回 HTT
 | 2026-05-06 | 头部, §0, §0.1, §6.6, §7.10, §7.12, §7.13 | v1.4.0 — 英文版 UI 全部下线 | GA4 + Vercel analytics 显示英文版会话占比近零（持续 3 个月）。维护 1112 个 EN HTML、51 处 i18n span、setLang() 切换器对当前流量来说成本过高。整站缩减为 JA-only：删除所有 `[data-i18n="ja\|en"]` 配对、3 个语言切换器、`?lang=en` URL 处理、`hreflang="en"`/`x-default`、英文页脚、`og:locale:alternate`；`/en/*` URL 在 `vercel.json` 加 catch-all 301 → `/ja/*` 保 SEO 权重；`api/og.tsx` 删 `lang=en` 参数；`build_occupations.py` / `build_sector_hubs.py` / projections 全删 EN 代码路径；FAQPage JSON-LD 10 题翻译为日文；`inLanguage` `["ja","en"]` → `["ja"]`。源数据 `data/translations/en/` 移动到 `data/_archive/translations-en/` 保留以便日后恢复，`data/occupations/*.json` 的 `*_en` 字段一字不动（仅 build 不读）。Sitemap 1152 → 579 URL，`ja/<id>.html` × 556 + `ja/sectors/<sector_id>.html` × 16 + `ja/sectors/index.html` × 1。|
 | 2026-05-06 | §7.12 | 搜索 autocomplete 移动端三件 P0-D 改造（iOS 键盘自适应 + tap-vs-scroll 状态机 + scroll 期间保持显示）| 用户在 iPhone 上录屏反馈：1) 键盘弹起后下拉框被压到只剩一条半的高度，下面看不见；2) 手指一碰下拉就立刻跳到那条，无法滚动浏览。诊断为三个独立但相关的 bug。**F1**：iOS Safari 的 `100vh` 不会因键盘弹起而缩小，固定 `max-height: 360px` 被键盘压住。引入 `fitDropdownToViewport()` 用 `window.visualViewport` API 监听 resize/scroll，动态计算 input 底部到键盘顶部的可用空间，赋给 `suggestEl.style.maxHeight`，下限 160px。**F2**：原 `touchstart` 立即调 `selectFromEvent` → `navigateToJob`，用户没机会滚动。改为 §6.7 canvas 同款触摸状态机：`touchstart`（passive: true）只记录起点 + t0；`touchend` 时位移 < 10px **且** 时长 < 500ms 视为 tap 才跳转，否则视为滚动 / 长按 → no-op。Desktop `mousedown` 路径不变。**F3**：iOS 上触摸下拉框会让 input 失焦，原 150ms blur-hide 会在用户滚动到一半时关闭下拉框。新增 `touchActiveOnDropdown` 标志：touchstart 置 true，touchend 350ms 延迟回 false；blur-hide 检查标志，true 时不隐藏。三件配套，单独做任一件都不完整。常量 `TAP_SLOP_PX=10` / `TAP_MAX_MS=500` 与 §6.7 一致，全站触摸阈值统一。|
 | 2026-05-06 | §0, §16（新）| 新增 §16 `/map` 页规范（mobile-first 独立页）| 设计决策：把 552 职业 treemap 从 mobile 首页拆出做独立页 `/map`，首页改放 preview 卡。桌面 `index.html` 嵌入式 treemap 完全不动。新页 IA：sticky header + 搜索 + sector chips + sector segmented treemap（D4=C），tap cell 升起 bottom sheet 预览（D2/D3），URL state 双向绑定深链 `?sector=&sort=&job=`（D5=B）。配套：`build_occupations.py` 新增 `generate_map_thumbnail()` 输出 inline SVG snippet 注入首页 preview 卡；详情页底部加 "← 職業マップへ" 闭环（D6）；GA4 加 4 个事件 `map_open` / `map_filter` / `map_cell_tap` / `map_detail_click`；专属 SEO（title / meta / OG / `Dataset` + `ItemList` schema）。Mobile 首页 `data.treemap.json` preload 加 `media="(min-width: 769px)"` 限定桌面，移动端不再为 treemap 付出 80KB 数据 + canvas 渲染成本。a11y "リスト表示に切り替え" toggle 暂列为 §16.13 PENDING（M8 待决策）。|
-| 2026-05-06 | 头部, §0, §0.1, §6.2-§6.7, §7.11, §8, §16 | 文件拆分：Design.md / Design-Mobile.md 两份 peer | 新增 §16 后 mobile 内容已超 doc 一半。按 Q1=C / Q2=A / Q3=B 决策：(1) 新建 `docs/Design-Mobile.md`，移入原 §6.2/§6.3/§6.5/§6.6/§6.7（mobile tooltip 全套）→ 新 §2、§7.11（Mobile Hero）→ 新 §1、§8 全部（移动响应式规则）→ 新 §3、§16 全部（`/map` 页规范）→ 新 §4。本文件保留桌面专属（§6.1 / §7.12 / §7.14）+ 跨端共享（§1 原则 / §2 token / §3 主题 / §4 断点 / §5 treemap 视觉 / §6.4 视口溢出 / §7 通用组件 / §9-§13 交互 a11y palette）。(2) 已迁出章节在本文件保留 stub 标题 + 跳转链，不留空白章节号；§7.12 desktop hero 中两处 `§7.11` / `§6.7` 引用更新为 `Design-Mobile.md §1` / `§2.5`。(3) 原 `docs/MOBILE_DESIGN.md`（v1.1.0 时代废弃 `/m/*` URL 架构存档，4 个月零 active 引用）一并删除（Q1=C）。共享内容只在本文件出现一份，避免 token / 主题 / treemap 视觉 token 出现两份需要同步的问题。|
+| 2026-05-06 | §16（新）, §7.10 | Ranking Pages 扩充：4→9 ranking + 1 hub = 10 页 | 新增 5 个排名页（年収 / 初任給 / 平均年齢若い / 労働時間短い / 人手不足）。全 9 页追加 highlights 洞察 + sector 分布图 + FAQ（FAQPage JSON-LD）+ stats 面板拡張。Hub 页追加全局統計 + 9 卡片含 1 位预览 + 横断 insights。新 CSS 组件：demand-pill / rl-extra / highlights / sector-chart / faq / insights / rr-preview。Build: `build_rankings.py` 输出 10 HTML → 323 KB。|
+| 2026-05-06 | 头部, §0, §0.1, §6.2-§6.7, §7.11, §8, §16→§17 | 文件拆分：Design.md / Design-Mobile.md 两份 peer | 新增 §16 后 mobile 内容已超 doc 一半。按 Q1=C / Q2=A / Q3=B 决策：(1) 新建 `docs/Design-Mobile.md`，移入原 §6.2/§6.3/§6.5/§6.6/§6.7（mobile tooltip 全套）→ 新 §2、§7.11（Mobile Hero）→ 新 §1、§8 全部（移动响应式规则）→ 新 §3、§16 全部（`/map` 页规范）→ 新 §4。本文件保留桌面专属（§6.1 / §7.12 / §7.14）+ 跨端共享（§1 原则 / §2 token / §3 主题 / §4 断点 / §5 treemap 视觉 / §6.4 视口溢出 / §7 通用组件 / §9-§13 交互 a11y palette）。(2) 已迁出章节在本文件保留 stub 标题 + 跳转链，不留空白章节号；§7.12 desktop hero 中两处 `§7.11` / `§6.7` 引用更新为 `Design-Mobile.md §1` / `§2.5`。(3) 原 `docs/MOBILE_DESIGN.md`（v1.1.0 时代废弃 `/m/*` URL 架构存档，4 个月零 active 引用）一并删除（Q1=C）。共享内容只在本文件出现一份，避免 token / 主题 / treemap 视觉 token 出现两份需要同步的问题。|
 
 ---
 
-## 16. `/map` 页规范（mobile-first 独立页）
+## 16. Ranking Pages 规范（`/ja/rankings/*`）
 
-> **已迁出本文件**。完整规范见 [Design-Mobile.md §4](./Design-Mobile.md#4-map-页规范mobile-first-独立页)。涵盖 mobile preview 卡、`/map` 页 IA、sticky header / 搜索 / sector chips / sort dropdown、sector segmented treemap、bottom sheet（D2/D3）、URL state 深链（D5=B）、SEO、analytics 4 件、build pipeline 缩略图、闭环 nav、桌面端落地行为、a11y PENDING。
+### 16.1 页面一览（9 ranking + 1 hub = 10 页）
+
+| slug | 标题 | 排序字段 | 额外列 |
+|------|------|---------|--------|
+| `ai-risk-high` | AIに奪われる仕事 TOP30 | `ai_risk` 降序 | — |
+| `ai-risk-low` | AI影響が少ない仕事 TOP30 | `ai_risk` 升序 | — |
+| `salary-safe` | 高年収×低AIリスク TOP30 | `salary` 降序（AI≤5） | — |
+| `workers` | 就業者数ランキング TOP30 | `workers` 降序 | — |
+| `salary` | 年収ランキング TOP30 | `salary` 降序 | — |
+| `entry-salary` | 初任給ランキング TOP30 | `recruit_wage` 降序 | 初任給（万円） |
+| `young-workforce` | 平均年齢が若い職業 TOP30 | `average_age` 升序 | 平均年齢（歳） |
+| `short-hours` | 労働時間が短い職業 TOP30 | `monthly_hours` 升序 | 月間時間（h） |
+| `high-demand` | 人手不足の職業 TOP30 | `demand_band` hot→warm | demand pill |
+
+Hub: `/ja/rankings/index.html` — 全局统计 + 9 卡片（含 1 位预览） + 数据洞察
+
+### 16.2 个别 ranking 页面结构
+
+```
+breadcrumb → h1（accent） → subtitle → intro
+→ stats panel（3-4 个指标，auto-fit grid）
+→ highlights（3 条自动生成洞察，accent-deep 左边框）
+→ sector chart（TOP30 内行业分布 CSS 条形图，最多 6 行）
+→ TOP 30 ranked list（rank counter + name + sector + risk pill + [extra col] + salary + workers）
+→ FAQ section（3 Q&A，`<details>` 折叠，FAQPage JSON-LD）
+→ related rankings grid（剩余 8 个 ranking 的交叉链接）
+→ footer（全站统一两行 6 chip）
+```
+
+### 16.3 Hub 页面结构
+
+```
+breadcrumb → h1 → subtitle → intro
+→ global stats panel（总职业数 / 全体平均 AI 影響 / 全体平均年収 / 総就業者数）
+→ ranking cards grid（9 卡，每卡含 title + desc + 1 位 preview + count）
+→ insights section（5 条跨排名横断洞察）
+→ footer
+```
+
+### 16.4 新增 CSS 组件
+
+- `.demand-pill` — 求人需要 badge（hot=绿 / warm=黄 / cool=蓝 / cold=灰），跟 `.risk-pill` 同尺寸
+- `.rl-extra` — rank item 额外列值（accent-deep 色 + tabular-nums）
+- `.highlights` — 洞察列表（bg2 + accent-deep 左边框 3px）
+- `.sector-chart` / `.sb-row` — CSS-only 水平条形图（sector 名 + track/fill + 数字）
+- `.faq` / `.faq details` — FAQ 折叠组件（Q. 前缀 accent 色，答案 fg2）
+- `.insights` — hub 页洞察列表（bg2 卡片式）
+- `.rr-preview` — hub 卡片 1 位预览行（accent-deep 小字 + 🥇）
+
+### 16.5 SEO
+
+每页 JSON-LD `@graph` 包含：`WebPage` + `BreadcrumbList` + `ItemList`（30 条）+ `FAQPage`（3 Q&A）。
+
+Build: `python3 scripts/build_rankings.py` → 输出 10 个 HTML 到 `ja/rankings/`。
+
+---
+
+## 17. `/map` 页规范（mobile-first 独立页）
+
+> **已迁出本文件**。完整规范见 [Design-Mobile.md §4](./Design-Mobile.md#4-map-页规范mobile-first-独立页)。
 
 ---
 
