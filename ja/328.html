@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/328#webpage",
       "url": "https://mirai-shigoto.com/ja/328",
       "name": "動画制作 — AI 影響 9/10",
-      "description": "動画制作、AI生成急進中",
+      "description": "動画制作とは、動画を撮影し作品として制作する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/328#occupation",
       "name": "動画制作",
-      "description": "動画制作、AI生成急進中",
+      "description": "動画制作とは、動画を撮影し作品として制作する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>動画制作とは</h2>
+        <p class="definition">動画制作とは、動画を撮影し作品として制作する職業です。</p>
         <p>動画を撮影し作品として制作する。この制作には2つのパターンがある。一つは自らテーマを決めて動画を撮影し、動画共有サイトにアップするものである。もう一つはクライアントの依頼に基づき動画を制作するものである。</p>
         <p>動画共有サイトにアップする場合は、できるだけ多くの視聴者に視聴して貰うために、独自性に富んだ、興味深く、関心を惹く動画を制作することが重要である。ユニークな企画を立て、撮影方法や編集を工夫し、他にないような作品にすることが求められる。アップした動画の再生回数が少ない場合でも、動画をコンスタントに制作しアップし続けることで、視聴者の増加に繋がることもある。</p>
         <p>動画制作に必要な機材には、パソコンや撮影用カメラ、編集用・加工用ソフトなどが挙げられる。最近では、スマートフォンが高性能になり、簡易な動画であればこれ１台で撮影、加工、アップまでできる。質の高い動画を制作するためには、これらの機材以上に動画制作のセンスと技術が求められる。投稿する動画がゲームの実況であれば、ゲームに関するルールや知識を基に、意外性があり、視聴者がワクワクするようなトークや編集を心がけなくてはならない。また、再生回数が伸びるよう、SNSやブログなどでも発信し、視聴増加につなげるようにする。</p>

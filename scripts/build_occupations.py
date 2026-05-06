@@ -130,6 +130,51 @@ def fmt_int(n) -> str:
     return f"{int(n):,}"
 
 
+# Noun-final endings — when summary already ends with a noun describing the role,
+# we don't want to append another "職業" (would read awkwardly).
+_NOUN_FINAL_ENDINGS = (
+    "職業", "仕事", "技術者", "職人", "担当者", "専門職", "技能職",
+    "オペレーター", "エンジニア", "デザイナー", "プログラマー",
+    "従事者", "作業員", "者", "士", "員", "家", "師", "工",
+)
+
+
+def _make_definition(rec: dict) -> str:
+    """Generate a featured-snippet-friendly 1-sentence definition.
+
+    Pattern: "{name}とは、{summary}職業です。"
+    Used at the top of the "○○とは" section and as the JSON-LD description.
+    Optimized for Google featured snippets ("People also ask" / position-zero).
+    """
+    name = (rec.get("name_ja") or "").strip()
+    summary = (rec.get("desc_ja") or "").strip()
+
+    if not summary:
+        sector = (rec.get("sector") or {}).get("ja", "")
+        if sector:
+            return f"{name}とは、{sector}業界に属する職業です。"
+        return f"{name}とは、日本の職業の一つです。"
+
+    # Strip trailing punctuation; take only first sentence if multi-sentence.
+    first_sentence = summary.split("。")[0].strip()
+    if not first_sentence:
+        first_sentence = summary.rstrip("。.").strip()
+
+    # If the sentence already starts with the occupation name, it's
+    # already definitional — just close with です。
+    if first_sentence.startswith(f"{name}とは") or first_sentence.startswith(f"{name}は"):
+        if not first_sentence.endswith(("です", "ます", "である")):
+            return f"{first_sentence}職業です。" if not first_sentence.endswith(_NOUN_FINAL_ENDINGS) else f"{first_sentence}です。"
+        return f"{first_sentence}。"
+
+    # If the sentence ends with a role-noun, just wrap it.
+    if first_sentence.endswith(_NOUN_FINAL_ENDINGS):
+        return f"{name}とは、{first_sentence}です。"
+
+    # Otherwise it's verb-final — append 職業 to make it noun-modifying.
+    return f"{name}とは、{first_sentence}職業です。"
+
+
 def _format_paragraphs(text: str) -> str:
     """Split long-form text into <p> blocks.
 
@@ -475,7 +520,9 @@ def render_jsonld(rec: dict) -> str:
         if risk is not None
         else f"{name_ja} — mirai-shigoto.com"
     )
-    page_desc = rationale_ja or desc_ja or name_ja
+    # SEO Phase 6: prefer the clean definitional sentence for Schema.org description.
+    # Falls back to AI rationale → summary → name when data missing.
+    page_desc = _make_definition(rec) or rationale_ja or desc_ja or name_ja
     breadcrumb_root = "日本の職業 AI 影響マップ"
     breadcrumb_self = name_ja
     home_url = "https://mirai-shigoto.com/"
@@ -505,7 +552,7 @@ def render_jsonld(rec: dict) -> str:
         "@type": "Occupation",
         "@id": f"{canonical}#occupation",
         "name": name_ja,
-        "description": rationale_ja or desc_ja or name_ja,
+        "description": page_desc,
         "occupationLocation": {"@type": "Country", "name": "Japan"},
         "occupationalCategory": str(id_),
         "sameAs": mhlw_url,
@@ -616,6 +663,10 @@ CSS_BLOCK = """
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -936,7 +987,11 @@ def render_html(rec: dict, related: list[dict]) -> str:
     # v1.1.0 long-form sections — pre-render so the f-string template stays clean.
     # ctx_html always renders (with fallback chain). how/cond sections only render
     # when the source has the field (occupations missing IPD long-form stay short).
-    ctx_html = _format_paragraphs(ctx_p) if ctx_p else f"<p>{escape('')}</p>"
+    # SEO Phase 6: lead with a featured-snippet-friendly definition sentence,
+    # styled as a pull-quote, then continue with existing long-form content.
+    definition = _make_definition(rec)
+    body_html = _format_paragraphs(ctx_p) if ctx_p else ""
+    ctx_html = f'<p class="definition">{escape(definition)}</p>\n        {body_html}'.rstrip()
     how_section = (
         f'<section class="how-to-become" aria-label="{escape(how_h2)}">\n'
         f'        <h2>{escape(how_h2)}</h2>\n'

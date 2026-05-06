@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/6#webpage",
       "url": "https://mirai-shigoto.com/ja/6",
       "name": "水産ねり製品製造 — AI 影響 4/10",
-      "description": "工程の機械化進む製造業",
+      "description": "水産ねり製品製造とは、かまぼこやちくわ等の水産ねり製品を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/6#occupation",
       "name": "水産ねり製品製造",
-      "description": "工程の機械化進む製造業",
+      "description": "水産ねり製品製造とは、かまぼこやちくわ等の水産ねり製品を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>水産ねり製品製造とは</h2>
+        <p class="definition">水産ねり製品製造とは、かまぼこやちくわ等の水産ねり製品を製造する職業です。</p>
         <p>水産ねり製品を製造する。</p>
         <p>水産ねり製品には、板付きかまぼこ、ちくわ、揚げかまぼこ、はんぺんやつみれなどのゆでかまぼこ、カニかまぼこやオードブルかまぼこなど様々な種類がある。製造工程は、魚肉の精製、らいかい、成形、加熱・冷却、包装、貯蔵・出荷に大別される。</p>
         <p>精製作業は生鮮魚から頭、内蔵などを取り除き肉を分離し、水晒し、脱水を行い不要な成分を取り除き魚肉を精製する。冷凍すり身は、この精製作業ののちに冷凍したものである。製品の製造には、通常、冷凍すり身が使用される。</p>

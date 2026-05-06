@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/366#webpage",
       "url": "https://mirai-shigoto.com/ja/366",
       "name": "知的財産サーチャー — AI 影響 8/10",
-      "description": "知財サーチャー、AI検索置換",
+      "description": "知的財産サーチャーとは、企業の知的財産関係部署や特許調査会社などで、既存の特許や商標など知的財産に関する情報を収集、分析する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/366#occupation",
       "name": "知的財産サーチャー",
-      "description": "知財サーチャー、AI検索置換",
+      "description": "知的財産サーチャーとは、企業の知的財産関係部署や特許調査会社などで、既存の特許や商標など知的財産に関する情報を収集、分析する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>知的財産サーチャーとは</h2>
+        <p class="definition">知的財産サーチャーとは、企業の知的財産関係部署や特許調査会社などで、既存の特許や商標など知的財産に関する情報を収集、分析する職業です。</p>
         <p>企業の知的財産（以下「知財」という。）関係部署や特許調査会社などで、既存の特許や商標など知財に関する情報を収集、分析する。特許、商標だけでなく、技術文献、ビジネス情報など、非知財情報も収集、分析している。知財サーチャー、サーチャー、特許調査従業者等とも呼ばれる。ここでは以下、知財サーチャーという。ここでは、特許庁からの調査業務を請け負う登録調査機関の調査業務実施者も含む。</p>
         <p>知財関連の業務としては、特許や商標などの「出願・権利化」、知財購入（ライセンスイン）、知財供与（ライセンスアウト）、係争、権利侵害への対応等「渉外」があり、これらのための先行知財の「調査」がある。知財サーチャーは主としてこの「調査」の部分を担当する。「出願・権利化」を中心に担う仕事（知的財産コーディネーター）もある。</p>
         <p>2000年頃から、知財調査のための各種ツールが進歩し、普及してきたことにより、研究者や技術者も自ら知財調査をするようになっている。そのため社内で使用する知財調査のツールやデータベースを整備することを担当する場合もある。また、研究者や技術者と十分コミュニケーションを図り、研究者や技術者の知財調査をサポートしたり、研究者や技術者に対して知財調査に関する情報提供等を行うことも重要な業務となっている。</p>

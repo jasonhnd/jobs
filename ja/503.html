@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/503#webpage",
       "url": "https://mirai-shigoto.com/ja/503",
       "name": "水産養殖従事者 — AI 影響 4/10",
-      "description": "水産養殖、自動化+判断",
+      "description": "水産養殖従事者とは、主に食用の魚類・貝類・海藻類などの水産物を、人工的に管理・育成し出荷する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/503#occupation",
       "name": "水産養殖従事者",
-      "description": "水産養殖、自動化+判断",
+      "description": "水産養殖従事者とは、主に食用の魚類・貝類・海藻類などの水産物を、人工的に管理・育成し出荷する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>水産養殖従事者とは</h2>
+        <p class="definition">水産養殖従事者とは、主に食用の魚類・貝類・海藻類などの水産物を、人工的に管理・育成し出荷する職業です。</p>
         <p>主に食用の魚類・貝類・海藻類などの水産物を、人工的に管理・育成し出荷する。</p>
         <p>養殖は海だけでなく川や湖、陸上でも行われている。対象とする生物の種類や、水面で飼育するのか、陸上水槽で飼育するのかなどにより養殖方法が大きく異なり、具体的な作業も様々である。</p>
         <p>魚類の養殖は、水面では網イケス、陸上ではプールのように大きな水槽を設置し、自然の海水や人工的に調整した塩水で行う。毎日の作業は専用に開発された餌を与えることが中心で、イケス網の場合には定期的に網の清掃を行ったり、網を交換したりといった作業があるほか、台風や赤潮の時にはイケスごと安全な場所に避難させたり、イケスを沈下させなければならない。陸上水槽の場合は、底面に堆積する糞や餌の残りなどを定期的に除去する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/11#webpage",
       "url": "https://mirai-shigoto.com/ja/11",
       "name": "しょうゆ製造 — AI 影響 3/10",
-      "description": "発酵管理は経験+一部自動化",
+      "description": "しょうゆ製造とは、しょうゆ（醤油）工場において、しょうゆを製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/11#occupation",
       "name": "しょうゆ製造",
-      "description": "発酵管理は経験+一部自動化",
+      "description": "しょうゆ製造とは、しょうゆ（醤油）工場において、しょうゆを製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>しょうゆ製造とは</h2>
+        <p class="definition">しょうゆ製造とは、しょうゆ（醤油）工場において、しょうゆを製造する職業です。</p>
         <p>しょうゆ（醤油）工場において、しょうゆを製造する。</p>
         <p>製造法は本質的に江戸時代から変わらず、原料処理、製麹（せいきく）、仕込み、圧搾（あっさく）、火入れ、充てんの6工程に大別される。</p>
         <p>しょうゆの主原料は、大豆、小麦、食塩である。大豆は、浸漬（しんし）槽で水に浸した後、蒸煮（じょうしゃ）する。小麦は炒って砕く。この大豆と小麦をほぼ等量混合したものに麹菌を純粋培養した種麹（たねこうじ）を加え、高温多湿の麹室（こうじむろ）と呼ばれる部屋で3日間管理すると、大豆と小麦の表面に麹菌が繁殖し、しょうゆ麹が出来上がる。</p>

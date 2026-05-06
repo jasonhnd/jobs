@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/399#webpage",
       "url": "https://mirai-shigoto.com/ja/399",
       "name": "職業訓練指導員 — AI 影響 4/10",
-      "description": "職業訓練指導、対面実習指導",
+      "description": "職業訓練指導員とは、公共職業能力開発施設や、認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導や就職支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/399#occupation",
       "name": "職業訓練指導員",
-      "description": "職業訓練指導、対面実習指導",
+      "description": "職業訓練指導員とは、公共職業能力開発施設や、認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導や就職支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>職業訓練指導員とは</h2>
+        <p class="definition">職業訓練指導員とは、公共職業能力開発施設や、認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導や就職支援を行う職業です。</p>
         <p>職業能力開発促進法に規定された公共職業能力開発施設や、事業主団体や職業訓練法人が設置している認定職業訓練施設などにおいて、訓練生に対して、技能や技術、専門知識などの訓練指導やキャリアコンサルティングを通じた就職支援、ジョブ・カードの作成などを行う。「テクノインストラクター」とも呼ばれる。</p>
         <p>まず、必要とされる職業能力を確立し、効率的に訓練するために、訓練目標の設定及びカリキュラムを策定する。次に、訓練を行う各科目の指導案を作成し、訓練で使用する教材の準備や資材の手配など、事前準備を行う。</p>
         <p>訓練実施時には、訓練に使用する機械・設備を調整し、安全を確認する。訓練科目に応じて、訓練生に対し、電気工事、機械加工、自動車整備、溶接、情報処理などの技術習得に必要な訓練指導を行い、教室での座学では専門科目の講義をする。訓練中は、訓練生の技能習得度、知識の理解度などを把握しながら適切な指示を与えるとともに、作業の安全に十分に気を使う必要がある。所定の技術が習得できたかどうか、修了試験を兼ねた技能照査を実施する。</p>

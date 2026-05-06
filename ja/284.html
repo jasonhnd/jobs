@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/284#webpage",
       "url": "https://mirai-shigoto.com/ja/284",
       "name": "紡織設備管理・保全 — AI 影響 4/10",
-      "description": "紡織設備、点検手作業",
+      "description": "紡織設備管理・保全とは、紡績業・織布業の生産工場で、機械設備の整備・修理等の保全作業に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/284#occupation",
       "name": "紡織設備管理・保全",
-      "description": "紡織設備、点検手作業",
+      "description": "紡織設備管理・保全とは、紡績業・織布業の生産工場で、機械設備の整備・修理等の保全作業に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -220,6 +220,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -390,6 +394,7 @@
 
       <section class="context">
         <h2>紡織設備管理・保全とは</h2>
+        <p class="definition">紡織設備管理・保全とは、紡績業・織布業の生産工場で、機械設備の整備・修理等の保全作業に従事する職業です。</p>
         <p>紡績業・織布業の生産工場で、機械設備の整備・修理等の保全作業に従事する。</p>
         <p>一般的に紡績・織布工程の工程ごとに設備管理・保全の担当が配属され、その工程専門に保全作業を行う。保全作業の目的は機械の能力を最大限に発揮させることにあり、仕事は次の５種類に集約することができる。</p>
         <p>「定期的保全」は、機械設備の機能をベストの状態に保持しながらその使用年数を最大限に保つために、日常の仕事として計画を立てて定期的に行うもので、設備管理・保全の仕事の中でも最も重要で、比重が高い。</p>

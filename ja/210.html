@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/210#webpage",
       "url": "https://mirai-shigoto.com/ja/210",
       "name": "図書編集者 — AI 影響 7/10",
-      "description": "図書編集者、編集AI支援",
+      "description": "図書編集者とは、様々な本（書籍）を発行する出版社で本をつくるための企画書の作成や原稿の整理・編集などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/210#occupation",
       "name": "図書編集者",
-      "description": "図書編集者、編集AI支援",
+      "description": "図書編集者とは、様々な本（書籍）を発行する出版社で本をつくるための企画書の作成や原稿の整理・編集などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>図書編集者とは</h2>
+        <p class="definition">図書編集者とは、様々な本（書籍）を発行する出版社で本をつくるための企画書の作成や原稿の整理・編集などを行う職業です。</p>
         <p>文芸書などの一般書や専門書、教科書、辞典、コミック、絵本など、様々な本（書籍）を発行する出版社で本をつくるための企画書の作成や原稿の整理・編集などを行う。</p>
         <p>読者のニーズを考え、本のテーマ、内容や構成、予定する著者など企画をまとめ、どれくらい売れるのか、採算性を検討する。企画が決定すれば、著者に執筆を依頼する。人気の高い作家や著名な学者などには、同時に複数の依頼があり、申し込んでも簡単に承諾が得られない場合が多く、編集者の対人関係や交渉能力が必要である。著者が執筆を進めている間は、打ち合わせをしたり資料を集めたりして、より良い原稿ができるようにサポートする。</p>
         <p>著者から入手した原稿は、熟読し、誤字・脱字などの誤りを訂正し、表記の統一を図り、見出しをつけるなどの原稿整理を行う。書体や文字の大きさ、字詰・行数などを決め、写真やイラストの位置を指定する割付け（レイアウト）、用紙の選択、製本・印刷方式など造本（ぞうほん）、装丁等のデザインの決定なども行う。印刷所に原稿を渡して印刷のスケジュールを決め、販売担当者と相談して出版部数や定価などを決定し、本の発行までの管理を行う。</p>

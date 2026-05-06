@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/63#webpage",
       "url": "https://mirai-shigoto.com/ja/63",
       "name": "医薬情報担当者（MR） — AI 影響 6/10",
-      "description": "MR、医師訪問+情報提供",
+      "description": "医薬情報担当者（MR）とは、製薬会社に勤務し、自社の医薬品を中心に、医療従事者に対し、医薬品の効果、使い方などの情報を提供するとともに、医療現場からの情報収集等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/63#occupation",
       "name": "医薬情報担当者（MR）",
-      "description": "MR、医師訪問+情報提供",
+      "description": "医薬情報担当者（MR）とは、製薬会社に勤務し、自社の医薬品を中心に、医療従事者に対し、医薬品の効果、使い方などの情報を提供するとともに、医療現場からの情報収集等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>医薬情報担当者（MR）とは</h2>
+        <p class="definition">医薬情報担当者（MR）とは、製薬会社に勤務し、自社の医薬品を中心に、医療従事者に対し、医薬品の効果、使い方などの情報を提供するとともに、医療現場からの情報収集等を行う職業です。</p>
         <p>製薬会社に勤務し、自社の医薬品（医師の処方箋により使用する医療用医薬品）を中心に、医薬品が安全かつ効果的に使われるように、医師、薬剤師、看護師など医療従事者に対し、医薬品の効果、使い方、副作用などの情報を提供するとともに、医療現場からの情報収集等を行う。MR（Medical Representatives）とも呼ばれる。</p>
         <p>仕事は大きく分けて3つある。</p>
         <p>第1は情報の提供で、病院や個人医院、薬局などを訪問し、医師や薬剤師に面接して、自社の医薬品の特長や品質、有効性、副作用、使用上の注意といった、適正使用のための情報をパンフレットなどを使って説明する。医療機関からの薬に関する問い合わせにも対応する。</p>

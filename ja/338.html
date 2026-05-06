@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/338#webpage",
       "url": "https://mirai-shigoto.com/ja/338",
       "name": "インテリアコーディネーター — AI 影響 7/10",
-      "description": "インテリアコーデ、対面提案+AI",
+      "description": "インテリアコーディネーターとは、住む人や使う人に合った、快適で暮らしやすい住空間づくりのために、既存の内装材、インテリア等の選定等について助言と提案を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/338#occupation",
       "name": "インテリアコーディネーター",
-      "description": "インテリアコーデ、対面提案+AI",
+      "description": "インテリアコーディネーターとは、住む人や使う人に合った、快適で暮らしやすい住空間づくりのために、既存の内装材、インテリア等の選定等について助言と提案を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>インテリアコーディネーターとは</h2>
+        <p class="definition">インテリアコーディネーターとは、住む人や使う人に合った、快適で暮らしやすい住空間づくりのために、既存の内装材、インテリア等の選定等について助言と提案を行う職業です。</p>
         <p>住む人や使う人に合った、快適で暮らしやすい住空間づくりのために、既存の内装材、インテリア等の選定等について助言と提案を行う。</p>
         <p>一般住宅の他、オフィス、ホテル、店舗、学校、病院などを手がけることもある。まず、設計者（建築設計技術者）とともに依頼主に会い、どのような住宅や施設を望んでいるかを確認する。住宅や施設が機能的で、依頼主のイメージや好み、ライフスタイルと合うように、室内レイアウト、内装に使う壁紙やカーテンの材質や色、設備機器・照明や家具の選択・配置などを考える。設計者と打ち合わせを重ねて、完成予想を図面やカタログ、立体モデルなどの資料を使ってビジュアル化し、提案することもある。</p>
         <p>依頼主に素材の写真やサンプルを見せたり、ショールームに案内して実物を見せ、依頼主や設計者と十分に相談し、詳細を決めていく。最近では、コーディネートを3DやVR（バーチャルリアリティ：仮想現実）で確認できる技術の活用も進んでいる。着工後、家具や照明などを選び、依頼主のイメージに近づくよう、建物が完成するまで細部の調整を行う。</p>

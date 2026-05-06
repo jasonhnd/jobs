@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/562#webpage",
       "url": "https://mirai-shigoto.com/ja/562",
       "name": "探偵 — AI 影響 5/10",
-      "description": "探偵、現場調査+対面",
+      "description": "探偵とは、顧客の依頼を受けて調査対象者の所在又は行動についての情報を収集することを目的として、面接による聞込み、尾行、張込み等により実地の調査を行い、その調査結果を顧客に報告する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/562#occupation",
       "name": "探偵",
-      "description": "探偵、現場調査+対面",
+      "description": "探偵とは、顧客の依頼を受けて調査対象者の所在又は行動についての情報を収集することを目的として、面接による聞込み、尾行、張込み等により実地の調査を行い、その調査結果を顧客に報告する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -215,6 +215,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -385,6 +389,7 @@
 
       <section class="context">
         <h2>探偵とは</h2>
+        <p class="definition">探偵とは、顧客の依頼を受けて調査対象者の所在又は行動についての情報を収集することを目的として、面接による聞込み、尾行、張込み等により実地の調査を行い、その調査結果を顧客に報告する職業です。</p>
         <p>顧客の依頼を受けて調査対象者の所在又は行動についての情報を収集することを目的として、面接による聞込み、尾行、張込み等により実地の調査を行い、その調査結果を顧客に報告する。</p>
         <p>探偵業を行うためには、2007年に施行された探偵業法に基づき、営業所ごとに当該営業所の所在地を管轄する警察署を経由して都道府県公安委員会に探偵業の届出をしなければならない。特別な資格等は必要なく、探偵業法第３条に定められる欠格事由に該当しなければ探偵業を行うことができる。2024年末の探偵業の届出数（営業所数）は7,098件である。このうち個人の届出が72.4％、法人の届出が27.6％となっている。なお、届出をしても他の法令で禁止・制限されている行為を行うことはできず、また特別な権限が与えられることはない。</p>
         <p>メールや電話等により顧客から連絡を受けて依頼内容の概要を把握した上で、探偵事務所又は顧客が指定する場所で対面等により面談を行い、依頼内容の詳細を聞くとともに、調査方法や調査費用等について説明する。契約内容について顧客と合意した後に書面で契約を結ぶ。</p>

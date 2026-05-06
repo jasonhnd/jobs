@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/208#webpage",
       "url": "https://mirai-shigoto.com/ja/208",
       "name": "新聞記者 — AI 影響 7/10",
-      "description": "新聞記者、執筆AIと並走",
+      "description": "新聞記者とは、様々なニュースを多くの人々に知らせるために、公正な立場で取材を進め、新聞に載せるための記事を書く職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/208#occupation",
       "name": "新聞記者",
-      "description": "新聞記者、執筆AIと並走",
+      "description": "新聞記者とは、様々なニュースを多くの人々に知らせるために、公正な立場で取材を進め、新聞に載せるための記事を書く職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>新聞記者とは</h2>
+        <p class="definition">新聞記者とは、様々なニュースを多くの人々に知らせるために、公正な立場で取材を進め、新聞に載せるための記事を書く職業です。</p>
         <p>様々なニュースを多くの人々に知らせるために、公正な立場で取材を進め、新聞に載せるための記事を書く。</p>
         <p>日本全国をカバーする全国紙の場合には、新聞社の編集局に所属し、政治、経済、社会、文化、スポーツなど担当の部に分かれ、専門の記者が取材と執筆を担当する。</p>
         <p>例えば、政治部の記者は、国会、政党などの記者クラブを拠点に、記者会見への出席、政治家へのインタビューなどの取材活動を行い、パソコンで記事を作成する。作成された原稿は、デスクと呼ばれる各部の次長に送られる。記事内容の確認や修正の後、紙面の編集・整理を行う部署に送られる。</p>

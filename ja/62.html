@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/62#webpage",
       "url": "https://mirai-shigoto.com/ja/62",
       "name": "印刷営業 — AI 影響 7/10",
-      "description": "印刷営業、AI見積/提案ツール",
+      "description": "印刷営業とは、印刷物の作成において、顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレット等に仕上げ、納入する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/62#occupation",
       "name": "印刷営業",
-      "description": "印刷営業、AI見積/提案ツール",
+      "description": "印刷営業とは、印刷物の作成において、顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレット等に仕上げ、納入する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>印刷営業とは</h2>
+        <p class="definition">印刷営業とは、印刷物の作成において、顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレット等に仕上げ、納入する職業です。</p>
         <p>印刷物の作成において、顧客から原稿や注文を受け、それを印刷加工して書籍やパンフレット等に仕上げ、納入するまでの印刷工程と取引に関する仕事を担当する。</p>
         <p>印刷物には、雑誌・書籍などの「出版印刷」、ポスター・カレンダーなどの「商業印刷」、ビジネスフォームなどの「事務用印刷」、紙器・プリント布地などの「特殊印刷」といった分野がある。また、印刷会社が商品企画・データベース構築などの「新メディア関連サービス」の分野に取り組んでいる例もある。1分野だけを扱う専門印刷会社から、全てを手がける総合印刷会社まである。営業は、いずれか1分野を担当する場合が多い。</p>
         <p>印刷営業の仕事は、まず、得意先を訪問して制作する印刷物の内容や種類について詳しく聞き、それに基づいてレイアウトや印刷用紙の種類などの企画を立て、印刷にかかる費用、印刷の日程などを踏まえて見積書を作成し、企画内容と見積書を顧客に提案する。また、顧客のニーズを先取りして新たな印刷物の企画を提案することもある。</p>

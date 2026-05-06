@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/3#webpage",
       "url": "https://mirai-shigoto.com/ja/3",
       "name": "洋菓子製造、パティシエ — AI 影響 2/10",
-      "description": "職人技と装飾、感覚に依存",
+      "description": "洋菓子製造、パティシエとは、洋菓子店や菓子工場で洋菓子を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/3#occupation",
       "name": "洋菓子製造、パティシエ",
-      "description": "職人技と装飾、感覚に依存",
+      "description": "洋菓子製造、パティシエとは、洋菓子店や菓子工場で洋菓子を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>洋菓子製造、パティシエとは</h2>
+        <p class="definition">洋菓子製造、パティシエとは、洋菓子店や菓子工場で洋菓子を製造する職業です。</p>
         <p>洋菓子店や菓子工場で洋菓子を製造する。また、レストランではデザートを担当し作った洋菓子を盛り付け客に提供する。</p>
         <p>洋菓子は、大きく分けて、焼き上げたスポンジにクリームを塗ったりサンドした生菓子や、型に入れて焼き上げるが水分量の多いフルーツケーキのような半生菓子、クッキーのような焼き菓子、チョコレート製品、アイスクリーム、シャーベット等の氷菓に区分される。</p>
         <p>洋菓子は種類によって作業内容が異なり、例えば生菓子では、まず卵、バター、砂糖、小麦粉を計量し、ミキサーなどの機械を使って混ぜ合わせ、ケーキの台となるカステラのような部分の生地づくりを行う。その後、専用の型に入れてオーブンで焼き上げ、クリームなどを塗ったり、絞ったりして形を整え、フルーツやナッツ、チョコレートなどを飾りつけて仕上げたりする。大型ミキサーや大きなオーブンを使用すれば生地は量産できるが、最後の仕上げは機械ではできないため、手作業で行う。通常、生菓子は冷凍技術の進歩によりストックも可能であるが、基本的には、その日の午前中に仕上げてその日のうちに売り切るようにする。</p>

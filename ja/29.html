@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/29#webpage",
       "url": "https://mirai-shigoto.com/ja/29",
       "name": "鉄骨工 — AI 影響 2/10",
-      "description": "鉄骨組立は重作業",
+      "description": "鉄骨工とは、高層ビルをはじめ大規模な建築物や構造物を支える鉄骨を工場で製作する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/29#occupation",
       "name": "鉄骨工",
-      "description": "鉄骨組立は重作業",
+      "description": "鉄骨工とは、高層ビルをはじめ大規模な建築物や構造物を支える鉄骨を工場で製作する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>鉄骨工とは</h2>
+        <p class="definition">鉄骨工とは、高層ビルをはじめ大規模な建築物や構造物を支える鉄骨を工場で製作する職業です。</p>
         <p>高層ビルをはじめ大規模な建築物や構造物を支える鉄骨を工場で製作する。</p>
         <p>まず、コンピュータやCADを使って、設計図に基づいてNCデータ・原寸型板・材料リスト・製作図面などの資料を作成する（原寸作業）。鉄骨などの形状は毎回異なるため、設計図どおりに製作するためには原寸図面の作成が必須となる。</p>
         <p>次に、厚鋼板や形鋼などの材料にボルト締めをする孔（あな）をあけ、切断した後、加工位置を示す罫（け）書き線を記入し、プレス機やローラーで曲げたりして部品を作る（素材加工）。加工した部品を一つ一つクレーンで吊って、溶接しながら組み立てる（溶接・組立）。</p>

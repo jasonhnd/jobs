@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/181#webpage",
       "url": "https://mirai-shigoto.com/ja/181",
       "name": "専門学校教員 — AI 影響 5/10",
-      "description": "専門学校教員、職業教育",
+      "description": "専門学校教員とは、高校以上の学校を卒業した人に対して専門的な技術を教育したり、実務的な職業教育を行う教育機関である専門学校で、専門分野の知識や技術をベースに、担当の教科・科目を生徒に教える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/181#occupation",
       "name": "専門学校教員",
-      "description": "専門学校教員、職業教育",
+      "description": "専門学校教員とは、高校以上の学校を卒業した人に対して専門的な技術を教育したり、実務的な職業教育を行う教育機関である専門学校で、専門分野の知識や技術をベースに、担当の教科・科目を生徒に教える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>専門学校教員とは</h2>
+        <p class="definition">専門学校教員とは、高校以上の学校を卒業した人に対して専門的な技術を教育したり、実務的な職業教育を行う教育機関である専門学校で、専門分野の知識や技術をベースに、担当の教科・科目を生徒に教える職業です。</p>
         <p>高校以上の学校を卒業した人に対して専門的な技術を教育したり、実務的な職業教育を行う教育機関である専門学校で、専門分野の知識や技術をベースに、担当の教科・科目を生徒に教える。</p>
         <p>専門学校とは通常、高校を卒業した人を対象とする「専門課程」のある専修学校を指す。専修学校の課程には、専門課程のほか、中学校等を卒業した人を対象とする高等課程、高等課程・専門課程以外の教育を行う一般課程という３つの区分がある。</p>
         <p>専門学校教員が担当する教科は幅広く多様であるが、目的に応じて、情報処理やCG、建築などの「工業」、農業や畜産などの「農業」、看護や歯科、臨床検査などの「医療」、栄養や美容、エステなどの「衛生」、保育や社会福祉などの「教育・社会福祉」、簿記や会計、流通などの「商業実務」、ファッションデザインやスタイリストなどの「服飾・家政」、デザインや音楽、外国語などの「文化・教養」の８分野に区分されている。</p>

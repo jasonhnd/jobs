@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/546#webpage",
       "url": "https://mirai-shigoto.com/ja/546",
       "name": "保育補助者 — AI 影響 3/10",
-      "description": "保育補助、子供世話",
+      "description": "保育補助者とは、保育施設などで、主に保育士をサポートして、子どもたちの世話や保育を円滑に進めるための環境を整える仕事を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/546#occupation",
       "name": "保育補助者",
-      "description": "保育補助、子供世話",
+      "description": "保育補助者とは、保育施設などで、主に保育士をサポートして、子どもたちの世話や保育を円滑に進めるための環境を整える仕事を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>保育補助者とは</h2>
+        <p class="definition">保育補助者とは、保育施設などで、主に保育士をサポートして、子どもたちの世話や保育を円滑に進めるための環境を整える仕事を行う職業です。</p>
         <p>保育施設などで、主に保育士をサポートして、子どもたちの世話や保育を円滑に進めるための環境を整える仕事を行う。</p>
         <p>子どもを預かり、世話をする各種事業において、保育士など中心となる保育者を補助する仕事が生じるが、ここでは主に保育所での仕事の例について述べる。</p>
         <p>保育補助者は、保育の一日の流れに沿って、朝の登園、遊びや散歩、昼食やおやつ、昼寝、降園などの各場面で、保育士を補助し、子どもの着替えや食事の世話、食器や寝具の準備・片付け、遊びの見守り、施設内の整理整頓・清掃・消毒などを行う。</p>

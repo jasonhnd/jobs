@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/457#webpage",
       "url": "https://mirai-shigoto.com/ja/457",
       "name": "証券アナリスト — AI 影響 8/10",
-      "description": "証券アナリスト、AI解析急進",
+      "description": "証券アナリストとは、証券会社などの金融機関等において、企業や産業に関する様々な情報を入手し、投資の対象として価値があるかを分析、評価し、顧客に対して助言やサービスを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/457#occupation",
       "name": "証券アナリスト",
-      "description": "証券アナリスト、AI解析急進",
+      "description": "証券アナリストとは、証券会社などの金融機関等において、企業や産業に関する様々な情報を入手し、投資の対象として価値があるかを分析、評価し、顧客に対して助言やサービスを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>証券アナリストとは</h2>
+        <p class="definition">証券アナリストとは、証券会社などの金融機関等において、企業や産業に関する様々な情報を入手し、投資の対象として価値があるかを分析、評価し、顧客に対して助言やサービスを行う職業です。</p>
         <p>証券会社などの金融機関等において、企業や産業に関する様々な情報を入手し、将来のリターンやリスクを予測して投資の対象として価値があるかを分析、評価し、その結果に基づきレポートを作成し、株式等金融商品の投資を考えている顧客に対して助言やサービスを行う。</p>
         <p>担当する企業の業績や専門としている業界・分野の動向について最新の情報を入手し、継続的に調査を行い分析する。企業が出す決算情報などを入手するだけでなく、自らその企業を訪問し取材・調査を行うこともある。</p>
         <p>データの分析、評価結果に基づく将来予測と投資情報を投資家等の顧客に提供する際には、その根拠となる事実やデータについて正しく説明する。</p>

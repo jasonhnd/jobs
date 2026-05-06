@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/271#webpage",
       "url": "https://mirai-shigoto.com/ja/271",
       "name": "精密機器技術者 — AI 影響 7/10",
-      "description": "精密機器技術者、設計AI",
+      "description": "精密機器技術者とは、精密測定機器、光学機器、医療用機器など高い精度が要求される機械の研究開発、設計、及び製造工程の技術開発、管理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/271#occupation",
       "name": "精密機器技術者",
-      "description": "精密機器技術者、設計AI",
+      "description": "精密機器技術者とは、精密測定機器、光学機器、医療用機器など高い精度が要求される機械の研究開発、設計、及び製造工程の技術開発、管理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>精密機器技術者とは</h2>
+        <p class="definition">精密機器技術者とは、精密測定機器、光学機器、医療用機器など高い精度が要求される機械の研究開発、設計、及び製造工程の技術開発、管理を行う職業です。</p>
         <p>精密測定機器、光学機器、医療用機器など高い精度が要求される機械の研究開発、設計、及び製造工程の技術開発、管理を行う。</p>
         <p>製品開発工程の上流にあたる製品の構想から設計を担当する研究開発・設計技術者と、下流にあたる品質を維持しつつ量産するための製造工程等の技術開発を担当する生産技術者がおり、同じ製品を開発から商品化までチームを組んで業務を行う。</p>
         <p>研究開発・設計技術者が担当する設計業務には、概念設計・基本設計・詳細設計・生産設計という4つの工程がある。概念設計では、社内の企画担当者や顧客からの要望などを踏まえて製品コンセプトを策定し、製品概要やコスト計算も踏まえた大まかな設計を行う。基本設計では、概念設計に沿って、CADソフトで設計図を描き、解析ツールのCAEを使って強度などを確認する。詳細設計では、プロトタイプを作製して、動作確認、安全性や使い勝手、デザインなど多岐にわたる設計検証レビューを数回にわたって行い、材質加工や組立の工程に至るまで詳細に記述した設計図面を作成する。生産設計では、部品の共通化や削減、組立工数の簡略化を追求して、性能とコストを両立させて、量産が可能な設計に仕上げる。</p>

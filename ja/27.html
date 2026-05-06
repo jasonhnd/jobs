@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/27#webpage",
       "url": "https://mirai-shigoto.com/ja/27",
       "name": "型枠大工 — AI 影響 2/10",
-      "description": "現場での型枠加工",
+      "description": "型枠大工とは、鉄筋コンクリートの鋳型の役割を果たす型枠を作り、工事現場で組み立てる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/27#occupation",
       "name": "型枠大工",
-      "description": "現場での型枠加工",
+      "description": "型枠大工とは、鉄筋コンクリートの鋳型の役割を果たす型枠を作り、工事現場で組み立てる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>型枠大工とは</h2>
+        <p class="definition">型枠大工とは、鉄筋コンクリートの鋳型の役割を果たす型枠を作り、工事現場で組み立てる職業です。</p>
         <p>ビル建設には「鉄筋コンクリート工法」又は「鉄骨コンクリート工法」が用いられる。このうち鉄筋コンクリート工法は杭の上に鉄筋を組み、これを型枠で囲って柱などの形を作り、その中にコンクリートを流し込み固める工法だが、この型枠を作り組み立てるのが型枠大工の仕事である。</p>
         <p>ビル建設にとどまらず、土木工事でも新幹線、橋、トンネル、地下鉄などコンクリートを使う工事は全て鋳型となる型枠が必要である。</p>
         <p>仕事の種類・規模は様々であるが、鉄筋コンクリートの建物を例にとると、まず、合板（コンパネ）を主材の型枠板として施工図に合わせて各部のパネルを作成し、締付金物で固定する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/240#webpage",
       "url": "https://mirai-shigoto.com/ja/240",
       "name": "Webマーケティング（ネット広告・販売促進） — AI 影響 8/10",
-      "description": "Webマーケ、AIツール急進中",
+      "description": "Webマーケティング（ネット広告・販売促進）とは、WebサイトやWeb技術を利用してマーケティングを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/240#occupation",
       "name": "Webマーケティング（ネット広告・販売促進）",
-      "description": "Webマーケ、AIツール急進中",
+      "description": "Webマーケティング（ネット広告・販売促進）とは、WebサイトやWeb技術を利用してマーケティングを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>Webマーケティング（ネット広告・販売促進）とは</h2>
+        <p class="definition">Webマーケティング（ネット広告・販売促進）とは、WebサイトやWeb技術を利用してマーケティングを行う職業です。</p>
         <p>WebサイトやWeb技術を利用してマーケティングを行う。インターネットマーケティングとも言う。急速に発展している分野であり、その業務内容は多岐にわたるが、基本的にはWebを利用した市場調査、広告出稿、サイト訪問者のニーズの分析などのマーケティング活動を行う。</p>
         <p>主な活動としては、SNS（social network service）等のWeb広告手法を活用した集客活動、CVRを向上させるためのアクセス解析とその結果を踏まえた改善策の実施等が挙げられる。</p>
         <p>集客活動では、SNSの普及に伴いSNS上に広告を配信するSNS広告の利用が主になっている。このほか、自社サイトの露出度を高めるためのSEO、検索キーワードに応じて検索結果の上位に表示されるリスティング広告、商品などについてブログやWebサイトなどで紹介する「アフィリエイト広告」などを行う。また、「アドネットワーク広告」の手法も広がっている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/31#webpage",
       "url": "https://mirai-shigoto.com/ja/31",
       "name": "建設機械オペレーター — AI 影響 3/10",
-      "description": "建機操縦、自動運転技術接近",
+      "description": "建設機械オペレーターとは、建設工事の現場で工事用機械や車両の運転・管理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/31#occupation",
       "name": "建設機械オペレーター",
-      "description": "建機操縦、自動運転技術接近",
+      "description": "建設機械オペレーターとは、建設工事の現場で工事用機械や車両の運転・管理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -250,6 +250,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -420,6 +424,7 @@
 
       <section class="context">
         <h2>建設機械オペレーターとは</h2>
+        <p class="definition">建設機械オペレーターとは、建設工事の現場で工事用機械や車両の運転・管理を行う職業です。</p>
         <p>建設工事の現場で工事用機械や車両の運転・管理を行う。</p>
         <p>建設機械は工事の目的に応じて使い分けされ、ブルドーザー、パワーショベル、ホイルローダー、ダンプトラック、ロードローラー、クレーン、杭打機などがある。重量1トン未満のミニ建設機械から100トンを超える超大型機械まで、種類は多い。</p>
         <p>仕事の流れは、朝、現場に出ると、まず作業長を中心にその日の作業場所、作業内容、機械の組合せなどについての作業打ち合わせを行い、作業長の指示を受ける。打ち合わせが終わり次第、各自、自分の運転する機械の始業点検を行い、機械各部に異常がないか、燃料やオイルは十分か、などを点検する。点検は作業の安全のために重要であり、異常がある場合には、調整したり、整備員に連絡するなどの適切な措置をとらなければならない。</p>

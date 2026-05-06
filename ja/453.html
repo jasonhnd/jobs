@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/453#webpage",
       "url": "https://mirai-shigoto.com/ja/453",
       "name": "保険営業（生命保険、損害保険） — AI 影響 6/10",
-      "description": "保険営業、対面+AI見積",
+      "description": "保険営業（生命保険、損害保険）とは、一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/453#occupation",
       "name": "保険営業（生命保険、損害保険）",
-      "description": "保険営業、対面+AI見積",
+      "description": "保険営業（生命保険、損害保険）とは、一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>保険営業（生命保険、損害保険）とは</h2>
+        <p class="definition">保険営業（生命保険、損害保険）とは、一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する職業です。</p>
         <p>一般家庭や会社を訪問し、個人のライフスタイルや家庭・生活環境に適合する保険商品を紹介・提案する。ここでは、個人を対象とした保険営業について記載する。</p>
         <p>病気や不時の災害、事故に遭遇したときなどに経済的な助けとなるのが保険商品であり、主には生命保険と損害保険（自動車保険、火災保険、地震保険等）がある。販売ルートとしては、保険会社の直販、代理店、保険仲介人（保険ブローカー）がある。</p>
         <p>生命保険と損害保険の違いは、契約期間、保険金の性格、保険加入の目的とその販売形態などが挙げられる。生命保険の多くが、10年、20年又は一生という長いスパンの契約で、保険金は契約した金額が支払われる。一方、損害保険は、ほとんどの場合1年契約で、事故や災害で発生した損害分だけが損害補償金として支払われる。</p>

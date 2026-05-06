@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/87#webpage",
       "url": "https://mirai-shigoto.com/ja/87",
       "name": "翻訳者 — AI 影響 9/10",
-      "description": "翻訳者はAI翻訳の最大被害領域",
+      "description": "翻訳者とは、文学作品や学術書、ニュース、法律文書等の様々な文章について、外国語を日本語に、日本語を外国語に書き言葉で訳す職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/87#occupation",
       "name": "翻訳者",
-      "description": "翻訳者はAI翻訳の最大被害領域",
+      "description": "翻訳者とは、文学作品や学術書、ニュース、法律文書等の様々な文章について、外国語を日本語に、日本語を外国語に書き言葉で訳す職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>翻訳者とは</h2>
+        <p class="definition">翻訳者とは、文学作品や学術書、ニュース、法律文書等の様々な文章について、外国語を日本語に、日本語を外国語に書き言葉で訳す職業です。</p>
         <p>文学作品や学術書、ニュース、法律文書、マニュアル等の様々な文章について、外国語を日本語に、日本語を外国語に書き言葉で訳す仕事である。</p>
         <p>翻訳は大きく「出版翻訳」と「産業翻訳」に分けられる。</p>
         <p>「出版翻訳」は、学術書や文芸・ノンフィクションなどの作品を翻訳することを言う。これには学問的な知識や文学的な才能も必要となる。</p>

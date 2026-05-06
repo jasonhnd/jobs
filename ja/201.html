@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/201#webpage",
       "url": "https://mirai-shigoto.com/ja/201",
       "name": "引越作業員 — AI 影響 2/10",
-      "description": "引越作業、肉体労働",
+      "description": "引越作業員とは、転居や移転などの時に、家財道具などを運び出し、転居先へ輸送し、再びセッティングをする引越作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/201#occupation",
       "name": "引越作業員",
-      "description": "引越作業、肉体労働",
+      "description": "引越作業員とは、転居や移転などの時に、家財道具などを運び出し、転居先へ輸送し、再びセッティングをする引越作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>引越作業員とは</h2>
+        <p class="definition">引越作業員とは、転居や移転などの時に、家財道具などを運び出し、転居先へ輸送し、再びセッティングをする引越作業を行う職業です。</p>
         <p>転居や移転などの時に、家財道具などを運び出し、転居先へ輸送し、再びセッティングをする引越作業を行う。</p>
         <p>まず、依頼者からの連絡を受けて担当 者が家庭などを訪問したり、インターネットや電話を通して料金の見積もりを行う。仕事の依頼を受けた場合には、引越作業員がチームを組んで、指定された日時に家具などを保護するための資材を用意して訪問する。手分けして、ダンボール箱に詰めた荷物などのほか、たんすやベッドなどの家財道具、テレビや冷蔵庫などの荷造りをして、トラックやコンテナ車に積み込む。衣類や食器などの日用品の梱包をするケースもある。</p>
         <p>引越し先では、トラックから荷物を降ろして家の中に運び込み、荷解きをして所定の場所に家具や電化製品を設置する。また、ダンボール箱の中の日用品などを取り出し、梱包を解いてたんすや棚の中に収めたり、クーラーや照明器具の取り付け、テレビのセッティングなどをする場合もある。建物や家財に傷をつけないように、荷物を破損させないように慎重に作業を進め、最後には、梱包に使用したダンボール箱などの資材を片づけて、持ち帰る。</p>

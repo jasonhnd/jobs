@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/48#webpage",
       "url": "https://mirai-shigoto.com/ja/48",
       "name": "エレベーター据付 — AI 影響 2/10",
-      "description": "エレベーター据付は現場仕事",
+      "description": "エレベーター据付とは、エレベーターの機器類を組み合わせ、所定の位置に据付け、安全に運転できるようにする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/48#occupation",
       "name": "エレベーター据付",
-      "description": "エレベーター据付は現場仕事",
+      "description": "エレベーター据付とは、エレベーターの機器類を組み合わせ、所定の位置に据付け、安全に運転できるようにする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>エレベーター据付とは</h2>
+        <p class="definition">エレベーター据付とは、エレベーターの機器類を組み合わせ、所定の位置に据付け、安全に運転できるようにする職業です。</p>
         <p>エレベーターを構成する機器類は工場で製作されて工事現場に搬入されるが、これらの機器類を組み合わせ、所定の位置に据付け、安全に運転できるようにする。</p>
         <p>建物の高層化が進んだ現代では、エレベーターは建物内の「縦の交通機関」として不可欠なものとなっている。エレベーターを用途で区分すると乗用エレベーターが大部分で、他に荷物用、自動車用などがあり、駆動方式で区分すると主にロープ式駆動と油圧式駆動がある。</p>
         <p>据付作業は通常ビルなどの構造物ができあがってから始まる。作業には揚重、芯出し、乗場出入口装置の据付け、ガイドレールの取付け、機械室内の機器類の取付け、かご及びつり合い重りの組立てなどがある。機器の取付けと並行して、電気の配線、通線、結線を行う。最後に調整、試運転を行い、所轄の行政官庁の竣工検査を受けて完了する。</p>

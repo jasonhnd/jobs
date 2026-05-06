@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/160#webpage",
       "url": "https://mirai-shigoto.com/ja/160",
       "name": "保健師 — AI 影響 5/10",
-      "description": "保健師、訪問+データ分析",
+      "description": "保健師とは、地域住民の健康を守るために家庭訪問、巡回指導、講習会などにより、保健衛生に関する知識の普及を行い、指導をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/160#occupation",
       "name": "保健師",
-      "description": "保健師、訪問+データ分析",
+      "description": "保健師とは、地域住民の健康を守るために家庭訪問、巡回指導、講習会などにより、保健衛生に関する知識の普及を行い、指導をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>保健師とは</h2>
+        <p class="definition">保健師とは、地域住民の健康を守るために家庭訪問、巡回指導、講習会などにより、保健衛生に関する知識の普及を行い、指導をする職業です。</p>
         <p>保健師は、主に、自治体（保健所・市区町村など）に勤務しており、保健、医療、福祉、介護などの分野で、乳幼児から高齢者までのすべての住民を対象に必要な保健サービスを提供している。</p>
         <p>例えば、生活習慣病対策としては、高血圧や糖尿病などの生活習慣病を予防するための教室、たばこ対策では喫煙者に対する保健指導、母子保健対策として乳幼児健康診査や両親学級などを実施するとともに、場合によっては家庭訪問をして個別の健康相談に応じるなど住民が健康で質の高い生活を送ることを支援するための保健活動を実施している。</p>
         <p>また、地域保健関連施策の企画、立案、実施及び評価、総合的な健康政策へ関わっているほか、最近では、これらの活動に加えて、持続可能でかつ地域特性をいかした健康なまちづくりや災害対策などにおいても役割を果たすことが求められている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/397#webpage",
       "url": "https://mirai-shigoto.com/ja/397",
       "name": "日本語教師 — AI 影響 7/10",
-      "description": "日本語教師、AI翻訳と競合",
+      "description": "日本語教師とは、学校や自宅などで外国人の学生に日本語の会話や読み書きを教える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/397#occupation",
       "name": "日本語教師",
-      "description": "日本語教師、AI翻訳と競合",
+      "description": "日本語教師とは、学校や自宅などで外国人の学生に日本語の会話や読み書きを教える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>日本語教師とは</h2>
+        <p class="definition">日本語教師とは、学校や自宅などで外国人の学生に日本語の会話や読み書きを教える職業です。</p>
         <p>日本語学校の他、地域、職場などで外国人に日本語を教える。日本語学習者は留学生、就労者など多岐にわたり、その学習目的も多様であるため、教え方や教材、教える場所や立場なども様々である。</p>
         <p>一般的な日本語学校は、1クラス20人以下の少人数で、おおむね１年から２年かけて日本語の教育を行う。</p>
         <p>日本語を「読む」「話す（やりとり）」「話す（発表）」「書く」「聞く」の言語活動ごとに捉え、それぞれの能力を高める。具体的には、授業計画を作成し、スライドや配付資料等を使った教材を準備し、学生のレベルに応じた授業を行う。他にも、テストなどにより学生の日本語能力を評価したり、出席や成績等の管理業務を行ったり、学生自身の学習や進学に関する相談にも乗る。また、日本の習慣やマナー、生活上のルールなどを含む日本文化、進学先や就職先の見つけ方や履歴書等の書き方を含む進路指導など、学習者に応じて様々なサポートをする。</p>

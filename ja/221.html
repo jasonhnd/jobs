@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/221#webpage",
       "url": "https://mirai-shigoto.com/ja/221",
       "name": "農業技術者 — AI 影響 5/10",
-      "description": "農業技術者、AI営農支援拡大",
+      "description": "農業技術者とは、農業分野において、自然科学や社会科学の様々な知識や技術を活用し、技術開発、技術の普及などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/221#occupation",
       "name": "農業技術者",
-      "description": "農業技術者、AI営農支援拡大",
+      "description": "農業技術者とは、農業分野において、自然科学や社会科学の様々な知識や技術を活用し、技術開発、技術の普及などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>農業技術者とは</h2>
+        <p class="definition">農業技術者とは、農業分野において、自然科学や社会科学の様々な知識や技術を活用し、技術開発、技術の普及などを行う職業です。</p>
         <p>農業分野において、自然科学や社会科学の様々な知識や技術を活用し、技術開発、技術の普及などを行う。</p>
         <p>専門分野は、バイオテクノロジーを含む育種学、作物栽培学、土壌学、植物病理学、応用昆虫学、農業機械学、農業土木学、食品加工学、農業経済学、農業経営学など多岐にわたる。</p>
         <p>農業技術者の仕事は、農業経営、農産物の生産と管理、土地基盤や農村の整備、農産物の流通・加工、技術開発などに分かれている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/234#webpage",
       "url": "https://mirai-shigoto.com/ja/234",
       "name": "太陽光発電の企画・調査 — AI 影響 7/10",
-      "description": "太陽光企画、調査+提案",
+      "description": "太陽光発電の企画・調査とは、太陽光発電の設置場所、設備等を企画し、必要な調査を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/234#occupation",
       "name": "太陽光発電の企画・調査",
-      "description": "太陽光企画、調査+提案",
+      "description": "太陽光発電の企画・調査とは、太陽光発電の設置場所、設備等を企画し、必要な調査を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>太陽光発電の企画・調査とは</h2>
+        <p class="definition">太陽光発電の企画・調査とは、太陽光発電の設置場所、設備等を企画し、必要な調査を行う職業です。</p>
         <p>太陽光発電に関して、企画を考え、関連する調査を行う。</p>
         <p>太陽光発電には発電した電気を自らが使用する「自家消費型」と、事業や投資などを目的に、発電した電気をすべて電力会社に売る（売電）「全量売電型」に分類される。</p>
         <p>企画・調査の仕事は、太陽光発電の導入を検討している法人や個人に対して、ニーズに合わせた太陽光発電システムの企画提案や調査、関係者間の調整などを行う。法人であれば、自家消費型なのか全量売電型なのか、太陽光発電を設置することの目的をヒアリングし、設置する場所や予算に合わせた最適な太陽光発電システムを提案する。土地所有者から情報提供、相談を受けて企画提案をする場合もある。</p>

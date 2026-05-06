@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/547#webpage",
       "url": "https://mirai-shigoto.com/ja/547",
       "name": "造船技能者（造船工、船舶艤装工等） — AI 影響 2/10",
-      "description": "造船技能者、現場手作業",
+      "description": "造船技能者（造船工、船舶艤装工等）とは、鋼材などの資材から部品を切断・加工し、それらを接合して組み立て船体を制作し、必要な設備・機器を取付けて航行できるように船舶を建造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/547#occupation",
       "name": "造船技能者（造船工、船舶艤装工等）",
-      "description": "造船技能者、現場手作業",
+      "description": "造船技能者（造船工、船舶艤装工等）とは、鋼材などの資材から部品を切断・加工し、それらを接合して組み立て船体を制作し、必要な設備・機器を取付けて航行できるように船舶を建造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -250,6 +250,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -420,6 +424,7 @@
 
       <section class="context">
         <h2>造船技能者（造船工、船舶艤装工等）とは</h2>
+        <p class="definition">造船技能者（造船工、船舶艤装工等）とは、鋼材などの資材から部品を切断・加工し、それらを接合して組み立て船体を制作し、必要な設備・機器を取付けて航行できるように船舶を建造する職業です。</p>
         <p>鋼材などの資材から部品を切断・加工し、それらを接合して組み立て船体を製作し、必要な設備・機器を取付けて航行できるように船舶を建造する。</p>
         <p>船舶の建造は、板材、型鋼などの鋼材を切断・加工形成したものを溶接により接合して組立て、構造物である船体を造る「船殻（せんこく）工程」と航行や運搬機能として必要な駆動機関、設備・機器、居住区画等の製作・取付けの「艤装工程」の２つに大きく分かれる。船殻（せんこく）工程は、船殻（せんこく）の組立のため、原寸図面の作成、鋼板罫書（けがき：鋼板に線を書くこと）・切断・穴開け・撓鉄（ぎょうてつ：鋼板を曲げること）・組立・接合・はつり等の作業を行う。艤装工程は、主機、発電機、スクリューなどの船舶機関を取り付ける機関部の艤装、積荷揚げ降ろしの荷役装置などを取り付ける甲板部の艤装、通風装置や居住部を製作し取り付ける居住部の艤装、通信機・計器類を取り付ける電気関係の艤装、各種配管を配置し取り付ける配管関係の艤装等の工事作業がある。さらに、船舶の塗装を行うこと、船舶の建造工程において目視や測定機器・検査装置を用いて船体の外観・動作・機能などを検査すること及び駆動機関・操舵装置・通信機器・計器などの点検を行うことがある。</p>
         <p>造船は広い意味では、木造船やFRP（繊維強化プラスチック）船舶の建造も含まれる。</p>

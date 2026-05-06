@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/521#webpage",
       "url": "https://mirai-shigoto.com/ja/521",
       "name": "特許審査官 — AI 影響 7/10",
-      "description": "特許審査、AI先行技術検索",
+      "description": "特許審査官とは、特許庁に出願された発明を審査し、特許性を判断する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/521#occupation",
       "name": "特許審査官",
-      "description": "特許審査、AI先行技術検索",
+      "description": "特許審査官とは、特許庁に出願された発明を審査し、特許性を判断する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>特許審査官とは</h2>
+        <p class="definition">特許審査官とは、特許庁に出願された発明を審査し、特許性を判断する職業です。</p>
         <p>特許庁は、生活を支える様々な発明を守り、次世代のイノベーションを促す役割を担う。具体的には、知的財産権のうち特許、実用新案、商標、意匠の4つの権利（産業財産権）を所管しており、このうち特許は、発明、すなわち、自然法則を利用した技術的思想の創作のうち高度なものを保護の対象としている。特許審査官は、特許庁に勤務し、出願された発明を最新技術や法律的な知識に基づき審査し、特許性を判断する。</p>
         <p>特許審査官は、まず、出願された書類を精査し、発明内容を理解するとともに、庁内外の検索システムを用いて、世界中の特許文献や学術論文のデータベースから過去に類似の技術がないか、先行技術調査を行う。出願された発明と先行技術との比較を行い、特許性があると判断した場合は特許査定を、ないと判断した場合は拒絶理由通知を行う。拒絶理由通知に対しては、出願人は意見・補正等の応答を行うことができ、出願人とのやり取り（基本的には書面であるが、面接審査が行われる場合もある）を踏まえて再度審査をし、最終的に特許査定、拒絶査定をする。審査は審査官が単独で行うが、判断が難しい場合など必要に応じて他の審査官との意見交換や協議も行われる。特許となった出願については特許公報が発行されるが、その特許公報には特許査定をした審査官名も掲載される。特許権を適切に設定することで、日本の産業の発展に貢献する。</p>
         <p>◇　よく使う道具、機材、情報技術等</p>

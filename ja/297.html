@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/297#webpage",
       "url": "https://mirai-shigoto.com/ja/297",
       "name": "タイヤ製造 — AI 影響 4/10",
-      "description": "タイヤ製造、自動化進行",
+      "description": "タイヤ製造とは、ゴム、繊維・スチールワイヤなど様々な部材を組み合わせて大小各種のタイヤを製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/297#occupation",
       "name": "タイヤ製造",
-      "description": "タイヤ製造、自動化進行",
+      "description": "タイヤ製造とは、ゴム、繊維・スチールワイヤなど様々な部材を組み合わせて大小各種のタイヤを製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>タイヤ製造とは</h2>
+        <p class="definition">タイヤ製造とは、ゴム、繊維・スチールワイヤなど様々な部材を組み合わせて大小各種のタイヤを製造する職業です。</p>
         <p>ゴム、繊維・スチールワイヤなど様々な部材を組み合わせて大小各種のタイヤを製造する。</p>
         <p>まず、原材料となる天然ゴム、合成ゴム、カーボンブラック、各種薬品を均質に練り合わせて板状の配合ゴムを作る。この工程は精練工程と呼ばれ、大型の機械を操作して行う。</p>
         <p>次のパーツ作成工程では配合ゴムを帯状にし、タイヤ1本分の長さに裁断した、地面に接する部分である「トレッド」や、タイヤの側面部分である「サイドウォール」を作る。ナイロンなどの化学繊維やスチールワイヤからなるタイヤコードを練り合わせて強度を強めた、タイヤの骨格を形成する「カーカスプライ」も作る。この他、カーカスプライを補強する「ベルト」などの部材等も機械を使って作成する。</p>

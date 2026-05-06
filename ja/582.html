@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/582#webpage",
       "url": "https://mirai-shigoto.com/ja/582",
       "name": "声優 — mirai-shigoto.com",
-      "description": "アニメやゲームの声、外国映画・ドラマの吹き替え、朗読、ナレーションなど、声による演技を行う。",
+      "description": "声優とは、アニメやゲームの声、外国映画・ドラマの吹き替え、朗読、ナレーションなど、声による演技を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/582#occupation",
       "name": "声優",
-      "description": "アニメやゲームの声、外国映画・ドラマの吹き替え、朗読、ナレーションなど、声による演技を行う。",
+      "description": "声優とは、アニメやゲームの声、外国映画・ドラマの吹き替え、朗読、ナレーションなど、声による演技を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -173,6 +173,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -343,6 +347,7 @@
 
       <section class="context">
         <h2>声優とは</h2>
+        <p class="definition">声優とは、アニメやゲームの声、外国映画・ドラマの吹き替え、朗読、ナレーションなど、声による演技を行う職業です。</p>
         <p>アニメやゲームのキャラクターの声を出したり、外国映画・ドラマの吹き替えなど、声による演技を行う。また、映像やオーディオ作品、CMなどで朗読やナレーションを担当するほか、動画配信など声を使ったコンテンツに関する仕事を行う。</p>
         <p>アニメ作品の場合は、あらかじめ台本や原作をもとに演じる役について研究し、収録当日は、監督や音響監督をはじめとする制作スタッフと意見交換をして声のイメージを調整する。リハーサル段階では共演者とともに本番時と同様のアフレコをする中で完成度を高め、担当する役柄を作り上げる。本番の収録では、マイクの前で画面の映像やタイムコード、ボールドを見ながら、登場人物の動きなど演出に応じた自然な流れでまるで登場人物が話しているように、声による演技を行う。</p>
         <p>吹き替えの場合は、すでに完成している映像作品に日本語のセリフを入れていくことになるので、事前に作品の映像が貸与される場合には、台本のセリフを合わせられるよう繰り返し練習し、スタジオでの収録に臨む。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/139#webpage",
       "url": "https://mirai-shigoto.com/ja/139",
       "name": "地方公務員（行政事務） — AI 影響 7/10",
-      "description": "地方公務員、書類業務AI化",
+      "description": "地方公務員（行政事務）とは、地方自治体に勤務し、地方自治体が住民のために行っている事業に関する行政施策の企画・立案、予算の編成から実際の業務にかかわる事務を担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/139#occupation",
       "name": "地方公務員（行政事務）",
-      "description": "地方公務員、書類業務AI化",
+      "description": "地方公務員（行政事務）とは、地方自治体に勤務し、地方自治体が住民のために行っている事業に関する行政施策の企画・立案、予算の編成から実際の業務にかかわる事務を担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>地方公務員（行政事務）とは</h2>
+        <p class="definition">地方公務員（行政事務）とは、地方自治体に勤務し、地方自治体が住民のために行っている事業に関する行政施策の企画・立案、予算の編成から実際の業務にかかわる事務を担当する職業です。</p>
         <p>都道府県や市区町村といった地方自治体に勤務し、地方自治体が住民のために行っている事業に関する行政施策の企画・立案、予算の編成から実際の業務にかかわる事務処理を担当する。</p>
         <p>部署によって仕事の具体的な内容は異なる。</p>
         <p>地方自治体は、地域の人々が安心して豊かに暮らせるよう幅広く生活に密着した事業を行っており、行政事務の仕事は多種多様な分野にわたっている。</p>

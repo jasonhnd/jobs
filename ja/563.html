@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/563#webpage",
       "url": "https://mirai-shigoto.com/ja/563",
       "name": "麻酔科医 — AI 影響 3/10",
-      "description": "麻酔科医、手技+管理",
+      "description": "麻酔科医とは、主に手術時の麻酔管理を担当し、患者の全身状態を管理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/563#occupation",
       "name": "麻酔科医",
-      "description": "麻酔科医、手技+管理",
+      "description": "麻酔科医とは、主に手術時の麻酔管理を担当し、患者の全身状態を管理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -217,6 +217,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -387,6 +391,7 @@
 
       <section class="context">
         <h2>麻酔科医とは</h2>
+        <p class="definition">麻酔科医とは、主に手術時の麻酔管理を担当し、患者の全身状態を管理する職業です。</p>
         <p>麻酔科医は主に手術時の麻酔管理を担当し、患者の全身状態を管理する。麻酔科医の業務は多岐にわたるが、主な仕事の内容について記述する。</p>
         <p>まず、手術前に患者の健康状態を診察し、最適な麻酔法を決定する。患者や家族に麻酔方法や合併症について説明し、同意を得る（インフォームド・コンセント）。手術当日は、全身麻酔の場合には麻酔薬の投与により麻酔導入後、気道確保、人工呼吸を開始する。手術中は、生体情報モニターを用いて患者の呼吸、循環、体温などを継続的に監視し、必要に応じて麻酔深度の調整や輸液、輸血などの処置を行う。</p>
         <p>手術終了後は、麻酔からの覚醒を確認し、疼痛管理（術後の痛み管理）や合併症予防のための指示を出す。術後回診では、患者の回復状態を確認し、必要に応じて痛みの管理や合併症対策を行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/150#webpage",
       "url": "https://mirai-shigoto.com/ja/150",
       "name": "外務公務員（外交官） — AI 影響 6/10",
-      "description": "外交官、対面外交+情報分析",
+      "description": "外務公務員（外交官）とは、政治、経済、文化、社会などあらゆる分野において、日本の国益と国際的な共通利益の増進のため、多国間あるいは２国間で国際的交渉や政策の調整を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/150#occupation",
       "name": "外務公務員（外交官）",
-      "description": "外交官、対面外交+情報分析",
+      "description": "外務公務員（外交官）とは、政治、経済、文化、社会などあらゆる分野において、日本の国益と国際的な共通利益の増進のため、多国間あるいは２国間で国際的交渉や政策の調整を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>外務公務員（外交官）とは</h2>
+        <p class="definition">外務公務員（外交官）とは、政治、経済、文化、社会などあらゆる分野において、日本の国益と国際的な共通利益の増進のため、多国間あるいは２国間で国際的交渉や政策の調整を行う職業です。</p>
         <p>相互依存が深まる世界の中で、日本の将来は、国際社会全体の未来と不可分に結びついている。「外交」の目的は、日本が平和で安全な国際社会の発展に寄与しつつ、その中で日本の安全と繁栄を確保し、国民の生命と財産を守ることである。</p>
         <p>「外交」を担う外務公務員は日本では外交政策の企画・立案を担う行政官として、海外では大使館や政府代表部といった在外公館を拠点に外交の最前線で、国際社会における日本国及び日本国民の利益の追求というミッションを遂行する。外務省全体としては、世界中の国・地域や国際機関との関係構築、安全保障、経済外交、国際協力、地球規模課題、軍縮、広報文化外交、国際法と、幅広い所掌分野を担当する。</p>
         <p>日本における業務内容は、情報の総合的な分析、国内の諸関係先との調整、方針決定、在外公館への「指示」を行い、その後政策の実施状況や結果を検証し、新たな施策に反映させる等の外交政策の企画・立案である。</p>

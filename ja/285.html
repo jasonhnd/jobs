@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/285#webpage",
       "url": "https://mirai-shigoto.com/ja/285",
       "name": "紙器製造 — AI 影響 4/10",
-      "description": "紙器製造、自動化進行",
+      "description": "紙器製造とは、印刷箱、貼箱、簡易箱、段ボール箱といった紙箱を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/285#occupation",
       "name": "紙器製造",
-      "description": "紙器製造、自動化進行",
+      "description": "紙器製造とは、印刷箱、貼箱、簡易箱、段ボール箱といった紙箱を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>紙器製造とは</h2>
+        <p class="definition">紙器製造とは、印刷箱、貼箱、簡易箱、段ボール箱といった紙箱を製造する職業です。</p>
         <p>紙器（しき）には主に「印刷箱」、「貼箱」、「簡易箱」、「段ボール箱」の４種類があり、これらの紙箱（かみばこ）を作る。多様なニーズに対応し、様々な形態の箱が作成されている。</p>
         <p>まず素材の紙を寸法通り機械で裁断し、箱を展開した形にする。さらに、折り曲げ部分に機械で罫（けい:折線）をつけ、折り曲げて箱の形にし、糊（のり）で接着して組み立てる。このとき、溝は紙質、形に合わせて溝部分への圧力を調節して、溝の深さを一定に保つ必要がある。糊を使う時は、紙の材質や温度によって糊の粘度を調節する。</p>
         <p>あらかじめ素材の紙に印刷をしたり（印刷箱）、素材の紙の上に印刷紙やファンシーペーパー、小間（こま）紙、レザック、布などを貼り付けたり（貼箱）する場合もある。この場合、通常は自動貼箱機を使うが、高級品の場合は手作業で行う。</p>

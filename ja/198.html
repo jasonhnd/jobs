@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/198#webpage",
       "url": "https://mirai-shigoto.com/ja/198",
       "name": "ガソリンスタンド・スタッフ — AI 影響 7/10",
-      "description": "GSスタッフ、セルフ化急進中",
+      "description": "ガソリンスタンド・スタッフとは、ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/198#occupation",
       "name": "ガソリンスタンド・スタッフ",
-      "description": "GSスタッフ、セルフ化急進中",
+      "description": "ガソリンスタンド・スタッフとは、ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>ガソリンスタンド・スタッフとは</h2>
+        <p class="definition">ガソリンスタンド・スタッフとは、ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う職業です。</p>
         <p>ガソリンスタンドにおいて、ガソリン・軽油や灯油の販売を行う。また、お客の車のエンジンの点検や洗車なども行う。</p>
         <p>フルサービス式のスタンドの場合は、入ってきた車を誘導し、所定の位置に停止させる。給油する燃料の種類・数量や支払方法を確認し、自動車の給油口にノズルを差し込んで給油する。給油中には、ガラスや灰皿の清掃などを行う。所定の量が給油されると自動的に停止するので、ノズルを外して自動車の給油口のふたをしっかりと閉める。</p>
         <p>また、点検の依頼を受けた場合には、エンジンルームを開けて、エンジンオイル、冷却水、バッテリー液などのチェックを行う。寒冷地では、スノータイヤの交換を行うこともある。洗車の依頼を受けた場合には、車を運転して所定の位置に止め、洗車機を操作する。</p>

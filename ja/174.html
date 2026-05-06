@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/174#webpage",
       "url": "https://mirai-shigoto.com/ja/174",
       "name": "診療情報管理士 — AI 影響 8/10",
-      "description": "診療情報管理、AI化進行高",
+      "description": "診療情報管理士とは、診療録を点検・保管・管理し、そこから精度の高いデータ、情報を収集、加工、分析し、必要な情報提供をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/174#occupation",
       "name": "診療情報管理士",
-      "description": "診療情報管理、AI化進行高",
+      "description": "診療情報管理士とは、診療録を点検・保管・管理し、そこから精度の高いデータ、情報を収集、加工、分析し、必要な情報提供をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>診療情報管理士とは</h2>
+        <p class="definition">診療情報管理士とは、診療録を点検・保管・管理し、そこから精度の高いデータ、情報を収集、加工、分析し、必要な情報提供をする職業です。</p>
         <p>医療施設には、医師の書いた診療録（カルテ）、看護記録及び各種検査記録など、患者に行った医療内容を一定期間保存しなければならない法律上の義務がある。診療情報管理士はそうした情報を点検・保管・管理し、情報を収集、加工、分析し、必要な情報提供を行う。病院によっては「診療録管理士」とも呼ばれる。</p>
         <p>診療情報管理士の重要な業務の一つに、診療録に記載された病名、手術の術式、各種処置をコーディングする業務がある。病名はWHOの国際疾病分類に基づくコーディングを行っている。コーディングされたデータは、診療報酬支払制度にも活用されている。</p>
         <p>患者の要請によるカルテ開示業務についても診療情報管理士が関与している。</p>

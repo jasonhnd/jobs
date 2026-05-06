@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/557#webpage",
       "url": "https://mirai-shigoto.com/ja/557",
       "name": "汎用金属工作機械工（旋盤工、ボール盤工等） — AI 影響 3/10",
-      "description": "汎用機械工、手作業",
+      "description": "汎用金属工作機械工（旋盤工、ボール盤工等）とは、旋盤やボール盤等、ハンドルやレバー等で操作する汎用工作機械での切削・研削等により、金属材料を規定の形状に加工する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/557#occupation",
       "name": "汎用金属工作機械工（旋盤工、ボール盤工等）",
-      "description": "汎用機械工、手作業",
+      "description": "汎用金属工作機械工（旋盤工、ボール盤工等）とは、旋盤やボール盤等、ハンドルやレバー等で操作する汎用工作機械での切削・研削等により、金属材料を規定の形状に加工する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>汎用金属工作機械工（旋盤工、ボール盤工等）とは</h2>
+        <p class="definition">汎用金属工作機械工（旋盤工、ボール盤工等）とは、旋盤やボール盤等、ハンドルやレバー等で操作する汎用工作機械での切削・研削等により、金属材料を規定の形状に加工する職業です。</p>
         <p>旋盤やボール盤等、ハンドルやレバー等で操作する汎用工作機械での切削・研削等により、金属材料を規定の形状に加工する。</p>
         <p>工作機械には昔ながらの「汎用工作機械」とコンピューターの数値制御（NC）により操作する「NC工作機械」がある。近年、加工精度のばらつきが少なく大量生産に適したNC工作機械が日本の工作機械生産額の9割程度を占めているが（*1）、プログラミング不要で小回りが利き、職人技による極めて繊細な仕上げも可能となる汎用工作機械は、特に小ロッの製品や試作品、特注品等の製作現場において依然強みを発揮している。</p>
         <p>主な汎用工作機械として、材料を回転させて形状を削り出す旋盤、穴あけ加工を行うボール盤、平面・曲面加工を行うフライス盤がある。このほか、穴の大きさを加工する中ぐり盤、切削工具ではなく砥石車を用いる研削盤、歯車の歯を切り出す歯切り盤等、用途に応じたさまざまな種類が存在する。主に大企業の工場等で工作機械の分担が分かれている場合を除いては、一人で複数種の汎用工作機械を使いこなすことが多く、業務上の必要に応じ、汎用工作機械とNC工作機械の両方への対応が求められることもある。</p>

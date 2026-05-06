@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/549#webpage",
       "url": "https://mirai-shigoto.com/ja/549",
       "name": "クレーン運転士 — AI 影響 3/10",
-      "description": "クレーン運転、現場操縦",
+      "description": "クレーン運転士とは、工業、倉庫、建設工事現場、港湾等で使用されているクレーンを運転して貨物・資材などの重量物の運搬などの作業に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/549#occupation",
       "name": "クレーン運転士",
-      "description": "クレーン運転、現場操縦",
+      "description": "クレーン運転士とは、工業、倉庫、建設工事現場、港湾等で使用されているクレーンを運転して貨物・資材などの重量物の運搬などの作業に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -237,6 +237,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -407,6 +411,7 @@
 
       <section class="context">
         <h2>クレーン運転士とは</h2>
+        <p class="definition">クレーン運転士とは、工業、倉庫、建設工事現場、港湾等で使用されているクレーンを運転して貨物・資材などの重量物の運搬などの作業に従事する職業です。</p>
         <p>工場、倉庫、建設工事現場、港湾等で使用されているクレーンを運転して貨物・資材などの重量物の運搬などの作業に従事する。クレーンオペレーターとも呼ばれている。</p>
         <p>クレーンは、貨物・資材などの荷物を動力を用いて吊り上げて、これを水平に運搬する機械装置である。様々な形、大きさ、重さの荷物を運搬するため、荷重や用途に応じた様々な種類がある。クレーンには、固定式のものと移動式のものがある。固定式クレーンには、天井クレーン、ガントリークレーン、橋形クレーン、タワークレーン、ジブクレーン等がある。不特定の場所に移動させることができる移動式クレーンには、トラッククレーン、ホイールクレーン、クローラクレーン等がある。</p>
         <p>工場などの天井クレーンを運転する場合には、当日の作業内容を把握した後、高所に設置された運転室に入る。クレーンは天井近くの柱に取り付けられたレールに沿って移動する。装置に異常がないか点検してから、レバーやハンドルなどの操作を行う。地上からの指示に従い、ワイヤーの巻き上げを行って荷物を吊り上げる。クレーンを所定の場所まで移動させ、荷物を運搬する。地上の安全を確認し、揺れないように注意しながら所定の位置に荷物を下ろす。なお、ペンダントスイッチ等で床上で操作するものもある。</p>

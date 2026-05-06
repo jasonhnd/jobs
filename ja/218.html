@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/218#webpage",
       "url": "https://mirai-shigoto.com/ja/218",
       "name": "厩舎スタッフ — AI 影響 2/10",
-      "description": "厩舎、馬の世話手作業",
+      "description": "厩舎スタッフとは、競走馬の調教や飼養管理を行い、出走体制の整った馬を競走に出走させる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/218#occupation",
       "name": "厩舎スタッフ",
-      "description": "厩舎、馬の世話手作業",
+      "description": "厩舎スタッフとは、競走馬の調教や飼養管理を行い、出走体制の整った馬を競走に出走させる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>厩舎スタッフとは</h2>
+        <p class="definition">厩舎スタッフとは、競走馬の調教や飼養管理を行い、出走体制の整った馬を競走に出走させる職業です。</p>
         <p>競走馬の調教や飼養管理を行い、出走体制の整った馬を競走に出走させる。</p>
         <p>ここでは、中央競馬の厩舎スタッフ「持乗調教助手」について述べる。</p>
         <p>朝、まず担当する馬が休息する部屋（以下「馬房（ばぼう）」という）へ行き、馬の体に異常がないかなど、足元の確認や体温を測るなど馬の健康状態をチェックする。その後、馬房に敷き詰められているわらから馬糞を取り除き、濡れた敷料を馬房から屋外に出して乾燥させるなどの馬房清掃を行う。馬房清掃後には、タオル・ブラシ等を用いて毛並みを整え、調教用の鞍を装着する。調教の準備が整えば、競走馬を馬房から引き出し、自らが騎乗して準備運動を行い、調教師の指示による調教馬場において担当馬の調教を行う。</p>

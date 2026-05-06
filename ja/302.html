@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/302#webpage",
       "url": "https://mirai-shigoto.com/ja/302",
       "name": "発電所運転管理 — AI 影響 6/10",
-      "description": "発電所運転、自動化+判断",
+      "description": "発電所運転管理とは、火力、水力、地熱、原子力、太陽光、風力、バイオマスなど各種の発電所等において、発電のための運転と保守を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/302#occupation",
       "name": "発電所運転管理",
-      "description": "発電所運転、自動化+判断",
+      "description": "発電所運転管理とは、火力、水力、地熱、原子力、太陽光、風力、バイオマスなど各種の発電所等において、発電のための運転と保守を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -241,6 +241,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -411,6 +415,7 @@
 
       <section class="context">
         <h2>発電所運転管理とは</h2>
+        <p class="definition">発電所運転管理とは、火力、水力、地熱、原子力、太陽光、風力、バイオマスなど各種の発電所等において、発電のための運転と保守を行う職業です。</p>
         <p>火力、水力、地熱、原子力、太陽光、風力、バイオマスなど各種の発電所等において、発電のための運転と保守を行う。</p>
         <p>電気の使用量は季節・時間帯により大きく変動するが、電気は石油や天然ガスと異なり大量に貯蔵できないため、使用される量と同じだけの電気を安定して作り出す必要がある。</p>
         <p>発電の仕事は大きく「運転」と「保守」に分かれる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/414#webpage",
       "url": "https://mirai-shigoto.com/ja/414",
       "name": "フロント（ホテル・旅館） — AI 影響 6/10",
-      "description": "ホテルフロント、無人化進行",
+      "description": "フロント（ホテル・旅館）とは、ホテルや旅館のフロントで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/414#occupation",
       "name": "フロント（ホテル・旅館）",
-      "description": "ホテルフロント、無人化進行",
+      "description": "フロント（ホテル・旅館）とは、ホテルや旅館のフロントで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>フロント（ホテル・旅館）とは</h2>
+        <p class="definition">フロント（ホテル・旅館）とは、ホテルや旅館のフロントで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う職業です。</p>
         <p>ホテルや旅館のフロントカウンターで、宿泊の手続きから部屋の割り振り、伝言等の取り次ぎ、観光の案内、宿泊料の精算などを行う。</p>
         <p>フロントカウンターは、宿泊客がチェックイン、チェックアウトをするホテル業務の最前線でもあり、館内の状況を把握して、宿泊客の要望に応じて各部門と連絡をとり、ベルスタッフなど接客担当に指示を出す。</p>
         <p>ホテル業の場合、規模にもよるが、一般的に運営部門は宿泊部門、料飲部門、宴会部門などに分かれている。このすべてを統括するのが総支配人であり、部門ごとに支配人を設けている場合が多い。そのなかで、宿泊部門に関する仕事内容は大まかに、リザベーション(予約)、レセプション(手続)、インフォメーション(案内)、キャッシャー(会計)、ハウスキーパー（客室の管理）の5つに分けられる。このうち、フロントカウンターでは主に、レセプション(手続)、インフォメーション(案内)、フロントキャッシャー(会計)を受け持つことが多い。</p>

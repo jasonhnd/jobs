@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/513#webpage",
       "url": "https://mirai-shigoto.com/ja/513",
       "name": "国際協力専門家 — AI 影響 7/10",
-      "description": "国際協力、企画+対人",
+      "description": "国際協力専門家とは、国際協力の豊かな実務経験、リーダーシップ、人的ネットワーク等を基に、国際協力機構（JICA）や国連機関などが実施する各種国際協力事業に携わる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/513#occupation",
       "name": "国際協力専門家",
-      "description": "国際協力、企画+対人",
+      "description": "国際協力専門家とは、国際協力の豊かな実務経験、リーダーシップ、人的ネットワーク等を基に、国際協力機構（JICA）や国連機関などが実施する各種国際協力事業に携わる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>国際協力専門家とは</h2>
+        <p class="definition">国際協力専門家とは、国際協力の豊かな実務経験、リーダーシップ、人的ネットワーク等を基に、国際協力機構（JICA）や国連機関などが実施する各種国際協力事業に携わる職業です。</p>
         <p>国際協力の豊かな実務経験、リーダーシップ、人的ネットワーク等を基に、国際協力機構（JICA）や国連機関などが実施する各種国際協力事業に携わる。</p>
         <p>一般的に国際協力専門家は、相手国の政策担当者や実務担当者、技術者などに技術や知識・助言を伝えたり、国の開発や復興のための計画を共に検討したり、人材の育成を図ることなどを通じ、その国が自立的に発展、復興していくよう促すことを目的として活動している。短期の調査団員や長期の専門家等として海外での業務に派遣されるのが一般的である。</p>
         <p>世界には、経済の低迷や貧困などによって困難に直面している開発途上諸国や、紛争や内戦、自然災害などにより国土や人々の生活が破壊され復興途上にある国が少なくない。これらの国々では、人々が安心して生活できるような社会づくりや経済の発展のために、様々な方面で、日本など先進諸国の経験や技術・ノウハウを求めている。こうした要望にこたえて、国際協力機構（JICA）や国連機関などから、多くの分野の国際協力専門家が派遣されている。</p>

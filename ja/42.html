@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/42#webpage",
       "url": "https://mirai-shigoto.com/ja/42",
       "name": "内装工 — AI 影響 2/10",
-      "description": "内装仕上げは手作業",
+      "description": "内装工とは、建物の室内を快適な居住空間とするため、床、天井・壁などの内装の仕上げを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/42#occupation",
       "name": "内装工",
-      "description": "内装仕上げは手作業",
+      "description": "内装工とは、建物の室内を快適な居住空間とするため、床、天井・壁などの内装の仕上げを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -241,6 +241,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -411,6 +415,7 @@
 
       <section class="context">
         <h2>内装工とは</h2>
+        <p class="definition">内装工とは、建物の室内を快適な居住空間とするため、床、天井・壁などの内装の仕上げを行う職業です。</p>
         <p>建物の室内を快適な居住空間とするため、床、天井・壁などの内装の仕上げを行う。</p>
         <p>内装仕上げには床仕上げと壁・天井仕上げなどがあり、建物の種別、用途などにより、それぞれ用いられる材料が異なる。建物の用途、種類、面積によっては、建築基準法と消防法や条例などによって材料、施工方法が規制を受ける。</p>
         <p>用いられる材料は、寸法、色調、デザインなど材料メーカー独自のものも多く、用途によって非常に多様である。このため、内装仕上げに従事する内装工の仕事は多くの専門領域に分かれ、その主なものは床仕上げ工、鋼製下地組立工、ボード張り工、壁装工であるが、様々な作業をこなせる多能工を目指す人も多い。</p>

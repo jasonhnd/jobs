@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/194#webpage",
       "url": "https://mirai-shigoto.com/ja/194",
       "name": "空港グランドスタッフ — AI 影響 6/10",
-      "description": "グランドスタッフ、無人化進行",
+      "description": "空港グランドスタッフとは、空港での旅客の搭乗手続（カウンター業務）と、飛行機への搭乗の案内・誘導（ゲート業務）を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/194#occupation",
       "name": "空港グランドスタッフ",
-      "description": "グランドスタッフ、無人化進行",
+      "description": "空港グランドスタッフとは、空港での旅客の搭乗手続（カウンター業務）と、飛行機への搭乗の案内・誘導（ゲート業務）を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>空港グランドスタッフとは</h2>
+        <p class="definition">空港グランドスタッフとは、空港での旅客の搭乗手続（カウンター業務）と、飛行機への搭乗の案内・誘導（ゲート業務）を行う職業です。</p>
         <p>空港での旅客の搭乗手続（カウンター業務）と、飛行機への搭乗の案内・誘導（ゲート業務）を行う。</p>
         <p>カウンターでの業務では、旅客から提示された航空券に記載された、日付、便名、氏名などを確認する。国際線の場合には、名前の綴りがパスポートと一致していることをチェックする。また、パスポートの有効期限、ビザの必要性の有無などの確認も行う。不備がないことを確認後、専用の端末を操作して搭乗券を発券する。そのときに、窓側・通路側など座席の希望を聞き、席の割り振りも行う。また、スーツケースなどの大きな荷物の重量を計った上で預かり、手荷物預かり証の発行も行う。機内持ち込みや預かり荷物のうち、持込禁止のもの等についての説明も行う。</p>
         <p>ゲートでの業務では、ゲートから搭乗までの案内、アナウンスによる誘導を行う。乳幼児や高齢者、障害者などがいる場合には、優先して搭乗させるなど、安全に搭乗できるように必要な配慮を行い、航空機が時間通り出発できるようにスムーズな誘導を心がける。</p>

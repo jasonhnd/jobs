@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/523#webpage",
       "url": "https://mirai-shigoto.com/ja/523",
       "name": "データエンジニア — AI 影響 9/10",
-      "description": "データエンジニア、AI協働",
+      "description": "データエンジニアとは、膨大なデータを分析するためにデータの整理や管理を行ったり、複雑で大規模なデータが活用できるよう情報基盤の構築や運用を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/523#occupation",
       "name": "データエンジニア",
-      "description": "データエンジニア、AI協働",
+      "description": "データエンジニアとは、膨大なデータを分析するためにデータの整理や管理を行ったり、複雑で大規模なデータが活用できるよう情報基盤の構築や運用を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>データエンジニアとは</h2>
+        <p class="definition">データエンジニアとは、膨大なデータを分析するためにデータの整理や管理を行ったり、複雑で大規模なデータが活用できるよう情報基盤の構築や運用を行う職業です。</p>
         <p>膨大なデータを分析するためにデータの整理や管理を行ったり、複雑で大規模なデータが活用できるよう情報基盤の構築や運用を行う。</p>
         <p>情報化が進展した今日、膨大なデータ（ビッグデータ）が蓄積され、利用・活用されるようになっている。また、AI(人工知能)も様々な場面で応用が進んでいるが、その実用化のためには大量のデータが必要となる。このような膨大なデータのエキスパートと言えるエンジニアである。</p>
         <p>データエンジニアに似た職業にデータサイエンティストがある。データサイエンティストがデータを分析し、新たな商品やサービスを生み出したり、業務プロセスを革新する知見を引き出すのに対し、データエンジニアはこのためのデータの収集、整理、管理、そして情報基盤の構築や運用を行う。</p>

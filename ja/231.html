@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/231#webpage",
       "url": "https://mirai-shigoto.com/ja/231",
       "name": "産業用ロボット開発技術者 — AI 影響 8/10",
-      "description": "産業ロボ開発、AI併用エンジ",
+      "description": "産業用ロボット開発技術者とは、企業、研究機関などで産業用ロボットの研究開発をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/231#occupation",
       "name": "産業用ロボット開発技術者",
-      "description": "産業ロボ開発、AI併用エンジ",
+      "description": "産業用ロボット開発技術者とは、企業、研究機関などで産業用ロボットの研究開発をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -216,6 +216,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -386,6 +390,7 @@
 
       <section class="context">
         <h2>産業用ロボット開発技術者とは</h2>
+        <p class="definition">産業用ロボット開発技術者とは、企業、研究機関などで産業用ロボットの研究開発をする職業です。</p>
         <p>産業用ロボットの研究開発を行う。産業用ロボットは工場などにおいて、組立、溶接、塗装、搬送等に幅広く導入されている。ロボットは大きく分けて、工場の生産工程で稼働している産業用ロボットと、人の活動を支援するサービスロボットがある。サービスロボットは手術の支援、掃除や巡回、介護での介助、店舗の受付やフロアサービスなどで使われている。ここでは産業用ロボットを解説するが、産業用ロボットとは「自動制御され、再プログラム可能で、多目的なマニピュレータであり、3軸以上でプログラム可能で、1か所に固定して又は移動機能をもって、産業自動化の用途に用いられるロボット。」（ISO、JIS）とされている。最近は柵を設けず人間と一緒に作業をする協働ロボットの開発が多くなっている。協働ロボットは基本的には万が一作業者と接触した場合、その接触を検知することにより、動作を停止するものであるが、そもそも協働ロボットが稼働する際には、設備環境面においてセンサーなどによりロボットが作業者と接触しないよう何重もの安全策がとられている。</p>
         <p>産業用ロボットは顧客から要求に応える形で一から作り上げるものと、既存の製品の改良や一連のシリーズとして、コンセプトやデザインを引き継いで開発するものがある。一から作る場合は顧客の要求から基本設計を行い、詳細設計、試作、試験、そして量産に入り、顧客に納品する。この一からの開発は割合としては少なく、既存の産業ロボットの性能や機能を向上させる開発が多い。どちらの開発でも協力会社と共同で行うこともある。</p>
         <p>産業用ロボットではソフトウェアの重要性が高まっており、センサーの情報から画像認識したり、高速で正確な動作もプログラミング（コーディング）で行われている。また、顧客に導入したロボットの機能向上を求められ、ソフトウェアの改良で対応することもある。</p>

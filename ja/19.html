@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/19#webpage",
       "url": "https://mirai-shigoto.com/ja/19",
       "name": "プラスチック成形 — AI 影響 5/10",
-      "description": "プラスチック成形は機械主体",
+      "description": "プラスチック成形とは、プラスチックに熱を加えて成形機で成形し、さまざまな製品を作る職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/19#occupation",
       "name": "プラスチック成形",
-      "description": "プラスチック成形は機械主体",
+      "description": "プラスチック成形とは、プラスチックに熱を加えて成形機で成形し、さまざまな製品を作る職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -248,6 +248,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -418,6 +422,7 @@
 
       <section class="context">
         <h2>プラスチック成形とは</h2>
+        <p class="definition">プラスチック成形とは、プラスチックに熱を加えて成形機で成形し、さまざまな製品を作る職業です。</p>
         <p>プラスチックは石油から作られるポリマーを材料として作られ、産業資材から日用品まで非常に広く利用されている。プラスチックに熱や圧力を加えることで形を自由に変えられるという性質を利用して成形機でさまざまな製品を作り出すのがプラスチック成形の仕事である。</p>
         <p>基本的な仕事は、材料を成形機に投入し加熱溶融したものを金型などで成形した後、冷却、凝固させ製品にすることである。</p>
         <p>プラスチック成形には、圧縮、射出、押し出し、ブロー、真空、発泡、インフレーションなどの成形法があり、作る製品によってそれぞれ異なる成形機を使用することになる。</p>

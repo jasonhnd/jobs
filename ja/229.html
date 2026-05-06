@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/229#webpage",
       "url": "https://mirai-shigoto.com/ja/229",
       "name": "林業技術者 — AI 影響 4/10",
-      "description": "林業技術、ドローン/AI監視",
+      "description": "林業技術者とは、林業試験場などにおいて、樹木の育成、森林の生育環境、樹木の伐採方法など林業技術に関して研究し、指導する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/229#occupation",
       "name": "林業技術者",
-      "description": "林業技術、ドローン/AI監視",
+      "description": "林業技術者とは、林業試験場などにおいて、樹木の育成、森林の生育環境、樹木の伐採方法など林業技術に関して研究し、指導する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>林業技術者とは</h2>
+        <p class="definition">林業技術者とは、林業試験場などにおいて、樹木の育成、森林の生育環境、樹木の伐採方法など林業技術に関して研究し、指導する職業です。</p>
         <p>森林のもつ多面的機能を持続的に発揮させるため、森林整備や木材利用等を推進する。</p>
         <p>森林は、土砂の流出や崩壊の防止をはじめ、洪水や渇水の緩和、水質の浄化、動植物の生息・育成の場の提供、地球温暖化防止のための二酸化炭素の吸収・貯蔵、木材等の林産物の供給、環境教育の場の提供など多様な機能を有している。これらの機能を持続させるため、林業技術者は、森林経営、造林、森林保護、治山治水、林木の伐採、技術開発・普及、木材の加工・利用など、多くの専門分野で活躍している。</p>
         <p>林業に関する専門知識や技術を活用し、現地調査を行って測量や標本の採取をしてデータを集める。その上で、森林の管理・経営についての具体的な計画や方法を練り、プランとしてまとめる。計画の実施にあたっては、作業現場に出かけていき、林業作業者などへの監督・指導や、森林所有者などへの普及指導等を行うとともに、担当区域の森林を巡回して生育状況や異常の有無を点検し、森林資源の維持・管理にあたる。</p>

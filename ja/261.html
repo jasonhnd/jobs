@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/261#webpage",
       "url": "https://mirai-shigoto.com/ja/261",
       "name": "電子機器組立 — AI 影響 3/10",
-      "description": "電子機器組立、手作業",
+      "description": "電子機器組立とは、パソコン、携帯電話、ゲーム機、テレビ等の電子機器を組み立てる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/261#occupation",
       "name": "電子機器組立",
-      "description": "電子機器組立、手作業",
+      "description": "電子機器組立とは、パソコン、携帯電話、ゲーム機、テレビ等の電子機器を組み立てる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -244,6 +244,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -414,6 +418,7 @@
 
       <section class="context">
         <h2>電子機器組立とは</h2>
+        <p class="definition">電子機器組立とは、パソコン、携帯電話、ゲーム機、テレビ等の電子機器を組み立てる職業です。</p>
         <p>パソコン、携帯電話、ゲーム機、テレビ等の電子機器を組み立てる。</p>
         <p>具体的な仕事は、電子回路基板（プリント配線板等）へIC、コンデンサー、抵抗など部品を接続したり接着する。また、電子回路を内蔵した各種機器の組立を行う。その後、点検、電気系の調整・測定作業などを行う。</p>
         <p>組立は、機械で行う工程と、手作業で行う工程がある。機械で行う場合は機械操作と監視が仕事となる。組立作業は、基本的に作業手順が記された指示書に従って行われる。</p>

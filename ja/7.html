@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/7#webpage",
       "url": "https://mirai-shigoto.com/ja/7",
       "name": "冷凍加工食品製造 — AI 影響 5/10",
-      "description": "ライン製造で自動化進行",
+      "description": "冷凍加工食品製造とは、冷凍加工食品の製造工場で、冷凍加工食品を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/7#occupation",
       "name": "冷凍加工食品製造",
-      "description": "ライン製造で自動化進行",
+      "description": "冷凍加工食品製造とは、冷凍加工食品の製造工場で、冷凍加工食品を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>冷凍加工食品製造とは</h2>
+        <p class="definition">冷凍加工食品製造とは、冷凍加工食品の製造工場で、冷凍加工食品を製造する職業です。</p>
         <p>冷凍加工食品の製造工場で、冷凍加工食品を製造する。</p>
         <p>冷凍加工食品の種類は、魚、肉、野菜などの素材から、これらを調理した食品、米飯、めん類まで様々である。原料の選別、原料の処理、製品の凍結、包装の工程を経て製品となり、冷凍保管され出荷される。製造工はこれら工程で作業して冷凍食品を製造する。</p>
         <p>原料の選別では、原料の質が冷凍後の品質にそのまま現れるため、新鮮さや風味、外観などの総合的な品質が優れたものを選別する。</p>

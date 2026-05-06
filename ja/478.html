@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/478#webpage",
       "url": "https://mirai-shigoto.com/ja/478",
       "name": "トレーラートラックドライバー — AI 影響 4/10",
-      "description": "トレーラー運転、自動運転研究",
+      "description": "トレーラートラックドライバーとは、大量の荷物や特大品、重量品を輸送するトレーラーを運転する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/478#occupation",
       "name": "トレーラートラックドライバー",
-      "description": "トレーラー運転、自動運転研究",
+      "description": "トレーラートラックドライバーとは、大量の荷物や特大品、重量品を輸送するトレーラーを運転する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -242,6 +242,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -412,6 +416,7 @@
 
       <section class="context">
         <h2>トレーラートラックドライバーとは</h2>
+        <p class="definition">トレーラートラックドライバーとは、大量の荷物や特大品、重量品を輸送するトレーラーを運転する職業です。</p>
         <p>大量の荷物や特大品、重量品を輸送するトレーラーを運転する。トレーラーは事業用トラックのひとつである牽引貨物自動車のことで、トラクター（運転席部分）とトレーラー（荷台）が分離できる構造となっており、建築資材、大型機械、コンテナ、自動車、石油などの液体製品等、大きな物や重い物を運搬するのに適している。</p>
         <p>トレーラーの種類は多く、一般的なのはセミトレーラーである。運転席だけのトラクターとトレーラーを組み合わせたもので、牽引部分と合わせた全長が16.5メートルのものが多い。トレーラーは車輪が後部にだけ付いているので、単独では走行できない。</p>
         <p>フルトレーラーは、単独でも荷物を運べるトラックにトレーラーを組み合わせたもので、荷箱が２つあるため、一度に大量の貨物を輸送できる。連結時の全長は一定の条件を満たせば全長25メートルまで認められる。</p>

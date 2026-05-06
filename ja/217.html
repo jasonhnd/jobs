@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/217#webpage",
       "url": "https://mirai-shigoto.com/ja/217",
       "name": "放送ディレクター — AI 影響 6/10",
-      "description": "放送ディレクター、企画+演出",
+      "description": "放送ディレクターとは、テレビやラジオの様々な番組を作るために、現場で出演者や撮影・照明・音声などのスタッフを指揮する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/217#occupation",
       "name": "放送ディレクター",
-      "description": "放送ディレクター、企画+演出",
+      "description": "放送ディレクターとは、テレビやラジオの様々な番組を作るために、現場で出演者や撮影・照明・音声などのスタッフを指揮する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>放送ディレクターとは</h2>
+        <p class="definition">放送ディレクターとは、テレビやラジオの様々な番組を作るために、現場で出演者や撮影・照明・音声などのスタッフを指揮する職業です。</p>
         <p>報道番組、ドキュメンタリー、ドラマ、バラエティ、音楽番組などテレビやラジオの様々な番組を作るために、現場で出演者や撮影・照明・音声などのスタッフを指揮する。</p>
         <p>放送ディレクターは、制作プランやスケジュールにしたがって台本やスタッフを決める。番組で使うVTRを事前に編集スタッフに指示して、準備することもある。放送前には、カメラ・音声・照明などの技術、大道具・小道具、衣装といった美術について、放送技術者やアートディレクターと打ち合わせを行う。また、番組に合った出演者や脚本家、作曲家などを集めて、演出のイメージをふくらませる。</p>
         <p>リハーサルでは、出演者に動きを伝え、技術・美術のでき具合をチェックする。</p>

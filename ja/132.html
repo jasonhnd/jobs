@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/132#webpage",
       "url": "https://mirai-shigoto.com/ja/132",
       "name": "介護支援専門員/ケアマネジャー — AI 影響 6/10",
-      "description": "ケアマネ、対面+書類作業",
+      "description": "介護支援専門員/ケアマネジャーとは、介護を必要とする人にニーズに応じた介護サービスを提供するために、現状の調査やサービスの計画を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/132#occupation",
       "name": "介護支援専門員/ケアマネジャー",
-      "description": "ケアマネ、対面+書類作業",
+      "description": "介護支援専門員/ケアマネジャーとは、介護を必要とする人にニーズに応じた介護サービスを提供するために、現状の調査やサービスの計画を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>介護支援専門員/ケアマネジャーとは</h2>
+        <p class="definition">介護支援専門員/ケアマネジャーとは、介護を必要とする人にニーズに応じた介護サービスを提供するために、現状の調査やサービスの計画を行う職業です。</p>
         <p>介護保険制度とともにスタートした職業で、ケアマネジャーともいう。介護を必要とする人に対して個々のニーズに応じた介護サービスを提供するために、アセスメント（課題分析）を行い、どのような介護サービスが必要であるかを判断し、ケアプラン（介護サービス計画書）を作成する。市町村から「要介護認定調査」を委託された場合、その調査を行い、結果を報告する。</p>
         <p>介護保険の利用者が在宅の場合には、利用者に面接して食事、入浴、排泄など日常生活の状況を把握し、在宅で暮らすための利用者毎の目標を立てる。サービスの種類や使用頻度を選択したり、組み合わせたりして、ケアプランを作成する。このプランに基づいて、ホームヘルプやデイサービスなどのサービス事業者に、サービスの実施を依頼する。サービス開始後、定期的に家庭訪問して利用者の状況を把握し（モニタリング）、サービスが思うように成果を上げていない場合、また、利用者の状態が変化した時はプランの修正を行う。プランに基づくサービスの実績を保険者（市町村）に報告する。また、要介護認定の更新時に、ケアプランを変更する場合、「サービス担当者会議」を開催し、ケアプランの内容（利用サービス内容や利用頻度）を協議する。</p>
         <p>利用者が、特別養護老人ホーム、介護老人保健施設、介護療養型医療施設などに入所している場合は、ケアプランの内容がやや異なる。ケアプランを作成する点では同様であるが、利用するサービス事業者を選択するのではなく、入所施設内のサービスをいかに利用するか、という観点でプランを作成する。</p>

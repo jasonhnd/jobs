@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/78#webpage",
       "url": "https://mirai-shigoto.com/ja/78",
       "name": "コンビニエンスストア店員 — AI 影響 5/10",
-      "description": "コンビニ店員、レジ+品出し",
+      "description": "コンビニエンスストア店員とは、24時間営業店などコンビニエンスストアで、商品を販売したり、各種のサービスを提供したりする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/78#occupation",
       "name": "コンビニエンスストア店員",
-      "description": "コンビニ店員、レジ+品出し",
+      "description": "コンビニエンスストア店員とは、24時間営業店などコンビニエンスストアで、商品を販売したり、各種のサービスを提供したりする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>コンビニエンスストア店員とは</h2>
+        <p class="definition">コンビニエンスストア店員とは、24時間営業店などコンビニエンスストアで、商品を販売したり、各種のサービスを提供したりする職業です。</p>
         <p>24時間営業店などコンビニエンスストアで、商品を販売したり、各種のサービスを提供したりする。</p>
         <p>売上情報を自動的に記録できるPOSレジを利用し、商品のバーコードをスキャナで読み取って商品を販売し、袋詰めを行う。公共料金等の支払受付や、宅配便の受付、各種チケットの販売を行うこともある。商品の発注は、店舗内のコンピュータの情報や、地域行事、天気予報を考慮しながら行う。発注情報は回線を通じて本部に送信され、所定の時間に協力業者から商品が配送・納品されることになる。その後、納品された商品を検品し、商品棚などに品出しを行う。これらの業務以外に、売上金の管理や店舗内外の清掃業務も重要な仕事である。また、お客に対する挨拶や気配り、緊急時やトラブル時の対応なども重要である。</p>
         <p>店舗独自の販売促進活動をする場合もあり、新商品の発売や新しいサービスの開始時期等にあわせて、販売計画やPOP広告の作成等を行うことがある。</p>

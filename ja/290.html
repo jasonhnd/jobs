@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/290#webpage",
       "url": "https://mirai-shigoto.com/ja/290",
       "name": "かばん・袋物製造 — AI 影響 3/10",
-      "description": "鞄袋物製造、手作業",
+      "description": "かばん・袋物製造とは、天然皮革、合成皮革、布などの材料を加工して、かばん、バッグや財布、名刺入れなどの袋物（ふくろもの）を作る職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/290#occupation",
       "name": "かばん・袋物製造",
-      "description": "鞄袋物製造、手作業",
+      "description": "かばん・袋物製造とは、天然皮革、合成皮革、布などの材料を加工して、かばん、バッグや財布、名刺入れなどの袋物（ふくろもの）を作る職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>かばん・袋物製造とは</h2>
+        <p class="definition">かばん・袋物製造とは、天然皮革、合成皮革、布などの材料を加工して、かばん、バッグや財布、名刺入れなどの袋物（ふくろもの）を作る職業です。</p>
         <p>天然皮革、合成皮革、布などの材料を加工して、かばん、バッグや財布、名刺入れなどの袋物（ふくろもの）を作る。</p>
         <p>袋物の製造は、商品のデザイン、見本・型紙作り、材料の裁断と加工、縫製と仕上げの４つの工程に分かれる。一般的に袋物製造の仕事という場合は、裁断・加工と縫製・仕上げの工程をさす場合が多い。</p>
         <p>裁断の工程では、デザインに合わせて作った型紙通りに、プレス機やナイフ、ハサミを用いて、皮革や布などの材料を裁断する。キズやムラのある所を避けながら、材料に無駄が出ないように切り取る。次に加工の工程では、縫製の準備として、主材料が皮革の場合には縫製しやすいように部分的にはがす革漉き(かわすき)という作業を、布や毛皮、ニットを使う場合には不織布などで裏打ちを施す作業を行う。</p>

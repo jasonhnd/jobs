@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/360#webpage",
       "url": "https://mirai-shigoto.com/ja/360",
       "name": "印刷オペレーター — AI 影響 5/10",
-      "description": "印刷オペレーター、機械操作",
+      "description": "印刷オペレーターとは、印刷機を操作して、紙などの素材に印刷する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/360#occupation",
       "name": "印刷オペレーター",
-      "description": "印刷オペレーター、機械操作",
+      "description": "印刷オペレーターとは、印刷機を操作して、紙などの素材に印刷する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>印刷オペレーターとは</h2>
+        <p class="definition">印刷オペレーターとは、印刷機を操作して、紙などの素材に印刷する職業です。</p>
         <p>印刷機を操作して、紙などの素材に印刷する。</p>
         <p>仕事内容は、作業指示書の確認、インクなどの資材や刷版の確認、印刷機械の準備をして、刷り出しを行う。印刷品質が安定したものを基準紙として、基準紙をもとに本刷りを行う。刷了（所定の部数を印刷し終わること）したら、刷了後の確認（前品目の残紙の排除、出荷確認）、印刷機械の点検・清掃を行う。刷了後の清掃だけでなく、日常的な機械の整備・保守も月１回程度実施する。</p>
         <p>印刷には目的によって、出版印刷（書籍や雑誌など）、商業印刷（宣伝物やカタログ、ポスターなど）、事務用印刷（名刺や伝票などの事務用品）などがある。印刷という作業は、出版印刷でみると、原稿入稿から、組版・製版などのDTP（デスクトップパブリッシング）処理のプリプレス工程を経て、刷版工程で面付や品目に応じたカーブ設定を実施し、実用版を作成、印刷工程へ渡し、印刷機を稼働させ、実際に印刷を行うプレス工程を指す。印刷された刷本（すりほん）は、断裁、折加工、丁合、製本などの処理を行うポストプレス工程に回される。</p>

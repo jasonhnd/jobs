@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/60#webpage",
       "url": "https://mirai-shigoto.com/ja/60",
       "name": "自動車営業 — AI 影響 6/10",
-      "description": "自動車営業、対面+試乗対応",
+      "description": "自動車営業とは、自動車メーカー別の販売会社（ディーラー）で、顧客の好みに合わせて自社の自動車を販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/60#occupation",
       "name": "自動車営業",
-      "description": "自動車営業、対面+試乗対応",
+      "description": "自動車営業とは、自動車メーカー別の販売会社（ディーラー）で、顧客の好みに合わせて自社の自動車を販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>自動車営業とは</h2>
+        <p class="definition">自動車営業とは、自動車メーカー別の販売会社（ディーラー）で、顧客の好みに合わせて自社の自動車を販売する職業です。</p>
         <p>ここでは新車を販売する営業について記述する。</p>
         <p>自動車メーカー別の販売会社（ディーラー）で、顧客の好みに合わせて自社の自動車を販売する。</p>
         <p>自動車営業は、配属された販売担当地域において、自社の車を購入し使用している顧客の挨拶まわり、来店客の自宅への訪問、新旧の顧客への新車試乗会の案内などを行い、「お得意様」 を増やしていく。車は高価な買い物であるため、適切な助言とサービスで顧客の信頼を得ることが重要となる。また、来店客の比重が高まってきているため、店頭での商品説明や情報提供、販売も行う。</p>

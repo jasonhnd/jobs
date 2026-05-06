@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/577#webpage",
       "url": "https://mirai-shigoto.com/ja/577",
       "name": "風力発電の企画・調査 — AI 影響 7/10",
-      "description": "風力企画調査、調査+提案",
+      "description": "風力発電の企画・調査とは、風力発電に適した場所の選定、そこでの風力発電の企画・計画の検討、周辺環境への影響の調査、建設に必要な許認可の取得、地域との調整を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/577#occupation",
       "name": "風力発電の企画・調査",
-      "description": "風力企画調査、調査+提案",
+      "description": "風力発電の企画・調査とは、風力発電に適した場所の選定、そこでの風力発電の企画・計画の検討、周辺環境への影響の調査、建設に必要な許認可の取得、地域との調整を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -216,6 +216,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -386,6 +390,7 @@
 
       <section class="context">
         <h2>風力発電の企画・調査とは</h2>
+        <p class="definition">風力発電の企画・調査とは、風力発電に適した場所の選定、そこでの風力発電の企画・計画の検討、周辺環境への影響の調査、建設に必要な許認可の取得、地域との調整を行う職業です。</p>
         <p>風力発電に適した土地の選定、そこでの風力発電の企画・計画の検討、周辺環境への影響の調査、建設に必要な許認可の取得、地域との調整などを行う。また、建設、運転まで含めた風力発電プロジェクト全体の管理や関係者との折衝も行う。</p>
         <p>まず、風力発電に適した場所を選定するため、風速や風向のデータを収集する。既存のデータも活用し、風況観測機器やドローンを使って情報収集する。地形や周辺の環境（住宅、施設、自然環境など）も調査する。風車設置に適した土地がみつかれば、自治体に風車建設の企画・計画を提案し、地域住民への初期調査開始の説明会を行う。</p>
         <p>環境影響評価（EIA : Environmental Impact Assessment）として、事業が生活環境、自然環境に与える影響を調査、予測、評価する。この中で地元住民や自治体との協議も行う。必要であれば環境保全措置も考える。</p>

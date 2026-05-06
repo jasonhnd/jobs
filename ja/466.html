@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/466#webpage",
       "url": "https://mirai-shigoto.com/ja/466",
       "name": "清涼飲料ルートセールス — AI 影響 5/10",
-      "description": "清涼飲料ルートセールス",
+      "description": "清涼飲料ルートセールスとは、ジュースなどの清涼飲料を販売店などに車で配達し、併せて営業活動を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/466#occupation",
       "name": "清涼飲料ルートセールス",
-      "description": "清涼飲料ルートセールス",
+      "description": "清涼飲料ルートセールスとは、ジュースなどの清涼飲料を販売店などに車で配達し、併せて営業活動を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>清涼飲料ルートセールスとは</h2>
+        <p class="definition">清涼飲料ルートセールスとは、ジュースなどの清涼飲料を販売店などに車で配達し、併せて営業活動を行う職業です。</p>
         <p>ジュースなどの清涼飲料を販売店などに車で配達し、併せて営業活動を行う。また、自動販売機に商品を補充する。</p>
         <p>会社の営業所に出勤すると、ユニフォームに着がえ、担当地区のマネージャーやチームのメンバーとミーティングをするなど、1日の準備をする。</p>
         <p>販売店に配達をする場合は、車（ルートカー）を運転して担当地域の販売店を巡回する。効率よく回れるように、交通渋滞などを考慮に入れて道順やスケジュールを作成する。</p>

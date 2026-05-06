@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/365#webpage",
       "url": "https://mirai-shigoto.com/ja/365",
       "name": "知的財産コーディネーター — AI 影響 7/10",
-      "description": "知財コーディネーター、調整+AI",
+      "description": "知的財産コーディネーターとは、特許、実用新案、商標、意匠など知的財産の出願と権利化を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/365#occupation",
       "name": "知的財産コーディネーター",
-      "description": "知財コーディネーター、調整+AI",
+      "description": "知的財産コーディネーターとは、特許、実用新案、商標、意匠など知的財産の出願と権利化を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>知的財産コーディネーターとは</h2>
+        <p class="definition">知的財産コーディネーターとは、特許、実用新案、商標、意匠など知的財産の出願と権利化を行う職業です。</p>
         <p>特許、実用新案、商標、意匠など知的財産（以下「知財」という。）の権利化や活用に関する幅広い支援を行う。知財関係の係争への対応を行う場合もある。会社等の組織の研究者、技術者等に対して知財に関する教育や研修を担当する場合もある。知財コーディネーターとも呼ばれる。ここでは以下、知財コーディネーターという。</p>
         <p>知財関連の業務としては、特許や商標などの「出願・権利化」、知財購入（ライセンスイン）、知財供与（ライセンスアウト）、係争、権利侵害への対応等「渉外」があり、これらのための先行知財の「調査」がある。調査は、専門的に行う仕事（知的財産サーチャー）もあり、また、この調査を外部の特許調査会社に依頼することもある。これらの中で知財の出願と権利化に関する支援が、一般に知財コーディネーターの中核となる業務といえるが、属する組織、活動する分野（医療系、工学系等）によって業務の配分等は異なる。</p>
         <p>知財の出願と権利化では、研究者、技術者等とコミュニケーションを図り、研究内容や出願の意図を的確に把握する。次に、特許などの権利化を検討し、出願に必要なデータを整理する。知財コーディネーターが実際の出願まで行うこともあるが、実際には出願書面の作成は特許事務所に依頼することが多く、その場合は窓口として機能する。このように知財コーディネーターは、組織内の研究者、技術者等や、事業展開をする関係者、知的財産サーチャー（調査担当）、法務等の関係者、また、社外の特許調査会社、特許事務所、法律事務所、そして他機関（企業、行政、大学等）、技術移転機関などと連携・協力しながら仕事を進める。</p>

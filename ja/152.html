@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/152#webpage",
       "url": "https://mirai-shigoto.com/ja/152",
       "name": "陸上自衛官 — AI 影響 3/10",
-      "description": "陸上自衛官、現場任務中心",
+      "description": "陸上自衛官とは、日本の平和と安全を保つため、外国の侵略を未然に防止し、万一侵略があった場合に対処するほか、大規模な自然災害などに対応し、人命や財産の保護にあたる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/152#occupation",
       "name": "陸上自衛官",
-      "description": "陸上自衛官、現場任務中心",
+      "description": "陸上自衛官とは、日本の平和と安全を保つため、外国の侵略を未然に防止し、万一侵略があった場合に対処するほか、大規模な自然災害などに対応し、人命や財産の保護にあたる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -203,6 +203,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -373,6 +377,7 @@
 
       <section class="context">
         <h2>陸上自衛官とは</h2>
+        <p class="definition">陸上自衛官とは、日本の平和と安全を保つため、外国の侵略を未然に防止し、万一侵略があった場合に対処するほか、大規模な自然災害などに対応し、人命や財産の保護にあたる職業です。</p>
         <p>日本に対する侵略を未然に防止するとともに、万一侵略があった場合に対処する。また、大規模な自然災害などに対応して、人命や財産の保護にあたる。</p>
         <p>職種には、地上戦闘の骨幹部隊である普通科、戦車部隊と偵察部隊を持つ機甲科、火力戦闘部隊である特科などがある。またそれ以外にも、「自己完結能力」を備えているため、一般社会と共通する職種が自衛隊内に存在する。土木・通信などのインフラ整備、輸送、航空、衣食住、医療、警務、会計などさまざまな職種があり、所属する部隊の中で役割を果たす。例えば、需品科は、食事、燃料や衣服の補給・整備、給水・入浴・洗濯などを行う。通信科は、各種の通信機器を用いて部隊間の指揮連絡のために通信の確保、写真・映像の撮影・処理などをする。武器科では、火器や戦車などの補給・整備を行う。</p>
         <p>また、有事に備えて、さまざまな準備、訓練を行う。</p>

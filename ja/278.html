@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/278#webpage",
       "url": "https://mirai-shigoto.com/ja/278",
       "name": "織布工/織機オペレーター — AI 影響 4/10",
-      "description": "織機オペレーター、自動化",
+      "description": "織布工/織機オペレーターとは、織機の運転や監視を行って織物を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/278#occupation",
       "name": "織布工/織機オペレーター",
-      "description": "織機オペレーター、自動化",
+      "description": "織布工/織機オペレーターとは、織機の運転や監視を行って織物を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>織布工/織機オペレーターとは</h2>
+        <p class="definition">織布工/織機オペレーターとは、織機の運転や監視を行って織物を製造する職業です。</p>
         <p>布地には、２種類の方向の糸を交錯させてつくった「織物」と、１本の糸を編んでつくった「ニット」がある。前者の「織物」をつくる「織布」工程で織機の運転・操作をする。</p>
         <p>織物はすべてタテ方向に走っている経糸（たていと）と、それに直角に走っている緯糸（よこいと）を一定の法則で交錯させてつくる。織布には、経糸準備のための巻返、整経、糊付、経通(へどおし)の工程、緯糸準備のための巻返、管巻の工程、そして製織、仕上の工程がある。</p>
         <p>経糸の準備工程では、まず経糸をコーンやチーズと呼ばれる糸巻に巻き取る。次に、織物設計に従って必要な本数の経糸を、ビームと呼ばれる円筒形の糸巻き器に一定の長さに巻き取り、経糸が切れないよう、糊付機を使って糸に糊を付けて補強する。</p>

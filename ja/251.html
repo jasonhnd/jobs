@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/251#webpage",
       "url": "https://mirai-shigoto.com/ja/251",
       "name": "鋳造工/鋳造設備オペレーター — AI 影響 3/10",
-      "description": "鋳造、機械操作+判断",
+      "description": "鋳造工/鋳造設備オペレーターとは、金属を溶かして鋳型に注ぎ込み、冷えて固まった後で鋳型から取り出し、目的に応じた鋳物製品に仕上げる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/251#occupation",
       "name": "鋳造工/鋳造設備オペレーター",
-      "description": "鋳造、機械操作+判断",
+      "description": "鋳造工/鋳造設備オペレーターとは、金属を溶かして鋳型に注ぎ込み、冷えて固まった後で鋳型から取り出し、目的に応じた鋳物製品に仕上げる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>鋳造工/鋳造設備オペレーターとは</h2>
+        <p class="definition">鋳造工/鋳造設備オペレーターとは、金属を溶かして鋳型に注ぎ込み、冷えて固まった後で鋳型から取り出し、目的に応じた鋳物製品に仕上げる職業です。</p>
         <p>金属を溶かして鋳型に注ぎ込み、冷えて固まった後で鋳型から取り出し、目的に応じた鋳物製品に仕上げる。</p>
         <p>鋳物は、仏像や梵鐘などをはじめ、鍋や釜など日常生活用具をつくる技法として発達してきた。現代の鋳物製品は、これらの日用品だけでなく、各種の工作機械をはじめ、発動機、車両、船舶、航空機、電気機器、農機具などの部品として、さまざまな分野で幅広く使用されている。鋳物には鉄鋳物や銅合金鋳物、アルミニウム合金鋳物など各種の材質のものがある。</p>
         <p>鋳物製造の代表的な製造方法としては、砂型鋳造と、金型を使うダイカスト鋳造がある。ここでは砂型鋳造について記載する。まず、砂に樹脂や硬化剤を混ぜて鋳物砂を作る（混砂）。次に、鋳物の中空部を作るために、鋳型にはめこむ砂型（中子・なかご）を作り、鋳型枠に製品の模型である木型や金属型を置き、まわりに鋳物砂を詰めて主型（おもがた）を作り、中子をはめこんで上型と下型を合わせると、鋳型が完成する（造型）。</p>

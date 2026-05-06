@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/344#webpage",
       "url": "https://mirai-shigoto.com/ja/344",
       "name": "看板制作 — AI 影響 5/10",
-      "description": "看板制作、現場設置+デザ",
+      "description": "看板制作とは、街頭に設置される立て看板からビルの屋上に設置される大型の看板等まで、様々な種類の看板を制作する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/344#occupation",
       "name": "看板制作",
-      "description": "看板制作、現場設置+デザ",
+      "description": "看板制作とは、街頭に設置される立て看板からビルの屋上に設置される大型の看板等まで、様々な種類の看板を制作する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>看板制作とは</h2>
+        <p class="definition">看板制作とは、街頭に設置される立て看板からビルの屋上に設置される大型の看板等まで、様々な種類の看板を制作する職業です。</p>
         <p>街頭に設置される立て看板からビルの屋上に設置される大型の看板等、様々な種類の看板を制作する。</p>
         <p>まず、依頼主と打ち合わせを行い、どのような場所にどのような形態の看板を設置するのか意向を確認する。設置場所の状況などを調べて看板の形状を決め、何通りかのデザインを作成して依頼者に提案を行う。決定したデザインにしたがって、大きさや形状が屋外広告物条例や建築基準法の規制に違反しないように十分に注意し、平面図や側面図などの図面を作成する。工場では、作成した図面に従い、絵や文字を印刷したり、粘着シートをカッティングしたりして、様々な看板を制作する。光源を内蔵したプラスチック看板やLEDを使った看板を制作することもある。</p>
         <p>完成した看板をトラックに積み込んで設置場所まで運搬し、クレーン車などを使用して取り付けを行う。交通の障害とならないように、夜間に作業をすることもある。</p>

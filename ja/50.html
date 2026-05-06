@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/50#webpage",
       "url": "https://mirai-shigoto.com/ja/50",
       "name": "送電線工事 — AI 影響 2/10",
-      "description": "高圧線工事は危険物理仕事",
+      "description": "送電線工事とは、架空送電線の架設、敷設、接続の作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/50#occupation",
       "name": "送電線工事",
-      "description": "高圧線工事は危険物理仕事",
+      "description": "送電線工事とは、架空送電線の架設、敷設、接続の作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>送電線工事とは</h2>
+        <p class="definition">送電線工事とは、架空送電線の架設、敷設、接続の作業を行う職業です。</p>
         <p>発電所で発電された電気は特別高圧送電線（7,000ボルト以上）を通して送り届けられる。特別高圧送電線には架空送電線と地中送電線があり、架空送電線の架線工事に従事するのが仕事である。</p>
         <p>主には特別高圧架空送電線の新設や改修に伴う電線架線作業であるが、既設の送電線の点検や保守作業にも従事する。</p>
         <p>電線架線作業では、鉄塔に登って電線を鉄塔と鉄塔の間に架設する。鉄塔の高さは10メートルくらいから更に高いものまである。地上では、電線を架線する前に配電線や道路に電線が接触しないように防護足場を構築し、電線を延線するための延線用エンジンと電線ドラムの配置、電線を接続するための電線接続器の準備、碍子（がいし）金具の組立てや取付け、金車やワイヤーロープの配置など、高所作業のための準備作業を行う。</p>

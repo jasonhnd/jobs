@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/322#webpage",
       "url": "https://mirai-shigoto.com/ja/322",
       "name": "プロジェクトマネージャ（IT） — AI 影響 7/10",
-      "description": "PMIT、計画+対人調整",
+      "description": "プロジェクトマネージャ（IT）とは、IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/322#occupation",
       "name": "プロジェクトマネージャ（IT）",
-      "description": "PMIT、計画+対人調整",
+      "description": "プロジェクトマネージャ（IT）とは、IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>プロジェクトマネージャ（IT）とは</h2>
+        <p class="definition">プロジェクトマネージャ（IT）とは、IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う職業です。</p>
         <p>IT分野での開発を行うプロジェクトチームの責任者として、プロジェクト実行計画の作成、予算、要員、進捗の管理などを行う。</p>
         <p>情報システムやソフトウェア等の開発はプロジェクトとしてチームで行うことが多いが、プロジェクトの規模は数人から数十人、場合によっては複数のプロジェクトを束ねて全体で数百人規模のものもある。</p>
         <p>具体的な仕事は、開発計画に基づいてプロジェクトの実行計画を作成し、その計画の遂行に必要な人員やリソース（資源）を調達し、プロジェクトの体制を作る。プロジェクトが動き出すと予算、納期、要員、品質等の管理をしながら、プロジェクトが円滑に進むようにする。進捗管理は重要であり、問題や将来見込まれる課題を早期に把握し、適切な対策を事前に講じて、プロジェクトが計画通り進むようにする。</p>

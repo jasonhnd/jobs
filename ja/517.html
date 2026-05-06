@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/517#webpage",
       "url": "https://mirai-shigoto.com/ja/517",
       "name": "入国審査官 — AI 影響 7/10",
-      "description": "入国審査官、書類+AI判定",
+      "description": "入国審査官とは、外国人の出入国審査及び日本人の出帰国の確認、在留する外国人の在留審査、不法に滞在する外国人の違反審査等各種の審査業務等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/517#occupation",
       "name": "入国審査官",
-      "description": "入国審査官、書類+AI判定",
+      "description": "入国審査官とは、外国人の出入国審査及び日本人の出帰国の確認、在留する外国人の在留審査、不法に滞在する外国人の違反審査等各種の審査業務等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>入国審査官とは</h2>
+        <p class="definition">入国審査官とは、外国人の出入国審査及び日本人の出帰国の確認、在留する外国人の在留審査、不法に滞在する外国人の違反審査等各種の審査業務等を行う職業です。</p>
         <p>我が国を訪れる外国人の出入国審査及び日本人の出帰国の確認、我が国に在留する外国人の在留審査、我が国に不法に滞在する外国人の違反審査等各種の審査業務等を行う。</p>
         <p>出入国審査では、日本に入国しようとする外国人に対して、所持する旅券（パスポート）や査証（ビザ）が有効であること、日本で行う活動が出入国管理及び難民認定法（以下「入管法」という。）に規定する在留資格に該当し、申請内容が虚偽でないかなどを審査する。</p>
         <p>在留審査では、入国を認められた外国人が与えられた在留期間を超えて在留する、又は在留目的を変更して引き続き在留するための申請をした場合に、入管法に定められた在留資格に基づく活動に該当するかどうかなどを審査する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/456#webpage",
       "url": "https://mirai-shigoto.com/ja/456",
       "name": "マーケティング・リサーチャー — AI 影響 8/10",
-      "description": "マーケットリサーチ、AI解析",
+      "description": "マーケティング・リサーチャーとは、消費者の好みや関心、他社や業界全体の動き、広告の効果や販売戦略など、依頼主が必要としている様々な市場（マーケット）のデータや情報を収集、分析し、報告する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/456#occupation",
       "name": "マーケティング・リサーチャー",
-      "description": "マーケットリサーチ、AI解析",
+      "description": "マーケティング・リサーチャーとは、消費者の好みや関心、他社や業界全体の動き、広告の効果や販売戦略など、依頼主が必要としている様々な市場（マーケット）のデータや情報を収集、分析し、報告する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>マーケティング・リサーチャーとは</h2>
+        <p class="definition">マーケティング・リサーチャーとは、消費者の好みや関心、他社や業界全体の動き、広告の効果や販売戦略など、依頼主が必要としている様々な市場（マーケット）のデータや情報を収集、分析し、報告する職業です。</p>
         <p>消費者の好みや関心、他社や業界全体の動き、広告の効果や販売戦略など、依頼主が必要としている様々な市場（マーケット）のデータや情報を収集、分析し、報告する。</p>
         <p>企業や国・公共団体などから市場調査の依頼を受け、必要なデータや情報の要望などを理解した上で、調査対象や調査項目を定める等、調査を企画・立案する。インターネット上で調査を実施したり、調査票を送って記入してもらったり、専門の調査員を使うなど、最も適切な方法を選んで調査を実施する。必要に応じて調査員を指導したり、管理することも必要となる。調査手法としてグループインタビューを行う場合もある。</p>
         <p>表計算や統計処理のソフトウェア等を使って、得られたデータを集計・分析し、考察し、結論を導き出して報告書にまとめ、依頼主に提出する。</p>

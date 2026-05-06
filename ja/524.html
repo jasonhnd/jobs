@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/524#webpage",
       "url": "https://mirai-shigoto.com/ja/524",
       "name": "独立系ファイナンシャル・アドバイザー（IFA） — AI 影響 7/10",
-      "description": "IFA独立FA、対面+AI支援",
+      "description": "独立系ファイナンシャル・アドバイザー（IFA）とは、顧客のライフプランやニーズに合った長期の資産形成のために、金融商品等の選定・運用や各種制度の活用の提案・アドバイス、売買取引の支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/524#occupation",
       "name": "独立系ファイナンシャル・アドバイザー（IFA）",
-      "description": "IFA独立FA、対面+AI支援",
+      "description": "独立系ファイナンシャル・アドバイザー（IFA）とは、顧客のライフプランやニーズに合った長期の資産形成のために、金融商品等の選定・運用や各種制度の活用の提案・アドバイス、売買取引の支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>独立系ファイナンシャル・アドバイザー（IFA）とは</h2>
+        <p class="definition">独立系ファイナンシャル・アドバイザー（IFA）とは、顧客のライフプランやニーズに合った長期の資産形成のために、金融商品等の選定・運用や各種制度の活用の提案・アドバイス、売買取引の支援を行う職業です。</p>
         <p>顧客に寄り添い、顧客のライフプランやニーズに合った長期の資産形成のために、金融商品等の選定・運用や各種制度の活用の提案・アドバイス、売買取引の支援を行う。</p>
         <p>類似の職業としてファイナンシャル・プランナーがあるが、独立系ファイナンシャル・アドバイザー（IFA：Independent　Financial　Adviser　以下「IFA」という。）は金融商品仲介業者であるので、顧客の資産形成プランの目標に合致した個別具体的な金融商品の提案を行い、買い付け契約等の実行支援ができることに特徴がある。</p>
         <p>IFAの業務は、IFA法人等（金融商品仲介業者）が証券会社等である金融商品取引業者又は登録金融機関（以下「金融機関」という。）と業務委託契約を結んだ上で行われる。しかし、IFA法人等は、複数の金融機関と業務提携を結んでいることが多く、経営は独立しており、顧客が目的に最も適した資産運用が可能な金融商品（投資信託、ETF、リート（不動産投資）、各種債券(国債、社債、劣後債等)、国内外株式等）を選択できるよう金融機関の営業方針からは独立した立場でアドバイスを行っている。</p>

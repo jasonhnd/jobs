@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/242#webpage",
       "url": "https://mirai-shigoto.com/ja/242",
       "name": "学童保育指導員 — AI 影響 3/10",
-      "description": "学童保育、子供の世話",
+      "description": "学童保育指導員とは、保護者が就労などで日中家庭にいない小学生を対象に、放課後や土曜日、春・夏・冬休みなどに学童保育施設（放課後児童クラブ）で、遊びや生活の場を提供する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/242#occupation",
       "name": "学童保育指導員",
-      "description": "学童保育、子供の世話",
+      "description": "学童保育指導員とは、保護者が就労などで日中家庭にいない小学生を対象に、放課後や土曜日、春・夏・冬休みなどに学童保育施設（放課後児童クラブ）で、遊びや生活の場を提供する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>学童保育指導員とは</h2>
+        <p class="definition">学童保育指導員とは、保護者が就労などで日中家庭にいない小学生を対象に、放課後や土曜日、春・夏・冬休みなどに学童保育施設（放課後児童クラブ）で、遊びや生活の場を提供する職業です。</p>
         <p>保護者が就労などによって日中、家庭にいない小学生を対象に放課後や土曜日、春・夏・冬休みなどに学童保育（放課後児童クラブ）施設（学校の余裕教室、児童館、公民館などに設置）で、遊びや生活の場を提供し、子どもに適切な援助を行う。任用資格を満たしている場合の名称は、「放課後児童支援員」である。</p>
         <p>子どもが自ら進んで通い続けられるよう出欠席と心身の状態を把握する。その上で、子ども自身が学童保育施設で主体的に過ごし、日常生活に必要となる基本的な生活習慣を習得し、発達段階に応じた主体的な遊びや生活ができ、自分の気持ちや意見を表現できるように適切な援助を行う。また、子どもにとって放課後の時間帯に栄養面や活力面から必要とされるおやつの提供、安全に安心して過ごすことができる環境整備、緊急時に子ども自らが適切な対応ができるような援助も行う。更に、子どもの様子を日常的に保護者に伝え、家庭と連携することも重要な職務である。その他、学校、地域関係者との連携も行う。</p>
         <p>具体的な1日の仕事の流れは次のとおりである。午前中には施設の維持管理と受け入れ態勢など環境の整備、おやつの準備、保育日誌・業務日誌・出勤簿の記入などを行う。昼には学校休業日の昼食の準備及び受け入れの準備をし、子どもを出迎える。その後、それぞれの宿題を見たり、おやつの提供、遊びなどをして、夕方に保護者の出迎えがある場合は、保護者に一日の子どもの様子を伝える。</p>

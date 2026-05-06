@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/102#webpage",
       "url": "https://mirai-shigoto.com/ja/102",
       "name": "そば・うどん調理人 — AI 影響 3/10",
-      "description": "そば調理は手仕事",
+      "description": "そば・うどん調理人とは、お客に提供するためにそばやうどんを調理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/102#occupation",
       "name": "そば・うどん調理人",
-      "description": "そば調理は手仕事",
+      "description": "そば・うどん調理人とは、お客に提供するためにそばやうどんを調理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>そば・うどん調理人とは</h2>
+        <p class="definition">そば・うどん調理人とは、お客に提供するためにそばやうどんを調理する職業です。</p>
         <p>そばやうどんを調理するのが仕事である。</p>
         <p>入職当初は店内の清掃や食器洗い、配ぜんや出前などの補助的な仕事が中心となる。先輩の指導や実際の仕事を通して、だんだんと材料の仕入れ、麺づくり、麺のゆで・洗い、出汁（だし）とつゆの作り方、具の調理、盛り付けを覚えていく。</p>
         <p>そば粉やかつお節など材料の良し悪しによって味に大きな差が出るので、材料についての知識と見分け方が重要になる。麺づくりには、機械打ちと手打ちがあるが、いずれもかなりの経験を必要とする。また麺をゆでるには、火力や時間に細かな注意を払う必要がある。つゆは店によって最も違いが出るので、常にその店の味を出せるよう、技術と味覚を鍛える。素材や作り方にこだわり名人芸と呼べる味を出し、その味が人気となる店もある。</p>

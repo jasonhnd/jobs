@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/321#webpage",
       "url": "https://mirai-shigoto.com/ja/321",
       "name": "セキュリティエキスパート（オペレーション） — AI 影響 7/10",
-      "description": "セキュリティオペ、AI侵入検知",
+      "description": "セキュリティエキスパート（オペレーション）とは、情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/321#occupation",
       "name": "セキュリティエキスパート（オペレーション）",
-      "description": "セキュリティオペ、AI侵入検知",
+      "description": "セキュリティエキスパート（オペレーション）とは、情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>セキュリティエキスパート（オペレーション）とは</h2>
+        <p class="definition">セキュリティエキスパート（オペレーション）とは、情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する職業です。</p>
         <p>情報システムや情報ネットワークを常に監視し、攻撃や不正なアクセスから守り、攻撃等に対応する。</p>
         <p>情報セキュリティ関係の仕事としては様々なものがある。セキュリティの面で強固な情報システムを企画・設計したり、不正アクセス等を検知し防衛するシステムを設計、実装したり、セキュリティ上問題がないか監査したり（セキュリティ監査）、情報システムの脆弱性の診断をしたり（脆弱性診断）、攻撃による事故等が発生したときに痕跡や原因を調べたり（デジタルフォレンジック）、システム導入後、セキュリティ面で監視し安全に運用する仕事などである。ここでは、この中で運用されているシステムの外部からの攻撃や不正アクセスを監視し、インシデント発生時の対応を行う専門家であるセキュリティエキスパート（オペレーション）の仕事を解説する。</p>
         <p>不正アクセスや攻撃からWebサイトを守るだけではなく、ネットワークにつながっているサーバー、パソコン、タブレット、スマートフォン、その他IoT機器全てがセキュリティ監視の対象となりうる。金融関係のシステム、商取引のシステム、交通や流通のシステム、工場の生産システム、発電所のシステム、カルテを含む病院のシステム、組織内のLANなど、監視の対象は幅広い。</p>

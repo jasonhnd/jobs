@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/449#webpage",
       "url": "https://mirai-shigoto.com/ja/449",
       "name": "リサイクルショップ店員 — AI 影響 4/10",
-      "description": "リサイクル店、商品鑑定+接客",
+      "description": "リサイクルショップ店員とは、持ち込まれた商品を査定の上、買い取り、必要な修理等を行い店頭で販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/449#occupation",
       "name": "リサイクルショップ店員",
-      "description": "リサイクル店、商品鑑定+接客",
+      "description": "リサイクルショップ店員とは、持ち込まれた商品を査定の上、買い取り、必要な修理等を行い店頭で販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>リサイクルショップ店員とは</h2>
+        <p class="definition">リサイクルショップ店員とは、持ち込まれた商品を査定の上、買い取り、必要な修理等を行い店頭で販売する職業です。</p>
         <p>持ち込まれた商品を査定の上、買い取り、必要な修理等を行い店頭で販売する。</p>
         <p>リサイクルショップは、店舗ごとに取り扱う商品は異なるが、衣類、食器、玩具、家具、電化製品、スポーツ用品、骨董品のほかゲーム、アニメ関連商品、本など様々で、中にはブランドものの服飾品やバッグ、時計・アクセサリー、小物類のみを取り扱う専門店もある。</p>
         <p>店舗に持ち込まれた商品を販売可能かどうか査定の上、買い取り、必要な洗浄・修理等を行い店頭に品出し販売する。店頭持ち込み以外にも会社や家庭の不用品回収等を行い収集した品物等を洗浄、修理等を行って販売する場合もある。店舗販売に加えてインターネットサイトでの販売をしているリサイクルショップもある。大手リサイクルショップでは、商品別に専任担当者を置き、各ジャンルの担当が経験を活かして商品の査定等を行っている場合もある。</p>

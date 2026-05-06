@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/490#webpage",
       "url": "https://mirai-shigoto.com/ja/490",
       "name": "工場労務作業員 — AI 影響 2/10",
-      "description": "工場労務、肉体労働",
+      "description": "工場労務作業員とは、工場内で原材料の搬入や製品・商品の搬出、各種機械の清掃や燃料の補給、廃棄物分別、構内清掃などの各種作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/490#occupation",
       "name": "工場労務作業員",
-      "description": "工場労務、肉体労働",
+      "description": "工場労務作業員とは、工場内で原材料の搬入や製品・商品の搬出、各種機械の清掃や燃料の補給、廃棄物分別、構内清掃などの各種作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>工場労務作業員とは</h2>
+        <p class="definition">工場労務作業員とは、工場内で原材料の搬入や製品・商品の搬出、各種機械の清掃や燃料の補給、廃棄物分別、構内清掃などの各種作業を行う職業です。</p>
         <p>工場内で原材料の搬入や製品・商品の搬出、各種機械の清掃や燃料の補給、廃棄物分別、構内清掃など各種作業を行う。</p>
         <p>様々な製品や部品・商品を製作・製造する工場内で、製造業務に付随する作業、あるいは必ずしも付随しない構内の清掃等の作業を行う。作業は、毎日定型的に決まった作業を行う場合、非定型でそのつど上司の指示等により作業する場合、その両方が混在する場合と職場によって様々である。</p>
         <p>工場内の作業のうち原材料・商品の搬入では、運び込み、段ボール開封、倉庫等所定の場所への格納等を行う。製品・商品の搬出では、出荷、コンテナ詰め、輸送車両への積み込み等を行う。台車や資格があればフォークリフトを使用して作業する場合もある。搬入、搬出に伴い運び込んだ倉庫内の清掃、棚の整理整頓を行う場合もある。必要に応じ、製造作業現場への荷物運びも行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/526#webpage",
       "url": "https://mirai-shigoto.com/ja/526",
       "name": "検査工（工業製品） — AI 影響 4/10",
-      "description": "工業検査工、AI検査拡大",
+      "description": "検査工（工業製品）とは、製造工程における工業製品の外観、品質、機能等が規格どおりであるか等瑕疵（かし）の有無を様々な手法により検査、確認する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/526#occupation",
       "name": "検査工（工業製品）",
-      "description": "工業検査工、AI検査拡大",
+      "description": "検査工（工業製品）とは、製造工程における工業製品の外観、品質、機能等が規格どおりであるか等瑕疵（かし）の有無を様々な手法により検査、確認する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -259,6 +259,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -429,6 +433,7 @@
 
       <section class="context">
         <h2>検査工（工業製品）とは</h2>
+        <p class="definition">検査工（工業製品）とは、製造工程における工業製品の外観、品質、機能等が規格どおりであるか等瑕疵（かし）の有無を様々な手法により検査、確認する職業です。</p>
         <p>製造工程における中間生産物等や最終生産物（製品）の外観、品質、機能等が規格どおりであるか等瑕疵（かし）の有無を様々な手法により検査、確認する仕事である。</p>
         <p>工業製品の品目は多岐に渡り、検査をする製品によりそれぞれ仕事内容は異なるが、まずは一般的な検査の種類や方法等について説明する。</p>
         <p>生産工程に沿って、原材料・部品の受入検査、製造過程の工程内検査及び製品完成後の完成品検査などがある。</p>

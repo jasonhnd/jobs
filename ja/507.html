@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/507#webpage",
       "url": "https://mirai-shigoto.com/ja/507",
       "name": "花き栽培者 — AI 影響 3/10",
-      "description": "花き栽培、手作業",
+      "description": "花き栽培者とは、観賞用の花や観葉植物などの「花卉（き）」を生産する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/507#occupation",
       "name": "花き栽培者",
-      "description": "花き栽培、手作業",
+      "description": "花き栽培者とは、観賞用の花や観葉植物などの「花卉（き）」を生産する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>花き栽培者とは</h2>
+        <p class="definition">花き栽培者とは、観賞用の花や観葉植物などの「花卉（き）」を生産する職業です。</p>
         <p>観賞用の花や観葉植物などの「花卉（き）」を生産する。花きは本来花と草の意味であるが、現在では観賞用の植物全般を指す言葉になっている。</p>
         <p>花きには、切り花として出荷するもの（キク、バラ、カーネーションなど）、鉢に入れて出荷する鉢物（シクラメン、ラン、観葉植物など）、花壇用に苗物として出荷するもの（パンジーなど）、花木類（サツキ、ツツジなど）、球根を生産し出荷するもの（ユリ、チューリップなど）、芝や地被植物など多くの種類がある。品質による価格差が大きいため、生産者は品質を保つために細心の注意を払う。また、花きは、し好品であり、消費者の好みも様々で、中には、新しい品種を作り出すために、育種に取り組んでいる花き生産者や企業もある。出荷された花きは、流通を経て消費者に届けられる。野菜や果物と同様に、花きの流通は、卸売市場を経由する「市場流通」と卸売市場を経由しない「市場外流通」がある。市場流通が主となるが、近年は直売やインターネット取引などの流通の多様化により、市場外流通が増加傾向にある。また、花きの種類では、店舗で販売される家庭用の花き以外に、贈答や冠婚葬祭に使用される商業用の花きなどもある。</p>
         <p>多品目の花きを組み合わせて生産することが多く、年間を通じて花きの成長段階に応じた作業がある。</p>

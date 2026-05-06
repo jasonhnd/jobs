@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/571#webpage",
       "url": "https://mirai-shigoto.com/ja/571",
       "name": "作業環境測定士 — AI 影響 5/10",
-      "description": "作業環境測定士、現場検査",
+      "description": "作業環境測定士とは、有害な業務を行う屋内作業場その他の作業場において、有害物質（化学物質、粉じんなど）の濃度を測定し、その結果をもとに労働者の健康障害を予防するため、職場環境の評価と改善提案を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/571#occupation",
       "name": "作業環境測定士",
-      "description": "作業環境測定士、現場検査",
+      "description": "作業環境測定士とは、有害な業務を行う屋内作業場その他の作業場において、有害物質（化学物質、粉じんなど）の濃度を測定し、その結果をもとに労働者の健康障害を予防するため、職場環境の評価と改善提案を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -214,6 +214,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -384,6 +388,7 @@
 
       <section class="context">
         <h2>作業環境測定士とは</h2>
+        <p class="definition">作業環境測定士とは、有害な業務を行う屋内作業場その他の作業場において、有害物質（化学物質、粉じんなど）の濃度を測定し、その結果をもとに労働者の健康障害を予防するため、職場環境の評価と改善提案を行う職業です。</p>
         <p>労働者の健康保持に貢献する専門家として、工場など有害な業務を行う屋内作業場その他の作業場において、有害物質（有機溶剤、粉じんなど）の濃度を測定し、その結果をもとに労働者の健康障害を予防するため、職場環境の評価と改善提案を行う。</p>
         <p>労働安全衛生法により、事業者には一定の有害な業務を行う屋内作業場等で必要な作業環境測定を行い、その結果を記録することが義務づけられている。さらに、有機溶剤、特定化学物質、粉じん等を取り扱う屋内作業場の作業環境測定は作業環境測定士による実施が作業環境測定法により義務付けられている。その他にも、作業環境測定士による実施は義務付けられていないが、事業者に義務化されている熱中症対策への対応として、WBGT値（暑さ指数）の測定、記録、測定結果に基づくリスク評価等も行う場合がある。また、作業環境測定士は第一種作業環境測定士と第二種作業環境測定士に大別され、前者はデザイン、サンプリング、分析（※1）の全ての業務を行うことができる。後者はデザイン、サンプリング、簡易測定器による分析業務のみ行うことができる。</p>
         <p>作業環境測定の業務の大まかな流れは、デザイン（測定計画の立案）、サンプリング（試料採取）、採取した試料の分析、評価と報告書の作成、改善提案となる。それぞれの業務に求められる知識とスキルは以下のとおりであり、労働安全衛生法や作業環境測定法を土台として、粉じん、化学物質などの有害因子の種類と特性に関する広範な知識が必要となるとともに、測定を行うに当たっては、各種測定機器を取り扱うことができることは勿論のこと、採取した試料を様々な分析装置にかける際には、想定される対象物質に応じて装置の校正ができること等、専門的なスキルが必要となる。</p>

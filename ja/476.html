@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/476#webpage",
       "url": "https://mirai-shigoto.com/ja/476",
       "name": "ボイラーオペレーター — AI 影響 4/10",
-      "description": "ボイラー、計装+点検",
+      "description": "ボイラーオペレーターとは、ボイラーを運転して蒸気や温水を発生させ、空調、自家発電用タービン、工場の各種加熱・保温装置などに供給する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/476#occupation",
       "name": "ボイラーオペレーター",
-      "description": "ボイラー、計装+点検",
+      "description": "ボイラーオペレーターとは、ボイラーを運転して蒸気や温水を発生させ、空調、自家発電用タービン、工場の各種加熱・保温装置などに供給する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>ボイラーオペレーターとは</h2>
+        <p class="definition">ボイラーオペレーターとは、ボイラーを運転して蒸気や温水を発生させ、空調、自家発電用タービン、工場の各種加熱・保温装置などに供給する職業です。</p>
         <p>ボイラーを運転して蒸気や温水を発生させ、空調、自家発電用タービン、工場の各種加熱・保温装置などに供給する。</p>
         <p>ボイラーオペレーターの仕事の中で最も重要なことは、常に正常運転ができるようボイラーの保守、管理に注意を払うことであり、一般の従業員の出勤時には所定の熱源の供給ができるようにすることである。各施設に所定の蒸気等の供給が正常に行われているか、常に計器類の監視を行う。</p>
         <p>ボイラーが正常に運転されるために、圧力、水位及び燃焼状態を常に監視し、急激な負荷の変動を与えないようにするほか、最高使用圧力を超えて圧力を上昇させないようにする。また、適宜ボイラー水の吹き出しを行い、ボイラー水の濃縮を防ぎ、低水位燃焼遮断装置、火炎検出器やその他の自動制御装置の点検を行う。排出されるばい煙による問題を防止するため、関連施設及び燃焼方法を改善する等により大気汚染の防止にも努める必要がある｡</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/565#webpage",
       "url": "https://mirai-shigoto.com/ja/565",
       "name": "養護教諭 — AI 影響 3/10",
-      "description": "養護教諭、対面ケア",
+      "description": "養護教諭とは、小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進に関する業務に携わる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/565#occupation",
       "name": "養護教諭",
-      "description": "養護教諭、対面ケア",
+      "description": "養護教諭とは、小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進に関する業務に携わる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>養護教諭とは</h2>
+        <p class="definition">養護教諭とは、小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進に関する業務に携わる職業です。</p>
         <p>小学校、中学校、高等学校等の保健室を主な勤務場所として、学校保健活動の推進に関する業務に携わる。一般に「保健室の先生」と呼ばれることが多い。</p>
         <p>養護教諭が行っている主な仕事は、学校内でのけがや体調不良の児童生徒等に対する救急処置である。軽微なけがの手当てを行い、体調不良の児童生徒等に対しては、状態をよく聞きとり、様子を観察し、保健室内で安静にさせる。けがや体調の状態によっては学級担任、管理職等と相談の上、保護者に連絡し迎えに来てもらったり、救急車の搬送を依頼したりすることもある。学校は教育機関であり、医療機関ではないため、学校における救急処置は医療機関での処置が行われるまでの応急的なものであるが、養護教諭は、救急処置と合わせて、児童生徒等の発達の段階に応じた、疾病やけがなどに関する保健指導も行う。</p>
         <p>保健室を訪れる児童生徒等には、身体的不調の背景にいじめや虐待など心の問題や悩みを抱える者もいる。そのような児童生徒等の心身の状態をよく観察し、話を聞くなどして心の問題の早期発見に努め、学級担任、学年主任、スクールカウンセラー、管理職等と情報を共有して対処していくことも養護教諭の役割である。</p>

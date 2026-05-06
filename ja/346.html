@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/346#webpage",
       "url": "https://mirai-shigoto.com/ja/346",
       "name": "スタイリスト — AI 影響 7/10",
-      "description": "スタイリスト、対面+AIスタイル",
+      "description": "スタイリストとは、テレビの番組、映画や雑誌、広告の写真などの撮影のために、俳優やモデルの衣装や小物を用意し、コーディネートする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/346#occupation",
       "name": "スタイリスト",
-      "description": "スタイリスト、対面+AIスタイル",
+      "description": "スタイリストとは、テレビの番組、映画や雑誌、広告の写真などの撮影のために、俳優やモデルの衣装や小物を用意し、コーディネートする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -210,6 +210,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -380,6 +384,7 @@
 
       <section class="context">
         <h2>スタイリストとは</h2>
+        <p class="definition">スタイリストとは、テレビの番組、映画や雑誌、広告の写真などの撮影のために、俳優やモデルの衣装や小物を用意し、コーディネートする職業です。</p>
         <p>テレビの番組、映画や雑誌、広告の写真などの撮影のために、俳優やモデルの衣装や小物を用意し、コーディネートする。</p>
         <p>まず、制作者と打ち合わせを行い、絵コンテなどを見て、制作者の要望や依頼内容を確認し、制作者の意図にあった効果的な演出ができるよう、必要な衣装や小物などを考える。また、調達にあたっては、衣装協力してくれるアパレルメーカーに交渉して衣装や小物などを借りる。アパレルメーカーに借りられないものは、予算の範囲内で衣装や小物などを購入したり、専門のレンタル店から借りて手配する。入手できないものは、特注したり、自分で作ることもある。</p>
         <p>撮影当日は撮影時間に遅れないよう、入手した物品をスタジオやロケ現場に持ち込み、制作スタッフと話し合いながら、カメラの位置、照明などを考慮して、より良い映像になるよう、臨機応変に物品の取り合わせや位置を考える。借りてきた物品は汚したり傷つけたりしないよう細心の注意を払い、撮影終了後、借りてきた物品は責任をもって返却する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/57#webpage",
       "url": "https://mirai-shigoto.com/ja/57",
       "name": "スーパー店員 — AI 影響 4/10",
-      "description": "スーパー店員、棚出し+接客",
+      "description": "スーパー店員とは、スーパーで、お客が買い物しやすいように、食料品、衣類、日用品などの商品を適切に陳列し、少なくなった商品の補充を行いながら来店客に応対し、商品の販売を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/57#occupation",
       "name": "スーパー店員",
-      "description": "スーパー店員、棚出し+接客",
+      "description": "スーパー店員とは、スーパーで、お客が買い物しやすいように、食料品、衣類、日用品などの商品を適切に陳列し、少なくなった商品の補充を行いながら来店客に応対し、商品の販売を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>スーパー店員とは</h2>
+        <p class="definition">スーパー店員とは、スーパーで、お客が買い物しやすいように、食料品、衣類、日用品などの商品を適切に陳列し、少なくなった商品の補充を行いながら来店客に応対し、商品の販売を行う職業です。</p>
         <p>スーパーで、客が買い物しやすいように、食料品、衣類、日用品などの商品を適切に陳列し、少なくなった商品の補充を行いながら来店客に応対し、商品の販売を行う。</p>
         <p>まず、店頭へ商品を陳列する前に、発注どおり納品されているかのチェック作業を行う。商品の一部を売場に陳列し、残りを倉庫などに保管する。その日の販売方針にしたがい、売場に値札を取り付け、必要に応じて広告を出す。生鮮食料品を扱う場合は、商品を陳列する前に鮮度を保つための準備作業を行ったり、小分けして包装したりする。</p>
         <p>営業時間中は、商品の売れゆきを常に確認しながら少なくなった商品を補充し、見つけやすいよう商品の並べかえを行うなど、陳列に工夫をこらす。来店客から売場に関する質問などがあった場合には適切に応対し、案内する。</p>

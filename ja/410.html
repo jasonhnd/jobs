@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/410#webpage",
       "url": "https://mirai-shigoto.com/ja/410",
       "name": "施設管理者（介護施設） — AI 影響 6/10",
-      "description": "介護施設管理者、運営+人事",
+      "description": "施設管理者（介護施設）とは、責任者として、介護施設の管理・運営を担う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/410#occupation",
       "name": "施設管理者（介護施設）",
-      "description": "介護施設管理者、運営+人事",
+      "description": "施設管理者（介護施設）とは、責任者として、介護施設の管理・運営を担う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>施設管理者（介護施設）とは</h2>
+        <p class="definition">施設管理者（介護施設）とは、責任者として、介護施設の管理・運営を担う職業です。</p>
         <p>介護施設の管理・運営を担う責任者である。</p>
         <p>複数の施設を運営する大規模な法人の場合はそのうちの1施設を担当するのが一般的であり、小規模な介護施設の場合は事業主が兼務している場合もある。施設の管理者として、経営目標と施設の管理・運営、人材マネジメントなどの調整を行う。</p>
         <p>施設管理者の役割は、公的施設の場合は施設の管理・運営と人材及び業務マネジメントであるが、有料老人ホームなど民間の営利法人の場合はこれに加えて収支マネジメントも重要な役割となる。</p>

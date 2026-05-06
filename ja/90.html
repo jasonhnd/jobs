@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/90#webpage",
       "url": "https://mirai-shigoto.com/ja/90",
       "name": "公認会計士 — AI 影響 7/10",
-      "description": "会計士、監査AIツール拡大",
+      "description": "公認会計士とは、企業などからの依頼を受け、財務書類を監査し、企業の会計が適正に行われているか監査報告書によって意見表明を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/90#occupation",
       "name": "公認会計士",
-      "description": "会計士、監査AIツール拡大",
+      "description": "公認会計士とは、企業などからの依頼を受け、財務書類を監査し、企業の会計が適正に行われているか監査報告書によって意見表明を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>公認会計士とは</h2>
+        <p class="definition">公認会計士とは、企業などからの依頼を受け、財務書類を監査し、企業の会計が適正に行われているか監査報告書によって意見表明を行う職業です。</p>
         <p>企業は毎年決算を行い、資産状態や経営成績を「財務諸表」として発表するが、これが正しいかどうか、独立した第三者の立場で監査し、証明するのが仕事である。会計と監査の専門家として目を光らせる「お目つけ役」といえる。</p>
         <p>企業ではコンピュータでの処理が進展しているため、「監査」の仕事は、公認会計士に情報処理の専門家が加わり、契約を結んだ企業へ出かけ、帳簿類のチェックや銀行預金の確認などを手分けして作業する。棚卸しにも立ち会う。このような調査のあと、企業の会計処理について公正ではないと判断した場合は、指導を行う。そして最終的には、企業が作成した財務の報告が適正かどうかの意見をまとめた「監査報告書」を作成する。このような監査は企業のみならず、学校法人、独立行政法人や地方公共団体等についても行われる。監査の仕事は、公正な立場でのぞむ必要がある。公認会計士には、正義感と独立性の維持を心がけることが大切である。また、公認会計士法では、「公認会計士は、監査及び会計の専門家として、独立した立場において、財務書類その他の財務に関する情報の信頼性を確保することにより、会社等の公正な事業活動、投資者及び債権者の保護等を図り、もつて国民経済の健全な発展に寄与することを使命とする。」と規定している。</p>
         <p>公認会計士は、税理士登録することにより「税務」の仕事も行うことができる。企業や個人の納税申告書を作成したり、税金に関する相談やアドバイスをする。他に、企業の「財務諸表」を作成する「会計」の仕事、経営戦略などを提案するコンサルティング、「マネジメント・コンサルティング・サービス（MCS）」の仕事がある。</p>

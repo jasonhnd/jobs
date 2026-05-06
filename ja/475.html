@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/475#webpage",
       "url": "https://mirai-shigoto.com/ja/475",
       "name": "雑踏・交通誘導警備員 — AI 影響 2/10",
-      "description": "交通誘導警備、現場対応",
+      "description": "雑踏・交通誘導警備員とは、イベントやお祭りなどでの警備や誘導や、道路工事や建設現場、駐車場での交通整理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/475#occupation",
       "name": "雑踏・交通誘導警備員",
-      "description": "交通誘導警備、現場対応",
+      "description": "雑踏・交通誘導警備員とは、イベントやお祭りなどでの警備や誘導や、道路工事や建設現場、駐車場での交通整理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -238,6 +238,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -408,6 +412,7 @@
 
       <section class="context">
         <h2>雑踏・交通誘導警備員とは</h2>
+        <p class="definition">雑踏・交通誘導警備員とは、イベントやお祭りなどでの警備や誘導や、道路工事や建設現場、駐車場での交通整理を行う職業です。</p>
         <p>雑踏警備員は、イベントや祭りなど大勢の人が集まる場所で雑踏事故や混乱が起きないように警備・誘導を行う。交通誘導警備員は、道路工事や建築現場などで車両や通行人の誘導、交通整理を行う。</p>
         <p>警備業法では、警備業務を1号業務（施設警備、巡回警備、保安警備、空港保安警備、機械警備）、2号業務（交通誘導警備、雑踏警備）、3号業務（貴重品運搬警備、危険物運搬警備）、4号業務（身辺警備）に分けており、雑踏警備と交通誘導警備はこのうちの2号業務にあたる。</p>
         <p>雑踏警備・交通誘導警備は、1号及び3～4号の警備業務と同じく、民間の警備業者が依頼者との契約に基づいて行うもので、警備員は警察官と違って法的強制力をもたない。このため、警備対象者には任意で協力を求めることになる。</p>

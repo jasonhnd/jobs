@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/395#webpage",
       "url": "https://mirai-shigoto.com/ja/395",
       "name": "特別支援学校教員、特別支援学級教員 — AI 影響 4/10",
-      "description": "特別支援教員、対人指導重視",
+      "description": "特別支援学校教員、特別支援学級教員とは、障害のある幼児・児童・生徒が通う特別支援学校、特別支援学級の教員として指導にあたる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/395#occupation",
       "name": "特別支援学校教員、特別支援学級教員",
-      "description": "特別支援教員、対人指導重視",
+      "description": "特別支援学校教員、特別支援学級教員とは、障害のある幼児・児童・生徒が通う特別支援学校、特別支援学級の教員として指導にあたる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>特別支援学校教員、特別支援学級教員とは</h2>
+        <p class="definition">特別支援学校教員、特別支援学級教員とは、障害のある幼児・児童・生徒が通う特別支援学校、特別支援学級の教員として指導にあたる職業です。</p>
         <p>障害のある幼児・児童・生徒が通う特別支援学校、特別支援学級の教員である。病院内に特別支援学校の分教室として設けられる院内学級や一般の学校内に設置される特別支援学級に勤務する教員も含む。</p>
         <p>特別支援学校は、視覚障害、聴覚障害、知的障害、肢体不自由、病弱といった障害がある幼児・児童・生徒に幼稚園、小学校、中学校、高等学校に準ずる教育を実施するとともに、自立のための知識や技能を授けることを目的とした学校である。かつては特殊教育諸学校として、盲学校、聾（ろう）学校、養護学校に区分されていたが、2007年4月から特別支援学校に一本化された。</p>
         <p>具体的な仕事内容は、障害の状態などを勘案して、幼児・児童・生徒一人ひとり合わせた個別の指導計画を立てて、その計画に必要な教材や教具を用意することから始まる。日課や授業時間割に基づき、教科の授業や特別活動の指導をする一方で、幼児・児童・生徒の障害の状態に応じて自立活動という特別支援学校や特別支援学級に特有の指導や部活動の指導などを行う。学習活動を記録して評価を行い、幼児・児童・生徒の成長の記録を作成することも重要な仕事である。</p>

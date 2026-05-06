@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/144#webpage",
       "url": "https://mirai-shigoto.com/ja/144",
       "name": "裁判官 — AI 影響 6/10",
-      "description": "裁判官、判断+AI判例検索",
+      "description": "裁判官とは、裁判所に訴えられる様々な事件について、憲法及び法律に基づいて判断を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/144#occupation",
       "name": "裁判官",
-      "description": "裁判官、判断+AI判例検索",
+      "description": "裁判官とは、裁判所に訴えられる様々な事件について、憲法及び法律に基づいて判断を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -201,6 +201,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -371,6 +375,7 @@
 
       <section class="context">
         <h2>裁判官とは</h2>
+        <p class="definition">裁判官とは、裁判所に訴えられる様々な事件について、憲法及び法律に基づいて判断を行う職業です。</p>
         <p>裁判所に訴えられる様々な事件について、憲法及び法律に基づいて判断を行う。</p>
         <p>地方裁判所の裁判官は、主に民事裁判と刑事裁判を担当する。</p>
         <p>民事裁判では、お金の貸し借りなど日常生活に起こる法律上の争いを解決する。裁判官は、訴えを提起した原告と訴えられた被告の双方の主張を整理し、提出された証拠を調べた上で、法律に照らして判決を言い渡すほか、双方に話合いを勧めて和解による解決を図ることもある。双方の主張を整理したり、話合いを勧めたりする際には、裁判官と当事者が楕円形のテーブルを囲んで着席することができるラウンドテーブル法廷を利用し、リラックスした雰囲気で率直な意見交換をすることもある。</p>

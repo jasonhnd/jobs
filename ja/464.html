@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/464#webpage",
       "url": "https://mirai-shigoto.com/ja/464",
       "name": "化粧品販売/美容部員 — AI 影響 4/10",
-      "description": "美容部員、対面販売+カウンセル",
+      "description": "化粧品販売/美容部員とは、化粧品販売会社からデパートやスーパー、小売店、ドラッグストア等に配置され、店頭で化粧法やスキンケアのための商品アドバイスや販売を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/464#occupation",
       "name": "化粧品販売/美容部員",
-      "description": "美容部員、対面販売+カウンセル",
+      "description": "化粧品販売/美容部員とは、化粧品販売会社からデパートやスーパー、小売店、ドラッグストア等に配置され、店頭で化粧法やスキンケアのための商品アドバイスや販売を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>化粧品販売/美容部員とは</h2>
+        <p class="definition">化粧品販売/美容部員とは、化粧品販売会社からデパートやスーパー、小売店、ドラッグストア等に配置され、店頭で化粧法やスキンケアのための商品アドバイスや販売を行う職業です。</p>
         <p>化粧品販売会社からデパートやスーパー、小売店、ドラッグストア等に配置され、店頭で化粧法やスキンケアのための商品アドバイスや販売を行う。美容部員ともいう。</p>
         <p>来店客の希望を聞いてスキンケアやメーキャップ、ヘアケア、などに関してのカウンセリング（助言）を行う。化粧品は直接肌につけるものであり、ファッション性も高いので、ひとり一人に合わせた美容法や美容技術の指導が必要となる。メーク方法を教えたり、実際にメークをして似合う色を選んだり、サンプル品を提供して使い心地を確かめてもらいながら、商品を販売する。</p>
         <p>また、定期的に化粧品販売会社の支社等に出社し、営業担当とプロモーション（商品をPRするための様々な催事）の打ち合わせをしたり、活動状況の報告を行う。</p>

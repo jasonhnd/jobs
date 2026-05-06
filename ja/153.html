@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/153#webpage",
       "url": "https://mirai-shigoto.com/ja/153",
       "name": "海上自衛官 — AI 影響 3/10",
-      "description": "海上自衛官、艦船勤務",
+      "description": "海上自衛官とは、海上からの侵略に対して国土を防衛するとともに、日本の周辺海域における海上交通の安全を確保する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/153#occupation",
       "name": "海上自衛官",
-      "description": "海上自衛官、艦船勤務",
+      "description": "海上自衛官とは、海上からの侵略に対して国土を防衛するとともに、日本の周辺海域における海上交通の安全を確保する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -203,6 +203,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -373,6 +377,7 @@
 
       <section class="context">
         <h2>海上自衛官とは</h2>
+        <p class="definition">海上自衛官とは、海上からの侵略に対して国土を防衛するとともに、日本の周辺海域における海上交通の安全を確保する職業です。</p>
         <p>四方を海に囲まれた日本において、護衛艦や航空機を運用し、常時警戒監視を行い、海上からの侵略に対し国土を防衛する。また、周辺海域での海上交通の安全を確保する。</p>
         <p>海上自衛隊の活動の場は、主として海洋とその上空である。海上自衛隊というと護衛艦や潜水艦などの艦船での勤務を想像するが、陸上基地を離発着して海上をパトロールする航空機や護衛艦に離発着できるヘリコプターも多数保有しており、これらの艦艇、航空機のオペレーターとして多くの隊員が勤務している。また、陸上基地においては、艦艇や航空機の活動及びこれらに従事する隊員を支援する各種業務があり、その支援業務に従事しているのも海上自衛官である。</p>
         <p>また、災害時の物資の補給や艦船を利用した電源供給を行ったり、国際平和協力活動での燃料や人員の輸送なども行う。その他にも、救難飛行艇による救助や南極地域観測協力、機雷の除去なども海上自衛隊の重要な任務である。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/119#webpage",
       "url": "https://mirai-shigoto.com/ja/119",
       "name": "クリーニング師 — AI 影響 4/10",
-      "description": "クリーニング、機械操作+判断",
+      "description": "クリーニング師とは、クリーニング店やクリーニング工場において、衣類、皮革製品や特殊素材などのクリーニング処理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/119#occupation",
       "name": "クリーニング師",
-      "description": "クリーニング、機械操作+判断",
+      "description": "クリーニング師とは、クリーニング店やクリーニング工場において、衣類、皮革製品や特殊素材などのクリーニング処理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>クリーニング師とは</h2>
+        <p class="definition">クリーニング師とは、クリーニング店やクリーニング工場において、衣類、皮革製品や特殊素材などのクリーニング処理を行う職業です。</p>
         <p>クリーニング店やクリーニング工場において、各種衣類、皮革製品や特殊素材などのクリーニング処理を行う。</p>
         <p>クリーニング師は、公衆衛生及び洗濯処理に関する専門知識を併せ持ったクリーニング店の管理責任者である。クリーニング業法では、取次のみを行う店を除き、クリーニング店には1人以上のクリーニング師を置かなければならないと定められている。</p>
         <p>お客から洗濯物を受け取ると、相互確認の上、洗濯表示、素材を確認し分類する。更に、汚れのひどいものと少ないものを見きわめ、ドライクリーニング機あるいは水洗機にかけ、洗い上がるとプレス機、アイロンなどで仕上げて綺麗にたたみ、包装する。デザインや素材、汚れのつき具合も確認し、適切な洗濯方法を判断する。たくさんの人が着用している衣類を同時に洗うため、衛生には厳重に注意を払う必要がある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/474#webpage",
       "url": "https://mirai-shigoto.com/ja/474",
       "name": "マンション管理フロント — AI 影響 6/10",
-      "description": "管理フロント、運営+書類",
+      "description": "マンション管理フロントとは、マンション管理会社が管理するマンションの担当者として、管理組合運営の支援、建物や設備の維持・管理などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/474#occupation",
       "name": "マンション管理フロント",
-      "description": "管理フロント、運営+書類",
+      "description": "マンション管理フロントとは、マンション管理会社が管理するマンションの担当者として、管理組合運営の支援、建物や設備の維持・管理などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>マンション管理フロントとは</h2>
+        <p class="definition">マンション管理フロントとは、マンション管理会社が管理するマンションの担当者として、管理組合運営の支援、建物や設備の維持・管理などを行う職業です。</p>
         <p>マンション管理会社が管理するマンションの担当者として、管理組合運営の支援、建物や設備の維持・管理などを行う。通称「フロント」という。</p>
         <p>管理会社が管理受託しているマンションに対する管理会社側の接点、つまり先端・前面との意味から「フロント」と呼ばれる。1人で15程度のマンションを担当していることが多い。ここでは、以下、フロントという。</p>
         <p>フロントの仕事は、「管理会社と管理組合との間のマンション管理委託契約に基づく管理組合業務支援」である。具体的には、①理事会の開催・運営支援（資料等作成、議事助言など）、②総会の開催・運営支援（事業計画案素案・総会議事録案の作成、議事助言など）、③管理組合の経理事務支援（管理費等の出納、口座・帳簿管理、契約締結支援、収支予算案・決算案素案の作成など）、④マンションの維持・修繕に関する企画・実施（長期修繕計画案の作成、建物・設備の点検・調査・診断や修繕の提案、発注補助など）がメイン業務である。マンション管理のプロとしてマンションをソフト・ハードの両面で維持・管理する仕事である。</p>

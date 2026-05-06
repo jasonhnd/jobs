@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/438#webpage",
       "url": "https://mirai-shigoto.com/ja/438",
       "name": "銀行等窓口事務 — AI 影響 9/10",
-      "description": "銀行窓口、店舗縮小+AI急進",
+      "description": "銀行等窓口事務とは、銀行、信用金庫、信用組合等の金融機関の窓口で口座への入出金や送金、両替などの業務や、顧客への相談業務などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/438#occupation",
       "name": "銀行等窓口事務",
-      "description": "銀行窓口、店舗縮小+AI急進",
+      "description": "銀行等窓口事務とは、銀行、信用金庫、信用組合等の金融機関の窓口で口座への入出金や送金、両替などの業務や、顧客への相談業務などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>銀行等窓口事務とは</h2>
+        <p class="definition">銀行等窓口事務とは、銀行、信用金庫、信用組合等の金融機関の窓口で口座への入出金や送金、両替などの業務や、顧客への相談業務などを行う職業です。</p>
         <p>銀行、信用金庫、信用組合等の金融機関の窓口で口座への入出金や送金、両替などの業務や、顧客への相談業務などを行う。</p>
         <p>口座への預入、払出、送金はATMの普及により自動化が進んでいるが、一定額を超える場合は窓口での手続が必要となる。顧客の普通預金等への現金の預け入れ、引き出しの手続きや各種の振込み、税金の支払い等に対応する。また、口座の開設や解約、各種の変更手続き、問い合せ内容に応じた各担当部署への引き継ぎ等も行う。営業時間終了時には、紙幣、硬貨、小切手の帳尻を合わせ、一日の取引高を計算する。</p>
         <p>外貨両替、海外送金は全ての銀行が対応しているわけではないが、日々変化する為替レートや商習慣の異なる海外の金融機関との応対など、より専門的知識や経験が問われる業務である。</p>

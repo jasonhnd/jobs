@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/71#webpage",
       "url": "https://mirai-shigoto.com/ja/71",
       "name": "ホームセンター店員 — AI 影響 4/10",
-      "description": "ホームセンター店員、商品案内",
+      "description": "ホームセンター店員とは、ホームセンターでDIY（Do IT Yourself）用品、住関連商品を販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/71#occupation",
       "name": "ホームセンター店員",
-      "description": "ホームセンター店員、商品案内",
+      "description": "ホームセンター店員とは、ホームセンターでDIY（Do IT Yourself）用品、住関連商品を販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>ホームセンター店員とは</h2>
+        <p class="definition">ホームセンター店員とは、ホームセンターでDIY（Do IT Yourself）用品、住関連商品を販売する職業です。</p>
         <p>ホームセンターでDIY（Do IT Yourself）用品、住関連商品を販売する。</p>
         <p>ホームセンターでは、住まいの手入れ、補修、改善などを自ら行う際に必要な商品を総合的、系統的に品揃えしている。したがって、販売商品は完成品よりも材料や道具が多く、一般家庭で使われる木材、建材、道具・工具、塗料、水道・電気用品、インテリア用品、エクステリア用品をはじめ、日用品、ペット用品、園芸用品、カー用品、アウトドア用品まで幅広く取り扱っている。</p>
         <p>接客業務では、顧客のニーズに応じて適切な商品を選択し、相談に乗るとともに、その使用方法や用品の安全性について必要なアドバイスを行う。顧客のニーズや意見を吸収して、次の商品企画、営業企画に反映させることも重要となる。</p>

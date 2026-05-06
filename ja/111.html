@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/111#webpage",
       "url": "https://mirai-shigoto.com/ja/111",
       "name": "観光バスガイド — AI 影響 4/10",
-      "description": "観光バスガイド、対面案内",
+      "description": "観光バスガイドとは、観光バスにおいて、お客と一緒にバスに乗り、旅の案内や説明などをする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/111#occupation",
       "name": "観光バスガイド",
-      "description": "観光バスガイド、対面案内",
+      "description": "観光バスガイドとは、観光バスにおいて、お客と一緒にバスに乗り、旅の案内や説明などをする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>観光バスガイドとは</h2>
+        <p class="definition">観光バスガイドとは、観光バスにおいて、お客と一緒にバスに乗り、旅の案内や説明などをする職業です。</p>
         <p>日本各地の名所・史跡へ旅する人々を運ぶ観光バスにおいて、お客と一緒にバスに乗り、旅の案内や説明などをする。</p>
         <p>事前準備として、観光地の確認とその知識の習得から始まり、最近の出来事（話題）等の確認も行う。案内や説明は会社側が作成しているテキスト等を学習する。運転者とともに旅の日程などについて確認を行い、始業点呼を受けて配車地に向う。お客を乗せ、バスが走り出したら、窓から見える景色や、沿線にまつわる話などを説明する。目的地に着いたら、お客をバスから降ろし、案内をすることもある。決められた案内に加えて、いろいろな知識や季節感を織りまぜて話をし、興味をひくようにする。また、旅行を楽しくするために、歌を歌ったり、クイズ、ゲーム、カラオケなどをして、車内の雰囲気を盛り上げる。</p>
         <p>駐車場では、車両を誘導するなど、運転者を補助することも仕事のひとつで、予定のコースを終えて営業所に帰ったら、車内を掃除し、忘れ物などを点検した後、終業点呼を受け、翌日の業務の確認等を行う。</p>

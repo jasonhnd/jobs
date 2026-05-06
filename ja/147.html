@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/147#webpage",
       "url": "https://mirai-shigoto.com/ja/147",
       "name": "法務教官 — AI 影響 5/10",
-      "description": "法務教官、矯正施設の対人指導",
+      "description": "法務教官とは、主に少年院及び少年鑑別所に勤務し、収容されている少年に対し、社会生活への適応や円滑な社会復帰のため、指導・教育や支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/147#occupation",
       "name": "法務教官",
-      "description": "法務教官、矯正施設の対人指導",
+      "description": "法務教官とは、主に少年院及び少年鑑別所に勤務し、収容されている少年に対し、社会生活への適応や円滑な社会復帰のため、指導・教育や支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>法務教官とは</h2>
+        <p class="definition">法務教官とは、主に少年院及び少年鑑別所に勤務し、収容されている少年に対し、社会生活への適応や円滑な社会復帰のため、指導・教育や支援を行う職業です。</p>
         <p>主に少年院及び少年鑑別所に勤務し、収容されている少年に対し、社会生活への適応や円滑な社会復帰のため、指導・教育や支援を行う。また、その資質の鑑別に役立てるため、面接や行動観察等を実施する。</p>
         <p>少年院では、健全なものの見方や考え方などを指導する生活指導、基礎学力を付与する教科指導、職業生活に必要な知識・技能を習得させる職業指導などの矯正教育を行う。また関係機関との連携の下、少年院から出た後の帰住先の確保、就労や修学に向けた支援等を通して、円滑な社会復帰を支援する。</p>
         <p>少年鑑別所では、少年の心情の安定を図りつつ、面接や行動観察を実施し、法務技官（心理）と協力して、少年の問題性やその改善の可能性を科学的に探り、家庭裁判所の審判や、少年院・保護観察所等における指導に活用される資料を作成・提供するほか、相談助言の業務等に従事する。また、地域の住民や関係機関からの依頼に応じて、非行や犯罪に関する相談や支援を行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/190#webpage",
       "url": "https://mirai-shigoto.com/ja/190",
       "name": "航海士 — AI 影響 4/10",
-      "description": "航海士、自動航行+判断",
+      "description": "航海士とは、船の総責任者である船長を助け、甲板部員を指揮し、航海計画に基づいて航海や荷役に関する業務を担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/190#occupation",
       "name": "航海士",
-      "description": "航海士、自動航行+判断",
+      "description": "航海士とは、船の総責任者である船長を助け、甲板部員を指揮し、航海計画に基づいて航海や荷役に関する業務を担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>航海士とは</h2>
+        <p class="definition">航海士とは、船の総責任者である船長を助け、甲板部員を指揮し、航海計画に基づいて航海や荷役に関する業務を担当する職業です。</p>
         <p>船の総責任者である船長を助け、甲板部員を指揮し、航海計画に基づいて航海や荷役に関する業務を担当する。</p>
         <p>航海に先立って、予定航路の状況、気象・海象、航海距離などを調査し、機関士と相談しながら速力・燃料・所用時間を算出し、航海計画の原案を作成する。出航前に、水や食料、燃料、貨物、船体の状況、航海用具、計器の作動状況を調べ、出航準備を整える。</p>
         <p>出入港時には船橋、船首、船尾など指定の位置につき、船長の命令を機関部に伝えたり、錨作業や係船作業を指揮する。航海中は、肉眼やレーダー、GPSで陸地・島、他船の位置や航路標識などをチェックし、現在位置を海図上で確認する。船の大きさ・航行時間によって乗務すべき航海士の人数は異なるが、外航船（国際航路）には3人の航海士が乗り込み、4時間ずつのローテーションで航海当直に立つ。航海計器・舵などの機器の作動状況や気象・潮流の変化に気を配り、他船との衝突や座礁などを避け、進路を保って安全で効率的な航海につとめる。</p>

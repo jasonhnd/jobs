@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/413#webpage",
       "url": "https://mirai-shigoto.com/ja/413",
       "name": "ベビーシッター — AI 影響 3/10",
-      "description": "ベビーシッター、子供世話",
+      "description": "ベビーシッターとは、個人宅等へ出向き、子供を預かり保育や世話をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/413#occupation",
       "name": "ベビーシッター",
-      "description": "ベビーシッター、子供世話",
+      "description": "ベビーシッターとは、個人宅等へ出向き、子供を預かり保育や世話をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>ベビーシッターとは</h2>
+        <p class="definition">ベビーシッターとは、個人宅等へ出向き、子供を預かり保育や世話をする職業です。</p>
         <p>個人宅等へ出向き、子供を預かり保育や世話をする。</p>
         <p>預かる場所、子供、保育に係る留意点を事前に把握し、具体的な保育内容については利用者と打ち合わせをする。何よりも子供の安全を第一に考えた保育方針を立てることが重要である。コミュニケーションを密にし、利用者から信頼されることが仕事を続けていく上で大切である。</p>
         <p>ベビーシッターの仕事を一日の仕事の流れに沿ってみると、まず、子供を預かる場所に出向き、保護者等から子供を預かる。子供と遊んだり、身の回りの世話をする。食事の時間が近づいてきたら、食事の用意をすることもある。利用者からの要望で買い物や掃除、洗濯等の家事支援を行うこともある。また、保育施設等への送迎を行う場合もある。子供を預かった間の様子等を報告書等に記載しておき、保護者が帰宅し保育が終了する時に報告する。なお、利用者等から利用料金を受け取る場合もある。</p>

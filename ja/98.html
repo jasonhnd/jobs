@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/98#webpage",
       "url": "https://mirai-shigoto.com/ja/98",
       "name": "鉄道車両清掃 — AI 影響 3/10",
-      "description": "鉄道車両清掃、自動化部分",
+      "description": "鉄道車両清掃とは、定期的に各種車両の外部や内部を清掃し、座席のカバーを取り替える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/98#occupation",
       "name": "鉄道車両清掃",
-      "description": "鉄道車両清掃、自動化部分",
+      "description": "鉄道車両清掃とは、定期的に各種車両の外部や内部を清掃し、座席のカバーを取り替える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>鉄道車両清掃とは</h2>
+        <p class="definition">鉄道車両清掃とは、定期的に各種車両の外部や内部を清掃し、座席のカバーを取り替える職業です。</p>
         <p>鉄道車両には、新幹線、特急や急行、通勤用や団体専用などがある。清掃は乗客が気持ちよく衛生的に利用できるように、定期的に各種車両の外部や内部を清掃する。</p>
         <p>一日使用された列車が基地に帰ってくると、床掃除をして窓の汚れを落とす「日常清掃」（毎日清掃）を行う。日常清掃の他に定期的に大がかりな清掃を行う。基地内で車両の外部を車両洗浄装置を使って機械洗浄したり、ブラシを使って手作業で全体をきれいにする。</p>
         <p>車両内部を清掃する場合、床面は、掃除機をかけてモップで拭き、ワックスをかける。窓ガラスの汚れを洗剤を使って落とし、清潔に仕上げる。</p>

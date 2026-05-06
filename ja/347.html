@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/347#webpage",
       "url": "https://mirai-shigoto.com/ja/347",
       "name": "ブックデザイナー — AI 影響 8/10",
-      "description": "ブックデザ、AI生成支援",
+      "description": "ブックデザイナーとは、本の作者の意図に沿って、自身のセンスや表現力により、本の表紙やカバーをデザインする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/347#occupation",
       "name": "ブックデザイナー",
-      "description": "ブックデザ、AI生成支援",
+      "description": "ブックデザイナーとは、本の作者の意図に沿って、自身のセンスや表現力により、本の表紙やカバーをデザインする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>ブックデザイナーとは</h2>
+        <p class="definition">ブックデザイナーとは、本の作者の意図に沿って、自身のセンスや表現力により、本の表紙やカバーをデザインする職業です。</p>
         <p>本の作者の意図に沿って、自身のセンスや表現力により、本の表紙やカバーをデザインする。</p>
         <p>本の装丁は書店での第一印象を重視するのか、購入後の書架での見え方を考えるか、その意図によって様々である。カバーなど本を保護するパッケージとしての要素と同時に、書店の中で本を引き立たせるための視覚的表現の両方が必要になる。</p>
         <p>まず、作者や編集者と打ち合わせ、本の内容や作者、編集者の意向、購入のターゲットとなる読者層などを把握する。さらに、本文の原稿を読み、制作する本の理解を深める。絵画やイラスト、写真などの素材を集め、内容のイメージを壊さずに、イメージをふくらませたり、深めたりするデザインを提案する。デザイン案を複数作り、作者や編集者と検討を行う。ブックデザイナーの素案がそのまま通ることもあるが、最終デザイン決定までは、何回も作り直しを要することがある。決定したデザインに従って、完全版下制作まで責任を持つことが多い。デザインはパソコンを使用して作成することが多く、その場合には印刷所に入稿できるデザインをデータとして作成する。</p>

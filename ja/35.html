@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/35#webpage",
       "url": "https://mirai-shigoto.com/ja/35",
       "name": "さく井工/ボーリング工 — AI 影響 2/10",
-      "description": "穴掘削は機械操作と現場判断",
+      "description": "さく井工/ボーリング工とは、掘削機などを操作して地下に向かって穴を掘削し、井戸、温泉、油井などを掘る職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/35#occupation",
       "name": "さく井工/ボーリング工",
-      "description": "穴掘削は機械操作と現場判断",
+      "description": "さく井工/ボーリング工とは、掘削機などを操作して地下に向かって穴を掘削し、井戸、温泉、油井などを掘る職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>さく井工/ボーリング工とは</h2>
+        <p class="definition">さく井工/ボーリング工とは、掘削機などを操作して地下に向かって穴を掘削し、井戸、温泉、油井などを掘る職業です。</p>
         <p>目的や仕様に対応したボーリング機械及び資機材を使用して、地下を掘削する。</p>
         <p>深度5,000ｍを超える石油井掘削から、足場パイプの櫓（ろ）を組み立て、地下10～20mの地質調査を一人の機長（オペレーター）と一人の助手で行うものまでさまざまである。また、地熱調査ではしばしば300℃を超える地層を掘削する場合もある。</p>
         <p>仕事は、仕様に合った機械類及び資機材の準備から始まり、現場の整地、機械類の搬入、櫓の組み立てを順次行う。掘削作業では、目的の深度まで掘進し、発注者の検収を受ける。合格後、櫓の解体、機械の搬出、跡地修復で1サイクルとなる。目的によっては掘削の途中及び掘削終了後に検層や孔内試験を実施する場合もある。</p>

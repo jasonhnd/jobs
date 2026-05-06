@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/206#webpage",
       "url": "https://mirai-shigoto.com/ja/206",
       "name": "航空整備士 — AI 影響 4/10",
-      "description": "航空整備、点検+手作業",
+      "description": "航空整備士とは、航空機を構成する機体・エンジン・装備品が所定の強度や精度を保ち、正しく機能するように点検、保守する作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/206#occupation",
       "name": "航空整備士",
-      "description": "航空整備、点検+手作業",
+      "description": "航空整備士とは、航空機を構成する機体・エンジン・装備品が所定の強度や精度を保ち、正しく機能するように点検、保守する作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>航空整備士とは</h2>
+        <p class="definition">航空整備士とは、航空機を構成する機体・エンジン・装備品が所定の強度や精度を保ち、正しく機能するように点検、保守する作業を行う職業です。</p>
         <p>航空機を構成する機体・エンジン・装備品が所定の強度や精度を保ち、正しく機能するように点検、保守する作業を行う。</p>
         <p>日常点検では、フライト前にエンジン、機体外部の状況、車輪など所定の手順に従って点検を行っていく。コックピットに入り、計器などのチェックも行う。異常が発見された場合には、修理や部品の交換を行う。点検の結果を機長に報告し、出発する航空機を見送る。確認整備士（確認主任者）と呼ばれる責任者が飛行を許可しない限り、飛行機は飛び立つことはできない。</p>
         <p>運航が終わった後には、消耗部品の交換や計器のチェックなどライン整備を行う。更には、一定の飛行時間ごとに定時点検を行い、エンジンを取り外して専用の工場で分解して不良個所の交換を行う。また、自動航法装置や自動着陸装置については、防塵装置を施した専用の部屋でコンピュータ機器の保守整備を行う。点検の中でユーザーの立場から航空機メーカーに対して改良や改善を提案することもある。</p>

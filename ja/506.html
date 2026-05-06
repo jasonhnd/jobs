@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/506#webpage",
       "url": "https://mirai-shigoto.com/ja/506",
       "name": "果樹栽培者 — AI 影響 3/10",
-      "description": "果樹栽培、手作業中心",
+      "description": "果樹栽培者とは、露地の果樹園やビニールハウス等の施設、観光果樹園などで、果物を生産する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/506#occupation",
       "name": "果樹栽培者",
-      "description": "果樹栽培、手作業中心",
+      "description": "果樹栽培者とは、露地の果樹園やビニールハウス等の施設、観光果樹園などで、果物を生産する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>果樹栽培者とは</h2>
+        <p class="definition">果樹栽培者とは、露地の果樹園やビニールハウス等の施設、観光果樹園などで、果物を生産する職業です。</p>
         <p>露地の果樹園やビニールハウス等の施設、観光果樹園などで、果物を生産する。</p>
         <p>果物にはイチゴ、ブドウ、ナシ、リンゴ、ミカン、桃、サクランボ、柿、ブルーベリーなど様々な種類があり、それぞれに栽培方法が異なるが、開花時の結実管理、幼果時の摘果（てきか）、袋掛け、病害虫防除、土壌管理、収穫、出荷、貯蔵果実の管理、施肥（せひ）、整枝（せいし）・剪定（せんてい）、大型管理機械の保守点検、修理などが主な仕事となる。</p>
         <p>このうち、開花時の結実管理、摘果、袋掛けは果樹栽培に特徴的な作業である。果樹の開花時には、受粉、受精がきちんと行われるよう、ミツバチやマメコバチなどの受粉媒介昆虫が働きやすい環境を整える。天候不良時には昆虫の働きが衰えるので、人工受粉を行って結実を確保する。次に、果実が小さいうちに樹についている葉数に合わせて「間引き」を行って果実の数を減らし（摘果）、残した果実が大きく育つようにする。果実が結実してきたら、ブドウ、ナシ、桃等品種により、保護のためにひとつひとつ手作業で袋掛けを行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/142#webpage",
       "url": "https://mirai-shigoto.com/ja/142",
       "name": "麻薬取締官 — AI 影響 4/10",
-      "description": "麻薬取締官、現場捜査+分析",
+      "description": "麻薬取締官とは、特別司法警察員として、非合法に取引されている薬物の取締り、中毒者対策、薬物乱用防止の啓発活動を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/142#occupation",
       "name": "麻薬取締官",
-      "description": "麻薬取締官、現場捜査+分析",
+      "description": "麻薬取締官とは、特別司法警察員として、非合法に取引されている薬物の取締り、中毒者対策、薬物乱用防止の啓発活動を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -201,6 +201,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -371,6 +375,7 @@
 
       <section class="context">
         <h2>麻薬取締官とは</h2>
+        <p class="definition">麻薬取締官とは、特別司法警察員として、非合法に取引されている薬物の取締り、中毒者対策、薬物乱用防止の啓発活動を行う職業です。</p>
         <p>麻薬や覚醒剤、大麻、向精神薬、あへん、危険ドラッグを含む指定薬物といった薬物の乱用を防止するため、特別司法警察員として、非合法に取引されている薬物の取締りや、医療用の向精神薬等の不正流通防止のための監視・監督などを行う。</p>
         <p>具体的には、薬物犯罪にかかわる捜査（薬物犯罪者の逮捕・取り調べ等）、犯罪現場から押収された薬物の鑑定を行う。国際的な密売組織の壊滅を図るため、国際的な協力体制のもと、各国の捜査機関との情報交換や捜査協力を行う。</p>
         <p>また、病院などの医療機関に対し、鎮痛鎮静剤として使用される麻薬や睡眠薬などの向精神薬が適正に使用・保管されているかについて、立入検査を中心に指導・監督するほか、製薬会社などに対して不正使用の防止、製造工程や正規流通経路からの横流し防止などの監督・取締りを行う。</p>

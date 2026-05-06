@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/553#webpage",
       "url": "https://mirai-shigoto.com/ja/553",
       "name": "アニメ制作進行管理 — AI 影響 6/10",
-      "description": "アニメ制作進行、調整+企画",
+      "description": "アニメ制作進行管理とは、アニメ制作の工程をスケジュールに沿って進めていくために、作画作業の割振り、作業の進捗状況の把握、各作業担当者との連絡調整、予算の管理などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/553#occupation",
       "name": "アニメ制作進行管理",
-      "description": "アニメ制作進行、調整+企画",
+      "description": "アニメ制作進行管理とは、アニメ制作の工程をスケジュールに沿って進めていくために、作画作業の割振り、作業の進捗状況の把握、各作業担当者との連絡調整、予算の管理などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -210,6 +210,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -380,6 +384,7 @@
 
       <section class="context">
         <h2>アニメ制作進行管理とは</h2>
+        <p class="definition">アニメ制作進行管理とは、アニメ制作の工程をスケジュールに沿って進めていくために、作画作業の割振り、作業の進捗状況の把握、各作業担当者との連絡調整、予算の管理などを行う職業です。</p>
         <p>アニメ制作の工程をスケジュールに沿って進めていくために、作画作業の割振り、進捗状況の把握、各作業担当者との連絡調整、予算の管理などを行う。</p>
         <p>アニメの制作は、放送や配信など決められた公開日(もしくは納品日)に向けて、多くの専門職が分担して作業を進めていくのが一般的であり、緻密なスケジュール管理と関係者間の連携を円滑に進めるための連絡調整が不可欠である。アニメ制作進行管理の仕事は、制作プロジェクト全体を統括するプロデューサーや作品の総責任者である監督の方針のもとに、工程がスケジュール通り進むよう進捗管理を行うことである。作品全体の制作進行管理の責任者である制作デスクの下に、作品の一定部分（テレビアニメであれば各話など）の担当が置かれることが多く、以下では、このような担当者（以下、「制作進行」という。）の仕事について述べる。</p>
         <p>アニメ作品が世の中に出るまでには、企画・基本的な設定・主要スタッフの決定・製作委員会の組織化・資金調達などの段階、作品を構成する各素材の制作から撮影・編集を経て完成するまでの段階、完成した作品の放送・配信・上映や関連商品・イベント等の展開、など多くのプロセスがあるが、制作進行は主に作品の制作過程で仕事をする。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/570#webpage",
       "url": "https://mirai-shigoto.com/ja/570",
       "name": "耐震診断 — AI 影響 6/10",
-      "description": "耐震診断、現場+解析",
+      "description": "耐震診断とは、建物、店舗、住宅等の耐震性能を診断し、必要に応じて補強や改修計画を提案する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/570#occupation",
       "name": "耐震診断",
-      "description": "耐震診断、現場+解析",
+      "description": "耐震診断とは、建物、店舗、住宅等の耐震性能を診断し、必要に応じて補強や改修計画を提案する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -216,6 +216,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -386,6 +390,7 @@
 
       <section class="context">
         <h2>耐震診断とは</h2>
+        <p class="definition">耐震診断とは、建物、店舗、住宅等の耐震性能を診断し、必要に応じて補強や改修計画を提案する職業です。</p>
         <p>建物の耐震性能を診断し、必要に応じて地震に備えた補強や改修計画を提案する。主に1981年6月以前の旧耐震基準で建てられた学校、工場、倉庫、商業ビル、公共施設等の大型の建物や、個人商店などの店舗、住宅等の家屋の耐震性能の診断を行う。</p>
         <p>建築物は構造上、RC造（鉄筋コンクリート造）、鉄骨造、SRC造（鉄骨鉄筋コンクリート造）、木造の４種類に大きく分けられるが、耐震診断の方法は非木造の建物と木造の建物では大きく異なる。ここでは旧耐震基準の建物が多く残っている木造建築に関する耐震診断について記述する。</p>
         <p>木造建築の耐震診断は市町村などの自治体が推奨しており、個人住宅の耐震診断は自治体からの紹介で依頼を受けることが多い。依頼を受けると、まずは依頼主と面談し、調査日を決める。その際に調査の内容や住宅の全居室、トイレ、浴室、押し入れなどを含め、住居のすべてを見せてもらうことを説明し、理解を求める。また、事前調査として対象建物の築年数、設計図、増改築の有無、劣化や不具合が見られる箇所、浸水被害等の情報を集める。その後、現地調査となるが、木造建築の耐震診断には一般診断法と精密診断法がある。一般的には非破壊調査で、費用も抑えられ、一定精度の診断が可能な一般診断法が推奨されている。</p>

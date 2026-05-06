@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/165#webpage",
       "url": "https://mirai-shigoto.com/ja/165",
       "name": "歯科技工士 — AI 影響 3/10",
-      "description": "歯科技工士、手作業中心",
+      "description": "歯科技工士とは、歯科医師の指示にしたがって、人工的な歯を作ったり、修繕したりする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/165#occupation",
       "name": "歯科技工士",
-      "description": "歯科技工士、手作業中心",
+      "description": "歯科技工士とは、歯科医師の指示にしたがって、人工的な歯を作ったり、修繕したりする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>歯科技工士とは</h2>
+        <p class="definition">歯科技工士とは、歯科医師の指示にしたがって、人工的な歯を作ったり、修繕したりする職業です。</p>
         <p>歯科医師の指示にしたがって、人工的な歯を作ったり、修繕したりする。</p>
         <p>いったん歯が損なわれると、物を食べるのが不自由になったり、消化が悪くなるだけでなく、ときには容ぼうが変わったりするなど、心身の健康に関与している。歯は、乳歯の場合を除き、二度と生えかわることがないので、事故や歯科疾患によって歯を失った場合には、人工の歯を作ってそれを補い機能と審美を回復させることが必要になる。</p>
         <p>歯科技工士が作る主なものには「クラウン」や「ブリッジ」、「総義歯」「局部義歯」、「インプラント」、「矯正装置」に加え「マウスガード」などがある。</p>

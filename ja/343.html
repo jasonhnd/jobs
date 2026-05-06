@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/343#webpage",
       "url": "https://mirai-shigoto.com/ja/343",
       "name": "アニメーター — AI 影響 8/10",
-      "description": "アニメーター、AI補間拡大",
+      "description": "アニメーターとは、アニメーション制作という共同作業の中で、絵を描き、映像に動きを与える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/343#occupation",
       "name": "アニメーター",
-      "description": "アニメーター、AI補間拡大",
+      "description": "アニメーターとは、アニメーション制作という共同作業の中で、絵を描き、映像に動きを与える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>アニメーターとは</h2>
+        <p class="definition">アニメーターとは、アニメーション制作という共同作業の中で、絵を描き、映像に動きを与える職業です。</p>
         <p>アニメーション制作という共同作業の中で、絵を描き、映像に動きを与える。アニメーションには平面上のイラストに動きをつくる２Ｄアニメーションと、コンピュータグラフィックスを用いて立体的なキャラクターや物体を作成して動きを与える３Ｄアニメーションの２つがあるが、ここでは２Ｄアニメーションに携わるアニメーターをとりあげる。</p>
         <p>アニメーションは「プリプロダクション」といわれる企画、シナリオ、絵コンテの制作から、それらを元に背景画、原画、動画を作成し、彩色、撮影等を行う「プロダクション」、これに編集や音声を入れる「ポストプロダクション」の順で３つの工程から、一つの作品が完成する。</p>
         <p>この制作工程の中で、アニメーターは主に「プロダクション」にあたるシナリオのイメージをビジュアル化する重要な部分を受け持つ。実写映画の役者が自分で演じるのに対し、絵を描くことで表現するのがアニメーターで、作画監督、キャラクターデザイナー、原画マン、動画検査担当、動画マン等の総称となる。</p>

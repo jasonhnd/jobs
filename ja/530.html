@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/530#webpage",
       "url": "https://mirai-shigoto.com/ja/530",
       "name": "臨床開発モニター — AI 影響 7/10",
-      "description": "治験モニター、AI解析支援",
+      "description": "臨床開発モニターとは、開発された新薬の有効性・安全性を確認するための治験実施の開始の準備、医療機関等との調整、治験実施中のモニタリング及び報告書の作成等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/530#occupation",
       "name": "臨床開発モニター",
-      "description": "治験モニター、AI解析支援",
+      "description": "臨床開発モニターとは、開発された新薬の有効性・安全性を確認するための治験実施の開始の準備、医療機関等との調整、治験実施中のモニタリング及び報告書の作成等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>臨床開発モニターとは</h2>
+        <p class="definition">臨床開発モニターとは、開発された新薬の有効性・安全性を確認するための治験実施の開始の準備、医療機関等との調整、治験実施中のモニタリング及び報告書の作成等を行う職業です。</p>
         <p>開発された新薬の有効性・安全性を確認するための治験実施の開始の準備、医療機関等との調整、治験実施中のモニタリング及び報告書の作成等を行う。</p>
         <p>CRA（Clinical　Research　Associate）という略称でも呼称される。</p>
         <p>製薬会社又は医療品開発業務受託機関（CRO：Contract Research Organization）に就業し、治験の標準業務手順書（SOP）の確認、治験実施計画書（プロトコール）策定の準備、治験を依頼する医療機関、治験責任医師等の選定と治験参加依頼・契約の締結、治験開始後の治験薬の交付・管理、治験実施計画書（プロトコール）等に基づくモニタリング、データの収集・確認及び報告書の作成等が一連の業務の流れである。</p>

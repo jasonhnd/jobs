@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/244#webpage",
       "url": "https://mirai-shigoto.com/ja/244",
       "name": "障害者福祉施設指導専門員（生活支援員、就労支援員等） — AI 影響 3/10",
-      "description": "障害者施設、対面支援",
+      "description": "障害者福祉施設指導専門員（生活支援員、就労支援員等）とは、障害者福祉施設に入所又は通所している利用者が快適で自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/244#occupation",
       "name": "障害者福祉施設指導専門員（生活支援員、就労支援員等）",
-      "description": "障害者施設、対面支援",
+      "description": "障害者福祉施設指導専門員（生活支援員、就労支援員等）とは、障害者福祉施設に入所又は通所している利用者が快適で自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>障害者福祉施設指導専門員（生活支援員、就労支援員等）とは</h2>
+        <p class="definition">障害者福祉施設指導専門員（生活支援員、就労支援員等）とは、障害者福祉施設に入所又は通所している利用者が快適で自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う職業です。</p>
         <p>身体や精神に障害があり、自立した日常生活を送るのが難しく、障害者福祉施設に入所又は通所している利用者が快適で自立した生活ができるように、相談・助言、職業指導、就労支援、作業指導などを行う。</p>
         <p>具体的には、日常生活の相談や指導を行う生活支援員、技術指導や職業訓練を行う職業指導員、求職活動の支援や職場開拓等を行う就労支援員、作業を通じて必要な指導を行う作業指導員として、障害者が自立した生活を行えるように支援する。</p>
         <p>また、行政や利用者の主治医など医療機関、関係専門団体との連絡調整も行う。就労を希望する利用者のために、ハローワーク等に同行し就職の斡旋を依頼したり、企業等に赴いて障害者の仕事を開拓する場合もある。加えて、障害者の雇用を考えている企業などに支援・助言も行う。このほか、施設職員の資質向上のため研修、勉強会を企画、実施したり、この職業を目指す学生を実習生として受け入れ、研修を行うなどの業務もある。</p>

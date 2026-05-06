@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/452#webpage",
       "url": "https://mirai-shigoto.com/ja/452",
       "name": "コンサルティング営業（IT） — AI 影響 7/10",
-      "description": "ITコンサル営業、提案+AI",
+      "description": "コンサルティング営業（IT）とは、顧客の方針と課題を確認し、その解決策として情報システムや情報サービスを提案し、販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/452#occupation",
       "name": "コンサルティング営業（IT）",
-      "description": "ITコンサル営業、提案+AI",
+      "description": "コンサルティング営業（IT）とは、顧客の方針と課題を確認し、その解決策として情報システムや情報サービスを提案し、販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>コンサルティング営業（IT）とは</h2>
+        <p class="definition">コンサルティング営業（IT）とは、顧客の方針と課題を確認し、その解決策として情報システムや情報サービスを提案し、販売する職業です。</p>
         <p>顧客の方針と課題を確認し、その解決策として情報システムや情報サービスを提案し、販売する。</p>
         <p>商談の場で技術的な提案をする重要な役割を果たしている。システムエンジニアなどと顧客先を訪問し、顧客が抱える技術的課題を聞き、現実的な解決策を提案し、顧客から質問があれば、システムエンジニアとともにそれに答える。また、開発部門と一緒に提案書をまとめたり、納品後のアフターケアも担当する場合もある。企業によっては、顧客の新規開拓から商談、納品、納品後の対応まですべての業務を担当するところもある。</p>
         <p>規模の大きな案件では、複数のシステムエンジニアと共同で対応する。この場合、システムエンジニアは必要な専門分野の担当者が複数集められる。</p>

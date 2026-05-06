@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/522#webpage",
       "url": "https://mirai-shigoto.com/ja/522",
       "name": "NPO法人職員（企画・運営） — AI 影響 6/10",
-      "description": "NPO企画運営、対面+企画",
+      "description": "NPO法人職員（企画・運営）とは、社会の様々な課題を解決するため、営利を目的とせず社会貢献活動を行うNPO法人において、新規事業の企画立案や事業の運営を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/522#occupation",
       "name": "NPO法人職員（企画・運営）",
-      "description": "NPO企画運営、対面+企画",
+      "description": "NPO法人職員（企画・運営）とは、社会の様々な課題を解決するため、営利を目的とせず社会貢献活動を行うNPO法人において、新規事業の企画立案や事業の運営を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>NPO法人職員（企画・運営）とは</h2>
+        <p class="definition">NPO法人職員（企画・運営）とは、社会の様々な課題を解決するため、営利を目的とせず社会貢献活動を行うNPO法人において、新規事業の企画立案や事業の運営を行う職業です。</p>
         <p>社会の様々な課題を解決するため、営利を目的とせず社会貢献活動を行うNPO法人（特定非営利活動法人）において、新規事業の企画立案や事業の運営を行う。</p>
         <p>NPO法人は、社会の多様化したニーズに応えるために、福祉、教育・文化、まちづくり、環境、国際協力など様々な分野で活動している。NPO法人では、有給職員だけでなくボランティアも活動しているが、その多くは、事業の実施を担う人材であり、企画・運営業務を行う職員の割合はそれほど多くはない。また、小規模のNPO法人においては、企画・運営業務だけでなく、一人で様々な業務を担当することもある。</p>
         <p>仕事は、大きく分けると、新規事業の企画立案と事業の運営の２つの業務がある。まず、日頃の活動を通じて、支援対象者の課題やステークホルダーのニーズを把握する中で、新規事業のアイディアが生まれる。そうしたアイディアをもとに、文献調査やヒアリング調査等を行い、先行事例や現場のニーズを把握した上で、新規事業の企画を行う。新規事業の企画が明確になったら、事業の予算を見積もり、事業計画を作成する。新規事業の企画プロセスでは、企画・運営業務を担う職員が中心となって企画を実現化していくほか、比較的大きな団体においては各事業部門の担当者とともに、チームを結成することもある。</p>

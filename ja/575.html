@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/575#webpage",
       "url": "https://mirai-shigoto.com/ja/575",
       "name": "整形外科医 — AI 影響 3/10",
-      "description": "整形外科医、手術+技術",
+      "description": "整形外科医とは、主に骨・軟骨・筋・靭帯・神経などから構成される運動器官の病気や怪我の診断・治療を行い、体の動きや機能を回復させる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/575#occupation",
       "name": "整形外科医",
-      "description": "整形外科医、手術+技術",
+      "description": "整形外科医とは、主に骨・軟骨・筋・靭帯・神経などから構成される運動器官の病気や怪我の診断・治療を行い、体の動きや機能を回復させる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -214,6 +214,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -384,6 +388,7 @@
 
       <section class="context">
         <h2>整形外科医とは</h2>
+        <p class="definition">整形外科医とは、主に骨・軟骨・筋・靭帯・神経などから構成される運動器官の病気や怪我の診断・治療を行い、体の動きや機能を回復させる職業です。</p>
         <p>主に骨・軟骨・筋・靭帯・神経などから構成される運動器官の病気や怪我の診断・治療を行い、体の動きや機能を回復させる。主な診療内容は患者の年代によっても異なり、幼少期には健全な発育をサポートし、青年期にはスポーツ障害や外傷の治療・予防を担う。壮年期・中年期には変性疾患や外傷の治療を通じて社会復帰や社会との共存を支援し、高齢期には運動器官の治療により寝たきりを防ぎ、健康寿命を延ばす。</p>
         <p>整形外科で診る怪我や病気には骨折、脱臼、靭帯損傷、関節炎（変形性関節症、リウマチなど）、スポーツ障害、脊椎疾患（椎間板ヘルニアなど）、骨・軟部腫瘍などがある。診断には、Ｘ線やMRI、CTなどの画像検査を用いることが多い。治療としては、脱臼や骨折の整復や固定、外科手術などを行うほか、患者の状態に応じて、保存療法（リハビリや投薬）を選択する場合もある。手術後や慢性的な運動器疾患の患者に対しては、理学療法士や作業療法士と連携してリハビリテーションのプランを立てる。</p>
         <p>一般的な外来の業務では、まず患者や同伴者から怪我や症状の状況を聞き、触診などを行う。必要に応じて画像検査などを追加し、診察・検査で得られた情報から、総合的な診断を行う。診断に基づいて治療方針を決定し、方針に沿って投薬などの治療を行う。救急外来では、脱臼の整復や、外傷（骨折）、脊髄損傷などに対する緊急手術を行う場合もある。</p>

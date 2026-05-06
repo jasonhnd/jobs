@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/436#webpage",
       "url": "https://mirai-shigoto.com/ja/436",
       "name": "介護事務 — AI 影響 9/10",
-      "description": "介護事務、AI事務化",
+      "description": "介護事務とは、介護報酬請求事務（レセプト作成）を中心に介護施設の事務全般を担当する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/436#occupation",
       "name": "介護事務",
-      "description": "介護事務、AI事務化",
+      "description": "介護事務とは、介護報酬請求事務（レセプト作成）を中心に介護施設の事務全般を担当する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>介護事務とは</h2>
+        <p class="definition">介護事務とは、介護報酬請求事務（レセプト作成）を中心に介護施設の事務全般を担当する職業です。</p>
         <p>介護報酬請求事務（レセプト作成）を中心に介護施設の事務全般を担当する。</p>
         <p>介護報酬請求事務は月末月初に集中するので、その期間はこの業務にウェイトが置かれるが、窓口業務や電話応対をはじめ、出退勤管理や会計処理、施設の備品類の管理・発注、連携機関への連絡、提出書類の作成など事務全般を行う。</p>
         <p>介護事務の職場は、介護老人保健施設、特別養護老人ホーム、デイサービスセンター、グループホーム、訪問介護事業所、訪問看護ステーションなどが中心となる。介護施設では施設長以下、生活相談員やケアマネジャー、介護職員など、様々な職種のスタッフが働いており、その中で事業所の事務全般を担当するのが介護事務という位置づけになる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/33#webpage",
       "url": "https://mirai-shigoto.com/ja/33",
       "name": "潜水士 — AI 影響 1/10",
-      "description": "水中作業、AIほぼ無関係",
+      "description": "潜水士とは、潜水具を着用して水中に潜り、海底や川底の調査や測量、護岸や防波堤の建設工事、船底の状況の調査や破損修理、沈没船の解体や引揚げなどの水中作業をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/33#occupation",
       "name": "潜水士",
-      "description": "水中作業、AIほぼ無関係",
+      "description": "潜水士とは、潜水具を着用して水中に潜り、海底や川底の調査や測量、護岸や防波堤の建設工事、船底の状況の調査や破損修理、沈没船の解体や引揚げなどの水中作業をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>潜水士とは</h2>
+        <p class="definition">潜水士とは、潜水具を着用して水中に潜り、海底や川底の調査や測量、護岸や防波堤の建設工事、船底の状況の調査や破損修理、沈没船の解体や引揚げなどの水中作業をする職業です。</p>
         <p>潜水具を身につけ水中で各種作業を行う。潜水士は、水中で就業が可能な唯一の職業である。</p>
         <p>建設関係では、港湾や漁港の防波堤や岸壁、物揚場などの構造物の基礎を築造するため海底に石を投入して均す（ならす）作業、鋼構造物の水中溶接作業、コンクリートブロックの据付け作業等がある。</p>
         <p>船舶関係ではサルベージ、船底の清掃、点検補修作業。漁業関係では魚貝類の採取、魚礁の設置などがある。その他にも、災害、事故などの際のレスキュー隊活動やマスコミ関係の水中撮影、各方面が行う調査・観察、水族館での魚の餌付け作業、レジャーダイビングのインストラクターなど活動は多岐にわたる。</p>

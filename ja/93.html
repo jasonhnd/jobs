@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/93#webpage",
       "url": "https://mirai-shigoto.com/ja/93",
       "name": "不動産鑑定士 — AI 影響 6/10",
-      "description": "不動産鑑定、AI評価支援+判断",
+      "description": "不動産鑑定士とは、不動産鑑定評価基準に基づいて土地や建物の経済的価値を判断し、適正な価格を決める職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/93#occupation",
       "name": "不動産鑑定士",
-      "description": "不動産鑑定、AI評価支援+判断",
+      "description": "不動産鑑定士とは、不動産鑑定評価基準に基づいて土地や建物の経済的価値を判断し、適正な価格を決める職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>不動産鑑定士とは</h2>
+        <p class="definition">不動産鑑定士とは、不動産鑑定評価基準に基づいて土地や建物の経済的価値を判断し、適正な価格を決める職業です。</p>
         <p>不動産（土地と建物の総称）の売買を行ったり、不動産を担保にしてお金を借りたり、ビルやマンションの家賃を決めたりする際に、不動産の公正な価格を決めることが必要となり、そうした時に不動産を鑑定して評価するのが不動産鑑定士である。</p>
         <p>依頼者から鑑定の申し込みがあると、まず、その土地や建物についてどれほどの費用で作られているのか、近接地域や類似事例ではどれくらいの価格で取引されているのか、それを利用するとどれほどの利益が得られるかなどを調査し、分析する。そして不動産鑑定評価基準に基づいて、総合的に判断し、適正な価格を求め、経過と結果を「不動産鑑定評価書」に取りまとめ、依頼者に説明と報告をする。また必要に応じて不動産利用のコンサルティング等も行う。</p>
         <p>◇　よく使う道具、機材、情報技術等</p>

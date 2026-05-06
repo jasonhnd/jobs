@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/182#webpage",
       "url": "https://mirai-shigoto.com/ja/182",
       "name": "図書館司書 — AI 影響 7/10",
-      "description": "司書、検索/AI回答に置換進行",
+      "description": "図書館司書とは、図書館や資料室で資料を収集・整理・保存し、資料や情報を提供したり、情報を求める人のための手助けをする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/182#occupation",
       "name": "図書館司書",
-      "description": "司書、検索/AI回答に置換進行",
+      "description": "図書館司書とは、図書館や資料室で資料を収集・整理・保存し、資料や情報を提供したり、情報を求める人のための手助けをする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>図書館司書とは</h2>
+        <p class="definition">図書館司書とは、図書館や資料室で資料を収集・整理・保存し、資料や情報を提供したり、情報を求める人のための手助けをする職業です。</p>
         <p>「司書」とは、図書館法が定める公立図書館の専門職員を指すが、そのほかの図書館や資料室で専門的な仕事に就いている人たちにも一般にこの名称が用いられている。図書館や資料室で資料を収集・整理・保存し、資料や情報を提供、情報を求める人の手助けをする。</p>
         <p>図書館に置く本や雑誌、CDやビデオなどの映像資料を選定し、それを探すための目録を整備、資料がいつも順序よく並んでいるように管理し、貸出やコピーサービスをする。図書館利用者の調べものについて支援したり、資料相談にのることも司書の仕事である。</p>
         <p>図書館には、公立図書館、学校図書館、大学図書館、専門図書館、国立国会図書館などの種類があるが、それぞれ仕事の内容は多少異なる。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/279#webpage",
       "url": "https://mirai-shigoto.com/ja/279",
       "name": "染色工/染色設備オペレーター — AI 影響 4/10",
-      "description": "染色オペレーター、自動化",
+      "description": "染色工/染色設備オペレーターとは、各種の染料、薬品などを用いて、機械装置により、糸や織編物（おりあみもの）に染色整理加工（染色と仕上げ）を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/279#occupation",
       "name": "染色工/染色設備オペレーター",
-      "description": "染色オペレーター、自動化",
+      "description": "染色工/染色設備オペレーターとは、各種の染料、薬品などを用いて、機械装置により、糸や織編物（おりあみもの）に染色整理加工（染色と仕上げ）を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>染色工/染色設備オペレーターとは</h2>
+        <p class="definition">染色工/染色設備オペレーターとは、各種の染料、薬品などを用いて、機械装置により、糸や織編物（おりあみもの）に染色整理加工（染色と仕上げ）を行う職業です。</p>
         <p>各種の染料、薬品などを用いて、機械装置により、糸や織編物（おりあみもの）に染色整理加工（染色と仕上げ）を行う。</p>
         <p>糸や織編物は、綿、羊毛などの天然繊維や、レーヨンなどの化学繊維、ナイロン、ポリエステルなどの合成繊維を原料としており、染色整理加工ではこれらの原料に最終用途にあわせた色柄をつけたり、表面を平滑にしたり、手触りをよくするなどの物理的・化学的な処理を施すことから、それぞれ異なった機械や薬品が使用される。</p>
         <p>染色工程は、生地を一色に染める無地染と、一色又は多色を使って柄染をする捺染（なっせん、プリント）に分けられる。シャツなどのポリエステル織物の無地染では、まず染色機に一定量の水を入れ、機械を始動させ、前工程の精練漂白を終えた生地を機械に入れ、あらかじめ設定しておいたプログラムで自動運転に切り替える。染料と薬品を計量しておくと、自動的に染料と薬品が投入されて、染色が行われる。</p>

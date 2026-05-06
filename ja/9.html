@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/9#webpage",
       "url": "https://mirai-shigoto.com/ja/9",
       "name": "清酒製造 — AI 影響 2/10",
-      "description": "伝統的な杜氏の経験技術",
+      "description": "清酒製造とは、酒蔵（酒造工場）で清酒づくりに従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/9#occupation",
       "name": "清酒製造",
-      "description": "伝統的な杜氏の経験技術",
+      "description": "清酒製造とは、酒蔵（酒造工場）で清酒づくりに従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>清酒製造とは</h2>
+        <p class="definition">清酒製造とは、酒蔵（酒造工場）で清酒づくりに従事する職業です。</p>
         <p>酒蔵（酒造工場）で清酒づくりに従事する。</p>
         <p>清酒は日本酒とも呼ばれる我が国独特の酒で、婚礼や上棟式など伝統的な儀式にも使われている。酒蔵で働くことから「蔵人（くらびと）」とも呼ばれる。また、蔵人が経験を重ねて就く最高の職階である「杜氏(とうじ)」は、酒造りにおける最高責任者である。</p>
         <p>具体的には、まず原料玄米から酒造りに不要となる表層部分を除去して酒造用に精米し、洗って水に浸した後、蒸気で蒸し上げる。できた蒸米の2割を麹室（こうじむろ）に入れ、種麹（たねこうじ）を蒔いて麹菌の繁殖の状態を監視し、2日かけて「麹」にする。この麹と蒸米、水をタンクに入れ、乳酸と清酒酵母を加えて加熱と冷却を繰り返しながら徐々に加温し、純粋な清酒酵母を大量に増殖させて、酒母（しゅぼ）を造る。機械化の進んだ速醸酒母の場合で10日ほど、「生もと・山廃」という昔ながらの造り方の場合には、25～30日かかる。</p>

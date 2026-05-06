@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/443#webpage",
       "url": "https://mirai-shigoto.com/ja/443",
       "name": "医療事務 — AI 影響 9/10",
-      "description": "医療事務、レセプトAI拡大",
+      "description": "医療事務とは、医療機関において、診療報酬を請求するための書類の作成を行ったり、窓口において、外来の受付、医療費の請求、入退院の手続などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/443#occupation",
       "name": "医療事務",
-      "description": "医療事務、レセプトAI拡大",
+      "description": "医療事務とは、医療機関において、診療報酬を請求するための書類の作成を行ったり、窓口において、外来の受付、医療費の請求、入退院の手続などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>医療事務とは</h2>
+        <p class="definition">医療事務とは、医療機関において、診療報酬を請求するための書類の作成を行ったり、窓口において、外来の受付、医療費の請求、入退院の手続などを行う職業です。</p>
         <p>医療機関において、診療報酬を請求するための書類の作成を行ったり、窓口において、外来の受付、医療費の請求、入退院の手続などを行う。</p>
         <p>医療機関での具体的な業務は、診察が終わった患者のカルテを見て、診察の内容、検査の種類、薬の量などをコンピュータに入力して点数化し、患者が自己負担する金額を計算する。保険診療では疾病名に対応した治療、投薬や療養の基準に基づいてレセプト（診療報酬請求明細書）を作成し、その後、そのチェックを行う。</p>
         <p>ほとんどの医療機関で、レセプトを用いた保険請求事務はコンピュータで処理される。入力に見落としや誤りがないかどうかなど、レセプトのチェックを慎重に行う。レセプトは、毎月の決められた期日までに、被保険者が国民健康保険に加入していれば国民健康保険団体連合会に、被用者保険の被保険者については社会保険診療報酬支払基金に提出する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/185#webpage",
       "url": "https://mirai-shigoto.com/ja/185",
       "name": "学芸員 — AI 影響 6/10",
-      "description": "学芸員、研究+AI検索",
+      "description": "学芸員とは、学芸員資格を持った専門職員として、博物館や美術館などで、歴史、芸術、民俗、産業、自然科学についての資料を収集、保管、展示するとともに関係する調査研究を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/185#occupation",
       "name": "学芸員",
-      "description": "学芸員、研究+AI検索",
+      "description": "学芸員とは、学芸員資格を持った専門職員として、博物館や美術館などで、歴史、芸術、民俗、産業、自然科学についての資料を収集、保管、展示するとともに関係する調査研究を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>学芸員とは</h2>
+        <p class="definition">学芸員とは、学芸員資格を持った専門職員として、博物館や美術館などで、歴史、芸術、民俗、産業、自然科学についての資料を収集、保管、展示するとともに関係する調査研究を行う職業です。</p>
         <p>学芸員資格を持った専門職員として、博物館法で定められた博物館や美術館などで、歴史、芸術、民俗、産業、自然科学についての資料を収集、保管、展示するとともに関係する調査研究を行う。</p>
         <p>様々な資料（実物、標本、模写、模型、文献、図表、写真、映像など）を収集し、整理・保存する。資料について専門的な調査研究を行い、解説や目録を作成して展示する。文化財の発掘・調査・研究、動植物の収集など、野外で調査研究活動を行うこともある。調査・分析を通じて発見した新事実などを学会・学術雑誌・出版物などで発表する。</p>
         <p>また、常設展示の他にも特別展示、講演会、講座などのテーマを企画、実施する。更に必要な資料や展示物のリストを作成し、館内にない資料や展示物を他の博物館等と交渉して借用し、場合によっては購入することもある。展示物のレイアウト、装飾を指示して会場を設営するほか特別展示に関するポスターを作製したり、インターネットによる情報提供などの広報活動を行う。展示期間中には、利用者サービスの一環として解説等を行うこともある。生涯学習への関心の高まりから、市民のニーズに合う展示の企画など、学芸員の役割は重要になっている。</p>

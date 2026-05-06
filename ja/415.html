@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/415#webpage",
       "url": "https://mirai-shigoto.com/ja/415",
       "name": "客室清掃・整備担当（ホテル・旅館） — AI 影響 2/10",
-      "description": "客室清掃、肉体労働",
+      "description": "客室清掃・整備担当（ホテル・旅館）とは、ホテルや旅館に滞在する宿泊客等が快適に過ごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/415#occupation",
       "name": "客室清掃・整備担当（ホテル・旅館）",
-      "description": "客室清掃、肉体労働",
+      "description": "客室清掃・整備担当（ホテル・旅館）とは、ホテルや旅館に滞在する宿泊客等が快適に過ごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>客室清掃・整備担当（ホテル・旅館）とは</h2>
+        <p class="definition">客室清掃・整備担当（ホテル・旅館）とは、ホテルや旅館に滞在する宿泊客等が快適に過ごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える職業です。</p>
         <p>ホテルや旅館に滞在する宿泊客等が快適にすごせるように、ベッドメイキング、浴室・トイレ清掃等客室を清潔に整える。</p>
         <p>業務内容を仕事の流れに沿って見ていくと、まず出勤するとその日に担当する部屋割りリストを受け取る。宿泊客等がチェックアウトすると、シーツやタオル、歯ブラシなどの備品と掃除道具をカートで運び、客室へ向かう。</p>
         <p>部屋の換気をしたあと、客が使ったシーツや枕カバーなどの寝具をすべて取り外し、クリーニングした新しい寝具を美しく整える。</p>

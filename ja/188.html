@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/188#webpage",
       "url": "https://mirai-shigoto.com/ja/188",
       "name": "タクシー運転手 — AI 影響 4/10",
-      "description": "タクシー、自動運転研究進行",
+      "description": "タクシー運転手とは、乗客を希望する目的地まで安全に輸送し、料金メーターに表示された運賃を受け取る職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/188#occupation",
       "name": "タクシー運転手",
-      "description": "タクシー、自動運転研究進行",
+      "description": "タクシー運転手とは、乗客を希望する目的地まで安全に輸送し、料金メーターに表示された運賃を受け取る職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>タクシー運転手とは</h2>
+        <p class="definition">タクシー運転手とは、乗客を希望する目的地まで安全に輸送し、料金メーターに表示された運賃を受け取る職業です。</p>
         <p>乗客を希望する目的地まで安全に輸送し、料金メーターに表示された運賃を受け取る。</p>
         <p>タクシー会社に勤めている場合は、担当の時刻に会社に出勤し、乗務服に着替えて点呼を受け、車の運行前点検を行ってから、営業を開始する。効率よく営業するために、最寄り駅や繁華街などで待機することもあるが、会社の無線指示で迎車として対応するケースもある。タクシー会社にかかってくる電話を待つ場合や客が多い地域を流す場合もある。</p>
         <p>タクシーに客を乗せると、希望の場所まで安全に送り届け、料金メーターに表示された運賃を受け取る。その際、乗務記録に走行経路、キロ数、乗降時刻、人員、運賃などを記入する。万が一事故が発生した場合には、救急措置などを行うとともに、速かに会社へ連絡して指示を受ける。乗客の忘れ物は、車庫に帰ってから運行管理者へ引き渡すなどの対応を行う。終業時刻に帰社し1日の記録を整理、売上高を計算する。出勤時に受け取った釣銭などを会社に返納し、車両の異常の有無を報告し、車を洗い、車庫に車両を格納する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/469#webpage",
       "url": "https://mirai-shigoto.com/ja/469",
       "name": "内部監査人 — AI 影響 7/10",
-      "description": "内部監査、AI監査ツール",
+      "description": "内部監査人とは、組織における内部統制の整備及び運用状況を調査、検討、評価し、その結果を組織トップ（社長や取締役会）に報告し、改善を提言する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/469#occupation",
       "name": "内部監査人",
-      "description": "内部監査、AI監査ツール",
+      "description": "内部監査人とは、組織における内部統制の整備及び運用状況を調査、検討、評価し、その結果を組織トップ（社長や取締役会）に報告し、改善を提言する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>内部監査人とは</h2>
+        <p class="definition">内部監査人とは、組織における内部統制の整備及び運用状況を調査、検討、評価し、その結果を組織トップ（社長や取締役会）に報告し、改善を提言する職業です。</p>
         <p>組織における内部統制の整備及び運用状況を調査、検討、評価し、その結果を組織トップ（社長や取締役会）に報告し、改善を提言する。</p>
         <p>適切な企業統治（コーポレート・ガバナンス）が一層厳正に求められるようになる中で、それを支える内部統制の重要性が増している。内部統制とは、「業務の有効性及び効率性」、「財務報告の信頼性」、「法令遵守」そして「資産保全」が確保されていることを合理的に保証するために、組織内のすべての者によって遂行されるプロセスであるとされる。</p>
         <p>内部監査は、組織運営に価値を付加し、改善を可能とするとともに、組織の目標達成に欠かせない機能といえる。これを実施する内部監査人は、社長・取締役会に直属し、内部監査の対象となる業務や部署などから独立し、誠実かつ客観的な立場で監査を行う。</p>

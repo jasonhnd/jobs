@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/180#webpage",
       "url": "https://mirai-shigoto.com/ja/180",
       "name": "中学校教員 — AI 影響 4/10",
-      "description": "中学教員、教科+進路指導",
+      "description": "中学校教員とは、中学生に専門の教科を教え、学級の担任として生徒を指導する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/180#occupation",
       "name": "中学校教員",
-      "description": "中学教員、教科+進路指導",
+      "description": "中学校教員とは、中学生に専門の教科を教え、学級の担任として生徒を指導する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>中学校教員とは</h2>
+        <p class="definition">中学校教員とは、中学生に専門の教科を教え、学級の担任として生徒を指導する職業です。</p>
         <p>中学生に、国語、社会、数学、理科、音楽、美術、保健体育、技術・家庭、外国語（主に英語）などの科目の一つを専門的に教え、道徳、総合的な学習の時間、特別活動の指導に当たり、学級を担任する。</p>
         <p>各教科の授業は、年度のはじめに定めた年間指導計画に基づいて、教科書を主な教材として使用し、そのほかプリントや学習カード、スライドなどの補助教材を準備し、生徒の理解や進み具合にしたがって指導方法を工夫しながら教える。それ以外の時間は、教材研究や事務的作業を行う。</p>
         <p>また、部活動、学校行事、PTA活動などもほかの教員と分担して受け持ち、学校の運営組織である教務部、学習指導部、生徒指導部、進路指導部などに所属し、それに関する仕事（校務分掌）も行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/17#webpage",
       "url": "https://mirai-shigoto.com/ja/17",
       "name": "陶磁器製造 — AI 影響 2/10",
-      "description": "陶磁器は職人の手作業中心",
+      "description": "陶磁器製造とは、茶碗や皿などの食器、タイルや洗面台、トイレの便器などの日用品など、陶磁器製品を作る職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/17#occupation",
       "name": "陶磁器製造",
-      "description": "陶磁器は職人の手作業中心",
+      "description": "陶磁器製造とは、茶碗や皿などの食器、タイルや洗面台、トイレの便器などの日用品など、陶磁器製品を作る職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>陶磁器製造とは</h2>
+        <p class="definition">陶磁器製造とは、茶碗や皿などの食器、タイルや洗面台、トイレの便器などの日用品など、陶磁器製品を作る職業です。</p>
         <p>茶碗や皿などの食器、タイルや洗面台、トイレの便器などの日用品など、陶磁器製品を作る。</p>
         <p>基本的な作業の流れは、陶土（粘土の一種）に長石や石英といった鉱物の粉末を混ぜて原料の坏土（はいど）を作り、それを成形、乾燥させた後、釉（ゆう）薬をかけ、高温で焼き上げて製品にする。成形作業には大きく分けて「ろくろ成形」と「鋳込み成形」がある。</p>
         <p>また、焼き上げたあとの半製品に絵や模様を入れる絵付け作業も重要である。最後に検査を行い、品質やでき具合を確かめる。</p>

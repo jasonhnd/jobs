@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/487#webpage",
       "url": "https://mirai-shigoto.com/ja/487",
       "name": "ハウスクリーニング — AI 影響 2/10",
-      "description": "ハウスクリーニング、手作業",
+      "description": "ハウスクリーニングとは、主にマンション、アパート、戸建等の空室や居住中の一般家庭を対象として、家屋及び住宅設備のクリーニングを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/487#occupation",
       "name": "ハウスクリーニング",
-      "description": "ハウスクリーニング、手作業",
+      "description": "ハウスクリーニングとは、主にマンション、アパート、戸建等の空室や居住中の一般家庭を対象として、家屋及び住宅設備のクリーニングを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>ハウスクリーニングとは</h2>
+        <p class="definition">ハウスクリーニングとは、主にマンション、アパート、戸建等の空室や居住中の一般家庭を対象として、家屋及び住宅設備のクリーニングを行う職業です。</p>
         <p>主にマンション、アパート、戸建等の空室（あきしつ、くうしつ）や居住中の一般家庭を対象として、家屋及び住宅設備のクリーニングを行う。</p>
         <p>空室クリーニングは、不動産事業者が取り扱う戸建て、マンション、アパート等において、賃貸契約者が退去した後の空室を対象に原状回復の一環として行う業務である。</p>
         <p>在宅クリーニングは、一般在宅家庭を対象に家屋の一部もしくは全体、あるいはエアコン、換気扇、システムキッチン等専門的な知識や技術を必要とする設備のクリーニングを行う業務である。</p>

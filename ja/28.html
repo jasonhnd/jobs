@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/28#webpage",
       "url": "https://mirai-shigoto.com/ja/28",
       "name": "鉄筋工 — AI 影響 2/10",
-      "description": "鉄筋組み立て現場仕事",
+      "description": "鉄筋工とは、鉄筋コンクリート構造物の骨組みとなるかご状の鉄筋を加工して組み立てる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/28#occupation",
       "name": "鉄筋工",
-      "description": "鉄筋組み立て現場仕事",
+      "description": "鉄筋工とは、鉄筋コンクリート構造物の骨組みとなるかご状の鉄筋を加工して組み立てる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>鉄筋工とは</h2>
+        <p class="definition">鉄筋工とは、鉄筋コンクリート構造物の骨組みとなるかご状の鉄筋を加工して組み立てる職業です。</p>
         <p>鉄筋コンクリート構造物の骨組みとなるかご状の鉄筋を加工して組み立てる。</p>
         <p>鉄筋コンクリートは、構造物の中でもよく使われている構造体で、建物の骨にあたる鉄筋部分の施工、加工、組立作業を行うのが鉄筋工である。作業現場は、マンションやビルなどの建築物をはじめ、橋げた、トンネル、高速道路、地下鉄にいたるまで、人が生活するあらゆる場所に及んでいる。</p>
         <p>仕事は施工図・加工帳の作成、加工、組立に分かれる。作業手順は、まず、作業を行う構造物の図面を見て、使用する鉄筋のサイズや形状・本数を拾い出し、加工帳を作成する。次に、鉄筋業者の工場で加工帳にしたがって適切な寸法に切断、曲げ、加工された材料を現場で組み立てる。基礎、柱、壁、床、階段といった部分や位置ごとに、図面と配筋基準どおりに取り付けていく。</p>

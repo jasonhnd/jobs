@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/323#webpage",
       "url": "https://mirai-shigoto.com/ja/323",
       "name": "データサイエンティスト — AI 影響 8/10",
-      "description": "データサイエンティスト、AI協働",
+      "description": "データサイエンティストとは、新たな商品やサービスの開発や業務プロセスの革新のため、大量に蓄積されたデータ（ビッグデータ）を分析する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/323#occupation",
       "name": "データサイエンティスト",
-      "description": "データサイエンティスト、AI協働",
+      "description": "データサイエンティストとは、新たな商品やサービスの開発や業務プロセスの革新のため、大量に蓄積されたデータ（ビッグデータ）を分析する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>データサイエンティストとは</h2>
+        <p class="definition">データサイエンティストとは、新たな商品やサービスの開発や業務プロセスの革新のため、大量に蓄積されたデータ（ビッグデータ）を分析する職業です。</p>
         <p>新たな商品やサービスを生み出したり、業務プロセスの革新のため、大量に蓄積されたデータ（ビッグデータ）を分析する。</p>
         <p>ビッグデータを解析した情報を活用することによって、これまで経験や勘で行われてきた仕事の効率性、競争力を高めたり、これまでできなかったことが可能になる。</p>
         <p>データサイエンティストは、大きく分けると、自社の業務として従事する場合と、顧客に対してサービスを提供する場合がある。仕事の流れは共通しており、まずは分析対象となる業務の責任者にヒアリングを行い、分析の目標を決める。次にデータの担当者にヒアリングを行い、分析するデータがどのようなものか確認し、データを加工しながらモデリング（データ処理の枠組みを検討する）作業を行う。モデリング作業が終わると、そのモデルが適切かどうか判断するため、効果の検証を行い、さらに過去のデータだけでなく、様々なデータに対しても有効なモデルか検討し、有効で、問題がないことが確認されたら、サービスとして実装する（本格的な分析機能とする）。</p>

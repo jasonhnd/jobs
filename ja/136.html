@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/136#webpage",
       "url": "https://mirai-shigoto.com/ja/136",
       "name": "キャリアカウンセラー/キャリアコンサルタント — AI 影響 7/10",
-      "description": "キャリコン、AI支援助言ツール",
+      "description": "キャリアカウンセラー/キャリアコンサルタントとは、相談者の職業の選択、職業生活の設計、職業能力の開発・向上に関する相談に応じ、助言や指導を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/136#occupation",
       "name": "キャリアカウンセラー/キャリアコンサルタント",
-      "description": "キャリコン、AI支援助言ツール",
+      "description": "キャリアカウンセラー/キャリアコンサルタントとは、相談者の職業の選択、職業生活の設計、職業能力の開発・向上に関する相談に応じ、助言や指導を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>キャリアカウンセラー/キャリアコンサルタントとは</h2>
+        <p class="definition">キャリアカウンセラー/キャリアコンサルタントとは、相談者の職業の選択、職業生活の設計、職業能力の開発・向上に関する相談に応じ、助言や指導を行う職業です。</p>
         <p>相談者の職業の選択、職業生活の設計、職業能力の開発・向上に関する相談に応じ、助言及び指導を行い、相談者がより良い人生を送り、自分が望む生き方を実現できるよう、専門家として支援する。キャリアコンサルタント試験等に合格し名簿に登録した者は、キャリアコンサルタントと称することができる。</p>
         <p>職業生活は人の生涯の中で大きな部分を占めており、職業の選択や働き方はその人の人生に大きな影響を及ぼす。キャリアカウンセラーは、相談者が初めて職業を選択するときはもとより、職業や働き方を変える場合など、職業キャリアの様々な場面において適切な職業の選択やキャリア形成ができるよう支援する。</p>
         <p>そのために、相談者自身の自己理解を促したり、職務経歴やアセスメントから相談者の諸特性を整理し、また、その相談者の問題を把握する。次いで、その意思決定に必要とされる職業やキャリアの情報、能力開発などについての情報を提供し、仕事理解を深めるようにする。そして、相談者が適切な意思決定が行え、適切な求人探索・応募ができるよう支援していく。また、相談者を取り巻く組織、社会、家族などが相談者のキャリア形成にどうかかわるかを考え、必要に応じて周囲に働きかける役割も担っている。</p>

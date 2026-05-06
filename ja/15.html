@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/15#webpage",
       "url": "https://mirai-shigoto.com/ja/15",
       "name": "かん詰・びん詰・レトルト食品製造 — AI 影響 5/10",
-      "description": "レトルト製造は工程自動化進む",
+      "description": "かん詰・びん詰・レトルト食品製造とは、かん詰食品、びん詰食品、レトルト食品を製造する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/15#occupation",
       "name": "かん詰・びん詰・レトルト食品製造",
-      "description": "レトルト製造は工程自動化進む",
+      "description": "かん詰・びん詰・レトルト食品製造とは、かん詰食品、びん詰食品、レトルト食品を製造する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>かん詰・びん詰・レトルト食品製造とは</h2>
+        <p class="definition">かん詰・びん詰・レトルト食品製造とは、かん詰食品、びん詰食品、レトルト食品を製造する職業です。</p>
         <p>かん詰食品、びん詰食品、レトルト食品を製造する。</p>
         <p>かん詰は食品をかんに密封し、加熱殺菌することによって長期間、常温で保存することができる。この原理は、びん詰やプラスチックを使ったレトルトパウチ、レトルト食品などにも応用されている。</p>
         <p>かん詰、びん詰、レトルト食品の製造にあたっては、原料の受入、洗浄、調整、調理、容器充填、密封、加熱殺菌、冷却、箱詰、出荷などの工程がある。中でも容器密封と加熱殺菌は最も重要な製造工程となっており、専門的知識と技術の習得が必要である。密封では容器の種類によって、二重巻締機（かん）、キャッパー（びん）、ヒートシール機（レトルトパウチ）などの機械操作が必要となる。加熱殺菌もレトルト（殺菌釜）の操作と、殺菌に関する基礎知識が求められる。</p>

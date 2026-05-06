@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/535#webpage",
       "url": "https://mirai-shigoto.com/ja/535",
       "name": "風力発電のメンテナンス — AI 影響 3/10",
-      "description": "風力保守、現場高所作業",
+      "description": "風力発電のメンテナンスとは、風力発電設備の点検、修理・補修を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/535#occupation",
       "name": "風力発電のメンテナンス",
-      "description": "風力保守、現場高所作業",
+      "description": "風力発電のメンテナンスとは、風力発電設備の点検、修理・補修を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -218,6 +218,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -388,6 +392,7 @@
 
       <section class="context">
         <h2>風力発電のメンテナンスとは</h2>
+        <p class="definition">風力発電のメンテナンスとは、風力発電設備の点検、修理・補修を行う職業です。</p>
         <p>風力発電設備の点検、修理・補修を行う。風力発電設備が稼働する上で支障が出ないよう、不具合の発生を未然に防止するため点検し、破損箇所等は修理・補修を行う。風力発電は社会を支える重要なインフラ設備の一つであり、設備を良好な状態に保つことが求められる。</p>
         <p>風力発電の装置（風車）は、風を受ける羽根「ブレード」とハブを組み合わせた「ローター」、この回転を受ける装置が入った「ナセル」、垂直に高い「タワー」等で構成されている。風車にはナセル内を中心に、細かいものまで含めると、電気関係、機械関係など１万点から２万点に及ぶ部品が使用されており、これら一つ一つが正常に機能することで電力を供給することができる。風力発電のメンテナンスは機器の状態を正常に保つために不可欠な作業であり、社会の重要インフラを支えている。メンテナンス作業には日常的に行う点検、実施間隔を定めて定期的に行う点検、損傷や故障、劣化などが確認された際に行う修理・補修などがある。また、修理・補修が困難な場合には部品や装置を交換することもある。部品や装置によっては大型クレーンが必要になるなど大掛かりな作業が必要になることもある。</p>
         <p>風力発電のエネルギー源である風を直接受けるブレードは、その特性上、日射や風雨にさらされ続けているため、他の部品に比べて劣化の影響を受けやすく、その補修（研削、積層、研磨、再塗装）が特に重要となる。しかも現在、主力となっている風車ではナセル上部で地上約90ｍに達するため、重機や特殊な技術が必要とされる。その中の一つがロープによる高所作業の技術である。この技術は洞窟探検（ケービング）のために生まれた技術を高所作業に転用したものであり、作業員はロープを自在に操り、上下左右に移動しブレードの点検・補修を行う。</p>

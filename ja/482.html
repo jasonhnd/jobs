@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/482#webpage",
       "url": "https://mirai-shigoto.com/ja/482",
       "name": "ルート配送ドライバー — AI 影響 4/10",
-      "description": "配送ドライバー、AI配送ルート",
+      "description": "ルート配送ドライバーとは、特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/482#occupation",
       "name": "ルート配送ドライバー",
-      "description": "配送ドライバー、AI配送ルート",
+      "description": "ルート配送ドライバーとは、特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>ルート配送ドライバーとは</h2>
+        <p class="definition">ルート配送ドライバーとは、特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する職業です。</p>
         <p>特定の日時とルートで、あらかじめ決まった店舗や事業所等に車両で荷物を配送する。</p>
         <p>配送と同時に配送先で容器、コンテナなどの回収も行う。</p>
         <p>コンビニやスーパーへの商品の配送、メーカーの工場で製造した商品を物流会社の倉庫で保管して、メーカーの発注に応じて家電量販店等の送り先へ届ける配送、飲食店への食材の配送、クリーニング店を廻る配送、病院等へのユニフォーム等のクリーニング済み衣料の配送などがある。</p>

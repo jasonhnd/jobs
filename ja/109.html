@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/109#webpage",
       "url": "https://mirai-shigoto.com/ja/109",
       "name": "旅行会社カウンター係 — AI 影響 7/10",
-      "description": "旅行カウンター、AIで予約代替",
+      "description": "旅行会社カウンター係とは、支店や営業所において、「パッケージツアー」や「手配旅行」をお客のニーズに合わせてアドバイスしながら販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/109#occupation",
       "name": "旅行会社カウンター係",
-      "description": "旅行カウンター、AIで予約代替",
+      "description": "旅行会社カウンター係とは、支店や営業所において、「パッケージツアー」や「手配旅行」をお客のニーズに合わせてアドバイスしながら販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>旅行会社カウンター係とは</h2>
+        <p class="definition">旅行会社カウンター係とは、支店や営業所において、「パッケージツアー」や「手配旅行」をお客のニーズに合わせてアドバイスしながら販売する職業です。</p>
         <p>支店や営業所において、旅行の行程や価格などが既に決まっている「パッケージツアー」と、旅行者の希望や計画に合わせて手配する「手配旅行」を、お客のニーズに合わせてアドバイスしながら販売する。</p>
         <p>旅行者のニーズが多様化、個性化しているため、パッケージなど旅行商品の内容や品質も変化している。旅行者の嗜好の変化を反映し、旅行会社でも斬新な旅の提供を模索している。</p>
         <p>手配旅行では、お客の多くは視察旅行、修学旅行、職場旅行等であるが、最近ではより個別的な目的にあった旅行をしたいという客が増え、「手配旅行」の需要が大きくなっている。手配旅行では、旅行者はより多くの情報と専門的な知識を求めているので、旅行についての専門知識はもちろん、地理、歴史、文化、治安などの幅広い知識や最新情報をもってアドバイスをしていく必要がある。そして、予算に合わせてホテルや航空機を選択し、コンピュータ端末を使って航空機や鉄道のチケット、宿泊券などの予約・販売を行う。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/435#webpage",
       "url": "https://mirai-shigoto.com/ja/435",
       "name": "調剤薬局事務 — AI 影響 9/10",
-      "description": "調剤薬局事務、AI事務化",
+      "description": "調剤薬局事務とは、医師の指定した薬を買い求めに来店する患者の処方箋を受け付け、レセコンに入力するなど窓口業務を処理する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/435#occupation",
       "name": "調剤薬局事務",
-      "description": "調剤薬局事務、AI事務化",
+      "description": "調剤薬局事務とは、医師の指定した薬を買い求めに来店する患者の処方箋を受け付け、レセコンに入力するなど窓口業務を処理する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>調剤薬局事務とは</h2>
+        <p class="definition">調剤薬局事務とは、医師の指定した薬を買い求めに来店する患者の処方箋を受け付け、レセコンに入力するなど窓口業務を処理する職業です。</p>
         <p>医師の指定した薬を買い求めに来店する患者の処方箋を受付け、レセコンに入力するなど窓口業務を処理する。</p>
         <p>初めて来店した患者には、住所・氏名・年齢・性別など個人情報を含む体調に関するアンケートの記入を依頼する。毎月、患者ごとに医療費の明細書である診療報酬請求書（レセプト）を作成し保険者に請求する仕事も行う。</p>
         <p>薬剤師の補助、電話対応、伝票の入力などのほか、薬局のPOPを作成したり、看板の出し入れや店内清掃も行う場合がある。薬問屋から送付された薬品が発注したものと相違がないかなど納品チェックも行う。</p>

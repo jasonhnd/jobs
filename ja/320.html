@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/320#webpage",
       "url": "https://mirai-shigoto.com/ja/320",
       "name": "ヘルプデスク（IT） — AI 影響 9/10",
-      "description": "ヘルプデスク、AI回答置換急進",
+      "description": "ヘルプデスク（IT）とは、システムや情報機器などを使用している時に生じる疑問やトラブル等の利用者からの問い合わせに電話、メール、あるいは出向いて対応する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/320#occupation",
       "name": "ヘルプデスク（IT）",
-      "description": "ヘルプデスク、AI回答置換急進",
+      "description": "ヘルプデスク（IT）とは、システムや情報機器などを使用している時に生じる疑問やトラブル等の利用者からの問い合わせに電話、メール、あるいは出向いて対応する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -239,6 +239,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -409,6 +413,7 @@
 
       <section class="context">
         <h2>ヘルプデスク（IT）とは</h2>
+        <p class="definition">ヘルプデスク（IT）とは、システムや情報機器などを使用している時に生じる疑問やトラブル等の利用者からの問い合わせに電話、メール、あるいは出向いて対応する職業です。</p>
         <p>システムや情報機器などを使用している時に生じる疑問やトラブル、クレーム等利用者からの問い合わせに電話、メール、あるいは出向いて対応する。客先に常駐するケースもある。</p>
         <p>ヘルプデスクには、社員からの問い合わせに対応する社内向けヘルプデスクと、社外からの問い合わせに対応するヘルプデスクがあり、後者をユーザーサポートと呼ぶこともある。</p>
         <p>社内ヘルプデスクは、社員からの技術的質問に対して調査したり、障害や事故に対応するのが主な業務である。OA機器のメンテナンスやトラブル対応、アカウントの管理やパソコンのセットアップ、OSのインストールなどの作業も社内ヘルプデスクの仕事になる。</p>

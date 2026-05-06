@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/314#webpage",
       "url": "https://mirai-shigoto.com/ja/314",
       "name": "システムエンジニア（Webサービス開発） — AI 影響 9/10",
-      "description": "WebSE、AI設計+生成",
+      "description": "システムエンジニア（Webサービス開発）とは、Webサービスをチームで設計し、開発する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/314#occupation",
       "name": "システムエンジニア（Webサービス開発）",
-      "description": "WebSE、AI設計+生成",
+      "description": "システムエンジニア（Webサービス開発）とは、Webサービスをチームで設計し、開発する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>システムエンジニア（Webサービス開発）とは</h2>
+        <p class="definition">システムエンジニア（Webサービス開発）とは、Webサービスをチームで設計し、開発する職業です。</p>
         <p>Webサイトでのサービスをチームで設計し開発する。Webサイトは企業や団体のホームページや情報提供サイトから始まり、情報が固定的に表示されるWebコンテンツが多かったが、プログラムと連動してサービスを提供するものが多くなり、そのようなWebサイトが一つの「製品（products）」として提供されている。</p>
         <p>具体的な仕事としては、社会に求められるWebサービスをチームで検討し、求められる機能を考え、どのようなWebサイトにするか決めていく（要件定義）。既に提供されているWebサービスがあり、それをどのように改善していくかといった開発も多い。要件定義をもとに、提供する画面の内容や機能、データベースの設計や外部システムとの連携（API他）などを固めていく（基本設計）。基本設計に従い、具体的な画面構成や提供する機能の詳細、内部処理の方法などを決め、画面と処理の流れを明確にした設計書を作成する（詳細設計）。新規に作成が必要なソフトウェアは詳細設計に基づきプログラマーに依頼するか、設計者がプログラミングを行う場合もある。</p>
         <p>どのようなWebサービスにするか（「要件定義」）はプロダクトマネージャが担当したり、プロダクトマネージャと共同で検討を行う。Webでは画面デザインが重要なため、Webデザイナーが画面デザインを担当することが多い。Webデザイナーとの検討で画面を検討し、試作された画面デザインをチェックし、デザインが決定した後に開発しているWebサイトに取り込む。このように開発はプロデューサー（プロダクトマネージャ）、デザイナー等から構成されるチームで行われる。開発ではエンジニアやデザイナーが複数となり、全体で４～６人で開発することが多い。開発環境が整備された今日、大規模な開発チームでなくても、かなりのWebサービスを開発できる。開発では定期的に開発チームでミーティングを行うが、情報共有、進捗管理等にはコレボレーションツール(Slack他)が用いられる。</p>

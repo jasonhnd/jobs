@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/53#webpage",
       "url": "https://mirai-shigoto.com/ja/53",
       "name": "銀行支店長 — AI 影響 7/10",
-      "description": "銀行支店長、業務効率化進む",
+      "description": "銀行支店長とは、金融機関の支店全体の運営管理と業務活動の立案・推進をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/53#occupation",
       "name": "銀行支店長",
-      "description": "銀行支店長、業務効率化進む",
+      "description": "銀行支店長とは、金融機関の支店全体の運営管理と業務活動の立案・推進をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -234,6 +234,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -404,6 +408,7 @@
 
       <section class="context">
         <h2>銀行支店長とは</h2>
+        <p class="definition">銀行支店長とは、金融機関の支店全体の運営管理と業務活動の立案・推進をする職業です。</p>
         <p>銀行は、個人や会社から集めた預金を別の会社などに貸し出すことで、経済や経営活動を活性化させるという重要な役割を担っており、その第一線で指揮を執るのが銀行の支店長である。</p>
         <p>職場となる銀行の支店では、来店客に窓口で様々な手続きやサービス提供を行うほか、融資や資産運用の相談等に応じる。また、取引先を訪問して融資の相談等に対応することもある。企業への貸し付けでは、取引先の会社の経営内容を調べて、運転資金や設備資金を融資することにより取引先の成長や社会の発展に貢献する。</p>
         <p>支店長の仕事は、貸出案件等支店内の最終決裁、支店内の人事労務管理、取引先や近隣地域の団体等との関係の構築及び維持等である。支店に割り当てられた貸出金額や預金残高などの目標の進捗管理を行う場合もある。支店長は支店全体の運営管理と業務活動の立案・推進の最終責任者といえる。銀行の支店は、景気等の外部環境のみならず、商業地域、工場集積地、住宅街等所在する立地によっても求められる役割や、顧客のニーズも様々といえる。それらを的確に把握し、現場にあった業務計画を立案し実行することで実績をあげることが支店長の重要な仕事である。</p>

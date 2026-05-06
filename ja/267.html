@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/267#webpage",
       "url": "https://mirai-shigoto.com/ja/267",
       "name": "半導体技術者 — AI 影響 7/10",
-      "description": "半導体技術、AI設計拡大",
+      "description": "半導体技術者とは、半導体の製造プロセスの開発を行ったり、半導体デバイスの設計開発を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/267#occupation",
       "name": "半導体技術者",
-      "description": "半導体技術、AI設計拡大",
+      "description": "半導体技術者とは、半導体の製造プロセスの開発を行ったり、半導体デバイスの設計開発を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -223,6 +223,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -393,6 +397,7 @@
 
       <section class="context">
         <h2>半導体技術者とは</h2>
+        <p class="definition">半導体技術者とは、半導体の製造プロセスの開発を行ったり、半導体デバイスの設計開発を行う職業です。</p>
         <p>半導体の製造プロセスの開発を行ったり、半導体デバイスの設計開発を行う。関連の技術者として、製造に使用する装置の開発を行ったり、半導体に使用する材料の開発を行う者もいる。</p>
         <p>半導体技術者には、半導体の製造工程について設計・構築、品質の向上、歩留まりの改善等を行うプロセスエンジニアと、半導体デバイス（マイコン、センサー、メモリー等）の回路設計、レイアウト、検証をする設計エンジニアがいる。半導体にはトランジスターやダイオードなどの単機能デバイス（ディスクリート半導体）と、複数のトランジスターなどで構成されるIC（集積回路）がある。ICはレガシー半導体から先端半導体まであるが、現在、いたる所で使われている。スマートフォンに高密度で組み込まれ、自動車でも多くの半導体が使われている。近年はAI（人工知能）のために膨大なデータ処理を行うデータセンター向けに、最先端プロセスで微細化された高性能LSI（大規模集積回路）が大量に使われている。</p>
         <p>これまでインテルなど企業ごとに半導体（CPU）を設計し、製造をしていたが（垂直統合）、今日、超微細化、高性能化が進んだ先端プロセスで製造されるLSI（AIのためのGPU等）では、半導体の開発設計のみを行うファブレス企業（NVIDIA他）、その設計情報に基づき製造を専門に行うファウンダリー（TSMC他）、また、半導体製造の後工程を専門に行うOSAT（ASEやAmkor）が分業し、製造が行われている（水平分業）。一方、日本国内において、ソニーはイメージセンサーを自社で設計と製造の双方を行っている。また、フラッシュメモリーの設計・開発と製造を行っているキオクシア、自動車のマイコンを開発、製造しているルネサスエレクトロニクスもあり、パワー半導体では三菱電機、富士電機等が開発と製造を行っている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/573#webpage",
       "url": "https://mirai-shigoto.com/ja/573",
       "name": "オーケストラ奏者（団員） — AI 影響 3/10",
-      "description": "オーケストラ奏者、生演奏",
+      "description": "オーケストラ奏者（団員）とは、オーケストラにおいて自分が専門とする楽器を演奏する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/573#occupation",
       "name": "オーケストラ奏者（団員）",
-      "description": "オーケストラ奏者、生演奏",
+      "description": "オーケストラ奏者（団員）とは、オーケストラにおいて自分が専門とする楽器を演奏する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -211,6 +211,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -381,6 +385,7 @@
 
       <section class="context">
         <h2>オーケストラ奏者（団員）とは</h2>
+        <p class="definition">オーケストラ奏者（団員）とは、オーケストラにおいて自分が専門とする楽器を演奏する職業です。</p>
         <p>オーケストラにおいてコンサート等の定期公演、演奏会で自分が専門とする楽器を演奏する。演奏会の他にも、ミュージカルやオペラの公演、映画、ドラマ、アニメーション等に収録される楽曲の演奏を行う。</p>
         <p>なお、団体としてのオーケストラには演奏を専門の職業とする楽員で構成されるプロフェッショナル・オーケストラ（プロオーケストラ）と他の職業に就業する楽員で構成され、楽員を雇用していないアマチュア・オーケストラ（アマオーケストラ）があるが、ここではプロオーケストラで演奏するオーケストラ奏者（以下、楽員と表記する場合もある）について解説する。</p>
         <p>オーケストラのメインの活動として、年間に数回の定期公演、演奏会がある。公演、演奏会のプログラム、楽曲が決まると、楽譜担当の運営担当スタッフ（ライブラリアン）により用意された楽譜が参加する楽員に渡される。楽員は演奏する楽曲について楽譜研究を行い、リハーサルに向けて各自で表現方法を考えたり、技術的に克服するべき課題に取り組むなど、個人練習を行う。また、楽器によっては同じ楽器を担当するメンバーとの演奏を揃えるなど練習する。演奏会の本番が近づくと全員が参加し、オーケストラ全体でのリハーサルを行う。全体リハーサルは楽器編成やプログラムの規模にもよるが、1日に４～５時間、１日～３日程度行われ、指揮者の主導により楽曲の表現や演奏方法に関する様々な調整がある。楽員は指揮者の意向や指示を理解し、他の楽器の奏でる音とのバランスなど全体との調和を意識しながら自らのパートを演奏する。演奏会当日はコンサートホールなどの演奏会場に出向き、プログラムに沿って楽曲を演奏する。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/411#webpage",
       "url": "https://mirai-shigoto.com/ja/411",
       "name": "カウンセラー（医療福祉分野） — AI 影響 5/10",
-      "description": "医療カウンセラー、対面相談",
+      "description": "カウンセラー（医療福祉分野）とは、臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/411#occupation",
       "name": "カウンセラー（医療福祉分野）",
-      "description": "医療カウンセラー、対面相談",
+      "description": "カウンセラー（医療福祉分野）とは、臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>カウンセラー（医療福祉分野）とは</h2>
+        <p class="definition">カウンセラー（医療福祉分野）とは、臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う職業です。</p>
         <p>臨床心理に関する専門知識を活かし、カウンセリング等により、心や対人関係などの悩みを抱えた人への支援を行う。</p>
         <p>心理的なサポートへのニーズは高まる傾向にあり、カウンセラーの活躍分野は医療、福祉、教育、企業、地域コミュニティーなど広がってきている。ここでは、主に病院、クリニック等医療機関や地方自治体の精神保健福祉センター、児童相談所等に勤務するカウンセラーについて記述する＊。</p>
         <p>医療機関では精神科医の指示により、クライアントに対し専門的技法を用いてカウンセリングを行う。カウンセリングでは対話を通してクライアントとの信頼関係を築き、クライアント自身が問題を整理し問題解決に近づくとともに、症状の緩和を促す心理的な支援を行う。心理検査等を行う場合もある。医師、看護師等他の医療スタッフともクライアントについて情報共有を行う。</p>

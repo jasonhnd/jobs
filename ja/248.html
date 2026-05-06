@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/248#webpage",
       "url": "https://mirai-shigoto.com/ja/248",
       "name": "植物工場の設計、施工 — AI 影響 5/10",
-      "description": "植物工場設計、現場+設計",
+      "description": "植物工場の設計、施工とは、自社又は企業、農業法人、農家からの依頼を受けて、植物工場の設計、施工を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/248#occupation",
       "name": "植物工場の設計、施工",
-      "description": "植物工場設計、現場+設計",
+      "description": "植物工場の設計、施工とは、自社又は企業、農業法人、農家からの依頼を受けて、植物工場の設計、施工を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -211,6 +211,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -381,6 +385,7 @@
 
       <section class="context">
         <h2>植物工場の設計、施工とは</h2>
+        <p class="definition">植物工場の設計、施工とは、自社又は企業、農業法人、農家からの依頼を受けて、植物工場の設計、施工を行う職業です。</p>
         <p>植物工場の設計、施工を行う。</p>
         <p>植物工場では野菜や苗を中心とした作物を施設内で、光、温度、湿度、二酸化炭素濃度、培養液などの環境条件を人工的に制御し、季節や天候、地域、場所等にとらわれずに自動的に連続生産する。植物工場には人工光型、太陽光型、太陽光・人工光併用型があり、生産システムの採算性、効率性が重視される。</p>
         <p>そのため植物工場の設計では、栽培する植物に応じて工場の建設予定地内で最適な場所を検討する。また、設置が必要な設備の種類や配置、工場内で効率的な生産ができる動線などに配慮した設計を行う。具体的な設備としては、環境を制御するためのコントローラー、照明ランプ、空調機器やセンサーなどがあり、それらの機器を組み合わせて効率的・安定的な野菜の生産・出荷ができるように設計する。施工では、工場建設に際して必要な資材や協力会社等の手配、施工管理等を行う。</p>

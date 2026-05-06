@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/440#webpage",
       "url": "https://mirai-shigoto.com/ja/440",
       "name": "損害保険事務 — AI 影響 9/10",
-      "description": "損保事務、AI処理急進",
+      "description": "損害保険事務とは、自動車事故による物的損害や死傷災害、火災や台風等による建物や家財への損害が生じた保険の契約者に対し、保険金請求の受付から支払いまでの一連の業務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/440#occupation",
       "name": "損害保険事務",
-      "description": "損保事務、AI処理急進",
+      "description": "損害保険事務とは、自動車事故による物的損害や死傷災害、火災や台風等による建物や家財への損害が生じた保険の契約者に対し、保険金請求の受付から支払いまでの一連の業務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>損害保険事務とは</h2>
+        <p class="definition">損害保険事務とは、自動車事故による物的損害や死傷災害、火災や台風等による建物や家財への損害が生じた保険の契約者に対し、保険金請求の受付から支払いまでの一連の業務を行う職業です。</p>
         <p>自動車事故によって物的損害や死傷災害が生じたり、火災や台風、地震等によって建物や家財に損害が生じた保険の契約者に対し、保険金請求の受付から支払いまでの一連の業務を行う。</p>
         <p>自動車保険の対応では、正確かつ丁寧な事故状況の確認に加え、保険契約者への事故対応に関する助言、事故の相手先との過失割合や賠償額の協議等も行う。火災保険の対応では、被害物件を確認し、事故の発生原因の調査や損害額の算定を行う。</p>
         <p>具体的な仕事を流れでみると、まず、保険の契約者からの連絡を受け、事故や被害の日時、状況等を確認し受付を行う。その際、必要に応じて、契約者に緊急対応などの助言も行う。事故の状況や損害の程度は、最終的な支払保険金額をはじめ、今後の調査対応方針を決定する上で重要な事柄であり、できる限り正確かつ詳細に確認することが必要である。受付後に、保険の種類・支払内容に応じて必要な調査を行う。その際、被害物件が自動車の場合は損保アジャスター、建物・家財の場合は鑑定人といった専門分野に詳しい者に損害の調査を依頼することもある。また傷害保険では医療機関に入通院の確認を行ったり、賠償責任保険では、契約者の負担する損害賠償額を確定させるため、確認した事故状況に基づく相手先との過失割合の協議等も行う。</p>

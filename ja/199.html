@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/199#webpage",
       "url": "https://mirai-shigoto.com/ja/199",
       "name": "道路パトロール隊員 — AI 影響 3/10",
-      "description": "道路パトロール、現場対応",
+      "description": "道路パトロール隊員とは、自動車が高速道路等を安全かつ円滑に走行できるように道路をパトロールすることで、交通事故や路上障害物、路面の異常などを発見し、適切に対応する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/199#occupation",
       "name": "道路パトロール隊員",
-      "description": "道路パトロール、現場対応",
+      "description": "道路パトロール隊員とは、自動車が高速道路等を安全かつ円滑に走行できるように道路をパトロールすることで、交通事故や路上障害物、路面の異常などを発見し、適切に対応する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>道路パトロール隊員とは</h2>
+        <p class="definition">道路パトロール隊員とは、自動車が高速道路等を安全かつ円滑に走行できるように道路をパトロールすることで、交通事故や路上障害物、路面の異常などを発見し、適切に対応する職業です。</p>
         <p>自動車が高速道路等を安全かつ円滑に走行できるように、道路をパトロールすることで交通事故や路上障害物、路面の異常などを発見し、適切に対応する。また交通事故や風水害、地震などが発生した場合には、警察・消防と協力し早期回復を図るとともに、後続の車による2次的な事故を防止する。</p>
         <p>特に高速道路と一般有料道路の道路パトロール隊員は交通管理隊員と呼ばれ、2人1組で巡回車（パトロールカー）に乗り、1人が運転、もう1人が路上監視・無線連絡・記録等の業務を行いながら道路の巡回を行う（定期巡回）。その際、交通事故や路上障害物（落下物等）などを発見した場合には、落下物を取り除いたり、警察等と協力して交通規制や交通整理を行い、その対処にあたる。</p>
         <p>また、定期巡回以外の時間は、巡回車の点検・整備のほか、巡回の報告書等の作成、交通・気象状況の情報収集などを行う。緊急の場合には、いつでも出動（緊急出動）できる体制をとっている。</p>

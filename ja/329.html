@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/329#webpage",
       "url": "https://mirai-shigoto.com/ja/329",
       "name": "CG制作 — AI 影響 9/10",
-      "description": "CG制作、AI生成拡大",
+      "description": "CG制作とは、コンピュータのグラフィックス機能を用いて、CGによる静止画や動画を作成する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/329#occupation",
       "name": "CG制作",
-      "description": "CG制作、AI生成拡大",
+      "description": "CG制作とは、コンピュータのグラフィックス機能を用いて、CGによる静止画や動画を作成する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>CG制作とは</h2>
+        <p class="definition">CG制作とは、コンピュータのグラフィックス機能を用いて、CGによる静止画や動画を作成する職業です。</p>
         <p>コンピュータで図形、絵、映像、アニメーションなどのコンピュータグラフィック（CG）を制作する。CGクリエイターと呼ばれることもある。</p>
         <p>近年CGは長足の進歩を遂げ、テレビ番組や映画、アニメ、ゲーム、広告、ステージ等の背景から機械や建築の設計、医療に至るまで様々な分野で活用されている。</p>
         <p>CGには「2次元」（2D）と「3次元」（3D）があり、2次元は平面で奥行き情報がなく、3次元には奥行き情報があり、現実の空間のようなリアルな映像表現ができる。3D CGは外科手術の医療シミュレーター、航空機や電車の操縦などの訓練用シミュレーター、機械や建築のデザインなど、多方面に使われている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/583#webpage",
       "url": "https://mirai-shigoto.com/ja/583",
       "name": "産業医 — mirai-shigoto.com",
-      "description": "医師として、企業等において医学の知見を活かし、労働者が健康で快適に就労できるよう指導等を行う。",
+      "description": "産業医とは、医師として、企業等において医学の知見を活かし、労働者が健康で快適に就労できるよう指導等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/583#occupation",
       "name": "産業医",
-      "description": "医師として、企業等において医学の知見を活かし、労働者が健康で快適に就労できるよう指導等を行う。",
+      "description": "産業医とは、医師として、企業等において医学の知見を活かし、労働者が健康で快適に就労できるよう指導等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -177,6 +177,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -347,6 +351,7 @@
 
       <section class="context">
         <h2>産業医とは</h2>
+        <p class="definition">産業医とは、医師として、企業等において医学の知見を活かし、労働者が健康で快適に就労できるよう指導等を行う職業です。</p>
         <p>産業医学に関して一定の資格を有する医師として、医学等の知見を活かしながら、労働者が健康で快適に就労できるように、事業者に対する助言、指導、勧告及び労働者に対する保健指導等を行う。事業者には、事業場における従業員規模や業務内容に応じて、産業医を非専属（嘱託）、または専属(*)で選任する法的義務がある。</p>
         <p>産業医の具体的な業務としては、健康診断の結果や治療情報から労働者を健康で安全に就業にさせるための意見書の作成、長時間労働に従事する労働者や高いストレスを感じる労働者の面接指導、作業環境や作業方法を適切に維持するための職場巡視、衛生委員会への出席などがある。</p>
         <p>面接指導は、長時間労働者や、ストレスチェックにおける高ストレス者のうち申出があった者や必要性が高い者に対して行う。また、労働安全衛生法に基づき実施した健康診断の結果や主治医からの意見書等を確認し、当該労働者の心と体の健康を保持するため必要な措置について、事業者から意見を聴かれた際には、その就業判定区分等に関する意見を述べ、必要に応じて主治医と連携することもある。その際、情報が足りなければ必要に応じて労働者との面接等を行うこととなる。また、職場復帰を希望する者その他配慮が必要な者などに対して面談を行う。</p>

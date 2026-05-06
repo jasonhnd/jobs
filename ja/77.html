@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/77#webpage",
       "url": "https://mirai-shigoto.com/ja/77",
       "name": "駅構内売店店員 — AI 影響 5/10",
-      "description": "駅売店、接客+商品管理",
+      "description": "駅構内売店店員とは、駅の構内やホームの売店で、新聞、雑誌、タバコ、飲食物などを販売する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/77#occupation",
       "name": "駅構内売店店員",
-      "description": "駅売店、接客+商品管理",
+      "description": "駅構内売店店員とは、駅の構内やホームの売店で、新聞、雑誌、タバコ、飲食物などを販売する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>駅構内売店店員とは</h2>
+        <p class="definition">駅構内売店店員とは、駅の構内やホームの売店で、新聞、雑誌、タバコ、飲食物などを販売する職業です。</p>
         <p>駅の構内やホームの売店で、新聞、雑誌、タバコ、飲食物などを販売する。</p>
         <p>朝の所定の時間に店を開き、当日発売の新聞や雑誌などを陳列し、つり銭を用意する。駅という場所柄、通勤・通学や旅行客が多数を占める。電車の待ち時間など短い時間を利用して販売を行うため、お金や商品の受け渡しはすばやく行う。商品が売れたところに隙間ができないよう常に商品の補充を行い、陳列を整える。商品の在庫を把握し、品切れの商品がないように発注する。納品された商品の種類、数量などを確認し、所定の棚に整理する。</p>
         <p>閉店時には売れ残りの新聞や古くなった雑誌を引き上げ返品の手続を行うほか、一日の売上を計算・記帳し所定の場所に入金する。</p>

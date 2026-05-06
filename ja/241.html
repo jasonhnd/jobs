@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/241#webpage",
       "url": "https://mirai-shigoto.com/ja/241",
       "name": "施設警備員 — AI 影響 3/10",
-      "description": "施設警備、現場警備",
+      "description": "施設警備員とは、警備会社に雇用され、顧客の事務所や工場、商業施設などに常駐等又は巡回により、事故や火災、不法侵入などの防止、早期発見、事故の対応を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/241#occupation",
       "name": "施設警備員",
-      "description": "施設警備、現場警備",
+      "description": "施設警備員とは、警備会社に雇用され、顧客の事務所や工場、商業施設などに常駐等又は巡回により、事故や火災、不法侵入などの防止、早期発見、事故の対応を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -237,6 +237,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -407,6 +411,7 @@
 
       <section class="context">
         <h2>施設警備員とは</h2>
+        <p class="definition">施設警備員とは、警備会社に雇用され、顧客の事務所や工場、商業施設などに常駐等又は巡回により、事故や火災、不法侵入などの防止、早期発見、事故の対応を行う職業です。</p>
         <p>警備会社に雇用され、顧客の事務所や工場、商業施設などに常駐等又は巡回により、事故や火災、不法侵入などの、防止、早期発見、事故の対応を行う。
 警備業法では、警備業務を1号業務（施設警備、巡回警備、保安警備、空港保安警備、機械警備）、2号業務（交通誘導警備、雑踏警備）、3号業務（貴重品運搬警備、危険物運搬警備）、4号業務（身辺警備）に分けている（*1）。</p>
         <p>施設警備は1号業務に属し、主な業務としては防災監視、防火設備の日常巡視、防犯監視、巡回、受付・入退出管理、郵便小包受領検査、鍵の管理、非常事態への対応などがある。</p>

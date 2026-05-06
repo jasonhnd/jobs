@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/492#webpage",
       "url": "https://mirai-shigoto.com/ja/492",
       "name": "調理補助 — AI 影響 3/10",
-      "description": "調理補助、手作業",
+      "description": "調理補助とは、調理場で調理師の指示に従って、食材の洗浄と切込み、食器の準備や洗浄、調理器具の用意・片付けなどを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/492#occupation",
       "name": "調理補助",
-      "description": "調理補助、手作業",
+      "description": "調理補助とは、調理場で調理師の指示に従って、食材の洗浄と切込み、食器の準備や洗浄、調理器具の用意・片付けなどを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>調理補助とは</h2>
+        <p class="definition">調理補助とは、調理場で調理師の指示に従って、食材の洗浄と切込み、食器の準備や洗浄、調理器具の用意・片付けなどを行う職業です。</p>
         <p>調理場で調理師の指示に従って、食材の洗浄と切込み、食器の準備や洗浄、調理器具の用意・片付けなどを行う。出来上がった料理を注文客に提供するほか、調理場の清掃や、配膳・下膳も行う場合がある。</p>
         <p>料理は客の口に入るものであり、衛生面や異物の混入などに細心の注意を払う必要がある。少しの手違いやミスが食中毒など大事故につながることもある。特に、介護施設や学校など集団施設の場合は、衛生的な生活環境を確保し、ノロウイルスが流行する時期には十分加熱した食品を用意し、集団感染の防止に努めなくてはならない。</p>
         <p>職場の規模にもよるが、調理補助が複数いるケースでは、チームでの円滑な共同作業により業務を効率的に行い、高い生産性を確保するように留意する必要がある。</p>

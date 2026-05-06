@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/80#webpage",
       "url": "https://mirai-shigoto.com/ja/80",
       "name": "中小企業診断士 — AI 影響 7/10",
-      "description": "中小企業診断士、分析+対面助言",
+      "description": "中小企業診断士とは、中小企業の経営者等からの依頼に応じて、企業の経営内容を診断し、改善方法を提案して支援する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/80#occupation",
       "name": "中小企業診断士",
-      "description": "中小企業診断士、分析+対面助言",
+      "description": "中小企業診断士とは、中小企業の経営者等からの依頼に応じて、企業の経営内容を診断し、改善方法を提案して支援する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>中小企業診断士とは</h2>
+        <p class="definition">中小企業診断士とは、中小企業の経営者等からの依頼に応じて、企業の経営内容を診断し、改善方法を提案して支援する職業です。</p>
         <p>中小企業の経営者等からの依頼に応じて、企業の経営内容を診断し、改善方法を提案して支援する。</p>
         <p>まず、依頼された企業の希望に沿って診断方針を作る。次に、経営状態を判断するために、貸借対照表、損益計算書などの財務諸表やその他の経営に関する資料を提出してもらい、経営内容や問題点などについてヒアリングを行う。こうした資料や説明から経営上の問題点を判断する。実際の問題点は、経営者も自覚していない場合があるので、鋭い洞察力と的確な判断力が求められる。</p>
         <p>問題点を明確にした上で、実態を更に詳しく調査する。社内の情報や資料を分析するとともに、必要に応じて社外の情報や資料を収集し、それらを総合的に判断して生産管理や経営に関する課題、収益性改善やコスト削減など生産性向上の改善案を診断報告書にまとめ、改善に当たっての具体的な方法を提案する。提案を踏まえた、経営計画策定の支援、実行後の実績等を踏まえたフォローアップ支援等を行う場合もある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/245#webpage",
       "url": "https://mirai-shigoto.com/ja/245",
       "name": "老人福祉施設生活相談員 — AI 影響 5/10",
-      "description": "老人施設相談員、対面+書類",
+      "description": "老人福祉施設生活相談員とは、老人福祉施設に入所あるいは通所している利用者が、快適に、可能な範囲で自立的に日常生活を送ることができるように、相談、援助や連絡調整などを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/245#occupation",
       "name": "老人福祉施設生活相談員",
-      "description": "老人施設相談員、対面+書類",
+      "description": "老人福祉施設生活相談員とは、老人福祉施設に入所あるいは通所している利用者が、快適に、可能な範囲で自立的に日常生活を送ることができるように、相談、援助や連絡調整などを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>老人福祉施設生活相談員とは</h2>
+        <p class="definition">老人福祉施設生活相談員とは、老人福祉施設に入所あるいは通所している利用者が、快適に、可能な範囲で自立的に日常生活を送ることができるように、相談、援助や連絡調整などを行う職業です。</p>
         <p>老人福祉施設に入所あるいは通所している利用者が、快適に、可能な範囲で自立的に日常生活を送ることができるように、相談、援助や連絡調整などを行う。一般的に施設名称を省いて「生活相談員」と呼ばれている。</p>
         <p>具体的な仕事としては、新しい入所等希望者に対し施設やサービス等の説明をしたり、相談に応じ、利用が決まれば入所等の契約手続を行う。入所後は、本人や家族の状況を把握し利用者の状況に合ったサービス等について本人や家族と相談を行う。その際、利用者の主治医、介護支援専門員（ケアマネジャー）とも適宜、連絡調整を行う。入所時だけではなく、必要に応じて、本人や家族と面談し、状況の報告、問題があれば解決に向けた対応策の検討を行う。地域の行政機関や保健・医療機関などと連携して支援策を検討することもある。</p>
         <p>職場によっては、介護職員が行う介護業務を兼務する場合もある。一方で、施設長や、ケアマネジャーが生活相談員を兼務している場合もある。</p>

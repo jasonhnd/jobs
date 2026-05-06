@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/398#webpage",
       "url": "https://mirai-shigoto.com/ja/398",
       "name": "英会話教師 — AI 影響 7/10",
-      "description": "英会話教師、AI会話拡大",
+      "description": "英会話教師とは、英会話を中心に、海外でも国内でも実際に役に立つ英語を教える職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/398#occupation",
       "name": "英会話教師",
-      "description": "英会話教師、AI会話拡大",
+      "description": "英会話教師とは、英会話を中心に、海外でも国内でも実際に役に立つ英語を教える職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>英会話教師とは</h2>
+        <p class="definition">英会話教師とは、英会話を中心に、海外でも国内でも実際に役に立つ英語を教える職業です。</p>
         <p>英会話を中心に、海外でも国内でも実際に役に立つ英語を教える。</p>
         <p>旅行、ビジネス、留学など、海外へ行く人の数は年々増え続けている。国内で働く場合もインターネット、ビジネスレターなどのやりとりで英語を使う場面が多くなっている。訪日観光客も増え、日常的に英語に触れる機会は多い。また、大学入試では、英文法を重視した試験だけではなく、英会話の能力を問う試験を実施する大学もある。小学校においても英語教育が導入されるなど、英語学習に取り組む年齢層が幼児・子どもにも広がっている。</p>
         <p>英会話教室は、生徒の英語のレベルや学びたい目的ごとに分けられており、生徒の年齢層は幅広く、社会人から幼児にまで及ぶ。レッスン形態は、3～4人から20人くらいのグループレッスンと個人レッスンがある。主に日常英会話を教えることが多いが、ビジネス英語、資格取得を目的としたクラスや文法を中心に学ぶクラスなどもある。</p>

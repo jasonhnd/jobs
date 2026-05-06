@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/219#webpage",
       "url": "https://mirai-shigoto.com/ja/219",
       "name": "アウトドアインストラクター — AI 影響 3/10",
-      "description": "アウトドア指導、現場対面",
+      "description": "アウトドアインストラクターとは、キャンプや、自然保護や環境教育を目的とした野外活動等を通じて、自然との関わり方について利用者に指導・助言を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/219#occupation",
       "name": "アウトドアインストラクター",
-      "description": "アウトドア指導、現場対面",
+      "description": "アウトドアインストラクターとは、キャンプや、自然保護や環境教育を目的とした野外活動等を通じて、自然との関わり方について利用者に指導・助言を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>アウトドアインストラクターとは</h2>
+        <p class="definition">アウトドアインストラクターとは、キャンプや、自然保護や環境教育を目的とした野外活動等を通じて、自然との関わり方について利用者に指導・助言を行う職業です。</p>
         <p>キャンプ等の余暇目的の野外活動のほか、自然保護や環境教育を目的とした野外活動等を通じて、自然との関わり方について利用者に指導・助言を行う。</p>
         <p>自然にかかわる活動の指導者（インストラクター）を総称したもので、個々の活動内容及び資格名称は分野によって異なる。</p>
         <p>キャンプやサイクリングなどの野外活動のインストラクターの場合、地域の青少年研修施設等を活用して、教育的な目的で開催される講座や研修会での講師として必要な知識や技術を指導するほか、一般市民向けの行事や教室等を通じて、それぞれの活動を生涯にわたる楽しみとなる自然体験活動として幅広い年齢層の利用者や参加者に伝達する。</p>

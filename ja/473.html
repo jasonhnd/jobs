@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/473#webpage",
       "url": "https://mirai-shigoto.com/ja/473",
       "name": "マンション管理員 — AI 影響 3/10",
-      "description": "マンション管理員、現場対応",
+      "description": "マンション管理員とは、マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、居住者応対やその他日常管理業務を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/473#occupation",
       "name": "マンション管理員",
-      "description": "マンション管理員、現場対応",
+      "description": "マンション管理員とは、マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、居住者応対やその他日常管理業務を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -228,6 +228,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -398,6 +402,7 @@
 
       <section class="context">
         <h2>マンション管理員とは</h2>
+        <p class="definition">マンション管理員とは、マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、居住者応対やその他日常管理業務を行う職業です。</p>
         <p>マンション管理会社の社員として、管理会社が分譲マンションの管理組合と結んだ管理委託契約書に基づいて、居住者応対やその他日常管理業務を行う。マンション居住者からは「管理人さん」と呼ばれることが多い。</p>
         <p>マンション管理員の仕事は、管理委託契約書の雛形となる、国土交通省作成の「マンション標準管理委託契約書」（2018年3月改訂版）に典型例が示されており、これに基づくと、①受付等業務（訪問者や居住者の応接・電話の応対、管理組合が定める各種届出の受理、宅配物の預かり・引渡し、管理用備品・鍵の管理など）、②点検業務（建物・諸設備の外観目視点検・記録、照明・管球類等の点検・交換、不審者や不審物・無断駐車等の確認など）、③立会業務（保守・営繕等外注業務の着手・実施の立会い、ゴミ搬出や清掃業務の立会い、災害・事故等処理の立会いなど）、④報告連絡業務（管理組合の文書の配付・掲示、各種届出・点検結果・立会結果等の報告、災害・事故等発生時の連絡・報告、居住者間のトラブルやクレーム発生時の報告など）に整理できる。清掃業務そのものは含まれていないが、マンションの規模により、清掃を兼務しているところも少なくない。</p>
         <p>契約に定められた業務をこなすだけではなく、マンション管理にかかわる業務全般にわたって対応を求められることが多い。マンションの現場で居住者のみならず近隣地域の住民と日常的に接することを踏まえると、マンション管理の仕事は、居住者からは管理会社の、地域の住民からはそのマンションの「顔」として見られる立場にある。それだけに、想定外の事態に対しても、コミュニケーション能力、とっさの判断、機転、公平な対応、守秘義務（居住者の日常生活と接することから個人情報の適正な取扱いは特に重要）などが問われる仕事と言える。ただし、マンション管理員の仕事の範囲は限られており、自分だけの判断で動くことなく、管理会社の担当者（マンション管理フロント）をはじめとするスタッフとの緊密な連絡のもとに行動することが求められる。</p>

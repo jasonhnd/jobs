@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/200#webpage",
       "url": "https://mirai-shigoto.com/ja/200",
       "name": "タクシー配車オペレーター — AI 影響 8/10",
-      "description": "配車、AI最適配車置換",
+      "description": "タクシー配車オペレーターとは、タクシー会社で利用客からの電話を受け、無線設備や車両検索用端末、電話機など通信関係機器を操作して送迎の手配をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/200#occupation",
       "name": "タクシー配車オペレーター",
-      "description": "配車、AI最適配車置換",
+      "description": "タクシー配車オペレーターとは、タクシー会社で利用客からの電話を受け、無線設備や車両検索用端末、電話機など通信関係機器を操作して送迎の手配をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>タクシー配車オペレーターとは</h2>
+        <p class="definition">タクシー配車オペレーターとは、タクシー会社で利用客からの電話を受け、無線設備や車両検索用端末、電話機など通信関係機器を操作して送迎の手配をする職業です。</p>
         <p>タクシー会社で利用客からの電話を受け、無線設備や車両検索用端末、電話機など通信関係機器を操作して送迎の手配をする。</p>
         <p>配車に関しては、利用客への適切で丁寧な対応を行うとともに、車両の効率的な運行管理をする必要があるため、車両の位置を的確に把握し、迅速に配車を指示しなければならない。</p>
         <p>利用客からの電話を受け、必要な台数、行き先と時間などの希望を聞き、氏名、電話番号、配車場所などを確認する。依頼を受けた場所周辺にいる空車を端末で検索し、空車が見つかると、車両番号を確認し、無線で配車の指示を出して、お客の氏名、電話番号、場所を伝える。待たせていたお客に、手配したタクシーの車両番号と到着時間を回答して電話を切る。お客を電話口で待たせないために、これらの一連の作業を短時間で行うよう心がける。</p>

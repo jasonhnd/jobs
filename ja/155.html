@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/155#webpage",
       "url": "https://mirai-shigoto.com/ja/155",
       "name": "消防官 — AI 影響 3/10",
-      "description": "消防官、現場救助中心",
+      "description": "消防官とは、火災や交通事故、地震、水害などのさまざまな災害現場に急行し、火災の消火や人命救助にあたる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/155#occupation",
       "name": "消防官",
-      "description": "消防官、現場救助中心",
+      "description": "消防官とは、火災や交通事故、地震、水害などのさまざまな災害現場に急行し、火災の消火や人命救助にあたる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>消防官とは</h2>
+        <p class="definition">消防官とは、火災や交通事故、地震、水害などのさまざまな災害現場に急行し、火災の消火や人命救助にあたる職業です。</p>
         <p>火災や交通事故更に地震、水害などのさまざまな災害現場に急行し、火災の消火や人命救助にあたる。</p>
         <p>24時間交替制で消防署に待機し、119番通報による災害発生の連絡を受けて、消防車で現場に出場する。</p>
         <p>火災の場合には、ポンプ車を消火栓や防火水槽などの消防水利付近に停め、消防車の中から吸管を伸ばし、吸水を行う。空気呼吸器を背負って建物内に入り、室内を注水しながら、逃げ遅れた人がいないかどうか確認を行う。高所に逃げ遅れた人がいる場合には、はしご車の梯体を伸ばして救出を行う。石油や化学薬品などの危険物火災の場合には、化学車などから泡消火薬剤を使用して消火する。鎮火の後には、焼け残ったものから再び火が出ることがないように、水をかけて完全に消火する。火災現場を検証し、原因の調査なども行う。</p>

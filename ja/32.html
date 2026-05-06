@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/32#webpage",
       "url": "https://mirai-shigoto.com/ja/32",
       "name": "建設・土木作業員 — AI 影響 2/10",
-      "description": "屋外現場の肉体労働",
+      "description": "建設・土木作業員とは、建設現場や土木作業現場において、建設機械では対応できない細部の作業や機械化が困難な諸作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/32#occupation",
       "name": "建設・土木作業員",
-      "description": "屋外現場の肉体労働",
+      "description": "建設・土木作業員とは、建設現場や土木作業現場において、建設機械では対応できない細部の作業や機械化が困難な諸作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>建設・土木作業員とは</h2>
+        <p class="definition">建設・土木作業員とは、建設現場や土木作業現場において、建設機械では対応できない細部の作業や機械化が困難な諸作業を行う職業です。</p>
         <p>道路の建設、河川の治水、土地造成などの土木工事の中には、大型建設機械では対応できない細部の作業や多種少量で機械化が困難な諸作業など、人力で行うことが不可欠な作業があり、このような作業を行うのが建設・土木作業員である。</p>
         <p>主として小型の重機械やベルトコンベア、軽量の削岩機などを使って行う掘削や盛土、コンクリートポンプやシュートを使うコンクリートの打ち込みと締め固め、また、一輪車を使ってブロックや石を運び、それを積む作業、芝張りなどの作業の他、重機械作業や鉄筋型枠組み立て、くい打ち作業等に伴う補助作業を行う。</p>
         <p>作業方法や作業手順、機械工具や資材の取扱い、安全衛生などについての具体的な指導は、直接指示命令をする作業長（世話役）が行い、雇用責任者や土木技術者は、専門的な工事施工上の知識や関係法令について指示・命令を行う。</p>

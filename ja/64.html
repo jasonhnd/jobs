@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/64#webpage",
       "url": "https://mirai-shigoto.com/ja/64",
       "name": "コールセンターオペレーター — AI 影響 9/10",
-      "description": "コールセンターはAI/IVRに置換",
+      "description": "コールセンターオペレーターとは、「お客様の声」がダイレクトに寄せられるコールセンターで、主に電話を通じてお客と応対する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/64#occupation",
       "name": "コールセンターオペレーター",
-      "description": "コールセンターはAI/IVRに置換",
+      "description": "コールセンターオペレーターとは、「お客様の声」がダイレクトに寄せられるコールセンターで、主に電話を通じてお客と応対する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>コールセンターオペレーターとは</h2>
+        <p class="definition">コールセンターオペレーターとは、「お客様の声」がダイレクトに寄せられるコールセンターで、主に電話を通じてお客と応対する職業です。</p>
         <p>「お客様の声」がダイレクトに寄せられるコールセンターで、主に電話を通じて顧客と応対する。</p>
         <p>仕事は業種により様々ではあるが、顧客から電話がかかってくるインバウンド業務と顧客に電話をかけるアウトバウンド業務の２つに分けられる。インバウンド業務には、商品の受注、宿泊・座席などの予約、資料請求の受付、商品・サービスに関する問い合わせ対応、お客様相談窓口などの業務がある。一方、アウトバウンド業務には、入会や販売などの勧誘、リピート顧客の獲得、アンケート調査、代金の回収・督促、広告効果の確認などがある。</p>
         <p>顧客と直接コミュニケーションをとるコールセンターオペレーターは、顧客にとって会社そのものであり、コールセンターオペレーターの対応によって企業イメージや顧客満足度などを左右する場合があるため、顧客と関係を築く役割を担っていることを常に認識しなければならない。</p>

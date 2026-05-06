@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/479#webpage",
       "url": "https://mirai-shigoto.com/ja/479",
       "name": "ダンプカー運転手 — AI 影響 3/10",
-      "description": "ダンプ運転、現場運搬",
+      "description": "ダンプカー運転手とは、ダンプカーを運転して、砂利や土砂を建設現場に搬入したり、各種資材を生産工場へ運ぶ職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/479#occupation",
       "name": "ダンプカー運転手",
-      "description": "ダンプ運転、現場運搬",
+      "description": "ダンプカー運転手とは、ダンプカーを運転して、砂利や土砂を建設現場に搬入したり、各種資材を生産工場へ運ぶ職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -232,6 +232,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -402,6 +406,7 @@
 
       <section class="context">
         <h2>ダンプカー運転手とは</h2>
+        <p class="definition">ダンプカー運転手とは、ダンプカーを運転して、砂利や土砂を建設現場に搬入したり、各種資材を生産工場へ運ぶ職業です。</p>
         <p>ダンプカーを運転して、砂利や土砂を建設現場に搬入したり、各種資材を生産工場へ運ぶ。</p>
         <p>ダンプカーは、「土砂ダンプ」と言われるように、荷台に土砂や砂利を積載しやすい構造になっているのが特徴で、ショベルカーなどを使って積載し、目的地に着いたら荷台を傾けて積載物をダンプ（ドサッと捨てる）することにより荷卸しする。</p>
         <p>形態面では、一般公道を走ることができる普通ダンプトラックと一般公道を走ることができない重ダンプトラックの2種類がある。普通ダンプトラックは骨材やコンクリートなど建設資材を工事現場などに運搬することが多く、重ダンプトラックは積載量が11トン以上で、ダム建設や鉱山、大規模な土木工事現場で土砂などを運搬するのに使用される。鉱山で使用される重ダンプトラックについては、高地で道路も整備されていないなど環境条件が厳しいため、早くから最新技術を用いた自動運転システムも開発されている。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/405#webpage",
       "url": "https://mirai-shigoto.com/ja/405",
       "name": "精神科医 — AI 影響 4/10",
-      "description": "精神科医、対面相談中心",
+      "description": "精神科医とは、統合失調症、うつ病、ストレス障害、不眠症、アルコールや薬物の依存症などの治療を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/405#occupation",
       "name": "精神科医",
-      "description": "精神科医、対面相談中心",
+      "description": "精神科医とは、統合失調症、うつ病、ストレス障害、不眠症、アルコールや薬物の依存症などの治療を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>精神科医とは</h2>
+        <p class="definition">精神科医とは、統合失調症、うつ病、ストレス障害、不眠症、アルコールや薬物の依存症などの治療を行う職業です。</p>
         <p>統合失調症、うつ病、ストレス障害、不眠症、拒食症、自閉症、認知症、アルコールや薬物の依存症などの治療を行う。</p>
         <p>診療所やクリニックの精神科医の場合は、まず紹介状や問診票などで患者の状況を把握し、次に患者と話し合って悩みを聞き、相談にのる。食欲や睡眠の状態などの聞き取りや会話などから患者の調子や情報をくみ取る。心理検査などを用いて、患者の状態を明らかにする。認知行動療法、行動療法、認知療法など、患者に合わせた心理療法を組み合わせて治療を行う。薬を用いた薬物療法も行う。会社や学校を休む必要がある場合には、診断書を書くこともある。</p>
         <p>病院の精神科医の場合には、入院の必要な重度の患者の治療にあたることが多い。薬物を用いた治療を主として、さまざまな心理療法を用いた治療を行う。緊急の場合には、患者の意思に関わらず入院治療することもある。総合病院では、内科や外科など他診療科の医師から、患者の精神面の問題について相談を受け（コンサルテーション）、診察を行う場合もある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/26#webpage",
       "url": "https://mirai-shigoto.com/ja/26",
       "name": "大工 — AI 影響 2/10",
-      "description": "大工は手仕事・現場判断",
+      "description": "大工とは、一般住宅、とりわけ木造住宅の新築や増改築の計画、構造施工の中核的な作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/26#occupation",
       "name": "大工",
-      "description": "大工は手仕事・現場判断",
+      "description": "大工とは、一般住宅、とりわけ木造住宅の新築や増改築の計画、構造施工の中核的な作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -236,6 +236,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -406,6 +410,7 @@
 
       <section class="context">
         <h2>大工とは</h2>
+        <p class="definition">大工とは、一般住宅、とりわけ木造住宅の新築や増改築の計画、構造施工の中核的な作業を行う職業です。</p>
         <p>一般住宅、とりわけ木造住宅の新築や増改築の計画、構造施工の中核的な作業を行う。</p>
         <p>大都市圏を中心に建物の高層化・不燃化が進み、鉄骨造・鉄筋コンクリート造など木造でない建築も増えているが、その内部には木質系の素材を使用する場合が多い。そうした内部設備の加工、組立て、取付けを行うことも多い。</p>
         <p>仕事は、木工事を中心に、構造組み、造作加工などの作業の他に、建築計画を立て、建築主と相談しながら費用を見積り、工期を設定し、必要な資材や技能者を手配するなど工事請負人としての仕事や、建築現場で他職種の技能者を組織して、計画どおり工事が進むようにする工事管理の仕事など、広範囲にわたる。</p>

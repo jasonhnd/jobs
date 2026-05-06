@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/191#webpage",
       "url": "https://mirai-shigoto.com/ja/191",
       "name": "船舶機関士 — AI 影響 4/10",
-      "description": "船舶機関士、機関監視",
+      "description": "船舶機関士とは、船舶の機関部で機関員を指揮しながら、エンジン（主機関）、発電機、ボイラー、その他の各種機器の管理を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/191#occupation",
       "name": "船舶機関士",
-      "description": "船舶機関士、機関監視",
+      "description": "船舶機関士とは、船舶の機関部で機関員を指揮しながら、エンジン（主機関）、発電機、ボイラー、その他の各種機器の管理を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -220,6 +220,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -390,6 +394,7 @@
 
       <section class="context">
         <h2>船舶機関士とは</h2>
+        <p class="definition">船舶機関士とは、船舶の機関部で機関員を指揮しながら、エンジン（主機関）、発電機、ボイラー、その他の各種機器の管理を行う職業です。</p>
         <p>船舶の機関部で機関員を指揮しながら、エンジン（主機関）、発電機、ボイラー、その他の各種機器の管理を行う。</p>
         <p>航海中は、機関制御室で各種計測装置から状況や記録を監視し、航海に支障がないよう努める。定期的に機関室を見回って、主機関や発電機などの回転音、冷却水や潤滑油の温度・圧力をチェックして、音や数値に異常がないことを確認する。また、計画されている保守整備作業なども行う。</p>
         <p>異状発生時には、直ちに応急処置をとるとともに、その原因を調べ、機関長に状況を報告する。荒天や非常事態の場合には、所定の位置について船長や機関長の指示に基づいて行動する。自らの判断で緊急に取った措置については、すぐに機関長に報告する。</p>

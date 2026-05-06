@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/140#webpage",
       "url": "https://mirai-shigoto.com/ja/140",
       "name": "警察官（都道府県警察） — AI 影響 4/10",
-      "description": "警察官、現場対応+捜査AI支援",
+      "description": "警察官（都道府県警察）とは、個人の生命、身体及び財産の保護、犯罪の予防、鎮圧及び捜査、被疑者の逮捕、交通の取締りその他公共の安全と秩序の維持等の職務に従事する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/140#occupation",
       "name": "警察官（都道府県警察）",
-      "description": "警察官、現場対応+捜査AI支援",
+      "description": "警察官（都道府県警察）とは、個人の生命、身体及び財産の保護、犯罪の予防、鎮圧及び捜査、被疑者の逮捕、交通の取締りその他公共の安全と秩序の維持等の職務に従事する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -203,6 +203,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -373,6 +377,7 @@
 
       <section class="context">
         <h2>警察官（都道府県警察）とは</h2>
+        <p class="definition">警察官（都道府県警察）とは、個人の生命、身体及び財産の保護、犯罪の予防、鎮圧及び捜査、被疑者の逮捕、交通の取締りその他公共の安全と秩序の維持等の職務に従事する職業です。</p>
         <p>警察官として、個人の生命、身体及び財産の保護、犯罪の予防、鎮圧及び捜査、被疑者の逮捕、交通の取締りその他公共の安全と秩序の維持等の職務に従事する。</p>
         <p>警察の組織は、国の警察組織と都道府県の警察組織がある。国の警察組織として、内閣総理大臣の所轄の下に国家公安委員会が置かれ、国家公安委員会の管理の下に警察庁が設けられている。一方、都道府県には都道府県公安委員会が置かれ、都道府県警察を管理している。都道府県警察には、警察本部（東京都は警視庁）のほか、警察署が置かれている。また、警察署の下部機構として、交番や駐在所がある。警察本部には、警務・生活安全・刑事・交通・警備の各部（都道府県により、総務部、地域部等が置かれている場合もある）がある。</p>
         <p>警察官は様々な専門分野に分かれて仕事をしている。（１）交番・駐在所でのパトロールや巡回連絡等のあらゆる活動を通じて、管轄する地域の実態や地域住民の要望を把握し、地域住民の要望に応え、地域の治安を維持する地域警察。（２）強盗などの凶悪犯罪や詐欺などの知能犯罪、薬物銃器犯罪などの組織犯罪など、悪質化、巧妙化する数々の事件の捜査等を行う刑事警察。（３）振り込め詐欺等、国民が不安を感じる犯罪の抑止のための活動、風俗事犯の取締り、少年の非行防止のための活動等を行う生活安全警察。（４）交通事故防止を目的とした交通安全教育、各種交通違反の取締り、交通事故捜査などを行う交通警察。（５）災害時の救助活動、国内外の要人の警護、テロ対策などを行う警備警察など、多岐にわたる分野で活動している。</p>

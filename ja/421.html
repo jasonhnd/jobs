@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/421#webpage",
       "url": "https://mirai-shigoto.com/ja/421",
       "name": "リフレクソロジスト — AI 影響 3/10",
-      "description": "リフレクソロジスト、手技中心",
+      "description": "リフレクソロジストとは、主に手指を用いてお客の足の裏や手、耳を刺激する施術を行い、健康を維持し、疲労回復を助ける職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/421#occupation",
       "name": "リフレクソロジスト",
-      "description": "リフレクソロジスト、手技中心",
+      "description": "リフレクソロジストとは、主に手指を用いてお客の足の裏や手、耳を刺激する施術を行い、健康を維持し、疲労回復を助ける職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -225,6 +225,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -395,6 +399,7 @@
 
       <section class="context">
         <h2>リフレクソロジストとは</h2>
+        <p class="definition">リフレクソロジストとは、主に手指を用いてお客の足の裏や手、耳を刺激する施術を行い、健康を維持し、疲労回復を助ける職業です。</p>
         <p>主に手指を用いてお客の足の裏や手、耳を刺激する施術を行い、健康を維持し、疲労回復を助ける。</p>
         <p>リフレクソロジーは、補完療法・緩和ケアとして欧米で広く行われている健康法であり、人間の全身の様々な骨格・臓器等が足裏や手・耳にある反射区に映し出されているという考え方のもとに、直接患部ではなく、その反射区を刺激することで老廃物を排除したり、血液やリンパ等の循環をあげるなどして健康を維持していく技術である。独特の指使いで圧を加えていく。心身のリラクゼーショシ効果があるとされ、比較的痛みを伴わないため、高齢者などへも施術することができ、健康維持・回復を助ける「健康・癒し分野の技術」とされている。</p>
         <p>身体の仕組み等の正しい知識に基づき、健康的な生活を維持するためのアドバイスも行う。欧米でのリフレクソロジーは、総合病院やホスピスなどで活用されている。日本国内でも、専門のサロンだけでなく、整体院、美容室、介護施設、ホテル、スポーツクラブなど様々な分野で導入されている。</p>

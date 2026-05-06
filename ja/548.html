@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/548#webpage",
       "url": "https://mirai-shigoto.com/ja/548",
       "name": "検査工（食料品等） — AI 影響 4/10",
-      "description": "食品検査工、AI検査+品質",
+      "description": "検査工（食料品等）とは、食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置により、製品の品質・成分・外観・数量、異物の混入及び微生物等による汚染の有無などの検査を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/548#occupation",
       "name": "検査工（食料品等）",
-      "description": "食品検査工、AI検査+品質",
+      "description": "検査工（食料品等）とは、食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置により、製品の品質・成分・外観・数量、異物の混入及び微生物等による汚染の有無などの検査を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -233,6 +233,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -403,6 +407,7 @@
 
       <section class="context">
         <h2>検査工（食料品等）とは</h2>
+        <p class="definition">検査工（食料品等）とは、食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置により、製品の品質・成分・外観・数量、異物の混入及び微生物等による汚染の有無などの検査を行う職業です。</p>
         <p>食料品等の製造や加工処理の工程において、目視又は測定機器・検査装置等により、製品の品質・成分・外観・充填量・数量、異物の混入及び微生物等による汚染の有無などの検査を行う。原材料や半製品も対象となる。</p>
         <p>食料品等の品目は調味食品、麺類、パン、菓子、豆腐、こんにゃく、缶詰・瓶詰食品、レトルト食品、乳製品、食肉・水産加工品、冷凍加工食品、弁当、惣菜類、漬物、茶、酒類、清涼飲料水、珈琲豆等多岐に渡り、穀物の精穀・製粉やコーヒー豆の焙煎等原材料の加工工程のものも含まれる。</p>
         <p>検査する製品や検査対象によりそれぞれ仕事内容は異なり、専門性が高くなると食品製造技術者や食品衛生監視員等に類似した仕事になる。</p>

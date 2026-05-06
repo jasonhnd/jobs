@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/183#webpage",
       "url": "https://mirai-shigoto.com/ja/183",
       "name": "高等学校教員 — AI 影響 5/10",
-      "description": "高校教員、教科+進路相談",
+      "description": "高等学校教員とは、高校生に専門の教科を教え、学級の担任として生徒を指導する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/183#occupation",
       "name": "高等学校教員",
-      "description": "高校教員、教科+進路相談",
+      "description": "高等学校教員とは、高校生に専門の教科を教え、学級の担任として生徒を指導する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -230,6 +230,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -400,6 +404,7 @@
 
       <section class="context">
         <h2>高等学校教員とは</h2>
+        <p class="definition">高等学校教員とは、高校生に専門の教科を教え、学級の担任として生徒を指導する職業です。</p>
         <p>高等学校（中高一貫校を含む。以下高校という）において、それぞれの担当教科を生徒に教える。高校では、中学校までの義務教育を終えた生徒に、更に高度で専門的な教育や指導を行う。</p>
         <p>高校教員の仕事の中心は、それぞれの担当する教科を生徒に教えることである。高校で教える教科・科目は様々で、普通教科として国語・社会・数学・理科・保健体育・芸術・外国語などがあり、また専門教科として農業・工業・商業・水産・看護・体育・音楽・美術などがある。高校は中学校に比べると一つの学級の生徒数も多く、教科の専門化も進んでいるため、教員はふつう一人一教科を担当している。</p>
         <p>この他に、学校が創意工夫を生かした教育活動を展開する「総合的な学習の時間」、ホームルーム活動、生徒会活動、クラブ活動、学校行事などについても指導する。更に個々の生徒に対する生徒指導や進路指導も行う。学級を受け持つこともあり、成長期の生徒を学習面だけでなく、精神面においても支援していくことが求められる。</p>

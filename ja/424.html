@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/424#webpage",
       "url": "https://mirai-shigoto.com/ja/424",
       "name": "速記者、音声反訳者 — AI 影響 9/10",
-      "description": "速記/音声反訳、AI音声認識置換",
+      "description": "速記者、音声反訳者とは、議会、裁判、会議、講演、座談会などに赴き、速記符号や録音によって記録した後、パソコンを使い誰もが読める原稿を作成する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/424#occupation",
       "name": "速記者、音声反訳者",
-      "description": "速記/音声反訳、AI音声認識置換",
+      "description": "速記者、音声反訳者とは、議会、裁判、会議、講演、座談会などに赴き、速記符号や録音によって記録した後、パソコンを使い誰もが読める原稿を作成する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -217,6 +217,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -387,6 +391,7 @@
 
       <section class="context">
         <h2>速記者、音声反訳者とは</h2>
+        <p class="definition">速記者、音声反訳者とは、議会、裁判、会議、講演、座談会などに赴き、速記符号や録音によって記録した後、パソコンを使い誰もが読める原稿を作成する職業です。</p>
         <p>議会、裁判、会議、講演、座談会などに赴き、速記符号や録音によって記録した後、パソコンを使い誰もが読める原稿を作成する。</p>
         <p>録音データや速記符号をパソコンで文字に書き起こし、原稿を作成することを「反訳（はんやく）」作業という。</p>
         <p>会議では、発言内容を録音機械を使って録音する。映像記録ではないので、誰が発言したか進行表等に記載する。会議の要点等も必要に応じメモする。速記は、速記専用の符号を使用して発言内容を忠実に書き取る。最近では、速記符号での書き取りは補助的になってきている。例えば、議会での突然のヤジなど（不規則発言）で音声では聞き取りが困難な場面等で速記符号での記録等を行う。会議等終了後に録音データや速記符号をパソコンで文字に打ち直して原稿を作成する。その際、難解な専門用語や外国語などについて調べ直したり、あいまいと思われる点がある場合には発言者に照会することもある。</p>

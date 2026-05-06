@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/47#webpage",
       "url": "https://mirai-shigoto.com/ja/47",
       "name": "配管工 — AI 影響 2/10",
-      "description": "配管は現場の手仕事",
+      "description": "配管工とは、給水管、排水管、ガス管、冷暖房換気設備、消火設備、排水処理施設、空気清浄装置などの配管工事をする職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/47#occupation",
       "name": "配管工",
-      "description": "配管は現場の手仕事",
+      "description": "配管工とは、給水管、排水管、ガス管、冷暖房換気設備、消火設備、排水処理施設、空気清浄装置などの配管工事をする職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -245,6 +245,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -415,6 +419,7 @@
 
       <section class="context">
         <h2>配管工とは</h2>
+        <p class="definition">配管工とは、給水管、排水管、ガス管、冷暖房換気設備、消火設備、排水処理施設、空気清浄装置などの配管工事をする職業です。</p>
         <p>住居や工場、事務所には給水管、排水管、ガス管、冷暖房換気装置、消火設備、排水処理施設や空気清浄装置などが必ず設けられているが、その配管工事を行う。</p>
         <p>配管工は給水、排水などの配管を専門に施工する衛生配管工と、冷暖房などの配管を行う空調配管工に大別される。</p>
         <p>両者とも、冷温水、蒸気、油などの流体を必要な場所へ送るために、管を切断したり、ねじ切りしたり、曲げたりして加工し、継手でつなぎ、弁などの付属品とともに所定の位置に取り付ける作業を行う。管の材料は、鋼、鋳鉄、銅、合成樹脂及びそれらの組合せなどがあり、管の接合法には、ねじ接合、溶接、接着などの方法がある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/264#webpage",
       "url": "https://mirai-shigoto.com/ja/264",
       "name": "自動車組立 — AI 影響 3/10",
-      "description": "自動車組立、ライン作業",
+      "description": "自動車組立とは、自動車のボディ（車体）にドアやエンジンなどを組み付けて、完成車を組み立てる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/264#occupation",
       "name": "自動車組立",
-      "description": "自動車組立、ライン作業",
+      "description": "自動車組立とは、自動車のボディ（車体）にドアやエンジンなどを組み付けて、完成車を組み立てる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -229,6 +229,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -399,6 +403,7 @@
 
       <section class="context">
         <h2>自動車組立とは</h2>
+        <p class="definition">自動車組立とは、自動車のボディ（車体）にドアやエンジンなどを組み付けて、完成車を組み立てる職業です。</p>
         <p>自動車のボディ（車体）にドアやエンジンなどを組み付けて、完成車を組み立てる。</p>
         <p>自動車の製造過程は、企画、デザイン、設計などの開発、生産性の検討、工程計画、設備調達などの生産準備、そして生産の3工程に分けられる。このうち生産工程は、鉄板を型に合わせてプレスし、部品（パネル）を作るプレス工程、パネルを溶接ロボットでつないでボディの骨格を組み立てる溶接工程、ボディにさび止め処理と塗装を行う塗装工程、エンジン製造工程、組立工程、検査工程に分けられるが、自動車組立の仕事は組立工程を担っている。</p>
         <p>自動車は、ネジなども含めると約4,000種類、個数にして約3万個の部品で構成されているが、この組立工程ですべての部品が取り付けられることになる。なかでもメインとなる部品がエアコンなどの操作スイッチや計器が並んだインストルメントパネル、車体前後のガラス、バンパー、シャーシ、エンジン、シート、タイヤ、ドアである。このうちシャーシにはサスペンションやトランスミッション、ステアリングギアなど足回り部品を事前に組み込んでおいたものをエンジンとともに、電動リフターで持ち上げた車体（ボディとも言い、自動車の胴体部分）の下から取り付ける。シートはロボットアームを使って車体に設置し、タイヤは4体のロボットを使ってはめ込み、ネジで締める。ドアは可動式の機械に固定してネジで留める。すべての部品の取り付けが終わったら、ガソリンを少量入れて、作業員が運転して検査工程へ送る。</p>

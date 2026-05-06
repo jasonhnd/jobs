@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/172#webpage",
       "url": "https://mirai-shigoto.com/ja/172",
       "name": "あんまマッサージ指圧師 — AI 影響 2/10",
-      "description": "あんま指圧、完全手仕事",
+      "description": "あんまマッサージ指圧師とは、体の痛みやこりなどの症状を訴える人に対して、指圧・マッサージにより身体のこりをほぐし血行を良くしたり、脊椎のゆがみを矯正する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/172#occupation",
       "name": "あんまマッサージ指圧師",
-      "description": "あんま指圧、完全手仕事",
+      "description": "あんまマッサージ指圧師とは、体の痛みやこりなどの症状を訴える人に対して、指圧・マッサージにより身体のこりをほぐし血行を良くしたり、脊椎のゆがみを矯正する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -231,6 +231,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -401,6 +405,7 @@
 
       <section class="context">
         <h2>あんまマッサージ指圧師とは</h2>
+        <p class="definition">あんまマッサージ指圧師とは、体の痛みやこりなどの症状を訴える人に対して、指圧・マッサージにより身体のこりをほぐし血行を良くしたり、脊椎のゆがみを矯正する職業です。</p>
         <p>体の痛みやこりなどの症状を訴える人たちに対して、主に手や指などを用いて押し・揉み・叩きなど力学的な刺激を身体に与える指圧・マッサージにより身体のこりをほぐし血行を良くしたり、脊椎のゆがみを矯正することにより、症状の緩和・改善、体力回復、健康増進を図る。</p>
         <p>施術所では、身体の不具合、異常の部位などを聞き、施術の内容と料金を決め、依頼者の身体のツボを中心に揉み、撫で、叩き、また押さえたり、震動を与えたりしてこりをほぐし、血行を良くする。依頼者の住居や宿泊先に出かけて施術することもある。</p>
         <p>また、医師の処方にしたがい、患者のリハビリ治療を行ったり、企業内で「ヘルスキーパー」として従業員の健康管理、労災予防、作業能率向上を目的に施術にあたる場合もある。そのほか、高齢者施設等での健康管理や、スポーツ施設で運動後の疲労除去のために施術するなど、活動の場は多様である。</p>

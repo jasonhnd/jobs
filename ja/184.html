@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/184#webpage",
       "url": "https://mirai-shigoto.com/ja/184",
       "name": "大学・短期大学教員 — AI 影響 6/10",
-      "description": "大学教員、研究+講義AI支援",
+      "description": "大学・短期大学教員とは、大学・短期大学で、各自の専門分野について学生を教育し、また、基礎研究や先端研究に取り組む職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/184#occupation",
       "name": "大学・短期大学教員",
-      "description": "大学教員、研究+講義AI支援",
+      "description": "大学・短期大学教員とは、大学・短期大学で、各自の専門分野について学生を教育し、また、基礎研究や先端研究に取り組む職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -219,6 +219,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -389,6 +393,7 @@
 
       <section class="context">
         <h2>大学・短期大学教員とは</h2>
+        <p class="definition">大学・短期大学教員とは、大学・短期大学で、各自の専門分野について学生を教育し、また、基礎研究や先端研究に取り組む職業です。</p>
         <p>高校卒業後、高度で専門的な技術や知識を得る教育の場として、大学と短期大学がある。この大学及び短期大学で、各自の専門分野について学生を教育し、また、基礎研究や先端研究に取り組むのが大学・短期大学の教員である（以下、特筆しない限り短期大学教員も含めて「大学教員」という。）。</p>
         <p>大学は４年課程で文学、法学、経済学、商学、理学、工学、農学、国際、情報などの学部・学科がある。この他に６年課程の医学、歯学、薬学、獣医学の学部がある。短期大学は一般的に２年課程で、教育、家政、外国語などの教育を行う。</p>
         <p>大学教員は、職位によって教授、准教授、講師、助教等に分かれている。「学問の最高学府」の教員として、学術文化の水準を向上させ、継承していくことが求められる。教授・准教授・講師として、講義、演習、実習といった形で授業を行い、学生の卒業論文や卒業制作の指導にあたるとともに、卒論発表会なども指導する。短期大学では、研究よりも学生の教育に重点が置かれていることが多い。</p>

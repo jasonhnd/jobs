@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/259#webpage",
       "url": "https://mirai-shigoto.com/ja/259",
       "name": "鉄鋼製造オペレーター — AI 影響 4/10",
-      "description": "鉄鋼オペレーター、自動化",
+      "description": "鉄鋼製造オペレーターとは、鉄鉱石や石炭等の原料から鉄鋼製品を製造するため、生産設備を運転・監視する職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/259#occupation",
       "name": "鉄鋼製造オペレーター",
-      "description": "鉄鋼オペレーター、自動化",
+      "description": "鉄鋼製造オペレーターとは、鉄鉱石や石炭等の原料から鉄鋼製品を製造するため、生産設備を運転・監視する職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -240,6 +240,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -410,6 +414,7 @@
 
       <section class="context">
         <h2>鉄鋼製造オペレーターとは</h2>
+        <p class="definition">鉄鋼製造オペレーターとは、鉄鉱石や石炭等の原料から鉄鋼製品を製造するため、生産設備を運転・監視する職業です。</p>
         <p>鉄鉱石や石炭等の原料から鉄鋼製品を製造するため、生産設備を運転・監視する。</p>
         <p>鉄鋼製造は、主に製銑（せいせん）工程、製鋼工程、圧延（あつえん）工程の3工程に分かれており、それぞれ高炉、転炉、圧延機等の設備が使用される。オペレーターは、これらの生産設備、周辺設備等機械の運転操作、稼働状況の監視を行う。配属される工程により扱う設備は異なるが仕様書、マニュアル等の操作手順に従った正確な操作を行い、担当する設備が順調に動いているかを常に監視する。軽微なトラブルには対応するが、解決が困難な場合には整備の担当者や生産に関わる技術者等に状況を報告し、相談するなど対応を図る。</p>
         <p>鉄鋼製造のプロセスを工程に沿ってみると、鉄鉱石から銑鉄（せんてつ）を製造する製銑工程では、鉄鉱石（電気炉の場合は鉄スクラップ）やコークス、石灰石などの原料を装入し、熱風を吹き込むことで還元・溶解させ、銑鉄を取り出す。</p>

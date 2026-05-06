@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/211#webpage",
       "url": "https://mirai-shigoto.com/ja/211",
       "name": "雑誌編集者 — AI 影響 7/10",
-      "description": "雑誌編集者、AI記事生成と競合",
+      "description": "雑誌編集者とは、出版社の雑誌編集部や編集プロダクションにおいて、雑誌の企画や編集の作業に携わる職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/211#occupation",
       "name": "雑誌編集者",
-      "description": "雑誌編集者、AI記事生成と競合",
+      "description": "雑誌編集者とは、出版社の雑誌編集部や編集プロダクションにおいて、雑誌の企画や編集の作業に携わる職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>雑誌編集者とは</h2>
+        <p class="definition">雑誌編集者とは、出版社の雑誌編集部や編集プロダクションにおいて、雑誌の企画や編集の作業に携わる職業です。</p>
         <p>出版社の雑誌編集部や編集プロダクションにおいて、雑誌の企画や編集の作業に携わる。</p>
         <p>雑誌編集者は読者のニーズ等を踏まえて企画を考え、編集会議に提案する。企画が決まったら、外部の執筆者に執筆を依頼するほか、カメラマン、デザイナー、イラストレーター等を手配する。原稿や写真、図版などが上がってきたらチェックし、必要であれば原稿のリライト等を行う。次に、記事のページ数や掲載順序を示す台割を作成、ページのレイアウト体裁を整えるなどの編集を行ってから、印刷所に印刷原稿を渡す。その後、試し刷りで発色を確認したり、文字校正を行い、印刷できる状態になるまでの作業にも責任を持つ。</p>
         <p>ファッション誌や広告が主体となるフリーペーパー等では、広告主との企画会議や打合せを行い、雑誌の内容を決める。雑誌編集者自身が取材記事を書いたり、校正を行ったりすることもある。入稿締切が厳格に決められているため、原稿の進捗状況などのスケジュール管理能力が特に求められる。</p>

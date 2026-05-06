@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/518#webpage",
       "url": "https://mirai-shigoto.com/ja/518",
       "name": "検察事務官 — AI 影響 7/10",
-      "description": "検察事務官、書類+AI支援",
+      "description": "検察事務官とは、検察官を補佐し、又はその指揮の下、犯罪の捜査から裁判の遂行、そして刑の執行に至るまでの一連の刑事手続に関する業務を行うほか、総務・人事・会計等の業務も行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/518#occupation",
       "name": "検察事務官",
-      "description": "検察事務官、書類+AI支援",
+      "description": "検察事務官とは、検察官を補佐し、又はその指揮の下、犯罪の捜査から裁判の遂行、そして刑の執行に至るまでの一連の刑事手続に関する業務を行うほか、総務・人事・会計等の業務も行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -222,6 +222,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -392,6 +396,7 @@
 
       <section class="context">
         <h2>検察事務官とは</h2>
+        <p class="definition">検察事務官とは、検察官を補佐し、又はその指揮の下、犯罪の捜査から裁判の遂行、そして刑の執行に至るまでの一連の刑事手続に関する業務を行うほか、総務・人事・会計等の業務も行う職業です。</p>
         <p>検察事務官は、検察官を補佐し、又はその指揮の下、犯罪の捜査から裁判の遂行、そして刑の執行に至るまでの一連の刑事手続に関する業務を行うほか、総務・人事・会計等といった後方支援業務も行う。検察事務官は、これら検察庁における幅広い業務を適正かつ迅速に進め、日本の法秩序の維持等に貢献する職務に従事する。</p>
         <p>検察事務官は、大きく分けて「捜査公判部門」、「検務部門」及び「事務局部門」の３つの部門に配置され、次のような業務を担当する。</p>
         <p>捜査公判部門では、殺人・強盗といった凶悪重大事件を始め、脱税や粉飾決算事件などといったあらゆる刑事事件について、検察官が行う被疑者等の取調べに同席して、犯罪立証に必要となる証拠書類の作成を行ったり、起訴・不起訴といった事件処理に関する事務手続を行う。また、裁判（公判）を行うに当たっては、裁判所へ提出する事件記録等の管理、弁護人や被害者など訴訟関係人との連絡・調整などを行う。また、近年は、科学技術や情報通信技術の急速な発展により、パソコンやスマートフォン等が犯罪に利用されているケースが増加している。このような犯罪に対応するため、押収したパソコン等に保存されているデータやネットワーク上に保存されているデータを、適正な手続により保全して解析する「デジタルフォレンジック」業務も行う。このほかにも、一定の捜査経験を有して検察官事務取扱を命じられた検察事務官は、万引き事件や交通事件といった刑事事件について、自ら被疑者の取調べ等を行い、起訴・不起訴の処分を行う。</p>

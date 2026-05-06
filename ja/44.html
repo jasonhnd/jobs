@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/44#webpage",
       "url": "https://mirai-shigoto.com/ja/44",
       "name": "防水工 — AI 影響 2/10",
-      "description": "防水工事は現場作業",
+      "description": "防水工とは、建物の仕上げ職種の一つであり、屋根などの防水工事において防水層をつくる作業を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/44#occupation",
       "name": "防水工",
-      "description": "防水工事は現場作業",
+      "description": "防水工とは、建物の仕上げ職種の一つであり、屋根などの防水工事において防水層をつくる作業を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -235,6 +235,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -405,6 +409,7 @@
 
       <section class="context">
         <h2>防水工とは</h2>
+        <p class="definition">防水工とは、建物の仕上げ職種の一つであり、屋根などの防水工事において防水層をつくる作業を行う職業です。</p>
         <p>建物の仕上げ職種の一つであり、屋根などの防水工事において防水層をつくる作業を行う。</p>
         <p>建物において防水工事を必要とする部分は多く、一般に降雨水の建物への侵入経路や、生活及び産業等に必要な水を貯水したり、不要な水を排水したりする部分には必ず防水工事が必要である。</p>
         <p>防水工は、防水層の種別あるいは工法の種別によって、それぞれ専門的な技量を必要とする。防水層の種別にはアスファルト系防水層、合成ゴム系防水層、塩化ビニル樹脂系防水層、酢酸ビニル樹脂系防水層、ウレタンゴム系防水層、アクリルゴム系防水層、ＦＲＰ系防水層、セメント系防水に分けられ、工法も複数の種類がある。</p>

@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/157#webpage",
       "url": "https://mirai-shigoto.com/ja/157",
       "name": "助産師 — AI 影響 3/10",
-      "description": "助産師、出産現場対応",
+      "description": "助産師とは、出産の介助、妊産婦の相談、妊娠から産後までの母子の保健指導を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/157#occupation",
       "name": "助産師",
-      "description": "助産師、出産現場対応",
+      "description": "助産師とは、出産の介助、妊産婦の相談、妊娠から産後までの母子の保健指導を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>助産師とは</h2>
+        <p class="definition">助産師とは、出産の介助、妊産婦の相談、妊娠から産後までの母子の保健指導を行う職業です。</p>
         <p>出産の介助、妊産婦の相談、妊娠から産後までの母子の保健指導を行う。このほか、育児指導や不妊治療、思春期などの性の相談などにもかかわることがある。</p>
         <p>正常な妊娠・分娩・産褥の経過であれば、助産師の責任で分娩を介助し、妊産婦と新生児の健康診査や健康教育を行うことができる。</p>
         <p>助産師は、戦前「お産婆さん」と呼ばれ、自宅での出産に立ち会って生まれる赤ちゃんをとりあげ、地域で母子の健康に大きく貢献していたが、戦後は病院での出産が主流になり、多くの助産師が病院で活躍するようになった。</p>

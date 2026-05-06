@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/56#webpage",
       "url": "https://mirai-shigoto.com/ja/56",
       "name": "スーパーレジ係 — AI 影響 9/10",
-      "description": "レジは無人化・セルフ化急進中",
+      "description": "スーパーレジ係とは、スーパーなどのレジカウンターで買い上げ品の代金を計算し、商品と代金の受け渡しを行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/56#occupation",
       "name": "スーパーレジ係",
-      "description": "レジは無人化・セルフ化急進中",
+      "description": "スーパーレジ係とは、スーパーなどのレジカウンターで買い上げ品の代金を計算し、商品と代金の受け渡しを行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -227,6 +227,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -397,6 +401,7 @@
 
       <section class="context">
         <h2>スーパーレジ係とは</h2>
+        <p class="definition">スーパーレジ係とは、スーパーなどのレジカウンターで買い上げ品の代金を計算し、商品と代金の受け渡しを行う職業です。</p>
         <p>スーパーなどのレジカウンターで買い上げ品の代金を計算し、商品と代金の受け渡しを行う。</p>
         <p>スーパーでは、客が自由に商品を選び、備え付けのかごに入れ、最後にレジカウンターで代金を支払うセルフサービスのシステムが一般的になっている。レジ係は、商品についているバーコードを機械で読み取り、自動的に代金を入力するPOSシステムが主流になっているので、仕事の内容は簡素化されているが、その分、接客の重要性が高まっている。スーパーの中で客と接する主要な役割であるため、レジ係の印象によって店舗全体のイメージが左右されることも多い。正確にレジを打ち、金銭の受け渡しに間違いがないようにすることはもちろん、好感の持てる接客態度や機敏な対応が重要となる。</p>
         <p>昨今は来店客自身が機械で精算を行ったり、商品のバーコードを機械に読み取らせ、代金を清算する、セルフレジも増加している。</p>

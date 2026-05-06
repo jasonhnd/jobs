@@ -50,7 +50,7 @@
       "@id": "https://mirai-shigoto.com/ja/169#webpage",
       "url": "https://mirai-shigoto.com/ja/169",
       "name": "言語聴覚士 — AI 影響 3/10",
-      "description": "言語聴覚士、対面訓練",
+      "description": "言語聴覚士とは、ことばによるコミュニケーションや嚥下（えんげ）に困難を抱える人を対象に、問題の程度、発生のメカニズムを評価し、その結果に基づいて訓練、指導等を行う職業です。",
       "isPartOf": {
         "@id": "https://mirai-shigoto.com/#website"
       },
@@ -78,7 +78,7 @@
       "@type": "Occupation",
       "@id": "https://mirai-shigoto.com/ja/169#occupation",
       "name": "言語聴覚士",
-      "description": "言語聴覚士、対面訓練",
+      "description": "言語聴覚士とは、ことばによるコミュニケーションや嚥下（えんげ）に困難を抱える人を対象に、問題の程度、発生のメカニズムを評価し、その結果に基づいて訓練、指導等を行う職業です。",
       "occupationLocation": {
         "@type": "Country",
         "name": "Japan"
@@ -226,6 +226,10 @@
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -396,6 +400,7 @@
 
       <section class="context">
         <h2>言語聴覚士とは</h2>
+        <p class="definition">言語聴覚士とは、ことばによるコミュニケーションや嚥下（えんげ）に困難を抱える人を対象に、問題の程度、発生のメカニズムを評価し、その結果に基づいて訓練、指導等を行う職業です。</p>
         <p>ことばによるコミュニケーションや嚥下（えんげ）に困難を抱える人を対象に、問題の程度、発生のメカニズムを評価しその結果に基づいて訓練、指導等を行う。</p>
         <p>ことばによるコミュニケーションの問題は脳卒中後の失語症、聴覚障害、ことばの発達の遅れ、声や発音の障害など多岐にわたる。摂食・嚥下障害にも対応する。言語聴覚士は医師又は歯科医師の指示の下に問題の本質や発現メカニズムを明らかにし、対処法を見出すために検査・評価を実施する。また、リハビリテーションの目標、及び訓練プログラムに係る実施計画を作成し、必要に応じて訓練、指導、助言、その他の援助を行う。</p>
         <p>例えば、失語症に対しては、まず言語機能評価を行い、問題の特性を明らかにする。その上で、訓練目標を設定し、その人に合わせた訓練プログラムを立てる。訓練は、主に絵カードや文字カードを用いて行われる。また、ことばの発達の遅れに対しては、発達水準に応じた支援を行う。発音の誤りには、口の運動や正しい音を作る訓練等を実施する。これらの活動は医師・歯科医師・看護師・理学療法士・作業療法士などの医療専門職、ケースワーカー・介護福祉士・介護支援専門員などの保健・福祉専門職、教師、心理専門職などの他職種と連携し、チームの一員として行う。小児から高齢者まで幅広い年齢層を支援する。</p>
