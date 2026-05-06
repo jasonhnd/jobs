@@ -63,6 +63,30 @@
       }
     },
     {
+      "@type": "Article",
+      "@id": "https://mirai-shigoto.com/ja/sectors/shigyo#article",
+      "headline": "士業・経営・コンサル の職業 — 63職業の AI 影響度・年収・就業者数",
+      "description": "士業・経営・コンサル 業界の 63 職業を AI 影響度・年収・就業者数で一覧。",
+      "image": "https://mirai-shigoto.com/api/og?sector=shigyo",
+      "url": "https://mirai-shigoto.com/ja/sectors/shigyo",
+      "datePublished": "2026-05-05",
+      "dateModified": "2026-05-05",
+      "author": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "inLanguage": "ja",
+      "mainEntityOfPage": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/shigyo#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/shigyo#webpage"
+      },
+      "articleSection": "セクター"
+    },
+    {
       "@type": "BreadcrumbList",
       "@id": "https://mirai-shigoto.com/ja/sectors/shigyo#breadcrumb",
       "itemListElement": [
@@ -472,6 +496,53 @@
           "name": "犬訓練士"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/shigyo#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "士業・経営・コンサル業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "士業・経営・コンサル業界は63の職業に分類されており、代表的な職業は起業、創業、会社経営者、ハローワーク職員などです。就業者数の合計は約1,820,677人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "士業・経営・コンサル業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、動画制作（AI影響 9/10）、速記者、音声反訳者（AI影響 9/10）、通訳者（AI影響 8/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "士業・経営・コンサル業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、犬訓練士（AI影響 2/10）、ピアノ調律師（AI影響 2/10）、調香師（AI影響 3/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "士業・経営・コンサル業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "士業・経営・コンサル業界の63職業の平均 AI 影響度は10段階中 6.7 で、やや高めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "士業・経営・コンサル業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 6.7/10 で、業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な業界です。特に AI リスクが低い職業として 犬訓練士、ピアノ調律師、調香師 などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -481,13 +552,18 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights -->
@@ -548,9 +624,22 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
 footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-footer .footer-meta{color:var(--fg2);font-size:.72rem;line-height:1.55}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
 footer .footer-meta a{color:var(--accent)}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -605,23 +694,33 @@ footer .footer-meta a{color:var(--accent)}
         <ul class="full-list"><li><a href="/ja/328"><span class="risk-pill high">9/10</span>動画制作</a></li><li><a href="/ja/424"><span class="risk-pill high">9/10</span>速記者、音声反訳者</a></li><li><a href="/ja/88"><span class="risk-pill high">8/10</span>通訳者</a></li><li><a href="/ja/92"><span class="risk-pill high">8/10</span>税理士</a></li><li><a href="/ja/214"><span class="risk-pill high">8/10</span>映像編集者</a></li><li><a href="/ja/327"><span class="risk-pill high">8/10</span>Webディレクター（Web制作会社）</a></li><li><a href="/ja/330"><span class="risk-pill high">8/10</span>ゲームクリエーター</a></li><li><a href="/ja/366"><span class="risk-pill high">8/10</span>知的財産サーチャー</a></li><li><a href="/ja/457"><span class="risk-pill high">8/10</span>証券アナリスト</a></li><li><a href="/ja/468"><span class="risk-pill high">8/10</span>アクチュアリー</a></li><li><a href="/ja/470"><span class="risk-pill high">8/10</span>ファンドマネージャー</a></li><li><a href="/ja/53"><span class="risk-pill high">7/10</span>銀行支店長</a></li><li><a href="/ja/80"><span class="risk-pill high">7/10</span>中小企業診断士</a></li><li><a href="/ja/81"><span class="risk-pill high">7/10</span>経営コンサルタント</a></li><li><a href="/ja/82"><span class="risk-pill high">7/10</span>ファイナンシャル・プランナー</a></li><li><a href="/ja/83"><span class="risk-pill high">7/10</span>社会保険労務士</a></li><li><a href="/ja/84"><span class="risk-pill high">7/10</span>司法書士</a></li><li><a href="/ja/85"><span class="risk-pill high">7/10</span>行政書士</a></li><li><a href="/ja/86"><span class="risk-pill high">7/10</span>土地家屋調査士</a></li><li><a href="/ja/89"><span class="risk-pill high">7/10</span>弁護士</a></li><li><a href="/ja/90"><span class="risk-pill high">7/10</span>公認会計士</a></li><li><a href="/ja/91"><span class="risk-pill high">7/10</span>弁理士</a></li><li><a href="/ja/136"><span class="risk-pill high">7/10</span>キャリアカウンセラー/キャリアコンサルタント</a></li><li><a href="/ja/182"><span class="risk-pill high">7/10</span>図書館司書</a></li><li><a href="/ja/202"><span class="risk-pill high">7/10</span>通関士</a></li><li><a href="/ja/250"><span class="risk-pill high">7/10</span>起業、創業</a></li><li><a href="/ja/331"><span class="risk-pill high">7/10</span>アートディレクター</a></li><li><a href="/ja/333"><span class="risk-pill high">7/10</span>広告ディレクター</a></li><li><a href="/ja/346"><span class="risk-pill high">7/10</span>スタイリスト</a></li><li><a href="/ja/351"><span class="risk-pill high">7/10</span>フードコーディネーター</a></li><li><a href="/ja/363"><span class="risk-pill high">7/10</span>広報コンサルタント</a></li><li><a href="/ja/364"><span class="risk-pill high">7/10</span>人事コンサルタント</a></li><li><a href="/ja/365"><span class="risk-pill high">7/10</span>知的財産コーディネーター</a></li><li><a href="/ja/400"><span class="risk-pill high">7/10</span>社会教育主事</a></li><li><a href="/ja/471"><span class="risk-pill high">7/10</span>M&amp;Aマネージャー、M&amp;Aコンサルタント/M&amp;Aアドバイザー</a></li><li><a href="/ja/513"><span class="risk-pill high">7/10</span>国際協力専門家</a></li><li><a href="/ja/514"><span class="risk-pill high">7/10</span>会社経営者</a></li><li><a href="/ja/518"><span class="risk-pill high">7/10</span>検察事務官</a></li><li><a href="/ja/519"><span class="risk-pill high">7/10</span>労働基準監督官</a></li><li><a href="/ja/521"><span class="risk-pill high">7/10</span>特許審査官</a></li><li><a href="/ja/524"><span class="risk-pill high">7/10</span>独立系ファイナンシャル・アドバイザー（IFA）</a></li><li><a href="/ja/534"><span class="risk-pill high">7/10</span>セキュリティエキスパート（情報セキュリティ監査）</a></li><li><a href="/ja/536"><span class="risk-pill high">7/10</span>総務課長</a></li><li><a href="/ja/537"><span class="risk-pill high">7/10</span>人事課長</a></li><li><a href="/ja/538"><span class="risk-pill high">7/10</span>経理課長</a></li><li><a href="/ja/539"><span class="risk-pill high">7/10</span>営業課長</a></li><li><a href="/ja/574"><span class="risk-pill high">7/10</span>ハローワーク職員</a></li><li><a href="/ja/93"><span class="risk-pill mid">6/10</span>不動産鑑定士</a></li><li><a href="/ja/94"><span class="risk-pill mid">6/10</span>気象予報士</a></li><li><a href="/ja/144"><span class="risk-pill mid">6/10</span>裁判官</a></li><li><a href="/ja/145"><span class="risk-pill mid">6/10</span>検察官</a></li><li><a href="/ja/146"><span class="risk-pill mid">6/10</span>家庭裁判所調査官</a></li><li><a href="/ja/185"><span class="risk-pill mid">6/10</span>学芸員</a></li><li><a href="/ja/216"><span class="risk-pill mid">6/10</span>アナウンサー</a></li><li><a href="/ja/135"><span class="risk-pill mid">5/10</span>手話通訳者</a></li><li><a href="/ja/412"><span class="risk-pill mid">5/10</span>スクールカウンセラー</a></li><li><a href="/ja/512"><span class="risk-pill mid">5/10</span>国会議員</a></li><li><a href="/ja/516"><span class="risk-pill mid">5/10</span>法務技官（心理）（矯正心理専門職）</a></li><li><a href="/ja/562"><span class="risk-pill mid">5/10</span>探偵</a></li><li><a href="/ja/225"><span class="risk-pill low">3/10</span>調教師</a></li><li><a href="/ja/419"><span class="risk-pill low">3/10</span>調香師</a></li><li><a href="/ja/127"><span class="risk-pill low">2/10</span>ピアノ調律師</a></li><li><a href="/ja/226"><span class="risk-pill low">2/10</span>犬訓練士</a></li></ul>
       </section>
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>士業・経営・コンサル業界にはどんな職業がありますか？</summary><div class="faq-answer">士業・経営・コンサル業界は63の職業に分類されており、代表的な職業は起業、創業、会社経営者、ハローワーク職員などです。就業者数の合計は約1,820,677人にのぼります。</div></details><details class="faq-item"><summary>士業・経営・コンサル業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、動画制作（AI影響 9/10）、速記者、音声反訳者（AI影響 9/10）、通訳者（AI影響 8/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>士業・経営・コンサル業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、犬訓練士（AI影響 2/10）、ピアノ調律師（AI影響 2/10）、調香師（AI影響 3/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>士業・経営・コンサル業界の平均 AI 影響度は？</summary><div class="faq-answer">士業・経営・コンサル業界の63職業の平均 AI 影響度は10段階中 6.7 で、やや高めの水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>士業・経営・コンサル業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 6.7/10 で、業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要な業界です。特に AI リスクが低い職業として 犬訓練士、ピアノ調律師、調香師 などが挙げられます。</div></details></div></section>
+
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>
         <ul class="related-sectors"><li><a href="/ja/sectors/iryo"><span class="ja-name">医療・保健</span><span class="count">36 職業</span></a></li><li><a href="/ja/sectors/fukushi"><span class="ja-name">福祉・介護</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/kyoiku"><span class="ja-name">教育・指導</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/hoan"><span class="ja-name">保安・公安</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/noringyo"><span class="ja-name">農林・水産</span><span class="count">14 職業</span></a></li><li><a href="/ja/sectors/senmon"><span class="ja-name">専門・技術</span><span class="count">51 職業</span></a></li><li><a href="/ja/sectors/it"><span class="ja-name">IT・通信</span><span class="count">22 職業</span></a></li><li><a href="/ja/sectors/creative"><span class="ja-name">クリエイティブ・メディア</span><span class="count">37 職業</span></a></li><li><a href="/ja/sectors/jimu"><span class="ja-name">事務・公務</span><span class="count">57 職業</span></a></li><li><a href="/ja/sectors/hanbai"><span class="ja-name">販売・営業</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/service"><span class="ja-name">サービス・接客</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/seizo"><span class="ja-name">製造・職人</span><span class="count">59 職業</span></a></li><li><a href="/ja/sectors/maint"><span class="ja-name">設備・保守</span><span class="count">49 職業</span></a></li><li><a href="/ja/sectors/kensetu"><span class="ja-name">建設・土木</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/keiseki"><span class="ja-name">軽作業・清掃</span><span class="count">16 職業</span></a></li></ul>
       </section>
 
+      <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-          © <a href="/">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
+            最終更新：<time datetime="2026-05-06T19:20:48+09:00">2026/05/06/19:20</time><br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>
       </footer>
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>

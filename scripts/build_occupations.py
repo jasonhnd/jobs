@@ -36,6 +36,41 @@ DATA_PATH = REPO / "dist" / "data.detail"  # v1.0.8: per-occupation files (was R
 PROFILE5_PATH = REPO / "dist" / "data.profile5.json"
 TRANSFER_PATHS_PATH = REPO / "dist" / "data.transfer_paths.json"
 
+# Single source of truth for the site-wide footer. Edited via partials/footer.html
+# and propagated to static pages by scripts/build_partials.py; generated pages
+# (this script + build_sector_hubs.py + build_rankings.py) read it directly so
+# the same string lands everywhere.
+def _get_last_commit_datetime() -> tuple[str, str]:
+    """Return (display, iso) of latest git commit datetime, normalized to JST.
+
+    display: 'YYYY/MM/DD/HH:MM' for visible 最終更新 text.
+    iso:     'YYYY-MM-DDTHH:MM:SS+09:00' for <time datetime="...">.
+    Falls back to current time if git unavailable.
+    """
+    import subprocess
+    from datetime import datetime, timedelta, timezone
+    jst = timezone(timedelta(hours=9))
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cI"],
+            capture_output=True, text=True, cwd=REPO, timeout=5,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            dt = datetime.fromisoformat(result.stdout.strip()).astimezone(jst)
+            return dt.strftime("%Y/%m/%d/%H:%M"), dt.isoformat(timespec="seconds")
+    except Exception:
+        pass
+    now = datetime.now(jst)
+    return now.strftime("%Y/%m/%d/%H:%M"), now.isoformat(timespec="seconds")
+
+
+_LAST_DISPLAY, _LAST_ISO = _get_last_commit_datetime()
+FOOTER_PARTIAL = (
+    (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+    .replace("{{LAST_UPDATED_ISO}}", _LAST_ISO)
+    .replace("{{LAST_UPDATED}}", _LAST_DISPLAY)
+)
+
 # Module-level caches populated by main() — used by render helpers (avoid threading
 # them through every helper signature). Reset each main() call.
 PROFILE5: dict = {}
@@ -128,6 +163,51 @@ def fmt_int(n) -> str:
     if n is None:
         return "—"
     return f"{int(n):,}"
+
+
+# Noun-final endings — when summary already ends with a noun describing the role,
+# we don't want to append another "職業" (would read awkwardly).
+_NOUN_FINAL_ENDINGS = (
+    "職業", "仕事", "技術者", "職人", "担当者", "専門職", "技能職",
+    "オペレーター", "エンジニア", "デザイナー", "プログラマー",
+    "従事者", "作業員", "者", "士", "員", "家", "師", "工",
+)
+
+
+def _make_definition(rec: dict) -> str:
+    """Generate a featured-snippet-friendly 1-sentence definition.
+
+    Pattern: "{name}とは、{summary}職業です。"
+    Used at the top of the "○○とは" section and as the JSON-LD description.
+    Optimized for Google featured snippets ("People also ask" / position-zero).
+    """
+    name = (rec.get("name_ja") or "").strip()
+    summary = (rec.get("desc_ja") or "").strip()
+
+    if not summary:
+        sector = (rec.get("sector") or {}).get("ja", "")
+        if sector:
+            return f"{name}とは、{sector}業界に属する職業です。"
+        return f"{name}とは、日本の職業の一つです。"
+
+    # Strip trailing punctuation; take only first sentence if multi-sentence.
+    first_sentence = summary.split("。")[0].strip()
+    if not first_sentence:
+        first_sentence = summary.rstrip("。.").strip()
+
+    # If the sentence already starts with the occupation name, it's
+    # already definitional — just close with です。
+    if first_sentence.startswith(f"{name}とは") or first_sentence.startswith(f"{name}は"):
+        if not first_sentence.endswith(("です", "ます", "である")):
+            return f"{first_sentence}職業です。" if not first_sentence.endswith(_NOUN_FINAL_ENDINGS) else f"{first_sentence}です。"
+        return f"{first_sentence}。"
+
+    # If the sentence ends with a role-noun, just wrap it.
+    if first_sentence.endswith(_NOUN_FINAL_ENDINGS):
+        return f"{name}とは、{first_sentence}です。"
+
+    # Otherwise it's verb-final — append 職業 to make it noun-modifying.
+    return f"{name}とは、{first_sentence}職業です。"
 
 
 def _format_paragraphs(text: str) -> str:
@@ -255,7 +335,7 @@ def _render_meta_row(rec: dict) -> str:
 def _render_profile_radar(rec: dict) -> str:
     """5-axis profile radar SVG (data from data.profile5.json indexed by id_str).
 
-    Algorithm copied from scripts/templates/mobile/detail.py to ensure visual parity.
+    Algorithm originally lifted from the v1.1.0 mobile detail template (scripts/templates/mobile/detail.py, deleted 2026-05-06 as dead code) at v1.2.0 PC convergence to ensure visual parity. This copy is independent and remains live.
     Returns "" if profile data is unavailable for this occupation.
     """
     import math
@@ -354,6 +434,123 @@ def _render_topn(rec: dict) -> str:
         f'<section class="topn" aria-label="{escape(h2)}">'
         f'<h2>{escape(h2)}</h2>'
         f'<div class="topn-grid">{body}</div>'
+        f'</section>'
+    )
+
+
+def _build_occ_faqs(rec: dict) -> list[tuple[str, str]]:
+    """Build 4-5 FAQ Q&A pairs from occupation data.
+
+    Targets the highest-volume search intents around occupation pages:
+    年収 / AI 影響 / 将来性 / なるには / 必要なスキル. Answers are auto-generated
+    from existing structured data so visible FAQ matches the JSON-LD schema.
+    """
+    name = rec.get("name_ja") or ""
+    salary = rec.get("salary")
+    workers = rec.get("workers")
+    age = rec.get("age")
+    hours = rec.get("hours")
+    recruit = rec.get("recruit_ratio")
+    risk = rec.get("ai_risk")
+    rationale = (rec.get("ai_rationale_ja") or "").strip().rstrip("。").strip()
+    how = (rec.get("how_to_become_ja") or "").strip()
+    skills = rec.get("skills_top10") or []
+
+    faqs: list[tuple[str, str]] = []
+
+    # Q1: Salary — highest search volume for occupation queries
+    if salary:
+        monthly = salary / 12
+        if salary > 500:
+            compare = "日本全体の平均年収（約460万円）を上回る水準"
+        elif salary < 420:
+            compare = "日本全体の平均年収（約460万円）を下回る水準"
+        else:
+            compare = "日本全体の平均年収（約460万円）と同程度"
+        faqs.append((
+            f"{name}の年収はいくらですか？",
+            f"{name}の平均年収は約{int(salary)}万円（月収換算で約{int(monthly)}万円）で、{compare}です。"
+            f"これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。",
+        ))
+
+    # Q2: AI risk — site's unique value proposition
+    if risk is not None:
+        if risk <= 3:
+            tier = "低めで、AI に代替されにくい職業"
+        elif risk <= 6:
+            tier = "中程度で、業務の一部が AI 補助に移行する可能性"
+        else:
+            tier = "高めで、業務の多くが AI による代替・補助の対象となる可能性"
+        rationale_str = f"主な要因は「{rationale}」。" if rationale else ""
+        faqs.append((
+            f"{name}のAI代替リスクはどれくらいですか？",
+            f"{name}のAI影響度は10段階中 {risk} で、{tier}です。{rationale_str}"
+            "これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。",
+        ))
+
+    # Q3: Future outlook — combines AI risk + workforce + demand
+    if risk is not None:
+        if risk <= 3:
+            outlook = "AI に代替されにくく、将来性は比較的安定"
+        elif risk >= 7:
+            outlook = "AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に"
+        else:
+            outlook = "AI 影響は中程度で、業務の一部が AI 補助に移行する可能性"
+        workers_str = f"日本での就業者数は約{fmt_int(workers)}人。" if workers else ""
+        recruit_str = f"求人倍率 {recruit:.2f} 倍。" if recruit else ""
+        faqs.append((
+            f"{name}の将来性はどうですか？",
+            f"AI影響度 {risk}/10。{outlook}な職業です。{workers_str}{recruit_str}"
+            "個別の状況に応じた判断が重要です。",
+        ))
+
+    # Q4: How to become — extract first sentence/section of how_to_become_ja
+    if how:
+        first = how.split("。")[0].strip()
+        if not first:
+            first = how[:200].strip()
+        if len(first) > 220:
+            first = first[:220].rstrip() + "…"
+        faqs.append((
+            f"{name}になるにはどうすればいいですか？",
+            f"{first}。詳しい流れは本ページ内の「{name}になるには・必要な資格」セクションをご覧ください。",
+        ))
+
+    # Q5: Required skills — uses skills_top10 data
+    if skills:
+        top_labels = [s.get("label_ja") for s in skills[:3] if s.get("label_ja")]
+        if top_labels:
+            skills_str = "、".join(top_labels)
+            extra = ""
+            if len(skills) >= 5:
+                tail_labels = [s.get("label_ja") for s in skills[3:5] if s.get("label_ja")]
+                if tail_labels:
+                    extra = f"加えて、{('、').join(tail_labels)}も重要です。"
+            faqs.append((
+                f"{name}に必要なスキルは何ですか？",
+                f"{name}で特に重視されるスキルは、{skills_str}などです。{extra}"
+                "詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。",
+            ))
+
+    return faqs
+
+
+def _render_occ_faq(rec: dict) -> str:
+    """Render visible FAQ as <details> blocks. Matches FAQPage JSON-LD."""
+    faqs = _build_occ_faqs(rec)
+    if not faqs:
+        return ""
+    items = "".join(
+        f'<details class="faq-item">'
+        f'<summary>{escape(q)}</summary>'
+        f'<div class="faq-answer">{escape(a)}</div>'
+        f'</details>'
+        for q, a in faqs
+    )
+    return (
+        f'<section class="faq" aria-label="よくある質問">'
+        f'<h2>よくある質問</h2>'
+        f'<div class="faq-list">{items}</div>'
         f'</section>'
     )
 
@@ -475,7 +672,9 @@ def render_jsonld(rec: dict) -> str:
         if risk is not None
         else f"{name_ja} — mirai-shigoto.com"
     )
-    page_desc = rationale_ja or desc_ja or name_ja
+    # SEO Phase 6: prefer the clean definitional sentence for Schema.org description.
+    # Falls back to AI rationale → summary → name when data missing.
+    page_desc = _make_definition(rec) or rationale_ja or desc_ja or name_ja
     breadcrumb_root = "日本の職業 AI 影響マップ"
     breadcrumb_self = name_ja
     home_url = "https://mirai-shigoto.com/"
@@ -505,7 +704,7 @@ def render_jsonld(rec: dict) -> str:
         "@type": "Occupation",
         "@id": f"{canonical}#occupation",
         "name": name_ja,
-        "description": rationale_ja or desc_ja or name_ja,
+        "description": page_desc,
         "occupationLocation": {"@type": "Country", "name": "Japan"},
         "occupationalCategory": str(id_),
         "sameAs": mhlw_url,
@@ -546,38 +745,87 @@ def render_jsonld(rec: dict) -> str:
             "median": int(salary_man * 10000),
         }
 
-    graph = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "WebPage",
-                "@id": f"{canonical}#webpage",
-                "url": canonical,
-                "name": page_name,
-                "description": page_desc,
-                "isPartOf": {"@id": "https://mirai-shigoto.com/#website"},
-                "about": {"@id": f"{canonical}#occupation"},
-                "mainEntity": {"@id": f"{canonical}#occupation"},
-                "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}",
-                "inLanguage": "ja",
-                "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
-                "datePublished": DATE_PUBLISHED,
-                "dateModified": DATE_MODIFIED,
-                "publisher": {"@id": "https://mirai-shigoto.com/#organization"},
-                "author": {"@id": "https://mirai-shigoto.com/#organization"},
-            },
-            occupation_node,
-            {
-                "@type": "BreadcrumbList",
-                "@id": f"{canonical}#breadcrumb",
-                "itemListElement": [
-                    {"@type": "ListItem", "position": 1, "name": breadcrumb_root, "item": home_url},
-                    {"@type": "ListItem", "position": 2, "name": breadcrumb_self, "item": canonical},
-                ],
-            },
-        ],
-    }
-    return json.dumps(graph, ensure_ascii=False, indent=2)
+    # SEO Phase 9: expanded Occupation schema fields. Each maps from existing
+    # MHLW jobtag data; covers high-volume long-tail intents like
+    # "{name} 労働時間" / "{name} 必要経験" / "{name} 資格".
+    if hours:
+        # workHours: Schema.org accepts free text; show monthly + annualized.
+        annual_hours = int(hours * 12)
+        occupation_node["workHours"] = (
+            f"月平均 {int(hours)} 時間（年間約 {annual_hours} 時間）"
+        )
+    tasks_lead = rec.get("tasks_lead_ja") or ""
+    if tasks_lead:
+        # responsibilities: high-level task summary. Cap at 600 chars to keep
+        # payload reasonable; tasks_lead is usually 50-200 chars in MHLW data.
+        occupation_node["responsibilities"] = tasks_lead[:600]
+    if certs:
+        # educationRequirements: list relevant certifications. JA-friendly text
+        # (Schema.org accepts string or EducationalOccupationalCredential).
+        occupation_node["educationRequirements"] = (
+            "関連資格：" + "、".join(certs)
+        )
+    long_how = rec.get("how_to_become_ja") or ""
+    if long_how:
+        # experienceRequirements: first sentence of "なるには" — usually
+        # describes years/experience. Cap at 240 chars.
+        first_how = long_how.split("。")[0].strip()
+        if first_how and len(first_how) <= 240:
+            occupation_node["experienceRequirements"] = f"{first_how}。"
+
+    graph_nodes = [
+        {
+            "@type": "WebPage",
+            "@id": f"{canonical}#webpage",
+            "url": canonical,
+            "name": page_name,
+            "description": page_desc,
+            "isPartOf": {"@id": "https://mirai-shigoto.com/#website"},
+            "about": {"@id": f"{canonical}#occupation"},
+            "mainEntity": {"@id": f"{canonical}#occupation"},
+            "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}",
+            "inLanguage": "ja",
+            "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+            "datePublished": DATE_PUBLISHED,
+            "dateModified": DATE_MODIFIED,
+            "publisher": {"@id": "https://mirai-shigoto.com/#organization"},
+            "author": {"@id": "https://mirai-shigoto.com/#organization"},
+        },
+        occupation_node,
+        {
+            "@type": "BreadcrumbList",
+            "@id": f"{canonical}#breadcrumb",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": breadcrumb_root, "item": home_url},
+                {"@type": "ListItem", "position": 2, "name": breadcrumb_self, "item": canonical},
+            ],
+        },
+    ]
+
+    # SEO Phase 8: FAQPage schema for "People also ask" rich-snippet eligibility.
+    # Q&As auto-generated from existing data; visible <details> section in HTML
+    # matches the schema exactly (Google requirement).
+    faqs = _build_occ_faqs(rec)
+    if faqs:
+        graph_nodes.append({
+            "@type": "FAQPage",
+            "@id": f"{canonical}#faq",
+            "inLanguage": "ja",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": q,
+                    "acceptedAnswer": {"@type": "Answer", "text": a},
+                }
+                for q, a in faqs
+            ],
+        })
+
+    return json.dumps(
+        {"@context": "https://schema.org", "@graph": graph_nodes},
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
 CSS_BLOCK = """
@@ -616,6 +864,10 @@ CSS_BLOCK = """
       section.context,section.sources,section.related,section.how-to-become,section.working-conditions{margin-top:28px}
       section h2{font-size:1.05rem;margin-bottom:10px;color:var(--accent)}
       section p{color:var(--fg);margin-bottom:8px}
+      /* SEO Phase 6: featured-snippet-friendly definitional lead paragraph.
+         Visually styled as a pull-quote so users (and Google) recognize it as
+         the canonical answer to "{name}とは？". */
+      section.context p.definition{font-size:1.02rem;font-weight:500;color:var(--fg);background:var(--bg2);border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0;margin-bottom:16px;line-height:1.7}
       section ul{list-style:none;padding:0}section li{margin-bottom:6px;font-size:0.92rem}
       section.related ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 12px}
       section.related li{display:flex;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;align-items:baseline;margin:0}
@@ -624,12 +876,17 @@ CSS_BLOCK = """
       section.related .r-risk{font-size:0.78rem;color:var(--fg2);font-variant-numeric:tabular-nums}
       .disclaimer{margin-top:32px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--fg2);font-size:0.82rem;line-height:1.6}
       .disclaimer strong{color:#ff8a3d}
+      .map-back-link{margin:32px 0 8px;text-align:center}
+      .map-back-link a{display:inline-block;color:var(--fg2);font-size:0.86rem;padding:10px 18px;border:1px solid var(--border);border-radius:999px;text-decoration:none;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+      .map-back-link a:hover,.map-back-link a:focus-visible{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06)}
       footer{margin-top:24px;padding:22px 0;border-top:1px solid var(--border);font-size:0.78rem;color:var(--fg2);text-align:center}
       footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
       footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:0.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
       footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-      footer .footer-meta{color:var(--fg2);font-size:0.7rem;line-height:1.55;opacity:0.92}
+      footer .footer-meta{color:var(--fg2);font-size:0.7rem;opacity:0.92;text-wrap:pretty;line-height:1.65}
       footer .footer-meta a{color:var(--accent)}
+      footer .footer-meta .nowrap{white-space:nowrap}
+      @media (max-width:540px){footer .footer-meta{font-size:0.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
       /* Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) */
       .follow-share-section{margin:48px auto 8px;text-align:center}
       .follow-block{margin-bottom:28px}
@@ -744,6 +1001,20 @@ CSS_BLOCK = """
       /* Provenance footnote */
       .provenance{margin-top:18px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-size:0.74rem;color:var(--fg2);line-height:1.55}
       .provenance code{font-family:ui-monospace,monospace;color:var(--fg);font-size:0.96em}
+
+      /* SEO Phase 8: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+      section.faq{margin-top:32px}
+      section.faq h2{font-size:1.05rem;margin-bottom:12px;color:var(--accent)}
+      .faq-list{display:flex;flex-direction:column;gap:8px}
+      .faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color 150ms ease}
+      .faq-item[open]{border-color:var(--accent)}
+      .faq-item summary{padding:14px 16px;font-family:var(--font-serif);font-size:0.98rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+      .faq-item summary::-webkit-details-marker{display:none}
+      .faq-item summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+      .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+      .faq-item summary:hover{color:var(--accent)}
+      .faq-answer{padding:0 16px 14px;color:var(--fg);font-size:0.9rem;line-height:1.7}
+      @media (max-width:600px){.faq-item summary{font-size:0.93rem;padding:12px 14px;padding-right:36px}}
 """
 
 
@@ -807,13 +1078,20 @@ def render_html(rec: dict, related: list[dict]) -> str:
     _meta_salary = f"平均年収 {int(salary_man)}万円" if salary_man else "平均年収データなし"
     _meta_age = f"平均年齢 {age}" if age else "平均年齢データなし"
 
-    # SEO intent-keyword expansion (Phase 4): adds 将来性 / 年収 / なるには long-tail
-    # so the page also matches "{職業名} 将来性", "{職業名} なるには", "{職業名} 年収"
-    # queries — the three highest-volume search intents around occupation pages.
-    title = f"{name_ja} — AI 影響 {risk_str}・将来性・年収・なるには｜未来の仕事"
+    # SEO Phase 5: title leads with occupation name + intent keywords.
+    # Description answers the search intent directly instead of listing raw data.
+    title = f"{name_ja}の将来性・年収・AI影響度【{risk_str}】｜未来の仕事"
+    _risk_desc = (
+        f"AI代替リスクは10段階中{risk}と{'低め' if risk is not None and risk <= 3 else '中程度' if risk is not None and risk <= 6 else '高め'}"
+        if risk is not None else "AI影響度を分析"
+    )
+    _salary_short = f"年収{int(salary_man)}万円" if salary_man else ""
+    _workers_short = f"就業者{fmt_int(workers)}人" if workers else ""
+    _data_parts = "・".join(p for p in [_salary_short, _workers_short] if p)
     seo_desc = (
-        f"{name_ja}：{_meta_workers} / {_meta_salary} "
-        f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
+        f"{name_ja}の{_risk_desc}。{_data_parts}。将来性やなり方、必要なスキルを詳しく解説。"
+        if _data_parts
+        else f"{name_ja}の{_risk_desc}。将来性やなり方、必要なスキルを詳しく解説。"
     )
     og_locale = "ja_JP"
     site_name = "未来の仕事 — Mirai Shigoto"
@@ -849,7 +1127,6 @@ def render_html(rec: dict, related: list[dict]) -> str:
     rel_h2 = "類似する職業"
     rel_path = "/ja/"
     skip_label = "本文へ"
-    disclaim = "AI 影響スコアは Claude Opus 4.7 による独自推定（非公式）。MHLW / jobtag / JILPT の公式見解ではありません。個別の職業選択の唯一の根拠としては使わないでください。"
     salary_cell = (
         f'{("¥" + fmt_int(int(salary_man * 10000))) if salary_man else "—"}（{int(salary_man) if salary_man else "—"} 万円）'
     )
@@ -929,7 +1206,11 @@ def render_html(rec: dict, related: list[dict]) -> str:
     # v1.1.0 long-form sections — pre-render so the f-string template stays clean.
     # ctx_html always renders (with fallback chain). how/cond sections only render
     # when the source has the field (occupations missing IPD long-form stay short).
-    ctx_html = _format_paragraphs(ctx_p) if ctx_p else f"<p>{escape('')}</p>"
+    # SEO Phase 6: lead with a featured-snippet-friendly definition sentence,
+    # styled as a pull-quote, then continue with existing long-form content.
+    definition = _make_definition(rec)
+    body_html = _format_paragraphs(ctx_p) if ctx_p else ""
+    ctx_html = f'<p class="definition">{escape(definition)}</p>\n        {body_html}'.rstrip()
     how_section = (
         f'<section class="how-to-become" aria-label="{escape(how_h2)}">\n'
         f'        <h2>{escape(how_h2)}</h2>\n'
@@ -956,6 +1237,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
     meta_row_html   = _render_meta_row(rec)
     profile_html    = _render_profile_radar(rec)
     topn_html       = _render_topn(rec)
+    faq_html        = _render_occ_faq(rec)
     transfer_html   = _render_transfer(rec)
     orgs_certs_html = _render_orgs_certs(rec)
     provenance_html = _render_provenance(rec)
@@ -1072,6 +1354,8 @@ def render_html(rec: dict, related: list[dict]) -> str:
 
       {topn_html}
 
+      {faq_html}
+
       {transfer_html}
 
       {legacy_related_html}
@@ -1081,17 +1365,12 @@ def render_html(rec: dict, related: list[dict]) -> str:
       <section class="sources">
         <h2>{src_h2}</h2>
         <ul>
-          <li><a href="{escape(mhlw_url)}" rel="external" target="_blank">{escape(src_mhlw_label)}</a></li>
+          <li><a href="{escape(mhlw_url)}" rel="external noopener noreferrer" target="_blank" data-jobtag-id="{id_}" data-ai-risk="{int(risk) if risk is not None else 0}" onclick="if(window.gtag)gtag('event','jobtag_outbound_click',{{occupation_id:{id_},ai_risk_score:{int(risk) if risk is not None else 0},language:'ja'}});">{escape(src_mhlw_label)}</a></li>
           <li><a href="/llms-full.txt" rel="noopener">{src_method_label}</a></li>
           <li><a href="{home_href}" rel="up">{src_back_label}</a></li>
         </ul>
         {provenance_html}
       </section>
-
-      <p class="disclaimer">
-        <strong>UNOFFICIAL.</strong>
-        {escape(disclaim)}
-      </p>
 
       <!-- Stage 1: Follow + Share footer block (visual layering — follow prominent, share small) -->
       <div class="follow-share-section" aria-label="フォロー・シェア">
@@ -1137,18 +1416,14 @@ def render_html(rec: dict, related: list[dict]) -> str:
         </div>
       </div>
 
-      <footer>
-        <div class="footer-links">
-          <a href="{home_href}">トップ</a>
-          <a href="/about">データについて</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-          © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析。
-        </div>
-      </footer>
+      <!-- Map closure link (Design-Mobile.md §4.11 / D6 — back to /map without query so user re-selects) -->
+      <nav class="map-back-link" aria-label="職業マップへ戻る">
+        <a href="/map">← 職業マップへ</a>
+      </nav>
+
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
 
     <script>
@@ -1226,6 +1501,30 @@ SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <!-- /map: mobile-first independent occupation-map page (Design-Mobile.md §4) -->
+  <url>
+    <loc>https://mirai-shigoto.com/map</loc>
+    <lastmod>{lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- /map sector-filtered variants (Design-Mobile.md §4.7 — 16 JILPT 大分類) -->
+  <url><loc>https://mirai-shigoto.com/map?sector=iryo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=fukushi</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=kyoiku</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=jimu</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=hanbai</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=service</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=hoan</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=noringyo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=seizo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=kensetu</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=maint</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=it</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=senmon</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=creative</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=keiseki</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mirai-shigoto.com/map?sector=shigyo</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url>
     <loc>https://mirai-shigoto.com/privacy</loc>
     <lastmod>{lastmod}</lastmod>
@@ -1257,6 +1556,8 @@ SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
+  <!-- Rankings cluster: 1 index + 9 ranking pages at /ja/rankings/<slug>. Generated by scripts/build_rankings.py. -->
+{rankings}
   <!-- Sector cluster: 1 sectors-index page + 16 sector hubs at /ja/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
 {sectors}
   <!-- Per-occupation pages: 556 JA at /ja/<id>. Generated by scripts/build_occupations.py. -->
@@ -1299,8 +1600,35 @@ def _sector_sitemap_block(lastmod: str) -> str:
     return "".join(parts)
 
 
+def _rankings_sitemap_block(lastmod: str) -> str:
+    """Emit sitemap entries for the rankings index + 9 ranking pages."""
+    slugs = [
+        "ai-risk-high", "ai-risk-low", "salary-safe", "workers",
+        "salary", "entry-salary", "young-workforce", "short-hours", "high-demand",
+    ]
+    parts: list[str] = []
+    parts.append(
+        f"  <url>\n"
+        f"    <loc>https://mirai-shigoto.com/ja/rankings</loc>\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>0.8</priority>\n"
+        f"  </url>\n"
+    )
+    for slug in slugs:
+        parts.append(
+            f"  <url>\n"
+            f"    <loc>https://mirai-shigoto.com/ja/rankings/{slug}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>0.7</priority>\n"
+            f"  </url>\n"
+        )
+    return "".join(parts)
+
+
 def write_sitemap(manifest: list[dict], lastmod: str = DATE_MODIFIED) -> None:
-    """Rewrite sitemap.xml with statics + sector cluster (index + 16 hubs) + 556 JA occupations."""
+    """Rewrite sitemap.xml with statics + rankings + sectors + 556 JA occupations."""
     lines: list[str] = []
     for entry in manifest:
         ja = entry["ja_url"]
@@ -1315,11 +1643,175 @@ def write_sitemap(manifest: list[dict], lastmod: str = DATE_MODIFIED) -> None:
     SITEMAP_PATH.write_text(
         SITEMAP_BASE.format(
             lastmod=lastmod,
+            rankings=_rankings_sitemap_block(lastmod),
             sectors=_sector_sitemap_block(lastmod),
             occupations="".join(lines),
         ),
         encoding="utf-8",
     )
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Mobile-homepage map preview thumbnail (Design-Mobile.md §4.2 + §4.10)
+# ─────────────────────────────────────────────────────────────────────
+# Per spec: mobile (<=768px) homepage no longer ships the embedded
+# treemap canvas. Instead it shows a static preview card with an inline
+# SVG thumbnail + CTA → /map. The thumbnail is generated at build time
+# (zero runtime fetch / zero JS), then injected into index.html via a
+# <!-- INCLUDE: map-thumb --> placeholder. Re-runs on every full build
+# so the thumbnail stays in sync with data.treemap.json.
+
+# 5-tier color quantization for ai_risk 1-10. Cool → warm. Hex values
+# roughly match the existing canvas treemap palette referenced in
+# Design.md §2.1 / styles/mobile-tokens.css risk-band tokens, without
+# needing a live color-function call.
+_RISK_PALETTE = (
+    "#0F8A66",  # tier 1 (ai_risk 1-2): cool teal-green
+    "#5BA84F",  # tier 2 (ai_risk 3-4): warm green
+    "#D9A03B",  # tier 3 (ai_risk 5-6): yellow-amber
+    "#E27A33",  # tier 4 (ai_risk 7-8): orange
+    "#C4422F",  # tier 5 (ai_risk 9-10): red
+)
+
+
+def _color_for_risk(risk: int) -> str:
+    """Map ai_risk score (1-10) to one of 5 quantized hex colors."""
+    if risk <= 2:
+        return _RISK_PALETTE[0]
+    if risk <= 4:
+        return _RISK_PALETTE[1]
+    if risk <= 6:
+        return _RISK_PALETTE[2]
+    if risk <= 8:
+        return _RISK_PALETTE[3]
+    return _RISK_PALETTE[4]
+
+
+def generate_map_thumbnail() -> None:
+    """Generate inline SVG thumbnail of the 552-occupation treemap for the
+    mobile homepage preview card. Per Design-Mobile.md §4.10.
+
+    Strategy: top 30 occupations by workers fill the upper 3 rows (10 cells
+    each), the remaining 522 occupations are aggregated into a single
+    full-width "その他" tile in the bottom row (per spec "底部一条").
+    Within each top-30 row, cells are sorted by ai_risk asc so colors flow
+    cool→warm left to right; cell width is proportional to workers within
+    the row. Color: 5-tier quantization on ai_risk via _color_for_risk().
+    Output target: <4KB inline SVG, written to dist/map-thumb.snippet.html
+    for the inject step.
+    """
+    src = REPO / "dist" / "data.treemap.json"
+    out = REPO / "dist" / "map-thumb.snippet.html"
+
+    if not src.exists():
+        print(f"WARN: {src.relative_to(REPO)} not found; skipping map thumbnail.")
+        return
+
+    records = json.loads(src.read_text())
+
+    # Top 30 by workers + sum the rest into a single "その他" bottom strip.
+    sorted_w = sorted(records, key=lambda r: r.get("workers") or 0, reverse=True)
+    top30 = sorted_w[:30]
+    rest = sorted_w[30:]
+    rest_workers = sum((r.get("workers") or 0) for r in rest)
+    rest_ai = (
+        round(sum((r.get("ai_risk") or 5) for r in rest) / len(rest))
+        if rest
+        else 5
+    )
+
+    # Sort top 30 by ai_risk asc, distribute round-robin into 3 rows so each
+    # row spans the full risk spectrum (matches mockup's L→R cool→warm look).
+    top30.sort(key=lambda r: ((r.get("ai_risk") or 5), -(r.get("workers") or 0)))
+    rows: list[list[tuple[int, int]]] = [[], [], []]
+    for i, r in enumerate(top30):
+        rows[i % 3].append(((r.get("workers") or 0), (r.get("ai_risk") or 5)))
+    # Within each row, sort by ai_risk asc → cool→warm L→R.
+    for row in rows:
+        row.sort(key=lambda c: c[1])
+
+    # Render SVG. preserveAspectRatio=none lets it stretch to its container.
+    W, H = 320, 130
+    top_band_h = H * 0.78  # upper 78% for top 30 cells
+    other_band_h = H - top_band_h  # bottom 22% for "その他"
+    row_h = top_band_h / 3
+
+    parts: list[str] = [
+        f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" '
+        f'preserveAspectRatio="none" role="img" '
+        f'aria-label="552 職業の AI 影響ヒートマップ プレビュー" '
+        f'class="m-map-preview-svg">'
+    ]
+    # Top 30 — 3 rows of ~10 cells each
+    for ri, row in enumerate(rows):
+        row_total = sum(c[0] for c in row)
+        x = 0.0
+        y = ri * row_h
+        for workers, risk in row:
+            w = (workers / row_total) * W if row_total > 0 else 0
+            color = _color_for_risk(risk)
+            parts.append(
+                f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" '
+                f'height="{row_h:.1f}" fill="{color}"/>'
+            )
+            x += w
+    # "その他" — single full-width bottom strip with average risk color
+    if rest_workers > 0:
+        parts.append(
+            f'<rect x="0.0" y="{top_band_h:.1f}" width="{W}" '
+            f'height="{other_band_h:.1f}" fill="{_color_for_risk(rest_ai)}" '
+            f'opacity="0.55"/>'
+        )
+    parts.append("</svg>")
+
+    snippet = "".join(parts)
+    out.write_text(snippet, encoding="utf-8")
+    print(f"Map thumbnail SVG: {len(snippet)} bytes → {out.relative_to(REPO)}")
+
+
+def inject_map_thumbnail_into_index() -> None:
+    """Replace the <!-- INCLUDE: map-thumb --> ... <!-- /INCLUDE: map-thumb -->
+    block in index.html with the freshly-generated SVG snippet.
+
+    By inlining the SVG we avoid a runtime fetch on the mobile homepage,
+    keeping the preview card zero-JS / zero-network. Per Design-Mobile.md
+    §4.10. The placeholder is preserved so subsequent builds re-inject
+    cleanly.
+    """
+    snippet_path = REPO / "dist" / "map-thumb.snippet.html"
+    index_path = REPO / "index.html"
+
+    if not snippet_path.exists():
+        print(f"WARN: {snippet_path.relative_to(REPO)} not found; skipping inject.")
+        return
+    if not index_path.exists():
+        print("WARN: index.html not found; skipping inject.")
+        return
+
+    snippet = snippet_path.read_text(encoding="utf-8").strip()
+    html = index_path.read_text(encoding="utf-8")
+
+    pattern = re.compile(
+        r"(<!-- INCLUDE: map-thumb -->)(.*?)(<!-- /INCLUDE: map-thumb -->)",
+        re.DOTALL,
+    )
+    match = pattern.search(html)
+    if not match:
+        print(
+            "WARN: <!-- INCLUDE: map-thumb --> markers not found in "
+            "index.html; skipping inject. (Add the placeholder to enable "
+            "auto-injection per Design-Mobile.md §4.10.)"
+        )
+        return
+
+    new_block = f"{match.group(1)}\n          {snippet}\n          {match.group(3)}"
+    html2 = html[: match.start()] + new_block + html[match.end():]
+
+    if html2 != html:
+        index_path.write_text(html2, encoding="utf-8")
+        print(f"Map thumbnail injected → index.html ({len(snippet)} bytes inline SVG)")
+    else:
+        print("Map thumbnail already up-to-date in index.html.")
 
 
 def main() -> int:
@@ -1385,6 +1877,14 @@ def main() -> int:
         print(f"Sitemap rewritten: {SITEMAP_PATH} ({pages} occupation URLs added)")
     elif not is_full_run:
         print("(partial run — sitemap NOT rewritten; pass --no-sitemap to silence this notice)")
+
+    # Mobile homepage map preview SVG (Design-Mobile.md §4.10).
+    # Regenerate + inject on every full build so the inline thumbnail in
+    # index.html stays in sync with dist/data.treemap.json.
+    if is_full_run:
+        generate_map_thumbnail()
+        inject_map_thumbnail_into_index()
+
     return 0
 
 

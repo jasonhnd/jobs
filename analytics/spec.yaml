@@ -30,13 +30,13 @@ events:
       - { name: tile_count, type: int, desc: "Number of tiles rendered (552 today)" }
     conversion: false
 
-  - name: language_switch
-    description: User toggled the JA/EN language switch.
-    params:
-      - { name: from_lang, type: string }
-      - { name: to_lang, type: string }
-      - { name: path, type: string, desc: "URL path at time of switch" }
-    conversion: false
+  # `language_switch` — REMOVED 2026-05-06. Was wired to the JA/EN language
+  # switcher that v1.4.0 deleted (site is now JA-only, /en/* 301 → /ja/*).
+  # Event will never fire again. Historical event data still in GA4 for
+  # the prior 14-month retention window. `from_lang` / `to_lang` / `path`
+  # parameters are left as global params (used by other events) — not
+  # specifically tied to language_switch any more, so no parameter cleanup
+  # needed.
 
   - name: layer_change
     description: User switched the color layer (AI risk / salary / age / etc.)
@@ -73,13 +73,18 @@ events:
     conversion: true   # treemap → occupation page is the primary navigation funnel
 
   - name: tooltip_view
-    description: Desktop hover triggered tooltip display (proxy for desktop tile interest).
+    description: |
+      Desktop hover triggered tooltip display (proxy for desktop tile interest).
+      Sampled at 10% client-side (Math.random() < 0.10) — full rate would
+      dwarf every other event since tooltips fire on every hover. The 10%
+      sample is representative for "which occupations attract attention"
+      analysis. Multiply tooltip_view counts by 10 when extrapolating to
+      total tooltip volume.
     params:
       - { name: occupation_id, type: int }
       - { name: ai_risk_score, type: int }
       - { name: language, type: string }
-    conversion: false
-    unimplemented: planned   # would fire too often (every hover); deferred until we decide on a sample rate
+    conversion: false   # signal-only, not a conversion goal
 
   # `search_used` — REMOVED 2026-05-02. Was deprecated, never emitted; replaced
   # entirely by `job_search_submit` (which logs the query text). Removing from
@@ -200,13 +205,18 @@ events:
     conversion: true   # Yaku's推广方案 KPI #3 — promote to Key Event
 
   - name: jobtag_outbound_click
-    description: User clicked the secondary "open official jobtag page" link (was on modal; lives on per-occupation pages now).
+    description: |
+      User clicked the "出典 / 厚生労働省 job tag" link in the source-row of a
+      per-occupation page, navigating away to the MHLW jobtag site. Used to
+      measure flow of users who chose to verify against / continue at the
+      official source after consuming our analysis. Compliance-relevant —
+      proves the attribution chain ja/<id> → MHLW is being used. Wired in
+      scripts/build_occupations.py via inline onclick gtag('event', ...).
     params:
       - { name: occupation_id, type: int }
-      - { name: from_modal, type: string, desc: "true | false (was it from modal or other path?)" }
+      - { name: ai_risk_score, type: int }
       - { name: language, type: string }
-    conversion: false
-    unimplemented: planned   # link exists on /ja/<id> & /en/<id> as a 出典 / source row; gtag emit not wired yet
+    conversion: false   # informational, not a primary conversion goal
 
   # ---- Email capture ----
   # `email_submit_modal` — REMOVED 2026-05-02 along with the modal itself.
@@ -271,6 +281,53 @@ events:
       - { name: system_pref, type: string, desc: "browser-reported prefers-color-scheme — 'light' | 'dark'" }
     conversion: false
 
+  # ---- /map page (Design-Mobile.md §4.8) ----
+  # Mobile-first independent occupation map with sector segmented treemap +
+  # bottom sheet detail preview. These 4 events let us measure the discovery
+  # → exploration → detail-jump funnel separately from the homepage flows.
+
+  - name: map_open
+    description: |
+      User landed on /map. Fires once per page load after data finishes loading.
+      Use the `referrer` param to attribute back to the entry point: home_card
+      (mobile preview-card tap), direct (typed URL / bookmark / external),
+      detail (back-navigation from a /ja/<id> page), internal (from another
+      site page), external (from a different host).
+    params:
+      - { name: referrer, type: string, desc: "'home_card' | 'direct' | 'detail' | 'internal' | 'external'" }
+    conversion: false
+
+  - name: map_filter
+    description: |
+      User changed the sector chip OR the sort dropdown on /map. Fires per
+      change (not debounced). Use to understand which sectors get explored
+      and which sort order users prefer.
+    params:
+      - { name: sector, type: string, desc: "selected sector_id, or 'all'" }
+      - { name: sort, type: string, desc: "'ai_risk_desc' | 'ai_risk_asc' | 'salary_desc' | 'workers_desc'" }
+    conversion: false
+
+  - name: map_cell_tap
+    description: |
+      User tapped a treemap cell on /map, opening the bottom sheet. Distinct
+      from map_detail_click (which fires when they then jump to the detail
+      page). The gap between map_cell_tap and map_detail_click counts is the
+      "preview-only" funnel — users who looked but didn't go deeper.
+    params:
+      - { name: job_id, type: int, desc: "occupation id (1..556)" }
+      - { name: sector, type: string, desc: "occupation's sector_id" }
+      - { name: rank, type: int, desc: "global ranking by ai_risk desc (1..552), 0 if outside Top 50" }
+    conversion: false
+
+  - name: map_detail_click
+    description: |
+      Bottom-sheet "詳細を見る" CTA tap on /map → /ja/<id>. This is the /map
+      → detail conversion event; pair with map_open as denominator for funnel
+      conversion rate.
+    params:
+      - { name: job_id, type: int, desc: "occupation id (1..556)" }
+    conversion: true   # /map → detail jump is the page's primary funnel goal
+
 # ----------------------------------------------------------------------
 # Custom Dimensions — event-scoped
 # ----------------------------------------------------------------------
@@ -307,13 +364,10 @@ event_scoped_dimensions:
     display_name: Layer Name
     description: Active color layer at time of event.
 
-  - parameter_name: open_method
-    display_name: Modal Open Method
-    description: How the modal was triggered (tap / hash / keyboard).
-
-  - parameter_name: close_method
-    display_name: Modal Close Method
-    description: How the modal was dismissed (x / esc / backdrop).
+  # `open_method` / `close_method` — REMOVED 2026-05-06 from spec. They were
+  # introduced for the modal lifecycle (occupation_modal_open / modal_close)
+  # which was deleted 2026-05-02. The dimensions still exist on the live GA4
+  # property to preserve historical data; we just don't sync them anymore.
 
   - parameter_name: selected_options
     display_name: Feedback Selected Options
@@ -327,9 +381,11 @@ event_scoped_dimensions:
     display_name: Submit Error Reason
     description: Error code when an email/feedback submit failed.
 
-  - parameter_name: from_modal
-    display_name: From Modal
-    description: Whether an outbound click came from the modal vs elsewhere.
+  # `from_modal` — REMOVED 2026-05-06 from spec. Was a parameter on the old
+  # `jobtag_outbound_click` event when both modal-path and per-page-path
+  # existed; v1.4.0 removed the modal entirely and the param was dropped
+  # from the event in favor of `ai_risk_score`. Live GA4 dimension preserved
+  # for historical data; spec just no longer syncs it.
 
   - parameter_name: tile_position_idx
     display_name: Tile Position Index
@@ -367,9 +423,8 @@ event_scoped_dimensions:
     display_name: Layer Switch Source
     description: Previously active color layer at the moment of a `layer_change` (paired with `layer_name` which is the new value).
 
-  - parameter_name: time_open_ms
-    display_name: Modal Open Duration ms
-    description: How long the occupation modal was open before being closed. Used to score "engaged but didn't convert" sessions.
+  # `time_open_ms` — REMOVED 2026-05-06 from spec (same reason as
+  # open_method / close_method above). Live GA4 dimension preserved for history.
 
   - parameter_name: freetext_length
     display_name: Feedback Freetext Length
@@ -399,6 +454,27 @@ event_scoped_dimensions:
   - parameter_name: system_pref
     display_name: System Color Preference
     description: Browser-reported `prefers-color-scheme` at the moment of the toggle (light / dark).
+
+  # ---- /map page params (Design-Mobile.md §4.8) ----
+  - parameter_name: referrer
+    display_name: Map Page Referrer
+    description: How the user arrived at /map. Values - home_card, direct, detail, internal, external. Used by `map_open` to attribute the funnel.
+
+  - parameter_name: sector
+    display_name: Sector ID
+    description: JILPT 大分類 sector identifier (e.g. iryo, jimu, seizo). Used by `map_filter` and `map_cell_tap` on the /map page; can also appear on other events that need sector grouping.
+
+  - parameter_name: sort
+    display_name: Map Sort Order
+    description: Active sort order on /map. Values - ai_risk_desc, ai_risk_asc, salary_desc, workers_desc. Used by `map_filter`.
+
+  - parameter_name: rank
+    display_name: Global AI Risk Rank
+    description: 1-based ranking of an occupation by ai_risk desc (then workers desc as tiebreaker). 0 if outside the Top 50 we use to gate the bottom-sheet ranking badge. Used by `map_cell_tap`.
+
+  - parameter_name: job_id
+    display_name: Job ID
+    description: Numeric occupation id (1..580). Used by `map_cell_tap` and `map_detail_click`. Distinct from `occupation_id` which is the existing dimension used by treemap-canvas events; both reference the same id space and can be unified later.
 
 # ----------------------------------------------------------------------
 # Custom Dimensions — user-scoped (persist across sessions)
@@ -434,6 +510,7 @@ key_events:
   - job_search_intent       # user engaged with autocomplete (KPI #1, real CTR denominator since 2026-05-06)
   - job_search_navigate     # search input Enter / suggest click → /ja/<id> (Stage 1)
   - result_view             # /ja/<id> or /en/<id> page-view fired with typed params (Stage 1, KPI #3)
+  - email_submit_header     # newsletter card submit (QI 3); spec entry exists, UI not yet wired (unimplemented:planned)
   # — Conversion: occupation page → operator inbox —
   - feedback_submit         # QI 8 (feedback + tagging)
   # NOTE: `email_submit_modal` and `report_cta_click` were removed in 2026-05-02

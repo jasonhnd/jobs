@@ -63,6 +63,30 @@
       }
     },
     {
+      "@type": "Article",
+      "@id": "https://mirai-shigoto.com/ja/sectors/maint#article",
+      "headline": "設備・保守 の職業 — 49職業の AI 影響度・年収・就業者数",
+      "description": "設備・保守 業界の 49 職業を AI 影響度・年収・就業者数で一覧。",
+      "image": "https://mirai-shigoto.com/api/og?sector=maint",
+      "url": "https://mirai-shigoto.com/ja/sectors/maint",
+      "datePublished": "2026-05-05",
+      "dateModified": "2026-05-05",
+      "author": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://mirai-shigoto.com/#organization"
+      },
+      "inLanguage": "ja",
+      "mainEntityOfPage": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/maint#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://mirai-shigoto.com/ja/sectors/maint#webpage"
+      },
+      "articleSection": "セクター"
+    },
+    {
       "@type": "BreadcrumbList",
       "@id": "https://mirai-shigoto.com/ja/sectors/maint#breadcrumb",
       "itemListElement": [
@@ -388,6 +412,53 @@
           "name": "3Dプリンター技術者"
         }
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://mirai-shigoto.com/ja/sectors/maint#faq",
+      "inLanguage": "ja",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "設備・保守業界にはどんな職業がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "設備・保守業界は49の職業に分類されており、代表的な職業は自動車組立、自動車整備士、路線バス運転士などです。就業者数の合計は約4,593,159人にのぼります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "設備・保守業界で AI 影響度が最も高い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が高い順に、非破壊検査技術者（AI影響 6/10）、発電所運転管理（AI影響 6/10）、ドローンパイロット（AI影響 6/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "設備・保守業界で AI 影響度が最も低い職業は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI影響度が低い順に、エレベーター据付（AI影響 2/10）、さく井工/ボーリング工（AI影響 2/10）、配電盤・制御盤等組立（AI影響 3/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "設備・保守業界の平均 AI 影響度は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "設備・保守業界の49職業の平均 AI 影響度は10段階中 3.6 で、中程度の水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "設備・保守業界の将来性は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "平均 AI 影響度 3.6/10 で、AIに代替されにくい職業が多く、将来性が比較的高いな業界です。特に AI リスクが低い職業として エレベーター据付、さく井工/ボーリング工、配電盤・制御盤等組立 などが挙げられます。"
+          }
+        }
+      ]
     }
   ]
 }
@@ -397,13 +468,18 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights -->
@@ -464,9 +540,22 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
 footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-footer .footer-meta{color:var(--fg2);font-size:.72rem;line-height:1.55}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
 footer .footer-meta a{color:var(--accent)}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 </style>
   </head>
   <body>
@@ -521,23 +610,33 @@ footer .footer-meta a{color:var(--accent)}
         <ul class="full-list"><li><a href="/ja/260"><span class="risk-pill mid">6/10</span>非破壊検査技術者</a></li><li><a href="/ja/302"><span class="risk-pill mid">6/10</span>発電所運転管理</a></li><li><a href="/ja/511"><span class="risk-pill mid">6/10</span>ドローンパイロット</a></li><li><a href="/ja/193"><span class="risk-pill mid">5/10</span>鉄道車掌</a></li><li><a href="/ja/466"><span class="risk-pill mid">5/10</span>清涼飲料ルートセールス</a></li><li><a href="/ja/95"><span class="risk-pill mid">4/10</span>ビル施設管理</a></li><li><a href="/ja/111"><span class="risk-pill mid">4/10</span>観光バスガイド</a></li><li><a href="/ja/186"><span class="risk-pill mid">4/10</span>路線バス運転士</a></li><li><a href="/ja/188"><span class="risk-pill mid">4/10</span>タクシー運転手</a></li><li><a href="/ja/189"><span class="risk-pill mid">4/10</span>パイロット</a></li><li><a href="/ja/190"><span class="risk-pill mid">4/10</span>航海士</a></li><li><a href="/ja/191"><span class="risk-pill mid">4/10</span>船舶機関士</a></li><li><a href="/ja/197"><span class="risk-pill mid">4/10</span>自動車整備士</a></li><li><a href="/ja/206"><span class="risk-pill mid">4/10</span>航空整備士</a></li><li><a href="/ja/232"><span class="risk-pill mid">4/10</span>産業用ロボットの設置・設定</a></li><li><a href="/ja/233"><span class="risk-pill mid">4/10</span>産業用ロボットの保守・メンテナンス</a></li><li><a href="/ja/268"><span class="risk-pill mid">4/10</span>半導体製造</a></li><li><a href="/ja/269"><span class="risk-pill mid">4/10</span>物流設備管理・保全</a></li><li><a href="/ja/284"><span class="risk-pill mid">4/10</span>紡織設備管理・保全</a></li><li><a href="/ja/476"><span class="risk-pill mid">4/10</span>ボイラーオペレーター</a></li><li><a href="/ja/477"><span class="risk-pill mid">4/10</span>トラックドライバー</a></li><li><a href="/ja/478"><span class="risk-pill mid">4/10</span>トレーラートラックドライバー</a></li><li><a href="/ja/482"><span class="risk-pill mid">4/10</span>ルート配送ドライバー</a></li><li><a href="/ja/483"><span class="risk-pill mid">4/10</span>宅配便配達員</a></li><li><a href="/ja/526"><span class="risk-pill mid">4/10</span>検査工（工業製品）</a></li><li><a href="/ja/31"><span class="risk-pill low">3/10</span>建設機械オペレーター</a></li><li><a href="/ja/187"><span class="risk-pill low">3/10</span>観光バス運転士</a></li><li><a href="/ja/192"><span class="risk-pill low">3/10</span>電車運転士</a></li><li><a href="/ja/207"><span class="risk-pill low">3/10</span>船員</a></li><li><a href="/ja/236"><span class="risk-pill low">3/10</span>太陽光発電のメンテナンス</a></li><li><a href="/ja/237"><span class="risk-pill low">3/10</span>フォークリフト運転作業員</a></li><li><a href="/ja/263"><span class="risk-pill low">3/10</span>光学機器組立</a></li><li><a href="/ja/264"><span class="risk-pill low">3/10</span>自動車組立</a></li><li><a href="/ja/265"><span class="risk-pill low">3/10</span>生産用機械組立</a></li><li><a href="/ja/266"><span class="risk-pill low">3/10</span>計器組立</a></li><li><a href="/ja/275"><span class="risk-pill low">3/10</span>家電修理</a></li><li><a href="/ja/277"><span class="risk-pill low">3/10</span>医療用画像機器組立</a></li><li><a href="/ja/479"><span class="risk-pill low">3/10</span>ダンプカー運転手</a></li><li><a href="/ja/480"><span class="risk-pill low">3/10</span>送迎バス等運転手</a></li><li><a href="/ja/481"><span class="risk-pill low">3/10</span>介護タクシー運転手</a></li><li><a href="/ja/484"><span class="risk-pill low">3/10</span>新聞配達員</a></li><li><a href="/ja/525"><span class="risk-pill low">3/10</span>タンクローリー乗務員</a></li><li><a href="/ja/532"><span class="risk-pill low">3/10</span>フードデリバリー（料理配達員）</a></li><li><a href="/ja/535"><span class="risk-pill low">3/10</span>風力発電のメンテナンス</a></li><li><a href="/ja/549"><span class="risk-pill low">3/10</span>クレーン運転士</a></li><li><a href="/ja/559"><span class="risk-pill low">3/10</span>配電盤・制御盤等組立</a></li><li><a href="/ja/35"><span class="risk-pill low">2/10</span>さく井工/ボーリング工</a></li><li><a href="/ja/48"><span class="risk-pill low">2/10</span>エレベーター据付</a></li><li><a href="/ja/584"><span class="risk-pill mid">—</span>3Dプリンター技術者</a></li></ul>
       </section>
 
+      <section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list"><details class="faq-item"><summary>設備・保守業界にはどんな職業がありますか？</summary><div class="faq-answer">設備・保守業界は49の職業に分類されており、代表的な職業は自動車組立、自動車整備士、路線バス運転士などです。就業者数の合計は約4,593,159人にのぼります。</div></details><details class="faq-item"><summary>設備・保守業界で AI 影響度が最も高い職業は？</summary><div class="faq-answer">AI影響度が高い順に、非破壊検査技術者（AI影響 6/10）、発電所運転管理（AI影響 6/10）、ドローンパイロット（AI影響 6/10） です。これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。</div></details><details class="faq-item"><summary>設備・保守業界で AI 影響度が最も低い職業は？</summary><div class="faq-answer">AI影響度が低い順に、エレベーター据付（AI影響 2/10）、さく井工/ボーリング工（AI影響 2/10）、配電盤・制御盤等組立（AI影響 3/10） です。身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。</div></details><details class="faq-item"><summary>設備・保守業界の平均 AI 影響度は？</summary><div class="faq-answer">設備・保守業界の49職業の平均 AI 影響度は10段階中 3.6 で、中程度の水準です。これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。</div></details><details class="faq-item"><summary>設備・保守業界の将来性は？</summary><div class="faq-answer">平均 AI 影響度 3.6/10 で、AIに代替されにくい職業が多く、将来性が比較的高いな業界です。特に AI リスクが低い職業として エレベーター据付、さく井工/ボーリング工、配電盤・制御盤等組立 などが挙げられます。</div></details></div></section>
+
       <section aria-label="他のセクター">
         <h2>他のセクター</h2>
         <ul class="related-sectors"><li><a href="/ja/sectors/iryo"><span class="ja-name">医療・保健</span><span class="count">36 職業</span></a></li><li><a href="/ja/sectors/fukushi"><span class="ja-name">福祉・介護</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/kyoiku"><span class="ja-name">教育・指導</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/hoan"><span class="ja-name">保安・公安</span><span class="count">15 職業</span></a></li><li><a href="/ja/sectors/noringyo"><span class="ja-name">農林・水産</span><span class="count">14 職業</span></a></li><li><a href="/ja/sectors/senmon"><span class="ja-name">専門・技術</span><span class="count">51 職業</span></a></li><li><a href="/ja/sectors/it"><span class="ja-name">IT・通信</span><span class="count">22 職業</span></a></li><li><a href="/ja/sectors/shigyo"><span class="ja-name">士業・経営・コンサル</span><span class="count">63 職業</span></a></li><li><a href="/ja/sectors/creative"><span class="ja-name">クリエイティブ・メディア</span><span class="count">37 職業</span></a></li><li><a href="/ja/sectors/jimu"><span class="ja-name">事務・公務</span><span class="count">57 職業</span></a></li><li><a href="/ja/sectors/hanbai"><span class="ja-name">販売・営業</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/service"><span class="ja-name">サービス・接客</span><span class="count">41 職業</span></a></li><li><a href="/ja/sectors/seizo"><span class="ja-name">製造・職人</span><span class="count">59 職業</span></a></li><li><a href="/ja/sectors/kensetu"><span class="ja-name">建設・土木</span><span class="count">20 職業</span></a></li><li><a href="/ja/sectors/keiseki"><span class="ja-name">軽作業・清掃</span><span class="count">16 職業</span></a></li></ul>
       </section>
 
+      <!-- FOOTER:START -->
       <footer>
         <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-          © <a href="/">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
+            最終更新：<time datetime="2026-05-06T19:20:48+09:00">2026/05/06/19:20</time><br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>
       </footer>
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>

@@ -34,13 +34,18 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights — same 4-tracker policy as the rest of the site. -->
@@ -232,9 +237,16 @@
         margin-top: 56px;
         padding-top: 22px;
         border-top: 1px solid var(--border);
-        font-size: 0.8rem;
+        font-size: 0.72rem;
         color: var(--fg2);
         text-align: center;
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
       }
       footer .footer-links {
         display: flex;
@@ -242,6 +254,7 @@
         gap: 8px;
         justify-content: center;
         align-items: center;
+        margin-bottom: 14px;
       }
       footer .footer-links a {
         color: var(--fg2);
@@ -259,11 +272,15 @@
         background: rgba(217, 107, 61, 0.06);
         text-decoration: none;
       }
+      footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
+      footer .footer-meta a { color: var(--accent); }
+      footer .footer-meta .nowrap { white-space: nowrap; }
 @media (max-width: 540px) {
         #wrapper { padding: 18px 16px 60px; }
         h1.title { font-size: 1.2rem; }
         .four-oh-four { margin: 16px 0 2px; }
         .helpful-links a .desc { display: none; }
+        footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
       }
     </style>
   </head>
@@ -298,6 +315,54 @@
         <div class="label">
           こちらもどうぞ
         </div>
+        <a href="/ja/sectors">
+          <span>
+            16 セクターから探す
+          </span>
+          <span class="desc">
+            業界別 556 職業
+          </span>
+        </a>
+        <a href="/ja/rankings">
+          <span>
+            ランキングから探す
+          </span>
+          <span class="desc">
+            AIリスク・年収・就業者数
+          </span>
+        </a>
+        <a href="/ja/rankings/ai-risk-high">
+          <span>
+            AIに奪われる仕事 TOP30
+          </span>
+          <span class="desc">
+            AI影響度が高い職業
+          </span>
+        </a>
+        <a href="/ja/rankings/ai-risk-low">
+          <span>
+            AI影響が少ない仕事 TOP30
+          </span>
+          <span class="desc">
+            将来性のある職業
+          </span>
+        </a>
+        <a href="/ja/rankings/salary-safe">
+          <span>
+            高年収×低AIリスク TOP30
+          </span>
+          <span class="desc">
+            収入と安定を両立
+          </span>
+        </a>
+        <a href="/ja/rankings/workers">
+          <span>
+            就業者数ランキング TOP30
+          </span>
+          <span class="desc">
+            最も人が多い職業
+          </span>
+        </a>
         <a href="/about">
           <span>
             データについて
@@ -324,14 +389,26 @@
         </a>
       </div>
 
+      <!-- FOOTER:START -->
       <footer>
-        <div class="footer-links active">
+        <div class="footer-links">
           <a href="/">トップ</a>
+          <a href="/map">職業マップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
+        <div class="footer-meta">
+            最終更新：<time datetime="2026-05-06T19:20:48+09:00">2026/05/06/19:20</time><br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
+        </div>
       </footer>
+      <!-- FOOTER:END -->
     </div>
 
     <script>

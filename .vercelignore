@@ -1,0 +1,17 @@
+# Vercel deployment ignore — mirrors .gitignore for files that exist locally
+# but must not reach mirai-shigoto.com.
+
+# Local-only preview / scratch HTML files. Names starting with `_` are draft.
+# Without this, Vercel uploads them from the working tree even though git ignores them.
+_*.html
+
+# Audit / scratch directory
+_audit/
+
+# Local Python venv
+.venv/
+__pycache__/
+
+# Editor / OS junk
+.DS_Store
+desktop.ini

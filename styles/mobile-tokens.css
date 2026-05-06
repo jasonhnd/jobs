@@ -1,20 +1,31 @@
 /* ─────────────────────────────────────────────────────────────
-   未来の仕事 — Mobile-Web Design Tokens
-   Direction C: Warm Editorial (v1.1.0)
+   未来の仕事 — Design Tokens (Direction C: Warm Editorial)
 
    Source : Claude Design handoff (n1vYPf6nRu2Q7YzDBIsG3Q), 2026-05-04
-   Spec   : docs/MOBILE_DESIGN.md §2 (tokens)
-   Scope  : Mobile-only ("/m/ja/*", "/m/en/*"). Desktop site
-            (index.html and existing /ja/<id>, /en/<id>) keeps the
-            tokens defined in docs/Design.md §2.
+   Origin : Was authored as MOBILE-only token set for v1.1.0 `/m/*`
+            architecture. v1.2.0 PC convergence promoted this file to
+            the LIVE site-wide token source — referenced from index.html,
+            about.html, privacy.html, compliance.html, 404.html, and all
+            ja/<id>.html pages (synced into each page's <style> block).
+   Scope  : Site-wide (since v1.2.0). The "mobile-tokens.css" filename
+            is historical; do not be misled — this is now the desktop
+            token source as well. Filename retained because 559+ HTML
+            files quote it in "synced from styles/mobile-tokens.css"
+            comments; renaming would require a coordinated repo-wide
+            sweep + production verification.
 
-   Editing rule (per docs/MOBILE_DESIGN.md §15):
-     - This file is the single source of truth for mobile colors,
+   Editing rule:
+     - This file is the single source of truth for site-wide colors,
        fonts, spacing, radius, shadow, and risk-band semantics.
-     - Any visual change starts HERE, then propagates to component
-       CSS / HTML.
-     - Keep in sync with styles/mobile-tokens.json (machine-readable
-       mirror used by future tooling).
+     - Any visual change starts HERE, then propagates (re-syncs) into
+       component CSS / HTML <style> blocks.
+     - styles/mobile-tokens.json is a machine-readable mirror with
+       0 known consumers; safe to delete in a follow-up cleanup.
+     - Spec doc `docs/MOBILE_DESIGN.md` (former §2 / §15) was deleted
+       2026-05-06 along with the v1.1.0 archive. Current design spec
+       lives in `docs/Design.md` + `docs/Design-Mobile.md`; visual
+       token decisions follow Design.md §2 on the desktop side and
+       Design-Mobile.md cross-references.
    ───────────────────────────────────────────────────────────── */
 
 :root {

@@ -272,10 +272,162 @@ async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
 }
 
 
+// Design-Mobile.md §4.7: /map page OG card. Static layout, no upstream fetch.
+async function renderMapCard(): Promise<Response> {
+  const siteMark = "mirai-shigoto.com";
+  const eyebrowLabel = "OCCUPATION MAP / 全 552 職業";
+  const titleJa = "職業マップ";
+  const subtitleJa = "AI 影響度 × 就業者数 ヒートマップ";
+  const bottomLabel = "面積 = 就業者数 ・ 色 = AI 影響(低 → 高)";
+
+  const subsetText =
+    `UNOFFICIAL ${siteMark} ${eyebrowLabel} ${titleJa} ${subtitleJa} ${bottomLabel} ・ /`;
+
+  const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
+    loadGoogleFont("Noto+Serif+JP", 600, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  800, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  500, subsetText),
+  ]);
+
+  const C = {
+    bg:       "#FAF6EE",
+    ink:      "#241E18",
+    muted:    "#7A6F5E",
+    hairline: "rgba(36, 30, 24, 0.12)",
+    accent:   "#D96B3D",
+  };
+  // 5-tier risk palette (matches the page's inline thumbnail in build_occupations.py
+  // generate_map_thumbnail()). Cool → warm to read as "spectrum of AI impact".
+  const RISK = ["#0F8A66", "#5BA84F", "#D9A03B", "#E27A33", "#C4422F"];
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          background: C.bg,
+          color: C.ink,
+          fontFamily: "NotoSansJP",
+          padding: "48px 64px",
+          borderLeft: `14px solid ${C.accent}`,
+        }}
+      >
+        {/* Top bar */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div
+            style={{
+              background: C.accent,
+              color: "#FFFFFF",
+              padding: "8px 18px",
+              borderRadius: "999px",
+              fontWeight: 800,
+              fontSize: "22px",
+              letterSpacing: "0.08em",
+            }}
+          >
+            UNOFFICIAL
+          </div>
+          <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>{siteMark}</div>
+        </div>
+
+        {/* Eyebrow + giant title */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "26px",
+              color: C.accent,
+              fontWeight: 800,
+              letterSpacing: "0.18em",
+              marginBottom: "16px",
+            }}
+          >
+            {eyebrowLabel}
+          </div>
+          <div
+            style={{
+              fontFamily: "NotoSerifJP",
+              fontSize: "128px",
+              fontWeight: 600,
+              lineHeight: 1.0,
+              color: C.ink,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {titleJa}
+          </div>
+          <div
+            style={{
+              fontSize: "30px",
+              color: C.muted,
+              fontWeight: 500,
+              marginTop: "20px",
+            }}
+          >
+            {subtitleJa}
+          </div>
+
+          {/* 5-band stylized swatch — implies the heatmap palette without
+              fetching real data (keeps this card upstream-fetch-free). */}
+          <div style={{ display: "flex", gap: "0", marginTop: "32px", height: "26px", borderRadius: "4px", overflow: "hidden" }}>
+            {RISK.map((c, i) => (
+              <div key={i} style={{ flex: 1, background: c }} />
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom legend */}
+        <div
+          style={{
+            display: "flex",
+            gap: "16px",
+            fontSize: "24px",
+            color: C.muted,
+            fontWeight: 500,
+            borderTop: `1px solid ${C.hairline}`,
+            paddingTop: "24px",
+            marginTop: "20px",
+          }}
+        >
+          <span>{bottomLabel}</span>
+        </div>
+      </div>
+    ),
+    {
+      width: 1200,
+      height: 630,
+      fonts: [
+        { name: "NotoSerifJP", data: fontSerifBuf,    weight: 600, style: "normal" },
+        { name: "NotoSansJP",  data: fontSansBoldBuf, weight: 800, style: "normal" },
+        { name: "NotoSansJP",  data: fontSansRegBuf,  weight: 500, style: "normal" },
+      ],
+      headers: {
+        "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+      },
+    },
+  );
+}
+
 export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const sectorParam = url.searchParams.get("sector");
   const idParam = url.searchParams.get("id");
+  const pageParam = url.searchParams.get("page");
+
+  // Design-Mobile.md §4.7: /map OG card — /api/og?page=map
+  if (pageParam === "map") {
+    return renderMapCard();
+  }
 
   // Phase 9: sector-card branch — /api/og?sector=<sector_id>
   if (sectorParam) {
@@ -283,7 +435,7 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   if (!idParam || !/^\d+$/.test(idParam)) {
-    return new Response("Bad request: ?id= or ?sector= required", { status: 400 });
+    return new Response("Bad request: ?id=, ?sector=, or ?page=map required", { status: 400 });
   }
 
   // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the

@@ -32,6 +32,34 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 SECTORS_PATH = REPO / "data" / "sectors" / "sectors.ja-en.json"
+
+# Single source of truth for the site-wide footer (see partials/footer.html
+# and scripts/build_partials.py).
+def _get_last_commit_datetime() -> tuple[str, str]:
+    """Return (display, iso) of latest git commit datetime, normalized to JST."""
+    import subprocess
+    from datetime import datetime, timedelta, timezone
+    jst = timezone(timedelta(hours=9))
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%cI"],
+            capture_output=True, text=True, cwd=REPO, timeout=5,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            dt = datetime.fromisoformat(result.stdout.strip()).astimezone(jst)
+            return dt.strftime("%Y/%m/%d/%H:%M"), dt.isoformat(timespec="seconds")
+    except Exception:
+        pass
+    now = datetime.now(jst)
+    return now.strftime("%Y/%m/%d/%H:%M"), now.isoformat(timespec="seconds")
+
+
+_LAST_DISPLAY, _LAST_ISO = _get_last_commit_datetime()
+FOOTER_PARTIAL = (
+    (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+    .replace("{{LAST_UPDATED_ISO}}", _LAST_ISO)
+    .replace("{{LAST_UPDATED}}", _LAST_DISPLAY)
+)
 DETAIL_DIR = REPO / "dist" / "data.detail"
 OCC_MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
 SECTOR_MANIFEST_PATH = REPO / "scripts" / ".sector_manifest.json"
@@ -50,13 +78,18 @@ ANALYTICS_BLOCK = """\
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13"></script>
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- Vercel Web Analytics + Speed Insights -->
@@ -119,9 +152,22 @@ footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-
 footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
 footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
 footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
-footer .footer-meta{color:var(--fg2);font-size:.72rem;line-height:1.55}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
 footer .footer-meta a{color:var(--accent)}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 """
 
 
@@ -237,7 +283,99 @@ def render_related_sectors(current_id: str, all_sectors: list[dict], occ_counts:
     return f'<ul class="related-sectors">{"".join(rows)}</ul>'
 
 
-def render_jsonld(sector: dict, occs: list[dict]) -> str:
+def _risk_tier_label(mean_risk: float | None) -> str:
+    """Plain-language tier for FAQ answers."""
+    if mean_risk is None:
+        return "データなし"
+    if mean_risk <= 3.5:
+        return "低め"
+    if mean_risk <= 5.5:
+        return "中程度"
+    if mean_risk <= 7.0:
+        return "やや高め"
+    return "高め"
+
+
+def _build_faqs(
+    name_loc: str,
+    n: int,
+    top_high: list[dict],
+    top_low: list[dict],
+    top_workers: list[dict],
+    mean_risk: float | None,
+    workforce_total: int,
+) -> list[tuple[str, str]]:
+    """Build 5 FAQ Q&A pairs from sector aggregate data.
+
+    All answers are auto-generated from the same data the page already shows,
+    so the visible FAQ stays consistent with the JSON-LD FAQPage schema.
+    """
+    faqs: list[tuple[str, str]] = []
+
+    # Q1: What occupations are in this sector?
+    sample_workers = [o for o in top_workers[:3] if o.get("title_ja")]
+    sample_str = "、".join(o["title_ja"] for o in sample_workers) if sample_workers else "—"
+    faqs.append((
+        f"{name_loc}業界にはどんな職業がありますか？",
+        f"{name_loc}業界は{n}の職業に分類されており、代表的な職業は{sample_str}などです。"
+        f"就業者数の合計は約{fmt_int(workforce_total)}人にのぼります。",
+    ))
+
+    # Q2: What jobs have highest AI impact?
+    if top_high:
+        top3_high = top_high[:3]
+        items_str = "、".join(
+            f"{o['title_ja']}（AI影響 {o['ai_risk']}/10）"
+            for o in top3_high if o.get("title_ja") and o.get("ai_risk") is not None
+        )
+        faqs.append((
+            f"{name_loc}業界で AI 影響度が最も高い職業は？",
+            f"AI影響度が高い順に、{items_str} です。"
+            f"これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。",
+        ))
+
+    # Q3: What jobs have lowest AI impact?
+    if top_low:
+        top3_low = top_low[:3]
+        items_str = "、".join(
+            f"{o['title_ja']}（AI影響 {o['ai_risk']}/10）"
+            for o in top3_low if o.get("title_ja") and o.get("ai_risk") is not None
+        )
+        faqs.append((
+            f"{name_loc}業界で AI 影響度が最も低い職業は？",
+            f"AI影響度が低い順に、{items_str} です。"
+            f"身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。",
+        ))
+
+    # Q4: Average AI impact + interpretation
+    if mean_risk is not None:
+        tier = _risk_tier_label(mean_risk)
+        faqs.append((
+            f"{name_loc}業界の平均 AI 影響度は？",
+            f"{name_loc}業界の{n}職業の平均 AI 影響度は10段階中 {mean_risk:.1f} で、{tier}の水準です。"
+            f"これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。",
+        ))
+
+    # Q5: Future outlook
+    if mean_risk is not None and top_low:
+        safe_jobs_str = "、".join(o["title_ja"] for o in top_low[:3] if o.get("title_ja"))
+        outlook = (
+            "AIに代替されにくい職業が多く、将来性が比較的高い"
+            if mean_risk <= 4.0
+            else "業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要"
+            if mean_risk >= 6.0
+            else "職業によって AI 影響度に差があり、個別に検討が必要"
+        )
+        faqs.append((
+            f"{name_loc}業界の将来性は？",
+            f"平均 AI 影響度 {mean_risk:.1f}/10 で、{outlook}な業界です。"
+            f"特に AI リスクが低い職業として {safe_jobs_str} などが挙げられます。",
+        ))
+
+    return faqs
+
+
+def render_jsonld(sector: dict, occs: list[dict], faqs: list[tuple[str, str]] | None = None) -> str:
     name_loc = sector["ja"]
     canonical = hub_url(sector["id"])
     crumb_root = "未来の仕事"
@@ -255,19 +393,39 @@ def render_jsonld(sector: dict, occs: list[dict]) -> str:
             "name": title,
         })
 
+    page_title = f"{name_loc} の職業一覧"
+    page_desc = f"{name_loc} 業界の {len(occs)} 職業を AI 影響度・年収・就業者数で一覧。"
     graph = [
         {
             "@type": "WebPage",
             "@id": f"{canonical}#webpage",
             "url": canonical,
-            "name": f"{name_loc} の職業一覧",
-            "description": f"{name_loc} 業界の {len(occs)} 職業を AI 影響度・年収・就業者数で一覧。",
+            "name": page_title,
+            "description": page_desc,
             "isPartOf": {"@id": f"{SITE}/#website"},
             "inLanguage": "ja",
             "datePublished": DATE_PUBLISHED,
             "dateModified": DATE_MODIFIED,
             "publisher": {"@id": f"{SITE}/#organization"},
             "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
+        },
+        # SEO Phase 9: Article schema — sector hub reads as editorial content
+        # (intro + stats + curated lists + FAQ), not just a data table.
+        {
+            "@type": "Article",
+            "@id": f"{canonical}#article",
+            "headline": f"{name_loc} の職業 — {len(occs)}職業の AI 影響度・年収・就業者数",
+            "description": page_desc,
+            "image": f"{SITE}/api/og?sector={sector['id']}",
+            "url": canonical,
+            "datePublished": DATE_PUBLISHED,
+            "dateModified": DATE_MODIFIED,
+            "author": {"@id": f"{SITE}/#organization"},
+            "publisher": {"@id": f"{SITE}/#organization"},
+            "inLanguage": "ja",
+            "mainEntityOfPage": {"@id": f"{canonical}#webpage"},
+            "isPartOf": {"@id": f"{canonical}#webpage"},
+            "articleSection": "セクター",
         },
         {
             "@type": "BreadcrumbList",
@@ -287,7 +445,47 @@ def render_jsonld(sector: dict, occs: list[dict]) -> str:
             "itemListElement": item_list,
         },
     ]
+
+    # SEO Phase 7: FAQPage schema for "People also ask" rich snippet eligibility.
+    # Generated from the same data shown visibly in the FAQ section below.
+    if faqs:
+        graph.append({
+            "@type": "FAQPage",
+            "@id": f"{canonical}#faq",
+            "inLanguage": "ja",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": q,
+                    "acceptedAnswer": {"@type": "Answer", "text": a},
+                }
+                for q, a in faqs
+            ],
+        })
+
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=2)
+
+
+def render_faq_section(faqs: list[tuple[str, str]]) -> str:
+    """Render visible FAQ as <details> blocks (collapsible, semantic, no JS).
+
+    Required by Google: FAQPage schema must match visible page content.
+    """
+    if not faqs:
+        return ""
+    items = "".join(
+        f'<details class="faq-item">'
+        f'<summary>{escape(q)}</summary>'
+        f'<div class="faq-answer">{escape(a)}</div>'
+        f'</details>'
+        for q, a in faqs
+    )
+    return (
+        f'<section class="faq" aria-label="よくある質問">'
+        f'<h2>よくある質問</h2>'
+        f'<div class="faq-list">{items}</div>'
+        f'</section>'
+    )
 
 
 def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_counts: dict) -> str:
@@ -347,8 +545,10 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
     keywords_list.extend([f"{name_loc} 仕事", f"{name_loc} 職業", f"{name_loc} AI 影響"])
     keywords_str = ", ".join(escape(k) for k in keywords_list)
 
-    jsonld = render_jsonld(sector, occs)
+    faqs = _build_faqs(name_loc, n, top_high, top_low, top_workers, mean_risk, workforce_total)
+    jsonld = render_jsonld(sector, occs, faqs)
     intro_section = f'<p class="intro">{escape(intro_text)}</p>' if intro_text else ""
+    faq_html = render_faq_section(faqs)
 
     html = f"""<!doctype html>
 <html lang="ja">
@@ -451,23 +651,16 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
         {render_full_list(occs)}
       </section>
 
+      {faq_html}
+
       <section aria-label="{escape(h_related)}">
         <h2>{escape(h_related)}</h2>
         {render_related_sectors(sid, all_sectors, occ_counts)}
       </section>
 
-      <footer>
-        <div class="footer-links">
-          <a href="{home_href}">トップ</a>
-          <a href="{about_href}">データについて</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-          © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00 を加工して作成。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
-        </div>
-      </footer>
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>
@@ -669,15 +862,21 @@ def render_sectors_index(sectors: list[dict], by_sector: dict) -> str:
       </section>
 
       <footer>
-        <span>© <a href="{home_href}">mirai-shigoto.com</a> · MIT</span>
-        <span>
-          <a href="{about_href}">{escape(about_link)}</a> ·
-          <a href="/compliance">コンプライアンス</a> ·
+        <div class="footer-links">
+          <a href="{home_href}">トップ</a>
+          <a href="/ja/sectors">セクター</a>
+          <a href="/ja/rankings">ランキング</a>
+        </div>
+        <div class="footer-links">
+          <a href="{about_href}">{escape(about_link)}</a>
+          <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
-        </span>
-        <span style="font-size:.75rem;color:var(--fg3);line-height:1.55">
-          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00。AI 影響度は Claude Opus 4.7 による独自スコア。政府公式の予測ではありません。
-        </span>
+        </div>
+        <div class="footer-meta">
+            v1.3.0 · MIT<br />
+            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
+        </div>
       </footer>
     </div>
   </body>
@@ -725,11 +924,41 @@ SITEMAP_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
+  <!-- Rankings cluster: 1 index + 9 ranking pages at /ja/rankings/<slug>. Generated by scripts/build_rankings.py. -->
+{rankings}
   <!-- Sector hub pages: 16 JA hubs at /ja/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
 {sectors}
   <!-- Per-occupation pages: 556 JA at /ja/<id>. Generated by scripts/build_occupations.py. -->
 {occupations}</urlset>
 """
+
+
+RANKING_SLUGS = [
+    "ai-risk-high", "ai-risk-low", "salary-safe", "workers",
+    "salary", "entry-salary", "young-workforce", "short-hours", "high-demand",
+]
+
+
+def _rankings_sitemap_block(lastmod: str) -> str:
+    parts: list[str] = []
+    parts.append(
+        f"  <url>\n"
+        f"    <loc>{SITE}/ja/rankings</loc>\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>0.8</priority>\n"
+        f"  </url>\n"
+    )
+    for slug in RANKING_SLUGS:
+        parts.append(
+            f"  <url>\n"
+            f"    <loc>{SITE}/ja/rankings/{slug}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>0.7</priority>\n"
+            f"  </url>\n"
+        )
+    return "".join(parts)
 
 
 def write_sitemap(sectors: list[dict], occ_manifest: list[dict] | None, lastmod: str = DATE_MODIFIED) -> None:
@@ -771,6 +1000,7 @@ def write_sitemap(sectors: list[dict], occ_manifest: list[dict] | None, lastmod:
         SITEMAP_TEMPLATE.format(
             site=SITE,
             lastmod=lastmod,
+            rankings=_rankings_sitemap_block(lastmod),
             sectors="".join(sector_lines),
             occupations="".join(occ_lines),
         ),

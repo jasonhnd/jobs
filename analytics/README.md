@@ -257,3 +257,24 @@ Save as "Modal funnel". This is the most important chart for the 6-week OPC vali
 1. The spec is in version control. Future schema changes go via `spec.yaml` + `npm run setup`, not via dashboard clicks.
 2. The actual `gtag('event', ...)` calls happen client-side in `index.html` (handled in a separate task — see `Phase 0 D5` in the OPC plan).
 3. Until those event calls are added, the dimensions sit empty (no data flows in). That's fine — schema first, then data.
+
+---
+
+## Decisions log — explicit "won't do" entries
+
+These are choices we have made and don't want to revisit on every audit. If
+you are auditing GA4 setup and considering one of these, **don't** —
+re-open the discussion with the site owner first.
+
+- **Consent Mode v2 (GDPR / DMA cookie consent)** — *won't implement.*
+  Decided 2026-05-06. The site has no measurable EU/UK traffic and the
+  audience is Japan-focused. The 3-4 hour cost of Consent Mode v2 plus
+  ongoing cookie-banner UX overhead is not justified by the regulatory
+  exposure. If EU traffic ever becomes > 5% of sessions, revisit.
+
+- **A/B testing framework (GrowthBook / LaunchDarkly / Statsig)** —
+  *deferred indefinitely.* Decided 2026-05-06. Site traffic volume is too
+  low for statistically meaningful A/B tests on most UI changes;
+  before/after analytics comparisons are sufficient at the current scale.
+  Revisit when sustained sessions/day clears the threshold for splitting
+  cohorts.

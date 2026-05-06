@@ -1,0 +1,1207 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+    <title>職業マップ｜全 552 職業 × AI 影響度ヒートマップ — Mirai-Shigoto</title>
+    <meta name="description" content="日本の全 552 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。タップで職業詳細へ。" />
+    <link rel="canonical" href="https://mirai-shigoto.com/map" />
+
+    <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" />
+    <link rel="preload" href="/data.sectors.json" as="fetch" crossorigin="anonymous" />
+
+    <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="日本の職業 AI 影響マップ" />
+    <meta property="og:title" content="職業マップ｜全 552 職業 × AI 影響度ヒートマップ" />
+    <meta property="og:description" content="日本の全 552 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。" />
+    <meta property="og:url" content="https://mirai-shigoto.com/map" />
+    <meta property="og:image" content="https://mirai-shigoto.com/api/og?page=map" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GLDNBDPF13');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        document.head.appendChild(s);
+      });
+    </script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "日本の全 552 職業 × AI 影響度マップ",
+      "description": "厚生労働省 job tag + 独立行政法人 労働政策研究・研修機構（JILPT）のデータをもとに、日本の 552 職業の AI 影響度・年収・就業者数を可視化したインタラクティブヒートマップ。",
+      "url": "https://mirai-shigoto.com/map",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "creator": { "@type": "Organization", "name": "Mirai-Shigoto" },
+      "distribution": [{
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://mirai-shigoto.com/data.treemap.json"
+      }],
+      "keywords": ["AI 影響", "職業", "ヒートマップ", "552 職業", "厚生労働省", "JILPT"],
+      "inLanguage": ["ja"]
+    }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
+
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      :root {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
+        --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+        --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+        --h-head: 48px; --h-search: 56px; --h-chips: 52px;
+      }
+      html, body {
+        background: var(--bg); color: var(--fg);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.55; min-height: 100vh;
+      }
+      h1, h2 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.005em; }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+      .map-head {
+        position: sticky; top: 0; z-index: 30;
+        height: var(--h-head);
+        display: flex; align-items: center; gap: 14px;
+        padding: 0 16px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        transform: translate3d(0,0,0);
+      }
+      .map-head .back {
+        display: inline-flex; align-items: center;
+        font-size: 0.92rem; color: var(--fg2);
+        padding: 8px 4px; min-height: 44px; min-width: 44px;
+      }
+      .map-head .back:hover, .map-head .back:focus-visible { color: var(--accent); }
+      .map-head h1 {
+        font-size: 1.05rem; font-weight: 600; letter-spacing: 0.01em;
+        margin: 0; color: var(--fg);
+      }
+
+      .map-search {
+        position: sticky; top: var(--h-head); z-index: 29;
+        height: var(--h-search);
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 16px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        transform: translate3d(0,0,0);
+      }
+      .map-search-input {
+        flex: 1; min-width: 0;
+        height: 40px; padding: 0 14px 0 38px;
+        border: 1px solid var(--border); border-radius: 999px;
+        background: var(--bg2); color: var(--fg);
+        font-size: 0.92rem;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237A6F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");
+        background-repeat: no-repeat; background-position: 14px center;
+      }
+      .map-search-input::placeholder { color: var(--fg2); }
+      .map-search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+      .map-search-btn {
+        height: 40px; padding: 0 16px;
+        background: var(--accent); color: #fff;
+        border-radius: 999px;
+        font-size: 0.88rem; font-weight: 600; white-space: nowrap;
+      }
+      .map-search-btn:hover { filter: brightness(1.05); }
+      .map-search-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .map-suggest {
+        position: absolute; left: 16px; right: 16px;
+        top: calc(var(--h-head) + 48px);
+        max-height: 320px; overflow-y: auto;
+        background: var(--bg2);
+        border: 1px solid var(--border); border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(36, 30, 24, 0.10);
+        list-style: none; z-index: 35; display: none;
+      }
+      .map-suggest.open { display: block; }
+      .map-suggest li {
+        padding: 10px 14px; font-size: 0.88rem;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border);
+        display: flex; justify-content: space-between; gap: 12px;
+      }
+      .map-suggest li:last-child { border-bottom: 0; }
+      .map-suggest li:hover, .map-suggest li.focused { background: var(--bg3); }
+      .map-suggest li .risk {
+        color: var(--fg3); font-size: 0.78rem;
+        font-variant-numeric: tabular-nums; white-space: nowrap;
+      }
+
+      .map-chips-row {
+        position: sticky; top: calc(var(--h-head) + var(--h-search)); z-index: 28;
+        height: var(--h-chips);
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 0 8px 16px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        transform: translate3d(0,0,0);
+      }
+      .map-chips {
+        flex: 1; min-width: 0;
+        display: flex; gap: 6px;
+        overflow-x: auto; overflow-y: hidden;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+      }
+      .map-chips::-webkit-scrollbar { display: none; }
+      .map-chips .chip {
+        flex: 0 0 auto;
+        height: 34px; padding: 0 14px;
+        border: 1px solid var(--border); border-radius: 999px;
+        background: var(--bg2); color: var(--fg2);
+        font-size: 0.82rem; font-weight: 500;
+        scroll-snap-align: start; white-space: nowrap;
+      }
+      .map-chips .chip:hover { color: var(--fg); border-color: var(--fg3); }
+      .map-chips .chip.active {
+        background: var(--accent); color: #fff;
+        border-color: var(--accent);
+      }
+      .map-chips .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .map-sort {
+        flex: 0 0 auto;
+        height: 34px; padding: 0 28px 0 12px;
+        background: var(--bg2);
+        border: 1px solid var(--border); border-radius: 8px;
+        color: var(--fg); font-size: 0.82rem;
+        appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A6F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+        background-repeat: no-repeat; background-position: right 8px center;
+      }
+      .map-view-toggle {
+        flex: 0 0 auto;
+        width: 34px; height: 34px;
+        margin-right: 16px;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--bg2);
+        border: 1px solid var(--border); border-radius: 8px;
+        color: var(--fg2);
+      }
+      .map-view-toggle:hover, .map-view-toggle:focus-visible {
+        color: var(--accent); border-color: var(--accent); outline: none;
+      }
+      .map-view-toggle[aria-pressed="true"] {
+        background: var(--accent); color: #fff; border-color: var(--accent);
+      }
+
+      /* List view (Design-Mobile.md §4.13 — a11y fallback) */
+      .map-list-section { margin-bottom: 24px; }
+      .map-list-section h2 {
+        font-family: var(--font-serif);
+        font-size: 1.05rem; font-weight: 600;
+        color: var(--fg); margin: 0 4px 8px;
+      }
+      .map-list-section ol {
+        list-style: none; counter-reset: rownum;
+        padding: 4px; margin: 0;
+        background: var(--bg3);
+        border-radius: 8px;
+      }
+      .map-list-section ol li { counter-increment: rownum; }
+      .map-list-section ol li a {
+        display: flex; align-items: center; gap: 12px;
+        padding: 10px 12px;
+        font-size: 0.88rem;
+        color: var(--fg);
+        border-radius: 4px;
+        text-decoration: none;
+      }
+      .map-list-section ol li a::before {
+        content: counter(rownum) ".";
+        flex: 0 0 32px;
+        font-variant-numeric: tabular-nums;
+        color: var(--fg3); font-size: 0.78rem;
+        text-align: right;
+      }
+      .map-list-section ol li a .swatch {
+        flex: 0 0 12px; height: 12px;
+        border-radius: 2px;
+      }
+      .map-list-section ol li a .name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .map-list-section ol li a .stats {
+        flex: 0 0 auto;
+        font-size: 0.74rem; color: var(--fg2);
+        font-variant-numeric: tabular-nums; white-space: nowrap;
+      }
+      .map-list-section ol li a:hover, .map-list-section ol li a:focus-visible {
+        background: var(--bg2); outline: none;
+      }
+
+      main { max-width: 900px; margin: 0 auto; padding: 16px 16px 96px; }
+      .legend {
+        display: flex; align-items: center; gap: 12px;
+        margin: 4px 4px 18px;
+        font-size: 0.74rem; color: var(--fg2);
+        letter-spacing: 0.02em;
+      }
+      .legend .swatches { display: inline-flex; gap: 2px; height: 10px; border-radius: 2px; overflow: hidden; }
+      .legend .swatches span { width: 14px; }
+      .sector-section { margin-bottom: 28px; }
+      .sector-head {
+        display: flex; align-items: baseline; justify-content: space-between;
+        gap: 10px; margin: 0 4px 8px;
+      }
+      .sector-name { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; color: var(--fg); }
+      .sector-meta { font-size: 0.74rem; color: var(--fg2); font-variant-numeric: tabular-nums; }
+      /* Squarified treemap container — cells inside are absolutely positioned
+         from the JS-side layout. Background fills the inset between cell gaps. */
+      .sector-canvas {
+        position: relative;
+        width: 100%;
+        background: var(--bg3);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .cell {
+        position: absolute;
+        padding: 6px 8px;
+        border-radius: 3px;
+        color: rgba(255,255,255,0.96);
+        font-size: 0.7rem; font-weight: 500;
+        line-height: 1.2;
+        cursor: pointer; overflow: hidden; text-overflow: ellipsis;
+        display: flex; align-items: flex-end;
+        transition: filter 120ms cubic-bezier(0.16, 1, 0.3, 1);
+        -webkit-tap-highlight-color: transparent;
+        border: 0;
+      }
+      .cell:hover { filter: brightness(1.08); }
+      .cell:focus-visible {
+        outline: 2px solid var(--fg); outline-offset: -1px;
+        z-index: 2;
+      }
+      .cell .name { text-shadow: 0 1px 2px rgba(0,0,0,0.25); max-width: 100%; }
+      .cell-others .name { font-style: italic; opacity: 0.92; }
+      /* Legacy .sector-grid kept only for the loading skeleton (below). */
+      .sector-grid {
+        background: var(--bg3);
+        border-radius: 8px;
+      }
+
+      .map-skeleton .sector-grid {
+        background: var(--bg3); min-height: 88px;
+        animation: pulse 1.6s ease-in-out infinite;
+      }
+      @keyframes pulse { 0%,100% { opacity: 0.55 } 50% { opacity: 0.85 } }
+      .map-error {
+        margin: 24px 4px; padding: 20px; text-align: center;
+        background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+      }
+      .map-error p { color: var(--fg2); margin-bottom: 12px; font-size: 0.92rem; }
+      .map-error button {
+        padding: 10px 20px; background: var(--accent); color: #fff;
+        border-radius: 999px; font-weight: 600; font-size: 0.88rem;
+      }
+
+      .sheet-backdrop {
+        position: fixed; inset: 0; z-index: 60;
+        background: rgba(36, 30, 24, 0.40);
+        opacity: 0; pointer-events: none;
+        transition: opacity 200ms ease;
+      }
+      .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+      .sheet {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 61;
+        background: var(--bg2);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -8px 24px rgba(0,0,0,0.16);
+        padding: 8px 20px calc(20px + env(safe-area-inset-bottom)) 20px;
+        max-height: 56vh; overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .sheet.open { transform: translateY(0); }
+      .sheet-handle {
+        display: block; width: 40px; height: 4px;
+        margin: 4px auto 14px;
+        background: var(--fg3); border-radius: 999px;
+      }
+      .sheet-close {
+        position: absolute; top: 14px; right: 14px;
+        width: 32px; height: 32px;
+        border-radius: 999px;
+        color: var(--fg2);
+        font-size: 1.1rem; line-height: 1;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--bg3);
+      }
+      .sheet-close:hover { color: var(--accent); }
+      .sheet-close::before { content: ""; position: absolute; inset: -6px; }
+      .sheet h2 { font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.3; margin: 0 36px 6px 0; }
+      .sheet-rank {
+        display: inline-block;
+        font-size: 0.78rem; font-weight: 600;
+        color: var(--accent-deep);
+        margin-bottom: 14px;
+      }
+      .sheet-rank::before { content: "🏆 "; }
+      .sheet-stats { list-style: none; margin: 12px 0 18px; }
+      .sheet-stats li {
+        display: flex; justify-content: space-between; align-items: baseline;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.92rem;
+      }
+      .sheet-stats li:last-child { border-bottom: 0; }
+      .sheet-stats .label { color: var(--fg2); font-size: 0.82rem; }
+      .sheet-stats .value { font-weight: 600; color: var(--fg); font-variant-numeric: tabular-nums; }
+      .sheet-cta {
+        display: block; text-align: center;
+        margin-top: 6px;
+        padding: 14px 18px;
+        background: var(--accent); color: #fff;
+        border-radius: 999px;
+        font-weight: 600; font-size: 0.96rem;
+      }
+      .sheet-cta:hover { filter: brightness(1.05); }
+      .sheet-cta:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 3px; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .sheet, .sheet-backdrop, .cell { transition: none; }
+        .map-skeleton .sector-grid { animation: none; }
+      }
+
+      footer {
+        max-width: 900px; margin: 40px auto 0;
+        padding: 24px 16px 40px;
+        border-top: 1px solid var(--border);
+        font-size: 0.82rem;
+      }
+      .footer-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+      .footer-links a {
+        padding: 6px 14px;
+        border: 1px solid var(--border); border-radius: 999px;
+        color: var(--fg2); font-size: 0.78rem;
+      }
+      .footer-links a:hover { color: var(--accent); border-color: var(--accent); }
+      .footer-meta { margin-top: 14px; font-size: 0.72rem; color: var(--fg3); line-height: 1.7; }
+      .footer-meta em { font-style: normal; color: var(--fg2); }
+      .nowrap { white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+
+    <header class="map-head">
+      <a class="back" href="/" aria-label="トップへ戻る">← トップ</a>
+      <h1>職業マップ</h1>
+    </header>
+
+    <form class="map-search" id="searchForm" role="search" autocomplete="off">
+      <input type="search" class="map-search-input" id="searchInput"
+             placeholder="気になる職業を入力" aria-label="職業を検索" />
+      <button type="submit" class="map-search-btn">診断</button>
+      <ul class="map-suggest" id="searchSuggest" role="listbox" aria-label="検索候補"></ul>
+    </form>
+
+    <nav class="map-chips-row" aria-label="セクター絞り込み">
+      <div class="map-chips" id="sectorChips" role="tablist">
+        <button type="button" class="chip active" data-sector="all" role="tab" aria-selected="true">全て</button>
+      </div>
+      <select class="map-sort" id="sortSelect" aria-label="並べ替え">
+        <option value="ai_risk_desc">AI影響↓</option>
+        <option value="ai_risk_asc">AI影響↑</option>
+        <option value="salary_desc">年収↓</option>
+        <option value="workers_desc">就業者数↓</option>
+      </select>
+      <button type="button" class="map-view-toggle" id="viewToggle"
+              aria-label="リスト表示に切り替え" title="リスト表示に切り替え"
+              aria-pressed="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <circle cx="3.5" cy="6" r="1.2" fill="currentColor"/>
+          <circle cx="3.5" cy="12" r="1.2" fill="currentColor"/>
+          <circle cx="3.5" cy="18" r="1.2" fill="currentColor"/>
+        </svg>
+      </button>
+    </nav>
+
+    <main>
+      <div class="legend" aria-hidden="true">
+        <span>面積 ≈ 就業者数</span>
+        <span class="swatches">
+          <span style="background:#0F8A66"></span>
+          <span style="background:#5BA84F"></span>
+          <span style="background:#D9A03B"></span>
+          <span style="background:#E27A33"></span>
+          <span style="background:#C4422F"></span>
+        </span>
+        <span>色 = AI 影響(低 → 高)</span>
+      </div>
+
+      <div id="mapContent" role="region" aria-label="552 職業の AI 影響ヒートマップ">
+        <div class="map-skeleton">
+          <div class="sector-section"><div class="sector-grid"></div></div>
+          <div class="sector-section"><div class="sector-grid"></div></div>
+          <div class="sector-section"><div class="sector-grid"></div></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="/">トップ</a>
+        <a href="/ja/sectors">セクター</a>
+        <a href="/ja/rankings">ランキング</a>
+      </div>
+      <div class="footer-links">
+        <a href="/about">データについて</a>
+        <a href="/compliance">コンプライアンス</a>
+        <a href="/privacy">プライバシー</a>
+      </div>
+      <div class="footer-meta">
+          v1.3.0 · MIT<br />
+          出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
+          <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
+      </div>
+    </footer>
+
+    <div class="sheet-backdrop" id="sheetBackdrop" aria-hidden="true"></div>
+    <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+      <button type="button" class="sheet-handle" aria-label="閉じる" id="sheetHandle"></button>
+      <button type="button" class="sheet-close" id="sheetClose" aria-label="閉じる">✕</button>
+      <h2 id="sheetTitle"></h2>
+      <span class="sheet-rank" id="sheetRank" hidden></span>
+      <ul class="sheet-stats">
+        <li><span class="label">AI 影響度</span><span class="value" id="sheetRisk"></span></li>
+        <li><span class="label">年収</span><span class="value" id="sheetSalary"></span></li>
+        <li><span class="label">就業者数</span><span class="value" id="sheetWorkers"></span></li>
+      </ul>
+      <a class="sheet-cta" id="sheetCta" href="">詳細を見る →</a>
+    </aside>
+
+    <script>
+    (function () {
+      'use strict';
+
+      var DATA_URL = '/data.treemap.json';
+      var SECTORS_URL = '/data.sectors.json';
+      var SEARCH_URL = '/data.search.json';
+      var FETCH_TIMEOUT_MS = 10000;
+
+      var allRecords = [];
+      var sectorMeta = [];
+      var sectorOrder = [];
+      var byId = {};
+      var bySector = {};
+      var rankByJobId = {};
+      var searchDocs = null;
+      var currentSector = 'all';
+      var currentSort = 'ai_risk_desc';
+      var openJobId = null;
+
+      var RISK_PALETTE = ['#0F8A66', '#5BA84F', '#D9A03B', '#E27A33', '#C4422F'];
+      function colorForRisk(risk) {
+        if (risk <= 2) return RISK_PALETTE[0];
+        if (risk <= 4) return RISK_PALETTE[1];
+        if (risk <= 6) return RISK_PALETTE[2];
+        if (risk <= 8) return RISK_PALETTE[3];
+        return RISK_PALETTE[4];
+      }
+
+      var $content = document.getElementById('mapContent');
+      var $chips = document.getElementById('sectorChips');
+      var $sort = document.getElementById('sortSelect');
+      var $searchForm = document.getElementById('searchForm');
+      var $searchInput = document.getElementById('searchInput');
+      var $suggest = document.getElementById('searchSuggest');
+      var $sheet = document.getElementById('sheet');
+      var $sheetBackdrop = document.getElementById('sheetBackdrop');
+      var $sheetTitle = document.getElementById('sheetTitle');
+      var $sheetRank = document.getElementById('sheetRank');
+      var $sheetRisk = document.getElementById('sheetRisk');
+      var $sheetSalary = document.getElementById('sheetSalary');
+      var $sheetWorkers = document.getElementById('sheetWorkers');
+      var $sheetCta = document.getElementById('sheetCta');
+
+      function fmtSalary(s) { if (s == null) return '—'; return Math.round(s) + ' 万円'; }
+      function fmtWorkers(w) {
+        if (w == null) return '—';
+        if (w >= 10000) return (w / 10000).toFixed(0) + ' 万人';
+        return w.toLocaleString('ja-JP') + ' 人';
+      }
+      function riskLabel(r) {
+        if (r >= 9) return r + '/10 ▲ 大きく変わる仕事';
+        if (r >= 7) return r + '/10 ▲ 影響大';
+        if (r >= 4) return r + '/10 ▼ 中程度';
+        return r + '/10 ◎ 影響小';
+      }
+      function ga(name, params) {
+        try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {}
+      }
+      function fetchWithTimeout(url, ms) {
+        return new Promise(function (resolve, reject) {
+          var done = false;
+          var t = setTimeout(function () { if (!done) { done = true; reject(new Error('timeout')); } }, ms);
+          fetch(url, { credentials: 'omit' })
+            .then(function (r) {
+              if (!done) { done = true; clearTimeout(t); }
+              if (!r.ok) throw new Error('HTTP ' + r.status);
+              return r.json();
+            })
+            .then(resolve)
+            .catch(function (e) { if (!done) { done = true; clearTimeout(t); } reject(e); });
+        });
+      }
+
+      function readUrlState() {
+        var p = new URLSearchParams(location.search);
+        return {
+          sector: p.get('sector') || 'all',
+          sort:   p.get('sort')   || 'ai_risk_desc',
+          job:    p.get('job') ? parseInt(p.get('job'), 10) : null
+        };
+      }
+      function writeUrlState() {
+        var p = new URLSearchParams();
+        if (currentSector !== 'all') p.set('sector', currentSector);
+        if (currentSort !== 'ai_risk_desc') p.set('sort', currentSort);
+        if (openJobId != null) p.set('job', String(openJobId));
+        var qs = p.toString();
+        var newPath = location.pathname + (qs ? '?' + qs : '');
+        if (newPath !== location.pathname + location.search) {
+          history.replaceState(null, '', newPath);
+        }
+      }
+
+      function comparator() {
+        switch (currentSort) {
+          case 'ai_risk_asc':  return function (a, b) { return (a.ai_risk || 0) - (b.ai_risk || 0); };
+          case 'salary_desc':  return function (a, b) { return (b.salary || 0) - (a.salary || 0); };
+          case 'workers_desc': return function (a, b) { return (b.workers || 0) - (a.workers || 0); };
+          default:             return function (a, b) { return (b.ai_risk || 0) - (a.ai_risk || 0); };
+        }
+      }
+
+      function renderChips() {
+        var frag = document.createDocumentFragment();
+        sectorMeta.forEach(function (s) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'chip';
+          b.dataset.sector = s.id;
+          b.setAttribute('role', 'tab');
+          b.setAttribute('aria-selected', 'false');
+          b.textContent = s.ja;
+          if (s.id === currentSector) {
+            b.classList.add('active');
+            b.setAttribute('aria-selected', 'true');
+            var allBtn = $chips.querySelector('.chip[data-sector="all"]');
+            if (allBtn) {
+              allBtn.classList.remove('active');
+              allBtn.setAttribute('aria-selected', 'false');
+            }
+          }
+          frag.appendChild(b);
+        });
+        $chips.appendChild(frag);
+      }
+
+      // ── Squarified treemap (Bruls/Huijsen/van Wijk 2000) ─────────────────
+      // Implements the headline §4.4 D4=C approach: each sector gets its own
+      // proper squarified treemap (cell area exactly proportional to workers,
+      // aspect ratios kept close to 1). Beats the earlier flex-grid (D4=A
+      // fallback) by representing area faithfully and filling the container
+      // with no gaps. ~80 lines of math; cell DOM is unchanged.
+      function squarifyWorst(row, minSide) {
+        if (!row.length) return Infinity;
+        var sum = 0, mx = -Infinity, mn = Infinity;
+        for (var i = 0; i < row.length; i++) {
+          var a = row[i].area;
+          sum += a;
+          if (a > mx) mx = a;
+          if (a < mn) mn = a;
+        }
+        var sideSq = minSide * minSide;
+        var sumSq = sum * sum;
+        return Math.max((sideSq * mx) / sumSq, sumSq / (sideSq * mn));
+      }
+      function squarifyLayoutRow(row, x, y, w, h) {
+        // The shorter side is iterated; the longer side absorbs the row's
+        // total area divided by the shorter side. Each cell's other dimension
+        // is its area / row breadth.
+        var sum = 0;
+        for (var i = 0; i < row.length; i++) sum += row[i].area;
+        if (w >= h) {
+          // horizontal sweep — row stacks vertically along height h
+          var rowW = sum / h;
+          var cy = 0;
+          for (var j = 0; j < row.length; j++) {
+            var cellH = row[j].area / rowW;
+            row[j].rect = { x: x, y: y + cy, w: rowW, h: cellH };
+            cy += cellH;
+          }
+          return rowW;
+        } else {
+          var rowH = sum / w;
+          var cx = 0;
+          for (var k = 0; k < row.length; k++) {
+            var cellW = row[k].area / rowH;
+            row[k].rect = { x: x + cx, y: y, w: cellW, h: rowH };
+            cx += cellW;
+          }
+          return rowH;
+        }
+      }
+      function squarifyStep(items, row, x, y, w, h) {
+        if (!items.length) {
+          if (row.length) squarifyLayoutRow(row, x, y, w, h);
+          return;
+        }
+        var next = items[0];
+        var minSide = Math.min(w, h);
+        var tryRow = row.concat([next]);
+        if (row.length === 0 || squarifyWorst(tryRow, minSide) <= squarifyWorst(row, minSide)) {
+          squarifyStep(items.slice(1), tryRow, x, y, w, h);
+        } else {
+          var consumed = squarifyLayoutRow(row, x, y, w, h);
+          if (w >= h) {
+            squarifyStep(items, [], x + consumed, y, w - consumed, h);
+          } else {
+            squarifyStep(items, [], x, y + consumed, w, h - consumed);
+          }
+        }
+      }
+      function squarify(items, w, h) {
+        if (!items.length) return;
+        var totalValue = 0;
+        for (var i = 0; i < items.length; i++) totalValue += items[i].value;
+        if (totalValue <= 0) return;
+        var scale = (w * h) / totalValue;
+        var sorted = items.slice().sort(function (a, b) { return b.value - a.value; });
+        for (var j = 0; j < sorted.length; j++) sorted[j].area = sorted[j].value * scale;
+        squarifyStep(sorted, [], 0, 0, w, h);
+      }
+
+      // Section container height grows with occupation count; clamped so the
+      // smallest sectors don't look anemic and the largest don't take 2 screens.
+      function sectorContainerHeight(count) {
+        return Math.max(180, Math.min(480, count * 16));
+      }
+
+      // ── Min-size threshold + "その他" merge (Design-Mobile.md §4.4) ──────
+      // Cells smaller than 44×44 (touch target) are merged into a single
+      // "その他 (n 職業)" tile pinned to the end of the sector. Keeps every
+      // visible cell tappable without sacrificing the area-fidelity the
+      // squarified algorithm gives the rest.
+      function mergeSmallCells(records, container_w, container_h) {
+        var totalWorkers = 0;
+        for (var i = 0; i < records.length; i++) totalWorkers += (records[i].workers || 0);
+        if (totalWorkers <= 0) return records.slice();
+        var minArea = 44 * 44;
+        var areaScale = (container_w * container_h) / totalWorkers;
+        var kept = [];
+        var mergedWorkers = 0;
+        var mergedCount = 0;
+        var mergedRiskSum = 0;
+        records.forEach(function (r) {
+          var area = (r.workers || 0) * areaScale;
+          if (area >= minArea) {
+            kept.push(r);
+          } else {
+            mergedWorkers += (r.workers || 0);
+            mergedRiskSum += (r.ai_risk || 5);
+            mergedCount += 1;
+          }
+        });
+        if (mergedCount > 0) {
+          kept.push({
+            id: '__others__',
+            name_ja: 'その他 (' + mergedCount + ' 職業)',
+            workers: mergedWorkers,
+            ai_risk: Math.round(mergedRiskSum / mergedCount),
+            sector_id: records[0] && records[0].sector_id,
+            __synthetic: true
+          });
+        }
+        return kept;
+      }
+
+      function renderMap() {
+        $content.innerHTML = '';
+        var frag = document.createDocumentFragment();
+        var sectorsToShow = (currentSector === 'all')
+          ? sectorOrder
+          : (bySector[currentSector] ? [currentSector] : sectorOrder);
+        var sortFn = comparator();
+        // Container width: the live computed inner width of the content area.
+        // Falls back to viewport width if main isn't measurable yet.
+        var container_w = $content.clientWidth || (Math.min(window.innerWidth, 868) - 32);
+        sectorsToShow.forEach(function (sid) {
+          var recs = (bySector[sid] || []).slice().sort(sortFn);
+          if (!recs.length) return;
+          var section = document.createElement('section');
+          section.className = 'sector-section';
+          section.dataset.sector = sid;
+          var sm = sectorMeta.filter(function (s) { return s.id === sid; })[0] || { ja: sid };
+
+          var head = document.createElement('header');
+          head.className = 'sector-head';
+          var name = document.createElement('h2');
+          name.className = 'sector-name';
+          name.textContent = sm.ja;
+          var meta = document.createElement('span');
+          meta.className = 'sector-meta';
+          meta.textContent = recs.length + ' 職業 ・ 平均 AI ' + (sm.mean_ai_risk != null ? sm.mean_ai_risk.toFixed(1) : '—');
+          head.appendChild(name);
+          head.appendChild(meta);
+          section.appendChild(head);
+
+          var container_h = sectorContainerHeight(recs.length);
+          var laidOut = mergeSmallCells(recs, container_w, container_h);
+          // Squarified algorithm needs items with .value (== area weight).
+          var items = laidOut.map(function (r) {
+            return { ref: r, value: r.workers || 1 };
+          });
+          squarify(items, container_w, container_h);
+
+          var canvas = document.createElement('div');
+          canvas.className = 'sector-canvas';
+          canvas.style.height = container_h + 'px';
+          items.forEach(function (it) {
+            var r = it.ref;
+            var rect = it.rect;
+            if (!rect) return;
+            var cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'cell' + (r.__synthetic ? ' cell-others' : '');
+            if (!r.__synthetic) cell.dataset.id = r.id;
+            cell.setAttribute('aria-label', r.__synthetic
+              ? r.name_ja + '（小規模職業をまとめた領域）'
+              : r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、就業者数 ' + fmtWorkers(r.workers));
+            cell.style.left   = rect.x.toFixed(1) + 'px';
+            cell.style.top    = rect.y.toFixed(1) + 'px';
+            cell.style.width  = Math.max(0, rect.w - 2).toFixed(1) + 'px';
+            cell.style.height = Math.max(0, rect.h - 2).toFixed(1) + 'px';
+            cell.style.background = colorForRisk(r.ai_risk || 5);
+            if (r.__synthetic) cell.style.background = 'repeating-linear-gradient(45deg, ' + colorForRisk(r.ai_risk) + ', ' + colorForRisk(r.ai_risk) + ' 6px, rgba(255,255,255,0.18) 6px, rgba(255,255,255,0.18) 12px)';
+            var span = document.createElement('span');
+            span.className = 'name';
+            span.textContent = r.name_ja;
+            cell.appendChild(span);
+            canvas.appendChild(cell);
+          });
+          section.appendChild(canvas);
+          frag.appendChild(section);
+        });
+        $content.appendChild(frag);
+      }
+
+      // Re-layout on resize so cells stay area-faithful at the new width.
+      // Debounced to avoid thrashing during continuous drag-resize.
+      (function () {
+        var t = null;
+        window.addEventListener('resize', function () {
+          if (t) clearTimeout(t);
+          t = setTimeout(function () { if (!listMode && allRecords.length) renderMap(); }, 200);
+        });
+      })();
+
+      function showError() {
+        $content.innerHTML = '<div class="map-error"><p>データを読み込めません。<br />通信状況をご確認ください。</p><button type="button" id="retryBtn">再読み込み</button></div>';
+        var $r = document.getElementById('retryBtn');
+        if ($r) $r.addEventListener('click', function () { location.reload(); });
+      }
+
+      function openSheet(jobId) {
+        var r = byId[jobId];
+        if (!r) return;
+        openJobId = jobId;
+        $sheetTitle.textContent = r.name_ja;
+        var rank = rankByJobId[jobId];
+        if (rank && rank <= 50) {
+          $sheetRank.textContent = 'AI 影響 ランキング 第 ' + rank + ' 位';
+          $sheetRank.hidden = false;
+        } else {
+          $sheetRank.hidden = true;
+        }
+        $sheetRisk.textContent = riskLabel(r.ai_risk || 0);
+        $sheetSalary.textContent = fmtSalary(r.salary);
+        $sheetWorkers.textContent = fmtWorkers(r.workers);
+        $sheetCta.href = '/ja/' + r.id;
+        $sheet.hidden = false;
+        requestAnimationFrame(function () {
+          $sheet.classList.add('open');
+          $sheetBackdrop.classList.add('open');
+        });
+        writeUrlState();
+        ga('map_cell_tap', { job_id: jobId, sector: r.sector_id, rank: rank || 0 });
+      }
+      function closeSheet() {
+        if (!$sheet.classList.contains('open')) return;
+        $sheet.classList.remove('open');
+        $sheetBackdrop.classList.remove('open');
+        openJobId = null;
+        writeUrlState();
+        setTimeout(function () {
+          if (!$sheet.classList.contains('open')) $sheet.hidden = true;
+        }, 320);
+      }
+      document.getElementById('sheetClose').addEventListener('click', closeSheet);
+      document.getElementById('sheetHandle').addEventListener('click', closeSheet);
+      $sheetBackdrop.addEventListener('click', closeSheet);
+      $sheetCta.addEventListener('click', function () {
+        ga('map_detail_click', { job_id: openJobId });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && $sheet.classList.contains('open')) closeSheet();
+      });
+
+      $content.addEventListener('click', function (e) {
+        var t = e.target.closest('.cell');
+        if (!t || !t.dataset.id) return;
+        openSheet(parseInt(t.dataset.id, 10));
+      });
+
+      $chips.addEventListener('click', function (e) {
+        var t = e.target.closest('.chip');
+        if (!t) return;
+        var sid = t.dataset.sector;
+        if (sid === currentSector) return;
+        currentSector = sid;
+        $chips.querySelectorAll('.chip').forEach(function (c) {
+          c.classList.toggle('active', c.dataset.sector === sid);
+          c.setAttribute('aria-selected', c.dataset.sector === sid ? 'true' : 'false');
+        });
+        renderMap();
+        writeUrlState();
+        ga('map_filter', { sector: sid, sort: currentSort });
+      });
+      $sort.addEventListener('change', function () {
+        currentSort = $sort.value;
+        renderMap();
+        writeUrlState();
+        ga('map_filter', { sector: currentSector, sort: currentSort });
+      });
+
+      function loadSearchIndex() {
+        if (searchDocs) return Promise.resolve(searchDocs);
+        return fetchWithTimeout(SEARCH_URL, FETCH_TIMEOUT_MS).then(function (j) {
+          searchDocs = j.documents || [];
+          return searchDocs;
+        });
+      }
+      function rankMatches(q) {
+        q = q.trim().toLowerCase();
+        if (!q || !searchDocs) return [];
+        var exact = [], starts = [], contains = [];
+        searchDocs.forEach(function (d) {
+          var hay = (d.title_ja || '').toLowerCase();
+          var aliases = (d.aliases_ja || []).map(function (a) { return (a || '').toLowerCase(); });
+          var allFields = [hay].concat(aliases);
+          var hit = false, isExact = false, isStart = false;
+          for (var i = 0; i < allFields.length; i++) {
+            var f = allFields[i];
+            if (f === q) { isExact = true; hit = true; break; }
+            if (f.indexOf(q) === 0) { isStart = true; hit = true; }
+            else if (f.indexOf(q) >= 0) { hit = true; }
+          }
+          if (!hit) return;
+          if (isExact) exact.push(d);
+          else if (isStart) starts.push(d);
+          else contains.push(d);
+        });
+        var lengthAsc = function (a, b) { return (a.title_ja || '').length - (b.title_ja || '').length; };
+        return exact.concat(starts.sort(lengthAsc), contains.sort(lengthAsc)).slice(0, 8);
+      }
+      function renderSuggest(matches) {
+        if (!matches.length) {
+          $suggest.classList.remove('open');
+          $suggest.innerHTML = '';
+          return;
+        }
+        var html = matches.map(function (d, i) {
+          return '<li data-id="' + d.id + '" role="option"' + (i === 0 ? ' class="focused" aria-selected="true"' : '') + '>' +
+            '<span>' + d.title_ja + '</span>' +
+            '<span class="risk">AI ' + (d.ai_risk || '?') + '/10</span>' +
+            '</li>';
+        }).join('');
+        $suggest.innerHTML = html;
+        $suggest.classList.add('open');
+      }
+      var searchDebounce;
+      $searchInput.addEventListener('input', function () {
+        clearTimeout(searchDebounce);
+        var q = $searchInput.value;
+        if (!q.trim()) { $suggest.classList.remove('open'); return; }
+        searchDebounce = setTimeout(function () {
+          loadSearchIndex().then(function () { renderSuggest(rankMatches(q)); });
+        }, 100);
+      });
+      $searchInput.addEventListener('blur', function () {
+        setTimeout(function () { $suggest.classList.remove('open'); }, 150);
+      });
+      $searchInput.addEventListener('keydown', function (e) {
+        var items = $suggest.querySelectorAll('li');
+        if (!items.length) return;
+        var idx = -1;
+        items.forEach(function (li, i) { if (li.classList.contains('focused')) idx = i; });
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          var next = (idx + 1) % items.length;
+          items.forEach(function (li, i) { li.classList.toggle('focused', i === next); });
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          var prev = (idx - 1 + items.length) % items.length;
+          items.forEach(function (li, i) { li.classList.toggle('focused', i === prev); });
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          var sel = items[idx >= 0 ? idx : 0];
+          if (sel) location.href = '/ja/' + sel.dataset.id;
+        }
+      });
+      $searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var items = $suggest.querySelectorAll('li');
+        var first = items[0];
+        if (first) location.href = '/ja/' + first.dataset.id;
+      });
+      $suggest.addEventListener('click', function (e) {
+        var li = e.target.closest('li[data-id]');
+        if (!li) return;
+        location.href = '/ja/' + li.dataset.id;
+      });
+
+      function init() {
+        var s = readUrlState();
+        currentSector = s.sector;
+        currentSort = s.sort;
+        if (s.sort && $sort) $sort.value = s.sort;
+
+        Promise.all([
+          fetchWithTimeout(DATA_URL, FETCH_TIMEOUT_MS),
+          fetchWithTimeout(SECTORS_URL, FETCH_TIMEOUT_MS)
+        ]).then(function (results) {
+          allRecords = results[0] || [];
+          var sectorsJson = results[1] || {};
+          sectorMeta = sectorsJson.sectors || [];
+          sectorOrder = sectorMeta.map(function (s) { return s.id; });
+
+          allRecords.forEach(function (r) { byId[r.id] = r; });
+          allRecords.forEach(function (r) {
+            var sid = r.sector_id || 'unknown';
+            if (!bySector[sid]) bySector[sid] = [];
+            bySector[sid].push(r);
+          });
+          var ranked = allRecords.slice().sort(function (a, b) {
+            var d = (b.ai_risk || 0) - (a.ai_risk || 0);
+            if (d !== 0) return d;
+            return (b.workers || 0) - (a.workers || 0);
+          });
+          ranked.forEach(function (r, i) { rankByJobId[r.id] = i + 1; });
+
+          renderChips();
+          renderMap();
+
+          if (s.job && byId[s.job]) {
+            requestAnimationFrame(function () { openSheet(s.job); });
+          }
+
+          var ref = 'direct';
+          if (document.referrer) {
+            try {
+              var u = new URL(document.referrer);
+              if (u.hostname === location.hostname) {
+                if (u.pathname === '/' || u.pathname === '/index.html') ref = 'home_card';
+                else if (u.pathname.indexOf('/ja/') === 0) ref = 'detail';
+                else ref = 'internal';
+              } else {
+                ref = 'external';
+              }
+            } catch (e) {}
+          }
+          ga('map_open', { referrer: ref });
+        }).catch(function (err) {
+          console.warn('[map] data load failed:', err);
+          showError();
+        });
+      }
+
+      // ── List view toggle (Design-Mobile.md §4.13 a11y fallback) ───────────
+      // Switches between the visual treemap render and an ordered-list
+      // representation that's friendlier for screen readers / keyboard users.
+      var $viewToggle = document.getElementById('viewToggle');
+      var listMode = false;
+      function renderList() {
+        $content.innerHTML = '';
+        var frag = document.createDocumentFragment();
+        var sectorsToShow = (currentSector === 'all')
+          ? sectorOrder
+          : (bySector[currentSector] ? [currentSector] : sectorOrder);
+        var sortFn = comparator();
+        sectorsToShow.forEach(function (sid) {
+          var recs = (bySector[sid] || []).slice().sort(sortFn);
+          if (!recs.length) return;
+          var sm = sectorMeta.filter(function (s) { return s.id === sid; })[0] || { ja: sid };
+          var section = document.createElement('section');
+          section.className = 'map-list-section';
+          var h = document.createElement('h2');
+          h.textContent = sm.ja + ' (' + recs.length + ' 職業)';
+          section.appendChild(h);
+          var ol = document.createElement('ol');
+          recs.forEach(function (r) {
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.href = '/ja/' + r.id;
+            a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
+            var sw = document.createElement('span');
+            sw.className = 'swatch';
+            sw.style.background = colorForRisk(r.ai_risk || 5);
+            var nm = document.createElement('span');
+            nm.className = 'name';
+            nm.textContent = r.name_ja;
+            var st = document.createElement('span');
+            st.className = 'stats';
+            st.textContent = 'AI ' + (r.ai_risk || '?') + '/10 ・ ' + fmtWorkers(r.workers);
+            a.appendChild(sw); a.appendChild(nm); a.appendChild(st);
+            li.appendChild(a);
+            ol.appendChild(li);
+          });
+          section.appendChild(ol);
+          frag.appendChild(section);
+        });
+        $content.appendChild(frag);
+      }
+      function applyView() {
+        if (listMode) renderList(); else renderMap();
+      }
+      // Override later renderMap calls' callsites by wrapping them — chip /
+      // sort handlers already call renderMap directly. Easiest: intercept by
+      // re-binding handlers. We monkey-patch the existing chip/sort listeners
+      // by wrapping the renderMap function.
+      var _origRenderMap = renderMap;
+      renderMap = function () { if (listMode) renderList(); else _origRenderMap(); };
+      $viewToggle.addEventListener('click', function () {
+        listMode = !listMode;
+        $viewToggle.setAttribute('aria-pressed', listMode ? 'true' : 'false');
+        $viewToggle.setAttribute('aria-label', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+        $viewToggle.setAttribute('title', listMode ? 'マップ表示に切り替え' : 'リスト表示に切り替え');
+        applyView();
+      });
+
+      // ── Bottom sheet drag-to-dismiss (Design-Mobile.md §4.5 D3=A) ─────────
+      // Touch-driven downward drag closes the sheet. Velocity > 0.3 px/ms
+      // closes immediately; otherwise we close if the drag exceeds half the
+      // sheet's height. Pulled into a small state machine to coexist with
+      // scroll inside the sheet — only drags that start on the handle or in
+      // the upper 60px count as dismiss gestures, the rest scroll content.
+      (function () {
+        var dragStartY = null, dragStartT = 0, sheetHeight = 0, dragged = false;
+        function onTouchStart(e) {
+          if (!$sheet.classList.contains('open')) return;
+          var t = e.touches[0];
+          // Allow drag from anywhere in the upper 64px (header zone) or the
+          // explicit drag handle. Below that, let native scroll happen.
+          var rect = $sheet.getBoundingClientRect();
+          var localY = t.clientY - rect.top;
+          if (localY > 64) return;
+          dragStartY = t.clientY;
+          dragStartT = Date.now();
+          sheetHeight = rect.height;
+          dragged = false;
+        }
+        function onTouchMove(e) {
+          if (dragStartY == null) return;
+          var dy = e.touches[0].clientY - dragStartY;
+          if (dy <= 0) return; // only downward drag counts
+          dragged = true;
+          $sheet.style.transition = 'none';
+          $sheet.style.transform = 'translateY(' + dy + 'px)';
+          // dim backdrop progressively
+          var progress = Math.min(1, dy / sheetHeight);
+          $sheetBackdrop.style.opacity = String(1 - progress * 0.6);
+          // prevent body scroll while dragging
+          if (e.cancelable) e.preventDefault();
+        }
+        function onTouchEnd(e) {
+          if (dragStartY == null) return;
+          var dy = (e.changedTouches[0].clientY) - dragStartY;
+          var dt = Math.max(1, Date.now() - dragStartT);
+          var velocity = dy / dt; // px / ms
+          $sheet.style.transition = '';
+          $sheet.style.transform = '';
+          $sheetBackdrop.style.opacity = '';
+          // Threshold: velocity > 0.3 px/ms OR drag > 50% of sheet height
+          if (dragged && (velocity > 0.3 || dy > sheetHeight * 0.5)) {
+            closeSheet();
+          }
+          dragStartY = null;
+          dragged = false;
+        }
+        $sheet.addEventListener('touchstart', onTouchStart, { passive: true });
+        $sheet.addEventListener('touchmove',  onTouchMove,  { passive: false });
+        $sheet.addEventListener('touchend',   onTouchEnd,   { passive: true });
+        $sheet.addEventListener('touchcancel', function () {
+          $sheet.style.transition = '';
+          $sheet.style.transform = '';
+          $sheetBackdrop.style.opacity = '';
+          dragStartY = null; dragged = false;
+        }, { passive: true });
+      })();
+
+      // ── iOS visualViewport keyboard fit (Design-Mobile.md §4.3.3) ─────────
+      // iOS Safari does not shrink window.innerHeight when the keyboard pops
+      // up, so an absolute-positioned dropdown can end up under the keyboard.
+      // We use the visualViewport API to compute available space below the
+      // input and clamp the dropdown's max-height accordingly. Same pattern
+      // as Design.md §7.12 P0-D F1.
+      (function () {
+        if (!window.visualViewport) return;
+        function fit() {
+          if (!$suggest.classList.contains('open')) return;
+          var vv = window.visualViewport;
+          var inputRect = $searchInput.getBoundingClientRect();
+          var spaceBelow = vv.height - (inputRect.bottom - vv.offsetTop) - 12;
+          // floor at 160px to keep at least one full result visible
+          $suggest.style.maxHeight = Math.max(160, spaceBelow) + 'px';
+        }
+        $searchInput.addEventListener('focus', fit);
+        window.visualViewport.addEventListener('resize', fit);
+        window.visualViewport.addEventListener('scroll', fit);
+      })();
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+  </body>
+</html>

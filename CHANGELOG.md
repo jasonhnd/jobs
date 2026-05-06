@@ -10,6 +10,528 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### `/map` page — round 2: closure links + sheet drag + iOS keyboard + list view + dead code purge
+
+Follow-up to the /map MVP. Closes the IA loop (footer + detail page
+both link to /map), polishes the bottom-sheet UX (drag-to-dismiss),
+hardens iOS Safari behavior (visualViewport keyboard fit), ships the
+a11y list-view fallback, registers the 4 GA4 events properly, adds
+the dedicated OG card, and finally retires the v1.1.0 dead-code
+templates that have been unreferenced since v1.2.0 single-URL
+convergence.
+
+**Footer + detail closure (Design-Mobile.md §4.11 / D6)**:
+- `partials/footer.html` — global site footer row 1 gets a "職業マップ"
+  link between トップ and セクター. Edits propagate to every page that
+  uses the partial via `{FOOTER_PARTIAL}` substitution: index, 404,
+  about, privacy, compliance, sectors hub × 16, sectors index,
+  rankings × 9, ranking index, /map, and 556 detail pages on next
+  build.
+- `scripts/build_occupations.py` — detail page template gets a new
+  `<nav class="map-back-link"><a href="/map">← 職業マップへ</a></nav>`
+  block above the footer, with matching pill styles. Always points
+  at bare `/map` (no query) so the user re-selects from the full
+  16-sector view, per spec D6. Affects all 556 ja/<id>.html on next
+  full build.
+
+**sitemap.xml (Design-Mobile.md §4.7 / §4.11)**:
+- `SITEMAP_BASE` template now emits `/map` (priority 0.9, monthly)
+  AND 16 `/map?sector=<id>` derivatives (priority 0.7, monthly) for
+  the JILPT 大分類 sectors (iryo / fukushi / kyoiku / jimu / hanbai
+  / service / hoan / noringyo / seizo / kensetu / maint / it /
+  senmon / creative / keiseki / shigyo). Auto-applied to sitemap.xml
+  on next full build.
+
+**Bottom sheet drag-to-dismiss (Design-Mobile.md §4.5 D3=A)**:
+- `map.html` — touch state machine on the sheet. touchstart in the
+  upper 64px (handle zone) records start position; touchmove
+  translates the sheet downward and dims the backdrop progressively;
+  touchend closes if velocity > 0.3 px/ms OR drag exceeds half the
+  sheet height; otherwise snaps back via CSS transition. Touches
+  starting below 64px fall through to native scroll inside the sheet
+  body. touchcancel resets state cleanly.
+
+**iOS visualViewport keyboard fit (Design-Mobile.md §4.3.3, mirrors
+Design.md §7.12 P0-D F1)**:
+- `map.html` — `window.visualViewport` listener clamps the search
+  dropdown's `max-height` to the actual space between the input
+  bottom and the keyboard top. Floor at 160px so at least one full
+  result stays visible. Fires on `focus`, `resize`, and `scroll`.
+  Browsers without `visualViewport` (rare in 2026) keep the CSS
+  default 320px max-height.
+
+**List view a11y fallback (Design-Mobile.md §4.13)**:
+- `map.html` — toggle button to the right of the sort dropdown
+  (`#viewToggle`). Click flips between the visual treemap render and
+  an ordered-list `<ol>` representation grouped by sector. Each list
+  row is an anchor → `/ja/<id>` with rank number, color swatch, job
+  name, and AI-risk + workforce stats. Fully keyboard-navigable.
+  `aria-pressed` + dynamic `aria-label` reflect the current mode.
+  Settles the §4.13 PENDING decision: **YES, ship the toggle** —
+  the ~80 lines of code is small enough that the SR / keyboard
+  fallback is worth it even though the desktop treemap doesn't have
+  one.
+
+**OG card (Design-Mobile.md §4.7)**:
+- `api/og.tsx` — new `renderMapCard()` function + `?page=map`
+  dispatcher branch in the default handler. Returns a 1200×630 PNG
+  with UNOFFICIAL badge, "OCCUPATION MAP / 全 552 職業" eyebrow,
+  big serif "職業マップ" title, "AI 影響度 × 就業者数 ヒートマップ"
+  subtitle, a 5-band stylized swatch (cool→warm), and the legend
+  caption. Self-contained — no upstream fetch (so no extra latency
+  / failure surface). 24h CDN cache like the other OG cards.
+- `map.html` `og:image` updated from generic `/og.png` to
+  `https://mirai-shigoto.com/api/og?page=map`.
+
+**GA4 spec.yaml registration (Design-Mobile.md §4.8)**:
+- `analytics/spec.yaml` — `events:` section gains 4 new entries:
+  `map_open` (referrer), `map_filter` (sector + sort),
+  `map_cell_tap` (job_id + sector + rank), `map_detail_click`
+  (job_id, marked `conversion: true` as the page's primary funnel
+  goal). `Custom Dimensions — event-scoped` section gains 5 new
+  parameter registrations: `referrer`, `sector`, `sort`, `rank`,
+  `job_id`. The `job_id` dimension is documented as parallel to
+  the existing `occupation_id` (same id space, different event
+  group); a future cleanup can unify them. Re-running
+  `analytics/setup-ga4.mjs` will create these in the GA4 property.
+
+**v1.1.0 dead code purge (E1 follow-up)**:
+- Deleted `scripts/templates/mobile/__init__.py` and the 7 mobile
+  page templates (`about.py`, `compare.py`, `detail.py`,
+  `explore.py`, `home.py`, `ranking.py`, `search.py`) — all marked
+  `DEAD CODE since v1.2.0` in their docstrings during the earlier
+  cleanup pass; verified zero active imports (only docstring /
+  attribution references). v1.1.0's `/m/{ja,en}/*` URL space was
+  retired in v1.2.0 single-URL convergence; sitemap had 0 mentions,
+  vercel.json had 0 rules, no `m/` output dir has been built since.
+- Deleted `scripts/translate_descriptions.py` — `DEAD CODE since
+  v1.4.0` per its docstring; v1.4.0 archived all EN translations to
+  `data/_archive/translations-en/`. The script's destination no
+  longer ships to production.
+- Deleted `styles/mobile-tokens.json` — the unused machine-readable
+  mirror of the live `styles/mobile-tokens.css` (which IS the
+  site-wide token source post-v1.2.0). The `.json` had 0 known
+  consumers; `.css` is untouched and remains the single source of
+  truth for site-wide colors / typography / spacing.
+- `scripts/build_occupations.py:309` — attribution comment for the
+  copied profile-radar algorithm updated to note the source template
+  (which was deleted in this same commit) lived at the v1.1.0 path.
+
+### `/map` page — mobile-first independent occupation map (MVP)
+
+Per Design-Mobile.md §4. The CTA on the new mobile homepage preview
+card now lands on a real page instead of a 404.
+
+**`map.html`** — single-file static page (~36 KB), Direction C: Warm
+Editorial palette synced from styles/mobile-tokens.css to match
+about/privacy/compliance/404. mobile-first, desktop-tolerant
+(centered `max-width: 900px`). Standard 4-tracker analytics block
+(CF / GA4 / Vercel WA / Speed Insights) per site-wide hard rule.
+schema.org `Dataset` JSON-LD describes the 552-occupation set with
+JILPT + 厚労省 attribution. Self-contained — no external JS modules,
+no build-time templating beyond the existing `build_occupations.py`
+sitemap regen.
+
+**Page structure**:
+- 3-layer sticky head (header back link, search row, sector chips +
+  sort dropdown). Heights live in CSS custom properties (`--h-head`,
+  `--h-search`, `--h-chips`) so they're tweakable from one place.
+  iOS sticky-jump fix via `transform: translate3d(0,0,0)`.
+- Search box: autocomplete on `/data.search.json` (lazy-loaded on
+  first keystroke), exact → starts-with → contains ranking, first
+  match auto-focused, Enter / click → `/ja/<id>`. Same UX semantics
+  as desktop hero (Design.md §7.12) without the iOS keyboard
+  fitDropdownToViewport polish — that ships in a follow-up since
+  this MVP is scoped to ship the structure.
+- Sector chips horizontally scroll-snap. "全て" default; chip click
+  switches to single-sector view. `data.sectors.json` drives the
+  list (16 sectors, JILPT 大分類).
+- Sort dropdown: AI影響↓ default / AI影響↑ / 年収↓ / 就業者数↓.
+- Sector segmented treemap: each sector is a section with header
+  (name + occupation count + mean AI risk) and a flex-wrapping grid
+  of cells. Cell width scales with `sqrt(workers / max_workers)`
+  bounded to 56-160px; cell height min 44px (touch target). Color
+  via 5-tier ai_risk quantization. Per-cell `aria-label` reads the
+  job name + risk + workforce. The simpler-than-spec layout (flex
+  grid vs. true squarified treemap) is the spec's `D4=A` fallback;
+  segmented-by-sector grouping is the §4.4 `D4=C` headline decision
+  and is intact.
+- Bottom sheet: tap any cell → upward slide-in (280ms cubic-bezier,
+  reduced-motion respected). Title + ranking badge (Top 50 only) +
+  AI 影響度 / 年収 / 就業者数 + "詳細を見る →" CTA → `/ja/<id>`.
+  Close via ✕ button, drag-handle tap, backdrop tap, or Esc key.
+  iOS safe-area inset honored. Drag-to-dismiss gesture deferred.
+
+**URL state** (Design-Mobile.md §4.6, D5=B): `?sector=<id>` /
+`?sort=<key>` / `?job=<id>` two-way bound via `URLSearchParams` +
+`history.replaceState` (no router lib). `?job=<id>` deep links
+auto-open the bottom sheet on load. Defaults are stripped from the
+URL for clean shareable links.
+
+**Loading / error** (§4.9): sticky head + skeleton sector grids
+render instantly from inline HTML. Data fetch from
+`/data.treemap.json` + `/data.sectors.json` runs in parallel with a
+10s timeout. On failure: in-page retry button that reloads.
+Skeleton fade-pulse animation guarded by `prefers-reduced-motion`.
+
+**Analytics** (§4.8): four new GA4 events fired from the page —
+`map_open` (params: `referrer`), `map_filter` (sector, sort),
+`map_cell_tap` (job_id, sector, rank), `map_detail_click`
+(job_id). spec.yaml registration is a follow-up.
+
+**SEO** (§4.7): dedicated `<title>` / `<meta description>` /
+`og:title` / `og:description` / `og:url` / canonical for `/map`.
+schema.org `Dataset` describing the 552-occupation set.
+
+**`scripts/build_occupations.py`** — `SITEMAP_BASE` template gains
+a `/map` entry right after the homepage, `priority=0.9`,
+`changefreq=monthly`. Auto-applied to `sitemap.xml` on next full
+build (the pre-push hook already runs `build:occ`).
+
+**Out of scope for this MVP** (deferred to follow-ups):
+- Full squarified treemap algorithm per sector (current flex-grid
+  is the spec's fallback path).
+- Drag-to-dismiss bottom sheet gesture.
+- iOS visualViewport keyboard fitting on the search dropdown.
+- Detail page footer "← 職業マップへ" closure link (D6) — needs
+  template + 556-page regen.
+- Footer "職業マップ" link in the global site footer rows.
+- `?sector=*` URL variants in sitemap.xml.
+- `api/og.tsx ?page=map` variant.
+- `analytics/spec.yaml` formal registration of the 4 new events.
+- A11y "リスト表示に切り替え" toggle (Design-Mobile.md §4.13
+  PENDING — minimum a11y line is in).
+
+### Footer — extract to single partial (`partials/footer.html`)
+
+Follow-up to the footer unification below. The footer HTML used to be copy-pasted in 8 places (5 static pages + 3 Python build scripts). Now it lives in one file and the build pipeline injects it everywhere.
+
+- **`partials/footer.html`** — single source of truth for the site-wide footer markup
+- **`scripts/build_partials.py`** — injects `partials/footer.html` between `<!-- FOOTER:START --> ... <!-- FOOTER:END -->` markers in the 5 static pages (index / 404 / about / compliance / privacy)
+- **3 Python generators** (`build_occupations.py`, `build_sector_hubs.py`, `build_rankings.py`) — each loads `FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text()` at module level and interpolates `{FOOTER_PARTIAL}` into the page template; the hardcoded footer HTML inside these scripts is gone
+- **npm scripts** — `npm run build:footer` runs the partial injector standalone; `npm run build` now chains data → footer → occ → sectors → rankings so a clean build always picks up the latest partial
+- **Design.md §7.10** — updated with the new partial architecture and the canonical edit flow ("edit `partials/footer.html` → `npm run build:footer` (static) or `npm run build` (everything)")
+
+### Footer — site-wide unification (all pages identical)
+
+Aligns every page's footer to one canonical 3-layer structure (导航 chips + 法务 chips + footer-meta) so 404 / about / compliance / privacy / index / 556 detail / 17 sector / 10 ranking — every single HTML — renders the exact same footer HTML and CSS.
+
+- **Two-row chip layout everywhere**:
+  - Row 1 (导航): `トップ / セクター / ランキング`
+  - Row 2 (法务/规约): `データについて / コンプライアンス / プライバシー`
+- **Unified footer-meta** (was inconsistent — `© mirai-shigoto.com` on detail/sector/ranking, brief disclaimer on about/privacy, missing entirely on 404):
+  - `v1.3.0 · MIT`
+  - 出典：厚生労働省・独立行政法人 労働政策研究・研修機構（JILPT）
+  - 独立分析サイト免責 + 「詳細は コンプライアンス ページをご確認ください」
+- **404.html — full footer + expanded こちらもどうぞ**:
+  - Was: 1-row chip footer with no footer-meta + 3 helpful links (about / compliance / privacy)
+  - Now: standard 2-row footer + meta, plus 9 helpful links (sectors hub / rankings hub / 4 ranking pages / about / compliance / privacy)
+- **Design.md §7.10 — spec rewritten as the canonical 6-chip 2-row spec** (was the v1.2.2 single-row 3/4-chip spec). Single-source-of-truth doc updated first per the Design.md authority rule, then HTML synced.
+- **CSS — `.nowrap` added to all 5 static pages** so 「独立行政法人 労働政策研究・研修機構（JILPT）」 and 「公式見解ではありません」 don't break across lines on mobile. Build scripts updated identically.
+- **Generated pages regenerated**: 556 detail (build_occupations.py) + 17 sector (build_sector_hubs.py) + 10 ranking (build_rankings.py).
+
+### Rankings — expand from 4 to 9 ranking pages + enriched hub
+
+- **5 new ranking pages**: salary, entry-salary, young-workforce, short-hours, high-demand
+- **Enriched all 9 pages**: 3–4 stat panels, auto-generated highlights, sector distribution chart, FAQ section (3 Q&A each with FAQPage JSON-LD)
+- **Enriched hub page**: global stats (556 occupations overview), 9 cards with #1 preview, cross-ranking insights section
+- **New CSS components**: demand-pill, rl-extra, highlights, sector-chart, faq accordion, insights
+- **SEO**: FAQPage schema on all 9 ranking pages, expanded meta descriptions
+- **Build**: `build_rankings.py` outputs 10 HTML pages (323 KB total)
+
+### Analytics — five-part optimization round (Tier 1 + Tier 2 + privacy/perf)
+
+Following the GA4 optimization audit on 2026-05-06, applies five changes
+to the instrumentation layer. All purely additive or non-breaking; no
+existing event removed, no analytics URL changed.
+
+- **③ Spec hygiene** (`analytics/spec.yaml`):
+  - Removed three orphan event-scoped dimensions from spec —
+    `open_method`, `close_method`, `time_open_ms`. They were leftovers from
+    the modal lifecycle (deleted 2026-05-02). The actual dimensions on the
+    GA4 property are kept (don't archive — preserves historical data); the
+    spec just no longer tries to sync them, eliminating four `WARN` lines
+    on every `npm run setup:dry`.
+  - Added `email_submit_header` to the explicit `key_events:` list so it
+    matches the derived (conversion: true) set. Previously caused a
+    `derived != explicit` warning.
+
+- **⑥ `jobtag_outbound_click` event wired** (`scripts/build_occupations.py`):
+  - The 出典 link "厚生労働省 job tag — {occupation}" on every detail
+    page now fires `gtag('event', 'jobtag_outbound_click', {...})` on
+    click before navigating. Records `occupation_id`, `ai_risk_score`,
+    `language`. Compliance signal: proves the attribution chain
+    (our analysis → official MHLW source) is being used. Re-running
+    `build:occ` regenerates all 556 detail pages. Spec event promoted
+    from `unimplemented: planned` → live.
+
+- **⑫ Search query PII sanitizer** (`index.html`):
+  - New `sanitizeSearchQuery(q)` runs before any query string is sent
+    in `job_search_typed` / `job_search_intent` events. Drops:
+    1. Strings > 30 chars (suspect; typical occupation names are 2-12 chars)
+    2. Strings containing 10+ consecutive digits (phone / ID)
+    3. Strings containing `@<alphanumeric>` (email)
+  - Returns `""` (empty) on hit, so the EVENT still fires (count is
+    preserved for CTR / volume metrics) but the query CONTENT is not
+    logged to GA4. Trades some search-term analytics fidelity for
+    PII safety.
+
+- **⑬ Defer gtag.js across all entry points** (5 files):
+  - `index.html` was already deferred (loaded inside `window.load`).
+  - `about.html`, `privacy.html`, `compliance.html`, `404.html`,
+    and the sector-hub template (`scripts/build_sector_hubs.py`) were
+    using `<script async>` which still costs ~64 KB / 265 ms during
+    initial render. All moved to the same deferred-load pattern as
+    `index.html`. Sector hubs regenerated via `build_sector_hubs.py`.
+  - `scripts/build_occupations.py` template was already deferred
+    (~556 detail pages unchanged).
+  - LCP improvement primarily on the static pages (about / privacy /
+    compliance / 404) and 17 sector hubs.
+
+- **⑭ `tooltip_view` event with 10% sampling** (`index.html`):
+  - Tooltip on desktop hover now fires `gtag('event', 'tooltip_view',
+    {...})` with `Math.random() < 0.10` sampling — 10% of all hovers.
+  - Full-rate would dwarf every other event (tooltips fire on every
+    desktop hover, dozens per session). 10% gives a representative
+    signal for "which occupations attract attention" analysis.
+  - Multiply tooltip_view counts by 10 when extrapolating to total
+    tooltip volume.
+  - Spec event promoted from `unimplemented: planned` → live;
+    description updated with the sampling note.
+
+### Files
+
+- `analytics/spec.yaml` — three event_scoped_dimensions removed,
+  `email_submit_header` added to key_events, `tooltip_view` and
+  `jobtag_outbound_click` promoted from `unimplemented: planned`,
+  description updates.
+- `index.html` — `sanitizeSearchQuery()` helper added, called from both
+  `fireSearchIntent()` and the `job_search_typed` debounced emit;
+  `tooltip_view` 10% sampled emit added at the end of `showTooltip()`.
+- `about.html`, `privacy.html`, `compliance.html`, `404.html` — gtag.js
+  loader changed from `<script async>` to deferred-via-`window.load`.
+- `scripts/build_occupations.py` — 出典 link gains `onclick`
+  `gtag('event', 'jobtag_outbound_click', ...)`. Regenerated all
+  556 `ja/<id>.html` files.
+- `scripts/build_sector_hubs.py` — same deferred-gtag pattern as the
+  static pages. Regenerated 16 sector hubs + 1 sector index.
+- Build artifacts: `sitemap.xml`, `scripts/.occ_manifest.json`,
+  `scripts/.sector_manifest.json`, `dist/data.*` updated.
+
+### Operator follow-up
+
+Manual GA4 dashboard tasks (script can't do these) tracked separately
+in the optimization audit doc. Most important:
+- Set Event data retention to 14 months (currently default 2 mo)
+- Enable all Enhanced Measurement toggles
+- Build the 5 audiences declared in `spec.yaml:audiences_manual`
+
+### Dangling MOBILE_DESIGN.md ref cleanup — DEAD CODE markers (no behavior change)
+
+**Doc/comment-only. No runtime change.** Follow-up to the doc split:
+when `docs/MOBILE_DESIGN.md` was deleted, 11 source files retained
+comment-only references to it. None of them imported or read the doc;
+all references were docstrings or inline explanatory comments. All
+updated in place to remove the broken reference and add a clear
+`DEAD CODE since vX.Y.Z` marker so a future reader knows what to do.
+
+**No `scripts/templates/mobile/*.py` was deleted** — the directory is
+verified-dead (no `m/` output dir exists, sitemap.xml has 0 mentions,
+vercel.json has 0 `/m/` rules, only one mention in `build_occupations.py`
+is an attribution comment for a copied algorithm), but deletion is
+deferred to an explicit follow-up cleanup PR; this pass marks status
+without removing source. Same for `scripts/translate_descriptions.py`
+(EN translations archived to `data/_archive/translations-en/` in v1.4.0)
+and `styles/mobile-tokens.json` (0 known consumers, but the parallel
+`.css` IS live).
+
+Per-file changes:
+
+- **`scripts/templates/mobile/{home,explore,search,detail,compare,ranking,about}.py`**
+  (7 files) — top docstring "[number] [name] — `/m/{ja,en}/<path>` per
+  MOBILE_DESIGN.md §X" rewritten to "[number] [name] — `/m/{ja,en}/<path>`.
+  DEAD CODE since v1.2.0." plus a paragraph explaining the v1.1.0
+  origin, v1.2.0 retirement, MOBILE_DESIGN.md deletion date, and that
+  `Design-Mobile.md` is the current spec but for the responsive
+  single-URL design (NOT this `/m/*` template). `explore.py` got an
+  extra disambiguation note that the new `Design-Mobile.md §4 /map`
+  page is unrelated to this old `/m/*/map` template. `detail.py` got
+  an extra note that `build_occupations.py` line ~258 holds an
+  algorithm copy that remains live and won't break.
+- **`scripts/templates/mobile/detail.py:47`** — secondary inline
+  comment on `QUOTE_BY_SECTOR_JA` updated from "(v1.1.x — see
+  MOBILE_DESIGN.md §8)" to "(v1.1.x — DEAD CODE since v1.2.0; spec
+  doc MOBILE_DESIGN.md deleted 2026-05-06)".
+- **`scripts/dev-server.py`** — comment above the `/m/{ja,en}/*`
+  routing block (lines 80-99 in current file) rewritten to a
+  multi-line DEAD CODE marker explaining the block is unreachable
+  in production (no `m/` dir built, no vercel.json rules, sitemap
+  zero mentions) and is safe to delete in cleanup.
+- **`scripts/translate_descriptions.py`** — header docstring "Per
+  docs/MOBILE_DESIGN.md §9.3 + DATA_ARCHITECTURE.md §2.4 (v1.1.0
+  extension)" rewritten to "DEAD CODE since v1.4.0 (JA-only)" with
+  full explanation of the EN archive in v1.4.0 and that
+  DATA_ARCHITECTURE.md §2.4 is still-live for reference.
+- **`styles/mobile-tokens.json`** — `$meta.description` field
+  rewritten to drop the MOBILE_DESIGN.md ref and explicitly note
+  that this `.json` mirror has 0 known consumers (the parallel
+  `.css` is the live token source).
+- **`styles/mobile-tokens.css`** — header comment block fully
+  rewritten. Removed `Spec : docs/MOBILE_DESIGN.md §2 (tokens)` and
+  `Editing rule (per docs/MOBILE_DESIGN.md §15):` lines. Added new
+  Origin/Scope notes documenting that this file was authored as a
+  v1.1.0 mobile-only token set but PROMOTED in v1.2.0 PC convergence
+  to be the **live site-wide token source** (referenced from
+  index.html / about.html / privacy.html / compliance.html / 404.html
+  and all 556 ja/<id>.html pages via the `synced from
+  styles/mobile-tokens.css` comment pattern). The "mobile-tokens"
+  filename is now historical; the file is desktop-and-mobile.
+  Filename retained because 559+ HTML files quote it; renaming would
+  require a coordinated repo-wide sweep + production verification.
+- **`scripts/build_occupations.py:258`** — attribution comment
+  "Algorithm copied from scripts/templates/mobile/detail.py to
+  ensure visual parity." extended with a parenthetical noting the
+  source template is DEAD CODE since v1.2.0 but the copy here is
+  independent and remains live.
+
+After this pass: 26 remaining mentions of `MOBILE_DESIGN.md` across
+13 files, all intentional (history records in CHANGELOG / Design.md
+/ Design-Mobile.md, plus DEAD CODE explanatory markers in the code
+files above).
+
+### Design doc split — `Design.md` (desktop + shared) / `Design-Mobile.md` (mobile)
+
+**Doc-only. No code yet.** With the `/map` page spec landing in §16
+the mobile content in `docs/Design.md` had grown past half the
+document. Split into two peer files so each device has a clear
+authority boundary, and the archived v1.1.0 `MOBILE_DESIGN.md`
+that was orphaned for 4 months gets retired.
+
+Decisions (Q1 = C / Q2 = A / Q3 = B):
+
+- **`docs/Design.md`** keeps desktop-only sections (§6.1 Desktop
+  tooltip, §7.12 Desktop Hero, §7.14 404) **plus the cross-device
+  shared layer** that both files reference: §1 principles, §2
+  tokens (color / typography / spacing), §3 theme system, §4
+  responsive breakpoint definitions, §5 treemap visualization,
+  §6.4 viewport overflow handling, §7 generic components, §9-§13
+  motion / a11y / assets / palette guidelines.
+- **`docs/Design-Mobile.md`** (NEW) is the mobile authority. §1
+  was old §7.11 Mobile Hero (Variant C). §2 was old §6.2 / §6.3
+  / §6.5 / §6.6 / §6.7 — full touch-mode tooltip behavior
+  (touch-mode entry, tap-outside, close-button hit area, CTA
+  contract, scroll-vs-tap state machine). §3 was old §8 — all
+  mobile responsive rules across ≤768 / ≤480 / ≤360 / ≤540. §4
+  was the §16 `/map` page spec, renumbered to §4.0–§4.14.
+- Migrated sections in `Design.md` are now **stub headings with
+  cross-doc links** — section numbers stay (§6.2, §6.3, §6.5,
+  §6.6, §6.7, §7.11, §8, §16) so any external references don't
+  break, but their bodies say "moved to Design-Mobile.md §X".
+  Section numbers preserved means downstream PRs that reference
+  them keep working.
+- §7.12 Desktop Hero had two intra-doc references (`§7.11` for
+  mobile hero pairing, `§6.7` for the touch state machine
+  constants `TAP_SLOP_PX=10` / `TAP_MAX_MS=500`). Both updated
+  to point to `Design-Mobile.md §1` and `§2.5` respectively.
+- `docs/MOBILE_DESIGN.md` deleted (Q1 = C). It documented the
+  v1.1.0 `/m/ja/*` and `/m/en/*` URL architecture that was
+  fully retired in v1.2.0 (single-URL responsive). After v1.4.0
+  killed the EN UI, MOBILE_DESIGN.md had been an
+  orphan-since-2026-01 archive with zero active references in
+  HTML / CSS / runtime code. Stale doc-references in
+  `scripts/dev-server.py`, `scripts/translate_descriptions.py`,
+  `scripts/templates/mobile/*.py`, and `styles/mobile-tokens.json`
+  remain as comment-only mentions — those scripts/templates are
+  themselves dead code from the v1.1.0 era and a follow-up
+  cleanup PR should retire them or update the comments.
+- `docs/Design.md` head, §0 适用范围, and §0.1 (was "与
+  MOBILE_DESIGN.md 的关系", now "与 Design-Mobile.md 的分工")
+  all rewritten to reflect the new two-file model. The §0.1
+  table now describes a content-split (desktop-only + shared vs.
+  mobile-only) rather than the old design-language-split (data
+  dashboard vs. Direction C Warm Editorial).
+- `docs/Design.md` §15 修订历史 + `docs/Design-Mobile.md` §6
+  修订历史 both record this split with date 2026-05-06 + the
+  Q1/Q2/Q3 decisions inline.
+
+**Net effect on Design.md.** ~1118 lines → 734 lines. Mobile
+content extracted to a 451-line peer file. No semantic content
+lost; cross-references all updated.
+
+### `/map` 独立页（mobile-first）— design spec only
+
+**Design only. No code yet.** Spec written into `docs/Design.md` §16
+(`/map` 页规范, mobile-first 独立页) — implementation to follow in a
+separate change.
+
+**IA decision.** Move the 552-occupation treemap off the mobile
+homepage and into a dedicated `/map` page. Mobile homepage gets a
+preview card (inline SVG thumbnail + CTA) instead of the embedded
+canvas. Desktop `index.html` embedded treemap is **completely
+unchanged** — the split is mobile-only IA surgery; desktop users who
+land on `/map` directly see the same mobile-first layout
+(`max-width: 900px`, centered).
+
+**`/map` page structure** (mobile-first, desktop-tolerant):
+
+- Three-layer sticky head (header / search / sector chips + sort
+  dropdown), total ~148px.
+- Search behavior identical to `§7.12` desktop hero (autocomplete →
+  jump to `/ja/<id>`); not a map-scoped filter.
+- Sector segmented treemap (D4 = C): each sector is its own
+  squarified treemap stacked vertically with collapse toggle.
+  Single-sector chip view auto-expands. `min cell size = 44×44px`
+  touch target; below threshold → merge into sector-tail "その他".
+  Fallback (D4 = A): single squarified treemap with pinch-zoom if
+  segmented turns out too costly.
+- Tap cell → bottom sheet (D2/D3) showing job name / ranking
+  badge (Top 50 only) / AI影響度 / 年収 / 就業者数 / "詳細を見る"
+  CTA / ✕. Drag-to-dismiss + backdrop tap + ✕. iOS safe-area aware.
+
+**URL state** (D5 = B). `URLSearchParams` two-way binding, no
+router. `?sector=` / `?sort=` / `?job=` deep links. `?job=12345`
+auto-opens the bottom sheet on load. Filter changes use
+`history.replaceState` (don't pollute back stack).
+
+**SEO.** Dedicated `<title>` / `<meta description>` / `og:image`
+(`/api/og?page=map`) / `Dataset` + `ItemList` schema (Top 50 by
+ranking). Single canonical `/map` regardless of query.
+
+**Analytics.** Four new GA4 events: `map_open` (params: referrer),
+`map_filter` (sector, sort), `map_cell_tap` (job_id, sector, rank),
+`map_detail_click` (job_id). Standard 4-tracker analytics in
+`<head>` (CF / GA4 / Vercel WA / Speed Insights — same hard rule
+as every other page).
+
+**Build.** `scripts/build_occupations.py` gets a new
+`generate_map_thumbnail()` step that writes
+`dist/map-thumb.snippet.html` (inline SVG, < 4KB, Top 30 by area
++ "その他" tail, 5-tier color quantization). `index.html`
+includes via `{{INCLUDE map-thumb}}` placeholder + sed replace.
+
+**Performance.** Mobile homepage stops paying the treemap cost:
+the existing `<link rel="preload" href="/data.treemap.json">`
+gets `media="(min-width: 769px)"` so only desktop preloads.
+`/map` page does its own preload in its own `<head>`. Treemap
+render runs in `requestIdleCallback` so the sticky head stays
+interactive during fetch.
+
+**Closure.** Detail page `/ja/<id>` gets a "← 職業マップへ"
+link above footer (always jumps to bare `/map`, no query). Site
+footer (`§7.13`) gets a "職業マップ" entry next to "About".
+`sitemap.xml` adds `/map` (priority 0.9) + 10-12
+`/map?sector=*` derivative URLs (priority 0.7).
+
+**Out of scope.** Dark-mode-specific design (inherits §3),
+landscape-specific layout, PWA / service worker, multilingual
+(JA-only stays locked from v1.4.0).
+
+**Pending.** §16.13 a11y "リスト表示に切り替え" toggle (screen
+reader / keyboard fallback for the treemap canvas) is suspended;
+`/map` ships with the minimum a11y line (`role="img"` + label,
+native `<button>`/`<select>` for chips, focus-visible, reduced-
+motion respect) and the list-view toggle decision is deferred.
+
 ### Analytics automation — OAuth user-credential path + spec validation fixes
 
 The `setup-ga4.mjs` script had never actually been run successfully against
