@@ -1,7 +1,7 @@
 [project]
 name = "jp-jobs"
 version = "0.0.1"
-description = "Japan jobs x AI replacement risk - bilingual visualization (JA/EN)"
+description = "Japan jobs x AI replacement risk - visualization of 552 occupations from MHLW jobtag"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.11"
@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://jasonhnd.github.io/jobs/"
+Homepage = "https://mirai-shigoto.com/"
 Repository = "https://github.com/jasonhnd/jobs"
 Changelog = "https://github.com/jasonhnd/jobs/blob/main/CHANGELOG.md"
 
