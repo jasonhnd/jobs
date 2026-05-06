@@ -311,6 +311,50 @@ Canvas 必须正确区分用户**意图滚动**和**意图点击**，否则把 t
 
 ---
 
+### 4.4.1 重渲染契約（不可破壊 scroll · 硬規則）
+
+> 由 v1.3.x 移动滑动 bug 反推：treemap 重渲染必须保护用户 scroll 位置。本节规则**适用于 `/map` 上所有动态重排逻辑**（`renderMap` / `renderList` / 错误态 / 未来任何替换 `$content` 内容的入口）。
+
+#### A. DOM 替换：原子操作，禁止 wipe-and-rebuild
+
+| | 写法 | 后果 |
+|---|---|---|
+| ❌ 禁止 | `el.innerHTML = ''` 后再 `appendChild(frag)` | 第一行同步触发 reflow，文档高度塌陷为 0；浏览器立刻把 `scrollTop` clamp 到 0；append 后内容回来但 scroll 已被改写。**用户被甩到顶端**。 |
+| ✅ 必须 | `el.replaceChildren(frag)` | 单次原子 DOM 操作，文档高度从旧值直接跳到新值，**不经过中间帧 0**。`scrollTop` 仅在新高度 < 当前 scrollY 时才被 clamp（边界情况）。 |
+
+兼容性：Safari 14+ / Chrome 86+ / Firefox 78+。低于此版本可忽略（站点目标用户 2026 年新设备）。
+
+#### B. resize 触发：只在容器宽度真正变化时重排
+
+squarified layout 只依赖 `$content.clientWidth`（[map.html](../map.html) `renderMap` / `mergeSmallCells` / `squarify` 全部按宽度算面积）。容器高度由数据驱动（`sectorContainerHeight(recs.length)`），与 viewport 高度无关。
+
+**因此**：mobile 浏览器 URL bar 收起触发的 `window.resize`（仅高度变化）**绝不能**触发重排。
+
+| | 监听器 | 何时触发 |
+|---|---|---|
+| ❌ 禁止 | `window.addEventListener('resize', …renderMap…)` | URL bar 收起、键盘弹出、设备旋转 height 变化等都会触发，绝大多数情况下宽度未变，纯无谓 CPU + 电量。 |
+| ✅ 必须 | `ResizeObserver(el)` 观察容器本身，且回调内部缓存 `prevWidth`，宽度未变 early-return | 只在 `$content` 真实宽度变化时才触发（设备旋转 / 桌面拖窗 / 未来引入侧栏布局都正确响应）。|
+
+#### C. 三层防御纵深（互相正交，单层失效另两层依然兜底）
+
+| 层 | 实现 | 角色 |
+|---|---|---|
+| L1 | `replaceChildren` 原子替换 | **治本**：任何触发源都不可能再弄丢 scroll |
+| L2 | width 缓存 early-return | **节流**：避免不必要的重新 squarify 计算 |
+| L3 | `ResizeObserver($content)` 替代 `window.resize` | **精度 + future-proof**：window 宽度不等于容器宽度的场景也能正确响应 |
+
+#### D. 回归验证（人工 · 真机）
+
+每次改动 `renderMap()` / `renderList()` / `$content` 写入逻辑，必须在 mobile 真机走完以下用例：
+
+1. 打开 `/map` → 向下滑动两屏 → 继续向下滑（URL bar 收起触发 resize 的典型场景）→ scroll 位置不变
+2. 向上滑动至 URL bar 重新出现 → scroll 位置正确响应手指
+3. 设备横竖切换 → 重排发生，但 scroll 应保持视觉锚定（接受小幅偏移，不接受跳到顶）
+4. 切换 sector chip → 接受跳到顶（主动操作）
+5. 切换 sort dropdown → 接受跳到顶（主动操作；如未来希望保持 scroll，需额外保护）
+
+---
+
 ### 4.5 `/map` 页 — Bottom sheet
 
 Tap 任意 cell 时升起。
@@ -493,6 +537,7 @@ GA4 自定义事件 4 个，全部新增到 `analytics/` spec：
 | 日期 | 章节 | 改动 | 原因 |
 |---|---|---|---|
 | 2026-05-06 | 全文 | 文件创建 | 从 Design.md 拆分 mobile 专属内容（原 §6.2 / §6.3 / §6.5 / §6.6 / §6.7 mobile tooltip → 本文件 §2；原 §7.11 Mobile Hero → §1；原 §8 移动端自适应 → §3；原 §16 `/map` 页规范 → §4）。共享底层（颜色 token / 字体 / 间距 / 主题 / 断点 / treemap 视觉 / 通用组件 / 桌面 hero / a11y / palette 准则）留在 Design.md。`/m/*` 架构存档 `MOBILE_DESIGN.md` 同步删除（v1.1.0 已废弃 4 个月，零 active 引用）。Q1=C / Q2=A / Q3=B 决策见 CHANGELOG。|
+| 2026-05-06 | §4.4.1 新增 | 新增「重渲染契約（不可破壊 scroll · 硬規則）」 | 移动端真机 bug：用户向下滑动时页面自动弹回顶端。根因为 `window.resize`（URL bar 收起触发）调用 `renderMap()`，内部 `innerHTML = ''` → `appendChild` 两步，第一步同步 reflow 导致文档高度塌陷为 0，浏览器 clamp `scrollTop` 至 0。规范化"原子替换 + 宽度变化才重排"为 `/map` 重渲染硬规则，附三层防御纵深与真机回归验证清单。|
 
 ---
 
