@@ -10,6 +10,93 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Analytics — five-part optimization round (Tier 1 + Tier 2 + privacy/perf)
+
+Following the GA4 optimization audit on 2026-05-06, applies five changes
+to the instrumentation layer. All purely additive or non-breaking; no
+existing event removed, no analytics URL changed.
+
+- **③ Spec hygiene** (`analytics/spec.yaml`):
+  - Removed three orphan event-scoped dimensions from spec —
+    `open_method`, `close_method`, `time_open_ms`. They were leftovers from
+    the modal lifecycle (deleted 2026-05-02). The actual dimensions on the
+    GA4 property are kept (don't archive — preserves historical data); the
+    spec just no longer tries to sync them, eliminating four `WARN` lines
+    on every `npm run setup:dry`.
+  - Added `email_submit_header` to the explicit `key_events:` list so it
+    matches the derived (conversion: true) set. Previously caused a
+    `derived != explicit` warning.
+
+- **⑥ `jobtag_outbound_click` event wired** (`scripts/build_occupations.py`):
+  - The 出典 link "厚生労働省 job tag — {occupation}" on every detail
+    page now fires `gtag('event', 'jobtag_outbound_click', {...})` on
+    click before navigating. Records `occupation_id`, `ai_risk_score`,
+    `language`. Compliance signal: proves the attribution chain
+    (our analysis → official MHLW source) is being used. Re-running
+    `build:occ` regenerates all 556 detail pages. Spec event promoted
+    from `unimplemented: planned` → live.
+
+- **⑫ Search query PII sanitizer** (`index.html`):
+  - New `sanitizeSearchQuery(q)` runs before any query string is sent
+    in `job_search_typed` / `job_search_intent` events. Drops:
+    1. Strings > 30 chars (suspect; typical occupation names are 2-12 chars)
+    2. Strings containing 10+ consecutive digits (phone / ID)
+    3. Strings containing `@<alphanumeric>` (email)
+  - Returns `""` (empty) on hit, so the EVENT still fires (count is
+    preserved for CTR / volume metrics) but the query CONTENT is not
+    logged to GA4. Trades some search-term analytics fidelity for
+    PII safety.
+
+- **⑬ Defer gtag.js across all entry points** (5 files):
+  - `index.html` was already deferred (loaded inside `window.load`).
+  - `about.html`, `privacy.html`, `compliance.html`, `404.html`,
+    and the sector-hub template (`scripts/build_sector_hubs.py`) were
+    using `<script async>` which still costs ~64 KB / 265 ms during
+    initial render. All moved to the same deferred-load pattern as
+    `index.html`. Sector hubs regenerated via `build_sector_hubs.py`.
+  - `scripts/build_occupations.py` template was already deferred
+    (~556 detail pages unchanged).
+  - LCP improvement primarily on the static pages (about / privacy /
+    compliance / 404) and 17 sector hubs.
+
+- **⑭ `tooltip_view` event with 10% sampling** (`index.html`):
+  - Tooltip on desktop hover now fires `gtag('event', 'tooltip_view',
+    {...})` with `Math.random() < 0.10` sampling — 10% of all hovers.
+  - Full-rate would dwarf every other event (tooltips fire on every
+    desktop hover, dozens per session). 10% gives a representative
+    signal for "which occupations attract attention" analysis.
+  - Multiply tooltip_view counts by 10 when extrapolating to total
+    tooltip volume.
+  - Spec event promoted from `unimplemented: planned` → live;
+    description updated with the sampling note.
+
+### Files
+
+- `analytics/spec.yaml` — three event_scoped_dimensions removed,
+  `email_submit_header` added to key_events, `tooltip_view` and
+  `jobtag_outbound_click` promoted from `unimplemented: planned`,
+  description updates.
+- `index.html` — `sanitizeSearchQuery()` helper added, called from both
+  `fireSearchIntent()` and the `job_search_typed` debounced emit;
+  `tooltip_view` 10% sampled emit added at the end of `showTooltip()`.
+- `about.html`, `privacy.html`, `compliance.html`, `404.html` — gtag.js
+  loader changed from `<script async>` to deferred-via-`window.load`.
+- `scripts/build_occupations.py` — 出典 link gains `onclick`
+  `gtag('event', 'jobtag_outbound_click', ...)`. Regenerated all
+  556 `ja/<id>.html` files.
+- `scripts/build_sector_hubs.py` — same deferred-gtag pattern as the
+  static pages. Regenerated 16 sector hubs + 1 sector index.
+- Build artifacts: `sitemap.xml`, `scripts/.occ_manifest.json`,
+  `scripts/.sector_manifest.json`, `dist/data.*` updated.
+
+### Operator follow-up
+
+Manual GA4 dashboard tasks (script can't do these) tracked separately
+in the optimization audit doc. Most important:
+- Set Event data retention to 14 months (currently default 2 mo)
+- Enable all Enhanced Measurement toggles
+- Build the 5 audiences declared in `spec.yaml:audiences_manual`
+
 ### Dangling MOBILE_DESIGN.md ref cleanup — DEAD CODE markers (no behavior change)
 
 **Doc/comment-only. No runtime change.** Follow-up to the doc split:
