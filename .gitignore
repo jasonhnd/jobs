@@ -35,6 +35,12 @@ dist.prev/
 build/
 .cache/
 
+# Partial-run manifests — produced by build_occupations.py --ids / --limit
+# (smoke tests). Canonical .occ_manifest.json IS tracked; .partial.json is
+# local-only debug artifact.
+scripts/.occ_manifest.partial.json
+scripts/.*.partial.json
+
 # Pipeline raw outputs (kept locally, not pushed)
 html/
 pages/
