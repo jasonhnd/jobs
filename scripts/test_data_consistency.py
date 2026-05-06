@@ -27,12 +27,13 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 
-# Per §6.1 (revised v1.0.8) — treemap is array of objects, not columnar.
+# Per §6.1 (revised v1.0.8 + v1.4.0) — treemap is array of objects, not columnar.
 # These are the fields index.html consumes; missing any = projection bug.
+# v1.4.0: name_en / ai_rationale_en dropped when the English UI was removed.
 TREEMAP_REQUIRED_KEYS = {
-    "id", "name_ja", "name_en",
+    "id", "name_ja",
     "salary", "workers", "hours", "age", "recruit_wage", "recruit_ratio", "hourly_wage",
-    "ai_risk", "ai_rationale_ja", "ai_rationale_en",
+    "ai_risk", "ai_rationale_ja",
     "education_pct", "employment_type",
     "url",
 }
@@ -63,7 +64,6 @@ def check_planned_files_exist(dist_root: Path, r: Report) -> None:
         dist_root / "data.treemap.json",
         dist_root / "data.search.json",
         dist_root / "data.labels" / "ja.json",
-        dist_root / "data.labels" / "en.json",
         dist_root / "data.detail",
         dist_root / "data.sectors.json",       # v1.1.0
         dist_root / "data.review_queue.json",  # v1.1.0

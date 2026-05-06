@@ -1,19 +1,24 @@
-"""data.detail/<padded>.json projection — per DATA_ARCHITECTURE.md §6.2 (revised v1.1.0).
+"""data.detail/<padded>.json projection — per DATA_ARCHITECTURE.md §6.2 (revised v1.2.0).
 
 Status: Planned
 Consumer: build_occupations.py, api/og.tsx, mobile ④/⑤ 詳細 drill-down fetch
-Shape: nested object — main occupation + EN translation + stats + latest score + top-N skills
-Size target: < 5 KB gzipped per file (v1.1.0 +sector block ~+40 bytes per file)
+Shape: nested object — main occupation + stats + latest score + top-N skills
+Size target: < 5 KB gzipped per file
 
 `*_top_N` rule per §6.2:
     Sort by the occupation's score descending; take first N.
     When the parent block is None (no numeric profile), the top_N field is also None.
     N: skills=10, knowledge=5, abilities=5.
 
+v1.2.0 — EN UI removal:
+    All `*_en` / `.en` fields dropped from the payload. Source occupation files
+    and translation backups still carry the EN data; this projection just stops
+    emitting them.
+
 v1.1.0 additive — `sector` block:
     {
       id           : sector slug (or "_uncategorized")
-      ja / en      : display labels
+      ja           : display label
       hue          : 'safe'|'mid'|'warm'|'risk' fallback tint
       provenance   : 'override'|'auto'|'auto-ambiguous'|'unmatched'|'no-mhlw'
     }
@@ -35,7 +40,7 @@ if TYPE_CHECKING:
 def _top_n(block: dict[str, float] | None, labels_dim: dict, n: int) -> list[dict] | None:
     """Sort block by score desc, take top N. Return None if block is None.
 
-    Each item: {"key", "label_ja", "label_en", "score"}
+    Each item: {"key", "label_ja", "score"}
     """
     if block is None:
         return None
@@ -46,7 +51,6 @@ def _top_n(block: dict[str, float] | None, labels_dim: dict, n: int) -> list[dic
         out.append({
             "key": key,
             "label_ja": label.ja if label else key,
-            "label_en": label.en if label else key,
             "score": score,
         })
     return out
@@ -75,19 +79,16 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
             sector_block = {
                 "id": assignment.sector_id,
                 "ja": sector_def.ja if sector_def else None,
-                "en": sector_def.en if sector_def else None,
                 "hue": sector_def.hue if sector_def else None,
                 "provenance": assignment.provenance,
             }
 
         payload = {
             "id": occ_id,
-            "schema_version": "1.1",
+            "schema_version": "1.2",
             "title": {
                 "ja": occ.title_ja,
-                "en": trans.title_en if trans else None,
                 "aliases_ja": occ.aliases_ja,
-                "aliases_en": trans.aliases_en if trans else [],
             },
             "classifications": occ.classifications.model_dump(),
             # v1.1.0 additive — sector + bands for the mobile detail page
@@ -97,7 +98,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
             "demand_band": demand_band(stats.recruit_ratio if stats else None),
             "description": {
                 "summary_ja": occ.description.summary_ja,
-                "summary_en": trans.summary_en if trans else None,
                 "what_it_is_ja": occ.description.what_it_is_ja,
                 "how_to_become_ja": occ.description.how_to_become_ja,
                 "working_conditions_ja": occ.description.working_conditions_ja,
@@ -107,7 +107,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
                 "model": score.model,
                 "scored_at": score.date,
                 "rationale_ja": score.rationale_ja,
-                "rationale_en": score.rationale_en,
             } if score else None,
             "stats": stats.model_dump(exclude={"id", "schema_version"}) if stats else None,
             "skills_top10": _top_n(occ.skills, skills_labels, 10),
