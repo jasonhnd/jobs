@@ -5,13 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Theme: read saved choice before paint (no flash). Falls back to system preference via CSS @media. -->
     <script>(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
-    <!-- Audit R4 — read ?lang=en BEFORE first paint so /?lang=en lands users
-         in the English UI without the JA→EN flicker we used to have when
-         setLang() ran inside the data.json fetch callback. The CSS in this
-         file uses [data-i18n]:not(.active) { display:none } to switch text
-         per language; the inline rule below additionally promotes the EN
-         spans to "active" while the page is still parsing. -->
-    <script>(function(){try{var p=new URLSearchParams(location.search).get('lang');if(p==='en'){document.documentElement.lang='en';document.documentElement.setAttribute('data-lang','en')}}catch(e){}})();</script>
     <title>AIの時代でも、あなたらしい働き方を。— 未来の仕事 / 552 職業の AI 影響マップ</title>
     <meta
       name="description"
@@ -24,7 +17,6 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="未来の仕事 — Mirai Shigoto" />
     <meta property="og:locale" content="ja_JP" />
-    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:title" content="AIの時代でも、あなたらしい働き方を。— 未来の仕事" />
     <meta property="og:description" content="日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。" />
     <meta property="og:url" content="https://mirai-shigoto.com/" />
@@ -50,9 +42,6 @@
     <meta name="twitter:image:alt" content="未来の仕事 — AIの時代でも、あなたらしい働き方を。" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/" />
-    <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/" />
-    <link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/?lang=en" />
-    <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
     <!-- Start downloading data.treemap.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. -->
     <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" />
 
@@ -87,7 +76,7 @@
           "name": "日本の職業 AI 影響マップ",
           "alternateName": "Japan Jobs × AI Impact Map",
           "description": "厚生労働省 job tag 等の公開データをもとに、日本 552 職種への AI 影響を可視化した独自分析サイト（非公式）。",
-          "inLanguage": ["ja", "en"],
+          "inLanguage": ["ja"],
           "creator": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
           "license": "https://opensource.org/licenses/MIT",
@@ -104,7 +93,7 @@
           "@id": "https://mirai-shigoto.com/#dataset",
           "name": "Japan 552 Occupations × AI Impact (mirai-shigoto.com)",
           "alternateName": "日本 552 職種の AI 影響マップ",
-          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Bilingual JA/EN. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
+          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Site UI is Japanese-only. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
           "url": "https://mirai-shigoto.com/",
           "creator": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -188,86 +177,86 @@
         {
           "@type": "FAQPage",
           "@id": "https://mirai-shigoto.com/#faq",
-          "inLanguage": "en",
+          "inLanguage": "ja",
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "What is mirai-shigoto.com?",
+              "name": "mirai-shigoto.com とは？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "An independent (unofficial) analysis site that visualizes Japan's 552 occupations from MHLW jobtag, scored 0–10 for AI replacement risk by Claude Opus 4.7. Bilingual (Japanese + English), MIT licensed. Not operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or 独立行政法人 労働政策研究・研修機構 (JILPT)."
+                "text": "厚生労働省 jobtag の日本 552 職業を、Claude Opus 4.7 による AI 影響度スコア（0〜10）で可視化した独自分析サイト（非公式）。MIT ライセンス。厚生労働省（MHLW）・職業情報提供サイト（jobtag）・独立行政法人 労働政策研究・研修機構（JILPT）の運営ではありません。"
               }
             },
             {
               "@type": "Question",
-              "name": "How are the AI risk scores calculated?",
+              "name": "AI 影響スコアの算出方法は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Scored by Claude Opus 4.7 using a calibrated 0–10 rubric across all 552 occupations. The rubric is anchored on Karpathy's BLS exposure framework and ported to Japan's labor market context. Each occupation is evaluated independently."
+                "text": "Claude Opus 4.7 がキャリブレーションされた 0〜10 ルーブリックで全 552 職業を独立に評価。Karpathy の BLS exposure フレームを基に、日本の労働市場文脈へ移植したルーブリックを使用。"
               }
             },
             {
               "@type": "Question",
-              "name": "Are these scores official government forecasts?",
+              "name": "このスコアは政府公式の予測ですか？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "No. They are LLM (Claude Opus 4.7) estimates and should be treated as opinion-grade visualization, not statistical truth. They are not endorsed by MHLW, jobtag, or JILPT."
+                "text": "いいえ。Claude Opus 4.7（LLM）の推定であり、統計的真実ではなく「意見グレードの可視化」として扱ってください。MHLW・jobtag・JILPT の公式見解ではありません。"
               }
             },
             {
               "@type": "Question",
-              "name": "What does an AI risk score of 9/10 mean?",
+              "name": "AI 影響度 9/10 の意味は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "It reflects how much the work may be reshaped by AI, not the probability the job disappears. A high score means most core tasks are PC-completable and could be augmented or automated by AI tooling."
+                "text": "仕事が AI によって どれだけ再構築されうるか を示し、職が消える確率ではありません。スコアが高いほど、コアタスクの大半が PC で完結可能で AI ツールにより補助・自動化されうることを意味します。"
               }
             },
             {
               "@type": "Question",
-              "name": "Which occupation has the most workers in Japan, and what is its AI risk?",
+              "name": "日本で最も就業者が多い職業と、その AI 影響度は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "一般事務 (General office clerk), with approximately 2.63 million workers, scores 9/10 — the highest-risk bracket among Japan's largest occupations."
+                "text": "一般事務（General office clerk）— 約 263 万人。スコア 9/10 で、日本の大規模職業のうち最高リスク帯に属します。"
               }
             },
             {
               "@type": "Question",
-              "name": "Which occupations score lowest on AI risk?",
+              "name": "AI 影響度が最も低い職業は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 3/10, 看護師 (nurse) ≈ 4/10."
+                "text": "身体性・現場判断・対人関係を要する職業：潜水士 ≈ 1/10、保育士 ≈ 3/10、看護師 ≈ 4/10。"
               }
             },
             {
               "@type": "Question",
-              "name": "What share of Japan's working population is in high-risk (≥7/10) occupations?",
+              "name": "高リスク（≥7/10）職業に従事する就業人口の割合は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "About 34% of Japan's working population is in occupations scoring 7 or higher on the AI risk rubric."
+                "text": "日本の就業人口の約 34% が AI 影響度ルーブリックで 7 以上のスコアを持つ職業に従事しています。"
               }
             },
             {
               "@type": "Question",
-              "name": "Where does the data come from?",
+              "name": "データの出典は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7 against a calibrated rubric."
+                "text": "厚生労働省（MHLW）jobtag および独立行政法人 労働政策研究・研修機構（JILPT）の公開データセット。AI 影響スコアは Claude Opus 4.7 によりキャリブレーション済ルーブリックに照らして独立に算出。"
               }
             },
             {
               "@type": "Question",
-              "name": "Is the data downloadable?",
+              "name": "データはダウンロードできますか？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. A compact JSON of all 552 occupations (treemap-shape) is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped). Per-occupation detail records are at https://mirai-shigoto.com/data.detail/<id>.json. MIT licensed; underlying IPD data © JILPT, used per their TOS Article 9."
+                "text": "はい。全 552 職業のコンパクト JSON（treemap 形式）は https://mirai-shigoto.com/data.treemap.json（〜80 KB gzip）。職業別の詳細レコードは https://mirai-shigoto.com/data.detail/<id>.json。MIT ライセンス、原典 IPD データは © JILPT、TOS 第 9 条に従い利用。"
               }
             },
             {
               "@type": "Question",
-              "name": "How should I cite this site?",
+              "name": "引用する際の表記は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Mirai Shigoto (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ — Always note: AI risk scores are LLM estimates, not official government forecasts."
+                "text": "未来の仕事（2026）「日本の職業 AI 影響マップ」https://mirai-shigoto.com/ — 注：AI 影響スコアは LLM 推定であり、政府公式の予測ではありません。"
               }
             }
           ]
@@ -644,7 +633,6 @@
           color: var(--accent);
         }
         .m-topbar-mark svg { width: 18px; height: 18px; }
-        .m-topbar-name [data-i18n]:not(.active) { display: none; }
         .m-topbar-burger {
           display: inline-flex;
           flex-direction: column;
@@ -714,37 +702,6 @@
         }
         .m-topbar-menu-section a:hover { color: var(--accent); }
         .m-topbar-menu-section a:last-child { border-bottom: none; }
-        .m-topbar-menu-section a [data-i18n]:not(.active) { display: none; }
-        .m-topbar-menu-label {
-          font-family: var(--font-sans);
-          font-size: 0.74rem;
-          color: var(--fg2);
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          font-weight: 600;
-        }
-        .m-topbar-menu-label[data-i18n]:not(.active) { display: none; }
-        .m-topbar-menu-langs {
-          display: inline-flex;
-          gap: 6px;
-        }
-        .m-topbar-menu-langs button {
-          background: transparent;
-          border: 1px solid var(--border);
-          color: var(--fg);
-          padding: 6px 14px;
-          border-radius: 999px;
-          font: inherit;
-          font-size: 0.86rem;
-          cursor: pointer;
-        }
-        /* Higher specificity than .lang-switch button[aria-pressed="true"]
-           which would otherwise paint terracotta-on-terracotta (invisible). */
-        .m-topbar-menu .m-topbar-menu-langs button[aria-pressed="true"] {
-          background: var(--accent);
-          border-color: var(--accent);
-          color: #fff;
-        }
       }
 
       /* Treemap section header — desktop hidden (controls block above already does it),
@@ -769,14 +726,12 @@
           margin: 0;
           letter-spacing: -0.005em;
         }
-        .m-map-title [data-i18n]:not(.active) { display: none; }
         .m-map-meta {
           font-family: var(--font-sans);
           font-size: 0.74rem;
           color: var(--fg2);
           letter-spacing: 0.02em;
         }
-        .m-map-meta [data-i18n]:not(.active) { display: none; }
       }
       /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM
          for future dark-variant work; restore by removing this rule. */
@@ -1431,18 +1386,6 @@
         footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
         footer .footer-meta .m-only { display: inline; }
       }
-      [data-i18n]:not(.active) {
-        display: none;
-      }
-      /* Audit R4 — first-paint language pinning. Inline <head> script sets
-         data-lang="en" when ?lang=en is present, so EN spans are visible
-         and JA spans hidden BEFORE setLang() runs (which only fires after
-         data.json arrives). Without these rules, the user sees a JA flash
-         even though they followed an EN link. !important is required to
-         override the static `class="active"` JA spans baked into HTML. */
-      :root[data-lang="en"] [data-i18n="ja"] { display: none !important; }
-      :root[data-lang="en"] [data-i18n="en"] { display: revert !important; }
-
       /* ============ Desktop Hero (Design.md §7.12 — search-first) ============ */
       /* Replaces old h1 / controls / search-row on ≥769px.
          Mobile keeps using §7.11 Mobile Hero. */
@@ -1713,7 +1656,6 @@
         outline: 2px solid var(--accent);
         outline-offset: 2px;
       }
-      .mobile-hero-search .mhs-cta [data-i18n]:not(.active) { display: none; }
       .mobile-hero-search input:focus-visible {
         border-color: var(--accent);
         box-shadow: 0 0 0 2px rgba(255, 184, 77, 0.18);
@@ -2225,8 +2167,7 @@
   </head>
   <body>
     <a class="skip-link" href="#treemap">
-      <span data-i18n="ja" class="active">マップへスキップ</span>
-      <span data-i18n="en">Skip to map</span>
+      マップへスキップ
     </a>
     <!-- v1.2.x mobile-only compact top bar: brand mark + hamburger menu.
          Hidden on ≥769px — desktop has its own utility row inside .desktop-hero-utility. -->
@@ -2241,8 +2182,7 @@
           </svg>
         </span>
         <span class="m-topbar-name">
-          <span data-i18n="ja" class="active">未来の仕事</span>
-          <span data-i18n="en">Mirai Shigoto</span>
+          未来の仕事
         </span>
       </a>
       <button type="button" class="m-topbar-burger" id="mTopbarBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mTopbarMenu">
@@ -2252,21 +2192,11 @@
     <div class="m-topbar-menu" id="mTopbarMenu" hidden>
       <div class="m-topbar-menu-inner">
         <div class="m-topbar-menu-section">
-          <span class="m-topbar-menu-label" data-i18n="ja">言語</span>
-          <span class="m-topbar-menu-label" data-i18n="en">Language</span>
-          <div class="m-topbar-menu-langs lang-switch" role="group">
-            <button data-set="ja" aria-pressed="true">日本語</button>
-            <button data-set="en" aria-pressed="false">English</button>
-          </div>
-        </div>
-        <div class="m-topbar-menu-section">
           <a href="/about">
-            <span data-i18n="ja" class="active">このサイトについて</span>
-            <span data-i18n="en">About this site</span>
+            このサイトについて
           </a>
           <a href="/compliance">
-            <span data-i18n="ja" class="active">コンプライアンス</span>
-            <span data-i18n="en">Compliance</span>
+            コンプライアンス
           </a>
           <a href="/privacy">Privacy</a>
         </div>
@@ -2278,12 +2208,7 @@
              On mobile, this stays hidden — mobile uses §7.11 Mobile Hero block (see below). -->
         <section class="desktop-hero" aria-label="Quick search hero">
           <div class="desktop-hero-utility" aria-label="Site utilities">
-            <span class="dh-brand" data-i18n="ja">日本の職業 AI 影響マップ</span>
-            <span class="dh-brand" data-i18n="en">Japan Jobs × AI Impact Map</span>
-            <span class="lang-switch" role="group" aria-label="Language">
-              <button data-set="ja" aria-pressed="true">日本語</button>
-              <button data-set="en" aria-pressed="false">English</button>
-            </span>
+            日本の職業 AI 影響マップ
             <button class="theme-toggle" id="themeToggleDesktop" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
               <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
               <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
@@ -2291,52 +2216,40 @@
           </div>
           <div class="desktop-hero-inner">
             <h2 class="dh-title">
-              <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。</span>
-              <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
+              AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
             </h2>
             <p class="dh-lead">
-              <span data-i18n="ja" class="active">552 の職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。<br>新しい道を、いっしょに見つけましょう。</span>
-              <span data-i18n="en">552 occupations analyzed by AI impact, workforce size, salary, and a 5-dimension profile.<br>Let's find your new path together.</span>
+              552 の職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。<br>新しい道を、いっしょに見つけましょう。
             </p>
             <form class="desktop-hero-search" id="dhSearchForm" role="search" autocomplete="off">
               <input id="searchInputDesktop" type="search" autocomplete="off"
                      placeholder="例：事務職、経理、営業、看護師"
-                     data-i18n-ja-placeholder="例：事務職、経理、営業、看護師"
-                     data-i18n-en-placeholder="e.g. Clerk, Accountant, Sales, Nurse"
+                     placeholder="例：事務職、経理、営業、看護師"
                      aria-label="Search occupations" />
               <button type="submit" id="dhSearchBtn">
-                <span data-i18n="ja" class="active">気になる職業から始める</span>
-                <span data-i18n="en">Start with what interests you</span>
+                気になる職業から始める
               </button>
               <ul class="search-suggest" id="searchSuggest" role="listbox" aria-label="Search suggestions"></ul>
             </form>
             <div class="search-noresult" id="searchNoResult">
-              <span data-i18n="ja" class="active">該当する職業が見つかりません。下の人気職業からお選びください。</span>
-              <span data-i18n="en">No matching occupation found. Please pick one of the popular jobs below.</span>
+              該当する職業が見つかりません。下の人気職業からお選びください。
             </div>
             <div class="desktop-hero-popular-label">
-              <span data-i18n="ja" class="active">よく検索される職業</span>
-              <span data-i18n="en">Frequently searched</span>
+              よく検索される職業
             </div>
             <div class="desktop-hero-chips" role="list">
-              <button type="button" data-chip="事務職" role="listitem"><span data-i18n="ja" class="active">事務職</span><span data-i18n="en">Clerical</span></button>
-              <button type="button" data-chip="経理" role="listitem"><span data-i18n="ja" class="active">経理</span><span data-i18n="en">Accounting</span></button>
-              <button type="button" data-chip="営業" role="listitem"><span data-i18n="ja" class="active">営業</span><span data-i18n="en">Sales</span></button>
-              <button type="button" data-chip="カスタマーサポート" role="listitem"><span data-i18n="ja" class="active">カスタマーサポート</span><span data-i18n="en">Support</span></button>
-              <button type="button" data-chip="看護師" role="listitem"><span data-i18n="ja" class="active">看護師</span><span data-i18n="en">Nurse</span></button>
+              <button type="button" data-chip="事務職" role="listitem">事務職</button>
+              <button type="button" data-chip="経理" role="listitem">経理</button>
+              <button type="button" data-chip="営業" role="listitem">営業</button>
+              <button type="button" data-chip="カスタマーサポート" role="listitem">カスタマーサポート</button>
+              <button type="button" data-chip="看護師" role="listitem">看護師</button>
             </div>
           </div>
         </section>
 
         <h1>
-          <span class="accent active" data-i18n="ja">日本の職業 AI 影響マップ</span>
-          <span class="accent" data-i18n="en">Japan Jobs × AI Impact Map</span>
-          <span class="h1-sub active" data-i18n="ja">— 公開職業データをもとにした<strong>非公式</strong>の独自分析</span>
-          <span class="h1-sub" data-i18n="en">— Independent analysis of public occupation data <strong>(unofficial)</strong></span>
-          <span class="lang-switch" role="group">
-            <button data-set="ja" aria-pressed="true">日本語</button>
-            <button data-set="en" aria-pressed="false">English</button>
-          </span>
+          日本の職業 AI 影響マップ
+          — 公開職業データをもとにした<strong>非公式</strong>の独自分析
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
@@ -2348,32 +2261,28 @@
              search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="Mobile quick-search hero">
           <h2 class="mobile-hero-title">
-            <span data-i18n="ja" class="active">AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。</span>
-            <span data-i18n="en">In the AI era, find <span class="acc">your own way</span> of working.</span>
+            AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
           </h2>
           <div class="mobile-hero-trust">
-            <span data-i18n="ja" class="active">552 の職業を、AI 影響度で多角的に分析</span>
-            <span data-i18n="en">552 occupations analyzed by AI impact</span>
+            552 の職業を、AI 影響度で多角的に分析
           </div>
           <form class="mobile-hero-search" id="mhSearchForm" role="search" autocomplete="off">
             <span class="mhs-icon" aria-hidden="true">🔍</span>
             <input id="searchInputMobile" type="search" autocomplete="off"
-                   data-i18n-ja-placeholder="気になる職業を入力"
-                   data-i18n-en-placeholder="Enter an occupation"
+                   placeholder="気になる職業を入力"
                    placeholder="気になる職業を入力"
                    aria-label="Search occupations" />
             <button type="submit" class="mhs-cta" id="mhSearchBtn">
-              <span data-i18n="ja" class="active">診断</span>
-              <span data-i18n="en">Search</span>
+              診断
             </button>
             <ul class="search-suggest" id="searchSuggestMobile" role="listbox" aria-label="Search suggestions"></ul>
           </form>
           <div class="mobile-hero-chips" role="list">
-            <button type="button" data-chip="事務職" role="listitem"><span data-i18n="ja" class="active">事務職</span><span data-i18n="en">Clerical</span></button>
-            <button type="button" data-chip="経理" role="listitem"><span data-i18n="ja" class="active">経理</span><span data-i18n="en">Accounting</span></button>
-            <button type="button" data-chip="営業" role="listitem"><span data-i18n="ja" class="active">営業</span><span data-i18n="en">Sales</span></button>
-            <button type="button" data-chip="カスタマーサポート" role="listitem"><span data-i18n="ja" class="active">CS</span><span data-i18n="en">Support</span></button>
-            <button type="button" data-chip="看護師" role="listitem"><span data-i18n="ja" class="active">看護師</span><span data-i18n="en">Nurse</span></button>
+            <button type="button" data-chip="事務職" role="listitem">事務職</button>
+            <button type="button" data-chip="経理" role="listitem">経理</button>
+            <button type="button" data-chip="営業" role="listitem">営業</button>
+            <button type="button" data-chip="カスタマーサポート" role="listitem">CS</button>
+            <button type="button" data-chip="看護師" role="listitem">看護師</button>
           </div>
         </div>
         <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations.
@@ -2381,8 +2290,7 @@
              from `data` array sorted by ai_risk desc after fetch resolves. -->
         <section class="m-top10" id="mTop10" aria-label="AI に変わる仕事 TOP 10" hidden>
           <header class="m-top10-head">
-            <span class="m-top10-eyebrow" data-i18n="ja">AI に変わる仕事</span>
-            <span class="m-top10-eyebrow" data-i18n="en">Most AI-impacted jobs</span>
+            AI に変わる仕事
             <h2 class="m-top10-title">TOP 10</h2>
           </header>
           <div class="m-top10-track" id="mTop10Track" role="list">
@@ -2395,32 +2303,26 @@
         </section>
 
         <div class="controls">
-          <label data-i18n="ja" class="active">色：</label>
-          <label data-i18n="en">Layer:</label>
+          <label class="active">色：</label>
+          <label>Layer:</label>
           <div class="layer-toggle" id="layerToggle">
             <button data-mode="ai_risk" class="active">
-              <span data-i18n="ja" class="active">AI リスク</span>
-              <span data-i18n="en">AI Risk</span>
+              AI リスク
             </button>
             <button data-mode="salary">
-              <span data-i18n="ja" class="active">年収</span>
-              <span data-i18n="en">Salary</span>
+              年収
             </button>
             <button data-mode="age">
-              <span data-i18n="ja" class="active">平均年齢</span>
-              <span data-i18n="en">Avg Age</span>
+              平均年齢
             </button>
             <button data-mode="hours">
-              <span data-i18n="ja" class="active">労働時間</span>
-              <span data-i18n="en">Hours</span>
+              労働時間
             </button>
             <button data-mode="recruit_ratio">
-              <span data-i18n="ja" class="active">求人倍率</span>
-              <span data-i18n="en">Job Ratio</span>
+              求人倍率
             </button>
             <button data-mode="education">
-              <span data-i18n="ja" class="active">学歴</span>
-              <span data-i18n="en">Education</span>
+              学歴
             </button>
           </div>
           <div class="gradient-legend">
@@ -2429,22 +2331,19 @@
             <span id="legendHigh"></span>
           </div>
           <button class="palette-toggle" id="paletteToggle" type="button" aria-pressed="false" title="Toggle colorblind-safe viridis palette">
-            <span data-i18n="ja" class="active">色覚配慮</span>
-            <span data-i18n="en">Colorblind</span>
+            色覚配慮
           </button>
         </div>
 
         <div class="dimension-hint" aria-live="polite">
           <span class="hint-piece">
             <span aria-hidden="true">📐</span>
-            <span data-i18n="ja" class="active"><strong>面積</strong> = 就業者数（タブ切替で<em>変わりません</em>）</span>
-            <span data-i18n="en"><strong>Area</strong> = workforce <em>(stays fixed across tabs)</em></span>
+            <strong>面積</strong> = 就業者数（タブ切替で<em>変わりません</em>）
           </span>
           <span class="hint-divider" aria-hidden="true">·</span>
           <span class="hint-piece">
             <span aria-hidden="true">🎨</span>
-            <span data-i18n="ja" class="active"><strong>色</strong> = <span id="hintLayerJa" class="hint-value">AI リスク</span></span>
-            <span data-i18n="en"><strong>Color</strong> = <span id="hintLayerEn" class="hint-value">AI Risk</span></span>
+            <strong>色</strong> = <span id="hintLayerJa" class="hint-value">AI リスク</span></span>
           </span>
         </div>
 
@@ -2460,18 +2359,15 @@
       </header>
 
       <div id="loadingState" class="loading-state">
-        <span data-i18n="ja" class="active">読み込み中…</span>
-        <span data-i18n="en">Loading…</span>
+        読み込み中…
       </div>
       <!-- v1.2.x mobile-only treemap section header (matches Direction C homepage layout) -->
       <header class="m-map-head">
         <h2 class="m-map-title">
-          <span data-i18n="ja" class="active">職業マップ</span>
-          <span data-i18n="en">Occupation Map</span>
+          職業マップ
         </h2>
         <span class="m-map-meta">
-          <span data-i18n="ja" class="active">全 552 職業 ・ 面積＝就業者数 ・ 色＝AI影響</span>
-          <span data-i18n="en">552 occupations · area = workforce · color = AI impact</span>
+          全 552 職業 ・ 面積＝就業者数 ・ 色＝AI影響
         </span>
       </header>
       <canvas id="treemap" tabindex="0" role="application"
@@ -2486,15 +2382,13 @@
       <nav class="sector-nav" aria-label="Browse occupations by sector">
         <div class="sector-nav-head">
           <h2 class="sector-nav-title">
-            <span data-i18n="ja" class="active">セクターから探す</span>
-            <span data-i18n="en">Browse by sector</span>
+            セクターから探す
           </h2>
           <span class="sector-nav-sub">
-            <span data-i18n="ja" class="active">16 セクター・556 職業</span>
-            <span data-i18n="en">16 sectors · 556 occupations</span>
+            16 セクター・556 職業
           </span>
         </div>
-        <ul class="sector-nav-grid" data-i18n="ja">
+        <ul class="sector-nav-grid">
           <li><a href="/ja/sectors/iryo">医療・保健 <span class="count">36</span></a></li>
           <li><a href="/ja/sectors/fukushi">福祉・介護 <span class="count">15</span></a></li>
           <li><a href="/ja/sectors/kyoiku">教育・指導 <span class="count">20</span></a></li>
@@ -2512,31 +2406,12 @@
           <li><a href="/ja/sectors/kensetu">建設・土木 <span class="count">20</span></a></li>
           <li><a href="/ja/sectors/keiseki">軽作業・清掃 <span class="count">16</span></a></li>
         </ul>
-        <ul class="sector-nav-grid" data-i18n="en">
-          <li><a href="/en/sectors/iryo">Medical &amp; Health <span class="count">36</span></a></li>
-          <li><a href="/en/sectors/fukushi">Welfare &amp; Care <span class="count">15</span></a></li>
-          <li><a href="/en/sectors/kyoiku">Education &amp; Instruction <span class="count">20</span></a></li>
-          <li><a href="/en/sectors/hoan">Public Safety <span class="count">15</span></a></li>
-          <li><a href="/en/sectors/noringyo">Agriculture &amp; Fishing <span class="count">14</span></a></li>
-          <li><a href="/en/sectors/senmon">Specialist &amp; Technical <span class="count">51</span></a></li>
-          <li><a href="/en/sectors/it">IT &amp; Communications <span class="count">22</span></a></li>
-          <li><a href="/en/sectors/shigyo">Professional Services <span class="count">63</span></a></li>
-          <li><a href="/en/sectors/creative">Creative &amp; Media <span class="count">37</span></a></li>
-          <li><a href="/en/sectors/jimu">Office &amp; Public Service <span class="count">57</span></a></li>
-          <li><a href="/en/sectors/hanbai">Sales &amp; Retail <span class="count">41</span></a></li>
-          <li><a href="/en/sectors/service">Service &amp; Hospitality <span class="count">41</span></a></li>
-          <li><a href="/en/sectors/seizo">Manufacturing &amp; Craft <span class="count">59</span></a></li>
-          <li><a href="/en/sectors/maint">Facilities &amp; Maintenance <span class="count">49</span></a></li>
-          <li><a href="/en/sectors/kensetu">Construction &amp; Civil <span class="count">20</span></a></li>
-          <li><a href="/en/sectors/keiseki">Light Work &amp; Cleaning <span class="count">16</span></a></li>
-        </ul>
       </nav>
 
       <!-- Stage 1: compact data attribution. Full content moved to /about.
            Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
       <p class="data-summary" aria-label="Data sources summary">
-        <span data-i18n="ja" class="active"><span class="ds-seg"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT</span><span class="ds-sep">　／　</span><span class="ds-seg"><strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span></span>
-        <span data-i18n="en"><span class="ds-seg"><strong>📊 Data:</strong> <a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">MHLW jobtag</a> + JILPT</span><span class="ds-sep">　/　</span><span class="ds-seg"><strong>AI score:</strong> Claude Opus 4.7 independent analysis (2026-04-25)</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about?lang=en" id="about-link-en">Read more about the data →</a></span></span>
+        <span class="ds-seg"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT</span><span class="ds-sep">　／　</span><span class="ds-seg"><strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span>
       </p>
 
       <!-- Stage 1 PREVIEW — Follow + Share section with visual layering.
@@ -2550,17 +2425,14 @@
              rel="noopener noreferrer">
             <span class="follow-icon" aria-hidden="true">📬</span>
             <span class="follow-text">
-              <strong data-i18n="ja" class="active">X でフォローする</strong>
-              <strong data-i18n="en">Follow on X</strong>
-              <small data-i18n="ja" class="active">毎日の職業分析を受け取る</small>
-              <small data-i18n="en">Daily occupation insights</small>
+              <strong>X でフォローする</strong>
+              <small>毎日の職業分析を受け取る</small>
             </span>
           </a>
         </div>
 
         <div class="share-divider">
-          <span data-i18n="ja" class="active">このページをシェア</span>
-          <span data-i18n="en">Share this page</span>
+          このページをシェア
         </div>
 
         <div class="share-row" role="group" aria-label="Share this site">
@@ -2590,27 +2462,15 @@
       </div>
 
       <footer>
-        <div class="footer-links active" data-i18n="ja">
+        <div class="footer-links">
           <a href="/about">データについて</a>
           <a href="/compliance">コンプライアンス</a>
           <a href="/privacy">プライバシー</a>
         </div>
-        <div class="footer-links" data-i18n="en">
-          <a href="/about?lang=en">About</a>
-          <a href="/compliance?lang=en">Compliance</a>
-          <a href="/privacy?lang=en">Privacy</a>
-        </div>
         <div class="footer-meta">
-          <span data-i18n="ja" class="active">
             v1.3.0 · MIT<br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-          </span>
-          <span data-i18n="en">
-            v1.3.0 · MIT<br />
-            Source: Ministry of Health, Labour and Welfare (MHLW) and <span class="nowrap">Japan Institute for Labour Policy and Training (JILPT)</span><br />
-            <em>※ This is an independent-analysis site;<br />it does not represent the official views of MHLW, jobtag, or JILPT.<br />See the <a href="/compliance?lang=en">Compliance</a> page for details.</em>
-          </span>
         </div>
       </footer>
     </div>
@@ -2620,13 +2480,15 @@
       <div class="tt-title"></div>
       <div class="tt-row" id="ttRow"></div>
       <a class="tt-cta" id="tooltipCta" target="_blank" rel="noopener noreferrer" href="#">
-        <span data-i18n="ja" class="active">詳細を見る →</span>
-        <span data-i18n="en">View details →</span>
+        詳細を見る →
       </a>
     </div>
 
     <script>
-      let lang = "ja";
+      // v1.4.0: site is JA-only. `lang` is kept as a module variable (rather
+      // than removed) so existing `lang === "en"` JS branches stay legal —
+      // they just never fire. Dead-branch cleanup is a follow-up.
+      const lang = "ja";
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
       let data = [];
@@ -2689,12 +2551,11 @@
       const MARGIN = 4, GAP = 1;
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
-      // Build the per-occupation URL. Pages live at /ja/<id> and /en/<id>;
-      // we route to whichever language the user is currently viewing.
-      // Mirrors scripts/build_occupations.py (which writes ja/<id>.html and en/<id>.html).
+      // Build the per-occupation URL. v1.4.0: JA-only.
+      // Mirrors scripts/build_occupations.py (which writes ja/<id>.html).
       function occUrl(rec) {
         if (!rec || rec.id == null) return "/";
-        return "/" + (lang === "en" ? "en" : "ja") + "/" + rec.id;
+        return "/ja/" + rec.id;
       }
       // Fire occupation_tile_click for any path that opens a per-occupation page
       // from the treemap (canvas click, touch tap, keyboard Enter). source lets
@@ -2752,32 +2613,9 @@
         }
       };
 
-      function setLang(next) {
-        lang = next;
-        document.documentElement.lang = next;
-        document.querySelectorAll("[data-i18n]").forEach(el => el.classList.toggle("active", el.dataset.i18n === next));
-        document.querySelectorAll(".lang-switch button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.set === next)));
-        // Update placeholders for all search inputs (legacy #searchInput + new desktop/mobile hero inputs).
-        // Each input may carry its own data-i18n-{lang}-placeholder; fall back to I18N.searchPlaceholder.
-        ["searchInput", "searchInputDesktop", "searchInputMobile"].forEach(id => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          const overridePh = el.getAttribute(`data-i18n-${next}-placeholder`);
-          el.placeholder = overridePh || I18N.searchPlaceholder[next];
-        });
-        if (data.length) { updateStats(); drawGradientLegend(); draw(); renderMobileTop10(); }
-      }
-      document.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => {
-        const from = lang;
-        const to = b.dataset.set;
-        if (from === to) return;
-        setLang(to);
-        if (window.gtag) gtag("event", "language_switch", {
-          from_lang: from,
-          to_lang: to,
-          path: location.pathname,
-        });
-      }));
+      // v1.4.0: language switcher removed — site is JA-only. The `lang`
+      // module-level variable is kept (initialized to "ja") so existing
+      // code paths that read I18N[lang] continue to work without rewrites.
 
       function clamp(t) { return Math.max(0, Math.min(1, t)); }
       function boostContrast(t) { const c = (t - 0.5) * 2; const b = Math.sign(c) * Math.pow(Math.abs(c), 0.55); return b / 2 + 0.5; }
@@ -3120,7 +2958,7 @@
           // Sanitize values defensively (these are LLM outputs but trusted from our own pipeline; still escape just in case)
           const esc = s => String(s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
           document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${esc(k)}</span><span class="value">${esc(v)}</span>`).join("");
-          // Tooltip CTA href — Design.md §6.6. Points at /ja/<id> or /en/<id>.
+          // Tooltip CTA href — Design.md §6.6. Points at /ja/<id>.
           const cta = document.getElementById("tooltipCta");
           if (cta) {
             cta.href = occUrl(d);
@@ -3697,8 +3535,6 @@
         document.addEventListener("keydown", (e) => {
           if (e.key === "Escape" && burger.getAttribute("aria-expanded") === "true") setOpen(false);
         });
-        // Lang button click inside menu → close after lang switch fires (existing setLang already wired).
-        menu.querySelectorAll(".lang-switch button").forEach(b => b.addEventListener("click", () => setOpen(false)));
       })();
 
       // Live autocomplete dropdown — top 8 matches as user types.
@@ -4098,7 +3934,7 @@
           const sLabel = lang === "en" ? salaryLabelEn : salaryLabelJa;
           const wValue = (rec.workers != null) ? (lang === "en" ? Number(rec.workers).toLocaleString() : (fmtMan(rec.workers) + "人")) : "—";
           const sValue = fmtSalary(rec.salary, lang);
-          const href = (lang === "en" ? "/en/" : "/ja/") + Number(rec.id);
+          const href = "/ja/" + Number(rec.id);
           return (
             '<a class="m-top10-card" role="listitem" href="' + href + '">' +
               '<span class="m-top10-card-rank">' + rank + (lang === "en" ? "" : " 位") + '</span>' +
@@ -4167,10 +4003,8 @@
               setTimeout(renderFallback, 1500);
             }
           }
-          // Initial language: prefer ?lang=en URL param, else default JA.
-          // Lets shared /?lang=en links land users in the English UI without flicker.
-          const _initialLang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "ja";
-          setLang(_initialLang);
+          // v1.4.0: site is JA-only. Initial render uses the JA strings already
+          // baked into the markup; no language toggle needed.
           updateStats();
           updateDimensionHint();
           drawGradientLegend();
@@ -4185,7 +4019,7 @@
             const _vw = window.innerWidth;
             const _device = _vw < 768 ? "mobile" : (_vw < 1024 ? "tablet" : "desktop");
             gtag("event", "map_loaded", {
-              language: _initialLang,
+              language: "ja",
               device_category: _device,
               tile_count: data.length,
             });
