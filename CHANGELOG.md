@@ -10,6 +10,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Footer — site-wide unification (all pages identical)
+
+Aligns every page's footer to one canonical 3-layer structure (导航 chips + 法务 chips + footer-meta) so 404 / about / compliance / privacy / index / 556 detail / 17 sector / 10 ranking — every single HTML — renders the exact same footer HTML and CSS.
+
+- **Two-row chip layout everywhere**:
+  - Row 1 (导航): `トップ / セクター / ランキング`
+  - Row 2 (法务/规约): `データについて / コンプライアンス / プライバシー`
+- **Unified footer-meta** (was inconsistent — `© mirai-shigoto.com` on detail/sector/ranking, brief disclaimer on about/privacy, missing entirely on 404):
+  - `v1.3.0 · MIT`
+  - 出典：厚生労働省・独立行政法人 労働政策研究・研修機構（JILPT）
+  - 独立分析サイト免責 + 「詳細は コンプライアンス ページをご確認ください」
+- **404.html — full footer + expanded こちらもどうぞ**:
+  - Was: 1-row chip footer with no footer-meta + 3 helpful links (about / compliance / privacy)
+  - Now: standard 2-row footer + meta, plus 9 helpful links (sectors hub / rankings hub / 4 ranking pages / about / compliance / privacy)
+- **Design.md §7.10 — spec rewritten as the canonical 6-chip 2-row spec** (was the v1.2.2 single-row 3/4-chip spec). Single-source-of-truth doc updated first per the Design.md authority rule, then HTML synced.
+- **CSS — `.nowrap` added to all 5 static pages** so 「独立行政法人 労働政策研究・研修機構（JILPT）」 and 「公式見解ではありません」 don't break across lines on mobile. Build scripts updated identically.
+- **Generated pages regenerated**: 556 detail (build_occupations.py) + 17 sector (build_sector_hubs.py) + 10 ranking (build_rankings.py).
+
 ### Rankings — expand from 4 to 9 ranking pages + enriched hub
 
 - **5 new ranking pages**: salary, entry-salary, young-workforce, short-hours, high-demand
