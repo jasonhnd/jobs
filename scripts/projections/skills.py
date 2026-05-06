@@ -3,8 +3,8 @@
 Status: Future (skipped by default in build_data.py)
 Consumer: future "find jobs by skill" page
 Shape:
-    _index.json: {"skills": [{"key", "label_ja", "label_en"}]}
-    <key>.json: {"skill_key", "label_ja", "label_en", "occupations": [{"id", "name_ja", "score"}]}
+    _index.json: {"skills": [{"key", "label_ja"}]}
+    <key>.json: {"skill_key", "label_ja", "occupations": [{"id", "name_ja", "score"}]}
 Size target: < 15 KB per per-skill file
 
 `occupations` is sorted by score descending; only occupations with non-null skills block participate.
@@ -41,7 +41,6 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
         payload = {
             "skill_key": skill_key,
             "label_ja": label.ja,
-            "label_en": label.en,
             "occupations": ranked,
         }
         out = out_dir / f"{skill_key}.json"
@@ -52,7 +51,7 @@ def build(indexes: "Indexes", dist_root: Path) -> dict:
     index_payload = {
         "schema_version": "1.0",
         "skills": [
-            {"key": k, "label_ja": v.ja, "label_en": v.en}
+            {"key": k, "label_ja": v.ja}
             for k, v in skills_labels.items()
         ],
     }

@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
 """
-build_occupations.py — generate 1112 static per-occupation pages.
+build_occupations.py — generate 556 static per-occupation pages (JA only).
 
-  ja/<id>.html (556 JA-only pages)  +  en/<id>.html (556 EN-only pages)
+  ja/<id>.html × 556
 
-Each page is single-language (no in-page toggle). JA and EN pages are linked
-via canonical + hreflang and a visible top-right language switch. Each page
-includes a "Related occupations" block (5 entries) for SEO link equity and
-reader navigation: 3 same-risk-band peers + 2 ID-neighbors.
+Each page is JA-only (no language switch). v1.4.0 dropped the English UI;
+EN translations remain on disk under data/_archive/translations-en/ but no
+HTML is emitted for them. Each page includes a "Related occupations" block
+(5 entries) for SEO link equity and reader navigation: 3 same-risk-band peers
++ 2 ID-neighbors.
 
-URLs are pure-numeric — /ja/<id> and /en/<id>. The previous slug-based URLs
-(/occ/<id>-<slug>) are 301-redirected to /ja/<id> via vercel.json.
+URLs are pure-numeric — /ja/<id>. Legacy /en/<id> URLs are 301-redirected
+back to /ja/<id> via vercel.json. The previous slug-based URLs
+(/occ/<id>-<slug>) are 301-redirected to /ja/<id>.
 
 Output:
   ja/<id>.html              e.g. ja/428.html
-  en/<id>.html              e.g. en/428.html
-  scripts/.occ_manifest.json  (id, ja_url, en_url, ai_risk, ...)
-  sitemap.xml                rewritten with 1112 occ URLs + 4 site URLs
+  scripts/.occ_manifest.json  (id, ja_url, ai_risk, ...)
+  sitemap.xml                rewritten with 556 occ URLs + statics + sectors
 
 Usage:
-  python3 scripts/build_occupations.py                    # all 552 (×2 langs)
+  python3 scripts/build_occupations.py                    # all 556
   python3 scripts/build_occupations.py --limit 3
   python3 scripts/build_occupations.py --ids 428,33,1
 """
@@ -39,9 +40,8 @@ TRANSFER_PATHS_PATH = REPO / "dist" / "data.transfer_paths.json"
 # them through every helper signature). Reset each main() call.
 PROFILE5: dict = {}
 TRANSFER_PATHS: dict = {}
-NAME_LOOKUP: dict = {}  # id (int) -> (name_ja, name_en)
+NAME_LOOKUP: dict = {}  # id (int) -> name_ja
 OUT_DIR_JA = REPO / "ja"
-OUT_DIR_EN = REPO / "en"
 MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
 SITEMAP_PATH = REPO / "sitemap.xml"
 DATE_PUBLISHED = "2026-04-25"
@@ -72,9 +72,9 @@ def _load_legacy_shape_corpus() -> list[dict]:
     code stay unchanged.
 
     Fields produced:
-        id, name_ja, name_en, desc_ja, desc_en,
+        id, name_ja, desc_ja,
         salary, workers, hours, age, recruit_wage, recruit_ratio, hourly_wage,
-        ai_risk, ai_rationale_ja, ai_rationale_en, url
+        ai_risk, ai_rationale_ja, url
     """
     if not DATA_PATH.exists():
         raise FileNotFoundError(
@@ -89,15 +89,10 @@ def _load_legacy_shape_corpus() -> list[dict]:
         out.append({
             "id": d["id"],
             "name_ja": d["title"]["ja"],
-            "name_en": d["title"].get("en"),
             "desc_ja": d["description"].get("summary_ja"),
-            "desc_en": d["description"].get("summary_en"),
             "what_it_is_ja":         d["description"].get("what_it_is_ja"),
-            "what_it_is_en":         d["description"].get("what_it_is_en"),
             "how_to_become_ja":      d["description"].get("how_to_become_ja"),
-            "how_to_become_en":      d["description"].get("how_to_become_en"),
             "working_conditions_ja": d["description"].get("working_conditions_ja"),
-            "working_conditions_en": d["description"].get("working_conditions_en"),
             "salary": stats.get("salary_man_yen"),
             "workers": stats.get("workers"),
             "hours": stats.get("monthly_hours"),
@@ -107,19 +102,17 @@ def _load_legacy_shape_corpus() -> list[dict]:
             "hourly_wage": None,  # legacy field not carried in IPD
             "ai_risk": ai.get("score"),
             "ai_rationale_ja": ai.get("rationale_ja"),
-            "ai_rationale_en": ai.get("rationale_en"),
             "url": d.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{d['id']}",
             # v1.2.0 schema-1.1 rich fields (Push 1: integrate into desktop detail).
             "aliases_ja":     (d.get("title") or {}).get("aliases_ja", []),
-            "aliases_en":     (d.get("title") or {}).get("aliases_en", []),
             "classifications": d.get("classifications", {}),
-            "sector":          d.get("sector"),                  # {id, ja, en, hue, provenance}
+            "sector":          d.get("sector"),                  # {id, ja, hue, provenance}
             "risk_band":       d.get("risk_band"),               # "low" / "mid" / "high"
             "workforce_band":  d.get("workforce_band"),
             "demand_band":     d.get("demand_band"),
             "ai_model":        ai.get("model"),
             "ai_scored_at":    ai.get("scored_at"),
-            "skills_top10":    d.get("skills_top10", []),        # [{key, label_ja, label_en, score}]
+            "skills_top10":    d.get("skills_top10", []),        # [{key, label_ja, score}]
             "knowledge_top5":  d.get("knowledge_top5", []),
             "abilities_top5":  d.get("abilities_top5", []),
             "tasks_count":     d.get("tasks_count"),
@@ -158,10 +151,6 @@ def _format_paragraphs(text: str) -> str:
 
 def ja_url(id_: int) -> str:
     return f"https://mirai-shigoto.com/ja/{id_}"
-
-
-def en_url(id_: int) -> str:
-    return f"https://mirai-shigoto.com/en/{id_}"
 
 
 def pick_related(rec: dict, all_records: list[dict], count: int = RELATED_COUNT) -> list[dict]:
@@ -208,8 +197,8 @@ def pick_related(rec: dict, all_records: list[dict], count: int = RELATED_COUNT)
 # ════════════════════ v1.2.0 schema-1.1 rich section renderers ════════════════════
 # All return "" if the underlying data is missing — sections degrade gracefully.
 
-def _band_label(field: str, band: str | None, lang: str) -> str | None:
-    """Map (band_field, value) → user-facing label.
+def _band_label(field: str, band: str | None) -> str | None:
+    """Map (band_field, value) → JA user-facing label.
 
     Disambiguates because risk_band and workforce_band both use "mid" as a value.
     field ∈ {"risk_band", "workforce_band", "demand_band"}.
@@ -217,20 +206,11 @@ def _band_label(field: str, band: str | None, lang: str) -> str | None:
     if not band:
         return None
     labels = {
-        "risk_band": {
-            "ja": {"low": "AI 影響 低", "mid": "AI 影響 中", "high": "AI 影響 高"},
-            "en": {"low": "Low AI risk", "mid": "Mid AI risk", "high": "High AI risk"},
-        },
-        "workforce_band": {
-            "ja": {"small": "規模 小", "mid": "規模 中", "medium": "規模 中", "large": "規模 大"},
-            "en": {"small": "Small workforce", "mid": "Medium workforce", "medium": "Medium workforce", "large": "Large workforce"},
-        },
-        "demand_band": {
-            "ja": {"cool": "需要 安定", "warm": "需要 旺盛", "hot": "需要 過熱"},
-            "en": {"cool": "Steady demand", "warm": "Active demand", "hot": "Hot demand"},
-        },
+        "risk_band": {"low": "AI 影響 低", "mid": "AI 影響 中", "high": "AI 影響 高"},
+        "workforce_band": {"small": "規模 小", "mid": "規模 中", "medium": "規模 中", "large": "規模 大"},
+        "demand_band": {"cool": "需要 安定", "warm": "需要 旺盛", "hot": "需要 過熱"},
     }
-    return labels.get(field, {}).get(lang, {}).get(band)
+    return labels.get(field, {}).get(band)
 
 
 def _band_class(field: str, band: str | None) -> str:
@@ -250,21 +230,21 @@ def _band_class(field: str, band: str | None) -> str:
     return ""
 
 
-def _render_meta_row(rec: dict, lang: str) -> str:
+def _render_meta_row(rec: dict) -> str:
     """Sector chip + risk/workforce/demand band badges, shown right under H1."""
     parts = []
     sector = rec.get("sector") or {}
-    sector_name = (sector.get("en") if lang == "en" else sector.get("ja")) or ""
+    sector_name = sector.get("ja") or ""
     if sector_name:
         # link to dedicated sector hub page; gives every detail page an internal
         # link into the 16 hub-page graph (build_sector_hubs.py).
-        sector_href = f"/{lang}/sectors/{sector.get('id')}"
+        sector_href = f"/ja/sectors/{sector.get('id')}"
         parts.append(
             f'<a class="sector-chip" href="{escape(sector_href)}">{escape(sector_name)}</a>'
         )
     for b_field in ("risk_band", "workforce_band", "demand_band"):
         b = rec.get(b_field)
-        label = _band_label(b_field, b, lang)
+        label = _band_label(b_field, b)
         if label:
             parts.append(f'<span class="band {_band_class(b_field, b)}">{escape(label)}</span>')
     if not parts:
@@ -272,7 +252,7 @@ def _render_meta_row(rec: dict, lang: str) -> str:
     return f'<div class="meta-row">{"".join(parts)}</div>'
 
 
-def _render_profile_radar(rec: dict, lang: str) -> str:
+def _render_profile_radar(rec: dict) -> str:
     """5-axis profile radar SVG (data from data.profile5.json indexed by id_str).
 
     Algorithm copied from scripts/templates/mobile/detail.py to ensure visual parity.
@@ -286,11 +266,7 @@ def _render_profile_radar(rec: dict, lang: str) -> str:
     values = [profile.get(a) or 0 for a in axes]
     if not any(values):
         return ""
-    labels_map = {
-        "ja": ["創造性", "対人", "判断", "身体", "定型"],
-        "en": ["Creative", "Social", "Judgment", "Physical", "Routine"],
-    }
-    labels = labels_map.get(lang, labels_map["ja"])
+    labels = ["創造性", "対人", "判断", "身体", "定型"]
 
     cx, cy, r = 170, 170, 130
     pts = []
@@ -331,7 +307,7 @@ def _render_profile_radar(rec: dict, lang: str) -> str:
         for i in range(5)
     )
 
-    h2 = "5 次元プロファイル" if lang == "ja" else "5-Dimension Profile"
+    h2 = "5 次元プロファイル"
     return (
         f'<section class="profile" aria-label="{escape(h2)}">'
         f'<h2>{escape(h2)}</h2>'
@@ -348,31 +324,26 @@ def _render_profile_radar(rec: dict, lang: str) -> str:
     )
 
 
-def _render_topn(rec: dict, lang: str) -> str:
+def _render_topn(rec: dict) -> str:
     """Top-N skills (10) / knowledge (5) / abilities (5) panels."""
     skills = rec.get("skills_top10") or []
     knowledge = rec.get("knowledge_top5") or []
     abilities = rec.get("abilities_top5") or []
     if not (skills or knowledge or abilities):
         return ""
-    label_key = "label_en" if lang == "en" else "label_ja"
 
     def _block(title: str, items: list[dict]) -> str:
         if not items:
             return ""
         lis = "".join(
-            f'<li><span class="topn-name">{escape(it.get(label_key) or it.get("label_ja") or "")}</span>'
+            f'<li><span class="topn-name">{escape(it.get("label_ja") or "")}</span>'
             f'<span class="topn-score">{it.get("score", 0):.1f}</span></li>'
             for it in items
         )
         return f'<div class="topn-block"><h3>{escape(title)}</h3><ol>{lis}</ol></div>'
 
-    if lang == "ja":
-        h2 = "必要なスキル・知識・能力"
-        t_skills, t_knowledge, t_abilities = "スキル Top 10", "知識 Top 5", "能力 Top 5"
-    else:
-        h2 = "Required Skills, Knowledge & Abilities"
-        t_skills, t_knowledge, t_abilities = "Top 10 Skills", "Top 5 Knowledge", "Top 5 Abilities"
+    h2 = "必要なスキル・知識・能力"
+    t_skills, t_knowledge, t_abilities = "スキル Top 10", "知識 Top 5", "能力 Top 5"
 
     body = (
         _block(t_skills, skills)
@@ -387,7 +358,7 @@ def _render_topn(rec: dict, lang: str) -> str:
     )
 
 
-def _render_transfer(rec: dict, lang: str) -> str:
+def _render_transfer(rec: dict) -> str:
     """Career-change candidates from data.transfer_paths (top 3).
 
     Replaces the legacy "same risk-band 5" related-occupations list when
@@ -404,19 +375,13 @@ def _render_transfer(rec: dict, lang: str) -> str:
     cards = ""
     for c in candidates:
         cid = c["id"]
-        # Look up name in this language; fall back to JA.
-        name_ja, name_en = NAME_LOOKUP.get(cid, (None, None))
-        name = (name_en if lang == "en" else name_ja) or name_ja or c.get("title_ja") or "?"
-        href = (f"/en/{cid}" if lang == "en" else f"/ja/{cid}")
+        name = NAME_LOOKUP.get(cid) or c.get("title_ja") or "?"
+        href = f"/ja/{cid}"
         risk = c.get("ai_risk")
         sim = c.get("similarity")
         risk_str = f"{risk}/10" if risk is not None else "—"
-        if lang == "ja":
-            risk_label = f"AI 影響 {risk_str}"
-            sim_label = f"類似度 {sim:.0%}" if sim is not None else ""
-        else:
-            risk_label = f"AI {risk_str}"
-            sim_label = f"similarity {sim:.0%}" if sim is not None else ""
+        risk_label = f"AI 影響 {risk_str}"
+        sim_label = f"類似度 {sim:.0%}" if sim is not None else ""
         sim_html = f'<span class="tc-similarity">{escape(sim_label)}</span>' if sim_label else ""
         cards += (
             f'<a class="transfer-card" href="{href}">'
@@ -425,7 +390,7 @@ def _render_transfer(rec: dict, lang: str) -> str:
             f'</a>'
         )
 
-    h2 = "似た仕事 / キャリア転換の候補" if lang == "ja" else "Similar work / Career transitions"
+    h2 = "似た仕事 / キャリア転換の候補"
     return (
         f'<section class="transfer" aria-label="{escape(h2)}">'
         f'<h2>{escape(h2)}</h2>'
@@ -434,17 +399,14 @@ def _render_transfer(rec: dict, lang: str) -> str:
     )
 
 
-def _render_orgs_certs(rec: dict, lang: str) -> str:
+def _render_orgs_certs(rec: dict) -> str:
     """Industry organizations + certifications side-by-side."""
     orgs = rec.get("related_orgs") or []
     certs = rec.get("related_certs_ja") or []
     if not (orgs or certs):
         return ""
 
-    if lang == "ja":
-        h_orgs, h_certs = "関連業界団体", "関連資格"
-    else:
-        h_orgs, h_certs = "Industry Organizations", "Related Certifications"
+    h_orgs, h_certs = "関連業界団体", "関連資格"
 
     org_block = ""
     if orgs:
@@ -467,7 +429,7 @@ def _render_orgs_certs(rec: dict, lang: str) -> str:
     )
 
 
-def _render_provenance(rec: dict, lang: str) -> str:
+def _render_provenance(rec: dict) -> str:
     """Compact provenance footnote: AI model, scored_at, IPD versions."""
     model = rec.get("ai_model")
     scored_at = rec.get("ai_scored_at")
@@ -476,35 +438,26 @@ def _render_provenance(rec: dict, lang: str) -> str:
     ipd_desc = dsv.get("ipd_description")
     bits = []
     if model and scored_at:
-        if lang == "ja":
-            bits.append(f"AI 影響度 — モデル <code>{escape(model)}</code> · スコア取得 <code>{escape(scored_at[:10])}</code>")
-        else:
-            bits.append(f"AI impact — model <code>{escape(model)}</code> · scored on <code>{escape(scored_at[:10])}</code>")
+        bits.append(f"AI 影響度 — モデル <code>{escape(model)}</code> · スコア取得 <code>{escape(scored_at[:10])}</code>")
     if ipd_num or ipd_desc:
         v = ipd_num or ipd_desc
-        if lang == "ja":
-            bits.append(f"データ — 厚労省 / JILPT IPD <code>{escape(v)}</code>")
-        else:
-            bits.append(f"Data — MHLW / JILPT IPD <code>{escape(v)}</code>")
+        bits.append(f"データ — 厚労省 / JILPT IPD <code>{escape(v)}</code>")
     if not bits:
         return ""
     return f'<p class="provenance">{" · ".join(bits)}</p>'
 
 
-def render_jsonld(rec: dict, lang: str) -> str:
-    """Render Schema.org JSON-LD for one language version of an occupation page."""
+def render_jsonld(rec: dict) -> str:
+    """Render Schema.org JSON-LD for the JA occupation page."""
     id_ = rec["id"]
     name_ja = rec.get("name_ja") or ""
-    name_en = rec.get("name_en") or ""
     risk = rec.get("ai_risk")
-    rationale_en = rec.get("ai_rationale_en") or ""
     rationale_ja = rec.get("ai_rationale_ja") or ""
-    desc_en = rec.get("desc_en") or ""
     desc_ja = rec.get("desc_ja") or ""
     # Audit CODE-004: keep None as None instead of `or 0` so SEO meta
     # descriptions never claim "平均年収 0万円 / 平均年齢 0" for occupations
     # where MHLW jobtag returned no value. Display sites below substitute
-    # explicit "—" / "データなし" / "Data unavailable" via the `_disp` helpers.
+    # explicit "—" / "データなし" via the `_disp` helpers.
     # The Schema.org JSON-LD truthy filters (`if salary_man:` etc.) already
     # correctly omit absent properties — None and 0 both fall through.
     salary_man = rec.get("salary")
@@ -515,29 +468,17 @@ def render_jsonld(rec: dict, lang: str) -> str:
     hourly = rec.get("hourly_wage")
     mhlw_url = rec.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{id_}"
 
-    canonical = ja_url(id_) if lang == "ja" else en_url(id_)
+    canonical = ja_url(id_)
 
-    if lang == "ja":
-        # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
-        page_name = (
-            f"{name_ja} — AI 影響 {risk}/10"
-            if risk is not None
-            else f"{name_ja} — mirai-shigoto.com"
-        )
-        page_desc = rationale_ja or desc_ja or name_ja
-        breadcrumb_root = "日本の職業 AI 影響マップ"
-        breadcrumb_self = name_ja
-        home_url = "https://mirai-shigoto.com/"
-    else:
-        page_name = (
-            f"{(name_en or name_ja)} — AI Impact {risk}/10"
-            if risk is not None
-            else f"{name_en or name_ja} — mirai-shigoto.com"
-        )
-        page_desc = rationale_en or desc_en or name_en or name_ja
-        breadcrumb_root = "Japan Jobs × AI Impact Map"
-        breadcrumb_self = name_en or name_ja
-        home_url = "https://mirai-shigoto.com/?lang=en"
+    page_name = (
+        f"{name_ja} — AI 影響 {risk}/10"
+        if risk is not None
+        else f"{name_ja} — mirai-shigoto.com"
+    )
+    page_desc = rationale_ja or desc_ja or name_ja
+    breadcrumb_root = "日本の職業 AI 影響マップ"
+    breadcrumb_self = name_ja
+    home_url = "https://mirai-shigoto.com/"
 
     additional = []
     if risk is not None:
@@ -564,38 +505,33 @@ def render_jsonld(rec: dict, lang: str) -> str:
         "@type": "Occupation",
         "@id": f"{canonical}#occupation",
         "name": name_ja,
-        "description": rationale_en or desc_en or rationale_ja or desc_ja or name_ja,
+        "description": rationale_ja or desc_ja or name_ja,
         "occupationLocation": {"@type": "Country", "name": "Japan"},
         "occupationalCategory": str(id_),
         "sameAs": mhlw_url,
         "additionalProperty": additional,
         "isPartOf": {"@id": "https://mirai-shigoto.com/#dataset"},
     }
-    # v1.2.0 schema-1.1 enrichment: alternateName aggregates JA/EN names + aliases.
-    alt_names = []
-    if name_en and name_en != name_ja:
-        alt_names.append(name_en)
-    alt_names.extend(rec.get("aliases_ja") or [])
-    alt_names.extend(rec.get("aliases_en") or [])
+    # alternateName: JA aliases.
+    alt_names = list(rec.get("aliases_ja") or [])
     if alt_names:
         # Schema.org alternateName accepts string or array; use array for multi.
         occupation_node["alternateName"] = alt_names if len(alt_names) > 1 else alt_names[0]
     # Industry / sector → Schema.org "industry"
     sector = rec.get("sector") or {}
-    if sector.get("ja") or sector.get("en"):
-        occupation_node["industry"] = sector.get("en") or sector.get("ja")
+    if sector.get("ja"):
+        occupation_node["industry"] = sector.get("ja")
     # MHLW classifications → occupationalCategory (replace bare id with codes if present)
     cls = rec.get("classifications") or {}
     if cls.get("mhlw_main") or cls.get("jsoc_main"):
         occupation_node["occupationalCategory"] = (
             cls.get("mhlw_main") or cls.get("jsoc_main") or str(id_)
         )
-    # Top skills → Schema.org "skills" (string list)
+    # Top skills → Schema.org "skills" (JA label list)
     skills_top10 = rec.get("skills_top10") or []
     if skills_top10:
         occupation_node["skills"] = [
-            s.get("label_en") or s.get("label_ja") for s in skills_top10
-            if (s.get("label_en") or s.get("label_ja"))
+            s.get("label_ja") for s in skills_top10 if s.get("label_ja")
         ]
     # Required certifications (Japanese names; informational)
     certs = rec.get("related_certs_ja") or []
@@ -622,8 +558,8 @@ def render_jsonld(rec: dict, lang: str) -> str:
                 "isPartOf": {"@id": "https://mirai-shigoto.com/#website"},
                 "about": {"@id": f"{canonical}#occupation"},
                 "mainEntity": {"@id": f"{canonical}#occupation"},
-                "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}&lang={lang}",
-                "inLanguage": lang,
+                "primaryImageOfPage": f"https://mirai-shigoto.com/api/og?id={id_}",
+                "inLanguage": "ja",
                 "breadcrumb": {"@id": f"{canonical}#breadcrumb"},
                 "datePublished": DATE_PUBLISHED,
                 "dateModified": DATE_MODIFIED,
@@ -667,9 +603,6 @@ CSS_BLOCK = """
       h1{font-size:clamp(1.4rem,1rem+1.6vw,2rem);font-weight:700;letter-spacing:-0.01em;margin-bottom:6px}
       h1 .accent{color:var(--accent);font-style:italic}
       h1 .h1-sub{font-size:0.7em;color:var(--fg2);font-weight:500;margin-left:8px}
-      .lang-switch{display:inline-block;font-size:0.78rem;margin-left:8px;vertical-align:middle}
-      .lang-switch a{border:1px solid var(--border);color:var(--fg2);padding:3px 9px;border-radius:999px}
-      .lang-switch a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
       .risk-card{display:flex;align-items:center;gap:18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin:18px 0 22px}
       .risk-num{font-size:clamp(2.4rem,1.8rem+2vw,3.4rem);font-weight:800;line-height:1;letter-spacing:-0.02em}
       .risk-num small{font-size:0.4em;color:var(--fg2);font-weight:500;margin-left:4px}
@@ -834,34 +767,27 @@ ANALYTICS_BLOCK = """    <script defer src="https://static.cloudflareinsights.co
     <script defer src="/_vercel/speed-insights/script.js"></script>"""
 
 
-def render_html(rec: dict, lang: str, related: list[dict]) -> str:
-    """Render the full HTML for one occupation page in the given language.
+def render_html(rec: dict, related: list[dict]) -> str:
+    """Render the full JA HTML for one occupation page.
 
-    lang: 'ja' or 'en'
     related: list of related occupation records (RELATED_COUNT entries)
     """
     id_ = rec["id"]
-    canonical = ja_url(id_) if lang == "ja" else en_url(id_)
+    canonical = ja_url(id_)
 
     name_ja = rec.get("name_ja") or ""
-    name_en = rec.get("name_en") or ""
     risk = rec.get("ai_risk")
     risk_str = f"{risk}/10" if risk is not None else "—"
     rationale_ja = rec.get("ai_rationale_ja") or ""
-    rationale_en = rec.get("ai_rationale_en") or ""
     desc_ja = (rec.get("desc_ja") or "")[:240]
-    desc_en = (rec.get("desc_en") or "")[:200]
     long_what_ja = rec.get("what_it_is_ja") or ""
-    long_what_en = rec.get("what_it_is_en") or ""
     long_how_ja = rec.get("how_to_become_ja") or ""
-    long_how_en = rec.get("how_to_become_en") or ""
     long_cond_ja = rec.get("working_conditions_ja") or ""
-    long_cond_en = rec.get("working_conditions_en") or ""
 
     # Audit CODE-004: keep None as None instead of `or 0` so SEO meta
     # descriptions never claim "平均年収 0万円 / 平均年齢 0" for occupations
     # where MHLW jobtag returned no value. Display sites below substitute
-    # explicit "—" / "データなし" / "Data unavailable" via the `_disp` helpers.
+    # explicit "—" / "データなし" via the `_disp` helpers.
     # The Schema.org JSON-LD truthy filters (`if salary_man:` etc.) already
     # correctly omit absent properties — None and 0 both fall through.
     salary_man = rec.get("salary")
@@ -873,181 +799,88 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     mhlw_url = rec.get("url") or f"https://shigoto.mhlw.go.jp/User/Occupation/Detail/{id_}"
 
     risk_class = f"risk-{risk}" if risk is not None else "risk-na"
-    jsonld = render_jsonld(rec, lang)
+    jsonld = render_jsonld(rec)
 
     # Audit CODE-004: SEO description must read "データなし" instead of
-    # "0万円" / "0" when MHLW didn't ship a value. _meta_* are the natural-
-    # language fragments embedded in <meta description>; visible UI cells
-    # use _ui_* below.
-    if lang == "ja":
-        _meta_workers = f"就業者 約{fmt_int(workers)}人" if workers else "就業者数データなし"
-        _meta_salary = f"平均年収 {int(salary_man)}万円" if salary_man else "平均年収データなし"
-        _meta_age = f"平均年齢 {age}" if age else "平均年齢データなし"
-    else:
-        _meta_workers = f"workforce ~{fmt_int(workers)}" if workers else "workforce data unavailable"
-        _meta_salary = f"annual salary {int(salary_man)}万円" if salary_man else "annual salary data unavailable"
-        _meta_age = f"avg age {age}" if age else "avg age data unavailable"
+    # "0万円" / "0" when MHLW didn't ship a value.
+    _meta_workers = f"就業者 約{fmt_int(workers)}人" if workers else "就業者数データなし"
+    _meta_salary = f"平均年収 {int(salary_man)}万円" if salary_man else "平均年収データなし"
+    _meta_age = f"平均年齢 {age}" if age else "平均年齢データなし"
 
-    if lang == "ja":
-        # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
-        # SEO intent-keyword expansion (Phase 4): adds 将来性 / 年収 / なるには long-tail
-        # so the page also matches "{職業名} 将来性", "{職業名} なるには", "{職業名} 年収"
-        # queries — the three highest-volume search intents around occupation pages.
-        title = f"{name_ja} — AI 影響 {risk_str}・将来性・年収・なるには｜未来の仕事"
-        seo_desc = (
-            f"{name_ja}：{_meta_workers} / {_meta_salary} "
-            f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
-        )
-        og_locale = "ja_JP"
-        og_locale_alt = "en_US"
-        site_name = "未来の仕事 — Mirai Shigoto"
-        home_href = "/"
-        crumb_root = "日本の職業 AI 影響マップ"
-        crumb_self_label = name_ja
-        h1_main = name_ja
-        h1_sub = ""
-        risk_label = "AI 影響"
-        rationale = rationale_ja or desc_ja
-        st_workers = "就業者数"
-        st_workers_unit = " 人"
-        st_salary = "年収（平均）"
-        st_age = "平均年齢"
-        st_age_unit = " 歳"
-        st_hours = "月労働時間"
-        st_hours_unit = " 時間/月"
-        st_recruit = "求人倍率"
-        st_hourly = "時給"
-        # Phase 7: H2 headings now embed occupation name to match the highest-volume
-        # long-tail intents — "{name} とは", "{name} になるには", "{name} 労働条件".
-        ctx_h2 = f"{name_ja}とは"
-        # Prefer long-form what_it_is when available; fall back to summary, then rationale.
-        ctx_p = long_what_ja or desc_ja or rationale_ja
-        how_h2 = f"{name_ja}になるには・必要な資格"
-        how_p = long_how_ja
-        cond_h2 = f"{name_ja}の労働条件・働き方"
-        cond_p = long_cond_ja
-        src_h2 = "出典 / 関連リンク"
-        src_mhlw_label = f"厚生労働省 job tag — {name_ja}（公式）"
-        src_method_label = "方法論 / スコアリングルーブリック"
-        src_back_label = "552 職種マップに戻る"
-        rel_h2 = "類似する職業"
-        rel_path = "/ja/"
-        banner_html = "独自分析・<strong>厚労省 / job tag / JILPT の公式見解ではありません</strong>"
-        skip_label = "本文へ"
-        disclaim = "AI 影響スコアは Claude Opus 4.7 による独自推定（非公式）。MHLW / jobtag / JILPT の公式見解ではありません。個別の職業選択の唯一の根拠としては使わないでください。"
-        lang_switch_label = "English"
-        lang_switch_target_lang = "en"
-        salary_cell = (
-            f'{("¥" + fmt_int(int(salary_man * 10000))) if salary_man else "—"}（{int(salary_man) if salary_man else "—"} 万円）'
-        )
-    else:
-        # v1.2.0 Direction C convergence: strict per-language pages, no cross-language bleed.
-        # SEO intent-keyword expansion (Phase 4): match "salary / outlook / career path"
-        # search intents alongside the AI-impact-anchor keyword.
-        title = f"{(name_en or name_ja)} — AI Impact {risk_str}: Outlook, Salary, Career Path | Mirai Shigoto"
-        seo_desc = (
-            f"{(name_en or name_ja)}: {_meta_workers} / {_meta_salary} "
-            f"/ {_meta_age} / AI impact {risk_str}. Independent score by Claude Opus 4.7 (unofficial)."
-        )
-        og_locale = "en_US"
-        og_locale_alt = "ja_JP"
-        site_name = "Mirai Shigoto — Future of Work"
-        home_href = "/?lang=en"
-        crumb_root = "Japan Jobs × AI Impact Map"
-        crumb_self_label = name_en or name_ja
-        h1_main = name_en or name_ja
-        h1_sub = ""
-        risk_label = "AI Impact"
-        rationale = rationale_en or desc_en
-        st_workers = "Workforce"
-        st_workers_unit = " persons"
-        st_salary = "Annual salary"
-        st_age = "Avg age"
-        st_age_unit = " yrs"
-        st_hours = "Monthly hours"
-        st_hours_unit = " h/mo"
-        st_recruit = "Recruit ratio"
-        st_hourly = "Hourly wage"
-        # Phase 7: H2 headings embed occupation name to match the highest-volume
-        # long-tail intents — "what is a {name}", "how to become a {name}".
-        _name = name_en or name_ja
-        ctx_h2 = f"What is a {_name}?"
-        # Prefer long-form what_it_is when available; fall back to summary, then rationale.
-        ctx_p = long_what_en or desc_en or rationale_en
-        how_h2 = f"How to become a {_name}"
-        how_p = long_how_en
-        cond_h2 = f"Working conditions for {_name}"
-        cond_p = long_cond_en
-        src_h2 = "Sources / Related"
-        src_mhlw_label = f"MHLW jobtag — {(name_en or name_ja)} (official source)"
-        src_method_label = "Methodology / scoring rubric"
-        src_back_label = "Back to the 552-occupation map"
-        rel_h2 = "Related occupations"
-        rel_path = "/en/"
-        banner_html = "<strong>Independent analysis</strong> · Not endorsed by MHLW / jobtag / JILPT"
-        skip_label = "Skip to content"
-        disclaim = "AI risk scores are independent LLM estimates by Claude Opus 4.7 — not official forecasts. Not endorsed by MHLW, jobtag, or JILPT. Should not be the sole basis for personal career decisions."
-        lang_switch_label = "日本語"
-        lang_switch_target_lang = "ja"
-        salary_cell = (
-            f'{("¥" + fmt_int(int(salary_man * 10000))) if salary_man else "—"} ({int(salary_man) if salary_man else "—"}万円)'
-        )
+    # SEO intent-keyword expansion (Phase 4): adds 将来性 / 年収 / なるには long-tail
+    # so the page also matches "{職業名} 将来性", "{職業名} なるには", "{職業名} 年収"
+    # queries — the three highest-volume search intents around occupation pages.
+    title = f"{name_ja} — AI 影響 {risk_str}・将来性・年収・なるには｜未来の仕事"
+    seo_desc = (
+        f"{name_ja}：{_meta_workers} / {_meta_salary} "
+        f"/ {_meta_age} / AI 影響 {risk_str}。Claude Opus 4.7 による独自スコア（非公式）。"
+    )
+    og_locale = "ja_JP"
+    site_name = "未来の仕事 — Mirai Shigoto"
+    home_href = "/"
+    crumb_root = "日本の職業 AI 影響マップ"
+    crumb_self_label = name_ja
+    h1_main = name_ja
+    h1_sub = ""
+    risk_label = "AI 影響"
+    rationale = rationale_ja or desc_ja
+    st_workers = "就業者数"
+    st_workers_unit = " 人"
+    st_salary = "年収（平均）"
+    st_age = "平均年齢"
+    st_age_unit = " 歳"
+    st_hours = "月労働時間"
+    st_hours_unit = " 時間/月"
+    st_recruit = "求人倍率"
+    st_hourly = "時給"
+    # Phase 7: H2 headings embed occupation name to match the highest-volume
+    # long-tail intents — "{name} とは", "{name} になるには", "{name} 労働条件".
+    ctx_h2 = f"{name_ja}とは"
+    # Prefer long-form what_it_is when available; fall back to summary, then rationale.
+    ctx_p = long_what_ja or desc_ja or rationale_ja
+    how_h2 = f"{name_ja}になるには・必要な資格"
+    how_p = long_how_ja
+    cond_h2 = f"{name_ja}の労働条件・働き方"
+    cond_p = long_cond_ja
+    src_h2 = "出典 / 関連リンク"
+    src_mhlw_label = f"厚生労働省 job tag — {name_ja}（公式）"
+    src_method_label = "方法論 / スコアリングルーブリック"
+    src_back_label = "552 職種マップに戻る"
+    rel_h2 = "類似する職業"
+    rel_path = "/ja/"
+    skip_label = "本文へ"
+    disclaim = "AI 影響スコアは Claude Opus 4.7 による独自推定（非公式）。MHLW / jobtag / JILPT の公式見解ではありません。個別の職業選択の唯一の根拠としては使わないでください。"
+    salary_cell = (
+        f'{("¥" + fmt_int(int(salary_man * 10000))) if salary_man else "—"}（{int(salary_man) if salary_man else "—"} 万円）'
+    )
 
-    # Stage 1: Follow + Share localized strings.
-    if lang == "ja":
-        follow_strong = "X でフォローする"
-        follow_small = "毎日の職業分析を受け取る"
-        share_label = "このページをシェア"
-        share_text_for_post = (
-            f"{name_ja} の AI 影響度は {risk_str}。日本 552 職種の AI 影響マップ（非公式・独自分析）。"
-        )
-        share_aria_x = "X で共有"
-        share_aria_line = "LINE で共有"
-        share_aria_hatena = "はてなブックマークで共有"
-        share_aria_linkedin = "LinkedIn で共有"
-        share_aria_facebook = "Facebook で共有"
-        share_aria_copy = "URL をコピー"
-        share_aria_native = "共有"
-        copy_toast_text = "コピーしました"
-        about_link_label = "データについて →"
-    else:
-        display_name = name_en or name_ja
-        follow_strong = "Follow on X"
-        follow_small = "Daily occupation insights"
-        share_label = "Share this page"
-        share_text_for_post = (
-            f"{display_name}: AI impact {risk_str}. Map of 552 Japanese occupations "
-            f"(independent analysis, unofficial)."
-        )
-        share_aria_x = "Share on X"
-        share_aria_line = "Share on LINE"
-        share_aria_hatena = "Share on Hatena Bookmark"
-        share_aria_linkedin = "Share on LinkedIn"
-        share_aria_facebook = "Share on Facebook"
-        share_aria_copy = "Copy link"
-        share_aria_native = "Share"
-        copy_toast_text = "Link copied"
-        about_link_label = "About the data →"
+    # Stage 1: Follow + Share strings.
+    follow_strong = "X でフォローする"
+    follow_small = "毎日の職業分析を受け取る"
+    share_label = "このページをシェア"
+    share_text_for_post = (
+        f"{name_ja} の AI 影響度は {risk_str}。日本 552 職種の AI 影響マップ（非公式・独自分析）。"
+    )
+    share_aria_x = "X で共有"
+    share_aria_line = "LINE で共有"
+    share_aria_hatena = "はてなブックマークで共有"
+    share_aria_linkedin = "LinkedIn で共有"
+    share_aria_facebook = "Facebook で共有"
+    share_aria_copy = "URL をコピー"
+    share_aria_native = "共有"
+    copy_toast_text = "コピーしました"
 
     og_title = title[:120]
     og_desc = seo_desc[:300]
-    # alternate_url is the absolute production URL — used for SEO hreflang in <head>.
-    # alternate_path is the relative path — used for the visible lang-switch button so
-    # users on preview / staging domains stay within their current environment.
-    alternate_url = en_url(id_) if lang == "ja" else ja_url(id_)
-    alternate_path = f"/en/{id_}" if lang == "ja" else f"/ja/{id_}"
     h1_sub_html = f'<span class="h1-sub">{escape(h1_sub)}</span>' if h1_sub else ""
 
     related_li_html_parts = []
     for r in related:
         rid = r["id"]
-        if lang == "ja":
-            rname = r.get("name_ja") or r.get("name_en") or f"#{rid}"
-        else:
-            rname = r.get("name_en") or r.get("name_ja") or f"#{rid}"
+        rname = r.get("name_ja") or f"#{rid}"
         rrisk = r.get("ai_risk")
         rrisk_str = f"{rrisk}/10" if rrisk is not None else "—"
-        ai_short = "AI 影響" if lang == "ja" else "AI"
+        ai_short = "AI 影響"
         related_li_html_parts.append(
             f'<li><a class="r-name" href="{rel_path}{rid}">{escape(rname)}</a>'
             f'<span class="r-risk">{ai_short} {rrisk_str}</span></li>'
@@ -1083,7 +916,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         "      // Per-occupation page-view signal for the GA4 conversion funnel.\n"
         f"      gtag('event', 'result_view', {{ occupation_id: {id_}, "
         f"ai_risk_score: {risk_score_js}, risk_tier: {risk_tier_js}, "
-        f"language: '{lang}' }});\n"
+        f"language: 'ja' }});\n"
         "    </script>"
     )
 
@@ -1092,7 +925,6 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     share_text_js = share_text_for_post
     copy_toast_js = copy_toast_text
     occ_id_js = id_
-    lang_js = lang
 
     # v1.1.0 long-form sections — pre-render so the f-string template stays clean.
     # ctx_html always renders (with fallback chain). how/cond sections only render
@@ -1112,21 +944,21 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     ) if cond_p else ""
 
     # v1.2.0 schema-1.1 rich sections (graceful empty fallback).
-    # SEO keywords from current-language name + aliases (still used by Bing/Yandex).
-    aliases = rec.get("aliases_en") if lang == "en" else rec.get("aliases_ja")
-    kw_terms = [name_en or name_ja] if lang == "en" else [name_ja]
+    # SEO keywords from JA name + aliases (still used by Bing/Yandex).
+    aliases = rec.get("aliases_ja")
+    kw_terms = [name_ja]
     if aliases:
         kw_terms.extend(aliases[:8])
     keywords_meta = (
         f'<meta name="keywords" content="{escape(", ".join(t for t in kw_terms if t))}" />'
         if kw_terms else ""
     )
-    meta_row_html   = _render_meta_row(rec, lang)
-    profile_html    = _render_profile_radar(rec, lang)
-    topn_html       = _render_topn(rec, lang)
-    transfer_html   = _render_transfer(rec, lang)
-    orgs_certs_html = _render_orgs_certs(rec, lang)
-    provenance_html = _render_provenance(rec, lang)
+    meta_row_html   = _render_meta_row(rec)
+    profile_html    = _render_profile_radar(rec)
+    topn_html       = _render_topn(rec)
+    transfer_html   = _render_transfer(rec)
+    orgs_certs_html = _render_orgs_certs(rec)
+    provenance_html = _render_provenance(rec)
     # When transfer_paths supplied a section, suppress the legacy "same risk-band 5"
     # related list to avoid two near-duplicate sections. Legacy stays as fallback.
     legacy_related_html = "" if transfer_html else (
@@ -1137,7 +969,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     )
 
     html = f"""<!doctype html>
-<html lang="{lang}">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -1149,9 +981,6 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     {keywords_meta}
 
     <link rel="canonical" href="{canonical}" />
-    <link rel="alternate" hreflang="ja" href="{ja_url(id_)}" />
-    <link rel="alternate" hreflang="en" href="{en_url(id_)}" />
-    <link rel="alternate" hreflang="x-default" href="{ja_url(id_)}" />
 
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
@@ -1164,11 +993,10 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="{escape(site_name)}" />
     <meta property="og:locale" content="{og_locale}" />
-    <meta property="og:locale:alternate" content="{og_locale_alt}" />
     <meta property="og:title" content="{escape(og_title)}" />
     <meta property="og:description" content="{escape(og_desc)}" />
     <meta property="og:url" content="{canonical}" />
-    <meta property="og:image" content="https://mirai-shigoto.com/api/og?id={id_}&amp;lang={lang}" />
+    <meta property="og:image" content="https://mirai-shigoto.com/api/og?id={id_}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
@@ -1177,7 +1005,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{escape(og_title)}" />
     <meta name="twitter:description" content="{escape(og_desc)}" />
-    <meta name="twitter:image" content="https://mirai-shigoto.com/api/og?id={id_}&amp;lang={lang}" />
+    <meta name="twitter:image" content="https://mirai-shigoto.com/api/og?id={id_}" />
     <meta name="twitter:image:alt" content="{escape(og_title)}" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
@@ -1206,7 +1034,6 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
       <header id="content">
         <h1>
           <span class="accent">{escape(h1_main)}</span>{h1_sub_html}
-          <span class="lang-switch"><a href="{alternate_path}" hreflang="{lang_switch_target_lang}" rel="alternate">{lang_switch_label}</a></span>
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme" title="Toggle light / dark">
             <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
@@ -1312,14 +1139,14 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
 
       <footer>
         <div class="footer-links">
-          <a href="{home_href}">{('Home' if lang == 'en' else 'トップ')}</a>
-          <a href="/about{'?lang=en' if lang == 'en' else ''}">{('About' if lang == 'en' else 'データについて')}</a>
-          <a href="/compliance{'?lang=en' if lang == 'en' else ''}">{('Compliance' if lang == 'en' else 'コンプライアンス')}</a>
-          <a href="/privacy{'?lang=en' if lang == 'en' else ''}">{('Privacy' if lang == 'en' else 'プライバシー')}</a>
+          <a href="{home_href}">トップ</a>
+          <a href="/about">データについて</a>
+          <a href="/compliance">コンプライアンス</a>
+          <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
           © <a href="{home_href}">mirai-shigoto.com</a> · MIT<br>
-          {('Source: MHLW &amp; JILPT &quot;Occupational Information Database (job tag)&quot; v7.00 (downloaded 2026-05-03) — processed as derivative work. Independent analysis, not endorsed by MHLW / jobtag / JILPT.' if lang == 'en' else '出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析。')}
+          出典：厚生労働省・JILPT「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）を加工して作成。独自分析。
         </div>
       </footer>
     </div>
@@ -1347,7 +1174,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
           var sep = SITE.indexOf('?')>=0 ? '&' : '?';
           return SITE + sep + 'utm_source=' + source + '&utm_medium=' + medium + '&utm_campaign=footer_share&utm_content=occ';
         }}
-        function track(p){{ if(window.gtag) gtag('event','share_click',{{platform:p,occupation_id:{occ_id_js},language:{lang_js!r}}}); }}
+        function track(p){{ if(window.gtag) gtag('event','share_click',{{platform:p,occupation_id:{occ_id_js},language:'ja'}}); }}
         function open(u){{ window.open(u,'_blank','noopener,noreferrer'); }}
 
         var x = document.getElementById('share-x');
@@ -1361,7 +1188,7 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
         var fb = document.getElementById('share-facebook');
         if(fb) fb.addEventListener('click',function(e){{e.preventDefault(); open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl('facebook','social'))); track('facebook');}});
         var xfollow = document.getElementById('x-follow-cta');
-        if(xfollow) xfollow.addEventListener('click',function(){{ if(window.gtag) gtag('event','x_follow_click',{{occupation_id:{occ_id_js},language:{lang_js!r}}}); }});
+        if(xfollow) xfollow.addEventListener('click',function(){{ if(window.gtag) gtag('event','x_follow_click',{{occupation_id:{occ_id_js},language:'ja'}}); }});
 
         var copy = document.getElementById('share-copy');
         var toast = document.getElementById('share-toast');
@@ -1392,43 +1219,30 @@ def render_html(rec: dict, lang: str, related: list[dict]) -> str:
 
 
 SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mirai-shigoto.com/</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
   </url>
   <url>
     <loc>https://mirai-shigoto.com/privacy</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/privacy" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/privacy?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/privacy" />
   </url>
   <url>
     <loc>https://mirai-shigoto.com/about</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/about" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/about?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/about" />
   </url>
   <url>
     <loc>https://mirai-shigoto.com/compliance</loc>
     <lastmod>{lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/compliance" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://mirai-shigoto.com/compliance?lang=en" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/compliance" />
   </url>
   <!-- GEO surface: llms.txt convention (https://llmstxt.org). Listed here so general crawlers discover them too. -->
   <url>
@@ -1443,9 +1257,9 @@ SITEMAP_BASE = """<?xml version="1.0" encoding="UTF-8"?>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
-  <!-- Sector cluster: 2 sectors-index pages + 16 sectors × 2 langs = 32 hubs at /<lang>/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
+  <!-- Sector cluster: 1 sectors-index page + 16 sector hubs at /ja/sectors/<id>. Generated by scripts/build_sector_hubs.py. -->
 {sectors}
-  <!-- Per-occupation pages: 556 JA at /ja/<id> + 556 EN at /en/<id>. Generated by scripts/build_occupations.py. -->
+  <!-- Per-occupation pages: 556 JA at /ja/<id>. Generated by scripts/build_occupations.py. -->
 {occupations}</urlset>
 """
 
@@ -1454,65 +1268,50 @@ SECTOR_MANIFEST_PATH = REPO / "scripts" / ".sector_manifest.json"
 
 
 def _sector_sitemap_block(lastmod: str) -> str:
-    """Emit sitemap entries for the 2 sectors index pages + 32 sector hubs.
+    """Emit sitemap entries for the sectors index page + 16 sector hubs.
 
     Reads .sector_manifest.json (produced by build_sector_hubs.py) for the hub
-    list. The 2 sectors-index URLs are constant. Returns "" if manifest missing.
+    list. The sectors-index URL is constant. Returns "" if manifest missing.
     """
     parts: list[str] = []
-    # Sectors index pages (hub-of-hubs) — 2 entries.
-    for ja_u, en_u in [("https://mirai-shigoto.com/ja/sectors", "https://mirai-shigoto.com/en/sectors")]:
-        for primary in (ja_u, en_u):
-            parts.append(
-                f"  <url>\n"
-                f"    <loc>{primary}</loc>\n"
-                f"    <lastmod>{lastmod}</lastmod>\n"
-                f"    <changefreq>weekly</changefreq>\n"
-                f"    <priority>0.8</priority>\n"
-                f'    <xhtml:link rel="alternate" hreflang="ja" href="{ja_u}" />\n'
-                f'    <xhtml:link rel="alternate" hreflang="en" href="{en_u}" />\n'
-                f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ja_u}" />\n'
-                f"  </url>\n"
-            )
-    # 32 sector hubs from manifest.
+    # Sectors index page (hub-of-hubs) — 1 entry.
+    parts.append(
+        f"  <url>\n"
+        f"    <loc>https://mirai-shigoto.com/ja/sectors</loc>\n"
+        f"    <lastmod>{lastmod}</lastmod>\n"
+        f"    <changefreq>weekly</changefreq>\n"
+        f"    <priority>0.8</priority>\n"
+        f"  </url>\n"
+    )
+    # 16 sector hubs from manifest.
     if SECTOR_MANIFEST_PATH.exists():
         entries = json.loads(SECTOR_MANIFEST_PATH.read_text(encoding="utf-8"))
         for e in entries:
             ja_u = e["ja_url"]
-            en_u = e["en_url"]
-            for primary in (ja_u, en_u):
-                parts.append(
-                    f"  <url>\n"
-                    f"    <loc>{primary}</loc>\n"
-                    f"    <lastmod>{lastmod}</lastmod>\n"
-                    f"    <changefreq>weekly</changefreq>\n"
-                    f"    <priority>0.7</priority>\n"
-                    f'    <xhtml:link rel="alternate" hreflang="ja" href="{ja_u}" />\n'
-                    f'    <xhtml:link rel="alternate" hreflang="en" href="{en_u}" />\n'
-                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ja_u}" />\n'
-                    f"  </url>\n"
-                )
+            parts.append(
+                f"  <url>\n"
+                f"    <loc>{ja_u}</loc>\n"
+                f"    <lastmod>{lastmod}</lastmod>\n"
+                f"    <changefreq>weekly</changefreq>\n"
+                f"    <priority>0.7</priority>\n"
+                f"  </url>\n"
+            )
     return "".join(parts)
 
 
 def write_sitemap(manifest: list[dict], lastmod: str = DATE_MODIFIED) -> None:
-    """Rewrite sitemap.xml with statics + sector cluster (index + 32 hubs) + (556 JA + 556 EN) occupations."""
+    """Rewrite sitemap.xml with statics + sector cluster (index + 16 hubs) + 556 JA occupations."""
     lines: list[str] = []
     for entry in manifest:
         ja = entry["ja_url"]
-        en = entry["en_url"]
-        for primary in (ja, en):
-            lines.append(
-                f"  <url>\n"
-                f"    <loc>{primary}</loc>\n"
-                f"    <lastmod>{lastmod}</lastmod>\n"
-                f"    <changefreq>monthly</changefreq>\n"
-                f"    <priority>0.5</priority>\n"
-                f'    <xhtml:link rel="alternate" hreflang="ja" href="{ja}" />\n'
-                f'    <xhtml:link rel="alternate" hreflang="en" href="{en}" />\n'
-                f'    <xhtml:link rel="alternate" hreflang="x-default" href="{ja}" />\n'
-                f"  </url>\n"
-            )
+        lines.append(
+            f"  <url>\n"
+            f"    <loc>{ja}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            f"    <changefreq>monthly</changefreq>\n"
+            f"    <priority>0.5</priority>\n"
+            f"  </url>\n"
+        )
     SITEMAP_PATH.write_text(
         SITEMAP_BASE.format(
             lastmod=lastmod,
@@ -1531,14 +1330,13 @@ def main() -> int:
     args = ap.parse_args()
 
     OUT_DIR_JA.mkdir(parents=True, exist_ok=True)
-    OUT_DIR_EN.mkdir(parents=True, exist_ok=True)
 
     all_data = _load_legacy_shape_corpus()
     # v1.2.0: load extra projections used by new sections.
     global PROFILE5, TRANSFER_PATHS, NAME_LOOKUP
     PROFILE5 = _load_profile5()
     TRANSFER_PATHS = _load_transfer_paths()
-    NAME_LOOKUP = {r["id"]: (r.get("name_ja"), r.get("name_en")) for r in all_data}
+    NAME_LOOKUP = {r["id"]: r.get("name_ja") for r in all_data}
     is_full_run = args.ids is None and args.limit is None
 
     if args.ids:
@@ -1553,39 +1351,32 @@ def main() -> int:
     bytes_total = 0
     for rec in data:
         related = pick_related(rec, all_data, RELATED_COUNT)
-        ja_html = render_html(rec, "ja", related)
-        en_html = render_html(rec, "en", related)
+        ja_html = render_html(rec, related)
         ja_path = OUT_DIR_JA / f"{rec['id']}.html"
-        en_path = OUT_DIR_EN / f"{rec['id']}.html"
         ja_path.write_text(ja_html, encoding="utf-8")
-        en_path.write_text(en_html, encoding="utf-8")
         ja_size = ja_path.stat().st_size
-        en_size = en_path.stat().st_size
-        bytes_total += ja_size + en_size
+        bytes_total += ja_size
         manifest.append(
             {
                 "id": rec["id"],
                 "name_ja": rec.get("name_ja"),
-                "name_en": rec.get("name_en"),
                 "ai_risk": rec.get("ai_risk"),
                 "ja_url": ja_url(rec["id"]),
-                "en_url": en_url(rec["id"]),
                 "ja_size_bytes": ja_size,
-                "en_size_bytes": en_size,
             }
         )
 
     # Partial runs (--ids / --limit) write to .partial.json so the canonical
-    # 552-entry manifest produced by full runs is never overwritten by smoke
+    # 556-entry manifest produced by full runs is never overwritten by smoke
     # tests. Only is_full_run promotes to the canonical path.
     if is_full_run:
         manifest_target = MANIFEST_PATH
     else:
         manifest_target = MANIFEST_PATH.with_suffix(".partial.json")
     manifest_target.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    pages = len(manifest) * 2
+    pages = len(manifest)
     avg_kb = bytes_total / pages / 1024 if pages else 0
-    print(f"Generated {pages} pages ({len(manifest)} JA + {len(manifest)} EN) → {OUT_DIR_JA.name}/, {OUT_DIR_EN.name}/")
+    print(f"Generated {pages} pages → {OUT_DIR_JA.name}/")
     print(f"Total: {bytes_total/1024:.1f} KB  ·  Avg: {avg_kb:.1f} KB/page")
     print(f"Manifest: {manifest_target}{' (partial — full manifest at ' + str(MANIFEST_PATH) + ' unchanged)' if not is_full_run else ''}")
 

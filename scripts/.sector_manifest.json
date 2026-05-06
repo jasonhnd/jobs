@@ -2,129 +2,97 @@
   {
     "sector_id": "iryo",
     "ja": "医療・保健",
-    "en": "Medical & Health",
     "occupation_count": 36,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/iryo",
-    "en_url": "https://mirai-shigoto.com/en/sectors/iryo"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/iryo"
   },
   {
     "sector_id": "fukushi",
     "ja": "福祉・介護",
-    "en": "Welfare & Care",
     "occupation_count": 15,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/fukushi",
-    "en_url": "https://mirai-shigoto.com/en/sectors/fukushi"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/fukushi"
   },
   {
     "sector_id": "kyoiku",
     "ja": "教育・指導",
-    "en": "Education & Instruction",
     "occupation_count": 20,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/kyoiku",
-    "en_url": "https://mirai-shigoto.com/en/sectors/kyoiku"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/kyoiku"
   },
   {
     "sector_id": "hoan",
     "ja": "保安・公安",
-    "en": "Public Safety",
     "occupation_count": 15,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/hoan",
-    "en_url": "https://mirai-shigoto.com/en/sectors/hoan"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/hoan"
   },
   {
     "sector_id": "noringyo",
     "ja": "農林・水産",
-    "en": "Agriculture & Fishing",
     "occupation_count": 14,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/noringyo",
-    "en_url": "https://mirai-shigoto.com/en/sectors/noringyo"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/noringyo"
   },
   {
     "sector_id": "senmon",
     "ja": "専門・技術",
-    "en": "Specialist & Technical",
     "occupation_count": 51,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/senmon",
-    "en_url": "https://mirai-shigoto.com/en/sectors/senmon"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/senmon"
   },
   {
     "sector_id": "it",
     "ja": "IT・通信",
-    "en": "IT & Communications",
     "occupation_count": 22,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/it",
-    "en_url": "https://mirai-shigoto.com/en/sectors/it"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/it"
   },
   {
     "sector_id": "shigyo",
     "ja": "士業・経営・コンサル",
-    "en": "Professional Services & Management",
     "occupation_count": 63,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/shigyo",
-    "en_url": "https://mirai-shigoto.com/en/sectors/shigyo"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/shigyo"
   },
   {
     "sector_id": "creative",
     "ja": "クリエイティブ・メディア",
-    "en": "Creative & Media",
     "occupation_count": 37,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/creative",
-    "en_url": "https://mirai-shigoto.com/en/sectors/creative"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/creative"
   },
   {
     "sector_id": "jimu",
     "ja": "事務・公務",
-    "en": "Office & Public Service",
     "occupation_count": 57,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/jimu",
-    "en_url": "https://mirai-shigoto.com/en/sectors/jimu"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/jimu"
   },
   {
     "sector_id": "hanbai",
     "ja": "販売・営業",
-    "en": "Sales & Retail",
     "occupation_count": 41,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/hanbai",
-    "en_url": "https://mirai-shigoto.com/en/sectors/hanbai"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/hanbai"
   },
   {
     "sector_id": "service",
     "ja": "サービス・接客",
-    "en": "Service & Hospitality",
     "occupation_count": 41,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/service",
-    "en_url": "https://mirai-shigoto.com/en/sectors/service"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/service"
   },
   {
     "sector_id": "seizo",
     "ja": "製造・職人",
-    "en": "Manufacturing & Craft",
     "occupation_count": 59,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/seizo",
-    "en_url": "https://mirai-shigoto.com/en/sectors/seizo"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/seizo"
   },
   {
     "sector_id": "maint",
     "ja": "設備・保守",
-    "en": "Facilities & Maintenance",
     "occupation_count": 49,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/maint",
-    "en_url": "https://mirai-shigoto.com/en/sectors/maint"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/maint"
   },
   {
     "sector_id": "kensetu",
     "ja": "建設・土木",
-    "en": "Construction & Civil",
     "occupation_count": 20,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/kensetu",
-    "en_url": "https://mirai-shigoto.com/en/sectors/kensetu"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/kensetu"
   },
   {
     "sector_id": "keiseki",
     "ja": "軽作業・清掃",
-    "en": "Light Work & Cleaning",
     "occupation_count": 16,
-    "ja_url": "https://mirai-shigoto.com/ja/sectors/keiseki",
-    "en_url": "https://mirai-shigoto.com/en/sectors/keiseki"
+    "ja_url": "https://mirai-shigoto.com/ja/sectors/keiseki"
   }
 ]
