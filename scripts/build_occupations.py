@@ -36,6 +36,12 @@ DATA_PATH = REPO / "dist" / "data.detail"  # v1.0.8: per-occupation files (was R
 PROFILE5_PATH = REPO / "dist" / "data.profile5.json"
 TRANSFER_PATHS_PATH = REPO / "dist" / "data.transfer_paths.json"
 
+# Single source of truth for the site-wide footer. Edited via partials/footer.html
+# and propagated to static pages by scripts/build_partials.py; generated pages
+# (this script + build_sector_hubs.py + build_rankings.py) read it directly so
+# the same string lands everywhere.
+FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
+
 # Module-level caches populated by main() — used by render helpers (avoid threading
 # them through every helper signature). Reset each main() call.
 PROFILE5: dict = {}
@@ -1195,23 +1201,9 @@ def render_html(rec: dict, related: list[dict]) -> str:
         </div>
       </div>
 
-      <footer>
-        <div class="footer-links">
-          <a href="{home_href}">トップ</a>
-          <a href="/ja/sectors">セクター</a>
-          <a href="/ja/rankings">ランキング</a>
-        </div>
-        <div class="footer-links">
-          <a href="/about">データについて</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-            v1.3.0 · MIT<br />
-            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
-            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-        </div>
-      </footer>
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
 
     <script>

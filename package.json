@@ -11,7 +11,10 @@
     "build:data:full": "uv run python scripts/build_data.py --enable-future",
     "build:data:validate": "uv run python scripts/build_data.py --validate-only",
     "build:occ": "python3 scripts/build_occupations.py",
-    "build": "npm run build:data && npm run build:occ",
+    "build:footer": "python3 scripts/build_partials.py",
+    "build:sectors": "python3 scripts/build_sector_hubs.py",
+    "build:rankings": "python3 scripts/build_rankings.py",
+    "build": "npm run build:data && npm run build:footer && npm run build:occ && npm run build:sectors && npm run build:rankings",
     "test:data": "uv run python scripts/test_data_consistency.py",
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
     "test:spec": "node scripts/check_spec_vs_code.mjs"

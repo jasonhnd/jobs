@@ -32,6 +32,10 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 SECTORS_PATH = REPO / "data" / "sectors" / "sectors.ja-en.json"
+
+# Single source of truth for the site-wide footer (see partials/footer.html
+# and scripts/build_partials.py).
+FOOTER_PARTIAL = (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
 DETAIL_DIR = REPO / "dist" / "data.detail"
 OCC_MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"
 SECTOR_MANIFEST_PATH = REPO / "scripts" / ".sector_manifest.json"
@@ -463,23 +467,9 @@ def render_hub(sector: dict, occs: list[dict], all_sectors: list[dict], occ_coun
         {render_related_sectors(sid, all_sectors, occ_counts)}
       </section>
 
-      <footer>
-        <div class="footer-links">
-          <a href="{home_href}">トップ</a>
-          <a href="/ja/sectors">セクター</a>
-          <a href="/ja/rankings">ランキング</a>
-        </div>
-        <div class="footer-links">
-          <a href="{about_href}">データについて</a>
-          <a href="/compliance">コンプライアンス</a>
-          <a href="/privacy">プライバシー</a>
-        </div>
-        <div class="footer-meta">
-            v1.3.0 · MIT<br />
-            出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
-            <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
-        </div>
-      </footer>
+      <!-- FOOTER:START -->
+      {FOOTER_PARTIAL}
+      <!-- FOOTER:END -->
     </div>
   </body>
 </html>
