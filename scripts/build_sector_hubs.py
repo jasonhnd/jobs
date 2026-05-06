@@ -35,28 +35,30 @@ SECTORS_PATH = REPO / "data" / "sectors" / "sectors.ja-en.json"
 
 # Single source of truth for the site-wide footer (see partials/footer.html
 # and scripts/build_partials.py).
-def _get_last_commit_date() -> str:
-    """Return YYYY-MM-DD of the latest git commit. Used for footer 最終更新."""
+def _get_last_commit_datetime() -> tuple[str, str]:
+    """Return (display, iso) of latest git commit datetime, normalized to JST."""
+    import subprocess
+    from datetime import datetime, timedelta, timezone
+    jst = timezone(timedelta(hours=9))
     try:
-        import subprocess
-        from datetime import date as _date
         result = subprocess.run(
-            ["git", "log", "-1", "--format=%cs"],
+            ["git", "log", "-1", "--format=%cI"],
             capture_output=True, text=True, cwd=REPO, timeout=5,
         )
-        if result.returncode == 0:
-            stamp = result.stdout.strip()
-            if stamp:
-                return stamp
-        return _date.today().isoformat()
+        if result.returncode == 0 and result.stdout.strip():
+            dt = datetime.fromisoformat(result.stdout.strip()).astimezone(jst)
+            return dt.strftime("%Y/%m/%d/%H:%M"), dt.isoformat(timespec="seconds")
     except Exception:
-        from datetime import date as _date
-        return _date.today().isoformat()
+        pass
+    now = datetime.now(jst)
+    return now.strftime("%Y/%m/%d/%H:%M"), now.isoformat(timespec="seconds")
 
 
+_LAST_DISPLAY, _LAST_ISO = _get_last_commit_datetime()
 FOOTER_PARTIAL = (
     (REPO / "partials" / "footer.html").read_text(encoding="utf-8").rstrip("\n")
-    .replace("{{LAST_UPDATED}}", _get_last_commit_date())
+    .replace("{{LAST_UPDATED_ISO}}", _LAST_ISO)
+    .replace("{{LAST_UPDATED}}", _LAST_DISPLAY)
 )
 DETAIL_DIR = REPO / "dist" / "data.detail"
 OCC_MANIFEST_PATH = REPO / "scripts" / ".occ_manifest.json"

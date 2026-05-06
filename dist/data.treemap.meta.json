@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-05-06T10:04:10+00:00",
+  "generated_at": "2026-05-06T10:16:14+00:00",
   "record_count": 552,
   "filter": "occupations with stats_legacy AND latest ai score"
 }

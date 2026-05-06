@@ -27,35 +27,38 @@ from __future__ import annotations
 import re
 import subprocess
 import sys
-from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PARTIALS_DIR = ROOT / "partials"
 
 
-def get_last_commit_date() -> str:
-    """Return YYYY-MM-DD of the latest git commit on the current branch.
+def get_last_commit_datetime() -> tuple[str, str]:
+    """Return (display, iso) of latest git commit datetime, normalized to JST.
+
+    display: 'YYYY/MM/DD/HH:MM' (used for visible footer text)
+    iso:     'YYYY-MM-DDTHH:MM:00+09:00' (used in <time datetime="...">)
 
     Used to bake a visible "最終更新" timestamp into the footer of every page
-    on each Vercel build. Falls back to today's date if git is unavailable
-    (e.g., zip download / detached environment).
+    on each Vercel build. Falls back to current time if git is unavailable.
     """
+    from datetime import datetime, timedelta, timezone
+    jst = timezone(timedelta(hours=9))
     try:
         result = subprocess.run(
-            ["git", "log", "-1", "--format=%cs"],
+            ["git", "log", "-1", "--format=%cI"],  # ISO 8601 strict with TZ
             capture_output=True,
             text=True,
             cwd=ROOT,
             timeout=5,
         )
-        if result.returncode == 0:
-            stamp = result.stdout.strip()
-            if stamp:
-                return stamp
+        if result.returncode == 0 and result.stdout.strip():
+            dt = datetime.fromisoformat(result.stdout.strip()).astimezone(jst)
+            return dt.strftime("%Y/%m/%d/%H:%M"), dt.isoformat(timespec="seconds")
     except Exception:
         pass
-    return date.today().isoformat()
+    now = datetime.now(jst)
+    return now.strftime("%Y/%m/%d/%H:%M"), now.isoformat(timespec="seconds")
 
 # Static pages that consume the footer partial via marker comments.
 # Generated pages handle the partial directly inside their build script.
@@ -78,8 +81,12 @@ def load_partial(name: str) -> str:
     if not path.exists():
         raise FileNotFoundError(f"Partial not found: {path}")
     raw = path.read_text(encoding="utf-8").rstrip("\n")
-    # Substitute {{LAST_UPDATED}} placeholders with the latest git commit date.
-    return raw.replace("{{LAST_UPDATED}}", get_last_commit_date())
+    # Substitute {{LAST_UPDATED}} (display) and {{LAST_UPDATED_ISO}} (datetime).
+    display, iso = get_last_commit_datetime()
+    return (
+        raw.replace("{{LAST_UPDATED_ISO}}", iso)
+           .replace("{{LAST_UPDATED}}", display)
+    )
 
 
 def inject(html: str, name: str, partial: str) -> tuple[str, bool, bool]:
