@@ -1,10 +1,11 @@
 // api/og.tsx — Vercel Edge Function: dynamic Open Graph image for an occupation.
 //
-// GET /api/og?id=<occupation_id>&lang=<ja|en>
+// GET /api/og?id=<occupation_id>          — occupation card
+// GET /api/og?sector=<sector_id>          — sector hub card
 //
 //   Renders a 1200×630 PNG card carrying:
 //     - the occupation's AI-risk number on a risk-band-colored block
-//     - JA + EN occupation names
+//     - JA occupation name (v1.4.0: site is JA-only, EN dropped)
 //     - workforce + average annual salary
 //     - UNOFFICIAL banner + site mark
 //
@@ -17,6 +18,8 @@
 // a per-occupation /data.detail/<padded>.json fetch (~3.5 KB gz each). One
 // edge function instance no longer pulls the entire dataset just to render
 // one card.
+//
+// v1.4.0: removed `lang=en` parameter handling — site is JA-only.
 //
 // Vercel CDN caches each unique URL. First request ≈ 200–500 ms (cold start +
 // font fetch); subsequent identical requests are CDN hits.
@@ -60,18 +63,19 @@ function fmtNumber(n: number): string {
 
 // Shape of /data.detail/<padded>.json (DetailProjectionSchema; see DATA_ARCHITECTURE.md §6.2).
 // Only the fields actually consumed by the OG card are typed here — the JSON has more.
+// v1.4.0: dropped title.en / ai_rationale_en (site is JA-only).
 interface DetailRecord {
   id: number;
-  title?: { ja?: string; en?: string | null };
-  ai_risk?: { score?: number; rationale_ja?: string; rationale_en?: string } | null;
+  title?: { ja?: string };
+  ai_risk?: { score?: number; rationale_ja?: string } | null;
   stats?: { workers?: number | null; salary_man_yen?: number | null } | null;
 }
 
 // Shape of /data.sectors.json — used by the sector-card branch (Phase 9).
+// v1.4.0: dropped sector.en (site is JA-only).
 interface SectorRecord {
   id: string;
   ja: string;
-  en: string;
   hue: "safe" | "mid" | "warm";
   occupation_count: number;
   mean_ai_risk: number;
@@ -96,7 +100,7 @@ function padId(idDigits: string): string {
 }
 
 // Phase 9: sector hub OG card. Source = /data.sectors.json (16-sector projection).
-async function renderSectorCard(url: URL, sectorId: string, lang: "ja" | "en"): Promise<Response> {
+async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
   if (!/^[a-z_]+$/.test(sectorId)) {
     return new Response("Bad request: invalid sector id", { status: 400 });
   }
@@ -113,28 +117,18 @@ async function renderSectorCard(url: URL, sectorId: string, lang: "ja" | "en"): 
   }
 
   const accent = SECTOR_HUE_COLOR[sector.hue] ?? "#6E9B89";
-  const nameLoc = lang === "en" ? sector.en : sector.ja;
-  const nameAlt = lang === "en" ? sector.ja : sector.en;
+  const nameLoc = sector.ja;
   const siteMark = "mirai-shigoto.com";
 
-  const headlineLabel = lang === "ja" ? "業界 / SECTOR" : "INDUSTRY SECTOR";
-  const countLabel =
-    lang === "ja"
-      ? `${sector.occupation_count} 職業`
-      : `${sector.occupation_count} occupations`;
-  const riskLabel =
-    lang === "ja"
-      ? `平均 AI 影響 ${sector.mean_ai_risk.toFixed(1)} / 10`
-      : `mean AI impact ${sector.mean_ai_risk.toFixed(1)} / 10`;
-  const workforceLabel =
-    lang === "ja"
-      ? `就業者 計 ${fmtNumber(sector.total_workforce)} 人`
-      : `Workforce ${fmtNumber(sector.total_workforce)}`;
+  const headlineLabel = "業界 / SECTOR";
+  const countLabel = `${sector.occupation_count} 職業`;
+  const riskLabel = `平均 AI 影響 ${sector.mean_ai_risk.toFixed(1)} / 10`;
+  const workforceLabel = `就業者 計 ${fmtNumber(sector.total_workforce)} 人`;
 
   const samples = (sector.sample_titles_ja ?? []).slice(0, 3).join("　・　");
 
   const subsetText =
-    `UNOFFICIAL ${siteMark} ${nameLoc} ${nameAlt} ${headlineLabel} ` +
+    `UNOFFICIAL ${siteMark} ${nameLoc} ${headlineLabel} ` +
     `${countLabel} ${riskLabel} ${workforceLabel} ${samples} ・ /`;
 
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
@@ -227,18 +221,6 @@ async function renderSectorCard(url: URL, sectorId: string, lang: "ja" | "en"): 
           >
             {nameLoc}
           </div>
-          {nameAlt ? (
-            <div
-              style={{
-                fontSize: "32px",
-                color: C.muted,
-                fontWeight: 500,
-                marginTop: "12px",
-              }}
-            >
-              {nameAlt}
-            </div>
-          ) : null}
           {samples ? (
             <div
               style={{
@@ -294,11 +276,10 @@ export default async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const sectorParam = url.searchParams.get("sector");
   const idParam = url.searchParams.get("id");
-  const lang = url.searchParams.get("lang") === "en" ? "en" : "ja";
 
-  // Phase 9: sector-card branch — /api/og?sector=<sector_id>&lang=<ja|en>
+  // Phase 9: sector-card branch — /api/og?sector=<sector_id>
   if (sectorParam) {
-    return renderSectorCard(url, sectorParam, lang);
+    return renderSectorCard(url, sectorParam);
   }
 
   if (!idParam || !/^\d+$/.test(idParam)) {
@@ -319,29 +300,20 @@ export default async function handler(req: Request): Promise<Response> {
 
   const risk = rec.ai_risk?.score ?? null;
   const riskColor = risk != null ? (RISK_COLORS[risk] ?? "#8a93a3") : "#8a93a3";
-  const nameJa = rec.title?.ja ?? "";
-  const nameEn = rec.title?.en ?? "";
+  const primaryName = rec.title?.ja ?? "";
   const workers = rec.stats?.workers ?? 0;
   const salary = rec.stats?.salary_man_yen ?? 0;
 
-  const primaryName = lang === "ja" ? nameJa : (nameEn || nameJa);
-  const subName = lang === "ja" ? nameEn : nameJa;
-  const riskLabel = lang === "ja" ? "AI 影響" : "AI Impact";
-  const workersLabel =
-    lang === "ja"
-      ? `就業者 ${fmtNumber(workers)} 人`
-      : `Workforce ${fmtNumber(workers)}`;
-  const salaryLabel =
-    lang === "ja"
-      ? `平均年収 ${salary} 万円`
-      : `Avg salary ${salary} 万円`;
+  const riskLabel = "AI 影響";
+  const workersLabel = `就業者 ${fmtNumber(workers)} 人`;
+  const salaryLabel = `平均年収 ${salary} 万円`;
   const siteMark = "mirai-shigoto.com";
   const riskNumberStr = risk != null ? String(risk) : "—";
 
   // Subset string covers every glyph we are about to render. This keeps the
   // Google Fonts fetch tiny (a few KB instead of ~3 MB for full Noto Sans JP).
   const subsetText =
-    `UNOFFICIAL ${siteMark} ${primaryName} ${subName} ${riskLabel} ` +
+    `UNOFFICIAL ${siteMark} ${primaryName} ${riskLabel} ` +
     `${workersLabel} ${salaryLabel} ${riskNumberStr} / 10 ·`;
 
   // v1.2.0 Direction C convergence: serif for the occupation name, sans for everything else.
@@ -480,11 +452,6 @@ export default async function handler(req: Request): Promise<Response> {
             >
               {primaryName}
             </div>
-            {subName ? (
-              <div style={{ fontSize: "30px", color: C.muted, fontWeight: 500 }}>
-                {subName}
-              </div>
-            ) : null}
           </div>
         </div>
 
