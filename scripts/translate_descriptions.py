@@ -1,6 +1,12 @@
 """translate_descriptions.py — fill data/translations/en/<id>.json long-form fields.
 
-Per docs/MOBILE_DESIGN.md §9.3 + DATA_ARCHITECTURE.md §2.4 (v1.1.0 extension).
+DEAD CODE since v1.4.0 (JA-only). Was used to fill EN long-form
+fields per the v1.1.0 extension (former MOBILE_DESIGN.md §9.3 + still-live
+DATA_ARCHITECTURE.md §2.4). v1.4.0 archived all EN translations to
+`data/_archive/translations-en/`; this script no longer has a destination
+that ships to production. MOBILE_DESIGN.md itself was deleted 2026-05-06.
+Safe to delete this script in a follow-up cleanup, or repurpose it if EN
+is ever revived from the archive.
 
 Source       : data/occupations/<padded>.json -> description.{what_it_is_ja,
                how_to_become_ja, working_conditions_ja}

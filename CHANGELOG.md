@@ -10,6 +10,138 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Dangling MOBILE_DESIGN.md ref cleanup — DEAD CODE markers (no behavior change)
+
+**Doc/comment-only. No runtime change.** Follow-up to the doc split:
+when `docs/MOBILE_DESIGN.md` was deleted, 11 source files retained
+comment-only references to it. None of them imported or read the doc;
+all references were docstrings or inline explanatory comments. All
+updated in place to remove the broken reference and add a clear
+`DEAD CODE since vX.Y.Z` marker so a future reader knows what to do.
+
+**No `scripts/templates/mobile/*.py` was deleted** — the directory is
+verified-dead (no `m/` output dir exists, sitemap.xml has 0 mentions,
+vercel.json has 0 `/m/` rules, only one mention in `build_occupations.py`
+is an attribution comment for a copied algorithm), but deletion is
+deferred to an explicit follow-up cleanup PR; this pass marks status
+without removing source. Same for `scripts/translate_descriptions.py`
+(EN translations archived to `data/_archive/translations-en/` in v1.4.0)
+and `styles/mobile-tokens.json` (0 known consumers, but the parallel
+`.css` IS live).
+
+Per-file changes:
+
+- **`scripts/templates/mobile/{home,explore,search,detail,compare,ranking,about}.py`**
+  (7 files) — top docstring "[number] [name] — `/m/{ja,en}/<path>` per
+  MOBILE_DESIGN.md §X" rewritten to "[number] [name] — `/m/{ja,en}/<path>`.
+  DEAD CODE since v1.2.0." plus a paragraph explaining the v1.1.0
+  origin, v1.2.0 retirement, MOBILE_DESIGN.md deletion date, and that
+  `Design-Mobile.md` is the current spec but for the responsive
+  single-URL design (NOT this `/m/*` template). `explore.py` got an
+  extra disambiguation note that the new `Design-Mobile.md §4 /map`
+  page is unrelated to this old `/m/*/map` template. `detail.py` got
+  an extra note that `build_occupations.py` line ~258 holds an
+  algorithm copy that remains live and won't break.
+- **`scripts/templates/mobile/detail.py:47`** — secondary inline
+  comment on `QUOTE_BY_SECTOR_JA` updated from "(v1.1.x — see
+  MOBILE_DESIGN.md §8)" to "(v1.1.x — DEAD CODE since v1.2.0; spec
+  doc MOBILE_DESIGN.md deleted 2026-05-06)".
+- **`scripts/dev-server.py`** — comment above the `/m/{ja,en}/*`
+  routing block (lines 80-99 in current file) rewritten to a
+  multi-line DEAD CODE marker explaining the block is unreachable
+  in production (no `m/` dir built, no vercel.json rules, sitemap
+  zero mentions) and is safe to delete in cleanup.
+- **`scripts/translate_descriptions.py`** — header docstring "Per
+  docs/MOBILE_DESIGN.md §9.3 + DATA_ARCHITECTURE.md §2.4 (v1.1.0
+  extension)" rewritten to "DEAD CODE since v1.4.0 (JA-only)" with
+  full explanation of the EN archive in v1.4.0 and that
+  DATA_ARCHITECTURE.md §2.4 is still-live for reference.
+- **`styles/mobile-tokens.json`** — `$meta.description` field
+  rewritten to drop the MOBILE_DESIGN.md ref and explicitly note
+  that this `.json` mirror has 0 known consumers (the parallel
+  `.css` is the live token source).
+- **`styles/mobile-tokens.css`** — header comment block fully
+  rewritten. Removed `Spec : docs/MOBILE_DESIGN.md §2 (tokens)` and
+  `Editing rule (per docs/MOBILE_DESIGN.md §15):` lines. Added new
+  Origin/Scope notes documenting that this file was authored as a
+  v1.1.0 mobile-only token set but PROMOTED in v1.2.0 PC convergence
+  to be the **live site-wide token source** (referenced from
+  index.html / about.html / privacy.html / compliance.html / 404.html
+  and all 556 ja/<id>.html pages via the `synced from
+  styles/mobile-tokens.css` comment pattern). The "mobile-tokens"
+  filename is now historical; the file is desktop-and-mobile.
+  Filename retained because 559+ HTML files quote it; renaming would
+  require a coordinated repo-wide sweep + production verification.
+- **`scripts/build_occupations.py:258`** — attribution comment
+  "Algorithm copied from scripts/templates/mobile/detail.py to
+  ensure visual parity." extended with a parenthetical noting the
+  source template is DEAD CODE since v1.2.0 but the copy here is
+  independent and remains live.
+
+After this pass: 26 remaining mentions of `MOBILE_DESIGN.md` across
+13 files, all intentional (history records in CHANGELOG / Design.md
+/ Design-Mobile.md, plus DEAD CODE explanatory markers in the code
+files above).
+
+### Design doc split — `Design.md` (desktop + shared) / `Design-Mobile.md` (mobile)
+
+**Doc-only. No code yet.** With the `/map` page spec landing in §16
+the mobile content in `docs/Design.md` had grown past half the
+document. Split into two peer files so each device has a clear
+authority boundary, and the archived v1.1.0 `MOBILE_DESIGN.md`
+that was orphaned for 4 months gets retired.
+
+Decisions (Q1 = C / Q2 = A / Q3 = B):
+
+- **`docs/Design.md`** keeps desktop-only sections (§6.1 Desktop
+  tooltip, §7.12 Desktop Hero, §7.14 404) **plus the cross-device
+  shared layer** that both files reference: §1 principles, §2
+  tokens (color / typography / spacing), §3 theme system, §4
+  responsive breakpoint definitions, §5 treemap visualization,
+  §6.4 viewport overflow handling, §7 generic components, §9-§13
+  motion / a11y / assets / palette guidelines.
+- **`docs/Design-Mobile.md`** (NEW) is the mobile authority. §1
+  was old §7.11 Mobile Hero (Variant C). §2 was old §6.2 / §6.3
+  / §6.5 / §6.6 / §6.7 — full touch-mode tooltip behavior
+  (touch-mode entry, tap-outside, close-button hit area, CTA
+  contract, scroll-vs-tap state machine). §3 was old §8 — all
+  mobile responsive rules across ≤768 / ≤480 / ≤360 / ≤540. §4
+  was the §16 `/map` page spec, renumbered to §4.0–§4.14.
+- Migrated sections in `Design.md` are now **stub headings with
+  cross-doc links** — section numbers stay (§6.2, §6.3, §6.5,
+  §6.6, §6.7, §7.11, §8, §16) so any external references don't
+  break, but their bodies say "moved to Design-Mobile.md §X".
+  Section numbers preserved means downstream PRs that reference
+  them keep working.
+- §7.12 Desktop Hero had two intra-doc references (`§7.11` for
+  mobile hero pairing, `§6.7` for the touch state machine
+  constants `TAP_SLOP_PX=10` / `TAP_MAX_MS=500`). Both updated
+  to point to `Design-Mobile.md §1` and `§2.5` respectively.
+- `docs/MOBILE_DESIGN.md` deleted (Q1 = C). It documented the
+  v1.1.0 `/m/ja/*` and `/m/en/*` URL architecture that was
+  fully retired in v1.2.0 (single-URL responsive). After v1.4.0
+  killed the EN UI, MOBILE_DESIGN.md had been an
+  orphan-since-2026-01 archive with zero active references in
+  HTML / CSS / runtime code. Stale doc-references in
+  `scripts/dev-server.py`, `scripts/translate_descriptions.py`,
+  `scripts/templates/mobile/*.py`, and `styles/mobile-tokens.json`
+  remain as comment-only mentions — those scripts/templates are
+  themselves dead code from the v1.1.0 era and a follow-up
+  cleanup PR should retire them or update the comments.
+- `docs/Design.md` head, §0 适用范围, and §0.1 (was "与
+  MOBILE_DESIGN.md 的关系", now "与 Design-Mobile.md 的分工")
+  all rewritten to reflect the new two-file model. The §0.1
+  table now describes a content-split (desktop-only + shared vs.
+  mobile-only) rather than the old design-language-split (data
+  dashboard vs. Direction C Warm Editorial).
+- `docs/Design.md` §15 修订历史 + `docs/Design-Mobile.md` §6
+  修订历史 both record this split with date 2026-05-06 + the
+  Q1/Q2/Q3 decisions inline.
+
+**Net effect on Design.md.** ~1118 lines → 734 lines. Mobile
+content extracted to a 451-line peer file. No semantic content
+lost; cross-references all updated.
+
 ### `/map` 独立页（mobile-first）— design spec only
 
 **Design only. No code yet.** Spec written into `docs/Design.md` §16

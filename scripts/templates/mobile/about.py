@@ -1,4 +1,13 @@
-"""⑩ この企画について — `/m/{ja,en}/about` per MOBILE_DESIGN.md §5.7.
+"""⑩ この企画について — `/m/{ja,en}/about`. DEAD CODE since v1.2.0.
+
+DEAD CODE: v1.1.0 mobile-web template for the retired `/m/*` URL
+architecture. Replaced by single-URL responsive design in v1.2.0; no
+`/m/` directory has been built or shipped since. Spec doc
+`docs/MOBILE_DESIGN.md` deleted 2026-05-06 (current mobile spec lives
+in `docs/Design-Mobile.md`, but covers the responsive design, not this
+`/m/*` template). Entire `scripts/templates/mobile/` directory is safe
+to delete in a follow-up cleanup.
+
 
 This is the simplest screen — pure static content, no data dependency.
 Used as the pipeline-validation screen because if About renders correctly,

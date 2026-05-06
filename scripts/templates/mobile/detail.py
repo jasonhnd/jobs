@@ -1,4 +1,15 @@
-"""④/⑤ 職業詳細 — `/m/{ja,en}/<id>` per MOBILE_DESIGN.md §5.4 + §6.
+"""④/⑤ 職業詳細 — `/m/{ja,en}/<id>`. DEAD CODE since v1.2.0.
+
+DEAD CODE: v1.1.0 mobile-web template for the retired `/m/*` URL
+architecture. Replaced by single-URL responsive design in v1.2.0; no
+`/m/` directory has been built or shipped since. Spec doc
+`docs/MOBILE_DESIGN.md` deleted 2026-05-06 (current mobile spec lives
+in `docs/Design-Mobile.md`, but covers the responsive design, not this
+`/m/*` template). Entire `scripts/templates/mobile/` directory is safe
+to delete in a follow-up cleanup. Note: `scripts/build_occupations.py`
+copied an algorithm from this file in v1.2.0 convergence (see comment at
+that file's line ~258); the copy is independent and won't break.
+
 
 Per-occupation page generated for each id × language. Loaded statically
 (not as an island) — all data inlined at build time. Rendered by
@@ -33,7 +44,7 @@ from lib.mobile_render import (  # type: ignore[import-not-found]
 )
 
 
-# Hardcoded "人にしかできない仕事" sentence per sector (v1.1.x — see MOBILE_DESIGN.md §8).
+# Hardcoded "人にしかできない仕事" sentence per sector (v1.1.x — DEAD CODE since v1.2.0; spec doc MOBILE_DESIGN.md deleted 2026-05-06).
 QUOTE_BY_SECTOR_JA: dict[str, str] = {
     "iryo":     "観察と判断、患者との信頼関係 — 人の手と心が、医療の核心。",
     "fukushi":  "尊厳に寄り添う仕事は、効率化されないからこそ価値がある。",
