@@ -271,6 +271,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -459,6 +470,22 @@
         <div class="risk-rationale">ラーメン調理、手仕事</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">ラーメン調理人の中核業務は、獣骨・肉・魚介を煮たスープ作り、麺ゆで、具の調理、盛付け、自家製麺の打ち（製麺技能士保有店）、店舗清掃、店主としての味の体得です。Top スキルは傾聴力 3.25・説明力 2.61・他者の反応の理解 2.58・指導 2.58・読解力 2.37、能力ではトラブル察知 3.05・持久力 2.83・手首と指の速度 2.68・反応 2.61 と、火力管理と素早い手作業に重みがあります。MHLW も「ラーメンという食べ物は地域やお店の個性により、味等が大きく異なるため、特に独立志向の場合、様々な店で修行しその中で自分の『味』をつかみ、個性ある店作りを目指すケースも見受けられる」と明記し、店主の味創りは AI に代替困難です。3/10 という低めのスコアは、AI がチェーン店の発注・在庫・原価管理を支援しつつ、調理は人間に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>発注・在庫の自動最適化</li><li>原価管理・売上分析</li><li>予約・席管理</li><li>メニュー・季節企画支援</li><li>セントラルキッチンの工程管理</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>獣骨・魚介スープの仕込み</li><li>麺ゆで時間と火力の判断</li><li>店主の独自レシピ開発</li><li>盛付けの個性表現</li><li>自家製麺の打ち技</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI がチェーン店の発注・原価管理を支援しますが、独立店の味創りは調理人に残ります。海外出店拡大で大手チェーンの調理人需要が伸び、製麺技能士保有者の市場価値が高まります。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>227,809 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,695,000（369 万円）</dd></div>
@@ -582,7 +609,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

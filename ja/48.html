@@ -273,6 +273,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -461,6 +472,22 @@
         <div class="risk-rationale">エレベーター据付は現場仕事</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 2/10 か</h2>
+        <p class="ai-rationale-long">エレベーター据付の中核業務は、工場製作された機器類の現場搬入、揚重、芯出し、ガイドレール取付、機械室内機器据付、かご・つり合い重り組立、電気配線・通線・結線、調整・試運転、行政竣工検査の連続工程です。Top スキルは修理 4.7・故障原因特定 4.24・保守点検 3.96・道具/機器の選択 3.86・設置と設定 3.74・操作と制御 3.56 と、機械据付と試運転調整に重みがあります。MHLW も「世界中に高層ビルが存在し、その内部には高速エレベーターが設置されているが、その多くは日本のメーカーの製品が導入されており、速度だけでなく、安全で快適な環境を提供している」と明記し、安全確保のための現場調整は AI に代替困難です。2/10 という低スコアは、AI が補助しうるのは据付計画・部品管理・検査記録に限られ、現場の組立と試運転は据付工に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>据付計画・スケジューリング</li><li>部品・材料の管理</li><li>検査記録の自動化</li><li>竣工書類の作成</li><li>工程管理</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>機器の揚重・芯出し</li><li>ガイドレール・かごの組立</li><li>電気配線の現場結線</li><li>試運転の安全調整</li><li>故障時の原因特定・修理</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が据付計画・部品管理・検査記録を支援しますが、組立と試運転は据付工に残ります。高層ビル建設と既存エレベーターの更新需要で底堅く、個人住宅向けホームエレベーターの普及で市場が拡大します。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>111,457 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,913,000（491 万円）</dd></div>
@@ -583,7 +610,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

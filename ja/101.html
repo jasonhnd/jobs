@@ -272,6 +272,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -460,6 +471,22 @@
         <div class="risk-rationale">すし職人、手仕事の極み</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">すし職人の中核業務は、魚市場でのすし種仕入れ、ネタの仕込み（味の決定要因）、シャリ（酢飯）の炊き上げと味付け、つけ場での包丁・巻き簀によるにぎりずし・巻きずし・ちらしずしの調製、お客との対話接客、回転すし大型店での調理です。Top スキルは傾聴力 3.48・読解力 3.02・指導 2.82・文章力 2.66、能力では指先の器用さ 3.12・手腕の器用さ 2.88・トラブル察知 2.88・手首と指の速度 2.88・アイデアの豊富さ 2.76 と、繊細な手作業と感性に重みがあります。MHLW も「仕込みによってすしの味が決まると言われるだけあってこの仕事は極めて大切な過程」と明記し、ネタの目利きと仕込みは AI に代替困難です。3/10 という低めのスコアは、AI が回転すし大型店の発注・在庫を支援しつつ、にぎりは職人に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>発注・在庫の自動最適化</li><li>予約・席管理の自動化</li><li>顧客嗜好データ分析</li><li>回転すし在庫の自動補充</li><li>メニュー・季節企画支援</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>魚市場での目利き仕入れ</li><li>ネタの仕込みと熟成</li><li>シャリの炊き上げと調味</li><li>つけ場でのにぎり調製</li><li>客との対面接客</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が回転すし大型店の発注・在庫管理を支援しますが、にぎり調製とネタ仕込みは職人に残ります。個人経営は減少傾向、回転すしと持ち帰り・宅配ずしへの集約が進む中、高級店の職人需要は維持されます。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>227,809 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,695,000（369 万円）</dd></div>
@@ -579,7 +606,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

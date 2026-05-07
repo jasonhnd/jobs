@@ -270,6 +270,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -458,6 +469,22 @@
         <div class="risk-rationale">ワイン醸造は職人技と土地に依存</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 2/10 か</h2>
+        <p class="ai-rationale-long">ワイン製造の中核業務は、ブドウの選別から発酵タンクへの仕込み、諸味の温度・アルコール度測定、利き酒、皮の沈下、熟成、濾過、樽詰めの長期工程です。Top スキルは傾聴力 4.21・クオリティチェック 4.13・修理 4.08・継続的観察 3.96・指導 3.96 と、品質判断と機械保守の両方を担う職業構造です。MHLW も「人間の勘や経験が重要」「経験を積んで利き酒能力を磨くことが大切」と明記し、ブドウ品質の選別・発酵の進行確認・利き酒による品質判定は AI に代替困難です。2/10 という低スコアは、AI が支援しうるのは収穫スケジューリング・販売管理・通販・観光ワイナリー集客に限られ、9-11 月の収穫繁忙期の現場判断は引き続きワインメーカー本人に残ることを示します。国産ワインの品質向上で需要は底堅い見込みです。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>収穫スケジューリング・出荷予測</li><li>販売管理・通販対応</li><li>観光ワイナリー集客 SNS</li><li>在庫・熟成期間の管理</li><li>ラベル・栽培記録の作成</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>ブドウの品質・熟度の選別</li><li>諸味の温度・進行状況の判断</li><li>利き酒による品質判定</li><li>樽の詰め替え・濾過の手作業</li><li>仕込み機械の保守・修理</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が出荷予測・販売・観光集客を支援しますが、ブドウ選別から利き酒までの判断はワインメーカーに残ります。国産ワインの品質向上で需要は底堅く、輸入品との分化が進みます。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>15,050 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,662,000（366 万円）</dd></div>
@@ -578,7 +605,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

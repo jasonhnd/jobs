@@ -280,6 +280,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -468,6 +479,22 @@
         <div class="risk-rationale">百貨店接客、対面販売</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 4/10 か</h2>
+        <p class="ai-rationale-long">デパート店員の中核業務は、商品の陳列・ディスプレイ、来店客のニーズ把握、商品知識に基づく説明・アドバイス、レジ対応、苦情処理、顧客情報の収集、訪日観光客（インバウンド）への接客、売れ筋を見極めた在庫管理です。Top スキルは傾聴力 4.17・説明力 3.25・他者の反応の理解 3.0、能力ではトラブル察知 3.19・発話表現 3.03・発話理解 2.90 と、対面接客と商品知識に重みがあります。MHLW も「客と直に接するため、店あるいは企業のイメージや信頼性を左右する」「外国人観光客に対する接客も重要な業務」と明記し、インバウンド対応や個別アドバイスは AI に代替困難です。4/10 という中程度スコアは、AI が在庫管理・売れ筋分析・多言語翻訳・販促企画を 30-50% 効率化する一方、対面の商品アドバイスと顧客情報収集は店員に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>在庫管理・発注最適化</li><li>売れ筋データの分析</li><li>多言語接客の翻訳支援</li><li>販促文書・SNS 発信</li><li>顧客情報の整理</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>対面での商品アドバイス</li><li>客のニーズの聞き取り判断</li><li>ディスプレイ・陳列の演出</li><li>苦情処理の現場対応</li><li>VIP 客との関係構築</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が在庫・分析・多言語翻訳・販促を 30-50% 効率化しますが、対面アドバイスとディスプレイ演出は店員に残ります。インバウンド需要拡大で都市部デパートの接客需要が伸び、感性と商品知識を持つベテランが希少化します。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>143,090 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,694,000（369 万円）</dd></div>
@@ -590,7 +617,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

@@ -238,6 +238,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -426,6 +437,22 @@
         <div class="risk-rationale">陸上自衛官、現場任務中心</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">陸上自衛官の中核業務は、外国侵略への防衛、災害派遣（人命救助・物資補給）、普通科（地上戦闘骨幹）・機甲科（戦車・偵察）・特科（火力戦闘）等の戦闘部隊勤務、需品・通信・武器・輸送等の自己完結インフラ職種、PKO・国際緊急援助、訓練です。Top スキルは傾聴力 4.42・指導 4.33・他者調整 4.21・読解力 4.14・説明力 4.04・文章力 4.0、能力では持久力 3.71・トラブル察知 3.33・筋力 3.24・平衡感覚 3.19 と、対人指導力と身体能力に集中しています。MHLW も「集団で活動することが多い。部隊として連携し、組織的に行動することが求められる。連帯感や忍耐力、国を守るという責任感も大切」と明記し、現場戦闘・救助は AI に代替困難です。3/10 という低めのスコアは、AI が訓練計画・補給管理を支援しつつ、現場任務は自衛官に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>訓練計画・スケジュール管理</li><li>補給・需品の在庫管理</li><li>通信ネットワーク監視</li><li>事務系業務の自動化</li><li>情報収集・分析</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>戦闘・偵察任務</li><li>災害派遣での人命救助</li><li>PKO・国際緊急援助</li><li>戦車・火砲操作</li><li>部隊連携の現場指揮</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が訓練計画・補給管理・情報分析を支援しますが、現場戦闘と災害救助は自衛官に残ります。防衛力強化と災害派遣需要で約 13 万 1 千人体制が維持され、女性自衛官の職域拡大が業界の構造変化となります。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>76,793 人</dd></div>
         <div><dt>年収（平均）</dt><dd>—（— 万円）</dd></div>
@@ -553,7 +580,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

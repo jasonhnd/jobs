@@ -273,6 +273,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -461,6 +472,22 @@
         <div class="risk-rationale">ホームセンター店員、商品案内</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 4/10 か</h2>
+        <p class="ai-rationale-long">ホームセンター店員の中核業務は、DIY 用品・木材・建材・道具・塗料・水道電気用品・園芸用品・ペット用品など幅広い商品の販売、補修・改善方法のアドバイス、商品安全性の説明、補充発注、特売商品の企画ディスプレイ、省エネ・防災キットの推奨です。Top スキルは傾聴力 3.96・説明力 3.10・読解力 2.93・指導 2.91、能力ではトラブル察知 3.32・発話表現 3.07・筋力 2.98 と、幅広い商品知識と立ち作業に重みがあります。MHLW も「住まいに関する顧客の疑問、質問、相談は千差万別で、多岐に渡る」「住まいの手入れ、補修に関するノウハウや商品知識、使い方など幅広い知識が必要」と明記し、DIY 質問への現場アドバイスは AI に代替困難です。4/10 という中程度スコアは、AI が商品検索・補充発注・売れ筋分析を支援しつつ、DIY 相談は店員に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>商品検索・在庫照会</li><li>補充発注・特売企画</li><li>売れ筋・廃棄ロス分析</li><li>POP・販促文書の作成</li><li>顧客リスト・会員管理</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>DIY 質問への現場アドバイス</li><li>工具・建材の使用方法説明</li><li>省エネ・防災キットの提案</li><li>重い商品の店頭運搬</li><li>高齢者・初心者への個別案内</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が商品検索・補充発注・販促を支援しますが、DIY 相談と現場アドバイスは店員に残ります。ホームセンターは年々店舗数が増加し、住宅の DIY 需要と防災ニーズで業界全体は底堅く伸び、DIY アドバイザーの価値が高まります。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>143,090 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,694,000（369 万円）</dd></div>
@@ -581,7 +608,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

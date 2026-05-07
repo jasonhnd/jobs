@@ -155,6 +155,12 @@ def _load_legacy_shape_corpus() -> list[dict]:
             "related_orgs":    d.get("related_orgs", []),        # [{name_ja, url}]
             "related_certs_ja": d.get("related_certs_ja", []),
             "data_source_versions": d.get("data_source_versions", {}),
+            # v1.3.x AI rationale enrichment fields (Phase 1 SEO).
+            # Optional — pre-enrichment files lack these; render_html falls back gracefully.
+            "ai_rationale_long_ja":     ai.get("rationale_long_ja"),
+            "ai_displaceable_tasks_ja": ai.get("displaceable_tasks_ja", []),
+            "ai_resilient_tasks_ja":    ai.get("resilient_tasks_ja", []),
+            "ai_horizon_5y_ja":         ai.get("horizon_5y_ja"),
         })
     return out
 
@@ -644,6 +650,50 @@ def _render_provenance(rec: dict) -> str:
     return f'<p class="provenance">{" · ".join(bits)}</p>'
 
 
+def _render_ai_risk_detail(rec: dict) -> str:
+    """Render the long-form AI risk rationale section (Phase 1 SEO).
+
+    Returns empty string when ai_rationale_long_ja is absent so that
+    pre-enrichment pages remain renderable without the new section.
+    All LLM-supplied text is escape()-wrapped to neutralize stray HTML.
+    """
+    long_text = rec.get("ai_rationale_long_ja")
+    if not long_text:
+        return ""
+
+    displaceable = rec.get("ai_displaceable_tasks_ja") or []
+    resilient = rec.get("ai_resilient_tasks_ja") or []
+    horizon = rec.get("ai_horizon_5y_ja") or ""
+    score = rec.get("ai_risk")
+    score_disp = f"{score}/10" if score is not None else "—"
+
+    disp_lis = "".join(f"<li>{escape(t)}</li>" for t in displaceable)
+    resi_lis = "".join(f"<li>{escape(t)}</li>" for t in resilient)
+    horizon_html = (
+        f'<p class="ai-horizon"><strong>5-10 年展望:</strong> {escape(horizon)}</p>'
+        if horizon
+        else ""
+    )
+
+    return (
+        '<section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">\n'
+        f'        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 {escape(score_disp)} か</h2>\n'
+        f'        <p class="ai-rationale-long">{escape(long_text)}</p>\n'
+        '        <div class="ai-task-grid">\n'
+        '          <div class="ai-task-block">\n'
+        '            <h3>AI に置き換わりやすい業務</h3>\n'
+        f'            <ul>{disp_lis}</ul>\n'
+        '          </div>\n'
+        '          <div class="ai-task-block">\n'
+        '            <h3>人が残る業務</h3>\n'
+        f'            <ul>{resi_lis}</ul>\n'
+        '          </div>\n'
+        '        </div>\n'
+        f'        {horizon_html}\n'
+        '      </section>'
+    )
+
+
 def render_jsonld(rec: dict) -> str:
     """Render Schema.org JSON-LD for the JA occupation page."""
     id_ = rec["id"]
@@ -858,6 +908,17 @@ CSS_BLOCK = """
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -1235,6 +1296,7 @@ def render_html(rec: dict, related: list[dict]) -> str:
         if kw_terms else ""
     )
     meta_row_html   = _render_meta_row(rec)
+    ai_risk_detail_html = _render_ai_risk_detail(rec)
     profile_html    = _render_profile_radar(rec)
     topn_html       = _render_topn(rec)
     faq_html        = _render_occ_faq(rec)
@@ -1331,6 +1393,8 @@ def render_html(rec: dict, related: list[dict]) -> str:
         </div>
         <div class="risk-rationale">{escape(rationale)}</div>
       </div>
+
+      {ai_risk_detail_html}
 
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>{st_workers}</dt><dd>{workers_cell}</dd></div>
