@@ -1,0 +1,252 @@
+---
+/**
+ * src/pages/ja/sectors/index.astro — sector hub-of-hubs index page.
+ *
+ * Migrated from scripts/build_sector_hubs.py (render_sectors_index function),
+ * which generated ja/sectors/index.html. Lists all 16 sectors with stats.
+ *
+ * Inline CSS preserved verbatim from the source HTML (CSS_BLOCK + sector-card
+ * additions). Footer is replaced by the shared <Footer /> component; analytics
+ * + meta + JSON-LD come from BaseLayout.
+ *
+ * Data source: dist/data.sectors.json (sector definitions + aggregates).
+ */
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+
+const SITE = 'https://mirai-shigoto.com';
+
+// Load data.sectors.json (matches Python render_sectors_index input shape).
+const sectorsRaw = JSON.parse(
+  readFileSync(join(process.cwd(), 'dist', 'data.sectors.json'), 'utf-8')
+);
+
+interface Sector {
+  id: string;
+  ja: string;
+  hue: string;
+  description_ja: string;
+  occupation_count: number;
+  mean_ai_risk: number | null;
+  total_workforce: number;
+  sample_titles_ja: string[];
+}
+
+const sectors: Sector[] = sectorsRaw.sectors;
+
+const totalOcc = sectors.reduce((sum, s) => sum + (s.occupation_count || 0), 0);
+
+const fmtInt = (n: number | null | undefined): string => {
+  if (n === null || n === undefined) return '—';
+  return Math.trunc(n).toLocaleString('en-US');
+};
+
+const riskClass = (mean: number): 'low' | 'mid' | 'high' => {
+  if (mean <= 3.5) return 'low';
+  if (mean >= 6.5) return 'high';
+  return 'mid';
+};
+
+const canonical = `${SITE}/ja/sectors`;
+
+const pageTitle = `全 16 セクター｜556 職業を業界別に分類 | 未来の仕事`;
+const ogTitle = '全 16 セクター｜業界別 職業ランキング・AI 影響度・年収';
+const seoDesc =
+  `日本の${totalOcc}職業を 16 業界（医療・保健、IT・通信、士業、製造、建設 ほか）に分類。` +
+  `業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。Claude Opus 4.7 独自分析（非公式）。`;
+const keywords = '業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, 556 職業, セクター';
+const h1 = '全 16 セクター';
+const hList = '業界 一覧';
+const crumbRoot = '未来の仕事';
+const crumbSelf = 'セクター';
+const skipLabel = '本文へスキップ';
+
+// JSON-LD: WebPage + BreadcrumbList + ItemList of 16 hub URLs (matches Python emit).
+const itemList = sectors.map((s, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  url: `${SITE}/ja/sectors/${s.id}`,
+  name: s.ja,
+}));
+
+const jsonLd = JSON.stringify(
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${canonical}#webpage`,
+        url: canonical,
+        name: h1,
+        description: seoDesc,
+        isPartOf: { '@id': `${SITE}/#website` },
+        inLanguage: 'ja',
+        datePublished: '2026-05-05',
+        dateModified: '2026-05-05',
+        publisher: { '@id': `${SITE}/#organization` },
+        breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonical}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: crumbRoot, item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: crumbSelf, item: canonical },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        '@id': `${canonical}#sectors`,
+        name: hList,
+        numberOfItems: sectors.length,
+        itemListElement: itemList,
+      },
+    ],
+  },
+  null,
+  2
+);
+---
+<BaseLayout
+  title={pageTitle}
+  description={seoDesc}
+  canonical={canonical}
+  keywords={keywords}
+  ogTitle={ogTitle}
+  ogDescription={seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" is:inline>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
+/* Direction C single-theme: prefers-color-scheme + data-theme all resolve to warm cream. */
+:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
+.skip-link:focus{left:8px;top:8px}
+.top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:.85rem;color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
+.badge{background:var(--accent);color:#fff;padding:2px 8px;font-size:.7rem;letter-spacing:.05em;font-weight:700;border-radius:2px}
+#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:32px 0}
+.stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
+.stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.top-list{list-style:none;display:grid;gap:8px}
+.top-list li{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.top-list a{color:var(--fg);text-decoration:none;font-weight:500}
+.top-list a:hover{color:var(--accent-deep);text-decoration:underline}
+.top-list .meta{color:var(--fg2);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums;margin-right:8px}
+.risk-pill.low{background:#E0EAE2;color:#48705F}
+.risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
+.risk-pill.high{background:#F5D5C7;color:#A24A28}
+.full-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.full-list li{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center}
+.full-list a{color:var(--fg);text-decoration:none}
+.full-list a:hover{color:var(--accent-deep);text-decoration:underline}
+.related-sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;list-style:none}
+.related-sectors li{background:var(--bg2);border:1px solid var(--border);border-radius:4px}
+.related-sectors a{display:block;padding:12px 14px;text-decoration:none;color:var(--fg)}
+.related-sectors a:hover{background:var(--bg3);color:var(--accent-deep)}
+.related-sectors .ja-name{font-family:var(--font-serif);font-weight:500}
+.related-sectors .count{color:var(--fg2);font-size:.8rem;display:block;margin-top:2px}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:.85rem;color:var(--fg2);text-align:center}
+footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
+footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
+footer .footer-meta a{color:var(--accent)}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
+
+.sector-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:0;padding:0}
+.sector-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;transition:border-color 150ms ease, transform 150ms ease}
+.sector-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.sector-card a{display:block;padding:18px 18px 16px;text-decoration:none;color:var(--fg)}
+.sc-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}
+.sc-name{font-family:var(--font-serif);font-size:1.15rem;font-weight:600;color:var(--fg);margin:0}
+.sc-count{color:var(--fg2);font-size:.78rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.sc-risk{font-size:.72rem!important;padding:2px 9px}
+.sc-workers{display:inline-block;padding:2px 9px;background:var(--bg3);border-radius:12px;font-size:.72rem;color:var(--fg2);font-variant-numeric:tabular-nums}
+.sc-samples{font-size:.82rem;color:var(--fg2);line-height:1.5;margin:0}
+.sector-card a:hover .sc-name{color:var(--accent-deep)}</style>
+
+  <a class="skip-link" href="#content">{skipLabel}</a>
+  <div class="top-banner" role="note">
+    <span class="badge">UNOFFICIAL</span>
+    <span>独立分析・厚労省 / jobtag / JILPT 非公式</span>
+  </div>
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">{crumbRoot}</a>
+      <span aria-hidden="true">›</span>
+      <span>{crumbSelf}</span>
+    </nav>
+
+    <header id="content">
+      <h1>
+        <span class="accent">{h1}</span>
+      </h1>
+      <p class="sub"><strong>556 職業</strong> を 16 業界に分類。クリックで業界別の AI 影響度ランキング・代表職業へ。</p>
+      <p class="intro">業界別に職業を一覧化したインデックスです。各セクターを開くと、AI 影響度・就業者数・年収のランキング、その業界に属する全職業の一覧が確認できます。</p>
+    </header>
+
+    <section aria-label={hList}>
+      <h2>{hList}</h2>
+      <ul class="sector-cards">
+        {sectors.map((s) => {
+          const mean = s.mean_ai_risk ?? 0;
+          const sampleStr = (s.sample_titles_ja || []).slice(0, 3).join(' ・ ');
+          const cls = riskClass(mean);
+          return (
+            <li class="sector-card">
+              <a href={`/ja/sectors/${s.id}`}>
+                <div class="sc-head">
+                  <h3 class="sc-name">{s.ja}</h3>
+                  <span class="sc-count">{s.occupation_count} 職業</span>
+                </div>
+                <div class="sc-stats">
+                  <span class={`sc-risk risk-pill ${cls}`}>AI 影響 平均 {mean.toFixed(1)}/10</span>
+                  <span class="sc-workers">{fmtInt(s.total_workforce)} 人</span>
+                </div>
+                <p class="sc-samples">{sampleStr}</p>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

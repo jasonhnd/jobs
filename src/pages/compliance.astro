@@ -1,0 +1,473 @@
+---
+/**
+ * compliance.astro — データ出典・著作権・二次利用・連絡先.
+ *
+ * Migrated from compliance.html. Inline CSS preserved verbatim — extraction
+ * into shared classes is a follow-up after all static pages are ported.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+
+const jsonLd = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://mirai-shigoto.com/compliance#webpage",
+      "name": "コンプライアンス — mirai-shigoto.com",
+      "url": "https://mirai-shigoto.com/compliance",
+      "description": "mirai-shigoto.com のデータ出典・著作権帰属・二次利用範囲・派生作品声明・商標宣言・連絡先。",
+      "inLanguage": ["ja"],
+      "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
+      "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+      "datePublished": "2026-05-03",
+      "dateModified": "2026-05-03",
+      "primaryImageOfPage": "https://mirai-shigoto.com/og.png",
+      "breadcrumb": { "@id": "https://mirai-shigoto.com/compliance#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mirai-shigoto.com/compliance#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "日本の職業 AI 影響マップ", "item": "https://mirai-shigoto.com/" },
+        { "@type": "ListItem", "position": 2, "name": "コンプライアンス", "item": "https://mirai-shigoto.com/compliance" }
+      ]
+    }
+  ]
+}`;
+---
+<BaseLayout
+  title="コンプライアンス — mirai-shigoto.com"
+  description="mirai-shigoto.com のデータ出典、著作権帰属、二次利用範囲、派生作品声明、商標宣言、連絡先。職業情報データベース v7.00 を出典として表示。"
+  canonical="https://mirai-shigoto.com/compliance"
+  keywords="未来の仕事, コンプライアンス, データ出典, 著作権, 二次利用, 派生作品, 商標, MHLW jobtag, JILPT, 職業情報データベース, ライセンス, MIT, mirai shigoto, compliance, attribution, derivative work"
+  ogTitle="コンプライアンス — mirai-shigoto.com"
+  ogDescription="データ出典・著作権帰属・二次利用範囲・派生作品声明・商標宣言・連絡先。"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head">
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Direction C: Warm Editorial — synced from styles/mobile-tokens.css. v1.2.0 PC convergence. */
+    :root {
+      --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+      --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+      --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+      --border: rgba(36, 30, 24, 0.10);
+      --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+      --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
+      }
+    }
+    :root[data-theme="light"], :root[data-theme="dark"] {
+      --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+      --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+      --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+      --border: rgba(36, 30, 24, 0.10);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.75;
+    }
+    h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.005em; }
+    h1 .accent, h2 .accent { color: var(--accent); font-style: italic; }
+    .theme-toggle { display: none !important; }
+
+    .top-banner {
+      background: linear-gradient(90deg, rgba(255,80,80,0.18), rgba(255,138,61,0.14));
+      border-bottom: 2px solid rgba(255,80,80,0.55);
+      padding: 9px 20px;
+      font-size: 0.82rem;
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; flex-wrap: wrap; text-align: center;
+    }
+    .top-banner .badge {
+      background: #ff5050; color: #fff;
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em;
+      box-shadow: 0 1px 4px rgba(255,80,80,0.3);
+    }
+    .top-banner strong { color: var(--fg); }
+
+    #wrapper { max-width: 760px; margin: 0 auto; padding: 28px 28px 80px; }
+    .top-bar {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 24px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-bar .back { color: var(--fg2); text-decoration: none; font-size: 0.85rem; }
+    .top-bar .back:hover { color: var(--accent); }
+    .theme-toggle {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--fg2);
+      width: 28px; height: 28px; border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0; margin-left: 4px;
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
+    .theme-toggle .icon-sun { display: inline-block; }
+    .theme-toggle .icon-moon { display: none; }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+      :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: inline-block; }
+    }
+    :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+    :root[data-theme="light"] .theme-toggle .icon-moon { display: inline-block; }
+    :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline-block; }
+    :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+    h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
+    h1 .accent { color: var(--accent); }
+    .subtitle { color: var(--fg2); font-size: 0.92rem; margin-bottom: 8px; }
+    .meta-line { color: var(--fg2); font-size: 0.78rem; margin-bottom: 28px; opacity: 0.75; }
+    h2 {
+      font-size: 1.15rem; font-weight: 600;
+      margin-top: 36px; margin-bottom: 14px; color: var(--fg);
+      border-left: 3px solid var(--accent); padding-left: 12px;
+    }
+    h3 { font-size: 0.98rem; font-weight: 600; margin-top: 20px; margin-bottom: 6px; color: var(--fg); }
+    p { margin-bottom: 14px; color: var(--fg); }
+    ul, ol { margin: 0 0 14px 22px; color: var(--fg); }
+    li { margin-bottom: 6px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { color: var(--fg); font-weight: 600; }
+    em { color: var(--fg2); font-style: normal; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.85em;
+      background: var(--bg2);
+      padding: 1px 6px; border-radius: 4px;
+      color: var(--accent);
+    }
+    .source-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+    }
+    .source-card .src-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 8px 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      align-items: baseline;
+    }
+    .source-card .src-row:last-child { border-bottom: none; }
+    .source-card .src-label {
+      color: var(--fg2);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .callout {
+      background: rgba(255,184,77,0.08);
+      border: 1px solid rgba(255,184,77,0.4);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .callout strong { color: var(--accent); }
+    footer {
+      margin-top: 56px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--fg2);
+      text-align: center;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    footer .footer-links a {
+      color: var(--fg2);
+      text-decoration: none;
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      line-height: 1.2;
+      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+    footer .footer-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(217, 107, 61, 0.06);
+      text-decoration: none;
+    }
+    footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
+    footer .footer-meta a { color: var(--accent); }
+    footer .footer-meta .nowrap { white-space: nowrap; }
+    @media (max-width: 540px) {
+      footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+    }
+    .updated-table {
+      width: 100%;
+      font-size: 0.85rem;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+    .updated-table th, .updated-table td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .updated-table th { color: var(--fg2); font-weight: 500; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    @media (max-width: 540px) {
+      #wrapper { padding: 20px 16px 60px; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.05rem; }
+      .source-card .src-row { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
+    }
+  </style>
+
+  <div id="wrapper">
+    <div class="top-bar">
+      <a class="back" href="/">
+        ← マップへ戻る
+      </a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="ライト・ダークモード切替" title="ライト / ダーク切替">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
+    </div>
+
+    <h1>
+      <span class="accent">コンプライアンス</span>
+    </h1>
+    <div class="subtitle">
+      データ出典・著作権・二次利用範囲・連絡先
+    </div>
+    <div class="meta-line">
+      最終更新：2026-05-03
+    </div>
+
+    <!-- ════════ §1 データ出典と著作権帰属 ════════ -->
+    <h2>
+      1. データ出典と著作権帰属
+    </h2>
+
+    <p>
+      本サイトの職業情報は、以下の公式データベースを<strong>出典として表示</strong>し、規定の利用規約に基づく<strong>二次利用</strong>として加工・可視化したものです。
+    </p>
+
+    <div class="source-card">
+      <div class="src-row">
+        <div class="src-label">
+          データベース
+        </div>
+        <div>
+          職業情報データベース（job tag / 職業情報提供サイト）
+        </div>
+      </div>
+      <div class="src-row">
+        <div class="src-label">
+          公開機関
+        </div>
+        <div>
+          厚生労働省（MHLW）
+        </div>
+      </div>
+      <div class="src-row">
+        <div class="src-label">
+          著作権者
+        </div>
+        <div>
+          独立行政法人 労働政策研究・研修機構（<strong>JILPT</strong>）
+        </div>
+      </div>
+      <div class="src-row">
+        <div class="src-label">
+          バージョン
+        </div>
+        <div><code>v7.00</code> （2026-03-17 公開）</div>
+      </div>
+      <div class="src-row">
+        <div class="src-label">
+          取得日
+        </div>
+        <div>2026-05-03</div>
+      </div>
+      <div class="src-row">
+        <div class="src-label">
+          取得形式
+        </div>
+        <div>
+          公式 XLSX ダウンロード（簡易版数値系・解説系）
+        </div>
+      </div>
+      <div class="src-row">
+        <div class="src-label">
+          公式 URL
+        </div>
+        <div><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener">shigoto.mhlw.go.jp/User/</a></div>
+      </div>
+    </div>
+
+    <h3>
+      補助データソース
+    </h3>
+    <ul>
+      <li>
+        総務省 統計局「労働力調査」（就業者数キャリブレーション）— <a href="https://www.stat.go.jp/data/roudou/" target="_blank" rel="noopener">stat.go.jp/data/roudou/</a>
+      </li>
+      <li>
+        総務省「経済センサス」（産業分布）— <a href="https://www.stat.go.jp/data/e-census/" target="_blank" rel="noopener">stat.go.jp/data/e-census/</a>
+      </li>
+    </ul>
+
+    <!-- ════════ §2 二次利用の範囲（TOS 準拠） ════════ -->
+    <h2>
+      2. 二次利用の範囲（TOS 準拠）
+    </h2>
+
+    <p>
+      本サイトは、<a href="https://shigoto.mhlw.go.jp/User/tos" target="_blank" rel="noopener">職業情報提供サイト 利用規約</a>第 8 条（引用）および第 9 条（二次利用）に基づき、出典の明示と版数・取得日付の併記を行ったうえで、データを編集・再集計・可視化しています。
+    </p>
+
+    <h3>
+      本サイトで利用しているもの
+    </h3>
+    <ul>
+      <li>職業名（日英）、業種、仕事内容の説明テキスト</li>
+      <li>就業者数、年収、平均年齢、月労働時間、有効求人倍率、学歴分布、雇用形態、時給</li>
+      <li>出典 URL（公式ページへのリンク）</li>
+    </ul>
+
+    <h3>
+      本サイトで利用していないもの
+    </h3>
+    <ul>
+      <li><strong>写真・映像</strong> — TOS 上、二次利用には個別許可が必要なため、本サイトでは一切使用していません。</li>
+      <li><strong>職業興味検査・仕事価値観検査・G テスト</strong>等の心理測定ツール — TOS により記録・複製・配信が一切禁じられています。</li>
+      <li>jobtag のロゴ・固有意匠</li>
+    </ul>
+
+    <h3>
+      標準的な出典表記（スクリーンショット引用や記事執筆時にご利用ください）
+    </h3>
+    <div class="callout">
+
+        <strong>出典：</strong>厚生労働省・独立行政法人労働政策研究・研修機構（JILPT）<br>
+        「職業情報データベース（job tag）」 v7.00（2026-05-03 ダウンロード）<br>
+        <em>を加工して作成 — mirai-shigoto.com（独自分析・非公式）</em>
+
+    </div>
+
+    <!-- ════════ §3 派生作品（本サイトの独自貢献） ════════ -->
+    <h2>
+      3. 派生作品（本サイトの独自貢献）
+    </h2>
+    <p>
+      以下は <strong>mirai-shigoto.com の独自分析</strong>であり、厚生労働省・JILPT は関与していません。これらの著作権は本サイトの運営者に帰属します。
+    </p>
+    <ul>
+      <li><strong>AI 影響度スコア（0〜10）と評価理由</strong>（日英）— Claude Opus 4.7 による独自スコアリング。Karpathy <code>jobs</code> のルーブリックを日本職業に移植。</li>
+      <li><strong>英訳</strong>（職業名・業種・記述）— LLM による独自翻訳</li>
+      <li><strong>可視化</strong>（squarified treemap、配色、UI、検索ロジック）— 独自実装</li>
+      <li><strong>派生統計</strong>（リスク階層別シェア、リスク × 年収、加重平均など）— 公開データから独自集計</li>
+    </ul>
+
+    <p>
+      これらは <strong>LLM の見解</strong>に過ぎず、調査統計でも将来予測でもありません。詳しい限界は <a href="/about">データについて</a> をご覧ください。
+    </p>
+
+    <!-- ════════ §4 商標・ブランド ════════ -->
+    <h2>
+      4. 商標・ブランド宣言
+    </h2>
+    <p>
+      「mirai-shigoto.com」 は <strong>mirai-shigoto プロジェクト</strong>が運営する<strong>独立した非公式サイト</strong>であり、官公庁の公式サイトではありません。
+    </p>
+    <ul>
+      <li>公式サイト（厚生労働省 jobtag）：<a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener">shigoto.mhlw.go.jp/User/</a></li>
+      <li>本サイトは厚労省 / JILPT / job tag からの後援・委託・パートナーシップを<strong>一切受けていません</strong>。</li>
+      <li>記事 / 報道での引用時は、<strong>公式見解ではない</strong>旨を併記いただきますようお願いします。</li>
+    </ul>
+
+    <!-- ════════ §5 連絡先 ════════ -->
+    <h2>
+      5. 連絡先
+    </h2>
+    <p>
+      著作権・出典表示・データ修正等のご連絡は、<a href="mailto:privacy@mirai-shigoto.com">privacy@mirai-shigoto.com</a> までお願いします。
+    </p>
+    <p>
+      バグ報告・機能要望・スコアの異議申立も <a href="mailto:privacy@mirai-shigoto.com">privacy@mirai-shigoto.com</a> までお願いします。
+    </p>
+
+    <!-- ════════ §6 改訂履歴 ════════ -->
+    <h2>
+      6. 改訂履歴
+    </h2>
+    <table class="updated-table">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>変更</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-05-03</td>
+          <td>
+            初版公開。データを公式 XLSX v7.00 に切替。出典表記に JILPT・版数・取得日を統一追加。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <Footer />
+  </div>
+
+  <script slot="bodyEnd" is:inline>
+    // v1.4.0: language switcher removed — site is JA-only.
+
+    // Theme toggle (same 3-state model as elsewhere — Design.md §3).
+    (function themeToggle() {
+      var btn = document.getElementById("themeToggle");
+      if (!btn) return;
+      btn.addEventListener("click", function() {
+        var sysLight = matchMedia("(prefers-color-scheme: light)").matches;
+        var cur = document.documentElement.getAttribute("data-theme") || (sysLight ? "light" : "dark");
+        var next = cur === "light" ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch(e) {}
+      });
+    })();
+  </script>
+</BaseLayout>

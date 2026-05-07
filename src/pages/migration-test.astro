@@ -1,0 +1,48 @@
+---
+// Migration smoke test page.
+// Visit /migration-test to verify the Astro toolchain is wired up.
+// Delete in Track C · PR 26 once real pages are in place.
+// (Files starting with `_` are skipped by Astro routing.)
+
+const buildTime = new Date().toISOString();
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Astro Migration · Smoke Test</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 720px;
+        margin: 4rem auto;
+        padding: 0 1rem;
+        line-height: 1.6;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 0.1em 0.4em;
+        border-radius: 3px;
+      }
+      .ok {
+        color: #0a7a0a;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Astro Migration · Smoke Test <span class="ok">✓</span></h1>
+    <p>If you can read this, the Astro build chain is working.</p>
+    <ul>
+      <li>Astro: rendering this page</li>
+      <li>TypeScript: compiling Astro frontmatter</li>
+      <li>React integration: installed (not yet exercised)</li>
+    </ul>
+    <p>Build time: <code>{buildTime}</code></p>
+    <p>This page is in <code>src/pages/_test.astro</code> and will be removed in Track C.</p>
+    <hr />
+    <p>See <code>docs/MIGRATION_PLAN.md</code> for the full migration plan.</p>
+  </body>
+</html>

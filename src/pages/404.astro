@@ -1,0 +1,305 @@
+---
+/**
+ * 404.astro — page-not-found.
+ *
+ * Migrated from 404.html (Track C, MIGRATION_PLAN.md PR 26).
+ *
+ * Inline CSS is preserved verbatim from the original — extraction into
+ * shared classes can come after all 4 static pages exist and we can see
+ * what's truly common.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout
+  title="ページが見つかりません — mirai-shigoto.com"
+  description="404 — 指定されたページは存在しないか、移動した可能性があります。"
+  canonical="https://mirai-shigoto.com/404"
+  ogTitle="ページが見つかりません — mirai-shigoto.com"
+  ogDescription="404 — 指定されたページは存在しないか、移動した可能性があります。"
+  noindex={true}
+>
+  <style slot="head">
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Direction C: Warm Editorial — synced from styles/mobile-tokens.css. v1.2.0 PC convergence. */
+    :root {
+      --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+      --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+      --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+      --border: rgba(36, 30, 24, 0.10);
+      --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+      --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+        --border: rgba(36, 30, 24, 0.10);
+      }
+    }
+    :root[data-theme="light"], :root[data-theme="dark"] {
+      --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+      --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+      --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+      --border: rgba(36, 30, 24, 0.10);
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    h1, h2, h3 {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      letter-spacing: -0.005em;
+    }
+    .theme-toggle { display: none !important; }
+
+    #wrapper {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 28px 28px 80px;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-bar .back {
+      color: var(--fg2);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    .top-bar .back:hover { color: var(--accent); }
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg2);
+      width: 28px; height: 28px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0; margin-left: 4px;
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
+    .theme-toggle .icon-sun { display: inline-block; }
+    .theme-toggle .icon-moon { display: none; }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+      :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: inline-block; }
+    }
+    :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+    :root[data-theme="light"] .theme-toggle .icon-moon { display: inline-block; }
+    :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline-block; }
+    :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+    .four-oh-four {
+      font-family: var(--font-serif);
+      font-size: clamp(5rem, 18vw, 9rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: var(--fg);
+      margin: 24px 0 4px;
+      user-select: none;
+    }
+    .four-oh-four .accent {
+      color: var(--accent);
+      font-style: italic;
+      display: inline-block;
+      transform: translateY(-4%) rotate(-6deg);
+    }
+    h1.title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 6px;
+      margin-bottom: 8px;
+      color: var(--fg);
+    }
+    p.subtitle {
+      font-size: 0.95rem;
+      color: var(--fg2);
+      margin-bottom: 26px;
+      max-width: 44ch;
+    }
+
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+    }
+    .cta-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+      background: var(--accent-deep);
+      color: #fff;
+      text-decoration: none;
+    }
+    .cta-primary .arrow { display: inline-block; transition: transform 200ms ease; }
+    .cta-primary:hover .arrow { transform: translateX(3px); }
+
+    .helpful-links {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .helpful-links .label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--fg3);
+      margin-bottom: 6px;
+    }
+    .helpful-links a {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      color: var(--fg);
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.92rem;
+      transition: color 150ms ease, border-bottom-color 150ms ease, padding-left 150ms ease;
+    }
+    .helpful-links a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      padding-left: 4px;
+    }
+    .helpful-links a .desc {
+      color: var(--fg2);
+      font-size: 0.78rem;
+      margin-left: 16px;
+      flex-shrink: 0;
+    }
+    .helpful-links a:hover .desc { color: var(--accent); }
+
+    footer {
+      margin-top: 56px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--fg2);
+      text-align: center;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    footer .footer-links a {
+      color: var(--fg2);
+      text-decoration: none;
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      line-height: 1.2;
+      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+    footer .footer-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(217, 107, 61, 0.06);
+      text-decoration: none;
+    }
+    footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
+    footer .footer-meta a { color: var(--accent); }
+    footer .footer-meta .nowrap { white-space: nowrap; }
+
+    @media (max-width: 540px) {
+      #wrapper { padding: 18px 16px 60px; }
+      h1.title { font-size: 1.2rem; }
+      .four-oh-four { margin: 16px 0 2px; }
+      .helpful-links a .desc { display: none; }
+      footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+    }
+  </style>
+
+  <div id="wrapper">
+    <div class="top-bar">
+      <a class="back" href="/">← マップへ戻る</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="ライト・ダークモード切替">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
+    </div>
+
+    <div class="four-oh-four" aria-hidden="true">4<span class="accent">0</span>4</div>
+
+    <h1 class="title">ページが見つかりません</h1>
+    <p class="subtitle">
+      指定された URL は存在しないか、変更された可能性があります。トップページから職業を検索してみてください。
+    </p>
+
+    <a class="cta-primary" href="/">
+      トップへ戻る
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+
+    <div class="helpful-links">
+      <div class="label">こちらもどうぞ</div>
+      <a href="/ja/sectors"><span>16 セクターから探す</span><span class="desc">業界別 556 職業</span></a>
+      <a href="/ja/rankings"><span>ランキングから探す</span><span class="desc">AIリスク・年収・就業者数</span></a>
+      <a href="/ja/rankings/ai-risk-high"><span>AIに奪われる仕事 TOP30</span><span class="desc">AI影響度が高い職業</span></a>
+      <a href="/ja/rankings/ai-risk-low"><span>AI影響が少ない仕事 TOP30</span><span class="desc">将来性のある職業</span></a>
+      <a href="/ja/rankings/salary-safe"><span>高年収×低AIリスク TOP30</span><span class="desc">収入と安定を両立</span></a>
+      <a href="/ja/rankings/workers"><span>就業者数ランキング TOP30</span><span class="desc">最も人が多い職業</span></a>
+      <a href="/about"><span>データについて</span><span class="desc">ソース・スコア算出方法・FAQ</span></a>
+      <a href="/compliance"><span>利用規約・コンプライアンス</span><span class="desc">免責事項・引用ポリシー</span></a>
+      <a href="/privacy"><span>プライバシーポリシー</span><span class="desc">アクセス解析と Cookie</span></a>
+    </div>
+
+    <Footer />
+  </div>
+
+  <script slot="bodyEnd" is:inline>
+    (function () {
+      const root = document.documentElement;
+      const tt = document.getElementById('themeToggle');
+      if (!tt) return;
+      tt.addEventListener('click', () => {
+        const cur = root.getAttribute('data-theme');
+        const sysIsLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        const effective = cur || (sysIsLight ? 'light' : 'dark');
+        const next = effective === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    })();
+    (function () {
+      try {
+        if (typeof gtag === 'function') {
+          gtag('event', 'page_not_found', {
+            page_location: window.location.href,
+            page_path: window.location.pathname + window.location.search,
+            page_referrer: document.referrer || '(direct)',
+          });
+        }
+      } catch (e) {}
+    })();
+  </script>
+</BaseLayout>

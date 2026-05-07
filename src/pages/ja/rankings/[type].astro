@@ -1,0 +1,182 @@
+---
+/**
+ * [type].astro — individual ranking pages.
+ *
+ * Migrated from scripts/build_rankings.py:render_page() — produces 9 pages:
+ *   ai-risk-high, ai-risk-low, salary-safe, workers, salary,
+ *   entry-salary, young-workforce, short-hours, high-demand
+ *
+ * Inline CSS preserved verbatim from CSS_BLOCK in build_rankings.py.
+ * Japanese text preserved verbatim.
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import {
+  buildRankings,
+  renderRankItem,
+  renderHighlights,
+  renderSectorChart,
+  renderFaqHtml,
+  renderRelatedRankings,
+  renderJsonLd,
+  escapeHtml,
+  type RankingSlug,
+} from '../../../data/lib/rankings';
+
+export async function getStaticPaths() {
+  const { results } = buildRankings();
+  return Array.from(results.values()).map((r) => ({
+    params: { type: r.slug },
+    props: { result: r },
+  }));
+}
+
+const { result } = Astro.props;
+const slug = result.slug as RankingSlug;
+const canonical = `https://mirai-shigoto.com/ja/rankings/${slug}`;
+
+const statsHtml = result.statBlocks.length > 0
+  ? `<dl class="stats">${result.statBlocks
+      .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+      .join('')}</dl>`
+  : '';
+
+const highlightsHtml = renderHighlights(result.items, slug);
+const sectorChartHtml = renderSectorChart(result.items);
+
+const rankItems = result.items
+  .map((o) => renderRankItem(o, result.showSalary, result.extraColFn ? result.extraColFn(o) : null))
+  .join('');
+
+const faqHtml = renderFaqHtml(result.faqItems);
+const relatedHtml = renderRelatedRankings(slug);
+const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
+---
+<BaseLayout
+  title={result.title}
+  description={result.seoDesc}
+  canonical={canonical}
+  ogTitle={result.title.slice(0, 120)}
+  ogDescription={result.seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={`
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
+/* Direction C single-theme: prefers-color-scheme + data-theme all resolve to warm cream. */
+:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
+.skip-link:focus{left:8px;top:8px}
+#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
+.stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
+.stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.rank-list{list-style:none;counter-reset:rank}
+.rank-list li{counter-increment:rank;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px 18px;margin-bottom:8px;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center}
+.rank-list li:hover{border-color:var(--accent)}
+.rank-list li::before{content:counter(rank);font-family:var(--font-serif);font-size:1.2rem;font-weight:700;color:var(--fg3);text-align:center}
+.rank-list li:nth-child(-n+3)::before{color:var(--accent)}
+.rank-list .rl-main{display:flex;flex-direction:column;gap:4px}
+.rank-list .rl-name{font-family:var(--font-serif);font-size:1.05rem;font-weight:500;color:var(--fg);text-decoration:none}
+.rank-list .rl-name:hover{color:var(--accent);text-decoration:underline}
+.rank-list .rl-sector{font-size:.78rem;color:var(--fg2)}
+.rank-list .rl-stats{display:flex;gap:12px;flex-wrap:wrap;align-items:center;white-space:nowrap}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill.low{background:#E0EAE2;color:#48705F}
+.risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
+.risk-pill.high{background:#F5D5C7;color:#A24A28}
+.demand-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
+.demand-pill.hot{background:#E0EAE2;color:#48705F}
+.demand-pill.warm{background:#F4E5C7;color:#8A6A2A}
+.demand-pill.cool{background:#D8E4F0;color:#3A5F7A}
+.demand-pill.cold{background:#E8E4DF;color:#7A6F5E}
+.rl-salary,.rl-workers,.rl-extra{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
+.rl-extra{color:var(--accent-deep);font-weight:600}
+.highlights{margin:24px 0}
+.highlights ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.highlights li{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);padding:10px 16px;border-radius:0 6px 6px 0;font-size:.9rem;color:var(--fg)}
+.sector-chart{margin:24px 0}
+.sc-title{font-size:.85rem;color:var(--fg2);margin-bottom:10px;font-weight:500}
+.sb-row{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:center;margin-bottom:5px;font-size:.8rem}
+.sb-label{color:var(--fg2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-track{height:14px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.sb-fill{display:block;height:100%;background:var(--accent-deep);border-radius:3px;min-width:3px;transition:width .3s}
+.sb-count{color:var(--fg3);font-variant-numeric:tabular-nums;text-align:right}
+.faq{margin:48px 0}
+.faq details{background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}
+.faq summary{padding:14px 18px;cursor:pointer;font-weight:500;font-size:.95rem;color:var(--fg);list-style:none}
+.faq summary::before{content:"Q. ";color:var(--accent);font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq .faq-a{padding:0 18px 14px;font-size:.9rem;color:var(--fg2);line-height:1.7}
+.related-rankings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;list-style:none}
+.related-rankings li a{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);font-weight:500;transition:border-color 150ms}
+.related-rankings li a:hover{border-color:var(--accent);color:var(--accent-deep)}
+.related-rankings .rr-desc{display:block;font-size:.82rem;color:var(--fg2);font-weight:400;margin-top:4px}
+.insights{margin:48px 0}
+.insights ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.insights li{background:var(--bg2);border:1px solid var(--border);padding:12px 16px;border-radius:6px;font-size:.9rem;color:var(--fg)}
+.insights li strong{color:var(--accent-deep)}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:.85rem;color:var(--fg2);text-align:center}
+footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
+footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
+footer .footer-meta a{color:var(--accent)}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
+`} />
+
+  <a class="skip-link" href="#content">本文へスキップ</a>
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <a href="/ja/rankings" rel="up">ランキング</a>
+      <span aria-hidden="true">›</span>
+      <span set:html={escapeHtml(result.h1Text)} />
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent" set:html={escapeHtml(result.h1Text)} /></h1>
+      <p class="sub" set:html={result.subText} />
+      <p class="intro" set:html={escapeHtml(result.introText)} />
+    </header>
+
+    <Fragment set:html={statsHtml} />
+    <Fragment set:html={highlightsHtml} />
+    <Fragment set:html={sectorChartHtml} />
+
+    <section aria-label="ランキング">
+      <h2>TOP {result.items.length}</h2>
+      <ol class="rank-list" set:html={rankItems} />
+    </section>
+
+    <Fragment set:html={faqHtml} />
+
+    <section aria-label="他のランキング">
+      <h2>他のランキング</h2>
+      <Fragment set:html={relatedHtml} />
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>
