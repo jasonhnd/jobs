@@ -10,6 +10,90 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### `llms.txt` + `llms-full.txt` — feat: layered GEO header for AI citation rate
+
+GEO (Generative Engine Optimization) restructure of both LLM-facing
+files. Goal: increase the rate at which Perplexity / ChatGPT search /
+Claude search / Google AI Overview cite mirai-shigoto.com when users
+ask about Japan + AI + occupations, by giving each AI consumption
+mode its own dedicated layer in the file.
+
+**The 5-layer structure** (mirrored verbatim across both files):
+
+- **L0 / L1 — `## At a glance`**: single quotable one-liner (the
+  sentence AI is most likely to lift verbatim into an answer) plus a
+  schema-style key:value table (canonical URL, type, operator, score
+  source, data source, coverage, total workforce, sector range,
+  score distribution, license, version, last-modified, citation).
+  Designed for AI fact extraction and answer-card surfacing.
+- **L2 — `## Quotable claims`**: 15 standalone, verifiable findings
+  with numbers and subjects. Each claim independently citable. AI
+  search engines lift these directly when answering "tell me a fact
+  about Japan + AI."
+- **L4 — `## Anchor occupations`**: one canonical occupation per
+  integer score 0–10 (潜水士 1/10 → 一般事務 9/10 → データ入力
+  10/10), with workforce + rationale. AI uses these to ground
+  examples in the score scale.
+- **L4 — `## Glossary`**: 9–10 terms (AI risk score, task exposure,
+  workforce size, sector, anchor occupation, etc.) defined once so
+  AI references quote the official phrasing instead of inventing.
+- **L6 — `## What this site does NOT say`**: 9–11 explicit
+  negative-space declarations (NOT a job-loss probability, NOT a
+  forecast, NOT a hiring tool, NOT a policy recommendation, NOT
+  government-endorsed, NOT a multi-rater consensus). Lets AI
+  reference the site without misuse.
+- **L3 — FAQ rewrite**: query-friendly phrasing ("Will my Japanese
+  office job be replaced by AI?" not "What does a 9/10 score
+  mean?"). 11 Q&A pairs aligned to real Perplexity / ChatGPT search
+  intents. Each answer leads with a concrete number + occupation
+  example so AI can lift the answer wholesale.
+
+**Cross-file number reconciliation** (audited against `dist/data.treemap.json`
+and `dist/data.sectors.json` at build time):
+
+- Total workforce mapped: 54,490,970 (≈ 54.5 M) — was unstated in
+  prior llms files, now surfaced in both.
+- Workforce in score ≥ 7: 18,362,904 (≈ 33.7%, "about 34%" rounded).
+- 一般事務 workforce: corrected from "2.63 M" to "2.64 M" to match
+  source 2,639,330.
+- Score distribution exposed: score 1 = 1 occupation · 9 = 29 ·
+  10 = 2 (データ入力 + 通信販売受付事務) · mode = score 7 (121).
+- Sector extremes confirmed: IT・通信 mean 8.14 / 建設・土木 mean
+  2.00 / 事務・公務 11.5 M workers @ mean 7.53.
+
+**llms-full.txt section renumbering** (was 10 sections, now 12 to
+fit the two new sections without re-ordering existing content):
+
+- Sections 1–4 (What this is / The data / Methodology / Notable
+  findings) — unchanged content.
+- Section 5 (NEW) — Glossary.
+- Section 6 — FAQ (was section 5; content rewritten per L3 above).
+- Section 7 (NEW) — What this site does NOT say.
+- Section 8 — Privacy and analytics (was 6).
+- Section 9 — Technical architecture (was 7).
+- Section 10 — License and citation (was 8; sub-numbered 10.1 / 10.2).
+- Section 11 — Contact (was 9).
+- Section 12 — Disclaimer (was 10).
+
+**Files**:
+
+- `llms.txt` — full rewrite. Top blocks (At a glance / Anchor
+  occupations / Quotable claims) inserted between the existing H1 +
+  blockquote summary + disclaimer and `## Key facts`. FAQ replaced
+  with query-friendly version. Glossary + What this site does NOT
+  say inserted between FAQ and Sources.
+- `llms-full.txt` — full rewrite. Same top blocks inserted above
+  section 1. Sections renumbered as above. FAQ rewritten.
+
+**Verification (post-deploy)**: open
+`https://pre.mirai-shigoto.com/llms.txt` and
+`https://pre.mirai-shigoto.com/llms-full.txt` — both files must
+serve as `text/plain`, with the `## At a glance` block immediately
+after the disclaimer, the schema table parsing as Markdown-table,
+and the top-of-file quotable one-liner intact. After production
+merge, prompt Perplexity ("what is mirai-shigoto.com?") and verify
+it lifts the At-a-glance one-liner into the answer.
+
 ### `/map` page — fix: scroll auto-jumps to top on mobile (resize × wipe-and-rebuild)
 
 Bug report (real-device, mobile): on `/map`, after the user scrolled
