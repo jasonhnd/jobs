@@ -281,6 +281,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -469,6 +480,22 @@
         <div class="risk-rationale">老人施設相談員、対面+書類</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 5/10 か</h2>
+        <p class="ai-rationale-long">老人福祉施設生活相談員は入所・通所利用者の相談、援助、ケアマネ・主治医との連絡調整、入所契約手続を担う相談援助職で、就業者44392人・求人倍率8.02と極めて高需要。Top能力は傾聴力5.17・対人援助4.96・他者反応理解4.52・読解力4.44・説明力4.37・他者調整4.31・説得4.21・文章力4.17と対人と調整技能が極めて高水準で、セラピーカウンセリング3.14・医学歯学3.04・心理学2.92も上位。AI記録支援、ケア計画文書自動化、家族向けレポート生成は拡大中で文書業務は代替が進む。一方で利用者・家族の心情把握、入所判断、ケアマネ・主治医との折衝、苦情対応、地域連携は人間関係と判断力が必須で人間に残る。MHLWは人手不足継続を指摘。AI代替リスクは中位（5）と評価する。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>相談記録の自動化</li><li>ケア計画書の文書生成</li><li>家族向けレポート自動作成</li><li>事務処理のシステム化</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>利用者・家族の心情把握</li><li>入所判断と契約手続</li><li>ケアマネ・主治医との折衝</li><li>苦情対応と地域連携</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10年でAI記録支援とケア計画書自動生成が文書業務を吸収するが、相談・折衝は人手に残り、老人福祉施設生活相談員は超高齢化と求人倍率8.02の人手不足の中で極めて高い需要を維持する見通し。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>44,392 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,410,000（441 万円）</dd></div>
@@ -590,7 +617,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

@@ -286,6 +286,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -474,6 +485,22 @@
         <div class="risk-rationale">トラック、自動運転接近中</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 4/10 か</h2>
+        <p class="ai-rationale-long">トラックドライバーは貨物自動車を運転して物流を担う運転職で、就業者160647人・求人倍率3.2と極めて高水準・平均年齢50.9歳・国内貨物トンベース9割を担う基幹職。Top能力は傾聴力2.49・読解力2.39・説明力2.39・保守点検2.31と低めだが、トラブル察知3.22・反応速度3.22・奥行き知覚3.18・持久力3.16・聴覚感度3.14と運転に必要な身体能力が高水準。輸送知識2.98。デジタコ・ドラレコ・GPSによる運行管理は普及済みだが、自動運転技術（レベル3-4）は高速道路の限定区間で実用段階、市街地・荷捌き・現場判断はまだ人手。荷主との交渉、荷物点検、不規則ルート対応は人間に残る。MHLWは2024年残業上限規制と人手不足を指摘。AI代替リスクは中位（4）と評価する。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>高速道路区間の自動運転</li><li>AIによる配送ルート最適化</li><li>デジタコ運行記録の自動化</li><li>AI画像認識の積荷確認</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>市街地での運転対応</li><li>荷主との対面荷渡し</li><li>不規則ルートの現場判断</li><li>緊急時のトラブル対処</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10年で高速道路区間の自動運転とAI配送ルート最適化は実用化が進むが、市街地運転・対面荷渡し・不規則ルート判断・緊急トラブル対処は人手に残り、トラックドライバーは深刻な人手不足の中で待遇改善と需要拡大が続く見通し。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>160,647 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,919,000（491 万円）</dd></div>
@@ -607,7 +634,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

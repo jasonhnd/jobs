@@ -278,6 +278,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -466,6 +477,22 @@
         <div class="risk-rationale">税理士、会計データAI処理進行</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 8/10 か</h2>
+        <p class="ai-rationale-long">税理士の中核業務は、所得税・法人税・消費税等の申告書作成、税務代理、税務相談、e-Tax 電子納税申告の代理送信、税務調査の立会い、補佐人として税務訴訟出廷陳述、会計帳簿記帳、経営アドバイスです。Top スキルは傾聴力 5.15・読解力 4.97・説明力 4.81・指導 4.65・文章力 4.47・交渉 4.31・説得 4.26・他者反応理解 4.16 と、対人と税法読解に集中しています。MHLW も「最近では全自動会計ソフトも普及してきており、税理士も単純な会計業務をこなすだけではなく、高度な税知識に裏打ちされた税の相談者となることが求められている」と明記し、置換は既に始まっています。8/10 という高スコアは、AI と全自動会計ソフトが申告書作成・記帳代行・控除計算を 60-80% 自動化する一方、税務調査立会い・節税戦略・事業承継相談は税理士に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>確定申告書の自動作成</li><li>記帳代行の AI 化</li><li>控除・税額計算の自動化</li><li>電子納税申告の自動送信</li><li>会計データの自動仕訳</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>税務調査の立会い・対応</li><li>節税戦略の経営者助言</li><li>事業承継・相続税相談</li><li>補佐人としての出廷陳述</li><li>経営の財務面コンサル</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI と全自動会計ソフトが申告書・記帳・控除計算を 60-80% 自動化し、税理士の総数は緩やかに減少します。残るのは税務調査立会い・節税戦略・事業承継など高度税務で、専門特化型税理士の市場価値が高まります。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>63,850 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥8,563,000（856 万円）</dd></div>
@@ -586,7 +613,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

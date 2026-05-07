@@ -279,6 +279,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -467,6 +478,22 @@
         <div class="risk-rationale">印刷オペレーター、機械操作</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 5/10 か</h2>
+        <p class="ai-rationale-long">印刷オペレーターは印刷機を操作して紙などに印刷する技能職で、就業者60233人・求人倍率1.86と需要安定。Top能力はクオリティチェック3.48・読解力3.42・操作と制御3.40・保守点検3.21・傾聴力3.15と機器操作と検査が中核で、色の違い識別3.66・トラブル察知3.15・近接視力2.74も上位。両面同時印刷機の自動化、AIによる色調自動補正、刷版自動装着、印刷品質のセンサー監視で定型印刷工程は代替が拡大中。一方で試し刷り時の色判断、用紙異常への即時対応、特殊印刷の機械調整、印刷機械の保守点検と修理は身体的存在を要し人間に残る。MHLWは特殊印刷とプリンテッドエレクトロニクスで需要拡大を指摘。AI代替リスクは中位（5）と評価する。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>AIによる色調自動補正</li><li>刷版の自動装着</li><li>品質センサーでの監視</li><li>印刷データの自動入力</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>試し刷り時の色判断</li><li>用紙異常への即時対応</li><li>印刷機の保守点検</li><li>特殊印刷の機械調整</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10年でAI色調補正と自動印刷機が定型工程を吸収するが、試し刷り判断と機械保守・修理は人手に残り、印刷オペレーターは特殊印刷とプリンテッドエレクトロニクスで需要を維持する見通し。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>60,233 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,634,000（463 万円）</dd></div>
@@ -593,7 +620,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

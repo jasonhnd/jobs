@@ -238,6 +238,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -426,6 +437,22 @@
         <div class="risk-rationale">刑務官、対面警備</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">刑務官の中核業務は、刑務所・少年刑務所・拘置所での 24 時間警備、受刑者の生活指導・職業訓練指導・悩み相談、刑務作業工場での監督、未決拘禁者への逃走・証拠隠滅防止、施設運営の事務、改善指導・出所後支援、サイバー監視です。Top スキルは指導 4.2・傾聴力 4.15・説得 4.08・文章力 3.93・説明力 3.9・他者の反応の理解 3.8・継続的観察 3.73・他者調整 3.73、能力ではトラブル察知 3.7 と、対人警備と監督に重みがあります。MHLW も「受刑者などの被収容者の身柄を拘束して様々な処遇を行うため、刑事収容施設法はもとより、刑法、刑事訴訟法など職務に関連する法律などについての知識」と明記し、24 時間警備と即時対応は AI に代替困難です。3/10 という低めのスコアは、AI が監視カメラ解析・記録を支援しつつ、現場警備は刑務官に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>監視カメラの自動解析</li><li>勤務記録・日報の自動化</li><li>受刑者データのデータベース管理</li><li>出所支援書類の作成</li><li>改善指導プログラムの作成</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>刑務所内の 24 時間警備</li><li>受刑者の生活指導</li><li>刑務作業工場での監督</li><li>脱走・暴動時の即時対応</li><li>受刑者の悩み相談</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が監視カメラ・記録・データ管理を支援しますが、現場警備と対人指導は刑務官に残ります。受刑者の高齢化と再犯防止重視で、改善指導と出所支援に時間が再配分される業務構造変化が進みます。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>7,335 人</dd></div>
         <div><dt>年収（平均）</dt><dd>—（— 万円）</dd></div>
@@ -543,7 +570,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

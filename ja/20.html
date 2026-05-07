@@ -282,6 +282,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -470,6 +481,22 @@
         <div class="risk-rationale">建築設計はBIM/AIツール活用が進行</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 7/10 か</h2>
+        <p class="ai-rationale-long">建築設計技術者の中核業務は、顧客要望のヒアリング、意匠・構造・設備の設計図面作成、建築基準法等の法的手続、工事監理、都市計画への参画です。Top スキルは読解力 4.71・文章力 4.46・要件分析 4.0、能力では空間把握 3.23・想像力 3.39・独創性 3.34 と、知識労働と空間設計の判断に重みがあります。MHLW も「BIM の導入により、設計から施工、メンテナンスに至るまでの情報を一括管理が可能となり、ほとんどのワークフローで業務効率化が進んでいる」と明記し、図面作成は既に大幅に効率化されています。7/10 というスコアは、AI が CAD/BIM での図面ドラフト・法令チェック・コスト試算・パターン提案を 50-70% 効率化する一方、顧客要望の解釈・空間構想・耐震診断・文化財保存の倫理判断は人間に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>CAD/BIM での図面ドラフト</li><li>法令チェック・申請書類作成</li><li>コスト試算・物量計算</li><li>パターン提案・配置検討</li><li>顧客向けレポート作成</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>顧客要望の聞き取り・解釈</li><li>空間構想・コンセプト設計</li><li>耐震診断・改修判断</li><li>文化財保存の倫理判断</li><li>都市計画への参画・提案</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が CAD/BIM 作業・法令チェック・コスト試算を 50-70% 効率化し、設計者 1 人あたりの担当案件数が 2-3 倍に拡大します。顧客対応と空間構想に時間が再配分され、耐震・改修・文化財保存などの専門領域へ業務の重心が移ります。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>48,516 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥6,416,000（641 万円）</dd></div>
@@ -594,7 +621,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

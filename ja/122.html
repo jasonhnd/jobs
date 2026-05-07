@@ -266,6 +266,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -454,6 +465,22 @@
         <div class="risk-rationale">音楽教室講師、対面レッスン</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">音楽教室講師の中核業務は、ピアノ・バイオリン・フルート・ギター等の楽器演奏指導、楽譜の見方・演奏方法・テンポ・強弱・曲想の指導、聴音訓練、幼児へのリズム遊びと歌唱、クラシックとポピュラー音楽の併用指導、電子楽器対応です。Top スキルは指導 5.57・説明力 5.05・学習方法の選択 4.63・読解力 4.32・傾聴力 4.27・他者の反応の理解 4.03、能力では聴覚の感度 3.80・聴覚的注意 3.80・手首と指の速度 3.64・指先の器用さ 3.49 と、極めて高い指導力と聴覚能力に集中しています。MHLW も「学習者を適切に導いていくための指導力も求められる」と明記し、対面での音感指導と個別ペースの調整は AI に代替困難です。3/10 という低めのスコアは、AI がオンライン教材・練習進捗を支援しつつ、対面レッスンは講師に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>オンライン教材の作成</li><li>練習進捗の自動記録</li><li>楽譜のデジタル管理</li><li>発表会スケジュール管理</li><li>顧客リスト・月謝管理</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>対面での演奏指導</li><li>音感・聴音訓練</li><li>曲想・解釈の伝達</li><li>幼児へのリズム遊び</li><li>発表会での実演伴奏</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI がオンライン教材・進捗管理を支援しますが、対面演奏指導は講師に残ります。児童・生徒は減少傾向ですが大人の音楽愛好家が増加し、ニーズに合わせた多様な指導ができる講師の役割は維持されます。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>70,110 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,384,000（438 万円）</dd></div>
@@ -574,7 +601,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

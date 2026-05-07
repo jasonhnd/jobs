@@ -278,6 +278,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -466,6 +477,22 @@
         <div class="risk-rationale">日本料理板前、伝統的職人技</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">日本料理調理人の中核業務は、会席・懐石・天ぷら・うなぎ・ふぐ料理の調理、早朝の市場仕入れ、追い回し（下処理）から先付・八寸場・焼き場・揚げ場・蒸し場・煮方・板場までの分業、器選びと盛り付けでの季節感表現です。Top スキルは傾聴力 3.74・指導 3.45・説明力 3.35・読解力 3.27・他者反応理解 3.25、能力では指先の器用さ 3.15・独創性 3.13・手腕の器用さ 3.02 と、繊細な手作業と季節感に重みがあります。MHLW も「日本料理は味覚だけでなく、盛り付けの美しさや季節感を大事にしている」「ふぐを扱う場合、ふぐの持つ猛毒による中毒事故を防ぐためにほとんどの自治体でふぐ調理師資格を必要としている」と明記し、ふぐ調理など命に関わる技能は AI に代替困難です。3/10 という低めのスコアは、AI が原価管理・予約を支援しつつ、調理は板前に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>原価管理・仕入れ最適化</li><li>予約・席管理の自動化</li><li>メニュー・季節感企画</li><li>顧客嗜好データ分析</li><li>厨房スケジュール管理</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>刺身の包丁さばき</li><li>ふぐ調理（毒部位除去）</li><li>器選びと盛り付けの季節感</li><li>出汁の繊細な味覚調整</li><li>若手板前の指導育成</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が原価管理・予約・メニュー企画を支援しますが、刺身さばきとふぐ調理など熟練技能は板前に残ります。和食の世界遺産化と訪日観光で高級料亭需要は底堅く、若手育成が業界課題です。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>227,809 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,695,000（369 万円）</dd></div>
@@ -588,7 +615,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

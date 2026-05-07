@@ -277,6 +277,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -465,6 +476,22 @@
         <div class="risk-rationale">穴掘削は機械操作と現場判断</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 2/10 か</h2>
+        <p class="ai-rationale-long">さく井工/ボーリング工の中核業務は、目的に応じたボーリング機械の選定、現場の整地・櫓組立、深度 10-20m の地質調査から 5,000m 超の石油井掘削まで、地熱調査では 300℃超の地層も含む地下掘削、検層、孔内試験、跡地修復の連続工程です。Top スキルは道具/機器の選択 4.33・説明力 4.22・修理 4.19・指導 4.11・故障原因特定 4.11・操作と制御 3.96 と、機械操作と現場判断に重みがあります。MHLW も「厳しい作業環境、勤務形態（交替制）、長期出張等」「24 時間連続作業」と明記し、現場の地質判断・機械トラブル対応・長期駐在は AI に代替困難です。2/10 という低スコアは、AI が補助しうるのは掘削スケジューリング・検層データ分析・帳票作成に限られ、現場での掘削判断と機械操縦は熟練オペレーターに残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>掘削スケジューリング</li><li>検層データの自動分析</li><li>業務記録・帳票作成</li><li>機材搬入・物量管理</li><li>顧客向け調査報告書の作成</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>現場での地質判断</li><li>ボーリング機械の操縦・制御</li><li>深部高温地層での掘削対応</li><li>機械トラブルの原因特定・修理</li><li>長期駐在現場の交替体制管理</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が掘削計画・検層分析・帳票作業を支援しますが、現場の地質判断と機械操縦は熟練オペレーターに残ります。地熱・温泉・地下資源の探査需要が続き、深掘ボーリングの専門性は維持されます。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>43,415 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,650,000（465 万円）</dd></div>
@@ -586,7 +613,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

@@ -278,6 +278,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -466,6 +477,22 @@
         <div class="risk-rationale">洋食コック、手仕事中心</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 3/10 か</h2>
+        <p class="ai-rationale-long">西洋料理調理人の中核業務は、シェフの決めたメニューに沿った材料の下準備、ゆでる・炒める・焼く・スープ作り、皿への盛り付け、分業（ブッシェ・ソーシェ・ガルド・マンジェ・アントルメティエ・パティシエ）、新メニュー開発、来客への料理説明です。Top スキルは傾聴力 4.09・読解力 3.65・説明力 3.26・文章力 3.16・道具/機器の選択 3.0、能力では独創性 3.02・指先の器用さ 3.02・手腕の器用さ 3.02・色の違いを見分ける力 2.90 と、創造性と手作業に重みがあります。MHLW も「料理について関心が強いこと、味覚がすぐれていること、また、長い修業期間があるので、忍耐力や向上心が求められる」と明記し、味覚と創造性を要する調理は AI に代替困難です。3/10 という低めのスコアは、AI がメニュー設計・原価計算・予約管理を支援しつつ、調理は調理人に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>メニュー設計・原価計算</li><li>予約・席管理の自動化</li><li>食材発注・在庫管理</li><li>レシピデータベース管理</li><li>顧客フィードバックの分析</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>材料の下準備・カット</li><li>火力・時間調整の調理判断</li><li>盛り付けの美的演出</li><li>新メニューの開発・試作</li><li>来客への料理説明</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI がメニュー設計・原価計算・予約管理を支援しますが、調理と盛り付けはコックに残ります。フランス・イタリア料理の星付き店舗ニーズで高度技能のシェフ需要は底堅く推移します。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>227,809 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥3,695,000（369 万円）</dd></div>
@@ -586,7 +613,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

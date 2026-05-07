@@ -270,6 +270,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -458,6 +469,22 @@
         <div class="risk-rationale">会計士、監査AIツール拡大</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 7/10 か</h2>
+        <p class="ai-rationale-long">公認会計士の中核業務は、企業財務諸表の独立した第三者監査、帳簿チェック、銀行預金確認、棚卸し立会い、不適正会計処理の指導、監査報告書作成、税務代理、コンサルティング、外部監査です。Top スキルは傾聴力 5.69・説明力 5.5・読解力 5.44・文章力 5.39・説得 4.93・指導 4.91・他者調整 4.83 と、極めて高い分析と対人能力に集中しています。MHLW も公認会計士法を引用し「監査及び会計の専門家として、独立した立場において、財務書類の信頼性を確保することにより、公正な事業活動、投資者・債権者の保護を図る」と明記し、独立性を持つ判断は AI に代替困難です。7/10 という高スコアは、AI が帳簿チェック・異常検知・監査調書作成を 50-70% 効率化する一方、最終監査意見と独立性判断は会計士に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>帳簿の異常検知・自動分析</li><li>監査調書のドラフト作成</li><li>棚卸データの自動集計</li><li>国際会計基準の自動チェック</li><li>勘定科目の自動分類</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>最終監査意見の表明</li><li>独立性判断と倫理判断</li><li>経営者・取締役会への報告</li><li>現場での棚卸立会い</li><li>海外子会社の監査出張</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が帳簿チェック・異常検知・調書作成を 50-70% 効率化し、会計士 1 人あたり監査範囲が 2-3 倍に拡大します。最終意見と独立性判断に時間が再配分され、四半期開示・国際会計基準対応で需要は底堅く推移します。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>21,850 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥8,563,000（856 万円）</dd></div>
@@ -578,7 +605,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

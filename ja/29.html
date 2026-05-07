@@ -277,6 +277,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -465,6 +476,22 @@
         <div class="risk-rationale">鉄骨組立は重作業</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 2/10 か</h2>
+        <p class="ai-rationale-long">鉄骨工の中核業務は、CAD による NC データ・原寸型板・材料リスト作成、厚鋼板や形鋼の切断・孔あけ・曲げ加工、クレーンで吊って溶接しながらの組立、寸法精度と溶接欠陥の検査の連続工程です。Top スキルは読解力 3.76・道具/機器の選択 3.62・傾聴力 3.52・説明力 3.45・修理 3.38・数学的素養 3.28 と、CAD 理解と熟練判断の併用に重みがあります。MHLW も「コンピュータ制御による加工の自動化が進んでいるが、特に組立や矯正の作業などにはまだ経験と勘に頼る部分が残っている」と明記し、組立精度の最終判断は AI に代替困難です。2/10 という低スコアは、AI が NC データ生成・加工スケジューリング・物量計算・検査記録を 40-60% 効率化する一方、組立・矯正・溶接の現場判断は熟練工に残ることを示します。受注生産で工程の自動化が難しく、需要は底堅い見込みです。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>NC データ・加工帳の自動生成</li><li>加工スケジューリング</li><li>物量計算・原価管理</li><li>検査記録・帳票作成</li><li>出荷管理・配送計画</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>鉄骨組立の現場判断</li><li>矯正作業の経験的調整</li><li>溶接の品質確認</li><li>クレーンと連携した吊り上げ</li><li>寸法精度の最終検査</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が NC データ生成・加工スケジューリング・検査記録を 40-60% 効率化しますが、組立・矯正・溶接の現場判断は熟練工に残ります。受注生産で大量生産化が難しく、超高層ビル需要に支えられて需要は底堅い見込みです。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>26,830 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥4,665,000（466 万円）</dd></div>
@@ -586,7 +613,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

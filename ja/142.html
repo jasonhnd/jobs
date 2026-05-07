@@ -237,6 +237,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -425,6 +436,22 @@
         <div class="risk-rationale">麻薬取締官、現場捜査+分析</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 4/10 か</h2>
+        <p class="ai-rationale-long">麻薬取締官の中核業務は、特別司法警察員として麻薬・覚醒剤・大麻・向精神薬・あへん・危険ドラッグ等の薬物乱用取締り、薬物犯罪者の逮捕・取り調べ、押収薬物の鑑定、国際密売組織壊滅のための各国捜査機関との情報交換、医療機関への麻薬・向精神薬の使用・保管立入検査、薬物乱用防止啓発、再乱用防止取組です。Top スキルは傾聴力 6.42・説得 5.54・文章力 5.25・説明力 5.21・他者の反応の理解 5.17・読解力 5.04・交渉 5.0、極めて高い対人能力と取調べ能力に集中しています。MHLW も「捜査には危険が伴うこともあるため、逮捕術訓練や拳銃射撃訓練も受ける」と明記し、潜入捜査と被疑者対応は AI に代替困難です。4/10 という中程度スコアは、AI が薬物データベース・密売パターン分析を支援しつつ、現場捜査は取締官に残ることを示します。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>薬物データベースの管理</li><li>密売パターンの自動分析</li><li>押収薬物鑑定の機械分析</li><li>捜査記録・調書のドラフト</li><li>サイバー監視の自動化</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>薬物犯罪の現場捜査</li><li>被疑者の取調べ</li><li>潜入捜査・国際協力</li><li>医療機関への立入検査</li><li>薬物乱用防止啓発活動</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI がデータベース・パターン分析・鑑定支援を効率化しますが、現場捜査と取調べは取締官に残ります。危険ドラッグの新化と国際密売組織の巧妙化で需要は底堅く、薬剤師資格保持者の希少性が業界価値となります。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>7,335 人</dd></div>
         <div><dt>年収（平均）</dt><dd>—（— 万円）</dd></div>
@@ -542,7 +569,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>

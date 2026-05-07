@@ -281,6 +281,17 @@
       .risk-rationale{flex:1;font-size:0.95rem;color:var(--fg)}
       .risk-0,.risk-1,.risk-2{color:#7ddc7d}.risk-3,.risk-4{color:#a8d572}
       .risk-5,.risk-6{color:#ffd84d}.risk-7,.risk-8{color:#ff8a3d}.risk-9,.risk-10{color:#ff5050}
+      /* AI 影響度 detail — Phase 1 SEO long-form rationale + task grid + 5-10y horizon. */
+      .ai-risk-detail{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:22px 0 28px}
+      .ai-risk-detail h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px}
+      .ai-risk-detail .ai-rationale-long{font-size:0.95rem;line-height:1.85;color:var(--fg);margin:0 0 22px}
+      .ai-risk-detail .ai-task-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+      .ai-risk-detail .ai-task-block h3{font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-deep);margin:0 0 10px}
+      .ai-risk-detail .ai-task-block ul{list-style:disc;padding-left:18px;margin:0;font-size:0.9rem;line-height:1.7;color:var(--fg)}
+      .ai-risk-detail .ai-task-block li{margin-bottom:6px}
+      .ai-risk-detail .ai-horizon{font-size:0.9rem;line-height:1.7;color:var(--fg2);margin:0;padding-top:18px;border-top:1px solid var(--border)}
+      .ai-risk-detail .ai-horizon strong{color:var(--accent-deep);font-weight:600}
+      @media (max-width:540px){.ai-risk-detail{padding:18px 20px;margin:18px 0}.ai-risk-detail h2{font-size:1.05rem}.ai-risk-detail .ai-task-grid{grid-template-columns:1fr;gap:14px}}
       dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 18px;margin:20px 0;padding:16px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
       dl.stats dt{font-size:0.72rem;color:var(--fg2);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
       dl.stats dd{font-size:1.05rem;font-weight:600}
@@ -469,6 +480,22 @@
         <div class="risk-rationale">高所作業の足場組立</div>
       </div>
 
+      <section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
+        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 2/10 か</h2>
+        <p class="ai-rationale-long">とびの中核業務は、住宅・ビル・橋梁・ダム等の建築現場における足場組立て・解体、型わく支保工・土止め支保工の組立、中高層ビルの鉄骨組立、クレーン・ブルドーザー等による重量物運搬の高所・現場作業です。Top スキルは道具/機器の選択 3.30・指導 3.25・傾聴力 3.21、能力では筋力 3.55・平衡感覚 3.34・持久力 3.16・トラブル察知 3.11 と、身体能力と現場判断に重みがあります。MHLW も「高所作業や重量物の運搬など危険な作業」「身軽な動作と適切な判断力」と明記し、屋外現場での即時判断と物理作業は AI に代替困難です。2/10 という低スコアは、AI が足場計画・工程管理・重機オペレーション支援を 20-30% 効率化する一方、高所での組立て・解体・重量物の現場判断は引き続きとび職人に残ることを示します。建設需要に支えられ求人倍率 22 と高水準で推移しています。</p>
+        <div class="ai-task-grid">
+          <div class="ai-task-block">
+            <h3>AI に置き換わりやすい業務</h3>
+            <ul><li>足場の事前計画・図面化</li><li>工程管理・スケジュール調整</li><li>重機オペレーションの動線計画</li><li>安全教育資料・帳票作成</li><li>現場写真の自動分類</li></ul>
+          </div>
+          <div class="ai-task-block">
+            <h3>人が残る業務</h3>
+            <ul><li>高所での足場組立て・解体</li><li>重量物の運搬・吊り上げ判断</li><li>鉄骨組立の現場対応</li><li>支保工の組立・撤去</li><li>現場の安全確認・即時対応</li></ul>
+          </div>
+        </div>
+        <p class="ai-horizon"><strong>5-10 年展望:</strong> 5-10 年で AI が足場計画・工程管理・重機支援を 20-30% 効率化しますが、高所組立てと重量物運搬の現場判断はとび職人に残ります。求人倍率 22 という極端な人手不足は続き、業界全体で女性技術者の育成と待遇改善が進みます。</p>
+      </section>
+
       <dl class="stats" aria-label="主な職業統計">
         <div><dt>就業者数</dt><dd>55,970 人</dd></div>
         <div><dt>年収（平均）</dt><dd>¥5,060,000（506 万円）</dd></div>
@@ -585,7 +612,7 @@
           <a href="/privacy">プライバシー</a>
         </div>
         <div class="footer-meta">
-            最終更新：<time datetime="2026-05-07T08:13:18+09:00">2026/05/07/08:13 JST</time><br />
+            最終更新：<time datetime="2026-05-06T23:05:50+09:00">2026/05/06/23:05</time><br />
             出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
             <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
         </div>
