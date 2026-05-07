@@ -296,9 +296,7 @@
         padding: 0;
         box-sizing: border-box;
       }
-      /* Direction C: Warm Editorial — palette synced from styles/mobile-tokens.css.
-         v1.2.0 convergence: PC adopts mobile design language. Single warm-cream theme.
-         Theme toggle is preserved for future dark variant but currently no-op. */
+      /* Direction C: Warm Editorial — palette synced from styles/mobile-tokens.css. v1.2.0 convergence: PC adopts mobile design language. Single warm-cream theme. Theme toggle is preserved for future dark variant but currently no-op. */
       :root {
         --bg: #FAF6EE;     /* warm cream canvas */
         --bg2: #FFFFFF;    /* elevated surface (cards) */
@@ -314,8 +312,7 @@
         --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
         --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       }
-      /* Both prefers-color-scheme variants and explicit data-theme overrides
-         resolve to the same Direction C palette — single theme by design. */
+      /* Both prefers-color-scheme variants and explicit data-theme overrides resolve to the same Direction C palette — single theme by design. */
       @media (prefers-color-scheme: light) {
         :root:not([data-theme="dark"]) {
           --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
@@ -394,16 +391,12 @@
         font-style: italic;
         font-weight: 600;
       }
-      /* Mobile hero title line-break point: "AIの時代でも、" stays on line 1,
-         "あなたらしい働き方を。" stays on line 2 — semantic Japanese phrase boundary
-         instead of mid-word "を。" orphan. Hidden on wider viewports where the
-         title fits on one line. */
+      /* Mobile hero title line-break point: "AIの時代でも、" stays on line 1, "あなたらしい働き方を。" stays on line 2 — semantic Japanese phrase boundary instead of mid-word "を。" orphan. Hidden on wider viewports where the title fits on one line. */
       .ja-phrase-break { display: inline; }
       @media (min-width: 769px) { .ja-phrase-break { display: none; } }
 
       /* ═══════════ v1.2.x mobile TOP 10 horizontal-swipe carousel ═══════════ */
-      /* Hidden on desktop (≥769px) — desktop keeps the 6 stat-cards block.
-         At ≤768px, swap: TOP 10 carousel replaces the stat panel block visually. */
+      /* Hidden on desktop (≥769px) — desktop keeps the 6 stat-cards block. At ≤768px, swap: TOP 10 carousel replaces the stat panel block visually. */
       .m-top10 { display: none; }
       @media (max-width: 768px) {
         .m-top10 {
@@ -411,8 +404,7 @@
           margin: 28px -20px 24px;  /* bleed to viewport edges so cards swipe past content padding */
           padding: 0 20px;
         }
-        /* Hide the desktop's 6 stat-card panel on mobile per Direction C
-           homepage design (carousel is the mobile feature surface). */
+        /* Hide the desktop's 6 stat-card panel on mobile per Direction C homepage design (carousel is the mobile feature surface). */
         .stats-panel { display: none !important; }
       }
       .m-top10-head {
@@ -592,12 +584,7 @@
         letter-spacing: 0.04em;
       }
 
-      /* ═══════════ Mobile Map Preview Card (Design-Mobile.md §4.2) ═══════════
-         Mobile-only (<=768px) entry card that replaces the embedded treemap
-         canvas. Whole card is a tap target → /map. SVG thumbnail injected at
-         build time by build_occupations.py generate_map_thumbnail(). Default
-         display: none on desktop; mobile @media block (search "m-map-preview"
-         further down) flips it on with order: -2. */
+      /* ═══════════ Mobile Map Preview Card (Design-Mobile.md §4.2) ═══════════ Mobile-only (<=768px) entry card that replaces the embedded treemap canvas. Whole card is a tap target → /map. SVG thumbnail injected at build time by build_occupations.py generate_map_thumbnail(). Default display: none on desktop; mobile @media block (search "m-map-preview" further down) flips it on with order: -2. */
       .m-map-preview { display: none; }
       @media (max-width: 768px) {
         .m-map-preview {
@@ -699,9 +686,7 @@
           justify-content: space-between;
           gap: 12px;
           padding: 14px 22px;
-          /* Frosted glass: half-transparent warm cream + blur backdrop so
-             content scrolling underneath gets a soft veil instead of hard
-             cut-off. iOS Safari supports -webkit-backdrop-filter. */
+          /* Frosted glass: half-transparent warm cream + blur backdrop so content scrolling underneath gets a soft veil instead of hard cut-off. iOS Safari supports -webkit-backdrop-filter. */
           background: rgba(250, 246, 238, 0.85);
           backdrop-filter: saturate(180%) blur(14px);
           -webkit-backdrop-filter: saturate(180%) blur(14px);
@@ -757,8 +742,7 @@
         .m-topbar-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
         .m-topbar-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 
-        /* Hide the legacy desktop utility row + h1 brand block on mobile —
-           the top-bar above replaces them. */
+        /* Hide the legacy desktop utility row + h1 brand block on mobile — the top-bar above replaces them. */
         .desktop-hero-utility { display: none !important; }
         #wrapper > header > h1 { display: none !important; }
 
@@ -766,8 +750,7 @@
           display: block;
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
-          /* Full-screen solid cream so the menu visually obliterates the
-             page underneath. Inner panel grows to fill via min-height. */
+          /* Full-screen solid cream so the menu visually obliterates the page underneath. Inner panel grows to fill via min-height. */
           background: var(--bg);
           z-index: 49;
           opacity: 0;
@@ -802,8 +785,7 @@
         .m-topbar-menu-section a:last-child { border-bottom: none; }
       }
 
-      /* Treemap section header — desktop hidden (controls block above already does it),
-         mobile shows it as a clear section break per Direction C design. */
+      /* Treemap section header — desktop hidden (controls block above already does it), mobile shows it as a clear section break per Direction C design. */
       .m-map-head { display: none; }
       @media (max-width: 768px) {
         .m-map-head {
@@ -831,8 +813,7 @@
           letter-spacing: 0.02em;
         }
       }
-      /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM
-         for future dark-variant work; restore by removing this rule. */
+      /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM for future dark-variant work; restore by removing this rule. */
       .theme-toggle { display: none !important; }
       #wrapper {
         max-width: 1400px;
@@ -840,9 +821,7 @@
         padding: 24px 28px 80px;
         position: relative; /* anchor for #tileHighlight overlay */
       }
-      /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select.
-         Lets every interaction skip the 552-tile loop in draw() and just move a div.
-         Killed mobile INP from ~768ms to ~30ms. */
+      /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select. Lets every interaction skip the 552-tile loop in draw() and just move a div. Killed mobile INP from ~768ms to ~30ms. */
       #tileHighlight {
         position: absolute;
         pointer-events: none;
@@ -1291,8 +1270,7 @@
       #tooltip.touch-mode {
         pointer-events: auto;
       }
-      /* Close button — Design.md §6.5. Visual 32×32, hit area 44×44 via padding.
-         Only visible in mobile touch-mode (display:none on desktop hover). */
+      /* Close button — Design.md §6.5. Visual 32×32, hit area 44×44 via padding. Only visible in mobile touch-mode (display:none on desktop hover). */
       #tooltip .tt-close {
         position: absolute;
         top: 8px;
@@ -1316,9 +1294,7 @@
         background: rgba(0, 0, 0, 0.05);
       }
       #tooltip .tt-close::before {
-        /* Expand the touch-target hit area to 44×44 (Apple HIG minimum)
-           without changing the visual size. Pseudo-element absorbs the
-           extra 6px padding all around. */
+        /* Expand the touch-target hit area to 44×44 (Apple HIG minimum) without changing the visual size. Pseudo-element absorbs the extra 6px padding all around. */
         content: "";
         position: absolute;
         inset: -6px;
@@ -1409,8 +1385,7 @@
         color: var(--fg);
         text-align: right;
       }
-      /* Tooltip CTA — Design.md §6.6. Hidden by default; mobile touch-mode shows it.
-         The visible "詳細を見る →" button that connects treemap → detail page in one tap. */
+      /* Tooltip CTA — Design.md §6.6. Hidden by default; mobile touch-mode shows it. The visible "詳細を見る →" button that connects treemap → detail page in one tap. */
       #tooltip .tt-cta {
         display: none;
         margin: 12px 0 0;
@@ -1485,8 +1460,7 @@
         footer .footer-meta .m-only { display: inline; }
       }
       /* ============ Desktop Hero (Design.md §7.12 — search-first) ============ */
-      /* Replaces old h1 / controls / search-row on ≥769px.
-         Mobile keeps using §7.11 Mobile Hero. */
+      /* Replaces old h1 / controls / search-row on ≥769px. Mobile keeps using §7.11 Mobile Hero. */
       .desktop-hero { display: none; }
       .desktop-hero-utility {
         display: flex;
@@ -1672,10 +1646,7 @@
 
       @media (min-width: 769px) {
         .desktop-hero { display: block; }
-        /* On desktop, the new hero (search-first) replaces the legacy chrome.
-           Old h1 + .controls + .dimension-hint + .search-row stay in DOM for
-           accessibility/SEO but are visually hidden. Mobile keeps using the
-           original §7.11 mobile-hero block, which already handles its own DOM reorder. */
+        /* On desktop, the new hero (search-first) replaces the legacy chrome. Old h1 + .controls + .dimension-hint + .search-row stay in DOM for accessibility/SEO but are visually hidden. Mobile keeps using the original §7.11 mobile-hero block, which already handles its own DOM reorder. */
         #wrapper > header > h1,
         .controls,
         .dimension-hint,
@@ -1793,14 +1764,7 @@
           display: flex;
           flex-direction: column;
         }
-        /* Variant C reorder + Design-Mobile.md §4.2 split: header = display:
-           contents so its children participate in the wrapper's flex order.
-           Mobile (<=768px) shows: h1 → mobile-hero → m-top10 carousel →
-           m-map-preview card. The embedded treemap canvas + its chrome
-           (m-map-head, controls, stats-panel, loadingState, tileHighlight,
-           canvasFallback, dimension-hint, search-row) are all hidden because
-           the preview card replaces them. The deep-dive treemap UX moved to
-           the dedicated /map page (see Design-Mobile.md §4). */
+        /* Variant C reorder + Design-Mobile.md §4.2 split: header = display: contents so its children participate in the wrapper's flex order. Mobile (<=768px) shows: h1 → mobile-hero → m-top10 carousel → m-map-preview card. The embedded treemap canvas + its chrome (m-map-head, controls, stats-panel, loadingState, tileHighlight, canvasFallback, dimension-hint, search-row) are all hidden because the preview card replaces them. The deep-dive treemap UX moved to the dedicated /map page (see Design-Mobile.md §4). */
         header { display: contents; }
         header h1 { order: -5; }
         .mobile-hero { display: block; order: -4; }
@@ -2124,10 +2088,7 @@
       }
       .data-summary .about-link { font-weight: 600; }
 
-      /* Sector navigation block — Phase 2 of sector hub rollout.
-         Sits between treemap and data attribution, gives every visitor a
-         direct route into the 16 sector hubs. Pill chips mirror the footer
-         token system but inverted: warm-cream pill on bg2 surface. */
+      /* Sector navigation block — Phase 2 of sector hub rollout. Sits between treemap and data attribution, gives every visitor a direct route into the 16 sector hubs. Pill chips mirror the footer token system but inverted: warm-cream pill on bg2 surface. */
       .sector-nav {
         margin: 28px 0 18px;
         padding: 22px 18px;
@@ -2449,7 +2410,7 @@
             <button type="button" data-chip="看護師" role="listitem">看護師</button>
           </div>
         </div>
-        <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations. Visible only at ≤768px (matches .mobile-hero breakpoint). Cards built client-side from `data` array sorted by ai_risk desc after fetch resolves. -->
+        <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations. Visible only at ≤768px (matches .mobile-hero breakpoint). Cards built client-side from 'data' array sorted by ai_risk desc after fetch resolves. -->
         <section class="m-top10" id="mTop10" aria-label="AI に変わる仕事 TOP 10" hidden>
           <header class="m-top10-head">
             AI に変わる仕事
