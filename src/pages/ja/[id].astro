@@ -264,8 +264,12 @@ export async function getStaticPaths() {
     return chosen.slice(0, count);
   }
 
+  // URL params are NOT zero-padded — legacy URLs are /ja/1, /ja/162, /ja/584
+  // (no leading zeros). Astro emits dist-astro/ja/{id}.html matching that.
+  // The data filename in dist/data.detail/{padded}.json IS zero-padded; that
+  // padding is handled inside the JSON load step, not in URLs.
   return all.map((rec) => ({
-    params: { id: String(rec.id).padStart(4, '0') },
+    params: { id: String(rec.id) },
     props: { rec, related: pickRelated(rec), nameLookup },
   }));
 }
