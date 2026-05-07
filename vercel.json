@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "buildCommand": null,
-  "installCommand": null,
-  "outputDirectory": ".",
+  "framework": "astro",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "dist-astro",
   "trailingSlash": false,
   "cleanUrls": true,
   "headers": [
@@ -79,15 +79,7 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/data.treemap.json", "destination": "/dist/data.treemap.json" },
-    { "source": "/data.search.json", "destination": "/dist/data.search.json" },
-    { "source": "/data.sectors.json", "destination": "/dist/data.sectors.json" },
-    { "source": "/data.profile5.json", "destination": "/dist/data.profile5.json" },
-    { "source": "/data.transfer_paths.json", "destination": "/dist/data.transfer_paths.json" },
-    { "source": "/data.detail/:file", "destination": "/dist/data.detail/:file" },
-    { "source": "/data.labels/:file", "destination": "/dist/data.labels/:file" }
-  ],
+  "rewrites": [],
   "redirects": [
     {
       "source": "/data.json",

@@ -1,0 +1,82 @@
+/*
+ * tokens.css — Direction C: Warm Editorial design system.
+ * Synced with styles/mobile-tokens.css (v1.2.0 PC convergence).
+ *
+ * Single source of truth for color/typography variables across all Astro pages.
+ * The original HTML carried the same `:root { --bg, --fg, ... }` block inline
+ * in every file; this is the deduplicated version.
+ */
+
+:root {
+  --bg: #FAF6EE;
+  --bg2: #FFFFFF;
+  --bg3: #F2EADB;
+  --fg: #241E18;
+  --fg2: #7A6F5E;
+  --fg3: #A39785;
+  --accent: #D96B3D;
+  --accent-2: #6E9B89;
+  --accent-deep: #48705F;
+  --border: rgba(36, 30, 24, 0.10);
+  --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #FAF6EE;
+    --bg2: #FFFFFF;
+    --bg3: #F2EADB;
+    --fg: #241E18;
+    --fg2: #7A6F5E;
+    --fg3: #A39785;
+    --accent: #D96B3D;
+    --accent-2: #6E9B89;
+    --accent-deep: #48705F;
+    --border: rgba(36, 30, 24, 0.10);
+  }
+}
+
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --bg: #FAF6EE;
+  --bg2: #FFFFFF;
+  --bg3: #F2EADB;
+  --fg: #241E18;
+  --fg2: #7A6F5E;
+  --fg3: #A39785;
+  --accent: #D96B3D;
+  --accent-2: #6E9B89;
+  --accent-deep: #48705F;
+  --border: rgba(36, 30, 24, 0.10);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+h1 .accent,
+h2 .accent {
+  color: var(--accent);
+  font-style: italic;
+}
