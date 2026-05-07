@@ -2,30 +2,44 @@
   "name": "mirai-shigoto",
   "version": "1.3.0",
   "private": true,
-  "description": "Static site + Vercel Edge Functions for mirai-shigoto.com. Python is the build pipeline; Node is here only so Vercel can detect and bundle the @vercel/og runtime used by api/og.tsx.",
+  "description": "Static site + Vercel Edge Functions for mirai-shigoto.com. Migrating from Python pipeline to TypeScript + Astro (see docs/MIGRATION_PLAN.md).",
+  "type": "module",
   "scripts": {
-    "dev": "python3 scripts/dev-server.py",
+    "dev": "astro dev",
+    "build": "npm run build:data && astro build",
+    "preview": "astro preview",
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/**/*.test.ts",
+    "test:consistency": "tsx src/data/test-consistency.ts",
+    "build:data": "tsx src/data/build.ts",
+    "import:ipd": "tsx src/data/import-ipd.ts",
+    "diff:projection": "tsx src/data/diff-projections.ts",
     "audit": "npm audit --audit-level=moderate && (cd analytics && npm audit --audit-level=moderate)",
-    "build:data": "uv run python scripts/build_data.py",
-    "build:data:full": "uv run python scripts/build_data.py --enable-future",
-    "build:data:validate": "uv run python scripts/build_data.py --validate-only",
-    "build:occ": "python3 scripts/build_occupations.py",
-    "build:footer": "python3 scripts/build_partials.py",
-    "build:sectors": "python3 scripts/build_sector_hubs.py",
-    "build:rankings": "python3 scripts/build_rankings.py",
-    "build": "npm run build:data && npm run build:footer && npm run build:occ && npm run build:sectors && npm run build:rankings",
-    "test:data": "uv run python scripts/test_data_consistency.py",
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
-    "test:spec": "node scripts/check_spec_vs_code.mjs"
+    "_legacy:build:data": "uv run python scripts/build_data.py",
+    "_legacy:build:data:full": "uv run python scripts/build_data.py --enable-future",
+    "_legacy:build:data:validate": "uv run python scripts/build_data.py --validate-only",
+    "_legacy:build": "npm run _legacy:build:data && python3 scripts/build_partials.py && python3 scripts/build_occupations.py && python3 scripts/build_sector_hubs.py && python3 scripts/build_rankings.py",
+    "_legacy:dev": "python3 scripts/dev-server.py",
+    "_legacy:import:ipd": "uv run python scripts/import_ipd.py",
+    "_legacy:test:data": "uv run python scripts/test_data_consistency.py",
+    "_legacy:test:spec": "node scripts/check_spec_vs_code.mjs"
   },
   "dependencies": {
+    "@astrojs/react": "^4.2.0",
     "@vercel/og": "^0.6.5",
-    "react": "^18.3.1"
+    "astro": "^5.1.0",
+    "exceljs": "^4.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "js-yaml": "^4.1.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
 }

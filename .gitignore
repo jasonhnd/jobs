@@ -30,10 +30,21 @@ desktop.ini
 # dist/ IS tracked per DATA_ARCHITECTURE.md D-009 (Vercel has no Python build server,
 # so projections are built locally and committed). dist.next/ + dist.prev/ are atomic
 # staging dirs and must NOT be committed.
+# After Track D · PR 35 (see docs/MIGRATION_PLAN.md), dist/ will be gitignored too.
 dist.next/
 dist.prev/
 build/
 .cache/
+
+# Astro / TS migration (see docs/MIGRATION_PLAN.md)
+# Astro build output (Vercel deploy target — built fresh in CI, not committed).
+dist-astro/
+# Temporary TS-ETL output dir during Track B; used for byte-diff vs Python ETL.
+dist-ts/
+# Atomic-stage dirs from Python build attempts (left over when swap fails on Dropbox lock).
+dist-py.next/
+# Astro internal cache (auto-generated types, content collection metadata)
+.astro/
 
 # Partial-run manifests — produced by build_occupations.py --ids / --limit
 # (smoke tests). Canonical .occ_manifest.json IS tracked; .partial.json is
