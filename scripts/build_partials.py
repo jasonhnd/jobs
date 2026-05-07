@@ -68,6 +68,7 @@ STATIC_PAGES: list[str] = [
     "about.html",
     "compliance.html",
     "privacy.html",
+    "map.html",
 ]
 
 # Partials to inject. Add new partials here as they are extracted.

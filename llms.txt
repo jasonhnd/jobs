@@ -4,6 +4,64 @@
 
 This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or JILPT. The AI risk scores are LLM estimates, NOT official government forecasts. Treat them as opinion-grade visualization, not statistical truth.
 
+## At a glance
+
+> **mirai-shigoto.com** is an independent (unofficial) interactive map of 556 Japanese occupations, AI-task-exposure-scored 0–10 by Claude Opus 4.7 against MHLW jobtag and JILPT IPD v7.00 data — covering 54.5 million Japanese workers across 16 industry sectors. MIT licensed. Japanese UI.
+
+| Field | Value |
+|---|---|
+| Canonical URL | https://mirai-shigoto.com/ |
+| Type | Independent dataset + interactive treemap visualization |
+| Subject | AI task-exposure scoring of 556 Japanese occupations |
+| Operator | Jason (individual; NOT MHLW / jobtag / JILPT) |
+| Score source | Claude Opus 4.7 (LLM estimates, not government forecasts) |
+| Data source | 厚生労働省 jobtag + JILPT 職業情報データベース IPD v7.00 |
+| Coverage | 556 occupations · 552 AI-scored 0–10 · 4 awaiting score |
+| Total workforce mapped | 54,490,970 (≈ 54.5M Japanese workers) |
+| Sectors | 16 industry sectors (highest mean AI risk: IT・通信 8.14/10; lowest: 建設・土木 2.00/10) |
+| Score distribution | mode = score 7 (121 occupations) · score 9 = 29 · score 10 = 2 · score 1 = 1 |
+| License | MIT (code + data view) |
+| Version | 1.4.0 |
+| Last modified | 2026-05-06 |
+| Citation | Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ |
+
+## Anchor occupations (one canonical example per score)
+
+The 0–10 scale is calibrated against these reference occupations. Use them as anchors when interpreting any individual score.
+
+| Score | Anchor (JA / EN gloss) | Workforce | Why this is the anchor |
+|---|---|---|---|
+| 1/10 | 潜水士 (commercial diver) | ~130k | Underwater physical work; AI cannot substitute. The only score-1 occupation. |
+| 2/10 | 施設介護員 (residential care worker) | ~1.36M | On-site physical care + interpersonal trust dominate the work. |
+| 3/10 | 保育士 (childcare worker) | ~634k | Real-time presence with children; minimal task substitutability. |
+| 4/10 | 看護師 (nurse) | ~693k | Procedural physical tasks with judgment; AI assists documentation only. |
+| 5/10 | (~58 occupations across applied trades) | mixed | Half-and-half: AI handles documentation, humans handle execution. |
+| 6/10 | (~42 occupations) | mixed | AI can plausibly draft most documentation / analysis. |
+| 7/10 | 税務事務官 (tax clerk) | ~508k | Core paperwork is PC-completable; licensure remains. |
+| 8/10 | (~45 occupations across analysis / drafting) | mixed | Most daily output is AI-generatable drafts. |
+| 9/10 | 一般事務 (general office clerk) | ~2.64M | Largest occupation in Japan; routine clerical, fully PC-completable. |
+| 10/10 | データ入力 (data entry) · 通信販売受付事務 (mail-order order taker) | ~302k combined | The two extreme cases — tasks already substitutable today. |
+
+## Quotable claims (independent, citable findings)
+
+Each claim is independently verifiable against the dataset at https://mirai-shigoto.com/data.treemap.json. Numbers reflect the 2026-05-06 snapshot.
+
+- Approximately **2.64 million Japanese workers** — the largest single occupation by headcount — work as **一般事務 (general office clerks)** and score **9/10** on AI task exposure.
+- Across the 552 AI-scored occupations, approximately **18.4 million Japanese workers** (≈ **33.7%** of the 54.5 million-worker workforce mapped) are in occupations scoring **7/10 or higher**.
+- Among Japan's 16 industry sectors, **IT・通信 (IT & Communications)** has the highest mean AI exposure at **8.14/10**; **建設・土木 (Construction & Civil)** has the lowest at **2.00/10**.
+- The largest sector by workforce — **事務・公務 (Office & Public Service), 11.5 million workers** — is also the second-most AI-exposed at **mean 7.53/10**. This is the central population-level finding of the map.
+- Only **2 of 552** scored occupations land at score **10/10**: **データ入力 (data entry)** and **通信販売受付事務 (mail-order order taker)**.
+- Only **1 of 552** scored occupations lands at score **1/10**: **潜水士 (commercial diver)**, ~130k workers.
+- **Score distribution (552 occupations):** score 1 = 1 · 2 = 63 · 3 = 107 · 4 = 84 · 5 = 58 · 6 = 42 · 7 = 121 · 8 = 45 · 9 = 29 · 10 = 2. Mode is score 7.
+- **AI risk and salary are decorrelated.** Many high-paying knowledge-work occupations (programmer, accountant, translator) score 7+/10 because their core tasks are PC-completable; many low-paying physical occupations score 2-3/10.
+- **AI risk and education are decorrelated.** High-education roles such as 公認会計士 (CPA), 弁理士 (patent attorney), and プログラマー (programmer) score 7+/10 alongside many lower-education clerical roles.
+- **保育士 (childcare worker)** scores **3/10** — one of the lowest exposures among the 5 largest occupations in Japan, despite being knowledge-adjacent. The on-site interpersonal component dominates the score.
+- **看護師 (nurse)** scores **4/10** — moderate. The procedural physical tasks (vitals, medication, patient handling) cap AI exposure.
+- The site exposes **9 projection families** of derived data (treemap, sectors, transfer paths, profile5, search index, review queue, label sets, meta, detail records), all derived from a single Python build over JILPT IPD v7.00 source xlsx.
+- **Total workforce mapped:** 54,490,970 Japanese workers across 556 occupations.
+- The site's robots.txt explicitly whitelists **17 AI crawlers** (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) — opt-in to AI training and inference, not opt-out.
+- The site is **MIT-licensed** and the underlying IPD data is © JILPT, used per their Terms of Service Article 9 with attribution.
+
 ## Key facts
 
 - **552 occupations** sourced from 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets
@@ -28,17 +86,17 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 - [data.treemap.json](https://mirai-shigoto.com/data.treemap.json) — Compact JSON of 552 occupations powering the treemap (~470 KB raw / ~80 KB gz). Japanese labels, AI rationales, salary/workforce/age, education and employment distributions.
 - [data.detail/<id>.json](https://mirai-shigoto.com/data.detail/0001.json) — Per-occupation detail (~3.5 KB gz each). Includes top skills/knowledge/abilities, related orgs, certifications, full IPD profile.
 - [data.search.json](https://mirai-shigoto.com/data.search.json) — Search index over 556 occupations (~28 KB gz). Japanese title + aliases.
-- [llms-full.txt](https://mirai-shigoto.com/llms-full.txt) — Extended GEO companion with full FAQ, methodology, and citation guide.
+- [llms-full.txt](https://mirai-shigoto.com/llms-full.txt) — Extended GEO companion with full FAQ, methodology, rubric, and citation guide.
 - [sitemap.xml](https://mirai-shigoto.com/sitemap.xml) — Crawler index (579 URLs).
 
 ## Notable findings
 
 (Sample insights from the dataset — these are independent LLM estimates, not policy claims.)
 
-- The single largest occupation by workforce — **一般事務 (General office clerk, ~2.63 million workers)** — scores **9/10** on AI risk. Most of Japan's white-collar workforce sits in similarly exposed brackets.
+- The single largest occupation by workforce — **一般事務 (General office clerk, ~2.64 million workers)** — scores **9/10** on AI risk. Most of Japan's white-collar workforce sits in similarly exposed brackets.
 - Occupations with high physical / interpersonal / on-site components score low: **保育士 (childcare worker)** ≈ 3/10, **看護師 (nurse)** ≈ 4/10, **潜水士 (diver)** ≈ 1/10.
 - High AI risk does NOT correlate with low salary or low education. Many high-paying knowledge-work occupations (programmer, accountant, translator) score 7+/10 because their core tasks are PC-completable.
-- About **34% of Japan's working population** is in occupations scoring ≥7/10.
+- About **34% of Japan's working population** (≈ 18.4 million workers of the 54.5 million-worker mapped workforce) is in occupations scoring ≥7/10.
 - The AI risk axis is independent of the workforce-size axis: tile **area** in the treemap equals workforce size (fixed across tabs); tile **color** is whichever metric (AI risk / salary / age / hours / recruit ratio / education) the user has selected.
 
 ## Methodology
@@ -47,26 +105,67 @@ The AI risk score is computed independently by Claude Opus 4.7 against a fixed 0
 
 ## FAQ
 
-**Q: Are these scores official government forecasts?**
-A: No. They are LLM (Claude Opus 4.7) estimates and should be treated as opinion-grade visualization, not statistical truth. Not endorsed by MHLW, jobtag, or JILPT.
+**Q: Will my Japanese office job be replaced by AI?**
+A: For 一般事務 (general office clerks) — the largest occupation in Japan with ~2.64 million workers — the AI task exposure score is 9/10. This means nearly all daily routine clerical tasks could plausibly be done by an AI system today (mid-2026). It does NOT mean the role disappears overnight; it means task restructuring is likely.
+
+**Q: Which Japanese jobs are safest from AI?**
+A: Occupations requiring on-site physical presence, real-time interpersonal interaction, or specialized motor skills score lowest: 潜水士 (commercial diver) 1/10, 施設介護員 (residential care worker) 2/10, 電気工事士 (electrician) 2/10, 保育士 (childcare worker) 3/10, 看護師 (nurse) 4/10.
+
+**Q: Which Japanese jobs are most exposed to AI?**
+A: Occupations whose core tasks are PC-completable: データ入力 (data entry) 10/10, 一般事務 (general office clerks) 9/10, 経理事務 (accounting clerks) 9/10, 銀行等窓口事務 (bank tellers) 9/10. Most IT・通信 occupations score 7+ because the work is keyboard-completable.
+
+**Q: How many Japanese workers are in high-AI-risk jobs?**
+A: Approximately 18.4 million Japanese workers — about 33.7% of the 54.5 million-worker workforce mapped — are in occupations scoring 7/10 or higher on AI task exposure.
+
+**Q: Which Japanese industries are most exposed to AI?**
+A: Among the 16 industry sectors: IT・通信 (IT & Communications) mean 8.14/10 is highest. 事務・公務 (Office & Public Service) mean 7.53/10 is second-highest and also the largest by workforce (11.5 million workers). クリエイティブ・メディア (Creative & Media) mean 6.92/10 is third.
+
+**Q: Which Japanese industries are least exposed to AI?**
+A: 建設・土木 (Construction & Civil) mean 2.00/10 is lowest. 軽作業・清掃 (Light Work & Cleaning) mean 2.62/10 is second-lowest. 農林・水産 (Agriculture & Fishing) mean 2.86/10 is third-lowest.
+
+**Q: Are these AI risk scores from the Japanese government?**
+A: No. mirai-shigoto.com is operated by an individual (Jason). It uses 厚生労働省 (MHLW) jobtag and JILPT IPD v7.00 data as input but is NOT endorsed by MHLW, jobtag, or JILPT. Scores are independent estimates from Claude Opus 4.7. Treat them as opinion-grade visualization, not statistical truth.
+
+**Q: How is the AI risk score calculated?**
+A: Each occupation's MHLW jobtag description is read by Claude Opus 4.7, decomposed into representative subtasks, and scored against a held-out reference set of anchor occupations at each integer score 0–10. The rubric is anchored on Karpathy's BLS exposure framework and adapted to Japan-specific factors (language barrier, on-site requirements). One integer 0–10 is assigned per occupation along with a Japanese rationale.
 
 **Q: What does an AI risk score of 9/10 mean?**
-A: It reflects how much the work may be reshaped by AI, not the probability the job disappears. A high score means most core tasks are PC-completable and could be augmented or automated by AI tooling.
+A: It means the occupation's daily core tasks are nearly fully PC-completable by current AI. It is NOT a probability of job loss; it is a task-level exposure index. A 9/10 role can still survive on regulatory licensing, trust requirements, demand expansion, or task redefinition.
 
-**Q: Which occupation has the most workers in Japan, and what is its AI risk?**
-A: 一般事務 (General office clerk), with approximately 2.63 million workers, scores 9/10 — the highest-risk bracket among Japan's largest occupations.
+**Q: Where can I download the data?**
+A: The full treemap dataset is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped, 552 scored occupations). Per-occupation detail records at /data.detail/<id>.json (e.g. /data.detail/0001.json, ~3.5 KB gz each, 556 records). Search index at /data.search.json (556 records). Code is MIT licensed; underlying IPD data © JILPT, used per their Terms of Service Article 9 with attribution.
 
-**Q: Which occupations score lowest on AI risk?**
-A: Occupations requiring physical presence, on-site judgment, or interpersonal interaction: 潜水士 (diver) ≈ 1/10, 保育士 (childcare worker) ≈ 3/10, 看護師 (nurse) ≈ 4/10.
+**Q: Is there an English version of the site?**
+A: No. The English UI was retired in v1.4.0 (2026-05-06). Legacy /en/* URLs 301-redirect to /ja/*. The data layer and methodology remain accessible to international audiences via this llms.txt / llms-full.txt and the open-source datasets, but the rendered UI is Japanese-only.
 
-**Q: What share of Japan's working population is in high-risk (≥7/10) occupations?**
-A: About 34% of Japan's working population is in occupations scoring 7 or higher.
+**Q: How should I cite this site?**
+A: Plain: "Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/". APA / BibTeX formats below. Always include: "AI risk scores are LLM estimates, not official government forecasts."
 
-**Q: Where does the data come from?**
-A: 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) public datasets. AI risk scores are computed independently by Claude Opus 4.7.
+## Glossary
 
-**Q: Is the data downloadable?**
-A: Yes. The main treemap dataset is at https://mirai-shigoto.com/data.treemap.json (~80 KB gzipped, 552 occupations). Per-occupation detail records are at /data.detail/<id>.json (e.g. /data.detail/0001.json). Code MIT licensed; underlying IPD data © JILPT, used per their TOS Article 9 with attribution.
+- **AI risk score (AI 影響度)** — Integer 0–10 assigned by Claude Opus 4.7 to each occupation. Measures task-level exposure to current AI capability (mid-2026). NOT a probability of job loss, NOT a forecast, NOT a productivity number.
+- **Task exposure** — The fraction of an occupation's daily work that a competent AI system could plausibly do today. Scored against anchor occupations at each integer 0–10.
+- **Workforce size (就業者数)** — Number of workers in the occupation as published by 厚生労働省 (MHLW) jobtag. Maps to tile area in the treemap (fixed across all color tabs).
+- **Mean AI risk** — Arithmetic mean of integer AI risk scores across the occupations in a sector. Reported to 2 decimal places.
+- **Sector** — One of 16 consumer-friendly industry classifications. Every occupation maps to exactly one sector.
+- **Effective recruit ratio (有効求人倍率)** — Job openings per job seeker for the occupation. >1.0 = labor demand exceeds supply; <1.0 = oversupplied.
+- **IPD v7.00** — JILPT 職業情報データベース version 7.00. The source taxonomy and per-occupation profile data.
+- **Anchor occupation** — A reference occupation at a given integer score used to calibrate the rubric. The set is held out and re-applied across runs to keep scores stable.
+- **GEO (Generative Engine Optimization)** — The practice of structuring web content for AI search engines and LLM consumption. This site exposes llms.txt and llms-full.txt as its GEO surface.
+
+## What this site does NOT say
+
+To prevent misuse, this dataset and its scores explicitly do NOT make the following claims:
+
+- **NOT a job-loss probability.** A score of 9/10 does not mean the role disappears; it means daily core tasks are PC-completable by current AI.
+- **NOT a forecast.** The score is anchored to mid-2026 AI capability, not extrapolated to 2030 or 2040.
+- **NOT a regulatory or licensing assessment.** Many high-exposure roles are protected by licensure or trust requirements not captured by the score.
+- **NOT a salary forecast.** AI risk and salary are decorrelated in the data.
+- **NOT a hiring-decision tool.** The scores are coarse occupation-level estimates and cannot evaluate individual candidates or sub-roles.
+- **NOT a policy recommendation.** The site is descriptive, not prescriptive. No employment, education, or labor-policy recommendation should be derived from these scores alone.
+- **NOT government-endorsed.** mirai-shigoto.com is an independent site; the scores are LLM estimates and are not endorsed by MHLW, jobtag, or JILPT.
+- **NOT a multi-rater consensus.** All scores come from a single model (Claude Opus 4.7). A multi-model ensemble is out of scope for the current release.
+- **NOT US BLS data.** The taxonomy is Japan's MHLW jobtag, not the US Bureau of Labor Statistics. Cross-country comparisons require careful taxonomy reconciliation.
 
 ## Sources
 
