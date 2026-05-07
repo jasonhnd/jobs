@@ -69,3 +69,7 @@ analytics/dashboards.md
 
 # Local-only preview / scratch HTML files. Names starting with `_` are draft.
 _*.html
+
+# Internal documentation — not shipped to the public repo.
+# Local-only specs (DATA_ARCHITECTURE.md, Design.md, WORKFLOW, etc.).
+docs/

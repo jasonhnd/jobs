@@ -82,7 +82,7 @@ Scoring runs as a Claude Code session driven by `scripts/make_prompt.py` (which 
 2. **Prompt** — the calibration anchors above, plus the input bundle, plus a structured output instruction (JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`).
 3. **Model** — [OpenRouter](https://openrouter.ai) with Gemini Flash by default. Configurable; a swap to Claude Sonnet or GPT-4o is one config line.
 4. **Output** — the model's score + rationale, cached per-occupation. Re-running skips occupations that already have a stored result.
-5. **Aggregation** — `scripts/build_data.py` joins IPD source data + AI scores + translations + stats into 9 projection families under `dist/` (treemap, detail, search, labels — see [docs/DATA_ARCHITECTURE.md](docs/DATA_ARCHITECTURE.md)). The front end reads `dist/data.treemap.json`.
+5. **Aggregation** — `scripts/build_data.py` joins IPD source data + AI scores + translations + stats into 9 projection families under `dist/` (treemap, detail, search, labels). The front end reads `dist/data.treemap.json`.
 
 Each rationale is one to three sentences explaining *why* the score landed where it did — what parts of the work the LLM thinks it can already do, what parts it can't.
 
@@ -127,7 +127,6 @@ A Python build pipeline (requires [uv](https://docs.astral.sh/uv/)) ingests gove
 | Email | Resend via Edge Functions (`api/subscribe.js`, `api/feedback.js`) |
 | Analytics | Cloudflare WA, GA4, Vercel WA, Vercel Speed Insights ([spec](analytics/spec.yaml)) |
 | SEO | `robots.txt`, `sitemap.xml`, [`/llms.txt`](https://mirai-shigoto.com/llms.txt), Schema.org structured data |
-| Visual spec | [`docs/Design.md`](docs/Design.md) — single source of truth for design tokens and theme |
 
 ---
 
@@ -156,7 +155,6 @@ jobs/
 ├── data/                   # source data (per-occupation JSON, scores, labels)
 ├── dist/                   # built projections (treemap, detail, search, labels)
 ├── scripts/                # Python build pipeline
-├── docs/                   # specs (Design.md) + archived changelogs
 ├── vercel.json             # static-site config
 ├── CHANGELOG.md            # release history
 └── README.md / README.ja.md
@@ -201,7 +199,7 @@ When citing the **dataset**, please credit MHLW (jobtag) for workforce / salary 
 Contributions are welcome via GitHub Issues and Pull Requests:
 
 - **Issues** — methodology questions, data-source suggestions, calibration feedback ("score X seems off — here's why").
-- **PRs** — bug fixes, new color layers, accessibility improvements. Visual / responsive changes must update [`docs/Design.md`](docs/Design.md) first; the doc is the spec.
+- **PRs** — bug fixes, new color layers, accessibility improvements.
 - **Score disputes** — If you think a specific occupation's score is meaningfully wrong, open an issue with: occupation name, current score, your proposed score, and *why* (what work it does that the model is over- or under-weighting). These get reviewed in batches.
 
 ---
@@ -229,7 +227,6 @@ The MIT license covers the source code in this repository. The underlying MHLW j
 The README explains *what this is*. These files explain *how it works in detail* — and they are the ones that get updated as the project evolves:
 
 - **[CHANGELOG.md](CHANGELOG.md)** — release history. The only documentation file updated per-release.
-- **[docs/Design.md](docs/Design.md)** — visual spec: design tokens, theme system, responsive breakpoints, treemap rules, per-component standards.
 - **[`analytics/spec.yaml`](analytics/spec.yaml)** — GA4 instrumentation: every event, parameter, dimension, and key event the site sends.
 - **[`/privacy`](https://mirai-shigoto.com/privacy)** — privacy policy (APPI + GDPR-friendly).
 - **[`/llms.txt`](https://mirai-shigoto.com/llms.txt)** — what AI search engines see when they index the site.
