@@ -20,13 +20,7 @@
     <meta property="og:title" content="AIの時代でも、あなたらしい働き方を。— 未来の仕事" />
     <meta property="og:description" content="日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。" />
     <meta property="og:url" content="https://mirai-shigoto.com/" />
-    <!-- og:image is ABSOLUTE production URL per Open Graph spec — required by
-         strict crawlers (Twitter/X, LinkedIn, Slack). On production
-         (mirai-shigoto.com) this resolves correctly. On preview/staging
-         deployments the OG image preview will reflect production's image
-         (intentional trade-off: production correctness > preview parity).
-         A relative path was tried in commit f2e26dc but reverted before
-         going live to avoid silent breakage on Twitter/LinkedIn cards. -->
+    <!-- og:image is ABSOLUTE production URL per Open Graph spec — required by strict crawlers (Twitter/X, LinkedIn, Slack). On production (mirai-shigoto.com) this resolves correctly. On preview/staging deployments the OG image preview will reflect production's image (intentional trade-off: production correctness > preview parity). A relative path was tried in commit f2e26dc but reverted before going live to avoid silent breakage on Twitter/LinkedIn cards. -->
     <meta property="og:image" content="https://mirai-shigoto.com/og.png" />
     <meta property="og:image:secure_url" content="https://mirai-shigoto.com/og.png" />
     <meta property="og:image:type" content="image/png" />
@@ -42,9 +36,7 @@
     <meta name="twitter:image:alt" content="未来の仕事 — AIの時代でも、あなたらしい働き方を。" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/" />
-    <!-- Start downloading data.treemap.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP.
-         Desktop-only: mobile (<=768px) shows a static preview card instead of the embedded canvas (Design-Mobile.md §4.2),
-         so the 80KB+ treemap fetch is gated to viewports that will actually render it. -->
+    <!-- Start downloading data.treemap.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. Desktop-only: mobile (<=768px) shows a static preview card instead of the embedded canvas (Design-Mobile.md §4.2), so the 80KB+ treemap fetch is gated to viewports that will actually render it. -->
     <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" media="(min-width: 769px)" />
 
     <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
@@ -57,8 +49,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='22' height='22' fill='%23ffd84d' rx='3'/><rect x='34' y='8' width='22' height='22' fill='%23ff8a3d' rx='3'/><rect x='8' y='34' width='22' height='22' fill='%2380c0ff' rx='3'/><rect x='34' y='34' width='22' height='22' fill='%2300b04b' rx='3'/></svg>" />
 
-    <!-- Schema.org JSON-LD: Organization + Person + WebSite + Dataset + ItemList + FAQPage.
-         AI search engines (ChatGPT, Claude, Perplexity, Gemini) extract these for citations. -->
+    <!-- Schema.org JSON-LD: Organization + Person + WebSite + Dataset + ItemList + FAQPage. AI search engines (ChatGPT, Claude, Perplexity, Gemini) extract these for citations. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -2346,8 +2337,7 @@
     <a class="skip-link" href="#treemap">
       マップへスキップ
     </a>
-    <!-- v1.2.x mobile-only compact top bar: brand mark + hamburger menu.
-         Hidden on ≥769px — desktop has its own utility row inside .desktop-hero-utility. -->
+    <!-- v1.2.x mobile-only compact top bar: brand mark + hamburger menu. Hidden on ≥769px — desktop has its own utility row inside .desktop-hero-utility. -->
     <nav class="m-topbar" aria-label="サイト">
       <a class="m-topbar-brand" href="/" aria-label="未来の仕事 — Future of Work">
         <span class="m-topbar-mark" aria-hidden="true">
@@ -2381,8 +2371,7 @@
     </div>
     <div id="wrapper">
       <header>
-        <!-- Desktop Hero — search-first entry. On desktop, this replaces the old h1 / controls / search-row.
-             On mobile, this stays hidden — mobile uses §7.11 Mobile Hero block (see below). -->
+        <!-- Desktop Hero — search-first entry. On desktop, this replaces the old h1 / controls / search-row. On mobile, this stays hidden — mobile uses §7.11 Mobile Hero block (see below). -->
         <section class="desktop-hero" aria-label="クイック検索ヒーロー">
           <div class="desktop-hero-utility" aria-label="サイトユーティリティ">
             日本の職業 AI 影響マップ
@@ -2433,9 +2422,7 @@
           </button>
         </h1>
 
-        <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only.
-             Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal +
-             search input + 5 occupation chips, sitting just above the treemap on mobile. -->
+        <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only. Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal + search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="モバイルクイック検索">
           <h2 class="mobile-hero-title">
             AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
@@ -2462,9 +2449,7 @@
             <button type="button" data-chip="看護師" role="listitem">看護師</button>
           </div>
         </div>
-        <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations.
-             Visible only at ≤768px (matches .mobile-hero breakpoint). Cards built client-side
-             from `data` array sorted by ai_risk desc after fetch resolves. -->
+        <!-- v1.2.x mobile-only: TOP 10 horizontal-swipe carousel of high-AI-risk occupations. Visible only at ≤768px (matches .mobile-hero breakpoint). Cards built client-side from `data` array sorted by ai_risk desc after fetch resolves. -->
         <section class="m-top10" id="mTop10" aria-label="AI に変わる仕事 TOP 10" hidden>
           <header class="m-top10-head">
             AI に変わる仕事
@@ -2479,12 +2464,7 @@
           </div>
         </section>
 
-        <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the
-             embedded treemap canvas + m-map-head on viewports <=768px. The
-             entire <a> is the tap target → /map. The inline SVG thumbnail is
-             generated at build time by scripts/build_occupations.py
-             generate_map_thumbnail() and injected between the INCLUDE markers
-             below — do not hand-edit the SVG. -->
+        <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the embedded treemap canvas + m-map-head on viewports <=768px. The entire <a> is the tap target → /map. The inline SVG thumbnail is generated at build time by scripts/build_occupations.py generate_map_thumbnail() and injected between the INCLUDE markers below — do not hand-edit the SVG. -->
         <a class="m-map-preview" href="/map" aria-label="職業マップを開く（全 552 職業）">
           <header class="m-map-preview-head">
             <h2 class="m-map-preview-title">職業マップ</h2>
@@ -2573,9 +2553,7 @@
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="職業一覧"></ul>
 
-      <!-- Phase 2: Sector navigation — direct entry to 16 sector hub pages.
-           Each pill = sector name + occupation count. Pre-rendered static HTML
-           (no fetch) so first paint shows the entry list immediately. -->
+      <!-- Phase 2: Sector navigation — direct entry to 16 sector hub pages. Each pill = sector name + occupation count. Pre-rendered static HTML (no fetch) so first paint shows the entry list immediately. -->
       <nav class="sector-nav" aria-label="セクターから職業を探す">
         <div class="sector-nav-head">
           <h2 class="sector-nav-title">
@@ -2617,14 +2595,12 @@
         </ul>
       </nav>
 
-      <!-- Stage 1: compact data attribution. Full content moved to /about.
-           Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
+      <!-- Stage 1: compact data attribution. Full content moved to /about. Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
       <p class="data-summary" aria-label="データ出典サマリー">
         <span class="ds-seg"><strong>📊 データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT</span><span class="ds-sep">　／　</span><span class="ds-seg"><strong>AI 影響度：</strong>Claude Opus 4.7 独自分析（2026-04-25）</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span>
       </p>
 
-      <!-- Stage 1 PREVIEW — Follow + Share section with visual layering.
-           Follow CTA is the prominent block; share buttons sit below as a smaller row. -->
+      <!-- Stage 1 PREVIEW — Follow + Share section with visual layering. Follow CTA is the prominent block; share buttons sit below as a smaller row. -->
       <div class="follow-share-section" aria-label="フォロー・シェア">
         <div class="follow-block">
           <a class="follow-cta"
