@@ -28,17 +28,17 @@ function buildTimeJst(): { iso: string; display: string } {
   const pad = (n: number) => String(n).padStart(2, '0');
   return {
     iso: `${jst.getUTCFullYear()}-${pad(jst.getUTCMonth() + 1)}-${pad(jst.getUTCDate())}T${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}:${pad(jst.getUTCSeconds())}+09:00`,
-    display: `${jst.getUTCFullYear()}/${pad(jst.getUTCMonth() + 1)}/${pad(jst.getUTCDate())}/${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}`,
+    display: `${jst.getUTCFullYear()}/${pad(jst.getUTCMonth() + 1)}/${pad(jst.getUTCDate())}_${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}_JST`,
   };
 }
 
 const { iso, display } = buildTimeJst();
 
 // Replace the static timestamp burned in by the old Python pipeline.
-// Tolerant regexes: any `<time datetime="20XX-...">YYYY/MM/DD/HH:MM JST</time>`
-// pair gets re-stamped, even after multiple re-runs.
+// Tolerant regex matches both legacy "YYYY/MM/DD/HH:MM JST" and new
+// "YYYY/MM/DD_HH:MM_JST" forms so re-runs stay idempotent.
 const html = raw
   .replace(/datetime="20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+09:00"/, `datetime="${iso}"`)
-  .replace(/>20\d{2}\/\d{2}\/\d{2}\/\d{2}:\d{2} JST</, `>${display} JST<`);
+  .replace(/>20\d{2}\/\d{2}\/\d{2}[\/_]\d{2}:\d{2}[ _]JST</, `>${display}<`);
 ---
 <Fragment set:html={html} />
