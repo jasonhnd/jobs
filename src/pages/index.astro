@@ -6,9 +6,10 @@
  *      `astro build` (the legacy file's timestamp was frozen by Python's
  *      build_partials.py and would otherwise stay stale forever).
  *
- * The full source HTML lives at src/_index-source.html (outside src/pages/,
- * so Astro does not try to route it). A 4528-line raw copy of the original
- * Python-generated index page; preserved verbatim per Track C migration plan.
+ * The full source HTML lives at src/index-source.html (outside src/pages/
+ * so Astro does not try to route it; outside an `_*.html` name so .gitignore
+ * doesn't strip it). A 4528-line raw copy of the original Python-generated
+ * index page; preserved verbatim per Track C migration plan.
  *
  * Future cleanup: extract <head>, footer, and shared chunks into BaseLayout +
  * Footer components. For now the wrap-and-inject approach gets the timestamp
@@ -17,7 +18,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const sourcePath = join(process.cwd(), 'src', '_index-source.html');
+const sourcePath = join(process.cwd(), 'src', 'index-source.html');
 const raw = readFileSync(sourcePath, 'utf-8');
 
 // Build-time JST timestamp, matching Footer.astro's display format.
