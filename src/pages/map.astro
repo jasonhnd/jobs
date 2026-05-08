@@ -43,7 +43,16 @@ const jsonLd = `{
   <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" slot="head" />
   <link rel="preload" href="/data.sectors.json" as="fetch" crossorigin="anonymous" slot="head" />
 
-  <style slot="head">
+  <style slot="head" is:global>
+    /*
+     * is:global is REQUIRED here.
+     * The map page's interactive script (in slot="bodyEnd") creates DOM at
+     * runtime (.map-card, .map-sector, .sheet, etc.). Without is:global,
+     * Astro scopes selectors with [data-astro-cid-XXX] attribute filters and
+     * the runtime-created elements — which never get that attribute — render
+     * unstyled. Symptom: cards lay out as a vertical text list instead of
+     * the treemap grid.
+     */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
