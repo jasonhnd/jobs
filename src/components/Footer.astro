@@ -30,7 +30,7 @@ function formatJst(d: Date): { iso: string; display: string } {
 
 const { iso, display } = formatJst(buildTime);
 ---
-<footer>
+<footer class="site-footer">
   <div class="footer-links">
     <a href="/">トップ</a>
     <a href="/map">職業マップ</a>
@@ -53,33 +53,34 @@ const { iso, display } = formatJst(buildTime);
   /*
    * Canonical footer style — shared across every page that uses <Footer />.
    *
-   * is:global is intentional: this <style> sits inside <body> (after the
-   * page's own <style slot="head"> in <head>), so on equal specificity these
-   * rules win the cascade and override any per-page footer CSS the legacy
-   * Python pages had.
+   * Selector specificity is footer.site-footer (0,0,1,1) — higher than the
+   * legacy page-local `footer { ... }` rules (0,0,0,1) so we win the cascade
+   * regardless of where Astro hoists this <style> tag in the document. (A
+   * previous attempt relied on document order, which broke for pages whose
+   * <style slot="head" is:global> got extracted to an external CSS file
+   * loaded AFTER this inline block.)
    *
-   * Don't add per-page `footer { ... }` rules in page <style slot="head">.
-   * If a page legitimately needs a different footer treatment, raise its
-   * specificity (e.g. scoped via #wrapper > footer) — but the site-wide
-   * default lives here.
+   * Don't add per-page `footer.site-footer { ... }` rules in page styles.
+   * The site-wide default lives here.
    */
-  footer {
-    margin-top: 48px;
-    padding-top: 22px;
+  footer.site-footer {
+    max-width: none;
+    margin: 48px auto 0;
+    padding: 22px 16px 24px;
     border-top: 1px solid var(--border);
     font-size: 0.78rem;
     color: var(--fg2);
     text-align: center;
     font-family: var(--font-sans);
   }
-  footer a {
+  footer.site-footer a {
     color: var(--accent);
     text-decoration: none;
   }
-  footer a:hover {
+  footer.site-footer a:hover {
     text-decoration: underline;
   }
-  footer .footer-links {
+  footer.site-footer .footer-links {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -87,7 +88,7 @@ const { iso, display } = formatJst(buildTime);
     align-items: center;
     margin-bottom: 14px;
   }
-  footer .footer-links a {
+  footer.site-footer .footer-links a {
     color: var(--fg2);
     text-decoration: none;
     padding: 5px 14px;
@@ -97,29 +98,29 @@ const { iso, display } = formatJst(buildTime);
     line-height: 1.2;
     transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
   }
-  footer .footer-links a:hover {
+  footer.site-footer .footer-links a:hover {
     color: var(--accent);
     border-color: var(--accent);
     background: rgba(217, 107, 61, 0.06);
     text-decoration: none;
   }
-  footer .footer-meta {
+  footer.site-footer .footer-meta {
     color: var(--fg2);
     font-size: 0.7rem;
     opacity: 0.92;
     text-wrap: pretty;
     line-height: 1.65;
   }
-  footer .footer-meta a {
+  footer.site-footer .footer-meta a {
     color: var(--accent);
   }
-  footer .footer-meta .nowrap {
+  footer.site-footer .footer-meta .nowrap {
     white-space: nowrap;
   }
-  footer .footer-meta em {
+  footer.site-footer .footer-meta em {
     font-style: italic;
   }
-  footer time {
+  footer.site-footer time {
     font-variant-numeric: tabular-nums;
   }
 </style>
