@@ -88,7 +88,7 @@ const jsonLd = `{
       --border: rgba(36, 30, 24, 0.10);
     }
     body { font-family: var(--font-sans) !important; }
-    h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.005em; }
+    /* Heading font-family/weight/letter-spacing inherited from canonical CSS. */
     h1 .accent, h2 .accent { color: var(--accent); font-style: italic; }
     .theme-toggle { display: none !important; }
     .theme-toggle-orig {
@@ -160,8 +160,7 @@ const jsonLd = `{
       opacity: 0.75;
     }
     h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
+      /* font-size/weight inherited from canonical (1.15rem / 600) */
       margin-top: 32px;
       margin-bottom: 12px;
       color: var(--fg);
@@ -169,8 +168,7 @@ const jsonLd = `{
       padding-left: 12px;
     }
     h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
+      /* font-size/weight inherited from canonical (1rem / 600) */
       margin-top: 18px;
       margin-bottom: 6px;
       color: var(--fg);
