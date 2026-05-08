@@ -2786,34 +2786,37 @@
         if (explicit === "dark") return false;
         return matchMedia("(prefers-color-scheme: light)").matches;
       }
-      // Dark-mode ramp (Design.md §2.1): forest green → amber → harsh red.
-      function greenRedCSSDark(t, alpha) {
-        let r, g, b;
-        if (t < 0.5) { const s = t / 0.5; r = Math.round(30 + s * 200); g = Math.round(180 - s * 20); b = Math.round(40 - s * 20); }
-        else { const s = (t - 0.5) / 0.5; r = Math.round(230 + s * 25); g = Math.round(160 - s * 130); b = Math.round(20 - s * 5); }
-        return `rgba(${r},${g},${b},${alpha})`;
+      // Map-page palette (5-stop, gentler than the original vivid emerald→
+      // bright red). Synced with /map's RISK_PALETTE so the homepage hero
+      // treemap, mobile preview, and the dedicated map page all look the same.
+      // User feedback: the vivid (15,195,105)→(235,40,55) ramp was 刺眼.
+      const MAP_PALETTE_STOPS = [
+        [15, 138, 102],   // #0F8A66 muted dark green (low risk)
+        [91, 168, 79],    // #5BA84F sage
+        [217, 160, 59],   // #D9A03B amber
+        [226, 122, 51],   // #E27A33 burnt orange
+        [196, 66, 47],    // #C4422F terracotta red (high risk)
+      ];
+      function mapPaletteCSS(t, alpha) {
+        t = clamp(t);
+        const last = MAP_PALETTE_STOPS.length - 1;
+        const seg = Math.min(last - 1, Math.floor(t * last));
+        const localT = t * last - seg;
+        const a = MAP_PALETTE_STOPS[seg], b = MAP_PALETTE_STOPS[seg + 1];
+        const r = Math.round(a[0] + (b[0] - a[0]) * localT);
+        const g = Math.round(a[1] + (b[1] - a[1]) * localT);
+        const bl = Math.round(a[2] + (b[2] - a[2]) * localT);
+        return `rgba(${r},${g},${bl},${alpha})`;
       }
-      // Light-mode ramp (Design.md §2.1): vivid emerald (15,195,105)
-      // → burnt orange (235,115,25) → vivid red (235,40,55).
-      // Pushed deep + saturated so contrast survives alpha-blending on #fafafa.
-      function greenRedCSSLight(t, alpha) {
-        let r, g, b;
-        if (t < 0.5) {
-          const s = t / 0.5;
-          r = Math.round(15 + s * 220);
-          g = Math.round(195 - s * 80);
-          b = Math.round(105 - s * 80);
-        } else {
-          const s = (t - 0.5) / 0.5;
-          r = 235;
-          g = Math.round(115 - s * 75);
-          b = Math.round(25 + s * 30);
-        }
-        return `rgba(${r},${g},${b},${alpha})`;
-      }
+      // Both light and dark themes now use the same map-page palette. Stops
+      // were already designed for cream backgrounds and remain readable on
+      // dark canvas via alpha. (If a separate dark ramp is needed later,
+      // split into mapPaletteCSSDark / Light again.)
+      function greenRedCSSDark(t, alpha) { return mapPaletteCSS(t, alpha); }
+      function greenRedCSSLight(t, alpha) { return mapPaletteCSS(t, alpha); }
       function greenRedCSS(t, alpha) {
         t = boostContrast(clamp(t));
-        return isLightThemeNow() ? greenRedCSSLight(t, alpha) : greenRedCSSDark(t, alpha);
+        return mapPaletteCSS(t, alpha);
       }
       // Viridis-like 5-stop perceptually-uniform palette (colorblind-safe)
       const VIRIDIS_STOPS = [
