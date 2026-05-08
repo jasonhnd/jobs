@@ -57,22 +57,26 @@ html body h4 {
   letter-spacing: -0.005em;
 }
 
+/* !important on h1/h2/h3 forces hero / nav / detail-article variations
+   (specificity 0,0,1,1 from class-scoped rules) to fall back to the canonical
+   site-wide typography. Trade-off: map's sticky nav h1 will be bigger; index
+   hero h2 retracts; detail h1 normalises. User opted into uniform headings. */
 html body h1 {
-  font-size: 1.7rem;
-  font-weight: 700;
-  line-height: 1.3;
+  font-size: 1.7rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
 }
 
 html body h2 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
 }
 
 html body h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.5;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
 }
 
 html body p {
