@@ -144,9 +144,7 @@ const jsonLd = `{
     }
     .top-bar .back:hover { color: var(--accent); }
     h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
+      /* font-size/weight/letter-spacing inherited from canonical (src/lib/canonical-css.ts) */
       margin-bottom: 6px;
     }
     h1 .accent { color: var(--accent); }
@@ -263,8 +261,6 @@ const jsonLd = `{
     footer .footer-meta .nowrap { white-space: nowrap; }
     @media (max-width: 540px) {
       #wrapper { padding: 18px 16px 60px; }
-      h1 { font-size: 1.3rem; }
-      h2 { font-size: 1rem; }
       .third-party-row { grid-template-columns: 1fr; gap: 2px; }
       footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
     }
