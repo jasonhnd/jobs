@@ -2797,26 +2797,30 @@
         [226, 122, 51],   // #E27A33 burnt orange
         [196, 66, 47],    // #C4422F terracotta red (high risk)
       ];
+      // Discrete 5-bucket palette — matches /map's colorForRisk(risk) exactly:
+      //   risk 0-2 → stop 0 (dark green)
+      //   risk 2-4 → stop 1 (sage)
+      //   risk 4-6 → stop 2 (amber)
+      //   risk 6-8 → stop 3 (orange)
+      //   risk 8-10 → stop 4 (red)
+      // Was previously interpolating between stops + boostContrast + alpha 0.85
+      // which produced muddy brown/olive midtones absent from /map's flat blocks.
+      // User wants the two pages to look identical — switching to flat discrete.
       function mapPaletteCSS(t, alpha) {
         t = clamp(t);
-        const last = MAP_PALETTE_STOPS.length - 1;
-        const seg = Math.min(last - 1, Math.floor(t * last));
-        const localT = t * last - seg;
-        const a = MAP_PALETTE_STOPS[seg], b = MAP_PALETTE_STOPS[seg + 1];
-        const r = Math.round(a[0] + (b[0] - a[0]) * localT);
-        const g = Math.round(a[1] + (b[1] - a[1]) * localT);
-        const bl = Math.round(a[2] + (b[2] - a[2]) * localT);
-        return `rgba(${r},${g},${bl},${alpha})`;
+        let stop;
+        if (t < 0.2) stop = MAP_PALETTE_STOPS[0];
+        else if (t < 0.4) stop = MAP_PALETTE_STOPS[1];
+        else if (t < 0.6) stop = MAP_PALETTE_STOPS[2];
+        else if (t < 0.8) stop = MAP_PALETTE_STOPS[3];
+        else stop = MAP_PALETTE_STOPS[4];
+        return `rgba(${stop[0]},${stop[1]},${stop[2]},${alpha})`;
       }
-      // Both light and dark themes now use the same map-page palette. Stops
-      // were already designed for cream backgrounds and remain readable on
-      // dark canvas via alpha. (If a separate dark ramp is needed later,
-      // split into mapPaletteCSSDark / Light again.)
       function greenRedCSSDark(t, alpha) { return mapPaletteCSS(t, alpha); }
       function greenRedCSSLight(t, alpha) { return mapPaletteCSS(t, alpha); }
+      // Drop boostContrast — /map uses raw risk → bucket directly.
       function greenRedCSS(t, alpha) {
-        t = boostContrast(clamp(t));
-        return mapPaletteCSS(t, alpha);
+        return mapPaletteCSS(clamp(t), alpha);
       }
       // Viridis-like 5-stop perceptually-uniform palette (colorblind-safe)
       const VIRIDIS_STOPS = [
@@ -2982,7 +2986,10 @@
           // Hover/select indication is handled by the #tileHighlight overlay,
           // not by per-tile alpha differential — that way hover changes don't
           // require redrawing all 552 tiles. Keep theme- and dim-based alpha only.
-          const baseAlpha = isDimmed ? 0.18 : (isLightThemeNow() ? 0.95 : 0.62);
+          // Match /map's flat opaque tiles. Original had alpha 0.95/0.62 to
+          // softly blend tiles into cream/dark canvas, but that diluted the
+          // discrete palette into muddy mid-tones absent from /map.
+          const baseAlpha = isDimmed ? 0.18 : 1.0;
           const g = GAP / 2;
           const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
           if (rw <= 0 || rh <= 0) continue;
