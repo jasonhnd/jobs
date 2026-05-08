@@ -2,14 +2,13 @@
 /**
  * Footer.astro — site footer.
  *
- * Migrated from partials/footer.html (which was injected by build_partials.py).
- * The {{LAST_UPDATED_ISO}} / {{LAST_UPDATED}} placeholders are replaced here
- * by computing the build-time timestamp directly in Astro frontmatter.
- *
- * NOTE: Style of the footer is page-local (each page provides its own
- * `footer { ... }` block in inline CSS, matching the original HTML). This
- * component only handles structure + dynamic timestamp.
+ * Migrated from partials/footer.html. The build-time timestamp is computed
+ * here. Site-wide typography + footer styling is delegated to the canonical
+ * CSS in src/lib/canonical-css.ts and emitted as a global <style> block at
+ * the end of this component (so EVERY page that renders <Footer /> picks up
+ * the same typography baseline — beats per-page legacy CSS by specificity).
  */
+import { CANONICAL_CSS } from '../lib/canonical-css.ts';
 const buildTime = new Date();
 
 // Format: "2026/05/08_09:30_JST"
@@ -49,78 +48,4 @@ const { iso, display } = formatJst(buildTime);
   </div>
 </footer>
 
-<style is:global>
-  /*
-   * Canonical footer style — shared across every page that uses <Footer />.
-   *
-   * Selector specificity is footer.site-footer (0,0,1,1) — higher than the
-   * legacy page-local `footer { ... }` rules (0,0,0,1) so we win the cascade
-   * regardless of where Astro hoists this <style> tag in the document. (A
-   * previous attempt relied on document order, which broke for pages whose
-   * <style slot="head" is:global> got extracted to an external CSS file
-   * loaded AFTER this inline block.)
-   *
-   * Don't add per-page `footer.site-footer { ... }` rules in page styles.
-   * The site-wide default lives here.
-   */
-  footer.site-footer {
-    max-width: none;
-    margin: 48px auto 0;
-    padding: 22px 16px 24px;
-    border-top: 1px solid var(--border);
-    font-size: 0.78rem;
-    color: var(--fg2);
-    text-align: center;
-    font-family: var(--font-sans);
-  }
-  footer.site-footer a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-  footer.site-footer a:hover {
-    text-decoration: underline;
-  }
-  footer.site-footer .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 14px;
-  }
-  footer.site-footer .footer-links a {
-    color: var(--fg2);
-    text-decoration: none;
-    padding: 5px 14px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: 0.78rem;
-    line-height: 1.2;
-    transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
-  }
-  footer.site-footer .footer-links a:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background: rgba(217, 107, 61, 0.06);
-    text-decoration: none;
-  }
-  footer.site-footer .footer-meta {
-    color: var(--fg2);
-    font-size: 0.7rem;
-    opacity: 0.92;
-    text-wrap: pretty;
-    line-height: 1.65;
-  }
-  footer.site-footer .footer-meta a {
-    color: var(--accent);
-  }
-  footer.site-footer .footer-meta .nowrap {
-    white-space: nowrap;
-  }
-  footer.site-footer .footer-meta em {
-    font-style: italic;
-  }
-  footer.site-footer time {
-    font-variant-numeric: tabular-nums;
-  }
-</style>
+<style is:global set:html={CANONICAL_CSS}></style>
