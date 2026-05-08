@@ -1,0 +1,43 @@
+---
+/**
+ * index.astro — Astro wrapper around the verbatim legacy index.html so that:
+ *   1) the file gets routed at "/", and
+ *   2) the footer timestamp is replaced with the current build time on each
+ *      `astro build` (the legacy file's timestamp was frozen by Python's
+ *      build_partials.py and would otherwise stay stale forever).
+ *
+ * The full source HTML lives at src/_index-source.html (outside src/pages/,
+ * so Astro does not try to route it). A 4528-line raw copy of the original
+ * Python-generated index page; preserved verbatim per Track C migration plan.
+ *
+ * Future cleanup: extract <head>, footer, and shared chunks into BaseLayout +
+ * Footer components. For now the wrap-and-inject approach gets the timestamp
+ * right while keeping diffs minimal.
+ */
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const sourcePath = join(process.cwd(), 'src', '_index-source.html');
+const raw = readFileSync(sourcePath, 'utf-8');
+
+// Build-time JST timestamp, matching Footer.astro's display format.
+function buildTimeJst(): { iso: string; display: string } {
+  const d = new Date();
+  const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return {
+    iso: `${jst.getUTCFullYear()}-${pad(jst.getUTCMonth() + 1)}-${pad(jst.getUTCDate())}T${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}:${pad(jst.getUTCSeconds())}+09:00`,
+    display: `${jst.getUTCFullYear()}/${pad(jst.getUTCMonth() + 1)}/${pad(jst.getUTCDate())}/${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}`,
+  };
+}
+
+const { iso, display } = buildTimeJst();
+
+// Replace the static timestamp burned in by the old Python pipeline.
+// Tolerant regexes: any `<time datetime="20XX-...">YYYY/MM/DD/HH:MM JST</time>`
+// pair gets re-stamped, even after multiple re-runs.
+const html = raw
+  .replace(/datetime="20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+09:00"/, `datetime="${iso}"`)
+  .replace(/>20\d{2}\/\d{2}\/\d{2}\/\d{2}:\d{2} JST</, `>${display} JST<`);
+---
+<Fragment set:html={html} />
