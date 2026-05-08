@@ -12,7 +12,7 @@
  */
 const buildTime = new Date();
 
-// Format like the legacy Python: "2026/05/07/08:13" in JST.
+// Format: "2026/05/08_09:30_JST"
 function formatJst(d: Date): { iso: string; display: string } {
   // Convert to JST (UTC+9).
   const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
@@ -24,7 +24,7 @@ function formatJst(d: Date): { iso: string; display: string } {
   const ss = String(jst.getUTCSeconds()).padStart(2, '0');
   return {
     iso: `${yyyy}-${mm}-${dd}T${hh}:${mi}:${ss}+09:00`,
-    display: `${yyyy}/${mm}/${dd}/${hh}:${mi}`,
+    display: `${yyyy}/${mm}/${dd}_${hh}:${mi}_JST`,
   };
 }
 
@@ -43,7 +43,7 @@ const { iso, display } = formatJst(buildTime);
     <a href="/privacy">プライバシー</a>
   </div>
   <div class="footer-meta">
-    最終更新：<time datetime={iso}>{display} JST</time><br />
+    最終更新：<time datetime={iso}>{display}</time><br />
     出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
     <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
   </div>
