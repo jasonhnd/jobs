@@ -42,3 +42,51 @@ const html = raw
   .replace(/>20\d{2}\/\d{2}\/\d{2}[\/_]\d{2}:\d{2}[ _]JST</, `>${display}<`);
 ---
 <Fragment set:html={html} />
+
+<style is:global>
+  /*
+   * Mirror of Footer.astro's canonical footer rules. Index does not use the
+   * <Footer /> component (it embeds the legacy raw HTML via Fragment), so
+   * the same style block is duplicated here to keep the footer visually
+   * consistent with every other page. Update both at once if changing.
+   *
+   * Selector specificity 0,0,1,1 beats the page-local 'footer { ... }'
+   * (0,0,0,1) baked into src/index-source.html.
+   */
+  footer.site-footer {
+    max-width: none;
+    margin: 48px auto 0;
+    padding: 22px 16px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--fg2);
+    text-align: center;
+    font-family: var(--font-sans);
+  }
+  footer.site-footer a { color: var(--accent); text-decoration: none; }
+  footer.site-footer a:hover { text-decoration: underline; }
+  footer.site-footer .footer-links {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; align-items: center;
+    margin-bottom: 14px;
+  }
+  footer.site-footer .footer-links a {
+    color: var(--fg2); text-decoration: none;
+    padding: 5px 14px; border: 1px solid var(--border); border-radius: 999px;
+    font-size: 0.78rem; line-height: 1.2;
+    transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+  }
+  footer.site-footer .footer-links a:hover {
+    color: var(--accent); border-color: var(--accent);
+    background: rgba(217, 107, 61, 0.06);
+    text-decoration: none;
+  }
+  footer.site-footer .footer-meta {
+    color: var(--fg2); font-size: 0.7rem; opacity: 0.92;
+    text-wrap: pretty; line-height: 1.65;
+  }
+  footer.site-footer .footer-meta a { color: var(--accent); }
+  footer.site-footer .footer-meta .nowrap { white-space: nowrap; }
+  footer.site-footer .footer-meta em { font-style: italic; }
+  footer.site-footer time { font-variant-numeric: tabular-nums; }
+</style>
