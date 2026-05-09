@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "description": "未来の仕事 16-sector consumer-friendly taxonomy. Maps every IPD occupation (mhlw_main code) to one sector. Drives mobile treemap grouping, search filter chips, detail-page sector tag, and 関連職業 candidate pool. See data/schema/sector.py for resolution rules and DATA_ARCHITECTURE.md §6.11 for the architecture decision.",
+  "description": "未来の仕事 16-sector consumer-friendly taxonomy. Maps every IPD occupation (mhlw_main code) to one sector. Drives mobile treemap grouping, search filter chips, detail-page sector tag, and 関連職業 candidate pool. See src/data/schema/sector.ts for resolution rules and DATA_ARCHITECTURE.md §6.11 for the architecture decision.",
   "sectors": [
     {
       "id": "iryo",
