@@ -66,18 +66,106 @@ function relPath(p: string): string {
 }
 
 async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void> {
-  const required = [
-    join(distRoot, 'data.treemap.json'),
-    join(distRoot, 'data.search.json'),
-    join(distRoot, 'data.labels', 'ja.json'),
-    join(distRoot, 'data.detail'),
-    join(distRoot, 'data.sectors.json'),
-    join(distRoot, 'data.review_queue.json'),
+  // All 12 projection families produced by src/data/build.ts. A missing
+  // file here means a projection silently failed to write, which the build
+  // step itself does not currently detect.
+  const requiredFiles = [
+    'data.treemap.json',
+    'data.treemap.meta.json',
+    'data.search.json',
+    'data.sectors.json',
+    'data.review_queue.json',
+    'data.profile5.json',
+    'data.transfer_paths.json',
+    'data.featured.json',
+    'data.holland.json',
+    'data.labels/ja.json',
   ];
-  for (const p of required) {
+  const requiredDirs = [
+    'data.detail',         // 556 per-occupation files
+    'data.tasks',          // 556 per-occupation files
+    'data.skills',         // 39 per-skill files + index
+    'data.score-history',  // 552 per-occupation files
+  ];
+  for (const f of requiredFiles) {
+    const p = join(distRoot, f);
     if (!existsSync(p)) {
-      r.fail(`missing required projection: ${relPath(p)}`);
+      r.fail(`missing required projection file: ${relPath(p)}`);
     }
+  }
+  for (const d of requiredDirs) {
+    const p = join(distRoot, d);
+    if (!existsSync(p)) {
+      r.fail(`missing required projection directory: ${relPath(p)}`);
+    } else {
+      // Directory should be non-empty.
+      try {
+        const entries = readdirSync(p);
+        if (entries.length === 0) {
+          r.fail(`projection directory is empty: ${relPath(p)}`);
+        }
+      } catch (err) {
+        r.fail(`cannot read projection directory ${relPath(p)}: ${(err as Error).message}`);
+      }
+    }
+  }
+}
+
+async function checkNonEmptyJsonShape(
+  distRoot: string,
+  filename: string,
+  expectKey: string,
+  r: Report,
+): Promise<void> {
+  // Lightweight sanity: file exists, parses as JSON, has the expected
+  // top-level key. Catches regressions like "projection wrote {} or [] only".
+  const p = join(distRoot, filename);
+  if (!existsSync(p)) return;  // existence already reported above
+  let data: unknown;
+  try {
+    data = await loadJson(p);
+  } catch (err) {
+    r.fail(`${filename} invalid JSON: ${(err as Error).message}`);
+    return;
+  }
+  if (!data || typeof data !== 'object') {
+    r.fail(`${filename} top-level must be an object/array (got ${typeof data})`);
+    return;
+  }
+  if (!(expectKey in (data as Record<string, unknown>))) {
+    r.fail(`${filename} missing expected top-level key: ${expectKey}`);
+  }
+}
+
+async function checkPerOccupationDir(
+  distRoot: string,
+  dirname: string,
+  expectMin: number,
+  r: Report,
+): Promise<void> {
+  // Sample-validate one file from a per-occupation directory.
+  const dir = join(distRoot, dirname);
+  if (!existsSync(dir)) return;  // existence already reported above
+  let entries: string[];
+  try {
+    entries = readdirSync(dir).filter((f) => f.endsWith('.json'));
+  } catch (err) {
+    r.fail(`cannot read ${dirname}: ${(err as Error).message}`);
+    return;
+  }
+  if (entries.length < expectMin) {
+    r.fail(`${dirname} has ${entries.length} files, expected ≥ ${expectMin}`);
+  }
+  if (entries.length === 0) return;
+  // Parse the first file to ensure it's valid JSON.
+  const sample = join(dir, entries[0]!);
+  try {
+    const parsed = await loadJson(sample);
+    if (!parsed || typeof parsed !== 'object') {
+      r.fail(`${dirname}/${entries[0]} sample is not an object`);
+    }
+  } catch (err) {
+    r.fail(`${dirname}/${entries[0]} sample invalid JSON: ${(err as Error).message}`);
   }
 }
 
@@ -432,6 +520,17 @@ async function main(): Promise<void> {
   const sectorIds = await checkSectors(distRoot, r);
   await checkReviewQueue(distRoot, r);
   checkTreemapV110(treemapRecords, sectorIds, r);
+
+  // Lightweight existence + shape checks for the 7 projections that don't
+  // have deep dedicated checks above. Catches "projection silently wrote
+  // an empty / malformed file" regressions.
+  await checkNonEmptyJsonShape(distRoot, 'data.featured.json', 'occupations', r);
+  await checkNonEmptyJsonShape(distRoot, 'data.holland.json', 'rows', r);
+  await checkNonEmptyJsonShape(distRoot, 'data.profile5.json', 'profiles', r);
+  await checkNonEmptyJsonShape(distRoot, 'data.transfer_paths.json', 'paths', r);
+  await checkPerOccupationDir(distRoot, 'data.tasks', 500, r);
+  await checkPerOccupationDir(distRoot, 'data.skills', 30, r);
+  await checkPerOccupationDir(distRoot, 'data.score-history', 500, r);
 
   reportAndExit(r);
 }
