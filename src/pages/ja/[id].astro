@@ -36,9 +36,9 @@ const DATE_PUBLISHED = '2026-04-25';
 const DATE_MODIFIED = '2026-04-30';
 const RELATED_COUNT = 5;
 
-function readJsonSafe(p: string): any {
+function readJsonSafe<T = unknown>(p: string): T | null {
   try {
-    return JSON.parse(readFileSync(p, 'utf8'));
+    return JSON.parse(readFileSync(p, 'utf8')) as T;
   } catch {
     return null;
   }
@@ -53,24 +53,110 @@ function paths(): { detail: string; profile5: string; transfer: string } {
   };
 }
 
+// ─── Public shape types (what public/data.detail/<id>.json produces) ────────
+
+interface TopNEntry {
+  key: string;
+  label_ja: string;
+  score: number;
+}
+
+interface OrgEntry {
+  name_ja: string;
+  url?: string | null;
+}
+
+interface ClassificationsField {
+  mhlw_main?: string | null;
+  jsoc_main?: string | null;
+  [k: string]: unknown;
+}
+
+interface SectorMeta {
+  id?: string;
+  ja?: string;
+  hue?: string;
+  provenance?: string;
+}
+
+interface DataSourceVersions {
+  ipd_numeric?: string;
+  ipd_description?: string;
+  ipd_retrieved_at?: string;
+  [k: string]: unknown;
+}
+
+interface DetailFile {
+  id: number;
+  schema_version?: string;
+  title?: { ja?: string; aliases_ja?: string[] };
+  description?: {
+    summary_ja?: string | null;
+    what_it_is_ja?: string | null;
+    how_to_become_ja?: string | null;
+    working_conditions_ja?: string | null;
+  };
+  classifications?: ClassificationsField;
+  sector?: SectorMeta;
+  risk_band?: string | null;
+  workforce_band?: string | null;
+  demand_band?: string | null;
+  ai_risk?: {
+    score?: number | null;
+    model?: string | null;
+    scored_at?: string | null;
+    rationale_ja?: string | null;
+    rationale_long_ja?: string | null;
+    displaceable_tasks_ja?: string[];
+    resilient_tasks_ja?: string[];
+    horizon_5y_ja?: string | null;
+  };
+  stats?: {
+    salary_man_yen?: number | null;
+    workers?: number | null;
+    monthly_hours?: number | null;
+    average_age?: number | null;
+    recruit_wage_man_yen?: number | null;
+    recruit_ratio?: number | null;
+    hourly_wage?: number | null;
+  };
+  skills_top10?: TopNEntry[];
+  knowledge_top5?: TopNEntry[];
+  abilities_top5?: TopNEntry[];
+  tasks_count?: number | null;
+  tasks_lead_ja?: string | null;
+  related_orgs?: OrgEntry[];
+  related_certs_ja?: string[];
+  url?: string;
+  data_source_versions?: DataSourceVersions;
+}
+
+interface Profile5File {
+  profiles?: Record<string, Record<string, number | null>>;
+}
+
+interface TransferPathsFile {
+  paths?: Record<string, unknown>;
+}
+
 // Lazy getters so render-time code (after getStaticPaths) can grab the same
 // auxiliary data without re-reading per page.
-let _profile5: Record<string, any> | null = null;
-function getProfile5(): Record<string, any> {
+let _profile5: Record<string, Record<string, number | null>> | null = null;
+function getProfile5(): Record<string, Record<string, number | null>> {
   if (_profile5 === null) {
-    _profile5 = (readJsonSafe(paths().profile5) ?? {}).profiles ?? {};
+    _profile5 = (readJsonSafe<Profile5File>(paths().profile5) ?? {}).profiles ?? {};
   }
   return _profile5;
 }
-let _transferPaths: Record<string, any> | null = null;
-function getTransferPaths(): Record<string, any> {
+let _transferPaths: Record<string, unknown> | null = null;
+function getTransferPaths(): Record<string, unknown> {
   if (_transferPaths === null) {
-    _transferPaths = (readJsonSafe(paths().transfer) ?? {}).paths ?? {};
+    _transferPaths = (readJsonSafe<TransferPathsFile>(paths().transfer) ?? {}).paths ?? {};
   }
   return _transferPaths;
 }
 
-// ─── Types & shape adapter (mirrors _load_legacy_shape_corpus) ──────────────
+// ─── Internal flattened shape used by the renderers below ────────────────
 
 type Rec = {
   id: number;
@@ -90,28 +176,28 @@ type Rec = {
   ai_rationale_ja: string | null;
   url: string;
   aliases_ja: string[];
-  classifications: any;
-  sector: any;
+  classifications: ClassificationsField;
+  sector: SectorMeta;
   risk_band: string | null;
   workforce_band: string | null;
   demand_band: string | null;
   ai_model: string | null;
   ai_scored_at: string | null;
-  skills_top10: any[];
-  knowledge_top5: any[];
-  abilities_top5: any[];
+  skills_top10: TopNEntry[];
+  knowledge_top5: TopNEntry[];
+  abilities_top5: TopNEntry[];
   tasks_count: number | null;
   tasks_lead_ja: string | null;
-  related_orgs: any[];
+  related_orgs: OrgEntry[];
   related_certs_ja: string[];
-  data_source_versions: any;
+  data_source_versions: DataSourceVersions;
   ai_rationale_long_ja: string | null;
   ai_displaceable_tasks_ja: string[];
   ai_resilient_tasks_ja: string[];
   ai_horizon_5y_ja: string | null;
 };
 
-function adapt(d: any): Rec {
+function adapt(d: DetailFile): Rec {
   const stats = d.stats ?? {};
   const ai = d.ai_risk ?? {};
   const title = d.title ?? {};
