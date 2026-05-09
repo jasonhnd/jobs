@@ -2632,7 +2632,7 @@
       <button class="tt-close" type="button" aria-label="閉じる" id="tooltipClose">×</button>
       <div class="tt-title"></div>
       <div class="tt-row" id="ttRow"></div>
-      <a class="tt-cta" id="tooltipCta" target="_blank" rel="noopener noreferrer" href="#">
+      <a class="tt-cta" id="tooltipCta" href="#">
         詳細を見る →
       </a>
     </div>
@@ -3998,7 +3998,10 @@
             language: lang,
           });
           fireTileClick(hit, "touch_tap");
-          window.open(occUrl(hit), "_blank", "noopener,noreferrer");
+          // Same-tab navigation: stay in the user's current tab. GA event
+          // above is already queued via beacon transport; safe to navigate
+          // immediately afterwards without losing the event.
+          window.location.href = occUrl(hit);
           lastTapped = null;
           hideTooltip();
           return;
@@ -4065,8 +4068,11 @@
         const hit = hitTest(e.clientX, e.clientY);
         if (hit) {
           fireTileClick(hit, "desktop_click");
-          window.open(occUrl(hit), "_blank", "noopener,noreferrer");
+          // Same-tab navigation. updateHashFor() before the navigate so the
+          // outgoing /#jobid=N entry is in history; back-button returns
+          // here with that hash, scrolling the right tile back into view.
           updateHashFor(hit.id);
+          window.location.href = occUrl(hit);
         }
       });
       canvas.addEventListener("mouseleave", () => {
@@ -4082,8 +4088,10 @@
       });
 
       // Tooltip CTA — Design.md §6.6. Fires GA4 tooltip_cta_click before navigation.
-      // The link itself is a real <a target="_blank">, so we don't preventDefault here —
-      // we only emit the analytics event and let the browser open the new tab.
+      // The link is a plain <a href="/ja/<id>"> — we don't preventDefault here.
+      // GA event fires (beacon transport), then the browser navigates in the
+      // SAME tab. Was target="_blank" until 2026-05-09; users found new-tab
+      // behavior on internal links surprising.
       document.getElementById("tooltipCta").addEventListener("click", e => {
         const cta = e.currentTarget;
         const occId = parseInt(cta.dataset.occId || "0", 10) || 0;
@@ -4123,7 +4131,9 @@
           const r = rects[keyboardIdx];
           if (r) {
             fireTileClick(r, "keyboard");
-            window.open(occUrl(r), "_blank", "noopener,noreferrer");
+            // Same-tab navigation (a11y: keyboard users expect Enter/Space
+            // on a focused tile to follow the link, not pop a new window).
+            window.location.href = occUrl(r);
           }
         } else if (e.key === "Escape") {
           hideTooltip(); hovered = null; setHighlight(null);
