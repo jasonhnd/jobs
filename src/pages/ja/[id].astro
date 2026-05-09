@@ -135,9 +135,106 @@ interface Profile5File {
   profiles?: Record<string, Record<string, number | null>>;
 }
 
-interface TransferPathsFile {
-  paths?: Record<string, unknown>;
+interface TransferCandidate {
+  id: number;
+  title_ja: string;
+  ai_risk: number | null;
+  similarity: number;
+  sector_id?: string;
 }
+
+interface TransferPathEntry {
+  source_id: number;
+  candidates: TransferCandidate[];
+  fallback?: string;
+}
+
+interface TransferPathsFile {
+  paths?: Record<string, TransferPathEntry>;
+}
+
+// ─── Schema.org JSON-LD subset (only the fields we actually emit) ────────
+
+interface JsonLdPropertyValue {
+  '@type': 'PropertyValue';
+  name: string;
+  value: number;
+  unitText?: string;
+  description?: string;
+}
+
+interface JsonLdMonetaryAmountDistribution {
+  '@type': 'MonetaryAmountDistribution';
+  name: string;
+  currency: string;
+  duration: string;
+  median: number;
+}
+
+interface JsonLdOccupation {
+  '@type': 'Occupation';
+  '@id': string;
+  name: string;
+  description: string;
+  occupationLocation: { '@type': 'Country'; name: string };
+  occupationalCategory: string;
+  sameAs?: string;
+  additionalProperty: JsonLdPropertyValue[];
+  isPartOf: { '@id': string };
+  alternateName?: string | string[];
+  industry?: string;
+  skills?: string[];
+  qualifications?: string[];
+  estimatedSalary?: JsonLdMonetaryAmountDistribution;
+  workHours?: string;
+  responsibilities?: string;
+  educationRequirements?: string;
+  experienceRequirements?: string;
+}
+
+interface JsonLdWebPage {
+  '@type': 'WebPage';
+  '@id': string;
+  url: string;
+  name: string;
+  description: string;
+  inLanguage: string;
+  isPartOf: { '@id': string };
+  primaryImageOfPage?: string;
+  about?: { '@id': string };
+  breadcrumb?: { '@id': string };
+  mainEntity?: { '@id': string };
+  datePublished?: string;
+  dateModified?: string;
+}
+
+interface JsonLdBreadcrumbList {
+  '@type': 'BreadcrumbList';
+  '@id': string;
+  itemListElement: Array<{
+    '@type': 'ListItem';
+    position: number;
+    name: string;
+    item?: string;
+  }>;
+}
+
+interface JsonLdFAQPage {
+  '@type': 'FAQPage';
+  '@id': string;
+  inLanguage: string;
+  mainEntity: Array<{
+    '@type': 'Question';
+    name: string;
+    acceptedAnswer: { '@type': 'Answer'; text: string };
+  }>;
+}
+
+type JsonLdGraphNode =
+  | JsonLdWebPage
+  | JsonLdOccupation
+  | JsonLdBreadcrumbList
+  | JsonLdFAQPage;
 
 // Lazy getters so render-time code (after getStaticPaths) can grab the same
 // auxiliary data without re-reading per page.
@@ -148,8 +245,8 @@ function getProfile5(): Record<string, Record<string, number | null>> {
   }
   return _profile5;
 }
-let _transferPaths: Record<string, unknown> | null = null;
-function getTransferPaths(): Record<string, unknown> {
+let _transferPaths: Record<string, TransferPathEntry> | null = null;
+function getTransferPaths(): Record<string, TransferPathEntry> {
   if (_transferPaths === null) {
     _transferPaths = (readJsonSafe<TransferPathsFile>(paths().transfer) ?? {}).paths ?? {};
   }
@@ -177,7 +274,7 @@ type Rec = {
   url: string;
   aliases_ja: string[];
   classifications: ClassificationsField;
-  sector: SectorMeta;
+  sector: SectorMeta | null;
   risk_band: string | null;
   workforce_band: string | null;
   demand_band: string | null;
@@ -253,7 +350,10 @@ export async function getStaticPaths() {
   const detailDir = np.join(repo, 'public', 'data.detail');
   const RELATED = 5;
 
-  function adaptLocal(d: any): any {
+  // Inline `adapt()` clone — Astro hoists getStaticPaths out of the
+  // module's runtime scope so the top-level `adapt` is unreachable here.
+  // Types ARE accessible (they're erased at compile time).
+  function adaptLocal(d: DetailFile): Rec {
     const stats = d.stats ?? {};
     const ai = d.ai_risk ?? {};
     const title = d.title ?? {};
@@ -299,24 +399,24 @@ export async function getStaticPaths() {
   }
 
   const files = fs.readdirSync(detailDir).filter((f: string) => f.endsWith('.json'));
-  const all: any[] = files
+  const all: Rec[] = files
     .map((f: string) => adaptLocal(JSON.parse(fs.readFileSync(np.join(detailDir, f), 'utf8'))))
-    .sort((a: any, b: any) => a.id - b.id);
+    .sort((a, b) => a.id - b.id);
 
-  // Build name lookup (matches NAME_LOOKUP in Python).
+  // Build name lookup keyed by occupation id.
   const nameLookup: Record<number, string> = {};
   for (const r of all) nameLookup[r.id] = r.name_ja;
 
-  function pickRelated(rec: any, count = RELATED): any[] {
+  function pickRelated(rec: Rec, count = RELATED): Rec[] {
     const rid = rec.id;
     const risk = rec.ai_risk;
-    const chosen: any[] = [];
+    const chosen: Rec[] = [];
     const chosenIds = new Set<number>();
     if (risk !== null) {
       const same = all.filter(
-        (r: any) => r.id !== rid && r.ai_risk !== null && Math.abs(r.ai_risk - risk) <= 1,
+        (r) => r.id !== rid && r.ai_risk !== null && Math.abs(r.ai_risk - risk) <= 1,
       );
-      same.sort((a: any, b: any) => {
+      same.sort((a, b) => {
         const da = Math.abs((a.ai_risk ?? 0) - risk);
         const db = Math.abs((b.ai_risk ?? 0) - risk);
         if (da !== db) return da - db;
@@ -332,8 +432,8 @@ export async function getStaticPaths() {
       }
     }
     const neighbors = all
-      .filter((r: any) => r.id !== rid && !chosenIds.has(r.id))
-      .sort((a: any, b: any) => {
+      .filter((r) => r.id !== rid && !chosenIds.has(r.id))
+      .sort((a, b) => {
         const na = Math.abs(a.id - rid);
         const nb = Math.abs(b.id - rid);
         if (na !== nb) return na - nb;
@@ -499,7 +599,7 @@ function renderTopn(rec: Rec): string {
   const knowledge = rec.knowledge_top5 ?? [];
   const abilities = rec.abilities_top5 ?? [];
   if (!(skills.length || knowledge.length || abilities.length)) return '';
-  function block(title: string, items: any[]): string {
+  function block(title: string, items: TopNEntry[]): string {
     if (!items.length) return '';
     const lis = items
       .map((it) => {
@@ -575,12 +675,12 @@ function buildOccFaqs(rec: Rec): [string, string][] {
   }
 
   if (skills.length) {
-    const top3 = skills.slice(0, 3).map((s: any) => s.label_ja).filter(Boolean);
+    const top3 = skills.slice(0, 3).map((s) => s.label_ja).filter(Boolean);
     if (top3.length) {
       const skillsStr = top3.join('、');
       let extra = '';
       if (skills.length >= 5) {
-        const tail = skills.slice(3, 5).map((s: any) => s.label_ja).filter(Boolean);
+        const tail = skills.slice(3, 5).map((s) => s.label_ja).filter(Boolean);
         if (tail.length) extra = `加えて、${tail.join('、')}も重要です。`;
       }
       faqs.push([
@@ -607,10 +707,10 @@ function renderOccFaq(rec: Rec): string {
 function renderTransfer(rec: Rec, nameLookup: Record<number, string>): string {
   const path0 = getTransferPaths()[String(rec.id)];
   if (!path0) return '';
-  const candidates = (path0.candidates ?? []).slice(0, 3);
+  const candidates = path0.candidates.slice(0, 3);
   if (!candidates.length) return '';
   const cards = candidates
-    .map((c: any) => {
+    .map((c) => {
       const cid = c.id;
       const name = nameLookup[cid] || c.title_ja || '?';
       const href = `/ja/${cid}`;
@@ -634,8 +734,8 @@ function renderOrgsCerts(rec: Rec): string {
   let orgBlock = '';
   if (orgs.length) {
     const items = orgs
-      .filter((o: any) => o.name_ja)
-      .map((o: any) => `<li><a href="${escapeHtml(o.url || '#')}" rel="external" target="_blank">${escapeHtml(o.name_ja || '')}</a></li>`)
+      .filter((o) => o.name_ja)
+      .map((o) => `<li><a href="${escapeHtml(o.url || '#')}" rel="external" target="_blank">${escapeHtml(o.name_ja || '')}</a></li>`)
       .join('');
     orgBlock = `<div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list">${items}</ul></div>`;
   }
@@ -714,7 +814,7 @@ function renderJsonLd(rec: Rec): string {
   const breadcrumbRoot = '日本の職業 AI 影響マップ';
   const homeUrl = 'https://mirai-shigoto.com/';
 
-  const additional: any[] = [];
+  const additional: JsonLdPropertyValue[] = [];
   if (risk !== null) {
     additional.push({
       '@type': 'PropertyValue',
@@ -729,7 +829,7 @@ function renderJsonLd(rec: Rec): string {
   if (recruit !== null && recruit !== undefined) additional.push({ '@type': 'PropertyValue', name: 'Effective recruit ratio', value: recruit });
   if (hourly) additional.push({ '@type': 'PropertyValue', name: 'Hourly wage', value: hourly, unitText: 'JPY/hour' });
 
-  const occupationNode: any = {
+  const occupationNode: JsonLdOccupation = {
     '@type': 'Occupation',
     '@id': `${canonical}#occupation`,
     name: nameJa,
@@ -751,7 +851,7 @@ function renderJsonLd(rec: Rec): string {
   }
   if (rec.skills_top10?.length) {
     occupationNode.skills = rec.skills_top10
-      .map((s: any) => s.label_ja)
+      .map((s) => s.label_ja)
       .filter(Boolean);
   }
   if (rec.related_certs_ja?.length) {
@@ -783,7 +883,7 @@ function renderJsonLd(rec: Rec): string {
     }
   }
 
-  const graphNodes: any[] = [
+  const graphNodes: JsonLdGraphNode[] = [
     {
       '@type': 'WebPage',
       '@id': `${canonical}#webpage`,
