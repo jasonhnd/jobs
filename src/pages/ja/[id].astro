@@ -399,8 +399,18 @@ export async function getStaticPaths() {
   }
 
   const files = fs.readdirSync(detailDir).filter((f: string) => f.endsWith('.json'));
+  // Per-file try/catch — one corrupted JSON file would otherwise crash the
+  // entire Astro build with no partial output. Bad files are logged + skipped.
   const all: Rec[] = files
-    .map((f: string) => adaptLocal(JSON.parse(fs.readFileSync(np.join(detailDir, f), 'utf8'))))
+    .map((f: string): Rec | null => {
+      try {
+        return adaptLocal(JSON.parse(fs.readFileSync(np.join(detailDir, f), 'utf8')));
+      } catch (err) {
+        console.error(`[id].astro: skip ${f} (parse failed): ${(err as Error).message}`);
+        return null;
+      }
+    })
+    .filter((r): r is Rec => r !== null)
     .sort((a, b) => a.id - b.id);
 
   // Build name lookup keyed by occupation id.

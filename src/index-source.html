@@ -2657,6 +2657,14 @@
       let keyboardIdx = -1;
       let percentiles = {};
       const canvas = document.getElementById("treemap");
+      if (!canvas) {
+        // If the treemap canvas was removed from the template, bail out
+        // before any subsequent line crashes the rest of this IIFE.
+        console.error("[treemap] #treemap canvas missing — aborting init");
+        const ls = document.getElementById("loadingState");
+        if (ls) { ls.className = "error-state"; ls.textContent = "⚠️ レンダラーの初期化に失敗しました"; }
+        return;
+      }
       const ctx = canvas.getContext("2d");
       const hl = document.getElementById("tileHighlight");
 
@@ -3434,7 +3442,8 @@
         if (ja) ja.textContent = titles.ja;
         if (en) en.textContent = titles.en;
       }
-      document.getElementById("layerToggle").addEventListener("click", e => {
+      const layerToggleEl = document.getElementById("layerToggle");
+      if (layerToggleEl) layerToggleEl.addEventListener("click", e => {
         const btn = e.target.closest("button");
         if (!btn || !btn.dataset.mode) return;
         const from = layer;
@@ -3453,10 +3462,11 @@
       });
 
       // ---- Palette toggle (colorblind-safe) ----
-      document.getElementById("paletteToggle").addEventListener("click", () => {
+      const paletteToggleEl = document.getElementById("paletteToggle");
+      if (paletteToggleEl) paletteToggleEl.addEventListener("click", () => {
         const from = palette;
         palette = palette === "viridis" ? "redgreen" : "viridis";
-        const btn = document.getElementById("paletteToggle");
+        const btn = paletteToggleEl;
         btn.classList.toggle("active", palette === "viridis");
         btn.setAttribute("aria-pressed", String(palette === "viridis"));
         try { localStorage.setItem("jp-jobs-palette", palette); } catch(e) {}

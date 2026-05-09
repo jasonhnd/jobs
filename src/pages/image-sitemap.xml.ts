@@ -30,11 +30,24 @@ interface OccEntry {
 }
 
 function loadOccupations(): OccEntry[] {
+  let files: string[];
+  try {
+    const dir = path.join(REPO, 'public', 'data.detail');
+    files = readdirSync(dir).filter((f) => f.endsWith('.json'));
+  } catch (err) {
+    console.error(`[image-sitemap] readdir failed: ${(err as Error).message}`);
+    return [];
+  }
   const dir = path.join(REPO, 'public', 'data.detail');
-  const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
   const out: OccEntry[] = [];
   for (const f of files) {
-    const j = JSON.parse(readFileSync(path.join(dir, f), 'utf8')) as DetailFile;
+    let j: DetailFile;
+    try {
+      j = JSON.parse(readFileSync(path.join(dir, f), 'utf8')) as DetailFile;
+    } catch (err) {
+      console.error(`[image-sitemap] skip ${f}: ${(err as Error).message}`);
+      continue;
+    }
     if (typeof j.id !== 'number') continue;
     const score = j.ai_risk?.score;
     if (score == null) continue;
@@ -59,10 +72,12 @@ export const GET: APIRoute = () => {
 
   const entries = occs.map((o) => {
     const title = `${o.title} — AI影響 ${o.score}/10`;
+    // o.id is a number so XML escape is redundant on <loc>, but use it
+    // defensively in case a future caller pipes through a string id.
     return `  <url>
-    <loc>${SITE}/ja/${o.id}</loc>
+    <loc>${escapeXml(`${SITE}/ja/${o.id}`)}</loc>
     <image:image>
-      <image:loc>${SITE}/api/og?id=${o.id}</image:loc>
+      <image:loc>${escapeXml(`${SITE}/api/og?id=${o.id}`)}</image:loc>
       <image:title>${escapeXml(title)}</image:title>
     </image:image>
   </url>`;

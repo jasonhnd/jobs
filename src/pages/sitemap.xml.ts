@@ -30,24 +30,46 @@ interface SectorsFile {
 }
 
 function loadSectorIds(): string[] {
-  const json = JSON.parse(
-    readFileSync(path.join(REPO, 'data', 'sectors', 'sectors.ja-en.json'), 'utf8'),
-  ) as SectorsFile;
-  return json.sectors.map((s) => s.id);
+  try {
+    const json = JSON.parse(
+      readFileSync(path.join(REPO, 'data', 'sectors', 'sectors.ja-en.json'), 'utf8'),
+    ) as SectorsFile;
+    return json.sectors.map((s) => s.id);
+  } catch (err) {
+    console.error(`[sitemap] loadSectorIds failed: ${(err as Error).message}`);
+    return [];
+  }
 }
 
 function loadOccupationIds(): number[] {
-  const dir = path.join(REPO, 'public', 'data.detail');
-  const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
-  return files
-    .map((f) => parseInt(f.replace('.json', ''), 10))
-    .filter((n) => Number.isFinite(n))
-    .sort((a, b) => a - b);
+  try {
+    const dir = path.join(REPO, 'public', 'data.detail');
+    const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
+    return files
+      .map((f) => parseInt(f.replace('.json', ''), 10))
+      .filter((n) => Number.isFinite(n))
+      .sort((a, b) => a - b);
+  } catch (err) {
+    console.error(`[sitemap] loadOccupationIds failed: ${(err as Error).message}`);
+    return [];
+  }
+}
+
+function escapeXmlLoc(s: string): string {
+  // Defensive XML escape for <loc> values. Sector / ranking IDs today follow
+  // /^[a-z_-]+$/ so injection isn't a present risk, but a malformed seed in
+  // sectors.ja-en.json that contained '&' would produce invalid XML.
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 function urlBlock(loc: string, lastmod: string, changefreq: string, priority: string): string {
   return `  <url>
-    <loc>${loc}</loc>
+    <loc>${escapeXmlLoc(loc)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
