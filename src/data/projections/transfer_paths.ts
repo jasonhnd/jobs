@@ -19,7 +19,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { fsum } from '../lib/fsum.js';
-import { pythonRound } from '../lib/python-round.js';
+import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../lib/now.js';
 
 const TOP_N = 4;
@@ -160,7 +160,7 @@ export async function buildTransferPaths(
 
     const scored: ScoredEntry[] = [];
     for (const c of chosenPool) {
-      const sim = pythonRound(cosine(sourceSkills, c.cand_skills), 4);
+      const sim = bankerRound(cosine(sourceSkills, c.cand_skills), 4);
       if (sim < MIN_SIMILARITY) continue;
       scored.push({ id: c.id, similarity: sim, cand_risk: c.cand_risk });
     }

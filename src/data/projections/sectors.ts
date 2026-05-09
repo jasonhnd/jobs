@@ -23,7 +23,7 @@ import type { Indexes } from '../lib/indexes.js';
 import type { SectorDef } from '../schema/sector.js';
 import { SENTINEL_UNCATEGORIZED } from '../lib/sector-resolver.js';
 import { fsum } from '../lib/fsum.js';
-import { pythonRound } from '../lib/python-round.js';
+import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../lib/now.js';
 
 interface SectorOutEntry {
@@ -289,5 +289,5 @@ export async function buildSectors(
 
 /** Round to 2 decimal places, matching Python's `round(x, 2)`. */
 function roundTo2(x: number): number {
-  return pythonRound(x, 2);
+  return bankerRound(x, 2);
 }

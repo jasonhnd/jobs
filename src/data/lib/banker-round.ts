@@ -1,31 +1,37 @@
 /**
- * Match Python 3's `round(x, n)` semantics.
+ * Banker's rounding (round half to even) over the EXACT stored IEEE 754 double.
  *
- * Python's `round()` rounds based on the EXACT stored double, applying banker's
- * (round half to even) only for genuine halfway cases. To match this in
- * JavaScript:
+ * Why this is non-trivial:
+ *   `Number.prototype.toFixed` uses round-half-away-from-zero (e.g. 52.25 → "52.3"),
+ *   which loses 1 ULP of accuracy across a 552-record dataset and breaks
+ *   reproducibility. `Math.round(x * 10^n) / 10^n` has the same problem and
+ *   adds float-multiply error on top. We need:
+ *     - Round half to even ONLY for genuine halfway cases (so 52.25 → 52.2,
+ *       52.35 → 52.4 — both round to even tens digit).
+ *     - For values that LOOK halfway but are actually slightly off (the FP
+ *       residue case 0.15 storing as 0.14999...), round in the direction of
+ *       the actual stored value.
  *
+ * Algorithm:
  *   1. Render `x` with `toFixed(ndigits + 17)`. V8's toFixed produces the
  *      closest decimal string at that many places — and 17 extra digits is
  *      enough to disambiguate any IEEE 754 double.
  *   2. Look at the digit at position `ndigits + 1` and its tail.
  *      - <5: round down
  *      - >5: round up
- *      - =5 with non-zero tail: round up
- *      - =5 with all-zero tail: GENUINE halfway → banker's (round to even)
+ *      - =5 with non-zero tail: round up (FP value is just above halfway)
+ *      - =5 with all-zero tail: GENUINE halfway → round to even
  *
  * Examples:
- *   pythonRound(0.15, 1)               → 0.1   (toFixed(20)='0.14999...445' → digit 2 is '4')
- *   pythonRound(0.05, 1)               → 0.1   (toFixed(20)='0.05000...278' → digit 2 is '5' with non-zero tail)
- *   pythonRound(52.25, 1)              → 52.2  (toFixed(20)='52.25000...000' → exact halfway, 522 even)
- *   pythonRound(66.55, 1)              → 66.5  (toFixed(20)='66.54999...715' → digit 2 is '4')
- *   pythonRound(61.85000000000001, 1)  → 61.9  (toFixed(20) shows tail above .5)
- *
- * Reference: https://docs.python.org/3/library/functions.html#round
+ *   bankerRound(0.15, 1)               → 0.1   (toFixed(20)='0.14999...445' → digit 2 is '4')
+ *   bankerRound(0.05, 1)               → 0.1   (toFixed(20)='0.05000...278' → digit 2 is '5' with non-zero tail)
+ *   bankerRound(52.25, 1)              → 52.2  (toFixed(20)='52.25000...000' → exact halfway, 522 even)
+ *   bankerRound(66.55, 1)              → 66.5  (toFixed(20)='66.54999...715' → digit 2 is '4')
+ *   bankerRound(61.85000000000001, 1)  → 61.9  (toFixed(20) shows tail above .5)
  */
 
-/** Round `x` to `ndigits` decimal places using Python's semantics. */
-export function pythonRound(x: number, ndigits: number): number {
+/** Round `x` to `ndigits` decimal places using banker's rounding. */
+export function bankerRound(x: number, ndigits: number): number {
   if (!Number.isFinite(x)) return x;
   if (ndigits < 0) ndigits = 0;
 
@@ -63,7 +69,7 @@ export function pythonRound(x: number, ndigits: number): number {
     if (tailHasNonZero) {
       roundUp = true;
     } else {
-      // Genuine halfway → banker's (round to even)
+      // Genuine halfway → round to even
       const lastKept = ndigits === 0 ? intStr.charAt(intStr.length - 1) : keep.charAt(keep.length - 1);
       const lastDigit = Number(lastKept);
       roundUp = lastDigit % 2 !== 0;

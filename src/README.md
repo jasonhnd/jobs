@@ -8,7 +8,7 @@ TypeScript + Astro source root.
 src/
 ├── data/
 │   ├── schema/              # Zod schemas — source of truth for data shapes
-│   ├── lib/                 # bands / score-strategy / sector-resolver / indexes / now / fsum / python-round / rankings
+│   ├── lib/                 # bands / score-strategy / sector-resolver / indexes / now / fsum / banker-round / rankings
 │   ├── projections/         # 12 projections written by build.ts to public/data.*
 │   ├── build.ts             # TS-ETL orchestrator (`npm run build:data`)
 │   ├── import-ipd.ts        # IPD xlsx → data/occupations/*.json
