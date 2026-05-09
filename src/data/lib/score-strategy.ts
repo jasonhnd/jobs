@@ -10,9 +10,6 @@
  *
  * CHANGELOG of pickLatestScore:
  *   2026-05-04  initial — strict max(date) per occupation
- *   2026-05-07  TS port (this file)
- *
- * Migrated from scripts/lib/score_strategy.py.
  */
 
 export interface ScoreHistEntry {
@@ -35,7 +32,7 @@ export function pickLatestScore<T extends { date: string }>(history: T[]): T {
   if (history.length === 0) {
     throw new Error('pickLatestScore called with empty history');
   }
-  // Ties broken by last-wins (matches Python's `max` with stable iteration over
+  // Ties broken by last-in-input-order (later entries override earlier ones with
   // appended history).
   let chosen = history[0]!;
   for (let i = 1; i < history.length; i += 1) {

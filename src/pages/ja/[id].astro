@@ -2,11 +2,8 @@
 /**
  * [id].astro — per-occupation detail page (JA only).
  *
- * Migrated from scripts/build_occupations.py (PR 27, Track C).
- *
  * Renders one HTML page per occupation, generated statically via
- * getStaticPaths() reading dist/data.detail/<id>.json. Mirrors the layout
- * produced by the legacy Python `render_html()` function:
+ * getStaticPaths() reading public/data.detail/<id>.json. Page sections:
  *   - JSON-LD (WebPage + Occupation + BreadcrumbList + FAQPage)
  *   - Risk card + AI rationale long-form (if present)
  *   - Stats dl
@@ -18,9 +15,9 @@
  *   - Orgs/certs side-by-side
  *   - Provenance footnote + sources list + share/follow block
  *
- * The inline CSS is preserved verbatim from the Python CSS_BLOCK so we
- * keep visual parity with ja/<id>.html until later refactors extract it
- * into shared classes (Track D follow-up).
+ * The inline CSS is preserved verbatim from the v1.x design — a future
+ * refactor can extract it into shared classes once we can see what's truly
+ * common across detail / sector / ranking pages.
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';

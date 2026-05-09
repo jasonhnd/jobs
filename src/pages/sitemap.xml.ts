@@ -1,16 +1,13 @@
 /**
  * sitemap.xml.ts — site-wide sitemap, generated at build time.
  *
- * Migrated from scripts/build_occupations.py:write_sitemap() +
- *                scripts/build_sector_hubs.py:append_sitemap_blocks().
- *
- * Emits the same URL surface the Python pipeline produced (~606 URLs):
+ * Emits ~606 URLs:
  *   - Home + /map (with 16 sector-filter query-string variants)
  *   - 3 legal pages (/privacy /about /compliance)
  *   - 2 GEO surfaces (/llms.txt /llms-full.txt)
  *   - 1 rankings index + 9 ranking slugs
  *   - 1 sectors index + 16 sector hubs
- *   - All occupation detail pages (one entry per dist/data.detail/<id>.json)
+ *   - All occupation detail pages (one per public/data.detail/<id>.json)
  *
  * The output is served at /sitemap.xml. Vercel cache headers are configured
  * in vercel.json (max-age=300, s-maxage=600, application/xml).

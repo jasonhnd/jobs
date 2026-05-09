@@ -15,8 +15,6 @@
  *   sectors              SectorDef[]
  *   sectorOverrides      Map<string, string>                 padded_id → sector_id
  *   sectorByOcc          Map<number, SectorAssignment>       derived per-occupation
- *
- * Migrated from scripts/lib/indexes.py.
  */
 import {
   LabelsFileSchema,

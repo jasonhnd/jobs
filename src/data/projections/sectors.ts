@@ -9,9 +9,9 @@
  *     so the operator can edit data/sectors/overrides.json or extend
  *     data/sectors/sectors.ja-en.json seed_codes)
  *
- * Migrated from scripts/projections/sectors.py.
  *
- * Output format intentionally byte-equivalent to the Python output:
+ *
+ * Output format:
  *   - data.sectors.json: compact JSON (no spaces, no indent), trailing newline.
  *   - data.review_queue.json: pretty-printed (2-space indent), trailing newline.
  *   - generated_at: ISO8601 UTC seconds — sourced from src/data/lib/now.ts;
@@ -125,7 +125,7 @@ export async function buildSectors(
 
   // ───── Aggregate stats per sector ─────
   // Collect per-sector raw values; sum them with fsum at emit time so the
-  // result matches Python 3.12+ sum() (Neumaier compensation).
+  // result is order-independent thanks to Neumaier compensation in fsum.
   const counts = new Map<string, number>();
   const riskValues = new Map<string, number[]>();
   const workforceValues = new Map<string, number[]>();

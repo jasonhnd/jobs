@@ -4,8 +4,6 @@
  * Each loader reads from `data/` (the repo root data dir, sibling to `src/`),
  * validates against the corresponding Zod schema, and returns either the
  * parsed value or a structured error.
- *
- * Track B-1, MIGRATION_PLAN.md PR 3.
  */
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';

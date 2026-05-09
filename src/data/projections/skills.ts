@@ -3,8 +3,6 @@
  *
  * Status: Future (skipped by default)
  * Consumer: future "find jobs by skill" page
- *
- * Migrated from scripts/projections/skills.py.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

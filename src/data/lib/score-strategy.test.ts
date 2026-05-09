@@ -18,7 +18,7 @@ test('pickLatestScore: picks latest by date', () => {
   assert.deepEqual(pickLatestScore([a, b, c]), b);
 });
 
-test('pickLatestScore: ties broken by last-wins (matches Python max stability)', () => {
+test('pickLatestScore: ties broken by last-in-input-order', () => {
   const a = { model: 'a', date: '2026-04-25', ai_risk: 5 };
   const b = { model: 'b', date: '2026-04-25', ai_risk: 7 };
   assert.deepEqual(pickLatestScore([a, b]), b);

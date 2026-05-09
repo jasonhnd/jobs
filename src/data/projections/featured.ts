@@ -8,7 +8,6 @@
  *   - ai_risk >= 7 AND workers >= 50_000
  *   - sorted by ai_risk desc, then workers desc
  *
- * Migrated from scripts/projections/featured.py.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -40,7 +39,7 @@ export async function buildFeatured(
   distRoot: string,
 ): Promise<FeaturedBuildResult> {
   const candidates: CandidateEntry[] = [];
-  // Iterate in occById insertion order; matches Python `for oid in indexes.occ_by_id`.
+  // Iterate in occById insertion order (deterministic — Map preserves insertion order).
   for (const [occId, occ] of indexes.occById) {
     const score = indexes.latestScoreByOcc.get(occId);
     const stats = indexes.statsById.get(occId);

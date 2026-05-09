@@ -11,7 +11,6 @@
  * EN labels were dropped in v1.4.0 when the English UI was removed.
  * The source dictionaries remain bilingual; only the JA projection is emitted.
  *
- * Migrated from scripts/projections/labels.py.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -36,7 +35,7 @@ export async function buildLabels(
     generated_at: nowIso(),
   };
 
-  // Iterate `labels_by_dim` in insertion order; matches Python dict iteration
+  // Iterate `labels_by_dim` in insertion order (Map preserves insertion order)
   // (which preserves insertion order on 3.7+). Source dimensions are loaded in
   // a fixed order in indexes.ts so this is deterministic.
   for (const [dim, labels] of indexes.labelsByDim) {

@@ -9,7 +9,6 @@
  * canonical lib.bands thresholds (2万/10万); `category_size` preserves the
  * legacy 10万/100万 thresholds. Both are emitted for gradual migration.
  *
- * Migrated from scripts/projections/search.py.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

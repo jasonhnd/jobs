@@ -2,15 +2,13 @@
  * data.detail/<padded>.json projection — per docs/DATA_ARCHITECTURE.md §6.2 (v1.2.0).
  *
  * Status: Planned
- * Consumer: build_occupations.py (legacy), api/og.tsx, mobile ④/⑤ 詳細
+ * Consumer: src/pages/ja/[id].astro, api/og.tsx, mobile ④/⑤ 詳細
  * Shape: nested object — main occupation + stats + latest score + top-N skills
  *
  * `*_top_N` rule per §6.2:
  *   Sort by the occupation's score descending; take first N.
  *   When the parent block is null (no numeric profile), the top_N field is also null.
  *   N: skills=10, knowledge=5, abilities=5.
- *
- * Migrated from scripts/projections/detail.py.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

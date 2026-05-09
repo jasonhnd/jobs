@@ -1,16 +1,14 @@
 /**
  * image-sitemap.xml.ts — Google image-sitemap for OG cards.
  *
- * Migrated from scripts/build_image_sitemap.py.
- *
  * Emits one <url> entry per occupation linking to:
  *   - <loc>: the detail page (https://mirai-shigoto.com/ja/<id>)
  *   - <image:image><image:loc>: the dynamic OG card endpoint (/api/og?id=<id>)
  *   - <image:title>: "{ja_title} — AI影響 {score}/10"
  *
- * Source: dist/data.detail/<id>.json (one file per occupation; produced by
+ * Source: public/data.detail/<id>.json (one file per occupation; produced by
  * src/data/build.ts). Only occupations with a non-null ai_risk.score are
- * included, matching the legacy Python filter.
+ * included, since /api/og can't render a card without a score.
  */
 import type { APIRoute } from 'astro';
 import { readdirSync, readFileSync } from 'node:fs';

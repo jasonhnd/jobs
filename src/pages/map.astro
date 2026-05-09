@@ -2,12 +2,12 @@
 /**
  * map.astro — 職業マップ (interactive squarified treemap of all 552 jobs).
  *
- * Migrated from map.html. Inline JS preserved verbatim — including the
- * mobile-scroll-to-top fix from commit 1e8976a9 (atomic replaceChildren()
- * render + ResizeObserver width-only resize, see Design-Mobile.md §4.4.1).
- * Do NOT refactor the inline JS to React or split into modules; the entire
- * interactive treemap layout, list-view toggle, bottom sheet, and search
- * suggest are intentionally one IIFE.
+ * Inline JS preserved verbatim — including the mobile-scroll-to-top fix
+ * from commit 1e8976a9 (atomic replaceChildren() render + ResizeObserver
+ * width-only resize, see Design-Mobile.md §4.4.1). Do NOT refactor the
+ * inline JS to React or split into modules; the entire interactive treemap
+ * layout, list-view toggle, bottom sheet, and search suggest are
+ * intentionally one IIFE.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';

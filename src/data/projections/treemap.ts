@@ -10,7 +10,6 @@
  * Filtering:
  *   Emit only occupations that have BOTH stats_legacy and a latest AI score.
  *
- * Migrated from scripts/projections/treemap.py.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
