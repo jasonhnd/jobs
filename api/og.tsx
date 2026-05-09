@@ -35,6 +35,7 @@
 // font fetch); subsequent identical requests are CDN hits.
 
 import { ImageResponse } from "@vercel/og";
+import { RANKING_META } from "../src/data/lib/rankings-meta.js";
 
 export const config = { runtime: "edge" };
 
@@ -156,20 +157,16 @@ const PAGE_CARDS: Record<string, GenericCardConfig> = {
   },
 };
 
-// 9 ranking detail card variants. Strings duplicated from
-// src/data/lib/rankings.ts:ALL_RANKINGS — kept here to avoid pulling
-// src/ into the Edge Function bundle. Update both sides if rankings change.
-const RANKING_CARDS: Record<string, GenericCardConfig> = {
-  "ai-risk-high":    { eyebrow: "RANKING · TOP 30",  title: "AIに奪われる仕事", subtitle: "AI影響度が高い職業ランキング" },
-  "ai-risk-low":     { eyebrow: "RANKING · TOP 30",  title: "AI影響が少ない仕事", subtitle: "AIリスクが低く将来性のある職業" },
-  "salary-safe":     { eyebrow: "RANKING · TOP 30",  title: "高年収 × 低 AI リスク", subtitle: "年収が高く AI 代替リスクが低い職業" },
-  "workers":         { eyebrow: "RANKING · TOP 30",  title: "就業者数ランキング", subtitle: "日本で最も就業者が多い職業" },
-  "salary":          { eyebrow: "RANKING · TOP 30",  title: "年収ランキング", subtitle: "年収が最も高い職業" },
-  "entry-salary":    { eyebrow: "RANKING · TOP 30",  title: "初任給ランキング", subtitle: "初任給が高い職業" },
-  "young-workforce": { eyebrow: "RANKING · TOP 30",  title: "平均年齢が若い職業", subtitle: "若手が活躍する職業" },
-  "short-hours":     { eyebrow: "RANKING · TOP 30",  title: "労働時間が短い職業", subtitle: "ワークライフバランスに優れた職業" },
-  "high-demand":     { eyebrow: "RANKING · TOP 30",  title: "人手不足の職業", subtitle: "求人需要が高い職業" },
-};
+// 9 ranking detail card variants — built from the shared RANKING_META.
+// Single source of truth lives in src/data/lib/rankings-meta.ts; adding
+// a new ranking there auto-registers its OG card here. The drift test
+// at src/data/lib/rankings-meta.test.ts asserts both sides stay aligned.
+const RANKING_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
+  RANKING_META.map((m) => [
+    m.slug,
+    { eyebrow: m.og_eyebrow, title: m.name_ja, subtitle: m.description_ja },
+  ]),
+);
 
 async function renderGenericCard(config: GenericCardConfig): Promise<Response> {
   const siteMark = "mirai-shigoto.com";
