@@ -749,7 +749,12 @@ export function renderJsonLd(
       '@id': `${canonical}#article`,
       headline: title,
       description,
-      image: `${SITE}/og.png`,
+      // Per-ranking OG card. The slug comes off the canonical URL —
+      // canonical is `${SITE}/ja/rankings/<slug>`.
+      image:
+        `${SITE}/api/og?ranking=${
+          canonical.match(/\/rankings\/([^/?#]+)/)?.[1] ?? ''
+        }`,
       url: canonical,
       datePublished: DATE_PUBLISHED,
       dateModified: DATE_MODIFIED,

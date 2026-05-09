@@ -20,9 +20,9 @@
     <meta property="og:title" content="AIの時代でも、あなたらしい働き方を。— 未来の仕事" />
     <meta property="og:description" content="日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。" />
     <meta property="og:url" content="https://mirai-shigoto.com/" />
-    <!-- og:image is ABSOLUTE production URL per Open Graph spec — required by strict crawlers (Twitter/X, LinkedIn, Slack). On production (mirai-shigoto.com) this resolves correctly. On preview/staging deployments the OG image preview will reflect production's image (intentional trade-off: production correctness > preview parity). A relative path was tried in commit f2e26dc but reverted before going live to avoid silent breakage on Twitter/LinkedIn cards. -->
-    <meta property="og:image" content="https://mirai-shigoto.com/og.png" />
-    <meta property="og:image:secure_url" content="https://mirai-shigoto.com/og.png" />
+    <!-- og:image is ABSOLUTE production URL per Open Graph spec — required by strict crawlers (Twitter/X, LinkedIn, Slack). Now points at the dynamic /api/og?page=home Edge Function instead of a static og.png; design changes propagate site-wide on next CDN miss. On preview/staging deployments the OG image still reports production's URL (Twitter/LinkedIn validators reject relative paths). -->
+    <meta property="og:image" content="https://mirai-shigoto.com/api/og?page=home" />
+    <meta property="og:image:secure_url" content="https://mirai-shigoto.com/api/og?page=home" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -32,7 +32,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="AIの時代でも、あなたらしい働き方を。— 未来の仕事" />
     <meta name="twitter:description" content="日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。" />
-    <meta name="twitter:image" content="https://mirai-shigoto.com/og.png" />
+    <meta name="twitter:image" content="https://mirai-shigoto.com/api/og?page=home" />
     <meta name="twitter:image:alt" content="未来の仕事 — AIの時代でも、あなたらしい働き方を。" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/" />
@@ -60,7 +60,7 @@
           "name": "mirai-shigoto.com",
           "alternateName": ["日本の職業 AI 影響マップ（非公式）", "Japan Jobs × AI Impact Map"],
           "url": "https://mirai-shigoto.com/",
-          "logo": "https://mirai-shigoto.com/og.png"
+          "logo": "https://mirai-shigoto.com/api/og?page=home"
         },
         {
           "@type": "WebSite",

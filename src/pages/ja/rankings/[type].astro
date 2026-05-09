@@ -53,6 +53,7 @@ const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.item
   title={result.title}
   description={result.seoDesc}
   canonical={canonical}
+  ogImage={`https://mirai-shigoto.com/api/og?ranking=${slug}`}
   ogTitle={result.title.slice(0, 120)}
   ogDescription={result.seoDesc}
 >
