@@ -1,7 +1,7 @@
 /**
  * data.skills/<skill_key>.json + _index.json projections — per docs/DATA_ARCHITECTURE.md §6.5 / §6.6.
  *
- * Status: Future (skipped by default)
+ * Status: Implemented (data emitted; consumer page TBD — see Design.md)
  * Consumer: future "find jobs by skill" page
  */
 import { mkdir, writeFile } from 'node:fs/promises';

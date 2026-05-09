@@ -1,7 +1,7 @@
 /**
  * data.tasks/<padded>.json projection — per docs/DATA_ARCHITECTURE.md §6.3.
  *
- * Status: Future (skipped by default)
+ * Status: Implemented (data emitted; consumer page TBD — see Design.md)
  * Consumer: future "task-level AI risk map" page
  *
  * Task-level AI scoring is not yet wired (only scope='occupations' is loaded
