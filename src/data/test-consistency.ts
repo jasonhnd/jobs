@@ -532,7 +532,96 @@ async function main(): Promise<void> {
   await checkPerOccupationDir(distRoot, 'data.skills', 30, r);
   await checkPerOccupationDir(distRoot, 'data.score-history', 500, r);
 
+  // Cross-projection invariants — every id referenced by the search /
+  // featured / transfer_paths projections must point at an occupation that
+  // actually has a detail file. Catches dangling references that would
+  // produce 404 fetches at runtime.
+  await checkCrossProjectionIdReferences(distRoot, r);
+
   reportAndExit(r);
+}
+
+async function checkCrossProjectionIdReferences(distRoot: string, r: Report): Promise<void> {
+  // Build the canonical id set from data.detail/<padded>.json filenames.
+  const detailDir = join(distRoot, 'data.detail');
+  if (!existsSync(detailDir)) return;
+  let knownIds: Set<number>;
+  try {
+    knownIds = new Set(
+      readdirSync(detailDir)
+        .filter((f) => f.endsWith('.json'))
+        .map((f) => Number.parseInt(f.replace(/\.json$/, ''), 10))
+        .filter(Number.isFinite),
+    );
+  } catch (err) {
+    r.fail(`cannot enumerate data.detail/: ${(err as Error).message}`);
+    return;
+  }
+
+  // search.json: every documents[].id must be in knownIds.
+  const searchPath = join(distRoot, 'data.search.json');
+  if (existsSync(searchPath)) {
+    try {
+      const search = (await loadJson(searchPath)) as { documents?: Array<{ id?: number }> };
+      const docs = search.documents ?? [];
+      const dangling: number[] = [];
+      for (const d of docs) {
+        if (typeof d.id === 'number' && !knownIds.has(d.id)) dangling.push(d.id);
+      }
+      if (dangling.length > 0) {
+        r.fail(
+          `data.search.json has ${dangling.length} ids with no matching data.detail/ file: ${dangling.slice(0, 5).join(', ')}${dangling.length > 5 ? '…' : ''}`,
+        );
+      }
+    } catch (err) {
+      r.fail(`data.search.json id-cross-check failed: ${(err as Error).message}`);
+    }
+  }
+
+  // transfer_paths.json: every paths[*].candidates[*].id must be in knownIds.
+  const tpPath = join(distRoot, 'data.transfer_paths.json');
+  if (existsSync(tpPath)) {
+    try {
+      const tp = (await loadJson(tpPath)) as {
+        paths?: Record<string, { candidates?: Array<{ id?: number }> }>;
+      };
+      const pathsObj = tp.paths ?? {};
+      const dangling = new Set<number>();
+      for (const entry of Object.values(pathsObj)) {
+        for (const c of entry.candidates ?? []) {
+          if (typeof c.id === 'number' && !knownIds.has(c.id)) dangling.add(c.id);
+        }
+      }
+      if (dangling.size > 0) {
+        const sample = Array.from(dangling).slice(0, 5).join(', ');
+        r.fail(
+          `data.transfer_paths.json references ${dangling.size} candidate ids with no matching data.detail/ file: ${sample}${dangling.size > 5 ? '…' : ''}`,
+        );
+      }
+    } catch (err) {
+      r.fail(`data.transfer_paths.json id-cross-check failed: ${(err as Error).message}`);
+    }
+  }
+
+  // featured.json: every occupations[].id must be in knownIds.
+  const featPath = join(distRoot, 'data.featured.json');
+  if (existsSync(featPath)) {
+    try {
+      const feat = (await loadJson(featPath)) as { occupations?: Array<{ id?: number }> };
+      const occs = feat.occupations ?? [];
+      const dangling: number[] = [];
+      for (const o of occs) {
+        if (typeof o.id === 'number' && !knownIds.has(o.id)) dangling.push(o.id);
+      }
+      if (dangling.length > 0) {
+        r.fail(
+          `data.featured.json references ${dangling.length} occupation ids with no matching data.detail/ file: ${dangling.join(', ')}`,
+        );
+      }
+    } catch (err) {
+      r.fail(`data.featured.json id-cross-check failed: ${(err as Error).message}`);
+    }
+  }
 }
 
 main().catch((err) => {

@@ -29,7 +29,7 @@ type NumericBlock =
   | 'skills'
   | 'work_characteristics';
 
-interface AxisInput {
+export interface AxisInput {
   block: NumericBlock;
   field: string;
 }
@@ -92,7 +92,7 @@ export interface Profile5BuildResult {
 }
 
 /** Average all present input fields for one axis. Returns null if all missing. */
-function gatherAxis(occ: Occupation, inputs: AxisInput[]): number | null {
+export function gatherAxis(occ: Occupation, inputs: AxisInput[]): number | null {
   const values: number[] = [];
   for (const { block, field } of inputs) {
     const blockData = occ[block];
