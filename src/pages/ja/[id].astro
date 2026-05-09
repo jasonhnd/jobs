@@ -50,9 +50,9 @@ function readJsonSafe(p: string): any {
 function paths(): { detail: string; profile5: string; transfer: string } {
   const repo = path.resolve(process.cwd());
   return {
-    detail: path.join(repo, 'dist', 'data.detail'),
-    profile5: path.join(repo, 'dist', 'data.profile5.json'),
-    transfer: path.join(repo, 'dist', 'data.transfer_paths.json'),
+    detail: path.join(repo, 'public', 'data.detail'),
+    profile5: path.join(repo, 'public', 'data.profile5.json'),
+    transfer: path.join(repo, 'public', 'data.transfer_paths.json'),
   };
 }
 
@@ -167,7 +167,7 @@ export async function getStaticPaths() {
   const fs = await import('node:fs');
   const np = await import('node:path');
   const repo = np.resolve(process.cwd());
-  const detailDir = np.join(repo, 'dist', 'data.detail');
+  const detailDir = np.join(repo, 'public', 'data.detail');
   const RELATED = 5;
 
   function adaptLocal(d: any): any {

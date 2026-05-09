@@ -32,7 +32,7 @@ interface OccEntry {
 }
 
 function loadOccupations(): OccEntry[] {
-  const dir = path.join(REPO, 'dist', 'data.detail');
+  const dir = path.join(REPO, 'public', 'data.detail');
   const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
   const out: OccEntry[] = [];
   for (const f of files) {

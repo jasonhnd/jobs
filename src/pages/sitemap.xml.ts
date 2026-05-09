@@ -39,7 +39,7 @@ function loadSectorIds(): string[] {
 }
 
 function loadOccupationIds(): number[] {
-  const dir = path.join(REPO, 'dist', 'data.detail');
+  const dir = path.join(REPO, 'public', 'data.detail');
   const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
   return files
     .map((f) => parseInt(f.replace('.json', ''), 10))
