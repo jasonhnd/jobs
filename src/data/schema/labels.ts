@@ -6,8 +6,6 @@
  *                  work_activities, interests, work_values}
  *
  * Each file: shared global labels for all 556 occupations (avoid storing 556 times).
- *
- * Migrated from data/schema/labels.py.
  */
 import { z } from 'zod';
 

@@ -2,7 +2,7 @@
 /**
  * BaseLayout.astro — common <head> + body shell + footer.
  *
- * Captures the boilerplate every page in the legacy HTML carried inline:
+ * Captures the boilerplate every static page needs:
  *   - Theme inline script (no flash)
  *   - DNS prefetch / preconnect for analytics + fonts
  *   - Google Fonts (Noto Serif JP + Plus Jakarta Sans)
@@ -20,8 +20,6 @@
  *   - head slot — page-specific <link>/<meta>/<style>
  *   - default slot — page body content
  *   - bodyEnd slot — page-specific scripts after content
- *
- * Migrated from the inline boilerplate in 404.html / about.html / compliance.html / privacy.html.
  */
 export interface Props {
   title: string;

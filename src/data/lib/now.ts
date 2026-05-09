@@ -20,8 +20,7 @@
  *   drift guard if/when public/data.* is brought back under version control.
  *
  * Format: ISO 8601 UTC with seconds resolution and a literal `+00:00`
- * offset (matches the legacy Python pipeline's output, so consumers don't
- * see a format change in `generated_at` fields).
+ * offset, e.g. "2026-05-09T01:29:25+00:00".
  */
 
 let cached: string | null = null;

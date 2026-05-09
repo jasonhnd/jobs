@@ -13,7 +13,6 @@
  * from the average (no zero-stuffing). If ALL contributors for an axis are
  * missing for an occupation, that axis is null (frontend shows dash).
  *
- * Migrated from scripts/projections/profile5.py.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

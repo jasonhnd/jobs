@@ -16,8 +16,6 @@
  *
  * The resolver is deterministic: given the same (sectors_def, overrides,
  * occupations) input it always produces the same output.
- *
- * Migrated from scripts/lib/sector_resolver.py.
  */
 import type { SectorDef } from '../schema/sector.js';
 
@@ -49,12 +47,12 @@ export interface SectorAssignment {
 /**
  * Glob-match a seed pattern against an mhlw_main code.
  *
- * Mirrors Python fnmatch semantics for our patterns:
+ * Glob grammar (Unix-style `fnmatch`):
  *   - `*` = any chars (zero or more)
  *   - `?` = single char
  *   - `[seq]` / `[!seq]` = char class / negated char class
  *
- * Underscores and hyphens are literal (not metachars in fnmatch).
+ * Underscores and hyphens are literal.
  */
 export function fnmatchCase(value: string, pattern: string): boolean {
   return globToRegex(pattern).test(value);

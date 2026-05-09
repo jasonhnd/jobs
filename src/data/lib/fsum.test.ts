@@ -2,9 +2,10 @@ import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { fsum, fmean } from './fsum.js';
 
-test('fsum: matches Python sum() on the canonical Neumaier example', () => {
+test('fsum: canonical Neumaier example sums to the closer-representable double', () => {
   const xs = [2.898, 2.673, 2.878, 3.021];
-  // Python 3.12+: sum(xs) === 11.47
+  // Naive reduce gives 11.469999999999999; Neumaier compensation lifts the
+  // result to 11.47 (the next representable double, true sum + 1 ULP).
   assert.equal(fsum(xs), 11.47);
 });
 
@@ -34,9 +35,9 @@ test('fsum: handles many-term cancellation', () => {
   assert.ok(Math.abs(fsum(xs)) < 1e-15);
 });
 
-test('fmean: matches Python statistics.mean for the canonical case', () => {
+test('fmean: canonical Neumaier example produces 2.8675 exactly', () => {
   const xs = [2.898, 2.673, 2.878, 3.021];
-  // Python: sum(xs) / 4 = 2.8675
+  // sum(xs) = 11.47, /4 = 2.8675 — both representable doubles, no FP loss.
   assert.equal(fmean(xs), 2.8675);
 });
 

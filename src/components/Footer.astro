@@ -2,11 +2,11 @@
 /**
  * Footer.astro — site footer.
  *
- * Migrated from partials/footer.html. The build-time timestamp is computed
- * here. Site-wide typography + footer styling is delegated to the canonical
- * CSS in src/lib/canonical-css.ts and emitted as a global <style> block at
- * the end of this component (so EVERY page that renders <Footer /> picks up
- * the same typography baseline — beats per-page legacy CSS by specificity).
+ * The build-time timestamp is computed here. Site-wide typography + footer
+ * styling is delegated to the canonical CSS in src/lib/canonical-css.ts and
+ * emitted as a global <style> block at the end of this component (so EVERY
+ * page that renders <Footer /> picks up the same typography baseline —
+ * beats per-page page-local CSS by specificity).
  */
 import { CANONICAL_CSS } from '../lib/canonical-css.ts';
 const buildTime = new Date();

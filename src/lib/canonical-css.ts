@@ -6,14 +6,13 @@
  *   src/pages/index.astro              → injected into raw <head> via regex
  *
  * Why this file exists:
- *   The 10 page templates that came from the legacy Python build each had
- *   their own inline <style slot="head"> with hand-tuned font sizes,
- *   weights, and colors. Across `/`, `/about`, `/compliance`, `/privacy`,
- *   `/404`, `/map`, `/ja/sectors`, `/ja/sectors/<slug>`,
- *   `/ja/rankings/<slug>`, and `/ja/<id>` we measured **10 different
- *   typography systems** (h1 sizes 22px–40px, p colors fg vs fg2, p sizes
- *   14.4px–16.32px, line-heights 1.55–1.75). The user reported that pages
- *   "look different from each other" — they were right.
+ *   The 10 page templates each had their own inline <style slot="head">
+ *   with hand-tuned font sizes, weights, and colors. Across `/`, `/about`,
+ *   `/compliance`, `/privacy`, `/404`, `/map`, `/ja/sectors`,
+ *   `/ja/sectors/<slug>`, `/ja/rankings/<slug>`, and `/ja/<id>` we measured
+ *   **10 different typography systems** (h1 sizes 22px–40px, p colors fg
+ *   vs fg2, p sizes 14.4px–16.32px, line-heights 1.55–1.75). The user
+ *   reported that pages "look different from each other" — they were right.
  *
  *   This file forces a single typography baseline. Selectors use
  *   `html body <tag>` (specificity 0,0,0,3) which beats every page-local

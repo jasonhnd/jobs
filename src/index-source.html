@@ -584,7 +584,7 @@
         letter-spacing: 0.04em;
       }
 
-      /* ═══════════ Mobile Map Preview Card (Design-Mobile.md §4.2) ═══════════ Mobile-only (<=768px) entry card that replaces the embedded treemap canvas. Whole card is a tap target → /map. SVG thumbnail injected at build time by build_occupations.py generate_map_thumbnail(). Default display: none on desktop; mobile @media block (search "m-map-preview" further down) flips it on with order: -2. */
+      /* ═══════════ Mobile Map Preview Card (Design-Mobile.md §4.2) ═══════════ Mobile-only (<=768px) entry card that replaces the embedded treemap canvas. Whole card is a tap target → /map. SVG thumbnail is currently a static file at public/map-thumb.snippet.html injected at build time. Default display: none on desktop; mobile @media block (search "m-map-preview" further down) flips it on with order: -2. */
       .m-map-preview { display: none; }
       @media (max-width: 768px) {
         .m-map-preview {
@@ -2424,7 +2424,7 @@
           </div>
         </section>
 
-        <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the embedded treemap canvas + m-map-head on viewports <=768px. The entire <a> is the tap target → /map. The inline SVG thumbnail is generated at build time by scripts/build_occupations.py generate_map_thumbnail() and injected between the INCLUDE markers below — do not hand-edit the SVG. -->
+        <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the embedded treemap canvas + m-map-head on viewports <=768px. The entire <a> is the tap target → /map. The inline SVG thumbnail comes from public/map-thumb.snippet.html injected between the INCLUDE markers below — do not hand-edit the SVG. -->
         <a class="m-map-preview" href="/map" aria-label="職業マップを開く（全 552 職業）">
           <header class="m-map-preview-head">
             <h2 class="m-map-preview-title">職業マップ</h2>
@@ -2705,7 +2705,7 @@
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
       // Build the per-occupation URL. v1.4.0: JA-only.
-      // Mirrors scripts/build_occupations.py (which writes ja/<id>.html).
+      // Mirrors src/pages/ja/[id].astro URL shape (writes ja/<id>.html).
       function occUrl(rec) {
         if (!rec || rec.id == null) return "/";
         return "/ja/" + rec.id;

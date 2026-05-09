@@ -3,8 +3,6 @@
  *
  * Per docs/DATA_ARCHITECTURE.md §2.1 / §5.1 / §3A / D-009.
  *
- * Migrated from scripts/import_ipd.py (Track B-4, MIGRATION_PLAN.md PR 23).
- *
  * Inputs:
  *   ~/Downloads/IPD_DL_numeric_<ver>.xlsx       (518+ occupations × numeric profile)
  *   ~/Downloads/IPD_DL_description_<ver>.xlsx   (556+ occupations × text/classification)
@@ -18,9 +16,9 @@
  *   By 収録番号 (IPD_01_01_001) = canonical_id (1-584).
  *   Numeric file is subset of description (518 ⊂ 556).
  *
- * Verification: re-running with the same xlsx files should produce byte-identical
- * JSON to the Python version (validated when Python is still available; once
- * Python is removed in Track D, run against a snapshot).
+ * Verification: re-running with the same xlsx files produces byte-identical
+ * JSON for unchanged occupations (the OccupationSchema validation enforces
+ * a single canonical key order on every write).
  *
  * Usage:
  *   tsx src/data/import-ipd.ts [--numeric path] [--description path]

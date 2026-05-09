@@ -15,8 +15,6 @@
  *                        Drives the "今、求められている" hint and 詳細 page tag.
  *
  * Thresholds are documented constants — don't tune in projection code.
- *
- * Migrated from scripts/lib/bands.py — keep functions byte-equivalent.
  */
 
 // ───── Risk band ─────

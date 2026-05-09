@@ -14,7 +14,6 @@
  *
  * Fallback: same-sector ANY ai_risk if no safer candidates exist.
  *
- * Migrated from scripts/projections/transfer_paths.py.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -40,9 +39,10 @@ export interface TransferPathsBuildResult {
 }
 
 /**
- * Cosine similarity over the intersection of dimension keys.
- * Mirrors Python's set(u) & set(v) intersection. Uses fsum for sums of products
- * and squares to match Python 3.12+ sum() compensated summation.
+ * Cosine similarity over the intersection of dimension keys (only sums over
+ * keys present in BOTH vectors, ignoring keys present in only one). Uses
+ * Neumaier-compensated `fsum` for sums of products and squares so float
+ * accumulation is order-independent.
  */
 function cosine(u: Record<string, number>, v: Record<string, number>): number {
   const uKeys = new Set(Object.keys(u));
@@ -164,7 +164,7 @@ export async function buildTransferPaths(
       if (sim < MIN_SIMILARITY) continue;
       scored.push({ id: c.id, similarity: sim, cand_risk: c.cand_risk });
     }
-    // Sort by similarity desc; matches Python's stable sort with key+reverse.
+    // Sort by similarity desc (V8's Array.prototype.sort is stable since Node 12).
     // Python is stable; Array.prototype.sort in V8 is stable since Node 12.
     scored.sort((a, b) => b.similarity - a.similarity);
     const top = scored.slice(0, TOP_N);

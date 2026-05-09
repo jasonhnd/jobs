@@ -5,8 +5,6 @@
  * Independent from OccupationSchema (§1 separation principle).
  * File absence = no stats (e.g., 4 new IPD occupations 581-584).
  * Field null within present file = partial data.
- *
- * Migrated from data/schema/stats_legacy.py.
  */
 import { z } from 'zod';
 

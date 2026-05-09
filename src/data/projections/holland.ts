@@ -5,7 +5,6 @@
  * Consumer: future Holland Code interest matching page
  * Shape: columnar 6-dim vector (R/I/A/S/E/C)
  *
- * Migrated from scripts/projections/holland.py.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

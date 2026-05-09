@@ -7,8 +7,6 @@
  * Task-level AI scoring is not yet wired (only scope='occupations' is loaded
  * in indexes.ts). All task-level ai_risk fields are emitted as null until
  * tasks_<model>_<date>.json files appear.
- *
- * Migrated from scripts/projections/tasks.py.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

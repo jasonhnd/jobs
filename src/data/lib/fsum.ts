@@ -1,19 +1,19 @@
 /**
- * Compensated floating-point summation matching Python 3.12+ `sum()` semantics.
+ * Compensated floating-point summation (Neumaier).
  *
- * Python's built-in `sum(iterable)` uses Neumaier-style compensated summation
- * for `float` inputs since CPython 3.12 (cpython/cpython#100425). This produces
- * a more accurate result than naive left-to-right addition for cases with
- * representational error in the inputs. Example:
+ * Naive left-to-right addition accumulates rounding error proportional to the
+ * spread of the inputs. Neumaier-style compensated summation tracks a running
+ * error term so the final result is the closest representable double to the
+ * true sum. Example:
  *
  *   xs = [2.898, 2.673, 2.878, 3.021]
  *   naive (reduce):    11.469999999999999  (closest double to 11.47, just below)
- *   Neumaier (sum()):  11.47               (which IS a representable double,
+ *   Neumaier (fsum):   11.47               (the next-closer representable double,
  *                                            equal to the previous + 1 ULP)
  *
- * To stay byte-equivalent with Python ETL output, projections that average
- * floats (profile5, sectors mean_ai_risk, etc.) must use this fsum, not the
- * stock `Array.prototype.reduce`.
+ * Used by every projection that averages floats (profile5, sectors mean_ai_risk,
+ * etc.) so identical input data always produces identical output bytes,
+ * independent of input order or accumulation strategy.
  *
  * Reference: Neumaier (1974), "Rundungsfehleranalyse einiger Verfahren zur
  *            Summation endlicher Summen" (Improved Kahan summation).

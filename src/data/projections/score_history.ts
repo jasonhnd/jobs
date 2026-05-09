@@ -4,8 +4,6 @@
  * Status: Future (skipped by default)
  * Consumer: future "score evolution" page
  * Shape: { id, history: [{date, model, score, rationale_ja}] }
- *
- * Migrated from scripts/projections/score_history.py.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';

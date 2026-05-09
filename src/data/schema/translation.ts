@@ -4,8 +4,6 @@
  * Source data file: data/translations/<lang>/<padded>.json (one per occupation per language).
  * Language layer is independent from main occupation source — IPD upgrades and translation
  * re-runs decouple cleanly.
- *
- * Migrated from data/schema/translation.py.
  */
 import { z } from 'zod';
 
@@ -35,10 +33,9 @@ export const TranslationENSchema = z
     tasks_en: z.array(z.string().nullable()).default([]),
 
     // ── v1.1.0: long-form description fields (mobile detail page §5.4 / §9.3) ──
-    // Run by scripts/translate_descriptions.py. Each may be null if not yet
-    // translated; mobile frontend shows i18n key `detail.long_text.ja_only`
-    // placeholder when blank. Optional fields so back-compat with legacy files
-    // that pre-date v1.1.0 still validate.
+    // Each may be null if not yet translated; mobile frontend shows i18n key
+    // `detail.long_text.ja_only` placeholder when blank. Optional fields so
+    // back-compat with legacy files that pre-date v1.1.0 still validate.
     what_it_is_en: z.string().nullish(),
     how_to_become_en: z.string().nullish(),
     working_conditions_en: z.string().nullish(),

@@ -11,9 +11,6 @@
  *   - tasks: empty list [] when known no tasks; never null
  *   - tasks_lead_ja: null when IPD タスク_リード文 absent
  *   - single-field absence within a present block: null (not omit key)
- *
- * Migrated from data/schema/occupation.py — keep structurally identical so byte-diff
- * validation against the Python ETL output passes (Track B, MIGRATION_PLAN.md).
  */
 import { z } from 'zod';
 

@@ -2,16 +2,15 @@
 /**
  * src/pages/ja/sectors/[sector].astro — per-sector hub page (16 routes).
  *
- * Migrated from scripts/build_sector_hubs.py (render_hub function).
- * Generates ja/sectors/{sector_id} for each of the 16 sectors. Each page
+ * Generates /ja/sectors/{sector_id} for each of the 16 sectors. Each page
  * shows: sector overview, TOP 5 high/low/workforce, full occupation list,
  * FAQ block, and related-sectors links.
  *
- * Inline CSS preserved verbatim from CSS_BLOCK in the Python source.
+ * Inline CSS preserved verbatim from the v1.x design.
  *
  * Data sources:
- *   - data/sectors/sectors.ja-en.json (full sector definitions incl. en, hue)
- *   - dist/data.detail/<id>.json (per-occupation detail; sector + ai_risk + stats)
+ *   - data/sectors/sectors.ja-en.json   (sector definitions: id, ja, en, hue)
+ *   - public/data.detail/<id>.json      (per-occupation: sector + ai_risk + stats)
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
@@ -61,7 +60,7 @@ const riskTierLabel = (mean: number | null): string => {
   return '高め';
 };
 
-// HTML escape (matches Python html.escape behavior).
+// HTML escape: replace &, <, >, ", ' with named entities.
 const esc = (s: string): string =>
   s
     .replace(/&/g, '&amp;')
@@ -202,7 +201,7 @@ for (const t of sampleTitles) keywordsList.push(t);
 keywordsList.push(`${nameLoc} 仕事`, `${nameLoc} 職業`, `${nameLoc} AI 影響`);
 const keywordsStr = keywordsList.join(', ');
 
-// Build FAQs (matches Python _build_faqs).
+// Build FAQs.
 const faqs: Array<[string, string]> = [];
 
 // Q1: occupations in sector.

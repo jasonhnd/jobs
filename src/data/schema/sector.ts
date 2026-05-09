@@ -11,10 +11,10 @@
  *                           { "<occ_id>": "<sector_id>" }
  *                        Used only for occupations whose mhlw_main does not
  *                        uniquely match a sector. Multi-match or no-match
- *                        cases land in dist/data.review_queue.json and the
+ *                        cases land in public/data.review_queue.json and the
  *                        operator resolves them by editing this file.
  *
- * Resolution rule (sector-resolver.ts, Track B-2 PR 6):
+ * Resolution rule (see src/data/lib/sector-resolver.ts):
  *   1. If overrides has the occ_id → that sector_id wins (provenance: 'override').
  *   2. Else match occ.mhlw_main against every sector's seed_codes (glob match):
  *      - exactly 1 sector matches → that sector wins (provenance: 'auto').
@@ -29,8 +29,6 @@
  *   - Trailing star: "12_*"            (any code starting with "12_")
  *   - Prefix slash:  "12_072*"          (any code starting with "12_072")
  *   - Multiple seeds OR'd together inside one sector.
- *
- * Migrated from data/schema/sector.py.
  */
 import { z } from 'zod';
 

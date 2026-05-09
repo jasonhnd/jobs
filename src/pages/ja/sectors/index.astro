@@ -1,15 +1,12 @@
 ---
 /**
- * src/pages/ja/sectors/index.astro — sector hub-of-hubs index page.
+ * src/pages/ja/sectors/index.astro — sector hub-of-hubs index at /ja/sectors.
  *
- * Migrated from scripts/build_sector_hubs.py (render_sectors_index function),
- * which generated ja/sectors/index.html. Lists all 16 sectors with stats.
- *
- * Inline CSS preserved verbatim from the source HTML (CSS_BLOCK + sector-card
- * additions). Footer is replaced by the shared <Footer /> component; analytics
+ * Lists all 16 sectors with stats. Inline CSS preserved verbatim from the
+ * v1.x design. Footer comes from the shared <Footer /> component; analytics
  * + meta + JSON-LD come from BaseLayout.
  *
- * Data source: dist/data.sectors.json (sector definitions + aggregates).
+ * Data source: public/data.sectors.json (sector definitions + aggregates).
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,7 +15,7 @@ import Footer from '../../../components/Footer.astro';
 
 const SITE = 'https://mirai-shigoto.com';
 
-// Load data.sectors.json (matches Python render_sectors_index input shape).
+// Load data.sectors.json (sector definitions + per-sector aggregates).
 const sectorsRaw = JSON.parse(
   readFileSync(join(process.cwd(), 'public', 'data.sectors.json'), 'utf-8')
 );
@@ -63,7 +60,7 @@ const crumbRoot = '未来の仕事';
 const crumbSelf = 'セクター';
 const skipLabel = '本文へスキップ';
 
-// JSON-LD: WebPage + BreadcrumbList + ItemList of 16 hub URLs (matches Python emit).
+// JSON-LD: WebPage + BreadcrumbList + ItemList of 16 hub URLs.
 const itemList = sectors.map((s, i) => ({
   '@type': 'ListItem',
   position: i + 1,

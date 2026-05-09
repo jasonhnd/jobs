@@ -10,8 +10,6 @@
  *   - Missing metadata fields:
  *       - Optional[str] fields: "<unknown - migrated from v1.0>"
  *       - Optional[float/int] fields: null
- *
- * Migrated from data/schema/score_run.py.
  */
 import { z } from 'zod';
 

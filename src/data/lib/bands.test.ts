@@ -1,8 +1,6 @@
 /**
  * Unit tests for bands.ts.
  * Run with `npm test` (uses node --test via tsx).
- *
- * Boundary values match scripts/lib/bands.py constants exactly.
  */
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
