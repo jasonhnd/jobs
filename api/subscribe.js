@@ -14,6 +14,17 @@
 //   RESEND_API_KEY           — auto-injected
 //   RESEND_AUDIENCE_ID_JA    — manual
 //   RESEND_AUDIENCE_ID_EN    — manual
+//
+// Defense in depth (current):
+//   1. CORS — only mirai-shigoto.com + localhost dev ports.
+//   2. Origin/Referer 403 — server-side enforcement, blocks curl/server bots.
+//   3. Body cap (4 KB) — rejects payload-too-large.
+//   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
+//   5. Resend 409 idempotency — duplicates resolve to success without rewrites.
+//
+// MISSING: per-IP rate limiting. Same situation as api/feedback.js — needs
+// Vercel KV or Upstash for persistent state. Plan: drop @upstash/ratelimit +
+// @upstash/redis in, gate on ~5 req/min/IP. Tracked as a follow-up.
 
 export const config = { runtime: "edge" };
 

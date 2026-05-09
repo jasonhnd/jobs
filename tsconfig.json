@@ -17,7 +17,8 @@
     "paths": {
       "@/data/*": ["src/data/*"],
       "@/components/*": ["src/components/*"],
-      "@/layouts/*": ["src/layouts/*"]
+      "@/layouts/*": ["src/layouts/*"],
+      "@/styles/*": ["src/styles/*"]
     }
   },
   "include": ["api/**/*", "src/**/*", ".astro/types.d.ts"],
