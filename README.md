@@ -82,7 +82,7 @@ Scoring runs as a Claude Code session against the calibration anchors below. For
 2. **Prompt** — the calibration anchors above, plus the input bundle, plus a structured output instruction (JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`).
 3. **Model** — [OpenRouter](https://openrouter.ai) with Gemini Flash by default. Configurable; a swap to Claude Sonnet or GPT-4o is one config line.
 4. **Output** — the model's score + rationale, cached per-occupation. Re-running skips occupations that already have a stored result.
-5. **Aggregation** — `npm run build:data` (`src/data/build.ts`) joins IPD source data + AI scores + stats into 12 projection families under `dist/` (treemap, detail, search, labels, sectors, profile5, transfer_paths, holland, featured, score_history, tasks, skills). The front end reads `dist/data.treemap.json`.
+5. **Aggregation** — `npm run build:data` (`src/data/build.ts`) joins IPD source data + AI scores + stats into 12 projection families under `public/` (treemap, detail, search, labels, sectors, profile5, transfer_paths, holland, featured, score_history, tasks, skills). The front end reads `/data.treemap.json`.
 
 Each rationale is one to three sentences explaining *why* the score landed where it did — what parts of the work the LLM thinks it can already do, what parts it can't.
 

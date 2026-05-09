@@ -59,7 +59,7 @@ Each claim is independently verifiable against the dataset at https://mirai-shig
 - **AI risk and education are decorrelated.** High-education roles such as 公認会計士 (CPA), 弁理士 (patent attorney), and プログラマー (programmer) score 7+/10 alongside many lower-education clerical roles.
 - **保育士 (childcare worker)** scores **3/10** — one of the lowest exposures among the 5 largest occupations in Japan, despite being knowledge-adjacent. The on-site interpersonal component dominates the score.
 - **看護師 (nurse)** scores **4/10** — moderate. The procedural physical tasks (vitals, medication, patient handling) cap AI exposure.
-- The site exposes **9 projection families** of derived data (treemap, sectors, transfer paths, profile5, search index, review queue, label sets, meta, detail records), all derived from a single Python build over JILPT IPD v7.00 source xlsx.
+- The site exposes **12 projection families** of derived data (treemap, sectors, transfer paths, profile5, search index, review queue, labels, holland, featured, score-history, tasks, skills, plus per-occupation detail records), all derived from a single TypeScript ETL build (`src/data/build.ts`) over JILPT IPD v7.00 source xlsx.
 - **Total workforce mapped:** 54,490,970 Japanese workers across 556 occupations.
 - The site's robots.txt explicitly whitelists **17 AI crawlers** (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) — opt-in to AI training and inference, not opt-out.
 - The site is **MIT-licensed** and the underlying IPD data is © JILPT, used per their Terms of Service Article 9 with attribution.

@@ -23,31 +23,24 @@ desktop.ini
 public/data.*
 public/map-thumb.snippet.html
 
-# Atomic-stage dirs from the historical Python build (left over when a swap
-# failed on Dropbox lock). Local-only.
-dist.next/
-dist.prev/
-dist-py.next/
-dist-ts/
-build/
-.cache/
-
 # Astro build output (Vercel deploy target — built fresh in CI, not committed).
 dist-astro/
 # Astro internal cache (auto-generated types, content collection metadata)
 .astro/
+
+# Local-only orphan dirs from the historical Python pipeline (Track A-D era).
+# Cannot be regenerated — Python is gone — but Dropbox sync makes deletion
+# unreliable. Ignored so they don't appear in `git status`. Safe to delete
+# manually when Dropbox releases its file locks.
+dist.next/
+dist-py.next/
+dist-ts/
 
 # Environment files
 .env
 .env.*
 !.env.example
 
-# Pipeline raw outputs (kept locally, not pushed).
-# IMPORTANT: leading slash anchors to repo root — without it, `pages/` would
-# also match `src/pages/` and silently strip Astro pages from git.
-/html/
-/pages/
-/raw/
 *.log
 
 # Local-only dev artifacts (don't ship to public repo)

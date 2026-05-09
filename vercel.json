@@ -78,12 +78,6 @@
         { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" },
         { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
       ]
-    },
-    {
-      "source": "/styles/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" }
-      ]
     }
   ],
   "rewrites": [],

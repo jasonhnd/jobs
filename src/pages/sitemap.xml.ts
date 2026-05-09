@@ -19,6 +19,7 @@ import type { APIRoute } from 'astro';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { ALL_RANKINGS } from '../data/lib/rankings';
+import { nowIso } from '../data/lib/now';
 
 const SITE = 'https://mirai-shigoto.com';
 const REPO = path.resolve(process.cwd());
@@ -57,7 +58,10 @@ function urlBlock(loc: string, lastmod: string, changefreq: string, priority: st
 }
 
 export const GET: APIRoute = () => {
-  const today = new Date().toISOString().slice(0, 10);
+  // Use nowIso() (cached, env-overridable via BUILD_DATA_TIMESTAMP) for the
+  // <lastmod> values so the sitemap stays consistent with the generated_at
+  // stamp on data.*.json projections produced in the same build.
+  const today = nowIso().slice(0, 10);
   const sectorIds = loadSectorIds();
   const rankingSlugs = ALL_RANKINGS.map(([slug]) => slug);
   const occupationIds = loadOccupationIds();

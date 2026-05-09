@@ -1,14 +1,13 @@
 /**
  * rankings.ts — data utilities for the ja/rankings/* pages.
  *
- * Mirrors scripts/build_rankings.py:
- *   - load_occupations()  → loadOccupations()
- *   - top-N sort/filter rules per ranking type → buildRankings()
- *   - global stats / sector insights for the hub page → buildHubData()
+ *   - loadOccupations()      reads public/data.treemap.json
+ *   - buildRankings()        applies top-N sort/filter rules per ranking slug
+ *   - buildHubData()         global stats / sector insights for the hub page
  *
- * Source: dist/data.treemap.json (552 records). The Python source loads from
- * dist/data.detail/*.json, but treemap exposes the same fields under slightly
- * different names (name_ja → title_ja, hours → monthly_hours, age → average_age).
+ * Source: public/data.treemap.json (552 records). Field names differ from the
+ * per-occupation detail files: name_ja → title_ja, hours → monthly_hours,
+ * age → average_age (a quirk preserved for backward-compat with downstream).
  *
  * Reads the file via fs at import time (Astro frontmatter).
  */

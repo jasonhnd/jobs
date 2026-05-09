@@ -4,14 +4,14 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 //
-// Architecture (post-Track D, 2026-05):
+// Architecture:
 //   - outDir → ./dist-astro/   (Vercel deploys this; vercel.json:outputDirectory matches)
 //   - publicDir → ./public/    (Astro default; SEO statics tracked here, plus TS-ETL
 //                              data.*.json output written here at build time)
-//   - build.format: 'file'     (matches the legacy /ja/{id}.html URL shape)
+//   - build.format: 'file'     (legacy /ja/{id}.html URL shape preserved)
 //
 // Data flow:
-//   data/* → npm run build:data (TS-ETL: src/data/build.ts) → public/data.*.json
+//   data/* → npm run build:data (src/data/build.ts) → public/data.*.json
 //   public/ + src/pages/ → astro build → dist-astro/   (Vercel deploys this)
 //
 // public/ contents:
@@ -37,7 +37,6 @@ export default defineConfig({
         '@/components': new URL('./src/components', import.meta.url).pathname,
         '@/layouts': new URL('./src/layouts', import.meta.url).pathname,
         '@/styles': new URL('./src/styles', import.meta.url).pathname,
-        '@/types': new URL('./src/types', import.meta.url).pathname,
       },
     },
   },
