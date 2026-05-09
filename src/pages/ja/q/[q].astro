@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { QA_ITEMS, selectExamples, type QAItem } from '../../../data/lib/qa-meta';
+import {
+  loadAllDetails, type DetailFileMin, escapeHtml, GENRE_HUB_CSS,
+} from '../../../data/lib/genre-hub';
+
+export async function getStaticPaths() {
+  const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
+  const { QA_ITEMS: _q, selectExamples: _s } = await import('../../../data/lib/qa-meta');
+  const details = _l();
+  return _q.map((q) => ({
+    params: { q: q.slug },
+    props: { qa: q, examples: _s(details, q, 10) },
+  }));
+}
+
+interface Props { qa: QAItem; examples: ReadonlyArray<DetailFileMin>; }
+const { qa, examples } = Astro.props as Props;
+
+const canonical = `https://mirai-shigoto.com/ja/q/${qa.slug}`;
+const title = `${qa.question}｜独自分析で回答【2026 年版】 | 未来の仕事`;
+const seoDesc = qa.short_answer;
+
+// Build example list HTML
+const exampleListHtml = examples.length > 0 ? '<ol class="rank-list">' + examples.map((d) => {
+  const name = d.title?.ja ?? `#${d.id}`;
+  const ai = d.ai_risk?.score;
+  const aiStr = ai === null || ai === undefined ? '—' : `${ai}/10`;
+  const band = ai === null || ai === undefined ? 'mid' : ai <= 3 ? 'low' : ai <= 6 ? 'mid' : 'high';
+  const sec = d.sector?.ja ?? '';
+  const salary = d.stats?.salary_man_yen;
+  return `<li><div class="rl-main"><a class="rl-name" href="/ja/${d.id}">${escapeHtml(name)}</a>${sec ? `<span class="rl-sector">${escapeHtml(sec)}</span>` : ''}</div><div class="rl-stats"><span class="risk-pill ${band}">${aiStr}</span>${salary ? `<span class="rl-salary">${Math.trunc(salary)}万円</span>` : ''}</div></li>`;
+}).join('') + '</ol>' : '<p>該当例なし</p>';
+
+// Related Q&A
+const relatedQAs = QA_ITEMS.filter((other) => qa.related_topics.includes(other.slug)).slice(0, 5);
+const relatedHtml = '<ul class="related-genre">' + relatedQAs.map((r) =>
+  `<li><a href="/ja/q/${r.slug}"><span class="rg-name">${escapeHtml(r.question)}</span><span class="rg-desc">${escapeHtml(r.short_answer.slice(0, 60))}…</span></a></li>`
+).join('') + '</ul>';
+
+const SITE = 'https://mirai-shigoto.com';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: qa.question, description: seoDesc, inLanguage: 'ja' },
+    {
+      '@type': 'QAPage',
+      '@id': `${canonical}#qa`,
+      mainEntity: {
+        '@type': 'Question',
+        name: qa.question,
+        text: qa.question,
+        acceptedAnswer: { '@type': 'Answer', text: qa.short_answer + ' ' + qa.reasoning },
+      },
+    },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: '質問で探す', item: `${SITE}/ja/q` },
+      { '@type': 'ListItem', position: 3, name: qa.question, item: canonical },
+    ] },
+  ],
+}, null, 2);
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage={`https://mirai-shigoto.com/api/og?q=${qa.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc} ogType="article">
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={`
+.qa-answer{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:28px 0}
+.qa-answer h2{font-size:1.1rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.qa-answer .qa-direct{font-size:1.05rem;line-height:1.85;color:var(--fg);font-weight:500;margin-bottom:18px}
+.qa-answer .qa-reasoning{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0}
+`} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/q" rel="up">質問で探す</a><span aria-hidden="true">›</span><span>{qa.question}</span></nav>
+    <header id="content">
+      <h1><span class="accent">{qa.question}</span></h1>
+    </header>
+    <section class="qa-answer">
+      <h2>直答</h2>
+      <p class="qa-direct">{qa.short_answer}</p>
+      <h2>根拠</h2>
+      <p class="qa-reasoning">{qa.reasoning}</p>
+    </section>
+    {examples.length > 0 && (
+      <section>
+        <h2>具体例 TOP {examples.length}</h2>
+        <Fragment set:html={exampleListHtml} />
+      </section>
+    )}
+    {relatedQAs.length > 0 && (
+      <section>
+        <h2>関連する質問</h2>
+        <Fragment set:html={relatedHtml} />
+      </section>
+    )}
+    <Footer />
+  </div>
+</BaseLayout>

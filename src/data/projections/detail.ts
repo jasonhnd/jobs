@@ -60,6 +60,8 @@ export async function buildDetail(
   const skillsLabels = indexes.labelsByDim.get('skills') ?? new Map<string, LabelEntry>();
   const knowledgeLabels = indexes.labelsByDim.get('knowledge') ?? new Map<string, LabelEntry>();
   const abilitiesLabels = indexes.labelsByDim.get('abilities') ?? new Map<string, LabelEntry>();
+  const workValuesLabels = indexes.labelsByDim.get('work_values') ?? new Map<string, LabelEntry>();
+  const workCharLabels = indexes.labelsByDim.get('work_characteristics') ?? new Map<string, LabelEntry>();
   const sectorById = new Map(indexes.sectors.map((s) => [s.id, s] as const));
 
   const writtenFiles: string[] = [];
@@ -131,6 +133,15 @@ export async function buildDetail(
       skills_top10: topN(occ.skills, skillsLabels, 10),
       knowledge_top5: topN(occ.knowledge, knowledgeLabels, 5),
       abilities_top5: topN(occ.abilities, abilitiesLabels, 5),
+      // Phase 3 (2026-05-10): additional top-N for new genre hubs
+      work_values_top5: topN(occ.work_values, workValuesLabels, 5),
+      work_characteristics_top5: topN(occ.work_characteristics, workCharLabels, 5),
+      training_pre_top5: topN(occ.training_pre, new Map(), 5),
+      training_post_top5: topN(occ.training_post, new Map(), 5),
+      experience_top5: topN(occ.experience, new Map(), 5),
+      // Phase 3 (2026-05-10): full distribution dicts (EN-keyed) for education / employment hubs
+      education_distribution: occ.education_distribution ?? null,
+      employment_type: occ.employment_type ?? null,
       tasks_count: occ.tasks.length,
       tasks_lead_ja: occ.tasks_lead_ja ?? null,
       related_orgs: occ.related_orgs.map((o) => ({

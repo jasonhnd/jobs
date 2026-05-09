@@ -19,6 +19,15 @@ import { ALL_RANKINGS } from '../data/lib/rankings';
 import { INTEREST_META } from '../data/lib/interests-meta';
 import { SKILL_META } from '../data/lib/skills-meta';
 import { COMPARE_META } from '../data/lib/compare-meta';
+import {
+  ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
+  EDUCATION_CONFIGS, TRAINING_CONFIGS, WORK_STYLES_CONFIGS,
+  EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS,
+} from '../data/lib/genre-configs';
+import { CAREER_PERSONAS } from '../data/lib/careers-meta';
+import { LICENSE_HUBS } from '../data/lib/licenses-meta';
+import { QA_ITEMS } from '../data/lib/qa-meta';
+import { EXPLORE_ROUTES } from '../data/lib/explore-routes';
 import { nowIso } from '../data/lib/now';
 
 const SITE = 'https://mirai-shigoto.com';
@@ -136,6 +145,59 @@ export const GET: APIRoute = () => {
   entries.push(urlBlock(`${SITE}/ja/compare`, today, 'weekly', '0.8'));
   for (const meta of COMPARE_META) {
     entries.push(urlBlock(`${SITE}/ja/compare/${meta.slug}`, today, 'weekly', '0.7'));
+  }
+
+  // ─── Phase 3-5 Genre clusters ───
+  const genreClusters: Array<{ path: string; configs: ReadonlyArray<{ slug: string }> }> = [
+    { path: 'abilities', configs: ABILITIES_CONFIGS },
+    { path: 'knowledge', configs: KNOWLEDGE_CONFIGS },
+    { path: 'values', configs: VALUES_CONFIGS },
+    { path: 'education', configs: EDUCATION_CONFIGS },
+    { path: 'training', configs: TRAINING_CONFIGS },
+    { path: 'work-styles', configs: WORK_STYLES_CONFIGS },
+    { path: 'employment-types', configs: EMPLOYMENT_CONFIGS },
+    { path: 'life-balance', configs: LIFE_BALANCE_CONFIGS },
+    { path: 'entry-paths', configs: ENTRY_PATHS_CONFIGS },
+  ];
+  for (const g of genreClusters) {
+    entries.push(urlBlock(`${SITE}/ja/${g.path}`, today, 'weekly', '0.8'));
+    for (const cfg of g.configs) {
+      entries.push(urlBlock(`${SITE}/ja/${g.path}/${cfg.slug}`, today, 'weekly', '0.7'));
+    }
+  }
+
+  // Careers personas
+  entries.push(urlBlock(`${SITE}/ja/careers`, today, 'weekly', '0.8'));
+  for (const p of CAREER_PERSONAS) {
+    entries.push(urlBlock(`${SITE}/ja/careers/${p.slug}`, today, 'weekly', '0.7'));
+  }
+
+  // Licenses
+  entries.push(urlBlock(`${SITE}/ja/licenses`, today, 'weekly', '0.8'));
+  for (const h of LICENSE_HUBS) {
+    entries.push(urlBlock(`${SITE}/ja/licenses/${h.slug}`, today, 'weekly', '0.7'));
+  }
+
+  // Q&A
+  entries.push(urlBlock(`${SITE}/ja/q`, today, 'weekly', '0.8'));
+  for (const q of QA_ITEMS) {
+    entries.push(urlBlock(`${SITE}/ja/q/${q.slug}`, today, 'weekly', '0.7'));
+  }
+
+  // About + yearly
+  entries.push(urlBlock(`${SITE}/ja/about`, today, 'monthly', '0.6'));
+  entries.push(urlBlock(`${SITE}/ja/about/methodology`, today, 'monthly', '0.7'));
+  entries.push(urlBlock(`${SITE}/ja/about/glossary`, today, 'monthly', '0.5'));
+  entries.push(urlBlock(`${SITE}/ja/about/data-sources`, today, 'monthly', '0.5'));
+  entries.push(urlBlock(`${SITE}/ja/yearly`, today, 'monthly', '0.6'));
+  entries.push(urlBlock(`${SITE}/ja/yearly/2026-report`, today, 'yearly', '0.7'));
+  entries.push(urlBlock(`${SITE}/ja/yearly/5year-changes`, today, 'yearly', '0.6'));
+  entries.push(urlBlock(`${SITE}/ja/yearly/next-decade`, today, 'yearly', '0.6'));
+
+  // L2 explore routes
+  entries.push(urlBlock(`${SITE}/ja/explore`, today, 'weekly', '0.7'));
+  for (const r of EXPLORE_ROUTES) {
+    entries.push(urlBlock(`${SITE}/ja/explore/${r.slug}`, today, 'weekly', '0.6'));
   }
 
   // Per-occupation detail pages

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { EXPLORE_ROUTES } from '../../../data/lib/explore-routes';
+import { GENRE_HUB_CSS, escapeHtml } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/explore';
+const title = '探す方法 — 7 つの入口 | 未来の仕事';
+const seoDesc = '日本 552 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。';
+
+const cardsHtml = EXPLORE_ROUTES.map((r) =>
+  `<li><a href="/ja/explore/${r.slug}">` +
+  `<span class="gci-name">${escapeHtml(r.short_ja)}</span>` +
+  `<span class="gci-desc">${escapeHtml(r.description_ja.slice(0, 90))}…</span>` +
+  `<span class="gci-count">${r.genres.length} 個の genre</span>` +
+  `</a></li>`
+).join('');
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=explore" ogTitle={title} ogDescription={seoDesc}>
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>探す方法</span></nav>
+    <header id="content">
+      <h1><span class="accent">探す方法</span></h1>
+      <p class="sub"><strong>7 つの入口</strong> から日本 552 職業を整理</p>
+      <p class="intro">業種・ランキング・適職・スキル資格・働き方・比較・方法論など、7 つの異なる切り口で職業を探せます。あなたの目的・自己理解の深さ・キャリア段階に合わせて使い分けてください。</p>
+    </header>
+    <section><h2>7 つの入口</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>

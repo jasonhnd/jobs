@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { ENTRY_PATHS_CONFIGS } from '../../../data/lib/genre-configs';
+import { loadAllDetails, buildGenreResult, escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const details = loadAllDetails();
+const cards = ENTRY_PATHS_CONFIGS.map((cfg) => {
+  const r = buildGenreResult(details, cfg);
+  return { cfg, count: r.items.length, top: r.items[0]?.name_ja ?? '' };
+});
+
+const canonical = 'https://mirai-shigoto.com/ja/entry-paths';
+const title = '入職経路から職業を探す｜新卒/中途/バイト出身/独立 4 hub | 未来の仕事';
+const seoDesc = '入職経路 (新卒採用・中途採用・バイト出身・独立開業) で職業 TOP 30 を一覧。自分のキャリア起点に合う仕事を探せます。';
+const jsonLd = renderGenreIndexJsonLd(canonical, '入職経路から探す', seoDesc);
+const cardsHtml = cards.map((c) =>
+  `<li><a href="/ja/entry-paths/${c.cfg.slug}">` +
+  `<span class="gci-name">${escapeHtml(c.cfg.short_ja)}</span>` +
+  `<span class="gci-desc">${escapeHtml(c.cfg.description_ja.slice(0, 90))}…</span>` +
+  (c.top ? `<span class="iri-preview">🥇 ${escapeHtml(c.top)}</span>` : '') +
+  `<span class="gci-count">TOP ${c.count} 職業</span>` +
+  `</a></li>`
+).join('');
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=entry-paths" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>入職経路から探す</span></nav>
+    <header id="content">
+      <h1><span class="accent">入職経路から職業を探す</span></h1>
+      <p class="sub">入職経路 <strong>4 軸</strong> で 552 職業を分類</p>
+      <p class="intro">新卒一括採用・中途転職・バイトからの正社員化・独立開業など、入職経路の典型パターン別に職業を一覧。自分のキャリア起点に合う仕事を探せます。</p>
+    </header>
+    <section><h2>入職経路 4 分類</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>
