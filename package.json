@@ -13,7 +13,6 @@
     "test:consistency": "tsx src/data/test-consistency.ts",
     "build:data": "tsx src/data/build.ts",
     "import:ipd": "tsx src/data/import-ipd.ts",
-    "diff:projection": "tsx src/data/diff-projections.ts",
     "audit": "npm audit --audit-level=moderate && (cd analytics && npm audit --audit-level=moderate)",
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/"
   },

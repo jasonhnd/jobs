@@ -1,24 +1,21 @@
 /**
- * TS ETL orchestrator — entry point for `npm run build:data:ts`.
+ * TS ETL orchestrator — entry point for `npm run build:data`.
  *
- * Loads + validates source data, runs all migrated projections, writes them
- * to `dist-ts/`. Coexists with the legacy Python pipeline (`npm run build:data`)
- * which writes to `dist/`. Use `npm run diff:projections <file>` to compare.
+ * Loads + validates source data, runs all 12 projections, writes them to
+ * `public/` (Astro's publicDir; Astro then copies the whole publicDir into
+ * `dist-astro/` during `astro build`).
  *
- * Per docs/MIGRATION_PLAN.md:
- *   - Track B-1 (PR 3): stub — load + validate only.
- *   - Track B-3 (PR 8+): each PR adds one projection; byte-diff vs Python.
+ * Validation is bundled: a schema or consistency violation aborts with
+ * exit 1 before any projection writes, so partial output is never
+ * committed by mistake.
  *
  * Exit code:
- *   0 — clean run (validation + all enabled projections succeed).
+ *   0 — clean run (validation + all projections succeed).
  *   1 — at least one validation or projection error.
  */
 import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { buildIndexes } from './lib/indexes.js';
-// (build:data:ts had output to ./dist-ts/ for byte-diff; now writes to ./dist/
-// so the existing Python HTML generators that read dist/ keep working until
-// Track D replaces them with Astro pages.)
 import { buildDetail } from './projections/detail.js';
 import { buildFeatured } from './projections/featured.js';
 import { buildHolland } from './projections/holland.js';
