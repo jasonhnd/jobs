@@ -1,13 +1,3 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-.env
-.env.*
-!.env.example
-
 # Node
 node_modules/
 npm-debug.log*
@@ -27,30 +17,32 @@ desktop.ini
 *.swo
 
 # Build artifacts
-# dist/ IS tracked per DATA_ARCHITECTURE.md D-009 (Vercel has no Python build server,
-# so projections are built locally and committed). dist.next/ + dist.prev/ are atomic
-# staging dirs and must NOT be committed.
-# After Track D · PR 35 (see docs/MIGRATION_PLAN.md), dist/ will be gitignored too.
+# dist/ IS tracked: (1) it's the Astro publicDir (per astro.config.mjs); the
+# committed JSON projections plus 4 SEO statics (og.png, robots.txt, llms.txt,
+# llms-full.txt) all flow into dist-astro/ at build time. (2) Vercel rebuilds
+# data fresh via `npm run build:data` on every deploy, but the SEO statics
+# need a tracked home so they survive a clean checkout.
+# Future cleanup (separate PR): split SEO statics into public/ and gitignore
+# dist/ generated JSON.
 dist.next/
 dist.prev/
 build/
 .cache/
 
-# Astro / TS migration (see docs/MIGRATION_PLAN.md)
+# Astro / TS migration output dirs
 # Astro build output (Vercel deploy target — built fresh in CI, not committed).
 dist-astro/
-# Temporary TS-ETL output dir during Track B; used for byte-diff vs Python ETL.
-dist-ts/
-# Atomic-stage dirs from Python build attempts (left over when swap fails on Dropbox lock).
+# Atomic-stage dirs from earlier Python build attempts (left over when swap
+# failed on Dropbox lock). Local-only.
 dist-py.next/
+dist-ts/
 # Astro internal cache (auto-generated types, content collection metadata)
 .astro/
 
-# Partial-run manifests — produced by build_occupations.py --ids / --limit
-# (smoke tests). Canonical .occ_manifest.json IS tracked; .partial.json is
-# local-only debug artifact.
-scripts/.occ_manifest.partial.json
-scripts/.*.partial.json
+# Environment files
+.env
+.env.*
+!.env.example
 
 # Pipeline raw outputs (kept locally, not pushed).
 # IMPORTANT: leading slash anchors to repo root — without it, `pages/` would
@@ -59,10 +51,6 @@ scripts/.*.partial.json
 /pages/
 /raw/
 *.log
-
-# uv lock file is tracked; venv and cache are not
-.venv/
-.uv-cache/
 
 # Local-only dev artifacts (don't ship to public repo)
 .claude/
