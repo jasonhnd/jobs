@@ -15,7 +15,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { demandBand, riskBand, workforceBand } from '../lib/bands.js';
-import { pythonRound } from '../lib/python-round.js';
+import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../lib/now.js';
 
 // en_key → JA-key reverse maps (only for fields index.html expects in JA-key form).
@@ -59,7 +59,7 @@ function convertToLegacyPct(
   for (const [enKey, frac] of Object.entries(enDict)) {
     const jaKey = mapping[enKey];
     if (jaKey == null) continue;
-    out[jaKey] = pythonRound(frac * 100, 1);
+    out[jaKey] = bankerRound(frac * 100, 1);
   }
   return out;
 }

@@ -19,7 +19,7 @@ import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import type { Occupation } from '../schema/occupation.js';
 import { fmean } from '../lib/fsum.js';
-import { pythonRound } from '../lib/python-round.js';
+import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../lib/now.js';
 
 // Numeric block keys on Occupation that contribute to profile5.
@@ -103,7 +103,7 @@ function gatherAxis(occ: Occupation, inputs: AxisInput[]): number | null {
   }
   if (values.length === 0) return null;
   const rawAvg = fmean(values);
-  return pythonRound((rawAvg / SOURCE_MAX) * 100, 1);
+  return bankerRound((rawAvg / SOURCE_MAX) * 100, 1);
 }
 
 export async function buildProfile5(

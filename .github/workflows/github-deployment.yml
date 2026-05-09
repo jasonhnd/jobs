@@ -22,23 +22,58 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Wait for Vercel auto-deploy to propagate
-        run: sleep 60
+      - name: Wait for Vercel deployment to be ready
+        # Dynamic poll: wait for Vercel's own GitHub Deployment (the *.vercel.app
+        # one this workflow later sweeps) to reach 'success' instead of sleeping
+        # an unconditional 60s. Typical wait is ~30-50s for this project's 14s
+        # build + Vercel infra overhead; bails after 5 minutes.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          DEADLINE=$((SECONDS + 300))
+          while [ $SECONDS -lt $DEADLINE ]; do
+            DEP_ID=$(gh api "/repos/$GH_REPO/deployments?sha=$SHA&per_page=10" \
+              --jq '[.[] | select(.environment != "mirai-shigoto.com")] | .[0].id // empty')
+            if [ -n "$DEP_ID" ]; then
+              STATE=$(gh api "/repos/$GH_REPO/deployments/$DEP_ID/statuses?per_page=1" \
+                --jq '.[0].state // "pending"')
+              echo "Vercel deployment $DEP_ID: $STATE (elapsed ${SECONDS}s)"
+              case "$STATE" in
+                success)
+                  echo "Vercel deployment ready in ${SECONDS}s"
+                  exit 0
+                  ;;
+                failure|error)
+                  echo "Vercel deployment failed: $STATE"
+                  exit 1
+                  ;;
+              esac
+            else
+              echo "No Vercel deployment found yet for $SHA (elapsed ${SECONDS}s)"
+            fi
+            sleep 5
+          done
+          echo "Timed out after 300s waiting for Vercel deployment"
+          exit 1
 
-      - name: Probe production URL until live
+      - name: Probe production URL
+        # Final sanity check: public domain actually responds. Vercel just told
+        # us the deployment is ready, so we expect 200 fast — short retry budget.
         env:
           PROD_URL: https://mirai-shigoto.com/
         run: |
-          for i in 1 2 3 4 5; do
-            CODE=$(curl -s -o /dev/null -w "%{http_code}" "$PROD_URL")
+          for i in 1 2 3; do
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$PROD_URL" || echo "000")
             if [ "$CODE" = "200" ]; then
               echo "Production live (HTTP $CODE)"
               exit 0
             fi
-            echo "Attempt $i: HTTP $CODE; retrying in 30s"
-            sleep 30
+            echo "Attempt $i: HTTP $CODE; retrying in 5s"
+            sleep 5
           done
-          echo "Production probe failed after 5 attempts"
+          echo "Production probe failed after 3 attempts"
           exit 1
 
       - name: Create GitHub deployment + mark success
