@@ -8,10 +8,6 @@ _*.html
 # Audit / scratch directory
 _audit/
 
-# Local Python venv
-.venv/
-__pycache__/
-
 # Editor / OS junk
 .DS_Store
 desktop.ini
