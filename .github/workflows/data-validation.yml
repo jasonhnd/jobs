@@ -1,13 +1,16 @@
-name: Data validation
+name: CI
 
 # Runs on every push to main and every PR. Blocks merge on failure.
 #
-# Source-data validation pipeline:
+# Validation pipeline:
 #   L1 schema + L2 consistency:  bundled into `npm run build:data`
 #                                (src/data/build.ts validates before writing)
 #   L3 projection sanity:        `npm run test:consistency`
 #                                (src/data/test-consistency.ts)
-#   L4 end-to-end smoke:         handled by Vercel preview deploys (not in CI)
+#   Type safety:                 `npm run typecheck` (TypeScript --noEmit)
+#   Unit tests:                  `npm test` (node:test runner)
+#   Page render:                 `npm run build` (Astro static SSG)
+#   L4 end-to-end smoke:         handled by Vercel preview deploys
 #
 # Future: the `public/data.*` outputs are gitignored, so there's no drift guard
 # in CI. If those are ever brought back under version control, set
@@ -28,7 +31,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -43,6 +46,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: TypeScript typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
       - name: L1 + L2 — schema + consistency validation (via build)
         # build:data validates every source file under data/ before writing
         # any projection. A schema or consistency violation aborts with exit 1.
@@ -50,3 +59,6 @@ jobs:
 
       - name: L3 — projection sanity
         run: npm run test:consistency
+
+      - name: Astro build (catches template / route errors)
+        run: npx astro build
