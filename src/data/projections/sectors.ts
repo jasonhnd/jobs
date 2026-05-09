@@ -14,7 +14,8 @@
  * Output format intentionally byte-equivalent to the Python output:
  *   - data.sectors.json: compact JSON (no spaces, no indent), trailing newline.
  *   - data.review_queue.json: pretty-printed (2-space indent), trailing newline.
- *   - generated_at: ISO8601 UTC seconds — will differ between runs (skipped in diff).
+ *   - generated_at: ISO8601 UTC seconds — sourced from src/data/lib/now.ts;
+ *     deterministic when BUILD_DATA_TIMESTAMP env var is set.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -23,6 +24,7 @@ import type { SectorDef } from '../schema/sector.js';
 import { SENTINEL_UNCATEGORIZED } from '../lib/sector-resolver.js';
 import { fsum } from '../lib/fsum.js';
 import { pythonRound } from '../lib/python-round.js';
+import { nowIso } from '../lib/now.js';
 
 interface SectorOutEntry {
   id: string;
@@ -60,17 +62,6 @@ export interface SectorsBuildResult {
   uncategorized: number;
   ambiguous: number;
   skipped?: string;
-}
-
-function nowIso(): string {
-  // Match Python's `dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")`
-  // → "2026-05-07T16:07:05+00:00"
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return (
-    `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}` +
-    `T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00:00`
-  );
 }
 
 function padded(occId: number): string {

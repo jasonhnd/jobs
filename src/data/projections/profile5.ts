@@ -21,6 +21,7 @@ import type { Indexes } from '../lib/indexes.js';
 import type { Occupation } from '../schema/occupation.js';
 import { fmean } from '../lib/fsum.js';
 import { pythonRound } from '../lib/python-round.js';
+import { nowIso } from '../lib/now.js';
 
 // Numeric block keys on Occupation that contribute to profile5.
 type NumericBlock =
@@ -89,15 +90,6 @@ export interface Profile5BuildResult {
   occupations: number;
   axes: string[];
   nullAxes: Record<string, number>;
-}
-
-function nowIso(): string {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return (
-    `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}` +
-    `T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00:00`
-  );
 }
 
 /** Average all present input fields for one axis. Returns null if all missing. */

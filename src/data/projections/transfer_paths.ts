@@ -21,6 +21,7 @@ import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { fsum } from '../lib/fsum.js';
 import { pythonRound } from '../lib/python-round.js';
+import { nowIso } from '../lib/now.js';
 
 const TOP_N = 4;
 const MIN_RISK_DROP = 1.0;
@@ -36,15 +37,6 @@ export interface TransferPathsBuildResult {
     fallback_no_skills: number;
     no_candidates: number;
   };
-}
-
-function nowIso(): string {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return (
-    `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}` +
-    `T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00:00`
-  );
 }
 
 /**
