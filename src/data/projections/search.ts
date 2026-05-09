@@ -15,21 +15,13 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { riskBand, workforceBand } from '../lib/bands.js';
+import { nowIso } from '../lib/now.js';
 
 type LegacyCategorySize = 'small' | 'medium' | 'large' | null;
 
 export interface SearchBuildResult {
   files: string[];
   documents: number;
-}
-
-function nowIso(): string {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return (
-    `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}` +
-    `T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00:00`
-  );
 }
 
 /**

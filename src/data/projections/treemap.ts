@@ -17,6 +17,7 @@ import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { demandBand, riskBand, workforceBand } from '../lib/bands.js';
 import { pythonRound } from '../lib/python-round.js';
+import { nowIso } from '../lib/now.js';
 
 // en_key → JA-key reverse maps (only for fields index.html expects in JA-key form).
 const EDU_KEY_EN_TO_JA: Record<string, string> = {
@@ -47,15 +48,6 @@ const EMP_KEY_EN_TO_JA: Record<string, string> = {
 export interface TreemapBuildResult {
   files: string[];
   rows: number;
-}
-
-function nowIso(): string {
-  const d = new Date();
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return (
-    `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}` +
-    `T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}+00:00`
-  );
 }
 
 /** Convert {en_key: 0.0-1.0} → {ja_key: 0-100}, dropping keys not in mapping. */
