@@ -18,7 +18,7 @@
  */
 
 // ───── Risk band ─────
-// Aligned with handoff/components.md and tokens.css `.risk-low/.risk-mid/.risk-high`.
+// Aligned with the Direction C design tokens: .risk-low / .risk-mid / .risk-high.
 export type RiskBand = 'low' | 'mid' | 'high';
 export const RISK_LOW_MAX = 3.9; // 0.0–3.9 → low (sage)
 export const RISK_MID_MAX = 6.9; // 4.0–6.9 → mid (sand)
