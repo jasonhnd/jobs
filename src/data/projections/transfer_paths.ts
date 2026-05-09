@@ -44,7 +44,7 @@ export interface TransferPathsBuildResult {
  * Neumaier-compensated `fsum` for sums of products and squares so float
  * accumulation is order-independent.
  */
-function cosine(u: Record<string, number>, v: Record<string, number>): number {
+export function cosine(u: Record<string, number>, v: Record<string, number>): number {
   const uKeys = new Set(Object.keys(u));
   const sharedKeys: string[] = [];
   for (const k of Object.keys(v)) {

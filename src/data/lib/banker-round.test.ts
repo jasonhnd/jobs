@@ -48,3 +48,28 @@ test('bankerRound: clean decimals', () => {
   assert.equal(bankerRound(2.5, 1), 2.5);
   assert.equal(bankerRound(3.14, 2), 3.14);
 });
+
+test('bankerRound: ndigits=0 with negative halfway → round to even', () => {
+  // -2.5 halfway → -2 (even); -3.5 halfway → -4 (even).
+  assert.equal(bankerRound(-2.5, 0), -2);
+  assert.equal(bankerRound(-3.5, 0), -4);
+});
+
+test('bankerRound: ndigits=0 with positive halfway → round to even', () => {
+  // Already covered earlier but pin explicit ndigits=0 contract.
+  assert.equal(bankerRound(0.5, 0), 0);
+  assert.equal(bankerRound(1.5, 0), 2);
+  assert.equal(bankerRound(4.5, 0), 4);
+});
+
+test('bankerRound: NaN / Infinity pass through unchanged', () => {
+  assert.ok(Number.isNaN(bankerRound(NaN, 2)));
+  assert.equal(bankerRound(Infinity, 2), Infinity);
+  assert.equal(bankerRound(-Infinity, 2), -Infinity);
+});
+
+test('bankerRound: negative ndigits clamps to 0', () => {
+  // ndigits = -3 should be treated as 0.
+  assert.equal(bankerRound(2.5, -3), 2);
+  assert.equal(bankerRound(3.5, -3), 4);
+});
