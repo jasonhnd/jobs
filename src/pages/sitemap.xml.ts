@@ -16,6 +16,9 @@ import type { APIRoute } from 'astro';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { ALL_RANKINGS } from '../data/lib/rankings';
+import { INTEREST_META } from '../data/lib/interests-meta';
+import { SKILL_META } from '../data/lib/skills-meta';
+import { COMPARE_META } from '../data/lib/compare-meta';
 import { nowIso } from '../data/lib/now';
 
 const SITE = 'https://mirai-shigoto.com';
@@ -115,6 +118,24 @@ export const GET: APIRoute = () => {
   entries.push(urlBlock(`${SITE}/ja/sectors`, today, 'weekly', '0.8'));
   for (const sid of sectorIds) {
     entries.push(urlBlock(`${SITE}/ja/sectors/${sid}`, today, 'weekly', '0.7'));
+  }
+
+  // Interests (RIASEC) cluster — 6 types + index
+  entries.push(urlBlock(`${SITE}/ja/interests`, today, 'weekly', '0.8'));
+  for (const meta of INTEREST_META) {
+    entries.push(urlBlock(`${SITE}/ja/interests/${meta.slug}`, today, 'weekly', '0.7'));
+  }
+
+  // Skills cluster — 10 skills + index
+  entries.push(urlBlock(`${SITE}/ja/skills`, today, 'weekly', '0.8'));
+  for (const meta of SKILL_META) {
+    entries.push(urlBlock(`${SITE}/ja/skills/${meta.slug}`, today, 'weekly', '0.7'));
+  }
+
+  // Compare (X vs Y) cluster — 12 pairs + index
+  entries.push(urlBlock(`${SITE}/ja/compare`, today, 'weekly', '0.8'));
+  for (const meta of COMPARE_META) {
+    entries.push(urlBlock(`${SITE}/ja/compare/${meta.slug}`, today, 'weekly', '0.7'));
   }
 
   // Per-occupation detail pages

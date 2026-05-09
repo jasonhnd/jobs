@@ -1,0 +1,184 @@
+---
+/**
+ * src/pages/ja/compare/[pair].astro — 比較 hub × 12 ルート。
+ *
+ * 2 職業を side-by-side で比較表示。
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import {
+  buildCompareBundle,
+  renderCompareHero,
+  renderCompareTable,
+  renderTopSkillsCompare,
+  renderFaqHtml,
+  renderRelatedCompares,
+  renderJsonLd,
+  escapeHtml,
+} from '../../../data/lib/compare-hub';
+import type { CompareSlug } from '../../../data/lib/compare-meta';
+
+export async function getStaticPaths() {
+  const { results } = buildCompareBundle();
+  return Array.from(results.values()).map((r) => ({
+    params: { pair: r.meta.slug },
+    props: { result: r },
+  }));
+}
+
+const { result } = Astro.props;
+const slug = result.meta.slug as CompareSlug;
+const meta = result.meta;
+const canonical = `https://mirai-shigoto.com/ja/compare/${slug}`;
+
+const title = `${meta.title_ja}｜AI 影響度・年収・働き方の違いを比較【2026 年版】 | 未来の仕事`;
+const seoDesc =
+  `${result.a.name_ja} と ${result.b.name_ja} を AI 影響度・年収・労働条件・必要スキルで比較。` +
+  `${meta.description_ja.slice(0, 100)}…`;
+
+const heroHtml = renderCompareHero(result.a, result.b);
+const tableHtml = renderCompareTable(result.rows, result.a.name_ja, result.b.name_ja);
+const skillsHtml = renderTopSkillsCompare(result.a, result.b);
+const faqHtml = renderFaqHtml(result.faqItems);
+const relatedHtml = renderRelatedCompares(slug);
+const jsonLd = renderJsonLd(canonical, meta, result.a, result.b, seoDesc, result.faqItems);
+
+function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
+  const lis = items.map((s) => '<li>' + escapeHtml(s) + '</li>').join('');
+  return '<ul class="' + cls + '">' + lis + '</ul>';
+}
+const pointsHtml = listOfStrings(meta.comparison_points_ja, 'compare-points');
+const hintsHtml = listOfStrings(meta.decision_hints_ja, 'decision-hints');
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  ogImage={`https://mirai-shigoto.com/api/og?compare=${slug}`}
+  ogTitle={title.slice(0, 120)}
+  ogDescription={seoDesc}
+  ogType="article"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={`
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
+:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
+.skip-link:focus{left:8px;top:8px}
+#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.versus-hero{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:24px;margin:28px 0}
+.versus-hero .vh-side{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+.versus-hero .vh-name{font-family:var(--font-serif);font-size:1.3rem;font-weight:600;color:var(--accent-deep);text-decoration:none}
+.versus-hero .vh-name:hover{color:var(--accent);text-decoration:underline}
+.versus-hero .vh-sector{font-size:.78rem;color:var(--fg2)}
+.versus-hero .vh-vs{font-family:var(--font-serif);font-size:1.4rem;font-weight:700;color:var(--accent);background:var(--bg);border:2px solid var(--accent);border-radius:50%;width:54px;height:54px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.risk-pill{display:inline-block;padding:3px 12px;border-radius:12px;font-size:.78rem;font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill.low{background:#E0EAE2;color:#48705F}
+.risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
+.risk-pill.high{background:#F5D5C7;color:#A24A28}
+@media (max-width:600px){.versus-hero{grid-template-columns:1fr;gap:18px}.versus-hero .vh-vs{margin:0 auto}}
+.compare-points,.decision-hints{list-style:disc;padding-left:22px;margin:14px 0}
+.compare-points li,.decision-hints li{font-size:.93rem;color:var(--fg);margin-bottom:6px;line-height:1.7}
+.points-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
+@media (max-width:600px){.points-grid{grid-template-columns:1fr;gap:14px}}
+.points-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 6px}
+.compare-table{width:100%;border-collapse:collapse;margin:24px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.compare-table th,.compare-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:.92rem;vertical-align:middle}
+.compare-table thead th{background:var(--bg3);font-family:var(--font-serif);font-weight:600;color:var(--fg);font-size:.92rem}
+.compare-table thead th.ct-note{font-size:.82rem;color:var(--fg2)}
+.compare-table tbody th{font-weight:500;color:var(--fg2);width:30%}
+.compare-table tbody td{color:var(--fg);font-variant-numeric:tabular-nums}
+.compare-table .ct-note{color:var(--fg3);font-size:.82rem;font-style:italic}
+.compare-table tr:last-child th,.compare-table tr:last-child td{border-bottom:none}
+@media (max-width:600px){.compare-table th,.compare-table td{padding:9px 10px;font-size:.86rem}.compare-table .ct-note{display:none}}
+.topskills-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
+@media (max-width:600px){.topskills-compare{grid-template-columns:1fr;gap:14px}}
+.tsc-side{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px}
+.tsc-side h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 12px}
+.ts-list{list-style:none;counter-reset:tsk;padding:0;margin:0}
+.ts-list li{counter-increment:tsk;display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--border);font-size:.88rem}
+.ts-list li:last-child{border-bottom:none}
+.ts-list li::before{content:counter(tsk);color:var(--fg3);font-family:ui-monospace,monospace;font-size:.78rem}
+.ts-name{color:var(--fg)}
+.ts-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:.78rem;font-variant-numeric:tabular-nums}
+.ts-empty{color:var(--fg3);font-size:.86rem;margin:0}
+.faq{margin:48px 0}
+.faq details{background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}
+.faq summary{padding:14px 18px;cursor:pointer;font-weight:500;font-size:.95rem;color:var(--fg);list-style:none}
+.faq summary::before{content:"Q. ";color:var(--accent);font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq .faq-a{padding:0 18px 14px;font-size:.9rem;color:var(--fg2);line-height:1.7}
+.related-compares{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;padding:0}
+.related-compares li a{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
+.related-compares li a:hover{border-color:var(--accent)}
+.related-compares .rc-title{display:block;font-family:var(--font-serif);font-weight:500;color:var(--accent-deep);font-size:.92rem}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}}
+`} />
+
+  <a class="skip-link" href="#content">本文へスキップ</a>
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <a href="/ja/compare" rel="up">職業を比較する</a>
+      <span aria-hidden="true">›</span>
+      <span>{meta.title_ja}</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">{meta.title_ja}</span></h1>
+      <p class="sub">AI 影響度・年収・労働条件・必要スキルを <strong>side-by-side</strong> で比較</p>
+      <p class="intro">{meta.description_ja}</p>
+    </header>
+
+    <Fragment set:html={heroHtml} />
+
+    <section class="points-grid" aria-label="比較の観点">
+      <div>
+        <h3>比較すべき主要観点</h3>
+        <Fragment set:html={pointsHtml} />
+      </div>
+      <div>
+        <h3>選び方の判断ヒント</h3>
+        <Fragment set:html={hintsHtml} />
+      </div>
+    </section>
+
+    <section aria-label="比較表">
+      <h2>項目別比較表</h2>
+      <Fragment set:html={tableHtml} />
+    </section>
+
+    <section aria-label="主要スキル比較">
+      <h2>主要スキル TOP 5 比較</h2>
+      <Fragment set:html={skillsHtml} />
+    </section>
+
+    <Fragment set:html={faqHtml} />
+
+    <section aria-label="他の比較">
+      <h2>他の比較ペア</h2>
+      <Fragment set:html={relatedHtml} />
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

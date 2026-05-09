@@ -36,6 +36,9 @@
 
 import { ImageResponse } from "@vercel/og";
 import { RANKING_META } from "../src/data/lib/rankings-meta.js";
+import { INTEREST_META } from "../src/data/lib/interests-meta.js";
+import { SKILL_META } from "../src/data/lib/skills-meta.js";
+import { COMPARE_META } from "../src/data/lib/compare-meta.js";
 
 export const config = { runtime: "edge" };
 
@@ -155,6 +158,21 @@ const PAGE_CARDS: Record<string, GenericCardConfig> = {
     title:   "AI × 仕事 ランキング",
     subtitle: "9 視点で見る “変わる仕事” / “変わらない仕事”",
   },
+  interests: {
+    eyebrow: "INTERESTS · RIASEC 6 タイプ",
+    title:   "興味タイプから職業を探す",
+    subtitle: "RIASEC 6 分類で 552 職業を整理",
+  },
+  skills: {
+    eyebrow: "SKILLS · 主要 10 スキル",
+    title:   "スキルから職業を探す",
+    subtitle: "IPD 39 スキル軸から 10 を hub 化",
+  },
+  compare: {
+    eyebrow: "COMPARE · 12 ペア",
+    title:   "職業を比較する",
+    subtitle: "迷いやすい職業 12 ペアを side-by-side で",
+  },
 };
 
 // 9 ranking detail card variants — built from the shared RANKING_META.
@@ -165,6 +183,35 @@ const RANKING_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
   RANKING_META.map((m) => [
     m.slug,
     { eyebrow: m.og_eyebrow, title: m.name_ja, subtitle: m.description_ja },
+  ]),
+);
+
+// 6 interest detail card variants — RIASEC タイプ別 OG カード。
+// Single source of truth: src/data/lib/interests-meta.ts.
+const INTEREST_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
+  INTEREST_META.map((m) => [
+    m.slug,
+    {
+      eyebrow: m.og_eyebrow,
+      title:   `${m.name_ja}タイプ (${m.letter})`,
+      subtitle: m.typical_fields_ja.slice(0, 3).join(' · ') + ' などにフィット',
+    },
+  ]),
+);
+
+// 10 skill detail card variants — スキル別 OG カード。
+const SKILL_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
+  SKILL_META.map((m) => [
+    m.slug,
+    { eyebrow: m.og_eyebrow, title: m.short_ja, subtitle: m.title_ja },
+  ]),
+);
+
+// 12 compare detail card variants — 比較ペア別 OG カード。
+const COMPARE_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
+  COMPARE_META.map((m) => [
+    m.slug,
+    { eyebrow: m.og_eyebrow, title: m.title_ja, subtitle: m.description_ja.slice(0, 80) + '…' },
   ]),
 );
 
@@ -644,6 +691,9 @@ async function renderHandler(req: Request): Promise<Response> {
   const idParam = url.searchParams.get("id");
   const pageParam = url.searchParams.get("page");
   const rankingParam = url.searchParams.get("ranking");
+  const interestParam = url.searchParams.get("interest");
+  const skillParam = url.searchParams.get("skill");
+  const compareParam = url.searchParams.get("compare");
 
   // /map OG card uses the rich treemap-legend variant — special-case before
   // the generic ?page= branch.
@@ -651,7 +701,7 @@ async function renderHandler(req: Request): Promise<Response> {
     return renderMapCard();
   }
 
-  // Generic text-only cards: /api/og?page=home|about|privacy|compliance|404|sectors|rankings
+  // Generic text-only cards: /api/og?page=home|about|privacy|compliance|404|sectors|rankings|interests
   if (pageParam) {
     const cfg = PAGE_CARDS[pageParam];
     if (!cfg) {
@@ -675,6 +725,42 @@ async function renderHandler(req: Request): Promise<Response> {
     return renderGenericCard(cfg);
   }
 
+  // Per-interest (RIASEC) text cards: /api/og?interest=<slug>
+  if (interestParam) {
+    const cfg = INTEREST_CARDS[interestParam];
+    if (!cfg) {
+      return new Response(
+        `Bad request: unknown ?interest=${interestParam}. Known: ${Object.keys(INTEREST_CARDS).join(", ")}`,
+        { status: 400 },
+      );
+    }
+    return renderGenericCard(cfg);
+  }
+
+  // Per-skill text cards: /api/og?skill=<slug>
+  if (skillParam) {
+    const cfg = SKILL_CARDS[skillParam];
+    if (!cfg) {
+      return new Response(
+        `Bad request: unknown ?skill=${skillParam}. Known: ${Object.keys(SKILL_CARDS).join(", ")}`,
+        { status: 400 },
+      );
+    }
+    return renderGenericCard(cfg);
+  }
+
+  // Per-compare text cards: /api/og?compare=<slug>
+  if (compareParam) {
+    const cfg = COMPARE_CARDS[compareParam];
+    if (!cfg) {
+      return new Response(
+        `Bad request: unknown ?compare=${compareParam}. Known: ${Object.keys(COMPARE_CARDS).join(", ")}`,
+        { status: 400 },
+      );
+    }
+    return renderGenericCard(cfg);
+  }
+
   // Phase 9: sector-card branch — /api/og?sector=<sector_id>
   if (sectorParam) {
     return renderSectorCard(url, sectorParam);
@@ -682,7 +768,7 @@ async function renderHandler(req: Request): Promise<Response> {
 
   if (!idParam || !/^\d+$/.test(idParam)) {
     return new Response(
-      "Bad request: required ?id=<n>, ?sector=<id>, ?ranking=<slug>, or ?page=<map|home|about|privacy|compliance|404|sectors|rankings>",
+      "Bad request: required ?id=<n>, ?sector=<id>, ?ranking=<slug>, ?interest=<slug>, ?skill=<slug>, ?compare=<slug>, or ?page=<map|home|about|privacy|compliance|404|sectors|rankings|interests|skills|compare>",
       { status: 400 },
     );
   }
