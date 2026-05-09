@@ -6,9 +6,22 @@ import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
 const canonical = 'https://mirai-shigoto.com/ja/about';
 const title = '方法論・用語・データソース | 未来の仕事';
 const seoDesc = '本サイトの AI 影響度評価方法論、用語集、データソースを公開。Claude Opus 4.7 による評価ロジック、IPD v7.00 出典、評価の限界を確認できます。';
+
+const SITE = 'https://mirai-shigoto.com';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: '方法論・信頼性', description: seoDesc, isPartOf: { '@id': `${SITE}/#website` }, inLanguage: 'ja' },
+    { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: '方法論・信頼性', item: canonical },
+    ] },
+  ],
+}, null, 2);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=about-trust" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
   <div id="wrapper">

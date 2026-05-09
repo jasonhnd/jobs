@@ -6,9 +6,23 @@ import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
 const canonical = 'https://mirai-shigoto.com/ja/about/data-sources';
 const title = 'データソース一覧 | 未来の仕事';
 const seoDesc = '本サイトが使用するデータの出典: 厚労省 jobtag、JILPT IPD v7.00、賃金構造基本統計調査、労働力調査、ハローワーク求人統計。';
+
+const SITE = 'https://mirai-shigoto.com';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'TechArticle', '@id': `${canonical}#article`, url: canonical, name: title, headline: 'データソース一覧', description: seoDesc, inLanguage: 'ja' },
+    { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: '方法論・信頼性', item: `${SITE}/ja/about` },
+      { '@type': 'ListItem', position: 3, name: 'データソース', item: canonical },
+    ] },
+  ],
+}, null, 2);
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=data-sources" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={`
 .source-section{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
