@@ -2638,9 +2638,11 @@
     </div>
 
     <script>
-      // v1.4.0: site is JA-only. `lang` is kept as a module variable (rather
-      // than removed) so existing `lang === "en"` JS branches stay legal —
-      // they just never fire. Dead-branch cleanup is a follow-up.
+      // Site is JA-only since v1.4.0. `lang` is retained as a label-dict key
+      // (used by `L[X][lang]` lookups against the I18N.labels object), not as
+      // a feature flag — the `lang === "en"` branches were removed in a
+      // follow-up. `name_en` is kept on the data side for analytics event
+      // payloads + alternate-name search.
       const lang = "ja";
       let layer = "ai_risk";
       let palette = "redgreen"; // or "viridis"
@@ -2732,7 +2734,6 @@
       }
 
       const EDU_LABELS = ["高卒未満","高卒","専門学校卒","短大卒","高専卒","大卒","修士課程卒（修士と同等の専門職学位を含む）","博士課程卒"];
-      const EDU_LABEL_EN = {"高卒未満":"Below HS","高卒":"High school","専門学校卒":"Vocational","短大卒":"Junior college","高専卒":"Technical college","大卒":"University","修士課程卒（修士と同等の専門職学位を含む）":"Master's","博士課程卒":"Doctorate"};
 
       const I18N = {
         searchPlaceholder: { ja: "職業名で検索…", en: "Search occupations…" },
@@ -2955,14 +2956,14 @@
       }
 
       function tileSubInfo(d) {
-        if (layer === "salary") return d.salary != null ? (lang === "ja" ? d.salary + "万円" : "¥" + (d.salary / 100).toFixed(1) + "M") : "";
-        if (layer === "age") return d.age != null ? d.age + (lang === "ja" ? "歳" : " yr") : "";
+        if (layer === "salary") return d.salary != null ? d.salary + "万円" : "";
+        if (layer === "age") return d.age != null ? d.age + "歳" : "";
         if (layer === "hours") return d.hours != null ? d.hours + "h" : "";
         if (layer === "recruit_ratio") return d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "";
         if (layer === "education") {
           const idx = dominantEduIdx(d.education_pct || {});
           if (idx < 0) return "";
-          return lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx];
+          return EDU_LABELS[idx];
         }
         if (layer === "ai_risk") return d.ai_risk != null ? d.ai_risk + "/10" : "";
         return "";
@@ -3000,7 +3001,7 @@
             ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
             ctx.fillStyle = "rgba(255,255,255,0.92)";
             ctx.textBaseline = "top";
-            const label = lang === "en" ? r.name_en || r.name_ja : r.name_ja;
+            const label = r.name_ja;
             ctx.fillText(label, rx + 4, ry + 3);
             if (rh > subInfoMinH && rw > subInfoMinW) {
               ctx.font = `400 ${Math.max(fontMin - 1, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
@@ -3029,16 +3030,6 @@
         if (n >= 1e3) return (n / 1e3).toFixed(1) + "千";
         return Math.round(n).toLocaleString();
       }
-      function fmtNumberEn(n) {
-        if (n == null) return "—";
-        if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
-        if (n >= 1e3) return Math.round(n / 1e3) + "K";
-        return n.toLocaleString();
-      }
-      function fmtSalaryUSD(manYen) {
-        // manYen units = 10,000 yen. ~150 yen/USD => USD ≈ manYen * 10000 / 150 = manYen * 66.7
-        return Math.round(manYen * 67).toLocaleString();
-      }
 
       function computePercentiles(data) {
         const fields = ["salary", "age", "hours", "recruit_ratio", "ai_risk"];
@@ -3058,10 +3049,10 @@
       function showTooltip(d, mx, my) {
         const tt = document.getElementById("tooltip");
         if (d.id !== lastTooltipId) {
-          const title = lang === "en" ? d.name_en || d.name_ja : d.name_ja;
+          const title = d.name_ja;
           tt.querySelector(".tt-title").textContent = title;
           const idx = dominantEduIdx(d.education_pct || {});
-          const eduLabel = idx >= 0 ? (lang === "en" ? EDU_LABEL_EN[EDU_LABELS[idx]] : EDU_LABELS[idx]) : "—";
+          const eduLabel = idx >= 0 ? EDU_LABELS[idx] : "—";
           const eduPct = idx >= 0 ? (d.education_pct[EDU_LABELS[idx]] || 0).toFixed(1) + "%" : "";
           // Percentile context: top X% of N occupations. For salary & ai_risk: higher is "top".
           const salaryPctTop = d.salary != null && percentiles.salary ? 100 - pctRank(d.salary, percentiles.salary) : null;
@@ -3074,30 +3065,9 @@
             : null;
           const hourlyWage = d.hourly_wage;
 
-          const workersEn = d.category_size && d.category_size > 1
-            ? fmtNumberEn(d.workers) + " (parent " + fmtNumberEn(d.category_workers) + " ÷ " + d.category_size + ")"
-            : fmtNumberEn(d.workers);
           const workersJa = d.category_size && d.category_size > 1
             ? fmtN(d.workers) + " 人（親 " + fmtN(d.category_workers) + " ÷ " + d.category_size + "）"
             : fmtN(d.workers) + " 人";
-
-          const rowsEn = [
-            ["Annual salary", d.salary != null
-              ? "¥" + (d.salary / 100).toFixed(1) + "M (~$" + fmtSalaryUSD(d.salary) + ")"
-                + (salaryPctTop != null ? " · top " + salaryPctTop + "%" : "")
-              : "—"],
-            ["Workers", workersEn],
-            ["Avg age", d.age != null ? d.age + " yrs" : "—"],
-            ["Hours/month", d.hours != null ? d.hours + " h" : "—"],
-            ["Recruit ratio", d.recruit_ratio != null ? d.recruit_ratio.toFixed(2) + "x" : "—"],
-            ["Top education", eduPct ? eduLabel + " (" + eduPct + ")" : "—"]
-          ];
-          if (topEmp) rowsEn.push(["Top employment", topEmp[0] + " " + topEmp[1].toFixed(0) + "%"]);
-          if (hourlyWage != null) rowsEn.push(["Hourly wage", "¥" + Math.round(hourlyWage).toLocaleString()]);
-          rowsEn.push(["AI risk", d.ai_risk != null
-            ? d.ai_risk + "/10" + (riskPctTop != null ? " · top " + riskPctTop + "%" : "")
-            : "—"]);
-          rowsEn.push(["Rationale", d.ai_rationale_en || "—"]);
 
           const rowsJa = [
             ["年収", d.salary != null
@@ -3117,7 +3087,7 @@
             : "—"]);
           rowsJa.push(["理由", d.ai_rationale_ja || "—"]);
 
-          const rows = lang === "en" ? rowsEn : rowsJa;
+          const rows = rowsJa;
           // Sanitize values defensively (these are LLM outputs but trusted from our own pipeline; still escape just in case)
           const esc = s => String(s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
           document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${esc(k)}</span><span class="value">${esc(v)}</span>`).join("");
@@ -3220,14 +3190,10 @@
         </div>`;
       }
 
-      function fmtSalary(v) { return lang === "en" ? "¥" + (v / 100).toFixed(1) + "M (~$" + fmtSalaryUSD(v) + ")" : v + "万円"; }
+      function fmtSalary(v) { return v + "万円"; }
       function fmtTotalWages(manYenWeighted) {
         // input: sum of (salary 万円 × workers). Convert to 兆円: ÷ 1e8 (万 × 10000 / 1e12)
-        const choEn = manYenWeighted / 1e8;
-        if (lang === "en") return choEn >= 1
-          ? "$" + (choEn * 6.7).toFixed(1) + "T"
-          : "$" + (choEn * 6700).toFixed(0) + "B";
-        return choEn.toFixed(1) + " 兆円";
+        return (manYenWeighted / 1e8).toFixed(1) + " 兆円";
       }
 
       function updateStats() {
@@ -3241,7 +3207,7 @@
         const block1 = statBlock(
           L.occupations[lang],
           totalCount.toLocaleString(),
-          L.workforce[lang] + ": " + (lang === "ja" ? fmtN(totalWorkers) + " 人" : fmtNumberEn(totalWorkers))
+          L.workforce[lang] + ": " + fmtN(totalWorkers) + " 人"
         );
 
         // Block 2-6 specific to layer
@@ -3254,23 +3220,19 @@
           const hist = new Array(11).fill(0);
           for (const d of items) hist[Math.round(d.ai_risk)]++;
           const tiers = [
-            [lang === "ja" ? "0-2 低" : "0-2 Low", items.filter(d => d.ai_risk <= 2).length],
-            [lang === "ja" ? "3-4 中低" : "3-4 Mid-Low", items.filter(d => d.ai_risk >= 3 && d.ai_risk <= 4).length],
-            [lang === "ja" ? "5-6 中" : "5-6 Mid", items.filter(d => d.ai_risk >= 5 && d.ai_risk <= 6).length],
-            [lang === "ja" ? "7-8 高" : "7-8 High", items.filter(d => d.ai_risk >= 7 && d.ai_risk <= 8).length],
-            [lang === "ja" ? "9-10 最高" : "9-10 Max", items.filter(d => d.ai_risk >= 9).length]
+            ["0-2 低",   items.filter(d => d.ai_risk <= 2).length],
+            ["3-4 中低", items.filter(d => d.ai_risk >= 3 && d.ai_risk <= 4).length],
+            ["5-6 中",   items.filter(d => d.ai_risk >= 5 && d.ai_risk <= 6).length],
+            ["7-8 高",   items.filter(d => d.ai_risk >= 7 && d.ai_risk <= 8).length],
+            ["9-10 最高", items.filter(d => d.ai_risk >= 9).length]
           ].map(([l, n]) => [l, n, 0]);
           const highRiskItems = items.filter(d => d.ai_risk >= 7 && d.salary != null);
           const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
           const highRiskJobsCount = highRiskItems.length;
           // Cross-tab: avg AI risk by salary band
           const salBands = [[0, 350], [350, 500], [500, 700], [700, 1000], [1000, 9999]];
-          // Salary tier label: ja shows "350-500万円", en shows "¥3.5M-¥5M" (convert 万 → millions JPY).
-          const fmtSalBand = (lo, hi) => {
-            if (lang === "ja") return `${lo}-${hi}万円`;
-            const toM = v => (v >= 1000 ? Math.round(v / 100) : (v / 100).toFixed(1).replace(/\.0$/, ""));
-            return `¥${toM(lo)}M–¥${toM(hi)}M`;
-          };
+          // Salary tier label: "350-500万円".
+          const fmtSalBand = (lo, hi) => `${lo}-${hi}万円`;
           const ctRows = salBands.map(([lo, hi]) => {
             const sub = items.filter(d => d.salary != null && d.salary >= lo && d.salary < hi);
             if (sub.length === 0) return [fmtSalBand(lo, hi), 0, 0];
@@ -3282,19 +3244,19 @@
           blocks.push(statBlock(
             L.weightedAvg[lang],
             wAvg.toFixed(1) + " / 10",
-            (lang === "ja" ? "就業者数で加重" : "weighted by workers")
+            "就業者数で加重"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
           blocks.push(statBlockHTML(
-            (lang === "ja" ? "リスク × 年収" : "Risk × Salary"),
+            "リスク × 年収",
             `<table class="tier-table">${ctRows.map(([b, n, a]) =>
               `<tr><td>${b}</td><td>${n}</td><td>${a ? a.toFixed(1) : "—"}</td></tr>`).join("")}</table>`
           ));
           blocks.push(statBlock(
             L.wagesExposed[lang],
             fmtTotalWages(wagesExposed),
-            highRiskJobsCount + (lang === "ja" ? " 職業" : " jobs")
+            highRiskJobsCount + " 職業"
           ));
         } else if (layer === "salary") {
           const items = data.filter(d => d.salary != null && d.workers);
@@ -3307,23 +3269,23 @@
           const hist = buildHistogram(items.map(d => d.salary), 10);
           // Salary tier labels: ja shows "<400 万" (manen), en converts to millions JPY.
           const tiers = [
-            [lang === "ja" ? "<400 万" : "<¥4M",       items.filter(d => d.salary < 400).length],
-            [lang === "ja" ? "400-600 万" : "¥4M–¥6M", items.filter(d => d.salary >= 400 && d.salary < 600).length],
-            [lang === "ja" ? "600-800 万" : "¥6M–¥8M", items.filter(d => d.salary >= 600 && d.salary < 800).length],
-            [lang === "ja" ? "800-1200 万" : "¥8M–¥12M", items.filter(d => d.salary >= 800 && d.salary < 1200).length],
-            [lang === "ja" ? "≥1200 万" : "≥¥12M",     items.filter(d => d.salary >= 1200).length]
+            ["<400 万",    items.filter(d => d.salary < 400).length],
+            ["400-600 万", items.filter(d => d.salary >= 400 && d.salary < 600).length],
+            ["600-800 万", items.filter(d => d.salary >= 600 && d.salary < 800).length],
+            ["800-1200 万", items.filter(d => d.salary >= 800 && d.salary < 1200).length],
+            ["≥1200 万",    items.filter(d => d.salary >= 1200).length]
           ].map(([l, n]) => [l, n, 0]);
 
           blocks.push(statBlock(
             L.weightedAvg[lang],
-            (lang === "ja" ? Math.round(wAvg) + " 万円" : "¥" + (Math.round(wAvg) / 100).toFixed(1) + "M (~$" + fmtSalaryUSD(wAvg) + ")"),
-            (lang === "ja" ? "中央値: " + median + " 万" : "median: ¥" + (median / 100).toFixed(1) + "M")
+            Math.round(wAvg) + " 万円",
+            "中央値: " + median + " 万"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
           blocks.push(statBlock(
             L.topPay[lang],
-            (lang === "en" ? max.name_en || max.name_ja : max.name_ja),
+            max.name_ja,
             fmtSalary(max.salary)
           ));
           blocks.push(statBlock(L.totalWages[lang], fmtTotalWages(totalWages)));
@@ -3333,31 +3295,31 @@
           const wAvg = items.reduce((s, d) => s + d.age * d.workers, 0) / totalW;
           const hist = buildHistogram(items.map(d => d.age), 10);
           const tiers = [
-            [lang === "ja" ? "<35 歳" : "<35", items.filter(d => d.age < 35).length],
-            [lang === "ja" ? "35-40" : "35-40", items.filter(d => d.age >= 35 && d.age < 40).length],
-            [lang === "ja" ? "40-45" : "40-45", items.filter(d => d.age >= 40 && d.age < 45).length],
-            [lang === "ja" ? "45-50" : "45-50", items.filter(d => d.age >= 45 && d.age < 50).length],
-            [lang === "ja" ? "≥50 歳" : "≥50", items.filter(d => d.age >= 50).length]
+            ["<35 歳",  items.filter(d => d.age < 35).length],
+            ["35-40",   items.filter(d => d.age >= 35 && d.age < 40).length],
+            ["40-45",   items.filter(d => d.age >= 40 && d.age < 45).length],
+            ["45-50",   items.filter(d => d.age >= 45 && d.age < 50).length],
+            ["≥50 歳", items.filter(d => d.age >= 50).length]
           ].map(([l, n]) => [l, n, 0]);
           const oldest = [...items].sort((a, b) => b.age - a.age)[0];
           const youngest = [...items].sort((a, b) => a.age - b.age)[0];
 
           blocks.push(statBlock(
             L.weightedAvg[lang],
-            wAvg.toFixed(1) + (lang === "ja" ? " 歳" : " yrs"),
-            (lang === "ja" ? "就業者数で加重" : "weighted by workers")
+            wAvg.toFixed(1) + " 歳",
+            "就業者数で加重"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
           blocks.push(statBlock(
             L.oldestField[lang],
-            (lang === "en" ? oldest.name_en || oldest.name_ja : oldest.name_ja),
-            oldest.age + (lang === "ja" ? " 歳" : " yrs")
+            oldest.name_ja,
+            oldest.age + " 歳"
           ));
           blocks.push(statBlock(
             L.youngestField[lang],
-            (lang === "en" ? youngest.name_en || youngest.name_ja : youngest.name_ja),
-            youngest.age + (lang === "ja" ? " 歳" : " yrs")
+            youngest.name_ja,
+            youngest.age + " 歳"
           ));
         } else if (layer === "hours") {
           const items = data.filter(d => d.hours != null && d.workers);
@@ -3365,24 +3327,24 @@
           const wAvg = items.reduce((s, d) => s + d.hours * d.workers, 0) / totalW;
           const hist = buildHistogram(items.map(d => d.hours), 10);
           const tiers = [
-            [lang === "ja" ? "<150 h" : "<150 h", items.filter(d => d.hours < 150).length],
-            [lang === "ja" ? "150-160" : "150-160", items.filter(d => d.hours >= 150 && d.hours < 160).length],
-            [lang === "ja" ? "160-170" : "160-170", items.filter(d => d.hours >= 160 && d.hours < 170).length],
-            [lang === "ja" ? "170-180" : "170-180", items.filter(d => d.hours >= 170 && d.hours < 180).length],
-            [lang === "ja" ? "≥180 h" : "≥180 h", items.filter(d => d.hours >= 180).length]
+            ["<150 h",  items.filter(d => d.hours < 150).length],
+            ["150-160", items.filter(d => d.hours >= 150 && d.hours < 160).length],
+            ["160-170", items.filter(d => d.hours >= 160 && d.hours < 170).length],
+            ["170-180", items.filter(d => d.hours >= 170 && d.hours < 180).length],
+            ["≥180 h",  items.filter(d => d.hours >= 180).length]
           ].map(([l, n]) => [l, n, 0]);
           const longest = [...items].sort((a, b) => b.hours - a.hours)[0];
 
           blocks.push(statBlock(
             L.weightedAvg[lang],
-            wAvg.toFixed(1) + (lang === "ja" ? " 時間" : " h"),
-            (lang === "ja" ? "月間就業者加重" : "monthly, worker-weighted")
+            wAvg.toFixed(1) + " 時間",
+            "月間就業者加重"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
           blocks.push(statBlock(
             L.longestHrs[lang],
-            (lang === "en" ? longest.name_en || longest.name_ja : longest.name_ja),
+            longest.name_ja,
             longest.hours + " h"
           ));
         } else if (layer === "recruit_ratio") {
@@ -3391,24 +3353,24 @@
           const wAvg = items.reduce((s, d) => s + d.recruit_ratio * d.workers, 0) / totalW;
           const hist = buildHistogram(items.map(d => Math.log10(Math.max(0.1, d.recruit_ratio))), 10);
           const tiers = [
-            [lang === "ja" ? "<0.5x" : "<0.5x", items.filter(d => d.recruit_ratio < 0.5).length],
-            [lang === "ja" ? "0.5-1x" : "0.5-1x", items.filter(d => d.recruit_ratio >= 0.5 && d.recruit_ratio < 1).length],
-            [lang === "ja" ? "1-2x" : "1-2x", items.filter(d => d.recruit_ratio >= 1 && d.recruit_ratio < 2).length],
-            [lang === "ja" ? "2-5x" : "2-5x", items.filter(d => d.recruit_ratio >= 2 && d.recruit_ratio < 5).length],
-            [lang === "ja" ? "≥5x" : "≥5x", items.filter(d => d.recruit_ratio >= 5).length]
+            ["<0.5x",  items.filter(d => d.recruit_ratio < 0.5).length],
+            ["0.5-1x", items.filter(d => d.recruit_ratio >= 0.5 && d.recruit_ratio < 1).length],
+            ["1-2x",   items.filter(d => d.recruit_ratio >= 1 && d.recruit_ratio < 2).length],
+            ["2-5x",   items.filter(d => d.recruit_ratio >= 2 && d.recruit_ratio < 5).length],
+            ["≥5x",    items.filter(d => d.recruit_ratio >= 5).length]
           ].map(([l, n]) => [l, n, 0]);
           const top = [...items].sort((a, b) => b.recruit_ratio - a.recruit_ratio)[0];
 
           blocks.push(statBlock(
             L.weightedAvg[lang],
             wAvg.toFixed(2) + "x",
-            (lang === "ja" ? "1.0 = 需給均衡" : "1.0 = supply meets demand")
+            "1.0 = 需給均衡"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
           blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
           blocks.push(statBlock(
             L.highestDemand[lang],
-            (lang === "en" ? top.name_en || top.name_ja : top.name_ja),
+            top.name_ja,
             top.recruit_ratio.toFixed(2) + "x"
           ));
         } else if (layer === "education") {
@@ -3423,18 +3385,18 @@
           }
           const avgUni = items.length ? (uniPlus / items.length) : 0;
           const tiers = EDU_LABELS.map((lbl, i) => {
-            const display = lang === "en" ? EDU_LABEL_EN[lbl] : lbl.length > 14 ? lbl.slice(0, 12) + "…" : lbl;
+            const display = lbl.length > 14 ? lbl.slice(0, 12) + "…" : lbl;
             return [display, counts[i], 0];
           });
 
           blocks.push(statBlock(
             L.uniDegree[lang],
             avgUni.toFixed(1) + "%",
-            (lang === "ja" ? "552 職業の平均" : "avg across 552 jobs")
+            "552 職業の平均"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(counts)));
           blocks.push(statBlockHTML(
-            (lang === "ja" ? "最多学歴の内訳" : "Dominant education"),
+            "最多学歴の内訳",
             renderTierTable(tiers)
           ));
         }
@@ -3644,8 +3606,8 @@
           (d.name_en || "").toLowerCase().includes(q)
         );
         matches.sort((a, b) => {
-          const an = ((lang === "en" ? a.name_en : a.name_ja) || a.name_ja || "").toLowerCase();
-          const bn = ((lang === "en" ? b.name_en : b.name_ja) || b.name_ja || "").toLowerCase();
+          const an = (a.name_ja || "").toLowerCase();
+          const bn = (b.name_ja || "").toLowerCase();
           const aTier = an === q ? 0 : (an.startsWith(q) ? 1 : 2);
           const bTier = bn === q ? 0 : (bn.startsWith(q) ? 1 : 2);
           if (aTier !== bTier) return aTier - bTier;
@@ -3814,9 +3776,7 @@
           // matchMedia detection: touch devices skip hint to keep dropdown compact.
           const isTouchDevice = window.matchMedia &&
             window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-          const hintLabel = lang === "en"
-            ? "↑↓ to select  ·  Enter to open"
-            : "↑↓ で選択  ·  Enter で開く";
+          const hintLabel = "↑↓ で選択  ·  Enter で開く";
           const hintHtml = isTouchDevice
             ? ""
             : '<li class="ss-hint" aria-hidden="true">' + escapeHtml(hintLabel) + '</li>';
@@ -3825,10 +3785,10 @@
           suggestEl.innerHTML = hintHtml + matches.map((rec, i) => {
             const nameJa = rec.name_ja || "";
             const nameEn = rec.name_en || "";
-            const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
+            const display = nameJa || nameEn;
             const risk = rec.ai_risk != null ? rec.ai_risk : 0;
             const tier = risk >= 7 ? "high" : (risk >= 5 ? "mid" : "low");
-            const riskLabel = lang === "en" ? ("AI risk " + risk + "/10") : ("AI 影響度 " + risk + "/10");
+            const riskLabel = "AI 影響度 " + risk + "/10";
             const focusClass = i === 0 ? " focused" : "";
             return '<li role="option" class="ss-item' + focusClass + '" data-job-id="' + Number(rec.id) + '" data-idx="' + Number(i) + '">' +
               '<span class="ss-name">' + escapeHtml(display) + '</span>' +
@@ -4211,9 +4171,9 @@
         if (!ls) return;
         ls.className = "error-state";
         ls.innerHTML = `
-          <div>${lang === "ja" ? "⚠️ データの読み込みに失敗しました" : "⚠️ Failed to load data"}</div>
+          <div>⚠️ データの読み込みに失敗しました</div>
           <div style="font-size:0.78rem;color:var(--fg2);margin-top:6px">${(err && err.message) || err || ""}</div>
-          <button onclick="location.reload()">${lang === "ja" ? "再読込" : "Retry"}</button>
+          <button onclick="location.reload()">再読込</button>
         `;
       }
 
@@ -4229,43 +4189,33 @@
           .sort((a, b) => b.ai_risk - a.ai_risk)
           .slice(0, 10);
         if (top10.length === 0) return;
-        const tagJa = "大きく変わる仕事";
-        const tagEn = "Job that will transform";
-        const workersLabelJa = "就業者";
-        const workersLabelEn = "Workforce";
-        const salaryLabelJa = "年収";
-        const salaryLabelEn = "Salary";
+        const tag = "大きく変わる仕事";
+        const wLabel = "就業者";
+        const sLabel = "年収";
         const fmtMan = n => {
           if (n == null) return "—";
           if (n >= 10000) return (n / 10000).toFixed(0) + "万";
           if (n >= 1000)  return (n / 1000).toFixed(1) + "千";
           return String(n);
         };
-        const fmtSalary = (manYen, lang) => {
+        const fmtSalary = (manYen) => {
           if (manYen == null) return "—";
-          return lang === "en"
-            ? "¥" + (manYen / 100).toFixed(2) + "M"
-            : (Math.round(manYen) + "万円");
+          return Math.round(manYen) + "万円";
         };
         track.innerHTML = top10.map((rec, i) => {
           const rank = i + 1;
           const nameJa = rec.name_ja || "";
           const nameEn = rec.name_en || "";
-          const display = lang === "en" ? (nameEn || nameJa) : (nameJa || nameEn);
-          const sub = lang === "en" ? nameJa : nameEn;
+          const display = nameJa || nameEn;
+          const sub = nameEn;
           const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
-          const rationaleRaw = lang === "en"
-            ? (rec.ai_rationale_en || rec.ai_rationale_ja || "")
-            : (rec.ai_rationale_ja || rec.ai_rationale_en || "");
-          const tag = lang === "en" ? tagEn : tagJa;
-          const wLabel = lang === "en" ? workersLabelEn : workersLabelJa;
-          const sLabel = lang === "en" ? salaryLabelEn : salaryLabelJa;
-          const wValue = (rec.workers != null) ? (lang === "en" ? Number(rec.workers).toLocaleString() : (fmtMan(rec.workers) + "人")) : "—";
-          const sValue = fmtSalary(rec.salary, lang);
+          const rationaleRaw = rec.ai_rationale_ja || rec.ai_rationale_en || "";
+          const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
+          const sValue = fmtSalary(rec.salary);
           const href = "/ja/" + Number(rec.id);
           return (
             '<a class="m-top10-card" role="listitem" href="' + href + '">' +
-              '<span class="m-top10-card-rank">' + rank + (lang === "en" ? "" : " 位") + '</span>' +
+              '<span class="m-top10-card-rank">' + rank + " 位" + '</span>' +
               '<div class="m-top10-card-head">' +
                 '<span class="m-top10-card-name">' + escapeHtml(display) + '</span>' +
                 (sub ? '<span class="m-top10-card-name-en">' + escapeHtml(sub) + '</span>' : "") +
