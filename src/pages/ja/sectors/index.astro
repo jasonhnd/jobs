@@ -20,7 +20,7 @@ const SITE = 'https://mirai-shigoto.com';
 
 // Load data.sectors.json (matches Python render_sectors_index input shape).
 const sectorsRaw = JSON.parse(
-  readFileSync(join(process.cwd(), 'dist', 'data.sectors.json'), 'utf-8')
+  readFileSync(join(process.cwd(), 'public', 'data.sectors.json'), 'utf-8')
 );
 
 interface Sector {

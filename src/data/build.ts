@@ -33,11 +33,13 @@ import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 
 const REPO_ROOT = process.cwd();
-// `BUILD_DATA_OUT_DIR=...` overrides the output directory (used by the diff
-// workflow during Track B-3 verification: BUILD_DATA_OUT_DIR=dist-ts).
+// TS-ETL writes projections directly into Astro's publicDir (`./public/`).
+// Astro then copies the entire publicDir into `dist-astro/` during `astro build`.
+// `BUILD_DATA_OUT_DIR=...` overrides the output directory (used historically by
+// the byte-diff workflow during Track B; left in place for ad-hoc verification).
 const TS_DIST = process.env.BUILD_DATA_OUT_DIR
   ? join(REPO_ROOT, process.env.BUILD_DATA_OUT_DIR)
-  : join(REPO_ROOT, 'dist');
+  : join(REPO_ROOT, 'public');
 
 interface ProjectionRun {
   name: string;

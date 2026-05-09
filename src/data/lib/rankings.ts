@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const REPO_ROOT = process.cwd();
-const TREEMAP_PATH = join(REPO_ROOT, 'dist', 'data.treemap.json');
+const TREEMAP_PATH = join(REPO_ROOT, 'public', 'data.treemap.json');
 
 export const TOP_N = 30;
 

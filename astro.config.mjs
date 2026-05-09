@@ -4,22 +4,25 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 //
-// Track D · PR 35 (Vercel switch):
-//   - outDir → ./dist-astro/  (Vercel deploys this; vercel.json:outputDirectory matches)
-//   - publicDir → ./dist/     (TS-ETL writes data.*.json here; Astro copies them into output)
-//   - build.format: 'file'    (matches the legacy /ja/{id}.html URL shape)
+// Architecture (post-Track D, 2026-05):
+//   - outDir → ./dist-astro/   (Vercel deploys this; vercel.json:outputDirectory matches)
+//   - publicDir → ./public/    (Astro default; SEO statics tracked here, plus TS-ETL
+//                              data.*.json output written here at build time)
+//   - build.format: 'file'     (matches the legacy /ja/{id}.html URL shape)
 //
 // Data flow:
-//   data/* → npm run build:data (TS-ETL) → dist/data.*.json
-//   dist/ + src/pages/ → astro build → dist-astro/  (Vercel deploys this)
+//   data/* → npm run build:data (TS-ETL: src/data/build.ts) → public/data.*.json
+//   public/ + src/pages/ → astro build → dist-astro/   (Vercel deploys this)
 //
-// See docs/MIGRATION_PLAN.md for the full migration plan.
+// public/ contents:
+//   - Tracked: og.png, robots.txt, llms.txt, llms-full.txt   (SEO statics)
+//   - Untracked: data.*.json, data.detail/, data.labels/, ... (TS-ETL output;
+//                regenerated on every build, see .gitignore)
 
 export default defineConfig({
   site: 'https://mirai-shigoto.com',
   output: 'static',
   outDir: './dist-astro',
-  publicDir: './dist',
   trailingSlash: 'never',
   build: {
     format: 'file',

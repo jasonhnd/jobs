@@ -17,25 +17,23 @@ desktop.ini
 *.swo
 
 # Build artifacts
-# dist/ IS tracked: (1) it's the Astro publicDir (per astro.config.mjs); the
-# committed JSON projections plus 4 SEO statics (og.png, robots.txt, llms.txt,
-# llms-full.txt) all flow into dist-astro/ at build time. (2) Vercel rebuilds
-# data fresh via `npm run build:data` on every deploy, but the SEO statics
-# need a tracked home so they survive a clean checkout.
-# Future cleanup (separate PR): split SEO statics into public/ and gitignore
-# dist/ generated JSON.
+# public/ holds Astro's static input (publicDir). Tracked: 4 SEO statics
+# (og.png, robots.txt, llms.txt, llms-full.txt). Untracked: every TS-ETL
+# output below — Vercel regenerates them on each deploy via `npm run build:data`.
+public/data.*
+public/map-thumb.snippet.html
+
+# Atomic-stage dirs from the historical Python build (left over when a swap
+# failed on Dropbox lock). Local-only.
 dist.next/
 dist.prev/
+dist-py.next/
+dist-ts/
 build/
 .cache/
 
-# Astro / TS migration output dirs
 # Astro build output (Vercel deploy target — built fresh in CI, not committed).
 dist-astro/
-# Atomic-stage dirs from earlier Python build attempts (left over when swap
-# failed on Dropbox lock). Local-only.
-dist-py.next/
-dist-ts/
 # Astro internal cache (auto-generated types, content collection metadata)
 .astro/
 

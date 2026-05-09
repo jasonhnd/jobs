@@ -80,7 +80,7 @@ export async function getStaticPaths() {
   const sectorsPath = join(process.cwd(), 'data', 'sectors', 'sectors.ja-en.json');
   const sectors: SectorDef[] = JSON.parse(readFileSync(sectorsPath, 'utf-8')).sectors;
 
-  const detailDir = join(process.cwd(), 'dist', 'data.detail');
+  const detailDir = join(process.cwd(), 'public', 'data.detail');
   const files = readdirSync(detailDir).filter((f: string) => f.endsWith('.json')).sort();
   const occupations: OccRow[] = [];
   for (const f of files) {
