@@ -14,11 +14,12 @@
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
+import { getSectorEssay, computeSectorPatterns, computeSiteBaseline, type SectorOcc } from '../../../data/lib/sector-meta';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
 const DATE_PUBLISHED = '2026-05-05';
-const DATE_MODIFIED = '2026-05-05';
+const DATE_MODIFIED = '2026-05-09';
 
 interface SectorDef {
   id: string;
@@ -37,6 +38,12 @@ interface OccRow {
   risk_band: string | null;
   workers: number | null;
   salary: number | null;
+  /** Phase 2: 月労働時間 (sector pattern 計算用) */
+  monthly_hours: number | null;
+  /** Phase 2: 平均年齢 */
+  average_age: number | null;
+  /** Phase 2: 求人倍率 */
+  recruit_ratio: number | null;
   sector_id: string;
 }
 
@@ -96,6 +103,9 @@ export async function getStaticPaths() {
       risk_band: d.risk_band ?? null,
       workers: stats.workers ?? null,
       salary: stats.salary_man_yen ?? null,
+      monthly_hours: stats.monthly_hours ?? null,
+      average_age: stats.average_age ?? null,
+      recruit_ratio: stats.recruit_ratio ?? null,
       sector_id: sec.id,
     });
   }
@@ -121,6 +131,7 @@ export async function getStaticPaths() {
       occs: bySector[sector.id] || [],
       allSectors: sectors,
       occCounts,
+      allOccs: occupations,
     },
   }));
 }
@@ -130,9 +141,35 @@ interface Props {
   occs: OccRow[];
   allSectors: SectorDef[];
   occCounts: Record<string, number>;
+  allOccs: OccRow[];
 }
 
-const { sector, occs, allSectors, occCounts } = Astro.props as Props;
+const { sector, occs, allSectors, occCounts, allOccs } = Astro.props as Props;
+
+// ── Phase 2: AI 時代エッセイ + データから見えるパターン ──
+const sectorEssay = getSectorEssay(sector.id);
+const allSectorOccs: SectorOcc[] = allOccs.map((o) => ({
+  id: o.id,
+  title_ja: o.title_ja,
+  ai_risk: o.ai_risk,
+  workers: o.workers,
+  salary: o.salary,
+  monthly_hours: o.monthly_hours,
+  average_age: o.average_age,
+  recruit_ratio: o.recruit_ratio,
+}));
+const baseline = computeSiteBaseline(allSectorOccs);
+const sectorOccsForPattern: SectorOcc[] = occs.map((o) => ({
+  id: o.id,
+  title_ja: o.title_ja,
+  ai_risk: o.ai_risk,
+  workers: o.workers,
+  salary: o.salary,
+  monthly_hours: o.monthly_hours,
+  average_age: o.average_age,
+  recruit_ratio: o.recruit_ratio,
+}));
+const patterns = computeSectorPatterns(sectorOccsForPattern, baseline, sector.ja);
 
 const sid = sector.id;
 const nameLoc = sector.ja;
@@ -434,6 +471,36 @@ const fullListHtml = renderFullList(fullSorted);
 const relatedHtml = renderRelatedSectors();
 const faqHtml = renderFaqSection();
 const introSection = descIntro ? `<p class="intro">${esc(descIntro)}</p>` : '';
+
+// ── AI 時代の特性 essay block (200-300 字) ──
+const aiEraEssayHtml = sectorEssay
+  ? `<section class="ai-era-essay" aria-label="AI 時代の特性">
+       <h2>AI 時代の${esc(sector.ja)}の特性</h2>
+       <p>${esc(sectorEssay.ai_era_essay_ja)}</p>
+     </section>`
+  : '';
+
+// ── データから見えるパターン (auto-derived 観察) ──
+const patternsHtml = patterns.observations.length > 0
+  ? `<section class="patterns" aria-label="データから見えるパターン">
+       <h2>データから見えるパターン</h2>
+       <div class="ai-distribution">
+         <div class="ai-dist-bar">
+           <span class="dist-low" style="width:${patterns.ai_low_pct.toFixed(0)}%" title="AI 影響 低 (3 以下): ${patterns.ai_low_count} 職業"></span>
+           <span class="dist-mid" style="width:${patterns.ai_mid_pct.toFixed(0)}%" title="AI 影響 中 (4-6): ${patterns.ai_mid_count} 職業"></span>
+           <span class="dist-high" style="width:${patterns.ai_high_pct.toFixed(0)}%" title="AI 影響 高 (7+): ${patterns.ai_high_count} 職業"></span>
+         </div>
+         <div class="ai-dist-legend">
+           <span><span class="ldot ldot-low"></span>低 (≤3): <strong>${patterns.ai_low_count}</strong> 職業 (${patterns.ai_low_pct.toFixed(0)}%)</span>
+           <span><span class="ldot ldot-mid"></span>中 (4-6): <strong>${patterns.ai_mid_count}</strong> 職業 (${patterns.ai_mid_pct.toFixed(0)}%)</span>
+           <span><span class="ldot ldot-high"></span>高 (≥7): <strong>${patterns.ai_high_count}</strong> 職業 (${patterns.ai_high_pct.toFixed(0)}%)</span>
+         </div>
+       </div>
+       <ul class="pattern-observations">
+         ${patterns.observations.map((obs) => `<li>${obs}</li>`).join('')}
+       </ul>
+     </section>`
+  : '';
 ---
 <BaseLayout
   title={title}
@@ -512,7 +579,29 @@ section.faq{margin:48px 0}
 .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
 .faq-item summary:hover{color:var(--accent-deep)}
 .faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}</style>
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
+/* Phase 2: AI 時代の特性 essay + データから見えるパターン */
+.ai-era-essay{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:32px 0}
+.ai-era-essay h2{font-size:1.1rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.ai-era-essay p{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0}
+.patterns{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:32px 0}
+.patterns h2{font-size:1.1rem;color:var(--accent-deep);margin:0 0 16px;padding:0;border:none}
+.ai-distribution{margin-bottom:18px}
+.ai-dist-bar{display:flex;height:18px;border-radius:4px;overflow:hidden;margin-bottom:10px;background:var(--bg3)}
+.ai-dist-bar span{display:block;height:100%}
+.ai-dist-bar .dist-low{background:#6E9B89}
+.ai-dist-bar .dist-mid{background:#D4A749}
+.ai-dist-bar .dist-high{background:#D96B3D}
+.ai-dist-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.82rem;color:var(--fg2)}
+.ai-dist-legend .ldot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.ai-dist-legend .ldot-low{background:#6E9B89}
+.ai-dist-legend .ldot-mid{background:#D4A749}
+.ai-dist-legend .ldot-high{background:#D96B3D}
+.ai-dist-legend strong{color:var(--fg);font-variant-numeric:tabular-nums}
+.pattern-observations{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:8px}
+.pattern-observations li{padding:10px 14px;background:var(--bg3);border-radius:4px;font-size:.9rem;color:var(--fg);line-height:1.65}
+.pattern-observations li strong{color:var(--accent-deep)}
+@media (max-width:600px){.ai-dist-legend{font-size:.74rem;gap:8px}}</style>
 
   <a class="skip-link" href="#content">{skipLabel}</a>
 
@@ -540,6 +629,10 @@ section.faq{margin:48px 0}
         <div><dt>就業者数 合計</dt><dd>{fmtInt(workforceTotal)}</dd></div>
       </dl>
     </section>
+
+    <Fragment set:html={aiEraEssayHtml} />
+
+    <Fragment set:html={patternsHtml} />
 
     <section aria-label={hHigh}>
       <h2>{hHigh}</h2>
