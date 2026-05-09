@@ -60,6 +60,13 @@
       ]
     },
     {
+      "source": "/image-sitemap.xml",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" },
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+      ]
+    },
+    {
       "source": "/robots.txt",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=600, s-maxage=3600" }
