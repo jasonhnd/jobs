@@ -18,10 +18,9 @@
       "@/data/*": ["src/data/*"],
       "@/components/*": ["src/components/*"],
       "@/layouts/*": ["src/layouts/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/types/*": ["src/types/*"]
+      "@/styles/*": ["src/styles/*"]
     }
   },
   "include": ["api/**/*", "src/**/*", ".astro/types.d.ts"],
-  "exclude": ["dist", "dist-astro", "dist-ts", "node_modules"]
+  "exclude": ["dist-astro", "node_modules"]
 }

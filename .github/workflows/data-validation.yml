@@ -2,21 +2,18 @@ name: Data validation
 
 # Runs on every push to main and every PR. Blocks merge on failure.
 #
-# Source-data validation pipeline (TS-ETL replaces the legacy Python pipeline):
-#   L1 schema    + L2 consistency:  bundled into `npm run build:data`
-#                                   (src/data/build.ts validates before writing)
-#   L3 projection sanity:           `npm run test:consistency`
-#                                   (src/data/test-consistency.ts)
-#   L4 end-to-end smoke:            handled by Vercel preview deploys (not in CI)
+# Source-data validation pipeline:
+#   L1 schema + L2 consistency:  bundled into `npm run build:data`
+#                                (src/data/build.ts validates before writing)
+#   L3 projection sanity:        `npm run test:consistency`
+#                                (src/data/test-consistency.ts)
+#   L4 end-to-end smoke:         handled by Vercel preview deploys (not in CI)
 #
-# Track D · PR 37 (this workflow): replaces the prior Python pipeline that ran
-#   `uv sync --frozen` + `python scripts/build_data.py` + `python scripts/test_data_consistency.py`
-# with the migrated TS pipeline. The "dist/ drift" guard from the old workflow
-# is intentionally NOT carried over — `nowIso()` in the TS projections returns
-# `new Date().toISOString()` per run, so the committed dist/ vs a fresh CI build
-# always differs by ~1 line per projection. To reintroduce drift detection we
-# need to make those timestamps reproducible (cache + env override). Tracked
-# as a follow-up; in the meantime `test:consistency` provides semantic coverage.
+# Future: the `public/data.*` outputs are gitignored, so there's no drift guard
+# in CI. If those are ever brought back under version control, set
+# `BUILD_DATA_TIMESTAMP=$(git log -1 --format=%cI)` before `npm run build:data`
+# so generated_at fields are deterministic, then add a `git diff --quiet -- public/data.*`
+# step.
 
 on:
   push:

@@ -1,15 +1,13 @@
 /**
  * test-consistency.ts — L3 projection sanity per docs/DATA_ARCHITECTURE.md §7.6.
  *
- * Validates the BUILT projections in dist-ts/ (post `npm run build:data:ts`).
+ * Validates the BUILT projections in public/ (post `npm run build:data`).
  * Source-data L1 + L2 validation is done inside build.ts.
- *
- * Migrated from scripts/test_data_consistency.py (Track B-4, MIGRATION_PLAN.md PR 22).
  *
  * Usage:
  *   npm run test:consistency
  *   tsx src/data/test-consistency.ts
- *   tsx src/data/test-consistency.ts --dist-root path/to/dist
+ *   tsx src/data/test-consistency.ts --dist-root path/to/dir
  *
  * Exit code: 0 = all checks pass, 1 = at least one error.
  */
@@ -56,7 +54,7 @@ function getDistRoot(): string {
   if (argIdx >= 0 && process.argv[argIdx + 1]) {
     return process.argv[argIdx + 1]!;
   }
-  return join(REPO, 'dist-ts');
+  return join(REPO, 'public');
 }
 
 function relPath(p: string): string {
