@@ -76,13 +76,13 @@ These anchors are **ported from Karpathy's published rubric**, with Japan-specif
 
 ### How a score is produced
 
-Scoring runs as a Claude Code session driven by `scripts/make_prompt.py` (which builds the prompt bundle from current source data). For each occupation:
+Scoring runs as a Claude Code session against the calibration anchors below. For each occupation:
 
 1. **Input bundle** — occupation name (JA + EN), industry, jobtag's 仕事内容 description, structured fields (salary, headcount, education distribution, growth outlook).
 2. **Prompt** — the calibration anchors above, plus the input bundle, plus a structured output instruction (JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`).
 3. **Model** — [OpenRouter](https://openrouter.ai) with Gemini Flash by default. Configurable; a swap to Claude Sonnet or GPT-4o is one config line.
 4. **Output** — the model's score + rationale, cached per-occupation. Re-running skips occupations that already have a stored result.
-5. **Aggregation** — `scripts/build_data.py` joins IPD source data + AI scores + translations + stats into 9 projection families under `dist/` (treemap, detail, search, labels). The front end reads `dist/data.treemap.json`.
+5. **Aggregation** — `npm run build:data` (`src/data/build.ts`) joins IPD source data + AI scores + stats into 12 projection families under `dist/` (treemap, detail, search, labels, sectors, profile5, transfer_paths, holland, featured, score_history, tasks, skills). The front end reads `dist/data.treemap.json`.
 
 Each rationale is one to three sentences explaining *why* the score landed where it did — what parts of the work the LLM thinks it can already do, what parts it can't.
 
@@ -114,7 +114,7 @@ All three are public Japanese government statistics. The site does not republish
 
 ## Pipeline
 
-A Python build pipeline (requires [uv](https://docs.astral.sh/uv/)) ingests government source data from MHLW jobtag, joins it with LLM-generated AI replacement risk scores, validates everything through Pydantic, and produces the static assets served by Vercel. Scripts live in `scripts/` and are incrementally cached — re-runs skip work that already has output. See [`scripts/README.md`](scripts/README.md) for per-script details.
+A TypeScript ETL (`src/data/build.ts`) ingests government source data from MHLW jobtag, joins it with LLM-generated AI replacement risk scores, validates everything through Zod schemas (`src/data/schema/*.ts`), and writes 12 projection families to `dist/`. Astro then statically renders every page in `src/pages/` and Vercel deploys the resulting `dist-astro/`. The whole pipeline runs as `npm run build` (= `npm run build:data && astro build`).
 
 ---
 
@@ -146,16 +146,19 @@ A Python build pipeline (requires [uv](https://docs.astral.sh/uv/)) ingests gove
 
 ```text
 jobs/
-├── index.html              # treemap front end (served by Vercel)
-├── privacy.html            # privacy policy
-├── ja/<id>.html            # per-occupation detail pages
-├── ja/sectors/<slug>.html  # sector hub pages
+├── src/
+│   ├── pages/              # Astro routes (index, about, map, ja/[id], etc.)
+│   ├── components/         # shared Astro components (Footer, etc.)
+│   ├── layouts/            # BaseLayout
+│   ├── data/               # TypeScript ETL (build.ts + projections + schemas)
+│   └── lib/                # site-wide utilities (canonical-css, etc.)
 ├── api/                    # Vercel Edge Functions (OG image, subscribe, feedback)
 ├── analytics/              # GA4 instrumentation spec + sync script
-├── data/                   # source data (per-occupation JSON, scores, labels)
-├── dist/                   # built projections (treemap, detail, search, labels)
-├── scripts/                # Python build pipeline
-├── vercel.json             # static-site config
+├── data/                   # source data (per-occupation JSON, scores, labels, sectors)
+├── dist/                   # built projections + tracked SEO statics (Astro publicDir)
+├── dist-astro/             # final build output deployed by Vercel (gitignored)
+├── astro.config.mjs        # Astro configuration
+├── vercel.json             # Vercel deploy config + cache headers
 ├── CHANGELOG.md            # release history
 └── README.md / README.ja.md
 ```
@@ -230,4 +233,4 @@ The README explains *what this is*. These files explain *how it works in detail*
 - **[`analytics/spec.yaml`](analytics/spec.yaml)** — GA4 instrumentation: every event, parameter, dimension, and key event the site sends.
 - **[`/privacy`](https://mirai-shigoto.com/privacy)** — privacy policy (APPI + GDPR-friendly).
 - **[`/llms.txt`](https://mirai-shigoto.com/llms.txt)** — what AI search engines see when they index the site.
-- **[`scripts/README.md`](scripts/README.md)** — pipeline run order and per-script flags.
+- **[`astro.config.mjs`](astro.config.mjs)** + **[`vercel.json`](vercel.json)** — build output dir + Vercel deploy + cache header config.

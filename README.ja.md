@@ -76,13 +76,13 @@ UI は 360 px のスマートフォンと 4K デスクトップの両方で同�
 
 ### スコアが生成される流れ
 
-スコアリングは `scripts/make_prompt.py` でビルドしたプロンプトバンドルを Claude Code セッションに渡して実行します。各職業について：
+スコアリングは下記のキャリブレーションアンカーに基づき Claude Code セッションで実行します。各職業について：
 
 1. **入力バンドル** — 職業名（日 + 英）、業種、job tag の「仕事内容」記述、構造化フィールド（年収、就業者数、学歴分布、将来性）。
 2. **プロンプト** — 上記のキャリブレーションアンカー + 入力バンドル + 構造化出力指示（JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`）。
 3. **モデル** — [OpenRouter](https://openrouter.ai) 経由で既定は Gemini Flash。設定可能で、Claude Sonnet や GPT-4o への切替は config 1 行。
 4. **出力** — モデルのスコア + 理由文、職業ごとにキャッシュ。再実行時は既出力の職業はスキップ。
-5. **集約** — `scripts/build_data.py` が IPD ソースデータ + AI スコア + 翻訳 + 統計を結合し、`dist/` 下に 9 つの projection family を出力（treemap / detail / search / labels）。フロントエンドは `dist/data.treemap.json` を読み込みます。
+5. **集約** — `npm run build:data`（`src/data/build.ts`）が IPD ソースデータ + AI スコア + 統計を結合し、`dist/` 下に 12 個の projection family を出力（treemap / detail / search / labels / sectors / profile5 / transfer_paths / holland / featured / score_history / tasks / skills）。フロントエンドは `dist/data.treemap.json` を読み込みます。
 
 各理由文は 1〜3 文で、*なぜそのスコアになったか* — 業務のどの部分が現時点の LLM でこなせそうか、どの部分が難しそうか — を簡潔に説明します。
 
@@ -114,7 +114,7 @@ UI は 360 px のスマートフォンと 4K デスクトップの両方で同�
 
 ## ビルドパイプライン
 
-Python ビルドパイプライン（[uv](https://docs.astral.sh/uv/) が必要）が MHLW jobtag の政府公開データを取り込み、LLM が生成した AI 代替リスクスコアと結合し、Pydantic で検証した上で、Vercel が配信する静的アセットを出力します。スクリプトは `scripts/` にあり、増分キャッシュ済み — 再実行時は出力済みの作業をスキップします。詳細は [`scripts/README.md`](scripts/README.md) を参照。
+TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、LLM が生成した AI 代替リスクスコアと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`dist/` 配下に 12 個の projection family を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `npm run build`（= `npm run build:data && astro build`）で実行できます。
 
 ---
 
@@ -146,16 +146,19 @@ Python ビルドパイプライン（[uv](https://docs.astral.sh/uv/) が必要�
 
 ```text
 jobs/
-├── index.html              # treemap フロントエンド（Vercel が配信）
-├── privacy.html            # プライバシーポリシー
-├── ja/<id>.html            # 職業詳細ページ
-├── ja/sectors/<slug>.html  # セクターハブページ
+├── src/
+│   ├── pages/              # Astro ルート（index、about、map、ja/[id] など）
+│   ├── components/         # 共通 Astro コンポーネント（Footer など）
+│   ├── layouts/            # BaseLayout
+│   ├── data/               # TypeScript ETL（build.ts + projections + schemas）
+│   └── lib/                # サイト全体のユーティリティ（canonical-css など）
 ├── api/                    # Vercel Edge Function（OG 画像、登録、フィードバック）
 ├── analytics/              # GA4 計測スペック + 同期スクリプト
-├── data/                   # ソースデータ（職業別 JSON、スコア、ラベル）
-├── dist/                   # ビルド済み投影（treemap、detail、search、labels）
-├── scripts/                # Python ビルドパイプライン
-├── vercel.json             # 静的サイト設定
+├── data/                   # ソースデータ（職業別 JSON、スコア、ラベル、セクター）
+├── dist/                   # ビルド済み projection + SEO 静的（Astro publicDir）
+├── dist-astro/             # Vercel がデプロイする最終ビルド出力（gitignored）
+├── astro.config.mjs        # Astro 設定
+├── vercel.json             # Vercel デプロイ設定 + キャッシュヘッダ
 ├── CHANGELOG.md            # リリース履歴
 └── README.md / README.ja.md
 ```
@@ -230,4 +233,4 @@ README は *このサイトが何であるか* を説明します。以下のフ
 - **[`analytics/spec.yaml`](analytics/spec.yaml)** — GA4 計測仕様：すべてのイベント、パラメータ、ディメンション、キーイベント。
 - **[`/privacy`](https://mirai-shigoto.com/privacy)** — プライバシーポリシー（APPI + GDPR 対応）。
 - **[`/llms.txt`](https://mirai-shigoto.com/llms.txt)** — AI 検索エンジンが本サイトを索引付けする際に見るドキュメント。
-- **[`scripts/README.md`](scripts/README.md)** — パイプラインの実行順序とスクリプトごとのフラグ。
+- **[`astro.config.mjs`](astro.config.mjs)** + **[`vercel.json`](vercel.json)** — ビルド出力ディレクトリ + Vercel デプロイ設定 + キャッシュヘッダ設定。
