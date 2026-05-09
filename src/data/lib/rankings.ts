@@ -90,28 +90,17 @@ export const DEMAND_JA: Record<string, string> = {
   cold: '低',
 };
 
-export type RankingSlug =
-  | 'ai-risk-high'
-  | 'ai-risk-low'
-  | 'salary-safe'
-  | 'workers'
-  | 'salary'
-  | 'entry-salary'
-  | 'young-workforce'
-  | 'short-hours'
-  | 'high-demand';
+// Slug + display metadata live in rankings-meta.ts (a pure-data module
+// with no fs imports) so api/og.tsx can also consume them without
+// pulling fs into the Edge Function bundle. Re-exported here for
+// back-compat with existing consumers of `RankingSlug` and
+// `ALL_RANKINGS` from this file.
+import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-meta.js';
 
-export const ALL_RANKINGS: ReadonlyArray<readonly [RankingSlug, string, string]> = [
-  ['ai-risk-high', 'AIに奪われる仕事 TOP30', 'AI影響度が高い職業ランキング'],
-  ['ai-risk-low', 'AI影響が少ない仕事 TOP30', 'AIリスクが低く将来性のある職業'],
-  ['salary-safe', '高年収×低AIリスク TOP30', '年収が高くAI代替リスクが低い職業'],
-  ['workers', '就業者数ランキング TOP30', '日本で最も就業者が多い職業'],
-  ['salary', '年収ランキング TOP30', '年収が最も高い職業'],
-  ['entry-salary', '初任給ランキング TOP30', '初任給が高い職業'],
-  ['young-workforce', '平均年齢が若い職業 TOP30', '若手が活躍する職業'],
-  ['short-hours', '労働時間が短い職業 TOP30', 'ワークライフバランスに優れた職業'],
-  ['high-demand', '人手不足の職業 TOP30', '求人需要が高い職業'],
-];
+export type RankingSlug = RankingSlugMeta;
+
+export const ALL_RANKINGS: ReadonlyArray<readonly [RankingSlug, string, string]> =
+  RANKING_META.map((m) => [m.slug, m.name_ja, m.description_ja] as const);
 
 export const FAQS: Record<RankingSlug, ReadonlyArray<readonly [string, string]>> = {
   'ai-risk-high': [
