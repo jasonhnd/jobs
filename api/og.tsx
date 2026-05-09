@@ -7,7 +7,7 @@
 //     - the occupation's AI-risk number on a risk-band-colored block
 //     - JA occupation name (v1.4.0: site is JA-only, EN dropped)
 //     - workforce + average annual salary
-//     - UNOFFICIAL banner + site mark
+//     - "独立分析" badge + site mark
 //
 // The card is generated at request time (not pre-built), so any change to this
 // file or to /data.detail/<id>.json takes effect on the next social-platform
@@ -128,7 +128,7 @@ async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
   const samples = (sector.sample_titles_ja ?? []).slice(0, 3).join("　・　");
 
   const subsetText =
-    `UNOFFICIAL ${siteMark} ${nameLoc} ${headlineLabel} ` +
+    `独立分析 ${siteMark} ${nameLoc} ${headlineLabel} ` +
     `${countLabel} ${riskLabel} ${workforceLabel} ${samples} ・ /`;
 
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
@@ -161,7 +161,7 @@ async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
           borderLeft: `14px solid ${accent}`,
         }}
       >
-        {/* Top bar — UNOFFICIAL badge + site mark */}
+        {/* Top bar — "独立分析" badge + site mark */}
         <div
           style={{
             display: "flex",
@@ -180,7 +180,7 @@ async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
               letterSpacing: "0.08em",
             }}
           >
-            UNOFFICIAL
+            独立分析
           </div>
           <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
             {siteMark}
@@ -281,7 +281,7 @@ async function renderMapCard(): Promise<Response> {
   const bottomLabel = "面積 = 就業者数 ・ 色 = AI 影響(低 → 高)";
 
   const subsetText =
-    `UNOFFICIAL ${siteMark} ${eyebrowLabel} ${titleJa} ${subtitleJa} ${bottomLabel} ・ /`;
+    `独立分析 ${siteMark} ${eyebrowLabel} ${titleJa} ${subtitleJa} ${bottomLabel} ・ /`;
 
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
     loadGoogleFont("Noto+Serif+JP", 600, subsetText),
@@ -328,7 +328,7 @@ async function renderMapCard(): Promise<Response> {
               letterSpacing: "0.08em",
             }}
           >
-            UNOFFICIAL
+            独立分析
           </div>
           <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>{siteMark}</div>
         </div>
@@ -481,7 +481,7 @@ async function renderHandler(req: Request): Promise<Response> {
   // Subset string covers every glyph we are about to render. This keeps the
   // Google Fonts fetch tiny (a few KB instead of ~3 MB for full Noto Sans JP).
   const subsetText =
-    `UNOFFICIAL ${siteMark} ${primaryName} ${riskLabel} ` +
+    `独立分析 ${siteMark} ${primaryName} ${riskLabel} ` +
     `${workersLabel} ${salaryLabel} ${riskNumberStr} / 10 ·`;
 
   // v1.2.0 Direction C convergence: serif for the occupation name, sans for everything else.
@@ -497,7 +497,7 @@ async function renderHandler(req: Request): Promise<Response> {
     ink:       "#241E18",  // primary ink
     muted:     "#7A6F5E",  // secondary muted
     hairline:  "rgba(36, 30, 24, 0.12)",
-    accent:    "#D96B3D",  // terracotta — UNOFFICIAL + accent
+    accent:    "#D96B3D",  // terracotta — "独立分析" badge + accent
     bg2:       "#FFFFFF",  // elevated card surface
   };
 
@@ -515,7 +515,7 @@ async function renderHandler(req: Request): Promise<Response> {
           padding: "48px 64px",
         }}
       >
-        {/* Top bar — UNOFFICIAL badge + site mark */}
+        {/* Top bar — "独立分析" badge + site mark */}
         <div
           style={{
             display: "flex",
@@ -534,7 +534,7 @@ async function renderHandler(req: Request): Promise<Response> {
               letterSpacing: "0.08em",
             }}
           >
-            UNOFFICIAL
+            独立分析
           </div>
           <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
             {siteMark}
