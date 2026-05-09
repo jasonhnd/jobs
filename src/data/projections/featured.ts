@@ -1,7 +1,7 @@
 /**
  * data.featured.json projection — per docs/DATA_ARCHITECTURE.md §6.8.
  *
- * Status: Future (skipped by default — `--enable-future` in Python)
+ * Status: Implemented (consumer page lives in src/pages/ — see Design.md)
  * Consumer: mobile homepage hero ("today's pick" / "high AI risk occupations")
  *
  * Strategy: 'top_ai_risk_with_workforce' picks 12 records:

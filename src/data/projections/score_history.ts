@@ -1,7 +1,7 @@
 /**
  * data.score-history/<padded>.json projection — per docs/DATA_ARCHITECTURE.md §6.9.
  *
- * Status: Future (skipped by default)
+ * Status: Implemented (data emitted; consumer page TBD — see Design.md)
  * Consumer: future "score evolution" page
  * Shape: { id, history: [{date, model, score, rationale_ja}] }
  */

@@ -419,6 +419,22 @@ async function renderMapCard(): Promise<Response> {
 }
 
 export default async function handler(req: Request): Promise<Response> {
+  try {
+    return await renderHandler(req);
+  } catch (err) {
+    // Catch-all so a malformed Google Fonts response or a transient network
+    // error returns a 503 with Retry-After instead of leaking a stack trace
+    // through Vercel's default 500 page (which the social-card scrapers
+    // would then cache).
+    const msg = err instanceof Error ? err.message : String(err);
+    return new Response(`OG render failed: ${msg}`, {
+      status: 503,
+      headers: { "Retry-After": "60", "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+}
+
+async function renderHandler(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const sectorParam = url.searchParams.get("sector");
   const idParam = url.searchParams.get("id");

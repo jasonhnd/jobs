@@ -1,7 +1,7 @@
 /**
  * data.holland.json projection — per docs/DATA_ARCHITECTURE.md §6.7.
  *
- * Status: Future (skipped by default)
+ * Status: Implemented (data emitted; consumer page TBD — see Design.md)
  * Consumer: future Holland Code interest matching page
  * Shape: columnar 6-dim vector (R/I/A/S/E/C)
  *
