@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { QA_ITEMS } from '../../../data/lib/qa-meta';
+import { escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/q';
+const title = 'よくある質問 (Q&A)｜36 個の質問に回答 | 未来の仕事';
+const seoDesc = 'AI 時代のキャリアに関する 36 の質問に回答。「AI でなくならない仕事は？」「30 代の転職はどう選ぶ？」等、具体的な状況別に解説。';
+const jsonLd = renderGenreIndexJsonLd(canonical, '質問で探す', seoDesc);
+
+// Group by sub-genre
+const aiAnxiety = QA_ITEMS.slice(0, 8);
+const sectorFuture = QA_ITEMS.slice(8, 14);
+const careerAdvice = QA_ITEMS.slice(14, 23);
+const lifeConditions = QA_ITEMS.slice(23, 29);
+const aptitude = QA_ITEMS.slice(29, 36);
+
+const groups = [
+  ['AI 不安に答える', aiAnxiety],
+  ['業種別の未来', sectorFuture],
+  ['キャリア相談', careerAdvice],
+  ['ライフ条件', lifeConditions],
+  ['適性・興味', aptitude],
+] as const;
+
+const groupsHtml = groups.map(([title, items]) =>
+  `<section><h2>${escapeHtml(title)} (${items.length})</h2>` +
+  `<ul class="genre-cards">` +
+  items.map((q) =>
+    `<li><a href="/ja/q/${q.slug}">` +
+    `<span class="gci-name">${escapeHtml(q.question)}</span>` +
+    `<span class="gci-desc">${escapeHtml(q.short_answer.slice(0, 90))}…</span>` +
+    `</a></li>`
+  ).join('') +
+  `</ul></section>`
+).join('');
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=qa" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>質問で探す</span></nav>
+    <header id="content">
+      <h1><span class="accent">よくある質問 (Q&A)</span></h1>
+      <p class="sub"><strong>{QA_ITEMS.length} 個</strong> の質問に独自分析で回答</p>
+      <p class="intro">AI 時代のキャリア選択に関するよくある質問を 5 ジャンル ({groups.length} 分類) に整理し、各質問に対して直答 + 根拠 + 例で回答しています。</p>
+    </header>
+    <Fragment set:html={groupsHtml} />
+    <Footer />
+  </div>
+</BaseLayout>

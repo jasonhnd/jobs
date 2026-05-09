@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/yearly/2026-report';
+const title = '2026 年版・AI と仕事の現在地 | 未来の仕事';
+const seoDesc = '2026 年時点の日本 552 職業 × AI 影響度全量分析。業種別パターン、注目発見 10 個、長期キャリア戦略へのインプリケーション。';
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=yearly-2026" ogTitle={title} ogDescription={seoDesc} ogType="article">
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={`
+.report-section{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
+.report-section h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.report-section p{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0 0 14px}
+.report-section ol,.report-section ul{padding-left:24px;margin:0 0 14px}
+.report-section li{margin-bottom:10px;line-height:1.7}
+`} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/yearly" rel="up">年次レポート</a><span aria-hidden="true">›</span><span>2026 年版</span></nav>
+    <header id="content">
+      <h1><span class="accent">2026 年版・AI と仕事の現在地</span></h1>
+      <p class="sub">日本 <strong>552 職業</strong> × AI 影響度の全量分析</p>
+      <p class="intro">2026 年時点の日本労働市場における AI と仕事の関係を、本サイトのデータから整理。長期キャリア戦略のインプット資料として作成しました。</p>
+    </header>
+
+    <section class="report-section">
+      <h2>1. 全量サマリー</h2>
+      <p>本サイトでは 552 の日本の職業に対して、AI 影響度を 0-10 で独自評価しています (Claude Opus 4.7 ベース、非公式)。2026 年時点の主要な数値は以下の通りです:</p>
+      <ul>
+        <li><strong>総就業者数</strong>: 約 5,449 万人 (552 職業の合計)</li>
+        <li><strong>AI 影響度の分布</strong>: 高 (≥7) = 約 33% / 中 (4-6) = 約 35% / 低 (≤3) = 約 32%</li>
+        <li><strong>最大 AI 影響度</strong>: データ入力 (10/10)、通信販売受付事務 (10/10) — 計 2 職業</li>
+        <li><strong>最小 AI 影響度</strong>: 潜水士 (1/10) — 1 職業のみ</li>
+        <li><strong>セクター別最高</strong>: IT・通信 平均 8.14/10</li>
+        <li><strong>セクター別最低</strong>: 建設・土木 平均 2.00/10</li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>2. 注目すべき 10 の発見</h2>
+      <ol>
+        <li><strong>34% の労働者が高 AI 影響域に集中</strong>: 約 1,840 万人が AI 影響度 7 以上の職業に従事しており、業務再設計の影響を直接受ける見込み。</li>
+        <li><strong>一般事務 (264 万人) が日本最大の職業</strong>でありながら AI 影響度 9/10。最大の構造変化が予想される領域。</li>
+        <li><strong>事务・公務セクターが二重に脆弱</strong>: 就業者数最大 (約 1,150 万人) かつ平均 AI 影響度 7.53/10 で 2 番目に高い。</li>
+        <li><strong>ケア経済が AI 時代の安全地帯</strong>: 看護師 (4)・保育士 (3)・介護福祉士 (2) など低 AI 影響かつ高需要。</li>
+        <li><strong>建設・土木が驚くほど安全</strong>: 平均 2.00/10。物理的作業 + 即興判断の組み合わせが AI 抗性の源泉。</li>
+        <li><strong>IT 系が最も高 AI 影響</strong>: 平均 8.14/10。業界自身が AI を作る側でありながら高暴露という二面性。</li>
+        <li><strong>AI 影響度と年収は decorrelated</strong>: 高年収知的職 (プログラマー・会計士・翻訳者) が 7+/10、低年収現場職 (介護員・保育補助) が 2-3/10。</li>
+        <li><strong>AI 影響度と学歴も decorrelated</strong>: 高学歴職 (会計士・弁理士) が 7+/10、現場職 (建設・農林) が低い。</li>
+        <li><strong>34 職業に医師レベルの参入障壁</strong>: 業務独占国家資格 + AI 影響度 4 以下の組合せ。長期参入投資のリターンが最大化される領域。</li>
+        <li><strong>2 職業のみが完全 AI 代替域 (10/10)</strong>: 「データ入力」と「通信販売受付事務」。これら以外は何らかの人間的要素が残ると評価。</li>
+      </ol>
+    </section>
+
+    <section class="report-section">
+      <h2>3. セクター別パターン</h2>
+      <p>16 セクターを AI 影響度の高低で 3 グループに分類すると:</p>
+      <ul>
+        <li><strong>低 AI 影響セクター (平均 ≤ 4)</strong>: 建設・土木 (2.00) / 軽作業・清掃 (2.62) / 農林・水産 (2.86) / 福祉・介護 (3.10 推定) / 保安・公安。労働力供給制約 + AI 抗性の組合せで長期需要が継続。</li>
+        <li><strong>中 AI 影響セクター (4-6)</strong>: 医療・保健 / 教育・指導 / 製造・職人 / メンテナンス。人間的要素 + AI 補強の混合。</li>
+        <li><strong>高 AI 影響セクター (≥6)</strong>: 事務・公務 / IT・通信 / クリエイティブ・メディア / 士業・経営。業務再設計の最前線。</li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>4. キャリア戦略へのインプリケーション</h2>
+      <p>本データから、2026 年時点で言える戦略的示唆は以下の通りです:</p>
+      <ol>
+        <li><strong>長期 (10 年+) で安定する分野は 2 つ</strong>: (a) AI 抗性の高い身体性・対人系、(b) AI を使いこなす上流知的業務。</li>
+        <li><strong>中間層 (中程度の専門性 + 中程度の対人) が最も再設計圧</strong>を受ける。事務系・経理系・営業の一部・販売の量販店系等。</li>
+        <li><strong>規制保護がある専門職は AI 影響を受けつつも雇用は守られる</strong>。ただし業務内訳の変化に適応する努力が必要。</li>
+        <li><strong>新卒は専門性 + AI を使いこなす力</strong>の両立を目指すべき。専門だけ、AI 力だけでは長期的に不十分。</li>
+        <li><strong>40 代以降の転職</strong>は身体性・対人・専門性の蓄積分野へ。AI 高暴露の事務系からの転換は早めの計画推奨。</li>
+      </ol>
+    </section>
+
+    <section class="report-section">
+      <h2>5. 評価の限界</h2>
+      <p>本レポートは独立分析 (非公式) であり、以下の限界があります:</p>
+      <ul>
+        <li>2026 年時点の AI 能力に基づく評価。2030 年・2040 年の予測ではない。</li>
+        <li>単一モデル (Claude Opus 4.7) の評価。アンサンブルなし。</li>
+        <li>規制・労働法の影響を直接モデル化していない。</li>
+        <li>個別事業所の実態は反映できない。職業全体の傾向値である点に注意。</li>
+      </ul>
+      <p>詳細は <a href="/ja/about/methodology">方法論ページ</a> を参照してください。</p>
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

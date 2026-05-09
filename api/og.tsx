@@ -173,6 +173,28 @@ const PAGE_CARDS: Record<string, GenericCardConfig> = {
     title:   "職業を比較する",
     subtitle: "迷いやすい職業 12 ペアを side-by-side で",
   },
+  // Phase 3 page cards
+  abilities:        { eyebrow: "ABILITIES · 8 軸",   title: "能力から職業を探す",       subtitle: "IPD 52 能力軸から 8 を hub 化" },
+  knowledge:        { eyebrow: "KNOWLEDGE · 5 軸",   title: "知識から職業を探す",       subtitle: "IPD 33 知識領域から 5 を hub 化" },
+  values:           { eyebrow: "VALUES · 6 軸",      title: "価値観から職業を探す",     subtitle: "IPD 12 価値観軸から 6 を hub 化" },
+  education:        { eyebrow: "EDUCATION · 6 段階", title: "学歴から職業を探す",       subtitle: "学歴別 6 段階で 552 職業を分類" },
+  training:         { eyebrow: "TRAINING · 4 段階",  title: "修行期間から職業を探す",   subtitle: "入職後 4 段階の修行期間別" },
+  "work-styles":    { eyebrow: "WORK-STYLE · 6 軸",  title: "働き方から職業を探す",     subtitle: "業務形態 6 軸で分類" },
+  "employment-types": { eyebrow: "EMPLOY · 4 軸",   title: "雇用形態から職業を探す",   subtitle: "正社員/フリー/パート/公務員" },
+  "life-balance":   { eyebrow: "LIFE · 5 軸",        title: "ライフ整合から職業を探す", subtitle: "育児・介護・健康・趣味との両立" },
+  "entry-paths":    { eyebrow: "ENTRY · 4 軸",       title: "入職経路から職業を探す",   subtitle: "新卒/中途/バイト/独立" },
+  careers:          { eyebrow: "CAREER · 10 persona", title: "キャリア段階から探す",   subtitle: "10 persona 別おすすめ職業" },
+  licenses:         { eyebrow: "LICENSE · 15 カテゴリー", title: "資格から職業を探す", subtitle: "15 資格カテゴリー別の関連職業" },
+  qa:               { eyebrow: "Q&A · 36 個",        title: "よくある質問",            subtitle: "AI 時代のキャリア 36 質問に回答" },
+  "about-trust":    { eyebrow: "ABOUT",              title: "方法論・信頼性",          subtitle: "本サイトの分析方法を全公開" },
+  methodology:      { eyebrow: "METHOD",             title: "AI 影響度評価の方法論",   subtitle: "Claude Opus 4.7 ロジック詳細" },
+  glossary:         { eyebrow: "GLOSSARY",           title: "用語集",                  subtitle: "本サイト独自用語の定義" },
+  "data-sources":   { eyebrow: "SOURCES",            title: "データソース一覧",         subtitle: "厚労省・JILPT・統計調査の出典" },
+  yearly:           { eyebrow: "YEARLY",             title: "年次レポート",            subtitle: "AI と日本の仕事 年次定点観測" },
+  "yearly-2026":    { eyebrow: "REPORT 2026",        title: "2026 年版 AI と仕事",     subtitle: "552 職業の全量分析" },
+  "yearly-5year":   { eyebrow: "5 YEARS",            title: "5 年で変わった職業",      subtitle: "2021→2026 の変化追跡" },
+  "yearly-next-decade": { eyebrow: "NEXT 10 YEARS",  title: "今後 10 年の職業展望",    subtitle: "2030 年代の予測" },
+  explore:          { eyebrow: "EXPLORE · 7 入口",   title: "探す方法",                subtitle: "7 つの入口から職業を整理" },
 };
 
 // 9 ranking detail card variants — built from the shared RANKING_META.

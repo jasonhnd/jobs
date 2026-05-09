@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/about/glossary';
+const title = '用語集 | 未来の仕事';
+const seoDesc = '本サイトで使用する用語の定義: AI 影響度、risk band、demand band、workforce band、RIASEC、IPD 等。';
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=glossary" ogTitle={title} ogDescription={seoDesc}>
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={`
+.glossary-list{display:flex;flex-direction:column;gap:14px}
+.glossary-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px 22px}
+.glossary-item h3{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-deep);margin:0 0 8px}
+.glossary-item p{font-size:.95rem;line-height:1.7;color:var(--fg);margin:0}
+.glossary-item .term-en{font-size:.78rem;color:var(--fg2);margin-left:8px;font-family:ui-monospace,monospace}
+`} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/about" rel="up">方法論・信頼性</a><span aria-hidden="true">›</span><span>用語集</span></nav>
+    <header id="content">
+      <h1><span class="accent">用語集</span></h1>
+      <p class="sub">本サイト独自用語の <strong>定義集</strong></p>
+      <p class="intro">本サイトで使用する各用語の正確な定義を一覧。読み進める中で「これは何だっけ？」と思ったら参照してください。</p>
+    </header>
+
+    <section>
+      <h2>主要用語</h2>
+      <div class="glossary-list">
+        <div class="glossary-item">
+          <h3>AI 影響度<span class="term-en">AI Risk Score</span></h3>
+          <p>各職業の日常業務のうち AI で実行可能な部分の比率を 0-10 整数で評価したスコア。本サイト独自分析 (Claude Opus 4.7 ベース) で算出。職業の消滅確率ではなく、タスクレベルの代替可能性を示す。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>Risk Band<span class="term-en">low / mid / high</span></h3>
+          <p>AI 影響度の 3 区分: low (≤3.9, sage 緑) / mid (≤6.9, sand 黄) / high (>6.9, terracotta 赤)。視覚的なリスク感の表現。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>Demand Band<span class="term-en">cold / normal / hot</span></h3>
+          <p>有効求人倍率の 3 区分: cold (&lt;1.0) / normal (&lt;2.0) / hot (≥2.0)。労働市場の需給状況を表す。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>Workforce Band<span class="term-en">small / mid / large</span></h3>
+          <p>就業者数の 3 区分: small (&lt;2 万人) / mid (&lt;10 万人) / large (≥10 万人)。職業の労働市場規模。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>有効求人倍率<span class="term-en">Effective Recruit Ratio</span></h3>
+          <p>1 人の求職者あたり何件の求人があるかを表す比率。1.0 を超えると売り手市場 (人手不足傾向)、1.0 未満は買い手市場。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>セクター<span class="term-en">Sector</span></h3>
+          <p>本サイトの 16 業界分類。職業を消費者にとって理解しやすい単位でグループ化。医療・福祉・教育・建設・IT 等。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>RIASEC<span class="term-en">Holland Code</span></h3>
+          <p>John Holland 提唱の職業興味 6 類型: R (現実的) / I (研究的) / A (芸術的) / S (社会的) / E (企業的) / C (慣習的)。本サイトの興味タイプ hub に対応。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>IPD<span class="term-en">職業情報データベース v7.00</span></h3>
+          <p>独立行政法人 労働政策研究・研修機構 (JILPT) が公開する職業情報データベース。本サイトのソースデータの一つ。556 職業 × 数百項目の構造化データ。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>Transfer Path<span class="term-en">転職候補</span></h3>
+          <p>各職業から「同じ業界 + より AI 影響度が低い」候補職業を cosine 類似度ベースで抽出した職業転換マップ。各 spoke ページに表示される 3 候補。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>Top-N (skills/knowledge/abilities)<span class="term-en">上位スキル/知識/能力</span></h3>
+          <p>各職業の IPD スコアが高い順に上位 N 項目を抽出したリスト。スキル 10 / 知識 5 / 能力 5 がデフォルト。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>業務独占資格<span class="term-en">Exclusive License</span></h3>
+          <p>法律で「資格保有者しかできない」と定められた業務範囲がある資格。医師・看護師・薬剤師・弁護士・公認会計士等。最強の参入障壁。</p>
+        </div>
+        <div class="glossary-item">
+          <h3>名称独占資格<span class="term-en">Title-Only License</span></h3>
+          <p>資格保有者しか「名乗れない」が業務独占はない資格。介護福祉士・社会福祉士・管理栄養士等。市場価値はあるが業務独占ほどの保護はない。</p>
+        </div>
+      </div>
+    </section>
+    <Footer />
+  </div>
+</BaseLayout>

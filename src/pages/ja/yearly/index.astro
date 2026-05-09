@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/yearly';
+const title = '年次レポート | 未来の仕事';
+const seoDesc = 'AI と日本の仕事の年次レポート。2026 年版・5 年で大きく変わった職業・今後 10 年の予測。';
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=yearly" ogTitle={title} ogDescription={seoDesc}>
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>年次レポート</span></nav>
+    <header id="content">
+      <h1><span class="accent">年次レポート</span></h1>
+      <p class="sub"><strong>AI と日本の仕事</strong> 年次定点観測</p>
+      <p class="intro">毎年、本サイトの全データから AI と労働市場の変化を整理した年次レポート。長期トレンドと短期変化の両方を確認できます。</p>
+    </header>
+    <section>
+      <h2>レポート一覧</h2>
+      <ul class="genre-cards">
+        <li><a href="/ja/yearly/2026-report"><span class="gci-name">2026 年版・AI と仕事の現在地</span><span class="gci-desc">552 職業の AI 影響度全量分析、業種別パターン、注目発見 10 個。</span></a></li>
+        <li><a href="/ja/yearly/5year-changes"><span class="gci-name">5 年で大きく変わった職業</span><span class="gci-desc">2021 年→2026 年で雇用構造・AI 影響が顕著に変化した職業群の追跡。</span></a></li>
+        <li><a href="/ja/yearly/next-decade"><span class="gci-name">今後 10 年で変化する職業</span><span class="gci-desc">2030 年代の AI 普及・少子高齢化・産業構造変化を見据えた職業展望。</span></a></li>
+      </ul>
+    </section>
+    <Footer />
+  </div>
+</BaseLayout>

@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/yearly/next-decade';
+const title = '今後 10 年で変化する職業 | 未来の仕事';
+const seoDesc = '2030 年代の AI 普及・少子高齢化・産業構造変化を見据えた職業展望。長期キャリア戦略の参考に。';
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=yearly-next-decade" ogTitle={title} ogDescription={seoDesc} ogType="article">
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={`
+.report-section{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
+.report-section h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.report-section p{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0 0 14px}
+.report-section ul{padding-left:24px;margin:0 0 14px}
+.report-section li{margin-bottom:10px;line-height:1.7}
+`} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/yearly" rel="up">年次レポート</a><span aria-hidden="true">›</span><span>10 年予測</span></nav>
+    <header id="content">
+      <h1><span class="accent">今後 10 年で変化する職業</span></h1>
+      <p class="sub">2030 年代の <strong>長期予測</strong></p>
+      <p class="intro">AI 普及・少子高齢化・産業構造変化が日本の労働市場に与える長期的影響を予測。本レポートは独立分析であり、政策・投資の根拠としての利用は推奨しません。</p>
+    </header>
+
+    <section class="report-section">
+      <h2>1. 大きく拡大する分野</h2>
+      <p>少子高齢化と人手不足の構造から、2030 年代に需要拡大が見込まれる分野:</p>
+      <ul>
+        <li><strong>介護・福祉系</strong>: 団塊世代の後期高齢者化で需要が一層拡大。介護福祉士・ケアマネ・ヘルパーは需要強。</li>
+        <li><strong>医療系 (一部)</strong>: 看護師・薬剤師・リハビリ系。一方で医療事務系は AI 化で再設計。</li>
+        <li><strong>建設・インフラ更新</strong>: 老朽インフラの大規模更新需要。電気工事士・配管工・施工管理は売り手市場継続。</li>
+        <li><strong>AI フロンティア職</strong>: AI エンジニア、データサイエンティスト、ML プロンプト設計、AI ガバナンス専門家。</li>
+        <li><strong>気候変動対応職</strong>: 再生可能エネルギー、防災専門、カーボン会計など新分野。</li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>2. 大きく縮小する分野</h2>
+      <p>業務再設計と AI 化により、現在の業務量が大きく縮小すると予想される分野:</p>
+      <ul>
+        <li><strong>定型事務系</strong>: データ入力・経理事務・受付。職業自体ではなく業務量が縮小。</li>
+        <li><strong>定型販売系</strong>: コンビニレジ・量販店レジ・通信販売受付。EC + 自動化で人員効率化。</li>
+        <li><strong>翻訳・基本ライティング</strong>: 生成 AI で大半が AI 化される。専門領域 + 編集判断は残る。</li>
+        <li><strong>下流 IT コーディング</strong>: AI 補助前提で人手は半減見込み。上流業務にシフトする層と、業界外に出る層の二極化。</li>
+        <li><strong>長距離トラック運転 (一部)</strong>: 自動運転技術の成熟で 2030 年代後半に部分代替。</li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>3. 業務構造が再設計される分野</h2>
+      <p>職業自体は残るが、業務内訳が大きく変わる分野:</p>
+      <ul>
+        <li><strong>士業 (弁護士・会計士・税理士)</strong>: リサーチ・書類作成は AI 化、戦略・交渉・複雑判断にシフト。</li>
+        <li><strong>営業職</strong>: 見込み客発掘・データ分析は AI、関係構築・クロージングは人間。</li>
+        <li><strong>クリエイティブ職</strong>: 量産部分は AI、独自性・コンセプト設計は人間。</li>
+        <li><strong>研究者</strong>: 文献レビュー・データ解析は AI 補助、仮説生成・実験設計は人間。</li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>4. 新しく生まれる職業</h2>
+      <p>過去 10 年間にデータサイエンティスト・UI/UX デザイナー・SNS マーケター等が登場したように、今後 10 年でも新職業が生まれる見込み:</p>
+      <ul>
+        <li>AI ガバナンス専門家 (AI の倫理・安全性監督)</li>
+        <li>AI トレーナー (社内データで AI モデルをチューニング)</li>
+        <li>AI と人の協働を設計する組織開発専門家</li>
+        <li>気候変動対応の各種スペシャリスト</li>
+        <li>シニア活用デザイナー (60 代以上の働き方設計)</li>
+        <li>AI 出力検証専門家 (法務・医療・金融分野)</li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>5. 不確実性の高い領域</h2>
+      <p>10 年予測の限界として、以下の領域は不確実性が大きいことを明記しておきます:</p>
+      <ul>
+        <li>AI 進化速度 (現在の trajectory が続くかどうか)</li>
+        <li>規制と労働法の変化 (各国・各業界で異なる)</li>
+        <li>マクロ経済 (景気・人口・国際情勢)</li>
+        <li>新技術の登場 (量子計算、汎用ロボット等)</li>
+      </ul>
+      <p>本予測は 2026 年時点の知見に基づく独立分析です。意思決定の参考情報の一つとしてご活用ください。</p>
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { EXPLORE_ROUTES, type ExploreRoute } from '../../../data/lib/explore-routes';
+import { GENRE_HUB_CSS, escapeHtml } from '../../../data/lib/genre-hub';
+
+export async function getStaticPaths() {
+  const { EXPLORE_ROUTES: _r } = await import('../../../data/lib/explore-routes');
+  return _r.map((route) => ({ params: { route: route.slug }, props: { route } }));
+}
+
+interface Props { route: ExploreRoute; }
+const { route } = Astro.props as Props;
+
+const canonical = `https://mirai-shigoto.com/ja/explore/${route.slug}`;
+const title = `${route.title_ja} | 未来の仕事`;
+const seoDesc = route.description_ja;
+
+const genreCardsHtml = route.genres.map((g) =>
+  `<li><a href="/ja/${g.path}">` +
+  `<span class="gci-name">${escapeHtml(g.label)}</span>` +
+  `<span class="gci-desc">${escapeHtml(g.desc)}</span>` +
+  `<span class="gci-count">→ 詳しく見る</span>` +
+  `</a></li>`
+).join('');
+
+const SITE = 'https://mirai-shigoto.com';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: route.title_ja, description: seoDesc, inLanguage: 'ja' },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/ja/explore` },
+      { '@type': 'ListItem', position: 3, name: route.title_ja, item: canonical },
+    ] },
+  ],
+}, null, 2);
+
+const otherRoutesHtml = '<ul class="related-genre">' + EXPLORE_ROUTES
+  .filter((r) => r.slug !== route.slug)
+  .map((r) => `<li><a href="/ja/explore/${r.slug}"><span class="rg-name">${escapeHtml(r.short_ja)}</span><span class="rg-desc">${escapeHtml(r.description_ja.slice(0, 60))}…</span></a></li>`)
+  .join('') + '</ul>';
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage={`https://mirai-shigoto.com/api/og?route=${route.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/explore" rel="up">探す方法</a><span aria-hidden="true">›</span><span>{route.short_ja}</span></nav>
+    <header id="content">
+      <h1><span class="accent">{route.title_ja}</span></h1>
+      <p class="sub">{route.short_ja} の入口</p>
+      <p class="intro">{route.intro_ja}</p>
+    </header>
+    <section><h2>{route.short_ja} に含まれる入口</h2><ul class="genre-cards" set:html={genreCardsHtml} /></section>
+    <section><h2>他の探し方</h2><Fragment set:html={otherRoutesHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>

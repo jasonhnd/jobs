@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { LIFE_BALANCE_CONFIGS } from '../../../data/lib/genre-configs';
+import {
+  loadAllDetails, buildGenreResult, renderRankItem, renderHighlights,
+  renderSectorChart, renderFaqHtml, renderGenreJsonLd, escapeHtml, GENRE_HUB_CSS,
+} from '../../../data/lib/genre-hub';
+
+export async function getStaticPaths() {
+  const { loadAllDetails: _l, buildGenreResult: _b } = await import('../../../data/lib/genre-hub');
+  const { LIFE_BALANCE_CONFIGS: _c } = await import('../../../data/lib/genre-configs');
+  const details = _l();
+  return _c.map((cfg) => ({ params: { balance: cfg.slug }, props: { result: _b(details, cfg) } }));
+}
+
+const { result } = Astro.props;
+const cfg = result.config;
+const canonical = `https://mirai-shigoto.com/ja/life-balance/${cfg.slug}`;
+const title = `${cfg.title_ja}｜TOP ${result.items.length}・AI 影響度付き | 未来の仕事`;
+const seoDesc = `${cfg.short_ja}向きの職業 TOP ${result.items.length}。${cfg.description_ja.slice(0, 80)}…`;
+
+const statsHtml = result.stats.length > 0
+  ? `<dl class="stats">${result.stats.map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('')}</dl>` : '';
+const highlightsHtml = renderHighlights(result.highlights);
+const sectorChartHtml = renderSectorChart(result.sectorBreakdown, `セクター内訳（TOP${result.items.length}）`);
+const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja)).join('');
+const faqHtml = renderFaqHtml(result.faqItems);
+const jsonLd = renderGenreJsonLd(canonical, cfg, result.items, seoDesc, result.faqItems, 'life-balance', 'ライフ整合から探す');
+
+const relatedHtml = '<ul class="related-genre">' + LIFE_BALANCE_CONFIGS
+  .filter((m) => m.slug !== cfg.slug)
+  .map((m) => `<li><a href="/ja/life-balance/${m.slug}"><span class="rg-name">${escapeHtml(m.short_ja)}</span><span class="rg-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span></a></li>`)
+  .join('') + '</ul>';
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage={`https://mirai-shigoto.com/api/og?balance=${cfg.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/life-balance" rel="up">ライフ整合から探す</a><span aria-hidden="true">›</span><span>{cfg.short_ja}</span></nav>
+    <header id="content">
+      <h1><span class="accent">{cfg.title_ja}</span></h1>
+      <p class="sub"><strong>{cfg.short_ja}</strong>に向く職業 TOP {result.items.length}（全 552 職業中）</p>
+      <p class="intro">{cfg.description_ja}</p>
+    </header>
+    <Fragment set:html={statsHtml} />
+    <Fragment set:html={highlightsHtml} />
+    <Fragment set:html={sectorChartHtml} />
+    <section><h2>{cfg.short_ja} TOP {result.items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
+    <Fragment set:html={faqHtml} />
+    <section aria-label="他のライフ整合"><h2>他のライフ整合</h2><Fragment set:html={relatedHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>

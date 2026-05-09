@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const canonical = 'https://mirai-shigoto.com/ja/about/methodology';
+const title = 'AI 影響度評価の方法論 | 未来の仕事';
+const seoDesc = '本サイトの AI 影響度 (0-10) はどう計算されたか。Claude Opus 4.7 によるタスクレベル評価のルーブリック、anchor occupations、評価の限界を公開。';
+
+const SITE = 'https://mirai-shigoto.com';
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'TechArticle', '@id': `${canonical}#article`, url: canonical, name: title, headline: title, description: seoDesc, inLanguage: 'ja', author: { '@id': `${SITE}/#organization` }, publisher: { '@id': `${SITE}/#organization` } },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: '方法論・信頼性', item: `${SITE}/ja/about` },
+      { '@type': 'ListItem', position: 3, name: '方法論', item: canonical },
+    ] },
+  ],
+}, null, 2);
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=methodology" ogTitle={title} ogDescription={seoDesc} ogType="article">
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={`
+.method-section{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
+.method-section h2{font-size:1.15rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.method-section p{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0 0 14px}
+.method-section ul{list-style:disc;padding-left:24px;margin:0 0 14px}
+.method-section li{margin-bottom:8px;line-height:1.7}
+.anchor-table{width:100%;border-collapse:collapse;margin:14px 0}
+.anchor-table th,.anchor-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:.92rem}
+.anchor-table thead th{background:var(--bg3);font-family:var(--font-serif);font-weight:600}
+`} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/about" rel="up">方法論・信頼性</a><span aria-hidden="true">›</span><span>方法論</span></nav>
+    <header id="content">
+      <h1><span class="accent">AI 影響度評価の方法論</span></h1>
+      <p class="sub">Claude Opus 4.7 による <strong>タスクレベル AI 影響度</strong> の計算ロジック</p>
+      <p class="intro">本サイトの 0-10 スコアがどう計算されているか、評価ルーブリック、anchor occupations、評価の限界を全公開します。独立分析の透明性を担保するためのドキュメントです。</p>
+    </header>
+
+    <section class="method-section">
+      <h2>1. 何を測定しているか</h2>
+      <p>「<strong>AI 影響度 (AI 影響)</strong>」は、各職業の日常業務のうち AI で実行可能な部分の比率を 0-10 で評価しています。</p>
+      <ul>
+        <li><strong>0-3 (低暴露)</strong>: 業務の核心が身体性・対人スキル・現場判断にあり、AI で代替困難。</li>
+        <li><strong>4-6 (中暴露)</strong>: AI で生産性が補強される領域。業務の一部が AI で完結する。</li>
+        <li><strong>7-10 (高暴露)</strong>: 業務の大部分が AI で完結可能。再設計が急務。</li>
+      </ul>
+      <p><strong>注意:</strong> このスコアは「職業がなくなる確率」ではなく「タスク代替可能性」です。職業自体の消滅は法規制・雇用慣行・需要構造で別途決まります。</p>
+    </section>
+
+    <section class="method-section">
+      <h2>2. 評価プロセス</h2>
+      <ul>
+        <li><strong>入力データ</strong>: JILPT IPD v7.00 (552 職業 × タスク・スキル・知識・能力)</li>
+        <li><strong>評価モデル</strong>: Claude Opus 4.7 (Anthropic)</li>
+        <li><strong>方式</strong>: 各職業 1 件あたり single-pass 評価。タスクリストを基に 0-10 整数を割り当て。</li>
+        <li><strong>ルーブリック</strong>: Andrej Karpathy の BLS exposure フレームワークを日本労働市場に適応。</li>
+        <li><strong>校正</strong>: 各整数スコアの anchor occupations を固定。スコアのドリフトを防ぐ。</li>
+      </ul>
+    </section>
+
+    <section class="method-section">
+      <h2>3. Anchor Occupations (校正基準)</h2>
+      <p>各整数スコアの基準点として、以下の occupations を anchor として使用しています:</p>
+      <table class="anchor-table">
+        <thead><tr><th>Score</th><th>Anchor</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td>1/10</td><td>潜水士</td><td>水中での身体作業、AI 代替不可</td></tr>
+          <tr><td>2/10</td><td>施設介護員</td><td>身体ケア + 信頼関係、AI 代替困難</td></tr>
+          <tr><td>3/10</td><td>保育士</td><td>幼児との即興的関わり、AI 代替不可</td></tr>
+          <tr><td>4/10</td><td>看護師</td><td>処置 + 判断、AI 補助可だが代替不可</td></tr>
+          <tr><td>5/10</td><td>~58 職業 (混合領域)</td><td>業務の半分が AI で実行可能</td></tr>
+          <tr><td>6/10</td><td>~42 職業</td><td>AI が下書き・分析の大部分を担う</td></tr>
+          <tr><td>7/10</td><td>税務事務官</td><td>PC 完結の事務、規制で雇用が守られる</td></tr>
+          <tr><td>8/10</td><td>~45 分析・起案系</td><td>定型起案は AI 完結</td></tr>
+          <tr><td>9/10</td><td>一般事務</td><td>日本最大の職業、定型処理が中心</td></tr>
+          <tr><td>10/10</td><td>データ入力</td><td>純粋に AI で代替可能なタスクのみ</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="method-section">
+      <h2>4. 評価の限界</h2>
+      <ul>
+        <li><strong>単一モデル評価</strong>: Claude Opus 4.7 のみ。複数モデルでのアンサンブルは行っていません。</li>
+        <li><strong>2026 年時点の AI 能力に基づく</strong>: 2030 年・2040 年の予測ではありません。</li>
+        <li><strong>規制・労働法の影響を直接考慮していない</strong>: 高 AI 影響度でも法的に守られた職業は雇用が継続します。</li>
+        <li><strong>個別の業務内訳の差を反映できない</strong>: 同じ「医師」でも科目により実態は大きく異なります。</li>
+        <li><strong>非公式</strong>: 厚労省・JILPT・jobtag による評価ではありません。本サイト運営者の独立分析です。</li>
+      </ul>
+    </section>
+
+    <section class="method-section">
+      <h2>5. 使用上の注意</h2>
+      <p>本スコアは <strong>キャリア選択の参考情報の一つ</strong> としてご活用ください。以下のような利用は推奨しません:</p>
+      <ul>
+        <li>本スコアだけで採用・昇進を判断する</li>
+        <li>個別の事業所の AI 化進捗を予測する</li>
+        <li>政策決定の根拠とする</li>
+        <li>個人のスキル評価に転用する</li>
+      </ul>
+      <p>評価の更新は半年〜1 年に 1 回の頻度で行います (新モデル登場や IPD 更新時)。</p>
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

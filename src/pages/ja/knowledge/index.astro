@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { KNOWLEDGE_CONFIGS } from '../../../data/lib/genre-configs';
+import { loadAllDetails, buildGenreResult, escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const details = loadAllDetails();
+const cards = KNOWLEDGE_CONFIGS.map((cfg) => {
+  const r = buildGenreResult(details, cfg);
+  return { cfg, count: r.items.length, top: r.items[0]?.name_ja ?? '' };
+});
+
+const canonical = 'https://mirai-shigoto.com/ja/knowledge';
+const title = '知識から職業を探す｜IPD 知識領域別 5 hub | 未来の仕事';
+const seoDesc = 'IPD 33 知識領域から、各知識を活かす職業 TOP 30 を一覧。生産・顧客サービス・機械・医学・数学等。';
+const jsonLd = renderGenreIndexJsonLd(canonical, '知識から探す', seoDesc);
+const cardsHtml = cards.map((c) =>
+  `<li><a href="/ja/knowledge/${c.cfg.slug}">` +
+  `<span class="gci-name">${escapeHtml(c.cfg.short_ja)}</span>` +
+  `<span class="gci-desc">${escapeHtml(c.cfg.description_ja.slice(0, 90))}…</span>` +
+  (c.top ? `<span class="iri-preview">🥇 ${escapeHtml(c.top)}</span>` : '') +
+  `<span class="gci-count">TOP ${c.count} 職業</span>` +
+  `</a></li>`
+).join('');
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=knowledge" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>知識から探す</span></nav>
+    <header id="content">
+      <h1><span class="accent">知識から職業を探す</span></h1>
+      <p class="sub">IPD <strong>33 知識領域</strong> から主要 5 を hub 化、552 職業を整理</p>
+      <p class="intro">専門知識領域から、それを活かす職業を探せます。生産・顧客サービス・機械・医学・数学などの代表的知識領域別に、TOP 30 職業を一覧。</p>
+    </header>
+    <section><h2>主要 5 知識領域</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>

@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { ABILITIES_CONFIGS } from '../../../data/lib/genre-configs';
+import { loadAllDetails, buildGenreResult, escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+
+const details = loadAllDetails();
+const cards = ABILITIES_CONFIGS.map((cfg) => {
+  const r = buildGenreResult(details, cfg);
+  return { cfg, count: r.items.length, top: r.items[0]?.name_ja ?? '' };
+});
+
+const canonical = 'https://mirai-shigoto.com/ja/abilities';
+const title = '能力から職業を探す｜IPD 能力軸別 8 hub | 未来の仕事';
+const seoDesc = 'IPD 52 能力軸から、各能力が核となる職業 TOP 30 を一覧。持久力・筋力・空間認識・推論力等。';
+const jsonLd = renderGenreIndexJsonLd(canonical, '能力から探す', seoDesc);
+const cardsHtml = cards.map((c) =>
+  `<li><a href="/ja/abilities/${c.cfg.slug}">` +
+  `<span class="gci-name">${escapeHtml(c.cfg.short_ja)}</span>` +
+  `<span class="gci-desc">${escapeHtml(c.cfg.description_ja.slice(0, 90))}…</span>` +
+  (c.top ? `<span class="iri-preview">🥇 ${escapeHtml(c.top)}</span>` : '') +
+  `<span class="gci-count">TOP ${c.count} 職業</span>` +
+  `</a></li>`
+).join('');
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=abilities" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <a class="skip-link" href="#content">本文へスキップ</a>
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>能力から探す</span></nav>
+    <header id="content">
+      <h1><span class="accent">能力から職業を探す</span></h1>
+      <p class="sub">IPD <strong>52 能力軸</strong> から reader value の高い 8 を hub 化、552 職業を整理</p>
+      <p class="intro">身体能力・認知能力・感覚処理など、自分の強みとなる能力から、それが活きる職業を探せます。各能力の説明と TOP 30 職業を AI 影響度・年収と共に確認。</p>
+    </header>
+    <section><h2>主要 8 能力</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>
