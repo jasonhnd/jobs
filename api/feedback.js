@@ -22,6 +22,22 @@
 //                              even before the env var is wired up).
 //   FEEDBACK_FROM_EMAIL      — sender address (default: onboarding@resend.dev,
 //                              works without verified domain).
+//
+// Defense in depth (current):
+//   1. CORS — only mirai-shigoto.com + localhost dev ports.
+//   2. Origin/Referer 403 — server-side enforcement, blocks curl/server bots.
+//   3. Body cap (8 KB) — rejects payload-too-large.
+//   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
+//   5. Allow-listed option keys — rejects unknown values.
+//   6. HTML-escape on freetext before email — prevents email-template XSS.
+//
+// MISSING: per-IP rate limiting. Adding it requires persistent state across
+// serverless invocations — Vercel KV (paid plan) or Upstash Redis (free tier).
+// Not wired up yet because the OPC validation phase expects ≤30 submissions
+// over 6 weeks, and Resend bills are still inside the free tier even at
+// orders of magnitude higher abuse volume. Plan once volume grows or abuse
+// is observed: drop @upstash/ratelimit + @upstash/redis in, gate the entry
+// point on a 60 req/hour/IP bucket. Tracked as a follow-up.
 
 export const config = { runtime: "edge" };
 
