@@ -23,7 +23,7 @@ const jsonLd = `{
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "datePublished": "2026-05-02",
       "dateModified": "2026-05-02",
-      "primaryImageOfPage": "https://mirai-shigoto.com/og.png",
+      "primaryImageOfPage": "https://mirai-shigoto.com/api/og?page=about",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/about#breadcrumb" }
     },
     {
@@ -44,6 +44,7 @@ const jsonLd = `{
   keywords="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.7, ルーブリック, 独自分析, FAQ, mirai shigoto, methodology, scoring rubric"
   ogTitle="データについて — mirai-shigoto.com"
   ogDescription="mirai-shigoto.com のデータソース（厚労省 jobtag / 総務省 / JILPT）、AI 影響度スコアの算出方法、FAQ。"
+  ogImage="https://mirai-shigoto.com/api/og?page=about"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
 

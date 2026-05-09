@@ -1,13 +1,23 @@
-// api/og.tsx — Vercel Edge Function: dynamic Open Graph image for an occupation.
+// api/og.tsx — Vercel Edge Function: dynamic Open Graph image generator.
 //
-// GET /api/og?id=<occupation_id>          — occupation card
-// GET /api/og?sector=<sector_id>          — sector hub card
+// All site OG cards render through this single endpoint. Three rich
+// templates plus a generic text-only template cover every page type:
 //
-//   Renders a 1200×630 PNG card carrying:
-//     - the occupation's AI-risk number on a risk-band-colored block
-//     - JA occupation name (v1.4.0: site is JA-only, EN dropped)
-//     - workforce + average annual salary
-//     - "独立分析" badge + site mark
+// GET /api/og?id=<occupation_id>          — occupation card (rich, 556 variants)
+// GET /api/og?sector=<sector_id>          — sector hub card (rich, 16 variants)
+// GET /api/og?page=map                    — /map page card (rich, treemap legend)
+// GET /api/og?page=home|about|privacy|compliance|404|sectors|rankings
+//                                         — generic page card (text-only)
+// GET /api/og?ranking=<slug>              — ranking detail card (text-only, 9 slugs)
+//
+//   Every card is 1200×630 PNG with:
+//     - "独立分析" badge top-left + site mark top-right
+//     - Direction C warm-cream palette
+//     - JA-only copy (site dropped EN UI in v1.4.0)
+//
+// The image-sitemap.xml only references ?id= cards (the 552 scored
+// occupations) — the generic / ranking / sector cards are linked through
+// each page's <meta property="og:image"> instead.
 //
 // The card is generated at request time (not pre-built), so any change to this
 // file or to /data.detail/<id>.json takes effect on the next social-platform
@@ -97,6 +107,203 @@ function padId(idDigits: string): string {
   // /data.detail/<id>.json is 4-digit zero-padded per §3A.2 (e.g. "0042.json").
   // Bound the digit count defensively — we won't ever serve more than 9999 occupations.
   return idDigits.padStart(4, "0").slice(-4);
+}
+
+// ─── Generic text-only card (homepage, legal pages, hubs, rankings) ──
+
+interface GenericCardConfig {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+}
+
+// 8 page variants — homepage, 4 legal/static, 2 hubs, plus rankings handled below.
+const PAGE_CARDS: Record<string, GenericCardConfig> = {
+  home: {
+    eyebrow: "JAPAN OCCUPATIONS · 552 職業 × AI 影響",
+    title:   "AIの時代でも、あなたらしい働き方を",
+    subtitle: "552 職業を AI 影響度・就業者数・年収・5 次元で多角分析",
+  },
+  about: {
+    eyebrow: "ABOUT",
+    title:   "データについて",
+    subtitle: "厚労省 jobtag · JILPT · Claude Opus 4.7 採点の方法論",
+  },
+  privacy: {
+    eyebrow: "PRIVACY",
+    title:   "プライバシーポリシー",
+    subtitle: "APPI / GDPR 対応 · 何を集め、何を集めないか",
+  },
+  compliance: {
+    eyebrow: "COMPLIANCE",
+    title:   "データ出典 · 二次利用",
+    subtitle: "MIT ライセンス · IPD は © JILPT TOS 第 9 条に従う",
+  },
+  "404": {
+    eyebrow: "404",
+    title:   "ページが見つかりません",
+    subtitle: "/ に戻って続きをご覧ください",
+  },
+  sectors: {
+    eyebrow: "SECTORS · 16 業界",
+    title:   "業界別 AI 影響",
+    subtitle: "16 業界 552 職業を業界別にナビゲート",
+  },
+  rankings: {
+    eyebrow: "RANKINGS · 9 視点",
+    title:   "AI × 仕事 ランキング",
+    subtitle: "9 視点で見る “変わる仕事” / “変わらない仕事”",
+  },
+};
+
+// 9 ranking detail card variants. Strings duplicated from
+// src/data/lib/rankings.ts:ALL_RANKINGS — kept here to avoid pulling
+// src/ into the Edge Function bundle. Update both sides if rankings change.
+const RANKING_CARDS: Record<string, GenericCardConfig> = {
+  "ai-risk-high":    { eyebrow: "RANKING · TOP 30",  title: "AIに奪われる仕事", subtitle: "AI影響度が高い職業ランキング" },
+  "ai-risk-low":     { eyebrow: "RANKING · TOP 30",  title: "AI影響が少ない仕事", subtitle: "AIリスクが低く将来性のある職業" },
+  "salary-safe":     { eyebrow: "RANKING · TOP 30",  title: "高年収 × 低 AI リスク", subtitle: "年収が高く AI 代替リスクが低い職業" },
+  "workers":         { eyebrow: "RANKING · TOP 30",  title: "就業者数ランキング", subtitle: "日本で最も就業者が多い職業" },
+  "salary":          { eyebrow: "RANKING · TOP 30",  title: "年収ランキング", subtitle: "年収が最も高い職業" },
+  "entry-salary":    { eyebrow: "RANKING · TOP 30",  title: "初任給ランキング", subtitle: "初任給が高い職業" },
+  "young-workforce": { eyebrow: "RANKING · TOP 30",  title: "平均年齢が若い職業", subtitle: "若手が活躍する職業" },
+  "short-hours":     { eyebrow: "RANKING · TOP 30",  title: "労働時間が短い職業", subtitle: "ワークライフバランスに優れた職業" },
+  "high-demand":     { eyebrow: "RANKING · TOP 30",  title: "人手不足の職業", subtitle: "求人需要が高い職業" },
+};
+
+async function renderGenericCard(config: GenericCardConfig): Promise<Response> {
+  const siteMark = "mirai-shigoto.com";
+  const subsetText =
+    `独立分析 ${siteMark} ${config.eyebrow} ${config.title} ${config.subtitle} ・ /`;
+
+  const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
+    loadGoogleFont("Noto+Serif+JP", 600, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  800, subsetText),
+    loadGoogleFont("Noto+Sans+JP",  500, subsetText),
+  ]);
+
+  const C = {
+    bg:       "#FAF6EE",
+    ink:      "#241E18",
+    muted:    "#7A6F5E",
+    hairline: "rgba(36, 30, 24, 0.12)",
+    accent:   "#D96B3D",
+  };
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          background: C.bg,
+          color: C.ink,
+          fontFamily: "NotoSansJP",
+          padding: "48px 64px",
+          borderLeft: `14px solid ${C.accent}`,
+        }}
+      >
+        {/* Top bar — "独立分析" badge + site mark */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              background: C.accent,
+              color: "#FFFFFF",
+              padding: "8px 18px",
+              borderRadius: "999px",
+              fontWeight: 800,
+              fontSize: "22px",
+              letterSpacing: "0.05em",
+            }}
+          >
+            独立分析
+          </div>
+          <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
+            {siteMark}
+          </div>
+        </div>
+
+        {/* Eyebrow + giant title + subtitle */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            justifyContent: "center",
+            marginTop: "12px",
+            gap: "20px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "30px",
+              color: C.muted,
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+            }}
+          >
+            {config.eyebrow}
+          </div>
+          <div
+            style={{
+              fontSize: "84px",
+              fontFamily: "NotoSerifJP",
+              fontWeight: 600,
+              lineHeight: 1.15,
+              color: C.ink,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {config.title}
+          </div>
+          <div
+            style={{
+              fontSize: "32px",
+              color: C.muted,
+              fontWeight: 500,
+              lineHeight: 1.4,
+              marginTop: "8px",
+            }}
+          >
+            {config.subtitle}
+          </div>
+        </div>
+
+        {/* Bottom hairline + tagline */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingTop: "20px",
+            borderTop: `1px solid ${C.hairline}`,
+            color: C.muted,
+            fontSize: "22px",
+          }}
+        >
+          <span>厚生労働省 jobtag · JILPT IPD v7.00 · Claude Opus 4.7</span>
+          <span>非公式 / Independent</span>
+        </div>
+      </div>
+    ),
+    {
+      width: 1200,
+      height: 630,
+      fonts: [
+        { name: "NotoSerifJP", data: fontSerifBuf, style: "normal", weight: 600 },
+        { name: "NotoSansJP",  data: fontSansBoldBuf, style: "normal", weight: 800 },
+        { name: "NotoSansJP",  data: fontSansRegBuf,  style: "normal", weight: 500 },
+      ],
+    },
+  );
 }
 
 // Phase 9: sector hub OG card. Source = /data.sectors.json (16-sector projection).
@@ -439,10 +646,36 @@ async function renderHandler(req: Request): Promise<Response> {
   const sectorParam = url.searchParams.get("sector");
   const idParam = url.searchParams.get("id");
   const pageParam = url.searchParams.get("page");
+  const rankingParam = url.searchParams.get("ranking");
 
-  // Design-Mobile.md §4.7: /map OG card — /api/og?page=map
+  // /map OG card uses the rich treemap-legend variant — special-case before
+  // the generic ?page= branch.
   if (pageParam === "map") {
     return renderMapCard();
+  }
+
+  // Generic text-only cards: /api/og?page=home|about|privacy|compliance|404|sectors|rankings
+  if (pageParam) {
+    const cfg = PAGE_CARDS[pageParam];
+    if (!cfg) {
+      return new Response(
+        `Bad request: unknown ?page=${pageParam}. Known: ${Object.keys(PAGE_CARDS).join(", ")}, map`,
+        { status: 400 },
+      );
+    }
+    return renderGenericCard(cfg);
+  }
+
+  // Per-ranking text cards: /api/og?ranking=<slug>
+  if (rankingParam) {
+    const cfg = RANKING_CARDS[rankingParam];
+    if (!cfg) {
+      return new Response(
+        `Bad request: unknown ?ranking=${rankingParam}. Known: ${Object.keys(RANKING_CARDS).join(", ")}`,
+        { status: 400 },
+      );
+    }
+    return renderGenericCard(cfg);
   }
 
   // Phase 9: sector-card branch — /api/og?sector=<sector_id>
@@ -451,7 +684,10 @@ async function renderHandler(req: Request): Promise<Response> {
   }
 
   if (!idParam || !/^\d+$/.test(idParam)) {
-    return new Response("Bad request: ?id=, ?sector=, or ?page=map required", { status: 400 });
+    return new Response(
+      "Bad request: required ?id=<n>, ?sector=<id>, ?ranking=<slug>, or ?page=<map|home|about|privacy|compliance|404|sectors|rankings>",
+      { status: 400 },
+    );
   }
 
   // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the
