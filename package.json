@@ -15,15 +15,7 @@
     "import:ipd": "tsx src/data/import-ipd.ts",
     "diff:projection": "tsx src/data/diff-projections.ts",
     "audit": "npm audit --audit-level=moderate && (cd analytics && npm audit --audit-level=moderate)",
-    "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
-    "_legacy:build:data": "uv run python scripts/build_data.py",
-    "_legacy:build:data:full": "uv run python scripts/build_data.py --enable-future",
-    "_legacy:build:data:validate": "uv run python scripts/build_data.py --validate-only",
-    "_legacy:build": "npm run _legacy:build:data && python3 scripts/build_partials.py && python3 scripts/build_occupations.py && python3 scripts/build_sector_hubs.py && python3 scripts/build_rankings.py",
-    "_legacy:dev": "python3 scripts/dev-server.py",
-    "_legacy:import:ipd": "uv run python scripts/import_ipd.py",
-    "_legacy:test:data": "uv run python scripts/test_data_consistency.py",
-    "_legacy:test:spec": "node scripts/check_spec_vs_code.mjs"
+    "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",

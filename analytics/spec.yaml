@@ -211,7 +211,7 @@ events:
       measure flow of users who chose to verify against / continue at the
       official source after consuming our analysis. Compliance-relevant —
       proves the attribution chain ja/<id> → MHLW is being used. Wired in
-      scripts/build_occupations.py via inline onclick gtag('event', ...).
+      src/pages/ja/[id].astro via inline onclick gtag('event', ...).
     params:
       - { name: occupation_id, type: int }
       - { name: ai_risk_score, type: int }
