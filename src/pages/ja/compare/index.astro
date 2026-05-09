@@ -1,0 +1,123 @@
+---
+/**
+ * src/pages/ja/compare/index.astro — 職業比較 hub の index page。
+ *
+ * 12 個の比較ペアを card grid で表示。
+ */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Footer from '../../../components/Footer.astro';
+import { buildCompareBundle, renderHubJsonLd, escapeHtml } from '../../../data/lib/compare-hub';
+
+const { hub } = buildCompareBundle();
+const canonical = 'https://mirai-shigoto.com/ja/compare';
+const title = '職業を比較する｜12 ペアの side-by-side 比較・AI 影響度付き | 未来の仕事';
+const seoDesc =
+  '看護師 vs ホームヘルパー、SE vs プログラマー、医療事務 vs 一般事務など、迷いやすい職業ペアを side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
+const keywords = '職業 比較, 違い, 仕事 選び方, vs, 552 職業';
+
+function riskClass(score: number | null): 'low' | 'mid' | 'high' {
+  if (score === null) return 'mid';
+  if (score <= 3) return 'low';
+  if (score <= 6) return 'mid';
+  return 'high';
+}
+
+const cardsHtml = hub.cards
+  .map((c) => {
+    const aBand = riskClass(c.a_risk);
+    const bBand = riskClass(c.b_risk);
+    const aRiskStr = c.a_risk !== null ? `${c.a_risk}/10` : '—';
+    const bRiskStr = c.b_risk !== null ? `${c.b_risk}/10` : '—';
+    return (
+      `<li><a href="/ja/compare/${c.slug}">` +
+      `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
+      `<span class="cci-pair">` +
+      `<span class="cci-name">${escapeHtml(c.a_name)}</span>` +
+      `<span class="risk-pill ${aBand}">${escapeHtml(aRiskStr)}</span>` +
+      `<span class="cci-vs">vs</span>` +
+      `<span class="cci-name">${escapeHtml(c.b_name)}</span>` +
+      `<span class="risk-pill ${bBand}">${escapeHtml(bRiskStr)}</span>` +
+      `</span>` +
+      `<span class="cci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
+      `</a></li>`
+    );
+  })
+  .join('');
+
+const jsonLd = renderHubJsonLd();
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  keywords={keywords}
+  ogImage="https://mirai-shigoto.com/api/og?page=compare"
+  ogTitle={title}
+  ogDescription={seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={`
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
+:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
+.skip-link:focus{left:8px;top:8px}
+#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.compare-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;padding:0;margin:0}
+.compare-cards li a{display:block;padding:20px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms}
+.compare-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.cci-title{display:block;font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--accent-deep);margin-bottom:10px;line-height:1.35}
+.cci-pair{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:10px;font-size:.85rem}
+.cci-name{font-weight:500;color:var(--fg)}
+.cci-vs{color:var(--fg3);font-size:.78rem;font-weight:600}
+.cci-desc{display:block;font-size:.82rem;color:var(--fg2);line-height:1.6}
+.risk-pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill.low{background:#E0EAE2;color:#48705F}
+.risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
+.risk-pill.high{background:#F5D5C7;color:#A24A28}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}}
+`} />
+
+  <a class="skip-link" href="#content">本文へスキップ</a>
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <span>職業を比較する</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">職業を比較する</span></h1>
+      <p class="sub">迷いやすい職業ペアを <strong>{hub.cards.length} 組</strong> 用意 · side-by-side 比較</p>
+      <p class="intro">
+        看護師 vs ホームヘルパー、SE vs プログラマー、医療事務 vs 一般事務など、
+        違いがわかりにくい職業ペアを並べて比較。AI 影響度・年収・労働条件・必要スキルを一覧で確認し、
+        自分に合うキャリア選択の助けに。
+      </p>
+    </header>
+
+    <section aria-label="比較ペア一覧">
+      <h2>{hub.cards.length} 組の比較</h2>
+      <ul class="compare-cards" set:html={cardsHtml} />
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>
