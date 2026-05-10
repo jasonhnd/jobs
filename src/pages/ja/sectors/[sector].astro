@@ -474,17 +474,18 @@ const relatedHtml = renderRelatedSectors();
 const faqHtml = renderFaqSection();
 
 // Phase D: inline-link occupation names mentioned in the intro and AI era essay.
+// We DON'T exclude in-sector occupations — even though they appear in the list
+// below, Google values editorial-prose inline links separately from list links.
 const _linkRegistry = buildLinkRegistry();
-const sectorOccIds = new Set(occs.map((o) => o.id));
 const crossHubHtml = renderRelatedHubsBlock('sectors', sid, 6);
 const introInlined = descIntro
-  ? inlineLinkText(descIntro, _linkRegistry, { maxLinks: 3, excludeIds: sectorOccIds })
+  ? inlineLinkText(descIntro, _linkRegistry, { maxLinks: 3 })
   : '';
 const introSection = introInlined ? `<p class="intro">${introInlined}</p>` : '';
 
 // ── AI 時代の特性 essay block (200-300 字) ──
 const aiEraEssayInlined = sectorEssay
-  ? inlineLinkText(sectorEssay.ai_era_essay_ja, _linkRegistry, { maxLinks: 5, excludeIds: sectorOccIds })
+  ? inlineLinkText(sectorEssay.ai_era_essay_ja, _linkRegistry, { maxLinks: 5 })
   : '';
 const aiEraEssayHtml = sectorEssay
   ? `<section class="ai-era-essay" aria-label="AI 時代の特性">
