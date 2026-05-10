@@ -21,6 +21,8 @@ import {
   escapeHtml,
 } from '../../../data/lib/interests';
 import type { InterestType } from '../../../data/lib/interests-meta';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { results } = buildInterests();
@@ -63,6 +65,11 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 }
 const charsHtml = listOfStrings(meta.characteristics_ja, 'characteristics');
 const fieldsHtml = listOfStrings(meta.typical_fields_ja, 'fields');
+
+// Phase D: inline-link occupation names mentioned in the intro / description.
+const _linkRegistry = buildLinkRegistry();
+const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, { maxLinks: 5 });
+const crossHubHtml = renderRelatedHubsBlock('interests', slug, 6);
 ---
 <BaseLayout
   title={title}
@@ -154,6 +161,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .related-interests .ri-desc{font-size:.78rem;color:var(--fg2);display:block;margin-top:2px}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}.rmini{width:36px;height:20px}}
 `} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
   <a class="skip-link" href="#content">本文へスキップ</a>
 
@@ -172,12 +180,12 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
         <span class="accent">{meta.name_ja}タイプにおすすめの職業</span>
       </h1>
       <p class="sub">RIASEC <strong>{meta.letter} ({meta.name_ja})</strong> の score が高い職業 TOP {result.items.length}（全 552 職業中）</p>
-      <p class="intro">{meta.description_ja}</p>
+      <p class="intro" set:html={introHtml}></p>
     </header>
 
     <section class="persona" aria-label={`${meta.name_ja}タイプの特徴`}>
       <h2>{meta.name_ja}タイプとは</h2>
-      <p>{meta.description_ja}</p>
+      <p set:html={introHtml}></p>
       <div class="persona-grid">
         <div>
           <h3>こんな特徴がある人</h3>
@@ -200,6 +208,8 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     </section>
 
     <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={crossHubHtml} />
 
     <section aria-label="他の興味タイプ">
       <h2>他の興味タイプ</h2>

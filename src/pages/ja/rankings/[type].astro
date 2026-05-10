@@ -19,6 +19,8 @@ import {
   escapeHtml,
   type RankingSlug,
 } from '../../../data/lib/rankings';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { results } = buildRankings();
@@ -47,6 +49,14 @@ const rankItems = result.items
 
 const faqHtml = renderFaqHtml(result.faqItems);
 const relatedHtml = renderRelatedRankings(slug);
+
+const _linkRegistry = buildLinkRegistry();
+const rankingItemIds = new Set(result.items.map((o) => o.id));
+const introInlinedHtml = inlineLinkText(result.introText, _linkRegistry, {
+  maxLinks: 4,
+  excludeIds: rankingItemIds,
+});
+const crossHubHtml = renderRelatedHubsBlock('rankings', slug, 6);
 const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
 ---
 <BaseLayout
@@ -141,6 +151,7 @@ footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
 `} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
   <a class="skip-link" href="#content">本文へスキップ</a>
 
@@ -156,7 +167,7 @@ footer .footer-meta .nowrap{white-space:nowrap}
     <header id="content">
       <h1><span class="accent" set:html={escapeHtml(result.h1Text)} /></h1>
       <p class="sub" set:html={result.subText} />
-      <p class="intro" set:html={escapeHtml(result.introText)} />
+      <p class="intro" set:html={introInlinedHtml} />
     </header>
 
     <Fragment set:html={statsHtml} />
@@ -169,6 +180,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
     </section>
 
     <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={crossHubHtml} />
 
     <section aria-label="他のランキング">
       <h2>他のランキング</h2>

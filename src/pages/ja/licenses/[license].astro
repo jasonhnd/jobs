@@ -7,6 +7,8 @@ import {
   renderRankItem, renderHighlights, renderSectorChart, renderFaqHtml,
   escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean,
 } from '../../../data/lib/genre-hub';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
@@ -37,6 +39,9 @@ export async function getStaticPaths() {
 
 interface Props { hub: LicenseHub; items: GenreOccupation[]; }
 const { hub, items } = Astro.props as Props;
+const _linkRegistry = buildLinkRegistry();
+const introHtml = inlineLinkText(hub.description_ja, _linkRegistry, { maxLinks: 5 });
+const crossHubHtml = renderRelatedHubsBlock('licenses', hub.slug, 6);
 
 const canonical = `https://mirai-shigoto.com/ja/licenses/${hub.slug}`;
 const title = `${hub.title_ja}｜${items.length} 職業 | 未来の仕事`;
@@ -110,13 +115,14 @@ const jsonLd = JSON.stringify({
   ogImage={`https://mirai-shigoto.com/api/og?license=${hub.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
   <div id="wrapper">
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/licenses" rel="up">資格から探す</a><span aria-hidden="true">›</span><span>{hub.short_ja}</span></nav>
     <header id="content">
       <h1><span class="accent">{hub.title_ja}</span></h1>
       <p class="sub">{hub.short_ja} カテゴリー · <strong>{items.length} 職業</strong></p>
-      <p class="intro">{hub.description_ja}</p>
+      <p class="intro" set:html={introHtml}></p>
     </header>
     <section class="genre-detail" aria-label={`${hub.short_ja}の代表資格`}>
       <h2>{hub.short_ja} の代表資格</h2>
@@ -128,6 +134,7 @@ const jsonLd = JSON.stringify({
     <Fragment set:html={sectorChartHtml} />
     <section><h2>{hub.short_ja} 関連職業 TOP {items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
     <Fragment set:html={faqHtml} />
+    <Fragment set:html={crossHubHtml} />
     <section aria-label="他の資格カテゴリー"><h2>他の資格カテゴリー</h2><Fragment set:html={relatedHtml} /></section>
     <Footer />
   </div>

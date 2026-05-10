@@ -13,6 +13,8 @@ import {
   escapeHtml,
   GENRE_HUB_CSS,
 } from '../../../data/lib/genre-hub';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { loadAllDetails: _load, buildGenreResult: _build } = await import('../../../data/lib/genre-hub');
@@ -46,6 +48,10 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 const charsHtml = cfg.characteristics_ja ? listOfStrings(cfg.characteristics_ja, 'characteristics') : '';
 const developHtml = cfg.how_to_develop_ja ? listOfStrings(cfg.how_to_develop_ja, 'how-to-develop') : '';
 
+const _linkRegistry = buildLinkRegistry();
+const introHtml = inlineLinkText(cfg.description_ja, _linkRegistry, { maxLinks: 5 });
+const crossHubHtml = renderRelatedHubsBlock('abilities', cfg.slug, 6);
+
 const relatedHtml = '<ul class="related-genre">' + ABILITIES_CONFIGS
   .filter((m) => m.slug !== cfg.slug)
   .map((m) => `<li><a href="/ja/abilities/${m.slug}"><span class="rg-name">${escapeHtml(m.short_ja)}</span><span class="rg-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span></a></li>`)
@@ -55,18 +61,19 @@ const relatedHtml = '<ul class="related-genre">' + ABILITIES_CONFIGS
   ogImage={`https://mirai-shigoto.com/api/og?ability=${cfg.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
   <div id="wrapper">
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/abilities" rel="up">能力から探す</a><span aria-hidden="true">›</span><span>{cfg.short_ja}</span></nav>
     <header id="content">
       <h1><span class="accent">{cfg.title_ja}</span></h1>
       <p class="sub">IPD <strong>{cfg.short_ja}</strong> スコアが高い職業 TOP {result.items.length}（全 552 職業中）</p>
-      <p class="intro">{cfg.description_ja}</p>
+      <p class="intro" set:html={introHtml}></p>
     </header>
     {(charsHtml || developHtml) && (
       <section class="genre-detail" aria-label={`${cfg.short_ja}とは`}>
         <h2>{cfg.short_ja}とは</h2>
-        <p>{cfg.description_ja}</p>
+        <p set:html={introHtml}></p>
         <div class="genre-detail-grid">
           {charsHtml && <div><h3>こんな特徴がある人</h3><Fragment set:html={charsHtml} /></div>}
           {developHtml && <div><h3>鍛え方のヒント</h3><Fragment set:html={developHtml} /></div>}
@@ -81,6 +88,7 @@ const relatedHtml = '<ul class="related-genre">' + ABILITIES_CONFIGS
       <ol class="rank-list" set:html={rankItems} />
     </section>
     <Fragment set:html={faqHtml} />
+    <Fragment set:html={crossHubHtml} />
     <section aria-label="他の能力"><h2>他の能力</h2><Fragment set:html={relatedHtml} /></section>
     <Footer />
   </div>

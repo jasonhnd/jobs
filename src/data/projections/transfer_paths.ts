@@ -22,7 +22,10 @@ import { fsum } from '../lib/fsum.js';
 import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../lib/now.js';
 
-const TOP_N = 4;
+// Phase C (2026-05-10): TOP_N raised 4 → 5 for the new spoke-spoke link block.
+// Combined with the cross-sector same-AI-risk block (rendered in the spoke
+// template), each spoke now has 10 contextual outbound spoke links instead of 3.
+const TOP_N = 5;
 const MIN_RISK_DROP = 1.0;
 const MIN_SIMILARITY = 0.3;
 

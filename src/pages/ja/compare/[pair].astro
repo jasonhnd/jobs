@@ -17,6 +17,8 @@ import {
   escapeHtml,
 } from '../../../data/lib/compare-hub';
 import type { CompareSlug } from '../../../data/lib/compare-meta';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { results } = buildCompareBundle();
@@ -49,6 +51,13 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 }
 const pointsHtml = listOfStrings(meta.comparison_points_ja, 'compare-points');
 const hintsHtml = listOfStrings(meta.decision_hints_ja, 'decision-hints');
+
+const _linkRegistry = buildLinkRegistry();
+const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, {
+  maxLinks: 4,
+  excludeIds: new Set([result.a.id, result.b.id]),
+});
+const crossHubHtml = renderRelatedHubsBlock('compare', slug, 6);
 ---
 <BaseLayout
   title={title}
@@ -131,6 +140,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .related-compares .rc-title{display:block;font-family:var(--font-serif);font-weight:500;color:var(--accent-deep);font-size:.92rem}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}}
 `} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
   <a class="skip-link" href="#content">本文へスキップ</a>
 
@@ -146,7 +156,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     <header id="content">
       <h1><span class="accent">{meta.title_ja}</span></h1>
       <p class="sub">AI 影響度・年収・労働条件・必要スキルを <strong>side-by-side</strong> で比較</p>
-      <p class="intro">{meta.description_ja}</p>
+      <p class="intro" set:html={introHtml}></p>
     </header>
 
     <Fragment set:html={heroHtml} />
@@ -173,6 +183,8 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     </section>
 
     <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={crossHubHtml} />
 
     <section aria-label="他の比較">
       <h2>他の比較ペア</h2>

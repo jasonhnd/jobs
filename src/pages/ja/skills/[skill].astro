@@ -18,6 +18,8 @@ import {
   escapeHtml,
 } from '../../../data/lib/skills-hub';
 import type { SkillSlug } from '../../../data/lib/skills-meta';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { results } = buildSkillsBundle();
@@ -56,6 +58,11 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 }
 const useCasesHtml = listOfStrings(meta.use_cases_ja, 'use-cases');
 const trainHtml = listOfStrings(meta.how_to_train_ja, 'how-to-train');
+
+// Phase D: inline-link occupation names mentioned in description.
+const _linkRegistry = buildLinkRegistry();
+const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, { maxLinks: 5 });
+const crossHubHtml = renderRelatedHubsBlock('skills', slug, 6);
 ---
 <BaseLayout
   title={title}
@@ -139,6 +146,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .related-skills .rs-desc{display:block;font-size:.78rem;color:var(--fg2)}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
 `} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
   <a class="skip-link" href="#content">本文へスキップ</a>
 
@@ -154,12 +162,12 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     <header id="content">
       <h1><span class="accent">{meta.title_ja}</span></h1>
       <p class="sub">IPD <strong>{meta.short_ja}</strong> スコアが高い職業 TOP {result.items.length}（全 552 職業中）</p>
-      <p class="intro">{meta.description_ja}</p>
+      <p class="intro" set:html={introHtml}></p>
     </header>
 
     <section class="skill-detail" aria-label={`${meta.short_ja}とは`}>
       <h2>{meta.short_ja}とは</h2>
-      <p>{meta.description_ja}</p>
+      <p set:html={introHtml}></p>
       <div class="skill-detail-grid">
         <div>
           <h3>典型的な活躍場面</h3>
@@ -182,6 +190,8 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     </section>
 
     <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={crossHubHtml} />
 
     <section aria-label="他のスキル">
       <h2>他のスキル</h2>

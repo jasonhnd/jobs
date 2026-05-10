@@ -15,6 +15,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { getSectorEssay, computeSectorPatterns, computeSiteBaseline, type SectorOcc } from '../../../data/lib/sector-meta';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -470,13 +472,24 @@ const topWorkersHtml = renderTopList(topWorkers);
 const fullListHtml = renderFullList(fullSorted);
 const relatedHtml = renderRelatedSectors();
 const faqHtml = renderFaqSection();
-const introSection = descIntro ? `<p class="intro">${esc(descIntro)}</p>` : '';
+
+// Phase D: inline-link occupation names mentioned in the intro and AI era essay.
+const _linkRegistry = buildLinkRegistry();
+const sectorOccIds = new Set(occs.map((o) => o.id));
+const crossHubHtml = renderRelatedHubsBlock('sectors', sid, 6);
+const introInlined = descIntro
+  ? inlineLinkText(descIntro, _linkRegistry, { maxLinks: 3, excludeIds: sectorOccIds })
+  : '';
+const introSection = introInlined ? `<p class="intro">${introInlined}</p>` : '';
 
 // ── AI 時代の特性 essay block (200-300 字) ──
+const aiEraEssayInlined = sectorEssay
+  ? inlineLinkText(sectorEssay.ai_era_essay_ja, _linkRegistry, { maxLinks: 5, excludeIds: sectorOccIds })
+  : '';
 const aiEraEssayHtml = sectorEssay
   ? `<section class="ai-era-essay" aria-label="AI 時代の特性">
        <h2>AI 時代の${esc(sector.ja)}の特性</h2>
-       <p>${esc(sectorEssay.ai_era_essay_ja)}</p>
+       <p>${aiEraEssayInlined}</p>
      </section>`
   : '';
 
@@ -512,6 +525,8 @@ const patternsHtml = patterns.observations.length > 0
   ogImage={ogImage}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
   <style slot="head" is:inline>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
@@ -655,6 +670,8 @@ section.faq{margin:48px 0}
     </section>
 
     <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={crossHubHtml} />
 
     <section aria-label={hRelated}>
       <h2>{hRelated}</h2>
