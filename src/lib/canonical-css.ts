@@ -155,6 +155,104 @@ html body footer.site-footer time {
   font-variant-numeric: tabular-nums;
 }
 
+/* ───── Footer share section ───── */
+/* Phase 8: 7 share buttons (X / LINE / Hatena / LinkedIn / Facebook / Copy /
+   Native) sit at the very top of the footer on every page. Each button
+   shares the CURRENT page URL via window.location.href; per-platform brand
+   color appears on hover. */
+
+html body footer.site-footer .share-divider {
+  font-size: 0.74rem;
+  color: var(--fg2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 auto 14px;
+  max-width: 480px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+html body footer.site-footer .share-divider::before,
+html body footer.site-footer .share-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+html body footer.site-footer .share-row {
+  display: flex;
+  gap: 10px;
+  margin: 0 auto 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  max-width: 720px;
+}
+
+html body footer.site-footer .share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--fg2);
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 150ms ease;
+  text-decoration: none;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: inherit;
+}
+html body footer.site-footer .share-btn:hover {
+  transform: translateY(-1px);
+  border-color: transparent;
+  color: #fff;
+  text-decoration: none;
+}
+html body footer.site-footer .share-btn[data-platform="x"]:hover        { background: #000; }
+html body footer.site-footer .share-btn[data-platform="line"]:hover     { background: #06C755; }
+html body footer.site-footer .share-btn[data-platform="hatena"]:hover   { background: #00A4DE; }
+html body footer.site-footer .share-btn[data-platform="linkedin"]:hover { background: #0A66C2; }
+html body footer.site-footer .share-btn[data-platform="facebook"]:hover { background: #1877F2; }
+html body footer.site-footer .share-btn[data-platform="copy"]:hover,
+html body footer.site-footer .share-btn[data-platform="native"]:hover   { background: var(--accent); color: #1a1206; }
+html body footer.site-footer .share-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+html body footer.site-footer .share-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+html body footer.site-footer .share-toast {
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-left: 6px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  font-variant-numeric: tabular-nums;
+}
+html body footer.site-footer .share-toast.visible { opacity: 1; }
+
+@media (max-width: 540px) {
+  html body footer.site-footer .share-row { gap: 8px; }
+  html body footer.site-footer .share-btn { width: 36px; height: 36px; }
+  html body footer.site-footer .share-toast {
+    flex-basis: 100%;
+    text-align: center;
+    margin: 6px 0 0;
+  }
+}
+
 /* ───── Top navigation (canonical, sticky slim bar) ───── */
 /* Magazine-style top masthead: sticky to viewport top, warm-cream backdrop
    with subtle blur. Provides lateral nav across all hub categories without
