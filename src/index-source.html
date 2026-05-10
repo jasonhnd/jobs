@@ -2101,6 +2101,52 @@
       }
       .data-summary .about-link { font-weight: 600; }
 
+      /* ============================================================
+         Editorial framing — common header system for hub sections I/II/III
+         that sit below the treemap. Magazine-style: PART eyebrow + serif
+         title + sub. Section dividers are 80px center rules.
+         ============================================================ */
+      .hub-section { margin: 22px 0; }
+      .hub-section-head {
+        margin: 0 0 16px;
+        padding: 0 4px;
+      }
+      .hub-eyebrow {
+        display: inline-block;
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 6px;
+      }
+      .hub-section-title {
+        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--fg);
+        margin: 0 0 4px;
+        line-height: 1.25;
+      }
+      .hub-section-sub {
+        font-size: 0.85rem;
+        color: var(--fg2);
+        margin: 0;
+        font-variant-numeric: tabular-nums;
+      }
+      .hub-section-divider {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 36px auto;
+        max-width: 80px;
+      }
+      @media (max-width: 540px) {
+        .hub-eyebrow { font-size: 0.65rem; }
+        .hub-section-title { font-size: 1.15rem; }
+        .hub-section-divider { margin: 24px auto; }
+      }
+
       /* Sector navigation block — Phase 2 of sector hub rollout. Sits between treemap and data attribution, gives every visitor a direct route into the 16 sector hubs. Pill chips mirror the footer token system but inverted: warm-cream pill on bg2 surface. */
       .sector-nav {
         margin: 28px 0 18px;
