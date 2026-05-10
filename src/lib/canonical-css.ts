@@ -187,6 +187,9 @@ html[data-theme="dark"] body nav.top-nav {
 }
 
 html body nav.top-nav .top-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
   font-weight: 600;
   font-size: 1rem;
@@ -198,6 +201,10 @@ html body nav.top-nav .top-nav-brand {
 html body nav.top-nav .top-nav-brand:hover {
   color: var(--accent);
   text-decoration: none;
+}
+html body nav.top-nav .top-nav-brand-mark {
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 html body nav.top-nav a:not(.top-nav-brand) {
@@ -358,62 +365,109 @@ html body nav.top-nav + #wrapper > nav.crumb {
     transform: translateY(0);
   }
   html body div.mob-drawer .mob-drawer-inner {
-    padding: 12px 16px 80px;
+    padding: 12px 14px 80px;
     max-width: 560px;
     margin: 0 auto;
   }
+
+  /* Section panel — bg2 container groups the title + items into a clear card.
+     The 16px gap between sections + 12px rounded corners give 3 distinct
+     blocks that read as separate categories at a glance. */
   html body div.mob-drawer section.mob-drawer-sec {
-    margin: 24px 0;
+    margin: 14px 0;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 16px 16px;
   }
-  html body div.mob-drawer section.mob-drawer-sec:first-child { margin-top: 16px; }
+  html body div.mob-drawer section.mob-drawer-sec:first-child { margin-top: 6px; }
 
+  /* Section header: serif-bold title with accent dot + italic lede.
+     1.05rem (vs 0.7rem before) makes the heading read as a clear category
+     title, not a tiny editorial kicker. !important needed because the canonical
+     html-body chain forces h3 to 1rem; this title needs to be larger. */
+  html body div.mob-drawer header.mob-drawer-sec-head {
+    margin: 0 0 14px;
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--border);
+  }
   html body div.mob-drawer h3.mob-drawer-title {
-    font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
-    font-size: 0.7rem !important;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif !important;
+    font-size: 1.05rem !important;
     font-weight: 700 !important;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    margin: 0 0 4px 8px !important;
-    padding: 0;
-    line-height: 1.5 !important;
+    line-height: 1.35 !important;
+    color: var(--fg);
+    margin: 0 0 5px !important;
+    letter-spacing: -0.005em;
+  }
+  html body div.mob-drawer .mob-drawer-title-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  html body div.mob-drawer p.mob-drawer-lede {
+    font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--fg2);
+    line-height: 1.5;
+    margin: 0 0 0 17px;  /* align under the dot+title baseline */
   }
 
+  /* List wrapper — items are individual cards stacked with 6px gap, NOT a
+     bottom-border list. Card style makes "buttonness" explicit. */
+  html body div.mob-drawer .mob-drawer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Item card — white bg + border + right chevron arrow. Active scale-down
+     gives positive tactile feedback on tap. min-height 56px is HIG-compliant. */
   html body div.mob-drawer a.mob-drawer-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 14px 12px;
+    gap: 10px;
     min-height: 56px;
-    border-bottom: 1px solid var(--border);
+    padding: 12px 12px 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     color: var(--fg);
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
-    transition: background 150ms;
-  }
-  html body div.mob-drawer a.mob-drawer-item:active {
-    background: rgba(217, 107, 61, 0.08);
+    transition: transform 100ms ease, border-color 150ms ease, background 150ms ease;
   }
   html body div.mob-drawer a.mob-drawer-item:hover {
-    background: rgba(217, 107, 61, 0.05);
+    background: rgba(217, 107, 61, 0.04);
+    border-color: var(--accent);
     text-decoration: none;
   }
-  html body div.mob-drawer a.mob-drawer-item:last-child {
-    border-bottom: none;
+  html body div.mob-drawer a.mob-drawer-item:active {
+    transform: scale(0.98);
+    background: rgba(217, 107, 61, 0.08);
+    border-color: var(--accent);
   }
 
   html body div.mob-drawer .mob-drawer-label {
     font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
     color: var(--fg);
     flex: 1 1 auto;
+    line-height: 1.35;
   }
   html body div.mob-drawer .mob-drawer-meta {
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     color: var(--fg2);
     font-weight: 400;
     flex-shrink: 0;
+    text-align: right;
   }
   html body div.mob-drawer .mob-drawer-count {
     font-size: 0.78rem;
@@ -427,11 +481,30 @@ html body nav.top-nav + #wrapper > nav.crumb {
     font-weight: 500;
     flex-shrink: 0;
   }
+  /* Right chevron — flat, light-weight, no underline. Visual hint that the
+     row is a "go to" button, not just static text. */
+  html body div.mob-drawer .mob-drawer-arrow {
+    color: var(--fg2);
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-left: 2px;
+    transition: color 150ms, transform 150ms;
+  }
+  html body div.mob-drawer a.mob-drawer-item:hover .mob-drawer-arrow,
+  html body div.mob-drawer a.mob-drawer-item:active .mob-drawer-arrow {
+    color: var(--accent);
+    transform: translateX(2px);
+  }
 
   /* Honor reduced motion */
   @media (prefers-reduced-motion: reduce) {
     html body div.mob-drawer { transition: none; }
     html body header.mob-topbar button.mob-topbar-burger span { transition: none; }
+    html body div.mob-drawer a.mob-drawer-item,
+    html body div.mob-drawer a.mob-drawer-item:active,
+    html body div.mob-drawer .mob-drawer-arrow { transition: none; transform: none; }
   }
 }
 `;
