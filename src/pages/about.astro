@@ -22,7 +22,7 @@ const jsonLd = `{
       "about": { "@id": "https://mirai-shigoto.com/#organization" },
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "datePublished": "2026-05-02",
-      "dateModified": "2026-05-02",
+      "dateModified": "2026-05-11",
       "primaryImageOfPage": "https://mirai-shigoto.com/api/og?page=about",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/about#breadcrumb" }
     },
@@ -426,6 +426,24 @@ const jsonLd = `{
     <p>
       <em>注意：高得点 ≠ 仕事が消える。</em>多くの高得点職は<strong>「置換」ではなく「再構成」</strong>される見込みです。プログラマーは 9/10 ですが、AI で生産性が上がる結果、需要がむしろ増える可能性もあります。
     </p>
+
+    <!-- 本手法の限界 -->
+    <h2>
+      本手法の限界
+    </h2>
+
+    <p>
+      スコアを使う前に、本手法の限界を明示します。<strong>「分かっていることと、分かっていないこと」を線引きする</strong>のは、独自分析サイトとしての最低限の責務です。曖昧にぼかさず、はっきり書きます。
+    </p>
+
+    <ul>
+      <li><strong>LLM の主観です</strong>。採点者は <strong>Claude Opus 4.7 一台</strong>。判断バイアスは消せません。別の LLM・別の時点で再採点すれば、<strong>±1〜2 は確実にずれます</strong>。</li>
+      <li><strong>統計検証はゼロです</strong>。人間の専門家との一致率（agreement rate）は測っていません。「LLM の見立て」であって、<strong>「実証研究」ではありません</strong>。</li>
+      <li><strong>単一時点のスナップショットです</strong>。2026-04-25 採点版。AI の能力は数ヶ月で化けるため、<strong>本データの賞味期限は約 1 年</strong>と見てください。</li>
+      <li><strong>552 職業しか採点していません</strong>。プロンプトエンジニア・AI 倫理担当・合成データキュレーターなど、jobtag に未収録の新興職種は<strong>採点対象外</strong>。リストにない職業についてはゼロ情報です。</li>
+      <li><strong>日本国内専用です</strong>。日本の労働慣行・雇用法制・産業構造を前提に採点しています。<strong>海外の同名職業に当てはめないでください</strong>。</li>
+      <li><strong>「影響度」と「失職確率」は別物です</strong>。スコアは「業務がどれだけ作り変えられるか」の推定であり、<strong>「仕事が消える確率」ではありません</strong>。9/10 の職業がすべて消えるわけではなく、多くは再構成（reshape）されます。</li>
+    </ul>
 
     <!-- 3. 注意事項 -->
     <h2>
