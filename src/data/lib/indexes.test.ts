@@ -11,7 +11,8 @@ test('buildIndexes: loads occupations and stats with no errors', async () => {
 
   // Filter out any errors that aren't relevant to occupation/stats loading.
   const blockingErrors = errors.filter(
-    (e) => !e.message.startsWith('Cannot read directory') || !e.file.endsWith('translations\\en'),
+    // Normalize separators so the filter works on Windows (\) and POSIX (/).
+    (e) => !e.message.startsWith('Cannot read directory') || !e.file.replace(/\\/g, '/').endsWith('translations/en'),
   );
   if (blockingErrors.length > 0) {
     console.error('Unexpected errors:', blockingErrors);

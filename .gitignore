@@ -13,8 +13,17 @@ desktop.ini
 # Editors
 .vscode/
 .idea/
+.zed/
 *.swp
 *.swo
+
+# LLM coding tools (per-machine state, not project config)
+.cursor/
+.codeium/
+.continue/
+.aider*
+.codex/
+.openai/
 
 # Build artifacts
 # public/ holds Astro's static input (publicDir). Tracked: 4 SEO statics
