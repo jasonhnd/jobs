@@ -22,6 +22,7 @@
  *   - bodyEnd slot — page-specific scripts after content
  */
 import TopNav from '../components/TopNav.astro';
+import MobileNav from '../components/MobileNav.astro';
 
 export interface Props {
   title: string;
@@ -157,6 +158,7 @@ const X_PIXEL_ID = import.meta.env.PUBLIC_X_PIXEL_ID;
     <slot name="head" />
   </head>
   <body class={bodyClass}>
+    <MobileNav />
     <TopNav />
     <slot />
     <slot name="bodyEnd" />

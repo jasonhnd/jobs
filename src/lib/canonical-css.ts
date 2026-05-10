@@ -238,4 +238,200 @@ html body nav.top-nav + .skip-link + #wrapper > nav.crumb,
 html body nav.top-nav + #wrapper > nav.crumb {
   margin-top: 8px;
 }
+
+/* ───── Mobile nav (mobile-only sticky topbar + full-screen drawer) ───── */
+/* On viewports ≤768px, the desktop sticky slim bar is hidden and replaced
+   by a 44px-tall topbar (brand + ハンバーガー). Tap the burger to open a
+   full-screen drawer with all 24 hub categories grouped into 3 sections.
+   85% of traffic is mobile — this is the canonical primary navigation. */
+
+/* Hide desktop top-nav on mobile, show mobile topbar */
+@media (max-width: 768px) {
+  html body nav.top-nav { display: none !important; }
+}
+/* Hide mobile components on desktop */
+@media (min-width: 769px) {
+  html body header.mob-topbar,
+  html body div.mob-drawer { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  /* ── Layer 1: top bar ── */
+  html body header.mob-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    padding: 0 12px 0 16px;
+    background: rgba(252, 248, 241, 0.94);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  html[data-theme="dark"] body header.mob-topbar {
+    background: rgba(28, 22, 18, 0.94);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    html body header.mob-topbar { background: var(--bg); }
+  }
+
+  html body header.mob-topbar a.mob-topbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.005em;
+    padding: 6px 4px;
+    min-height: 44px;
+  }
+  html body header.mob-topbar a.mob-topbar-brand:hover { color: var(--accent); }
+  html body header.mob-topbar a.mob-topbar-brand svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  html body header.mob-topbar button.mob-topbar-burger {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0;
+    transition: background 150ms;
+  }
+  html body header.mob-topbar button.mob-topbar-burger:hover {
+    background: var(--bg2);
+  }
+  html body header.mob-topbar button.mob-topbar-burger:active {
+    background: var(--bg3);
+  }
+  html body header.mob-topbar button.mob-topbar-burger span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--fg);
+    border-radius: 1px;
+    transition: transform 200ms ease, opacity 150ms ease;
+  }
+  html body header.mob-topbar button.mob-topbar-burger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  html body header.mob-topbar button.mob-topbar-burger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  html body header.mob-topbar button.mob-topbar-burger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  /* ── Layer 2: full-screen drawer ── */
+  html body div.mob-drawer {
+    position: fixed;
+    top: 48px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    z-index: 99;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: opacity 220ms ease, transform 220ms ease;
+  }
+  html body div.mob-drawer:not([hidden]) {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  html body div.mob-drawer .mob-drawer-inner {
+    padding: 12px 16px 80px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  html body div.mob-drawer section.mob-drawer-sec {
+    margin: 24px 0;
+  }
+  html body div.mob-drawer section.mob-drawer-sec:first-child { margin-top: 16px; }
+
+  html body div.mob-drawer h3.mob-drawer-title {
+    font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 4px 8px !important;
+    padding: 0;
+    line-height: 1.5 !important;
+  }
+
+  html body div.mob-drawer a.mob-drawer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 12px;
+    min-height: 56px;
+    border-bottom: 1px solid var(--border);
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 150ms;
+  }
+  html body div.mob-drawer a.mob-drawer-item:active {
+    background: rgba(217, 107, 61, 0.08);
+  }
+  html body div.mob-drawer a.mob-drawer-item:hover {
+    background: rgba(217, 107, 61, 0.05);
+    text-decoration: none;
+  }
+  html body div.mob-drawer a.mob-drawer-item:last-child {
+    border-bottom: none;
+  }
+
+  html body div.mob-drawer .mob-drawer-label {
+    font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+    color: var(--fg);
+    flex: 1 1 auto;
+  }
+  html body div.mob-drawer .mob-drawer-meta {
+    font-size: 0.78rem;
+    color: var(--fg2);
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+  html body div.mob-drawer .mob-drawer-count {
+    font-size: 0.78rem;
+    color: var(--fg2);
+    font-variant-numeric: tabular-nums;
+    background: var(--bg2);
+    padding: 3px 10px;
+    border-radius: 999px;
+    min-width: 32px;
+    text-align: center;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* Honor reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html body div.mob-drawer { transition: none; }
+    html body header.mob-topbar button.mob-topbar-burger span { transition: none; }
+  }
+}
 `;

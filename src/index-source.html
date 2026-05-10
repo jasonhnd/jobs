@@ -688,113 +688,15 @@
         .m-map-preview-cta span { transition: none; }
       }
 
-      /* ═══════════ v1.2.x mobile-only compact top bar (brand + hamburger) ═══════════ */
-      .m-topbar { display: none; }
-      .m-topbar-menu { display: none; }
+      /* Phase 7: legacy .m-topbar removed. Mobile nav is now provided by the
+         canonical .mob-topbar / .mob-drawer styles in src/lib/canonical-css.ts
+         (injected into the <head> by src/pages/index.astro). The HTML for the
+         new topbar + drawer lives directly inside <body> (search for
+         "Phase 7 mobile nav"). On mobile (≤768px), legacy desktop-only chrome
+         continues to be hidden. */
       @media (max-width: 768px) {
-        .m-topbar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 14px 22px;
-          /* Frosted glass: half-transparent warm cream + blur backdrop so content scrolling underneath gets a soft veil instead of hard cut-off. iOS Safari supports -webkit-backdrop-filter. */
-          background: rgba(250, 246, 238, 0.85);
-          backdrop-filter: saturate(180%) blur(14px);
-          -webkit-backdrop-filter: saturate(180%) blur(14px);
-          border-bottom: 1px solid rgba(36, 30, 24, 0.06);
-          position: sticky;
-          top: 0;
-          z-index: 50;
-        }
-        .m-topbar-brand {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          color: var(--accent);
-          text-decoration: none;
-          font-family: var(--font-serif);
-          font-size: 1.12rem;
-          font-weight: 600;
-          letter-spacing: -0.005em;
-        }
-        .m-topbar-brand:hover { text-decoration: none; }
-        .m-topbar-mark {
-          display: inline-flex;
-          width: 30px; height: 30px;
-          align-items: center; justify-content: center;
-          background: var(--bg3);
-          border-radius: 999px;
-          color: var(--accent);
-        }
-        .m-topbar-mark svg { width: 18px; height: 18px; }
-        .m-topbar-burger {
-          display: inline-flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 4px;
-          width: 38px; height: 38px;
-          background: var(--bg2);
-          border: 1px solid var(--border);
-          border-radius: 999px;
-          padding: 0;
-          cursor: pointer;
-          transition: border-color 150ms, background 150ms;
-        }
-        .m-topbar-burger:hover { border-color: var(--accent); background: var(--bg3); }
-        .m-topbar-burger span {
-          display: block;
-          width: 16px;
-          height: 1.5px;
-          background: var(--fg);
-          transition: transform 200ms ease, opacity 150ms ease;
-        }
-        .m-topbar-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
-        .m-topbar-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-        .m-topbar-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
-
-        /* Hide the legacy desktop utility row + h1 brand block on mobile — the top-bar above replaces them. */
         .desktop-hero-utility { display: none !important; }
         #wrapper > header > h1 { display: none !important; }
-
-        .m-topbar-menu {
-          display: block;
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          /* Full-screen solid cream so the menu visually obliterates the page underneath. Inner panel grows to fill via min-height. */
-          background: var(--bg);
-          z-index: 49;
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 200ms ease;
-        }
-        .m-topbar-menu:not([hidden]) {
-          opacity: 1;
-          pointer-events: auto;
-        }
-        .m-topbar-menu-inner {
-          margin-top: 64px;             /* clear sticky topbar */
-          min-height: calc(100vh - 64px);
-          background: var(--bg);
-          padding: 28px 24px 40px;
-          display: flex;
-          flex-direction: column;
-          gap: 26px;
-          transform: translateY(-12px);
-          transition: transform 220ms ease;
-        }
-        .m-topbar-menu:not([hidden]) .m-topbar-menu-inner { transform: translateY(0); }
-        .m-topbar-menu-section { display: flex; flex-direction: column; gap: 10px; }
-        .m-topbar-menu-section a {
-          color: var(--fg);
-          text-decoration: none;
-          font-size: 1rem;
-          padding: 8px 0;
-          border-bottom: 1px solid var(--border);
-        }
-        .m-topbar-menu-section a:hover { color: var(--accent); }
-        .m-topbar-menu-section a:last-child { border-bottom: none; }
       }
 
       /* Treemap section header — desktop hidden (controls block above already does it), mobile shows it as a clear section break per Direction C design. */
@@ -2611,36 +2513,56 @@
       <a href="/ja/q">Q&amp;A</a><span class="sep" aria-hidden="true">·</span>
       <a href="/ja/explore">探す方法</a>
     </nav>
-    <!-- v1.2.x mobile-only compact top bar: brand mark + hamburger menu. Hidden on ≥769px — desktop has its own utility row inside .desktop-hero-utility. -->
-    <nav class="m-topbar" aria-label="サイト">
-      <a class="m-topbar-brand" href="/" aria-label="未来の仕事 — Future of Work">
-        <span class="m-topbar-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 18 L9 10 L13 14 L21 6"/>
-            <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
-            <circle cx="13" cy="14" r="1.5" fill="currentColor"/>
-            <circle cx="21" cy="6" r="1.5" fill="currentColor"/>
-          </svg>
-        </span>
-        <span class="m-topbar-name">
-          未来の仕事
-        </span>
+    <!-- Phase 7 mobile nav: 48px sticky topbar + full-screen drawer with all 24 hub categories. Mirrors src/components/MobileNav.astro for the home page (which doesn't go through BaseLayout). Styles + toggle JS live in src/lib/canonical-css.ts and the inline <script> at the bottom of this file. -->
+    <header class="mob-topbar" aria-label="モバイルサイトヘッダー">
+      <a href="/" class="mob-topbar-brand" aria-label="未来の仕事 — トップへ">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 18 L9 10 L13 14 L21 6"/>
+          <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+          <circle cx="13" cy="14" r="1.5" fill="currentColor"/>
+          <circle cx="21" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <span class="mob-topbar-brand-text">未来の仕事</span>
       </a>
-      <button type="button" class="m-topbar-burger" id="mTopbarBurger" aria-label="メニューを開く" aria-expanded="false" aria-controls="mTopbarMenu">
+      <button type="button" class="mob-topbar-burger" id="mobBurger" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobDrawer">
         <span></span><span></span><span></span>
       </button>
-    </nav>
-    <div class="m-topbar-menu" id="mTopbarMenu" hidden>
-      <div class="m-topbar-menu-inner">
-        <div class="m-topbar-menu-section">
-          <a href="/about">
-            このサイトについて
-          </a>
-          <a href="/compliance">
-            コンプライアンス
-          </a>
-          <a href="/privacy">プライバシー</a>
-        </div>
+    </header>
+    <div class="mob-drawer" id="mobDrawer" hidden role="dialog" aria-modal="true" aria-label="メインメニュー">
+      <div class="mob-drawer-inner">
+        <section class="mob-drawer-sec">
+          <h3 class="mob-drawer-title">探す入口</h3>
+          <a href="/map" class="mob-drawer-item"><span class="mob-drawer-label">職業マップ</span><span class="mob-drawer-meta">552 職業の俯瞰</span></a>
+          <a href="/ja/sectors" class="mob-drawer-item"><span class="mob-drawer-label">業種から探す</span><span class="mob-drawer-count">16</span></a>
+          <a href="/ja/rankings" class="mob-drawer-item"><span class="mob-drawer-label">ランキング</span><span class="mob-drawer-count">39</span></a>
+          <a href="/ja/compare" class="mob-drawer-item"><span class="mob-drawer-label">比較</span><span class="mob-drawer-count">20</span></a>
+          <a href="/ja/q" class="mob-drawer-item"><span class="mob-drawer-label">Q&amp;A</span><span class="mob-drawer-count">49</span></a>
+          <a href="/ja/explore" class="mob-drawer-item"><span class="mob-drawer-label">探す方法</span><span class="mob-drawer-meta">7 つの入口</span></a>
+          <a href="/ja/careers" class="mob-drawer-item"><span class="mob-drawer-label">キャリア段階</span><span class="mob-drawer-count">10</span></a>
+          <a href="/ja/licenses" class="mob-drawer-item"><span class="mob-drawer-label">資格</span><span class="mob-drawer-count">15</span></a>
+          <a href="/ja/yearly" class="mob-drawer-item"><span class="mob-drawer-label">年次レポート</span><span class="mob-drawer-count">3</span></a>
+        </section>
+        <section class="mob-drawer-sec">
+          <h3 class="mob-drawer-title">適性・条件で絞る</h3>
+          <a href="/ja/interests" class="mob-drawer-item"><span class="mob-drawer-label">興味 (RIASEC)</span><span class="mob-drawer-count">6</span></a>
+          <a href="/ja/skills" class="mob-drawer-item"><span class="mob-drawer-label">スキル</span><span class="mob-drawer-count">10</span></a>
+          <a href="/ja/abilities" class="mob-drawer-item"><span class="mob-drawer-label">能力</span><span class="mob-drawer-count">10</span></a>
+          <a href="/ja/knowledge" class="mob-drawer-item"><span class="mob-drawer-label">知識</span><span class="mob-drawer-count">10</span></a>
+          <a href="/ja/values" class="mob-drawer-item"><span class="mob-drawer-label">価値観</span><span class="mob-drawer-count">8</span></a>
+          <a href="/ja/education" class="mob-drawer-item"><span class="mob-drawer-label">学歴</span><span class="mob-drawer-count">6</span></a>
+          <a href="/ja/training" class="mob-drawer-item"><span class="mob-drawer-label">修行期間</span><span class="mob-drawer-count">5</span></a>
+          <a href="/ja/work-styles" class="mob-drawer-item"><span class="mob-drawer-label">働き方</span><span class="mob-drawer-count">7</span></a>
+          <a href="/ja/employment-types" class="mob-drawer-item"><span class="mob-drawer-label">雇用形態</span><span class="mob-drawer-count">4</span></a>
+          <a href="/ja/life-balance" class="mob-drawer-item"><span class="mob-drawer-label">ライフ整合</span><span class="mob-drawer-count">6</span></a>
+          <a href="/ja/entry-paths" class="mob-drawer-item"><span class="mob-drawer-label">入職経路</span><span class="mob-drawer-count">5</span></a>
+          <a href="/ja/about" class="mob-drawer-item"><span class="mob-drawer-label">方法論</span><span class="mob-drawer-meta">算出方法・用語集</span></a>
+        </section>
+        <section class="mob-drawer-sec">
+          <h3 class="mob-drawer-title">サイト</h3>
+          <a href="/about" class="mob-drawer-item"><span class="mob-drawer-label">このサイトについて</span></a>
+          <a href="/compliance" class="mob-drawer-item"><span class="mob-drawer-label">コンプライアンス</span></a>
+          <a href="/privacy" class="mob-drawer-item"><span class="mob-drawer-label">プライバシー</span></a>
+        </section>
       </div>
     </div>
     <div id="wrapper">
@@ -4485,33 +4407,60 @@
       wireSearchSubmit("dhSearchForm", "searchInputDesktop");
       wireSearchSubmit("mhSearchForm", "searchInputMobile");
 
-      // v1.2.x mobile hamburger menu — toggle expand/collapse + close on link click + Esc.
-      (function wireMobileTopbarMenu() {
-        const burger = document.getElementById("mTopbarBurger");
-        const menu   = document.getElementById("mTopbarMenu");
-        if (!burger || !menu) return;
+      // Phase 7 mobile hamburger menu — toggle expand/collapse + Esc + body scroll lock.
+      // Note: the BaseLayout-driven pages get the same logic from MobileNav.astro's
+      // inline <script>. The home page can't use BaseLayout, so this is the inline
+      // copy. Both implementations watch `mobBurger` / `mobDrawer` IDs.
+      (function wireMobileNav() {
+        const burger = document.getElementById("mobBurger");
+        const drawer = document.getElementById("mobDrawer");
+        if (!burger || !drawer) return;
+        if (burger.dataset.wired === "1") return;
+        burger.dataset.wired = "1";
+
+        let lastFocus = null;
+
         function setOpen(open) {
           burger.setAttribute("aria-expanded", String(open));
+          burger.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
           if (open) {
-            menu.hidden = false;
-            document.body.style.overflow = "hidden";  // lock background scroll while menu open
+            lastFocus = document.activeElement;
+            drawer.hidden = false;
+            document.body.style.overflow = "hidden";
+            requestAnimationFrame(() => {
+              const first = drawer.querySelector("a");
+              if (first) first.focus();
+            });
           } else {
-            menu.hidden = true;
+            drawer.hidden = true;
             document.body.style.overflow = "";
+            if (lastFocus && typeof lastFocus.focus === "function") {
+              try { lastFocus.focus(); } catch (e) {}
+            }
           }
         }
+
         burger.addEventListener("click", () => {
           setOpen(burger.getAttribute("aria-expanded") !== "true");
         });
-        menu.addEventListener("click", (e) => {
-          // Click on the dim backdrop (outside .m-topbar-menu-inner) → close.
-          if (e.target === menu) setOpen(false);
-        });
-        // Close after navigation (link click) so the page doesn't load with menu still over it.
-        menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
-        // Esc closes (keyboard a11y).
+
         document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && burger.getAttribute("aria-expanded") === "true") setOpen(false);
+          if (e.key === "Escape" && burger.getAttribute("aria-expanded") === "true") {
+            setOpen(false);
+          }
+        });
+
+        // Close on any link tap inside the drawer (browser navigates after).
+        drawer.addEventListener("click", (e) => {
+          let t = e.target;
+          while (t && t !== drawer) {
+            if (t.tagName === "A") { setOpen(false); return; }
+            t = t.parentNode;
+          }
+        });
+
+        window.addEventListener("pageshow", () => {
+          document.body.style.overflow = "";
         });
       })();
 

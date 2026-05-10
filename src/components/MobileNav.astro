@@ -1,0 +1,221 @@
+---
+/**
+ * MobileNav.astro — mobile-only top bar (44px sticky) + full-screen drawer
+ * with all 24 hub categories. Replaces the desktop sticky `.top-nav` on
+ * viewports ≤768px.
+ *
+ * Architecture (Phase 7, mobile-first):
+ *   - Layer 1: `.mob-topbar` — 44px sticky, brand on left + ハンバーガー on right
+ *   - Layer 2: `.mob-drawer` — full-screen slide-down drawer with 3 sections,
+ *              25 links total, 56px tap targets
+ *
+ * Behavior:
+ *   - Tap burger → drawer slides down (220ms), burger animates ≡ → ✕
+ *   - Tap close (✕) / tap any link / Esc / tap outside → drawer closes
+ *   - Body scroll-locked while open
+ *   - Focus management: first link auto-focused on open, prev focus restored on close
+ *
+ * The home page (`/`) uses src/index-source.html which doesn't go through
+ * BaseLayout — that file inlines an equivalent copy of this component's
+ * markup. Keep the two in sync if you change link order or labels.
+ *
+ * Hidden on desktop via canonical-css.ts media query.
+ */
+---
+<header class="mob-topbar" aria-label="モバイルサイトヘッダー">
+  <a href="/" class="mob-topbar-brand" aria-label="未来の仕事 — トップへ">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 18 L9 10 L13 14 L21 6"/>
+      <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+      <circle cx="13" cy="14" r="1.5" fill="currentColor"/>
+      <circle cx="21" cy="6" r="1.5" fill="currentColor"/>
+    </svg>
+    <span class="mob-topbar-brand-text">未来の仕事</span>
+  </a>
+  <button
+    type="button"
+    class="mob-topbar-burger"
+    id="mobBurger"
+    aria-label="メニューを開く"
+    aria-expanded="false"
+    aria-controls="mobDrawer"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<div class="mob-drawer" id="mobDrawer" hidden role="dialog" aria-modal="true" aria-label="メインメニュー">
+  <div class="mob-drawer-inner">
+
+    <section class="mob-drawer-sec">
+      <h3 class="mob-drawer-title">探す入口</h3>
+      <a href="/map" class="mob-drawer-item">
+        <span class="mob-drawer-label">職業マップ</span>
+        <span class="mob-drawer-meta">552 職業の俯瞰</span>
+      </a>
+      <a href="/ja/sectors" class="mob-drawer-item">
+        <span class="mob-drawer-label">業種から探す</span>
+        <span class="mob-drawer-count">16</span>
+      </a>
+      <a href="/ja/rankings" class="mob-drawer-item">
+        <span class="mob-drawer-label">ランキング</span>
+        <span class="mob-drawer-count">39</span>
+      </a>
+      <a href="/ja/compare" class="mob-drawer-item">
+        <span class="mob-drawer-label">比較</span>
+        <span class="mob-drawer-count">20</span>
+      </a>
+      <a href="/ja/q" class="mob-drawer-item">
+        <span class="mob-drawer-label">Q&amp;A</span>
+        <span class="mob-drawer-count">49</span>
+      </a>
+      <a href="/ja/explore" class="mob-drawer-item">
+        <span class="mob-drawer-label">探す方法</span>
+        <span class="mob-drawer-meta">7 つの入口</span>
+      </a>
+      <a href="/ja/careers" class="mob-drawer-item">
+        <span class="mob-drawer-label">キャリア段階</span>
+        <span class="mob-drawer-count">10</span>
+      </a>
+      <a href="/ja/licenses" class="mob-drawer-item">
+        <span class="mob-drawer-label">資格</span>
+        <span class="mob-drawer-count">15</span>
+      </a>
+      <a href="/ja/yearly" class="mob-drawer-item">
+        <span class="mob-drawer-label">年次レポート</span>
+        <span class="mob-drawer-count">3</span>
+      </a>
+    </section>
+
+    <section class="mob-drawer-sec">
+      <h3 class="mob-drawer-title">適性・条件で絞る</h3>
+      <a href="/ja/interests" class="mob-drawer-item">
+        <span class="mob-drawer-label">興味 (RIASEC)</span>
+        <span class="mob-drawer-count">6</span>
+      </a>
+      <a href="/ja/skills" class="mob-drawer-item">
+        <span class="mob-drawer-label">スキル</span>
+        <span class="mob-drawer-count">10</span>
+      </a>
+      <a href="/ja/abilities" class="mob-drawer-item">
+        <span class="mob-drawer-label">能力</span>
+        <span class="mob-drawer-count">10</span>
+      </a>
+      <a href="/ja/knowledge" class="mob-drawer-item">
+        <span class="mob-drawer-label">知識</span>
+        <span class="mob-drawer-count">10</span>
+      </a>
+      <a href="/ja/values" class="mob-drawer-item">
+        <span class="mob-drawer-label">価値観</span>
+        <span class="mob-drawer-count">8</span>
+      </a>
+      <a href="/ja/education" class="mob-drawer-item">
+        <span class="mob-drawer-label">学歴</span>
+        <span class="mob-drawer-count">6</span>
+      </a>
+      <a href="/ja/training" class="mob-drawer-item">
+        <span class="mob-drawer-label">修行期間</span>
+        <span class="mob-drawer-count">5</span>
+      </a>
+      <a href="/ja/work-styles" class="mob-drawer-item">
+        <span class="mob-drawer-label">働き方</span>
+        <span class="mob-drawer-count">7</span>
+      </a>
+      <a href="/ja/employment-types" class="mob-drawer-item">
+        <span class="mob-drawer-label">雇用形態</span>
+        <span class="mob-drawer-count">4</span>
+      </a>
+      <a href="/ja/life-balance" class="mob-drawer-item">
+        <span class="mob-drawer-label">ライフ整合</span>
+        <span class="mob-drawer-count">6</span>
+      </a>
+      <a href="/ja/entry-paths" class="mob-drawer-item">
+        <span class="mob-drawer-label">入職経路</span>
+        <span class="mob-drawer-count">5</span>
+      </a>
+      <a href="/ja/about" class="mob-drawer-item">
+        <span class="mob-drawer-label">方法論</span>
+        <span class="mob-drawer-meta">算出方法・用語集</span>
+      </a>
+    </section>
+
+    <section class="mob-drawer-sec">
+      <h3 class="mob-drawer-title">サイト</h3>
+      <a href="/about" class="mob-drawer-item">
+        <span class="mob-drawer-label">このサイトについて</span>
+      </a>
+      <a href="/compliance" class="mob-drawer-item">
+        <span class="mob-drawer-label">コンプライアンス</span>
+      </a>
+      <a href="/privacy" class="mob-drawer-item">
+        <span class="mob-drawer-label">プライバシー</span>
+      </a>
+    </section>
+
+  </div>
+</div>
+
+<script is:inline>
+  // wireMobileNav — runs once per page load. Idempotent: re-attaching from
+  // bfcache pageshow is safe because we use stored references on the burger
+  // element (not closures).
+  (function () {
+    var burger = document.getElementById('mobBurger');
+    var drawer = document.getElementById('mobDrawer');
+    if (!burger || !drawer) return;
+    if (burger.dataset.wired === '1') return;
+    burger.dataset.wired = '1';
+
+    var lastFocus = null;
+
+    function setOpen(open) {
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      if (open) {
+        lastFocus = document.activeElement;
+        drawer.hidden = false;
+        document.body.style.overflow = 'hidden';
+        // Defer focus so the drawer is rendered first
+        requestAnimationFrame(function () {
+          var first = drawer.querySelector('a');
+          if (first) first.focus();
+        });
+      } else {
+        drawer.hidden = true;
+        document.body.style.overflow = '';
+        if (lastFocus && typeof lastFocus.focus === 'function') {
+          try { lastFocus.focus(); } catch (e) {}
+        }
+      }
+    }
+
+    burger.addEventListener('click', function () {
+      setOpen(burger.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Close on Esc
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+      }
+    });
+
+    // Close when any link inside the drawer is tapped (browser will navigate
+    // after this handler returns; closing first prevents flash of open drawer
+    // on history-back).
+    drawer.addEventListener('click', function (e) {
+      var t = e.target;
+      while (t && t !== drawer) {
+        if (t.tagName === 'A') { setOpen(false); return; }
+        t = t.parentNode;
+      }
+    });
+
+    // Restore body scroll on bfcache navigation
+    window.addEventListener('pageshow', function () {
+      document.body.style.overflow = '';
+    });
+  })();
+</script>
