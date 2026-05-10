@@ -154,4 +154,88 @@ html body footer.site-footer .footer-meta em {
 html body footer.site-footer time {
   font-variant-numeric: tabular-nums;
 }
+
+/* ───── Top navigation (canonical, sticky slim bar) ───── */
+/* Magazine-style top masthead: sticky to viewport top, warm-cream backdrop
+   with subtle blur. Provides lateral nav across all hub categories without
+   stealing space from content (collapses on scroll-down via CSS only).
+   Specificity 0,0,1,3 beats page-local nav rules. */
+
+html body nav.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 11px 20px;
+  background: rgba(252, 248, 241, 0.92);
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+}
+html[data-theme="dark"] body nav.top-nav {
+  background: rgba(28, 22, 18, 0.92);
+}
+/* Solid fallback for browsers without backdrop-filter (Firefox <103, etc). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  html body nav.top-nav { background: var(--bg); }
+}
+
+html body nav.top-nav .top-nav-brand {
+  font-family: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--fg);
+  text-decoration: none;
+  margin-right: 6px;
+  letter-spacing: -0.005em;
+}
+html body nav.top-nav .top-nav-brand:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+html body nav.top-nav a:not(.top-nav-brand) {
+  color: var(--fg2);
+  text-decoration: none;
+  padding: 2px 0;
+  transition: color 150ms ease;
+}
+html body nav.top-nav a:not(.top-nav-brand):hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+html body nav.top-nav a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+html body nav.top-nav .sep {
+  color: var(--fg2);
+  opacity: 0.4;
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+@media (max-width: 540px) {
+  html body nav.top-nav {
+    padding: 9px 14px;
+    gap: 4px 10px;
+    font-size: 0.78rem;
+  }
+  html body nav.top-nav .top-nav-brand { font-size: 0.92rem; }
+}
+
+/* When the page <header id="content"> sits directly under the sticky nav,
+   the first heading needs extra top-margin so the nav doesn't visually
+   crowd it. This is content-side breathing room, not a nav property. */
+html body nav.top-nav + .skip-link + #wrapper > nav.crumb,
+html body nav.top-nav + #wrapper > nav.crumb {
+  margin-top: 8px;
+}
 `;

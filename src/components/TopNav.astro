@@ -1,0 +1,60 @@
+---
+/**
+ * TopNav.astro — sticky slim top navigation, included in BaseLayout so it
+ * appears on every BaseLayout-driven page automatically (~50 page templates,
+ * 821 built pages). The home page (`/`) is a separate inline copy in
+ * src/index-source.html since it doesn't go through BaseLayout.
+ *
+ * Behavior:
+ *   - Sticky to viewport top (z-index 50)
+ *   - Warm-cream backdrop with blur (falls back to solid bg on older browsers)
+ *   - Active section highlighted via aria-current="page" (auto-detected from
+ *     Astro.url.pathname)
+ *
+ * Styling lives in src/lib/canonical-css.ts under the "Top navigation" block,
+ * so home + every BaseLayout page render it identically.
+ */
+
+const path = Astro.url.pathname;
+
+/**
+ * Mark a link as the current section if the path starts with the prefix.
+ * The brand link `/` is special-cased — only "exactly /" counts as home,
+ * otherwise every page would highlight it.
+ */
+function isCurrent(prefix: string): boolean {
+  if (prefix === '/') return path === '/' || path === '/index.html';
+  return path === prefix || path.startsWith(prefix + '/') || path.startsWith(prefix + '.');
+}
+
+interface NavItem {
+  href: string;
+  label: string;
+  prefix: string;
+}
+
+const items: ReadonlyArray<NavItem> = [
+  { href: '/map',           label: '職業マップ',  prefix: '/map' },
+  { href: '/ja/sectors',    label: '業種',        prefix: '/ja/sectors' },
+  { href: '/ja/rankings',   label: 'ランキング',  prefix: '/ja/rankings' },
+  { href: '/ja/compare',    label: '比較',        prefix: '/ja/compare' },
+  { href: '/ja/q',          label: 'Q&A',         prefix: '/ja/q' },
+  { href: '/ja/explore',    label: '探す方法',    prefix: '/ja/explore' },
+];
+
+const brandIsCurrent = isCurrent('/');
+---
+<nav class="top-nav" aria-label="主要ナビゲーション">
+  <a
+    href="/"
+    class="top-nav-brand"
+    {...(brandIsCurrent ? { 'aria-current': 'page' } : {})}
+  >未来の仕事</a><span class="sep" aria-hidden="true">·</span>{items.map((it, i) => (
+    <>
+      <a
+        href={it.href}
+        {...(isCurrent(it.prefix) ? { 'aria-current': 'page' } : {})}
+      >{it.label}</a>{i < items.length - 1 && <span class="sep" aria-hidden="true">·</span>}
+    </>
+  ))}
+</nav>
