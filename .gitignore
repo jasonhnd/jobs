@@ -64,3 +64,4 @@ _*.html
 
 # docs/ — all design / planning markdown is local-only, not synced to GitHub.
 docs/
+
