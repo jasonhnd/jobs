@@ -4,10 +4,13 @@
  * class of bug at the rendered-output level (defense-in-depth alongside
  * scripts/check-nested-html-comments.cjs and scripts/check-rendered-leaks.cjs).
  *
- * Usage:
- *   npm run build && npx playwright test
- * Or for smoke only (no screenshot baseline updates):
- *   npx playwright test --grep smoke
+ * NOTE: @playwright/test and http-server are NOT in package.json devDeps
+ * (they would force a pnpm-lock update on Vercel and aren't needed for the
+ * site build). To run e2e locally, install them on demand:
+ *
+ *   pnpm add -D @playwright/test http-server
+ *   npx playwright install chromium
+ *   pnpm run build && npx playwright test
  */
 import { defineConfig, devices } from '@playwright/test';
 

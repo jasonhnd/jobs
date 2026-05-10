@@ -16,8 +16,7 @@
     "audit": "corepack pnpm audit --audit-level=moderate && (cd analytics && corepack pnpm audit --audit-level=moderate)",
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
     "check:html-comments": "node scripts/check-nested-html-comments.cjs",
-    "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs",
-    "test:e2e": "playwright test"
+    "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
@@ -28,12 +27,10 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "exceljs": "^4.4.0",
-    "http-server": "^14.1.1",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   },
