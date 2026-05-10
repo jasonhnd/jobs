@@ -1,0 +1,5 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+virtualStoreDir: ${HOME}/dev-cache/jobs/.pnpm
+storeDir: ${HOME}/dev-cache/pnpm-store

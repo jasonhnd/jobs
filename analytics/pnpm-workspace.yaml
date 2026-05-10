@@ -1,0 +1,2 @@
+virtualStoreDir: ${HOME}/dev-cache/jobs/analytics/.pnpm
+storeDir: ${HOME}/dev-cache/pnpm-store
