@@ -1,4 +1,5 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
@@ -33,9 +34,12 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '@/data': new URL('./src/data', import.meta.url).pathname,
-        '@/components': new URL('./src/components', import.meta.url).pathname,
-        '@/layouts': new URL('./src/layouts', import.meta.url).pathname,
+        // fileURLToPath returns a real OS path on every platform.
+        // .pathname returns "/C:/..." on Windows (leading slash before drive
+        // letter), which breaks Vite alias resolution.
+        '@/data': fileURLToPath(new URL('./src/data', import.meta.url)),
+        '@/components': fileURLToPath(new URL('./src/components', import.meta.url)),
+        '@/layouts': fileURLToPath(new URL('./src/layouts', import.meta.url)),
       },
     },
   },
