@@ -2334,10 +2334,96 @@
         font-weight: 400;
         margin-top: 4px;
       }
+      /* Phase 6: richer ranking card — eyebrow + name + #1 preview + desc.
+         Card now flows vertically with consistent vertical rhythm. */
+      .ranking-nav-grid a {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding: 13px 16px;
+      }
+      .rn-eyebrow {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 4px;
+      }
+      .rn-name {
+        font-size: 0.92rem;
+        font-weight: 600;
+        line-height: 1.3;
+        color: var(--fg);
+      }
+      .rn-preview {
+        display: block;
+        font-size: 0.78rem;
+        color: var(--fg);
+        font-variant-numeric: tabular-nums;
+        margin-top: 6px;
+      }
+      .ranking-nav-grid .rn-desc {
+        margin-top: 2px;
+      }
+      /* Subgroup heading (italic serif) above card grids inside ranking section. */
+      .ranking-subgroup {
+        margin-top: 18px;
+      }
+      .ranking-subgroup:first-of-type { margin-top: 0; }
+      .ranking-subgroup-title {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--fg2);
+        margin: 0 0 10px 4px;
+        letter-spacing: 0.02em;
+      }
+      .ranking-subgroup-title em {
+        font-style: normal;
+        color: var(--fg3, var(--fg2));
+        font-size: 0.72rem;
+        margin-left: 6px;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.75;
+      }
+      /* Expand-more affordance (details/summary) — reveals the 24 specialty rankings. */
+      .hub-rankings-more { margin-top: 18px; }
+      .hub-rankings-more > summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 12px 16px;
+        text-align: center;
+        border: 1px dashed var(--border);
+        border-radius: 8px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--fg);
+        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+      }
+      .hub-rankings-more > summary:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.05);
+      }
+      .hub-rankings-more > summary::-webkit-details-marker { display: none; }
+      .hub-rankings-more > summary::after {
+        content: '  ↓';
+        color: var(--fg2);
+      }
+      .hub-rankings-more[open] > summary::after { content: '  ↑'; }
+      .hub-rankings-more[open] > summary {
+        margin-bottom: 18px;
+        border-style: solid;
+      }
       @media (max-width: 540px) {
         .ranking-nav { margin: 14px 0; padding: 16px 14px; }
         .ranking-nav-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
         .ranking-nav-grid a { padding: 10px 12px; font-size: 0.82rem; }
+        .rn-eyebrow { font-size: 0.62rem; }
+        .rn-name { font-size: 0.85rem; }
+        .rn-preview { font-size: 0.72rem; }
       }
       @media (max-width: 540px) {
         .data-summary { font-size: 0.8rem; padding: 12px 14px; }
@@ -2689,16 +2775,290 @@
         </div>
       </nav>
 
-      <nav class="ranking-nav" aria-label="ランキングから探す">
-        <div class="ranking-nav-head">
-          <h2 class="ranking-nav-title">ランキングから探す</h2>
+      <hr class="hub-section-divider" aria-hidden="true">
+      <!-- PART II: 39 rankings, grouped into 6 themes. Default 15 (basic 9 + AI 6) visible; rest collapsible behind <details>. Each card carries an eyebrow tag, the ranking name, and the #1 preview (computed at static-build time from public/data.detail). -->
+      <nav class="hub-section ranking-nav" aria-labelledby="hub-rankings-title">
+        <header class="hub-section-head">
+          <span class="hub-eyebrow">PART II</span>
+          <h2 class="hub-section-title" id="hub-rankings-title">ランキング・指標で探す</h2>
+          <p class="hub-section-sub">39 のランキングで日本 552 職業を分析</p>
+        </header>
+
+        <div class="ranking-subgroup">
+          <h3 class="ranking-subgroup-title">基本ランキング <em>9 軸</em></h3>
+          <ul class="ranking-nav-grid">
+            <li><a href="/ja/rankings/ai-risk-high">
+              <span class="rn-eyebrow">AI 影響度</span>
+              <strong class="rn-name">AIに奪われる仕事 TOP30</strong>
+              <span class="rn-preview">🥇 データ入力（AI 影響 10/10）</span>
+              <span class="rn-desc">AI影響度が高い職業</span>
+            </a></li>
+            <li><a href="/ja/rankings/ai-risk-low">
+              <span class="rn-eyebrow">AI 影響度</span>
+              <strong class="rn-name">AI影響が少ない仕事 TOP30</strong>
+              <span class="rn-preview">🥇 潜水士（AI 影響 1/10）</span>
+              <span class="rn-desc">将来性のある職業</span>
+            </a></li>
+            <li><a href="/ja/rankings/salary-safe">
+              <span class="rn-eyebrow">複合</span>
+              <strong class="rn-name">高年収×低AIリスク TOP30</strong>
+              <span class="rn-preview">🥇 パイロット（1697 万円）</span>
+              <span class="rn-desc">収入と安定を両立</span>
+            </a></li>
+            <li><a href="/ja/rankings/workers">
+              <span class="rn-eyebrow">就業者数</span>
+              <strong class="rn-name">就業者数ランキング TOP30</strong>
+              <span class="rn-preview">🥇 一般事務（264 万人）</span>
+              <span class="rn-desc">最も人が多い職業</span>
+            </a></li>
+            <li><a href="/ja/rankings/salary">
+              <span class="rn-eyebrow">年収</span>
+              <strong class="rn-name">年収ランキング TOP30</strong>
+              <span class="rn-preview">🥇 パイロット（1697 万円）</span>
+              <span class="rn-desc">年収が最も高い職業</span>
+            </a></li>
+            <li><a href="/ja/rankings/entry-salary">
+              <span class="rn-eyebrow">初任給</span>
+              <strong class="rn-name">初任給ランキング TOP30</strong>
+              <span class="rn-preview">🥇 外科医（初任給 109 万円）</span>
+              <span class="rn-desc">スタート給与が高い職業</span>
+            </a></li>
+            <li><a href="/ja/rankings/young-workforce">
+              <span class="rn-eyebrow">年齢</span>
+              <strong class="rn-name">平均年齢が若い職業 TOP30</strong>
+              <span class="rn-preview">🥇 理容師（平均 32.8 歳）</span>
+              <span class="rn-desc">若手が活躍する職業</span>
+            </a></li>
+            <li><a href="/ja/rankings/short-hours">
+              <span class="rn-eyebrow">労働時間</span>
+              <strong class="rn-name">労働時間が短い職業 TOP30</strong>
+              <span class="rn-preview">🥇 保険営業（月 141 時間）</span>
+              <span class="rn-desc">ワークライフバランス重視</span>
+            </a></li>
+            <li><a href="/ja/rankings/high-demand">
+              <span class="rn-eyebrow">需要</span>
+              <strong class="rn-name">人手不足の職業 TOP30</strong>
+              <span class="rn-preview">🥇 雑踏・交通誘導警備員（求人倍率 52.3 倍）</span>
+              <span class="rn-desc">求人需要が高い職業</span>
+            </a></li>
+          </ul>
         </div>
-        <ul class="ranking-nav-grid">
-          <li><a href="/ja/rankings/ai-risk-high">AIに奪われる仕事 TOP30<span class="rn-desc">AI影響度が高い職業</span></a></li>
-          <li><a href="/ja/rankings/ai-risk-low">AI影響が少ない仕事 TOP30<span class="rn-desc">将来性のある職業</span></a></li>
-          <li><a href="/ja/rankings/salary-safe">高年収×低AIリスク TOP30<span class="rn-desc">収入と安定を両立</span></a></li>
-          <li><a href="/ja/rankings/workers">就業者数ランキング TOP30<span class="rn-desc">最も人が多い職業</span></a></li>
-        </ul>
+
+        <div class="ranking-subgroup">
+          <h3 class="ranking-subgroup-title">AI と職業 <em>6 軸</em></h3>
+          <ul class="ranking-nav-grid">
+            <li><a href="/ja/rankings/ai-replaced-soon">
+              <span class="rn-eyebrow">AI 高暴露</span>
+              <strong class="rn-name">AI 置き換えが進む職業</strong>
+              <span class="rn-preview">🥇 データ入力（AI 影響 10/10）</span>
+              <span class="rn-desc">AI 影響度 8 以上、業務再設計が急務</span>
+            </a></li>
+            <li><a href="/ja/rankings/ai-resistant-craft">
+              <span class="rn-eyebrow">技能職</span>
+              <strong class="rn-name">伝統技能で AI 抗性が高い職業</strong>
+              <span class="rn-preview">🥇 潜水士（AI 影響 1/10）</span>
+              <span class="rn-desc">製造・建設・メンテ系の技能職</span>
+            </a></li>
+            <li><a href="/ja/rankings/ai-at-risk-but-paid">
+              <span class="rn-eyebrow">要注意</span>
+              <strong class="rn-name">AI リスク高 × 高年収</strong>
+              <span class="rn-preview">🥇 銀行支店長（917 万円）</span>
+              <span class="rn-desc">AI 影響度高でも現状年収高の要注意組</span>
+            </a></li>
+            <li><a href="/ja/rankings/ai-augmented">
+              <span class="rn-eyebrow">AI 補強域</span>
+              <strong class="rn-name">AI で補強される職業</strong>
+              <span class="rn-preview">🥇 パイロット（AI 影響 4/10）</span>
+              <span class="rn-desc">AI 影響度 4-6 の AI 共存域</span>
+            </a></li>
+            <li><a href="/ja/rankings/ai-frontier">
+              <span class="rn-eyebrow">AI 使い手</span>
+              <strong class="rn-name">AI を使いこなす側の職業</strong>
+              <span class="rn-preview">🥇 システムエンジニア（752 万円）</span>
+              <span class="rn-desc">IT・通信セクターの AI フロンティア職</span>
+            </a></li>
+            <li><a href="/ja/rankings/ai-stable-employment">
+              <span class="rn-eyebrow">安定職</span>
+              <strong class="rn-name">AI 安全 × 正規雇用率高</strong>
+              <span class="rn-preview">🥇 海上保安官（正規 100%）</span>
+              <span class="rn-desc">低 AI 影響かつ正社員中心</span>
+            </a></li>
+          </ul>
+        </div>
+
+        <details class="hub-rankings-more">
+          <summary>もっと見る — 24 のランキング (単軸・組合せ・教育・ニッチ)</summary>
+
+          <div class="ranking-subgroup">
+            <h3 class="ranking-subgroup-title">単軸で深く <em>5 軸</em></h3>
+            <ul class="ranking-nav-grid">
+              <li><a href="/ja/rankings/hourly-wage">
+                <span class="rn-eyebrow">時給</span>
+                <strong class="rn-name">時給が高い職業 TOP30</strong>
+                <span class="rn-desc">時給ベースで報酬が高い</span>
+              </a></li>
+              <li><a href="/ja/rankings/recruit-ratio">
+                <span class="rn-eyebrow">求人倍率</span>
+                <strong class="rn-name">求人倍率が高い職業 TOP30</strong>
+                <span class="rn-preview">🥇 雑踏・交通誘導警備員（52.30 倍）</span>
+                <span class="rn-desc">人手不足が顕著な売り手市場</span>
+              </a></li>
+              <li><a href="/ja/rankings/aging-workforce">
+                <span class="rn-eyebrow">シニア</span>
+                <strong class="rn-name">シニア中心の職業 TOP30</strong>
+                <span class="rn-preview">🥇 タクシー運転手（平均 60.2 歳）</span>
+                <span class="rn-desc">経験者が活躍する職業</span>
+              </a></li>
+              <li><a href="/ja/rankings/monthly-hours-long">
+                <span class="rn-eyebrow">長時間</span>
+                <strong class="rn-name">労働時間が長い職業 TOP30</strong>
+                <span class="rn-preview">🥇 獣医師（月 195 時間）</span>
+                <span class="rn-desc">月間労働時間が長い職業</span>
+              </a></li>
+              <li><a href="/ja/rankings/recruit-ratio-low">
+                <span class="rn-eyebrow">買い手</span>
+                <strong class="rn-name">求人倍率が低い職業 TOP30</strong>
+                <span class="rn-preview">🥇 イラストレーター（0.06 倍）</span>
+                <span class="rn-desc">採用競争が厳しい買い手市場</span>
+              </a></li>
+            </ul>
+          </div>
+
+          <div class="ranking-subgroup">
+            <h3 class="ranking-subgroup-title">組合せで絞る <em>8 軸</em></h3>
+            <ul class="ranking-nav-grid">
+              <li><a href="/ja/rankings/ai-safe-high-demand">
+                <span class="rn-eyebrow">安全 × 需要</span>
+                <strong class="rn-name">高需要 × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 雑踏・交通誘導警備員（求人倍率 52.3 倍）</span>
+                <span class="rn-desc">人手不足かつ AI 影響度が低い</span>
+              </a></li>
+              <li><a href="/ja/rankings/ai-safe-short-hours">
+                <span class="rn-eyebrow">安全 × 短時間</span>
+                <strong class="rn-name">低労働時間 × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 電車運転士（月 148 時間）</span>
+                <span class="rn-desc">労働時間が短く AI 影響も低い</span>
+              </a></li>
+              <li><a href="/ja/rankings/ai-safe-young-workforce">
+                <span class="rn-eyebrow">安全 × 若手</span>
+                <strong class="rn-name">若手中心 × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 理容師（平均 32.8 歳）</span>
+                <span class="rn-desc">平均年齢が若く AI 影響も低い</span>
+              </a></li>
+              <li><a href="/ja/rankings/ai-safe-no-license">
+                <span class="rn-eyebrow">安全 × 無資格</span>
+                <strong class="rn-name">無資格 × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 ワイン製造（AI 影響 2/10）</span>
+                <span class="rn-desc">資格なしで就けて AI 影響も低い</span>
+              </a></li>
+              <li><a href="/ja/rankings/ai-safe-physical">
+                <span class="rn-eyebrow">安全 × 身体性</span>
+                <strong class="rn-name">身体性 × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 潜水士（AI 影響 1/10）</span>
+                <span class="rn-desc">身体技能職で AI 影響も低い</span>
+              </a></li>
+              <li><a href="/ja/rankings/ai-safe-interpersonal">
+                <span class="rn-eyebrow">安全 × 対人</span>
+                <strong class="rn-name">対人 × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 理容師（AI 影響 2/10）</span>
+                <span class="rn-desc">対人スキル中心で AI 影響も低い</span>
+              </a></li>
+              <li><a href="/ja/rankings/high-salary-high-demand">
+                <span class="rn-eyebrow">高年収 × 需要</span>
+                <strong class="rn-name">高年収 × 高需要 TOP30</strong>
+                <span class="rn-desc">年収が高くかつ人手不足の職業</span>
+              </a></li>
+              <li><a href="/ja/rankings/high-salary-young-entry">
+                <span class="rn-eyebrow">高初任給</span>
+                <strong class="rn-name">高初任給 × 若手活躍 TOP30</strong>
+                <span class="rn-preview">🥇 歯科医師（初任給 65 万円）</span>
+                <span class="rn-desc">初任給が高くて若手が多い</span>
+              </a></li>
+            </ul>
+          </div>
+
+          <div class="ranking-subgroup">
+            <h3 class="ranking-subgroup-title">教育・資格で <em>5 軸</em></h3>
+            <ul class="ranking-nav-grid">
+              <li><a href="/ja/rankings/license-required">
+                <span class="rn-eyebrow">資格職</span>
+                <strong class="rn-name">国家資格が必要な職業 TOP30</strong>
+                <span class="rn-preview">🥇 プラント設計技術者（資格 32 個）</span>
+                <span class="rn-desc">関連資格が多い高度専門職</span>
+              </a></li>
+              <li><a href="/ja/rankings/no-license-required">
+                <span class="rn-eyebrow">無資格</span>
+                <strong class="rn-name">無資格で就ける × AI 安全 TOP30</strong>
+                <span class="rn-preview">🥇 ワイン製造（AI 影響 2/10）</span>
+                <span class="rn-desc">資格不要かつ AI リスク低</span>
+              </a></li>
+              <li><a href="/ja/rankings/high-school-ok">
+                <span class="rn-eyebrow">高卒 OK</span>
+                <strong class="rn-name">高卒で目指せる職業 TOP30</strong>
+                <span class="rn-preview">🥇 陸上自衛官（高卒 92%）</span>
+                <span class="rn-desc">高卒比率 30% 以上の職業</span>
+              </a></li>
+              <li><a href="/ja/rankings/university-required">
+                <span class="rn-eyebrow">大卒中心</span>
+                <strong class="rn-name">大卒以上が中心の職業 TOP30</strong>
+                <span class="rn-preview">🥇 家庭裁判所調査官（大卒 100%）</span>
+                <span class="rn-desc">大卒比率 50% 以上の職業</span>
+              </a></li>
+              <li><a href="/ja/rankings/graduate-school-required">
+                <span class="rn-eyebrow">大学院</span>
+                <strong class="rn-name">大学院卒中心の職業 TOP30</strong>
+                <span class="rn-preview">🥇 情報工学研究者（院卒 98%）</span>
+                <span class="rn-desc">修士・博士課程修了者が多い</span>
+              </a></li>
+            </ul>
+          </div>
+
+          <div class="ranking-subgroup">
+            <h3 class="ranking-subgroup-title">ニッチな視点 <em>6 軸</em></h3>
+            <ul class="ranking-nav-grid">
+              <li><a href="/ja/rankings/public-sector">
+                <span class="rn-eyebrow">公務</span>
+                <strong class="rn-name">公的機関・公務員系の職業</strong>
+                <span class="rn-preview">🥇 施設警備員（37 万人）</span>
+                <span class="rn-desc">保安・公安セクターの公務員職</span>
+              </a></li>
+              <li><a href="/ja/rankings/freelance-friendly">
+                <span class="rn-eyebrow">フリーランス</span>
+                <strong class="rn-name">フリーランス向きの職業</strong>
+                <span class="rn-preview">🥇 イラストレーター（フリー 89%）</span>
+                <span class="rn-desc">自営・フリーランス比率 20% 以上</span>
+              </a></li>
+              <li><a href="/ja/rankings/self-employed-typical">
+                <span class="rn-eyebrow">独立</span>
+                <strong class="rn-name">独立・開業が典型の職業</strong>
+                <span class="rn-preview">🥇 外科医（1338 万円）</span>
+                <span class="rn-desc">独立がキャリアの自然な到達点</span>
+              </a></li>
+              <li><a href="/ja/rankings/large-workforce-stable">
+                <span class="rn-eyebrow">大規模 × 安全</span>
+                <strong class="rn-name">大規模就業 × AI 安全</strong>
+                <span class="rn-preview">🥇 施設介護員（136 万人）</span>
+                <span class="rn-desc">就業者 5 万人+ かつ AI 影響低</span>
+              </a></li>
+              <li><a href="/ja/rankings/regulated-protected">
+                <span class="rn-eyebrow">規制保護</span>
+                <strong class="rn-name">規制で守られた職業</strong>
+                <span class="rn-preview">🥇 造船技能者（資格 23 個）</span>
+                <span class="rn-desc">関連資格 2 個+ かつ AI 影響低</span>
+              </a></li>
+              <li><a href="/ja/rankings/low-stress-stable">
+                <span class="rn-eyebrow">低ストレス</span>
+                <strong class="rn-name">低ストレス安定職</strong>
+                <span class="rn-preview">🥇 電車運転士（月 148 時間）</span>
+                <span class="rn-desc">短い労働時間 × 低 AI 影響</span>
+              </a></li>
+            </ul>
+          </div>
+        </details>
+
+        <p style="margin: 14px 4px 0; font-size: 0.78rem; color: var(--fg2);">
+          すべてのランキングを見る → <a href="/ja/rankings" style="color: var(--accent); font-weight: 500;">ランキング一覧 (39)</a>
+        </p>
       </nav>
 
       <!-- Stage 1: compact data attribution. Full content moved to /about. Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
