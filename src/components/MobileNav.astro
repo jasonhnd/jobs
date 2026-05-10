@@ -1,23 +1,26 @@
 ---
 /**
- * MobileNav.astro — mobile-only top bar (44px sticky) + full-screen drawer
- * with all 24 hub categories. Replaces the desktop sticky `.top-nav` on
- * viewports ≤768px.
+ * MobileNav.astro — mobile-only top bar (48px sticky) + full-screen drawer
+ * with all 24 hub categories, organized into 3 cleanly-separated panels.
  *
- * Architecture (Phase 7, mobile-first):
- *   - Layer 1: `.mob-topbar` — 44px sticky, brand on left + ハンバーガー on right
- *   - Layer 2: `.mob-drawer` — full-screen slide-down drawer with 3 sections,
- *              25 links total, 56px tap targets
+ * Architecture (Phase 7.1, mobile-first with stronger visual hierarchy):
+ *   - Layer 1: `.mob-topbar` — 48px sticky, brand SVG + text on left,
+ *              animated ≡ → ✕ ハンバーガー on right (44×44px tap target)
+ *   - Layer 2: `.mob-drawer` — full-screen slide-down drawer with 3 panels:
+ *
+ *      Each panel (`<section.mob-drawer-sec>`) is a bg2 container with:
+ *        - `<header>` block: serif-bold title + accent dot + lede description
+ *        - `<div.mob-drawer-list>`: list of card-style item rows, each with:
+ *            * label, optional count/meta, right-arrow chevron
+ *            * white bg, border, rounded corners, active scale-down
+ *
+ * The home page (`/`) inlines an equivalent copy in src/index-source.html
+ * (no BaseLayout). Keep markup in sync.
  *
  * Behavior:
- *   - Tap burger → drawer slides down (220ms), burger animates ≡ → ✕
- *   - Tap close (✕) / tap any link / Esc / tap outside → drawer closes
- *   - Body scroll-locked while open
- *   - Focus management: first link auto-focused on open, prev focus restored on close
- *
- * The home page (`/`) uses src/index-source.html which doesn't go through
- * BaseLayout — that file inlines an equivalent copy of this component's
- * markup. Keep the two in sync if you change link order or labels.
+ *   - Tap burger → drawer slides down (220ms), bg scroll-locked
+ *   - Tap any link / Esc → drawer closes
+ *   - Focus management: first link focused on open, prev focus restored on close
  *
  * Hidden on desktop via canonical-css.ts media query.
  */
@@ -50,108 +53,156 @@
   <div class="mob-drawer-inner">
 
     <section class="mob-drawer-sec">
-      <h3 class="mob-drawer-title">探す入口</h3>
-      <a href="/map" class="mob-drawer-item">
-        <span class="mob-drawer-label">職業マップ</span>
-        <span class="mob-drawer-meta">552 職業の俯瞰</span>
-      </a>
-      <a href="/ja/sectors" class="mob-drawer-item">
-        <span class="mob-drawer-label">業種から探す</span>
-        <span class="mob-drawer-count">16</span>
-      </a>
-      <a href="/ja/rankings" class="mob-drawer-item">
-        <span class="mob-drawer-label">ランキング</span>
-        <span class="mob-drawer-count">39</span>
-      </a>
-      <a href="/ja/compare" class="mob-drawer-item">
-        <span class="mob-drawer-label">比較</span>
-        <span class="mob-drawer-count">20</span>
-      </a>
-      <a href="/ja/q" class="mob-drawer-item">
-        <span class="mob-drawer-label">Q&amp;A</span>
-        <span class="mob-drawer-count">49</span>
-      </a>
-      <a href="/ja/explore" class="mob-drawer-item">
-        <span class="mob-drawer-label">探す方法</span>
-        <span class="mob-drawer-meta">7 つの入口</span>
-      </a>
-      <a href="/ja/careers" class="mob-drawer-item">
-        <span class="mob-drawer-label">キャリア段階</span>
-        <span class="mob-drawer-count">10</span>
-      </a>
-      <a href="/ja/licenses" class="mob-drawer-item">
-        <span class="mob-drawer-label">資格</span>
-        <span class="mob-drawer-count">15</span>
-      </a>
-      <a href="/ja/yearly" class="mob-drawer-item">
-        <span class="mob-drawer-label">年次レポート</span>
-        <span class="mob-drawer-count">3</span>
-      </a>
+      <header class="mob-drawer-sec-head">
+        <h3 class="mob-drawer-title">
+          <span class="mob-drawer-title-dot" aria-hidden="true"></span>
+          探す入口
+        </h3>
+        <p class="mob-drawer-lede">業種・ランキング・Q&A など主要な入口</p>
+      </header>
+      <div class="mob-drawer-list">
+        <a href="/map" class="mob-drawer-item">
+          <span class="mob-drawer-label">職業マップ</span>
+          <span class="mob-drawer-meta">552 職業の俯瞰</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/sectors" class="mob-drawer-item">
+          <span class="mob-drawer-label">業種から探す</span>
+          <span class="mob-drawer-count">16</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/rankings" class="mob-drawer-item">
+          <span class="mob-drawer-label">ランキング</span>
+          <span class="mob-drawer-count">39</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/compare" class="mob-drawer-item">
+          <span class="mob-drawer-label">比較</span>
+          <span class="mob-drawer-count">20</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/q" class="mob-drawer-item">
+          <span class="mob-drawer-label">Q&amp;A</span>
+          <span class="mob-drawer-count">49</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/explore" class="mob-drawer-item">
+          <span class="mob-drawer-label">探す方法</span>
+          <span class="mob-drawer-meta">7 つの入口</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/careers" class="mob-drawer-item">
+          <span class="mob-drawer-label">キャリア段階</span>
+          <span class="mob-drawer-count">10</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/licenses" class="mob-drawer-item">
+          <span class="mob-drawer-label">資格</span>
+          <span class="mob-drawer-count">15</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/yearly" class="mob-drawer-item">
+          <span class="mob-drawer-label">年次レポート</span>
+          <span class="mob-drawer-count">3</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+      </div>
     </section>
 
     <section class="mob-drawer-sec">
-      <h3 class="mob-drawer-title">適性・条件で絞る</h3>
-      <a href="/ja/interests" class="mob-drawer-item">
-        <span class="mob-drawer-label">興味 (RIASEC)</span>
-        <span class="mob-drawer-count">6</span>
-      </a>
-      <a href="/ja/skills" class="mob-drawer-item">
-        <span class="mob-drawer-label">スキル</span>
-        <span class="mob-drawer-count">10</span>
-      </a>
-      <a href="/ja/abilities" class="mob-drawer-item">
-        <span class="mob-drawer-label">能力</span>
-        <span class="mob-drawer-count">10</span>
-      </a>
-      <a href="/ja/knowledge" class="mob-drawer-item">
-        <span class="mob-drawer-label">知識</span>
-        <span class="mob-drawer-count">10</span>
-      </a>
-      <a href="/ja/values" class="mob-drawer-item">
-        <span class="mob-drawer-label">価値観</span>
-        <span class="mob-drawer-count">8</span>
-      </a>
-      <a href="/ja/education" class="mob-drawer-item">
-        <span class="mob-drawer-label">学歴</span>
-        <span class="mob-drawer-count">6</span>
-      </a>
-      <a href="/ja/training" class="mob-drawer-item">
-        <span class="mob-drawer-label">修行期間</span>
-        <span class="mob-drawer-count">5</span>
-      </a>
-      <a href="/ja/work-styles" class="mob-drawer-item">
-        <span class="mob-drawer-label">働き方</span>
-        <span class="mob-drawer-count">7</span>
-      </a>
-      <a href="/ja/employment-types" class="mob-drawer-item">
-        <span class="mob-drawer-label">雇用形態</span>
-        <span class="mob-drawer-count">4</span>
-      </a>
-      <a href="/ja/life-balance" class="mob-drawer-item">
-        <span class="mob-drawer-label">ライフ整合</span>
-        <span class="mob-drawer-count">6</span>
-      </a>
-      <a href="/ja/entry-paths" class="mob-drawer-item">
-        <span class="mob-drawer-label">入職経路</span>
-        <span class="mob-drawer-count">5</span>
-      </a>
-      <a href="/ja/about" class="mob-drawer-item">
-        <span class="mob-drawer-label">方法論</span>
-        <span class="mob-drawer-meta">算出方法・用語集</span>
-      </a>
+      <header class="mob-drawer-sec-head">
+        <h3 class="mob-drawer-title">
+          <span class="mob-drawer-title-dot" aria-hidden="true"></span>
+          適性・条件で絞る
+        </h3>
+        <p class="mob-drawer-lede">スキル・能力・学歴など、自分の特性で絞り込む</p>
+      </header>
+      <div class="mob-drawer-list">
+        <a href="/ja/interests" class="mob-drawer-item">
+          <span class="mob-drawer-label">興味 (RIASEC)</span>
+          <span class="mob-drawer-count">6</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/skills" class="mob-drawer-item">
+          <span class="mob-drawer-label">スキル</span>
+          <span class="mob-drawer-count">10</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/abilities" class="mob-drawer-item">
+          <span class="mob-drawer-label">能力</span>
+          <span class="mob-drawer-count">10</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/knowledge" class="mob-drawer-item">
+          <span class="mob-drawer-label">知識</span>
+          <span class="mob-drawer-count">10</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/values" class="mob-drawer-item">
+          <span class="mob-drawer-label">価値観</span>
+          <span class="mob-drawer-count">8</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/education" class="mob-drawer-item">
+          <span class="mob-drawer-label">学歴</span>
+          <span class="mob-drawer-count">6</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/training" class="mob-drawer-item">
+          <span class="mob-drawer-label">修行期間</span>
+          <span class="mob-drawer-count">5</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/work-styles" class="mob-drawer-item">
+          <span class="mob-drawer-label">働き方</span>
+          <span class="mob-drawer-count">7</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/employment-types" class="mob-drawer-item">
+          <span class="mob-drawer-label">雇用形態</span>
+          <span class="mob-drawer-count">4</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/life-balance" class="mob-drawer-item">
+          <span class="mob-drawer-label">ライフ整合</span>
+          <span class="mob-drawer-count">6</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/entry-paths" class="mob-drawer-item">
+          <span class="mob-drawer-label">入職経路</span>
+          <span class="mob-drawer-count">5</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/ja/about" class="mob-drawer-item">
+          <span class="mob-drawer-label">方法論</span>
+          <span class="mob-drawer-meta">算出方法・用語集</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+      </div>
     </section>
 
     <section class="mob-drawer-sec">
-      <h3 class="mob-drawer-title">サイト</h3>
-      <a href="/about" class="mob-drawer-item">
-        <span class="mob-drawer-label">このサイトについて</span>
-      </a>
-      <a href="/compliance" class="mob-drawer-item">
-        <span class="mob-drawer-label">コンプライアンス</span>
-      </a>
-      <a href="/privacy" class="mob-drawer-item">
-        <span class="mob-drawer-label">プライバシー</span>
-      </a>
+      <header class="mob-drawer-sec-head">
+        <h3 class="mob-drawer-title">
+          <span class="mob-drawer-title-dot" aria-hidden="true"></span>
+          サイト
+        </h3>
+        <p class="mob-drawer-lede">データ出典・法的情報</p>
+      </header>
+      <div class="mob-drawer-list">
+        <a href="/about" class="mob-drawer-item">
+          <span class="mob-drawer-label">このサイトについて</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/compliance" class="mob-drawer-item">
+          <span class="mob-drawer-label">コンプライアンス</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+        <a href="/privacy" class="mob-drawer-item">
+          <span class="mob-drawer-label">プライバシー</span>
+          <span class="mob-drawer-arrow" aria-hidden="true">›</span>
+        </a>
+      </div>
     </section>
 
   </div>
@@ -177,7 +228,6 @@
         lastFocus = document.activeElement;
         drawer.hidden = false;
         document.body.style.overflow = 'hidden';
-        // Defer focus so the drawer is rendered first
         requestAnimationFrame(function () {
           var first = drawer.querySelector('a');
           if (first) first.focus();
@@ -195,16 +245,12 @@
       setOpen(burger.getAttribute('aria-expanded') !== 'true');
     });
 
-    // Close on Esc
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
         setOpen(false);
       }
     });
 
-    // Close when any link inside the drawer is tapped (browser will navigate
-    // after this handler returns; closing first prevents flash of open drawer
-    // on history-back).
     drawer.addEventListener('click', function (e) {
       var t = e.target;
       while (t && t !== drawer) {
@@ -213,7 +259,6 @@
       }
     });
 
-    // Restore body scroll on bfcache navigation
     window.addEventListener('pageshow', function () {
       document.body.style.overflow = '';
     });
