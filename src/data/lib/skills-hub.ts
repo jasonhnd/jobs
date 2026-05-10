@@ -236,7 +236,7 @@ export function buildSkillsBundle(): SkillsBundle {
       title_ja: meta.title_ja,
       description_ja: meta.description_ja,
       top_count: r.items.length,
-      top_preview: top1 ? `🥇 ${top1}（${meta.short_ja}スコア ${r.items[0]!.skill_score.toFixed(2)}）` : '',
+      top_preview: top1 ? `1位 ${top1}（${meta.short_ja}スコア ${r.items[0]!.skill_score.toFixed(2)}）` : '',
     };
   });
 
