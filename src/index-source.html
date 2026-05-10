@@ -42,6 +42,7 @@
     <!-- Warm up TCP/TLS to analytics origins while HTML parses; trims ~150–250ms off the first beacon. -->
     <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="//static.ads-twitter.com" />
     <link rel="preconnect" href="https://static.cloudflareinsights.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -287,6 +288,17 @@
     <!-- Vercel Web Analytics + Speed Insights (paid add-on, $10/mo). Paths auto-resolve when hosted on Vercel; fail silently elsewhere. -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
+
+    <!-- X (Twitter) Ads Pixel — defer to window.load, mirrors gtag pattern. ID hardcoded to match GA4 convention in this file. -->
+    <script>
+      window.addEventListener('load', function () {
+        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+        },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+        a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+        twq('config', 'rC3xs');
+        twq('event', 'tw-pageview');
+      });
+    </script>
 
     <style>
       *,
@@ -2611,8 +2623,28 @@
         <div class="footer-links">
           <a href="/">トップ</a>
           <a href="/map">職業マップ</a>
+          <a href="/ja/explore">探す方法</a>
           <a href="/ja/sectors">セクター</a>
           <a href="/ja/rankings">ランキング</a>
+          <a href="/ja/q">Q&amp;A</a>
+          <a href="/ja/compare">比較</a>
+          <a href="/ja/careers">キャリア段階</a>
+          <a href="/ja/licenses">資格</a>
+          <a href="/ja/yearly">年次レポート</a>
+        </div>
+        <div class="footer-links">
+          <a href="/ja/interests">興味</a>
+          <a href="/ja/skills">スキル</a>
+          <a href="/ja/abilities">能力</a>
+          <a href="/ja/knowledge">知識</a>
+          <a href="/ja/values">価値観</a>
+          <a href="/ja/education">学歴</a>
+          <a href="/ja/training">修行期間</a>
+          <a href="/ja/work-styles">働き方</a>
+          <a href="/ja/employment-types">雇用形態</a>
+          <a href="/ja/life-balance">ライフ整合</a>
+          <a href="/ja/entry-paths">入職経路</a>
+          <a href="/ja/about">方法論</a>
         </div>
         <div class="footer-links">
           <a href="/about">データについて</a>
