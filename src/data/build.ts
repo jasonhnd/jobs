@@ -55,7 +55,7 @@ async function main(): Promise<void> {
   const { indexes, errors } = await buildIndexes();
 
   if (errors.length > 0) {
-    console.error(`\n  ✗ ${errors.length} validation error(s):`);
+    console.error(`\n  [FAIL] ${errors.length} validation error(s):`);
     for (const err of errors.slice(0, 10)) {
       console.error(`    ${err.file}: ${err.message}`);
     }
@@ -65,7 +65,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  console.log(`  ✓ all source files valid`);
+  console.log(`  [OK] all source files valid`);
   console.log(`     occupations:        ${indexes.occById.size}`);
   console.log(`     translations:       ${indexes.transById.size}`);
   console.log(`     stats_legacy:       ${indexes.statsById.size}`);
@@ -156,7 +156,7 @@ async function main(): Promise<void> {
   }));
 
   for (const r of runs) {
-    console.log(`     ✓ ${r.name.padEnd(18)} ${String(r.durationMs).padStart(5)}ms  ${r.summary}`);
+    console.log(`     [OK] ${r.name.padEnd(18)} ${String(r.durationMs).padStart(5)}ms  ${r.summary}`);
   }
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(2);

@@ -351,7 +351,7 @@ const jsonLd = `{
       color: var(--accent-deep);
       margin-bottom: 14px;
     }
-    .sheet-rank::before { content: "🏆 "; }
+    .sheet-rank::before { content: ""; }
     .sheet-stats { list-style: none; margin: 12px 0 18px; }
     .sheet-stats li {
       display: flex; justify-content: space-between; align-items: baseline;
@@ -459,7 +459,7 @@ const jsonLd = `{
   <div class="sheet-backdrop" id="sheetBackdrop" aria-hidden="true"></div>
   <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
     <button type="button" class="sheet-handle" aria-label="閉じる" id="sheetHandle"></button>
-    <button type="button" class="sheet-close" id="sheetClose" aria-label="閉じる">✕</button>
+    <button type="button" class="sheet-close" id="sheetClose" aria-label="閉じる">×</button>
     <h2 id="sheetTitle"></h2>
     <span class="sheet-rank" id="sheetRank" hidden></span>
     <ul class="sheet-stats">

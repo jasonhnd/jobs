@@ -477,14 +477,14 @@ function reportAndExit(r: Report): never {
   for (const line of r.info) console.log(line);
   if (r.warnings.length > 0) {
     console.log('\nWARNINGS:');
-    for (const w of r.warnings) console.log(`  ⚠ ${w}`);
+    for (const w of r.warnings) console.log(`  [WARN] ${w}`);
   }
   if (r.errors.length > 0) {
     console.log('\nERRORS:');
-    for (const e of r.errors) console.log(`  ✗ ${e}`);
+    for (const e of r.errors) console.log(`  [FAIL] ${e}`);
     process.exit(1);
   }
-  console.log('\n✓ projections pass L3 consistency checks');
+  console.log('\n[OK] projections pass L3 consistency checks');
   process.exit(0);
 }
 

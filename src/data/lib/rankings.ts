@@ -1544,7 +1544,7 @@ function makePreview(items: Occupation[], metric: (o: Occupation) => string): st
   if (items.length === 0) return '';
   const top = items[0];
   const name = top.title_ja ?? '';
-  return `\u{1F947} ${name}（${metric(top)}）`;
+  return `1位 ${name}（${metric(top)}）`;
 }
 
 // ---------------------------------------------------------------------------

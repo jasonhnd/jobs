@@ -20,7 +20,7 @@ const cardsHtml = cards.map((c) =>
   `<li><a href="/ja/careers/${c.p.slug}">` +
   `<span class="gci-name">${escapeHtml(c.p.short_ja)}</span>` +
   `<span class="gci-desc">${escapeHtml(c.p.description_ja.slice(0, 100))}…</span>` +
-  (c.top ? `<span class="iri-preview">🥇 ${escapeHtml(c.top)}</span>` : '') +
+  (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
   `<span class="gci-count">推薦 TOP ${c.count} 職業</span>` +
   `</a></li>`
 ).join('');
