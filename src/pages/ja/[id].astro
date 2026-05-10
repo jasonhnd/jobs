@@ -759,7 +759,8 @@ function renderOccFaq(rec: Rec): string {
 function renderTransfer(rec: Rec, nameLookup: Record<number, string>): string {
   const path0 = getTransferPaths()[String(rec.id)];
   if (!path0) return '';
-  const candidates = path0.candidates.slice(0, 3);
+  // Phase C: render up to 5 transfer candidates (TOP_N raised from 4→5).
+  const candidates = path0.candidates.slice(0, 5);
   if (!candidates.length) return '';
   const cards = candidates
     .map((c) => {
@@ -1287,7 +1288,7 @@ function jsStr(s: string): string {
     .topn-block .topn-name{color:var(--fg)}
     .topn-block .topn-score{font-family:ui-monospace,monospace;color:var(--fg2);font-size:0.78rem;font-variant-numeric:tabular-nums}
     section.transfer{margin-top:32px}
-    .transfer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+    .transfer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
     @media (max-width:768px){.transfer-grid{grid-template-columns:1fr}}
     .transfer-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 100ms;display:flex;flex-direction:column;gap:6px}
     .transfer-card:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}

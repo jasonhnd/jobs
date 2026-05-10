@@ -23,16 +23,15 @@ const { qa, examples } = Astro.props as Props;
 
 // Phase D: inline-link occupation names mentioned in answer + reasoning text.
 // Q&A is the highest-value surface for inline links — long-form answer prose with
-// many natural occupation mentions. Exclude the example IDs to avoid double-link.
+// many natural occupation mentions. We intentionally do NOT exclude the example IDs
+// because the editorial-prose inline link is a stronger Google signal than the
+// list link below; both should fire.
 const _linkRegistry = buildLinkRegistry();
-const exampleIds = new Set(examples.map((d) => d.id));
 const shortAnswerHtml = inlineLinkText(qa.short_answer, _linkRegistry, {
   maxLinks: 4,
-  excludeIds: exampleIds,
 });
 const reasoningHtml = inlineLinkText(qa.reasoning, _linkRegistry, {
   maxLinks: 6,
-  excludeIds: exampleIds,
 });
 const crossHubHtml = renderRelatedHubsBlock('q', qa.slug, 6);
 

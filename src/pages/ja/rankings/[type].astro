@@ -51,10 +51,10 @@ const faqHtml = renderFaqHtml(result.faqItems);
 const relatedHtml = renderRelatedRankings(slug);
 
 const _linkRegistry = buildLinkRegistry();
-const rankingItemIds = new Set(result.items.map((o) => o.id));
+// Editorial inline-links in intro are separate signal from the TOP 30 list below,
+// so we intentionally do NOT exclude ranking items from inline-linking.
 const introInlinedHtml = inlineLinkText(result.introText, _linkRegistry, {
   maxLinks: 4,
-  excludeIds: rankingItemIds,
 });
 const crossHubHtml = renderRelatedHubsBlock('rankings', slug, 6);
 const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
