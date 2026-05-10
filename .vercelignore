@@ -11,3 +11,16 @@ _audit/
 # Editor / OS junk
 .DS_Store
 desktop.ini
+
+# pnpm files — local-only, must NOT reach Vercel.
+# Vercel detected pnpm-lock.yaml triggers a second pnpm install AFTER
+# the npm install in vercel.json's installCommand, which creates a
+# .pnpm symlink structure that confuses Vercel's Edge Function bundler
+# (api/feedback gets cross-linked with api/og's @vercel/og + jsx-runtime).
+# Hiding these from Vercel forces a clean npm-only install.
+pnpm-lock.yaml
+pnpm-workspace.yaml
+.npmrc
+analytics/pnpm-lock.yaml
+analytics/pnpm-workspace.yaml
+analytics/.npmrc
