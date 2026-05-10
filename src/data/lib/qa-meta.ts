@@ -1,5 +1,5 @@
 /**
- * qa-meta.ts — 36 Q&A hub の質問・回答・例選定ロジック。
+ * qa-meta.ts — 49 Q&A hub の質問・回答・例選定ロジック。
  *
  * 各 Q&A は:
  *   - question: h1 になる質問
@@ -89,12 +89,12 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
   },
   {
     slug: 'genba-vs-jimu',
-    question: '現場 vs 事务、どっち AI 安全？',
-    short_answer: '現場系 (建設・製造・運輸・サービス) の方が AI 影響度が低い傾向。事务系は PC で完結するためAI 化が進みやすい。',
-    reasoning: '現場系の職業は身体的作業・即興判断・対面対応が業務の核心で、AI で代替しにくい構造を持ちます。一方、事务系は書類作成・データ処理・記録などが PC で完結する場合が多く、AI 化との親和性が高い。ただし現場系は体力的負荷・労働時間長・安全リスク等の課題もあり、AI 安全性だけで判断すべきではありません。',
+    question: '現場 vs 事務、どっち AI 安全？',
+    short_answer: '現場系 (建設・製造・運輸・サービス) の方が AI 影響度が低い傾向。事務系は PC で完結するため AI 化が進みやすい。',
+    reasoning: '現場系の職業は身体的作業・即興判断・対面対応が業務の核心で、AI で代替しにくい構造を持ちます。一方、事務系は書類作成・データ処理・記録などが PC で完結する場合が多く、AI 化との親和性が高い。ただし現場系は体力的負荷・労働時間長・安全リスク等の課題もあり、AI 安全性だけで判断すべきではありません。',
     selector: (d) => lowAiSector(d, ['kensetu', 'seizo', 'maint', 'noringyo', 'service']),
     related_topics: ['ai-de-kienai', 'jimu-mirai'],
-    og_eyebrow: 'Q&A · 現場 vs 事务',
+    og_eyebrow: 'Q&A · 現場 vs 事務',
   },
   {
     slug: 'shokunin-mirai',
@@ -118,7 +118,7 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     slug: 'ai-jidai-osusume',
     question: 'AI 時代におすすめの仕事は？',
     short_answer: '低 AI 影響度 (3 以下) かつ需要が安定しているか拡大中の職業がおすすめ。介護・建設・医療系 + AI を使いこなす上流 IT 職。',
-    reasoning: '「AI 時代におすすめ」は (1) AI で代替されにくい身体性・対人系、または (2) AI を使いこなす側に立つ高度知的業務の二極化方向で考えると整理しやすい。前者は介護福祉士・看護師・建設職人等。後者は AI エンジニア・データサイエンティスト・上流 SE 等。中間層の事务系は再設計が必要な分野です。',
+    reasoning: '「AI 時代におすすめ」は (1) AI で代替されにくい身体性・対人系、または (2) AI を使いこなす側に立つ高度知的業務の二極化方向で考えると整理しやすい。前者は介護福祉士・看護師・建設職人等。後者は AI エンジニア・データサイエンティスト・上流 SE 等。中間層の事務系は再設計が必要な分野です。',
     selector: lowAi,
     related_topics: ['ai-de-kienai', 'ai-frontier'],
     og_eyebrow: 'Q&A · おすすめ',
@@ -144,12 +144,12 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
   },
   {
     slug: 'jimu-mirai',
-    question: '事务系は本当に消えるのか？',
+    question: '事務系は本当に消えるのか？',
     short_answer: '一般事務・経理・受付など PC で完結する定型業務は AI 化が顕著。職業自体は残るが、業務内訳が「判断・例外処理」に再編される。',
-    reasoning: '事务・公務セクターは AI 影響度平均 7.53/10 (全業種で 2 番目に高い)。同時に労働力人口に占める比重も最大。職業が「消える」のではなく「業務内訳が再設計される」過程と理解すべき。AI が実行する定型業務と、人が担う判断・関係調整・例外処理が分業化される。担当者は AI 出力の評価・編集スキルが必要に。',
+    reasoning: '事務・公務セクターは AI 影響度平均 7.53/10 (全業種で 2 番目に高い)。同時に労働力人口に占める比重も最大。職業が「消える」のではなく「業務内訳が再設計される」過程と理解すべき。AI が実行する定型業務と、人が担う判断・関係調整・例外処理が分業化される。担当者は AI 出力の評価・編集スキルが必要に。',
     selector: (d) => (d.sector?.id === 'jimu' ? (d.ai_risk?.score ?? 0) * 100 : null),
     related_topics: ['ai-de-kieru', 'iryo-jimu-vs-ippan-jimu'],
-    og_eyebrow: 'Q&A · 事务系',
+    og_eyebrow: 'Q&A · 事務系',
   },
   {
     slug: 'hanbai-mirai',
@@ -157,7 +157,7 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     short_answer: 'EC・セルフレジで定型販売は AI 化が進む一方、専門販売・対面接客・営業職は AI 代替が難しく価値が高まる。二極化が進行。',
     reasoning: 'スーパー・コンビニのレジは AI 化が進む一方、化粧品カウンセリング・宝飾品販売・住宅営業など専門販売は対面接客の価値が際立つ。EC は商品データ自動生成等で部分自動化される。販売職全体としては「定型販売」と「専門販売・営業」の二極化が進み、後者の市場価値が相対的に高まります。',
     selector: (d) => (d.sector?.id === 'hanbai' ? (d.ai_risk?.score ?? 0) : null),
-    related_topics: ['ai-safe-interpersonal', 'eigyo-vs-hanbai'],
+    related_topics: ['ai-safe-interpersonal', 'hanbai-mirai'],
     og_eyebrow: 'Q&A · 販売',
   },
   {
@@ -211,7 +211,7 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     slug: 'tenshoku-40s',
     question: '40 代の転職、AI を考慮してどう選ぶ？',
     short_answer: '体力面と AI 影響度を両軸で評価。低 AI + 専門性蓄積分野 (士業・建設管理・医療系・指導職) が 40 代後半まで現実的選択肢。',
-    reasoning: '40 代の転職は、(1) 蓄積した専門性で評価される分野、(2) 60 代まで続けられる業務、(3) AI 化が進みにくい本質的価値を出せる分野、を重視すべき。具体的には士業 (弁護士・公認会計士)・建設管理・専門医・指導職等。AI 高暴露の事务系から低 AI の対人・現場系への横展開も選択肢ですが、年収ダウンを覚悟する場面が多い。',
+    reasoning: '40 代の転職は、(1) 蓄積した専門性で評価される分野、(2) 60 代まで続けられる業務、(3) AI 化が進みにくい本質的価値を出せる分野、を重視すべき。具体的には士業 (弁護士・公認会計士)・建設管理・専門医・指導職等。AI 高暴露の事務系から低 AI の対人・現場系への横展開も選択肢ですが、年収ダウンを覚悟する場面が多い。',
     selector: (d) => {
       const age = d.stats?.average_age;
       const ai = d.ai_risk?.score ?? 99;
@@ -267,7 +267,7 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     slug: 'blank-fukki',
     question: 'ブランクから復帰しやすい職業は？',
     short_answer: '業界全体が人手不足な分野 + 資格が一度取れば失効しない分野。看護・保育・介護・事務系 (短時間勤務枠) 等。',
-    reasoning: '出産・育児・介護でブランクが空いた人に向く職業は、(1) 業界全体が人手不足、(2) 短時間勤務枠が整備されている、(3) 取得済資格を活かせる、の 3 条件が現実的。看護師・保育士・介護福祉士は復職支援研修も整備されている。事务系は短時間パート枠が多いが、AI 化進行で再設計を意識する必要あり。',
+    reasoning: '出産・育児・介護でブランクが空いた人に向く職業は、(1) 業界全体が人手不足、(2) 短時間勤務枠が整備されている、(3) 取得済資格を活かせる、の 3 条件が現実的。看護師・保育士・介護福祉士は復職支援研修も整備されている。事務系は短時間パート枠が多いが、AI 化進行で再設計を意識する必要あり。',
     selector: (d) => {
       const ai = d.ai_risk?.score ?? 99;
       const recruit = d.stats?.recruit_ratio ?? 0;
@@ -309,8 +309,8 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
   {
     slug: 'ikuji-ryouritsu',
     question: '育児と両立しやすい職業は？',
-    short_answer: '労働時間が短く、シフト柔軟性のある職業。保育士・看護師パート・事务系時短・在宅可能な IT 系等。',
-    reasoning: '育児両立の鍵は (1) 労働時間 (月 150 時間以下が目安)、(2) 急な早退・休みへの対応、(3) 保育園との時間調整、(4) 学校行事への参加可能性。看護師パートや病棟以外の医療職、保育士、事务系時短勤務、リモート可能な IT 系等が現実的。一方、給与は時間に比例するため経済面の調整も必要。',
+    short_answer: '労働時間が短く、シフト柔軟性のある職業。保育士・看護師パート・事務系時短・在宅可能な IT 系等。',
+    reasoning: '育児両立の鍵は (1) 労働時間 (月 150 時間以下が目安)、(2) 急な早退・休みへの対応、(3) 保育園との時間調整、(4) 学校行事への参加可能性。看護師パートや病棟以外の医療職、保育士、事務系時短勤務、リモート可能な IT 系等が現実的。一方、給与は時間に比例するため経済面の調整も必要。',
     selector: (d) => {
       const hours = d.stats?.monthly_hours;
       if (!hours || hours > 165) return null;
@@ -386,9 +386,9 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     slug: 'bunkei-osusume',
     question: '文系出身者向けの職業は？',
     short_answer: '人とコミュニケーションする職業や論理的思考を活かす分野。営業・販売・教育・士業・編集・コンサル等。',
-    reasoning: '文系出身者の強みは (1) 言語表現力、(2) 文化・歴史的文脈の理解、(3) 対人スキル、(4) 論理的議論。これらを活かせるのは営業・コンサル・士業・編集・広告・教育・メディア系。理系職に比べ AI 高暴露の分野が含まれる傾向 (営業の一部、事务系等) があるため、AI を使いこなす側に立つ姿勢が重要。',
+    reasoning: '文系出身者の強みは (1) 言語表現力、(2) 文化・歴史的文脈の理解、(3) 対人スキル、(4) 論理的議論。これらを活かせるのは営業・コンサル・士業・編集・広告・教育・メディア系。理系職に比べ AI 高暴露の分野が含まれる傾向 (営業の一部、事務系等) があるため、AI を使いこなす側に立つ姿勢が重要。',
     selector: (d) => (d.sector?.id === 'shigyo' || d.sector?.id === 'hanbai' || d.sector?.id === 'service' || d.sector?.id === 'kyoiku' ? 1 : null),
-    related_topics: ['ai-safe-interpersonal', 'eigyo-vs-hanbai'],
+    related_topics: ['ai-safe-interpersonal', 'hanbai-mirai'],
     og_eyebrow: 'Q&A · 文系',
   },
   {
@@ -440,6 +440,200 @@ export const QA_ITEMS: ReadonlyArray<QAItem> = [
     selector: (d) => (d.sector?.id === 'creative' ? 1 : null),
     related_topics: ['artistic', 'ai-augmented'],
     og_eyebrow: 'Q&A · 芸術',
+  },
+  // ── 適性 / 興味 追加 (4) ──
+  {
+    slug: 'naiko-osusume',
+    question: '内向型 (HSP) に向く職業は？',
+    short_answer: '一人で深く集中する作業が中心の職業。研究者・エンジニア・職人・編集・ライター・データ分析等。',
+    reasoning: '内向型・HSP 気質の人は、刺激の多い環境で消耗しやすく、深い集中と内省が得意。これを活かせるのは (1) 一人作業時間が長い、(2) 静かな環境、(3) 緻密な作業、(4) 書面コミュニケーション中心の職業。研究者・プログラマー・職人・編集・図書館司書・データ分析職などが該当。完全に対人ゼロは難しいが、対人接触の量と質を選べる職業を選ぶことで快適に働けます。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (!['it', 'seizo', 'maint', 'senmon', 'creative'].includes(sid)) return null;
+      const ai = d.ai_risk?.score ?? 99;
+      return -ai * 100;
+    },
+    related_topics: ['hito-mishiri-ok', 'investigative'],
+    og_eyebrow: 'Q&A · 内向型',
+  },
+  {
+    slug: 'gaiko-osusume',
+    question: '外向型に向く職業は？',
+    short_answer: '人と話すこと・チームを動かすことから活力を得る職業。営業・接客・販売・教師・カウンセラー・経営者等。',
+    reasoning: '外向型は対人接触からエネルギーを得る性格傾向で、(1) チームで動く、(2) 顧客と頻繁に会う、(3) 人前で話す、(4) 関係構築が成果に直結する職業に向きます。営業・販売・接客・サービス・教育・人事・経営層・コンサル等が代表的選択肢。AI 時代でも「対人スキル」は人間優位の核心領域なので、長期的にも安定。一方、感情労働への耐性も別途必要。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (!['hanbai', 'service', 'kyoiku', 'shigyo'].includes(sid)) return null;
+      const ai = d.ai_risk?.score ?? 99;
+      if (ai > 6) return null;
+      return -ai * 100 + (d.stats?.salary_man_yen ?? 0) / 100;
+    },
+    related_topics: ['social', 'enterprising'],
+    og_eyebrow: 'Q&A · 外向型',
+  },
+  {
+    slug: 'kanjou-roudou-sukunai',
+    question: '感情労働が少ない職業は？',
+    short_answer: '対人接客中心ではない職業。製造・整備・建設・農林・物流系、業務対象が「物」や「自然」中心の分野。',
+    reasoning: '感情労働とは「業務上、自分の感情を管理して提示することを求められる労働」で、対人接客職に多い。長期的にバーンアウトを招きやすいのが課題。これを避けたい場合、業務対象が「物」(製造・整備・建設)、「自然」(農林水産) 中心の職業を選ぶと感情労働の比重が下がる。IT・士業はクライアント対応で感情労働が一定残るため別カテゴリ。完全ゼロは難しいが、比率の調整は可能。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (!['seizo', 'maint', 'kensetu', 'noringyo'].includes(sid)) return null;
+      const ai = d.ai_risk?.score ?? 99;
+      return -ai * 100;
+    },
+    related_topics: ['mental-health-friendly', 'hito-mishiri-ok'],
+    og_eyebrow: 'Q&A · 感情労働',
+  },
+  {
+    slug: 'ronri-shiko-ikasu',
+    question: '論理的思考が活きる職業は？',
+    short_answer: 'ルール体系から答えを導き、矛盾を発見する力が業務の核心となる職業。士業・エンジニア・研究者・コンサル・診断医等。',
+    reasoning: '論理的思考が直接的な価値となるのは、(1) 複雑な前提から結論を導く (士業・コンサル・研究)、(2) システムの一貫性を保つ (エンジニア・建築士)、(3) 不整合を発見する (会計士・監査・品質管理)、(4) 仮説検証 (医師・データ分析) の業務。AI が論理処理を補強する時代になっても「前提設定」「枠組み構築」は人間の役割として残ります。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (!['shigyo', 'it', 'senmon'].includes(sid)) return null;
+      return d.stats?.salary_man_yen ?? 0;
+    },
+    related_topics: ['investigative', 'deductive-reasoning'],
+    og_eyebrow: 'Q&A · 論理思考',
+  },
+  // ── ライフ条件 追加 (3) ──
+  {
+    slug: 'tsuukin-friendly',
+    question: '通勤負担が軽い職業は？',
+    short_answer: '在宅勤務可・近隣勤務型・直行直帰型の職業。IT 系・士業・営業・地域密着サービス・自営業等。',
+    reasoning: '通勤負担が軽い職業は、(1) 在宅勤務が可能 (IT・コンサル・士業)、(2) 直行直帰が一般的 (営業・配達・訪問介護)、(3) 地域密着で自宅近隣勤務 (店舗系・建設職人・農業) の 3 タイプ。長時間通勤は健康・QOL を損ねるため、職業選択時に「主な勤務場所」を確認することが重要。リモート可能性は今後さらに二極化が進む見込み。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (!['it', 'shigyo', 'creative', 'noringyo'].includes(sid)) return null;
+      // Rank by salary (higher quality remote-friendly jobs first), then by
+      // workforce size as tie-breaker so the listing isn't arbitrary.
+      return (d.stats?.salary_man_yen ?? 0) + (d.stats?.workers ?? 0) / 100000;
+    },
+    related_topics: ['zaitaku-shigoto', 'freelance-friendly'],
+    og_eyebrow: 'Q&A · 通勤',
+  },
+  {
+    slug: 'yakin-nashi',
+    question: '夜勤がない職業は？',
+    short_answer: 'デイタイム勤務中心の職業。事務系・営業・士業・IT・教育・小売 (一部) など、24h 体制ではない分野。',
+    reasoning: '夜勤は健康リスクが高いため、避けたい人は多い。夜勤がない職業は (1) 事務・公務・士業 (基本的に日勤)、(2) 教育・保育 (午前-夕方)、(3) IT 系 (障害対応の当番除く)、(4) 製造業の日勤工場、(5) 小売の日勤専従。一方、看護師・警察官・消防士・運輸・コンビニ・ホテル等は夜勤が業務に組み込まれています。家族の時間を優先する場合の重要な選択基準。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (!['shigyo', 'it', 'kyoiku', 'senmon'].includes(sid)) return null;
+      // Rank by workforce size — surface the largest "no-night-shift" jobs.
+      return d.stats?.workers ?? 0;
+    },
+    related_topics: ['ikuji-ryouritsu', 'health-friendly'],
+    og_eyebrow: 'Q&A · 夜勤',
+  },
+  {
+    slug: 'dokushin-friendly',
+    question: '独身・単身でも続けやすい職業は？',
+    short_answer: '転勤が少なく、人間関係が業務に強く依存しない職業。フリーランス系・専門職・地域密着型・在宅可能職等。',
+    reasoning: '独身者にとって長く続けやすい職業の条件は、(1) 転勤頻度が低い (転勤族は単身赴任がない)、(2) 「家族持ちが標準」とされない職場文化、(3) 業務でフルタイム拘束されすぎない (友人関係維持の余地)、(4) 福利厚生が個人単位で機能する。フリーランス系・専門職・公務員 (単身向け制度あり)・小規模企業・地域密着型サービスなどが向きます。',
+    selector: (d) => {
+      const et = d.employment_type;
+      if (!et) return null;
+      const free = (et['self_employed_freelance'] ?? 0) + (et['regular_employee'] ?? 0) * 0.3;
+      return free >= 0.2 ? free : null;
+    },
+    related_topics: ['freelance-friendly', 'female-long'],
+    og_eyebrow: 'Q&A · 独身',
+  },
+  // ── AI 不安系 追加 (3) ──
+  {
+    slug: 'ai-shitsugyou-yobou',
+    question: 'AI で失業しないためには？',
+    short_answer: '(1) AI 影響度の低い職業を選ぶ、(2) 現職で AI を使いこなす側に立つ、(3) 業務再設計を主導する立場へ移る、の 3 戦略。',
+    reasoning: 'AI 失業リスクへの対処は (1) 「移る」: AI 影響度 4 以下の身体性・対人系職業に移る、(2) 「使う」: AI ツールを業務に取り入れて生産性を倍化させる、(3) 「設計する」: AI による業務再設計を主導する立場 (DX 推進・AI ガバナンス) に移行、の 3 つ。最も現実的なのは現職で AI を使いこなす側に立つ戦略。完全に AI から逃げるよりも、AI と共存するスキルセットを育てる方が長期的に安定。',
+    selector: (d) => {
+      const ai = d.ai_risk?.score;
+      if (ai === null || ai === undefined || ai > 4) return null;
+      return -ai * 1000 + (d.stats?.workers ?? 0) / 1000;
+    },
+    related_topics: ['ai-de-kienai', 'ai-jidai-osusume'],
+    og_eyebrow: 'Q&A · AI 失業対策',
+  },
+  {
+    slug: 'ai-skill-mi-ni-tsukeru',
+    question: 'AI 時代に身につけるべきスキルは？',
+    short_answer: '(1) AI ツール使いこなし、(2) 課題定義・前提設計、(3) 出力評価・編集、(4) 対人交渉・関係構築の 4 領域。',
+    reasoning: 'AI 時代に価値を保つスキルは、(1) ChatGPT・Claude・Copilot 等のツールを業務に組み込む実践力、(2) 「何を解くべきか」を定義し、AI に正しい問いを投げる課題設定力、(3) AI 出力を批判的に評価し、目的に合わせて編集する判断力、(4) AI で代替されにくい対人交渉・信頼構築・組織調整。これらは職業を問わず普遍的に価値があり、20-30 年スパンで投資する価値があります。',
+    selector: (d) => {
+      const ai = d.ai_risk?.score;
+      if (ai === null || ai === undefined) return null;
+      if (ai < 4 || ai > 7) return null;
+      return d.stats?.salary_man_yen ?? 0;
+    },
+    related_topics: ['ai-augment-vs-replace', 'ai-frontier'],
+    og_eyebrow: 'Q&A · AI スキル',
+  },
+  {
+    slug: 'ai-hoshou-shoku',
+    question: 'AI を補佐として使える職業は？',
+    short_answer: 'AI 影響度 4-6 の「補強域」職業。営業・士業・診断・コンサル・編集等、人の判断 + AI ツールが鍵となる分野。',
+    reasoning: 'AI を補佐として使い、生産性を倍化できる職業は AI 影響度 4-6 帯に集中します。営業 (リサーチ・提案書作成を AI 化)、士業 (条文検索・書類起案)、医師 (診断補助・文献検索)、コンサル (分析・レポート)、編集者 (素案生成・ファクトチェック) などが代表例。AI 完全代替が難しい本質判断 + AI で増強可能な周辺業務という構造です。',
+    selector: (d) => {
+      const ai = d.ai_risk?.score;
+      if (ai === null || ai === undefined) return null;
+      if (ai < 4 || ai > 6) return null;
+      return -Math.abs(ai - 5) * 100 + (d.stats?.salary_man_yen ?? 0);
+    },
+    related_topics: ['ai-augmented', 'ai-augment-vs-replace'],
+    og_eyebrow: 'Q&A · AI 補佐',
+  },
+  // ── キャリア相談 追加 (4) ──
+  {
+    slug: 'gakureki-konpurekkusu',
+    question: '学歴コンプレックスを乗り越える職業選択は？',
+    short_answer: '学歴より実績・資格・経験が評価される分野。技能職・国家資格職・営業・起業・スポーツ・芸能等。',
+    reasoning: '学歴の影響が小さい職業は、(1) 国家資格が学歴ハードルを実質的に置き換える (看護師・士業の一部)、(2) 実績・売上が評価軸になる (営業・経営)、(3) 技能の習熟度が直接評価される (職人・技能職)、(4) 結果が客観的に出る (スポーツ・研究)。一方、新卒大企業ルートでは学歴フィルターが残るため、別ルートでキャリアを作る発想が現実的。中途採用市場では学歴より直近実績が重視されます。',
+    selector: (d) => {
+      const ed = d.education_distribution;
+      if (!ed) return null;
+      const lowEdu = (ed['below_high_school'] ?? 0) + (ed['high_school'] ?? 0);
+      if (lowEdu < 0.3) return null;
+      return lowEdu;
+    },
+    related_topics: ['high-school-careers', 'no-school-required'],
+    og_eyebrow: 'Q&A · 学歴',
+  },
+  {
+    slug: 'mikeiken-it',
+    question: '未経験から IT エンジニアになるには？',
+    short_answer: '(1) 基礎学習 3-6 ヶ月、(2) ポートフォリオ作成、(3) 未経験歓迎の SES・受託会社入社、(4) 2-3 年で実力を高める道筋が現実的。',
+    reasoning: '未経験 IT 転職の現実的ルートは、(1) Progate・Udemy 等で 3-6 ヶ月学習 (HTML/CSS/JS or Python)、(2) GitHub にアプリやコードを公開してポートフォリオ化、(3) 未経験歓迎の SES・受託・自社開発の入門ポジションに応募、(4) 入社後 2-3 年で実力をつけ、より良い会社へ転職、の流れ。AI 時代は「コードを書く」だけでなく「AI と協働できる」エンジニアが求められる方向です。',
+    selector: (d) => (d.sector?.id === 'it' ? (d.stats?.salary_man_yen ?? 0) : null),
+    related_topics: ['career-change-mirai', 'it-engineer-ai'],
+    og_eyebrow: 'Q&A · 未経験 IT',
+  },
+  {
+    slug: 'nenshu-up',
+    question: '確実に年収を上げるキャリア戦略は？',
+    short_answer: '(1) 専門性深化 + (2) 業界選択 + (3) 大手志向 + (4) 適切なタイミングの転職、の組み合わせ。',
+    reasoning: '年収が上がる構造は (1) 業界・職種の天井 (IT・金融・コンサル・士業は年収天井が高い)、(2) 企業規模 (大企業が中小より高め)、(3) 専門性の希少度 (代替不能なほど高給)、(4) タイミング (3-5 年で転職すると年収レンジが上がりやすい)。逆に上がりにくいのは小規模企業の事務職や、業界ごと低成長な分野。AI 時代は「AI を使いこなす上流職」がさらに高給化する方向。',
+    selector: (d) => {
+      const sal = d.stats?.salary_man_yen;
+      if (!sal || sal < 600) return null;
+      return sal;
+    },
+    related_topics: ['high-salary-high-demand', 'ai-frontier'],
+    og_eyebrow: 'Q&A · 年収アップ',
+  },
+  {
+    slug: 'kaigai-iju-shoku',
+    question: '海外移住に向く職業は？',
+    short_answer: 'リモートで完結する職業 (IT 系・ライター・コンサル) または海外で需要の高い専門職 (医師・看護師・研究者・日本食調理人)。',
+    reasoning: '海外移住可能な職業は 2 タイプ。(1) リモート完結型: IT エンジニア・WEB デザイナー・ライター・コンサル等、日本企業に居ながら海外居住が可能。(2) 現地需要型: 医療職 (現地資格再取得が必要)・研究者・日本食調理人・日本語教師等、現地で需要があり就労ビザが取りやすい職業。前者は収入維持しやすく、後者はその国の文化に深く関われる利点があります。',
+    selector: (d) => {
+      const sid = d.sector?.id ?? '';
+      if (['it', 'creative', 'shigyo'].includes(sid)) return d.stats?.salary_man_yen ?? 0;
+      return null;
+    },
+    related_topics: ['zaitaku-shigoto', 'eigo-ikasu'],
+    og_eyebrow: 'Q&A · 海外移住',
   },
 ];
 
