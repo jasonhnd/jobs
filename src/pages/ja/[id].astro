@@ -23,6 +23,19 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
+import {
+  computeSpokeHubs,
+  buildRankingHitsByOcc,
+  renderSpokeHubsSection,
+  RELATED_HUBS_CSS,
+  type RankingHit,
+} from '../../data/lib/spoke-hub-graph';
+import {
+  buildSameRiskNeighbors,
+  renderSameRiskSection,
+  SAME_RISK_CSS,
+  type SpokeNeighbor,
+} from '../../data/lib/spoke-spoke-graph';
 
 // ─── Build-time data sources ────────────────────────────────────────────────
 // NOTE: Astro hoists getStaticPaths into its own module scope, so anything it
@@ -417,6 +430,35 @@ export async function getStaticPaths() {
   const nameLookup: Record<number, string> = {};
   for (const r of all) nameLookup[r.id] = r.name_ja;
 
+  // Phase A: build ranking-hits-by-occ ONCE for all 556 spokes by importing
+  // buildRankings here in getStaticPaths. Then pass it through props so each
+  // page render can look up "which rankings does my id appear in".
+  const { buildRankings: _buildRankings } = await import('../../data/lib/rankings.js');
+  const { buildRankingHitsByOcc: _buildRH } = await import('../../data/lib/spoke-hub-graph.js');
+  const { buildSameRiskNeighbors: _buildSRN } = await import('../../data/lib/spoke-spoke-graph.js');
+  const _rankingResults = _buildRankings();
+  const rankingHitsByOcc = _buildRH(_rankingResults.results.values());
+  // Serialize Map to array-of-pairs for prop transport (Astro can't pass Map).
+  const rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]> = [];
+  for (const [k, v] of rankingHitsByOcc) {
+    rankingHitsArr.push([k, v.map((h) => ({ slug: h.slug, rank: h.rank }))]);
+  }
+
+  // Phase C: build cross-sector same-risk neighbors ONCE (symmetric).
+  const _sameRiskInputs = all.map((r) => ({
+    id: r.id,
+    name_ja: r.name_ja,
+    ai_risk: r.ai_risk,
+    sector_id: r.sector?.id ?? null,
+    sector_ja: r.sector?.ja ?? null,
+    workers: r.workers,
+  }));
+  const _srnMap = _buildSRN(_sameRiskInputs, { span: 1, topN: 5 });
+  const sameRiskArr: Array<[number, Array<{ id: number; name_ja: string; ai_risk: number | null; sector_id: string | null; sector_ja: string | null; workers: number | null }>]> = [];
+  for (const [k, v] of _srnMap) {
+    sameRiskArr.push([k, v.slice(0, 5)]); // cap final view at 5 even if symmetrize added a few
+  }
+
   function pickRelated(rec: Rec, count = RELATED): Rec[] {
     const rid = rec.id;
     const risk = rec.ai_risk;
@@ -463,7 +505,7 @@ export async function getStaticPaths() {
   // padding is handled inside the JSON load step, not in URLs.
   return all.map((rec) => ({
     params: { id: String(rec.id) },
-    props: { rec, related: pickRelated(rec), nameLookup },
+    props: { rec, related: pickRelated(rec), nameLookup, rankingHitsArr, sameRiskArr },
   }));
 }
 
@@ -945,9 +987,38 @@ interface PageProps {
   rec: Rec;
   related: Rec[];
   nameLookup: Record<number, string>;
+  rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
+  sameRiskArr: Array<[number, SpokeNeighbor[]]>;
 }
 
-const { rec, related, nameLookup } = Astro.props as PageProps;
+const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } = Astro.props as PageProps;
+
+// Phase C: lookup THIS spoke's same-risk neighbors from the pre-built array.
+const _sameRiskMap = new Map<number, SpokeNeighbor[]>(sameRiskArr);
+const _myNeighbors = _sameRiskMap.get(rec.id) ?? [];
+const sameRiskHtml = renderSameRiskSection(_myNeighbors, rec.ai_risk);
+
+// Phase A: rebuild ranking-hits Map from the array passed via props.
+// (Astro can't transport Map across getStaticPaths → component.)
+const _rankingHitsByOcc = new Map<number, ReadonlyArray<RankingHit>>(
+  rankingHitsArr.map(([id, arr]) => [id, arr.map((h) => ({ slug: h.slug as RankingHit['slug'], rank: h.rank }))]),
+);
+// Read this occupation's full DetailFileMin (we have rec but it's the legacy
+// adapted shape; computeSpokeHubs needs the original shape's top-N arrays).
+// We re-read the JSON file here since it's small and one extra read per page
+// is negligible (~1ms per spoke build).
+const _detailRaw = (() => {
+  const padded = String(rec.id).padStart(4, '0');
+  try {
+    return JSON.parse(readFileSync(path.join(process.cwd(), 'public', 'data.detail', `${padded}.json`), 'utf8'));
+  } catch {
+    return null;
+  }
+})();
+const _spokeHubs = _detailRaw
+  ? computeSpokeHubs(_detailRaw, { rankingHitsByOcc: _rankingHitsByOcc })
+  : { groups: [], total: 0 };
+const relatedHubsHtml = renderSpokeHubsSection(_spokeHubs);
 
 const id = rec.id;
 const canonical = jaUrl(id);
@@ -1248,6 +1319,8 @@ function jsStr(s: string): string {
     .faq-item summary:hover{color:var(--accent)}
     .faq-answer{padding:0 16px 14px;color:var(--fg);font-size:0.9rem;line-height:1.7}
     @media (max-width:600px){.faq-item summary{font-size:0.93rem;padding:12px 14px;padding-right:36px}}
+    ${RELATED_HUBS_CSS}
+    ${SAME_RISK_CSS}
   `} />
 
   <a class="skip-link" href="#content">本文へ</a>
@@ -1306,9 +1379,13 @@ function jsStr(s: string): string {
 
     <Fragment set:html={transferHtml} />
 
+    <Fragment set:html={sameRiskHtml} />
+
     <Fragment set:html={legacyRelatedHtml} />
 
     <Fragment set:html={orgsCertsHtml} />
+
+    <Fragment set:html={relatedHubsHtml} />
 
     <section class="sources">
       <h2>出典 / 関連リンク</h2>

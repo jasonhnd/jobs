@@ -9,6 +9,8 @@ import {
   renderRankItem, renderHighlights, renderSectorChart,
   renderFaqHtml, escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean, riskClass,
 } from '../../../data/lib/genre-hub';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 interface CareerResult {
   persona: CareerPersona;
@@ -60,6 +62,9 @@ export async function getStaticPaths() {
 
 interface Props { persona: CareerPersona; items: GenreOccupation[]; }
 const { persona, items } = Astro.props as Props;
+const _linkRegistry = buildLinkRegistry();
+const introHtml = inlineLinkText(persona.description_ja, _linkRegistry, { maxLinks: 5 });
+const crossHubHtml = renderRelatedHubsBlock('careers', persona.slug, 6);
 
 const canonical = `https://mirai-shigoto.com/ja/careers/${persona.slug}`;
 const title = `${persona.title_ja}｜推薦 TOP ${items.length} | 未来の仕事`;
@@ -137,13 +142,14 @@ const jsonLd = JSON.stringify({
   ogImage={`https://mirai-shigoto.com/api/og?career=${persona.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
   <div id="wrapper">
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/careers" rel="up">キャリア段階から探す</a><span aria-hidden="true">›</span><span>{persona.short_ja}</span></nav>
     <header id="content">
       <h1><span class="accent">{persona.title_ja}</span></h1>
       <p class="sub"><strong>{persona.short_ja}</strong> persona 向けの推薦 TOP {items.length}</p>
-      <p class="intro">{persona.description_ja}</p>
+      <p class="intro" set:html={introHtml}></p>
     </header>
     <section class="genre-detail" aria-label={`${persona.short_ja}の利点と注意点`}>
       <h2>{persona.short_ja} の特徴</h2>
@@ -157,6 +163,7 @@ const jsonLd = JSON.stringify({
     <Fragment set:html={sectorChartHtml} />
     <section><h2>推薦 TOP {items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
     <Fragment set:html={faqHtml} />
+    <Fragment set:html={crossHubHtml} />
     <section aria-label="他のキャリア段階"><h2>他のキャリア段階</h2><Fragment set:html={relatedHtml} /></section>
     <Footer />
   </div>

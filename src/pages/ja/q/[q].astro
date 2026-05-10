@@ -5,6 +5,8 @@ import { QA_ITEMS, selectExamples, type QAItem } from '../../../data/lib/qa-meta
 import {
   loadAllDetails, type DetailFileMin, escapeHtml, GENRE_HUB_CSS,
 } from '../../../data/lib/genre-hub';
+import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
+import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
   const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
@@ -18,6 +20,21 @@ export async function getStaticPaths() {
 
 interface Props { qa: QAItem; examples: ReadonlyArray<DetailFileMin>; }
 const { qa, examples } = Astro.props as Props;
+
+// Phase D: inline-link occupation names mentioned in answer + reasoning text.
+// Q&A is the highest-value surface for inline links — long-form answer prose with
+// many natural occupation mentions. Exclude the example IDs to avoid double-link.
+const _linkRegistry = buildLinkRegistry();
+const exampleIds = new Set(examples.map((d) => d.id));
+const shortAnswerHtml = inlineLinkText(qa.short_answer, _linkRegistry, {
+  maxLinks: 4,
+  excludeIds: exampleIds,
+});
+const reasoningHtml = inlineLinkText(qa.reasoning, _linkRegistry, {
+  maxLinks: 6,
+  excludeIds: exampleIds,
+});
+const crossHubHtml = renderRelatedHubsBlock('q', qa.slug, 6);
 
 const canonical = `https://mirai-shigoto.com/ja/q/${qa.slug}`;
 const title = `${qa.question}｜独自分析で回答【2026 年版】 | 未来の仕事`;
@@ -67,6 +84,7 @@ const jsonLd = JSON.stringify({
   ogImage={`https://mirai-shigoto.com/api/og?q=${qa.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc} ogType="article">
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <style slot="head" set:html={`
 .qa-answer{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:28px 0}
 .qa-answer h2{font-size:1.1rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
@@ -81,9 +99,9 @@ const jsonLd = JSON.stringify({
     </header>
     <section class="qa-answer">
       <h2>直答</h2>
-      <p class="qa-direct">{qa.short_answer}</p>
+      <p class="qa-direct" set:html={shortAnswerHtml}></p>
       <h2>根拠</h2>
-      <p class="qa-reasoning">{qa.reasoning}</p>
+      <p class="qa-reasoning" set:html={reasoningHtml}></p>
     </section>
     {examples.length > 0 && (
       <section>
@@ -91,6 +109,7 @@ const jsonLd = JSON.stringify({
         <Fragment set:html={exampleListHtml} />
       </section>
     )}
+    <Fragment set:html={crossHubHtml} />
     {relatedQAs.length > 0 && (
       <section>
         <h2>関連する質問</h2>
