@@ -2425,6 +2425,102 @@
         .rn-name { font-size: 0.85rem; }
         .rn-preview { font-size: 0.72rem; }
       }
+
+      /* ============================================================
+         PART III — "もっと深く探す" — 3-column magazine TOC of 17 hub
+         categories not surfaced by sectors / rankings. Each col is a
+         "panel" with a serif heading + numbered eyebrow + small lede.
+         ============================================================ */
+      .hub-deep {
+        margin: 22px 0;
+        padding: 26px 22px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .hub-deep-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+        margin-top: 6px;
+      }
+      .hub-deep-col-title {
+        font-family: var(--font-serif);
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--fg);
+        margin: 0 0 6px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .hub-deep-col-num {
+        font-size: 0.7rem;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        font-weight: 700;
+        font-family: var(--font-sans);
+      }
+      .hub-deep-col-lede {
+        font-size: 0.78rem;
+        color: var(--fg2);
+        line-height: 1.5;
+        margin: 0 0 14px;
+        font-style: italic;
+      }
+      .hub-deep-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .hub-deep-list a {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 0 8px;
+        padding: 10px 12px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--fg);
+        transition: border-color 150ms ease, background 150ms ease;
+      }
+      .hub-deep-list a:hover {
+        border-color: var(--accent);
+        background: rgba(217, 107, 61, 0.05);
+        text-decoration: none;
+      }
+      .hub-deep-list strong {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--fg);
+      }
+      .hub-deep-list a:hover strong { color: var(--accent); }
+      .hd-meta {
+        font-size: 0.72rem;
+        color: var(--fg2);
+        font-variant-numeric: tabular-nums;
+        align-self: center;
+      }
+      .hd-desc {
+        grid-column: 1 / -1;
+        font-size: 0.74rem;
+        color: var(--fg2);
+        margin-top: 2px;
+        line-height: 1.4;
+      }
+      @media (max-width: 1024px) {
+        .hub-deep-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+      }
+      @media (max-width: 768px) {
+        .hub-deep-grid { grid-template-columns: 1fr; gap: 24px; }
+        .hub-deep { padding: 22px 16px; }
+      }
       @media (max-width: 540px) {
         .data-summary { font-size: 0.8rem; padding: 12px 14px; }
       }
@@ -3060,6 +3156,129 @@
           すべてのランキングを見る → <a href="/ja/rankings" style="color: var(--accent); font-weight: 500;">ランキング一覧 (39)</a>
         </p>
       </nav>
+
+      <hr class="hub-section-divider" aria-hidden="true">
+      <!-- PART III: "もっと深く探す" — 17 hub categories not exposed by sectors or rankings, organized into 3 columns by mental model: (01) start from yourself, (02) filter by skills/conditions, (03) compare/research. Magazine-style TOC: serif col-title + accent eyebrow number + italic lede + cards. -->
+      <section class="hub-section hub-deep" aria-labelledby="hub-deep-title">
+        <header class="hub-section-head">
+          <span class="hub-eyebrow">PART III</span>
+          <h2 class="hub-section-title" id="hub-deep-title">あなたから・もっと深く</h2>
+          <p class="hub-section-sub">17 ジャンル・約 144 のテーマで職業を分析</p>
+        </header>
+
+        <div class="hub-deep-grid">
+
+          <!-- Column 01: あなたから -->
+          <div class="hub-deep-col">
+            <h3 class="hub-deep-col-title">
+              <span class="hub-deep-col-num">01</span>
+              あなたから
+            </h3>
+            <p class="hub-deep-col-lede">
+              性格・状況・人生段階から、自分に合う職業を発見する。
+            </p>
+            <ul class="hub-deep-list">
+              <li><a href="/ja/interests">
+                <strong>興味 (RIASEC)</strong><span class="hd-meta">6 タイプ</span>
+                <span class="hd-desc">Holland code で性格と職業を結ぶ</span>
+              </a></li>
+              <li><a href="/ja/careers">
+                <strong>キャリア段階</strong><span class="hd-meta">10 ペルソナ</span>
+                <span class="hd-desc">新卒からシニアまで人生段階別の最適解</span>
+              </a></li>
+              <li><a href="/ja/life-balance">
+                <strong>ライフ整合</strong><span class="hd-meta">6 hub</span>
+                <span class="hd-desc">育児・介護・健康と両立しやすい職業</span>
+              </a></li>
+              <li><a href="/ja/values">
+                <strong>価値観</strong><span class="hd-meta">8 hub</span>
+                <span class="hd-desc">達成感・自立性・専門性 — 大事にしたい価値観</span>
+              </a></li>
+              <li><a href="/ja/entry-paths">
+                <strong>入職経路</strong><span class="hd-meta">5 hub</span>
+                <span class="hd-desc">新卒・中途・バイト・独立・徒弟の 5 ルート</span>
+              </a></li>
+            </ul>
+          </div>
+
+          <!-- Column 02: 専門性・条件で -->
+          <div class="hub-deep-col">
+            <h3 class="hub-deep-col-title">
+              <span class="hub-deep-col-num">02</span>
+              専門性・条件で
+            </h3>
+            <p class="hub-deep-col-lede">
+              スキル・能力・知識・学歴・資格 — 持っているもので絞る。
+            </p>
+            <ul class="hub-deep-list">
+              <li><a href="/ja/skills">
+                <strong>スキル</strong><span class="hd-meta">10 hub</span>
+                <span class="hd-desc">批判思考・問題解決など IPD 10 スキル軸</span>
+              </a></li>
+              <li><a href="/ja/abilities">
+                <strong>能力</strong><span class="hd-meta">10 hub</span>
+                <span class="hd-desc">持久力・空間認識・推論など IPD 10 能力軸</span>
+              </a></li>
+              <li><a href="/ja/knowledge">
+                <strong>知識</strong><span class="hd-meta">10 hub</span>
+                <span class="hd-desc">心理・法律・IT・医学・国語等 10 知識軸</span>
+              </a></li>
+              <li><a href="/ja/education">
+                <strong>学歴</strong><span class="hd-meta">6 段階</span>
+                <span class="hd-desc">学歴不問〜大学院中心まで 6 段階</span>
+              </a></li>
+              <li><a href="/ja/training">
+                <strong>修行期間</strong><span class="hd-meta">5 段階</span>
+                <span class="hd-desc">即独立から生涯修行まで 5 段階</span>
+              </a></li>
+              <li><a href="/ja/licenses">
+                <strong>資格</strong><span class="hd-meta">15 hub</span>
+                <span class="hd-desc">国家資格カテゴリ別の 15 hub</span>
+              </a></li>
+            </ul>
+          </div>
+
+          <!-- Column 03: 状況・調べる -->
+          <div class="hub-deep-col">
+            <h3 class="hub-deep-col-title">
+              <span class="hub-deep-col-num">03</span>
+              状況・調べる
+            </h3>
+            <p class="hub-deep-col-lede">
+              働き方・雇用・比較・Q&A — 具体的な疑問に答える。
+            </p>
+            <ul class="hub-deep-list">
+              <li><a href="/ja/work-styles">
+                <strong>働き方</strong><span class="hd-meta">7 hub</span>
+                <span class="hd-desc">屋外・移動・シフト・座位など業務形態別</span>
+              </a></li>
+              <li><a href="/ja/employment-types">
+                <strong>雇用形態</strong><span class="hd-meta">4 hub</span>
+                <span class="hd-desc">正社員・フリーランス・パート・公務員</span>
+              </a></li>
+              <li><a href="/ja/compare">
+                <strong>比較</strong><span class="hd-meta">20 ペア</span>
+                <span class="hd-desc">類似職を X vs Y で直接比較</span>
+              </a></li>
+              <li><a href="/ja/q">
+                <strong>Q&amp;A</strong><span class="hd-meta">49 件</span>
+                <span class="hd-desc">AI 不安・転職・適性等の具体疑問に回答</span>
+              </a></li>
+              <li><a href="/ja/yearly">
+                <strong>年次レポート</strong><span class="hd-meta">3 本</span>
+                <span class="hd-desc">2026 年版・5 年変化・10 年予測</span>
+              </a></li>
+              <li><a href="/ja/about">
+                <strong>方法論</strong><span class="hd-meta">3 ページ</span>
+                <span class="hd-desc">算出方法・用語集・データ出典</span>
+              </a></li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <hr class="hub-section-divider" aria-hidden="true">
 
       <!-- Stage 1: compact data attribution. Full content moved to /about. Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
       <p class="data-summary" aria-label="データ出典サマリー">
