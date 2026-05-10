@@ -2210,10 +2210,72 @@
         font-variant-numeric: tabular-nums;
       }
       .sector-nav-grid a:hover .count { color: var(--accent); }
+      /* AI risk band — 2px stripe at the bottom of each chip, color-matched to the treemap palette so that "scan the chips" gives instant low/mid/high read-out. */
+      .sector-nav-grid a {
+        position: relative;
+        padding-bottom: 9px;
+      }
+      .sector-nav-grid a::after {
+        content: '';
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 4px;
+        height: 2px;
+        border-radius: 1px;
+        background: var(--ai-band-color, var(--border));
+        opacity: 0.85;
+      }
+      .sector-nav-grid a[data-ai-band="low"]  { --ai-band-color: #5BA84F; }
+      .sector-nav-grid a[data-ai-band="mid"]  { --ai-band-color: #D9A03B; }
+      .sector-nav-grid a[data-ai-band="high"] { --ai-band-color: #C4422F; }
+      /* 4 thematic groups of sectors — each with a small italic serif heading. */
+      .sector-nav-group { margin-top: 14px; }
+      .sector-nav-group:first-of-type { margin-top: 0; }
+      .sector-nav-group-title {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--fg2);
+        margin: 0 0 8px 4px;
+        letter-spacing: 0.02em;
+      }
+      .sector-nav-group-title em {
+        font-style: normal;
+        color: var(--fg3, var(--fg2));
+        font-size: 0.72rem;
+        margin-left: 6px;
+        font-variant-numeric: tabular-nums;
+        opacity: 0.75;
+      }
+      .sector-nav-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        margin: 14px 4px 0;
+        font-size: 0.72rem;
+        color: var(--fg2);
+      }
+      .sector-nav-legend > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .sector-nav-legend i {
+        display: inline-block;
+        width: 16px;
+        height: 2px;
+        border-radius: 1px;
+      }
+      .sector-nav-legend .lg-low  { background: #5BA84F; }
+      .sector-nav-legend .lg-mid  { background: #D9A03B; }
+      .sector-nav-legend .lg-high { background: #C4422F; }
       @media (max-width: 540px) {
         .sector-nav { margin: 22px 0 14px; padding: 16px 14px; }
         .sector-nav-title { font-size: 0.98rem; }
-        .sector-nav-grid a { padding: 6px 11px; font-size: 0.8rem; }
+        .sector-nav-grid a { padding: 6px 11px 8px; font-size: 0.8rem; }
+        .sector-nav-grid a::after { left: 10px; right: 10px; bottom: 3px; }
       }
 
       .ranking-nav {
@@ -2571,34 +2633,60 @@
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="職業一覧"></ul>
 
-      <!-- Phase 2: Sector navigation — direct entry to 16 sector hub pages. Each pill = sector name + occupation count. Pre-rendered static HTML (no fetch) so first paint shows the entry list immediately. -->
-      <nav class="sector-nav" aria-label="セクターから職業を探す">
-        <div class="sector-nav-head">
-          <h2 class="sector-nav-title">
-            セクターから探す
-          </h2>
-          <span class="sector-nav-sub">
-            16 セクター・556 職業
-          </span>
+      <!-- Phase 2 + Phase 6: Sector navigation — direct entry to 16 sector hub pages. Reorganized into 4 thematic groups with mini serif headings, and each pill carries a 2px AI-risk stripe (low / mid / high) so users can read the AI-impact landscape at a glance. data-ai-band values are pre-computed from public/data.detail (mean ai_risk.score per sector). -->
+      <hr class="hub-section-divider" aria-hidden="true">
+      <nav class="hub-section sector-nav" aria-labelledby="hub-sectors-title">
+        <header class="hub-section-head">
+          <span class="hub-eyebrow">PART I</span>
+          <h2 class="hub-section-title" id="hub-sectors-title">セクターから探す</h2>
+          <p class="hub-section-sub">日本の労働市場 16 区分・556 職業</p>
+        </header>
+
+        <div class="sector-nav-group">
+          <h3 class="sector-nav-group-title">ケア・公共 <em>76 職業</em></h3>
+          <ul class="sector-nav-grid">
+            <li><a href="/ja/sectors/iryo"     data-ai-band="mid">医療・保健 <span class="count">36</span></a></li>
+            <li><a href="/ja/sectors/fukushi"  data-ai-band="mid">福祉・介護 <span class="count">15</span></a></li>
+            <li><a href="/ja/sectors/kyoiku"   data-ai-band="mid">教育・指導 <span class="count">20</span></a></li>
+            <li><a href="/ja/sectors/hoan"     data-ai-band="low">保安・公安 <span class="count">15</span></a></li>
+          </ul>
         </div>
-        <ul class="sector-nav-grid">
-          <li><a href="/ja/sectors/iryo">医療・保健 <span class="count">36</span></a></li>
-          <li><a href="/ja/sectors/fukushi">福祉・介護 <span class="count">15</span></a></li>
-          <li><a href="/ja/sectors/kyoiku">教育・指導 <span class="count">20</span></a></li>
-          <li><a href="/ja/sectors/hoan">保安・公安 <span class="count">15</span></a></li>
-          <li><a href="/ja/sectors/noringyo">農林・水産 <span class="count">14</span></a></li>
-          <li><a href="/ja/sectors/senmon">専門・技術 <span class="count">51</span></a></li>
-          <li><a href="/ja/sectors/it">IT・通信 <span class="count">22</span></a></li>
-          <li><a href="/ja/sectors/shigyo">士業・経営・コンサル <span class="count">63</span></a></li>
-          <li><a href="/ja/sectors/creative">クリエイティブ・メディア <span class="count">37</span></a></li>
-          <li><a href="/ja/sectors/jimu">事務・公務 <span class="count">57</span></a></li>
-          <li><a href="/ja/sectors/hanbai">販売・営業 <span class="count">41</span></a></li>
-          <li><a href="/ja/sectors/service">サービス・接客 <span class="count">41</span></a></li>
-          <li><a href="/ja/sectors/seizo">製造・職人 <span class="count">59</span></a></li>
-          <li><a href="/ja/sectors/maint">設備・保守 <span class="count">49</span></a></li>
-          <li><a href="/ja/sectors/kensetu">建設・土木 <span class="count">20</span></a></li>
-          <li><a href="/ja/sectors/keiseki">軽作業・清掃 <span class="count">16</span></a></li>
-        </ul>
+
+        <div class="sector-nav-group">
+          <h3 class="sector-nav-group-title">知的・専門 <em>193 職業</em></h3>
+          <ul class="sector-nav-grid">
+            <li><a href="/ja/sectors/senmon"   data-ai-band="high">専門・技術 <span class="count">51</span></a></li>
+            <li><a href="/ja/sectors/it"       data-ai-band="high">IT・通信 <span class="count">22</span></a></li>
+            <li><a href="/ja/sectors/shigyo"   data-ai-band="high">士業・経営・コンサル <span class="count">63</span></a></li>
+            <li><a href="/ja/sectors/creative" data-ai-band="high">クリエイティブ・メディア <span class="count">37</span></a></li>
+          </ul>
+        </div>
+
+        <div class="sector-nav-group">
+          <h3 class="sector-nav-group-title">事務・対人 <em>139 職業</em></h3>
+          <ul class="sector-nav-grid">
+            <li><a href="/ja/sectors/jimu"    data-ai-band="high">事務・公務 <span class="count">57</span></a></li>
+            <li><a href="/ja/sectors/hanbai"  data-ai-band="mid">販売・営業 <span class="count">41</span></a></li>
+            <li><a href="/ja/sectors/service" data-ai-band="low">サービス・接客 <span class="count">41</span></a></li>
+          </ul>
+        </div>
+
+        <div class="sector-nav-group">
+          <h3 class="sector-nav-group-title">職人・現場 <em>148 職業</em></h3>
+          <ul class="sector-nav-grid">
+            <li><a href="/ja/sectors/seizo"    data-ai-band="low">製造・職人 <span class="count">59</span></a></li>
+            <li><a href="/ja/sectors/maint"    data-ai-band="low">設備・保守 <span class="count">49</span></a></li>
+            <li><a href="/ja/sectors/kensetu"  data-ai-band="low">建設・土木 <span class="count">20</span></a></li>
+            <li><a href="/ja/sectors/keiseki"  data-ai-band="low">軽作業・清掃 <span class="count">16</span></a></li>
+            <li><a href="/ja/sectors/noringyo" data-ai-band="low">農林・水産 <span class="count">14</span></a></li>
+          </ul>
+        </div>
+
+        <div class="sector-nav-legend" aria-label="AI 影響度の凡例">
+          <span><i class="lg-low"></i>AI 影響 低 (≤4)</span>
+          <span><i class="lg-mid"></i>中 (4-6)</span>
+          <span><i class="lg-high"></i>高 (>6)</span>
+        </div>
       </nav>
 
       <nav class="ranking-nav" aria-label="ランキングから探す">
