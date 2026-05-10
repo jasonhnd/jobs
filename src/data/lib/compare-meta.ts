@@ -1,5 +1,5 @@
 /**
- * compare-meta.ts — 12 個の職業比較ペアの slug + occupation IDs + 表示メタ。
+ * compare-meta.ts — 20 個の職業比較ペアの slug + occupation IDs + 表示メタ。
  *
  * 各 hub は 2 職業を side-by-side で比較する。
  * data/occupations の id は実装時に lookup して固定 (build:data 時 schema 検証で
@@ -20,7 +20,15 @@ export type CompareSlug =
   | 'pt-vs-shika-eisei'
   | 'bengoshi-vs-kaikeishi'
   | 'tofu-vs-pan'
-  | 'kyoshi-vs-hoikushi';
+  | 'kyoshi-vs-hoikushi'
+  | 'kaigo-vs-kea-mane'
+  | 'kaikeishi-vs-zeirishi'
+  | 'shihou-vs-gyousei'
+  | 'web-marketer-vs-research'
+  | 'data-scientist-vs-ai-engineer'
+  | 'shika-vs-juui'
+  | 'yochien-vs-hoikushi'
+  | 'webdesigner-vs-illustrator';
 
 export interface CompareMeta {
   slug: CompareSlug;
@@ -303,6 +311,182 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       '対象年齢の好み・適性',
     ],
     og_eyebrow: 'COMPARE · 教育・保育',
+  },
+  {
+    slug: 'kaigo-vs-kea-mane',
+    occ_a_id: 134, // 施設介護員
+    occ_b_id: 132, // 介護支援専門員/ケアマネジャー
+    title_ja: '施設介護員 vs ケアマネジャー',
+    description_ja:
+      '介護現場の最前線を担う施設介護員と、ケアプラン作成と多職種連携を担うケアマネジャー。同じ介護分野でも業務の中心・必要資格・年収・キャリアパスが大きく異なる。' +
+      '現場志向と調整役志向、どちらが自分に合うかを比較。',
+    comparison_points_ja: [
+      '業務の中心 (直接介護 vs ケアプラン・調整)',
+      '必須資格 (介護職員初任者研修 vs 介護支援専門員)',
+      '年収レンジとキャリアの伸び方',
+      '体力的負荷の違い',
+      '事業所内での立ち位置',
+    ],
+    decision_hints_ja: [
+      '直接的な身体介護を続けたいか、調整役に移りたいか',
+      '介護経験 5 年でケアマネ資格に挑戦するか',
+      'デスクワーク比率の許容度',
+    ],
+    og_eyebrow: 'COMPARE · 介護',
+  },
+  {
+    slug: 'kaikeishi-vs-zeirishi',
+    occ_a_id: 90, // 公認会計士
+    occ_b_id: 92, // 税理士
+    title_ja: '公認会計士 vs 税理士',
+    description_ja:
+      'ともに会計分野の国家資格職だが、業務の中心 (監査 vs 税務)・主クライアント (大企業 vs 中小・個人)・年収レンジ・AI 影響度に明確な差がある。' +
+      '試験合格までの道のりと、資格取得後のキャリアパスを比較。',
+    comparison_points_ja: [
+      '業務の中心 (会計監査 vs 税務申告・税務相談)',
+      '主クライアント (上場・大企業 vs 中小・個人)',
+      '試験ルートと合格までの平均年数',
+      '独立しやすさと事務所規模',
+      'AI 影響度 (定型監査・申告書作成の自動化進行)',
+    ],
+    decision_hints_ja: [
+      '法人 vs 個人、どちらの相手に向き合いたいか',
+      '監査法人での組織キャリア vs 独立志向',
+      '試験ルートの違い (一発合格 vs 科目合格制)',
+    ],
+    og_eyebrow: 'COMPARE · 士業',
+  },
+  {
+    slug: 'shihou-vs-gyousei',
+    occ_a_id: 84, // 司法書士
+    occ_b_id: 85, // 行政書士
+    title_ja: '司法書士 vs 行政書士',
+    description_ja:
+      '名前が似ているが業務領域が大きく異なる 2 つの士業。司法書士は不動産登記・商業登記・裁判書類が中心、行政書士は許認可・契約書・遺言書が中心。' +
+      '試験難度・年収・独立難度・AI 影響度を比較。',
+    comparison_points_ja: [
+      '業務領域 (登記・裁判 vs 許認可・契約)',
+      '試験合格率 (司法書士 ≈ 4-5% vs 行政書士 ≈ 10-15%)',
+      '独立後の典型的な年収',
+      'クライアントの種類 (法人比率)',
+      'AI 影響度 (書類作成の自動化進行)',
+    ],
+    decision_hints_ja: [
+      '長期準備 (司法書士) vs 比較的短期 (行政書士)',
+      '裁判書類への適性',
+      'ダブル資格戦略の選択肢',
+    ],
+    og_eyebrow: 'COMPARE · 士業',
+  },
+  {
+    slug: 'web-marketer-vs-research',
+    occ_a_id: 240, // Webマーケティング
+    occ_b_id: 456, // マーケティング・リサーチャー
+    title_ja: 'Web マーケター vs マーケティング・リサーチャー',
+    description_ja:
+      'マーケティング領域の代表的な 2 職業。Web マーケターは広告運用・SEO・CRM など実行寄り、リサーチャーは市場調査・データ分析・戦略立案など分析寄り。' +
+      '業務の手触り・必要スキル・AI 影響度・キャリアパスを比較。',
+    comparison_points_ja: [
+      '業務の中心 (実行・運用 vs 調査・分析)',
+      '必要スキル (広告ツール・SEO vs 統計・調査設計)',
+      '成果指標 (CV・ROAS vs インサイト・戦略提言)',
+      'AI 影響度 (広告運用自動化 vs 分析の生成 AI 化)',
+      'キャリアパス (CMO・自社ブランド vs ブランドマネ・コンサル)',
+    ],
+    decision_hints_ja: [
+      '即時的な成果と試行錯誤を楽しめるか',
+      '数字とロジックの分析を継続できるか',
+      'AI を使いこなす上流業務に立ちたいか',
+    ],
+    og_eyebrow: 'COMPARE · マーケ',
+  },
+  {
+    slug: 'data-scientist-vs-ai-engineer',
+    occ_a_id: 323, // データサイエンティスト
+    occ_b_id: 325, // AIエンジニア
+    title_ja: 'データサイエンティスト vs AI エンジニア',
+    description_ja:
+      'AI 時代の象徴的な 2 職業を、業務の中心 (分析・統計 vs モデル実装・基盤構築)・必要スキル・年収・市場需要の観点で比較。' +
+      '同じ「AI 関連」でも仕事の性質と必要バックグラウンドが大きく異なる。',
+    comparison_points_ja: [
+      '業務の中心 (データ分析・課題抽出 vs モデル開発・推論基盤)',
+      '使う技術スタック (R/Python・統計 vs PyTorch/TF・MLOps)',
+      '出力 (レポート・施策提言 vs 動くシステム・API)',
+      '年収レンジと市場需要',
+      'キャリアの先 (CDO/CIO vs ML プラットフォームリード)',
+    ],
+    decision_hints_ja: [
+      '分析と提言が好きか、コードでシステムを動かしたいか',
+      '統計学・実験設計に時間を投資できるか',
+      'プロダクト責任を持つ立場に近づきたいか',
+    ],
+    og_eyebrow: 'COMPARE · AI 系',
+  },
+  {
+    slug: 'shika-vs-juui',
+    occ_a_id: 159, // 歯科医師
+    occ_b_id: 223, // 獣医師
+    title_ja: '歯科医師 vs 獣医師',
+    description_ja:
+      '同じ 6 年制の医療系国家資格職。対象 (人 vs 動物)・養成課程の難度・開業形態・年収・AI 影響度に差がある。' +
+      '専門医療の対象として「人」と「動物」を比較するキャリア視点で整理。',
+    comparison_points_ja: [
+      '対象 (人の口腔 vs 動物全般)',
+      '養成課程 (歯学部 6 年 vs 獣医学部 6 年)',
+      '開業形態 (歯科クリニック vs 動物病院)',
+      '年収レンジと開業の経済性',
+      '法律的責任の重さ',
+    ],
+    decision_hints_ja: [
+      '人と接するか、動物と接するか',
+      '飽和しつつある歯科 vs 多様化する動物医療',
+      '小動物・大動物・産業動物の専門選択',
+    ],
+    og_eyebrow: 'COMPARE · 医療職',
+  },
+  {
+    slug: 'yochien-vs-hoikushi',
+    occ_a_id: 178, // 幼稚園教員
+    occ_b_id: 131, // 保育士
+    title_ja: '幼稚園教諭 vs 保育士',
+    description_ja:
+      'よく混同される 2 職業を、所管 (文科省 vs 厚労省)・対象年齢・必要資格・勤務時間・年収・AI 影響度の観点で比較。' +
+      '幼保一元化が進む中、両資格保有 (認定こども園) のキャリアも視野に整理。',
+    comparison_points_ja: [
+      '所管省庁 (文科省 vs 厚労省)',
+      '対象年齢 (3-6 歳 vs 0-6 歳)',
+      '必須資格 (幼稚園教諭免許 vs 保育士資格)',
+      '勤務時間 (教育時間 vs 11 時間保育)',
+      '認定こども園での両資格活用',
+    ],
+    decision_hints_ja: [
+      '教育要素 vs 養護要素の重視度',
+      '認定こども園 (幼保一元化) で両資格を活かす道',
+      '0-2 歳の乳児期と関わるかどうか',
+    ],
+    og_eyebrow: 'COMPARE · 幼児教育',
+  },
+  {
+    slug: 'webdesigner-vs-illustrator',
+    occ_a_id: 326, // Webデザイナー
+    occ_b_id: 342, // イラストレーター
+    title_ja: 'Web デザイナー vs イラストレーター',
+    description_ja:
+      'クリエイティブ職の 2 つを、業務の中心 (UI/UX 設計 vs 絵の制作)・働き方 (組織 vs フリーランス比率)・年収・AI 影響度の観点で比較。' +
+      '生成 AI による直撃度の違いと、AI を使いこなすクリエイターとしての姿勢の違いも整理。',
+    comparison_points_ja: [
+      '業務の中心 (画面設計 vs 絵画・キャラ制作)',
+      '雇用形態 (会社員中心 vs フリーランス比率高)',
+      '年収の安定性',
+      '生成 AI の直撃度 (UI 自動生成 vs 画像生成)',
+      'ポートフォリオの作り方',
+    ],
+    decision_hints_ja: [
+      'チーム制作 vs 一人制作、どちらが性に合うか',
+      '安定収入 vs フリーランス志向',
+      'AI を相棒にして独自性を出す覚悟',
+    ],
+    og_eyebrow: 'COMPARE · クリエイティブ',
   },
 ];
 

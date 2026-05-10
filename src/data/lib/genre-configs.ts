@@ -1,5 +1,8 @@
 /**
- * genre-configs.ts — 9 個のデータ駆動 genre hub の設定。
+ * genre-configs.ts — 9 ジャンル × 計 60 個のデータ駆動 hub の設定。
+ *
+ * 内訳: abilities 10 + knowledge 10 + values 8 + education 6 + training 5
+ *      + work-styles 7 + employment-types 4 + life-balance 6 + entry-paths 5
  *
  * 各 genre は genre-hub.ts の buildGenreResult() で TOP 30 を計算する。
  * Pure-data モジュール、fs imports なし — Astro frontmatter と Edge Function
@@ -7,7 +10,7 @@
  */
 import type { GenreHubConfig, DetailFileMin } from './genre-hub.js';
 
-// ─── G. 能力 (abilities) — 8 hub ─────────────────────────
+// ─── G. 能力 (abilities) — 10 hub ────────────────────────
 
 export const ABILITIES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -98,9 +101,31 @@ export const ABILITIES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     characteristics_ja: ['複数事例からパターンを発見', '仮説生成と検証のサイクル', '不完全情報から結論を導く'],
     how_to_develop_ja: ['ベイズ推論・統計学の基礎', '推理小説・科学誌の読書', 'データ分析の実践'],
   },
+  {
+    slug: 'deductive-reasoning',
+    short_ja: '演繹的推論',
+    title_ja: '演繹的推論が要る職業',
+    description_ja: '一般原則やルールから個別事例の結論を導く演繹的思考が業務の核心となる職業群。弁護士・公認会計士・システムエンジニア・医師等。',
+    og_eyebrow: 'ABILITY · 演繹',
+    dimension_field: 'abilities_top5',
+    dimension_key: 'deductive_reasoning',
+    characteristics_ja: ['ルール体系から答えを導ける', '前提条件の妥当性を検証できる', '論理的な反証可能性を意識する'],
+    how_to_develop_ja: ['形式論理学・数学の学習', '法律・契約書の読解', 'プログラミングによるロジック構築'],
+  },
+  {
+    slug: 'oral-expression',
+    short_ja: '発話表現',
+    title_ja: '発話表現力が要る職業',
+    description_ja: '考えを言葉で的確に伝える発話表現力が業務の中心となる職業群。営業・教師・カウンセラー・士業・接客サービス等。',
+    og_eyebrow: 'ABILITY · 発話',
+    dimension_field: 'abilities_top5',
+    dimension_key: 'oral_expression',
+    characteristics_ja: ['複雑な内容を平易に説明できる', '相手の理解度に応じて語り方を変えられる', '緊張下でも論理を保てる'],
+    how_to_develop_ja: ['プレゼン・スピーチの練習', '相手別に説明シナリオを書く', '即興議論・ディベート参加'],
+  },
 ];
 
-// ─── H. 知識 (knowledge) — 5 hub ─────────────────────────
+// ─── H. 知識 (knowledge) — 10 hub ────────────────────────
 
 export const KNOWLEDGE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -154,13 +179,68 @@ export const KNOWLEDGE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: '統計・微積分・線形代数など数学的知識が業務の中心となる職業群。研究者・エンジニア・金融・データサイエンティスト等。',
     og_eyebrow: 'KNOWLEDGE · 数学',
     dimension_field: 'knowledge_top5',
-    dimension_key: 'mathematics',
+    dimension_key: 'mathematics_kn',
     characteristics_ja: ['数式と現象の関係を把握', 'データから法則を抽出', '不確実性を定量的に扱う'],
     how_to_develop_ja: ['大学レベルの数学を学習', '統計検定・データ分析関連資格', '実務でのデータ活用'],
   },
+  {
+    slug: 'psychology-knowledge',
+    short_ja: '心理学',
+    title_ja: '心理学知識を活かす職業',
+    description_ja: '人間の認知・感情・行動に関する心理学的知識が業務の中心となる職業群。カウンセラー・教師・人事・営業・看護等。',
+    og_eyebrow: 'KNOWLEDGE · 心理学',
+    dimension_field: 'knowledge_top5',
+    dimension_key: 'psychology',
+    characteristics_ja: ['行動の背景にある動機を読み取る', '集団心理と個人心理の違いを意識', 'バイアスを認識して判断する'],
+    how_to_develop_ja: ['心理学の基礎書籍', '臨床・産業心理学関連資格', '実務での観察・記録の蓄積'],
+  },
+  {
+    slug: 'law-government-knowledge',
+    short_ja: '法律・行政',
+    title_ja: '法律・行政知識を活かす職業',
+    description_ja: '法令・行政手続・規制の知識が業務の中心となる職業群。弁護士・司法書士・行政書士・公務員・コンプライアンス担当等。',
+    og_eyebrow: 'KNOWLEDGE · 法律',
+    dimension_field: 'knowledge_top5',
+    dimension_key: 'law_government',
+    characteristics_ja: ['法令の条文と判例を読解できる', '手続きの順序と期限を厳守', '規制と現実の乖離を埋める'],
+    how_to_develop_ja: ['法学部・法科大学院での学習', '士業国家資格の取得', '判例研究・実務経験の蓄積'],
+  },
+  {
+    slug: 'computers-electronics-knowledge',
+    short_ja: 'IT・電子',
+    title_ja: 'IT・電子工学知識を活かす職業',
+    description_ja: 'コンピューター・ネットワーク・電子工学の知識が業務に直結する職業群。エンジニア・SE・データサイエンティスト・組込み技術者等。',
+    og_eyebrow: 'KNOWLEDGE · IT',
+    dimension_field: 'knowledge_top5',
+    dimension_key: 'computers_electronics',
+    characteristics_ja: ['ハード・ソフトの全体像を把握', '抽象化と具体実装を行き来', '新技術を継続的に習得'],
+    how_to_develop_ja: ['情報系学部・専門学校', '資格 (情報処理・ベンダー系)', 'OSS / 個人プロジェクトでの実装経験'],
+  },
+  {
+    slug: 'japanese-language-knowledge',
+    short_ja: '国語・日本語',
+    title_ja: '国語・日本語知識を活かす職業',
+    description_ja: '日本語の文法・語彙・文章構成の知識が業務に直結する職業群。教師・編集者・ライター・通訳・士業の文書業務等。',
+    og_eyebrow: 'KNOWLEDGE · 国語',
+    dimension_field: 'knowledge_top5',
+    dimension_key: 'japanese_language',
+    characteristics_ja: ['正確な文章を書き分けられる', '相手と場面に応じた語彙選択', '推敲・校正の精度が高い'],
+    how_to_develop_ja: ['古典・近代文学の読書', '校正・編集の実務訓練', '専門領域の文章スタイル習得'],
+  },
+  {
+    slug: 'sales-marketing-knowledge',
+    short_ja: '営業・販売',
+    title_ja: '営業・販売の知識を活かす職業',
+    description_ja: '商品・市場・顧客行動・販売手法の知識が業務に直結する職業群。営業職・マーケター・店長・販売員・ECディレクター等。',
+    og_eyebrow: 'KNOWLEDGE · 営業',
+    dimension_field: 'knowledge_top5',
+    dimension_key: 'sales_marketing',
+    characteristics_ja: ['顧客課題と商品価値を結びつける', '購買心理と市場動向を読む', '数字とストーリーを両立させる'],
+    how_to_develop_ja: ['営業・マーケティング関連資格', '優れた営業の同行・観察', 'デジタルマーケティング実践'],
+  },
 ];
 
-// ─── J. 価値観 (work_values) — 6 hub ─────────────────────
+// ─── J. 価値観 (work_values) — 8 hub ─────────────────────
 
 export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -179,7 +259,7 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: '自分のペース・判断で進められる仕事を好む人に適した職業群。フリーランス系・職人・研究者・自営業等。',
     og_eyebrow: 'VALUES · 自立性',
     dimension_field: 'work_values_top5',
-    dimension_key: 'independence',
+    dimension_key: 'autonomy',
   },
   {
     slug: 'recognition',
@@ -188,7 +268,7 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: '社会的評価・名声・昇進に価値を感じる人に適した職業群。芸能・スポーツ・士業・経営層等。',
     og_eyebrow: 'VALUES · 認知',
     dimension_field: 'work_values_top5',
-    dimension_key: 'recognition',
+    dimension_key: 'social_recognition',
   },
   {
     slug: 'relationships',
@@ -197,7 +277,7 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: 'チーム内の人間関係・協働を大切にする人に適した職業群。看護・教育・プロジェクト系等。',
     og_eyebrow: 'VALUES · 関係性',
     dimension_field: 'work_values_top5',
-    dimension_key: 'relationships',
+    dimension_key: 'good_relationships',
   },
   {
     slug: 'support',
@@ -206,7 +286,7 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: '上司や組織からのサポートを重視する人に適した職業群。安定的な大企業・公務員・チーム型業務等。',
     og_eyebrow: 'VALUES · 支援',
     dimension_field: 'work_values_top5',
-    dimension_key: 'support',
+    dimension_key: 'workplace_safety',
   },
   {
     slug: 'working-conditions',
@@ -215,7 +295,25 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: '勤務時間・福利厚生・雇用安定性など労働条件を最優先にする人に適した職業群。公務員・大企業・規制産業等。',
     og_eyebrow: 'VALUES · 労働条件',
     dimension_field: 'work_values_top5',
-    dimension_key: 'working_conditions',
+    dimension_key: 'work_life_balance',
+  },
+  {
+    slug: 'expertise',
+    short_ja: '専門性',
+    title_ja: '専門性を重視する人に向く職業',
+    description_ja: '深い専門知識・技術を磨き続けることに価値を感じる人に適した職業群。医療・士業・研究・職人・高度専門技術職等。',
+    og_eyebrow: 'VALUES · 専門性',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'expertise',
+  },
+  {
+    slug: 'self-growth',
+    short_ja: '自己成長',
+    title_ja: '自己成長を重視する人に向く職業',
+    description_ja: '挑戦や学習を通じて自分を伸ばし続けることに価値を感じる人に適した職業群。コンサル・スタートアップ・専門職・教育系等。',
+    og_eyebrow: 'VALUES · 成長',
+    dimension_field: 'work_values_top5',
+    dimension_key: 'self_growth',
   },
 ];
 
@@ -315,7 +413,29 @@ export const EDUCATION_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   ),
 ];
 
-// ─── L. 修行期間 (training) — 4 hub ─────────────────────
+// ─── L. 修行期間 (training) — 5 hub ─────────────────────
+
+/**
+ * Helper for training-period genres.
+ *
+ * The data uses snake_case English keys (e.g. `1_to_2_years`) and groups
+ * are sometimes split across multiple keys (1-3 years = 1_to_2_years +
+ * 2_to_3_years). We use a custom_filter that selects items whose
+ * `training_post_top5` contains ANY of the matching keys, ranked by score.
+ */
+function makeTrainingFilter(matchKeys: ReadonlyArray<string>): GenreHubConfig['custom_filter'] {
+  return (d: DetailFileMin) => {
+    const arr = d.training_post_top5;
+    if (!arr) return null;
+    let bestScore = -Infinity;
+    for (const e of arr) {
+      if (matchKeys.includes(e.key)) {
+        if (e.score > bestScore) bestScore = e.score;
+      }
+    }
+    return bestScore === -Infinity ? null : bestScore;
+  };
+}
 
 export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -324,8 +444,7 @@ export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '入職後すぐ独立できる職業',
     description_ja: '入職後 1 年以内に一人前の業務遂行が可能な職業群。サービス・販売・軽作業・運輸の一部等。',
     og_eyebrow: 'TRAINING · 即独立',
-    dimension_field: 'training_post_top5',
-    dimension_key: '1ヶ月以下',
+    custom_filter: makeTrainingFilter(['up_to_1_month', '1_to_6_months', '6_months_to_1_year', 'not_required']),
   },
   {
     slug: '1-3-years',
@@ -333,8 +452,15 @@ export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '1-3 年で一人前になる職業',
     description_ja: '1-3 年の入職後訓練で独立業務が可能になる職業群。事務・営業・技術系の中堅水準。',
     og_eyebrow: 'TRAINING · 1-3年',
-    dimension_field: 'training_post_top5',
-    dimension_key: '1〜3年',
+    custom_filter: makeTrainingFilter(['1_to_2_years', '2_to_3_years']),
+  },
+  {
+    slug: '3-5-years',
+    short_ja: '3-5年',
+    title_ja: '3-5 年で熟達する職業',
+    description_ja: '3-5 年の修行・経験で熟練レベルに到達する職業群。中堅職人・技術職・専門事務・営業の上位等。',
+    og_eyebrow: 'TRAINING · 3-5年',
+    custom_filter: makeTrainingFilter(['3_to_5_years']),
   },
   {
     slug: '5-10-years',
@@ -342,8 +468,7 @@ export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '5-10 年の修行が必要な職業',
     description_ja: '5 年以上の長い修行を経て一人前となる職業群。職人・専門医・士業・職長等。',
     og_eyebrow: 'TRAINING · 5-10年',
-    dimension_field: 'training_post_top5',
-    dimension_key: '5〜10年',
+    custom_filter: makeTrainingFilter(['5_to_10_years']),
   },
   {
     slug: 'lifelong-craft',
@@ -351,12 +476,11 @@ export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     title_ja: '生涯修行型の職業',
     description_ja: '10 年超または生涯にわたる継続学習が前提となる職業群。伝統工芸・最先端医療・士業の上位等。',
     og_eyebrow: 'TRAINING · 生涯',
-    dimension_field: 'training_post_top5',
-    dimension_key: '10年超',
+    custom_filter: makeTrainingFilter(['over_10_years']),
   },
 ];
 
-// ─── M. 業務形態 (work_characteristics) — 6 hub ─────────
+// ─── M. 業務形態 (work_characteristics) — 7 hub ─────────
 
 export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -366,7 +490,7 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     description_ja: '主たる業務が屋外で行われる職業群。建設・農林・運輸・現場系等。天候や環境への対応が必要。',
     og_eyebrow: 'WORK · 屋外',
     dimension_field: 'work_characteristics_top5',
-    dimension_key: 'outdoors_exposed_to_weather',
+    dimension_key: 'outdoor_work',
   },
   {
     slug: 'desk-vs-genba',
@@ -390,10 +514,18 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     slug: 'shift-work',
     short_ja: 'シフト勤務',
     title_ja: 'シフト勤務 (24h・夜勤・早朝) の職業',
-    description_ja: '24 時間体制・夜勤・早朝シフトが業務に組み込まれている職業群。医療・運輸・警備等。',
+    description_ja: '24 時間体制・夜勤・早朝シフトが業務に組み込まれている職業群。医療・運輸・警備・ホテル・コンビニ等。',
     og_eyebrow: 'WORK · シフト',
-    dimension_field: 'work_characteristics_top5',
-    dimension_key: 'work_schedules',
+    custom_filter: (d) => {
+      // Shift-work isn't a single IPD key — approximate via sectors that
+      // traditionally operate 24h or in shifts (medical, public safety,
+      // service, transportation/maint).
+      const sid = d.sector?.id ?? '';
+      if (!['iryo', 'hoan', 'service', 'maint'].includes(sid)) return null;
+      // Rank by workforce size as a rough proxy for "how many people in
+      // shift-work jobs in this sector".
+      return d.stats?.workers ?? 0;
+    },
   },
   {
     slug: 'solo-vs-team',
@@ -412,6 +544,15 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     og_eyebrow: 'WORK · 体力',
     dimension_field: 'work_characteristics_top5',
     dimension_key: 'physical_proximity',
+  },
+  {
+    slug: 'desk-sitting-work',
+    short_ja: '座り仕事',
+    title_ja: '座って行う仕事中心の職業',
+    description_ja: 'デスクワーク・座位での業務が中心となる職業群。事務・IT・士業・コールセンター等。長時間着座への耐性が必要。',
+    og_eyebrow: 'WORK · 座位',
+    dimension_field: 'work_characteristics_top5',
+    dimension_key: 'sitting',
   },
 ];
 
@@ -472,7 +613,7 @@ export const EMPLOYMENT_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
 ];
 
-// ─── P. ライフ整合 (life-balance) — 5 hub ────────────────
+// ─── P. ライフ整合 (life-balance) — 6 hub ────────────────
 
 export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -539,9 +680,23 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       return -hours;
     },
   },
+  {
+    slug: 'senior-friendly',
+    short_ja: 'シニア活躍',
+    title_ja: '60 代以降も続けやすい職業',
+    description_ja: '平均年齢が高めで体力負荷が控えめ、AI 影響度も低く、定年後も継続しやすい職業群。経験・人脈が活きる分野。',
+    og_eyebrow: 'LIFE · シニア',
+    custom_filter: (d) => {
+      const age = d.stats?.average_age;
+      const ai = d.ai_risk?.score;
+      if (!age || age < 45) return null;
+      if (ai !== null && ai !== undefined && ai > 5) return null;
+      return age;
+    },
+  },
 ];
 
-// ─── Q. 入職経路 (entry-paths) — 4 hub ───────────────────
+// ─── Q. 入職経路 (entry-paths) — 5 hub ───────────────────
 
 export const ENTRY_PATHS_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -598,6 +753,22 @@ export const ENTRY_PATHS_CONFIGS: ReadonlyArray<GenreHubConfig> = [
       if (ai === null || ai === undefined) return null;
       if (ai > 6) return null;
       return certs;
+    },
+  },
+  {
+    slug: 'apprenticeship',
+    short_ja: '徒弟制',
+    title_ja: '徒弟制・OJT が中心の職業',
+    description_ja: '師匠について長期的に技を継承する徒弟型キャリアが残る職業群。伝統工芸・建設職人・調理・美容等。形式教育より OJT が中心。',
+    og_eyebrow: 'ENTRY · 徒弟',
+    custom_filter: (d) => {
+      const ed = d.education_distribution;
+      const ai = d.ai_risk?.score;
+      if (!ed) return null;
+      const lowEdu = (ed['below_high_school'] ?? 0) + (ed['high_school'] ?? 0);
+      if (lowEdu < 0.4) return null;
+      if (ai !== null && ai !== undefined && ai > 5) return null;
+      return lowEdu;
     },
   },
 ];
