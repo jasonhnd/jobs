@@ -13,7 +13,7 @@
  *   0 — clean run (validation + all projections succeed).
  *   1 — at least one validation or projection error.
  */
-import { mkdir } from 'node:fs/promises';
+import { mkdir, rm, rename, readdir, cp } from 'node:fs/promises';
 import { join } from 'node:path';
 import { buildIndexes } from './lib/indexes.js';
 import { buildDetail } from './projections/detail.js';
@@ -38,6 +38,12 @@ const TS_DIST = process.env.BUILD_DATA_OUT_DIR
   ? join(REPO_ROOT, process.env.BUILD_DATA_OUT_DIR)
   : join(REPO_ROOT, 'public');
 
+// Staging dir for atomic per-file replacement. Projections write here, then
+// we rename each top-level entry into TS_DIST on success. Includes the PID so
+// concurrent runs (parallel CI shards, accidental dev re-run) don't clobber
+// each other. Cleaned up on success and on failure.
+const STAGE_DIST = `${TS_DIST}.tmp-${process.pid}`;
+
 interface ProjectionRun {
   name: string;
   files: string[];
@@ -48,7 +54,8 @@ interface ProjectionRun {
 async function main(): Promise<void> {
   const t0 = Date.now();
   console.log('TS ETL · running');
-  console.log(`  output dir: ${TS_DIST}\n`);
+  console.log(`  output dir: ${TS_DIST}`);
+  console.log(`  staging dir: ${STAGE_DIST}\n`);
 
   // ───── L1+L2: load + validate everything ─────
   console.log('  [L1+L2] loading + validating sources …');
@@ -74,93 +81,132 @@ async function main(): Promise<void> {
   console.log(`     labels dimensions:  ${indexes.labelsByDim.size}`);
   console.log(`     sectors:            ${indexes.sectors.length}`);
 
-  // ───── Prepare output dir ─────
-  await mkdir(TS_DIST, { recursive: true });
+  // ───── Prepare staging dir ─────
+  // Wipe any leftover stage from a crashed previous run, then create fresh.
+  // TS_DIST is left untouched until every projection succeeds.
+  await rm(STAGE_DIST, { recursive: true, force: true });
+  await mkdir(STAGE_DIST, { recursive: true });
 
-  // ───── Run projections ─────
+  // ───── Run projections (writes to STAGE_DIST) ─────
   console.log('\n  [build] running projections …');
   const runs: ProjectionRun[] = [];
 
-  // sectors: must run first (others may depend on sector_id derivations).
-  runs.push(await runProjection('sectors', async () => {
-    const r = await buildSectors(indexes, TS_DIST);
-    return {
-      files: r.files,
-      summary: r.skipped ?? `sectors=${r.sectors} uncategorized=${r.uncategorized} ambiguous=${r.ambiguous}`,
-    };
-  }));
+  try {
+    // sectors: must run first (others may depend on sector_id derivations).
+    runs.push(await runProjection('sectors', async () => {
+      const r = await buildSectors(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: r.skipped ?? `sectors=${r.sectors} uncategorized=${r.uncategorized} ambiguous=${r.ambiguous}`,
+      };
+    }));
 
-  runs.push(await runProjection('labels', async () => {
-    const r = await buildLabels(indexes, TS_DIST);
-    return { files: r.files, summary: `dimensions=${r.dimensions}` };
-  }));
+    runs.push(await runProjection('labels', async () => {
+      const r = await buildLabels(indexes, STAGE_DIST);
+      return { files: r.files, summary: `dimensions=${r.dimensions}` };
+    }));
 
-  runs.push(await runProjection('profile5', async () => {
-    const r = await buildProfile5(indexes, TS_DIST);
-    return {
-      files: r.files,
-      summary: `occupations=${r.occupations} axes=${r.axes.length}`,
-    };
-  }));
+    runs.push(await runProjection('profile5', async () => {
+      const r = await buildProfile5(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `occupations=${r.occupations} axes=${r.axes.length}`,
+      };
+    }));
 
-  runs.push(await runProjection('treemap', async () => {
-    const r = await buildTreemap(indexes, TS_DIST);
-    return { files: r.files, summary: `rows=${r.rows}` };
-  }));
+    runs.push(await runProjection('treemap', async () => {
+      const r = await buildTreemap(indexes, STAGE_DIST);
+      return { files: r.files, summary: `rows=${r.rows}` };
+    }));
 
-  runs.push(await runProjection('search', async () => {
-    const r = await buildSearch(indexes, TS_DIST);
-    return { files: r.files, summary: `documents=${r.documents}` };
-  }));
+    runs.push(await runProjection('search', async () => {
+      const r = await buildSearch(indexes, STAGE_DIST);
+      return { files: r.files, summary: `documents=${r.documents}` };
+    }));
 
-  runs.push(await runProjection('transfer_paths', async () => {
-    const r = await buildTransferPaths(indexes, TS_DIST);
-    return {
-      files: r.files,
-      summary: `sources=${r.sources} primary=${r.summary.primary} fallback_no_safer=${r.summary.fallback_no_safer_in_sector}`,
-    };
-  }));
+    runs.push(await runProjection('transfer_paths', async () => {
+      const r = await buildTransferPaths(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `sources=${r.sources} primary=${r.summary.primary} fallback_no_safer=${r.summary.fallback_no_safer_in_sector}`,
+      };
+    }));
 
-  runs.push(await runProjection('detail', async () => {
-    const r = await buildDetail(indexes, TS_DIST);
-    return { files: [r.dir], summary: `files=${r.fileCount}` };
-  }));
+    runs.push(await runProjection('detail', async () => {
+      const r = await buildDetail(indexes, STAGE_DIST);
+      return { files: [r.dir], summary: `files=${r.fileCount}` };
+    }));
 
-  // ───── Future projections (mirror Python --enable-future order) ─────
-  runs.push(await runProjection('tasks', async () => {
-    const r = await buildTasks(indexes, TS_DIST);
-    return { files: [r.dir], summary: `files=${r.fileCount}` };
-  }));
+    // ───── Future projections (mirror Python --enable-future order) ─────
+    runs.push(await runProjection('tasks', async () => {
+      const r = await buildTasks(indexes, STAGE_DIST);
+      return { files: [r.dir], summary: `files=${r.fileCount}` };
+    }));
 
-  runs.push(await runProjection('skills', async () => {
-    const r = await buildSkills(indexes, TS_DIST);
-    return { files: [r.dir, r.indexFile], summary: `skill_files=${r.skillFiles}` };
-  }));
+    runs.push(await runProjection('skills', async () => {
+      const r = await buildSkills(indexes, STAGE_DIST);
+      return { files: [r.dir, r.indexFile], summary: `skill_files=${r.skillFiles}` };
+    }));
 
-  runs.push(await runProjection('holland', async () => {
-    const r = await buildHolland(indexes, TS_DIST);
-    return { files: r.files, summary: `rows=${r.rows}` };
-  }));
+    runs.push(await runProjection('holland', async () => {
+      const r = await buildHolland(indexes, STAGE_DIST);
+      return { files: r.files, summary: `rows=${r.rows}` };
+    }));
 
-  runs.push(await runProjection('featured', async () => {
-    const r = await buildFeatured(indexes, TS_DIST);
-    return {
-      files: r.files,
-      summary: `picked=${r.picked} pool=${r.candidatePool}`,
-    };
-  }));
+    runs.push(await runProjection('featured', async () => {
+      const r = await buildFeatured(indexes, STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `picked=${r.picked} pool=${r.candidatePool}`,
+      };
+    }));
 
-  runs.push(await runProjection('score_history', async () => {
-    const r = await buildScoreHistory(indexes, TS_DIST);
-    return { files: [r.dir], summary: `files=${r.fileCount}` };
-  }));
+    runs.push(await runProjection('score_history', async () => {
+      const r = await buildScoreHistory(indexes, STAGE_DIST);
+      return { files: [r.dir], summary: `files=${r.fileCount}` };
+    }));
+  } catch (err) {
+    // Any projection failure: wipe staging so we don't leave half-written
+    // outputs behind. Existing TS_DIST contents are NOT touched.
+    await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
+    throw err;
+  }
 
   for (const r of runs) {
     console.log(`     [OK] ${r.name.padEnd(18)} ${String(r.durationMs).padStart(5)}ms  ${r.summary}`);
   }
 
+  // ───── Atomic-ish promotion: STAGE_DIST → TS_DIST ─────
+  // Per-file rename is atomic on POSIX. We can't atomically swap the whole
+  // dir because TS_DIST also holds tracked SEO statics (og.png, robots.txt,
+  // llms*.txt) that the ETL must NOT touch. Replacing per top-level entry
+  // achieves the goal: a partial / failed run leaves the previous output
+  // untouched; only fully-successful runs overwrite, and each entry is
+  // swapped in O(1).
+  console.log('\n  [promote] STAGE_DIST → TS_DIST …');
+  await mkdir(TS_DIST, { recursive: true });
+  const stagedEntries = await readdir(STAGE_DIST);
+  for (const name of stagedEntries) {
+    const from = join(STAGE_DIST, name);
+    const to = join(TS_DIST, name);
+    await rm(to, { recursive: true, force: true });
+    try {
+      await rename(from, to);
+    } catch (err) {
+      // EXDEV (cross-device) — fall back to recursive copy.
+      const code = (err as NodeJS.ErrnoException).code;
+      if (code === 'EXDEV') {
+        await cp(from, to, { recursive: true });
+        await rm(from, { recursive: true, force: true });
+      } else {
+        throw err;
+      }
+    }
+  }
+  await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
+
   const elapsed = ((Date.now() - t0) / 1000).toFixed(2);
-  console.log(`\n  done in ${elapsed}s`);
+  console.log(`  done in ${elapsed}s`);
 }
 
 async function runProjection(
@@ -177,7 +223,11 @@ async function runProjection(
   };
 }
 
-main().catch((err) => {
+main().catch(async (err) => {
   console.error('TS ETL crashed:', err);
+  // Defense in depth: stage dir should already be cleaned by main(), but if
+  // an error escapes from outside the try block we still don't want to
+  // leave a `public.tmp-<pid>/` orphan.
+  await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
   process.exit(1);
 });

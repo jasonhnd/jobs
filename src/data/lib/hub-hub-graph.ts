@@ -419,8 +419,6 @@ function nameForHub(genre: HubGenre, slug: string): NameLookup {
 
 // ─── Build the symmetric graph ─────────────────────────────────────────────
 
-interface PairKey { from: { genre: HubGenre; slug: string }; to: { genre: HubGenre; slug: string }; }
-
 let _graphCache: Map<string, HubRef[]> | null = null;
 
 function key(genre: HubGenre, slug: string): string { return `${genre}::${slug}`; }

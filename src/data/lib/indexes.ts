@@ -32,6 +32,28 @@ import {
   type TranslationEN,
 } from '../schema/index.js';
 import { dataPath, loadJsonDir, loadJsonFile, type LoadError } from '../loaders.js';
+
+/**
+ * Insert into an id-keyed map; record a structured error when the id is
+ * already taken. Catches both fixable bugs (two files with the same id) and
+ * file-name vs. id mismatches that would otherwise be silently overwritten.
+ */
+function insertById<T>(
+  map: Map<number, T>,
+  id: number,
+  value: T,
+  errors: LoadError[],
+  subdir: string,
+): void {
+  if (map.has(id)) {
+    errors.push({
+      file: dataPath(subdir),
+      message: `duplicate id ${id} in ${subdir}/`,
+    });
+    return;
+  }
+  map.set(id, value);
+}
 import {
   resolveSector,
   validateSectorDefinitions,
@@ -71,21 +93,21 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
   errors.push(...occResult.errors);
   const occById = new Map<number, Occupation>();
   for (const occ of occResult.byKey.values()) {
-    occById.set(occ.id, occ);
+    insertById(occById, occ.id, occ, errors, 'occupations');
   }
 
   const transResult = await loadJsonDir('translations/en', TranslationENSchema);
   if (!transResult.dirMissing) errors.push(...transResult.errors);
   const transById = new Map<number, TranslationEN>();
   for (const t of transResult.byKey.values()) {
-    transById.set(t.id, t);
+    insertById(transById, t.id, t, errors, 'translations/en');
   }
 
   const statsResult = await loadJsonDir('stats_legacy', StatsLegacySchema);
   errors.push(...statsResult.errors);
   const statsById = new Map<number, StatsLegacy>();
   for (const s of statsResult.byKey.values()) {
-    statsById.set(s.id, s);
+    insertById(statsById, s.id, s, errors, 'stats_legacy');
   }
 
   // ───── Score runs ─────

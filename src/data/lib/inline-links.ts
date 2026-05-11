@@ -82,23 +82,46 @@ function loadOccupationNames(): Array<{ id: number; name: string; aliases: strin
   let files: string[];
   try {
     files = readdirSync(DETAIL_DIR).filter((f) => f.endsWith('.json'));
-  } catch {
+  } catch (err) {
+    // Whole directory missing is recoverable (e.g. ETL hasn't run yet during
+    // a bootstrap). Warn loudly so the operator notices.
+    const code = (err as NodeJS.ErrnoException).code;
+    if (code === 'ENOENT') {
+      console.warn(
+        `[inline-links] WARN: ${DETAIL_DIR} not found — internal links will be empty. ` +
+          `Run \`npm run build:data\` first.`,
+      );
+      return out;
+    }
+    throw err;
+  }
+  if (files.length === 0) {
+    console.warn(`[inline-links] WARN: ${DETAIL_DIR} contains no *.json files`);
     return out;
   }
+  // A corrupted detail file is NOT recoverable here: rankings, treemap,
+  // search and OG all depend on the same source data. Throw with the file
+  // path so the Astro build fails fast instead of silently emitting
+  // half-linked pages.
   for (const f of files) {
-    try {
-      const raw = readFileSync(join(DETAIL_DIR, f), 'utf-8');
-      const d = JSON.parse(raw) as DetailMin;
-      const name = d.title?.ja ?? '';
-      if (!name) continue;
-      out.push({
-        id: d.id,
-        name,
-        aliases: d.title?.aliases_ja ?? [],
-      });
-    } catch {
-      // skip corrupted
+    const filePath = join(DETAIL_DIR, f);
+    let raw: string;
+    try { raw = readFileSync(filePath, 'utf-8'); }
+    catch (err) {
+      throw new Error(`[inline-links] read failed: ${filePath}: ${(err as Error).message}`);
     }
+    let d: DetailMin;
+    try { d = JSON.parse(raw) as DetailMin; }
+    catch (err) {
+      throw new Error(`[inline-links] invalid JSON: ${filePath}: ${(err as Error).message}`);
+    }
+    const name = d.title?.ja ?? '';
+    if (!name) continue;
+    out.push({
+      id: d.id,
+      name,
+      aliases: d.title?.aliases_ja ?? [],
+    });
   }
   return out;
 }
@@ -162,9 +185,6 @@ export interface InlineLinkOptions {
   /** CSS class to apply to inserted anchors. */
   linkClass?: string;
 }
-
-const PLACEHOLDER_PREFIX = 'LINK_';
-const PLACEHOLDER_SUFFIX = '';
 
 /**
  * Inline-link an arbitrary text block. Returns SAFE HTML — already escaped.

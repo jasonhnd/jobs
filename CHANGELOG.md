@@ -10,6 +10,53 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Security
+
+- **Origin/Referer prefix-injection**: `api/feedback.js` and `api/subscribe.js`
+  previously compared the Referer header with `referer.startsWith(allowed)`.
+  `https://mirai-shigoto.com.evil.com/...` satisfies that prefix check and
+  bypassed the 403 gate. Now parsed via `new URL(referer).origin` and
+  compared with `Set.has`. Shared helper at `src/lib/api-security.js` with
+  17 unit tests covering the bypass cases.
+- **Streaming body size cap**: the 4 KB / 8 KB request-body cap relied on
+  the advisory `content-length` header — chunked or header-stripped requests
+  bypassed it. Replaced with a stream-reader that aborts once cumulative
+  bytes exceed the cap and throws `BodyTooLargeError`.
+- **Subscribe error leak**: `api/subscribe.js` no longer echoes Resend's
+  `errBody.message` to clients on 502 — third-party error strings could
+  leak audience ids. Full detail still goes to server logs.
+
+### Changed
+
+- `api/feedback.js` returns HTTP 202 + `delivered: false` when the operator
+  inbox isn't configured or Resend delivery fails. Frontends can now
+  distinguish "captured" from "delivered to operator".
+- `src/data/schema/occupation.ts`: URLs (`related_orgs.url`, top-level `url`)
+  now require an `http(s):` protocol via Zod refinement; `javascript:` and
+  `data:` URLs in source data fail the build instead of slipping into
+  `<a href="...">`. 12 numeric subdivisions now have explicit ranges:
+  `0–7` for IPD score dimensions, `0–1` for fraction dimensions. Bounds
+  picked from `scripts/sample-numeric-ranges.ts` against actual data.
+- `src/data/lib/indexes.ts`: duplicate occupation / translation / stats ids
+  are now recorded as load errors instead of silently overwriting the
+  previous entry (Map.set masked the bug).
+- `src/data/build.ts`: projections now write to `public.tmp-<pid>/` and
+  promote per-top-level entry on success. A failed projection no longer
+  leaves half-updated `public/data.*` files; the previous successful output
+  is preserved. SEO statics (og.png, robots.txt, llms*.txt) are untouched
+  by the swap.
+- `analytics/setup-ga4.mjs`: per-dimension and per-key-event API errors are
+  now accumulated and dumped at the end of the run; the process exits 1
+  when any sync failed instead of silently returning 0.
+- `src/data/lib/inline-links.ts`: corrupted `public/data.detail/*.json`
+  files now throw with the file path instead of being silently skipped.
+  Missing directory still warns and returns empty (bootstrap-safe).
+- `tsconfig.json`: enabled `noUnusedLocals` and `noUnusedParameters` so dead
+  code can't sneak into the main branch. Removed 5 unused config imports
+  in `spoke-hub-graph.ts`, the unused `PairKey` interface in
+  `hub-hub-graph.ts`, and the unused `PLACEHOLDER_*` constants in
+  `inline-links.ts`.
+
 ## [1.5.0] — 2026-05-09 — Track D · Python pipeline retired, full TypeScript+Astro
 
 End of the Python+HTML → TypeScript+Astro migration. The ~50-file Python
