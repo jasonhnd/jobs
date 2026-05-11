@@ -63,18 +63,33 @@ export async function loadJsonDir<S extends ZodTypeAny>(
     };
   }
 
-  const jsonFiles = entries.filter(
-    (name) => name.endsWith('.json') && !name.startsWith('.'),
-  );
+  // Sort filenames before reading so the emitted Map iteration order is
+  // deterministic across runs (downstream projections rely on stable order
+  // for byte-identical re-builds).
+  const jsonFiles = entries
+    .filter((name) => name.endsWith('.json') && !name.startsWith('.'))
+    .sort();
 
-  for (const filename of jsonFiles) {
-    const filePath = join(dirPath, filename);
-    const key = filename.replace(/\.json$/, '');
-    const result = await loadJsonFile(filePath, schema);
-    if (result.error) {
-      errors.push(result.error);
-    } else if (result.data !== null) {
-      byKey.set(key, result.data);
+  // Bounded-concurrency reads: ~556 occupation files take ~17x longer when
+  // awaited serially. CONCURRENCY=16 is high enough to saturate fs but low
+  // enough to not exhaust file descriptors on CI runners.
+  const CONCURRENCY = 16;
+  for (let i = 0; i < jsonFiles.length; i += CONCURRENCY) {
+    const slice = jsonFiles.slice(i, i + CONCURRENCY);
+    const results = await Promise.all(slice.map(async (filename) => {
+      const filePath = join(dirPath, filename);
+      const key = filename.replace(/\.json$/, '');
+      const result = await loadJsonFile(filePath, schema);
+      return { key, result };
+    }));
+    // Apply results in slice order (= sorted filename order) so byKey
+    // iteration stays deterministic.
+    for (const { key, result } of results) {
+      if (result.error) {
+        errors.push(result.error);
+      } else if (result.data !== null) {
+        byKey.set(key, result.data);
+      }
     }
   }
 

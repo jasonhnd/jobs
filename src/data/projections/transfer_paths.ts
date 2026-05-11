@@ -114,6 +114,22 @@ export async function buildTransferPaths(
     if (occ.skills != null) skillsById.set(occId, occ.skills);
   }
 
+  // Pre-index candidates by sector so each source occupation only scans its
+  // same-sector pool (~30-50 entries) instead of all 556 occupations. Drops
+  // the per-source cost from O(N) to O(pool). The pool is built once with
+  // skills + risk already attached, so the inner loop in main() does no
+  // further lookups.
+  const candidatesBySector = new Map<string, CandidateEntry[]>();
+  for (const [candId, candSkills] of skillsById) {
+    const candSector = sectorById.get(candId);
+    if (candSector == null) continue;
+    const candRisk = riskById.get(candId);
+    if (candRisk == null) continue;
+    let bucket = candidatesBySector.get(candSector);
+    if (!bucket) { bucket = []; candidatesBySector.set(candSector, bucket); }
+    bucket.push({ id: candId, cand_skills: candSkills, cand_risk: candRisk });
+  }
+
   const outPaths: Record<string, unknown> = {};
   const fallbackCounts = {
     no_safer_in_sector: 0,
@@ -139,15 +155,11 @@ export async function buildTransferPaths(
       continue;
     }
 
-    // Pool: same sector, different occupation, has skills + risk
-    const pool: CandidateEntry[] = [];
-    for (const [candId, candSkills] of skillsById) {
-      if (candId === occId) continue;
-      if (sectorById.get(candId) !== sourceSector) continue;
-      const candRisk = riskById.get(candId);
-      if (candRisk == null) continue;
-      pool.push({ id: candId, cand_skills: candSkills, cand_risk: candRisk });
-    }
+    // Pool: same sector, different occupation, has skills + risk. Filtering
+    // `candId === occId` here lets us preserve a single sector index across
+    // all source occupations.
+    const sectorPool = candidatesBySector.get(sourceSector) ?? [];
+    const pool: CandidateEntry[] = sectorPool.filter((c) => c.id !== occId);
 
     // Primary: prefer SAFER candidates (cand_risk <= source_risk - MIN_RISK_DROP)
     const safer = pool.filter((c) => c.cand_risk <= sourceRisk - MIN_RISK_DROP);

@@ -934,19 +934,34 @@ const jsonLd = `{
       var lengthAsc = function (a, b) { return (a.title_ja || '').length - (b.title_ja || '').length; };
       return exact.concat(starts.sort(lengthAsc), contains.sort(lengthAsc)).slice(0, 8);
     }
+    // Build the suggest list with DOM APIs rather than innerHTML so titles
+    // and ids from /data.search.json can't smuggle markup into the page.
+    // The data is build-time JSON so the attack surface is data corruption
+    // rather than user input, but this keeps the boundary clean.
     function renderSuggest(matches) {
+      $suggest.replaceChildren();
       if (!matches.length) {
         $suggest.classList.remove('open');
-        $suggest.innerHTML = '';
         return;
       }
-      var html = matches.map(function (d, i) {
-        return '<li data-id="' + d.id + '" role="option"' + (i === 0 ? ' class="focused" aria-selected="true"' : '') + '>' +
-          '<span>' + d.title_ja + '</span>' +
-          '<span class="risk">AI ' + (d.ai_risk || '?') + '/10</span>' +
-          '</li>';
-      }).join('');
-      $suggest.innerHTML = html;
+      for (var i = 0; i < matches.length; i++) {
+        var d = matches[i];
+        var li = document.createElement('li');
+        li.dataset.id = String(d.id);
+        li.setAttribute('role', 'option');
+        if (i === 0) {
+          li.classList.add('focused');
+          li.setAttribute('aria-selected', 'true');
+        }
+        var nameSpan = document.createElement('span');
+        nameSpan.textContent = d.title_ja || '';
+        var riskSpan = document.createElement('span');
+        riskSpan.className = 'risk';
+        riskSpan.textContent = 'AI ' + (d.ai_risk != null ? d.ai_risk : '?') + '/10';
+        li.appendChild(nameSpan);
+        li.appendChild(riskSpan);
+        $suggest.appendChild(li);
+      }
       $suggest.classList.add('open');
     }
     var searchDebounce;
