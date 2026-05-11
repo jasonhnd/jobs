@@ -13,6 +13,7 @@
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { z } from 'zod';
 
 const REPO_ROOT = process.cwd();
 const TREEMAP_PATH = join(REPO_ROOT, 'public', 'data.treemap.json');
@@ -45,28 +46,37 @@ export interface Occupation {
   hourly_wage: number | null;
 }
 
-interface TreemapRecord {
-  id: number;
-  name_ja: string | null;
-  salary: number | null;
-  workers: number | null;
-  hours: number | null;
-  age: number | null;
-  recruit_wage: number | null;
-  recruit_ratio: number | null;
-  ai_risk: number | null;
-  risk_band: string | null;
-  demand_band: string | null;
-  sector_id: string;
-  sector_ja: string;
-  education_pct: Record<string, number> | null;
-  employment_type: Record<string, number> | null;
-}
+// Runtime-validated shape of /public/data.treemap.json (an array of records,
+// one per occupation in the treemap projection). The build pipeline wrote
+// this 0.5s before loadOccupations() reads it back, so validation primarily
+// catches hand-edits / partial writes / version skew between the ETL and
+// rankings module rather than first-time bad data. Cheap (~5ms at N=552).
+const TreemapRecordSchema = z.object({
+  id: z.number().int(),
+  name_ja: z.string().nullable(),
+  salary: z.number().nullable(),
+  workers: z.number().nullable(),
+  hours: z.number().nullable(),
+  age: z.number().nullable(),
+  recruit_wage: z.number().nullable(),
+  recruit_ratio: z.number().nullable(),
+  ai_risk: z.number().nullable(),
+  risk_band: z.string().nullable(),
+  demand_band: z.string().nullable(),
+  sector_id: z.string(),
+  sector_ja: z.string(),
+  education_pct: z.record(z.string(), z.number()).nullable(),
+  employment_type: z.record(z.string(), z.number()).nullable(),
+}).passthrough();  // projection writes more fields than this module reads
+type TreemapRecord = z.infer<typeof TreemapRecordSchema>;
+const TreemapFileSchema = z.array(TreemapRecordSchema);
 
-interface DetailFileMinimal {
-  id: number;
-  related_certs_ja?: string[];
-}
+// /public/data.detail/<id>.json — only the two fields this module needs.
+const DetailFileMinimalSchema = z.object({
+  id: z.number().int(),
+  related_certs_ja: z.array(z.string()).optional(),
+}).passthrough();
+type DetailFileMinimal = z.infer<typeof DetailFileMinimalSchema>;
 
 let cached: Occupation[] | null = null;
 
@@ -88,13 +98,24 @@ function loadCertsById(): Map<number, ReadonlyArray<string>> {
     return out;
   }
   for (const f of files) {
-    try {
-      const raw = readFileSync(join(DETAIL_DIR, f), 'utf-8');
-      const d = JSON.parse(raw) as DetailFileMinimal;
-      out.set(d.id, d.related_certs_ja ?? []);
-    } catch {
-      // ignore — corrupted file shouldn't crash module init
+    const filePath = join(DETAIL_DIR, f);
+    let raw: string;
+    try { raw = readFileSync(filePath, 'utf-8'); }
+    catch (err) {
+      throw new Error(`[rankings] read failed: ${filePath}: ${(err as Error).message}`);
     }
+    let json: unknown;
+    try { json = JSON.parse(raw); }
+    catch (err) {
+      throw new Error(`[rankings] invalid JSON: ${filePath}: ${(err as Error).message}`);
+    }
+    const parsed = DetailFileMinimalSchema.safeParse(json);
+    if (!parsed.success) {
+      const issues = parsed.error.issues.slice(0, 3).map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
+      throw new Error(`[rankings] schema mismatch in ${filePath}: ${issues}`);
+    }
+    const d: DetailFileMinimal = parsed.data;
+    out.set(d.id, d.related_certs_ja ?? []);
   }
   _certsById = out;
   return out;
@@ -102,8 +123,22 @@ function loadCertsById(): Map<number, ReadonlyArray<string>> {
 
 export function loadOccupations(): Occupation[] {
   if (cached) return cached;
-  const raw = readFileSync(TREEMAP_PATH, 'utf-8');
-  const records = JSON.parse(raw) as TreemapRecord[];
+  let raw: string;
+  try { raw = readFileSync(TREEMAP_PATH, 'utf-8'); }
+  catch (err) {
+    throw new Error(`[rankings] read failed: ${TREEMAP_PATH}: ${(err as Error).message}`);
+  }
+  let json: unknown;
+  try { json = JSON.parse(raw); }
+  catch (err) {
+    throw new Error(`[rankings] invalid JSON: ${TREEMAP_PATH}: ${(err as Error).message}`);
+  }
+  const parsed = TreemapFileSchema.safeParse(json);
+  if (!parsed.success) {
+    const issues = parsed.error.issues.slice(0, 3).map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
+    throw new Error(`[rankings] schema mismatch in ${TREEMAP_PATH}: ${issues}`);
+  }
+  const records: TreemapRecord[] = parsed.data;
   const certsById = loadCertsById();
   cached = records.map((d) => {
     // 派生時給: recruit_wage は 月 万円。160h/month で割って 時給(円) に変換。
