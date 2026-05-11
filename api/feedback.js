@@ -25,8 +25,11 @@
 //
 // Defense in depth (current):
 //   1. CORS — only mirai-shigoto.com + localhost dev ports.
-//   2. Origin/Referer 403 — server-side enforcement, blocks curl/server bots.
-//   3. Body cap (8 KB) — rejects payload-too-large.
+//   2. Origin/Referer 403 — server-side enforcement, parses Referer via `URL`
+//      and compares on `.origin` (no startsWith) so `evil-mirai-shigoto.com`
+//      and `mirai-shigoto.com.evil.com` can't impersonate the real origin.
+//   3. Body cap (8 KB) — STREAMING enforcement; aborts read once the cumulative
+//      byte count exceeds the cap. Doesn't rely on the advisory content-length.
 //   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
 //   5. Allow-listed option keys — rejects unknown values.
 //   6. HTML-escape on freetext before email — prevents email-template XSS.
@@ -39,6 +42,8 @@
 // is observed: drop @upstash/ratelimit + @upstash/redis in, gate the entry
 // point on a 60 req/hour/IP bucket. Tracked as a follow-up.
 
+import { makeOriginGate, readBodyText, BodyTooLargeError } from "../src/lib/api-security.js";
+
 export const config = { runtime: "edge" };
 
 const RESEND_BASE = "https://api.resend.com";
@@ -48,6 +53,7 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8765",
   "http://localhost:3000",
 ]);
+const enforceOriginOr403 = makeOriginGate(ALLOWED_ORIGINS);
 const KNOWN_OPTIONS = new Set([
   "b2c_career",
   "b2c_student",
@@ -73,33 +79,10 @@ function corsHeaders(req) {
   };
 }
 
-// Server-side Origin/Referer enforcement (Audit CODE-003). CORS only protects
-// browsers; curl / server-to-server bots ignore it. We additionally 403 any
-// request whose Origin OR Referer is unknown — the form is browser-only, so
-// a missing-and-suspicious origin is never a real submission.
-const MAX_BODY_BYTES = 8 * 1024;  // 8 KB caps freetext (2 KB) + JSON overhead
-function enforceOriginOr403(req) {
-  const origin = req.headers.get("origin") || "";
-  const referer = req.headers.get("referer") || "";
-  if (origin && ALLOWED_ORIGINS.has(origin)) return null;
-  for (const allowed of ALLOWED_ORIGINS) {
-    if (referer.startsWith(allowed)) return null;
-  }
-  return new Response(JSON.stringify({ error: "forbidden_origin" }), {
-    status: 403,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-function enforceBodySizeOr413(req) {
-  const len = parseInt(req.headers.get("content-length") || "0", 10);
-  if (len > MAX_BODY_BYTES) {
-    return new Response(JSON.stringify({ error: "payload_too_large" }), {
-      status: 413,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-  return null;
-}
+// 8 KB caps freetext (2 KB) + JSON overhead. enforced via streaming body
+// read (src/lib/api-security.js) rather than the advisory content-length
+// header so chunked or header-stripped bots don't bypass.
+const MAX_BODY_BYTES = 8 * 1024;
 
 // Tiny stable hash for opaque rate-limit / log keys. Not crypto — just enough
 // to bucket UA strings without keeping the original.
@@ -133,12 +116,20 @@ export default async function handler(req) {
   // get the CORS dance, but blocks curl / non-browser POSTs.
   const denied = enforceOriginOr403(req);
   if (denied) return denied;
-  const tooBig = enforceBodySizeOr413(req);
-  if (tooBig) return tooBig;
+
+  let bodyText;
+  try {
+    bodyText = await readBodyText(req, MAX_BODY_BYTES);
+  } catch (err) {
+    if (err instanceof BodyTooLargeError) {
+      return json({ error: "payload_too_large" }, { status: 413, headers: cors });
+    }
+    return json({ error: "body_read_failed" }, { status: 400, headers: cors });
+  }
 
   let body;
   try {
-    body = await req.json();
+    body = JSON.parse(bodyText);
   } catch {
     return json({ error: "invalid_json" }, { status: 400, headers: cors });
   }
@@ -183,10 +174,10 @@ export default async function handler(req) {
   const fromEmail = process.env.FEEDBACK_FROM_EMAIL || "onboarding@resend.dev";
 
   if (!apiKey || !toEmail) {
-    // Graceful fallback: log a redacted summary + return ok so frontend
-    // stays unblocked while the operator wires up FEEDBACK_TO_EMAIL.
-    // PII (email + freetext + UA + referer) is NEVER written — only counts
-    // and structural flags. (Audit CODE-002.)
+    // Graceful fallback: log a redacted summary + return 202 Accepted (not 200)
+    // so frontends can distinguish "delivered to operator" from "captured but
+    // not delivered". PII (email + freetext + UA + referer) is NEVER written
+    // — only counts and structural flags. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
       ts: payload.timestamp,
       lang: payload.lang,
@@ -197,7 +188,10 @@ export default async function handler(req) {
       ua_hash: shortHash(payload.user_agent || ""),
       missing_config: !apiKey ? "RESEND_API_KEY" : "FEEDBACK_TO_EMAIL",
     }));
-    return json({ ok: true, queued: false }, { headers: cors });
+    return json(
+      { ok: true, delivered: false, warn: "config_missing" },
+      { status: 202, headers: cors },
+    );
   }
 
   try {
@@ -233,14 +227,15 @@ export default async function handler(req) {
     });
 
     if (r.ok) {
-      return json({ ok: true, queued: true }, { headers: cors });
+      return json({ ok: true, delivered: true }, { headers: cors });
     }
 
     const errBody = await r.json().catch(() => ({}));
     console.error("[feedback] Resend send error", { status: r.status, body: errBody });
-    // PII-safe redacted summary on delivery failure — caller is told ok=true
-    // so they don't retry and double-bill us, but we log enough to know the
-    // message slipped (Audit CODE-002).
+    // PII-safe redacted summary on delivery failure. We keep `ok: true` so
+    // the caller doesn't retry and double-bill us, but downgrade the HTTP
+    // status to 202 + `delivered: false` so the frontend can distinguish
+    // delivered-to-operator from captured-only. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
       ts: payload.timestamp, lang: payload.lang, occ: payload.occupation_id,
       options: payload.options, has_email: !!payload.email,
@@ -248,7 +243,10 @@ export default async function handler(req) {
       ua_hash: shortHash(payload.user_agent || ""),
       delivery: "failed", resend_status: r.status,
     }));
-    return json({ ok: true, queued: false, warn: "delivery_failed" }, { headers: cors });
+    return json(
+      { ok: true, delivered: false, warn: "delivery_failed" },
+      { status: 202, headers: cors },
+    );
   } catch (err) {
     console.error("[feedback] handler error", err);
     console.log("[feedback]", JSON.stringify({
@@ -258,6 +256,9 @@ export default async function handler(req) {
       ua_hash: shortHash(payload.user_agent || ""),
       delivery: "error", err_name: (err && err.name) || "unknown",
     }));
-    return json({ ok: true, queued: false, warn: "delivery_error" }, { headers: cors });
+    return json(
+      { ok: true, delivered: false, warn: "delivery_error" },
+      { status: 202, headers: cors },
+    );
   }
 }

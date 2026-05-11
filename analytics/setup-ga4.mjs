@@ -140,6 +140,7 @@ async function syncCustomDimensions(admin, propertyId, dimensions, scope) {
   const existing = existingRes.data.customDimensions || [];
   // Index existing by parameterName + scope
   const byKey = new Map(existing.map(d => [`${d.parameterName}|${d.scope}`, d]));
+  const failures = [];
   for (const dim of dimensions) {
     const key = `${dim.parameter_name}|${scope.toUpperCase()}`;
     if (byKey.has(key)) {
@@ -163,8 +164,10 @@ async function syncCustomDimensions(admin, propertyId, dimensions, scope) {
       log("add", `created ${scope} dimension: ${dim.parameter_name}`);
     } catch (err) {
       log("err", `failed ${dim.parameter_name}: ${err.message}`);
+      failures.push({ kind: `${scope}-dimension`, name: dim.parameter_name, message: err.message });
     }
   }
+  return failures;
 }
 
 async function syncKeyEvents(admin, propertyId, keyEventNames) {
@@ -177,6 +180,7 @@ async function syncKeyEvents(admin, propertyId, keyEventNames) {
   const existing = existingRes.data.keyEvents || existingRes.data.conversionEvents || [];
   const byName = new Map(existing.map(e => [e.eventName, e]));
 
+  const failures = [];
   for (const evName of keyEventNames) {
     if (byName.has(evName)) {
       log("skip", `key event exists: ${evName}`);
@@ -201,8 +205,10 @@ async function syncKeyEvents(admin, propertyId, keyEventNames) {
       log("add", `marked as key event: ${evName}`);
     } catch (err) {
       log("err", `failed ${evName}: ${err.message}`);
+      failures.push({ kind: "key-event", name: evName, message: err.message });
     }
   }
+  return failures;
 }
 
 async function main() {
@@ -228,8 +234,11 @@ async function main() {
   log("info", `Target property: properties/${propertyId}`);
   if (DRY_RUN) log("info", "DRY RUN — no API writes will be made");
 
-  await syncCustomDimensions(admin, propertyId, spec.event_scoped_dimensions, "event");
-  await syncCustomDimensions(admin, propertyId, spec.user_scoped_dimensions, "user");
+  // Accumulate per-step failures so partial sync surfaces a non-zero exit
+  // code at the end instead of being lost in the log scroll.
+  const allFailures = [];
+  allFailures.push(...await syncCustomDimensions(admin, propertyId, spec.event_scoped_dimensions, "event"));
+  allFailures.push(...await syncCustomDimensions(admin, propertyId, spec.user_scoped_dimensions, "user"));
 
   // Derive key events from the spec (events with conversion: true)
   // Cross-check against the explicit key_events list as a sanity guard.
@@ -240,7 +249,17 @@ async function main() {
   if (setA.size !== setB.size || [...setA].some(n => !setB.has(n))) {
     log("err", `WARN: derived key events ${JSON.stringify(derivedKeyEvents)} != explicit ${JSON.stringify(explicitKeyEvents)}`);
   }
-  await syncKeyEvents(admin, propertyId, derivedKeyEvents);
+  allFailures.push(...await syncKeyEvents(admin, propertyId, derivedKeyEvents));
+
+  if (allFailures.length > 0) {
+    console.error(`\n[setup-ga4] FAILED — ${allFailures.length} sync error(s):`);
+    for (const f of allFailures) {
+      console.error(`  [${f.kind}] ${f.name}: ${f.message}`);
+    }
+    console.error("\nFix the underlying API errors and re-run. Existing items are NOT modified;");
+    console.error("the script is idempotent so re-runs only retry the failures.");
+    process.exit(1);
+  }
 
   log("info", "Done. Audiences and data retention must be set manually in dashboard (see analytics/README.md).");
 }

@@ -14,6 +14,46 @@
  */
 import { z } from 'zod';
 
+// ---------- Shared primitives ----------
+
+/**
+ * URL string restricted to http: / https:. Stricter than `z.string().url()`
+ * because we render these as `<a href="...">` — `javascript:` or `data:` URLs
+ * in the source data would be a stored-XSS vector even though they're
+ * authored, not user-submitted.
+ */
+const safeHttpUrl = z.string().refine(
+  (s) => {
+    try {
+      const proto = new URL(s).protocol;
+      return proto === 'http:' || proto === 'https:';
+    } catch {
+      return false;
+    }
+  },
+  { message: 'must be an http(s) URL' },
+);
+
+/**
+ * IPD numeric dimension. 7 of the 12 numeric subdivisions are raw IPD scores
+ * on a 0–7 scale (interests, work_values, skills, knowledge, abilities,
+ * work_characteristics, work_activities). Sampled actuals: min 0.0, max 6.85
+ * (scripts/sample-numeric-ranges.ts on 2026-05-11). Schema allows 0–7 with a
+ * tiny margin in case future IPD versions hit the ceiling.
+ */
+const ipdScoreDimension = z
+  .record(z.string(), z.number().min(0).max(7))
+  .nullish();
+
+/**
+ * Percentage / fraction dimension. The other 5 subdivisions
+ * (education_distribution, training_pre, training_post, experience,
+ * employment_type) are fractions in [0, 1]. Sampled actuals match.
+ */
+const fractionDimension = z
+  .record(z.string(), z.number().min(0).max(1))
+  .nullish();
+
 // ---------- Sub-models ----------
 
 /** 02 名称・分類領域 — classifications block. */
@@ -62,7 +102,7 @@ export type Task = z.infer<typeof TaskSchema>;
 export const RelatedOrgSchema = z
   .object({
     name_ja: z.string(),
-    url: z.string().nullish(),
+    url: safeHttpUrl.nullish(),
   })
   .strict();
 
@@ -100,19 +140,22 @@ export const OccupationSchema = z
     description: DescriptionSchema,
 
     // ----- Numeric profile (12 subdivisions; whole-block-null per §5.4) -----
-    // Each is dict[str, float] mapping label_key → score.
-    interests: z.record(z.string(), z.number()).nullish(),
-    work_values: z.record(z.string(), z.number()).nullish(),
-    skills: z.record(z.string(), z.number()).nullish(),
-    knowledge: z.record(z.string(), z.number()).nullish(),
-    abilities: z.record(z.string(), z.number()).nullish(),
-    work_characteristics: z.record(z.string(), z.number()).nullish(),
-    work_activities: z.record(z.string(), z.number()).nullish(),
-    education_distribution: z.record(z.string(), z.number()).nullish(),
-    training_pre: z.record(z.string(), z.number()).nullish(),
-    training_post: z.record(z.string(), z.number()).nullish(),
-    experience: z.record(z.string(), z.number()).nullish(),
-    employment_type: z.record(z.string(), z.number()).nullish(),
+    // Each is dict[str, float] mapping label_key → score. Ranges below are
+    // enforced by Zod so an out-of-band score (e.g. -1, 99) fails the build
+    // before propagating to rankings / treemap / OG. See `ipdScoreDimension`
+    // and `fractionDimension` above for the rationale and observed ranges.
+    interests: ipdScoreDimension,
+    work_values: ipdScoreDimension,
+    skills: ipdScoreDimension,
+    knowledge: ipdScoreDimension,
+    abilities: ipdScoreDimension,
+    work_characteristics: ipdScoreDimension,
+    work_activities: ipdScoreDimension,
+    education_distribution: fractionDimension,
+    training_pre: fractionDimension,
+    training_post: fractionDimension,
+    experience: fractionDimension,
+    employment_type: fractionDimension,
 
     // ----- Tasks -----
     tasks_lead_ja: z.string().nullish(),
@@ -123,7 +166,7 @@ export const OccupationSchema = z
     related_certs_ja: z.array(z.string()).max(35).default([]),
 
     // ----- External link -----
-    url: z.string(),
+    url: safeHttpUrl,
 
     // ----- Provenance -----
     data_source_versions: DataSourceVersionsSchema,

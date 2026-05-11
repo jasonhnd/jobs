@@ -17,14 +17,21 @@
 //
 // Defense in depth (current):
 //   1. CORS — only mirai-shigoto.com + localhost dev ports.
-//   2. Origin/Referer 403 — server-side enforcement, blocks curl/server bots.
-//   3. Body cap (4 KB) — rejects payload-too-large.
+//   2. Origin/Referer 403 — server-side enforcement, parses Referer via `URL`
+//      and compares on `.origin` (no startsWith) so `mirai-shigoto.com.evil.com`
+//      can't impersonate the real origin.
+//   3. Body cap (4 KB) — STREAMING enforcement; aborts read once cumulative
+//      byte count exceeds the cap. Doesn't rely on advisory content-length.
 //   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
 //   5. Resend 409 idempotency — duplicates resolve to success without rewrites.
+//   6. Resend errors are NOT echoed to the client — third-party error strings
+//      could leak audience ids or internal config. Server logs the detail.
 //
 // MISSING: per-IP rate limiting. Same situation as api/feedback.js — needs
 // Vercel KV or Upstash for persistent state. Plan: drop @upstash/ratelimit +
 // @upstash/redis in, gate on ~5 req/min/IP. Tracked as a follow-up.
+
+import { makeOriginGate, readBodyText, BodyTooLargeError } from "../src/lib/api-security.js";
 
 export const config = { runtime: "edge" };
 
@@ -35,6 +42,7 @@ const ALLOWED_ORIGINS = new Set([
   "http://localhost:8765",
   "http://localhost:3000",
 ]);
+const enforceOriginOr403 = makeOriginGate(ALLOWED_ORIGINS);
 
 function corsHeaders(req) {
   const origin = req.headers.get("origin") || "";
@@ -47,32 +55,9 @@ function corsHeaders(req) {
   };
 }
 
-// Server-side Origin/Referer enforcement (Audit CODE-003). CORS only stops
-// browser JS from reading the response — it doesn't stop curl / bots from
-// firing the POST. We additionally 403 on unknown origin AND unknown referer.
-const MAX_BODY_BYTES = 4 * 1024;  // subscribe payload is tiny (email + tag)
-function enforceOriginOr403(req) {
-  const origin = req.headers.get("origin") || "";
-  const referer = req.headers.get("referer") || "";
-  if (origin && ALLOWED_ORIGINS.has(origin)) return null;
-  for (const allowed of ALLOWED_ORIGINS) {
-    if (referer.startsWith(allowed)) return null;
-  }
-  return new Response(JSON.stringify({ error: "forbidden_origin" }), {
-    status: 403,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-function enforceBodySizeOr413(req) {
-  const len = parseInt(req.headers.get("content-length") || "0", 10);
-  if (len > MAX_BODY_BYTES) {
-    return new Response(JSON.stringify({ error: "payload_too_large" }), {
-      status: 413,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-  return null;
-}
+// subscribe payload is tiny (email + tag). enforced via streaming body read
+// (src/lib/api-security.js) rather than the advisory content-length header.
+const MAX_BODY_BYTES = 4 * 1024;
 
 function json(payload, init = {}) {
   return new Response(JSON.stringify(payload), {
@@ -94,13 +79,21 @@ export default async function handler(req) {
   // ---- server-side gate (audit CODE-003) ----
   const denied = enforceOriginOr403(req);
   if (denied) return denied;
-  const tooBig = enforceBodySizeOr413(req);
-  if (tooBig) return tooBig;
 
-  // ---- parse body ----
+  // ---- parse body (streaming size cap) ----
+  let bodyText;
+  try {
+    bodyText = await readBodyText(req, MAX_BODY_BYTES);
+  } catch (err) {
+    if (err instanceof BodyTooLargeError) {
+      return json({ error: "payload_too_large" }, { status: 413, headers: cors });
+    }
+    return json({ error: "body_read_failed" }, { status: 400, headers: cors });
+  }
+
   let body;
   try {
-    body = await req.json();
+    body = JSON.parse(bodyText);
   } catch {
     return json({ error: "invalid_json" }, { status: 400, headers: cors });
   }
@@ -166,8 +159,11 @@ export default async function handler(req) {
       return json({ ok: true, alreadySubscribed: true }, { headers: cors });
     }
 
+    // Log the full Resend response server-side, but never echo `errBody.message`
+    // to the client — third-party error strings can leak audience ids or
+    // internal config to attackers probing the endpoint.
     console.error("[subscribe] Resend error", { status: r.status, body: errBody });
-    return json({ error: "subscribe_failed", detail: errBody.message || null }, { status: 502, headers: cors });
+    return json({ error: "subscribe_failed" }, { status: 502, headers: cors });
   } catch (err) {
     console.error("[subscribe] handler error", err);
     return json({ error: "server_error" }, { status: 500, headers: cors });
