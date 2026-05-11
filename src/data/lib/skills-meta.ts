@@ -166,7 +166,7 @@ export const SKILL_META: ReadonlyArray<SkillMeta> = [
     how_to_train_ja: [
       '小さな自作プロジェクトで完成体験を積む',
       'OSS のコードを読む習慣',
-      'AI ペアプログラマと並走しながら本質を学ぶ',
+      'AI とのペアプログラミングで伴走しながら本質を学ぶ',
     ],
     og_eyebrow: 'SKILL · PROGRAMMING',
   },

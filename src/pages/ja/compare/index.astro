@@ -10,9 +10,9 @@ import { buildCompareBundle, renderHubJsonLd, escapeHtml } from '../../../data/l
 
 const { hub } = buildCompareBundle();
 const canonical = 'https://mirai-shigoto.com/ja/compare';
-const title = '職業を比較する｜12 ペアの side-by-side 比較・AI 影響度付き | 未来の仕事';
+const title = '職業を比較する｜20 ペアの side-by-side 比較・AI 影響度付き | 未来の仕事';
 const seoDesc =
-  '看護師 vs ホームヘルパー、SE vs プログラマー、医療事務 vs 一般事務など、迷いやすい職業ペアを side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
+  '看護師 vs 訪問介護員、SE vs プログラマー、医療事務 vs 一般事務など、迷いやすい職業ペアを side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
 const keywords = '職業 比較, 違い, 仕事 選び方, vs, 552 職業';
 
 function riskClass(score: number | null): 'low' | 'mid' | 'high' {
@@ -107,7 +107,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
       <h1><span class="accent">職業を比較する</span></h1>
       <p class="sub">迷いやすい職業ペアを <strong>{hub.cards.length} 組</strong> 用意 · side-by-side 比較</p>
       <p class="intro">
-        看護師 vs ホームヘルパー、SE vs プログラマー、医療事務 vs 一般事務など、
+        看護師 vs 訪問介護員、SE vs プログラマー、医療事務 vs 一般事務など、
         違いがわかりにくい職業ペアを並べて比較。AI 影響度・年収・労働条件・必要スキルを一覧で確認し、
         自分に合うキャリア選択の助けに。
       </p>

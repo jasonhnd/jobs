@@ -31,7 +31,7 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     cert_keywords: ['国家'],
     og_eyebrow: 'LICENSE · 国家資格',
     cert_examples_ja: ['弁護士', '医師', '公認会計士', '税理士', '看護師'],
-    difficulty_ja: '難度はピンキリだが、業務独占資格は数年単位の準備が必要',
+    difficulty_ja: '難度に幅があるが、業務独占資格は数年単位の準備が必要',
   },
   {
     slug: 'gyoumu-dokusen',
@@ -70,7 +70,7 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     description_ja: '福祉・介護の現場で働く資格を要する職業群。需要が継続的に拡大している分野。',
     cert_keywords: ['介護福祉士', '社会福祉士', '精神保健福祉士', '介護支援専門員', 'ホームヘルパー', '介護職員初任者', '居宅介護'],
     og_eyebrow: 'LICENSE · 福祉',
-    cert_examples_ja: ['介護福祉士', '社会福祉士', 'ケアマネジャー', 'ホームヘルパー'],
+    cert_examples_ja: ['介護福祉士', '社会福祉士', 'ケアマネジャー', '訪問介護員'],
     difficulty_ja: '実務経験 + 試験、または養成課程',
   },
   {
@@ -88,7 +88,7 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     short_ja: '法務系',
     title_ja: '法務系資格と職業',
     description_ja: '法律業務に従事するための資格を要する職業群。難関資格が多い高度専門職。',
-    cert_keywords: ['弁護士', '司法書士', '行政書士', '弁理士', '社会保険労務士', '公証人'],
+    cert_keywords: ['弁護士', '司法書士', '行政書士', '弁理士', '社会保険労務士'],
     og_eyebrow: 'LICENSE · 法務',
     cert_examples_ja: ['弁護士', '司法書士', '行政書士', '弁理士'],
     difficulty_ja: '高難度の国家試験、合格率 3-15%',
@@ -120,7 +120,7 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     description_ja: '情報処理・ネットワーク・セキュリティの専門業務を行うための資格を要する職業群。',
     cert_keywords: ['情報処理', 'ITストラテジスト', 'プロジェクトマネージャ', 'システム監査', 'データベース', 'ネットワークスペシャリスト', '情報セキュリティ', '応用情報', '基本情報'],
     og_eyebrow: 'LICENSE · IT',
-    cert_examples_ja: ['応用情報技術者', 'IT ストラテジスト', '情報セキュリティスペシャリスト'],
+    cert_examples_ja: ['応用情報技術者', 'IT ストラテジスト', '情報処理安全確保支援士'],
     difficulty_ja: '国家試験 (区分により難度差大)',
   },
   {
@@ -131,7 +131,7 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     cert_keywords: ['宅地建物取引士', '不動産鑑定士', 'マンション管理士', '管理業務主任者'],
     og_eyebrow: 'LICENSE · 不動産',
     cert_examples_ja: ['宅地建物取引士', '不動産鑑定士', 'マンション管理士'],
-    difficulty_ja: '国家試験、難度はピンキリ',
+    difficulty_ja: '国家試験、難度に幅がある',
   },
   {
     slug: 'food-safety-licenses',

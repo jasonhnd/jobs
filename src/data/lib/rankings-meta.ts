@@ -120,7 +120,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'ai-safe-physical',        name_ja: '身体性 × AI 安全 TOP30',       description_ja: '身体技能職で AI 影響も低い職業',     og_eyebrow: 'RANKING · AI 安全 × 身体性' },
   { slug: 'ai-safe-interpersonal',   name_ja: '対人 × AI 安全 TOP30',         description_ja: '対人スキル中心で AI 影響も低い職業', og_eyebrow: 'RANKING · AI 安全 × 対人' },
   { slug: 'high-salary-high-demand', name_ja: '高年収 × 高需要 TOP30',        description_ja: '年収が高くかつ人手不足の職業',       og_eyebrow: 'RANKING · 高年収 × 需要' },
-  { slug: 'high-salary-young-entry', name_ja: '高初任給 × 若手活躍 TOP30',    description_ja: '初任給が高くて若手が多い職業',       og_eyebrow: 'RANKING · 高初任給' },
+  { slug: 'high-salary-young-entry', name_ja: '初任給が高い × 若手活躍 TOP30', description_ja: '初任給が高くて若手が多い職業',       og_eyebrow: 'RANKING · 高初任給' },
 
   // ── Phase 2 教育・資格軸 (5) ──
   { slug: 'license-required',         name_ja: '国家資格が必要な職業 TOP30',   description_ja: '関連資格が多く参入障壁が明確な職業', og_eyebrow: 'RANKING · 資格職' },

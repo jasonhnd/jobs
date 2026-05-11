@@ -31,7 +31,7 @@ const highlightsHtml = renderHighlights(result.highlights);
 const sectorChartHtml = renderSectorChart(result.sectorBreakdown, `セクター内訳（TOP${result.items.length}）`);
 const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja)).join('');
 const faqHtml = renderFaqHtml(result.faqItems);
-const jsonLd = renderGenreJsonLd(canonical, cfg, result.items, seoDesc, result.faqItems, 'life-balance', 'ライフ整合から探す');
+const jsonLd = renderGenreJsonLd(canonical, cfg, result.items, seoDesc, result.faqItems, 'life-balance', 'ライフバランスから探す');
 
 const relatedHtml = '<ul class="related-genre">' + LIFE_BALANCE_CONFIGS
   .filter((m) => m.slug !== cfg.slug)
@@ -45,7 +45,7 @@ const relatedHtml = '<ul class="related-genre">' + LIFE_BALANCE_CONFIGS
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
   <div id="wrapper">
-    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/life-balance" rel="up">ライフ整合から探す</a><span aria-hidden="true">›</span><span>{cfg.short_ja}</span></nav>
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/life-balance" rel="up">ライフバランスから探す</a><span aria-hidden="true">›</span><span>{cfg.short_ja}</span></nav>
     <header id="content">
       <h1><span class="accent">{cfg.title_ja}</span></h1>
       <p class="sub"><strong>{cfg.short_ja}</strong>に向く職業 TOP {result.items.length}（全 552 職業中）</p>
@@ -57,7 +57,7 @@ const relatedHtml = '<ul class="related-genre">' + LIFE_BALANCE_CONFIGS
     <section><h2>{cfg.short_ja} TOP {result.items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
     <Fragment set:html={faqHtml} />
     <Fragment set:html={crossHubHtml} />
-    <section aria-label="他のライフ整合"><h2>他のライフ整合</h2><Fragment set:html={relatedHtml} /></section>
+    <section aria-label="他のライフバランス"><h2>他のライフバランス</h2><Fragment set:html={relatedHtml} /></section>
     <Footer />
   </div>
 </BaseLayout>

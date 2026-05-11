@@ -353,7 +353,7 @@ export const FAQS: Record<RankingSlug, ReadonlyArray<readonly [string, string]>>
     ['高需要が続くか見極める方法は？', '少子高齢化の影響を強く受ける医療・介護系は中長期で高需要が継続見込み。技術系は技術トレンドに敏感です。'],
   ],
   'high-salary-young-entry': [
-    ['初任給が高くて若手が活躍できる職業は？', 'IT エンジニア系・コンサル・金融系の一部で、新卒から高初任給かつ平均年齢が若い分野です。'],
+    ['初任給が高くて若手が活躍できる職業は？', 'IT エンジニア系・コンサル・金融系の一部で、新卒から高めの初任給かつ平均年齢が若い分野です。'],
     ['初任給が高ければ将来も安泰？', '初任給は出発点。年収カーブと AI 影響度を併せて確認しないと長期的な評価はできません。'],
     ['新卒で狙うべき分野は？', 'IT 系は AI 影響度が高めの面もありますが、AI を使いこなす側に立てば優位性を持続できます。'],
   ],
@@ -1163,7 +1163,7 @@ export function buildRankings(): RankingsBundle {
     ],
   });
 
-  // 28. 高初任給 × 若手活躍
+  // 28. 初任給が高い × 若手活躍
   const highSalaryYoungEntry = occs
     .filter((o) => o.recruit_wage && o.average_age && o.average_age <= 40)
     .sort((a, b) => (b.recruit_wage ?? 0) - (a.recruit_wage ?? 0) || (a.average_age ?? 999) - (b.average_age ?? 999))
@@ -1174,9 +1174,9 @@ export function buildRankings(): RankingsBundle {
     showSalary: true,
     extraColFn: (o) => (o.recruit_wage ? [`<span class="rl-extra">初任給 ${Math.trunc(o.recruit_wage)} 万円</span>`] : []),
     faqItems: FAQS['high-salary-young-entry'],
-    title: '高初任給 × 若手活躍の職業 TOP30【2026年版】| 未来の仕事',
+    title: '初任給が高い × 若手活躍の職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `初任給が高くて平均年齢 40 歳以下の職業 TOP${highSalaryYoungEntry.length}。新卒キャリア設計の参考に。`,
-    h1Text: `高初任給 × 若手活躍 TOP${highSalaryYoungEntry.length}`,
+    h1Text: `初任給が高い × 若手活躍 TOP${highSalaryYoungEntry.length}`,
     subText: '初任給 <strong>降順</strong> × 平均年齢 <strong>40 歳以下</strong>',
     introText: 'スタート時の給与が高く、若手が多く活躍する職業をランキング。IT エンジニア・コンサル・金融系の一部が該当。',
     statBlocks: [
@@ -1521,7 +1521,7 @@ export function buildRankings(): RankingsBundle {
     { slug: 'ai-safe-physical', name: '身体性 × AI 安全', desc: '身体技能職で AI 影響も低い', count: aiSafePhysical.length, preview: makePreview(aiSafePhysical, (o) => `AI影響 ${o.ai_risk}/10`) },
     { slug: 'ai-safe-interpersonal', name: '対人 × AI 安全', desc: '対人スキル中心で AI 影響も低い', count: aiSafeInterpersonal.length, preview: makePreview(aiSafeInterpersonal, (o) => `AI影響 ${o.ai_risk}/10`) },
     { slug: 'high-salary-high-demand', name: '高年収 × 高需要', desc: '年収が高くかつ人手不足の職業', count: highSalaryHighDemand.length, preview: makePreview(highSalaryHighDemand, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
-    { slug: 'high-salary-young-entry', name: '高初任給 × 若手活躍', desc: '初任給が高くて若手が多い', count: highSalaryYoungEntry.length, preview: makePreview(highSalaryYoungEntry, (o) => `初任給 ${Math.trunc(o.recruit_wage ?? 0)}万円`) },
+    { slug: 'high-salary-young-entry', name: '初任給が高い × 若手活躍', desc: '初任給が高くて若手が多い', count: highSalaryYoungEntry.length, preview: makePreview(highSalaryYoungEntry, (o) => `初任給 ${Math.trunc(o.recruit_wage ?? 0)}万円`) },
     // ── Phase 2 教育・資格軸 (5) ──
     { slug: 'license-required', name: '国家資格が必要な職業', desc: '関連資格が多い高度専門職', count: licenseRequired.length, preview: makePreview(licenseRequired, (o) => `資格 ${o.certs.length}`) },
     { slug: 'no-license-required', name: '無資格で就ける × AI 安全', desc: '資格不要かつ AI リスク低', count: noLicenseRequired.length, preview: makePreview(noLicenseRequired, (o) => `AI影響 ${o.ai_risk}/10`) },

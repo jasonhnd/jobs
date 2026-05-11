@@ -9,11 +9,11 @@
  *   - knowledge (知識 — knowledge_top5)
  *   - values (価値観 — work_values_top5)
  *   - work-styles (業務形態 — work_characteristics_top5)
- *   - training (修行期間 — training_pre/post_top5)
+ *   - training (習熟期間 — training_pre/post_top5)
  *   - entry-paths (入職経路 — experience_top5)
  *   - education (学歴 — education_pct from treemap)
  *   - employment-types (雇用形態 — employment_type from treemap)
- *   - life-balance (ライフ整合 — derived from multiple fields)
+ *   - life-balance (ライフバランス — derived from multiple fields)
  *
  * 各 hub は GenreHubConfig で挙動を表現し、buildGenreBundle が共通の
  * filter/sort/render を実行する。
