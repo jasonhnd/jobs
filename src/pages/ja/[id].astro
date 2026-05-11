@@ -19,7 +19,7 @@
  * refactor can extract it into shared classes once we can see what's truly
  * common across detail / sector / ranking pages.
  */
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
@@ -307,124 +307,54 @@ type Rec = {
   ai_horizon_5y_ja: string | null;
 };
 
-function adapt(d: DetailFile): Rec {
-  const stats = d.stats ?? {};
-  const ai = d.ai_risk ?? {};
-  const title = d.title ?? {};
-  const desc = d.description ?? {};
-  return {
-    id: d.id,
-    name_ja: title.ja ?? '',
-    desc_ja: desc.summary_ja ?? null,
-    what_it_is_ja: desc.what_it_is_ja ?? null,
-    how_to_become_ja: desc.how_to_become_ja ?? null,
-    working_conditions_ja: desc.working_conditions_ja ?? null,
-    salary: stats.salary_man_yen ?? null,
-    workers: stats.workers ?? null,
-    hours: stats.monthly_hours ?? null,
-    age: stats.average_age ?? null,
-    recruit_wage: stats.recruit_wage_man_yen ?? null,
-    recruit_ratio: stats.recruit_ratio ?? null,
-    hourly_wage: null,
-    ai_risk: ai.score ?? null,
-    ai_rationale_ja: ai.rationale_ja ?? null,
-    url: d.url ?? `https://shigoto.mhlw.go.jp/User/Occupation/Detail/${d.id}`,
-    aliases_ja: title.aliases_ja ?? [],
-    classifications: d.classifications ?? {},
-    sector: d.sector ?? null,
-    risk_band: d.risk_band ?? null,
-    workforce_band: d.workforce_band ?? null,
-    demand_band: d.demand_band ?? null,
-    ai_model: ai.model ?? null,
-    ai_scored_at: ai.scored_at ?? null,
-    skills_top10: d.skills_top10 ?? [],
-    knowledge_top5: d.knowledge_top5 ?? [],
-    abilities_top5: d.abilities_top5 ?? [],
-    tasks_count: d.tasks_count ?? null,
-    tasks_lead_ja: d.tasks_lead_ja ?? null,
-    related_orgs: d.related_orgs ?? [],
-    related_certs_ja: d.related_certs_ja ?? [],
-    data_source_versions: d.data_source_versions ?? {},
-    ai_rationale_long_ja: ai.rationale_long_ja ?? null,
-    ai_displaceable_tasks_ja: ai.displaceable_tasks_ja ?? [],
-    ai_resilient_tasks_ja: ai.resilient_tasks_ja ?? [],
-    ai_horizon_5y_ja: ai.horizon_5y_ja ?? null,
-  };
-}
+// The DetailFile → Rec adapter lives in src/data/lib/adapt-detail.ts so that
+// both the module body (via static import, when needed) and getStaticPaths
+// (via dynamic import, due to Astro hoisting) can share one implementation.
+// The audit's #2.2 finding was that this file used to duplicate the adapter
+// locally inside getStaticPaths — that duplication is gone now.
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 
 export async function getStaticPaths() {
-  // Inline all imports/constants because Astro hoists getStaticPaths into
-  // its own module scope — top-of-file consts are not visible here.
-  const fs = await import('node:fs');
+  // Astro hoists getStaticPaths into its own scope — top-of-file consts
+  // aren't visible, so imports are re-resolved via dynamic import.
   const np = await import('node:path');
   const repo = np.resolve(process.cwd());
   const detailDir = np.join(repo, 'public', 'data.detail');
   const RELATED = 5;
 
-  // Inline `adapt()` clone — Astro hoists getStaticPaths out of the
-  // module's runtime scope so the top-level `adapt` is unreachable here.
-  // Types ARE accessible (they're erased at compile time).
-  function adaptLocal(d: DetailFile): Rec {
-    const stats = d.stats ?? {};
-    const ai = d.ai_risk ?? {};
-    const title = d.title ?? {};
-    const desc = d.description ?? {};
-    return {
-      id: d.id,
-      name_ja: title.ja ?? '',
-      desc_ja: desc.summary_ja ?? null,
-      what_it_is_ja: desc.what_it_is_ja ?? null,
-      how_to_become_ja: desc.how_to_become_ja ?? null,
-      working_conditions_ja: desc.working_conditions_ja ?? null,
-      salary: stats.salary_man_yen ?? null,
-      workers: stats.workers ?? null,
-      hours: stats.monthly_hours ?? null,
-      age: stats.average_age ?? null,
-      recruit_wage: stats.recruit_wage_man_yen ?? null,
-      recruit_ratio: stats.recruit_ratio ?? null,
-      hourly_wage: null,
-      ai_risk: ai.score ?? null,
-      ai_rationale_ja: ai.rationale_ja ?? null,
-      url: d.url ?? `https://shigoto.mhlw.go.jp/User/Occupation/Detail/${d.id}`,
-      aliases_ja: title.aliases_ja ?? [],
-      classifications: d.classifications ?? {},
-      sector: d.sector ?? null,
-      risk_band: d.risk_band ?? null,
-      workforce_band: d.workforce_band ?? null,
-      demand_band: d.demand_band ?? null,
-      ai_model: ai.model ?? null,
-      ai_scored_at: ai.scored_at ?? null,
-      skills_top10: d.skills_top10 ?? [],
-      knowledge_top5: d.knowledge_top5 ?? [],
-      abilities_top5: d.abilities_top5 ?? [],
-      tasks_count: d.tasks_count ?? null,
-      tasks_lead_ja: d.tasks_lead_ja ?? null,
-      related_orgs: d.related_orgs ?? [],
-      related_certs_ja: d.related_certs_ja ?? [],
-      data_source_versions: d.data_source_versions ?? {},
-      ai_rationale_long_ja: ai.rationale_long_ja ?? null,
-      ai_displaceable_tasks_ja: ai.displaceable_tasks_ja ?? [],
-      ai_resilient_tasks_ja: ai.resilient_tasks_ja ?? [],
-      ai_horizon_5y_ja: ai.horizon_5y_ja ?? null,
-    };
-  }
+  // Shared adapter + Zod-validated load. The old per-file try/catch was
+  // the audit's #4.2: a single corrupted detail JSON would silently drop
+  // that occupation but ship the build. fail-fast aligns with sitemap +
+  // genre-hub: set ALLOW_PARTIAL_DATA=1 to opt back into "log + skip"
+  // semantics for local development.
+  const { adaptDetailFile } = await import('../../data/lib/adapt-detail.js');
+  const { strictReadJson, strictReaddir, allowPartialData } = await import(
+    '../../data/lib/strict-load.js'
+  );
+  const { DetailFileSchema } = await import('../../data/lib/projection-schemas.js');
 
-  const files = fs.readdirSync(detailDir).filter((f: string) => f.endsWith('.json'));
-  // Per-file try/catch — one corrupted JSON file would otherwise crash the
-  // entire Astro build with no partial output. Bad files are logged + skipped.
-  const all: Rec[] = files
-    .map((f: string): Rec | null => {
+  const files = strictReaddir(detailDir, (f: string) => f.endsWith('.json'), 'id.astro.detail');
+  const all: Rec[] = [];
+  const permissive = allowPartialData();
+  for (const f of files) {
+    const filePath = np.join(detailDir, f);
+    if (permissive) {
+      // Local-only escape hatch. Identical message format to the legacy
+      // log line so existing greps keep working.
       try {
-        return adaptLocal(JSON.parse(fs.readFileSync(np.join(detailDir, f), 'utf8')));
+        const parsed = strictReadJson(filePath, DetailFileSchema, 'id.astro.detail');
+        all.push(adaptDetailFile(parsed as DetailFile));
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(`[id].astro: skip ${f} (parse failed): ${(err as Error).message}`);
-        return null;
       }
-    })
-    .filter((r): r is Rec => r !== null)
-    .sort((a, b) => a.id - b.id);
+    } else {
+      const parsed = strictReadJson(filePath, DetailFileSchema, 'id.astro.detail');
+      all.push(adaptDetailFile(parsed as DetailFile));
+    }
+  }
+  all.sort((a, b) => a.id - b.id);
 
   // Build name lookup keyed by occupation id.
   const nameLookup: Record<number, string> = {};
@@ -788,7 +718,7 @@ function renderOrgsCerts(rec: Rec): string {
   if (orgs.length) {
     const items = orgs
       .filter((o) => o.name_ja)
-      .map((o) => `<li><a href="${escapeHtml(o.url || '#')}" rel="external" target="_blank">${escapeHtml(o.name_ja || '')}</a></li>`)
+      .map((o) => `<li><a href="${escapeHtml(o.url || '#')}" rel="external noopener noreferrer" target="_blank">${escapeHtml(o.name_ja || '')}</a></li>`)
       .join('');
     orgBlock = `<div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list">${items}</ul></div>`;
   }

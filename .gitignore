@@ -61,6 +61,10 @@ _audit/
 # byte-diff outputs before/after a change). Always temporary.
 .snapshot-*.txt
 
+# Build-time caches kept outside publicDir so they're never served to the
+# web. Currently used by src/data/build.ts for the post-promote manifest.
+.cache/
+
 # Python virtual env (this project is TS-only; venvs are operator-local
 # tooling like IDE extensions, not part of the project).
 .venv/

@@ -13,7 +13,6 @@
  * in vercel.json (max-age=300, s-maxage=600, application/xml).
  */
 import type { APIRoute } from 'astro';
-import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { ALL_RANKINGS } from '../data/lib/rankings';
 import { INTEREST_META } from '../data/lib/interests-meta';
@@ -29,42 +28,37 @@ import { LICENSE_HUBS } from '../data/lib/licenses-meta';
 import { QA_ITEMS } from '../data/lib/qa-meta';
 import { EXPLORE_ROUTES } from '../data/lib/explore-routes';
 import { nowIso } from '../data/lib/now';
+import { strictReadJson, strictReaddir } from '../data/lib/strict-load';
+import { SectorsSourceFileSchema } from '../data/lib/projection-schemas';
 
 const SITE = 'https://mirai-shigoto.com';
 const REPO = path.resolve(process.cwd());
 
-interface SectorDef {
-  id: string;
-}
-
-interface SectorsFile {
-  sectors: SectorDef[];
-}
+/**
+ * Sitemap MUST contain at least this many URLs. Falls below the bound when
+ * a loader silently returns []. The bound is derived from the current
+ * production output (~821 URLs at v1.5.x) with healthy margin, but stays
+ * well below it so legitimate occupation churn (a handful of detail files
+ * added or removed in a sprint) doesn't trip the check.
+ */
+const SITEMAP_MIN_URL_COUNT = 600;
 
 function loadSectorIds(): string[] {
-  try {
-    const json = JSON.parse(
-      readFileSync(path.join(REPO, 'data', 'sectors', 'sectors.ja-en.json'), 'utf8'),
-    ) as SectorsFile;
-    return json.sectors.map((s) => s.id);
-  } catch (err) {
-    console.error(`[sitemap] loadSectorIds failed: ${(err as Error).message}`);
-    return [];
-  }
+  const parsed = strictReadJson(
+    path.join(REPO, 'data', 'sectors', 'sectors.ja-en.json'),
+    SectorsSourceFileSchema,
+    'sitemap.sectors',
+  );
+  return parsed.sectors.map((s) => s.id);
 }
 
 function loadOccupationIds(): number[] {
-  try {
-    const dir = path.join(REPO, 'public', 'data.detail');
-    const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
-    return files
-      .map((f) => parseInt(f.replace('.json', ''), 10))
-      .filter((n) => Number.isFinite(n))
-      .sort((a, b) => a - b);
-  } catch (err) {
-    console.error(`[sitemap] loadOccupationIds failed: ${(err as Error).message}`);
-    return [];
-  }
+  const dir = path.join(REPO, 'public', 'data.detail');
+  const files = strictReaddir(dir, (f) => f.endsWith('.json'), 'sitemap.detail');
+  return files
+    .map((f) => parseInt(f.replace('.json', ''), 10))
+    .filter((n) => Number.isFinite(n))
+    .sort((a, b) => a - b);
 }
 
 function escapeXmlLoc(s: string): string {
@@ -203,6 +197,17 @@ export const GET: APIRoute = () => {
   // Per-occupation detail pages
   for (const id of occupationIds) {
     entries.push(urlBlock(`${SITE}/ja/${id}`, today, 'weekly', '0.6'));
+  }
+
+  if (entries.length < SITEMAP_MIN_URL_COUNT) {
+    // The sitemap is the single biggest crawl-budget signal we send to
+    // search engines. A regression that quietly shrinks it would only
+    // surface days later in Search Console — assert at build time so a
+    // broken loader (missing detail dir, partial deploy) fails CI loudly.
+    throw new Error(
+      `[sitemap] generated ${entries.length} URLs, below the safety floor of ${SITEMAP_MIN_URL_COUNT}. ` +
+      `This usually means public/data.detail/ is empty or sectors source is missing.`,
+    );
   }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

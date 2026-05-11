@@ -13,9 +13,13 @@
  * 各 hub の TOP N: その RIASEC dim の score 降順で 30 個取得。
  * 同点は id 昇順で stable。
  */
-import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { INTEREST_META, type InterestType, type InterestMeta } from './interests-meta.js';
+import { strictReadJson } from './strict-load.js';
+import {
+  HollandFileSchema,
+  TreemapFileSummarySchema,
+} from './projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const HOLLAND_PATH = join(REPO_ROOT, 'public', 'data.holland.json');
@@ -95,9 +99,11 @@ let _treemapCache: Map<number, TreemapRecord> | null = null;
 
 function loadHollandRows(): HollandRow[] {
   if (_hollandCache) return _hollandCache;
-  const raw = readFileSync(HOLLAND_PATH, 'utf-8');
-  const parsed = JSON.parse(raw) as { cols: string[]; rows: Array<Array<number | string | null>> };
+  const parsed = strictReadJson(HOLLAND_PATH, HollandFileSchema, 'interests.holland');
   // cols expected: ['id', 'name_ja', 'R', 'I', 'A', 'S', 'E', 'C']
+  // Schema validates the file shape (cols/rows arrays). Per-cell casts
+  // mirror the existing positional contract; if columns ever change order
+  // the audit recommends evolving this into a `z.object()` row schema.
   _hollandCache = parsed.rows.map((row): HollandRow => ({
     id: row[0] as number,
     name_ja: row[1] as string,
@@ -113,16 +119,11 @@ function loadHollandRows(): HollandRow[] {
 
 function loadTreemapMap(): Map<number, TreemapRecord> {
   if (_treemapCache) return _treemapCache;
-  const raw = readFileSync(TREEMAP_PATH, 'utf-8');
-  const records = JSON.parse(raw) as Array<{
-    id: number;
-    ai_risk: number | null;
-    risk_band: string | null;
-    workers: number | null;
-    salary: number | null;
-    sector_id?: string;
-    sector_ja?: string;
-  }>;
+  const records = strictReadJson(
+    TREEMAP_PATH,
+    TreemapFileSummarySchema,
+    'interests.treemap',
+  );
   _treemapCache = new Map(records.map((r) => [r.id, r]));
   return _treemapCache;
 }
@@ -377,7 +378,11 @@ export function renderInterestItem(o: InterestOccupation, primary: 'R' | 'I' | '
 
 export function renderHighlights(items: ReadonlyArray<string>): string {
   if (items.length === 0) return '';
-  const lis = items.map((h) => `<li>${h}</li>`).join('');
+  // Defense-in-depth: see notes in genre-hub.ts / skills-hub.ts.
+  // Highlight strings interpolate data-driven values (top occupation
+  // name, dominant sector, interest characteristic text). Escape on
+  // render to enforce the XSS contract independent of the data source.
+  const lis = items.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
   return `<div class="highlights"><ul>${lis}</ul></div>`;
 }
 

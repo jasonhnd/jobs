@@ -8,7 +8,7 @@
  * Naming note: ファイル名が `skills-hub.ts` なのは `skills.ts` (将来の builder)
  * との衝突を避けるため。実体は hub レンダリング専用。
  */
-import { readFileSync } from 'node:fs';
+// fs reads are now via strict-load helpers (see below); no direct fs imports needed.
 import { join } from 'node:path';
 import { SKILL_META, type SkillSlug, type SkillMeta } from './skills-meta.js';
 
@@ -62,37 +62,27 @@ export interface SkillsBundle {
 
 // ─── Loaders ──────────────────────────────────────────────────
 
-interface SkillRankingFile {
-  skill_key: string;
-  label_ja: string;
-  occupations: Array<{ id: number; name_ja: string; score: number }>;
-}
+import { strictReadJson } from './strict-load.js';
+import {
+  SkillRankingFileSchema,
+  TreemapFileSummarySchema,
+  type SkillRankingFileShape,
+  type TreemapRecordSummary,
+} from './projection-schemas.js';
 
-interface TreemapRecord {
-  id: number;
-  ai_risk: number | null;
-  risk_band: string | null;
-  workers: number | null;
-  salary: number | null;
-  sector_id?: string;
-  sector_ja?: string;
-}
+type SkillRankingFile = SkillRankingFileShape;
+type TreemapRecord = TreemapRecordSummary;
 
 let _treemapCache: Map<number, TreemapRecord> | null = null;
 const _skillCache = new Map<string, SkillRankingFile>();
 
 function loadTreemapMap(): Map<number, TreemapRecord> {
   if (_treemapCache) return _treemapCache;
-  const raw = readFileSync(TREEMAP_PATH, 'utf-8');
-  const records = JSON.parse(raw) as Array<{
-    id: number;
-    ai_risk: number | null;
-    risk_band: string | null;
-    workers: number | null;
-    salary: number | null;
-    sector_id?: string;
-    sector_ja?: string;
-  }>;
+  const records = strictReadJson(
+    TREEMAP_PATH,
+    TreemapFileSummarySchema,
+    'skills-hub.treemap',
+  );
   _treemapCache = new Map(records.map((r) => [r.id, r]));
   return _treemapCache;
 }
@@ -101,8 +91,11 @@ function loadSkillRanking(ipdKey: string): SkillRankingFile {
   const cached = _skillCache.get(ipdKey);
   if (cached) return cached;
   const path = join(SKILLS_DIR, `${ipdKey}.json`);
-  const raw = readFileSync(path, 'utf-8');
-  const data = JSON.parse(raw) as SkillRankingFile;
+  const data = strictReadJson(
+    path,
+    SkillRankingFileSchema,
+    'skills-hub.skill-ranking',
+  );
   _skillCache.set(ipdKey, data);
   return data;
 }
@@ -291,7 +284,11 @@ export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
 
 export function renderHighlights(items: ReadonlyArray<string>): string {
   if (items.length === 0) return '';
-  const lis = items.map((h) => `<li>${h}</li>`).join('');
+  // Defense-in-depth: see notes in genre-hub.ts / interests.ts.
+  // Highlight strings interpolate data-driven values (top occupation
+  // name, dominant sector, skill use-case text). Escape on render to
+  // enforce the XSS contract independent of the data source.
+  const lis = items.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
   return `<div class="highlights"><ul>${lis}</ul></div>`;
 }
 

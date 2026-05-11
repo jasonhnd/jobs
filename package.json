@@ -17,7 +17,8 @@
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
     "check:html-comments": "node scripts/check-nested-html-comments.cjs",
     "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs",
-    "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs"
+    "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs",
+    "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.4",

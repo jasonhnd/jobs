@@ -11,17 +11,17 @@
  * included, since /api/og can't render a card without a score.
  */
 import type { APIRoute } from 'astro';
-import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { strictReadJson, strictReaddir } from '../data/lib/strict-load';
+import { DetailFileSchema } from '../data/lib/projection-schemas';
 
 const SITE = 'https://mirai-shigoto.com';
 const REPO = path.resolve(process.cwd());
 
-interface DetailFile {
-  id: number;
-  title?: { ja?: string };
-  ai_risk?: { score?: number | null };
-}
+/** Image-sitemap floor — every occupation with an ai_risk score gets a
+ *  URL. Set well below the live count (~556) so churn doesn't trip it,
+ *  but high enough to catch "loader returned []" regressions. */
+const IMAGE_SITEMAP_MIN_URL_COUNT = 400;
 
 interface OccEntry {
   id: number;
@@ -30,24 +30,15 @@ interface OccEntry {
 }
 
 function loadOccupations(): OccEntry[] {
-  let files: string[];
-  try {
-    const dir = path.join(REPO, 'public', 'data.detail');
-    files = readdirSync(dir).filter((f) => f.endsWith('.json'));
-  } catch (err) {
-    console.error(`[image-sitemap] readdir failed: ${(err as Error).message}`);
-    return [];
-  }
   const dir = path.join(REPO, 'public', 'data.detail');
+  const files = strictReaddir(dir, (f) => f.endsWith('.json'), 'image-sitemap.detail');
   const out: OccEntry[] = [];
   for (const f of files) {
-    let j: DetailFile;
-    try {
-      j = JSON.parse(readFileSync(path.join(dir, f), 'utf8')) as DetailFile;
-    } catch (err) {
-      console.error(`[image-sitemap] skip ${f}: ${(err as Error).message}`);
-      continue;
-    }
+    const j = strictReadJson(
+      path.join(dir, f),
+      DetailFileSchema,
+      'image-sitemap.detail',
+    );
     if (typeof j.id !== 'number') continue;
     const score = j.ai_risk?.score;
     if (score == null) continue;
@@ -69,6 +60,13 @@ function escapeXml(s: string): string {
 
 export const GET: APIRoute = () => {
   const occs = loadOccupations();
+
+  if (occs.length < IMAGE_SITEMAP_MIN_URL_COUNT) {
+    throw new Error(
+      `[image-sitemap] generated ${occs.length} entries, below the safety floor of ${IMAGE_SITEMAP_MIN_URL_COUNT}. ` +
+      `Check that public/data.detail/ is populated and ai_risk.score is set.`,
+    );
+  }
 
   const entries = occs.map((o) => {
     const title = `${o.title} — AI影響 ${o.score}/10`;

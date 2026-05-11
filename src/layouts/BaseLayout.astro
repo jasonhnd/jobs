@@ -56,13 +56,14 @@ const robotsContent = noindex ? 'noindex, follow' : 'index, follow';
 const X_PIXEL_ID = import.meta.env.PUBLIC_X_PIXEL_ID;
 
 // Analytics ids — environment-overridable so preview/staging can point at
-// a separate property without editing the layout. Defaults match the
-// existing production values so any environment that does NOT set these
-// keeps emitting the same beacons as before.
-const CF_BEACON_TOKEN =
-  import.meta.env.PUBLIC_CF_BEACON_TOKEN || 'b1588779b90341ea9d87d93769b348dc';
-const GA4_MEASUREMENT_ID =
-  import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-GLDNBDPF13';
+// a separate property without editing the layout. Audit's #7.2: the
+// previous code defaulted unset env vars to the PRODUCTION CF/GA4 IDs,
+// so a fork or unconfigured preview branch would silently pump traffic
+// into the live mirai-shigoto.com beacons. Now: env required for the
+// beacon to render. Production deploys pass PUBLIC_CF_BEACON_TOKEN /
+// PUBLIC_GA4_MEASUREMENT_ID via Vercel's environment-variable UI.
+const CF_BEACON_TOKEN = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 ---
 <!doctype html>
 <html lang="ja">
@@ -120,26 +121,31 @@ const GA4_MEASUREMENT_ID =
 
     <slot name="jsonLd" />
 
-    <!-- Cloudflare Web Analytics -->
-    <script
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={`{"token": "${CF_BEACON_TOKEN}"}`}
-    ></script>
+    <!-- Cloudflare Web Analytics — only emitted when PUBLIC_CF_BEACON_TOKEN is configured. -->
+    {CF_BEACON_TOKEN && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${CF_BEACON_TOKEN}"}`}
+      ></script>
+    )}
 
-    <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. -->
-    <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', GA4_MEASUREMENT_ID);
-      window.addEventListener('load', function () {
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
-        document.head.appendChild(s);
-      });
-    </script>
+    <!-- Google tag (gtag.js) — only emitted when PUBLIC_GA4_MEASUREMENT_ID is configured.
+         Defer script load to window.load to remove ~64 KB / 265 ms from critical path. -->
+    {GA4_MEASUREMENT_ID && (
+      <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', GA4_MEASUREMENT_ID);
+        window.addEventListener('load', function () {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+          document.head.appendChild(s);
+        });
+      </script>
+    )}
 
     <!-- Vercel Web Analytics + Speed Insights -->
     <script defer src="/_vercel/insights/script.js"></script>
