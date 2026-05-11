@@ -10,6 +10,40 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Phase 3 · refactor / extract)
+
+- **`src/data/lib/rankings.ts` split** (1828 → 1364 lines main file): editorial
+  FAQ copy moved to `src/data/lib/ranking-copy.ts` (220 lines, pure data, no
+  fs imports); HTML / JSON-LD render helpers moved to
+  `src/data/lib/ranking-renderers.ts` (294 lines, owns `escapeHtml`,
+  `renderRankItem`, `renderHighlights`, `renderSectorChart`, `renderFaqHtml`,
+  `renderRelatedRankings`, `renderJsonLd`, `renderHubJsonLd`). Public API is
+  preserved via re-export from `rankings.ts`, so existing consumers
+  (`sitemap.xml.ts`, `ja/rankings/[type].astro`, `ja/rankings/index.astro`)
+  need zero changes. Ranking page HTML is byte-identical after the split
+  (verified against pre-refactor snapshot, only build-time `<time>` in the
+  footer differs).
+- **`api/og.tsx` split** (1002 → 936 lines main file): font cache + loader,
+  risk/sector palettes, projection shapes (`DetailRecord`, `SectorRecord`,
+  `SectorsProjection`, `GenericCardConfig`), and formatters (`fmtNumber`,
+  `padId`) moved to `src/lib/og-helpers.ts`. Template / dispatcher code
+  stays in `api/og.tsx`. New helpers file is placed under `src/lib/` (not
+  `api/`) so Vercel doesn't auto-route it as an endpoint.
+- **Analytics IDs are env-overridable**: `BaseLayout.astro` now reads
+  `PUBLIC_CF_BEACON_TOKEN` and `PUBLIC_GA4_MEASUREMENT_ID` from
+  `import.meta.env`, defaulting to the existing production values when
+  unset. Preview / staging environments can point at separate Cloudflare
+  and GA4 properties without editing the layout. New `.env.example`
+  documents the full set of public + server env keys.
+
+### Deferred
+
+- **Astro security audit (Phase 3.4)**: planned to run `pnpm audit` against
+  the installed Astro 5.18.1 and, if a known advisory applies, bump to the
+  latest 5.x patch. Local pnpm 11 requires Node 22.13+ but this machine
+  runs Node 20.20.1, so `pnpm audit` crashes before reporting. Action
+  needed: run the audit on Vercel or after a local Node upgrade.
+
 ### Security (defense in depth)
 
 - **map.astro search suggestions**: the autocomplete dropdown previously built

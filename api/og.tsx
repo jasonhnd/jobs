@@ -39,106 +39,20 @@ import { RANKING_META } from "../src/data/lib/rankings-meta.js";
 import { INTEREST_META } from "../src/data/lib/interests-meta.js";
 import { SKILL_META } from "../src/data/lib/skills-meta.js";
 import { COMPARE_META } from "../src/data/lib/compare-meta.js";
+import {
+  RISK_COLORS,
+  SECTOR_HUE_COLOR,
+  loadGoogleFont,
+  fmtNumber,
+  padId,
+  type DetailRecord,
+  type SectorsProjection,
+  type GenericCardConfig,
+} from "../src/lib/og-helpers.js";
 
 export const config = { runtime: "edge" };
 
-// Risk-band → tile color, aligned with Direction C palette (mobile-tokens.css).
-// Sage green for low risk, warm gold for mid, terracotta for high.
-const RISK_COLORS: Record<number, string> = {
-  0: "#6E9B89", 1: "#6E9B89", 2: "#6E9B89",   // sage — safe / low
-  3: "#93A879", 4: "#93A879",                   // sage-gold transition — mid-low
-  5: "#D4A749", 6: "#D4A749",                   // warm gold — mid
-  7: "#D96B3D", 8: "#D96B3D",                   // terracotta — high
-  9: "#B85535", 10: "#B85535",                  // deep terracotta — max
-};
-
-// Pull a Google-Fonts subset that covers exactly the characters we will draw.
-// Returns the OTF/TTF bytes; satori (inside @vercel/og) needs binary font data.
-//
-// Module-level Promise cache keyed by `family|weight|text`. Same (family, weight,
-// subsetText) tuple within an Edge instance's lifetime resolves from cache —
-// shaves the CSS fetch + binary fetch on warm instances. Caches the *Promise*
-// so concurrent first-time callers all await the same in-flight fetch instead
-// of racing N redundant requests. On fetch failure the rejected Promise is
-// evicted so the next caller retries fresh.
-const _fontCache = new Map<string, Promise<ArrayBuffer>>();
-
-async function loadGoogleFont(family: string, weight: number, text: string): Promise<ArrayBuffer> {
-  const key = `${family}|${weight}|${text}`;
-  const cached = _fontCache.get(key);
-  if (cached) return cached;
-  const promise = fetchGoogleFont(family, weight, text);
-  _fontCache.set(key, promise);
-  promise.catch(() => { _fontCache.delete(key); });
-  return promise;
-}
-
-async function fetchGoogleFont(family: string, weight: number, text: string): Promise<ArrayBuffer> {
-  const url =
-    `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}` +
-    `&text=${encodeURIComponent(text)}&display=swap`;
-  const css = await (
-    await fetch(url, {
-      // Force a UA that gets ttf/otf back, not woff2 — satori cannot parse woff2.
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; satori; rv:1.0)" },
-    })
-  ).text();
-  const match = css.match(/src:\s*url\((.+?)\)\s*format\(['"](opentype|truetype)['"]\)/);
-  if (!match) throw new Error(`font src not found in CSS: ${family} ${weight}`);
-  const fontRes = await fetch(match[1]);
-  if (!fontRes.ok) throw new Error(`failed to fetch font binary: ${fontRes.status}`);
-  return await fontRes.arrayBuffer();
-}
-
-function fmtNumber(n: number): string {
-  return n.toLocaleString("en-US");
-}
-
-// Shape of /data.detail/<padded>.json (DetailProjectionSchema; see DATA_ARCHITECTURE.md §6.2).
-// Only the fields actually consumed by the OG card are typed here — the JSON has more.
-// v1.4.0: dropped title.en / ai_rationale_en (site is JA-only).
-interface DetailRecord {
-  id: number;
-  title?: { ja?: string };
-  ai_risk?: { score?: number; rationale_ja?: string } | null;
-  stats?: { workers?: number | null; salary_man_yen?: number | null } | null;
-}
-
-// Shape of /data.sectors.json — used by the sector-card branch (Phase 9).
-// v1.4.0: dropped sector.en (site is JA-only).
-interface SectorRecord {
-  id: string;
-  ja: string;
-  hue: "safe" | "mid" | "warm";
-  occupation_count: number;
-  mean_ai_risk: number;
-  total_workforce: number;
-  sample_titles_ja?: string[];
-}
-interface SectorsProjection {
-  sectors: SectorRecord[];
-}
-
-// Map sector hue to Direction C accent color for the OG card border.
-const SECTOR_HUE_COLOR: Record<string, string> = {
-  safe: "#6E9B89", // sage
-  mid:  "#D4A749", // warm gold
-  warm: "#D96B3D", // terracotta
-};
-
-function padId(idDigits: string): string {
-  // /data.detail/<id>.json is 4-digit zero-padded per §3A.2 (e.g. "0042.json").
-  // Bound the digit count defensively — we won't ever serve more than 9999 occupations.
-  return idDigits.padStart(4, "0").slice(-4);
-}
-
 // ─── Generic text-only card (homepage, legal pages, hubs, rankings) ──
-
-interface GenericCardConfig {
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-}
 
 // 8 page variants — homepage, 4 legal/static, 2 hubs, plus rankings handled below.
 const PAGE_CARDS: Record<string, GenericCardConfig> = {
