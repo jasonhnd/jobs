@@ -57,14 +57,6 @@ dist-ts/
 _audit/
 .vercel
 
-# Refactor snapshot hashes (created on demand by audit / refactor flows to
-# byte-diff outputs before/after a change). Always temporary.
-.snapshot-*.txt
-
-# Python virtual env (this project is TS-only; venvs are operator-local
-# tooling like IDE extensions, not part of the project).
-.venv/
-
 # Credentials — never commit these (defensive patterns; real credentials should
 # live OUTSIDE the repo, e.g. ~/.config/mirai-shigoto/)
 *-sa.json
