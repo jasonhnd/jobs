@@ -77,7 +77,7 @@ export const ABILITIES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     dimension_field: 'abilities_top5',
     dimension_key: 'problem_sensitivity',
     characteristics_ja: ['わずかな違和感を見逃さない', '予兆段階での介入判断', '経験パターンとの照合が速い'],
-    how_to_develop_ja: ['熟練者の「気づき」を言語化', '点検チェックリストの習慣化', 'ケース蓄積による直感の校正'],
+    how_to_develop_ja: ['熟練者の「気づき」を言語化', '点検チェックリストの習慣化', 'ケース蓄積による直感のブラッシュアップ'],
   },
   {
     slug: 'oral-comprehension',
@@ -254,10 +254,10 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
   {
     slug: 'independence',
-    short_ja: '自立性',
-    title_ja: '自立性を重視する人に向く職業',
+    short_ja: '自律性',
+    title_ja: '自律性を重視する人に向く職業',
     description_ja: '自分のペース・判断で進められる仕事を好む人に適した職業群。フリーランス系・職人・研究者・自営業等。',
-    og_eyebrow: 'VALUES · 自立性',
+    og_eyebrow: 'VALUES · 自律性',
     dimension_field: 'work_values_top5',
     dimension_key: 'autonomy',
   },
@@ -272,8 +272,8 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
   {
     slug: 'relationships',
-    short_ja: '同僚関係',
-    title_ja: '同僚関係を重視する人に向く職業',
+    short_ja: '人間関係',
+    title_ja: '職場の人間関係を重視する人に向く職業',
     description_ja: 'チーム内の人間関係・協働を大切にする人に適した職業群。看護・教育・プロジェクト系等。',
     og_eyebrow: 'VALUES · 関係性',
     dimension_field: 'work_values_top5',
@@ -282,7 +282,7 @@ export const VALUES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
     slug: 'support',
     short_ja: '支援',
-    title_ja: '支援される環境を重視する人に向く職業',
+    title_ja: '手厚いサポート体制を重視する人に向く職業',
     description_ja: '上司や組織からのサポートを重視する人に適した職業群。安定的な大企業・公務員・チーム型業務等。',
     og_eyebrow: 'VALUES · 支援',
     dimension_field: 'work_values_top5',
@@ -413,7 +413,7 @@ export const EDUCATION_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   ),
 ];
 
-// ─── L. 修行期間 (training) — 5 hub ─────────────────────
+// ─── L. 習熟期間 (training) — 5 hub ─────────────────────
 
 /**
  * Helper for training-period genres.
@@ -440,10 +440,10 @@ function makeTrainingFilter(matchKeys: ReadonlyArray<string>): GenreHubConfig['c
 export const TRAINING_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
     slug: 'quick-start',
-    short_ja: '即独立',
-    title_ja: '入職後すぐ独立できる職業',
+    short_ja: '即一人前',
+    title_ja: '入職後すぐ一人前になれる職業',
     description_ja: '入職後 1 年以内に一人前の業務遂行が可能な職業群。サービス・販売・軽作業・運輸の一部等。',
-    og_eyebrow: 'TRAINING · 即独立',
+    og_eyebrow: 'TRAINING · 即一人前',
     custom_filter: makeTrainingFilter(['up_to_1_month', '1_to_6_months', '6_months_to_1_year', 'not_required']),
   },
   {
@@ -503,7 +503,7 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
   {
     slug: 'move-required',
-    short_ja: '移動多',
+    short_ja: '外回り型',
     title_ja: '移動が多い職業',
     description_ja: '営業・配達・訪問等で移動が業務の中心となる職業群。',
     og_eyebrow: 'WORK · 移動',
@@ -538,7 +538,7 @@ export const WORK_STYLES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
   {
     slug: 'high-physical-load',
-    short_ja: '体力負荷高',
+    short_ja: '重労働型',
     title_ja: '体力負荷が高い職業',
     description_ja: '長時間の身体負荷が業務に伴う職業群。運輸・建設・介護・警備・製造等。',
     og_eyebrow: 'WORK · 体力',
@@ -613,7 +613,7 @@ export const EMPLOYMENT_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
 ];
 
-// ─── P. ライフ整合 (life-balance) — 6 hub ────────────────
+// ─── P. ライフバランス (life-balance) — 6 hub ────────────────
 
 export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   {
@@ -644,7 +644,7 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
   {
     slug: 'health-friendly',
-    short_ja: '健康配慮',
+    short_ja: '体に優しい',
     title_ja: '体力に自信がない人にも続けられる職業',
     description_ja: '体力負荷が低く、長く続けられる職業群。事務系・専門職・知的労働中心。',
     og_eyebrow: 'LIFE · 健康',
@@ -656,9 +656,9 @@ export const LIFE_BALANCE_CONFIGS: ReadonlyArray<GenreHubConfig> = [
   },
   {
     slug: 'mental-health-friendly',
-    short_ja: '精神負担軽',
+    short_ja: '精神負担小',
     title_ja: '精神的負担が軽い職業',
-    description_ja: '対人緊張・即決圧力が比較的少ない職業群。研究・技能・データ系等。',
+    description_ja: '対人ストレスや即断のプレッシャーが比較的少ない職業群。研究・技能・データ系等。',
     og_eyebrow: 'LIFE · 精神',
     custom_filter: (d) => {
       const hours = d.stats?.monthly_hours;
@@ -787,10 +787,10 @@ export const GENRE_CATALOGUES: ReadonlyArray<GenreCatalogue> = [
   { path: 'knowledge', label_ja: '知識から探す', description_ja: 'IPD 33 知識領域から、各知識を活かす職業 TOP 30 を一覧。', configs: KNOWLEDGE_CONFIGS },
   { path: 'values', label_ja: '価値観から探す', description_ja: 'IPD 12 価値観軸から、各価値観に合う職業 TOP 30 を一覧。', configs: VALUES_CONFIGS },
   { path: 'education', label_ja: '学歴から探す', description_ja: '学歴別の職業群を 6 段階に分類して一覧。', configs: EDUCATION_CONFIGS },
-  { path: 'training', label_ja: '修行期間から探す', description_ja: '入職後の修行期間別に職業を 4 段階で分類。', configs: TRAINING_CONFIGS },
+  { path: 'training', label_ja: '習熟期間から探す', description_ja: '入職後の習熟期間別に職業を 5 段階で分類。', configs: TRAINING_CONFIGS },
   { path: 'work-styles', label_ja: '働き方から探す', description_ja: '屋内/屋外・移動・シフト等の働き方別に職業を分類。', configs: WORK_STYLES_CONFIGS },
   { path: 'employment-types', label_ja: '雇用形態から探す', description_ja: '正社員・フリーランス・パート・公務員の雇用形態別。', configs: EMPLOYMENT_CONFIGS },
-  { path: 'life-balance', label_ja: 'ライフ整合から探す', description_ja: '育児・介護・健康・趣味との両立に向く職業群。', configs: LIFE_BALANCE_CONFIGS },
+  { path: 'life-balance', label_ja: 'ライフバランスから探す', description_ja: '育児・介護・健康・趣味との両立に向く職業群。', configs: LIFE_BALANCE_CONFIGS },
   { path: 'entry-paths', label_ja: '入職経路から探す', description_ja: '新卒・中途・バイト出身・独立型の入職経路別に分類。', configs: ENTRY_PATHS_CONFIGS },
 ];
 

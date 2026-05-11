@@ -30,7 +30,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
     description_ja: '新卒一括採用が中心で、若手から成長機会が得られる職業群。長期的なキャリア形成の起点として選びやすい分野。',
     cautions_ja: [
       '初任給だけでなく長期年収カーブも確認',
-      '配属ガチャの可能性を考慮',
+      '希望配属が通らない可能性を考慮',
       '入社後の研修体系が整備されているか',
     ],
     advantages_ja: [

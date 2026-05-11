@@ -36,7 +36,7 @@ export interface CompareMeta {
   occ_a_id: number;
   /** 職業 B の data/occupations の id */
   occ_b_id: number;
-  /** Hub タイトル (例: "看護師 vs ホームヘルパー") */
+  /** Hub タイトル (例: "看護師 vs 訪問介護員") */
   title_ja: string;
   /** SEO description (200 字程度、両職業の比較観点 1 文) */
   description_ja: string;
@@ -51,14 +51,14 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
   {
     slug: 'kango-vs-helper',
     occ_a_id: 156, // 看護師
-    occ_b_id: 133, // ホームヘルパー
-    title_ja: '看護師 vs ホームヘルパー',
+    occ_b_id: 133, // 訪問介護員
+    title_ja: '看護師 vs 訪問介護員',
     description_ja:
-      '医療現場の看護師と在宅・施設で支援を行うホームヘルパーは、いずれも「人を支える」現場職だが、医療行為の範囲・必要な国家資格・年収・需要構造が大きく異なる。' +
+      '医療現場の看護師と在宅・施設で支援を行う訪問介護員 (旧称ホームヘルパー) は、いずれも「人を支える」現場職だが、医療行為の範囲・必要な国家資格・年収・需要構造が大きく異なる。' +
       '両者の AI 影響度・年収・労働条件・必要スキルを比較し、自分に合うキャリア選択を考える。',
     comparison_points_ja: [
-      '医療行為が行えるか (看護師は可、ヘルパーは不可)',
-      '必須資格 (看護師は国家資格、ヘルパーは介護職員初任者研修)',
+      '医療行為が行えるか (看護師は可、訪問介護員は不可)',
+      '必須資格 (看護師は国家資格、訪問介護員は介護職員初任者研修)',
       '勤務形態 (病院シフト vs 訪問・施設)',
       '年収レンジと昇給ルート',
       '身体的・精神的負荷の違い',
@@ -105,7 +105,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       '転職時の汎用性',
       'AI 影響度の違い',
       '年収レンジ',
-      '需給 (医療事務は人手不足傾向、一般事務は供給過多)',
+      '需給 (医療事務は人手不足傾向、一般事務は応募者過多)',
     ],
     decision_hints_ja: [
       '専門性の壁 vs 汎用性、どちらを取るか',

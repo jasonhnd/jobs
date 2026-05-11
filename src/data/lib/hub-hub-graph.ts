@@ -512,10 +512,10 @@ const GENRE_LABEL_JA: Record<HubGenre, string> = {
   knowledge: '知識',
   values: '価値観',
   education: '学歴',
-  training: '修行期間',
+  training: '習熟期間',
   'work-styles': '働き方',
   'employment-types': '雇用形態',
-  'life-balance': 'ライフ整合',
+  'life-balance': 'ライフバランス',
   'entry-paths': '入職経路',
 };
 
