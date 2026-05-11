@@ -9,7 +9,7 @@
     "build": "node scripts/check-lockfile-sync.cjs && node scripts/check-nested-html-comments.cjs && tsx src/data/build.ts && astro build && node scripts/check-rendered-leaks.cjs",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/**/*.test.ts",
+    "test": "tsx --test 'src/**/*.test.ts'",
     "test:consistency": "tsx src/data/test-consistency.ts",
     "build:data": "tsx src/data/build.ts",
     "import:ipd": "tsx src/data/import-ipd.ts",
