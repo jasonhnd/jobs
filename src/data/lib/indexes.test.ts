@@ -1,10 +1,14 @@
 /**
  * Smoke test for buildIndexes — runs against the real data/ directory and
  * checks that index sizes are sane.
+ *
+ * Plus unit tests for `insertById` (the duplicate-id detector added in
+ * Phase 0.5).
  */
-import { test } from 'node:test';
+import { test, describe } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { buildIndexes } from './indexes.js';
+import { buildIndexes, insertById } from './indexes.js';
+import type { LoadError } from '../loaders.js';
 
 test('buildIndexes: loads occupations and stats with no errors', async () => {
   const { indexes, errors } = await buildIndexes();
@@ -56,4 +60,81 @@ test('buildIndexes: history is sorted by date ascending', async () => {
       );
     }
   }
+});
+
+// ─── insertById (Phase 0.5 dup-id detection) ─────────────────────────────
+
+describe('insertById', () => {
+  test('inserts a new id into the map', () => {
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [];
+    insertById(map, 42, 'a', errors, 'occupations');
+    assert.equal(map.get(42), 'a');
+    assert.equal(errors.length, 0);
+  });
+
+  test('records a duplicate-id error and preserves the FIRST value', () => {
+    // Map.set would overwrite — we explicitly want first-wins + error.
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [];
+    insertById(map, 7, 'first', errors, 'occupations');
+    insertById(map, 7, 'second', errors, 'occupations');
+    assert.equal(map.get(7), 'first', 'first insert must win');
+    assert.equal(errors.length, 1);
+    assert.match(errors[0]!.message, /duplicate id 7/);
+    assert.match(errors[0]!.file, /occupations$/, 'error.file must point at the subdir');
+  });
+
+  test('accumulates errors across many duplicates', () => {
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [];
+    insertById(map, 1, 'a', errors, 'occupations');
+    insertById(map, 1, 'b', errors, 'occupations');
+    insertById(map, 1, 'c', errors, 'occupations');
+    insertById(map, 2, 'd', errors, 'occupations');
+    insertById(map, 2, 'e', errors, 'occupations');
+    assert.equal(map.size, 2);
+    assert.equal(errors.length, 3, 'two for id 1, one for id 2');
+  });
+
+  test('different subdirs produce different error paths', () => {
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [];
+    insertById(map, 1, 'a', errors, 'occupations');
+    insertById(map, 1, 'b', errors, 'occupations');
+    insertById(map, 1, 'c', errors, 'translations/en');
+    assert.equal(errors.length, 2);
+    assert.match(errors[0]!.file, /occupations$/);
+    assert.match(errors[1]!.file, /translations\/en$/);
+  });
+
+  test('appends to caller-owned errors array without replacing it', () => {
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [{ file: 'pre-existing', message: 'pre-existing' }];
+    insertById(map, 1, 'a', errors, 'occupations');
+    insertById(map, 1, 'b', errors, 'occupations');
+    assert.equal(errors.length, 2, 'pre-existing + 1 new dup error');
+    assert.equal(errors[0]!.message, 'pre-existing');
+    assert.match(errors[1]!.message, /duplicate id 1/);
+  });
+
+  test('handles falsy-looking ids (0) correctly', () => {
+    // Map.has(0) returns true once 0 is set; the dup-check should fire.
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [];
+    insertById(map, 0, 'first', errors, 'occupations');
+    insertById(map, 0, 'second', errors, 'occupations');
+    assert.equal(map.get(0), 'first');
+    assert.equal(errors.length, 1);
+  });
+
+  test('different ids never collide', () => {
+    const map = new Map<number, string>();
+    const errors: LoadError[] = [];
+    for (let i = 0; i < 100; i += 1) {
+      insertById(map, i, `value-${i}`, errors, 'occupations');
+    }
+    assert.equal(map.size, 100);
+    assert.equal(errors.length, 0);
+  });
 });

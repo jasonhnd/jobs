@@ -37,8 +37,10 @@ import { dataPath, loadJsonDir, loadJsonFile, type LoadError } from '../loaders.
  * Insert into an id-keyed map; record a structured error when the id is
  * already taken. Catches both fixable bugs (two files with the same id) and
  * file-name vs. id mismatches that would otherwise be silently overwritten.
+ *
+ * Exported for unit testing. Used internally by buildIndexes().
  */
-function insertById<T>(
+export function insertById<T>(
   map: Map<number, T>,
   id: number,
   value: T,
