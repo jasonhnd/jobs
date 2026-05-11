@@ -17,6 +17,8 @@
 // Templates themselves stay in api/og.tsx so satori JSX + Edge runtime
 // boundary lives in one place.
 
+import { z } from "zod";
+
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
 
 /**
@@ -45,31 +47,61 @@ export const SECTOR_HUE_COLOR: Record<string, string> = {
  * Shape of `/data.detail/<padded>.json` (see DATA_ARCHITECTURE.md §6.2).
  * Only the fields actually consumed by the OG card are typed here.
  * v1.4.0: dropped title.en / ai_rationale_en (site is JA-only).
+ *
+ * Runtime-validated by DetailRecordSchema below — call `safeParse` on
+ * fetched JSON before using fields. The TypeScript type is derived from
+ * the schema so the two stay in lockstep.
  */
-export interface DetailRecord {
-  id: number;
-  title?: { ja?: string };
-  ai_risk?: { score?: number; rationale_ja?: string } | null;
-  stats?: { workers?: number | null; salary_man_yen?: number | null } | null;
-}
+export const DetailRecordSchema = z
+  .object({
+    id: z.number().int(),
+    title: z
+      .object({
+        ja: z.string().optional(),
+      })
+      .passthrough()
+      .nullish(),
+    ai_risk: z
+      .object({
+        score: z.number().nullish(),
+        rationale_ja: z.string().nullish(),
+      })
+      .passthrough()
+      .nullish(),
+    stats: z
+      .object({
+        workers: z.number().nullish(),
+        salary_man_yen: z.number().nullish(),
+      })
+      .passthrough()
+      .nullish(),
+  })
+  .passthrough();
+export type DetailRecord = z.infer<typeof DetailRecordSchema>;
 
 /**
  * Shape of `/data.sectors.json` — used by the sector-card branch.
  * v1.4.0: dropped sector.en (site is JA-only).
  */
-export interface SectorRecord {
-  id: string;
-  ja: string;
-  hue: "safe" | "mid" | "warm";
-  occupation_count: number;
-  mean_ai_risk: number;
-  total_workforce: number;
-  sample_titles_ja?: string[];
-}
+export const SectorRecordSchema = z
+  .object({
+    id: z.string(),
+    ja: z.string(),
+    hue: z.enum(["safe", "mid", "warm"]),
+    occupation_count: z.number(),
+    mean_ai_risk: z.number(),
+    total_workforce: z.number(),
+    sample_titles_ja: z.array(z.string()).optional(),
+  })
+  .passthrough();
+export type SectorRecord = z.infer<typeof SectorRecordSchema>;
 
-export interface SectorsProjection {
-  sectors: SectorRecord[];
-}
+export const SectorsProjectionSchema = z
+  .object({
+    sectors: z.array(SectorRecordSchema),
+  })
+  .passthrough();
+export type SectorsProjection = z.infer<typeof SectorsProjectionSchema>;
 
 /** Per-page template config consumed by `renderGenericCard`. */
 export interface GenericCardConfig {
@@ -120,12 +152,21 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   const url =
     `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}` +
     `&text=${encodeURIComponent(text)}&display=swap`;
-  const css = await (
-    await fetch(url, {
-      // Force a UA that gets ttf/otf back, not woff2 — satori cannot parse woff2.
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; satori; rv:1.0)" },
-    })
-  ).text();
+  const cssRes = await fetch(url, {
+    // Force a UA that gets ttf/otf back, not woff2 — satori cannot parse woff2.
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; satori; rv:1.0)" },
+  });
+  // Fail loudly on non-2xx so the OG endpoint returns 503 + Retry-After
+  // instead of trying to regex-match an error page. Without this check the
+  // next line would silently feed Google's HTML error page to the regex,
+  // which would only fail later when the cryptic "font src not found" was
+  // logged — a much harder failure to diagnose at 3 AM.
+  if (!cssRes.ok) {
+    throw new Error(
+      `font CSS fetch failed: ${family} ${weight}: HTTP ${cssRes.status}`,
+    );
+  }
+  const css = await cssRes.text();
   const match = css.match(/src:\s*url\((.+?)\)\s*format\(['"](opentype|truetype)['"]\)/);
   if (!match) throw new Error(`font src not found in CSS: ${family} ${weight}`);
   const fontRes = await fetch(match[1]);

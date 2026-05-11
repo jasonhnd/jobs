@@ -104,9 +104,11 @@ describe('renderRankItem', () => {
     );
   });
 
-  test('full snapshot: showSalary=false suppresses salary, extraCols injected', () => {
+  test('full snapshot: showSalary=false suppresses salary, plain-text extraCol wrapped in rl-extra and escaped', () => {
     const o = makeOcc({ id: 1, title_ja: 'X', sector_ja: '', ai_risk: 8, salary: 999, workers: 100 });
-    const got = renderRankItem(o, false, ['<span>extra1</span>']);
+    // Plain string extraCols are rendered as <span class="rl-extra">{escaped text}</span>.
+    // Passing a payload that looks like HTML proves the renderer escapes it.
+    const got = renderRankItem(o, false, ['初任給 30万円']);
     assert.equal(
       got,
       '<li>' +
@@ -115,11 +117,35 @@ describe('renderRankItem', () => {
       '</div>' +
       '<div class="rl-stats">' +
       '<span class="risk-pill high">8/10</span>' +
-      '<span>extra1</span>' +
+      '<span class="rl-extra">初任給 30万円</span>' +
       '<span class="rl-workers">100人</span>' +
       '</div>' +
       '</li>',
     );
+  });
+
+  test('extraCol plain text is HTML-escaped (defense vs. future contract drift)', () => {
+    const o = makeOcc({ id: 1, ai_risk: 5, salary: null, workers: null });
+    const got = renderRankItem(o, false, ['<script>alert(1)</script>']);
+    assert.match(got, /<span class="rl-extra">&lt;script&gt;alert\(1\)&lt;\/script&gt;<\/span>/);
+    assert.equal(got.includes('<script>'), false);
+  });
+
+  test('demand-pill extraCol renders with class+label both escaped', () => {
+    const o = makeOcc({ id: 1, ai_risk: 5, salary: null, workers: null });
+    const got = renderRankItem(o, false, [
+      { kind: 'demand-pill', band: 'hot', label: '需要高' },
+    ]);
+    assert.match(got, /<span class="demand-pill hot">需要高<\/span>/);
+  });
+
+  test('demand-pill escapes a malicious band string (defense)', () => {
+    const o = makeOcc({ id: 1, ai_risk: 5, salary: null, workers: null });
+    const got = renderRankItem(o, false, [
+      { kind: 'demand-pill', band: 'x"><script>alert(1)</script>', label: 'X' },
+    ]);
+    assert.equal(got.includes('<script>'), false);
+    assert.match(got, /&lt;script&gt;/);
   });
 
   test('escapes title and sector_ja (defense vs. data corruption)', () => {

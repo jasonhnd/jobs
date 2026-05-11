@@ -34,10 +34,32 @@ function riskBand(score: number | null): 'low' | 'mid' | 'high' {
   return 'high';
 }
 
+/**
+ * Extra column injected to the right of the risk-pill.
+ *
+ * The audit's concern was that the old API (`extraCols: string[]` of raw
+ * HTML chunks) couldn't enforce escaping at the call site. This
+ * discriminated union moves the responsibility into the renderer:
+ *
+ *   - A plain string is wrapped as `<span class="rl-extra">…</span>` with
+ *     the text HTML-escaped.
+ *   - `{ kind: 'demand-pill', band, label }` renders as the colored
+ *     demand badge used on the `high-demand` / `ai-safe-high-demand` /
+ *     `high-salary-high-demand` rankings — both `band` and `label` are
+ *     escaped before insertion.
+ *
+ * Adding a new shape: extend the union here and add the matching branch
+ * in renderRankItem below. Each new branch must HTML-escape any field
+ * interpolated into class names or text.
+ */
+export type ExtraCol =
+  | string
+  | { kind: 'demand-pill'; band: string; label: string };
+
 export function renderRankItem(
   o: Occupation,
   showSalary: boolean,
-  extraCols: string[] | null,
+  extraCols: ReadonlyArray<ExtraCol> | null,
 ): string {
   const title = o.title_ja ?? `#${o.id}`;
   const score = o.ai_risk;
@@ -50,7 +72,17 @@ export function renderRankItem(
   const statsParts: string[] = [
     `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>`,
   ];
-  if (extraCols) statsParts.push(...extraCols);
+  if (extraCols) {
+    for (const c of extraCols) {
+      if (typeof c === 'string') {
+        statsParts.push(`<span class="rl-extra">${escapeHtml(c)}</span>`);
+      } else if (c.kind === 'demand-pill') {
+        statsParts.push(
+          `<span class="demand-pill ${escapeHtml(c.band)}">${escapeHtml(c.label)}</span>`,
+        );
+      }
+    }
+  }
   if (showSalary && salary) {
     statsParts.push(`<span class="rl-salary">${Math.trunc(salary)}万円</span>`);
   }

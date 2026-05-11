@@ -82,25 +82,48 @@ const esc = (s: string): string =>
 // loader helpers must live inside the function body (they cannot reference
 // module-scope helpers from frontmatter).
 export async function getStaticPaths() {
-  const { readFileSync, readdirSync } = await import('node:fs');
   const { join } = await import('node:path');
+  const { strictReadJson, strictReaddir } = await import(
+    '../../../data/lib/strict-load.js'
+  );
+  const { SectorsSourceFileSchema, DetailFileSchema } = await import(
+    '../../../data/lib/projection-schemas.js'
+  );
 
+  // Sectors source (typed) → schema-validated, build aborts on missing
+  // file / malformed JSON / missing fields.
   const sectorsPath = join(process.cwd(), 'data', 'sectors', 'sectors.ja-en.json');
-  const sectors: SectorDef[] = JSON.parse(readFileSync(sectorsPath, 'utf-8')).sectors;
+  const sectorsFile = strictReadJson(sectorsPath, SectorsSourceFileSchema, 'sectors-page.source');
+  const sectors: SectorDef[] = sectorsFile.sectors.map((s) => ({
+    id: s.id,
+    ja: s.ja,
+    en: s.en,
+    hue: s.hue,
+    description_ja: s.description_ja,
+    mhlw_seed_codes: s.mhlw_seed_codes,
+  }));
 
+  // Detail projection (typed) — fail-fast on any unreadable file. Audit's
+  // #3.3: this loader used to read public/data.detail/* with no schema
+  // check and silently absorb parse failures.
   const detailDir = join(process.cwd(), 'public', 'data.detail');
-  const files = readdirSync(detailDir).filter((f: string) => f.endsWith('.json')).sort();
+  const files = strictReaddir(detailDir, (f: string) => f.endsWith('.json'), 'sectors-page.detail');
   const occupations: OccRow[] = [];
   for (const f of files) {
-    const d = JSON.parse(readFileSync(join(detailDir, f), 'utf-8'));
-    const sec = d.sector || {};
+    const d = strictReadJson(join(detailDir, f), DetailFileSchema, 'sectors-page.detail');
+    const sec = d.sector ?? {};
     if (!sec.id) continue;
-    const stats = d.stats || {};
-    const ai = d.ai_risk || {};
+    const stats = d.stats ?? {};
+    const ai = d.ai_risk ?? {};
+    const title = d.title ?? {};
     occupations.push({
       id: d.id,
-      title_ja: (d.title || {}).ja ?? null,
-      title_en: (d.title || {}).en ?? null,
+      title_ja: title.ja ?? null,
+      // SectorsProjectionSchema currently keeps DetailFileSchema lean —
+      // d.title.en isn't in the schema. The sectors page used to read it
+      // but the site is JA-only since v1.4.0 (see og-helpers.ts), so
+      // null is fine here. Kept in the OccRow shape for legacy callers.
+      title_en: null,
       ai_risk: ai.score ?? null,
       risk_band: d.risk_band ?? null,
       workers: stats.workers ?? null,

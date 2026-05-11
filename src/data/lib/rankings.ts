@@ -242,7 +242,7 @@ import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-me
 // Pulled back into local scope for buildRankings(). The same symbols are
 // also re-exported from the bottom of this file for external consumers.
 import { FAQS } from './ranking-copy.js';
-import { escapeHtml } from './ranking-renderers.js';
+import { escapeHtml, type ExtraCol } from './ranking-renderers.js';
 
 export type RankingSlug = RankingSlugMeta;
 
@@ -277,8 +277,14 @@ export interface RankingResult {
   items: Occupation[];
   /** Stats prepared for the page header `<dl class="stats">`. */
   statBlocks: ReadonlyArray<readonly [string, string]>;
-  /** Optional extra metric per item, rendered before salary. Mirrors extra_col_fn. */
-  extraColFn?: (o: Occupation) => string[];
+  /**
+   * Optional extra metric per item, rendered before salary. Returns a list
+   * of typed extra-col descriptors that the renderer escapes safely — see
+   * `ExtraCol` in ranking-renderers.ts. Plain strings show as the standard
+   * `rl-extra` chip; `{ kind: 'demand-pill', … }` produces the colored
+   * demand badge.
+   */
+  extraColFn?: (o: Occupation) => ExtraCol[];
   /** Whether to show the salary chip. */
   showSalary: boolean;
   faqItems: ReadonlyArray<readonly [string, string]>;
@@ -311,6 +317,13 @@ export interface RankingsBundle {
   results: Map<RankingSlug, RankingResult>;
   hub: {
     globalStats: ReadonlyArray<readonly [string, string]>;
+    /**
+     * Pre-rendered safe HTML fragments for the rankings-hub "insights"
+     * block. Each string is built in this module via escapeHtml() over
+     * sector names plus literal <strong> emphasis — i.e. the contract is
+     * "fully trusted HTML; downstream MUST NOT re-escape and MUST NOT
+     * concatenate with untrusted data". Callers in pages do `set:html`.
+     */
     insights: string[];
     cards: Array<{ slug: RankingSlug; name: string; desc: string; count: number; preview: string }>;
   };
@@ -501,7 +514,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'entry-salary',
     items: byEntry,
     showSalary: true,
-    extraColFn: (o) => (o.recruit_wage ? [`<span class="rl-extra">初任給 ${Math.trunc(o.recruit_wage)}万円</span>`] : []),
+    extraColFn: (o) => (o.recruit_wage ? [`初任給 ${Math.trunc(o.recruit_wage)}万円`] : []),
     faqItems: FAQS['entry-salary'],
     title: '初任給が高い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `初任給が最も高い職業TOP${TOP_N}。平均初任給${Math.trunc(meanEntry)}万円。年収・AI影響度も合わせて比較。就活・転職の参考に。`,
@@ -519,7 +532,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'young-workforce',
     items: byYoung,
     showSalary: true,
-    extraColFn: (o) => (o.average_age ? [`<span class="rl-extra">${o.average_age.toFixed(1)}歳</span>`] : []),
+    extraColFn: (o) => (o.average_age ? [`${o.average_age.toFixed(1)}歳`] : []),
     faqItems: FAQS['young-workforce'],
     title: '平均年齢が若い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `平均年齢が最も低い職業TOP${TOP_N}。平均${meanAgeYoung.toFixed(1)}歳。若手が活躍する職業を年収・AI影響度と共に一覧。`,
@@ -537,7 +550,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'short-hours',
     items: byHours,
     showSalary: true,
-    extraColFn: (o) => (o.monthly_hours ? [`<span class="rl-extra">月${Math.trunc(o.monthly_hours)}h</span>`] : []),
+    extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
     faqItems: FAQS['short-hours'],
     title: '労働時間が短い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `月間労働時間が最も短い職業TOP${TOP_N}。平均${Math.trunc(meanHours)}時間。ワークライフバランスに優れた職業を年収・AI影響度と共に一覧。`,
@@ -559,7 +572,7 @@ export function buildRankings(): RankingsBundle {
     extraColFn: (o) => {
       const db = o.demand_band ?? '';
       const label = DEMAND_JA[db];
-      return label ? [`<span class="demand-pill ${escapeHtml(db)}">${escapeHtml(label)}</span>`] : [];
+      return label ? [{ kind: 'demand-pill' as const, band: db, label }] : [];
     },
     faqItems: FAQS['high-demand'],
     title: '人手不足の職業ランキング TOP30【2026年版】| 未来の仕事',
@@ -588,7 +601,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'hourly-wage',
     items: byHourly,
     showSalary: true,
-    extraColFn: (o) => (o.hourly_wage ? [`<span class="rl-extra">時給 ¥${o.hourly_wage.toLocaleString('en-US')}</span>`] : []),
+    extraColFn: (o) => (o.hourly_wage ? [`時給 ¥${o.hourly_wage.toLocaleString('en-US')}`] : []),
     faqItems: FAQS['hourly-wage'],
     title: '時給が高い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `時給ベースで報酬が高い職業 TOP${TOP_N}。平均時給 ¥${Math.round(meanHourly).toLocaleString('en-US')}。AI 影響度・年収と共に一覧。`,
@@ -609,7 +622,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'recruit-ratio',
     items: byRecruitRatio,
     showSalary: true,
-    extraColFn: (o) => (o.recruit_ratio !== null ? [`<span class="rl-extra">${o.recruit_ratio.toFixed(2)} 倍</span>`] : []),
+    extraColFn: (o) => (o.recruit_ratio !== null ? [`${o.recruit_ratio.toFixed(2)} 倍`] : []),
     faqItems: FAQS['recruit-ratio'],
     title: '求人倍率が高い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `求人倍率が最も高い職業 TOP${TOP_N}。平均 ${meanRecruitRatio.toFixed(2)} 倍。人手不足が顕著な売り手市場の職業一覧。`,
@@ -630,7 +643,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'aging-workforce',
     items: byAging,
     showSalary: true,
-    extraColFn: (o) => (o.average_age ? [`<span class="rl-extra">${o.average_age.toFixed(1)} 歳</span>`] : []),
+    extraColFn: (o) => (o.average_age ? [`${o.average_age.toFixed(1)} 歳`] : []),
     faqItems: FAQS['aging-workforce'],
     title: 'シニア中心の職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `平均年齢が最も高い職業 TOP${TOP_N}。平均 ${meanAgeAging.toFixed(1)} 歳。経験者が活躍する職業一覧。`,
@@ -651,7 +664,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'monthly-hours-long',
     items: byHoursLong,
     showSalary: true,
-    extraColFn: (o) => (o.monthly_hours ? [`<span class="rl-extra">月${Math.trunc(o.monthly_hours)}h</span>`] : []),
+    extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
     faqItems: FAQS['monthly-hours-long'],
     title: '労働時間が長い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `月間労働時間が最も長い職業 TOP${TOP_N}。平均 ${Math.trunc(meanHoursLong)} 時間。年収・AI 影響度と共に確認。`,
@@ -672,7 +685,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'recruit-ratio-low',
     items: byRecruitLow,
     showSalary: true,
-    extraColFn: (o) => (o.recruit_ratio !== null ? [`<span class="rl-extra">${o.recruit_ratio.toFixed(2)} 倍</span>`] : []),
+    extraColFn: (o) => (o.recruit_ratio !== null ? [`${o.recruit_ratio.toFixed(2)} 倍`] : []),
     faqItems: FAQS['recruit-ratio-low'],
     title: '求人倍率が低い職業ランキング TOP30【2026年版】| 未来の仕事',
     seoDesc: `求人倍率が最も低い職業 TOP${TOP_N}。平均 ${meanRecruitLow.toFixed(2)} 倍。採用競争が厳しい買い手市場の職業一覧。`,
@@ -816,7 +829,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'ai-stable-employment',
     items: aiStableEmployment,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">正規 ${empPct(o, '正規の職員、従業員').toFixed(0)}%</span>`],
+    extraColFn: (o) => [`正規 ${empPct(o, '正規の職員、従業員').toFixed(0)}%`],
     faqItems: FAQS['ai-stable-employment'],
     title: 'AI 安全 × 正規雇用率高の職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `AI 影響度 5 以下かつ正規雇用率 60% 以上の安定職業 TOP${aiStableEmployment.length}。長期的なキャリア安定性が期待できる分野。`,
@@ -844,7 +857,7 @@ export function buildRankings(): RankingsBundle {
     extraColFn: (o) => {
       const db = o.demand_band ?? '';
       const label = DEMAND_JA[db];
-      return label ? [`<span class="demand-pill ${escapeHtml(db)}">${escapeHtml(label)}</span>`] : [];
+      return label ? [{ kind: 'demand-pill' as const, band: db, label }] : [];
     },
     faqItems: FAQS['ai-safe-high-demand'],
     title: '高需要 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
@@ -868,7 +881,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'ai-safe-short-hours',
     items: aiSafeShortHours,
     showSalary: true,
-    extraColFn: (o) => (o.monthly_hours ? [`<span class="rl-extra">月${Math.trunc(o.monthly_hours)}h</span>`] : []),
+    extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
     faqItems: FAQS['ai-safe-short-hours'],
     title: '低労働時間 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `労働時間が短く AI 影響度も低い職業 TOP${TOP_N}。ワークライフバランスと将来性を両立する職業を一覧。`,
@@ -891,7 +904,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'ai-safe-young-workforce',
     items: aiSafeYoung,
     showSalary: true,
-    extraColFn: (o) => (o.average_age ? [`<span class="rl-extra">${o.average_age.toFixed(1)} 歳</span>`] : []),
+    extraColFn: (o) => (o.average_age ? [`${o.average_age.toFixed(1)} 歳`] : []),
     faqItems: FAQS['ai-safe-young-workforce'],
     title: '若手中心 × AI 安全な職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `平均年齢が若く AI 影響度も低い職業 TOP${TOP_N}。新卒・第二新卒の参考に。`,
@@ -983,7 +996,7 @@ export function buildRankings(): RankingsBundle {
     extraColFn: (o) => {
       const db = o.demand_band ?? '';
       const label = DEMAND_JA[db];
-      return label ? [`<span class="demand-pill ${escapeHtml(db)}">${escapeHtml(label)}</span>`] : [];
+      return label ? [{ kind: 'demand-pill' as const, band: db, label }] : [];
     },
     faqItems: FAQS['high-salary-high-demand'],
     title: '高年収 × 高需要の職業 TOP30【2026年版】| 未来の仕事',
@@ -1007,7 +1020,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'high-salary-young-entry',
     items: highSalaryYoungEntry,
     showSalary: true,
-    extraColFn: (o) => (o.recruit_wage ? [`<span class="rl-extra">初任給 ${Math.trunc(o.recruit_wage)} 万円</span>`] : []),
+    extraColFn: (o) => (o.recruit_wage ? [`初任給 ${Math.trunc(o.recruit_wage)} 万円`] : []),
     faqItems: FAQS['high-salary-young-entry'],
     title: '初任給が高い × 若手活躍の職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `初任給が高くて平均年齢 40 歳以下の職業 TOP${highSalaryYoungEntry.length}。新卒キャリア設計の参考に。`,
@@ -1032,7 +1045,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'license-required',
     items: licenseRequired,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">資格 ${o.certs.length}</span>`],
+    extraColFn: (o) => [`資格 ${o.certs.length}`],
     faqItems: FAQS['license-required'],
     title: '国家資格が必要な職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `関連資格が多い職業 TOP${licenseRequired.length}。参入障壁が明確な専門職を年収・AI 影響度と共に一覧。`,
@@ -1077,7 +1090,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'high-school-ok',
     items: highSchoolOk,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">高卒 ${eduPct(o, '高卒').toFixed(0)}%</span>`],
+    extraColFn: (o) => [`高卒 ${eduPct(o, '高卒').toFixed(0)}%`],
     faqItems: FAQS['high-school-ok'],
     title: '高卒で目指せる職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `高卒比率が高い職業 TOP${highSchoolOk.length}。学歴ハードルが低く実務能力で評価される職業を一覧。`,
@@ -1100,7 +1113,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'university-required',
     items: universityRequired,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">大卒 ${eduPct(o, '大卒').toFixed(0)}%</span>`],
+    extraColFn: (o) => [`大卒 ${eduPct(o, '大卒').toFixed(0)}%`],
     faqItems: FAQS['university-required'],
     title: '大卒以上が中心の職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `大卒比率 50% 以上の職業 TOP${universityRequired.length}。学位が前提となる専門職を一覧。`,
@@ -1123,7 +1136,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'graduate-school-required',
     items: graduateSchoolRequired,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">院卒 ${gradPct(o).toFixed(0)}%</span>`],
+    extraColFn: (o) => [`院卒 ${gradPct(o).toFixed(0)}%`],
     faqItems: FAQS['graduate-school-required'],
     title: '大学院卒中心の職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `修士・博士課程修了者が多い職業 TOP${graduateSchoolRequired.length}。高度専門職を一覧。`,
@@ -1170,7 +1183,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'freelance-friendly',
     items: freelanceFriendly,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">フリー ${empPct(o, '自営、フリーランス').toFixed(0)}%</span>`],
+    extraColFn: (o) => [`フリー ${empPct(o, '自営、フリーランス').toFixed(0)}%`],
     faqItems: FAQS['freelance-friendly'],
     title: 'フリーランス向きの職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `自営・フリーランス比率が高い職業 TOP${freelanceFriendly.length}。独立しやすい分野を一覧。`,
@@ -1197,7 +1210,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'self-employed-typical',
     items: selfEmployedTypical,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">独立 ${(empPct(o, '自営、フリーランス') + empPct(o, '経営層（役員等）')).toFixed(0)}%</span>`],
+    extraColFn: (o) => [`独立 ${(empPct(o, '自営、フリーランス') + empPct(o, '経営層（役員等）')).toFixed(0)}%`],
     faqItems: FAQS['self-employed-typical'],
     title: '独立・開業が典型の職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `フリーランス + 経営層比率が高い職業 TOP${selfEmployedTypical.length}。独立がキャリアの自然な到達点となる職業を一覧。`,
@@ -1242,7 +1255,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'regulated-protected',
     items: regulatedProtected,
     showSalary: true,
-    extraColFn: (o) => [`<span class="rl-extra">資格 ${o.certs.length}</span>`],
+    extraColFn: (o) => [`資格 ${o.certs.length}`],
     faqItems: FAQS['regulated-protected'],
     title: '規制で守られた職業 TOP30【2026年版】| 未来の仕事',
     seoDesc: `関連資格 2 個以上かつ AI 影響度 5 以下の職業 TOP${regulatedProtected.length}。参入障壁と AI 抗性を併せ持つ高度専門職を一覧。`,
@@ -1265,7 +1278,7 @@ export function buildRankings(): RankingsBundle {
     slug: 'low-stress-stable',
     items: lowStressStable,
     showSalary: true,
-    extraColFn: (o) => (o.monthly_hours ? [`<span class="rl-extra">月${Math.trunc(o.monthly_hours)}h</span>`] : []),
+    extraColFn: (o) => (o.monthly_hours ? [`月${Math.trunc(o.monthly_hours)}h`] : []),
     faqItems: FAQS['low-stress-stable'],
     title: '低ストレス安定職 TOP30【2026年版】| 未来の仕事',
     seoDesc: `月間労働時間 165 時間以下かつ AI 影響度 5 以下の職業 TOP${lowStressStable.length}。長く続けやすい安定職を一覧。`,

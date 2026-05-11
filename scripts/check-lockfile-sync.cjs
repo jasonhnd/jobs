@@ -137,6 +137,26 @@ for (const [name, lockSpec] of lockDeps) {
   }
 }
 
+// Defensive: if the parser found zero deps in importers['.'] but the
+// lockfile clearly has importers + deps, the format probably changed
+// under us (pnpm v10+). Fail with an actionable message rather than
+// silently passing as "no drift". Skips the check when the project
+// genuinely has no deps (impossible in practice for this repo).
+if (lockDeps.size === 0 && pkgDeps.size > 0 && /^\s\s\.:/m.test(lockText)) {
+  console.error(
+    '[check-lockfile-sync] FAIL — parsed 0 deps from importers[".\\"] but package.json has ' +
+      pkgDeps.size +
+      ' deps and the lockfile contains an importers root.',
+  );
+  console.error(
+    '  The pnpm-lock.yaml indentation / format may have changed (e.g. pnpm v10+).',
+  );
+  console.error(
+    "  Update scripts/check-lockfile-sync.cjs's parser before relying on it.",
+  );
+  process.exit(1);
+}
+
 if (issues.length === 0) {
   console.log(`[check-lockfile-sync] OK — ${pkgDeps.size} deps match between package.json and pnpm-lock.yaml.`);
   process.exit(0);

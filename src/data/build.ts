@@ -13,8 +13,9 @@
  *   0 — clean run (validation + all projections succeed).
  *   1 — at least one validation or projection error.
  */
-import { mkdir, rm, rename, readdir, cp } from 'node:fs/promises';
-import { join } from 'node:path';
+import { mkdir, rm, rename, readdir, cp, writeFile } from 'node:fs/promises';
+import { join, resolve, relative, sep } from 'node:path';
+import { tmpdir } from 'node:os';
 import { buildIndexes } from './lib/indexes.js';
 import { buildDetail } from './projections/detail.js';
 import { buildFeatured } from './projections/featured.js';
@@ -30,13 +31,34 @@ import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 
 const REPO_ROOT = process.cwd();
+
+/**
+ * Whitelist the resolved output path so a typo'd BUILD_DATA_OUT_DIR like
+ * `../something` can't write outside the repo (or system temp). Audit's
+ * #3.4. The check rejects paths that escape both roots before the build
+ * ever touches the filesystem.
+ */
+function resolveOutDir(envValue: string | undefined): string {
+  if (!envValue) return join(REPO_ROOT, 'public');
+  const resolved = resolve(REPO_ROOT, envValue);
+  const insideRepo = !relative(REPO_ROOT, resolved).startsWith('..' + sep) &&
+    relative(REPO_ROOT, resolved) !== '..';
+  const insideTmp = !relative(tmpdir(), resolved).startsWith('..' + sep) &&
+    relative(tmpdir(), resolved) !== '..';
+  if (!insideRepo && !insideTmp) {
+    throw new Error(
+      `[build] BUILD_DATA_OUT_DIR resolves outside the repo and the system temp dir: ${resolved}. ` +
+      `Refusing to write there.`,
+    );
+  }
+  return resolved;
+}
+
 // TS-ETL writes projections directly into Astro's publicDir (`./public/`).
 // Astro then copies the entire publicDir into `dist-astro/` during `astro build`.
 // `BUILD_DATA_OUT_DIR=...` overrides the output directory (used historically by
 // the byte-diff workflow during Track B; left in place for ad-hoc verification).
-const TS_DIST = process.env.BUILD_DATA_OUT_DIR
-  ? join(REPO_ROOT, process.env.BUILD_DATA_OUT_DIR)
-  : join(REPO_ROOT, 'public');
+const TS_DIST = resolveOutDir(process.env.BUILD_DATA_OUT_DIR);
 
 // Staging dir for atomic per-file replacement. Projections write here, then
 // we rename each top-level entry into TS_DIST on success. Includes the PID so
@@ -183,8 +205,47 @@ async function main(): Promise<void> {
   // achieves the goal: a partial / failed run leaves the previous output
   // untouched; only fully-successful runs overwrite, and each entry is
   // swapped in O(1).
+  //
+  // Audit's #7.4: a crash mid-promote (disk full, OOM kill, …) could
+  // leave half-old/half-new state on disk. We can't make this multi-step
+  // truly atomic without a separate version directory, but we do mitigate:
+  //   1. Write a per-run "promote-in-progress" sentinel BEFORE the loop.
+  //   2. Replace it with a manifest listing the canonical entry set AFTER
+  //      the loop completes.
+  //   3. If a subsequent build starts and finds the sentinel still present,
+  //      it indicates the previous promote crashed — log a clear warning so
+  //      the operator can decide whether to wipe TS_DIST and rebuild.
   console.log('\n  [promote] STAGE_DIST → TS_DIST …');
   await mkdir(TS_DIST, { recursive: true });
+  // Manifest lives OUTSIDE TS_DIST so it never gets served to the web
+  // (publicDir is copied verbatim into dist-astro). We track it next to
+  // the repo root in a gitignored .cache/ directory.
+  const cacheDir = join(REPO_ROOT, '.cache', 'etl');
+  await mkdir(cacheDir, { recursive: true });
+  const sentinelPath = join(cacheDir, 'build-manifest.partial.json');
+  const manifestPath = join(cacheDir, 'build-manifest.json');
+
+  // Detect a leftover partial sentinel from a previous crash before we
+  // start mutating the output. Don't fail — just warn — because the
+  // previous build may have been killed before any promote happened,
+  // in which case the current state is still consistent.
+  try {
+    const { readFile } = await import('node:fs/promises');
+    const prev = await readFile(sentinelPath, 'utf-8');
+    console.warn(
+      `  [WARN] previous build left a partial-promote sentinel:\n    ${prev}\n` +
+      `  TS_DIST may contain a mix of old + new files. Continuing — this build will overwrite.`,
+    );
+  } catch {
+    // No sentinel — clean state.
+  }
+
+  const buildId = `${new Date().toISOString()}.pid${process.pid}`;
+  await writeFile(
+    sentinelPath,
+    JSON.stringify({ status: 'in_progress', build_id: buildId, started_at: new Date().toISOString() }, null, 2),
+  );
+
   const stagedEntries = await readdir(STAGE_DIST);
   for (const name of stagedEntries) {
     const from = join(STAGE_DIST, name);
@@ -203,6 +264,19 @@ async function main(): Promise<void> {
       }
     }
   }
+
+  // Promote succeeded. Write the manifest BEFORE clearing the sentinel
+  // so a crash between these two writes still leaves a coherent record.
+  await writeFile(
+    manifestPath,
+    JSON.stringify({
+      status: 'ok',
+      build_id: buildId,
+      finished_at: new Date().toISOString(),
+      promoted_entries: stagedEntries.sort(),
+    }, null, 2),
+  );
+  await rm(sentinelPath, { force: true }).catch(() => {});
   await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(2);

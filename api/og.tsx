@@ -45,8 +45,8 @@ import {
   loadGoogleFont,
   fmtNumber,
   padId,
-  type DetailRecord,
-  type SectorsProjection,
+  DetailRecordSchema,
+  SectorsProjectionSchema,
   type GenericCardConfig,
 } from "../src/lib/og-helpers.js";
 
@@ -316,7 +316,23 @@ async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
   if (!res.ok) {
     return new Response("Upstream sectors fetch failed", { status: 502 });
   }
-  const projection = (await res.json()) as SectorsProjection;
+  // Validate the projection shape at runtime so a corrupted / out-of-date
+  // /data.sectors.json doesn't crash the Edge function with a cryptic
+  // "Cannot read properties of undefined" deep inside the render tree.
+  const projectionRaw: unknown = await res.json();
+  const parsed = SectorsProjectionSchema.safeParse(projectionRaw);
+  if (!parsed.success) {
+    // Log structured detail server-side; respond with a fixed message.
+    // Edge runtime logs surface via Vercel observability — never leak
+    // field names through the response body to social-card scrapers.
+    // eslint-disable-next-line no-console
+    console.error(
+      "[og] sectors projection schema mismatch",
+      parsed.error.issues.slice(0, 3),
+    );
+    return new Response("Upstream sectors data invalid", { status: 502 });
+  }
+  const projection = parsed.data;
   const sector = projection.sectors.find((s) => s.id === sectorId);
   if (!sector) {
     return new Response("Sector not found", { status: 404 });
@@ -632,8 +648,14 @@ export default async function handler(req: Request): Promise<Response> {
     // error returns a 503 with Retry-After instead of leaking a stack trace
     // through Vercel's default 500 page (which the social-card scrapers
     // would then cache).
+    //
+    // Detailed error → server-side log only. Response body is a fixed
+    // string so we never echo data-source paths, font-loading internals,
+    // or stack traces to scrapers. Audit's #4.4.
     const msg = err instanceof Error ? err.message : String(err);
-    return new Response(`OG render failed: ${msg}`, {
+    // eslint-disable-next-line no-console
+    console.error(`[og] render failed: ${msg}`);
+    return new Response("OG render failed", {
       status: 503,
       headers: { "Retry-After": "60", "Content-Type": "text/plain; charset=utf-8" },
     });
@@ -738,7 +760,17 @@ async function renderHandler(req: Request): Promise<Response> {
   if (!detailRes.ok) {
     return new Response("Upstream detail fetch failed", { status: 502 });
   }
-  const rec = (await detailRes.json()) as DetailRecord;
+  const detailRaw: unknown = await detailRes.json();
+  const detailParsed = DetailRecordSchema.safeParse(detailRaw);
+  if (!detailParsed.success) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `[og] detail projection schema mismatch for id=${idParam}`,
+      detailParsed.error.issues.slice(0, 3),
+    );
+    return new Response("Upstream detail data invalid", { status: 502 });
+  }
+  const rec = detailParsed.data;
 
   const risk = rec.ai_risk?.score ?? null;
   const riskColor = risk != null ? (RISK_COLORS[risk] ?? "#8a93a3") : "#8a93a3";

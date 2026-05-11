@@ -7,9 +7,10 @@
  *   - buildComparePair(meta): 2 職業の比較データを揃える
  *   - buildCompareBundle(): 全 12 hub の result + index 用 cards
  */
-import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
+import { strictReadJson } from './strict-load.js';
+import { DetailFileSchema } from './projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
@@ -86,8 +87,10 @@ function loadDetail(id: number): DetailFile {
   if (cached) return cached;
   const padded = String(id).padStart(4, '0');
   const path = join(DETAIL_DIR, `${padded}.json`);
-  const raw = readFileSync(path, 'utf-8');
-  const data = JSON.parse(raw) as DetailFile;
+  // Schema-validated; the local DetailFile interface is a structural subset
+  // of DetailFileSchema's inferred type so the cast is sound for the fields
+  // this module actually reads (see compare-hub.ts:64 for the shape).
+  const data = strictReadJson(path, DetailFileSchema, 'compare-hub.detail') as DetailFile;
   _detailCache.set(id, data);
   return data;
 }

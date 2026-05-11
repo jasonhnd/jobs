@@ -18,8 +18,9 @@
  * 各 hub は GenreHubConfig で挙動を表現し、buildGenreBundle が共通の
  * filter/sort/render を実行する。
  */
-import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { strictReadJson, strictReaddir } from './strict-load.js';
+import { DetailFileSchema } from './projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
@@ -116,21 +117,21 @@ export interface GenreResult {
 let _detailCache: DetailFileMin[] | null = null;
 export function loadAllDetails(): DetailFileMin[] {
   if (_detailCache) return _detailCache;
+  // strictReaddir + strictReadJson abort the build on missing dir,
+  // malformed JSON, or schema drift. Set ALLOW_PARTIAL_DATA=1 to fall
+  // back to "log + skip" semantics for local development. The previous
+  // silent-empty-array behavior was the audit's #4.1 — a single failure
+  // could produce 9 genre hub pages with no occupations and still ship.
+  const files = strictReaddir(DETAIL_DIR, (f) => f.endsWith('.json'), 'genre-hub.detail');
   const out: DetailFileMin[] = [];
-  let files: string[];
-  try {
-    files = readdirSync(DETAIL_DIR).filter((f) => f.endsWith('.json'));
-  } catch {
-    _detailCache = out;
-    return out;
-  }
   for (const f of files) {
-    try {
-      const raw = readFileSync(join(DETAIL_DIR, f), 'utf-8');
-      out.push(JSON.parse(raw) as DetailFileMin);
-    } catch {
-      // skip
-    }
+    // Cast: DetailFileSchema is intentionally a superset of
+    // DetailFileMin (fewer required fields). The runtime check still
+    // validates the load-bearing fields; the cast just bridges the
+    // structural type mismatch on the optional ones.
+    out.push(
+      strictReadJson(join(DETAIL_DIR, f), DetailFileSchema, 'genre-hub.detail') as DetailFileMin,
+    );
   }
   _detailCache = out;
   return out;
@@ -318,7 +319,12 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): string {
 
 export function renderHighlights(items: ReadonlyArray<string>): string {
   if (items.length === 0) return '';
-  const lis = items.map((h) => `<li>${h}</li>`).join('');
+  // Defense-in-depth: highlight strings interpolate data-driven values
+  // (top occupation name, dominant sector, config text). Even though
+  // today's data sources are authored, escaping here guarantees the
+  // contract regardless of upstream changes. See genre-hub.test.ts for
+  // the XSS regression fixture.
+  const lis = items.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
   return `<div class="highlights"><ul>${lis}</ul></div>`;
 }
 

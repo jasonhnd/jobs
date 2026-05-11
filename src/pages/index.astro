@@ -42,12 +42,42 @@ const { iso, display } = buildTimeJst();
 // Same source of truth as Footer.astro (src/lib/canonical-css.ts).
 const SITE_CANONICAL_BLOCK = `<style id="site-canonical">${CANONICAL_CSS}</style>`;
 
+/**
+ * Patch `raw` by applying a regex-based replace. Throws if the pattern
+ * didn't match — the source HTML legacy file is hand-maintained and
+ * silent-no-match would let stale timestamps or missing canonical CSS
+ * ship without anyone noticing. Audit's #7.3.
+ */
+function patchOrThrow(input: string, pattern: RegExp, replacement: string, tag: string): string {
+  if (!pattern.test(input)) {
+    throw new Error(
+      `[index.astro] template patch failed: pattern for "${tag}" did not match src/index-source.html. ` +
+      `Did the upstream HTML change shape?`,
+    );
+  }
+  return input.replace(pattern, replacement);
+}
+
 // Replace the static timestamp burned into the source HTML. Tolerant regex
 // matches both "YYYY/MM/DD/HH:MM JST" (older form) and "YYYY/MM/DD_HH:MM_JST"
 // (current form) so re-runs stay idempotent.
-const html = raw
-  .replace(/datetime="20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+09:00"/, `datetime="${iso}"`)
-  .replace(/>20\d{2}\/\d{2}\/\d{2}[\/_]\d{2}:\d{2}[ _]JST</, `>${display}<`)
-  .replace(/<\/head>/, `${SITE_CANONICAL_BLOCK}\n  </head>`);
+let html = patchOrThrow(
+  raw,
+  /datetime="20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+09:00"/,
+  `datetime="${iso}"`,
+  'datetime attribute',
+);
+html = patchOrThrow(
+  html,
+  />20\d{2}\/\d{2}\/\d{2}[\/_]\d{2}:\d{2}[ _]JST</,
+  `>${display}<`,
+  'JST footer timestamp',
+);
+html = patchOrThrow(
+  html,
+  /<\/head>/,
+  `${SITE_CANONICAL_BLOCK}\n  </head>`,
+  'canonical CSS injection point (</head>)',
+);
 ---
 <Fragment set:html={html} />

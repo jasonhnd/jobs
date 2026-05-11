@@ -4,13 +4,17 @@
  * class of bug at the rendered-output level (defense-in-depth alongside
  * scripts/check-nested-html-comments.cjs and scripts/check-rendered-leaks.cjs).
  *
- * NOTE: @playwright/test and http-server are NOT in package.json devDeps
- * (they would force a pnpm-lock update on Vercel and aren't needed for the
- * site build). To run e2e locally, install them on demand:
+ * NOTE: @playwright/test and http-server are deliberately NOT in
+ * package.json devDeps — bundling them would inflate Vercel's per-deploy
+ * install by ~50 MB of Playwright + browsers, none of which is needed
+ * for the static site build. To run E2E locally OR in CI:
  *
- *   pnpm add -D @playwright/test http-server
- *   npx playwright install chromium
- *   pnpm run build && npx playwright test
+ *   pnpm run test:e2e
+ *
+ * That entrypoint (scripts/run-e2e.sh) installs Playwright on demand
+ * with `pnpm add --no-save` so the install never touches package.json /
+ * pnpm-lock.yaml, then runs the tests against a built dist-astro/.
+ * CI: see .github/workflows/e2e.yml (calls the same script).
  */
 import { defineConfig, devices } from '@playwright/test';
 

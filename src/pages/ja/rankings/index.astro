@@ -33,6 +33,11 @@ const gsHtml = hub.globalStats.length > 0
       .join('')}</dl>`
   : '';
 
+// hub.insights items are pre-rendered safe HTML — see the contract on
+// RankingsBundle.hub.insights in src/data/lib/rankings.ts (sector names
+// are escapeHtml'd at build time and combined with literal <strong>
+// markup). Do NOT escape here, and do NOT concatenate untrusted data
+// alongside.
 const insightsItems = hub.insights.map((h) => `<li>${h}</li>`).join('');
 const insightsHtml = hub.insights.length > 0
   ? `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${insightsItems}</ul></section>`

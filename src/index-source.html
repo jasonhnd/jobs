@@ -4928,11 +4928,25 @@
         const ls = document.getElementById("loadingState");
         if (!ls) return;
         ls.className = "error-state";
-        ls.innerHTML = `
-          <div>データの読み込みに失敗しました</div>
-          <div style="font-size:0.78rem;color:var(--fg2);margin-top:6px">${(err && err.message) || err || ""}</div>
-          <button onclick="location.reload()">再読込</button>
-        `;
+        // DOM construction (not innerHTML) so an err.message with HTML
+        // characters renders as text. err originates from local fetch
+        // failures, so the practical exposure is small, but textContent
+        // removes the foot-gun entirely.
+        while (ls.firstChild) ls.removeChild(ls.firstChild);
+        const top = document.createElement("div");
+        top.textContent = "データの読み込みに失敗しました";
+        const detail = document.createElement("div");
+        detail.style.fontSize = "0.78rem";
+        detail.style.color = "var(--fg2)";
+        detail.style.marginTop = "6px";
+        detail.textContent = (err && err.message) || (typeof err === "string" ? err : "") || "";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "再読込";
+        btn.addEventListener("click", function () { location.reload(); });
+        ls.appendChild(top);
+        ls.appendChild(detail);
+        ls.appendChild(btn);
       }
 
       // v1.2.x: render mobile-only TOP 10 horizontal-swipe carousel.

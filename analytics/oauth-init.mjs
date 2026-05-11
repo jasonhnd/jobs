@@ -29,8 +29,23 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import http from "node:http";
-import { exec } from "node:child_process";
+import crypto from "node:crypto";
+import { execFile } from "node:child_process";
 import { google } from "googleapis";
+
+/**
+ * HTML-escape for the localhost callback's tiny response page. Tiny because
+ * the page is only seen for a few seconds before the user closes the tab,
+ * but defensive because we interpolate query-string values into it.
+ */
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
 
 const CONFIG_DIR = path.join(os.homedir(), ".config", "mirai-shigoto");
 const CLIENT_FILE = path.join(CONFIG_DIR, "oauth-client.json");
@@ -66,10 +81,15 @@ const port = await new Promise((resolve, reject) => {
 const redirectUri = `http://127.0.0.1:${port}/callback`;
 
 const oauth2 = new google.auth.OAuth2(client_id, client_secret, redirectUri);
+// Audit's #6.3: bind a CSRF token to the authorization URL so a stranger
+// who tricks the user into hitting the callback can't pass off their own
+// code as ours. The state is 32 hex chars from crypto.randomBytes.
+const stateToken = crypto.randomBytes(16).toString("hex");
 const authUrl = oauth2.generateAuthUrl({
   access_type: "offline",          // request a refresh_token (not just an access token)
   prompt: "consent",                // force consent screen so refresh_token is returned even on re-auth
   scope: SCOPES,
+  state: stateToken,
 });
 
 log("Opening browser for Google OAuth consent…");
@@ -85,9 +105,22 @@ const code = await new Promise((resolve, reject) => {
     }
     const c = url.searchParams.get("code");
     const e = url.searchParams.get("error");
+    const returnedState = url.searchParams.get("state");
+    // CSRF: reject any callback whose state doesn't match what we issued.
+    if (returnedState !== stateToken) {
+      res
+        .writeHead(400, { "Content-Type": "text/html; charset=utf-8" })
+        .end(
+          `<!doctype html><meta charset="utf-8"><h1 style="font-family:system-ui">OAuth state mismatch</h1>` +
+          `<p style="font-family:system-ui">This callback didn't originate from your terminal. Close the tab and re-run.</p>`,
+        );
+      server.close();
+      reject(new Error("OAuth state mismatch — possible CSRF"));
+      return;
+    }
     if (e) {
       res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-        .end(`<!doctype html><meta charset="utf-8"><h1>OAuth error</h1><p>${e}</p><p>Close this tab and re-run.</p>`);
+        .end(`<!doctype html><meta charset="utf-8"><h1>OAuth error</h1><p>${escapeHtml(e)}</p><p>Close this tab and re-run.</p>`);
       server.close();
       reject(new Error(`OAuth denied: ${e}`));
       return;
@@ -103,10 +136,19 @@ const code = await new Promise((resolve, reject) => {
   });
   server.listen(port, "127.0.0.1");
 
-  const opener = process.platform === "darwin" ? "open"
-    : process.platform === "win32" ? "start"
-      : "xdg-open";
-  exec(`${opener} "${authUrl}"`);
+  // execFile with an args array avoids shell interpretation of the URL
+  // (audit's #6.3 third bullet). The opener binaries (open/xdg-open/cmd)
+  // accept the URL as a positional argument; no shell quoting required.
+  if (process.platform === "darwin") {
+    execFile("open", [authUrl]);
+  } else if (process.platform === "win32") {
+    // Windows: `cmd /c start "" "<url>"`. The empty "" is the window title
+    // — without it `start` interprets the URL as the title and the URL as
+    // the command.
+    execFile("cmd", ["/c", "start", "", authUrl]);
+  } else {
+    execFile("xdg-open", [authUrl]);
+  }
 });
 
 const { tokens } = await oauth2.getToken(code);
