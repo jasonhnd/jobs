@@ -54,7 +54,26 @@ const RISK_COLORS: Record<number, string> = {
 
 // Pull a Google-Fonts subset that covers exactly the characters we will draw.
 // Returns the OTF/TTF bytes; satori (inside @vercel/og) needs binary font data.
+//
+// Module-level Promise cache keyed by `family|weight|text`. Same (family, weight,
+// subsetText) tuple within an Edge instance's lifetime resolves from cache —
+// shaves the CSS fetch + binary fetch on warm instances. Caches the *Promise*
+// so concurrent first-time callers all await the same in-flight fetch instead
+// of racing N redundant requests. On fetch failure the rejected Promise is
+// evicted so the next caller retries fresh.
+const _fontCache = new Map<string, Promise<ArrayBuffer>>();
+
 async function loadGoogleFont(family: string, weight: number, text: string): Promise<ArrayBuffer> {
+  const key = `${family}|${weight}|${text}`;
+  const cached = _fontCache.get(key);
+  if (cached) return cached;
+  const promise = fetchGoogleFont(family, weight, text);
+  _fontCache.set(key, promise);
+  promise.catch(() => { _fontCache.delete(key); });
+  return promise;
+}
+
+async function fetchGoogleFont(family: string, weight: number, text: string): Promise<ArrayBuffer> {
   const url =
     `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}` +
     `&text=${encodeURIComponent(text)}&display=swap`;

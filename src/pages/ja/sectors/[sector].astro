@@ -511,7 +511,7 @@ const patternsHtml = patterns.observations.length > 0
          </div>
        </div>
        <ul class="pattern-observations">
-         ${patterns.observations.map((obs) => `<li>${obs}</li>`).join('')}
+         ${patterns.observations.map((obs) => `<li>${esc(obs)}</li>`).join('')}
        </ul>
      </section>`
   : '';

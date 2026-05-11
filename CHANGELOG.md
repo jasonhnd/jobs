@@ -10,6 +10,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Security (defense in depth)
+
+- **map.astro search suggestions**: the autocomplete dropdown previously built
+  list items via `innerHTML` string concatenation with values from
+  `/data.search.json` (`d.title_ja`, `d.id`). Data is build-time so the real
+  attack surface is source-data corruption, not a remote payload, but the
+  boundary is now clean — `renderSuggest` uses `createElement` +
+  `textContent` and the entire interpolation is escape-safe by construction.
+- **[sector].astro patterns block**: `patterns.observations` is auto-derived
+  during build, but it was still interpolated into HTML raw via
+  `${obs}`. Now goes through `esc()`, matching every other block on the
+  same page.
+
+### Performance
+
+- **og.tsx font cache**: `loadGoogleFont` now caches the in-flight Promise
+  keyed by `family|weight|text` at module scope. Within an Edge instance's
+  lifetime, repeat OG requests for the same card (Twitter/LinkedIn scraping
+  the same URL twice, generic-page cards) skip the CSS fetch + binary
+  fetch. A rejected Promise is evicted so the next caller retries fresh.
+- **transfer_paths projection**: candidate pools are now pre-indexed by
+  sector once at the top of the projection instead of re-scanning all 556
+  occupations inside each source's loop. Output is byte-identical (same
+  556 sources, 437 primary, 61 fallback_no_safer). The structural change
+  shifts per-source cost from O(N) to O(pool_per_sector); marginal at the
+  current N=556, but eliminates the quadratic floor before it bites.
+- **loaders.ts**: `loadJsonDir` now reads files in batches of 16 with
+  `Promise.all` (filename order preserved for deterministic output).
+  Sequential awaits added latency proportional to file count; the batched
+  flow saturates fs without exhausting file descriptors.
+
 ### Security
 
 - **Origin/Referer prefix-injection**: `api/feedback.js` and `api/subscribe.js`
