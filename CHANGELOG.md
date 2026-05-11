@@ -36,13 +36,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   and GA4 properties without editing the layout. New `.env.example`
   documents the full set of public + server env keys.
 
-### Deferred
+### Security (Phase 3.4 · Astro patched)
 
-- **Astro security audit (Phase 3.4)**: planned to run `pnpm audit` against
-  the installed Astro 5.18.1 and, if a known advisory applies, bump to the
-  latest 5.x patch. Local pnpm 11 requires Node 22.13+ but this machine
-  runs Node 20.20.1, so `pnpm audit` crashes before reporting. Action
-  needed: run the audit on Vercel or after a local Node upgrade.
+- **Astro 5.18.1 → 6.3.1** + **@astrojs/react 4.4.2 → 5.0.4**: closes
+  [GHSA-j687-52p2-xcff](https://github.com/advisories/GHSA-j687-52p2-xcff)
+  ("XSS in define:vars via incomplete `</script>` tag sanitization",
+  moderate severity, patched in Astro ≥ 6.1.6 with no 5.x backport). The
+  three call sites (`BaseLayout.astro` GA4 + X pixel scripts, `ja/[id].astro`
+  share button script) all consume build-time values, so external
+  exploitability is nil today, but the sanitizer hole would bite any
+  future request-derived value. `pnpm audit` now reports zero
+  vulnerabilities. Output verified byte-identical to the pre-upgrade
+  build across all 822 generated pages (timestamps scrubbed).
 
 ### Security (defense in depth)
 
