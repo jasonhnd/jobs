@@ -54,6 +54,15 @@ const {
 const robotsContent = noindex ? 'noindex, follow' : 'index, follow';
 
 const X_PIXEL_ID = import.meta.env.PUBLIC_X_PIXEL_ID;
+
+// Analytics ids — environment-overridable so preview/staging can point at
+// a separate property without editing the layout. Defaults match the
+// existing production values so any environment that does NOT set these
+// keeps emitting the same beacons as before.
+const CF_BEACON_TOKEN =
+  import.meta.env.PUBLIC_CF_BEACON_TOKEN || 'b1588779b90341ea9d87d93769b348dc';
+const GA4_MEASUREMENT_ID =
+  import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || 'G-GLDNBDPF13';
 ---
 <!doctype html>
 <html lang="ja">
@@ -115,19 +124,19 @@ const X_PIXEL_ID = import.meta.env.PUBLIC_X_PIXEL_ID;
     <script
       defer
       src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'
+      data-cf-beacon={`{"token": "${CF_BEACON_TOKEN}"}`}
     ></script>
 
     <!-- Google tag (gtag.js) — defer script load to window.load to remove ~64 KB / 265 ms from critical path. -->
-    <script is:inline>
+    <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
-      gtag('config', 'G-GLDNBDPF13');
+      gtag('config', GA4_MEASUREMENT_ID);
       window.addEventListener('load', function () {
         var s = document.createElement('script');
         s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-GLDNBDPF13';
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
         document.head.appendChild(s);
       });
     </script>
