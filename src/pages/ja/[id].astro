@@ -316,43 +316,21 @@ type Rec = {
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 
 export async function getStaticPaths() {
-  // Astro hoists getStaticPaths into its own scope — top-of-file consts
-  // aren't visible, so imports are re-resolved via dynamic import.
-  const np = await import('node:path');
-  const repo = np.resolve(process.cwd());
-  const detailDir = np.join(repo, 'public', 'data.detail');
   const RELATED = 5;
 
-  // Shared adapter + Zod-validated load. The old per-file try/catch was
-  // the audit's #4.2: a single corrupted detail JSON would silently drop
-  // that occupation but ship the build. fail-fast aligns with sitemap +
-  // genre-hub: set ALLOW_PARTIAL_DATA=1 to opt back into "log + skip"
-  // semantics for local development.
+  // Step 8: detail records derived directly from the knowledge graph.
+  // The auxiliary projections (profile5 + transfer_paths) are still read
+  // from public/ inside the page body (see getProfile5 / getTransferPaths
+  // lazy getters) — those migrate in a later step.
+  const { loadGraph } = await import('@/graph');
+  const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
   const { adaptDetailFile } = await import('../../data/lib/adapt-detail.js');
-  const { strictReadJson, strictReaddir, allowPartialData } = await import(
-    '../../data/lib/strict-load.js'
-  );
-  const { DetailFileSchema } = await import('../../data/lib/projection-schemas.js');
 
-  const files = strictReaddir(detailDir, (f: string) => f.endsWith('.json'), 'id.astro.detail');
+  const graph = await loadGraph();
   const all: Rec[] = [];
-  const permissive = allowPartialData();
-  for (const f of files) {
-    const filePath = np.join(detailDir, f);
-    if (permissive) {
-      // Local-only escape hatch. Identical message format to the legacy
-      // log line so existing greps keep working.
-      try {
-        const parsed = strictReadJson(filePath, DetailFileSchema, 'id.astro.detail');
-        all.push(adaptDetailFile(parsed as DetailFile));
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(`[id].astro: skip ${f} (parse failed): ${(err as Error).message}`);
-      }
-    } else {
-      const parsed = strictReadJson(filePath, DetailFileSchema, 'id.astro.detail');
-      all.push(adaptDetailFile(parsed as DetailFile));
-    }
+  for (const [occId] of graph.occupations) {
+    const detailFile = buildOccupationDetailFile(graph, occId);
+    all.push(adaptDetailFile(detailFile));
   }
   all.sort((a, b) => a.id - b.id);
 

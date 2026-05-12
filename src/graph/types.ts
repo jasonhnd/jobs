@@ -106,6 +106,18 @@ export interface OccupationNode {
   readonly trainingPre:           Record<string, number> | null;
   readonly trainingPost:          Record<string, number> | null;
   readonly experience:            Record<string, number> | null;
+  /** Number of tasks defined for this occupation (used on the detail page). */
+  readonly tasksCount: number;
+  /** Free-text intro to the task list, when present in the source. */
+  readonly tasksLeadJa: string | null;
+  /** Related organisations referenced on the source jobtag page. */
+  readonly relatedOrgs: readonly { readonly nameJa: string; readonly url: string | null }[];
+  /** Provenance metadata: which IPD version this occupation came from. */
+  readonly dataSourceVersions: {
+    readonly ipdNumeric: string;
+    readonly ipdDescription: string;
+    readonly ipdRetrievedAt: string;
+  };
 }
 
 // ─── Sector node ─────────────────────────────────────────────────
