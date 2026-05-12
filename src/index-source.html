@@ -282,10 +282,24 @@
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon='{"token": "b1588779b90341ea9d87d93769b348dc"}'></script>
 
-    <!-- Google tag (gtag.js) — defer script load to window.load to remove 64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally. -->
+    <!-- Google tag (gtag.js) — defer script load to window.load to remove 64 KB / 265 ms from critical path. dataLayer + gtag stub stay available immediately so pre-load gtag() calls queue normally.
+         Consent default = granted must be the FIRST gtag() call. As of late 2024 gtag.js
+         treats an absent consent signal as DENIED for analytics_storage, which silently
+         drops all g/collect requests (Realtime shows nothing while ga-audiences modeling
+         still fires). This was the cause of the GA4-Realtime-empty issue diagnosed
+         2026-05-12 via Chrome DevTools. Privacy policy at /privacy discloses GA4 use. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        functionality_storage: 'granted',
+        personalization_storage: 'granted',
+        security_storage: 'granted'
+      });
       gtag('js', new Date());
       gtag('config', 'G-GLDNBDPF13');
       window.addEventListener('load', function () {
