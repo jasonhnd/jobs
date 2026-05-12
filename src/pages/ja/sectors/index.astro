@@ -2,38 +2,25 @@
 /**
  * src/pages/ja/sectors/index.astro — sector hub-of-hubs index at /ja/sectors.
  *
- * Lists all 16 sectors with stats. Inline CSS preserved verbatim from the
- * v1.x design. Footer comes from the shared <Footer /> component; analytics
- * + meta + JSON-LD come from BaseLayout.
+ * Step 2 migration: data now flows through src/views/sector.sectorIndexView()
+ * which queries the knowledge graph (src/graph/). The legacy
+ * public/data.sectors.json projection continues to be produced by
+ * build:data and consumed by the OG endpoint (until Step 9), but this
+ * page no longer reads it.
  *
- * Data source: public/data.sectors.json (sector definitions + aggregates).
+ * Inline CSS preserved verbatim from the v1.x design.
  */
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { sectorIndexView } from '@/views/sector';
 
 const SITE = 'https://mirai-shigoto.com';
 
-// Load data.sectors.json (sector definitions + per-sector aggregates).
-const sectorsRaw = JSON.parse(
-  readFileSync(join(process.cwd(), 'public', 'data.sectors.json'), 'utf-8')
-);
-
-interface Sector {
-  id: string;
-  ja: string;
-  hue: string;
-  description_ja: string;
-  occupation_count: number;
-  mean_ai_risk: number | null;
-  total_workforce: number;
-  sample_titles_ja: string[];
-}
-
-const sectors: Sector[] = sectorsRaw.sectors;
-
-const totalOcc = sectors.reduce((sum, s) => sum + (s.occupation_count || 0), 0);
+const graph = await loadGraph();
+const view = sectorIndexView(graph);
+const sectors = view.sectors;
+const totalOcc = view.totalOccupations;
 
 const fmtInt = (n: number | null | undefined): string => {
   if (n === null || n === undefined) return '—';
@@ -219,19 +206,19 @@ section.faq{margin:48px 0}
       <h2>{hList}</h2>
       <ul class="sector-cards">
         {sectors.map((s) => {
-          const mean = s.mean_ai_risk ?? 0;
-          const sampleStr = (s.sample_titles_ja || []).slice(0, 3).join(' ・ ');
+          const mean = s.meanAiRisk ?? 0;
+          const sampleStr = s.sampleTitlesJa.slice(0, 3).filter((t): t is string => t !== null).join(' ・ ');
           const cls = riskClass(mean);
           return (
             <li class="sector-card">
               <a href={`/ja/sectors/${s.id}`}>
                 <div class="sc-head">
                   <h3 class="sc-name">{s.ja}</h3>
-                  <span class="sc-count">{s.occupation_count} 職業</span>
+                  <span class="sc-count">{s.occupationCount} 職業</span>
                 </div>
                 <div class="sc-stats">
                   <span class={`sc-risk risk-pill ${cls}`}>AI 影響 平均 {mean.toFixed(1)}/10</span>
-                  <span class="sc-workers">{fmtInt(s.total_workforce)} 人</span>
+                  <span class="sc-workers">{fmtInt(s.totalWorkforce)} 人</span>
                 </div>
                 <p class="sc-samples">{sampleStr}</p>
               </a>

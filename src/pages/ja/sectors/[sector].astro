@@ -2,18 +2,22 @@
 /**
  * src/pages/ja/sectors/[sector].astro — per-sector hub page (16 routes).
  *
- * Generates /ja/sectors/{sector_id} for each of the 16 sectors. Each page
- * shows: sector overview, TOP 5 high/low/workforce, full occupation list,
- * FAQ block, and related-sectors links.
+ * Step 2 migration: data flows through src/views/sector.sectorDetailView()
+ * which queries the knowledge graph. The legacy data.detail/*.json files
+ * are still produced by build:data and read by other surfaces (OG endpoint,
+ * etc.), but this page no longer touches them.
  *
  * Inline CSS preserved verbatim from the v1.x design.
  *
- * Data sources:
- *   - data/sectors/sectors.ja-en.json   (sector definitions: id, ja, en, hue)
- *   - public/data.detail/<id>.json      (per-occupation: sector + ai_risk + stats)
+ * Rendering helpers (sector-meta.ts, inline-links.ts, hub-hub-graph.ts) still
+ * live under src/data/lib/. They'll be migrated to src/views/ + src/templates/
+ * in later steps; for now they remain pure-data callees the view + page both
+ * delegate to.
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { sectorDetailView, type SectorOccupationSummary } from '@/views/sector';
 import { getSectorEssay, computeSectorPatterns, computeSiteBaseline, type SectorOcc } from '../../../data/lib/sector-meta';
 import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
@@ -23,42 +27,9 @@ const TOP_N = 5;
 const DATE_PUBLISHED = '2026-05-05';
 const DATE_MODIFIED = '2026-05-09';
 
-interface SectorDef {
-  id: string;
-  ja: string;
-  en: string;
-  hue: string;
-  description_ja: string;
-  mhlw_seed_codes: string[];
-}
-
-interface OccRow {
-  id: number;
-  title_ja: string | null;
-  title_en: string | null;
-  ai_risk: number | null;
-  risk_band: string | null;
-  workers: number | null;
-  salary: number | null;
-  /** Phase 2: 月労働時間 (sector pattern 計算用) */
-  monthly_hours: number | null;
-  /** Phase 2: 平均年齢 */
-  average_age: number | null;
-  /** Phase 2: 求人倍率 */
-  recruit_ratio: number | null;
-  sector_id: string;
-}
-
 const fmtInt = (n: number | null | undefined): string => {
   if (n === null || n === undefined) return '—';
   return Math.trunc(n).toLocaleString('en-US');
-};
-
-const riskBand = (score: number | null): 'low' | 'mid' | 'high' => {
-  if (score === null || score === undefined) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
 };
 
 const riskTierLabel = (mean: number | null): string => {
@@ -78,144 +49,76 @@ const esc = (s: string): string =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;');
 
-// Astro hoists `getStaticPaths` and runs it in an isolated scope, so all
-// loader helpers must live inside the function body (they cannot reference
-// module-scope helpers from frontmatter).
+const riskBandFromScore = (score: number | null): 'low' | 'mid' | 'high' => {
+  if (score === null || score === undefined) return 'mid';
+  if (score <= 3) return 'low';
+  if (score <= 6) return 'mid';
+  return 'high';
+};
+
+/** Convert the view's camelCase summary into the snake_case shape that
+ *  sector-meta.ts helpers expect. */
+function toSectorOcc(o: SectorOccupationSummary): SectorOcc {
+  return {
+    id: o.id as unknown as number,
+    title_ja: o.titleJa,
+    ai_risk: o.aiRisk,
+    workers: o.workers,
+    salary: o.salary,
+    monthly_hours: o.monthlyHours,
+    average_age: o.averageAge,
+    recruit_ratio: o.recruitRatio,
+  };
+}
+
 export async function getStaticPaths() {
-  const { join } = await import('node:path');
-  const { strictReadJson, strictReaddir } = await import(
-    '../../../data/lib/strict-load.js'
-  );
-  const { SectorsSourceFileSchema, DetailFileSchema } = await import(
-    '../../../data/lib/projection-schemas.js'
-  );
-
-  // Sectors source (typed) → schema-validated, build aborts on missing
-  // file / malformed JSON / missing fields.
-  const sectorsPath = join(process.cwd(), 'data', 'sectors', 'sectors.ja-en.json');
-  const sectorsFile = strictReadJson(sectorsPath, SectorsSourceFileSchema, 'sectors-page.source');
-  const sectors: SectorDef[] = sectorsFile.sectors.map((s) => ({
-    id: s.id,
-    ja: s.ja,
-    en: s.en,
-    hue: s.hue,
-    description_ja: s.description_ja,
-    mhlw_seed_codes: s.mhlw_seed_codes,
-  }));
-
-  // Detail projection (typed) — fail-fast on any unreadable file. Audit's
-  // #3.3: this loader used to read public/data.detail/* with no schema
-  // check and silently absorb parse failures.
-  const detailDir = join(process.cwd(), 'public', 'data.detail');
-  const files = strictReaddir(detailDir, (f: string) => f.endsWith('.json'), 'sectors-page.detail');
-  const occupations: OccRow[] = [];
-  for (const f of files) {
-    const d = strictReadJson(join(detailDir, f), DetailFileSchema, 'sectors-page.detail');
-    const sec = d.sector ?? {};
-    if (!sec.id) continue;
-    const stats = d.stats ?? {};
-    const ai = d.ai_risk ?? {};
-    const title = d.title ?? {};
-    occupations.push({
-      id: d.id,
-      title_ja: title.ja ?? null,
-      // SectorsProjectionSchema currently keeps DetailFileSchema lean —
-      // d.title.en isn't in the schema. The sectors page used to read it
-      // but the site is JA-only since v1.4.0 (see og-helpers.ts), so
-      // null is fine here. Kept in the OccRow shape for legacy callers.
-      title_en: null,
-      ai_risk: ai.score ?? null,
-      risk_band: d.risk_band ?? null,
-      workers: stats.workers ?? null,
-      salary: stats.salary_man_yen ?? null,
-      monthly_hours: stats.monthly_hours ?? null,
-      average_age: stats.average_age ?? null,
-      recruit_ratio: stats.recruit_ratio ?? null,
-      sector_id: sec.id,
-    });
-  }
-
-  const occCounts: Record<string, number> = {};
-  const bySector: Record<string, OccRow[]> = {};
-  for (const s of sectors) {
-    bySector[s.id] = [];
-  }
-  for (const o of occupations) {
-    if (bySector[o.sector_id]) {
-      bySector[o.sector_id].push(o);
-    }
-  }
-  for (const sid of Object.keys(bySector)) {
-    occCounts[sid] = bySector[sid].length;
-  }
-
-  return sectors.map((sector) => ({
-    params: { sector: sector.id },
+  const graph = await loadGraph();
+  const sectorIds = [...graph.sectors.keys()];
+  return sectorIds.map((sectorId) => ({
+    params: { sector: sectorId as unknown as string },
     props: {
-      sector,
-      occs: bySector[sector.id] || [],
-      allSectors: sectors,
-      occCounts,
-      allOccs: occupations,
+      view: sectorDetailView(graph, sectorId),
     },
   }));
 }
 
 interface Props {
-  sector: SectorDef;
-  occs: OccRow[];
-  allSectors: SectorDef[];
-  occCounts: Record<string, number>;
-  allOccs: OccRow[];
+  view: ReturnType<typeof sectorDetailView>;
 }
 
-const { sector, occs, allSectors, occCounts, allOccs } = Astro.props as Props;
+const { view } = Astro.props as Props;
+const sector = view.sector;
+const occs = view.occupations;
+const allOccs = view.allOccupations;
+const relatedSectors = view.relatedSectors;
 
 // ── Phase 2: AI 時代エッセイ + データから見えるパターン ──
-const sectorEssay = getSectorEssay(sector.id);
-const allSectorOccs: SectorOcc[] = allOccs.map((o) => ({
-  id: o.id,
-  title_ja: o.title_ja,
-  ai_risk: o.ai_risk,
-  workers: o.workers,
-  salary: o.salary,
-  monthly_hours: o.monthly_hours,
-  average_age: o.average_age,
-  recruit_ratio: o.recruit_ratio,
-}));
+const sectorEssay = getSectorEssay(sector.id as unknown as string);
+const allSectorOccs: SectorOcc[] = allOccs.map(toSectorOcc);
 const baseline = computeSiteBaseline(allSectorOccs);
-const sectorOccsForPattern: SectorOcc[] = occs.map((o) => ({
-  id: o.id,
-  title_ja: o.title_ja,
-  ai_risk: o.ai_risk,
-  workers: o.workers,
-  salary: o.salary,
-  monthly_hours: o.monthly_hours,
-  average_age: o.average_age,
-  recruit_ratio: o.recruit_ratio,
-}));
-const patterns = computeSectorPatterns(sectorOccsForPattern, baseline, sector.ja);
+const sectorOccsForPattern: SectorOcc[] = occs.map(toSectorOcc);
+const patterns = computeSectorPatterns(sectorOccsForPattern, baseline, sector.nameJa);
 
-const sid = sector.id;
-const nameLoc = sector.ja;
-const descIntro = sector.description_ja || '';
+const sid = sector.id as unknown as string;
+const nameLoc = sector.nameJa;
+const descIntro = sector.descriptionJa ?? '';
 const canonical = `${SITE}/ja/sectors/${sid}`;
 const n = occs.length;
 
 const workforceTotal = occs.reduce((s, o) => s + (o.workers || 0), 0);
-const risks = occs.map((o) => o.ai_risk).filter((x): x is number => x !== null && x !== undefined);
+const risks = occs.map((o) => o.aiRisk).filter((x): x is number => x !== null && x !== undefined);
 const meanRisk: number | null = risks.length ? risks.reduce((a, b) => a + b, 0) / risks.length : null;
 
-// Sort occupations matching Python: -workers desc tiebreak by id asc, take top 3 titles.
+// Sort occupations matching legacy: -workers desc tiebreak by id asc, take top 3 titles.
 const sortedByWorkers = [...occs].sort((a, b) => {
   const wb = b.workers || 0;
   const wa = a.workers || 0;
   if (wb !== wa) return wb - wa;
-  return a.id - b.id;
+  return (a.id as unknown as number) - (b.id as unknown as number);
 });
 const sampleTitles: string[] = [];
 for (const o of sortedByWorkers.slice(0, 3)) {
-  if (o.title_ja) sampleTitles.push(o.title_ja);
+  if (o.titleJa) sampleTitles.push(o.titleJa);
 }
 const samplesStr = sampleTitles.join(' / ');
 
@@ -240,9 +143,9 @@ const hPop = `${nameLoc} の 就業者数 TOP 5`;
 const hFull = `${nameLoc} の全 ${n} 職業（AI 影響度 高い順）`;
 const hRelated = '他のセクター';
 
-// Sort by ai_risk desc, then top high / top low / top workers (matching Python).
-const occsWithRisk = occs.filter((o) => o.ai_risk !== null && o.ai_risk !== undefined);
-const sortedByRiskDesc = [...occsWithRisk].sort((a, b) => (b.ai_risk as number) - (a.ai_risk as number));
+// Sort by ai_risk desc, then top high / top low / top workers (matching legacy).
+const occsWithRisk = occs.filter((o) => o.aiRisk !== null && o.aiRisk !== undefined);
+const sortedByRiskDesc = [...occsWithRisk].sort((a, b) => (b.aiRisk as number) - (a.aiRisk as number));
 const topHigh = sortedByRiskDesc.slice(0, TOP_N);
 const topLow = [...sortedByRiskDesc].reverse().slice(0, TOP_N);
 const topWorkers = occs
@@ -250,12 +153,12 @@ const topWorkers = occs
   .sort((a, b) => (b.workers as number) - (a.workers as number))
   .slice(0, TOP_N);
 
-// Full list: sort by -ai_risk (-1 if null) then id asc — Python: (-(r["ai_risk"] or -1), r["id"])
+// Full list: sort by -ai_risk (-1 if null) then id asc — matches legacy.
 const fullSorted = [...occs].sort((a, b) => {
-  const ar = -(a.ai_risk ?? -1);
-  const br = -(b.ai_risk ?? -1);
+  const ar = -(a.aiRisk ?? -1);
+  const br = -(b.aiRisk ?? -1);
   if (ar !== br) return ar - br;
-  return a.id - b.id;
+  return (a.id as unknown as number) - (b.id as unknown as number);
 });
 
 const keywordsList: string[] = [nameLoc];
@@ -267,9 +170,9 @@ const keywordsStr = keywordsList.join(', ');
 const faqs: Array<[string, string]> = [];
 
 // Q1: occupations in sector.
-const sampleWorkersFaq = topWorkers.slice(0, 3).filter((o) => o.title_ja);
+const sampleWorkersFaq = topWorkers.slice(0, 3).filter((o) => o.titleJa);
 const sampleStrQ1 = sampleWorkersFaq.length
-  ? sampleWorkersFaq.map((o) => o.title_ja).join('、')
+  ? sampleWorkersFaq.map((o) => o.titleJa).join('、')
   : '—';
 faqs.push([
   `${nameLoc}業界にはどんな職業がありますか？`,
@@ -281,8 +184,8 @@ faqs.push([
 if (topHigh.length) {
   const top3High = topHigh.slice(0, 3);
   const itemsStr = top3High
-    .filter((o) => o.title_ja && o.ai_risk !== null)
-    .map((o) => `${o.title_ja}（AI影響 ${o.ai_risk}/10）`)
+    .filter((o) => o.titleJa && o.aiRisk !== null)
+    .map((o) => `${o.titleJa}（AI影響 ${o.aiRisk}/10）`)
     .join('、');
   faqs.push([
     `${nameLoc}業界で AI 影響度が最も高い職業は？`,
@@ -295,8 +198,8 @@ if (topHigh.length) {
 if (topLow.length) {
   const top3Low = topLow.slice(0, 3);
   const itemsStr = top3Low
-    .filter((o) => o.title_ja && o.ai_risk !== null)
-    .map((o) => `${o.title_ja}（AI影響 ${o.ai_risk}/10）`)
+    .filter((o) => o.titleJa && o.aiRisk !== null)
+    .map((o) => `${o.titleJa}（AI影響 ${o.aiRisk}/10）`)
     .join('、');
   faqs.push([
     `${nameLoc}業界で AI 影響度が最も低い職業は？`,
@@ -319,8 +222,8 @@ if (meanRisk !== null) {
 if (meanRisk !== null && topLow.length) {
   const safeJobsStr = topLow
     .slice(0, 3)
-    .filter((o) => o.title_ja)
-    .map((o) => o.title_ja)
+    .filter((o) => o.titleJa)
+    .map((o) => o.titleJa)
     .join('、');
   let outlook;
   if (meanRisk <= 4.0) {
@@ -341,8 +244,8 @@ if (meanRisk !== null && topLow.length) {
 const itemListEl = fullSorted.map((o, i) => ({
   '@type': 'ListItem',
   position: i + 1,
-  url: `${SITE}/ja/${o.id}`,
-  name: o.title_ja || `#${o.id}`,
+  url: `${SITE}/ja/${o.id as unknown as number}`,
+  name: o.titleJa || `#${o.id as unknown as number}`,
 }));
 
 const pageDesc = `${nameLoc} 業界の ${n} 職業を AI 影響度・年収・就業者数で一覧。`;
@@ -412,19 +315,18 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
 
 const ogImage = `${SITE}/api/og?sector=${sid}`;
 
-// Build helper HTML strings (top-list / full-list / related-sectors / faq) so
-// that markup is byte-aligned with Python output.
-const renderTopList = (items: OccRow[]): string => {
+// Build helper HTML strings (top-list / full-list / related-sectors / faq).
+const renderTopList = (items: readonly SectorOccupationSummary[]): string => {
   if (!items.length) return '';
   const rows = items.map((o) => {
-    const titleStr = o.title_ja || `#${o.id}`;
-    const score = o.ai_risk;
+    const titleStr = o.titleJa || `#${o.id as unknown as number}`;
+    const score = o.aiRisk;
     const scoreStr = score === null || score === undefined ? '—' : `${score}/10`;
-    const band = riskBand(score);
+    const band = riskBandFromScore(score);
     const workers = fmtInt(o.workers);
     return (
       `<li>` +
-      `<a href="/ja/${o.id}">` +
+      `<a href="/ja/${o.id as unknown as number}">` +
       `<span class="risk-pill ${band}">${esc(scoreStr)}</span>` +
       `${esc(titleStr)}` +
       `</a>` +
@@ -435,15 +337,15 @@ const renderTopList = (items: OccRow[]): string => {
   return `<ul class="top-list">${rows.join('')}</ul>`;
 };
 
-const renderFullList = (items: OccRow[]): string => {
+const renderFullList = (items: readonly SectorOccupationSummary[]): string => {
   const rows = items.map((o) => {
-    const titleStr = o.title_ja || `#${o.id}`;
-    const score = o.ai_risk;
+    const titleStr = o.titleJa || `#${o.id as unknown as number}`;
+    const score = o.aiRisk;
     const scoreStr = score === null || score === undefined ? '—' : `${score}/10`;
-    const band = riskBand(score);
+    const band = riskBandFromScore(score);
     return (
       `<li>` +
-      `<a href="/ja/${o.id}">` +
+      `<a href="/ja/${o.id as unknown as number}">` +
       `<span class="risk-pill ${band}">${esc(scoreStr)}</span>` +
       `${esc(titleStr)}` +
       `</a>` +
@@ -454,19 +356,16 @@ const renderFullList = (items: OccRow[]): string => {
 };
 
 const renderRelatedSectors = (): string => {
-  const rows = allSectors
-    .filter((s) => s.id !== sid)
-    .map((s) => {
-      const count = occCounts[s.id] || 0;
-      return (
-        `<li>` +
-        `<a href="/ja/sectors/${s.id}">` +
-        `<span class="ja-name">${esc(s.ja)}</span>` +
-        `<span class="count">${count} 職業</span>` +
-        `</a>` +
-        `</li>`
-      );
-    });
+  const rows = relatedSectors.map((s) => {
+    return (
+      `<li>` +
+      `<a href="/ja/sectors/${s.id as unknown as string}">` +
+      `<span class="ja-name">${esc(s.ja)}</span>` +
+      `<span class="count">${s.occupationCount} 職業</span>` +
+      `</a>` +
+      `</li>`
+    );
+  });
   return `<ul class="related-sectors">${rows.join('')}</ul>`;
 };
 
@@ -497,8 +396,6 @@ const relatedHtml = renderRelatedSectors();
 const faqHtml = renderFaqSection();
 
 // Phase D: inline-link occupation names mentioned in the intro and AI era essay.
-// We DON'T exclude in-sector occupations — even though they appear in the list
-// below, Google values editorial-prose inline links separately from list links.
 const _linkRegistry = buildLinkRegistry();
 const crossHubHtml = renderRelatedHubsBlock('sectors', sid, 6);
 const introInlined = descIntro
@@ -506,13 +403,13 @@ const introInlined = descIntro
   : '';
 const introSection = introInlined ? `<p class="intro">${introInlined}</p>` : '';
 
-// ── AI 時代の特性 essay block (200-300 字) ──
+// ── AI 時代の特性 essay block ──
 const aiEraEssayInlined = sectorEssay
   ? inlineLinkText(sectorEssay.ai_era_essay_ja, _linkRegistry, { maxLinks: 5 })
   : '';
 const aiEraEssayHtml = sectorEssay
   ? `<section class="ai-era-essay" aria-label="AI 時代の特性">
-       <h2>AI 時代の${esc(sector.ja)}の特性</h2>
+       <h2>AI 時代の${esc(sector.nameJa)}の特性</h2>
        <p>${aiEraEssayInlined}</p>
      </section>`
   : '';

@@ -21,7 +21,10 @@
       "@/components/*": ["src/components/*"],
       "@/layouts/*": ["src/layouts/*"],
       "@/graph": ["src/graph/index.ts"],
-      "@/graph/*": ["src/graph/*"]
+      "@/graph/*": ["src/graph/*"],
+      "@/views/*": ["src/views/*"],
+      "@/templates/*": ["src/templates/*"],
+      "@/lib/*": ["src/lib/*"]
     }
   },
   "include": ["api/**/*", "src/**/*", ".astro/types.d.ts"],
