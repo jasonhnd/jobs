@@ -109,7 +109,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'ai-resistant-craft',  name_ja: '伝統技能で AI 抗性が高い職業 TOP30', description_ja: '製造・建設・メンテ系の手技中心職業',  og_eyebrow: 'RANKING · 技能職' },
   { slug: 'ai-at-risk-but-paid', name_ja: 'AI リスク高 × 高年収 TOP30',  description_ja: 'AI 影響度高だが現状年収も高い注意組',  og_eyebrow: 'RANKING · 要注意' },
   { slug: 'ai-augmented',        name_ja: 'AI で補強される職業 TOP30',    description_ja: 'AI 影響度 4-6、業務がAIで増強される',  og_eyebrow: 'RANKING · AI 補強域' },
-  { slug: 'ai-frontier',         name_ja: 'AI を使いこなす側の職業 TOP30', description_ja: 'IT・通信セクターで AI 活用が業務の中心', og_eyebrow: 'RANKING · AI 使い手' },
+  { slug: 'ai-frontier',         name_ja: 'AI を使いこなす側の職業 TOP21', description_ja: 'IT・通信セクターで AI 活用が業務の中心', og_eyebrow: 'RANKING · AI 使い手' },
   { slug: 'ai-stable-employment',name_ja: 'AI 安全 × 正規雇用率高 TOP30', description_ja: '低 AI 影響かつ安定雇用率が高い職業',   og_eyebrow: 'RANKING · 安定職' },
 
   // ── Phase 2 組合せ (8) ──
@@ -130,7 +130,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'graduate-school-required', name_ja: '大学院卒中心の職業 TOP30',     description_ja: '修士・博士課程修了者が多い専門職',     og_eyebrow: 'RANKING · 大学院卒' },
 
   // ── Phase 2 ニッチ (6) ──
-  { slug: 'public-sector',          name_ja: '公的機関・公務員系の職業 TOP30',     description_ja: '保安・公務系セクターの職業',           og_eyebrow: 'RANKING · 公務' },
+  { slug: 'public-sector',          name_ja: '公的機関・公務員系の職業 TOP15',     description_ja: '保安・公務系セクターの職業',           og_eyebrow: 'RANKING · 公務' },
   { slug: 'freelance-friendly',     name_ja: 'フリーランス向きの職業 TOP30',      description_ja: 'フリーランス・自営の比率が高い職業',   og_eyebrow: 'RANKING · フリーランス' },
   { slug: 'self-employed-typical',  name_ja: '独立・開業が典型の職業 TOP30',      description_ja: '自営業比率が高く独立が典型キャリア',   og_eyebrow: 'RANKING · 独立' },
   { slug: 'large-workforce-stable', name_ja: '大規模就業 × AI 安全 TOP30',         description_ja: '就業者数が多くかつ AI 影響も低い職業', og_eyebrow: 'RANKING · 大規模 × 安全' },

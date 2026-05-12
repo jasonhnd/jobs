@@ -10,6 +10,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Fixed
+
+- **Ranking title counts** (`ai-frontier`, `public-sector`): the hardcoded
+  `name_ja` (rankings-meta.ts) and `<title>` (rankings.ts) for these two
+  rankings still said "TOP30", but the actual filtered item counts are 21
+  (IT セクター + ai_risk ≥ 5) and 15 (公安セクター集合). Page `h1Text` /
+  `seoDesc` / `statBlocks` already used `${list.length}` and were correct;
+  only the SEO title and the navigation card label were stale.
+  Now: `AI を使いこなす側の職業 TOP21` and `公的機関・公務員系の職業 TOP15`.
+
 ### Changed (Phase 3 · refactor / extract)
 
 - **`src/data/lib/rankings.ts` split** (1828 → 1364 lines main file): editorial
