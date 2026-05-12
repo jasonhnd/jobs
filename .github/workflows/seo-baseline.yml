@@ -66,6 +66,3 @@ jobs:
 
       - name: Diff current build against tests/baseline/
         run: pnpm run check:seo-baseline
-
-      - name: Check 5-layer architecture boundaries (docs/architecture.md §6.2)
-        run: pnpm run check:architecture

@@ -13,7 +13,6 @@
  * in vercel.json (max-age=300, s-maxage=600, application/xml).
  */
 import type { APIRoute } from 'astro';
-import path from 'node:path';
 import { ALL_RANKINGS } from '../data/lib/rankings';
 import { INTEREST_META } from '../data/lib/interests-meta';
 import { SKILL_META } from '../data/lib/skills-meta';
@@ -28,11 +27,9 @@ import { LICENSE_HUBS } from '../data/lib/licenses-meta';
 import { QA_ITEMS } from '../data/lib/qa-meta';
 import { EXPLORE_ROUTES } from '../data/lib/explore-routes';
 import { nowIso } from '../data/lib/now';
-import { strictReadJson, strictReaddir } from '../data/lib/strict-load';
-import { SectorsSourceFileSchema } from '../data/lib/projection-schemas';
+import { loadGraph } from '@/graph';
 
 const SITE = 'https://mirai-shigoto.com';
-const REPO = path.resolve(process.cwd());
 
 /**
  * Sitemap MUST contain at least this many URLs. Falls below the bound when
@@ -43,23 +40,9 @@ const REPO = path.resolve(process.cwd());
  */
 const SITEMAP_MIN_URL_COUNT = 600;
 
-function loadSectorIds(): string[] {
-  const parsed = strictReadJson(
-    path.join(REPO, 'data', 'sectors', 'sectors.ja-en.json'),
-    SectorsSourceFileSchema,
-    'sitemap.sectors',
-  );
-  return parsed.sectors.map((s) => s.id);
-}
-
-function loadOccupationIds(): number[] {
-  const dir = path.join(REPO, 'public', 'data.detail');
-  const files = strictReaddir(dir, (f) => f.endsWith('.json'), 'sitemap.detail');
-  return files
-    .map((f) => parseInt(f.replace('.json', ''), 10))
-    .filter((n) => Number.isFinite(n))
-    .sort((a, b) => a - b);
-}
+// Sector + occupation enumeration now flows through the knowledge graph
+// (src/graph/) per docs/architecture.md §5 (sitemap is a horizontal-view
+// produced from the same graph as every URL-emitting page family).
 
 function escapeXmlLoc(s: string): string {
   // Defensive XML escape for <loc> values. Sector / ranking IDs today follow
@@ -82,14 +65,17 @@ function urlBlock(loc: string, lastmod: string, changefreq: string, priority: st
   </url>`;
 }
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = async () => {
   // Use nowIso() (cached, env-overridable via BUILD_DATA_TIMESTAMP) for the
   // <lastmod> values so the sitemap stays consistent with the generated_at
   // stamp on data.*.json projections produced in the same build.
   const today = nowIso().slice(0, 10);
-  const sectorIds = loadSectorIds();
+  const graph = await loadGraph();
+  const sectorIds = [...graph.sectors.keys()].map((id) => id as unknown as string);
   const rankingSlugs = ALL_RANKINGS.map(([slug]) => slug);
-  const occupationIds = loadOccupationIds();
+  const occupationIds = [...graph.occupations.keys()]
+    .map((id) => id as unknown as number)
+    .sort((a, b) => a - b);
 
   const entries: string[] = [];
 
