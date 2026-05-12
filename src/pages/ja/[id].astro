@@ -28,6 +28,7 @@ import { fmtInt } from '@/lib/num';
 import { renderProvenance as renderProvenanceTemplate } from '@/templates/Provenance';
 import { renderOrgsCerts as renderOrgsCertsTemplate } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail as renderAiRiskDetailTemplate } from '@/templates/AiRiskDetail';
+import { renderOccFaq as renderOccFaqTemplate } from '@/templates/OccFaq';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -647,15 +648,10 @@ function buildOccFaqs(rec: Rec): [string, string][] {
   return faqs;
 }
 
+// Shared template — single source of truth in src/templates/OccFaq.
+// Adapts the page-local buildOccFaqs(rec) Q/A tuples into the template.
 function renderOccFaq(rec: Rec): string {
-  const faqs = buildOccFaqs(rec);
-  if (!faqs.length) return '';
-  const items = faqs
-    .map(([q, a]) =>
-      `<details class="faq-item"><summary>${escapeHtml(q)}</summary><div class="faq-answer">${escapeHtml(a)}</div></details>`,
-    )
-    .join('');
-  return `<section class="faq" aria-label="よくある質問"><h2>よくある質問</h2><div class="faq-list">${items}</div></section>`;
+  return renderOccFaqTemplate(buildOccFaqs(rec));
 }
 
 function renderTransfer(rec: Rec, nameLookup: Record<number, string>): string {
