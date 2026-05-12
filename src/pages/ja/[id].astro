@@ -30,6 +30,7 @@ import { renderOrgsCerts as renderOrgsCertsTemplate } from '@/templates/OrgsCert
 import { renderAiRiskDetail as renderAiRiskDetailTemplate } from '@/templates/AiRiskDetail';
 import { renderOccFaq as renderOccFaqTemplate } from '@/templates/OccFaq';
 import { renderProfileRadar as renderProfileRadarTemplate } from '@/templates/ProfileRadar';
+import { renderTransfer as renderTransferTemplate } from '@/templates/Transfer';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -629,28 +630,20 @@ function renderOccFaq(rec: Rec): string {
   return renderOccFaqTemplate(buildOccFaqs(rec));
 }
 
+// Shared template — single source of truth in src/templates/Transfer.
+// Adapter resolves the nameLookup ?? title_ja ?? '?' fallback chain
+// and slices to TOP_N (Phase C raised 4→5) before handing the flat
+// candidate rows to the template.
 function renderTransfer(rec: Rec, nameLookup: Record<number, string>): string {
   const path0 = getTransferPaths()[String(rec.id)];
   if (!path0) return '';
-  // Phase C: render up to 5 transfer candidates (TOP_N raised from 4→5).
-  const candidates = path0.candidates.slice(0, 5);
-  if (!candidates.length) return '';
-  const cards = candidates
-    .map((c) => {
-      const cid = c.id;
-      const name = nameLookup[cid] || c.title_ja || '?';
-      const href = `/ja/${cid}`;
-      const risk = c.ai_risk;
-      const sim = c.similarity;
-      const riskStr = risk !== null && risk !== undefined ? `${risk}/10` : '—';
-      const riskLabel = `AI 影響 ${riskStr}`;
-      const simLabel = sim !== null && sim !== undefined ? `類似度 ${Math.round(sim * 100)}%` : '';
-      const simHtml = simLabel ? `<span class="tc-similarity">${escapeHtml(simLabel)}</span>` : '';
-      return `<a class="transfer-card" href="${href}"><span class="tc-name">${escapeHtml(name)}</span><span class="tc-meta"><span class="tc-risk">${escapeHtml(riskLabel)}</span>${simHtml}</span></a>`;
-    })
-    .join('');
-  const h2 = '似た仕事 / キャリア転換の候補';
-  return `<section class="transfer" aria-label="${escapeHtml(h2)}"><h2>${escapeHtml(h2)}</h2><div class="transfer-grid">${cards}</div></section>`;
+  const cards = path0.candidates.slice(0, 5).map((c) => ({
+    id: c.id,
+    name: nameLookup[c.id] || c.title_ja || '?',
+    aiRisk: c.ai_risk,
+    similarity: c.similarity,
+  }));
+  return renderTransferTemplate(cards);
 }
 
 // Shared template — single source of truth in src/templates/OrgsCerts.
