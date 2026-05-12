@@ -62,7 +62,7 @@ export interface CompareBundle {
 
 // ─── Loader ────────────────────────────────────────────────────
 
-interface DetailFile {
+export interface DetailFile {
   id: number;
   title?: { ja?: string };
   ai_risk?: { score?: number; rationale_ja?: string };
@@ -234,12 +234,19 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
 
 // ─── Main builder ──────────────────────────────────────────────
 
-export function buildCompareBundle(): CompareBundle {
+/**
+ * `loader` lets callers inject a graph-based DetailFile producer instead
+ * of the default file-reading `loadDetail()`. Step 6 of the architecture
+ * migration uses this to route compare pages through the knowledge graph.
+ */
+export function buildCompareBundle(
+  loader: (id: number) => DetailFile = loadDetail,
+): CompareBundle {
   const results = new Map<CompareSlug, CompareResult>();
 
   for (const meta of COMPARE_META) {
-    const detailA = loadDetail(meta.occ_a_id);
-    const detailB = loadDetail(meta.occ_b_id);
+    const detailA = loader(meta.occ_a_id);
+    const detailB = loader(meta.occ_b_id);
     const a = detailToSide(detailA);
     const b = detailToSide(detailB);
     const rows = buildRows(a, b);
