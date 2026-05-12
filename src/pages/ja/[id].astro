@@ -25,6 +25,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
+import { renderProvenance as renderProvenanceTemplate } from '@/templates/Provenance';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -699,22 +700,16 @@ function renderOrgsCerts(rec: Rec): string {
   return `<section class="orgs-certs"><div class="org-cert-grid">${orgBlock}${certBlock}</div></section>`;
 }
 
+// Shared template — single source of truth in src/templates/Provenance.
+// Adapts the page-local Rec into the narrow ProvenanceInput shape.
 function renderProvenance(rec: Rec): string {
-  const model = rec.ai_model;
-  const scoredAt = rec.ai_scored_at;
   const dsv = rec.data_source_versions ?? {};
-  const ipdNum = dsv.ipd_numeric;
-  const ipdDesc = dsv.ipd_description;
-  const bits: string[] = [];
-  if (model && scoredAt) {
-    bits.push(`AI 影響度 — モデル <code>${escapeHtml(model)}</code> · スコア取得 <code>${escapeHtml(scoredAt.slice(0, 10))}</code>`);
-  }
-  if (ipdNum || ipdDesc) {
-    const v = ipdNum || ipdDesc;
-    bits.push(`データ — 厚労省 / JILPT IPD <code>${escapeHtml(v)}</code>`);
-  }
-  if (!bits.length) return '';
-  return `<p class="provenance">${bits.join(' · ')}</p>`;
+  return renderProvenanceTemplate({
+    aiModel: rec.ai_model,
+    aiScoredAt: rec.ai_scored_at,
+    ipdNumeric: dsv.ipd_numeric ?? null,
+    ipdDescription: dsv.ipd_description ?? null,
+  });
 }
 
 function renderAiRiskDetail(rec: Rec): string {
