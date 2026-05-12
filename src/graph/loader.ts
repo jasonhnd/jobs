@@ -395,6 +395,11 @@ function buildOccupationNode(
     },
     aiRisk,
     relatedCertsJa: occ.related_certs_ja ?? [],
+    educationDistribution: occ.education_distribution ?? null,
+    employmentType:        occ.employment_type        ?? null,
+    trainingPre:           occ.training_pre           ?? null,
+    trainingPost:          occ.training_post          ?? null,
+    experience:            occ.experience            ?? null,
   };
 }
 

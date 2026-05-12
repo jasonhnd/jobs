@@ -47,6 +47,26 @@ function topN(
   });
 }
 
+/**
+ * Top-N from an inline Record<string, number>. Used for training_pre,
+ * training_post, experience — dimensions that aren't graph node types
+ * but live inline on the occupation source. Falls back to key as label
+ * (matches the legacy projection that passed `new Map()` for these).
+ */
+function topNFromRecord(
+  record: Record<string, number> | null,
+  n: number,
+): TopNEntry[] | null {
+  if (!record) return null;
+  const entries = Object.entries(record).sort((a, b) => b[1] - a[1]);
+  if (entries.length === 0) return null;
+  return entries.slice(0, n).map(([key, score]) => ({
+    key,
+    label_ja: key,
+    score,
+  }));
+}
+
 function nodeLabelMap<T extends { id: unknown; nameJa: string }>(
   src: ReadonlyMap<unknown, T>,
 ): Map<string, { nameJa: string }> {
@@ -110,12 +130,16 @@ export function loadGraphAdaptedDetails(graph: KnowledgeGraph): DetailFileMin[] 
         workCharLabels,
         5,
       ),
-      // Not yet in graph — kept null for compatibility.
-      training_pre_top5: null,
-      training_post_top5: null,
-      experience_top5: null,
-      education_distribution: null,
-      employment_type: null,
+      // Top-N for training/experience uses an empty label map — legacy
+      // src/data/projections/detail.ts passed `new Map()` here too, so
+      // label_ja falls back to the source key (e.g. "regular_employee").
+      training_pre_top5:  topNFromRecord(occ.trainingPre,  5),
+      training_post_top5: topNFromRecord(occ.trainingPost, 5),
+      experience_top5:    topNFromRecord(occ.experience,   5),
+      // Distribution dicts passed through verbatim — genre-configs reads
+      // EN keys directly (e.g. d.education_distribution['high_school']).
+      education_distribution: occ.educationDistribution,
+      employment_type:        occ.employmentType,
       related_certs_ja: occ.relatedCertsJa as string[],
     });
   }
