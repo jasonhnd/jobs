@@ -19,7 +19,9 @@
     "paths": {
       "@/data/*": ["src/data/*"],
       "@/components/*": ["src/components/*"],
-      "@/layouts/*": ["src/layouts/*"]
+      "@/layouts/*": ["src/layouts/*"],
+      "@/graph": ["src/graph/index.ts"],
+      "@/graph/*": ["src/graph/*"]
     }
   },
   "include": ["api/**/*", "src/**/*", ".astro/types.d.ts"],
