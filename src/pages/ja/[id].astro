@@ -31,6 +31,7 @@ import { renderAiRiskDetail as renderAiRiskDetailTemplate } from '@/templates/Ai
 import { renderOccFaq as renderOccFaqTemplate } from '@/templates/OccFaq';
 import { renderProfileRadar as renderProfileRadarTemplate } from '@/templates/ProfileRadar';
 import { renderTransfer as renderTransferTemplate } from '@/templates/Transfer';
+import { renderMetaRow as renderMetaRowTemplate } from '@/templates/MetaRow';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -472,42 +473,18 @@ function jaUrl(id: number): string {
   return `https://mirai-shigoto.com/ja/${id}`;
 }
 
-function bandLabel(field: string, band: string | null): string | null {
-  if (!band) return null;
-  const labels: Record<string, Record<string, string>> = {
-    risk_band: { low: 'AI 影響 低', mid: 'AI 影響 中', high: 'AI 影響 高' },
-    workforce_band: { small: '規模 小', mid: '規模 中', medium: '規模 中', large: '規模 大' },
-    demand_band: { cool: '需要 安定', warm: '需要 旺盛', hot: '需要 過熱' },
-  };
-  return labels[field]?.[band] ?? null;
-}
-
-function bandClass(field: string, band: string | null): string {
-  if (!band) return '';
-  if (field === 'risk_band') return `band-${band}`;
-  if (field === 'workforce_band') {
-    return ({ small: 'band-low', mid: 'band-mid', medium: 'band-mid', large: 'band-high' } as Record<string, string>)[band] ?? '';
-  }
-  if (field === 'demand_band') {
-    return ({ cool: 'band-low', warm: 'band-mid', hot: 'band-high' } as Record<string, string>)[band] ?? '';
-  }
-  return '';
-}
-
+// Shared template — single source of truth in src/templates/MetaRow.
+// Adapts the page-local Rec into the narrow MetaRowInput shape.
+// The bandLabel / bandClass helpers (and the demand_band BUG —
+// see MetaRow.ts file header) now live inside the template module.
 function renderMetaRow(rec: Rec): string {
-  const parts: string[] = [];
-  const sectorName = rec.sector?.ja || '';
-  if (sectorName) {
-    const href = `/ja/sectors/${rec.sector?.id}`;
-    parts.push(`<a class="sector-chip" href="${escapeHtml(href)}">${escapeHtml(sectorName)}</a>`);
-  }
-  for (const f of ['risk_band', 'workforce_band', 'demand_band'] as const) {
-    const b = rec[f];
-    const label = bandLabel(f, b);
-    if (label) parts.push(`<span class="band ${bandClass(f, b)}">${escapeHtml(label)}</span>`);
-  }
-  if (!parts.length) return '';
-  return `<div class="meta-row">${parts.join('')}</div>`;
+  return renderMetaRowTemplate({
+    sectorJa: rec.sector?.ja ?? null,
+    sectorId: rec.sector?.id,
+    riskBand: rec.risk_band ?? null,
+    workforceBand: rec.workforce_band ?? null,
+    demandBand: rec.demand_band ?? null,
+  });
 }
 
 // Shared template — single source of truth in src/templates/ProfileRadar.
