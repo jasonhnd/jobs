@@ -19,6 +19,8 @@
     "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs",
     "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs",
     "check:analytics-config": "node scripts/check-analytics-config.cjs",
+    "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
+    "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {
