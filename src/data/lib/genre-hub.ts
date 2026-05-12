@@ -315,39 +315,12 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): string {
   );
 }
 
-export function renderHighlights(items: ReadonlyArray<string>): string {
-  if (items.length === 0) return '';
-  // Defense-in-depth: highlight strings interpolate data-driven values
-  // (top occupation name, dominant sector, config text). Even though
-  // today's data sources are authored, escaping here guarantees the
-  // contract regardless of upstream changes. See genre-hub.test.ts for
-  // the XSS regression fixture.
-  const lis = items.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
-  return `<div class="highlights"><ul>${lis}</ul></div>`;
-}
+// Shared Highlights template — single source of truth in src/templates/Highlights.
+export { renderHighlights } from '../../templates/Highlights.js';
 
-export function renderSectorChart(breakdown: ReadonlyArray<readonly [string, number]>, title: string): string {
-  if (breakdown.length === 0) return '';
-  const maxCount = breakdown[0][1];
-  const rows = breakdown
-    .map(([sec, cnt]) => {
-      const pct = Math.trunc((cnt / maxCount) * 100);
-      return (
-        `<div class="sb-row">` +
-        `<span class="sb-label">${escapeHtml(sec)}</span>` +
-        `<span class="sb-track"><span class="sb-fill" style="width:${pct}%"></span></span>` +
-        `<span class="sb-count">${cnt}件</span>` +
-        `</div>`
-      );
-    })
-    .join('');
-  return (
-    `<div class="sector-chart">` +
-    `<div class="sc-title">${escapeHtml(title)}</div>` +
-    `${rows}` +
-    `</div>`
-  );
-}
+// Shared SectorChart template — single source of truth in src/templates/SectorChart.
+// (ranking-renderers keeps its own renderSectorChart — different signature.)
+export { renderSectorChart } from '../../templates/SectorChart.js';
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
 export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
