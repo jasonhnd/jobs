@@ -32,6 +32,7 @@ import { renderOccFaq as renderOccFaqTemplate } from '@/templates/OccFaq';
 import { renderProfileRadar as renderProfileRadarTemplate } from '@/templates/ProfileRadar';
 import { renderTransfer as renderTransferTemplate } from '@/templates/Transfer';
 import { renderMetaRow as renderMetaRowTemplate } from '@/templates/MetaRow';
+import { renderTopn as renderTopnTemplate } from '@/templates/Topn';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -502,25 +503,17 @@ function renderProfileRadar(rec: Rec): string {
   });
 }
 
+// Shared template — single source of truth in src/templates/Topn.
+// Adapts the page-local TopNEntry shape (label_ja/score) into the
+// template's TopnEntry (labelJa/score).
 function renderTopn(rec: Rec): string {
-  const skills = rec.skills_top10 ?? [];
-  const knowledge = rec.knowledge_top5 ?? [];
-  const abilities = rec.abilities_top5 ?? [];
-  if (!(skills.length || knowledge.length || abilities.length)) return '';
-  function block(title: string, items: TopNEntry[]): string {
-    if (!items.length) return '';
-    const lis = items
-      .map((it) => {
-        const lab = it.label_ja || '';
-        const score = (it.score ?? 0).toFixed(1);
-        return `<li><span class="topn-name">${escapeHtml(lab)}</span><span class="topn-score">${score}</span></li>`;
-      })
-      .join('');
-    return `<div class="topn-block"><h3>${escapeHtml(title)}</h3><ol>${lis}</ol></div>`;
-  }
-  const h2 = '必要なスキル・知識・能力';
-  const body = block('スキル Top 10', skills) + block('知識 Top 5', knowledge) + block('能力 Top 5', abilities);
-  return `<section class="topn" aria-label="${escapeHtml(h2)}"><h2>${escapeHtml(h2)}</h2><div class="topn-grid">${body}</div></section>`;
+  const adapt = (items: TopNEntry[] | undefined) =>
+    (items ?? []).map((it) => ({ labelJa: it.label_ja ?? null, score: it.score ?? null }));
+  return renderTopnTemplate({
+    skills: adapt(rec.skills_top10),
+    knowledge: adapt(rec.knowledge_top5),
+    abilities: adapt(rec.abilities_top5),
+  });
 }
 
 function buildOccFaqs(rec: Rec): [string, string][] {
