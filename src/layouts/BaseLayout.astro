@@ -132,17 +132,22 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 
     <!-- Google tag (gtag.js) — only emitted when PUBLIC_GA4_MEASUREMENT_ID is configured.
          Defer script load to window.load to remove ~64 KB / 265 ms from critical path.
-         Consent default = "granted" must be set BEFORE the `js` and `config` calls so
-         GA4's Consent Mode v2 doesn't silently drop g/collect requests. As of late 2024
-         gtag.js treats absent consent signal as DENIED for analytics_storage, which
-         suppresses all page_view hits to https://www.google-analytics.com/g/collect
-         while still allowing ga-audiences (modeling) — i.e. Realtime shows nothing.
-         Granting by default matches the pre-Consent-Mode behavior of this site. The
-         privacy policy at /privacy discloses GA4 usage. -->
+
+         CRITICAL: must NOT use `define:vars` here. `define:vars` forces Astro to wrap
+         the script in an IIFE `(function(){ ... })()` to scope the injected consts,
+         which has the side effect of making `function gtag(){}` a LOCAL function
+         instead of `window.gtag`. gtag.js's library expects the snippet to leave a
+         `window.gtag` stub it can replace; without it, the auto page_view that the
+         `config` command should trigger never fires, and `g/collect` stays silent
+         (only `ga-audiences` retargeting modeling continues to ping). This bug took
+         down GA4 measurement on 820+ pages from 2026-05-11 (Phase 3 refactor) until
+         2026-05-12 (this fix). Use `set:html` with build-time string interpolation
+         instead — produces a plain `<script>` block byte-identical to the homepage
+         snippet in src/index-source.html. -->
     {GA4_MEASUREMENT_ID && (
-      <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
+      <Fragment set:html={`<script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('consent', 'default', {
           ad_storage: 'granted',
           analytics_storage: 'granted',
@@ -150,17 +155,17 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
           ad_personalization: 'granted',
           functionality_storage: 'granted',
           personalization_storage: 'granted',
-          security_storage: 'granted',
+          security_storage: 'granted'
         });
         gtag('js', new Date());
-        gtag('config', GA4_MEASUREMENT_ID);
+        gtag('config', ${JSON.stringify(GA4_MEASUREMENT_ID)});
         window.addEventListener('load', function () {
           var s = document.createElement('script');
           s.async = true;
-          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ${JSON.stringify(GA4_MEASUREMENT_ID)};
           document.head.appendChild(s);
         });
-      </script>
+      </script>`} />
     )}
 
     <!-- Vercel Web Analytics + Speed Insights -->
