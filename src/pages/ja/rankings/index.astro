@@ -7,8 +7,11 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildRankings, renderHubJsonLd, escapeHtml } from '../../../data/lib/rankings';
+import { loadGraph } from '@/graph';
+import { loadOccupationsFromGraph } from '@/views/ranking';
 
-const { hub } = buildRankings();
+const graph = await loadGraph();
+const { hub } = buildRankings(() => loadOccupationsFromGraph(graph));
 const canonical = 'https://mirai-shigoto.com/ja/rankings';
 const title = '職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 | 未来の仕事';
 const seoDesc = '日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。';
