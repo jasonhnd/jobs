@@ -21,7 +21,13 @@ import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-link
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { results } = buildCompareBundle();
+  // Step 6: compare-hub now reads per-side detail records from the knowledge
+  // graph via dependency injection. buildCompareBundle accepts a loader;
+  // we pass the graph-backed one. Per-page output stays byte-identical.
+  const { loadGraph } = await import('@/graph');
+  const { makeCompareLoaderFromGraph } = await import('@/views/compare');
+  const graph = await loadGraph();
+  const { results } = buildCompareBundle(makeCompareLoaderFromGraph(graph));
   return Array.from(results.values()).map((r) => ({
     params: { pair: r.meta.slug },
     props: { result: r },

@@ -394,6 +394,7 @@ function buildOccupationNode(
       recruitRatio: stats.recruit_ratio ?? null,
     },
     aiRisk,
+    relatedCertsJa: occ.related_certs_ja ?? [],
   };
 }
 

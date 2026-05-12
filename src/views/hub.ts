@@ -116,7 +116,7 @@ export function loadGraphAdaptedDetails(graph: KnowledgeGraph): DetailFileMin[] 
       experience_top5: null,
       education_distribution: null,
       employment_type: null,
-      related_certs_ja: [],
+      related_certs_ja: occ.relatedCertsJa as string[],
     });
   }
   // Order matters for downstream sort stability — match legacy occ-id ascending.

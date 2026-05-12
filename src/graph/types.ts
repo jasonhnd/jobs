@@ -92,6 +92,8 @@ export interface OccupationNode {
   readonly stats: OccupationStats | null;
   /** Latest AI risk score — null when this occupation has never been scored. */
   readonly aiRisk: AiRiskScore | null;
+  /** Related Japanese certifications mentioned on the source jobtag page. */
+  readonly relatedCertsJa: readonly string[];
 }
 
 // ─── Sector node ─────────────────────────────────────────────────
