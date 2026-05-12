@@ -102,16 +102,7 @@ function loadSkillRanking(ipdKey: string): SkillRankingFile {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-function fmtInt(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-}
-
-function safeMean(values: ReadonlyArray<number | null | undefined>): number {
-  const filtered = values.filter((v): v is number => typeof v === 'number');
-  if (filtered.length === 0) return 0;
-  return filtered.reduce((s, v) => s + v, 0) / filtered.length;
-}
+import { fmtInt, safeMean } from '../../lib/num.js';
 
 function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [string, string]> {
   const faqs: Array<readonly [string, string]> = [];

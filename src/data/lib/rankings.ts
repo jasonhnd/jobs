@@ -308,10 +308,11 @@ export function safeMean(items: Occupation[], key: keyof Occupation): number {
   return vals.reduce((s, v) => s + v, 0) / vals.length;
 }
 
-export function fmtInt(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-}
+// Single source of truth lives at src/lib/num. Re-exported under the
+// existing public name so ranking-renderers + sibling consumers
+// (which still import `fmtInt` from this module) keep working.
+import { fmtInt } from '../../lib/num.js';
+export { fmtInt };
 
 export interface RankingsBundle {
   results: Map<RankingSlug, RankingResult>;

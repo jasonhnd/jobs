@@ -117,10 +117,7 @@ function detailToSide(d: DetailFile): CompareSide {
 
 // ─── Helpers ───────────────────────────────────────────────────
 
-function fmtInt(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-}
+import { fmtInt } from '../../lib/num.js';
 
 function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   if (a === null || b === null) return '';

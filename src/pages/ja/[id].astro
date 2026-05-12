@@ -24,6 +24,7 @@ import path from 'node:path';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
 import { escapeHtml } from '@/lib/safe-html';
+import { fmtInt } from '@/lib/num';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -421,10 +422,7 @@ export async function getStaticPaths() {
 // ─── Helpers (mirror Python helpers) ─────────────────────────────────────────
 // escapeHtml is imported at the top of the file from '@/lib/safe-html'.
 
-function fmtInt(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-}
+// fmtInt: imported at top of file from '@/lib/num'.
 
 const NOUN_FINAL_ENDINGS = [
   '職業', '仕事', '技術者', '職人', '担当者', '専門職', '技能職',

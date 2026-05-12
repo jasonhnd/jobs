@@ -139,16 +139,9 @@ export function loadAllDetails(): DetailFileMin[] {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-export function fmtInt(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-}
-
-export function safeMean(values: ReadonlyArray<number | null | undefined>): number {
-  const filtered = values.filter((v): v is number => typeof v === 'number');
-  if (filtered.length === 0) return 0;
-  return filtered.reduce((s, v) => s + v, 0) / filtered.length;
-}
+// Single source of truth lives at src/lib/num. Re-exported for legacy consumers.
+import { fmtInt, safeMean } from '../../lib/num.js';
+export { fmtInt, safeMean };
 
 // Single source of truth lives at src/lib/safe-html.ts. Import for internal
 // use within this module, re-export so existing pages/sibling lib files
