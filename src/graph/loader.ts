@@ -400,6 +400,17 @@ function buildOccupationNode(
     trainingPre:           occ.training_pre           ?? null,
     trainingPost:          occ.training_post          ?? null,
     experience:            occ.experience            ?? null,
+    tasksCount: occ.tasks.length,
+    tasksLeadJa: occ.tasks_lead_ja ?? null,
+    relatedOrgs: (occ.related_orgs ?? []).map(o => ({
+      nameJa: o.name_ja,
+      url: o.url ?? null,
+    })),
+    dataSourceVersions: {
+      ipdNumeric: occ.data_source_versions.ipd_numeric,
+      ipdDescription: occ.data_source_versions.ipd_description,
+      ipdRetrievedAt: occ.data_source_versions.ipd_retrieved_at,
+    },
   };
 }
 
