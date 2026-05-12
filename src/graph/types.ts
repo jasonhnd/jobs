@@ -94,6 +94,18 @@ export interface OccupationNode {
   readonly aiRisk: AiRiskScore | null;
   /** Related Japanese certifications mentioned on the source jobtag page. */
   readonly relatedCertsJa: readonly string[];
+  /**
+   * Inline fraction distributions copied verbatim from the source file.
+   * Keys are EN-snake-case (e.g. 'high_school', 'regular_employee') and
+   * values are fractions in [0, 1]. `null` when the source omits the block.
+   * These power the education / training / employment-type / experience
+   * hub families.
+   */
+  readonly educationDistribution: Record<string, number> | null;
+  readonly employmentType:        Record<string, number> | null;
+  readonly trainingPre:           Record<string, number> | null;
+  readonly trainingPost:          Record<string, number> | null;
+  readonly experience:            Record<string, number> | null;
 }
 
 // ─── Sector node ─────────────────────────────────────────────────
