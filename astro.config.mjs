@@ -40,6 +40,7 @@ export default defineConfig({
         '@/data': fileURLToPath(new URL('./src/data', import.meta.url)),
         '@/components': fileURLToPath(new URL('./src/components', import.meta.url)),
         '@/layouts': fileURLToPath(new URL('./src/layouts', import.meta.url)),
+        '@/graph': fileURLToPath(new URL('./src/graph', import.meta.url)),
       },
     },
   },
