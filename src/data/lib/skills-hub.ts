@@ -255,12 +255,8 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
 import { escapeHtml } from '../../lib/safe-html.js';
 export { escapeHtml };
 
-function riskClass(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
+// Single source of truth lives at src/lib/risk.
+import { riskClass } from '../../lib/risk.js';
 
 export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
   const title = o.name_ja || `#${o.id}`;

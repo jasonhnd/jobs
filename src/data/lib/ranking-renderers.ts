@@ -22,12 +22,9 @@ import type { RankingSlug } from './rankings-meta.js';
 import { escapeHtml } from '../../lib/safe-html.js';
 export { escapeHtml };
 
-function riskBand(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
+// Single source of truth lives at src/lib/risk. Aliased locally so the
+// existing local name (`riskBand`) used by renderRankItem keeps working.
+import { riskClass as riskBand } from '../../lib/risk.js';
 
 /**
  * Extra column injected to the right of the risk-pill.

@@ -326,12 +326,8 @@ export function buildInterests(loaders: InterestsLoaders = {}): InterestsBundle 
 import { escapeHtml } from '../../lib/safe-html.js';
 export { escapeHtml };
 
-function riskClass(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
+// Single source of truth lives at src/lib/risk.
+import { riskClass } from '../../lib/risk.js';
 
 /**
  * Mini RIASEC bar — 6 個の小さい縦棒で R/I/A/S/E/C を可視化。
