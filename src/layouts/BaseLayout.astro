@@ -131,11 +131,27 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
     )}
 
     <!-- Google tag (gtag.js) — only emitted when PUBLIC_GA4_MEASUREMENT_ID is configured.
-         Defer script load to window.load to remove ~64 KB / 265 ms from critical path. -->
+         Defer script load to window.load to remove ~64 KB / 265 ms from critical path.
+         Consent default = "granted" must be set BEFORE the `js` and `config` calls so
+         GA4's Consent Mode v2 doesn't silently drop g/collect requests. As of late 2024
+         gtag.js treats absent consent signal as DENIED for analytics_storage, which
+         suppresses all page_view hits to https://www.google-analytics.com/g/collect
+         while still allowing ga-audiences (modeling) — i.e. Realtime shows nothing.
+         Granting by default matches the pre-Consent-Mode behavior of this site. The
+         privacy policy at /privacy discloses GA4 usage. -->
     {GA4_MEASUREMENT_ID && (
       <script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+          ad_storage: 'granted',
+          analytics_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          functionality_storage: 'granted',
+          personalization_storage: 'granted',
+          security_storage: 'granted',
+        });
         gtag('js', new Date());
         gtag('config', GA4_MEASUREMENT_ID);
         window.addEventListener('load', function () {
