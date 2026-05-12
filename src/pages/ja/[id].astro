@@ -26,6 +26,7 @@ import Footer from '../../components/Footer.astro';
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
 import { renderProvenance as renderProvenanceTemplate } from '@/templates/Provenance';
+import { renderOrgsCerts as renderOrgsCertsTemplate } from '@/templates/OrgsCerts';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -680,24 +681,16 @@ function renderTransfer(rec: Rec, nameLookup: Record<number, string>): string {
   return `<section class="transfer" aria-label="${escapeHtml(h2)}"><h2>${escapeHtml(h2)}</h2><div class="transfer-grid">${cards}</div></section>`;
 }
 
+// Shared template — single source of truth in src/templates/OrgsCerts.
+// Adapts the page-local Rec into the narrow OrgsCertsInput shape.
 function renderOrgsCerts(rec: Rec): string {
-  const orgs = rec.related_orgs ?? [];
-  const certs = rec.related_certs_ja ?? [];
-  if (!(orgs.length || certs.length)) return '';
-  let orgBlock = '';
-  if (orgs.length) {
-    const items = orgs
-      .filter((o) => o.name_ja)
-      .map((o) => `<li><a href="${escapeHtml(o.url || '#')}" rel="external noopener noreferrer" target="_blank">${escapeHtml(o.name_ja || '')}</a></li>`)
-      .join('');
-    orgBlock = `<div class="org-cert-block"><h3>関連業界団体</h3><ul class="org-list">${items}</ul></div>`;
-  }
-  let certBlock = '';
-  if (certs.length) {
-    const items = certs.map((c) => `<li>${escapeHtml(c)}</li>`).join('');
-    certBlock = `<div class="org-cert-block"><h3>関連資格</h3><ul class="cert-list">${items}</ul></div>`;
-  }
-  return `<section class="orgs-certs"><div class="org-cert-grid">${orgBlock}${certBlock}</div></section>`;
+  return renderOrgsCertsTemplate({
+    orgs: (rec.related_orgs ?? []).map((o) => ({
+      nameJa: o.name_ja ?? null,
+      url: o.url ?? null,
+    })),
+    certs: rec.related_certs_ja ?? [],
+  });
 }
 
 // Shared template — single source of truth in src/templates/Provenance.
