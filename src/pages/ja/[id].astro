@@ -33,6 +33,7 @@ import { renderProfileRadar as renderProfileRadarTemplate } from '@/templates/Pr
 import { renderTransfer as renderTransferTemplate } from '@/templates/Transfer';
 import { renderMetaRow as renderMetaRowTemplate } from '@/templates/MetaRow';
 import { renderTopn as renderTopnTemplate } from '@/templates/Topn';
+import { renderOccupationJsonLd as renderOccupationJsonLdTemplate } from '@/templates/JsonLd';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -178,86 +179,8 @@ interface TransferPathsFile {
 
 // ─── Schema.org JSON-LD subset (only the fields we actually emit) ────────
 
-interface JsonLdPropertyValue {
-  '@type': 'PropertyValue';
-  name: string;
-  value: number;
-  unitText?: string;
-  description?: string;
-}
-
-interface JsonLdMonetaryAmountDistribution {
-  '@type': 'MonetaryAmountDistribution';
-  name: string;
-  currency: string;
-  duration: string;
-  median: number;
-}
-
-interface JsonLdOccupation {
-  '@type': 'Occupation';
-  '@id': string;
-  name: string;
-  description: string;
-  occupationLocation: { '@type': 'Country'; name: string };
-  occupationalCategory: string;
-  sameAs?: string;
-  additionalProperty: JsonLdPropertyValue[];
-  isPartOf: { '@id': string };
-  alternateName?: string | string[];
-  industry?: string;
-  skills?: string[];
-  qualifications?: string[];
-  estimatedSalary?: JsonLdMonetaryAmountDistribution;
-  workHours?: string;
-  responsibilities?: string;
-  educationRequirements?: string;
-  experienceRequirements?: string;
-}
-
-interface JsonLdWebPage {
-  '@type': 'WebPage';
-  '@id': string;
-  url: string;
-  name: string;
-  description: string;
-  inLanguage: string;
-  isPartOf: { '@id': string };
-  primaryImageOfPage?: string;
-  about?: { '@id': string };
-  breadcrumb?: { '@id': string };
-  mainEntity?: { '@id': string };
-  datePublished?: string;
-  dateModified?: string;
-}
-
-interface JsonLdBreadcrumbList {
-  '@type': 'BreadcrumbList';
-  '@id': string;
-  itemListElement: Array<{
-    '@type': 'ListItem';
-    position: number;
-    name: string;
-    item?: string;
-  }>;
-}
-
-interface JsonLdFAQPage {
-  '@type': 'FAQPage';
-  '@id': string;
-  inLanguage: string;
-  mainEntity: Array<{
-    '@type': 'Question';
-    name: string;
-    acceptedAnswer: { '@type': 'Answer'; text: string };
-  }>;
-}
-
-type JsonLdGraphNode =
-  | JsonLdWebPage
-  | JsonLdOccupation
-  | JsonLdBreadcrumbList
-  | JsonLdFAQPage;
+// JSON-LD Schema.org types moved to src/templates/JsonLd.ts where the
+// renderer that consumes them lives. No other consumer on the page.
 
 // Lazy getters so render-time code (after getStaticPaths) can grab the same
 // auxiliary data without re-reading per page.
@@ -652,138 +575,48 @@ function renderAiRiskDetail(rec: Rec): string {
   });
 }
 
+// Shared template — single source of truth in src/templates/JsonLd.
+// Adapter pre-resolves all fallback chains (pageName, pageDesc,
+// classificationMain, skillLabels) so the template walks a flat
+// narrow input. Schema.org types live private inside the template
+// module — see src/templates/JsonLd.ts.
 function renderJsonLd(rec: Rec): string {
   const id = rec.id;
   const nameJa = rec.name_ja || '';
   const risk = rec.ai_risk;
   const rationaleJa = rec.ai_rationale_ja || '';
   const descJa = rec.desc_ja || '';
-  const salaryMan = rec.salary;
-  const workers = rec.workers;
-  const age = rec.age;
-  const hours = rec.hours;
-  const recruit = rec.recruit_ratio;
-  const hourly = rec.hourly_wage;
-  const mhlwUrl = rec.url;
-  const canonical = jaUrl(id);
-  const pageName = risk !== null ? `${nameJa} — AI 影響 ${risk}/10` : `${nameJa} — mirai-shigoto.com`;
-  const pageDesc = makeDefinition(rec) || rationaleJa || descJa || nameJa;
-  const breadcrumbRoot = '日本の職業 AI 影響マップ';
-  const homeUrl = 'https://mirai-shigoto.com/';
-
-  const additional: JsonLdPropertyValue[] = [];
-  if (risk !== null) {
-    additional.push({
-      '@type': 'PropertyValue',
-      name: 'AI risk score (0-10)',
-      value: risk,
-      description: 'Claude Opus 4.7 による独自 LLM 推定。タスクレベルの AI 影響度を表し、職が消える確率ではありません。',
-    });
-  }
-  if (workers) additional.push({ '@type': 'PropertyValue', name: 'Workforce size', value: workers, unitText: 'persons' });
-  if (age) additional.push({ '@type': 'PropertyValue', name: 'Average age', value: age, unitText: 'years' });
-  if (hours) additional.push({ '@type': 'PropertyValue', name: 'Monthly working hours', value: hours, unitText: 'hours' });
-  if (recruit !== null && recruit !== undefined) additional.push({ '@type': 'PropertyValue', name: 'Effective recruit ratio', value: recruit });
-  if (hourly) additional.push({ '@type': 'PropertyValue', name: 'Hourly wage', value: hourly, unitText: 'JPY/hour' });
-
-  const occupationNode: JsonLdOccupation = {
-    '@type': 'Occupation',
-    '@id': `${canonical}#occupation`,
-    name: nameJa,
-    description: pageDesc,
-    occupationLocation: { '@type': 'Country', name: 'Japan' },
-    occupationalCategory: String(id),
-    sameAs: mhlwUrl,
-    additionalProperty: additional,
-    isPartOf: { '@id': 'https://mirai-shigoto.com/#dataset' },
-  };
-  const altNames = rec.aliases_ja ?? [];
-  if (altNames.length) {
-    occupationNode.alternateName = altNames.length > 1 ? altNames : altNames[0];
-  }
-  if (rec.sector?.ja) occupationNode.industry = rec.sector.ja;
   const cls = rec.classifications ?? {};
-  if (cls.mhlw_main || cls.jsoc_main) {
-    occupationNode.occupationalCategory = cls.mhlw_main || cls.jsoc_main || String(id);
-  }
-  if (rec.skills_top10?.length) {
-    occupationNode.skills = rec.skills_top10
-      .map((s) => s.label_ja)
-      .filter(Boolean);
-  }
-  if (rec.related_certs_ja?.length) {
-    occupationNode.qualifications = rec.related_certs_ja;
-  }
-  if (salaryMan) {
-    occupationNode.estimatedSalary = {
-      '@type': 'MonetaryAmountDistribution',
-      name: 'Annual salary (estimated mean from MHLW jobtag)',
-      currency: 'JPY',
-      duration: 'P1Y',
-      median: Math.trunc(salaryMan * 10000),
-    };
-  }
-  if (hours) {
-    const annualHours = Math.trunc(hours * 12);
-    occupationNode.workHours = `月平均 ${Math.trunc(hours)} 時間（年間約 ${annualHours} 時間）`;
-  }
-  const tasksLead = rec.tasks_lead_ja || '';
-  if (tasksLead) occupationNode.responsibilities = tasksLead.slice(0, 600);
-  if (rec.related_certs_ja?.length) {
-    occupationNode.educationRequirements = '関連資格：' + rec.related_certs_ja.join('、');
-  }
-  const longHow = rec.how_to_become_ja || '';
-  if (longHow) {
-    const firstHow = longHow.split('。')[0].trim();
-    if (firstHow && firstHow.length <= 240) {
-      occupationNode.experienceRequirements = `${firstHow}。`;
-    }
-  }
+  const skillLabels = (rec.skills_top10 ?? [])
+    .map((s) => s.label_ja)
+    .filter((s): s is string => Boolean(s));
 
-  const graphNodes: JsonLdGraphNode[] = [
-    {
-      '@type': 'WebPage',
-      '@id': `${canonical}#webpage`,
-      url: canonical,
-      name: pageName,
-      description: pageDesc,
-      isPartOf: { '@id': 'https://mirai-shigoto.com/#website' },
-      about: { '@id': `${canonical}#occupation` },
-      mainEntity: { '@id': `${canonical}#occupation` },
-      primaryImageOfPage: `https://mirai-shigoto.com/api/og?id=${id}`,
-      inLanguage: 'ja',
-      breadcrumb: { '@id': `${canonical}#breadcrumb` },
-      datePublished: DATE_PUBLISHED,
-      dateModified: DATE_MODIFIED,
-      publisher: { '@id': 'https://mirai-shigoto.com/#organization' },
-      author: { '@id': 'https://mirai-shigoto.com/#organization' },
-    },
-    occupationNode,
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${canonical}#breadcrumb`,
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: breadcrumbRoot, item: homeUrl },
-        { '@type': 'ListItem', position: 2, name: nameJa, item: canonical },
-      ],
-    },
-  ];
-
-  const faqs = buildOccFaqs(rec);
-  if (faqs.length) {
-    graphNodes.push({
-      '@type': 'FAQPage',
-      '@id': `${canonical}#faq`,
-      inLanguage: 'ja',
-      mainEntity: faqs.map(([q, a]) => ({
-        '@type': 'Question',
-        name: q,
-        acceptedAnswer: { '@type': 'Answer', text: a },
-      })),
-    });
-  }
-
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graphNodes }, null, 2);
+  return renderOccupationJsonLdTemplate({
+    id,
+    canonical: jaUrl(id),
+    pageName:
+      risk !== null ? `${nameJa} — AI 影響 ${risk}/10` : `${nameJa} — mirai-shigoto.com`,
+    pageDesc: makeDefinition(rec) || rationaleJa || descJa || nameJa,
+    nameJa,
+    aliasesJa: rec.aliases_ja ?? [],
+    sectorJa: rec.sector?.ja ?? null,
+    aiRisk: risk,
+    mhlwUrl: rec.url,
+    salaryMan: rec.salary,
+    workers: rec.workers,
+    age: rec.age,
+    hours: rec.hours,
+    recruitRatio: rec.recruit_ratio,
+    hourlyWage: rec.hourly_wage,
+    classificationMain: cls.mhlw_main || cls.jsoc_main || null,
+    skillLabels,
+    relatedCertsJa: rec.related_certs_ja ?? [],
+    tasksLeadJa: rec.tasks_lead_ja || '',
+    howToBecomeJa: rec.how_to_become_ja || '',
+    faqs: buildOccFaqs(rec),
+    datePublished: DATE_PUBLISHED,
+    dateModified: DATE_MODIFIED,
+  });
 }
 
 // ─── Page render ─────────────────────────────────────────────────────────────
