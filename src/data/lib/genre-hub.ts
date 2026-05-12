@@ -157,12 +157,10 @@ export function safeMean(values: ReadonlyArray<number | null | undefined>): numb
 import { escapeHtml } from '../../lib/safe-html.js';
 export { escapeHtml };
 
-export function riskClass(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
+// Single source of truth lives at src/lib/risk. Re-exported so existing
+// consumers (pages importing `riskClass` from this module) keep working.
+import { riskClass } from '../../lib/risk.js';
+export { riskClass };
 
 // ─── Core builder ────────────────────────────────────────────
 
