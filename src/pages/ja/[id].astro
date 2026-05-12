@@ -29,6 +29,7 @@ import { renderProvenance as renderProvenanceTemplate } from '@/templates/Proven
 import { renderOrgsCerts as renderOrgsCertsTemplate } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail as renderAiRiskDetailTemplate } from '@/templates/AiRiskDetail';
 import { renderOccFaq as renderOccFaqTemplate } from '@/templates/OccFaq';
+import { renderProfileRadar as renderProfileRadarTemplate } from '@/templates/ProfileRadar';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -508,45 +509,19 @@ function renderMetaRow(rec: Rec): string {
   return `<div class="meta-row">${parts.join('')}</div>`;
 }
 
+// Shared template — single source of truth in src/templates/ProfileRadar.
+// Adapts getProfile5()[id] into the narrow ProfileRadarInput shape;
+// missing entry collapses to an all-null input which the template
+// short-circuits to empty output.
 function renderProfileRadar(rec: Rec): string {
   const profile = getProfile5()[String(rec.id)];
-  if (!profile) return '';
-  const axes = ['creative', 'social', 'judgment', 'physical', 'routine'];
-  const values = axes.map((a) => profile[a] ?? 0);
-  if (!values.some((v) => v)) return '';
-  const labels = ['創造性', '対人', '判断', '身体', '定型'];
-  const cx = 170, cy = 170, r = 130;
-  const pts: string[] = [];
-  for (let i = 0; i < values.length; i++) {
-    const ang = (-90 + i * 72) * Math.PI / 180;
-    const scale = (values[i] || 0) / 100;
-    const x = cx + Math.cos(ang) * r * scale;
-    const y = cy + Math.sin(ang) * r * scale;
-    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
-  }
-  let gridLayers = '';
-  for (const level of [0.25, 0.5, 0.75, 1.0]) {
-    const layer: string[] = [];
-    for (let i = 0; i < 5; i++) {
-      const ang = (-90 + i * 72) * Math.PI / 180;
-      const x = cx + Math.cos(ang) * r * level;
-      const y = cy + Math.sin(ang) * r * level;
-      layer.push(`${x.toFixed(1)},${y.toFixed(1)}`);
-    }
-    gridLayers += `<polygon points="${layer.join(' ')}" fill="none" stroke="rgba(36,30,24,0.10)" stroke-width="1"/>`;
-  }
-  let labelHtml = '';
-  for (let i = 0; i < labels.length; i++) {
-    const ang = (-90 + i * 72) * Math.PI / 180;
-    const lx = cx + Math.cos(ang) * (r + 22);
-    const ly = cy + Math.sin(ang) * (r + 22);
-    labelHtml += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="13" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" fill="#7A6F5E" letter-spacing="0.04em">${escapeHtml(labels[i])}</text>`;
-  }
-  const legend = labels
-    .map((lab, i) => `<dt>${escapeHtml(lab)}</dt><dd>${Math.trunc(values[i])}</dd>`)
-    .join('');
-  const h2 = '5 次元プロファイル';
-  return `<section class="profile" aria-label="${escapeHtml(h2)}"><h2>${escapeHtml(h2)}</h2><div class="radar-wrap"><svg class="radar-svg" viewBox="0 0 340 340" role="img" aria-label="${escapeHtml(h2)}">${gridLayers}<polygon points="${pts.join(' ')}" fill="rgba(217,107,61,0.18)" stroke="#D96B3D" stroke-width="2.5" stroke-linejoin="round"/>${labelHtml}</svg><dl class="radar-legend">${legend}</dl></div></section>`;
+  return renderProfileRadarTemplate({
+    creative: profile?.creative ?? null,
+    social: profile?.social ?? null,
+    judgment: profile?.judgment ?? null,
+    physical: profile?.physical ?? null,
+    routine: profile?.routine ?? null,
+  });
 }
 
 function renderTopn(rec: Rec): string {
