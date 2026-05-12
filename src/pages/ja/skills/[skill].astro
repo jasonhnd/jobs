@@ -22,7 +22,16 @@ import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-link
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { results } = buildSkillsBundle();
+  // Step 7: skill rankings + treemap summaries derived directly from the
+  // knowledge graph. skills-hub.buildSkillsBundle accepts a `loaders`
+  // bundle for dependency injection.
+  const { loadGraph } = await import('@/graph');
+  const { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } = await import('@/views/skill');
+  const graph = await loadGraph();
+  const { results } = buildSkillsBundle({
+    skillRanking: makeSkillRankingLoaderFromGraph(graph),
+    treemap: makeTreemapSummaryFromGraph(graph),
+  });
   return Array.from(results.values()).map((r) => ({
     params: { skill: r.meta.slug },
     props: { result: r },

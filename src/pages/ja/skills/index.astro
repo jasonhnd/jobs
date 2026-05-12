@@ -7,8 +7,14 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildSkillsBundle, renderHubJsonLd, escapeHtml } from '../../../data/lib/skills-hub';
+import { loadGraph } from '@/graph';
+import { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } from '@/views/skill';
 
-const { hub } = buildSkillsBundle();
+const graph = await loadGraph();
+const { hub } = buildSkillsBundle({
+  skillRanking: makeSkillRankingLoaderFromGraph(graph),
+  treemap: makeTreemapSummaryFromGraph(graph),
+});
 const canonical = 'https://mirai-shigoto.com/ja/skills';
 const title = 'スキルから職業を探す｜10 のスキル別に 552 職業を整理 | 未来の仕事';
 const seoDesc =
