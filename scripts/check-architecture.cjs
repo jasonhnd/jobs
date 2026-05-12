@@ -72,9 +72,30 @@ const RULES = [
       // Tighten when Step 11 completes.
     ],
   },
-  // Templates and pages get strict rules in later steps (3.5 / 8).
-  // For now we ship the gate active on graph + views only — both are
-  // brand-new code and we want their boundaries to never regress.
+  {
+    layer: 'Templates (src/templates/)',
+    dir: path.join(SRC, 'templates'),
+    forbidden: [
+      // Templates are leaf layer for HTML production. They produce
+      // SafeHtml from typed inputs; they don't fetch data, don't query
+      // the graph, and don't know about routing.
+      { pattern: 'node:fs',              reason: 'templates must not do I/O — data flows in via function args' },
+      { pattern: 'node:fs/promises',     reason: 'templates must not do I/O' },
+      { pattern: 'src/graph',            reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
+      { pattern: '@/graph',              reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
+      { pattern: 'src/views',            reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
+      { pattern: '@/views',              reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
+      { pattern: 'src/pages',            reason: 'templates must not import page-level code' },
+      { pattern: 'src/data/projections', reason: 'templates must not read projection JSON — that is a view-layer concern' },
+      // src/data/lib/ is still permitted transitionally: a few legacy
+      // helpers (sector-meta, inline-links, hub-hub-graph) are still
+      // call-sites for templates and will migrate in a later step.
+      // Tighten this once those are extracted.
+    ],
+  },
+  // src/pages/ gets strict rules in a later step (the Phase B sweep
+  // that slims pages down to thin bindings). For now keep them lenient
+  // so the migration is purely additive — no in-flight enforcement.
 ];
 
 // ─── scanning helpers ────────────────────────────────────────────
