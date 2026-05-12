@@ -24,6 +24,7 @@ import { LICENSE_HUBS, matchLicense } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { COMPARE_META } from './compare-meta.js';
 import { RANKING_META, type RankingSlug } from './rankings-meta.js';
+import { escapeHtml } from '../../lib/safe-html.js';
 
 // ─── Public types ─────────────────────────────────────────────────────────
 
@@ -327,10 +328,6 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
  */
 export function renderSpokeHubsSection(result: SpokeHubsResult): string {
   if (result.total === 0) return '';
-
-  const escapeHtml = (s: string): string =>
-    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-     .replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 
   const groupsHtml = result.groups.map((g) => {
     const itemsHtml = g.items.map((item) =>
