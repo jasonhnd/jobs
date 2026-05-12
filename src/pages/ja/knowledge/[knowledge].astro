@@ -10,9 +10,13 @@ import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-link
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { loadAllDetails: _l, buildGenreResult: _b } = await import('../../../data/lib/genre-hub');
+  // Step 4 (partial): detail records derived directly from the knowledge graph.
+  const { loadGraph } = await import('@/graph');
+  const { loadGraphAdaptedDetails } = await import('@/views/hub');
+  const { buildGenreResult: _b } = await import('../../../data/lib/genre-hub');
   const { KNOWLEDGE_CONFIGS: _c } = await import('../../../data/lib/genre-configs');
-  const details = _l();
+  const graph = await loadGraph();
+  const details = loadGraphAdaptedDetails(graph);
   return _c.map((cfg) => ({ params: { knowledge: cfg.slug }, props: { result: _b(details, cfg) } }));
 }
 
