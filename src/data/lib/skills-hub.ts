@@ -290,38 +290,9 @@ export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
   );
 }
 
-export function renderHighlights(items: ReadonlyArray<string>): string {
-  if (items.length === 0) return '';
-  // Defense-in-depth: see notes in genre-hub.ts / interests.ts.
-  // Highlight strings interpolate data-driven values (top occupation
-  // name, dominant sector, skill use-case text). Escape on render to
-  // enforce the XSS contract independent of the data source.
-  const lis = items.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
-  return `<div class="highlights"><ul>${lis}</ul></div>`;
-}
-
-export function renderSectorChart(breakdown: ReadonlyArray<readonly [string, number]>, title: string): string {
-  if (breakdown.length === 0) return '';
-  const maxCount = breakdown[0][1];
-  const rows = breakdown
-    .map(([sec, cnt]) => {
-      const pct = Math.trunc((cnt / maxCount) * 100);
-      return (
-        `<div class="sb-row">` +
-        `<span class="sb-label">${escapeHtml(sec)}</span>` +
-        `<span class="sb-track"><span class="sb-fill" style="width:${pct}%"></span></span>` +
-        `<span class="sb-count">${cnt}件</span>` +
-        `</div>`
-      );
-    })
-    .join('');
-  return (
-    `<div class="sector-chart">` +
-    `<div class="sc-title">${escapeHtml(title)}</div>` +
-    `${rows}` +
-    `</div>`
-  );
-}
+// Shared Highlights + SectorChart templates — single source of truth.
+export { renderHighlights } from '../../templates/Highlights.js';
+export { renderSectorChart } from '../../templates/SectorChart.js';
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
 export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
