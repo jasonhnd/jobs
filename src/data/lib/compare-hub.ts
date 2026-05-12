@@ -352,22 +352,9 @@ export function renderTopSkillsCompare(a: CompareSide, b: CompareSide): string {
   );
 }
 
-export function renderFaqHtml(faqItems: ReadonlyArray<readonly [string, string]>): string {
-  if (faqItems.length === 0) return '';
-  const details = faqItems
-    .map(
-      ([q, a]) =>
-        `<details><summary>${escapeHtml(q)}</summary>` +
-        `<div class="faq-a">${escapeHtml(a)}</div></details>`,
-    )
-    .join('');
-  return (
-    `<section class="faq" aria-label="よくある質問">` +
-    `<h2>よくある質問</h2>` +
-    `${details}` +
-    `</section>`
-  );
-}
+// Shared FAQ template — single source of truth in src/templates/FaqSection.
+// Re-exported under the legacy name so existing pages/imports keep working.
+export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
 
 export function renderRelatedCompares(currentSlug: CompareSlug): string {
   const items = COMPARE_META
