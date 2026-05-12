@@ -151,12 +151,25 @@ function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [s
 
 // ─── Main builder ─────────────────────────────────────────────
 
-export function buildSkillsBundle(): SkillsBundle {
-  const treemap = loadTreemapMap();
+/**
+ * Optional loaders for dependency injection — Step 7 of the architecture
+ * migration uses these to route skill-hub pages through the knowledge
+ * graph instead of reading projection JSON files. Both default to the
+ * file-reading legacy paths.
+ */
+export interface SkillsLoaders {
+  skillRanking?: (ipdKey: string) => SkillRankingFile;
+  treemap?: () => Map<number, TreemapRecord>;
+}
+
+export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
+  const skillRankingLoad = loaders.skillRanking ?? loadSkillRanking;
+  const treemapLoad = loaders.treemap ?? loadTreemapMap;
+  const treemap = treemapLoad();
   const results = new Map<SkillSlug, SkillResult>();
 
   for (const meta of SKILL_META) {
-    const ranking = loadSkillRanking(meta.ipd_key);
+    const ranking = skillRankingLoad(meta.ipd_key);
     // ranking.occupations は既に score 降順 (build:data の skills.ts で sort 済)
     const top = ranking.occupations.slice(0, TOP_N);
 

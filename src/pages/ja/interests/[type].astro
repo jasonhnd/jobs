@@ -25,7 +25,15 @@ import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-link
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { results } = buildInterests();
+  // Step 7: Holland rows + treemap summaries derived directly from the
+  // knowledge graph.
+  const { loadGraph } = await import('@/graph');
+  const { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } = await import('@/views/interest');
+  const graph = await loadGraph();
+  const { results } = buildInterests({
+    holland: makeHollandLoaderFromGraph(graph),
+    treemap: makeInterestsTreemapFromGraph(graph),
+  });
   return Array.from(results.values()).map((r) => ({
     params: { type: r.meta.slug },
     props: { result: r },

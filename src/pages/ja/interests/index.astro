@@ -10,8 +10,14 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildInterests, renderHubJsonLd, escapeHtml } from '../../../data/lib/interests';
+import { loadGraph } from '@/graph';
+import { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } from '@/views/interest';
 
-const { hub } = buildInterests();
+const graph = await loadGraph();
+const { hub } = buildInterests({
+  holland: makeHollandLoaderFromGraph(graph),
+  treemap: makeInterestsTreemapFromGraph(graph),
+});
 const canonical = 'https://mirai-shigoto.com/ja/interests';
 const title = '興味タイプから職業を探す｜RIASEC 6 分類で日本の 552 職業を整理 | 未来の仕事';
 const seoDesc =

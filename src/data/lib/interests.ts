@@ -73,7 +73,7 @@ export interface InterestsBundle {
 
 // ─── Loaders ────────────────────────────────────────────────────
 
-interface HollandRow {
+export interface HollandRow {
   id: number;
   name_ja: string;
   R: number | null;
@@ -84,7 +84,7 @@ interface HollandRow {
   C: number | null;
 }
 
-interface TreemapRecord {
+export interface TreemapRecord {
   id: number;
   ai_risk: number | null;
   risk_band: string | null;
@@ -187,9 +187,22 @@ function buildFaqs(meta: InterestMeta, items: InterestOccupation[]): Array<reado
 
 // ─── Main builder ───────────────────────────────────────────────
 
-export function buildInterests(): InterestsBundle {
-  const holland = loadHollandRows();
-  const treemap = loadTreemapMap();
+/**
+ * Optional loaders for dependency injection — Step 7 of the architecture
+ * migration uses these to route interest-hub pages through the knowledge
+ * graph instead of reading projection JSON files. Both default to the
+ * file-reading legacy paths.
+ */
+export interface InterestsLoaders {
+  holland?: () => HollandRow[];
+  treemap?: () => Map<number, TreemapRecord>;
+}
+
+export function buildInterests(loaders: InterestsLoaders = {}): InterestsBundle {
+  const hollandLoad = loaders.holland ?? loadHollandRows;
+  const treemapLoad = loaders.treemap ?? loadTreemapMap;
+  const holland = hollandLoad();
+  const treemap = treemapLoad();
 
   const results = new Map<InterestType, InterestResult>();
 
