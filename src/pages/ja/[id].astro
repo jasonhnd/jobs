@@ -27,6 +27,7 @@ import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
 import { renderProvenance as renderProvenanceTemplate } from '@/templates/Provenance';
 import { renderOrgsCerts as renderOrgsCertsTemplate } from '@/templates/OrgsCerts';
+import { renderAiRiskDetail as renderAiRiskDetailTemplate } from '@/templates/AiRiskDetail';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -705,34 +706,16 @@ function renderProvenance(rec: Rec): string {
   });
 }
 
+// Shared template — single source of truth in src/templates/AiRiskDetail.
+// Adapts the page-local Rec into the narrow AiRiskDetailInput shape.
 function renderAiRiskDetail(rec: Rec): string {
-  const longText = rec.ai_rationale_long_ja;
-  if (!longText) return '';
-  const displaceable = rec.ai_displaceable_tasks_ja ?? [];
-  const resilient = rec.ai_resilient_tasks_ja ?? [];
-  const horizon = rec.ai_horizon_5y_ja || '';
-  const score = rec.ai_risk;
-  const scoreDisp = score !== null ? `${score}/10` : '—';
-  const dispLis = displaceable.map((t) => `<li>${escapeHtml(t)}</li>`).join('');
-  const resiLis = resilient.map((t) => `<li>${escapeHtml(t)}</li>`).join('');
-  const horizonHtml = horizon
-    ? `<p class="ai-horizon"><strong>5-10 年展望:</strong> ${escapeHtml(horizon)}</p>`
-    : '';
-  return `<section class="ai-risk-detail" aria-labelledby="ai-risk-detail-h2">
-        <h2 id="ai-risk-detail-h2">なぜ AI 影響度 ${escapeHtml(scoreDisp)} か</h2>
-        <p class="ai-rationale-long">${escapeHtml(longText)}</p>
-        <div class="ai-task-grid">
-          <div class="ai-task-block">
-            <h3>AI に置き換わりやすい業務</h3>
-            <ul>${dispLis}</ul>
-          </div>
-          <div class="ai-task-block">
-            <h3>人が残る業務</h3>
-            <ul>${resiLis}</ul>
-          </div>
-        </div>
-        ${horizonHtml}
-      </section>`;
+  return renderAiRiskDetailTemplate({
+    aiRisk: rec.ai_risk,
+    rationaleLongJa: rec.ai_rationale_long_ja,
+    displaceableTasksJa: rec.ai_displaceable_tasks_ja ?? [],
+    resilientTasksJa: rec.ai_resilient_tasks_ja ?? [],
+    horizon5yJa: rec.ai_horizon_5y_ja,
+  });
 }
 
 function renderJsonLd(rec: Rec): string {
