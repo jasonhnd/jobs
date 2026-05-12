@@ -329,8 +329,16 @@ export interface RankingsBundle {
   };
 }
 
-export function buildRankings(): RankingsBundle {
-  const occs = loadOccupations();
+/**
+ * `loader` lets callers inject a graph-based Occupation producer instead
+ * of the default treemap.json + data.detail/* reader. Step 5 of the
+ * architecture migration uses this to route ranking pages through the
+ * knowledge graph.
+ */
+export function buildRankings(
+  loader: () => Occupation[] = loadOccupations,
+): RankingsBundle {
+  const occs = loader();
   const scored = occs.filter((o) => o.ai_risk !== null);
   const withSalary = occs.filter((o) => o.salary && o.ai_risk !== null);
 

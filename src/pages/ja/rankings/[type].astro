@@ -23,7 +23,14 @@ import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-link
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { results } = buildRankings();
+  // Step 5: ranking pages read Occupation[] from the knowledge graph
+  // via dependency injection. buildRankings accepts a loader; we pass
+  // the graph-backed one. Output stays byte-identical (EN→JA key
+  // translation and banker's rounding replicate the legacy projection).
+  const { loadGraph } = await import('@/graph');
+  const { loadOccupationsFromGraph } = await import('@/views/ranking');
+  const graph = await loadGraph();
+  const { results } = buildRankings(() => loadOccupationsFromGraph(graph));
   return Array.from(results.values()).map((r) => ({
     params: { type: r.slug },
     props: { result: r },
