@@ -150,14 +150,12 @@ export function safeMean(values: ReadonlyArray<number | null | undefined>): numb
   return filtered.reduce((s, v) => s + v, 0) / filtered.length;
 }
 
-export function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
-}
+// Single source of truth lives at src/lib/safe-html.ts. Import for internal
+// use within this module, re-export so existing pages/sibling lib files
+// continue to work. SafeHtml is structurally a string — callers expecting
+// string see no API change.
+import { escapeHtml } from '../../lib/safe-html.js';
+export { escapeHtml };
 
 export function riskClass(score: number | null): 'low' | 'mid' | 'high' {
   if (score === null) return 'mid';

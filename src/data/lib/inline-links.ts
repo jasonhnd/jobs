@@ -163,15 +163,8 @@ export function buildLinkRegistry(): LinkRegistry {
 }
 
 // ─── HTML escape (must run BEFORE placeholder injection) ────────────────
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
-}
+// Single source of truth lives at src/lib/safe-html.ts.
+import { escapeHtml } from '../../lib/safe-html.js';
 
 // ─── Core: inline-link a single text block ───────────────────────────────
 

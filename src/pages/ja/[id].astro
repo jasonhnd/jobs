@@ -23,6 +23,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
+import { escapeHtml } from '@/lib/safe-html';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -418,15 +419,7 @@ export async function getStaticPaths() {
 }
 
 // ─── Helpers (mirror Python helpers) ─────────────────────────────────────────
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
-}
+// escapeHtml is imported at the top of the file from '@/lib/safe-html'.
 
 function fmtInt(n: number | null | undefined): string {
   if (n === null || n === undefined) return '—';

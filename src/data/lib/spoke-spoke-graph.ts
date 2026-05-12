@@ -16,6 +16,8 @@
  * one — that's the asymmetry). Union top-K corrects it.
  */
 
+import { escapeHtml } from '../../lib/safe-html.js';
+
 export interface SpokeNeighbor {
   id: number;
   name_ja: string;
@@ -122,10 +124,6 @@ export function buildSameRiskNeighbors(
 /** Render the cross-sector same-risk neighbors as an HTML section. */
 export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, sourceRisk: number | null): string {
   if (neighbors.length === 0) return '';
-  const escapeHtml = (s: string): string =>
-    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-     .replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
-
   const fmtInt = (n: number | null): string =>
     n === null ? '—' : Math.trunc(n).toLocaleString('en-US');
 

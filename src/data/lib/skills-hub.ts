@@ -251,14 +251,9 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
 
 // ─── HTML rendering helpers ────────────────────────────────────
 
-export function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
-}
+// Single source of truth lives at src/lib/safe-html.ts.
+import { escapeHtml } from '../../lib/safe-html.js';
+export { escapeHtml };
 
 function riskClass(score: number | null): 'low' | 'mid' | 'high' {
   if (score === null) return 'mid';

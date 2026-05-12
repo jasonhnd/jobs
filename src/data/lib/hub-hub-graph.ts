@@ -23,6 +23,7 @@ import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { COMPARE_META } from './compare-meta.js';
 import { RANKING_META } from './rankings-meta.js';
+import { escapeHtml } from '../../lib/safe-html.js';
 
 // ─── Public types ─────────────────────────────────────────────────────────
 
@@ -520,10 +521,6 @@ const GENRE_LABEL_JA: Record<HubGenre, string> = {
 export function renderRelatedHubsBlock(genre: HubGenre, slug: string, limit: number = 6): string {
   const items = getRelatedHubs(genre, slug, limit);
   if (items.length === 0) return '';
-
-  const escapeHtml = (s: string): string =>
-    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-     .replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 
   const itemsHtml = items.map((it) => {
     const href = `/ja/${it.genre}/${it.slug}`;

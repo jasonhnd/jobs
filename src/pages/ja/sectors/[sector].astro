@@ -21,6 +21,7 @@ import { sectorDetailView, type SectorOccupationSummary } from '@/views/sector';
 import { getSectorEssay, computeSectorPatterns, computeSiteBaseline, type SectorOcc } from '../../../data/lib/sector-meta';
 import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
+import { escapeHtml as esc } from '@/lib/safe-html';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -40,14 +41,7 @@ const riskTierLabel = (mean: number | null): string => {
   return '高め';
 };
 
-// HTML escape: replace &, <, >, ", ' with named entities.
-const esc = (s: string): string =>
-  s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
+// HTML escape (esc) is imported at the top of the file from '@/lib/safe-html'.
 
 const riskBandFromScore = (score: number | null): 'low' | 'mid' | 'high' => {
   if (score === null || score === undefined) return 'mid';

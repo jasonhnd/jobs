@@ -18,14 +18,9 @@ import type { RankingSlug } from './rankings-meta.js';
 // `set:html` the strings these return — they all escape user data.
 // ---------------------------------------------------------------------------
 
-export function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;');
-}
+// Single source of truth lives at src/lib/safe-html.ts.
+import { escapeHtml } from '../../lib/safe-html.js';
+export { escapeHtml };
 
 function riskBand(score: number | null): 'low' | 'mid' | 'high' {
   if (score === null) return 'mid';
