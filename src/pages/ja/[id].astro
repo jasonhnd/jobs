@@ -22,6 +22,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
 import IdPageScript from './_IdPageScript.astro';
+import RiskCard from './_RiskCard.astro';
+import StatsGrid from './_StatsGrid.astro';
+import JobtagAnchor from './_JobtagAnchor.astro';
 import { buildIdPageBindings } from './_id-bindings';
 import { ID_PAGE_CSS } from './_id-css';
 import type { Rec } from '@/data/lib/adapt-detail';
@@ -139,26 +142,11 @@ const {
       <Fragment set:html={metaRowHtml} />
     </header>
 
-    <div class={`risk-card ${riskClass}`}>
-      <div>
-        <div class="risk-label">AI 影響</div>
-        <div class="risk-num">{riskNumDisp}<small> / 10</small></div>
-      </div>
-      <div class="risk-rationale">{rationale}</div>
-    </div>
-
-    <div class="one-line">{oneLineText}</div>
+    <RiskCard {riskClass} {riskNumDisp} {rationale} {oneLineText} />
 
     <Fragment set:html={aiRiskDetailHtml} />
 
-    <dl class="stats" aria-label="主な職業統計">
-      <div><dt>就業者数</dt><dd>{workersCell}</dd></div>
-      <div><dt>年収（平均）</dt><dd>{salaryCell}</dd></div>
-      <div><dt>平均年齢</dt><dd>{ageCell}</dd></div>
-      <div><dt>月労働時間</dt><dd>{hoursCell}</dd></div>
-      <div><dt>求人倍率</dt><dd>{recruitDisp}</dd></div>
-      <div><dt>時給</dt><dd>{hourlyDisp}</dd></div>
-    </dl>
+    <StatsGrid {workersCell} {salaryCell} {ageCell} {hoursCell} {recruitDisp} {hourlyDisp} />
 
     <section class="context">
       <h2>{ctxH2}</h2>
@@ -185,21 +173,11 @@ const {
 
     <Fragment set:html={relatedHubsHtml} />
 
-    {/* v2: page-level <section class="sources"> and .follow-share-section
-        were removed; the canonical <Footer /> below carries 出典 + share
-        buttons + per-page jobtag outbound click is preserved via the hidden
-        anchor below to keep the GA4 `jobtag_outbound_click` funnel intact. */}
-    <a
-      href={mhlwUrl}
-      rel="external noopener noreferrer"
-      target="_blank"
-      data-jobtag-id={String(id)}
-      data-ai-risk={String(risk ?? 0)}
-      onclick={`if(window.gtag)gtag('event','jobtag_outbound_click',{occupation_id:${id},ai_risk_score:${risk ?? 0},language:'ja'});`}
-      style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
-      aria-hidden="true"
-      tabindex="-1"
-    >厚生労働省 job tag — {nameJa}（公式）</a>
+    {/* v2: page-level <section class="sources"> was removed; the canonical
+        <Footer /> below carries 出典 + share buttons. Per-page jobtag
+        outbound click is preserved via a hidden anchor in <JobtagAnchor>
+        to keep the GA4 `jobtag_outbound_click` funnel intact. */}
+    <JobtagAnchor occId={id} nameJa={nameJa} mhlwUrl={mhlwUrl} aiRisk={risk} />
 
     <nav class="map-back-link" aria-label="職業マップへ戻る">
       <a href="/map">← 職業マップへ</a>

@@ -1,0 +1,33 @@
+---
+/**
+ * src/pages/ja/_JobtagAnchor.astro — visually hidden outbound
+ * link to the canonical MHLW jobtag page for one occupation.
+ *
+ * The v2 design dropped the visible "出典 / 厚生労働省 jobtag" link
+ * but the GA4 `jobtag_outbound_click` event still has consumers
+ * downstream. This off-screen anchor preserves that funnel
+ * without exposing a visible link.
+ *
+ * Page-local sibling (Astro `_`-prefix → not routed).
+ */
+
+interface Props {
+  readonly occId: number;
+  readonly nameJa: string;
+  readonly mhlwUrl: string;
+  readonly aiRisk: number | null;
+}
+
+const { occId, nameJa, mhlwUrl, aiRisk } = Astro.props;
+---
+<a
+  href={mhlwUrl}
+  rel="external noopener noreferrer"
+  target="_blank"
+  data-jobtag-id={String(occId)}
+  data-ai-risk={String(aiRisk ?? 0)}
+  onclick={`if(window.gtag)gtag('event','jobtag_outbound_click',{occupation_id:${occId},ai_risk_score:${aiRisk ?? 0},language:'ja'});`}
+  style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
+  aria-hidden="true"
+  tabindex="-1"
+>厚生労働省 job tag — {nameJa}（公式）</a>

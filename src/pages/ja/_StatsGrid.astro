@@ -1,0 +1,33 @@
+---
+/**
+ * src/pages/ja/_StatsGrid.astro — six-cell stats grid for the
+ * occupation detail page (workforce / salary / age / hours /
+ * recruit ratio / hourly wage).
+ *
+ * Each cell shows a label + a pre-formatted display string. The
+ * format strings come from buildOccupationDisplay (see
+ * src/views/occupation-display.ts).
+ *
+ * Page-local sibling (Astro `_`-prefix → not routed).
+ */
+
+interface Props {
+  readonly workersCell: string;
+  readonly salaryCell: string;
+  readonly ageCell: string;
+  readonly hoursCell: string;
+  readonly recruitDisp: number | string;
+  readonly hourlyDisp: string;
+}
+
+const { workersCell, salaryCell, ageCell, hoursCell, recruitDisp, hourlyDisp } =
+  Astro.props;
+---
+<dl class="stats" aria-label="主な職業統計">
+  <div><dt>就業者数</dt><dd>{workersCell}</dd></div>
+  <div><dt>年収（平均）</dt><dd>{salaryCell}</dd></div>
+  <div><dt>平均年齢</dt><dd>{ageCell}</dd></div>
+  <div><dt>月労働時間</dt><dd>{hoursCell}</dd></div>
+  <div><dt>求人倍率</dt><dd>{recruitDisp}</dd></div>
+  <div><dt>時給</dt><dd>{hourlyDisp}</dd></div>
+</dl>
