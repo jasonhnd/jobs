@@ -137,6 +137,174 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   `hub-hub-graph.ts`, and the unused `PLACEHOLDER_*` constants in
   `inline-links.ts`.
 
+### Changed (5-layer architecture migration · `docs/architecture.md` §11)
+
+Strangler-Fig migration of the codebase from a flat `src/data/lib/*` +
+inline page templates into 5 explicit layers (Sources → Graph → Views →
+Templates → Pages), driven by `docs/architecture.md`. 12 steps, ~60
+commits, byte-identical output verified at every step via the SEO
+baseline byte-compare (§7). The migration motivation: the pre-migration
+shape didn't survive `[id].astro` reaching 1477 lines, `api/og.tsx`
+reaching 967 lines, and the same `escapeHtml` re-implementation appearing
+in 11 places. New code now has a contract about *where it goes* and
+*what it can import* (architecture-boundary CI gate enforces).
+
+- **Step 0 · SEO baseline (safety net)** — `tests/baseline/` captures 9
+  artifacts (URL set, sitemap, image-sitemap, per-URL title/description/
+  canonical/robots/h1, per-URL og:* + twitter:* tags, per-URL JSON-LD,
+  per-URL internal links + anchors, public/data.* file paths). On every
+  PR, `scripts/diff-seo-baseline.cjs` byte-compares the built `dist-astro/`
+  against the snapshot. Any structural refactor that would silently break
+  Google's view of the site now fails the gate before merge. 822 URLs +
+  1714 data files captured at baseline time. Workflow:
+  `.github/workflows/seo-baseline.yml`. The byte-compare is the contract
+  that made the rest of the migration tractable — without it, Strangler-Fig
+  rewrites would have been blind to drift.
+- **Step 1 · Graph layer** (`src/graph/`, 1152 lines across 6 files):
+  immutable Knowledge Graph (`loadGraph()` → `KnowledgeGraph`) with branded
+  ids (`OccupationId` / `SectorId` / `SkillId` / `KnowledgeId` / `AbilityId`
+  / `InterestId` / `WorkValueId` / `WorkCharacteristicId` /
+  `WorkActivityId`) and typed edge queries. Replaces ad-hoc Map lookups
+  spread across the projection layer. Equivalence vs. the legacy
+  `buildIndexes()` is pinned by `src/graph/equivalence.test.ts` (counts,
+  sector assignments, per-occupation dimension weights all match).
+- **Step 2 · SectorView vertical** (first end-to-end view migration):
+  `src/views/sector.ts` consumes the Graph, produces a view-model;
+  `src/pages/ja/sectors/[sector].astro` (598 → 131 lines) and
+  `src/pages/ja/sectors/index.astro` are now thin page-binding shells
+  that pass the view-model into Layer 4 templates. Validates the layering
+  pattern on a real page family before the long tail.
+- **Step 3 · Architecture-boundary CI gate** (`scripts/check-architecture.cjs`):
+  grep-based import audit. Graph forbids imports from Views / Templates /
+  Pages; Views forbid Templates / Pages; Templates forbid `src/data/lib`
+  and Pages; Pages forbid `src/data/projections`. New code that crosses
+  a layer line fails CI. Wired into `.github/workflows/seo-baseline.yml`.
+- **Step 4-7 · Hub / Ranking / Compare / Skill / Interest families** (~80
+  routes): each family follows the SectorView pattern — a `src/views/*.ts`
+  generator over the Graph + a thin `[slug].astro` page shell. Hubs:
+  abilities, knowledge, values, work-styles, life-balance, education,
+  employment-types, training, entry-paths. Rankings: 11 ranking routes
+  with editorial copy moved to `ranking-copy.ts` and HTML/JSON-LD
+  renderers to `ranking-renderers.ts`. Compare: 20 curated pairs.
+  Skills + Interests: 18 routes.
+- **Step 8 · OccupationDetail** (`/ja/<id>` family, 556 routes — the
+  largest single migration): `src/pages/ja/[id].astro` slimmed from 1477
+  → 164 lines (−88.9%). 14 sub-templates extracted to `src/templates/`
+  (`OccFaq`, `Provenance`, `OrgsCerts`, `AiRiskDetail`, `ProfileRadar`,
+  `Transfer`, `MetaRow`, `Topn`, `JsonLd`, `RiskCard`, `StatsGrid`,
+  `JobtagAnchor`, `ProseSection`, `LegacyRelated`). View-layer derivations
+  (`occupation-detail.ts`, `occupation-aux-data.ts`, `occupation-page-data.ts`,
+  `occupation-seo.ts`, `occupation-display.ts`, `risk-callout.ts`,
+  `spoke-graph.ts`) own all data shaping. Page now imports its
+  bindings bundle from a sibling `_id-bindings.ts`.
+- **Step 9 · OG endpoint refactor** (`api/og.tsx`, 967 → 172 lines, −82.2%):
+  thin dispatcher. 5 card config dicts (`PAGE`/`RANKING`/`INTEREST`/`SKILL`/
+  `COMPARE_CARDS`) moved to `src/views/og-cards.ts`. 4 OG card JSX renderers
+  moved to `src/lib/og-renderers/{generic,map,sector,occupation}.tsx`.
+  The Vercel Edge dispatcher reads the card type from the URL, looks up
+  the config, and hands off to the renderer — adding a new card surface
+  is now ~30 lines (config entry + page binding).
+- **Step 10 · JsonLd / Sitemap relocation** (`src/views/`): JSON-LD is
+  *data*, not HTML, so `occupation-jsonld.ts` + `sector-jsonld.ts` moved
+  templates/ → views/. Sitemap enumeration + XML rendering split: new
+  `src/views/sitemap.ts` (225 lines, `buildSitemapEntries(graph, today)`
+  + `renderSitemapXml(entries)` against the graph), `src/pages/sitemap.xml.ts`
+  thinned 210 → 44 lines.
+- **Step 11 · Legacy island (◐ partial)**: inline `<style>` extractions
+  from raw HTML legacy files into sibling page-local TypeScript modules,
+  injected at build time via `patchOrThrow` with `String.raw` template
+  literals so byte-identity is preserved. `src/pages/ja/[id]/_id-css.ts`
+  (234 lines), `src/pages/_map-css.ts` (375 lines from `map.astro`),
+  `src/pages/ja/sectors/_sector-css.ts` (103 lines), and most recently
+  `src/pages/_index-css.ts` (2222 lines from `src/index-source.html`,
+  bringing the legacy file from 5244 → 3047 lines, −42%). Inline
+  `<script>` blocks remain inline by design — IIFE + analytics coupling
+  is dense, the BaseLayout / Footer refactor (separate future scope) will
+  absorb them.
+- **Step 12 · Dead-code sweep** (`chore(step12)`): removed 3 stale
+  projections (`featured`, `score_history`, `tasks`) from `src/data/build.ts`
+  + their schema checks from `test-consistency.ts`. ~25% build pipeline
+  time saved. Architecture-boundary gate tightened to 4 layers
+  (was 3); Templates now forbid `src/data/lib`, Pages forbid
+  `src/data/projections`.
+- **§5 cross-cutting: SafeHtml branded type** (`src/lib/safe-html.ts`):
+  consolidated 11 ad-hoc `escapeHtml` copies (across `genre-hub`,
+  `skills-hub`, `interests`, `compare-hub`, `ranking-renderers`,
+  `spoke-*-graph`, `inline-links`, plus per-page inline `esc()`) onto a
+  single primitive. The brand is compile-time (TS unique-symbol), the
+  runtime guarantee is the `html\`...\`` template tag escapes every
+  interpolated value at construction time. Pre-existing renderers
+  promoted via `unsafeReviewedHtml(s, reason)` — the mandatory `reason`
+  argument greps to record audit trails.
+- **§5 cross-cutting: lib consolidation** (`src/lib/num.ts`, `src/lib/risk.ts`,
+  `src/lib/urls.ts`, `src/lib/format-paragraphs.ts`): 6 copies of `fmtInt`
+  (compare-hub, genre-hub, interests, rankings, skills-hub, [id].astro)
+  + 3 copies of `safeMean` consolidated to single sources. 5 copies of
+  the `riskClass` UI classifier replaced with `src/lib/risk.ts:riskClass()`.
+
+### CI gates added (architecture migration · `docs/architecture.md` §6.3)
+
+The byte-baseline catches *drift against a known-good snapshot*; the
+gates below catch *structural bugs* and *categories of regression* that
+don't yet have a baseline entry. Together they fail-fast at PR time
+rather than days later in Google Search Console.
+
+- **`scripts/verify-jsonld.cjs`** — every page's JSON-LD payload parses
+  cleanly + has top-level `@context === 'https://schema.org'` + carries
+  a non-empty `@graph` (or a root `@type`). Type-specific contracts:
+  `WebPage` (url/name/description), `Occupation` (name/description/
+  `occupationLocation`), `Article` (`headline`/`url`), `BreadcrumbList`
+  (position/name per row), `ItemList` (position + at least one of
+  name/url/item per row), `FAQPage` (`mainEntity` array; each with
+  `name` + `acceptedAnswer.text`). Per-URL: at least one of `WebPage` /
+  `Article` / `TechArticle` / `CollectionPage` / `QAPage` / `Dataset`
+  present (page-identity node — without it social platforms can't render
+  an OG card). 820 / 822 pages validated; 2-entry allowlist (`/404`,
+  `/map-thumb.snippet`).
+- **`scripts/verify-internal-links.cjs`** — every internal `<a href>`
+  on the built site resolves to a real emitted file or known non-HTML
+  asset. Catches stale slugs (e.g. `/ja/sectors/iryo` after a rename to
+  `/healthcare`) before Google Search Console reports them days later.
+  41,277 internal hrefs validated against the emitted URL set; 0
+  pre-known broken targets remain. The initial snapshot caught 36
+  broken hrefs in production, all repaired in
+  `94b64855 fix(links)` — see commit for the 33-link
+  `hub-hub-graph.ts` qa-related-topics filter (cross-genre stale refs)
+  + 3 dead `CURATED_PAIRS` (life-balance sentinel slugs).
+- **`tests/e2e/a11y.spec.ts`** — axe-core scan across 10 representative
+  pages (home, /map, /ja/sectors, /ja/sectors/iryo, /ja/156, /ja/rankings/
+  ai-risk-low, /ja/skills, /ja/compare, /ja/q/ai-de-kienai, /privacy).
+  Fails on any `critical` or `serious` WCAG 2.1 AA violation; `moderate` /
+  `minor` are logged but don't gate. `color-contrast` + `meta-viewport`
+  rules disabled (documented exceptions in the spec).
+- **`tests/e2e/visual.spec.ts`** — structural visual regression at 4
+  breakpoints (320 / 768 / 1024 / 1440). Asserts geometry invariants
+  (no horizontal overflow, first `<h1>` non-zero box, top-nav pinned to
+  viewport top, footer renders with height > 0, `#mapContent` on /map
+  has non-zero size). Catches the "HTML same, CSS regressed → layout
+  broke visually" class that SEO baseline byte-compare misses. Pixel-
+  perfect snapshot regression intentionally deferred — cross-platform
+  pixel comparison is flaky on font rendering + GPU compositing and
+  binary baseline storage has its own ops cost.
+- **CI workflow** (`.github/workflows/seo-baseline.yml`): runs
+  `check:seo-baseline` + `check:architecture` + `verify:jsonld` +
+  `verify:internal-links` on every PR to main. E2E (`a11y.spec` +
+  `visual.spec` + `smoke.spec` + `analytics.spec`) runs via
+  `.github/workflows/e2e.yml`, Playwright + Chromium installed
+  on-demand by `scripts/run-e2e.sh` to keep Vercel installs slim.
+
+### Verified — architecture migration
+
+- 822 pages build clean; `check-rendered-leaks` zero hits across all
+  generated HTML.
+- SEO baseline byte-identity preserved through every step (sole expected
+  diff: build-time `<time datetime=…>` in footer).
+- `check:architecture` green across all 4 enforced layer boundaries
+  (Graph / Views / Templates / Pages).
+- 542 unit tests across 60 test files (up from 278 cases); view-layer
+  coverage 15/15.
+- `pnpm audit` reports zero vulnerabilities.
+
 ## [1.5.0] — 2026-05-09 — Track D · Python pipeline retired, full TypeScript+Astro
 
 End of the Python+HTML → TypeScript+Astro migration. The ~50-file Python
