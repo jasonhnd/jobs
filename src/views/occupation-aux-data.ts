@@ -51,7 +51,14 @@ function auxPaths(): { profile5: string; transfer: string } {
   };
 }
 
-function readJsonSafe<T = unknown>(p: string): T | null {
+/**
+ * Read + parse a JSON file, returning `null` on any failure
+ * (missing file, unreadable bytes, invalid JSON). Used by the
+ * two lazy getters below; exported so the fallback-path
+ * behaviour can be unit-tested directly. Pure given the
+ * filesystem state at call time.
+ */
+export function readJsonSafe<T = unknown>(p: string): T | null {
   try {
     return JSON.parse(readFileSync(p, 'utf8')) as T;
   } catch {
