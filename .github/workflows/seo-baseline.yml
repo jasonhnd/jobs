@@ -72,3 +72,6 @@ jobs:
 
       - name: Verify JSON-LD structural validity (docs/architecture.md §6.3)
         run: pnpm run verify:jsonld
+
+      - name: Verify internal-link integrity (every href resolves)
+        run: pnpm run verify:internal-links

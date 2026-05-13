@@ -23,6 +23,7 @@
     "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
     "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
     "verify:jsonld": "node scripts/verify-jsonld.cjs",
+    "verify:internal-links": "node scripts/verify-internal-links.cjs",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {
