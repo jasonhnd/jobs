@@ -95,7 +95,8 @@ type JsonLdGraphNode =
 /** One occupation entry inside the ItemList node. */
 export interface SectorJsonLdOccupation {
   readonly id: number;
-  readonly titleJa: string;
+  /** Empty / null → falls back to "#{id}" inside ListItem.name. */
+  readonly titleJa: string | null;
 }
 
 /** Pre-resolved inputs for the sector hub JSON-LD graph. */

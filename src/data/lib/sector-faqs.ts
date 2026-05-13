@@ -21,7 +21,8 @@ import { fmtInt } from '../../lib/num.js';
 /** One ranked occupation summary as the FAQ builder consumes it.
  *  A subset of the page's SectorOccupationSummary shape. */
 export interface SectorOccupationLite {
-  readonly titleJa: string;
+  /** Empty / null entries are filtered out by the FAQ builder. */
+  readonly titleJa: string | null;
   readonly aiRisk: number | null;
 }
 

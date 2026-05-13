@@ -24,7 +24,8 @@ import { riskClass } from '../lib/risk.js';
 /** One row in a top-list or full-list. */
 export interface SectorListOccupation {
   readonly id: number;
-  readonly titleJa: string;
+  /** Empty / null → falls back to "#{id}" in the rendered link. */
+  readonly titleJa: string | null;
   readonly aiRisk: number | null;
   /** Only used by renderSectorOccupationTopList. */
   readonly workers?: number | null | undefined;
@@ -45,7 +46,7 @@ function listItem(
   occ: SectorListOccupation,
   showWorkers: boolean,
 ): string {
-  const titleStr = occ.titleJa || `#${occ.id}`;
+  const titleStr = (occ.titleJa ?? '') || `#${occ.id}`;
   const scoreStr = riskScoreText(occ.aiRisk);
   const band = riskClass(occ.aiRisk);
   const link =
