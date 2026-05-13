@@ -24,7 +24,6 @@ import { renderTopn } from '@/templates/Topn';
 import { renderOccFaq } from '@/templates/OccFaq';
 import { renderTransfer } from '@/templates/Transfer';
 import { renderOrgsCerts } from '@/templates/OrgsCerts';
-import { renderProvenance } from '@/templates/Provenance';
 import { renderAiRiskDetail } from '@/templates/AiRiskDetail';
 import { renderOccupationJsonLd } from '@/templates/JsonLd';
 import { jaUrl } from '@/lib/urls';
@@ -115,16 +114,6 @@ export function renderOccupationOrgsCerts(rec: Rec): string {
       url: o.url ?? null,
     })),
     certs: rec.related_certs_ja ?? [],
-  });
-}
-
-export function renderOccupationProvenance(rec: Rec): string {
-  const dsv = rec.data_source_versions ?? {};
-  return renderProvenance({
-    aiModel: rec.ai_model,
-    aiScoredAt: rec.ai_scored_at,
-    ipdNumeric: dsv.ipd_numeric ?? null,
-    ipdDescription: dsv.ipd_description ?? null,
   });
 }
 

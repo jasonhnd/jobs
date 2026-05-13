@@ -44,7 +44,6 @@ import {
   renderOccupationFaq,
   renderOccupationTransfer,
   renderOccupationOrgsCerts,
-  renderOccupationProvenance,
   renderOccupationAiRiskDetail,
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
@@ -95,14 +94,9 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly faqHtml: string;
   readonly transferHtml: string;
   readonly orgsCertsHtml: string;
-  readonly provenanceHtml: string;
   readonly howSection: string;
   readonly condSection: string;
   readonly legacyRelatedHtml: string;
-
-  // Inline-script payload
-  readonly shareTextForPost: string;
-  readonly copyToastText: string;
 
   // Schema.org JSON-LD payload (pretty-printed string)
   readonly jsonLd: string;
@@ -179,7 +173,6 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const faqHtml = renderOccupationFaq(rec);
   const transferHtml = renderOccupationTransfer(rec, nameLookup);
   const orgsCertsHtml = renderOccupationOrgsCerts(rec);
-  const provenanceHtml = renderOccupationProvenance(rec);
   const legacyRelatedHtml = renderLegacyRelated({
     related: related.map((r) => ({
       id: r.id,
@@ -189,9 +182,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     suppress: Boolean(transferHtml),
   });
 
-  // ─── Inline-script payload + JSON-LD ──────────────────────
-  const shareTextForPost = `${nameJa} の AI 影響度は ${display.riskStr}。日本 552 職種の AI 影響マップ（非公式・独自分析）。`;
-  const copyToastText = 'コピーしました';
+  // ─── JSON-LD ──────────────────────────────────────────────
   const jsonLd = renderOccupationJsonLdFromRec(rec, {
     datePublished,
     dateModified,
@@ -222,12 +213,9 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     faqHtml,
     transferHtml,
     orgsCertsHtml,
-    provenanceHtml,
     howSection,
     condSection,
     legacyRelatedHtml,
-    shareTextForPost,
-    copyToastText,
     jsonLd,
   };
 }
