@@ -34,6 +34,7 @@ import { renderTransfer as renderTransferTemplate } from '@/templates/Transfer';
 import { renderMetaRow as renderMetaRowTemplate } from '@/templates/MetaRow';
 import { renderTopn as renderTopnTemplate } from '@/templates/Topn';
 import { renderOccupationJsonLd as renderOccupationJsonLdTemplate } from '@/templates/JsonLd';
+import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -439,82 +440,21 @@ function renderTopn(rec: Rec): string {
   });
 }
 
-function buildOccFaqs(rec: Rec): [string, string][] {
-  const name = rec.name_ja || '';
-  const salary = rec.salary;
-  const workers = rec.workers;
-  const recruit = rec.recruit_ratio;
-  const risk = rec.ai_risk;
-  const rationale = (rec.ai_rationale_ja || '').trim().replace(/。$/, '').trim();
-  const how = (rec.how_to_become_ja || '').trim();
-  const skills = rec.skills_top10 ?? [];
-  const faqs: [string, string][] = [];
-
-  if (salary) {
-    const monthly = salary / 12;
-    const compare = salary > 500
-      ? '日本全体の平均年収（約460万円）を上回る水準'
-      : salary < 420
-        ? '日本全体の平均年収（約460万円）を下回る水準'
-        : '日本全体の平均年収（約460万円）と同程度';
-    faqs.push([
-      `${name}の年収はいくらですか？`,
-      `${name}の平均年収は約${Math.trunc(salary)}万円（月収換算で約${Math.trunc(monthly)}万円）で、${compare}です。これは厚生労働省 jobtag のデータに基づく値で、勤務先・地域・経験により幅があります。`,
-    ]);
-  }
-
-  if (risk !== null) {
-    const tier = risk <= 3
-      ? '低めで、AI に代替されにくい職業'
-      : risk <= 6
-        ? '中程度で、業務の一部が AI 補助に移行する可能性'
-        : '高めで、業務の多くが AI による代替・補助の対象となる可能性';
-    const rationaleStr = rationale ? `主な要因は「${rationale}」。` : '';
-    faqs.push([
-      `${name}のAI代替リスクはどれくらいですか？`,
-      `${name}のAI影響度は10段階中 ${risk} で、${tier}です。${rationaleStr}これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。`,
-    ]);
-
-    const outlook = risk <= 3
-      ? 'AI に代替されにくく、将来性は比較的安定'
-      : risk >= 7
-        ? 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に'
-        : 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性';
-    const workersStr = workers ? `日本での就業者数は約${fmtInt(workers)}人。` : '';
-    const recruitStr = recruit !== null && recruit !== undefined ? `求人倍率 ${recruit.toFixed(2)} 倍。` : '';
-    faqs.push([
-      `${name}の将来性はどうですか？`,
-      `AI影響度 ${risk}/10。${outlook}な職業です。${workersStr}${recruitStr}個別の状況に応じた判断が重要です。`,
-    ]);
-  }
-
-  if (how) {
-    let first = how.split('。')[0].trim();
-    if (!first) first = how.slice(0, 200).trim();
-    if (first.length > 220) first = first.slice(0, 220).trimEnd() + '…';
-    faqs.push([
-      `${name}になるにはどうすればいいですか？`,
-      `${first}。詳しい流れは本ページ内の「${name}になるには・必要な資格」セクションをご覧ください。`,
-    ]);
-  }
-
-  if (skills.length) {
-    const top3 = skills.slice(0, 3).map((s) => s.label_ja).filter(Boolean);
-    if (top3.length) {
-      const skillsStr = top3.join('、');
-      let extra = '';
-      if (skills.length >= 5) {
-        const tail = skills.slice(3, 5).map((s) => s.label_ja).filter(Boolean);
-        if (tail.length) extra = `加えて、${tail.join('、')}も重要です。`;
-      }
-      faqs.push([
-        `${name}に必要なスキルは何ですか？`,
-        `${name}で特に重視されるスキルは、${skillsStr}などです。${extra}詳しいスキル分布は本ページ内の「必要なスキル・知識・能力」セクションをご覧ください。`,
-      ]);
-    }
-  }
-
-  return faqs;
+// Shared data builder — single source of truth in
+// src/data/lib/occupation-faqs. The page-local adapter maps Rec
+// (snake_case, varied null/undefined defaults) into the narrow
+// OccupationFaqsInput shape (camelCase, predictable nullability).
+function buildOccFaqs(rec: Rec): readonly (readonly [string, string])[] {
+  return buildOccupationFaqs({
+    nameJa: rec.name_ja || '',
+    salaryMan: rec.salary,
+    workers: rec.workers,
+    recruitRatio: rec.recruit_ratio,
+    aiRisk: rec.ai_risk,
+    aiRationaleJa: rec.ai_rationale_ja || '',
+    howToBecomeJa: rec.how_to_become_ja || '',
+    skillsTop10: (rec.skills_top10 ?? []).map((s) => ({ labelJa: s.label_ja ?? null })),
+  });
 }
 
 // Shared template — single source of truth in src/templates/OccFaq.
