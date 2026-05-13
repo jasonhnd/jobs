@@ -21,58 +21,16 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
-import { escapeHtml } from '@/lib/safe-html';
-import { fmtInt } from '@/lib/num';
-import { formatParagraphs } from '@/lib/format-paragraphs';
-import { jaUrl } from '@/lib/urls';
-import { pickRiskOneLineCallout } from '@/lib/risk-callout';
-import { buildOccupationSeo } from '@/views/occupation-seo';
-import { buildOccupationDisplay } from '@/views/occupation-display';
-import { renderProseSection } from '@/templates/ProseSection';
-import { renderLegacyRelated } from '@/templates/LegacyRelated';
-import {
-  makeOccupationDefinitionFromRec,
-  renderOccupationMetaRow,
-  renderOccupationProfileRadar,
-  renderOccupationTopn,
-  renderOccupationFaq,
-  renderOccupationTransfer,
-  renderOccupationOrgsCerts,
-  renderOccupationProvenance,
-  renderOccupationAiRiskDetail,
-  renderOccupationJsonLdFromRec,
-} from './_id-renderers';
-import type {
-  Rec,
-  TopNEntry,
-  OrgEntry,
-  ClassificationsField,
-  SectorMeta,
-  DataSourceVersions,
-  DetailFile,
-} from '@/data/lib/adapt-detail';
-import { type SpokeNeighbor } from '../../data/lib/spoke-spoke-graph';
+import IdPageScript from './_IdPageScript.astro';
+import { buildIdPageBindings } from './_id-bindings';
 import { ID_PAGE_CSS } from './_id-css';
+import type { Rec } from '@/data/lib/adapt-detail';
+import { type SpokeNeighbor } from '../../data/lib/spoke-spoke-graph';
 
-// ─── Build-time data sources ────────────────────────────────────────────────
-// NOTE: Astro hoists getStaticPaths into its own module scope, so anything it
-// references must be either inline-defined inside it or imported at the top.
-// We expose DATA_DETAIL etc. through a single helper module so getStaticPaths
-// and the body share the same data. To keep this PR self-contained, we keep
-// constants and helpers at module scope but do all I/O inside the bodies of
-// getStaticPaths and the page render — Astro's static analysis allows that.
-
+// Schema.org dates appear inside the JSON-LD payload + RSS-style metadata.
+// Page-internal versioning, not derived state.
 const DATE_PUBLISHED = '2026-04-25';
 const DATE_MODIFIED = '2026-04-30';
-const RELATED_COUNT = 5;
-
-// Rec + 5 supporting types (TopNEntry / OrgEntry / ClassificationsField /
-// SectorMeta / DataSourceVersions / DetailFile) live in
-// src/data/lib/adapt-detail — see the type imports at the top of this file.
-// Lazy loaders for the auxiliary public/data.* files (profile5,
-// transfer_paths) live in src/views/occupation-aux-data. The 11 page-side
-// renderer adapters (renderOccupationMetaRow / Topn / FAQ / Transfer /
-// AiRiskDetail / JsonLd / etc.) live in ./_id-renderers, also imported above.
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 
@@ -103,16 +61,12 @@ export async function getStaticPaths() {
   }));
 }
 
-// ─── Helpers (mirror Python helpers) ─────────────────────────────────────────
-// escapeHtml is imported at the top of the file from '@/lib/safe-html'.
-
-// fmtInt: imported at top of file from '@/lib/num'.
-
-// All Rec → SafeHtml render adapters (and the makeDefinition /
-// buildOccFaqs data builders) live in ./_id-renderers and are
-// imported at the top of this file.
-
 // ─── Page render ─────────────────────────────────────────────────────────────
+//
+// All Rec → SafeHtml render adapters + page-binding derivations live in
+// ./_id-bindings (buildIdPageBindings) and ./_id-renderers. The page
+// frontmatter below just unpacks the props, awaits the spoke-graph view,
+// calls buildIdPageBindings once, and destructures the result.
 
 interface PageProps {
   rec: Rec;
@@ -133,108 +87,29 @@ const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
   sameRiskArr,
 );
 
-const id = rec.id;
-const canonical = jaUrl(id);
-const nameJa = rec.name_ja || '';
-const risk = rec.ai_risk;
-const rationaleJa = rec.ai_rationale_ja || '';
-const descJa = (rec.desc_ja || '').slice(0, 240);
-const longWhatJa = rec.what_it_is_ja || '';
-const longHowJa = rec.how_to_become_ja || '';
-const longCondJa = rec.working_conditions_ja || '';
-const salaryMan = rec.salary;
-const workers = rec.workers;
-const age = rec.age;
-const hours = rec.hours;
-const recruit = rec.recruit_ratio;
-const hourly = rec.hourly_wage;
-const mhlwUrl = rec.url;
-
-// Derived display strings (riskStr / riskClass / *Cell / *Disp).
-// Single source of truth in src/views/occupation-display.
-const display = buildOccupationDisplay({
-  aiRisk: risk,
-  salaryMan,
-  workers,
-  age,
-  hours,
-  recruitRatio: recruit,
-  hourlyWage: hourly,
-});
-const { riskStr, riskClass, riskNumDisp, salaryInt, ageDisp, hoursDisp, recruitDisp, hourlyDisp, workersCell, ageCell, hoursCell, salaryCell } = display;
-
-// SEO + OG meta — single source of truth in src/views/occupation-seo.
-const aliases = rec.aliases_ja ?? [];
-const seo = buildOccupationSeo({
-  nameJa,
-  aiRisk: risk,
-  salaryMan,
-  workers,
-  aliasesJa: aliases,
-});
-const { title, description: seoDesc, ogTitle, ogDescription: ogDesc, keywords } = seo;
-
-const rationale = rationaleJa || descJa;
-
-// One-line callout under risk badge — single source of truth in src/lib/risk-callout.
-const oneLineText = pickRiskOneLineCallout(risk);
-
-const ctxH2 = `${nameJa}とは`;
-const ctxP = longWhatJa || descJa || rationaleJa;
-const howH2 = `${nameJa}になるには・必要な資格`;
-const condH2 = `${nameJa}の労働条件・働き方`;
-
-const definition = makeOccupationDefinitionFromRec(rec);
-const ctxBodyHtml = ctxP ? formatParagraphs(ctxP) : '';
-const ctxHtml = `<p class="definition">${escapeHtml(definition)}</p>\n        ${ctxBodyHtml}`.trimEnd();
-
-const howSection = renderProseSection({
-  h2: howH2,
-  sectionClass: 'how-to-become',
-  bodyText: longHowJa,
-});
-const condSection = renderProseSection({
-  h2: condH2,
-  sectionClass: 'working-conditions',
-  bodyText: longCondJa,
-});
-
-const metaRowHtml = renderOccupationMetaRow(rec);
-const aiRiskDetailHtml = renderOccupationAiRiskDetail(rec);
-const profileHtml = renderOccupationProfileRadar(rec);
-const topnHtml = renderOccupationTopn(rec);
-const faqHtml = renderOccupationFaq(rec);
-const transferHtml = renderOccupationTransfer(rec, nameLookup);
-const orgsCertsHtml = renderOccupationOrgsCerts(rec);
-const provenanceHtml = renderOccupationProvenance(rec);
-
-const legacyRelatedHtml = renderLegacyRelated({
-  related: related.map((r) => ({
-    id: r.id,
-    nameJa: r.name_ja || '',
-    aiRisk: r.ai_risk,
-  })),
-  suppress: Boolean(transferHtml),
-});
-
-// Display formatters above (riskStr / riskClass / *Disp / *Cell) come from
-// src/views/occupation-display — see destructuring after buildOccupationDisplay call.
-
-const riskScoreJs = risk !== null ? String(risk) : 'null';
-const riskTierJs = risk !== null && risk >= 7 ? "'high'" : risk !== null && risk >= 5 ? "'mid'" : "'low'";
-
-const shareTextForPost = `${nameJa} の AI 影響度は ${riskStr}。日本 552 職種の AI 影響マップ（非公式・独自分析）。`;
-const copyToastText = 'コピーしました';
-
-const jsonLd = renderOccupationJsonLdFromRec(rec, {
+// All page-render derivations (display strings, SEO meta, section HTML,
+// JSON-LD, share-text payload) are bundled into one pass in
+// ./_id-bindings. The bindings call orchestrates ~80 lines of
+// const declarations under one entry point.
+const bindings = buildIdPageBindings({
+  rec,
+  related,
+  nameLookup,
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,
 });
+const {
+  id, canonical, nameJa, risk, mhlwUrl, rationale, oneLineText,
+  title, seoDesc, ogTitle, ogDesc, keywords,
+  ctxH2, howH2, condH2, ctxHtml,
+  metaRowHtml, aiRiskDetailHtml, profileHtml, topnHtml, faqHtml,
+  transferHtml, orgsCertsHtml, provenanceHtml, howSection, condSection,
+  legacyRelatedHtml,
+  riskClass, riskNumDisp, recruitDisp, hourlyDisp,
+  workersCell, ageCell, hoursCell, salaryCell,
+  shareTextForPost, copyToastText, jsonLd,
+} = bindings;
 
-// JSON encode helper for inline JS string literals
-function jsStr(s: string): string {
-  return JSON.stringify(s);
-}
 ---
 <BaseLayout
   title={title}
@@ -381,69 +256,12 @@ function jsStr(s: string): string {
     <Footer />
   </div>
 
-  <script slot="bodyEnd" is:inline define:vars={{ occId: id, canonicalJs: canonical, shareTextJs: shareTextForPost, copyToastJs: copyToastText, riskScoreJs: risk, riskTierJs: risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low' }}>
-    // Per-occupation page-view signal for the GA4 conversion funnel.
-    try { if (typeof gtag === 'function') gtag('event', 'result_view', { occupation_id: occId, ai_risk_score: riskScoreJs, risk_tier: riskTierJs, language: 'ja' }); } catch (e) {}
-
-    // Theme toggle
-    (function () {
-      var btn = document.getElementById('themeToggle');
-      if (!btn) return;
-      btn.addEventListener('click', function () {
-        var sysLight = matchMedia('(prefers-color-scheme: light)').matches;
-        var saved = null;
-        try { saved = localStorage.getItem('theme'); } catch (e) {}
-        var cur = document.documentElement.getAttribute('data-theme') || (sysLight ? 'light' : 'dark');
-        var next = cur === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch (e) {}
-        if (window.gtag) gtag('event', 'theme_change', { from: cur, to: next, was_explicit: saved === 'light' || saved === 'dark', system_pref: sysLight ? 'light' : 'dark' });
-      });
-    })();
-
-    // Stage 1: Follow + Share handlers
-    (function () {
-      var SITE = canonicalJs;
-      var SHARE_TEXT = shareTextJs;
-      var COPY_TOAST = copyToastJs;
-      function shareUrl(source, medium) {
-        var sep = SITE.indexOf('?') >= 0 ? '&' : '?';
-        return SITE + sep + 'utm_source=' + source + '&utm_medium=' + medium + '&utm_campaign=footer_share&utm_content=occ';
-      }
-      function track(p) { if (window.gtag) gtag('event', 'share_click', { platform: p, occupation_id: occId, language: 'ja' }); }
-      function open(u) { window.open(u, '_blank', 'noopener,noreferrer'); }
-
-      var x = document.getElementById('share-x');
-      if (x) x.addEventListener('click', function (e) { e.preventDefault(); open('https://x.com/intent/post?url=' + encodeURIComponent(shareUrl('x', 'social')) + '&text=' + encodeURIComponent(SHARE_TEXT)); track('x'); });
-      var line = document.getElementById('share-line');
-      if (line) line.addEventListener('click', function (e) { e.preventDefault(); open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl('line', 'im'))); track('line'); });
-      var hatena = document.getElementById('share-hatena');
-      if (hatena) hatena.addEventListener('click', function (e) { e.preventDefault(); open('https://b.hatena.ne.jp/entry/' + shareUrl('hatena', 'social').replace(/^https?:\/\//, '')); track('hatena'); });
-      var linkedin = document.getElementById('share-linkedin');
-      if (linkedin) linkedin.addEventListener('click', function (e) { e.preventDefault(); open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl('linkedin', 'social'))); track('linkedin'); });
-      var fb = document.getElementById('share-facebook');
-      if (fb) fb.addEventListener('click', function (e) { e.preventDefault(); open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl('facebook', 'social'))); track('facebook'); });
-      var xfollow = document.getElementById('x-follow-cta');
-      if (xfollow) xfollow.addEventListener('click', function () { if (window.gtag) gtag('event', 'x_follow_click', { occupation_id: occId, language: 'ja' }); });
-
-      var copy = document.getElementById('share-copy');
-      var toast = document.getElementById('share-toast');
-      if (copy && toast) copy.addEventListener('click', async function (e) {
-        e.preventDefault();
-        var url = shareUrl('direct', 'copylink');
-        try { await navigator.clipboard.writeText(url); toast.textContent = COPY_TOAST; } catch (err) { toast.textContent = url; }
-        toast.classList.add('visible'); track('copy');
-        setTimeout(function () { toast.classList.remove('visible'); }, 2200);
-      });
-
-      var native = document.getElementById('share-native');
-      if (native && typeof navigator.share === 'function') {
-        native.hidden = false;
-        native.addEventListener('click', async function (e) {
-          e.preventDefault();
-          try { await navigator.share({ title: document.title, text: SHARE_TEXT, url: shareUrl('native', 'share_api') }); track('native'); } catch (err) {}
-        });
-      }
-    })();
-  </script>
+  <IdPageScript
+    occId={id}
+    canonicalJs={canonical}
+    shareTextJs={shareTextForPost}
+    copyToastJs={copyToastText}
+    riskScoreJs={risk}
+    riskTierJs={risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low'}
+  />
 </BaseLayout>
