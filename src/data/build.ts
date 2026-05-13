@@ -18,17 +18,23 @@ import { join, resolve, relative, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import { buildIndexes } from './lib/indexes.js';
 import { buildDetail } from './projections/detail.js';
-import { buildFeatured } from './projections/featured.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
 import { buildProfile5 } from './projections/profile5.js';
-import { buildScoreHistory } from './projections/score_history.js';
 import { buildSearch } from './projections/search.js';
 import { buildSectors } from './projections/sectors.js';
 import { buildSkills } from './projections/skills.js';
-import { buildTasks } from './projections/tasks.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
+// Removed in Step 12 (dead projection cleanup, 2026-05-13):
+//   - buildFeatured / data.featured.json  (no runtime consumer)
+//   - buildScoreHistory / data.score_history.json  (no runtime consumer)
+//   - buildTasks / data.tasks/*.json  (no runtime consumer; the
+//     556-file per-occupation tasks dump cost ~1.2 MB build output
+//     and ~1.5s pipeline time for an output nobody reads)
+// All three were "future projections" placeholders. test-consistency
+// schema checks for these outputs were removed together. If a future
+// feature needs them, restore from git history.
 
 const REPO_ROOT = process.cwd();
 
@@ -159,12 +165,10 @@ async function main(): Promise<void> {
       return { files: [r.dir], summary: `files=${r.fileCount}` };
     }));
 
-    // ───── Future projections (mirror Python --enable-future order) ─────
-    runs.push(await runProjection('tasks', async () => {
-      const r = await buildTasks(indexes, STAGE_DIST);
-      return { files: [r.dir], summary: `files=${r.fileCount}` };
-    }));
-
+    // ───── "Future" projections (mirror Python --enable-future order).
+    //       After Step 12 cleanup only skills + holland remain — both
+    //       are read by sector/hub pages. tasks / featured / score_history
+    //       were removed. ─────
     runs.push(await runProjection('skills', async () => {
       const r = await buildSkills(indexes, STAGE_DIST);
       return { files: [r.dir, r.indexFile], summary: `skill_files=${r.skillFiles}` };
@@ -173,19 +177,6 @@ async function main(): Promise<void> {
     runs.push(await runProjection('holland', async () => {
       const r = await buildHolland(indexes, STAGE_DIST);
       return { files: r.files, summary: `rows=${r.rows}` };
-    }));
-
-    runs.push(await runProjection('featured', async () => {
-      const r = await buildFeatured(indexes, STAGE_DIST);
-      return {
-        files: r.files,
-        summary: `picked=${r.picked} pool=${r.candidatePool}`,
-      };
-    }));
-
-    runs.push(await runProjection('score_history', async () => {
-      const r = await buildScoreHistory(indexes, STAGE_DIST);
-      return { files: [r.dir], summary: `files=${r.fileCount}` };
     }));
   } catch (err) {
     // Any projection failure: wipe staging so we don't leave half-written
