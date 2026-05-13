@@ -41,6 +41,8 @@ import { jaUrl } from '@/lib/urls';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import { buildOccupationDisplay } from '@/views/occupation-display';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
+import { renderProseSection } from '@/templates/ProseSection';
+import { renderLegacyRelated } from '@/templates/LegacyRelated';
 import type {
   Rec,
   TopNEntry,
@@ -451,18 +453,16 @@ const definition = makeDefinition(rec);
 const ctxBodyHtml = ctxP ? formatParagraphs(ctxP) : '';
 const ctxHtml = `<p class="definition">${escapeHtml(definition)}</p>\n        ${ctxBodyHtml}`.trimEnd();
 
-const howSection = longHowJa
-  ? `<section class="how-to-become" aria-label="${escapeHtml(howH2)}">
-        <h2>${escapeHtml(howH2)}</h2>
-        ${formatParagraphs(longHowJa)}
-      </section>`
-  : '';
-const condSection = longCondJa
-  ? `<section class="working-conditions" aria-label="${escapeHtml(condH2)}">
-        <h2>${escapeHtml(condH2)}</h2>
-        ${formatParagraphs(longCondJa)}
-      </section>`
-  : '';
+const howSection = renderProseSection({
+  h2: howH2,
+  sectionClass: 'how-to-become',
+  bodyText: longHowJa,
+});
+const condSection = renderProseSection({
+  h2: condH2,
+  sectionClass: 'working-conditions',
+  bodyText: longCondJa,
+});
 
 const metaRowHtml = renderMetaRow(rec);
 const aiRiskDetailHtml = renderAiRiskDetail(rec);
@@ -473,25 +473,14 @@ const transferHtml = renderTransfer(rec, nameLookup);
 const orgsCertsHtml = renderOrgsCerts(rec);
 const provenanceHtml = renderProvenance(rec);
 
-const relH2 = '類似する職業';
-const relPath = '/ja/';
-const relatedListHtml = related
-  .map((r) => {
-    const rid = r.id;
-    const rname = r.name_ja || `#${rid}`;
-    const rrisk = r.ai_risk;
-    const rriskStr = rrisk !== null ? `${rrisk}/10` : '—';
-    return `<li><a class="r-name" href="${relPath}${rid}">${escapeHtml(rname)}</a><span class="r-risk">AI 影響 ${rriskStr}</span></li>`;
-  })
-  .join('\n          ');
-const legacyRelatedHtml = transferHtml
-  ? ''
-  : `<section class="related" aria-label="${escapeHtml(relH2)}">
-        <h2>${escapeHtml(relH2)}</h2>
-        <ul>
-          ${relatedListHtml}
-        </ul>
-      </section>`;
+const legacyRelatedHtml = renderLegacyRelated({
+  related: related.map((r) => ({
+    id: r.id,
+    nameJa: r.name_ja || '',
+    aiRisk: r.ai_risk,
+  })),
+  suppress: Boolean(transferHtml),
+});
 
 // Display formatters above (riskStr / riskClass / *Disp / *Cell) come from
 // src/views/occupation-display — see destructuring after buildOccupationDisplay call.
