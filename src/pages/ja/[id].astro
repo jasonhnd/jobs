@@ -150,104 +150,29 @@ function getTransferPaths(): Record<string, TransferPathEntry> {
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 
 export async function getStaticPaths() {
-  const RELATED = 5;
+  // Step 11: page-level data prep moved to the view layer
+  // (src/views/occupation-page-data). Loads the graph, adapts every
+  // detail file, builds the name lookup + ranking-hits-by-occ +
+  // same-risk-neighbor serializations. The pickRelatedOccupations
+  // helper preserves the legacy "close-risk quota + id-distance
+  // fill" algorithm byte-for-byte.
+  const { buildOccupationPageData, pickRelatedOccupations } = await import(
+    '@/views/occupation-page-data'
+  );
 
-  // Step 8: detail records derived directly from the knowledge graph.
-  // The auxiliary projections (profile5 + transfer_paths) are still read
-  // from public/ inside the page body (see getProfile5 / getTransferPaths
-  // lazy getters) — those migrate in a later step.
-  const { loadGraph } = await import('@/graph');
-  const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
-  const { adaptDetailFile } = await import('../../data/lib/adapt-detail.js');
-
-  const graph = await loadGraph();
-  const all: Rec[] = [];
-  for (const [occId] of graph.occupations) {
-    const detailFile = buildOccupationDetailFile(graph, occId);
-    all.push(adaptDetailFile(detailFile));
-  }
-  all.sort((a, b) => a.id - b.id);
-
-  // Build name lookup keyed by occupation id.
-  const nameLookup: Record<number, string> = {};
-  for (const r of all) nameLookup[r.id] = r.name_ja;
-
-  // Phase A: build ranking-hits-by-occ ONCE for all 556 spokes by importing
-  // buildRankings here in getStaticPaths. Then pass it through props so each
-  // page render can look up "which rankings does my id appear in".
-  const { buildRankings: _buildRankings } = await import('../../data/lib/rankings.js');
-  const { buildRankingHitsByOcc: _buildRH } = await import('../../data/lib/spoke-hub-graph.js');
-  const { buildSameRiskNeighbors: _buildSRN } = await import('../../data/lib/spoke-spoke-graph.js');
-  const _rankingResults = _buildRankings();
-  const rankingHitsByOcc = _buildRH(_rankingResults.results.values());
-  // Serialize Map to array-of-pairs for prop transport (Astro can't pass Map).
-  const rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]> = [];
-  for (const [k, v] of rankingHitsByOcc) {
-    rankingHitsArr.push([k, v.map((h) => ({ slug: h.slug, rank: h.rank }))]);
-  }
-
-  // Phase C: build cross-sector same-risk neighbors ONCE (symmetric).
-  const _sameRiskInputs = all.map((r) => ({
-    id: r.id,
-    name_ja: r.name_ja,
-    ai_risk: r.ai_risk,
-    sector_id: r.sector?.id ?? null,
-    sector_ja: r.sector?.ja ?? null,
-    workers: r.workers,
-  }));
-  const _srnMap = _buildSRN(_sameRiskInputs, { span: 1, topN: 5 });
-  const sameRiskArr: Array<[number, Array<{ id: number; name_ja: string; ai_risk: number | null; sector_id: string | null; sector_ja: string | null; workers: number | null }>]> = [];
-  for (const [k, v] of _srnMap) {
-    sameRiskArr.push([k, v.slice(0, 5)]); // cap final view at 5 even if symmetrize added a few
-  }
-
-  function pickRelated(rec: Rec, count = RELATED): Rec[] {
-    const rid = rec.id;
-    const risk = rec.ai_risk;
-    const chosen: Rec[] = [];
-    const chosenIds = new Set<number>();
-    if (risk !== null) {
-      const same = all.filter(
-        (r) => r.id !== rid && r.ai_risk !== null && Math.abs(r.ai_risk - risk) <= 1,
-      );
-      same.sort((a, b) => {
-        const da = Math.abs((a.ai_risk ?? 0) - risk);
-        const db = Math.abs((b.ai_risk ?? 0) - risk);
-        if (da !== db) return da - db;
-        const na = Math.abs(a.id - rid);
-        const nb = Math.abs(b.id - rid);
-        if (na !== nb) return na - nb;
-        return a.id - b.id;
-      });
-      for (const r of same) {
-        if (chosen.length >= 3) break;
-        chosen.push(r);
-        chosenIds.add(r.id);
-      }
-    }
-    const neighbors = all
-      .filter((r) => r.id !== rid && !chosenIds.has(r.id))
-      .sort((a, b) => {
-        const na = Math.abs(a.id - rid);
-        const nb = Math.abs(b.id - rid);
-        if (na !== nb) return na - nb;
-        return a.id - b.id;
-      });
-    for (const r of neighbors) {
-      if (chosen.length >= count) break;
-      chosen.push(r);
-      chosenIds.add(r.id);
-    }
-    return chosen.slice(0, count);
-  }
+  const { allRecs, nameLookup, rankingHitsArr, sameRiskArr } = await buildOccupationPageData();
 
   // URL params are NOT zero-padded — legacy URLs are /ja/1, /ja/162, /ja/584
   // (no leading zeros). Astro emits dist-astro/ja/{id}.html matching that.
-  // The data filename in dist/data.detail/{padded}.json IS zero-padded; that
-  // padding is handled inside the JSON load step, not in URLs.
-  return all.map((rec) => ({
+  return allRecs.map((rec) => ({
     params: { id: String(rec.id) },
-    props: { rec, related: pickRelated(rec), nameLookup, rankingHitsArr, sameRiskArr },
+    props: {
+      rec,
+      related: pickRelatedOccupations(rec, allRecs),
+      nameLookup,
+      rankingHitsArr,
+      sameRiskArr,
+    },
   }));
 }
 
