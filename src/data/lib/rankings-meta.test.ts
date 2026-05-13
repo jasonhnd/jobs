@@ -43,27 +43,41 @@ test('rankings.ts: ALL_RANKINGS is derived from RANKING_META, not hardcoded', ()
   );
 });
 
-test('api/og.tsx: imports RANKING_META instead of duplicating slug list', () => {
-  // Static check on og.tsx source. The previous bug was a literal
-  // RANKING_CARDS object hardcoded with the 9 slugs — adding a 10th
-  // ranking would silently break /api/og?ranking=<new-slug> until
-  // someone remembered to update both files.
-  const source = readFileSync('api/og.tsx', 'utf8');
+test('OG card configs: src/views/og-cards.ts derives RANKING_CARDS from RANKING_META (no hardcoded slug list)', () => {
+  // The previous bug was a literal RANKING_CARDS object hardcoded
+  // with the 9 slugs — adding a 10th ranking would silently break
+  // /api/og?ranking=<new-slug> until someone remembered to update
+  // both files. Step 9 part 1 (2026-05-13) moved the 5 OG card
+  // dicts out of api/og.tsx and into src/views/og-cards.ts, but
+  // the same drift risk applies: the new file must keep building
+  // RANKING_CARDS from RANKING_META, not by hand.
+  const og = readFileSync('api/og.tsx', 'utf8');
+  const cards = readFileSync('src/views/og-cards.ts', 'utf8');
+
+  // (a) api/og.tsx must consume the views/og-cards module.
   assert.ok(
-    source.includes('rankings-meta'),
-    "api/og.tsx must import from src/data/lib/rankings-meta — drift risk reverted?",
+    og.includes("src/views/og-cards") || og.includes('og-cards'),
+    'api/og.tsx must import the OG card configs from src/views/og-cards — drift risk reverted?',
+  );
+
+  // (b) src/views/og-cards.ts must import + reference RANKING_META.
+  assert.ok(
+    cards.includes('rankings-meta'),
+    'src/views/og-cards.ts must import from src/data/lib/rankings-meta — drift risk reverted?',
   );
   assert.ok(
-    source.includes('RANKING_META'),
-    "api/og.tsx must reference RANKING_META — drift risk reverted?",
+    cards.includes('RANKING_META'),
+    'src/views/og-cards.ts must reference RANKING_META — drift risk reverted?',
   );
-  // Sanity: og.tsx should NOT have a hardcoded `'ai-risk-high'` literal
-  // outside of the import path (a regression would put all 9 slugs back
-  // in a literal Record).
-  const hardcodedSlugCount = (source.match(/['"]ai-risk-high['"]/g) ?? []).length;
-  assert.ok(
-    hardcodedSlugCount === 0,
-    `api/og.tsx contains ${hardcodedSlugCount} hardcoded "ai-risk-high" literal(s) — drift detected`,
+
+  // (c) Neither file should contain a hardcoded `'ai-risk-high'`
+  //     literal (signature of the pre-refactor 9-slug duplicate).
+  const ogHardcoded = (og.match(/['"]ai-risk-high['"]/g) ?? []).length;
+  const cardsHardcoded = (cards.match(/['"]ai-risk-high['"]/g) ?? []).length;
+  assert.equal(
+    ogHardcoded + cardsHardcoded,
+    0,
+    `Hardcoded "ai-risk-high" literals: og.tsx=${ogHardcoded}, og-cards.ts=${cardsHardcoded} — drift detected`,
   );
 });
 
