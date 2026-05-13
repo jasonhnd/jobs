@@ -26,6 +26,12 @@ import { fmtInt } from '@/lib/num';
 import { riskClass as riskBandFromScore } from '@/lib/risk';
 import { buildSectorFaqs } from '@/data/lib/sector-faqs';
 import { renderSectorJsonLd } from '@/templates/SectorJsonLd';
+import { renderOccFaq } from '@/templates/OccFaq';
+import {
+  renderSectorOccupationTopList,
+  renderSectorOccupationFullList,
+  renderRelatedSectorsList,
+} from '@/templates/SectorListings';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -176,85 +182,29 @@ const jsonLd = renderSectorJsonLd({
 
 const ogImage = `${SITE}/api/og?sector=${sid}`;
 
-// Build helper HTML strings (top-list / full-list / related-sectors / faq).
-const renderTopList = (items: readonly SectorOccupationSummary[]): string => {
-  if (!items.length) return '';
-  const rows = items.map((o) => {
-    const titleStr = o.titleJa || `#${o.id as unknown as number}`;
-    const score = o.aiRisk;
-    const scoreStr = score === null || score === undefined ? '—' : `${score}/10`;
-    const band = riskBandFromScore(score);
-    const workers = fmtInt(o.workers);
-    return (
-      `<li>` +
-      `<a href="/ja/${o.id as unknown as number}">` +
-      `<span class="risk-pill ${band}">${esc(scoreStr)}</span>` +
-      `${esc(titleStr)}` +
-      `</a>` +
-      `<span class="meta">${workers} 就業者</span>` +
-      `</li>`
-    );
-  });
-  return `<ul class="top-list">${rows.join('')}</ul>`;
-};
+// List sections (top / full / related-sectors / FAQ) come from shared
+// templates under src/templates/SectorListings + src/templates/OccFaq.
+function toListOcc(o: SectorOccupationSummary) {
+  return {
+    id: o.id as unknown as number,
+    titleJa: o.titleJa,
+    aiRisk: o.aiRisk,
+    workers: o.workers,
+  };
+}
 
-const renderFullList = (items: readonly SectorOccupationSummary[]): string => {
-  const rows = items.map((o) => {
-    const titleStr = o.titleJa || `#${o.id as unknown as number}`;
-    const score = o.aiRisk;
-    const scoreStr = score === null || score === undefined ? '—' : `${score}/10`;
-    const band = riskBandFromScore(score);
-    return (
-      `<li>` +
-      `<a href="/ja/${o.id as unknown as number}">` +
-      `<span class="risk-pill ${band}">${esc(scoreStr)}</span>` +
-      `${esc(titleStr)}` +
-      `</a>` +
-      `</li>`
-    );
-  });
-  return `<ul class="full-list">${rows.join('')}</ul>`;
-};
-
-const renderRelatedSectors = (): string => {
-  const rows = relatedSectors.map((s) => {
-    return (
-      `<li>` +
-      `<a href="/ja/sectors/${s.id as unknown as string}">` +
-      `<span class="ja-name">${esc(s.ja)}</span>` +
-      `<span class="count">${s.occupationCount} 職業</span>` +
-      `</a>` +
-      `</li>`
-    );
-  });
-  return `<ul class="related-sectors">${rows.join('')}</ul>`;
-};
-
-const renderFaqSection = (): string => {
-  if (!faqs.length) return '';
-  const items = faqs
-    .map(
-      ([q, a]) =>
-        `<details class="faq-item">` +
-        `<summary>${esc(q)}</summary>` +
-        `<div class="faq-answer">${esc(a)}</div>` +
-        `</details>`
-    )
-    .join('');
-  return (
-    `<section class="faq" aria-label="よくある質問">` +
-    `<h2>よくある質問</h2>` +
-    `<div class="faq-list">${items}</div>` +
-    `</section>`
-  );
-};
-
-const topHighHtml = renderTopList(topHigh);
-const topLowHtml = renderTopList(topLow);
-const topWorkersHtml = renderTopList(topWorkers);
-const fullListHtml = renderFullList(fullSorted);
-const relatedHtml = renderRelatedSectors();
-const faqHtml = renderFaqSection();
+const topHighHtml = renderSectorOccupationTopList(topHigh.map(toListOcc));
+const topLowHtml = renderSectorOccupationTopList(topLow.map(toListOcc));
+const topWorkersHtml = renderSectorOccupationTopList(topWorkers.map(toListOcc));
+const fullListHtml = renderSectorOccupationFullList(fullSorted.map(toListOcc));
+const relatedHtml = renderRelatedSectorsList(
+  relatedSectors.map((s) => ({
+    id: s.id as unknown as string,
+    nameJa: s.ja,
+    occupationCount: s.occupationCount,
+  })),
+);
+const faqHtml = renderOccFaq(faqs);
 
 // Phase D: inline-link occupation names mentioned in the intro and AI era essay.
 const _linkRegistry = buildLinkRegistry();
