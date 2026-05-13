@@ -53,15 +53,9 @@ import type {
   DetailFile,
 } from '@/data/lib/adapt-detail';
 import {
-  computeSpokeHubs,
-  buildRankingHitsByOcc,
-  renderSpokeHubsSection,
   RELATED_HUBS_CSS,
-  type RankingHit,
 } from '../../data/lib/spoke-hub-graph';
 import {
-  buildSameRiskNeighbors,
-  renderSameRiskSection,
   SAME_RISK_CSS,
   type SpokeNeighbor,
 } from '../../data/lib/spoke-spoke-graph';
@@ -371,32 +365,14 @@ interface PageProps {
 
 const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } = Astro.props as PageProps;
 
-// Phase C: lookup THIS spoke's same-risk neighbors from the pre-built array.
-const _sameRiskMap = new Map<number, SpokeNeighbor[]>(sameRiskArr);
-const _myNeighbors = _sameRiskMap.get(rec.id) ?? [];
-const sameRiskHtml = renderSameRiskSection(_myNeighbors, rec.ai_risk);
-
-// Phase A: rebuild ranking-hits Map from the array passed via props.
-// (Astro can't transport Map across getStaticPaths → component.)
-const _rankingHitsByOcc = new Map<number, ReadonlyArray<RankingHit>>(
-  rankingHitsArr.map(([id, arr]) => [id, arr.map((h) => ({ slug: h.slug as RankingHit['slug'], rank: h.rank }))]),
+// Spoke-graph derived views (same-risk neighbors + related-hubs).
+// Single source of truth in src/views/occupation-page-data.
+const { buildOccupationSpokeViews } = await import('@/views/occupation-page-data');
+const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
+  rec,
+  rankingHitsArr,
+  sameRiskArr,
 );
-// Read this occupation's full DetailFileMin (we have rec but it's the legacy
-// adapted shape; computeSpokeHubs needs the original shape's top-N arrays).
-// We re-read the JSON file here since it's small and one extra read per page
-// is negligible (~1ms per spoke build).
-const _detailRaw = (() => {
-  const padded = String(rec.id).padStart(4, '0');
-  try {
-    return JSON.parse(readFileSync(path.join(process.cwd(), 'public', 'data.detail', `${padded}.json`), 'utf8'));
-  } catch {
-    return null;
-  }
-})();
-const _spokeHubs = _detailRaw
-  ? computeSpokeHubs(_detailRaw, { rankingHitsByOcc: _rankingHitsByOcc })
-  : { groups: [], total: 0 };
-const relatedHubsHtml = renderSpokeHubsSection(_spokeHubs);
 
 const id = rec.id;
 const canonical = jaUrl(id);
