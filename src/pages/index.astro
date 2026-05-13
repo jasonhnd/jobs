@@ -19,6 +19,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CANONICAL_CSS } from '../lib/canonical-css.ts';
+import { INDEX_CSS } from './_index-css.ts';
 
 const sourcePath = join(process.cwd(), 'src', 'index-source.html');
 const raw = readFileSync(sourcePath, 'utf-8');
@@ -78,6 +79,23 @@ html = patchOrThrow(
   /<\/head>/,
   `${SITE_CANONICAL_BLOCK}\n  </head>`,
   'canonical CSS injection point (</head>)',
+);
+
+// Inflate the placeholder `<style>/*__INDEX_CSS__*/</style>` (a single line in
+// src/index-source.html) back into the full ~2200-line inline CSS block that
+// the page ships with. The CSS itself lives in src/pages/_index-css.ts so the
+// raw HTML file stays under 3050 lines and the stylesheet is editable as a
+// TypeScript module. Byte-identity vs. pre-extraction output is guarded by
+// tests/baseline/ — any drift fails the SEO baseline diff.
+//
+// The match anchor is the FULL placeholder element (not just the comment) so
+// a stray `/*__INDEX_CSS__*/` appearing elsewhere in the file (it shouldn't,
+// but defensively) wouldn't accidentally swallow surrounding markup.
+html = patchOrThrow(
+  html,
+  /<style>\/\*__INDEX_CSS__\*\/<\/style>/,
+  `<style>\n${INDEX_CSS}\n    </style>`,
+  'INDEX_CSS placeholder',
 );
 ---
 <Fragment set:html={html} />
