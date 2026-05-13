@@ -19,30 +19,29 @@
  * refactor can extract it into shared classes once we can see what's truly
  * common across detail / sector / ranking pages.
  */
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
-import { renderProvenance as renderProvenanceTemplate } from '@/templates/Provenance';
-import { renderOrgsCerts as renderOrgsCertsTemplate } from '@/templates/OrgsCerts';
-import { renderAiRiskDetail as renderAiRiskDetailTemplate } from '@/templates/AiRiskDetail';
-import { renderOccFaq as renderOccFaqTemplate } from '@/templates/OccFaq';
-import { renderProfileRadar as renderProfileRadarTemplate } from '@/templates/ProfileRadar';
-import { renderTransfer as renderTransferTemplate } from '@/templates/Transfer';
-import { renderMetaRow as renderMetaRowTemplate } from '@/templates/MetaRow';
-import { renderTopn as renderTopnTemplate } from '@/templates/Topn';
-import { renderOccupationJsonLd as renderOccupationJsonLdTemplate } from '@/templates/JsonLd';
-import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
-import { makeOccupationDefinition } from '@/data/lib/occupation-definition';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
+import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import { buildOccupationDisplay } from '@/views/occupation-display';
-import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import { renderProseSection } from '@/templates/ProseSection';
 import { renderLegacyRelated } from '@/templates/LegacyRelated';
+import {
+  makeOccupationDefinitionFromRec,
+  renderOccupationMetaRow,
+  renderOccupationProfileRadar,
+  renderOccupationTopn,
+  renderOccupationFaq,
+  renderOccupationTransfer,
+  renderOccupationOrgsCerts,
+  renderOccupationProvenance,
+  renderOccupationAiRiskDetail,
+  renderOccupationJsonLdFromRec,
+} from './_id-renderers';
 import type {
   Rec,
   TopNEntry,
@@ -72,79 +71,13 @@ const DATE_PUBLISHED = '2026-04-25';
 const DATE_MODIFIED = '2026-04-30';
 const RELATED_COUNT = 5;
 
-function readJsonSafe<T = unknown>(p: string): T | null {
-  try {
-    return JSON.parse(readFileSync(p, 'utf8')) as T;
-  } catch {
-    return null;
-  }
-}
-
-function paths(): { detail: string; profile5: string; transfer: string } {
-  const repo = path.resolve(process.cwd());
-  return {
-    detail: path.join(repo, 'public', 'data.detail'),
-    profile5: path.join(repo, 'public', 'data.profile5.json'),
-    transfer: path.join(repo, 'public', 'data.transfer_paths.json'),
-  };
-}
-
-// ─── Public shape types (what public/data.detail/<id>.json produces) ────────
-//
 // Rec + 5 supporting types (TopNEntry / OrgEntry / ClassificationsField /
 // SectorMeta / DataSourceVersions / DetailFile) live in
-// src/data/lib/adapt-detail. They're imported below; the local duplicates
-// that used to sit here are deleted to keep one source of truth.
-
-interface Profile5File {
-  profiles?: Record<string, Record<string, number | null>>;
-}
-
-interface TransferCandidate {
-  id: number;
-  title_ja: string;
-  ai_risk: number | null;
-  similarity: number;
-  sector_id?: string;
-}
-
-interface TransferPathEntry {
-  source_id: number;
-  candidates: TransferCandidate[];
-  fallback?: string;
-}
-
-interface TransferPathsFile {
-  paths?: Record<string, TransferPathEntry>;
-}
-
-// ─── Schema.org JSON-LD subset (only the fields we actually emit) ────────
-
-// JSON-LD Schema.org types moved to src/templates/JsonLd.ts where the
-// renderer that consumes them lives. No other consumer on the page.
-
-// Lazy getters so render-time code (after getStaticPaths) can grab the same
-// auxiliary data without re-reading per page.
-let _profile5: Record<string, Record<string, number | null>> | null = null;
-function getProfile5(): Record<string, Record<string, number | null>> {
-  if (_profile5 === null) {
-    _profile5 = (readJsonSafe<Profile5File>(paths().profile5) ?? {}).profiles ?? {};
-  }
-  return _profile5;
-}
-let _transferPaths: Record<string, TransferPathEntry> | null = null;
-function getTransferPaths(): Record<string, TransferPathEntry> {
-  if (_transferPaths === null) {
-    _transferPaths = (readJsonSafe<TransferPathsFile>(paths().transfer) ?? {}).paths ?? {};
-  }
-  return _transferPaths;
-}
-
-// The DetailFile → Rec adapter lives in src/data/lib/adapt-detail.ts so that
-// both the module body (via static import, when needed) and getStaticPaths
-// (via dynamic import, due to Astro hoisting) can share one implementation.
-// Rec + its supporting types are imported from that same module — see the
-// type imports at the top of this file.
+// src/data/lib/adapt-detail — see the type imports at the top of this file.
+// Lazy loaders for the auxiliary public/data.* files (profile5,
+// transfer_paths) live in src/views/occupation-aux-data. The 11 page-side
+// renderer adapters (renderOccupationMetaRow / Topn / FAQ / Transfer /
+// AiRiskDetail / JsonLd / etc.) live in ./_id-renderers, also imported above.
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 
@@ -180,178 +113,9 @@ export async function getStaticPaths() {
 
 // fmtInt: imported at top of file from '@/lib/num'.
 
-// Shared data builder — single source of truth in
-// src/data/lib/occupation-definition. NOUN_FINAL_ENDINGS list and
-// endsWithAny helper moved into the module with it.
-function makeDefinition(rec: Rec): string {
-  return makeOccupationDefinition({
-    nameJa: rec.name_ja || '',
-    descJa: rec.desc_ja || '',
-    sectorJa: rec.sector?.ja ?? null,
-  });
-}
-
-
-// Shared template — single source of truth in src/templates/MetaRow.
-// Adapts the page-local Rec into the narrow MetaRowInput shape.
-// The bandLabel / bandClass helpers (and the demand_band BUG —
-// see MetaRow.ts file header) now live inside the template module.
-function renderMetaRow(rec: Rec): string {
-  return renderMetaRowTemplate({
-    sectorJa: rec.sector?.ja ?? null,
-    sectorId: rec.sector?.id,
-    riskBand: rec.risk_band ?? null,
-    workforceBand: rec.workforce_band ?? null,
-    demandBand: rec.demand_band ?? null,
-  });
-}
-
-// Shared template — single source of truth in src/templates/ProfileRadar.
-// Adapts getProfile5()[id] into the narrow ProfileRadarInput shape;
-// missing entry collapses to an all-null input which the template
-// short-circuits to empty output.
-function renderProfileRadar(rec: Rec): string {
-  const profile = getProfile5()[String(rec.id)];
-  return renderProfileRadarTemplate({
-    creative: profile?.creative ?? null,
-    social: profile?.social ?? null,
-    judgment: profile?.judgment ?? null,
-    physical: profile?.physical ?? null,
-    routine: profile?.routine ?? null,
-  });
-}
-
-// Shared template — single source of truth in src/templates/Topn.
-// Adapts the page-local TopNEntry shape (label_ja/score) into the
-// template's TopnEntry (labelJa/score).
-function renderTopn(rec: Rec): string {
-  const adapt = (items: TopNEntry[] | undefined) =>
-    (items ?? []).map((it) => ({ labelJa: it.label_ja ?? null, score: it.score ?? null }));
-  return renderTopnTemplate({
-    skills: adapt(rec.skills_top10),
-    knowledge: adapt(rec.knowledge_top5),
-    abilities: adapt(rec.abilities_top5),
-  });
-}
-
-// Shared data builder — single source of truth in
-// src/data/lib/occupation-faqs. The page-local adapter maps Rec
-// (snake_case, varied null/undefined defaults) into the narrow
-// OccupationFaqsInput shape (camelCase, predictable nullability).
-function buildOccFaqs(rec: Rec): readonly (readonly [string, string])[] {
-  return buildOccupationFaqs({
-    nameJa: rec.name_ja || '',
-    salaryMan: rec.salary,
-    workers: rec.workers,
-    recruitRatio: rec.recruit_ratio,
-    aiRisk: rec.ai_risk,
-    aiRationaleJa: rec.ai_rationale_ja || '',
-    howToBecomeJa: rec.how_to_become_ja || '',
-    skillsTop10: (rec.skills_top10 ?? []).map((s) => ({ labelJa: s.label_ja ?? null })),
-  });
-}
-
-// Shared template — single source of truth in src/templates/OccFaq.
-// Adapts the page-local buildOccFaqs(rec) Q/A tuples into the template.
-function renderOccFaq(rec: Rec): string {
-  return renderOccFaqTemplate(buildOccFaqs(rec));
-}
-
-// Shared template — single source of truth in src/templates/Transfer.
-// Adapter resolves the nameLookup ?? title_ja ?? '?' fallback chain
-// and slices to TOP_N (Phase C raised 4→5) before handing the flat
-// candidate rows to the template.
-function renderTransfer(rec: Rec, nameLookup: Record<number, string>): string {
-  const path0 = getTransferPaths()[String(rec.id)];
-  if (!path0) return '';
-  const cards = path0.candidates.slice(0, 5).map((c) => ({
-    id: c.id,
-    name: nameLookup[c.id] || c.title_ja || '?',
-    aiRisk: c.ai_risk,
-    similarity: c.similarity,
-  }));
-  return renderTransferTemplate(cards);
-}
-
-// Shared template — single source of truth in src/templates/OrgsCerts.
-// Adapts the page-local Rec into the narrow OrgsCertsInput shape.
-function renderOrgsCerts(rec: Rec): string {
-  return renderOrgsCertsTemplate({
-    orgs: (rec.related_orgs ?? []).map((o) => ({
-      nameJa: o.name_ja ?? null,
-      url: o.url ?? null,
-    })),
-    certs: rec.related_certs_ja ?? [],
-  });
-}
-
-// Shared template — single source of truth in src/templates/Provenance.
-// Adapts the page-local Rec into the narrow ProvenanceInput shape.
-function renderProvenance(rec: Rec): string {
-  const dsv = rec.data_source_versions ?? {};
-  return renderProvenanceTemplate({
-    aiModel: rec.ai_model,
-    aiScoredAt: rec.ai_scored_at,
-    ipdNumeric: dsv.ipd_numeric ?? null,
-    ipdDescription: dsv.ipd_description ?? null,
-  });
-}
-
-// Shared template — single source of truth in src/templates/AiRiskDetail.
-// Adapts the page-local Rec into the narrow AiRiskDetailInput shape.
-function renderAiRiskDetail(rec: Rec): string {
-  return renderAiRiskDetailTemplate({
-    aiRisk: rec.ai_risk,
-    rationaleLongJa: rec.ai_rationale_long_ja,
-    displaceableTasksJa: rec.ai_displaceable_tasks_ja ?? [],
-    resilientTasksJa: rec.ai_resilient_tasks_ja ?? [],
-    horizon5yJa: rec.ai_horizon_5y_ja,
-  });
-}
-
-// Shared template — single source of truth in src/templates/JsonLd.
-// Adapter pre-resolves all fallback chains (pageName, pageDesc,
-// classificationMain, skillLabels) so the template walks a flat
-// narrow input. Schema.org types live private inside the template
-// module — see src/templates/JsonLd.ts.
-function renderJsonLd(rec: Rec): string {
-  const id = rec.id;
-  const nameJa = rec.name_ja || '';
-  const risk = rec.ai_risk;
-  const rationaleJa = rec.ai_rationale_ja || '';
-  const descJa = rec.desc_ja || '';
-  const cls = rec.classifications ?? {};
-  const skillLabels = (rec.skills_top10 ?? [])
-    .map((s) => s.label_ja)
-    .filter((s): s is string => Boolean(s));
-
-  return renderOccupationJsonLdTemplate({
-    id,
-    canonical: jaUrl(id),
-    pageName:
-      risk !== null ? `${nameJa} — AI 影響 ${risk}/10` : `${nameJa} — mirai-shigoto.com`,
-    pageDesc: makeDefinition(rec) || rationaleJa || descJa || nameJa,
-    nameJa,
-    aliasesJa: rec.aliases_ja ?? [],
-    sectorJa: rec.sector?.ja ?? null,
-    aiRisk: risk,
-    mhlwUrl: rec.url,
-    salaryMan: rec.salary,
-    workers: rec.workers,
-    age: rec.age,
-    hours: rec.hours,
-    recruitRatio: rec.recruit_ratio,
-    hourlyWage: rec.hourly_wage,
-    classificationMain: cls.mhlw_main || cls.jsoc_main || null,
-    skillLabels,
-    relatedCertsJa: rec.related_certs_ja ?? [],
-    tasksLeadJa: rec.tasks_lead_ja || '',
-    howToBecomeJa: rec.how_to_become_ja || '',
-    faqs: buildOccFaqs(rec),
-    datePublished: DATE_PUBLISHED,
-    dateModified: DATE_MODIFIED,
-  });
-}
+// All Rec → SafeHtml render adapters (and the makeDefinition /
+// buildOccFaqs data builders) live in ./_id-renderers and are
+// imported at the top of this file.
 
 // ─── Page render ─────────────────────────────────────────────────────────────
 
@@ -425,7 +189,7 @@ const ctxP = longWhatJa || descJa || rationaleJa;
 const howH2 = `${nameJa}になるには・必要な資格`;
 const condH2 = `${nameJa}の労働条件・働き方`;
 
-const definition = makeDefinition(rec);
+const definition = makeOccupationDefinitionFromRec(rec);
 const ctxBodyHtml = ctxP ? formatParagraphs(ctxP) : '';
 const ctxHtml = `<p class="definition">${escapeHtml(definition)}</p>\n        ${ctxBodyHtml}`.trimEnd();
 
@@ -440,14 +204,14 @@ const condSection = renderProseSection({
   bodyText: longCondJa,
 });
 
-const metaRowHtml = renderMetaRow(rec);
-const aiRiskDetailHtml = renderAiRiskDetail(rec);
-const profileHtml = renderProfileRadar(rec);
-const topnHtml = renderTopn(rec);
-const faqHtml = renderOccFaq(rec);
-const transferHtml = renderTransfer(rec, nameLookup);
-const orgsCertsHtml = renderOrgsCerts(rec);
-const provenanceHtml = renderProvenance(rec);
+const metaRowHtml = renderOccupationMetaRow(rec);
+const aiRiskDetailHtml = renderOccupationAiRiskDetail(rec);
+const profileHtml = renderOccupationProfileRadar(rec);
+const topnHtml = renderOccupationTopn(rec);
+const faqHtml = renderOccupationFaq(rec);
+const transferHtml = renderOccupationTransfer(rec, nameLookup);
+const orgsCertsHtml = renderOccupationOrgsCerts(rec);
+const provenanceHtml = renderOccupationProvenance(rec);
 
 const legacyRelatedHtml = renderLegacyRelated({
   related: related.map((r) => ({
@@ -467,7 +231,10 @@ const riskTierJs = risk !== null && risk >= 7 ? "'high'" : risk !== null && risk
 const shareTextForPost = `${nameJa} の AI 影響度は ${riskStr}。日本 552 職種の AI 影響マップ（非公式・独自分析）。`;
 const copyToastText = 'コピーしました';
 
-const jsonLd = renderJsonLd(rec);
+const jsonLd = renderOccupationJsonLdFromRec(rec, {
+  datePublished: DATE_PUBLISHED,
+  dateModified: DATE_MODIFIED,
+});
 
 // JSON encode helper for inline JS string literals
 function jsStr(s: string): string {
