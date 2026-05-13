@@ -1,11 +1,15 @@
 /**
- * src/lib/og-renderers/generic.tsx — render the text-only OG card
+ * api/og-renderers/generic.tsx — render the text-only OG card
  * shared by every non-rich page family on the site.
  *
  * Step 9 part 2 (2026-05-13): the renderer used to live inline at
  * the top of api/og.tsx. Extracted here so the endpoint stays a
  * thin dispatcher and the renderer can grow / be tested without
  * touching the Vercel Edge entry point.
+ *
+ * Hosted under api/ (not src/lib/) — see api/og.tsx import note.
+ * Vercel does NOT register this file as a route because it has
+ * no `export default` / `export const config`.
  *
  * Output: 1200×630 PNG with the "独立分析" badge + site mark on top,
  * giant serif title in the middle, a sans-serif subtitle, and the
@@ -26,7 +30,7 @@
  */
 
 import { ImageResponse } from '@vercel/og';
-import { loadGoogleFont, type GenericCardConfig } from '../og-helpers.js';
+import { loadGoogleFont, type GenericCardConfig } from '../../src/lib/og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const FOOTER_LEFT = '厚生労働省 jobtag · JILPT IPD v7.00 · Claude Opus 4.7';
