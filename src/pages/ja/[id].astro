@@ -38,6 +38,9 @@ import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
 import { makeOccupationDefinition } from '@/data/lib/occupation-definition';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
+import { buildOccupationSeo } from '@/views/occupation-seo';
+import { buildOccupationDisplay } from '@/views/occupation-display';
+import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import type {
   Rec,
   TopNEntry,
@@ -397,7 +400,6 @@ const id = rec.id;
 const canonical = jaUrl(id);
 const nameJa = rec.name_ja || '';
 const risk = rec.ai_risk;
-const riskStr = risk !== null ? `${risk}/10` : '—';
 const rationaleJa = rec.ai_rationale_ja || '';
 const descJa = (rec.desc_ja || '').slice(0, 240);
 const longWhatJa = rec.what_it_is_ja || '';
@@ -411,39 +413,34 @@ const recruit = rec.recruit_ratio;
 const hourly = rec.hourly_wage;
 const mhlwUrl = rec.url;
 
-const riskClass = risk !== null ? `risk-${risk}` : 'risk-na';
+// Derived display strings (riskStr / riskClass / *Cell / *Disp).
+// Single source of truth in src/views/occupation-display.
+const display = buildOccupationDisplay({
+  aiRisk: risk,
+  salaryMan,
+  workers,
+  age,
+  hours,
+  recruitRatio: recruit,
+  hourlyWage: hourly,
+});
+const { riskStr, riskClass, riskNumDisp, salaryInt, ageDisp, hoursDisp, recruitDisp, hourlyDisp, workersCell, ageCell, hoursCell, salaryCell } = display;
 
-const title = `${nameJa}の将来性・年収・AI影響度【${riskStr}】｜未来の仕事`;
-const _riskDesc = risk !== null
-  ? `AI代替リスクは10段階中${risk}と${risk <= 3 ? '低め' : risk <= 6 ? '中程度' : '高め'}`
-  : 'AI影響度を分析';
-const _salaryShort = salaryMan ? `年収${Math.trunc(salaryMan)}万円` : '';
-const _workersShort = workers ? `就業者${fmtInt(workers)}人` : '';
-const _dataParts = [_salaryShort, _workersShort].filter(Boolean).join('・');
-const seoDesc = _dataParts
-  ? `${nameJa}の${_riskDesc}。${_dataParts}。将来性やなり方、必要なスキルを詳しく解説。`
-  : `${nameJa}の${_riskDesc}。将来性やなり方、必要なスキルを詳しく解説。`;
-
-const ogTitle = title.slice(0, 120);
-const ogDesc = seoDesc.slice(0, 300);
+// SEO + OG meta — single source of truth in src/views/occupation-seo.
+const aliases = rec.aliases_ja ?? [];
+const seo = buildOccupationSeo({
+  nameJa,
+  aiRisk: risk,
+  salaryMan,
+  workers,
+  aliasesJa: aliases,
+});
+const { title, description: seoDesc, ogTitle, ogDescription: ogDesc, keywords } = seo;
 
 const rationale = rationaleJa || descJa;
 
-// v2: one-line callout under risk badge — band-derived (no fabricated displacement %).
-const oneLineText = risk === null
-  ? 'AI 影響度未評価。'
-  : risk >= 9
-    ? '定型業務が中心。AI による自動化候補が多く、今すぐ転職方向を考えるレベル。'
-    : risk >= 7
-      ? 'AI 影響度が高い。業務再設計や転職方向の検討が早めに必要。'
-      : risk >= 4
-        ? 'AI 影響度は中程度。業務の一部が AI 補助に移行する見込み。'
-        : '低 AI 影響。専門性と判断が必要な業務が中心で、当面は安定。';
-
-// keywords meta
-const aliases = rec.aliases_ja ?? [];
-const kwTerms = [nameJa, ...aliases.slice(0, 8)].filter(Boolean);
-const keywords = kwTerms.join(', ');
+// One-line callout under risk badge — single source of truth in src/lib/risk-callout.
+const oneLineText = pickRiskOneLineCallout(risk);
 
 const ctxH2 = `${nameJa}とは`;
 const ctxP = longWhatJa || descJa || rationaleJa;
@@ -496,19 +493,8 @@ const legacyRelatedHtml = transferHtml
         </ul>
       </section>`;
 
-// Display formatters
-const salaryInt = salaryMan ? Math.trunc(salaryMan) : '—';
-const ageDisp = age ?? '—';
-const hoursDisp = hours ? Math.trunc(hours) : '—';
-const recruitDisp = recruit !== null && recruit !== undefined ? recruit : '—';
-const hourlyDisp = hourly ? `¥${fmtInt(hourly)}` : '—';
-const riskNumDisp = risk !== null ? risk : '—';
-const workersCell = workers ? `${fmtInt(workers)} 人` : '—';
-const ageCell = age ? `${ageDisp} 歳` : '—';
-const hoursCell = hours ? `${hoursDisp} 時間/月` : '—';
-const salaryCell = salaryMan
-  ? `¥${fmtInt(Math.trunc(salaryMan * 10000))}（${salaryInt} 万円）`
-  : '—（— 万円）';
+// Display formatters above (riskStr / riskClass / *Disp / *Cell) come from
+// src/views/occupation-display — see destructuring after buildOccupationDisplay call.
 
 const riskScoreJs = risk !== null ? String(risk) : 'null';
 const riskTierJs = risk !== null && risk >= 7 ? "'high'" : risk !== null && risk >= 5 ? "'mid'" : "'low'";
