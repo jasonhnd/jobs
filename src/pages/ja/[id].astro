@@ -38,6 +38,15 @@ import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
 import { makeOccupationDefinition } from '@/data/lib/occupation-definition';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
+import type {
+  Rec,
+  TopNEntry,
+  OrgEntry,
+  ClassificationsField,
+  SectorMeta,
+  DataSourceVersions,
+  DetailFile,
+} from '@/data/lib/adapt-detail';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -82,82 +91,11 @@ function paths(): { detail: string; profile5: string; transfer: string } {
 }
 
 // ─── Public shape types (what public/data.detail/<id>.json produces) ────────
-
-interface TopNEntry {
-  key: string;
-  label_ja: string;
-  score: number;
-}
-
-interface OrgEntry {
-  name_ja: string;
-  url?: string | null;
-}
-
-interface ClassificationsField {
-  mhlw_main?: string | null;
-  jsoc_main?: string | null;
-  [k: string]: unknown;
-}
-
-interface SectorMeta {
-  id?: string;
-  ja?: string;
-  hue?: string;
-  provenance?: string;
-}
-
-interface DataSourceVersions {
-  ipd_numeric?: string;
-  ipd_description?: string;
-  ipd_retrieved_at?: string;
-  [k: string]: unknown;
-}
-
-interface DetailFile {
-  id: number;
-  schema_version?: string;
-  title?: { ja?: string; aliases_ja?: string[] };
-  description?: {
-    summary_ja?: string | null;
-    what_it_is_ja?: string | null;
-    how_to_become_ja?: string | null;
-    working_conditions_ja?: string | null;
-  };
-  classifications?: ClassificationsField;
-  sector?: SectorMeta;
-  risk_band?: string | null;
-  workforce_band?: string | null;
-  demand_band?: string | null;
-  ai_risk?: {
-    score?: number | null;
-    model?: string | null;
-    scored_at?: string | null;
-    rationale_ja?: string | null;
-    rationale_long_ja?: string | null;
-    displaceable_tasks_ja?: string[];
-    resilient_tasks_ja?: string[];
-    horizon_5y_ja?: string | null;
-  };
-  stats?: {
-    salary_man_yen?: number | null;
-    workers?: number | null;
-    monthly_hours?: number | null;
-    average_age?: number | null;
-    recruit_wage_man_yen?: number | null;
-    recruit_ratio?: number | null;
-    hourly_wage?: number | null;
-  };
-  skills_top10?: TopNEntry[];
-  knowledge_top5?: TopNEntry[];
-  abilities_top5?: TopNEntry[];
-  tasks_count?: number | null;
-  tasks_lead_ja?: string | null;
-  related_orgs?: OrgEntry[];
-  related_certs_ja?: string[];
-  url?: string;
-  data_source_versions?: DataSourceVersions;
-}
+//
+// Rec + 5 supporting types (TopNEntry / OrgEntry / ClassificationsField /
+// SectorMeta / DataSourceVersions / DetailFile) live in
+// src/data/lib/adapt-detail. They're imported below; the local duplicates
+// that used to sit here are deleted to keep one source of truth.
 
 interface Profile5File {
   profiles?: Record<string, Record<string, number | null>>;
@@ -203,52 +141,11 @@ function getTransferPaths(): Record<string, TransferPathEntry> {
   return _transferPaths;
 }
 
-// ─── Internal flattened shape used by the renderers below ────────────────
-
-type Rec = {
-  id: number;
-  name_ja: string;
-  desc_ja: string | null;
-  what_it_is_ja: string | null;
-  how_to_become_ja: string | null;
-  working_conditions_ja: string | null;
-  salary: number | null;
-  workers: number | null;
-  hours: number | null;
-  age: number | null;
-  recruit_wage: number | null;
-  recruit_ratio: number | null;
-  hourly_wage: number | null;
-  ai_risk: number | null;
-  ai_rationale_ja: string | null;
-  url: string;
-  aliases_ja: string[];
-  classifications: ClassificationsField;
-  sector: SectorMeta | null;
-  risk_band: string | null;
-  workforce_band: string | null;
-  demand_band: string | null;
-  ai_model: string | null;
-  ai_scored_at: string | null;
-  skills_top10: TopNEntry[];
-  knowledge_top5: TopNEntry[];
-  abilities_top5: TopNEntry[];
-  tasks_count: number | null;
-  tasks_lead_ja: string | null;
-  related_orgs: OrgEntry[];
-  related_certs_ja: string[];
-  data_source_versions: DataSourceVersions;
-  ai_rationale_long_ja: string | null;
-  ai_displaceable_tasks_ja: string[];
-  ai_resilient_tasks_ja: string[];
-  ai_horizon_5y_ja: string | null;
-};
-
 // The DetailFile → Rec adapter lives in src/data/lib/adapt-detail.ts so that
 // both the module body (via static import, when needed) and getStaticPaths
 // (via dynamic import, due to Astro hoisting) can share one implementation.
-// The audit's #2.2 finding was that this file used to duplicate the adapter
-// locally inside getStaticPaths — that duplication is gone now.
+// Rec + its supporting types are imported from that same module — see the
+// type imports at the top of this file.
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 
