@@ -5,7 +5,7 @@
 
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { renderSectorJsonLd, type SectorJsonLdInput } from './SectorJsonLd.js';
+import { renderSectorJsonLd, type SectorJsonLdInput } from './sector-jsonld.js';
 
 const baseInput: SectorJsonLdInput = {
   canonical: 'https://mirai-shigoto.com/ja/sectors/healthcare',

@@ -5,7 +5,7 @@
 
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { renderOccupationJsonLd, type OccupationJsonLdInput } from './JsonLd.js';
+import { renderOccupationJsonLd, type OccupationJsonLdInput } from './occupation-jsonld.js';
 
 const baseInput: OccupationJsonLdInput = {
   id: 42,

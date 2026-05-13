@@ -1,8 +1,12 @@
 /**
- * src/templates/SectorJsonLd.ts — Schema.org JSON-LD structured
+ * src/views/sector-jsonld.ts — Schema.org JSON-LD structured
  * data for the sector hub page (`/ja/sectors/{sector}`).
  *
- * Sister of src/templates/JsonLd (occupation detail). Builds a
+ * Step 10 reclassification (2026-05-13): moved out of src/templates/
+ * with src/views/occupation-jsonld.ts — JSON-LD is data, not HTML,
+ * so it belongs in the view layer per architecture.md §5.
+ *
+ * Sister of src/views/occupation-jsonld (occupation detail). Builds a
  * `@graph` with 4 fixed nodes:
  *
  *   WebPage        — page identity

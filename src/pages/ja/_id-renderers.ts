@@ -25,7 +25,7 @@ import { renderOccFaq } from '@/templates/OccFaq';
 import { renderTransfer } from '@/templates/Transfer';
 import { renderOrgsCerts } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail } from '@/templates/AiRiskDetail';
-import { renderOccupationJsonLd } from '@/templates/JsonLd';
+import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
 import { jaUrl } from '@/lib/urls';
 import { getProfile5, getTransferPaths } from '@/views/occupation-aux-data';
 

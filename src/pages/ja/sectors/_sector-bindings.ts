@@ -28,7 +28,7 @@ import {
 } from '../../../data/lib/inline-links';
 import { renderRelatedHubsBlock } from '../../../data/lib/hub-hub-graph';
 import { buildSectorFaqs } from '@/data/lib/sector-faqs';
-import { renderSectorJsonLd } from '@/templates/SectorJsonLd';
+import { renderSectorJsonLd } from '@/views/sector-jsonld';
 import { renderOccFaq } from '@/templates/OccFaq';
 import {
   renderSectorOccupationTopList,
