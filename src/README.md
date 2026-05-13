@@ -1,30 +1,30 @@
 # src/
 
-TypeScript + Astro source root.
+TypeScript + Astro のソースルート。
 
-## Structure
+## 構成
 
 ```
 src/
 ├── data/
-│   ├── schema/              # Zod schemas — source of truth for data shapes
+│   ├── schema/              # Zod スキーマ — データ形状の正典
 │   ├── lib/                 # bands / score-strategy / sector-resolver / indexes / now / fsum / banker-round / rankings
-│   ├── projections/         # 12 projections written by build.ts to public/data.*
-│   ├── build.ts             # TS-ETL orchestrator (`npm run build:data`)
+│   ├── projections/         # build.ts が public/data.* に書き出す 12 projection
+│   ├── build.ts             # TS-ETL オーケストレータ (`npm run build:data`)
 │   ├── import-ipd.ts        # IPD xlsx → data/occupations/*.json
-│   └── test-consistency.ts  # L3 projection sanity (`npm run test:consistency`)
-├── pages/                   # Astro routes
-│   ├── index.astro          # /  (uses src/index-source.html via Fragment injection)
+│   └── test-consistency.ts  # L3 projection の sanity check (`npm run test:consistency`)
+├── pages/                   # Astro ルート
+│   ├── index.astro          # /  (src/index-source.html を Fragment 注入で使用)
 │   ├── about.astro / compliance.astro / privacy.astro / 404.astro
 │   ├── map.astro            # /map
-│   ├── sitemap.xml.ts       # /sitemap.xml (dynamic)
-│   ├── image-sitemap.xml.ts # /image-sitemap.xml (dynamic)
+│   ├── sitemap.xml.ts       # /sitemap.xml (動的)
+│   ├── image-sitemap.xml.ts # /image-sitemap.xml (動的)
 │   └── ja/
 │       ├── [id].astro       # /ja/{id}
 │       ├── sectors/index.astro + [sector].astro
 │       └── rankings/index.astro + [type].astro
-├── components/              # Footer.astro, etc.
+├── components/              # Footer.astro 等
 ├── layouts/                 # BaseLayout.astro
-├── lib/                     # canonical-css.ts (site-wide typography source)
-└── index-source.html        # legacy raw HTML for /, embedded by index.astro
+├── lib/                     # canonical-css.ts (サイト全体のタイポグラフィ正典)
+└── index-source.html        # / のレガシー生 HTML、index.astro が埋め込む
 ```

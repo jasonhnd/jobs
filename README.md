@@ -4,174 +4,174 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Hosting: Vercel](https://img.shields.io/badge/hosting-Vercel%20(hnd1)-000)](https://vercel.com)
 
-> **🇯🇵 [日本語版 README はこちら](README.ja.md)**
+> **🌏 [English README is here](README.en.md)**
 
-![Japan Jobs × AI Risk — treemap of 552 occupations from Japan's MHLW jobtag, overlaid with LLM-scored AI replacement risk](og.png)
+![Japan Jobs × AI Risk — 厚労省 jobtag に基づく日本の 552 職業の treemap に LLM による AI 代替リスクスコアを重ねた可視化サイト](og.png)
 
-A visualization of **552 Japanese occupations** sourced from the Ministry of Health, Labour and Welfare's official 職業情報提供サイト (jobtag), each overlaid with an **LLM-scored AI replacement risk** (0–10) plus per-occupation rationale. The site UI is in Japanese, targeting the domestic audience.
+厚生労働省の **職業情報提供サイト（job tag）** に登録されている **552 の日本の職業** について、年収・学歴・就業者数・将来性などの構造化データに加えて、**LLM が 0〜10 で採点した AI 代替リスクスコア** とその理由を重ねた可視化サイトです。UI は日本語で、国内の読者を対象としています。
 
-🔗 **Live:** **<https://mirai-shigoto.com/>**
-
----
-
-## What this is
-
-A single squarified treemap that lets you see — at a glance — which Japanese occupations are most exposed to AI replacement, weighted by how many people actually work in each one.
-
-The dataset is grounded in published Japanese government statistics (jobtag, 労働力調査, 経済センサス). The risk overlay is produced separately by an LLM and clearly labeled as model output, not a survey result. The site is in Japanese, targeting the domestic audience.
-
-This project is **not affiliated with** 厚生労働省, the Japan Institute for Labour Policy and Training (JILPT), or any government body. It is independent analysis.
+🔗 **公開サイト:** **<https://mirai-shigoto.com/>**
 
 ---
 
-## What you'll see
+## このサイトの位置づけ
 
-When you land on [mirai-shigoto.com](https://mirai-shigoto.com/) you get:
+ひとつの squarified treemap で、**どの職業が AI による代替の影響を受けやすいか** を、就業者数の重み付き視点で一目で見られるように設計されています。
 
-- **A treemap of 552 occupations**, sized by headcount and colored by AI replacement risk (default). Big tile = lots of people in that occupation. Red tile = high AI exposure. Green tile = low AI exposure.
-- **Six color layers**, switchable from the toolbar: AI Risk, Annual Salary, Average Age, Working Hours, Recruit Ratio (有効求人倍率), Education Level. Tile size never changes — only what the color encodes does.
-- **Colorblind-safe palette** (viridis) toggle.
-- **Direction C warm editorial theme** — warm-cream palette, Noto Serif JP headings, terracotta accents. `prefers-color-scheme` detection is built-in; the manual light/dark toggle is currently hidden.
-- **Live search** by occupation name.
-- **Hover (desktop) or tap (mobile)** any tile for a tooltip with risk score, salary, headcount, and the LLM's rationale.
-- **556 dedicated detail pages** at `/ja/<id>.html` (552 + 4 newer occupations like 声優 / ブロックチェーン・エンジニア / 産業医 / 3D プリンター技術者) — each with full risk reasoning, 5-axis profile radar, breakdown by salary / age / hours / recruit ratio / education, transfer-path recommendations, structured `Occupation` JSON-LD for search engines.
-- **17 sector hub pages** at `/ja/sectors/` — an index of all 16 industry sectors, each linking to a dedicated hub aggregating TOP 5 high/low AI-impact occupations, TOP 5 by workforce, and a full sorted list.
-- **Dedicated pages** for About (`/about`), Compliance (`/compliance`), Privacy (`/privacy`), and a custom 404.
-- **Social share buttons** — X, LINE, Hatena Bookmark, LinkedIn, Copy Link, native Web Share API on mobile.
-- **A no-cookie analytics layer** alongside Google Analytics, so the site works whether or not you allow cookies.
+データの土台は、公開されている日本政府統計（job tag、労働力調査、経済センサス）です。リスクスコアは別途 LLM が生成しており、調査結果ではなく **モデル出力であることを明記** しています。UI は日本語で、国内の読者を対象としています。
 
-The site is designed to be readable on a 360 px phone and on a 4K desktop with the same content density.
+本プロジェクトは **厚生労働省、独立行政法人 労働政策研究・研修機構（JILPT）、その他いかなる政府機関とも提携していません**。独立した分析です。
 
 ---
 
-## Why this exists
+## サイトでできること
 
-In 2024 Andrej Karpathy published [karpathy/jobs](https://github.com/karpathy/jobs) — a treemap of the 342 occupations in the U.S. Bureau of Labor Statistics' Occupational Outlook Handbook, each scored 0–10 for AI exposure by an LLM. It was a clean, government-grounded artifact: real BLS occupations, real BLS workforce numbers, with model-generated risk as the only synthetic layer on top.
+[mirai-shigoto.com](https://mirai-shigoto.com/) を開くと、以下が見られます：
 
-A popular Chinese fork ([madeye/jobs](https://github.com/madeye/jobs)) adapted the format but changed the foundation — the occupation list itself was AI-synthesized rather than government-published. That breaks the chain of provenance: the numbers no longer ground out anywhere checkable.
+- **552 職業の treemap**。タイルの **大きさ** は就業者数、**色** は AI 代替リスク（既定）。大きい赤いタイル = 多くの人が従事しており、AI 露出も高い職業。大きい緑のタイル = 多くの人が従事しており、AI 露出は低い職業。
+- **6 種類の色レイヤー** をツールバーから切替可能：AI リスク / 年収 / 平均年齢 / 労働時間 / 求人倍率 / 学歴。タイルの大きさは変わらず、色の意味だけが変わります。
+- **色覚配慮（viridis）** トグル。
+- **Direction C ウォームエディトリアル・テーマ** — 暖米色パレット、Noto Serif JP 見出し、テラコッタのアクセント。`prefers-color-scheme` による検出は組み込み済み、手動ライト/ダーク切替トグルは現在非表示。
+- **職業名でリアルタイム検索**。
+- **タイルにマウスオーバー（PC）またはタップ（スマホ）** で tooltip — リスクスコア、年収、就業者数、LLM の評価理由を表示。
+- **556 職業の専用詳細ページ** — `/ja/<id>.html`（552 + 声優・ブロックチェーン・エンジニア・産業医・3D プリンター技術者の 4 新規職業）、各ページに評価理由のフルテキスト、5 軸プロファイルレーダー、年収 / 平均年齢 / 労働時間 / 求人倍率 / 学歴の内訳、転職パス推薦、検索エンジン向けの構造化データ（Schema.org `Occupation` JSON-LD）を含む。
+- **17 のセクターハブページ** — `/ja/sectors/` に 16 業種の一覧インデックスと各業種専用ハブ。各ハブは AI 影響 TOP 5（高/低）、就業者数 TOP 5、全職業ソート一覧を集約。
+- **専用ページ** — データについて（`/about`）、コンプライアンス（`/compliance`）、プライバシー（`/privacy`）、カスタム 404。
+- **ソーシャル共有ボタン** — X、LINE、Hatena Bookmark、LinkedIn、Copy Link、モバイルでは Web Share API。
+- **クッキーレス解析レイヤー** を Google Analytics と並走。クッキーを許可していなくても主要な集計は機能します。
 
-Japan has its own equivalent of the BLS OOH: **厚生労働省 職業情報提供サイト (job tag)**, covering ~500 職業 with structured fields for salary, education, headcount, and growth outlook. That dataset has existed for years, and **no one had built the Karpathy treatment for it** — government-grounded, with LLM-scored AI exposure.
-
-This project is that missing artifact. Karpathy's idea, ported to Japan.
-
----
-
-## How AI replacement risk is scored
-
-This is the most important — and most contestable — part of the project, so it gets the most space.
-
-### The 0–10 scale
-
-Each occupation gets a single integer **AI replacement risk score from 0 (negligible exposure) to 10 (substantial near-term exposure)**. The score answers: *"How much of this occupation's day-to-day work could a current frontier LLM (with tools, agents, and reasonable integration) plausibly do, today, if deployed in a typical Japanese workplace?"*
-
-Anchors at the extremes:
-
-- **0–2 (low)** — physical, embodied, or trust-bearing work where automation is hard or socially unacceptable: nurses, caregivers, electricians, divers, kindergarten teachers.
-- **3–4 (low-mid)** — supervisory, hands-on, or relationship-heavy roles where AI assists but doesn't replace: chefs, mechanics, school teachers.
-- **5–6 (mid)** — knowledge work where AI handles meaningful portions but humans still drive: salespeople, HR, mid-level designers, paralegals.
-- **7–8 (high)** — text- and analysis-heavy office work where AI can already do most of the cognitive load: clerks, accountants, translators, junior copywriters.
-- **9–10 (highest)** — pure information-processing roles dominated by structured-text in / structured-text out: general clerks, data entry, basic banking window work, simple-template editorial.
-
-These anchors are **ported from Karpathy's published rubric**, with Japan-specific worked examples substituted in. The intent is for a Japanese reader to see the same 0–10 scale Karpathy uses on US occupations, with familiar Japanese job titles at each anchor.
-
-### How a score is produced
-
-Scoring runs as a Claude Code session against the calibration anchors below. For each occupation:
-
-1. **Input bundle** — occupation name (JA + EN), industry, jobtag's 仕事内容 description, structured fields (salary, headcount, education distribution, growth outlook).
-2. **Prompt** — the calibration anchors above, plus the input bundle, plus a structured output instruction (JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`).
-3. **Model** — [OpenRouter](https://openrouter.ai) with Gemini Flash by default. Configurable; a swap to Claude Sonnet or GPT-4o is one config line.
-4. **Output** — the model's score + rationale, cached per-occupation. Re-running skips occupations that already have a stored result.
-5. **Aggregation** — `npm run build:data` (`src/data/build.ts`) joins IPD source data + AI scores + stats into 12 projection families under `public/` (treemap, detail, search, labels, sectors, profile5, transfer_paths, holland, featured, score_history, tasks, skills). The front end reads `/data.treemap.json`.
-
-Each rationale is one to three sentences explaining *why* the score landed where it did — what parts of the work the LLM thinks it can already do, what parts it can't.
-
-### Limits — what this score is and isn't
-
-Treat the score as **the current frontier LLM's structured opinion about the occupation**, not as ground truth. Specifically:
-
-- **It is model output, not survey data.** Workforce headcounts and salary numbers are real statistics. The risk score is generated text, lightly structured.
-- **It is sensitive to prompt phrasing.** A different rubric, different anchors, or even different word choice in the worked examples can shift scores by 1–2 points across the dataset. The published anchors and prompt are stable, but they are one possible calibration, not the only one.
-- **It reflects "current LLM consensus" — and that consensus drifts.** Re-scoring with a newer model can move scores. Older models were systematically more pessimistic about creative work; newer ones are more pessimistic about office work. The score is a snapshot.
-- **Japanese and English rationales can diverge.** The JA and EN rationales are produced in the same call from the same context, but the model occasionally emphasizes different aspects in each language. The EN rationales are retained in the source data but are no longer displayed on the site (EN UI was retired in v1.4.0).
-- **No claim of validity beyond face validity.** There is no follow-up survey of practitioners, no comparison against actual displacement rates, no confidence interval. A future stable release will add cross-LLM consistency checks; this one does not.
-
-The dashboard exists to make a published academic exercise concrete and clickable for a Japanese audience — not to predict anyone's specific job.
+UI は 360 px のスマートフォンと 4K デスクトップの両方で同じコンテンツ密度で読めるよう設計しています。
 
 ---
 
-## Data sources
+## なぜこのサイトを作ったか
 
-| Source | Role | URL |
+2024 年に Andrej Karpathy 氏が公開した [karpathy/jobs](https://github.com/karpathy/jobs) は、米国労働統計局の Occupational Outlook Handbook（342 職業）を題材に、各職業に対して LLM が AI 代替リスクを 0〜10 で採点した可視化作品でした。きれいな構造でした — 実在する BLS の職業、実在する BLS の就業者数、その上に LLM が生成したリスクスコアという 1 層だけが合成データ。
+
+中国でフォークされた [madeye/jobs](https://github.com/madeye/jobs) は同じフォーマットを採用したものの、土台を変えてしまいました — 職業リスト自体が AI 生成だったのです。これでは出所をたどる連鎖が切れ、数字が公的データに接地しません。
+
+日本にも BLS OOH に相当する公的データが存在します — **厚生労働省 職業情報提供サイト（job tag）**、約 500 職業、年収・学歴・就業者数・将来性などが構造化された形で提供されています。このデータセットは数年前から存在していたにもかかわらず、Karpathy 流の treatment（政府データに基づき、LLM スコア付き）を施したものは **誰も作っていませんでした**。
+
+本プロジェクトはその欠けていたピースです。Karpathy のアイデアを日本に移植したものです。
+
+---
+
+## AI 代替リスクスコアの算出方法
+
+ここはこの可視化作品で **最も重要かつ、最も議論の余地がある** 部分なので、紙面を割いて説明します。
+
+### 0〜10 のスケール
+
+各職業に **AI 代替リスクスコアとして 0（影響ほぼなし）〜 10（短期的に大きな代替圧）の整数** を 1 つ付与しています。スコアは次の問いに答えるものです：*「この職業の日々の業務のうち、現時点のフロンティアレベルの LLM（ツール、エージェント、合理的な統合を含む）が、典型的な日本の職場に投入された場合、どの程度こなせそうか？」*
+
+両端のアンカー：
+
+- **0〜2（低）** — 物理的・身体的、あるいは信頼が前提となり自動化が困難・社会的に受け入れられにくい仕事：看護師、介護職員、電気工事士、潜水士、保育士。
+- **3〜4（やや低）** — 監督、現場作業、関係性の比重が高く、AI が支援はしても代替しにくい役割：料理人、整備士、学校教員。
+- **5〜6（中）** — 知識労働だが AI が一部分を担い、人間が主導するケース：営業職、人事、中堅デザイナー、パラリーガル。
+- **7〜8（高）** — テキスト・分析中心の事務職で、認知的負荷の大半を AI がすでにこなせる：一般事務、経理、翻訳、ジュニアコピーライター。
+- **9〜10（最高）** — 構造化テキスト入 → 構造化テキスト出、純粋な情報処理が支配的な職務：一般事務、データ入力、銀行窓口の定型業務、簡易テンプレート編集。
+
+これらのアンカーは **Karpathy の公開ルーブリックを移植** し、日本特有の例に置き換えたものです。意図は、Karpathy が米国の職業に当てているのと同じ 0〜10 のスケールを、なじみのある日本の職業名と並べて読めるようにすることです。
+
+### スコアが生成される流れ
+
+スコアリングは下記のキャリブレーションアンカーに基づき Claude Code セッションで実行します。各職業について：
+
+1. **入力バンドル** — 職業名（日 + 英）、業種、job tag の「仕事内容」記述、構造化フィールド（年収、就業者数、学歴分布、将来性）。
+2. **プロンプト** — 上記のキャリブレーションアンカー + 入力バンドル + 構造化出力指示（JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`）。
+3. **モデル** — [OpenRouter](https://openrouter.ai) 経由で既定は Gemini Flash。設定可能で、Claude Sonnet や GPT-4o への切替は config 1 行。
+4. **出力** — モデルのスコア + 理由文、職業ごとにキャッシュ。再実行時は既出力の職業はスキップ。
+5. **集約** — `npm run build:data`（`src/data/build.ts`）が IPD ソースデータ + AI スコア + 統計を結合し、`public/` 下に 12 個の projection family を出力（treemap / detail / search / labels / sectors / profile5 / transfer_paths / holland / featured / score_history / tasks / skills）。フロントエンドは `/data.treemap.json` を読み込みます。
+
+各理由文は 1〜3 文で、*なぜそのスコアになったか* — 業務のどの部分が現時点の LLM でこなせそうか、どの部分が難しそうか — を簡潔に説明します。
+
+### 限界 — このスコアは何で、何ではないか
+
+このスコアは **「現在のフロンティア LLM がこの職業について構造化された意見を述べたもの」** であり、**ground truth ではない** とご理解ください。具体的には：
+
+- **モデル出力であって、調査統計ではありません。** 就業者数や年収中央値は実在の統計値です。リスクスコアは、軽く構造化された生成テキストです。
+- **プロンプトの言い回しに敏感です。** ルーブリックを変える、アンカーを変える、あるいは worked example の言い方を変えるだけで、データセット全体で 1〜2 ポイントずれることがあります。公開しているアンカーとプロンプトは安定したものですが、それは可能なキャリブレーションのひとつであり、唯一解ではありません。
+- **「現時点の LLM の見解」を反映しており、その見解は変動します。** 新しいモデルで再採点するとスコアが動きます。古いモデルはクリエイティブ職に対して系統的に悲観的、新しいモデルは事務職に対して悲観的、という傾向もあります。スコアはスナップショットです。
+- **日英の理由文は乖離しうる。** 同一の呼び出し・同一の context から生成されますが、モデルが言語ごとに強調する側面を変えることが時々あります。なお、英語の理由文はソースデータに保持されていますが、サイト上には表示されません（EN UI は v1.4.0 で廃止）。
+- **face validity 以上の妥当性は主張しません。** 実務者へのフォローアップ調査も、実際の代替率との比較も、信頼区間もありません。将来の安定版では複数 LLM のクロス整合性チェックを追加する予定ですが、現バージョンには含まれていません。
+
+このダッシュボードは、すでに発表されている学術的演習を日本の読者にとって具体的・クリック可能な形で提示するためのものです。**特定の個人の仕事の将来を予測する目的では作っていません。**
+
+---
+
+## データソース
+
+| 出典 | 用途 | URL |
 | --- | --- | --- |
-| 厚生労働省 職業情報提供サイト (job tag) | Primary occupational data — name, salary, education distribution, headcount, growth outlook, 仕事内容 description | <https://shigoto.mhlw.go.jp/User/> |
-| 総務省 労働力調査 (Labour Force Survey) | Headcount calibration & cross-industry validation | <https://www.stat.go.jp/data/roudou/> |
-| 総務省 経済センサス (Economic Census) | Establishment-level industry distribution | <https://www.stat.go.jp/data/e-census/> |
+| 厚生労働省 職業情報提供サイト（job tag） | 主要データ：職業名、年収、学歴分布、就業者数、将来性、仕事内容記述 | <https://shigoto.mhlw.go.jp/User/> |
+| 総務省 労働力調査 | 就業者数の補正および産業横断検証 | <https://www.stat.go.jp/data/roudou/> |
+| 総務省 経済センサス | 事業所単位の産業分布 | <https://www.stat.go.jp/data/e-census/> |
 
-All three are public Japanese government statistics. The site does not republish raw rows from any of them — it only consumes structured fields per occupation and presents the same fields with a model-generated score on top.
-
----
-
-## Pipeline
-
-A TypeScript ETL (`src/data/build.ts`) ingests government source data from MHLW jobtag, joins it with LLM-generated AI replacement risk scores, validates everything through Zod schemas (`src/data/schema/*.ts`), and writes 12 projection families to `dist/`. Astro then statically renders every page in `src/pages/` and Vercel deploys the resulting `dist-astro/`. The whole pipeline runs as `npm run build` (= `npm run build:data && astro build`).
+すべて公開されている政府統計です。本サイトはこれらの生データを再公開するものではありません — 職業ごとの構造化フィールドを取り込み、その上に LLM 生成スコアを重ねて提示するだけです。
 
 ---
 
-## Production stack
+## ビルドパイプライン
 
-| Layer | What |
+TypeScript ETL（`src/data/build.ts`）が MHLW jobtag の政府公開データを取り込み、LLM が生成した AI 代替リスクスコアと結合し、Zod スキーマ（`src/data/schema/*.ts`）で検証した上で、`dist/` 配下に 12 個の projection family を書き出します。続いて Astro が `src/pages/` を静的レンダリングし、結果の `dist-astro/` を Vercel がデプロイします。パイプライン全体は `npm run build`（= `npm run build:data && astro build`）で実行できます。
+
+---
+
+## 本番環境スタック
+
+| レイヤー | 内容 |
 | --- | --- |
-| Hosting | Vercel (Tokyo edge) — auto-deploys from `main` |
-| Domain | `mirai-shigoto.com` (Cloudflare Registrar → Vercel) |
-| Email | Resend via Edge Functions (`api/subscribe.js`, `api/feedback.js`) |
-| Analytics | Cloudflare WA, GA4, Vercel WA, Vercel Speed Insights ([spec](analytics/spec.yaml)) |
-| SEO | `robots.txt`, `sitemap.xml`, [`/llms.txt`](https://mirai-shigoto.com/llms.txt), Schema.org structured data |
+| ホスティング | Vercel（Tokyo edge）— `main` から自動デプロイ |
+| ドメイン | `mirai-shigoto.com`（Cloudflare Registrar → Vercel） |
+| メール | Resend via Edge Function（`api/subscribe.js`、`api/feedback.js`） |
+| アナリティクス | Cloudflare WA、GA4、Vercel WA、Vercel Speed Insights（[仕様](analytics/spec.yaml)） |
+| SEO | `robots.txt`、`sitemap.xml`、[`/llms.txt`](https://mirai-shigoto.com/llms.txt)、Schema.org 構造化データ |
 
 ---
 
-## Disclaimer
+## 免責事項
 
 > **本サイトは非公式サイトです / This site is unofficial.**
 >
-> This is independent analysis. It is **not affiliated with**, **endorsed by**, or **representative of the views of** 厚生労働省 (the Ministry of Health, Labour and Welfare), the Japan Institute for Labour Policy and Training (JILPT), 総務省 (the Ministry of Internal Affairs and Communications), or job tag itself.
+> 独立した分析です。**厚生労働省、独立行政法人 労働政策研究・研修機構（JILPT）、総務省、または job tag そのものとは提携・後援関係はなく、その公式見解を示すものでもありません。**
 >
-> The AI replacement risk scores are **model output**, not survey statistics. They are produced by a large language model against a published rubric and should be read as the model's structured opinion, not as a forecast of any individual's career. See [methodology](#how-ai-replacement-risk-is-scored) for the full limits.
+> AI 代替リスクスコアは **モデル出力** であり、調査統計ではありません。公開ルーブリックに照らして大規模言語モデルが生成したものであり、特定個人のキャリア予測ではなく、モデルの構造化された意見として読まれるべきものです。詳しい限界は [算出方法](#ai-代替リスクスコアの算出方法) を参照してください。
 >
-> Workforce headcounts, salary medians, age distributions, and education distributions are sourced from public Japanese government statistics, but the site presents them in a non-authoritative form (a visualization, not a primary publication). For decisions, consult the official sources.
+> 就業者数、年収中央値、年齢分布、学歴分布は公開されている日本政府統計に由来しますが、本サイトはそれらを非権威的な形（一次出版物ではなく可視化）で提示しています。意思決定にあたっては必ず公式情報源をご確認ください。
 
 ---
 
-## Repository structure
+## ディレクトリ構成
 
 ```text
 jobs/
 ├── src/
-│   ├── pages/              # Astro routes (index, about, map, ja/[id], etc.)
-│   ├── components/         # shared Astro components (Footer, etc.)
+│   ├── pages/              # Astro ルート（index、about、map、ja/[id] など）
+│   ├── components/         # 共通 Astro コンポーネント（Footer など）
 │   ├── layouts/            # BaseLayout
-│   ├── data/               # TypeScript ETL (build.ts + projections + schemas)
-│   └── lib/                # site-wide utilities (canonical-css, etc.)
-├── api/                    # Vercel Edge Functions (OG image, subscribe, feedback)
-├── analytics/              # GA4 instrumentation spec + sync script
-├── data/                   # source data (per-occupation JSON, scores, labels, sectors)
-├── dist/                   # built projections + tracked SEO statics (Astro publicDir)
-├── dist-astro/             # final build output deployed by Vercel (gitignored)
-├── astro.config.mjs        # Astro configuration
-├── vercel.json             # Vercel deploy config + cache headers
-├── CHANGELOG.md            # release history
-└── README.md / README.ja.md
+│   ├── data/               # TypeScript ETL（build.ts + projections + schemas）
+│   └── lib/                # サイト全体のユーティリティ（canonical-css など）
+├── api/                    # Vercel Edge Function（OG 画像、登録、フィードバック）
+├── analytics/              # GA4 計測スペック + 同期スクリプト
+├── data/                   # ソースデータ（職業別 JSON、スコア、ラベル、セクター）
+├── dist/                   # ビルド済み projection + SEO 静的（Astro publicDir）
+├── dist-astro/             # Vercel がデプロイする最終ビルド出力（gitignored）
+├── astro.config.mjs        # Astro 設定
+├── vercel.json             # Vercel デプロイ設定 + キャッシュヘッダ
+├── CHANGELOG.md            # リリース履歴
+└── README.md（日本語、正本）/ README.en.md（English）
 ```
 
 ---
 
-## Citation
+## 引用フォーマット
 
-If you reference this site in writing, the following formats work:
+本サイトを文章で引用される場合は、以下のフォーマットをご利用ください。
 
-### Inline (article / blog / social)
+### 文中（記事・ブログ・SNS）
 
-> *Source: Japan Jobs × AI Risk (mirai-shigoto.com), an independent visualization of MHLW jobtag data with LLM-scored AI replacement risk. Workforce numbers from MHLW; risk scores are model output, not statistics.*
+> *出典：Japan Jobs × AI Risk（mirai-shigoto.com）— 厚労省 job tag のデータに LLM 生成の AI 代替リスクスコアを重ねた独立可視化サイト。就業者数等は厚労省の公開データ、リスクスコアはモデル出力であり統計値ではない。*
 
 ### APA
 
@@ -189,48 +189,48 @@ If you reference this site in writing, the following formats work:
 }
 ```
 
-### Schema.org Dataset (machine-readable)
+### Schema.org Dataset（機械可読）
 
-A `Dataset` JSON-LD block is embedded in the home page `<head>` describing `variableMeasured`, `creator`, `license`, and `isBasedOn` linking to the underlying MHLW source. Search engines and LLMs will pick it up automatically; you don't need to write it yourself.
+ホームの `<head>` 内に `Dataset` 型の JSON-LD を埋め込み、`variableMeasured` / `creator` / `license` / `isBasedOn`（厚労省の一次データへの参照）を記述しています。検索エンジンや LLM は自動で拾ってくれるので、利用者側で別途書き起こす必要はありません。
 
-When citing the **dataset**, please credit MHLW (jobtag) for workforce / salary / education numbers and this project only for the AI risk scoring and presentation layer.
-
----
-
-## Contributing
-
-Contributions are welcome via GitHub Issues and Pull Requests:
-
-- **Issues** — methodology questions, data-source suggestions, calibration feedback ("score X seems off — here's why").
-- **PRs** — bug fixes, new color layers, accessibility improvements.
-- **Score disputes** — If you think a specific occupation's score is meaningfully wrong, open an issue with: occupation name, current score, your proposed score, and *why* (what work it does that the model is over- or under-weighting). These get reviewed in batches.
+**データセットを引用する** 場合は、就業者数 / 年収 / 学歴などの数値については 厚生労働省（job tag）を、AI リスクスコア + 提示レイヤーについて本プロジェクトをクレジットしていただければと思います。
 
 ---
 
-## License
+## コントリビュート
+
+GitHub Issues と Pull Request を歓迎します：
+
+- **Issues** — 手法に関する質問、データソースの提案、キャリブレーションへのフィードバック（「職業 X のスコアはおかしい — その理由は…」）。
+- **PR** — バグ修正、新しい色レイヤー、アクセシビリティ改善。
+- **スコアへの異議** — 特定職業のスコアが大きく間違っていると感じた場合は、Issue で：職業名、現在のスコア、提案するスコア、*理由*（モデルが過大 or 過小評価していると思う業務内容）を添えてください。バッチでレビューします。
+
+---
+
+## ライセンス
 
 [MIT](LICENSE) © 2026 mirai-shigoto.com
 
-The MIT license covers the source code in this repository. The underlying MHLW jobtag data is published by 厚生労働省 under their own terms; consult <https://shigoto.mhlw.go.jp/User/> for usage conditions on the primary data.
+MIT ライセンスは本リポジトリ内のソースコードに適用されます。土台となる厚労省 job tag のデータは厚生労働省が独自の利用条件で公開しています — 一次データの利用条件は <https://shigoto.mhlw.go.jp/User/> をご確認ください。
 
 ---
 
-## Acknowledgements
+## 謝辞
 
-- **[karpathy/jobs](https://github.com/karpathy/jobs)** — for the original BLS OOH × LLM scoring template that this project ports to Japan.
-- **厚生労働省 職業情報提供サイト (job tag)** and **総務省 統計局** — for publishing structured occupational and labour-force data that the public can build on.
-- **独立行政法人 労働政策研究・研修機構 (JILPT)** — for the underlying 職業情報データベース that job tag draws from.
-- **[OpenRouter](https://openrouter.ai)** — for the unified LLM API that makes batch scoring across multiple model providers practical.
-- **Vercel, Cloudflare, Resend** — for the infrastructure that lets a single-developer side project run with sub-50 ms latency to Japanese visitors.
+- **[karpathy/jobs](https://github.com/karpathy/jobs)** — 本プロジェクトが日本向けに移植している、BLS OOH × LLM スコアリングのオリジナルテンプレート。
+- **厚生労働省 職業情報提供サイト（job tag）** および **総務省 統計局** — 構造化された職業データ・労働力データを公開し、第三者がその上に積み上げられる形にしてくださっていること。
+- **独立行政法人 労働政策研究・研修機構（JILPT）** — job tag が参照している土台の「職業情報データベース」を整備していること。
+- **[OpenRouter](https://openrouter.ai)** — 複数モデル提供者にまたがるバッチスコアリングを現実的にする統一 LLM API。
+- **Vercel、Cloudflare、Resend** — 一人開発のサイドプロジェクトでも国内訪問者に 50 ms 以下のレイテンシを提供できるインフラ。
 
 ---
 
-## See also
+## 関連ドキュメント
 
-The README explains *what this is*. These files explain *how it works in detail* — and they are the ones that get updated as the project evolves:
+README は *このサイトが何であるか* を説明します。以下のファイルは *どう動いているかの詳細* を扱い、プロジェクト進化に合わせて随時更新されます：
 
-- **[CHANGELOG.md](CHANGELOG.md)** — release history. The only documentation file updated per-release.
-- **[`analytics/spec.yaml`](analytics/spec.yaml)** — GA4 instrumentation: every event, parameter, dimension, and key event the site sends.
-- **[`/privacy`](https://mirai-shigoto.com/privacy)** — privacy policy (APPI + GDPR-friendly).
-- **[`/llms.txt`](https://mirai-shigoto.com/llms.txt)** — what AI search engines see when they index the site.
-- **[`astro.config.mjs`](astro.config.mjs)** + **[`vercel.json`](vercel.json)** — build output dir + Vercel deploy + cache header config.
+- **[CHANGELOG.md](CHANGELOG.md)** — リリース履歴。リリースごとに更新される唯一のドキュメント。
+- **[`analytics/spec.yaml`](analytics/spec.yaml)** — GA4 計測仕様：すべてのイベント、パラメータ、ディメンション、キーイベント。
+- **[`/privacy`](https://mirai-shigoto.com/privacy)** — プライバシーポリシー（APPI + GDPR 対応）。
+- **[`/llms.txt`](https://mirai-shigoto.com/llms.txt)** — AI 検索エンジンが本サイトを索引付けする際に見るドキュメント。
+- **[`astro.config.mjs`](astro.config.mjs)** + **[`vercel.json`](vercel.json)** — ビルド出力ディレクトリ + Vercel デプロイ設定 + キャッシュヘッダ設定。

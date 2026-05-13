@@ -1,41 +1,32 @@
-# data/.archive/v0.6/ — frozen pre-IPD source files
+# data/.archive/v0.6/ — IPD 移行前のフリーズしたソースファイル
 
-These files were the **canonical source data** through v0.6.x. Starting v0.7.0
-(2026-05-04), the pipeline migrated to JILPT IPD v7.00 source data and these
-files are **no longer read by build_data.py / build_occupations.py / api/og.tsx /
-index.html**. They are kept here for:
+これらのファイルは v0.6.x までの **正典ソースデータ** だった。v0.7.0 (2026-05-04) からパイプラインは JILPT IPD v7.00 のソースデータに移行し、これらのファイルは **build_data.py / build_occupations.py / api/og.tsx / index.html のいずれからも読まれなくなった**。以下の目的で保管している:
 
-- **Audit trail** — reproducibility of any v0.6.x deploy from git history
-- **Migration provenance** — `migrate_stats_legacy.py` / `migrate_translations.py`
-  / `migrate_scores.py` document exactly what fields came from where
-- **Cross-version diffs** — when comparing scores or labels across architecture
-  generations
+- **監査トレイル** — git 履歴から v0.6.x の任意のデプロイを再現できる
+- **移行 provenance** — `migrate_stats_legacy.py` / `migrate_translations.py` / `migrate_scores.py` がどのフィールドがどこから来たかを正確にドキュメントする
+- **クロスバージョン差分** — アーキテクチャ世代をまたいでスコアやラベルを比較するとき
 
-## Contents
+## 内容
 
-| File | Origin | Replaced by |
+| ファイル | 由来 | 置換先 |
 |---|---|---|
-| `data.json` | flat 552-record build output of v0.6.x `build_data.py` (legacy) | `dist/data.treemap.json` (552 records, array-of-objects) + `dist/data.detail/<id>.json` × 556 |
-| `occupations_full.json` | raw scrape of jobtag.mhlw.go.jp pages (580 records, including 28 with `ok=False`) | `data/occupations/<padded>.json` × 556 (sourced from JILPT IPD v7.00 xlsx) |
-| `occupations.json` | tiny early-version index of (id, title) pairs | `data/occupations/<padded>.json` (titles preserved) |
-| `ai_scores_2026-04-25.json` | Claude Opus 4.7 single-run scores in v1.0 schema | `data/scores/occupations_claude-opus-4-7_2026-04-25.json` (ScoreRun v2.0 schema, same 552 scores + full audit metadata) |
-| `translations_2026-04-25.json` | Claude Opus 4.7 single-file translations | `data/translations/en/<padded>.json` × 552 |
+| `data.json` | v0.6.x の `build_data.py`(legacy)による 552 レコードのフラット build 出力 | `dist/data.treemap.json`(552 records, array-of-objects)+ `dist/data.detail/<id>.json` × 556 |
+| `occupations_full.json` | jobtag.mhlw.go.jp ページの raw スクレイプ(580 records、`ok=False` の 28 件含む) | `data/occupations/<padded>.json` × 556(JILPT IPD v7.00 xlsx 由来) |
+| `occupations.json` | 旧バージョンの (id, title) 対の小さなインデックス | `data/occupations/<padded>.json`(タイトルは保持) |
+| `ai_scores_2026-04-25.json` | Claude Opus 4.7 単一実行、v1.0 schema でのスコア | `data/scores/occupations_claude-opus-4-7_2026-04-25.json`(ScoreRun v2.0 schema、同じ 552 スコア + 完全な監査メタデータ) |
+| `translations_2026-04-25.json` | Claude Opus 4.7 の単一ファイル翻訳 | `data/translations/en/<padded>.json` × 552 |
 
-## Reproducing v0.6.x output
+## v0.6.x 出力の再現
 
 ```
 git checkout v0.6.x
-python3 scripts/build_data.py   # v0.6 version, would read data.json directly
+python3 scripts/build_data.py   # v0.6 バージョン、data.json を直接読む
 ```
 
-Do NOT run the v0.7+ pipeline against these files; the v0.7+ scripts
-(`scripts/import_ipd.py`, `scripts/build_data.py`) read from the new
-`data/occupations/` etc. paths and ignore this archive entirely.
+v0.7+ のパイプラインをこれらのファイルに対して **走らせないこと**。v0.7+ のスクリプト(`scripts/import_ipd.py`、`scripts/build_data.py`)は新しい `data/occupations/` 等のパスから読み、このアーカイブは完全に無視する。
 
-## Do not edit
+## 編集禁止
 
-These files are **frozen**. Any new work goes through the IPD pipeline. If you
-need to recover a deleted occupation or label, copy the field into the
-new schema, do not resurrect a v0.6.x file.
+これらのファイルは **フリーズ済み**。新しい作業はすべて IPD パイプラインを通す。削除された職業やラベルを復旧したい場合は、フィールドを新しい schema にコピーすること。v0.6.x ファイルを蘇生させないこと。
 
-— Last frozen: 2026-05-04 (Phase 4 of IPD migration)
+— 最終フリーズ: 2026-05-04(IPD 移行 Phase 4)
