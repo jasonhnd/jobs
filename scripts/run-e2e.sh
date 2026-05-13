@@ -25,13 +25,15 @@ cd "$ROOT_DIR"
 # local successful run.
 PLAYWRIGHT_VERSION="${PLAYWRIGHT_VERSION:-1.49.0}"
 HTTP_SERVER_VERSION="${HTTP_SERVER_VERSION:-14.1.1}"
+AXE_PLAYWRIGHT_VERSION="${AXE_PLAYWRIGHT_VERSION:-4.10.2}"
 
-echo "[e2e] Installing @playwright/test@${PLAYWRIGHT_VERSION} + http-server@${HTTP_SERVER_VERSION} (on-demand)…"
+echo "[e2e] Installing @playwright/test@${PLAYWRIGHT_VERSION} + http-server@${HTTP_SERVER_VERSION} + @axe-core/playwright@${AXE_PLAYWRIGHT_VERSION} (on-demand)…"
 # `--no-save` skips writing package.json/pnpm-lock.yaml so this stays
 # self-contained and doesn't trigger Vercel's frozen-lockfile guard.
 corepack pnpm add --no-save \
   "@playwright/test@${PLAYWRIGHT_VERSION}" \
-  "http-server@${HTTP_SERVER_VERSION}"
+  "http-server@${HTTP_SERVER_VERSION}" \
+  "@axe-core/playwright@${AXE_PLAYWRIGHT_VERSION}"
 
 echo "[e2e] Installing chromium browser binary…"
 corepack pnpm exec playwright install --with-deps chromium
