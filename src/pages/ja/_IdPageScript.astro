@@ -1,103 +1,32 @@
 ---
 /**
  * src/pages/ja/_IdPageScript.astro — page-local Astro component
- * that wraps the 60-line inline `<script>` block previously
- * embedded in [id].astro's body.
+ * carrying the per-occupation client-side script.
  *
- * Three responsibilities the inline JS owns:
+ * Currently a single responsibility: fire the GA4 `result_view`
+ * event with occupation_id + ai_risk_score + risk_tier on page
+ * load. Wraps a single `<script slot="bodyEnd" is:inline>` tag.
  *
- *   1. GA4 page-view signal (`result_view` event) — fired once
- *      per page load with occupation_id + ai_risk_score + risk_tier.
- *   2. Theme toggle handler — flips `[data-theme]` on
- *      `documentElement` + persists to localStorage + tracks
- *      `theme_change` event.
- *   3. Footer follow + share button handlers — X / LINE / hatena /
- *      LinkedIn / Facebook / copy-link / native Web Share API; all
- *      track `share_click` events with platform tag.
- *
- * Inline `<script is:inline define:vars={…}>` is preserved
- * verbatim — Astro injects the `define:vars` payload as
- * `const occId = …; const canonicalJs = …; …` at the top of the
- * script body. The SEO baseline byte-compares the rendered HTML
- * including this script block, so the contents stay frozen.
+ * History: the v1 [id] page also carried theme-toggle and
+ * follow/share handlers, but the theme toggle is forced
+ * `display:none` by _id-css.ts and the share buttons live in
+ * the canonical <Footer /> component (the v2 design's
+ * `.follow-share-section-DELETED-v2` div was dead UI long
+ * before this cleanup). Both handlers have been removed; if a
+ * future page-level button needs JS, add it here.
  *
  * Astro `_`-prefix → not routed; component-only.
  */
 
 interface Props {
   readonly occId: number;
-  readonly canonicalJs: string;
-  readonly shareTextJs: string;
-  readonly copyToastJs: string;
   readonly riskScoreJs: number | null;
   readonly riskTierJs: 'high' | 'mid' | 'low';
 }
 
-const { occId, canonicalJs, shareTextJs, copyToastJs, riskScoreJs, riskTierJs } =
-  Astro.props;
+const { occId, riskScoreJs, riskTierJs } = Astro.props;
 ---
-<script slot="bodyEnd" is:inline define:vars={{ occId, canonicalJs, shareTextJs, copyToastJs, riskScoreJs, riskTierJs }}>
+<script slot="bodyEnd" is:inline define:vars={{ occId, riskScoreJs, riskTierJs }}>
     // Per-occupation page-view signal for the GA4 conversion funnel.
     try { if (typeof gtag === 'function') gtag('event', 'result_view', { occupation_id: occId, ai_risk_score: riskScoreJs, risk_tier: riskTierJs, language: 'ja' }); } catch (e) {}
-
-    // Theme toggle
-    (function () {
-      var btn = document.getElementById('themeToggle');
-      if (!btn) return;
-      btn.addEventListener('click', function () {
-        var sysLight = matchMedia('(prefers-color-scheme: light)').matches;
-        var saved = null;
-        try { saved = localStorage.getItem('theme'); } catch (e) {}
-        var cur = document.documentElement.getAttribute('data-theme') || (sysLight ? 'light' : 'dark');
-        var next = cur === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch (e) {}
-        if (window.gtag) gtag('event', 'theme_change', { from: cur, to: next, was_explicit: saved === 'light' || saved === 'dark', system_pref: sysLight ? 'light' : 'dark' });
-      });
-    })();
-
-    // Stage 1: Follow + Share handlers
-    (function () {
-      var SITE = canonicalJs;
-      var SHARE_TEXT = shareTextJs;
-      var COPY_TOAST = copyToastJs;
-      function shareUrl(source, medium) {
-        var sep = SITE.indexOf('?') >= 0 ? '&' : '?';
-        return SITE + sep + 'utm_source=' + source + '&utm_medium=' + medium + '&utm_campaign=footer_share&utm_content=occ';
-      }
-      function track(p) { if (window.gtag) gtag('event', 'share_click', { platform: p, occupation_id: occId, language: 'ja' }); }
-      function open(u) { window.open(u, '_blank', 'noopener,noreferrer'); }
-
-      var x = document.getElementById('share-x');
-      if (x) x.addEventListener('click', function (e) { e.preventDefault(); open('https://x.com/intent/post?url=' + encodeURIComponent(shareUrl('x', 'social')) + '&text=' + encodeURIComponent(SHARE_TEXT)); track('x'); });
-      var line = document.getElementById('share-line');
-      if (line) line.addEventListener('click', function (e) { e.preventDefault(); open('https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(shareUrl('line', 'im'))); track('line'); });
-      var hatena = document.getElementById('share-hatena');
-      if (hatena) hatena.addEventListener('click', function (e) { e.preventDefault(); open('https://b.hatena.ne.jp/entry/' + shareUrl('hatena', 'social').replace(/^https?:\/\//, '')); track('hatena'); });
-      var linkedin = document.getElementById('share-linkedin');
-      if (linkedin) linkedin.addEventListener('click', function (e) { e.preventDefault(); open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(shareUrl('linkedin', 'social'))); track('linkedin'); });
-      var fb = document.getElementById('share-facebook');
-      if (fb) fb.addEventListener('click', function (e) { e.preventDefault(); open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl('facebook', 'social'))); track('facebook'); });
-      var xfollow = document.getElementById('x-follow-cta');
-      if (xfollow) xfollow.addEventListener('click', function () { if (window.gtag) gtag('event', 'x_follow_click', { occupation_id: occId, language: 'ja' }); });
-
-      var copy = document.getElementById('share-copy');
-      var toast = document.getElementById('share-toast');
-      if (copy && toast) copy.addEventListener('click', async function (e) {
-        e.preventDefault();
-        var url = shareUrl('direct', 'copylink');
-        try { await navigator.clipboard.writeText(url); toast.textContent = COPY_TOAST; } catch (err) { toast.textContent = url; }
-        toast.classList.add('visible'); track('copy');
-        setTimeout(function () { toast.classList.remove('visible'); }, 2200);
-      });
-
-      var native = document.getElementById('share-native');
-      if (native && typeof navigator.share === 'function') {
-        native.hidden = false;
-        native.addEventListener('click', async function (e) {
-          e.preventDefault();
-          try { await navigator.share({ title: document.title, text: SHARE_TEXT, url: shareUrl('native', 'share_api') }); track('native'); } catch (err) {}
-        });
-      }
-    })();
   </script>
