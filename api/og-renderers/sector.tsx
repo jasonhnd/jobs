@@ -1,5 +1,5 @@
 /**
- * src/lib/og-renderers/sector.tsx — render a sector hub OG card.
+ * api/og-renderers/sector.tsx — render a sector hub OG card.
  *
  * Step 9 part 2 (2026-05-13): extracted from api/og.tsx inline
  * `renderSectorCard`. Each of the 16 sectors gets a distinct
@@ -13,7 +13,7 @@
  * crash the Edge function with a cryptic "Cannot read of
  * undefined".
  *
- * Lives in src/lib/og-renderers/ — binary PNG output, neither
+ * Lives in api/og-renderers/ — binary PNG output, neither
  * SafeHtml (templates) nor typed data (views). The view-shaped
  * data prep (validate + look up sector by id) is co-located here
  * because it's part of the same response-or-fail flow as the
@@ -27,7 +27,7 @@ import {
   loadGoogleFont,
   fmtNumber,
   SectorsProjectionSchema,
-} from '../og-helpers.js';
+} from '../../src/lib/og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const HEADLINE_LABEL = '業界 / SECTOR';

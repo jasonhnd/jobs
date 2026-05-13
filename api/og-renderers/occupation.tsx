@@ -1,5 +1,5 @@
 /**
- * src/lib/og-renderers/occupation.tsx — render a per-occupation OG card.
+ * api/og-renderers/occupation.tsx — render a per-occupation OG card.
  *
  * Step 9 part 2 final (2026-05-13): extracted from api/og.tsx
  * inline branch of the request handler. Each of the 556
@@ -14,7 +14,7 @@
  * so a corrupted upstream doesn't crash the Edge function with a
  * cryptic "Cannot read of undefined".
  *
- * Lives in src/lib/og-renderers/ alongside its sibling card
+ * Lives in api/og-renderers/ alongside its sibling card
  * renderers — binary PNG output, neither SafeHtml (templates) nor
  * typed data (views).
  */
@@ -26,7 +26,7 @@ import {
   fmtNumber,
   padId,
   DetailRecordSchema,
-} from '../og-helpers.js';
+} from '../../src/lib/og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const RISK_LABEL = 'AI 影響';

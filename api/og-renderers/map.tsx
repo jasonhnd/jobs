@@ -1,5 +1,5 @@
 /**
- * src/lib/og-renderers/map.tsx — render the /map page OG card.
+ * api/og-renderers/map.tsx — render the /map page OG card.
  *
  * Step 9 part 2 (2026-05-13): extracted from api/og.tsx inline
  * `renderMapCard`. Output is a static 1200×630 PNG with the
@@ -11,13 +11,13 @@
  * parameters and reads no external data, so the boundary is
  * the cleanest of the three rich renderers.
  *
- * Lives in src/lib/og-renderers/ for the same reason as
+ * Lives in api/og-renderers/ for the same reason as
  * generic.tsx — binary PNG output, neither SafeHtml (templates)
  * nor typed data (views).
  */
 
 import { ImageResponse } from '@vercel/og';
-import { loadGoogleFont } from '../og-helpers.js';
+import { loadGoogleFont } from '../../src/lib/og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const EYEBROW = 'OCCUPATION MAP / 全 552 職業';
