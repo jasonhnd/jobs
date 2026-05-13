@@ -36,6 +36,8 @@ import { renderTopn as renderTopnTemplate } from '@/templates/Topn';
 import { renderOccupationJsonLd as renderOccupationJsonLdTemplate } from '@/templates/JsonLd';
 import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
 import { makeOccupationDefinition } from '@/data/lib/occupation-definition';
+import { formatParagraphs } from '@/lib/format-paragraphs';
+import { jaUrl } from '@/lib/urls';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -368,17 +370,6 @@ function makeDefinition(rec: Rec): string {
   });
 }
 
-function formatParagraphs(text: string | null): string {
-  if (!text) return '';
-  const normalized = text.replace(/\n　/g, '\n\n').replace(/\r\n/g, '\n');
-  const chunks = normalized.split(/\n\s*\n+/).map((c) => c.trim()).filter(Boolean);
-  if (!chunks.length) return `<p>${escapeHtml(text.trim())}</p>`;
-  return chunks.map((c) => `<p>${escapeHtml(c)}</p>`).join('\n        ');
-}
-
-function jaUrl(id: number): string {
-  return `https://mirai-shigoto.com/ja/${id}`;
-}
 
 // Shared template — single source of truth in src/templates/MetaRow.
 // Adapts the page-local Rec into the narrow MetaRowInput shape.
