@@ -32,6 +32,7 @@ import {
   renderSectorOccupationFullList,
   renderRelatedSectorsList,
 } from '@/templates/SectorListings';
+import { renderSectorPatterns } from '@/templates/SectorPatterns';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -226,26 +227,15 @@ const aiEraEssayHtml = sectorEssay
   : '';
 
 // ── データから見えるパターン (auto-derived 観察) ──
-const patternsHtml = patterns.observations.length > 0
-  ? `<section class="patterns" aria-label="データから見えるパターン">
-       <h2>データから見えるパターン</h2>
-       <div class="ai-distribution">
-         <div class="ai-dist-bar">
-           <span class="dist-low" style="width:${patterns.ai_low_pct.toFixed(0)}%" title="AI 影響 低 (3 以下): ${patterns.ai_low_count} 職業"></span>
-           <span class="dist-mid" style="width:${patterns.ai_mid_pct.toFixed(0)}%" title="AI 影響 中 (4-6): ${patterns.ai_mid_count} 職業"></span>
-           <span class="dist-high" style="width:${patterns.ai_high_pct.toFixed(0)}%" title="AI 影響 高 (7+): ${patterns.ai_high_count} 職業"></span>
-         </div>
-         <div class="ai-dist-legend">
-           <span><span class="ldot ldot-low"></span>低 (≤3): <strong>${patterns.ai_low_count}</strong> 職業 (${patterns.ai_low_pct.toFixed(0)}%)</span>
-           <span><span class="ldot ldot-mid"></span>中 (4-6): <strong>${patterns.ai_mid_count}</strong> 職業 (${patterns.ai_mid_pct.toFixed(0)}%)</span>
-           <span><span class="ldot ldot-high"></span>高 (≥7): <strong>${patterns.ai_high_count}</strong> 職業 (${patterns.ai_high_pct.toFixed(0)}%)</span>
-         </div>
-       </div>
-       <ul class="pattern-observations">
-         ${patterns.observations.map((obs) => `<li>${esc(obs)}</li>`).join('')}
-       </ul>
-     </section>`
-  : '';
+const patternsHtml = renderSectorPatterns({
+  aiLowCount: patterns.ai_low_count,
+  aiMidCount: patterns.ai_mid_count,
+  aiHighCount: patterns.ai_high_count,
+  aiLowPct: patterns.ai_low_pct,
+  aiMidPct: patterns.ai_mid_pct,
+  aiHighPct: patterns.ai_high_pct,
+  observations: patterns.observations,
+});
 ---
 <BaseLayout
   title={title}
