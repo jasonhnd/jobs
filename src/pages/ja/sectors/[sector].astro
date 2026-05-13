@@ -22,16 +22,15 @@ import { getSectorEssay, computeSectorPatterns, computeSiteBaseline, type Sector
 import { buildLinkRegistry, inlineLinkText } from '../../../data/lib/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib/hub-hub-graph';
 import { escapeHtml as esc } from '@/lib/safe-html';
+import { fmtInt } from '@/lib/num';
+import { riskClass as riskBandFromScore } from '@/lib/risk';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
 const DATE_PUBLISHED = '2026-05-05';
 const DATE_MODIFIED = '2026-05-09';
 
-const fmtInt = (n: number | null | undefined): string => {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-};
+// fmtInt + riskBandFromScore (alias of riskClass) imported from @/lib/num + @/lib/risk above.
 
 const riskTierLabel = (mean: number | null): string => {
   if (mean === null || mean === undefined) return 'データなし';
@@ -39,15 +38,6 @@ const riskTierLabel = (mean: number | null): string => {
   if (mean <= 5.5) return '中程度';
   if (mean <= 7.0) return 'やや高め';
   return '高め';
-};
-
-// HTML escape (esc) is imported at the top of the file from '@/lib/safe-html'.
-
-const riskBandFromScore = (score: number | null): 'low' | 'mid' | 'high' => {
-  if (score === null || score === undefined) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
 };
 
 /** Convert the view's camelCase summary into the snake_case shape that
