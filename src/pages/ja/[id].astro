@@ -1,23 +1,20 @@
 ---
 /**
- * [id].astro — per-occupation detail page (JA only).
+ * [id].astro — per-occupation detail page (JA only), one HTML per
+ * occupation generated statically via getStaticPaths() from the
+ * knowledge graph (see src/views/occupation-page-data).
  *
- * Renders one HTML page per occupation, generated statically via
- * getStaticPaths() reading public/data.detail/<id>.json. Page sections:
- *   - JSON-LD (WebPage + Occupation + BreadcrumbList + FAQPage)
- *   - Risk card + AI rationale long-form (if present)
- *   - Stats dl
- *   - "what is", "how to become", "working conditions" sections
- *   - 5-axis profile radar (data.profile5.json)
- *   - Top-N skills/knowledge/abilities
- *   - FAQ (auto-generated from data)
- *   - Transfer paths (data.transfer_paths.json) or legacy related fallback
- *   - Orgs/certs side-by-side
- *   - Provenance footnote + sources list + share/follow block
- *
- * The inline CSS is preserved verbatim from the v1.x design — a future
- * refactor can extract it into shared classes once we can see what's truly
- * common across detail / sector / ranking pages.
+ * This file is a thin binding shell:
+ *   - getStaticPaths delegates to buildOccupationPageData +
+ *     pickRelatedOccupations.
+ *   - Page-render data prep delegates to buildIdPageBindings
+ *     (src/pages/ja/_id-bindings) and buildOccupationSpokeViews
+ *     (src/views/occupation-page-data).
+ *   - The body is composed of page-local Astro components
+ *     (_RiskCard / _StatsGrid / _JobtagAnchor / _IdPageScript)
+ *     and `<Fragment set:html={…}>` injections of SafeHtml from
+ *     ~14 template modules under src/templates/.
+ *   - Inline CSS lives in src/pages/ja/_id-css.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Footer from '../../components/Footer.astro';
@@ -30,28 +27,20 @@ import { ID_PAGE_CSS } from './_id-css';
 import type { Rec } from '@/data/lib/adapt-detail';
 import { type SpokeNeighbor } from '../../data/lib/spoke-spoke-graph';
 
-// Schema.org dates appear inside the JSON-LD payload + RSS-style metadata.
-// Page-internal versioning, not derived state.
+// Schema.org dates — page-internal versioning, not derived state.
 const DATE_PUBLISHED = '2026-04-25';
 const DATE_MODIFIED = '2026-04-30';
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
-
+//
+// URL params are NOT zero-padded — legacy URLs are /ja/1, /ja/162, /ja/584.
+// The detail-JSON filename `data.detail/{padded}.json` IS zero-padded;
+// padding lives inside the JSON load step, not in routing.
 export async function getStaticPaths() {
-  // Step 11: page-level data prep moved to the view layer
-  // (src/views/occupation-page-data). Loads the graph, adapts every
-  // detail file, builds the name lookup + ranking-hits-by-occ +
-  // same-risk-neighbor serializations. The pickRelatedOccupations
-  // helper preserves the legacy "close-risk quota + id-distance
-  // fill" algorithm byte-for-byte.
   const { buildOccupationPageData, pickRelatedOccupations } = await import(
     '@/views/occupation-page-data'
   );
-
   const { allRecs, nameLookup, rankingHitsArr, sameRiskArr } = await buildOccupationPageData();
-
-  // URL params are NOT zero-padded — legacy URLs are /ja/1, /ja/162, /ja/584
-  // (no leading zeros). Astro emits dist-astro/ja/{id}.html matching that.
   return allRecs.map((rec) => ({
     params: { id: String(rec.id) },
     props: {
@@ -65,11 +54,6 @@ export async function getStaticPaths() {
 }
 
 // ─── Page render ─────────────────────────────────────────────────────────────
-//
-// All Rec → SafeHtml render adapters + page-binding derivations live in
-// ./_id-bindings (buildIdPageBindings) and ./_id-renderers. The page
-// frontmatter below just unpacks the props, awaits the spoke-graph view,
-// calls buildIdPageBindings once, and destructures the result.
 
 interface PageProps {
   rec: Rec;
@@ -81,23 +65,13 @@ interface PageProps {
 
 const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } = Astro.props as PageProps;
 
-// Spoke-graph derived views (same-risk neighbors + related-hubs).
-// Single source of truth in src/views/occupation-page-data.
 const { buildOccupationSpokeViews } = await import('@/views/occupation-page-data');
 const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
-  rec,
-  rankingHitsArr,
-  sameRiskArr,
+  rec, rankingHitsArr, sameRiskArr,
 );
 
-// All page-render derivations (display strings, SEO meta, section HTML,
-// JSON-LD, share-text payload) are bundled into one pass in
-// ./_id-bindings. The bindings call orchestrates ~80 lines of
-// const declarations under one entry point.
 const bindings = buildIdPageBindings({
-  rec,
-  related,
-  nameLookup,
+  rec, related, nameLookup,
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,
 });
