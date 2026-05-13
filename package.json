@@ -22,6 +22,7 @@
     "check:architecture": "node scripts/check-architecture.cjs",
     "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
     "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
+    "verify:jsonld": "node scripts/verify-jsonld.cjs",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {

@@ -69,3 +69,6 @@ jobs:
 
       - name: Check 5-layer architecture boundaries (docs/architecture.md §6.2)
         run: pnpm run check:architecture
+
+      - name: Verify JSON-LD structural validity (docs/architecture.md §6.3)
+        run: pnpm run verify:jsonld
