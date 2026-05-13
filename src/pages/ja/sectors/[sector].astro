@@ -24,6 +24,7 @@ import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib
 import { escapeHtml as esc } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
 import { riskClass as riskBandFromScore } from '@/lib/risk';
+import { buildSectorFaqs } from '@/data/lib/sector-faqs';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -31,14 +32,7 @@ const DATE_PUBLISHED = '2026-05-05';
 const DATE_MODIFIED = '2026-05-09';
 
 // fmtInt + riskBandFromScore (alias of riskClass) imported from @/lib/num + @/lib/risk above.
-
-const riskTierLabel = (mean: number | null): string => {
-  if (mean === null || mean === undefined) return 'データなし';
-  if (mean <= 3.5) return '低め';
-  if (mean <= 5.5) return '中程度';
-  if (mean <= 7.0) return 'やや高め';
-  return '高め';
-};
+// FAQ Q/A pairs come from buildSectorFaqs (see src/data/lib/sector-faqs).
 
 /** Convert the view's camelCase summary into the snake_case shape that
  *  sector-meta.ts helpers expect. */
@@ -150,79 +144,16 @@ for (const t of sampleTitles) keywordsList.push(t);
 keywordsList.push(`${nameLoc} 仕事`, `${nameLoc} 職業`, `${nameLoc} AI 影響`);
 const keywordsStr = keywordsList.join(', ');
 
-// Build FAQs.
-const faqs: Array<[string, string]> = [];
-
-// Q1: occupations in sector.
-const sampleWorkersFaq = topWorkers.slice(0, 3).filter((o) => o.titleJa);
-const sampleStrQ1 = sampleWorkersFaq.length
-  ? sampleWorkersFaq.map((o) => o.titleJa).join('、')
-  : '—';
-faqs.push([
-  `${nameLoc}業界にはどんな職業がありますか？`,
-  `${nameLoc}業界は${n}の職業に分類されており、代表的な職業は${sampleStrQ1}などです。` +
-    `就業者数の合計は約${fmtInt(workforceTotal)}人にのぼります。`,
-]);
-
-// Q2: highest AI impact.
-if (topHigh.length) {
-  const top3High = topHigh.slice(0, 3);
-  const itemsStr = top3High
-    .filter((o) => o.titleJa && o.aiRisk !== null)
-    .map((o) => `${o.titleJa}（AI影響 ${o.aiRisk}/10）`)
-    .join('、');
-  faqs.push([
-    `${nameLoc}業界で AI 影響度が最も高い職業は？`,
-    `AI影響度が高い順に、${itemsStr} です。` +
-      `これらは AI による業務代替・補助の可能性が比較的高い傾向にあります。`,
-  ]);
-}
-
-// Q3: lowest AI impact.
-if (topLow.length) {
-  const top3Low = topLow.slice(0, 3);
-  const itemsStr = top3Low
-    .filter((o) => o.titleJa && o.aiRisk !== null)
-    .map((o) => `${o.titleJa}（AI影響 ${o.aiRisk}/10）`)
-    .join('、');
-  faqs.push([
-    `${nameLoc}業界で AI 影響度が最も低い職業は？`,
-    `AI影響度が低い順に、${itemsStr} です。` +
-      `身体性・対人スキル・現場判断が必要なため、AI による代替が難しい職業です。`,
-  ]);
-}
-
-// Q4: average AI impact + interpretation.
-if (meanRisk !== null) {
-  const tier = riskTierLabel(meanRisk);
-  faqs.push([
-    `${nameLoc}業界の平均 AI 影響度は？`,
-    `${nameLoc}業界の${n}職業の平均 AI 影響度は10段階中 ${meanRisk.toFixed(1)} で、${tier}の水準です。` +
-      `これは Claude Opus 4.7 による独自分析（非公式）の値で、職業ごとのバラつきがあります。`,
-  ]);
-}
-
-// Q5: future outlook.
-if (meanRisk !== null && topLow.length) {
-  const safeJobsStr = topLow
-    .slice(0, 3)
-    .filter((o) => o.titleJa)
-    .map((o) => o.titleJa)
-    .join('、');
-  let outlook;
-  if (meanRisk <= 4.0) {
-    outlook = 'AIに代替されにくい職業が多く、将来性が比較的高い';
-  } else if (meanRisk >= 6.0) {
-    outlook = '業界全体で AI による業務変化が見込まれ、職業選択時には個別の代替リスクの確認が重要';
-  } else {
-    outlook = '職業によって AI 影響度に差があり、個別に検討が必要';
-  }
-  faqs.push([
-    `${nameLoc}業界の将来性は？`,
-    `平均 AI 影響度 ${meanRisk.toFixed(1)}/10 で、${outlook}な業界です。` +
-      `特に AI リスクが低い職業として ${safeJobsStr} などが挙げられます。`,
-  ]);
-}
+// Build FAQs — single source of truth in src/data/lib/sector-faqs.
+const faqs = buildSectorFaqs({
+  nameJa: nameLoc,
+  occupationCount: n,
+  workforceTotal,
+  meanRisk,
+  topWorkers: topWorkers.map((o) => ({ titleJa: o.titleJa, aiRisk: o.aiRisk })),
+  topHigh: topHigh.map((o) => ({ titleJa: o.titleJa, aiRisk: o.aiRisk })),
+  topLow: topLow.map((o) => ({ titleJa: o.titleJa, aiRisk: o.aiRisk })),
+});
 
 // JSON-LD: WebPage + Article + BreadcrumbList + ItemList + (FAQPage if faqs exist).
 const itemListEl = fullSorted.map((o, i) => ({
