@@ -22,6 +22,8 @@
  * verifies every related-jobs list on every page).
  */
 
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import type { Rec } from '@/data/lib/adapt-detail';
 
 /** One entry in the same-risk-neighbor map for a single occupation. */
@@ -119,6 +121,76 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   }
 
   return { allRecs, nameLookup, rankingHitsArr, sameRiskArr };
+}
+
+/** HTML fragments for the spoke-hubs and same-risk-neighbors
+ *  sections of one detail page. Both are plain `string` (the
+ *  underlying renderers in src/data/lib/spoke-*-graph still
+ *  produce string output, not SafeHtml; they'll migrate to the
+ *  branded type in a later step). */
+export interface OccupationSpokeViews {
+  /** `<section>` markup for the same-risk neighbors block.
+   *  Empty string when this occupation has no neighbors. */
+  readonly sameRiskHtml: string;
+  /** `<section>` markup for the related-hubs block. */
+  readonly relatedHubsHtml: string;
+}
+
+/**
+ * Reconstruct the cross-occupation Maps Astro had to serialize over
+ * the getStaticPaths → component boundary, then derive the two
+ * spoke-graph HTML fragments for this page.
+ *
+ * The raw `public/data.detail/{padded}.json` is re-read here (one
+ * extra ~1ms read per spoke build) because computeSpokeHubs needs
+ * the original `top-N` array shape, not the page-local Rec shape.
+ */
+export async function buildOccupationSpokeViews(
+  rec: Rec,
+  rankingHitsArr: ReadonlyArray<[number, ReadonlyArray<RankingHitView>]>,
+  sameRiskArr: ReadonlyArray<[number, ReadonlyArray<SameRiskNeighborView>]>,
+): Promise<OccupationSpokeViews> {
+  const { computeSpokeHubs, renderSpokeHubsSection } = await import(
+    '../data/lib/spoke-hub-graph.js'
+  );
+  const { renderSameRiskSection } = await import('../data/lib/spoke-spoke-graph.js');
+
+  // Same-risk neighbors: lookup this rec's row from the serialized array.
+  const sameRiskMap = new Map(sameRiskArr);
+  const myNeighbors = sameRiskMap.get(rec.id) ?? [];
+  const sameRiskHtml = renderSameRiskSection([...myNeighbors], rec.ai_risk);
+
+  // Ranking-hits map: needed by computeSpokeHubs for "this rec
+  // appears in rankings X, Y, Z" inclusion.
+  const rankingHitsByOcc = new Map(
+    rankingHitsArr.map(
+      ([occId, hits]) =>
+        [occId, hits.map((h) => ({ slug: h.slug, rank: h.rank }))] as const,
+    ),
+  );
+
+  // Re-read the raw detail JSON for the original top-N array shape.
+  const padded = String(rec.id).padStart(4, '0');
+  let detailRaw: unknown = null;
+  try {
+    detailRaw = JSON.parse(
+      readFileSync(
+        path.join(process.cwd(), 'public', 'data.detail', `${padded}.json`),
+        'utf8',
+      ),
+    );
+  } catch {
+    detailRaw = null;
+  }
+  const spokeHubs = detailRaw
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      computeSpokeHubs(detailRaw as any, {
+        rankingHitsByOcc: rankingHitsByOcc as never,
+      })
+    : { groups: [], total: 0 };
+  const relatedHubsHtml = renderSpokeHubsSection(spokeHubs);
+
+  return { sameRiskHtml, relatedHubsHtml };
 }
 
 /**
