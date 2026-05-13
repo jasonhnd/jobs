@@ -77,15 +77,15 @@ async function checkPlannedFilesExist(distRoot: string, r: Report): Promise<void
     'data.review_queue.json',
     'data.profile5.json',
     'data.transfer_paths.json',
-    'data.featured.json',
     'data.holland.json',
     'data.labels/ja.json',
+    // Removed in Step 12: data.featured.json (dead projection).
   ];
   const requiredDirs = [
     'data.detail',         // 556 per-occupation files
-    'data.tasks',          // 556 per-occupation files
     'data.skills',         // 39 per-skill files + index
-    'data.score-history',  // 552 per-occupation files
+    // Removed in Step 12: data.tasks (556 dead files) and
+    // data.score-history (552 dead files) — both projections deleted.
   ];
   for (const f of requiredFiles) {
     const p = join(distRoot, f);
@@ -521,19 +521,18 @@ async function main(): Promise<void> {
   await checkReviewQueue(distRoot, r);
   checkTreemapV110(treemapRecords, sectorIds, r);
 
-  // Lightweight existence + shape checks for the 7 projections that don't
+  // Lightweight existence + shape checks for the projections that don't
   // have deep dedicated checks above. Catches "projection silently wrote
   // an empty / malformed file" regressions.
-  await checkNonEmptyJsonShape(distRoot, 'data.featured.json', 'occupations', r);
   await checkNonEmptyJsonShape(distRoot, 'data.holland.json', 'rows', r);
   await checkNonEmptyJsonShape(distRoot, 'data.profile5.json', 'profiles', r);
   await checkNonEmptyJsonShape(distRoot, 'data.transfer_paths.json', 'paths', r);
-  await checkPerOccupationDir(distRoot, 'data.tasks', 500, r);
   await checkPerOccupationDir(distRoot, 'data.skills', 30, r);
-  await checkPerOccupationDir(distRoot, 'data.score-history', 500, r);
+  // Step 12 removed: data.featured.json (dead projection),
+  // data.tasks (556 dead files), data.score-history (552 dead files).
 
   // Cross-projection invariants — every id referenced by the search /
-  // featured / transfer_paths projections must point at an occupation that
+  // transfer_paths projections must point at an occupation that
   // actually has a detail file. Catches dangling references that would
   // produce 404 fetches at runtime.
   await checkCrossProjectionIdReferences(distRoot, r);
@@ -603,25 +602,7 @@ async function checkCrossProjectionIdReferences(distRoot: string, r: Report): Pr
     }
   }
 
-  // featured.json: every occupations[].id must be in knownIds.
-  const featPath = join(distRoot, 'data.featured.json');
-  if (existsSync(featPath)) {
-    try {
-      const feat = (await loadJson(featPath)) as { occupations?: Array<{ id?: number }> };
-      const occs = feat.occupations ?? [];
-      const dangling: number[] = [];
-      for (const o of occs) {
-        if (typeof o.id === 'number' && !knownIds.has(o.id)) dangling.push(o.id);
-      }
-      if (dangling.length > 0) {
-        r.fail(
-          `data.featured.json references ${dangling.length} occupation ids with no matching data.detail/ file: ${dangling.join(', ')}`,
-        );
-      }
-    } catch (err) {
-      r.fail(`data.featured.json id-cross-check failed: ${(err as Error).message}`);
-    }
-  }
+  // (featured.json cross-check removed in Step 12 — projection deleted.)
 }
 
 main().catch((err) => {
