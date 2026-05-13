@@ -87,15 +87,24 @@ const RULES = [
       { pattern: '@/views',              reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
       { pattern: 'src/pages',            reason: 'templates must not import page-level code' },
       { pattern: 'src/data/projections', reason: 'templates must not read projection JSON — that is a view-layer concern' },
-      // src/data/lib/ is still permitted transitionally: a few legacy
-      // helpers (sector-meta, inline-links, hub-hub-graph) are still
-      // call-sites for templates and will migrate in a later step.
-      // Tighten this once those are extracted.
+      { pattern: 'src/data/lib',         reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
+      { pattern: '@/data/lib',           reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
     ],
   },
-  // src/pages/ gets strict rules in a later step (the Phase B sweep
-  // that slims pages down to thin bindings). For now keep them lenient
-  // so the migration is purely additive — no in-flight enforcement.
+  {
+    layer: 'Pages (src/pages/)',
+    dir: path.join(SRC, 'pages'),
+    forbidden: [
+      // Pages are the binding layer. They consume views + templates and
+      // emit Astro markup; they do NOT define new rendering logic or
+      // bypass the graph by reading projection JSON directly. Per-page
+      // sibling helpers (_*-bindings.ts / _*-renderers.ts / _*-css.ts)
+      // still live under src/pages but the boundary rule applies to
+      // them too — they're page-scoped glue, not a new layer.
+      { pattern: 'src/data/projections', reason: 'pages must consume views, not raw projections' },
+      { pattern: '@/data/projections',   reason: 'pages must consume views, not raw projections' },
+    ],
+  },
 ];
 
 // ─── scanning helpers ────────────────────────────────────────────
