@@ -41,17 +41,18 @@ import {
   SKILL_CARDS,
   COMPARE_CARDS,
 } from "../src/views/og-cards.js";
-// Renderers live in api/og-renderers/ — Vercel's Edge Function bundler
-// does NOT resolve `.js → .tsx` for dependencies (it only handles
-// `.js → .ts`). The JSX renderers MUST be imported with explicit
-// `.tsx` extension; tsconfig has `allowImportingTsExtensions: true`
-// to make TypeScript accept the literal extension. Vercel does NOT
-// register these as routes since they have no `export default`.
+// Renderers: .tsx source lives in src/lib/og-renderers/, compiled .js
+// output lives in api/og-renderers/. The compilation runs as the FIRST
+// step of `pnpm build` (see scripts/build-og-renderers.cjs). Vercel's
+// Edge Function bundler does NOT compile dependency .tsx files (it
+// only resolves `.js → .ts`, not `.js → .tsx`), so the renderers must
+// ship as pre-compiled .js for Vercel to bundle them into api/og.tsx.
+// api/og-renderers/ is .gitignored — the .js files are build artifacts.
 // See CHANGELOG [Unreleased] § "Vercel preview deploy unblocked".
-import { renderGenericOgCard } from "./og-renderers/generic.tsx";
-import { renderMapOgCard } from "./og-renderers/map.tsx";
-import { renderSectorOgCard } from "./og-renderers/sector.tsx";
-import { renderOccupationOgCard } from "./og-renderers/occupation.tsx";
+import { renderGenericOgCard } from "./og-renderers/generic.js";
+import { renderMapOgCard } from "./og-renderers/map.js";
+import { renderSectorOgCard } from "./og-renderers/sector.js";
+import { renderOccupationOgCard } from "./og-renderers/occupation.js";
 
 export const config = { runtime: "edge" };
 

@@ -27,7 +27,7 @@ import {
   loadGoogleFont,
   fmtNumber,
   SectorsProjectionSchema,
-} from '../../src/lib/og-helpers.js';
+} from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const HEADLINE_LABEL = '業界 / SECTOR';

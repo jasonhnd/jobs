@@ -17,7 +17,7 @@
  */
 
 import { ImageResponse } from '@vercel/og';
-import { loadGoogleFont } from '../../src/lib/og-helpers.js';
+import { loadGoogleFont } from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const EYEBROW = 'OCCUPATION MAP / 全 552 職業';
