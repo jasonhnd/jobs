@@ -1,6 +1,11 @@
 /**
- * src/templates/JsonLd.ts — Schema.org JSON-LD structured data for
- * the occupation detail page (`/ja/{id}`).
+ * src/views/occupation-jsonld.ts — Schema.org JSON-LD structured
+ * data for the occupation detail page (`/ja/{id}`).
+ *
+ * Step 10 reclassification (2026-05-13): moved out of src/templates/.
+ * JSON-LD output is a JSON STRING (data), not HTML. Per
+ * docs/architecture.md §5 "横切关注点 = view 的另一种实例", a
+ * typed-data → serialized-data function is a view, not a template.
  *
  * Extracted from src/pages/ja/[id].astro (`renderJsonLd` plus its
  * JsonLd* type cluster). Builds a `@graph` with up to four nodes:
