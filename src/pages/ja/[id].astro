@@ -110,7 +110,7 @@ const {
   legacyRelatedHtml,
   riskClass, riskNumDisp, recruitDisp, hourlyDisp,
   workersCell, ageCell, hoursCell, salaryCell,
-  jsonLd,
+  jsonLd, riskTierJs,
 } = bindings;
 
 ---
@@ -186,9 +186,5 @@ const {
     <Footer />
   </div>
 
-  <IdPageScript
-    occId={id}
-    riskScoreJs={risk}
-    riskTierJs={risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low'}
-  />
+  <IdPageScript occId={id} riskScoreJs={risk} {riskTierJs} />
 </BaseLayout>

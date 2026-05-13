@@ -100,6 +100,11 @@ export interface IdPageBindings extends OccupationDisplay {
 
   // Schema.org JSON-LD payload (pretty-printed string)
   readonly jsonLd: string;
+
+  /** Three-bucket GA4 funnel classification for the
+   *  `result_view` event's `risk_tier` param. Note: distinct
+   *  cutoffs from the 5-band callout copy. */
+  readonly riskTierJs: 'high' | 'mid' | 'low';
 }
 
 export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings {
@@ -188,6 +193,10 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     dateModified,
   });
 
+  // ─── GA4 funnel classification ────────────────────────────
+  const riskTierJs: 'high' | 'mid' | 'low' =
+    risk !== null && risk >= 7 ? 'high' : risk !== null && risk >= 5 ? 'mid' : 'low';
+
   return {
     ...display,
     id,
@@ -217,5 +226,6 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     condSection,
     legacyRelatedHtml,
     jsonLd,
+    riskTierJs,
   };
 }
