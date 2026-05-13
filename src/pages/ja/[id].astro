@@ -35,6 +35,7 @@ import { renderMetaRow as renderMetaRowTemplate } from '@/templates/MetaRow';
 import { renderTopn as renderTopnTemplate } from '@/templates/Topn';
 import { renderOccupationJsonLd as renderOccupationJsonLdTemplate } from '@/templates/JsonLd';
 import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
+import { makeOccupationDefinition } from '@/data/lib/occupation-definition';
 import {
   computeSpokeHubs,
   buildRankingHitsByOcc,
@@ -356,34 +357,15 @@ export async function getStaticPaths() {
 
 // fmtInt: imported at top of file from '@/lib/num'.
 
-const NOUN_FINAL_ENDINGS = [
-  '職業', '仕事', '技術者', '職人', '担当者', '専門職', '技能職',
-  'オペレーター', 'エンジニア', 'デザイナー', 'プログラマー',
-  '従事者', '作業員', '者', '士', '員', '家', '師', '工',
-];
-
-function endsWithAny(s: string, suffixes: string[]): boolean {
-  return suffixes.some((suf) => s.endsWith(suf));
-}
-
+// Shared data builder — single source of truth in
+// src/data/lib/occupation-definition. NOUN_FINAL_ENDINGS list and
+// endsWithAny helper moved into the module with it.
 function makeDefinition(rec: Rec): string {
-  const name = (rec.name_ja || '').trim();
-  const summary = (rec.desc_ja || '').trim();
-  if (!summary) {
-    const sectorJa = rec.sector?.ja || '';
-    if (sectorJa) return `${name}とは、${sectorJa}業界に属する職業です。`;
-    return `${name}とは、日本の職業の一つです。`;
-  }
-  let first = summary.split('。')[0].trim();
-  if (!first) first = summary.replace(/[。.]+$/, '').trim();
-  if (first.startsWith(`${name}とは`) || first.startsWith(`${name}は`)) {
-    if (!first.endsWith('です') && !first.endsWith('ます') && !first.endsWith('である')) {
-      return endsWithAny(first, NOUN_FINAL_ENDINGS) ? `${first}です。` : `${first}職業です。`;
-    }
-    return `${first}。`;
-  }
-  if (endsWithAny(first, NOUN_FINAL_ENDINGS)) return `${name}とは、${first}です。`;
-  return `${name}とは、${first}職業です。`;
+  return makeOccupationDefinition({
+    nameJa: rec.name_ja || '',
+    descJa: rec.desc_ja || '',
+    sectorJa: rec.sector?.ja ?? null,
+  });
 }
 
 function formatParagraphs(text: string | null): string {
