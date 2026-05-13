@@ -43,7 +43,6 @@ import {
   padId,
   DetailRecordSchema,
   SectorsProjectionSchema,
-  type GenericCardConfig,
 } from "../src/lib/og-helpers.js";
 import {
   PAGE_CARDS,
@@ -52,6 +51,7 @@ import {
   SKILL_CARDS,
   COMPARE_CARDS,
 } from "../src/views/og-cards.js";
+import { renderGenericOgCard } from "../src/lib/og-renderers/generic.js";
 
 export const config = { runtime: "edge" };
 
@@ -59,140 +59,6 @@ export const config = { runtime: "edge" };
 // All 5 _CARDS dicts (PAGE / RANKING / INTEREST / SKILL / COMPARE)
 // live in src/views/og-cards.ts as typed views — see imports above.
 
-async function renderGenericCard(config: GenericCardConfig): Promise<Response> {
-  const siteMark = "mirai-shigoto.com";
-  const subsetText =
-    `独立分析 ${siteMark} ${config.eyebrow} ${config.title} ${config.subtitle} ・ /`;
-
-  const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
-    loadGoogleFont("Noto+Serif+JP", 600, subsetText),
-    loadGoogleFont("Noto+Sans+JP",  800, subsetText),
-    loadGoogleFont("Noto+Sans+JP",  500, subsetText),
-  ]);
-
-  const C = {
-    bg:       "#FAF6EE",
-    ink:      "#241E18",
-    muted:    "#7A6F5E",
-    hairline: "rgba(36, 30, 24, 0.12)",
-    accent:   "#D96B3D",
-  };
-
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          background: C.bg,
-          color: C.ink,
-          fontFamily: "NotoSansJP",
-          padding: "48px 64px",
-          borderLeft: `14px solid ${C.accent}`,
-        }}
-      >
-        {/* Top bar — "独立分析" badge + site mark */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              background: C.accent,
-              color: "#FFFFFF",
-              padding: "8px 18px",
-              borderRadius: "999px",
-              fontWeight: 800,
-              fontSize: "22px",
-              letterSpacing: "0.05em",
-            }}
-          >
-            独立分析
-          </div>
-          <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
-            {siteMark}
-          </div>
-        </div>
-
-        {/* Eyebrow + giant title + subtitle */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            justifyContent: "center",
-            marginTop: "12px",
-            gap: "20px",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "30px",
-              color: C.muted,
-              fontWeight: 600,
-              letterSpacing: "0.05em",
-            }}
-          >
-            {config.eyebrow}
-          </div>
-          <div
-            style={{
-              fontSize: "84px",
-              fontFamily: "NotoSerifJP",
-              fontWeight: 600,
-              lineHeight: 1.15,
-              color: C.ink,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {config.title}
-          </div>
-          <div
-            style={{
-              fontSize: "32px",
-              color: C.muted,
-              fontWeight: 500,
-              lineHeight: 1.4,
-              marginTop: "8px",
-            }}
-          >
-            {config.subtitle}
-          </div>
-        </div>
-
-        {/* Bottom hairline + tagline */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingTop: "20px",
-            borderTop: `1px solid ${C.hairline}`,
-            color: C.muted,
-            fontSize: "22px",
-          }}
-        >
-          <span>厚生労働省 jobtag · JILPT IPD v7.00 · Claude Opus 4.7</span>
-          <span>非公式 / Independent</span>
-        </div>
-      </div>
-    ),
-    {
-      width: 1200,
-      height: 630,
-      fonts: [
-        { name: "NotoSerifJP", data: fontSerifBuf, style: "normal", weight: 600 },
-        { name: "NotoSansJP",  data: fontSansBoldBuf, style: "normal", weight: 800 },
-        { name: "NotoSansJP",  data: fontSansRegBuf,  style: "normal", weight: 500 },
-      ],
-    },
-  );
-}
 
 // Phase 9: sector hub OG card. Source = /data.sectors.json (16-sector projection).
 async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
@@ -576,7 +442,7 @@ async function renderHandler(req: Request): Promise<Response> {
         { status: 400 },
       );
     }
-    return renderGenericCard(cfg);
+    return renderGenericOgCard(cfg);
   }
 
   // Per-ranking text cards: /api/og?ranking=<slug>
@@ -588,7 +454,7 @@ async function renderHandler(req: Request): Promise<Response> {
         { status: 400 },
       );
     }
-    return renderGenericCard(cfg);
+    return renderGenericOgCard(cfg);
   }
 
   // Per-interest (RIASEC) text cards: /api/og?interest=<slug>
@@ -600,7 +466,7 @@ async function renderHandler(req: Request): Promise<Response> {
         { status: 400 },
       );
     }
-    return renderGenericCard(cfg);
+    return renderGenericOgCard(cfg);
   }
 
   // Per-skill text cards: /api/og?skill=<slug>
@@ -612,7 +478,7 @@ async function renderHandler(req: Request): Promise<Response> {
         { status: 400 },
       );
     }
-    return renderGenericCard(cfg);
+    return renderGenericOgCard(cfg);
   }
 
   // Per-compare text cards: /api/og?compare=<slug>
@@ -624,7 +490,7 @@ async function renderHandler(req: Request): Promise<Response> {
         { status: 400 },
       );
     }
-    return renderGenericCard(cfg);
+    return renderGenericOgCard(cfg);
   }
 
   // Phase 9: sector-card branch — /api/og?sector=<sector_id>
