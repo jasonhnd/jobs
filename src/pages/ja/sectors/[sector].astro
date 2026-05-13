@@ -25,6 +25,7 @@ import { escapeHtml as esc } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
 import { riskClass as riskBandFromScore } from '@/lib/risk';
 import { buildSectorFaqs } from '@/data/lib/sector-faqs';
+import { renderSectorJsonLd } from '@/templates/SectorJsonLd';
 
 const SITE = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -155,78 +156,23 @@ const faqs = buildSectorFaqs({
   topLow: topLow.map((o) => ({ titleJa: o.titleJa, aiRisk: o.aiRisk })),
 });
 
-// JSON-LD: WebPage + Article + BreadcrumbList + ItemList + (FAQPage if faqs exist).
-const itemListEl = fullSorted.map((o, i) => ({
-  '@type': 'ListItem',
-  position: i + 1,
-  url: `${SITE}/ja/${o.id as unknown as number}`,
-  name: o.titleJa || `#${o.id as unknown as number}`,
-}));
-
-const pageDesc = `${nameLoc} 業界の ${n} 職業を AI 影響度・年収・就業者数で一覧。`;
-
-const graph: Record<string, unknown>[] = [
-  {
-    '@type': 'WebPage',
-    '@id': `${canonical}#webpage`,
-    url: canonical,
-    name: `${nameLoc} の職業一覧`,
-    description: pageDesc,
-    isPartOf: { '@id': `${SITE}/#website` },
-    inLanguage: 'ja',
-    datePublished: DATE_PUBLISHED,
-    dateModified: DATE_MODIFIED,
-    publisher: { '@id': `${SITE}/#organization` },
-    breadcrumb: { '@id': `${canonical}#breadcrumb` },
-  },
-  {
-    '@type': 'Article',
-    '@id': `${canonical}#article`,
-    headline: `${nameLoc} の職業 — ${n}職業の AI 影響度・年収・就業者数`,
-    description: pageDesc,
-    image: `${SITE}/api/og?sector=${sid}`,
-    url: canonical,
-    datePublished: DATE_PUBLISHED,
-    dateModified: DATE_MODIFIED,
-    author: { '@id': `${SITE}/#organization` },
-    publisher: { '@id': `${SITE}/#organization` },
-    inLanguage: 'ja',
-    mainEntityOfPage: { '@id': `${canonical}#webpage` },
-    isPartOf: { '@id': `${canonical}#webpage` },
-    articleSection: 'セクター',
-  },
-  {
-    '@type': 'BreadcrumbList',
-    '@id': `${canonical}#breadcrumb`,
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: crumbRoot, item: `${SITE}/` },
-      { '@type': 'ListItem', position: 2, name: crumbSectors, item: `${SITE}/ja/sectors` },
-      { '@type': 'ListItem', position: 3, name: nameLoc, item: canonical },
-    ],
-  },
-  {
-    '@type': 'ItemList',
-    '@id': `${canonical}#occupations`,
-    name: `${nameLoc} の職業`,
-    numberOfItems: itemListEl.length,
-    itemListOrder: 'https://schema.org/ItemListOrderDescending',
-    itemListElement: itemListEl,
-  },
-];
-if (faqs.length) {
-  graph.push({
-    '@type': 'FAQPage',
-    '@id': `${canonical}#faq`,
-    inLanguage: 'ja',
-    mainEntity: faqs.map(([q, a]) => ({
-      '@type': 'Question',
-      name: q,
-      acceptedAnswer: { '@type': 'Answer', text: a },
-    })),
-  });
-}
-
-const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+// JSON-LD — single source of truth in src/templates/SectorJsonLd.
+const jsonLd = renderSectorJsonLd({
+  canonical,
+  nameJa: nameLoc,
+  sectorId: sid,
+  siteOrigin: SITE,
+  occupationCount: n,
+  occupations: fullSorted.map((o) => ({
+    id: o.id as unknown as number,
+    titleJa: o.titleJa,
+  })),
+  faqs,
+  breadcrumbRoot: crumbRoot,
+  breadcrumbSectors: crumbSectors,
+  datePublished: DATE_PUBLISHED,
+  dateModified: DATE_MODIFIED,
+});
 
 const ogImage = `${SITE}/api/og?sector=${sid}`;
 
