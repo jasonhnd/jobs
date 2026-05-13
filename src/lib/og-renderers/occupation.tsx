@@ -26,7 +26,7 @@ import {
   fmtNumber,
   padId,
   DetailRecordSchema,
-} from '../../src/lib/og-helpers.js';
+} from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
 const RISK_LABEL = 'AI 影響';

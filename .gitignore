@@ -83,6 +83,13 @@ analytics/dashboards.md
 # Local-only preview / scratch HTML files. Names starting with `_` are draft.
 _*.html
 
+# api/og-renderers/ — esbuild output of src/lib/og-renderers/*.tsx,
+# regenerated on every `pnpm build` by scripts/build-og-renderers.cjs.
+# Tracked sources live at src/lib/og-renderers/*.tsx. The directory
+# exists only at build time so Vercel's Edge bundler can resolve
+# api/og.tsx's `./og-renderers/<name>.js` imports.
+api/og-renderers/
+
 # docs/ — design / planning markdown は原則ローカル only、GitHub に同期しない。
 # 例外: Design.md と Design-Mobile.md は日本語化完了済 (2026-05-13 Phase A.5)、
 # 公開して開発者向け仕様として共有する。

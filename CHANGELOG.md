@@ -14,20 +14,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 - **Vercel preview deploy unblocked**: the Step 9 OG-endpoint refactor
   extracted 4 JSX renderers to `src/lib/og-renderers/*.tsx`. Vercel's
-  Edge Function bundler **can** resolve `.js → .ts` for imports outside
-  `api/` (so `src/lib/og-helpers.ts` worked) but **cannot** resolve
-  `.js → .tsx`, so it reported the 4 renderers as
-  `"unsupported modules"` and failed every preview deploy from
-  commit `3d50a8b3` (2026-05-13 06:09 UTC) onward — ~25 consecutive
-  failed deployments before this fix. The live `pre.mirai-shigoto.com`
-  stayed pinned at commit `b8698283` (the last successful pre-Step-9
-  deploy) until the issue surfaced. Resolution: moved the 4 renderer
-  files into `api/og-renderers/` where Vercel natively handles `.tsx`.
-  Renderers have no `export default` / `export const config`, so
-  Vercel does NOT register them as `/api/og-renderers/*` routes. Build,
-  typecheck, SEO baseline, and architecture-boundary gate all green
-  after the move. The deeper "why JSX outside api/ breaks Vercel"
-  question is documented in the architecture-migration entry below.
+  Edge Function bundler **can** resolve `.js → .ts` for relative
+  imports (so `src/lib/og-helpers.ts` worked) but **does not compile
+  dependency `.tsx` files at all** — it reported the 4 renderers as
+  `"unsupported modules"` and failed every preview deploy from commit
+  `3d50a8b3` (2026-05-13 06:09 UTC) onward (~25 consecutive failed
+  deployments). The live `pre.mirai-shigoto.com` stayed pinned at
+  commit `b8698283` (the last successful pre-Step-9 deploy) until this
+  fix. Two intermediate attempts that ALSO failed: (a) moving the
+  files into `api/og-renderers/` — Vercel still wouldn't compile dep
+  `.tsx`, only the entry one; (b) using explicit `.tsx` extension in
+  the import paths + `allowImportingTsExtensions: true` — same error,
+  just with `.tsx` listed instead of `.js`. Resolution:
+  pre-compile the renderers with **esbuild** as the first step of
+  `pnpm build`. `.tsx` sources stay at the architecturally-correct
+  location (`src/lib/og-renderers/`, "binary output → lib" per §5),
+  esbuild emits compiled `.js` into `api/og-renderers/` (gitignored,
+  rebuilt every deploy), and `api/og.tsx` imports those .js files.
+  Compilation takes ~5 ms (4 small files, `bundle: false`, JSX
+  automatic runtime). New devDep: `esbuild@^0.28.0`. New script:
+  `scripts/build-og-renderers.cjs` (~70 lines). Pipeline order
+  enforced via the `build` npm script.
 - **Ranking title counts** (`ai-frontier`, `public-sector`): the hardcoded
   `name_ja` (rankings-meta.ts) and `<title>` (rankings.ts) for these two
   rankings still said "TOP30", but the actual filtered item counts are 21
@@ -216,17 +223,12 @@ in 11 places. New code now has a contract about *where it goes* and
 - **Step 9 · OG endpoint refactor** (`api/og.tsx`, 967 → 172 lines, −82.2%):
   thin dispatcher. 5 card config dicts (`PAGE`/`RANKING`/`INTEREST`/`SKILL`/
   `COMPARE_CARDS`) moved to `src/views/og-cards.ts`. 4 OG card JSX renderers
-  moved to `api/og-renderers/{generic,map,sector,occupation}.tsx`. The
-  Vercel Edge dispatcher reads the card type from the URL, looks up the
-  config, and hands off to the renderer — adding a new card surface is
-  now ~30 lines (config entry + page binding). Renderers initially
-  landed under `src/lib/og-renderers/` (matching the architecture's
-  "binary output, not SafeHtml, not typed-data → lib" classification),
-  but Vercel's Edge Function bundler cannot resolve `.js → .tsx` for
-  imports outside `api/` (it handles `.js → .ts` fine — that's why
-  `og-helpers.ts` ships in `src/lib/`). The renderers moved under
-  `api/` so the bundler's native `.tsx` handling applies; they have
-  no `export default` so Vercel does not register them as routes.
+  moved to `src/lib/og-renderers/{generic,map,sector,occupation}.tsx`,
+  with esbuild compiling them to `api/og-renderers/*.js` at build time
+  (see the Fixed section above for the Vercel-bundler workaround
+  rationale). The Vercel Edge dispatcher reads the card type from the
+  URL, looks up the config, and hands off to the renderer — adding a
+  new card surface is now ~30 lines (config entry + page binding).
 - **Step 10 · JsonLd / Sitemap relocation** (`src/views/`): JSON-LD is
   *data*, not HTML, so `occupation-jsonld.ts` + `sector-jsonld.ts` moved
   templates/ → views/. Sitemap enumeration + XML rendering split: new
