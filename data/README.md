@@ -1,49 +1,42 @@
-# `data/` — source-of-truth for the build pipeline
+# `data/` — build パイプラインの正典ソース
 
-Every file here is INPUT to `npm run build:data`. The TypeScript ETL
-(`src/data/build.ts`) reads from this directory, validates each file
-against the matching Zod schema, and writes 12 projection families to
-`public/data.*` (which the Astro build then bakes into `dist-astro/`).
+ここにあるすべてのファイルは `npm run build:data` の **入力**。TypeScript ETL(`src/data/build.ts`)がこのディレクトリから読み、対応する Zod スキーマで各ファイルを検証し、12 の projection ファミリーを `public/data.*` に書き出す(その後 Astro build がそれを `dist-astro/` に焼き込む)。
 
-## Layout
+## レイアウト
 
 ```
 data/
-├── occupations/       <padded>.json × 556    — one per occupation, source-of-truth
-├── stats_legacy/      <padded>.json × 552    — labor-market stats (salary, workers, etc.)
-├── scores/            <scope>_<model>_<date>.json — append-only AI risk score runs
-├── labels/            <dimension>.ja-en.json × 7 — global skills/knowledge/abilities labels
+├── occupations/       <padded>.json × 556    — 職業ごと 1 ファイル、正典ソース
+├── stats_legacy/      <padded>.json × 552    — 労働市場統計(年収、就業者数等)
+├── scores/            <scope>_<model>_<date>.json — AI risk スコア実行(append-only)
+├── labels/            <dimension>.ja-en.json × 7 — グローバルな skills/knowledge/abilities ラベル
 ├── sectors/
-│   ├── sectors.ja-en.json                    — 16-sector taxonomy definitions
-│   └── overrides.json                        — manual occ→sector overrides
-├── prompts/           prompt.ja.md           — LLM scoring prompt template (audit trail)
-├── rationales/        <batch>.json × 55      — staging area for hand-curated rationales
-├── _archive/          translations-en/...    — archived EN translations (v1.4.0 retirement)
-├── .archive/v0.6/                            — frozen v0.6 audit trail (do not modify)
-├── .ipd_provenance.json                      — IPD xlsx hash + retrieved_at
-└── .stats_legacy_provenance.json             — v0.6→v0.7 migration audit
+│   ├── sectors.ja-en.json                    — 16 sector の分類定義
+│   └── overrides.json                        — 手動の occ→sector オーバーライド
+├── prompts/           prompt.ja.md           — LLM スコアリングプロンプトテンプレート(監査トレイル)
+├── rationales/        <batch>.json × 55      — 手動キュレーション rationale のステージング領域
+├── _archive/          translations-en/...    — アーカイブされた EN 翻訳(v1.4.0 で廃止)
+├── .archive/v0.6/                            — フリーズした v0.6 監査トレイル(編集禁止)
+├── .ipd_provenance.json                      — IPD xlsx ハッシュ + retrieved_at
+└── .stats_legacy_provenance.json             — v0.6→v0.7 移行監査
 ```
 
-Schemas (Zod) for every input file: **`src/data/schema/*.ts`**. The
-schemas are the authoritative source for what each file is allowed to
-contain — the docstring at the top of each schema file explains its
-fields and null rules.
+各入力ファイルの Zod スキーマ: **`src/data/schema/*.ts`**。スキーマは各ファイルの許容内容に関する正典 — 各スキーマファイル先頭のドキュメンテーションがフィールドと null 規則を説明する。
 
-## How to update each kind of file
+## 各種ファイルの更新方法
 
-| Want to … | Edit | Then run |
+| やりたいこと | 編集対象 | 実行コマンド |
 |---|---|---|
-| Add a new occupation (IPD update) | nothing — re-import via `npm run import:ipd` | `npm run build:data` |
-| Fix a typo in one occupation | `data/occupations/<padded>.json` | `npm run build:data` |
-| Re-categorize an occupation's sector | `data/sectors/overrides.json` | `npm run build:data` |
-| Add a new sector | `data/sectors/sectors.ja-en.json` (incl. `mhlw_seed_codes`) | `npm run build:data` then audit `public/data.review_queue.json` |
-| Add new AI risk scores | drop new file in `data/scores/` (never overwrite older runs) | `npm run build:data` |
-| Update a label translation | `data/labels/<dimension>.ja-en.json` | `npm run build:data` |
+| 新しい職業を追加(IPD 更新) | 何も編集しない — `npm run import:ipd` で再インポート | `npm run build:data` |
+| 1 つの職業の typo 修正 | `data/occupations/<padded>.json` | `npm run build:data` |
+| 職業の sector を再分類 | `data/sectors/overrides.json` | `npm run build:data` |
+| 新しい sector を追加 | `data/sectors/sectors.ja-en.json`(`mhlw_seed_codes` を含む) | `npm run build:data` 後 `public/data.review_queue.json` を監査 |
+| 新しい AI risk スコアを追加 | `data/scores/` に新しいファイルを置く(古い実行を上書きしない) | `npm run build:data` |
+| ラベル翻訳を更新 | `data/labels/<dimension>.ja-en.json` | `npm run build:data` |
 
-## Worked example — one occupation
+## 実例 — 1 つの職業
 
-`data/occupations/0001.json` (a slim sketch — see `OccupationSchema` in
-`src/data/schema/occupation.ts` for the full contract):
+`data/occupations/0001.json`(slim スケッチ — フル契約は `src/data/schema/occupation.ts` の `OccupationSchema` を参照):
 
 ```json
 {
@@ -67,9 +60,9 @@ fields and null rules.
   },
   "tasks": ["...", "..."],
   "tasks_lead_ja": "...",
-  "skills":     { /* per-skill numeric profile */ },
-  "knowledge":  { /* per-knowledge numeric profile */ },
-  "abilities":  { /* per-ability numeric profile */ },
+  "skills":     { /* skill ごとの数値プロファイル */ },
+  "knowledge":  { /* knowledge ごとの数値プロファイル */ },
+  "abilities":  { /* ability ごとの数値プロファイル */ },
   "work_activities":      { /* ... */ },
   "work_characteristics": { /* ... */ },
   "interests":            { /* ... */ },
@@ -82,22 +75,15 @@ fields and null rules.
 }
 ```
 
-The 12 numeric subdivisions (skills, knowledge, abilities, etc.) follow
-the `OccupationSchema` null rules: a block is either fully populated OR
-entirely null — never a half-populated dict with all-None values.
+12 個の数値サブディビジョン(skills、knowledge、abilities 等)は `OccupationSchema` の null 規則に従う: 各ブロックは完全に埋まっているか、もしくは完全に null か、どちらか。半分埋まったすべて None 値の辞書にはならない。
 
-## What lives in `public/data.*`
+## `public/data.*` には何があるか
 
-NOT here. `public/data.*` is **generated** by `npm run build:data`
-(reads `data/`, writes `public/`). It's gitignored and regenerated on
-every Vercel deploy. If you want to know what shape the projections
-take, see `src/data/projections/*.ts`.
+ここではない。`public/data.*` は `npm run build:data` によって **生成** される(`data/` を読み、`public/` に書く)。gitignored で、Vercel デプロイのたびに再生成される。projection の形を知りたければ、`src/data/projections/*.ts` を参照。
 
-## Archive policy
+## アーカイブポリシー
 
-- `data/_archive/` — recoverable backups (e.g., translations dropped in
-  v1.4.0). Move files BACK from here to restore.
-- `data/.archive/v0.6/` — frozen audit trail of the v0.6 → v0.7 schema
-  migration. Do not modify.
+- `data/_archive/` — 復旧可能なバックアップ(例: v1.4.0 で削除された翻訳)。ここから戻すことで復元できる。
+- `data/.archive/v0.6/` — v0.6 → v0.7 schema 移行のフリーズした監査トレイル。編集禁止。
 
-Both directories are intentionally tracked in git.
+両ディレクトリとも意図的に git で追跡されている。

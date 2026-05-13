@@ -1,3 +1,3 @@
-# Archived EN translations
+# アーカイブ済み EN 翻訳
 
-Source translations for the English UI that was removed in v1.4.0. Kept here as a recoverable backup; not read by any build script. To restore EN, move back to data/translations/en/ and re-enable EN code paths in build scripts.
+v1.4.0 で削除された英語 UI のソース翻訳。復旧可能なバックアップとしてここに保管している。どの build スクリプトからも読まれない。EN を復活させる場合は `data/translations/en/` に戻し、build スクリプトの EN コードパスを再有効化する。
