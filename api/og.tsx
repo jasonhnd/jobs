@@ -37,12 +37,10 @@
 import { ImageResponse } from "@vercel/og";
 import {
   RISK_COLORS,
-  SECTOR_HUE_COLOR,
   loadGoogleFont,
   fmtNumber,
   padId,
   DetailRecordSchema,
-  SectorsProjectionSchema,
 } from "../src/lib/og-helpers.js";
 import {
   PAGE_CARDS,
@@ -53,6 +51,7 @@ import {
 } from "../src/views/og-cards.js";
 import { renderGenericOgCard } from "../src/lib/og-renderers/generic.js";
 import { renderMapOgCard } from "../src/lib/og-renderers/map.js";
+import { renderSectorOgCard } from "../src/lib/og-renderers/sector.js";
 
 export const config = { runtime: "edge" };
 
@@ -62,192 +61,6 @@ export const config = { runtime: "edge" };
 
 
 // Phase 9: sector hub OG card. Source = /data.sectors.json (16-sector projection).
-async function renderSectorCard(url: URL, sectorId: string): Promise<Response> {
-  if (!/^[a-z_]+$/.test(sectorId)) {
-    return new Response("Bad request: invalid sector id", { status: 400 });
-  }
-
-  const sectorsUrl = new URL("/data.sectors.json", url.origin);
-  const res = await fetch(sectorsUrl.toString());
-  if (!res.ok) {
-    return new Response("Upstream sectors fetch failed", { status: 502 });
-  }
-  // Validate the projection shape at runtime so a corrupted / out-of-date
-  // /data.sectors.json doesn't crash the Edge function with a cryptic
-  // "Cannot read properties of undefined" deep inside the render tree.
-  const projectionRaw: unknown = await res.json();
-  const parsed = SectorsProjectionSchema.safeParse(projectionRaw);
-  if (!parsed.success) {
-    // Log structured detail server-side; respond with a fixed message.
-    // Edge runtime logs surface via Vercel observability — never leak
-    // field names through the response body to social-card scrapers.
-    // eslint-disable-next-line no-console
-    console.error(
-      "[og] sectors projection schema mismatch",
-      parsed.error.issues.slice(0, 3),
-    );
-    return new Response("Upstream sectors data invalid", { status: 502 });
-  }
-  const projection = parsed.data;
-  const sector = projection.sectors.find((s) => s.id === sectorId);
-  if (!sector) {
-    return new Response("Sector not found", { status: 404 });
-  }
-
-  const accent = SECTOR_HUE_COLOR[sector.hue] ?? "#6E9B89";
-  const nameLoc = sector.ja;
-  const siteMark = "mirai-shigoto.com";
-
-  const headlineLabel = "業界 / SECTOR";
-  const countLabel = `${sector.occupation_count} 職業`;
-  const riskLabel = `平均 AI 影響 ${sector.mean_ai_risk.toFixed(1)} / 10`;
-  const workforceLabel = `就業者 計 ${fmtNumber(sector.total_workforce)} 人`;
-
-  const samples = (sector.sample_titles_ja ?? []).slice(0, 3).join("　・　");
-
-  const subsetText =
-    `独立分析 ${siteMark} ${nameLoc} ${headlineLabel} ` +
-    `${countLabel} ${riskLabel} ${workforceLabel} ${samples} ・ /`;
-
-  const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
-    loadGoogleFont("Noto+Serif+JP", 600, subsetText),
-    loadGoogleFont("Noto+Sans+JP",  800, subsetText),
-    loadGoogleFont("Noto+Sans+JP",  500, subsetText),
-  ]);
-
-  const C = {
-    bg:        "#FAF6EE",
-    ink:       "#241E18",
-    muted:     "#7A6F5E",
-    hairline:  "rgba(36, 30, 24, 0.12)",
-    accent:    "#D96B3D",
-    bg2:       "#FFFFFF",
-  };
-
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          background: C.bg,
-          color: C.ink,
-          fontFamily: "NotoSansJP",
-          padding: "48px 64px",
-          borderLeft: `14px solid ${accent}`,
-        }}
-      >
-        {/* Top bar — "独立分析" badge + site mark */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              background: C.accent,
-              color: "#FFFFFF",
-              padding: "8px 18px",
-              borderRadius: "999px",
-              fontWeight: 800,
-              fontSize: "22px",
-              letterSpacing: "0.08em",
-            }}
-          >
-            独立分析
-          </div>
-          <div style={{ fontSize: "24px", color: C.muted, fontWeight: 500 }}>
-            {siteMark}
-          </div>
-        </div>
-
-        {/* Sector eyebrow + name */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "26px",
-              color: accent,
-              fontWeight: 800,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              marginBottom: "16px",
-            }}
-          >
-            {headlineLabel}
-          </div>
-          <div
-            style={{
-              fontFamily: "NotoSerifJP",
-              fontSize: "104px",
-              fontWeight: 600,
-              lineHeight: 1.05,
-              color: C.ink,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {nameLoc}
-          </div>
-          {samples ? (
-            <div
-              style={{
-                fontSize: "24px",
-                color: C.muted,
-                fontWeight: 500,
-                marginTop: "20px",
-              }}
-            >
-              {samples}
-            </div>
-          ) : null}
-        </div>
-
-        {/* Bottom stats row */}
-        <div
-          style={{
-            display: "flex",
-            gap: "28px",
-            fontSize: "26px",
-            color: C.ink,
-            fontWeight: 500,
-            borderTop: `1px solid ${C.hairline}`,
-            paddingTop: "24px",
-            marginTop: "20px",
-          }}
-        >
-          <span>{countLabel}</span>
-          <span style={{ color: C.muted, opacity: 0.5 }}>·</span>
-          <span>{riskLabel}</span>
-          <span style={{ color: C.muted, opacity: 0.5 }}>·</span>
-          <span>{workforceLabel}</span>
-        </div>
-      </div>
-    ),
-    {
-      width: 1200,
-      height: 630,
-      fonts: [
-        { name: "NotoSerifJP", data: fontSerifBuf,  weight: 600, style: "normal" },
-        { name: "NotoSansJP",  data: fontSansBoldBuf, weight: 800, style: "normal" },
-        { name: "NotoSansJP",  data: fontSansRegBuf, weight: 500, style: "normal" },
-      ],
-      headers: {
-        "Cache-Control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
-      },
-    }
-  );
-}
 
 
 // Design-Mobile.md §4.7: /map page OG card. Static layout, no upstream fetch.
@@ -352,7 +165,7 @@ async function renderHandler(req: Request): Promise<Response> {
 
   // Phase 9: sector-card branch — /api/og?sector=<sector_id>
   if (sectorParam) {
-    return renderSectorCard(url, sectorParam);
+    return renderSectorOgCard(url, sectorParam);
   }
 
   if (!idParam || !/^\d+$/.test(idParam)) {
