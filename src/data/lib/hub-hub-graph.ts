@@ -121,9 +121,15 @@ const CURATED_PAIRS: Array<[HubRef['genre'], string, HubRef['genre'], string]> =
   ['careers', 'shufu-fukki', 'q', 'ikuji-ryouritsu'],
   ['careers', 'shufu-fukki', 'q', 'female-long'],
   ['careers', 'career-change', 'q', 'career-change-mirai'],
-  // life-balance ↔ Q&A
-  ['life-balance', 'flex', 'q', 'fukugyou-ok'],
-  ['life-balance', 'remote-friendly', 'q', 'zaitaku-shigoto'],
+  // life-balance ↔ Q&A — pairs intentionally dropped 2026-05-13.
+  // Previously included `life-balance/flex` + `life-balance/remote-friendly`
+  // but those slugs don't exist in LIFE_BALANCE_CONFIGS (only the
+  // 6 real slugs: child-care-balance / elderly-care-balance /
+  // health-friendly / mental-health-friendly / hobby-balance /
+  // senior-friendly). The dangling slugs emitted dead /ja/life-balance/*
+  // links rendered as `<span class="rxh-name">flex</span>` (raw slug
+  // text, not a friendly label). Restore once equivalent slugs exist.
+
   // skills ↔ abilities (frequent co-pairs)
   ['skills', 'critical-thinking', 'abilities', 'inductive-reasoning'],
   ['skills', 'critical-thinking', 'abilities', 'deductive-reasoning'],
@@ -454,9 +460,18 @@ function buildHubGraph(): Map<string, HubRef[]> {
     addEdge({ genre: aGenre, slug: aSlug }, { genre: bGenre, slug: bSlug });
   }
 
-  // 2) Auto: every Q&A → the Q&A's related_topics (within Q&A genre)
+  // 2) Auto: every Q&A → the Q&A's related_topics (within Q&A genre).
+  // Filter to slugs actually present in QA_ITEMS — some related_topics
+  // arrays historically include cross-genre slugs (career personas,
+  // interest types, employment patterns) which would emit dead
+  // `/ja/q/<slug>` links. Cross-genre relations are modelled via
+  // CURATED_PAIRS instead. Skipping unknown slugs is the minimal fix;
+  // a deeper refactor would type each related-topic entry with its
+  // genre.
+  const qaSlugSet = new Set(QA_ITEMS.map((q) => q.slug));
   for (const qa of QA_ITEMS) {
     for (const otherSlug of qa.related_topics) {
+      if (!qaSlugSet.has(otherSlug)) continue;
       addEdge({ genre: 'q', slug: qa.slug }, { genre: 'q', slug: otherSlug });
     }
   }

@@ -39,54 +39,22 @@ const HREF_PREFIX_ALLOWLIST = [
   '/data.',    // Static JSON dumps under public/data.*.json (build artifacts).
 ];
 
-// Known-broken internal hrefs as of 2026-05-13. Captured here so the
-// new gate ships green and prevents NEW broken links from accumulating;
-// each entry is a real production bug that needs follow-up. The gate
-// will fail loud if:
-//   (a) a broken href appears that is NOT in this set (a new regression);
-//   (b) a href in this set is no longer broken (entry should be deleted).
+// Known-broken internal hrefs that the gate tolerates without
+// failing. Currently empty — the initial 2026-05-13 snapshot of
+// 36 broken hrefs all got fixed in the same commit by:
+//   - extending normalizeHref to drop URLs with raw `<` `>` ` `
+//     (1 false positive: `/ja/<id>` was inside an inline-script
+//     doc comment, never a real link)
+//   - filtering qa.related_topics in hub-hub-graph.ts to only
+//     emit edges into actual QA_ITEMS slugs (fixed 33 cross-
+//     genre stale references)
+//   - dropping 2 dead CURATED_PAIRS entries that referenced
+//     non-existent life-balance slugs
 //
-// TODOs for each entry — most are stale slug references in Q&A inline
-// link copy (links to /ja/q/* slugs that were renamed) and one literal
-// `/ja/<id>` placeholder leaking into the home-page render.
-const KNOWN_BROKEN_HREFS = new Set([
-  '/ja/<id>',                              // literal placeholder leaked from home-page template
-  '/ja/life-balance/flex',                 // slug renamed; Q&A inline link stale
-  '/ja/life-balance/remote-friendly',      // slug renamed
-  '/ja/q/30s-early',
-  '/ja/q/30s-late',
-  '/ja/q/40s',
-  '/ja/q/50s',
-  '/ja/q/60s-shinia',
-  '/ja/q/ai-augmented',
-  '/ja/q/ai-frontier',
-  '/ja/q/ai-resistant-craft',
-  '/ja/q/ai-safe-high-demand',
-  '/ja/q/ai-safe-interpersonal',
-  '/ja/q/ai-safe-physical',
-  '/ja/q/artistic',
-  '/ja/q/career-change',
-  '/ja/q/child-care-balance',
-  '/ja/q/deductive-reasoning',
-  '/ja/q/elderly-care-balance',
-  '/ja/q/enterprising',
-  '/ja/q/freelance-friendly',
-  '/ja/q/health-friendly',
-  '/ja/q/high-salary-high-demand',
-  '/ja/q/high-school-careers',
-  '/ja/q/investigative',
-  '/ja/q/iryo-jimu-vs-ippan-jimu',
-  '/ja/q/kyoshi-vs-hoikushi',
-  '/ja/q/license-required',
-  '/ja/q/mental-health-friendly',
-  '/ja/q/no-school-required',
-  '/ja/q/realistic',
-  '/ja/q/self-employed-typical',
-  '/ja/q/shinsotsu',
-  '/ja/q/shufu-fukki',
-  '/ja/q/social',
-  '/ja/q/truck-vs-taxi',
-]);
+// Any new broken href that lands here fails the gate immediately.
+// Use this set only as a deliberate, time-boxed escape hatch with
+// a tracking comment.
+const KNOWN_BROKEN_HREFS = new Set();
 
 /* ─────────────────────────── helpers ─────────────────────────── */
 
@@ -114,7 +82,6 @@ function pathToUrl(absPath) {
 /** Normalize a raw href to its routable path:
  *    - Strip the SITE origin (already done by extractInternalLinks).
  *    - Strip query string + fragment.
- *    - Trailing slash → drop for "/" preservation handled separately.
  *    Returns null if the href targets something not in scope. */
 function normalizeHref(rawHref) {
   if (!rawHref || rawHref === '#') return null;
@@ -122,6 +89,14 @@ function normalizeHref(rawHref) {
   if (rawHref.startsWith('mailto:')) return null;
   if (rawHref.startsWith('tel:')) return null;
   if (rawHref.startsWith('javascript:')) return null;
+  // RFC 3986 forbids raw `<` `>` ` ` in URI paths — these almost always
+  // mean the extractor caught a template-placeholder literal inside a
+  // `<script>` doc comment (extractInternalLinks doesn't strip script
+  // blocks before regex matching). Drop them rather than treat them as
+  // "broken links" — they were never real links in the first place.
+  if (rawHref.includes('<') || rawHref.includes('>') || rawHref.includes(' ')) {
+    return null;
+  }
   let h = rawHref;
   if (h.startsWith(SITE)) h = h.slice(SITE.length) || '/';
   if (!h.startsWith('/')) return null;             // not internal
