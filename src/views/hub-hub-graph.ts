@@ -1,5 +1,5 @@
 /**
- * hub-hub-graph.ts — Phase B: cross-genre hub-to-hub relations.
+ * src/views/hub-hub-graph.ts — cross-genre hub-to-hub relations.
  *
  * Each hub gets a "関連 hub" section listing 5-8 cross-genre hubs that share
  * meaningful overlap. This builds bidirectional clusters Google can identify
@@ -11,19 +11,24 @@
  *
  * Each hub identified by a (genre, slug) tuple. Genres correspond to URL
  * prefixes like /ja/sectors, /ja/rankings, /ja/q, etc.
+ *
+ * Migrated from src/data/lib/hub-hub-graph.ts 2026-05-14 (Phase B).
+ * SECURITY-CRITICAL: contains the `qaSlugSet.has()` filter from
+ * commit 94b64855 that closed 33 broken internal links. Tests pin
+ * that filter so a future refactor cannot regress it.
  */
 
 import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
   EDUCATION_CONFIGS, TRAINING_CONFIGS, WORK_STYLES_CONFIGS,
-  EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS } from './genre-configs.js';
-import { SKILL_META } from '../../views/skills-meta.js';
-import { INTEREST_META } from '../../views/interests-meta.js';
-import { CAREER_PERSONAS } from '../../views/careers-meta.js';
-import { LICENSE_HUBS } from '../../views/licenses-meta.js';
-import { QA_ITEMS } from '../../views/qa-meta.js';
-import { COMPARE_META } from '../../views/compare-meta.js';
-import { RANKING_META } from './rankings-meta.js';
-import { escapeHtml } from '../../lib/safe-html.js';
+  EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS } from '../data/lib/genre-configs.js';
+import { SKILL_META } from './skills-meta.js';
+import { INTEREST_META } from './interests-meta.js';
+import { CAREER_PERSONAS } from './careers-meta.js';
+import { LICENSE_HUBS } from './licenses-meta.js';
+import { QA_ITEMS } from './qa-meta.js';
+import { COMPARE_META } from './compare-meta.js';
+import { RANKING_META } from '../data/lib/rankings-meta.js';
+import { escapeHtml } from '../lib/safe-html.js';
 
 // ─── Public types ─────────────────────────────────────────────────────────
 

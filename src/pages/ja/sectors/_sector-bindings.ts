@@ -26,7 +26,7 @@ import {
   buildLinkRegistry,
   inlineLinkText,
 } from '../../../views/inline-links';
-import { renderRelatedHubsBlock } from '../../../data/lib/hub-hub-graph';
+import { renderRelatedHubsBlock } from '../../../views/hub-hub-graph';
 import { buildSectorFaqs } from '@/data/lib/sector-faqs';
 import { renderSectorJsonLd } from '@/views/sector-jsonld';
 import { renderOccFaq } from '@/templates/OccFaq';
