@@ -1,96 +1,34 @@
 ---
-/**
- * src/pages/ja/interests/[type].astro — 興味タイプ別 hub。6 ルート生成:
- *   realistic / investigative / artistic / social / enterprising / conventional
- *
- * 各 hub は TOP 30 職業 (その RIASEC dim の score 降順) を表示。
- * Mini RIASEC bar で 6 dim を可視化、AI 影響度・年収・セクターと並べる。
- *
- * Pattern は src/pages/ja/rankings/[type].astro を参考にしている。
- */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
-import { buildInterests } from '../../../views/interests';
-import {
-  renderInterestItem,
-  renderHighlights,
-  renderSectorChart,
-  renderFaqHtml,
-  renderRelatedInterests,
-  renderJsonLd,
-  escapeHtml,
-} from '../../../templates/InterestHub';
-import type { InterestType } from '../../../views/interests-meta';
-import { INTEREST_META } from '../../../views/interests-meta';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { loadGraph } from '@/graph';
+import { buildInterests, type InterestResult } from '../../../views/interests';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { buildInterestsSlugBindings } from './_interests-bindings';
 
 export async function getStaticPaths() {
-  // Step 7: Holland rows + treemap summaries derived directly from the
-  // knowledge graph.
-  const { loadGraph } = await import('@/graph');
   const { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } = await import('@/views/interest');
   const graph = await loadGraph();
   const { results } = buildInterests({
     holland: makeHollandLoaderFromGraph(graph),
     treemap: makeInterestsTreemapFromGraph(graph),
   });
-  return Array.from(results.values()).map((r) => ({
-    params: { type: r.meta.slug },
-    props: { result: r },
-  }));
+  return Array.from(results.values()).map((r) => ({ params: { type: r.meta.slug }, props: { result: r } }));
 }
 
-const { result } = Astro.props;
-const slug = result.meta.slug as InterestType;
+const { result } = Astro.props as { result: InterestResult };
 const meta = result.meta;
-const canonical = `https://mirai-shigoto.com/ja/interests/${slug}`;
-
-const title = `${meta.title_ja}｜TOP ${result.items.length}・AI 影響度付き【2026 年版】 | 未来の仕事`;
-const seoDesc =
-  `RIASEC 興味タイプ ${meta.letter} (${meta.name_ja}) におすすめの職業 TOP ${result.items.length}。` +
-  `${meta.description_ja.slice(0, 80)}…AI 影響度・年収・就業者数で一覧。`;
-
-const statsHtml = result.stats.length > 0
-  ? `<dl class="stats">${result.stats
-      .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
-      .join('')}</dl>`
-  : '';
-
-const highlightsHtml = renderHighlights(result.highlights);
-const sectorChartHtml = renderSectorChart(result.sectorBreakdown, `セクター内訳（TOP${result.items.length}）`);
-
-const rankItems = result.items
-  .map((o) => renderInterestItem(o, meta.letter))
-  .join('');
-
-const faqHtml = renderFaqHtml(result.faqItems);
-const relatedHtml = renderRelatedInterests(slug, INTEREST_META);
-const jsonLd = renderJsonLd(canonical, meta, result.items, seoDesc, result.faqItems);
-
-function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
-  const lis = items.map((s) => '<li>' + escapeHtml(s) + '</li>').join('');
-  return '<ul class="' + cls + '">' + lis + '</ul>';
-}
-const charsHtml = listOfStrings(meta.characteristics_ja, 'characteristics');
-const fieldsHtml = listOfStrings(meta.typical_fields_ja, 'fields');
-
-// Phase D: inline-link occupation names mentioned in the intro / description.
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, { maxLinks: 5 });
-const crossHubHtml = renderRelatedHubsBlock('interests', slug, 6);
+const b = buildInterestsSlugBindings(result, await loadGraph());
 ---
 <BaseLayout
-  title={title}
-  description={seoDesc}
-  canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?interest=${slug}`}
-  ogTitle={title.slice(0, 120)}
-  ogDescription={seoDesc}
+  title={b.title}
+  description={b.seoDesc}
+  canonical={b.canonical}
+  ogImage={b.ogImage}
+  ogTitle={b.title.slice(0, 120)}
+  ogDescription={b.seoDesc}
 >
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
 
   <style slot="head" set:html={`
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -142,7 +80,6 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
 .risk-pill.high{background:#F5D5C7;color:#A24A28}
 .rl-salary,.rl-workers{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
-/* Mini RIASEC 6-bar visualization */
 .rmini-wrap{display:inline-flex;align-items:center;gap:6px}
 .rmini{display:inline-flex;align-items:flex-end;gap:2px;width:42px;height:24px;border-bottom:1px solid var(--border)}
 .rmini-bar{flex:1;background:var(--fg3);border-radius:1px 1px 0 0;min-width:3px}
@@ -191,40 +128,40 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
         <span class="accent">{meta.name_ja}タイプにおすすめの職業</span>
       </h1>
       <p class="sub">RIASEC <strong>{meta.letter} ({meta.name_ja})</strong> の score が高い職業 TOP {result.items.length}（全 552 職業中）</p>
-      <p class="intro" set:html={introHtml}></p>
+      <p class="intro" set:html={b.introHtml}></p>
     </header>
 
     <section class="persona" aria-label={`${meta.name_ja}タイプの特徴`}>
       <h2>{meta.name_ja}タイプとは</h2>
-      <p set:html={introHtml}></p>
+      <p set:html={b.introHtml}></p>
       <div class="persona-grid">
         <div>
           <h3>こんな特徴がある人</h3>
-          <Fragment set:html={charsHtml} />
+          <Fragment set:html={b.charsHtml} />
         </div>
         <div>
           <h3>典型的に向く分野</h3>
-          <Fragment set:html={fieldsHtml} />
+          <Fragment set:html={b.fieldsHtml} />
         </div>
       </div>
     </section>
 
-    <Fragment set:html={statsHtml} />
-    <Fragment set:html={highlightsHtml} />
-    <Fragment set:html={sectorChartHtml} />
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
 
     <section aria-label={`TOP ${result.items.length} 職業`}>
       <h2>{meta.name_ja}タイプ TOP {result.items.length}（{meta.letter} スコア降順）</h2>
-      <ol class="rank-list" set:html={rankItems} />
+      <ol class="rank-list" set:html={b.rankItems} />
     </section>
 
-    <Fragment set:html={faqHtml} />
+    <Fragment set:html={b.faqHtml} />
 
-    <Fragment set:html={crossHubHtml} />
+    <Fragment set:html={b.crossHubHtml} />
 
     <section aria-label="他の興味タイプ">
       <h2>他の興味タイプ</h2>
-      <Fragment set:html={relatedHtml} />
+      <Fragment set:html={b.relatedHtml} />
     </section>
 
     <Footer />

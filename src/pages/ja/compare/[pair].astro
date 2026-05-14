@@ -1,83 +1,32 @@
 ---
-/**
- * src/pages/ja/compare/[pair].astro — 比較 hub × 12 ルート。
- *
- * 2 職業を side-by-side で比較表示。
- */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
-import { buildCompareBundle } from '../../../views/compare-hub';
-import {
-  renderCompareHero,
-  renderCompareTable,
-  renderTopSkillsCompare,
-  renderFaqHtml,
-  renderRelatedCompares,
-  renderJsonLd,
-  escapeHtml,
-} from '../../../templates/Compare';
-import type { CompareSlug } from '../../../views/compare-meta';
-import { COMPARE_META } from '../../../views/compare-meta';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { loadGraph } from '@/graph';
+import { buildCompareBundle, type CompareResult } from '../../../views/compare-hub';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { buildComparePairBindings } from './_compare-bindings';
 
 export async function getStaticPaths() {
-  // Step 6: compare-hub now reads per-side detail records from the knowledge
-  // graph via dependency injection. buildCompareBundle accepts a loader;
-  // we pass the graph-backed one. Per-page output stays byte-identical.
-  const { loadGraph } = await import('@/graph');
   const { makeCompareLoaderFromGraph } = await import('@/views/compare');
   const graph = await loadGraph();
   const { results } = buildCompareBundle(makeCompareLoaderFromGraph(graph));
-  return Array.from(results.values()).map((r) => ({
-    params: { pair: r.meta.slug },
-    props: { result: r },
-  }));
+  return Array.from(results.values()).map((r) => ({ params: { pair: r.meta.slug }, props: { result: r } }));
 }
 
-const { result } = Astro.props;
-const slug = result.meta.slug as CompareSlug;
+const { result } = Astro.props as { result: CompareResult };
 const meta = result.meta;
-const canonical = `https://mirai-shigoto.com/ja/compare/${slug}`;
-
-const title = `${meta.title_ja}｜AI 影響度・年収・働き方の違いを比較【2026 年版】 | 未来の仕事`;
-const seoDesc =
-  `${result.a.name_ja} と ${result.b.name_ja} を AI 影響度・年収・労働条件・必要スキルで比較。` +
-  `${meta.description_ja.slice(0, 100)}…`;
-
-const heroHtml = renderCompareHero(result.a, result.b);
-const tableHtml = renderCompareTable(result.rows, result.a.name_ja, result.b.name_ja);
-const skillsHtml = renderTopSkillsCompare(result.a, result.b);
-const faqHtml = renderFaqHtml(result.faqItems);
-const relatedHtml = renderRelatedCompares(slug, COMPARE_META);
-const jsonLd = renderJsonLd(canonical, meta, result.a, result.b, seoDesc, result.faqItems);
-
-function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
-  const lis = items.map((s) => '<li>' + escapeHtml(s) + '</li>').join('');
-  return '<ul class="' + cls + '">' + lis + '</ul>';
-}
-const pointsHtml = listOfStrings(meta.comparison_points_ja, 'compare-points');
-const hintsHtml = listOfStrings(meta.decision_hints_ja, 'decision-hints');
-
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, {
-  maxLinks: 4,
-  excludeIds: new Set([result.a.id, result.b.id]),
-});
-const crossHubHtml = renderRelatedHubsBlock('compare', slug, 6);
+const b = buildComparePairBindings(result, await loadGraph());
 ---
 <BaseLayout
-  title={title}
-  description={seoDesc}
-  canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?compare=${slug}`}
-  ogTitle={title.slice(0, 120)}
-  ogDescription={seoDesc}
+  title={b.title}
+  description={b.seoDesc}
+  canonical={b.canonical}
+  ogImage={b.ogImage}
+  ogTitle={b.title.slice(0, 120)}
+  ogDescription={b.seoDesc}
   ogType="article"
 >
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
 
   <style slot="head" set:html={`
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -165,39 +114,39 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     <header id="content">
       <h1><span class="accent">{meta.title_ja}</span></h1>
       <p class="sub">AI 影響度・年収・労働条件・必要スキルを <strong>side-by-side</strong> で比較</p>
-      <p class="intro" set:html={introHtml}></p>
+      <p class="intro" set:html={b.introHtml}></p>
     </header>
 
-    <Fragment set:html={heroHtml} />
+    <Fragment set:html={b.heroHtml} />
 
     <section class="points-grid" aria-label="比較の観点">
       <div>
         <h3>比較すべき主要観点</h3>
-        <Fragment set:html={pointsHtml} />
+        <Fragment set:html={b.pointsHtml} />
       </div>
       <div>
         <h3>選び方の判断ヒント</h3>
-        <Fragment set:html={hintsHtml} />
+        <Fragment set:html={b.hintsHtml} />
       </div>
     </section>
 
     <section aria-label="比較表">
       <h2>項目別比較表</h2>
-      <Fragment set:html={tableHtml} />
+      <Fragment set:html={b.tableHtml} />
     </section>
 
     <section aria-label="主要スキル比較">
       <h2>主要スキル TOP 5 比較</h2>
-      <Fragment set:html={skillsHtml} />
+      <Fragment set:html={b.skillsHtml} />
     </section>
 
-    <Fragment set:html={faqHtml} />
+    <Fragment set:html={b.faqHtml} />
 
-    <Fragment set:html={crossHubHtml} />
+    <Fragment set:html={b.crossHubHtml} />
 
     <section aria-label="他の比較">
       <h2>他の比較ペア</h2>
-      <Fragment set:html={relatedHtml} />
+      <Fragment set:html={b.relatedHtml} />
     </section>
 
     <Footer />

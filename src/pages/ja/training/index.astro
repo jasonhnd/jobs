@@ -3,26 +3,23 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { TRAINING_CONFIGS } from '../../../views/genre-configs';
 import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
-import { escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../templates/Hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '../../../templates/Hub';
 
 const details = loadAllDetails();
 const cards = TRAINING_CONFIGS.map((cfg) => {
   const r = buildGenreResult(details, cfg);
-  return { cfg, count: r.items.length, top: r.items[0]?.name_ja ?? '' };
+  return {
+    slug: cfg.slug, short_ja: cfg.short_ja, description_ja: cfg.description_ja,
+    count: r.items.length, top: r.items[0]?.name_ja ?? '',
+    countLabel: `TOP ${r.items.length} 職業`,
+  };
 });
 
 const canonical = 'https://mirai-shigoto.com/ja/training';
 const title = '習熟期間から職業を探す｜入職後訓練 5 段階別 | 未来の仕事';
 const seoDesc = '入職後の習熟期間 (即一人前/1-3年/3-5年/5-10年/生涯) 別に職業 TOP 30 を一覧。短期間で一人前になれる職業から、長期修行型の職人まで。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '習熟期間から探す', seoDesc);
-const cardsHtml = cards.map((c) =>
-  `<li><a href="/ja/training/${c.cfg.slug}">` +
-  `<span class="gci-name">${escapeHtml(c.cfg.short_ja)}</span>` +
-  `<span class="gci-desc">${escapeHtml(c.cfg.description_ja.slice(0, 90))}…</span>` +
-  (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
-  `<span class="gci-count">TOP ${c.count} 職業</span>` +
-  `</a></li>`
-).join('');
+const cardsHtml = renderGenreHubIndexCards(cards, 'training');
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=training" ogTitle={title} ogDescription={seoDesc}>

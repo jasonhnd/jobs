@@ -10,7 +10,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildInterests } from '../../../views/interests';
-import { renderHubJsonLd, escapeHtml } from '../../../templates/InterestHub';
+import { renderHubJsonLd, renderInterestsHubCards } from '../../../templates/InterestHub';
 import { loadGraph } from '@/graph';
 import { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } from '@/views/interest';
 
@@ -26,21 +26,7 @@ const seoDesc =
   '現実的・研究的・芸術的・社会的・企業的・慣習的の各タイプにおすすめの職業 TOP 30 を AI 影響度・年収と共に一覧。';
 const keywords = 'RIASEC, ホランドコード, 適職診断, 興味タイプ, 職業選び, 552 職業';
 
-const cardsHtml = hub.cards
-  .map((c) => {
-    const previewHtml = c.top_preview ? `<span class="iri-preview">${escapeHtml(c.top_preview)}</span>` : '';
-    return (
-      `<li><a href="/ja/interests/${c.slug}">` +
-      `<span class="iri-letter">${c.letter}</span>` +
-      `<span class="iri-name">${escapeHtml(c.name_ja)}タイプ</span>` +
-      `<span class="iri-desc">${escapeHtml(c.description_ja.slice(0, 90) + '…')}</span>` +
-      `${previewHtml}` +
-      `<span class="iri-count">TOP ${c.top_count} 職業</span>` +
-      `</a></li>`
-    );
-  })
-  .join('');
-
+const cardsHtml = renderInterestsHubCards(hub.cards);
 const jsonLd = renderHubJsonLd();
 ---
 <BaseLayout
