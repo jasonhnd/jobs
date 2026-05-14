@@ -13,7 +13,7 @@
 import type { APIRoute } from 'astro';
 import path from 'node:path';
 import { strictReadJson, strictReaddir } from '../data/lib/strict-load';
-import { DetailFileSchema } from '../data/lib/projection-schemas';
+import { DetailFileSchema } from '../lib/projection-schemas';
 
 const SITE = 'https://mirai-shigoto.com';
 const REPO = path.resolve(process.cwd());

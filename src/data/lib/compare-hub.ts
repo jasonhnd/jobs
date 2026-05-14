@@ -10,7 +10,7 @@
 import { join } from 'node:path';
 import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
 import { strictReadJson } from './strict-load.js';
-import { DetailFileSchema } from './projection-schemas.js';
+import { DetailFileSchema } from '../../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');

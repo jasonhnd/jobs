@@ -68,7 +68,7 @@ import {
   TreemapFileSummarySchema,
   type SkillRankingFileShape,
   type TreemapRecordSummary,
-} from './projection-schemas.js';
+} from '../../lib/projection-schemas.js';
 
 type SkillRankingFile = SkillRankingFileShape;
 type TreemapRecord = TreemapRecordSummary;

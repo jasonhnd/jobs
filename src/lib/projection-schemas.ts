@@ -1,7 +1,11 @@
 /**
- * projection-schemas.ts — runtime Zod schemas for the public/data.* and
- * data/sectors/* JSON projections that downstream pages + the OG endpoint
- * consume.
+ * src/lib/projection-schemas.ts — runtime Zod schemas for the
+ * public/data.* and data/sectors/* JSON projections that downstream
+ * pages + the OG endpoint consume.
+ *
+ * Lives under src/lib/ per §6.2 (general-purpose utility, no
+ * forbidden imports). Migrated from src/data/lib/projection-schemas.ts
+ * 2026-05-14 as part of Phase B continuation.
  *
  * Why runtime: TypeScript types are erased at compile time. Without a
  * runtime check, a corrupted projection (mid-rsync deploy, manual edit,
