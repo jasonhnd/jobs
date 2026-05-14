@@ -18,7 +18,7 @@ import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
   EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS } from './genre-configs.js';
 import { SKILL_META } from './skills-meta.js';
 import { INTEREST_META } from '../../views/interests-meta.js';
-import { CAREER_PERSONAS } from './careers-meta.js';
+import { CAREER_PERSONAS } from '../../views/careers-meta.js';
 import { LICENSE_HUBS } from '../../views/licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { COMPARE_META } from './compare-meta.js';

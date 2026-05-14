@@ -31,7 +31,7 @@ import {
   EDUCATION_CONFIGS, TRAINING_CONFIGS, WORK_STYLES_CONFIGS,
   EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS,
 } from '../data/lib/genre-configs.js';
-import { CAREER_PERSONAS } from '../data/lib/careers-meta.js';
+import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from '../data/lib/qa-meta.js';
 import { EXPLORE_ROUTES } from '../data/lib/explore-routes.js';
