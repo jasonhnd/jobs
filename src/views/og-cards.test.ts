@@ -16,7 +16,7 @@ import {
   COMPARE_CARDS,
 } from './og-cards.js';
 import { RANKING_META } from '../data/lib/rankings-meta.js';
-import { INTEREST_META } from '../data/lib/interests-meta.js';
+import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from '../data/lib/skills-meta.js';
 import { COMPARE_META } from '../data/lib/compare-meta.js';
 
