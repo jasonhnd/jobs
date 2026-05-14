@@ -1,143 +1,25 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { GENRE_HUB_CSS } from '../../../templates/Hub';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 import { CAREER_PERSONAS, type CareerPersona } from '../../../views/careers-meta';
-import { loadAllDetails, type DetailFileMin, type GenreOccupation } from '../../../views/genre-hub';
-import { renderRankItem, renderHighlights, renderSectorChart, renderFaqHtml, escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean, riskClass } from '../../../templates/Hub';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
-
-interface CareerResult {
-  persona: CareerPersona;
-  items: GenreOccupation[];
-}
-
-function detailToOcc(d: DetailFileMin, score: number): GenreOccupation {
-  return {
-    id: d.id,
-    name_ja: d.title?.ja ?? `#${d.id}`,
-    primary_score: score,
-    ai_risk: d.ai_risk?.score ?? null,
-    risk_band: d.risk_band ?? null,
-    workers: d.stats?.workers ?? null,
-    salary: d.stats?.salary_man_yen ?? null,
-    monthly_hours: d.stats?.monthly_hours ?? null,
-    average_age: d.stats?.average_age ?? null,
-    sector_id: d.sector?.id ?? '',
-    sector_ja: d.sector?.ja ?? '',
-  };
-}
+import type { GenreOccupation } from '../../../views/genre-hub';
+import { buildCareerBindings, buildCareerItems } from './_career-bindings';
 
 export async function getStaticPaths() {
-  const { loadAllDetails: _l } = await import('../../../views/genre-hub');
-  const { CAREER_PERSONAS: _cp } = await import('../../../views/careers-meta');
-  const details = _l();
-  return _cp.map((p) => {
-    const scored = details
-      .map((d) => ({ d, score: p.recommend(d) }))
-      .filter((x): x is { d: DetailFileMin; score: number } => x.score !== null)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 30);
-    const items: GenreOccupation[] = scored.map((s) => ({
-      id: s.d.id,
-      name_ja: s.d.title?.ja ?? `#${s.d.id}`,
-      primary_score: s.score,
-      ai_risk: s.d.ai_risk?.score ?? null,
-      risk_band: s.d.risk_band ?? null,
-      workers: s.d.stats?.workers ?? null,
-      salary: s.d.stats?.salary_man_yen ?? null,
-      monthly_hours: s.d.stats?.monthly_hours ?? null,
-      average_age: s.d.stats?.average_age ?? null,
-      sector_id: s.d.sector?.id ?? '',
-      sector_ja: s.d.sector?.ja ?? '',
-    }));
-    return { params: { career: p.slug }, props: { persona: p, items } };
-  });
+  const { loadAllDetails } = await import('../../../views/genre-hub');
+  const details = loadAllDetails();
+  return CAREER_PERSONAS.map((p) => ({ params: { career: p.slug }, props: { persona: p, items: buildCareerItems(details, p) } }));
 }
 
-interface Props { persona: CareerPersona; items: GenreOccupation[]; }
-const { persona, items } = Astro.props as Props;
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-const introHtml = inlineLinkText(persona.description_ja, _linkRegistry, { maxLinks: 5 });
-const crossHubHtml = renderRelatedHubsBlock('careers', persona.slug, 6);
-
-const canonical = `https://mirai-shigoto.com/ja/careers/${persona.slug}`;
-const title = `${persona.title_ja}｜推薦 TOP ${items.length} | 未来の仕事`;
-const seoDesc = `${persona.short_ja}向けの推薦職業 TOP ${items.length}。${persona.description_ja.slice(0, 80)}…`;
-
-const meanRisk = safeMean(items.map((o) => o.ai_risk));
-const meanSalary = safeMean(items.map((o) => o.salary));
-
-const statsHtml =
-  `<dl class="stats">` +
-  `<div><dt>推薦数</dt><dd>${items.length}</dd></div>` +
-  `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? meanRisk.toFixed(1) + ' / 10' : '—'}</dd></div>` +
-  `<div><dt>平均年収</dt><dd>${meanSalary > 0 ? Math.trunc(meanSalary) + ' 万円' : '—'}</dd></div>` +
-  `</dl>`;
-
-const sectorCounts = new Map<string, number>();
-for (const o of items) if (o.sector_ja) sectorCounts.set(o.sector_ja, (sectorCounts.get(o.sector_ja) ?? 0) + 1);
-const sectorBreakdown = Array.from(sectorCounts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5);
-const sectorChartHtml = renderSectorChart(sectorBreakdown, `セクター内訳（TOP${items.length}）`);
-
-const top3 = items.slice(0, 3).map((o) => o.name_ja).join('、');
-const highlights = [
-  `1 位は「${items[0]?.name_ja ?? '—'}」`,
-  top3 ? `TOP 3 は ${top3}` : '',
-  meanRisk > 0 ? `平均 AI 影響度 ${meanRisk.toFixed(1)}/10` : '',
-  persona.advantages_ja[0] ? `利点: ${persona.advantages_ja[0]}` : '',
-].filter(Boolean);
-const highlightsHtml = renderHighlights(highlights);
-
-const rankItems = items.map((o) => renderRankItem(o, persona.short_ja)).join('');
-
-// Auto-FAQ
-const faqs: Array<readonly [string, string]> = [
-  [`${persona.short_ja}の特徴は？`, persona.description_ja],
-  [`${persona.short_ja}向けに推薦される職業 TOP 3 は？`, top3 ? `${top3} 等の ${items.length} 職業を推薦。` : '推薦数が少ないため条件を再確認してください。'],
-  [`${persona.short_ja}が選ぶ際の注意点は？`, persona.cautions_ja.join('。') + '。'],
-  [`${persona.short_ja}の利点は？`, persona.advantages_ja.join('。') + '。'],
-];
-const faqHtml = renderFaqHtml(faqs);
-
-function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
-  return '<ul class="' + cls + '">' + items.map((s) => '<li>' + escapeHtml(s) + '</li>').join('') + '</ul>';
-}
-const advantagesHtml = listOfStrings(persona.advantages_ja, 'advantages');
-const cautionsHtml = listOfStrings(persona.cautions_ja, 'cautions');
-
-const relatedHtml = '<ul class="related-genre">' + CAREER_PERSONAS
-  .filter((p) => p.slug !== persona.slug)
-  .map((p) => `<li><a href="/ja/careers/${p.slug}"><span class="rg-name">${escapeHtml(p.short_ja)}</span><span class="rg-desc">${escapeHtml(p.description_ja.slice(0, 60))}…</span></a></li>`)
-  .join('') + '</ul>';
-
-const SITE = 'https://mirai-shigoto.com';
-const itemList = items.map((o, i) => ({
-  '@type': 'ListItem',
-  position: i + 1,
-  url: `${SITE}/ja/${o.id}`,
-  name: o.name_ja,
-}));
-const jsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': [
-    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: persona.title_ja, description: seoDesc, isPartOf: { '@id': `${SITE}/#website` }, inLanguage: 'ja' },
-    { '@type': 'CollectionPage', '@id': `${canonical}#collection`, name: persona.title_ja, description: seoDesc },
-    { '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-      { '@type': 'ListItem', position: 2, name: 'キャリア段階から探す', item: `${SITE}/ja/careers` },
-      { '@type': 'ListItem', position: 3, name: persona.title_ja, item: canonical },
-    ] },
-    { '@type': 'ItemList', numberOfItems: itemList.length, itemListElement: itemList },
-    { '@type': 'FAQPage', mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
-  ],
-}, null, 2);
+const { persona, items } = Astro.props as { persona: CareerPersona; items: GenreOccupation[] };
+const b = buildCareerBindings({ persona, items, graph: await loadGraph() });
 ---
-<BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?career=${persona.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+<BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
@@ -146,22 +28,22 @@ const jsonLd = JSON.stringify({
     <header id="content">
       <h1><span class="accent">{persona.title_ja}</span></h1>
       <p class="sub"><strong>{persona.short_ja}</strong> persona 向けの推薦 TOP {items.length}</p>
-      <p class="intro" set:html={introHtml}></p>
+      <p class="intro" set:html={b.introHtml}></p>
     </header>
     <section class="genre-detail" aria-label={`${persona.short_ja}の利点と注意点`}>
       <h2>{persona.short_ja} の特徴</h2>
       <div class="genre-detail-grid">
-        <div><h3>利点</h3><Fragment set:html={advantagesHtml} /></div>
-        <div><h3>注意点</h3><Fragment set:html={cautionsHtml} /></div>
+        <div><h3>利点</h3><Fragment set:html={b.advantagesHtml} /></div>
+        <div><h3>注意点</h3><Fragment set:html={b.cautionsHtml} /></div>
       </div>
     </section>
-    <Fragment set:html={statsHtml} />
-    <Fragment set:html={highlightsHtml} />
-    <Fragment set:html={sectorChartHtml} />
-    <section><h2>推薦 TOP {items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
-    <Fragment set:html={faqHtml} />
-    <Fragment set:html={crossHubHtml} />
-    <section aria-label="他のキャリア段階"><h2>他のキャリア段階</h2><Fragment set:html={relatedHtml} /></section>
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
+    <section><h2>推薦 TOP {items.length}</h2><ol class="rank-list" set:html={b.rankItems} /></section>
+    <Fragment set:html={b.faqHtml} />
+    <Fragment set:html={b.crossHubHtml} />
+    <section aria-label="他のキャリア段階"><h2>他のキャリア段階</h2><Fragment set:html={b.relatedHtml} /></section>
     <Footer />
   </div>
 </BaseLayout>
