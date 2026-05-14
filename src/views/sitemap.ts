@@ -33,7 +33,7 @@ import {
 } from '../data/lib/genre-configs.js';
 import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS } from './licenses-meta.js';
-import { QA_ITEMS } from '../data/lib/qa-meta.js';
+import { QA_ITEMS } from './qa-meta.js';
 import { EXPLORE_ROUTES } from '../data/lib/explore-routes.js';
 import type { KnowledgeGraph } from '@/graph';
 

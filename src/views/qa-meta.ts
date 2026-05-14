@@ -1,5 +1,5 @@
 /**
- * qa-meta.ts — 49 Q&A hub の質問・回答・例選定ロジック。
+ * src/views/qa-meta.ts — 49 Q&A hub の質問・回答・例選定ロジック。
  *
  * 各 Q&A は:
  *   - question: h1 になる質問
@@ -8,9 +8,12 @@
  *   - selector: 該当例を選ぶ predicate
  * から成る。
  *
+ * Migrated from src/data/lib/qa-meta.ts 2026-05-14 (Phase B).
+ * Lives under src/views/ per §6.2.
+ *
  * Pure-data モジュール。
  */
-import type { DetailFileMin } from './genre-hub.js';
+import type { DetailFileMin } from '../data/lib/genre-hub.js';
 
 export interface QAItem {
   slug: string;
