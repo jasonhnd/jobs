@@ -20,7 +20,7 @@ import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
 import { SKILL_META } from './skills-meta.js';
 import { INTEREST_META, type InterestType } from '../../views/interests-meta.js';
 import { CAREER_PERSONAS } from './careers-meta.js';
-import { LICENSE_HUBS, matchLicense } from './licenses-meta.js';
+import { LICENSE_HUBS, matchLicense } from '../../views/licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { COMPARE_META } from './compare-meta.js';
 import { RANKING_META, type RankingSlug } from './rankings-meta.js';

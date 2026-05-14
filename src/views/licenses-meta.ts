@@ -1,10 +1,17 @@
 /**
- * licenses-meta.ts — 15 個の資格 hub の定義。
+ * src/views/licenses-meta.ts — 15 個の資格 hub の定義。
  *
  * data.detail/<id>.json の related_certs_ja 配列に対してキーワード照合で
  * 各 hub に該当する職業を抽出する。Pure-data モジュール。
+ *
+ * Migrated from src/data/lib/licenses-meta.ts 2026-05-14 as part of
+ * Phase B. Lives under src/views/ per §6.2.
+ *
+ * NOTE: `DetailFileMin` is still defined in src/data/lib/genre-hub.ts
+ * (cross-directory import) — will resolve when genre-hub itself
+ * migrates later in Phase B.
  */
-import type { DetailFileMin } from './genre-hub.js';
+import type { DetailFileMin } from '../data/lib/genre-hub.js';
 
 export interface LicenseHub {
   slug: string;

@@ -32,7 +32,7 @@ import {
   EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS,
 } from '../data/lib/genre-configs.js';
 import { CAREER_PERSONAS } from '../data/lib/careers-meta.js';
-import { LICENSE_HUBS } from '../data/lib/licenses-meta.js';
+import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from '../data/lib/qa-meta.js';
 import { EXPLORE_ROUTES } from '../data/lib/explore-routes.js';
 import type { KnowledgeGraph } from '@/graph';
