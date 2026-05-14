@@ -3,7 +3,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { renderHighlights, escapeHtml } from './skills-hub.js';
+import { renderHighlights, escapeHtml } from '../templates/SkillHub.js';
 
 describe('skills-hub.escapeHtml', () => {
   test('escapes the 5 HTML-significant characters', () => {
