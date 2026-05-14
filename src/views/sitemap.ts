@@ -24,7 +24,7 @@
 
 import { ALL_RANKINGS } from '../data/lib/rankings.js';
 import { INTEREST_META } from './interests-meta.js';
-import { SKILL_META } from '../data/lib/skills-meta.js';
+import { SKILL_META } from './skills-meta.js';
 import { COMPARE_META } from '../data/lib/compare-meta.js';
 import {
   ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
