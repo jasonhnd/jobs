@@ -18,7 +18,7 @@ import {
 import { RANKING_META } from '../data/lib/rankings-meta.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
-import { COMPARE_META } from '../data/lib/compare-meta.js';
+import { COMPARE_META } from './compare-meta.js';
 
 function isValidCardConfig(v: unknown): boolean {
   if (v === null || typeof v !== 'object') return false;
