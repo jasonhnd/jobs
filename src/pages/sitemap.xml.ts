@@ -7,7 +7,7 @@
  */
 import type { APIRoute } from 'astro';
 import { loadGraph } from '@/graph';
-import { nowIso } from '../data/lib/now.js';
+import { nowIso } from '../lib/now.js';
 import { buildSitemapEntries, renderSitemapXml } from '@/views/sitemap';
 
 /**

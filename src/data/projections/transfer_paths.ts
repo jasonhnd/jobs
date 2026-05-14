@@ -20,7 +20,7 @@ import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { fsum } from '../lib/fsum.js';
 import { bankerRound } from '../lib/banker-round.js';
-import { nowIso } from '../lib/now.js';
+import { nowIso } from '../../lib/now.js';
 
 // Phase C (2026-05-10): TOP_N raised 4 → 5 for the new spoke-spoke link block.
 // Combined with the cross-sector same-AI-risk block (rendered in the spoke

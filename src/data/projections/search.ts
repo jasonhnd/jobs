@@ -14,7 +14,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import { riskBand, workforceBand } from '../lib/bands.js';
-import { nowIso } from '../lib/now.js';
+import { nowIso } from '../../lib/now.js';
 
 type LegacyCategorySize = 'small' | 'medium' | 'large' | null;
 

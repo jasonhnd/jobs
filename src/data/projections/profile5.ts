@@ -20,7 +20,7 @@ import type { Indexes } from '../lib/indexes.js';
 import type { Occupation } from '../schema/occupation.js';
 import { fmean } from '../lib/fsum.js';
 import { bankerRound } from '../lib/banker-round.js';
-import { nowIso } from '../lib/now.js';
+import { nowIso } from '../../lib/now.js';
 
 // Numeric block keys on Occupation that contribute to profile5.
 type NumericBlock =
