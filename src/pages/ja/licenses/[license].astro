@@ -5,12 +5,10 @@ import { loadGraph } from '@/graph';
 import { GENRE_HUB_CSS } from '../../../templates/Hub';
 import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 import { LICENSE_HUBS, matchLicense, rankLicense, type LicenseHub } from '../../../views/licenses-meta';
-import { buildLicenseBindings } from './_license-bindings';
-import type { GenreOccupation, DetailFileMin } from '../../../views/genre-hub';
+import { buildLicenseBindings, buildLicenseItems } from './_license-bindings';
+import { loadAllDetails, type GenreOccupation } from '../../../views/genre-hub';
 
 export async function getStaticPaths() {
-  const { loadAllDetails } = await import('../../../views/genre-hub');
-  const { buildLicenseItems } = await import('./_license-bindings');
   const details = loadAllDetails();
   return LICENSE_HUBS.map((h) => ({ params: { license: h.slug }, props: { hub: h, items: buildLicenseItems(details, h, matchLicense, rankLicense) } }));
 }
