@@ -1,7 +1,10 @@
 /**
- * explore-routes.ts — 7 個の Level-2 entry routes 定義。
+ * src/views/explore-routes.ts — 7 個の Level-2 entry routes 定義。
  *
  * 顶層 → 中層への "探し方" 入口。各 route は複数 genre index を集約する。
+ *
+ * Migrated from src/data/lib/explore-routes.ts 2026-05-14 (Phase B).
+ * Lives under src/views/ per §6.2.
  */
 
 export interface ExploreRoute {
