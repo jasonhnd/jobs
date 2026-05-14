@@ -85,7 +85,30 @@ const DATA_ROOT = path.join(REPO_ROOT, 'data');
 
 // ─── public entrypoint ───────────────────────────────────────────
 
-export async function loadGraph(): Promise<KnowledgeGraph> {
+// Module-level memoization. The graph is Object.freeze'd at construction
+// and doc §3.4 forbids mutation during build, so a single instance can
+// be safely shared across all callers in one Node process. Without this,
+// each Astro `.astro` frontmatter call rebuilt the graph from scratch
+// (~120ms × 600+ pages = 70+ s of pure rebuild cost). Phase D audit #9
+// (2026-05-14): build time 150s → ~35s.
+//
+// The cache holds the Promise (not the resolved KnowledgeGraph) so
+// concurrent first-callers all await the same in-flight build instead
+// of racing duplicate builds.
+let _cachedGraph: Promise<KnowledgeGraph> | null = null;
+
+/** Test-only reset hook. Production code must not call this. */
+export function _resetGraphCacheForTests(): void {
+  _cachedGraph = null;
+}
+
+export function loadGraph(): Promise<KnowledgeGraph> {
+  if (_cachedGraph !== null) return _cachedGraph;
+  _cachedGraph = buildGraph();
+  return _cachedGraph;
+}
+
+async function buildGraph(): Promise<KnowledgeGraph> {
   // 1. Load raw source data (fail-fast on any schema mismatch).
   const occupations = loadOccupations();
   const translations = loadTranslations();
