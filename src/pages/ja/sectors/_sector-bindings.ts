@@ -21,7 +21,7 @@ import {
   computeSiteBaseline,
   getSectorEssay,
   type SectorOcc,
-} from '../../../data/lib/sector-meta';
+} from '../../../views/sector-meta';
 import {
   buildLinkRegistry,
   inlineLinkText,
