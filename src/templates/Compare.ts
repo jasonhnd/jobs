@@ -181,6 +181,47 @@ export function renderJsonLd(
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
 }
 
+// ─── compare/index hub-card renderer (Phase D audit #8 2026-05-14) ────
+
+export interface CompareHubCard {
+  readonly slug: string;
+  readonly title_ja: string;
+  readonly a_name: string;
+  readonly a_risk: number | null;
+  readonly b_name: string;
+  readonly b_risk: number | null;
+  readonly description_ja: string;
+}
+
+function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
+  if (score === null) return 'mid';
+  if (score <= 3) return 'low';
+  if (score <= 6) return 'mid';
+  return 'high';
+}
+
+export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): string {
+  return cards.map((c) => {
+    const aBand = compareRiskClass(c.a_risk);
+    const bBand = compareRiskClass(c.b_risk);
+    const aRiskStr = c.a_risk !== null ? `${c.a_risk}/10` : '—';
+    const bRiskStr = c.b_risk !== null ? `${c.b_risk}/10` : '—';
+    return (
+      `<li><a href="/ja/compare/${c.slug}">` +
+      `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
+      `<span class="cci-pair">` +
+      `<span class="cci-name">${escapeHtml(c.a_name)}</span>` +
+      `<span class="risk-pill ${aBand}">${escapeHtml(aRiskStr)}</span>` +
+      `<span class="cci-vs">vs</span>` +
+      `<span class="cci-name">${escapeHtml(c.b_name)}</span>` +
+      `<span class="risk-pill ${bBand}">${escapeHtml(bRiskStr)}</span>` +
+      `</span>` +
+      `<span class="cci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
+      `</a></li>`
+    );
+  }).join('');
+}
+
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/compare`;
   const seoDesc =

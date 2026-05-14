@@ -3,26 +3,24 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { LICENSE_HUBS, matchLicense } from '../../../views/licenses-meta';
 import { loadAllDetails } from '../../../views/genre-hub';
-import { escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../templates/Hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '../../../templates/Hub';
 
 const details = loadAllDetails();
 const cards = LICENSE_HUBS.map((h) => {
   const matched = details.filter((d) => matchLicense(d, h));
-  return { h, count: Math.min(30, matched.length), top: matched[0]?.title?.ja ?? '' };
+  const count = Math.min(30, matched.length);
+  return {
+    slug: h.slug, short_ja: h.short_ja, description_ja: h.description_ja,
+    count, top: matched[0]?.title?.ja ?? '',
+    countLabel: `${count} 職業`,
+  };
 });
 
 const canonical = 'https://mirai-shigoto.com/ja/licenses';
 const title = '資格から職業を探す｜15 資格カテゴリー別 hub | 未来の仕事';
 const seoDesc = '医療・福祉・教育・法務・会計・建設・IT・不動産・食品衛生等、15 のカテゴリー別に資格と関連職業を一覧。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '資格から探す', seoDesc);
-const cardsHtml = cards.map((c) =>
-  `<li><a href="/ja/licenses/${c.h.slug}">` +
-  `<span class="gci-name">${escapeHtml(c.h.short_ja)}</span>` +
-  `<span class="gci-desc">${escapeHtml(c.h.description_ja.slice(0, 90))}…</span>` +
-  (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
-  `<span class="gci-count">${c.count} 職業</span>` +
-  `</a></li>`
-).join('');
+const cardsHtml = renderGenreHubIndexCards(cards, 'licenses');
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=licenses" ogTitle={title} ogDescription={seoDesc}>

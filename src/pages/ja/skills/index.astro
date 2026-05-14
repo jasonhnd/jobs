@@ -7,7 +7,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildSkillsBundle } from '../../../views/skills-hub';
-import { renderHubJsonLd, escapeHtml } from '../../../templates/SkillHub';
+import { renderHubJsonLd, renderSkillsHubCards } from '../../../templates/SkillHub';
 import { loadGraph } from '@/graph';
 import { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } from '@/views/skill';
 
@@ -22,20 +22,7 @@ const seoDesc =
   '批判的思考・問題解決・対人感受性・プログラミング等、IPD 39 スキル軸から選んだ 10 の主要スキル別に職業 TOP 30 を AI 影響度・年収と共に一覧。';
 const keywords = 'スキル別 職業, 適職, スキル 仕事, 仕事 適性, 552 職業';
 
-const cardsHtml = hub.cards
-  .map((c) => {
-    const previewHtml = c.top_preview ? `<span class="sci-preview">${escapeHtml(c.top_preview)}</span>` : '';
-    return (
-      `<li><a href="/ja/skills/${c.slug}">` +
-      `<span class="sci-name">${escapeHtml(c.short_ja)}</span>` +
-      `<span class="sci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
-      `${previewHtml}` +
-      `<span class="sci-count">TOP ${c.top_count} 職業</span>` +
-      `</a></li>`
-    );
-  })
-  .join('');
-
+const cardsHtml = renderSkillsHubCards(hub.cards);
 const jsonLd = renderHubJsonLd();
 ---
 <BaseLayout

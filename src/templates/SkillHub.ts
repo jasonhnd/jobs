@@ -154,6 +154,30 @@ export function renderJsonLd(
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
 }
 
+// ─── skills/index hub-card renderer (Phase D audit #8 2026-05-14) ────
+
+export interface SkillsHubCard {
+  readonly slug: string;
+  readonly short_ja: string;
+  readonly description_ja: string;
+  readonly top_preview: string | null | undefined;
+  readonly top_count: number;
+}
+
+export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): string {
+  return cards.map((c) => {
+    const previewHtml = c.top_preview ? `<span class="sci-preview">${escapeHtml(c.top_preview)}</span>` : '';
+    return (
+      `<li><a href="/ja/skills/${c.slug}">` +
+      `<span class="sci-name">${escapeHtml(c.short_ja)}</span>` +
+      `<span class="sci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
+      `${previewHtml}` +
+      `<span class="sci-count">TOP ${c.top_count} 職業</span>` +
+      `</a></li>`
+    );
+  }).join('');
+}
+
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/skills`;
   const seoDesc =

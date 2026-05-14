@@ -179,6 +179,32 @@ export function renderJsonLd(
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
 }
 
+// ─── interests/index hub-card renderer (Phase D audit #8 2026-05-14) ────
+
+export interface InterestsHubCard {
+  readonly slug: string;
+  readonly letter: string;
+  readonly name_ja: string;
+  readonly description_ja: string;
+  readonly top_preview: string | null | undefined;
+  readonly top_count: number;
+}
+
+export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>): string {
+  return cards.map((c) => {
+    const previewHtml = c.top_preview ? `<span class="iri-preview">${escapeHtml(c.top_preview)}</span>` : '';
+    return (
+      `<li><a href="/ja/interests/${c.slug}">` +
+      `<span class="iri-letter">${c.letter}</span>` +
+      `<span class="iri-name">${escapeHtml(c.name_ja)}タイプ</span>` +
+      `<span class="iri-desc">${escapeHtml(c.description_ja.slice(0, 90) + '…')}</span>` +
+      `${previewHtml}` +
+      `<span class="iri-count">TOP ${c.top_count} 職業</span>` +
+      `</a></li>`
+    );
+  }).join('');
+}
+
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/interests`;
   const seoDesc =

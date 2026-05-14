@@ -7,7 +7,10 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildRankings } from '../../../views/ranking';
-import { renderHubJsonLd, escapeHtml } from '../../../templates/Ranking';
+import {
+  renderHubJsonLd, renderRankingsHubCards, renderRankingsHubStats,
+  renderRankingsHubInsights,
+} from '../../../templates/Ranking';
 import { loadGraph } from '@/graph';
 import { loadOccupationsFromGraph } from '@/views/ranking';
 
@@ -17,36 +20,9 @@ const canonical = 'https://mirai-shigoto.com/ja/rankings';
 const title = '職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 | 未来の仕事';
 const seoDesc = '日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。';
 
-const cardsHtml = hub.cards
-  .map((c) => {
-    const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
-    return (
-      `<li><a href="/ja/rankings/${c.slug}">` +
-      `<span class="rr-title">${escapeHtml(c.name)}</span>` +
-      `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
-      `${previewHtml}` +
-      `<span class="rr-count">${c.count} 職業</span>` +
-      `</a></li>`
-    );
-  })
-  .join('');
-
-const gsHtml = hub.globalStats.length > 0
-  ? `<dl class="stats">${hub.globalStats
-      .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
-      .join('')}</dl>`
-  : '';
-
-// hub.insights items are pre-rendered safe HTML — see the contract on
-// RankingsBundle.hub.insights in src/views/rankings.ts (sector names
-// are escapeHtml'd at build time and combined with literal <strong>
-// markup). Do NOT escape here, and do NOT concatenate untrusted data
-// alongside.
-const insightsItems = hub.insights.map((h) => `<li>${h}</li>`).join('');
-const insightsHtml = hub.insights.length > 0
-  ? `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${insightsItems}</ul></section>`
-  : '';
-
+const cardsHtml = renderRankingsHubCards(hub.cards);
+const gsHtml = renderRankingsHubStats(hub.globalStats);
+const insightsHtml = renderRankingsHubInsights(hub.insights);
 const jsonLd = renderHubJsonLd();
 ---
 <BaseLayout

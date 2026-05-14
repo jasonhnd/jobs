@@ -163,6 +163,143 @@ export function renderGenreIndexJsonLd(
   );
 }
 
+// ─── Hub-index card renderers (Phase D audit #8 2026-05-14) ──────────
+// Used by every */index.astro genre/family hub page. Pages prepare the
+// `{slug, short_ja, description_ja, count, top, countLabel}` array; this
+// template handles HTML assembly so frontmatter stays free of `.map().join`.
+
+export interface GenreHubIndexCard {
+  readonly slug: string;
+  readonly short_ja: string;
+  readonly description_ja: string;
+  readonly count: number;
+  readonly top: string;
+  readonly countLabel: string;
+}
+
+export function renderGenreHubIndexCards(
+  cards: ReadonlyArray<GenreHubIndexCard>,
+  pathPrefix: string,
+  descMaxLen: number = 90,
+): string {
+  return cards.map((c) =>
+    `<li><a href="/ja/${pathPrefix}/${c.slug}">` +
+    `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
+    `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, descMaxLen))}…</span>` +
+    (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
+    `<span class="gci-count">${escapeHtml(c.countLabel)}</span>` +
+    `</a></li>`,
+  ).join('');
+}
+
+// ─── q/index grouped-cards renderer ────────────────────────────────────
+// Q&A index renders 5 sub-genre `<section>` blocks. Each section has its
+// own heading + cards. Page prepares groups; this assembles HTML.
+
+export interface QGroupItem {
+  readonly slug: string;
+  readonly question: string;
+  readonly short_answer: string;
+}
+
+export function renderQGroupsHtml(
+  groups: ReadonlyArray<readonly [string, ReadonlyArray<QGroupItem>]>,
+): string {
+  return groups.map(([title, items]) =>
+    `<section><h2>${escapeHtml(title)} (${items.length})</h2>` +
+    `<ul class="genre-cards">` +
+    items.map((q) =>
+      `<li><a href="/ja/q/${q.slug}">` +
+      `<span class="gci-name">${escapeHtml(q.question)}</span>` +
+      `<span class="gci-desc">${escapeHtml(q.short_answer.slice(0, 90))}…</span>` +
+      `</a></li>`,
+    ).join('') +
+    `</ul></section>`,
+  ).join('');
+}
+
+// ─── explore/index and explore/[route] renderers ───────────────────────
+
+export interface ExploreIndexCard {
+  readonly slug: string;
+  readonly short_ja: string;
+  readonly description_ja: string;
+  readonly genreCount: number;
+}
+
+export function renderExploreIndexCards(cards: ReadonlyArray<ExploreIndexCard>): string {
+  return cards.map((c) =>
+    `<li><a href="/ja/explore/${c.slug}">` +
+    `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
+    `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
+    `<span class="gci-count">${c.genreCount} 個の genre</span>` +
+    `</a></li>`,
+  ).join('');
+}
+
+export interface ExploreGenreLink {
+  readonly path: string;
+  readonly label: string;
+  readonly desc: string;
+}
+
+export function renderExploreGenreCards(genres: ReadonlyArray<ExploreGenreLink>): string {
+  return genres.map((g) =>
+    `<li><a href="/ja/${g.path}">` +
+    `<span class="gci-name">${escapeHtml(g.label)}</span>` +
+    `<span class="gci-desc">${escapeHtml(g.desc)}</span>` +
+    `<span class="gci-count">→ 詳しく見る</span>` +
+    `</a></li>`,
+  ).join('');
+}
+
+export interface ExploreOtherRoute {
+  readonly slug: string;
+  readonly short_ja: string;
+  readonly description_ja: string;
+}
+
+export function renderExploreOtherRoutes(
+  routes: ReadonlyArray<ExploreOtherRoute>,
+): string {
+  return '<ul class="related-genre">' + routes.map((r) =>
+    `<li><a href="/ja/explore/${r.slug}">` +
+    `<span class="rg-name">${escapeHtml(r.short_ja)}</span>` +
+    `<span class="rg-desc">${escapeHtml(r.description_ja.slice(0, 60))}…</span>` +
+    `</a></li>`,
+  ).join('') + '</ul>';
+}
+
+export function renderExploreIndexJsonLd(): string {
+  const canonical = 'https://mirai-shigoto.com/ja/explore';
+  const seoDesc = '日本 552 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。';
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: '探す方法', description: seoDesc, isPartOf: { '@id': `${SITE}/#website` }, inLanguage: 'ja' },
+      { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: '探す方法', item: canonical },
+      ] },
+    ],
+  }, null, 2);
+}
+
+export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc: string): string {
+  const canonical = `https://mirai-shigoto.com/ja/explore/${slug}`;
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title_ja, description: seoDesc, inLanguage: 'ja' },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/ja/explore` },
+        { '@type': 'ListItem', position: 3, name: title_ja, item: canonical },
+      ] },
+    ],
+  }, null, 2);
+}
+
 // ─── Shared CSS for genre hub pages ──────────────────────────
 
 export const GENRE_HUB_CSS = `

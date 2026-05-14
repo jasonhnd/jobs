@@ -7,7 +7,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildCompareBundle } from '../../../views/compare-hub';
-import { renderHubJsonLd, escapeHtml } from '../../../templates/Compare';
+import { renderHubJsonLd, renderCompareHubCards } from '../../../templates/Compare';
 
 const { hub } = buildCompareBundle();
 const canonical = 'https://mirai-shigoto.com/ja/compare';
@@ -16,35 +16,7 @@ const seoDesc =
   '看護師 vs 訪問介護員、SE vs プログラマー、医療事務 vs 一般事務など、迷いやすい職業ペアを side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
 const keywords = '職業 比較, 違い, 仕事 選び方, vs, 552 職業';
 
-function riskClass(score: number | null): 'low' | 'mid' | 'high' {
-  if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
-  return 'high';
-}
-
-const cardsHtml = hub.cards
-  .map((c) => {
-    const aBand = riskClass(c.a_risk);
-    const bBand = riskClass(c.b_risk);
-    const aRiskStr = c.a_risk !== null ? `${c.a_risk}/10` : '—';
-    const bRiskStr = c.b_risk !== null ? `${c.b_risk}/10` : '—';
-    return (
-      `<li><a href="/ja/compare/${c.slug}">` +
-      `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
-      `<span class="cci-pair">` +
-      `<span class="cci-name">${escapeHtml(c.a_name)}</span>` +
-      `<span class="risk-pill ${aBand}">${escapeHtml(aRiskStr)}</span>` +
-      `<span class="cci-vs">vs</span>` +
-      `<span class="cci-name">${escapeHtml(c.b_name)}</span>` +
-      `<span class="risk-pill ${bBand}">${escapeHtml(bRiskStr)}</span>` +
-      `</span>` +
-      `<span class="cci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
-      `</a></li>`
-    );
-  })
-  .join('');
-
+const cardsHtml = renderCompareHubCards(hub.cards);
 const jsonLd = renderHubJsonLd();
 ---
 <BaseLayout
