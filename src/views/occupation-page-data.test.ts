@@ -10,7 +10,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { pickRelatedOccupations } from './occupation-page-data.js';
-import type { Rec } from './adapt-detail.js';
+import type { Rec } from './occupation-detail.js';
 
 function fakeRec(id: number, aiRisk: number | null): Rec {
   return {
