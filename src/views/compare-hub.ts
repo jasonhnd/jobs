@@ -13,8 +13,7 @@
  * should extract renderers to src/templates/; for now (Phase B
  * "retire data/lib" scope) kept as one file.
  *
- * `strict-load` still imported from src/data/lib/ (cross-directory
- * temporary; resolves when strict-load itself migrates).
+ * `strict-load` resolved 2026-05-14 (Phase C #3) to src/lib/.
  */
 import { join } from 'node:path';
 import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';

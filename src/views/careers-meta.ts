@@ -7,13 +7,13 @@
  * Migrated from src/data/lib/careers-meta.ts 2026-05-14 as part of
  * Phase B. Lives under src/views/ per §6.2.
  *
- * NOTE: `DetailFileMin` still defined in src/data/lib/genre-hub.ts
+ * NOTE: `DetailFileMin` still defined in src/views/genre-hub.ts
  * (temporary cross-directory import; resolves when genre-hub
  * migrates later).
  *
  * Pure-data モジュール、fs imports なし。
  */
-import type { DetailFileMin } from '../data/lib/genre-hub.js';
+import type { DetailFileMin } from './genre-hub.js';
 
 export interface CareerPersona {
   slug: string;

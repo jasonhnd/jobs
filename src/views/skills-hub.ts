@@ -10,7 +10,7 @@
  */
 // fs reads are now via strict-load helpers (see below); no direct fs imports needed.
 import { join } from 'node:path';
-import { SKILL_META, type SkillSlug, type SkillMeta } from '../../views/skills-meta.js';
+import { SKILL_META, type SkillSlug, type SkillMeta } from './skills-meta.js';
 
 const REPO_ROOT = process.cwd();
 const SKILLS_DIR = join(REPO_ROOT, 'public', 'data.skills');
@@ -62,13 +62,13 @@ export interface SkillsBundle {
 
 // ─── Loaders ──────────────────────────────────────────────────
 
-import { strictReadJson } from '../../lib/strict-load.js';
+import { strictReadJson } from '../lib/strict-load.js';
 import {
   SkillRankingFileSchema,
   TreemapFileSummarySchema,
   type SkillRankingFileShape,
   type TreemapRecordSummary,
-} from '../../lib/projection-schemas.js';
+} from '../lib/projection-schemas.js';
 
 type SkillRankingFile = SkillRankingFileShape;
 type TreemapRecord = TreemapRecordSummary;
@@ -102,7 +102,7 @@ function loadSkillRanking(ipdKey: string): SkillRankingFile {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-import { fmtInt, safeMean } from '../../lib/num.js';
+import { fmtInt, safeMean } from '../lib/num.js';
 
 function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [string, string]> {
   const faqs: Array<readonly [string, string]> = [];
@@ -243,11 +243,11 @@ export function buildSkillsBundle(loaders: SkillsLoaders = {}): SkillsBundle {
 // ─── HTML rendering helpers ────────────────────────────────────
 
 // Single source of truth lives at src/lib/safe-html.ts.
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 export { escapeHtml };
 
 // Single source of truth lives at src/lib/risk.
-import { riskClass } from '../../lib/risk.js';
+import { riskClass } from '../lib/risk.js';
 
 export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
   const title = o.name_ja || `#${o.id}`;
@@ -278,11 +278,11 @@ export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
 }
 
 // Shared Highlights + SectorChart templates — single source of truth.
-export { renderHighlights } from '../../templates/Highlights.js';
-export { renderSectorChart } from '../../templates/SectorChart.js';
+export { renderHighlights } from '../templates/Highlights.js';
+export { renderSectorChart } from '../templates/SectorChart.js';
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
-export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
+export { renderFaqSection as renderFaqHtml } from '../templates/FaqSection.js';
 
 export function renderRelatedSkills(currentSlug: SkillSlug): string {
   const items = SKILL_META

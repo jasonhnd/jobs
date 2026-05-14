@@ -14,12 +14,12 @@
  * 同点は id 昇順で stable。
  */
 import { join } from 'node:path';
-import { INTEREST_META, type InterestType, type InterestMeta } from '../../views/interests-meta.js';
-import { strictReadJson } from '../../lib/strict-load.js';
+import { INTEREST_META, type InterestType, type InterestMeta } from './interests-meta.js';
+import { strictReadJson } from '../lib/strict-load.js';
 import {
   HollandFileSchema,
   TreemapFileSummarySchema,
-} from '../../lib/projection-schemas.js';
+} from '../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const HOLLAND_PATH = join(REPO_ROOT, 'public', 'data.holland.json');
@@ -130,7 +130,7 @@ function loadTreemapMap(): Map<number, TreemapRecord> {
 
 // ─── Helpers ────────────────────────────────────────────────────
 
-import { fmtInt, safeMean } from '../../lib/num.js';
+import { fmtInt, safeMean } from '../lib/num.js';
 
 // ─── FAQ generation (per type, mostly templated from meta) ───────
 
@@ -314,11 +314,11 @@ export function buildInterests(loaders: InterestsLoaders = {}): InterestsBundle 
 // ─── HTML rendering helpers ─────────────────────────────────────
 
 // Single source of truth lives at src/lib/safe-html.ts.
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 export { escapeHtml };
 
 // Single source of truth lives at src/lib/risk.
-import { riskClass } from '../../lib/risk.js';
+import { riskClass } from '../lib/risk.js';
 
 /**
  * Mini RIASEC bar — 6 個の小さい縦棒で R/I/A/S/E/C を可視化。
@@ -372,11 +372,11 @@ export function renderInterestItem(o: InterestOccupation, primary: 'R' | 'I' | '
 }
 
 // Shared Highlights + SectorChart templates — single source of truth.
-export { renderHighlights } from '../../templates/Highlights.js';
-export { renderSectorChart } from '../../templates/SectorChart.js';
+export { renderHighlights } from '../templates/Highlights.js';
+export { renderSectorChart } from '../templates/SectorChart.js';
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
-export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
+export { renderFaqSection as renderFaqHtml } from '../templates/FaqSection.js';
 
 export function renderRelatedInterests(currentSlug: InterestType): string {
   const items = INTEREST_META

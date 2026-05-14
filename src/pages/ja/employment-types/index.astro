@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { EMPLOYMENT_CONFIGS } from '../../../views/genre-configs';
-import { loadAllDetails, buildGenreResult, escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../data/lib/genre-hub';
+import { loadAllDetails, buildGenreResult, escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../views/genre-hub';
 
 const details = loadAllDetails();
 const cards = EMPLOYMENT_CONFIGS.map((cfg) => {

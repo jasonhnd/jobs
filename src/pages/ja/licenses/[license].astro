@@ -6,12 +6,12 @@ import {
   loadAllDetails, type DetailFileMin, type GenreOccupation,
   renderRankItem, renderHighlights, renderSectorChart, renderFaqHtml,
   escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean,
-} from '../../../data/lib/genre-hub';
+} from '../../../views/genre-hub';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
+  const { loadAllDetails: _l } = await import('../../../views/genre-hub');
   const { LICENSE_HUBS: _h, matchLicense: _m, rankLicense: _r } = await import('../../../views/licenses-meta');
   const details = _l();
   return _h.map((h) => {

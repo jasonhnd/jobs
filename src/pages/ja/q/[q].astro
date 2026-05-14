@@ -4,12 +4,12 @@ import Footer from '../../../components/Footer.astro';
 import { QA_ITEMS, selectExamples, type QAItem } from '../../../views/qa-meta';
 import {
   loadAllDetails, type DetailFileMin, escapeHtml, GENRE_HUB_CSS,
-} from '../../../data/lib/genre-hub';
+} from '../../../views/genre-hub';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
 export async function getStaticPaths() {
-  const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
+  const { loadAllDetails: _l } = await import('../../../views/genre-hub');
   const { QA_ITEMS: _q, selectExamples: _s } = await import('../../../views/qa-meta');
   const details = _l();
   return _q.map((q) => ({

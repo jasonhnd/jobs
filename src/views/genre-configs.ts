@@ -14,12 +14,12 @@
  * and 9 × (index + [slug]) page families = 21 Astro pages. Every consumer is
  * an HTML / sitemap surface, so the canonical home is src/views/. The type
  * import `GenreHubConfig` / `DetailFileMin` still points at
- * src/data/lib/genre-hub.ts (cross-dir bridge); genre-hub itself stays in
+ * src/views/genre-hub.ts (cross-dir bridge); genre-hub itself stays in
  * data/lib for Phase B because it owns the buildGenreBundle compute and is
  * tested there. A future Phase C pass can colocate the type with the data
  * or split genre-hub into a graph-layer ranker + a views-layer renderer.
  */
-import type { GenreHubConfig, DetailFileMin } from '../data/lib/genre-hub.js';
+import type { GenreHubConfig, DetailFileMin } from './genre-hub.js';
 
 // ─── G. 能力 (abilities) — 10 hub ────────────────────────
 

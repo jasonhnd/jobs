@@ -5,7 +5,7 @@ import { LIFE_BALANCE_CONFIGS } from '../../../views/genre-configs';
 import {
   loadAllDetails, buildGenreResult, renderRankItem, renderHighlights,
   renderSectorChart, renderFaqHtml, renderGenreJsonLd, escapeHtml, GENRE_HUB_CSS,
-} from '../../../data/lib/genre-hub';
+} from '../../../views/genre-hub';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
   // Step 4 (full): detail records derived from the knowledge graph.
   const { loadGraph } = await import('@/graph');
   const { loadGraphAdaptedDetails } = await import('@/views/hub');
-  const { buildGenreResult: _b } = await import('../../../data/lib/genre-hub');
+  const { buildGenreResult: _b } = await import('../../../views/genre-hub');
   const { LIFE_BALANCE_CONFIGS: _c } = await import('../../../views/genre-configs');
   const graph = await loadGraph();
   const details = loadGraphAdaptedDetails(graph);

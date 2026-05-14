@@ -7,11 +7,11 @@
  * Migrated from src/data/lib/licenses-meta.ts 2026-05-14 as part of
  * Phase B. Lives under src/views/ per §6.2.
  *
- * NOTE: `DetailFileMin` is still defined in src/data/lib/genre-hub.ts
+ * NOTE: `DetailFileMin` is still defined in src/views/genre-hub.ts
  * (cross-directory import) — will resolve when genre-hub itself
  * migrates later in Phase B.
  */
-import type { DetailFileMin } from '../data/lib/genre-hub.js';
+import type { DetailFileMin } from './genre-hub.js';
 
 export interface LicenseHub {
   slug: string;
