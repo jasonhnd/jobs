@@ -65,9 +65,12 @@ interface PageProps {
 
 const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } = Astro.props as PageProps;
 
+const { loadGraph } = await import('@/graph');
+const graph = await loadGraph();
+
 const { buildOccupationSpokeViews } = await import('@/views/occupation-page-data');
 const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
-  rec, rankingHitsArr, sameRiskArr,
+  rec, rankingHitsArr, sameRiskArr, graph,
 );
 
 const bindings = buildIdPageBindings({

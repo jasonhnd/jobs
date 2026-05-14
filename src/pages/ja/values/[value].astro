@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { VALUES_CONFIGS } from '../../../views/genre-configs';
 import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
@@ -23,7 +24,8 @@ export async function getStaticPaths() {
 
 const { result } = Astro.props;
 const cfg = result.config;
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(cfg.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('values', cfg.slug, 6);
 const canonical = `https://mirai-shigoto.com/ja/values/${cfg.slug}`;

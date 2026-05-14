@@ -6,6 +6,7 @@
  * Pattern は interests/[type].astro と同じ。
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { buildSkillsBundle } from '../../../views/skills-hub';
 import {
@@ -70,7 +71,8 @@ const useCasesHtml = listOfStrings(meta.use_cases_ja, 'use-cases');
 const trainHtml = listOfStrings(meta.how_to_train_ja, 'how-to-train');
 
 // Phase D: inline-link occupation names mentioned in description.
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('skills', slug, 6);
 ---

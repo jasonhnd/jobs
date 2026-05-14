@@ -35,11 +35,13 @@ interface Props {
 }
 
 const { view } = Astro.props as Props;
+const graph = await loadGraph();
 
 const bindings = buildSectorBindings({
   view,
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,
+  graph,
 });
 const {
   nameLoc, canonical, ogImage, n, workforceTotal, meanRisk,

@@ -48,6 +48,10 @@ export interface SectorBindingsInput {
   readonly view: SectorDetailView;
   readonly datePublished: string;
   readonly dateModified: string;
+  /** Phase D audit #6 (2026-05-14): graph passed in so buildLinkRegistry
+   *  (which used to fs-read public/data.detail) can read names from
+   *  graph.occupations instead. */
+  readonly graph: import('@/graph').KnowledgeGraph;
 }
 
 export interface SectorBindings {
@@ -114,7 +118,7 @@ function toListOcc(o: SectorOccupationSummary) {
 }
 
 export function buildSectorBindings(input: SectorBindingsInput): SectorBindings {
-  const { view, datePublished, dateModified } = input;
+  const { view, datePublished, dateModified, graph } = input;
   const sector = view.sector;
   const occs = view.occupations;
   const allOccs = view.allOccupations;
@@ -235,7 +239,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
   const faqHtml = renderOccFaq(faqs);
 
   // ── Inline-linked intro + AI era essay ──
-  const linkRegistry = buildLinkRegistry();
+  const linkRegistry = buildLinkRegistry(graph);
   const crossHubHtml = renderRelatedHubsBlock('sectors', sid, 6);
   const introInlined = descIntro
     ? inlineLinkText(descIntro, linkRegistry, { maxLinks: 3 })

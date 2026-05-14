@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { LICENSE_HUBS, matchLicense, rankLicense, type LicenseHub } from '../../../views/licenses-meta';
 import { loadAllDetails, type DetailFileMin, type GenreOccupation } from '../../../views/genre-hub';
@@ -36,7 +37,8 @@ export async function getStaticPaths() {
 
 interface Props { hub: LicenseHub; items: GenreOccupation[]; }
 const { hub, items } = Astro.props as Props;
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(hub.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('licenses', hub.slug, 6);
 

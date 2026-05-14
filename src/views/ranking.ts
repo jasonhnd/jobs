@@ -18,13 +18,11 @@
  *
  * Reads the file via fs at import time (Astro frontmatter).
  */
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { z } from 'zod';
-
-const REPO_ROOT = process.cwd();
-const TREEMAP_PATH = join(REPO_ROOT, 'public', 'data.treemap.json');
-const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
+// Phase D audit #6 (2026-05-14): removed `node:fs` imports + legacy
+// loadOccupations() + loadCertsById() (read public/data.treemap.json
+// and public/data.detail/*.json directly). Per doc §3.3 views must not
+// do I/O — all callers pass a graph-backed loader via the buildRankings()
+// loader argument (see loadOccupationsFromGraph below).
 
 export const TOP_N = 30;
 
@@ -53,128 +51,11 @@ export interface Occupation {
   hourly_wage: number | null;
 }
 
-// Runtime-validated shape of /public/data.treemap.json (an array of records,
-// one per occupation in the treemap projection). The build pipeline wrote
-// this 0.5s before loadOccupations() reads it back, so validation primarily
-// catches hand-edits / partial writes / version skew between the ETL and
-// rankings module rather than first-time bad data. Cheap (~5ms at N=552).
-const TreemapRecordSchema = z.object({
-  id: z.number().int(),
-  name_ja: z.string().nullable(),
-  salary: z.number().nullable(),
-  workers: z.number().nullable(),
-  hours: z.number().nullable(),
-  age: z.number().nullable(),
-  recruit_wage: z.number().nullable(),
-  recruit_ratio: z.number().nullable(),
-  ai_risk: z.number().nullable(),
-  risk_band: z.string().nullable(),
-  demand_band: z.string().nullable(),
-  sector_id: z.string(),
-  sector_ja: z.string(),
-  education_pct: z.record(z.string(), z.number()).nullable(),
-  employment_type: z.record(z.string(), z.number()).nullable(),
-}).passthrough();  // projection writes more fields than this module reads
-type TreemapRecord = z.infer<typeof TreemapRecordSchema>;
-const TreemapFileSchema = z.array(TreemapRecordSchema);
-
-// /public/data.detail/<id>.json — only the two fields this module needs.
-const DetailFileMinimalSchema = z.object({
-  id: z.number().int(),
-  related_certs_ja: z.array(z.string()).optional(),
-}).passthrough();
-type DetailFileMinimal = z.infer<typeof DetailFileMinimalSchema>;
-
-let cached: Occupation[] | null = null;
-
-/**
- * Phase 2: load related_certs_ja for every occupation by reading
- * data.detail/<padded>.json. Cached. Detail files are small (~3.5 KB gz)
- * and we only need 1 field, but fs reads at module-init keep the API
- * synchronous (Astro frontmatter requirement).
- */
-let _certsById: Map<number, ReadonlyArray<string>> | null = null;
-function loadCertsById(): Map<number, ReadonlyArray<string>> {
-  if (_certsById) return _certsById;
-  const out = new Map<number, ReadonlyArray<string>>();
-  let files: string[];
-  try {
-    files = readdirSync(DETAIL_DIR).filter((f) => f.endsWith('.json'));
-  } catch {
-    _certsById = out;
-    return out;
-  }
-  for (const f of files) {
-    const filePath = join(DETAIL_DIR, f);
-    let raw: string;
-    try { raw = readFileSync(filePath, 'utf-8'); }
-    catch (err) {
-      throw new Error(`[rankings] read failed: ${filePath}: ${(err as Error).message}`);
-    }
-    let json: unknown;
-    try { json = JSON.parse(raw); }
-    catch (err) {
-      throw new Error(`[rankings] invalid JSON: ${filePath}: ${(err as Error).message}`);
-    }
-    const parsed = DetailFileMinimalSchema.safeParse(json);
-    if (!parsed.success) {
-      const issues = parsed.error.issues.slice(0, 3).map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
-      throw new Error(`[rankings] schema mismatch in ${filePath}: ${issues}`);
-    }
-    const d: DetailFileMinimal = parsed.data;
-    out.set(d.id, d.related_certs_ja ?? []);
-  }
-  _certsById = out;
-  return out;
-}
-
-export function loadOccupations(): Occupation[] {
-  if (cached) return cached;
-  let raw: string;
-  try { raw = readFileSync(TREEMAP_PATH, 'utf-8'); }
-  catch (err) {
-    throw new Error(`[rankings] read failed: ${TREEMAP_PATH}: ${(err as Error).message}`);
-  }
-  let json: unknown;
-  try { json = JSON.parse(raw); }
-  catch (err) {
-    throw new Error(`[rankings] invalid JSON: ${TREEMAP_PATH}: ${(err as Error).message}`);
-  }
-  const parsed = TreemapFileSchema.safeParse(json);
-  if (!parsed.success) {
-    const issues = parsed.error.issues.slice(0, 3).map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
-    throw new Error(`[rankings] schema mismatch in ${TREEMAP_PATH}: ${issues}`);
-  }
-  const records: TreemapRecord[] = parsed.data;
-  const certsById = loadCertsById();
-  cached = records.map((d) => {
-    // 派生時給: recruit_wage は 月 万円。160h/month で割って 時給(円) に変換。
-    // null や 0 のときは null。
-    const hourly = d.recruit_wage && d.recruit_wage > 0
-      ? Math.round((d.recruit_wage * 10000) / 160)
-      : null;
-    return {
-      id: d.id,
-      title_ja: d.name_ja ?? null,
-      ai_risk: d.ai_risk ?? null,
-      risk_band: d.risk_band ?? null,
-      workers: d.workers ?? null,
-      salary: d.salary ?? null,
-      monthly_hours: d.hours ?? null,
-      average_age: d.age ?? null,
-      recruit_wage: d.recruit_wage ?? null,
-      recruit_ratio: d.recruit_ratio ?? null,
-      demand_band: d.demand_band ?? null,
-      sector_id: d.sector_id ?? '',
-      sector_ja: d.sector_ja ?? '',
-      education_pct: d.education_pct ?? null,
-      employment_type: d.employment_type ?? null,
-      certs: certsById.get(d.id) ?? [],
-      hourly_wage: hourly,
-    };
-  });
-  return cached;
-}
+// Phase D audit #6 (2026-05-14): removed legacy TreemapFileSchema +
+// DetailFileMinimalSchema (zod-validated runtime types for the two file
+// shapes that loadOccupations / loadCertsById used to parse). The
+// canonical data shape now flows from the graph via
+// loadOccupationsFromGraph below.
 
 // ---------------------------------------------------------------------------
 // Phase 2: filter / classification helpers (sector groups, education tiers,
@@ -348,7 +229,7 @@ export interface RankingsBundle {
  * knowledge graph.
  */
 export function buildRankings(
-  loader: () => Occupation[] = loadOccupations,
+  loader: () => Occupation[],
 ): RankingsBundle {
   const occs = loader();
   const scored = occs.filter((o) => o.ai_risk !== null);

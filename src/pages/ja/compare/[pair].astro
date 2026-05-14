@@ -5,6 +5,7 @@
  * 2 職業を side-by-side で比較表示。
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { buildCompareBundle } from '../../../views/compare-hub';
 import {
@@ -59,7 +60,8 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 const pointsHtml = listOfStrings(meta.comparison_points_ja, 'compare-points');
 const hintsHtml = listOfStrings(meta.decision_hints_ja, 'decision-hints');
 
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, {
   maxLinks: 4,
   excludeIds: new Set([result.a.id, result.b.id]),

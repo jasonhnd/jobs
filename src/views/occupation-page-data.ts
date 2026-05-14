@@ -22,9 +22,12 @@
  * verifies every related-jobs list on every page).
  */
 
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
+// Phase D audit #6 (2026-05-14): removed `node:fs` + `node:path`. Per doc
+// §3.3 views must not do I/O. The previous buildOccupationSpokeViews
+// re-read public/data.detail/<padded>.json on each spoke build; that data
+// now flows from the graph (passed in by the page caller).
 import type { Rec } from '@/views/occupation-detail';
+import type { KnowledgeGraph } from '@/graph';
 
 /** One entry in the same-risk-neighbor map for a single occupation. */
 export interface SameRiskNeighborView {
@@ -78,7 +81,7 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   const { loadGraph } = await import('@/graph');
   const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
   const { adaptDetailFile } = await import('./occupation-detail.js');
-  const { buildRankings } = await import('./ranking.js');
+  const { buildRankings, loadOccupationsFromGraph } = await import('./ranking.js');
   const { buildRankingHitsByOcc } = await import('./spoke-hub-graph.js');
   const { buildSameRiskNeighbors } = await import('./spoke-spoke-graph.js');
 
@@ -94,7 +97,10 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   for (const r of allRecs) nameLookup[r.id] = r.name_ja;
 
   // Ranking-hits map (Phase A: built once, shared across all spokes).
-  const rankingResults = buildRankings();
+  // Phase D audit #6 (2026-05-14): explicit graph loader passed in; previous
+  // buildRankings() with no loader fell back to fs-reading loadOccupations,
+  // which violates doc §3.3 (views shouldn't do I/O).
+  const rankingResults = buildRankings(() => loadOccupationsFromGraph(graph));
   const rankingHitsByOcc = buildRankingHitsByOcc(rankingResults.results.values());
   const rankingHitsArr: Array<[number, Array<RankingHitView>]> = [];
   for (const [occId, hits] of rankingHitsByOcc) {
@@ -149,11 +155,13 @@ export async function buildOccupationSpokeViews(
   rec: Rec,
   rankingHitsArr: ReadonlyArray<[number, ReadonlyArray<RankingHitView>]>,
   sameRiskArr: ReadonlyArray<[number, ReadonlyArray<SameRiskNeighborView>]>,
+  graph: KnowledgeGraph,
 ): Promise<OccupationSpokeViews> {
   const { computeSpokeHubs, renderSpokeHubsSection } = await import(
     './spoke-hub-graph.js'
   );
   const { renderSameRiskSection } = await import('./spoke-spoke-graph.js');
+  const { loadGraphAdaptedDetails } = await import('./hub.js');
 
   // Same-risk neighbors: lookup this rec's row from the serialized array.
   const sameRiskMap = new Map(sameRiskArr);
@@ -169,22 +177,26 @@ export async function buildOccupationSpokeViews(
     ),
   );
 
-  // Re-read the raw detail JSON for the original top-N array shape.
-  const padded = String(rec.id).padStart(4, '0');
-  let detailRaw: unknown = null;
-  try {
-    detailRaw = JSON.parse(
-      readFileSync(
-        path.join(process.cwd(), 'public', 'data.detail', `${padded}.json`),
-        'utf8',
-      ),
-    );
-  } catch {
-    detailRaw = null;
-  }
-  const spokeHubs = detailRaw
+  // Phase D audit #6 (2026-05-14): build the spoke detail shape from the
+  // graph instead of re-reading public/data.detail/<id>.json. The hub
+  // adapter `loadGraphAdaptedDetails(graph)` already yields the DetailFileMin
+  // shape that computeSpokeHubs's DetailFileSpoke extends.
+  //
+  // Byte-identity guard: the pre-refactor `data.detail/<id>.json` files do
+  // NOT contain an `interests` block (graph derives RIASEC from a separate
+  // source). computeSpokeHubs.topInterestTypes() therefore returned [] for
+  // every occupation, which means the spoke section never emitted
+  // /ja/interests/<type> links. Adding `interests` here from
+  // graph.interestsOf() would now emit those links — a real SEO drift
+  // (verified: each detail page would grow by exactly 2 hrefs). We
+  // intentionally omit `interests` to preserve byte-identical output. A
+  // future Phase E commit can opt-in by populating interests once the
+  // baseline is recaptured with the drift acknowledged.
+  const allDetails = loadGraphAdaptedDetails(graph);
+  const baseDetail = allDetails.find((d) => d.id === rec.id) ?? null;
+  const spokeHubs = baseDetail
     ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      computeSpokeHubs(detailRaw as any, {
+      computeSpokeHubs(baseDetail as any, {
         rankingHitsByOcc: rankingHitsByOcc as never,
       })
     : { groups: [], total: 0 };
