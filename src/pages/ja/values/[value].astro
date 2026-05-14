@@ -1,53 +1,36 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { GENRE_HUB_CSS } from '../../../templates/Hub';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 import { VALUES_CONFIGS } from '../../../views/genre-configs';
-import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
-import {
-  renderRankItem, renderHighlights,
-  renderSectorChart, renderFaqHtml, renderGenreJsonLd, escapeHtml, GENRE_HUB_CSS,
-} from '../../../templates/Hub';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { buildGenreSlugBindings } from '../_genre-slug-bindings';
 
 export async function getStaticPaths() {
-  // Step 4 (partial): detail records derived directly from the knowledge graph.
-  const { loadGraph } = await import('@/graph');
   const { loadGraphAdaptedDetails } = await import('@/views/hub');
-  const { buildGenreResult: _b } = await import('../../../views/genre-hub');
-  const { VALUES_CONFIGS: _c } = await import('../../../views/genre-configs');
-  const graph = await loadGraph();
-  const details = loadGraphAdaptedDetails(graph);
-  return _c.map((cfg) => ({ params: { value: cfg.slug }, props: { result: _b(details, cfg) } }));
+  const { buildGenreResult } = await import('../../../views/genre-hub');
+  const details = loadGraphAdaptedDetails(await loadGraph());
+  return VALUES_CONFIGS.map((cfg) => ({
+    params: { value: cfg.slug },
+    props: { result: buildGenreResult(details, cfg) },
+  }));
 }
 
 const { result } = Astro.props;
 const cfg = result.config;
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-const introHtml = inlineLinkText(cfg.description_ja, _linkRegistry, { maxLinks: 5 });
-const crossHubHtml = renderRelatedHubsBlock('values', cfg.slug, 6);
-const canonical = `https://mirai-shigoto.com/ja/values/${cfg.slug}`;
-const title = `${cfg.title_ja}｜TOP ${result.items.length}・AI 影響度付き【2026 年版】 | 未来の仕事`;
-const seoDesc = `${cfg.short_ja}を重視する人に向く職業 TOP ${result.items.length}。${cfg.description_ja.slice(0, 80)}…`;
-
-const statsHtml = result.stats.length > 0
-  ? `<dl class="stats">${result.stats.map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`).join('')}</dl>` : '';
-const highlightsHtml = renderHighlights(result.highlights);
-const sectorChartHtml = renderSectorChart(result.sectorBreakdown, `セクター内訳（TOP${result.items.length}）`);
-const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja)).join('');
-const faqHtml = renderFaqHtml(result.faqItems);
-const jsonLd = renderGenreJsonLd(canonical, cfg, result.items, seoDesc, result.faqItems, 'values', '価値観から探す');
-
-const relatedHtml = '<ul class="related-genre">' + VALUES_CONFIGS
-  .filter((m) => m.slug !== cfg.slug)
-  .map((m) => `<li><a href="/ja/values/${m.slug}"><span class="rg-name">${escapeHtml(m.short_ja)}</span><span class="rg-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span></a></li>`)
-  .join('') + '</ul>';
+const b = buildGenreSlugBindings({
+  result, graph: await loadGraph(),
+  genrePath: 'values', genreLabel: '価値観から探す', ogParam: 'value',
+  allConfigs: VALUES_CONFIGS, crossHubKey: 'values',
+  subTemplate: (s, n) => `IPD <strong>${s}</strong> を重視する人に向く職業 TOP ${n}（全 552 職業中）`,
+  seoDescTemplate: (s, n, d) => `${s}を重視する人に向く職業 TOP ${n}。${d.slice(0, 80)}…`,
+  relatedHeading: '他の価値観',
+});
 ---
-<BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?value=${cfg.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+<BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
@@ -55,16 +38,16 @@ const relatedHtml = '<ul class="related-genre">' + VALUES_CONFIGS
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/values" rel="up">価値観から探す</a><span aria-hidden="true">›</span><span>{cfg.short_ja}</span></nav>
     <header id="content">
       <h1><span class="accent">{cfg.title_ja}</span></h1>
-      <p class="sub">IPD <strong>{cfg.short_ja}</strong> を重視する人に向く職業 TOP {result.items.length}（全 552 職業中）</p>
-      <p class="intro" set:html={introHtml}></p>
+      <p class="sub" set:html={b.subHtml}></p>
+      <p class="intro" set:html={b.introHtml}></p>
     </header>
-    <Fragment set:html={statsHtml} />
-    <Fragment set:html={highlightsHtml} />
-    <Fragment set:html={sectorChartHtml} />
-    <section><h2>{cfg.short_ja} TOP {result.items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
-    <Fragment set:html={faqHtml} />
-    <Fragment set:html={crossHubHtml} />
-    <section aria-label="他の価値観"><h2>他の価値観</h2><Fragment set:html={relatedHtml} /></section>
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
+    <section><h2>{cfg.short_ja} TOP {result.items.length}</h2><ol class="rank-list" set:html={b.rankItems} /></section>
+    <Fragment set:html={b.faqHtml} />
+    <Fragment set:html={b.crossHubHtml} />
+    <section aria-label="他の価値観"><h2>他の価値観</h2><Fragment set:html={b.relatedHtml} /></section>
     <Footer />
   </div>
 </BaseLayout>
