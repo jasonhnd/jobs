@@ -18,7 +18,7 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
-import type { DetailFileMin } from '../data/lib/genre-hub';
+import type { DetailFileMin } from './genre-hub';
 
 type TopNEntry = { key: string; label_ja: string; score: number };
 

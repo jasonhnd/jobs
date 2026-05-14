@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { EXPLORE_ROUTES, type ExploreRoute } from '../../../views/explore-routes';
-import { GENRE_HUB_CSS, escapeHtml } from '../../../data/lib/genre-hub';
+import { GENRE_HUB_CSS, escapeHtml } from '../../../views/genre-hub';
 
 export async function getStaticPaths() {
   const { EXPLORE_ROUTES: _r } = await import('../../../views/explore-routes');

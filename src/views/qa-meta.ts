@@ -13,7 +13,7 @@
  *
  * Pure-data モジュール。
  */
-import type { DetailFileMin } from '../data/lib/genre-hub.js';
+import type { DetailFileMin } from './genre-hub.js';
 
 export interface QAItem {
   slug: string;

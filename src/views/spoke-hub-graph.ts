@@ -18,7 +18,7 @@
  * DetailFileMin / genre-configs / rankings-meta still in src/data/lib/
  * (cross-directory imports — resolves when those migrate later).
  */
-import type { DetailFileMin } from '../data/lib/genre-hub.js';
+import type { DetailFileMin } from './genre-hub.js';
 import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
   WORK_STYLES_CONFIGS } from './genre-configs.js';
 import { SKILL_META } from './skills-meta.js';

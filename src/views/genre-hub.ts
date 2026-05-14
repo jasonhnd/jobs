@@ -19,8 +19,8 @@
  * filter/sort/render を実行する。
  */
 import { join } from 'node:path';
-import { strictReadJson, strictReaddir } from '../../lib/strict-load.js';
-import { DetailFileSchema } from '../../lib/projection-schemas.js';
+import { strictReadJson, strictReaddir } from '../lib/strict-load.js';
+import { DetailFileSchema } from '../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
@@ -140,19 +140,19 @@ export function loadAllDetails(): DetailFileMin[] {
 // ─── Helpers ──────────────────────────────────────────────────
 
 // Single source of truth lives at src/lib/num. Re-exported for legacy consumers.
-import { fmtInt, safeMean } from '../../lib/num.js';
+import { fmtInt, safeMean } from '../lib/num.js';
 export { fmtInt, safeMean };
 
 // Single source of truth lives at src/lib/safe-html.ts. Import for internal
 // use within this module, re-export so existing pages/sibling lib files
 // continue to work. SafeHtml is structurally a string — callers expecting
 // string see no API change.
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 export { escapeHtml };
 
 // Single source of truth lives at src/lib/risk. Re-exported so existing
 // consumers (pages importing `riskClass` from this module) keep working.
-import { riskClass } from '../../lib/risk.js';
+import { riskClass } from '../lib/risk.js';
 export { riskClass };
 
 // ─── Core builder ────────────────────────────────────────────
@@ -307,14 +307,14 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): string {
 }
 
 // Shared Highlights template — single source of truth in src/templates/Highlights.
-export { renderHighlights } from '../../templates/Highlights.js';
+export { renderHighlights } from '../templates/Highlights.js';
 
 // Shared SectorChart template — single source of truth in src/templates/SectorChart.
 // (ranking-renderers keeps its own renderSectorChart — different signature.)
-export { renderSectorChart } from '../../templates/SectorChart.js';
+export { renderSectorChart } from '../templates/SectorChart.js';
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
-export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
+export { renderFaqSection as renderFaqHtml } from '../templates/FaqSection.js';
 
 // ─── JSON-LD ────────────────────────────────────────────────
 

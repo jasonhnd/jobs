@@ -12,7 +12,7 @@ import {
   renderGenreJsonLd,
   escapeHtml,
   GENRE_HUB_CSS,
-} from '../../../data/lib/genre-hub';
+} from '../../../views/genre-hub';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
   // shape — the adapter at src/views/hub.ts produces that shape from graph.
   const { loadGraph } = await import('@/graph');
   const { loadGraphAdaptedDetails } = await import('@/views/hub');
-  const { buildGenreResult: _build } = await import('../../../data/lib/genre-hub');
+  const { buildGenreResult: _build } = await import('../../../views/genre-hub');
   const { ABILITIES_CONFIGS: _cfgs } = await import('../../../views/genre-configs');
   const graph = await loadGraph();
   const details = loadGraphAdaptedDetails(graph);

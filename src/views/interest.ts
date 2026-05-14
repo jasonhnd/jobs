@@ -18,7 +18,7 @@ import type { KnowledgeGraph, OccupationId } from '@/graph';
 import type {
   HollandRow,
   TreemapRecord as InterestsTreemapRecord,
-} from '../data/lib/interests';
+} from './interests';
 import { riskBand as legacyRiskBand } from '../data/lib/bands';
 
 /** EN-key → RIASEC letter mapping. */
