@@ -1,118 +1,26 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { GENRE_HUB_CSS } from '../../../templates/Hub';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 import { LICENSE_HUBS, matchLicense, rankLicense, type LicenseHub } from '../../../views/licenses-meta';
-import { loadAllDetails, type DetailFileMin, type GenreOccupation } from '../../../views/genre-hub';
-import { renderRankItem, renderHighlights, renderSectorChart, renderFaqHtml, escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean } from '../../../templates/Hub';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { buildLicenseBindings } from './_license-bindings';
+import type { GenreOccupation, DetailFileMin } from '../../../views/genre-hub';
 
 export async function getStaticPaths() {
-  const { loadAllDetails: _l } = await import('../../../views/genre-hub');
-  const { LICENSE_HUBS: _h, matchLicense: _m, rankLicense: _r } = await import('../../../views/licenses-meta');
-  const details = _l();
-  return _h.map((h) => {
-    const matched = details
-      .filter((d) => _m(d, h))
-      .map((d) => ({ d, score: _r(d, h) }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 30);
-    const items: GenreOccupation[] = matched.map(({ d, score }) => ({
-      id: d.id,
-      name_ja: d.title?.ja ?? `#${d.id}`,
-      primary_score: (d.related_certs_ja ?? []).length,
-      ai_risk: d.ai_risk?.score ?? null,
-      risk_band: d.risk_band ?? null,
-      workers: d.stats?.workers ?? null,
-      salary: d.stats?.salary_man_yen ?? null,
-      monthly_hours: d.stats?.monthly_hours ?? null,
-      average_age: d.stats?.average_age ?? null,
-      sector_id: d.sector?.id ?? '',
-      sector_ja: d.sector?.ja ?? '',
-    }));
-    return { params: { license: h.slug }, props: { hub: h, items } };
-  });
+  const { loadAllDetails } = await import('../../../views/genre-hub');
+  const { buildLicenseItems } = await import('./_license-bindings');
+  const details = loadAllDetails();
+  return LICENSE_HUBS.map((h) => ({ params: { license: h.slug }, props: { hub: h, items: buildLicenseItems(details, h, matchLicense, rankLicense) } }));
 }
 
-interface Props { hub: LicenseHub; items: GenreOccupation[]; }
-const { hub, items } = Astro.props as Props;
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-const introHtml = inlineLinkText(hub.description_ja, _linkRegistry, { maxLinks: 5 });
-const crossHubHtml = renderRelatedHubsBlock('licenses', hub.slug, 6);
-
-const canonical = `https://mirai-shigoto.com/ja/licenses/${hub.slug}`;
-const title = `${hub.title_ja}｜${items.length} 職業 | 未来の仕事`;
-const seoDesc = `${hub.short_ja}カテゴリーの資格と関連職業 ${items.length} 件。${hub.description_ja.slice(0, 80)}…`;
-
-const meanRisk = safeMean(items.map((o) => o.ai_risk));
-const meanSalary = safeMean(items.map((o) => o.salary));
-const totalWorkers = items.reduce((s, o) => s + (o.workers ?? 0), 0);
-
-const statsHtml =
-  `<dl class="stats">` +
-  `<div><dt>関連職業数</dt><dd>${items.length}</dd></div>` +
-  `<div><dt>平均 AI 影響</dt><dd>${meanRisk > 0 ? meanRisk.toFixed(1) + ' / 10' : '—'}</dd></div>` +
-  `<div><dt>平均年収</dt><dd>${meanSalary > 0 ? Math.trunc(meanSalary) + ' 万円' : '—'}</dd></div>` +
-  `<div><dt>合計就業者数</dt><dd>${fmtInt(totalWorkers)} 人</dd></div>` +
-  `</dl>`;
-
-const sectorCounts = new Map<string, number>();
-for (const o of items) if (o.sector_ja) sectorCounts.set(o.sector_ja, (sectorCounts.get(o.sector_ja) ?? 0) + 1);
-const sectorBreakdown = Array.from(sectorCounts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5);
-const sectorChartHtml = renderSectorChart(sectorBreakdown, `セクター内訳`);
-
-const top3 = items.slice(0, 3).map((o) => o.name_ja).join('、');
-const highlights = [
-  `1 位は「${items[0]?.name_ja ?? '—'}」`,
-  top3 ? `TOP 3 は ${top3}` : '',
-  meanRisk > 0 ? `平均 AI 影響度 ${meanRisk.toFixed(1)}/10` : '',
-  `代表資格: ${hub.cert_examples_ja.slice(0, 3).join('、')}`,
-].filter(Boolean);
-const highlightsHtml = renderHighlights(highlights);
-
-const rankItems = items.map((o) => renderRankItem(o, hub.short_ja)).join('');
-
-const faqs: Array<readonly [string, string]> = [
-  [`${hub.short_ja}カテゴリーとは？`, hub.description_ja],
-  [`代表的な資格は？`, `${hub.cert_examples_ja.join('、')} などが該当します。`],
-  [`取得の難度は？`, hub.difficulty_ja],
-  [`関連する職業は何件ある？`, `本サイトでは ${items.length} 職業を該当として表示しています。資格の検索キーワードに基づく自動分類です。`],
-];
-const faqHtml = renderFaqHtml(faqs);
-
-function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
-  return '<ul class="' + cls + '">' + items.map((s) => '<li>' + escapeHtml(s) + '</li>').join('') + '</ul>';
-}
-const examplesHtml = listOfStrings(hub.cert_examples_ja, 'cert-examples');
-
-const relatedHtml = '<ul class="related-genre">' + LICENSE_HUBS
-  .filter((h) => h.slug !== hub.slug)
-  .slice(0, 8)
-  .map((h) => `<li><a href="/ja/licenses/${h.slug}"><span class="rg-name">${escapeHtml(h.short_ja)}</span><span class="rg-desc">${escapeHtml(h.description_ja.slice(0, 60))}…</span></a></li>`)
-  .join('') + '</ul>';
-
-const SITE = 'https://mirai-shigoto.com';
-const itemList = items.map((o, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE}/ja/${o.id}`, name: o.name_ja }));
-const jsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': [
-    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: hub.title_ja, description: seoDesc },
-    { '@type': 'CollectionPage', '@id': `${canonical}#collection`, name: hub.title_ja, description: seoDesc },
-    { '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-      { '@type': 'ListItem', position: 2, name: '資格から探す', item: `${SITE}/ja/licenses` },
-      { '@type': 'ListItem', position: 3, name: hub.title_ja, item: canonical },
-    ] },
-    { '@type': 'ItemList', numberOfItems: itemList.length, itemListElement: itemList },
-    { '@type': 'FAQPage', mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
-  ],
-}, null, 2);
+const { hub, items } = Astro.props as { hub: LicenseHub; items: GenreOccupation[] };
+const b = buildLicenseBindings({ hub, items, graph: await loadGraph() });
 ---
-<BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?license=${hub.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc}>
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+<BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <a class="skip-link" href="#content">本文へスキップ</a>
@@ -121,20 +29,20 @@ const jsonLd = JSON.stringify({
     <header id="content">
       <h1><span class="accent">{hub.title_ja}</span></h1>
       <p class="sub">{hub.short_ja} カテゴリー · <strong>{items.length} 職業</strong></p>
-      <p class="intro" set:html={introHtml}></p>
+      <p class="intro" set:html={b.introHtml}></p>
     </header>
     <section class="genre-detail" aria-label={`${hub.short_ja}の代表資格`}>
       <h2>{hub.short_ja} の代表資格</h2>
-      <Fragment set:html={examplesHtml} />
+      <Fragment set:html={b.examplesHtml} />
       <p style="margin-top:14px;font-size:.9rem;color:var(--fg2);"><strong>取得難度:</strong> {hub.difficulty_ja}</p>
     </section>
-    <Fragment set:html={statsHtml} />
-    <Fragment set:html={highlightsHtml} />
-    <Fragment set:html={sectorChartHtml} />
-    <section><h2>{hub.short_ja} 関連職業 TOP {items.length}</h2><ol class="rank-list" set:html={rankItems} /></section>
-    <Fragment set:html={faqHtml} />
-    <Fragment set:html={crossHubHtml} />
-    <section aria-label="他の資格カテゴリー"><h2>他の資格カテゴリー</h2><Fragment set:html={relatedHtml} /></section>
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
+    <section><h2>{hub.short_ja} 関連職業 TOP {items.length}</h2><ol class="rank-list" set:html={b.rankItems} /></section>
+    <Fragment set:html={b.faqHtml} />
+    <Fragment set:html={b.crossHubHtml} />
+    <section aria-label="他の資格カテゴリー"><h2>他の資格カテゴリー</h2><Fragment set:html={b.relatedHtml} /></section>
     <Footer />
   </div>
 </BaseLayout>
