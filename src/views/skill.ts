@@ -15,7 +15,7 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
-import type { SkillRankingFileShape, TreemapRecordSummary } from '../data/lib/projection-schemas';
+import type { SkillRankingFileShape, TreemapRecordSummary } from '../lib/projection-schemas';
 import { riskBand as legacyRiskBand } from '../data/lib/bands';
 
 /**

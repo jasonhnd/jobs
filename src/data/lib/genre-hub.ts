@@ -20,7 +20,7 @@
  */
 import { join } from 'node:path';
 import { strictReadJson, strictReaddir } from './strict-load.js';
-import { DetailFileSchema } from './projection-schemas.js';
+import { DetailFileSchema } from '../../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');

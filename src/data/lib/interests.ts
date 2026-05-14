@@ -19,7 +19,7 @@ import { strictReadJson } from './strict-load.js';
 import {
   HollandFileSchema,
   TreemapFileSummarySchema,
-} from './projection-schemas.js';
+} from '../../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const HOLLAND_PATH = join(REPO_ROOT, 'public', 'data.holland.json');

@@ -36,7 +36,7 @@ import {
 import {
   DetailFileSchema,
   SectorsProjectionSchema as ProjSectorsProjectionSchema,
-} from '../data/lib/projection-schemas.js';
+} from './projection-schemas.js';
 
 const REPO = process.cwd();
 
