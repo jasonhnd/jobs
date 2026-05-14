@@ -32,7 +32,7 @@ import {
   renderJsonLd,
   renderHubJsonLd,
 } from './ranking-renderers.js';
-import type { Occupation } from './rankings.js';
+import type { Occupation } from '../../views/rankings.js';
 
 // ─── Deterministic fixtures ───────────────────────────────────────────────
 

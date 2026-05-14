@@ -6,7 +6,7 @@
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
-import { buildRankings, renderHubJsonLd, escapeHtml } from '../../../data/lib/rankings';
+import { buildRankings, renderHubJsonLd, escapeHtml } from '../../../views/rankings';
 import { loadGraph } from '@/graph';
 import { loadOccupationsFromGraph } from '@/views/ranking';
 
@@ -37,7 +37,7 @@ const gsHtml = hub.globalStats.length > 0
   : '';
 
 // hub.insights items are pre-rendered safe HTML — see the contract on
-// RankingsBundle.hub.insights in src/data/lib/rankings.ts (sector names
+// RankingsBundle.hub.insights in src/views/rankings.ts (sector names
 // are escapeHtml'd at build time and combined with literal <strong>
 // markup). Do NOT escape here, and do NOT concatenate untrusted data
 // alongside.

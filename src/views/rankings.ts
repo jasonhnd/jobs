@@ -1,5 +1,12 @@
 /**
- * rankings.ts — data utilities for the ja/rankings/* pages.
+ * src/views/rankings.ts — data utilities for the ja/rankings/* pages.
+ *
+ * Migrated from src/data/lib/rankings.ts 2026-05-14 (Phase B).
+ * The largest single Phase B migration (1425 lines). Architectural
+ * smell: mixes file I/O, data shaping, HTML rendering, and JSON-LD
+ * — Phase C should split. For Phase B 'retire data/lib' scope,
+ * kept as one file to limit blast radius.
+ *
  *
  *   - loadOccupations()      reads public/data.treemap.json
  *   - buildRankings()        applies top-N sort/filter rules per ranking slug
@@ -238,11 +245,11 @@ export const DEMAND_JA: Record<string, string> = {
 // pulling fs into the Edge Function bundle. Re-exported here for
 // back-compat with existing consumers of `RankingSlug` and
 // `ALL_RANKINGS` from this file.
-import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-meta.js';
+import { RANKING_META, type RankingSlug as RankingSlugMeta } from '../data/lib/rankings-meta.js';
 // Pulled back into local scope for buildRankings(). The same symbols are
 // also re-exported from the bottom of this file for external consumers.
-import { FAQS } from '../../views/ranking-copy.js';
-import { escapeHtml, type ExtraCol } from './ranking-renderers.js';
+import { FAQS } from './ranking-copy.js';
+import { escapeHtml, type ExtraCol } from '../data/lib/ranking-renderers.js';
 
 export type RankingSlug = RankingSlugMeta;
 
@@ -311,7 +318,7 @@ export function safeMean(items: Occupation[], key: keyof Occupation): number {
 // Single source of truth lives at src/lib/num. Re-exported under the
 // existing public name so ranking-renderers + sibling consumers
 // (which still import `fmtInt` from this module) keep working.
-import { fmtInt } from '../../lib/num.js';
+import { fmtInt } from '../lib/num.js';
 export { fmtInt };
 
 export interface RankingsBundle {
@@ -1412,7 +1419,7 @@ function makePreview(items: Occupation[], metric: (o: Occupation) => string): st
 // ranking-renderers.ts owns the HTML / JSON-LD rendering helpers.
 // ---------------------------------------------------------------------------
 
-export { FAQS } from '../../views/ranking-copy.js';
+export { FAQS } from './ranking-copy.js';
 export {
   escapeHtml,
   renderRankItem,
@@ -1422,4 +1429,4 @@ export {
   renderRelatedRankings,
   renderJsonLd,
   renderHubJsonLd,
-} from './ranking-renderers.js';
+} from '../data/lib/ranking-renderers.js';

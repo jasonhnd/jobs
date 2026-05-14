@@ -7,13 +7,13 @@
  *   • Adding a RANKING_META entry whose slug isn't in the union
  *   • api/og.tsx reverting back to a hardcoded RANKING_CARDS list
  *     (drift detector reads og.tsx source and asserts the import line)
- *   • src/data/lib/rankings.ts reverting back to a hardcoded ALL_RANKINGS
+ *   • src/views/rankings.ts reverting back to a hardcoded ALL_RANKINGS
  */
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { RANKING_META } from './rankings-meta.js';
-import { ALL_RANKINGS } from './rankings.js';
+import { ALL_RANKINGS } from '../../views/rankings.js';
 
 test('RANKING_META: every slug is unique', () => {
   const slugs = RANKING_META.map((m) => m.slug);
@@ -85,7 +85,8 @@ test('rankings.ts: does NOT contain hardcoded ALL_RANKINGS literal array', () =>
   // The literal `'ai-risk-high', 'AIに奪われる仕事 TOP30'` line is the
   // canonical signature of the pre-refactor hardcoded duplicate. If it
   // reappears in rankings.ts, drift was reverted.
-  const source = readFileSync('src/data/lib/rankings.ts', 'utf8');
+  // Phase B (2026-05-14): rankings.ts moved data/lib → views.
+  const source = readFileSync('src/views/rankings.ts', 'utf8');
   assert.ok(
     source.includes('rankings-meta'),
     "rankings.ts must import RANKING_META from rankings-meta.js",
