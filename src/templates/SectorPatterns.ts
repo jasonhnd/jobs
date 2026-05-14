@@ -7,7 +7,7 @@
  * Empty `observations` array → empty SafeHtml (no `<section>`).
  *
  * The distribution bar is three `<span>`s with `style="width:N%"`
- * — values come from src/data/lib/sector-meta.computeSectorPatterns.
+ * — values come from src/views/sector-meta.computeSectorPatterns.
  * Counts + percentages render with 0-decimal-place rounding to
  * keep the legend chips compact (e.g. "32%").
  */

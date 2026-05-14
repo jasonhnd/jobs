@@ -1,5 +1,9 @@
 /**
- * sector-meta.ts — 16 sector の AI 時代エッセイ + パターン観察ヘルパー。
+ * src/views/sector-meta.ts — 16 sector の AI 時代エッセイ + パターン観察ヘルパー。
+ *
+ * Migrated from src/data/lib/sector-meta.ts 2026-05-14 as part of
+ * Phase B. Lives under src/views/ per §6.2.
+ *
  *
  * Phase 2 (2026-05-09) 追加: 既存の sector hub (src/pages/ja/sectors/[sector].astro)
  * は data/sectors/sectors.ja-en.json の 1 行 description_ja のみを intro に使っていた。
