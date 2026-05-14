@@ -1,5 +1,5 @@
 /**
- * ranking-copy.ts — Japanese editorial copy (FAQs) per ranking slug.
+ * src/views/ranking-copy.ts — Japanese editorial copy (FAQs) per ranking slug.
  *
  * Pure data; no fs imports, no derived state. Split out from rankings.ts
  * to keep the rendering logic small and to make editorial edits low-blast-
@@ -7,9 +7,14 @@
  * `import { FAQS } from './rankings.js'` thanks to the re-export at the
  * bottom of that file — no consumer needs to change.
  *
+ * Migrated from src/data/lib/ranking-copy.ts 2026-05-14 (Phase B).
+ * Lives under src/views/ per §6.2. `RankingSlug` type still sourced
+ * from src/data/lib/rankings-meta (temporary cross-directory import;
+ * resolves when rankings-meta itself migrates).
+ *
  * Schema: each slug maps to an array of [question, answer] tuples.
  */
-import type { RankingSlug } from './rankings-meta.js';
+import type { RankingSlug } from '../data/lib/rankings-meta.js';
 
 export const FAQS: Record<RankingSlug, ReadonlyArray<readonly [string, string]>> = {
   'ai-risk-high': [

@@ -241,7 +241,7 @@ export const DEMAND_JA: Record<string, string> = {
 import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-meta.js';
 // Pulled back into local scope for buildRankings(). The same symbols are
 // also re-exported from the bottom of this file for external consumers.
-import { FAQS } from './ranking-copy.js';
+import { FAQS } from '../../views/ranking-copy.js';
 import { escapeHtml, type ExtraCol } from './ranking-renderers.js';
 
 export type RankingSlug = RankingSlugMeta;
@@ -1412,7 +1412,7 @@ function makePreview(items: Occupation[], metric: (o: Occupation) => string): st
 // ranking-renderers.ts owns the HTML / JSON-LD rendering helpers.
 // ---------------------------------------------------------------------------
 
-export { FAQS } from './ranking-copy.js';
+export { FAQS } from '../../views/ranking-copy.js';
 export {
   escapeHtml,
   renderRankItem,
