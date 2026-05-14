@@ -13,7 +13,7 @@ import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { readFileSync } from 'node:fs';
 import { RANKING_META } from './rankings-meta.js';
-import { ALL_RANKINGS } from '../../views/rankings.js';
+import { ALL_RANKINGS } from './rankings.js';
 
 test('RANKING_META: every slug is unique', () => {
   const slugs = RANKING_META.map((m) => m.slug);
@@ -63,7 +63,7 @@ test('OG card configs: src/views/og-cards.ts derives RANKING_CARDS from RANKING_
   // (b) src/views/og-cards.ts must import + reference RANKING_META.
   assert.ok(
     cards.includes('rankings-meta'),
-    'src/views/og-cards.ts must import from src/data/lib/rankings-meta — drift risk reverted?',
+    'src/views/og-cards.ts must import from src/views/rankings-meta — drift risk reverted?',
   );
   assert.ok(
     cards.includes('RANKING_META'),

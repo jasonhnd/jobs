@@ -9,8 +9,8 @@
  * Consumed via re-export from `./rankings.js` so the existing import paths
  * in src/pages/ja/rankings/*.astro continue to work.
  */
-import type { Occupation } from '../../views/rankings.js';
-import { ALL_RANKINGS, DEMAND_JA, fmtInt, safeMean } from '../../views/rankings.js';
+import type { Occupation } from './rankings.js';
+import { ALL_RANKINGS, DEMAND_JA, fmtInt, safeMean } from './rankings.js';
 import type { RankingSlug } from './rankings-meta.js';
 
 // ---------------------------------------------------------------------------
@@ -19,12 +19,12 @@ import type { RankingSlug } from './rankings-meta.js';
 // ---------------------------------------------------------------------------
 
 // Single source of truth lives at src/lib/safe-html.ts.
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 export { escapeHtml };
 
 // Single source of truth lives at src/lib/risk. Aliased locally so the
 // existing local name (`riskBand`) used by renderRankItem keeps working.
-import { riskClass as riskBand } from '../../lib/risk.js';
+import { riskClass as riskBand } from '../lib/risk.js';
 
 /**
  * Extra column injected to the right of the risk-pill.
@@ -170,7 +170,7 @@ export function renderSectorChart(items: Occupation[]): string {
 }
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
-export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
+export { renderFaqSection as renderFaqHtml } from '../templates/FaqSection.js';
 
 export function renderRelatedRankings(currentSlug: RankingSlug): string {
   const items = ALL_RANKINGS

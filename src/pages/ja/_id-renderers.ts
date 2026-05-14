@@ -15,9 +15,9 @@
  * not to route this file as a page.
  */
 
-import type { Rec, TopNEntry } from '@/data/lib/adapt-detail';
-import { makeOccupationDefinition } from '@/data/lib/occupation-definition';
-import { buildOccupationFaqs } from '@/data/lib/occupation-faqs';
+import type { Rec, TopNEntry } from '@/views/adapt-detail';
+import { makeOccupationDefinition } from '@/views/occupation-definition';
+import { buildOccupationFaqs } from '@/views/occupation-faqs';
 import { renderMetaRow } from '@/templates/MetaRow';
 import { renderProfileRadar } from '@/templates/ProfileRadar';
 import { renderTopn } from '@/templates/Topn';

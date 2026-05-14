@@ -245,11 +245,11 @@ export const DEMAND_JA: Record<string, string> = {
 // pulling fs into the Edge Function bundle. Re-exported here for
 // back-compat with existing consumers of `RankingSlug` and
 // `ALL_RANKINGS` from this file.
-import { RANKING_META, type RankingSlug as RankingSlugMeta } from '../data/lib/rankings-meta.js';
+import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-meta.js';
 // Pulled back into local scope for buildRankings(). The same symbols are
 // also re-exported from the bottom of this file for external consumers.
 import { FAQS } from './ranking-copy.js';
-import { escapeHtml, type ExtraCol } from '../data/lib/ranking-renderers.js';
+import { escapeHtml, type ExtraCol } from './ranking-renderers.js';
 
 export type RankingSlug = RankingSlugMeta;
 
@@ -1429,4 +1429,4 @@ export {
   renderRelatedRankings,
   renderJsonLd,
   renderHubJsonLd,
-} from '../data/lib/ranking-renderers.js';
+} from './ranking-renderers.js';

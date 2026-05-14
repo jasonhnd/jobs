@@ -12,7 +12,7 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
-import type { DetailFile, TopNEntry } from '../data/lib/adapt-detail';
+import type { DetailFile, TopNEntry } from './adapt-detail';
 import {
   riskBand as legacyRiskBand,
   demandBand as legacyDemandBand,

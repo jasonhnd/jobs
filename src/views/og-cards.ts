@@ -24,7 +24,7 @@
  * graph directly. Those don't reduce to a {slug → text} table.
  */
 
-import { RANKING_META } from '../data/lib/rankings-meta.js';
+import { RANKING_META } from './rankings-meta.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
 import { COMPARE_META } from './compare-meta.js';
@@ -108,9 +108,9 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
 };
 
 /** N ranking detail card variants — built from the shared RANKING_META.
- *  Single source of truth lives in src/data/lib/rankings-meta.ts; adding
+ *  Single source of truth lives in src/views/rankings-meta.ts; adding
  *  a new ranking there auto-registers its OG card here. The drift test
- *  at src/data/lib/rankings-meta.test.ts asserts both sides stay aligned. */
+ *  at src/views/rankings-meta.test.ts asserts both sides stay aligned. */
 export const RANKING_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
   RANKING_META.map((m) => [
     m.slug,

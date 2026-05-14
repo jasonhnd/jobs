@@ -24,7 +24,7 @@
 
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import type { Rec } from '@/data/lib/adapt-detail';
+import type { Rec } from '@/views/adapt-detail';
 
 /** One entry in the same-risk-neighbor map for a single occupation. */
 export interface SameRiskNeighborView {
@@ -77,7 +77,7 @@ const RELATED_CLOSE_RISK_TOLERANCE = 1;
 export async function buildOccupationPageData(): Promise<OccupationPageDataset> {
   const { loadGraph } = await import('@/graph');
   const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
-  const { adaptDetailFile } = await import('../data/lib/adapt-detail.js');
+  const { adaptDetailFile } = await import('./adapt-detail.js');
   const { buildRankings } = await import('./rankings.js');
   const { buildRankingHitsByOcc } = await import('./spoke-hub-graph.js');
   const { buildSameRiskNeighbors } = await import('./spoke-spoke-graph.js');
