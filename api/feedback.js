@@ -43,30 +43,22 @@
 // point on a 60 req/hour/IP bucket. Tracked as a follow-up.
 
 import { makeOriginGate, readBodyText, BodyTooLargeError } from "../src/lib/api-security.js";
+import {
+  parseFeedbackBody,
+  shortHash,
+  escapeHtml,
+  MAX_BODY_BYTES,
+} from "../src/lib/feedback-helpers.js";
 
 export const config = { runtime: "edge" };
 
 const RESEND_BASE = "https://api.resend.com";
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_ORIGINS = new Set([
   "https://mirai-shigoto.com",
   "http://localhost:8765",
   "http://localhost:3000",
 ]);
 const enforceOriginOr403 = makeOriginGate(ALLOWED_ORIGINS);
-const KNOWN_OPTIONS = new Set([
-  "b2c_career",
-  "b2c_student",
-  "b2b_hr",
-  "b2b_school",
-  "b2b_training",
-  "media",
-  "developer",
-  "methodology",
-  "data_quality",
-  "curiosity",
-  "other",
-]);
 
 function corsHeaders(req) {
   const origin = req.headers.get("origin") || "";
@@ -79,30 +71,11 @@ function corsHeaders(req) {
   };
 }
 
-// 8 KB caps freetext (2 KB) + JSON overhead. enforced via streaming body
-// read (src/lib/api-security.js) rather than the advisory content-length
-// header so chunked or header-stripped bots don't bypass.
-const MAX_BODY_BYTES = 8 * 1024;
-
-// Tiny stable hash for opaque rate-limit / log keys. Not crypto — just enough
-// to bucket UA strings without keeping the original.
-function shortHash(s) {
-  let h = 5381;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h) ^ s.charCodeAt(i);
-  return (h >>> 0).toString(36);
-}
-
 function json(payload, init = {}) {
   return new Response(JSON.stringify(payload), {
     status: init.status || 200,
     headers: { "Content-Type": "application/json", ...(init.headers || {}) },
   });
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/[<>&"']/g, c => ({
-    "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&#39;",
-  })[c]);
 }
 
 export default async function handler(req) {
@@ -134,39 +107,24 @@ export default async function handler(req) {
     return json({ error: "invalid_json" }, { status: 400, headers: cors });
   }
 
-  // ---- honeypot ----
-  if (body.htmlfield) return json({ ok: true }, { headers: cors });
-
-  // ---- normalize ----
-  const email = body.email ? String(body.email).trim().toLowerCase() : "";
-  const lang = body.lang === "en" ? "en" : "ja";
-  const occupationId = body.occupation_id ? String(body.occupation_id).slice(0, 16) : "";
-  const freetext = String(body.freetext || "").slice(0, 2000);
-  const optionsRaw = Array.isArray(body.options) ? body.options : [];
-  // Filter to known option keys only (don't trust client)
-  const options = optionsRaw
-    .map(o => String(o).slice(0, 32))
-    .filter(o => KNOWN_OPTIONS.has(o))
-    .slice(0, 11);
-
-  // ---- minimum signal ----
-  if (options.length === 0 && freetext.trim().length === 0) {
-    return json({ error: "empty_feedback" }, { status: 400, headers: cors });
+  // Validate + normalize body via the pure helper. Returns a
+  // discriminated union: silent-success (honeypot), error, or ok.
+  const parsed = parseFeedbackBody(body);
+  if (parsed.kind === "silent-success") {
+    return json({ ok: true }, { headers: cors });
   }
-  if (email && (email.length > 254 || !EMAIL_RE.test(email))) {
-    return json({ error: "invalid_email" }, { status: 400, headers: cors });
+  if (parsed.kind === "error") {
+    return json({ error: parsed.code }, { status: 400, headers: cors });
   }
 
+  // Augment the normalized payload with request-bound fields
+  // (user_agent, referer) that the pure helper can't see.
   const payload = {
-    timestamp: new Date().toISOString(),
-    email: email || null,
-    lang,
-    occupation_id: occupationId || null,
-    options,
-    freetext,
+    ...parsed.payload,
     user_agent: req.headers.get("user-agent") || "",
     referer: req.headers.get("referer") || "",
   };
+  const { email, lang, occupation_id: occupationId, options, freetext } = parsed.payload;
 
   // ---- send to operator inbox (or log) ----
   const apiKey = process.env.RESEND_API_KEY;

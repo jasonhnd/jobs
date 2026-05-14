@@ -1,7 +1,19 @@
 #!/usr/bin/env node
 /**
  * check-architecture.cjs — enforce the 5-layer architecture boundaries
- * defined in docs/architecture.md §6.2.
+ * defined in docs/architecture.md §6.2, plus the Edge-function dependency
+ * constraint added in the 2026-05-14 decision-log entry.
+ *
+ * Two enforcement passes:
+ *
+ *   1. Per-layer forbidden-import grep
+ *      (src/graph, src/views, src/templates, src/pages)
+ *
+ *   2. Transitive import-graph walk from each Vercel Edge Function
+ *      entry (`api/og.tsx`, `middleware.ts`, `api/feedback.js`,
+ *      `api/subscribe.js`). Any `.tsx` file reachable as a *dependency*
+ *      fails the gate — Vercel's Edge bundler has no TSX loader for
+ *      deps and would 500 the deploy with "unsupported modules".
  *
  * Each layer's directory has a set of FORBIDDEN import paths. Static
  * grep over .ts and .astro files catches violations before they reach
@@ -126,31 +138,71 @@ function walkFiles(dir, predicate) {
 /**
  * Extract every `import ... from '...'` (and dynamic `import('...')`) target
  * from a TS or Astro source. Returns array of { line, target, isTypeOnly }.
+ *
+ * Handles BOTH single-line and multi-line static imports:
+ *
+ *   import { a, b } from './foo.js';
+ *   import {
+ *     a,
+ *     b,
+ *   } from './foo.js';
+ *
+ * Implementation: scan the WHOLE source with the `s` flag on the static-
+ * import regex so `[^'"]*` can match across newlines between `import` and
+ * `from`. Track each match's starting line via offset → line lookup.
  */
 function extractImports(source) {
   const out = [];
-  const lines = source.split('\n');
-  for (let i = 0; i < lines.length; i += 1) {
-    const line = lines[i];
-    // Static imports: `import [type] [...] from '...';`
-    let m = /^\s*import\s+(type\s+)?[^'"]*from\s*['"]([^'"]+)['"]/.exec(line);
-    if (m) {
-      out.push({ line: i + 1, target: m[2], isTypeOnly: !!m[1] });
-      continue;
-    }
-    // Bare side-effect imports: `import '...';`
-    m = /^\s*import\s*['"]([^'"]+)['"]/.exec(line);
-    if (m) {
-      out.push({ line: i + 1, target: m[1], isTypeOnly: false });
-      continue;
-    }
-    // Dynamic imports: `import('...')`
-    const dynRe = /\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-    let dm;
-    while ((dm = dynRe.exec(line)) !== null) {
-      out.push({ line: i + 1, target: dm[1], isTypeOnly: false });
-    }
+
+  // Pre-compute line-start offsets for {start-offset → line-number} lookup.
+  const lineStarts = [0];
+  for (let i = 0; i < source.length; i += 1) {
+    if (source.charCodeAt(i) === 10 /* \n */) lineStarts.push(i + 1);
   }
+  const offsetToLine = (off) => {
+    let lo = 0;
+    let hi = lineStarts.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >>> 1;
+      if (lineStarts[mid] <= off) lo = mid;
+      else hi = mid - 1;
+    }
+    return lo + 1;
+  };
+
+  // Static imports (single-line OR multi-line, with optional `type`):
+  //   import [type] { a, b, c } from '...';
+  //   import [type] * as x from '...';
+  //   import [type] default, { a } from '...';
+  // The `s` flag lets `[^'"]*` span newlines so the braces+identifiers
+  // block can extend across multiple lines. The leading `^\s*` anchor
+  // would require the `m` flag to honor line boundaries, so the regex
+  // instead looks for the `import` token bounded by start-of-string or
+  // whitespace via the prior char check below.
+  const staticRe = /(^|[\s;])import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gs;
+  let m;
+  while ((m = staticRe.exec(source)) !== null) {
+    const fromIdx = m.index + m[1].length;
+    out.push({ line: offsetToLine(fromIdx), target: m[3], isTypeOnly: !!m[2] });
+  }
+
+  // Bare side-effect imports: `import '...';`
+  const bareRe = /(^|[\s;])import\s*['"]([^'"]+)['"]/g;
+  while ((m = bareRe.exec(source)) !== null) {
+    const fromIdx = m.index + m[1].length;
+    out.push({ line: offsetToLine(fromIdx), target: m[2], isTypeOnly: false });
+  }
+
+  // Dynamic imports: `import('...')`
+  const dynRe = /\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
+  while ((m = dynRe.exec(source)) !== null) {
+    out.push({ line: offsetToLine(m.index), target: m[1], isTypeOnly: false });
+  }
+
+  // Legacy CommonJS `require('...')` — historical pages-layer files
+  // (sitemap.xml.ts etc) may still use require. Skip in this gate
+  // since they only appear in static-asset paths; if needed, expand
+  // the matcher above.
   return out;
 }
 
@@ -203,10 +255,13 @@ for (const rule of RULES) {
 // transitive deps are constrained.
 
 /** Edge Function entry points. Vercel auto-detects these by file
- *  location (api/*) and by the root middleware.ts convention. Add to
- *  this list when a new Edge function lands. */
+ *  location (api/*) and by the root middleware.ts convention. Any file
+ *  declaring `export const config = { runtime: "edge" }` belongs here.
+ *  Add to this list when a new Edge function lands. */
 const EDGE_ENTRIES = [
   path.join(ROOT, 'api', 'og.tsx'),
+  path.join(ROOT, 'api', 'feedback.js'),
+  path.join(ROOT, 'api', 'subscribe.js'),
   path.join(ROOT, 'middleware.ts'),
 ];
 

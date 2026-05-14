@@ -32,11 +32,11 @@
 // @upstash/redis in, gate on ~5 req/min/IP. Tracked as a follow-up.
 
 import { makeOriginGate, readBodyText, BodyTooLargeError } from "../src/lib/api-security.js";
+import { parseSubscribeBody, MAX_BODY_BYTES } from "../src/lib/subscribe-helpers.js";
 
 export const config = { runtime: "edge" };
 
 const RESEND_BASE = "https://api.resend.com";
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_ORIGINS = new Set([
   "https://mirai-shigoto.com",
   "http://localhost:8765",
@@ -54,10 +54,6 @@ function corsHeaders(req) {
     "Vary": "Origin",
   };
 }
-
-// subscribe payload is tiny (email + tag). enforced via streaming body read
-// (src/lib/api-security.js) rather than the advisory content-length header.
-const MAX_BODY_BYTES = 4 * 1024;
 
 function json(payload, init = {}) {
   return new Response(JSON.stringify(payload), {
@@ -98,21 +94,16 @@ export default async function handler(req) {
     return json({ error: "invalid_json" }, { status: 400, headers: cors });
   }
 
-  const email = String(body.email || "").trim().toLowerCase();
-  const lang = body.lang === "en" ? "en" : "ja";
-  const occupationId = body.occupation_id ? String(body.occupation_id).slice(0, 16) : "";
-  const source = String(body.source || "unknown").slice(0, 32);
-  const honeypot = String(body.htmlfield || "");
-
-  // ---- honeypot: pretend success, drop on the floor ----
-  if (honeypot) {
+  // Validate + normalize body via the pure helper. Returns a
+  // discriminated union: silent-success (honeypot), error, or ok.
+  const parsed = parseSubscribeBody(body);
+  if (parsed.kind === "silent-success") {
     return json({ ok: true }, { headers: cors });
   }
-
-  // ---- validate email ----
-  if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
-    return json({ error: "invalid_email" }, { status: 400, headers: cors });
+  if (parsed.kind === "error") {
+    return json({ error: parsed.code }, { status: 400, headers: cors });
   }
+  const { email, lang, occupation_id: occupationId, source } = parsed.payload;
 
   // ---- env ----
   const apiKey = process.env.RESEND_API_KEY;

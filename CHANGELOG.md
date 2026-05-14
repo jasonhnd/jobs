@@ -243,15 +243,18 @@ in 11 places. New code now has a contract about *where it goes* and
   `occupation-seo.ts`, `occupation-display.ts`, `risk-callout.ts`,
   `spoke-graph.ts`) own all data shaping. Page now imports its
   bindings bundle from a sibling `_id-bindings.ts`.
-- **Step 9 · OG endpoint refactor** (`api/og.tsx`, 967 → 172 lines, −82.2%):
-  thin dispatcher. 5 card config dicts (`PAGE`/`RANKING`/`INTEREST`/`SKILL`/
-  `COMPARE_CARDS`) moved to `src/views/og-cards.ts`. 4 OG card renderers
-  moved to `src/lib/og-renderers/{generic,map,sector,occupation}.ts`
+- **Step 9 · OG endpoint refactor** (`api/og.tsx`, 967 → 105 lines, −89.1%):
+  thin I/O wrapper. 5 card config dicts (`PAGE`/`RANKING`/`INTEREST`/
+  `SKILL`/`COMPARE_CARDS`) moved to `src/views/og-cards.ts`. 4 OG card
+  renderers moved to `src/lib/og-renderers/{generic,map,sector,occupation}.ts`
   (plain `.ts` with `createElement` calls — see the Fixed section for
-  why no JSX/`.tsx` here). The Vercel Edge dispatcher reads the card
-  type from the URL, looks up the config, and hands off to the
-  renderer — adding a new card surface is now ~30 lines (config entry
-  + page binding).
+  why no JSX/`.tsx` here). Dispatch logic (11 branches: map / page=* /
+  ranking / interest / skill / compare / sector / id) extracted to
+  `src/lib/og-dispatch.ts` as a pure `decideDispatch(url, catalog?)
+  → DispatchDecision` function — the Edge entry now just parses the
+  URL, calls the decider, and switch-matches on `decision.kind` to
+  invoke the appropriate renderer. Adding a new card surface is now
+  ~30 lines (config entry + dispatcher case).
 - **Step 10 · JsonLd / Sitemap relocation** (`src/views/`): JSON-LD is
   *data*, not HTML, so `occupation-jsonld.ts` + `sector-jsonld.ts` moved
   templates/ → views/. Sitemap enumeration + XML rendering split: new
@@ -334,6 +337,19 @@ rather than days later in Google Search Console.
   perfect snapshot regression intentionally deferred — cross-platform
   pixel comparison is flaky on font rendering + GPU compositing and
   binary baseline storage has its own ops cost.
+- **`scripts/check-architecture.cjs` Edge-function dep walker** —
+  in addition to the 4-layer boundary grep, transitively walks the
+  import graph rooted at each Vercel Edge Function entry (api/og.tsx,
+  api/feedback.js, api/subscribe.js, middleware.ts) and fails the
+  gate if any `.tsx` file appears as a dependency. Caught the same
+  failure mode that broke 27 consecutive preview deploys
+  2026-05-13/14 (commits 3d50a8b3..33783386) — Vercel's Edge bundler
+  has separate loader sets for entry .tsx vs dep .tsx, and "JSX in
+  a dep" silently fails the deploy. The extractor handles multi-line
+  `import { … } from '…'` blocks (whole-source regex with the /s
+  flag, plus an offset→line lookup). Smoke-tested by introducing a
+  stub `.tsx` into the closure — gate fires with an actionable
+  pointer at `docs/architecture.md` decision log 2026-05-14.
 - **CI workflow** (`.github/workflows/seo-baseline.yml`): runs
   `check:seo-baseline` + `check:architecture` + `verify:jsonld` +
   `verify:internal-links` on every PR to main. E2E (`a11y.spec` +
@@ -341,16 +357,56 @@ rather than days later in Google Search Console.
   `.github/workflows/e2e.yml`, Playwright + Chromium installed
   on-demand by `scripts/run-e2e.sh` to keep Vercel installs slim.
 
+### Edge Function helper test coverage
+
+The 4 Vercel Edge Function entry points (`api/og.tsx`, `api/feedback.js`,
+`api/subscribe.js`, `middleware.ts`) are SPOFs — each one is the single
+entry point for its service. Pre-migration, none had unit-test
+coverage. The decision logic, body parsing, and URL routing are now
+extracted into pure modules in `src/lib/` and unit-tested:
+
+- **`src/lib/og-dispatch.ts`** + `og-dispatch.test.ts` (31 tests) —
+  every URL → DispatchDecision branch plus param precedence + the
+  `PRODUCTION_CATALOG` wiring smoke.
+- **`src/lib/og-renderers/sector.test.ts`** (12 tests) — 400 / 502 /
+  404 paths for the sector renderer; fetch URL construction; no input
+  echo in error responses.
+- **`src/lib/og-renderers/occupation.test.ts`** (11 tests) — 404 /
+  5xx / zod-fail paths; `padId(156) → 0156` URL construction; preview
+  origin passthrough (not hard-coded to mirai-shigoto.com).
+- **`src/lib/middleware-helpers.ts`** + `middleware-helpers.test.ts`
+  (27 tests) — `BOT_UA_RE` coverage across real-browser + crawler
+  UAs; `_ga` cookie parsing variants + fallback; `shouldSendMpHit`
+  composite decision; GA4 MP payload shape (ssrc=mw, engagement_time=1
+  for non-bounce, ip_override + user_agent passthrough).
+- **`src/lib/feedback-helpers.js`** + `feedback-helpers.test.ts`
+  (40 tests) — body shape rejection; honeypot trip; minimum-signal
+  rejection; email length + regex; options allowlist + per-key clip
+  + array cap; freetext / occupation_id clip; lang default; injected
+  `now()` for deterministic timestamps; `shortHash` + `escapeHtml`.
+- **`src/lib/subscribe-helpers.js`** + `subscribe-helpers.test.ts`
+  (27 tests) — body shape; honeypot; email validation (missing,
+  long, malformed); lang resolution (case-sensitive); content
+  clipping; happy-path payload shape; `resolveLang` standalone.
+
+Total: 148 new tests added for Edge-entry decision logic.
+Renderers' actual ImageResponse render path is NOT unit-tested
+(would require real Google Fonts fetch); covered by Vercel deploy
+verification + visual inspection.
+
 ### Verified — architecture migration
 
 - 822 pages build clean; `check-rendered-leaks` zero hits across all
   generated HTML.
 - SEO baseline byte-identity preserved through every step (sole expected
   diff: build-time `<time datetime=…>` in footer).
-- `check:architecture` green across all 4 enforced layer boundaries
-  (Graph / Views / Templates / Pages).
-- 542 unit tests across 60 test files (up from 278 cases); view-layer
-  coverage 15/15.
+- `check:architecture` green across 4 layer boundaries (Graph / Views /
+  Templates / Pages) **plus** the Edge-function dep walker covering
+  all 4 Edge entry points (api/og.tsx, api/feedback.js, api/subscribe.js,
+  middleware.ts).
+- 691 unit tests across 66 test files (up from 278 cases at the
+  start of the migration); view-layer coverage 15/15; Edge-helper
+  coverage 5/5 modules.
 - `pnpm audit` reports zero vulnerabilities.
 
 ## [1.5.0] — 2026-05-09 — Track D · Python pipeline retired, full TypeScript+Astro
