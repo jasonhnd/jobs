@@ -249,7 +249,7 @@ import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-me
 // Pulled back into local scope for buildRankings(). The same symbols are
 // also re-exported from the bottom of this file for external consumers.
 import { FAQS } from './ranking-copy.js';
-import { escapeHtml, type ExtraCol } from './ranking-renderers.js';
+import { escapeHtml, type ExtraCol } from '../templates/Ranking.js';
 
 export type RankingSlug = RankingSlugMeta;
 
@@ -1413,20 +1413,10 @@ function makePreview(items: Occupation[], metric: (o: Occupation) => string): st
 
 
 // ---------------------------------------------------------------------------
-// Public façade — re-export from sibling modules so external consumers
-// (src/pages/sitemap.xml.ts, src/pages/ja/rankings/*.astro) can keep their
-// existing single-import-path. ranking-copy.ts owns the editorial FAQs;
-// ranking-renderers.ts owns the HTML / JSON-LD rendering helpers.
+// Public façade — re-export editorial FAQs from ranking-copy.ts.
+// HTML / JSON-LD rendering helpers moved to src/templates/Ranking.ts on
+// 2026-05-14 (Phase D #5); pages now import HTML symbols from there
+// directly per docs/architecture.md §8 row 11.
 // ---------------------------------------------------------------------------
 
 export { FAQS } from './ranking-copy.js';
-export {
-  escapeHtml,
-  renderRankItem,
-  renderHighlights,
-  renderSectorChart,
-  renderFaqHtml,
-  renderRelatedRankings,
-  renderJsonLd,
-  renderHubJsonLd,
-} from './ranking-renderers.js';

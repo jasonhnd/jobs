@@ -20,6 +20,7 @@
 //     changes, accidental refactor regressions).
 
 import { describe, test } from 'node:test';
+import { ALL_RANKINGS } from '../views/rankings.js';
 import { strict as assert } from 'node:assert';
 
 import {
@@ -31,8 +32,8 @@ import {
   renderRelatedRankings,
   renderJsonLd,
   renderHubJsonLd,
-} from './ranking-renderers.js';
-import type { Occupation } from './rankings.js';
+} from './Ranking.js';
+import type { Occupation } from '../views/rankings.js';
 
 // ─── Deterministic fixtures ───────────────────────────────────────────────
 
@@ -253,18 +254,18 @@ describe('renderFaqHtml', () => {
 
 describe('renderRelatedRankings', () => {
   test('omits the current slug', () => {
-    const got = renderRelatedRankings('ai-risk-high');
+    const got = renderRelatedRankings('ai-risk-high', ALL_RANKINGS);
     assert.equal(got.includes('href="/ja/rankings/ai-risk-high"'), false);
   });
 
   test('always wraps output in ul.related-rankings', () => {
-    const got = renderRelatedRankings('ai-risk-high');
+    const got = renderRelatedRankings('ai-risk-high', ALL_RANKINGS);
     assert.match(got, /^<ul class="related-rankings">/);
     assert.match(got, /<\/ul>$/);
   });
 
   test('every emitted li is an anchor to a /ja/rankings/* href', () => {
-    const got = renderRelatedRankings('ai-risk-high');
+    const got = renderRelatedRankings('ai-risk-high', ALL_RANKINGS);
     const hrefs = [...got.matchAll(/href="(\/ja\/rankings\/[^"]+)"/g)].map((m) => m[1]);
     assert.ok(hrefs.length > 5, `expected several other rankings, got ${hrefs.length}`);
     assert.ok(hrefs.every((h) => !!h && h.startsWith('/ja/rankings/')));
