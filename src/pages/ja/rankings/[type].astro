@@ -7,6 +7,7 @@
  * Inline CSS preserved verbatim from the v1.x design.
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import {
   buildRankings,
@@ -60,7 +61,8 @@ const rankItems = result.items
 const faqHtml = renderFaqHtml(result.faqItems);
 const relatedHtml = renderRelatedRankings(slug, ALL_RANKINGS);
 
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 // Editorial inline-links in intro are separate signal from the TOP 30 list below,
 // so we intentionally do NOT exclude ranking items from inline-linking.
 const introInlinedHtml = inlineLinkText(result.introText, _linkRegistry, {

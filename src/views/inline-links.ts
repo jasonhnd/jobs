@@ -36,11 +36,11 @@
  * occupation/hub names, so the HTML-escape-first then anchor-injection
  * ordering is load-bearing. Tests pin the escape behaviour.
  */
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-
-const REPO_ROOT = process.cwd();
-const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
+// Phase D audit #6 (2026-05-14): removed `node:fs` imports. Per doc §3.3
+// views must not do I/O — `buildLinkRegistry` now takes a KnowledgeGraph
+// and reads occupation names + aliases from graph.occupations instead of
+// scanning public/data.detail/*.json.
+import type { KnowledgeGraph } from '@/graph';
 
 // ─── Stop list: terms that are commonly non-occupation in context ────────
 //
@@ -75,84 +75,38 @@ export interface LinkRegistry {
 
 // ─── Registry builder ────────────────────────────────────────────────────
 
-let _cache: LinkRegistry | null = null;
-
-interface DetailMin {
-  id: number;
-  title?: { ja?: string; aliases_ja?: string[] };
-}
-
-function loadOccupationNames(): Array<{ id: number; name: string; aliases: string[] }> {
-  const out: Array<{ id: number; name: string; aliases: string[] }> = [];
-  let files: string[];
-  try {
-    files = readdirSync(DETAIL_DIR).filter((f) => f.endsWith('.json'));
-  } catch (err) {
-    // Whole directory missing is recoverable (e.g. ETL hasn't run yet during
-    // a bootstrap). Warn loudly so the operator notices.
-    const code = (err as NodeJS.ErrnoException).code;
-    if (code === 'ENOENT') {
-      console.warn(
-        `[inline-links] WARN: ${DETAIL_DIR} not found — internal links will be empty. ` +
-          `Run \`npm run build:data\` first.`,
-      );
-      return out;
-    }
-    throw err;
-  }
-  if (files.length === 0) {
-    console.warn(`[inline-links] WARN: ${DETAIL_DIR} contains no *.json files`);
-    return out;
-  }
-  // A corrupted detail file is NOT recoverable here: rankings, treemap,
-  // search and OG all depend on the same source data. Throw with the file
-  // path so the Astro build fails fast instead of silently emitting
-  // half-linked pages.
-  for (const f of files) {
-    const filePath = join(DETAIL_DIR, f);
-    let raw: string;
-    try { raw = readFileSync(filePath, 'utf-8'); }
-    catch (err) {
-      throw new Error(`[inline-links] read failed: ${filePath}: ${(err as Error).message}`);
-    }
-    let d: DetailMin;
-    try { d = JSON.parse(raw) as DetailMin; }
-    catch (err) {
-      throw new Error(`[inline-links] invalid JSON: ${filePath}: ${(err as Error).message}`);
-    }
-    const name = d.title?.ja ?? '';
-    if (!name) continue;
-    out.push({
-      id: d.id,
-      name,
-      aliases: d.title?.aliases_ja ?? [],
-    });
-  }
-  return out;
-}
+// Graph-keyed cache: keys are the graph reference (typically a singleton
+// per process), so within one build the registry is computed once. If the
+// graph is rebuilt (e.g. tests reset state), the cache misses correctly.
+const _cache = new WeakMap<KnowledgeGraph, LinkRegistry>();
 
 /**
  * Build the full registry of link targets from all known occupations
- * + hub paths. Cached after first build (called on each Astro page render
- * so repeated calls must be cheap).
+ * + hub paths. Reads occupation names + aliases from the graph
+ * (Phase D audit #6: previously file-scanned public/data.detail/*.json,
+ * which violated doc §3.3). Cached per graph reference so repeated
+ * page-render calls reuse the same result.
  */
-export function buildLinkRegistry(): LinkRegistry {
-  if (_cache) return _cache;
+export function buildLinkRegistry(graph: KnowledgeGraph): LinkRegistry {
+  const cached = _cache.get(graph);
+  if (cached) return cached;
 
   const patterns: Array<{ pattern: string; target: LinkTarget }> = [];
 
-  // 1. Occupations + their aliases
-  const occs = loadOccupationNames();
-  for (const o of occs) {
+  // 1. Occupations + their aliases — read from graph instead of files.
+  for (const [occId, occ] of graph.occupations) {
+    const name = occ.titleJa;
+    if (!name) continue;
+    const id = occId as unknown as number;
     patterns.push({
-      pattern: o.name,
-      target: { href: `/ja/${o.id}`, name: o.name, kind: 'occupation' },
+      pattern: name,
+      target: { href: `/ja/${id}`, name, kind: 'occupation' },
     });
-    for (const a of o.aliases) {
-      if (!a || a === o.name) continue;
+    for (const a of occ.aliasesJa) {
+      if (!a || a === name) continue;
       patterns.push({
         pattern: a,
-        target: { href: `/ja/${o.id}`, name: o.name, kind: 'occupation', aliases: [a] },
+        target: { href: `/ja/${id}`, name, kind: 'occupation', aliases: [a] },
       });
     }
   }
@@ -163,8 +117,9 @@ export function buildLinkRegistry(): LinkRegistry {
     return a.pattern.localeCompare(b.pattern);
   });
 
-  _cache = { patterns };
-  return _cache;
+  const registry: LinkRegistry = { patterns };
+  _cache.set(graph, registry);
+  return registry;
 }
 
 // ─── HTML escape (must run BEFORE placeholder injection) ────────────────
@@ -280,8 +235,11 @@ export function inlineLinkText(
   return parts.join('');
 }
 
-// Test-only: clear the cache so unit tests can re-build the registry with
-// mocked data. Not used in production code paths.
-export function _clearRegistryCache(): void {
-  _cache = null;
+// Test-only: clear the cache for a specific graph (or all entries if no
+// graph passed). Phase D audit #6 (2026-05-14): cache is now a WeakMap
+// keyed by graph reference, so per-test resets are explicit.
+export function _clearRegistryCache(graph?: KnowledgeGraph): void {
+  if (graph) _cache.delete(graph);
+  // WeakMap has no clear(); test setup that needs a full wipe should
+  // build a new graph reference instead of relying on this helper.
 }

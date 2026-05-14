@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { ABILITIES_CONFIGS } from '../../../views/genre-configs';
 import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
@@ -46,7 +47,8 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 const charsHtml = cfg.characteristics_ja ? listOfStrings(cfg.characteristics_ja, 'characteristics') : '';
 const developHtml = cfg.how_to_develop_ja ? listOfStrings(cfg.how_to_develop_ja, 'how-to-develop') : '';
 
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(cfg.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('abilities', cfg.slug, 6);
 

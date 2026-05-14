@@ -9,6 +9,7 @@
  * Pattern は src/pages/ja/rankings/[type].astro を参考にしている。
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { buildInterests } from '../../../views/interests';
 import {
@@ -76,7 +77,8 @@ const charsHtml = listOfStrings(meta.characteristics_ja, 'characteristics');
 const fieldsHtml = listOfStrings(meta.typical_fields_ja, 'fields');
 
 // Phase D: inline-link occupation names mentioned in the intro / description.
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(meta.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('interests', slug, 6);
 ---

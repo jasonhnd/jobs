@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { KNOWLEDGE_CONFIGS } from '../../../views/genre-configs';
 import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
@@ -35,7 +36,8 @@ const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja)).join(
 const faqHtml = renderFaqHtml(result.faqItems);
 const jsonLd = renderGenreJsonLd(canonical, cfg, result.items, seoDesc, result.faqItems, 'knowledge', '知識から探す');
 
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(cfg.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('knowledge', cfg.slug, 6);
 

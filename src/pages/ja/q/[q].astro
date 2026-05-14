@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { QA_ITEMS, selectExamples, type QAItem } from '../../../views/qa-meta';
 import { loadAllDetails, type DetailFileMin } from '../../../views/genre-hub';
@@ -25,7 +26,8 @@ const { qa, examples } = Astro.props as Props;
 // many natural occupation mentions. We intentionally do NOT exclude the example IDs
 // because the editorial-prose inline link is a stronger Google signal than the
 // list link below; both should fire.
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const shortAnswerHtml = inlineLinkText(qa.short_answer, _linkRegistry, {
   maxLinks: 4,
 });

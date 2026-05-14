@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
 import { CAREER_PERSONAS, type CareerPersona } from '../../../views/careers-meta';
 import { loadAllDetails, type DetailFileMin, type GenreOccupation } from '../../../views/genre-hub';
@@ -57,7 +58,8 @@ export async function getStaticPaths() {
 
 interface Props { persona: CareerPersona; items: GenreOccupation[]; }
 const { persona, items } = Astro.props as Props;
-const _linkRegistry = buildLinkRegistry();
+const graph = await loadGraph();
+const _linkRegistry = buildLinkRegistry(graph);
 const introHtml = inlineLinkText(persona.description_ja, _linkRegistry, { maxLinks: 5 });
 const crossHubHtml = renderRelatedHubsBlock('careers', persona.slug, 6);
 
