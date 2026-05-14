@@ -1,4 +1,4 @@
-// Tests for src/views/ranking-renderers.ts — snapshot-style regression
+// Tests for src/templates/Ranking.ts — snapshot-style regression
 // guards on every exported render function.
 //
 // Promised in the Phase 3.1 fix plan as the prerequisite to splitting
@@ -20,7 +20,7 @@
 //     changes, accidental refactor regressions).
 
 import { describe, test } from 'node:test';
-import { ALL_RANKINGS } from '../views/rankings.js';
+import { ALL_RANKINGS } from '../views/ranking.js';
 import { strict as assert } from 'node:assert';
 
 import {
@@ -33,7 +33,7 @@ import {
   renderJsonLd,
   renderHubJsonLd,
 } from './Ranking.js';
-import type { Occupation } from '../views/rankings.js';
+import type { Occupation } from '../views/ranking.js';
 
 // ─── Deterministic fixtures ───────────────────────────────────────────────
 
