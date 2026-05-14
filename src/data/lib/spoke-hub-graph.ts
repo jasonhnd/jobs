@@ -18,7 +18,7 @@ import type { DetailFileMin } from './genre-hub.js';
 import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
   WORK_STYLES_CONFIGS } from './genre-configs.js';
 import { SKILL_META } from './skills-meta.js';
-import { INTEREST_META, type InterestType } from './interests-meta.js';
+import { INTEREST_META, type InterestType } from '../../views/interests-meta.js';
 import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS, matchLicense } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';

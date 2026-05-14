@@ -1,5 +1,12 @@
 /**
- * interests-meta.ts — RIASEC (Holland Code) 6 タイプのメタデータ。
+ * src/views/interests-meta.ts — RIASEC (Holland Code) 6 タイプの
+ * メタデータ。
+ *
+ * Migrated from src/data/lib/interests-meta.ts 2026-05-14 as part
+ * of Phase B (data/lib retirement). Lives under src/views/ because
+ * the file is a typed configuration table — exactly what the views
+ * layer is for per architecture.md §6.2 ("pure data, typed
+ * projections").
  *
  * Pure-data モジュール、fs / Node-runtime imports なし — Astro frontmatter
  * (Node SSG) と Vercel Edge Functions (api/og.tsx) 両方からインポート可能。
