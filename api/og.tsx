@@ -34,13 +34,12 @@
 // Vercel CDN caches each unique URL. First request ≈ 200–500 ms (cold start +
 // font fetch); subsequent identical requests are CDN hits.
 
-import {
-  PAGE_CARDS,
-  RANKING_CARDS,
-  INTEREST_CARDS,
-  SKILL_CARDS,
-  COMPARE_CARDS,
-} from "../src/views/og-cards.js";
+// Dispatch decision lives in src/lib/og-dispatch.ts — a pure
+// function that parses URL params and returns a discriminated
+// `DispatchDecision`. This entry file is just the I/O wrapper:
+// parse → decide → execute. Dispatch logic itself is unit-tested
+// independently from the renderers (which need network for fonts).
+import { decideDispatch } from "../src/lib/og-dispatch.js";
 // Renderers are plain .ts files in src/lib/og-renderers/, using
 // `createElement` (aliased as `h`) instead of JSX. The reason: Vercel's
 // Edge Function bundler does NOT compile dependency .tsx files — it has
@@ -89,91 +88,18 @@ export default async function handler(req: Request): Promise<Response> {
 
 async function renderHandler(req: Request): Promise<Response> {
   const url = new URL(req.url);
-  const sectorParam = url.searchParams.get("sector");
-  const idParam = url.searchParams.get("id");
-  const pageParam = url.searchParams.get("page");
-  const rankingParam = url.searchParams.get("ranking");
-  const interestParam = url.searchParams.get("interest");
-  const skillParam = url.searchParams.get("skill");
-  const compareParam = url.searchParams.get("compare");
+  const decision = decideDispatch(url);
 
-  // /map OG card uses the rich treemap-legend variant — special-case before
-  // the generic ?page= branch.
-  if (pageParam === "map") {
-    return renderMapOgCard();
+  switch (decision.kind) {
+    case "render-map":
+      return renderMapOgCard();
+    case "render-generic":
+      return renderGenericOgCard(decision.config);
+    case "render-sector":
+      return renderSectorOgCard(url, decision.id);
+    case "render-occupation":
+      return renderOccupationOgCard(url, decision.id);
+    case "bad-request":
+      return new Response(decision.message, { status: 400 });
   }
-
-  // Generic text-only cards: /api/og?page=home|about|privacy|compliance|404|sectors|rankings|interests
-  if (pageParam) {
-    const cfg = PAGE_CARDS[pageParam];
-    if (!cfg) {
-      return new Response(
-        `Bad request: unknown ?page=${pageParam}. Known: ${Object.keys(PAGE_CARDS).join(", ")}, map`,
-        { status: 400 },
-      );
-    }
-    return renderGenericOgCard(cfg);
-  }
-
-  // Per-ranking text cards: /api/og?ranking=<slug>
-  if (rankingParam) {
-    const cfg = RANKING_CARDS[rankingParam];
-    if (!cfg) {
-      return new Response(
-        `Bad request: unknown ?ranking=${rankingParam}. Known: ${Object.keys(RANKING_CARDS).join(", ")}`,
-        { status: 400 },
-      );
-    }
-    return renderGenericOgCard(cfg);
-  }
-
-  // Per-interest (RIASEC) text cards: /api/og?interest=<slug>
-  if (interestParam) {
-    const cfg = INTEREST_CARDS[interestParam];
-    if (!cfg) {
-      return new Response(
-        `Bad request: unknown ?interest=${interestParam}. Known: ${Object.keys(INTEREST_CARDS).join(", ")}`,
-        { status: 400 },
-      );
-    }
-    return renderGenericOgCard(cfg);
-  }
-
-  // Per-skill text cards: /api/og?skill=<slug>
-  if (skillParam) {
-    const cfg = SKILL_CARDS[skillParam];
-    if (!cfg) {
-      return new Response(
-        `Bad request: unknown ?skill=${skillParam}. Known: ${Object.keys(SKILL_CARDS).join(", ")}`,
-        { status: 400 },
-      );
-    }
-    return renderGenericOgCard(cfg);
-  }
-
-  // Per-compare text cards: /api/og?compare=<slug>
-  if (compareParam) {
-    const cfg = COMPARE_CARDS[compareParam];
-    if (!cfg) {
-      return new Response(
-        `Bad request: unknown ?compare=${compareParam}. Known: ${Object.keys(COMPARE_CARDS).join(", ")}`,
-        { status: 400 },
-      );
-    }
-    return renderGenericOgCard(cfg);
-  }
-
-  // Phase 9: sector-card branch — /api/og?sector=<sector_id>
-  if (sectorParam) {
-    return renderSectorOgCard(url, sectorParam);
-  }
-
-  if (!idParam || !/^\d+$/.test(idParam)) {
-    return new Response(
-      "Bad request: required ?id=<n>, ?sector=<id>, ?ranking=<slug>, ?interest=<slug>, ?skill=<slug>, ?compare=<slug>, or ?page=<map|home|about|privacy|compliance|404|sectors|rankings|interests|skills|compare>",
-      { status: 400 },
-    );
-  }
-
-  return renderOccupationOgCard(url, idParam);
 }
