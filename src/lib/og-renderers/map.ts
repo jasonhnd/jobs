@@ -1,5 +1,5 @@
 /**
- * api/og-renderers/map.tsx — render the /map page OG card.
+ * src/lib/og-renderers/map.ts — render the /map page OG card.
  *
  * Step 9 part 2 (2026-05-13): extracted from api/og.tsx inline
  * `renderMapCard`. Output is a static 1200×630 PNG with the
@@ -11,12 +11,15 @@
  * parameters and reads no external data, so the boundary is
  * the cleanest of the three rich renderers.
  *
- * Lives in api/og-renderers/ for the same reason as
- * generic.tsx — binary PNG output, neither SafeHtml (templates)
+ * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader
+ * for dependencies. See generic.ts header for the full rationale.
+ *
+ * Lives in src/lib/ — binary PNG output, neither SafeHtml (templates)
  * nor typed data (views).
  */
 
 import { ImageResponse } from '@vercel/og';
+import { createElement as h } from 'react';
 import { loadGoogleFont } from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
@@ -49,9 +52,10 @@ export async function renderMapOgCard(): Promise<Response> {
   ]);
 
   return new ImageResponse(
-    (
-      <div
-        style={{
+    h(
+      'div',
+      {
+        style: {
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -61,12 +65,16 @@ export async function renderMapOgCard(): Promise<Response> {
           fontFamily: 'NotoSansJP',
           padding: '48px 64px',
           borderLeft: `14px solid ${COLORS.accent}`,
-        }}
-      >
-        {/* Top bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div
-            style={{
+        },
+      },
+      // Top bar.
+      h(
+        'div',
+        { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+        h(
+          'div',
+          {
+            style: {
               background: COLORS.accent,
               color: '#FFFFFF',
               padding: '8px 18px',
@@ -74,69 +82,91 @@ export async function renderMapOgCard(): Promise<Response> {
               fontWeight: 800,
               fontSize: '22px',
               letterSpacing: '0.08em',
-            }}
-          >
-            独立分析
-          </div>
-          <div style={{ fontSize: '24px', color: COLORS.muted, fontWeight: 500 }}>{SITE_MARK}</div>
-        </div>
-
-        {/* Eyebrow + giant title */}
-        <div
-          style={{
+            },
+          },
+          '独立分析',
+        ),
+        h(
+          'div',
+          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
+          SITE_MARK,
+        ),
+      ),
+      // Eyebrow + giant title + 5-band swatch.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
             justifyContent: 'center',
             marginTop: '20px',
-          }}
-        >
-          <div
-            style={{
+          },
+        },
+        h(
+          'div',
+          {
+            style: {
               fontSize: '26px',
               color: COLORS.accent,
               fontWeight: 800,
               letterSpacing: '0.18em',
               marginBottom: '16px',
-            }}
-          >
-            {EYEBROW}
-          </div>
-          <div
-            style={{
+            },
+          },
+          EYEBROW,
+        ),
+        h(
+          'div',
+          {
+            style: {
               fontFamily: 'NotoSerifJP',
               fontSize: '128px',
               fontWeight: 600,
               lineHeight: 1.0,
               color: COLORS.ink,
               letterSpacing: '-0.01em',
-            }}
-          >
-            {TITLE}
-          </div>
-          <div
-            style={{
+            },
+          },
+          TITLE,
+        ),
+        h(
+          'div',
+          {
+            style: {
               fontSize: '30px',
               color: COLORS.muted,
               fontWeight: 500,
               marginTop: '20px',
-            }}
-          >
-            {SUBTITLE}
-          </div>
-
-          {/* 5-band stylized swatch — implies the heatmap palette without
-              fetching real data (keeps this card upstream-fetch-free). */}
-          <div style={{ display: 'flex', gap: '0', marginTop: '32px', height: '26px', borderRadius: '4px', overflow: 'hidden' }}>
-            {RISK_BAND_COLORS.map((c, i) => (
-              <div key={i} style={{ flex: 1, background: c }} />
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom legend */}
-        <div
-          style={{
+            },
+          },
+          SUBTITLE,
+        ),
+        // 5-band stylized swatch — implies the heatmap palette without
+        // fetching real data (keeps this card upstream-fetch-free).
+        h(
+          'div',
+          {
+            style: {
+              display: 'flex',
+              gap: '0',
+              marginTop: '32px',
+              height: '26px',
+              borderRadius: '4px',
+              overflow: 'hidden',
+            },
+          },
+          ...RISK_BAND_COLORS.map((c, i) =>
+            h('div', { key: i, style: { flex: 1, background: c } }),
+          ),
+        ),
+      ),
+      // Bottom legend.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             gap: '16px',
             fontSize: '24px',
@@ -145,11 +175,10 @@ export async function renderMapOgCard(): Promise<Response> {
             borderTop: `1px solid ${COLORS.hairline}`,
             paddingTop: '24px',
             marginTop: '20px',
-          }}
-        >
-          <span>{BOTTOM_LABEL}</span>
-        </div>
-      </div>
+          },
+        },
+        h('span', null, BOTTOM_LABEL),
+      ),
     ),
     {
       width: 1200,

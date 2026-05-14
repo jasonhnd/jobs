@@ -1,5 +1,5 @@
 /**
- * api/og-renderers/generic.tsx — render the text-only OG card
+ * src/lib/og-renderers/generic.ts — render the text-only OG card
  * shared by every non-rich page family on the site.
  *
  * Step 9 part 2 (2026-05-13): the renderer used to live inline at
@@ -7,9 +7,16 @@
  * thin dispatcher and the renderer can grow / be tested without
  * touching the Vercel Edge entry point.
  *
- * Hosted under api/ (not src/lib/) — see api/og.tsx import note.
- * Vercel does NOT register this file as a route because it has
- * no `export default` / `export const config`.
+ * Why `.ts` (not `.tsx`)
+ * ─────────────────────────────────────────────────────────────────
+ * Vercel's Edge Function bundler compiles the entry .tsx file but
+ * has no TSX loader for dependencies — only `.js` / `.ts`. Writing
+ * the renderer as JSX in a .tsx file forced an awkward esbuild
+ * pre-compile step (commit 33783386). Hand-rolling the element
+ * tree with `createElement` (aliased to `h` for brevity) keeps the
+ * source as a plain `.ts` file that Vercel resolves directly. No
+ * build step, no .gitignored artifacts, no platform-specific
+ * workaround. The verbosity tax is real but bounded.
  *
  * Output: 1200×630 PNG with the "独立分析" badge + site mark on top,
  * giant serif title in the middle, a sans-serif subtitle, and the
@@ -30,6 +37,7 @@
  */
 
 import { ImageResponse } from '@vercel/og';
+import { createElement as h } from 'react';
 import { loadGoogleFont, type GenericCardConfig } from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
@@ -58,9 +66,10 @@ export async function renderGenericOgCard(
   ]);
 
   return new ImageResponse(
-    (
-      <div
-        style={{
+    h(
+      'div',
+      {
+        style: {
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -70,18 +79,18 @@ export async function renderGenericOgCard(
           fontFamily: 'NotoSansJP',
           padding: '48px 64px',
           borderLeft: `14px solid ${COLORS.accent}`,
-        }}
-      >
-        {/* Top bar — "独立分析" badge + site mark */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <div
-            style={{
+        },
+      },
+      // Top bar — "独立分析" badge + site mark.
+      h(
+        'div',
+        {
+          style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+        },
+        h(
+          'div',
+          {
+            style: {
               background: COLORS.accent,
               color: '#FFFFFF',
               padding: '8px 18px',
@@ -89,64 +98,74 @@ export async function renderGenericOgCard(
               fontWeight: 800,
               fontSize: '22px',
               letterSpacing: '0.05em',
-            }}
-          >
-            独立分析
-          </div>
-          <div style={{ fontSize: '24px', color: COLORS.muted, fontWeight: 500 }}>
-            {SITE_MARK}
-          </div>
-        </div>
-
-        {/* Eyebrow + giant title + subtitle */}
-        <div
-          style={{
+            },
+          },
+          '独立分析',
+        ),
+        h(
+          'div',
+          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
+          SITE_MARK,
+        ),
+      ),
+      // Eyebrow + giant title + subtitle.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
             justifyContent: 'center',
             marginTop: '12px',
             gap: '20px',
-          }}
-        >
-          <div
-            style={{
+          },
+        },
+        h(
+          'div',
+          {
+            style: {
               fontSize: '30px',
               color: COLORS.muted,
               fontWeight: 600,
               letterSpacing: '0.05em',
-            }}
-          >
-            {config.eyebrow}
-          </div>
-          <div
-            style={{
+            },
+          },
+          config.eyebrow,
+        ),
+        h(
+          'div',
+          {
+            style: {
               fontSize: '84px',
               fontFamily: 'NotoSerifJP',
               fontWeight: 600,
               lineHeight: 1.15,
               color: COLORS.ink,
               letterSpacing: '-0.01em',
-            }}
-          >
-            {config.title}
-          </div>
-          <div
-            style={{
+            },
+          },
+          config.title,
+        ),
+        h(
+          'div',
+          {
+            style: {
               fontSize: '32px',
               color: COLORS.muted,
               fontWeight: 500,
               lineHeight: 1.4,
               marginTop: '8px',
-            }}
-          >
-            {config.subtitle}
-          </div>
-        </div>
-
-        {/* Bottom hairline + tagline */}
-        <div
-          style={{
+            },
+          },
+          config.subtitle,
+        ),
+      ),
+      // Bottom hairline + tagline.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -154,12 +173,11 @@ export async function renderGenericOgCard(
             borderTop: `1px solid ${COLORS.hairline}`,
             color: COLORS.muted,
             fontSize: '22px',
-          }}
-        >
-          <span>{FOOTER_LEFT}</span>
-          <span>{FOOTER_RIGHT}</span>
-        </div>
-      </div>
+          },
+        },
+        h('span', null, FOOTER_LEFT),
+        h('span', null, FOOTER_RIGHT),
+      ),
     ),
     {
       width: 1200,
