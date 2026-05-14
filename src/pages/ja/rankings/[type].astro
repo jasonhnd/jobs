@@ -1,85 +1,31 @@
 ---
-/**
- * [type].astro — individual ranking pages. Produces 9 routes:
- *   ai-risk-high, ai-risk-low, salary-safe, workers, salary,
- *   entry-salary, young-workforce, short-hours, high-demand
- *
- * Inline CSS preserved verbatim from the v1.x design.
- */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
-import {
-  buildRankings,
-  ALL_RANKINGS,
-  type RankingSlug,
-} from '../../../views/ranking';
-import {
-  renderRankItem,
-  renderHighlights,
-  renderSectorChart,
-  renderFaqHtml,
-  renderRelatedRankings,
-  renderJsonLd,
-  escapeHtml,
-} from '../../../templates/Ranking';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { loadGraph } from '@/graph';
+import { buildRankings, type RankingResult } from '../../../views/ranking';
+import { escapeHtml } from '../../../templates/Ranking';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { buildRankingsSlugBindings } from './_rankings-bindings';
 
 export async function getStaticPaths() {
-  // Step 5: ranking pages read Occupation[] from the knowledge graph
-  // via dependency injection. buildRankings accepts a loader; we pass
-  // the graph-backed one. Output stays byte-identical (EN→JA key
-  // translation and banker's rounding replicate the legacy projection).
-  const { loadGraph } = await import('@/graph');
   const { loadOccupationsFromGraph } = await import('@/views/ranking');
   const graph = await loadGraph();
   const { results } = buildRankings(() => loadOccupationsFromGraph(graph));
-  return Array.from(results.values()).map((r) => ({
-    params: { type: r.slug },
-    props: { result: r },
-  }));
+  return Array.from(results.values()).map((r) => ({ params: { type: r.slug }, props: { result: r } }));
 }
 
-const { result } = Astro.props;
-const slug = result.slug as RankingSlug;
-const canonical = `https://mirai-shigoto.com/ja/rankings/${slug}`;
-
-const statsHtml = result.statBlocks.length > 0
-  ? `<dl class="stats">${result.statBlocks
-      .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
-      .join('')}</dl>`
-  : '';
-
-const highlightsHtml = renderHighlights(result.items, slug);
-const sectorChartHtml = renderSectorChart(result.items);
-
-const rankItems = result.items
-  .map((o) => renderRankItem(o, result.showSalary, result.extraColFn ? result.extraColFn(o) : null))
-  .join('');
-
-const faqHtml = renderFaqHtml(result.faqItems);
-const relatedHtml = renderRelatedRankings(slug, ALL_RANKINGS);
-
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-// Editorial inline-links in intro are separate signal from the TOP 30 list below,
-// so we intentionally do NOT exclude ranking items from inline-linking.
-const introInlinedHtml = inlineLinkText(result.introText, _linkRegistry, {
-  maxLinks: 4,
-});
-const crossHubHtml = renderRelatedHubsBlock('rankings', slug, 6);
-const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
+const { result } = Astro.props as { result: RankingResult };
+const b = buildRankingsSlugBindings(result, await loadGraph());
 ---
 <BaseLayout
   title={result.title}
   description={result.seoDesc}
-  canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?ranking=${slug}`}
+  canonical={b.canonical}
+  ogImage={b.ogImage}
   ogTitle={result.title.slice(0, 120)}
   ogDescription={result.seoDesc}
 >
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
 
   <style slot="head" set:html={`
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -179,25 +125,25 @@ footer .footer-meta .nowrap{white-space:nowrap}
     <header id="content">
       <h1><span class="accent" set:html={escapeHtml(result.h1Text)} /></h1>
       <p class="sub" set:html={result.subText} />
-      <p class="intro" set:html={introInlinedHtml} />
+      <p class="intro" set:html={b.introInlinedHtml} />
     </header>
 
-    <Fragment set:html={statsHtml} />
-    <Fragment set:html={highlightsHtml} />
-    <Fragment set:html={sectorChartHtml} />
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
 
     <section aria-label="ランキング">
       <h2>TOP {result.items.length}</h2>
-      <ol class="rank-list" set:html={rankItems} />
+      <ol class="rank-list" set:html={b.rankItems} />
     </section>
 
-    <Fragment set:html={faqHtml} />
+    <Fragment set:html={b.faqHtml} />
 
-    <Fragment set:html={crossHubHtml} />
+    <Fragment set:html={b.crossHubHtml} />
 
     <section aria-label="他のランキング">
       <h2>他のランキング</h2>
-      <Fragment set:html={relatedHtml} />
+      <Fragment set:html={b.relatedHtml} />
     </section>
 
     <Footer />
