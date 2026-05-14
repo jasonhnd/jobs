@@ -15,7 +15,7 @@
  */
 
 import { RELATED_HUBS_CSS } from '../../data/lib/spoke-hub-graph';
-import { SAME_RISK_CSS } from '../../data/lib/spoke-spoke-graph';
+import { SAME_RISK_CSS } from '../../views/spoke-spoke-graph';
 
 export const ID_PAGE_CSS = `
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}

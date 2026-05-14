@@ -1,6 +1,16 @@
 /**
- * spoke-spoke-graph.ts — Phase C: cross-sector "same AI risk ±1" neighbors,
- * with mandatory symmetry.
+ * src/views/spoke-spoke-graph.ts — Phase C: cross-sector "same AI
+ * risk ±1" neighbors, with mandatory symmetry.
+ *
+ * Migrated from src/data/lib/spoke-spoke-graph.ts 2026-05-14
+ * (Phase B). Lives under src/views/ — note: this file currently
+ * mixes pure-data (buildSameRiskNeighbors) with HTML/CSS production
+ * (renderSameRiskSection, SAME_RISK_CSS). A future Phase C polish
+ * should split the renderer into src/templates/SameRiskSection.ts
+ * with SafeHtml return type. For now (Phase B "retire data/lib"
+ * scope), kept as one file to preserve byte-equivalence and limit
+ * blast radius.
+ *
  *
  * Each spoke gets a second related-spoke section beyond transfer_paths:
  *   - 5 occupations with AI risk = (this.risk ± 1)
@@ -16,7 +26,7 @@
  * one — that's the asymmetry). Union top-K corrects it.
  */
 
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 
 export interface SpokeNeighbor {
   id: number;
