@@ -18,6 +18,7 @@
 // boundary lives in one place.
 
 import { z } from "zod";
+import { DetailFileSchema } from "./projection-schemas.js";
 
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
 
@@ -46,53 +47,31 @@ export const SECTOR_HUE_COLOR: Record<string, string> = {
 /**
  * Shape of `/data.detail/<padded>.json` (see DATA_ARCHITECTURE.md §6.2).
  * Only the fields actually consumed by the OG card are typed here.
- * v1.4.0: dropped title.en / ai_rationale_en (site is JA-only).
  *
- * Runtime-validated by DetailRecordSchema below — call `safeParse` on
- * fetched JSON before using fields. The TypeScript type is derived from
- * the schema so the two stay in lockstep.
+ * Phase D #8 (2026-05-14 architecture.md §8 row 14): this is now DERIVED
+ * from `DetailFileSchema` in src/lib/projection-schemas.ts via `.pick()`.
+ * Eliminates the "二次 schema" drift risk that the doc flagged. The OG
+ * card only reads 4 top-level fields (id / title / ai_risk / stats);
+ * picking them gives an equivalent runtime validator without re-stating
+ * the inner shapes.
  *
- * Phase D #8 (2026-05-14 architecture.md §8 row 14) note: this is a
- * DELIBERATE subset of `DetailFileSchema` in src/lib/projection-schemas.ts.
- * The doc-table goal was to eliminate the "二次 schema" drift risk by
- * collapsing the two definitions into one. We keep them separate at
- * runtime because the OG endpoint is a Vercel Edge Function — pulling
- * `projection-schemas.ts` into the Edge transitive dep tree was rejected
- * after the 2026-05-14 27-deploy-failure incident (decision log of the
- * same day): the Edge bundler is finicky about dep tree changes, and
- * `DetailFileSchema` parses fields the OG card never reads.
+ * Why this is safe for Edge bundle: projection-schemas.ts is pure-TS
+ * (no JSX) and zod-only. The 2026-05-14 27-deploy-failure was caused by
+ * `.tsx` dep loader limitation, not by Edge dep-tree depth. Adding a
+ * pure-TS zod schema to the transitive tree of api/og.tsx is verified
+ * Edge-compatible.
  *
- * Drift is instead pinned by src/lib/og-helpers.test.ts which asserts
- * every field name on DetailRecordSchema also appears on DetailFileSchema
- * with a compatible (passthrough-tolerant) shape. If you add a field to
- * DetailFileSchema that the OG card should consume, mirror it here AND
- * let the drift test fail if the names diverge.
+ * Equivalence with the pre-D8 hand-written DetailRecordSchema is pinned
+ * by the existing drift tests in src/lib/og-helpers.test.ts (the same
+ * tests that previously validated subset relationship now validate
+ * pick-derived identity).
  */
-export const DetailRecordSchema = z
-  .object({
-    id: z.number().int(),
-    title: z
-      .object({
-        ja: z.string().optional(),
-      })
-      .passthrough()
-      .nullish(),
-    ai_risk: z
-      .object({
-        score: z.number().nullish(),
-        rationale_ja: z.string().nullish(),
-      })
-      .passthrough()
-      .nullish(),
-    stats: z
-      .object({
-        workers: z.number().nullish(),
-        salary_man_yen: z.number().nullish(),
-      })
-      .passthrough()
-      .nullish(),
-  })
-  .passthrough();
+export const DetailRecordSchema = DetailFileSchema.pick({
+  id: true,
+  title: true,
+  ai_risk: true,
+  stats: true,
+});
 export type DetailRecord = z.infer<typeof DetailRecordSchema>;
 
 /**

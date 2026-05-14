@@ -78,7 +78,7 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   const { loadGraph } = await import('@/graph');
   const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
   const { adaptDetailFile } = await import('./occupation-detail.js');
-  const { buildRankings } = await import('./rankings.js');
+  const { buildRankings } = await import('./ranking.js');
   const { buildRankingHitsByOcc } = await import('./spoke-hub-graph.js');
   const { buildSameRiskNeighbors } = await import('./spoke-spoke-graph.js');
 

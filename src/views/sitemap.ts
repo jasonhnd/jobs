@@ -22,7 +22,7 @@
  * covers this).
  */
 
-import { ALL_RANKINGS } from './rankings.js';
+import { ALL_RANKINGS } from './ranking.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
 import { COMPARE_META } from './compare-meta.js';

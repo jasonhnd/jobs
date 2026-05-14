@@ -13,7 +13,7 @@
  * takes allRankings) or uses local constants (DEMAND_JA is a tiny
  * dictionary kept in sync via doc reference).
  */
-import type { Occupation } from '../views/rankings.js';
+import type { Occupation } from '../views/ranking.js';
 import type { RankingSlug } from '../views/rankings-meta.js';
 import { escapeHtml } from '../lib/safe-html.js';
 import { riskClass as riskBand } from '../lib/risk.js';
