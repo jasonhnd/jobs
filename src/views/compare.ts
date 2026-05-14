@@ -11,7 +11,7 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
-import type { DetailFile } from '../data/lib/compare-hub';
+import type { DetailFile } from './compare-hub';
 
 function riskBand(score: number | null): string | undefined {
   if (score === null) return undefined;

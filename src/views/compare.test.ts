@@ -2,7 +2,7 @@
  * compare.test.ts — smoke test for the compare-pair loader factory.
  *
  * `makeCompareLoaderFromGraph(graph)` returns a loader function
- * compatible with src/data/lib/compare-hub.buildComparePair(),
+ * compatible with src/views/compare-hub.buildComparePair(),
  * sourced from the graph.
  */
 

@@ -1,16 +1,25 @@
 /**
- * compare-hub.ts — 職業比較 hub のデータユーティリティ。
+ * src/views/compare-hub.ts — 職業比較 hub のデータユーティリティ。
  *
  * 各 compare hub は 2 職業を side-by-side で比較する。
  *
  *   - loadDetail(id): public/data.detail/<padded>.json
  *   - buildComparePair(meta): 2 職業の比較データを揃える
  *   - buildCompareBundle(): 全 12 hub の result + index 用 cards
+ *
+ * Migrated from src/data/lib/compare-hub.ts 2026-05-14 (Phase B).
+ * Lives under src/views/ — note: mixes pure-data (buildCompareBundle)
+ * with HTML rendering (multiple render* functions). Phase C polish
+ * should extract renderers to src/templates/; for now (Phase B
+ * "retire data/lib" scope) kept as one file.
+ *
+ * `strict-load` still imported from src/data/lib/ (cross-directory
+ * temporary; resolves when strict-load itself migrates).
  */
 import { join } from 'node:path';
-import { COMPARE_META, type CompareSlug, type CompareMeta } from '../../views/compare-meta.js';
-import { strictReadJson } from './strict-load.js';
-import { DetailFileSchema } from '../../lib/projection-schemas.js';
+import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
+import { strictReadJson } from '../data/lib/strict-load.js';
+import { DetailFileSchema } from '../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
 const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
@@ -117,7 +126,7 @@ function detailToSide(d: DetailFile): CompareSide {
 
 // ─── Helpers ───────────────────────────────────────────────────
 
-import { fmtInt } from '../../lib/num.js';
+import { fmtInt } from '../lib/num.js';
 
 function fmtDiff(a: number | null, b: number | null, suffix = ''): string {
   if (a === null || b === null) return '';
@@ -270,11 +279,11 @@ export function buildCompareBundle(
 // ─── HTML rendering helpers ────────────────────────────────────
 
 // Single source of truth lives at src/lib/safe-html.ts.
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 export { escapeHtml };
 
 // Single source of truth lives at src/lib/risk.
-import { riskClass } from '../../lib/risk.js';
+import { riskClass } from '../lib/risk.js';
 
 export function renderCompareHero(a: CompareSide, b: CompareSide): string {
   const aBand = riskClass(a.ai_risk);
@@ -347,7 +356,7 @@ export function renderTopSkillsCompare(a: CompareSide, b: CompareSide): string {
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
 // Re-exported under the legacy name so existing pages/imports keep working.
-export { renderFaqSection as renderFaqHtml } from '../../templates/FaqSection.js';
+export { renderFaqSection as renderFaqHtml } from '../templates/FaqSection.js';
 
 export function renderRelatedCompares(currentSlug: CompareSlug): string {
   const items = COMPARE_META
