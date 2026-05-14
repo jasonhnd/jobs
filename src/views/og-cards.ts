@@ -27,7 +27,7 @@
 import { RANKING_META } from '../data/lib/rankings-meta.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
-import { COMPARE_META } from '../data/lib/compare-meta.js';
+import { COMPARE_META } from './compare-meta.js';
 import type { GenericCardConfig } from '../lib/og-helpers.js';
 
 /** 35 static page variants — homepage, legal, hub indexes, yearly,

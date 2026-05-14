@@ -8,7 +8,7 @@
  *   - buildCompareBundle(): 全 12 hub の result + index 用 cards
  */
 import { join } from 'node:path';
-import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
+import { COMPARE_META, type CompareSlug, type CompareMeta } from '../../views/compare-meta.js';
 import { strictReadJson } from './strict-load.js';
 import { DetailFileSchema } from '../../lib/projection-schemas.js';
 

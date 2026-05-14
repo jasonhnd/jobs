@@ -1,5 +1,9 @@
 /**
- * compare-meta.ts — 20 個の職業比較ペアの slug + occupation IDs + 表示メタ。
+ * src/views/compare-meta.ts — 20 個の職業比較ペアの slug + occupation IDs + 表示メタ。
+ *
+ * Migrated from src/data/lib/compare-meta.ts 2026-05-14 (Phase B).
+ * Lives under src/views/ per §6.2.
+ *
  *
  * 各 hub は 2 職業を side-by-side で比較する。
  * data/occupations の id は実装時に lookup して固定 (build:data 時 schema 検証で

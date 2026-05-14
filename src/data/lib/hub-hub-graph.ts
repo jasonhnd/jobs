@@ -21,7 +21,7 @@ import { INTEREST_META } from '../../views/interests-meta.js';
 import { CAREER_PERSONAS } from '../../views/careers-meta.js';
 import { LICENSE_HUBS } from '../../views/licenses-meta.js';
 import { QA_ITEMS } from '../../views/qa-meta.js';
-import { COMPARE_META } from './compare-meta.js';
+import { COMPARE_META } from '../../views/compare-meta.js';
 import { RANKING_META } from './rankings-meta.js';
 import { escapeHtml } from '../../lib/safe-html.js';
 
