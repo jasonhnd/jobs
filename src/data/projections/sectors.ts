@@ -21,7 +21,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
 import type { SectorDef } from '../schema/sector.js';
-import { SENTINEL_UNCATEGORIZED } from '../lib/sector-resolver.js';
+import { SENTINEL_UNCATEGORIZED } from '../../graph/sector-resolver.js';
 import { fsum } from '../lib/fsum.js';
 import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../../lib/now.js';

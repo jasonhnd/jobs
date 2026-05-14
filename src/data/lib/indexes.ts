@@ -60,8 +60,8 @@ import {
   resolveSector,
   validateSectorDefinitions,
   type SectorAssignment,
-} from './sector-resolver.js';
-import { pickLatestScore, type ScoreHistEntry } from './score-strategy.js';
+} from '../../graph/sector-resolver.js';
+import { pickLatestScore, type ScoreHistEntry } from '../../graph/score-strategy.js';
 
 export interface Indexes {
   occById: Map<number, Occupation>;

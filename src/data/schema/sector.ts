@@ -14,7 +14,7 @@
  *                        cases land in public/data.review_queue.json and the
  *                        operator resolves them by editing this file.
  *
- * Resolution rule (see src/data/lib/sector-resolver.ts):
+ * Resolution rule (see src/graph/sector-resolver.ts):
  *   1. If overrides has the occ_id → that sector_id wins (provenance: 'override').
  *   2. Else match occ.mhlw_main against every sector's seed_codes (glob match):
  *      - exactly 1 sector matches → that sector wins (provenance: 'auto').
