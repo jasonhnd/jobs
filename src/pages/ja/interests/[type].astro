@@ -10,8 +10,8 @@
  */
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
+import { buildInterests } from '../../../views/interests';
 import {
-  buildInterests,
   renderInterestItem,
   renderHighlights,
   renderSectorChart,
@@ -19,8 +19,9 @@ import {
   renderRelatedInterests,
   renderJsonLd,
   escapeHtml,
-} from '../../../views/interests';
+} from '../../../templates/InterestHub';
 import type { InterestType } from '../../../views/interests-meta';
+import { INTEREST_META } from '../../../views/interests-meta';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
@@ -64,7 +65,7 @@ const rankItems = result.items
   .join('');
 
 const faqHtml = renderFaqHtml(result.faqItems);
-const relatedHtml = renderRelatedInterests(slug);
+const relatedHtml = renderRelatedInterests(slug, INTEREST_META);
 const jsonLd = renderJsonLd(canonical, meta, result.items, seoDesc, result.faqItems);
 
 function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
