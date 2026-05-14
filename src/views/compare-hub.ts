@@ -18,7 +18,7 @@
  */
 import { join } from 'node:path';
 import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
-import { strictReadJson } from '../data/lib/strict-load.js';
+import { strictReadJson } from '../lib/strict-load.js';
 import { DetailFileSchema } from '../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();

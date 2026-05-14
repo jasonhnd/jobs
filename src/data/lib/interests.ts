@@ -15,7 +15,7 @@
  */
 import { join } from 'node:path';
 import { INTEREST_META, type InterestType, type InterestMeta } from '../../views/interests-meta.js';
-import { strictReadJson } from './strict-load.js';
+import { strictReadJson } from '../../lib/strict-load.js';
 import {
   HollandFileSchema,
   TreemapFileSummarySchema,
