@@ -1,6 +1,11 @@
 /**
- * now.ts — single source of truth for the `generated_at` timestamp baked
- * into projection outputs.
+ * src/lib/now.ts — single source of truth for the `generated_at`
+ * timestamp baked into projection outputs.
+ *
+ * Lives under src/lib/ per the 5-layer architecture (general-purpose
+ * utility, no forbidden imports). Migrated from src/data/lib/now.ts
+ * 2026-05-14 as part of the Phase B continuation that retires the
+ * legacy data/lib layer.
  *
  * Why this file exists:
  *   Each of the 8 projections (featured, holland, labels, profile5, search,

@@ -9,7 +9,7 @@
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
-import { nowIso } from '../lib/now.js';
+import { nowIso } from '../../lib/now.js';
 
 const HOLLAND_KEYS: Array<readonly [string, string]> = [
   ['realistic', 'R'],
