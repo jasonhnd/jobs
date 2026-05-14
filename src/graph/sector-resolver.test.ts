@@ -6,7 +6,7 @@ import {
   validateSectorDefinitions,
   SENTINEL_UNCATEGORIZED,
 } from './sector-resolver.js';
-import type { SectorDef } from '../schema/sector.js';
+import type { SectorDef } from '../data/schema/sector.js';
 
 // ───── Helpers ─────
 

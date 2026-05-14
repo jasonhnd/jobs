@@ -23,8 +23,8 @@ import {
 import {
   resolveSector,
   SENTINEL_UNCATEGORIZED,
-} from '../data/lib/sector-resolver.js';
-import { pickLatestScore } from '../data/lib/score-strategy.js';
+} from './sector-resolver.js';
+import { pickLatestScore } from './score-strategy.js';
 
 import {
   OccupationSchema,

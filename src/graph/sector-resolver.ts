@@ -17,7 +17,7 @@
  * The resolver is deterministic: given the same (sectors_def, overrides,
  * occupations) input it always produces the same output.
  */
-import type { SectorDef } from '../schema/sector.js';
+import type { SectorDef } from '../data/schema/sector.js';
 
 /**
  * Sector id assigned to occupations that match no seed and have no override.
