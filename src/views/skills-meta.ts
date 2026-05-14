@@ -1,8 +1,11 @@
 /**
- * skills-meta.ts — スキル hub の slug + IPD skill key + 表示メタ。
+ * src/views/skills-meta.ts — スキル hub の slug + IPD skill key + 表示メタ。
  *
  * 39 個ある IPD スキル軸から、reader value の高い 10 個を選んで hub 化。
  * 各 hub の data 源は public/data.skills/<ipd_key>.json (build:data 出力)。
+ *
+ * Migrated from src/data/lib/skills-meta.ts 2026-05-14 as part of
+ * Phase B. Lives under src/views/ per §6.2.
  *
  * Pure-data モジュール (fs / Node-runtime imports なし) — Astro frontmatter
  * と Vercel Edge (api/og.tsx) 両方からインポート可能。

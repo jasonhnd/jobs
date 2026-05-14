@@ -10,7 +10,7 @@
  */
 // fs reads are now via strict-load helpers (see below); no direct fs imports needed.
 import { join } from 'node:path';
-import { SKILL_META, type SkillSlug, type SkillMeta } from './skills-meta.js';
+import { SKILL_META, type SkillSlug, type SkillMeta } from '../../views/skills-meta.js';
 
 const REPO_ROOT = process.cwd();
 const SKILLS_DIR = join(REPO_ROOT, 'public', 'data.skills');
