@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
-import { LICENSE_HUBS, matchLicense, rankLicense, type LicenseHub } from '../../../data/lib/licenses-meta';
+import { LICENSE_HUBS, matchLicense, rankLicense, type LicenseHub } from '../../../views/licenses-meta';
 import {
   loadAllDetails, type DetailFileMin, type GenreOccupation,
   renderRankItem, renderHighlights, renderSectorChart, renderFaqHtml,
@@ -12,7 +12,7 @@ import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../data/lib
 
 export async function getStaticPaths() {
   const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
-  const { LICENSE_HUBS: _h, matchLicense: _m, rankLicense: _r } = await import('../../../data/lib/licenses-meta');
+  const { LICENSE_HUBS: _h, matchLicense: _m, rankLicense: _r } = await import('../../../views/licenses-meta');
   const details = _l();
   return _h.map((h) => {
     const matched = details
