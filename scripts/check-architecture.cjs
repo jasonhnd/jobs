@@ -254,16 +254,81 @@ for (const rule of RULES) {
 // `import` is forbidden. Entry .tsx itself is fine — only its
 // transitive deps are constrained.
 
-/** Edge Function entry points. Vercel auto-detects these by file
- *  location (api/*) and by the root middleware.ts convention. Any file
- *  declaring `export const config = { runtime: "edge" }` belongs here.
- *  Add to this list when a new Edge function lands. */
-const EDGE_ENTRIES = [
-  path.join(ROOT, 'api', 'og.tsx'),
-  path.join(ROOT, 'api', 'feedback.js'),
-  path.join(ROOT, 'api', 'subscribe.js'),
-  path.join(ROOT, 'middleware.ts'),
-];
+/**
+ * Auto-discover Vercel Edge Function entry points. Two file-location
+ * conventions count:
+ *
+ *   1. Anything under `api/` at the repo root — Vercel auto-routes
+ *      these as functions (a file in api/ IS an entry by definition).
+ *
+ *   2. A file named `middleware.{ts,js}` at the repo root — Vercel's
+ *      Edge Middleware convention.
+ *
+ * Among those candidates, the file qualifies as an EDGE entry (vs.
+ * a Node serverless function) iff its source matches at least one of:
+ *
+ *   - `export const config = { ..., runtime: 'edge', ... }`     ← `api/*`
+ *   - `import { ... } from '@vercel/edge'`                       ← middleware.ts
+ *
+ * The previous hardcoded `EDGE_ENTRIES = [...]` list rotted whenever
+ * a new Edge function was added — auto-detection eliminates that
+ * drift surface. If the discovery misses a new file, fall back to
+ * the explicit override `EDGE_ENTRIES_OVERRIDE` env var (comma-
+ * separated paths) for emergency unblock.
+ */
+function discoverEdgeEntries() {
+  const candidates = [];
+
+  // 1. api/* files (Vercel function convention).
+  const apiDir = path.join(ROOT, 'api');
+  if (fs.existsSync(apiDir)) {
+    for (const ent of fs.readdirSync(apiDir, { withFileTypes: true })) {
+      if (!ent.isFile()) continue;
+      if (!/\.(tsx?|jsx?|mjs|cjs)$/.test(ent.name)) continue;
+      candidates.push(path.join(apiDir, ent.name));
+    }
+  }
+
+  // 2. middleware.{ts,js,mjs} at the repo root (Edge Middleware convention).
+  for (const name of ['middleware.ts', 'middleware.js', 'middleware.mjs']) {
+    const p = path.join(ROOT, name);
+    if (fs.existsSync(p)) candidates.push(p);
+  }
+
+  // Detect edge-runtime via source-content inspection. We want a low
+  // false-positive rate (don't flag a Node serverless function as
+  // Edge), so we look for two unambiguous markers:
+  //
+  //   `runtime: 'edge'` / `runtime: "edge"` inside an export-const-
+  //   config statement, OR an import from `@vercel/edge` (the only
+  //   package exposing Edge-specific helpers).
+  const EDGE_MARKER_RE =
+    /runtime\s*:\s*['"]edge['"]|from\s+['"]@vercel\/edge['"]/;
+
+  const detected = [];
+  for (const file of candidates) {
+    const source = fs.readFileSync(file, 'utf-8');
+    if (EDGE_MARKER_RE.test(source)) {
+      detected.push(file);
+    }
+  }
+
+  // Emergency override: if discovery is broken for whatever reason
+  // (e.g. a new Vercel convention this script doesn't know about),
+  // EDGE_ENTRIES_OVERRIDE='path1,path2' replaces the detected list.
+  const override = process.env.EDGE_ENTRIES_OVERRIDE;
+  if (override) {
+    return override
+      .split(',')
+      .map((p) => p.trim())
+      .filter(Boolean)
+      .map((p) => path.resolve(ROOT, p));
+  }
+
+  return detected.sort();
+}
+
+const EDGE_ENTRIES = discoverEdgeEntries();
 
 /** Try to resolve a relative ESM-style import (e.g. `./foo.js`) to a
  *  real file on disk. Mirrors TypeScript's "Bundler" moduleResolution:
