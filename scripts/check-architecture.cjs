@@ -52,6 +52,12 @@ const SRC = path.join(ROOT, 'src');
  * that look like `import type { ... } from '...';` — the rule is skipped
  * unless `noTypeImports` is set.
  */
+// 2026-05-14 Phase D audit (final cleanup): patterns now include the
+// relative-path form (e.g. '../templates/' alongside 'src/templates'),
+// because the previous substring matcher missed relative imports —
+// `from '../templates/Ranking.js'` did NOT contain the substring
+// 'src/templates' and silently bypassed the gate. Adding the relative
+// form catches both styles.
 const RULES = [
   {
     layer: 'Graph (src/graph/)',
@@ -59,8 +65,10 @@ const RULES = [
     forbidden: [
       { pattern: 'src/views',            reason: 'graph must not import view functions (one-way data flow: graph → view)' },
       { pattern: '@/views',              reason: 'graph must not import view functions' },
+      { pattern: '../views/',            reason: 'graph must not import view functions (relative-path form)' },
       { pattern: 'src/templates',        reason: 'graph is pre-rendering; it does not know HTML exists' },
       { pattern: '@/templates',          reason: 'graph is pre-rendering; it does not know HTML exists' },
+      { pattern: '../templates/',        reason: 'graph is pre-rendering; it does not know HTML exists (relative)' },
       { pattern: 'src/pages',            reason: 'graph must not import page-level code' },
       { pattern: 'src/components',       reason: 'graph must not import UI components' },
       { pattern: 'src/layouts',          reason: 'graph must not import layouts (HTML producers)' },
@@ -73,11 +81,13 @@ const RULES = [
     forbidden: [
       { pattern: 'src/templates',        reason: 'views are pure data; HTML production is a template concern' },
       { pattern: '@/templates',          reason: 'views are pure data; HTML production is a template concern' },
+      { pattern: '../templates/',        reason: 'views are pure data; HTML production is a template concern (relative)' },
       { pattern: 'src/pages',            reason: 'views are upstream of pages; pages import views, not the other way' },
       { pattern: 'src/components',       reason: 'views must not produce HTML or import UI' },
       { pattern: 'src/layouts',          reason: 'views must not import layouts' },
       { pattern: '.astro',               reason: 'views must not import Astro components' },
       { pattern: 'src/data/projections', reason: 'projections are legacy; views should query the graph instead' },
+      { pattern: '../data/projections',  reason: 'projections are legacy; views should query the graph instead (relative)' },
       { pattern: 'src/pages/sitemap',    reason: 'views must not import page-level sitemap logic' },
       // Direct fs/promises imports are tolerated for now — the migration
       // is gradual and some view helpers may still need them transitionally.
@@ -95,12 +105,16 @@ const RULES = [
       { pattern: 'node:fs/promises',     reason: 'templates must not do I/O' },
       { pattern: 'src/graph',            reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
       { pattern: '@/graph',              reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction' },
+      { pattern: '../graph/',            reason: 'templates take typed props; querying the graph from a template inverts the data-flow direction (relative)' },
       { pattern: 'src/views',            reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
       { pattern: '@/views',              reason: 'templates take typed props; calling view functions inverts the data-flow direction' },
+      { pattern: '../views/',            reason: 'templates take typed props; calling view functions inverts the data-flow direction (relative)' },
       { pattern: 'src/pages',            reason: 'templates must not import page-level code' },
       { pattern: 'src/data/projections', reason: 'templates must not read projection JSON — that is a view-layer concern' },
+      { pattern: '../data/projections',  reason: 'templates must not read projection JSON (relative)' },
       { pattern: 'src/data/lib',         reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
       { pattern: '@/data/lib',           reason: 'templates must not depend on legacy data helpers — Step 12 cleanup verified no live imports' },
+      { pattern: '../data/lib',          reason: 'templates must not depend on legacy data helpers (relative)' },
     ],
   },
   {
@@ -115,6 +129,7 @@ const RULES = [
       // them too — they're page-scoped glue, not a new layer.
       { pattern: 'src/data/projections', reason: 'pages must consume views, not raw projections' },
       { pattern: '@/data/projections',   reason: 'pages must consume views, not raw projections' },
+      { pattern: '../data/projections',  reason: 'pages must consume views, not raw projections (relative)' },
     ],
   },
 ];
@@ -174,16 +189,24 @@ function extractImports(source) {
   //   import [type] { a, b, c } from '...';
   //   import [type] * as x from '...';
   //   import [type] default, { a } from '...';
-  // The `s` flag lets `[^'"]*` span newlines so the braces+identifiers
-  // block can extend across multiple lines. The leading `^\s*` anchor
-  // would require the `m` flag to honor line boundaries, so the regex
-  // instead looks for the `import` token bounded by start-of-string or
-  // whitespace via the prior char check below.
-  const staticRe = /(^|[\s;])import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gs;
+  // The `m` flag makes `^` match line-start so we only catch real import
+  // statements (not the word "import" used inside docstrings). The
+  // `[^'"]*?` portion can still span newlines (newlines are inside the
+  // negated char class) so multi-line imports work.
+  //
+  // 2026-05-14 Phase D audit lesson: the previous regex used
+  // `(^|[\s;])import` which allowed `import` to be preceded by any
+  // whitespace including a newline. That false-matched docstring
+  // sentences like "templates cannot import view-layer values" when the
+  // file's next actual import was a `from '../views/...'` (the lazy
+  // `[^'"]*?` spanned the whole comment-then-real-import range, and the
+  // `type` keyword inside the actual import fell INSIDE the lazy match
+  // instead of being captured as group 2 — so isTypeOnly came back
+  // false). Anchoring to line-start with the `m` flag fixes this cleanly.
+  const staticRe = /^[ \t]*import\s+(type\s+)?[^'"]*?from\s*['"]([^'"]+)['"]/gm;
   let m;
   while ((m = staticRe.exec(source)) !== null) {
-    const fromIdx = m.index + m[1].length;
-    out.push({ line: offsetToLine(fromIdx), target: m[3], isTypeOnly: !!m[2] });
+    out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1] });
   }
 
   // Bare side-effect imports: `import '...';`
