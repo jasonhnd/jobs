@@ -5,7 +5,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { renderHighlights, escapeHtml } from '../templates/InterestHub.js';
+import { renderHighlights, escapeHtml } from './InterestHub.js';
 
 describe('interests.escapeHtml', () => {
   test('escapes the 5 HTML-significant characters', () => {

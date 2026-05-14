@@ -20,8 +20,28 @@
 //     changes, accidental refactor regressions).
 
 import { describe, test } from 'node:test';
-import { ALL_RANKINGS } from '../views/ranking.js';
 import { strict as assert } from 'node:assert';
+import type { RankingSlug } from '../views/rankings-meta.js';
+
+// Phase D cleanup (2026-05-14): doc §6.2 forbids templates from importing
+// values from views. The renderRelatedRankings tests use a hand-rolled
+// mock of the (slug, name, desc) triple shape — same type the function
+// accepts in its 2nd parameter. Tests verify filter-and-format behaviour;
+// they don't need the full 39-entry production list. Drift between mock
+// and ALL_RANKINGS shape is caught by TS typecheck — the `RankingSlug`
+// type imported above (type-only, allowed by check-architecture.cjs) keeps
+// the slug literals in sync with the canonical union.
+const MOCK_RANKINGS: ReadonlyArray<readonly [RankingSlug, string, string]> = [
+  ['ai-risk-high',     'AIに奪われる仕事 TOP30',   '...'],
+  ['ai-risk-low',      'AIに奪われない仕事 TOP30', '...'],
+  ['salary',           '高年収の仕事 TOP30',       '...'],
+  ['salary-safe',      '高年収×AI耐性 TOP30',      '...'],
+  ['entry-salary',     '高初任給の仕事 TOP30',     '...'],
+  ['workers',          '就業者数の多い職業 TOP30', '...'],
+  ['young-workforce',  '若手が多い職業 TOP30',     '...'],
+  ['short-hours',      '労働時間の短い職業 TOP30', '...'],
+  ['high-demand',      '求人需要の高い職業 TOP30', '...'],
+];
 
 import {
   escapeHtml,
@@ -254,18 +274,18 @@ describe('renderFaqHtml', () => {
 
 describe('renderRelatedRankings', () => {
   test('omits the current slug', () => {
-    const got = renderRelatedRankings('ai-risk-high', ALL_RANKINGS);
+    const got = renderRelatedRankings('ai-risk-high', MOCK_RANKINGS);
     assert.equal(got.includes('href="/ja/rankings/ai-risk-high"'), false);
   });
 
   test('always wraps output in ul.related-rankings', () => {
-    const got = renderRelatedRankings('ai-risk-high', ALL_RANKINGS);
+    const got = renderRelatedRankings('ai-risk-high', MOCK_RANKINGS);
     assert.match(got, /^<ul class="related-rankings">/);
     assert.match(got, /<\/ul>$/);
   });
 
   test('every emitted li is an anchor to a /ja/rankings/* href', () => {
-    const got = renderRelatedRankings('ai-risk-high', ALL_RANKINGS);
+    const got = renderRelatedRankings('ai-risk-high', MOCK_RANKINGS);
     const hrefs = [...got.matchAll(/href="(\/ja\/rankings\/[^"]+)"/g)].map((m) => m[1]);
     assert.ok(hrefs.length > 5, `expected several other rankings, got ${hrefs.length}`);
     assert.ok(hrefs.every((h) => !!h && h.startsWith('/ja/rankings/')));

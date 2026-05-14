@@ -249,7 +249,11 @@ import { RANKING_META, type RankingSlug as RankingSlugMeta } from './rankings-me
 // Pulled back into local scope for buildRankings(). The same symbols are
 // also re-exported from the bottom of this file for external consumers.
 import { FAQS } from './ranking-copy.js';
-import { escapeHtml, type ExtraCol } from '../templates/Ranking.js';
+// Phase D cleanup (2026-05-14): doc §6.2 forbids views from importing
+// runtime values from templates. escapeHtml is pulled from lib/ directly;
+// only the ExtraCol type stays from templates (type-only is permitted).
+import { escapeHtml } from '../lib/safe-html.js';
+import type { ExtraCol } from '../templates/Ranking.js';
 
 export type RankingSlug = RankingSlugMeta;
 
