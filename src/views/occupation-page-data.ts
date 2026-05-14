@@ -80,7 +80,7 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   const { adaptDetailFile } = await import('../data/lib/adapt-detail.js');
   const { buildRankings } = await import('../data/lib/rankings.js');
   const { buildRankingHitsByOcc } = await import('../data/lib/spoke-hub-graph.js');
-  const { buildSameRiskNeighbors } = await import('../data/lib/spoke-spoke-graph.js');
+  const { buildSameRiskNeighbors } = await import('./spoke-spoke-graph.js');
 
   const graph = await loadGraph();
   const allRecs: Rec[] = [];
@@ -153,7 +153,7 @@ export async function buildOccupationSpokeViews(
   const { computeSpokeHubs, renderSpokeHubsSection } = await import(
     '../data/lib/spoke-hub-graph.js'
   );
-  const { renderSameRiskSection } = await import('../data/lib/spoke-spoke-graph.js');
+  const { renderSameRiskSection } = await import('./spoke-spoke-graph.js');
 
   // Same-risk neighbors: lookup this rec's row from the serialized array.
   const sameRiskMap = new Map(sameRiskArr);
