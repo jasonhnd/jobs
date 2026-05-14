@@ -34,7 +34,7 @@ import {
 import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
-import { EXPLORE_ROUTES } from '../data/lib/explore-routes.js';
+import { EXPLORE_ROUTES } from './explore-routes.js';
 import type { KnowledgeGraph } from '@/graph';
 
 const SITE_ORIGIN = 'https://mirai-shigoto.com';
