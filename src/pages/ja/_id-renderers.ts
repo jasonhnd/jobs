@@ -15,7 +15,7 @@
  * not to route this file as a page.
  */
 
-import type { Rec, TopNEntry } from '@/views/adapt-detail';
+import type { Rec, TopNEntry } from '@/views/occupation-detail';
 import { makeOccupationDefinition } from '@/views/occupation-definition';
 import { buildOccupationFaqs } from '@/views/occupation-faqs';
 import { renderMetaRow } from '@/templates/MetaRow';

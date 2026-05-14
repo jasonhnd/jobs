@@ -1,4 +1,4 @@
-// Tests for adapt-detail.ts — pins the shape of `Rec` that downstream
+// Tests for occupation-detail.ts — pins the shape of `Rec` that downstream
 // renderers (src/pages/ja/[id].astro and the spoke graphs) depend on.
 // If a field is dropped or its default changes, this test fails before
 // the build does.
@@ -6,7 +6,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { adaptDetailFile } from './adapt-detail.js';
+import { adaptDetailFile } from './occupation-detail.js';
 
 describe('adaptDetailFile', () => {
   test('happy-path mapping with all fields populated', () => {

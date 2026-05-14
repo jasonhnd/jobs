@@ -51,6 +51,22 @@ export const SECTOR_HUE_COLOR: Record<string, string> = {
  * Runtime-validated by DetailRecordSchema below — call `safeParse` on
  * fetched JSON before using fields. The TypeScript type is derived from
  * the schema so the two stay in lockstep.
+ *
+ * Phase D #8 (2026-05-14 architecture.md §8 row 14) note: this is a
+ * DELIBERATE subset of `DetailFileSchema` in src/lib/projection-schemas.ts.
+ * The doc-table goal was to eliminate the "二次 schema" drift risk by
+ * collapsing the two definitions into one. We keep them separate at
+ * runtime because the OG endpoint is a Vercel Edge Function — pulling
+ * `projection-schemas.ts` into the Edge transitive dep tree was rejected
+ * after the 2026-05-14 27-deploy-failure incident (decision log of the
+ * same day): the Edge bundler is finicky about dep tree changes, and
+ * `DetailFileSchema` parses fields the OG card never reads.
+ *
+ * Drift is instead pinned by src/lib/og-helpers.test.ts which asserts
+ * every field name on DetailRecordSchema also appears on DetailFileSchema
+ * with a compatible (passthrough-tolerant) shape. If you add a field to
+ * DetailFileSchema that the OG card should consume, mirror it here AND
+ * let the drift test fail if the names diverge.
  */
 export const DetailRecordSchema = z
   .object({
