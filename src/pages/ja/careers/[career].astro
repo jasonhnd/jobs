@@ -2,13 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { CAREER_PERSONAS, type CareerPersona } from '../../../views/careers-meta';
-import {
-  loadAllDetails,
-  type DetailFileMin,
-  type GenreOccupation,
-  renderRankItem, renderHighlights, renderSectorChart,
-  renderFaqHtml, escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean, riskClass,
-} from '../../../views/genre-hub';
+import { loadAllDetails, type DetailFileMin, type GenreOccupation } from '../../../views/genre-hub';
+import { renderRankItem, renderHighlights, renderSectorChart, renderFaqHtml, escapeHtml, GENRE_HUB_CSS, fmtInt, safeMean, riskClass } from '../../../templates/Hub';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
