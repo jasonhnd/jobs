@@ -14,7 +14,7 @@
  * Page-local sibling (Astro `_`-prefix = not routed).
  */
 
-import { RELATED_HUBS_CSS } from '../../data/lib/spoke-hub-graph';
+import { RELATED_HUBS_CSS } from '../../views/spoke-hub-graph';
 import { SAME_RISK_CSS } from '../../views/spoke-spoke-graph';
 
 export const ID_PAGE_CSS = `

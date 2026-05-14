@@ -79,7 +79,7 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
   const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
   const { adaptDetailFile } = await import('../data/lib/adapt-detail.js');
   const { buildRankings } = await import('../data/lib/rankings.js');
-  const { buildRankingHitsByOcc } = await import('../data/lib/spoke-hub-graph.js');
+  const { buildRankingHitsByOcc } = await import('./spoke-hub-graph.js');
   const { buildSameRiskNeighbors } = await import('./spoke-spoke-graph.js');
 
   const graph = await loadGraph();
@@ -151,7 +151,7 @@ export async function buildOccupationSpokeViews(
   sameRiskArr: ReadonlyArray<[number, ReadonlyArray<SameRiskNeighborView>]>,
 ): Promise<OccupationSpokeViews> {
   const { computeSpokeHubs, renderSpokeHubsSection } = await import(
-    '../data/lib/spoke-hub-graph.js'
+    './spoke-hub-graph.js'
   );
   const { renderSameRiskSection } = await import('./spoke-spoke-graph.js');
 
