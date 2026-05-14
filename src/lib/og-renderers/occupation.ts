@@ -1,5 +1,5 @@
 /**
- * api/og-renderers/occupation.tsx — render a per-occupation OG card.
+ * src/lib/og-renderers/occupation.ts — render a per-occupation OG card.
  *
  * Step 9 part 2 final (2026-05-13): extracted from api/og.tsx
  * inline branch of the request handler. Each of the 556
@@ -14,12 +14,15 @@
  * so a corrupted upstream doesn't crash the Edge function with a
  * cryptic "Cannot read of undefined".
  *
- * Lives in api/og-renderers/ alongside its sibling card
- * renderers — binary PNG output, neither SafeHtml (templates) nor
- * typed data (views).
+ * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader
+ * for dependencies. See generic.ts header for the full rationale.
+ *
+ * Lives in src/lib/ alongside its sibling card renderers — binary PNG
+ * output, neither SafeHtml (templates) nor typed data (views).
  */
 
 import { ImageResponse } from '@vercel/og';
+import { createElement as h } from 'react';
 import {
   RISK_COLORS,
   loadGoogleFont,
@@ -92,9 +95,10 @@ export async function renderOccupationOgCard(
   ]);
 
   return new ImageResponse(
-    (
-      <div
-        style={{
+    h(
+      'div',
+      {
+        style: {
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -103,18 +107,16 @@ export async function renderOccupationOgCard(
           color: COLORS.ink,
           fontFamily: 'NotoSansJP',
           padding: '48px 64px',
-        }}
-      >
-        {/* Top bar — "独立分析" badge + site mark */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <div
-            style={{
+        },
+      },
+      // Top bar — "独立分析" badge + site mark.
+      h(
+        'div',
+        { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+        h(
+          'div',
+          {
+            style: {
               background: COLORS.accent,
               color: '#FFFFFF',
               padding: '8px 18px',
@@ -122,27 +124,32 @@ export async function renderOccupationOgCard(
               fontWeight: 800,
               fontSize: '22px',
               letterSpacing: '0.08em',
-            }}
-          >
-            独立分析
-          </div>
-          <div style={{ fontSize: '24px', color: COLORS.muted, fontWeight: 500 }}>
-            {SITE_MARK}
-          </div>
-        </div>
-
-        {/* Main row — risk block + names */}
-        <div
-          style={{
+            },
+          },
+          '独立分析',
+        ),
+        h(
+          'div',
+          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
+          SITE_MARK,
+        ),
+      ),
+      // Main row — risk block + names.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             alignItems: 'center',
             gap: '56px',
             flex: 1,
             marginTop: '40px',
-          }}
-        >
-          <div
-            style={{
+          },
+        },
+        h(
+          'div',
+          {
+            style: {
               background: COLORS.bg2,
               border: `4px solid ${riskColor}`,
               color: riskColor,
@@ -154,68 +161,78 @@ export async function renderOccupationOgCard(
               height: '320px',
               borderRadius: '24px',
               flexShrink: 0,
-            }}
-          >
-            <div
-              style={{
+            },
+          },
+          h(
+            'div',
+            {
+              style: {
                 fontFamily: 'NotoSerifJP',
                 fontSize: '200px',
                 fontWeight: 600,
                 lineHeight: 1,
-              }}
-            >
-              {riskNumberStr}
-            </div>
-            <div
-              style={{
+              },
+            },
+            riskNumberStr,
+          ),
+          h(
+            'div',
+            {
+              style: {
                 fontSize: '36px',
                 fontWeight: 600,
                 marginTop: '-4px',
                 color: COLORS.muted,
                 letterSpacing: '0.04em',
-              }}
-            >
-              / 10
-            </div>
-          </div>
-
-          <div
-            style={{
+              },
+            },
+            '/ 10',
+          ),
+        ),
+        h(
+          'div',
+          {
+            style: {
               display: 'flex',
               flexDirection: 'column',
               flex: 1,
               gap: '14px',
-            }}
-          >
-            <div
-              style={{
+            },
+          },
+          h(
+            'div',
+            {
+              style: {
                 fontSize: '26px',
                 color: COLORS.muted,
                 fontWeight: 500,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-              }}
-            >
-              {RISK_LABEL}
-            </div>
-            <div
-              style={{
+              },
+            },
+            RISK_LABEL,
+          ),
+          h(
+            'div',
+            {
+              style: {
                 fontFamily: 'NotoSerifJP',
                 fontSize: '72px',
                 fontWeight: 600,
                 lineHeight: 1.12,
                 color: COLORS.ink,
                 letterSpacing: '-0.01em',
-              }}
-            >
-              {primaryName}
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom stats line */}
-        <div
-          style={{
+              },
+            },
+            primaryName,
+          ),
+        ),
+      ),
+      // Bottom stats line.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             gap: '28px',
             fontSize: '26px',
@@ -224,13 +241,12 @@ export async function renderOccupationOgCard(
             borderTop: `1px solid ${COLORS.hairline}`,
             paddingTop: '24px',
             marginTop: '32px',
-          }}
-        >
-          <span>{workersLabel}</span>
-          <span style={{ color: COLORS.muted, opacity: 0.5 }}>·</span>
-          <span>{salaryLabel}</span>
-        </div>
-      </div>
+          },
+        },
+        h('span', null, workersLabel),
+        h('span', { style: { color: COLORS.muted, opacity: 0.5 } }, '·'),
+        h('span', null, salaryLabel),
+      ),
     ),
     {
       width: 1200,

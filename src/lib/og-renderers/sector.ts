@@ -1,5 +1,5 @@
 /**
- * api/og-renderers/sector.tsx — render a sector hub OG card.
+ * src/lib/og-renderers/sector.ts — render a sector hub OG card.
  *
  * Step 9 part 2 (2026-05-13): extracted from api/og.tsx inline
  * `renderSectorCard`. Each of the 16 sectors gets a distinct
@@ -13,15 +13,18 @@
  * crash the Edge function with a cryptic "Cannot read of
  * undefined".
  *
- * Lives in api/og-renderers/ — binary PNG output, neither
- * SafeHtml (templates) nor typed data (views). The view-shaped
- * data prep (validate + look up sector by id) is co-located here
- * because it's part of the same response-or-fail flow as the
- * render; splitting them across a view module would add an
- * Either-type boundary for no real reuse benefit.
+ * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader
+ * for dependencies. See generic.ts header for the full rationale.
+ *
+ * Lives in src/lib/ — binary PNG output, neither SafeHtml (templates)
+ * nor typed data (views). The view-shaped data prep (validate + look
+ * up sector by id) is co-located here because it's part of the same
+ * response-or-fail flow as the render; splitting them across a view
+ * module would add an Either-type boundary for no real reuse benefit.
  */
 
 import { ImageResponse } from '@vercel/og';
+import { createElement as h } from 'react';
 import {
   SECTOR_HUE_COLOR,
   loadGoogleFont,
@@ -96,9 +99,10 @@ export async function renderSectorOgCard(
   ]);
 
   return new ImageResponse(
-    (
-      <div
-        style={{
+    h(
+      'div',
+      {
+        style: {
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -108,18 +112,16 @@ export async function renderSectorOgCard(
           fontFamily: 'NotoSansJP',
           padding: '48px 64px',
           borderLeft: `14px solid ${accent}`,
-        }}
-      >
-        {/* Top bar — "独立分析" badge + site mark */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <div
-            style={{
+        },
+      },
+      // Top bar — "独立分析" badge + site mark.
+      h(
+        'div',
+        { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+        h(
+          'div',
+          {
+            style: {
               background: COLORS.accent,
               color: '#FFFFFF',
               padding: '8px 18px',
@@ -127,66 +129,76 @@ export async function renderSectorOgCard(
               fontWeight: 800,
               fontSize: '22px',
               letterSpacing: '0.08em',
-            }}
-          >
-            独立分析
-          </div>
-          <div style={{ fontSize: '24px', color: COLORS.muted, fontWeight: 500 }}>
-            {SITE_MARK}
-          </div>
-        </div>
-
-        {/* Sector eyebrow + name */}
-        <div
-          style={{
+            },
+          },
+          '独立分析',
+        ),
+        h(
+          'div',
+          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
+          SITE_MARK,
+        ),
+      ),
+      // Sector eyebrow + name + samples.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             flexDirection: 'column',
             flex: 1,
             justifyContent: 'center',
             marginTop: '20px',
-          }}
-        >
-          <div
-            style={{
+          },
+        },
+        h(
+          'div',
+          {
+            style: {
               fontSize: '26px',
               color: accent,
               fontWeight: 800,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
               marginBottom: '16px',
-            }}
-          >
-            {HEADLINE_LABEL}
-          </div>
-          <div
-            style={{
+            },
+          },
+          HEADLINE_LABEL,
+        ),
+        h(
+          'div',
+          {
+            style: {
               fontFamily: 'NotoSerifJP',
               fontSize: '104px',
               fontWeight: 600,
               lineHeight: 1.05,
               color: COLORS.ink,
               letterSpacing: '-0.01em',
-            }}
-          >
-            {nameLoc}
-          </div>
-          {samples ? (
-            <div
-              style={{
-                fontSize: '24px',
-                color: COLORS.muted,
-                fontWeight: 500,
-                marginTop: '20px',
-              }}
-            >
-              {samples}
-            </div>
-          ) : null}
-        </div>
-
-        {/* Bottom stats row */}
-        <div
-          style={{
+            },
+          },
+          nameLoc,
+        ),
+        samples
+          ? h(
+              'div',
+              {
+                style: {
+                  fontSize: '24px',
+                  color: COLORS.muted,
+                  fontWeight: 500,
+                  marginTop: '20px',
+                },
+              },
+              samples,
+            )
+          : null,
+      ),
+      // Bottom stats row.
+      h(
+        'div',
+        {
+          style: {
             display: 'flex',
             gap: '28px',
             fontSize: '26px',
@@ -195,15 +207,14 @@ export async function renderSectorOgCard(
             borderTop: `1px solid ${COLORS.hairline}`,
             paddingTop: '24px',
             marginTop: '20px',
-          }}
-        >
-          <span>{countLabel}</span>
-          <span style={{ color: COLORS.muted, opacity: 0.5 }}>·</span>
-          <span>{riskLabel}</span>
-          <span style={{ color: COLORS.muted, opacity: 0.5 }}>·</span>
-          <span>{workforceLabel}</span>
-        </div>
-      </div>
+          },
+        },
+        h('span', null, countLabel),
+        h('span', { style: { color: COLORS.muted, opacity: 0.5 } }, '·'),
+        h('span', null, riskLabel),
+        h('span', { style: { color: COLORS.muted, opacity: 0.5 } }, '·'),
+        h('span', null, workforceLabel),
+      ),
     ),
     {
       width: 1200,

@@ -18,23 +18,46 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   imports (so `src/lib/og-helpers.ts` worked) but **does not compile
   dependency `.tsx` files at all** — it reported the 4 renderers as
   `"unsupported modules"` and failed every preview deploy from commit
-  `3d50a8b3` (2026-05-13 06:09 UTC) onward (~25 consecutive failed
+  `3d50a8b3` (2026-05-13 06:09 UTC) onward (~27 consecutive failed
   deployments). The live `pre.mirai-shigoto.com` stayed pinned at
   commit `b8698283` (the last successful pre-Step-9 deploy) until this
-  fix. Two intermediate attempts that ALSO failed: (a) moving the
-  files into `api/og-renderers/` — Vercel still wouldn't compile dep
-  `.tsx`, only the entry one; (b) using explicit `.tsx` extension in
-  the import paths + `allowImportingTsExtensions: true` — same error,
-  just with `.tsx` listed instead of `.js`. Resolution:
-  pre-compile the renderers with **esbuild** as the first step of
-  `pnpm build`. `.tsx` sources stay at the architecturally-correct
-  location (`src/lib/og-renderers/`, "binary output → lib" per §5),
-  esbuild emits compiled `.js` into `api/og-renderers/` (gitignored,
-  rebuilt every deploy), and `api/og.tsx` imports those .js files.
-  Compilation takes ~5 ms (4 small files, `bundle: false`, JSX
-  automatic runtime). New devDep: `esbuild@^0.28.0`. New script:
-  `scripts/build-og-renderers.cjs` (~70 lines). Pipeline order
-  enforced via the `build` npm script.
+  fix.
+
+  Three sequential attempts shaped the final solution:
+    - **#1 (4c2a4167)**: move `src/lib/og-renderers/*.tsx` →
+      `api/og-renderers/*.tsx`. Wrong assumption — Vercel only applies
+      the TSX loader to **entry** files (those with `export default` /
+      `export const config`). Dependency .tsx files in the same dir
+      still get the dep-mode loader set, which has no TSX. Failed.
+    - **#2 (41aaccff)**: use explicit `.tsx` extension in import paths
+      + tsconfig `allowImportingTsExtensions: true`. Wrong assumption
+      that the error was about `.js → .tsx` fallback. The actual cause
+      is "no loader for .tsx as a dep, regardless of how it's
+      referenced". The error message just changed from `.js` to
+      `.tsx`. Failed.
+    - **#3 (33783386, esbuild pre-compile)**: succeeded. esbuild
+      compiled `.tsx → .js` as the first step of `pnpm build`. But
+      the build pipeline now had a Vercel-specific workaround
+      step + gitignored artifacts.
+
+  **Final solution (this commit)**: rewrite the 4 renderers as plain
+  `.ts` files using `createElement` (aliased `h`) calls instead of
+  JSX. Source: `src/lib/og-renderers/{generic,map,sector,occupation}.ts`.
+  No `.tsx` anywhere in the dep tree → Vercel's dep loader set
+  handles them directly → no pre-compile step, no esbuild devDep,
+  no gitignored artifacts. The verbosity tax (each element adds ~2
+  lines of parens/brackets vs JSX) is bounded — ~52 element nodes
+  across the 4 files — and the win is a build pipeline with **zero
+  platform-specific workarounds**. Removed: `esbuild@^0.28.0`
+  devDep, `scripts/build-og-renderers.cjs`, `.gitignore` entry for
+  `api/og-renderers/`, `allowImportingTsExtensions` tsconfig flag.
+
+  Local verification: typecheck + build (821 pages, 0 leaks) +
+  SEO baseline + architecture-boundary gate all green. Lesson
+  recorded in `docs/architecture.md` decision log:
+  **"Vercel Edge bundler has no TSX loader for dependencies. Write
+  all helper renderers as `.ts` with `createElement`; reserve `.tsx`
+  for entry files in `api/`."**
 - **Ranking title counts** (`ai-frontier`, `public-sector`): the hardcoded
   `name_ja` (rankings-meta.ts) and `<title>` (rankings.ts) for these two
   rankings still said "TOP30", but the actual filtered item counts are 21
@@ -222,13 +245,13 @@ in 11 places. New code now has a contract about *where it goes* and
   bindings bundle from a sibling `_id-bindings.ts`.
 - **Step 9 · OG endpoint refactor** (`api/og.tsx`, 967 → 172 lines, −82.2%):
   thin dispatcher. 5 card config dicts (`PAGE`/`RANKING`/`INTEREST`/`SKILL`/
-  `COMPARE_CARDS`) moved to `src/views/og-cards.ts`. 4 OG card JSX renderers
-  moved to `src/lib/og-renderers/{generic,map,sector,occupation}.tsx`,
-  with esbuild compiling them to `api/og-renderers/*.js` at build time
-  (see the Fixed section above for the Vercel-bundler workaround
-  rationale). The Vercel Edge dispatcher reads the card type from the
-  URL, looks up the config, and hands off to the renderer — adding a
-  new card surface is now ~30 lines (config entry + page binding).
+  `COMPARE_CARDS`) moved to `src/views/og-cards.ts`. 4 OG card renderers
+  moved to `src/lib/og-renderers/{generic,map,sector,occupation}.ts`
+  (plain `.ts` with `createElement` calls — see the Fixed section for
+  why no JSX/`.tsx` here). The Vercel Edge dispatcher reads the card
+  type from the URL, looks up the config, and hands off to the
+  renderer — adding a new card surface is now ~30 lines (config entry
+  + page binding).
 - **Step 10 · JsonLd / Sitemap relocation** (`src/views/`): JSON-LD is
   *data*, not HTML, so `occupation-jsonld.ts` + `sector-jsonld.ts` moved
   templates/ → views/. Sitemap enumeration + XML rendering split: new
