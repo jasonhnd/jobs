@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
-import { CAREER_PERSONAS, type CareerPersona } from '../../../data/lib/careers-meta';
+import { CAREER_PERSONAS, type CareerPersona } from '../../../views/careers-meta';
 import {
   loadAllDetails,
   type DetailFileMin,
@@ -35,7 +35,7 @@ function detailToOcc(d: DetailFileMin, score: number): GenreOccupation {
 
 export async function getStaticPaths() {
   const { loadAllDetails: _l } = await import('../../../data/lib/genre-hub');
-  const { CAREER_PERSONAS: _cp } = await import('../../../data/lib/careers-meta');
+  const { CAREER_PERSONAS: _cp } = await import('../../../views/careers-meta');
   const details = _l();
   return _cp.map((p) => {
     const scored = details
