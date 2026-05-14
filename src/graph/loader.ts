@@ -19,7 +19,7 @@ import path from 'node:path';
 import {
   strictReadJson,
   strictLoadDir,
-} from '../data/lib/strict-load.js';
+} from '../lib/strict-load.js';
 import {
   resolveSector,
   SENTINEL_UNCATEGORIZED,

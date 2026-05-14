@@ -62,7 +62,7 @@ export interface SkillsBundle {
 
 // ─── Loaders ──────────────────────────────────────────────────
 
-import { strictReadJson } from './strict-load.js';
+import { strictReadJson } from '../../lib/strict-load.js';
 import {
   SkillRankingFileSchema,
   TreemapFileSummarySchema,

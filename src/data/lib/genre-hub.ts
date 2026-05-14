@@ -19,7 +19,7 @@
  * filter/sort/render を実行する。
  */
 import { join } from 'node:path';
-import { strictReadJson, strictReaddir } from './strict-load.js';
+import { strictReadJson, strictReaddir } from '../../lib/strict-load.js';
 import { DetailFileSchema } from '../../lib/projection-schemas.js';
 
 const REPO_ROOT = process.cwd();
