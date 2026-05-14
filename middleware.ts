@@ -43,6 +43,11 @@
  * is skipped.
  */
 import { next, type RequestContext } from '@vercel/edge';
+import {
+  deriveClientId,
+  shouldSendMpHit,
+  buildMpPayload,
+} from './src/lib/middleware-helpers.js';
 
 export const config = {
   // Match user-facing HTML routes. Skip:
@@ -54,65 +59,27 @@ export const config = {
   matcher: '/((?!api|_vercel|_astro|data\\.|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|css|js|mjs|json|xml|txt|woff2?|ttf|otf|map)$).*)',
 };
 
-// Conservative bot UA filter. Bots that don't execute JS don't send
-// browser-side gtag.js hits anyway, so adding them server-side would
-// inflate counts (bot traffic) that nobody wants in GA4.
-const BOT_UA_RE =
-  /\b(bot|crawler|spider|crawling|scrapy|curl|wget|httpie|postman|monitor|uptime|pingdom|datadog|newrelic|sentry|googlebot|bingbot|baiduspider|yandexbot|duckduckbot|applebot|petalbot|ahrefsbot|semrushbot|mj12bot|preview|prerender|chrome-lighthouse|headlesschrome|phantomjs|slimerjs|playwright|puppeteer|cypress)\b/i;
-
-/**
- * Best-effort GA4 client_id derivation.
- *
- * `_ga` cookie shape: `GA1.1.<randomId>.<creationTimestamp>` (10+ chars
- * each, separated by dots). The canonical client_id is
- * `<randomId>.<creationTimestamp>`. When the cookie is missing (first
- * visit, or browser blocked gtag.js entirely), fall back to a fresh
- * pseudo-id so the server-side hit still has a non-empty cid (GA4
- * requires it).
- */
-function deriveClientId(cookieHeader: string | null): string {
-  if (cookieHeader) {
-    const match = cookieHeader.match(/_ga=GA1\.\d\.(\d+)\.(\d+)/);
-    if (match) return `${match[1]}.${match[2]}`;
-  }
-  // Pseudo-id: timestamp + 6-digit random. Format mirrors what gtag.js
-  // would have generated client-side. Not stable across visits without
-  // a cookie, so server-only visitors look like new users each session —
-  // acceptable since they're a tiny minority.
-  const ts = Math.floor(Date.now() / 1000);
-  const rand = Math.floor(Math.random() * 1_000_000_000);
-  return `${rand}.${ts}`;
-}
+// Pure helpers (BOT_UA_RE, deriveClientId, shouldSendMpHit,
+// buildMpPayload) live in src/lib/middleware-helpers.ts so they're
+// unit-testable without spinning up the Edge runtime. This file is the
+// I/O wrapper: read headers + env → call helpers → POST via waitUntil.
 
 export default function middleware(request: Request, context: RequestContext): Response {
   const measurementId = process.env.PUBLIC_GA4_MEASUREMENT_ID;
   const apiSecret = process.env.GA4_MP_API_SECRET;
 
-  // No env → no server-side tracking. Pass through silently.
-  if (!measurementId || !apiSecret) {
-    return next();
-  }
-
   const ua = request.headers.get('user-agent') ?? '';
-  // Bot filter — skip server-side measurement for known crawlers.
-  if (BOT_UA_RE.test(ua)) {
-    return next();
-  }
-
-  // HTML-accepting requests only. Browsers send `Accept: text/html,...`;
-  // image / font / xhr requests don't. (The matcher above also excludes
-  // file extensions, but Accept is a stricter second gate that catches
-  // the home page `/` and other extensionless routes correctly.)
   const accept = request.headers.get('accept') ?? '';
-  if (!accept.includes('text/html')) {
+  const url = new URL(request.url);
+
+  if (!shouldSendMpHit({ measurementId, apiSecret, userAgent: ua, accept, pathname: url.pathname })) {
     return next();
   }
 
-  const url = new URL(request.url);
-  // Skip if the URL itself looks non-HTML (defensive — matcher should catch).
-  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/_vercel/')) {
-    return next();
-  }
+  // Type-narrow: shouldSendMpHit guarantees these are defined on the
+  // true branch, but TypeScript can't see across the function boundary.
+  const mid = measurementId as string;
+  const secret = apiSecret as string;
 
   const cookieHeader = request.headers.get('cookie');
   const clientId = deriveClientId(cookieHeader);
@@ -123,35 +90,16 @@ export default function middleware(request: Request, context: RequestContext): R
 
   const mpUrl =
     `https://www.google-analytics.com/mp/collect` +
-    `?measurement_id=${encodeURIComponent(measurementId)}` +
-    `&api_secret=${encodeURIComponent(apiSecret)}`;
+    `?measurement_id=${encodeURIComponent(mid)}` +
+    `&api_secret=${encodeURIComponent(secret)}`;
 
-  // GA4 MP payload. `ip_override` + `user_agent` ensure geo + device
-  // attribution match what a real client-side hit would record. The
-  // `engagement_time_msec` is required for the event to count toward
-  // "engaged session" — without it, GA4 marks the session as bounce.
-  const payload = {
-    client_id: clientId,
-    user_id: undefined, // Not tracking logged-in users on this site.
-    timestamp_micros: Date.now() * 1000,
-    user_properties: {},
-    events: [
-      {
-        name: 'page_view',
-        params: {
-          page_location: url.href,
-          page_referrer: referer,
-          engagement_time_msec: 1, // Required; will be augmented if client also fires.
-          // Mark these hits so they're distinguishable in GA4 from
-          // client-side ones (debug filter "ssrc=mw" in Realtime).
-          ssrc: 'mw',
-        },
-      },
-    ],
-    // Pass-throughs that GA4 accepts at top level for server-side hits:
-    ip_override: clientIp,
-    user_agent: ua,
-  };
+  const payload = buildMpPayload({
+    clientId,
+    pageLocation: url.href,
+    pageReferrer: referer,
+    clientIp,
+    userAgent: ua,
+  });
 
   // Fire and forget. `context.waitUntil` keeps the Edge runtime alive
   // long enough for the POST to complete in the background AFTER the
