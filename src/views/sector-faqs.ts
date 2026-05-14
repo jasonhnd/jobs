@@ -1,8 +1,8 @@
 /**
- * src/data/lib/sector-faqs.ts — build the Q/A tuples used to power
+ * src/views/sector-faqs.ts — build the Q/A tuples used to power
  * the FAQPage Schema.org node on the /ja/sectors/[sector] hub.
  *
- * Sister of src/data/lib/occupation-faqs (per-occupation FAQ
+ * Sister of src/views/occupation-faqs (per-occupation FAQ
  * builder for /ja/[id]). Pure data shaping — produces
  * `readonly [question, answer]` tuples with no HTML.
  *
@@ -16,7 +16,7 @@
  *   5. {sector}業界の将来性は？                       — needs both
  */
 
-import { fmtInt } from '../../lib/num.js';
+import { fmtInt } from '../lib/num.js';
 
 /** One ranked occupation summary as the FAQ builder consumes it.
  *  A subset of the page's SectorOccupationSummary shape. */

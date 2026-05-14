@@ -1,4 +1,4 @@
-// Tests for src/data/lib/ranking-renderers.ts — snapshot-style regression
+// Tests for src/views/ranking-renderers.ts — snapshot-style regression
 // guards on every exported render function.
 //
 // Promised in the Phase 3.1 fix plan as the prerequisite to splitting
@@ -32,7 +32,7 @@ import {
   renderJsonLd,
   renderHubJsonLd,
 } from './ranking-renderers.js';
-import type { Occupation } from '../../views/rankings.js';
+import type { Occupation } from './rankings.js';
 
 // ─── Deterministic fixtures ───────────────────────────────────────────────
 

@@ -47,7 +47,7 @@ import {
   renderOccupationAiRiskDetail,
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
-import type { Rec } from '@/data/lib/adapt-detail';
+import type { Rec } from '@/views/adapt-detail';
 
 const DESC_TRUNCATE = 240;
 

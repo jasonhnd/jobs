@@ -1,5 +1,5 @@
 /**
- * src/data/lib/occupation-faqs.ts — build the Q/A tuples used to
+ * src/views/occupation-faqs.ts — build the Q/A tuples used to
  * power both the on-page FAQ block (src/templates/OccFaq) and the
  * FAQPage Schema.org node (src/templates/JsonLd).
  *
@@ -23,7 +23,7 @@
  * 220-char cap) live here too.
  */
 
-import { fmtInt } from '../../lib/num.js';
+import { fmtInt } from '../lib/num.js';
 
 /** Narrow shape — only the Rec fields buildOccupationFaqs reads. */
 export interface OccupationFaqsInput {

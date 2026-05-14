@@ -1,5 +1,5 @@
 /**
- * src/data/lib/occupation-definition.ts — build the opening
+ * src/views/occupation-definition.ts — build the opening
  * "{name}とは…です。" sentence for an occupation detail page.
  *
  * Extracted from src/pages/ja/[id].astro (`makeDefinition` plus its

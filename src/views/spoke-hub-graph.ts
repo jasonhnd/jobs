@@ -27,7 +27,7 @@ import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS, matchLicense } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { COMPARE_META } from './compare-meta.js';
-import { RANKING_META, type RankingSlug } from '../data/lib/rankings-meta.js';
+import { RANKING_META, type RankingSlug } from './rankings-meta.js';
 import { escapeHtml } from '../lib/safe-html.js';
 
 // ─── Public types ─────────────────────────────────────────────────────────
