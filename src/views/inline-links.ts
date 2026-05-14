@@ -26,10 +26,15 @@
  *
  * Usage from Astro frontmatter:
  *
- *   import { inlineLinkText, buildLinkRegistry } from '../../data/lib/inline-links';
+ *   import { inlineLinkText, buildLinkRegistry } from '../../views/inline-links';
  *   const registry = buildLinkRegistry();  // cached globally
  *   const html = inlineLinkText(plainTextIntro, registry);
  *   // html is now safe to inject via <Fragment set:html={html} /> — already escaped
+ *
+ * Migrated from src/data/lib/inline-links.ts 2026-05-14 (Phase B).
+ * Security-adjacent: this function builds <a> tags from user-facing
+ * occupation/hub names, so the HTML-escape-first then anchor-injection
+ * ordering is load-bearing. Tests pin the escape behaviour.
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -164,7 +169,7 @@ export function buildLinkRegistry(): LinkRegistry {
 
 // ─── HTML escape (must run BEFORE placeholder injection) ────────────────
 // Single source of truth lives at src/lib/safe-html.ts.
-import { escapeHtml } from '../../lib/safe-html.js';
+import { escapeHtml } from '../lib/safe-html.js';
 
 // ─── Core: inline-link a single text block ───────────────────────────────
 
