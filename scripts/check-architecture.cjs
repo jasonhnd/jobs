@@ -186,6 +186,109 @@ for (const rule of RULES) {
   }
 }
 
+// ─── Edge Function transitive dep walker ──────────────────────────
+//
+// Vercel's Edge Function bundler has separate loader sets for ENTRY
+// files vs DEPENDENCY files. Entry loader set handles .tsx (JSX);
+// dep loader set has .js / .ts only. A `.tsx` file imported (even
+// transitively) by an Edge entry fails with "unsupported modules"
+// and blocks the deploy.
+//
+// This trap cost 27 consecutive preview deploys 2026-05-13/14
+// (commits 3d50a8b3..33783386). See docs/architecture.md decision
+// log 2026-05-14 for the full incident write-up.
+//
+// Rule: any `.tsx` file reachable from an Edge Function entry via
+// `import` is forbidden. Entry .tsx itself is fine — only its
+// transitive deps are constrained.
+
+/** Edge Function entry points. Vercel auto-detects these by file
+ *  location (api/*) and by the root middleware.ts convention. Add to
+ *  this list when a new Edge function lands. */
+const EDGE_ENTRIES = [
+  path.join(ROOT, 'api', 'og.tsx'),
+  path.join(ROOT, 'middleware.ts'),
+];
+
+/** Try to resolve a relative ESM-style import (e.g. `./foo.js`) to a
+ *  real file on disk. Mirrors TypeScript's "Bundler" moduleResolution:
+ *  strip `.js` and try `.ts` / `.tsx`, then the literal path, then
+ *  /index variants. Returns absolute path or null if unresolvable
+ *  (npm package, node: built-in, broken path). */
+function resolveRelativeImport(fromDir, spec) {
+  if (!spec.startsWith('.')) return null; // npm package or node: import
+  let base = path.resolve(fromDir, spec);
+  // Strip trailing .js / .ts / .tsx so we can probe each extension.
+  base = base.replace(/\.(js|mjs|cjs|tsx|ts)$/, '');
+  for (const ext of ['.ts', '.tsx', '.js', '.mjs', '.cjs']) {
+    if (fs.existsSync(base + ext) && fs.statSync(base + ext).isFile()) {
+      return base + ext;
+    }
+  }
+  // `./foo` → `./foo/index.{ts,tsx,js}` resolution.
+  for (const ext of ['.ts', '.tsx', '.js']) {
+    const idx = path.join(base, 'index' + ext);
+    if (fs.existsSync(idx) && fs.statSync(idx).isFile()) {
+      return idx;
+    }
+  }
+  return null;
+}
+
+/** BFS over the import graph rooted at `entryFile`. Collects every
+ *  reachable file. Skips npm-package + node: imports. Type-only
+ *  imports DO count — at runtime Vercel sees them as `.tsx` references
+ *  to resolve, regardless of whether the bundler tree-shakes them. */
+function walkImportClosure(entryFile) {
+  const visited = new Set();
+  const queue = [entryFile];
+  while (queue.length > 0) {
+    const file = queue.shift();
+    if (visited.has(file)) continue;
+    visited.add(file);
+    if (!fs.existsSync(file)) continue;
+    const source = fs.readFileSync(file, 'utf-8');
+    const imports = extractImports(source);
+    for (const imp of imports) {
+      const resolved = resolveRelativeImport(path.dirname(file), imp.target);
+      if (resolved && !visited.has(resolved)) {
+        queue.push(resolved);
+      }
+    }
+  }
+  return visited;
+}
+
+function checkEdgeFunctionTsxDeps() {
+  let edgeViolations = 0;
+  for (const entry of EDGE_ENTRIES) {
+    if (!fs.existsSync(entry)) {
+      console.log(`[check-architecture] Edge entry — SKIP ${path.relative(ROOT, entry)} (missing)`);
+      continue;
+    }
+    const entryRel = path.relative(ROOT, entry);
+    const closure = walkImportClosure(entry);
+    console.log(`[check-architecture] Edge entry ${entryRel} — scanning ${closure.size - 1} transitive deps`);
+    for (const file of closure) {
+      if (file === entry) continue; // entry .tsx is fine
+      if (!file.endsWith('.tsx')) continue;
+      const rel = path.relative(ROOT, file);
+      console.error(
+        `  ✗ ${rel}\n` +
+        `    JSX (.tsx) file reachable from Edge entry ${entryRel}.\n` +
+        `    reason: Vercel Edge bundler has no TSX loader for dependencies.\n` +
+        `            Rewrite as plain .ts using \`createElement\` (or move the\n` +
+        `            JSX into the entry file itself). See docs/architecture.md\n` +
+        `            decision log 2026-05-14 for the incident write-up.`,
+      );
+      edgeViolations += 1;
+    }
+  }
+  return edgeViolations;
+}
+
+violations += checkEdgeFunctionTsxDeps();
+
 if (violations > 0) {
   console.error('');
   console.error(`[check-architecture] ${violations} boundary violation(s). See docs/architecture.md §6.2.`);
