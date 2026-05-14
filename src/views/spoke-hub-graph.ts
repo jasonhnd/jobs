@@ -1,5 +1,5 @@
 /**
- * spoke-hub-graph.ts — Phase A: compute "related hubs" for each spoke (occupation).
+ * src/views/spoke-hub-graph.ts — Phase A: compute "related hubs" for each spoke (occupation).
  *
  * For every occupation page, derive 8-12 contextually relevant hubs from across
  * all 17 hub categories. This builds a dense back-link network: each spoke points
@@ -13,18 +13,22 @@
  * Performance: this runs once per spoke build, so it's called 556 times. Each
  * call walks lookup data structures sized at ~100 entries; total cost stays
  * sub-second across the full build.
+ *
+ * Migrated from src/data/lib/spoke-hub-graph.ts 2026-05-14 (Phase B).
+ * DetailFileMin / genre-configs / rankings-meta still in src/data/lib/
+ * (cross-directory imports — resolves when those migrate later).
  */
-import type { DetailFileMin } from './genre-hub.js';
+import type { DetailFileMin } from '../data/lib/genre-hub.js';
 import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
-  WORK_STYLES_CONFIGS } from './genre-configs.js';
-import { SKILL_META } from '../../views/skills-meta.js';
-import { INTEREST_META, type InterestType } from '../../views/interests-meta.js';
-import { CAREER_PERSONAS } from '../../views/careers-meta.js';
-import { LICENSE_HUBS, matchLicense } from '../../views/licenses-meta.js';
-import { QA_ITEMS } from '../../views/qa-meta.js';
-import { COMPARE_META } from '../../views/compare-meta.js';
-import { RANKING_META, type RankingSlug } from './rankings-meta.js';
-import { escapeHtml } from '../../lib/safe-html.js';
+  WORK_STYLES_CONFIGS } from '../data/lib/genre-configs.js';
+import { SKILL_META } from './skills-meta.js';
+import { INTEREST_META, type InterestType } from './interests-meta.js';
+import { CAREER_PERSONAS } from './careers-meta.js';
+import { LICENSE_HUBS, matchLicense } from './licenses-meta.js';
+import { QA_ITEMS } from './qa-meta.js';
+import { COMPARE_META } from './compare-meta.js';
+import { RANKING_META, type RankingSlug } from '../data/lib/rankings-meta.js';
+import { escapeHtml } from '../lib/safe-html.js';
 
 // ─── Public types ─────────────────────────────────────────────────────────
 
