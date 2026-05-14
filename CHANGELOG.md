@@ -339,10 +339,9 @@ rather than days later in Google Search Console.
   binary baseline storage has its own ops cost.
 - **`scripts/check-architecture.cjs` Edge-function dep walker** —
   in addition to the 4-layer boundary grep, transitively walks the
-  import graph rooted at each Vercel Edge Function entry (api/og.tsx,
-  api/feedback.js, api/subscribe.js, middleware.ts) and fails the
-  gate if any `.tsx` file appears as a dependency. Caught the same
-  failure mode that broke 27 consecutive preview deploys
+  import graph rooted at each Vercel Edge Function entry and fails
+  the gate if any `.tsx` file appears as a dependency. Caught the
+  same failure mode that broke 27 consecutive preview deploys
   2026-05-13/14 (commits 3d50a8b3..33783386) — Vercel's Edge bundler
   has separate loader sets for entry .tsx vs dep .tsx, and "JSX in
   a dep" silently fails the deploy. The extractor handles multi-line
@@ -350,6 +349,16 @@ rather than days later in Google Search Console.
   flag, plus an offset→line lookup). Smoke-tested by introducing a
   stub `.tsx` into the closure — gate fires with an actionable
   pointer at `docs/architecture.md` decision log 2026-05-14.
+
+  **Entry discovery is automatic** (was hardcoded). The gate scans
+  `api/*.{ts,tsx,js,jsx,mjs,cjs}` and `middleware.{ts,js,mjs}`,
+  flagging each file whose source contains either
+  `runtime: 'edge'` (in an `export const config` block) OR
+  `import from '@vercel/edge'`. A future contributor adding e.g.
+  `api/contact.tsx` is auto-protected by the gate the moment the
+  file is committed — no manual `EDGE_ENTRIES` edit required. The
+  `EDGE_ENTRIES_OVERRIDE` env var is an emergency manual escape
+  hatch if discovery is ever wrong.
 - **CI workflow** (`.github/workflows/seo-baseline.yml`): runs
   `check:seo-baseline` + `check:architecture` + `verify:jsonld` +
   `verify:internal-links` on every PR to main. E2E (`a11y.spec` +
