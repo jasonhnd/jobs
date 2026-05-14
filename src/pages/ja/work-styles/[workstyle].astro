@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
-import { WORK_STYLES_CONFIGS } from '../../../data/lib/genre-configs';
+import { WORK_STYLES_CONFIGS } from '../../../views/genre-configs';
 import {
   loadAllDetails, buildGenreResult, renderRankItem, renderHighlights,
   renderSectorChart, renderFaqHtml, renderGenreJsonLd, escapeHtml, GENRE_HUB_CSS,
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   const { loadGraph } = await import('@/graph');
   const { loadGraphAdaptedDetails } = await import('@/views/hub');
   const { buildGenreResult: _b } = await import('../../../data/lib/genre-hub');
-  const { WORK_STYLES_CONFIGS: _c } = await import('../../../data/lib/genre-configs');
+  const { WORK_STYLES_CONFIGS: _c } = await import('../../../views/genre-configs');
   const graph = await loadGraph();
   const details = loadGraphAdaptedDetails(graph);
   return _c.map((cfg) => ({ params: { workstyle: cfg.slug }, props: { result: _b(details, cfg) } }));

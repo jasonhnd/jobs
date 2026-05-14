@@ -1,5 +1,5 @@
 /**
- * genre-configs.ts — 9 ジャンル × 計 60 個のデータ駆動 hub の設定。
+ * src/views/genre-configs.ts — 9 ジャンル × 計 60 個のデータ駆動 hub の設定。
  *
  * 内訳: abilities 10 + knowledge 10 + values 8 + education 6 + training 5
  *      + work-styles 7 + employment-types 4 + life-balance 6 + entry-paths 5
@@ -7,8 +7,19 @@
  * 各 genre は genre-hub.ts の buildGenreResult() で TOP 30 を計算する。
  * Pure-data モジュール、fs imports なし — Astro frontmatter と Edge Function
  * 両方からインポート可能。
+ *
+ * Migrated from src/data/lib/genre-configs.ts 2026-05-14 (Phase B, file #18 of 18).
+ * Per docs/architecture.md §6.2, the 60 hub-config objects feed view-layer
+ * URL emission (sitemap), graph traversal (spoke-hub-graph / hub-hub-graph),
+ * and 9 × (index + [slug]) page families = 21 Astro pages. Every consumer is
+ * an HTML / sitemap surface, so the canonical home is src/views/. The type
+ * import `GenreHubConfig` / `DetailFileMin` still points at
+ * src/data/lib/genre-hub.ts (cross-dir bridge); genre-hub itself stays in
+ * data/lib for Phase B because it owns the buildGenreBundle compute and is
+ * tested there. A future Phase C pass can colocate the type with the data
+ * or split genre-hub into a graph-layer ranker + a views-layer renderer.
  */
-import type { GenreHubConfig, DetailFileMin } from './genre-hub.js';
+import type { GenreHubConfig, DetailFileMin } from '../data/lib/genre-hub.js';
 
 // ─── G. 能力 (abilities) — 10 hub ────────────────────────
 

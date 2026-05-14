@@ -20,7 +20,7 @@
  */
 import type { DetailFileMin } from '../data/lib/genre-hub.js';
 import { ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
-  WORK_STYLES_CONFIGS } from '../data/lib/genre-configs.js';
+  WORK_STYLES_CONFIGS } from './genre-configs.js';
 import { SKILL_META } from './skills-meta.js';
 import { INTEREST_META, type InterestType } from './interests-meta.js';
 import { CAREER_PERSONAS } from './careers-meta.js';

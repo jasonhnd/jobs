@@ -30,7 +30,7 @@ import {
   ABILITIES_CONFIGS, KNOWLEDGE_CONFIGS, VALUES_CONFIGS,
   EDUCATION_CONFIGS, TRAINING_CONFIGS, WORK_STYLES_CONFIGS,
   EMPLOYMENT_CONFIGS, LIFE_BALANCE_CONFIGS, ENTRY_PATHS_CONFIGS,
-} from '../data/lib/genre-configs.js';
+} from './genre-configs.js';
 import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';

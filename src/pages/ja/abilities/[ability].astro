@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
-import { ABILITIES_CONFIGS } from '../../../data/lib/genre-configs';
+import { ABILITIES_CONFIGS } from '../../../views/genre-configs';
 import {
   loadAllDetails,
   buildGenreResult,
@@ -24,7 +24,7 @@ export async function getStaticPaths() {
   const { loadGraph } = await import('@/graph');
   const { loadGraphAdaptedDetails } = await import('@/views/hub');
   const { buildGenreResult: _build } = await import('../../../data/lib/genre-hub');
-  const { ABILITIES_CONFIGS: _cfgs } = await import('../../../data/lib/genre-configs');
+  const { ABILITIES_CONFIGS: _cfgs } = await import('../../../views/genre-configs');
   const graph = await loadGraph();
   const details = loadGraphAdaptedDetails(graph);
   return _cfgs.map((cfg) => {
