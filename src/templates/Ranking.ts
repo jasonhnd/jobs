@@ -298,6 +298,45 @@ export function renderJsonLd(
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
 }
 
+// ─── rankings/index hub-card renderer (Phase D audit #8 2026-05-14) ────
+
+export interface RankingsHubCard {
+  readonly slug: string;
+  readonly name: string;
+  readonly desc: string;
+  readonly preview: string | null | undefined;
+  readonly count: number;
+}
+
+export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): string {
+  return cards.map((c) => {
+    const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
+    return (
+      `<li><a href="/ja/rankings/${c.slug}">` +
+      `<span class="rr-title">${escapeHtml(c.name)}</span>` +
+      `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
+      `${previewHtml}` +
+      `<span class="rr-count">${c.count} 職業</span>` +
+      `</a></li>`
+    );
+  }).join('');
+}
+
+export function renderRankingsHubStats(stats: ReadonlyArray<readonly [string, string]>): string {
+  if (stats.length === 0) return '';
+  return `<dl class="stats">${stats
+    .map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`)
+    .join('')}</dl>`;
+}
+
+// Insights items are pre-rendered SafeHtml from views/ranking.ts (sector
+// names are escaped at the source). Do NOT re-escape here.
+export function renderRankingsHubInsights(insights: ReadonlyArray<string>): string {
+  if (insights.length === 0) return '';
+  const items = insights.map((h) => `<li>${h}</li>`).join('');
+  return `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${items}</ul></section>`;
+}
+
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/rankings`;
   const seoDesc = '日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。';

@@ -3,26 +3,23 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { LIFE_BALANCE_CONFIGS } from '../../../views/genre-configs';
 import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
-import { escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../templates/Hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '../../../templates/Hub';
 
 const details = loadAllDetails();
 const cards = LIFE_BALANCE_CONFIGS.map((cfg) => {
   const r = buildGenreResult(details, cfg);
-  return { cfg, count: r.items.length, top: r.items[0]?.name_ja ?? '' };
+  return {
+    slug: cfg.slug, short_ja: cfg.short_ja, description_ja: cfg.description_ja,
+    count: r.items.length, top: r.items[0]?.name_ja ?? '',
+    countLabel: `TOP ${r.items.length} 職業`,
+  };
 });
 
 const canonical = 'https://mirai-shigoto.com/ja/life-balance';
 const title = 'ライフバランスから職業を探す｜育児・介護・健康・趣味と両立 6 hub | 未来の仕事';
 const seoDesc = '育児・介護・健康・精神負担・趣味・シニア活躍との両立しやすい職業を一覧。ライフステージ別に向く職業を AI 影響度・年収と共に確認。';
 const jsonLd = renderGenreIndexJsonLd(canonical, 'ライフバランスから探す', seoDesc);
-const cardsHtml = cards.map((c) =>
-  `<li><a href="/ja/life-balance/${c.cfg.slug}">` +
-  `<span class="gci-name">${escapeHtml(c.cfg.short_ja)}</span>` +
-  `<span class="gci-desc">${escapeHtml(c.cfg.description_ja.slice(0, 90))}…</span>` +
-  (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
-  `<span class="gci-count">TOP ${c.count} 職業</span>` +
-  `</a></li>`
-).join('');
+const cardsHtml = renderGenreHubIndexCards(cards, 'life-balance');
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=life-balance" ogTitle={title} ogDescription={seoDesc}>

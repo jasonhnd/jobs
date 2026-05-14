@@ -3,26 +3,23 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { VALUES_CONFIGS } from '../../../views/genre-configs';
 import { loadAllDetails, buildGenreResult } from '../../../views/genre-hub';
-import { escapeHtml, renderGenreIndexJsonLd, GENRE_HUB_CSS } from '../../../templates/Hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '../../../templates/Hub';
 
 const details = loadAllDetails();
 const cards = VALUES_CONFIGS.map((cfg) => {
   const r = buildGenreResult(details, cfg);
-  return { cfg, count: r.items.length, top: r.items[0]?.name_ja ?? '' };
+  return {
+    slug: cfg.slug, short_ja: cfg.short_ja, description_ja: cfg.description_ja,
+    count: r.items.length, top: r.items[0]?.name_ja ?? '',
+    countLabel: `TOP ${r.items.length} 職業`,
+  };
 });
 
 const canonical = 'https://mirai-shigoto.com/ja/values';
 const title = '価値観から職業を探す｜IPD 12 価値観軸別 6 hub | 未来の仕事';
 const seoDesc = 'IPD 12 価値観軸から、各価値観に合う職業 TOP 30 を一覧。達成感・自律性・認知・関係性・支援・労働条件等。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '価値観から探す', seoDesc);
-const cardsHtml = cards.map((c) =>
-  `<li><a href="/ja/values/${c.cfg.slug}">` +
-  `<span class="gci-name">${escapeHtml(c.cfg.short_ja)}</span>` +
-  `<span class="gci-desc">${escapeHtml(c.cfg.description_ja.slice(0, 90))}…</span>` +
-  (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
-  `<span class="gci-count">TOP ${c.count} 職業</span>` +
-  `</a></li>`
-).join('');
+const cardsHtml = renderGenreHubIndexCards(cards, 'values');
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=values" ogTitle={title} ogDescription={seoDesc}>

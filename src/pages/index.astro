@@ -1,101 +1,13 @@
 ---
 /**
  * index.astro — Astro wrapper around the verbatim source HTML at
- * src/index-source.html so that:
- *   1) the file gets routed at "/", and
- *   2) the footer timestamp is replaced with the current build time on each
- *      `astro build` — the source file's burned-in timestamp would otherwise
- *      stay stale forever.
+ * src/index-source.html. The page-binding logic (fs read, regex patches,
+ * timestamp injection, CSS inflation) lives in _index-bindings.ts.
  *
- * src/index-source.html is intentionally outside src/pages/ (so Astro
- * doesn't try to route it directly) and not named `_*.html` (so .gitignore
- * doesn't strip it). It's a ~4500-line raw copy of the original page,
- * preserved verbatim because the inline IIFE is intricate.
- *
- * Future cleanup: extract <head>, footer, and shared chunks into BaseLayout
- * + Footer components. For now the wrap-and-inject approach gets the
- * timestamp right while keeping diffs minimal.
+ * Phase D audit #8 (2026-05-14): slimmed per doc §2.5.
  */
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { CANONICAL_CSS } from '../lib/canonical-css.ts';
-import { INDEX_CSS } from './_index-css.ts';
+import { buildIndexPageHtml } from './_index-bindings';
 
-const sourcePath = join(process.cwd(), 'src', 'index-source.html');
-const raw = readFileSync(sourcePath, 'utf-8');
-
-// Build-time JST timestamp, matching Footer.astro's display format.
-function buildTimeJst(): { iso: string; display: string } {
-  const d = new Date();
-  const jst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return {
-    iso: `${jst.getUTCFullYear()}-${pad(jst.getUTCMonth() + 1)}-${pad(jst.getUTCDate())}T${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}:${pad(jst.getUTCSeconds())}+09:00`,
-    display: `${jst.getUTCFullYear()}/${pad(jst.getUTCMonth() + 1)}/${pad(jst.getUTCDate())}_${pad(jst.getUTCHours())}:${pad(jst.getUTCMinutes())}_JST`,
-  };
-}
-
-const { iso, display } = buildTimeJst();
-
-// Inject canonical typography + footer CSS into the legacy HTML's <head>.
-// Index uses <Fragment set:html={html}> so a trailing <style> would fall
-// outside </html> and get stripped — splice into <head> before rendering.
-// Same source of truth as Footer.astro (src/lib/canonical-css.ts).
-const SITE_CANONICAL_BLOCK = `<style id="site-canonical">${CANONICAL_CSS}</style>`;
-
-/**
- * Patch `raw` by applying a regex-based replace. Throws if the pattern
- * didn't match — the source HTML legacy file is hand-maintained and
- * silent-no-match would let stale timestamps or missing canonical CSS
- * ship without anyone noticing. Audit's #7.3.
- */
-function patchOrThrow(input: string, pattern: RegExp, replacement: string, tag: string): string {
-  if (!pattern.test(input)) {
-    throw new Error(
-      `[index.astro] template patch failed: pattern for "${tag}" did not match src/index-source.html. ` +
-      `Did the upstream HTML change shape?`,
-    );
-  }
-  return input.replace(pattern, replacement);
-}
-
-// Replace the static timestamp burned into the source HTML. Tolerant regex
-// matches both "YYYY/MM/DD/HH:MM JST" (older form) and "YYYY/MM/DD_HH:MM_JST"
-// (current form) so re-runs stay idempotent.
-let html = patchOrThrow(
-  raw,
-  /datetime="20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+09:00"/,
-  `datetime="${iso}"`,
-  'datetime attribute',
-);
-html = patchOrThrow(
-  html,
-  />20\d{2}\/\d{2}\/\d{2}[\/_]\d{2}:\d{2}[ _]JST</,
-  `>${display}<`,
-  'JST footer timestamp',
-);
-html = patchOrThrow(
-  html,
-  /<\/head>/,
-  `${SITE_CANONICAL_BLOCK}\n  </head>`,
-  'canonical CSS injection point (</head>)',
-);
-
-// Inflate the placeholder `<style>/*__INDEX_CSS__*/</style>` (a single line in
-// src/index-source.html) back into the full ~2200-line inline CSS block that
-// the page ships with. The CSS itself lives in src/pages/_index-css.ts so the
-// raw HTML file stays under 3050 lines and the stylesheet is editable as a
-// TypeScript module. Byte-identity vs. pre-extraction output is guarded by
-// tests/baseline/ — any drift fails the SEO baseline diff.
-//
-// The match anchor is the FULL placeholder element (not just the comment) so
-// a stray `/*__INDEX_CSS__*/` appearing elsewhere in the file (it shouldn't,
-// but defensively) wouldn't accidentally swallow surrounding markup.
-html = patchOrThrow(
-  html,
-  /<style>\/\*__INDEX_CSS__\*\/<\/style>/,
-  `<style>\n${INDEX_CSS}\n    </style>`,
-  'INDEX_CSS placeholder',
-);
+const html = buildIndexPageHtml();
 ---
 <Fragment set:html={html} />

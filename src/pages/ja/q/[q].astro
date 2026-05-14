@@ -1,88 +1,25 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { loadGraph } from '@/graph';
 import Footer from '../../../components/Footer.astro';
+import { loadGraph } from '@/graph';
 import { QA_ITEMS, selectExamples, type QAItem } from '../../../views/qa-meta';
 import { loadAllDetails, type DetailFileMin } from '../../../views/genre-hub';
-import { escapeHtml, GENRE_HUB_CSS } from '../../../templates/Hub';
-import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
-import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { GENRE_HUB_CSS } from '../../../templates/Hub';
+import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
+import { buildQSlugBindings } from './_q-bindings';
 
 export async function getStaticPaths() {
-  const { loadAllDetails: _l } = await import('../../../views/genre-hub');
-  const { QA_ITEMS: _q, selectExamples: _s } = await import('../../../views/qa-meta');
-  const details = _l();
-  return _q.map((q) => ({
-    params: { q: q.slug },
-    props: { qa: q, examples: _s(details, q, 10) },
-  }));
+  const details = loadAllDetails();
+  return QA_ITEMS.map((q) => ({ params: { q: q.slug }, props: { qa: q, examples: selectExamples(details, q, 10) } }));
 }
 
 interface Props { qa: QAItem; examples: ReadonlyArray<DetailFileMin>; }
 const { qa, examples } = Astro.props as Props;
-
-// Phase D: inline-link occupation names mentioned in answer + reasoning text.
-// Q&A is the highest-value surface for inline links — long-form answer prose with
-// many natural occupation mentions. We intentionally do NOT exclude the example IDs
-// because the editorial-prose inline link is a stronger Google signal than the
-// list link below; both should fire.
-const graph = await loadGraph();
-const _linkRegistry = buildLinkRegistry(graph);
-const shortAnswerHtml = inlineLinkText(qa.short_answer, _linkRegistry, {
-  maxLinks: 4,
-});
-const reasoningHtml = inlineLinkText(qa.reasoning, _linkRegistry, {
-  maxLinks: 6,
-});
-const crossHubHtml = renderRelatedHubsBlock('q', qa.slug, 6);
-
-const canonical = `https://mirai-shigoto.com/ja/q/${qa.slug}`;
-const title = `${qa.question}｜独自分析で回答【2026 年版】 | 未来の仕事`;
-const seoDesc = qa.short_answer;
-
-// Build example list HTML
-const exampleListHtml = examples.length > 0 ? '<ol class="rank-list">' + examples.map((d) => {
-  const name = d.title?.ja ?? `#${d.id}`;
-  const ai = d.ai_risk?.score;
-  const aiStr = ai === null || ai === undefined ? '—' : `${ai}/10`;
-  const band = ai === null || ai === undefined ? 'mid' : ai <= 3 ? 'low' : ai <= 6 ? 'mid' : 'high';
-  const sec = d.sector?.ja ?? '';
-  const salary = d.stats?.salary_man_yen;
-  return `<li><div class="rl-main"><a class="rl-name" href="/ja/${d.id}">${escapeHtml(name)}</a>${sec ? `<span class="rl-sector">${escapeHtml(sec)}</span>` : ''}</div><div class="rl-stats"><span class="risk-pill ${band}">${aiStr}</span>${salary ? `<span class="rl-salary">${Math.trunc(salary)}万円</span>` : ''}</div></li>`;
-}).join('') + '</ol>' : '<p>該当例なし</p>';
-
-// Related Q&A
-const relatedQAs = QA_ITEMS.filter((other) => qa.related_topics.includes(other.slug)).slice(0, 5);
-const relatedHtml = '<ul class="related-genre">' + relatedQAs.map((r) =>
-  `<li><a href="/ja/q/${r.slug}"><span class="rg-name">${escapeHtml(r.question)}</span><span class="rg-desc">${escapeHtml(r.short_answer.slice(0, 60))}…</span></a></li>`
-).join('') + '</ul>';
-
-const SITE = 'https://mirai-shigoto.com';
-const jsonLd = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@graph': [
-    { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: qa.question, description: seoDesc, inLanguage: 'ja' },
-    {
-      '@type': 'QAPage',
-      '@id': `${canonical}#qa`,
-      mainEntity: {
-        '@type': 'Question',
-        name: qa.question,
-        text: qa.question,
-        acceptedAnswer: { '@type': 'Answer', text: qa.short_answer + ' ' + qa.reasoning },
-      },
-    },
-    { '@type': 'BreadcrumbList', itemListElement: [
-      { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-      { '@type': 'ListItem', position: 2, name: '質問で探す', item: `${SITE}/ja/q` },
-      { '@type': 'ListItem', position: 3, name: qa.question, item: canonical },
-    ] },
-  ],
-}, null, 2);
+const b = buildQSlugBindings(qa, examples, await loadGraph());
 ---
-<BaseLayout title={title} description={seoDesc} canonical={canonical}
-  ogImage={`https://mirai-shigoto.com/api/og?q=${qa.slug}`} ogTitle={title.slice(0, 120)} ogDescription={seoDesc} ogType="article">
-  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+<BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc} ogType="article">
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
   <style slot="head" set:html={GENRE_HUB_CSS} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
   <style slot="head" set:html={`
@@ -99,21 +36,21 @@ const jsonLd = JSON.stringify({
     </header>
     <section class="qa-answer">
       <h2>直答</h2>
-      <p class="qa-direct" set:html={shortAnswerHtml}></p>
+      <p class="qa-direct" set:html={b.shortAnswerHtml}></p>
       <h2>根拠</h2>
-      <p class="qa-reasoning" set:html={reasoningHtml}></p>
+      <p class="qa-reasoning" set:html={b.reasoningHtml}></p>
     </section>
     {examples.length > 0 && (
       <section>
         <h2>具体例 TOP {examples.length}</h2>
-        <Fragment set:html={exampleListHtml} />
+        <Fragment set:html={b.exampleListHtml} />
       </section>
     )}
-    <Fragment set:html={crossHubHtml} />
-    {relatedQAs.length > 0 && (
+    <Fragment set:html={b.crossHubHtml} />
+    {b.relatedQAs.length > 0 && (
       <section>
         <h2>関連する質問</h2>
-        <Fragment set:html={relatedHtml} />
+        <Fragment set:html={b.relatedHtml} />
       </section>
     )}
     <Footer />
