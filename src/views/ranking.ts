@@ -15,7 +15,7 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
-import type { Occupation } from '../data/lib/rankings';
+import type { Occupation } from './rankings';
 import { riskBand as legacyRiskBand, demandBand as legacyDemandBand } from '../data/lib/bands';
 
 // Mirror of src/data/projections/treemap.ts:EDU_KEY_EN_TO_JA. Kept local

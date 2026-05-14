@@ -9,8 +9,8 @@
  * Consumed via re-export from `./rankings.js` so the existing import paths
  * in src/pages/ja/rankings/*.astro continue to work.
  */
-import type { Occupation } from './rankings.js';
-import { ALL_RANKINGS, DEMAND_JA, fmtInt, safeMean } from './rankings.js';
+import type { Occupation } from '../../views/rankings.js';
+import { ALL_RANKINGS, DEMAND_JA, fmtInt, safeMean } from '../../views/rankings.js';
 import type { RankingSlug } from './rankings-meta.js';
 
 // ---------------------------------------------------------------------------
