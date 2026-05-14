@@ -25,7 +25,7 @@ import {
 import {
   buildLinkRegistry,
   inlineLinkText,
-} from '../../../data/lib/inline-links';
+} from '../../../views/inline-links';
 import { renderRelatedHubsBlock } from '../../../data/lib/hub-hub-graph';
 import { buildSectorFaqs } from '@/data/lib/sector-faqs';
 import { renderSectorJsonLd } from '@/views/sector-jsonld';
