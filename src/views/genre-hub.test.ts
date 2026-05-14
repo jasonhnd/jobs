@@ -10,7 +10,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { renderHighlights, escapeHtml } from './genre-hub.js';
+import { renderHighlights, escapeHtml } from '../templates/Hub.js';
 
 describe('genre-hub.escapeHtml', () => {
   test('escapes the 5 HTML-significant characters', () => {
