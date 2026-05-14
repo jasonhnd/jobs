@@ -10,6 +10,10 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import {
   buildRankings,
+  ALL_RANKINGS,
+  type RankingSlug,
+} from '../../../views/rankings';
+import {
   renderRankItem,
   renderHighlights,
   renderSectorChart,
@@ -17,8 +21,7 @@ import {
   renderRelatedRankings,
   renderJsonLd,
   escapeHtml,
-  type RankingSlug,
-} from '../../../views/rankings';
+} from '../../../templates/Ranking';
 import { buildLinkRegistry, inlineLinkText } from '../../../views/inline-links';
 import { renderRelatedHubsBlock, RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 
@@ -55,7 +58,7 @@ const rankItems = result.items
   .join('');
 
 const faqHtml = renderFaqHtml(result.faqItems);
-const relatedHtml = renderRelatedRankings(slug);
+const relatedHtml = renderRelatedRankings(slug, ALL_RANKINGS);
 
 const _linkRegistry = buildLinkRegistry();
 // Editorial inline-links in intro are separate signal from the TOP 30 list below,

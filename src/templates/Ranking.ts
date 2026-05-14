@@ -1,30 +1,46 @@
 /**
- * ranking-renderers.ts — HTML / JSON-LD rendering helpers per ranking page.
+ * src/templates/Ranking.ts — HTML / JSON-LD rendering helpers per ranking
+ * page. Moved here from src/views/ranking-renderers.ts on 2026-05-14 as
+ * Phase D #5 (doc §8 row 11 "templates/Ranking.astro + primitives").
  *
- * Split out from rankings.ts so the rendering surface (touched on most UI
- * tweaks) is separated from the build / sort / filter logic. All functions
- * here return safe HTML strings — every interpolation of user-derived
- * content goes through `escapeHtml`.
+ * All functions return safe HTML strings. Every interpolation of user-
+ * derived content goes through `escapeHtml`.
  *
- * Consumed via re-export from `./rankings.js` so the existing import paths
- * in src/pages/ja/rankings/*.astro continue to work.
+ * Templates layer rule (per scripts/check-architecture.cjs): no view-value
+ * imports allowed. Where the previous ranking-renderers reached into
+ * `ALL_RANKINGS` / `DEMAND_JA` from views/rankings, this template now
+ * either takes the value as a function parameter (renderRelatedRankings
+ * takes allRankings) or uses local constants (DEMAND_JA is a tiny
+ * dictionary kept in sync via doc reference).
  */
-import type { Occupation } from './rankings.js';
-import { ALL_RANKINGS, DEMAND_JA, fmtInt, safeMean } from './rankings.js';
-import type { RankingSlug } from './rankings-meta.js';
-
-// ---------------------------------------------------------------------------
-// HTML rendering helpers (mirrors the Python render_* functions). Astro can
-// `set:html` the strings these return — they all escape user data.
-// ---------------------------------------------------------------------------
-
-// Single source of truth lives at src/lib/safe-html.ts.
+import type { Occupation } from '../views/rankings.js';
+import type { RankingSlug } from '../views/rankings-meta.js';
 import { escapeHtml } from '../lib/safe-html.js';
-export { escapeHtml };
-
-// Single source of truth lives at src/lib/risk. Aliased locally so the
-// existing local name (`riskBand`) used by renderRankItem keeps working.
 import { riskClass as riskBand } from '../lib/risk.js';
+import { fmtInt } from '../lib/num.js';
+
+// Local mirror of views/rankings.ts:safeMean — takes occupation objects +
+// numeric key, returns the mean over non-null values. Templates can't import
+// view-layer values; this duplicates the 4-line helper to keep the template
+// self-contained. Drift detector in Ranking.test.ts pins identical output.
+function safeMean(items: Occupation[], key: keyof Occupation): number {
+  const vals = items
+    .map((o) => o[key])
+    .filter((v): v is number => typeof v === 'number');
+  if (vals.length === 0) return 0;
+  return vals.reduce((s, v) => s + v, 0) / vals.length;
+}
+
+// Local mirror of DEMAND_JA from views/rankings.ts (templates cannot import
+// view-layer values). Kept tiny + audited — drift detector in
+// src/templates/Ranking.test.ts checks the two stay in sync.
+const DEMAND_JA: Record<string, string> = {
+  hot: '高需要',
+  normal: '通常',
+  cold: '低需要',
+};
+
+export { escapeHtml };
 
 /**
  * Extra column injected to the right of the risk-pill.
@@ -170,10 +186,17 @@ export function renderSectorChart(items: Occupation[]): string {
 }
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
-export { renderFaqSection as renderFaqHtml } from '../templates/FaqSection.js';
+export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
-export function renderRelatedRankings(currentSlug: RankingSlug): string {
-  const items = ALL_RANKINGS
+/**
+ * Phase D #5 (2026-05-14) signature change: `allRankings` now passed in
+ * by caller. Previous version read ALL_RANKINGS from view layer.
+ */
+export function renderRelatedRankings(
+  currentSlug: RankingSlug,
+  allRankings: ReadonlyArray<readonly [RankingSlug, string, string]>,
+): string {
+  const items = allRankings
     .filter(([slug]) => slug !== currentSlug)
     .map(([slug, name, desc]) =>
       `<li><a href="/ja/rankings/${slug}">` +
