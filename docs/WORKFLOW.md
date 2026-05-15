@@ -168,7 +168,8 @@ git push origin main          # → mirai-shigoto.com 自動デプロイ
 ```
                                 ┌─ GitHub に push される
                                 │
-                ┌─ 追跡(commit)─┤
+                ┌─ 追跡(commit)─┤   (含: src/、data/、docs/、README*、CHANGELOG.md、
+                │               │    public/og.png、public/robots.txt、public/llms*.txt 等)
                 │               │
                 │               └─ Vercel でも使用
 コード / データ ─┤
@@ -176,16 +177,18 @@ git push origin main          # → mirai-shigoto.com 自動デプロイ
                 └─ gitignored ──┤
                                 │   ├─ public/data.*       (build 時に再生成)
                                 │   ├─ dist-astro/         (build 時に再生成)
-                                │   ├─ docs/               (ローカルドキュメント)
                                 │   ├─ _audit/             (ローカル監査メモ)
                                 │   ├─ .claude/ .vercel/   (ツール private)
                                 │   ├─ node_modules/       (npm install で再構築)
+                                │   ├─ analytics/dashboards.md  (内部 URL / アカウントパス含)
                                 │   └─ .env*               (秘密情報)
                                 │
                                 └─ Vercel が再生成
 ```
 
-公開リポジトリ(GitHub)にはソース + ソースデータ + 4 つの SEO 静的ファイルのみ。生成成果物はすべて Vercel/ローカルが必要に応じて再構築する。
+公開リポジトリ(GitHub)にはソース + ソースデータ + ドキュメント + 4 つの SEO 静的ファイル。生成成果物はすべて Vercel/ローカルが必要に応じて再構築する。
+
+> **注**: 2026-05-14 commit `282fda41 chore(docs): un-gitignore docs/` 以降、`docs/` 全体が git tracked。それ以前は「ローカル only」だった(機密性ではなく、内部メモを公開しないという方針)。日本語化(Phase A.5)を経て、現在は開発者向け公開ドキュメントとして共有される。
 
 ---
 
@@ -304,14 +307,16 @@ DevTools Console を見る。可能性:
 
 | ドキュメント | 答える質問 | 場所 |
 |---|---|---|
-| **本ドキュメント(WORKFLOW.md)** | **どうやるか** — コマンド、順序、commit、デプロイ、トラブルシュート | `docs/`(local-only) |
-| [DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md) | **何であるか** — schema、ファイルレイアウト、projection 契約、データソース | `docs/`(local-only) |
+| **本ドキュメント(WORKFLOW.md)** | **どうやるか** — コマンド、順序、commit、デプロイ、トラブルシュート | `docs/`(GitHub 公開) |
+| [DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md) | **何であるか** — schema、ファイルレイアウト、projection 契約、データソース | `docs/`(GitHub 公開) |
+| [architecture.md](./architecture.md) | コード構成、5 層契約、SEO baseline、移行履歴 | `docs/`(GitHub 公開) |
+| [SITE_FULL_VISION.md](./SITE_FULL_VISION.md) | 全体ビジョン、820 ページ完成形、フェーズ計画 | `docs/`(GitHub 公開) |
 | [Design.md](./Design.md) | フロントエンドの見せ方(PC) | `docs/`(GitHub 公開) |
 | [Design-Mobile.md](./Design-Mobile.md) | フロントエンドの見せ方(mobile + `/map`) | `docs/`(GitHub 公開) |
 | [`data/README.md`](../data/README.md) | データ貢献者: 各種データファイルの変更方法 | git tracked |
-| [`README.md`](../README.md) / [`README.ja.md`](../README.ja.md) | プロジェクトホーム(対外) | git tracked |
-| [`CHANGELOG.md`](../CHANGELOG.md) | 各 release で何を変えたか | git tracked |
-| [ARCHIVED-MIGRATION_PLAN.md](./ARCHIVED-MIGRATION_PLAN.md) | 歴史: Python → TS 移行プロセス | `docs/`(アーカイブ) |
+| [`README.md`](../README.md) | プロジェクトホーム(日本語、正本) | git tracked |
+| [`README.en.md`](../README.en.md) | プロジェクトホーム(英語、対外) | git tracked |
+| [`CHANGELOG.md`](../CHANGELOG.md) | 各 release で何を変えたか(英語、release notes 慣例) | git tracked |
 
 ---
 
@@ -319,3 +324,5 @@ DevTools Console を見る。可能性:
 v1.5.0 で書き直し(2026-05-09 follow-up cleanup)、Python/uv/Pydantic の陳腐な参照を排除、現行 TS+Astro アーキテクチャを反映。
 最終全体再編は 2026-05-09 evening、アーキテクチャ図 + タスク早見表 + アンチパターン + トラブルシュートを追加。
 2026-05-13 Phase A.5 で全文を日本語化。
+2026-05-14 commit `282fda41` で `docs/` を git に追加(以前は gitignored)、本ファイルも GitHub 公開対象に。
+2026-05-15 §13 ドキュメント関係表を全 docs/ が GitHub 公開状態である現実に合わせて更新、archive 系参照(README.ja.md / ARCHIVED-MIGRATION_PLAN.md)を整理。
