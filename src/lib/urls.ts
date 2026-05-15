@@ -1,14 +1,13 @@
 /**
  * src/lib/urls.ts — canonical URL helpers for mirai-shigoto.com.
  *
- * Currently a single helper (jaUrl) extracted from
- * src/pages/ja/[id].astro. Additional URL builders will collect
- * here as more pages migrate off inline string interpolation.
+ * Phase E (2026-05-15): SITE_ORIGIN now sources from src/site/config.ts
+ * so the production origin lives in exactly one place.
  */
 
-const SITE_ORIGIN = 'https://mirai-shigoto.com';
+import { siteConfig } from '@/site/config';
 
 /** Canonical absolute URL for a Japanese occupation detail page. */
 export function jaUrl(id: number): string {
-  return `${SITE_ORIGIN}/ja/${id}`;
+  return `${siteConfig.origin}/ja/${id}`;
 }

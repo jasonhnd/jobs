@@ -1,19 +1,27 @@
 /**
- * src/views/occupation-aux-data.ts — lazy loaders for the
+ * src/page-data/occupation-aux-data.ts — lazy loaders for the
  * auxiliary public/data.* files consumed by the occupation
  * detail page renderers.
  *
- * Extracted from src/pages/ja/[id].astro's module-scope getters.
  * Two files are read on first access and cached for the lifetime
  * of the build process:
  *
  *   public/data.profile5.json        — 5-axis ability profile per id
  *   public/data.transfer_paths.json  — career-transfer candidates per id
  *
- * The Step 8 architecture migration is gradually shifting both of
- * these onto the graph; until that lands, the page reads the
- * legacy JSON files directly. View layer is allowed `node:fs`
- * during this transition (see scripts/check-architecture.cjs).
+ * Moved from src/views/ in Phase E (2026-05-15): this module does
+ * fs I/O, which makes it a build-time orchestrator rather than a
+ * pure view. The view layer is now fs-free.
+ *
+ * FUTURE — graph integration:
+ *   Both data files are projections of source occupations (see
+ *   src/data/projections/profile5.ts + transfer_paths.ts). The
+ *   audit's medium-term recommendation is to wire those projection
+ *   computations into src/graph/loader.ts so views/pages receive
+ *   profile5 + transferPaths via the graph contract instead of via
+ *   fs re-reads. Public data.*.json emission would still happen
+ *   for browser consumers. Deferred — Phase E ships the directory
+ *   relocation only; graph migration is a separate follow-up.
  */
 
 import { readFileSync } from 'node:fs';

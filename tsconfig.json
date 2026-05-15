@@ -24,6 +24,8 @@
       "@/graph/*": ["src/graph/*"],
       "@/views/*": ["src/views/*"],
       "@/templates/*": ["src/templates/*"],
+      "@/page-data/*": ["src/page-data/*"],
+      "@/site/*": ["src/site/*"],
       "@/lib/*": ["src/lib/*"]
     }
   },

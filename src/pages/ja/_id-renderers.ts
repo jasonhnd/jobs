@@ -27,7 +27,8 @@ import { renderOrgsCerts } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail } from '@/templates/AiRiskDetail';
 import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
 import { jaUrl } from '@/lib/urls';
-import { getProfile5, getTransferPaths } from '@/views/occupation-aux-data';
+import { getProfile5, getTransferPaths } from '@/page-data/occupation-aux-data';
+import type { SafeHtml } from '@/lib/safe-html';
 
 const TRANSFER_TOP_N = 5;
 
@@ -57,7 +58,7 @@ export function makeOccupationDefinitionFromRec(rec: Rec): string {
   });
 }
 
-export function renderOccupationMetaRow(rec: Rec): string {
+export function renderOccupationMetaRow(rec: Rec): SafeHtml {
   return renderMetaRow({
     sectorJa: rec.sector?.ja ?? null,
     sectorId: rec.sector?.id,
@@ -67,7 +68,7 @@ export function renderOccupationMetaRow(rec: Rec): string {
   });
 }
 
-export function renderOccupationProfileRadar(rec: Rec): string {
+export function renderOccupationProfileRadar(rec: Rec): SafeHtml {
   const profile = getProfile5()[String(rec.id)];
   return renderProfileRadar({
     creative: profile?.creative ?? null,
@@ -78,7 +79,7 @@ export function renderOccupationProfileRadar(rec: Rec): string {
   });
 }
 
-export function renderOccupationTopn(rec: Rec): string {
+export function renderOccupationTopn(rec: Rec): SafeHtml {
   const adapt = (items: TopNEntry[] | undefined) =>
     (items ?? []).map((it) => ({ labelJa: it.label_ja ?? null, score: it.score ?? null }));
   return renderTopn({
@@ -88,16 +89,16 @@ export function renderOccupationTopn(rec: Rec): string {
   });
 }
 
-export function renderOccupationFaq(rec: Rec): string {
+export function renderOccupationFaq(rec: Rec): SafeHtml {
   return renderOccFaq(buildOccupationFaqTuples(rec));
 }
 
 export function renderOccupationTransfer(
   rec: Rec,
   nameLookup: Record<number, string>,
-): string {
+): SafeHtml {
   const path0 = getTransferPaths()[String(rec.id)];
-  if (!path0) return '';
+  if (!path0) return '' as SafeHtml;
   const cards = path0.candidates.slice(0, TRANSFER_TOP_N).map((c) => ({
     id: c.id,
     name: nameLookup[c.id] || c.title_ja || '?',
@@ -107,7 +108,7 @@ export function renderOccupationTransfer(
   return renderTransfer(cards);
 }
 
-export function renderOccupationOrgsCerts(rec: Rec): string {
+export function renderOccupationOrgsCerts(rec: Rec): SafeHtml {
   return renderOrgsCerts({
     orgs: (rec.related_orgs ?? []).map((o) => ({
       nameJa: o.name_ja ?? null,
@@ -117,7 +118,7 @@ export function renderOccupationOrgsCerts(rec: Rec): string {
   });
 }
 
-export function renderOccupationAiRiskDetail(rec: Rec): string {
+export function renderOccupationAiRiskDetail(rec: Rec): SafeHtml {
   return renderAiRiskDetail({
     aiRisk: rec.ai_risk,
     rationaleLongJa: rec.ai_rationale_long_ja,
