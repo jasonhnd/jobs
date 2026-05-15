@@ -89,9 +89,34 @@ const RULES = [
       { pattern: 'src/data/projections', reason: 'projections are legacy; views should query the graph instead' },
       { pattern: '../data/projections',  reason: 'projections are legacy; views should query the graph instead (relative)' },
       { pattern: 'src/pages/sitemap',    reason: 'views must not import page-level sitemap logic' },
-      // Direct fs/promises imports are tolerated for now — the migration
-      // is gradual and some view helpers may still need them transitionally.
-      // Tighten when Step 11 completes.
+      // Phase E (2026-05-15) — direct fs/loadGraph forbidden. Views are
+      // pure functions `(graph, params) => result`; orchestrators that
+      // initiate loadGraph or read public/data.* files belong in
+      // src/page-data/. Indirect fs through src/lib/strict-load.ts is
+      // still allowed (blessed primitive — strict-load is the typed
+      // loader, not raw fs).
+      { pattern: 'node:fs',              reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
+      { pattern: 'node:fs/promises',     reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
+      { pattern: '@/graph/loader',       reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E)' },
+      { pattern: '../graph/loader',      reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E, relative)' },
+    ],
+  },
+  {
+    layer: 'Page data (src/page-data/)',
+    dir: path.join(SRC, 'page-data'),
+    forbidden: [
+      // page-data is build orchestration: it bridges the graph + view
+      // layers to the dataset shape an Astro page family needs. It
+      // legitimately initiates loadGraph and may read public/data.*
+      // files. It does NOT produce HTML / SafeHtml — that's a template
+      // or page-local renderer concern.
+      { pattern: 'src/templates',        reason: 'page-data prepares datasets, not HTML — template usage stays in pages/' },
+      { pattern: '@/templates',          reason: 'page-data prepares datasets, not HTML — template usage stays in pages/' },
+      { pattern: '../templates/',        reason: 'page-data prepares datasets, not HTML — template usage stays in pages/ (relative)' },
+      { pattern: 'src/components',       reason: 'page-data must not produce UI' },
+      { pattern: 'src/layouts',          reason: 'page-data must not import layouts' },
+      { pattern: '.astro',               reason: 'page-data must not import Astro components' },
+      { pattern: 'src/data/projections', reason: 'page-data should consume the graph; projection JSON read is allowed via @/page-data lazy loaders only' },
     ],
   },
   {
@@ -233,8 +258,17 @@ function extractImports(source) {
 
 let violations = 0;
 
+// Test files are exempt from the layer rules: drift-detection tests
+// legitimately need fs to read source files and assert imports stay
+// consistent. The production code in the same dir is still scanned.
+function isScannable(p) {
+  if (p.endsWith('.test.ts')) return false;
+  if (p.endsWith('.test.tsx')) return false;
+  return p.endsWith('.ts') || p.endsWith('.astro') || p.endsWith('.tsx');
+}
+
 for (const rule of RULES) {
-  const files = walkFiles(rule.dir, (p) => p.endsWith('.ts') || p.endsWith('.astro') || p.endsWith('.tsx'));
+  const files = walkFiles(rule.dir, isScannable);
   if (files.length === 0) {
     console.log(`[check-architecture] SKIP ${rule.layer} — directory empty or missing`);
     continue;

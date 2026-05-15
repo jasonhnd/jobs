@@ -1,6 +1,11 @@
 /**
- * src/views/occupation-page-data.ts — page-level data preparation
+ * src/page-data/occupation-page-data.ts — page-level data preparation
  * for the 556 /ja/[id] occupation detail pages.
+ *
+ * Lives in src/page-data/ (Phase E #2, 2026-05-15) because it
+ * orchestrates loadGraph() + cross-occupation dataset construction
+ * for an Astro page. That's build orchestration, not a pure view —
+ * views receive a graph; only page-data initiates loadGraph.
  *
  * The getStaticPaths function in src/pages/ja/[id].astro used to
  * inline ~80 lines of data wiring: load the graph, adapt every
@@ -28,6 +33,7 @@
 // now flows from the graph (passed in by the page caller).
 import type { Rec } from '@/views/occupation-detail';
 import type { KnowledgeGraph } from '@/graph';
+import type { SafeHtml } from '@/lib/safe-html';
 
 /** One entry in the same-risk-neighbor map for a single occupation. */
 export interface SameRiskNeighborView {
@@ -80,10 +86,10 @@ const RELATED_CLOSE_RISK_TOLERANCE = 1;
 export async function buildOccupationPageData(): Promise<OccupationPageDataset> {
   const { loadGraph } = await import('@/graph');
   const { buildOccupationDetailFile } = await import('@/views/occupation-detail');
-  const { adaptDetailFile } = await import('./occupation-detail.js');
-  const { buildRankings, loadOccupationsFromGraph } = await import('./ranking.js');
-  const { buildRankingHitsByOcc } = await import('./spoke-hub-graph.js');
-  const { buildSameRiskNeighbors } = await import('./spoke-spoke-graph.js');
+  const { adaptDetailFile } = await import('@/views/occupation-detail');
+  const { buildRankings, loadOccupationsFromGraph } = await import('@/views/ranking');
+  const { buildRankingHitsByOcc } = await import('@/views/spoke-hub-graph');
+  const { buildSameRiskNeighbors } = await import('@/views/spoke-spoke-graph');
 
   const graph = await loadGraph();
   const allRecs: Rec[] = [];
@@ -130,16 +136,15 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
 }
 
 /** HTML fragments for the spoke-hubs and same-risk-neighbors
- *  sections of one detail page. Both are plain `string` (the
- *  underlying renderers in src/data/lib/spoke-*-graph still
- *  produce string output, not SafeHtml; they'll migrate to the
- *  branded type in a later step). */
+ *  sections of one detail page. Phase E (2026-05-15) closed the
+ *  SafeHtml brand here — both fields now flow as SafeHtml from
+ *  the upstream renderers (spoke-{hub,spoke}-graph). */
 export interface OccupationSpokeViews {
   /** `<section>` markup for the same-risk neighbors block.
-   *  Empty string when this occupation has no neighbors. */
-  readonly sameRiskHtml: string;
+   *  Empty SafeHtml when this occupation has no neighbors. */
+  readonly sameRiskHtml: SafeHtml;
   /** `<section>` markup for the related-hubs block. */
-  readonly relatedHubsHtml: string;
+  readonly relatedHubsHtml: SafeHtml;
 }
 
 /**
@@ -158,10 +163,10 @@ export async function buildOccupationSpokeViews(
   graph: KnowledgeGraph,
 ): Promise<OccupationSpokeViews> {
   const { computeSpokeHubs, renderSpokeHubsSection } = await import(
-    './spoke-hub-graph.js'
+    '@/views/spoke-hub-graph'
   );
-  const { renderSameRiskSection } = await import('./spoke-spoke-graph.js');
-  const { loadGraphAdaptedDetails } = await import('./hub.js');
+  const { renderSameRiskSection } = await import('@/views/spoke-spoke-graph');
+  const { loadGraphAdaptedDetails } = await import('@/views/hub');
 
   // Same-risk neighbors: lookup this rec's row from the serialized array.
   const sameRiskMap = new Map(sameRiskArr);

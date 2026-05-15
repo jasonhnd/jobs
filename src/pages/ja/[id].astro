@@ -2,14 +2,14 @@
 /**
  * [id].astro — per-occupation detail page (JA only), one HTML per
  * occupation generated statically via getStaticPaths() from the
- * knowledge graph (see src/views/occupation-page-data).
+ * knowledge graph (see src/page-data/occupation-page-data).
  *
  * This file is a thin binding shell:
  *   - getStaticPaths delegates to buildOccupationPageData +
  *     pickRelatedOccupations.
  *   - Page-render data prep delegates to buildIdPageBindings
  *     (src/pages/ja/_id-bindings) and buildOccupationSpokeViews
- *     (src/views/occupation-page-data).
+ *     (src/page-data/occupation-page-data).
  *   - The body is composed of page-local Astro components
  *     (_RiskCard / _StatsGrid / _JobtagAnchor / _IdPageScript)
  *     and `<Fragment set:html={…}>` injections of SafeHtml from
@@ -38,7 +38,7 @@ const DATE_MODIFIED = '2026-04-30';
 // padding lives inside the JSON load step, not in routing.
 export async function getStaticPaths() {
   const { buildOccupationPageData, pickRelatedOccupations } = await import(
-    '@/views/occupation-page-data'
+    '@/page-data/occupation-page-data'
   );
   const { allRecs, nameLookup, rankingHitsArr, sameRiskArr } = await buildOccupationPageData();
   return allRecs.map((rec) => ({
@@ -68,7 +68,7 @@ const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } = Astro.props as
 const { loadGraph } = await import('@/graph');
 const graph = await loadGraph();
 
-const { buildOccupationSpokeViews } = await import('@/views/occupation-page-data');
+const { buildOccupationSpokeViews } = await import('@/page-data/occupation-page-data');
 const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
   rec, rankingHitsArr, sameRiskArr, graph,
 );

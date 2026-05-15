@@ -25,7 +25,7 @@
  *  Page-local sibling (`_`-prefix → not routed).
  */
 
-import { escapeHtml } from '@/lib/safe-html';
+import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
@@ -84,21 +84,21 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly ctxH2: string;
   readonly howH2: string;
   readonly condH2: string;
-  readonly ctxHtml: string;
+  readonly ctxHtml: SafeHtml;
 
   // Pre-rendered section HTML (one per template).
-  readonly metaRowHtml: string;
-  readonly aiRiskDetailHtml: string;
-  readonly profileHtml: string;
-  readonly topnHtml: string;
-  readonly faqHtml: string;
-  readonly transferHtml: string;
-  readonly orgsCertsHtml: string;
-  readonly howSection: string;
-  readonly condSection: string;
-  readonly legacyRelatedHtml: string;
+  readonly metaRowHtml: SafeHtml;
+  readonly aiRiskDetailHtml: SafeHtml;
+  readonly profileHtml: SafeHtml;
+  readonly topnHtml: SafeHtml;
+  readonly faqHtml: SafeHtml;
+  readonly transferHtml: SafeHtml;
+  readonly orgsCertsHtml: SafeHtml;
+  readonly howSection: SafeHtml;
+  readonly condSection: SafeHtml;
+  readonly legacyRelatedHtml: SafeHtml;
 
-  // Schema.org JSON-LD payload (pretty-printed string)
+  // Schema.org JSON-LD payload (pretty-printed string — JSON, not HTML).
   readonly jsonLd: string;
 
   /** Three-bucket GA4 funnel classification for the
@@ -156,9 +156,11 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const condH2 = `${nameJa}の労働条件・働き方`;
 
   const definition = makeOccupationDefinitionFromRec(rec);
-  const ctxBodyHtml = ctxP ? formatParagraphs(ctxP) : '';
-  const ctxHtml =
-    `<p class="definition">${escapeHtml(definition)}</p>\n        ${ctxBodyHtml}`.trimEnd();
+  const ctxBodyHtml: SafeHtml = ctxP ? formatParagraphs(ctxP) : ('' as SafeHtml);
+  const ctxHtml = unsafeReviewedHtml(
+    `<p class="definition">${escapeHtml(definition)}</p>\n        ${ctxBodyHtml}`.trimEnd(),
+    'definition is escapeHtml-d; ctxBodyHtml is SafeHtml from formatParagraphs; concat is byte-identical to pre-Phase-E output',
+  );
 
   // ─── Section HTML adapters ────────────────────────────────
   const howSection = renderProseSection({

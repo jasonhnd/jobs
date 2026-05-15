@@ -749,6 +749,21 @@ OG endpoint(`api/og.tsx`)は Vercel Edge function、リクエスト時に 1200×
 
 - **Phase D audit #8 — page frontmatter HTML-assembly + index.astro fs read 全消化**(同日深夜): 再 audit で発見した違反を 3 階層で全修正。**(1) 18 hub-index pages の `.map(...).join('')` HTML 組立**: `templates/Hub.ts` に `renderGenreHubIndexCards`, `renderQGroupsHtml`, `renderExploreIndexCards`, `renderExploreGenreCards`, `renderExploreOtherRoutes`, `renderExploreIndexJsonLd`, `renderExploreSlugJsonLd` を追加し、`templates/Ranking.ts` に `renderRankingsHubCards / Stats / Insights` を、`templates/Compare.ts` に `renderCompareHubCards` を、`templates/InterestHub.ts` に `renderInterestsHubCards` を、`templates/SkillHub.ts` に `renderSkillsHubCards` を追加。18 page を呼出だけにスリム化。**(2) 4 hub-family slug page の slim 化**: `_<page>-bindings.ts` パターン(`_compare-bindings.ts` / `_interests-bindings.ts` / `_q-bindings.ts` / `_sectors-index-bindings.ts`)で frontmatter を 17-22 行に削減。**(3) `src/pages/index.astro` の fs read 移送**: `_index-bindings.ts` に `buildIndexPageHtml()` を新設し、`readFileSync(src/index-source.html)` + 4 regex patch + INDEX_CSS 注入を全て移送。`index.astro` 自体は 10 行(コメント + 1 import + 1 call + Fragment)に縮小。`index-source.html` の fs read は `_index-bindings.ts` 内に隔離されており、これは "page sub-layer binding" として doc §3.1 の例外(co-located hand-maintained legacy HTML wrapper)と位置付け。**結果**: page-frontmatter audit で `.map().join('` ヒット 0、fs read 違反 0(`_index-bindings.ts` 内のみ)、SEO baseline 0 drift、883/883 tests、boundary gate 緑、preview deploy 821 pages OK。残作業として views/genre-hub.ts `loadAllDetails()` の fs scan + views/hub-hub-graph + spoke-hub-graph + ranking insights の HTML 生成は Phase E(graph schema 拡張 + view→template 移送)に持ち越し。
 
+### 2026-05-15
+
+- **Phase E — Boundary Calibration 完了**: 外部 audit が指摘した 5 類の境界違反を 1 セッションで全修正。Phase D 以降の "view っぽい場所に置かれた orchestrator" + "type 化されていない SafeHtml 境界" + "散らばった site identity" を構造的に解消。
+  - **新規 layer `src/page-data/`**(本 commit で正式化): build orchestration 専用の中間層。`loadGraph()` の起点 + `public/data.*.json` 読込 + Astro `getStaticPaths` 用 dataset 構築を**ここに限定**する。views は graph を受取るのみ。新 layer rule を `scripts/check-architecture.cjs` に登録(templates / components / layouts / .astro / projections の import を禁止;fs / loadGraph は許可)。
+  - **`src/views/occupation-page-data.ts` → `src/page-data/`**: 唯一の loadGraph 起点 view を移送。逻辑零変更、import path のみ修正。`[id].astro` の 2 箇所の dynamic import path 更新。
+  - **`src/views/occupation-aux-data.ts` → `src/page-data/`**: profile5 / transfer_paths の `readFileSync` 直接消費者。**audit の "短期" 推奨を採用**(移動のみ);"中期" の graph schema 拡張は別タスクに分離(file header に明記)。
+  - **Views 層 fs + loadGraph 完全禁止**(Phase D の "tolerated for now" コメント削除): `scripts/check-architecture.cjs` Views ルールに `node:fs` / `node:fs/promises` / `@/graph/loader` / `../graph/loader` を追加。これら 4 禁令が初めて enforce される(views/ 内に直接違反 0)。テスト exception 機構を walker に追加(`.test.ts` / `.test.tsx` は drift-detection で fs を使ってよい)。
+  - **SafeHtml 型境界の閉環**:
+    - `_id-renderers.ts` の 7 個の `render*Html(): string` を `(): SafeHtml` に締直し(templates 側は既に SafeHtml 返却済、binding 層で brand を捨てていたのを修正)。
+    - `_id-bindings.ts` `IdPageBindings` interface の 11 個の `*Html: string` を `SafeHtml` に。`ctxHtml` の手組み concat は `unsafeReviewedHtml` で audit 履歴を残す escape hatch を経由。
+    - `views/spoke-{hub,spoke}-graph.ts` の 2 個の `render*Section(): string` を `SafeHtml` に。それを消費する `OccupationSpokeViews` interface も `SafeHtml` に。
+  - **`src/site/config.ts` 新設**: hardcode していた `https://mirai-shigoto.com` / `日本の職業 AI 影響マップ` / `lang="ja"` / `og:locale=ja_JP` / default OG image を一箇所に集約。`src/lib/urls.ts` と `src/layouts/BaseLayout.astro` の 4 値が `siteConfig.*` を読むように変更。`config.test.ts` で値を pin(AI が "branding" 修正で silent 改変するリスクを防御)。`feedback_pii_audit_surface` memory に記録済の "operator-name / X-handle が 8+ surfaces に散布した" 過去事故と同じ問題類への構造的対策。
+  - **検証結果**: typecheck / 887 unit tests(siteConfig 4 件追加で 883 → 887)/ build 821 pages / 0 leaks / architecture-gate 全緑 / JSON-LD 全合格 / 41,277 internal links 全有効 / SEO baseline drift = sitemap `<lastmod>` の今日日付のみ(意図通り、baseline 更新済)。
+  - **明示的に scope-out**: profile5 + transfer_paths の graph schema 統合(audit の "中期");`src/index-source.html` の 167KB スリム化;middleware.ts の analytics fallback リファクタ;`src/data/lib/` 残置 5 ファイルの再配置。**Phase E はここで終わる** — 同 audit が警告した通り、次は内容更新の "沈殿期間" を置いてからアーキテクチャの次の動きを判断する。
+
 ---
 
 ## 付録: なぜ他の形態にしないか

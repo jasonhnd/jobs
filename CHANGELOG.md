@@ -10,6 +10,78 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Phase E · boundary calibration · 2026-05-15)
+
+- **New layer `src/page-data/`** (build orchestration): formalizes the
+  boundary between pure-function views (`src/views/`) and Astro page
+  binding shells (`src/pages/`). `src/page-data/` is the only layer
+  allowed to initiate `loadGraph()` and read `public/data.*.json`. The
+  architecture-boundary gate (`scripts/check-architecture.cjs`) now
+  enforces this with a new layer ruleset.
+- **`src/views/occupation-page-data.ts` → `src/page-data/`**: the file
+  that was already doing build orchestration (dynamic-importing views,
+  initiating `loadGraph`, building cross-occupation maps for
+  `getStaticPaths`) moved to the correct directory. Pure relocation,
+  zero behavioral change. `[id].astro` dynamic-import paths updated.
+- **`src/views/occupation-aux-data.ts` → `src/page-data/`**: the lazy
+  `readFileSync` loader for `public/data.profile5.json` +
+  `public/data.transfer_paths.json` moved out of `views/`. The
+  audit's medium-term recommendation (migrating these projections
+  into the graph schema) is documented in the file header as a
+  deferred follow-up; Phase E ships the relocation only.
+- **Views layer is now strictly fs-free + loadGraph-free**: the
+  `Direct fs/promises imports are tolerated for now` carve-out in the
+  architecture gate is gone. Views forbid `node:fs`,
+  `node:fs/promises`, `@/graph/loader`, and `../graph/loader`. Test
+  files (`*.test.ts` / `*.test.tsx`) are exempt — drift-detection
+  tests legitimately need fs to assert source-file invariants.
+- **SafeHtml branded-type boundary closed for `/ja/[id]`**: 7
+  render functions in `src/pages/ja/_id-renderers.ts` and 11 fields
+  on `IdPageBindings` (`src/pages/ja/_id-bindings.ts`) widened from
+  `string` to `SafeHtml`. The 2 spoke-graph renderers
+  (`renderSpokeHubsSection` / `renderSameRiskSection`) and the
+  consuming `OccupationSpokeViews` interface also widened. The
+  `set:html` boundary now refuses plain strings at compile time —
+  XSS risk is type-enforced instead of review-enforced for the
+  detail page family. The lone `unsafeReviewedHtml` escape hatch
+  (in `_id-bindings.ts` for the definition + body paragraph concat)
+  carries a written reason.
+- **`src/site/` — single source of truth for site identity**: new
+  `src/site/config.ts` consolidates the 4 values that were hardcoded
+  in `src/lib/urls.ts` and `src/layouts/BaseLayout.astro`
+  (`origin` / `siteName` / `htmlLang` / `ogLocale` /
+  `defaultOgImage`). `config.test.ts` pins each value so a silent
+  AI-driven edit (e.g. cosmetic "branding" tweak) can't ripple
+  through every page's canonical / og:url / JSON-LD without
+  failing CI.
+- **Architecture gate walker now skips test files**: tests legitimately
+  need fs for fixture setup + drift detection. The walker filters
+  `*.test.ts` + `*.test.tsx` out of the per-layer scan; production
+  files in the same directory are still scanned. Without this, the
+  tightened views/fs rule would have false-positive'd on
+  `rankings-meta.test.ts`'s drift-detection imports.
+
+**Verification**: typecheck clean, 887 unit tests pass (+4 from
+siteConfig), `pnpm run build` produces 821 pages with 0 rendered
+leaks, JSON-LD validator passes all 820 schema-bearing pages,
+41,277 internal links resolve, SEO baseline diff is empty except
+for sitemap `<lastmod>` updating from `2026-05-14` to `2026-05-15`
+(expected — that's the build-time `nowIso()` stamp, baseline
+refreshed in this commit).
+
+**Explicitly scope-out** (audit recommendations deferred):
+- Migrating `profile5` + `transfer_paths` into the graph schema
+  (medium-term; would let `src/page-data/occupation-aux-data.ts`
+  receive a graph instead of reading fs)
+- `src/index-source.html` 167KB slimdown (separate Phase F candidate)
+- `middleware.ts` analytics-fallback / auth decoupling
+- `src/data/lib/` 5 residual math-utility files (no boundary harm)
+- `src/page-modules/` directory rename (audit E-3; purely cosmetic,
+  Astro `_` prefix convention works fine)
+
+The audit's own warning applies: **next step is a content-update
+quiet period**, not another architecture phase.
+
 ### Fixed
 
 - **Vercel preview deploy unblocked**: the Step 9 OG-endpoint refactor
