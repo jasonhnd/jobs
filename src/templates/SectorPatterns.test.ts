@@ -6,6 +6,7 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { renderSectorPatterns } from './SectorPatterns.js';
+import { html, unsafeReviewedHtml } from '../lib/safe-html.js';
 
 const baseInput = {
   aiLowCount: 10,
@@ -14,7 +15,7 @@ const baseInput = {
   aiLowPct: 40,
   aiMidPct: 32,
   aiHighPct: 28,
-  observations: ['観察1', '観察2'],
+  observations: [html`観察1`, html`観察2`],
 };
 
 describe('renderSectorPatterns', () => {
@@ -48,7 +49,7 @@ describe('renderSectorPatterns', () => {
   test('observations rendered as <li> items in order', () => {
     const out = renderSectorPatterns({
       ...baseInput,
-      observations: ['第一', '第二', '第三'],
+      observations: [html`第一`, html`第二`, html`第三`],
     });
     const liCount = (out.match(/<li>/g) || []).length;
     assert.equal(liCount, 3);
@@ -56,13 +57,27 @@ describe('renderSectorPatterns', () => {
     assert.ok(out.indexOf('第二') < out.indexOf('第三'));
   });
 
-  test('XSS payload in observation escaped', () => {
+  test('observations pass through unescaped — SafeHtml contract', () => {
+    // observations are SafeHtml; the template trusts them and forwards
+    // raw. Editorial `<strong>` markup (built via html`` in
+    // src/views/sector-meta.ts) must render as actual emphasis, not as
+    // literal `<strong>` text. Per the SafeHtml contract, escaping
+    // responsibility lives at the SafeHtml producer, not here.
     const out = renderSectorPatterns({
       ...baseInput,
-      observations: ['<script>x</script>'],
+      observations: [html`平均年収 ${1234} 万円は <strong>+100 万円</strong> 高い`],
     });
-    assert.ok(!out.includes('<script>x</script>'));
-    assert.ok(out.includes('&lt;script&gt;'));
+    assert.ok(out.includes('<strong>+100 万円</strong>'));
+    assert.ok(!out.includes('&lt;strong&gt;'));
+
+    // The escape-hatch case: an audited raw SafeHtml is also forwarded
+    // verbatim. Only callers of unsafeReviewedHtml are responsible for
+    // their content.
+    const out2 = renderSectorPatterns({
+      ...baseInput,
+      observations: [unsafeReviewedHtml('<em>audited</em>', 'unit test')],
+    });
+    assert.ok(out2.includes('<em>audited</em>'));
   });
 
   test('integer percentage values render without decimal point', () => {

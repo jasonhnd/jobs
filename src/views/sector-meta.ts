@@ -20,7 +20,15 @@
  *     エッセイと組み合わせて、editorial + data の両方が見える hub を構築。
  *
  * Pure-data モジュール、fs imports なし。
+ *
+ * 2026-05-15 (Phase E follow-up): `observations` の型を `string` から
+ * `SafeHtml` に締直し。`<strong>` 編集マークアップを `html\`\`` テンプレ
+ * タグで安全に埋込む。事前は SectorPatterns.ts:45 で `escapeHtml(obs)`
+ * していたため `<strong>` が字面で出ていた (mirai-shigoto.com / pre 両方で
+ * 確認済の pre-existing バグ)。
  */
+
+import { html, type SafeHtml } from '../lib/safe-html.js';
 
 export type SectorId =
   | 'iryo' | 'fukushi' | 'kyoiku' | 'hoan' | 'noringyo'
@@ -300,8 +308,8 @@ export interface SectorPatterns {
   salary_vs_site_diff: number;
   age_vs_site_diff: number;
   hours_vs_site_diff: number;
-  /** Auto-generated 3-5 件のパターン文 */
-  observations: ReadonlyArray<string>;
+  /** Auto-generated 3-5 件のパターン文 (SafeHtml — `<strong>` 強調 markup を含む) */
+  observations: ReadonlyArray<SafeHtml>;
 }
 
 interface SiteBaseline {
@@ -346,21 +354,22 @@ export function computeSectorPatterns(
   const ageDiff = sectorAgeMean - baseline.age_mean;
   const hoursDiff = sectorHoursMean - baseline.hours_mean;
 
-  const observations: string[] = [];
+  const observations: SafeHtml[] = [];
 
-  // AI risk pattern
+  // AI risk pattern. html`` interpolates numbers/sectorJa with escape; `<strong>`
+  // sits in the literal segment and stays raw.
   if (Math.abs(aiDiff) >= 0.8) {
     observations.push(
       aiDiff > 0
-        ? `${sectorJa} の平均 AI 影響度は ${sectorAiMean.toFixed(1)}/10 で、全業種平均より <strong>+${aiDiff.toFixed(1)}</strong> 高い`
-        : `${sectorJa} の平均 AI 影響度は ${sectorAiMean.toFixed(1)}/10 で、全業種平均より <strong>${aiDiff.toFixed(1)}</strong> 低い`,
+        ? html`${sectorJa} の平均 AI 影響度は ${sectorAiMean.toFixed(1)}/10 で、全業種平均より <strong>+${aiDiff.toFixed(1)}</strong> 高い`
+        : html`${sectorJa} の平均 AI 影響度は ${sectorAiMean.toFixed(1)}/10 で、全業種平均より <strong>${aiDiff.toFixed(1)}</strong> 低い`,
     );
   }
 
   // Bimodal AI distribution
   if (aiHigh >= 3 && aiLow >= 3) {
     observations.push(
-      `AI 影響度が <strong>二極化</strong>: 高暴露 ${aiHigh} 職業 (${((aiHigh / total) * 100).toFixed(0)}%) と低暴露 ${aiLow} 職業 (${((aiLow / total) * 100).toFixed(0)}%) が並存`,
+      html`AI 影響度が <strong>二極化</strong>: 高暴露 ${aiHigh} 職業 (${((aiHigh / total) * 100).toFixed(0)}%) と低暴露 ${aiLow} 職業 (${((aiLow / total) * 100).toFixed(0)}%) が並存`,
     );
   }
 
@@ -368,8 +377,8 @@ export function computeSectorPatterns(
   if (Math.abs(salaryDiff) >= 30) {
     observations.push(
       salaryDiff > 0
-        ? `平均年収 ${Math.trunc(sectorSalaryMean)} 万円は全業種平均より <strong>+${Math.trunc(salaryDiff)} 万円</strong> 高い`
-        : `平均年収 ${Math.trunc(sectorSalaryMean)} 万円は全業種平均より <strong>${Math.trunc(salaryDiff)} 万円</strong> 低い`,
+        ? html`平均年収 ${Math.trunc(sectorSalaryMean)} 万円は全業種平均より <strong>+${Math.trunc(salaryDiff)} 万円</strong> 高い`
+        : html`平均年収 ${Math.trunc(sectorSalaryMean)} 万円は全業種平均より <strong>${Math.trunc(salaryDiff)} 万円</strong> 低い`,
     );
   }
 
@@ -377,30 +386,31 @@ export function computeSectorPatterns(
   if (Math.abs(ageDiff) >= 2) {
     observations.push(
       ageDiff > 0
-        ? `平均年齢 ${sectorAgeMean.toFixed(1)} 歳は全業種平均より <strong>+${ageDiff.toFixed(1)} 歳</strong> 高い (高齢化)`
-        : `平均年齢 ${sectorAgeMean.toFixed(1)} 歳は全業種平均より <strong>${ageDiff.toFixed(1)} 歳</strong> 低い (若手中心)`,
+        ? html`平均年齢 ${sectorAgeMean.toFixed(1)} 歳は全業種平均より <strong>+${ageDiff.toFixed(1)} 歳</strong> 高い (高齢化)`
+        : html`平均年齢 ${sectorAgeMean.toFixed(1)} 歳は全業種平均より <strong>${ageDiff.toFixed(1)} 歳</strong> 低い (若手中心)`,
     );
   }
 
   // Long hours
   if (hoursDiff >= 5) {
     observations.push(
-      `月間労働時間 ${Math.trunc(sectorHoursMean)} 時間は全業種平均より <strong>+${Math.trunc(hoursDiff)} 時間</strong> 長い`,
+      html`月間労働時間 ${Math.trunc(sectorHoursMean)} 時間は全業種平均より <strong>+${Math.trunc(hoursDiff)} 時間</strong> 長い`,
     );
   } else if (hoursDiff <= -5) {
     observations.push(
-      `月間労働時間 ${Math.trunc(sectorHoursMean)} 時間は全業種平均より <strong>${Math.trunc(hoursDiff)} 時間</strong> 短い`,
+      html`月間労働時間 ${Math.trunc(sectorHoursMean)} 時間は全業種平均より <strong>${Math.trunc(hoursDiff)} 時間</strong> 短い`,
     );
   }
 
-  // Recruit ratio (only if data uniform)
+  // Recruit ratio (only if data uniform) — no <strong> markup, but still html``
+  // for type consistency (returns SafeHtml).
   const recruits = sectorOccs.map((o) => o.recruit_ratio).filter((r): r is number => typeof r === 'number');
   if (recruits.length > 0) {
     const avgRecruit = recruits.reduce((s, v) => s + v, 0) / recruits.length;
     if (avgRecruit >= 1.8) {
-      observations.push(`平均求人倍率 ${avgRecruit.toFixed(2)} 倍 — 人手不足が顕著な売り手市場`);
+      observations.push(html`平均求人倍率 ${avgRecruit.toFixed(2)} 倍 — 人手不足が顕著な売り手市場`);
     } else if (avgRecruit <= 0.8) {
-      observations.push(`平均求人倍率 ${avgRecruit.toFixed(2)} 倍 — 採用競争が厳しい買い手市場`);
+      observations.push(html`平均求人倍率 ${avgRecruit.toFixed(2)} 倍 — 採用競争が厳しい買い手市場`);
     }
   }
 

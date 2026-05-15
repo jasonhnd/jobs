@@ -14,7 +14,7 @@
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 
-/** Pre-computed AI-band distribution + observation strings. */
+/** Pre-computed AI-band distribution + observation SafeHtml fragments. */
 export interface SectorPatternsInput {
   readonly aiLowCount: number;
   readonly aiMidCount: number;
@@ -22,7 +22,10 @@ export interface SectorPatternsInput {
   readonly aiLowPct: number;
   readonly aiMidPct: number;
   readonly aiHighPct: number;
-  readonly observations: readonly string[];
+  /** Observation list items. Each fragment is already SafeHtml (built via
+   *  html`` tag in src/views/sector-meta.ts) and may contain `<strong>`
+   *  emphasis markup; do NOT re-escape here. */
+  readonly observations: ReadonlyArray<SafeHtml>;
 }
 
 const H2 = 'データから見えるパターン';
@@ -42,7 +45,7 @@ export function renderSectorPatterns(input: SectorPatternsInput): SafeHtml {
   const highPct = aiHighPct.toFixed(0);
 
   let obsItems = '';
-  for (const obs of observations) obsItems += `<li>${escapeHtml(obs)}</li>`;
+  for (const obs of observations) obsItems += `<li>${obs}</li>`;
 
   return (
     `<section class="patterns" aria-label="${escapeHtml(ARIA_LABEL)}">\n` +
