@@ -28,7 +28,7 @@ import { LICENSE_HUBS, matchLicense } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { COMPARE_META } from './compare-meta.js';
 import { RANKING_META, type RankingSlug } from './rankings-meta.js';
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 
 // ─── Public types ─────────────────────────────────────────────────────────
 
@@ -330,8 +330,8 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
  * Render the related-hubs section as HTML. Keep it simple: a section title,
  * a series of category sub-headers, each with a horizontal pill-list of links.
  */
-export function renderSpokeHubsSection(result: SpokeHubsResult): string {
-  if (result.total === 0) return '';
+export function renderSpokeHubsSection(result: SpokeHubsResult): SafeHtml {
+  if (result.total === 0) return '' as SafeHtml;
 
   const groupsHtml = result.groups.map((g) => {
     const itemsHtml = g.items.map((item) =>
@@ -346,10 +346,10 @@ export function renderSpokeHubsSection(result: SpokeHubsResult): string {
            `</div>`;
   }).join('');
 
-  return `<section class="related-hubs" aria-label="この職業に関連する hub">
+  return (`<section class="related-hubs" aria-label="この職業に関連する hub">
     <h2>この職業を探した人が見る hub（${result.total} 件）</h2>
     <div class="related-hubs-grid">${groupsHtml}</div>
-  </section>`;
+  </section>`) as SafeHtml;
 }
 
 /** CSS for the related-hubs section — to be injected into the spoke <style>. */

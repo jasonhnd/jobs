@@ -26,7 +26,7 @@
  * one — that's the asymmetry). Union top-K corrects it.
  */
 
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 
 export interface SpokeNeighbor {
   id: number;
@@ -132,8 +132,8 @@ export function buildSameRiskNeighbors(
 }
 
 /** Render the cross-sector same-risk neighbors as an HTML section. */
-export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, sourceRisk: number | null): string {
-  if (neighbors.length === 0) return '';
+export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, sourceRisk: number | null): SafeHtml {
+  if (neighbors.length === 0) return '' as SafeHtml;
   const fmtInt = (n: number | null): string =>
     n === null ? '—' : Math.trunc(n).toLocaleString('en-US');
 
@@ -150,11 +150,11 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
   }).join('');
 
   const riskLabel = sourceRisk !== null ? `${sourceRisk}/10` : '—';
-  return `<section class="same-risk-neighbors" aria-label="同 AI 影響度の他職業（クロスセクター）">
+  return (`<section class="same-risk-neighbors" aria-label="同 AI 影響度の他職業（クロスセクター）">
     <h2>同 AI 影響度（${escapeHtml(riskLabel)} ±1）の他職業</h2>
     <p class="srn-subtitle">業界をまたいで、AI 影響度が同水準の代表職業（規模順）。</p>
     <div class="srn-grid">${cards}</div>
-  </section>`;
+  </section>`) as SafeHtml;
 }
 
 export const SAME_RISK_CSS = `
