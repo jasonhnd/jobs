@@ -1,8 +1,10 @@
 # architecture.md — mirai-shigoto 5 層アーキテクチャ
 
-> **ステータス**: ドラフト(2026-05-12 起草、実装フェーズに進入)
+> **ステータス**: 現行版(2026-05-12 起草、Phase B/C/D/E まで完了 = 2026-05-15)。詳細な施工進捗は §11 移行順序の表、各 Phase の判断・履歴は §15 決定ログ参照。
 > **適用範囲**: コード構成、データフロー、型契約、移行パス、SEO 契約
-> **関連**: [WORKFLOW.md](./WORKFLOW.md)(運用 / デプロイ / CI)
+> **関連**: [WORKFLOW.md](./WORKFLOW.md)(運用 / デプロイ / CI)、[DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md)(データ規約)、[SITE_FULL_VISION.md](./SITE_FULL_VISION.md)(全体ビジョン)
+>
+> **読み方のヒント**: §2 はアーキテクチャの **静的構造** を、§8 / §11 / §15 が **施工状態の真実** を表す。Layer 2/3/4 は当初「新設」と書かれていたが、Phase B/C/D/E で全層が **実装済**(`src/graph/` / `src/views/` / `src/templates/` 全部存在 + tests 完備)。本ファイル §2 の表現は構造記述として残るが、現状を確認するには §8 表 + §11 状態列を参照。
 
 ---
 
@@ -101,7 +103,7 @@
 
 ### 2.2 Layer 2: Graph
 
-**場所**: `src/graph/`(新設、既存 [src/data/lib/indexes.ts](../src/data/lib/indexes.ts) から進化)。
+**場所**: `src/graph/`(実装済 = 2026-05-13 Step 1)。`ids.ts` / `types.ts` / `loader.ts` / `score-strategy.ts` / `sector-resolver.ts` + 4 個の test ファイル + `index.ts` の計 10 ファイル。`loadGraph()` は memoize 済(commit `cc83ebf7`、build 15× 高速化)。旧 `src/data/lib/indexes.ts` は projection build pipeline のみで使われる中間 index に役割を絞り、業務層からは参照されない。
 
 **定義**: source のメモリ内 **領域形態** — 不変な property graph。
 
@@ -158,7 +160,7 @@ export function loadGraph(): Promise<KnowledgeGraph>
 
 ### 2.3 Layer 3: Views
 
-**場所**: `src/views/`(新設、既存 `src/data/projections/` + `src/data/lib/*-hub.ts` のデータ部分から進化)。
+**場所**: `src/views/`(実装済 = 2026-05-13/14 Phase B/C/D)。60+ ファイル(ranking / sector / hub / interest / compare / skill / og-cards / jsonld / meta / sitemap / image-sitemap / occupation-detail / occupation-faqs / occupation-jsonld / occupation-seo / spoke-hub-graph / spoke-spoke-graph / careers-meta / licenses-meta / rankings-meta / interests-meta / skills-meta / sector-meta / qa-meta / compare-meta / explore-routes / genre-configs / inline-links / hub-hub-graph 等)。Phase B(18 untested 退役)+ Phase C(13 tested 消化)で旧 `src/data/lib/*-hub.ts` 系から完全移行済。`src/data/projections/` は build pipeline 中(`src/data/build.ts`)で 12 投影を `public/data.*` に書き出すために残置(別系統、view 層は使わない)。
 
 **定義**: **純粋関数** `(graph, params) => ViewResult`。
 
@@ -212,7 +214,7 @@ export function occupationDetailView(
 
 ### 2.4 Layer 4: Templates
 
-**場所**: `src/templates/`(新設、既存 `src/data/lib/*-renderers.ts` + `.astro` テンプレ部分から進化)。
+**場所**: `src/templates/`(実装済 = 2026-05-13/14 Phase B/C/D)。30+ ファイル(Compare / Hub / InterestHub / SkillHub / Ranking / SectorChart / SectorListings / SectorPatterns / AiRiskDetail / FaqSection / Highlights / LegacyRelated / MetaRow / OccFaq / OrgsCerts / ProfileRadar / ProseSection / Provenance / Topn / Transfer 等、全テスト完備)。Phase D audit #8 で 18 hub-index ページの HTML 組立(`.map(...).join('')`)を本層に集約済。TS 関数で `SafeHtml` を返す形態が主体、Astro コンポーネントは `BaseLayout.astro` / `Footer.astro` / `_RiskCard.astro` 等の小数。
 
 **定義**: HTML / VDOM / バイナリ画像を生成する **唯一の層**。
 
@@ -763,6 +765,14 @@ OG endpoint(`api/og.tsx`)は Vercel Edge function、リクエスト時に 1200×
   - **`src/site/config.ts` 新設**: hardcode していた `https://mirai-shigoto.com` / `日本の職業 AI 影響マップ` / `lang="ja"` / `og:locale=ja_JP` / default OG image を一箇所に集約。`src/lib/urls.ts` と `src/layouts/BaseLayout.astro` の 4 値が `siteConfig.*` を読むように変更。`config.test.ts` で値を pin(AI が "branding" 修正で silent 改変するリスクを防御)。`feedback_pii_audit_surface` memory に記録済の "operator-name / X-handle が 8+ surfaces に散布した" 過去事故と同じ問題類への構造的対策。
   - **検証結果**: typecheck / 887 unit tests(siteConfig 4 件追加で 883 → 887)/ build 821 pages / 0 leaks / architecture-gate 全緑 / JSON-LD 全合格 / 41,277 internal links 全有効 / SEO baseline drift = sitemap `<lastmod>` の今日日付のみ(意図通り、baseline 更新済)。
   - **明示的に scope-out**: profile5 + transfer_paths の graph schema 統合(audit の "中期");`src/index-source.html` の 167KB スリム化;middleware.ts の analytics fallback リファクタ;`src/data/lib/` 残置 5 ファイルの再配置。**Phase E はここで終わる** — 同 audit が警告した通り、次は内容更新の "沈殿期間" を置いてからアーキテクチャの次の動きを判断する。
+
+- **docs/ 全公開化 + 文書同期 audit**: 同日午後、`282fda41 chore(docs): un-gitignore docs/` で `docs/_archive/` 以外の全ファイル(Design.md / Design-Mobile.md / WORKFLOW.md / DATA_ARCHITECTURE.md / architecture.md / SITE_FULL_VISION.md)が git tracked に。`_archive/` の Phase A.5 中国語バックアップ 3 件は目的達成として削除。同時に 6 文書を **コード現状との整合性 audit**:
+  - **architecture.md §0 ヘッダ更新**: "ドラフト(2026-05-12)" → "現行版(Phase B/C/D/E まで完了 = 2026-05-15)"。§2.2 / §2.3 / §2.4 の Layer 2/3/4 「新設(...から進化)」表現を、現実の `src/graph/` 10 ファイル / `src/views/` 60+ ファイル / `src/templates/` 30+ ファイルの状態に合わせて更新。§2 はアーキテクチャ静的構造、§8 / §11 / §15 が施工状態の真実、と読み方ヒントを明示。
+  - **Design.md / Design-Mobile.md**: §18.4 移行状態表を Phase D / E 反映で更新、`spoke-hub-graph.ts` / `spoke-spoke-graph.ts` のパス(`src/data/lib/` → `src/views/`)と行番号(352→356 / 150→160)を同期。
+  - **WORKFLOW.md**: §13 ドキュメント関係表 / §6 ファイル分類図を「全 `docs/` が GitHub 公開」現実に合わせ更新。README.ja.md / ARCHIVED-MIGRATION_PLAN.md など既に存在しない参照を整理。
+  - **DATA_ARCHITECTURE.md**: 全文の Python 系参照(`scripts/build_data.py` / Pydantic / uv 等)を v1.5.0 以降の TypeScript 現実(`src/data/build.ts` / Zod / tsx / `npm run build:data`)に refresh。v1.6.0 entry 追加。歴史的経緯(Python 時代の記述)は新規 附録 B として保存。
+  - **SITE_FULL_VISION.md**: §0 / §11 / §12 の各 Phase ステータスを architecture refactor 実態(Phase 1-5 で計画されていた hub family は構造実装完了、深編集は別物として継続中)に合わせ更新。HUB_EXPANSION_PLAN.md 参照削除(既に削除済)。
+  - **検証結果**: コード変更ゼロ、内容のみの sync。SEO baseline drift = 0 想定(本コミットには code 変更が含まれないため)。次の commit で `_archive/` 削除 + 6 文書 update を 1 PR にまとめて push to preview。
 
 ---
 

@@ -1,21 +1,23 @@
 # SITE_FULL_VISION.md — mirai-shigoto.com 全体ビジョン
 
-> **状態**: 実装ロードマップ確定（2026-05-09 拍板済）
+> **状態**: 実装ロードマップ確定（2026-05-09 拍板済）→ 構造実装フェーズほぼ完了（2026-05-15 時点）。L2 explore + L3 全 genre family の **page routing + 投影 + JSON-LD + OG image** は構造実装済、深編集（persona / Q&A 本文 / 比較記事 / 注解）は継続中。
 > **適用範囲**: サイト全体の最終形態 + 実装順序
 > **ベース**: 全コードを精読した上での実測 + 拡張計画
-> **関連**: [WORKFLOW.md](./WORKFLOW.md) (作業ルール) ・ [DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md) (データ規約) ・ [HUB_EXPANSION_PLAN.md](./HUB_EXPANSION_PLAN.md) (中層拡張詳細)
+> **関連**: [WORKFLOW.md](./WORKFLOW.md) (作業ルール) ・ [DATA_ARCHITECTURE.md](./DATA_ARCHITECTURE.md) (データ規約) ・ [architecture.md](./architecture.md) (5 層アーキテクチャ詳細)
+>
+> **歴史メモ**: HUB_EXPANSION_PLAN.md（v0.2、140 hub プラン）は本ファイルが上位互換で包含、2026-05-14 削除済。
 
 ---
 
 ## 0. 拍板済の 5 項目（このドキュメントの前提）
 
-| 項目 | 決定 |
-|---|---|
-| 1. 総ページ規模 614 → 820 (+206) | ✓ |
-| 2. 着手順序: 興味タイプ / スキル / 比較 を最優先 (★★★) | ✓ |
-| 3. Q&A 36 + キャリア 10 = 46 手書 hub にコミット | ✓ |
-| 4. `api/og.tsx` 全 mode 拡張を並行実施 | ✓ |
-| 5. ドキュメント整備: 本ファイル + HUB_EXPANSION_PLAN.md 並列保持 | ✓ |
+| 項目 | 決定 | 進捗（2026-05-15）|
+|---|---|---|
+| 1. 総ページ規模 614 → 820 (+206) | ✓ | 構造実装済(全 genre route family 存在)、深編集継続 |
+| 2. 着手順序: 興味タイプ / スキル / 比較 を最優先 (★★★) | ✓ | Phase B/C/D/E で全部構造実装済 |
+| 3. Q&A 36 + キャリア 10 = 46 手書 hub にコミット | ✓ | route 存在、内容深編集は継続作業 |
+| 4. `api/og.tsx` 全 mode 拡張を並行実施 | ✓ | `src/views/og-cards.ts` 構築済(Step 9 = architecture.md §11) |
+| 5. ドキュメント整備: 本ファイル + HUB_EXPANSION_PLAN.md 並列保持 | ✓→✗ | HUB_EXPANSION_PLAN.md は本ファイルが上位互換のため 2026-05-14 削除、本ファイル単独で保持 |
 
 ---
 
@@ -350,37 +352,39 @@ Layout
 
 ## 11. 実装可能性ランキング & 着手順序
 
+> **2026-05-15 更新**: 構造実装(route + JSON-LD + OG + binding 層)はほぼ全部完了。残るは **内容深編集**(persona 文章 / Q&A 本文 / 比較記事本文 / 業種注解等)。**構造 ✓ = 自動派生 + テンプレ生成済;深編集 ⏳ = 編集者の手による本文書き入れ待ち**。
+
 ### ★★★ 最優先（既存資産でほぼ即実装可能）
 
-| 拡張 | 必要工数 | 既存資産 |
-|---|---|---|
-| **興味タイプ hub × 6 + index** | 低 | `data.holland.json` 既存、即作れる |
-| **スキル hub × 10 + index** | 低 | `data.skills/<key>.json` × 31 既存、即作れる |
-| **比較 hub × 12 + index** | 中 | spoke データから派生、cosine 既存 |
+| 拡張 | 必要工数 | 既存資産 | 構造 | 深編集 |
+|---|---|---|---|---|
+| **興味タイプ hub × 6 + index** | 低 | `data.holland.json` 既存 | ✅ `src/pages/ja/interests/` | ⏳ |
+| **スキル hub × 10 + index** | 低 | `data.skills/<key>.json` × 31 既存 | ✅ `src/pages/ja/skills/` | ⏳ |
+| **比較 hub × 12 + index** | 中 | spoke データから派生、cosine 既存 | ✅ `src/pages/ja/compare/` | ⏳ |
 
 ### ★★ 次優先（パターンの拡張、SEO 価値高）
 
-| 拡張 | 必要工数 |
-|---|---|
-| 新 ranking +30 | 中 (rankings.ts に slug 追加) |
-| 業種 hub 改造 | 中 (既存 16 hub に層追加) |
-| Q&A hub × 36 | 高 (全文手書) |
-| 方法論 / 用語 / 出典 | 中 (llms.txt から流用可) |
+| 拡張 | 必要工数 | 構造 | 深編集 |
+|---|---|---|---|
+| 新 ranking +30 | 中 (rankings.ts に slug 追加) | ◐ 既存 ranking 9 + 候補 slug 追加で拡張可 | ⏳ |
+| 業種 hub 改造 | 中 (既存 16 hub に層追加) | ✅ 既存 17 hub に注解可 | ⏳ |
+| Q&A hub × 36 | 高 (全文手書) | ✅ `src/pages/ja/q/` | ⏳ 全文編集が本体 |
+| 方法論 / 用語 / 出典 | 中 (llms.txt から流用可) | ✅ `src/pages/ja/about/{methodology,glossary,data-sources}` | ⏳ |
 
 ### ★ 後続（重編集、persona / 主観あり）
 
-| 拡張 | 必要工数 |
-|---|---|
-| キャリア段階 hub × 10 | 高 (persona 完全手書) |
-| 資格 hub × 15 | 高 (related_certs_ja から派生 + 手書) |
-| 能力 / 知識 / 価値観 / 学歴 / 業務 / 雇用 / ライフ / 入職 | 中 |
-| L2 explore routes × 7 | 低 (既存 hub への navigation のみ) |
+| 拡張 | 必要工数 | 構造 | 深編集 |
+|---|---|---|---|
+| キャリア段階 hub × 10 | 高 (persona 完全手書) | ✅ `src/pages/ja/careers/` | ⏳ |
+| 資格 hub × 15 | 高 (related_certs_ja から派生 + 手書) | ✅ `src/pages/ja/licenses/` | ⏳ |
+| 能力 / 知識 / 価値観 / 学歴 / 業務 / 雇用 / ライフ / 入職 | 中 | ✅ 全 genre 構造済 | ⏳ |
+| L2 explore routes × 7 | 低 (既存 hub への navigation のみ) | ✅ `src/pages/ja/explore/[route].astro` + `index.astro` | ⏳ |
 
 ### ☆ 最後
 
-| 拡張 | 必要工数 |
-|---|---|
-| 年次 hub × 3 | 高 (全文編集、年に 1 回) |
+| 拡張 | 必要工数 | 構造 | 深編集 |
+|---|---|---|---|
+| 年次 hub × 3 | 高 (全文編集、年に 1 回) | ✅ `src/pages/ja/yearly/{index,2026-report,next-decade,5year-changes}` | ⏳ |
 
 ---
 
@@ -468,4 +472,7 @@ Layout
 ## 15. 修正履歴
 
 - 2026-05-09 v0.1: 初稿（コード精読 + 実測ベース）。HUB_EXPANSION_PLAN.md v0.2 を上位互換で包含。
+- 2026-05-13 Phase A.5: 全文を日本語化(他の docs 文書と同期)。
+- 2026-05-14 v0.2: HUB_EXPANSION_PLAN.md は本ファイルが上位互換のため削除。`282fda41 chore(docs): un-gitignore docs/` で `docs/` 全公開、本ファイルも GitHub 公開対象に。
+- 2026-05-15 v0.3: 構造実装フェーズ完了状態を反映。§0 拍板 5 項目に進捗列追加(構造実装済 vs 深編集継続)、§11 実装可能性ランキング表に「構造 / 深編集」列を分けて記録。残る作業は **route の物理生成ではなく、各 hub ページの本文編集** であることを明示化。Phase B/C/D/E（architecture.md §15 参照）で全 genre route family が構造実装済 — `src/pages/ja/{interests,skills,compare,careers,licenses,abilities,knowledge,values,work-styles,life-balance,training,education,employment-types,entry-paths,q,yearly,explore}/` 全部存在。
 - （以降は修正のたびに追記）

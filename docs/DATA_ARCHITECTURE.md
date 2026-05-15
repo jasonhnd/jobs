@@ -6,6 +6,8 @@
 > - **実装済範囲**: **現実のコードが基準**、本ドキュメントは事実記述のみ; 不一致があれば本ドキュメントを修正する
 > - **目標範囲(v1.0.3 今回作業分)**: **本ドキュメントが基準**、コードは本ドキュメントに合わせて修正されるべき逸脱と見なす
 > - **将来計画範囲(§10)**: 方向性の記録のみ、コードも本ドキュメントの実装も拘束しない
+>
+> **重要 update 2026-05-15(v1.6.0)**: v1.5.0 で Python pipeline は完全廃止された(commit `66cc97aa feat(arch): remove /m/ pipeline — single responsive URL architecture` 系)。本ファイル §0.2 / §7 / §8 はすべて TypeScript ETL(`src/data/build.ts`、`tsx` runner、Zod schema)を記述する。歴史的な Python 時代(`scripts/build_data.py`、Pydantic、`uv run python`)の経緯と動機は **附録 B「歴史的経緯(Python 時代)」** に保存。コードを読みながら本ファイル §7/§8 を参照するときは「現在の TypeScript 実装」を、過去の commit を遡るときは「附録 B」を見ること。
 
 ---
 
@@ -27,24 +29,28 @@
 
 ### 0.2 Prerequisites
 
-build / import フローの実行前提:
+build / import フローの実行前提(v1.5.0 以降の TypeScript pipeline):
 
 | 項目 | バージョン / 要件 | 現在状態 |
 |---|---|---|
-| Python | `>=3.11`(pyproject.toml); `.python-version` で 3.12 ロック | Implemented |
-| パッケージ管理 | `uv`(リポジトリ root に `uv.lock` 既存) | Implemented |
-| 既存 Python 依存 | beautifulsoup4 ≥ 4.12, httpx ≥ 0.28, playwright ≥ 1.50, python-dotenv ≥ 1.0 | Implemented |
-| 新規依存 | `openpyxl ≥ 3.1`(xlsx 読込)、`pydantic ≥ 2.5`(schema 検証) | **Implemented**(v1.0.5 以降 pyproject.toml に) |
-| Node | package.json: @vercel/og 0.6.x, react 18.x(OG image API のみ使用) | Implemented |
-| 作業ディレクトリ | リポジトリ root(すべての `python3 scripts/*.py` コマンドはここで実行) | Implemented |
+| Node | ≥ 22(`package.json` engines)、Vercel は Node 22 LTS | Implemented |
+| パッケージ管理 | `pnpm`(corepack 経由、`pnpm-lock.yaml` で固定) | Implemented |
+| TypeScript runner | `tsx`(`devDependencies`)で `.ts` を直接実行 | Implemented |
+| TypeScript | strict mode、`tsconfig.json` で `noEmit` | Implemented |
+| Schema 検証 | `zod`(`dependencies`、build 時 + テスト時のみ消費) | Implemented |
+| xlsx 読込 | `xlsx`(`devDependencies`、`src/data/import-ipd.ts` でのみ使用) | Implemented |
+| Frontend stack | Astro ≥ 6.x、React 18.x(Edge Functions + 一部 component)、@vercel/og 0.6.x | Implemented |
+| 作業ディレクトリ | リポジトリ root(すべての `npm run *` / `tsx src/*` コマンドはここで実行) | Implemented |
+
+> **v1.5.0 以前との差異**: Python ≥ 3.11、`uv`、`pydantic`、`openpyxl`、`beautifulsoup4`、`httpx`、`playwright`、`python-dotenv` はすべて廃止。歴史については **附録 B** 参照。
 
 ### 0.3 適用範囲
 
 - `data/`(ソースデータ: IPD、stats_legacy、scores、translations、labels、schema)
 - `dist/`(構築成果物: 9 投影ファミリー / 10 投影ファイル)
-- `scripts/build_data.py`(構築パイプライン)
-- `scripts/import_ipd.py`(一回限り / アップグレード時の xlsx → JSON インポート)
-- `dist/data.*` を読むすべてのフロントエンドコード(`index.html`、`api/og.tsx`、`build_occupations.py` 等)
+- `src/data/build.ts`(構築パイプライン、`npm run build:data` で実行)
+- `src/data/import-ipd.ts`(一回限り / アップグレード時の xlsx → JSON インポート、`npm run import:ipd` で実行)
+- `public/data.*` を読むすべてのフロントエンドコード(`src/pages/*.astro`、`api/og.tsx`、`middleware.ts` 等。v1.5.0 以降 `index.html` / `build_occupations.py` は廃止、附録 B 参照)
 
 > [Design.md](./Design.md) との関係: Design.md は「フロントエンドでの呈現の仕方」を、本ドキュメントは「データがどこから来て、どう保存され、どうパッケージされるか」を管轄する。両者は `dist/data.*` 投影契約で接続される。
 
@@ -55,7 +61,7 @@ build / import フローの実行前提:
 1. **IPD は職業プロファイルの唯一の権威源**。他のソース(jobtag ウェブクロール、ハローワーク 等)は **明示的に注記されたパッチ層**(例: `stats_legacy/`)としてのみ使え、IPD データと同一フィールドに混入してはならない。
 2. **ソース / 中間 / 投影 の 3 層強分離**。ソース(`data/`)は人手メンテの事実; 投影(`dist/`)は build の出力で **手編集厳禁**; build スクリプト(`scripts/`)が唯一の橋。
 3. **各消費者は自分用に最適化された投影を取得する**。フロントエンドのトップページ、詳細ページ、OG API、将来のモバイル端、それぞれが自分向けの最薄 JSON を取る。**「1 つに膨らませて全員で使う」中間成果物は存在しない**。
-4. **Schema 強制検証**。すべてのソース JSON は build 時に Pydantic model 検証を通過する; フィールド名 typo / 型不一致 / 範囲外は build 失敗。
+4. **Schema 強制検証**。すべてのソース JSON は build 時に Zod schema 検証(`src/data/schema/*.ts`)を通過する; フィールド名 typo / 型不一致 / 範囲外は build 失敗(`tsx src/data/build.ts` が exit 1)。
 5. **複数回 AI スコアリングを全量保持**。`data/scores/` の旧ファイルは永遠に削除しない —— 大規模モデル昇格時の新スコアは履歴記録の一部、プロダクト内容(「スコアリングの進化」は将来可視化対象)。
 6. **翻訳と主ソースを切り離す**。すべての非日本語コンテンツは `data/translations/<lang>/` 独立層に置く; 主 JSON は日本語 + 共通 key のみ。新言語追加 = ディレクトリ追加、主ソース不変。
 7. **変更は必ず本ファイルを先に動かす**。ソース構造 / 投影契約 / build フローの変更は、まず本ドキュメントに反映してからコードを書く。
@@ -383,15 +389,24 @@ data/
 │   ├── 0002.json
 │   └── ... (552 ファイル、4 新規職業は未対応)
 │
-└── schema/                             # Pydantic models
-    ├── occupation.py                   # IPD occupation 主構造
-    ├── translation.py
-    ├── score_run.py
-    ├── stats_legacy.py
-    └── labels.py
 ```
 
-**すべて git に入れる**。
+**すべて git に入れる**(schema は `src/data/schema/*.ts` に移動済、§4.4 参照)。
+
+### 4.1.5 Schema location(v1.5.0 以降)
+
+```
+src/data/schema/                        # Zod schemas(TypeScript)
+├── index.ts                            # re-exports
+├── occupation.ts                       # IPD occupation 主構造 + null rules per §5.4
+├── translation.ts
+├── score-run.ts
+├── stats-legacy.ts
+├── sector.ts                           # v1.1.0 追加
+└── labels.ts
+```
+
+**v1.5.0 以前との差異**: `data/schema/*.py`(Pydantic)から `src/data/schema/*.ts`(Zod)へ移行。詳細は附録 B。
 
 ### 4.2 構築成果物 `dist/`
 
@@ -565,23 +580,42 @@ build/                                  # 構築中間成果物、.gitignore
 - 投影層は **デフォルトでこの 4 フィールドをユーザー向け投影に出力しない**(detail に出さず、search に出さず、treemap に出さず)
 - ある投影で分類を使う必要が出たら、**先に本セクションでマッピング表 + 解除ルールを追加する**
 
-### 5.6 Pydantic Model 自動生成
+### 5.6 Schema 維持戦略(v1.5.0 以降: Zod 手書き)
 
-`data/schema/occupation.py` は一回限りスクリプト `scripts/generate_schema.py` が IPD 細目 sheet から自動生成する:
+`src/data/schema/occupation.ts` 等は **手書きの Zod schema**(TypeScript)。
 
-```python
-# 擬似コード
-for row in ipd_dictionary_sheet:
-    ipd_id, name, dtype, rng = row
-    if dtype == "数値":
-        # range like "0.000～5.000" → Field(ge=0, le=5)
-        field_def = parse_range_to_pydantic(rng)
-    elif dtype == "日本語テキスト":
-        # range like "10～100字程度" → Field(min_length=..., max_length=...)
-        ...
+```ts
+// src/data/schema/occupation.ts(抜粋)
+import { z } from 'zod';
+
+export const OccupationSchema = z.object({
+  id: z.number().int().positive(),
+  schema_version: z.literal('7.00'),
+  title_ja: z.string().min(1),
+  classifications: z.object({
+    mhlw_main: z.string().regex(/^\d{2}_\d{3}-\d{2}$/),
+    mhlw_all: z.array(z.string()),
+    jsoc_main: z.string().optional(),
+    jsoc_all: z.array(z.string()),
+  }),
+  // 12 数値プロファイル: 各々が完全 dict or null
+  interests: z.object({ /* 6 dims */ }).nullable(),
+  // ... 他 11 dims
+  // tasks は空配列でも有効、tasks_lead_ja は null 可
+  tasks: z.array(/* ... */).default([]),
+  tasks_lead_ja: z.string().nullable(),
+  // ... 他のフィールド
+});
+
+export type Occupation = z.infer<typeof OccupationSchema>;
 ```
 
-**メリット**: IPD を 7.01 にアップグレードする際、schema を再生成するだけ、手叩きしない。
+**メリット**:
+- TypeScript の型と Zod の runtime 検証が同一ソース(`z.infer`)— 二重保守不要
+- Astro / Edge Function / build スクリプトすべてが同じ schema を import 可能
+- IPD 7.01 アップグレード時は手動で schema 差分を反映(現在 ~574 フィールドのうち、人手で見れる変更点しか実際は来ない)
+
+**v1.5.0 以前との差異**: `scripts/generate_schema.py` が Pydantic schema を IPD 細目 sheet から自動生成していた。Zod に移行後はこの自動生成スクリプトは廃止、手書き保守。理由は附録 B 参照。
 
 ---
 
@@ -606,7 +640,7 @@ for row in ipd_dictionary_sheet:
 | `data.score-history/` | §6.9 | **Future-coded** — ≥ 2 モデル走った後に初めて内容が出る | 将来「評価進化」ページ | 552 | < 3 KB / 件 | avg ~150 B |
 | `data.labels/` | §6.10 | **Implemented** ✅ | すべてのフロントエンドコードのラベルレンダリング | 2(ja + en) | < 30 KB / 件 | ja 5.0 KB, en 3.5 KB |
 
-> **施工境界**(v1.1.0 で実装済): 5 つの Planned ファミリーがデフォルト build 出力(`sectors` は v1.1.0 で追加された 5 つ目、treemap/detail/search が参照するため最初に走る)。5 つの Future ファミリーの関数コードは書いてあり、`npm run build:data:full` (= `python scripts/build_data.py --enable-future`) で明示的に有効化。対応 UX オンライン時にデフォルト build リストに切替える。
+> **施工境界**(v1.1.0 で実装済): 5 つの Planned ファミリーがデフォルト build 出力(`sectors` は v1.1.0 で追加された 5 つ目、treemap/detail/search が参照するため最初に走る)。5 つの Future ファミリーの関数コードは書いてあり、`tsx src/data/build.ts --enable-future` で明示的に有効化。対応 UX オンライン時にデフォルト build リストに切替える。
 
 ### 6.1 `data.treemap.json`
 
@@ -920,7 +954,7 @@ Seed glob 文法(`fnmatch`): `"12_*"`、`"12_072*"`、`"12_072-06"`。
    b) 境界ケース → data/sectors/overrides.json に {"<padded>": "<sector_id>"} 追加
    c) sector の再定義 → data/sectors/sectors.ja-en.json の sector リストを変更
 
-3. uv run python scripts/build_data.py
+3. npm run build:data  (= tsx src/data/build.ts)
 4. review_queue を再確認、uncategorized + ambiguous = 0 になるまで
 ```
 
@@ -942,7 +976,9 @@ CI が review_queue 非ゼロを警告(ブロックしない)、ただし D-014 
 
 ## 7. Build Pipeline
 
-> **セクション全体 Status**: **Implemented**(v1.0.7 以降; 本セクション記述の `scripts/build_data.py` orchestrator + `scripts/lib/*.py` + `scripts/projections/*.py × 9` + atomic dist swap + L1/L2/L3 検証梯子はすべて実装済。コマンドは直接実行可)。
+> **セクション全体 Status**: **Implemented**(v1.5.0 以降 TypeScript ETL に完全移行)。本セクションは現在の TypeScript 実装を記述する。Python 時代(v1.0.7 - v1.4.x)の同パイプラインの構造と動機は附録 B 参照。
+>
+> **入口コマンド**: `npm run build:data` (= `tsx src/data/build.ts`)
 
 ### 7.1 全体フロー
 
@@ -953,150 +989,241 @@ CI が review_queue 非ゼロを警告(ブロックしない)、ただし D-014 
 │   ├ translations/en/                 │
 │   ├ scores/                          │
 │   ├ stats_legacy/                    │
+│   ├ sectors/                         │
 │   └ labels/                          │
 └──────────────┬──────────────────────┘
                │
                ▼
    ┌─────────────────────────────┐
-   │  scripts/build_data.py      │
+   │  src/data/build.ts          │
+   │  (= npm run build:data)     │
    │                             │
-   │  1. ロード + Pydantic 検証   │
+   │  1. ロード + Zod 検証        │
    │  2. メモリインデックス構築    │
-   │  3. 9 投影関数呼出           │
-   │  4. dist/ 書込               │
+   │  3. 12 投影関数呼出          │
+   │  4. public/ 書込             │
    └──────────────┬──────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────┐
-│  dist/  (投影、フロントエンドが読む) │
+│  public/  (投影、フロントエンドが読む)│
+│  (= Astro publicDir、build で       │
+│   そのまま dist-astro/ に複製)       │
+│                                      │
 │   ├ data.treemap.json                │
 │   ├ data.detail/<id>.json × 556      │
 │   ├ data.tasks/<id>.json × 556       │
 │   ├ data.search.json                 │
-│   ├ data.skills/<skill>.json × 39    │
+│   ├ data.skills/<skill>.json × 31    │
 │   ├ data.holland.json                │
 │   ├ data.featured.json               │
 │   ├ data.score-history/<id>.json     │
+│   ├ data.sectors.json (+review_queue)│
+│   ├ data.profile5.json               │
+│   ├ data.transfer_paths.json         │
 │   └ data.labels/{ja,en}.json         │
 └─────────────────────────────────────┘
 ```
 
-### 7.2 build_data.py 内部構造
+> **v1.5.0 以前との差異**: パイプラインは `scripts/build_data.py`(Python、`uv run`)→ `src/data/build.ts`(TypeScript、`tsx`)に置換。出力先は `dist/` → `public/` に変更(Astro の publicDir 規約に合わせ、astro build が `dist-astro/` に自動複製)。詳細は附録 B 参照。
 
-```python
-# scripts/build_data.py(擬似コード)
+### 7.2 src/data/build.ts 内部構造
 
-def main():
-    # === 1. ロード ===
-    occupations = load_all_validated("data/occupations/", Occupation)
-    translations_en = load_all_validated("data/translations/en/", TranslationEN)
-    score_runs = load_all_validated("data/scores/", ScoreRun)
-    stats_legacy = load_all_validated("data/stats_legacy/", StatsLegacy)
-    labels = load_labels("data/labels/")
+```ts
+// src/data/build.ts(擬似コード)
+import { loadAll } from './loaders';
+import { buildIndexes } from './lib/indexes';
+import * as projections from './projections';
 
-    # === 2. インデックス構築 ===
-    indexes = build_indexes(occupations, translations_en, score_runs, stats_legacy)
-    # indexes 含む:
-    #   occ_by_id              dict[int, Occupation]
-    #   trans_by_id            dict[int, TranslationEN]
-    #   stats_by_id            dict[int, StatsLegacy]
-    #   history_by_occ         dict[int, list[ScoreEntry]]  時間順
-    #   latest_score_by_occ    dict[int, ScoreEntry]
-    #   runs_by_model          dict[str, list[ScoreRun]]
+async function main() {
+  // === 1. ロード + Zod 検証 ===
+  const occupations = await loadAll('data/occupations/', OccupationSchema);
+  const translationsEn = await loadAll('data/translations/en/', TranslationSchema);
+  const scoreRuns = await loadAll('data/scores/', ScoreRunSchema);
+  const statsLegacy = await loadAll('data/stats_legacy/', StatsLegacySchema);
+  const labels = await loadLabels('data/labels/');
+  const sectors = await loadSectorDefinitions('data/sectors/');
 
-    # === 3. 投影 ===
-    from projections import treemap, detail, tasks, search, skills, holland, featured, history, labels as labels_proj
-    treemap.build(indexes, "dist/")
-    detail.build(indexes, "dist/")
-    tasks.build(indexes, "dist/")
-    search.build(indexes, "dist/")
-    skills.build(indexes, labels, "dist/")
-    holland.build(indexes, "dist/")
-    featured.build(indexes, "dist/")
-    history.build(indexes, "dist/")
-    labels_proj.build(labels, "dist/")
+  // === 2. インデックス構築 ===
+  const indexes = buildIndexes({
+    occupations, translationsEn, scoreRuns, statsLegacy, labels, sectors,
+  });
+  // indexes 含む:
+  //   occById              Map<number, Occupation>
+  //   transById            Map<number, TranslationEn>
+  //   statsById            Map<number, StatsLegacy>
+  //   historyByOcc         Map<number, ScoreEntry[]>  // 時間順
+  //   latestScoreByOcc     Map<number, ScoreEntry>
+  //   runsByModel          Map<string, ScoreRun[]>
+  //   sectorByOcc          Map<number, SectorAssignment>  // v1.1.0 追加
+  //   labelsByDim          Map<string, LabelDict>
 
-    # === 4. 一貫性チェック ===
-    run_consistency_checks(indexes, "dist/")
-    # - すべての detail ファイルが occupation に逆引きできる
-    # - treemap 行数 == occupation 数
-    # - skill index が 78 個の skill key を含む
-    # 等
+  // === 3. 投影(12 ファミリー、依存順) ===
+  await projections.sectors.build(indexes, 'public/');       // 他から参照されるため最初
+  await projections.labels.build(labels, 'public/');
+  await projections.profile5.build(indexes, 'public/');
+  await projections.treemap.build(indexes, 'public/');
+  await projections.search.build(indexes, 'public/');
+  await projections.transferPaths.build(indexes, 'public/');
+  await projections.detail.build(indexes, 'public/');
+  // 以下は Future-coded(デフォルト build でスキップ、--enable-future で有効化)
+  await projections.tasks.build(indexes, 'public/');
+  await projections.skills.build(indexes, labels, 'public/');
+  await projections.holland.build(indexes, 'public/');
+  await projections.featured.build(indexes, 'public/');
+  await projections.scoreHistory.build(indexes, 'public/');
+
+  // === 4. 一貫性チェック(L3 sanity) ===
+  runConsistencyChecks(indexes, 'public/');
+  // - すべての detail ファイルが occupation に逆引きできる
+  // - treemap 行数 == occupation 数(stats + score 完備のもの)
+  // - skill index が 31 個の skill key を含む
+  // - sector review_queue が空でない場合 warn
+  // 等
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
 ```
 
-### 7.3 共有インデックス `scripts/lib/indexes.py`
+### 7.3 共有インデックス `src/data/lib/indexes.ts`
 
-```python
-def build_indexes(occupations, translations_en, score_runs, stats_legacy):
-    """全投影が使うメモリインデックスを一度に構築。
-    どの投影も indexes から読み、生リストを再スキャンしない。"""
+```ts
+// src/data/lib/indexes.ts(抜粋)
+import { pickLatestScore } from '@/graph/score-strategy';
+import { resolveSector } from '@/graph/sector-resolver';
 
-    occ_by_id = {o.id: o for o in occupations}
-    trans_by_id = {t.id: t for t in translations_en}
-    stats_by_id = {s.id: s for s in stats_legacy}
+export interface Indexes {
+  readonly occById: ReadonlyMap<number, Occupation>;
+  readonly transById: ReadonlyMap<number, TranslationEn>;
+  readonly statsById: ReadonlyMap<number, StatsLegacy>;
+  readonly historyByOcc: ReadonlyMap<number, readonly ScoreEntry[]>;
+  readonly latestScoreByOcc: ReadonlyMap<number, ScoreEntry>;
+  readonly runsByModel: ReadonlyMap<string, readonly ScoreRun[]>;
+  readonly sectorByOcc: ReadonlyMap<number, SectorAssignment>; // v1.1.0
+  readonly labelsByDim: ReadonlyMap<string, LabelDict>;
+}
 
-    history_by_occ = defaultdict(list)
-    for run in score_runs:
-        for occ_id_str, entry in run.scores.items():
-            history_by_occ[int(occ_id_str)].append({
-                "model": run.model,
-                "date": run.run_date,
-                "score": entry.ai_risk,
-                "rationale_ja": entry.rationale_ja,
-                "rationale_en": entry.rationale_en,
-            })
-    for oid in history_by_occ:
-        history_by_occ[oid].sort(key=lambda x: x["date"])
+export function buildIndexes(input: BuildIndexesInput): Indexes {
+  const occById = new Map(input.occupations.map((o) => [o.id, o]));
+  const transById = new Map(input.translationsEn.map((t) => [t.id, t]));
+  const statsById = new Map(input.statsLegacy.map((s) => [s.id, s]));
 
-    latest_score_by_occ = {
-        oid: pick_latest_score(hist)
-        for oid, hist in history_by_occ.items()
+  const historyByOcc = new Map<number, ScoreEntry[]>();
+  for (const run of input.scoreRuns) {
+    for (const [occIdStr, entry] of Object.entries(run.scores)) {
+      const occId = Number(occIdStr);
+      const list = historyByOcc.get(occId) ?? [];
+      list.push({
+        model: run.scorer.model,
+        date: run.run.run_date,
+        score: entry.ai_risk,
+        rationaleJa: entry.rationale_ja,
+        rationaleEn: entry.rationale_en,
+      });
+      historyByOcc.set(occId, list);
     }
+  }
+  for (const list of historyByOcc.values()) {
+    list.sort((a, b) => a.date.localeCompare(b.date));
+  }
 
-    runs_by_model = defaultdict(list)
-    for run in score_runs:
-        runs_by_model[run.model].append(run)
+  const latestScoreByOcc = new Map(
+    [...historyByOcc.entries()].map(([id, hist]) => [id, pickLatestScore(hist)]),
+  );
 
-    return Indexes(
-        occ_by_id=occ_by_id,
-        trans_by_id=trans_by_id,
-        stats_by_id=stats_by_id,
-        history_by_occ=history_by_occ,
-        latest_score_by_occ=latest_score_by_occ,
-        runs_by_model=runs_by_model,
-    )
+  const runsByModel = new Map<string, ScoreRun[]>();
+  for (const run of input.scoreRuns) {
+    const list = runsByModel.get(run.scorer.model) ?? [];
+    list.push(run);
+    runsByModel.set(run.scorer.model, list);
+  }
+
+  // v1.1.0: sector 派生
+  const sectorByOcc = new Map(
+    input.occupations.map((occ) => [occ.id, resolveSector(occ, input.sectors, input.overrides)]),
+  );
+
+  return { occById, transById, statsById, historyByOcc, latestScoreByOcc, runsByModel, sectorByOcc, labelsByDim: input.labelsByDim };
+}
 ```
+
+すべて `ReadonlyMap` / `readonly` で **build 起動後の不変性** を型レベルで保証。
 
 ### 7.4 最新スコア取得戦略
 
-`scripts/lib/score_strategy.py`:
+`src/graph/score-strategy.ts`(Phase C で `src/data/lib/` から `src/graph/` に移送):
 
-```python
-def pick_latest_score(history: list[dict]) -> dict:
-    """現在の戦略: run_date で最新を取る。
-    将来はモデル優先度に変更可能(例: Opus > GPT > 旧 Opus)。
-    変更時は本ファイルに changelog を残すこと。"""
-    return max(history, key=lambda x: x["date"])
+```ts
+// src/graph/score-strategy.ts
+export interface ScoreEntry {
+  readonly model: string;
+  readonly date: string;  // ISO YYYY-MM-DD
+  readonly score: number;
+  readonly rationaleJa: string;
+  readonly rationaleEn: string;
+}
+
+/**
+ * 現在の戦略: run_date で最新を取る。
+ * 将来はモデル優先度に変更可能(例: Opus > GPT > 旧 Opus)。
+ * 変更時は本ファイルに changelog を残すこと + Zod schema にも反映。
+ */
+export function pickLatestScore(history: readonly ScoreEntry[]): ScoreEntry {
+  if (history.length === 0) {
+    throw new Error('pickLatestScore: empty history');
+  }
+  return history.reduce((latest, cur) => (cur.date > latest.date ? cur : latest));
+}
 ```
 
-### 7.5 エントリと npm scripts
+unit tests は `src/graph/score-strategy.test.ts`(複数モデル、同日複数 run、空 history などのケース)。
 
-`package.json`(v1.0.7 で追加済):
+### 7.5 エントリと npm scripts(v1.5.0 以降の現実)
+
+`package.json`(現行):
 
 ```json
 {
   "scripts": {
-    "build:data": "uv run python scripts/build_data.py",
-    "build:data:full": "uv run python scripts/build_data.py --enable-future",
-    "build:data:validate": "uv run python scripts/build_data.py --validate-only",
-    "build:occ": "python3 scripts/build_occupations.py",
-    "build": "npm run build:data && npm run build:occ",
-    "test:data": "uv run python scripts/test_data_consistency.py"
+    "dev": "astro dev",
+    "build": "node scripts/check-lockfile-sync.cjs && node scripts/check-analytics-config.cjs && node scripts/check-nested-html-comments.cjs && tsx src/data/build.ts && astro build && node scripts/check-rendered-leaks.cjs",
+    "build:data": "tsx src/data/build.ts",
+    "import:ipd": "tsx src/data/import-ipd.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test 'src/**/*.test.ts'",
+    "test:consistency": "tsx src/data/test-consistency.ts",
+    "test:e2e": "scripts/run-e2e.sh",
+    "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
+    "check:architecture": "node scripts/check-architecture.cjs",
+    "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
+    "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
+    "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs",
+    "check:html-comments": "node scripts/check-nested-html-comments.cjs",
+    "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs",
+    "check:analytics-config": "node scripts/check-analytics-config.cjs",
+    "verify:jsonld": "node scripts/verify-jsonld.cjs",
+    "verify:internal-links": "node scripts/verify-internal-links.cjs",
+    "audit": "corepack pnpm audit --audit-level=moderate && (cd analytics && corepack pnpm audit --audit-level=moderate)"
   }
 }
 ```
 
-デプロイ前の標準フロー: `npm run build`。CI 推奨順序: `npm run build:data:validate && npm run build && npm run test:data`。
+デプロイ前の標準フロー: `npm run build`(中で `build:data` が走る → Zod 検証 + 12 投影 → `astro build` で 821 ページ静的生成 → `check-rendered-leaks` でセンシティブトークン検査)。
+
+**CI 推奨順序**(GitHub Actions + Vercel build):
+1. `npm run typecheck` — TypeScript strict
+2. `npm test` — 887 unit tests
+3. `npm run build` — 上記すべて(build:data + astro build + leak check)
+4. `npm run test:consistency` — L3 projection sanity
+5. `npm run check:architecture` — 5 層境界 grep
+6. `npm run check:seo-baseline` — SEO drift 検知
+7. `npm run verify:internal-links` — 41,277 内部リンク integrity
+8. `npm run verify:jsonld` — JSON-LD 構造検証
+
+> **v1.5.0 以前との差異**: `uv run python scripts/build_data.py` 系のコマンドはすべて `tsx src/data/...` または `npm run` に置換。`scripts/build_occupations.py`(Python で 1112 HTML を生成していた)は `astro build` + `[id].astro` getStaticPaths に完全置換。詳細は附録 B。
 
 ### 7.6 Validation & Failure Policy(v1.0.3 新規)
 
@@ -1119,10 +1246,15 @@ L4  E2E 煙テスト       フロントエンドが主要投影ファイルを f
 
 | 検証 | コマンド | exit code 意味 |
 |---|---|---|
-| L1 + L2 | `python3 scripts/build_data.py --validate-only` | 0 = 成功; 非 0 = schema or 一貫性問題 |
-| L1 + L2 + 全量 build | `python3 scripts/build_data.py` | 0 = 成功; 非 0 = どの段階の失敗でも |
-| L3 | `python3 scripts/test_data_consistency.py` | 0 = 成功; 非 0 = 投影 sanity チェック失敗 |
+| L1 + L2 + 全量 build | `npm run build:data`(= `tsx src/data/build.ts`) | 0 = 成功; 非 0 = どの段階の失敗でも |
+| L3 | `npm run test:consistency`(= `tsx src/data/test-consistency.ts`) | 0 = 成功; 非 0 = 投影 sanity チェック失敗 |
+| Architecture boundary | `npm run check:architecture` | 0 = 全 5 層境界 grep 通過; 非 0 = どこかが import 禁則違反 |
+| SEO baseline | `npm run check:seo-baseline` | 0 = drift なし; 非 0 = URL / meta / JSON-LD / og / 内部リンクのいずれかが変化 |
+| 内部リンク integrity | `npm run verify:internal-links` | 0 = 全リンク有効; 非 0 = 死リンク検出 |
+| JSON-LD 構造検証 | `npm run verify:jsonld` | 0 = 全 page の schema.org が合格; 非 0 = 構造エラー |
 | L4 | `npm run dev` で local 起動 + ブラウザで `/data.treemap.json`、`/data.detail/0001.json`、`/data.search.json` を fetch | 200 + 妥当な JSON = 成功 |
+
+> **v1.5.0 以前との差異**: `python3 scripts/build_data.py --validate-only`(L1+L2 のみで build を走らせない separate コマンド)は廃止。TypeScript の Zod 検証は build 開始の最初の段階で必ず走るため、別途 validate-only モードは不要(失敗時は projection 書込前に exit 1)。
 
 #### 7.6.3 失敗ポリシー
 
@@ -1143,38 +1275,47 @@ L4  E2E 煙テスト       フロントエンドが主要投影ファイルを f
 
 #### 7.6.4 CI / Pre-deploy gate
 
-`.github/workflows/`(未実施)が main への push 前に実行すべき:
+`.github/workflows/data-validation.yml` および pre-push hook(`scripts/run-e2e.sh` 由来)が main への push 前に実行(v1.5.0 以降):
 
 ```bash
-python3 scripts/build_data.py --validate-only  # L1 + L2、最速
-python3 scripts/build_data.py                  # 完全 build
-python3 scripts/test_data_consistency.py       # L3
-# L4 は Vercel deploy preview で自動実行
+npm run typecheck                  # TS strict
+npm test                           # 887 unit tests
+npm run build                      # = build:data + astro build + leak check
+npm run test:consistency           # L3 projection sanity
+npm run check:architecture         # 5 層 import 境界 grep
+npm run check:seo-baseline         # SEO drift
+npm run verify:internal-links      # 内部リンク
+npm run verify:jsonld              # JSON-LD 構造
 ```
 
 どのステップも非 0 exit → **merge / deploy ブロック**。
+
+> **architecture.md §6.3 と整合**: architecture.md 側に「CI 関門表」(2026-05-13 確立済)があり、本セクションの CI gate と同期。Vercel deploy preview は別途 L4(実 HTTP fetch + Lighthouse + Visual regression)を担当。
 
 ---
 
 ## 8. アップグレードフロー
 
-> **セクション全体 Status**: **Implemented**(v1.0.7 以降、参照するスクリプトはすべて存在; §8.1-§8.5 のコマンドは直接実行可。具体コマンド `python3 scripts/import_ipd.py` / `python3 scripts/build_data.py` 等は v0.7.0 で実装検証済)。
+> **セクション全体 Status**: **Implemented**(v1.5.0 以降 TypeScript pipeline で動作; §8.1-§8.5 のコマンドは直接実行可)。
+> Python 時代のコマンド(`python3 scripts/import_ipd.py` / `python3 scripts/build_data.py` 等)は附録 B 参照。
 
 ### 8.1 IPD 新バージョンアップグレード(7.00 → 7.01)
 
 ```
 1. 新 xlsx を ~/Downloads/ にダウンロード
-2. python3 scripts/import_ipd.py --version 7.01
-   ├─ 細目 sheet を解析 → data/schema/occupation.py を再生成
+2. npm run import:ipd  (= tsx src/data/import-ipd.ts)
+   ├─ 細目 sheet を解析 → 差分レポートを stdout に
    ├─ IPD形式 / 解説系 を解析 → data/occupations/<id>.json に書込
-   ├─ diff レポート: 新規 / 削除 / フィールド変更の職業
+   ├─ data/.ipd_provenance.json 更新(sha256 + retrieved_at)
 3. diff を人手 review(git diff data/)
 4. schema breaking change の処理(あれば)
-   ├─ フィールドリネーム → migration スクリプト作成
-   ├─ フィールド型変更 → 投影コード修正
-5. python3 scripts/build_data.py
-6. テスト実行: python3 scripts/test_data_consistency.py
-7. git commit + push
+   ├─ フィールドリネーム → src/data/schema/occupation.ts に Zod 変更
+   ├─ フィールド型変更 → 投影コード(src/data/projections/*.ts)修正
+5. npm run build:data
+6. テスト実行: npm run test:consistency
+7. git commit + push origin preview
+8. https://pre.mirai-shigoto.com で 3 URL サンプル抽検
+9. preview → main マージで本番反映
 ```
 
 ### 8.2 新 AI 評価ラウンド実行
@@ -1182,9 +1323,11 @@ python3 scripts/test_data_consistency.py       # L3
 ```
 1. prompt 準備(既存、data/prompts/ 参照)
 2. モデル実行 → JSON 出力を data/scores/occupations_<model>_<date>.json に
-3. python3 scripts/build_data.py
-   └─ 自動で新 score ファイル検出、history_by_occ + latest_score_by_occ を再構築
-4. git commit + push
+3. npm run build:data
+   └─ 自動で新 score ファイル検出、historyByOcc + latestScoreByOcc を再構築
+4. npm run check:seo-baseline で AI risk 変化分の差分確認
+5. baseline を意図的更新: npm run capture:seo-baseline → git commit
+6. git push origin preview
 ```
 
 **旧 score ファイルを削除する必要はない** —— history はプロダクトコンテンツ。
@@ -1194,20 +1337,22 @@ python3 scripts/test_data_consistency.py       # L3
 ```
 1. mkdir data/translations/ko/
 2. 翻訳モデル実行 → 556 ファイルを data/translations/ko/ に出力
-3. build_data.py に trans_ko = load_all_validated(...) 追加
-4. detail.py 投影コードに lang_ko 出力追加(または新投影 data.detail.ko/ を開く)
+3. src/data/build.ts に transKo = await loadAll(...) 追加
+4. src/data/projections/detail.ts に lang_ko 出力追加(または新投影 data.detail.ko/)
 5. フロントエンドはユーザー言語で選択 fetch
 ```
+
+(現状サイトは v1.4.0 以降 JA-only。EN 翻訳は data/translations/en/ に保存されているが UI では消費しない。)
 
 ### 8.4 1 職業を手動編集
 
 ```
 1. vim data/occupations/0042.json    # 修正したいフィールドを修正
-2. python3 scripts/build_data.py     # 影響を受けるすべての投影を再生成
-3. git commit + push
+2. npm run build:data                 # 影響を受けるすべての投影を再生成
+3. git commit + push origin preview
 ```
 
-**禁止**: `dist/` 配下のどのファイルも直接編集してはならない —— 次回 build で上書きされる。
+**禁止**: `public/data.*` 配下のどのファイルも直接編集してはならない —— 次回 build で上書きされる(gitignored、build 成果物)。
 
 ### 8.5 タスクレベル AI 評価実行
 
@@ -1215,10 +1360,12 @@ python3 scripts/test_data_consistency.py       # L3
 1. prompt 作成: task.description_ja + occupation context → 0-10 リスクを出力
 2. すべての occupation の tasks(約 5,000 個)を巡回 → モデル呼出
 3. 出力を data/scores/tasks_<model>_<date>.json に
-4. python3 scripts/build_data.py
-   └─ data.tasks/<id>.json 投影が自動でタスク評価を join
-5. フロントエンド「タスクリスクマップ」ページが data.tasks/<id>.json を消費
+4. npm run build:data --enable-future
+   └─ data.tasks/<id>.json 投影(Future-coded)が自動でタスク評価を join
+5. フロントエンド「タスクリスクマップ」ページ(将来実装)が data.tasks/<id>.json を消費
 ```
+
+> Tasks 投影は現在 Future-coded(関数は実装済、デフォルト build でスキップ)。`--enable-future` フラグで有効化可能。対応 UX 公開時にデフォルトに切替予定。
 
 ---
 
@@ -1328,6 +1475,36 @@ python3 scripts/test_data_consistency.py       # L3
 - **代償**: 万一前段の Phase がドキュメントから逸脱しても Phase 4 まで発覚せず手戻り可能性
 - **緩和**: 各 Phase 内部で §7.6 Validation 梯子で自己チェック、それ自体が品質ゲート
 
+### D-015: Python pipeline 完全廃止、TypeScript ETL に統合(v1.5.0、2026-05-09)
+
+- **日付**: 2026-05-09
+- **背景**: v1.0.x - v1.4.x の build pipeline は Python(`scripts/build_data.py` + `scripts/projections/*.py × 12` + `scripts/lib/*.py` + Pydantic schemas)で構築されていた。一方サイトのフロントエンドと API は TypeScript(Astro + React + @vercel/og)。**2 言語スタック共存** が運用コストを生んでいた:
+  - `uv run python` と `npm run` のコマンド使い分け
+  - Pydantic schema と TypeScript 型の **二重保守**(同じデータ構造を 2 度定義)
+  - Vercel build 環境に Python 入りインストール構成が必要(コールドスタート遅延)
+  - 開発者が両言語に習熟する必要(`scripts/build_occupations.py` 1112 ページ生成 Python と `src/pages/*.astro` 動的生成 TS が独立)
+- **却下された代替案**:
+  - **A: Python 側のまま、TS 側を Python に寄せる** — フロントエンドを Python(Jinja2 等)に変えるのは現実的でない。Astro の component model 失う。
+  - **B: 二言語のまま、共通 schema を JSON Schema で同期** — schema sync 自動化のコスト > 一本化のコスト。
+- **決定**: Python pipeline を完全廃止、TypeScript ETL(`src/data/build.ts` + Zod schemas + tsx runner)に統合。
+  - `scripts/build_data.py` → `src/data/build.ts`
+  - `scripts/lib/indexes.py` → `src/data/lib/indexes.ts`
+  - `scripts/lib/score_strategy.py` → `src/graph/score-strategy.ts`(Phase C で graph 層に移送)
+  - `scripts/projections/*.py × 12` → `src/data/projections/*.ts × 12`
+  - `data/schema/*.py`(Pydantic) → `src/data/schema/*.ts`(Zod)
+  - `scripts/build_occupations.py`(1112 HTML 静的生成) → `src/pages/ja/[id].astro` getStaticPaths(astro build で 821 ページ生成)
+  - `scripts/dev-server.py` → `astro dev`(Vercel の dev server)
+- **代償**:
+  - Pydantic の `Field(ge=0, le=5)` のような宣言的 range 制約は Zod でも書けるが、IPD 細目 sheet からの自動生成スクリプト(`scripts/generate_schema.py`)は廃止、Zod schema は手書き保守
+  - Python ecosystem の特定ライブラリ(`beautifulsoup4`、`playwright`)を使っていた一部スクリプトは `xlsx` package と native fetch に書き換え
+  - `uv` の virtualenv 自動管理 → `pnpm` + `tsx` の Node モジュール解決(同等の体験)
+- **効果**:
+  - 単一スタック(TypeScript + Astro)、開発者の認知負荷削減
+  - Schema が一箇所(`src/data/schema/*.ts`)— type と runtime validation を `z.infer` で同一ソース化
+  - Vercel build から Python 構成削除 → コールドスタート / build 時間短縮
+  - Edge Function、Astro page、build pipeline、test がすべて同じ schema を import 可能
+- **依拠 commit**: `66cc97aa feat(arch): remove /m/ pipeline — single responsive URL architecture` 系の連続 commits(2026-05-09 前後)。詳細歴史は **附録 B** 参照。
+
 ### D-014: Sector taxonomy は「自動派生 + override + review_queue」、552 件手動アノテーションではない
 
 - **日付**: 2026-05-04(v1.1.0 mobile pivot)
@@ -1406,6 +1583,9 @@ python3 scripts/test_data_consistency.py       # L3
 - **v1.0.10** — 2026-05-04 — 外部 audit reviewer 復査(D-013) + 修正。Audit verdict: **PASS-WITH-WARNINGS**(0 P0、3 P1、4 P2、1 P3)。9 項目すべて修正: A-001(§2.1 / §2.2 / §2.4 / §2.5 / §7 / §8 セクション全体標示で `Status: Planned` × 6 → `Implemented`); A-002(test_data_consistency エラーメッセージ `treemap rows` → `total source occupations`); A-003(実 `data/.stats_legacy_provenance.json` 生成 + 3 migrate スクリプトの SOURCE パスを `data/.archive/v0.6/` に同期); B-001(README × 2 の残留 `score_ai_risk.py` / `scores.json` 参照削除 + ファイルツリー書直し); B-002(`llms.txt` / `llms-full.txt` 冒頭 552 → "556 (552 scored, 4 await scoring)"); B-003(§7.2 pipeline 図 `× 78` → `× 39`); B-004(§0.2 deps Status `Planned` → `Implemented`); C-001(dev-server.py に `/data.json` → 301 → `/data.treemap.json` 追加)。
 - **v1.1.0** — 2026-05-04 — Mobile pivot · sector サブシステム実装。§6.11(sector taxonomy + 多軸 bands) + D-014(決定記録)新規。新ファイル: `data/schema/sector.py`(Pydantic)、`data/sectors/sectors.ja-en.json`(16 sector 定義 + MHLW seed_codes)、`data/sectors/overrides.json`(per-occupation 上書き × 3)、`scripts/lib/sector_resolver.py`(resolve_sector 純粋関数 + validate_sector_definitions)、`scripts/lib/bands.py`(risk / workforce / demand 3 axis 閾値定数)、`scripts/projections/sectors.py`(data.sectors.json + data.review_queue.json 出力)、`scripts/test_sector_subsystem.py`(24 unit tests)。変更: `scripts/lib/indexes.py` に sectors / sector_overrides / sector_by_occ 3 index 追加; `scripts/projections/treemap.py` に sector_id / sector_ja / hue / risk_band / workforce_band / demand_band 6 フィールド追加; `scripts/projections/search.py` に sector_id / risk_band / workforce_band 3 フィールド追加(schema 1.1 に昇格); `scripts/projections/detail.py` に sector{} ブロック + 3 band 追加(schema 1.1 に昇格); `scripts/build_data.py` で sectors を PLANNED に(先頭実行) + L3 sanity; `scripts/test_data_consistency.py` に check_sectors / check_review_queue / check_treemap_v110 追加; `vercel.json` に `/data.sectors.json` rewrite + cache header; `scripts/dev-server.py` ミラー。**初回結果**: 556 occupation 100% 自動派生(3 件 override)、16 sector 分布 14-63 件、0 uncategorized / 0 ambiguous。Size 増分: treemap +5 KB gz / search +2 KB gz / detail +0.1 KB per file。すべての 24 unit tests + 全 L3 sanity checks 通過。
 - **v1.1.1** — 2026-05-13 — Phase A.5 全ドキュメント日本語化。本ファイルおよび関連 `docs/*` / `analytics/*` / `README.md` 等を日本語に書き直し。中文原版は `docs/_archive/DATA_ARCHITECTURE.zh.md` 等にバックアップ保管(`.gitignore` 下、公開対象外)。コードロジック・schema 変更なし。
+- **v1.5.0** — 2026-05-09 — **Python pipeline 完全廃止、TypeScript ETL に統合**(D-015 参照)。`scripts/build_data.py` → `src/data/build.ts`、Pydantic → Zod、`uv run python` → `tsx` / `npm run`。`scripts/build_occupations.py`(1112 HTML 静的生成) → `[id].astro` getStaticPaths。Vercel build から Python 構成削除。詳細プロセスは附録 B。
+- **v1.6.0** — 2026-05-15 — **本ファイル全 Python 参照を TypeScript に refresh**。§0.2 Prerequisites / §1 原則 4 / §4.1 schema location / §5.6 schema 維持戦略 / §7 Build Pipeline 全体 / §8 アップグレードフロー / §9 D-015 追加。歴史保存のため **附録 B「歴史的経緯(Python 時代)」** を新設、Pydantic / uv / Python script 等の元記述を時系列で保存。Phase A.5(2026-05-13)で本ファイルは日本語化されたが、内容は依然 Python pipeline を記述しており、コード現状と乖離していた。本回その乖離を解消。
+- **v1.6.1** — 2026-05-15 — 文書 git 公開化(commit `282fda41`)に追随。`docs/_archive/` Phase A.5 中文バックアップ削除(目的達成)。他 docs/* との内部参照整合(architecture.md / WORKFLOW.md / SITE_FULL_VISION.md と同期)。コード変更なし。
 
 ---
 
@@ -1502,3 +1682,114 @@ python3 scripts/test_data_consistency.py       # L3
 - **データベース未追加**: ユーザーは「新機能サポートのためデータベース構築必要か」と懸念。既存 `dist/` 監査後、4 つの Planned projection がモバイル端の全 fetch 需要をカバー(treemap 65 KB / search 27 KB / detail 3.4 KB per file / labels 5 KB)、加えて本回 v1.1.0 の sectors(3 KB) + 3 band フィールド、フルスタックデータ需要 < 100 KB gz 第一画面。SQLite / Postgres / 任意のランタイムデータベースは過剰設計。D-001(SQLite ではなくファイル型アーキテクチャ選択)の判断が v1.1.0 でも成立することを裏付ける。
 - **SPA 未追加**: データベース決定と同源 —— 552 件読み取り専用、id 単位でスライス済、CDN フレンドリー、モバイル版は「静的多ページ + 局所 island」、SPA は使わない。本回 v1.1.0 はデータ層のみ; HTML/JS 層(モバイル版 ① ホーム / ② 職業マップ / 等)は次バージョン。
 - **次は v1.1.1+ に**: モバイル端 HTML/CSS/JS 実装(② 職業マップ で sector_id でグループ表示、③ 検索 で sector chip フィルタ、④/⑤ 詳細で sector ラベル + 同 sector 関連職業 表示 等)。この層はデータアーキテクチャ不変、純粋フロントエンド作業。
+
+---
+
+## 附録 B — 歴史的経緯(Python 時代、v0.0.x - v1.4.x)
+
+> v1.5.0 で Python pipeline は完全廃止された(D-015 参照)。本附録は **Python 時代に決まっていた設計の出所を保存** する目的で残す。コード変更時に「なぜそうなっているのか」を遡るときの参照。
+>
+> **本附録の記述はすべて廃止済技術**。新規開発に引用しないこと。
+
+### B.1 Python pipeline 概観(v0.0.x - v1.4.x)
+
+| ファイル | 役割 | TypeScript 後継 |
+|---|---|---|
+| `scripts/build_data.py` | ETL orchestrator(1300+ 行) | `src/data/build.ts` |
+| `scripts/import_ipd.py` | xlsx → JSON、IPD アップグレード時 | `src/data/import-ipd.ts` |
+| `scripts/build_occupations.py` | 1112 HTML 静的生成(556 JA + 556 EN) | `src/pages/ja/[id].astro` getStaticPaths(astro build で 556 ページ) |
+| `scripts/build_sector_hubs.py` | 16 sector hub HTML 生成 | `src/pages/ja/sectors/[sector].astro` |
+| `scripts/build_rankings.py` | 9 ranking HTML 生成 | `src/pages/ja/rankings/[type].astro` |
+| `scripts/build_labels.py` | labels JSON 生成 | `src/data/projections/labels.ts` |
+| `scripts/generate_schema.py` | IPD 細目 sheet → Pydantic schema 自動生成 | **廃止**(Zod schema は手書き保守) |
+| `scripts/lib/indexes.py` | メモリインデックス構築 | `src/data/lib/indexes.ts` |
+| `scripts/lib/score_strategy.py` | 最新スコア取得戦略 | `src/graph/score-strategy.ts` |
+| `scripts/lib/sector_resolver.py` | sector 解決(純粋関数) | `src/graph/sector-resolver.ts` |
+| `scripts/lib/bands.py` | risk/workforce/demand bands | `src/data/lib/bands.ts` |
+| `scripts/lib/atomic_write.py` | atomic dist swap context manager | `src/data/build.ts` 内部 |
+| `scripts/projections/*.py × 12` | 12 投影 build | `src/data/projections/*.ts × 12` |
+| `scripts/test_data_consistency.py` | L3 sanity check | `src/data/test-consistency.ts` |
+| `scripts/dev-server.py` | Vercel dev server mirror | `astro dev`(Astro 公式) |
+| `scripts/make_prompt.py` | LLM scoring prompt generation | スクリプトは保留(LLM scoring は今も人手 driven のため、自動化対象外) |
+
+### B.2 Pydantic schema の構造(廃止)
+
+Python 時代の schema は `data/schema/*.py`(Pydantic models)に書かれた。例:
+
+```python
+# data/schema/occupation.py(廃止)
+from pydantic import BaseModel, Field
+from typing import Literal
+
+class OccupationSchema(BaseModel):
+    id: int = Field(gt=0)
+    schema_version: Literal["7.00"]
+    title_ja: str = Field(min_length=1)
+    classifications: ClassificationsSchema
+    # 12 数値プロファイル: 各々が完全 dict or None
+    interests: InterestsSchema | None
+    # ... 他 11 dims
+    tasks: list[TaskSchema] = Field(default_factory=list)
+    tasks_lead_ja: str | None = None
+```
+
+**TypeScript への移行 motivation**:
+- Pydantic の `Field(ge=0, le=5)` は Zod の `z.number().gte(0).lte(5)` に直訳可能
+- IPD 細目 sheet からの自動生成スクリプト(`scripts/generate_schema.py`)は廃止: Zod に対する同等スクリプト未作成、手書き保守で代用
+- 理由: 自動生成のメリット(IPD 7.01 で 1 行で再生成)は実際あまり機能していなかった。IPD 細目 sheet が出てから schema を re-generate しても、breaking change の検出と migration は結局人手 review が必要。Zod 手書きでも IPD 差分処理コストはほぼ同じ。
+
+### B.3 旧 build pipeline コマンド一覧(廃止)
+
+```bash
+# Python 時代の入口(廃止、v1.4.x まで)
+uv run python scripts/build_data.py                    # ETL 実行
+uv run python scripts/build_data.py --validate-only    # L1+L2 のみ
+uv run python scripts/build_data.py --enable-future    # Future-coded 投影含む
+uv run python scripts/import_ipd.py --version 7.00     # xlsx インポート
+python3 scripts/build_occupations.py                   # 1112 HTML 生成
+python3 scripts/build_sector_hubs.py                   # 16 sector HTML 生成
+python3 scripts/build_rankings.py                      # 9 ranking HTML 生成
+uv run python scripts/test_data_consistency.py         # L3 sanity
+uv run python scripts/generate_schema.py               # Pydantic schema 再生成
+```
+
+**TypeScript 時代の対応コマンド**:
+
+```bash
+npm run build:data                # = tsx src/data/build.ts(ETL + 12 投影、Zod 検証込)
+npm run import:ipd                # = tsx src/data/import-ipd.ts
+npm run build                     # = build:data + astro build + leak check(821 HTML 生成は astro build に統合)
+npm run test:consistency          # L3 sanity
+npm run typecheck                 # TypeScript strict check
+npm test                          # 887 unit tests(Zod schemas のテスト含む)
+```
+
+### B.4 Python → TypeScript 移行の主要 commit(D-015 と整合)
+
+| 時期 | commit | 内容 |
+|---|---|---|
+| 2026-04-25 | (v0.6.x) | Python pipeline 完全動作期、`data.json` 単一出力 |
+| 2026-05-03 | Phase 0 | Document Status マトリクス導入、TypeScript 移行構想開始 |
+| 2026-05-04 | Phase 1-4 | IPD v7.00 切替 + 9 投影家族 + atomic dist swap、Python pipeline は依然主体 |
+| 2026-05-09 | `66cc97aa` 系 | **Python pipeline 全廃**、TypeScript ETL に統合、Vercel build から Python 構成削除 |
+| 2026-05-12 - 2026-05-15 | Phase B/C/D/E | TypeScript アーキテクチャ refactor(`src/graph/` / `src/views/` / `src/templates/` 構築) |
+
+### B.5 廃止された設計判断の振り返り
+
+| 判断 | 当時の理由 | 廃止後の評価 |
+|---|---|---|
+| `uv` を使う | Python 仮想環境管理が `venv` より速く、`requirements.txt` より宣言的 | 良かったが、TS 統合後は不要 |
+| Pydantic v2 を使う | Python schema 検証の de facto、IDE サポート良好 | 良かったが、Zod は TS native でさらに type-safe |
+| `data/schema/*.py` を git に入れる | schema は source of truth、git diff 可読 | 同じ理由で TS に移送、変わらない |
+| `scripts/generate_schema.py` で auto-gen | IPD 7.01 アップグレードを 1 コマンド化 | 実用上手書きと変わらない、Zod に移行時に廃止 |
+| `data.json` 単一出力 → 12 投影に分解 | 「各消費者に最適な shape」原則の実現 | 大成功、TypeScript でも同設計を継承 |
+| `dist/` を git に入れる(D-009) | Vercel build に Python 構成を入れる必要回避 | Python 廃止後は `public/` を git に入れない方針に切替可能(将来 M-004) |
+
+### B.6 「なぜ Python だったか、なぜ移行できたか」
+
+- **当初(v0.0.x、2026-04)**: 著者が個人プロジェクトとして始め、Python の科学計算 / ETL エコシステム(pandas、openpyxl、BeautifulSoup)が手に馴染んでいた
+- **静的 HTML 生成**: `build_occupations.py` で Jinja2-like のテンプレ + Python loop で 1112 HTML を 1 分強で生成、初期 deploy には十分
+- **問題が顕在化**: フロントエンドが Astro + React + TypeScript で開発進行、特に Edge Function(`api/og.tsx`)を導入してから「2 言語スタック」の運用負荷が表面化
+- **転機**: 2026-05-09 の `66cc97aa` 系で「移行する価値」を確信、1 セッションで pipeline 全体を TypeScript に書き換え、SEO baseline 0 drift で完了
+
+詳細な commit 一覧は git log を参照: `git log --oneline --grep="pipeline\|python\|TS ETL" --before=2026-05-15`。
