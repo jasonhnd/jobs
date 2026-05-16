@@ -18,7 +18,11 @@
 // boundary lives in one place.
 
 import { z } from "zod";
-import { DetailFileSchema } from "./projection-schemas.js";
+import {
+  DetailFileSchema,
+  SectorRecordSchema,
+  SectorsProjectionSchema,
+} from "./projection-schemas.js";
 
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
 
@@ -76,26 +80,23 @@ export type DetailRecord = z.infer<typeof DetailRecordSchema>;
 
 /**
  * Shape of `/data.sectors.json` — used by the sector-card branch.
- * v1.4.0: dropped sector.en (site is JA-only).
+ *
+ * Phase D #8 follow-up (2026-05-16): re-exported from
+ * `./projection-schemas.ts` instead of being hand-written here. The two
+ * shapes were structurally identical (verified by og-helpers.test.ts
+ * drift guard), so duplicating them served no purpose other than drift
+ * risk. Done in the same pattern as DetailRecordSchema above, which was
+ * itself the Phase D #8 (2026-05-14) precedent.
+ *
+ * v1.4.0: dropped sector.en (site is JA-only) — encoded in
+ * projection-schemas as well.
+ *
+ * Edge-bundle safety: same rationale as DetailRecordSchema — pure-TS,
+ * zod-only, no JSX, no fs. Adding to the transitive dep tree of
+ * api/og.tsx is Edge-compatible.
  */
-export const SectorRecordSchema = z
-  .object({
-    id: z.string(),
-    ja: z.string(),
-    hue: z.enum(["safe", "mid", "warm"]),
-    occupation_count: z.number(),
-    mean_ai_risk: z.number(),
-    total_workforce: z.number(),
-    sample_titles_ja: z.array(z.string()).optional(),
-  })
-  .passthrough();
+export { SectorRecordSchema, SectorsProjectionSchema };
 export type SectorRecord = z.infer<typeof SectorRecordSchema>;
-
-export const SectorsProjectionSchema = z
-  .object({
-    sectors: z.array(SectorRecordSchema),
-  })
-  .passthrough();
 export type SectorsProjection = z.infer<typeof SectorsProjectionSchema>;
 
 /** Per-page template config consumed by `renderGenericCard`. */

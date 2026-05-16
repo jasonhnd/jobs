@@ -88,7 +88,7 @@ export type DetailFileShape = z.infer<typeof DetailFileSchema>;
 
 // ─── Sectors projection (public/data.sectors.json) ────────────────────
 
-const SectorRecordSchema = z
+export const SectorRecordSchema = z
   .object({
     id: z.string(),
     ja: z.string(),

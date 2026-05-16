@@ -14,10 +14,33 @@
 | 項目 | 決定 | 進捗（2026-05-15）|
 |---|---|---|
 | 1. 総ページ規模 614 → 820 (+206) | ✓ | 構造実装済(全 genre route family 存在)、深編集継続 |
-| 2. 着手順序: 興味タイプ / スキル / 比較 を最優先 (★★★) | ✓ | Phase B/C/D/E で全部構造実装済 |
+| 2. 着手順序: 興味タイプ / スキル / 比較 を最優先 (★★★) | ✓ | **§12 の Phase 1 該当** route + 投影 + JSON-LD は完了、深編集が継続 |
 | 3. Q&A 36 + キャリア 10 = 46 手書 hub にコミット | ✓ | route 存在、内容深編集は継続作業 |
-| 4. `api/og.tsx` 全 mode 拡張を並行実施 | ✓ | `src/views/og-cards.ts` 構築済(Step 9 = architecture.md §11) |
+| 4. `api/og.tsx` 全 mode 拡張を並行実施 | ✓ | `src/views/og-cards.ts` 構築済([architecture.md](./architecture.md) §11 Step 9) |
 | 5. ドキュメント整備: 本ファイル + HUB_EXPANSION_PLAN.md 並列保持 | ✓→✗ | HUB_EXPANSION_PLAN.md は本ファイルが上位互換のため 2026-05-14 削除、本ファイル単独で保持 |
+
+---
+
+## 0.5. 二つの「Phase」命名の整理（重要）
+
+このプロジェクトには **同名異種の "Phase" が 2 系統** 存在する。読み違えを避けるため、本節で明確化:
+
+| 系統 | 出典 | 何 | 単位 | 現状 |
+|---|---|---|---|---|
+| **本ドキュメント §12 の Phase 0-6** | SITE_FULL_VISION.md | **機能拡張ロードマップ** — 新 hub family / 新 ranking / 新 Q&A / persona 系の追加。content / SEO / UX の "ページが何を読者に届けるか" の進化を扱う | 「読者向けに新しい体験を出す」単位 | Phase 0-5 の **構造実装は完了**(全 route family が存在 + 投影 + JSON-LD + OG image)、Phase 6 と各 hub の **深編集は継続作業**(5-6 ヶ月並行) |
+| **[architecture.md](./architecture.md) §11 + §15 の Phase B/C/D/E** | architecture.md | **コードアーキテクチャ refactor** — 5 層契約(Sources / Graph / Views / Templates / Pages)の確立 + Strangler Fig 移行 + SafeHtml 境界閉環 + CI 関門整備。Code organization / boundary / safety guard の進化を扱う | 「`src/data/lib/*-hub.ts` から `src/views/` + `src/templates/` への移送 1 ファイル」単位 | **Phase B/C/D/E 全完了**(2026-05-15)。Phase E で `src/page-data/` 中間層追加、views から fs read 完全排除。残りは Step 11(inline JS 1881 行抽出)+ profile5/transfer_paths の graph schema 統合のみ |
+
+**両者は直交関係**。同時並行で進行可能、互いに前提でも結果でもない。本ドキュメントを読むときの目安:
+
+- 「新しい職業ページを出すか / Q&A を増やすか」の議論 → 本ドキュメント §12
+- 「ファイルをどこに置くか / 何が何を import してよいか」の議論 → [architecture.md](./architecture.md) §2 + §11
+
+**最近の commit history を読むときの目安**:
+
+- `refactor(phase-b/c/d/e)` プレフィックスは **architecture.md の Phase**(コード移送)
+- `feat(ranking)` / `feat(sectors)` / `feat(q)` 等の content 追加 commit は **本ドキュメントの Phase**(機能)
+
+両 Phase 系統は意図的に独立させてある。重構 commit が機能変更を含まないことを SEO baseline byte-compare(architecture.md §7)で構造的に保証している。
 
 ---
 
@@ -473,6 +496,7 @@ Layout
 
 - 2026-05-09 v0.1: 初稿（コード精読 + 実測ベース）。HUB_EXPANSION_PLAN.md v0.2 を上位互換で包含。
 - 2026-05-13 Phase A.5: 全文を日本語化(他の docs 文書と同期)。
+- 2026-05-16: §0.5「二つの『Phase』命名の整理」を新設。本ドキュメント §12 の Phase 0-6(機能拡張)と [architecture.md](./architecture.md) §11 の Phase B/C/D/E(コード重構)を直交関係として明確化。§0 表第 2 行も "Phase B/C/D/E で全部構造実装済" を "§12 の Phase 1 該当" に修正、対応関係を明示。
 - 2026-05-14 v0.2: HUB_EXPANSION_PLAN.md は本ファイルが上位互換のため削除。`282fda41 chore(docs): un-gitignore docs/` で `docs/` 全公開、本ファイルも GitHub 公開対象に。
 - 2026-05-15 v0.3: 構造実装フェーズ完了状態を反映。§0 拍板 5 項目に進捗列追加(構造実装済 vs 深編集継続)、§11 実装可能性ランキング表に「構造 / 深編集」列を分けて記録。残る作業は **route の物理生成ではなく、各 hub ページの本文編集** であることを明示化。Phase B/C/D/E（architecture.md §15 参照）で全 genre route family が構造実装済 — `src/pages/ja/{interests,skills,compare,careers,licenses,abilities,knowledge,values,work-styles,life-balance,training,education,employment-types,entry-paths,q,yearly,explore}/` 全部存在。
 - （以降は修正のたびに追記）
