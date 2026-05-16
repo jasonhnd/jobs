@@ -84,3 +84,179 @@ export async function readBodyText(req, capBytes) {
   for (const c of chunks) { buf.set(c, offset); offset += c.byteLength; }
   return new TextDecoder("utf-8").decode(buf);
 }
+
+// ─── Client IP extraction ─────────────────────────────────────────────────
+//
+// Vercel Edge prepends `x-forwarded-for` with the real client IP as the
+// FIRST hop (its own infrastructure adds the rest as it bounces inward).
+// Per the Vercel Edge runtime docs: "the first IP in this list will always
+// be the client's IP address". Same shape NGINX / Cloudflare / most CDNs
+// produce. We never trust the value for anything except rate-limit keying
+// — it is NOT a security boundary (clients can set `x-forwarded-for` if
+// they bypass the CDN, but our endpoints only accept origins from the CORS
+// allow-list anyway).
+//
+// Falls back to `"anonymous"` when the header is missing so the rate
+// limiter still bucketizes (one shared bucket for all anon requests, which
+// effectively rate-limits the API endpoint itself — strictly better than
+// no limit at all when the IP is unknown).
+
+/**
+ * Extract the rate-limit key (client IP) from an Edge request.
+ * Returns `"anonymous"` when `x-forwarded-for` is missing/malformed —
+ * effectively rate-limits the endpoint as a whole rather than per-client,
+ * which is safer than skipping the limiter entirely.
+ */
+export function clientIpFromRequest(req) {
+  const xff = req.headers.get("x-forwarded-for");
+  if (!xff) return "anonymous";
+  // First hop = original client per Vercel/most-CDN convention.
+  const first = xff.split(",")[0]?.trim();
+  return first || "anonymous";
+}
+
+// ─── Rate limiting (Upstash Redis REST API) ───────────────────────────────
+//
+// Sliding-window rate limiter using Upstash Redis REST. Picked Upstash over
+// Vercel KV because:
+//   - REST API works from Edge runtime (Vercel KV's SDK needs Node runtime
+//     for some operations, and we want this to run on Edge).
+//   - One ~50-line fetch keeps the dep footprint at zero new npm packages.
+//   - Free tier covers our expected POST volume (< 100/hr) by ~1000x.
+//
+// Algorithm: INCR + EXPIRE on a fixed-window key `rl:<namespace>:<ip>:<bucket>`
+// where `bucket = floor(now / windowSeconds)`. NOT a true sliding window
+// — fixed windows have a worst-case 2× burst right at window boundaries,
+// but that's acceptable for our use case (preventing form-spam, not
+// gating monetary actions) and it's exactly 2 Redis commands per check.
+//
+// Degrades gracefully:
+//   - Env vars `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`
+//     missing → returns `{ ok: true, skipped: true }`. Caller treats this
+//     as "rate limit not configured, allow through". Honeypot + body cap
+//     + origin gate still apply.
+//   - Network error → returns `{ ok: true, skipped: true, error: ... }`.
+//     We FAIL OPEN. Reason: a service outage at Upstash should NOT take
+//     down our public form endpoints (better to risk one minute of
+//     unrestricted POSTs than to break user-visible features). For
+//     stricter posture set FAIL_CLOSED_ON_RATELIMIT_ERROR=1.
+
+const FAIL_CLOSED_PATTERN = /^(1|true|yes)$/i;
+
+/**
+ * Check whether `ip` has exceeded `limit` requests in the past
+ * `windowSeconds` for the given `namespace` (e.g. "feedback", "subscribe").
+ *
+ * Returns:
+ *   { ok: true, skipped: true }                     env not configured / fail-open
+ *   { ok: true,  count: N, limit, remaining: M }    under quota
+ *   { ok: false, count: N, limit, retryAfterSec: S} over quota
+ */
+export async function rateLimitCheck({ ip, namespace, limit, windowSeconds, env }) {
+  const url = env.UPSTASH_REDIS_REST_URL;
+  const token = env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return { ok: true, skipped: true };
+
+  const bucket = Math.floor(Date.now() / 1000 / windowSeconds);
+  const key = `rl:${namespace}:${ip}:${bucket}`;
+  // Pipeline both commands in one round-trip to halve the latency
+  // contribution of this check (typical Tokyo→Upstash one-way ~20ms).
+  const body = JSON.stringify([
+    ["INCR", key],
+    ["EXPIRE", key, windowSeconds],
+  ]);
+  let count = 0;
+  try {
+    const res = await fetch(`${url}/pipeline`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    if (!res.ok) {
+      if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_RATELIMIT_ERROR || "")) {
+        return { ok: false, count: 0, limit, retryAfterSec: windowSeconds, error: `upstream_${res.status}` };
+      }
+      return { ok: true, skipped: true, error: `upstream_${res.status}` };
+    }
+    const data = await res.json();
+    // Upstash pipeline returns [{ result }, { result }]. First command's
+    // result is the post-increment count.
+    const first = Array.isArray(data) ? data[0] : null;
+    count = (first && typeof first.result === "number") ? first.result : 0;
+  } catch (err) {
+    if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_RATELIMIT_ERROR || "")) {
+      return { ok: false, count: 0, limit, retryAfterSec: windowSeconds, error: String(err) };
+    }
+    return { ok: true, skipped: true, error: String(err) };
+  }
+
+  if (count > limit) {
+    return { ok: false, count, limit, retryAfterSec: windowSeconds };
+  }
+  return { ok: true, count, limit, remaining: Math.max(0, limit - count) };
+}
+
+// ─── Cloudflare Turnstile verification ────────────────────────────────────
+//
+// CAPTCHA alternative — invisible by default, no user friction. The widget
+// (added to the frontend form later, separately) emits a token via the
+// `cf-turnstile-response` form field; this helper verifies the token
+// server-side against Cloudflare's challenge API.
+//
+// Degrades gracefully:
+//   - `TURNSTILE_SECRET_KEY` env missing → returns `{ ok: true, skipped: true }`
+//     (treats as "not configured"). Other defenses still apply.
+//   - Token missing in request body → returns `{ ok: false, reason: "missing_token" }`
+//     ONLY when secret is configured. If secret is missing, missing token
+//     is also skipped.
+//   - Cloudflare verify endpoint unreachable / 5xx → fail-open identical
+//     to rate-limit (set FAIL_CLOSED_ON_TURNSTILE_ERROR=1 to invert).
+
+/**
+ * Verify a Turnstile token. Pass `null`/`undefined` for `token` when the
+ * client form didn't include one — this returns `{ ok: false, reason }`
+ * when verification is REQUIRED (secret configured), or
+ * `{ ok: true, skipped: true }` when verification is disabled (secret
+ * missing) — preserving the historic behavior where form submits worked
+ * without Turnstile at all.
+ *
+ * `remoteip` is optional; passing it tightens Cloudflare's heuristics.
+ */
+export async function verifyTurnstile({ token, env, remoteip = undefined }) {
+  const secret = env.TURNSTILE_SECRET_KEY;
+  if (!secret) return { ok: true, skipped: true };
+  if (!token) return { ok: false, reason: "missing_token" };
+
+  const form = new URLSearchParams();
+  form.set("secret", secret);
+  form.set("response", token);
+  if (remoteip) form.set("remoteip", remoteip);
+
+  try {
+    const res = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        body: form,
+      },
+    );
+    if (!res.ok) {
+      if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_TURNSTILE_ERROR || "")) {
+        return { ok: false, reason: `upstream_${res.status}` };
+      }
+      return { ok: true, skipped: true, reason: `upstream_${res.status}` };
+    }
+    const data = await res.json();
+    // Cloudflare verify response: { success: bool, "error-codes": [...] }
+    if (data && data.success === true) return { ok: true };
+    return { ok: false, reason: "turnstile_failed", codes: data?.["error-codes"] || [] };
+  } catch (err) {
+    if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_TURNSTILE_ERROR || "")) {
+      return { ok: false, reason: String(err) };
+    }
+    return { ok: true, skipped: true, reason: String(err) };
+  }
+}
