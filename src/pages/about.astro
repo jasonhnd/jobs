@@ -50,29 +50,8 @@ const jsonLd = `{
 
   <style slot="head">
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    /* Direction C: Warm Editorial — synced from styles/mobile-tokens.css. v1.2.0 PC convergence. */
-    :root {
-      --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
-      --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
-      --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-      --border: rgba(36, 30, 24, 0.10);
-      --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
-      --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-    }
-    @media (prefers-color-scheme: light) {
-      :root:not([data-theme="dark"]) {
-        --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
-        --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
-        --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-        --border: rgba(36, 30, 24, 0.10);
-      }
-    }
-    :root[data-theme="light"], :root[data-theme="dark"] {
-      --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
-      --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
-      --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
-      --border: rgba(36, 30, 24, 0.10);
-    }
+    /* Tokens (:root) + dual-theme blocks: removed 2026-05-16.
+       Now emitted globally by Footer.astro via canonical-css.ts (Design.md §18.4). */
     html, body {
       background: var(--bg);
       color: var(--fg);
@@ -143,14 +122,6 @@ const jsonLd = `{
     .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
     .theme-toggle .icon-sun { display: inline-block; }
     .theme-toggle .icon-moon { display: none; }
-    @media (prefers-color-scheme: light) {
-      :root:not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
-      :root:not([data-theme="dark"]) .theme-toggle .icon-moon { display: inline-block; }
-    }
-    :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
-    :root[data-theme="light"] .theme-toggle .icon-moon { display: inline-block; }
-    :root[data-theme="dark"] .theme-toggle .icon-sun { display: inline-block; }
-    :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
     h1 {
       font-size: 1.7rem;

@@ -1,45 +1,29 @@
 /**
- * src/pages/ja/sectors/_sector-css.ts — page-specific CSS for
- * /ja/sectors/[sector] hub pages.
+ * src/pages/ja/sectors/_sector-css.ts — Sector page (`/ja/sectors/[sector]`) の
+ * page-specific CSS。
  *
- * Extracted verbatim from [sector].astro's inline
- * `<style slot="head" is:inline>` block. Byte-equivalent output
- * is required for the SEO baseline byte-compare; the legacy
- * `is:inline` attribute is dropped because `set:html` already
- * skips Astro's CSS-scoping pipeline (Astro injects the string
- * raw between `<style>…</style>`).
+ * Page class: **Sector** (Design.md §6.5)
+ *   - 共通の reset / wrapper (980) / body (palt on) / typography / crumb / header /
+ *     section h2 は `src/lib/canonical/sector.ts` の `CANONICAL_SECTOR_CSS` から継承
+ *   - `:root{}` token は `src/lib/canonical-css.ts` 経由で全 page global emit、
+ *     ここでは再宣言しない
  *
- * Page-local sibling (Astro `_`-prefix → not routed).
+ * 本ファイルが定義する **Sector-page-only** な部分:
+ *   .top-banner / .badge / .top-list / .full-list / .related-sectors /
+ *   .risk-pill / .ai-era-essay / .patterns / .ai-distribution / footer.*
+ *
+ * Page-local sibling (Astro `_`-prefix → not routed)。
  */
 
-export const SECTOR_PAGE_CSS = `*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
-/* Direction C single-theme: prefers-color-scheme + data-theme all resolve to warm cream. */
-:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
-html{font-size:16px}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
-a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
-a:hover{color:var(--accent)}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
-.skip-link:focus{left:8px;top:8px}
+import { CANONICAL_SECTOR_CSS } from '../../../lib/canonical/sector';
+
+const SECTOR_PAGE_SPECIFIC_CSS = `
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:.85rem;color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
 .badge{background:var(--accent);color:#fff;padding:2px 8px;font-size:.7rem;letter-spacing:.05em;font-weight:700;border-radius:2px}
-#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
-.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
-.crumb a{color:var(--fg2)}
-.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
-header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
-h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
-h1 .accent{color:var(--accent-deep)}
-.sub{color:var(--fg2);font-size:.95rem}
-.sub strong{color:var(--accent-deep);font-weight:600}
-.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:32px 0}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
-section{margin:48px 0}
-h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .top-list{list-style:none;display:grid;gap:8px}
 .top-list li{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
 .top-list a{color:var(--fg);text-decoration:none;font-weight:500}
@@ -78,7 +62,7 @@ section.faq{margin:48px 0}
 .faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
 .faq-item summary:hover{color:var(--accent-deep)}
 .faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
+@media (max-width:600px){.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
 /* Phase 2: AI 時代の特性 essay + データから見えるパターン */
 .ai-era-essay{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:32px 0}
 .ai-era-essay h2{font-size:1.1rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
@@ -101,3 +85,5 @@ section.faq{margin:48px 0}
 .pattern-observations li{padding:10px 14px;background:var(--bg3);border-radius:4px;font-size:.9rem;color:var(--fg);line-height:1.65}
 .pattern-observations li strong{color:var(--accent-deep)}
 @media (max-width:600px){.ai-dist-legend{font-size:.74rem;gap:8px}}`;
+
+export const SECTOR_PAGE_CSS = CANONICAL_SECTOR_CSS + SECTOR_PAGE_SPECIFIC_CSS;

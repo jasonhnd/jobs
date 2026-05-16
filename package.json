@@ -20,6 +20,7 @@
     "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs",
     "check:analytics-config": "node scripts/check-analytics-config.cjs",
     "check:architecture": "node scripts/check-architecture.cjs",
+    "check:page-class": "node scripts/check-page-class.cjs",
     "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
     "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
     "verify:jsonld": "node scripts/verify-jsonld.cjs",

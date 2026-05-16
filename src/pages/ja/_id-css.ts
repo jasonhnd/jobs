@@ -1,68 +1,27 @@
 /**
- * src/pages/ja/_id-css.ts — page-specific CSS for /ja/[id] detail pages.
+ * src/pages/ja/_id-css.ts — Detail page (/ja/[id]) の page-specific CSS。
  *
- * Extracted verbatim from [id].astro's inline `<style slot="head">`
- * block. The byte-for-byte output (including all leading
- * whitespace inside the template literal — Astro injects this
- * string raw into `<style>…</style>`) is pinned by the SEO
- * baseline diff. Touch with care.
+ * Page class: **Detail** (Design.md §6.5)
+ *   - 共通の reset / wrapper / typography baseline / crumb / hero h1 / section base
+ *     は `src/lib/canonical/detail.ts` の `CANONICAL_DETAIL_CSS` から継承
+ *   - `:root{}` token は `src/lib/canonical-css.ts` 経由で全 page global emit、
+ *     ここでは再宣言しない (Design.md §18.3 に違反するため)
  *
- * RELATED_HUBS_CSS + SAME_RISK_CSS are appended at the bottom so
- * the spoke-graph rendered sections style consistently with the
- * rest of the page.
+ * 本ファイルが定義する **Detail-page-only** な部分:
+ *   .meta-row, .risk-card, .one-line, .ai-risk-detail, dl.stats,
+ *   section.{context,how-to-become,working-conditions}, .radar-wrap,
+ *   .topn-block, .transfer-card, .faq-item, .org-cert-grid, .map-back-link
  *
- * Page-local sibling (Astro `_`-prefix = not routed).
+ * RELATED_HUBS_CSS + SAME_RISK_CSS は spoke-graph section スタイル (末尾連結)。
+ *
+ * Page-local sibling (Astro `_`-prefix = not routed)。
  */
 
+import { CANONICAL_DETAIL_CSS } from '../../lib/canonical/detail';
 import { RELATED_HUBS_CSS } from '../../views/spoke-hub-graph';
 import { SAME_RISK_CSS } from '../../views/spoke-spoke-graph';
 
-export const ID_PAGE_CSS = `
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    /* v2 Warm Editorial — single-theme; aliases (--bg/--fg/--accent/--border) preserved
-       for canonical-css.ts footer + render-function selectors. */
-    :root{
-      --cream:#FAF6EE;--cream-2:#F2EADB;--paper:#FFFFFF;
-      --ink:#241E18;--ink-2:#5a4a3a;--ink-3:#8a7a6a;--ink-4:#b0a090;
-      --line:rgba(36,30,24,0.06);--line-strong:rgba(36,30,24,0.12);
-      --orange:#D96B3D;--orange-hot:#c0411e;--orange-soft:#fce4d2;
-      --green:#5fa050;--green-deep:#48705F;
-      --red:#c95a3a;
-      --purple:#8b5fb0;--purple-soft:#ddd5fb;
-      --bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;
-      --fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;
-      --accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;
-      --border:rgba(36,30,24,0.10);
-      --font-serif:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",Georgia,serif;
-      --font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif;
-    }
-    /* Dark mode neutralized: tokens forced to warm editorial regardless of [data-theme] / system pref. */
-    :root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
-    html,body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.6}
-    h1,h2,h3,h4{font-family:var(--font-serif);font-weight:700;letter-spacing:-0.005em;color:var(--ink)}
-    a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-    .skip-link{position:absolute;left:-9999px}.skip-link:focus{position:static;background:var(--accent);color:#000;padding:8px}
-    .theme-toggle{display:none !important}
-
-    /* Layout: mobile-first single column, scale up on desktop. */
-    #wrapper{max-width:480px;margin:0 auto;padding:env(safe-area-inset-top,12px) 18px env(safe-area-inset-bottom,24px)}
-    @media (min-width:640px){#wrapper{max-width:640px;padding:18px 24px 32px}}
-    @media (min-width:900px){#wrapper{max-width:1080px;padding:24px 32px 48px}}
-
-    /* Breadcrumb */
-    nav.crumb{font-size:0.74rem;color:var(--ink-3);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-    nav.crumb a{color:var(--ink-3);text-decoration:none;background:transparent;border:none;padding:0}
-    nav.crumb a::before{content:none}
-    nav.crumb a:hover{color:var(--accent);text-decoration:none;background:transparent}
-    nav.crumb > span[aria-hidden]{color:var(--ink-4)}
-    nav.crumb > span:not([aria-hidden]){color:var(--ink);font-weight:500}
-
-    /* Hero h1 */
-    header#content{margin-bottom:6px}
-    h1{font-size:clamp(1.9rem,1.5rem+1.4vw,3.2rem);font-weight:700;letter-spacing:-0.015em;line-height:1.06;margin:0;color:var(--ink)}
-    h1 .accent{color:var(--ink);font-style:normal}
-    h1 .h1-sub{font-size:0.66em;color:var(--ink-3);font-weight:500;margin-left:8px}
-
+const DETAIL_PAGE_SPECIFIC_CSS = `
     /* Sector chip + risk-band chips in meta-row */
     .meta-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:10px 0 14px;font-size:0.78rem;color:var(--ink-3)}
     .meta-row .sector-chip{display:inline-flex;align-items:center;gap:6px;font-size:0.74rem;padding:3px 11px;background:rgba(95,160,80,0.12);color:var(--green-deep);border-radius:999px;text-decoration:none;font-weight:600}
@@ -117,12 +76,6 @@ export const ID_PAGE_CSS = `
     @media (min-width:900px){dl.stats dt{font-size:0.78rem;margin:8px 0 0}}
     dl.stats dd{font-size:1.2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1.1;order:1}
     @media (min-width:900px){dl.stats dd{font-size:1.65rem}}
-
-    /* Section spacing + section h2 (sec-h pattern) */
-    section{margin-top:26px}
-    @media (min-width:900px){section{margin-top:44px}}
-    section > h2{font-family:var(--font-serif);font-size:1.1rem;font-weight:700;color:var(--orange-hot);letter-spacing:-0.005em;margin:0 0 12px;padding:0}
-    @media (min-width:900px){section > h2{font-size:1.5rem;margin:0 0 18px}}
 
     /* Editorial sections — context / how-to-become / working-conditions — wrap in sec-card narrow */
     section.context,section.how-to-become,section.working-conditions{background:var(--paper);padding:18px 20px;border-radius:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
@@ -228,7 +181,9 @@ export const ID_PAGE_CSS = `
     .map-back-link{margin:32px 0 8px;text-align:center}
     .map-back-link a{display:inline-block;color:var(--ink-3);font-size:0.84rem;padding:10px 18px;border:1px solid var(--line-strong);border-radius:999px;text-decoration:none;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
     .map-back-link a:hover,.map-back-link a:focus-visible{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06)}
+`;
 
+export const ID_PAGE_CSS = CANONICAL_DETAIL_CSS + DETAIL_PAGE_SPECIFIC_CSS + `
     ${RELATED_HUBS_CSS}
     ${SAME_RISK_CSS}
   `;

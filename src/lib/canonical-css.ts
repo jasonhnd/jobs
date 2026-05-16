@@ -36,6 +36,62 @@
  */
 
 export const CANONICAL_CSS = `
+/* ───── Canonical design tokens (single source of truth) ─────
+   Design.md §2.1 で定義された 2 層構造:
+     第 1 層 semantic primary (--cream/--ink/--orange/--green-deep/--red/--purple)
+       → 新コードは全部これを使う
+     第 2 層 alias (--bg/--fg/--accent/...)
+       → legacy 互換 (16 hub 内部スタイル + footer partial + render-function selectors)
+
+   全 821 page が Footer.astro 経由で <style is:global> としてこのブロックを emit
+   するため、page-local <style> で :root{} を再宣言する必要はない (Design.md §18.4)。
+   Page class CSS (src/lib/canonical/{detail,hub,sector,static}.ts) はトークンを
+   var() で参照するだけで、再宣言しない。 */
+
+:root {
+  /* 第 1 層 — semantic primary */
+  --cream: #FAF6EE;
+  --cream-2: #F2EADB;
+  --paper: #FFFFFF;
+  --ink: #241E18;
+  --ink-2: #5a4a3a;
+  --ink-3: #8a7a6a;
+  --ink-4: #b0a090;
+  --orange: #D96B3D;
+  --orange-hot: #c0411e;
+  --orange-soft: #fce4d2;
+  --green: #5fa050;
+  --green-deep: #48705F;
+  --red: #c95a3a;
+  --purple: #8b5fb0;
+  --purple-soft: #ddd5fb;
+  --line: rgba(36, 30, 24, 0.06);
+  --line-strong: rgba(36, 30, 24, 0.12);
+  /* 第 2 層 — alias (legacy 互換、値固定。Design.md §2.1 警告参照: --fg2/--fg3/--accent-2/--border の RGB は --ink-2 等と厳密に等しくない、これは意図) */
+  --bg: #FAF6EE;
+  --bg2: #FFFFFF;
+  --bg3: #F2EADB;
+  --fg: #241E18;
+  --fg2: #7A6F5E;
+  --fg3: #A39785;
+  --accent: #D96B3D;
+  --accent-2: #6E9B89;
+  --accent-deep: #48705F;
+  --border: rgba(36, 30, 24, 0.10);
+  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+}
+
+/* Dark mode neutralized: theme は Design.md §3 で NEUTRALIZED 状態。
+   [data-theme="light"] / ["dark"] / prefers-color-scheme すべて同じ cream に解決。 */
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --bg: #FAF6EE; --bg2: #FFFFFF; --bg3: #F2EADB;
+  --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
+  --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
+  --border: rgba(36, 30, 24, 0.10);
+}
+
 /* ───── Canonical typography (single source of truth) ───── */
 /* Selector chain html body <tag> beats page-local bare-element rules. */
 

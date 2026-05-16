@@ -1326,4 +1326,86 @@ export const SAME_RISK_CSS = `
 
 ---
 
+### 18.7 Page Class System（2026-05-16 導入）
+
+**目的**: 全 821 ページの視覚言語を **5 つの page class** に分類し、class 内は厳密に統一、class 間は意図的な差異を許す。これは「page 単位で `:root{}` を書く」設計から「class 単位で canonical CSS を継承する」設計への移行。
+
+**動機**: 過去、「14 個の `:root{}` が散在し漂移する」という症状の根因を `:root{}` 重複と誤診断していた。再分析で **token 値は全 14 箇所で同一**、つまり token 重複自体は無害だが、page 間の **wrapper 幅 / line-height / font-feature-settings** 等の差異は実際に視覚的不統一感を生んでいた。これらの差異は **意図的なケースと事故のケースが混在** していたため、明示的に class として記録、class 内同一を保証する仕組みを設けた。
+
+#### 18.7.1 5 つの Page Class
+
+| Class | 範囲 | wrapper max-width | body line-height | font-feature-settings | canonical CSS source |
+|---|---|---|---|---|---|
+| **Detail** | 556 個 `/ja/<id>` spoke | 480 → 640 → 1080 | 1.6（canonical-css.ts が 1.75 で上書き） | (none) | [`src/lib/canonical/detail.ts`](../src/lib/canonical/detail.ts) |
+| **Hub** | 13 hub-index + 9 hub-slug = 22 ページ | 980 | 1.65 | (none) | [`src/lib/canonical/hub.ts`](../src/lib/canonical/hub.ts) |
+| **Sector** | 17 個 `/ja/sectors/` | 980 | 1.65 | `"palt"` | [`src/lib/canonical/sector.ts`](../src/lib/canonical/sector.ts) |
+| **Static** | `/about` / `/privacy` / `/compliance` / `/404` | 740 | 1.75 | (none) | [`src/lib/canonical/static.ts`](../src/lib/canonical/static.ts) |
+| **Interactive** | `/` / `/map` | 各自（treemap canvas + 検索 hero） | 各自 | 各自 | 個別保持（`_index-css.ts` / `_map-css.ts`） |
+
+#### 18.7.2 Token は class を超えて統一
+
+`:root{}` token は **canonical-css.ts** に一元化、Footer.astro が `<style is:global>` で全 821 ページに global emit。**page-local `<style>` で `:root{}` を再宣言してはならない**（§18.3 禁止事項に追加）。
+
+→ 結果: page class 間で token 値は完全に同じ。class が違うのは **wrapper / line-height / typography rhythm** などの構造的選択のみ。
+
+#### 18.7.3 Class 別の意図(なぜ違うのか)
+
+| Class | 意図する読書モード | レイアウト判断 |
+|---|---|---|
+| Detail | 深い読み物、親密、reader-focused | 狭め wrapper (480-1080) + serif body + 高余白 narrow card → 読者の集中を促す |
+| Hub | navigation、grid 配置、概覧 | 中庸 wrapper (980) + 大きな h1 + grid 配置 → クリック導線を視覚的に開く |
+| Sector | Hub と同形 + CJK 詰め | `palt` で CJK kerning を緊密化、業種データ表で文字が圧縮される時の可読性向上 |
+| Static | 法務文書、長文垂直配置 | 極狭 wrapper (740) + 高余白 + line-height 1.75 → 長文を読み下す体験 |
+| Interactive | treemap canvas + 検索、フル幅 | 既定の wrapper を持たない、page 内で hero 専用レイアウト → ツール体験 |
+
+#### 18.7.4 新 page を追加するとき
+
+1. **どの class に属するかを決める**（上記表のいずれか）
+2. 該当 class の canonical CSS を import: `import { CANONICAL_<CLASS>_CSS } from '@/lib/canonical/<class>'`
+3. Page-specific スタイル（その page でしか出ない要素のスタイル）のみ追加で記述
+4. **絶対に `:root{...}` を書かない**（token は canonical-css.ts が global emit する）
+
+例 (新 page を Hub class で作る):
+
+```ts
+// src/pages/ja/newgenre/_newgenre-css.ts
+import { CANONICAL_HUB_CSS } from '@/lib/canonical/hub';
+
+const NEWGENRE_PAGE_SPECIFIC_CSS = `
+  .newgenre-grid { ... }
+  .newgenre-item { ... }
+`;
+
+export const NEWGENRE_PAGE_CSS = CANONICAL_HUB_CSS + NEWGENRE_PAGE_SPECIFIC_CSS;
+```
+
+#### 18.7.5 検証
+
+CI 守護 `scripts/check-page-class.cjs`(同日 Phase 追加)が以下を検証:
+
+- すべての page の inline `<style>` に `:root{...}` が含まれない（canonical-css.ts の重複を防止）
+- すべての `_*-css.ts` が必ず canonical/*.ts のどれかを import している（class 帰属を強制）
+- Interactive class（`_index-css.ts` / `_map-css.ts`）は明示 exception リストに入る
+
+違反 → CI fail → merge 不可。
+
+#### 18.7.6 既存ファイルの class 配属
+
+2026-05-16 時点のマッピング:
+
+| File | Class | Status |
+|---|---|---|
+| `src/pages/ja/_id-css.ts` | Detail | ✅ canonical/detail import 済 |
+| `src/templates/Hub.ts` `GENRE_HUB_CSS` | Hub | ✅ canonical/hub import 済 |
+| `src/pages/ja/sectors/_sector-css.ts` | Sector | ✅ canonical/sector import 済 |
+| `src/pages/about.astro` inline | Static（暫定: import せず inline CSS のまま） | ⏳ canonical/static.ts への refactor は将来 |
+| `src/pages/privacy.astro` inline | Static | ⏳ 同上 |
+| `src/pages/compliance.astro` inline | Static | ⏳ 同上 |
+| `src/pages/404.astro` inline | Static | ⏳ 同上 |
+| `src/pages/_index-css.ts` | Interactive | ✅ 個別保持 OK（exception） |
+| `src/pages/_map-css.ts` | Interactive | ✅ 個別保持 OK（exception） |
+| 9 hub-inline ページ (`compare/[pair]` / `compare/index` / `interests/{[type],index}` / `rankings/{[type],index}` / `sectors/index` / `skills/{[skill],index}`) | Hub | ✅ inline `:root{}` 削除済、`<style>` 内 page-specific のみ |
+
+---
+
 > サイト：https://mirai-shigoto.com
