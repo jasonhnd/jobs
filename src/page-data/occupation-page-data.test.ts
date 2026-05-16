@@ -50,6 +50,18 @@ function fakeRec(id: number, aiRisk: number | null): Rec {
     ai_displaceable_tasks_ja: [],
     ai_resilient_tasks_ja: [],
     ai_horizon_5y_ja: null,
+    profile5: {
+      creative: null,
+      social: null,
+      judgment: null,
+      physical: null,
+      routine: null,
+    },
+    transferCandidates: {
+      source_id: id,
+      candidates: [],
+      fallback: 'no_skills',
+    },
   };
 }
 

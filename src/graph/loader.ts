@@ -25,6 +25,12 @@ import {
   SENTINEL_UNCATEGORIZED,
 } from './sector-resolver.js';
 import { pickLatestScore } from './score-strategy.js';
+import { computeProfile5ForOcc } from './profile5.js';
+import {
+  computeTransferCandidatesMap,
+  skillsBlockOf,
+  type TransferPathEntry,
+} from './transfer-paths.js';
 
 import {
   OccupationSchema,
@@ -218,6 +224,41 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     occupationsBySectorIdx.set(secId, Object.freeze([...bucket]) as OccupationId[]);
   }
 
+  // 7.5. Precompute the full transfer-candidates map. Cross-occupation
+  // algorithm (cosine similarity over same-sector skill vectors → top-N
+  // candidates) — done once here so view/page-data code can query via
+  // graph.transferCandidatesOf(id) without an fs round-trip. Cost ~30-50ms
+  // for 556 occupations, amortized over the entire build via the loadGraph
+  // promise cache.
+  const transferInput = {
+    sortedOccIds: [...occupationsMap.keys()]
+      .map((id) => Number(id))
+      .sort((a, b) => a - b),
+    skillsByOcc: new Map<number, Record<string, number> | null>(
+      occupations.map((o) => [o.id, skillsBlockOf(o)]),
+    ),
+    riskByOcc: new Map<number, number>(
+      occupations
+        .map((o) => {
+          const score = latestScoreByOcc.get(o.id);
+          return score ? [o.id, score.score] as const : null;
+        })
+        .filter((e): e is readonly [number, number] => e !== null),
+    ),
+    sectorByOcc: new Map<number, string>(
+      occupations.map((o) => [o.id, sectorByOcc.get(asOccupationId(o.id))?.toString() ?? SENTINEL_UNCATEGORIZED]),
+    ),
+    titleByOcc: new Map<number, string>(
+      occupations.map((o) => [o.id, o.title_ja]),
+    ),
+  };
+  const transferMap = computeTransferCandidatesMap(transferInput);
+  const transferEmpty: TransferPathEntry = Object.freeze({
+    source_id: -1,
+    candidates: [] as const,
+    fallback: 'no_skills',
+  });
+
   // 8. Assemble the graph with closure-captured indexes.
   const graph: KnowledgeGraph = {
     occupations: occupationsMap,
@@ -240,6 +281,8 @@ async function buildGraph(): Promise<KnowledgeGraph> {
     workValuesOf:          (id) => workValueEdges.get(id)          ?? EMPTY_EDGES,
     workCharacteristicsOf: (id) => workCharacteristicEdges.get(id) ?? EMPTY_EDGES,
     workActivitiesOf:      (id) => workActivityEdges.get(id)       ?? EMPTY_EDGES,
+
+    transferCandidatesOf: (id) => transferMap.get(Number(id)) ?? transferEmpty,
   };
 
   return Object.freeze(graph);
@@ -423,6 +466,7 @@ function buildOccupationNode(
     trainingPre:           occ.training_pre           ?? null,
     trainingPost:          occ.training_post          ?? null,
     experience:            occ.experience            ?? null,
+    profile5:              computeProfile5ForOcc(occ),
     tasksCount: occ.tasks.length,
     tasksLeadJa: occ.tasks_lead_ja ?? null,
     relatedOrgs: (occ.related_orgs ?? []).map(o => ({

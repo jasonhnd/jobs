@@ -3,31 +3,28 @@
  *
  * Status: Implemented (v1.1.0 phase 2)
  * Consumer: mobile ④/⑤ 詳細 関連職業 grid (3 cards), future ⑨ 診断 結果
- * Shape: { source_id → [ {id, similarity, sector_id, ai_risk}, ... ] up to 4 entries }
+ * Shape: { source_id → [ {id, similarity, sector_id, ai_risk}, ... ] up to 5 entries }
  *
- * Recommendation rule:
- *   For each source occupation S, candidates are occupations C where:
- *     1. C.sector_id == S.sector_id
- *     2. C.ai_risk <= S.ai_risk - MIN_RISK_DROP (strictly safer)
- *     3. C != S
- *   Rank by cosine similarity over their `skills` vector. Top N (4).
- *
- * Fallback: same-sector ANY ai_risk if no safer candidates exist.
- *
+ * Phase E follow-up (2026-05-17): the algorithm (cosine + same-sector pool
+ * pre-indexing + safer-candidate filter) moved into the graph layer at
+ * `src/graph/transfer-paths.ts`. This module now reuses
+ * `computeTransferCandidatesMap` so views/page-data can read the same data
+ * via `KnowledgeGraph.transferCandidatesOf(id)` without an fs round-trip.
+ * `public/data.transfer_paths.json` is still emitted for browser consumers,
+ * byte-identical to the legacy projection.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
-import { fsum } from '../lib/fsum.js';
-import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../../lib/now.js';
-
-// Phase C (2026-05-10): TOP_N raised 4 → 5 for the new spoke-spoke link block.
-// Combined with the cross-sector same-AI-risk block (rendered in the spoke
-// template), each spoke now has 10 contextual outbound spoke links instead of 3.
-const TOP_N = 5;
-const MIN_RISK_DROP = 1.0;
-const MIN_SIMILARITY = 0.3;
+import {
+  computeTransferCandidatesMap,
+  skillsBlockOf,
+  TRANSFER_TOP_N,
+  TRANSFER_MIN_RISK_DROP,
+  TRANSFER_MIN_SIMILARITY,
+  type TransferComputeInput,
+} from '../../graph/transfer-paths.js';
 
 export interface TransferPathsBuildResult {
   files: string[];
@@ -41,95 +38,32 @@ export interface TransferPathsBuildResult {
   };
 }
 
-/**
- * Cosine similarity over the intersection of dimension keys (only sums over
- * keys present in BOTH vectors, ignoring keys present in only one). Uses
- * Neumaier-compensated `fsum` for sums of products and squares so float
- * accumulation is order-independent.
- */
-export function cosine(u: Record<string, number>, v: Record<string, number>): number {
-  const uKeys = new Set(Object.keys(u));
-  const sharedKeys: string[] = [];
-  for (const k of Object.keys(v)) {
-    if (uKeys.has(k)) sharedKeys.push(k);
-  }
-  if (sharedKeys.length === 0) return 0.0;
-
-  const dotTerms: number[] = [];
-  const uSqTerms: number[] = [];
-  const vSqTerms: number[] = [];
-
-  for (const k of sharedKeys) {
-    const uk = u[k];
-    const vk = v[k];
-    if (uk == null || vk == null) continue;
-    dotTerms.push(uk * vk);
-  }
-  for (const k of sharedKeys) {
-    const uk = u[k];
-    if (uk == null) continue;
-    uSqTerms.push(uk * uk);
-  }
-  for (const k of sharedKeys) {
-    const vk = v[k];
-    if (vk == null) continue;
-    vSqTerms.push(vk * vk);
-  }
-
-  const dot = fsum(dotTerms);
-  const nu = Math.sqrt(fsum(uSqTerms));
-  const nv = Math.sqrt(fsum(vSqTerms));
-  if (nu === 0 || nv === 0) return 0.0;
-  return dot / (nu * nv);
-}
-
-interface CandidateEntry {
-  id: number;
-  cand_skills: Record<string, number>;
-  cand_risk: number;
-}
-
-interface ScoredEntry {
-  id: number;
-  similarity: number;
-  cand_risk: number;
-}
-
 export async function buildTransferPaths(
   indexes: Indexes,
   distRoot: string,
 ): Promise<TransferPathsBuildResult> {
-  const riskById = new Map<number, number>();
-  for (const [occId, entry] of indexes.latestScoreByOcc) {
-    riskById.set(occId, entry.ai_risk);
-  }
+  const sortedIds = [...indexes.occById.keys()].sort((a, b) => a - b);
 
-  const sectorById = new Map<number, string>();
-  for (const [occId, a] of indexes.sectorByOcc) {
-    sectorById.set(occId, a.sector_id);
-  }
+  const input: TransferComputeInput = {
+    sortedOccIds: sortedIds,
+    skillsByOcc: new Map(
+      sortedIds.map((id) => [id, skillsBlockOf(indexes.occById.get(id)!)]),
+    ),
+    riskByOcc: new Map(
+      [...indexes.latestScoreByOcc].map(([id, entry]) => [id, entry.ai_risk]),
+    ),
+    sectorByOcc: new Map(
+      [...indexes.sectorByOcc].map(([id, a]) => [id, a.sector_id]),
+    ),
+    titleByOcc: new Map(
+      sortedIds.map((id) => [id, indexes.occById.get(id)!.title_ja]),
+    ),
+  };
 
-  const skillsById = new Map<number, Record<string, number>>();
-  for (const [occId, occ] of indexes.occById) {
-    if (occ.skills != null) skillsById.set(occId, occ.skills);
-  }
+  const map = computeTransferCandidatesMap(input);
 
-  // Pre-index candidates by sector so each source occupation only scans its
-  // same-sector pool (~30-50 entries) instead of all 556 occupations. Drops
-  // the per-source cost from O(N) to O(pool). The pool is built once with
-  // skills + risk already attached, so the inner loop in main() does no
-  // further lookups.
-  const candidatesBySector = new Map<string, CandidateEntry[]>();
-  for (const [candId, candSkills] of skillsById) {
-    const candSector = sectorById.get(candId);
-    if (candSector == null) continue;
-    const candRisk = riskById.get(candId);
-    if (candRisk == null) continue;
-    let bucket = candidatesBySector.get(candSector);
-    if (!bucket) { bucket = []; candidatesBySector.set(candSector, bucket); }
-    bucket.push({ id: candId, cand_skills: candSkills, cand_risk: candRisk });
-  }
-
+  // Transform map → JSON payload. Tally summary stats from fallback labels
+  // for build telemetry.
   const outPaths: Record<string, unknown> = {};
   const fallbackCounts = {
     no_safer_in_sector: 0,
@@ -137,85 +71,34 @@ export async function buildTransferPaths(
     primary: 0,
   };
   let noCandidatesAtAll = 0;
-
-  const sortedIds = [...indexes.occById.keys()].sort((a, b) => a - b);
-
   for (const occId of sortedIds) {
-    const sourceSector = sectorById.get(occId);
-    const sourceRisk = riskById.get(occId);
-    const sourceSkills = skillsById.get(occId);
+    const entry = map.get(occId);
+    if (!entry) continue;
 
-    if (sourceSkills == null || sourceSector == null || sourceRisk == null) {
-      outPaths[String(occId)] = {
-        source_id: occId,
-        candidates: [],
-        fallback: 'no_skills',
-      };
-      fallbackCounts.no_skills += 1;
-      continue;
-    }
-
-    // Pool: same sector, different occupation, has skills + risk. Filtering
-    // `candId === occId` here lets us preserve a single sector index across
-    // all source occupations.
-    const sectorPool = candidatesBySector.get(sourceSector) ?? [];
-    const pool: CandidateEntry[] = sectorPool.filter((c) => c.id !== occId);
-
-    // Primary: prefer SAFER candidates (cand_risk <= source_risk - MIN_RISK_DROP)
-    const safer = pool.filter((c) => c.cand_risk <= sourceRisk - MIN_RISK_DROP);
-
-    let chosenPool: CandidateEntry[];
-    let fallbackLabel: string | null = null;
-    if (safer.length > 0) {
-      chosenPool = safer;
-    } else {
-      chosenPool = pool;
-      fallbackLabel = 'no_safer_in_sector';
-    }
-
-    const scored: ScoredEntry[] = [];
-    for (const c of chosenPool) {
-      const sim = bankerRound(cosine(sourceSkills, c.cand_skills), 4);
-      if (sim < MIN_SIMILARITY) continue;
-      scored.push({ id: c.id, similarity: sim, cand_risk: c.cand_risk });
-    }
-    // Sort by similarity desc (V8's Array.prototype.sort is stable since Node 12).
-    // Python is stable; Array.prototype.sort in V8 is stable since Node 12.
-    scored.sort((a, b) => b.similarity - a.similarity);
-    const top = scored.slice(0, TOP_N);
-
-    if (top.length === 0) {
-      noCandidatesAtAll += 1;
-      outPaths[String(occId)] = {
-        source_id: occId,
-        candidates: [],
-        fallback: fallbackLabel ?? 'no_similar_in_sector',
-      };
-      continue;
-    }
-
-    const candidates = top.map((s) => {
-      const candOcc = indexes.occById.get(s.id);
-      return {
-        id: s.id,
-        title_ja: candOcc ? candOcc.title_ja : null,
-        ai_risk: s.cand_risk,
-        similarity: s.similarity,
-        sector_id: sectorById.get(s.id) ?? null,
-      };
-    });
-
-    const entry: Record<string, unknown> = {
-      source_id: occId,
-      candidates,
+    // Preserve the legacy projection's exact JSON shape:
+    // - `fallback` key is OMITTED entirely (not null) when no fallback.
+    // - candidates objects stay byte-identical in field order.
+    const obj: Record<string, unknown> = {
+      source_id: entry.source_id,
+      candidates: entry.candidates,
     };
-    if (fallbackLabel) entry.fallback = fallbackLabel;
-    outPaths[String(occId)] = entry;
+    if (entry.fallback != null) obj.fallback = entry.fallback;
+    outPaths[String(occId)] = obj;
 
-    if (fallbackLabel) {
+    if (entry.fallback === 'no_skills') {
+      fallbackCounts.no_skills += 1;
+    } else if (entry.fallback === 'no_safer_in_sector') {
       fallbackCounts.no_safer_in_sector += 1;
+    } else if (entry.fallback === 'no_similar_in_sector') {
+      noCandidatesAtAll += 1;
     } else {
-      fallbackCounts.primary += 1;
+      // Either no fallback (primary) or one of the above. Non-null with
+      // no candidates means scored.length === 0 → also "no candidates".
+      if (entry.candidates.length === 0 && entry.fallback != null) {
+        // Already counted above.
+      } else {
+        fallbackCounts.primary += 1;
+      }
     }
   }
 
@@ -231,9 +114,9 @@ export async function buildTransferPaths(
     schema_version: '1.0',
     generated_at: nowIso(),
     rule: {
-      top_n: TOP_N,
-      min_risk_drop: MIN_RISK_DROP,
-      min_similarity: MIN_SIMILARITY,
+      top_n: TRANSFER_TOP_N,
+      min_risk_drop: TRANSFER_MIN_RISK_DROP,
+      min_similarity: TRANSFER_MIN_SIMILARITY,
       ranking_metric: 'cosine_similarity_over_skills',
       candidate_pool: 'same_sector_id',
     },

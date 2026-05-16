@@ -27,7 +27,6 @@ import { renderOrgsCerts } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail } from '@/templates/AiRiskDetail';
 import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
 import { jaUrl } from '@/lib/urls';
-import { getProfile5, getTransferPaths } from '@/page-data/occupation-aux-data';
 import type { SafeHtml } from '@/lib/safe-html';
 
 const TRANSFER_TOP_N = 5;
@@ -69,14 +68,9 @@ export function renderOccupationMetaRow(rec: Rec): SafeHtml {
 }
 
 export function renderOccupationProfileRadar(rec: Rec): SafeHtml {
-  const profile = getProfile5()[String(rec.id)];
-  return renderProfileRadar({
-    creative: profile?.creative ?? null,
-    social: profile?.social ?? null,
-    judgment: profile?.judgment ?? null,
-    physical: profile?.physical ?? null,
-    routine: profile?.routine ?? null,
-  });
+  // Phase E follow-up (2026-05-16): profile5 now arrives via `rec.profile5`,
+  // computed eagerly by graph/profile5.ts at loadGraph() time. No fs read.
+  return renderProfileRadar(rec.profile5);
 }
 
 export function renderOccupationTopn(rec: Rec): SafeHtml {
@@ -97,9 +91,14 @@ export function renderOccupationTransfer(
   rec: Rec,
   nameLookup: Record<number, string>,
 ): SafeHtml {
-  const path0 = getTransferPaths()[String(rec.id)];
-  if (!path0) return '' as SafeHtml;
-  const cards = path0.candidates.slice(0, TRANSFER_TOP_N).map((c) => ({
+  // Phase E follow-up (2026-05-17): transferCandidates arrives via
+  // `rec.transferCandidates`, pre-computed by graph/transfer-paths at
+  // loadGraph() time. No fs read. Empty `candidates` (no_skills /
+  // no_similar_in_sector fallbacks) renders to an empty fragment so
+  // the page skips the section gracefully.
+  const candidates = rec.transferCandidates.candidates;
+  if (candidates.length === 0) return '' as SafeHtml;
+  const cards = candidates.slice(0, TRANSFER_TOP_N).map((c) => ({
     id: c.id,
     name: nameLookup[c.id] || c.title_ja || '?',
     aiRisk: c.ai_risk,
