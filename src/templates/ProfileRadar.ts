@@ -9,11 +9,13 @@
  * Axes (clockwise from top): 創造性 / 対人 / 判断 / 身体 / 定型.
  * The label set + geometry constants are part of the visual contract
  * and live inside the template — callers only supply the five numeric
- * values resolved from `getProfile5()[occId]`.
+ * values resolved from `graph.occupations.get(id).profile5` (Phase E
+ * follow-up 2026-05-16; the legacy `getProfile5()[occId]` fs loader
+ * was retired).
  *
  * Gating: empty SafeHtml when every axis is 0/null (no entry in the
  * profile lookup, or all-zero record). Matches the page-level
- * `if (!profile) return '' / if (!values.some(v => v)) return ''`.
+ * `if (!values.some(v => v)) return ''`.
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';

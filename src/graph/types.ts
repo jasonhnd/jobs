@@ -19,6 +19,8 @@ import type {
   WorkCharacteristicId,
   WorkActivityId,
 } from './ids.js';
+import type { Profile5Record } from './profile5.js';
+import type { TransferPathEntry } from './transfer-paths.js';
 
 // ─── Shared shapes ───────────────────────────────────────────────
 
@@ -106,6 +108,18 @@ export interface OccupationNode {
   readonly trainingPre:           Record<string, number> | null;
   readonly trainingPost:          Record<string, number> | null;
   readonly experience:            Record<string, number> | null;
+  /**
+   * Pre-computed 5-axis ability profile derived from this occupation's
+   * IPD numeric blocks (skills / abilities / work_activities /
+   * work_characteristics). See `src/graph/profile5.ts` for the
+   * algorithm + axis definitions.
+   *
+   * Each axis value is in [0, 100] or null. The record itself is always
+   * present (5 keys, fixed order); use the per-axis null to detect
+   * missing data. Computed eagerly in buildOccupationNode — no fs read
+   * at view time.
+   */
+  readonly profile5: Profile5Record;
   /** Number of tasks defined for this occupation (used on the detail page). */
   readonly tasksCount: number;
   /** Free-text intro to the task list, when present in the source. */
@@ -177,4 +191,13 @@ export interface KnowledgeGraph {
   workValuesOf(id: OccupationId):          readonly OccupationWorkValueEdge[];
   workCharacteristicsOf(id: OccupationId): readonly OccupationWorkCharacteristicEdge[];
   workActivitiesOf(id: OccupationId):      readonly OccupationWorkActivityEdge[];
+
+  /**
+   * Top-N transfer-path candidates for an occupation. Returns the same
+   * shape as `public/data.transfer_paths.json` (per-occupation entry),
+   * with `fallback` non-null when no strictly-safer same-sector
+   * candidates exist. See `src/graph/transfer-paths.ts` for the
+   * algorithm. Computed once at loadGraph() time and cached.
+   */
+  transferCandidatesOf(id: OccupationId): TransferPathEntry;
 }

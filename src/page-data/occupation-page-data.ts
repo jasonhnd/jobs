@@ -93,9 +93,16 @@ export async function buildOccupationPageData(): Promise<OccupationPageDataset> 
 
   const graph = await loadGraph();
   const allRecs: Rec[] = [];
-  for (const [occId] of graph.occupations) {
+  for (const [occId, occNode] of graph.occupations) {
     const detailFile = buildOccupationDetailFile(graph, occId);
-    allRecs.push(adaptDetailFile(detailFile));
+    // profile5 + transferCandidates both flow through the graph layer
+    // (Phase E follow-up 2026-05-16/17) — no fs round-trip via the
+    // deprecated getProfile5() / getTransferPaths() loaders.
+    allRecs.push(adaptDetailFile(
+      detailFile,
+      occNode.profile5,
+      graph.transferCandidatesOf(occId),
+    ));
   }
   allRecs.sort((a, b) => a.id - b.id);
 

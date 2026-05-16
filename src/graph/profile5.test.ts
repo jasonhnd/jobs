@@ -1,14 +1,20 @@
 /**
  * profile5.gatherAxis: tests the per-axis weighted-average rollup.
  *
+ * Phase E follow-up (2026-05-16): moved here from
+ * src/data/projections/profile5.test.ts when the algorithm itself
+ * relocated to the graph layer. `src/data/projections/profile5.ts`
+ * now imports gatherAxis from here too — there's only one
+ * implementation to test.
+ *
  * Highest-risk untested logic in profile5.ts. A wrong SOURCE_MAX or a
  * zero-stuffing bug (using 0 instead of skipping missing values) would
  * silently inflate or deflate every radar chart axis for every occupation.
  */
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
-import { gatherAxis, type AxisInput } from './profile5.js';
-import type { Occupation } from '../schema/occupation.js';
+import { gatherAxis, computeProfile5ForOcc, type Profile5AxisInput } from './profile5.js';
+import type { Occupation } from '../data/schema/occupation.js';
 
 // Build a minimal Occupation that only has the fields gatherAxis reads.
 // The schema requires many fields; we use `as Occupation` to bypass.
@@ -22,7 +28,7 @@ test('gatherAxis: all 4 inputs present → arithmetic mean / 5 * 100, rounded to
     work_activities: { thinking_creatively: 3.0 },
     abilities: { originality: 2.5, fluency_of_ideas: 1.5 },
   });
-  const inputs: AxisInput[] = [
+  const inputs: Profile5AxisInput[] = [
     { block: 'work_activities', field: 'thinking_creatively' },
     { block: 'abilities',       field: 'originality' },
     { block: 'abilities',       field: 'fluency_of_ideas' },
@@ -38,7 +44,7 @@ test('gatherAxis: missing fields are skipped (NOT zero-stuffed)', () => {
     work_activities: { thinking_creatively: 3.0 },
     abilities: { originality: null, fluency_of_ideas: null }, // both null → skip
   });
-  const inputs: AxisInput[] = [
+  const inputs: Profile5AxisInput[] = [
     { block: 'work_activities', field: 'thinking_creatively' },
     { block: 'abilities',       field: 'originality' },
     { block: 'abilities',       field: 'fluency_of_ideas' },
@@ -54,7 +60,7 @@ test('gatherAxis: missing block returns null axis (entire block null)', () => {
     skills: { active_learning: 4.0 },
     // work_activities, abilities omitted entirely
   });
-  const inputs: AxisInput[] = [
+  const inputs: Profile5AxisInput[] = [
     { block: 'work_activities', field: 'thinking_creatively' },
     { block: 'abilities',       field: 'originality' },
     { block: 'skills',          field: 'active_learning' },
@@ -65,7 +71,7 @@ test('gatherAxis: missing block returns null axis (entire block null)', () => {
 
 test('gatherAxis: ALL inputs missing returns null', () => {
   const occ = makeOcc({});
-  const inputs: AxisInput[] = [
+  const inputs: Profile5AxisInput[] = [
     { block: 'work_activities', field: 'thinking_creatively' },
     { block: 'abilities',       field: 'originality' },
   ];
@@ -74,7 +80,7 @@ test('gatherAxis: ALL inputs missing returns null', () => {
 
 test('gatherAxis: max IPD value (5.0) → 100 exactly', () => {
   const occ = makeOcc({ skills: { active_learning: 5.0 } });
-  const inputs: AxisInput[] = [
+  const inputs: Profile5AxisInput[] = [
     { block: 'skills', field: 'active_learning' },
   ];
   assert.equal(gatherAxis(occ, inputs), 100);
@@ -82,8 +88,58 @@ test('gatherAxis: max IPD value (5.0) → 100 exactly', () => {
 
 test('gatherAxis: 0 IPD value → 0 (not null — distinguishes "scored zero" from "missing")', () => {
   const occ = makeOcc({ skills: { active_learning: 0 } });
-  const inputs: AxisInput[] = [
+  const inputs: Profile5AxisInput[] = [
     { block: 'skills', field: 'active_learning' },
   ];
   assert.equal(gatherAxis(occ, inputs), 0);
+});
+
+test('computeProfile5ForOcc: returns 5-axis record with consistent key order', () => {
+  // All inputs missing → all axes null, but keys still present in fixed order.
+  const occ = makeOcc({});
+  const result = computeProfile5ForOcc(occ);
+  assert.deepEqual(
+    Object.keys(result),
+    ['creative', 'social', 'judgment', 'physical', 'routine'],
+    'profile5 record must always have the 5 keys in this fixed order',
+  );
+  assert.deepEqual(result, {
+    creative: null,
+    social: null,
+    judgment: null,
+    physical: null,
+    routine: null,
+  });
+});
+
+test('computeProfile5ForOcc: realistic occupation populates multiple axes', () => {
+  const occ = makeOcc({
+    skills: {
+      active_learning: 4.0,
+      social_perceptiveness: 3.5,
+      critical_thinking: 4.5,
+    },
+    abilities: {
+      originality: 3.0,
+    },
+    work_activities: {
+      thinking_creatively: 4.0,
+    },
+    work_characteristics: {
+      contact_with_others: 4.5,
+      regular_schedule: 3.0,
+    },
+  });
+  const result = computeProfile5ForOcc(occ);
+  // creative present (active_learning + originality + thinking_creatively)
+  assert.ok(result.creative !== null);
+  assert.ok(result.creative > 0);
+  // social present (social_perceptiveness + contact_with_others)
+  assert.ok(result.social !== null);
+  // judgment present (critical_thinking)
+  assert.ok(result.judgment !== null);
+  // physical: nothing matching → null
+  assert.equal(result.physical, null);
+  // routine: regular_schedule → present
+  assert.ok(result.routine !== null);
 });
