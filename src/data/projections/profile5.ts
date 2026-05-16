@@ -13,97 +13,23 @@
  * from the average (no zero-stuffing). If ALL contributors for an axis are
  * missing for an occupation, that axis is null (frontend shows dash).
  *
+ * Phase E follow-up (2026-05-16): the algorithm (AXIS_INPUTS + gatherAxis)
+ * moved into the graph layer (`src/graph/profile5.ts`) so views/pages can
+ * read profile5 via OccupationNode.profile5 without an fs round-trip. This
+ * module still emits `public/data.profile5.json` for browser consumers, but
+ * now reuses the graph algorithm — there's only one implementation to drift.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Indexes } from '../lib/indexes.js';
-import type { Occupation } from '../schema/occupation.js';
-import { fmean } from '../lib/fsum.js';
-import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../../lib/now.js';
-
-// Numeric block keys on Occupation that contribute to profile5.
-type NumericBlock =
-  | 'work_activities'
-  | 'abilities'
-  | 'skills'
-  | 'work_characteristics';
-
-export interface AxisInput {
-  block: NumericBlock;
-  field: string;
-}
-
-// Axis definitions — keep order aligned with profile5.py.
-const AXIS_INPUTS: Record<string, AxisInput[]> = {
-  creative: [
-    { block: 'work_activities', field: 'thinking_creatively' },
-    { block: 'abilities', field: 'originality' },
-    { block: 'abilities', field: 'fluency_of_ideas' },
-    { block: 'skills', field: 'active_learning' },
-  ],
-  social: [
-    { block: 'skills', field: 'social_perceptiveness' },
-    { block: 'skills', field: 'coordination' },
-    { block: 'skills', field: 'persuasion' },
-    { block: 'skills', field: 'negotiation' },
-    { block: 'skills', field: 'instructing' },
-    { block: 'skills', field: 'service_orientation' },
-    { block: 'work_characteristics', field: 'contact_with_others' },
-    { block: 'work_characteristics', field: 'face_to_face_discussions' },
-    { block: 'work_characteristics', field: 'teamwork' },
-  ],
-  judgment: [
-    { block: 'skills', field: 'critical_thinking' },
-    { block: 'skills', field: 'complex_problem_solving' },
-    { block: 'skills', field: 'judgment_decision_making' },
-    { block: 'skills', field: 'systems_evaluation' },
-    { block: 'work_characteristics', field: 'freedom_to_make_decisions' },
-    { block: 'work_characteristics', field: 'responsibility_for_outcomes' },
-    { block: 'work_characteristics', field: 'consequence_of_error' },
-  ],
-  physical: [
-    { block: 'abilities', field: 'static_strength' },
-    { block: 'abilities', field: 'stamina' },
-    { block: 'abilities', field: 'gross_body_equilibrium' },
-    { block: 'abilities', field: 'arm_hand_steadiness' },
-    { block: 'abilities', field: 'manual_dexterity' },
-    { block: 'work_characteristics', field: 'standing' },
-    { block: 'work_characteristics', field: 'walking_running' },
-    { block: 'work_characteristics', field: 'handling_objects_tools' },
-    { block: 'work_characteristics', field: 'physical_proximity' },
-  ],
-  routine: [
-    { block: 'work_characteristics', field: 'repetitive_tasks' },
-    { block: 'work_characteristics', field: 'repetition_of_activities' },
-    { block: 'work_characteristics', field: 'exactness_accuracy' },
-    { block: 'work_characteristics', field: 'pace_determined_by_machine' },
-    { block: 'work_characteristics', field: 'regular_schedule' },
-  ],
-};
-
-const SOURCE_MAX = 5.0;
+import { AXIS_INPUTS, gatherAxis } from '../../graph/profile5.js';
 
 export interface Profile5BuildResult {
   files: string[];
   occupations: number;
   axes: string[];
   nullAxes: Record<string, number>;
-}
-
-/** Average all present input fields for one axis. Returns null if all missing. */
-export function gatherAxis(occ: Occupation, inputs: AxisInput[]): number | null {
-  const values: number[] = [];
-  for (const { block, field } of inputs) {
-    const blockData = occ[block];
-    if (blockData == null) continue;
-    const v = blockData[field];
-    if (v == null) continue;
-    values.push(v);
-  }
-  if (values.length === 0) return null;
-  const rawAvg = fmean(values);
-  return bankerRound((rawAvg / SOURCE_MAX) * 100, 1);
 }
 
 export async function buildProfile5(

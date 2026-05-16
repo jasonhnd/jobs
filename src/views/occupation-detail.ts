@@ -12,11 +12,39 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
+import type { Profile5Record } from '@/graph/profile5';
+import type { TransferPathEntry } from '@/graph/transfer-paths';
 import {
   riskBand as legacyRiskBand,
   demandBand as legacyDemandBand,
   workforceBand as legacyWorkforceBand,
 } from '../data/lib/bands';
+
+/**
+ * Empty Profile5Record — all 5 axes null. Used as the default when a
+ * caller (e.g., tests) doesn't pass profile5 into `adaptDetailFile`.
+ * Production callers always pass the real value from
+ * `graph.occupations.get(id).profile5`.
+ */
+const EMPTY_PROFILE5: Profile5Record = {
+  creative: null,
+  social: null,
+  judgment: null,
+  physical: null,
+  routine: null,
+};
+
+/**
+ * Empty TransferPathEntry — no candidates. Used as the default when a
+ * caller doesn't pass transferCandidates into `adaptDetailFile`.
+ * Production callers always pass the real value from
+ * `graph.transferCandidatesOf(id)`.
+ */
+const EMPTY_TRANSFER: TransferPathEntry = {
+  source_id: -1,
+  candidates: [],
+  fallback: 'no_skills',
+};
 
 // ─── Per-occupation detail file shapes (merged from adapt-detail.ts
 //     2026-05-14 Phase D #7 per docs/architecture.md §8 row 13). ───────────
@@ -133,14 +161,40 @@ export interface Rec {
   ai_displaceable_tasks_ja: string[];
   ai_resilient_tasks_ja: string[];
   ai_horizon_5y_ja: string | null;
+  /**
+   * Pre-computed 5-axis ability profile. Sourced from
+   * `graph.occupations.get(id).profile5` in the production page-data
+   * pipeline (Phase E follow-up 2026-05-16). When `adaptDetailFile`
+   * is called without an explicit profile5 (e.g., from unit tests),
+   * every axis is null so renderers degrade to "dash" gracefully.
+   */
+  profile5: Profile5Record;
+  /**
+   * Top-N transfer-path candidates (same-sector, strictly safer when
+   * available). Sourced from `graph.transferCandidatesOf(id)` in the
+   * production page-data pipeline (Phase E follow-up 2026-05-17).
+   * Tests may omit it; `fallback: 'no_skills'` + empty candidates means
+   * renderers skip the block entirely.
+   */
+  transferCandidates: TransferPathEntry;
 }
 
 /**
  * Project a per-occupation detail JSON file into the flat `Rec` shape used
  * by the [id].astro page renderers. Pure (no fs, no time). All callers MUST
  * pass a Zod-validated object; see DetailFileSchema in projection-schemas.ts.
+ *
+ * The `profile5` argument is graph-sourced — `DetailFile` itself doesn't
+ * carry profile5 (the projection writes a separate `public/data.profile5.json`
+ * for browser consumers), so this adapter takes it as a side input. Tests
+ * may omit it; production page-data always supplies the per-occupation value
+ * from `graph.occupations.get(id).profile5`.
  */
-export function adaptDetailFile(d: DetailFile): Rec {
+export function adaptDetailFile(
+  d: DetailFile,
+  profile5: Profile5Record = EMPTY_PROFILE5,
+  transferCandidates: TransferPathEntry = EMPTY_TRANSFER,
+): Rec {
   const stats = d.stats ?? {};
   const ai = d.ai_risk ?? {};
   const title = d.title ?? {};
@@ -182,6 +236,8 @@ export function adaptDetailFile(d: DetailFile): Rec {
     ai_displaceable_tasks_ja: ai.displaceable_tasks_ja ?? [],
     ai_resilient_tasks_ja: ai.resilient_tasks_ja ?? [],
     ai_horizon_5y_ja: ai.horizon_5y_ja ?? null,
+    profile5,
+    transferCandidates,
   };
 }
 
