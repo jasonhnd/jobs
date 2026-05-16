@@ -17,13 +17,13 @@
 
 | フィールド | 値 |
 |---|---|
-| バージョン | v1.1.0 |
-| 最終更新 | 2026-05-04 |
-| 全体ステータス | **Target Spec — データ層は全量実装済、フロントエンドのモバイル層は未実装** |
-| 実装済範囲 | **v1.1.0 以降: Phase 1-4 + Sector サブシステム**。IPD v7.00 切替 + 9 投影ファミリー + フロントエンド PC 消費者切替(v1.0.x)+ Sector taxonomy サブシステム(§6.11、v1.1.0: sectors 投影 + 多軸 bands + review_queue + 24 unit tests + 100% 自動派生カバレッジ)すべて実装済。**本ドキュメントは本範囲内の schema / パス / 命名 / 投影契約に対し一方的権威を持つ**。 |
-| 未実装(将来 Phase / 本回範囲外) | 4 新規職業(581-584)の英訳; O*NET ラベルの人間クロス検証(labels は現在 draft v0.1); 5 つの Future 投影ファミリー(tasks/skills/holland/featured/score-history)は対応 UX オンライン時に有効化; Vercel build server 上の Python pipeline(M-004、現在 dist/ を git に入れる); **モバイル端の HTML/CSS/JS 実装(v1.1.1+、純粋なフロントエンド作業、データアーキテクチャに影響しない)**。 |
+| バージョン | v1.6.0 |
+| 最終更新 | 2026-05-15 |
+| 全体ステータス | **Current Spec — TypeScript ETL に完全移行済、5 層アーキテクチャ refactor (Phase B/C/D/E) 完了** |
+| 実装済範囲 | **v1.6.0 以降: Phase B/C/D/E 完了** + v1.5.0 で Python pipeline 完全廃止。すべての ETL は `src/data/build.ts`(tsx runner、Zod schema)で動作、9 投影ファミリーを `public/data.*` に出力。サイト本体は 5 層アーキテクチャ(Sources / Graph / Views / Templates / Pages、Phase E で page-data 中間層追加)に従う。Sector taxonomy サブシステム(§6.11)+ Phase 1-4 + EN UI 廃止(v1.4.0)すべて反映済。**本ドキュメントは schema / パス / 命名 / 投影契約に対し権威を持つ**。 |
+| 未実装(将来 Phase / 本回範囲外) | 4 新規職業(581-584)の英訳; O*NET ラベルの人間クロス検証(labels は現在 draft v0.1); Future-coded 投影ファミリー(tasks/skills/holland/featured/score-history)は対応 UX オンライン時に有効化(`--enable-future` フラグ); profile5 + transfer_paths の graph schema 統合(現在 page-data 層に fs read 隔離); src/index-source.html の inline `<script>` 1881 行抽出(BaseLayout/Footer 重構期に同時実施)。 |
 | 将来計画 | §10「将来移行パス」(M-001 から M-005)—— 方向性の記録のみ、現在の受入対象外 |
-| 関連ドキュメント | [Design.md](./Design.md)(フロントエンド呈現)、[CHANGELOG.md](../CHANGELOG.md)(プロダクトバージョン) |
+| 関連ドキュメント | [architecture.md](./architecture.md)(5 層コードアーキテクチャ)、[Design.md](./Design.md)(フロントエンド呈現)、[CHANGELOG.md](../CHANGELOG.md)(プロダクトバージョン) |
 
 > **AI / プログラマー読書注意**: 各 **データソース** と **投影** には **Status**(`Implemented` / `Planned` / `Future`)が付く。プロセス章節(§7 Build Pipeline、§8 アップグレードフロー)は **セクションレベル Status** に属し、該セクション冒頭で個別に標示する。**`Implemented` だけが現在の事実**; `Planned` は今回作業の目標; `Future` は将来の可能性方向、**今は実装しない**。
 

@@ -1,6 +1,20 @@
 /**
  * Compensated floating-point summation (Neumaier).
  *
+ * ─── Location decision (Phase D/E follow-up, 2026-05-16) ──────────────────
+ * Stays in `src/data/lib/`. Pure numerical utility consumed by:
+ *   - `src/data/projections/{profile5,sectors,transfer_paths}.ts`
+ *     (original consumers — projection output byte-stability)
+ *   - `src/graph/profile5.ts` (added 2026-05-16 when profile5 algorithm
+ *     migrated to the graph layer)
+ * Sibling to banker-round.ts under the same "byte-identical Python
+ * parity" rationale — Neumaier compensated sum matches Python's
+ * `math.fsum`, keeping derived numerical output stable regardless of
+ * float accumulation order. Both projection and graph consumers MUST
+ * agree on the summation rule, hence one shared source.
+ *
+ * ─── Original docstring ───────────────────────────────────────────────────
+ *
  * Naive left-to-right addition accumulates rounding error proportional to the
  * spread of the inputs. Neumaier-style compensated summation tracks a running
  * error term so the final result is the closest representable double to the
