@@ -301,33 +301,27 @@ export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc:
 }
 
 // ─── Shared CSS for genre hub pages ──────────────────────────
+//
+// Page class: **Hub** (Design.md §6.5)
+//   - 共通の reset / wrapper (980) / body / typography baseline / crumb / header h1 /
+//     section h2 は `src/lib/canonical/hub.ts` の `CANONICAL_HUB_CSS` から継承
+//   - `:root{}` token は `src/lib/canonical-css.ts` 経由で全 page global emit、
+//     ここでは再宣言しない
+//
+// 本 export が定義する **Hub-page-only** な部分:
+//   .intro/.stats (hub-grid 用), .genre-detail, .rank-list, .risk-pill,
+//   .highlights, .sector-chart, .faq, .related-genre, .genre-cards
+//
+// `_<page>-bindings.ts` パターンの 13 hub-index page がこれを `set:html` で食べる。
 
-export const GENRE_HUB_CSS = `
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10);--font-serif:"Noto Serif JP","Source Serif Pro",Georgia,serif;--font-sans:"Plus Jakarta Sans","Hiragino Sans",-apple-system,BlinkMacSystemFont,"Yu Gothic UI","Segoe UI",Roboto,sans-serif}
-:root[data-theme="light"],:root[data-theme="dark"]{--bg:#FAF6EE;--bg2:#FFFFFF;--bg3:#F2EADB;--fg:#241E18;--fg2:#7A6F5E;--fg3:#A39785;--accent:#D96B3D;--accent-2:#6E9B89;--accent-deep:#48705F;--border:rgba(36,30,24,0.10)}
-html{font-size:16px}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
-a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
-a:hover{color:var(--accent)}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
-.skip-link:focus{left:8px;top:8px}
-#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
-.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
-.crumb a{color:var(--fg2)}
-.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
-header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
-h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
-h1 .accent{color:var(--accent-deep)}
-.sub{color:var(--fg2);font-size:.95rem}
-.sub strong{color:var(--accent-deep);font-weight:600}
+import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
+
+const HUB_PAGE_SPECIFIC_CSS = `
 .intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
-section{margin:48px 0}
-h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .genre-detail{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
 .genre-detail h2{margin-top:0;font-size:1.15rem;color:var(--accent);border:none;padding:0;margin-bottom:14px}
 .genre-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}
@@ -378,5 +372,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .gci-name{display:block;font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent-deep);margin-bottom:10px}
 .gci-desc{display:block;font-size:.86rem;color:var(--fg2);line-height:1.6;margin-bottom:10px}
 .gci-count{font-size:.78rem;color:var(--fg3);font-variant-numeric:tabular-nums}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
+@media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
 `;
+
+export const GENRE_HUB_CSS = CANONICAL_HUB_CSS + HUB_PAGE_SPECIFIC_CSS;
