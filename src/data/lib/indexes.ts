@@ -15,6 +15,24 @@
  *   sectors              SectorDef[]
  *   sectorOverrides      Map<string, string>                 padded_id → sector_id
  *   sectorByOcc          Map<number, SectorAssignment>       derived per-occupation
+ *
+ * ─── Location decision (Phase D/E follow-up, 2026-05-16) ──────────────────
+ *
+ * Stays in `src/data/lib/` (NOT `src/lib/` or `src/graph/`).
+ *
+ * Rationale: this module is the build-pipeline data join core. 9 projection
+ * modules under `src/data/projections/*.ts` all import it; no consumer
+ * outside the build pipeline does — the only external referent is
+ * `src/graph/equivalence.test.ts`, which asserts the legacy Indexes shape
+ * is byte-equivalent to what loadGraph() now produces (test by design).
+ *
+ * The 5-layer architecture (architecture.md §2) treats `src/data/` as
+ * Layer 1's build pipeline — exactly where this belongs. Moving to
+ * `src/graph/` would couple Layer 2 to projection internals; moving to
+ * `src/lib/` would conflate ETL plumbing with UI helpers.
+ *
+ * If/when projection retirement reduces the consumer count to zero, this
+ * file becomes deletable — not movable. Do not relocate.
  */
 import {
   LabelsFileSchema,

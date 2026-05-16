@@ -105,7 +105,8 @@ describe('insertById', () => {
     insertById(map, 1, 'c', errors, 'translations/en');
     assert.equal(errors.length, 2);
     assert.match(errors[0]!.file, /occupations$/);
-    assert.match(errors[1]!.file, /translations\/en$/);
+    // Cross-platform path separator: POSIX uses '/', Windows uses '\'.
+    assert.match(errors[1]!.file, /translations[/\\]en$/);
   });
 
   test('appends to caller-owned errors array without replacing it', () => {

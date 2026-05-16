@@ -10,6 +10,14 @@ yarn-error.log*
 Thumbs.db
 desktop.ini
 
+# Dropbox sync collision artifacts — 2026-05-16 加入。
+# このリポジトリは Dropbox 配下に置かれているため、複数マシン間の同期競合で
+# `... (Jason .'s conflicted copy YYYY-MM-DD)` 等のファイルが publicDir や
+# node_modules に出現する。`public/data.*` で吞んでいたものの、URL escape 経由で
+# 配信される可能性 + 開発者の git status を汚染するため、明示的に除外する。
+# 根治は仓库を Dropbox 外に出すこと(別 todo)。
+*conflicted copy*
+
 # Editors
 .vscode/
 .idea/

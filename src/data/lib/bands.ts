@@ -15,6 +15,32 @@
  *                        Drives the "今、求められている" hint and 詳細 page tag.
  *
  * Thresholds are documented constants — don't tune in projection code.
+ *
+ * ─── Location decision (Phase D/E follow-up, 2026-05-16) ──────────────────
+ *
+ * Stays in `src/data/lib/` — DELIBERATE despite cross-layer consumers.
+ *
+ * Consumers split across two layers:
+ *   - Data layer (`src/data/projections/{detail,search,treemap}.ts`) —
+ *     attaches band strings to each emitted record at build time.
+ *   - View layer (`src/views/{ranking,interest,skill,occupation-detail}.ts`)
+ *     — re-derives bands at render time when the projection's band string
+ *     would be wrong context (e.g., per-page filtered subsets).
+ *
+ * Naively this looks like it should move up to `src/lib/` for cross-layer
+ * reuse. The reason it doesn't:
+ *
+ *   This file is the *data classifier* (numeric threshold → band string).
+ *   Its UI counterpart `src/lib/risk.ts` is the *render mapper* (band
+ *   string → Direction C token / icon / aria-label). Splitting "what band
+ *   is this number" from "how does this band look on screen" is the same
+ *   data/render split the 5-layer architecture enforces everywhere else.
+ *
+ *   View layer importing this is identical in role to view layer importing
+ *   `src/data/schema/*.ts` — reading the data layer's classification rules
+ *   without inverting the dependency direction.
+ *
+ * Do not merge into `src/lib/risk.ts`; the split is the point.
  */
 
 // ───── Risk band ─────

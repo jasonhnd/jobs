@@ -1,6 +1,25 @@
 /**
  * Banker's rounding (round half to even) over the EXACT stored IEEE 754 double.
  *
+ * ─── Location decision (Phase D/E follow-up, 2026-05-16) ──────────────────
+ * Stays in `src/data/lib/`. Pure numerical utility consumed by:
+ *   - `src/data/projections/{detail,profile5,sectors,transfer_paths,treemap}.ts`
+ *     (the original consumers — projection output byte-stability)
+ *   - `src/graph/profile5.ts` (added 2026-05-16 when profile5 algorithm
+ *     migrated to the graph layer; uses the same banker-rounding to
+ *     keep graph-computed values byte-identical to the projection's)
+ * View layer references (e.g. `src/views/ranking.ts:1351`) are docstring
+ * pointers ("this re-implementation matches banker-round.ts's contract"),
+ * not actual imports — view code does not depend on this module.
+ *
+ * Together with fsum.ts, this file exists specifically to keep all
+ * derived numerical output byte-identical to the historical Python
+ * pipeline (Decimal + Banker's rounding) regardless of input order.
+ * The graph + projection consumers MUST agree on the rounding rule,
+ * which is why both go through this single source.
+ *
+ * ─── Original docstring ───────────────────────────────────────────────────
+ *
  * Why this is non-trivial:
  *   `Number.prototype.toFixed` uses round-half-away-from-zero (e.g. 52.25 → "52.3"),
  *   which loses 1 ULP of accuracy across a 552-record dataset and breaks
