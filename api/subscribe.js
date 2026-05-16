@@ -26,12 +26,21 @@
 //   5. Resend 409 idempotency — duplicates resolve to success without rewrites.
 //   6. Resend errors are NOT echoed to the client — third-party error strings
 //      could leak audience ids or internal config. Server logs the detail.
-//
-// MISSING: per-IP rate limiting. Same situation as api/feedback.js — needs
-// Vercel KV or Upstash for persistent state. Plan: drop @upstash/ratelimit +
-// @upstash/redis in, gate on ~5 req/min/IP. Tracked as a follow-up.
+//   7. Per-IP rate limit (Upstash Redis REST) — 5 POST per 5 minutes.
+//      Tighter than feedback (10/5min) because subscribe is opt-in and
+//      should happen ≤1 time per legitimate user. Degrades gracefully
+//      when UPSTASH_REDIS_REST_URL/TOKEN env unset.
+//   8. Cloudflare Turnstile — verified server-side when
+//      TURNSTILE_SECRET_KEY env is set. Degrades gracefully when missing.
 
-import { makeOriginGate, readBodyText, BodyTooLargeError } from "../src/lib/api-security.js";
+import {
+  makeOriginGate,
+  readBodyText,
+  BodyTooLargeError,
+  rateLimitCheck,
+  verifyTurnstile,
+  clientIpFromRequest,
+} from "../src/lib/api-security.js";
 import { parseSubscribeBody, MAX_BODY_BYTES } from "../src/lib/subscribe-helpers.js";
 
 export const config = { runtime: "edge" };
@@ -76,6 +85,28 @@ export default async function handler(req) {
   const denied = enforceOriginOr403(req);
   if (denied) return denied;
 
+  // ---- per-IP rate limit (Audit P2-11, 2026-05-17) ----
+  // Tighter than feedback: subscribe is opt-in and should fire ≤1 time
+  // per legitimate user. 5 POSTs / 5 min still gives a forgiving margin
+  // for double-clicks + 1 retry, but blocks abuse-flood scripts.
+  const ip = clientIpFromRequest(req);
+  const rl = await rateLimitCheck({
+    ip,
+    namespace: "subscribe",
+    limit: 5,
+    windowSeconds: 300,
+    env: process.env,
+  });
+  if (!rl.ok) {
+    return json(
+      { error: "rate_limited", retry_after_sec: rl.retryAfterSec },
+      {
+        status: 429,
+        headers: { ...cors, "Retry-After": String(rl.retryAfterSec) },
+      },
+    );
+  }
+
   // ---- parse body (streaming size cap) ----
   let bodyText;
   try {
@@ -104,6 +135,24 @@ export default async function handler(req) {
     return json({ error: parsed.code }, { status: 400, headers: cors });
   }
   const { email, lang, occupation_id: occupationId, source } = parsed.payload;
+
+  // Turnstile verification (Audit P2-11, 2026-05-17). Frontend widget
+  // submits `cf-turnstile-response` token alongside the email. Skipped
+  // entirely when TURNSTILE_SECRET_KEY env is unset (no env, no check).
+  const turnstileToken = body && typeof body === "object"
+    ? (body["cf-turnstile-response"] || body["turnstile_token"] || null)
+    : null;
+  const tsResult = await verifyTurnstile({
+    token: turnstileToken,
+    remoteip: ip,
+    env: process.env,
+  });
+  if (!tsResult.ok) {
+    return json(
+      { error: "turnstile_failed", reason: tsResult.reason || "unknown" },
+      { status: 403, headers: cors },
+    );
+  }
 
   // ---- env ----
   const apiKey = process.env.RESEND_API_KEY;

@@ -3,8 +3,15 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { refererOrigin, makeOriginGate, readBodyText, BodyTooLargeError }
-  from './api-security.js';
+import {
+  refererOrigin,
+  makeOriginGate,
+  readBodyText,
+  BodyTooLargeError,
+  clientIpFromRequest,
+  rateLimitCheck,
+  verifyTurnstile,
+} from './api-security.js';
 
 const ALLOWED = new Set([
   'https://mirai-shigoto.com',
@@ -156,5 +163,208 @@ describe('readBodyText', () => {
     const req = makeReq({}, streamFrom(new TextEncoder().encode(payload), 4));
     const text = await readBodyText(req, 1024);
     assert.equal(text, payload);
+  });
+});
+
+describe('clientIpFromRequest', () => {
+  test('first hop of x-forwarded-for is the client IP', () => {
+    const req = makeReq({ 'x-forwarded-for': '203.0.113.42, 198.51.100.7, 192.0.2.1' });
+    assert.equal(clientIpFromRequest(req), '203.0.113.42');
+  });
+
+  test('missing header → "anonymous" (bucket-as-whole)', () => {
+    const req = makeReq({});
+    assert.equal(clientIpFromRequest(req), 'anonymous');
+  });
+
+  test('single-IP header (no comma)', () => {
+    const req = makeReq({ 'x-forwarded-for': '203.0.113.42' });
+    assert.equal(clientIpFromRequest(req), '203.0.113.42');
+  });
+
+  test('whitespace around IP is trimmed', () => {
+    const req = makeReq({ 'x-forwarded-for': '  203.0.113.42  ,  192.0.2.1' });
+    assert.equal(clientIpFromRequest(req), '203.0.113.42');
+  });
+});
+
+describe('rateLimitCheck', () => {
+  test('skipped when UPSTASH env vars missing → degrades open', async () => {
+    const result = await rateLimitCheck({
+      ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+      env: {},
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.skipped, true);
+  });
+
+  test('skipped when only URL is set (token missing)', async () => {
+    const result = await rateLimitCheck({
+      ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+      env: { UPSTASH_REDIS_REST_URL: 'https://example.upstash.io' },
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.skipped, true);
+  });
+
+  test('skipped when only token is set (URL missing)', async () => {
+    const result = await rateLimitCheck({
+      ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+      env: { UPSTASH_REDIS_REST_TOKEN: 'fake-token' },
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.skipped, true);
+  });
+
+  test('fail-open on Upstash 5xx by default', async () => {
+    // Stub global fetch to simulate Upstash outage
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+        },
+      });
+      assert.equal(result.ok, true, 'should fail open');
+      assert.equal(result.skipped, true);
+      assert.match(result.error || '', /upstream_503/);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('fail-closed on Upstash 5xx when FAIL_CLOSED_ON_RATELIMIT_ERROR=1', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+          FAIL_CLOSED_ON_RATELIMIT_ERROR: '1',
+        },
+      });
+      assert.equal(result.ok, false, 'should fail closed');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('under-quota response includes count + remaining', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify([
+      { result: 3 },  // INCR returned 3
+      { result: 1 },  // EXPIRE returned 1
+    ]), { status: 200 }) as Response;
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+        },
+      });
+      assert.equal(result.ok, true);
+      assert.equal(result.count, 3);
+      assert.equal(result.remaining, 7);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('over-quota → ok:false + retryAfterSec', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(JSON.stringify([
+      { result: 11 },  // 11 > limit 10
+      { result: 1 },
+    ]), { status: 200 }) as Response;
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+        },
+      });
+      assert.equal(result.ok, false);
+      assert.equal(result.retryAfterSec, 300);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+});
+
+describe('verifyTurnstile', () => {
+  test('skipped when TURNSTILE_SECRET_KEY missing → degrades open', async () => {
+    const result = await verifyTurnstile({
+      token: 'whatever',
+      env: {},
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.skipped, true);
+  });
+
+  test('missing token + secret configured → fail with missing_token', async () => {
+    const result = await verifyTurnstile({
+      token: null,
+      env: { TURNSTILE_SECRET_KEY: 'fake-secret' },
+    });
+    assert.equal(result.ok, false);
+    assert.equal(result.reason, 'missing_token');
+  });
+
+  test('successful verification', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(
+      JSON.stringify({ success: true, hostname: 'mirai-shigoto.com' }),
+      { status: 200 },
+    ) as Response;
+    try {
+      const result = await verifyTurnstile({
+        token: 'valid-token',
+        env: { TURNSTILE_SECRET_KEY: 'fake-secret' },
+      });
+      assert.equal(result.ok, true);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('Cloudflare returns success:false → ok:false', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response(
+      JSON.stringify({ success: false, 'error-codes': ['invalid-input-response'] }),
+      { status: 200 },
+    ) as Response;
+    try {
+      const result = await verifyTurnstile({
+        token: 'expired-token',
+        env: { TURNSTILE_SECRET_KEY: 'fake-secret' },
+      });
+      assert.equal(result.ok, false);
+      assert.equal(result.reason, 'turnstile_failed');
+      assert.deepEqual(result.codes, ['invalid-input-response']);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('upstream 5xx → fail-open by default', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await verifyTurnstile({
+        token: 'valid-token',
+        env: { TURNSTILE_SECRET_KEY: 'fake-secret' },
+      });
+      assert.equal(result.ok, true, 'fail-open by default');
+      assert.equal(result.skipped, true);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });
