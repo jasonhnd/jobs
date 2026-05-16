@@ -33,16 +33,23 @@
 //   4. Honeypot field (htmlfield) — silently drops obvious bot traffic.
 //   5. Allow-listed option keys — rejects unknown values.
 //   6. HTML-escape on freetext before email — prevents email-template XSS.
-//
-// MISSING: per-IP rate limiting. Adding it requires persistent state across
-// serverless invocations — Vercel KV (paid plan) or Upstash Redis (free tier).
-// Not wired up yet because the OPC validation phase expects ≤30 submissions
-// over 6 weeks, and Resend bills are still inside the free tier even at
-// orders of magnitude higher abuse volume. Plan once volume grows or abuse
-// is observed: drop @upstash/ratelimit + @upstash/redis in, gate the entry
-// point on a 60 req/hour/IP bucket. Tracked as a follow-up.
+//   7. Per-IP rate limit (Upstash Redis REST) — 10 POST per 5 minutes.
+//      Degrades gracefully when UPSTASH_REDIS_REST_URL/TOKEN env unset:
+//      defenses 1-6 still apply. Set FAIL_CLOSED_ON_RATELIMIT_ERROR=1 to
+//      reject on Upstash outage instead of fail-open.
+//   8. Cloudflare Turnstile (invisible CAPTCHA) — verified server-side
+//      when TURNSTILE_SECRET_KEY env is set. Frontend widget submits
+//      `cf-turnstile-response` token; missing token → 403. Degrades
+//      gracefully when secret env is missing.
 
-import { makeOriginGate, readBodyText, BodyTooLargeError } from "../src/lib/api-security.js";
+import {
+  makeOriginGate,
+  readBodyText,
+  BodyTooLargeError,
+  rateLimitCheck,
+  verifyTurnstile,
+  clientIpFromRequest,
+} from "../src/lib/api-security.js";
 import {
   parseFeedbackBody,
   shortHash,
@@ -90,6 +97,28 @@ export default async function handler(req) {
   const denied = enforceOriginOr403(req);
   if (denied) return denied;
 
+  // Per-IP rate limit. Runs BEFORE body read so abusive clients get rate
+  // limited cheaply (a few KB of headers per blocked request). 10 POSTs
+  // per 5 minutes is plenty for legitimate users (the form is opt-in
+  // feedback, not a chat) and blocks form-spam scripts that hit dozens/sec.
+  const ip = clientIpFromRequest(req);
+  const rl = await rateLimitCheck({
+    ip,
+    namespace: "feedback",
+    limit: 10,
+    windowSeconds: 300,
+    env: process.env,
+  });
+  if (!rl.ok) {
+    return json(
+      { error: "rate_limited", retry_after_sec: rl.retryAfterSec },
+      {
+        status: 429,
+        headers: { ...cors, "Retry-After": String(rl.retryAfterSec) },
+      },
+    );
+  }
+
   let bodyText;
   try {
     bodyText = await readBodyText(req, MAX_BODY_BYTES);
@@ -115,6 +144,25 @@ export default async function handler(req) {
   }
   if (parsed.kind === "error") {
     return json({ error: parsed.code }, { status: 400, headers: cors });
+  }
+
+  // Turnstile verification — runs AFTER parsing so we know the body shape,
+  // but BEFORE the expensive Resend send. The token field name matches the
+  // standard Turnstile widget output (`cf-turnstile-response`). When
+  // TURNSTILE_SECRET_KEY is unset, this is a no-op (skipped: true).
+  const turnstileToken = body && typeof body === "object"
+    ? (body["cf-turnstile-response"] || body["turnstile_token"] || null)
+    : null;
+  const tsResult = await verifyTurnstile({
+    token: turnstileToken,
+    remoteip: ip,
+    env: process.env,
+  });
+  if (!tsResult.ok) {
+    return json(
+      { error: "turnstile_failed", reason: tsResult.reason || "unknown" },
+      { status: 403, headers: cors },
+    );
   }
 
   // Augment the normalized payload with request-bound fields
