@@ -15,13 +15,9 @@
  *
  * `strict-load` resolved 2026-05-14 (Phase C #3) to src/lib/.
  */
-import { join } from 'node:path';
+// 2026-05-17 R2 fix: fs reads moved to page-data layer.
 import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
-import { strictReadJson } from '../lib/strict-load.js';
-import { DetailFileSchema } from '../lib/projection-schemas.js';
-
-const REPO_ROOT = process.cwd();
-const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
+import { loadDetailById as _loadDetailFromPageData } from '../page-data/projection-loaders.js';
 
 // ─── Public types ──────────────────────────────────────────────
 
@@ -88,19 +84,10 @@ export interface DetailFile {
   skills_top10?: Array<{ key: string; label_ja: string; score: number }>;
 }
 
-const _detailCache = new Map<number, DetailFile>();
-
+// 2026-05-17 R2 fix: delegate to page-data loader (cache is shared
+// with loadAllDetails, so warming one warms the other).
 function loadDetail(id: number): DetailFile {
-  const cached = _detailCache.get(id);
-  if (cached) return cached;
-  const padded = String(id).padStart(4, '0');
-  const path = join(DETAIL_DIR, `${padded}.json`);
-  // Schema-validated; the local DetailFile interface is a structural subset
-  // of DetailFileSchema's inferred type so the cast is sound for the fields
-  // this module actually reads (see compare-hub.ts:64 for the shape).
-  const data = strictReadJson(path, DetailFileSchema, 'compare-hub.detail') as DetailFile;
-  _detailCache.set(id, data);
-  return data;
+  return _loadDetailFromPageData(id) as unknown as DetailFile;
 }
 
 function detailToSide(d: DetailFile): CompareSide {
