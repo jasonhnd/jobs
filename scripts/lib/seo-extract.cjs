@@ -117,9 +117,10 @@ function extractJsonLd(html) {
 
 function extractInternalLinks(html) {
   const out = new Set();
-  const re = /<a\b[^>]*?\bhref=["']([^"']+)["']/gi;
+  // <a href="..."> — primary navigation
+  const aRe = /<a\b[^>]*?\bhref=["']([^"']+)["']/gi;
   let m;
-  while ((m = re.exec(html)) !== null) {
+  while ((m = aRe.exec(html)) !== null) {
     const href = decodeEntities(m[1]);
     if (
       href.startsWith('/') ||
@@ -127,6 +128,37 @@ function extractInternalLinks(html) {
       href.startsWith('./') ||
       href.startsWith('#')
     ) {
+      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
+      out.add(norm);
+    }
+  }
+  // 2026-05-17 H20: extend coverage to <link rel="canonical|alternate
+  // |next|prev"> and <form action> so hreflang / canonical / form
+  // submit URLs are baselined too. Previously only <a href> was
+  // tracked — broken canonical or hreflang silently drifted past
+  // both SEO baseline diff AND internal-link verification.
+  const linkRe = /<link\b[^>]*?\brel=["'](canonical|alternate|next|prev)["'][^>]*?\bhref=["']([^"']+)["']/gi;
+  while ((m = linkRe.exec(html)) !== null) {
+    const href = decodeEntities(m[2]);
+    if (href.startsWith('/') || href.startsWith(SITE)) {
+      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
+      out.add(norm);
+    }
+  }
+  // Also catch href-then-rel attribute ordering.
+  const linkReReverse = /<link\b[^>]*?\bhref=["']([^"']+)["'][^>]*?\brel=["'](canonical|alternate|next|prev)["']/gi;
+  while ((m = linkReReverse.exec(html)) !== null) {
+    const href = decodeEntities(m[1]);
+    if (href.startsWith('/') || href.startsWith(SITE)) {
+      const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
+      out.add(norm);
+    }
+  }
+  // <form action="...">
+  const formRe = /<form\b[^>]*?\baction=["']([^"']+)["']/gi;
+  while ((m = formRe.exec(html)) !== null) {
+    const href = decodeEntities(m[1]);
+    if (href.startsWith('/') || href.startsWith(SITE)) {
       const norm = href.startsWith(SITE) ? href.slice(SITE.length) || '/' : href;
       out.add(norm);
     }
