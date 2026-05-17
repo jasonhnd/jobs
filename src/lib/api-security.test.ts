@@ -167,9 +167,27 @@ describe('readBodyText', () => {
 });
 
 describe('clientIpFromRequest', () => {
-  test('first hop of x-forwarded-for is the client IP', () => {
-    const req = makeReq({ 'x-forwarded-for': '203.0.113.42, 198.51.100.7, 192.0.2.1' });
+  test('x-real-ip is the highest-priority source (infrastructure-set)', () => {
+    const req = makeReq({
+      'x-real-ip': '203.0.113.42',
+      'x-forwarded-for': '198.51.100.7, 192.0.2.1',
+    });
     assert.equal(clientIpFromRequest(req), '203.0.113.42');
+  });
+
+  test('x-vercel-forwarded-for last hop wins over XFF (2nd priority)', () => {
+    const req = makeReq({
+      'x-vercel-forwarded-for': '198.51.100.7, 203.0.113.42',
+      'x-forwarded-for': '1.2.3.4, 5.6.7.8',
+    });
+    // last hop in vercel xff is closest to our function
+    assert.equal(clientIpFromRequest(req), '203.0.113.42');
+  });
+
+  test('xff last hop is the client IP (H15 fix: was first hop / spoofable)', () => {
+    const req = makeReq({ 'x-forwarded-for': '203.0.113.42, 198.51.100.7, 192.0.2.1' });
+    // Last hop is closest to our function = infrastructure-trusted edge.
+    assert.equal(clientIpFromRequest(req), '192.0.2.1');
   });
 
   test('missing header → "anonymous" (bucket-as-whole)', () => {
@@ -184,7 +202,8 @@ describe('clientIpFromRequest', () => {
 
   test('whitespace around IP is trimmed', () => {
     const req = makeReq({ 'x-forwarded-for': '  203.0.113.42  ,  192.0.2.1' });
-    assert.equal(clientIpFromRequest(req), '203.0.113.42');
+    // Last hop, whitespace-trimmed
+    assert.equal(clientIpFromRequest(req), '192.0.2.1');
   });
 });
 
