@@ -2,11 +2,11 @@
  * MetaRow.test.ts — pin the byte-for-byte output of the sector + band
  * chip row extracted from [id].astro.
  *
- * NOTE on the demand_band bug:
- * The template intentionally checks `'cool' | 'warm' | 'hot'` while
- * data ships `'cold' | 'normal' | 'hot'`. These tests preserve the
- * legacy behaviour (drop cold/normal silently). Fixing this is a
- * separate, baseline-rebasing concern — see MetaRow.ts file header.
+ * 2026-05-17 update: demand_band key mismatch fix.
+ * Previously template used `'cool' | 'warm' | 'hot'`; now aligned to
+ * `'cold' | 'normal' | 'hot'` matching data layer. Workforce_band
+ * `'medium'` dead-defensive key also removed. ~273 occupations now
+ * render their demand chip correctly. See MetaRow.ts file header.
  */
 
 import { describe, test } from 'node:test';
@@ -56,7 +56,7 @@ describe('renderMetaRow', () => {
     assert.ok(out.includes('<span class="band band-high">需要 過熱</span>'));
   });
 
-  test('workforce_band accepts both "mid" and "medium" (defensive parity)', () => {
+  test('workforce_band only accepts "mid" (dead "medium" key removed 2026-05-17)', () => {
     const midOut = renderMetaRow({
       sectorJa: null,
       sectorId: undefined,
@@ -64,6 +64,10 @@ describe('renderMetaRow', () => {
       workforceBand: 'mid',
       demandBand: null,
     });
+    assert.ok(midOut.includes('<span class="band band-mid">規模 中</span>'));
+
+    // 'medium' was dead-defensive and now correctly drops to silent
+    // empty (the data layer never emitted it anyway).
     const medOut = renderMetaRow({
       sectorJa: null,
       sectorId: undefined,
@@ -71,41 +75,49 @@ describe('renderMetaRow', () => {
       workforceBand: 'medium',
       demandBand: null,
     });
-    // Both render the same label + same band-mid class.
-    assert.ok(midOut.includes('<span class="band band-mid">規模 中</span>'));
-    assert.ok(medOut.includes('<span class="band band-mid">規模 中</span>'));
+    assert.equal(medOut, '');
   });
 
-  test('demand_band BUG PARITY: cold/normal render no chip; cool/warm/hot do', () => {
-    // Data layer emits cold/normal/hot, but the template's lookup
-    // keys are cool/warm/hot — so 273 occupations silently lose the
-    // demand chip on live today. Preserved for SEO-baseline parity.
-    const data = renderMetaRow({
+  test('demand_band: cold/normal/hot all render correctly (was bug pre-2026-05-17)', () => {
+    // Data layer emits cold/normal/hot (per src/data/lib/bands.ts).
+    // Previously the template's lookup keys were cool/warm/hot —
+    // ~273 occupations silently lost their demand chip. Now fixed.
+    const cold = renderMetaRow({
       sectorJa: null,
       sectorId: undefined,
       riskBand: null,
       workforceBand: null,
       demandBand: 'cold',
     });
-    assert.equal(data, ''); // no chip → row collapses to empty
-    const dataN = renderMetaRow({
+    assert.ok(cold.includes('<span class="band band-low">需要 安定</span>'));
+
+    const normal = renderMetaRow({
       sectorJa: null,
       sectorId: undefined,
       riskBand: null,
       workforceBand: null,
       demandBand: 'normal',
     });
-    assert.equal(dataN, '');
+    assert.ok(normal.includes('<span class="band band-mid">需要 旺盛</span>'));
 
-    // Labelled keys DO render today (a small slice of occupations).
-    const labelled = renderMetaRow({
+    const hot = renderMetaRow({
       sectorJa: null,
       sectorId: undefined,
       riskBand: null,
       workforceBand: null,
-      demandBand: 'warm',
+      demandBand: 'hot',
     });
-    assert.ok(labelled.includes('<span class="band band-mid">需要 旺盛</span>'));
+    assert.ok(hot.includes('<span class="band band-high">需要 過熱</span>'));
+
+    // Old legacy keys (cool/warm) no longer match → silent empty.
+    const oldKey = renderMetaRow({
+      sectorJa: null,
+      sectorId: undefined,
+      riskBand: null,
+      workforceBand: null,
+      demandBand: 'cool',
+    });
+    assert.equal(oldKey, '');
   });
 
   test('chip order: sector, then risk, then workforce, then demand', () => {

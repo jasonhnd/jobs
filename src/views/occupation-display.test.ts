@@ -33,7 +33,7 @@ describe('buildOccupationDisplay', () => {
     assert.equal(out.workersCell, '—');
     assert.equal(out.ageCell, '—');
     assert.equal(out.hoursCell, '—');
-    assert.equal(out.salaryCell, '—（— 万円）');
+    assert.equal(out.salaryCell, '—'); // 2026-05-17 H2 fix: was '—（— 万円）' double-fallback
   });
 
   test('aiRisk: numeric → "N/10" + class "risk-N"', () => {
