@@ -22,12 +22,23 @@ interface Props {
 
 const { workersCell, salaryCell, ageCell, hoursCell, recruitDisp, hourlyDisp } =
   Astro.props;
+
+// RA-007 audit (2026-05-18): em-dash means "no data". On its own the "—"
+// character reads ambiguously (could be 1, could be empty). Wrap it in
+// a <span aria-label="データなし"> so screen readers announce intent and
+// add a visual `title` tooltip for sighted users.
+const EMDASH = '—';
+const isEmpty = (v: string | number): boolean => String(v).trim() === EMDASH;
+const labelEmpty = (v: string | number): string =>
+  isEmpty(v)
+    ? `<span aria-label="データなし" title="データなし" class="stat-empty">${EMDASH}</span>`
+    : String(v);
 ---
 <dl class="stats" aria-label="主な職業統計">
-  <div><dt>就業者数</dt><dd>{workersCell}</dd></div>
-  <div><dt>年収（平均）</dt><dd>{salaryCell}</dd></div>
-  <div><dt>平均年齢</dt><dd>{ageCell}</dd></div>
-  <div><dt>月労働時間</dt><dd>{hoursCell}</dd></div>
-  <div><dt>求人倍率</dt><dd>{recruitDisp}</dd></div>
-  <div><dt>時給</dt><dd>{hourlyDisp}</dd></div>
+  <div><dt>就業者数</dt><dd set:html={labelEmpty(workersCell)} /></div>
+  <div><dt>年収（平均）</dt><dd set:html={labelEmpty(salaryCell)} /></div>
+  <div><dt>平均年齢</dt><dd set:html={labelEmpty(ageCell)} /></div>
+  <div><dt>月労働時間</dt><dd set:html={labelEmpty(hoursCell)} /></div>
+  <div><dt>求人倍率</dt><dd set:html={labelEmpty(recruitDisp)} /></div>
+  <div><dt>時給</dt><dd set:html={labelEmpty(hourlyDisp)} /></div>
 </dl>

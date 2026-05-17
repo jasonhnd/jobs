@@ -19,7 +19,7 @@ export const CANONICAL_DETAIL_CSS = `
     html,body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.6}
     h1,h2,h3,h4{font-family:var(--font-serif);font-weight:700;letter-spacing:-0.005em;color:var(--ink)}
     a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-    .skip-link{position:absolute;left:-9999px}.skip-link:focus{position:static;background:var(--accent);color:#000;padding:8px}
+    /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
     .theme-toggle{display:none !important}
 
     /* Detail class layout: mobile-first single column, scale up on desktop. */

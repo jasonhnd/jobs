@@ -18,6 +18,7 @@ import type { RankingSlug } from '../views/rankings-meta.js';
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
+import { OCCUPATION_COUNT } from '../site/config.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -339,7 +340,8 @@ export function renderRankingsHubInsights(insights: ReadonlyArray<string>): Safe
 
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/rankings`;
-  const seoDesc = '日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。';
+  // RA-003 (2026-05-18): SCORED count.
+  const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [

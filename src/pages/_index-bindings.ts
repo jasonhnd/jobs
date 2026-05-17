@@ -19,9 +19,26 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CANONICAL_CSS } from '../lib/canonical-css.js';
 import { INDEX_CSS } from './_index-css.js';
+import { siteConfig, OCCUPATION_COUNT } from '../site/config.js';
 
 const SOURCE_PATH = join(process.cwd(), 'src', 'index-source.html');
 const SITE_CANONICAL_BLOCK = `<style id="site-canonical">${CANONICAL_CSS}</style>`;
+
+// RA-005 audit (2026-05-18): home page share buttons get real share URLs
+// in the rendered HTML, not `#` placeholders. JS still overwrites with the
+// current page URL on click for UTM tracking, but the fallback is now valid
+// for JS-disabled users + crawlers.
+const SHARE_URL = siteConfig.origin + '/';
+const SHARE_TEXT = `日本 ${OCCUPATION_COUNT.SCORED} 職業への AI 影響を 0〜10 で可視化したマップ。あなたの仕事は？`;
+const u = encodeURIComponent(SHARE_URL);
+const t = encodeURIComponent(SHARE_TEXT);
+const SHARE_HREFS: Record<string, string> = {
+  x:        `https://x.com/intent/post?url=${u}&text=${t}`,
+  line:     `https://social-plugins.line.me/lineit/share?url=${u}`,
+  hatena:   `https://b.hatena.ne.jp/entry/${SHARE_URL.replace(/^https?:\/\//, '')}`,
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+};
 
 /** Build-time JST timestamp matching Footer.astro's display format. */
 function buildTimeJst(): { iso: string; display: string } {
@@ -86,6 +103,18 @@ export function buildIndexPageHtml(): string {
     `<style>\n${INDEX_CSS}\n    </style>`,
     'INDEX_CSS placeholder',
   );
+
+  // 4. Rewrite footer share-btn anchors to use real share URLs in `href`
+  //    instead of `#`. JS in src/index-source.html (wireShareButtons) still
+  //    overwrites href on click with the current URL + UTM, but the
+  //    rendered HTML is now a valid progressive-enhancement target.
+  for (const [platform, href] of Object.entries(SHARE_HREFS)) {
+    const re = new RegExp(
+      `(<a class="share-btn" data-platform="${platform}") href="#"`,
+      'g',
+    );
+    html = html.replace(re, `$1 href="${href}" target="_blank" rel="noopener"`);
+  }
 
   return html;
 }

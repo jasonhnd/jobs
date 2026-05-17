@@ -36,6 +36,8 @@
     <meta name="twitter:image:alt" content="未来の仕事 — AIの時代でも、あなたらしい働き方を。" />
 
     <link rel="canonical" href="https://mirai-shigoto.com/" />
+    <link rel="alternate" hreflang="ja" href="https://mirai-shigoto.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://mirai-shigoto.com/" />
     <!-- Start downloading data.treemap.json in parallel with HTML parsing instead of after JS executes — saves ~1s on LCP. Desktop-only: mobile (<=768px) shows a static preview card instead of the embedded canvas (Design-Mobile.md §4.2), so the 80KB+ treemap fetch is gated to viewports that will actually render it. -->
     <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" media="(min-width: 769px)" />
 
@@ -328,9 +330,7 @@
     <style>/*__INDEX_CSS__*/</style>
   </head>
   <body>
-    <a class="skip-link" href="#treemap">
-      マップへスキップ
-    </a>
+    <a class="skip-link" href="#main-content">本文へスキップ</a>
     <!-- Sticky top navigation — mirrors src/components/TopNav.astro for the home page (which doesn't go through BaseLayout). Styles live in src/lib/canonical-css.ts under the "Top navigation" block, injected into <head> by src/pages/index.astro. The home page's brand link gets aria-current="page". -->
     <nav class="top-nav" aria-label="主要ナビゲーション">
       <a href="/" class="top-nav-brand" aria-current="page"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="top-nav-brand-mark"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="13" cy="14" r="1.5" fill="currentColor"/><circle cx="21" cy="6" r="1.5" fill="currentColor"/></svg><span class="top-nav-brand-text">未来の仕事</span></a><span class="sep" aria-hidden="true">·</span>
@@ -360,10 +360,10 @@
       <div class="mob-drawer-inner">
         <section class="mob-drawer-sec">
           <header class="mob-drawer-sec-head">
-            <h3 class="mob-drawer-title">
+            <p class="mob-drawer-title" role="heading" aria-level="2">
               <span class="mob-drawer-title-dot" aria-hidden="true"></span>
               探す入口
-            </h3>
+            </p>
             <p class="mob-drawer-lede">業種・ランキング・Q&amp;A など主要な入口</p>
           </header>
           <div class="mob-drawer-list">
@@ -380,10 +380,10 @@
         </section>
         <section class="mob-drawer-sec">
           <header class="mob-drawer-sec-head">
-            <h3 class="mob-drawer-title">
+            <p class="mob-drawer-title" role="heading" aria-level="2">
               <span class="mob-drawer-title-dot" aria-hidden="true"></span>
               適性・条件で絞る
-            </h3>
+            </p>
             <p class="mob-drawer-lede">スキル・能力・学歴など、自分の特性で絞り込む</p>
           </header>
           <div class="mob-drawer-list">
@@ -403,10 +403,10 @@
         </section>
         <section class="mob-drawer-sec">
           <header class="mob-drawer-sec-head">
-            <h3 class="mob-drawer-title">
+            <p class="mob-drawer-title" role="heading" aria-level="2">
               <span class="mob-drawer-title-dot" aria-hidden="true"></span>
               サイト
-            </h3>
+            </p>
             <p class="mob-drawer-lede">データ出典・法的情報</p>
           </header>
           <div class="mob-drawer-list">
@@ -417,6 +417,7 @@
         </section>
       </div>
     </div>
+    <main id="main-content" tabindex="-1">
     <div id="wrapper">
       <header>
         <!-- Desktop Hero — search-first entry. On desktop, this replaces the old h1 / controls / search-row. On mobile, this stays hidden — mobile uses §7.11 Mobile Hero block (see below). -->
@@ -438,7 +439,12 @@
             <form class="desktop-hero-search" id="dhSearchForm" role="search" autocomplete="off">
               <input id="searchInputDesktop" type="search" autocomplete="off"
                      placeholder="例：事務職、経理、営業、看護師"
-                     aria-label="職業を検索" />
+                     aria-label="職業を検索"
+                     role="combobox"
+                     aria-autocomplete="list"
+                     aria-controls="searchSuggest"
+                     aria-expanded="false"
+                     aria-haspopup="listbox" />
               <button type="submit" id="dhSearchBtn">
                 気になる職業から始める
               </button>
@@ -480,7 +486,12 @@
           <form class="mobile-hero-search" id="mhSearchForm" role="search" autocomplete="off">
             <input id="searchInputMobile" type="search" autocomplete="off"
                    placeholder="気になる職業を入力"
-                   aria-label="職業を検索" />
+                   aria-label="職業を検索"
+                   role="combobox"
+                   aria-autocomplete="list"
+                   aria-controls="searchSuggestMobile"
+                   aria-expanded="false"
+                   aria-haspopup="listbox" />
             <button type="submit" class="mhs-cta" id="mhSearchBtn">
               診断
             </button>
@@ -1151,6 +1162,7 @@
       </footer>
       <!-- FOOTER:END -->
     </div>
+    </main>
 
     <div id="tooltip" role="tooltip" aria-live="polite" aria-atomic="true">
       <button class="tt-close" type="button" aria-label="閉じる" id="tooltipClose">×</button>
@@ -2329,12 +2341,18 @@
         let touchActiveOnDropdown = false;
         let touchState = null;
 
+        // RA-014 (2026-05-18): mirror dropdown open/close into the input's
+        // aria-expanded so screen readers announce listbox state.
+        function setExpanded(open) {
+          try { inputEl.setAttribute("aria-expanded", open ? "true" : "false"); } catch (e) {}
+        }
         function render(q) {
           const matches = rankMatches(q, 8);
           if (matches.length === 0) {
             suggestEl.classList.remove("visible");
             suggestEl.innerHTML = "";
             focusedIdx = -1;
+            setExpanded(false);
             return;
           }
           // P0-C: keyboard hint row at top of dropdown — desktop only.
@@ -2362,6 +2380,7 @@
           }).join("");
           suggestEl.classList.add("visible");
           focusedIdx = 0;
+          setExpanded(true);
         }
 
         inputEl.addEventListener("input", () => {

@@ -8,6 +8,7 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
+import { OCCUPATION_COUNT } from '@/site/config';
 ---
 <BaseLayout
   title="ページが見つかりません — mirai-shigoto.com"
@@ -232,7 +233,7 @@ import Footer from '../components/Footer.astro';
 
     <div class="helpful-links">
       <div class="label">こちらもどうぞ</div>
-      <a href="/ja/sectors"><span>16 セクターから探す</span><span class="desc">業界別 556 職業</span></a>
+      <a href="/ja/sectors"><span>16 セクターから探す</span><span class="desc">業界別 {OCCUPATION_COUNT.SCORED} 職業</span></a>
       <a href="/ja/rankings"><span>ランキングから探す</span><span class="desc">AIリスク・年収・就業者数</span></a>
       <a href="/ja/rankings/ai-risk-high"><span>AIに奪われる仕事 TOP30</span><span class="desc">AI影響度が高い職業</span></a>
       <a href="/ja/rankings/ai-risk-low"><span>AI影響が少ない仕事 TOP30</span><span class="desc">将来性のある職業</span></a>
