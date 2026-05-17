@@ -72,7 +72,11 @@ function walkHtmlFiles(dir) {
 }
 
 function pathToUrl(absPath) {
-  const rel = path.relative(DIST_ROOT, absPath);
+  // 2026-05-17 cross-platform: normalize Windows backslashes to
+  // POSIX slashes before stripping .html — URLs are always POSIX,
+  // so without this `path.relative` on Windows produced URLs like
+  // `/ja\yearly\2026-report` that never matched any href set.
+  const rel = path.relative(DIST_ROOT, absPath).split(path.sep).join('/');
   const noExt = rel.replace(/\.html$/, '');
   if (noExt === 'index') return '/';
   if (noExt.endsWith('/index')) return '/' + noExt.slice(0, -'/index'.length);
@@ -166,7 +170,9 @@ function main() {
       const p = path.join(dir, ent.name);
       if (ent.isDirectory()) walkAllFiles(p);
       else if (ent.isFile() && !ent.name.endsWith('.html')) {
-        const rel = path.relative(DIST_ROOT, p);
+        // Cross-platform: normalize Windows backslashes to POSIX
+        // slashes (URLs are always POSIX).
+        const rel = path.relative(DIST_ROOT, p).split(path.sep).join('/');
         emitted.add('/' + rel);
       }
     }
