@@ -18,45 +18,23 @@
  * 各 hub は GenreHubConfig で挙動を表現し、buildGenreBundle が共通の
  * filter/sort/render を実行する。
  */
-import { join } from 'node:path';
-import { strictReadJson, strictReaddir } from '../lib/strict-load.js';
-import { DetailFileSchema } from '../lib/projection-schemas.js';
-
-const REPO_ROOT = process.cwd();
-const DETAIL_DIR = join(REPO_ROOT, 'public', 'data.detail');
+// 2026-05-17 R2 fix: fs reads (formerly via `strict-load`) moved to
+// `src/page-data/projection-loaders.ts` so the view layer is truly
+// fs-free per architecture.md §3.3. This file re-exports
+// `loadAllDetails` + the `DetailFileMin` type for backwards
+// compatibility with the 15+ existing call sites — they still see
+// the same API, but the fs boundary is now correctly at the
+// page-data layer.
+import {
+  loadAllDetails as _loadAllDetailsFromPageData,
+  type DetailFileMin as _DetailFileMinFromPageData,
+} from '../page-data/projection-loaders.js';
 
 const TOP_N = 30;
 
 // ─── Types ──────────────────────────────────────────────────────
 
-export interface DetailFileMin {
-  id: number;
-  title?: { ja?: string };
-  ai_risk?: { score?: number | null } | null;
-  risk_band?: string | null;
-  stats?: {
-    salary_man_yen?: number | null;
-    workers?: number | null;
-    monthly_hours?: number | null;
-    average_age?: number | null;
-    recruit_ratio?: number | null;
-    recruit_wage_man_yen?: number | null;
-  } | null;
-  sector?: { id?: string; ja?: string } | null;
-  /** Phase 3 added top-N for various dimensions */
-  abilities_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  knowledge_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  skills_top10?: Array<{ key: string; label_ja: string; score: number }> | null;
-  work_values_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  work_characteristics_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  training_pre_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  training_post_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  experience_top5?: Array<{ key: string; label_ja: string; score: number }> | null;
-  related_certs_ja?: ReadonlyArray<string>;
-  /** Phase 3: full distribution dicts (EN-keyed) for education / employment hubs */
-  education_distribution?: Record<string, number> | null;
-  employment_type?: Record<string, number> | null;
-}
+export type DetailFileMin = _DetailFileMinFromPageData;
 
 export interface GenreOccupation {
   id: number;
@@ -112,30 +90,9 @@ export interface GenreResult {
   faqItems: ReadonlyArray<readonly [q: string, a: string]>;
 }
 
-// ─── Loader (cached) ──────────────────────────────────────────
+// ─── Loader (re-export from page-data, 2026-05-17 R2) ─────────
 
-let _detailCache: DetailFileMin[] | null = null;
-export function loadAllDetails(): DetailFileMin[] {
-  if (_detailCache) return _detailCache;
-  // strictReaddir + strictReadJson abort the build on missing dir,
-  // malformed JSON, or schema drift. Set ALLOW_PARTIAL_DATA=1 to fall
-  // back to "log + skip" semantics for local development. The previous
-  // silent-empty-array behavior was the audit's #4.1 — a single failure
-  // could produce 9 genre hub pages with no occupations and still ship.
-  const files = strictReaddir(DETAIL_DIR, (f) => f.endsWith('.json'), 'genre-hub.detail');
-  const out: DetailFileMin[] = [];
-  for (const f of files) {
-    // Cast: DetailFileSchema is intentionally a superset of
-    // DetailFileMin (fewer required fields). The runtime check still
-    // validates the load-bearing fields; the cast just bridges the
-    // structural type mismatch on the optional ones.
-    out.push(
-      strictReadJson(join(DETAIL_DIR, f), DetailFileSchema, 'genre-hub.detail') as DetailFileMin,
-    );
-  }
-  _detailCache = out;
-  return out;
-}
+export const loadAllDetails = _loadAllDetailsFromPageData;
 
 // ─── Helpers ──────────────────────────────────────────────────
 
