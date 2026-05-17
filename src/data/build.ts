@@ -13,9 +13,19 @@
  *   0 — clean run (validation + all projections succeed).
  *   1 — at least one validation or projection error.
  */
-import { mkdir, rm, rename, readdir, cp, writeFile } from 'node:fs/promises';
+import { mkdir, rm, rename, readdir, cp, writeFile, access } from 'node:fs/promises';
 import { join, resolve, relative, sep } from 'node:path';
 import { tmpdir } from 'node:os';
+
+// Used by the transactional promote (CODE-001 fix).
+async function pathExists(p: string): Promise<boolean> {
+  try {
+    await access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
 import { buildIndexes } from './lib/indexes.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
@@ -237,23 +247,140 @@ async function main(): Promise<void> {
     JSON.stringify({ status: 'in_progress', build_id: buildId, started_at: new Date().toISOString() }, null, 2),
   );
 
-  const stagedEntries = await readdir(STAGE_DIST);
-  for (const name of stagedEntries) {
-    const from = join(STAGE_DIST, name);
-    const to = join(TS_DIST, name);
-    await rm(to, { recursive: true, force: true });
-    try {
-      await rename(from, to);
-    } catch (err) {
-      // EXDEV (cross-device) — fall back to recursive copy.
-      const code = (err as NodeJS.ErrnoException).code;
-      if (code === 'EXDEV') {
-        await cp(from, to, { recursive: true });
-        await rm(from, { recursive: true, force: true });
-      } else {
-        throw err;
+  // 2026-05-17 CODE-001 fix: transactional promote with rollback.
+  //
+  // Previously this loop did `rm(to)` THEN `rename(from, to)`. If
+  // rename failed (EBUSY on Windows + Dropbox / antivirus / file
+  // indexer locking the target dir), `to` was already gone — the
+  // build crashed leaving public/data.* in a half-old/half-new
+  // state. Encountered ~5 times during the deep-audit session and
+  // the audit team flagged it as P0.
+  //
+  // New flow per-entry: rename current → backup, rename staged →
+  // current. If anything fails, undo by restoring the backup. Only
+  // when ALL entries succeed do we delete the backups. Per-entry
+  // backups (not a single root-level backup) so a midway failure
+  // can roll back ONLY the entries that already moved, leaving
+  // earlier ones in their new state to be re-tried, AND leaving
+  // later ones in their old state (still correct).
+  //
+  // EBUSY/EPERM retries (3x with exponential backoff: 100ms, 300ms,
+  // 900ms) before declaring failure — Windows file locks are
+  // typically transient (antivirus scan, Dropbox sync chunk).
+
+  const RETRY_CODES = new Set(['EBUSY', 'EPERM', 'EACCES']);
+  const RETRY_DELAYS_MS = [100, 300, 900];
+
+  async function renameWithRetry(from: string, to: string): Promise<void> {
+    let lastErr: unknown = null;
+    for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
+      try {
+        await rename(from, to);
+        return;
+      } catch (err) {
+        lastErr = err;
+        const code = (err as NodeJS.ErrnoException).code;
+        // EXDEV: cross-device, can't be retried; copy fallback handled
+        // by caller. RETRY_CODES: transient on Windows, try again.
+        if (code === 'EXDEV') throw err;
+        if (!RETRY_CODES.has(code || '')) throw err;
+        if (attempt < RETRY_DELAYS_MS.length) {
+          await new Promise((r) => setTimeout(r, RETRY_DELAYS_MS[attempt]));
+        }
       }
     }
+    throw lastErr;
+  }
+
+  const stagedEntries = await readdir(STAGE_DIST);
+  // Track per-entry status so rollback knows what to undo.
+  // - 'pending': not yet started
+  // - 'backed-up': old → backup done, staged → current not started
+  // - 'promoted': staged → current done, backup retained until success
+  type EntryStatus = 'pending' | 'backed-up' | 'promoted';
+  const entryStatus = new Map<string, EntryStatus>();
+  for (const name of stagedEntries) entryStatus.set(name, 'pending');
+
+  const backupSuffix = `.backup-${buildId.replace(/[:.]/g, '-')}`;
+
+  try {
+    for (const name of stagedEntries) {
+      const from = join(STAGE_DIST, name);
+      const to = join(TS_DIST, name);
+      const backup = join(TS_DIST, `${name}${backupSuffix}`);
+
+      // Step 1: move current → backup (if current exists).
+      const currentExists = await pathExists(to);
+      if (currentExists) {
+        try {
+          await renameWithRetry(to, backup);
+        } catch (err) {
+          const code = (err as NodeJS.ErrnoException).code;
+          if (code === 'EXDEV') {
+            await cp(to, backup, { recursive: true });
+            await rm(to, { recursive: true, force: true });
+          } else {
+            throw err;
+          }
+        }
+      }
+      entryStatus.set(name, 'backed-up');
+
+      // Step 2: move staged → current.
+      try {
+        await renameWithRetry(from, to);
+      } catch (err) {
+        const code = (err as NodeJS.ErrnoException).code;
+        if (code === 'EXDEV') {
+          await cp(from, to, { recursive: true });
+          await rm(from, { recursive: true, force: true });
+        } else {
+          throw err;
+        }
+      }
+      entryStatus.set(name, 'promoted');
+    }
+  } catch (promoteErr) {
+    // Rollback: any 'promoted' or 'backed-up' entries must be restored.
+    console.error(
+      `\n  [promote] FAILED — rolling back ${entryStatus.size} entries:`,
+      promoteErr instanceof Error ? promoteErr.message : String(promoteErr),
+    );
+    for (const [name, status] of entryStatus) {
+      const to = join(TS_DIST, name);
+      const backup = join(TS_DIST, `${name}${backupSuffix}`);
+      try {
+        if (status === 'promoted') {
+          // Restore: remove the new content, rename backup back.
+          await rm(to, { recursive: true, force: true });
+          if (await pathExists(backup)) {
+            await renameWithRetry(backup, to);
+          }
+        } else if (status === 'backed-up') {
+          // We removed the old but never put the new in place — restore old.
+          if (await pathExists(backup)) {
+            await renameWithRetry(backup, to);
+          }
+        }
+        // 'pending' entries were never touched.
+      } catch (rollbackErr) {
+        console.error(
+          `  [promote] rollback of ${name} also failed:`,
+          rollbackErr instanceof Error ? rollbackErr.message : String(rollbackErr),
+        );
+      }
+    }
+    throw promoteErr;
+  }
+
+  // All entries promoted successfully — clean up backups.
+  for (const name of stagedEntries) {
+    const backup = join(TS_DIST, `${name}${backupSuffix}`);
+    await rm(backup, { recursive: true, force: true }).catch((err) => {
+      // Backup cleanup failure is not fatal — the build itself succeeded,
+      // just log it so an operator notices accumulating .backup-* directories.
+      console.warn(`  [promote] backup cleanup failed for ${name}:`, err.message);
+    });
   }
 
   // Promote succeeded. Write the manifest BEFORE clearing the sentinel
@@ -269,6 +396,42 @@ async function main(): Promise<void> {
   );
   await rm(sentinelPath, { force: true }).catch(() => {});
   await rm(STAGE_DIST, { recursive: true, force: true }).catch(() => {});
+
+  // 2026-05-17 CODE-002 fix: prune stale public/data.* entries that
+  // a previous build emitted but the current build no longer
+  // includes. Examples flagged by external audit:
+  //   - data.featured.json  (removed Step 12)
+  //   - data.score-history/ (removed Step 12)
+  //   - data.tasks/         (removed Step 12)
+  // These still shipped to prod via Astro publicDir → dist-astro,
+  // exposing stale APIs. The manifest IS the source of truth for
+  // "what this build owns"; anything matching `data.*` in TS_DIST
+  // outside the manifest is treated as orphaned and deleted.
+  //
+  // Files/dirs in TS_DIST that don't match `data.*` (e.g. og.png,
+  // robots.txt, llms.txt — Astro static input) are NEVER touched.
+  const managedSet = new Set(stagedEntries);
+  const allEntries = await readdir(TS_DIST, { withFileTypes: true });
+  const orphaned: string[] = [];
+  for (const ent of allEntries) {
+    const name = ent.name;
+    // Only manage data.* — leave SEO statics (robots.txt, og.png,
+    // llms.txt, map-thumb.snippet.html, etc.) and any operator-
+    // hand-placed file alone.
+    if (!name.startsWith('data.') && !name.startsWith('data-')) continue;
+    if (managedSet.has(name)) continue;
+    // Don't touch backups left from a failed prior promote — they
+    // get cleaned up by their own promote success path.
+    if (name.includes('.backup-')) continue;
+    orphaned.push(name);
+  }
+  if (orphaned.length > 0) {
+    console.log(`  [cleanup] removing ${orphaned.length} orphaned public/data.* entries:`);
+    for (const name of orphaned) {
+      console.log(`    - ${name}`);
+      await rm(join(TS_DIST, name), { recursive: true, force: true });
+    }
+  }
 
   const elapsed = ((Date.now() - t0) / 1000).toFixed(2);
   console.log(`  done in ${elapsed}s`);

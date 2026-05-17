@@ -116,9 +116,20 @@ export function fmtNumber(n: number): string {
  * /data.detail/<id>.json is 4-digit zero-padded (e.g. "0042.json").
  * Bound the digit count defensively — we won't ever serve more than 9999
  * occupations.
+ *
+ * Strict: rejects anything that isn't 1–4 ASCII digits. The earlier
+ * implementation silently truncated overflow via `.slice(-4)`, which
+ * turned `padId("10001")` into `"0001"` and served occupation #1's OG
+ * card for any 5+-digit id (CODE-008). Callers MUST validate the
+ * input shape upstream (dispatch returns a 400) and additionally
+ * catch the thrown error here so a stray id like `?id=10001` becomes
+ * a 400 response, not a 500.
  */
 export function padId(idDigits: string): string {
-  return idDigits.padStart(4, "0").slice(-4);
+  if (!/^\d{1,4}$/.test(idDigits)) {
+    throw new Error(`padId: invalid input ${JSON.stringify(idDigits)} (must be 1-4 ASCII digits)`);
+  }
+  return idDigits.padStart(4, "0");
 }
 
 // ─── Font loading with in-flight Promise cache ────────────────────────────

@@ -11,6 +11,7 @@ import {
   clientIpFromRequest,
   rateLimitCheck,
   verifyTurnstile,
+  isProduction,
 } from './api-security.js';
 
 const ALLOWED = new Set([
@@ -381,6 +382,228 @@ describe('verifyTurnstile', () => {
         env: { TURNSTILE_SECRET_KEY: 'fake-secret' },
       });
       assert.equal(result.ok, true, 'fail-open by default');
+      assert.equal(result.skipped, true);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+});
+
+// ─── CODE-005: production fail-CLOSED ────────────────────────────────────
+
+describe('isProduction', () => {
+  test('true only when VERCEL_ENV === "production"', () => {
+    assert.equal(isProduction({ VERCEL_ENV: 'production' }), true);
+    assert.equal(isProduction({ VERCEL_ENV: 'preview' }), false);
+    assert.equal(isProduction({ VERCEL_ENV: 'development' }), false);
+    assert.equal(isProduction({}), false);
+  });
+});
+
+describe('rateLimitCheck — production fail-closed (CODE-005)', () => {
+  test('missing UPSTASH env in production → production_misconfigured', async () => {
+    const result = await rateLimitCheck({
+      ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+      env: { VERCEL_ENV: 'production' },
+    });
+    assert.equal(result.ok, false);
+    assert.equal(result.reason, 'production_misconfigured');
+    assert.equal(result.retryAfterSec, 300);
+  });
+
+  test('missing UPSTASH env in preview → fail-open (skipped)', async () => {
+    const result = await rateLimitCheck({
+      ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+      env: { VERCEL_ENV: 'preview' },
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.skipped, true);
+  });
+
+  test('upstream 5xx in production → fail-CLOSED by default', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          VERCEL_ENV: 'production',
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+        },
+      });
+      assert.equal(result.ok, false, 'should fail closed in prod by default');
+      assert.match(result.error || '', /upstream_503/);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('upstream 5xx in production with FAIL_CLOSED_ON_RATELIMIT_ERROR=0 → fail-open (override)', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          VERCEL_ENV: 'production',
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+          // Polarity inverted: explicit `0` overrides prod default-closed.
+          FAIL_CLOSED_ON_RATELIMIT_ERROR: '0',
+        },
+      });
+      assert.equal(result.ok, true, 'explicit `0` opts OUT of fail-closed in prod');
+      assert.equal(result.skipped, true);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('AbortError (timeout) in production → fail-CLOSED', async () => {
+    const originalFetch = globalThis.fetch;
+    // Simulate AbortController firing — the same shape `fetchWithTimeout`
+    // produces on a stalled upstream.
+    globalThis.fetch = async () => {
+      const err = new Error('The operation was aborted.');
+      err.name = 'AbortError';
+      throw err;
+    };
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          VERCEL_ENV: 'production',
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+        },
+      });
+      assert.equal(result.ok, false, 'timed-out prod fetch must fail closed');
+      assert.match(result.error || '', /AbortError|aborted/i);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('AbortError (timeout) in dev → fail-OPEN (skipped)', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => {
+      const err = new Error('The operation was aborted.');
+      err.name = 'AbortError';
+      throw err;
+    };
+    try {
+      const result = await rateLimitCheck({
+        ip: '1.1.1.1', namespace: 'feedback', limit: 10, windowSeconds: 300,
+        env: {
+          // No VERCEL_ENV → treated as dev.
+          UPSTASH_REDIS_REST_URL: 'https://example.upstash.io',
+          UPSTASH_REDIS_REST_TOKEN: 'fake-token',
+        },
+      });
+      assert.equal(result.ok, true, 'dev still degrades open on AbortError');
+      assert.equal(result.skipped, true);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+});
+
+describe('verifyTurnstile — production fail-closed (CODE-005)', () => {
+  test('missing TURNSTILE_SECRET_KEY in production → production_misconfigured', async () => {
+    const result = await verifyTurnstile({
+      token: 'whatever',
+      env: { VERCEL_ENV: 'production' },
+    });
+    assert.equal(result.ok, false);
+    assert.equal(result.reason, 'production_misconfigured');
+  });
+
+  test('missing TURNSTILE_SECRET_KEY in preview → skipped (fail-open)', async () => {
+    const result = await verifyTurnstile({
+      token: 'whatever',
+      env: { VERCEL_ENV: 'preview' },
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.skipped, true);
+  });
+
+  test('upstream 5xx in production → fail-CLOSED by default', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await verifyTurnstile({
+        token: 'valid-token',
+        env: {
+          VERCEL_ENV: 'production',
+          TURNSTILE_SECRET_KEY: 'fake-secret',
+        },
+      });
+      assert.equal(result.ok, false, 'should fail closed in prod by default');
+      assert.match(result.reason || '', /upstream_503/);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('upstream 5xx in production with FAIL_CLOSED_ON_TURNSTILE_ERROR=0 → fail-open (override)', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response('boom', { status: 503 }) as Response;
+    try {
+      const result = await verifyTurnstile({
+        token: 'valid-token',
+        env: {
+          VERCEL_ENV: 'production',
+          TURNSTILE_SECRET_KEY: 'fake-secret',
+          // Polarity inverted: explicit `0` overrides prod default-closed.
+          FAIL_CLOSED_ON_TURNSTILE_ERROR: '0',
+        },
+      });
+      assert.equal(result.ok, true, 'explicit `0` opts OUT of fail-closed in prod');
+      assert.equal(result.skipped, true);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('AbortError (timeout) in production → fail-CLOSED', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => {
+      const err = new Error('The operation was aborted.');
+      err.name = 'AbortError';
+      throw err;
+    };
+    try {
+      const result = await verifyTurnstile({
+        token: 'valid-token',
+        env: {
+          VERCEL_ENV: 'production',
+          TURNSTILE_SECRET_KEY: 'fake-secret',
+        },
+      });
+      assert.equal(result.ok, false, 'timed-out prod fetch must fail closed');
+      assert.match(result.reason || '', /AbortError|aborted/i);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  test('AbortError (timeout) in dev → fail-OPEN (skipped)', async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => {
+      const err = new Error('The operation was aborted.');
+      err.name = 'AbortError';
+      throw err;
+    };
+    try {
+      const result = await verifyTurnstile({
+        token: 'valid-token',
+        env: {
+          // No VERCEL_ENV → dev.
+          TURNSTILE_SECRET_KEY: 'fake-secret',
+        },
+      });
+      assert.equal(result.ok, true, 'dev still degrades open on AbortError');
       assert.equal(result.skipped, true);
     } finally {
       globalThis.fetch = originalFetch;

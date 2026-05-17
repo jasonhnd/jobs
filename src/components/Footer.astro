@@ -211,6 +211,48 @@ const { iso, display } = formatJst(buildTime);
       }
     }
   })();
+
+  // ── CODE-012 CSP hardening (2026-05-17) ─────────────────────────────────
+  // Delegated click handler for `<a data-track-event="…">` anchors. Replaces
+  // the inline `onclick=` attribute previously used by _JobtagAnchor.astro,
+  // which would have required CSP `'unsafe-inline'` for script-src OR a
+  // per-occupation hash (552+ unique hashes — infeasible).
+  //
+  // Listener is attached at the document level so it covers anchors added
+  // anywhere on the page. Reads the GA4 event name + payload from data-*
+  // attributes on the anchor. Currently used by _JobtagAnchor.astro for
+  // `jobtag_outbound_click`; future page-level tracking links can plug into
+  // the same pattern by adding `data-track-event="…"` and the data fields
+  // they want logged.
+  (function wireDelegatedTrackClicks() {
+    if (document.body.dataset.trackWired === '1') return;
+    document.body.dataset.trackWired = '1';
+
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      // Walk up to the nearest <a data-track-event="…"> if any.
+      while (t && t !== document.body) {
+        if (t.tagName === 'A' && t.dataset && t.dataset.trackEvent) {
+          var name = t.dataset.trackEvent;
+          if (name === 'jobtag_outbound_click') {
+            var occId = Number(t.getAttribute('data-jobtag-id')) || 0;
+            var aiRisk = Number(t.getAttribute('data-ai-risk')) || 0;
+            try {
+              if (typeof window.gtag === 'function') {
+                window.gtag('event', name, {
+                  occupation_id: occId,
+                  ai_risk_score: aiRisk,
+                  language: 'ja'
+                });
+              }
+            } catch (err) { /* never block navigation */ }
+          }
+          return;
+        }
+        t = t.parentNode;
+      }
+    }, { passive: true });
+  })();
 </script>
 
 <style is:global set:html={CANONICAL_CSS}></style>

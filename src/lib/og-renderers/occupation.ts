@@ -49,9 +49,20 @@ export async function renderOccupationOgCard(
   url: URL,
   idParam: string,
 ): Promise<Response> {
+  // Defence-in-depth against CODE-008: the dispatcher already 400s on
+  // non-1-to-4-digit ids, but if a caller bypasses the dispatcher (or
+  // the contract drifts), padId throws rather than silently truncating.
+  // Translate that throw into a 400 so the endpoint never 500s on a
+  // malformed id.
+  let paddedId: string;
+  try {
+    paddedId = padId(idParam);
+  } catch {
+    return new Response('Bad request: invalid id', { status: 400 });
+  }
   // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the
   // upstream fetch by URL, so concurrent OG requests for the same id share it.
-  const detailUrl = new URL(`/data.detail/${padId(idParam)}.json`, url.origin);
+  const detailUrl = new URL(`/data.detail/${paddedId}.json`, url.origin);
   const detailRes = await fetch(detailUrl.toString());
   if (detailRes.status === 404) {
     return new Response('Occupation not found', { status: 404 });

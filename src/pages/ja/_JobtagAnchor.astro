@@ -8,6 +8,14 @@
  * downstream. This off-screen anchor preserves that funnel
  * without exposing a visible link.
  *
+ * CSP hardening (audit CODE-012, 2026-05-17): the inline `onclick=`
+ * attribute that previously fired the GA4 event has been replaced
+ * with a delegated click handler in Footer.astro. Per-occupation
+ * data still flows through data-* attributes — those are HTML
+ * content (not script content) and are unrestricted by CSP. The
+ * delegated handler in Footer.astro is a static script body whose
+ * SHA-256 covers every page that ships a footer (i.e. all of them).
+ *
  * Page-local sibling (Astro `_`-prefix → not routed).
  */
 
@@ -24,9 +32,10 @@ const { occId, nameJa, mhlwUrl, aiRisk } = Astro.props;
   href={mhlwUrl}
   rel="external noopener noreferrer"
   target="_blank"
+  class="jobtag-outbound-link"
   data-jobtag-id={String(occId)}
   data-ai-risk={String(aiRisk ?? 0)}
-  onclick={`if(window.gtag)gtag('event','jobtag_outbound_click',{occupation_id:${occId},ai_risk_score:${aiRisk ?? 0},language:'ja'});`}
+  data-track-event="jobtag_outbound_click"
   style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
   aria-hidden="true"
   tabindex="-1"

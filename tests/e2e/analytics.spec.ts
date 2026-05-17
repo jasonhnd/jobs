@@ -144,19 +144,16 @@ test('X Ads: window.twq becomes a function with non-empty pixel ID', async ({ pa
     null,
     { timeout: 8_000 },
   );
-  // Inspect the inline <script> that calls twq('config', X_PIXEL_ID) — assert
-  // the env value embedded by Astro define:vars is non-empty and has no
-  // trailing whitespace (the 2026-05-12 \n bug).
+  // 2026-05-17 CSP CODE-012 refactor: X pixel ID is now read from a
+  // <meta name="x-pixel-id" content="…"> tag (the inline reader script
+  // body is static so a single CSP SHA-256 hash covers every page). Assert
+  // the env value embedded by Astro is non-empty and has no trailing
+  // whitespace (the 2026-05-12 \n bug guard).
   const pixelId = await page.evaluate(() => {
-    const scripts = Array.from(document.querySelectorAll('script'));
-    const xScript = scripts.find(
-      (s) => !s.src && (s.textContent ?? '').includes("twq('config'"),
-    );
-    if (!xScript) return null;
-    const match = xScript.textContent?.match(/const X_PIXEL_ID = "([^"]+)"/);
-    return match ? match[1] : null;
+    const meta = document.querySelector('meta[name="x-pixel-id"]');
+    return meta?.getAttribute('content') ?? null;
   });
-  expect(pixelId, 'X_PIXEL_ID must be embedded as a non-empty string').toBeTruthy();
+  expect(pixelId, 'PUBLIC_X_PIXEL_ID must be embedded in <meta name="x-pixel-id">').toBeTruthy();
   expect(pixelId, 'X_PIXEL_ID must not contain whitespace or newlines').not.toMatch(/\s/);
 });
 
@@ -205,6 +202,46 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
       `connect-src missing required analytics origin: ${origin}\nGot: ${connectSrc}`,
     ).toBe(true);
   }
+});
+
+// ─── CODE-012: script-src must NOT contain 'unsafe-inline' ─────────────────
+// The audit blocks `'unsafe-inline'` in script-src because any stored-XSS
+// payload anywhere on the site would otherwise immediately execute. Inline
+// scripts are now pinned by SHA-256 hashes computed in
+// scripts/compute-csp-hashes.cjs (post-build step). If a developer adds a
+// new inline <script> without rerunning the build, this test should still
+// pass (the new script will be CSP-blocked by browsers, but the CSP header
+// itself is still clean of 'unsafe-inline').
+
+test('CSP script-src does NOT include unsafe-inline (CODE-012 hardening)', async ({ page }) => {
+  const resp = await page.goto('/ja/sectors');
+  expect(resp).not.toBeNull();
+  const csp = resp!.headers()['content-security-policy'] ?? '';
+  expect(csp, 'CSP header must be set').toBeTruthy();
+
+  const directives = new Map<string, string>();
+  for (const part of csp.split(';').map((s) => s.trim()).filter(Boolean)) {
+    const [name, ...sources] = part.split(/\s+/);
+    directives.set(name, sources.join(' '));
+  }
+  const scriptSrc = directives.get('script-src') ?? '';
+  expect(
+    scriptSrc.includes("'unsafe-inline'"),
+    `script-src must NOT include 'unsafe-inline' — use SHA-256 hashes instead.\n` +
+      `Found script-src: ${scriptSrc}\n` +
+      `Run \`node scripts/compute-csp-hashes.cjs\` after every build to keep ` +
+      `hashes in sync with inline scripts. If you intentionally added a new ` +
+      `inline <script>, the build's post-step will pick it up automatically; ` +
+      `if vercel.json still has 'unsafe-inline' the build is incomplete.`,
+  ).toBe(false);
+
+  // Must have at least one SHA-256 hash entry (the static inline scripts
+  // we author in BaseLayout / Footer / MobileNav / page bodies).
+  expect(
+    /'sha256-[A-Za-z0-9+/=]+'/.test(scriptSrc),
+    `script-src must include at least one 'sha256-…' hash. ` +
+      `Got: ${scriptSrc}`,
+  ).toBe(true);
 });
 
 // ─── GA4 g/collect must actually fire (the test that would have caught the audit) ──

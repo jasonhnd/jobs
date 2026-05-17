@@ -18,9 +18,11 @@
  *   - /ja/q/ai-de-kienai — Q&A item
  *   - /privacy — legal page
  *
- * NOTE: @axe-core/playwright is NOT in package.json devDeps. It's
- * installed on-demand by scripts/run-e2e.sh (same pattern as
- * @playwright/test + http-server). Local devs run `pnpm test:e2e`.
+ * NOTE: @axe-core/playwright is in package.json optionalDependencies
+ * (NOT devDependencies). It's lockfile-pinned and reproducible, but
+ * Vercel's installCommand passes --no-optional to skip it on preview
+ * deploys. Local devs run `pnpm test:e2e` which installs it via the
+ * normal lockfile path (same pattern as @playwright/test + http-server).
  *
  * Drift policy: the gate is binary on critical+serious. A11y backlog
  * lives elsewhere (e.g. GitHub issues). This test is a no-regression

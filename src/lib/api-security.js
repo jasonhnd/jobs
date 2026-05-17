@@ -20,6 +20,27 @@
 //
 // Pure functions — no module-level state.
 
+import { fetchWithTimeout } from "./http-client.js";
+
+// ─── Production detection ────────────────────────────────────────────────
+//
+// Vercel sets `VERCEL_ENV` to one of: `production`, `preview`, `development`.
+// We treat ONLY `production` as fail-closed-by-default. Preview/dev keep
+// the historic fail-open posture so local `astro dev` and preview deploys
+// can run without Upstash/Turnstile wired up.
+
+/**
+ * True when the function is running on production (`pre.mirai-shigoto.com`
+ * or the apex). Defaults to false in dev/preview/test so missing config
+ * doesn't break local dev and preview deploys.
+ *
+ * @param {Record<string, string | undefined>} env
+ * @returns {boolean}
+ */
+export function isProduction(env) {
+  return env && env.VERCEL_ENV === "production";
+}
+
 /**
  * Parse a Referer header and return its origin (scheme://host[:port]) or
  * null if the header is missing/malformed.
@@ -155,32 +176,91 @@ export function clientIpFromRequest(req) {
 // but that's acceptable for our use case (preventing form-spam, not
 // gating monetary actions) and it's exactly 2 Redis commands per check.
 //
-// Degrades gracefully:
+// Degrades gracefully in PREVIEW / DEV (`VERCEL_ENV !== 'production'`):
 //   - Env vars `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`
 //     missing → returns `{ ok: true, skipped: true }`. Caller treats this
 //     as "rate limit not configured, allow through". Honeypot + body cap
 //     + origin gate still apply.
-//   - Network error → returns `{ ok: true, skipped: true, error: ... }`.
+//   - Network error / 5xx → returns `{ ok: true, skipped: true, error: ... }`.
 //     We FAIL OPEN. Reason: a service outage at Upstash should NOT take
-//     down our public form endpoints (better to risk one minute of
-//     unrestricted POSTs than to break user-visible features). For
-//     stricter posture set FAIL_CLOSED_ON_RATELIMIT_ERROR=1.
+//     down a developer's local dev or a preview deploy without Upstash.
+//   - Setting `FAIL_CLOSED_ON_RATELIMIT_ERROR=1` flips network errors to
+//     fail-closed (inverse of default).
+//
+// In PRODUCTION (`VERCEL_ENV === 'production'`) the polarity FLIPS:
+//   - Env vars missing → `{ ok: false, reason: 'production_misconfigured' }`.
+//     Misconfig MUST surface, not silently let traffic through. (CODE-005.)
+//   - Network error / 5xx → FAIL CLOSED by default. The reasoning: a
+//     production Upstash outage is rare; the downside of fail-open in
+//     prod (an attacker timing requests during an outage) outweighs a
+//     brief 5xx on user submits during a real upstream incident.
+//   - Setting `FAIL_CLOSED_ON_RATELIMIT_ERROR=0` flips network errors
+//     back to fail-open in prod (inverse of new default). The env var's
+//     POLARITY is therefore opposite in prod vs dev: it overrides the
+//     mode-appropriate default in either direction.
 
 const FAIL_CLOSED_PATTERN = /^(1|true|yes)$/i;
+const FAIL_OPEN_PATTERN = /^(0|false|no)$/i;
+
+/**
+ * Decide whether an upstream-error condition should fail closed.
+ *
+ * Default in PRODUCTION is fail-closed. Setting the env var to a
+ * fail-open value (`0` / `false` / `no`) overrides back to open.
+ *
+ * Default in PREVIEW / DEV is fail-open. Setting the env var to a
+ * fail-closed value (`1` / `true` / `yes`) overrides to closed.
+ *
+ * @param {Record<string, string | undefined>} env
+ * @param {string} envVarName  e.g. "FAIL_CLOSED_ON_RATELIMIT_ERROR"
+ * @returns {boolean} true → fail closed; false → fail open
+ */
+function shouldFailClosedOnError(env, envVarName) {
+  const raw = env[envVarName] || "";
+  if (isProduction(env)) {
+    // Default closed; explicit `0`/`false`/`no` overrides to open.
+    if (FAIL_OPEN_PATTERN.test(raw)) return false;
+    return true;
+  }
+  // Dev / preview: default open; explicit `1`/`true`/`yes` overrides closed.
+  return FAIL_CLOSED_PATTERN.test(raw);
+}
 
 /**
  * Check whether `ip` has exceeded `limit` requests in the past
  * `windowSeconds` for the given `namespace` (e.g. "feedback", "subscribe").
  *
- * Returns:
+ * Returns (in PREVIEW / DEV):
  *   { ok: true, skipped: true }                     env not configured / fail-open
  *   { ok: true,  count: N, limit, remaining: M }    under quota
  *   { ok: false, count: N, limit, retryAfterSec: S} over quota
+ *
+ * Returns (in PRODUCTION, `VERCEL_ENV === 'production'`):
+ *   { ok: false, reason: 'production_misconfigured' }   env not configured
+ *   { ok: true,  count: N, limit, remaining: M }        under quota
+ *   { ok: false, count: N, limit, retryAfterSec: S }    over quota
+ *   { ok: false, error: '...', retryAfterSec: S }       upstream 5xx / network err
+ *
+ * The fail-closed polarity of `FAIL_CLOSED_ON_RATELIMIT_ERROR` FLIPS
+ * between prod and dev: see `shouldFailClosedOnError` JSDoc.
+ *
+ * Audit CODE-005: production must default to fail-closed.
  */
 export async function rateLimitCheck({ ip, namespace, limit, windowSeconds, env }) {
   const url = env.UPSTASH_REDIS_REST_URL;
   const token = env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return { ok: true, skipped: true };
+  if (!url || !token) {
+    if (isProduction(env)) {
+      return {
+        ok: false,
+        reason: "production_misconfigured",
+        count: 0,
+        limit,
+        retryAfterSec: windowSeconds,
+      };
+    }
+    return { ok: true, skipped: true };
+  }
 
   const bucket = Math.floor(Date.now() / 1000 / windowSeconds);
   const key = `rl:${namespace}:${ip}:${bucket}`;
@@ -192,16 +272,19 @@ export async function rateLimitCheck({ ip, namespace, limit, windowSeconds, env 
   ]);
   let count = 0;
   try {
-    const res = await fetch(`${url}/pipeline`, {
+    // Upstash should respond in <100ms typical. 2000ms is a generous
+    // ceiling that catches stalled connections without exposing the
+    // user-visible POST to long waits. (Audit CODE-007.)
+    const res = await fetchWithTimeout(`${url}/pipeline`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body,
-    });
+    }, 2000);
     if (!res.ok) {
-      if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_RATELIMIT_ERROR || "")) {
+      if (shouldFailClosedOnError(env, "FAIL_CLOSED_ON_RATELIMIT_ERROR")) {
         return { ok: false, count: 0, limit, retryAfterSec: windowSeconds, error: `upstream_${res.status}` };
       }
       return { ok: true, skipped: true, error: `upstream_${res.status}` };
@@ -212,7 +295,7 @@ export async function rateLimitCheck({ ip, namespace, limit, windowSeconds, env 
     const first = Array.isArray(data) ? data[0] : null;
     count = (first && typeof first.result === "number") ? first.result : 0;
   } catch (err) {
-    if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_RATELIMIT_ERROR || "")) {
+    if (shouldFailClosedOnError(env, "FAIL_CLOSED_ON_RATELIMIT_ERROR")) {
       return { ok: false, count: 0, limit, retryAfterSec: windowSeconds, error: String(err) };
     }
     return { ok: true, skipped: true, error: String(err) };
@@ -231,28 +314,49 @@ export async function rateLimitCheck({ ip, namespace, limit, windowSeconds, env 
 // `cf-turnstile-response` form field; this helper verifies the token
 // server-side against Cloudflare's challenge API.
 //
-// Degrades gracefully:
+// Degrades gracefully in PREVIEW / DEV (`VERCEL_ENV !== 'production'`):
 //   - `TURNSTILE_SECRET_KEY` env missing → returns `{ ok: true, skipped: true }`
 //     (treats as "not configured"). Other defenses still apply.
 //   - Token missing in request body → returns `{ ok: false, reason: "missing_token" }`
 //     ONLY when secret is configured. If secret is missing, missing token
 //     is also skipped.
-//   - Cloudflare verify endpoint unreachable / 5xx → fail-open identical
-//     to rate-limit (set FAIL_CLOSED_ON_TURNSTILE_ERROR=1 to invert).
+//   - Cloudflare verify endpoint unreachable / 5xx → fail-open. Set
+//     `FAIL_CLOSED_ON_TURNSTILE_ERROR=1` to invert.
+//
+// In PRODUCTION (`VERCEL_ENV === 'production'`):
+//   - `TURNSTILE_SECRET_KEY` env missing → `{ ok: false, reason:
+//     'production_misconfigured' }`. Misconfig MUST surface. (CODE-005.)
+//   - Cloudflare verify endpoint unreachable / 5xx → FAIL CLOSED by default.
+//     Set `FAIL_CLOSED_ON_TURNSTILE_ERROR=0` to invert back to fail-open.
+//
+// The `FAIL_CLOSED_ON_TURNSTILE_ERROR` env var POLARITY flips between
+// prod and dev — see `shouldFailClosedOnError` JSDoc above.
 
 /**
  * Verify a Turnstile token. Pass `null`/`undefined` for `token` when the
- * client form didn't include one — this returns `{ ok: false, reason }`
- * when verification is REQUIRED (secret configured), or
- * `{ ok: true, skipped: true }` when verification is disabled (secret
- * missing) — preserving the historic behavior where form submits worked
- * without Turnstile at all.
+ * client form didn't include one.
+ *
+ * In dev/preview, returns `{ ok: false, reason }` when verification is
+ * REQUIRED (secret configured) or `{ ok: true, skipped: true }` when
+ * verification is disabled (secret missing) — preserving historic
+ * behavior where form submits worked without Turnstile at all.
+ *
+ * In production, missing secret returns
+ * `{ ok: false, reason: 'production_misconfigured' }` so a missing
+ * key SURFACES rather than silently allowing submits.
  *
  * `remoteip` is optional; passing it tightens Cloudflare's heuristics.
+ *
+ * Audit CODE-005: production must default to fail-closed.
  */
 export async function verifyTurnstile({ token, env, remoteip = undefined }) {
   const secret = env.TURNSTILE_SECRET_KEY;
-  if (!secret) return { ok: true, skipped: true };
+  if (!secret) {
+    if (isProduction(env)) {
+      return { ok: false, reason: "production_misconfigured" };
+    }
+    return { ok: true, skipped: true };
+  }
   if (!token) return { ok: false, reason: "missing_token" };
 
   // 2026-05-17 H16: replay-guard. Cloudflare tokens are one-shot —
@@ -277,14 +381,14 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
         .map((b) => b.toString(16).padStart(2, "0"))
         .join("");
       const key = `ts:${hex}`;
-      const setRes = await fetch(`${env.UPSTASH_REDIS_REST_URL}/set/${key}/1`, {
+      const setRes = await fetchWithTimeout(`${env.UPSTASH_REDIS_REST_URL}/set/${key}/1`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${env.UPSTASH_REDIS_REST_TOKEN}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ NX: true, EX: 300 }),
-      });
+      }, 2000);
       if (setRes.ok) {
         const data = await setRes.json();
         // Upstash returns { result: "OK" } on first set, { result: null } if NX failed.
@@ -304,15 +408,19 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
   if (remoteip) form.set("remoteip", remoteip);
 
   try {
-    const res = await fetch(
+    // Cloudflare verify usually responds in <300ms. 3000ms cap is
+    // generous but bounds user-visible delay on a stalled upstream.
+    // (Audit CODE-007.)
+    const res = await fetchWithTimeout(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
       {
         method: "POST",
         body: form,
       },
+      3000,
     );
     if (!res.ok) {
-      if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_TURNSTILE_ERROR || "")) {
+      if (shouldFailClosedOnError(env, "FAIL_CLOSED_ON_TURNSTILE_ERROR")) {
         return { ok: false, reason: `upstream_${res.status}` };
       }
       return { ok: true, skipped: true, reason: `upstream_${res.status}` };
@@ -327,7 +435,7 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
     }
     return { ok: false, reason: "turnstile_failed", codes };
   } catch (err) {
-    if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_TURNSTILE_ERROR || "")) {
+    if (shouldFailClosedOnError(env, "FAIL_CLOSED_ON_TURNSTILE_ERROR")) {
       return { ok: false, reason: String(err) };
     }
     return { ok: true, skipped: true, reason: String(err) };

@@ -49,7 +49,9 @@ import {
   rateLimitCheck,
   verifyTurnstile,
   clientIpFromRequest,
+  isProduction,
 } from "../src/lib/api-security.js";
+import { fetchWithTimeout } from "../src/lib/http-client.js";
 import {
   parseFeedbackBody,
   shortHash,
@@ -179,11 +181,16 @@ export default async function handler(req) {
   const toEmail = process.env.FEEDBACK_TO_EMAIL;
   const fromEmail = process.env.FEEDBACK_FROM_EMAIL || "onboarding@resend.dev";
 
+  // Production must SURFACE delivery failures with 503 (so monitoring
+  // and the user-visible UI can react), while preview/dev keeps the
+  // historic 202 graceful-fallback (so local dev and preview deploys
+  // without Resend wired up don't break the form). (Audit CODE-006.)
+  const inProd = isProduction(process.env);
+
   if (!apiKey || !toEmail) {
-    // Graceful fallback: log a redacted summary + return 202 Accepted (not 200)
-    // so frontends can distinguish "delivered to operator" from "captured but
-    // not delivered". PII (email + freetext + UA + referer) is NEVER written
-    // — only counts and structural flags. (Audit CODE-002.)
+    // Graceful fallback: log a redacted summary so we can see what
+    // would have been delivered. PII (email + freetext + UA + referer)
+    // is NEVER written — only counts and structural flags. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
       ts: payload.timestamp,
       lang: payload.lang,
@@ -194,6 +201,14 @@ export default async function handler(req) {
       ua_hash: shortHash(payload.user_agent || ""),
       missing_config: !apiKey ? "RESEND_API_KEY" : "FEEDBACK_TO_EMAIL",
     }));
+    if (inProd) {
+      // CODE-006: in production surface as 503 so misconfig doesn't
+      // silently swallow user submits.
+      return json(
+        { ok: false, error: "feedback_delivery_failed", warn: "config_missing" },
+        { status: 503, headers: cors },
+      );
+    }
     return json(
       { ok: true, delivered: false, warn: "config_missing" },
       { status: 202, headers: cors },
@@ -216,7 +231,10 @@ export default async function handler(req) {
       <p style="color:#888;font-size:12px">Referer: ${escapeHtml(payload.referer)}</p>
     `;
 
-    const r = await fetch(`${RESEND_BASE}/emails`, {
+    // Resend transactional email — 5000ms cap. Email APIs can be slow
+    // under load; bound the wait so a stalled Resend doesn't wedge
+    // the Edge invocation. (Audit CODE-007.)
+    const r = await fetchWithTimeout(`${RESEND_BASE}/emails`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${apiKey}`,
@@ -230,7 +248,7 @@ export default async function handler(req) {
         // If user provided email, set Reply-To so operator can answer them directly
         reply_to: email || undefined,
       }),
-    });
+    }, 5000);
 
     if (r.ok) {
       return json({ ok: true, delivered: true }, { headers: cors });
@@ -238,10 +256,7 @@ export default async function handler(req) {
 
     const errBody = await r.json().catch(() => ({}));
     console.error("[feedback] Resend send error", { status: r.status, body: errBody });
-    // PII-safe redacted summary on delivery failure. We keep `ok: true` so
-    // the caller doesn't retry and double-bill us, but downgrade the HTTP
-    // status to 202 + `delivered: false` so the frontend can distinguish
-    // delivered-to-operator from captured-only. (Audit CODE-002.)
+    // PII-safe redacted summary on delivery failure. (Audit CODE-002.)
     console.log("[feedback]", JSON.stringify({
       ts: payload.timestamp, lang: payload.lang, occ: payload.occupation_id,
       options: payload.options, has_email: !!payload.email,
@@ -249,6 +264,16 @@ export default async function handler(req) {
       ua_hash: shortHash(payload.user_agent || ""),
       delivery: "failed", resend_status: r.status,
     }));
+    if (inProd) {
+      // CODE-006: surface delivery failure with 503 in prod so the
+      // frontend + monitoring see the misbehavior.
+      return json(
+        { ok: false, error: "feedback_delivery_failed", warn: "delivery_failed" },
+        { status: 503, headers: cors },
+      );
+    }
+    // Preview/dev: keep historic 202 graceful-fallback so previews
+    // without Resend wired up still show "submit accepted" in the UI.
     return json(
       { ok: true, delivered: false, warn: "delivery_failed" },
       { status: 202, headers: cors },
@@ -262,6 +287,14 @@ export default async function handler(req) {
       ua_hash: shortHash(payload.user_agent || ""),
       delivery: "error", err_name: (err && err.name) || "unknown",
     }));
+    if (inProd) {
+      // CODE-006: surface exception (incl. timeout AbortError) with
+      // 503 in prod.
+      return json(
+        { ok: false, error: "feedback_delivery_failed", warn: "delivery_error" },
+        { status: 503, headers: cors },
+      );
+    }
     return json(
       { ok: true, delivered: false, warn: "delivery_error" },
       { status: 202, headers: cors },
