@@ -41,6 +41,7 @@ import {
   verifyTurnstile,
   clientIpFromRequest,
 } from "../src/lib/api-security.js";
+import { fetchWithTimeout } from "../src/lib/http-client.js";
 import { parseSubscribeBody, MAX_BODY_BYTES } from "../src/lib/subscribe-helpers.js";
 
 export const config = { runtime: "edge" };
@@ -167,7 +168,9 @@ export default async function handler(req) {
 
   // ---- call Resend Contacts API ----
   try {
-    const r = await fetch(`${RESEND_BASE}/audiences/${audienceId}/contacts`, {
+    // Resend transactional email — 5000ms cap so a stalled Resend
+    // doesn't wedge the Edge invocation. (Audit CODE-007.)
+    const r = await fetchWithTimeout(`${RESEND_BASE}/audiences/${audienceId}/contacts`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${apiKey}`,
@@ -179,7 +182,7 @@ export default async function handler(req) {
         last_name: source,         // attribution channel
         unsubscribed: false,
       }),
-    });
+    }, 5000);
 
     if (r.ok) {
       return json({ ok: true }, { headers: cors });

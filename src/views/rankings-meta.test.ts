@@ -81,23 +81,39 @@ test('OG card configs: src/views/og-cards.ts derives RANKING_CARDS from RANKING_
   );
 });
 
-test('rankings.ts: does NOT contain hardcoded ALL_RANKINGS literal array', () => {
+test('ranking subsystem: does NOT contain hardcoded ALL_RANKINGS literal array', () => {
   // The literal `'ai-risk-high', 'AIに奪われる仕事 TOP30'` line is the
   // canonical signature of the pre-refactor hardcoded duplicate. If it
-  // reappears in rankings.ts, drift was reverted.
-  // Phase B (2026-05-14): rankings.ts moved data/lib → views.
-  const source = readFileSync('src/views/ranking.ts', 'utf8');
+  // reappears in the ranking subsystem, drift was reverted.
+  //
+  //   Phase B  (2026-05-14): rankings.ts moved data/lib → views.
+  //   CODE-010 (2026-05-17): views/ranking.ts split into views/ranking/*
+  //                          (this test now scans both the barrel and
+  //                          the config module where RANKING_META is
+  //                          imported).
+  const barrel = readFileSync('src/views/ranking.ts', 'utf8');
+  const config = readFileSync('src/views/ranking/config.ts', 'utf8');
+
+  // The barrel must re-export from the new module; the config module
+  // is the canonical home of the ALL_RANKINGS derivation.
   assert.ok(
-    source.includes('rankings-meta'),
-    "rankings.ts must import RANKING_META from rankings-meta.js",
+    config.includes('rankings-meta'),
+    'src/views/ranking/config.ts must import RANKING_META from rankings-meta.js',
   );
-  // Detect the old hardcoded pattern by name+desc colocation.
-  const hardcodedPatternMatches = source.match(
+  assert.ok(
+    barrel.includes('./ranking/index.js') || barrel.includes('./ranking/'),
+    'src/views/ranking.ts must re-export from ./ranking/ (the split subsystem)',
+  );
+
+  // Detect the old hardcoded pattern by name+desc colocation across
+  // any file in the ranking subsystem (legacy barrel + new modules).
+  const all = barrel + '\n' + config;
+  const hardcodedPatternMatches = all.match(
     /\['ai-risk-high',\s*'AIに奪われる仕事 TOP30'/,
   );
   assert.equal(
     hardcodedPatternMatches,
     null,
-    'rankings.ts contains the hardcoded ALL_RANKINGS literal — drift reverted',
+    'ranking subsystem contains the hardcoded ALL_RANKINGS literal — drift reverted',
   );
 });

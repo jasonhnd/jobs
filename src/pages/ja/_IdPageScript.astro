@@ -5,15 +5,21 @@
  *
  * Currently a single responsibility: fire the GA4 `result_view`
  * event with occupation_id + ai_risk_score + risk_tier on page
- * load. Wraps a single `<script slot="bodyEnd" is:inline>` tag.
+ * load. Renders a hidden <div data-occupation-page-meta …> carrying
+ * the per-occupation data, plus a STATIC <script> that reads the
+ * data attributes and emits the GA4 event.
+ *
+ * CSP hardening (audit CODE-012, 2026-05-17): the inline script body
+ * is now byte-identical across every one of 552 occupation pages
+ * (no `define:vars`), so one SHA-256 in vercel.json's script-src
+ * covers them all. Per-occupation values flow through data-* attributes
+ * on a hidden <div> element, which are NOT script content under CSP.
  *
  * History: the v1 [id] page also carried theme-toggle and
  * follow/share handlers, but the theme toggle is forced
  * `display:none` by _id-css.ts and the share buttons live in
- * the canonical <Footer /> component (the v2 design's
- * `.follow-share-section-DELETED-v2` div was dead UI long
- * before this cleanup). Both handlers have been removed; if a
- * future page-level button needs JS, add it here.
+ * the canonical <Footer /> component. Both handlers have been removed;
+ * if a future page-level button needs JS, add it here.
  *
  * Astro `_`-prefix → not routed; component-only.
  */
@@ -25,8 +31,40 @@ interface Props {
 }
 
 const { occId, riskScoreJs, riskTierJs } = Astro.props;
+// riskScoreJs is encoded as the literal string "" for null so the
+// data attribute round-trips through HTML cleanly. The reader script
+// turns "" back into null when parsing.
+const riskScoreAttr = riskScoreJs == null ? '' : String(riskScoreJs);
 ---
-<script slot="bodyEnd" is:inline define:vars={{ occId, riskScoreJs, riskTierJs }}>
+<div
+  data-occupation-page-meta
+  data-occ-id={String(occId)}
+  data-risk-score={riskScoreAttr}
+  data-risk-tier={riskTierJs}
+  hidden
+  aria-hidden="true"
+></div>
+<script slot="bodyEnd" is:inline>
+  // STATIC body — reads occupation data from the <div data-occupation-page-meta>
+  // element rendered above. Identical across every /ja/[id] page → single
+  // CSP hash covers all 552 occupation pages.
+  (function () {
+    var meta = document.querySelector('div[data-occupation-page-meta]');
+    if (!meta) return;
+    var occId = Number(meta.getAttribute('data-occ-id'));
+    var riskScoreAttr = meta.getAttribute('data-risk-score') || '';
+    var riskScore = riskScoreAttr === '' ? null : Number(riskScoreAttr);
+    var riskTier = meta.getAttribute('data-risk-tier') || '';
     // Per-occupation page-view signal for the GA4 conversion funnel.
-    try { if (typeof gtag === 'function') gtag('event', 'result_view', { occupation_id: occId, ai_risk_score: riskScoreJs, risk_tier: riskTierJs, language: 'ja' }); } catch (e) {}
-  </script>
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'result_view', {
+          occupation_id: occId,
+          ai_risk_score: riskScore,
+          risk_tier: riskTier,
+          language: 'ja'
+        });
+      }
+    } catch (e) {}
+  })();
+</script>

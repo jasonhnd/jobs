@@ -168,13 +168,22 @@ export function decideDispatch(
     return { kind: 'render-sector', id: sectorParam };
   }
 
-  // Occupation id MUST be a pure digit string. Anything else is a
-  // 400 — the renderer would 502 on a non-digit padId result.
-  if (!idParam || !/^\d+$/.test(idParam)) {
+  // Occupation id MUST be 1–4 ASCII digits. Anything else is a 400.
+  // The 1-to-4 bound matches `padId`'s strict contract — we only ever
+  // serve up to 9999 occupations, and accepting wider input would
+  // either throw downstream (turning into a 500) or, before CODE-008
+  // was fixed, silently truncate to the wrong card.
+  if (!idParam) {
     return {
       kind: 'bad-request',
       message:
         'Bad request: required ?id=<n>, ?sector=<id>, ?ranking=<slug>, ?interest=<slug>, ?skill=<slug>, ?compare=<slug>, or ?page=<map|home|about|privacy|compliance|404|sectors|rankings|interests|skills|compare>',
+    };
+  }
+  if (!/^\d{1,4}$/.test(idParam)) {
+    return {
+      kind: 'bad-request',
+      message: `Bad request: invalid ?id=${idParam} (must be 1-4 digits, max 9999)`,
     };
   }
 

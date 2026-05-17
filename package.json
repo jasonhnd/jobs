@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/check-lockfile-sync.cjs && node scripts/check-analytics-config.cjs && node scripts/check-nested-html-comments.cjs && tsx src/data/build.ts && astro build && node scripts/check-rendered-leaks.cjs",
+    "build": "node scripts/check-lockfile-sync.cjs && node scripts/check-analytics-config.cjs && node scripts/check-nested-html-comments.cjs && tsx src/data/build.ts && astro build && node scripts/check-rendered-leaks.cjs && node scripts/compute-csp-hashes.cjs",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test 'src/**/*.test.ts'",
@@ -25,6 +25,7 @@
     "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
     "verify:jsonld": "node scripts/verify-jsonld.cjs",
     "verify:internal-links": "node scripts/verify-internal-links.cjs",
+    "check:csp-hashes": "node scripts/compute-csp-hashes.cjs --check",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {
@@ -44,5 +45,15 @@
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   },
-  "packageManager": "pnpm@11.0.9"
+  "optionalDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.55.1",
+    "http-server": "14.1.1"
+  },
+  "packageManager": "pnpm@11.0.9",
+  "pnpm": {
+    "overrides": {
+      "devalue": "^5.8.1"
+    }
+  }
 }

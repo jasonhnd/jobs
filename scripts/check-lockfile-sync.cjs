@@ -44,15 +44,21 @@ const pkg = JSON.parse(fs.readFileSync(PKG_PATH, 'utf8'));
 const lockText = fs.readFileSync(LOCK_PATH, 'utf8');
 
 // Combine all top-level deps from package.json with their specifier strings.
-// (We intentionally skip optionalDependencies since pnpm handles them
-// differently in the importers block; if the project starts using them,
-// extend this map.)
+// Includes optionalDependencies — pnpm writes them into the importers
+// `optionalDependencies:` block of the lockfile, so they DO participate
+// in --frozen-lockfile validation just like deps and devDeps. (E2E
+// packages @playwright/test, http-server, @axe-core/playwright live
+// here so Vercel can skip them with --no-optional while keeping the
+// lockfile pinned — see vercel.json:5 and scripts/run-e2e.sh.)
 const pkgDeps = new Map();
 for (const [name, spec] of Object.entries(pkg.dependencies || {})) {
   pkgDeps.set(name, { spec, kind: 'dep' });
 }
 for (const [name, spec] of Object.entries(pkg.devDependencies || {})) {
   pkgDeps.set(name, { spec, kind: 'devDep' });
+}
+for (const [name, spec] of Object.entries(pkg.optionalDependencies || {})) {
+  pkgDeps.set(name, { spec, kind: 'optDep' });
 }
 
 // Parse pnpm-lock.yaml v9 importers['.'] block. Format:
