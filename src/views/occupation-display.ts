@@ -64,9 +64,12 @@ export function buildOccupationDisplay(input: OccupationDisplayInput): Occupatio
   const workersCell = workers ? `${fmtInt(workers)} 人` : EMDASH;
   const ageCell = age ? `${ageDisp} 歳` : EMDASH;
   const hoursCell = hours ? `${hoursDisp} 時間/月` : EMDASH;
+  // 2026-05-17 H2 fix: when salaryMan is null, render a single
+  // em dash rather than the doubled "—（— 万円）" which read as
+  // a layout glitch on the 4 new IPD occupations 581-584.
   const salaryCell = salaryMan
     ? `¥${fmtInt(Math.trunc(salaryMan * SALARY_MAN_TO_YEN))}（${salaryInt} 万円）`
-    : '—（— 万円）';
+    : EMDASH;
 
   return {
     riskStr,

@@ -95,7 +95,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   'entry-paths':    { eyebrow: 'ENTRY · 4 軸',       title: '入職経路から職業を探す',   subtitle: '新卒/中途/バイト/独立' },
   careers:          { eyebrow: 'CAREER · 10 persona', title: 'キャリア段階から探す',   subtitle: '10 persona 別おすすめ職業' },
   licenses:         { eyebrow: 'LICENSE · 15 カテゴリー', title: '資格から職業を探す', subtitle: '15 資格カテゴリー別の関連職業' },
-  qa:               { eyebrow: 'Q&A · 36 個',        title: 'よくある質問',            subtitle: 'AI 時代のキャリア 36 質問に回答' },
+  qa:               { eyebrow: 'Q&A · 49 個',        title: 'よくある質問',            subtitle: 'AI 時代のキャリア 49 質問に回答' },
   'about-trust':    { eyebrow: 'ABOUT',              title: '方法論・信頼性',          subtitle: '本サイトの分析方法を全公開' },
   methodology:      { eyebrow: 'METHOD',             title: 'AI 影響度評価の方法論',   subtitle: 'Claude Opus 4.7 ロジック詳細' },
   glossary:         { eyebrow: 'GLOSSARY',           title: '用語集',                  subtitle: '本サイト独自用語の定義' },

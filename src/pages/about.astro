@@ -7,6 +7,14 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
+import { nowIso } from '../lib/now';
+
+// 2026-05-17 H5 fix: was hard-coded 2026-04-25 page-meta "最終更新"
+// date. Switched to build-time `nowIso` so every deploy reflects
+// the actual last-updated date. The 2026-04-25 references that
+// remain in the page body are the AI scoring run date (different
+// concept — the snapshot when Claude Opus 4.7 actually scored).
+const pageLastUpdated = nowIso().slice(0, 10);
 
 const jsonLd = `{
   "@context": "https://schema.org",
@@ -326,7 +334,7 @@ const jsonLd = `{
       本サイトのデータソース・スコア算出方法・よくある質問
     </p>
     <p class="meta-line">
-      最終更新：2026-04-25
+      最終更新：{pageLastUpdated}
     </p>
 
     <!-- 1. データソース -->

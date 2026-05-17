@@ -8,24 +8,17 @@
  * `<div class="meta-row">` with up to 4 inline chips.
  *
  * ─────────────────────────────────────────────────────────────
- * PRESERVED PRE-EXISTING BUG (do not "fix" silently)
+ * Fixed 2026-05-17 — was demand_band key mismatch
  * ─────────────────────────────────────────────────────────────
- * `bandLabel` / `bandClass` accept the demand_band values
+ * Previously `bandLabel` / `bandClass` accepted demand_band values
  * `'cool' | 'warm' | 'hot'`, but the data layer actually emits
  * `'cold' | 'normal' | 'hot'` (see src/data/test-consistency.ts
- * VALID_DEMAND_BAND). As a result, ~273 occupations whose
- * demand_band is `cold` or `normal` silently render no demand
- * chip on the live site today.
+ * VALID_DEMAND_BAND). ~273 occupations whose demand_band was
+ * `cold` or `normal` silently rendered no demand chip.
  *
- * The architecture migration is required to ship byte-equivalent
- * output to the SEO baseline snapshot. Fixing the lookup here
- * would shift the rendered HTML on ~273 pages and break the
- * `pnpm run check:seo-baseline` gate. The fix belongs in a
- * separate, deliberate commit that ALSO rebases the baseline.
- *
- * `workforce_band` also tolerates both `'mid'` and `'medium'`;
- * the data layer only emits `'mid'`, but the dead-defensive
- * `'medium'` key is preserved for parity.
+ * Keys now aligned with data layer. The `workforce_band` dead
+ * `'medium'` defensive key was also removed (data layer only
+ * emits `'mid'`). SEO baseline rebased in the same commit.
  * ─────────────────────────────────────────────────────────────
  */
 
@@ -41,20 +34,19 @@ export interface MetaRowInput {
   readonly sectorId: string | undefined;
   /** 'low' | 'mid' | 'high' | null */
   readonly riskBand: string | null;
-  /** 'small' | 'mid' | 'medium' | 'large' | null */
+  /** 'small' | 'mid' | 'large' | null */
   readonly workforceBand: string | null;
-  /** 'cool' | 'warm' | 'hot' (the labelled keys, BUG — see header) */
+  /** 'cold' | 'normal' | 'hot' | null (matches data/lib/bands.ts) */
   readonly demandBand: string | null;
 }
 
 type BandField = 'risk_band' | 'workforce_band' | 'demand_band';
 
-// PRESERVED LEGACY KEYSET — see file header for the demand_band bug
-// and the workforce_band 'medium' dead-defensive key.
+// Keys aligned with data layer (src/data/lib/bands.ts + test-consistency.ts).
 const BAND_LABELS: Record<BandField, Record<string, string>> = {
   risk_band: { low: 'AI 影響 低', mid: 'AI 影響 中', high: 'AI 影響 高' },
-  workforce_band: { small: '規模 小', mid: '規模 中', medium: '規模 中', large: '規模 大' },
-  demand_band: { cool: '需要 安定', warm: '需要 旺盛', hot: '需要 過熱' },
+  workforce_band: { small: '規模 小', mid: '規模 中', large: '規模 大' },
+  demand_band: { cold: '需要 安定', normal: '需要 旺盛', hot: '需要 過熱' },
 };
 
 function bandLabel(field: BandField, band: string | null): string | null {
@@ -67,7 +59,7 @@ function bandClass(field: BandField, band: string | null): string {
   if (field === 'risk_band') return `band-${band}`;
   if (field === 'workforce_band') {
     return (
-      ({ small: 'band-low', mid: 'band-mid', medium: 'band-mid', large: 'band-high' } as Record<
+      ({ small: 'band-low', mid: 'band-mid', large: 'band-high' } as Record<
         string,
         string
       >)[band] ?? ''
@@ -75,7 +67,7 @@ function bandClass(field: BandField, band: string | null): string {
   }
   if (field === 'demand_band') {
     return (
-      ({ cool: 'band-low', warm: 'band-mid', hot: 'band-high' } as Record<string, string>)[band] ??
+      ({ cold: 'band-low', normal: 'band-mid', hot: 'band-high' } as Record<string, string>)[band] ??
       ''
     );
   }

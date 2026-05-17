@@ -5,8 +5,13 @@ import { QA_ITEMS } from '../../../views/qa-meta';
 import { renderGenreIndexJsonLd, renderQGroupsHtml, GENRE_HUB_CSS } from '../../../templates/Hub';
 
 const canonical = 'https://mirai-shigoto.com/ja/q';
-const title = 'よくある質問 (Q&A)｜36 個の質問に回答 | 未来の仕事';
-const seoDesc = 'AI 時代のキャリアに関する 36 の質問に回答。「AI でなくならない仕事は？」「30 代の転職はどう選ぶ？」等、具体的な状況別に解説。';
+// 2026-05-17 H4 fix: was hard-coded 36 — drifted to 49 as QA_ITEMS
+// grew. Title/desc now derive count from QA_ITEMS so they never
+// drift again. Also keeps the OG card / sitemap aligned via the
+// same source.
+const qaCount = QA_ITEMS.length;
+const title = `よくある質問 (Q&A)｜${qaCount} 個の質問に回答 | 未来の仕事`;
+const seoDesc = `AI 時代のキャリアに関する ${qaCount} の質問に回答。「AI でなくならない仕事は？」「30 代の転職はどう選ぶ？」等、具体的な状況別に解説。`;
 const jsonLd = renderGenreIndexJsonLd(canonical, '質問で探す', seoDesc);
 
 // Group by sub-genre
