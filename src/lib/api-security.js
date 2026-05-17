@@ -103,16 +103,41 @@ export async function readBodyText(req, capBytes) {
 
 /**
  * Extract the rate-limit key (client IP) from an Edge request.
- * Returns `"anonymous"` when `x-forwarded-for` is missing/malformed —
+ * Returns `"anonymous"` when no usable IP header is present —
  * effectively rate-limits the endpoint as a whole rather than per-client,
  * which is safer than skipping the limiter entirely.
+ *
+ * 2026-05-17 H15 fix: previously this trusted the FIRST hop of
+ * X-Forwarded-For. That's the original-client convention behind a
+ * single CDN, but if a request reaches our Edge function from a
+ * source that already sets XFF (preview deploys, alternate-domain
+ * proxy, or a misconfigured ingress), an attacker controls that
+ * first hop and can spoof to rotate rate-limit keys.
+ *
+ * Vercel's Edge runtime exposes `x-real-ip` (set by Vercel's own
+ * infrastructure, not client-supplied) and `x-vercel-forwarded-for`
+ * (Vercel-signed). We prefer those. XFF is only consulted when
+ * neither is present, and we take the LAST hop (the one closest
+ * to our function = closest to a trustable infrastructure layer).
  */
 export function clientIpFromRequest(req) {
+  // Trustable sources first.
+  const xRealIp = req.headers.get("x-real-ip");
+  if (xRealIp && xRealIp.trim()) return xRealIp.trim();
+  const xVercelXff = req.headers.get("x-vercel-forwarded-for");
+  if (xVercelXff && xVercelXff.trim()) {
+    // x-vercel-forwarded-for is a chain like x-forwarded-for but
+    // controlled by Vercel — last hop is closest to us.
+    const hops = xVercelXff.split(",").map((s) => s.trim()).filter(Boolean);
+    if (hops.length > 0) return hops[hops.length - 1];
+  }
+  // Fallback to raw XFF; take LAST hop (infrastructure-trusted,
+  // not first-hop which is client-controllable).
   const xff = req.headers.get("x-forwarded-for");
   if (!xff) return "anonymous";
-  // First hop = original client per Vercel/most-CDN convention.
-  const first = xff.split(",")[0]?.trim();
-  return first || "anonymous";
+  const hops = xff.split(",").map((s) => s.trim()).filter(Boolean);
+  if (hops.length === 0) return "anonymous";
+  return hops[hops.length - 1];
 }
 
 // ─── Rate limiting (Upstash Redis REST API) ───────────────────────────────
@@ -230,6 +255,49 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
   if (!secret) return { ok: true, skipped: true };
   if (!token) return { ok: false, reason: "missing_token" };
 
+  // 2026-05-17 H16: replay-guard. Cloudflare tokens are one-shot —
+  // Turnstile docs say "tokens are single-use only" but their server
+  // sometimes returns success=true on the second verify before
+  // their cache catches up; we treat that as our problem. When
+  // Upstash is configured, SETNX a sha256(token) key with the
+  // token's lifetime as TTL (Turnstile tokens expire after 300s),
+  // and refuse if the key already existed.
+  //
+  // When Upstash isn't configured, fall through to the verify call
+  // anyway — losing replay protection but not breaking the form.
+  // This matches the rate-limit "degrade gracefully" posture.
+  if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+    try {
+      // SHA-256 the token so we don't leak the raw value into Redis
+      // logs (Turnstile tokens can be ~600 chars). Web Crypto is
+      // available in Edge runtime.
+      const enc = new TextEncoder().encode(token);
+      const hashBuf = await crypto.subtle.digest("SHA-256", enc);
+      const hex = Array.from(new Uint8Array(hashBuf))
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+      const key = `ts:${hex}`;
+      const setRes = await fetch(`${env.UPSTASH_REDIS_REST_URL}/set/${key}/1`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.UPSTASH_REDIS_REST_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ NX: true, EX: 300 }),
+      });
+      if (setRes.ok) {
+        const data = await setRes.json();
+        // Upstash returns { result: "OK" } on first set, { result: null } if NX failed.
+        if (data && data.result === null) {
+          return { ok: false, reason: "turnstile_replay" };
+        }
+      }
+      // On Upstash failure, log + continue to verify (don't break the form).
+    } catch (_err) {
+      // Same — log + continue.
+    }
+  }
+
   const form = new URLSearchParams();
   form.set("secret", secret);
   form.set("response", token);
@@ -252,7 +320,12 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
     const data = await res.json();
     // Cloudflare verify response: { success: bool, "error-codes": [...] }
     if (data && data.success === true) return { ok: true };
-    return { ok: false, reason: "turnstile_failed", codes: data?.["error-codes"] || [] };
+    // 2026-05-17 H16: explicitly reject Cloudflare's own replay signal.
+    const codes = data?.["error-codes"] || [];
+    if (codes.includes("timeout-or-duplicate")) {
+      return { ok: false, reason: "turnstile_replay", codes };
+    }
+    return { ok: false, reason: "turnstile_failed", codes };
   } catch (err) {
     if (FAIL_CLOSED_PATTERN.test(env.FAIL_CLOSED_ON_TURNSTILE_ERROR || "")) {
       return { ok: false, reason: String(err) };
