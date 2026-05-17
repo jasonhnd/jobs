@@ -48,6 +48,7 @@ import {
   shouldSendMpHit,
   buildMpPayload,
 } from './src/lib/middleware-helpers.js';
+import { clientIpFromRequest } from './src/lib/api-security.js';
 
 export const config = {
   // Match user-facing HTML routes. Skip:
@@ -84,10 +85,25 @@ export default function middleware(request: Request, context: RequestContext): R
   const cookieHeader = request.headers.get('cookie');
   const clientId = deriveClientId(cookieHeader);
   const referer = request.headers.get('referer') ?? '';
-  // Vercel sets x-forwarded-for; first IP is the client.
-  const forwardedFor = request.headers.get('x-forwarded-for') ?? '';
-  const clientIp = forwardedFor.split(',')[0]?.trim() ?? '';
+  // 2026-05-17 H15 hardening: use the shared XFF-spoof-safe helper
+  // (x-real-ip > x-vercel-forwarded-for > XFF last-hop) instead of
+  // the original first-hop XFF parse, which was spoofable by any
+  // client setting their own X-Forwarded-For header. GA4's
+  // ip_override field accepts a client IP for geolocation; safer
+  // to feed it the infrastructure-trusted value.
+  const clientIp = clientIpFromRequest(request) === 'anonymous'
+    ? ''
+    : clientIpFromRequest(request);
 
+  // 2026-05-17 H17 hardening: GA4 Measurement Protocol REQUIRES
+  // measurement_id + api_secret as query string params per Google's
+  // API contract — they are not accepted in the body or headers.
+  // The risk is log leakage, not API design. We mitigate by:
+  //   1. NEVER logging `mpUrl` directly (only res.status / err.message
+  //      below — verified line-by-line in the .then/.catch handlers).
+  //   2. Marking the env as Sensitive in Vercel (operator action
+  //      documented in .env.example).
+  // If you add new logging here, REDACT or omit the URL.
   const mpUrl =
     `https://www.google-analytics.com/mp/collect` +
     `?measurement_id=${encodeURIComponent(mid)}` +

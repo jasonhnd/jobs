@@ -131,16 +131,38 @@ export function padId(idDigits: string): string {
  * await the same in-flight fetch instead of racing N redundant requests.
  * On fetch failure the rejected Promise is evicted so the next caller
  * retries fresh.
+ *
+ * 2026-05-17 H19 fix: previously unbounded. The cache key includes the
+ * subset `text`, which varies per occupation/sector title (556+ unique
+ * subsets), so warm Edge instances accumulated hundreds of MB of font
+ * buffers and would OOM after a few hours of traffic. LRU-cap at 32
+ * entries — covers our 2 fonts × ~16 frequently-used subsets and
+ * evicts cold tails. Subset variability is a minor cache-miss tax
+ * (~50ms extra on cold subset) vs the OOM crash it prevents.
  */
+const FONT_CACHE_LIMIT = 32;
 const _fontCache = new Map<string, Promise<ArrayBuffer>>();
 
 export async function loadGoogleFont(family: string, weight: number, text: string): Promise<ArrayBuffer> {
   const key = `${family}|${weight}|${text}`;
   const cached = _fontCache.get(key);
-  if (cached) return cached;
+  if (cached) {
+    // Bump to most-recent by re-inserting (Map preserves insertion order).
+    _fontCache.delete(key);
+    _fontCache.set(key, cached);
+    return cached;
+  }
   const promise = fetchGoogleFont(family, weight, text);
-  _fontCache.set(key, promise);
+  // Evict rejected promise on failure so the next caller retries fresh.
   promise.catch(() => { _fontCache.delete(key); });
+  _fontCache.set(key, promise);
+  // Trim oldest if over capacity. Map iteration order = insertion
+  // order, so the first key is the LRU victim.
+  while (_fontCache.size > FONT_CACHE_LIMIT) {
+    const firstKey = _fontCache.keys().next().value;
+    if (firstKey === undefined) break;
+    _fontCache.delete(firstKey);
+  }
   return promise;
 }
 
