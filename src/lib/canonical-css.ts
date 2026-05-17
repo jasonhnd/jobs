@@ -57,6 +57,11 @@ export const CANONICAL_CSS = `
   --ink-2: #5a4a3a;
   --ink-3: #8a7a6a;
   --ink-4: #b0a090;
+  /* RA-008 (2026-05-18): WCAG-AA-safe variant of --ink-3 for body-sized text.
+     --ink-3 (#8a7a6a) on --cream = 3.84:1 — passes AA for ≥18px or 14px-bold
+     only. For 11-13px stat labels / breadcrumb meta, use --ink-meta which
+     hits 4.5:1+ at any size. Updates Design.md §2.1 table. */
+  --ink-meta: #695745;
   --orange: #D96B3D;
   --orange-hot: #c0411e;
   --orange-soft: #fce4d2;
@@ -92,6 +97,109 @@ export const CANONICAL_CSS = `
   --border: rgba(36, 30, 24, 0.10);
 }
 
+/* ───── Cookie consent banner (RA-013, 2026-05-18) ─────
+   Fixed at viewport bottom; visible when localStorage.cookieConsent
+   is unset. Single-line on desktop, stacked on mobile. */
+html body .cookie-banner {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10000;
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 18px;
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.25);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+html body .cookie-banner .cb-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+html body .cookie-banner .cb-text {
+  margin: 0;
+  flex: 1 1 320px;
+  color: #fff;
+}
+html body .cookie-banner .cb-text a {
+  color: var(--orange-soft);
+  text-decoration: underline;
+}
+html body .cookie-banner .cb-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+html body .cookie-banner .cb-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  min-height: 40px;
+}
+html body .cookie-banner .cb-btn-accept {
+  background: var(--orange);
+  color: #fff;
+}
+html body .cookie-banner .cb-btn-accept:hover { filter: brightness(1.08); }
+html body .cookie-banner .cb-btn-reject {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 0.08); }
+@media (max-width: 540px) {
+  html body .cookie-banner .cb-inner { flex-direction: column; align-items: stretch; gap: 12px; }
+  html body .cookie-banner .cb-actions { justify-content: flex-end; }
+}
+
+/* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
+   Off-screen by default; visible when focused so keyboard users can
+   actually see where focus is. RA-004 audit (2026-05-18): the previous
+   rule kept it at left:-9999 even on focus, so sighted keyboard users
+   could not bypass the nav.
+
+   Canonical implementation lives here so every page (BaseLayout + the
+   raw home page) picks up the same behaviour without page-local copies.
+   Page-local overrides in src/lib/canonical/{detail,hub,sector,static}.ts
+   were aligned in the same audit pass. */
+html body a.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  background: var(--orange);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+}
+html body a.skip-link:focus,
+html body a.skip-link:focus-visible {
+  left: 12px;
+  top: 12px;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ───── Global :focus-visible (WCAG 2.4.7 Focus Visible) ─────
+   Every interactive element gets a visible focus ring when focused via
+   keyboard. RA-004 audit (2026-05-18): site previously stripped outline
+   to 0 site-wide, leaving keyboard users with no focus indicator. */
+html body :focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* ───── Canonical typography (single source of truth) ───── */
 /* Selector chain html body <tag> beats page-local bare-element rules. */
 
@@ -101,6 +209,10 @@ html body {
   line-height: 1.75;
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
+  /* RA-006 audit (2026-05-18): defence-in-depth against horizontal-swipe
+     carousels (.m-top10-track etc.) leaking past their parent and
+     triggering document-level horizontal scroll on narrow viewports. */
+  overflow-x: clip;
 }
 
 html body h1,
@@ -178,7 +290,12 @@ html body footer.site-footer .footer-links {
 html body footer.site-footer .footer-links a {
   color: var(--fg2);
   text-decoration: none;
-  padding: 5px 14px;
+  /* RA-009 (2026-05-18): tap target ≥24px (WCAG 2.5.8). Was 5px 14px →
+     ~22px tall, now 8px 14px → ~28px tall. */
+  padding: 8px 14px;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
   border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 0.74rem;

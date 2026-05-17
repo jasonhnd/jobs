@@ -13,12 +13,14 @@ import {
 } from '../../../templates/Ranking';
 import { loadGraph } from '@/graph';
 import { loadOccupationsFromGraph } from '@/views/ranking';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 const graph = await loadGraph();
 const { hub } = buildRankings(() => loadOccupationsFromGraph(graph));
 const canonical = 'https://mirai-shigoto.com/ja/rankings';
 const title = '職業ランキング｜AI影響度・年収・就業者数・初任給・労働時間で比較 | 未来の仕事';
-const seoDesc = '日本556職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。';
+// RA-003 (2026-05-18): SCORED count, not raw IPD total — match adjacent pages.
+const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
 
 const cardsHtml = renderRankingsHubCards(hub.cards);
 const gsHtml = renderRankingsHubStats(hub.globalStats);
@@ -133,7 +135,7 @@ footer .footer-meta .nowrap{white-space:nowrap}
 
     <header id="content">
       <h1><span class="accent">職業ランキング</span></h1>
-      <p class="sub"><strong>556 職業</strong> を AI 影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点で比較</p>
+      <p class="sub"><strong>{OCCUPATION_COUNT.SCORED} 職業</strong> を AI 影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点で比較</p>
       <p class="intro">日本の職業を様々な視点でランキング。AI に代替されやすい仕事、将来性のある仕事、高年収かつ低リスクの職業、初任給が高い職業、労働時間が短い職業、人手不足の職業などを一覧できます。</p>
     </header>
 

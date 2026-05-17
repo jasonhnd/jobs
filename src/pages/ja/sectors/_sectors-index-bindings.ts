@@ -4,6 +4,7 @@
  */
 import type { KnowledgeGraph } from '@/graph';
 import { sectorIndexView, type SectorIndexEntry } from '@/views/sector';
+import { OCCUPATION_COUNT } from '@/site/config';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -20,6 +21,8 @@ export interface SectorsIndexBindings {
   readonly crumbSelf: string;
   readonly skipLabel: string;
   readonly jsonLd: string;
+  /** OCCUPATION_COUNT.SCORED — user-facing occupation count. */
+  readonly totalOcc: number;
 }
 
 export function fmtInt(n: number | null | undefined): string {
@@ -38,12 +41,15 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
   const sectors = view.sectors;
   const totalOcc = view.totalOccupations;
   const canonical = `${SITE}/ja/sectors`;
-  const pageTitle = `全 16 業種｜556 職業を業界別に分類 | 未来の仕事`;
+  // RA-003 (2026-05-18): user-facing copy uses OCCUPATION_COUNT.SCORED
+  // (the 552 AI-scored occupations users see on the map) rather than the
+  // raw 556 IPD dataset count, so adjacent pages don't disagree.
+  const pageTitle = `全 16 業種｜${OCCUPATION_COUNT.SCORED} 職業を業界別に分類 | 未来の仕事`;
   const ogTitle = '全 16 業種｜業界別 職業ランキング・AI 影響度・年収';
   const seoDesc =
     `日本の${totalOcc}職業を 16 業界（医療・保健、IT・通信、士業、製造、建設 ほか）に分類。` +
     `業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。Claude Opus 4.7 独自分析（非公式）。`;
-  const keywords = '業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, 556 職業, 業種';
+  const keywords = `業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, ${OCCUPATION_COUNT.SCORED} 職業, 業種`;
   const h1 = '全 16 業種';
   const hList = '業界 一覧';
   const crumbRoot = '未来の仕事';
@@ -91,5 +97,6 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
   return {
     sectors, canonical, pageTitle, ogTitle, seoDesc, keywords,
     h1, hList, crumbRoot, crumbSelf, skipLabel, jsonLd,
+    totalOcc: OCCUPATION_COUNT.SCORED,
   };
 }

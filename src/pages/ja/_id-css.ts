@@ -72,10 +72,16 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){dl.stats{grid-template-columns:repeat(3,1fr);gap:16px}}
     dl.stats > div{background:var(--paper);border-radius:12px;padding:14px 16px;box-shadow:0 4px 12px rgba(120,80,30,0.04);border:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column}
     @media (min-width:900px){dl.stats > div{padding:22px 24px;border-radius:14px}}
-    dl.stats dt{font-size:0.7rem;color:var(--ink-3);text-transform:none;letter-spacing:normal;margin:6px 0 0;order:2;font-weight:400}
-    @media (min-width:900px){dl.stats dt{font-size:0.78rem;margin:8px 0 0}}
+    /* RA-008 (2026-05-18): bumped from 0.7rem→0.78rem mobile + --ink-3→--ink-meta
+       to clear WCAG AA 4.5:1 (was 3.84:1 at 11.2px). */
+    dl.stats dt{font-size:0.78rem;color:var(--ink-meta);text-transform:none;letter-spacing:normal;margin:6px 0 0;order:2;font-weight:500}
+    @media (min-width:900px){dl.stats dt{font-size:0.82rem;margin:8px 0 0}}
     dl.stats dd{font-size:1.2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1.1;order:1}
     @media (min-width:900px){dl.stats dd{font-size:1.65rem}}
+    /* RA-007 (2026-05-18): em-dash stat cells get visually demoted so they
+       don't compete with real numbers. aria-label="データなし" is on the
+       inner span so screen readers announce intent (see _StatsGrid.astro). */
+    dl.stats dd .stat-empty{color:var(--ink-3);font-weight:400;font-size:0.85em;cursor:help}
 
     /* Editorial sections — context / how-to-become / working-conditions — wrap in sec-card narrow */
     section.context,section.how-to-become,section.working-conditions{background:var(--paper);padding:18px 20px;border-radius:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
