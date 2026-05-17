@@ -105,7 +105,6 @@
       "permanent": true
     },
     {
-      "_comment": "RA-010 (2026-05-18): /ja and /ja/ are not real pages — site root is at /. Without this redirect both 404, leaving anyone who guessed the language root with a dead page.",
       "source": "/ja",
       "destination": "/",
       "permanent": true
