@@ -17,8 +17,7 @@ html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--accent)}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
-.skip-link:focus{left:8px;top:8px}
+/* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
 /* Hub class layout: 980 wrapper, vertical-rhythm 32px padding */
 #wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}

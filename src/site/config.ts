@@ -32,3 +32,27 @@ export const siteConfig = {
 } as const;
 
 export type SiteConfig = typeof siteConfig;
+
+/**
+ * Occupation counts — single source of truth for the two numbers that
+ * appear across the site.
+ *
+ *   - SCORED = 552 — AI-scored by Claude Opus 4.7 (what treemap / rankings show)
+ *   - TOTAL  = 556 — full JILPT IPD v7.00 dataset (4 are not scored yet)
+ *
+ * Before this constant existed, the two values were scattered across
+ * 30+ surfaces and produced contradictory copy: homepage said "552
+ * 職業", /ja/sectors H1 said "556 職業", /404 said "業界別 556
+ * 職業". Users hit different numbers in adjacent pages.
+ *
+ * Rule of thumb:
+ *   - User-facing copy that references THE MAP / RANKINGS / HUBS → SCORED
+ *   - Provenance discussion (/about/data-sources, glossary) describing
+ *     the IPD source dataset itself → TOTAL
+ */
+export const OCCUPATION_COUNT = {
+  /** AI-scored occupations — what users see on the map, in rankings, hubs. */
+  SCORED: 552,
+  /** Full JILPT IPD v7.00 occupation count (raw dataset). */
+  TOTAL: 556,
+} as const;

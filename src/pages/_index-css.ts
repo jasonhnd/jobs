@@ -138,6 +138,11 @@ export const INDEX_CSS = String.raw`      *,
           display: block;
           margin: 28px -20px 24px;  /* bleed to viewport edges so cards swipe past content padding */
           padding: 0 20px;
+          /* RA-006 audit (2026-05-18): contain the horizontal-swipe carousel
+             so its 320px cards do not extend past the viewport right edge
+             and trigger document-level horizontal scroll on mobile
+             (375px iPhone reported scrollW=383 → 8px overflow). */
+          overflow-x: clip;
         }
         /* Hide the desktop's 6 stat-card panel on mobile per Direction C homepage design (carousel is the mobile feature surface). */
         .stats-panel { display: none !important; }
