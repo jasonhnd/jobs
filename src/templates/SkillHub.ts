@@ -14,7 +14,7 @@
  */
 import type { SkillSlug, SkillMeta } from '../views/skills-meta.js';
 import type { SkillOccupation } from '../views/skills-hub.js';
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 
@@ -27,7 +27,7 @@ export { renderHighlights } from './Highlights.js';
 export { renderSectorChart } from './SectorChart.js';
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
-export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
+export function renderSkillItem(o: SkillOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
   const score = o.ai_risk;
   const scoreStr = score === null ? '—' : `${score}/10`;
@@ -52,7 +52,7 @@ export function renderSkillItem(o: SkillOccupation, shortJa: string): string {
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
     `</li>`
-  );
+  ) as SafeHtml;
 }
 
 /**
@@ -164,7 +164,7 @@ export interface SkillsHubCard {
   readonly top_count: number;
 }
 
-export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): string {
+export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): SafeHtml {
   return cards.map((c) => {
     const previewHtml = c.top_preview ? `<span class="sci-preview">${escapeHtml(c.top_preview)}</span>` : '';
     return (
@@ -175,7 +175,7 @@ export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): strin
       `<span class="sci-count">TOP ${c.top_count} 職業</span>` +
       `</a></li>`
     );
-  }).join('');
+  }).join('') as SafeHtml;
 }
 
 export function renderHubJsonLd(): string {

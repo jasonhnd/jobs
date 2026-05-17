@@ -13,7 +13,7 @@
  */
 import type { InterestType, InterestMeta } from '../views/interests-meta.js';
 import type { InterestOccupation } from '../views/interests.js';
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 
@@ -190,7 +190,7 @@ export interface InterestsHubCard {
   readonly top_count: number;
 }
 
-export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>): string {
+export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>): SafeHtml {
   return cards.map((c) => {
     const previewHtml = c.top_preview ? `<span class="iri-preview">${escapeHtml(c.top_preview)}</span>` : '';
     return (
@@ -202,7 +202,7 @@ export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>):
       `<span class="iri-count">TOP ${c.top_count} 職業</span>` +
       `</a></li>`
     );
-  }).join('');
+  }).join('') as SafeHtml;
 }
 
 export function renderHubJsonLd(): string {
