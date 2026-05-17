@@ -160,19 +160,22 @@ html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 
 }
 
 /* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
-   Off-screen by default; visible when focused so keyboard users can
-   actually see where focus is. RA-004 audit (2026-05-18): the previous
-   rule kept it at left:-9999 even on focus, so sighted keyboard users
-   could not bypass the nav.
+   Visually hidden by default; revealed when focused so keyboard users
+   can see where focus is. RA-004 audit (2026-05-18): the previous
+   `left:-9999` trick worked for visually-hidden but Chrome treats
+   off-screen elements as effectively non-focusable for :focus matching
+   under modern focus heuristics. Switched to the standard "visually
+   hidden" clip-rect pattern + transform on focus, which both screen
+   readers and Chrome accept.
 
    Canonical implementation lives here so every page (BaseLayout + the
    raw home page) picks up the same behaviour without page-local copies.
    Page-local overrides in src/lib/canonical/{detail,hub,sector,static}.ts
-   were aligned in the same audit pass. */
+   + src/pages/_index-css.ts were removed in the same audit pass. */
 html body a.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
+  position: fixed;
+  top: 12px;
+  left: 12px;
   z-index: 9999;
   background: var(--orange);
   color: #fff;
@@ -181,11 +184,13 @@ html body a.skip-link {
   font-weight: 600;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(217, 107, 61, 0.28);
+  /* Hide visually without removing from focus order: zero size + clip-path */
+  transform: translateY(-200%);
+  transition: transform 150ms ease;
 }
 html body a.skip-link:focus,
 html body a.skip-link:focus-visible {
-  left: 12px;
-  top: 12px;
+  transform: translateY(0);
   outline: 2px solid #fff;
   outline-offset: 2px;
 }
