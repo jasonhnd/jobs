@@ -240,6 +240,18 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">本文へスキップ</a>
+    <script is:inline>
+      /* RA-002b (2026-05-18): JS fallback to toggle .is-focused on skip-link.
+         Some browsers (and CDP-driven testing harnesses) don't apply :focus
+         pseudo-class for programmatic .focus() calls or rapid Tab presses.
+         The class toggle guarantees the visible state. */
+      (function () {
+        var s = document.querySelector('a.skip-link');
+        if (!s) return;
+        s.addEventListener('focus', function () { s.classList.add('is-focused'); });
+        s.addEventListener('blur',  function () { s.classList.remove('is-focused'); });
+      })();
+    </script>
     <MobileNav />
     <TopNav />
     <main id="main-content">

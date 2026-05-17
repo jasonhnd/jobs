@@ -331,6 +331,15 @@
   </head>
   <body>
     <a class="skip-link" href="#main-content">本文へスキップ</a>
+    <script>
+      /* RA-002b (2026-05-18): JS class toggle — see BaseLayout.astro. */
+      (function () {
+        var s = document.querySelector('a.skip-link');
+        if (!s) return;
+        s.addEventListener('focus', function () { s.classList.add('is-focused'); });
+        s.addEventListener('blur',  function () { s.classList.remove('is-focused'); });
+      })();
+    </script>
     <!-- Sticky top navigation — mirrors src/components/TopNav.astro for the home page (which doesn't go through BaseLayout). Styles live in src/lib/canonical-css.ts under the "Top navigation" block, injected into <head> by src/pages/index.astro. The home page's brand link gets aria-current="page". -->
     <nav class="top-nav" aria-label="主要ナビゲーション">
       <a href="/" class="top-nav-brand" aria-current="page"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="top-nav-brand-mark"><path d="M3 18 L9 10 L13 14 L21 6"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="13" cy="14" r="1.5" fill="currentColor"/><circle cx="21" cy="6" r="1.5" fill="currentColor"/></svg><span class="top-nav-brand-text">未来の仕事</span></a><span class="sep" aria-hidden="true">·</span>
