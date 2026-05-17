@@ -14,7 +14,7 @@
  *   1 — at least one validation or projection error.
  */
 import { mkdir, rm, rename, readdir, cp, writeFile, access } from 'node:fs/promises';
-import { join, resolve, relative, sep } from 'node:path';
+import { basename, dirname, join, resolve, relative, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 
 // Used by the transactional promote (CODE-001 fix).
@@ -123,6 +123,28 @@ async function main(): Promise<void> {
   // Wipe any leftover stage from a crashed previous run, then create fresh.
   // TS_DIST is left untouched until every projection succeeds.
   await rm(STAGE_DIST, { recursive: true, force: true });
+
+  // 2026-05-17 RA-002 fix: prune orphan staging dirs from previously
+  // killed builds. A hard-killed build (SIGKILL, Ctrl-C race, OOM)
+  // can leave `<TS_DIST>.tmp-<dead-pid>` siblings behind, which dirty
+  // the working tree and confuse `git status`. Safe to remove any
+  // sibling that isn't our own STAGE_DIST: PIDs aren't reused while
+  // a process is alive, and a concurrent build would have its own
+  // PID-suffixed dir we never touch.
+  const tsParent = dirname(TS_DIST);
+  const orphanPrefix = `${basename(TS_DIST)}.tmp-`;
+  try {
+    for (const name of await readdir(tsParent)) {
+      if (!name.startsWith(orphanPrefix)) continue;
+      const full = join(tsParent, name);
+      if (full === STAGE_DIST) continue;
+      await rm(full, { recursive: true, force: true });
+      console.log(`  [cleanup] removed orphan staging dir: ${name}`);
+    }
+  } catch {
+    // tsParent missing on first-ever run — fine.
+  }
+
   await mkdir(STAGE_DIST, { recursive: true });
 
   // ───── Run projections (writes to STAGE_DIST) ─────

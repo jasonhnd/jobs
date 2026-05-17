@@ -40,6 +40,12 @@ desktop.ini
 public/data.*
 public/map-thumb.snippet.html
 
+# TS-ETL staging dirs (PID-suffixed siblings of publicDir, created by
+# src/data/build.ts during atomic promote). Normally cleaned up on
+# success and on failure, but a hard-killed build can leak them.
+# Surviving dirs are auto-pruned on the next build (see build.ts).
+public.tmp-*/
+
 # Astro build output (Vercel deploy target — built fresh in CI, not committed).
 dist-astro/
 # Astro internal cache (auto-generated types, content collection metadata)
