@@ -15,7 +15,7 @@
  * value imports. Types from views/genre-hub flow in via `import type`.
  */
 import type { GenreOccupation, GenreHubConfig } from '../views/genre-hub.js';
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 import { fmtInt, safeMean } from '../lib/num.js';
 
@@ -26,7 +26,7 @@ export { renderHighlights } from './Highlights.js';
 export { renderSectorChart } from './SectorChart.js';
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
-export function renderRankItem(o: GenreOccupation, shortJa: string): string {
+export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
   const title = o.name_ja || `#${o.id}`;
   const scoreStr = o.ai_risk === null ? '—' : `${o.ai_risk}/10`;
   const band = riskClass(o.ai_risk);
@@ -47,7 +47,7 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): string {
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
     `</li>`
-  );
+  ) as SafeHtml;
 }
 
 // ─── JSON-LD ────────────────────────────────────────────────
@@ -181,7 +181,7 @@ export function renderGenreHubIndexCards(
   cards: ReadonlyArray<GenreHubIndexCard>,
   pathPrefix: string,
   descMaxLen: number = 90,
-): string {
+): SafeHtml {
   return cards.map((c) =>
     `<li><a href="/ja/${pathPrefix}/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
@@ -189,7 +189,7 @@ export function renderGenreHubIndexCards(
     (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
     `<span class="gci-count">${escapeHtml(c.countLabel)}</span>` +
     `</a></li>`,
-  ).join('');
+  ).join('') as SafeHtml;
 }
 
 // ─── q/index grouped-cards renderer ────────────────────────────────────
@@ -204,7 +204,7 @@ export interface QGroupItem {
 
 export function renderQGroupsHtml(
   groups: ReadonlyArray<readonly [string, ReadonlyArray<QGroupItem>]>,
-): string {
+): SafeHtml {
   return groups.map(([title, items]) =>
     `<section><h2>${escapeHtml(title)} (${items.length})</h2>` +
     `<ul class="genre-cards">` +
@@ -215,7 +215,7 @@ export function renderQGroupsHtml(
       `</a></li>`,
     ).join('') +
     `</ul></section>`,
-  ).join('');
+  ).join('') as SafeHtml;
 }
 
 // ─── explore/index and explore/[route] renderers ───────────────────────
@@ -227,14 +227,14 @@ export interface ExploreIndexCard {
   readonly genreCount: number;
 }
 
-export function renderExploreIndexCards(cards: ReadonlyArray<ExploreIndexCard>): string {
+export function renderExploreIndexCards(cards: ReadonlyArray<ExploreIndexCard>): SafeHtml {
   return cards.map((c) =>
     `<li><a href="/ja/explore/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
     `<span class="gci-count">${c.genreCount} 個の genre</span>` +
     `</a></li>`,
-  ).join('');
+  ).join('') as SafeHtml;
 }
 
 export interface ExploreGenreLink {
@@ -243,14 +243,14 @@ export interface ExploreGenreLink {
   readonly desc: string;
 }
 
-export function renderExploreGenreCards(genres: ReadonlyArray<ExploreGenreLink>): string {
+export function renderExploreGenreCards(genres: ReadonlyArray<ExploreGenreLink>): SafeHtml {
   return genres.map((g) =>
     `<li><a href="/ja/${g.path}">` +
     `<span class="gci-name">${escapeHtml(g.label)}</span>` +
     `<span class="gci-desc">${escapeHtml(g.desc)}</span>` +
     `<span class="gci-count">→ 詳しく見る</span>` +
     `</a></li>`,
-  ).join('');
+  ).join('') as SafeHtml;
 }
 
 export interface ExploreOtherRoute {
@@ -261,13 +261,13 @@ export interface ExploreOtherRoute {
 
 export function renderExploreOtherRoutes(
   routes: ReadonlyArray<ExploreOtherRoute>,
-): string {
-  return '<ul class="related-genre">' + routes.map((r) =>
+): SafeHtml {
+  return ('<ul class="related-genre">' + routes.map((r) =>
     `<li><a href="/ja/explore/${r.slug}">` +
     `<span class="rg-name">${escapeHtml(r.short_ja)}</span>` +
     `<span class="rg-desc">${escapeHtml(r.description_ja.slice(0, 60))}…</span>` +
     `</a></li>`,
-  ).join('') + '</ul>';
+  ).join('') + '</ul>') as SafeHtml;
 }
 
 export function renderExploreIndexJsonLd(): string {
