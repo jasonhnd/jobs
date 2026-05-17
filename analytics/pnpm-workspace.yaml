@@ -1,2 +1,3 @@
-virtualStoreDir: ${HOME}/dev-cache/jobs/analytics/.pnpm
-storeDir: ${HOME}/dev-cache/pnpm-store
+# 2026-05-17 CODE-003 fix: removed `${HOME}/dev-cache/...` paths
+# (same rationale as repo-root pnpm-workspace.yaml). Defaults to
+# pnpm's OS-conventional per-user store.

@@ -119,6 +119,20 @@ function checkDirective(directiveName, requiredOrigins) {
 checkDirective('script-src', REQUIRED_SCRIPT_SRC_ORIGINS);
 checkDirective('connect-src', REQUIRED_CONNECT_SRC_ORIGINS);
 
+// ─── Step B.5: CODE-012 — script-src must NOT include 'unsafe-inline' ─────
+// Inline scripts are pinned by SHA-256 hashes computed in
+// scripts/compute-csp-hashes.cjs. If 'unsafe-inline' creeps back in (e.g. a
+// developer reverted the hardening to debug something), fail loudly.
+const scriptSrcTokens = cspDirectives.get('script-src') ?? [];
+if (scriptSrcTokens.includes("'unsafe-inline'")) {
+  violations.push(
+    `CSP script-src contains 'unsafe-inline' (CODE-012 regression).\n` +
+    `    Inline scripts must be hashed via scripts/compute-csp-hashes.cjs.\n` +
+    `    If you must temporarily re-enable 'unsafe-inline' to debug, also\n` +
+    `    update this guard so the build still passes — but DO NOT ship it.`,
+  );
+}
+
 // ─── Step C: every PUBLIC_* env referenced in code is in .env.example ─────
 
 const envExample = readFile('.env.example');

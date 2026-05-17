@@ -1,5 +1,10 @@
 allowBuilds:
   esbuild: true
   sharp: true
-virtualStoreDir: ${HOME}/dev-cache/jobs/.pnpm
-storeDir: ${HOME}/dev-cache/pnpm-store
+# 2026-05-17 CODE-003 fix: removed `${HOME}/dev-cache/...` paths.
+# Binding pnpm store + virtualStore to a user-home subpath made the
+# repo dependent on HOME being set (broken on some Windows shells)
+# and forced cache sharing across personal machines via Dropbox
+# sync (which corrupts pnpm's content-addressable store). pnpm's
+# default store (~/.local/share/pnpm/store or %LOCALAPPDATA% on
+# Windows) is per-user OS-conventional and not synced.

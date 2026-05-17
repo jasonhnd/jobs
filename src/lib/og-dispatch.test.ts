@@ -180,10 +180,13 @@ describe('decideDispatch — occupation branch', () => {
     assert.deepEqual(d, { kind: 'render-occupation', id: '1' });
   });
 
-  test('?id=non-digit → bad-request (long help message)', () => {
+  test('?id=non-digit → bad-request (CODE-008: id format help message)', () => {
     const d = decideDispatch(url('?id=abc'), STUB_CATALOG);
     assert.equal(d.kind, 'bad-request');
-    assert.match((d as { message: string }).message, /required \?id=<n>/);
+    // 2026-05-17 CODE-008: new message format is
+    // "Bad request: invalid ?id=abc (must be 1-4 digits, max 9999)".
+    assert.match((d as { message: string }).message, /invalid \?id=abc/);
+    assert.match((d as { message: string }).message, /1-4 digits/);
   });
 
   test('?id=156.5 (decimal) → bad-request', () => {

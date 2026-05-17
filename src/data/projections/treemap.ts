@@ -18,31 +18,13 @@ import { demandBand, riskBand, workforceBand } from '../lib/bands.js';
 import { bankerRound } from '../lib/banker-round.js';
 import { nowIso } from '../../lib/now.js';
 
-// en_key → JA-key reverse maps (only for fields index.html expects in JA-key form).
-const EDU_KEY_EN_TO_JA: Record<string, string> = {
-  below_high_school: '高卒未満',
-  high_school: '高卒',
-  vocational_school: '専門学校卒',
-  junior_college: '短大卒',
-  technical_college: '高専卒',
-  university: '大卒',
-  masters: '修士課程卒（修士と同等の専門職学位を含む）',
-  doctorate: '博士課程卒',
-  // "unknown" (わからない) intentionally excluded — matches legacy data.json shape.
-};
-
-const EMP_KEY_EN_TO_JA: Record<string, string> = {
-  regular_employee: '正規の職員、従業員',
-  part_time: 'パートタイマー',
-  dispatched: '派遣社員',
-  contract: '契約社員、期間従業員',
-  self_employed_freelance: '自営、フリーランス',
-  executive: '経営層（役員等）',
-  casual_non_student: 'アルバイト（学生以外）',
-  casual_student: 'アルバイト（学生）',
-  unknown: 'わからない',
-  other: 'その他',
-};
+// 2026-05-17 CODE-011 fix: single source of truth for distribution
+// labels moved to src/data/domain/distribution-labels.ts. Re-imported
+// here to keep this file's existing local-name usage stable.
+import {
+  EDU_LABELS_EN_TO_JA as EDU_KEY_EN_TO_JA,
+  EMP_LABELS_EN_TO_JA as EMP_KEY_EN_TO_JA,
+} from '../domain/distribution-labels.js';
 
 export interface TreemapBuildResult {
   files: string[];

@@ -49,6 +49,7 @@ import {
   buildMpPayload,
 } from './src/lib/middleware-helpers.js';
 import { clientIpFromRequest } from './src/lib/api-security.js';
+import { fetchWithTimeout } from './src/lib/http-client.js';
 
 export const config = {
   // Match user-facing HTML routes. Skip:
@@ -120,15 +121,19 @@ export default function middleware(request: Request, context: RequestContext): R
   // Fire and forget. `context.waitUntil` keeps the Edge runtime alive
   // long enough for the POST to complete in the background AFTER the
   // user already received their HTML — zero perceived latency.
+  //
+  // 2000ms timeout (Audit CODE-007). Even though the call is fire-
+  // and-forget, an unbounded `waitUntil` could pin Edge resources on
+  // a stalled GA4 endpoint; bound it explicitly.
   context.waitUntil(
-    fetch(mpUrl, {
+    fetchWithTimeout(mpUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       // keepalive lets the request survive even if the Edge invocation
       // is torn down before fetch resolves (rare, but defensive).
       keepalive: true,
-    })
+    }, 2000)
       .then((res) => {
         // GA4 MP returns 204 on success. Any 4xx is configuration error
         // worth logging; 5xx is transient.

@@ -5,9 +5,12 @@ name: E2E
 # error: false) — failures block merge, but the artifact upload step
 # always runs even on test failure.
 #
-# Playwright + http-server are installed on-demand by scripts/run-e2e.sh
-# rather than via package.json — keeps Vercel install slim (~50 MB of
-# Playwright + chromium binaries don't ride along on every preview deploy).
+# Playwright + http-server + axe-core/playwright are pinned in
+# package.json's optionalDependencies + pnpm-lock.yaml (so versions are
+# reproducible and visible to audit). Vercel deploys pass --no-optional
+# in installCommand to skip them (~50 MB of Playwright + chromium binaries
+# don't ride along on every preview deploy); CI here installs them as
+# part of `pnpm install --frozen-lockfile` below.
 
 on:
   push:
@@ -47,7 +50,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-
 
-      - name: Install dependencies (deps only — Playwright comes via run-e2e.sh)
+      - name: Install dependencies (includes Playwright via optionalDependencies)
         run: pnpm install --frozen-lockfile
 
       - name: Cache Playwright browser binaries

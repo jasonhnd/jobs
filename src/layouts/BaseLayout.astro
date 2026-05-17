@@ -20,6 +20,18 @@
  *   - head slot — page-specific <link>/<meta>/<style>
  *   - default slot — page body content
  *   - bodyEnd slot — page-specific scripts after content
+ *
+ * CSP hardening (audit CODE-012, 2026-05-17): every inline <script> on this
+ * layout is now STATIC (no per-request / per-page interpolation). Env-derived
+ * values (GA4 measurement ID, X pixel ID) are emitted as <meta> tags and read
+ * back at runtime; the inline script body is byte-identical across every
+ * build of every page, so a single SHA-256 hash in vercel.json's
+ * script-src directive covers all 821+ rendered pages. The build step
+ * `scripts/compute-csp-hashes.cjs` collects those hashes after Astro
+ * finishes rendering and rewrites vercel.json so script-src no longer needs
+ * `'unsafe-inline'`. See also: `_IdPageScript.astro`, `_JobtagAnchor.astro`,
+ * `Footer.astro`, `MobileNav.astro` — same static-script + data-attribute
+ * pattern.
  */
 import TopNav from '../components/TopNav.astro';
 import MobileNav from '../components/MobileNav.astro';
@@ -122,7 +134,10 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 
     <slot name="jsonLd" />
 
-    <!-- Cloudflare Web Analytics — only emitted when PUBLIC_CF_BEACON_TOKEN is configured. -->
+    <!-- Cloudflare Web Analytics — only emitted when PUBLIC_CF_BEACON_TOKEN is configured.
+         No inline <script> body; the data-cf-beacon attribute is parsed by the
+         remote beacon.min.js itself. CSP-safe: only an external <script src> is
+         emitted here. -->
     {CF_BEACON_TOKEN && (
       <script
         defer
@@ -131,58 +146,72 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
       ></script>
     )}
 
-    <!-- Google tag (gtag.js) — only emitted when PUBLIC_GA4_MEASUREMENT_ID is configured.
-         Defer script load to window.load to remove ~64 KB / 265 ms from critical path.
+    <!-- ── CODE-012 CSP hardening (2026-05-17) ────────────────────────────────────
+         Analytics config values are emitted as <meta> tags so the inline gtag /
+         X-pixel reader scripts can stay 100% static (no per-build interpolation).
+         Static-body inline scripts hash deterministically across every page; one
+         CSP `'sha256-…'` entry covers every render. Env values are still env-gated
+         (the <meta> is only rendered when the corresponding env var is set), so
+         previews / forks without env still skip the tracker bootstrap entirely. -->
+    {GA4_MEASUREMENT_ID && <meta name="ga4-measurement-id" content={GA4_MEASUREMENT_ID} />}
+    {X_PIXEL_ID && <meta name="x-pixel-id" content={X_PIXEL_ID} />}
 
-         CRITICAL: must NOT use `define:vars` here. `define:vars` forces Astro to wrap
-         the script in an IIFE `(function(){ ... })()` to scope the injected consts,
-         which has the side effect of making `function gtag(){}` a LOCAL function
-         instead of `window.gtag`. gtag.js's library expects the snippet to leave a
-         `window.gtag` stub it can replace; without it, the auto page_view that the
-         `config` command should trigger never fires, and `g/collect` stays silent
-         (only `ga-audiences` retargeting modeling continues to ping). This bug took
-         down GA4 measurement on 820+ pages from 2026-05-11 (Phase 3 refactor) until
-         2026-05-12 (this fix). Use `set:html` with build-time string interpolation
-         instead — produces a plain `<script>` block byte-identical to the homepage
-         snippet in src/index-source.html. -->
+    <!-- Google tag (gtag.js) bootstrap — STATIC script body (no `define:vars`,
+         no template interpolation). Reads its config from the
+         <meta name="ga4-measurement-id"> tag above. The `function gtag()` MUST
+         remain a top-level declaration (NOT wrapped in IIFE) so gtag.js's library
+         can swap `window.gtag` in place — see 2026-05-11 GA4 outage diagnosis. -->
     {GA4_MEASUREMENT_ID && (
-      <Fragment set:html={`<script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-          ad_storage: 'granted',
-          analytics_storage: 'granted',
-          ad_user_data: 'granted',
-          ad_personalization: 'granted',
-          functionality_storage: 'granted',
-          personalization_storage: 'granted',
-          security_storage: 'granted'
-        });
-        gtag('js', new Date());
-        gtag('config', ${JSON.stringify(GA4_MEASUREMENT_ID)});
-        window.addEventListener('load', function () {
-          var s = document.createElement('script');
-          s.async = true;
-          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ${JSON.stringify(GA4_MEASUREMENT_ID)};
-          document.head.appendChild(s);
-        });
-      </script>`} />
+      <script is:inline>
+        (function () {
+          var meta = document.querySelector('meta[name="ga4-measurement-id"]');
+          if (!meta) return;
+          var id = meta.getAttribute('content');
+          if (!id) return;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function gtag() { window.dataLayer.push(arguments); };
+          window.gtag('consent', 'default', {
+            ad_storage: 'granted',
+            analytics_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted',
+            functionality_storage: 'granted',
+            personalization_storage: 'granted',
+            security_storage: 'granted'
+          });
+          window.gtag('js', new Date());
+          window.gtag('config', id);
+          window.addEventListener('load', function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+            document.head.appendChild(s);
+          });
+        })();
+      </script>
     )}
 
     <!-- Vercel Web Analytics + Speed Insights -->
     <script defer src="/_vercel/insights/script.js"></script>
     <script defer src="/_vercel/speed-insights/script.js"></script>
 
-    <!-- X (Twitter) Ads Pixel — defer to window.load, mirrors gtag pattern. -->
+    <!-- X (Twitter) Ads Pixel — STATIC script body, reads its pixel ID from the
+         <meta name="x-pixel-id"> tag above. Defer to window.load, mirrors gtag pattern. -->
     {X_PIXEL_ID && (
-      <script is:inline define:vars={{ X_PIXEL_ID }}>
-        window.addEventListener('load', function () {
-          !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-          },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
-          a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-          twq('config', X_PIXEL_ID);
-          twq('event', 'tw-pageview');
-        });
+      <script is:inline>
+        (function () {
+          var meta = document.querySelector('meta[name="x-pixel-id"]');
+          if (!meta) return;
+          var X_PIXEL_ID = meta.getAttribute('content');
+          if (!X_PIXEL_ID) return;
+          window.addEventListener('load', function () {
+            !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+            },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+            a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+            twq('config', X_PIXEL_ID);
+            twq('event', 'tw-pageview');
+          });
+        })();
       </script>
     )}
 
