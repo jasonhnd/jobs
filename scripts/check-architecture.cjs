@@ -370,16 +370,38 @@ function discoverEdgeEntries() {
     }
   }
 
-  // Emergency override: if discovery is broken for whatever reason
-  // (e.g. a new Vercel convention this script doesn't know about),
-  // EDGE_ENTRIES_OVERRIDE='path1,path2' replaces the detected list.
-  const override = process.env.EDGE_ENTRIES_OVERRIDE;
-  if (override) {
-    return override
+  // Augmentation: EDGE_ENTRIES_ADDITIONAL='path1,path2' adds to the
+  // detected list (does NOT replace). 2026-05-17 C6 fix: previously
+  // EDGE_ENTRIES_OVERRIDE replaced detection entirely — setting one
+  // missing entry silently dropped every auto-detected entry with
+  // no warning. The additive form preserves discovery while still
+  // letting operators force-add files the regex didn't catch.
+  const additional = process.env.EDGE_ENTRIES_ADDITIONAL;
+  if (additional) {
+    const extra = additional
       .split(',')
       .map((p) => p.trim())
       .filter(Boolean)
       .map((p) => path.resolve(ROOT, p));
+    return [...new Set([...detected, ...extra])].sort();
+  }
+
+  // Hard override (escape hatch, logged so reviewer notices the
+  // smaller scan surface). Use only when discovery is broken AND
+  // you need to lock down the list.
+  const override = process.env.EDGE_ENTRIES_OVERRIDE;
+  if (override) {
+    const forced = override
+      .split(',')
+      .map((p) => p.trim())
+      .filter(Boolean)
+      .map((p) => path.resolve(ROOT, p));
+    console.warn(
+      `[check-architecture] WARN: EDGE_ENTRIES_OVERRIDE is set — scanning ` +
+        `${forced.length} forced entries (auto-detected ${detected.length} ignored). ` +
+        `Prefer EDGE_ENTRIES_ADDITIONAL if you only need to ADD entries.`,
+    );
+    return forced;
   }
 
   return detected.sort();

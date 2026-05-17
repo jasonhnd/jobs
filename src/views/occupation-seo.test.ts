@@ -21,9 +21,9 @@ describe('buildOccupationSeo', () => {
     assert.equal(title, '看護師の将来性・年収・AI影響度【6/10】｜未来の仕事');
   });
 
-  test('title with null aiRisk uses 「—」 in brackets', () => {
+  test('title with null aiRisk uses 「未評価」 in brackets (was em dash, 2026-05-17 H1 fix)', () => {
     const { title } = buildOccupationSeo({ ...baseInput, aiRisk: null });
-    assert.equal(title, '看護師の将来性・年収・AI影響度【—】｜未来の仕事');
+    assert.equal(title, '看護師の将来性・年収・AI影響度【未評価】｜未来の仕事');
   });
 
   test('description tier: aiRisk <= 3 → 低め', () => {

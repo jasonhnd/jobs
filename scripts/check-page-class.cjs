@@ -77,7 +77,12 @@ const VIOLATION_PATTERNS = [
 ];
 
 function checkFile(relPath) {
-  if (EXCEPTIONS.has(relPath)) return [];
+  // 2026-05-17 CI medium fix: normalize Windows backslashes to POSIX
+  // forward-slashes before comparing against EXCEPTIONS (which is
+  // authored in POSIX form). Windows runs were getting false-positive
+  // violations because `src\pages\_index-css.ts` !== `src/pages/_index-css.ts`.
+  const posixRel = relPath.split(path.sep).join('/');
+  if (EXCEPTIONS.has(posixRel)) return [];
   const content = fs.readFileSync(path.join(PROJECT_ROOT, relPath), 'utf8');
   const violations = [];
   for (const { name, regex, hint } of VIOLATION_PATTERNS) {

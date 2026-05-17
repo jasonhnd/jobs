@@ -58,7 +58,11 @@ function fmtIntCommas(n: number): string {
 
 export function buildOccupationSeo(input: OccupationSeoInput): OccupationSeoOutput {
   const { nameJa, aiRisk, salaryMan, workers, aliasesJa } = input;
-  const riskStr = aiRisk !== null ? `${aiRisk}/10` : '—';
+  // SEO fix 2026-05-17 (H1): when aiRisk is null (the 4 new IPD
+  // occupations 581-584 not yet scored), render the readable
+  // '未評価' instead of an em dash that looked like missing data in
+  // Google SERPs.
+  const riskStr = aiRisk !== null ? `${aiRisk}/10` : '未評価';
 
   const title = `${nameJa}の将来性・年収・AI影響度【${riskStr}】｜未来の仕事`;
 
