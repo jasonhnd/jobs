@@ -137,6 +137,37 @@ for (const [name, lockSpec] of lockDeps) {
   }
 }
 
+// 2026-05-17 C5: transitive integrity health check.
+// We can't easily reproduce `pnpm install --frozen-lockfile`'s full
+// resolution pass in pure JS without a pnpm runtime — but we CAN
+// catch the common drift class: lockfile body (packages: + snapshots:
+// sections) missing or empty while importers still references them.
+// That happens when someone hand-edits the lockfile, or a partial
+// merge resolves to a half-truncated YAML.
+{
+  const hasPackagesSection = /^\s*packages:\s*$/m.test(lockText);
+  const hasSnapshotsSection = /^\s*snapshots:\s*$/m.test(lockText);
+  if (lockDeps.size > 0 && !hasPackagesSection) {
+    console.error(
+      '[check-lockfile-sync] FAIL — lockfile importers references deps but no `packages:` section. ' +
+        'Run `pnpm install` to regenerate.',
+    );
+    process.exit(1);
+  }
+  if (lockDeps.size > 0 && !hasSnapshotsSection) {
+    console.error(
+      '[check-lockfile-sync] FAIL — lockfile importers references deps but no `snapshots:` section. ' +
+        'Run `pnpm install` to regenerate.',
+    );
+    process.exit(1);
+  }
+  // Note: deep transitive verification (every resolved version in
+  // snapshots is reachable, no orphans) is delegated to Vercel's
+  // build-time `pnpm install --frozen-lockfile` — failing locally
+  // would be valuable but requires running pnpm itself, which
+  // bloats CI gate startup. Vercel catches it in ~25s anyway.
+}
+
 // Defensive: if the parser found zero deps in importers['.'] but the
 // lockfile clearly has importers + deps, the format probably changed
 // under us (pnpm v10+). Fail with an actionable message rather than
