@@ -79,34 +79,62 @@ function pathToUrl(absPath) {
   return '/' + noExt;
 }
 
-/** Normalize a raw href to its routable path:
+/** Normalize a raw href to its routable path + optional fragment:
  *    - Strip the SITE origin (already done by extractInternalLinks).
- *    - Strip query string + fragment.
- *    Returns null if the href targets something not in scope. */
+ *    - Strip query string but PRESERVE fragment in a separate field.
+ *    Returns null if the href targets something not in scope.
+ *    Returns { path, fragment } so the caller can validate the
+ *    fragment against the target page's anchor id set.
+ *    2026-05-17 C4 fix: fragments were previously stripped entirely,
+ *    meaning broken `#section-foo` links to non-existent anchors
+ *    slipped past the verifier silently. */
 function normalizeHref(rawHref) {
   if (!rawHref || rawHref === '#') return null;
   if (rawHref.startsWith('#')) return null;        // intra-page anchor
   if (rawHref.startsWith('mailto:')) return null;
   if (rawHref.startsWith('tel:')) return null;
   if (rawHref.startsWith('javascript:')) return null;
-  // RFC 3986 forbids raw `<` `>` ` ` in URI paths — these almost always
-  // mean the extractor caught a template-placeholder literal inside a
-  // `<script>` doc comment (extractInternalLinks doesn't strip script
-  // blocks before regex matching). Drop them rather than treat them as
-  // "broken links" — they were never real links in the first place.
   if (rawHref.includes('<') || rawHref.includes('>') || rawHref.includes(' ')) {
     return null;
   }
   let h = rawHref;
   if (h.startsWith(SITE)) h = h.slice(SITE.length) || '/';
   if (!h.startsWith('/')) return null;             // not internal
-  // Strip query + fragment.
   const qIdx = h.indexOf('?');
   if (qIdx >= 0) h = h.slice(0, qIdx);
+  let fragment = '';
   const hIdx = h.indexOf('#');
-  if (hIdx >= 0) h = h.slice(0, hIdx);
-  return h || '/';
+  if (hIdx >= 0) {
+    fragment = h.slice(hIdx + 1);
+    h = h.slice(0, hIdx);
+  }
+  return { path: h || '/', fragment };
 }
+
+/** Extract all `id="..."` anchor target ids from an HTML document.
+ *  Used by the C4 fragment validator. Misses dynamically-generated
+ *  ids (set by inline JS), which the verifier tolerates by treating
+ *  any fragment in /map and /  as runtime-defined. */
+function extractAnchorIds(html) {
+  const ids = new Set();
+  // Match id="..." and id='...'. Skip empty ids.
+  const re = /\sid=(?:"([^"]+)"|'([^']+)')/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const id = m[1] || m[2];
+    if (id) ids.add(id);
+  }
+  return ids;
+}
+
+// 2026-05-17 C4: pages whose fragments are generated at runtime by
+// inline JS rather than being present in the static HTML. Verifier
+// can't statically prove these, so they're skipped for fragment
+// validation only (the page itself is still validated).
+const RUNTIME_FRAGMENT_PAGES = new Set([
+  '/',          // squarified treemap hash deep-links (`#<occ_id>`)
+  '/map',       // mobile treemap, same shape
+]);
 
 /** Returns true if href matches a prefix-allowlist entry. */
 function isAllowlisted(href) {
@@ -145,32 +173,60 @@ function main() {
   }
   walkAllFiles(DIST_ROOT);
 
+  // Pre-build a Map<url, Set<id>> of anchor ids per emitted page.
+  // Used for C4 fragment validation. Done in a separate pass so the
+  // main link-scan loop stays simple.
+  const anchorIds = new Map(); // url → Set<id>
+  for (const f of htmlFiles) {
+    const html = fs.readFileSync(f, 'utf8');
+    anchorIds.set(pathToUrl(f), extractAnchorIds(html));
+  }
+
   // Scan every page for broken hrefs.
   const failures = new Map(); // href → Set<urlsThatLinkToIt>
+  const fragmentFailures = new Map(); // 'url#frag' → Set<urlsThatLinkToIt>
   let totalHrefs = 0;
   let allowlistedHrefs = 0;
+  let totalFragments = 0;
 
   for (const f of htmlFiles) {
     const html = fs.readFileSync(f, 'utf8');
     const fromUrl = pathToUrl(f);
     const hrefs = extractInternalLinks(html);
     for (const raw of hrefs) {
-      const href = normalizeHref(raw);
-      if (href === null) continue;
+      const parsed = normalizeHref(raw);
+      if (parsed === null) continue;
+      const { path: href, fragment } = parsed;
       totalHrefs += 1;
       if (isAllowlisted(href)) { allowlistedHrefs += 1; continue; }
-      if (emitted.has(href)) continue;
-      // Try /x/ → /x (Astro emits flat .html files, but href may carry a
-      // trailing slash from some templates).
-      if (href.endsWith('/') && emitted.has(href.slice(0, -1))) continue;
-      // Not found.
-      if (!failures.has(href)) failures.set(href, new Set());
-      failures.get(href).add(fromUrl);
+      // Resolve the page path first.
+      let pageOk = emitted.has(href);
+      if (!pageOk && href.endsWith('/') && emitted.has(href.slice(0, -1))) pageOk = true;
+      if (!pageOk) {
+        if (!failures.has(href)) failures.set(href, new Set());
+        failures.get(href).add(fromUrl);
+        continue;
+      }
+      // Page exists. If the href carries a fragment, verify the
+      // target page actually has an element with that id.
+      // C4 (2026-05-17): previously the fragment was discarded and
+      // dead anchor links (`/ja/156#dead-section`) shipped silently.
+      if (fragment) {
+        totalFragments += 1;
+        if (RUNTIME_FRAGMENT_PAGES.has(href)) continue;
+        const ids = anchorIds.get(href) || anchorIds.get(href + '/') ||
+          anchorIds.get(href.replace(/\/$/, ''));
+        if (!ids || !ids.has(fragment)) {
+          const key = `${href}#${fragment}`;
+          if (!fragmentFailures.has(key)) fragmentFailures.set(key, new Set());
+          fragmentFailures.get(key).add(fromUrl);
+        }
+      }
     }
   }
 
   console.log(`[verify-internal-links] scanned ${htmlFiles.length} HTML files`);
-  console.log(`[verify-internal-links] ${totalHrefs} internal hrefs (${allowlistedHrefs} allowlisted)`);
+  console.log(`[verify-internal-links] ${totalHrefs} internal hrefs (${allowlistedHrefs} allowlisted, ${totalFragments} with fragments)`);
 
   // Split failures into (a) genuinely-new (gate fails) vs (b) already
   // known broken (logged as warning, gate stays green).
@@ -208,6 +264,23 @@ function main() {
       const srcArr = [...sources];
       console.error(`  ${href}`);
       console.error(`    linked from: ${srcArr.slice(0, 3).join(', ')}${srcArr.length > 3 ? ` (and ${srcArr.length - 3} more)` : ''}`);
+    }
+  }
+
+  // C4 (2026-05-17): broken fragment anchors. Treated as warnings on
+  // first introduction (so this commit doesn't fail CI for pre-existing
+  // dead fragments). Promote to hard failures in a follow-up after
+  // running once and triaging the initial list.
+  if (fragmentFailures.size > 0) {
+    console.warn(`\n⚠️  ${fragmentFailures.size} broken anchor fragment(s) — first-pass warning, not yet a hard fail:`);
+    const sorted = [...fragmentFailures.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+    for (const [key, sources] of sorted.slice(0, 30)) {
+      const srcArr = [...sources];
+      console.warn(`  ${key}`);
+      console.warn(`    linked from: ${srcArr.slice(0, 2).join(', ')}${srcArr.length > 2 ? ` (and ${srcArr.length - 2} more)` : ''}`);
+    }
+    if (sorted.length > 30) {
+      console.warn(`  ...and ${sorted.length - 30} more fragment failures (truncated)`);
     }
   }
 
