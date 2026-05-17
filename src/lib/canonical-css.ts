@@ -162,11 +162,10 @@ html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 
 /* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
    Visually hidden by default; revealed when focused so keyboard users
    can see where focus is. RA-004 audit (2026-05-18): the previous
-   `left:-9999` trick worked for visually-hidden but Chrome treats
+   left:-9999 trick worked for visually-hidden but Chrome treats
    off-screen elements as effectively non-focusable for :focus matching
-   under modern focus heuristics. Switched to the standard "visually
-   hidden" clip-rect pattern + transform on focus, which both screen
-   readers and Chrome accept.
+   under modern focus heuristics. Switched to the standard visually
+   hidden transform pattern, which both screen readers and Chrome accept.
 
    Canonical implementation lives here so every page (BaseLayout + the
    raw home page) picks up the same behaviour without page-local copies.
