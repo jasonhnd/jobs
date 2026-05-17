@@ -92,13 +92,19 @@ const RULES = [
       // Phase E (2026-05-15) — direct fs/loadGraph forbidden. Views are
       // pure functions `(graph, params) => result`; orchestrators that
       // initiate loadGraph or read public/data.* files belong in
-      // src/page-data/. Indirect fs through src/lib/strict-load.ts is
-      // still allowed (blessed primitive — strict-load is the typed
-      // loader, not raw fs).
+      // src/page-data/.
       { pattern: 'node:fs',              reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
       { pattern: 'node:fs/promises',     reason: 'views must be pure — fs I/O belongs in src/page-data/ (Phase E)' },
       { pattern: '@/graph/loader',       reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E)' },
       { pattern: '../graph/loader',      reason: 'views receive graph as a param — only src/page-data/ initiates loadGraph (Phase E, relative)' },
+      // 2026-05-17 R2 (deep audit C2) — close the strict-load loophole.
+      // Phase E's earlier carve-out for `src/lib/strict-load.ts` allowed
+      // 4 views (genre-hub / compare-hub / interests / skills-hub) to
+      // keep reading projection JSONs indirectly. They now delegate to
+      // src/page-data/projection-loaders.ts. Indirect fs is no longer
+      // a valid escape hatch for the views layer.
+      { pattern: 'strict-load',          reason: 'views must not read fs even indirectly via strict-load; use src/page-data/ loaders (R2)' },
+      { pattern: 'lib/strict-load',      reason: 'views must not read fs even indirectly via strict-load; use src/page-data/ loaders (R2)' },
     ],
   },
   {

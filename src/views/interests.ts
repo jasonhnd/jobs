@@ -13,17 +13,12 @@
  * 各 hub の TOP N: その RIASEC dim の score 降順で 30 個取得。
  * 同点は id 昇順で stable。
  */
-import { join } from 'node:path';
+// 2026-05-17 R2 fix: fs reads moved to page-data layer.
 import { INTEREST_META, type InterestType, type InterestMeta } from './interests-meta.js';
-import { strictReadJson } from '../lib/strict-load.js';
 import {
-  HollandFileSchema,
-  TreemapFileSummarySchema,
-} from '../lib/projection-schemas.js';
-
-const REPO_ROOT = process.cwd();
-const HOLLAND_PATH = join(REPO_ROOT, 'public', 'data.holland.json');
-const TREEMAP_PATH = join(REPO_ROOT, 'public', 'data.treemap.json');
+  loadHolland as _loadHolland,
+  loadTreemapSummary as _loadTreemap,
+} from '../page-data/projection-loaders.js';
 
 const TOP_N = 30;
 
@@ -94,16 +89,20 @@ export interface TreemapRecord {
   sector_ja?: string;
 }
 
+// 2026-05-17 R2: fs reads delegated to page-data. These adapters
+// keep the row-typed shapes the rest of the file expects, while
+// the raw Zod-validated payloads come from projection-loaders.
+
 let _hollandCache: HollandRow[] | null = null;
 let _treemapCache: Map<number, TreemapRecord> | null = null;
 
 function loadHollandRows(): HollandRow[] {
   if (_hollandCache) return _hollandCache;
-  const parsed = strictReadJson(HOLLAND_PATH, HollandFileSchema, 'interests.holland');
+  const parsed = _loadHolland();
   // cols expected: ['id', 'name_ja', 'R', 'I', 'A', 'S', 'E', 'C']
-  // Schema validates the file shape (cols/rows arrays). Per-cell casts
-  // mirror the existing positional contract; if columns ever change order
-  // the audit recommends evolving this into a `z.object()` row schema.
+  // Per-cell casts mirror the existing positional contract; if
+  // columns ever change order the audit recommends evolving this
+  // into a `z.object()` row schema.
   _hollandCache = parsed.rows.map((row): HollandRow => ({
     id: row[0] as number,
     name_ja: row[1] as string,
@@ -119,12 +118,8 @@ function loadHollandRows(): HollandRow[] {
 
 function loadTreemapMap(): Map<number, TreemapRecord> {
   if (_treemapCache) return _treemapCache;
-  const records = strictReadJson(
-    TREEMAP_PATH,
-    TreemapFileSummarySchema,
-    'interests.treemap',
-  );
-  _treemapCache = new Map(records.map((r) => [r.id, r]));
+  const records = _loadTreemap();
+  _treemapCache = new Map(records.map((r) => [r.id, r as TreemapRecord]));
   return _treemapCache;
 }
 

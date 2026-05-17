@@ -8,13 +8,12 @@
  * Naming note: ファイル名が `skills-hub.ts` なのは `skills.ts` (将来の builder)
  * との衝突を避けるため。実体は hub レンダリング専用。
  */
-// fs reads are now via strict-load helpers (see below); no direct fs imports needed.
-import { join } from 'node:path';
+// 2026-05-17 R2: fs reads delegated to page-data layer.
 import { SKILL_META, type SkillSlug, type SkillMeta } from './skills-meta.js';
-
-const REPO_ROOT = process.cwd();
-const SKILLS_DIR = join(REPO_ROOT, 'public', 'data.skills');
-const TREEMAP_PATH = join(REPO_ROOT, 'public', 'data.treemap.json');
+import {
+  loadSkillRanking as _loadSkillRanking,
+  loadTreemapSummary as _loadTreemap,
+} from '../page-data/projection-loaders.js';
 
 const TOP_N = 30;
 
@@ -60,12 +59,9 @@ export interface SkillsBundle {
   };
 }
 
-// ─── Loaders ──────────────────────────────────────────────────
+// ─── Loaders (2026-05-17 R2: delegated to page-data) ─────────
 
-import { strictReadJson } from '../lib/strict-load.js';
 import {
-  SkillRankingFileSchema,
-  TreemapFileSummarySchema,
   type SkillRankingFileShape,
   type TreemapRecordSummary,
 } from '../lib/projection-schemas.js';
@@ -74,30 +70,16 @@ type SkillRankingFile = SkillRankingFileShape;
 type TreemapRecord = TreemapRecordSummary;
 
 let _treemapCache: Map<number, TreemapRecord> | null = null;
-const _skillCache = new Map<string, SkillRankingFile>();
 
 function loadTreemapMap(): Map<number, TreemapRecord> {
   if (_treemapCache) return _treemapCache;
-  const records = strictReadJson(
-    TREEMAP_PATH,
-    TreemapFileSummarySchema,
-    'skills-hub.treemap',
-  );
-  _treemapCache = new Map(records.map((r) => [r.id, r]));
+  const records = _loadTreemap();
+  _treemapCache = new Map(records.map((r) => [r.id, r as TreemapRecord]));
   return _treemapCache;
 }
 
 function loadSkillRanking(ipdKey: string): SkillRankingFile {
-  const cached = _skillCache.get(ipdKey);
-  if (cached) return cached;
-  const path = join(SKILLS_DIR, `${ipdKey}.json`);
-  const data = strictReadJson(
-    path,
-    SkillRankingFileSchema,
-    'skills-hub.skill-ranking',
-  );
-  _skillCache.set(ipdKey, data);
-  return data;
+  return _loadSkillRanking(ipdKey) as unknown as SkillRankingFile;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────
