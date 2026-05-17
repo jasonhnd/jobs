@@ -188,7 +188,8 @@ html body a.skip-link {
   transition: transform 150ms ease;
 }
 html body a.skip-link:focus,
-html body a.skip-link:focus-visible {
+html body a.skip-link:focus-visible,
+html body a.skip-link.is-focused {
   transform: translateY(0);
   outline: 2px solid #fff;
   outline-offset: 2px;
