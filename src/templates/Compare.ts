@@ -11,13 +11,13 @@
  */
 import type { CompareSlug, CompareMeta } from '../views/compare-meta.js';
 import type { CompareSide, CompareResult } from '../views/compare-hub.js';
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass } from '../lib/risk.js';
 
 export { escapeHtml };
 export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 
-export function renderCompareHero(a: CompareSide, b: CompareSide): string {
+export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   const aBand = riskClass(a.ai_risk);
   const bBand = riskClass(b.ai_risk);
   const aRiskStr = a.ai_risk !== null ? `${a.ai_risk}/10` : '—';
@@ -36,10 +36,10 @@ export function renderCompareHero(a: CompareSide, b: CompareSide): string {
     (b.sector_ja ? `<span class="vh-sector">${escapeHtml(b.sector_ja)}</span>` : '') +
     `</div>` +
     `</div>`
-  );
+  ) as SafeHtml;
 }
 
-export function renderCompareTable(rows: CompareResult['rows'], aName: string, bName: string): string {
+export function renderCompareTable(rows: CompareResult['rows'], aName: string, bName: string): SafeHtml {
   const headers =
     `<thead><tr>` +
     `<th>項目</th>` +
@@ -58,10 +58,10 @@ export function renderCompareTable(rows: CompareResult['rows'], aName: string, b
         `</tr>`,
     )
     .join('');
-  return `<table class="compare-table">${headers}<tbody>${body}</tbody></table>`;
+  return `<table class="compare-table">${headers}<tbody>${body}</tbody></table>` as SafeHtml;
 }
 
-export function renderTopSkillsCompare(a: CompareSide, b: CompareSide): string {
+export function renderTopSkillsCompare(a: CompareSide, b: CompareSide): SafeHtml {
   function skillList(side: CompareSide): string {
     if (side.top_skills.length === 0) return '<p class="ts-empty">—</p>';
     const lis = side.top_skills
@@ -83,7 +83,7 @@ export function renderTopSkillsCompare(a: CompareSide, b: CompareSide): string {
     skillList(b) +
     `</div>` +
     `</div>`
-  );
+  ) as SafeHtml;
 }
 
 /**
@@ -93,7 +93,7 @@ export function renderTopSkillsCompare(a: CompareSide, b: CompareSide): string {
 export function renderRelatedCompares(
   currentSlug: CompareSlug,
   allMeta: ReadonlyArray<CompareMeta>,
-): string {
+): SafeHtml {
   const items = allMeta
     .filter((m) => m.slug !== currentSlug)
     .slice(0, 6)
@@ -104,7 +104,7 @@ export function renderRelatedCompares(
         `</a></li>`,
     )
     .join('');
-  return `<ul class="related-compares">${items}</ul>`;
+  return `<ul class="related-compares">${items}</ul>` as SafeHtml;
 }
 
 // ─── JSON-LD ───────────────────────────────────────────────────
@@ -200,7 +200,7 @@ function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
   return 'high';
 }
 
-export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): string {
+export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
     const aBand = compareRiskClass(c.a_risk);
     const bBand = compareRiskClass(c.b_risk);
@@ -219,7 +219,7 @@ export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): str
       `<span class="cci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
       `</a></li>`
     );
-  }).join('');
+  }).join('') as SafeHtml;
 }
 
 export function renderHubJsonLd(): string {

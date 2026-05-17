@@ -15,7 +15,7 @@
  */
 import type { Occupation } from '../views/ranking.js';
 import type { RankingSlug } from '../views/rankings-meta.js';
-import { escapeHtml } from '../lib/safe-html.js';
+import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 
@@ -68,7 +68,7 @@ export function renderRankItem(
   o: Occupation,
   showSalary: boolean,
   extraCols: ReadonlyArray<ExtraCol> | null,
-): string {
+): SafeHtml {
   const title = o.title_ja ?? `#${o.id}`;
   const score = o.ai_risk;
   const scoreStr = score === null ? '—' : `${score}/10`;
@@ -107,11 +107,11 @@ export function renderRankItem(
     `</div>` +
     `<div class="rl-stats">${statsParts.join('')}</div>` +
     `</li>`
-  );
+  ) as SafeHtml;
 }
 
-export function renderHighlights(items: Occupation[], slug: RankingSlug): string {
-  if (items.length === 0) return '';
+export function renderHighlights(items: Occupation[], slug: RankingSlug): SafeHtml {
+  if (items.length === 0) return '' as SafeHtml;
   const top = items[0];
   const name = top.title_ja ?? '';
   const hl: string[] = [];
@@ -156,15 +156,15 @@ export function renderHighlights(items: Occupation[], slug: RankingSlug): string
   }
 
   const itemsHtml = hl.map((h) => `<li>${escapeHtml(h)}</li>`).join('');
-  return `<div class="highlights"><ul>${itemsHtml}</ul></div>`;
+  return `<div class="highlights"><ul>${itemsHtml}</ul></div>` as SafeHtml;
 }
 
-export function renderSectorChart(items: Occupation[]): string {
+export function renderSectorChart(items: Occupation[]): SafeHtml {
   const counts = new Map<string, number>();
   for (const o of items) {
     if (o.sector_ja) counts.set(o.sector_ja, (counts.get(o.sector_ja) ?? 0) + 1);
   }
-  if (counts.size === 0) return '';
+  if (counts.size === 0) return '' as SafeHtml;
   const ordered = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
   const maxCount = ordered[0][1];
   const rows = ordered.slice(0, 6).map(([sec, cnt]) => {
@@ -182,7 +182,7 @@ export function renderSectorChart(items: Occupation[]): string {
     `<div class="sc-title">セクター内訳（TOP${items.length}）</div>` +
     `${rows}` +
     `</div>`
-  );
+  ) as SafeHtml;
 }
 
 // Shared FAQ template — single source of truth in src/templates/FaqSection.
@@ -195,7 +195,7 @@ export { renderFaqSection as renderFaqHtml } from './FaqSection.js';
 export function renderRelatedRankings(
   currentSlug: RankingSlug,
   allRankings: ReadonlyArray<readonly [RankingSlug, string, string]>,
-): string {
+): SafeHtml {
   const items = allRankings
     .filter(([slug]) => slug !== currentSlug)
     .map(([slug, name, desc]) =>
@@ -204,7 +204,7 @@ export function renderRelatedRankings(
       `<span class="rr-desc">${escapeHtml(desc)}</span>` +
       `</a></li>`,
     ).join('');
-  return `<ul class="related-rankings">${items}</ul>`;
+  return `<ul class="related-rankings">${items}</ul>` as SafeHtml;
 }
 
 // ---------------------------------------------------------------------------
@@ -308,7 +308,7 @@ export interface RankingsHubCard {
   readonly count: number;
 }
 
-export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): string {
+export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): SafeHtml {
   return cards.map((c) => {
     const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
     return (
@@ -319,22 +319,22 @@ export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): s
       `<span class="rr-count">${c.count} 職業</span>` +
       `</a></li>`
     );
-  }).join('');
+  }).join('') as SafeHtml;
 }
 
-export function renderRankingsHubStats(stats: ReadonlyArray<readonly [string, string]>): string {
-  if (stats.length === 0) return '';
+export function renderRankingsHubStats(stats: ReadonlyArray<readonly [string, string]>): SafeHtml {
+  if (stats.length === 0) return '' as SafeHtml;
   return `<dl class="stats">${stats
     .map(([l, v]) => `<div><dt>${escapeHtml(l)}</dt><dd>${escapeHtml(v)}</dd></div>`)
-    .join('')}</dl>`;
+    .join('')}</dl>` as SafeHtml;
 }
 
 // Insights items are pre-rendered SafeHtml from views/ranking.ts (sector
 // names are escaped at the source). Do NOT re-escape here.
-export function renderRankingsHubInsights(insights: ReadonlyArray<string>): string {
-  if (insights.length === 0) return '';
+export function renderRankingsHubInsights(insights: ReadonlyArray<string>): SafeHtml {
+  if (insights.length === 0) return '' as SafeHtml;
   const items = insights.map((h) => `<li>${h}</li>`).join('');
-  return `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${items}</ul></section>`;
+  return `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${items}</ul></section>` as SafeHtml;
 }
 
 export function renderHubJsonLd(): string {
