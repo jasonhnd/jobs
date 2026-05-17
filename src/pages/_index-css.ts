@@ -954,19 +954,11 @@ export const INDEX_CSS = String.raw`      *,
       #tooltip.touch-mode .tt-title {
         padding-right: 44px;
       }
-      .skip-link {
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        background: var(--accent);
-        color: #000;
-        padding: 8px 14px;
-        z-index: 100;
-        border-radius: 0 0 8px 0;
-      }
-      .skip-link:focus {
-        left: 0;
-      }
+      /* .skip-link rules moved to canonical-css.ts (RA-002, 2026-05-18).
+         Single source for the global skip-link experience; this duplicate
+         had `.skip-link:focus { left: 0 }` which lost the source-order
+         tiebreak against the canonical rule and overrode the visible
+         viewport position. */
       .top-banner {
         background: linear-gradient(90deg, rgba(255, 80, 80, 0.18) 0%, rgba(255, 138, 61, 0.14) 100%);
         border-bottom: 2px solid rgba(255, 80, 80, 0.55);
