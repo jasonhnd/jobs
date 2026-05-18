@@ -189,17 +189,23 @@
         </p>
         <p class="mob-drawer-lede">データ出典・法的情報</p>
       </header>
+      {/* RA-126 (2026-05-18): meta strings added so section 3 rows have
+          the same right-edge anchor as sections 1+2; eliminates the
+          "thin / unbalanced" feel from the count/meta column being empty. */}
       <div class="mob-drawer-list">
         <a href="/about" class="mob-drawer-item">
           <span class="mob-drawer-label">このサイトについて</span>
+          <span class="mob-drawer-meta">概要・運営</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
         <a href="/compliance" class="mob-drawer-item">
           <span class="mob-drawer-label">コンプライアンス</span>
+          <span class="mob-drawer-meta">免責・引用</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
         <a href="/privacy" class="mob-drawer-item">
           <span class="mob-drawer-label">プライバシー</span>
+          <span class="mob-drawer-meta">Cookie・解析</span>
           <span class="mob-drawer-arrow" aria-hidden="true">›</span>
         </a>
       </div>
