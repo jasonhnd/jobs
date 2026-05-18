@@ -93,10 +93,14 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 @media (max-width:600px){.points-grid{grid-template-columns:1fr;gap:14px}}
 .points-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 6px}
 .compare-table{table-layout:fixed;width:100%;border-collapse:collapse;margin:24px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+/* RA-140 (2026-05-18): table HTML is 4 cols — 項目 | A名 | B名 | 差分.
+   Previous CSS treated col 3 as a "VS" spacer and hid the B-name column on
+   mobile, breaking the entire side-by-side compare value prop. Correct map:
+   col 1 項目 (22%), col 2 A名 (36%), col 3 B名 (36%), col 4 差分 (6%). */
 .compare-table thead th:first-child{width:22%}
 .compare-table thead th:nth-child(2),
-.compare-table thead th:nth-child(4){width:36%}
-.compare-table thead th:nth-child(3){width:6%}
+.compare-table thead th:nth-child(3){width:36%}
+.compare-table thead th:nth-child(4){width:6%}
 .compare-table th,.compare-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:.92rem;vertical-align:middle}
 .compare-table thead th{background:var(--bg3);font-family:var(--font-serif);font-weight:600;color:var(--fg);font-size:.92rem}
 .compare-table thead th.ct-note{font-size:.82rem;color:var(--fg2)}
@@ -104,18 +108,17 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .compare-table tbody td{color:var(--fg);font-variant-numeric:tabular-nums}
 .compare-table .ct-note{color:var(--fg3);font-size:.82rem;font-style:italic}
 .compare-table tr:last-child th,.compare-table tr:last-child td{border-bottom:none}
-/* RA-119 (2026-05-18): mobile compare table re-layout — switch to
-   table-layout:auto, hide 差分 column, equal 42% widths on name cols,
-   smaller font + word-break for long Japanese names. */
+/* RA-140 (2026-05-18): mobile — hide 差分 (col 4), keep BOTH names side by
+   side at 42% / 42%. Previous RA-119 hid col 3 (B name) by mistake. */
 @media (max-width:600px){
   .compare-table{table-layout:auto}
   .compare-table th,.compare-table td{padding:9px 10px;font-size:.86rem}
   .compare-table .ct-note{display:none}
   .compare-table thead th:first-child{width:auto;min-width:80px}
   .compare-table thead th:nth-child(2),
-  .compare-table thead th:nth-child(4){width:42%;font-size:.82rem;word-break:keep-all;overflow-wrap:anywhere}
-  .compare-table thead th:nth-child(3){display:none}
-  .compare-table tbody td:nth-child(3){display:none}
+  .compare-table thead th:nth-child(3){width:42%;font-size:.82rem;word-break:keep-all;overflow-wrap:anywhere}
+  .compare-table thead th:nth-child(4){display:none}
+  .compare-table tbody td:nth-child(4){display:none}
   .compare-table tbody th{width:auto;min-width:80px;font-size:.78rem}
   .compare-table tbody td{font-size:.82rem;word-break:keep-all;overflow-wrap:anywhere}
 }
