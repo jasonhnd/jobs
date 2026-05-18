@@ -76,11 +76,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .compare-table tbody td{color:var(--fg);font-variant-numeric:tabular-nums}
 .compare-table .ct-note{color:var(--fg3);font-size:.82rem;font-style:italic}
 .compare-table tr:last-child th,.compare-table tr:last-child td{border-bottom:none}
-/* RA-119 (2026-05-18): mobile compare table re-layout.
-   At ≤600px the fixed-width % column allocation collapses long occupation
-   names into 32-190px imbalance. Restructure as a 2-col equal-width grid
-   per row (項目 label spans both columns, then 看護師 | ヘルパー with
-   equal widths via `table-layout:auto`). 差分 column already display:none. */
+/* RA-119 (2026-05-18): mobile compare table re-layout — switch to
+   table-layout:auto, hide 差分 column, equal 42% widths on name cols,
+   smaller font + word-break for long Japanese names. */
 @media (max-width:600px){
   .compare-table{table-layout:auto}
   .compare-table th,.compare-table td{padding:9px 10px;font-size:.86rem}
