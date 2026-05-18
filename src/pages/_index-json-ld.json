@@ -1,0 +1,224 @@
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://mirai-shigoto.com/#organization",
+          "name": "mirai-shigoto.com",
+          "alternateName": ["日本の職業 AI 影響マップ（非公式）", "Japan Jobs × AI Impact Map"],
+          "url": "https://mirai-shigoto.com/",
+          "logo": "https://mirai-shigoto.com/api/og?page=home",
+          "email": "info@mirai-shigoto.com",
+          "foundingDate": "2026",
+          "description": "厚生労働省 jobtag・JILPT 等の公開データをもとに、日本 552 職種への AI 影響を 0〜10 で可視化する独自分析プロジェクト。",
+          "knowsAbout": [
+            "Japanese labor market",
+            "AI automation impact",
+            "occupational data visualization",
+            "MHLW jobtag",
+            "JILPT occupational database"
+          ],
+          "areaServed": { "@type": "Country", "name": "Japan" }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://mirai-shigoto.com/#website",
+          "url": "https://mirai-shigoto.com/",
+          "name": "日本の職業 AI 影響マップ",
+          "alternateName": "Japan Jobs × AI Impact Map",
+          "description": "厚生労働省 job tag 等の公開データをもとに、日本 552 職種への AI 影響を可視化した独自分析サイト（非公式）。",
+          "inLanguage": ["ja"],
+          "creator": { "@id": "https://mirai-shigoto.com/#organization" },
+          "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+          "license": "https://opensource.org/licenses/MIT",
+          "isAccessibleForFree": true,
+          "datePublished": "2026-04-25",
+          "dateModified": "2026-04-30",
+          "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["h1 .accent", "h1 .h1-sub", ".banner-text"]
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://mirai-shigoto.com/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Dataset",
+          "@id": "https://mirai-shigoto.com/#dataset",
+          "name": "Japan 552 Occupations × AI Impact (mirai-shigoto.com)",
+          "alternateName": "日本 552 職種の AI 影響マップ",
+          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.7. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Site UI is Japanese-only. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
+          "url": "https://mirai-shigoto.com/",
+          "creator": { "@id": "https://mirai-shigoto.com/#organization" },
+          "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+          "license": "https://opensource.org/licenses/MIT",
+          "isAccessibleForFree": true,
+          "datePublished": "2026-04-25",
+          "dateModified": "2026-04-30",
+          "version": "0.5.0",
+          "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
+          "spatialCoverage": { "@type": "Place", "name": "Japan" },
+          "temporalCoverage": "2025/2026",
+          "measurementTechnique": "LLM-based scoring: Claude Opus 4.7 against a calibrated 0-10 rubric ported to Japan's labor market context. Each of 552 occupations evaluated independently.",
+          "citation": [
+            "厚生労働省 職業情報提供サイト（jobtag）— https://shigoto.mhlw.go.jp/User/",
+            "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/"
+          ],
+          "includedInDataCatalog": {
+            "@type": "DataCatalog",
+            "name": "mirai-shigoto.com",
+            "url": "https://mirai-shigoto.com/"
+          },
+          "variableMeasured": [
+            { "@type": "PropertyValue", "name": "AI replacement risk score (0-10)" },
+            { "@type": "PropertyValue", "name": "Annual salary (10,000 JPY units)" },
+            { "@type": "PropertyValue", "name": "Workforce size" },
+            { "@type": "PropertyValue", "name": "Average age" },
+            { "@type": "PropertyValue", "name": "Monthly working hours" },
+            { "@type": "PropertyValue", "name": "Effective recruit ratio" },
+            { "@type": "PropertyValue", "name": "Education distribution" },
+            { "@type": "PropertyValue", "name": "Employment-type distribution" },
+            { "@type": "PropertyValue", "name": "Hourly wage" }
+          ],
+          "distribution": [
+            {
+              "@type": "DataDownload",
+              "encodingFormat": "application/json",
+              "contentUrl": "https://mirai-shigoto.com/data.treemap.json"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://mirai-shigoto.com/#top-findings",
+          "name": "Notable findings — Japan 552 Occupations × AI Impact",
+          "description": "Sample observations from the dataset. These are independent LLM estimates, not official forecasts.",
+          "itemListOrder": "https://schema.org/ItemListUnordered",
+          "numberOfItems": 5,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "一般事務 (General office clerk)",
+              "description": "AI risk 9/10. About 2.63 million workers — Japan's single largest occupation by workforce."
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "看護師 (Nurse)",
+              "description": "AI risk approximately 4/10. Physical, on-site, and interpersonal components keep the score low."
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "保育士 (Childcare worker)",
+              "description": "AI risk approximately 3/10. On-site judgment and interpersonal interaction are central to the role."
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "潜水士 (Diver)",
+              "description": "AI risk 1/10. Strong physical-presence requirement keeps automation exposure minimal."
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "Japan high-risk share",
+              "description": "About 34% of Japan's working population is in occupations scoring ≥7/10 on the AI risk rubric."
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://mirai-shigoto.com/#faq",
+          "inLanguage": "ja",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "mirai-shigoto.com とは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "厚生労働省 jobtag の日本 552 職業を、Claude Opus 4.7 による AI 影響度スコア（0〜10）で可視化した独自分析サイト（非公式）。MIT ライセンス。厚生労働省（MHLW）・職業情報提供サイト（jobtag）・独立行政法人 労働政策研究・研修機構（JILPT）の運営ではありません。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "AI 影響スコアの算出方法は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Claude Opus 4.7 がキャリブレーションされた 0〜10 ルーブリックで全 552 職業を独立に評価。Karpathy の BLS exposure フレームを基に、日本の労働市場文脈へ移植したルーブリックを使用。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "このスコアは政府公式の予測ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "いいえ。Claude Opus 4.7（LLM）の推定であり、統計的真実ではなく「意見グレードの可視化」として扱ってください。MHLW・jobtag・JILPT の公式見解ではありません。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "AI 影響度 9/10 の意味は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "仕事が AI によって どれだけ再構築されうるか を示し、職が消える確率ではありません。スコアが高いほど、コアタスクの大半が PC で完結可能で AI ツールにより補助・自動化されうることを意味します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "日本で最も就業者が多い職業と、その AI 影響度は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "一般事務（General office clerk）— 約 263 万人。スコア 9/10 で、日本の大規模職業のうち最高リスク帯に属します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "AI 影響度が最も低い職業は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "身体性・現場判断・対人関係を要する職業：潜水士 ≈ 1/10、保育士 ≈ 3/10、看護師 ≈ 4/10。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "高リスク（≥7/10）職業に従事する就業人口の割合は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "日本の就業人口の約 34% が AI 影響度ルーブリックで 7 以上のスコアを持つ職業に従事しています。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "データの出典は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "厚生労働省（MHLW）jobtag および独立行政法人 労働政策研究・研修機構（JILPT）の公開データセット。AI 影響スコアは Claude Opus 4.7 によりキャリブレーション済ルーブリックに照らして独立に算出。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "データはダウンロードできますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい。全 552 職業のコンパクト JSON（treemap 形式）は https://mirai-shigoto.com/data.treemap.json（〜80 KB gzip）。職業別の詳細レコードは https://mirai-shigoto.com/data.detail/<id>.json。MIT ライセンス、原典 IPD データは © JILPT、TOS 第 9 条に従い利用。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "引用する際の表記は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "未来の仕事（2026）「日本の職業 AI 影響マップ」https://mirai-shigoto.com/ — 注：AI 影響スコアは LLM 推定であり、政府公式の予測ではありません。"
+              }
+            }
+          ]
+        }
+      ]
+    }
