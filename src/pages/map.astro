@@ -108,6 +108,16 @@ const jsonLd = `{
 
   <Footer />
 
+  <div id="cellTooltip" class="cell-tooltip" role="tooltip" aria-hidden="true" hidden>
+    <strong class="ct-name"></strong>
+    <span class="ct-stats">
+      <span class="ct-risk risk-pill"></span>
+      <span class="ct-salary"></span>
+      <span class="ct-workers"></span>
+    </span>
+    <span class="ct-sector"></span>
+  </div>
+
   <div class="sheet-backdrop" id="sheetBackdrop" aria-hidden="true"></div>
   <aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
     <button type="button" class="sheet-handle" aria-label="閉じる" id="sheetHandle"></button>
@@ -538,6 +548,78 @@ const jsonLd = `{
       if (!t || !t.dataset.id) return;
       openSheet(parseInt(t.dataset.id, 10));
     });
+
+    // RA-127 — hover tooltip on pointer:fine devices only (mobile keeps click → bottom sheet)
+    var canHover = (typeof matchMedia === 'function') && matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (canHover) {
+      var $tooltip = document.getElementById('cellTooltip');
+      var $ttName = $tooltip.querySelector('.ct-name');
+      var $ttRisk = $tooltip.querySelector('.ct-risk');
+      var $ttSalary = $tooltip.querySelector('.ct-salary');
+      var $ttWorkers = $tooltip.querySelector('.ct-workers');
+      var $ttSector = $tooltip.querySelector('.ct-sector');
+      var ttHideTimer = null;
+      var ttCurrentId = null;
+      function riskClass(n) { return n <= 4 ? 'low' : n <= 6 ? 'mid' : 'high'; }
+      function fmtSalary(s) { return (s == null) ? '' : '年収 ' + s + ' 万円'; }
+      function fmtWorkers(w) {
+        if (w == null) return '';
+        if (w >= 10000) return '就業者 ' + (w / 10000).toFixed(1).replace(/\.0$/, '') + ' 万人';
+        return '就業者 ' + w.toLocaleString('ja-JP') + ' 人';
+      }
+      function positionTooltip(cellEl) {
+        var r = cellEl.getBoundingClientRect();
+        var tw = $tooltip.offsetWidth || 240;
+        var th = $tooltip.offsetHeight || 80;
+        var x = r.right + 8;
+        var y = r.top;
+        if (x + tw > window.innerWidth - 8) x = r.left - tw - 8;
+        if (x < 8) x = 8;
+        if (y + th > window.innerHeight - 8) y = window.innerHeight - th - 8;
+        if (y < 8) y = 8;
+        $tooltip.style.left = x + 'px';
+        $tooltip.style.top = y + 'px';
+      }
+      function showTooltip(cellEl) {
+        var id = parseInt(cellEl.dataset.id, 10);
+        if (!id || !byId[id]) return;
+        var r = byId[id];
+        ttCurrentId = id;
+        if (ttHideTimer) { clearTimeout(ttHideTimer); ttHideTimer = null; }
+        $ttName.textContent = r.name_ja || '';
+        $ttRisk.className = 'ct-risk risk-pill ' + riskClass(r.ai_risk);
+        $ttRisk.textContent = 'AI ' + r.ai_risk + '/10';
+        $ttSalary.textContent = fmtSalary(r.salary);
+        $ttWorkers.textContent = fmtWorkers(r.workers);
+        $ttSector.textContent = r.sector_ja || '';
+        $tooltip.hidden = false;
+        $tooltip.setAttribute('aria-hidden', 'false');
+        positionTooltip(cellEl);
+        void $tooltip.offsetWidth;
+        $tooltip.setAttribute('data-visible', 'true');
+      }
+      function hideTooltip() {
+        $tooltip.setAttribute('data-visible', 'false');
+        ttCurrentId = null;
+        if (ttHideTimer) clearTimeout(ttHideTimer);
+        ttHideTimer = setTimeout(function () {
+          $tooltip.hidden = true;
+          $tooltip.setAttribute('aria-hidden', 'true');
+        }, 200);
+      }
+      $content.addEventListener('mouseenter', function (e) {
+        var t = e.target.closest && e.target.closest('.cell');
+        if (!t || !t.dataset.id) return;
+        if (ttCurrentId === parseInt(t.dataset.id, 10)) return;
+        showTooltip(t);
+      }, true);
+      $content.addEventListener('mouseleave', function (e) {
+        var t = e.target.closest && e.target.closest('.cell');
+        if (!t) return;
+        hideTooltip();
+      }, true);
+      window.addEventListener('scroll', hideTooltip, { passive: true });
+    }
 
     $chips.addEventListener('click', function (e) {
       var t = e.target.closest('.chip');
