@@ -67,6 +67,7 @@ export function buildLowRiskRankings(
       subText: '年収が高く、かつ AI 影響度が <strong>5以下</strong> の職業',
       introText: '高い年収を得ながらAIに代替されにくい——そんな職業を探している方へ。AI影響度5以下（10段階）かつ年収が高い順にランキングしました。',
       statBlocks: [
+        ['対象職業数', `${salarySafe.length}`],
         ['TOP30 平均年収', `${Math.trunc(meanSalarySS)} 万円`],
         ['TOP30 平均 AI 影響', `${meanRiskSS.toFixed(1)} / 10`],
         ['TOP30 平均年齢', `${safeMean(salarySafe, 'average_age').toFixed(1)} 歳`],

@@ -562,11 +562,11 @@ export function renderRelatedHubsBlock(genre: HubGenre, slug: string, limit: num
 export const RELATED_CROSS_HUB_CSS = `
 .related-cross-hub{margin:36px 0}
 .related-cross-hub h2{font-family:var(--font-serif);font-size:1.1rem;color:var(--accent-deep);margin:0 0 14px;font-weight:600}
-.rxh-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
-.rxh-link{display:flex;flex-direction:column;gap:3px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms,background 150ms}
+.rxh-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;grid-auto-rows:1fr}
+.rxh-link{display:flex;flex-direction:column;gap:3px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);height:100%;transition:border-color 150ms,background 150ms}
 .rxh-link:hover{border-color:var(--accent);background:rgba(217,107,61,0.04);text-decoration:none}
 .rxh-genre{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);font-weight:600}
 .rxh-name{font-family:var(--font-serif);font-size:.95rem;color:var(--accent-deep);line-height:1.35}
-.rxh-desc{font-size:.74rem;color:var(--fg2);line-height:1.4}
+.rxh-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.74rem;color:var(--fg2);line-height:1.4;flex:1}
 @media (max-width:600px){.rxh-list{grid-template-columns:1fr}}
 `;

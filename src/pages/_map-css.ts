@@ -254,7 +254,7 @@ export const MAP_PAGE_CSS = `
       color: rgba(255,255,255,0.96);
       font-size: 0.7rem; font-weight: 500;
       line-height: 1.2;
-      cursor: pointer; overflow: hidden; text-overflow: ellipsis;
+      cursor: pointer; overflow: hidden;
       display: flex; align-items: flex-end;
       transition: filter 120ms cubic-bezier(0.16, 1, 0.3, 1);
       -webkit-tap-highlight-color: transparent;
@@ -265,7 +265,11 @@ export const MAP_PAGE_CSS = `
       outline: 2px solid var(--fg); outline-offset: -1px;
       z-index: 2;
     }
-    .cell .name { text-shadow: 0 1px 2px rgba(0,0,0,0.25); max-width: 100%; }
+    .cell .name {
+      display: block; width: 100%;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    }
     .cell-others .name { font-style: italic; opacity: 0.92; }
     /* Legacy .sector-grid kept only for the loading skeleton (below). */
     .sector-grid {

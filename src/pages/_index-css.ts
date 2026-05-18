@@ -223,6 +223,11 @@ export const INDEX_CSS = String.raw`      *,
         font-weight: 600;
         line-height: 1.25;
         color: var(--fg);
+        min-height: 2.6em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       .m-top10-card-name-en {
         font-family: var(--font-sans);
@@ -1801,24 +1806,28 @@ export const INDEX_CSS = String.raw`      *,
         list-style: none;
         margin: 0;
         padding: 0;
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 8px;
       }
-      .sector-nav-grid li { margin: 0; }
+      .sector-nav-grid li { margin: 0; display: flex; }
       .sector-nav-grid a {
-        display: inline-flex;
-        align-items: baseline;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         gap: 6px;
-        padding: 7px 14px;
+        padding: 8px 12px;
         background: var(--bg3);
         border: 1px solid var(--border);
         border-radius: 999px;
         color: var(--fg);
         text-decoration: none;
-        font-size: 0.85rem;
+        font-size: 0.84rem;
         line-height: 1.2;
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+        width: 100%;
+        text-align: center;
+        min-height: 32px;
       }
       .sector-nav-grid a:hover {
         color: var(--accent);
@@ -1930,10 +1939,13 @@ export const INDEX_CSS = String.raw`      *,
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 8px;
+        grid-auto-rows: 1fr;
       }
+      .ranking-nav-grid li { display: flex; }
       .ranking-nav-grid a {
-        display: block;
-        padding: 12px 16px;
+        display: flex;
+        flex-direction: column;
+        padding: 13px 16px;
         background: var(--bg3);
         border: 1px solid var(--border);
         border-radius: 8px;
@@ -1943,6 +1955,8 @@ export const INDEX_CSS = String.raw`      *,
         font-weight: 500;
         line-height: 1.35;
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+        width: 100%;
+        height: 100%;
       }
       .ranking-nav-grid a:hover {
         color: var(--accent);
@@ -1958,12 +1972,6 @@ export const INDEX_CSS = String.raw`      *,
       }
       /* Phase 6: richer ranking card — eyebrow + name + #1 preview + desc.
          Card now flows vertically with consistent vertical rhythm. */
-      .ranking-nav-grid a {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        padding: 13px 16px;
-      }
       .rn-eyebrow {
         font-size: 0.68rem;
         font-weight: 700;
@@ -1979,11 +1987,16 @@ export const INDEX_CSS = String.raw`      *,
         color: var(--fg);
       }
       .rn-preview {
-        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
         font-size: 0.78rem;
         color: var(--fg);
         font-variant-numeric: tabular-nums;
         margin-top: 6px;
+        min-height: 1.4em;
+        flex: 1;
       }
       .ranking-nav-grid .rn-desc {
         margin-top: 2px;
@@ -2042,7 +2055,7 @@ export const INDEX_CSS = String.raw`      *,
       @media (max-width: 540px) {
         .ranking-nav { margin: 14px 0; padding: 16px 14px; }
         .ranking-nav-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-        .ranking-nav-grid a { padding: 10px 12px; font-size: 0.82rem; }
+        .ranking-nav-grid a { padding: 11px 14px; font-size: 0.82rem; }
         .rn-eyebrow { font-size: 0.62rem; }
         .rn-name { font-size: 0.85rem; }
         .rn-preview { font-size: 0.72rem; }
