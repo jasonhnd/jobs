@@ -486,9 +486,9 @@
 
         <!-- Mobile-only hero block (Design.md §7.11) — visible on ≤768px only. Gives anxious-job-seeker users a one-screen tool entry: H2 + trust signal + search input + 5 occupation chips, sitting just above the treemap on mobile. -->
         <div class="mobile-hero" aria-label="モバイルクイック検索">
-          <h2 class="mobile-hero-title">
+          <p class="mobile-hero-title" role="heading" aria-level="2">
             AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
-          </h2>
+          </p>
           <div class="mobile-hero-trust">
             552 の職業を、AI 影響度で多角的に分析
           </div>
@@ -518,7 +518,7 @@
         <section class="m-top10" id="mTop10" aria-label="AI に変わる仕事 TOP 10" hidden>
           <header class="m-top10-head">
             AI に変わる仕事
-            <h2 class="m-top10-title">TOP 10</h2>
+            <p class="m-top10-title" role="heading" aria-level="2">TOP 10</p>
           </header>
           <div class="m-top10-track" id="mTop10Track" role="list">
             <!-- cards injected by renderMobileTop10() -->
@@ -532,7 +532,7 @@
         <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the embedded treemap canvas + m-map-head on viewports <=768px. The entire <a> is the tap target → /map. The inline SVG thumbnail comes from public/map-thumb.snippet.html injected between the INCLUDE markers below — do not hand-edit the SVG. -->
         <a class="m-map-preview" href="/map" aria-label="職業マップを開く（全 552 職業）">
           <header class="m-map-preview-head">
-            <h2 class="m-map-preview-title">職業マップ</h2>
+            <p class="m-map-preview-title" role="heading" aria-level="2">職業マップ</p>
             <span class="m-map-preview-count">全 552 職業</span>
           </header>
           <div class="m-map-preview-legend">面積 = 就業者数 ・ 色 = AI 影響</div>
@@ -603,9 +603,9 @@
       </div>
       <!-- v1.2.x mobile-only treemap section header (matches Direction C homepage layout) -->
       <header class="m-map-head">
-        <h2 class="m-map-title">
+        <p class="m-map-title" role="heading" aria-level="2">
           職業マップ
-        </h2>
+        </p>
         <span class="m-map-meta">
           全 552 職業 ・ 面積＝就業者数 ・ 色＝AI影響
         </span>
