@@ -1205,7 +1205,9 @@ export const INDEX_CSS = String.raw`      *,
         background: var(--bg2);
         color: var(--fg);
         border: 1px solid var(--border);
-        padding: 7px 14px;
+        /* RA-130: 44px tap target (WCAG 2.5.5 / Apple HIG / Material). padding 11px 14px + font-size 0.86rem reaches min-height 44px. */
+        padding: 11px 14px;
+        min-height: 44px;
         border-radius: 999px;
         font: inherit;
         font-size: 0.86rem;
@@ -1379,7 +1381,9 @@ export const INDEX_CSS = String.raw`      *,
         background: var(--bg2);
         border: 1px solid var(--border);
         color: var(--fg);
-        padding: 5px 11px;
+        /* RA-130: 44px tap target (WCAG 2.5.5 / Apple HIG / Material). padding 11px 14px ensures the chip clears the 44px minimum on touch screens. */
+        padding: 11px 14px;
+        min-height: 44px;
         border-radius: 999px;
         font: inherit;
         font-size: 0.78rem;
