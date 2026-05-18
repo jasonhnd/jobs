@@ -2233,4 +2233,34 @@ export const INDEX_CSS = String.raw`      *,
         .follow-cta { padding: 12px 20px; gap: 10px; }
         .follow-cta .follow-text strong { font-size: 0.95rem; }
         .follow-cta .follow-text small { font-size: 0.72rem; }
+      }
+
+      /* RA-135 — Home KPI band: 4 headline numbers + 5-segment AI-impact distribution bar, placed above the fold between hero and treemap. Segment widths driven by the inline custom property --w on each <li> (style-src 'self' 'unsafe-inline' covers inline style attrs). */
+      .home-kpi-band { margin: 32px 0; padding: 24px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; }
+      .kpi-row { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0 0 24px; padding: 0; }
+      .kpi-row li { text-align: center; padding: 8px; }
+      .kpi-row li strong { display: block; font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700; color: var(--accent-deep); line-height: 1.1; font-variant-numeric: tabular-nums; }
+      .kpi-row li strong small { font-size: 1rem; color: var(--fg2); font-weight: 500; margin-left: 2px; }
+      .kpi-row li span { display: block; margin-top: 4px; font-size: .86rem; color: var(--fg2); }
+      .kpi-row li span .kpi-meta { display: block; font-size: .7rem; color: var(--fg3); margin-top: 2px; }
+      .risk-distribution-label { font-size: .86rem; color: var(--fg2); margin: 0 0 8px; font-weight: 500; }
+      .risk-distribution { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; }
+      .risk-distribution li { flex: 0 0 var(--w); position: relative; padding: 8px 6px; border-radius: 4px; font-size: .7rem; line-height: 1.3; overflow: hidden; min-width: 48px; }
+      .risk-distribution li[data-band="0-2"] { background: #E0EAE2; }
+      .risk-distribution li[data-band="3-4"] { background: #D2E3D5; }
+      .risk-distribution li[data-band="5-6"] { background: #F4E5C7; }
+      .risk-distribution li[data-band="7-8"] { background: #F5D5C7; }
+      .risk-distribution li[data-band="9-10"] { background: #E8B5A5; }
+      .risk-distribution li .rd-text strong { display: block; font-weight: 600; color: var(--fg); font-size: .78rem; }
+      .risk-distribution li .rd-text small { color: var(--fg2); }
+      @media (max-width: 768px) {
+        .kpi-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .kpi-row li strong { font-size: 1.7rem; }
+        .risk-distribution { flex-direction: column; gap: 6px; }
+        .risk-distribution li { flex: 1 0 auto; width: 100%; display: flex; align-items: center; gap: 8px; min-width: 0; }
+        .risk-distribution li .rd-text { display: flex; gap: 8px; align-items: center; }
+      }
+      @media (max-width: 360px) {
+        .kpi-row { grid-template-columns: 1fr; }
+        .kpi-row li strong { font-size: 2rem; }
       }`;
