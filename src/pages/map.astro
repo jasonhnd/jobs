@@ -85,20 +85,6 @@ const jsonLd = `{
   {/* RA-012 (2026-05-18): inner <main> would nest inside BaseLayout's
       <main id="main-content">. Replaced with semantic <article>. */}
   <article aria-label="職業マップ">
-    {/* RA-138 — time slider (Phase 5a). 2020 / 2026 / 2030 toggle; 2020 and
-        2030 are placeholder estimates (current ai_risk ± 2 clamped to [1,10]).
-        See methodology page for real-data plan. */}
-    <div class="map-timeline" id="mapTimeline" role="group" aria-label="表示年"
-         title="2020 と 2030 はデモ用の推定値です。実データは方法論ページを参照。">
-      <span class="ml-label">表示年:</span>
-      <button type="button" class="ml-year" data-year="2020">2020</button>
-      <button type="button" class="ml-year ml-year-current" data-year="2026" aria-pressed="true">2026<small>現在</small></button>
-      <button type="button" class="ml-year" data-year="2030">2030<small>予測</small></button>
-      <span class="ml-meta" id="mlMeta" aria-live="polite">※ 過去・予測は推定値</span>
-    </div>
-
-    <div class="timeline-demo-warning" id="timelineDemoWarning" hidden>※ 表示中の年は推定値です</div>
-
     <div class="legend" aria-hidden="true">
       <span>面積 ≈ 就業者数</span>
       <span class="swatches">
@@ -117,11 +103,6 @@ const jsonLd = `{
         <div class="sector-section"><div class="sector-grid"></div></div>
         <div class="sector-section"><div class="sector-grid"></div></div>
       </div>
-    </div>
-
-    <div class="map-delta-highlight" id="mapDeltaHighlight" hidden>
-      <p class="dh-title">2026 → 2030 で最も AI 影響度が上がる 5 職業（推定）</p>
-      <ol class="dh-list" id="mapDeltaList"></ol>
     </div>
   </article>
 
@@ -661,101 +642,6 @@ const jsonLd = `{
       ga('map_filter', { sector: currentSector, sort: currentSort });
     });
 
-    // ── RA-138 — Time slider (Phase 5a placeholder data) ────────────────
-    // 2020 = current ai_risk - 2 (clamped to [1,10])
-    // 2026 = original ai_risk (real JILPT / mhlw data)
-    // 2030 = current ai_risk + 2 (clamped to [1,10])
-    // ALL non-2026 years are clearly labeled as estimates. When real time-
-    // series data lands in Phase 5b, swap projectedRisk() for a lookup
-    // against per-job year buckets keyed on _original_ai_risk's job id.
-    var currentYear = 2026;
-    var $timeline = document.getElementById('mapTimeline');
-    var $mlMeta = document.getElementById('mlMeta');
-    var $timelineWarning = document.getElementById('timelineDemoWarning');
-    var $deltaHighlight = document.getElementById('mapDeltaHighlight');
-    var $deltaList = document.getElementById('mapDeltaList');
-
-    function projectedRisk(originalRisk, year) {
-      if (year === 2026) return originalRisk;
-      if (year === 2020) return Math.max(1, originalRisk - 2);
-      if (year === 2030) return Math.min(10, originalRisk + 2);
-      return originalRisk;
-    }
-    function applyYearToRecords(year) {
-      // Rewrite ai_risk on every record based on stashed _original_ai_risk.
-      // renderMap reads ai_risk for cell color; this is the cheapest way to
-      // re-color the treemap without changing the squarify layout (cell
-      // areas are derived from `workers`, which we never touch).
-      for (var i = 0; i < allRecords.length; i++) {
-        var r = allRecords[i];
-        if (r._original_ai_risk == null) continue;
-        r.ai_risk = projectedRisk(r._original_ai_risk, year);
-      }
-    }
-    function updateMetaText(year) {
-      if (year === 2026) {
-        $mlMeta.textContent = '※ 過去・予測は推定値';
-      } else {
-        $mlMeta.textContent = '※ 推定値（' + year + '年）';
-      }
-    }
-    function updateWarning(year) {
-      $timelineWarning.hidden = (year === 2026);
-    }
-    function renderDeltaHighlight(year) {
-      if (year !== 2030) {
-        $deltaHighlight.hidden = true;
-        return;
-      }
-      // Placeholder model: every job moves +2 (clamped at 10), so jobs whose
-      // _original_ai_risk was already 8+ all hit the same ceiling. Rank by
-      // _original_ai_risk DESC, tiebreak by workers DESC for visual weight.
-      var ranked = allRecords.slice().sort(function (a, b) {
-        var d = (b._original_ai_risk || 0) - (a._original_ai_risk || 0);
-        if (d !== 0) return d;
-        return (b.workers || 0) - (a.workers || 0);
-      }).slice(0, 5);
-      var frag = document.createDocumentFragment();
-      ranked.forEach(function (r) {
-        var li = document.createElement('li');
-        var nameStrong = document.createElement('strong');
-        nameStrong.textContent = r.name_ja || '';
-        var deltaSpan = document.createElement('span');
-        deltaSpan.className = 'dh-delta';
-        var oldRisk = r._original_ai_risk;
-        var newRisk = projectedRisk(oldRisk, 2030);
-        deltaSpan.textContent = oldRisk + ' → ' + newRisk;
-        li.appendChild(nameStrong);
-        li.appendChild(deltaSpan);
-        frag.appendChild(li);
-      });
-      $deltaList.replaceChildren(frag);
-      $deltaHighlight.hidden = false;
-    }
-    function setYear(year) {
-      if (year === currentYear) return;
-      currentYear = year;
-      // Toggle aria-pressed on the three buttons.
-      var buttons = $timeline.querySelectorAll('.ml-year');
-      buttons.forEach(function (b) {
-        var isActive = parseInt(b.dataset.year, 10) === year;
-        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
-      applyYearToRecords(year);
-      updateMetaText(year);
-      updateWarning(year);
-      renderDeltaHighlight(year);
-      renderMap();
-      ga('map_year_change', { year: year });
-    }
-    $timeline.addEventListener('click', function (e) {
-      var t = e.target.closest('.ml-year');
-      if (!t) return;
-      var y = parseInt(t.dataset.year, 10);
-      if (!y) return;
-      setYear(y);
-    });
-
     function loadSearchIndex() {
       if (searchDocs) return Promise.resolve(searchDocs);
       return fetchWithTimeout(SEARCH_URL, FETCH_TIMEOUT_MS).then(function (j) {
@@ -874,13 +760,7 @@ const jsonLd = `{
         sectorMeta = sectorsJson.sectors || [];
         sectorOrder = sectorMeta.map(function (s) { return s.id; });
 
-        // RA-138 — stash the real (2026) ai_risk so the time slider's
-        // placeholder model can derive 2020 / 2030 estimates while
-        // preserving the source-of-truth value. When Phase 5b lands real
-        // year-keyed data, replace projectedRisk() with a lookup keyed on
-        // r.id; this stash remains the 2026 fallback.
         allRecords.forEach(function (r) {
-          r._original_ai_risk = r.ai_risk;
           byId[r.id] = r;
         });
         allRecords.forEach(function (r) {
