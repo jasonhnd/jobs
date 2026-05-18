@@ -30,6 +30,7 @@ import { buildIndexes } from './lib/indexes.js';
 import { buildDetail } from './projections/detail.js';
 import { buildHolland } from './projections/holland.js';
 import { buildLabels } from './projections/labels.js';
+import { buildMePositions } from './projections/me-positions.js';
 import { buildProfile5 } from './projections/profile5.js';
 import { buildSearch } from './projections/search.js';
 import { buildSectors } from './projections/sectors.js';
@@ -209,6 +210,20 @@ async function main(): Promise<void> {
     runs.push(await runProjection('holland', async () => {
       const r = await buildHolland(indexes, STAGE_DIST);
       return { files: r.files, summary: `rows=${r.rows}` };
+    }));
+
+    // RA-134 (2026-05-18): me-positions.json — per-job rank in every
+    // ranking. Doesn't consume `indexes` (it operates on the graph + the
+    // views/ranking layer to mirror buildRankings exactly), but lives in
+    // the same projection slot so output cleanup + atomic promote
+    // naturally cover it. Called after holland so the rank list is
+    // stable for the run.
+    runs.push(await runProjection('me-positions', async () => {
+      const r = await buildMePositions(STAGE_DIST);
+      return {
+        files: r.files,
+        summary: `jobs=${r.jobCount} rankings=${r.rankingCount}`,
+      };
     }));
   } catch (err) {
     // Any projection failure: wipe staging so we don't leave half-written
