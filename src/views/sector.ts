@@ -45,6 +45,12 @@ export interface SectorOccupationSummary {
 
 // ─── sector-index view ───────────────────────────────────────────
 
+export interface SectorSampleOccupation {
+  /** Numeric occupation id (matches OccupationId / `/ja/<id>` detail-page URL). */
+  id: number;
+  titleJa: string | null;
+}
+
 export interface SectorIndexEntry {
   id: SectorId;
   ja: string;
@@ -53,7 +59,12 @@ export interface SectorIndexEntry {
   occupationCount: number;
   meanAiRisk: number | null;
   totalWorkforce: number;
+  /** Legacy: titles only (kept for backward compat). */
   sampleTitlesJa: readonly string[];
+  /** RA-129: representative occupations with ids, so the index card can render
+   *  them as inline links to `/ja/<id>` instead of plain text. Same order +
+   *  selection as sampleTitlesJa (top 3 by workers, then by id). */
+  sampleEntries: readonly SectorSampleOccupation[];
 }
 
 export interface SectorIndexView {
@@ -97,7 +108,12 @@ export function sectorIndexView(graph: KnowledgeGraph): SectorIndexView {
         if (wb !== wa) return wb - wa;
         return (a.id as unknown as number) - (b.id as unknown as number);
       });
-    const sampleTitlesJa = byWorkers.slice(0, 3).map(o => o.titleJa);
+    const topSamples = byWorkers.slice(0, 3);
+    const sampleTitlesJa = topSamples.map(o => o.titleJa);
+    const sampleEntries: SectorSampleOccupation[] = topSamples.map(o => ({
+      id: o.id as unknown as number,
+      titleJa: o.titleJa,
+    }));
 
     entries.push({
       id: secId,
@@ -108,6 +124,7 @@ export function sectorIndexView(graph: KnowledgeGraph): SectorIndexView {
       meanAiRisk,
       totalWorkforce,
       sampleTitlesJa,
+      sampleEntries,
     });
     totalOccupations += occIds.length;
   }
