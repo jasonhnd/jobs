@@ -82,6 +82,111 @@ export interface RankingResult {
   introText: string;
 }
 
+export interface RankingsHubCardData {
+  slug: RankingSlug;
+  name: string;
+  desc: string;
+  count: number;
+  preview: string;
+}
+
+/**
+ * RA-128: grouped view of hub cards. Each group has a label, lede, and
+ * the same card objects re-bucketed in the order defined by
+ * RANKING_GROUPS. `cards` retained for backward compatibility.
+ */
+export interface RankingsHubGroup {
+  key: string;
+  label_ja: string;
+  lede_ja: string;
+  cards: RankingsHubCardData[];
+}
+
+// ─── RA-128: 39-card grouping for /ja/rankings hub ────────────────────
+// Groups all 39 hub cards into 6 thematic categories with sticky-anchor
+// chip nav. Order within each group matters (drives card order on page).
+// Lives in config (not index.ts) so build.ts can import without creating
+// an index → build → index cycle.
+export const RANKING_GROUPS = {
+  basic: {
+    label_ja: '基本ランキング 9 軸',
+    lede_ja: '年収・就業者数・労働時間など出発点の 9 指標',
+    slugs: [
+      'ai-risk-high',
+      'ai-risk-low',
+      'salary-safe',
+      'workers',
+      'salary',
+      'entry-salary',
+      'young-workforce',
+      'short-hours',
+      'high-demand',
+    ] as const,
+  },
+  single: {
+    label_ja: '単軸で深く 5 軸',
+    lede_ja: '時給・求人倍率・年齢など追加 5 指標',
+    slugs: [
+      'hourly-wage',
+      'recruit-ratio',
+      'aging-workforce',
+      'monthly-hours-long',
+      'recruit-ratio-low',
+    ] as const,
+  },
+  ai: {
+    label_ja: 'AI と職業 6 軸',
+    lede_ja: 'AI 影響度を軸にした 6 つの切り口',
+    slugs: [
+      'ai-replaced-soon',
+      'ai-resistant-craft',
+      'ai-at-risk-but-paid',
+      'ai-augmented',
+      'ai-frontier',
+      'ai-stable-employment',
+    ] as const,
+  },
+  combo: {
+    label_ja: '組合せで絞る 8 軸',
+    lede_ja: '"AI 安全 × 高需要" など 2 軸交差で実用度を上げる',
+    slugs: [
+      'ai-safe-high-demand',
+      'ai-safe-short-hours',
+      'ai-safe-young-workforce',
+      'ai-safe-no-license',
+      'ai-safe-physical',
+      'ai-safe-interpersonal',
+      'high-salary-high-demand',
+      'high-salary-young-entry',
+    ] as const,
+  },
+  education: {
+    label_ja: '教育・資格で 5 軸',
+    lede_ja: '学歴・資格要件で絞り込む 5 つの視点',
+    slugs: [
+      'license-required',
+      'no-license-required',
+      'high-school-ok',
+      'university-required',
+      'graduate-school-required',
+    ] as const,
+  },
+  niche: {
+    label_ja: 'ニッチな視点 6 軸',
+    lede_ja: 'フリーランス・独立・低ストレスなど少数派の道',
+    slugs: [
+      'public-sector',
+      'freelance-friendly',
+      'self-employed-typical',
+      'large-workforce-stable',
+      'regulated-protected',
+      'low-stress-stable',
+    ] as const,
+  },
+} as const;
+
+export type RankingGroupKey = keyof typeof RANKING_GROUPS;
+
 export interface RankingsBundle {
   results: Map<RankingSlug, RankingResult>;
   hub: {
@@ -94,6 +199,7 @@ export interface RankingsBundle {
      * concatenate with untrusted data". Callers in pages do `set:html`.
      */
     insights: string[];
-    cards: Array<{ slug: RankingSlug; name: string; desc: string; count: number; preview: string }>;
+    cards: RankingsHubCardData[];
+    groups: RankingsHubGroup[];
   };
 }

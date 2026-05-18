@@ -310,17 +310,82 @@ export interface RankingsHubCard {
 }
 
 export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): SafeHtml {
-  return cards.map((c) => {
-    const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
-    return (
-      `<li><a href="/ja/rankings/${c.slug}">` +
-      `<span class="rr-title">${escapeHtml(c.name)}</span>` +
-      `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
-      `${previewHtml}` +
-      `<span class="rr-count">${c.count} 職業</span>` +
-      `</a></li>`
-    );
-  }).join('') as SafeHtml;
+  return cards.map((c) => renderHubCardLi(c)).join('') as SafeHtml;
+}
+
+// Internal helper — single <li> for one hub card. Shared by both the
+// flat renderRankingsHubCards (back-compat) and the grouped
+// renderRankingsHubGroups (RA-128) so layout stays in sync.
+function renderHubCardLi(c: RankingsHubCard): string {
+  const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
+  return (
+    `<li><a href="/ja/rankings/${c.slug}">` +
+    `<span class="rr-title">${escapeHtml(c.name)}</span>` +
+    `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
+    `${previewHtml}` +
+    `<span class="rr-count">${c.count} 職業</span>` +
+    `</a></li>`
+  );
+}
+
+// ─── RA-128: grouped hub-card renderer with sticky chip nav ──────────
+//
+// Renders the 39 hub cards into 6 thematic sections, each anchored with
+// `id="grp-<key>"`, plus a sticky chip nav at the top driven by
+// data-target attributes (matched against group keys by the IntersectionObserver
+// script in src/pages/ja/rankings/index.astro).
+
+export interface RankingsHubGroupView {
+  readonly key: string;
+  readonly label_ja: string;
+  readonly lede_ja: string;
+  readonly cards: ReadonlyArray<RankingsHubCard>;
+}
+
+// Short chip labels (kept terse so the sticky chip row fits on mobile).
+// Matched to group keys defined in src/views/ranking/config.ts.
+const CHIP_LABEL_JA: Record<string, string> = {
+  basic: '基本',
+  single: '単軸',
+  ai: 'AI',
+  combo: '組合せ',
+  education: '教育・資格',
+  niche: 'ニッチ',
+};
+
+export function renderRankingsHubGroups(
+  groups: ReadonlyArray<RankingsHubGroupView>,
+): SafeHtml {
+  if (groups.length === 0) return '' as SafeHtml;
+
+  const chips = groups
+    .map((g) => {
+      const label = CHIP_LABEL_JA[g.key] ?? g.label_ja;
+      return (
+        `<a href="#grp-${escapeHtml(g.key)}" class="ra-chip" data-target="${escapeHtml(g.key)}">` +
+        `${escapeHtml(label)} <span>${g.cards.length}</span>` +
+        `</a>`
+      );
+    })
+    .join('');
+
+  const sections = groups
+    .map((g) => {
+      const lis = g.cards.map((c) => renderHubCardLi(c)).join('');
+      return (
+        `<section class="ranking-group" id="grp-${escapeHtml(g.key)}" data-group="${escapeHtml(g.key)}">` +
+        `<h3 class="ranking-group-title">${escapeHtml(g.label_ja)}</h3>` +
+        `<p class="ranking-group-lede">${escapeHtml(g.lede_ja)}</p>` +
+        `<ul class="ranking-cards">${lis}</ul>` +
+        `</section>`
+      );
+    })
+    .join('');
+
+  return (
+    `<nav class="ranking-anchor-nav" aria-label="ランキングのカテゴリ">${chips}</nav>` +
+    sections
+  ) as SafeHtml;
 }
 
 export function renderRankingsHubStats(stats: ReadonlyArray<readonly [string, string]>): SafeHtml {
