@@ -12,9 +12,12 @@ import { fmtInt } from '../../lib/num.js';
 import {
   type Occupation,
   type RankingsBundle,
+  type RankingsHubGroup,
   type RankingSlug,
   type RankingResult,
+  type RankingGroupKey,
   DEMAND_JA,
+  RANKING_GROUPS,
 } from './config.js';
 import { safeMean, makePreview, eduPct, gradPct, empPct, EDU, EMP } from './utilities.js';
 
@@ -162,5 +165,19 @@ export function buildRankings(
     { slug: 'low-stress-stable', name: '低ストレス安定職', desc: '短い労働時間 × 低 AI 影響', count: intent.lowStressStable.length, preview: makePreview(intent.lowStressStable, (o) => `月${Math.trunc(o.monthly_hours ?? 0)}h`) },
   ];
 
-  return { results, hub: { globalStats, insights, cards } };
+  // ─── RA-128: group hub cards into 6 thematic buckets ────────────────
+  const cardBySlug = new Map(cards.map((c) => [c.slug, c]));
+  const groups: RankingsHubGroup[] = (Object.keys(RANKING_GROUPS) as RankingGroupKey[]).map((key) => {
+    const def = RANKING_GROUPS[key];
+    return {
+      key,
+      label_ja: def.label_ja,
+      lede_ja: def.lede_ja,
+      cards: def.slugs
+        .map((s) => cardBySlug.get(s as RankingSlug))
+        .filter((c): c is NonNullable<typeof c> => c !== undefined),
+    };
+  });
+
+  return { results, hub: { globalStats, insights, cards, groups } };
 }

@@ -16,6 +16,15 @@ export async function getStaticPaths() {
 const { result } = Astro.props as { result: CompareResult };
 const meta = result.meta;
 const b = buildComparePairBindings(result, await loadGraph());
+
+// RA-133 (2026-05-18): expose pair identity to the localStorage writer
+// via the rendered HTML data-* attributes (read by the inline script in
+// <script slot="bodyEnd">). Keeps the inline script body static so the
+// CSP hash list stays small (one hash covers all 20 pair pages).
+const cmpAId = String(result.a.id);
+const cmpBId = String(result.b.id);
+const cmpAName = result.a.name_ja;
+const cmpBName = result.b.name_ja;
 ---
 <BaseLayout
   title={b.title}
@@ -118,7 +127,13 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 
   <a class="skip-link" href="#content">本文へスキップ</a>
 
-  <div id="wrapper">
+  <div
+    id="wrapper"
+    data-cmp-aid={cmpAId}
+    data-cmp-bid={cmpBId}
+    data-cmp-aname={cmpAName}
+    data-cmp-bname={cmpBName}
+  >
     <nav class="crumb" aria-label="パンくずリスト">
       <a href="/" rel="up">未来の仕事</a>
       <span aria-hidden="true">›</span>
@@ -167,4 +182,33 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 
     <Footer />
   </div>
+
+  {/* RA-133 (2026-05-18): localStorage writer for recent comparisons.
+      Static body — reads pair identity from #wrapper data-* (different
+      per page but the script source is identical, so it shares a
+      single CSP hash across all 20 pair pages). Gated by cookieConsent. */}
+  <script is:inline slot="bodyEnd">
+    (function () {
+      if (typeof localStorage === 'undefined') return;
+      try { if (localStorage.getItem('cookieConsent') !== 'accepted') return; } catch (_) { return; }
+      var w = document.getElementById('wrapper');
+      if (!w) return;
+      var aId = w.getAttribute('data-cmp-aid');
+      var bId = w.getAttribute('data-cmp-bid');
+      var aN = w.getAttribute('data-cmp-aname');
+      var bN = w.getAttribute('data-cmp-bname');
+      if (!aId || !bId) return;
+      try {
+        var KEY = 'ms.compare.recent';
+        var raw = localStorage.getItem(KEY);
+        var recent = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(recent)) recent = [];
+        var filtered = recent.filter(function (r) {
+          return !(r && ((r.a === aId && r.b === bId) || (r.a === bId && r.b === aId)));
+        });
+        filtered.unshift({ a: aId, b: bId, aN: aN, bN: bN, t: Date.now() });
+        localStorage.setItem(KEY, JSON.stringify(filtered.slice(0, 5)));
+      } catch (_) {}
+    })();
+  </script>
 </BaseLayout>
