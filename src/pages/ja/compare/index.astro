@@ -36,8 +36,6 @@ html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--accent)}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
-.skip-link:focus{left:8px;top:8px}
 #wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
 .crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
@@ -50,14 +48,14 @@ h1 .accent{color:var(--accent-deep)}
 .intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
 section{margin:48px 0}
 h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.compare-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;padding:0;margin:0}
-.compare-cards li a{display:block;padding:20px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms}
+.compare-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;padding:0;margin:0;grid-auto-rows:1fr}
+.compare-cards li a{display:flex;flex-direction:column;padding:20px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;height:100%}
 .compare-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
 .cci-title{display:block;font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--accent-deep);margin-bottom:10px;line-height:1.35}
-.cci-pair{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:10px;font-size:.85rem}
-.cci-name{font-weight:500;color:var(--fg)}
+.cci-pair{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;margin-bottom:10px;font-size:.85rem;overflow:hidden}
+.cci-name{font-weight:500;color:var(--fg);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cci-vs{color:var(--fg3);font-size:.78rem;font-weight:600}
-.cci-desc{display:block;font-size:.82rem;color:var(--fg2);line-height:1.6}
+.cci-desc{display:-webkit-box;font-size:.82rem;color:var(--fg2);line-height:1.6;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
 .risk-pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:600;font-variant-numeric:tabular-nums}
 .risk-pill.low{background:#E0EAE2;color:#48705F}
 .risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
@@ -75,7 +73,7 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cc-input input{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;background:var(--bg);color:var(--fg);min-height:42px}
 .cc-input input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
 .cc-vs{font-family:var(--font-serif);font-weight:700;font-size:1.1rem;color:var(--accent);padding-bottom:10px;align-self:end}
-@media (max-width:600px){.cc-vs{display:none}}
+@media (max-width:600px){.cc-vs{display:flex;justify-content:center;padding:0;align-self:stretch;font-size:.78rem;color:var(--fg2)}}
 .cc-submit{grid-column:1/-1;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;min-height:44px;font-family:inherit}
 .cc-submit:hover{filter:brightness(1.05)}
 .cc-submit:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -91,8 +89,6 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cc-table tbody td:first-child{color:var(--fg2);font-size:.85rem;font-weight:500;width:120px}
 .cc-table tbody td{color:var(--fg);font-size:.92rem;font-variant-numeric:tabular-nums}
 `} />
-
-  <a class="skip-link" href="#content">本文へスキップ</a>
 
   <div id="wrapper">
     <nav class="crumb" aria-label="パンくずリスト">

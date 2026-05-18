@@ -67,21 +67,21 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .ai-risk-detail .ai-horizon strong{color:var(--green-deep);font-weight:700}
 
     /* Stat grid (was dl.stats) — 2x2 mobile, 4-col desktop. Trimmed: drop 求人倍率 / 時給 hidden later via JS or kept. */
-    dl.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 0;padding:0;background:transparent;border:none;list-style:none}
+    dl.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 0;padding:0;background:transparent;border:none;list-style:none;grid-auto-rows:1fr}
     @media (min-width:640px){dl.stats{grid-template-columns:repeat(3,1fr)}}
     @media (min-width:900px){dl.stats{grid-template-columns:repeat(3,1fr);gap:16px}}
-    dl.stats > div{background:var(--paper);border-radius:12px;padding:14px 16px;box-shadow:0 4px 12px rgba(120,80,30,0.04);border:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column}
+    dl.stats > div{background:var(--paper);border-radius:12px;padding:14px 16px;box-shadow:0 4px 12px rgba(120,80,30,0.04);border:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column;justify-content:center}
     @media (min-width:900px){dl.stats > div{padding:22px 24px;border-radius:14px}}
     /* RA-008 (2026-05-18): bumped from 0.7rem→0.78rem mobile + --ink-3→--ink-meta
        to clear WCAG AA 4.5:1 (was 3.84:1 at 11.2px). */
     dl.stats dt{font-size:0.78rem;color:var(--ink-meta);text-transform:none;letter-spacing:normal;margin:6px 0 0;order:2;font-weight:500}
     @media (min-width:900px){dl.stats dt{font-size:0.82rem;margin:8px 0 0}}
-    dl.stats dd{font-size:1.2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1.1;order:1}
-    @media (min-width:900px){dl.stats dd{font-size:1.65rem}}
+    dl.stats dd{font-size:1.2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1.1;order:1;word-break:keep-all;overflow-wrap:anywhere}
+    @media (min-width:900px){dl.stats dd{font-size:1.4rem}}
     /* RA-007 (2026-05-18): em-dash stat cells get visually demoted so they
        don't compete with real numbers. aria-label="データなし" is on the
        inner span so screen readers announce intent (see _StatsGrid.astro). */
-    dl.stats dd .stat-empty{color:var(--ink-3);font-weight:400;font-size:0.85em;cursor:help}
+    dl.stats dd .stat-empty{color:var(--ink-3);font-weight:500;font-size:0.7em;cursor:help;text-align:left;display:inline-block;vertical-align:middle}
 
     /* Editorial sections — context / how-to-become / working-conditions — wrap in sec-card narrow */
     section.context,section.how-to-become,section.working-conditions{background:var(--paper);padding:18px 20px;border-radius:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
@@ -168,7 +168,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
 
     /* Orgs + Certs — certs styled as a grid card */
     section.orgs-certs{margin-top:26px}
-    .org-cert-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:0}
+    .org-cert-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:0;align-items:start}
     @media (min-width:768px){.org-cert-grid{grid-template-columns:1fr 1fr;gap:18px}}
     .org-cert-block{background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:16px 18px}
     .org-cert-block h3{font-family:var(--font-serif);font-size:0.95rem;color:var(--orange-hot);margin:0 0 10px;font-weight:700}

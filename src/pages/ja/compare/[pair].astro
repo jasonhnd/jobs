@@ -64,7 +64,11 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .points-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0}
 @media (max-width:600px){.points-grid{grid-template-columns:1fr;gap:14px}}
 .points-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 6px}
-.compare-table{width:100%;border-collapse:collapse;margin:24px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.compare-table{table-layout:fixed;width:100%;border-collapse:collapse;margin:24px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.compare-table thead th:first-child{width:22%}
+.compare-table thead th:nth-child(2),
+.compare-table thead th:nth-child(4){width:36%}
+.compare-table thead th:nth-child(3){width:6%}
 .compare-table th,.compare-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:.92rem;vertical-align:middle}
 .compare-table thead th{background:var(--bg3);font-family:var(--font-serif);font-weight:600;color:var(--fg);font-size:.92rem}
 .compare-table thead th.ct-note{font-size:.82rem;color:var(--fg2)}

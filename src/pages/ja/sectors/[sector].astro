@@ -46,7 +46,7 @@ const bindings = buildSectorBindings({
 const {
   nameLoc, canonical, ogImage, n, workforceTotal, meanRisk,
   title, ogTitle, seoDesc, keywordsStr,
-  h1Main, subText, skipLabel, crumbRoot, crumbSectors,
+  h1Main, subText, crumbRoot, crumbSectors,
   hHigh, hLow, hPop, hFull, hRelated,
   topHighHtml, topLowHtml, topWorkersHtml, fullListHtml, relatedHtml,
   faqHtml, introSection, aiEraEssayHtml, patternsHtml, crossHubHtml,
@@ -67,8 +67,6 @@ const {
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
   <style slot="head" set:html={SECTOR_PAGE_CSS} />
-
-  <a class="skip-link" href="#content">{skipLabel}</a>
 
   <div id="wrapper">
     <nav class="crumb" aria-label="パンくずリスト">

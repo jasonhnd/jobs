@@ -20,7 +20,9 @@ import { CANONICAL_SECTOR_CSS } from '../../../lib/canonical/sector';
 const SECTOR_PAGE_SPECIFIC_CSS = `
 .top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:.85rem;color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
 .badge{background:var(--accent);color:#fff;padding:2px 8px;font-size:.7rem;letter-spacing:.05em;font-weight:700;border-radius:2px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:32px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:32px 0}
+@media (max-width:768px){.stats{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.stats{grid-template-columns:1fr}}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
@@ -34,7 +36,9 @@ const SECTOR_PAGE_SPECIFIC_CSS = `
 .risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
 .risk-pill.high{background:#F5D5C7;color:#A24A28}
 .full-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
-.full-list li{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center}
+.full-list li{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:49px}
+.full-list li > a{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg);text-decoration:none}
+.full-list li > a:hover{color:var(--accent-deep);text-decoration:underline}
 .full-list a{color:var(--fg);text-decoration:none}
 .full-list a:hover{color:var(--accent-deep);text-decoration:underline}
 .related-sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;list-style:none}
