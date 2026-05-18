@@ -440,6 +440,14 @@ html body footer.site-footer .share-toast.visible { opacity: 1; }
     margin: 6px 0 0;
   }
 }
+/* RA-124 (2026-05-18): very narrow viewports (≤340px, common older Android)
+   were wrapping the 7-button share row into 5+2 layout. Shrink button + gap
+   so 7 buttons fit: 32 × 7 + 4 × 6 = 248px content width. */
+@media (max-width: 340px) {
+  html body footer.site-footer .share-row { gap: 4px; }
+  html body footer.site-footer .share-btn { width: 32px; height: 32px; }
+  html body footer.site-footer .share-btn svg { width: 16px; height: 16px; }
+}
 
 /* ───── Top navigation (canonical, sticky slim bar) ───── */
 /* Magazine-style top masthead: sticky to viewport top, warm-cream backdrop
@@ -652,20 +660,23 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     transform: translateY(0);
   }
   html body div.mob-drawer .mob-drawer-inner {
-    padding: 12px 14px 80px;
+    padding: 10px 14px 60px;
     max-width: 560px;
     margin: 0 auto;
   }
 
-  /* Section panel — bg2 container groups the title + items into a clear card.
-     The 16px gap between sections + 12px rounded corners give 3 distinct
-     blocks that read as separate categories at a glance. */
+  /* RA-122 (2026-05-18): drawer scrollHeight reduction.
+     Previously 1858px / 760 viewport = 2.4 screens of scroll to reach
+     section 3. Tightened section padding 18→12px, list gap 6→4px, and
+     item min-height 56→48px. New total ~1380px = 1.8 screens. Still
+     scrollable on a 760px viewport but section 3 is reachable in 1
+     thumb-swipe (was 2). */
   html body div.mob-drawer section.mob-drawer-sec {
-    margin: 14px 0;
+    margin: 12px 0;
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 18px 16px 16px;
+    padding: 14px 14px 12px;
   }
   html body div.mob-drawer section.mob-drawer-sec:first-child { margin-top: 6px; }
 
@@ -712,17 +723,17 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
   html body div.mob-drawer .mob-drawer-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
 
-  /* Item card — white bg + border + right chevron arrow. Active scale-down
-     gives positive tactile feedback on tap. min-height 56px is HIG-compliant. */
+  /* RA-122: item min-height 56→48px (still WCAG 2.5.5 enhanced 44+ + Apple
+     HIG 44+ minimum tap target). Padding tightened 12→10/12px. */
   html body div.mob-drawer a.mob-drawer-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-height: 56px;
-    padding: 12px 12px 12px 14px;
+    min-height: 48px;
+    padding: 10px 12px 10px 14px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -763,7 +774,10 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     background: var(--bg2);
     padding: 3px 10px;
     border-radius: 999px;
-    min-width: 32px;
+    /* RA-123 (2026-05-18): uniform width across single/double-digit counts.
+       Was min-width:32px → 32 for single-digit + 35 for double-digit (3px
+       left-edge jitter). Now min-width:38px forces all badges same width. */
+    min-width: 38px;
     text-align: center;
     font-weight: 500;
     flex-shrink: 0;

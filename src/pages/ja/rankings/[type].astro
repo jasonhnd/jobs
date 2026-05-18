@@ -102,7 +102,10 @@ footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:prett
 footer .footer-meta a{color:var(--accent)}
 footer .footer-meta .nowrap{white-space:nowrap}
 @media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}.rank-list .rl-stats{margin-top:6px;flex-wrap:nowrap;font-size:.78rem}.sb-row{grid-template-columns:100px 1fr 40px}.sb-label{font-size:.74rem}}
+/* RA-121 (2026-05-18): mobile sector-bar label no longer truncates.
+   Was 100px column with ellipsis -> "クリエイティブ・メ..."; now 128px
+   with 2-line wrap, font shrunk to 0.7rem, line-height 1.2. */
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}.rank-list .rl-stats{margin-top:6px;flex-wrap:nowrap;font-size:.78rem}.sb-row{grid-template-columns:128px 1fr 36px;gap:6px;align-items:center}.sb-label{font-size:.7rem;line-height:1.2;white-space:normal;overflow:visible;text-overflow:initial;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:keep-all;overflow-wrap:anywhere}.highlights li{min-height:72px;display:flex;align-items:center;font-size:.85rem;line-height:1.5}}
 `} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
