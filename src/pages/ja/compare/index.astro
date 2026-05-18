@@ -8,6 +8,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { buildCompareBundle } from '../../../views/compare-hub';
 import { renderHubJsonLd, renderCompareHubCards } from '../../../templates/Compare';
+import { COMPARE_META } from '../../../views/compare-meta';
 
 const { hub } = buildCompareBundle();
 const canonical = 'https://mirai-shigoto.com/ja/compare';
@@ -18,6 +19,14 @@ const keywords = '職業 比較, 違い, 仕事 選び方, vs, 552 職業';
 
 const cardsHtml = renderCompareHubCards(hub.cards);
 const jsonLd = renderHubJsonLd();
+
+// RA-131 (2026-05-18): pair lookup for typeahead submit — bidirectional
+// id-pair → slug so users typing in either order land on the preset hub.
+const pairMapEntries = COMPARE_META.flatMap((m) => [
+  [`${m.occ_a_id}-${m.occ_b_id}`, m.slug],
+  [`${m.occ_b_id}-${m.occ_a_id}`, m.slug],
+] as const);
+const pairMapJson = JSON.stringify(Object.fromEntries(pairMapEntries));
 ---
 <BaseLayout
   title={title}
@@ -63,31 +72,49 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}}
 
 /* RA-017 (2026-05-18): interactive 2-occupation comparison tool */
+/* RA-131/132/133 (2026-05-18): typeahead + mobile keyboard scroll + recent chips */
 .interactive-compare{background:var(--bg2);padding:24px;border-radius:12px;border:1px solid var(--border);margin-bottom:48px}
 .interactive-compare h2{margin-bottom:8px;border-bottom:none;padding-bottom:0;font-size:1.2rem}
 .interactive-compare > p{color:var(--fg2);font-size:.9rem;margin-bottom:20px}
-#customCompareForm{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:end;margin-bottom:16px}
-@media (max-width:600px){#customCompareForm{grid-template-columns:1fr}}
-.cc-input{display:flex;flex-direction:column;gap:4px}
-.cc-input label{font-size:.78rem;color:var(--fg2);font-weight:600}
-.cc-input input{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;background:var(--bg);color:var(--fg);min-height:42px}
-.cc-input input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
-.cc-vs{font-family:var(--font-serif);font-weight:700;font-size:1.1rem;color:var(--accent);padding-bottom:10px;align-self:end}
-@media (max-width:600px){.cc-vs{display:flex;justify-content:center;padding:0;align-self:stretch;font-size:.78rem;color:var(--fg2)}}
-.cc-submit{grid-column:1/-1;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;min-height:44px;font-family:inherit}
-.cc-submit:hover{filter:brightness(1.05)}
-.cc-submit:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.cc-loading,.cc-error{padding:16px;text-align:center;color:var(--fg2);font-size:.9rem}
-.cc-error{color:#c0411e}
-.cc-result{margin-top:18px;overflow-x:auto}
-.cc-table{width:100%;border-collapse:collapse;background:var(--bg)}
-.cc-table th,.cc-table td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
-.cc-table thead th{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-deep);font-weight:600;border-bottom:2px solid var(--border)}
-.cc-table thead th a{color:inherit;text-decoration:none}
-.cc-table thead th a:hover{text-decoration:underline}
-.cc-table .cc-vs-col{text-align:center;color:var(--fg3);font-size:.78rem;font-weight:400}
-.cc-table tbody td:first-child{color:var(--fg2);font-size:.85rem;font-weight:500;width:120px}
-.cc-table tbody td{color:var(--fg);font-size:.92rem;font-variant-numeric:tabular-nums}
+.custom-compare-form{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:start;margin-bottom:16px}
+@media (max-width:600px){.custom-compare-form{grid-template-columns:1fr}}
+.cc-field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cc-label{font-size:.78rem;color:var(--fg2);font-weight:600}
+.cc-typeahead{position:relative}
+.cc-typeahead input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;background:var(--bg);color:var(--fg);min-height:42px}
+.cc-typeahead input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.cc-suggest{position:absolute;top:100%;left:0;right:0;z-index:20;margin:4px 0 0;padding:0;list-style:none;background:var(--bg2);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);max-height:320px;overflow-y:auto}
+.cc-suggest li{padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--border)}
+.cc-suggest li:last-child{border-bottom:none}
+.cc-suggest li[aria-selected="true"],.cc-suggest li:hover{background:var(--bg3)}
+.cc-opt-name{font-weight:500;color:var(--fg);font-size:.92rem}
+.cc-opt-meta{display:flex;gap:8px;font-size:.74rem;color:var(--fg2);align-items:center;flex-wrap:wrap}
+.cc-opt-meta .risk-pill{font-size:.68rem;padding:1px 6px}
+.cc-hint{display:block;font-size:.74rem;color:var(--fg2);margin-top:4px;min-height:1.1em}
+.cc-vs{font-family:var(--font-serif);font-weight:700;font-size:1.1rem;color:var(--accent);padding-top:28px;text-align:center;align-self:start}
+@media (max-width:600px){.cc-vs{padding:0;font-size:.78rem;color:var(--fg2)}}
+.cc-submit-wrapper{grid-column:1/-1;margin-top:6px}
+#ccSubmit{width:100%;padding:12px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;min-height:44px;font-family:inherit}
+#ccSubmit:hover:not(:disabled){filter:brightness(1.05)}
+#ccSubmit:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#ccSubmit:disabled{opacity:.55;cursor:not-allowed}
+.cc-error{padding:12px;text-align:center;color:#c0411e;background:#F5D5C7;border-radius:8px;font-size:.9rem;margin-top:10px}
+@media (max-width:600px){
+  .cc-submit-wrapper{position:sticky;bottom:0;z-index:10;background:linear-gradient(transparent,var(--bg2) 30%);padding:12px 0 16px;margin:0 -16px;padding-left:16px;padding-right:16px}
+}
+/* RA-133: recent comparisons chips */
+.cc-recent{margin-bottom:16px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
+.cc-recent-label{font-size:.78rem;color:var(--fg2);font-weight:600;margin:0 0 8px}
+.cc-recent-chips{list-style:none;padding:0;margin:0 0 8px;display:flex;flex-direction:column;gap:6px}
+.cc-recent-chips li{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:.85rem}
+.cc-chip-btn{padding:4px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-family:inherit;font-size:.82rem;color:var(--fg)}
+.cc-chip-btn:hover{border-color:var(--accent);color:var(--accent-deep)}
+.cc-chip-btn.is-a{background:#E0EAE2;color:#48705F;border-color:#cad8cc}
+.cc-chip-btn.is-b{background:#F4E5C7;color:#8A6A2A;border-color:#e4d4ad}
+.cc-chip-vs{color:var(--fg3);font-size:.74rem;font-weight:600;margin:0 2px}
+.cc-recent-clear{background:none;border:none;color:var(--fg2);font-size:.78rem;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit}
+.cc-recent-clear:hover{color:var(--accent-deep)}
+.cc-recent-note{font-size:.7rem;color:var(--fg3);margin:4px 0 0}
 `} />
 
   <div id="wrapper">
@@ -108,26 +135,43 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     </header>
 
     {/* RA-017 (2026-05-18): interactive 2-occupation comparison tool.
-        Client-side fetch /data.search.json (~100 KB) for the dropdown,
-        then /data.detail/<id>.json for the two selected jobs. URL state
-        is mirrored to ?a=&b= so comparisons are bookmarkable. */}
+        RA-131/132/133 (2026-05-18): replaced <datalist> with typeahead listbox
+        (AI risk + sector preview), added mobile sticky submit + keyboard scroll,
+        and a localStorage-backed recent-comparisons chip strip. */}
     <section class="interactive-compare" aria-label="自由 2 職業比較">
       <h2>2 つの職業を選んで比較</h2>
       <p>552 職業から自由に 2 つ選び、AI 影響度・年収・労働時間などを並べて確認できます。</p>
-      <form id="customCompareForm" role="search">
-        <div class="cc-input">
-          <label for="ccA">職業 A</label>
-          <input type="text" id="ccA" name="a" list="ccOccList" autocomplete="off" placeholder="例: 看護師" />
+
+      <div class="cc-recent" id="ccRecent" hidden>
+        <p class="cc-recent-label">最近比較した職業</p>
+        <ul class="cc-recent-chips" id="ccRecentChips"></ul>
+        <button type="button" class="cc-recent-clear" id="ccRecentClear">クリア</button>
+        <p class="cc-recent-note">※ ブラウザに 5 件まで一時保存</p>
+      </div>
+
+      <form id="customCompareForm" class="custom-compare-form" autocomplete="off" role="search">
+        <div class="cc-field">
+          <label for="ccInputA" class="cc-label">職業 A</label>
+          <div class="cc-typeahead" data-field="a">
+            <input type="search" id="ccInputA" role="combobox" aria-autocomplete="list" aria-controls="ccSuggestA" aria-expanded="false" placeholder="例: 看護師、薬剤師" autocomplete="off" />
+            <ul class="cc-suggest" id="ccSuggestA" role="listbox" hidden></ul>
+          </div>
+          <span class="cc-hint" id="ccHintA" aria-live="polite"></span>
         </div>
-        <div class="cc-vs" aria-hidden="true">VS</div>
-        <div class="cc-input">
-          <label for="ccB">職業 B</label>
-          <input type="text" id="ccB" name="b" list="ccOccList" autocomplete="off" placeholder="例: 訪問介護員" />
+        <span class="cc-vs" aria-hidden="true">VS</span>
+        <div class="cc-field">
+          <label for="ccInputB" class="cc-label">職業 B</label>
+          <div class="cc-typeahead" data-field="b">
+            <input type="search" id="ccInputB" role="combobox" aria-autocomplete="list" aria-controls="ccSuggestB" aria-expanded="false" placeholder="例: 訪問介護員" autocomplete="off" />
+            <ul class="cc-suggest" id="ccSuggestB" role="listbox" hidden></ul>
+          </div>
+          <span class="cc-hint" id="ccHintB" aria-live="polite"></span>
         </div>
-        <datalist id="ccOccList"></datalist>
-        <button type="submit" class="cc-submit">比較する</button>
+        <div class="cc-submit-wrapper">
+          <button type="submit" id="ccSubmit" disabled>比較する</button>
+        </div>
+        <div class="cc-error" id="ccError" role="alert" hidden></div>
       </form>
-      <div id="customCompareResult" aria-live="polite"></div>
     </section>
 
     <section aria-label="比較ペア一覧">
@@ -138,113 +182,292 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
     <Footer />
   </div>
 
+  <script is:inline slot="bodyEnd" set:html={`window.__ccPairMap=${pairMapJson};`} />
   <script is:inline slot="bodyEnd">
     (function () {
-      var formA = document.getElementById('ccA');
-      var formB = document.getElementById('ccB');
+      // RA-131/132/133 (2026-05-18): typeahead listbox + mobile keyboard
+      // scroll + localStorage recent-comparisons chips.
       var form = document.getElementById('customCompareForm');
-      var datalist = document.getElementById('ccOccList');
-      var result = document.getElementById('customCompareResult');
-      if (!form || !result) return;
+      var inputA = document.getElementById('ccInputA');
+      var inputB = document.getElementById('ccInputB');
+      var listA = document.getElementById('ccSuggestA');
+      var listB = document.getElementById('ccSuggestB');
+      var hintA = document.getElementById('ccHintA');
+      var hintB = document.getElementById('ccHintB');
+      var submit = document.getElementById('ccSubmit');
+      var errBox = document.getElementById('ccError');
+      var recentBox = document.getElementById('ccRecent');
+      var recentChips = document.getElementById('ccRecentChips');
+      var recentClear = document.getElementById('ccRecentClear');
+      if (!form || !inputA || !inputB) return;
 
-      var occs = null;
-      var nameToId = new Map();
-
-      function padId(n) { return String(n).padStart(4, '0'); }
+      var pairMap = window.__ccPairMap || {};
+      var occs = [];
+      var sectorMap = {};
 
       function escapeHtml(s) {
-        var div = document.createElement('div');
-        div.textContent = s || '';
-        return div.innerHTML;
+        var d = document.createElement('div');
+        d.textContent = s == null ? '' : String(s);
+        return d.innerHTML;
+      }
+      function riskBand(score) {
+        if (score == null) return 'mid';
+        if (score <= 3) return 'low';
+        if (score <= 6) return 'mid';
+        return 'high';
       }
 
-      function fmt(v, suffix) {
-        if (v === null || v === undefined || v === '') return '—';
-        return (typeof v === 'number' ? v.toLocaleString('en-US') : v) + (suffix || '');
-      }
-
-      function render(a, b) {
-        var rows = [
-          ['AI 影響度', (a.ai_risk && a.ai_risk.score != null ? a.ai_risk.score : '—') + ' / 10',
-                       (b.ai_risk && b.ai_risk.score != null ? b.ai_risk.score : '—') + ' / 10'],
-          ['年収（平均）', fmt(a.stats && a.stats.salary_man_yen && Math.round(a.stats.salary_man_yen), ' 万円'),
-                          fmt(b.stats && b.stats.salary_man_yen && Math.round(b.stats.salary_man_yen), ' 万円')],
-          ['就業者数', fmt(a.stats && a.stats.workers, ' 人'),
-                      fmt(b.stats && b.stats.workers, ' 人')],
-          ['月労働時間', fmt(a.stats && a.stats.monthly_hours && Math.round(a.stats.monthly_hours), ' 時間'),
-                       fmt(b.stats && b.stats.monthly_hours && Math.round(b.stats.monthly_hours), ' 時間')],
-          ['平均年齢', fmt(a.stats && a.stats.average_age, ' 歳'),
-                      fmt(b.stats && b.stats.average_age, ' 歳')],
-          ['求人倍率', fmt(a.stats && a.stats.recruit_ratio, ''),
-                      fmt(b.stats && b.stats.recruit_ratio, '')]
-        ];
-        var html = '<div class="cc-result"><table class="cc-table"><thead><tr>' +
-          '<th scope="col"></th>' +
-          '<th scope="col"><a href="/ja/' + a.id + '">' + escapeHtml(a.title.ja) + '</a></th>' +
-          '<th scope="col" class="cc-vs-col">vs</th>' +
-          '<th scope="col"><a href="/ja/' + b.id + '">' + escapeHtml(b.title.ja) + '</a></th>' +
-          '</tr></thead><tbody>';
-        rows.forEach(function (r) {
-          html += '<tr><td>' + escapeHtml(r[0]) + '</td>' +
-                  '<td>' + escapeHtml(r[1]) + '</td>' +
-                  '<td class="cc-vs-col" aria-hidden="true"></td>' +
-                  '<td>' + escapeHtml(r[2]) + '</td></tr>';
-        });
-        html += '</tbody></table></div>';
-        return html;
-      }
-
-      function compare(aId, bId) {
-        result.innerHTML = '<p class="cc-loading">読み込み中…</p>';
-        Promise.all([
-          fetch('/data.detail/' + padId(aId) + '.json').then(function (r) { return r.json(); }),
-          fetch('/data.detail/' + padId(bId) + '.json').then(function (r) { return r.json(); })
-        ]).then(function (pair) {
-          result.innerHTML = render(pair[0], pair[1]);
-        }).catch(function () {
-          result.innerHTML = '<p class="cc-error">データ取得に失敗しました</p>';
-        });
-      }
-
-      fetch('/data.search.json').then(function (r) { return r.json(); }).then(function (data) {
-        occs = data.documents || [];
-        occs.forEach(function (o) {
-          var opt = document.createElement('option');
-          opt.value = o.title_ja;
-          datalist.appendChild(opt);
-          nameToId.set(o.title_ja, o.id);
-        });
-        var params = new URLSearchParams(location.search);
-        var ap = params.get('a'), bp = params.get('b');
-        if (ap && bp) {
-          var aId = parseInt(ap, 10), bId = parseInt(bp, 10);
-          var aRec = occs.find(function (o) { return o.id === aId; });
-          var bRec = occs.find(function (o) { return o.id === bId; });
-          if (aRec && bRec) {
-            formA.value = aRec.title_ja;
-            formB.value = bRec.title_ja;
-            compare(aId, bId);
-          }
+      function rankMatches(query, max) {
+        if (!query) return [];
+        var q = query.toLowerCase();
+        var exact = [], starts = [], includes = [];
+        for (var i = 0; i < occs.length; i++) {
+          var o = occs[i];
+          var name = (o.title_ja || '').toLowerCase();
+          var aliases = o.aliases_ja || [];
+          var hitName = name === q || aliases.some(function (a) { return a.toLowerCase() === q; });
+          if (hitName) { exact.push(o); continue; }
+          if (name.indexOf(q) === 0) { starts.push(o); continue; }
+          var aliasStarts = aliases.some(function (a) { return a.toLowerCase().indexOf(q) === 0; });
+          if (aliasStarts) { starts.push(o); continue; }
+          if (name.indexOf(q) > 0) { includes.push(o); continue; }
+          if (aliases.some(function (a) { return a.toLowerCase().indexOf(q) > 0; })) { includes.push(o); }
         }
-      });
+        return exact.concat(starts).concat(includes).slice(0, max || 5);
+      }
+
+      function renderSuggestions(list, matches, fieldId) {
+        if (!matches.length) {
+          list.innerHTML = '';
+          list.hidden = true;
+          return;
+        }
+        var html = '';
+        for (var i = 0; i < matches.length; i++) {
+          var o = matches[i];
+          var band = riskBand(o.ai_risk);
+          var sectorJa = sectorMap[o.sector_id] || o.sector_id || '';
+          var riskStr = o.ai_risk != null ? ('AI ' + o.ai_risk + '/10') : 'AI —';
+          html += '<li role="option" data-id="' + o.id + '" data-name="' + escapeHtml(o.title_ja) + '" id="' + fieldId + '-opt-' + i + '">' +
+                  '<span class="cc-opt-name">' + escapeHtml(o.title_ja) + '</span>' +
+                  '<span class="cc-opt-meta">' +
+                    '<span class="risk-pill ' + band + '">' + escapeHtml(riskStr) + '</span>' +
+                    (sectorJa ? '<span>' + escapeHtml(sectorJa) + '</span>' : '') +
+                  '</span></li>';
+        }
+        list.innerHTML = html;
+        list.hidden = false;
+      }
+
+      function debounce(fn, wait) {
+        var t;
+        return function () {
+          var ctx = this, args = arguments;
+          clearTimeout(t);
+          t = setTimeout(function () { fn.apply(ctx, args); }, wait);
+        };
+      }
+
+      function updateSubmit() {
+        var ok = inputA.dataset.id && inputB.dataset.id && inputA.dataset.id !== inputB.dataset.id;
+        submit.disabled = !ok;
+        if (errBox && !errBox.hidden) { errBox.hidden = true; errBox.textContent = ''; }
+      }
+
+      function setupField(input, list, hint, fieldName) {
+        var inputEl = input;
+        var listEl = list;
+        var hintEl = hint;
+        inputEl.setAttribute('aria-controls', listEl.id);
+
+        function clearSelection() {
+          inputEl.dataset.id = '';
+          inputEl.removeAttribute('data-name');
+          updateSubmit();
+        }
+
+        function run() {
+          var q = inputEl.value.trim();
+          if (!q) {
+            listEl.hidden = true;
+            listEl.innerHTML = '';
+            inputEl.setAttribute('aria-expanded', 'false');
+            hintEl.textContent = '';
+            clearSelection();
+            return;
+          }
+          var matches = rankMatches(q, 5);
+          renderSuggestions(listEl, matches, inputEl.id);
+          inputEl.setAttribute('aria-expanded', matches.length ? 'true' : 'false');
+          if (!matches.length) {
+            hintEl.textContent = '見つかりません — 看護、SE などで試してみてください';
+          } else {
+            hintEl.textContent = matches.length + ' 件の候補';
+          }
+          if (inputEl.dataset.id && inputEl.dataset.name !== inputEl.value) clearSelection();
+        }
+        var runDebounced = debounce(run, 100);
+        inputEl.addEventListener('input', runDebounced);
+
+        inputEl.addEventListener('focus', function () {
+          if (window.innerWidth <= 768) {
+            setTimeout(function () {
+              try { inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+            }, 300);
+          }
+        });
+
+        listEl.addEventListener('mousedown', function (e) {
+          var li = e.target.closest('li');
+          if (!li) return;
+          e.preventDefault();
+          selectOption(li);
+        });
+
+        function selectOption(li) {
+          inputEl.value = li.getAttribute('data-name') || '';
+          inputEl.dataset.id = li.getAttribute('data-id') || '';
+          inputEl.dataset.name = inputEl.value;
+          listEl.hidden = true;
+          listEl.innerHTML = '';
+          inputEl.setAttribute('aria-expanded', 'false');
+          hintEl.textContent = '✓ 選択しました';
+          updateSubmit();
+        }
+
+        inputEl.addEventListener('keydown', function (e) {
+          if (listEl.hidden) {
+            if (e.key === 'ArrowDown') {
+              run();
+              return;
+            }
+            return;
+          }
+          var items = Array.prototype.slice.call(listEl.querySelectorAll('li'));
+          if (!items.length) return;
+          var current = listEl.querySelector('li[aria-selected="true"]');
+          var idx = current ? items.indexOf(current) : -1;
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            idx = (idx + 1) % items.length;
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            idx = (idx - 1 + items.length) % items.length;
+          } else if (e.key === 'Enter') {
+            if (current) {
+              e.preventDefault();
+              selectOption(current);
+              return;
+            }
+            return;
+          } else if (e.key === 'Escape') {
+            listEl.hidden = true;
+            inputEl.setAttribute('aria-expanded', 'false');
+            return;
+          } else {
+            return;
+          }
+          items.forEach(function (li) { li.removeAttribute('aria-selected'); });
+          items[idx].setAttribute('aria-selected', 'true');
+          inputEl.setAttribute('aria-activedescendant', items[idx].id);
+          items[idx].scrollIntoView({ block: 'nearest' });
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!listEl.contains(e.target) && e.target !== inputEl) {
+            listEl.hidden = true;
+            inputEl.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      function getRecent() {
+        try {
+          if (typeof localStorage === 'undefined') return [];
+          if (localStorage.getItem('cookieConsent') !== 'accepted') return [];
+          return JSON.parse(localStorage.getItem('ms.compare.recent') || '[]');
+        } catch (_) { return []; }
+      }
+
+      function renderRecent() {
+        if (!recentBox || !recentChips) return;
+        var items = getRecent();
+        if (!items.length) {
+          recentBox.hidden = true;
+          recentChips.innerHTML = '';
+          return;
+        }
+        var html = '';
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          html += '<li>' +
+                  '<button type="button" class="cc-chip-btn is-a" data-fill="a" data-id="' + escapeHtml(it.a) + '" data-name="' + escapeHtml(it.aN || '') + '">' + escapeHtml(it.aN || it.a) + '</button>' +
+                  '<span class="cc-chip-vs">vs</span>' +
+                  '<button type="button" class="cc-chip-btn is-b" data-fill="b" data-id="' + escapeHtml(it.b) + '" data-name="' + escapeHtml(it.bN || '') + '">' + escapeHtml(it.bN || it.b) + '</button>' +
+                  '</li>';
+        }
+        recentChips.innerHTML = html;
+        recentBox.hidden = false;
+      }
+
+      if (recentChips) {
+        recentChips.addEventListener('click', function (e) {
+          var btn = e.target.closest('button[data-fill]');
+          if (!btn) return;
+          var fill = btn.getAttribute('data-fill');
+          var id = btn.getAttribute('data-id');
+          var name = btn.getAttribute('data-name');
+          var target = fill === 'a' ? inputA : inputB;
+          target.value = name || '';
+          target.dataset.id = id || '';
+          target.dataset.name = name || '';
+          (fill === 'a' ? hintA : hintB).textContent = '✓ 履歴から選択';
+          updateSubmit();
+        });
+      }
+      if (recentClear) {
+        recentClear.addEventListener('click', function () {
+          try { localStorage.removeItem('ms.compare.recent'); } catch (_) {}
+          renderRecent();
+        });
+      }
+
+      function showError(msg) {
+        if (!errBox) return;
+        errBox.textContent = msg;
+        errBox.hidden = false;
+      }
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var aId = nameToId.get(formA.value);
-        var bId = nameToId.get(formB.value);
-        if (!aId || !bId) {
-          result.innerHTML = '<p class="cc-error">候補リストから職業を選択してください</p>';
+        var aId = inputA.dataset.id;
+        var bId = inputB.dataset.id;
+        if (!aId || !bId) { showError('候補リストから 2 つの職業を選択してください'); return; }
+        if (aId === bId) { showError('異なる 2 つの職業を選択してください'); return; }
+        var key = aId + '-' + bId;
+        var slug = pairMap[key];
+        if (slug) {
+          location.href = '/ja/compare/' + slug + '/';
           return;
         }
-        if (aId === bId) {
-          result.innerHTML = '<p class="cc-error">異なる 2 つの職業を選択してください</p>';
-          return;
-        }
-        var url = new URL(location.href);
-        url.searchParams.set('a', aId);
-        url.searchParams.set('b', bId);
-        history.replaceState(null, '', url);
-        compare(aId, bId);
+        // Fallback: send to occupation A detail with ?vs=bId hint;
+        // the bookmarkable ?a&b URL pattern was rarely used and is
+        // dropped in favour of preset hub navigation.
+        location.href = '/ja/' + aId + '/';
+      });
+
+      fetch('/data.sectors.json').then(function (r) { return r.json(); }).then(function (sd) {
+        var arr = (sd && sd.sectors) || [];
+        for (var i = 0; i < arr.length; i++) sectorMap[arr[i].id] = arr[i].ja;
+      }).catch(function () {});
+
+      fetch('/data.search.json').then(function (r) { return r.json(); }).then(function (data) {
+        occs = (data && data.documents) || [];
+        setupField(inputA, listA, hintA, 'a');
+        setupField(inputB, listB, hintB, 'b');
+        renderRecent();
+      }).catch(function () {
+        showError('データ読み込みに失敗しました。再読み込みしてください。');
       });
     })();
   </script>

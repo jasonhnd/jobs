@@ -20,10 +20,14 @@ export {
   DEMAND_SCORE,
   DEMAND_JA,
   ALL_RANKINGS,
+  RANKING_GROUPS,
   type Occupation,
   type RankingResult,
   type RankingsBundle,
+  type RankingsHubCardData,
+  type RankingsHubGroup,
   type RankingSlug,
+  type RankingGroupKey,
 } from './config.js';
 
 export { safeMean } from './utilities.js';
