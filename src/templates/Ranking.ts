@@ -403,6 +403,151 @@ export function renderRankingsHubInsights(insights: ReadonlyArray<string>): Safe
   return `<section class="insights" aria-label="データから見える傾向"><h2>データから見える傾向</h2><ul>${items}</ul></section>` as SafeHtml;
 }
 
+// ─── RA-137: insights infographic — 5 screenshot-ready cards ──────────
+//
+// renderInsightCards() replaces the old text-only list with a 5-card
+// grid suitable for sharing as screenshots. Each card has an icon,
+// headline, body, and a share button.
+//
+// hub.insights from views/ranking/build.ts is a string[] of 5
+// pre-rendered HTML fragments (containing <strong> markup). We strip
+// the HTML tags to get plain text for the body, then pull the headline
+// from the first <strong> + the few words before/after it. Card icons
+// are inline SVG stroke icons (no external deps, no font glyphs).
+//
+// Layout matches the existing 5 insight themes:
+//   0. Highest-AI-risk sector — rising arrow
+//   1. Lowest-AI-risk sector  — shield
+//   2. Salary-TOP30 mean AI   — scatter dots
+//   3. Workers-TOP × AI       — people + warning
+//   4. Low-AI ↔ physical/relational — handshake
+
+interface InsightCardMeta {
+  readonly icon: string; // inner SVG paths (no <svg> wrapper — wrapper is in template)
+  readonly shareText: string;
+}
+
+// Per-card icon + share-text fallback. Order matches build.ts insights array.
+const INSIGHT_CARD_META: ReadonlyArray<InsightCardMeta> = [
+  {
+    // 0. Rising arrow — highest AI-risk sector
+    icon:
+      '<polyline points="3 17 9 11 13 15 21 7"/>' +
+      '<polyline points="14 7 21 7 21 14"/>',
+    shareText: 'AI影響度が最も高いセクター',
+  },
+  {
+    // 1. Shield — lowest AI-risk sector (safest)
+    icon:
+      '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    shareText: 'AI影響度が最も低いセクター',
+  },
+  {
+    // 2. Scatter dots — TOP30 salary × AI-risk mean
+    icon:
+      '<circle cx="6" cy="18" r="1.5"/>' +
+      '<circle cx="10" cy="12" r="1.5"/>' +
+      '<circle cx="14" cy="14" r="1.5"/>' +
+      '<circle cx="18" cy="8" r="1.5"/>' +
+      '<line x1="3" y1="21" x2="21" y2="21"/>' +
+      '<line x1="3" y1="3" x2="3" y2="21"/>',
+    shareText: '高年収 × AI影響度の中央傾向',
+  },
+  {
+    // 3. People + caution — high-workforce categories with AI risk
+    icon:
+      '<circle cx="9" cy="8" r="3"/>' +
+      '<path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>' +
+      '<path d="M17 11v3"/>' +
+      '<circle cx="17" cy="17" r="0.5" fill="currentColor"/>',
+    shareText: '就業者数上位×AI影響度の傾向',
+  },
+  {
+    // 4. Handshake — low AI affinity ↔ physical/interpersonal
+    icon:
+      '<path d="M8 11l3 3 5-5"/>' +
+      '<path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/>',
+    shareText: '身体性・対人スキルとAI影響度',
+  },
+];
+
+// Strip HTML tags from a string (insights from build.ts wrap key terms
+// in <strong>…</strong>). Used to get plain text for share button + body.
+function stripHtmlTags(html: string): string {
+  return html.replace(/<[^>]+>/g, '');
+}
+
+// Extract a headline + body pair from a single insight HTML string.
+// Heuristic: pull the first <strong>…</strong> term as the headline
+// anchor, then surrounding context to round out the headline (~12-18
+// chars), then the full stripped text becomes the body.
+function parseInsightToHeadlineBody(insightHtml: string): { headline: string; body: string } {
+  const plain = stripHtmlTags(insightHtml).trim();
+  // For the body we use the full stripped sentence so the screenshot
+  // captures the full meaning, not just the headline fragment.
+  const body = plain;
+
+  // Find first <strong>…</strong> term.
+  const strongMatch = insightHtml.match(/<strong>([\s\S]*?)<\/strong>/);
+  if (!strongMatch) {
+    // No <strong> — fall back to first 18 chars as the headline.
+    const headline = plain.length > 22 ? `${plain.slice(0, 20)}…` : plain;
+    return { headline, body };
+  }
+  const strongTerm = stripHtmlTags(strongMatch[1]).trim();
+
+  // Walk plain text, anchor on the strongTerm, and grab a tight headline
+  // covering the term plus the immediately surrounding numeric/keyword
+  // context (~16-22 chars total). This keeps the headline visually crisp
+  // for screenshot sharing.
+  const idx = plain.indexOf(strongTerm);
+  if (idx === -1) {
+    return { headline: strongTerm, body };
+  }
+  // Headline = strongTerm + the next 10-14 chars of context (typically
+  // captures things like "平均 X.X" or "の傾向" / "セクター…平均X.X").
+  const after = plain.slice(idx + strongTerm.length, idx + strongTerm.length + 18).trim();
+  const headline = after.length > 0 ? `${strongTerm} ${after}` : strongTerm;
+  return { headline, body };
+}
+
+export function renderInsightCards(insights: ReadonlyArray<string>): SafeHtml {
+  if (insights.length === 0) return '' as SafeHtml;
+
+  const cards = insights.slice(0, INSIGHT_CARD_META.length).map((insightHtml, i) => {
+    const meta = INSIGHT_CARD_META[i];
+    const { headline, body } = parseInsightToHeadlineBody(insightHtml);
+    const shareText = `${headline} — ${body}`;
+    return (
+      `<article class="insight-card" data-insight="${i}">` +
+      `<span class="ic-icon" aria-hidden="true">` +
+      `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" ` +
+      `stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${meta.icon}</svg>` +
+      `</span>` +
+      `<h3 class="ic-headline">${escapeHtml(headline)}</h3>` +
+      `<p class="ic-body">${escapeHtml(body)}</p>` +
+      `<button type="button" class="ic-share" aria-label="この洞察をシェア" ` +
+      `data-share-text="${escapeHtml(shareText)}">` +
+      `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" ` +
+      `stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">` +
+      `<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>` +
+      `<path d="M16 6l-4-4-4 4"/>` +
+      `<path d="M12 2v13"/>` +
+      `</svg>` +
+      `<span>シェア</span>` +
+      `</button>` +
+      `</article>`
+    );
+  }).join('');
+
+  return (
+    `<section class="insights-section" aria-label="データから見える傾向">` +
+    `<h2>データから見える傾向</h2>` +
+    `<div class="insight-cards">${cards}</div>` +
+    `</section>`
+  ) as SafeHtml;
+}
+
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/rankings`;
   // RA-003 (2026-05-18): SCORED count.
