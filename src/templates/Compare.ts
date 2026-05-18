@@ -216,7 +216,7 @@ export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): Saf
       `<span class="cci-name">${escapeHtml(c.b_name)}</span>` +
       `<span class="risk-pill ${bBand}">${escapeHtml(bRiskStr)}</span>` +
       `</span>` +
-      `<span class="cci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
+      `<span class="cci-desc">${escapeHtml(c.description_ja.length > 90 ? c.description_ja.slice(0, 90) + '…' : c.description_ja)}</span>` +
       `</a></li>`
     );
   }).join('') as SafeHtml;

@@ -68,7 +68,7 @@ export function buildOccupationDisplay(input: OccupationDisplayInput): Occupatio
   // em dash rather than the doubled "—（— 万円）" which read as
   // a layout glitch on the 4 new IPD occupations 581-584.
   const salaryCell = salaryMan
-    ? `¥${fmtInt(Math.trunc(salaryMan * SALARY_MAN_TO_YEN))}（${salaryInt} 万円）`
+    ? `¥${fmtInt(Math.trunc(salaryMan * SALARY_MAN_TO_YEN))} （${salaryInt} 万円）`
     : EMDASH;
 
   return {

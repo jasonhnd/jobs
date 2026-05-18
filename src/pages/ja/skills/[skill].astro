@@ -36,8 +36,6 @@ html{font-size:16px}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
 a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 a:hover{color:var(--accent)}
-.skip-link{position:absolute;left:-9999px;top:0;background:var(--fg);color:var(--bg);padding:8px 12px;z-index:100}
-.skip-link:focus{left:8px;top:8px}
 #wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
 .crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
 .crumb a{color:var(--fg2)}
@@ -101,8 +99,6 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
 `} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
-
-  <a class="skip-link" href="#content">本文へスキップ</a>
 
   <div id="wrapper">
     <nav class="crumb" aria-label="パンくずリスト">

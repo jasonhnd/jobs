@@ -373,19 +373,20 @@ const HUB_PAGE_SPECIFIC_CSS = `
 .faq summary::before{content:"Q. ";color:var(--accent);font-weight:700}
 .faq summary::-webkit-details-marker{display:none}
 .faq .faq-a{padding:0 18px 14px;font-size:.9rem;color:var(--fg2);line-height:1.7}
-.related-genre{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;list-style:none;padding:0}
-.related-genre li a{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
+.related-genre{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;padding:0;margin:0;grid-auto-rows:1fr}
+.related-genre li a{display:flex;flex-direction:column;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms;height:100%}
 .related-genre li a:hover{border-color:var(--accent)}
 .related-genre .rg-name{display:block;font-family:var(--font-serif);font-weight:500;color:var(--accent-deep);margin-bottom:4px}
 .related-genre .rg-desc{display:block;font-size:.78rem;color:var(--fg2)}
-.genre-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:0;margin:0}
-.genre-cards li a{display:block;padding:22px 22px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;min-height:160px}
+.genre-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:0;margin:0;grid-auto-rows:1fr}
+.genre-cards li a{display:flex;flex-direction:column;padding:22px 22px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;min-height:160px;height:100%}
 .genre-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
 .gci-name{display:block;font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent-deep);margin-bottom:10px}
-.gci-desc{display:block;font-size:.86rem;color:var(--fg2);line-height:1.6;margin-bottom:10px}
+.gci-desc{display:-webkit-box;font-size:.86rem;color:var(--fg2);line-height:1.6;margin-bottom:10px;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.iri-preview{display:block;font-size:.78rem;color:var(--fg2);line-height:1.4;margin-bottom:8px;min-height:1.96em;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .gci-count{font-size:.78rem;color:var(--fg3);font-variant-numeric:tabular-nums}
 /* RA-016 (2026-05-18): unified Q&A details list — see renderQGroupsHtml */
-.qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
 .qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
 .qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px rgba(217,107,61,0.08)}
 .qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-serif);font-size:1.05rem;font-weight:600;color:var(--accent-deep);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:24px}

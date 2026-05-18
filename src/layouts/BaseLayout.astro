@@ -246,10 +246,11 @@ const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
          pseudo-class for programmatic .focus() calls or rapid Tab presses.
          The class toggle guarantees the visible state. */
       (function () {
-        var s = document.querySelector('a.skip-link');
-        if (!s) return;
-        s.addEventListener('focus', function () { s.classList.add('is-focused'); });
-        s.addEventListener('blur',  function () { s.classList.remove('is-focused'); });
+        var links = document.querySelectorAll('a.skip-link');
+        links.forEach(function (s) {
+          s.addEventListener('focus', function () { s.classList.add('is-focused'); });
+          s.addEventListener('blur',  function () { s.classList.remove('is-focused'); });
+        });
       })();
     </script>
     <MobileNav />

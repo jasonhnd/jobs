@@ -110,6 +110,8 @@ html body .cookie-banner {
   box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.25);
   font-size: 0.88rem;
   line-height: 1.5;
+  max-height: 50vh;
+  overflow-y: auto;
 }
 html body .cookie-banner .cb-inner {
   max-width: 1080px;
@@ -123,6 +125,8 @@ html body .cookie-banner .cb-text {
   margin: 0;
   flex: 1 1 320px;
   color: #fff;
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 html body .cookie-banner .cb-text a {
   color: var(--orange-soft);
@@ -155,8 +159,10 @@ html body .cookie-banner .cb-btn-reject {
 }
 html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 0.08); }
 @media (max-width: 540px) {
-  html body .cookie-banner .cb-inner { flex-direction: column; align-items: stretch; gap: 12px; }
+  html body .cookie-banner .cb-inner { flex-direction: column; align-items: stretch; gap: 10px; padding: 0; }
   html body .cookie-banner .cb-actions { justify-content: flex-end; }
+  html body .cookie-banner .cb-text { font-size: 0.78rem; line-height: 1.45; }
+  html body .cookie-banner { padding: 12px 14px; max-height: 42vh; }
 }
 
 /* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
@@ -359,6 +365,9 @@ html body footer.site-footer .share-divider::after {
   height: 1px;
   background: var(--border);
 }
+@media (min-width: 769px) {
+  html body footer.site-footer .share-divider { max-width: 720px; }
+}
 
 html body footer.site-footer .share-row {
   display: flex;
@@ -388,6 +397,7 @@ html body footer.site-footer .share-btn {
   appearance: none;
   font-family: inherit;
 }
+html body footer.site-footer .share-btn[hidden] { display: none; }
 html body footer.site-footer .share-btn:hover {
   transform: translateY(-1px);
   border-color: transparent;
@@ -443,14 +453,14 @@ html body nav.top-nav {
   z-index: 50;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 4px 14px;
   padding: 11px 20px;
   background: rgba(252, 248, 241, 0.92);
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
   border-bottom: 1px solid var(--border);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.4;
   font-family: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
 }
@@ -487,6 +497,7 @@ html body nav.top-nav a:not(.top-nav-brand) {
   color: var(--fg2);
   text-decoration: none;
   padding: 2px 0;
+  font-size: 0.9rem;
   transition: color 150ms ease;
 }
 html body nav.top-nav a:not(.top-nav-brand):hover {
@@ -500,8 +511,8 @@ html body nav.top-nav a[aria-current="page"] {
 
 html body nav.top-nav .sep {
   color: var(--fg2);
-  opacity: 0.4;
-  font-size: 0.7rem;
+  opacity: 0.6;
+  font-size: 0.85rem;
   user-select: none;
 }
 
@@ -517,9 +528,9 @@ html body nav.top-nav .sep {
 /* When the page <header id="content"> sits directly under the sticky nav,
    the first heading needs extra top-margin so the nav doesn't visually
    crowd it. This is content-side breathing room, not a nav property. */
-html body nav.top-nav + .skip-link + #wrapper > nav.crumb,
-html body nav.top-nav + #wrapper > nav.crumb {
-  margin-top: 8px;
+html body nav.top-nav ~ main nav.crumb,
+html body nav.top-nav ~ main #wrapper > nav.crumb {
+  margin-top: 16px;
 }
 
 /* ───── Mobile nav (mobile-only sticky topbar + full-screen drawer) ───── */
@@ -667,7 +678,7 @@ html body nav.top-nav + #wrapper > nav.crumb {
     padding: 0 0 12px;
     border-bottom: 1px solid var(--border);
   }
-  html body div.mob-drawer h3.mob-drawer-title {
+  html body div.mob-drawer .mob-drawer-title {
     display: flex;
     align-items: center;
     gap: 9px;
