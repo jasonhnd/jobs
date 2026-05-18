@@ -356,14 +356,18 @@ export function renderSpokeHubsSection(result: SpokeHubsResult): SafeHtml {
 export const RELATED_HUBS_CSS = `
 .related-hubs{margin:48px 0 24px;padding:24px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
 .related-hubs h2{font-family:var(--font-serif);font-size:1.1rem;color:var(--accent-deep);margin:0 0 18px;font-weight:600}
-.related-hubs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.related-hub-group{}
+/* RA-118 (2026-05-18): grid-auto-rows + flex height:100% chain so groups
+   with fewer links don't show large empty space below; rh-link cards in
+   different groups stay aligned even when one has rh-desc and another
+   does not. */
+.related-hubs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;grid-auto-rows:1fr;align-items:start}
+.related-hub-group{display:flex;flex-direction:column;height:100%}
 .related-hub-group .rh-cat{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2);margin:0 0 8px;font-weight:600;font-family:var(--font-sans)}
-.related-hub-group .rh-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
-.related-hub-group .rh-list li{margin:0}
-.related-hub-group .rh-link{display:flex;flex-direction:column;gap:2px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms,background 150ms}
+.related-hub-group .rh-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;flex:1}
+.related-hub-group .rh-list li{margin:0;display:flex}
+.related-hub-group .rh-link{display:flex;flex-direction:column;gap:2px;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms,background 150ms;width:100%;min-height:55px}
 .related-hub-group .rh-link:hover{border-color:var(--accent);background:rgba(217,107,61,0.04);text-decoration:none}
 .related-hub-group .rh-name{font-family:var(--font-serif);font-size:.92rem;color:var(--fg);line-height:1.35}
-.related-hub-group .rh-desc{font-size:.72rem;color:var(--fg2);line-height:1.4}
+.related-hub-group .rh-desc{font-size:.72rem;color:var(--fg2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 @media (max-width:600px){.related-hubs{padding:18px 16px;margin:32px 0 18px}.related-hubs h2{font-size:1rem}.related-hubs-grid{grid-template-columns:1fr;gap:14px}}
 `;

@@ -389,7 +389,8 @@ const HUB_PAGE_SPECIFIC_CSS = `
 .qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:16px}
 .qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
 .qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px rgba(217,107,61,0.08)}
-.qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-serif);font-size:1.05rem;font-weight:600;color:var(--accent-deep);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:24px}
+/* RA-120 (2026-05-18): mobile min-height stops alternating 61↔91 row heights when long questions wrap to 2 lines. */
+.qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-serif);font-size:1.05rem;font-weight:600;color:var(--accent-deep);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:60px}
 .qa-item summary::-webkit-details-marker{display:none}
 .qa-item summary::after{content:"+";font-family:var(--font-sans);font-weight:400;font-size:1.4rem;color:var(--fg2);transition:transform 150ms;flex-shrink:0;line-height:1}
 .qa-item details[open] summary::after{content:"\\00d7"}
