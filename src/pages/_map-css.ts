@@ -260,11 +260,36 @@ export const MAP_PAGE_CSS = `
       -webkit-tap-highlight-color: transparent;
       border: 0;
     }
-    .cell:hover { filter: brightness(1.08); }
+    .cell:hover {
+      filter: brightness(1.1);
+      outline: 2px solid rgba(0,0,0,0.15);
+      outline-offset: -2px;
+      z-index: 2;
+    }
     .cell:focus-visible {
       outline: 2px solid var(--fg); outline-offset: -1px;
       z-index: 2;
     }
+    /* RA-127 — desktop hover tooltip (pointer:fine only; mobile keeps bottom sheet) */
+    .cell-tooltip {
+      position: fixed; z-index: 100; pointer-events: none;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 12px; max-width: 260px; font-size: 0.78rem; line-height: 1.4;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      opacity: 0; transform: translateY(-4px);
+      transition: opacity 120ms, transform 120ms;
+      color: var(--fg);
+    }
+    .cell-tooltip[data-visible="true"] { opacity: 1; transform: translateY(0); }
+    .cell-tooltip .ct-name { display: block; font-weight: 600; margin-bottom: 4px; color: var(--fg); }
+    .cell-tooltip .ct-stats { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .cell-tooltip .ct-salary, .cell-tooltip .ct-workers { font-variant-numeric: tabular-nums; color: var(--fg2); font-size: 0.74rem; }
+    .cell-tooltip .ct-sector { display: block; margin-top: 4px; color: var(--fg2); font-size: 0.72rem; }
+    .cell-tooltip .risk-pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .cell-tooltip .risk-pill.low  { background: #E0EAE2; color: #48705F; }
+    .cell-tooltip .risk-pill.mid  { background: #F4E5C7; color: #8A6A2A; }
+    .cell-tooltip .risk-pill.high { background: #F5D5C7; color: #A24A28; }
+    @media (hover: none) { .cell-tooltip { display: none !important; } }
     .cell .name {
       display: block; width: 100%;
       overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
