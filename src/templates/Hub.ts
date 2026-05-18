@@ -205,14 +205,26 @@ export interface QGroupItem {
 export function renderQGroupsHtml(
   groups: ReadonlyArray<readonly [string, ReadonlyArray<QGroupItem>]>,
 ): SafeHtml {
+  // RA-016 (2026-05-18): unified Q&A pattern via <details>. Hub used to
+  // be a clickable card list (each card jumped to /ja/q/<slug>), while
+  // the detail page used <details> for collapse. Two surfaces, two
+  // interaction models — confusing. Now the hub is also <details>:
+  // summary is the question, body is the short_answer + a "詳しく見る"
+  // link to the full detail page. Keyboard, screen reader, and
+  // bookmark behaviour unchanged.
   return groups.map(([title, items]) =>
     `<section><h2>${escapeHtml(title)} (${items.length})</h2>` +
-    `<ul class="genre-cards">` +
+    `<ul class="qa-list">` +
     items.map((q) =>
-      `<li><a href="/ja/q/${q.slug}">` +
-      `<span class="gci-name">${escapeHtml(q.question)}</span>` +
-      `<span class="gci-desc">${escapeHtml(q.short_answer.slice(0, 90))}…</span>` +
-      `</a></li>`,
+      `<li class="qa-item">` +
+      `<details>` +
+      `<summary>${escapeHtml(q.question)}</summary>` +
+      `<div class="qa-body">` +
+      `<p class="qa-short">${escapeHtml(q.short_answer)}</p>` +
+      `<a class="qa-detail-link" href="/ja/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
+      `</div>` +
+      `</details>` +
+      `</li>`,
     ).join('') +
     `</ul></section>`,
   ).join('') as SafeHtml;
@@ -372,6 +384,19 @@ const HUB_PAGE_SPECIFIC_CSS = `
 .gci-name{display:block;font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent-deep);margin-bottom:10px}
 .gci-desc{display:block;font-size:.86rem;color:var(--fg2);line-height:1.6;margin-bottom:10px}
 .gci-count{font-size:.78rem;color:var(--fg3);font-variant-numeric:tabular-nums}
+/* RA-016 (2026-05-18): unified Q&A details list — see renderQGroupsHtml */
+.qa-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.qa-item details{background:var(--bg2);border:1px solid var(--border);border-radius:10px;transition:border-color 150ms,box-shadow 150ms}
+.qa-item details[open]{border-color:var(--accent);box-shadow:0 4px 14px rgba(217,107,61,0.08)}
+.qa-item summary{cursor:pointer;padding:16px 22px;font-family:var(--font-serif);font-size:1.05rem;font-weight:600;color:var(--accent-deep);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:24px}
+.qa-item summary::-webkit-details-marker{display:none}
+.qa-item summary::after{content:"+";font-family:var(--font-sans);font-weight:400;font-size:1.4rem;color:var(--fg2);transition:transform 150ms;flex-shrink:0;line-height:1}
+.qa-item details[open] summary::after{content:"\\00d7"}
+.qa-item summary:hover{color:var(--accent)}
+.qa-item .qa-body{padding:0 22px 18px;border-top:1px solid var(--line)}
+.qa-item .qa-short{margin:14px 0 12px;color:var(--fg);line-height:1.7;font-size:.94rem}
+.qa-item .qa-detail-link{display:inline-block;font-size:.84rem;color:var(--accent);text-decoration:none;font-weight:500;padding:6px 0}
+.qa-item .qa-detail-link:hover{text-decoration:underline}
 @media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
 `;
 
