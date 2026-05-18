@@ -2,10 +2,13 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Footer from '../../../components/Footer.astro';
 import { loadGraph } from '@/graph';
-import { buildRankings, type RankingResult } from '../../../views/ranking';
+import { buildRankings, loadOccupationsFromGraph, type RankingResult } from '../../../views/ranking';
 import { escapeHtml } from '../../../templates/Ranking';
 import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 import { buildRankingsSlugBindings } from './_rankings-bindings';
+import { suggestEscapeRoutes, renderEscapeRouteSection } from '../../../views/escape-routes';
+
+const HIGH_RISK_SLUGS = new Set(['ai-risk-high', 'ai-replaced-soon', 'ai-at-risk-but-paid']);
 
 export async function getStaticPaths() {
   const { loadOccupationsFromGraph } = await import('@/views/ranking');
@@ -15,7 +18,19 @@ export async function getStaticPaths() {
 }
 
 const { result } = Astro.props as { result: RankingResult };
-const b = buildRankingsSlugBindings(result, await loadGraph());
+const graphForBindings = await loadGraph();
+const b = buildRankingsSlugBindings(result, graphForBindings);
+
+// RA-136 (Sprint 4.2): escape-route strip for high-AI-risk rankings.
+// Uses TOP 1 of this ranking as the source job; suggests up to 6 low-risk
+// migration candidates (ai_risk ≤ 4).
+let escapeRoutesHtml = '';
+if (HIGH_RISK_SLUGS.has(result.slug) && result.items.length > 0) {
+  const fromJob = result.items[0];
+  const allJobs = loadOccupationsFromGraph(graphForBindings);
+  const candidates = suggestEscapeRoutes(fromJob, allJobs, 6);
+  escapeRoutesHtml = renderEscapeRouteSection(fromJob.title_ja ?? `#${fromJob.id}`, candidates);
+}
 ---
 <BaseLayout
   title={result.title}
@@ -106,6 +121,19 @@ footer .footer-meta .nowrap{white-space:nowrap}
    Was 100px column with ellipsis -> "クリエイティブ・メ..."; now 128px
    with 2-line wrap, font shrunk to 0.7rem, line-height 1.2. */
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}.rank-list .rl-stats{margin-top:6px;flex-wrap:nowrap;font-size:.78rem}.sb-row{grid-template-columns:128px 1fr 36px;gap:6px;align-items:center}.sb-label{font-size:.7rem;line-height:1.2;white-space:normal;overflow:visible;text-overflow:initial;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:keep-all;overflow-wrap:anywhere}.highlights li{min-height:72px;display:flex;align-items:center;font-size:.85rem;line-height:1.5}}
+/* RA-136 (Sprint 4.2): escape-route strip — low-AI-risk migration
+   candidates surfaced on high-risk ranking pages. */
+.escape-routes{margin:48px 0 32px;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--accent-deep)}
+.escape-routes h2{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent-deep);margin:0 0 8px;border-bottom:none;padding-bottom:0}
+.escape-lede{color:var(--fg2);font-size:.92rem;margin:0 0 16px;line-height:1.6}
+.escape-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:0;padding:0}
+.escape-card a{display:flex;flex-direction:column;gap:6px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
+.escape-card a:hover{border-color:var(--accent);color:var(--accent-deep)}
+.ec-name{font-weight:500;font-size:1rem}
+.ec-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ec-sector{font-size:.74rem;color:var(--fg2)}
+.ec-reason{font-size:.72rem;color:var(--fg3);font-style:italic}
+@media (max-width:600px){.escape-cards{grid-template-columns:1fr}}
 `} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
@@ -141,6 +169,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
       <h2>他のランキング</h2>
       <Fragment set:html={b.relatedHtml} />
     </section>
+
+    <Fragment set:html={escapeRoutesHtml} />
 
     <Footer />
   </div>

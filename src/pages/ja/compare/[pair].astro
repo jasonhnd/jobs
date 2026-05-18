@@ -5,6 +5,8 @@ import { loadGraph } from '@/graph';
 import { buildCompareBundle, type CompareResult } from '../../../views/compare-hub';
 import { RELATED_CROSS_HUB_CSS } from '../../../views/hub-hub-graph';
 import { buildComparePairBindings } from './_compare-bindings';
+import { loadOccupationsFromGraph } from '../../../views/ranking';
+import { suggestEscapeRoutes, renderEscapeRouteSection } from '../../../views/escape-routes';
 
 export async function getStaticPaths() {
   const { makeCompareLoaderFromGraph } = await import('@/views/compare');
@@ -15,7 +17,24 @@ export async function getStaticPaths() {
 
 const { result } = Astro.props as { result: CompareResult };
 const meta = result.meta;
-const b = buildComparePairBindings(result, await loadGraph());
+const graphForCompare = await loadGraph();
+const b = buildComparePairBindings(result, graphForCompare);
+
+// RA-136 (Sprint 4.2): escape-route strip when BOTH compared jobs are
+// AI-impact ≥ 7. Uses side A as source — its low-risk neighbours apply
+// roughly to side B too (typical case is same-sector pair).
+let escapeRoutesHtml = '';
+const aRisk = result.a.ai_risk;
+const bRisk = result.b.ai_risk;
+if (aRisk !== null && bRisk !== null && aRisk >= 7 && bRisk >= 7) {
+  const allJobs = loadOccupationsFromGraph(graphForCompare);
+  const candidates = suggestEscapeRoutes(
+    { id: result.a.id, ai_risk: result.a.ai_risk, sector_id: result.a.sector_id },
+    allJobs,
+    6,
+  );
+  escapeRoutesHtml = renderEscapeRouteSection(result.a.name_ja, candidates);
+}
 
 // RA-133 (2026-05-18): expose pair identity to the localStorage writer
 // via the rendered HTML data-* attributes (read by the inline script in
@@ -122,6 +141,19 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .related-compares li a:hover{border-color:var(--accent)}
 .related-compares .rc-title{display:block;font-family:var(--font-serif);font-weight:500;color:var(--accent-deep);font-size:.92rem}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}}
+/* RA-136 (Sprint 4.2): escape-route strip — low-AI-risk migration
+   candidates surfaced when both compared jobs are AI-impact ≥ 7. */
+.escape-routes{margin:48px 0 32px;padding:24px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;border-left:4px solid var(--accent-deep)}
+.escape-routes h2{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent-deep);margin:0 0 8px;border-bottom:none;padding-bottom:0}
+.escape-lede{color:var(--fg2);font-size:.92rem;margin:0 0 16px;line-height:1.6}
+.escape-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:0;padding:0}
+.escape-card a{display:flex;flex-direction:column;gap:6px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
+.escape-card a:hover{border-color:var(--accent);color:var(--accent-deep)}
+.ec-name{font-weight:500;font-size:1rem}
+.ec-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ec-sector{font-size:.74rem;color:var(--fg2)}
+.ec-reason{font-size:.72rem;color:var(--fg3);font-style:italic}
+@media (max-width:600px){.escape-cards{grid-template-columns:1fr}}
 `} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
@@ -179,6 +211,8 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
       <h2>他の比較ペア</h2>
       <Fragment set:html={b.relatedHtml} />
     </section>
+
+    <Fragment set:html={escapeRoutesHtml} />
 
     <Footer />
   </div>
