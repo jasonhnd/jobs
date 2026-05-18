@@ -43,6 +43,8 @@ const REQUIRED_SCRIPT_SRC_ORIGINS = [
   'https://va.vercel-scripts.com',
   // X (Twitter) Ads pixel
   'https://static.ads-twitter.com',
+  // Meta (Facebook/Instagram) Pixel — fbevents.js
+  'https://connect.facebook.net',
 ];
 
 const REQUIRED_CONNECT_SRC_ORIGINS = [
@@ -56,6 +58,9 @@ const REQUIRED_CONNECT_SRC_ORIGINS = [
   // X Ads tracking
   'https://analytics.twitter.com',
   'https://t.co',
+  // Meta Pixel tracking + signals endpoints
+  'https://www.facebook.com',
+  'https://connect.facebook.net',
 ];
 
 // ─── 2. PUBLIC_* env vars the codebase reads at build time ────────────────
@@ -63,8 +68,11 @@ const REQUIRED_CONNECT_SRC_ORIGINS = [
 /** Files (relative to repo root) that may reference PUBLIC_* env. */
 const ENV_SCAN_FILES = [
   'src/layouts/BaseLayout.astro',
-  'src/index-source.html',
-  // Add more here as new entry points start reading env.
+  // 2026-05-18 (RA-??): src/index-source.html was previously scanned because
+  // the homepage bypassed BaseLayout and inlined its own analytics + env
+  // hardcodes. After the BaseLayout migration, index-source.html is now
+  // body-only (no env refs), so it's no longer in this list.
+  // Add new entry points here as they start reading PUBLIC_* env.
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────

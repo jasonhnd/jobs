@@ -1,13 +1,97 @@
 ---
 /**
- * index.astro — Astro wrapper around the verbatim source HTML at
- * src/index-source.html. The page-binding logic (fs read, regex patches,
- * timestamp injection, CSS inflation) lives in _index-bindings.ts.
+ * index.astro — homepage (Mirai-Shigoto / 552 職業 AI 影響マップ).
  *
- * Phase D audit #8 (2026-05-14): slimmed per doc §2.5.
+ * 2026-05-18 (RA-??): migrated to BaseLayout. Previously the page bypassed
+ * BaseLayout and inlined its own `<head>` (theme script, analytics, OG,
+ * cookie banner, TopNav, MobileNav, Footer), which caused the GA4 +
+ * X Pixel + Meta Pixel IDs to be hardcoded in two places (here AND
+ * BaseLayout.astro). Now all three pixels flow through BaseLayout from
+ * the same env vars (PUBLIC_GA4_MEASUREMENT_ID / PUBLIC_X_PIXEL_ID /
+ * PUBLIC_META_PIXEL_ID), Footer/TopNav/MobileNav come from the shared
+ * Astro components, and the cookie banner is BaseLayout's.
+ *
+ * What's left page-specific:
+ *   - The body fragment (`<div id="wrapper">…</div>`) in
+ *     `src/index-source.html` — 700 lines of homepage hero / KPI band /
+ *     treemap canvas / hub sections.
+ *   - The JSON-LD `@graph` schema in `_index-json-ld.json` (Organization +
+ *     WebSite + Dataset + ItemList + FAQPage).
+ *   - The ~1880-line inline JS in `_index-inline.js` (treemap canvas,
+ *     tooltip, mobile drawer toggle, I18N, share-button wiring).
+ *   - The home-only `<link rel="preload" href="/data.treemap.json">` so
+ *     the treemap canvas can render at LCP.
+ *   - Extended OG image meta (`og:image:type`, `og:image:alt`,
+ *     `twitter:image:alt`) that BaseLayout's prop-driven block doesn't
+ *     emit by default.
  */
-import { buildIndexPageHtml } from './_index-bindings';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { INDEX_CSS } from './_index-css';
+import { HOME_BODY_HTML, HOME_JSON_LD, HOME_INLINE_JS } from './_index-bindings';
 
-const html = buildIndexPageHtml();
+const TITLE = 'AIの時代でも、あなたらしい働き方を。— 未来の仕事 / 552 職業の AI 影響マップ';
+const DESCRIPTION = 'AIの時代でも、あなたらしい働き方を見つける。日本 552 職業を AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。';
+const KEYWORDS = '未来の仕事, AI 影響度, 日本 職業, 厚生労働省 jobtag, キャリア転換, 5 次元プロファイル, 552 職業, 独自分析, 非公式, mirai shigoto, Japan occupations AI impact, career change, unofficial';
+const OG_TITLE = 'AIの時代でも、あなたらしい働き方を。— 未来の仕事';
+const OG_DESCRIPTION = '日本 552 職業を、AI 影響度・就業者数・年収・5 次元プロファイルで多角的に分析。新しい道を、いっしょに見つけましょう（非公式・独自分析）。';
+const OG_IMAGE = 'https://mirai-shigoto.com/api/og?page=home';
+const OG_IMAGE_ALT = '未来の仕事 — AIの時代でも、あなたらしい働き方を。日本 552 職業の AI 影響マップ';
 ---
-<Fragment set:html={html} />
+<BaseLayout
+  title={TITLE}
+  description={DESCRIPTION}
+  keywords={KEYWORDS}
+  canonical="https://mirai-shigoto.com/"
+  ogTitle={OG_TITLE}
+  ogDescription={OG_DESCRIPTION}
+  ogImage={OG_IMAGE}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={HOME_JSON_LD} />
+
+  {/* Home-specific head additions. Desktop preloads /data.treemap.json so
+      the canvas can render at LCP; mobile (≤768px) shows a static preview
+      card instead (Design-Mobile.md §4.2) — gated via the media query so
+      the 80 KB+ fetch doesn't happen on viewports that won't use it. */}
+  <link rel="preload" href="/data.treemap.json" as="fetch" crossorigin="anonymous" media="(min-width: 769px)" slot="head" />
+
+  {/* Extended OG image meta — BaseLayout emits og:image + og:image:width/height
+      but not these extras. */}
+  <meta property="og:image:secure_url" content={OG_IMAGE} slot="head" />
+  <meta property="og:image:type" content="image/png" slot="head" />
+  <meta property="og:image:alt" content={OG_IMAGE_ALT} slot="head" />
+  <meta name="twitter:image:alt" content={OG_IMAGE_ALT} slot="head" />
+
+  {/* Homepage inline CSS — ~2200 lines that style the hero / KPI band /
+      treemap / hub sections. Kept inline (slotted into <head>) so the
+      first paint doesn't wait on an extra CSS round-trip. */}
+  <style slot="head" set:html={INDEX_CSS} />
+
+  {/* Home body content — `<div id="wrapper">…</div>` with hero, KPI band,
+      treemap canvas, sectors / rankings / deep hub sections, me-cta strip. */}
+  <Fragment set:html={HOME_BODY_HTML} />
+
+  {/* Site footer. Was previously hardcoded inside index-source.html; now
+      shares the canonical Footer.astro markup + share-button JS with every
+      other page. */}
+  <Footer />
+
+  {/* Tooltip overlay used by the treemap canvas. Position-fixed via CSS so
+      DOM placement doesn't matter. Slotted into bodyEnd so it lives outside
+      `<main>` (cleaner DOM ordering than the legacy in-main placement). */}
+  <div id="tooltip" role="tooltip" aria-live="polite" aria-atomic="true" slot="bodyEnd">
+    <button class="tt-close" type="button" aria-label="閉じる" id="tooltipClose">×</button>
+    <div class="tt-title"></div>
+    <div class="tt-row" id="ttRow"></div>
+    <a class="tt-cta" id="tooltipCta" href="#">
+      詳細を見る →
+    </a>
+  </div>
+
+  {/* Homepage-specific inline JS — treemap canvas rendering, tooltip wiring,
+      mobile drawer toggle, I18N labels, share-button click handlers (the
+      share-button section has a `footer.dataset.shareWired === '1'` guard
+      that coexists safely with Footer.astro's wiring — whichever runs first
+      sets the flag). */}
+  <script is:inline slot="bodyEnd" set:html={HOME_INLINE_JS} />
+</BaseLayout>
