@@ -808,4 +808,57 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
     html body div.mob-drawer .mob-drawer-arrow { transition: none; transform: none; }
   }
 }
+
+/* RA-139 — cross-page "自分の現在地" CTA strip (placed before <footer> on hub pages) */
+.me-cta-strip {
+  margin: 48px 0 24px;
+  padding: 20px 24px;
+  background: var(--bg2, #FFFFFF);
+  border: 1px solid var(--border, rgba(36,30,24,0.10));
+  border-left: 4px solid var(--accent, #D96B3D);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+.me-cta-strip p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--fg, #241E18);
+  line-height: 1.5;
+  flex: 1 1 320px;
+}
+.me-cta-strip p strong {
+  color: var(--accent-deep, #48705F);
+  font-weight: 600;
+}
+.me-cta-strip a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 20px;
+  min-height: 44px;
+  background: var(--accent, #D96B3D);
+  color: var(--bg, #FAF6EE);
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 120ms, transform 120ms;
+}
+.me-cta-strip a:hover {
+  background: var(--accent-deep, #48705F);
+  transform: translateY(-1px);
+}
+.me-cta-strip a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .me-cta-strip { padding: 16px 18px; flex-direction: column; align-items: stretch; gap: 12px; }
+  .me-cta-strip a { justify-content: center; }
+}
 `;
