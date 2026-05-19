@@ -106,12 +106,12 @@ export function sectorIndexView(graph: KnowledgeGraph): SectorIndexView {
         const wb = b.stats?.workers ?? 0;
         const wa = a.stats?.workers ?? 0;
         if (wb !== wa) return wb - wa;
-        return (a.id as unknown as number) - (b.id as unknown as number);
+        return Number(a.id) - Number(b.id);
       });
     const topSamples = byWorkers.slice(0, 3);
     const sampleTitlesJa = topSamples.map(o => o.titleJa);
     const sampleEntries: SectorSampleOccupation[] = topSamples.map(o => ({
-      id: o.id as unknown as number,
+      id: Number(o.id),
       titleJa: o.titleJa,
     }));
 

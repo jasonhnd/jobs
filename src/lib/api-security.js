@@ -395,10 +395,13 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
         if (data && data.result === null) {
           return { ok: false, reason: "turnstile_replay" };
         }
+      } else {
+        // On Upstash failure, log + continue to verify (don't break the form).
+        console.warn('[api-security] Upstash replay-guard failed, falling open:', `upstream_${setRes.status}`);
       }
-      // On Upstash failure, log + continue to verify (don't break the form).
-    } catch (_err) {
+    } catch (err) {
       // Same — log + continue.
+      console.warn('[api-security] Upstash replay-guard failed, falling open:', err && err.message ? err.message : err);
     }
   }
 

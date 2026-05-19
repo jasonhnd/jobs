@@ -245,7 +245,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
         });
         filtered.unshift({ a: aId, b: bId, aN: aN, bN: bN, t: Date.now() });
         localStorage.setItem(KEY, JSON.stringify(filtered.slice(0, 5)));
-      } catch (_) {}
+      } catch (_) {
+        if (typeof console !== 'undefined') console.warn('[compare-recent] localStorage parse/write failed:', _);
+      }
     })();
   </script>
 </BaseLayout>
