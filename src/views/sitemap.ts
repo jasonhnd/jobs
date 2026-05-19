@@ -4,7 +4,7 @@
  *
  * Step 10 part 2 (2026-05-13): the per-page `src/pages/sitemap.xml.ts`
  * used to inline the entire enumeration + XML build. Per
- * docs/architecture.md §5 "横切关注点 = view 的另一种实例", the
+ * docs/architecture.md §5 "cross-cutting concern = another form of view", the
  * sitemap is a horizontal view fed by the same graph as every
  * URL-emitting page family. This module owns:
  *
