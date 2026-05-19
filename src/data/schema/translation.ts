@@ -10,7 +10,7 @@ import { z } from 'zod';
 /**
  * English translation for one occupation.
  *
- * Per §2.4 翻译范围:
+ * Per §2.4 translation scope:
  *   - title_en: from main JSON title_ja
  *   - summary_en: from description.summary_ja (or full description condensed)
  *   - aliases_en: from aliases_ja
