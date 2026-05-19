@@ -54,7 +54,6 @@ declare const __safeHtmlBrand: unique symbol;
  *   - `escapeHtml(s)`                     escape a plain string
  *   - `joinSafeHtml(items, sep?)`         concat already-safe fragments
  *   - `htmlList(cls, items, tpl)`         build a <ul> from a homogeneous list
- *   - `htmlAttr(value)`                   build a quoted attribute value
  *   - `trustedCss(css)`                   promote author-controlled CSS
  *   - `unsafeReviewedHtml(s, reason)`     audited escape hatch
  *

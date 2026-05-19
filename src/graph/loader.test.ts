@@ -67,7 +67,7 @@ describe('loadGraph — occupation node shape', () => {
   test('occ #1 (豆腐製造、豆腐職人) basic fields', () => {
     const occ = graph.occupations.get(asOccupationId(1));
     assert.ok(occ, 'occ #1 missing');
-    assert.equal(occ.id, 1 as unknown as number);
+    assert.equal(Number(occ.id), 1);
     assert.equal(occ.titleJa, '豆腐製造、豆腐職人');
     assert.ok(occ.aliasesJa.includes('豆腐製造工'), 'aliasesJa missing expected entry');
     assert.equal(occ.classifications.mhlwMain, '12_072-06');
@@ -157,17 +157,17 @@ describe('queries — weighted edge accessors', () => {
     assert.equal(edges.length, 39);
     // All weights are within IPD numeric range.
     for (const e of edges) {
-      assert.equal(e.from, 1 as unknown as number);
+      assert.equal(Number(e.from), 1);
       assert.ok(e.weight >= 0 && e.weight <= 7, `weight out of range: ${e.weight}`);
     }
     // 'speaking' should be one of the keys.
-    assert.ok(edges.some(e => (e.to as unknown as string) === 'speaking'), 'speaking edge missing');
+    assert.ok(edges.some(e => String(e.to) === 'speaking'), 'speaking edge missing');
   });
 
   test('interestsOf(1) returns 6 RIASEC edges', () => {
     const edges = graph.interestsOf(asOccupationId(1));
     assert.equal(edges.length, 6);
-    const keys = new Set(edges.map(e => e.to as unknown as string));
+    const keys = new Set(edges.map(e => String(e.to)));
     for (const k of ['realistic', 'investigative', 'artistic', 'social', 'enterprising', 'conventional']) {
       assert.ok(keys.has(k), `RIASEC ${k} missing in interestsOf(1)`);
     }

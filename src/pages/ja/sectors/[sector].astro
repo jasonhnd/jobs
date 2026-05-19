@@ -25,7 +25,7 @@ export async function getStaticPaths() {
   const graph = await loadGraph();
   const sectorIds = [...graph.sectors.keys()];
   return sectorIds.map((sectorId) => ({
-    params: { sector: sectorId as unknown as string },
+    params: { sector: String(sectorId) },
     props: { view: sectorDetailView(graph, sectorId) },
   }));
 }

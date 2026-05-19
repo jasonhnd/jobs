@@ -97,7 +97,7 @@ export interface SectorBindings {
 
 function toSectorOcc(o: SectorOccupationSummary): SectorOcc {
   return {
-    id: o.id as unknown as number,
+    id: Number(o.id),
     title_ja: o.titleJa,
     ai_risk: o.aiRisk,
     workers: o.workers,
@@ -110,7 +110,7 @@ function toSectorOcc(o: SectorOccupationSummary): SectorOcc {
 
 function toListOcc(o: SectorOccupationSummary) {
   return {
-    id: o.id as unknown as number,
+    id: Number(o.id),
     titleJa: o.titleJa,
     aiRisk: o.aiRisk,
     workers: o.workers,
@@ -125,14 +125,14 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
   const relatedSectors = view.relatedSectors;
 
   // ── Phase 2 derivations: AI era essay + auto-pattern observations ──
-  const sectorEssay = getSectorEssay(sector.id as unknown as string);
+  const sectorEssay = getSectorEssay(String(sector.id));
   const allSectorOccs: SectorOcc[] = allOccs.map(toSectorOcc);
   const baseline = computeSiteBaseline(allSectorOccs);
   const sectorOccsForPattern: SectorOcc[] = occs.map(toSectorOcc);
   const patterns = computeSectorPatterns(sectorOccsForPattern, baseline, sector.nameJa);
 
   // ── Identity + path consts ──
-  const sid = sector.id as unknown as string;
+  const sid = String(sector.id);
   const nameLoc = sector.nameJa;
   const descIntro = sector.descriptionJa ?? '';
   const canonical = `${SITE_ORIGIN}/ja/sectors/${sid}`;
@@ -149,7 +149,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     const wb = b.workers || 0;
     const wa = a.workers || 0;
     if (wb !== wa) return wb - wa;
-    return (a.id as unknown as number) - (b.id as unknown as number);
+    return Number(a.id) - Number(b.id);
   });
   const sampleTitles: string[] = [];
   for (const o of sortedByWorkers.slice(0, 3)) {
@@ -169,7 +169,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     const ar = -(a.aiRisk ?? -1);
     const br = -(b.aiRisk ?? -1);
     if (ar !== br) return ar - br;
-    return (a.id as unknown as number) - (b.id as unknown as number);
+    return Number(a.id) - Number(b.id);
   });
 
   // ── SEO + OG meta ──
@@ -214,7 +214,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     siteOrigin: SITE_ORIGIN,
     occupationCount: n,
     occupations: fullSorted.map((o) => ({
-      id: o.id as unknown as number,
+      id: Number(o.id),
       titleJa: o.titleJa,
     })),
     faqs,
@@ -231,7 +231,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
   const fullListHtml = renderSectorOccupationFullList(fullSorted.map(toListOcc));
   const relatedHtml = renderRelatedSectorsList(
     relatedSectors.map((s) => ({
-      id: s.id as unknown as string,
+      id: String(s.id),
       nameJa: s.ja,
       occupationCount: s.occupationCount,
     })),

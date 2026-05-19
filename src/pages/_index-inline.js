@@ -1760,7 +1760,9 @@
           try { localStorage.setItem("theme", next); } catch (e) {}
           // Design.md §3.2: canvas must repaint with theme-appropriate palette + bg.
           if (typeof draw === "function") {
-            try { draw(); } catch (e) {}
+            try { draw(); } catch (e) {
+              if (typeof console !== 'undefined') console.warn('[theme] treemap redraw failed:', e);
+            }
           }
           if (window.gtag) gtag("event", "theme_change", {
             from: cur,

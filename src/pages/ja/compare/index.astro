@@ -26,7 +26,11 @@ const pairMapEntries = COMPARE_META.flatMap((m) => [
   [`${m.occ_a_id}-${m.occ_b_id}`, m.slug],
   [`${m.occ_b_id}-${m.occ_a_id}`, m.slug],
 ] as const);
-const pairMapJson = JSON.stringify(Object.fromEntries(pairMapEntries));
+// Escape `</` so any data value containing `</script>` can't break out of the inline <script> block; also escape U+2028/U+2029 which JSON.stringify emits raw but JS parsers reject in script contexts.
+const pairMapJson = JSON.stringify(Object.fromEntries(pairMapEntries))
+  .replace(/<\//g, '<\\/')
+  .replace(/ /g, '\\u2028')
+  .replace(/ /g, '\\u2029');
 ---
 <BaseLayout
   title={title}
@@ -464,7 +468,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
       fetch('/data.sectors.json').then(function (r) { return r.json(); }).then(function (sd) {
         var arr = (sd && sd.sectors) || [];
         for (var i = 0; i < arr.length; i++) sectorMap[arr[i].id] = arr[i].ja;
-      }).catch(function () {});
+      }).catch(function (err) {
+        if (typeof console !== 'undefined') console.warn('[compare] sectors fetch failed:', err);
+      });
 
       fetch('/data.search.json').then(function (r) { return r.json(); }).then(function (data) {
         occs = (data && data.documents) || [];

@@ -96,7 +96,7 @@ export function loadGraphAdaptedDetails(graph: KnowledgeGraph): DetailFileMin[] 
 
   const out: DetailFileMin[] = [];
   for (const [occId, occ] of graph.occupations) {
-    const occIdNum = occId as unknown as number;
+    const occIdNum = Number(occId);
     const secId = graph.sectorOf(occId as OccupationId);
     const sectorNode = secId ? graph.sectors.get(secId) : null;
 
@@ -117,7 +117,7 @@ export function loadGraphAdaptedDetails(graph: KnowledgeGraph): DetailFileMin[] 
         : null,
       sector: sectorNode
         ? {
-            id: sectorNode.id as unknown as string,
+            id: String(sectorNode.id),
             ja: sectorNode.nameJa,
           }
         : null,

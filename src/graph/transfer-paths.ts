@@ -240,10 +240,9 @@ export function computeTransferCandidatesMap(
  * awareness out of the algorithm itself.
  */
 export function skillsBlockOf(occ: Occupation): Record<string, number> | null {
-  // Occupation.skills is `Record<string, number>` per the Zod schema's
-  // ipdScoreDimension shape, but may be omitted entirely.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const block = (occ as any).skills;
+  // Occupation.skills is `Record<string, number> | null | undefined` per the
+  // Zod schema's ipdScoreDimension shape (nullish whole-block per §5.4).
+  const block = occ.skills;
   if (block == null) return null;
   // Filter out any null/undefined values — they leak through Zod's
   // `.nullish()` modifier and would break cosine math downstream.

@@ -189,7 +189,9 @@ const jsonLd = `{
       return r + '/10 ◎ 影響小';
     }
     function ga(name, params) {
-      try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {}
+      try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {
+        if (typeof console !== 'undefined') console.warn('[analytics] gtag event failed:', e);
+      }
     }
     function fetchWithTimeout(url, ms) {
       return new Promise(function (resolve, reject) {

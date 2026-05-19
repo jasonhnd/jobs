@@ -39,7 +39,7 @@ export function makeHollandLoaderFromGraph(
     if (cached) return cached;
     const out: HollandRow[] = [];
     for (const [occId, occ] of graph.occupations) {
-      const idNum = occId as unknown as number;
+      const idNum = Number(occId);
       // Initialize with all 6 letters null; fill from interest edges.
       const row: HollandRow = {
         id: idNum,
@@ -47,7 +47,7 @@ export function makeHollandLoaderFromGraph(
         R: null, I: null, A: null, S: null, E: null, C: null,
       };
       for (const edge of graph.interestsOf(occId as OccupationId)) {
-        const key = edge.to as unknown as string;
+        const key = String(edge.to);
         const letter = KEY_TO_LETTER[key];
         if (letter) row[letter] = edge.weight;
       }
@@ -72,7 +72,7 @@ export function makeInterestsTreemapFromGraph(
     if (cached) return cached;
     const m = new Map<number, InterestsTreemapRecord>();
     for (const [occId, occ] of graph.occupations) {
-      const idNum = occId as unknown as number;
+      const idNum = Number(occId);
       const sectorId = graph.sectorOf(occId as OccupationId);
       const sector = sectorId ? graph.sectors.get(sectorId) : null;
       const aiScore = occ.aiRisk?.score ?? null;
@@ -82,7 +82,7 @@ export function makeInterestsTreemapFromGraph(
         risk_band: legacyRiskBand(aiScore),
         workers: occ.stats?.workers ?? null,
         salary: occ.stats?.salaryManYen ?? null,
-        sector_id: sectorId !== null ? (sectorId as unknown as string) : '_uncategorized',
+        sector_id: sectorId !== null ? String(sectorId) : '_uncategorized',
         sector_ja: sector ? sector.nameJa : '未分類',
       });
     }

@@ -81,7 +81,7 @@ function bankerRound1(n: number): number {
 export function loadOccupationsFromGraph(graph: KnowledgeGraph): Occupation[] {
   const out: Occupation[] = [];
   for (const [occId, occ] of graph.occupations) {
-    const idNum = occId as unknown as number;
+    const idNum = Number(occId);
     const sectorId = graph.sectorOf(occId as OccupationId);
     const sector = sectorId ? graph.sectors.get(sectorId) : null;
     const aiScore = occ.aiRisk?.score ?? null;
@@ -101,7 +101,7 @@ export function loadOccupationsFromGraph(graph: KnowledgeGraph): Occupation[] {
       recruit_wage: recruitWage,
       recruit_ratio: occ.stats?.recruitRatio ?? null,
       demand_band: legacyDemandBand(occ.stats?.recruitRatio ?? null),
-      sector_id: sectorId !== null ? (sectorId as unknown as string) : '_uncategorized',
+      sector_id: sectorId !== null ? String(sectorId) : '_uncategorized',
       sector_ja: sector ? sector.nameJa : '未分類',
       education_pct: convertEnToJaPct(occ.educationDistribution, EDU_KEY_EN_TO_JA),
       employment_type: convertEnToJaPct(occ.employmentType, EMP_KEY_EN_TO_JA),

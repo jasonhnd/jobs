@@ -212,7 +212,12 @@ export function adaptDetailFile(
     age: stats.average_age ?? null,
     recruit_wage: stats.recruit_wage_man_yen ?? null,
     recruit_ratio: stats.recruit_ratio ?? null,
-    hourly_wage: null,
+    // hourly_wage = recruit_wage_man_yen × 10000 / 160h. Same formula as
+    // src/views/ranking/loaders.ts (rounded to a clean integer here).
+    hourly_wage:
+      stats.recruit_wage_man_yen != null
+        ? Math.round((stats.recruit_wage_man_yen * 10000) / 160)
+        : null,
     ai_risk: ai.score ?? null,
     ai_rationale_ja: ai.rationale_ja ?? null,
     url: d.url ?? `https://shigoto.mhlw.go.jp/User/Occupation/Detail/${d.id}`,
@@ -287,7 +292,7 @@ export function buildOccupationDetailFile(
   const abilityLabels = labelMap(graph.abilities as ReadonlyMap<unknown, { nameJa: string }>);
 
   return {
-    id: occ.id as unknown as number,
+    id: Number(occ.id),
     schema_version: '1.2',
     title: {
       ja: occ.titleJa,
@@ -306,7 +311,7 @@ export function buildOccupationDetailFile(
       jsoc_all: [...occ.classifications.jsocAll],
     },
     sector: sector
-      ? { id: sector.id as unknown as string, ja: sector.nameJa }
+      ? { id: String(sector.id), ja: sector.nameJa }
       : undefined,
     risk_band: legacyRiskBand(aiScore),
     workforce_band: legacyWorkforceBand(occ.stats?.workers ?? null),
