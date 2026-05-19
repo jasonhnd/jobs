@@ -161,8 +161,13 @@ html body .cookie-banner .cb-btn-reject:hover { background: rgba(255, 255, 255, 
 @media (max-width: 540px) {
   html body .cookie-banner .cb-inner { flex-direction: column; align-items: stretch; gap: 10px; padding: 0; }
   html body .cookie-banner .cb-actions { justify-content: flex-end; }
-  html body .cookie-banner .cb-text { font-size: 0.78rem; line-height: 1.45; }
-  html body .cookie-banner { padding: 12px 14px; max-height: 42vh; }
+  /* RA-143 (2026-05-19): reset .cb-text flex so it sits at content height.
+     The base rule uses `flex: 1 1 320px` for desktop row layout, but in
+     column flex flex-basis becomes the main-axis (vertical) size — that
+     forced the text container to 320px+ tall and pushed the buttons
+     below the visible 42vh banner on mobile. */
+  html body .cookie-banner .cb-text { font-size: 0.78rem; line-height: 1.45; flex: 0 0 auto; }
+  html body .cookie-banner { padding: 12px 14px; max-height: none; }
 }
 
 /* ───── Skip link (WCAG 2.4.1 Bypass Blocks) ─────
