@@ -757,7 +757,13 @@ const jsonLd = `{
       ]).then(function (results) {
         allRecords = results[0] || [];
         var sectorsJson = results[1] || {};
-        sectorMeta = sectorsJson.sectors || [];
+        // Order sectors by mean AI-risk descending so the highest-impact
+        // sectors stack at the top of the map (IT → 事務 → クリエイティブ …)
+        // and the lowest-impact ones (建設, 軽作業, 農林) settle at the bottom.
+        // Sectors with a missing mean_ai_risk fall to the end.
+        sectorMeta = (sectorsJson.sectors || []).slice().sort(function (a, b) {
+          return (b.mean_ai_risk || 0) - (a.mean_ai_risk || 0);
+        });
         sectorOrder = sectorMeta.map(function (s) { return s.id; });
 
         allRecords.forEach(function (r) {
