@@ -93,12 +93,21 @@ describe('adaptDetailFile', () => {
     assert.equal(got.url, 'https://shigoto.mhlw.go.jp/User/Occupation/Detail/7');
   });
 
-  test('hourly_wage is always null (computed downstream from recruit_wage)', () => {
+  test('hourly_wage is computed from recruit_wage_man_yen (× 10000 / 160)', () => {
+    // 25 man-yen/month × 10000 / 160h = 1562.5 → Math.round = 1563.
+    // The incoming stats.hourly_wage field is ignored — the adapter always
+    // recomputes from recruit_wage_man_yen so the source-of-truth is the
+    // monthly recruit wage.
     const got = adaptDetailFile({
       id: 1,
       stats: { hourly_wage: 9999, recruit_wage_man_yen: 25 },
     });
-    assert.equal(got.hourly_wage, null);
+    assert.equal(got.hourly_wage, 1563);
     assert.equal(got.recruit_wage, 25);
+  });
+
+  test('hourly_wage is null when recruit_wage_man_yen is absent', () => {
+    const got = adaptDetailFile({ id: 1, stats: {} });
+    assert.equal(got.hourly_wage, null);
   });
 });

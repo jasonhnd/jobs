@@ -97,7 +97,7 @@ export function buildLinkRegistry(graph: KnowledgeGraph): LinkRegistry {
   for (const [occId, occ] of graph.occupations) {
     const name = occ.titleJa;
     if (!name) continue;
-    const id = occId as unknown as number;
+    const id = Number(occId);
     patterns.push({
       pattern: name,
       target: { href: `/ja/${id}`, name, kind: 'occupation' },

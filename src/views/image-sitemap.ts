@@ -47,7 +47,7 @@ export function buildImageSitemapEntries(
     const title = occ.titleJa;
     if (!title) continue;
     out.push({
-      id: occId as unknown as number,
+      id: Number(occId),
       title,
       score,
     });

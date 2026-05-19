@@ -36,7 +36,7 @@ export function makeCompareLoaderFromGraph(
 
   const cache = new Map<number, DetailFile>();
   for (const [occId, occ] of graph.occupations) {
-    const idNum = occId as unknown as number;
+    const idNum = Number(occId);
     const secId = graph.sectorOf(occId as OccupationId);
     const sector = secId ? graph.sectors.get(secId) : null;
 
@@ -76,7 +76,7 @@ export function makeCompareLoaderFromGraph(
           }
         : undefined,
       sector: sector
-        ? { id: sector.id as unknown as string, ja: sector.nameJa }
+        ? { id: String(sector.id), ja: sector.nameJa }
         : undefined,
       related_certs_ja: occ.relatedCertsJa as string[],
       skills_top10,

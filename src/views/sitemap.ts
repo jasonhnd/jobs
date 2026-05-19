@@ -70,10 +70,10 @@ export function buildSitemapEntries(
   graph: KnowledgeGraph,
   today: string,
 ): SitemapEntry[] {
-  const sectorIds = [...graph.sectors.keys()].map((id) => id as unknown as string);
+  const sectorIds = [...graph.sectors.keys()].map((id) => String(id));
   const rankingSlugs = ALL_RANKINGS.map(([slug]) => slug);
   const occupationIds = [...graph.occupations.keys()]
-    .map((id) => id as unknown as number)
+    .map((id) => Number(id))
     .sort((a, b) => a - b);
 
   const entries: SitemapEntry[] = [];

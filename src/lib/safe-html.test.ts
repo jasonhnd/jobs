@@ -5,7 +5,8 @@
  * isn't a runtime check), so the real safety guarantee lives in:
  *   1) html`...` always escapes interpolated string values
  *   2) escapeHtml() covers all 5 dangerous characters
- *   3) attribute helper htmlAttr() returns quoted + escaped output
+ *   3) attribute values escape via html`` directly (write quotes in
+ *      the template literal; the tag escapes the interpolation)
  *   4) escape hatches (unsafeReviewedHtml / trustedCss) are visibly
  *      named so a code reviewer can grep them
  *

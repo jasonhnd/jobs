@@ -30,9 +30,9 @@ export function makeSkillRankingLoaderFromGraph(
   const byKey = new Map<string, Array<{ id: number; name_ja: string; score: number }>>();
 
   for (const [occId, occ] of graph.occupations) {
-    const idNum = occId as unknown as number;
+    const idNum = Number(occId);
     for (const edge of graph.skillsOf(occId as OccupationId)) {
-      const key = edge.to as unknown as string;
+      const key = String(edge.to);
       let bucket = byKey.get(key);
       if (!bucket) {
         bucket = [];
@@ -79,7 +79,7 @@ export function makeTreemapSummaryFromGraph(
     if (cached) return cached;
     const m = new Map<number, TreemapRecordSummary>();
     for (const [occId, occ] of graph.occupations) {
-      const idNum = occId as unknown as number;
+      const idNum = Number(occId);
       const sectorId = graph.sectorOf(occId as OccupationId);
       const sector = sectorId ? graph.sectors.get(sectorId) : null;
       const aiScore = occ.aiRisk?.score ?? null;
@@ -89,7 +89,7 @@ export function makeTreemapSummaryFromGraph(
         risk_band: legacyRiskBand(aiScore),
         workers: occ.stats?.workers ?? null,
         salary: occ.stats?.salaryManYen ?? null,
-        sector_id: sectorId !== null ? (sectorId as unknown as string) : '_uncategorized',
+        sector_id: sectorId !== null ? String(sectorId) : '_uncategorized',
         sector_ja: sector ? sector.nameJa : '未分類',
       });
     }

@@ -25,7 +25,7 @@ describe('makeCompareLoaderFromGraph', () => {
   });
 
   test('loader returns a DetailFile for a valid occupation id', () => {
-    const firstId = [...graph.occupations.keys()][0] as unknown as number;
+    const firstId = Number([...graph.occupations.keys()][0]);
     const detail = makeCompareLoaderFromGraph(graph)(firstId);
     assert.ok(detail !== undefined && detail !== null);
     assert.equal(detail.id, firstId);

@@ -142,8 +142,15 @@ async function main(): Promise<void> {
       await rm(full, { recursive: true, force: true });
       console.log(`  [cleanup] removed orphan staging dir: ${name}`);
     }
-  } catch {
-    // tsParent missing on first-ever run — fine.
+  } catch (err) {
+    // Expected on first-ever run (ENOENT): tsParent missing — fine.
+    // Surface any other error so Windows file-lock / permission issues
+    // (EPERM, EBUSY, antivirus-locked files) don't masquerade as a
+    // clean first-run state.
+    const code = (err as NodeJS.ErrnoException)?.code;
+    if (code !== 'ENOENT') {
+      console.warn('[build] orphan-dir cleanup unexpected error:', err);
+    }
   }
 
   await mkdir(STAGE_DIST, { recursive: true });
@@ -274,8 +281,15 @@ async function main(): Promise<void> {
       `  [WARN] previous build left a partial-promote sentinel:\n    ${prev}\n` +
       `  TS_DIST may contain a mix of old + new files. Continuing — this build will overwrite.`,
     );
-  } catch {
-    // No sentinel — clean state.
+  } catch (err) {
+    // Expected on clean state (ENOENT): no sentinel present.
+    // Surface any other error so Windows file-lock / permission issues
+    // (EPERM, EBUSY, antivirus-locked files) don't masquerade as a
+    // clean state.
+    const code = (err as NodeJS.ErrnoException)?.code;
+    if (code !== 'ENOENT') {
+      console.warn('[build] partial-sentinel read unexpected error:', err);
+    }
   }
 
   const buildId = `${new Date().toISOString()}.pid${process.pid}`;

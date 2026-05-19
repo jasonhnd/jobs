@@ -96,7 +96,7 @@ describe('equivalence — every assigned sector matches', () => {
         indexAssignment && indexAssignment.sector_id !== '_uncategorized'
           ? indexAssignment.sector_id
           : null;
-      const graphActual = graphSector === null ? null : (graphSector as unknown as string);
+      const graphActual = graphSector === null ? null : String(graphSector);
       if (indexExpected !== graphActual) {
         mismatched += 1;
         if (!sampleMismatch) {
@@ -117,7 +117,7 @@ describe('equivalence — skill weights match for occ #1', () => {
     assert.equal(graphSkills.length, Object.keys(indexSkills).length);
 
     for (const edge of graphSkills) {
-      const key = edge.to as unknown as string;
+      const key = String(edge.to);
       assert.equal(
         edge.weight,
         indexSkills[key],
