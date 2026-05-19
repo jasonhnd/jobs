@@ -256,8 +256,8 @@ export const MAP_PAGE_CSS = `
       line-height: 1.2;
       cursor: pointer; overflow: hidden;
       display: flex; align-items: flex-end;
-      /* RA-138 — background transition for year-switch color change; filter for hover. */
-      transition: background 500ms ease, filter 120ms cubic-bezier(0.16, 1, 0.3, 1);
+      /* Hover-only filter tween — keep it fast so the map feels responsive. */
+      transition: filter 120ms cubic-bezier(0.16, 1, 0.3, 1);
       -webkit-tap-highlight-color: transparent;
       border: 0;
     }

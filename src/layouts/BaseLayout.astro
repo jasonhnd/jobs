@@ -250,14 +250,50 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
           if (!id) return;
           window.__metaPixelInit = function () {
             if (window.__metaPixelStarted) return;
-            window.__metaPixelStarted = true;
-            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-            (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+            /* Install the standard Meta Pixel stub. It sets fbq as a function
+               that queues calls into n.queue until the real fbevents.js loads
+               and overrides n.callMethod. We KEEP the stub's queueing semantics
+               so init/track calls below are buffered correctly, but we DO NOT
+               flip __metaPixelStarted here — that flag only flips after the
+               script's onload fires, proving fbevents.js actually loaded. If
+               the script fails (CSP / ad blocker / network), the flag stays
+               false so a subsequent consent toggle can retry. */
+            if (!window.fbq) {
+              var n = window.fbq = function () {
+                n.callMethod
+                  ? n.callMethod.apply(n, arguments)
+                  : n.queue.push(arguments);
+              };
+              if (!window._fbq) window._fbq = n;
+              n.push = n;
+              n.loaded = !0;
+              n.version = '2.0';
+              n.queue = [];
+            }
+            /* Queue init + PageView. These execute against the queue now and
+               replay once fbevents.js binds. */
             window.fbq('init', id);
             window.fbq('track', 'PageView');
+            /* Inject fbevents.js with explicit load/error handlers. */
+            var t = document.createElement('script');
+            t.async = true;
+            t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+            t.onload = function () {
+              /* Real fbevents.js has bound; queued calls have flushed. Only
+                 now is it safe to mark the pixel as started. */
+              if (typeof window.fbq === 'function') {
+                window.__metaPixelStarted = true;
+              }
+            };
+            t.onerror = function () {
+              console.warn('[meta-pixel] fbevents.js load failed; init will retry on next consent grant');
+            };
+            var s = document.getElementsByTagName('script')[0];
+            if (s && s.parentNode) {
+              s.parentNode.insertBefore(t, s);
+            } else {
+              document.head.appendChild(t);
+            }
           };
           var prior = (function () {
             try { return localStorage.getItem('cookieConsent'); } catch (e) { return null; }
