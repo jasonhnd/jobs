@@ -687,7 +687,7 @@ scroll) and unnecessary (nothing to recompute).
   so `scrollTop` is preserved by the browser. Any future caller of
   `renderMap` (chip, sort, deep-link, A/B test, …) inherits the
   guarantee for free.
-- **L2 (节流) — width-only re-render**: the resize handler caches
+- **L2 (throttle) — width-only re-render**: the resize handler caches
   `prevWidth` and early-returns when only the height changed. URL bar
   collapse, keyboard pop, on-screen overlay show / hide all become
   no-ops (correct: squarify doesn't need height).
@@ -931,11 +931,11 @@ Follow-up to the footer unification below. The footer HTML used to be copy-paste
 
 ### Footer — site-wide unification (all pages identical)
 
-Aligns every page's footer to one canonical 3-layer structure (导航 chips + 法务 chips + footer-meta) so 404 / about / compliance / privacy / index / 556 detail / 17 sector / 10 ranking — every single HTML — renders the exact same footer HTML and CSS.
+Aligns every page's footer to one canonical 3-layer structure (nav chips + legal chips + footer-meta) so 404 / about / compliance / privacy / index / 556 detail / 17 sector / 10 ranking — every single HTML — renders the exact same footer HTML and CSS.
 
 - **Two-row chip layout everywhere**:
-  - Row 1 (导航): `トップ / セクター / ランキング`
-  - Row 2 (法务/规约): `データについて / コンプライアンス / プライバシー`
+  - Row 1 (nav): `トップ / セクター / ランキング`
+  - Row 2 (legal/terms): `データについて / コンプライアンス / プライバシー`
 - **Unified footer-meta** (was inconsistent — `© mirai-shigoto.com` on detail/sector/ranking, brief disclaimer on about/privacy, missing entirely on 404):
   - `v1.3.0 · MIT`
   - 出典：厚生労働省・独立行政法人 労働政策研究・研修機構（JILPT）
@@ -1161,24 +1161,24 @@ Decisions (Q1 = C / Q2 = A / Q3 = B):
   remain as comment-only mentions — those scripts/templates are
   themselves dead code from the v1.1.0 era and a follow-up
   cleanup PR should retire them or update the comments.
-- `docs/Design.md` head, §0 适用范围, and §0.1 (was "与
-  MOBILE_DESIGN.md 的关系", now "与 Design-Mobile.md 的分工")
+- `docs/Design.md` head, §0 適用範囲, and §0.1 (was "与
+  MOBILE_DESIGN.md との関係", now "Design-Mobile.md との分担")
   all rewritten to reflect the new two-file model. The §0.1
   table now describes a content-split (desktop-only + shared vs.
   mobile-only) rather than the old design-language-split (data
   dashboard vs. Direction C Warm Editorial).
-- `docs/Design.md` §15 修订历史 + `docs/Design-Mobile.md` §6
-  修订历史 both record this split with date 2026-05-06 + the
+- `docs/Design.md` §15 改訂履歴 + `docs/Design-Mobile.md` §6
+  改訂履歴 both record this split with date 2026-05-06 + the
   Q1/Q2/Q3 decisions inline.
 
 **Net effect on Design.md.** ~1118 lines → 734 lines. Mobile
 content extracted to a 451-line peer file. No semantic content
 lost; cross-references all updated.
 
-### `/map` 独立页（mobile-first）— design spec only
+### `/map` 独立ページ（mobile-first）— design spec only
 
 **Design only. No code yet.** Spec written into `docs/Design.md` §16
-(`/map` 页规范, mobile-first 独立页) — implementation to follow in a
+(`/map` ページ仕様, mobile-first 独立ページ) — implementation to follow in a
 separate change.
 
 **IA decision.** Move the 552-occupation treemap off the mobile
@@ -1254,7 +1254,8 @@ motion respect) and the list-view toggle decision is deferred.
 The `setup-ga4.mjs` script had never actually been run successfully against
 the production GA4 property (`298707336`). The service-account auth path
 documented in `analytics/README.md` got blocked by GA4's cross-org
-validation quirk (`此电子邮件地址没有对应的 Google 账号` error). This
+validation quirk ("this email has no corresponding Google account" error
+returned by GA4 Admin API for service accounts on cross-org setups). This
 change adds an OAuth user-credential path so the script can act as the
 GA4 admin (Jason) directly, bypassing the service-account block.
 
