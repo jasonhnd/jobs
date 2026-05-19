@@ -5,7 +5,7 @@
  * to inline 80+ lines of `{slug → {eyebrow, title, subtitle}}`
  * dictionaries for the generic text-only OG cards covering every
  * non-rich page family on the site. Per docs/architecture.md §5
- * "横切关注点 = view 的另一种实例", these typed-data maps are a
+ * "cross-cutting concern = another form of view", these typed-data maps are a
  * view: input = route param, output = typed `GenericCardConfig`.
  *
  * The 5 dicts here cover:

@@ -864,6 +864,7 @@ html body nav.top-nav ~ main #wrapper > nav.crumb {
 }
 @media (max-width: 600px) {
   .me-cta-strip { padding: 16px 18px; flex-direction: column; align-items: stretch; gap: 12px; }
+  .me-cta-strip p { flex: 0 0 auto; }
   .me-cta-strip a { justify-content: center; }
 }
 `;

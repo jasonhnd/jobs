@@ -12,7 +12,7 @@
 ## 0. 適用範囲
 
 - [`src/pages/index.astro`](../src/pages/index.astro) のモバイル段（`@media (max-width: 768px)` 以下の各ブレークポイント）
-- [`src/pages/map.astro`](../src/pages/map.astro)（モバイル先行の独立職業マップページ；詳細は §4）
+- [`src/pages/map.astro`](../src/pages/map.astro)（モバイル先行の独立職業マップページ、詳細は §4）
 - [`src/pages/ja/[id].astro`](../src/pages/ja/[id].astro) によって build される 556 個の `ja/<id>.html` 詳細ページのモバイル段
 - 16 個 hub ページ（[`ja/sectors/*`](../src/pages/ja/sectors/) 等、Design.md §0 一覧参照）のモバイル段
 - 共有基盤（カラー / フォント / 間隔 / テーマ / ブレークポイント / treemap 視覚）は Design.md を参照
@@ -21,7 +21,7 @@
 
 ### 0.1 Design.md との関係
 
-> Design.md の章を引用する際、Phase A (2026-05-13) で §0.2 / §2 / §3 / §18 は整合済み；§5 / §6.1 / §7 の一部は Gen-3 監査待ち。Design.md の章を引用する前に必ず [Design.md §0.2 現在の世代状態](./Design.md#02-現在の世代状態2026-05-13-phase-a-導入) を見ること。
+> Design.md の章を引用する際、Phase A (2026-05-13) で §0.2 / §2 / §3 / §18 は整合済み、§5 / §6.1 / §7 の一部は Gen-3 監査待ち。Design.md の章を引用する前に必ず [Design.md §0.2 現在の世代状態](./Design.md#02-現在の世代状態2026-05-13-phase-a-導入) を見ること。
 
 | 軸 | どこに | ステータス |
 |---|---|---|
@@ -307,7 +307,7 @@ Canvas は **意図的スクロール** と **意図的クリック** を正し�
 #### 4.3.1 Sector chips
 
 - データソース：`data.sectors.json`（JILPT 大分類、10-12 項目）
-- 単一選択；デフォルト `[全て]` ハイライト
+- 単一選択、デフォルト `[全て]` ハイライト
 - 選択状態：背景 `--orange`、文字 `--cream`
 - 切替 → URL に `?sector=<key>` を書き → segmented view を切替
 
@@ -350,7 +350,7 @@ Canvas は **意図的スクロール** と **意図的クリック** を正し�
 - セグメントヘッダは sticky 副題（スクロール時に追従）
 - カラー token / 透明度 / 文字色戦略：100% Design.md §5 を再利用（視覚一貫性は硬性制約）
 
-**fallback（D4 退避案 A）**：セグメント view 実装コストが過大なら → 単一の squarified treemap に退却、pinch-to-zoom を追加；この退化経路は PR 説明で必ず明記。
+**fallback（D4 退避案 A）**：セグメント view 実装コストが過大なら → 単一の squarified treemap に退却、pinch-to-zoom を追加、この退化経路は PR 説明で必ず明記。
 
 ---
 
@@ -362,7 +362,7 @@ Canvas は **意図的スクロール** と **意図的クリック** を正し�
 
 | | 書き方 | 結果 |
 |---|---|---|
-| ❌ 禁止 | `el.innerHTML = ''` の後 `appendChild(frag)` | 第 1 行が同期的に reflow を起こし、ドキュメント高さが 0 に潰れる；ブラウザは即座に `scrollTop` を 0 に clamp；append 後コンテンツは戻るが scroll は書き換え済。**ユーザーが頂上に飛ばされる** |
+| ❌ 禁止 | `el.innerHTML = ''` の後 `appendChild(frag)` | 第 1 行が同期的に reflow を起こし、ドキュメント高さが 0 に潰れる、ブラウザは即座に `scrollTop` を 0 に clamp、append 後コンテンツは戻るが scroll は書き換え済。**ユーザーが頂上に飛ばされる** |
 | ✅ 必須 | `el.replaceChildren(frag)` | 単回原子 DOM 操作、ドキュメント高さは旧値から新値へ直接ジャンプ、**中間フレーム 0 を経由しない**。`scrollTop` は新高 < 現 scrollY のときのみ clamp（境界ケース） |
 
 互換性：Safari 14+ / Chrome 86+ / Firefox 78+。これ以下のバージョンは無視可（サイト想定ユーザーは 2026 年新デバイス）。
@@ -394,7 +394,7 @@ squarified layout は `$content.clientWidth` のみに依存（[map.html](../map
 2. 上スクロールで URL bar 再表示 → scroll 位置が指に正しく応答
 3. デバイス横縦切替 → 再配置発生、scroll は視覚アンカー保持（微小オフセット許容、頂上ジャンプ不許可）
 4. sector chip 切替 → 頂上ジャンプ許容（能動操作）
-5. sort dropdown 切替 → 頂上ジャンプ許容（能動操作；将来 scroll 保持希望ならば追加保護が必要）
+5. sort dropdown 切替 → 頂上ジャンプ許容（能動操作、将来 scroll 保持希望ならば追加保護が必要）
 
 ---
 
@@ -455,7 +455,7 @@ squarified layout は `$content.clientWidth` のみに依存（[map.html](../map
 - `URLSearchParams` で双方向 bind、router ライブラリ不要
 - chip / sort 切替 / bottom sheet オープン → `history.replaceState`（履歴スタック汚染回避）
 - bottom sheet クローズ → `?job` パラメータを削除
-- ブラウザ back：`/map` から前ページに戻る（デフォルト挙動）；`/ja/<id>` から `/map?job=<id>` に戻ったとき自動で sheet を開く（referrer 判定、best-effort）
+- ブラウザ back：`/map` から前ページに戻る（デフォルト挙動）、`/ja/<id>` から `/map?job=<id>` に戻ったとき自動で sheet を開く（referrer 判定、best-effort）
 - 存在しない `?sector=` key → `全て` にフォールバック + console warn
 
 ---
@@ -552,13 +552,13 @@ GA4 カスタムイベント 4 個、全て `analytics/` spec に新増：
 - 効果：treemap は SR ユーザーに完全に使用不可、リストはフォールバック
 - PC treemap も同じく SR フォールバックなし（Design.md §10 現状）→ 一貫性の論点で「やらない」も通る
 
-> 判断保留；§4 実施時は「最低線」のみ実施、リスト toggle は後続で判断。
+> 判断保留、§4 実施時は「最低線」のみ実施、リスト toggle は後続で判断。
 
 ---
 
 ### 4.14 本期スコープ外
 
-- Dark mode 専用適応（サイトに dark ベースあり、Design.md §3 継承；現状単一テーマ）
+- Dark mode 専用適応（サイトに dark ベースあり、Design.md §3 継承、現状単一テーマ）
 - 横画面専用最適化（縦画面ベースで作り、横画面は自然展開）
 - PWA / Service Worker
 - 多言語（JA-only は v1.4.0 でロック済み）
@@ -588,9 +588,9 @@ GA4 カスタムイベント 4 個、全て `analytics/` spec に新増：
 
 | 日付 | 章節 | 変更 | 理由 |
 |---|---|---|---|
-| 2026-05-06 | 全文 | ファイル作成 | Design.md からモバイル専用内容を分離（原 §6.2 / §6.3 / §6.5 / §6.6 / §6.7 mobile tooltip → 本ファイル §2；原 §7.11 Mobile Hero → §1；原 §8 モバイル自適 → §3；原 §16 `/map` 仕様 → §4）。共有基盤（カラー token / フォント / 間隔 / テーマ / ブレークポイント / treemap 視覚 / 共通コンポーネント / PC hero / a11y / palette ガイドライン）は Design.md に残す。`/m/*` アーキテクチャ存档 `MOBILE_DESIGN.md` は同時に削除（v1.1.0 で 4 ヶ月廃止、active 参照ゼロ）。Q1=C / Q2=A / Q3=B 判断は CHANGELOG 参照 |
+| 2026-05-06 | 全文 | ファイル作成 | Design.md からモバイル専用内容を分離（原 §6.2 / §6.3 / §6.5 / §6.6 / §6.7 mobile tooltip → 本ファイル §2、原 §7.11 Mobile Hero → §1、原 §8 モバイル自適 → §3、原 §16 `/map` 仕様 → §4）。共有基盤（カラー token / フォント / 間隔 / テーマ / ブレークポイント / treemap 視覚 / 共通コンポーネント / PC hero / a11y / palette ガイドライン）は Design.md に残す。`/m/*` アーキテクチャ存档 `MOBILE_DESIGN.md` は同時に削除（v1.1.0 で 4 ヶ月廃止、active 参照ゼロ）。Q1=C / Q2=A / Q3=B 判断は CHANGELOG 参照 |
 | 2026-05-06 | §4.4.1 新増 | 「再レンダリング契約（scroll 破壊不可・硬性ルール）」新増 | モバイル実機 bug：ユーザーが下スクロールするとページが頂上に弾き戻される。根本原因は `window.resize`（URL bar 収納でトリガー）が `renderMap()` を呼び、内部で `innerHTML = ''` → `appendChild` の 2 ステップ、第 1 ステップが同期 reflow を起こしドキュメント高が 0 に潰れ、ブラウザが `scrollTop` を 0 に clamp。「原子置換 + 幅変化時のみ再配置」を `/map` 再レンダリング硬性ルールとして規範化、3 層防御縦深と実機回帰検証リスト付き |
-| 2026-05-13 | §0.1 引用表 | Phase A 文書整合（Design.md §0.2 / §2 / §3 / §18 書直しと連動） | 引用表に 🟢 LIVE / ⚠️ 監査待ち / NEUTRALIZED ステータスマーカーを行ごとに追加、「Design.md のどの章が信頼できる / どれが Gen 1 化石で監査待ち」を明示化；Design.md §18 スタイルアーキテクチャ契約の引用行を新増。本ファイルのモバイル専用 §1-§5 内容は変更なし（全て LIVE）。ゼロコード変更 |
+| 2026-05-13 | §0.1 引用表 | Phase A 文書整合（Design.md §0.2 / §2 / §3 / §18 書直しと連動） | 引用表に 🟢 LIVE / ⚠️ 監査待ち / NEUTRALIZED ステータスマーカーを行ごとに追加、「Design.md のどの章が信頼できる / どれが Gen 1 化石で監査待ち」を明示化、Design.md §18 スタイルアーキテクチャ契約の引用行を新増。本ファイルのモバイル専用 §1-§5 内容は変更なし（全て LIVE）。ゼロコード変更 |
 | 2026-05-13 | 全ファイル | **日本語化 + 大幅 enrich**（Phase A.5） | これまでの仕様は中国語 + 英語混在で書かれていたが、サイトが JA-only であり開発ドキュメントを GitHub 公開する方針に合わせ、全文を日本語化。同時に各章を enrich：§1 Mobile Hero に「過去の問題」「やらないこと」追加、§2 各サブセクションを構造化（touch-mode 入口 / tap-outside / close button / CTA / touch ステートマシン）、§3 各ブレークポイントを論理ブロック分け（Layout / Mobile Hero / Intro / Controls / Tooltip / Meta Card / Treemap）、§4 各サブセクションに「やらないこと」追加、特に §4.4.1 再レンダリング契約の 3 層防御 + 5 件実機検証を明文化。中国語版を `docs/_archive/Design-Mobile.zh-phase-a.md` にバックアップ保存（git の `.gitignore` 下に留まり、公開には影響しない）。本ファイルが今後 GitHub に上がる際の正式版 |
 | 2026-05-15 | §0.1 / §6 | 文書 git 公開化（commit `282fda41 chore(docs): un-gitignore docs/`）に追随。`docs/_archive/` 全件削除 — Phase A.5 のバックアップは目的達成、現状の日本語版が正本として確立した。Design.md §18 が参照する `spoke-hub-graph.ts` / `spoke-spoke-graph.ts` の行番号ズレは Design.md 側で訂正（本ファイルは引用のみ）。Phase B/C/D/E の architecture refactor（`src/graph/` 新規 / 全 view 層 + template 層構築 / page slim-down 完了 / `src/page-data/` 層導入）は本ファイルのモバイル仕様 §1-§5 とは独立、引き続き LIVE。ゼロコード変更 |
 | 2026-05-18 | §1 / §3 (新 RA-015 lite) | **RA-015 lite モバイル隠し見出し降格** モバイル専用ブロック (`.mobile-hero` / `.m-top10` / `.m-map-preview` / `.m-map-head`) 内の `<h2>` 4 件を `<p role="heading" aria-level="2">` に変更。Design.md §15 RA-015 entry 参照。背景：desktop で `display:none` の H2 は AT に読まれないが、source-grep / outline tool 上で重複に見えていた。P3-2 フル DOM 分離 (Vercel Edge Middleware UA 分割) は別 PR。本ファイル §1 (Mobile Hero) の visual / interaction 仕様は変更なし — `.mobile-hero-title` の見た目 (size 1.35rem / `--orange` 強調) は CSS class セレクタで継続的に適用される。完全な P3-2 (DOM 分離) は後続 PR で議論 |

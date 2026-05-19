@@ -463,7 +463,7 @@ Layout
 > 500 字の根拠 + TOP 10 職業の例（30 字注解付き）。reader は "看護師" の
 > 項目に興味を持ち click。
 >
-> /ja/123 spoke、深編集 5500 字。AI 影响度評価の詳細、5 軸 radar、
+> /ja/123 spoke、深編集 5500 字。AI 影響度評価の詳細、5 軸 radar、
 > top skills、関連職業 transfer paths、jobtag 出典。底部に **10-12 個の
 > 反向 hub link**:「医療 sector」「国家資格必須 ranking」「AI 安全 ×
 > 高年収」「対人スキル中心」「看護師 vs 介護福祉士 比較」「育児両立
@@ -482,7 +482,7 @@ Layout
 
 | 作業 | 頻度 | 見積 |
 |---|---|---|
-| AI 影响度 score 再評価 | 半年に 1 度 | 1 週間 |
+| AI 影響度 score 再評価 | 半年に 1 度 | 1 週間 |
 | 各 hub の編集 update | 6-12 ヶ月 | 月 1-2 hub |
 | 年次レポート 2027 / 2028 ... | 年 1 | 1 週間 |
 | 新 spoke (新 IPD 職業追加) | jobtag 更新時 | 1-2 日 |

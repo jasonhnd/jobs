@@ -12,8 +12,9 @@
  *      Fallback path. Requires the service-account email be granted access
  *      on the GA4 account / property in Admin → Account/Property Access
  *      Management. NOTE: GA4 sometimes refuses service accounts cross-org
- *      ("此电子邮件地址没有对应的 Google 账号"); if you hit that, switch to
- *      the OAuth user-credential path (#1).
+ *      (returns "this email address does not have a Google account" — Google
+ *      Cloud localizes that error string per UI locale); if you hit that,
+ *      switch to the OAuth user-credential path (#1).
  *
  * Usage:
  *   # Once OAuth has been initialized:
