@@ -2,8 +2,8 @@
 // guards on every exported render function.
 //
 // Promised in the Phase 3.1 fix plan as the prerequisite to splitting
-// rankings.ts ("先加 snapshot test：现有 9 个 ranking 页面 build 后 HTML
-// 输出做 hash"). The split itself was verified byte-identical against a
+// rankings.ts ("add snapshot tests first: hash the built HTML output
+// of the 9 existing ranking pages"). The split itself was verified byte-identical against a
 // pre-refactor disk snapshot, but that was a one-shot manual check —
 // these tests are what catches the NEXT regression in ranker-renderer
 // land.

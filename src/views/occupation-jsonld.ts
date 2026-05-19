@@ -4,7 +4,7 @@
  *
  * Step 10 reclassification (2026-05-13): moved out of src/templates/.
  * JSON-LD output is a JSON STRING (data), not HTML. Per
- * docs/architecture.md §5 "横切关注点 = view 的另一种实例", a
+ * docs/architecture.md §5 "cross-cutting concern = another form of view", a
  * typed-data → serialized-data function is a view, not a template.
  *
  * Extracted from src/pages/ja/[id].astro (`renderJsonLd` plus its
