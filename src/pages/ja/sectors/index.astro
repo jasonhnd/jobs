@@ -95,7 +95,8 @@ section.faq{margin:48px 0}
 .sc-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .sc-risk{font-size:.72rem!important;padding:2px 9px}
 .sc-workers{display:inline-block;padding:2px 9px;background:var(--bg3);border-radius:12px;font-size:.72rem;color:var(--fg2);font-variant-numeric:tabular-nums}
-.sc-samples{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1;font-size:.82rem;color:var(--fg2);line-height:1.5;margin:0;position:relative}
+/* RA-140 fix: dropped -webkit-line-clamp:2 — array is sliced to 3 entries at the .map site below so all rendered links are visible and clickable (no ambiguous tap targets on mobile). */
+.sc-samples{flex:1;font-size:.82rem;color:var(--fg2);line-height:1.5;margin:0;position:relative}
 /* RA-129: representative-job inline links inside the sample line. position:relative + z-index keeps them above the link-overlay ::before so they're independently clickable. */
 .sc-sample-link{color:var(--fg2);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;padding:2px 1px;transition:color 120ms ease;position:relative;z-index:2}
 .sc-sample-link:hover{color:var(--accent-deep,var(--accent))}
@@ -129,7 +130,10 @@ section.faq{margin:48px 0}
       <ul class="sector-cards">
         {b.sectors.map((s) => {
           const mean = s.meanAiRisk ?? 0;
-          const samples = s.sampleEntries.filter((e) => e.titleJa !== null);
+          // RA-140: cap at 3 representative jobs so every rendered link is clickable
+          // (previously a -webkit-line-clamp:2 hid overflow links visually while
+          // leaving them in the DOM, creating ambiguous tap targets on mobile).
+          const samples = s.sampleEntries.filter((e) => e.titleJa !== null).slice(0, 3);
           const cls = riskClass(mean);
           return (
             <li class="sector-card">

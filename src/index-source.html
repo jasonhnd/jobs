@@ -46,7 +46,8 @@
           </div>
         </section>
 
-        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (552 occupations, 5,449 万 employed, mean ai_risk 5.0, 96.6 兆 yen wages at impact ≥ 7). Distribution counts: 0–2=64, 3–4=191, 5–6=100, 7–8=166, 9–10=31. The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
+        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (552 occupations, 5,449 万 employed, mean ai_risk 5.0, 96.6 兆 yen wages at impact ≥ 7). Distribution counts: 1–2=64, 3–4=191, 5–6=100, 7–8=166, 9–10=31 (total 552). Percentages 12/35/18/30/5 sum to 100 (band-5 rounded down from 5.62% to keep sum=100). The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
+        <!-- TODO(RA-145): wire 552 / 5,449 / 96.6 to OCCUPATION_COUNT.SCORED + canonical worker/wage constants when this fragment is converted to an Astro template (currently injected via set:html from src/pages/index.astro, so it has no access to TS constants). -->
         <section class="home-kpi-band" aria-label="日本の労働市場全体">
           <ul class="kpi-row">
             <li><strong>552</strong><span>職業</span></li>
@@ -56,11 +57,11 @@
           </ul>
           <p class="risk-distribution-label">AI 影響度の分布（全 552 職業）</p>
           <ul class="risk-distribution" role="list">
-            <li data-band="0-2" style="--w:12%" aria-label="影響度 0-2 低 64 職業 12%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> 64 職業 <small>12%</small></span></li>
+            <li data-band="1-2" style="--w:12%" aria-label="影響度 1-2 低 64 職業 12%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> 64 職業 <small>12%</small></span></li>
             <li data-band="3-4" style="--w:35%" aria-label="影響度 3-4 中低 191 職業 35%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> 191 <small>35%</small></span></li>
             <li data-band="5-6" style="--w:18%" aria-label="影響度 5-6 中 100 職業 18%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> 100 <small>18%</small></span></li>
             <li data-band="7-8" style="--w:30%" aria-label="影響度 7-8 高 166 職業 30%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> 166 <small>30%</small></span></li>
-            <li data-band="9-10" style="--w:6%" aria-label="影響度 9-10 最高 31 職業 6%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> 31 <small>6%</small></span></li>
+            <li data-band="9-10" style="--w:5%" aria-label="影響度 9-10 最高 31 職業 5%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> 31 <small>5%</small></span></li>
           </ul>
         </section>
 
