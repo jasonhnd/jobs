@@ -15,7 +15,7 @@ mirai-shigoto.com の GA4 計測設定の正典:
 
 `setup-ga4.mjs` は 2 つの認証経路をサポートし、以下の順で試す:
 
-1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが `此电子邮件地址没有对应的 Google 账号` で拒否される GA4 の既知問題を回避できる。一回だけ `npm run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
+1. **OAuth ユーザー認証情報**(`~/.config/mirai-shigoto/oauth-token.json`)— ログイン済の人間(あなた)として動き、既に持っている GA4 admin アクセスを継承する。**推奨**。クロス組織 / 個人アカウント構成で service-account メールが GA4 から「このメールアドレスに対応する Google アカウントはありません」(英語ロケールでは "This email address does not have a Google Account") として拒否される既知問題を回避できる。一回だけ `npm run oauth-init` で設定(下記「OAuth クイックスタート」参照)、その後はすべて非対話で実行できる
 
 2. **Service account JSON**(`GOOGLE_APPLICATION_CREDENTIALS` env var)— ヒトの OAuth フローが適さない CI / 共有環境向けのフォールバック。GA4 アカウントの Admin → Account Access Management で service-account メールにアクセス許可を付与する必要がある。**実際に必要でない限りこの経路は使わない**
 
