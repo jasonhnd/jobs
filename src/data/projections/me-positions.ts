@@ -8,16 +8,20 @@
  * Shape: { meta: {...}, positions: { [jobId]: JobPositions } }
  *
  * For each of the 552 occupations and each of the 39 rankings, we compute:
- *   - `rank`        : 1-based position within the ranking's TOP-N items, OR
- *                     null when the occupation isn't in the TOP-N (圏外).
- *   - `total`       : the TOP-N count actually published (usually 30 but some
- *                     rankings have smaller filtered totals).
- *   - `outOf552`    : 1-based position within the *full* sorted+filtered
- *                     universe for this ranking, OR null when the occupation
- *                     fails the ranking's filter entirely (e.g. has no
- *                     salary data, or doesn't match the sector filter).
- *   - `percentile`  : (outOf552 / 552) * 100, rounded to 1 decimal — handy
- *                     for the "あなたは上位 X% です" copy.
+ *   - `rank`           : 1-based position within the ranking's TOP-N items, OR
+ *                        null when the occupation isn't in the TOP-N (圏外).
+ *   - `total`          : the TOP-N count actually published (usually 30 but some
+ *                        rankings have smaller filtered totals).
+ *   - `outOfUniverse`  : 1-based position within the *full* sorted+filtered
+ *                        universe for this ranking, OR null when the occupation
+ *                        fails the ranking's filter entirely (e.g. has no
+ *                        salary data, or doesn't match the sector filter).
+ *   - `universeSize`   : the size of the per-slug filtered universe — equals
+ *                        552 when the ranking has no filter, smaller (e.g. ~80)
+ *                        for filtered rankings like `regulated-protected`.
+ *                        Renders truthfully as "対象 N 中 K 位" vs "全 552 中…".
+ *   - `percentile`     : (outOfUniverse / universeSize) * 100, rounded to 1
+ *                        decimal — handy for the "あなたは上位 X%" copy.
  *
  * Per-slug 'rankers' below mirror the filter+sort logic in
  * src/views/ranking/rankings/*.ts exactly (verified against TOP-N output).
@@ -47,10 +51,15 @@ export interface JobRankingPosition {
   rank: number | null;
   /** Total TOP-N items in this ranking (varies per slug — 30, 21, 15, etc.). */
   total: number;
-  /** 1-based rank within the full 552-job universe after the ranking's
-   *  filter is applied. null when the job fails the filter entirely. */
-  outOf552: number | null;
-  /** percentile = (outOf552 / 552) * 100, 1-decimal, null when outOf552 is null. */
+  /** 1-based rank within the full filtered universe for this ranking.
+   *  null when the job fails the filter entirely. */
+  outOfUniverse: number | null;
+  /** Size of the per-slug filtered universe — equals 552 for unfiltered
+   *  rankings, smaller for filtered ones. Use to disambiguate the rendered
+   *  label between "全 552 中…" and "対象 N 中…". */
+  universeSize: number;
+  /** percentile = (outOfUniverse / universeSize) * 100, 1-decimal,
+   *  null when outOfUniverse is null. */
   percentile: number | null;
 }
 
@@ -78,7 +87,8 @@ export interface MePositionsBuildResult {
 // ───────────────────────────────────────────────────────────────────
 // Per-ranking "ranker" — produces the FULL sorted+filtered universe.
 // `items` is sliced to TOP-N before consumption; .indexOf() against the
-// full universe gives outOf552 directly.
+// full universe gives outOfUniverse directly. The full universe size
+// varies per slug — 552 for unfiltered rankings, smaller for filtered.
 //
 // Mirrors src/views/ranking/rankings/*.ts. Keep in lockstep.
 // ───────────────────────────────────────────────────────────────────
@@ -115,7 +125,7 @@ function empPct(o: Occupation, key: string): number {
  * published by buildRankings is just `.slice(0, TOP_N)` of this.
  *
  * Important: the comparator order MUST match the upstream builder, or
- * outOf552 will drift away from the rank we'd compute by visually
+ * outOfUniverse will drift away from the rank we'd compute by visually
  * scrolling through the ranking page.
  */
 type Ranker = (
@@ -445,17 +455,23 @@ export async function buildMePositions(
     for (const slug of Object.keys(RANKERS) as RankingSlug[]) {
       const topMap = topRankBySlug.get(slug);
       const full = fullBySlug.get(slug)!;
+      const universeSize = full.length;
       const topRank = topMap?.get(jobId) ?? null;
       const fullIdx = full.indexOf(jobId);
-      const outOf552 = fullIdx === -1 ? null : fullIdx + 1;
+      const outOfUniverse = fullIdx === -1 ? null : fullIdx + 1;
+      // Percentile is computed against the per-slug FILTERED universe size,
+      // not the global 552 — otherwise filtered rankings (e.g.
+      // regulated-protected with ~80 jobs) would report a misleadingly
+      // optimistic "top X%". See C1 fix.
       const percentile =
-        outOf552 === null
+        outOfUniverse === null || universeSize === 0
           ? null
-          : Math.round(((outOf552 / UNIVERSE_SIZE) * 100) * 10) / 10;
+          : Math.round(((outOfUniverse / universeSize) * 100) * 10) / 10;
       inRankings[slug] = {
         rank: topRank,
         total: topTotalBySlug.get(slug) ?? 0,
-        outOf552,
+        outOfUniverse,
+        universeSize,
         percentile,
       };
     }

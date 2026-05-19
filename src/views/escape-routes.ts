@@ -13,6 +13,13 @@
 import type { Occupation } from './ranking/config.js';
 
 /**
+ * AI 影響度 threshold for "safe" jobs surfaced as escape routes.
+ * Used by both the candidate filter and the rendered lede so a future
+ * tuning change only needs to update this single value.
+ */
+const SAFE_AI_RISK_THRESHOLD = 4;
+
+/**
  * Minimal shape we need from the "source" job. Lets callers pass either
  * an Occupation (rankings detail page) or a CompareSide-shaped object
  * (compare detail page) without needing a full Occupation construction.
@@ -27,7 +34,7 @@ export interface EscapeRouteCandidate {
   /** Occupation numeric id — used to build /ja/<id> link. */
   id: number;
   nameJa: string;
-  /** AI 影響度 0-10 (always ≤ 4 by construction). */
+  /** AI 影響度 0-10 (always ≤ SAFE_AI_RISK_THRESHOLD by construction). */
   aiRisk: number;
   sectorJa: string;
   /** Short reason string for the card (Japanese). */
@@ -52,7 +59,7 @@ export function suggestEscapeRoutes(
 ): EscapeRouteCandidate[] {
   const fromRisk = fromJob.ai_risk ?? 10;
   const scored = allJobs
-    .filter((j) => j.id !== fromJob.id && j.ai_risk !== null && j.ai_risk <= 4)
+    .filter((j) => j.id !== fromJob.id && j.ai_risk !== null && j.ai_risk <= SAFE_AI_RISK_THRESHOLD)
     .map((j) => {
       const risk = j.ai_risk as number;
       const sameSector = j.sector_id === fromJob.sector_id ? 1 : 0;
@@ -107,7 +114,7 @@ export function renderEscapeRouteSection(
   return (
     `<section class="escape-routes" aria-labelledby="escape-h2">` +
     `<h2 id="escape-h2">この職業から AI 影響度の低い領域へ</h2>` +
-    `<p class="escape-lede">「${escapeHtml(fromJobName)}」の現状に不安を感じているなら、ここから移れる可能性のある AI 影響度 4 以下の職業：</p>` +
+    `<p class="escape-lede">「${escapeHtml(fromJobName)}」の現状に不安を感じているなら、ここから移れる可能性のある AI 影響度 ${SAFE_AI_RISK_THRESHOLD} 以下の職業：</p>` +
     `<ul class="escape-cards">${cards}</ul>` +
     `</section>`
   );

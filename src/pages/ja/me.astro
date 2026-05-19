@@ -5,7 +5,7 @@
  * Typeahead-driven self-positioning tool. User types a job name, picks
  * one from the live combobox, and sees:
  *   1. Summary card: sector / AI 影響 / 就業者数 / 年収
- *   2. 39 ranking positions (rank within TOP-N + outOf552 percentile)
+ *   2. 39 ranking positions (rank within TOP-N + per-universe percentile)
  *   3. 5 similar jobs (same sector, AI risk ± 1)
  *
  * Data:
@@ -268,7 +268,7 @@ const jsonLd = JSON.stringify({
         <h2 id="meRanksHead">全 39 ランキングでの位置</h2>
         <ul class="me-rank-list" id="meRankList"></ul>
         <button type="button" class="me-rank-toggle" id="meRankToggle" aria-expanded="false">
-          剰余 <span id="meRankRest">31</span> 件を見る
+          残り <span id="meRankRest">31</span> 件を見る
         </button>
       </section>
 
@@ -478,17 +478,25 @@ const jsonLd = JSON.stringify({
     }
 
     var searchDebounce = null;
+    var searchSeq = 0;
     $input.addEventListener('input', function () {
       if (searchDebounce) clearTimeout(searchDebounce);
       var q = $input.value;
       if (!q.trim()) {
+        // Invalidate any in-flight typeahead so a slow resolve can't
+        // re-open the listbox after we cleared it.
+        searchSeq++;
         closeListbox();
         $announce.textContent = '';
         return;
       }
+      var seq = ++searchSeq;
       searchDebounce = setTimeout(function () {
         Promise.all([loadSearchIndex(), loadPositions()]).then(function () {
-          renderSuggest(rankMatches(q));
+          // Bail if the user has typed more since this fetch started —
+          // otherwise the stale result would overwrite fresher matches.
+          if (seq !== searchSeq) return;
+          renderSuggest(rankMatches($input.value));
         });
       }, 80);
     });
@@ -587,9 +595,9 @@ const jsonLd = JSON.stringify({
     function renderRankList(pos) {
       $rankList.replaceChildren();
       var rankings = positionsData.rankings;
-      // Sort: in-TOP first (asc by rank), then by outOf552 asc (圏外 included).
+      // Sort: in-TOP first (asc by rank), then by outOfUniverse asc (圏外 included).
       var rows = rankings.map(function (r) {
-        var p = pos.inRankings[r.slug] || { rank: null, total: 0, outOf552: null, percentile: null };
+        var p = pos.inRankings[r.slug] || { rank: null, total: 0, outOfUniverse: null, universeSize: 552, percentile: null };
         return { meta: r, pos: p };
       });
       rows.sort(function (a, b) {
@@ -597,8 +605,8 @@ const jsonLd = JSON.stringify({
         if (ar !== null && br === null) return -1;
         if (br !== null && ar === null) return 1;
         if (ar !== null && br !== null) return ar - br;
-        var ao = a.pos.outOf552 == null ? 9999 : a.pos.outOf552;
-        var bo = b.pos.outOf552 == null ? 9999 : b.pos.outOf552;
+        var ao = a.pos.outOfUniverse == null ? 9999 : a.pos.outOfUniverse;
+        var bo = b.pos.outOfUniverse == null ? 9999 : b.pos.outOfUniverse;
         return ao - bo;
       });
 
@@ -646,8 +654,15 @@ const jsonLd = JSON.stringify({
       }
       var detail = document.createElement('div');
       detail.className = 'rank-detail';
-      if (row.pos.outOf552 !== null) {
-        detail.textContent = '全 552 中 ' + row.pos.outOf552 + ' 位 (上位 ' + row.pos.percentile + '%)';
+      if (row.pos.outOfUniverse !== null) {
+        var universe = row.pos.universeSize;
+        var rank = row.pos.outOfUniverse;
+        var pct = row.pos.percentile;
+        if (universe === 552) {
+          detail.textContent = '全 552 中 ' + rank + ' 位 (上位 ' + pct + '%)';
+        } else {
+          detail.textContent = '対象 ' + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
+        }
       } else {
         detail.textContent = '対象外';
       }
@@ -665,7 +680,7 @@ const jsonLd = JSON.stringify({
       if (showCollapse) {
         $rankToggle.appendChild(document.createTextNode('折りたたむ'));
       } else {
-        $rankToggle.appendChild(document.createTextNode('剰余 '));
+        $rankToggle.appendChild(document.createTextNode('残り '));
         $rankRest.textContent = String(remaining);
         $rankToggle.appendChild($rankRest);
         $rankToggle.appendChild(document.createTextNode(' 件を見る'));
