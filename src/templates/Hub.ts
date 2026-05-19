@@ -399,7 +399,7 @@ const HUB_PAGE_SPECIFIC_CSS = `
 .qa-item .qa-short{margin:14px 0 12px;color:var(--fg);line-height:1.7;font-size:.94rem}
 .qa-item .qa-detail-link{display:inline-block;font-size:.84rem;color:var(--accent);text-decoration:none;font-weight:500;padding:6px 0}
 .qa-item .qa-detail-link:hover{text-decoration:underline}
-@media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px}.sb-row{grid-template-columns:80px 1fr 36px}}
+@media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px;grid-column:1 / -1}.sb-row{grid-template-columns:80px 1fr 36px}}
 `;
 
 export const GENRE_HUB_CSS = CANONICAL_HUB_CSS + HUB_PAGE_SPECIFIC_CSS;
