@@ -52,6 +52,7 @@ const REQUIRED_CONNECT_SRC_ORIGINS = [
   'https://*.google-analytics.com',
   'https://www.googletagmanager.com',
   // Cloudflare Web Analytics report
+  'https://cloudflareinsights.com',
   'https://*.cloudflareinsights.com',
   // Vercel Speed Insights vitals
   'https://vitals.vercel-insights.com',

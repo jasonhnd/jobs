@@ -173,7 +173,8 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
     'static.ads-twitter.com',
   ];
   const REQUIRED_IN_CONNECT_SRC = [
-    'cloudflareinsights.com',
+    'https://cloudflareinsights.com',
+    '*.cloudflareinsights.com',
     'google-analytics.com',
     'googletagmanager.com',
     'vitals.vercel-insights.com',
