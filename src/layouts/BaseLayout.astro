@@ -187,8 +187,8 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
           var prior = (function () {
             try { return localStorage.getItem('cookieConsent'); } catch (e) { return null; }
           })();
-          var allow = prior === 'accepted';
-          var status = allow ? 'granted' : 'denied';
+          var rejected = prior === 'rejected';
+          var status = rejected ? 'denied' : 'granted';
           window.gtag('consent', 'default', {
             ad_storage: status,
             analytics_storage: status,
