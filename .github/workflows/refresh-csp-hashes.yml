@@ -1,0 +1,139 @@
+name: Refresh CSP hashes
+
+# Why this workflow exists:
+#   vercel.json's `script-src` CSP directive pins SHA-256 hashes of every
+#   inline <script> body that ships in dist-astro/. Any change to an inline
+#   script source (e.g. src/layouts/BaseLayout.astro gtag bootstrap) makes
+#   the existing hashes stale → Vercel still serves the old hashes → browser
+#   blocks the new inline script → analytics / pixels / interactive scripts
+#   die at runtime.
+#
+#   scripts/compute-csp-hashes.cjs is the recompute step (last in `pnpm run
+#   build`). Vercel's CI runs build but reads vercel.json from the source
+#   tree, not from the build output, so the recompute does not feed back
+#   into what Vercel serves. The only paths that worked previously were
+#   (a) a maintainer running `pnpm run build` locally and committing the
+#   refreshed vercel.json, or (b) shipping broken CSP and patching up after.
+#
+#   This workflow automates path (a). On every push to a tracked branch,
+#   we install, build (which mutates vercel.json), diff, and — if the diff
+#   is non-empty — commit the refresh back with `[skip ci]` to avoid a loop.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   PUBLIC_GA4_MEASUREMENT_ID   — the GA4 measurement ID used by BaseLayout
+#   PUBLIC_META_PIXEL_ID        — the Meta Pixel ID used by BaseLayout
+#   PUBLIC_X_PIXEL_ID           — the X (Twitter) pixel ID used by BaseLayout
+#
+#   These are PUBLIC_* values that already ship in production HTML. They are
+#   not secret in the cryptographic sense, but they must match Vercel's prod
+#   env values exactly — otherwise the rendered HTML (and therefore the
+#   computed hashes) will not match what end users receive, and CSP will
+#   block the production inline scripts after deploy.
+
+on:
+  push:
+    branches:
+      - preview
+      - main
+      - 'feature/**'
+      - 'fix/**'
+      - 'ci/**'
+      - 'chore/**'
+      - 'feat/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Cancel any previous runs of this workflow on the same branch so we only
+# keep the latest. Prevents stacked rebuilds when several commits land in
+# quick succession.
+concurrency:
+  group: csp-refresh-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    name: Build + commit vercel.json drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          # Use the default GITHUB_TOKEN to push back. The bot's commit
+          # message ends with [skip ci] so the push does NOT re-trigger
+          # this workflow (GitHub's documented auto-skip token).
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node (version pinned by .nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Enable corepack (activates pnpm per package.json `packageManager`)
+        run: corepack enable
+
+      - name: Verify required PUBLIC_* secrets are set
+        # Fail loud if any secret is missing. A silent miss would produce
+        # a build with conditional analytics blocks unrendered, yielding
+        # the wrong CSP hash set and breaking production after deploy.
+        env:
+          PUBLIC_GA4_MEASUREMENT_ID: ${{ secrets.PUBLIC_GA4_MEASUREMENT_ID }}
+          PUBLIC_META_PIXEL_ID:      ${{ secrets.PUBLIC_META_PIXEL_ID }}
+          PUBLIC_X_PIXEL_ID:         ${{ secrets.PUBLIC_X_PIXEL_ID }}
+        run: |
+          set -e
+          missing=()
+          [ -z "${PUBLIC_GA4_MEASUREMENT_ID:-}" ] && missing+=("PUBLIC_GA4_MEASUREMENT_ID")
+          [ -z "${PUBLIC_META_PIXEL_ID:-}"      ] && missing+=("PUBLIC_META_PIXEL_ID")
+          [ -z "${PUBLIC_X_PIXEL_ID:-}"         ] && missing+=("PUBLIC_X_PIXEL_ID")
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error::Missing required repository secrets: ${missing[*]}"
+            echo "Add them at: Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+          echo "All required secrets present."
+
+      - name: Get pnpm store directory
+        id: pnpm-store
+        run: echo "path=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (runs scripts/compute-csp-hashes.cjs at the end)
+        env:
+          PUBLIC_GA4_MEASUREMENT_ID: ${{ secrets.PUBLIC_GA4_MEASUREMENT_ID }}
+          PUBLIC_META_PIXEL_ID:      ${{ secrets.PUBLIC_META_PIXEL_ID }}
+          PUBLIC_X_PIXEL_ID:         ${{ secrets.PUBLIC_X_PIXEL_ID }}
+        run: pnpm run build
+
+      - name: Commit refreshed vercel.json if it drifted
+        run: |
+          set -e
+          if git diff --quiet vercel.json; then
+            echo "::notice::vercel.json unchanged — no inline-script hash drift on this push."
+            exit 0
+          fi
+
+          echo "::notice::vercel.json drift detected — committing refresh."
+          echo "── Diff that will be committed ───────────────────────────────"
+          git --no-pager diff vercel.json
+          echo "──────────────────────────────────────────────────────────────"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add vercel.json
+          git commit -m "chore(csp): auto-refresh inline-script hashes [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
