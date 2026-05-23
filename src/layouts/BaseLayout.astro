@@ -298,7 +298,10 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
           var prior = (function () {
             try { return localStorage.getItem('cookieConsent'); } catch (e) { return null; }
           })();
-          if (prior === 'accepted') {
+          // Mirror GA default-granted policy (PR #5, 2026-05-23): init Meta
+          // Pixel unless the user explicitly clicked 拒否する. Default
+          // (no banner interaction yet) and 'accepted' both load the pixel.
+          if (prior !== 'rejected') {
             window.addEventListener('load', window.__metaPixelInit);
           }
         })();
@@ -378,6 +381,22 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
         });
         document.getElementById('cookieReject')?.addEventListener('click', function () {
           save('rejected');
+          // Actively revoke GA consent on the SAME page session.
+          // Previously default was 'denied' so this was implicit. After
+          // PR #5 (2026-05-23) default is 'granted', so without an
+          // explicit gtag update the page would keep firing /g/collect
+          // until next navigation. Meta Pixel cannot be revoked mid-
+          // session (no fbq consent API in current init); next page
+          // load gates on prior === 'rejected' and skips fbevents.js.
+          if (typeof window.gtag === 'function') {
+            window.gtag('consent', 'update', {
+              ad_storage: 'denied',
+              analytics_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              personalization_storage: 'denied'
+            });
+          }
         });
       })();
     </script>
