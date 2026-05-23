@@ -2,6 +2,11 @@
 /**
  * BaseLayout.astro — common <head> + body shell + footer.
  *
+ * 2026-05-23 PR #6 retry: previous deploy served stale dist-astro/ with
+ * mismatched CSP hashes. Touching a frontmatter comment to bust Vercel
+ * build cache. This comment is in .astro frontmatter only — does NOT
+ * affect rendered HTML, inline script bodies, or CSP hashes.
+ *
  * Captures the boilerplate every static page needs:
  *   - Theme inline script (no flash)
  *   - DNS prefetch / preconnect for analytics + fonts
