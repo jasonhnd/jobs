@@ -1,3 +1,17 @@
+# 2026-05-23 fix: restore `packages:` field. pnpm 9+ requires it when
+# pnpm-workspace.yaml is present, otherwise every `pnpm run <script>`
+# fails with "packages field missing or empty". The `pnpm install`
+# command tolerates a missing field, but `pnpm run` does not — which
+# is why Vercel's pnpm-based deploys may have been falling back to
+# alternate execution paths and CI workflows (e2e.yml, etc.) have
+# been failing across recent pushes. Root-only — analytics/ is a
+# standalone sub-package, used via `cd analytics && pnpm <cmd>`
+# pattern (see root package.json `audit` script), not as a workspace
+# member. Including it here would couple root install to analytics'
+# lockfile sync which is managed independently.
+packages:
+  - .
+
 allowBuilds:
   esbuild: true
   sharp: true
