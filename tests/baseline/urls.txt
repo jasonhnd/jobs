@@ -672,6 +672,7 @@
 /ja/life-balance/hobby-balance
 /ja/life-balance/mental-health-friendly
 /ja/life-balance/senior-friendly
+/ja/me
 /ja/q
 /ja/q/ai-augment-vs-replace
 /ja/q/ai-de-kienai
@@ -818,5 +819,4 @@
 /ja/yearly/5year-changes
 /ja/yearly/next-decade
 /map
-/map-thumb.snippet
 /privacy

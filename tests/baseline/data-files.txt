@@ -556,6 +556,7 @@ data.detail/0583.json
 data.detail/0584.json
 data.holland.json
 data.labels/ja.json
+data.me-positions.json
 data.profile5.json
 data.review_queue.json
 data.search.json
