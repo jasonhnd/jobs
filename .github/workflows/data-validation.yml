@@ -67,13 +67,18 @@ jobs:
       - name: TypeScript typecheck
         run: pnpm run typecheck
 
-      - name: Unit tests
-        run: pnpm test
-
       - name: L1 + L2 — schema + consistency validation (via build)
         # build:data validates every source file under data/ before writing
         # any projection. A schema or consistency violation aborts with exit 1.
+        # MUST run BEFORE Unit tests because the legacy island runtime data
+        # contract tests in src/data/lib/indexes.test.ts read fs.readFileSync
+        # on /public/data.{treemap,search,sectors}.json — those files are
+        # produced by this build step. Running tests first → ENOENT → red CI
+        # for all branches since the test was added.
         run: pnpm run build:data
+
+      - name: Unit tests
+        run: pnpm test
 
       - name: L3 — projection sanity
         run: pnpm run test:consistency
