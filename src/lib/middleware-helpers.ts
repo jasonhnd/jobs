@@ -34,13 +34,69 @@
  *
  * Sourced from a survey of crawler UAs hitting the production site
  * 2026-05-11 — see middleware.ts comments for the diagnosis trail.
+ *
+ * 2026-05-24 P0-1 expansion: the original list relied on `\bbot\b`
+ * matching anywhere in the UA, but `\b` is a word boundary — it does
+ * NOT match between two letters. So a UA like `Amazonbot/0.1` or
+ * `GPTBot/1.0` never tripped the generic `bot` alternation (no
+ * boundary between the last letter of "Amazon" / "GPT" and "B" of
+ * "Bot"). Every modern AI / LLM / scanner bot is now enumerated
+ * explicitly so `\bgptbot\b`, `\bbytespider\b`, etc. match the
+ * standard `Mozilla/5.0 (compatible; XxxxBot/1.0)` shape.
  */
 export const BOT_UA_RE =
-  /\b(bot|crawler|spider|crawling|scrapy|curl|wget|httpie|postman|monitor|uptime|pingdom|datadog|newrelic|sentry|googlebot|bingbot|baiduspider|yandexbot|duckduckbot|applebot|petalbot|ahrefsbot|semrushbot|mj12bot|preview|prerender|chrome-lighthouse|headlesschrome|phantomjs|slimerjs|playwright|puppeteer|cypress)\b/i;
+  /\b(bot|crawler|spider|crawling|scrapy|scraper|scraping|curl|wget|httpie|postman|monitor|uptime|pingdom|datadog|newrelic|sentry|googlebot|bingbot|baiduspider|yandexbot|duckduckbot|applebot|petalbot|ahrefsbot|semrushbot|mj12bot|preview|prerender|chrome-lighthouse|headlesschrome|phantomjs|slimerjs|playwright|puppeteer|cypress|gptbot|chatgpt-user|bytespider|perplexitybot|anthropic-ai|claudebot|claude-web|cohere-ai|google-extended|meta-externalagent|amazonbot|linkedinbot|twitterbot|slackbot|discordbot|telegrambot|whatsapp|facebookexternalhit|ia_archiver|zgrab|nmap|masscan|censys|shodan|expansescanner|expanse|fetcher)\b/i;
 
 /** True iff the User-Agent string matches a known bot. */
 export function isBotUserAgent(ua: string): boolean {
   return BOT_UA_RE.test(ua);
+}
+
+/**
+ * Paths that legitimate visitors never request. Almost every hit to
+ * these is a vulnerability scanner (WordPress, Drupal, Joomla, Git
+ * config exfil, secret-file enumeration, etc.).
+ *
+ * Two regexes split by concern:
+ *
+ *   - `SUSPECT_PATH_PREFIX_RE` — well-known scanner targets identified
+ *     by path prefix (`/wp-admin/...`, `/.env`, `/.git/config`).
+ *
+ *   - `SUSPECT_EXT_RE` — file extensions a static Astro site never
+ *     legitimately serves (`.php`, `.bak`, `.sql`, etc.). The route
+ *     matcher in `middleware.ts` already excludes image / font / json /
+ *     map extensions, but it does NOT exclude `.php`, `.asp`, `.bak`,
+ *     etc. — those reach the middleware and need a second-layer filter.
+ *
+ * Wired into `shouldSendMpHit`; not surfaced to the user (a 404 still
+ * happens — we only skip the GA4 MP hit so scanners don't pollute
+ * analytics with "523 wp-admin pageviews / 0s engagement"-class noise).
+ */
+export const SUSPECT_PATH_PREFIX_RE =
+  /^\/(?:wp-admin|wp-login|wp-content|wp-includes|wp-json|xmlrpc\.php|\.env|\.git|\.aws|\.docker|\.idea|\.vscode|\.svn|\.hg|\.htaccess|\.htpasswd|\.well-known\/security|phpmyadmin|administrator|adminer|drupal|joomla|laravel|node_modules|vendor|composer\.json|package(?:-lock)?\.json|yarn\.lock|backup|backups|dump|sql|web\.config|appsettings\.json|_profiler|server-status|server-info|owa|cgi-bin|setup\.php|install\.php|elmah\.axd|trace\.axd|fckeditor|ckeditor|tinymce|aws-secret|aws\.json|secrets\.json|config\.json|application\.properties|application\.yml|telescope|debug\/default\/view|actuator\/env|api\/v1\/namespaces)(?:\/|$|\?|\.)/i;
+
+export const SUSPECT_EXT_RE =
+  /\.(?:php|asp|aspx|jsp|cgi|bak|swp|swo|orig|sh|sql|db|sqlite|tar|gz|tgz|zip|7z|rar|backup|conf|ini|inc|log|key|pem|crt|p12|pfx)(?:\/|\?|$)/i;
+
+/** True iff the pathname looks like a vulnerability scanner target. */
+export function isSuspectPath(pathname: string): boolean {
+  return SUSPECT_PATH_PREFIX_RE.test(pathname) || SUSPECT_EXT_RE.test(pathname);
+}
+
+/**
+ * True when the browser has set `cookieConsent=rejected`. The consent
+ * banner in `BaseLayout.astro` writes this cookie alongside its
+ * localStorage entry so the Edge middleware (which cannot read
+ * localStorage) can honour an explicit reject.
+ *
+ * Default policy (PR #5, 2026-05-23): consent is GRANTED when the
+ * cookie is unset or `accepted` — `isConsentRejected` returns false
+ * for both. Only an explicit `rejected` value suppresses the
+ * server-side hit. This mirrors what gtag.js sees client-side.
+ */
+export function isConsentRejected(cookieHeader: string | null): boolean {
+  if (!cookieHeader) return false;
+  return /(?:^|;\s*)cookieConsent=rejected(?:\s*;|$)/.test(cookieHeader);
 }
 
 /**
@@ -84,6 +140,8 @@ export interface ShouldSendMpHitInput {
   readonly accept: string;
   /** `new URL(request.url).pathname` */
   readonly pathname: string;
+  /** `request.headers.get('cookie')` — used to read `cookieConsent=rejected`. */
+  readonly cookieHeader: string | null;
 }
 
 /**
@@ -92,16 +150,21 @@ export interface ShouldSendMpHitInput {
  * ANY of these hold:
  *
  *   - GA4 env not configured (no measurementId or no apiSecret)
+ *   - User explicitly rejected cookie consent (`cookieConsent=rejected`)
  *   - User-Agent is a known bot
  *   - Accept header doesn't include `text/html` (image / font / xhr)
  *   - Pathname is `/api/*` or `/_vercel/*` (defensive — the route
  *     matcher in `config.matcher` should already exclude these)
+ *   - Pathname matches a known vulnerability-scanner target
+ *     (`/wp-admin/...`, `/.env`, `/.git/config`, `.php`, etc.)
  */
 export function shouldSendMpHit(input: ShouldSendMpHitInput): boolean {
   if (!input.measurementId || !input.apiSecret) return false;
+  if (isConsentRejected(input.cookieHeader)) return false;
   if (isBotUserAgent(input.userAgent)) return false;
   if (!input.accept.includes('text/html')) return false;
   if (input.pathname.startsWith('/api/') || input.pathname.startsWith('/_vercel/')) return false;
+  if (isSuspectPath(input.pathname)) return false;
   return true;
 }
 
