@@ -360,13 +360,34 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
     <script is:inline>
       (function () {
         var KEY = 'cookieConsent';
+        // 1 year, matches the GA `_ga` cookie lifetime so the consent
+        // signal doesn't expire before the user's analytics session.
+        var COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+        function writeCookie(val) {
+          try {
+            document.cookie =
+              KEY + '=' + encodeURIComponent(val) +
+              '; Max-Age=' + COOKIE_MAX_AGE +
+              '; Path=/; SameSite=Lax';
+          } catch (e) {}
+        }
         var banner = document.getElementById('cookieBanner');
         if (!banner) return;
         var prior;
         try { prior = localStorage.getItem(KEY); } catch (e) { prior = null; }
+        // P0-2 (2026-05-24): mirror localStorage → cookie so the Vercel
+        // Edge middleware (which has no DOM and cannot read localStorage)
+        // can honour an explicit 'rejected' choice. Only writes when the
+        // cookie is absent so a fresher cookie wins over a stale local
+        // value. Existing 'accepted' users also get the cookie set so
+        // future server-side hits respect the GRANTED state explicitly.
+        if (prior && document.cookie.indexOf(KEY + '=') === -1) {
+          writeCookie(prior);
+        }
         if (!prior) banner.hidden = false;
         function save(val) {
           try { localStorage.setItem(KEY, val); } catch (e) {}
+          writeCookie(val);
           banner.hidden = true;
         }
         document.getElementById('cookieAccept')?.addEventListener('click', function () {

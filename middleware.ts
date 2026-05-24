@@ -73,8 +73,16 @@ export default function middleware(request: Request, context: RequestContext): R
   const ua = request.headers.get('user-agent') ?? '';
   const accept = request.headers.get('accept') ?? '';
   const url = new URL(request.url);
+  const cookieHeader = request.headers.get('cookie');
 
-  if (!shouldSendMpHit({ measurementId, apiSecret, userAgent: ua, accept, pathname: url.pathname })) {
+  if (!shouldSendMpHit({
+    measurementId,
+    apiSecret,
+    userAgent: ua,
+    accept,
+    pathname: url.pathname,
+    cookieHeader,
+  })) {
     return next();
   }
 
@@ -83,7 +91,6 @@ export default function middleware(request: Request, context: RequestContext): R
   const mid = measurementId as string;
   const secret = apiSecret as string;
 
-  const cookieHeader = request.headers.get('cookie');
   const clientId = deriveClientId(cookieHeader);
   const referer = request.headers.get('referer') ?? '';
   // 2026-05-17 H15 hardening: use the shared XFF-spoof-safe helper
