@@ -1,7 +1,6 @@
 // @ts-check
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
 
 // https://astro.build/config
 //
@@ -19,6 +18,13 @@ import react from '@astrojs/react';
 //   - Tracked: og.png, robots.txt, llms.txt, llms-full.txt   (SEO statics)
 //   - Untracked: data.*.json, data.detail/, data.labels/, ... (TS-ETL output;
 //                regenerated on every build, see .gitignore)
+//
+// No React integration: the site has no client:* directives and no .jsx/.tsx
+// Astro components. The only React consumer is api/og.tsx (Vercel Edge
+// function bundled separately from Astro) which calls `createElement` from
+// the `react` package directly — that's a runtime-only dep, not an Astro
+// integration. Dropping @astrojs/react removes a 142KB unreferenced
+// client.js from dist-astro/_astro/ and saves an unused build pass.
 
 export default defineConfig({
   site: 'https://mirai-shigoto.com',
@@ -28,9 +34,6 @@ export default defineConfig({
   build: {
     format: 'file',
   },
-  integrations: [
-    react(),
-  ],
   vite: {
     resolve: {
       alias: {
