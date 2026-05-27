@@ -52,7 +52,7 @@ export interface SpokeHubsResult {
 
 // ─── Detail-shape extras (Phase A also reads holland + interest if present) ──
 
-interface DetailFileSpoke extends DetailFileMin {
+export interface DetailFileSpoke extends DetailFileMin {
   /** Phase 3 added — RIASEC scores per occupation, 0-5 per dim */
   interests?: { realistic?: number; investigative?: number; artistic?: number;
                 social?: number; enterprising?: number; conventional?: number } | null;
