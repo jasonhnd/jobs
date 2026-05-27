@@ -59,7 +59,13 @@ import {
   MAX_BODY_BYTES,
 } from "../src/lib/feedback-helpers.js";
 
-export const config = { runtime: "edge" };
+export const config = {
+  runtime: "edge",
+  // JA-only audience; pin to Tokyo + Osaka regions instead of the default
+  // 19-region global pool. Saves Vercel function quota; minor cold-start
+  // benefit for JP visitors.
+  regions: ["hnd1", "kix1"],
+};
 
 const RESEND_BASE = "https://api.resend.com";
 const ALLOWED_ORIGINS = new Set([
