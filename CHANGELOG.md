@@ -118,6 +118,62 @@ quiet period**, not another architecture phase.
   (208 files scanned, 7 exceptions). The fixes happened incrementally
   between the audit and now; this CHANGELOG entry is the close-out.
 
+### Changed (Tier C · dependency surface · 2026-05-27)
+
+Items originally categorised as "don't do" in the Tier-C review
+turned out to be either feasible or already-true. The two that are
+genuine no-ops are documented under "Decisions" below.
+
+- **Drop `@astrojs/react` integration + `react-dom` + `@types/react-dom`**.
+  Zero `client:*` directives anywhere in `src/`. Zero `.jsx` / `.tsx`
+  Astro components. The integration was producing a 142KB
+  unreferenced `_astro/client.<hash>.js` on every deploy. `react`
+  itself stays in `dependencies` because the OG renderers
+  (`src/lib/og-renderers/*.ts`) call `createElement` from it for
+  the Satori → ImageResponse pipeline. Lockfile shrinks from 522
+  → 489 resolved nodes (-33 transitive deps).
+
+- **Upgrade `typescript` 5.9.3 → 6.0.3** (major). The only TS6
+  break the codebase hits is `TS5101: baseUrl is deprecated`.
+  Migration in this commit:
+  - Drop `"baseUrl": "."` from `tsconfig.json`.
+  - Prefix every `paths` value with `./` (TS6's `TS5090` requires
+    explicit relative paths once `baseUrl` is unset).
+  - No source-code changes — alias keys (`@/data/*` etc.) are
+    unchanged; Vite/Astro alias config in `astro.config.mjs` is
+    independent of tsconfig and stays as-is.
+
+  Verified by sideloading the `typescript@6.0.3` tarball into
+  `/tmp/ts6test` (because `pnpm install` is blocked locally by
+  Google-Drive symlink EISDIR — same workaround as the Tier-A
+  lockfile-only bumps). `tsc --noEmit` clean.
+
+### Decisions (Tier C · explicitly skipped · 2026-05-27)
+
+- **`@types/node` stays at `^22.x`** (latest available is 25.x).
+  Project's runtime is Node 22 LTS (pinned via `.nvmrc` and used
+  by Vercel build). `@types/node` major versions track Node
+  major-version API surfaces; using `@types/node@25` against a
+  Node 22 runtime would compile code that uses Node 25-only APIs
+  and crash in production. Stay aligned with the runtime.
+
+- **No ESLint / Prettier**. The existing quality gates are:
+  `tsc` strict + `noUnusedLocals` + `noUnusedParameters`,
+  `check-architecture.cjs` (5-layer import boundaries),
+  `check-rendered-leaks.cjs`, `check-page-class.cjs`,
+  `check-nested-html-comments.cjs`, `check-analytics-config.cjs`,
+  `check-lockfile-sync.cjs`, `check-csp-hashes.cjs`,
+  `verify-jsonld.cjs`, `verify-internal-links.cjs`, the
+  SEO baseline byte-compare, the architecture-boundary Edge-dep
+  walker, 946 unit tests, and Playwright a11y + visual gates.
+  Adopting ESLint would replicate `noUnusedLocals` and add
+  stylistic rules that the project's reviewers handle by taste,
+  not save engineering time. Prettier would mass-format an 80-file
+  mature codebase, breaking `git blame` for marginal gain. Per
+  the architecture audit's own guidance ("next step is a content-
+  update quiet period, not another architecture phase"), keep
+  the tooling surface where it is.
+
 ### Fixed
 
 - **Vercel preview deploy unblocked**: the Step 9 OG-endpoint refactor
