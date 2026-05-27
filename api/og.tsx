@@ -52,7 +52,13 @@ import { renderMapOgCard } from "../src/lib/og-renderers/map.js";
 import { renderSectorOgCard } from "../src/lib/og-renderers/sector.js";
 import { renderOccupationOgCard } from "../src/lib/og-renderers/occupation.js";
 
-export const config = { runtime: "edge" };
+export const config = {
+  runtime: "edge",
+  // JA-only audience; pin to Tokyo + Osaka regions instead of the default
+  // 19-region global pool. Saves Vercel function quota; minor cold-start
+  // benefit for JP visitors.
+  regions: ["hnd1", "kix1"],
+};
 
 // ─── Generic text-only card configs ──
 // All 5 _CARDS dicts (PAGE / RANKING / INTEREST / SKILL / COMPARE)
