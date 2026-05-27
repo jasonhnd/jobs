@@ -70,17 +70,53 @@ for sitemap `<lastmod>` updating from `2026-05-14` to `2026-05-15`
 refreshed in this commit).
 
 **Explicitly scope-out** (audit recommendations deferred):
-- Migrating `profile5` + `transfer_paths` into the graph schema
-  (medium-term; would let `src/page-data/occupation-aux-data.ts`
-  receive a graph instead of reading fs)
 - `src/index-source.html` 167KB slimdown (separate Phase F candidate)
 - `middleware.ts` analytics-fallback / auth decoupling
-- `src/data/lib/` 5 residual math-utility files (no boundary harm)
+- `src/data/lib/` 4 residual math-utility files (`bands.ts` /
+  `banker-round.ts` / `fsum.ts` / `indexes.ts` — Location decision
+  docstring in each file locks the rationale; no boundary harm)
 - `src/page-modules/` directory rename (audit E-3; purely cosmetic,
   Astro `_` prefix convention works fine)
 
+> Note (2026-05-27): the previous scope-out entry for `profile5` +
+> `transfer_paths` graph-schema integration has been removed — that
+> work landed 2026-05-17 (see `docs/architecture.md` decision log).
+> `src/page-data/occupation-aux-data.ts` was deleted and both
+> projections now flow from `KnowledgeGraph` (see
+> `src/graph/profile5.ts` + `src/graph/transfer-paths.ts`).
+
 The audit's own warning applies: **next step is a content-update
 quiet period**, not another architecture phase.
+
+### Changed (Tier A · operational housekeeping · 2026-05-27)
+
+- **Edge functions pinned to JP regions**: `api/og.tsx`,
+  `api/feedback.js`, `api/subscribe.js` each declare
+  `regions: ["hnd1", "kix1"]` in their `config` export. Previously
+  every function deployed to the default 19-region global pool
+  (arn1, bom1, cdg1, cle1, cpt1, dub1, fra1, gru1, hkg1, hnd1,
+  iad1, icn1, kix1, lhr1, pdx1, sfo1, sin1, syd1, yul1) per `vercel
+  inspect`. Site is JA-only with a Japanese audience; Tokyo + Osaka
+  cover the entire user base. Saves Vercel function compute quota
+  and trims cold-start surface area. Middleware regions are left at
+  Vercel's default (it must run close to every request, not just JP).
+- **Remove the last `as any` cast**: `src/page-data/occupation-page-data.ts`
+  was casting `baseDetail` to `any` for `computeSpokeHubs()`. The
+  comment already noted that `DetailFileMin` structurally extends
+  `DetailFileSpoke` (the latter adds only an optional `interests?`
+  field) — so the cast is now `as DetailFileSpoke`, with
+  `DetailFileSpoke` exported from `src/views/spoke-hub-graph.ts`.
+  Same runtime behavior, no `any` left in `src/` outside test
+  fixtures.
+
+### Fixed (Tier A · documentation accuracy · 2026-05-27)
+
+- **`check-page-class` 6 pre-existing violations are resolved**:
+  `docs/architecture.md` 2026-05-17 decision-log entry carried these
+  forward as "別 todo として継承". `node scripts/check-page-class.cjs`
+  on 2026-05-27 reports `✓ Page Class System invariants respected`
+  (208 files scanned, 7 exceptions). The fixes happened incrementally
+  between the audit and now; this CHANGELOG entry is the close-out.
 
 ### Fixed
 
