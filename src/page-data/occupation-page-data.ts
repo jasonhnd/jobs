@@ -34,6 +34,7 @@
 import type { Rec } from '@/views/occupation-detail';
 import type { KnowledgeGraph } from '@/graph';
 import type { SafeHtml } from '@/lib/safe-html';
+import type { DetailFileSpoke } from '@/views/spoke-hub-graph';
 
 /** One entry in the same-risk-neighbor map for a single occupation. */
 export interface SameRiskNeighborView {
@@ -206,9 +207,12 @@ export async function buildOccupationSpokeViews(
   // baseline is recaptured with the drift acknowledged.
   const allDetails = loadGraphAdaptedDetails(graph);
   const baseDetail = allDetails.find((d) => d.id === rec.id) ?? null;
+  // DetailFileMin is structurally a DetailFileSpoke (the latter adds only
+  // optional `interests`). The explicit cast names the contract; the runtime
+  // shape is unchanged. See block-comment above for the byte-identity guard
+  // on why `interests` is intentionally omitted.
   const spokeHubs = baseDetail
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      computeSpokeHubs(baseDetail as any, {
+    ? computeSpokeHubs(baseDetail as DetailFileSpoke, {
         rankingHitsByOcc: rankingHitsByOcc as never,
       })
     : { groups: [], total: 0 };
