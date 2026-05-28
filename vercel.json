@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
-  "buildCommand": "rm -rf dist-astro node_modules/.astro && corepack pnpm run build",
+  "buildCommand": "rm -rf dist-astro node_modules/.astro && corepack pnpm run typecheck && corepack pnpm test && corepack pnpm run build",
   "installCommand": "corepack pnpm install --frozen-lockfile --virtual-store-dir=node_modules/.pnpm",
   "outputDirectory": "dist-astro",
   "trailingSlash": false,

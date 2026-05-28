@@ -10,6 +10,34 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (CI · GitHub Actions removed, gates moved into Vercel build · 2026-05-28)
+
+- **All GitHub Actions removed**. The 4 workflows
+  (`data-validation`, `e2e`, `seo-baseline`, `github-deployment`)
+  were deleted and repo-level Actions disabled
+  (`actions/permissions` → `enabled: false`). They only ever ran on
+  `push`/`pull_request` to `main`, so day-to-day work on `preview`
+  never triggered them; and the `e2e` workflow had been failing on
+  every run for weeks (it builds without the analytics env vars, so
+  the trackers it asserts on are never emitted).
+
+- **CI gates relocated into the Vercel build**. `vercel.json`
+  `buildCommand` now runs `pnpm run typecheck && pnpm test` before
+  `pnpm run build`. Every deploy — **preview and production** — now
+  runs the full TypeScript typecheck + 946 unit tests + build:data +
+  astro build; any failure blocks the deploy. This is strictly more
+  coverage than the old GitHub Actions (which skipped `preview`).
+  Build time goes ~40s → ~80s.
+
+  Not moved:
+  - **e2e (Playwright)** — needs a browser + a running server, which
+    the Vercel build container isn't; it was broken anyway.
+  - **SEO baseline diff** — kept as a local check
+    (`pnpm run check:seo-baseline`). The sitemap `<lastmod>` is a
+    build-time `nowIso()` stamp that changes daily, so a hard
+    deploy-gate on it would false-fail every day the baseline wasn't
+    re-captured.
+
 ### Changed (Tier B · dependency upgrades · 2026-05-28)
 
 - **`@vercel/og` 0.6.8 → 0.11.1**. Four minor versions of font-loading
