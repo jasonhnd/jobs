@@ -22,12 +22,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   the trackers it asserts on are never emitted).
 
 - **CI gates relocated into the Vercel build**. `vercel.json`
-  `buildCommand` now runs `pnpm run typecheck && pnpm test` before
-  `pnpm run build`. Every deploy — **preview and production** — now
-  runs the full TypeScript typecheck + 946 unit tests + build:data +
-  astro build; any failure blocks the deploy. This is strictly more
-  coverage than the old GitHub Actions (which skipped `preview`).
-  Build time goes ~40s → ~80s.
+  `buildCommand` now runs `pnpm run typecheck` → `pnpm run build`
+  → `pnpm test`. Tests run **after** build on purpose: ~8 of the 946
+  tests are projection-contract / drift-guard tests that read the
+  generated `public/data.*.json` (legacy-island-contract,
+  og-helpers schema drift, DetailRecordSchema subset checks), which
+  only exist after `build:data`. Putting `pnpm test` before the
+  build false-failed on a clean checkout (the first preview deploy
+  of this change errored at 27s for exactly this reason — the data
+  files weren't generated yet). Every deploy — **preview and
+  production** — now runs the full typecheck + build:data + astro
+  build + 946 unit tests; any failure blocks the deploy. Strictly
+  more coverage than the old GitHub Actions (which skipped
+  `preview`). Build time ~40s → ~85s.
 
   Not moved:
   - **e2e (Playwright)** — needs a browser + a running server, which
