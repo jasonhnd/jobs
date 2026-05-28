@@ -10,6 +10,50 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Tier B · dependency upgrades · 2026-05-28)
+
+- **`@vercel/og` 0.6.8 → 0.11.1**. Four minor versions of font-loading
+  fixes + Satori upgrades. The OG endpoint uses the stable
+  `new ImageResponse(element, opts)` API with `createElement`-built
+  elements, unchanged across the bump. Verified: typecheck + 55 OG
+  unit tests. PNG visual output verified on the preview deploy (no
+  pixel baseline exists — architecture.md §7.6).
+
+- **`zod` 3.25 → 4.4.3** (major, zero source changes). The codebase
+  was already authored Zod-4-compatible: 2-arg `z.record(k, v)`,
+  `.refine(fn, { message })`, no `errorMap`. `.strict()` /
+  `.passthrough()` still work as methods in v4. Verified against a
+  real Zod 4 install: typecheck clean, 946/946 tests, `build:data`
+  produces identical projection record counts to baseline, L3
+  consistency intact. Faster parser is a free build-time win.
+
+### Decisions (Tier B · declined after investigation · 2026-05-28)
+
+- **CSP nonce migration — NOT done (would regress the SSG model)**.
+  The Tier-B review floated replacing the 19 inline-script SHA-256
+  hashes in `vercel.json` with per-request nonces. Investigation
+  found `scripts/compute-csp-hashes.cjs:17-23` already documents the
+  deliberate rejection: the site is fully static (Astro SSG →
+  `dist-astro/`), so a nonce would require `middleware.ts` to
+  re-stream and rewrite *every* HTML response through the Edge
+  runtime — defeating CDN-direct static delivery. `middleware.ts`
+  currently only fires a fire-and-forget GA4 MP hit and returns
+  `next()`; it never touches the body. Hash-based CSP is the
+  textbook-correct choice for SSG; nonces are for SSR. The 19-hash
+  "maintenance burden" is automated by `compute-csp-hashes.cjs`
+  (runs as the last build step; `--check` mode guards drift). Keep
+  the hash strategy.
+
+- **`api/og` 748KB Edge function — no actionable trim**. Investigated
+  the size: it's almost entirely the irreducible `@vercel/og` runtime
+  (satori 5.3MB + yoga-wasm + resvg-wasm 1.4MB on disk, bundled +
+  tree-shaken to 748KB by Vercel). The project's own code (4
+  renderers + helpers) is tiny. Fonts are already runtime-fetched
+  from Google Fonts with per-card character subsetting
+  (`loadGoogleFont(family, weight, subsetText)`) — nothing bundled.
+  748KB is 18% of the 4MB Edge limit. Nothing to cut without dropping
+  @vercel/og itself.
+
 ### Changed (Phase E · boundary calibration · 2026-05-15)
 
 - **New layer `src/page-data/`** (build orchestration): formalizes the
