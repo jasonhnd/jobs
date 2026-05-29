@@ -58,6 +58,15 @@ function readText(p) {
   return fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : null;
 }
 
+// <lastmod> is stamped with the build date (src/views/sitemap.ts gives every
+// entry `today`), so it changes on every build and is NOT a content signal.
+// Normalize it out before diffing so the gate flags only real sitemap drift
+// (added/removed URLs, changed priority/changefreq) — without this the SEO
+// gate would false-fail on every new calendar day.
+function normalizeSitemap(text) {
+  return text === null ? null : text.replace(/<lastmod>[^<]*<\/lastmod>/g, '<lastmod>DATE</lastmod>');
+}
+
 function setDiff(currentArr, baselineArr) {
   const cur = new Set(currentArr);
   const base = new Set(baselineArr);
@@ -139,8 +148,8 @@ function ok(section) {
 // ─── 3. sitemap.xml + image-sitemap.xml ──────────────────────────
 
 for (const name of ['sitemap.xml', 'image-sitemap.xml']) {
-  const baseText = readText(path.join(BASELINE, name));
-  const curText = name === 'sitemap.xml' ? current.sitemap : current.imageSitemap;
+  const baseText = normalizeSitemap(readText(path.join(BASELINE, name)));
+  const curText = normalizeSitemap(name === 'sitemap.xml' ? current.sitemap : current.imageSitemap);
   if (baseText === null && curText === null) {
     ok(`${name} (both absent)`);
     continue;

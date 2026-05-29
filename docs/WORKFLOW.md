@@ -145,21 +145,23 @@ git push origin main          # → mirai-shigoto.com 自動デプロイ
 
 ## 5. CI/CD(設定済)
 
-`main` への push/PR ごとに、GitHub Actions が自動実行:
+すべての push / PR で **Vercel の build gate** が自動実行される(GitHub Actions は 2026-05-28 に廃止し、ゲートを Vercel build へ移設):
 
 ```yaml
-.github/workflows/data-validation.yml
-├── npm ci                      # 依存インストール
-├── npm run typecheck           # TS 型 ✓
-├── npm test                    # 69 個の単体テスト ✓
-├── npm run build:data          # L1+L2 schema 検証 + 12 projection ✓
-├── npm run test:consistency    # L3 sanity + クロス projection ID 不変条件 ✓
-└── npx astro build             # テンプレート + ルート検証 ✓
+vercel.json › buildCommand
+├── corepack pnpm run typecheck   # TS 型 ✓
+├── corepack pnpm run build       # check-lockfile-sync + check-analytics-config
+│                                  # + check-nested-html-comments + build:data
+│                                  # (L1+L2 schema + 12 projection) + astro build
+│                                  # + check-rendered-leaks + compute-csp-hashes ✓
+├── corepack pnpm run verify:gates  # L3 consistency + check:architecture (+ Edge TSX)
+│                                    # + verify:internal-links + verify:jsonld + check:seo-baseline ✓
+└── corepack pnpm test              # 946 個の単体テスト ✓
 ```
 
-**どれか 1 つでも失敗すれば → PR は main にマージできない → 本番の安全が保たれる。**
+**どれか 1 つでも失敗すれば → デプロイ失敗 → 本番に反映されない。** 公開 URL と GitHub Deployments は Vercel の GitHub 連携が自動処理する。
 
-加えて自動化された `github-deployment.yml` が GitHub Deployments ページを処理し、commit ステータスに公開 URL を表示する(*.vercel.app の private link ではなく)。
+> **手動ゲート(自動 CI 外)は e2e のみ**: `tests/e2e/*`(smoke / a11y / visual / analytics)は Chromium バイナリが必要なため deploy には載せず、`pnpm test:e2e` でマージ前 / リリース前に手動実行。他の旧 GitHub Actions チェック(L3 consistency・`check:architecture`・`verify:internal-links`・`verify:jsonld`・`check:seo-baseline`)は 2026-05-29 に `verify:gates` 経由で build gate へ再接続済み。
 
 ---
 

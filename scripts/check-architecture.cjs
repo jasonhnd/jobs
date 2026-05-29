@@ -31,7 +31,8 @@
  *   1. (none — purely static)
  *   2. pnpm run check:architecture
  *
- * Integrated into .github/workflows/* by a downstream commit.
+ * Wired into the Vercel build gate via `pnpm run verify:gates` (2026-05-29,
+ * after GitHub Actions was removed 2026-05-28). Standalone: `pnpm run check:architecture`.
  */
 'use strict';
 

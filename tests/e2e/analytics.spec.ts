@@ -11,8 +11,8 @@
  *   5. Server-side middleware.ts not running on the matched path
  *
  * Runs against the locally-built dist-astro/ served by http-server (see
- * playwright.config.ts). Locally invoked by `pnpm test:e2e`. Wired into
- * CI via .github/workflows/e2e.yml.
+ * playwright.config.ts). Invoked manually via `pnpm test:e2e` — GitHub
+ * Actions was removed 2026-05-28, so this is no longer wired into CI.
  *
  * NOTE: server-side middleware MP requests fire from the Edge to GA4
  * directly — they NEVER appear in the browser's Network panel. The MW
