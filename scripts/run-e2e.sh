@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
-# run-e2e.sh — entrypoint for `pnpm test:e2e`.
+# run-e2e.sh — entrypoint for `bun run test:e2e`.
 #
-# @playwright/test, http-server, and @axe-core/playwright are in
-# devDependencies (pinned in pnpm-lock.yaml for reproducibility + audit
+# @playwright/test, http-server, and @axe-core/playwright are plain
+# devDependencies (pinned in bun.lock for reproducibility + audit
 # visibility). The npm packages install everywhere, but Playwright's
 # Chromium browser binary is fetched separately (below) and only on
 # demand — so E2E runs locally / manually, never in a deploy.
 #
-# This script runs a normal pnpm install, installs Chromium, then runs the
+# Playwright is the one place the toolchain still needs Node.js under the
+# hood (its CLI shells out to node, which `bun x` invokes via the bin
+# shebang). The main dev/build/test loop is pure bun; e2e keeps node.
+#
+# This script runs a frozen install, installs Chromium, then runs the
 # tests against a built dist-astro/. The first run is slow (downloads the
 # chromium binary); subsequent runs reuse the cached store.
 #
@@ -23,20 +27,19 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[e2e] Ensuring optionalDependencies (Playwright + http-server + axe) are installed via lockfile…"
-# Frozen lockfile so versions exactly match the audit-visible pin in
-# pnpm-lock.yaml. No --no-optional here — we WANT the e2e deps now.
-corepack pnpm install --frozen-lockfile
+echo "[e2e] Ensuring deps (Playwright + http-server + axe) are installed via lockfile…"
+# Frozen lockfile so versions exactly match the audit-visible pin in bun.lock.
+bun install --frozen-lockfile
 
 echo "[e2e] Installing chromium browser binary…"
-corepack pnpm exec playwright install --with-deps chromium
+bun x playwright install --with-deps chromium
 
 # Build must have run before this — playwright.config.ts serves
 # dist-astro/ via http-server. If the directory is missing, build now.
 if [ ! -d "dist-astro" ]; then
-  echo "[e2e] dist-astro/ missing; running pnpm run build first…"
-  corepack pnpm run build
+  echo "[e2e] dist-astro/ missing; running build first…"
+  bun run build
 fi
 
 echo "[e2e] Running Playwright tests…"
-corepack pnpm exec playwright test "$@"
+bun x playwright test "$@"

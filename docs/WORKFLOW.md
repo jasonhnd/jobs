@@ -21,7 +21,7 @@
 │  data/stats_legacy/*.json   労働市場統計                          │
 └────────────────────────────┬────────────────────────────────────┘
                              │
-                             ▼ npm run build:data
+                             ▼ bun run build:data
                   ┌──────────────────────┐
                   │  TS-ETL              │  src/data/build.ts
                   │  • Zod で検証         │  + src/data/projections/*.ts
@@ -100,12 +100,12 @@ feature/*  ────────►  per-PR preview       ────►  jo
 git checkout -b feature/my-change
 
 # 2. リアルタイムプレビュー
-npm run dev                  # localhost:4321、ホットリロード
+bun run dev                  # localhost:4321、ホットリロード
                              # 大きなディレクトリを生成しない
 
 # 3. コミット前自己チェック(秒単位)
-npm run typecheck            # TS 型
-npm test                     # 単体テスト(69 個)
+bun run typecheck            # TS 型
+bun run test                 # 単体テスト(69 個)
 
 # 4. preview に push して実環境で確認
 git add .
@@ -124,7 +124,7 @@ git merge preview
 git push origin main          # → mirai-shigoto.com 自動デプロイ
 ```
 
-**重要原則: ローカルで `npm run build` を走らせない** — 浪費(47 MB の dist-astro/ が無用)。Vercel が権威 build 環境。
+**重要原則: ローカルで `bun run build` を走らせない** — 浪費(47 MB の dist-astro/ が無用)。Vercel が権威 build 環境。
 
 ---
 
@@ -132,13 +132,13 @@ git push origin main          # → mirai-shigoto.com 自動デプロイ
 
 | やりたいこと | 編集対象 | 実行コマンド |
 |---|---|---|
-| typo 修正 | 該当ファイル | `npm run dev` で確認、preview に push |
-| 新規職業スコア追加 | `data/scores/<scope>_<model>_<date>.json`(新ファイル、**上書きしない**) | `npm run build:data` |
-| sector 分類変更 | `data/sectors/overrides.json` | `npm run build:data` |
-| 新規 sector 追加 | `data/sectors/sectors.ja-en.json` + 再実行 | `npm run build:data && npm run test:consistency` |
-| 新規 ranking 追加 | `src/data/lib/rankings.ts` に slug + FAQ を追加 | `npm run dev` で検証 |
-| IPD データアップグレード | xlsx を `~/Downloads/` に置く | `npm run import:ipd && npm run build:data` |
-| フロント UI / スタイル変更 | `src/pages/*.astro` または `src/index-source.html` | `npm run dev` |
+| typo 修正 | 該当ファイル | `bun run dev` で確認、preview に push |
+| 新規職業スコア追加 | `data/scores/<scope>_<model>_<date>.json`(新ファイル、**上書きしない**) | `bun run build:data` |
+| sector 分類変更 | `data/sectors/overrides.json` | `bun run build:data` |
+| 新規 sector 追加 | `data/sectors/sectors.ja-en.json` + 再実行 | `bun run build:data && bun run test:consistency` |
+| 新規 ranking 追加 | `src/data/lib/rankings.ts` に slug + FAQ を追加 | `bun run dev` で検証 |
+| IPD データアップグレード | xlsx を `~/Downloads/` に置く | `bun run import:ipd && bun run build:data` |
+| フロント UI / スタイル変更 | `src/pages/*.astro` または `src/index-source.html` | `bun run dev` |
 | schema 進化 | `src/data/schema/*.ts` + 影響を受ける projection + [id].astro | フルチェック |
 
 ---
@@ -149,19 +149,19 @@ git push origin main          # → mirai-shigoto.com 自動デプロイ
 
 ```yaml
 vercel.json › buildCommand
-├── corepack pnpm run typecheck   # TS 型 ✓
-├── corepack pnpm run build       # check-lockfile-sync + check-analytics-config
+├── bun run typecheck   # TS 型 ✓
+├── bun run build       # check-lockfile-sync + check-analytics-config
 │                                  # + check-nested-html-comments + build:data
 │                                  # (L1+L2 schema + 12 projection) + astro build
 │                                  # + check-rendered-leaks + compute-csp-hashes ✓
-├── corepack pnpm run verify:gates  # L3 consistency + check:architecture (+ Edge TSX)
+├── bun run verify:gates  # L3 consistency + check:architecture (+ Edge TSX)
 │                                    # + verify:internal-links + verify:jsonld + check:seo-baseline ✓
-└── corepack pnpm test              # 946 個の単体テスト ✓
+└── bun run test              # 946 個の単体テスト ✓
 ```
 
 **どれか 1 つでも失敗すれば → デプロイ失敗 → 本番に反映されない。** 公開 URL と GitHub Deployments は Vercel の GitHub 連携が自動処理する。
 
-> **手動ゲート(自動 CI 外)は e2e のみ**: `tests/e2e/*`(smoke / a11y / visual / analytics)は Chromium バイナリが必要なため deploy には載せず、`pnpm test:e2e` でマージ前 / リリース前に手動実行。他の旧 GitHub Actions チェック(L3 consistency・`check:architecture`・`verify:internal-links`・`verify:jsonld`・`check:seo-baseline`)は 2026-05-29 に `verify:gates` 経由で build gate へ再接続済み。
+> **手動ゲート(自動 CI 外)は e2e のみ**: `tests/e2e/*`(smoke / a11y / visual / analytics)は Chromium バイナリが必要なため deploy には載せず、`bun run test:e2e` でマージ前 / リリース前に手動実行。他の旧 GitHub Actions チェック(L3 consistency・`check:architecture`・`verify:internal-links`・`verify:jsonld`・`check:seo-baseline`)は 2026-05-29 に `verify:gates` 経由で build gate へ再接続済み。
 
 ---
 
@@ -211,21 +211,21 @@ vercel.json › buildCommand
 
 ```
 日常:
-  npm run dev                  → コード書いている時のリアルタイムプレビュー
+  bun run dev                  → コード書いている時のリアルタイムプレビュー
   git push origin preview      → staging へのデプロイで検証
 
 たまに:
-  npm run typecheck            → 型の問題を疑うとき
-  npm test                     → lib のアルゴリズムを変えたとき
-  npm run test:consistency     → ソースデータを変えた後
+  bun run typecheck            → 型の問題を疑うとき
+  bun run test                 → lib のアルゴリズムを変えたとき
+  bun run test:consistency     → ソースデータを変えた後
 
 データアップグレード時:
-  npm run import:ipd           → IPD xlsx → data/occupations/
+  bun run import:ipd           → IPD xlsx → data/occupations/
 
 ほぼ使わない:
-  npm run build                → 浪費(Vercel が build)
-  npm run preview              → build エラーをデバッグするときのみ
-  npm run audit                → 週次の依存セキュリティチェック
+  bun run build                → 浪費(Vercel が build)
+  bun run preview              → build エラーをデバッグするときのみ
+  bun run audit                → 週次の依存セキュリティチェック
 ```
 
 ---
@@ -239,16 +239,16 @@ vercel.json › buildCommand
 - ❌ `api/*.tsx` で `Resend` を try/catch なしで呼ぶ — Vercel Edge Function の例外が social-card scraper に 500 をキャッシュさせる
 - ❌ `_audit/` や `dist-py.next/` 等のローカル作業ディレクトリを commit する — 既に .gitignore に入っているが、`git add -f` は避ける
 - ❌ `main` に直接 push する — 必ず preview で検証
-- ❌ ローカル `npm run build` を sanity check として使う — 代わりに `npm run typecheck && npm test` を使う
+- ❌ ローカル `bun run build` を sanity check として使う — 代わりに `bun run typecheck && bun run test` を使う
 
 ---
 
 ## 10. トラブルシュート早見表
 
-### `npm run build:data` 失敗「validation error in data/...」
+### `bun run build:data` 失敗「validation error in data/...」
 ソースデータが Zod schema を破壊している。エラーメッセージでファイル + フィールド名を読み、`src/data/schema/<file>.ts` の契約を確認して修正する。
 
-### `npm run build` 失敗で Astro テンプレートエラー
+### `bun run build` 失敗で Astro テンプレートエラー
 通常は詳細ページや sector hub が存在しないフィールドを参照している。エラースタックで `.astro` ファイルを特定し:
 - フィールド名 typo? → .astro 修正
 - フィールドが schema にない? → schema 進化フローを通す

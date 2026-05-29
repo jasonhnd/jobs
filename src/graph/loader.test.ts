@@ -144,7 +144,8 @@ describe('queries — sectorOf / occupationsBySector', () => {
   test('occupationsBySector returns frozen array', () => {
     for (const secId of graph.sectors.keys()) {
       const occs = graph.occupationsBySector(secId);
-      assert.throws(() => (occs as unknown as number[]).push(0), /read only|object is not extensible|frozen/i);
+      // Cross-engine: V8 (node) says "object is not extensible"; JSC (bun) says "readonly property".
+      assert.throws(() => (occs as unknown as number[]).push(0), /read ?only|object is not extensible|frozen/i);
       break; // one is enough
     }
   });

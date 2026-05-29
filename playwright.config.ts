@@ -5,15 +5,15 @@
  * scripts/check-nested-html-comments.cjs and scripts/check-rendered-leaks.cjs).
  *
  * NOTE: @playwright/test, http-server, and @axe-core/playwright are in
- * devDependencies (pinned in pnpm-lock.yaml). The npm packages install in
+ * devDependencies (pinned in bun.lock). The npm packages install in
  * every environment, but Playwright's Chromium *browser binary* is fetched
  * separately and only on demand, so E2E runs locally / manually and never
  * in the Vercel build gate (a ~150 MB browser has no place in a deploy).
  * To run E2E:
  *
- *   pnpm run test:e2e
+ *   bun run test:e2e
  *
- * That entrypoint (scripts/run-e2e.sh) runs `pnpm install --frozen-lockfile`,
+ * That entrypoint (scripts/run-e2e.sh) runs `bun install --frozen-lockfile`,
  * installs the Chromium binary, then runs the tests against a built
  * dist-astro/. GitHub Actions was removed 2026-05-28, so E2E is not part of
  * any automated CI — it is a manual pre-merge / release gate.
@@ -35,8 +35,8 @@ export default defineConfig({
     // cleanUrls + trailingSlash:false (see scripts/e2e-server.cjs). Plain
     // http-server 302-redirects hub paths like /ja/sectors to a sibling
     // directory and 404s; this server serves /ja/sectors.html like Vercel.
-    // The build must run beforehand (`pnpm run build`).
-    command: 'node scripts/e2e-server.cjs',
+    // The build must run beforehand (`bun run build`).
+    command: 'bun scripts/e2e-server.cjs',
     url: 'http://localhost:4321',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
