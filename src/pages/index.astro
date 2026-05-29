@@ -79,7 +79,7 @@ const OG_IMAGE_ALT = '未来の仕事 — AIの時代でも、あなたらしい
   {/* Tooltip overlay used by the treemap canvas. Position-fixed via CSS so
       DOM placement doesn't matter. Slotted into bodyEnd so it lives outside
       `<main>` (cleaner DOM ordering than the legacy in-main placement). */}
-  <div id="tooltip" role="tooltip" aria-live="polite" aria-atomic="true" slot="bodyEnd">
+  <div id="tooltip" role="tooltip" aria-label="職業の詳細" aria-live="polite" aria-atomic="true" slot="bodyEnd">
     <button class="tt-close" type="button" aria-label="閉じる" id="tooltipClose">×</button>
     <div class="tt-title"></div>
     <div class="tt-row" id="ttRow"></div>
