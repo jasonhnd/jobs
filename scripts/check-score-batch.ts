@@ -28,7 +28,7 @@ const ROOT = resolve(import.meta.dir, '..');
 const OCC_DIR = join(ROOT, 'data', 'occupations');
 const SCORES_DIR = join(ROOT, 'data', 'scores');
 
-/** ai_risk band — matches src/data/lib/bands riskBand for integer scores: 0–3 low / 4–6 mid / 7–10 high. */
+/** ai_risk band — matches bands.ts riskBand (decimal-safe): < 4.0 low / < 7.0 mid / ≥ 7.0 high. */
 function band(r: number): 'low' | 'mid' | 'high' {
   if (r < 4) return 'low';
   if (r < 7) return 'mid';
@@ -134,25 +134,39 @@ if (otherBatches === 0) {
 let changed = 0;
 let same = 0;
 let brandNew = 0;
+let candSum = 0;
+let prevSum = 0;
+let prevN = 0;
+let emptyEn = 0;
 const candBands = { low: 0, mid: 0, high: 0 };
 const prevBands = { low: 0, mid: 0, high: 0 };
 for (const [k, v] of Object.entries(batch.scores)) {
   const id = Number.parseInt(k, 10);
   candBands[band(v.ai_risk)] += 1;
+  candSum += v.ai_risk;
+  if (!v.rationale_en) emptyEn += 1;
   const prev = currentLatest.get(id);
   if (!prev) {
     brandNew += 1;
   } else {
     prevBands[band(prev.ai_risk)] += 1;
+    prevSum += prev.ai_risk;
+    prevN += 1;
     if (prev.ai_risk === v.ai_risk) same += 1;
     else changed += 1;
   }
 }
+const nScored = Object.keys(batch.scores).length;
 console.log('\n[drift vs current latest]');
 console.log(`  changed=${changed}  unchanged=${same}  brand-new=${brandNew}`);
+console.log(
+  `  mean (this batch): ${(candSum / nScored).toFixed(2)}` +
+    `${prevN ? `   current (same set): ${(prevSum / prevN).toFixed(2)}` : ''}`,
+);
 console.log(`  band (this batch):    low=${candBands.low}  mid=${candBands.mid}  high=${candBands.high}`);
 if (changed + same > 0) {
   console.log(`  band (current, same set): low=${prevBands.low}  mid=${prevBands.mid}  high=${prevBands.high}`);
 }
+if (emptyEn > 0) console.log(`  note: ${emptyEn} entr${emptyEn === 1 ? 'y has' : 'ies have'} empty rationale_en (EN pending).`);
 
 console.log('\n[check-score-batch] done — schema valid. Warnings above are advisory; the build (ScoreRunSchema) is the hard gate.');

@@ -16,17 +16,18 @@
 
 interface Props {
   readonly riskClass: string;
+  readonly riskColor?: string;
   readonly riskNumDisp: number | string;
   readonly rationale: string;
   readonly oneLineText: string;
 }
 
-const { riskClass, riskNumDisp, rationale, oneLineText } = Astro.props;
+const { riskClass, riskColor, riskNumDisp, rationale, oneLineText } = Astro.props;
 ---
 <div class={`risk-card ${riskClass}`}>
   <div>
     <div class="risk-label">AI 影響</div>
-    <div class="risk-num">{riskNumDisp}<small> / 10</small></div>
+    <div class="risk-num" style={riskColor ? `color:${riskColor}` : undefined}>{riskNumDisp}<small> / 10</small></div>
   </div>
   <div class="risk-rationale">{rationale}</div>
 </div>

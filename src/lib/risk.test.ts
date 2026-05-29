@@ -30,13 +30,15 @@ describe('riskClass', () => {
     }
   });
 
-  test('boundary check: 3.5 is mid (≤3 threshold, not ≤3.9)', () => {
-    // ai_risk is integer in practice; this pins the documented
-    // contract that the UI threshold is integer-strict.
-    assert.equal(riskClass(3.5), 'mid');
+  test('boundary: < 4.0 is low (3.5, 3.95); 4.0 is mid', () => {
+    assert.equal(riskClass(3.5), 'low');
+    assert.equal(riskClass(3.95), 'low');
+    assert.equal(riskClass(4.0), 'mid');
   });
 
-  test('boundary check: 6.5 is high', () => {
-    assert.equal(riskClass(6.5), 'high');
+  test('boundary: < 7.0 is mid (6.5, 6.95); 7.0 is high', () => {
+    assert.equal(riskClass(6.5), 'mid');
+    assert.equal(riskClass(6.95), 'mid');
+    assert.equal(riskClass(7.0), 'high');
   });
 });

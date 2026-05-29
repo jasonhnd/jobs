@@ -1489,7 +1489,7 @@
       document.getElementById("tooltipCta").addEventListener("click", e => {
         const cta = e.currentTarget;
         const occId = parseInt(cta.dataset.occId || "0", 10) || 0;
-        const aiRisk = parseInt(cta.dataset.aiRisk || "0", 10);
+        const aiRisk = parseFloat(cta.dataset.aiRisk || "0");
         const tier = aiRisk >= 7 ? "high" : (aiRisk >= 5 ? "mid" : "low");
         if (window.gtag) gtag("event", "tooltip_cta_click", {
           occupation_id: occId,

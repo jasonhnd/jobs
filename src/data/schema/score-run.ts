@@ -16,7 +16,11 @@ import { z } from 'zod';
 /** One scored unit (occupation or task). */
 export const ScoreEntrySchema = z
   .object({
-    ai_risk: z.number().int().min(0).max(10),
+    // One-decimal-place granularity (e.g. 6.9 ok; 6.95 rejected). FP-tolerant
+    // because 6.9 * 10 === 69.00000000000001 in JS. Integers still pass (7 → 7.0).
+    ai_risk: z.number().min(0).max(10).refine((n) => Math.abs(n * 10 - Math.round(n * 10)) < 1e-9, {
+      message: 'ai_risk must have at most one decimal place',
+    }),
     rationale_ja: z.string(),
     rationale_en: z.string(),
     confidence: z.number().min(0).max(1).nullish(),
@@ -76,7 +80,7 @@ export type PromptMeta = z.infer<typeof PromptMetaSchema>;
 /** A complete AI scoring run record. */
 export const ScoreRunSchema = z
   .object({
-    schema_version: z.string().default('2.0'),
+    schema_version: z.string().default('2.1'),
     scope: z.enum(['occupations', 'tasks']),
     scorer: ScorerSchema,
     run: RunMetaSchema,
