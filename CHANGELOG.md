@@ -10,6 +10,64 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Fixed (e2e suite + home a11y/SEO · 2026-05-29)
+
+- **e2e was effectively non-functional; now green.** Root causes were
+  test-harness bugs, not product bugs:
+  - New `scripts/e2e-server.cjs` mirrors Vercel `cleanUrls` +
+    `trailingSlash:false` + the global response headers (CSP etc.). Plain
+    `http-server` 302-redirected hub paths like `/ja/sectors` to a sibling
+    directory → 404, and never sent the CSP header the analytics CSP tests
+    assert on. `playwright.config.ts` now uses it.
+  - `smoke.spec.ts` + `visual.spec.ts` used `.first()` on
+    `header.mob-topbar, nav.top-nav` (and `h1`), which matched the
+    viewport-hidden element; now filtered to the visible one.
+- **Home mobile had no `<h1>`** (SEO + a11y): the mobile hero title was a
+  `<p role="heading" aria-level="2">`. Made it a real
+  `<h1 class="mobile-hero-title">` (mirrors the desktop `h1.dh-title`, same
+  page-title text). SEO baseline refreshed accordingly — home `h1Texts` now
+  lists both the desktop and mobile hero h1.
+- **Home mobile horizontal scroll** (~8px): the full-bleed TOP-10 carousel's
+  negative-margin box exceeded the viewport. The existing `overflow-x: clip`
+  was on `body`; added it to the root `html` (the document scroll container).
+- **a11y on home**: the treemap tooltip overlay (`role="tooltip"`) had no
+  accessible name → added `aria-label`; the footer disclaimer link (inside
+  body text) was distinguished by color only → added an underline (WCAG
+  1.4.1, axe `link-in-text-block`).
+
+### Changed (CI · all non-e2e gates re-wired into the Vercel build · 2026-05-29)
+
+- **`verify:gates` added to `vercel.json` `buildCommand`**. The gate now
+  runs `typecheck` → `build` → **`verify:gates`** → `test`. `verify:gates`
+  (new `package.json` script) chains the five checks orphaned when GitHub
+  Actions was removed on 2026-05-28: `test:consistency` (L3 projection
+  sanity), `check:architecture` (5-layer boundaries + Edge-function
+  TSX-dep walker), `verify:internal-links` (43,086 hrefs resolve),
+  `verify:jsonld` (821/822 pages valid), and `check:seo-baseline`. Every
+  deploy now re-runs the full pre-2026-05-28 gate set; only e2e stays out.
+  Verified end-to-end locally: clean build → all five checks → 946 tests, green.
+
+- **SEO baseline diff is now gate-safe** (reverses the 2026-05-28 "not
+  moved" note below). `scripts/diff-seo-baseline.cjs` now normalizes the
+  sitemap `<lastmod>` — a build-date stamp from `src/views/sitemap.ts`,
+  identical across all URLs — to a placeholder before comparing, so the
+  gate flags only real drift (added/removed URLs, changed
+  priority/changefreq), never the daily date. This removes the exact
+  false-fail that had kept it a manual check.
+
+- **e2e (Playwright) stays manual** — unchanged decision: it needs a
+  Chromium binary + a running server, which don't belong in a deploy
+  build. Run via `pnpm test:e2e` before merge / release.
+
+- Stale doc comments corrected: several files claimed GitHub Actions / a
+  pre-push hook run these checks, and that Playwright deps live in
+  `optionalDependencies` behind a `--no-optional` Vercel install (both
+  untrue — they are `devDependencies`, no such flag). Fixed across
+  `playwright.config.ts`, `scripts/run-e2e.sh`,
+  `scripts/check-architecture.cjs`, `tests/e2e/analytics.spec.ts`,
+  `ANALYTICS.md`, `docs/WORKFLOW.md`, `docs/DATA_ARCHITECTURE.md`,
+  `docs/architecture.md`.
+
 ### Changed (CI · GitHub Actions removed, gates moved into Vercel build · 2026-05-28)
 
 - **All GitHub Actions removed**. The 4 workflows

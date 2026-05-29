@@ -231,6 +231,16 @@ html body {
   overflow-x: clip;
 }
 
+/* RA-006 follow-up (2026-05-29): the clip above is on the body element, but
+   the document scroll container is the root html element. The full-bleed
+   carousel's negative-margin bleed still pushed documentElement.scrollWidth
+   ~8px past the viewport on narrow widths (the visual e2e caught it). Clipping
+   the root too removes the document-level horizontal scroll; overflow-x:clip
+   leaves the y-axis visible, so vertical scroll and sticky are unaffected. */
+html {
+  overflow-x: clip;
+}
+
 html body h1,
 html body h2,
 html body h3,
@@ -333,6 +343,12 @@ html body footer.site-footer .footer-meta {
 }
 html body footer.site-footer .footer-meta a {
   color: var(--accent);
+}
+html body footer.site-footer .footer-meta em a {
+  /* RA follow-up (2026-05-29): this disclaimer link sits inside body text, so
+     color alone is not a sufficient distinction (axe link-in-text-block /
+     WCAG 1.4.1). An underline gives the required non-color cue. */
+  text-decoration: underline;
 }
 html body footer.site-footer .footer-meta .nowrap {
   white-space: nowrap;

@@ -94,9 +94,10 @@ for (const bp of BREAKPOINTS) {
 
       // ── Invariant 2: hero region has non-zero dimensions ───────────────
       // Catches "display:none accidentally set" / "flex child collapsed to 0"
-      // bugs. Uses .first() because every page has multiple h1s further
-      // down (sectioned content); we only care that the FIRST one paints.
-      const hero = browser.locator(HERO_SELECTOR).first();
+      // bugs. Filter to visible: responsive layouts keep multiple h1s in the
+      // DOM (home's desktop dashboard h1.dh-title is display:none at <=768px),
+      // so we assert the viewport's actual visible hero heading paints.
+      const hero = browser.locator(HERO_SELECTOR).filter({ visible: true }).first();
       await expect(hero, `${page.name} @ ${bp.name}: hero selector must resolve`).toBeVisible();
       const heroBox = await hero.boundingBox();
       expect(heroBox, `${page.name} @ ${bp.name}: hero must have a bounding box`).not.toBeNull();
@@ -109,7 +110,7 @@ for (const bp of BREAKPOINTS) {
       // Either the mobile topbar or the desktop top-nav (one or the other,
       // depending on responsive switch) must be visible. The CSS-driven
       // switch happens at ~768px in src/lib/canonical-css.ts.
-      const nav = browser.locator('header.mob-topbar, nav.top-nav').first();
+      const nav = browser.locator('header.mob-topbar, nav.top-nav').filter({ visible: true }).first();
       await expect(nav, `${page.name} @ ${bp.name}: top-nav must be visible`).toBeVisible();
       const navBox = await nav.boundingBox();
       expect(navBox, `${page.name} @ ${bp.name}: nav must have a bounding box`).not.toBeNull();

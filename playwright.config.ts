@@ -4,18 +4,19 @@
  * class of bug at the rendered-output level (defense-in-depth alongside
  * scripts/check-nested-html-comments.cjs and scripts/check-rendered-leaks.cjs).
  *
- * NOTE: @playwright/test, http-server, and @axe-core/playwright live in
- * `optionalDependencies` (not devDependencies). They ARE pinned in
- * pnpm-lock.yaml (reproducibility + audit visibility), but Vercel's
- * installCommand passes `--no-optional` so ~50 MB of Playwright +
- * browsers stay out of every preview deploy. To run E2E locally OR in CI:
+ * NOTE: @playwright/test, http-server, and @axe-core/playwright are in
+ * devDependencies (pinned in pnpm-lock.yaml). The npm packages install in
+ * every environment, but Playwright's Chromium *browser binary* is fetched
+ * separately and only on demand, so E2E runs locally / manually and never
+ * in the Vercel build gate (a ~150 MB browser has no place in a deploy).
+ * To run E2E:
  *
  *   pnpm run test:e2e
  *
- * That entrypoint (scripts/run-e2e.sh) runs a normal `pnpm install
- * --frozen-lockfile` (no --no-optional this time, so the e2e deps come
- * in) then runs the tests against a built dist-astro/.
- * CI: see .github/workflows/e2e.yml (calls the same script).
+ * That entrypoint (scripts/run-e2e.sh) runs `pnpm install --frozen-lockfile`,
+ * installs the Chromium binary, then runs the tests against a built
+ * dist-astro/. GitHub Actions was removed 2026-05-28, so E2E is not part of
+ * any automated CI — it is a manual pre-merge / release gate.
  */
 import { defineConfig, devices } from '@playwright/test';
 
@@ -30,9 +31,12 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    // Serves dist-astro/ over a local static server. The build must run
-    // beforehand (`npm run build`).
-    command: 'npx http-server dist-astro -p 4321 -s',
+    // Serves dist-astro/ via a static server that mirrors Vercel's
+    // cleanUrls + trailingSlash:false (see scripts/e2e-server.cjs). Plain
+    // http-server 302-redirects hub paths like /ja/sectors to a sibling
+    // directory and 404s; this server serves /ja/sectors.html like Vercel.
+    // The build must run beforehand (`pnpm run build`).
+    command: 'node scripts/e2e-server.cjs',
     url: 'http://localhost:4321',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
