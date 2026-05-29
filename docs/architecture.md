@@ -416,6 +416,8 @@ src/pages/         'fs'、'src/data/projections/*' の import 禁止
 
 ### 6.3 CI 関門
 
+> **2026-05-29 更新**: GitHub Actions を全廃(2026-05-28)し、全ゲートを Vercel build に再接続。`vercel.json` › `buildCommand` が push ごとに自動実行: `typecheck` → `build`(`build:data` L1+L2 + `astro build` + `check-rendered-leaks` + analytics / CSP / lockfile / HTML チェック)→ **`verify:gates`**(L3 consistency + アーキテクチャ境界 grep + Edge TSX + 内部リンク integrity + JSON-LD + SEO baseline diff)→ `test`(unit)。**手動は e2e のみ**(A11y / visual / smoke / analytics は Chromium バイナリが必要なため deploy には載せず、`pnpm test:e2e`)。下表「計画」列の `.github/workflows/*.yml` は廃止済みの歴史的参照(現在の配線は本ノートが正)。
+
 | 関門 | 現在の状態 | 計画 |
 |---|---|---|
 | TypeScript strict 型チェック | ✓ 既存 `pnpm run typecheck` | 維持 |
@@ -476,7 +478,7 @@ mirai-shigoto.com は既に 800+ URL が Google にクロールされ、外部�
 | [scripts/lib/seo-extract.cjs](../scripts/lib/seo-extract.cjs) | 共通 HTML 抽出プリミティブ + `captureBaseline()` エントリ(capture と diff の共通基盤) |
 | [scripts/capture-seo-baseline.cjs](../scripts/capture-seo-baseline.cjs) | 抽出を実行 → `tests/baseline/` に書込 |
 | [scripts/diff-seo-baseline.cjs](../scripts/diff-seo-baseline.cjs) | 抽出を実行 → `tests/baseline/` と比較 → drift を報告 |
-| [.github/workflows/seo-baseline.yml](../.github/workflows/seo-baseline.yml) | CI 関門: PR → main ごとに自動 build + diff |
+| `pnpm run check:seo-baseline`([diff-seo-baseline.cjs](../scripts/diff-seo-baseline.cjs)) | drift 検知(**手動実行**。GitHub Actions は 2026-05-28 廃止、Vercel build gate には未接続) |
 
 npm エントリ:
 

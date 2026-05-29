@@ -1213,9 +1213,9 @@ unit tests は `src/graph/score-strategy.test.ts`(複数モデル、同日複数
 
 デプロイ前の標準フロー: `npm run build`(中で `build:data` が走る → Zod 検証 + 12 投影 → `astro build` で 821 ページ静的生成 → `check-rendered-leaks` でセンシティブトークン検査)。
 
-**CI 推奨順序**(GitHub Actions + Vercel build):
+**検証コマンドの推奨順序**(GitHub Actions は 2026-05-28 廃止 → 2026-05-29 に Vercel build gate へ再接続済。全 8 ステップを `buildCommand` が push ごとに自動実行: `1`–`3` は直接、`4`–`8` は `verify:gates` 経由。e2e のみ手動):
 1. `npm run typecheck` — TypeScript strict
-2. `npm test` — 887 unit tests
+2. `npm test` — 946 unit tests
 3. `npm run build` — 上記すべて(build:data + astro build + leak check)
 4. `npm run test:consistency` — L3 projection sanity
 5. `npm run check:architecture` — 5 層境界 grep
@@ -1275,11 +1275,11 @@ L4  E2E 煙テスト       フロントエンドが主要投影ファイルを f
 
 #### 7.6.4 CI / Pre-deploy gate
 
-`.github/workflows/data-validation.yml` および pre-push hook(`scripts/run-e2e.sh` 由来)が main への push 前に実行(v1.5.0 以降):
+Vercel build gate が push ごとに自動実行(GitHub Actions と pre-push hook は 2026-05-28 に廃止、2026-05-29 に全ゲートを Vercel build へ再接続)。下記すべてが自動実行(`test:consistency` 以降は `verify:gates` 経由):
 
 ```bash
 npm run typecheck                  # TS strict
-npm test                           # 887 unit tests
+npm test                           # 946 unit tests
 npm run build                      # = build:data + astro build + leak check
 npm run test:consistency           # L3 projection sanity
 npm run check:architecture         # 5 層 import 境界 grep
@@ -1288,7 +1288,7 @@ npm run verify:internal-links      # 内部リンク
 npm run verify:jsonld              # JSON-LD 構造
 ```
 
-どのステップも非 0 exit → **merge / deploy ブロック**。
+いずれかのステップが非 0 exit → **deploy ブロック**(本番に反映されない)。
 
 > **architecture.md §6.3 と整合**: architecture.md 側に「CI 関門表」(2026-05-13 確立済)があり、本セクションの CI gate と同期。Vercel deploy preview は別途 L4(実 HTTP fetch + Lighthouse + Visual regression)を担当。
 

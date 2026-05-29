@@ -83,7 +83,7 @@ env が欠落している場合、対応するトラッカーは静かにスル�
 - ファイル: `tests/e2e/analytics.spec.ts`
 - 実行: `pnpm run test:e2e`(または `pnpm test:e2e` ショートカット)
 - アサート: 各トラッカーライブラリが load、`window.gtag` + `window.twq` が関数、GA4 `g/collect` が 12 秒以内に fire、CSP がコードの呼ぶすべての origin を列挙、埋め込み pixel ID に空白文字なし
-- 配線先: `.github/workflows/e2e.yml`(PR ごと + main への push ごとに実行)
+- 配線先: ローカルでの手動実行のみ(`pnpm test:e2e`)。GitHub Actions は 2026-05-28 に廃止され、Vercel build gate にも含まれない
 - **キャッチする障害モード**: 1、2、3、4
 
 ### Layer 2: Build-time 整合性
