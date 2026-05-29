@@ -32,7 +32,7 @@ export type RiskClass = 'low' | 'mid' | 'high';
  */
 export function riskClass(score: number | null): RiskClass {
   if (score === null) return 'mid';
-  if (score <= 3) return 'low';
-  if (score <= 6) return 'mid';
+  if (score < 4.0) return 'low';
+  if (score < 7.0) return 'mid';
   return 'high';
 }

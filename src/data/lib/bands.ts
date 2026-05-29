@@ -46,15 +46,16 @@
 // ───── Risk band ─────
 // Aligned with the Direction C design tokens: .risk-low / .risk-mid / .risk-high.
 export type RiskBand = 'low' | 'mid' | 'high';
-export const RISK_LOW_MAX = 3.9; // 0.0–3.9 → low (sage)
-export const RISK_MID_MAX = 6.9; // 4.0–6.9 → mid (sand)
-//                                  // 7.0–10  → high (terracotta)
+// Half-open intervals (decimal-safe): [0,4.0) low / [4.0,7.0) mid / [7.0,10] high.
+// Boundary moved 3.9→4.0 / 6.9→7.0 for one-decimal scores; integer scores unaffected.
+export const RISK_LOW_MAX = 4.0; // < 4.0 → low (sage)
+export const RISK_MID_MAX = 7.0; // < 7.0 → mid (sand); ≥ 7.0 → high (terracotta)
 
 /** Map ai_risk score (0-10) to design's three-color risk band. */
 export function riskBand(aiRisk: number | null | undefined): RiskBand | null {
   if (aiRisk === null || aiRisk === undefined) return null;
-  if (aiRisk <= RISK_LOW_MAX) return 'low';
-  if (aiRisk <= RISK_MID_MAX) return 'mid';
+  if (aiRisk < RISK_LOW_MAX) return 'low';
+  if (aiRisk < RISK_MID_MAX) return 'mid';
   return 'high';
 }
 

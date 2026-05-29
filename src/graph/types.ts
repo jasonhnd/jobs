@@ -55,7 +55,7 @@ export interface OccupationStats {
 }
 
 export interface AiRiskScore {
-  /** 0-10 integer score. */
+  /** 0.0–10.0 score (one decimal). */
   readonly score: number;
   readonly rationaleJa: string;
   readonly rationaleEn: string;

@@ -562,7 +562,7 @@ const jsonLd = `{
       var $ttSector = $tooltip.querySelector('.ct-sector');
       var ttHideTimer = null;
       var ttCurrentId = null;
-      function riskClass(n) { return n <= 4 ? 'low' : n <= 6 ? 'mid' : 'high'; }
+      function riskClass(n) { return n < 4.0 ? 'low' : n < 7.0 ? 'mid' : 'high'; }
       function fmtSalary(s) { return (s == null) ? '' : '年収 ' + s + ' 万円'; }
       function fmtWorkers(w) {
         if (w == null) return '';

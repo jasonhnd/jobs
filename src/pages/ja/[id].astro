@@ -85,7 +85,7 @@ const {
   metaRowHtml, aiRiskDetailHtml, profileHtml, topnHtml, faqHtml,
   transferHtml, orgsCertsHtml, howSection, condSection,
   legacyRelatedHtml,
-  riskClass, riskNumDisp, recruitDisp, hourlyDisp,
+  riskClass, riskColor, riskNumDisp, recruitDisp, hourlyDisp,
   workersCell, ageCell, hoursCell, salaryCell,
   jsonLd, riskTierJs,
 } = bindings;
@@ -117,7 +117,7 @@ const {
       <Fragment set:html={metaRowHtml} />
     </header>
 
-    <RiskCard {riskClass} {riskNumDisp} {rationale} {oneLineText} />
+    <RiskCard {riskClass} {riskColor} {riskNumDisp} {rationale} {oneLineText} />
 
     <Fragment set:html={aiRiskDetailHtml} />
 

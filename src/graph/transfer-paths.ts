@@ -118,7 +118,7 @@ export interface TransferComputeInput {
   readonly sortedOccIds: ReadonlyArray<number>;
   /** Map occ id → raw IPD `skills` numeric block (or null/missing). */
   readonly skillsByOcc: ReadonlyMap<number, Record<string, number> | null>;
-  /** Map occ id → latest AI-risk integer 0-10. */
+  /** Map occ id → latest AI-risk 0.0–10.0 (one decimal). */
   readonly riskByOcc: ReadonlyMap<number, number>;
   /** Map occ id → resolved sector id string. */
   readonly sectorByOcc: ReadonlyMap<number, string>;

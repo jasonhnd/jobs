@@ -83,7 +83,7 @@ export async function renderOccupationOgCard(
   const rec = detailParsed.data;
 
   const risk = rec.ai_risk?.score ?? null;
-  const riskColor = risk != null ? (RISK_COLORS[risk] ?? DEFAULT_RISK_COLOR) : DEFAULT_RISK_COLOR;
+  const riskColor = risk != null ? (RISK_COLORS[Math.round(risk)] ?? DEFAULT_RISK_COLOR) : DEFAULT_RISK_COLOR;
   const primaryName = rec.title?.ja ?? '';
   const workers = rec.stats?.workers ?? 0;
   const salary = rec.stats?.salary_man_yen ?? 0;

@@ -34,7 +34,7 @@
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 
 export interface AiRiskDetailInput {
-  /** Integer 0-10 score; displayed as "N/10" in the headline. Null
+  /** 0.0–10.0 score (one decimal); displayed as "N/10" in the headline. Null
    *  renders as em-dash; doesn't gate the block. */
   readonly aiRisk: number | null;
   /** Long-form Japanese rationale. Absence (null/empty) gates the
