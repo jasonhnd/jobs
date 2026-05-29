@@ -39,11 +39,13 @@
 
 1. **准备 rubric + prompt 快照**:prompt 文档采用**历史快照**制(§8 A1)。本次需用 [附录 B](#附录-b小数-rubric评分标准细化-a2) 的小数 rubric;为本次运行建带日期快照 `data/prompts/<date>_<model>.ja.md`,批次 `prompt_file` 指向它。
 2. **(仅首次)确认小数支持已就位** —— 见 [附录 A](#附录-a一次性小数支持改造仅首次)。
-3. **跑评分**:用 Opus X 对 **556 个职业**(含现缺 581–584)评分,每职业产出 `ai_risk`(一位小数)+ `rationale_ja`(仅日文)+ `confidence`(0–1);`rationale_en` 留空。**一次一个完整批次**,勿同日拆多文件。
+3. **跑评分**:用 Opus X 对 **556 个职业**(含现缺 581–584)评分,每职业产出 `ai_risk`(一位小数)+ `rationale_ja`(仅日文)+ `confidence`(0–1);`rationale_en` 留空。**一次一个完整批次**,勿同日拆多文件。**两种等价路径**(同模型、同 rubric、输出同为 `{id, ai_risk, rationale_ja, confidence}` JSONL):
+   - **(a) Batches API**(外部、付费、需 `ANTHROPIC_API_KEY`):`bun scripts/run-scoring.ts --prompt-file <快照> --out raw-scores.jsonl`。适合无人值守批量;50% 成本 + prompt caching。
+   - **(b) in-agent 自评**(运行中的 Opus 本身就是评分模型,无需 key):`bun scripts/extract-occ-chunks.ts --size 28` 把 556 职业的紧凑摘录(title+aliases+summary+what_it_is+working_conditions,与 run-scoring 的 extractOcc 同源)切块到 `.cache/scoring/chunk-NN.txt`;Opus 逐块读取、按 rubric 打分,写 `.cache/scoring/scores-NN.jsonl`;`cat` 合并为 `raw-scores.jsonl`。2026-05-30 的 4.8 批次走的是这条路径。
 4. **组装** → `bun run assemble:scores …`(见 [附录 C](#附录-c组装器实现细节))。
 5. **预检** → `bun run check:score-batch <文件>`(schema / 覆盖率 / run_date / 小数粒度 / 漂移;空 `rationale_en` 仅提示)。
 6. **构建("同步数据库")** → `bun run build`。
-7. **门禁 + 测试** → `bun run verify:gates` 然后 `bun test src`(目标 946 全绿)。SEO baseline 纯重评不改 URL,无需 capture。
+7. **门禁 + 测试** → `bun run verify:gates` 然后 `bun test src`(957 全绿)。⚠️ **SEO baseline 必刷新**(此前误判为"无需 capture";2026-05-30 已纠正):分数嵌在各职业页的 title / meta description / OG・Twitter / JSON-LD 评分 / same-risk 链接里,重评会让全站 SEO 指纹**整体漂移**(预期,非 bug)。结构性门禁(一致性 / 架构 / 内链 / JSON-LD 结构)仍须**全过**;只有 `diff-seo-baseline` 的 snapshot 漂移时,运行 `bun run capture:seo-baseline` 刷新 `tests/baseline/*`,并**随本批次一起提交**(CHANGELOG 记明"重评导致的预期漂移")。URL 集合 / sitemap 一般不变(无新增/删除职业时)。
 8. **重建后重点检查** → 见 [§2.1](#21-重建后重点检查spot-check)。
 9. **预览验证** → `git push origin preview` → `vercel inspect <部署URL>` 确认 `● Ready`。
 10. **上生产**(你决定) → 合并 `preview` → `main`。
