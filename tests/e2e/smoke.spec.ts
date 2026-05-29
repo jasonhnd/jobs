@@ -41,9 +41,12 @@ for (const page of PAGES) {
     const resp = await browser.goto(page.url);
     expect(resp?.ok(), `expected 200 for ${page.url}`).toBe(true);
 
-    // Mobile topbar OR desktop top-nav should be present
-    const mobOrDesk = browser.locator('header.mob-topbar, nav.top-nav').first();
-    await expect(mobOrDesk).toBeVisible();
+    // Mobile topbar (mobile viewport) OR desktop top-nav (desktop viewport)
+    // renders — assert whichever is visible for the current viewport.
+    // (Plain `.first()` matched the always-present-but-hidden mobile header
+    // on desktop and failed on "received: hidden".)
+    const topNav = browser.locator('header.mob-topbar, nav.top-nav').filter({ visible: true });
+    await expect(topNav.first()).toBeVisible();
 
     // Footer with share buttons
     const footer = browser.locator('footer.site-footer');
