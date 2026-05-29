@@ -24,6 +24,7 @@ describe('buildOccupationDisplay', () => {
     const out = buildOccupationDisplay(baseInput);
     assert.equal(out.riskStr, '—');
     assert.equal(out.riskClass, 'risk-na');
+    assert.equal(out.riskColor, '');
     assert.equal(out.riskNumDisp, '—');
     assert.equal(out.salaryInt, '—');
     assert.equal(out.ageDisp, '—');
@@ -36,17 +37,27 @@ describe('buildOccupationDisplay', () => {
     assert.equal(out.salaryCell, '—'); // 2026-05-17 H2 fix: was '—（— 万円）' double-fallback
   });
 
-  test('aiRisk: numeric → "N/10" + class "risk-N"', () => {
+  test('aiRisk: numeric → "N/10" + band class + inline color', () => {
     const out = buildOccupationDisplay({ ...baseInput, aiRisk: 7 });
     assert.equal(out.riskStr, '7/10');
-    assert.equal(out.riskClass, 'risk-7');
+    assert.equal(out.riskClass, 'risk-high');
+    assert.match(out.riskColor, /^#[0-9a-f]{6}$/);
     assert.equal(out.riskNumDisp, 7);
+  });
+
+  test('aiRisk decimal → one-decimal string + band + color', () => {
+    const out = buildOccupationDisplay({ ...baseInput, aiRisk: 6.9 });
+    assert.equal(out.riskStr, '6.9/10');
+    assert.equal(out.riskClass, 'risk-mid'); // 6.9 < 7.0
+    assert.match(out.riskColor, /^#[0-9a-f]{6}$/);
+    assert.equal(out.riskNumDisp, 6.9);
   });
 
   test('aiRisk = 0 still treated as numeric (not falsy)', () => {
     const out = buildOccupationDisplay({ ...baseInput, aiRisk: 0 });
     assert.equal(out.riskStr, '0/10');
-    assert.equal(out.riskClass, 'risk-0');
+    assert.equal(out.riskClass, 'risk-low');
+    assert.match(out.riskColor, /^#[0-9a-f]{6}$/);
     assert.equal(out.riskNumDisp, 0);
   });
 

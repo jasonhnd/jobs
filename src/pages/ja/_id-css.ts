@@ -39,12 +39,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){.risk-card{padding:18px 22px}.risk-card .risk-num{font-size:3.2rem}}
     .risk-card .risk-num small{font-size:0.34em;color:var(--ink-2);font-weight:600;margin-left:4px}
     .risk-card .risk-rationale{display:none}
-    /* color code by risk score */
-    .risk-card.risk-0 .risk-num,.risk-card.risk-1 .risk-num,.risk-card.risk-2 .risk-num{color:var(--green-deep)}
-    .risk-card.risk-3 .risk-num,.risk-card.risk-4 .risk-num{color:#a8d572}
-    .risk-card.risk-5 .risk-num,.risk-card.risk-6 .risk-num{color:#c89638}
-    .risk-card.risk-7 .risk-num,.risk-card.risk-8 .risk-num{color:var(--orange)}
-    .risk-card.risk-9 .risk-num,.risk-card.risk-10 .risk-num{color:var(--red)}
+    /* risk-num digit color is set inline per exact score (continuous gradient) — see src/views/occupation-display.ts riskColor */
 
     /* One-line callout (NEW in v2) */
     .one-line{margin:0 0 16px;padding:13px 16px;background:var(--orange-soft);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;font-size:0.92rem;line-height:1.6;color:var(--ink);font-weight:500}

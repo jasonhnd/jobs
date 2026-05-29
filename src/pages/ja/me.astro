@@ -344,8 +344,8 @@ const jsonLd = JSON.stringify({
     }
     function riskBand(r) {
       if (r == null) return null;
-      if (r <= 3) return 'low';
-      if (r <= 6) return 'mid';
+      if (r < 4.0) return 'low';
+      if (r < 7.0) return 'mid';
       return 'high';
     }
     function riskLabel(r) {

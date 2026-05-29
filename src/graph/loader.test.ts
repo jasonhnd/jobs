@@ -100,11 +100,12 @@ describe('loadGraph — occupation node shape', () => {
       if (occ.aiRisk !== null) scored += 1;
     }
     assert.ok(scored >= 500, `expected >= 500 scored occupations, got ${scored}`);
-    // Score is an integer 0-10.
+    // Score is 0.0–10.0 with at most one decimal place (schema v2.1).
     for (const occ of graph.occupations.values()) {
       if (occ.aiRisk === null) continue;
-      assert.ok(Number.isInteger(occ.aiRisk.score), `aiRisk.score not int for occ ${occ.id}`);
-      assert.ok(occ.aiRisk.score >= 0 && occ.aiRisk.score <= 10, `aiRisk.score out of range for occ ${occ.id}`);
+      const s = occ.aiRisk.score;
+      assert.ok(s >= 0 && s <= 10, `aiRisk.score out of range for occ ${occ.id}`);
+      assert.ok(Math.abs(s * 10 - Math.round(s * 10)) < 1e-9, `aiRisk.score >1 decimal for occ ${occ.id}`);
     }
   });
 });
