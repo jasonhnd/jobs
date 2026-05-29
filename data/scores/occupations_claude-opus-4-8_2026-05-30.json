@@ -1,0 +1,3377 @@
+{
+  "schema_version": "2.1",
+  "scope": "occupations",
+  "scorer": {
+    "model": "claude-opus-4-8",
+    "model_provider": "anthropic",
+    "model_temperature": null,
+    "scoring_method": "single-pass per occupation"
+  },
+  "run": {
+    "run_date": "2026-05-30",
+    "run_id": "occ_2026-05-30_v1",
+    "duration_minutes": null,
+    "operator": "opus-4-8-in-agent"
+  },
+  "input": {
+    "input_data_version": "occupations_2026-05",
+    "input_data_sha256": "7975d17a234c3d2359ab77662724eb4809ff06fe1b7dfa7a827b11bb05a8a90f",
+    "occupation_count_scored": 556,
+    "occupation_count_skipped": 0
+  },
+  "prompt": {
+    "prompt_version": "2.0",
+    "prompt_file": "data/prompts/2026-05-30_claude-opus-4-8.ja.md",
+    "prompt_sha256": "1118984f91b81e76f493cff11caca98dcdd5864cc4f2777ffde0bac54152c7ab",
+    "rubric_source": "data/prompts/2026-05-30_claude-opus-4-8.ja.md"
+  },
+  "anchors": {
+    "データ入力": "9.9",
+    "翻訳者": "9.1",
+    "プログラマー": "8.8",
+    "会計士": "7.0",
+    "弁護士": "6.4",
+    "看護師": "4.3",
+    "美容師": "2.4",
+    "林業": "0.6"
+  },
+  "caveat": "小数は「帯内の相対的な精度」であり測定精度ではない。高得点は「再構成の度合い」を表し、消滅予測ではない（AIがどれほど仕事を作り変えるかの尺度）。",
+  "scores": {
+    "1": {
+      "ai_risk": 2,
+      "rationale_ja": "原料処理から成形まで手作業と感覚的判断が中心の現場労働で、AIは品質検査や工程最適化を補助する程度。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "2": {
+      "ai_risk": 2.2,
+      "rationale_ja": "大規模工場では製造ラインの機械化が進むが、生地づくり・成形・焼成は物理作業が中核でAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "3": {
+      "ai_risk": 2,
+      "rationale_ja": "計量・焼成・デコレーションなど手作業と創作性が中心の現場労働で、AIによる代替は限定的。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "4": {
+      "ai_risk": 1.8,
+      "rationale_ja": "伝統的な手づくりの技と感覚が中核の現場労働で、AIの介在余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.82
+    },
+    "5": {
+      "ai_risk": 2.5,
+      "rationale_ja": "殺菌・均質化・充填など工程の機械化・自動制御が進み品質管理でAI活用余地はあるが、核は物理工程。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "6": {
+      "ai_risk": 2.2,
+      "rationale_ja": "原料精製から成形・加熱まで手作業と機械操作が混在する現場労働で、AI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "7": {
+      "ai_risk": 2.6,
+      "rationale_ja": "選別・処理・凍結・包装の工程は反復的で一部自動化が進むが、機械化しにくい下処理は手作業に依存。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "8": {
+      "ai_risk": 2.4,
+      "rationale_ja": "前処理・調理・包装の反復作業が中心で、機械化は進むものの手作業依存が大きい現場労働。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "9": {
+      "ai_risk": 1.8,
+      "rationale_ja": "杜氏の経験と感覚的判断に依存する季節的・伝統的な醸造作業で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.82
+    },
+    "10": {
+      "ai_risk": 2,
+      "rationale_ja": "発酵管理を含む工程は機械化が進むが核は物理的な製造作業で、AIは工程監視を補助する程度。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "11": {
+      "ai_risk": 2,
+      "rationale_ja": "微生物を扱う発酵管理が中核の現場作業で製法も伝統的、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "12": {
+      "ai_risk": 2.3,
+      "rationale_ja": "解体・整形・充填など省力化が難しい手作業が残る食肉加工で、AI代替は限定的。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "13": {
+      "ai_risk": 1.9,
+      "rationale_ja": "発酵の毎日の温度・度数管理と利き酒など感覚的判断に依存する季節的醸造作業。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "14": {
+      "ai_risk": 2.1,
+      "rationale_ja": "洗浄・仕込み・発酵管理など物理作業が中核で運搬等の重労働も残り、AI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "15": {
+      "ai_risk": 2.8,
+      "rationale_ja": "密封・加熱殺菌など機械操作と工程管理が中心で自動化余地はあるが、選別・調理に手作業も残る。",
+      "rationale_en": "",
+      "confidence": 0.76
+    },
+    "16": {
+      "ai_risk": 2.3,
+      "rationale_ja": "選別・洗浄・カット・漬け込みなど手作業と機械が混在する現場労働で、AI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "17": {
+      "ai_risk": 2,
+      "rationale_ja": "ろくろ・鋳込み成形や絵付けなど手作業と技能が中核で、自動化工場もあるがAIの直接代替は限定的。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "18": {
+      "ai_risk": 2,
+      "rationale_ja": "高温のガラスを扱う成形作業は手づくり技能か機械操作が中心の物理労働で、AI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "19": {
+      "ai_risk": 3,
+      "rationale_ja": "成形機の操作と温度・圧力等の条件設定が中心で反復性が高く、工程最適化でAI活用余地はあるが現場作業が核。",
+      "rationale_en": "",
+      "confidence": 0.74
+    },
+    "20": {
+      "ai_risk": 6,
+      "rationale_ja": "調査・打合せや現場条件対応は残るが、CAD・BIM中心の設計業務は生成AIによる図面・設計自動化の影響を大きく受ける。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "21": {
+      "ai_risk": 4,
+      "rationale_ja": "工程・安全・品質管理は文書化やAI支援が進むが、現場での進捗把握と多職種の調整・指揮が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "22": {
+      "ai_risk": 5.7,
+      "rationale_ja": "現地調査や住民調整は残るが、CADによる構造設計・図面・積算はAIによる自動化の影響を受ける知識労働。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "23": {
+      "ai_risk": 4,
+      "rationale_ja": "現場での施工・安全・工程管理と関係機関調整が中核で物理的常駐を要し、AIは書類・計画作成を補助する程度。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "24": {
+      "ai_risk": 4.5,
+      "rationale_ja": "GIS・計算・デジタルマッピングや一部のドローン化は自動化余地が大きいが、現地での測量作業は残る。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "25": {
+      "ai_risk": 7.5,
+      "rationale_ja": "指示やラフ図から図面・モデルを作成する定型的なデジタル製図業務で、生成・パラメトリックAIによる代替余地が大きい。",
+      "rationale_en": "",
+      "confidence": 0.72
+    },
+    "26": {
+      "ai_risk": 1.8,
+      "rationale_ja": "屋外・現場での木工施工が中核の身体技能労働で、見積り等の事務はあるがAIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.82
+    },
+    "27": {
+      "ai_risk": 1.5,
+      "rationale_ja": "施工図に合わせた型枠の製作・組立を現場で行う身体労働で、AIの介在余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "28": {
+      "ai_risk": 1.5,
+      "rationale_ja": "加工帳作成はあるが、鉄筋の加工・組立を現場で行う身体労働が中核でAI代替余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "29": {
+      "ai_risk": 2.2,
+      "rationale_ja": "CAD・NCデータによる原寸作業はあるが、切断・溶接・組立の物理製作が中核でAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "30": {
+      "ai_risk": 1.2,
+      "rationale_ja": "屋外・高所での足場組立や重量物運搬が中核の身体労働で、AIの介在余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "31": {
+      "ai_risk": 2.2,
+      "rationale_ja": "重機の運転・管理が中核の現場労働で、自動運転建機の進展はあるが当面は物理操作が中心。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "32": {
+      "ai_risk": 1.3,
+      "rationale_ja": "機械化困難な細部作業を人力で行う現場労働で、AIの直接代替余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "33": {
+      "ai_risk": 0.8,
+      "rationale_ja": "水中で作業する唯一の職業であり、身体労働かつ遠隔不可でAIの代替余地は極めて乏しい。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "35": {
+      "ai_risk": 1.8,
+      "rationale_ja": "掘削機械を操作し地下を掘る現場労働が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.8
+    },
+    "36": {
+      "ai_risk": 1.5,
+      "rationale_ja": "屋外での舗装・標識設置など機械を伴う身体労働が中核で、AI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.82
+    },
+    "37": {
+      "ai_risk": 1.3,
+      "rationale_ja": "ブロックをモルタルで積み上げる現場の身体技能労働で、AIの介在余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "38": {
+      "ai_risk": 1.3,
+      "rationale_ja": "下地調整からタイル張り・目地仕上げまでの手作業が中核でAI代替余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "39": {
+      "ai_risk": 1.4,
+      "rationale_ja": "こてによる塗り壁仕上げの手技能が中核の現場労働で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "40": {
+      "ai_risk": 1.4,
+      "rationale_ja": "金属板の切断・曲げ・屋根上での葺き作業が中核の身体労働で、AI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "41": {
+      "ai_risk": 1.4,
+      "rationale_ja": "開口部の正確な計測と溶接・固定など現場での取付作業が中核でAI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "42": {
+      "ai_risk": 1.4,
+      "rationale_ja": "床・壁・天井の多様な内装仕上げを現場で行う手作業が中核でAI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "43": {
+      "ai_risk": 1.5,
+      "rationale_ja": "色彩設計の事務はあるが、刷毛・スプレーによる塗装作業が中核の現場労働でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.83
+    },
+    "44": {
+      "ai_risk": 1.4,
+      "rationale_ja": "工法ごとの専門技量を要する防水層施工の手作業が中核でAI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "45": {
+      "ai_risk": 1.4,
+      "rationale_ja": "配管・ダクトへの断熱材取付を現場で行う身体労働が中核でAI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "46": {
+      "ai_risk": 1.8,
+      "rationale_ja": "配線・機器据付など現場での電気工事が中核の身体技能労働で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.82
+    },
+    "47": {
+      "ai_risk": 1.6,
+      "rationale_ja": "管の加工・接合・取付を現場で行う身体技能労働が中核でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.83
+    },
+    "48": {
+      "ai_risk": 1.7,
+      "rationale_ja": "エレベーター機器の据付・芯出し・配線など現場での組立作業が中核でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.82
+    },
+    "49": {
+      "ai_risk": 2.5,
+      "rationale_ja": "保線作業の機械化が進み軌道検査や作業計画・監督が主となりつつあり、検査のAI・センサー化余地はあるが現場対応が残る。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "50": {
+      "ai_risk": 1.3,
+      "rationale_ja": "鉄塔に登り送電線を架設・保守する屋外・高所の身体労働でAIの介在余地はほとんどない。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "51": {
+      "ai_risk": 1.4,
+      "rationale_ja": "足場設置から分別解体まで現場での身体労働が中核でAIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.84
+    },
+    "52": {
+      "ai_risk": 3.5,
+      "rationale_ja": "予約・収益管理でAI活用余地はあるが、接客とスタッフ調整・現場運営の対人マネジメントが中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "53": {
+      "ai_risk": 4.3,
+      "rationale_ja": "与信分析や事務はAI影響を受けるが、最終決裁・人事労務・取引先との関係構築という管理・対人の中核は残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "54": {
+      "ai_risk": 3,
+      "rationale_ja": "陳列・在庫管理は一部自動化余地があるが、対面での商品説明・相談という接客が中核で人的要素が強い。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "55": {
+      "ai_risk": 4,
+      "rationale_ja": "発注・需要予測・シフト編成はAI支援余地が大きいが、店舗運営と現場の人事管理という対人判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "56": {
+      "ai_risk": 6.8,
+      "rationale_ja": "極めて定型的な会計業務でセルフレジ・自動精算による省人化が急速に進むが、現場での接客・現金対応が一部残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "57": {
+      "ai_risk": 3.2,
+      "rationale_ja": "発注・在庫管理はAI支援余地があるが、陳列・補充・鮮度処理や接客など店内の身体作業が中核で残る。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "58": {
+      "ai_risk": 4.5,
+      "rationale_ja": "情報収集・分析はAIが強化するが、国際的な商談・与信判断・取引先との関係構築という対人交渉が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "59": {
+      "ai_risk": 4,
+      "rationale_ja": "物件マッチングや情報提供はAI化が進むが、現地案内・資金相談・信頼構築という対面コンサルが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "60": {
+      "ai_risk": 4,
+      "rationale_ja": "高額商品ゆえ試乗・対面助言・信頼関係づくりが中核で、情報提供は自動化余地があるが対人営業は残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "61": {
+      "ai_risk": 5,
+      "rationale_ja": "媒体取引はプログラマティック化が進み企画支援もAI活用余地が大きいが、広告主との関係構築とプレゼンは人的要素が残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "62": {
+      "ai_risk": 5,
+      "rationale_ja": "印刷需要のデジタル化で縮小し受注・工程管理の自動化余地も大きいが、得意先対応と仕様調整の対人業務は残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "63": {
+      "ai_risk": 5.5,
+      "rationale_ja": "医薬品情報提供はデジタルディテーリングや遠隔化で人員削減が進むが、医療従事者との関係構築と現場情報収集は残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "64": {
+      "ai_risk": 7.6,
+      "rationale_ja": "定型的な電話応対が中核で、対話AI・音声ボットによる直接代替と省人化が急速に進む典型的な高影響職。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "65": {
+      "ai_risk": 4,
+      "rationale_ja": "電子せり機の導入で一部自動化が進むが、瞬時の価格判断・集荷・生産者指導という現場の専門業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "66": {
+      "ai_risk": 2.8,
+      "rationale_ja": "仕入れの目利きと水揚げ・アレンジ・接客という手作業と対面販売が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "67": {
+      "ai_risk": 3.4,
+      "rationale_ja": "EC化の圧力はあるが、対面での商品説明・設置工事・アフターサービスという人的・物理的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "68": {
+      "ai_risk": 3.5,
+      "rationale_ja": "発注・在庫管理は一部AI化余地があるが、荷受け・陳列・返品という店内の物理作業と接客が中核。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "69": {
+      "ai_risk": 3.5,
+      "rationale_ja": "視力測定やレンズ加工は自動機化が進むが、フィッティング助言と物理的な調整が中核で対人・手作業が残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "70": {
+      "ai_risk": 3,
+      "rationale_ja": "仕入れ・店舗演出・用具修理調整という専門知識と手作業を伴う対面販売が中核でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "71": {
+      "ai_risk": 3,
+      "rationale_ja": "DIY用品の使用法・安全性を助言する対面接客と店内の品出しが中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "72": {
+      "ai_risk": 2.6,
+      "rationale_ja": "生体管理という動物の世話と飼育相談・対面販売が中核で、物理的・対人的要素が強くAI代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "73": {
+      "ai_risk": 3.3,
+      "rationale_ja": "EC化の圧力はあるが、コーディネート提案・試着対応という対面のファッション接客が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.64
+    },
+    "74": {
+      "ai_risk": 7.2,
+      "rationale_ja": "スマートメーターの遠隔自動検針により職務そのものがほぼ消滅する方向で、技術による省人化が極めて大きい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "75": {
+      "ai_risk": 4,
+      "rationale_ja": "巡回・分析の報告業務はAI支援余地があるが、加盟店への経営指導と本部・店舗のパイプ役という対人業務が中核。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "76": {
+      "ai_risk": 2.8,
+      "rationale_ja": "足型計測・問診・中敷き調整という身体的計測と対面助言が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "77": {
+      "ai_risk": 4,
+      "rationale_ja": "定型的な物販で無人店舗・自販機化の圧力はあるが、短時間での素早い接客と補充という店頭の物理作業が残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "78": {
+      "ai_risk": 4.3,
+      "rationale_ja": "レジは自動精算化が進むが、発注判断・検品・品出し・各種サービス・清掃という多機能の店内作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "79": {
+      "ai_risk": 3.2,
+      "rationale_ja": "レジ・包装・陳列補充・スライス加工という店内の物理作業と接客が中核でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.64
+    },
+    "80": {
+      "ai_risk": 5.5,
+      "rationale_ja": "財務分析や報告書作成はAIが強力に支援するが、経営者へのヒアリングと洞察に基づく改善提案という対人判断が中核。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "81": {
+      "ai_risk": 5.5,
+      "rationale_ja": "調査・分析・資料作成はAIが大きく代替するが、戦略判断・クライアント関係・変革支援という高度な対人業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "82": {
+      "ai_risk": 6,
+      "rationale_ja": "ロボアドバイザーによる資産設計の自動化が直接的脅威だが、複雑な事情への対応と信頼関係に基づく相談は残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "83": {
+      "ai_risk": 6,
+      "rationale_ja": "各種申請・届出の手続代行は電子化・ソフト化で自動化余地が大きいが、労務管理の相談・指導という対人業務は残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "84": {
+      "ai_risk": 6.5,
+      "rationale_ja": "登記のオンライン化と書類作成のAI化で定型業務の代替余地が大きいが、法的判断・本人確認・簡裁代理は残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "85": {
+      "ai_risk": 6.8,
+      "rationale_ja": "1万種を超える官公署提出書類の作成が中核で、フォーム生成型AIによる代替余地が大きい高影響の士業。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "86": {
+      "ai_risk": 5,
+      "rationale_ja": "登記申請書類の作成はAI化余地が大きいが、現地での境界確認・測量という野外作業が中核に残るため士業の中では中位。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "87": {
+      "ai_risk": 9.1,
+      "rationale_ja": "機械翻訳・LLMの進展で産業翻訳を中心に作業の大半が代替・再構成される、本rubricの校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "88": {
+      "ai_risk": 8,
+      "rationale_ja": "音声AIの進展で逐次・同時通訳の代替が進むが、高度な国際会議・法廷・商談ではニュアンスと即応・責任が人に残る。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "89": {
+      "ai_risk": 6.4,
+      "rationale_ja": "法的調査・書面作成はAIが大きく支援するが、弁論・交渉・判断と依頼者の利益への責任という中核は人に残る校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "90": {
+      "ai_risk": 6.8,
+      "rationale_ja": "取引テスト等のデータ作業はAI化が進むが、監査意見・職業的懐疑・棚卸立会と独立した判断・責任が人に残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "91": {
+      "ai_risk": 6.3,
+      "rationale_ja": "明細書・クレーム作成はAIで支援可能だが、新規性判断・侵害分析・技術と法の高度な専門判断と責任が人に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "92": {
+      "ai_risk": 7,
+      "rationale_ja": "全自動会計ソフトとe-Taxにより申告・税額計算の定型業務は大きく自動化されるが、複雑な節税相談と代理は残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "93": {
+      "ai_risk": 6,
+      "rationale_ja": "自動評価モデル(AVM)による価格算定の自動化が進むが、鑑定評価基準に基づく総合判断・責任と現地調査は残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "94": {
+      "ai_risk": 6.5,
+      "rationale_ja": "数値予報・AI気象モデルにより予測の中核が自動化されるが、地域解説・防災伝達・需要予測コンサルは人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "95": {
+      "ai_risk": 4,
+      "rationale_ja": "BMS・IoTによる遠隔監視で省人化が進むが、現場での苦情対応・調整・簡易修理という物理対応が残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "96": {
+      "ai_risk": 5.5,
+      "rationale_ja": "発券・精算の機械化と無人化が広く進み省人化が大きいが、誘導・機器操作支援・盗難対策など現場対応が一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "97": {
+      "ai_risk": 2,
+      "rationale_ja": "清掃ロボットの導入はあるが、多様な空間の床・窓・トイレ清掃は手作業が中核でAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "98": {
+      "ai_risk": 2,
+      "rationale_ja": "洗浄装置の利用はあるが、車内の床・窓・座席清掃は手作業が中核の身体労働でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.72
+    },
+    "99": {
+      "ai_risk": 2.2,
+      "rationale_ja": "下処理から加熱・盛付けまで手作業と味覚・美的判断が中核の調理労働で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "100": {
+      "ai_risk": 2,
+      "rationale_ja": "包丁技能・だし・季節感の美的判断と免許を要する高度な調理技能が中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.72
+    },
+    "101": {
+      "ai_risk": 2,
+      "rationale_ja": "仕入れの目利き・仕込み・つけ場での対面調理という熟練技能が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.72
+    },
+    "102": {
+      "ai_risk": 2.2,
+      "rationale_ja": "麺づくり・ゆで・つゆの味づくりという経験を要する手作業が中核の調理労働でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "103": {
+      "ai_risk": 2.2,
+      "rationale_ja": "強火での炒め・下ごしらえ・盛付けという手際を要する調理技能が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "104": {
+      "ai_risk": 3.8,
+      "rationale_ja": "売上分析・発注はAI支援余地があるが、品質・サービス維持とアルバイト教育という現場の対人運営が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "105": {
+      "ai_risk": 3.5,
+      "rationale_ja": "コーヒーマシンや注文端末で一部自動化されるが、ドリンク調理・提供・清掃という店内の物理作業と接客が残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "106": {
+      "ai_risk": 2.8,
+      "rationale_ja": "ペアリング提案はAI化余地があるが、テイスティングという感覚的専門能力と対面サービスが中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "107": {
+      "ai_risk": 2.2,
+      "rationale_ja": "レシピに沿うがシェーク等の手技と対面接客が中核のカウンター労働で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "108": {
+      "ai_risk": 2.4,
+      "rationale_ja": "スープ・具の調理という手作業が中核で、セントラルキッチン化の圧力はあるが現場調理が残る。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "109": {
+      "ai_risk": 6.5,
+      "rationale_ja": "オンライン予約(OTA)とAI旅行プランニングの普及で対面販売・手配の需要が大きく縮小する高影響職。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "110": {
+      "ai_risk": 3.5,
+      "rationale_ja": "手配・精算の事務はAI化余地があるが、現地同行と参加者の世話・トラブル対応という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "111": {
+      "ai_risk": 3.8,
+      "rationale_ja": "定型の案内はAI音声ガイドで代替余地があるが、車内での生の対話・もてなしという対人要素が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "112": {
+      "ai_risk": 2.5,
+      "rationale_ja": "乗り物運転・安全確認・案内・清掃という現場の物理作業と安全対応が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "113": {
+      "ai_risk": 2.5,
+      "rationale_ja": "GPSカートやセルフプレーの圧力はあるが、バッグ運搬とコース上での同行助言という現場の身体・対人作業が中核。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "114": {
+      "ai_risk": 4,
+      "rationale_ja": "通訳部分は音声AIの影響を受けるが、現地同行・文化案内・思いやりという対人エスコートが中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "115": {
+      "ai_risk": 2.3,
+      "rationale_ja": "カット・顔そりという身体技能と対面接客が中核で、免許を要する現場労働でありAIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.72
+    },
+    "116": {
+      "ai_risk": 2.4,
+      "rationale_ja": "カット・パーマ等の手技能と美的センス・対面コミュニケーションが中核の身体労働である校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.78
+    },
+    "117": {
+      "ai_risk": 2.2,
+      "rationale_ja": "フェイシャル・ボディケアという手技施術とカウンセリング・癒しの対人労働が中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "118": {
+      "ai_risk": 2,
+      "rationale_ja": "モデルや俳優への化粧・ヘアセットという手作業と創作性・現場対応が中核でAIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "119": {
+      "ai_risk": 3,
+      "rationale_ja": "工場ではプレス等の機械操作が中心だが、素材・しみの判断とアイロン仕上げという手作業・専門判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "120": {
+      "ai_risk": 3,
+      "rationale_ja": "フィットネスアプリの普及はあるが、実技の手本提示と対面での動機づけ・個別指導という対人要素が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "121": {
+      "ai_risk": 3,
+      "rationale_ja": "自動運転の長期影響はあるが、助手席での1対1の技能指導・安全判断という対面・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "122": {
+      "ai_risk": 3,
+      "rationale_ja": "対面での個別の演奏指導とフィードバック・動機づけが中核の対人労働で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "123": {
+      "ai_risk": 6.5,
+      "rationale_ja": "配信サービスとセルフ化で店舗形態自体が縮小・消滅し、貸出処理・推薦という定型業務もデジタル代替された高影響職。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "124": {
+      "ai_risk": 4,
+      "rationale_ja": "オンライン予約・無人化で受付は省人化が進むが、車両点検・洗車という物理作業と現場接客が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "125": {
+      "ai_risk": 3.5,
+      "rationale_ja": "見積・企画はAI支援余地があるが、要望の聞き取り・当日の進行管理という感情労働と対面調整が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "126": {
+      "ai_risk": 2,
+      "rationale_ja": "多様な家庭での掃除・洗濯・料理・世話という物理的家事と対人ケアが中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "127": {
+      "ai_risk": 2.5,
+      "rationale_ja": "電子チューナーはあるが、耳を頼りの調律と機械的調整・演奏者の要望対応という感覚的手技能が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "128": {
+      "ai_risk": 2.2,
+      "rationale_ja": "爪の手入れ・アート・人工爪という手作業と創作性・対面接客が中核でAIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "129": {
+      "ai_risk": 2.8,
+      "rationale_ja": "記録・検査の一部は自動化余地があるが、子どもとの面接・行動観察と家庭支援という高度な対人判断が中核。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "130": {
+      "ai_risk": 3.5,
+      "rationale_ja": "受給要件・手続の一部は自動化余地があるが、面接・家庭訪問による実態把握と支援方針という対人判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "131": {
+      "ai_risk": 2.2,
+      "rationale_ja": "乳幼児の保育と保護者支援という身体的・情緒的ケアが中核で、AIの直接代替余地は極めて乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "132": {
+      "ai_risk": 4,
+      "rationale_ja": "アセスメントとケアプラン作成はAI支援余地があるが、利用者面接と多事業者の調整という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "133": {
+      "ai_risk": 2,
+      "rationale_ja": "入浴・排泄等の身体介護と家事支援という親密な物理的ケアが中核で、AIの直接代替余地は極めて乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "134": {
+      "ai_risk": 2.2,
+      "rationale_ja": "介護ロボットの補助はあるが、入所者の食事・入浴・排泄介助とレクリエーションという対人ケアが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "135": {
+      "ai_risk": 3.5,
+      "rationale_ja": "AI手話技術の進展はあるが、相手の言語力に合わせた通訳とコミュニケーション全般の調整という対人業務が中核。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "136": {
+      "ai_risk": 3.5,
+      "rationale_ja": "AIキャリア診断ツールは普及するが、自己理解の促進と相談者に寄り添う支援というカウンセリングが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "137": {
+      "ai_risk": 3,
+      "rationale_ja": "用具情報の検索はAI化余地があるが、利用者の状態に合わせた選定・使い方の助言という対面業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "138": {
+      "ai_risk": 4.5,
+      "rationale_ja": "資料調査・統計・定型事務はAI化の影響を受けるが、政策の企画立案・法令・国会対応という判断と調整が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "139": {
+      "ai_risk": 4.5,
+      "rationale_ja": "窓口・定型事務は電子化・オンライン化で省人化が進むが、施策の企画立案と幅広い住民対応という判断業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "140": {
+      "ai_risk": 2.8,
+      "rationale_ja": "捜査分析や監視でAI活用は進むが、現場対応・逮捕・交通取締りという身体的・権限的職務が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "141": {
+      "ai_risk": 2.5,
+      "rationale_ja": "海図作成等の情報業務は自動化余地があるが、巡視・救難・取締りという巡視船・航空機を使う現場業務が中核。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "142": {
+      "ai_risk": 2.8,
+      "rationale_ja": "鑑定や情報分析でAI活用は進むが、薬物犯罪の捜査・逮捕・立入検査という現場での権限的・身体的職務が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "143": {
+      "ai_risk": 3,
+      "rationale_ja": "情報収集はAI化余地があるが、違反調査・事情聴取・摘発・収容という現場での権限的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "144": {
+      "ai_risk": 4.5,
+      "rationale_ja": "判例調査や判決文起草はAIが支援するが、証拠評価と最終的な司法判断・裁量・責任という役割は制度的に人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "145": {
+      "ai_risk": 4.5,
+      "rationale_ja": "証拠分析はAIが支援するが、起訴の裁量判断・取調べ・公判立証という権限と責任を伴う中核業務は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "146": {
+      "ai_risk": 3,
+      "rationale_ja": "行動科学を用いた面接・行動観察と家庭環境の調査という対人的・関係的な専門業務が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "147": {
+      "ai_risk": 2.8,
+      "rationale_ja": "少年への矯正教育・面接・行動観察という対人的・教育的業務と24時間の身柄確保が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "148": {
+      "ai_risk": 2.5,
+      "rationale_ja": "受刑者への生活指導と施設の保安警備という24時間体制の身体的・権限的・対人的業務が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "149": {
+      "ai_risk": 5,
+      "rationale_ja": "申告審査・徴収はe-Taxとデータ照合で自動化が進むが、実地の税務調査と納税相談という判断・対人業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "150": {
+      "ai_risk": 3.5,
+      "rationale_ja": "情報分析・文書作成はAIが支援するが、国際交渉と相手国との関係構築という高度な対人外交が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "151": {
+      "ai_risk": 3.8,
+      "rationale_ja": "分析・文書はAI支援余地があるが、国際協議と各国間の調整・現地活動という対人・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "152": {
+      "ai_risk": 2.3,
+      "rationale_ja": "地上戦闘と補給・施設等の現場任務が中核の身体的・field業務で、一部支援職を除きAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "153": {
+      "ai_risk": 2.3,
+      "rationale_ja": "護衛艦・航空機の運用と警戒監視という艦上・現場の身体的・技術的業務が中核でAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "154": {
+      "ai_risk": 2.5,
+      "rationale_ja": "操縦・整備・管制等の現場任務が中核で、一部デジタル職域はあるが身体的・運用的業務でありAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "155": {
+      "ai_risk": 1.8,
+      "rationale_ja": "消火・人命救助・救急という災害現場での極めて身体的・即応的な業務が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "156": {
+      "ai_risk": 4.3,
+      "rationale_ja": "記録・モニタリングの一部はAI化されるが、診療補助と療養上の世話という臨床判断と身体的・対人的ケアが中核の校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "157": {
+      "ai_risk": 3,
+      "rationale_ja": "出産介助と母子ケアという身体的・親密な臨床業務と情緒的支援が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "158": {
+      "ai_risk": 5.5,
+      "rationale_ja": "調剤と相互作用チェックは調剤ロボット・処方支援システムで自動化余地が大きいが、服薬指導と臨床判断は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "159": {
+      "ai_risk": 3,
+      "rationale_ja": "画像診断はAI支援が進むが、歯を削る・抜く・補綴という精緻な手作業の治療が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "160": {
+      "ai_risk": 3.5,
+      "rationale_ja": "施策の企画やデータ分析はAI化余地があるが、家庭訪問・保健指導という対面の健康支援が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "161": {
+      "ai_risk": 5.5,
+      "rationale_ja": "検体検査は自動分析装置とAI画像解析で自動化が大きく進むが、生体検査と結果報告・臨床連携には人の関与が残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "162": {
+      "ai_risk": 6.5,
+      "rationale_ja": "顕微鏡による異型細胞・がん細胞のスクリーニングが中核で、デジタル病理とAI画像認識による直接代替の影響が極めて大きい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "163": {
+      "ai_risk": 4,
+      "rationale_ja": "画像取得・解析でAI活用は進むが、撮影装置の操作と患者のポジショニング・安全管理という現場の物理業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "164": {
+      "ai_risk": 3,
+      "rationale_ja": "生命維持管理装置の操作と医療機器の保守点検という現場での手技的・技術的業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "165": {
+      "ai_risk": 5,
+      "rationale_ja": "精緻な手技工程が中核だが、CAD/CAM・3Dプリンタ・口腔内スキャンによるデジタル歯科技工で自動化の影響が大きい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "166": {
+      "ai_risk": 2.8,
+      "rationale_ja": "歯石除去等の予防処置と診療補助・保健指導という手技と対面業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "167": {
+      "ai_risk": 2.8,
+      "rationale_ja": "運動療法という徒手的な訓練と評価・対人的支援が中核の身体的業務で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "168": {
+      "ai_risk": 2.8,
+      "rationale_ja": "作業・動作を用いた訓練と評価・対人的援助が中核の身体的・関係的業務で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "169": {
+      "ai_risk": 3,
+      "rationale_ja": "AI言語ツールはあるが、評価に基づく言語・嚥下の訓練と対人的な指導・援助が中核でAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "170": {
+      "ai_risk": 3.5,
+      "rationale_ja": "精密機器での検査は自動化余地があるが、弱視・斜視の視能訓練という対面の手技的・継続的な訓練が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "171": {
+      "ai_risk": 4.5,
+      "rationale_ja": "献立作成・栄養価計算はAIが得意とする領域だが、個別の栄養指導と病状に応じた食事管理という対人・臨床判断が残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "172": {
+      "ai_risk": 2,
+      "rationale_ja": "手や指による押し・揉みという徒手施術と身体の状態の触知が中核で、AIの直接代替余地は極めて乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "173": {
+      "ai_risk": 2.3,
+      "rationale_ja": "問診・触診による評価と徒手による整復・固定という手技が中核の身体的施術で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "174": {
+      "ai_risk": 6,
+      "rationale_ja": "病名・術式のICDコーディングと診療情報の収集・加工が中核で、NLPによる自動コーディングなどAI代替の影響が大きい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "175": {
+      "ai_risk": 2,
+      "rationale_ja": "ツボを探り当てはり・きゅうで刺激するという手技と東洋医学的な見立てが中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "176": {
+      "ai_risk": 3.5,
+      "rationale_ja": "3Dスキャン・造形による製作の自動化は進むが、採型・適合・身体への調整という手技と対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "178": {
+      "ai_risk": 2.2,
+      "rationale_ja": "遊びや生活を通じた幼児の心身発達の保育・教育という身体的・情緒的な対人業務が中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "179": {
+      "ai_risk": 2.8,
+      "rationale_ja": "教材準備や採点は一部AI化余地があるが、学級経営と全教科指導・児童の生活指導という対人的・育成的業務が中核。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "180": {
+      "ai_risk": 3,
+      "rationale_ja": "教科内容はAI教材で補助されるが、学級担任としての生徒指導・部活動・進路という対人的・育成的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "181": {
+      "ai_risk": 3.3,
+      "rationale_ja": "教科知識はAIで補助されるが、実務的な技術教育と実習指導・対面の学生指導が中核で、AIの直接代替余地は限定的。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "182": {
+      "ai_risk": 4.5,
+      "rationale_ja": "目録整備・検索はデジタル化とAI検索で代替が進むが、レファレンス支援・選書・企画という専門的な対人業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "183": {
+      "ai_risk": 3,
+      "rationale_ja": "教科内容はAIで補助されるが、専門教科の指導と生徒指導・進路指導という対人的・育成的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "184": {
+      "ai_risk": 3.5,
+      "rationale_ja": "講義内容はAIに代替されうるが、基礎・先端研究と学生の指導・育成という学術的・対人的な中核業務は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "185": {
+      "ai_risk": 3,
+      "rationale_ja": "目録作成は一部自動化余地があるが、資料の専門的調査研究と展示の企画という学芸的判断が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "186": {
+      "ai_risk": 2.5,
+      "rationale_ja": "自動運転バスの長期影響はあるが、安全運転と乗客対応という身体的・責任を伴う現場業務が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "187": {
+      "ai_risk": 2.3,
+      "rationale_ja": "自動運転の長期影響はあるが、貸切・観光ルートの安全運転と乗客対応という現場業務が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "188": {
+      "ai_risk": 3.5,
+      "rationale_ja": "ロボタクシーは中期的な直接脅威だが、当面は安全運転・経路判断・乗客対応という現場での身体的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "189": {
+      "ai_risk": 2.5,
+      "rationale_ja": "自動操縦が多くを担うが、免許を要する操縦の最終責任・緊急時判断・指揮という安全critical業務は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "190": {
+      "ai_risk": 2.8,
+      "rationale_ja": "自律運航船の長期影響はあるが、航海計画・操船指揮・荷役という船上での身体的・判断的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "191": {
+      "ai_risk": 2.8,
+      "rationale_ja": "監視は自動化余地があるが、機関の見回り・異常時の応急処置・保守整備という船上での物理的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "192": {
+      "ai_risk": 3.5,
+      "rationale_ja": "自動運転(ATO)・無人運転の実用化が進む方向だが、当面は安全運転と異常時対応という現場の責任業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "193": {
+      "ai_risk": 4.5,
+      "rationale_ja": "ワンマン運転とICカード化で車掌の省人化が進むが、車内サービス・安全確認・案内という対人・現場業務が一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "194": {
+      "ai_risk": 5,
+      "rationale_ja": "自動チェックイン機・生体認証搭乗でカウンター・ゲート業務の自動化が進むが、案内・不測時対応という対人業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "195": {
+      "ai_risk": 5.5,
+      "rationale_ja": "自動券売機・自動改札・ICカードで出改札業務の自動化が大きく進み、職務が縮小する一方、案内・トラブル対応が残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "196": {
+      "ai_risk": 4.5,
+      "rationale_ja": "ダイヤ作成・需要分析は最適化AIに親和的だが、リアルタイムの運行管理と安全判断という指令業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "197": {
+      "ai_risk": 2.8,
+      "rationale_ja": "電子機器の故障診断はソフト・AI化が進むが、自動車の点検・分解・修理という現場での手技的作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "198": {
+      "ai_risk": 4.5,
+      "rationale_ja": "セルフ式スタンドの普及で給油業務の省人化が大きく進むが、点検・洗車・接客という現場の物理作業が一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "199": {
+      "ai_risk": 2.5,
+      "rationale_ja": "監視カメラ・センサーによる異常検知は進むが、巡回と路上障害物の除去・事故時の現場対応という身体的・即応的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "200": {
+      "ai_risk": 7,
+      "rationale_ja": "配車アプリとAI自動配車により電話受付・手配という業務が直接代替され省人化が急速に進む高影響職。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "201": {
+      "ai_risk": 1.5,
+      "rationale_ja": "家財の梱包・運搬・設置という現場での身体労働が中核で、見積りの一部を除きAIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.7
+    },
+    "202": {
+      "ai_risk": 6.5,
+      "rationale_ja": "輸出入申告書類の審査が中核で、NACCS等の電子化とAI書類処理による定型業務の代替余地が大きい士業。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "203": {
+      "ai_risk": 3.5,
+      "rationale_ja": "AI判断支援は進むが、無線でパイロットに指示を出す安全critical・即時判断とその責任は人に残る規制職。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "204": {
+      "ai_risk": 5.5,
+      "rationale_ja": "飛行コース・燃料・重量の最適化はアルゴリズム・AIに親和的だが、運航の最終判断と責任という業務は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "205": {
+      "ai_risk": 2.5,
+      "rationale_ja": "機内での乗客サービスと緊急時の保安対応という身体的・対人的・安全責任の業務が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "206": {
+      "ai_risk": 2.8,
+      "rationale_ja": "故障診断はAI支援が進むが、機体・エンジンの点検・修理・確認という手技的・規制下の安全業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "207": {
+      "ai_risk": 2.3,
+      "rationale_ja": "舵取り・見張り・係船・保守という船上での身体労働が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "208": {
+      "ai_risk": 5,
+      "rationale_ja": "定型記事の生成はAIが担うが、現場取材・インタビュー・裏取りと公正な判断という記者の中核業務は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "209": {
+      "ai_risk": 5,
+      "rationale_ja": "執筆はAIが支援するが、深い取材・関係者インタビュー・切り口の判断という雑誌記者の中核業務は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "210": {
+      "ai_risk": 4.5,
+      "rationale_ja": "校正・整理はAIで自動化余地があるが、企画立案・著者との交渉・原稿の編集判断という対人的・編集的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "211": {
+      "ai_risk": 4.5,
+      "rationale_ja": "校正・割付はAI支援余地があるが、企画立案・外部スタッフの手配・編集判断という対人的・編集的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "212": {
+      "ai_risk": 3.5,
+      "rationale_ja": "送出の自動化は進むが、撮影・音声・スイッチング等の番組制作という現場での技術的・共同的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "213": {
+      "ai_risk": 4,
+      "rationale_ja": "AIマスタリング等のツールは普及するが、マイク選定・収録と意図に沿った音作りという創作的・感覚的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "214": {
+      "ai_risk": 4.5,
+      "rationale_ja": "AI自動編集ツールが進展し定型編集の代替余地が大きいが、構成・カラーグレーディング等の創作的編集判断は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "215": {
+      "ai_risk": 4.5,
+      "rationale_ja": "原稿生成はAI支援余地があるが、現場取材・生中継・事件対応という放送記者の即応的・対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "216": {
+      "ai_risk": 4,
+      "rationale_ja": "AI音声合成・アバターによるニュース読み上げは可能だが、生放送の司会・インタビュー・場の進行という対人的業務が残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "217": {
+      "ai_risk": 3,
+      "rationale_ja": "出演者・スタッフを現場で指揮し演出する創作的リーダーシップと判断が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "218": {
+      "ai_risk": 1.8,
+      "rationale_ja": "競走馬の健康管理・馬房清掃・騎乗調教という動物相手の身体労働が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "219": {
+      "ai_risk": 2.3,
+      "rationale_ja": "野外活動の現場での実技指導と自然との関わり方の助言という身体的・対人的業務が中核でAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "220": {
+      "ai_risk": 2,
+      "rationale_ja": "動物の観察・健康管理・餌づくり・清掃という動物相手の身体労働が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "221": {
+      "ai_risk": 4,
+      "rationale_ja": "精密農業・育種でAI活用は進むが、現場での技術普及・調査と農村整備の指導という対面・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "222": {
+      "ai_risk": 2,
+      "rationale_ja": "設計の一部はAI化余地があるが、開墾・地盤整備・植栽・維持管理という屋外での身体作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "223": {
+      "ai_risk": 3,
+      "rationale_ja": "画像診断はAI支援が進むが、動物の診察・手術・予防処置という身体的・手技的な臨床業務が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "224": {
+      "ai_risk": 2,
+      "rationale_ja": "水質管理の自動化は進むが、水生生物の観察・給餌・水槽清掃という動物相手の身体労働が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "225": {
+      "ai_risk": 2,
+      "rationale_ja": "競走馬の適性見極めと調教指示・厩舎の労務管理という動物相手の専門判断と事業運営が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "226": {
+      "ai_risk": 1.8,
+      "rationale_ja": "犬の特性に応じた服従・嗅覚等の専門訓練としつけという動物相手の身体的・関係的業務が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "227": {
+      "ai_risk": 2,
+      "rationale_ja": "ペットの洗浄・カット・グルーミングという動物相手の手作業と健康チェックが中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.68
+    },
+    "228": {
+      "ai_risk": 4,
+      "rationale_ja": "資源解析等でAI活用は進むが、現場での資源・環境調査と養殖・漁法の技術開発・指導という対面・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "229": {
+      "ai_risk": 3.8,
+      "rationale_ja": "森林データ解析はAI化余地があるが、現地調査・測量と森林経営計画・伐採指導という対面・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "230": {
+      "ai_risk": 0.6,
+      "rationale_ja": "地ごしらえ・植林・下刈り・伐採という屋外・斜面での重い身体労働が中核で、遠隔不可・AI代替余地は極めて乏しい校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "231": {
+      "ai_risk": 5.5,
+      "rationale_ja": "設計・シミュレーションはAIが支援するが、新規のロボット研究開発という創造的な工学設計・判断が中核で完全代替は難しい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "232": {
+      "ai_risk": 3.5,
+      "rationale_ja": "プログラミング・設定はAI化余地があるが、生産ラインへの据え付け調整とシステム構築という現場での物理・技術作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "233": {
+      "ai_risk": 3,
+      "rationale_ja": "異常検知はAI化が進むが、日常・定期点検と故障時の駆けつけ修理という現場での物理的な保守作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "234": {
+      "ai_risk": 4.5,
+      "rationale_ja": "企画書作成はAI支援余地があるが、設置目的のヒアリングと最適システムの提案・関係者調整という対面業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "235": {
+      "ai_risk": 4,
+      "rationale_ja": "電気・構造設計はAI化余地があるが、法規に則した設計判断と現場での施工管理という対面・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "236": {
+      "ai_risk": 3.5,
+      "rationale_ja": "遠隔監視は自動化が進むが、パネル・架台・電気設備の現地点検と破損対応という物理的な保守作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "237": {
+      "ai_risk": 3.5,
+      "rationale_ja": "倉庫の自動搬送(AGV/AMR)による代替が進む方向だが、多様な荷物の運搬・積卸という現場での運転作業が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "238": {
+      "ai_risk": 5.5,
+      "rationale_ja": "市場分析・販促はAIツールが大きく支援するが、サイトのコンセプト策定と商品の企画開発という創造的・戦略的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "239": {
+      "ai_risk": 6.5,
+      "rationale_ja": "受発注・在庫管理・顧客対応というバックヤード業務はRPA・チャットボット・自動出荷で代替余地が大きい高影響職。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "240": {
+      "ai_risk": 6.5,
+      "rationale_ja": "広告配信・アクセス解析はプログラマティック広告とAI分析・生成で自動化余地が大きいが、戦略立案・企画は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "241": {
+      "ai_risk": 3.5,
+      "rationale_ja": "AI監視カメラ・機械警備で監視業務の自動化が進むが、常駐・巡回と非常事態への現場対応という身体的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "242": {
+      "ai_risk": 2.2,
+      "rationale_ja": "放課後の遊びと生活の場の提供という小学生への対人的な見守り・援助が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "243": {
+      "ai_risk": 2.5,
+      "rationale_ja": "養護を要する子どもの生活支援・育成指導という24時間体制の対人的・関係的業務が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "244": {
+      "ai_risk": 2.8,
+      "rationale_ja": "障害者への生活・職業・就労支援という対人的・関係的な指導業務と関係機関との調整が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "245": {
+      "ai_risk": 3.5,
+      "rationale_ja": "記録・連絡調整の事務は一部自動化余地があるが、利用者・家族との相談と援助・面談という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "246": {
+      "ai_risk": 2.2,
+      "rationale_ja": "配膳・着替え・排泄介助・移送という看護補助の身体的ケアが中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.66
+    },
+    "247": {
+      "ai_risk": 4.5,
+      "rationale_ja": "栽培プロセスのシステム化など研究にAI活用は進むが、品種選定・栽培法の研究開発という実験的・専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "248": {
+      "ai_risk": 4,
+      "rationale_ja": "設計の一部はAI化余地があるが、設備配置・動線の設計判断と現場での施工管理という対面・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "249": {
+      "ai_risk": 3.5,
+      "rationale_ja": "環境制御は自動化が進むが、育苗・移植・収穫という施設内での栽培管理の身体作業が中核で一部残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "250": {
+      "ai_risk": 2.5,
+      "rationale_ja": "事業計画・資金調達・組織づくりという起業家のビジョン・リスクテイク・リーダーシップが中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "251": {
+      "ai_risk": 2.5,
+      "rationale_ja": "金属の溶解・鋳込み・仕上げという高温下での機械操作と身体作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "252": {
+      "ai_risk": 2.5,
+      "rationale_ja": "加熱した金属素材の鍛造機による加圧成形という現場での機械操作と身体作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "253": {
+      "ai_risk": 3.5,
+      "rationale_ja": "CAD/CAM・CNCによる自動化は進むが、サブミクロン精度の金型製作と仕上げという熟練の手技・調整が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "254": {
+      "ai_risk": 3.5,
+      "rationale_ja": "自動プレス機化が進み単純作業は省人化される一方、金型取付・試し打ち・調整という熟練の機械操作が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "255": {
+      "ai_risk": 2.8,
+      "rationale_ja": "溶接ロボットが反復作業を代替するが、複雑形状・現場・高難度の溶接という熟練の手技が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "256": {
+      "ai_risk": 3.5,
+      "rationale_ja": "NC加工自体は自動化済みで、プログラミングは自動化余地があるが、段取り・治具・監視・調整という現場操作が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "257": {
+      "ai_risk": 2.5,
+      "rationale_ja": "薬液・電気を用いた表面処理の工程操作と材料の取り扱いという現場作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "258": {
+      "ai_risk": 4,
+      "rationale_ja": "製錬技術の開発・改良はAI活用余地があるが、生産工程の管理と現場作業員の監督という対面・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "259": {
+      "ai_risk": 3,
+      "rationale_ja": "稼働監視はAI化が進むが、高炉・転炉・圧延設備の運転操作とトラブル対応という交替制の現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "260": {
+      "ai_risk": 4,
+      "rationale_ja": "AI画像解析による欠陥検出は進むが、現場での検査実施と最適手法の選定・判定という間接検査の専門判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "261": {
+      "ai_risk": 3,
+      "rationale_ja": "基板への部品接続・組立は機械化と手作業が混在する反復作業で、物理的自動化はロボット領域だがAIの直接代替余地は中程度。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "262": {
+      "ai_risk": 5,
+      "rationale_ja": "CAD・シミュレーションはAIが大きく支援し生成設計も進むが、機械製品の構想・実現可能性の総合判断という工学的中核は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "263": {
+      "ai_risk": 2.8,
+      "rationale_ja": "設計図に沿った精密な光学部品の手組みと確認という熟練の手作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "264": {
+      "ai_risk": 3,
+      "rationale_ja": "溶接・塗装はロボット化済みだが、多数部品の最終組付という現場のライン作業に手作業が残り、AIの直接代替余地は中程度。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "265": {
+      "ai_risk": 2.8,
+      "rationale_ja": "毎回変わるオーダーメイドの生産用機械を設計図から組み立てる熟練作業が中核で、定型化しにくくAI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "266": {
+      "ai_risk": 2.8,
+      "rationale_ja": "多種少量の精密計器をユニットごとに組立・調整する熟練の手作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "267": {
+      "ai_risk": 5,
+      "rationale_ja": "EDA・AI設計支援は進むが、製造プロセス開発・回路設計・歩留まり改善という最先端の工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "268": {
+      "ai_risk": 3.5,
+      "rationale_ja": "製造の自動化が進んだ工場で設備・装置を操作・監視する業務が中核で、監視はAI化余地があるが現場対応が残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "269": {
+      "ai_risk": 3,
+      "rationale_ja": "異常検知はAI化が進むが、自動化倉庫設備の点検・修理・部品交換という現場での物理的な保守作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "270": {
+      "ai_risk": 5,
+      "rationale_ja": "設計・シミュレーションはAIが支援するが、新車開発の企画・全体設計と試作・品質検証・生産指導という工学的中核は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "271": {
+      "ai_risk": 5,
+      "rationale_ja": "CAD設計はAIが支援するが、高精度機器の概念・基本設計と製造工程の技術開発という工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "272": {
+      "ai_risk": 4,
+      "rationale_ja": "設計はAI化余地があるが、電気設備の保守・管理と更新工事・現場の運転管理という物理的・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "273": {
+      "ai_risk": 5,
+      "rationale_ja": "設計はAIが支援するが、電子機器の開発・設計と製造工程の技術開発・改良という工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "274": {
+      "ai_risk": 4.5,
+      "rationale_ja": "ネットワーク設計・運用はSDN・自動化で省力化が進むが、基地局等の現場工事と施工管理という物理的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "275": {
+      "ai_risk": 3,
+      "rationale_ja": "故障診断はソフト・AI化が進むが、訪問・分解・部品交換という現場での物理的な修理作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "276": {
+      "ai_risk": 4.5,
+      "rationale_ja": "設計はAIが支援するが、多数の装置の組み合わせと安全性を勘案するプラントの基本・詳細設計という工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "277": {
+      "ai_risk": 3,
+      "rationale_ja": "設計図に沿った医療用画像機器の精密組立・試験調整と据付・アフターサービスという手技的・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "278": {
+      "ai_risk": 3,
+      "rationale_ja": "織機の自動化は進むが、経糸準備・運転・監視と糸切れ対応という現場での操作・物理作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "279": {
+      "ai_risk": 2.8,
+      "rationale_ja": "染料・薬品を用いた染色整理加工の機械操作と生地の取り扱いという現場作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "280": {
+      "ai_risk": 2.8,
+      "rationale_ja": "自動裁断システム化は進むが、布地を扱うミシン縫製という手作業の技能が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "281": {
+      "ai_risk": 2.3,
+      "rationale_ja": "製材機械による原木の加工という現場での機械操作と丸太の仕分け等の身体作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "282": {
+      "ai_risk": 2.3,
+      "rationale_ja": "単板製作・接着・圧着・仕上げという流れ作業の機械操作と物理作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "283": {
+      "ai_risk": 2.3,
+      "rationale_ja": "木工機械作業はあるが、切断・組立・塗装・椅子張りという手作業が中核の現場労働で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "284": {
+      "ai_risk": 3,
+      "rationale_ja": "異常検知はAI化が進むが、紡織機械の定期保全・故障修理という現場での物理的な保全作業が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "285": {
+      "ai_risk": 2.8,
+      "rationale_ja": "裁断・罫入れ・接着の機械操作が中心だが、紙質・温度に応じた調整という現場作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "286": {
+      "ai_risk": 3,
+      "rationale_ja": "紡績機の自動化は進むが、運転・監視と糸づくりの工程操作という現場作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "287": {
+      "ai_risk": 2.2,
+      "rationale_ja": "木工機械作業はあるが、建具の製造と開口部への取り付けという手作業・現場作業が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "288": {
+      "ai_risk": 4.5,
+      "rationale_ja": "商品開発・品質管理はAIが支援するが、加工処理の技術開発と生産工程の構築・技術指導という現場・工学的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "289": {
+      "ai_risk": 2.5,
+      "rationale_ja": "CAD設計は進むが、裁断・縫製・釣り込み・底付け・仕上げという皮革靴製造の手作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "290": {
+      "ai_risk": 2.3,
+      "rationale_ja": "型紙に沿った裁断・革漉き・縫製・仕上げという袋物製造の手作業が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "291": {
+      "ai_risk": 1.8,
+      "rationale_ja": "素地づくり・下地・漆塗り・蒔絵という伝統的な手技を要する工芸が中核で、AIの直接代替余地は極めて乏しい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "292": {
+      "ai_risk": 2,
+      "rationale_ja": "鋳造等の機械化はあるが、原型づくり・ろう付け・石留め・仕上げ磨きという熟練の手作業が中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "295": {
+      "ai_risk": 3,
+      "rationale_ja": "GMP下の高度に自動化された製造ラインの運転・監視が中核で、監視はAI化余地があるが現場の工程操作・品質確認が残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "296": {
+      "ai_risk": 5,
+      "rationale_ja": "生産スケジューリング・品質分析・不良検知はAIに親和的だが、関係部門との合議による生産計画立案と工程管理という調整業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "297": {
+      "ai_risk": 2.8,
+      "rationale_ja": "精練・成型・加硫の機械操作が中心だが、各部材を組み合わせるタイヤ製造の現場作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "298": {
+      "ai_risk": 3,
+      "rationale_ja": "配合・充填の機械操作と監視が中心で、監視・検査はAI化余地があるが現場の工程操作・不良対応が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "299": {
+      "ai_risk": 3.5,
+      "rationale_ja": "精製装置は高度に自動化・中央制御され無人化も進む方向だが、装置の巡回点検と異常時の現場対応という業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "300": {
+      "ai_risk": 3.5,
+      "rationale_ja": "連続運転の化学プラントは自動制御化が進むが、計器室監視と屋外での装置操作・異常対応という現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "301": {
+      "ai_risk": 4,
+      "rationale_ja": "設計・解析はAI活用余地があるが、原子炉・核燃料の運転管理と安全設計・放射線防護という高度な工学・安全業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "302": {
+      "ai_risk": 3.5,
+      "rationale_ja": "運転監視はAI化が進むが、発電設備の起動停止操作とパトロール・保守点検という24時間体制の現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "303": {
+      "ai_risk": 4.5,
+      "rationale_ja": "分析機器は自動化が進みAI解析も広がるが、サンプル前処理と分析法の選定・結果判断という専門的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "304": {
+      "ai_risk": 4,
+      "rationale_ja": "原料・釉薬の開発はAI活用余地があるが、製造現場での作業指導・監督と製造方法の改良という対面・工学的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "305": {
+      "ai_risk": 4.5,
+      "rationale_ja": "材料情報学などAI活用は進むが、ファインセラミックスの開発と製造工程の構築・品質管理という工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "306": {
+      "ai_risk": 1.8,
+      "rationale_ja": "石材の切り出し・割り・加工・据付という屋外・現場での身体的な石工技能が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "307": {
+      "ai_risk": 1.5,
+      "rationale_ja": "火薬を扱うため機械化できない熟練の手作業による花火製造と、現場での打ち揚げという身体労働が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "308": {
+      "ai_risk": 4.5,
+      "rationale_ja": "材料情報学などAI活用は進むが、高分子材料・合成の研究開発と製品化技術の開発という実験的・専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "309": {
+      "ai_risk": 4.5,
+      "rationale_ja": "タンパク質構造予測等でAIが研究を変革しているが、生物を用いた実験と再生医療・機能性食品等の研究開発の中核は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "310": {
+      "ai_risk": 4,
+      "rationale_ja": "設計・解析はAIが支援するが、衛星・ロケットの研究開発・設計・製作・運用という最先端の工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "311": {
+      "ai_risk": 4.5,
+      "rationale_ja": "設計・シミュレーションはAIが支援するが、ジェットエンジンの概念・基本・詳細設計と型式証明という安全critical工学が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "312": {
+      "ai_risk": 8,
+      "rationale_ja": "コード生成AI・コーディング支援によりソフトウェア開発の中核が大きく代替・再構成されるが、要件定義・設計・顧客対応・システム統合は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "313": {
+      "ai_risk": 8.8,
+      "rationale_ja": "詳細設計に基づくコーディングとテスト・デバッグが中核で、コード生成AIによる代替・再構成の影響が極めて大きい本rubricの校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "314": {
+      "ai_risk": 8,
+      "rationale_ja": "Webサービスの開発はコード生成AIで大きく代替・再構成されるが、要件定義とチームでのサービス設計・判断は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "315": {
+      "ai_risk": 7,
+      "rationale_ja": "コード生成AIの影響は大きいが、ハードウェアと一体の制御・リアルタイム制約とシステム全体設計という組込み特有の工学が一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "316": {
+      "ai_risk": 7.8,
+      "rationale_ja": "パッケージソフトの開発はコード生成AIで大きく代替されるが、企画・機能設計と使いやすさの判断は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "317": {
+      "ai_risk": 8,
+      "rationale_ja": "アプリ開発はコード生成AIで大きく代替・再構成されるが、企画・要件定義とプロダクト判断は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "318": {
+      "ai_risk": 6.5,
+      "rationale_ja": "IaC・クラウド自動化・AIOpsで構築の多くが自動化されるが、基盤アーキテクチャの設計判断と大規模構築の現場対応は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "319": {
+      "ai_risk": 7.5,
+      "rationale_ja": "監視・バックアップ・障害対応はAIOps・自動復旧で直接代替が進む高影響職だが、重大障害時の判断対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "320": {
+      "ai_risk": 7.5,
+      "rationale_ja": "利用者からの問い合わせ対応はAIチャットボット・アシスタントで一次対応の多くが直接代替される高影響職。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "321": {
+      "ai_risk": 5.5,
+      "rationale_ja": "SIEM・SOAR・AI検知で監視の自動化が進むが、インシデント対応と新規脅威への分析・判断という専門業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "322": {
+      "ai_risk": 4,
+      "rationale_ja": "進捗報告等はAI支援余地があるが、要員調達・リスク管理とステークホルダー調整というプロジェクト責任者の対人・判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "323": {
+      "ai_risk": 6,
+      "rationale_ja": "AutoML等でモデリングの自動化が進むが、分析目標の設定とビジネスへの示唆・関係者との合意という上流業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "324": {
+      "ai_risk": 3.5,
+      "rationale_ja": "分析等はAIが支援するが、デジタルによる事業変革の構想とステークホルダーを巻き込む変革推進というリーダーシップが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "325": {
+      "ai_risk": 5.5,
+      "rationale_ja": "AutoML等でAI開発の一部は自動化されるが、最先端の機械学習研究開発とアーキテクチャ設計・判断という高度な専門業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "326": {
+      "ai_risk": 6.5,
+      "rationale_ja": "生成AI・AIサイトビルダー・テンプレートでデザイン制作の多くが自動化されるが、コンセプト策定と依頼者との要件調整は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "327": {
+      "ai_risk": 4.5,
+      "rationale_ja": "制作物はAIで自動化余地があるが、受注からサイト企画・制作進行を指揮する現場監督的な調整・判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "328": {
+      "ai_risk": 5.5,
+      "rationale_ja": "AI動画生成・自動編集ツールが急速に進展するが、撮影・企画・演出という創作的・身体的業務が一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "329": {
+      "ai_risk": 6.5,
+      "rationale_ja": "テキストからの画像・3D生成AIがCG制作を直接代替・再構成する影響が大きいが、高度な演出・監修判断は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "330": {
+      "ai_risk": 4.5,
+      "rationale_ja": "アセット生成はAIで自動化余地があるが、ゲームの企画・シナリオ・全体構成という創作的な設計判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "331": {
+      "ai_risk": 4,
+      "rationale_ja": "制作物はAIで生成余地があるが、ビジュアル全体のとりまとめとスタッフ選定・演出判断という創造的ディレクションが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "332": {
+      "ai_risk": 6,
+      "rationale_ja": "生成AIによる広告クリエイティブの自動化が進むが、広告主の意図把握とチームでの表現の練り上げという業務が一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "333": {
+      "ai_risk": 4,
+      "rationale_ja": "制作物はAIで生成余地があるが、広告戦略・コンセプト決定と制作メンバーへの指揮という創造的リーダーシップが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "334": {
+      "ai_risk": 6.5,
+      "rationale_ja": "生成AI(画像・レイアウト)がグラフィックデザインを直接代替・再構成する影響が大きいが、ブランド表現と依頼者との調整は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "335": {
+      "ai_risk": 6.8,
+      "rationale_ja": "LLMがコピー文案を直接生成し執筆業務の代替余地が極めて大きいが、ブランド戦略と人を動かす洞察という創造的判断は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "336": {
+      "ai_risk": 3.8,
+      "rationale_ja": "デザイン構想はAI化余地があるが、店舗での陳列・ウィンドウ装飾の施工監理という空間的・物理的・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "337": {
+      "ai_risk": 4.5,
+      "rationale_ja": "レンダリング・レイアウト生成はAIが支援するが、空間の創造的設計と依頼主との調整・施工立会という対面・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "338": {
+      "ai_risk": 4,
+      "rationale_ja": "提案資料はAI化余地があるが、依頼主のライフスタイルに合わせた内装・家具の選定助言という対面・空間的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "339": {
+      "ai_risk": 4.5,
+      "rationale_ja": "トレンド分析・配色提案はAIが支援するが、コンセプトに基づく色彩設計の専門判断と発注者との調整が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "340": {
+      "ai_risk": 4,
+      "rationale_ja": "生成AIによるデザイン支援は進むが、流行を読む創作的な衣服デザインと素材・形の総合判断・ブランド表現が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "341": {
+      "ai_risk": 4.5,
+      "rationale_ja": "アパレルCADとAIによるパターン展開・グレーディングの自動化は進むが、デザイナーの意図を形にする立体裁断と判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "342": {
+      "ai_risk": 6.8,
+      "rationale_ja": "画像生成AIがイラスト制作を直接代替・再構成する影響が極めて大きいが、独自の作風と発注者の意図に応じた表現は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "343": {
+      "ai_risk": 5.5,
+      "rationale_ja": "AI中割り・生成ツールが進展し作画工程の代替余地が大きいが、創造的な原画と作品全体の動きの設計は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "344": {
+      "ai_risk": 3.5,
+      "rationale_ja": "デザインはAI化余地があるが、現地状況に応じた看板の制作と夜間の取り付け作業という物理的・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "345": {
+      "ai_risk": 5.5,
+      "rationale_ja": "CAD・3D・AIによる作図自動化が進むが、図面のない製品の計測と忠実な立体図化という技術的な判断が一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "346": {
+      "ai_risk": 3.5,
+      "rationale_ja": "衣装の調達・コーディネートと撮影現場での演出対応という対人的・物理的・現場業務が中核で、AIの直接代替余地は中程度。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "347": {
+      "ai_risk": 5,
+      "rationale_ja": "画像・デザイン生成AIは制作を支援するが、本の内容理解に基づく装丁の創造的表現と作者・編集者との調整が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "348": {
+      "ai_risk": 5,
+      "rationale_ja": "生成AIによる柄デザインの自動化は進むが、コンセプトに沿った素材選定と織り・染めの指定という専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "349": {
+      "ai_risk": 2.2,
+      "rationale_ja": "生花を使った装飾作品の制作という手作業の創作と現場での装花が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "350": {
+      "ai_risk": 4,
+      "rationale_ja": "生成AIによるデザイン支援は進むが、素材を生かしたジュエリーの創造的デザインと制作・発表という創作的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "351": {
+      "ai_risk": 4,
+      "rationale_ja": "レシピ生成等はAIが支援するが、メニュー開発・店舗プロデュースと多職種の協働コーディネートという創造的・対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "352": {
+      "ai_risk": 3.5,
+      "rationale_ja": "デザイン画はAIで生成余地があるが、脚本理解に基づく舞台装置・衣装の創作と演出家との綿密な協働が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "353": {
+      "ai_risk": 3,
+      "rationale_ja": "仕込み図はAI化余地があるが、作品意図に合う照明演出の創作と上演中の現場でのオペレーションが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "354": {
+      "ai_risk": 4.5,
+      "rationale_ja": "3D CAD・生成AIがデザインを支援するが、製品の意匠創造と企画・生産・販売部門との協働・模型検証という工学的・創造的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "355": {
+      "ai_risk": 5.5,
+      "rationale_ja": "画像生成AIが商品・ストック写真の一部を代替するが、ライティング・人物撮影と現場での創造的な撮影判断は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "356": {
+      "ai_risk": 3,
+      "rationale_ja": "スタジオ・取材現場でのテレビカメラ撮影という現場での身体的なカメラ操作と即応的な撮影判断が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "357": {
+      "ai_risk": 2.5,
+      "rationale_ja": "事件・事故・災害の現場に駆けつけ決定的瞬間を撮影するという即応的・身体的・現場業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "358": {
+      "ai_risk": 6.5,
+      "rationale_ja": "取扱説明書の制作という文章作成が中核で、LLMによる文書生成の代替余地が大きいが、製品理解と分かりやすさの設計は一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "359": {
+      "ai_risk": 5.5,
+      "rationale_ja": "DTPによる紙面の割り付け・刷版作成というデジタル工程が中核で、自動組版・AIによる代替余地が大きい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "360": {
+      "ai_risk": 3,
+      "rationale_ja": "印刷機の準備・刷り出し・品質管理と機械の点検清掃という現場での機械操作・物理作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "361": {
+      "ai_risk": 2.8,
+      "rationale_ja": "断裁・折り・丁合・綴じという製本機械の操作と物理作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "362": {
+      "ai_risk": 4.5,
+      "rationale_ja": "分析・資料作成はAIが支援するが、顧客のIT・DX戦略の策定と課題解決の提案・助言という対人的・戦略的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "363": {
+      "ai_risk": 4.5,
+      "rationale_ja": "コンテンツ生成・モニタリングはAIが支援するが、広報戦略の立案と危機管理・メディア対応という対人的・戦略的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "364": {
+      "ai_risk": 4.5,
+      "rationale_ja": "報酬水準等の調査はAIが支援するが、組織・人材の課題分析と制度設計の提案という対人的・専門的なコンサルティングが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "365": {
+      "ai_risk": 5.5,
+      "rationale_ja": "出願書類作成・先行調査はAI支援で自動化余地が大きいが、権利化戦略と係争・渉外対応という専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "366": {
+      "ai_risk": 6.5,
+      "rationale_ja": "既存特許・商標の情報収集・分析が中核で、AIによる特許検索・意味解析の代替余地が大きい高影響の専門職。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "388": {
+      "ai_risk": 3.8,
+      "rationale_ja": "シミュレーション・解析はAIが支援するが、構造・材料・防災等の研究と実験・試験という実証的・創造的な研究活動が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "389": {
+      "ai_risk": 4,
+      "rationale_ja": "AIは研究を支援し研究対象でもあるが、ハード・ソフト・ネットワークの新規研究と理論構築という創造的な研究活動が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "390": {
+      "ai_risk": 4,
+      "rationale_ja": "創薬・画像解析などAIが研究を支援するが、実験動物・培養細胞を用いた基礎研究と新規仮説の検証という実証的・創造的な研究活動が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "391": {
+      "ai_risk": 4,
+      "rationale_ja": "画像・音声・筆跡の解析はAI化余地があるが、現場資料の鑑定と法廷での証言・専門判断という権限的・専門的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "392": {
+      "ai_risk": 4.5,
+      "rationale_ja": "in-silico創薬・構造予測でAIが探索研究を大きく変えるが、合成実験・薬効/安全性の検証という実証的な研究開発が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "393": {
+      "ai_risk": 4.5,
+      "rationale_ja": "AIが研究を支援するが、微生物・細胞を用いた実験と品種改良・創薬応用の検証という実証的・創造的な研究活動が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "394": {
+      "ai_risk": 5.5,
+      "rationale_ja": "経済データの分析・予測・レポート作成はAIが大きく支援するが、将来予測の組み立てと政策提言という判断・洞察が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "395": {
+      "ai_risk": 2.2,
+      "rationale_ja": "障害のある児童・生徒一人ひとりに合わせた個別の指導と自立支援という身体的・情緒的な対人教育が中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "396": {
+      "ai_risk": 4,
+      "rationale_ja": "AIアダプティブ学習・採点の脅威はあるが、生徒個々への対面指導と保護者対応・動機づけという対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "397": {
+      "ai_risk": 4,
+      "rationale_ja": "AI言語学習アプリの普及はあるが、レベルに応じた対面授業と発話指導・進路相談という対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "398": {
+      "ai_risk": 4.5,
+      "rationale_ja": "AI会話練習ツールが会話練習を直接代替する面はあるが、対面でのレッスンと発音矯正・動機づけという対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "399": {
+      "ai_risk": 3,
+      "rationale_ja": "カリキュラム作成はAI化余地があるが、機械・設備を用いた実技訓練の指導と就職支援という対面・実践的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "400": {
+      "ai_risk": 3.5,
+      "rationale_ja": "事業の企画・調査はAI支援余地があるが、社会教育の専門的・技術的な指導助言と地域団体への支援という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "401": {
+      "ai_risk": 2,
+      "rationale_ja": "救急車内での応急処置と特定医療行為という現場での身体的・即応的な救命業務が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "402": {
+      "ai_risk": 2.8,
+      "rationale_ja": "画像診断はAIが支援するが、切開・縫合・手術という極めて手技的な治療と適応判断・責任が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "403": {
+      "ai_risk": 3,
+      "rationale_ja": "診断はAIが支援するが、小児の診察・治療と発達を見守り家族に寄り添う対人的な診療が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "404": {
+      "ai_risk": 3.5,
+      "rationale_ja": "内科の診断は医療の中でAI支援が最も進む領域だが、診察・治療法選択の判断と患者への説明・責任という臨床業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "405": {
+      "ai_risk": 2.8,
+      "rationale_ja": "AIメンタルツールはあるが、対話を通じた信頼関係に基づく心理療法と薬物療法の判断という対人的な診療が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "406": {
+      "ai_risk": 2.8,
+      "rationale_ja": "診断はAIが支援するが、妊娠管理・分娩・手術という身体的・即応的な医療と患者との関係が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "407": {
+      "ai_risk": 4,
+      "rationale_ja": "資料作成等は一部自動化余地があるが、治験参加者の支援と院内の医師・看護師等との調整・運営という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "408": {
+      "ai_risk": 3,
+      "rationale_ja": "患者・家族との信頼関係に基づく面接とアセスメント・社会復帰支援という対人的・関係的なソーシャルワークが中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "409": {
+      "ai_risk": 3,
+      "rationale_ja": "相談者の話を聴きニーズを引き出す相談支援と関係機関との連絡調整という対人的・関係的業務が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "410": {
+      "ai_risk": 3.5,
+      "rationale_ja": "収支・勤務表の管理は一部自動化余地があるが、スタッフの採用・育成・定着という人材マネジメントと施設運営が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "411": {
+      "ai_risk": 2.5,
+      "rationale_ja": "対話を通じた信頼関係の構築とクライアントの問題整理を促す心理的支援が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "412": {
+      "ai_risk": 2.5,
+      "rationale_ja": "児童・生徒に寄り添う心のケアと保護者・教職員への助言という学校現場での対人的・関係的な支援が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "413": {
+      "ai_risk": 2,
+      "rationale_ja": "個人宅で子供を預かり保育・世話をするという身体的・情緒的なケアと安全管理が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "414": {
+      "ai_risk": 4.5,
+      "rationale_ja": "自動チェックイン機・アプリで受付・精算の自動化が進むが、館内状況把握と要望対応・各部門との連携という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "415": {
+      "ai_risk": 1.8,
+      "rationale_ja": "ベッドメイキング・浴室清掃・備品補充という客室を整える手作業の物理労働が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "416": {
+      "ai_risk": 2.8,
+      "rationale_ja": "案内情報は一部AI化余地があるが、荷物運搬・客室案内ときめ細やかなもてなしという身体的・対人的サービスが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "417": {
+      "ai_risk": 3.5,
+      "rationale_ja": "セルフオーダー端末や配膳ロボットの導入は進むが、来店客の出迎え・配膳・接客と店内対応という対人的・身体的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "418": {
+      "ai_risk": 3.5,
+      "rationale_ja": "セルフオーダーや配膳ロボットの導入は進むが、接客・マニュアル調理・清掃という店内の対人的・身体的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "419": {
+      "ai_risk": 2.5,
+      "rationale_ja": "AIによる調合提案は出始めているが、数千の香料から香りを創造し評価する極めて専門的な嗅覚と感性が中核で代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "420": {
+      "ai_risk": 2,
+      "rationale_ja": "精油をブレンドし手技でトリートメントを行うという身体的施術と癒しの対人業務が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "421": {
+      "ai_risk": 2,
+      "rationale_ja": "手指で足裏・手・耳の反射区を刺激する施術という身体的・対人的な技術が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "422": {
+      "ai_risk": 2.5,
+      "rationale_ja": "遺族の希望を聞き葬儀を企画・運営・進行するという感情労働と現場での対人的・段取り業務が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "423": {
+      "ai_risk": 2,
+      "rationale_ja": "着付けの手技と立ち居振る舞い・礼儀作法を対面で教えるという身体的・対人的な指導が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "424": {
+      "ai_risk": 8,
+      "rationale_ja": "録音データの文字起こし(反訳)が中核で、音声認識AIによる直接代替の影響が極めて大きいが、聞き取り困難な場面の補助は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.65
+    },
+    "425": {
+      "ai_risk": 6.8,
+      "rationale_ja": "判例・文献調査と書面作成・事実調査が中核で、リーガルAI・文書レビューによる代替余地が大きいが、弁護士の監督下での判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "426": {
+      "ai_risk": 5,
+      "rationale_ja": "スケジュール・メール対応はAIアシスタントで自動化余地が大きいが、情報の取捨選択と幹部を補佐する裁量・信頼関係が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "427": {
+      "ai_risk": 6.5,
+      "rationale_ja": "来客の取次ぎ・案内という業務はタブレット受付・AI受付システムで直接代替される面が大きいが、不審者対応等の判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "428": {
+      "ai_risk": 7.5,
+      "rationale_ja": "文書作成・データ入力・伝票管理という定型事務が中核で、RPA・AIによる代替余地が極めて大きい高影響職。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "429": {
+      "ai_risk": 9.9,
+      "rationale_ja": "キーボード等によるデータ入力と確認という完全に定型的なデジタル処理が中核で、AI・自動認識による代替余地が最大の校正アンカー職。",
+      "rationale_en": "",
+      "confidence": 0.85
+    },
+    "430": {
+      "ai_risk": 7.5,
+      "rationale_ja": "伝票起票・帳簿記入・財務諸表作成という経理事務が中核で、会計ソフト・RPA・AIによる自動化の影響が極めて大きい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "431": {
+      "ai_risk": 7,
+      "rationale_ja": "見積書・納品書作成と受発注管理という営業サポート事務が中核で、RPA・AIによる代替余地が大きいが、要望聴取等の対人対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "432": {
+      "ai_risk": 6.8,
+      "rationale_ja": "採用・給与・勤怠の事務手続が中核で、給与計算・記録管理はRPA・AIで自動化余地が大きいが、制度運用の判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "433": {
+      "ai_risk": 6.8,
+      "rationale_ja": "文書管理・資産管理・会議運営という定型事務が中核で、RPAによる効率化・代替が求められる高影響職だが、危機対応等は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "434": {
+      "ai_risk": 5,
+      "rationale_ja": "市場調査・分析はAIが支援するが、消費者ニーズを捉えた新製品・サービスの企画立案という創造的・協働的な判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "435": {
+      "ai_risk": 6.8,
+      "rationale_ja": "処方箋受付・レセコン入力・レセプト作成という窓口・請求事務が中核で、自動入力・電子処方による代替余地が大きい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "436": {
+      "ai_risk": 6.5,
+      "rationale_ja": "介護報酬請求(レセプト作成)を中心とした事務が中核で、請求事務の自動化余地が大きいが、窓口・連絡対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "437": {
+      "ai_risk": 6.5,
+      "rationale_ja": "生産・工程管理のデータ入力・書類作成という事務が中核で、システム化・RPAによる代替余地が大きいが、現場との調整は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "438": {
+      "ai_risk": 6.8,
+      "rationale_ja": "入出金・送金・両替はATM・オンライン・アプリで自動化が大きく進み窓口が縮小する一方、複雑な相談・対面対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "439": {
+      "ai_risk": 6.5,
+      "rationale_ja": "インボイス等の貿易書類作成と輸送手配が中核で、貿易のデジタル化・RPAによる代替余地が大きいが、法規調査・関係機関対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "440": {
+      "ai_risk": 6,
+      "rationale_ja": "保険金請求の受付・処理はAI(画像による損害査定等)・自動化が進むが、過失割合・賠償額の協議と現場調査という判断・交渉は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "441": {
+      "ai_risk": 7,
+      "rationale_ja": "注文受付・データ入力という業務が中核で、オンライン注文・チャットボット・自動処理による代替余地が大きい高影響職。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "442": {
+      "ai_risk": 6,
+      "rationale_ja": "文書・人事労務・会計・証明書発行という学校の定型事務が中核で、システム化・RPAによる代替余地が大きいが、来校者対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "443": {
+      "ai_risk": 6.8,
+      "rationale_ja": "レセプト作成と医療費請求・受付という事務が中核で、自動コーディング・レセプトソフトによる代替余地が大きい高影響職。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "444": {
+      "ai_risk": 5,
+      "rationale_ja": "資料作成はAIが支援するが、マスコミ・地域社会への情報提供とプレス対応という対人的・戦略的な広報業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "445": {
+      "ai_risk": 4.5,
+      "rationale_ja": "報告書作成はAIが支援するが、アナリスト・投資家との関係構築と適時・公平な情報開示という対人的・コンプライアンス的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "446": {
+      "ai_risk": 5.5,
+      "rationale_ja": "契約書の作成・審査はリーガルAIで自動化余地が大きいが、業務理解に基づく法的リスク判断と交渉関与という対人的・判断的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "447": {
+      "ai_risk": 4.5,
+      "rationale_ja": "契約チェック・モニタリングはAI化余地があるが、推進体制の整備と社会規範を含む遵守の判断・組織への浸透という対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "448": {
+      "ai_risk": 3.5,
+      "rationale_ja": "市販薬の販売という規制下の対面業務が中核で、情報提供は一部AI化余地があるが、顧客への親身な助言と店頭対応が残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "449": {
+      "ai_risk": 3.5,
+      "rationale_ja": "画像による査定の自動化余地はあるが、持ち込み品の洗浄・修理・品出しという物理作業と店頭買取・販売が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "450": {
+      "ai_risk": 4.5,
+      "rationale_ja": "オンラインでの契約・プラン変更が進むが、店頭での端末紹介・プラン提案と各種契約手続という対面業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "451": {
+      "ai_risk": 6,
+      "rationale_ja": "配信サービスの普及でCD・映像ソフト販売の形態自体が大きく縮小する一方、イベント開催や店頭の物理業務は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "452": {
+      "ai_risk": 4.5,
+      "rationale_ja": "提案資料はAIが支援するが、顧客の課題を聞き解決策を提案し関係を築くという技術営業の対人的・相談的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "453": {
+      "ai_risk": 5,
+      "rationale_ja": "オンライン保険・比較サイトで訪問営業が縮小するが、ライフスタイルに合わせた複雑な商品提案と信頼関係構築という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "454": {
+      "ai_risk": 4.5,
+      "rationale_ja": "商品情報提供は一部AI化余地があるが、顧客を訪問しきめ細かな金融サービスと相談・事業承継支援を行う対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "455": {
+      "ai_risk": 6.5,
+      "rationale_ja": "アルゴリズム取引・AIによる自動売買がディーリングの中核を大きく代替・再構成する高影響職だが、相場急変時の裁量判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "456": {
+      "ai_risk": 6,
+      "rationale_ja": "データ収集・集計・分析・報告という市場調査の中核が、AI分析・調査自動化により大きく代替・再構成される。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "457": {
+      "ai_risk": 6,
+      "rationale_ja": "財務分析・将来予測・レポート作成はAIが大きく代替するが、企業訪問・取材と投資判断の洞察・助言という対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "461": {
+      "ai_risk": 4.5,
+      "rationale_ja": "市場分析はAIが支援するが、消費者ニーズを掴んだPB商品の企画開発と仕入れルート開拓という創造的・対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "462": {
+      "ai_risk": 5,
+      "rationale_ja": "ペーパーレス化で市場は縮小するが、顧客の事務課題を把握し最適なOA機器・システムを提案する技術営業の対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "463": {
+      "ai_risk": 5.5,
+      "rationale_ja": "ロボアドバイザー・オンライン取引で代替が進むが、顧客の人生設計に合わせた資産運用の対面コンサルティングが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "464": {
+      "ai_risk": 3.5,
+      "rationale_ja": "店頭での美容カウンセリングとメーク実演・対面販売という対人的・感覚的・身体的業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "465": {
+      "ai_risk": 4,
+      "rationale_ja": "家庭・職場を訪問し肌状態を見ながら化粧品を提案するという対面の美容相談・関係性営業が中核で、AIの直接代替余地は中程度。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "466": {
+      "ai_risk": 3,
+      "rationale_ja": "車での配達・自販機補充・陳列・集金という物理的なルート業務と対面営業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "467": {
+      "ai_risk": 2.8,
+      "rationale_ja": "用途に合わせた自転車の提案・組立・整備と修理という対面販売と手作業の整備が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "468": {
+      "ai_risk": 5,
+      "rationale_ja": "確率・統計のモデリングはAI・MLが支援するが、保険料・準備金評価と健全性確保の専門判断・責任という規制下の業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "469": {
+      "ai_risk": 5.5,
+      "rationale_ja": "データ分析・監査テストはAIが支援するが、内部統制の評価と経営トップへの報告・改善提言という独立した判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "470": {
+      "ai_risk": 5,
+      "rationale_ja": "クオンツ・パッシブ・AI運用の圧力はあるが、運用方針の策定とポートフォリオ判断・責任というアクティブ運用の中核は人に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "471": {
+      "ai_risk": 4,
+      "rationale_ja": "分析・資料作成はAIが支援するが、対象企業の選定・交渉・契約締結というM&Aの高度な対人交渉と判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "472": {
+      "ai_risk": 4.5,
+      "rationale_ja": "商品情報提供は一部AI化余地があるが、代理店との信頼関係構築と販売・経営アドバイスという対人的な支援業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "473": {
+      "ai_risk": 3,
+      "rationale_ja": "居住者応対・点検・立会という現場での対面・物理業務が中核で、機械警備化の面はあるがAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "474": {
+      "ai_risk": 4,
+      "rationale_ja": "経理・資料作成は一部自動化余地があるが、理事会・総会の運営支援と管理組合との調整という対人的・運営的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "475": {
+      "ai_risk": 3,
+      "rationale_ja": "AI信号・センサーの面はあるが、雑踏・工事現場での誘導・交通整理という現場での身体的・即応的な安全業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "476": {
+      "ai_risk": 3.5,
+      "rationale_ja": "計器監視はAI化余地があるが、ボイラーの圧力・水位・燃焼状態の保守管理と安全運転という現場での物理的・責任的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "477": {
+      "ai_risk": 3,
+      "rationale_ja": "高速道路の自動運転トラックは中期的脅威だが、当面は安全運転と積み下ろし・ラストワンマイルという身体的・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "478": {
+      "ai_risk": 2.8,
+      "rationale_ja": "自動運転の長期影響はあるが、特大・重量品を運ぶトレーラーの高度な運転技能という身体的・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "479": {
+      "ai_risk": 2.8,
+      "rationale_ja": "鉱山等の自動運転建機はあるが、建設現場でのダンプ運転と土砂搬入という身体的・現場業務が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "480": {
+      "ai_risk": 2.5,
+      "rationale_ja": "自動運転の長期影響はあるが、特定利用者の送迎という安全運転と乗降対応の現場業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "481": {
+      "ai_risk": 2.3,
+      "rationale_ja": "運転に加え車椅子・ストレッチャー対応や介護という身体的・対人的なケアが中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "482": {
+      "ai_risk": 3,
+      "rationale_ja": "ルート最適化はAI化余地があるが、決まったルートでの配送と容器回収という身体的・現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "483": {
+      "ai_risk": 2.8,
+      "rationale_ja": "配送ロボット・ドローンは実験段階で、戸別の集荷・配達というラストワンマイルの身体的業務は自動化が難しく中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "484": {
+      "ai_risk": 3.5,
+      "rationale_ja": "配達作業自体の自動化は進まないが、デジタルメディアの普及で新聞需要が縮小し職務全体が減少する方向にある。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "485": {
+      "ai_risk": 3,
+      "rationale_ja": "倉庫の自動化(AGV/ロボット)は進む方向だが、検品・入出庫・詰め替えという多様な荷物を扱う身体作業が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "486": {
+      "ai_risk": 4,
+      "rationale_ja": "ピッキングロボット・倉庫自動化が直接代替を進める方向だが、多様な商品の取り集め・仕分けという身体作業が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "487": {
+      "ai_risk": 1.8,
+      "rationale_ja": "住宅・設備のクリーニングという手作業の物理労働と現場での対応が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.62
+    },
+    "488": {
+      "ai_risk": 2,
+      "rationale_ja": "現場調査に基づく最適な防除・駆除の実施という身体的・専門的な現場業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "489": {
+      "ai_risk": 3.5,
+      "rationale_ja": "包装工程はほぼ機械化・自動化されており、機械の調整・資材補充・監視という機械周りの作業が中核で、さらなる自動化余地がある。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "490": {
+      "ai_risk": 2.5,
+      "rationale_ja": "原材料・製品の搬入搬出・機械清掃・構内清掃という工場内の身体労働が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "491": {
+      "ai_risk": 2.8,
+      "rationale_ja": "食品のパッケージング・検品・品出し・加工という店内バックヤードの身体作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "492": {
+      "ai_risk": 2.2,
+      "rationale_ja": "食材の洗浄・切込み・食器準備・片付けという調理場の手作業の補助が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "493": {
+      "ai_risk": 2.2,
+      "rationale_ja": "献立に基づく大量調理・盛付け・洗浄消毒という給食調理の身体労働と衛生管理が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "494": {
+      "ai_risk": 2,
+      "rationale_ja": "集積所を回りごみを収集車に積み込み運搬するという身体的・現場のルート業務が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.6
+    },
+    "495": {
+      "ai_risk": 3.5,
+      "rationale_ja": "処理計画・分析はAI支援余地があるが、産業廃棄物の処理方法開発と工程管理という工学的・現場的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "496": {
+      "ai_risk": 2.3,
+      "rationale_ja": "廃棄物の種類・形状に応じた収集と車両運転・積み込みという身体的・現場業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "497": {
+      "ai_risk": 2.5,
+      "rationale_ja": "フォークリフト等を使った積み込み・取り卸し・入出庫という荷役の身体作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "498": {
+      "ai_risk": 2.8,
+      "rationale_ja": "品物に応じた梱包方法の選択と箱詰・バンド掛けという検品を伴う手作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "499": {
+      "ai_risk": 3,
+      "rationale_ja": "コンテナターミナルの自動化は進む方向だが、船内・沿岸での荷物の積み卸し・運搬という身体的・現場業務が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "500": {
+      "ai_risk": 2,
+      "rationale_ja": "動物の交配・飼育・健康管理・出産介助という動物相手の身体的なケアと繁殖判断が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "501": {
+      "ai_risk": 2.5,
+      "rationale_ja": "公園計画の事務はあるが、巡視・維持管理・野生生物の保護管理という現場での身体的・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "502": {
+      "ai_risk": 2.5,
+      "rationale_ja": "搾乳ロボット等の自動化はあるが、給餌・牛舎清掃・健康管理・飼料生産という動物相手の身体労働が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "503": {
+      "ai_risk": 2.3,
+      "rationale_ja": "給餌・網清掃・生育観察・避難対応という水産物を育てる屋外・水上の身体労働が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "504": {
+      "ai_risk": 2.5,
+      "rationale_ja": "機械化・精密農業は進むが、季節・天候に応じた水管理・病害虫防除・収穫という田での身体労働と栽培判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "505": {
+      "ai_risk": 2.8,
+      "rationale_ja": "ハウス内の環境制御は自動化が進むが、土作り・植付け・防除・収穫という施設園芸の身体労働と栽培判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "506": {
+      "ai_risk": 2.3,
+      "rationale_ja": "結実管理・摘果・袋掛け・剪定という果樹特有の熟練を要する手作業と栽培判断が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "507": {
+      "ai_risk": 2.5,
+      "rationale_ja": "環境制御の自動化は進むが、品質を保つための細やかな栽培管理と出荷という花き生産の身体労働・判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "508": {
+      "ai_risk": 3.5,
+      "rationale_ja": "育種・飼養技術の開発はAI活用余地があるが、畜産家への技術指導・普及と人工授精等の現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "509": {
+      "ai_risk": 2,
+      "rationale_ja": "漁船での多彩な漁法による漁獲という海上での身体労働と経験的判断が中核で、AIの直接代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "510": {
+      "ai_risk": 2.8,
+      "rationale_ja": "受付・カルテ整理は一部AI化余地があるが、動物の保定・看護・診療補助という身体的・対人的なケアが中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "511": {
+      "ai_risk": 4,
+      "rationale_ja": "自律飛行プログラム化で手動操縦は減る方向だが、撮影・測量・点検・農薬散布の現場での操縦と判断が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "512": {
+      "ai_risk": 1.5,
+      "rationale_ja": "国民の代表として法律制定・予算審議・国政の意思決定を担う民主的代表という役割で、AIによる代替が本質的に困難。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "513": {
+      "ai_risk": 3,
+      "rationale_ja": "資料作成はAI化余地があるが、相手国担当者への技術・知識の伝達と人材育成・復興計画の協働という現場・対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "514": {
+      "ai_risk": 2,
+      "rationale_ja": "会社運営の最終的な経営判断と責任を負うリーダーシップ・ビジョンが中核で、AIによる直接代替が本質的に困難。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "515": {
+      "ai_risk": 3.5,
+      "rationale_ja": "3D CAD等の設計はAIが支援するが、トレンドを取り入れた玩具の企画・デザインと製造という創造的・物理的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "516": {
+      "ai_risk": 2.8,
+      "rationale_ja": "面接・心理検査と非行原因の分析・処遇指針の作成という心理臨床の対人的・専門的判断が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "517": {
+      "ai_risk": 4.5,
+      "rationale_ja": "生体認証ゲートで定型審査の自動化が進むが、在留審査・違反審査と申請の真偽判断という権限的・判断的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "518": {
+      "ai_risk": 5,
+      "rationale_ja": "証拠書類作成・総務事務はAI化余地があるが、検察官の捜査・取調べ補助と刑事手続の遂行という権限下の専門業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "519": {
+      "ai_risk": 3,
+      "rationale_ja": "事業場に立ち入り機械・帳簿を検査し法令遵守を指導する現場での監督・司法警察業務という権限的・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "520": {
+      "ai_risk": 5,
+      "rationale_ja": "自動スキャンツール・AIが診断を支援するが、擬似攻撃による脆弱性の発見と影響評価という創造的・専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "521": {
+      "ai_risk": 5.5,
+      "rationale_ja": "先行技術調査はAI検索で大きく自動化されるが、出願発明の特許性の判断と拒絶理由の論理構成という法的・専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "522": {
+      "ai_risk": 3,
+      "rationale_ja": "資料作成はAI化余地があるが、社会課題を捉えた新規事業の企画立案と支援対象・関係者との対人的な運営業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "523": {
+      "ai_risk": 6.5,
+      "rationale_ja": "データの収集・整理・基盤構築というコーディング・インフラ業務が中核で、コード生成AI・自動化による代替余地が大きいが、基盤設計判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "524": {
+      "ai_risk": 5,
+      "rationale_ja": "ロボアドバイザーの圧力はあるが、顧客に寄り添う長期資産形成の提案と具体的な金融商品の選定・売買支援という対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "525": {
+      "ai_risk": 2.8,
+      "rationale_ja": "危険物・高圧ガスを移送するタンクローリーの運転と安全管理という身体的・責任的な現場業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "526": {
+      "ai_risk": 5.5,
+      "rationale_ja": "外観・品質の検査が中核で、マシンビジョン・AIによる自動外観検査の代替余地が大きいが、目視抜取検査や難検査品の判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "527": {
+      "ai_risk": 4,
+      "rationale_ja": "受発注はAI化余地があるが、取引先の売り場での自社製品の取扱いを提案するルート営業の対人的・関係的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "528": {
+      "ai_risk": 5,
+      "rationale_ja": "AI・シミュレーションが開発を支援するが、認知・判断・制御の自動運転システムの設計・評価という最先端の安全critical工学が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "529": {
+      "ai_risk": 4.5,
+      "rationale_ja": "設計はAIが支援するが、医療機器の概念・基本・詳細設計と安全リスク・規制対応という工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "530": {
+      "ai_risk": 4.5,
+      "rationale_ja": "遠隔モニタリング・eCRFで一部自動化が進むが、医療機関との調整・治験のモニタリングと報告という対人的・専門的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "531": {
+      "ai_risk": 6,
+      "rationale_ja": "マニュアルに従ったPCの定型セットアップが中核で、ディスクイメージ・MDM・スクリプトによる自動プロビジョニングの代替余地が大きい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "532": {
+      "ai_risk": 2.8,
+      "rationale_ja": "店舗から客先への料理配達というラストワンマイルの身体的業務が中核で、自動化が難しくAIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "533": {
+      "ai_risk": 4.5,
+      "rationale_ja": "解析ツールは進化するが、デジタルデータの保全と痕跡の調査・分析・原因究明という証拠を扱う専門的判断が中核で、AIの直接代替余地は中程度。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "534": {
+      "ai_risk": 5,
+      "rationale_ja": "自動チェックツールは進むが、基準に照らした問題点の指摘と改善助言・保証という客観的な監査判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "535": {
+      "ai_risk": 2.5,
+      "rationale_ja": "風車の点検・修理・補修という高所・現場での身体的な保守作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "536": {
+      "ai_risk": 3.5,
+      "rationale_ja": "総務事務の自動化は進むが、課の業務管理・監督とリスクマネジメント企画・部下指導という管理・判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "537": {
+      "ai_risk": 3.5,
+      "rationale_ja": "人事事務の自動化は進むが、課の管理・監督と人事評価・部下指導という対人的な管理・判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "538": {
+      "ai_risk": 3.8,
+      "rationale_ja": "経理事務の自動化は大きく進むが、経理部門の統括・進捗管理と承認・人事労務管理という管理・判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "539": {
+      "ai_risk": 3.5,
+      "rationale_ja": "営業戦略の企画と売上目標管理・部下の指導育成という対人的な管理・判断業務が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "540": {
+      "ai_risk": 7,
+      "rationale_ja": "バグの発見・確認という業務が中核で、自動テスト・AIによるテスト生成・不具合検知による代替余地が大きい高影響職。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "541": {
+      "ai_risk": 6.5,
+      "rationale_ja": "音声で情報を伝えるナレーションが中核で、AI音声合成による代替余地が大きいが、情感を込めた語りや特定の声のニーズは一部人に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "542": {
+      "ai_risk": 6,
+      "rationale_ja": "検収・検品・保管・発送に関する書類作成・管理という事務が中核で、システム化・RPAによる代替余地が大きい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "543": {
+      "ai_risk": 5,
+      "rationale_ja": "切手販売・郵便物引受という窓口業務はセルフ化・自動化の余地があるが、書留・荷物の物理的な引受・交付と対面対応は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "544": {
+      "ai_risk": 4.5,
+      "rationale_ja": "市場分析・需要予測はAIが支援するが、売れる商品の目利きと生産者との商品開発・仕入交渉という対人的・判断的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "545": {
+      "ai_risk": 3,
+      "rationale_ja": "受付・会計は一部AI化余地があるが、治療器材の準備・片付けと診療補助という現場での身体的・対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "546": {
+      "ai_risk": 2.2,
+      "rationale_ja": "子どもの着替え・食事の世話と遊びの見守り・環境整備という保育士の補助の身体的・対人的業務が中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "547": {
+      "ai_risk": 2.5,
+      "rationale_ja": "鋼材の切断・加工・溶接・組立と艤装という船舶建造の現場での身体的・技能的作業が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "548": {
+      "ai_risk": 4.5,
+      "rationale_ja": "目視・機器による外観検査はAI化余地があるが、異物混入・微生物汚染の検査と官能的・専門的判断という現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "549": {
+      "ai_risk": 3,
+      "rationale_ja": "コンテナクレーン等の自動化は進む方向だが、重量物を吊り上げ運搬するクレーン操作と安全判断という現場業務が当面の中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "550": {
+      "ai_risk": 4.5,
+      "rationale_ja": "CAD・シミュレーションはAIが支援するが、船主の要求に応じた基本・詳細設計と性能の具体化という造船工学の判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "551": {
+      "ai_risk": 4.5,
+      "rationale_ja": "設計はAIが支援するが、燃料供給・燃焼・ボイラー等のプラントの基本・詳細設計という工学的判断と現場調整が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "552": {
+      "ai_risk": 5.5,
+      "rationale_ja": "生成AIによるUI案作成・モックは進むが、ユーザー体験の設計とリサーチに基づく使いやすさの判断という上流のUX業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "553": {
+      "ai_risk": 3.5,
+      "rationale_ja": "進捗管理ツールはあるが、作画作業の割振りと多くの関係者との連絡調整・スケジュール管理という対人的な進行管理が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "554": {
+      "ai_risk": 4,
+      "rationale_ja": "分析はAIが支援するが、チケット販促・認知度向上・ファンクラブ運営という対人的・企画的なマーケティング業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "555": {
+      "ai_risk": 3.5,
+      "rationale_ja": "訪問介護計画の作成は一部自動化余地があるが、利用者・家族との面談とヘルパーの管理・調整という対人的な管理業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "556": {
+      "ai_risk": 2.2,
+      "rationale_ja": "食事提供・家事・金銭管理の支援と入居者間の調整という日常生活の援助の身体的・対人的なケアが中核で、AIの代替余地は乏しい。",
+      "rationale_en": "",
+      "confidence": 0.58
+    },
+    "557": {
+      "ai_risk": 2.8,
+      "rationale_ja": "ハンドル・レバー操作の汎用工作機械での切削・研削が中核で、小ロット・試作品では職人技による繊細な仕上げを要し、AI代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "558": {
+      "ai_risk": 2.8,
+      "rationale_ja": "フレーム修正・へこみの板金と修復箇所の塗装という自動車車体の修復技能が中核の手作業で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "559": {
+      "ai_risk": 2.8,
+      "rationale_ja": "図面に基づく配電盤・制御盤の組立・配線と試験という現場での手作業と確認が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "560": {
+      "ai_risk": 4,
+      "rationale_ja": "データ分析はAIが支援するが、実地調査と社会現象の理論的理解・解釈という実証的・創造的な研究活動が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "561": {
+      "ai_risk": 4.5,
+      "rationale_ja": "CAD・シミュレーションはAIが支援するが、性能・安全性・走行性能を検討する鉄道車両の基本・詳細設計という工学的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "562": {
+      "ai_risk": 3,
+      "rationale_ja": "OSINTは一部AI化余地があるが、聞込み・尾行・張込みという実地調査の身体的・現場的業務と報告が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "563": {
+      "ai_risk": 2.8,
+      "rationale_ja": "生体情報モニタリングはAI支援余地があるが、手術時の麻酔管理と全身状態の判断・気道確保という安全critical・身体的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "564": {
+      "ai_risk": 3,
+      "rationale_ja": "サーモグラフィ等の自動化はあるが、入国者の健康確認と感染症対応・船舶の衛生確認という現場での看護・判断業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "565": {
+      "ai_risk": 2.5,
+      "rationale_ja": "けがや体調不良の児童生徒への救急処置と心身のケア・保健指導という保健室での対面的・身体的業務が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "566": {
+      "ai_risk": 3.5,
+      "rationale_ja": "企画案はAIが支援するが、関係者との調整とイベント当日の進行・現場管理という対人的・現場的な運営業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "567": {
+      "ai_risk": 5,
+      "rationale_ja": "教務・財務等の定型事務は自動化余地が大きいが、学生支援・入試・広報と教員との規定改定という対人的・調整的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "568": {
+      "ai_risk": 3,
+      "rationale_ja": "個別支援計画の作成は一部自動化余地があるが、こども・家族のアセスメントと療育現場のサービス提供管理という対人的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "569": {
+      "ai_risk": 1.8,
+      "rationale_ja": "遺体への死後処置・身支度・納棺という手技的施術と、遺族に寄り添う感情労働が中核で、AIの直接代替余地は極めて乏しい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "570": {
+      "ai_risk": 3.5,
+      "rationale_ja": "解析は一部AI化余地があるが、現地での耐震性能の診断と補強・改修計画の提案という現場的・専門的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "571": {
+      "ai_risk": 3.5,
+      "rationale_ja": "測定機器は自動化されるが、現場での有害物質濃度の測定と職場環境の評価・改善提案という専門的・field業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "572": {
+      "ai_risk": 3.5,
+      "rationale_ja": "カメラ・ロボットによる調査は進むが、下水道管路の劣化・破損の点検と補修の必要性・緊急度の判断という現場的・専門的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "573": {
+      "ai_risk": 1.5,
+      "rationale_ja": "生演奏による楽器演奏と音楽表現が中核で、AI作曲が進んでも生のオーケストラ演奏という芸術的・身体的業務は本質的に代替されにくい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "574": {
+      "ai_risk": 4.5,
+      "rationale_ja": "求人マッチング・手続はAI化余地が大きいが、求職者一人ひとりへのキャリア相談と就職支援というきめ細かな対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "575": {
+      "ai_risk": 2.8,
+      "rationale_ja": "画像診断はAIが支援するが、骨折・脱臼の整復固定や手術という運動器の身体的・手技的治療が中核で、AIの直接代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "576": {
+      "ai_risk": 3.5,
+      "rationale_ja": "健診結果の管理は一部自動化余地があるが、職場環境の改善と健康教育・相談・メンタル不調者支援という対人的・判断的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "577": {
+      "ai_risk": 3.5,
+      "rationale_ja": "風況データ収集はAI・ドローンが支援するが、適地選定・環境影響評価と許認可取得・地域住民との調整という現場的・対人的業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "578": {
+      "ai_risk": 3.5,
+      "rationale_ja": "AIスキャン・X線検査の支援はあるが、手荷物・貨物の検査と密輸の水際取締り・関税徴収という権限的・現場的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "579": {
+      "ai_risk": 3,
+      "rationale_ja": "整備士が整備した自動車が保安基準に適合するかを確認する完成検査という責任を伴う現場での検査・判定業務が中核で、AIの代替余地は小さい。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "580": {
+      "ai_risk": 3,
+      "rationale_ja": "個別支援計画の作成は一部自動化余地があるが、利用者のアセスメントと自立支援のサービス提供管理という対人的判断が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "581": {
+      "ai_risk": 7,
+      "rationale_ja": "ブロックチェーンを用いたシステム・アプリの設計開発が中核で、コード生成AIによる代替余地が大きいが、分散型アーキテクチャの専門設計判断は一部残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "582": {
+      "ai_risk": 5,
+      "rationale_ja": "AI音声合成・ボイスクローンが脅威となるが、キャラクターを作り上げる演技・情感と監督との調整という創造的な声の演技が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.55
+    },
+    "583": {
+      "ai_risk": 3,
+      "rationale_ja": "健診データの分析は一部自動化余地があるが、面接指導・職場巡視と就業に関する医学的助言・勧告という医師の判断・対人業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    },
+    "584": {
+      "ai_risk": 4,
+      "rationale_ja": "造形自体は自動化されているが、デジタルデータの準備と3Dプリンターの操作・材料選定・仕上げという技術的判断と現場業務が中核に残る。",
+      "rationale_en": "",
+      "confidence": 0.5
+    }
+  }
+}

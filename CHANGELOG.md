@@ -10,6 +10,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Data · AI-risk re-scored with **Opus 4.8** · one-decimal · 2026-05-30)
+
+- **All 556 occupations re-scored on the v2.0 one-decimal rubric** →
+  `data/scores/occupations_claude-opus-4-8_2026-05-30.json`. The 4.7
+  batch scored 552; this batch adds the previously-missing 581–584, so
+  coverage is now complete (556/556). `pickLatestScore` picks this batch
+  by `run_date`; the 4.7 batch is retained as a historical snapshot.
+
+- **Scoring done in-agent** (the running `claude-opus-4-8` is itself the
+  scorer — no external API calls). `scripts/extract-occ-chunks.ts` dumps
+  compact occupation extracts in chunks; the model scores each chunk to
+  JSONL; `scripts/assemble:scores` builds the schema-valid batch.
+  `scripts/run-scoring.ts` (Batches-API path) is committed as the
+  equivalent unattended alternative. See `docs/SCORING_RUNBOOK.md` §2.
+
+- **Distribution shifted lower vs 4.7**: mean 5.10 → **3.76**; bands
+  low/mid/high 171/184/197 → **323/210/23**. This is intentional — the
+  v2.0 rubric's "can it be done on one home PC?" axis correctly scores
+  the many physical / on-site / care / craft occupations low, reserving
+  high scores for genuinely digital, routine work (data entry 9.9,
+  programmer 8.8, translator 9.1, clerical/coding/call-center clusters).
+
+- **SEO baseline refreshed** (`tests/baseline/*`). AI-risk scores are
+  embedded in every occupation page's title / meta / OG·Twitter /
+  JSON-LD rating / same-risk links, so re-scoring drifts the whole-site
+  SEO fingerprint — an *expected* consequence, not a regression. All
+  structural gates (consistency / architecture / internal-links /
+  JSON-LD) stayed green; only the snapshot was recaptured.
+
+- `rationale_en` left empty for all 556 (JA-only site; English backfill
+  is a deferred follow-up batch — runbook §8 A3).
+
 ### Changed (Build · pnpm / node / tsx → **Bun** · 2026-05-29)
 
 - **Toolchain migrated to Bun 1.3.14.** The dev/build/test loop is now a
