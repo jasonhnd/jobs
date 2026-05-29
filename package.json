@@ -21,6 +21,7 @@
     "check:analytics-config": "bun scripts/check-analytics-config.cjs",
     "check:architecture": "bun scripts/check-architecture.cjs",
     "check:page-class": "bun scripts/check-page-class.cjs",
+    "check:score-batch": "bun scripts/check-score-batch.ts",
     "check:seo-baseline": "bun scripts/diff-seo-baseline.cjs",
     "capture:seo-baseline": "bun scripts/capture-seo-baseline.cjs",
     "verify:jsonld": "bun scripts/verify-jsonld.cjs",
