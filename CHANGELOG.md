@@ -10,6 +10,47 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Build · pnpm / node / tsx → **Bun** · 2026-05-29)
+
+- **Toolchain migrated to Bun 1.3.14.** The dev/build/test loop is now a
+  single tool. `bun install` migrated `pnpm-lock.yaml` → `bun.lock` and
+  converted `pnpm.overrides` → top-level `overrides`. The root
+  `pnpm-lock.yaml` and the `packageManager: pnpm@11.0.9` field were
+  removed; the now-unused `tsx` devDependency was dropped (Bun runs TS
+  directly).
+
+- **`package.json` scripts rewritten**: `tsx X.ts` → `bun X.ts`,
+  `tsx --test "src/**/*.test.ts"` → `bun test src`,
+  `node scripts/*.cjs` → `bun scripts/*.cjs`, root `pnpm audit` →
+  `bun audit`. `vercel.json` `installCommand` → `bun install
+  --frozen-lockfile` and `buildCommand` → `bun run typecheck → build →
+  verify:gates → test` (Vercel auto-detects Bun from `bun.lock`).
+
+- **`scripts/check-lockfile-sync.cjs` rewritten** to parse `bun.lock`
+  (JSONC: standard JSON + trailing commas) and compare the
+  `workspaces['']` block against `package.json`, replacing the
+  pnpm-lock.yaml v9 line parser. Same fast, dependency-free, actionable
+  drift guard — just a different lockfile.
+
+- **One real code fix (engine difference, not a product bug):**
+  `src/graph/loader.test.ts` asserted a frozen-array `.push()` throws a
+  message matching `/read only|.../`. V8 (node) says *"object is not
+  extensible"*; JavaScriptCore (bun) says *"Attempted to assign to
+  readonly property."* Broadened the regex to `/read ?only|.../` so it
+  passes on both engines.
+
+- **Node.js is NOT fully removed** — by necessity, not oversight:
+  Playwright e2e still uses node under the hood (its CLI shebang; invoked
+  via `bun x playwright`), and the standalone `analytics/` one-shot GA4
+  setup script stays on pnpm/node. The main loop is pure Bun.
+
+- **Verified green end-to-end under Bun**: `typecheck` ✓, `build` (822
+  pages, all ETL projections + `.cjs` gates) ✓, `verify:gates` (L3
+  consistency, architecture, 43k internal links, 821/822 JSON-LD,
+  SEO-baseline byte-identical to the node baseline) ✓, and **946/946**
+  unit tests ✓. `run-e2e.sh` + `playwright.config.ts` updated to Bun
+  (`bun x playwright`, `bun scripts/e2e-server.cjs`).
+
 ### Fixed (e2e suite + home a11y/SEO · 2026-05-29)
 
 - **e2e was effectively non-functional; now green.** Root causes were

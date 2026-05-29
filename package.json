@@ -6,27 +6,27 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/check-lockfile-sync.cjs && node scripts/check-analytics-config.cjs && node scripts/check-nested-html-comments.cjs && tsx src/data/build.ts && astro build && node scripts/check-rendered-leaks.cjs && node scripts/compute-csp-hashes.cjs",
+    "build": "bun scripts/check-lockfile-sync.cjs && bun scripts/check-analytics-config.cjs && bun scripts/check-nested-html-comments.cjs && bun src/data/build.ts && astro build && bun scripts/check-rendered-leaks.cjs && bun scripts/compute-csp-hashes.cjs",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test \"src/**/*.test.ts\"",
-    "test:consistency": "tsx src/data/test-consistency.ts",
-    "build:data": "tsx src/data/build.ts",
-    "import:ipd": "tsx src/data/import-ipd.ts",
-    "audit": "corepack pnpm audit --audit-level=moderate && (cd analytics && corepack pnpm audit --audit-level=moderate)",
+    "test": "bun test src",
+    "test:consistency": "bun src/data/test-consistency.ts",
+    "build:data": "bun src/data/build.ts",
+    "import:ipd": "bun src/data/import-ipd.ts",
+    "audit": "bun audit && (cd analytics && corepack pnpm audit --audit-level=moderate)",
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
-    "check:html-comments": "node scripts/check-nested-html-comments.cjs",
-    "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs",
-    "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs",
-    "check:analytics-config": "node scripts/check-analytics-config.cjs",
-    "check:architecture": "node scripts/check-architecture.cjs",
-    "check:page-class": "node scripts/check-page-class.cjs",
-    "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
-    "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
-    "verify:jsonld": "node scripts/verify-jsonld.cjs",
-    "verify:internal-links": "node scripts/verify-internal-links.cjs",
-    "check:csp-hashes": "node scripts/compute-csp-hashes.cjs --check",
-    "verify:gates": "tsx src/data/test-consistency.ts && node scripts/check-architecture.cjs && node scripts/verify-internal-links.cjs && node scripts/verify-jsonld.cjs && node scripts/diff-seo-baseline.cjs",
+    "check:html-comments": "bun scripts/check-nested-html-comments.cjs",
+    "check:rendered-leaks": "bun scripts/check-rendered-leaks.cjs",
+    "check:lockfile-sync": "bun scripts/check-lockfile-sync.cjs",
+    "check:analytics-config": "bun scripts/check-analytics-config.cjs",
+    "check:architecture": "bun scripts/check-architecture.cjs",
+    "check:page-class": "bun scripts/check-page-class.cjs",
+    "check:seo-baseline": "bun scripts/diff-seo-baseline.cjs",
+    "capture:seo-baseline": "bun scripts/capture-seo-baseline.cjs",
+    "verify:jsonld": "bun scripts/verify-jsonld.cjs",
+    "verify:internal-links": "bun scripts/verify-internal-links.cjs",
+    "check:csp-hashes": "bun scripts/compute-csp-hashes.cjs --check",
+    "verify:gates": "bun src/data/test-consistency.ts && bun scripts/check-architecture.cjs && bun scripts/verify-internal-links.cjs && bun scripts/verify-jsonld.cjs && bun scripts/diff-seo-baseline.cjs",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {
@@ -43,13 +43,9 @@
     "@types/react": "^18.3.12",
     "exceljs": "^4.4.0",
     "http-server": "14.1.1",
-    "tsx": "^4.22.3",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.0.9",
-  "pnpm": {
-    "overrides": {
-      "devalue": "^5.8.1"
-    }
+  "overrides": {
+    "devalue": "^5.8.1"
   }
 }

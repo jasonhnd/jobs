@@ -416,13 +416,13 @@ src/pages/         'fs'、'src/data/projections/*' の import 禁止
 
 ### 6.3 CI 関門
 
-> **2026-05-29 更新**: GitHub Actions を全廃(2026-05-28)し、全ゲートを Vercel build に再接続。`vercel.json` › `buildCommand` が push ごとに自動実行: `typecheck` → `build`(`build:data` L1+L2 + `astro build` + `check-rendered-leaks` + analytics / CSP / lockfile / HTML チェック)→ **`verify:gates`**(L3 consistency + アーキテクチャ境界 grep + Edge TSX + 内部リンク integrity + JSON-LD + SEO baseline diff)→ `test`(unit)。**手動は e2e のみ**(A11y / visual / smoke / analytics は Chromium バイナリが必要なため deploy には載せず、`pnpm test:e2e`)。下表「計画」列の `.github/workflows/*.yml` は廃止済みの歴史的参照(現在の配線は本ノートが正)。
+> **2026-05-29 更新**: GitHub Actions を全廃(2026-05-28)し、全ゲートを Vercel build に再接続。`vercel.json` › `buildCommand` が push ごとに自動実行: `typecheck` → `build`(`build:data` L1+L2 + `astro build` + `check-rendered-leaks` + analytics / CSP / lockfile / HTML チェック)→ **`verify:gates`**(L3 consistency + アーキテクチャ境界 grep + Edge TSX + 内部リンク integrity + JSON-LD + SEO baseline diff)→ `test`(unit)。**手動は e2e のみ**(A11y / visual / smoke / analytics は Chromium バイナリが必要なため deploy には載せず、`bun run test:e2e`)。下表「計画」列の `.github/workflows/*.yml` は廃止済みの歴史的参照(現在の配線は本ノートが正)。
 
 | 関門 | 現在の状態 | 計画 |
 |---|---|---|
-| TypeScript strict 型チェック | ✓ 既存 `pnpm run typecheck` | 維持 |
-| 単体テスト | ✓ 既存 `pnpm test` | 各層 view にテスト必須 |
-| データ schema 検証 | ✓ 既存 `pnpm run build:data` | 維持 |
+| TypeScript strict 型チェック | ✓ 既存 `bun run typecheck` | 維持 |
+| 単体テスト | ✓ 既存 `bun run test` | 各層 view にテスト必須 |
+| データ schema 検証 | ✓ 既存 `bun run build:data` | 維持 |
 | HTML rendered leak 検査 | ✓ 既存 `check-rendered-leaks.cjs` | 維持 |
 | **SEO baseline diff**(§7 参照) | ✓ **構築済み** | `.github/workflows/seo-baseline.yml` |
 | アーキテクチャ境界 grep | ✓ **構築済み** | `scripts/check-architecture.cjs`(4 層を強制) |
@@ -478,13 +478,13 @@ mirai-shigoto.com は既に 800+ URL が Google にクロールされ、外部�
 | [scripts/lib/seo-extract.cjs](../scripts/lib/seo-extract.cjs) | 共通 HTML 抽出プリミティブ + `captureBaseline()` エントリ(capture と diff の共通基盤) |
 | [scripts/capture-seo-baseline.cjs](../scripts/capture-seo-baseline.cjs) | 抽出を実行 → `tests/baseline/` に書込 |
 | [scripts/diff-seo-baseline.cjs](../scripts/diff-seo-baseline.cjs) | 抽出を実行 → `tests/baseline/` と比較 → drift を報告 |
-| `pnpm run check:seo-baseline`([diff-seo-baseline.cjs](../scripts/diff-seo-baseline.cjs)) | drift 検知(**手動実行**。GitHub Actions は 2026-05-28 廃止、Vercel build gate には未接続) |
+| `bun run check:seo-baseline`([diff-seo-baseline.cjs](../scripts/diff-seo-baseline.cjs)) | drift 検知(**手動実行**。GitHub Actions は 2026-05-28 廃止、Vercel build gate には未接続) |
 
 npm エントリ:
 
 ```bash
-pnpm run capture:seo-baseline   # 新 baseline を書く
-pnpm run check:seo-baseline     # 現 build を baseline と比較
+bun run capture:seo-baseline   # 新 baseline を書く
+bun run check:seo-baseline     # 現 build を baseline と比較
 ```
 
 **決定性**: 同じ `dist-astro/` + 同じ `public/` → 同じ baseline。`capture-meta.json` 以外にタイムスタンプは入らない。
@@ -494,10 +494,10 @@ pnpm run check:seo-baseline     # 現 build を baseline と比較
 ```bash
 # 1. コード修正
 # 2. build
-pnpm run build
+bun run build
 
 # 3. 再キャプチャ
-pnpm run capture:seo-baseline
+bun run capture:seo-baseline
 
 # 4. diff が想定通りか確認
 git diff tests/baseline/
