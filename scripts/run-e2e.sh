@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 # run-e2e.sh — entrypoint for `pnpm test:e2e`.
 #
-# @playwright/test, http-server, and @axe-core/playwright live in
-# `optionalDependencies` (NOT devDependencies). That keeps two
-# properties at once:
+# @playwright/test, http-server, and @axe-core/playwright are in
+# devDependencies (pinned in pnpm-lock.yaml for reproducibility + audit
+# visibility). The npm packages install everywhere, but Playwright's
+# Chromium browser binary is fetched separately (below) and only on
+# demand — so E2E runs locally / manually, never in a deploy.
 #
-#   1. Lockfile pinning — versions are recorded in pnpm-lock.yaml's
-#      importers.optionalDependencies block, so they're reproducible
-#      and visible to security audit.
-#   2. Vercel install stays slim — vercel.json's installCommand passes
-#      `--no-optional`, so ~50 MB of Playwright + browsers don't ride
-#      along on every preview deploy.
+# This script runs a normal pnpm install, installs Chromium, then runs the
+# tests against a built dist-astro/. The first run is slow (downloads the
+# chromium binary); subsequent runs reuse the cached store.
 #
-# This script just runs a normal pnpm install (which installs optionalDeps
-# by default) before the test run. The first run is slow (downloads
-# playwright + chromium); subsequent runs reuse the cached store.
-#
-# CI uses this same script so what runs locally and what runs in GHA are
-# byte-identical.
+# GitHub Actions was removed 2026-05-28, so this now runs only locally /
+# on demand. It is not part of the Vercel build gate.
 #
 # Exit codes:
 #   0  all tests passed

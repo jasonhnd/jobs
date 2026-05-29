@@ -26,6 +26,7 @@
     "verify:jsonld": "node scripts/verify-jsonld.cjs",
     "verify:internal-links": "node scripts/verify-internal-links.cjs",
     "check:csp-hashes": "node scripts/compute-csp-hashes.cjs --check",
+    "verify:gates": "tsx src/data/test-consistency.ts && node scripts/check-architecture.cjs && node scripts/verify-internal-links.cjs && node scripts/verify-jsonld.cjs && node scripts/diff-seo-baseline.cjs",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {
