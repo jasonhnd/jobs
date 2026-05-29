@@ -246,7 +246,7 @@ Gen 2 時期に 16 個の hub ページが inline で写した token 名、お�
 
 1. **新コンポーネント CSS**: **第 1 層のみ** を参照（`--cream / --ink / --orange / --green-deep` 等）
 2. **クロス hub 共通コンポーネント**（footer / breadcrumb / カード基底 / `canonical-css.ts` footer）: alias を使ってよい（既にデプロイされた契約）
-3. **alias の等価マッピング変更**：本セクションの表を更新 + 全リポ grep で整合確認 + `pnpm run check:seo-baseline` の baseline diff 検証
+3. **alias の等価マッピング変更**：本セクションの表を更新 + 全リポ grep で整合確認 + `bun run check:seo-baseline` の baseline diff 検証
 4. **新色の導入**：まず第 1 層に追加、必要に応じて alias を補う
 5. すべての token は `styles/canonical-tokens.css`（Phase C で作成予定）に統一して宣言。page-local CSS は token を参照するのみで、`:root{}` で再宣言しない（§18 を参照）
 
@@ -1123,7 +1123,7 @@ token 化が **必要** な例：
 2. 同一 PR 内で Design.md とコードを同時修正（片方だけの修正は許可しない）
 3. 視覚レイヤー変更は before/after スクリーンショット添付（≥768 + ≤480 各 1 枚）
 4. §15 改訂履歴に追加：日付 / 該当章 / 一文の理由
-5. token / 命名変更の場合：`pnpm run check:seo-baseline` を実行し、baseline を必要に応じて refresh
+5. token / 命名変更の場合：`bun run check:seo-baseline` を実行し、baseline を必要に応じて refresh
 
 ---
 

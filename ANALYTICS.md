@@ -81,14 +81,14 @@ env が欠落している場合、対応するトラッカーは静かにスル�
 
 ### Layer 1: E2E テスト
 - ファイル: `tests/e2e/analytics.spec.ts`
-- 実行: `pnpm run test:e2e`(または `pnpm test:e2e` ショートカット)
+- 実行: `bun run test:e2e`(または `bun run test:e2e` ショートカット)
 - アサート: 各トラッカーライブラリが load、`window.gtag` + `window.twq` が関数、GA4 `g/collect` が 12 秒以内に fire、CSP がコードの呼ぶすべての origin を列挙、埋め込み pixel ID に空白文字なし
-- 配線先: ローカルでの手動実行のみ(`pnpm test:e2e`)。GitHub Actions は 2026-05-28 に廃止され、Vercel build gate にも含まれない
+- 配線先: ローカルでの手動実行のみ(`bun run test:e2e`)。GitHub Actions は 2026-05-28 に廃止され、Vercel build gate にも含まれない
 - **キャッチする障害モード**: 1、2、3、4
 
 ### Layer 2: Build-time 整合性
 - ファイル: `scripts/check-analytics-config.cjs`
-- 実行: `npm run build` の最初のステップとして自動実行(`pnpm check:analytics-config` でアドホック実行も可)
+- 実行: `bun run build` の最初のステップとして自動実行(`bun run check:analytics-config` でアドホック実行も可)
 - アサート: vercel.json CSP `script-src` / `connect-src` がコードの参照するすべての origin を含む、すべての `import.meta.env.PUBLIC_*` 参照が `.env.example` にドキュメントされている、middleware.ts のすべての `process.env.*` が `.env.example` にドキュメントされている
 - **キャッチする障害モード**: 3(CSP に origin 欠落)、4(env 未ドキュメント)
 

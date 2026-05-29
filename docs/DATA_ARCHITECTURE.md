@@ -34,13 +34,13 @@ build / import フローの実行前提(v1.5.0 以降の TypeScript pipeline):
 | 項目 | バージョン / 要件 | 現在状態 |
 |---|---|---|
 | Node | ≥ 22(`package.json` engines)、Vercel は Node 22 LTS | Implemented |
-| パッケージ管理 | `pnpm`(corepack 経由、`pnpm-lock.yaml` で固定) | Implemented |
+| パッケージ管理 | `bun`(`bun.lock` で固定) | Implemented |
 | TypeScript runner | `tsx`(`devDependencies`)で `.ts` を直接実行 | Implemented |
 | TypeScript | strict mode、`tsconfig.json` で `noEmit` | Implemented |
 | Schema 検証 | `zod`(`dependencies`、build 時 + テスト時のみ消費) | Implemented |
 | xlsx 読込 | `xlsx`(`devDependencies`、`src/data/import-ipd.ts` でのみ使用) | Implemented |
 | Frontend stack | Astro ≥ 6.x、React 18.x(Edge Functions + 一部 component)、@vercel/og 0.6.x | Implemented |
-| 作業ディレクトリ | リポジトリ root(すべての `npm run *` / `tsx src/*` コマンドはここで実行) | Implemented |
+| 作業ディレクトリ | リポジトリ root(すべての `bun run *` / `bun src/*` コマンドはここで実行) | Implemented |
 
 > **v1.5.0 以前との差異**: Python ≥ 3.11、`uv`、`pydantic`、`openpyxl`、`beautifulsoup4`、`httpx`、`playwright`、`python-dotenv` はすべて廃止。歴史については **附録 B** 参照。
 
@@ -48,8 +48,8 @@ build / import フローの実行前提(v1.5.0 以降の TypeScript pipeline):
 
 - `data/`(ソースデータ: IPD、stats_legacy、scores、translations、labels、schema)
 - `dist/`(構築成果物: 9 投影ファミリー / 10 投影ファイル)
-- `src/data/build.ts`(構築パイプライン、`npm run build:data` で実行)
-- `src/data/import-ipd.ts`(一回限り / アップグレード時の xlsx → JSON インポート、`npm run import:ipd` で実行)
+- `src/data/build.ts`(構築パイプライン、`bun run build:data` で実行)
+- `src/data/import-ipd.ts`(一回限り / アップグレード時の xlsx → JSON インポート、`bun run import:ipd` で実行)
 - `public/data.*` を読むすべてのフロントエンドコード(`src/pages/*.astro`、`api/og.tsx`、`middleware.ts` 等。v1.5.0 以降 `index.html` / `build_occupations.py` は廃止、附録 B 参照)
 
 > [Design.md](./Design.md) との関係: Design.md は「フロントエンドでの呈現の仕方」を、本ドキュメントは「データがどこから来て、どう保存され、どうパッケージされるか」を管轄する。両者は `dist/data.*` 投影契約で接続される。
@@ -61,7 +61,7 @@ build / import フローの実行前提(v1.5.0 以降の TypeScript pipeline):
 1. **IPD は職業プロファイルの唯一の権威源**。他のソース(jobtag ウェブクロール、ハローワーク 等)は **明示的に注記されたパッチ層**(例: `stats_legacy/`)としてのみ使え、IPD データと同一フィールドに混入してはならない。
 2. **ソース / 中間 / 投影 の 3 層強分離**。ソース(`data/`)は人手メンテの事実; 投影(`dist/`)は build の出力で **手編集厳禁**; build スクリプト(`scripts/`)が唯一の橋。
 3. **各消費者は自分用に最適化された投影を取得する**。フロントエンドのトップページ、詳細ページ、OG API、将来のモバイル端、それぞれが自分向けの最薄 JSON を取る。**「1 つに膨らませて全員で使う」中間成果物は存在しない**。
-4. **Schema 強制検証**。すべてのソース JSON は build 時に Zod schema 検証(`src/data/schema/*.ts`)を通過する; フィールド名 typo / 型不一致 / 範囲外は build 失敗(`tsx src/data/build.ts` が exit 1)。
+4. **Schema 強制検証**。すべてのソース JSON は build 時に Zod schema 検証(`src/data/schema/*.ts`)を通過する; フィールド名 typo / 型不一致 / 範囲外は build 失敗(`bun src/data/build.ts` が exit 1)。
 5. **複数回 AI スコアリングを全量保持**。`data/scores/` の旧ファイルは永遠に削除しない —— 大規模モデル昇格時の新スコアは履歴記録の一部、プロダクト内容(「スコアリングの進化」は将来可視化対象)。
 6. **翻訳と主ソースを切り離す**。すべての非日本語コンテンツは `data/translations/<lang>/` 独立層に置く; 主 JSON は日本語 + 共通 key のみ。新言語追加 = ディレクトリ追加、主ソース不変。
 7. **変更は必ず本ファイルを先に動かす**。ソース構造 / 投影契約 / build フローの変更は、まず本ドキュメントに反映してからコードを書く。
@@ -640,7 +640,7 @@ export type Occupation = z.infer<typeof OccupationSchema>;
 | `data.score-history/` | §6.9 | **Future-coded** — ≥ 2 モデル走った後に初めて内容が出る | 将来「評価進化」ページ | 552 | < 3 KB / 件 | avg ~150 B |
 | `data.labels/` | §6.10 | **Implemented** ✅ | すべてのフロントエンドコードのラベルレンダリング | 2(ja + en) | < 30 KB / 件 | ja 5.0 KB, en 3.5 KB |
 
-> **施工境界**(v1.1.0 で実装済): 5 つの Planned ファミリーがデフォルト build 出力(`sectors` は v1.1.0 で追加された 5 つ目、treemap/detail/search が参照するため最初に走る)。5 つの Future ファミリーの関数コードは書いてあり、`tsx src/data/build.ts --enable-future` で明示的に有効化。対応 UX オンライン時にデフォルト build リストに切替える。
+> **施工境界**(v1.1.0 で実装済): 5 つの Planned ファミリーがデフォルト build 出力(`sectors` は v1.1.0 で追加された 5 つ目、treemap/detail/search が参照するため最初に走る)。5 つの Future ファミリーの関数コードは書いてあり、`bun src/data/build.ts --enable-future` で明示的に有効化。対応 UX オンライン時にデフォルト build リストに切替える。
 
 ### 6.1 `data.treemap.json`
 
@@ -954,7 +954,7 @@ Seed glob 文法(`fnmatch`): `"12_*"`、`"12_072*"`、`"12_072-06"`。
    b) 境界ケース → data/sectors/overrides.json に {"<padded>": "<sector_id>"} 追加
    c) sector の再定義 → data/sectors/sectors.ja-en.json の sector リストを変更
 
-3. npm run build:data  (= tsx src/data/build.ts)
+3. bun run build:data  (= bun src/data/build.ts)
 4. review_queue を再確認、uncategorized + ambiguous = 0 になるまで
 ```
 
@@ -978,7 +978,7 @@ CI が review_queue 非ゼロを警告(ブロックしない)、ただし D-014 
 
 > **セクション全体 Status**: **Implemented**(v1.5.0 以降 TypeScript ETL に完全移行)。本セクションは現在の TypeScript 実装を記述する。Python 時代(v1.0.7 - v1.4.x)の同パイプラインの構造と動機は附録 B 参照。
 >
-> **入口コマンド**: `npm run build:data` (= `tsx src/data/build.ts`)
+> **入口コマンド**: `bun run build:data` (= `bun src/data/build.ts`)
 
 ### 7.1 全体フロー
 
@@ -996,7 +996,7 @@ CI が review_queue 非ゼロを警告(ブロックしない)、ただし D-014 
                ▼
    ┌─────────────────────────────┐
    │  src/data/build.ts          │
-   │  (= npm run build:data)     │
+   │  (= bun run build:data)     │
    │                             │
    │  1. ロード + Zod 検証        │
    │  2. メモリインデックス構築    │
@@ -1189,39 +1189,39 @@ unit tests は `src/graph/score-strategy.test.ts`(複数モデル、同日複数
 {
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/check-lockfile-sync.cjs && node scripts/check-analytics-config.cjs && node scripts/check-nested-html-comments.cjs && tsx src/data/build.ts && astro build && node scripts/check-rendered-leaks.cjs",
-    "build:data": "tsx src/data/build.ts",
-    "import:ipd": "tsx src/data/import-ipd.ts",
+    "build": "bun scripts/check-lockfile-sync.cjs && bun scripts/check-analytics-config.cjs && bun scripts/check-nested-html-comments.cjs && bun src/data/build.ts && astro build && bun scripts/check-rendered-leaks.cjs && bun scripts/compute-csp-hashes.cjs",
+    "build:data": "bun src/data/build.ts",
+    "import:ipd": "bun src/data/import-ipd.ts",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test 'src/**/*.test.ts'",
-    "test:consistency": "tsx src/data/test-consistency.ts",
+    "test": "bun test src",
+    "test:consistency": "bun src/data/test-consistency.ts",
     "test:e2e": "scripts/run-e2e.sh",
     "test:seo": "bash scripts/seo-check.sh https://mirai-shigoto.com/",
-    "check:architecture": "node scripts/check-architecture.cjs",
-    "check:seo-baseline": "node scripts/diff-seo-baseline.cjs",
-    "capture:seo-baseline": "node scripts/capture-seo-baseline.cjs",
-    "check:rendered-leaks": "node scripts/check-rendered-leaks.cjs",
-    "check:html-comments": "node scripts/check-nested-html-comments.cjs",
-    "check:lockfile-sync": "node scripts/check-lockfile-sync.cjs",
-    "check:analytics-config": "node scripts/check-analytics-config.cjs",
-    "verify:jsonld": "node scripts/verify-jsonld.cjs",
-    "verify:internal-links": "node scripts/verify-internal-links.cjs",
-    "audit": "corepack pnpm audit --audit-level=moderate && (cd analytics && corepack pnpm audit --audit-level=moderate)"
+    "check:architecture": "bun scripts/check-architecture.cjs",
+    "check:seo-baseline": "bun scripts/diff-seo-baseline.cjs",
+    "capture:seo-baseline": "bun scripts/capture-seo-baseline.cjs",
+    "check:rendered-leaks": "bun scripts/check-rendered-leaks.cjs",
+    "check:html-comments": "bun scripts/check-nested-html-comments.cjs",
+    "check:lockfile-sync": "bun scripts/check-lockfile-sync.cjs",
+    "check:analytics-config": "bun scripts/check-analytics-config.cjs",
+    "verify:jsonld": "bun scripts/verify-jsonld.cjs",
+    "verify:internal-links": "bun scripts/verify-internal-links.cjs",
+    "audit": "bun audit && (cd analytics && corepack pnpm audit --audit-level=moderate)"
   }
 }
 ```
 
-デプロイ前の標準フロー: `npm run build`(中で `build:data` が走る → Zod 検証 + 12 投影 → `astro build` で 821 ページ静的生成 → `check-rendered-leaks` でセンシティブトークン検査)。
+デプロイ前の標準フロー: `bun run build`(中で `build:data` が走る → Zod 検証 + 12 投影 → `astro build` で 821 ページ静的生成 → `check-rendered-leaks` でセンシティブトークン検査)。
 
 **検証コマンドの推奨順序**(GitHub Actions は 2026-05-28 廃止 → 2026-05-29 に Vercel build gate へ再接続済。全 8 ステップを `buildCommand` が push ごとに自動実行: `1`–`3` は直接、`4`–`8` は `verify:gates` 経由。e2e のみ手動):
-1. `npm run typecheck` — TypeScript strict
-2. `npm test` — 946 unit tests
-3. `npm run build` — 上記すべて(build:data + astro build + leak check)
-4. `npm run test:consistency` — L3 projection sanity
-5. `npm run check:architecture` — 5 層境界 grep
-6. `npm run check:seo-baseline` — SEO drift 検知
-7. `npm run verify:internal-links` — 41,277 内部リンク integrity
-8. `npm run verify:jsonld` — JSON-LD 構造検証
+1. `bun run typecheck` — TypeScript strict
+2. `bun run test` — 946 unit tests
+3. `bun run build` — 上記すべて(build:data + astro build + leak check)
+4. `bun run test:consistency` — L3 projection sanity
+5. `bun run check:architecture` — 5 層境界 grep
+6. `bun run check:seo-baseline` — SEO drift 検知
+7. `bun run verify:internal-links` — 41,277 内部リンク integrity
+8. `bun run verify:jsonld` — JSON-LD 構造検証
 
 > **v1.5.0 以前との差異**: `uv run python scripts/build_data.py` 系のコマンドはすべて `tsx src/data/...` または `npm run` に置換。`scripts/build_occupations.py`(Python で 1112 HTML を生成していた)は `astro build` + `[id].astro` getStaticPaths に完全置換。詳細は附録 B。
 
@@ -1246,13 +1246,13 @@ L4  E2E 煙テスト       フロントエンドが主要投影ファイルを f
 
 | 検証 | コマンド | exit code 意味 |
 |---|---|---|
-| L1 + L2 + 全量 build | `npm run build:data`(= `tsx src/data/build.ts`) | 0 = 成功; 非 0 = どの段階の失敗でも |
-| L3 | `npm run test:consistency`(= `tsx src/data/test-consistency.ts`) | 0 = 成功; 非 0 = 投影 sanity チェック失敗 |
-| Architecture boundary | `npm run check:architecture` | 0 = 全 5 層境界 grep 通過; 非 0 = どこかが import 禁則違反 |
-| SEO baseline | `npm run check:seo-baseline` | 0 = drift なし; 非 0 = URL / meta / JSON-LD / og / 内部リンクのいずれかが変化 |
-| 内部リンク integrity | `npm run verify:internal-links` | 0 = 全リンク有効; 非 0 = 死リンク検出 |
-| JSON-LD 構造検証 | `npm run verify:jsonld` | 0 = 全 page の schema.org が合格; 非 0 = 構造エラー |
-| L4 | `npm run dev` で local 起動 + ブラウザで `/data.treemap.json`、`/data.detail/0001.json`、`/data.search.json` を fetch | 200 + 妥当な JSON = 成功 |
+| L1 + L2 + 全量 build | `bun run build:data`(= `bun src/data/build.ts`) | 0 = 成功; 非 0 = どの段階の失敗でも |
+| L3 | `bun run test:consistency`(= `bun src/data/test-consistency.ts`) | 0 = 成功; 非 0 = 投影 sanity チェック失敗 |
+| Architecture boundary | `bun run check:architecture` | 0 = 全 5 層境界 grep 通過; 非 0 = どこかが import 禁則違反 |
+| SEO baseline | `bun run check:seo-baseline` | 0 = drift なし; 非 0 = URL / meta / JSON-LD / og / 内部リンクのいずれかが変化 |
+| 内部リンク integrity | `bun run verify:internal-links` | 0 = 全リンク有効; 非 0 = 死リンク検出 |
+| JSON-LD 構造検証 | `bun run verify:jsonld` | 0 = 全 page の schema.org が合格; 非 0 = 構造エラー |
+| L4 | `bun run dev` で local 起動 + ブラウザで `/data.treemap.json`、`/data.detail/0001.json`、`/data.search.json` を fetch | 200 + 妥当な JSON = 成功 |
 
 > **v1.5.0 以前との差異**: `python3 scripts/build_data.py --validate-only`(L1+L2 のみで build を走らせない separate コマンド)は廃止。TypeScript の Zod 検証は build 開始の最初の段階で必ず走るため、別途 validate-only モードは不要(失敗時は projection 書込前に exit 1)。
 
@@ -1278,14 +1278,14 @@ L4  E2E 煙テスト       フロントエンドが主要投影ファイルを f
 Vercel build gate が push ごとに自動実行(GitHub Actions と pre-push hook は 2026-05-28 に廃止、2026-05-29 に全ゲートを Vercel build へ再接続)。下記すべてが自動実行(`test:consistency` 以降は `verify:gates` 経由):
 
 ```bash
-npm run typecheck                  # TS strict
-npm test                           # 946 unit tests
-npm run build                      # = build:data + astro build + leak check
-npm run test:consistency           # L3 projection sanity
-npm run check:architecture         # 5 層 import 境界 grep
-npm run check:seo-baseline         # SEO drift
-npm run verify:internal-links      # 内部リンク
-npm run verify:jsonld              # JSON-LD 構造
+bun run typecheck                  # TS strict
+bun run test                       # 946 unit tests
+bun run build                      # = build:data + astro build + leak check
+bun run test:consistency           # L3 projection sanity
+bun run check:architecture         # 5 層 import 境界 grep
+bun run check:seo-baseline         # SEO drift
+bun run verify:internal-links      # 内部リンク
+bun run verify:jsonld              # JSON-LD 構造
 ```
 
 いずれかのステップが非 0 exit → **deploy ブロック**(本番に反映されない)。
@@ -1303,7 +1303,7 @@ npm run verify:jsonld              # JSON-LD 構造
 
 ```
 1. 新 xlsx を ~/Downloads/ にダウンロード
-2. npm run import:ipd  (= tsx src/data/import-ipd.ts)
+2. bun run import:ipd  (= bun src/data/import-ipd.ts)
    ├─ 細目 sheet を解析 → 差分レポートを stdout に
    ├─ IPD形式 / 解説系 を解析 → data/occupations/<id>.json に書込
    ├─ data/.ipd_provenance.json 更新(sha256 + retrieved_at)
@@ -1311,8 +1311,8 @@ npm run verify:jsonld              # JSON-LD 構造
 4. schema breaking change の処理(あれば)
    ├─ フィールドリネーム → src/data/schema/occupation.ts に Zod 変更
    ├─ フィールド型変更 → 投影コード(src/data/projections/*.ts)修正
-5. npm run build:data
-6. テスト実行: npm run test:consistency
+5. bun run build:data
+6. テスト実行: bun run test:consistency
 7. git commit + push origin preview
 8. https://pre.mirai-shigoto.com で 3 URL サンプル抽検
 9. preview → main マージで本番反映
@@ -1323,10 +1323,10 @@ npm run verify:jsonld              # JSON-LD 構造
 ```
 1. prompt 準備(既存、data/prompts/ 参照)
 2. モデル実行 → JSON 出力を data/scores/occupations_<model>_<date>.json に
-3. npm run build:data
+3. bun run build:data
    └─ 自動で新 score ファイル検出、historyByOcc + latestScoreByOcc を再構築
-4. npm run check:seo-baseline で AI risk 変化分の差分確認
-5. baseline を意図的更新: npm run capture:seo-baseline → git commit
+4. bun run check:seo-baseline で AI risk 変化分の差分確認
+5. baseline を意図的更新: bun run capture:seo-baseline → git commit
 6. git push origin preview
 ```
 
@@ -1348,7 +1348,7 @@ npm run verify:jsonld              # JSON-LD 構造
 
 ```
 1. vim data/occupations/0042.json    # 修正したいフィールドを修正
-2. npm run build:data                 # 影響を受けるすべての投影を再生成
+2. bun run build:data                 # 影響を受けるすべての投影を再生成
 3. git commit + push origin preview
 ```
 
@@ -1360,7 +1360,7 @@ npm run verify:jsonld              # JSON-LD 構造
 1. prompt 作成: task.description_ja + occupation context → 0-10 リスクを出力
 2. すべての occupation の tasks(約 5,000 個)を巡回 → モデル呼出
 3. 出力を data/scores/tasks_<model>_<date>.json に
-4. npm run build:data --enable-future
+4. bun run build:data --enable-future
    └─ data.tasks/<id>.json 投影(Future-coded)が自動でタスク評価を join
 5. フロントエンド「タスクリスクマップ」ページ(将来実装)が data.tasks/<id>.json を消費
 ```
@@ -1756,8 +1756,8 @@ uv run python scripts/generate_schema.py               # Pydantic schema 再生�
 **TypeScript 時代の対応コマンド**:
 
 ```bash
-npm run build:data                # = tsx src/data/build.ts(ETL + 12 投影、Zod 検証込)
-npm run import:ipd                # = tsx src/data/import-ipd.ts
+bun run build:data                # = bun src/data/build.ts(ETL + 12 投影、Zod 検証込)
+bun run import:ipd                # = bun src/data/import-ipd.ts
 npm run build                     # = build:data + astro build + leak check(821 HTML 生成は astro build に統合)
 npm run test:consistency          # L3 sanity
 npm run typecheck                 # TypeScript strict check

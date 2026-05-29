@@ -11,7 +11,7 @@
  *   5. Server-side middleware.ts not running on the matched path
  *
  * Runs against the locally-built dist-astro/ served by http-server (see
- * playwright.config.ts). Invoked manually via `pnpm test:e2e` — GitHub
+ * playwright.config.ts). Invoked manually via `bun run test:e2e` — GitHub
  * Actions was removed 2026-05-28, so this is no longer wired into CI.
  *
  * NOTE: server-side middleware MP requests fire from the Edge to GA4
@@ -230,7 +230,7 @@ test('CSP script-src does NOT include unsafe-inline (CODE-012 hardening)', async
     scriptSrc.includes("'unsafe-inline'"),
     `script-src must NOT include 'unsafe-inline' — use SHA-256 hashes instead.\n` +
       `Found script-src: ${scriptSrc}\n` +
-      `Run \`node scripts/compute-csp-hashes.cjs\` after every build to keep ` +
+      `Run \`bun scripts/compute-csp-hashes.cjs\` after every build to keep ` +
       `hashes in sync with inline scripts. If you intentionally added a new ` +
       `inline <script>, the build's post-step will pick it up automatically; ` +
       `if vercel.json still has 'unsafe-inline' the build is incomplete.`,

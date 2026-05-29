@@ -21,7 +21,7 @@
  * NOTE: @axe-core/playwright is in package.json optionalDependencies
  * (NOT devDependencies). It's lockfile-pinned and reproducible, but
  * Vercel's installCommand passes --no-optional to skip it on preview
- * deploys. Local devs run `pnpm test:e2e` which installs it via the
+ * deploys. Local devs run `bun run test:e2e` which installs it via the
  * normal lockfile path (same pattern as @playwright/test + http-server).
  *
  * Drift policy: the gate is binary on critical+serious. A11y backlog
