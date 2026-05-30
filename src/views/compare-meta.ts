@@ -488,7 +488,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
     decision_hints_ja: [
       'チーム制作 vs 一人制作、どちらが性に合うか',
       '安定収入 vs フリーランス志向',
-      'AI を相棒にして独自性を出す覚悟',
+      'AI を相棒にして独自性を出す心がまえ',
     ],
     og_eyebrow: 'COMPARE · クリエイティブ',
   },

@@ -77,7 +77,7 @@ export const ABILITIES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     dimension_field: 'abilities_top5',
     dimension_key: 'selective_attention',
     characteristics_ja: ['ノイズの中で重要情報に注目できる', '長時間の集中を維持できる', '複数タスクの優先順位を即決'],
-    how_to_develop_ja: ['マインドフルネス瞑想', 'ノイズ環境での読書練習', '時間管理ツールの活用'],
+    how_to_develop_ja: ['マインドフルネス', 'ノイズ環境での読書練習', '時間管理ツールの活用'],
   },
   {
     slug: 'problem-sensitivity',
