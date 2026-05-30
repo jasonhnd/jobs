@@ -22,7 +22,7 @@ export const StatsLegacySchema = z
   .object({
     id: z.number().int().min(1).max(999),
     schema_version: z.string().default('1.0'),
-    source: z.string(), // e.g., "jobtag_scrape_2026-04-25"
+    source: z.string(), // e.g., "jobtag_scrape_2026-05-30"
 
     salary_man_yen: z.number().min(0).nullish(), // 万円/year
     workers: z.number().int().min(0).nullish(), // 人

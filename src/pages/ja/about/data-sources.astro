@@ -76,13 +76,13 @@ const jsonLd = JSON.stringify({
       <h2>3. AI 影響度評価</h2>
       <dl>
         <dt>評価モデル</dt>
-        <dd>Claude Opus 4.7 (Anthropic)</dd>
+        <dd>Claude Opus 4.8 (Anthropic)</dd>
         <dt>評価日</dt>
-        <dd>2026-04-25 (552 職業を一括評価)</dd>
+        <dd>2026-05-30 (552 職業を一括評価)</dd>
         <dt>評価方式</dt>
-        <dd>各職業に対して single-pass 評価。タスクリスト + IPD profile を入力に、0-10 整数 + 日本語 rationale を出力。</dd>
+        <dd>各職業について AIOIS-10 の 10 項目を計算し、0〜10 のスコア + 日本語の説明を出力。</dd>
         <dt>校正</dt>
-        <dd>各整数スコアの anchor occupations を固定 (詳細は <a href="/ja/about/methodology">方法論ページ</a>)。</dd>
+        <dd>手で確かめた 15 の代表職に合わせて調整 (詳細は <a href="/ja/about/methodology">方法論ページ</a>)。</dd>
         <dt>注意</dt>
         <dd>本サイト運営者の独立分析であり、Anthropic、厚労省、JILPT、jobtag による評価ではありません。</dd>
       </dl>
@@ -93,7 +93,7 @@ const jsonLd = JSON.stringify({
       <p>jobtag 利用規約に従い、本サイト全ページのフッターおよび about ページで以下を明示しています:</p>
       <p><em>「『職業情報データベース 解説系ダウンロードデータ ver.7.00』職業情報提供サイト (job tag) より 2026 年 4 月 25 日にダウンロード」</em></p>
       <p><em>「(https://shigoto.mhlw.go.jp/User/download) を加工して作成」</em></p>
-      <p>AI 影響度スコアは「Claude Opus 4.7 による独自分析 (非公式)」と全 spoke ページで明示しています。</p>
+      <p>AI 影響度スコアは「Claude Opus 4.8 による独自分析 (非公式)」と全 spoke ページで明示しています。</p>
     </section>
 
     <section class="source-section">

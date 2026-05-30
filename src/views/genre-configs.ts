@@ -132,7 +132,7 @@ export const ABILITIES_CONFIGS: ReadonlyArray<GenreHubConfig> = [
     dimension_field: 'abilities_top5',
     dimension_key: 'oral_expression',
     characteristics_ja: ['複雑な内容を平易に説明できる', '相手の理解度に応じて語り方を変えられる', '緊張下でも論理を保てる'],
-    how_to_develop_ja: ['プレゼン・スピーチの練習', '相手別に説明シナリオを書く', '即興議論・ディベート参加'],
+    how_to_develop_ja: ['プレゼン・スピーチの練習', '相手別に説明シナリオを書く', 'その場の議論・ディベート参加'],
   },
 ];
 

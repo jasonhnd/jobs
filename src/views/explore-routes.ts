@@ -39,7 +39,7 @@ export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
     short_ja: 'ランキングで探す',
     title_ja: 'ランキングから職業を探す',
     description_ja: 'AI 影響度・年収・初任給・労働時間・需要・組み合わせ等、39 のランキングで職業を比較できる。',
-    intro_ja: '高年収 × AI 安全、人手不足、伝統技能で AI 抗性が高い等、39 種類のランキングで職業を多角的に比較。各ランキングは TOP 30 で AI 影響度・年収を併記。',
+    intro_ja: '高年収 × AI 安全、人手不足、伝統技能で AI に強い等、39 種類のランキングで職業を多角的に比較。各ランキングは TOP 30 で AI 影響度・年収を併記。',
     genres: [
       { path: 'rankings', label: '39 ランキング', desc: 'AI 影響度・年収・需要・組み合わせ等の TOP 30 ランキング' },
     ],
@@ -107,7 +107,7 @@ export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
     description_ja: '本サイトの AI 影響度評価方法、用語、データソース、年次レポートを確認できる。',
     intro_ja: '本サイトの独自分析がどう行われているか、用語の定義、データの出典、年次レポート (2026 年版・5 年変化・10 年予測) を公開しています。透明性を重視する独立サイトです。',
     genres: [
-      { path: 'about/methodology', label: 'AI 影響度評価の方法論', desc: 'Claude Opus 4.7 によるタスクレベル評価ロジック' },
+      { path: 'about/methodology', label: 'AI 影響度評価の方法論', desc: 'Claude Opus 4.8 によるタスクレベル評価ロジック' },
       { path: 'about/glossary', label: '用語集', desc: '本サイト独自用語の定義' },
       { path: 'about/data-sources', label: 'データソース一覧', desc: '厚労省・JILPT・統計調査の出典' },
       { path: 'yearly', label: '年次レポート', desc: '2026 年版・5 年変化・10 年予測' },

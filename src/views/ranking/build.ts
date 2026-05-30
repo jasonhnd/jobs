@@ -136,7 +136,7 @@ export function buildRankings(
     { slug: 'recruit-ratio-low', name: '求人倍率が低い職業 TOP30', desc: '採用競争が厳しい買い手市場', count: workConditions.byRecruitLow.length, preview: makePreview(workConditions.byRecruitLow, (o) => `${(o.recruit_ratio ?? 0).toFixed(2)}倍`) },
     // ── Phase 2 AI 軸派生 (6) ──
     { slug: 'ai-replaced-soon', name: 'AI 置き換えが進む職業', desc: 'AI 影響度 8 以上、業務再設計が急務', count: highRisk.aiReplacedSoon.length, preview: makePreview(highRisk.aiReplacedSoon, (o) => `AI影響 ${o.ai_risk}/10`) },
-    { slug: 'ai-resistant-craft', name: '伝統技能で AI 抗性が高い職業', desc: '製造・建設・メンテ系の技能職', count: highRisk.aiResistantCraft.length, preview: makePreview(highRisk.aiResistantCraft, (o) => `AI影響 ${o.ai_risk}/10`) },
+    { slug: 'ai-resistant-craft', name: '伝統技能で AI に強い職業', desc: '製造・建設・メンテ系の技能職', count: highRisk.aiResistantCraft.length, preview: makePreview(highRisk.aiResistantCraft, (o) => `AI影響 ${o.ai_risk}/10`) },
     { slug: 'ai-at-risk-but-paid', name: 'AI リスク高 × 高年収', desc: 'AI 影響度高でも現状年収高の要注意組', count: highRisk.aiAtRiskPaid.length, preview: makePreview(highRisk.aiAtRiskPaid, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },
     { slug: 'ai-augmented', name: 'AI で補強される職業', desc: 'AI 影響度 4-6 の AI 共存域', count: highRisk.aiAugmented.length, preview: makePreview(highRisk.aiAugmented, (o) => `AI影響 ${o.ai_risk}/10`) },
     { slug: 'ai-frontier', name: 'AI を使いこなす側の職業', desc: 'IT・通信セクターの AI フロンティア職', count: highRisk.aiFrontier.length, preview: makePreview(highRisk.aiFrontier, (o) => `${Math.trunc(o.salary ?? 0)}万円`) },

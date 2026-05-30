@@ -168,7 +168,7 @@ const ORG_REF = 'https://mirai-shigoto.com/#organization';
 const DATASET_REF = 'https://mirai-shigoto.com/#dataset';
 
 const AI_RISK_DESCRIPTION =
-  'Claude Opus 4.7 による独自 LLM 推定。タスクレベルの AI 影響度を表し、職が消える確率ではありません。';
+  'Claude Opus 4.8 による独自 LLM 推定。タスクレベルの AI 影響度を表し、職が消える確率ではありません。';
 
 export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
   const {

@@ -190,7 +190,7 @@ export function buildIntentRankings(scored: Occupation[]): IntentRankings {
       extraColFn: (o) => [`資格 ${o.certs.length}`],
       faqItems: FAQS['regulated-protected'],
       title: '規制で守られた職業 TOP30【2026年版】| 未来の仕事',
-      seoDesc: `関連資格 2 個以上かつ AI 影響度 5 以下の職業 TOP${regulatedProtected.length}。参入のかべと AI 抗性を併せ持つ高度専門職を一覧。`,
+      seoDesc: `関連資格 2 個以上かつ AI 影響度 5 以下の職業 TOP${regulatedProtected.length}。参入のかべと AI への強さを併せ持つ高度専門職を一覧。`,
       h1Text: `規制で守られた職業 TOP${regulatedProtected.length}`,
       subText: '関連資格 <strong>2 個以上</strong> × AI 影響 <strong>5 以下</strong>',
       introText: '複数の関連国家資格を要し、かつ AI 代替リスクも低い職業群。法的に守られた業務範囲を持つ高度専門職が中心です。',

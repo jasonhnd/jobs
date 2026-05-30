@@ -37,7 +37,7 @@ export type SiteConfig = typeof siteConfig;
  * Occupation counts — single source of truth for the two numbers that
  * appear across the site.
  *
- *   - SCORED = 552 — AI-scored by Claude Opus 4.7 (what treemap / rankings show)
+ *   - SCORED = 552 — AI-scored by Claude Opus 4.8 (what treemap / rankings show)
  *   - TOTAL  = 556 — full JILPT IPD v7.00 dataset (4 are not scored yet)
  *
  * Before this constant existed, the two values were scattered across

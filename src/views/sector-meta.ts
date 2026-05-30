@@ -129,7 +129,7 @@ export const SECTOR_ESSAYS: Record<SectorId, SectorEssay> = {
       '高度な専門性 + 規制保護 + 対人接触の組合せが、AI 時代の優位性を作る。' +
       '長期の専門教育投資が前提だが、リターンも大きい職業群。',
     finding_hints_ja: [
-      '国家資格保護の AI 抗性効果',
+      '国家資格保護の AI への強さ効果',
       '専門性の深さによる優位性',
       '研究補助系の AI 影響',
     ],
@@ -174,7 +174,7 @@ export const SECTOR_ESSAYS: Record<SectorId, SectorEssay> = {
     finding_hints_ja: [
       '生成 AI による業務再設計',
       '独自性の市場価値',
-      '物理的工程の AI 抗性',
+      '物理的工程の AI への強さ',
     ],
   },
   jimu: {
@@ -216,7 +216,7 @@ export const SECTOR_ESSAYS: Record<SectorId, SectorEssay> = {
       'パーソナライズドな接客・専門技能 (調理・美容等) は人間優位が続く。' +
       'ホスピタリティが本物の優位性を作る分野。',
     finding_hints_ja: [
-      '対人サービスの AI 抗性',
+      '対人サービスの AI への強さ',
       '人手不足と賃金圧力',
       'チェーン化と職人化の分岐',
     ],

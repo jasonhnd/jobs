@@ -5,7 +5,7 @@ import { GENRE_HUB_CSS } from '../../../templates/Hub';
 
 const canonical = 'https://mirai-shigoto.com/ja/about/methodology';
 const title = 'AI 影響度評価の方法論 | 未来の仕事';
-const seoDesc = '本サイトの AI 影響度 (0-10) はどう計算されたか。Claude Opus 4.7 によるタスクレベル評価のルーブリック、anchor occupations、評価の限界を公開。';
+const seoDesc = '本サイトの AI 影響 (0-10) はどう計算されたか。Claude Opus 4.8・AIOIS-10 による評価のしくみ、スコア帯の代表例、評価の限界を公開。';
 
 const SITE = 'https://mirai-shigoto.com';
 const jsonLd = JSON.stringify({
@@ -38,8 +38,8 @@ const jsonLd = JSON.stringify({
     <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/ja/about" rel="up">方法論・信頼性</a><span aria-hidden="true">›</span><span>方法論</span></nav>
     <header id="content">
       <h1><span class="accent">AI 影響度評価の方法論</span></h1>
-      <p class="sub">Claude Opus 4.7 による <strong>タスクレベル AI 影響度</strong> の計算ロジック</p>
-      <p class="intro">本サイトの 0-10 スコアがどう計算されているか、評価ルーブリック、anchor occupations、評価の限界を全公開します。独立分析の透明性を担保するためのドキュメントです。</p>
+      <p class="sub">Claude Opus 4.8・<a href="/standard">AIOIS-10</a> による <strong>AI 影響</strong> の計算のしくみ</p>
+      <p class="intro">本サイトの 0〜10 スコアがどう計算されているか、評価のしくみ、スコア帯の代表例、評価の限界を全公開します。独立分析の透明性を保つための資料です。</p>
     </header>
 
     <section class="method-section">
@@ -56,30 +56,28 @@ const jsonLd = JSON.stringify({
     <section class="method-section">
       <h2>2. 評価プロセス</h2>
       <ul>
-        <li><strong>入力データ</strong>: JILPT IPD v7.00 (552 職業 × タスク・スキル・知識・能力)</li>
-        <li><strong>評価モデル</strong>: Claude Opus 4.7 (Anthropic)</li>
-        <li><strong>方式</strong>: 各職業 1 件あたり single-pass 評価。タスクリストを基に 0-10 整数を割り当て。</li>
-        <li><strong>ルーブリック</strong>: Andrej Karpathy の BLS exposure フレームワークを日本労働市場に適応。</li>
-        <li><strong>校正</strong>: 各整数スコアの anchor occupations を固定。スコアのドリフトを防ぐ。</li>
+        <li><strong>入力データ</strong>: JILPT IPD v7.00（552 職業 × タスク・スキル・知識・能力）</li>
+        <li><strong>評価モデル</strong>: Claude Opus 4.8（Anthropic）</li>
+        <li><strong>方式</strong>: <a href="/standard">AIOIS-10</a> の 10 項目から計算。体や現場・判断・対人などは決まった式で、「AI でできる度」は AI が職務内容を読んで判定。</li>
+        <li><strong>校正</strong>: 手でていねいに確かめた 15 の代表職に合わせて調整。くわしくは <a href="/methodology">評価プロセス</a> を参照。</li>
       </ul>
     </section>
 
     <section class="method-section">
-      <h2>3. Anchor Occupations (校正基準)</h2>
-      <p>各整数スコアの基準点として、以下の occupations を anchor として使用しています:</p>
+      <h2>3. スコア帯の代表例</h2>
+      <p>各スコア帯のイメージとして、代表的な職業を挙げます（2026 年・AIOIS-10 版）:</p>
       <table class="anchor-table">
-        <thead><tr><th>Score</th><th>Anchor</th><th>理由</th></tr></thead>
+        <thead><tr><th>スコア</th><th>代表例</th><th>理由</th></tr></thead>
         <tbody>
-          <tr><td>1/10</td><td>潜水士</td><td>水中での身体作業、AI 代替不可</td></tr>
-          <tr><td>2/10</td><td>施設介護員</td><td>身体ケア + 信頼関係、AI 代替困難</td></tr>
-          <tr><td>3/10</td><td>保育士</td><td>幼児との即興的関わり、AI 代替不可</td></tr>
-          <tr><td>4/10</td><td>看護師</td><td>処置 + 判断、AI 補助可だが代替不可</td></tr>
-          <tr><td>5/10</td><td>~58 職業 (混合領域)</td><td>業務の半分が AI で実行可能</td></tr>
-          <tr><td>6/10</td><td>~42 職業</td><td>AI が下書き・分析の大部分を担う</td></tr>
-          <tr><td>7/10</td><td>税務事務官</td><td>PC 完結の事務、規制で雇用が守られる</td></tr>
-          <tr><td>8/10</td><td>~45 分析・起案系</td><td>定型起案は AI 完結</td></tr>
-          <tr><td>9/10</td><td>一般事務</td><td>日本最大の職業、定型処理が中心</td></tr>
-          <tr><td>10/10</td><td>データ入力</td><td>純粋に AI で代替可能なタスクのみ</td></tr>
+          <tr><td>1 前後</td><td>家政婦・バーテンダー</td><td>体を使う対人の仕事。AI では置きかえにくい</td></tr>
+          <tr><td>2 前後</td><td>学童保育指導員</td><td>子どもの世話・現場での対応が中心</td></tr>
+          <tr><td>3 前後</td><td>型枠大工・訪問介護</td><td>手作業や身体ケアが中心</td></tr>
+          <tr><td>4 前後</td><td>看護師・スーパー店長</td><td>処置や判断 + 対人。AI 補助はできるが置きかえ不可</td></tr>
+          <tr><td>5 前後</td><td>建築設計技術者</td><td>AI が下書きを助けるが、判断は人</td></tr>
+          <tr><td>6 前後</td><td>プログラマー・人事事務</td><td>AI が作業の多くを担うが、確認と調整は人</td></tr>
+          <tr><td>7 前後</td><td>一般事務・公認会計士</td><td>PC で完結する仕事が多い</td></tr>
+          <tr><td>8 前後</td><td>コールセンター</td><td>台本どおりの応対は AI でほぼ完結</td></tr>
+          <tr><td>9 前後</td><td>データ入力</td><td>ほぼすべてが AI で片づく（最高は 9.2）</td></tr>
         </tbody>
       </table>
     </section>
@@ -87,7 +85,7 @@ const jsonLd = JSON.stringify({
     <section class="method-section">
       <h2>4. 評価の限界</h2>
       <ul>
-        <li><strong>単一モデル評価</strong>: Claude Opus 4.7 のみ。複数モデルでのアンサンブルは行っていません。</li>
+        <li><strong>1 つの AI で評価</strong>: Claude Opus 4.8 のみ。複数モデルの平均は出していません。</li>
         <li><strong>2026 年時点の AI 能力に基づく</strong>: 2030 年・2040 年の予測ではありません。</li>
         <li><strong>規制・労働法の影響を直接考慮していない</strong>: 高 AI 影響度でも法的に守られた職業は雇用が継続します。</li>
         <li><strong>個別の業務内訳の差を反映できない</strong>: 同じ「医師」でも科目により実態は大きく異なります。</li>

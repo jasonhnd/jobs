@@ -41,7 +41,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   about: {
     eyebrow: 'ABOUT',
     title: 'データについて',
-    subtitle: '厚労省 jobtag · JILPT · Claude Opus 4.7 採点の方法論',
+    subtitle: '厚労省 jobtag · JILPT · Claude Opus 4.8 採点の方法論',
   },
   privacy: {
     eyebrow: 'PRIVACY',
@@ -97,7 +97,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   licenses:         { eyebrow: 'LICENSE · 15 カテゴリー', title: '資格から職業を探す', subtitle: '15 資格カテゴリー別の関連職業' },
   qa:               { eyebrow: 'Q&A · 49 個',        title: 'よくある質問',            subtitle: 'AI 時代のキャリア 49 質問に回答' },
   'about-trust':    { eyebrow: 'ABOUT',              title: '方法論・信頼性',          subtitle: '本サイトの分析方法を全公開' },
-  methodology:      { eyebrow: 'METHOD',             title: 'AI 影響度評価の方法論',   subtitle: 'Claude Opus 4.7 ロジック詳細' },
+  methodology:      { eyebrow: 'METHOD',             title: 'AI 影響度評価の方法論',   subtitle: 'Claude Opus 4.8 ロジック詳細' },
   glossary:         { eyebrow: 'GLOSSARY',           title: '用語集',                  subtitle: '本サイト独自用語の定義' },
   'data-sources':   { eyebrow: 'SOURCES',            title: 'データソース一覧',         subtitle: '厚労省・JILPT・統計調査の出典' },
   yearly:           { eyebrow: 'YEARLY',             title: '年次レポート',            subtitle: 'AI と日本の仕事 年次定点観測' },
