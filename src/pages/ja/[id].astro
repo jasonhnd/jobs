@@ -82,7 +82,7 @@ const {
   id, canonical, nameJa, risk, mhlwUrl, rationale, oneLineText,
   title, seoDesc, ogTitle, ogDesc, keywords,
   ctxH2, ctxHtml,
-  metaRowHtml, aiRiskDetailHtml, profileHtml, topnHtml, faqHtml,
+  metaRowHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
   transferHtml, orgsCertsHtml, howSection, condSection,
   legacyRelatedHtml,
   riskClass, riskColor, riskNumDisp, recruitDisp, hourlyDisp,
@@ -118,6 +118,8 @@ const {
     </header>
 
     <RiskCard {riskClass} {riskColor} {riskNumDisp} {rationale} {oneLineText} />
+
+    <Fragment set:html={aioisHtml} />
 
     <Fragment set:html={aiRiskDetailHtml} />
 

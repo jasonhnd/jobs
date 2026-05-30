@@ -35,6 +35,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   index formulas, worked examples) and `/methodology` (how the data was organized and
   scored). `about.astro` reconciled to AIOIS-10 / Opus 4.8 / 556 and its leftover
   English FAQ removed (JA-only). Footer links added.
+- **Per-occupation AIOIS-10 breakdown** on every `/ja/[id]` detail page (new
+  `Aiois10Profile` template, threaded via `Rec.aiois`): the two indices + a
+  CSS-only 10-bar profile (drivers ▲ / moats ■ / modifiers ◐), linking to the
+  standard. No inline JS → no new CSP hash; adds the two methodology links per page.
 - **SEO baseline refreshed** — scores are embedded in titles/meta/OG/JSON-LD/same-risk
   internal links, plus 2 new URLs and the footer links, so the snapshot legitimately drifts.
 

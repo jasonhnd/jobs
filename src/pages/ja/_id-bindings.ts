@@ -45,6 +45,7 @@ import {
   renderOccupationTransfer,
   renderOccupationOrgsCerts,
   renderOccupationAiRiskDetail,
+  renderOccupationAiois10,
   renderOccupationJsonLdFromRec,
 } from './_id-renderers';
 import type { Rec } from '@/views/occupation-detail';
@@ -89,6 +90,7 @@ export interface IdPageBindings extends OccupationDisplay {
   // Pre-rendered section HTML (one per template).
   readonly metaRowHtml: SafeHtml;
   readonly aiRiskDetailHtml: SafeHtml;
+  readonly aioisHtml: SafeHtml;
   readonly profileHtml: SafeHtml;
   readonly topnHtml: SafeHtml;
   readonly faqHtml: SafeHtml;
@@ -175,6 +177,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   });
   const metaRowHtml = renderOccupationMetaRow(rec);
   const aiRiskDetailHtml = renderOccupationAiRiskDetail(rec);
+  const aioisHtml = renderOccupationAiois10(rec);
   const profileHtml = renderOccupationProfileRadar(rec);
   const topnHtml = renderOccupationTopn(rec);
   const faqHtml = renderOccupationFaq(rec);
@@ -219,6 +222,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     ctxHtml,
     metaRowHtml,
     aiRiskDetailHtml,
+    aioisHtml,
     profileHtml,
     topnHtml,
     faqHtml,
