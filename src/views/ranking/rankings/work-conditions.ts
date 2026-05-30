@@ -126,7 +126,7 @@ export function buildWorkConditionsRankings(occs: Occupation[]): WorkConditionsR
       seoDesc: `求人倍率が最も高い職業 TOP${TOP_N}。平均 ${meanRecruitRatio.toFixed(2)} 倍。人手不足が顕著な売り手市場の職業一覧。`,
       h1Text: `求人倍率が高い職業 TOP${TOP_N}`,
       subText: '求人倍率が最も <strong>高い</strong> 職業ランキング',
-      introText: '1 人の求職者あたり何件の求人があるかを表す「有効求人倍率」が高い職業をランキング。1.0 を超えると売り手市場、人手不足を示唆します。',
+      introText: '1 人の求職者あたり何件の求人があるかを表す「有効求人倍率」が高い職業をランキング。1.0 を超えると売り手市場、人手不足を表しています。',
       statBlocks: [
         ['TOP30 平均求人倍率', `${meanRecruitRatio.toFixed(2)} 倍`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byRecruitRatio, 'salary'))} 万円`],
