@@ -17,8 +17,8 @@ describe('renderAiois10Profile', () => {
     for (const code of ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10']) {
       assert.ok(html.includes(`>${code}<`), `missing ${code}`);
     }
-    assert.ok(html.includes('変化指数'));
-    assert.ok(html.includes('代替リスク'));
+    assert.ok(html.includes('変化の大きさ'));
+    assert.ok(html.includes('仕事が減るリスク'));
     assert.ok(html.includes('>9.2<'), 'transformation value');
     assert.ok(html.includes('>7.6<'), 'displacement value');
   });

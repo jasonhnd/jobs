@@ -44,7 +44,7 @@ export const LICENSE_HUBS: ReadonlyArray<LicenseHub> = [
     slug: 'gyoumu-dokusen',
     short_ja: '業務独占',
     title_ja: '業務独占資格が必須の職業',
-    description_ja: '法律で「資格保有者しかできない」と定められた業務範囲を持つ職業群。最強の参入障壁。',
+    description_ja: '法律で「資格保有者しかできない」と定められた業務範囲を持つ職業群。最強の参入のかべ。',
     cert_keywords: ['弁護士', '医師', '司法書士', '弁理士', '公認会計士', '税理士', '看護師', '薬剤師', '建築士'],
     og_eyebrow: 'LICENSE · 業務独占',
     cert_examples_ja: ['弁護士', '医師', '看護師', '薬剤師', '建築士'],
