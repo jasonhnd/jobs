@@ -111,10 +111,10 @@ export function buildEducationRankings(
       extraColFn: (o) => [`資格 ${o.certs.length}`],
       faqItems: FAQS['license-required'],
       title: '国家資格が必要な職業 TOP30【2026年版】| 未来の仕事',
-      seoDesc: `関連資格が多い職業 TOP${licenseRequired.length}。参入障壁が明確な専門職を年収・AI 影響度と共に一覧。`,
+      seoDesc: `関連資格が多い職業 TOP${licenseRequired.length}。参入のかべが明確な専門職を年収・AI 影響度と共に一覧。`,
       h1Text: `国家資格が必要な職業 TOP${licenseRequired.length}`,
       subText: '関連資格数 <strong>降順</strong> ランキング',
-      introText: '医療・士業・建設・福祉・教育系の専門職で、参入障壁が明確に設定されている職業群。資格保有者しかできない業務範囲があり、AI 代替が起きにくい傾向。',
+      introText: '医療・士業・建設・福祉・教育系の専門職で、参入のかべが明確に設定されている職業群。資格保有者しかできない業務範囲があり、AI 代替が起きにくい傾向。',
       statBlocks: [
         ['対象職業数', `${licenseRequired.length}`],
         ['平均年収', `${Math.trunc(safeMean(licenseRequired, 'salary'))} 万円`],

@@ -49,7 +49,7 @@ const jsonLd = `{
   title="データについて — mirai-shigoto.com"
   description="mirai-shigoto.com のデータソース、AI 影響度スコアの算出方法、FAQ、よくある質問。"
   canonical="https://mirai-shigoto.com/about"
-  keywords="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.8, AIOIS-10, 変化指数, 代替リスク, 独自分析, FAQ, mirai shigoto"
+  keywords="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.8, AIOIS-10, 変化の大きさ, 仕事が減るリスク, 独自分析, FAQ, mirai shigoto"
   ogTitle="データについて — mirai-shigoto.com"
   ogDescription="mirai-shigoto.com のデータソース（厚労省 jobtag / 総務省 / JILPT）、AI 影響度スコアの算出方法、FAQ。"
   ogImage="https://mirai-shigoto.com/api/og?page=about"
@@ -369,7 +369,7 @@ const jsonLd = `{
       </div>
       <div class="src-row">
         <span class="src-label">採点スケール</span>
-        <span class="src-value"><a href="/standard">AIOIS-10 標準</a>：10 次元（D1–D10）＋ 2 指数（変化指数・代替リスク）。手順は <a href="/methodology">評価プロセス</a> 参照</span>
+        <span class="src-value"><a href="/standard">AIOIS-10 標準</a>：10 項目（D1–D10）＋ 2 つの数字（変化の大きさ・仕事が減るリスク）。手順は <a href="/methodology">評価プロセス</a> 参照</span>
       </div>
       <div class="src-row">
         <span class="src-label">加工</span>
@@ -383,7 +383,7 @@ const jsonLd = `{
     </h2>
 
     <p>
-      トップ指標「AI 影響」は <strong>0.0〜10.0</strong> の<strong>変化指数</strong>（仕事の進め方が AI でどれだけ作り変えられるか）です。<a href="/standard">AIOIS-10 標準</a>の 10 次元（D1–D10）から算出します。統計調査ではなく、ベクトル前提・現行フロンティア時点の推定です。目安：
+      トップ指標「AI 影響」は <strong>0.0〜10.0</strong> の<strong>変化の大きさ</strong>（仕事のやり方が AI でどれだけ作り変えられるか）です。<a href="/standard">AIOIS-10 標準</a>の 10 項目（D1–D10）から計算します。統計調査ではなく、職業データをもとにした・今の AI 時点の見立てです。目安：
     </p>
 
     <div class="scale-table">
@@ -397,11 +397,11 @@ const jsonLd = `{
     </div>
 
     <p>
-      D2–D10（定型性・身体性・判断・対人・創造・規制・経済・労働市場・需要趨勢）は<strong>透明なベクトル関数</strong>で、生成 AI 暴露（D1）は <strong>Claude Opus 4.8 の判定</strong>で採点します。詳しい手順とデータの整え方は <a href="/methodology">評価プロセス</a> を、各次元の定義は <a href="/standard">AIOIS-10 標準</a> を参照してください。
+      D2〜D10（決まった手順・体や現場・判断・対人・創造・資格・お金・人手不足・これからの求人）は<strong>決まった式</strong>で、D1（AI でできる度）は <strong>Claude Opus 4.8 の判定</strong>で点を付けます。詳しい手順とデータの整え方は <a href="/methodology">評価プロセス</a> を、各項目の意味は <a href="/standard">AIOIS-10 標準</a> を参照してください。
     </p>
 
     <p>
-      <em>注意：高い変化指数 ≠ 仕事が消える。</em>「業務がどれだけ作り変えられるか」であり「失職確率」ではありません。後者は別指標の<strong>代替リスク</strong>（多くの職でより低く出ます）。多くの高スコア職は<strong>置換でなく再構成</strong>されます。
+      <em>注意：変化の大きさが高い ≠ 仕事が消える。</em>「仕事がどれだけ作り変えられるか」であり「失職確率」ではありません。後者は別の数字の<strong>仕事が減るリスク</strong>（多くの仕事でより低く出ます）。点が高い仕事の多くは<strong>なくなるのではなく作り変えられます</strong>。
     </p>
 
     <!-- 本手法の限界 -->
@@ -414,12 +414,12 @@ const jsonLd = `{
     </p>
 
     <ul>
-      <li><strong>LLM の判断を含みます</strong>。生成 AI 暴露（D1）と欠損職の人的防壁は <strong>Claude Opus 4.8 一台</strong>の判定。別の LLM・別の時点で再採点すれば、<strong>±1〜2 はずれ得ます</strong>。</li>
+      <li><strong>AI の判断を含みます</strong>。D1（AI でできる度）とデータが欠ける職業の人間の強みは <strong>Claude Opus 4.8 一台</strong>の判定。別の AI・別の時点で点を付け直せば、<strong>±1〜2 はずれることがあります</strong>。</li>
       <li><strong>統計検証はしていません</strong>。人間の専門家との一致率（agreement rate）は測っていません。「校正済みの見立て」であって、<strong>「実証研究」ではありません</strong>。</li>
       <li><strong>単一時点のスナップショットです</strong>。2026-05-30 採点版（AIOIS-10 v1.0）。AI の能力は数ヶ月で化けるため、<strong>本データの賞味期限は約 1 年</strong>と見てください。</li>
       <li><strong>556 職業を採点しています</strong>。プロンプトエンジニア・AI 倫理担当など、jobtag に未収録の新興職種は<strong>対象外</strong>。リストにない職業についてはゼロ情報です。</li>
       <li><strong>日本国内専用です</strong>。D9（制度・労働市場）は日本の労働市場（有効求人倍率）を前提に採点しています。<strong>海外の同名職業に当てはめないでください</strong>。</li>
-      <li><strong>「影響」と「失職」は別物です</strong>。トップ指標の変化指数は「業務がどれだけ作り変えられるか」であり、<strong>「仕事が消える確率」ではありません</strong>。後者は別指標の<strong>代替リスク</strong>で、多くの職ではるかに低く出ます。</li>
+      <li><strong>「影響」と「失職」は別物です</strong>。トップ指標の変化の大きさは「仕事がどれだけ作り変えられるか」であり、<strong>「仕事が消える確率」ではありません</strong>。後者は別の数字の<strong>仕事が減るリスク</strong>で、多くの仕事ではるかに低く出ます。</li>
     </ul>
 
     <!-- 3. 注意事項 -->

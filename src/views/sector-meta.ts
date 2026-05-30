@@ -59,7 +59,7 @@ export const SECTOR_ESSAYS: Record<SectorId, SectorEssay> = {
     finding_hints_ja: [
       '対人ケア職と事務系の AI 影響度差',
       '高齢化に伴う需要側の構造的拡大',
-      '国家資格による参入障壁の高さ',
+      '国家資格による参入のかべの高さ',
     ],
   },
   fukushi: {
@@ -369,7 +369,7 @@ export function computeSectorPatterns(
   // Bimodal AI distribution
   if (aiHigh >= 3 && aiLow >= 3) {
     observations.push(
-      html`AI 影響度が <strong>二極化</strong>: 高暴露 ${aiHigh} 職業 (${((aiHigh / total) * 100).toFixed(0)}%) と低暴露 ${aiLow} 職業 (${((aiLow / total) * 100).toFixed(0)}%) が並存`,
+      html`AI 影響度が <strong>二極化</strong>: 影響 大 ${aiHigh} 職業 (${((aiHigh / total) * 100).toFixed(0)}%) と影響 小 ${aiLow} 職業 (${((aiLow / total) * 100).toFixed(0)}%) が並存`,
     );
   }
 

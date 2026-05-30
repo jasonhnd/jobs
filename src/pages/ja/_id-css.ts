@@ -197,10 +197,10 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .aio-idx-num small{font-size:0.32em;font-weight:600;color:var(--ink-3);margin-left:3px}
     .aio-idx-sub{font-size:0.72rem;color:var(--ink-3)}
     .aio-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
-    .aio-row{display:grid;grid-template-columns:34px 1fr 2.6fr 34px;align-items:center;gap:8px;font-size:0.8rem}
-    @media (max-width:560px){.aio-row{grid-template-columns:30px 1fr 1.4fr 30px;gap:6px;font-size:0.74rem}}
+    .aio-row{display:grid;grid-template-columns:34px 1.7fr 2fr 34px;align-items:center;gap:8px;font-size:0.8rem;line-height:1.35}
+    @media (max-width:560px){.aio-row{grid-template-columns:30px 1.6fr 1.3fr 28px;gap:6px;font-size:0.72rem}}
     .aio-code{font-family:var(--font-sans);font-weight:700;font-size:0.7rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
-    .aio-name{color:var(--ink);font-family:var(--font-serif);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .aio-name{color:var(--ink);font-family:var(--font-serif)}
     .aio-tag{font-size:0.7em;margin-right:5px;color:var(--ink-3)}
     .aio-bar{display:block;height:9px;background:var(--cream);border-radius:999px;overflow:hidden}
     .aio-fill{display:block;height:100%;border-radius:999px;min-width:2px}

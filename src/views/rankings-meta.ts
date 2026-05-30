@@ -105,7 +105,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'recruit-ratio-low',   name_ja: '求人倍率が低い職業 TOP30',     description_ja: '採用競争が厳しい買い手市場の職業',     og_eyebrow: 'RANKING · 買い手市場' },
 
   // ── Phase 2 AI 軸派生 (6) ──
-  { slug: 'ai-replaced-soon',    name_ja: 'AI 置き換えが進む職業 TOP30',  description_ja: 'AI 影響度 8/10 以上、業務再設計が急務', og_eyebrow: 'RANKING · AI 高暴露' },
+  { slug: 'ai-replaced-soon',    name_ja: 'AI 置き換えが進む職業 TOP30',  description_ja: 'AI 影響度 8/10 以上、業務再設計が急務', og_eyebrow: 'RANKING · AI 影響 大' },
   { slug: 'ai-resistant-craft',  name_ja: '伝統技能で AI 抗性が高い職業 TOP30', description_ja: '製造・建設・メンテ系の手技中心職業',  og_eyebrow: 'RANKING · 技能職' },
   { slug: 'ai-at-risk-but-paid', name_ja: 'AI リスク高 × 高年収 TOP30',  description_ja: 'AI 影響度高だが現状年収も高い注意組',  og_eyebrow: 'RANKING · 要注意' },
   { slug: 'ai-augmented',        name_ja: 'AI で補強される職業 TOP30',    description_ja: 'AI 影響度 4-6、業務がAIで増強される',  og_eyebrow: 'RANKING · AI 補強域' },
@@ -123,7 +123,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
   { slug: 'high-salary-young-entry', name_ja: '初任給が高い × 若手活躍 TOP30', description_ja: '初任給が高くて若手が多い職業',       og_eyebrow: 'RANKING · 高初任給' },
 
   // ── Phase 2 教育・資格軸 (5) ──
-  { slug: 'license-required',         name_ja: '国家資格が必要な職業 TOP30',   description_ja: '関連資格が多く参入障壁が明確な職業', og_eyebrow: 'RANKING · 資格職' },
+  { slug: 'license-required',         name_ja: '国家資格が必要な職業 TOP30',   description_ja: '関連資格が多く参入のかべが明確な職業', og_eyebrow: 'RANKING · 資格職' },
   { slug: 'no-license-required',      name_ja: '無資格で就ける × AI 安全な職業 TOP30', description_ja: '資格不要かつ AI リスクも低い職業',  og_eyebrow: 'RANKING · 無資格' },
   { slug: 'high-school-ok',           name_ja: '高卒で目指せる職業 TOP30',     description_ja: '高卒比率が高く学歴ハードルが低い職業', og_eyebrow: 'RANKING · 高卒可' },
   { slug: 'university-required',      name_ja: '大卒以上が中心の職業 TOP30',   description_ja: '大卒比率が高く学位が前提となる職業',   og_eyebrow: 'RANKING · 大卒中心' },
