@@ -384,7 +384,7 @@ const jsonLd = `{
     function renderMap() {
       // Build the new tree off-DOM first; we attach it via a single atomic
       // replaceChildren() at the end. NEVER do `$content.innerHTML = ''` here
-      // — see Design-Mobile.md §4.4.1 (重渲染契約) for the bug that motivates
+      // — see Design-Mobile.md §4.4.1 (re-render contract) for the bug that motivates
       // this rule. Wipe-and-rebuild creates a synchronous reflow with
       // height=0, the browser clamps scrollTop to 0, and the user gets
       // teleported to the top whenever any code path calls renderMap()
