@@ -10,6 +10,34 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added / Changed (AIOIS-10 — 10-dimension AI-impact standard · 2026-05-30)
+
+- **New world-reference standard `docs/AIOIS-10.md`** (v1.0-draft): the
+  *AI Occupational Impact Standard* — 10 orthogonal dimensions (D1–D10) in a
+  4-stage **EMFO** causal model (Exposure → Moat → Friction → Outcome) plus two
+  derived indices: **Transformation** = mean(D1,D2) and **Displacement-Risk** =
+  `E·(1−M/10)·(0.6+0.4·(P+D10)/20)`. Grounded in Frey–Osborne, Autor–Levy–Murnane,
+  Brynjolfsson SML, Acemoglu–Restrepo, and Eloundou "GPTs are GPTs". Only D9
+  (labor-market context) is localized per jurisdiction; this batch is the Japan edition.
+- **All 556 occupations re-scored under AIOIS-10** (replaces the single-axis 4.8
+  batch in `occupations_claude-opus-4-8_2026-05-30.json`). Method: a transparent
+  vector engine over O*NET-style attributes + JP labor stats computes D2–D10;
+  Opus 4.8 judges D1 (generative-AI exposure — not inferable from a linear vector
+  combination, cf. Eloundou) and the moat profile of 40 missing-vector occupations.
+  Calibrated against 15 hand-judged anchors (Transformation MAE 0.18 / Displacement 0.51).
+- **Headline `ai_risk` is now the Transformation index** (was a displacement-flavored
+  single axis). White-collar / management rises (judgment-laden cognitive work is
+  highly *transformed*); "high" (≥7) is reserved for genuinely automatable clerical.
+- **Schema** (`score-run.ts`): added optional `aiois` block (D1–D10 + transformation +
+  displacement, one-decimal) to `ScoreEntry`; legacy single-axis batches still validate.
+  Threaded through `loader.ts` / `score-strategy.ts` / `types.ts` (`AiRiskScore.aiois`).
+- **Two new static pages**: `/standard` (the AIOIS-10 definition — 10 dimensions, EMFO,
+  index formulas, worked examples) and `/methodology` (how the data was organized and
+  scored). `about.astro` reconciled to AIOIS-10 / Opus 4.8 / 556 and its leftover
+  English FAQ removed (JA-only). Footer links added.
+- **SEO baseline refreshed** — scores are embedded in titles/meta/OG/JSON-LD/same-risk
+  internal links, plus 2 new URLs and the footer links, so the snapshot legitimately drifts.
+
 ### Removed (English scaffolding — site is Japanese-only · 2026-05-30)
 
 - **`rationale_en` dropped entirely.** The site targets Japanese
@@ -33,6 +61,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   only risk 404s).
 
 ### Changed (Data · AI-risk re-scored with **Opus 4.8** · one-decimal · 2026-05-30)
+
+> **Score values superseded by the AIOIS-10 entry above** — the single-axis
+> scores in this file were replaced by the 10-dimension AIOIS-10 batch. The
+> one-decimal infrastructure, band thresholds, and OG-color work below remain.
 
 - **All 556 occupations re-scored on the v2.0 one-decimal rubric** →
   `data/scores/occupations_claude-opus-4-8_2026-05-30.json`. The 4.7

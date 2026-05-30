@@ -54,8 +54,21 @@ export interface OccupationStats {
   readonly recruitRatio: number | null;
 }
 
+/**
+ * AIOIS-10 profile: the 10 dimensions + 2 derived indices (docs/AIOIS-10.md).
+ * `null` for occupations scored only under the legacy single-axis rubric.
+ */
+export interface Aiois10 {
+  readonly d1: number; readonly d2: number; readonly d3: number; readonly d4: number; readonly d5: number;
+  readonly d6: number; readonly d7: number; readonly d8: number; readonly d9: number; readonly d10: number;
+  /** mean(D1,D2) — how much AI reshapes the work. Equals `AiRiskScore.score` on AIOIS batches. */
+  readonly transformation: number;
+  /** replacement / contraction risk. */
+  readonly displacement: number;
+}
+
 export interface AiRiskScore {
-  /** 0.0–10.0 score (one decimal). */
+  /** 0.0–10.0 headline score (one decimal). On AIOIS batches this is the Transformation index. */
   readonly score: number;
   readonly rationaleJa: string;
   readonly confidence: number | null;
@@ -63,6 +76,8 @@ export interface AiRiskScore {
   readonly model: string;
   /** ISO date YYYY-MM-DD of the scoring run. */
   readonly date: string;
+  /** Full AIOIS-10 profile when scored under the standard; null for legacy single-axis. */
+  readonly aiois: Aiois10 | null;
 }
 
 export interface OccupationClassifications {

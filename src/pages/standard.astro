@@ -1,0 +1,201 @@
+---
+/**
+ * standard.astro — AIOIS-10 標準ページ（AI 職業影響スタンダードの定義）。
+ *
+ * 10 次元 + EMFO 4段階モデル + 2 指数の公開リファレンス。docs/AIOIS-10.md の
+ * 日本語版。インライン JS なし（CSP ハッシュ追加なし）。トークン CSS は
+ * Footer.astro（canonical-css）が全ページ共通で供給。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { nowIso } from '../lib/now';
+
+const pageLastUpdated = nowIso().slice(0, 10);
+
+interface Dim {
+  id: string; ja: string; tag: string; stage: string; body: string;
+}
+const DIMS: Dim[] = [
+  { id: 'D1', ja: '認知・生成暴露', tag: '▲ ドライバー', stage: '暴露', body: '言語・情報・分析・コード等、現行の生成 AI（LLM／マルチモーダル）が端から端まで担えるタスクの割合。データ入力・機械翻訳・定型作成ほど高い。' },
+  { id: 'D2', ja: '定型・手順暴露', tag: '▲ ドライバー', stage: '暴露', body: 'ルール化され反復的で予測可能な、明示手順に従う度合い。古典的な自動化／RPA の射程。' },
+  { id: 'D3', ja: '身体・現場性', tag: '■ 防壁', stage: '人的防壁', body: '物理操作・手先の巧緻性・移動・現実世界の知覚をどれだけ要するか。ロボティクス／身体性 AI でしか届かない、ソフトウェアより遅く高コストな領域。' },
+  { id: 'D4', ja: '判断・責任', tag: '■ 防壁', stage: '人的防壁', body: '不確実・高ストークス下の非定型判断と、特定の人間に帰属せねばならない法的・道義的な結果責任。' },
+  { id: 'D5', ja: '対人・情緒知能', tag: '■ 防壁', stage: '人的防壁', body: '対面の関わり・共感・信頼構築・ケア・説得・交渉。関係性そのものが提供価値となる度合い。' },
+  { id: 'D6', ja: '創造・独創性', tag: '■ 防壁', stage: '人的防壁', body: '既存パターンの再結合（生成 AI が得意）ではなく、真に新規なアイデア・作品・解を生み出す度合い。' },
+  { id: 'D7', ja: '規制・安全障壁', tag: '◐■ 修飾＝防壁', stage: '展開摩擦', body: '法・免許・専門職規制が人間を要求する、あるいは安全致命性が人間関与を強制する度合い。' },
+  { id: 'D8', ja: '経済合理性', tag: '▲◐ 修飾＝ドライバー', stage: '展開摩擦', body: '自動化が、置き換える労働より安いか。自動化・資本コスト対賃金。' },
+  { id: 'D9', ja: '制度・労働市場文脈', tag: '◐ 修飾〈ローカル〉', stage: '展開摩擦', body: '技術的代替可能性を実際の置換へ変える／鈍らせる地域環境。組織の採用力・雇用保護・労働需給。深刻な人手不足は AI を脅威でなく救済に読み替える。本標準で唯一、国・地域ごとに採点する次元。' },
+  { id: 'D10', ja: '雇用需要の趨勢', tag: '▲ ドライバー', stage: '正味の結果', body: '5〜10 年での当該職の人数・経済価値の正味変化。AI による置換と、AI による新タスク創出・再配置を統合。' },
+];
+
+const EXAMPLES = [
+  { name: 'データ入力', d: [9.5, 9.0, 0.6, 0.3, 0.0, 0.7, 0.8, 4.4, 6.6, 7.9], t: 9.2, dr: 7.6 },
+  { name: '翻訳者', d: [9.5, 4.7, 0.6, 4.3, 2.0, 4.8, 2.8, 7.7, 7.2, 5.9], t: 7.1, dr: 4.4 },
+  { name: '会社経営者', d: [7.0, 1.7, 2.4, 8.4, 6.4, 5.0, 4.8, 5.5, 5.0, 3.2], t: 4.4, dr: 1.5 },
+  { name: '外科医', d: [4.0, 4.6, 6.2, 9.5, 8.9, 5.4, 9.1, 3.8, 5.5, 2.8], t: 4.3, dr: 0.7 },
+  { name: '訪問介護員', d: [2.0, 3.9, 6.3, 4.0, 5.2, 2.0, 5.4, 1.8, 1.6, 1.6], t: 3.0, dr: 1.1 },
+];
+
+const jsonLd = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://mirai-shigoto.com/standard#webpage",
+      "name": "AIOIS-10 標準 — AI 職業影響スタンダード",
+      "url": "https://mirai-shigoto.com/standard",
+      "description": "AI が職業に与える影響を 10 次元（D1–D10）と 2 指数（変化指数・代替リスク）で測る公開リファレンス AIOIS-10 の定義。",
+      "inLanguage": ["ja"],
+      "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
+      "datePublished": "2026-05-30",
+      "dateModified": "${pageLastUpdated}",
+      "breadcrumb": { "@id": "https://mirai-shigoto.com/standard#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mirai-shigoto.com/standard#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "日本の職業 AI 影響マップ", "item": "https://mirai-shigoto.com/" },
+        { "@type": "ListItem", "position": 2, "name": "AIOIS-10 標準", "item": "https://mirai-shigoto.com/standard" }
+      ]
+    }
+  ]
+}`;
+---
+<BaseLayout
+  title="AIOIS-10 標準 — AI 職業影響スタンダード | mirai-shigoto.com"
+  description="AI が職業に与える影響を 10 次元と 2 指数で測る公開リファレンス AIOIS-10。EMFO 4段階モデル、各次元の定義、変化指数・代替リスクの算出式。"
+  canonical="https://mirai-shigoto.com/standard"
+  keywords="AIOIS-10, AI 影響, 職業, 10次元, 変化指数, 代替リスク, EMFO, 暴露, 人的防壁, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
+  ogTitle="AIOIS-10 標準 — AI 職業影響スタンダード"
+  ogDescription="AI の職業影響を 10 次元（D1–D10）と 2 指数で測る公開リファレンス。EMFO 4段階モデルに基づく。"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head">
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
+    #wrapper { max-width: 820px; margin: 0 auto; padding: 28px 28px 80px; }
+    .top-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .top-bar .back { color: var(--fg2); text-decoration: none; font-size: 0.85rem; }
+    .top-bar .back:hover { color: var(--accent); }
+    h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
+    h1 .accent { color: var(--accent); font-style: italic; }
+    .subtitle { color: var(--fg2); font-size: 0.92rem; margin-bottom: 8px; }
+    .meta-line { color: var(--fg2); font-size: 0.78rem; margin-bottom: 28px; opacity: 0.75; }
+    h2 { font-size: 1.18rem; font-weight: 600; margin-top: 40px; margin-bottom: 14px; border-left: 3px solid var(--accent); padding-left: 12px; }
+    p { margin-bottom: 14px; }
+    ul, ol { margin: 0 0 14px 22px; }
+    li { margin-bottom: 6px; }
+    strong { color: var(--fg); font-weight: 600; }
+    em { color: var(--fg2); font-style: normal; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.84em; background: var(--bg2); padding: 1px 6px; border-radius: 4px; color: var(--accent); }
+    .lead { font-size: 1.0rem; color: var(--fg); }
+    .emfo { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 8px 0 20px; }
+    .emfo .step { flex: 1 1 160px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+    .emfo .step .n { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+    .emfo .step .t { font-weight: 600; margin: 4px 0 2px; }
+    .emfo .step .d { font-size: 0.82rem; color: var(--fg2); }
+    .dim { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin: 10px 0; }
+    .dim .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+    .dim .code { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .dim .name { font-weight: 600; font-size: 1.02rem; }
+    .dim .tag { margin-left: auto; font-size: 0.72rem; color: var(--fg2); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+    .dim .body { font-size: 0.92rem; color: var(--fg); }
+    .formula { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 10px 0 18px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; color: var(--fg); overflow-x: auto; }
+    .formula .k { color: var(--accent); }
+    table.ex { width: 100%; border-collapse: collapse; margin: 10px 0 6px; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+    table.ex th, table.ex td { padding: 6px 4px; text-align: right; border-bottom: 1px solid var(--border); }
+    table.ex th:first-child, table.ex td:first-child { text-align: left; }
+    table.ex thead th { color: var(--fg2); font-weight: 600; font-size: 0.74rem; }
+    table.ex td.idx { font-weight: 700; color: var(--accent); }
+    .wrap-x { overflow-x: auto; }
+    footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--fg2); text-align: center; }
+    @media (max-width: 540px) { #wrapper { padding: 18px 16px 60px; } h1 { font-size: 1.4rem; } h2 { font-size: 1.05rem; } }
+  </style>
+
+  <div id="wrapper">
+    <div class="top-bar"><a class="back" href="/">← マップへ戻る</a></div>
+
+    <h1>AIOIS-10 <span class="accent">標準</span></h1>
+    <p class="subtitle">AI 職業影響スタンダード — 10 次元で測る公開リファレンス（v1.0 ドラフト）</p>
+    <p class="meta-line">最終更新：{pageLastUpdated} ・ 正典：<code>docs/AIOIS-10.md</code></p>
+
+    <p class="lead">
+      「AI の影響」は 1 つの数字ではありません。<strong>仕事の進め方がどれだけ変わるか</strong>と、<strong>職そのものが失われるか</strong>はしばしば逆を向きます（経営者は AI に大きく変えられるが、失職可能性は低い）。AIOIS-10 は、影響を生む<strong>入力</strong>を 10 の独立した次元で測り、別々の問いに別々の答えを返します。
+    </p>
+
+    <h2>EMFO — 4 段階の因果モデル</h2>
+    <p>AI の影響は 4 段階のパイプラインを通って労働市場の結果に至ります。各段は前段をフィルタリングします。技術的な暴露だけでは影響を過大評価します。<strong>人的防壁</strong>と<strong>展開摩擦</strong>こそが、純粋な暴露指標と AIOIS-10 を分けます。</p>
+    <div class="emfo">
+      <div class="step"><div class="n">1 暴露</div><div class="t">Exposure</div><div class="d">AI は何に届くか（D1・D2）</div></div>
+      <div class="step"><div class="n">2 人的防壁</div><div class="t">Human Moat</div><div class="d">代替し得ても残る人間性（D3–D7）</div></div>
+      <div class="step"><div class="n">3 展開摩擦</div><div class="t">Friction</div><div class="d">置換を阻む障壁（D7–D9）</div></div>
+      <div class="step"><div class="n">4 結果</div><div class="t">Outcome</div><div class="d">正味の雇用変化（D10）</div></div>
+    </div>
+    <p>各次元は <strong>0.0–10.0</strong> で「観測される性質の大きさ」として採点します（「影響」を直接ではなく）。役割タグがその性質の符号を決めます：<strong>▲ ドライバー</strong>＝高いほど影響大、<strong>■ 防壁</strong>＝高いほど人間優位で影響小、<strong>◐ 修飾</strong>＝暴露が実影響になるかを左右。</p>
+
+    <h2>10 の次元</h2>
+    {DIMS.map((dm) => (
+      <div class="dim">
+        <div class="head">
+          <span class="code">{dm.id}</span>
+          <span class="name">{dm.ja}</span>
+          <span class="tag">{dm.stage} ・ {dm.tag}</span>
+        </div>
+        <div class="body">{dm.body}</div>
+      </div>
+    ))}
+
+    <h2>2 つの指数</h2>
+    <p><strong>変化指数（Transformation）</strong>— 仕事の進め方が AI でどれだけ作り変えられるか。知識労働ほど高い。本サイトのトップ指標「AI 影響」はこの値です。</p>
+    <div class="formula"><span class="k">変化指数</span> = mean(D1, D2)</div>
+    <p><strong>代替リスク（Displacement-Risk）</strong>— 置換・縮小の確率。暴露が人的防壁を越えた分を、展開条件と需要趨勢で調整します。</p>
+    <div class="formula">
+      暴露 E = mean(D1, D2)<br>
+      人的防壁 M = mean(D3, D4, D5, D6, D7)<br>
+      展開 P = mean(D8, D9)　（D9 高 = 摩擦が小さい）<br>
+      <span class="k">代替リスク</span> = clamp₀₋₁₀( E · (1 − M/10) · (0.6 + 0.4 · (P + D10)/20) )
+    </div>
+    <p>プロファイルは<strong>「2 つの数字 ＋ 10 軸レーダー」</strong>です。経営者は<em>高い変化指数・低い代替リスク</em>、データ入力は<em>高・高</em>、訪問介護員は<em>低・低</em>と読めます。</p>
+
+    <h2>採点規約</h2>
+    <ul>
+      <li><strong>尺度</strong>：各次元 0.0–10.0、小数 1 桁。</li>
+      <li><strong>性質であって判定ではない</strong>：名指しした性質の大きさを採点し、符号は役割タグが決める。各次元を客観的・再現可能な観測に保つ。</li>
+      <li><strong>能力フロンティア</strong>：暴露（D1・D2）は宣言した AI 能力フロンティア（現行＋任意で +5 年）に対して採点。フロンティアが進めば<strong>スコア</strong>が更新され、次元は不変。</li>
+      <li><strong>信頼度</strong>：各職業に confidence（0–1）。職内の多様性（例：「管理職」は企業差大）は点ではなく信頼度に表す。</li>
+      <li><strong>採点者</strong>：訓練されたアナリスト、または校正済み言語モデルが、指標を事前分布・アンカーとして採点。モデル・日付を毎バッチ記録。</li>
+    </ul>
+
+    <h2>普遍コア ＋ ローカル修飾</h2>
+    <p>AIOIS-10 が<strong>世界</strong>標準たりうる理由：<strong>D1–D8 と D10 は普遍</strong>（仕事と世界の AI フロンティアの内在的性質。同じ能力フロンティアなら東京でもベルリンでもサンパウロでも同じ）。<strong>D9 のみが唯一のローカル層</strong>で、各国版は D9（と必要なら代替リスクの重み）だけを再採点します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
+
+    <h2>採点例（本番バッチ・日本版・現行フロンティア）</h2>
+    <p>本サイトの本番採点（Opus 4.8、2026-05-30、D9＝日本）からのプロファイル。T＝変化指数、DR＝代替リスク。</p>
+    <div class="wrap-x">
+    <table class="ex">
+      <thead><tr><th>職業</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th><th>D10</th><th>T</th><th>DR</th></tr></thead>
+      <tbody>
+        {EXAMPLES.map((e) => (
+          <tr>
+            <td>{e.name}</td>
+            {e.d.map((v) => <td>{v.toFixed(1)}</td>)}
+            <td class="idx">{e.t.toFixed(1)}</td>
+            <td class="idx">{e.dr.toFixed(1)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    </div>
+    <p>経営者と外科医は<em>判断を要する認知タスクで大きく変わるが安全</em>（高い D4・D5・D7 が代替リスクを 1 前後に抑える）。介護員は <strong>D9（有効求人倍率 ≈ 28 の深刻な人手不足）</strong>と D3・D5 が低い暴露を上回り<em>守られて</em>います。暴露が実際の代替へ繋がるのは、人的防壁の薄いデータ入力・翻訳だけです。</p>
+
+    <h2>系譜と限界</h2>
+    <p>AIOIS-10 は既存研究を置換せず統合します — 定型/非定型タスク（Autor–Levy–Murnane 2003）→ D2、3 つのボトルネック（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習適合性（Brynjolfsson 2018）→ D1、置換 vs 再配置・"so-so" 自動化（Acemoglu &amp; Restrepo）→ D8・D10、LLM タスク暴露（Eloundou 2023）→ D1。新規の貢献は、暴露から労働結果へを明示的な防壁・摩擦段で繋ぐ <strong>EMFO パイプライン</strong>と、<strong>普遍コア＋ローカル修飾</strong>設計です。</p>
+    <p>限界：本標準は<strong>ベクトル前提・現行フロンティア時点</strong>の推定であり、実証された失職確率ではありません。スコアの作り方・データの整え方は <a href="/methodology">評価プロセス</a> を参照してください。</p>
+
+    <Footer />
+  </div>
+</BaseLayout>
