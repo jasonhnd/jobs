@@ -41,7 +41,7 @@ import { createElement as h } from 'react';
 import { loadGoogleFont, type GenericCardConfig } from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
-const FOOTER_LEFT = '厚生労働省 jobtag · JILPT IPD v7.00 · Claude Opus 4.7';
+const FOOTER_LEFT = '厚生労働省 jobtag · JILPT IPD v7.00 · Claude Opus 4.8';
 const FOOTER_RIGHT = '非公式 / Independent';
 
 // Direction C palette — synced from styles/mobile-tokens.css.

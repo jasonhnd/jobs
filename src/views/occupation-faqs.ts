@@ -89,7 +89,7 @@ export function buildOccupationFaqs(
     const rationaleStr = rationale ? `主な要因は「${rationale}」。` : '';
     faqs.push([
       `${name}のAI代替リスクはどれくらいですか？`,
-      `${name}のAI影響度は10段階中 ${aiRisk} で、${tier}です。${rationaleStr}これは Claude Opus 4.7 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。`,
+      `${name}のAI影響度は10段階中 ${aiRisk} で、${tier}です。${rationaleStr}これは Claude Opus 4.8 による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。`,
     ]);
 
     const outlook =
