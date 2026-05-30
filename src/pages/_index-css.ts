@@ -2245,7 +2245,7 @@ export const INDEX_CSS = String.raw`      *,
       .kpi-row li span .kpi-meta { display: block; font-size: .7rem; color: var(--fg3); margin-top: 2px; }
       .risk-distribution-label { font-size: .86rem; color: var(--fg2); margin: 0 0 8px; font-weight: 500; }
       .risk-distribution { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; }
-      .risk-distribution li { flex: 0 0 var(--w); position: relative; padding: 8px 6px; border-radius: 4px; font-size: .7rem; line-height: 1.3; overflow: hidden; min-width: 48px; }
+      .risk-distribution li { flex: 0 1 var(--w); position: relative; padding: 8px 6px; border-radius: 4px; font-size: .7rem; line-height: 1.3; overflow: hidden; min-width: 56px; }
       .risk-distribution li[data-band="0-2"] { background: #E0EAE2; }
       .risk-distribution li[data-band="3-4"] { background: #D2E3D5; }
       .risk-distribution li[data-band="5-6"] { background: #F4E5C7; }
