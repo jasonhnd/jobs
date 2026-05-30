@@ -1641,7 +1641,7 @@
           const display = nameJa || nameEn;
           const sub = nameEn;
           const score = (rec.ai_risk != null) ? Number(rec.ai_risk) : 0;
-          const rationaleRaw = rec.ai_rationale_ja || rec.ai_rationale_en || "";
+          const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtSalary(rec.salary);
           const href = "/ja/" + Number(rec.id);
