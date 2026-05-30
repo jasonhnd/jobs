@@ -107,7 +107,7 @@ export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
     description_ja: '本サイトの AI 影響度評価方法、用語、データソース、年次レポートを確認できる。',
     intro_ja: '本サイトの独自分析がどう行われているか、用語の定義、データの出典、年次レポート (2026 年版・5 年変化・10 年予測) を公開しています。透明性を重視する独立サイトです。',
     genres: [
-      { path: 'about/methodology', label: 'AI 影響度評価の方法論', desc: 'Claude Opus 4.8 によるタスクレベル評価ロジック' },
+      { path: 'about/methodology', label: 'AI 影響度評価の方法論', desc: 'Claude Opus 4.8・AIOIS-10 による評価のしくみ' },
       { path: 'about/glossary', label: '用語集', desc: '本サイト独自用語の定義' },
       { path: 'about/data-sources', label: 'データソース一覧', desc: '厚労省・JILPT・統計調査の出典' },
       { path: 'yearly', label: '年次レポート', desc: '2026 年版・5 年変化・10 年予測' },
