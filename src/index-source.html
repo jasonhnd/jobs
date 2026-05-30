@@ -46,14 +46,14 @@
           </div>
         </section>
 
-        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (552 occupations, 5,449 万 employed, mean Transformation 4.2, 20.6 兆 yen wages at impact ≥ 7; AIOIS-10 batch 2026-05-30). Distribution counts: 1–2=12, 3–4=206, 5–6=291, 7–8=41, 9–10=2 (total 552). Percentages 2/37/53/7/1 sum to 100. The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
-        <!-- TODO(RA-145): wire 552 / 5,449 / 20.6 to OCCUPATION_COUNT.SCORED + canonical worker/wage constants when this fragment is converted to an Astro template (currently injected via set:html from src/pages/index.astro, so it has no access to TS constants). -->
+        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (552 occupations, 5,449 万 employed, mean Transformation 4.2, 77.3 兆 yen wages at impact ≥ 5; AIOIS-10 batch 2026-05-30). Distribution counts: 1–2=12, 3–4=206, 5–6=291, 7–8=41, 9–10=2 (total 552). Percentages 2/37/53/7/1 sum to 100. The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
+        <!-- TODO(RA-145): wire 552 / 5,449 / 77.3 to OCCUPATION_COUNT.SCORED + canonical worker/wage constants when this fragment is converted to an Astro template (currently injected via set:html from src/pages/index.astro, so it has no access to TS constants). -->
         <section class="home-kpi-band" aria-label="日本の労働市場全体">
           <ul class="kpi-row">
             <li><strong>552</strong><span>職業</span></li>
             <li><strong>5,449<small>万</small></strong><span>就業者</span></li>
             <li><strong>4.2<small>/10</small></strong><span>平均 AI 影響</span></li>
-            <li><strong>20.6<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥7</small></span></li>
+            <li><strong>77.3<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥5</small></span></li>
           </ul>
           <p class="risk-distribution-label">AI 影響度の分布（全 552 職業）</p>
           <ul class="risk-distribution" role="list">

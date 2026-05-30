@@ -126,7 +126,7 @@
           tiers: { ja: "段階別", en: "Tiers" },
           crosstab: { ja: "クロス集計", en: "Cross-tab" },
           impact: { ja: "影響度", en: "Impact" },
-          wagesExposed: { ja: "高リスク賃金総額（リスク≥7）", en: "Wages exposed (risk≥7)" },
+          wagesExposed: { ja: "高リスク賃金総額（リスク≥5）", en: "Wages exposed (risk≥5)" },
           highRiskJobs: { ja: "高リスク職業数", en: "High-risk jobs" },
           topPay: { ja: "最高年収", en: "Top salary" },
           medianPay: { ja: "中央値年収", en: "Median salary" },
@@ -598,7 +598,7 @@
             ["7-8 高",   items.filter(d => d.ai_risk >= 7 && d.ai_risk <= 8).length],
             ["9-10 最高", items.filter(d => d.ai_risk >= 9).length]
           ].map(([l, n]) => [l, n, 0]);
-          const highRiskItems = items.filter(d => d.ai_risk >= 7 && d.salary != null);
+          const highRiskItems = items.filter(d => d.ai_risk >= 5 && d.salary != null);
           const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
           const highRiskJobsCount = highRiskItems.length;
           // Cross-tab: avg AI risk by salary band
