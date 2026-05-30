@@ -77,7 +77,7 @@ export function buildHighRiskRankings(
       seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${meanHigh.toFixed(1)}/10。AI代替リスク・年収・就業者数を一覧比較。Claude Opus 4.8独自分析（非公式）。`,
       h1Text: `AIに奪われる仕事 TOP${TOP_N}`,
       subText: `AI 影響度が最も <strong>高い</strong> 職業ランキング（${scored.length} 職業中）`,
-      introText: '厚労省の職業データに基づき、Claude Opus 4.8がタスクレベルでAI影響度を分析。10段階中スコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。',
+      introText: '厚労省の職業データに基づき、Claude Opus 4.8 が AIOIS-10 で AI 影響を分析。0〜10 のスコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。',
       statBlocks: [
         ['対象職業数', `${scored.length}`],
         ['TOP30 平均 AI 影響', `${meanHigh.toFixed(1)} / 10`],

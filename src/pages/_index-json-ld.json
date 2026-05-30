@@ -64,7 +64,7 @@
           "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
           "spatialCoverage": { "@type": "Place", "name": "Japan" },
           "temporalCoverage": "2025/2026",
-          "measurementTechnique": "LLM-based scoring: Claude Opus 4.8 against a calibrated 0-10 rubric ported to Japan's labor market context. Each of 552 occupations evaluated independently.",
+          "measurementTechnique": "Scored with the AIOIS-10 standard (10 dimensions). Each of 552 occupations evaluated independently by Claude Opus 4.8.",
           "citation": [
             "厚生労働省 職業情報提供サイト（jobtag）— https://shigoto.mhlw.go.jp/User/",
             "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/"
@@ -105,7 +105,7 @@
               "@type": "ListItem",
               "position": 1,
               "name": "一般事務 (General office clerk)",
-              "description": "AI risk 9/10. About 2.63 million workers — Japan's single largest occupation by workforce."
+              "description": "AI impact 7.1/10. About 2.63 million workers — Japan's single largest occupation by workforce."
             },
             {
               "@type": "ListItem",
@@ -122,14 +122,14 @@
             {
               "@type": "ListItem",
               "position": 4,
-              "name": "潜水士 (Diver)",
-              "description": "AI risk 1/10. Strong physical-presence requirement keeps automation exposure minimal."
+              "name": "家政婦（夫） (Domestic helper)",
+              "description": "AI impact about 1.3 (lowest). In-person, hands-on domestic work keeps automation minimal."
             },
             {
               "@type": "ListItem",
               "position": 5,
               "name": "Japan high-risk share",
-              "description": "About 34% of Japan's working population is in occupations scoring ≥7/10 on the AI risk rubric."
+              "description": "About 7% of Japan's working population is in occupations scoring ≥7/10 (AIOIS-10)."
             }
           ]
         },
