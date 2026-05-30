@@ -12,6 +12,7 @@
  */
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
+import type { Aiois10 } from '@/graph/types';
 import type { Profile5Record } from '@/graph/profile5';
 import type { TransferPathEntry } from '@/graph/transfer-paths';
 import {
@@ -103,6 +104,7 @@ export interface DetailFile {
     displaceable_tasks_ja?: string[];
     resilient_tasks_ja?: string[];
     horizon_5y_ja?: string | null;
+    aiois?: Aiois10 | null;
   };
   stats?: {
     salary_man_yen?: number | null;
@@ -161,6 +163,8 @@ export interface Rec {
   ai_displaceable_tasks_ja: string[];
   ai_resilient_tasks_ja: string[];
   ai_horizon_5y_ja: string | null;
+  /** Full AIOIS-10 profile (D1–D10 + transformation + displacement); null for legacy/unscored. */
+  aiois: Aiois10 | null;
   /**
    * Pre-computed 5-axis ability profile. Sourced from
    * `graph.occupations.get(id).profile5` in the production page-data
@@ -241,6 +245,7 @@ export function adaptDetailFile(
     ai_displaceable_tasks_ja: ai.displaceable_tasks_ja ?? [],
     ai_resilient_tasks_ja: ai.resilient_tasks_ja ?? [],
     ai_horizon_5y_ja: ai.horizon_5y_ja ?? null,
+    aiois: ai.aiois ?? null,
     profile5,
     transferCandidates,
   };
@@ -322,6 +327,7 @@ export function buildOccupationDetailFile(
           model: occ.aiRisk.model,
           scored_at: occ.aiRisk.date,
           rationale_ja: occ.aiRisk.rationaleJa,
+          aiois: occ.aiRisk.aiois,
           // rationale_long_ja / displaceable_tasks_ja / resilient_tasks_ja /
           // horizon_5y_ja: not currently emitted by the projection either
           // (all null/empty in public/data.detail/*.json). Adapter handles

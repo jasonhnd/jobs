@@ -25,6 +25,7 @@ import { renderOccFaq } from '@/templates/OccFaq';
 import { renderTransfer } from '@/templates/Transfer';
 import { renderOrgsCerts } from '@/templates/OrgsCerts';
 import { renderAiRiskDetail } from '@/templates/AiRiskDetail';
+import { renderAiois10Profile } from '@/templates/Aiois10Profile';
 import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
 import { jaUrl } from '@/lib/urls';
 import type { SafeHtml } from '@/lib/safe-html';
@@ -125,6 +126,11 @@ export function renderOccupationAiRiskDetail(rec: Rec): SafeHtml {
     resilientTasksJa: rec.ai_resilient_tasks_ja ?? [],
     horizon5yJa: rec.ai_horizon_5y_ja,
   });
+}
+
+/** Render the per-occupation AIOIS-10 10-dimension + 2-index breakdown. */
+export function renderOccupationAiois10(rec: Rec): SafeHtml {
+  return renderAiois10Profile(rec.aiois);
 }
 
 /**
