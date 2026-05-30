@@ -50,6 +50,7 @@ function fakeRec(id: number, aiRisk: number | null): Rec {
     ai_displaceable_tasks_ja: [],
     ai_resilient_tasks_ja: [],
     ai_horizon_5y_ja: null,
+    aiois: null,
     profile5: {
       creative: null,
       social: null,
