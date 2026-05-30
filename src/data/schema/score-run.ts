@@ -6,7 +6,8 @@
  *   - one file per scoring run, NEVER overwritten or deleted
  *
  * Migration from v1.0 (data/ai_scores_<date>.json):
- *   - Old fields r/j/e → new ai_risk/rationale_ja/rationale_en
+ *   - Old fields r/j → new ai_risk/rationale_ja (rationale_en dropped
+ *     2026-05-30 — site is Japanese-only, see CHANGELOG)
  *   - Missing metadata fields:
  *       - Optional[str] fields: "<unknown - migrated from v1.0>"
  *       - Optional[float/int] fields: null
@@ -22,7 +23,6 @@ export const ScoreEntrySchema = z
       message: 'ai_risk must have at most one decimal place',
     }),
     rationale_ja: z.string(),
-    rationale_en: z.string(),
     confidence: z.number().min(0).max(1).nullish(),
   })
   .strict();

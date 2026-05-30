@@ -25,7 +25,7 @@
 ## 1. 评分格式(一位小数,schema v2.1)
 
 - `ai_risk`:`0.0`–`10.0`,**小数点后一位**(例 `6.9`、`9.5`)。
-- `rationale_ja`:必填(日文)。`rationale_en`:本批写**空串 `""`**(`z.string()` 已允许;先日文、英文后补,§8 A3)。
+- `rationale_ja`:必填(日文)。**本站日文专用,schema 无 `rationale_en` 字段**(2026-05-30 弃英文,见 CHANGELOG)。
 - `confidence`:`0–1`,**本流程要求填**(§8 A4)。
 - `schema_version: "2.1"`。旧整数批次(`2.0`)兼容并保留(`7` == `7.0`)。`schema_version` 只是文档标签,代码不按它分支。
 - 文件名:`data/scores/occupations_<model-slug>_<YYYY-MM-DD>.json`。
@@ -39,17 +39,16 @@
 
 1. **准备 rubric + prompt 快照**:prompt 文档采用**历史快照**制(§8 A1)。本次需用 [附录 B](#附录-b小数-rubric评分标准细化-a2) 的小数 rubric;为本次运行建带日期快照 `data/prompts/<date>_<model>.ja.md`,批次 `prompt_file` 指向它。
 2. **(仅首次)确认小数支持已就位** —— 见 [附录 A](#附录-a一次性小数支持改造仅首次)。
-3. **跑评分**:用 Opus X 对 **556 个职业**(含现缺 581–584)评分,每职业产出 `ai_risk`(一位小数)+ `rationale_ja`(仅日文)+ `confidence`(0–1);`rationale_en` 留空。**一次一个完整批次**,勿同日拆多文件。**两种等价路径**(同模型、同 rubric、输出同为 `{id, ai_risk, rationale_ja, confidence}` JSONL):
+3. **跑评分**:用 Opus X 对 **556 个职业**(含现缺 581–584)评分,每职业产出 `ai_risk`(一位小数)+ `rationale_ja`(日文)+ `confidence`(0–1)。**一次一个完整批次**,勿同日拆多文件。**两种等价路径**(同模型、同 rubric、输出同为 `{id, ai_risk, rationale_ja, confidence}` JSONL):
    - **(a) Batches API**(外部、付费、需 `ANTHROPIC_API_KEY`):`bun scripts/run-scoring.ts --prompt-file <快照> --out raw-scores.jsonl`。适合无人值守批量;50% 成本 + prompt caching。
    - **(b) in-agent 自评**(运行中的 Opus 本身就是评分模型,无需 key):`bun scripts/extract-occ-chunks.ts --size 28` 把 556 职业的紧凑摘录(title+aliases+summary+what_it_is+working_conditions,与 run-scoring 的 extractOcc 同源)切块到 `.cache/scoring/chunk-NN.txt`;Opus 逐块读取、按 rubric 打分,写 `.cache/scoring/scores-NN.jsonl`;`cat` 合并为 `raw-scores.jsonl`。2026-05-30 的 4.8 批次走的是这条路径。
 4. **组装** → `bun run assemble:scores …`(见 [附录 C](#附录-c组装器实现细节))。
-5. **预检** → `bun run check:score-batch <文件>`(schema / 覆盖率 / run_date / 小数粒度 / 漂移;空 `rationale_en` 仅提示)。
+5. **预检** → `bun run check:score-batch <文件>`(schema / 覆盖率 / run_date / 小数粒度 / 漂移)。
 6. **构建("同步数据库")** → `bun run build`。
 7. **门禁 + 测试** → `bun run verify:gates` 然后 `bun test src`(957 全绿)。⚠️ **SEO baseline 必刷新**(此前误判为"无需 capture";2026-05-30 已纠正):分数嵌在各职业页的 title / meta description / OG・Twitter / JSON-LD 评分 / same-risk 链接里,重评会让全站 SEO 指纹**整体漂移**(预期,非 bug)。结构性门禁(一致性 / 架构 / 内链 / JSON-LD 结构)仍须**全过**;只有 `diff-seo-baseline` 的 snapshot 漂移时,运行 `bun run capture:seo-baseline` 刷新 `tests/baseline/*`,并**随本批次一起提交**(CHANGELOG 记明"重评导致的预期漂移")。URL 集合 / sitemap 一般不变(无新增/删除职业时)。
 8. **重建后重点检查** → 见 [§2.1](#21-重建后重点检查spot-check)。
 9. **预览验证** → `git push origin preview` → `vercel inspect <部署URL>` 确认 `● Ready`。
 10. **上生产**(你决定) → 合并 `preview` → `main`。
-11. **(异步)英文理由补全**:之后把 `rationale_en` 翻译补进同一批次文件(只增译文、不改分数),再 build/部署。
 
 ---
 
@@ -99,7 +98,7 @@ bun run assemble:scores \
 - [ ] **覆盖率 = 556**(含补 581–584;跳过须写明)
 - [ ] `run_date` 比现有最新批次更新
 - [ ] 所有 `ai_risk` ∈ `0.0`–`10.0` 且**最多一位小数**
-- [ ] `confidence` 已填;`rationale_ja` 齐全(`rationale_en` 可后补)
+- [ ] `confidence` 已填;`rationale_ja` 齐全
 - [ ] 漂移合理(看均值/分档迁移,不逐条)
 - [ ] `build` + `verify:gates` + `bun test src` 全绿;§2.1 spot-check 通过;preview `● Ready`
 - [ ] 本次 prompt 快照已建,`prompt_file` 指向正确
@@ -118,7 +117,7 @@ bun run assemble:scores \
 
 - **A1 prompt 文档 = 历史快照制**:不维护单一最新版;每次运行建带日期快照,旧的冻结(`prompt.ja.md` = 4.7 快照,保留原名)。不做自动生成器。
 - **A2 小数粒度 = 细化 rubric**:见 [附录 B](#附录-b小数-rubric评分标准细化-a2)。
-- **A3 rationale = 先日文、英文后补**:本批只产 `rationale_ja` + `confidence`;`rationale_en` 写空串 `""`、后补(只增译文不改分)。**schema 无需改**(`z.string()` 已允许空串;改 `.nullish()` 反而引发类型错误)。
+- **A3 rationale = 日文专用**(原"先日文、英文后补",**2026-05-30 弃英文**):只产 `rationale_ja` + `confidence`。`rationale_en` 字段已从 schema 及 loader/score-strategy/indexes/组装器/数据文件中**移除**。
 - **A4 confidence = 填**:4.8 输出 0–1 置信度,随批次落库。
 
 ---
@@ -128,14 +127,14 @@ bun run assemble:scores \
 | # | 项 | 文件 | 改动 |
 |---|---|---|---|
 | 1 | schema:小数 | `src/data/schema/score-run.ts` | `ai_risk` 去 `.int()`,加"≤1 位小数"校验(FP 容差:`Math.abs(n*10-Math.round(n*10))<1e-9`,否则 `6.9` 会被误拒);`schema_version` 2.0→2.1 |
-| 2 | EN 后补(无需改 schema) | `src/data/schema/score-run.ts` | `rationale_en` 保持 `z.string()`,待补时写空串 `""`。已验证 `loader.ts`/`score-strategy.ts`/`indexes.ts` 按非空 string 流转,改 `.nullish()` 会类型报错;空串零破坏 |
+| 2 | ~~EN 后补~~ → **弃英文**(2026-05-30) | `score-run.ts` 等 | `rationale_en` 字段已删除(schema + loader/score-strategy/indexes + 组装器/预检/两个数据文件);本站日文专用 |
 | 3 | 分档统一 | `bands.ts`、`risk.ts`、`me.astro:347`、`compare/index.astro:224`、**`map.astro:565`** | 全部统一 **`< 4.0` / `< 7.0`**(半开)。现状各不同:`bands.ts` `≤3.9/≤6.9`、risk/me/compare `≤3/≤6`、**`map.astro:565` `≤4/≤6`(连整数 4 都判错成 low)**。`risk-callout.ts`(floor 4/7/9)、`map.astro:185 riskLabel`(`≥`)已一致仅复核。补 `3.95/6.95` 边界测试 |
 | 4 | 连续渐变配色 | `occupation-display.ts`、`_RiskCard.astro`、`[id].astro`、`_id-css.ts` | 弃用 11 个 `.risk-N`,RiskCard 数字按确切分数 inline 上色。**实现见下方 A.1** |
 | 5 | OG 卡配色 | `src/lib/og-renderers/occupation.ts:86` | `RISK_COLORS[risk]` 是整数索引,小数 → `undefined` 丢色;改 `RISK_COLORS[Math.round(risk)]` |
 | 6 | 客户端精度 | `src/pages/_index-inline.js:1492` | `parseInt(dataset.aiRisk)` → `parseFloat`(GA4 不截断 6.9→6)。`_JobtagAnchor.astro` 的 `String(aiRisk)` **无需改**(已是 "6.9");首页直方图 `Math.round` 分桶保留 |
 | 7 | 契约注释 | `src/graph/types.ts`、`transfer-paths.ts`、`AiRiskDetail.ts` | "integer 0-10" → "0.0–10.0" |
 | 8 | 测试 | `loader.test.ts`(去 `Number.isInteger` 断言)、`risk.test.ts`、`occupation-display.test.ts` | 跟随改 + 浮点边界用例(3.9/4.0/6.9/7.0) |
-| 9 | 预检增强 | `scripts/check-score-batch.ts` | "≤1 位小数"已由 schema 覆盖;补均值/分档漂移 + 空 `rationale_en` 仅提示 |
+| 9 | 预检增强 | `scripts/check-score-batch.ts` | "≤1 位小数"已由 schema 覆盖;补均值/分档漂移 |
 | 10 | 不改(已决定) | `_id-bindings.ts` `riskTierJs`(`≥7`/`≥5`) | 保留 —— 这是 GA 漏斗分桶、非显示档,小数下 `≥` 仍合理 |
 
 ### A.1 连续渐变配色 — 实现
@@ -213,7 +212,7 @@ AI リスク = "AI 今后会在多大程度上重构这份工作"(直接自动�
 - 可选 `--anchors <file>` / `--caveat <file>`(否则用模板/上版)。
 
 ### C.3 输入 JSONL
-每行:`{"id":1,"ai_risk":6.9,"rationale_ja":"…","rationale_en":"…"(可省),"confidence":0.8}`。
+每行:`{"id":1,"ai_risk":6.9,"rationale_ja":"…","confidence":0.8}`。
 
 ### C.4 算法
 1. 读 `--in`,逐行 `JSON.parse`(跳空行;行号入错误信息)。
@@ -228,7 +227,7 @@ AI リスク = "AI 今后会在多大程度上重构这份工作"(直接自动�
 `0` 成功写出;`1` 输入/校验失败(不写文件)。
 
 ### C.6 测试(`scripts/assemble-scores.test.ts`)
-合法输入→产出过 `ScoreRunSchema`;非法 `ai_risk`(`11` / 两位小数)→拒;缺 `rationale_ja`→拒;`confidence` 越界→拒;空 `rationale_en`→容许;覆盖率/skipped 计数正确;已存在输出→拒(不覆盖)。
+合法输入→产出过 `ScoreRunSchema`;非法 `ai_risk`(`11` / 两位小数)→拒;缺 `rationale_ja`→拒;`confidence` 越界→拒;覆盖率/skipped 计数正确;已存在输出→拒(不覆盖)。
 
 ### C.7 与 check-score-batch 的关系
 `assemble` = 生产 + 自检;`check-score-batch` = 进 build 前独立复检。两者共享"小数/覆盖率/漂移"逻辑,抽到 `scripts/lib/score-batch.ts` 复用。

@@ -58,7 +58,6 @@ export interface AiRiskScore {
   /** 0.0–10.0 score (one decimal). */
   readonly score: number;
   readonly rationaleJa: string;
-  readonly rationaleEn: string;
   readonly confidence: number | null;
   /** Model name (e.g., "claude-opus-4-7"). */
   readonly model: string;

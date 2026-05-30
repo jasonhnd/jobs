@@ -22,11 +22,11 @@ const META: BatchMeta = {
 };
 
 describe('parseScoreLines', () => {
-  test('valid line → parsed; EN omitted → "" (pending)', () => {
+  test('valid line → parsed (id, ai_risk, confidence)', () => {
     const { scores, errors } = parseScoreLines(['{"id":1,"ai_risk":6.9,"rationale_ja":"理由","confidence":0.8}']);
     assert.equal(errors.length, 0);
     assert.equal(scores['1']!.ai_risk, 6.9);
-    assert.equal(scores['1']!.rationale_en, '');
+    assert.equal(scores['1']!.rationale_ja, '理由');
     assert.equal(scores['1']!.confidence, 0.8);
   });
 
@@ -81,7 +81,7 @@ describe('assembleBatch', () => {
       assert.equal(parsed.data.schema_version, '2.1');
       assert.equal(parsed.data.scope, 'occupations');
       assert.equal(parsed.data.scores['1']!.ai_risk, 6.9);
-      assert.equal(parsed.data.scores['1']!.rationale_en, '');
+      assert.equal(parsed.data.scores['1']!.rationale_ja, '理由');
     }
   });
 });

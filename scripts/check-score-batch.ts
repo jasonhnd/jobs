@@ -137,14 +137,12 @@ let brandNew = 0;
 let candSum = 0;
 let prevSum = 0;
 let prevN = 0;
-let emptyEn = 0;
 const candBands = { low: 0, mid: 0, high: 0 };
 const prevBands = { low: 0, mid: 0, high: 0 };
 for (const [k, v] of Object.entries(batch.scores)) {
   const id = Number.parseInt(k, 10);
   candBands[band(v.ai_risk)] += 1;
   candSum += v.ai_risk;
-  if (!v.rationale_en) emptyEn += 1;
   const prev = currentLatest.get(id);
   if (!prev) {
     brandNew += 1;
@@ -167,6 +165,5 @@ console.log(`  band (this batch):    low=${candBands.low}  mid=${candBands.mid} 
 if (changed + same > 0) {
   console.log(`  band (current, same set): low=${prevBands.low}  mid=${prevBands.mid}  high=${prevBands.high}`);
 }
-if (emptyEn > 0) console.log(`  note: ${emptyEn} entr${emptyEn === 1 ? 'y has' : 'ies have'} empty rationale_en (EN pending).`);
 
 console.log('\n[check-score-batch] done — schema valid. Warnings above are advisory; the build (ScoreRunSchema) is the hard gate.');

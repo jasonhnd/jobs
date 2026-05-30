@@ -203,7 +203,6 @@ build / import フローの実行前提(v1.5.0 以降の TypeScript pipeline):
     "1": {
       "ai_risk": 2,
       "rationale_ja": "伝統的な手作業の食品製造",
-      "rationale_en": "Hand-crafted tofu making; manual food trade",
       "confidence": 0.8
     }
   }
@@ -1121,7 +1120,6 @@ export function buildIndexes(input: BuildIndexesInput): Indexes {
         date: run.run.run_date,
         score: entry.ai_risk,
         rationaleJa: entry.rationale_ja,
-        rationaleEn: entry.rationale_en,
       });
       historyByOcc.set(occId, list);
     }
@@ -1163,7 +1161,6 @@ export interface ScoreEntry {
   readonly date: string;  // ISO YYYY-MM-DD
   readonly score: number;
   readonly rationaleJa: string;
-  readonly rationaleEn: string;
 }
 
 /**
