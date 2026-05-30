@@ -49,7 +49,7 @@ const jsonLd = `{
   title="データについて — mirai-shigoto.com"
   description="mirai-shigoto.com のデータソース、AI 影響度スコアの算出方法、FAQ、よくある質問。"
   canonical="https://mirai-shigoto.com/about"
-  keywords="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.7, ルーブリック, 独自分析, FAQ, mirai shigoto, methodology, scoring rubric"
+  keywords="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.8, AIOIS-10, 変化指数, 代替リスク, 独自分析, FAQ, mirai shigoto"
   ogTitle="データについて — mirai-shigoto.com"
   ogDescription="mirai-shigoto.com のデータソース（厚労省 jobtag / 総務省 / JILPT）、AI 影響度スコアの算出方法、FAQ。"
   ogImage="https://mirai-shigoto.com/api/og?page=about"
@@ -364,12 +364,12 @@ const jsonLd = `{
         <span class="src-value">同データベースの簡易版数値系・解説系より集計</span>
       </div>
       <div class="src-row">
-        <span class="src-label">AI リスクスコア</span>
-        <span class="src-value">本サイト独自分析(Claude Opus 4.7 採点、2026-04-25)</span>
+        <span class="src-label">AI 影響スコア</span>
+        <span class="src-value">本サイト独自分析（Claude Opus 4.8 採点、2026-05-30、<a href="/standard">AIOIS-10</a> v1.0）</span>
       </div>
       <div class="src-row">
         <span class="src-label">採点スケール</span>
-        <span class="src-value">独自設計の 0〜10 ルーブリック（業務代替性・自動化深度・人間判断要素を 5 段階アンカーで採点）</span>
+        <span class="src-value"><a href="/standard">AIOIS-10 標準</a>：10 次元（D1–D10）＋ 2 指数（変化指数・代替リスク）。手順は <a href="/methodology">評価プロセス</a> 参照</span>
       </div>
       <div class="src-row">
         <span class="src-label">加工</span>
@@ -383,27 +383,25 @@ const jsonLd = `{
     </h2>
 
     <p>
-      AI 影響度スコアは <strong>0〜10</strong> の整数で、各職業を Anthropic 社の <strong>Claude Opus 4.7</strong> が 1 つずつ採点したものです。<br>
-      統計調査ではなく、<strong>LLM の主観評価</strong>です。判断軸は次のとおり：
+      トップ指標「AI 影響」は <strong>0.0〜10.0</strong> の<strong>変化指数</strong>（仕事の進め方が AI でどれだけ作り変えられるか）です。<a href="/standard">AIOIS-10 標準</a>の 10 次元（D1–D10）から算出します。統計調査ではなく、ベクトル前提・現行フロンティア時点の推定です。目安：
     </p>
 
     <div class="scale-table">
       <dl>
-        <dt>0–1（最小）</dt><dd>物理的・現場仕事（潜水士、林業作業）</dd>
-        <dt>2–3（低）</dt><dd>肉体労働＋一部対人（電気工事士、美容師）</dd>
-        <dt>4–5（中）</dt><dd>物理＋知識作業の混合（看護師、警察官）</dd>
-        <dt>6–7（高）</dt><dd>知識労働＋判断（教員、弁護士、会計士）</dd>
-        <dt>8–9（非常に高い）</dt><dd>ほぼ PC 完結（プログラマー、翻訳者）</dd>
-        <dt>10（最大）</dt><dd>完全に定型のデジタル処理（データ入力）</dd>
+        <dt>0–2（最小）</dt><dd>物理・現場仕事（清掃、林業、調理、配送）</dd>
+        <dt>2–4（低）</dt><dd>肉体労働＋一部対人（建設、介護、ドライバー、美容師）</dd>
+        <dt>4–6（中）</dt><dd>知識・対人・判断の混合（看護師、教員、医師、管理職、技術者）</dd>
+        <dt>6–8（高）</dt><dd>情報・事務・専門の知識労働（会計士、士業、プログラマー、各種事務）</dd>
+        <dt>8–10（最大）</dt><dd>定型デジタル処理（データ入力、文字起こし、コールセンター、翻訳）</dd>
       </dl>
     </div>
 
     <p>
-      判断軸は<strong>「自宅の PC 1 台で完結できるか？」</strong>。yes ほど高得点。AI は数字／文章／画像／コード領域で急速に進化しているため、デジタル完結型は天然に高リスクとなります。
+      D2–D10（定型性・身体性・判断・対人・創造・規制・経済・労働市場・需要趨勢）は<strong>透明なベクトル関数</strong>で、生成 AI 暴露（D1）は <strong>Claude Opus 4.8 の判定</strong>で採点します。詳しい手順とデータの整え方は <a href="/methodology">評価プロセス</a> を、各次元の定義は <a href="/standard">AIOIS-10 標準</a> を参照してください。
     </p>
 
     <p>
-      <em>注意：高得点 ≠ 仕事が消える。</em>多くの高得点職は<strong>「置換」ではなく「再構成」</strong>される見込みです。プログラマーは 9/10 ですが、AI で生産性が上がる結果、需要がむしろ増える可能性もあります。
+      <em>注意：高い変化指数 ≠ 仕事が消える。</em>「業務がどれだけ作り変えられるか」であり「失職確率」ではありません。後者は別指標の<strong>代替リスク</strong>（多くの職でより低く出ます）。多くの高スコア職は<strong>置換でなく再構成</strong>されます。
     </p>
 
     <!-- 本手法の限界 -->
@@ -416,12 +414,12 @@ const jsonLd = `{
     </p>
 
     <ul>
-      <li><strong>LLM の主観です</strong>。採点者は <strong>Claude Opus 4.7 一台</strong>。判断バイアスは消せません。別の LLM・別の時点で再採点すれば、<strong>±1〜2 は確実にずれます</strong>。</li>
-      <li><strong>統計検証はゼロです</strong>。人間の専門家との一致率（agreement rate）は測っていません。「LLM の見立て」であって、<strong>「実証研究」ではありません</strong>。</li>
-      <li><strong>単一時点のスナップショットです</strong>。2026-04-25 採点版。AI の能力は数ヶ月で化けるため、<strong>本データの賞味期限は約 1 年</strong>と見てください。</li>
-      <li><strong>552 職業しか採点していません</strong>。プロンプトエンジニア・AI 倫理担当・合成データキュレーターなど、jobtag に未収録の新興職種は<strong>採点対象外</strong>。リストにない職業についてはゼロ情報です。</li>
-      <li><strong>日本国内専用です</strong>。日本の労働慣行・雇用法制・産業構造を前提に採点しています。<strong>海外の同名職業に当てはめないでください</strong>。</li>
-      <li><strong>「影響度」と「失職確率」は別物です</strong>。スコアは「業務がどれだけ作り変えられるか」の推定であり、<strong>「仕事が消える確率」ではありません</strong>。9/10 の職業がすべて消えるわけではなく、多くは再構成（reshape）されます。</li>
+      <li><strong>LLM の判断を含みます</strong>。生成 AI 暴露（D1）と欠損職の人的防壁は <strong>Claude Opus 4.8 一台</strong>の判定。別の LLM・別の時点で再採点すれば、<strong>±1〜2 はずれ得ます</strong>。</li>
+      <li><strong>統計検証はしていません</strong>。人間の専門家との一致率（agreement rate）は測っていません。「校正済みの見立て」であって、<strong>「実証研究」ではありません</strong>。</li>
+      <li><strong>単一時点のスナップショットです</strong>。2026-05-30 採点版（AIOIS-10 v1.0）。AI の能力は数ヶ月で化けるため、<strong>本データの賞味期限は約 1 年</strong>と見てください。</li>
+      <li><strong>556 職業を採点しています</strong>。プロンプトエンジニア・AI 倫理担当など、jobtag に未収録の新興職種は<strong>対象外</strong>。リストにない職業についてはゼロ情報です。</li>
+      <li><strong>日本国内専用です</strong>。D9（制度・労働市場）は日本の労働市場（有効求人倍率）を前提に採点しています。<strong>海外の同名職業に当てはめないでください</strong>。</li>
+      <li><strong>「影響」と「失職」は別物です</strong>。トップ指標の変化指数は「業務がどれだけ作り変えられるか」であり、<strong>「仕事が消える確率」ではありません</strong>。後者は別指標の<strong>代替リスク</strong>で、多くの職ではるかに低く出ます。</li>
     </ul>
 
     <!-- 3. 注意事項 -->
@@ -465,34 +463,11 @@ const jsonLd = `{
       </details>
       <details>
         <summary>どれくらいの頻度で更新されますか？</summary>
-        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は 2026-04-25。元データ（jobtag / JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
+        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は 2026-05-30（<a href="/standard">AIOIS-10</a> v1.0）。元データ（jobtag / JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
       </details>
       <details>
         <summary>自分の職業がリストに見つかりません。</summary>
-        <p>本サイトは厚労省 jobtag の 552 職業を採用しています。新しい職種（プロンプトエンジニア、AI 倫理担当など）はまだ含まれていません。<strong>既存の最も近い職業</strong>を参考にしてください。</p>
-      </details>
-    </div>
-
-    <div class="faq">
-      <details>
-        <summary>Is this score official?</summary>
-        <p>No. <strong>It is not an official assessment from MHLW or JILPT.</strong> This is independent analysis (LLM-scored) by this site. Use it as reference material only.</p>
-      </details>
-      <details>
-        <summary>My job scored 9/10. Should I quit?</summary>
-        <p>No. The score is not a prediction that the job will disappear — it estimates how much AI will <em>reshape</em> the work. Most high-scoring jobs will be <strong>reshaped, not replaced</strong>. Learning to use AI tools is more valuable than panicking.</p>
-      </details>
-      <details>
-        <summary>How accurate is the scoring?</summary>
-        <p>This is a subjective LLM estimate, not statistically validated. The same occupation could score ±1–2 with a different scorer. <strong>Relative comparison</strong> (job A vs job B) carries more signal than absolute values.</p>
-      </details>
-      <details>
-        <summary>How often is this updated?</summary>
-        <p>We re-score as LLM capabilities evolve. Most recent scoring: 2026-04-25. The cycle is independent of jobtag / JILPT data updates — we re-score when we judge it useful.</p>
-      </details>
-      <details>
-        <summary>I can't find my occupation in the list.</summary>
-        <p>The site uses MHLW jobtag's 552 occupations. New roles (prompt engineer, AI ethics specialist, etc.) aren't included yet. Please refer to the <strong>closest existing occupation</strong>.</p>
+        <p>本サイトは厚労省 jobtag の 556 職業を採用しています。新しい職種（プロンプトエンジニア、AI 倫理担当など）はまだ含まれていません。<strong>既存の最も近い職業</strong>を参考にしてください。</p>
       </details>
     </div>
 

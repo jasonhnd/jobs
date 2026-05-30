@@ -1,0 +1,152 @@
+---
+/**
+ * methodology.astro — データの整理と評価プロセス。
+ *
+ * ユーザー要望「①データをどう整理したか ②基準をどう設けたか」の ①＋評価手順。
+ * ②（基準そのもの）は /standard。インライン JS なし。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { nowIso } from '../lib/now';
+
+const pageLastUpdated = nowIso().slice(0, 10);
+
+const VECTORS = [
+  ['skills（スキル）', '39 指標 0–5。読解・批判的思考・プログラミング・判断など。'],
+  ['knowledge（知識）', '33 指標。医学・法律・コンピュータ・デザイン等の領域知識。'],
+  ['abilities（能力）', '34 指標。手先の巧緻性・指の器用さ・発想の流暢性など身体・認知能力。'],
+  ['work_characteristics（仕事の特性）', '39 指標。反復性・機械ペース・対面・意思決定の自由度・結果責任・感染リスク等。'],
+  ['interests（興味 RIASEC）', '6 指標。現実的・研究的・芸術的・社会的・企業的・慣習的。'],
+  ['work_activities（仕事の活動）', '41 指標。情報処理・コンピュータ作業・記録・対人援助など。'],
+  ['work_values（仕事の価値観）', '11 指標。達成・自律・専門性・ワークライフバランス等。'],
+];
+
+const jsonLd = `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://mirai-shigoto.com/methodology#webpage",
+      "name": "データの整理と評価プロセス — mirai-shigoto.com",
+      "url": "https://mirai-shigoto.com/methodology",
+      "description": "556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。ベクトルエンジン、LLM 判定、ベンチマーク校正、限界。",
+      "inLanguage": ["ja"],
+      "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
+      "datePublished": "2026-05-30",
+      "dateModified": "${pageLastUpdated}",
+      "breadcrumb": { "@id": "https://mirai-shigoto.com/methodology#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mirai-shigoto.com/methodology#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "日本の職業 AI 影響マップ", "item": "https://mirai-shigoto.com/" },
+        { "@type": "ListItem", "position": 2, "name": "評価プロセス", "item": "https://mirai-shigoto.com/methodology" }
+      ]
+    }
+  ]
+}`;
+---
+<BaseLayout
+  title="データの整理と評価プロセス — mirai-shigoto.com"
+  description="556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。ベクトルエンジン、Opus 4.8 による判定、ベンチマーク校正、手法の限界。"
+  canonical="https://mirai-shigoto.com/methodology"
+  keywords="評価方法, データ整理, AIOIS-10, O*NET, 職業情報データベース, jobtag, JILPT, 有効求人倍率, ベクトル, Opus 4.8, 校正, ベンチマーク, 限界"
+  ogTitle="データの整理と評価プロセス — mirai-shigoto.com"
+  ogDescription="556 職業データをどう整理し、AIOIS-10 標準でどう採点したか。ベクトルエンジン＋LLM 判定＋ベンチマーク校正。"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head">
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
+    #wrapper { max-width: 820px; margin: 0 auto; padding: 28px 28px 80px; }
+    .top-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .top-bar .back { color: var(--fg2); text-decoration: none; font-size: 0.85rem; }
+    .top-bar .back:hover { color: var(--accent); }
+    h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
+    h1 .accent { color: var(--accent); font-style: italic; }
+    .subtitle { color: var(--fg2); font-size: 0.92rem; margin-bottom: 8px; }
+    .meta-line { color: var(--fg2); font-size: 0.78rem; margin-bottom: 28px; opacity: 0.75; }
+    h2 { font-size: 1.18rem; font-weight: 600; margin-top: 40px; margin-bottom: 14px; border-left: 3px solid var(--accent); padding-left: 12px; }
+    h3 { font-size: 0.98rem; font-weight: 600; margin-top: 22px; margin-bottom: 6px; }
+    p { margin-bottom: 14px; }
+    ul, ol { margin: 0 0 14px 22px; }
+    li { margin-bottom: 6px; }
+    strong { color: var(--fg); font-weight: 600; }
+    em { color: var(--fg2); font-style: normal; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.84em; background: var(--bg2); padding: 1px 6px; border-radius: 4px; color: var(--accent); }
+    .src-card { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 6px 18px; margin: 14px 0; }
+    .src-row { display: grid; grid-template-columns: 170px 1fr; gap: 8px 14px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; align-items: baseline; }
+    .src-row:last-child { border-bottom: none; }
+    .src-label { color: var(--fg2); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .steps { counter-reset: step; margin: 14px 0; }
+    .step-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px 12px 48px; margin: 8px 0; position: relative; }
+    .step-item::before { counter-increment: step; content: counter(step); position: absolute; left: 14px; top: 12px; width: 22px; height: 22px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .step-item .t { font-weight: 600; margin-bottom: 2px; }
+    .step-item .d { font-size: 0.88rem; color: var(--fg2); }
+    .callout { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 0.92rem; }
+    footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--fg2); text-align: center; }
+    @media (max-width: 540px) { #wrapper { padding: 18px 16px 60px; } h1 { font-size: 1.4rem; } h2 { font-size: 1.05rem; } .src-row { grid-template-columns: 1fr; gap: 2px; } }
+  </style>
+
+  <div id="wrapper">
+    <div class="top-bar"><a class="back" href="/">← マップへ戻る</a></div>
+
+    <h1>データの整理と<span class="accent">評価プロセス</span></h1>
+    <p class="subtitle">556 職業をどう整え、AIOIS-10 標準でどう採点したか</p>
+    <p class="meta-line">最終更新：{pageLastUpdated} ・ 採点：Claude Opus 4.8（2026-05-30）</p>
+
+    <p>
+      本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>です。AI 影響スコアのみが独自分析で、<a href="/standard">AIOIS-10 標準</a>に基づいて算出しています。このページでは <strong>①データの整理</strong>と<strong>②評価の手順</strong>を説明します。
+    </p>
+
+    <h2>1. データソース</h2>
+    <div class="src-card">
+      <div class="src-row"><span class="src-label">職業マスタ</span><span><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span></div>
+      <div class="src-row"><span class="src-label">著作権者</span><span>独立行政法人 労働政策研究・研修機構（<strong>JILPT</strong>）「職業情報データベース」</span></div>
+      <div class="src-row"><span class="src-label">バージョン</span><span><strong>v7.00</strong>（2026-03-17 公開・2026-05-03 公式 XLSX 取得）</span></div>
+      <div class="src-row"><span class="src-label">職業数</span><span><strong>556 職業</strong>（うち 552 が就業者数・年収データを保有）</span></div>
+      <div class="src-row"><span class="src-label">労働統計</span><span>年収・就業者数・労働時間・平均年齢・<strong>有効求人倍率</strong>（同データベース簡易版より集計）</span></div>
+      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（Claude Opus 4.8 採点、2026-05-30、AIOIS-10 v1.0）</span></div>
+    </div>
+
+    <h2>2. データの整理</h2>
+    <p>各職業は、職務記述（概要・仕事内容・就労条件）に加え、<strong>O*NET 型の数値ベクトル</strong>を持ちます。これらは「この仕事は何を要するか」を 0–5 の強度で表したものです。</p>
+    {VECTORS.map(([k, v]) => (
+      <p style="margin-bottom:8px"><code>{k}</code> — {v}</p>
+    ))}
+    <p>さらに各職業を <strong>16 の産業セクター</strong>に分類し、年収・有効求人倍率などの労働統計を id で突合しました。スコアの履歴は<strong>追記のみ（上書き・削除なし）</strong>のバッチ ファイルルで保持し、最新の採点日のものを現在値として採用します。</p>
+
+    <h2>3. 評価プロセス（AIOIS-10 の適用）</h2>
+    <p>純粋な統計でも、純粋な勘でもありません。<strong>観測可能な性質は透明な関数で、意味的な判断が要る次元は言語モデルで</strong>採点する<strong>ハイブリッド</strong>です。これは Eloundou ら（2023）が GPT-4 に O*NET タスクの AI 暴露を判定させた手法に倣っています。</p>
+    <div class="steps">
+      <div class="step-item"><div class="t">ベクトルエンジン：D2–D7</div><div class="d">定型性・身体性・判断・対人・創造・規制の各次元を、関連指標の重み付き合成で算出。各指標は全 556 職業で <strong>winsorized 正規化</strong>（p5–p95 でクリップ）して 0–10 に揃える。例：外科医の身体性は手先の巧緻性・対面近接・感染リスクから高く出る。</div></div>
+      <div class="step-item"><div class="t">LLM 判定：D1（生成 AI 暴露）</div><div class="d">「タスクを端から端まで AI が担えるか」はベクトルの線形和では測れない（データ入力はスキルが低いのに暴露は最大）。そこで Opus 4.8 が職務内容を読み、全 556 職業の D1 を判定。ベクトルが欠損する 40 職業は防壁 D1–D7 を記述から補完。</div></div>
+      <div class="step-item"><div class="t">労働統計から導出：D8・D9・D10</div><div class="d">D8 経済合理性＝身体性の低さ×賃金水準。D9 制度・労働市場＝<strong>有効求人倍率</strong>（人手不足ほど代替を抑制＝低 D9）。D10 雇用趨勢＝自動化圧＋需給逼迫の合成。</div></div>
+      <div class="step-item"><div class="t">指数の算出</div><div class="d">変化指数 = mean(D1, D2)。代替リスク = 暴露 ×(1 − 人的防壁/10)× 展開ゲート。式は <a href="/standard">AIOIS-10 標準</a>を参照。トップ指標「AI 影響」は変化指数。</div></div>
+    </div>
+
+    <h2>4. 校正と検証</h2>
+    <p>採点エンジンは、手で精査した <strong>15 の代表職</strong>（データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業作業ほか）をアンカーとして校正しました。最終的に、変化指数の平均絶対誤差（MAE）は <strong>0.18</strong>、代替リスクは <strong>0.51</strong>。すなわちエンジンはベンチマークの直感をほぼ再現しています。</p>
+    <div class="callout">
+      <strong>結果の分布</strong>：556 職業の変化指数は平均 4.2。身体・現場仕事が低く（緑）、知識・事務労働が中〜高（橙）、定型デジタル処理（データ入力・文字起こし・各種事務）が最上位。代替リスクは日本の人手不足（高い有効求人倍率）に守られ、多くの職で低く出ます。
+    </div>
+
+    <h2>5. 本手法の限界</h2>
+    <ul>
+      <li><strong>LLM の判断を含みます</strong>。D1 と欠損職の防壁は Opus 4.8 一台の判定。別モデル・別時点なら ±1〜2 ずれ得ます。</li>
+      <li><strong>統計検証はしていません</strong>。人間専門家との一致率は未測定。「実証研究」ではなく「校正済みの見立て」です。</li>
+      <li><strong>単一時点のスナップショット</strong>（2026-05-30、現行 AI フロンティア）。能力進化で賞味期限は約 1 年。</li>
+      <li><strong>556 職業のみ</strong>。jobtag 未収録の新興職種は対象外。</li>
+      <li><strong>日本版です</strong>。D9 は日本の労働市場（有効求人倍率）前提。海外の同名職には当てはめないでください。</li>
+      <li><strong>「影響」と「失職」は別物</strong>。変化指数は「業務がどれだけ作り変えられるか」であり、「仕事が消える確率」ではありません。後者は代替リスク（より低く出ます）。</li>
+    </ul>
+
+    <p><strong>本サイトは非公式</strong>です。厚労省・JILPT 等と提携・承認関係にありません。スコア・分類・可視化は独自の分析であり、公式見解ではありません。基準の定義は <a href="/standard">AIOIS-10 標準</a>、出典・注意事項は <a href="/about">データについて</a> を参照してください。</p>
+
+    <Footer />
+  </div>
+</BaseLayout>

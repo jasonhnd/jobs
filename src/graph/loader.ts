@@ -71,6 +71,7 @@ import {
 
 import type {
   AiRiskScore,
+  Aiois10,
   DimensionLabel,
   HueBand,
   KnowledgeGraph,
@@ -384,6 +385,7 @@ interface RawScoreHist {
   ai_risk: number;
   rationale_ja: string;
   confidence?: number | null;
+  aiois?: Aiois10 | null;
 }
 
 function computeLatestScores(runs: readonly ScoreRun[]): Map<number, AiRiskScore> {
@@ -404,6 +406,7 @@ function computeLatestScores(runs: readonly ScoreRun[]): Map<number, AiRiskScore
         ai_risk: entry.ai_risk,
         rationale_ja: entry.rationale_ja,
         confidence: entry.confidence,
+        aiois: entry.aiois ?? null,
       });
     }
   }
@@ -417,6 +420,7 @@ function computeLatestScores(runs: readonly ScoreRun[]): Map<number, AiRiskScore
       confidence: pick.confidence ?? null,
       model: pick.model,
       date: pick.date,
+      aiois: pick.aiois ?? null,
     });
   }
   return latest;
