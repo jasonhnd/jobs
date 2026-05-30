@@ -39,7 +39,7 @@ export function buildHighRiskRankings(
     .slice(0, TOP_N);
   const meanAiReplaced = safeMean(aiReplacedSoon, 'ai_risk');
 
-  // 16. 伝統技能で AI 抗性が高い (ai_risk <= 3 + craft sectors)
+  // 16. 伝統技能で AI に強い (ai_risk <= 3 + craft sectors)
   const aiResistantCraft = scored
     .filter((o) => (o.ai_risk ?? 999) <= 3 && inSectorSet(o, CRAFT_SECTORS))
     .sort((a, b) => (a.ai_risk ?? 0) - (b.ai_risk ?? 0) || a.id - b.id)
@@ -74,10 +74,10 @@ export function buildHighRiskRankings(
       showSalary: true,
       faqItems: FAQS['ai-risk-high'],
       title: 'AIに奪われる仕事ランキング TOP30【2026年版】| 未来の仕事',
-      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${meanHigh.toFixed(1)}/10。AI代替リスク・年収・就業者数を一覧比較。Claude Opus 4.7独自分析（非公式）。`,
+      seoDesc: `AI影響度が最も高い職業TOP${TOP_N}。平均スコア${meanHigh.toFixed(1)}/10。AI代替リスク・年収・就業者数を一覧比較。Claude Opus 4.8独自分析（非公式）。`,
       h1Text: `AIに奪われる仕事 TOP${TOP_N}`,
       subText: `AI 影響度が最も <strong>高い</strong> 職業ランキング（${scored.length} 職業中）`,
-      introText: '厚労省の職業データに基づき、Claude Opus 4.7がタスクレベルでAI影響度を分析。10段階中スコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。',
+      introText: '厚労省の職業データに基づき、Claude Opus 4.8がタスクレベルでAI影響度を分析。10段階中スコアが高い職業ほど、業務の多くがAIで代替・補助される可能性があります。ただし「仕事がなくなる」という意味ではありません。',
       statBlocks: [
         ['対象職業数', `${scored.length}`],
         ['TOP30 平均 AI 影響', `${meanHigh.toFixed(1)} / 10`],
@@ -106,9 +106,9 @@ export function buildHighRiskRankings(
       items: aiResistantCraft,
       showSalary: true,
       faqItems: FAQS['ai-resistant-craft'],
-      title: '伝統技能で AI 抗性が高い職業 TOP30【2026年版】| 未来の仕事',
+      title: '伝統技能で AI に強い職業 TOP30【2026年版】| 未来の仕事',
       seoDesc: `製造・建設・メンテ・農林系で AI 影響度が低い職業 TOP${aiResistantCraft.length}。手技中心で AI 代替が難しい分野を一覧。`,
-      h1Text: `伝統技能で AI 抗性が高い職業 TOP${aiResistantCraft.length}`,
+      h1Text: `伝統技能で AI に強い職業 TOP${aiResistantCraft.length}`,
       subText: '製造・建設・メンテ系で AI 影響度 <strong>3 以下</strong> の技能職',
       introText: '手技・経験的判断・身体的調整を要する技能職は AI で代替しにくく、製造・建設・メンテ・農林の現場職が低 AI 影響度のまま安定する傾向にあります。',
       statBlocks: [

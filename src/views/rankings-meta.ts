@@ -106,7 +106,7 @@ export const RANKING_META: ReadonlyArray<RankingMeta> = [
 
   // ── Phase 2 AI 軸派生 (6) ──
   { slug: 'ai-replaced-soon',    name_ja: 'AI 置き換えが進む職業 TOP30',  description_ja: 'AI 影響度 8/10 以上、業務再設計が急務', og_eyebrow: 'RANKING · AI 影響 大' },
-  { slug: 'ai-resistant-craft',  name_ja: '伝統技能で AI 抗性が高い職業 TOP30', description_ja: '製造・建設・メンテ系の手技中心職業',  og_eyebrow: 'RANKING · 技能職' },
+  { slug: 'ai-resistant-craft',  name_ja: '伝統技能で AI に強い職業 TOP30', description_ja: '製造・建設・メンテ系の手技中心職業',  og_eyebrow: 'RANKING · 技能職' },
   { slug: 'ai-at-risk-but-paid', name_ja: 'AI リスク高 × 高年収 TOP30',  description_ja: 'AI 影響度高だが現状年収も高い注意組',  og_eyebrow: 'RANKING · 要注意' },
   { slug: 'ai-augmented',        name_ja: 'AI で補強される職業 TOP30',    description_ja: 'AI 影響度 4-6、業務がAIで増強される',  og_eyebrow: 'RANKING · AI 補強域' },
   { slug: 'ai-frontier',         name_ja: 'AI を使いこなす側の職業 TOP21', description_ja: 'IT・通信セクターで AI 活用が業務の中心', og_eyebrow: 'RANKING · AI 使い手' },

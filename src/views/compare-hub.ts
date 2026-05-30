@@ -193,7 +193,7 @@ function buildFaqs(meta: CompareMeta, a: CompareSide, b: CompareSide): Array<rea
       faqs.push([
         `AI 影響度はどちらが低い？`,
         `${winner.name_ja} (${winner.ai_risk}/10) の方が ${loser.name_ja} (${loser.ai_risk}/10) より AI 影響度が低い傾向です。` +
-          `本サイトの AI 影響度は Claude Opus 4.7 による独自分析（非公式）です。`,
+          `本サイトの AI 影響度は Claude Opus 4.8 による独自分析（非公式）です。`,
       ]);
     } else {
       faqs.push([
