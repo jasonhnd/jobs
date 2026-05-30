@@ -819,4 +819,6 @@
 /ja/yearly/5year-changes
 /ja/yearly/next-decade
 /map
+/methodology
 /privacy
+/standard

@@ -19,6 +19,8 @@ export interface ScoreHistEntry {
   ai_risk: number;
   rationale_ja: string;
   confidence?: number | null;
+  /** AIOIS-10 profile (10 dims + 2 indices) when present; null/undefined for legacy batches. */
+  aiois?: import('./types.js').Aiois10 | null;
 }
 
 /**
