@@ -198,7 +198,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
     advantages_ja: [
       '長年の経験が直接価値に',
       '指導者・相談役のポジション',
-      '社会的孤立の予防',
+      '人とのつながりを保つこと',
     ],
     og_eyebrow: 'CAREER · シニア',
     recommend: (d) => {
@@ -270,7 +270,7 @@ export const CAREER_PERSONAS: ReadonlyArray<CareerPersona> = [
     description_ja: '異業種からの参入が現実的で、過去スキルの一部が活かせる職業群。完全未経験からも可能性のある分野。',
     cautions_ja: [
       '前職スキルの転用可能性',
-      '一時的な年収ダウンの覚悟',
+      '一時的に年収が下がるのを受け入れること',
       '学び直し期間 (1-3 年) の前提',
     ],
     advantages_ja: [

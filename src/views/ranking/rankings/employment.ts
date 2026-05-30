@@ -93,7 +93,7 @@ export function buildEmploymentRankings(
       seoDesc: `フリーランス + 経営層比率が高い職業 TOP${selfEmployedTypical.length}。独立がキャリアの自然な到達点となる職業を一覧。`,
       h1Text: `独立・開業が典型の職業 TOP${selfEmployedTypical.length}`,
       subText: 'フリーランス + 経営層 比率 <strong>30% 以上</strong> · 降順',
-      introText: '美容師・調理師・建設職人・士業など、独立がキャリアの自然な到達点とされる職業群。雇われ段階を経て独立 → 開業のルートが王道です。',
+      introText: '美容師・調理師・建設職人・士業など、独立がキャリアの自然な到達点とされる職業群。雇われ段階を経て独立 → 開業のルートが定番です。',
       statBlocks: [
         ['対象職業数', `${selfEmployedTypical.length}`],
         ['平均年収', `${Math.trunc(safeMean(selfEmployedTypical, 'salary'))} 万円`],
