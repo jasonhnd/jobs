@@ -143,7 +143,7 @@ export function buildWorkConditionsRankings(occs: Occupation[]): WorkConditionsR
       seoDesc: `求人倍率が最も低い職業 TOP${TOP_N}。平均 ${meanRecruitLow.toFixed(2)} 倍。採用競争が厳しい買い手市場の職業一覧。`,
       h1Text: `求人倍率が低い職業 TOP${TOP_N}`,
       subText: '求人倍率が最も <strong>低い</strong> 職業ランキング (買い手市場)',
-      introText: '応募者数に対して求人数が少ない買い手市場の職業をランキング。人気職業や参入障壁が高い分野、市場縮小傾向の業種が含まれます。',
+      introText: '応募者数に対して求人数が少ない買い手市場の職業をランキング。人気職業や参入のかべが高い分野、市場縮小傾向の業種が含まれます。',
       statBlocks: [
         ['TOP30 平均求人倍率', `${meanRecruitLow.toFixed(2)} 倍`],
         ['TOP30 平均年収', `${Math.trunc(safeMean(byRecruitLow, 'salary'))} 万円`],

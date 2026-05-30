@@ -27,16 +27,16 @@ export interface Aiois10ProfileInput {
 
 type Role = 'drv' | 'moat' | 'mod';
 const DIMS: ReadonlyArray<{ key: keyof Aiois10ProfileInput; code: string; ja: string; role: Role; tag: string }> = [
-  { key: 'd1', code: 'D1', ja: '認知・生成暴露', role: 'drv', tag: '▲' },
-  { key: 'd2', code: 'D2', ja: '定型・手順暴露', role: 'drv', tag: '▲' },
-  { key: 'd3', code: 'D3', ja: '身体・現場性', role: 'moat', tag: '■' },
-  { key: 'd4', code: 'D4', ja: '判断・責任', role: 'moat', tag: '■' },
-  { key: 'd5', code: 'D5', ja: '対人・情緒知能', role: 'moat', tag: '■' },
-  { key: 'd6', code: 'D6', ja: '創造・独創性', role: 'moat', tag: '■' },
-  { key: 'd7', code: 'D7', ja: '規制・安全障壁', role: 'moat', tag: '■' },
-  { key: 'd8', code: 'D8', ja: '経済合理性', role: 'mod', tag: '◐' },
-  { key: 'd9', code: 'D9', ja: '制度・労働市場', role: 'mod', tag: '◐' },
-  { key: 'd10', code: 'D10', ja: '雇用需要の趨勢', role: 'drv', tag: '▲' },
+  { key: 'd1', code: 'D1', ja: '頭脳・情報の仕事', role: 'drv', tag: '▲' },
+  { key: 'd2', code: 'D2', ja: '決まった手順のくり返し', role: 'drv', tag: '▲' },
+  { key: 'd3', code: 'D3', ja: '体・現場の仕事', role: 'moat', tag: '■' },
+  { key: 'd4', code: 'D4', ja: '判断と責任', role: 'moat', tag: '■' },
+  { key: 'd5', code: 'D5', ja: '人とのやりとり・気持ち', role: 'moat', tag: '■' },
+  { key: 'd6', code: 'D6', ja: '新しいものを生み出す力', role: 'moat', tag: '■' },
+  { key: 'd7', code: 'D7', ja: '資格・安全のかべ', role: 'moat', tag: '■' },
+  { key: 'd8', code: 'D8', ja: '自動化が安く済むか', role: 'mod', tag: '◐' },
+  { key: 'd9', code: 'D9', ja: '人手不足・制度の影響', role: 'mod', tag: '◐' },
+  { key: 'd10', code: 'D10', ja: 'これから仕事は増えるか', role: 'drv', tag: '▲' },
 ];
 
 const pct = (v: number): number => Math.max(0, Math.min(100, Math.round(v * 10)));
@@ -60,17 +60,17 @@ export function renderAiois10Profile(a: Aiois10ProfileInput | null): SafeHtml {
         <h2 id="aiois10-h2">AI 影響の内訳 — <a href="/standard">AIOIS-10</a></h2>
         <div class="aio-indices">
           <div class="aio-idx idx-t">
-            <span class="aio-idx-lbl">変化指数</span>
+            <span class="aio-idx-lbl">変化の大きさ</span>
             <span class="aio-idx-num">${a.transformation.toFixed(1)}<small>/10</small></span>
-            <span class="aio-idx-sub">仕事の進め方が変わる度合い</span>
+            <span class="aio-idx-sub">仕事のやり方がどれだけ変わるか</span>
           </div>
           <div class="aio-idx idx-d">
-            <span class="aio-idx-lbl">代替リスク</span>
+            <span class="aio-idx-lbl">仕事が減るリスク</span>
             <span class="aio-idx-num">${a.displacement.toFixed(1)}<small>/10</small></span>
-            <span class="aio-idx-sub">置換・縮小の確率</span>
+            <span class="aio-idx-sub">仕事そのものが減る・なくなる確率</span>
           </div>
         </div>
         <ul class="aio-list">${rows}</ul>
-        <p class="aio-note">凡例：<span class="aio-tag">▲</span>暴露ドライバー（高いほど影響大）／<span class="aio-tag">■</span>人的防壁（高いほど守られる）／<span class="aio-tag">◐</span>修飾。各 0–10。定義は <a href="/standard">AIOIS-10 標準</a>、算出方法は <a href="/methodology">評価プロセス</a> を参照。</p>
+        <p class="aio-note">見方：<span class="aio-tag">▲</span>AI が届く部分（高いほど影響が大きい）／<span class="aio-tag">■</span>人間の強み（高いほど守られる）／<span class="aio-tag">◐</span>その他の調整。各 0〜10。くわしくは <a href="/standard">AIOIS-10 とは</a>、点数の付け方は <a href="/methodology">調べ方</a> を参照。</p>
       </section>`) as SafeHtml;
 }

@@ -16,16 +16,16 @@ interface Dim {
   id: string; ja: string; tag: string; stage: string; body: string;
 }
 const DIMS: Dim[] = [
-  { id: 'D1', ja: '認知・生成暴露', tag: '▲ ドライバー', stage: '暴露', body: '言語・情報・分析・コード等、現行の生成 AI（LLM／マルチモーダル）が端から端まで担えるタスクの割合。データ入力・機械翻訳・定型作成ほど高い。' },
-  { id: 'D2', ja: '定型・手順暴露', tag: '▲ ドライバー', stage: '暴露', body: 'ルール化され反復的で予測可能な、明示手順に従う度合い。古典的な自動化／RPA の射程。' },
-  { id: 'D3', ja: '身体・現場性', tag: '■ 防壁', stage: '人的防壁', body: '物理操作・手先の巧緻性・移動・現実世界の知覚をどれだけ要するか。ロボティクス／身体性 AI でしか届かない、ソフトウェアより遅く高コストな領域。' },
-  { id: 'D4', ja: '判断・責任', tag: '■ 防壁', stage: '人的防壁', body: '不確実・高ストークス下の非定型判断と、特定の人間に帰属せねばならない法的・道義的な結果責任。' },
-  { id: 'D5', ja: '対人・情緒知能', tag: '■ 防壁', stage: '人的防壁', body: '対面の関わり・共感・信頼構築・ケア・説得・交渉。関係性そのものが提供価値となる度合い。' },
-  { id: 'D6', ja: '創造・独創性', tag: '■ 防壁', stage: '人的防壁', body: '既存パターンの再結合（生成 AI が得意）ではなく、真に新規なアイデア・作品・解を生み出す度合い。' },
-  { id: 'D7', ja: '規制・安全障壁', tag: '◐■ 修飾＝防壁', stage: '展開摩擦', body: '法・免許・専門職規制が人間を要求する、あるいは安全致命性が人間関与を強制する度合い。' },
-  { id: 'D8', ja: '経済合理性', tag: '▲◐ 修飾＝ドライバー', stage: '展開摩擦', body: '自動化が、置き換える労働より安いか。自動化・資本コスト対賃金。' },
-  { id: 'D9', ja: '制度・労働市場文脈', tag: '◐ 修飾〈ローカル〉', stage: '展開摩擦', body: '技術的代替可能性を実際の置換へ変える／鈍らせる地域環境。組織の採用力・雇用保護・労働需給。深刻な人手不足は AI を脅威でなく救済に読み替える。本標準で唯一、国・地域ごとに採点する次元。' },
-  { id: 'D10', ja: '雇用需要の趨勢', tag: '▲ ドライバー', stage: '正味の結果', body: '5〜10 年での当該職の人数・経済価値の正味変化。AI による置換と、AI による新タスク創出・再配置を統合。' },
+  { id: 'D1', ja: '頭脳・情報の仕事', tag: '▲ 影響を強める', stage: '①AIが届くか', body: '文章・情報・分析・プログラムなど、いまの生成AI（ChatGPTのようなAI）がほぼ最後まで一人でこなせる仕事の割合。データ入力・機械翻訳・型どおりの文章づくりほど高い。' },
+  { id: 'D2', ja: '決まった手順のくり返し', tag: '▲ 影響を強める', stage: '①AIが届くか', body: 'ルールが決まっていて、同じことのくり返しで、先が読める仕事の度合い。昔からある自動化やソフトでも置きかえやすい。' },
+  { id: 'D3', ja: '体・現場の仕事', tag: '■ 人間の強み', stage: '②人間の強み', body: '体を動かす・手先の器用さ・移動・現場で目や手で確かめる、といった要素がどれだけ必要か。ロボットでしか置きかえられず、ソフトより遅く・お金もかかる。' },
+  { id: 'D4', ja: '判断と責任', tag: '■ 人間の強み', stage: '②人間の強み', body: '正解のない場面での重い判断と、だれか一人の人間が負わなければならない、法律やモラルの上での責任。' },
+  { id: 'D5', ja: '人とのやりとり・気持ち', tag: '■ 人間の強み', stage: '②人間の強み', body: '顔を合わせたやりとり・共感・信頼づくり・ケア・説得・交渉。人と人の関係そのものが価値になる度合い。' },
+  { id: 'D6', ja: '新しいものを生み出す力', tag: '■ 人間の強み', stage: '②人間の強み', body: 'すでにあるものの組み合わせ（生成AIが得意）ではなく、本当に新しいアイデア・作品・答えを生み出す度合い。' },
+  { id: 'D7', ja: '資格・安全のかべ', tag: '◐■ 調整＋強み', stage: '③広がりにくさ', body: '法律・免許・専門職のルールが人間を必要としたり、ミスが命に関わるため人間が立ち会う必要がある度合い。' },
+  { id: 'D8', ja: '自動化が安く済むか', tag: '▲◐ 影響＋調整', stage: '③広がりにくさ', body: '自動化が、置きかえる人件費より安いか。自動化や設備にかかるお金と、給料とのバランス。' },
+  { id: 'D9', ja: '人手不足・制度の影響', tag: '◐ 調整〈国ごと〉', stage: '③広がりにくさ', body: '技術の上で置きかえられても、実際に置きかわるかを左右する地域の事情。会社の導入力・雇用の守り・人手の足り具合。深刻な人手不足だと、AIは脅威ではなく助けになる。この標準で唯一、国や地域ごとに点を付ける項目。' },
+  { id: 'D10', ja: 'これから仕事は増えるか', tag: '▲ 影響を強める', stage: '④結果', body: 'これから5〜10年で、その仕事の人数や価値がどれだけ増える/減るか。AIで仕事が減る力と、AIで新しい仕事が生まれる力を合わせて見る。' },
 ];
 
 const EXAMPLES = [
@@ -44,7 +44,7 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/standard#webpage",
       "name": "AIOIS-10 標準 — AI 職業影響スタンダード",
       "url": "https://mirai-shigoto.com/standard",
-      "description": "AI が職業に与える影響を 10 次元（D1–D10）と 2 指数（変化指数・代替リスク）で測る公開リファレンス AIOIS-10 の定義。",
+      "description": "AI が仕事に与える影響を 10 項目（D1–D10）と 2 つの数字（変化の大きさ・仕事が減るリスク）で測る、だれでも使える基準 AIOIS-10 の説明。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "datePublished": "2026-05-30",
@@ -64,11 +64,11 @@ const jsonLd = `{
 ---
 <BaseLayout
   title="AIOIS-10 標準 — AI 職業影響スタンダード | mirai-shigoto.com"
-  description="AI が職業に与える影響を 10 次元と 2 指数で測る公開リファレンス AIOIS-10。EMFO 4段階モデル、各次元の定義、変化指数・代替リスクの算出式。"
+  description="AI が仕事に与える影響を 10 項目と 2 つの数字で測る、だれでも使える基準 AIOIS-10。EMFO の 4 段階、各項目の意味、変化の大きさ・仕事が減るリスクの出し方。"
   canonical="https://mirai-shigoto.com/standard"
-  keywords="AIOIS-10, AI 影響, 職業, 10次元, 変化指数, 代替リスク, EMFO, 暴露, 人的防壁, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
-  ogTitle="AIOIS-10 標準 — AI 職業影響スタンダード"
-  ogDescription="AI の職業影響を 10 次元（D1–D10）と 2 指数で測る公開リファレンス。EMFO 4段階モデルに基づく。"
+  keywords="AIOIS-10, AI 影響, 職業, 10項目, 変化の大きさ, 仕事が減るリスク, EMFO, 人間の強み, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
+  ogTitle="AIOIS-10 標準 — AI が仕事に与える影響の基準"
+  ogDescription="AI が仕事に与える影響を 10 項目（D1–D10）と 2 つの数字で測る、だれでも使える基準。EMFO の 4 段階にもとづく。"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
 
@@ -120,24 +120,24 @@ const jsonLd = `{
     <div class="top-bar"><a class="back" href="/">← マップへ戻る</a></div>
 
     <h1>AIOIS-10 <span class="accent">標準</span></h1>
-    <p class="subtitle">AI 職業影響スタンダード — 10 次元で測る公開リファレンス（v1.0 ドラフト）</p>
+    <p class="subtitle">AI が仕事に与える影響を 10 項目で測る、だれでも使える基準（v1.0 ドラフト）</p>
     <p class="meta-line">最終更新：{pageLastUpdated} ・ AIOIS-10 v1.0（日本版）</p>
 
     <p class="lead">
-      「AI の影響」は 1 つの数字ではありません。<strong>仕事の進め方がどれだけ変わるか</strong>と、<strong>職そのものが失われるか</strong>はしばしば逆を向きます（経営者は AI に大きく変えられるが、失職可能性は低い）。AIOIS-10 は、影響を生む<strong>入力</strong>を 10 の独立した次元で測り、別々の問いに別々の答えを返します。
+      「AI の影響」は 1 つの数字では表せません。<strong>仕事のやり方がどれだけ変わるか</strong>と、<strong>仕事そのものがなくなるか</strong>は、よく逆を向きます（経営者は AI に大きく変えられるが、仕事を失う可能性は低い）。AIOIS-10 は、影響のもとになる要素を 10 の別々の項目で測り、別々の問いに別々の答えを返します。
     </p>
 
-    <h2>EMFO — 4 段階の因果モデル</h2>
-    <p>AI の影響は 4 段階のパイプラインを通って労働市場の結果に至ります。各段は前段をフィルタリングします。技術的な暴露だけでは影響を過大評価します。<strong>人的防壁</strong>と<strong>展開摩擦</strong>こそが、純粋な暴露指標と AIOIS-10 を分けます。</p>
+    <h2>EMFO — 4 つの段階で考える</h2>
+    <p>AI の影響は 4 つの段階を通って、最後に「働く場」への結果になります。各段階が前の段階をしぼり込みます。技術の上で「AI にできる」だけでは影響を大きく見すぎます。<strong>人間の強み</strong>と<strong>広がりにくさ</strong>こそが、ただの「AI にできる度」と AIOIS-10 を分けます。</p>
     <div class="emfo">
-      <div class="step"><div class="n">1 暴露</div><div class="t">Exposure</div><div class="d">AI は何に届くか（D1・D2）</div></div>
-      <div class="step"><div class="n">2 人的防壁</div><div class="t">Human Moat</div><div class="d">代替し得ても残る人間性（D3–D7）</div></div>
-      <div class="step"><div class="n">3 展開摩擦</div><div class="t">Friction</div><div class="d">置換を阻む障壁（D7–D9）</div></div>
-      <div class="step"><div class="n">4 結果</div><div class="t">Outcome</div><div class="d">正味の雇用変化（D10）</div></div>
+      <div class="step"><div class="n">① AI が届くか</div><div class="t">Exposure</div><div class="d">AI はどこまでできるか（D1・D2）</div></div>
+      <div class="step"><div class="n">② 人間の強み</div><div class="t">Human Moat</div><div class="d">AI にできても人が残る部分（D3〜D7）</div></div>
+      <div class="step"><div class="n">③ 広がりにくさ</div><div class="t">Friction</div><div class="d">置きかえを妨げる壁（D7〜D9）</div></div>
+      <div class="step"><div class="n">④ 結果</div><div class="t">Outcome</div><div class="d">最終的な仕事の増減（D10）</div></div>
     </div>
-    <p>各次元は <strong>0.0–10.0</strong> で「観測される性質の大きさ」として採点します（「影響」を直接ではなく）。役割タグがその性質の符号を決めます：<strong>▲ ドライバー</strong>＝高いほど影響大、<strong>■ 防壁</strong>＝高いほど人間優位で影響小、<strong>◐ 修飾</strong>＝暴露が実影響になるかを左右。</p>
+    <p>各項目は <strong>0.0〜10.0</strong> で「その性質がどれだけ強いか」を点にします（「影響」そのものではなく）。記号が性質の向きを表します：<strong>▲ 影響を強める</strong>＝高いほど影響が大きい、<strong>■ 人間の強み</strong>＝高いほど人が有利で影響が小さい、<strong>◐ 調整</strong>＝「AI にできる」が本当に置きかえになるかを左右。</p>
 
-    <h2>10 の次元</h2>
+    <h2>10 の項目</h2>
     {DIMS.map((dm) => (
       <div class="dim">
         <div class="head">
@@ -149,32 +149,32 @@ const jsonLd = `{
       </div>
     ))}
 
-    <h2>2 つの指数</h2>
-    <p><strong>変化指数（Transformation）</strong>— 仕事の進め方が AI でどれだけ作り変えられるか。知識労働ほど高い。本サイトのトップ指標「AI 影響」はこの値です。</p>
-    <div class="formula"><span class="k">変化指数</span> = mean(D1, D2)</div>
-    <p><strong>代替リスク（Displacement-Risk）</strong>— 置換・縮小の確率。暴露が人的防壁を越えた分を、展開条件と需要趨勢で調整します。</p>
+    <h2>2 つの数字</h2>
+    <p><strong>変化の大きさ（Transformation）</strong>— 仕事のやり方が AI でどれだけ作り変えられるか。頭脳・情報の仕事ほど高い。本サイトのトップ指標「AI 影響」はこの値です。</p>
+    <div class="formula"><span class="k">変化の大きさ</span> ＝ D1 と D2 の平均</div>
+    <p><strong>仕事が減るリスク（Displacement-Risk）</strong>— 仕事そのものが減る・なくなる確率。「AI にできる」が人間の強みを越えた分を、導入のしやすさと求人の見通しで調整します。</p>
     <div class="formula">
-      暴露 E = mean(D1, D2)<br>
-      人的防壁 M = mean(D3, D4, D5, D6, D7)<br>
-      展開 P = mean(D8, D9)　（D9 高 = 摩擦が小さい）<br>
-      <span class="k">代替リスク</span> = clamp₀₋₁₀( E · (1 − M/10) · (0.6 + 0.4 · (P + D10)/20) )
+      AI にできる度 E ＝ D1 と D2 の平均<br>
+      人間の強み M ＝ D3〜D7 の平均<br>
+      導入のしやすさ P ＝ D8 と D9 の平均　（D9 が高い ＝ 広がりやすい）<br>
+      <span class="k">仕事が減るリスク</span> ＝ E ×（1 − M/10）×（0.6 + 0.4 ×（P + D10）/20）　※ 0〜10 に収める
     </div>
-    <p>プロファイルは<strong>「2 つの数字 ＋ 10 軸レーダー」</strong>です。経営者は<em>高い変化指数・低い代替リスク</em>、データ入力は<em>高・高</em>、訪問介護員は<em>低・低</em>と読めます。</p>
+    <p>結果は<strong>「2 つの数字 ＋ 10 項目のレーダー」</strong>です。経営者は<em>変化は大きいがリスクは低い</em>、データ入力は<em>どちらも高い</em>、訪問介護員は<em>どちらも低い</em>と読めます。</p>
 
-    <h2>採点規約</h2>
+    <h2>点の付け方のルール</h2>
     <ul>
-      <li><strong>尺度</strong>：各次元 0.0–10.0、小数 1 桁。</li>
-      <li><strong>性質であって判定ではない</strong>：名指しした性質の大きさを採点し、符号は役割タグが決める。各次元を客観的・再現可能な観測に保つ。</li>
-      <li><strong>能力フロンティア</strong>：暴露（D1・D2）は宣言した AI 能力フロンティア（現行＋任意で +5 年）に対して採点。フロンティアが進めば<strong>スコア</strong>が更新され、次元は不変。</li>
-      <li><strong>信頼度</strong>：各職業に confidence（0–1）。職内の多様性（例：「管理職」は企業差大）は点ではなく信頼度に表す。</li>
-      <li><strong>採点者</strong>：訓練されたアナリスト、または校正済み言語モデルが、指標を事前分布・アンカーとして採点。モデル・日付を毎バッチ記録。</li>
+      <li><strong>目もり</strong>：各項目 0.0〜10.0、小数 1 けた。</li>
+      <li><strong>「影響」そのものではなく、性質に点を付ける</strong>：名前の付いた性質がどれだけ強いかを点にし、向き（プラス/マイナス）は記号で決める。だれが見ても同じになるように。</li>
+      <li><strong>AI の今の実力を基準に</strong>：D1・D2 は「今の AI でどこまでできるか」を基準に点を付ける（必要なら「5 年後」版も）。AI が進歩したら<strong>点数</strong>だけ付け直し、10 項目自体は変えない。</li>
+      <li><strong>自信度</strong>：各職業に自信度（0〜1）を付ける。同じ職種でも会社でばらつく場合（例：「管理職」）は、点ではなく自信度を下げて表す。</li>
+      <li><strong>だれが点を付けるか</strong>：訓練を受けた人、または調整ずみの AI が、目印（指標）を手がかりに点を付ける。使ったモデルと日付は毎回記録する。</li>
     </ul>
 
-    <h2>普遍コア ＋ ローカル修飾</h2>
-    <p>AIOIS-10 が<strong>世界</strong>標準たりうる理由：<strong>D1–D8 と D10 は普遍</strong>（仕事と世界の AI フロンティアの内在的性質。同じ能力フロンティアなら東京でもベルリンでもサンパウロでも同じ）。<strong>D9 のみが唯一のローカル層</strong>で、各国版は D9（と必要なら代替リスクの重み）だけを再採点します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
+    <h2>世界共通の部分 ＋ 国ごとの部分</h2>
+    <p>AIOIS-10 が<strong>世界</strong>標準になれる理由：<strong>D1〜D8 と D10 は世界共通</strong>（仕事と AI の性質そのものなので、東京でもベルリンでもサンパウロでも同じ）。<strong>D9 だけが国ごとに変わる項目</strong>で、各国版は D9（と必要ならリスク式の重み）だけを付け直します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
 
-    <h2>採点例（本番バッチ・日本版・現行フロンティア）</h2>
-    <p>本サイトの本番採点（Opus 4.8、2026-05-30、D9＝日本）からのプロファイル。T＝変化指数、DR＝代替リスク。</p>
+    <h2>実際の採点の例（日本版・今の AI 時点）</h2>
+    <p>本サイトの採点（Opus 4.8、2026-05-30、D9＝日本）からの例。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
     <div class="wrap-x">
     <table class="ex">
       <thead><tr><th>職業</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th><th>D10</th><th>T</th><th>DR</th></tr></thead>
@@ -190,11 +190,11 @@ const jsonLd = `{
       </tbody>
     </table>
     </div>
-    <p>経営者と外科医は<em>判断を要する認知タスクで大きく変わるが安全</em>（高い D4・D5・D7 が代替リスクを 1 前後に抑える）。介護員は <strong>D9（有効求人倍率 ≈ 28 の深刻な人手不足）</strong>と D3・D5 が低い暴露を上回り<em>守られて</em>います。暴露が実際の代替へ繋がるのは、人的防壁の薄いデータ入力・翻訳だけです。</p>
+    <p>経営者と外科医は<em>頭を使う仕事で大きく変わるが安全</em>（高い D4・D5・D7 が「仕事が減るリスク」を 1 前後に抑える）。介護員は <strong>D9（有効求人倍率 ≒ 28 の深刻な人手不足）</strong>と D3・D5 が「AI にできる度」を上回り<em>守られて</em>います。「AI にできる」が実際に仕事を奪うのは、人間の強みがうすいデータ入力・翻訳だけです。</p>
 
-    <h2>系譜と限界</h2>
-    <p>AIOIS-10 は既存研究を置換せず統合します — 定型/非定型タスク（Autor–Levy–Murnane 2003）→ D2、3 つのボトルネック（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習適合性（Brynjolfsson 2018）→ D1、置換 vs 再配置・"so-so" 自動化（Acemoglu &amp; Restrepo）→ D8・D10、LLM タスク暴露（Eloundou 2023）→ D1。新規の貢献は、暴露から労働結果へを明示的な防壁・摩擦段で繋ぐ <strong>EMFO パイプライン</strong>と、<strong>普遍コア＋ローカル修飾</strong>設計です。</p>
-    <p>限界：本標準は<strong>ベクトル前提・現行フロンティア時点</strong>の推定であり、実証された失職確率ではありません。スコアの作り方・データの整え方は <a href="/methodology">評価プロセス</a> を参照してください。</p>
+    <h2>もとにした研究と注意点</h2>
+    <p>AIOIS-10 はこれまでの研究を置きかえるのではなく、まとめ直したものです — 決まった仕事／決まらない仕事（Autor–Levy–Murnane 2003）→ D2、3 つの「AI が苦手なこと」（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習で置きかえやすいか（Brynjolfsson 2018）→ D1、仕事を奪う力 vs 新しい仕事を生む力（Acemoglu &amp; Restrepo）→ D8・D10、AI がこなせる仕事（Eloundou 2023）→ D1。新しい点は、「AI にできる」から「働く場の結果」までを、人間の強み・広がりにくさという段階ではっきり繋ぐ <strong>EMFO の流れ</strong>と、<strong>世界共通＋国ごと</strong>の設計です。</p>
+    <p>注意：この標準は<strong>職業データをもとにした・今の AI 時点</strong>の見立てであり、確かめ済みの失職確率ではありません。点の付け方・データの整え方は <a href="/methodology">調べ方</a> を参照してください。</p>
 
     <Footer />
   </div>
