@@ -383,7 +383,6 @@ interface RawScoreHist {
   date: string;
   ai_risk: number;
   rationale_ja: string;
-  rationale_en: string;
   confidence?: number | null;
 }
 
@@ -404,7 +403,6 @@ function computeLatestScores(runs: readonly ScoreRun[]): Map<number, AiRiskScore
         date: run.run.run_date,
         ai_risk: entry.ai_risk,
         rationale_ja: entry.rationale_ja,
-        rationale_en: entry.rationale_en,
         confidence: entry.confidence,
       });
     }
@@ -416,7 +414,6 @@ function computeLatestScores(runs: readonly ScoreRun[]): Map<number, AiRiskScore
     latest.set(occId, {
       score: pick.ai_risk,
       rationaleJa: pick.rationale_ja,
-      rationaleEn: pick.rationale_en,
       confidence: pick.confidence ?? null,
       model: pick.model,
       date: pick.date,

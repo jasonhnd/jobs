@@ -79,7 +79,7 @@ UI は 360 px のスマートフォンと 4K デスクトップの両方で同�
 スコアリングは下記のキャリブレーションアンカーに基づき Claude Code セッションで実行します。各職業について：
 
 1. **入力バンドル** — 職業名（日 + 英）、業種、job tag の「仕事内容」記述、構造化フィールド（年収、就業者数、学歴分布、将来性）。
-2. **プロンプト** — 上記のキャリブレーションアンカー + 入力バンドル + 構造化出力指示（JSON: `score: int`, `rationale_ja: str`, `rationale_en: str`）。
+2. **プロンプト** — 上記のキャリブレーションアンカー + 入力バンドル + 構造化出力指示（JSON: `ai_risk: number`, `rationale_ja: str`, `confidence: number`。本サイトは日本語専用）。
 3. **モデル** — [OpenRouter](https://openrouter.ai) 経由で既定は Gemini Flash。設定可能で、Claude Sonnet や GPT-4o への切替は config 1 行。
 4. **出力** — モデルのスコア + 理由文、職業ごとにキャッシュ。再実行時は既出力の職業はスキップ。
 5. **集約** — `npm run build:data`（`src/data/build.ts`）が IPD ソースデータ + AI スコア + 統計を結合し、`public/` 下に 12 個の projection family を出力（treemap / detail / search / labels / sectors / profile5 / transfer_paths / holland / featured / score_history / tasks / skills）。フロントエンドは `/data.treemap.json` を読み込みます。

@@ -18,7 +18,6 @@ export interface ScoreHistEntry {
   date: string;
   ai_risk: number;
   rationale_ja: string;
-  rationale_en: string;
   confidence?: number | null;
 }
 

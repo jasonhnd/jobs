@@ -160,7 +160,6 @@ export async function buildIndexes(): Promise<BuildIndexesResult> {
         date: run.run.run_date,
         ai_risk: entry.ai_risk,
         rationale_ja: entry.rationale_ja,
-        rationale_en: entry.rationale_en,
         confidence: entry.confidence,
       });
     }

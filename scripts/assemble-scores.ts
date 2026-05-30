@@ -18,8 +18,8 @@
  *     [--anchors anchors.json] [--caveat caveat.txt]
  *
  * Input JSONL — one line per occupation:
- *   {"id":1,"ai_risk":6.9,"rationale_ja":"…","confidence":0.8[,"rationale_en":"…"]}
- *   (rationale_en omitted → empty string "" = EN pending translation.)
+ *   {"id":1,"ai_risk":6.9,"rationale_ja":"…","confidence":0.8}
+ *   (Japanese-only site — rationale_ja only; no English.)
  *
  * Exit: 0 = wrote a schema-valid file; 1 = bad args / input / schema-invalid
  * (never writes on failure; never overwrites an existing file — append-only).
@@ -38,7 +38,7 @@ export interface ParsedScores {
 
 /**
  * Parse + light-validate raw JSONL lines into a `scores` map.
- * `rationale_en` omitted → `''` (EN pending). Collects all errors (no throw).
+ * Collects all errors (no throw).
  */
 export function parseScoreLines(lines: readonly string[]): ParsedScores {
   const scores: Record<string, ScoreEntry> = {};
@@ -80,7 +80,6 @@ export function parseScoreLines(lines: readonly string[]): ParsedScores {
     scores[key] = {
       ai_risk: r,
       rationale_ja: obj.rationale_ja,
-      rationale_en: typeof obj.rationale_en === 'string' ? obj.rationale_en : '',
       confidence: typeof conf === 'number' ? conf : null,
     };
   });
@@ -249,12 +248,10 @@ if (import.meta.main) {
   }
 
   writeFileSync(outPath, `${JSON.stringify(parsed.data, null, 2)}\n`);
-  const emptyEn = Object.values(scores).filter((s) => !s.rationale_en).length;
   console.log(`[assemble-scores] OK → ${outPath}`);
   console.log(
     `  scored ${scoredIds.length}/${realOccIds.size}; missing ${missing.length}` +
-      `${missing.length ? ` (${missing.slice(0, 10).join(', ')}${missing.length > 10 ? ' …' : ''})` : ''}` +
-      `; empty rationale_en ${emptyEn}`,
+      `${missing.length ? ` (${missing.slice(0, 10).join(', ')}${missing.length > 10 ? ' …' : ''})` : ''}`,
   );
   console.log(`  next: bun run check:score-batch ${outPath}`);
 }

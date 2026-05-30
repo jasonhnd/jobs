@@ -10,6 +10,28 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Removed (English scaffolding — site is Japanese-only · 2026-05-30)
+
+- **`rationale_en` dropped entirely.** The site targets Japanese
+  domestic users only, so the English rationale field is gone from the
+  schema (`score-run.ts`, `.strict()` with no `rationale_en`), the graph
+  layer (`loader.ts` / `score-strategy.ts` / `types.ts`'s `rationaleEn` /
+  `indexes.ts`), the tooling (`assemble-scores.ts` / `check-score-batch.ts`
+  + tests), and both score batch files (4.8: 556 lines, 4.7: 552). No
+  rendered HTML changed (the derived `rationaleEn` was never displayed),
+  so the SEO baseline is unaffected.
+
+- **Deleted dead English files**: `data/prompts/prompt.en.md` (old
+  English scoring prompt) and `README.en.md`.
+
+- Updated `SCORING_RUNBOOK.md`, the prompt template, `DATA_ARCHITECTURE.md`
+  (ScoreRun example + loader snippet), and `README.md` to drop the
+  English-backfill workflow.
+
+- **Kept** the `/en/* → /ja/*` 301 redirect (defensive — gracefully
+  sends any legacy/external `/en` link to the JA page; removing it would
+  only risk 404s).
+
 ### Changed (Data · AI-risk re-scored with **Opus 4.8** · one-decimal · 2026-05-30)
 
 - **All 556 occupations re-scored on the v2.0 one-decimal rubric** →
@@ -39,8 +61,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   structural gates (consistency / architecture / internal-links /
   JSON-LD) stayed green; only the snapshot was recaptured.
 
-- `rationale_en` left empty for all 556 (JA-only site; English backfill
-  is a deferred follow-up batch — runbook §8 A3).
+- `rationale_en` was scored empty here, then **removed from the schema
+  and data entirely** in the English-scaffolding cleanup above (JA-only
+  site — no English backfill).
 
 ### Changed (Build · pnpm / node / tsx → **Bun** · 2026-05-29)
 
