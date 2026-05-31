@@ -1,27 +1,27 @@
 {
   "manual_population_anchor": {
-    "label": "Population / internet baseline",
+    "label": "人口・ネット利用者の基準値",
     "type": "manual_anchor",
     "default_frequency": "annual",
     "default_confidence": "high",
     "stale_after_days": 365
   },
   "manual_company_disclosure": {
-    "label": "Company disclosure",
+    "label": "会社発表",
     "type": "manual_evidence",
     "default_frequency": "quarterly_or_irregular",
     "default_confidence": "medium",
     "stale_after_days": 120
   },
   "manual_traffic_proxy": {
-    "label": "Traffic and app proxy",
+    "label": "Web・アプリ利用の数字",
     "type": "manual_evidence",
     "default_frequency": "monthly",
     "default_confidence": "medium",
     "stale_after_days": 45
   },
   "manual_device_proxy": {
-    "label": "Device and OS proxy",
+    "label": "端末・OSの数字",
     "type": "manual_evidence",
     "default_frequency": "quarterly",
     "default_confidence": "medium",

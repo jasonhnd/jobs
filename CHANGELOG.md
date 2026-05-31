@@ -18,6 +18,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   from a CDN.
 - Refreshed the SEO baseline intentionally because the new page and generated
   data file add one URL, one sitemap entry, and one public `data.*` artifact.
+- Revised the preview page copy to easier public Japanese and replaced the
+  first chart with a D3 100-person dot grid plus stacked 5-group breakdown.
 - Kept the implementation isolated to new page/data files; existing CSS files,
   top navigation, and footer styling were not changed.
 
