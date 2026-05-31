@@ -1,3 +1,4 @@
+data.ai-adoption.json
 data.detail/0001.json
 data.detail/0002.json
 data.detail/0003.json

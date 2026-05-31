@@ -37,6 +37,7 @@ import { buildSectors } from './projections/sectors.js';
 import { buildSkills } from './projections/skills.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
+import { buildAiAdoption } from './projections/ai-adoption.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
 //   - buildScoreHistory / data.score_history.json  (no runtime consumer)
@@ -185,6 +186,11 @@ async function main(): Promise<void> {
     runs.push(await runProjection('treemap', async () => {
       const r = await buildTreemap(indexes, STAGE_DIST);
       return { files: r.files, summary: `rows=${r.rows}` };
+    }));
+
+    runs.push(await runProjection('ai-adoption', async () => {
+      const r = await buildAiAdoption(STAGE_DIST);
+      return { files: r.files, summary: `layers=${r.rows}` };
     }));
 
     runs.push(await runProjection('search', async () => {
