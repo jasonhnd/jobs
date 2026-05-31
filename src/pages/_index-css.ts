@@ -468,7 +468,7 @@ export const INDEX_CSS = String.raw`      *,
         padding: 24px 28px 80px;
         position: relative; /* anchor for #tileHighlight overlay */
       }
-      /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select. Lets every interaction skip the 552-tile loop in draw() and just move a div. Killed mobile INP from ~768ms to ~30ms. */
+      /* CSS overlay highlight — replaces per-frame canvas redraw on hover/select. Lets every interaction skip the 556-tile loop in draw() and just move a div. Killed mobile INP from ~768ms to ~30ms. */
       #tileHighlight {
         position: absolute;
         pointer-events: none;

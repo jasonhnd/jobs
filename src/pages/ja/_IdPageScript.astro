@@ -10,7 +10,7 @@
  * data attributes and emits the GA4 event.
  *
  * CSP hardening (audit CODE-012, 2026-05-17): the inline script body
- * is now byte-identical across every one of 552 occupation pages
+ * is now byte-identical across every one of 556 occupation pages
  * (no `define:vars`), so one SHA-256 in vercel.json's script-src
  * covers them all. Per-occupation values flow through data-* attributes
  * on a hidden <div> element, which are NOT script content under CSP.
@@ -47,7 +47,7 @@ const riskScoreAttr = riskScoreJs == null ? '' : String(riskScoreJs);
 <script slot="bodyEnd" is:inline>
   // STATIC body — reads occupation data from the <div data-occupation-page-meta>
   // element rendered above. Identical across every /ja/[id] page → single
-  // CSP hash covers all 552 occupation pages.
+  // CSP hash covers all 556 occupation pages.
   (function () {
     var meta = document.querySelector('div[data-occupation-page-meta]');
     if (!meta) return;

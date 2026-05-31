@@ -89,9 +89,10 @@ describe('loadGraph — occupation node shape', () => {
       if (occ.stats === null) withoutStats += 1;
       else withStats += 1;
     }
-    // 552 stats_legacy files cover 556 occupations → 4 expected without stats.
-    assert.equal(withStats, 552, `expected 552 occupations with stats, got ${withStats}`);
-    assert.equal(withoutStats, 4, `expected 4 occupations without stats, got ${withoutStats}`);
+    // 556 stats_legacy files cover all 556 occupations (581-584 estimated,
+    // source="estimate_*") → 0 expected without stats.
+    assert.equal(withStats, 556, `expected 556 occupations with stats, got ${withStats}`);
+    assert.equal(withoutStats, 0, `expected 0 occupations without stats, got ${withoutStats}`);
   });
 
   test('aiRisk: at least 500 occupations have a latest score', () => {

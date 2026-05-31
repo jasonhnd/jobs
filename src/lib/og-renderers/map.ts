@@ -23,7 +23,7 @@ import { createElement as h } from 'react';
 import { loadGoogleFont } from '../og-helpers.js';
 
 const SITE_MARK = 'mirai-shigoto.com';
-const EYEBROW = 'OCCUPATION MAP / 全 552 職業';
+const EYEBROW = 'OCCUPATION MAP / 全 556 職業';
 const TITLE = '職業マップ';
 const SUBTITLE = 'AI 影響度 × 就業者数 ヒートマップ';
 const BOTTOM_LABEL = '面積 = 就業者数 ・ 色 = AI 影響(低 → 高)';

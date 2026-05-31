@@ -1,0 +1,11 @@
+{
+  "id": 584,
+  "schema_version": "1.0",
+  "source": "estimate_2026-05-30",
+  "salary_man_yen": 450.0,
+  "workers": 5000,
+  "monthly_hours": 162,
+  "average_age": 40.0,
+  "recruit_wage_man_yen": 26.0,
+  "recruit_ratio": 1.6
+}
