@@ -25,7 +25,7 @@ export const CANONICAL_DETAIL_CSS = `
     /* Detail class layout: mobile-first single column, scale up on desktop. */
     #wrapper{max-width:480px;margin:0 auto;padding:env(safe-area-inset-top,12px) 18px env(safe-area-inset-bottom,24px)}
     @media (min-width:640px){#wrapper{max-width:640px;padding:18px 24px 32px}}
-    @media (min-width:900px){#wrapper{max-width:1080px;padding:24px 32px 48px}}
+    @media (min-width:900px){#wrapper{max-width:var(--content-max);padding:24px 32px 48px}}
 
     /* Breadcrumb */
     nav.crumb{font-size:0.74rem;color:var(--ink-3);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}

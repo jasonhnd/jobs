@@ -10,6 +10,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Unified page content width · 2026-05-31)
+
+- **Single `--content-max` (1080px) replaces 6 ad-hoc per-page widths.** Each
+  page type set its own `#wrapper` / `main` max-width — 740 / 760 / 820 / 900 /
+  980 / 1080 — so the content column jumped wider/narrower when navigating
+  between the map, occupation, hub, sector, and legal pages, and the full-bleed
+  top-nav never lined up with any of them. Added a `--content-max` token in
+  canonical-css `:root`; every wrapper now references it (map 900, hubs/sectors
+  980, legal 760, methodology/standard 820, static 740, and the homepage 1400
+  all → 1080; the occupation detail page was already 1080; detail's mobile
+  480/640 steps are kept). A nice side effect: the homepage treemap and the
+  `/map` treemap are now the same width (were 1400 vs 900).
+- **Top-nav + footer align to that column.** The sticky nav keeps its full-bleed
+  background, but the brand + links now sit in the content column via
+  `padding-inline: max(20px, calc((100% - var(--content-max)) / 2))` (no markup
+  change). `footer-nav` widened 800 → `--content-max`.
+- Pure CSS — no HTML / meta / JSON-LD / internal-link change, so the SEO baseline
+  is unaffected. Verified at desktop + mobile across home / map / hub / detail /
+  legal; build 824 pages green, gates clean, 962 tests pass.
+
 ### Changed (Footer + home pre-footer redesign · 2026-05-31)
 
 - **Footer link cloud → grouped navigation.** The 20 footer links were a flat,
