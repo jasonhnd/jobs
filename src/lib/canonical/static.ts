@@ -21,8 +21,8 @@ a:hover{color:var(--accent-deep)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 .theme-toggle{display:none !important}
 
-/* Static class layout: narrower wrapper, generous padding for long-form text */
-#wrapper{max-width:740px;margin:0 auto;padding:48px 24px 96px}
+/* Static class layout: shared content-column width, generous padding */
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:48px 24px 96px}
 
 /* Breadcrumb */
 nav.crumb{font-size:0.85rem;color:var(--fg2);margin-bottom:24px}

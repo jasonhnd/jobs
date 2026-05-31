@@ -463,7 +463,7 @@ export const INDEX_CSS = String.raw`      *,
       /* Theme toggle hidden — single Direction C theme. Buttons kept in DOM for future dark-variant work; restore by removing this rule. */
       .theme-toggle { display: none !important; }
       #wrapper {
-        max-width: 1400px;
+        max-width: var(--content-max);
         margin: 0 auto;
         padding: 24px 28px 80px;
         position: relative; /* anchor for #tileHighlight overlay */
@@ -1106,7 +1106,7 @@ export const INDEX_CSS = String.raw`      *,
         display: flex;
         align-items: center;
         gap: 12px;
-        max-width: 1400px;
+        max-width: var(--content-max);
         margin: 0 auto;
         padding: 14px 28px 0;
         font-size: 0.8rem;
