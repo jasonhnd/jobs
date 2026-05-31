@@ -27,16 +27,16 @@ import {
 // ─── Risk / hue palettes ──────────────────────────────────────────────────
 
 /**
- * Risk-band → tile color, aligned with Direction C palette
- * (mobile-tokens.css). Sage green for low risk, warm gold for mid,
- * terracotta for high.
+ * Risk-band → tile color. Mirrors the canonical --risk-0..4 scale in
+ * canonical-css.ts (satori needs a literal hex, not a CSS var, so the
+ * values are kept in sync by hand). Green for low impact → red for high.
  */
 export const RISK_COLORS: Record<number, string> = {
-  0: "#6E9B89", 1: "#6E9B89", 2: "#6E9B89",   // sage — safe / low
-  3: "#93A879", 4: "#93A879",                   // sage-gold transition — mid-low
-  5: "#D4A749", 6: "#D4A749",                   // warm gold — mid
-  7: "#D96B3D", 8: "#D96B3D",                   // terracotta — high
-  9: "#B85535", 10: "#B85535",                  // deep terracotta — max
+  0: "#0F8A66", 1: "#0F8A66", 2: "#0F8A66",   // --risk-0 teal-green — low
+  3: "#5BA84F", 4: "#5BA84F",                   // --risk-1 green — mid-low
+  5: "#D9A03B", 6: "#D9A03B",                   // --risk-2 gold — mid
+  7: "#E27A33", 8: "#E27A33",                   // --risk-3 orange — high
+  9: "#C4422F", 10: "#C4422F",                  // --risk-4 red — max
 };
 
 /** Sector hue → Direction C accent color for the OG card border. */
