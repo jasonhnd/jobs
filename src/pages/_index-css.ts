@@ -1721,8 +1721,26 @@ export const INDEX_CSS = String.raw`      *,
          ============================================================ */
       .hub-section { margin: 22px 0; }
       .hub-section-head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
         margin: 0 0 16px;
         padding: 0 4px;
+      }
+      .hub-numeral {
+        flex-shrink: 0;
+        font-family: var(--font-serif);
+        font-size: 3rem;
+        font-weight: 400;
+        line-height: 1;
+        color: var(--accent);
+        font-variant-numeric: lining-nums;
+        letter-spacing: 0.01em;
+      }
+      .hub-head-text {
+        min-width: 0;
+        border-left: 1px solid var(--border);
+        padding-left: 18px;
       }
       .hub-eyebrow {
         display: inline-block;
@@ -1755,6 +1773,9 @@ export const INDEX_CSS = String.raw`      *,
         max-width: 80px;
       }
       @media (max-width: 540px) {
+        .hub-section-head { gap: 13px; }
+        .hub-numeral { font-size: 2.2rem; }
+        .hub-head-text { padding-left: 13px; }
         .hub-eyebrow { font-size: 0.65rem; }
         .hub-section-title { font-size: 1.15rem; }
         .hub-section-divider { margin: 24px auto; }
