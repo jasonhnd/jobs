@@ -1781,7 +1781,7 @@ export const INDEX_CSS = String.raw`      *,
         .hub-section-divider { margin: 24px auto; }
       }
 
-      /* Sector navigation block — Phase 2 of sector hub rollout. Sits between treemap and data attribution, gives every visitor a direct route into the 16 sector hubs. Pill chips mirror the footer token system but inverted: warm-cream pill on bg2 surface. */
+      /* Sector navigation block — direct route into the 16 sector hubs, sitting between the treemap and PART II. A bg2 panel holding the shared .hub-subgroup + .hub-card-grid system. */
       .sector-nav {
         margin: 28px 0 18px;
         padding: 22px 18px;
@@ -1789,97 +1789,25 @@ export const INDEX_CSS = String.raw`      *,
         border: 1px solid var(--border);
         border-radius: 10px;
       }
-      .sector-nav-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 14px;
-        padding: 0 2px;
-      }
-      .sector-nav-title {
-        font-family: var(--font-serif);
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: var(--fg);
-        margin: 0;
-      }
-      .sector-nav-sub {
-        font-size: 0.78rem;
-        color: var(--fg2);
-      }
-      .sector-nav-grid {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 8px;
-      }
-      .sector-nav-grid li { margin: 0; display: flex; }
-      .sector-nav-grid a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 8px 12px;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        color: var(--fg);
-        text-decoration: none;
-        font-size: 0.84rem;
-        line-height: 1.2;
-        transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
-        width: 100%;
-        text-align: center;
-        min-height: 32px;
-      }
-      .sector-nav-grid a:hover {
-        color: var(--accent);
-        border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.08);
-        text-decoration: none;
-      }
-      .sector-nav-grid .count {
-        color: var(--fg2);
-        font-size: 0.74rem;
-        font-variant-numeric: tabular-nums;
-      }
-      .sector-nav-grid a:hover .count { color: var(--accent); }
-      /* AI risk band — 2px stripe at the bottom of each chip, color-matched to the treemap palette so that "scan the chips" gives instant low/mid/high read-out. */
-      .sector-nav-grid a {
-        position: relative;
-        padding-bottom: 9px;
-      }
-      .sector-nav-grid a::after {
-        content: '';
-        position: absolute;
-        left: 12px;
-        right: 12px;
-        bottom: 4px;
-        height: 2px;
-        border-radius: 1px;
-        background: var(--ai-band-color, var(--border));
-        opacity: 0.85;
-      }
-      .sector-nav-grid a[data-ai-band="low"]  { --ai-band-color: var(--risk-1); }
-      .sector-nav-grid a[data-ai-band="mid"]  { --ai-band-color: var(--risk-2); }
-      .sector-nav-grid a[data-ai-band="high"] { --ai-band-color: var(--risk-4); }
-      /* 4 thematic groups of sectors — each with a small italic serif heading. */
-      .sector-nav-group { margin-top: 14px; }
-      .sector-nav-group:first-of-type { margin-top: 0; }
-      .sector-nav-group-title {
+      /* ============================================================
+         Unified hub card — the single card component shared by every
+         home-hub nav grid: PART I (sectors), PART II (rankings),
+         PART III (deep-dive). One surface / radius / hover / type
+         scale so the whole hub reads as one system.
+         Slots: eyebrow (category tag) · name · lead (tabular datum) · desc.
+         ============================================================ */
+      .hub-subgroup { margin-top: 18px; }
+      .hub-subgroup:first-of-type { margin-top: 0; }
+      .hub-subgroup-title {
         font-family: var(--font-serif);
         font-style: italic;
         font-size: 0.82rem;
         font-weight: 500;
         color: var(--fg2);
-        margin: 0 0 8px 4px;
+        margin: 0 0 10px 4px;
         letter-spacing: 0.02em;
       }
-      .sector-nav-group-title em {
+      .hub-subgroup-title em {
         font-style: normal;
         color: var(--fg3, var(--fg2));
         font-size: 0.72rem;
@@ -1887,59 +1815,7 @@ export const INDEX_CSS = String.raw`      *,
         font-variant-numeric: tabular-nums;
         opacity: 0.75;
       }
-      .sector-nav-legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 16px;
-        margin: 14px 4px 0;
-        font-size: 0.72rem;
-        color: var(--fg2);
-      }
-      .sector-nav-legend > span {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .sector-nav-legend i {
-        display: inline-block;
-        width: 16px;
-        height: 2px;
-        border-radius: 1px;
-      }
-      .sector-nav-legend .lg-low  { background: var(--risk-1); }
-      .sector-nav-legend .lg-mid  { background: var(--risk-2); }
-      .sector-nav-legend .lg-high { background: var(--risk-4); }
-      @media (max-width: 540px) {
-        .sector-nav { margin: 22px 0 14px; padding: 16px 14px; }
-        .sector-nav-title { font-size: 0.98rem; }
-        .sector-nav-grid a { padding: 6px 11px 8px; font-size: 0.8rem; }
-        .sector-nav-grid a::after { left: 10px; right: 10px; bottom: 3px; }
-      }
-
-      .ranking-nav {
-        margin: 18px 0;
-        padding: 22px 18px;
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-      }
-      .ranking-nav-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 14px;
-        padding: 0 2px;
-      }
-      .ranking-nav-title {
-        font-family: var(--font-serif);
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: var(--fg);
-        margin: 0;
-      }
-      .ranking-nav-grid {
+      .hub-card-grid {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -1948,38 +1824,28 @@ export const INDEX_CSS = String.raw`      *,
         gap: 8px;
         grid-auto-rows: 1fr;
       }
-      .ranking-nav-grid li { display: flex; }
-      .ranking-nav-grid a {
+      .hub-card-grid li { display: flex; }
+      .hub-card {
         display: flex;
         flex-direction: column;
+        width: 100%;
+        height: 100%;
         padding: 13px 16px;
         background: var(--bg3);
         border: 1px solid var(--border);
         border-radius: 8px;
         color: var(--fg);
         text-decoration: none;
-        font-size: 0.88rem;
-        font-weight: 500;
         line-height: 1.35;
         transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
-        width: 100%;
-        height: 100%;
       }
-      .ranking-nav-grid a:hover {
+      .hub-card:hover {
         color: var(--accent);
         border-color: var(--accent);
         background: rgba(217, 107, 61, 0.08);
+        text-decoration: none;
       }
-      .ranking-nav-grid .rn-desc {
-        display: block;
-        font-size: 0.76rem;
-        color: var(--fg2);
-        font-weight: 400;
-        margin-top: 4px;
-      }
-      /* Phase 6: richer ranking card — eyebrow + name + #1 preview + desc.
-         Card now flows vertically with consistent vertical rhythm. */
-      .rn-eyebrow {
+      .hc-eyebrow {
         font-size: 0.68rem;
         font-weight: 700;
         letter-spacing: 0.08em;
@@ -1987,13 +1853,14 @@ export const INDEX_CSS = String.raw`      *,
         color: var(--accent);
         margin-bottom: 4px;
       }
-      .rn-name {
+      .hc-name {
         font-size: 0.92rem;
         font-weight: 600;
         line-height: 1.3;
         color: var(--fg);
       }
-      .rn-preview {
+      .hub-card:hover .hc-name { color: var(--accent); }
+      .hc-lead {
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
@@ -2005,30 +1872,27 @@ export const INDEX_CSS = String.raw`      *,
         min-height: 1.4em;
         flex: 1;
       }
-      .ranking-nav-grid .rn-desc {
+      .hc-desc {
+        font-size: 0.76rem;
+        color: var(--fg2);
+        font-weight: 400;
         margin-top: 2px;
       }
-      /* Subgroup heading (italic serif) above card grids inside ranking section. */
-      .ranking-subgroup {
-        margin-top: 18px;
+      @media (max-width: 540px) {
+        .sector-nav { margin: 22px 0 14px; padding: 16px 14px; }
+        .hub-card-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+        .hub-card { padding: 11px 13px; }
+        .hc-eyebrow { font-size: 0.62rem; }
+        .hc-name { font-size: 0.85rem; }
+        .hc-lead { font-size: 0.72rem; }
       }
-      .ranking-subgroup:first-of-type { margin-top: 0; }
-      .ranking-subgroup-title {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 0.82rem;
-        font-weight: 500;
-        color: var(--fg2);
-        margin: 0 0 10px 4px;
-        letter-spacing: 0.02em;
-      }
-      .ranking-subgroup-title em {
-        font-style: normal;
-        color: var(--fg3, var(--fg2));
-        font-size: 0.72rem;
-        margin-left: 6px;
-        font-variant-numeric: tabular-nums;
-        opacity: 0.75;
+
+      .ranking-nav {
+        margin: 18px 0;
+        padding: 22px 18px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
       }
       /* Expand-more affordance (details/summary) — reveals the 24 specialty rankings. */
       .hub-rankings-more { margin-top: 18px; }
@@ -2061,17 +1925,12 @@ export const INDEX_CSS = String.raw`      *,
       }
       @media (max-width: 540px) {
         .ranking-nav { margin: 14px 0; padding: 16px 14px; }
-        .ranking-nav-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-        .ranking-nav-grid a { padding: 11px 14px; font-size: 0.82rem; }
-        .rn-eyebrow { font-size: 0.62rem; }
-        .rn-name { font-size: 0.85rem; }
-        .rn-preview { font-size: 0.72rem; }
       }
 
       /* ============================================================
-         PART III — "もっと深く探す" — 3-column magazine TOC of 17 hub
-         categories not surfaced by sectors / rankings. Each col is a
-         "panel" with a serif heading + numbered eyebrow + small lede.
+         PART III — "もっと深く探す" — 17 hub categories not surfaced by
+         sectors / rankings, grouped into 3 subgroups. Uses the shared
+         .hub-subgroup heading + .hub-card-grid system (same as I / II).
          ============================================================ */
       .hub-deep {
         margin: 22px 0;
@@ -2080,87 +1939,7 @@ export const INDEX_CSS = String.raw`      *,
         border: 1px solid var(--border);
         border-radius: 10px;
       }
-      .hub-deep-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-        margin-top: 6px;
-      }
-      .hub-deep-col-title {
-        font-family: var(--font-serif);
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: var(--fg);
-        margin: 0 0 6px;
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-      }
-      .hub-deep-col-num {
-        font-size: 0.7rem;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 0.08em;
-        color: var(--accent);
-        font-weight: 700;
-        font-family: var(--font-sans);
-      }
-      .hub-deep-col-lede {
-        font-size: 0.78rem;
-        color: var(--fg2);
-        line-height: 1.5;
-        margin: 0 0 14px;
-        font-style: italic;
-      }
-      .hub-deep-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .hub-deep-list a {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-template-rows: auto auto;
-        gap: 0 8px;
-        padding: 10px 12px;
-        background: var(--bg3);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        text-decoration: none;
-        color: var(--fg);
-        transition: border-color 150ms ease, background 150ms ease;
-      }
-      .hub-deep-list a:hover {
-        border-color: var(--accent);
-        background: rgba(217, 107, 61, 0.05);
-        text-decoration: none;
-      }
-      .hub-deep-list strong {
-        font-size: 0.88rem;
-        font-weight: 600;
-        color: var(--fg);
-      }
-      .hub-deep-list a:hover strong { color: var(--accent); }
-      .hd-meta {
-        font-size: 0.72rem;
-        color: var(--fg2);
-        font-variant-numeric: tabular-nums;
-        align-self: center;
-      }
-      .hd-desc {
-        grid-column: 1 / -1;
-        font-size: 0.74rem;
-        color: var(--fg2);
-        margin-top: 2px;
-        line-height: 1.4;
-      }
-      @media (max-width: 1024px) {
-        .hub-deep-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
-      }
       @media (max-width: 768px) {
-        .hub-deep-grid { grid-template-columns: 1fr; gap: 24px; }
         .hub-deep { padding: 22px 16px; }
       }
       /* ============ Home CTA row: rankings tool + X follow (Stage 1) ============ */
