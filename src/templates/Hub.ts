@@ -284,7 +284,7 @@ export function renderExploreOtherRoutes(
 
 export function renderExploreIndexJsonLd(): string {
   const canonical = 'https://mirai-shigoto.com/ja/explore';
-  const seoDesc = '日本 552 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。';
+  const seoDesc = '日本 556 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。';
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [

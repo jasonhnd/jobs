@@ -10,6 +10,37 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Occupation count unified 552 → 556 + GEO refresh · 2026-05-31)
+
+- **All 556 occupations now appear on the map.** The 4 newest IPD occupations
+  (581–584: ブロックチェーン・エンジニア / 声優 / 産業医 / 3Dプリンター技術者)
+  lacked labor statistics and dropped off the workforce treemap, so user-facing
+  copy still said "552". Added estimated stats (`data/stats_legacy/058{1,2,3,4}.json`,
+  `source="estimate_2026-05-30"`) so all 556 carry workforce/salary and render
+  everywhere. `OCCUPATION_COUNT.SCORED` 552 → 556.
+- **552 → 556 unified site-wide** — every count label across pages / JSON-LD / OG /
+  meta / hubs, plus the logic that consumes it: `UNIVERSE_SIZE` (me-positions),
+  the `/ja/me` "全 N 中" label gate (`universe === 556`), and the home a11y
+  fallback `slice(0, 556)`. Two intentional keeps: the `config.ts` history note
+  ("was 552 vs 556") and the unrelated score-history dead-file count.
+- **Home + yearly derived numbers recomputed over 556**: employed 5,449 → **5,456 万**,
+  high-impact wages (≥5) 77.3 → **77.4 兆**, AI-impact distribution 12/206/291/41/2 →
+  **12/207/294/41/2** (percentages unchanged); yearly "4〜6" band 322 → **325 職業**
+  (58% unchanged); "7 以上" 12 occ / 403 万 unchanged. Mean 4.24 (displays 4.2).
+- **GEO surfaces fully refreshed** — `public/llms.txt` + `public/llms-full.txt`
+  were still describing the deprecated single-axis Opus **4.7** integer rubric
+  ("552 scored / 4 awaiting", mode = 7, sector mean IT 8.14, 18.4 M ≥7). Rewritten
+  to the current **AIOIS-10 / Opus 4.8** reality: the two-index framing
+  (Transformation = headline "AI 影響" vs Displacement-Risk), the EMFO 10 dimensions,
+  and recomputed aggregates (mean 4.24, highest sector 事務・公務 5.64 / lowest
+  農林・水産 2.79, only 12 occ ≈ 403 万 ≥7, full 16-sector means). Kept English by
+  convention (machine-facing AI-crawler surface, like robots.txt / sitemap).
+- **`loader.test.ts`**: with the 4 estimated stats files, the assertion flips to
+  556 occupations with stats / **0 without**.
+- **SEO baseline refreshed** — the count is embedded in titles / meta / OG / JSON-LD
+  and 581–584 now gain internal links (neighbors, rankings, sector hubs), so the
+  snapshot legitimately drifts; no page added or removed (824).
+
 ### Added / Changed (AIOIS-10 — 10-dimension AI-impact standard · 2026-05-30)
 
 - **New world-reference standard `docs/AIOIS-10.md`** (v1.0-draft): the

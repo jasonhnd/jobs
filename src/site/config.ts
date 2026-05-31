@@ -37,22 +37,19 @@ export type SiteConfig = typeof siteConfig;
  * Occupation counts — single source of truth for the two numbers that
  * appear across the site.
  *
- *   - SCORED = 552 — AI-scored by Claude Opus 4.8 (what treemap / rankings show)
- *   - TOTAL  = 556 — full JILPT IPD v7.00 dataset (4 are not scored yet)
+ *   - SCORED = 556 — AI-scored by Claude Opus 4.8 / AIOIS-10; all on the map.
+ *   - TOTAL  = 556 — full JILPT IPD v7.00 dataset.
  *
- * Before this constant existed, the two values were scattered across
- * 30+ surfaces and produced contradictory copy: homepage said "552
- * 職業", /ja/sectors H1 said "556 職業", /404 said "業界別 556
- * 職業". Users hit different numbers in adjacent pages.
- *
- * Rule of thumb:
- *   - User-facing copy that references THE MAP / RANKINGS / HUBS → SCORED
- *   - Provenance discussion (/about/data-sources, glossary) describing
- *     the IPD source dataset itself → TOTAL
+ * History: was 552 vs 556 until 2026-05-30. The 4 newest occupations
+ * (581-584: ブロックチェーン・エンジニア / 声優 / 産業医 / 3Dプリンター技術者)
+ * lacked labor stats and dropped off the workforce treemap. Estimated stats
+ * were added (data/stats_legacy/058x.json, source="estimate_*") so the map,
+ * rankings, and all copy show the full 556. Kept as two constants for any
+ * future split.
  */
 export const OCCUPATION_COUNT = {
-  /** AI-scored occupations — what users see on the map, in rankings, hubs. */
-  SCORED: 552,
+  /** AI-scored occupations shown on the map / rankings / hubs. */
+  SCORED: 556,
   /** Full JILPT IPD v7.00 occupation count (raw dataset). */
   TOTAL: 556,
 } as const;

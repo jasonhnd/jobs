@@ -42,7 +42,7 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
   const totalOcc = view.totalOccupations;
   const canonical = `${SITE}/ja/sectors`;
   // RA-003 (2026-05-18): user-facing copy uses OCCUPATION_COUNT.SCORED
-  // (the 552 AI-scored occupations users see on the map) rather than the
+  // (the 556 AI-scored occupations users see on the map) rather than the
   // raw 556 IPD dataset count, so adjacent pages don't disagree.
   const pageTitle = `全 16 業種｜${OCCUPATION_COUNT.SCORED} 職業を業界別に分類 | 未来の仕事`;
   const ogTitle = '全 16 業種｜業界別 職業ランキング・AI 影響度・年収';
