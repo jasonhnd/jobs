@@ -1,0 +1,30 @@
+{
+  "manual_population_anchor": {
+    "label": "Population / internet baseline",
+    "type": "manual_anchor",
+    "default_frequency": "annual",
+    "default_confidence": "high",
+    "stale_after_days": 365
+  },
+  "manual_company_disclosure": {
+    "label": "Company disclosure",
+    "type": "manual_evidence",
+    "default_frequency": "quarterly_or_irregular",
+    "default_confidence": "medium",
+    "stale_after_days": 120
+  },
+  "manual_traffic_proxy": {
+    "label": "Traffic and app proxy",
+    "type": "manual_evidence",
+    "default_frequency": "monthly",
+    "default_confidence": "medium",
+    "stale_after_days": 45
+  },
+  "manual_device_proxy": {
+    "label": "Device and OS proxy",
+    "type": "manual_evidence",
+    "default_frequency": "quarterly",
+    "default_confidence": "medium",
+    "stale_after_days": 120
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "model_version": "0.1.0",
+  "period": "2026-Q2",
+  "primary_denominator_metric": "global_internet_users",
+  "auxiliary_denominator_metric": "global_population",
+  "parameters": {
+    "dev_multi_tool_overlap": {
+      "value": 0.1,
+      "label_ja": "developer tool overlap",
+      "rationale_ja": "One developer can use more than one AI coding tool."
+    },
+    "paid_multi_platform_overlap": {
+      "value": 0.15,
+      "label_ja": "paid AI subscription overlap",
+      "rationale_ja": "One paid user can subscribe to more than one AI product."
+    },
+    "paid_dev_overlap_rate": {
+      "value": 0.18,
+      "label_ja": "paid and developer overlap",
+      "rationale_ja": "Developers are more likely to also be paid AI subscribers."
+    },
+    "free_upper_layer_overlap_rate": {
+      "value": 0.38,
+      "label_ja": "free and upper-layer overlap",
+      "rationale_ja": "Paid users and developers also visit free AI surfaces."
+    },
+    "passive_explicit_overlap_rate": {
+      "value": 0.22,
+      "label_ja": "passive and explicit overlap",
+      "rationale_ja": "Some OS-level AI users are already explicit AI users."
+    },
+    "paid_consumer_arpu_annual_usd": {
+      "value": 240,
+      "label_ja": "annual paid consumer ARPU",
+      "rationale_ja": "Representative annualized ARPU for a USD 20/month consumer subscription."
+    }
+  }
+}
