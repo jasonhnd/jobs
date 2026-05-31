@@ -76,16 +76,54 @@ const compact = (value: number): string =>
 const pct = (value: number): string =>
   `${(value * 100).toFixed(1)}%`;
 const statusLabel = (status: string): string => {
-  if (status === 'fresh') return 'Fresh';
-  if (status === 'review_needed') return 'Review';
-  return 'Stale';
+  if (status === 'fresh') return '新しい';
+  if (status === 'review_needed') return '確認';
+  return '古い';
 };
+const metricLabel = (metric: string): string => {
+  if (metric === 'global_internet_users') return 'ネット利用者';
+  if (metric === 'global_population') return '世界人口';
+  if (metric === 'developer_active_users') return '開発者向けAI';
+  if (metric === 'vendor_arr_usd') return '有料サービス売上';
+  if (metric === 'platform_mau_proxy') return '月間利用者';
+  if (metric === 'passive_eligible_devices') return 'AI対応端末';
+  return metric;
+};
+const entityLabel = (entity: string): string => {
+  if (entity === 'World') return '世界';
+  if (entity === 'Other developer AI tools') return 'その他の開発者向けAI';
+  if (entity === 'OpenAI consumer products') return 'OpenAI 個人向け';
+  if (entity === 'Anthropic consumer products') return 'Anthropic 個人向け';
+  if (entity === 'Perplexity consumer products') return 'Perplexity 個人向け';
+  if (entity === 'Other consumer AI products') return 'その他の個人向けAI';
+  if (entity === 'Regional AI apps') return '各地域のAIアプリ';
+  if (entity === 'Apple Intelligence eligible devices') return 'Apple Intelligence 対応端末';
+  if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応PC';
+  if (entity === 'Android Gemini eligible devices') return 'Android Gemini 対応端末';
+  if (entity === 'Regional OS-level AI devices') return '各地域の端末AI';
+  return entity;
+};
+const unitLabel = (unit: string): string => {
+  if (unit === 'people') return '人';
+  if (unit === 'devices') return '台';
+  return unit;
+};
+const confidenceLabel = (confidence: string): string => {
+  if (confidence === 'high') return '高い';
+  if (confidence === 'medium') return '中';
+  return '低い';
+};
+const layerNameById = new Map(dashboard.layers.map((layer) => [layer.id, layer.label_ja]));
+const usedByLabel = (ids: string[]): string =>
+  ids.map((id) => layerNameById.get(id) ?? (id === 'N_total' ? '基準人数' : id)).join(', ');
+const touchedPer100 = Math.round(dashboard.rates.total_touch_rate * 100);
+const unreachedPer100 = 100 - touchedPer100;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Dataset',
   name: `${dashboard.title_ja} - mirai-shigoto.com`,
-  description: '世界のAI採用率を、開発者、有料、無料、システム内蔵AI、未接触に分けて推計する公開モデル。',
+  description: '世界のAI利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末でAIにふれる人、まだ使っていない人に分けて見積もる公開モデル。',
   url: canonical,
   inLanguage: 'ja',
   isAccessibleForFree: true,
@@ -100,12 +138,12 @@ const jsonLd = JSON.stringify({
 });
 ---
 <BaseLayout
-  title={`${dashboard.title_ja} | AI採用率ダッシュボード - mirai-shigoto.com`}
-  description="世界のAI採用率を、開発者、有料、無料、システム内蔵AI、未接触の5層に分け、公式・理由・データ鮮度を公開するダッシュボード。"
+  title={`${dashboard.title_ja} | AI利用率ダッシュボード - mirai-shigoto.com`}
+  description="世界のAI利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末でAIにふれる人、まだ使っていない人の5グループに分け、計算式・理由・データの新しさを公開するダッシュボード。"
   canonical={canonical}
-  keywords="AI採用率, AI利用率, 生成AI, ChatGPT, Claude, Gemini, ARR, MAU, データ鮮度, D3"
-  ogTitle={`${dashboard.title_ja} | AI採用率ダッシュボード`}
-  ogDescription="AI利用者を5層に分け、推計式・代理指標・データ鮮度を公開するモデルページ。"
+  keywords="AI利用率, 生成AI, ChatGPT, Claude, Gemini, ARR, MAU, データの新しさ, D3"
+  ogTitle={`${dashboard.title_ja} | AI利用率ダッシュボード`}
+  ogDescription="AI利用者を5グループに分け、計算式・理由・データの新しさを公開するモデルページ。"
   ogImage={`${siteConfig.origin}/api/og?page=home`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
@@ -114,47 +152,57 @@ const jsonLd = JSON.stringify({
   <article class="ai-adoption-page" aria-labelledby="aiAdoptionTitle">
     <p class="adoption-kicker">AI adoption monitor</p>
     <h1 id="aiAdoptionTitle" class="adoption-title">{dashboard.title_ja}</h1>
-    <p class="adoption-lede">{dashboard.subtitle_ja} すべての層は排他的に扱い、上位層から順に重複を差し引く。</p>
+    <p class="adoption-lede">{dashboard.subtitle_ja} 上から順に重なりを引き、同じ人を二度数えないようにします。</p>
 
     <div class="adoption-meta" aria-label="モデル情報">
       <span class="meta-pill">期間: {dashboard.period}</span>
       <span class="meta-pill">更新: {dashboard.updated_at}</span>
       <span class={`meta-pill status-chip status-${dashboard.freshness.status}`}>
-        鮮度: {statusLabel(dashboard.freshness.status)} {Math.round(dashboard.freshness.score * 100)}%
+        データ: {statusLabel(dashboard.freshness.status)} {Math.round(dashboard.freshness.score * 100)}%
       </span>
       <span class="meta-pill">モデル v{dashboard.model_version}</span>
     </div>
 
-    <section class="summary-grid" aria-label="主要指標">
+    <section class="summary-grid" aria-label="主な数字">
       <div class="metric-card">
-        <p class="metric-label">総AI接触率</p>
+        <p class="metric-label">AIにふれる人</p>
         <p class="metric-value">{pct(dashboard.rates.total_touch_rate)}</p>
-        <p class="metric-note">明示利用とシステム内蔵AI接触を合算。</p>
+        <p class="metric-note">自分で使う人と、端末のAIにふれる人を合わせた割合。</p>
       </div>
       <div class="metric-card">
-        <p class="metric-label">明示的採用率</p>
+        <p class="metric-label">自分で使う人</p>
         <p class="metric-value">{pct(dashboard.rates.explicit_adoption_rate)}</p>
-        <p class="metric-note">開発者、有料、無料の能動利用。</p>
+        <p class="metric-note">仕事で深く使う、有料で使う、無料で使う人。</p>
       </div>
       <div class="metric-card">
-        <p class="metric-label">未接触率</p>
+        <p class="metric-label">まだ使っていない人</p>
         <p class="metric-value">{pct(dashboard.rates.unreached_rate)}</p>
-        <p class="metric-note">排他分解後の残差。</p>
+        <p class="metric-note">重なりを引いた後の残り。</p>
       </div>
       <div class="metric-card">
-        <p class="metric-label">主分母</p>
+        <p class="metric-label">基準人数</p>
         <p class="metric-value">{compact(dashboard.denominator.primary_value)}</p>
-        <p class="metric-note">主指標は世界のインターネット利用者ベース。</p>
+        <p class="metric-note">世界のインターネット利用者を基準にする。</p>
       </div>
     </section>
 
-    <section class="dashboard-shell" aria-label="AI採用率の分解">
+    <section class="dashboard-shell" aria-label="AI利用率の内訳">
       <div class="chart-panel">
         <div class="panel-head">
-          <h2>排他的5層モデル</h2>
-          <p class="panel-sub">クリックで計算式を確認</p>
+          <h2>100人で見る5グループ</h2>
+          <p class="panel-sub">点1つ = 1%</p>
         </div>
-        <div id="aiAdoptionLayerChart" class="chart-stage" aria-label="AI採用率の5層分解グラフ"></div>
+        <div class="impact-row" aria-label="100人あたりのAI利用イメージ">
+          <div>
+            <span class="impact-number">{touchedPer100}</span><span class="impact-unit">人</span>
+            <p>100人のうちAIにふれる人</p>
+          </div>
+          <div>
+            <span class="impact-number muted">{unreachedPer100}</span><span class="impact-unit">人</span>
+            <p>まだ使っていない人</p>
+          </div>
+        </div>
+        <div id="aiAdoptionLayerChart" class="chart-stage" aria-label="AI利用率の5グループグラフ"></div>
         <ol class="chart-fallback">
           {dashboard.layers.map((layer) => (
             <li>
@@ -166,8 +214,8 @@ const jsonLd = JSON.stringify({
 
       <aside class="explain-panel" aria-live="polite">
         <div class="panel-head">
-          <h2>層の説明</h2>
-          <span id="aiLayerStatus" class="status-chip status-fresh">Fresh</span>
+          <h2>グループの説明</h2>
+          <span id="aiLayerStatus" class="status-chip status-fresh">新しい</span>
         </div>
         <h3 id="aiLayerTitle" class="explain-title">{dashboard.layers[2]?.label_ja}</h3>
         <div class="explain-value">
@@ -175,7 +223,7 @@ const jsonLd = JSON.stringify({
           <span id="aiLayerShare" class="explain-share">{pct(dashboard.layers[2]?.share_of_total ?? 0)}</span>
         </div>
         <div class="explain-block">
-          <h3>公式</h3>
+          <h3>計算式</h3>
           <code id="aiLayerFormula" class="formula-code">{dashboard.layers[2]?.formula_ja}</code>
         </div>
         <div class="explain-block">
@@ -187,23 +235,23 @@ const jsonLd = JSON.stringify({
           <p id="aiLayerRisk">{dashboard.layers[2]?.risk_ja}</p>
         </div>
         <div class="explain-block">
-          <h3>入力データ</h3>
+          <h3>使うデータ</h3>
           <div id="aiLayerSources" class="source-mini-list"></div>
         </div>
       </aside>
     </section>
 
-    <section class="two-col" aria-label="推移と鮮度">
+    <section class="two-col" aria-label="変化とデータの新しさ">
       <div class="wide-panel">
         <div class="panel-head">
-          <h2>四半期トレンド</h2>
-          <p class="panel-sub">層別人数</p>
+          <h2>3か月ごとの変化</h2>
+          <p class="panel-sub">グループ別人数</p>
         </div>
         <div id="aiAdoptionTrend" class="trend-stage"></div>
       </div>
       <div class="wide-panel">
         <div class="panel-head">
-          <h2>データ鮮度</h2>
+          <h2>データの新しさ</h2>
           <p class="panel-sub">入力ごとの状態</p>
         </div>
         <div id="aiAdoptionFreshness" class="freshness-stage"></div>
@@ -224,36 +272,36 @@ const jsonLd = JSON.stringify({
     </section>
 
     <section class="wide-panel" aria-labelledby="sourceHeading">
-      <h2 id="sourceHeading">入力データと時効管理</h2>
-      <p class="method-note">各入力は、値そのものだけでなく、出所、公開日、推定に使う層、鮮度状態を持つ。モデルはこれらを集計して最終JSONを生成する。</p>
+      <h2 id="sourceHeading">入力データと更新日</h2>
+      <p class="method-note">各入力は、値だけでなく、出所、公開日、使うグループ、データの新しさを持ちます。モデルはこれらを集めて最終JSONを作ります。</p>
       <div class="source-table-wrap">
         <table class="source-table">
           <thead>
             <tr>
-              <th>指標</th>
+              <th>数字の種類</th>
               <th>対象</th>
               <th>値</th>
-              <th>換算値</th>
+              <th>人数に直した値</th>
               <th>期間</th>
               <th>公開日</th>
-              <th>鮮度</th>
+              <th>新しさ</th>
               <th>信頼度</th>
-              <th>使用層</th>
+              <th>使う先</th>
               <th>出所</th>
             </tr>
           </thead>
           <tbody>
             {dashboard.sources.map((source) => (
               <tr>
-                <td>{source.metric}</td>
-                <td>{source.entity}</td>
-                <td class="num">{compact(source.value)} {source.unit}</td>
+                <td>{metricLabel(source.metric)}</td>
+                <td>{entityLabel(source.entity)}</td>
+                <td class="num">{compact(source.value)} {unitLabel(source.unit)}</td>
                 <td class="num">{compact(source.derived_value)}</td>
                 <td>{source.period}</td>
                 <td class="num">{source.published_at}</td>
                 <td><span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span></td>
-                <td>{source.confidence}</td>
-                <td>{source.used_by.join(', ')}</td>
+                <td>{confidenceLabel(source.confidence)}</td>
+                <td>{usedByLabel(source.used_by)}</td>
                 <td><a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label}</a></td>
               </tr>
             ))}
@@ -265,7 +313,7 @@ const jsonLd = JSON.stringify({
     <section class="wide-panel" aria-labelledby="methodHeading">
       <h2 id="methodHeading">モデルの読み方</h2>
       <p class="method-note">
-        このモデルは、実人数を直接観測できない領域を、ARR、MAU、端末到達率などの代理指標に分解して推計する。重要なのは単純合算ではなく、開発者、有料、無料、内蔵AI、未接触の順に重複を差し引く点である。
+        このモデルでは、人数が公表されていないものを、ARR、MAU、端末数などから見積もります。大事なのは単純に足し算しないことです。仕事で深く使う人、有料で使う人、無料で使う人、端末でAIにふれる人の順に、同じ人の重なりを引きます。
       </p>
     </section>
 
@@ -333,9 +381,9 @@ const jsonLd = JSON.stringify({
       }
 
       function statusLabel(status: string): string {
-        if (status === 'fresh') return 'Fresh';
-        if (status === 'review_needed') return 'Review';
-        return 'Stale';
+        if (status === 'fresh') return '新しい';
+        if (status === 'review_needed') return '確認';
+        return '古い';
       }
 
       function statusFill(status: string): string {
@@ -348,6 +396,35 @@ const jsonLd = JSON.stringify({
         if (status === 'fresh') return '#48705F';
         if (status === 'review_needed') return '#8A6A2A';
         return '#A24A28';
+      }
+
+      interface WaffleUnit {
+        index: number;
+        layer: LayerRow;
+      }
+
+      function makeWaffleUnits(layers: LayerRow[]): WaffleUnit[] {
+        const counts = layers.map((layer) => {
+          const raw = layer.share_of_total * 100;
+          const count = Math.floor(raw);
+          return { layer, count, remainder: raw - count };
+        });
+        let left = 100 - d3.sum(counts, (item) => item.count);
+        counts
+          .slice()
+          .sort((a, b) => d3.descending(a.remainder, b.remainder))
+          .forEach((item) => {
+            if (left <= 0) return;
+            item.count += 1;
+            left -= 1;
+          });
+        const units: WaffleUnit[] = [];
+        for (const item of counts) {
+          for (let i = 0; i < item.count; i += 1) {
+            units.push({ index: units.length, layer: item.layer });
+          }
+        }
+        return units.slice(0, 100);
       }
 
       function selectLayer(layerId: string): void {
@@ -396,55 +473,142 @@ const jsonLd = JSON.stringify({
         if (!payload) return;
         const el = document.getElementById('aiAdoptionLayerChart');
         if (!el) return;
-        const width = Math.max(320, el.clientWidth || 680);
-        const small = width < 560;
-        const height = small ? 420 : 360;
-        const margin = small
-          ? { top: 16, right: 20, bottom: 34, left: 96 }
-          : { top: 20, right: 34, bottom: 38, left: 134 };
-        const innerW = width - margin.left - margin.right;
-        const innerH = height - margin.top - margin.bottom;
         const layers = payload.layers;
-        const x = d3.scaleLinear()
-          .domain([0, payload.denominator.primary_value])
-          .range([0, innerW])
-          .nice();
-        const y = d3.scaleBand()
-          .domain(layers.map((layer) => layer.id))
-          .range([0, innerH])
-          .padding(0.28);
-        const ticks = x.ticks(4);
+        const width = Math.max(320, el.clientWidth || 720);
+        const small = width < 620;
+        const columns = small ? 10 : 20;
+        const units = makeWaffleUnits(layers);
+        const cell = Math.min(small ? 26 : 28, Math.max(18, (width - 42) / columns));
+        const rowsCount = Math.ceil(units.length / columns);
+        const gridW = columns * cell;
+        const gridH = rowsCount * cell;
+        const gridX = (width - gridW) / 2;
+        const gridY = 12;
+        const barX = 20;
+        const barY = gridY + gridH + 34;
+        const barW = width - 40;
+        const barH = 34;
+        const tileGap = 8;
+        const tileCols = small ? 1 : 5;
+        const tileW = (width - 40 - tileGap * (tileCols - 1)) / tileCols;
+        const tileH = small ? 44 : 56;
+        const tileY = barY + barH + 24;
+        const tileRows = Math.ceil(layers.length / tileCols);
+        const height = tileY + tileRows * tileH + (tileRows - 1) * tileGap + 18;
+        const color = new Map(layers.map((layer) => [layer.id, layer.color]));
+        const touchedShare = 1 - (layers.find((layer) => layer.id === 'N_unreached')?.share_of_total ?? 0);
 
         d3.select(el).selectAll('*').remove();
         const svg = d3.select(el)
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', 'AI採用率の排他的5層モデル');
-        const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+          .attr('aria-label', 'AI利用率を100人で見た5グループ');
 
-        g.selectAll('line.grid-line')
-          .data(ticks)
-          .join('line')
-          .attr('class', 'grid-line')
-          .attr('x1', (d) => x(d))
-          .attr('x2', (d) => x(d))
-          .attr('y1', 0)
-          .attr('y2', innerH);
+        svg.append('text')
+          .attr('class', 'waffle-caption')
+          .attr('x', width / 2)
+          .attr('y', 4)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'hanging')
+          .text('100人のインターネット利用者');
 
-        g.append('g')
-          .attr('class', 'axis')
-          .attr('transform', `translate(0,${innerH})`)
-          .call(d3.axisBottom(x).ticks(4).tickFormat((d) => fmt(Number(d))));
+        const dots = svg.append('g')
+          .attr('class', 'waffle-grid')
+          .attr('transform', `translate(${gridX},${gridY})`)
+          .selectAll<SVGCircleElement, WaffleUnit>('circle')
+          .data(units)
+          .join('circle')
+          .attr('class', (d) => `waffle-dot${d.layer.id === selected.id ? ' is-selected' : ''}`)
+          .attr('cx', (d) => (d.index % columns) * cell + cell / 2)
+          .attr('cy', (d) => Math.floor(d.index / columns) * cell + cell / 2)
+          .attr('r', cell * 0.36)
+          .attr('fill', (d) => d.layer.color)
+          .attr('tabindex', 0)
+          .attr('role', 'button')
+          .attr('aria-label', (d) => `${d.layer.label_ja}: ${fmt(d.layer.value)}`)
+          .on('click', (_event, d) => selectLayer(d.layer.id))
+          .on('keydown', (event, d) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              selectLayer(d.layer.id);
+            }
+          });
+        dots.append('title').text((d) => `${d.layer.label_ja}: ${pct(d.layer.share_of_total)}`);
 
-        const rows = g.selectAll<SVGGElement, LayerRow>('g.layer-bar')
-          .data(layers, (d) => d.id)
+        const stack = svg.append('g').attr('transform', `translate(${barX},${barY})`);
+        stack.append('rect')
+          .attr('class', 'stack-track')
+          .attr('width', barW)
+          .attr('height', barH)
+          .attr('rx', 7);
+
+        let cursor = 0;
+        const segments = layers.map((layer) => {
+          const start = cursor;
+          const w = barW * layer.share_of_total;
+          cursor += w;
+          return { layer, start, w };
+        });
+
+        const segment = stack.selectAll<SVGGElement, typeof segments[number]>('g.stack-segment')
+          .data(segments)
           .join('g')
-          .attr('class', (d) => `layer-bar${d.id === selected.id ? ' is-selected' : ''}`)
+          .attr('class', (d) => `stack-segment${d.layer.id === selected.id ? ' is-selected' : ''}`)
+          .attr('transform', (d) => `translate(${d.start},0)`)
+          .attr('tabindex', 0)
+          .attr('role', 'button')
+          .attr('aria-label', (d) => `${d.layer.label_ja}: ${pct(d.layer.share_of_total)}`)
+          .on('click', (_event, d) => selectLayer(d.layer.id))
+          .on('keydown', (event, d) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              selectLayer(d.layer.id);
+            }
+          });
+
+        segment.append('rect')
+          .attr('width', (d) => Math.max(1, d.w))
+          .attr('height', barH)
+          .attr('rx', 6)
+          .attr('fill', (d) => color.get(d.layer.id) ?? d.layer.color);
+
+        segment.filter((d) => d.w > 64).append('text')
+          .attr('class', 'stack-label')
+          .attr('x', (d) => d.w / 2)
+          .attr('y', barH / 2)
+          .attr('text-anchor', 'middle')
+          .attr('dominant-baseline', 'middle')
+          .text((d) => `${d.layer.short_label_ja} ${pct(d.layer.share_of_total)}`);
+
+        const touchX = barW * touchedShare;
+        stack.append('line')
+          .attr('class', 'touch-line')
+          .attr('x1', touchX)
+          .attr('x2', touchX)
+          .attr('y1', -8)
+          .attr('y2', barH + 8);
+        stack.append('text')
+          .attr('class', 'touch-label')
+          .attr('x', Math.min(barW - 2, Math.max(2, touchX)))
+          .attr('y', -12)
+          .attr('text-anchor', touchX > barW * 0.72 ? 'end' : 'start')
+          .text(`AIにふれる人 ${Math.round(touchedShare * 100)}人`);
+
+        const tiles = svg.append('g')
+          .attr('transform', `translate(20,${tileY})`)
+          .selectAll<SVGGElement, LayerRow>('g.layer-tile')
+          .data(layers)
+          .join('g')
+          .attr('class', (d) => `layer-tile${d.id === selected.id ? ' is-selected' : ''}`)
+          .attr('transform', (_d, i) => {
+            const col = i % tileCols;
+            const row = Math.floor(i / tileCols);
+            return `translate(${col * (tileW + tileGap)},${row * (tileH + tileGap)})`;
+          })
           .attr('tabindex', 0)
           .attr('role', 'button')
           .attr('aria-label', (d) => `${d.label_ja}: ${fmt(d.value)}`)
-          .attr('transform', (d) => `translate(0,${y(d.id) ?? 0})`)
           .on('click', (_event, d) => selectLayer(d.id))
           .on('keydown', (event, d) => {
             if (event.key === 'Enter' || event.key === ' ') {
@@ -453,29 +617,28 @@ const jsonLd = JSON.stringify({
             }
           });
 
-        rows.append('rect')
-          .attr('x', 0)
-          .attr('y', 0)
-          .attr('width', (d) => Math.max(2, x(d.value)))
-          .attr('height', y.bandwidth())
-          .attr('rx', 4)
-          .attr('fill', (d) => d.color)
-          .attr('opacity', (d) => d.id === selected.id ? 1 : 0.82);
-
-        rows.append('text')
-          .attr('class', 'chart-label')
-          .attr('x', -12)
-          .attr('y', y.bandwidth() / 2)
-          .attr('text-anchor', 'end')
-          .attr('dominant-baseline', 'middle')
+        tiles.append('rect')
+          .attr('class', 'layer-tile-bg')
+          .attr('width', tileW)
+          .attr('height', tileH)
+          .attr('rx', 7);
+        tiles.append('rect')
+          .attr('width', 6)
+          .attr('height', tileH - 14)
+          .attr('x', 8)
+          .attr('y', 7)
+          .attr('rx', 3)
+          .attr('fill', (d) => d.color);
+        tiles.append('text')
+          .attr('class', 'tile-label')
+          .attr('x', 22)
+          .attr('y', 20)
           .text((d) => d.short_label_ja);
-
-        rows.append('text')
-          .attr('class', 'chart-value')
-          .attr('x', (d) => Math.min(innerW - 4, x(d.value) + 8))
-          .attr('y', y.bandwidth() / 2)
-          .attr('dominant-baseline', 'middle')
-          .text((d) => `${fmt(d.value)} (${pct(d.share_of_total)})`);
+        tiles.append('text')
+          .attr('class', 'tile-value')
+          .attr('x', 22)
+          .attr('y', 39)
+          .text((d) => `${pct(d.share_of_total)} / ${fmt(d.value)}`);
       }
 
       function renderTrend(): void {
@@ -502,7 +665,7 @@ const jsonLd = JSON.stringify({
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', 'AI採用率の四半期トレンド');
+          .attr('aria-label', 'AI利用率の3か月ごとの変化');
         const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
         g.append('g')
@@ -564,7 +727,7 @@ const jsonLd = JSON.stringify({
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', '入力データの鮮度状態');
+          .attr('aria-label', '入力データの新しさ');
         const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
         const row = g.selectAll('g.fresh-row')
