@@ -591,13 +591,10 @@
           const wAvg = items.reduce((s, d) => s + d.ai_risk * d.workers, 0) / totalW;
           const hist = new Array(11).fill(0);
           for (const d of items) hist[Math.round(d.ai_risk)]++;
-          const tiers = [
-            ["0-2 低",   items.filter(d => d.ai_risk <= 2).length],
-            ["3-4 中低", items.filter(d => d.ai_risk >= 3 && d.ai_risk <= 4).length],
-            ["5-6 中",   items.filter(d => d.ai_risk >= 5 && d.ai_risk <= 6).length],
-            ["7-8 高",   items.filter(d => d.ai_risk >= 7 && d.ai_risk <= 8).length],
-            ["9-10 最高", items.filter(d => d.ai_risk >= 9).length]
-          ].map(([l, n]) => [l, n, 0]);
+          // 段階別 tiers table removed (2026-05-31): redundant — the same band
+          // distribution is shown by this panel's 分布 histogram AND the home
+          // KPI band's "AI 影響度の分布" bar. Keeping it made a 5-row card that
+          // towered over the single-number cards.
           const highRiskItems = items.filter(d => d.ai_risk >= 5 && d.salary != null);
           const wagesExposed = highRiskItems.reduce((s, d) => s + d.salary * d.workers, 0);
           const highRiskJobsCount = highRiskItems.length;
@@ -621,7 +618,6 @@
             "就業者数で加重"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(hist)));
-          blocks.push(statBlockHTML(L.tiers[lang], renderTierTable(tiers)));
           blocks.push(statBlockHTML(
             "リスク × 年収",
             `<table class="tier-table">${ctRows.map(([b, n, a]) =>
