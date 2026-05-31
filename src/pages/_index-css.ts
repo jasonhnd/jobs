@@ -851,16 +851,22 @@ export const INDEX_CSS = String.raw`      *,
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
         margin-bottom: 14px;
-        /* Size each card to its own content instead of stretching every card to
-           the tallest one (the 5-row tables) — otherwise the simple number
-           cards (職業数 / 加重平均 / 高リスク賃金) get a big empty bottom. */
-        align-items: start;
       }
       .stat-block {
         background: var(--bg2);
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+      }
+      /* Cards stretch to equal height (grid default). The light cards (a single
+         number, or the mini histogram) center their content vertically so they
+         read as filled "metric" cards instead of cramping at the top with an
+         empty bottom. The table card keeps its label on top and fills naturally. */
+      .stat-block:has(.stat-value),
+      .stat-block:has(.mini-hist) {
+        justify-content: center;
       }
       .stat-block .stat-label {
         font-size: 0.7rem;
