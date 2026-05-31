@@ -164,7 +164,9 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     /* Orgs + Certs — certs styled as a grid card */
     section.orgs-certs{margin-top:26px}
     .org-cert-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:0;align-items:start}
-    @media (min-width:768px){.org-cert-grid{grid-template-columns:1fr 1fr;gap:18px}}
+    /* auto-fit: when only one block (orgs OR certs) exists it fills the full
+       width instead of being stranded at half; two blocks still split 50/50. */
+    @media (min-width:768px){.org-cert-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}}
     .org-cert-block{background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:16px 18px}
     .org-cert-block h3{font-family:var(--font-serif);font-size:0.95rem;color:var(--orange-hot);margin:0 0 10px;font-weight:700}
     .org-list,.cert-list{list-style:none;padding:0;margin:0}
@@ -172,9 +174,10 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     .org-list li:last-child{border-bottom:none}
     .org-list a{color:var(--accent);text-decoration:none}
     .org-list a:hover{text-decoration:underline}
-    .cert-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0;margin:0}
-    @media (min-width:640px){.cert-list{grid-template-columns:1fr 1fr 1fr}}
-    @media (min-width:900px){.cert-list{grid-template-columns:1fr 1fr 1fr;gap:8px}}
+    /* auto-fill chips so they pack to a consistent ~150px regardless of whether
+       the cert block is half- or full-width (no sparse wide cells). */
+    .cert-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;padding:0;margin:0}
+    @media (min-width:900px){.cert-list{gap:8px}}
     .cert-list li{font-size:0.74rem;color:var(--ink);padding:8px 10px;background:var(--cream);border-radius:6px;font-family:var(--font-serif);border-bottom:none}
     @media (min-width:900px){.cert-list li{font-size:0.78rem;padding:10px 12px;border-radius:8px}}
 
