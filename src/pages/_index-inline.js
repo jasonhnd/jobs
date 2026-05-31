@@ -603,8 +603,10 @@
           const highRiskJobsCount = highRiskItems.length;
           // Cross-tab: avg AI risk by salary band
           const salBands = [[0, 350], [350, 500], [500, 700], [700, 1000], [1000, 9999]];
-          // Salary tier label: "350-500万円".
-          const fmtSalBand = (lo, hi) => `${lo}-${hi}万円`;
+          // Salary tier label, kept short + single-line: "〜350万" / "350-500万"
+          // / "1000万〜" (the 9999 upper bound is an open-ended sentinel).
+          const fmtSalBand = (lo, hi) =>
+            lo === 0 ? `〜${hi}万` : hi >= 9999 ? `${lo}万〜` : `${lo}-${hi}万`;
           const ctRows = salBands.map(([lo, hi]) => {
             const sub = items.filter(d => d.salary != null && d.salary >= lo && d.salary < hi);
             if (sub.length === 0) return [fmtSalBand(lo, hi), 0, 0];

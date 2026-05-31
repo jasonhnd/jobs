@@ -10,6 +10,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Fixed (Home stats-panel card heights · 2026-05-31)
+
+- The desktop treemap stats-panel is a CSS grid; grid items default to
+  `align-items: stretch`, so every `.stat-block` was forced to the height of the
+  tallest card (the 5-row tables), leaving the simple number cards (職業数 /
+  加重平均 / 高リスク賃金) with a large empty bottom. Set `align-items: start` so
+  each card sizes to its content. Also compacted the リスク×年収 salary labels to
+  single line (`〜350万` / `350-500万` / `1000万〜`, was the wrapping
+  `1000-9999万円`) + `nowrap`, so that card no longer runs ~2× taller than 段階別.
+
 ### Changed (Color tokens — risk scale + outlier cleanup · 2026-05-31)
 
 - **Risk / AI-impact color centralised into tokens.** The site had ~7 ad-hoc
