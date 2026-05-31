@@ -156,6 +156,47 @@ export const AI_ADOPTION_CSS = `
   font-variant-numeric: tabular-nums;
 }
 
+.ai-adoption-page .impact-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.ai-adoption-page .impact-row > div {
+  min-height: 90px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.ai-adoption-page .impact-number {
+  color: var(--fg);
+  font-size: 2.7rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .impact-number.muted {
+  color: var(--fg2);
+}
+
+.ai-adoption-page .impact-unit {
+  margin-left: 3px;
+  color: var(--fg);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ai-adoption-page .impact-row p {
+  margin: 7px 0 0;
+  color: var(--fg2);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .ai-adoption-page .chart-stage {
   width: 100%;
   min-height: 360px;
@@ -197,6 +238,115 @@ export const AI_ADOPTION_CSS = `
   opacity: 1;
   stroke: var(--fg);
   stroke-width: 1.5;
+}
+
+.ai-adoption-page .waffle-caption,
+.ai-adoption-page .stack-label,
+.ai-adoption-page .touch-label,
+.ai-adoption-page .tile-label,
+.ai-adoption-page .tile-value {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+.ai-adoption-page .waffle-caption {
+  fill: var(--fg2);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ai-adoption-page .waffle-dot {
+  cursor: pointer;
+  stroke: var(--bg2);
+  stroke-width: 1.5;
+  transition: opacity 140ms ease, stroke-width 140ms ease;
+}
+
+.ai-adoption-page .waffle-dot:not(.is-selected) {
+  opacity: 0.78;
+}
+
+.ai-adoption-page .waffle-dot:hover,
+.ai-adoption-page .waffle-dot:focus,
+.ai-adoption-page .waffle-dot.is-selected {
+  opacity: 1;
+  stroke: var(--fg);
+  stroke-width: 2.4;
+  outline: none;
+}
+
+.ai-adoption-page .stack-track {
+  fill: var(--bg);
+  stroke: var(--border);
+}
+
+.ai-adoption-page .stack-segment {
+  cursor: pointer;
+}
+
+.ai-adoption-page .stack-segment rect {
+  transition: opacity 140ms ease, stroke-width 140ms ease;
+}
+
+.ai-adoption-page .stack-segment:not(.is-selected) rect {
+  opacity: 0.86;
+}
+
+.ai-adoption-page .stack-segment:hover rect,
+.ai-adoption-page .stack-segment:focus rect,
+.ai-adoption-page .stack-segment.is-selected rect {
+  opacity: 1;
+  stroke: var(--fg);
+  stroke-width: 1.8;
+  outline: none;
+}
+
+.ai-adoption-page .stack-label {
+  fill: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.ai-adoption-page .touch-line {
+  stroke: var(--fg);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.ai-adoption-page .touch-label {
+  fill: var(--fg);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ai-adoption-page .layer-tile {
+  cursor: pointer;
+}
+
+.ai-adoption-page .layer-tile-bg {
+  fill: var(--bg);
+  stroke: var(--border);
+}
+
+.ai-adoption-page .layer-tile:hover .layer-tile-bg,
+.ai-adoption-page .layer-tile:focus .layer-tile-bg,
+.ai-adoption-page .layer-tile.is-selected .layer-tile-bg {
+  stroke: var(--fg);
+  stroke-width: 1.6;
+  outline: none;
+}
+
+.ai-adoption-page .tile-label {
+  fill: var(--fg);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ai-adoption-page .tile-value {
+  fill: var(--fg2);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
 }
 
 .ai-adoption-page .axis text,
@@ -457,6 +607,7 @@ export const AI_ADOPTION_CSS = `
   }
 
   .ai-adoption-page .summary-grid,
+  .ai-adoption-page .impact-row,
   .ai-adoption-page .formula-grid {
     grid-template-columns: 1fr;
   }
@@ -470,8 +621,12 @@ export const AI_ADOPTION_CSS = `
     font-size: 1.45rem;
   }
 
+  .ai-adoption-page .impact-number {
+    font-size: 2.25rem;
+  }
+
   .ai-adoption-page .chart-stage {
-    min-height: 420px;
+    min-height: 620px;
   }
 }
 `;
