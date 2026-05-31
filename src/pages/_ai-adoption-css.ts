@@ -1,0 +1,477 @@
+/**
+ * Page-local CSS for /ai-adoption.
+ *
+ * Keep this file scoped to .ai-adoption-page. Do not redefine global tokens or
+ * alter existing site CSS.
+ */
+export const AI_ADOPTION_CSS = `
+.ai-adoption-page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 28px 20px 84px;
+  color: var(--fg);
+}
+
+.ai-adoption-page * {
+  box-sizing: border-box;
+}
+
+.ai-adoption-page a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.ai-adoption-page a:hover {
+  text-decoration: underline;
+}
+
+.ai-adoption-page .adoption-kicker {
+  margin: 0 0 8px;
+  color: var(--accent-deep);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.ai-adoption-page h1.adoption-title {
+  margin: 0 0 10px;
+  font-size: 2.05rem !important;
+  line-height: 1.18 !important;
+  letter-spacing: 0 !important;
+}
+
+.ai-adoption-page .adoption-lede {
+  max-width: 820px;
+  margin: 0 0 20px;
+  color: var(--fg2);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.ai-adoption-page .adoption-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 26px;
+}
+
+.ai-adoption-page .meta-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg2);
+  color: var(--fg2);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 24px;
+}
+
+.ai-adoption-page .metric-card {
+  min-height: 116px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg2);
+}
+
+.ai-adoption-page .metric-label {
+  margin: 0 0 8px;
+  color: var(--fg2);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.ai-adoption-page .metric-value {
+  margin: 0;
+  color: var(--fg);
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .metric-note {
+  margin: 8px 0 0;
+  color: var(--fg2);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.ai-adoption-page .dashboard-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+  margin: 22px 0 34px;
+}
+
+.ai-adoption-page .chart-panel,
+.ai-adoption-page .explain-panel,
+.ai-adoption-page .wide-panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg2);
+}
+
+.ai-adoption-page .chart-panel {
+  min-width: 0;
+  padding: 16px;
+}
+
+.ai-adoption-page .explain-panel {
+  padding: 16px;
+  position: sticky;
+  top: 70px;
+}
+
+.ai-adoption-page .panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+}
+
+.ai-adoption-page .panel-head h2,
+.ai-adoption-page .wide-panel h2 {
+  margin: 0;
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+}
+
+.ai-adoption-page .panel-sub {
+  margin: 0;
+  color: var(--fg2);
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .chart-stage {
+  width: 100%;
+  min-height: 360px;
+}
+
+.ai-adoption-page .chart-stage svg,
+.ai-adoption-page .trend-stage svg,
+.ai-adoption-page .freshness-stage svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ai-adoption-page .chart-fallback {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: var(--fg2);
+  font-size: 0.86rem;
+}
+
+.ai-adoption-page .chart-fallback li {
+  margin: 4px 0;
+}
+
+.ai-adoption-page .layer-bar {
+  cursor: pointer;
+}
+
+.ai-adoption-page .layer-bar:focus {
+  outline: none;
+}
+
+.ai-adoption-page .layer-bar rect {
+  transition: opacity 140ms ease, stroke-width 140ms ease;
+}
+
+.ai-adoption-page .layer-bar:hover rect,
+.ai-adoption-page .layer-bar.is-selected rect {
+  opacity: 1;
+  stroke: var(--fg);
+  stroke-width: 1.5;
+}
+
+.ai-adoption-page .axis text,
+.ai-adoption-page .chart-label,
+.ai-adoption-page .chart-value {
+  fill: var(--fg2);
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+
+.ai-adoption-page .chart-label {
+  fill: var(--fg);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ai-adoption-page .chart-value {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .grid-line {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.ai-adoption-page .explain-title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.ai-adoption-page .explain-value {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.ai-adoption-page .explain-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .explain-share {
+  color: var(--fg2);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .explain-block {
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.ai-adoption-page .explain-block h3 {
+  margin: 0 0 6px;
+  color: var(--accent-deep);
+  font-size: 0.82rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+}
+
+.ai-adoption-page .explain-block p {
+  margin: 0;
+  color: var(--fg);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.ai-adoption-page .formula-code {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--bg3);
+  color: var(--fg);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  white-space: normal;
+}
+
+.ai-adoption-page .source-mini-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ai-adoption-page .source-mini {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: baseline;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  font-size: 0.8rem;
+}
+
+.ai-adoption-page .source-mini strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.ai-adoption-page .source-mini span {
+  color: var(--fg2);
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ai-adoption-page .status-fresh {
+  background: var(--risk-soft-0);
+  color: var(--risk-pill-low-fg);
+}
+
+.ai-adoption-page .status-review_needed {
+  background: var(--risk-soft-2);
+  color: var(--risk-pill-mid-fg);
+}
+
+.ai-adoption-page .status-stale {
+  background: var(--risk-soft-4);
+  color: var(--risk-pill-high-fg);
+}
+
+.ai-adoption-page .wide-panel {
+  margin: 18px 0;
+  padding: 16px;
+}
+
+.ai-adoption-page .two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.ai-adoption-page .trend-stage,
+.ai-adoption-page .freshness-stage {
+  min-height: 260px;
+}
+
+.ai-adoption-page .formula-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.ai-adoption-page .formula-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.ai-adoption-page .formula-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.96rem !important;
+  line-height: 1.45 !important;
+  letter-spacing: 0 !important;
+}
+
+.ai-adoption-page .formula-card p {
+  margin: 8px 0 0;
+  color: var(--fg2);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.ai-adoption-page .source-table-wrap {
+  overflow-x: auto;
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.ai-adoption-page .source-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.ai-adoption-page .source-table th,
+.ai-adoption-page .source-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.ai-adoption-page .source-table th {
+  color: var(--fg2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  background: var(--bg2);
+  white-space: nowrap;
+}
+
+.ai-adoption-page .source-table td {
+  color: var(--fg);
+}
+
+.ai-adoption-page .source-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ai-adoption-page .source-table .num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ai-adoption-page .method-note {
+  margin: 10px 0 0;
+  color: var(--fg2);
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .ai-adoption-page .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-adoption-page .dashboard-shell,
+  .ai-adoption-page .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-adoption-page .explain-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .ai-adoption-page {
+    padding: 20px 14px 64px;
+  }
+
+  .ai-adoption-page h1.adoption-title {
+    font-size: 1.55rem !important;
+  }
+
+  .ai-adoption-page .summary-grid,
+  .ai-adoption-page .formula-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-adoption-page .metric-card {
+    min-height: 104px;
+  }
+
+  .ai-adoption-page .metric-value,
+  .ai-adoption-page .explain-number {
+    font-size: 1.45rem;
+  }
+
+  .ai-adoption-page .chart-stage {
+    min-height: 420px;
+  }
+}
+`;

@@ -1,6 +1,7 @@
 /
 /404
 /about
+/ai-adoption
 /compliance
 /ja/1
 /ja/10

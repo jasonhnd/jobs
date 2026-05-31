@@ -81,6 +81,7 @@ export function buildSitemapEntries(
   // Top-level
   entries.push(entry(`${SITE_ORIGIN}/`, today, 'weekly', '1.0'));
   entries.push(entry(`${SITE_ORIGIN}/map`, today, 'monthly', '0.9'));
+  entries.push(entry(`${SITE_ORIGIN}/ai-adoption`, today, 'monthly', '0.7'));
 
   // Sector-filtered map variants
   for (const sid of sectorIds) {

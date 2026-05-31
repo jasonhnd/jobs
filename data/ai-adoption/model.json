@@ -1,0 +1,51 @@
+{
+  "title_ja": "Global AI adoption monitor",
+  "subtitle_ja": "A transparent funnel model for estimating AI adoption.",
+  "layers": [
+    {
+      "id": "N_dev",
+      "label_ja": "Developer tier",
+      "short_label_ja": "Dev",
+      "formula_ja": "N_dev = sum(developer AI tool users) * (1 - developer tool overlap)",
+      "rationale_ja": "Developer workflow usage is the strongest adoption signal and is removed first.",
+      "risk_ja": "Work accounts, personal accounts, and multi-tool usage can overlap.",
+      "color": "#48705F"
+    },
+    {
+      "id": "N_pro",
+      "label_ja": "Paid professional tier",
+      "short_label_ja": "Paid",
+      "formula_ja": "N_pro = sum(ARR_i / annual ARPU) * (1 - paid overlap) - developer overlap",
+      "rationale_ja": "ARR is used as a proxy when paid user counts are not disclosed.",
+      "risk_ja": "ARR can mix consumer, enterprise, and API revenue.",
+      "color": "#D96B3D"
+    },
+    {
+      "id": "N_free",
+      "label_ja": "Explicit free tier",
+      "short_label_ja": "Free",
+      "formula_ja": "N_free = sum(MAU_i * unique user factor_i) - upper-layer overlap",
+      "rationale_ja": "Free users are estimated from traffic and app usage proxies.",
+      "risk_ja": "Visits are not users, and multi-homing can inflate the estimate.",
+      "color": "#5B83B7"
+    },
+    {
+      "id": "N_passive",
+      "label_ja": "Passive OS-level tier",
+      "short_label_ja": "OS AI",
+      "formula_ja": "N_passive = eligible devices * availability * activation - explicit overlap",
+      "rationale_ja": "OS-level AI creates passive exposure outside standalone AI apps.",
+      "risk_ja": "Eligible devices do not guarantee actual use.",
+      "color": "#8B5FB0"
+    },
+    {
+      "id": "N_unreached",
+      "label_ja": "Unreached tier",
+      "short_label_ja": "Unreached",
+      "formula_ja": "N_unreached = N_total - N_dev - N_pro - N_free - N_passive",
+      "rationale_ja": "Unreached users are the residual after exclusive assignment.",
+      "risk_ja": "All upstream estimation errors flow into this residual.",
+      "color": "#A39785"
+    }
+  ]
+}

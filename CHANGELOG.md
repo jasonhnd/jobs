@@ -10,6 +10,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (AI adoption dashboard preview - 2026-05-31)
+
+- Added `/ai-adoption`, an SEO-indexable Astro + D3 dashboard for a five-layer
+  global AI adoption model. The first preview uses local model inputs and
+  generated `data.ai-adoption.json`; D3 is bundled locally instead of loaded
+  from a CDN.
+- Refreshed the SEO baseline intentionally because the new page and generated
+  data file add one URL, one sitemap entry, and one public `data.*` artifact.
+- Kept the implementation isolated to new page/data files; existing CSS files,
+  top navigation, and footer styling were not changed.
+
 ### Changed (Home PART I/II/III markers — magazine numeral · 2026-05-31)
 
 - The three hub section headers (セクターから探す / ランキング・指標で探す /
