@@ -10,6 +10,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Color tokens — risk scale + outlier cleanup · 2026-05-31)
+
+- **Risk / AI-impact color centralised into tokens.** The site had ~7 ad-hoc
+  hardcoded risk-color ramps, and the risk-pill trio (low/mid/high) alone was
+  copy-pasted into 12 files. Added `--risk-0..4` (saturated 5-band) and
+  `--risk-pill-{low,mid,high}-{bg,fg}` to canonical-css `:root`; 11 pill copies
+  now reference the tokens (identical colors — pure dedup, zero visual change).
+- **Off-palette outliers → palette colors.** Bright `#ff5050` badge/search →
+  `--orange-hot` / `--risk-4`; `#00b04b` search-low → `--green-deep`; `#ff8a3d`
+  highlight → `--accent`; cool blue-grays `#0b0d10` / `#555c69` / `#8a93a3`
+  (clashing with the warm palette) → warm `#1a1206` / `--fg2` / `#8a7a6a`.
+- **Map serif drift fixed.** `_map-css` re-declared `--font-serif` missing
+  `Hiragino Mincho ProN` / `Yu Mincho`; synced to the canonical stack.
+- Pure CSS; baseline clean; build green; 962 tests pass. (The saturated map / OG /
+  detail-gradient ramps still differ from each other — realignment is the next step.)
+
 ### Changed (Salary display unified to 万円 · 2026-05-31)
 
 - The occupation detail page's 年収（平均）cell was the only salary surface still

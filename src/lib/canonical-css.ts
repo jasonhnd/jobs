@@ -85,7 +85,20 @@ export const CANONICAL_CSS = `
   --border: rgba(36, 30, 24, 0.10);
   --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Source Serif Pro", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
-  /* 第 3 層 — layout. Single content-column width: every page's #wrapper / main
+  /* 第 3 層 — AI-impact (risk) color scale. SINGLE source for every surface
+     (map tiles, sector nav, distribution bar, risk pills, search, OG cards,
+     detail gradient). Was 7 ad-hoc hardcoded ramps; 2026-05-31. */
+  /* Saturated 5-band: band 0 = lowest impact → band 4 = highest. */
+  --risk-0: #0F8A66;
+  --risk-1: #5BA84F;
+  --risk-2: #D9A03B;
+  --risk-3: #E27A33;
+  --risk-4: #C4422F;
+  /* Soft pill: light background + WCAG-readable text, low / mid / high. */
+  --risk-pill-low-bg: #E0EAE2;  --risk-pill-low-fg: #48705F;
+  --risk-pill-mid-bg: #F4E5C7;  --risk-pill-mid-fg: #8A6A2A;
+  --risk-pill-high-bg: #F5D5C7; --risk-pill-high-fg: #A24A28;
+  /* 第 4 層 — layout. Single content-column width: every page's #wrapper / main
      references this, and the top-nav + footer align to it, so the content edge
      is identical across the map, occupation, hub, sector, and legal pages.
      (2026-05-31: replaced 6 ad-hoc per-page widths 740/760/820/900/980/1080.) */

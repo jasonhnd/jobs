@@ -37,7 +37,7 @@ export const MAP_PAGE_CSS = `
       --fg: #241E18; --fg2: #7A6F5E; --fg3: #A39785;
       --accent: #D96B3D; --accent-2: #6E9B89; --accent-deep: #48705F;
       --border: rgba(36, 30, 24, 0.10);
-      --font-serif: "Noto Serif JP", "Source Serif Pro", Georgia, serif;
+      --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Source Serif Pro", Georgia, serif;
       --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
       --h-head: 48px; --h-search: 56px; --h-chips: 52px;
     }
@@ -287,9 +287,9 @@ export const MAP_PAGE_CSS = `
     .cell-tooltip .ct-salary, .cell-tooltip .ct-workers { font-variant-numeric: tabular-nums; color: var(--fg2); font-size: 0.74rem; }
     .cell-tooltip .ct-sector { display: block; margin-top: 4px; color: var(--fg2); font-size: 0.72rem; }
     .cell-tooltip .risk-pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-    .cell-tooltip .risk-pill.low  { background: #E0EAE2; color: #48705F; }
-    .cell-tooltip .risk-pill.mid  { background: #F4E5C7; color: #8A6A2A; }
-    .cell-tooltip .risk-pill.high { background: #F5D5C7; color: #A24A28; }
+    .cell-tooltip .risk-pill.low  { background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg); }
+    .cell-tooltip .risk-pill.mid  { background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg); }
+    .cell-tooltip .risk-pill.high { background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg); }
     @media (hover: none) { .cell-tooltip { display: none !important; } }
     .cell .name {
       display: block; width: 100%;
