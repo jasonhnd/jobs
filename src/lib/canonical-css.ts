@@ -94,10 +94,18 @@ export const CANONICAL_CSS = `
   --risk-2: #D9A03B;
   --risk-3: #E27A33;
   --risk-4: #C4422F;
-  /* Soft pill: light background + WCAG-readable text, low / mid / high. */
-  --risk-pill-low-bg: #E0EAE2;  --risk-pill-low-fg: #48705F;
-  --risk-pill-mid-bg: #F4E5C7;  --risk-pill-mid-fg: #8A6A2A;
-  --risk-pill-high-bg: #F5D5C7; --risk-pill-high-fg: #A24A28;
+  /* Soft tints of the same 5-band scale (each ≈ 18% of the saturated color over
+     cream) — for the home distribution bar + pill backgrounds, so the soft
+     surfaces share the scale's hues instead of an unrelated pastel set. */
+  --risk-soft-0: #D0E3D6;
+  --risk-soft-1: #DDE8D1;
+  --risk-soft-2: #F4E7CE;
+  --risk-soft-3: #F6E0CC;
+  --risk-soft-4: #F0D6CC;
+  /* Pills: soft-tint background (from the scale) + readable dark text. */
+  --risk-pill-low-bg: var(--risk-soft-0);  --risk-pill-low-fg: #48705F;
+  --risk-pill-mid-bg: var(--risk-soft-2);  --risk-pill-mid-fg: #8A6A2A;
+  --risk-pill-high-bg: var(--risk-soft-3); --risk-pill-high-fg: #A24A28;
   /* 第 4 層 — layout. Single content-column width: every page's #wrapper / main
      references this, and the top-nav + footer align to it, so the content edge
      is identical across the map, occupation, hub, sector, and legal pages.

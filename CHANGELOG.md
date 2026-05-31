@@ -29,6 +29,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   green→amber→red) now both mirror `--risk-0..4`, matching the map / sector-nav /
   OG-map. The sector-nav band CSS now references `var(--risk-1/2/4)`. (Canvas /
   satori surfaces keep literal hex synced by hand — CSS vars can't reach them.)
+- **Soft surfaces too.** Added `--risk-soft-0..4` (light tints of `--risk-0..4`);
+  the home AI-impact distribution bar (was its own pastel set
+  `#E0EAE2…#E8B5A5`) and the pill backgrounds now both derive from it, so every
+  soft surface shares the scale's hues instead of an unrelated pastel ramp.
 - Pure CSS / color-value changes; baseline clean; build green; 962 tests pass.
 
 ### Changed (Salary display unified to 万円 · 2026-05-31)
