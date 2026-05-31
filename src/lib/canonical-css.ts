@@ -85,6 +85,11 @@ export const CANONICAL_CSS = `
   --border: rgba(36, 30, 24, 0.10);
   --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Source Serif Pro", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", "Hiragino Sans", -apple-system, BlinkMacSystemFont, "Yu Gothic UI", "Segoe UI", Roboto, sans-serif;
+  /* 第 3 層 — layout. Single content-column width: every page's #wrapper / main
+     references this, and the top-nav + footer align to it, so the content edge
+     is identical across the map, occupation, hub, sector, and legal pages.
+     (2026-05-31: replaced 6 ad-hoc per-page widths 740/760/820/900/980/1080.) */
+  --content-max: 1080px;
 }
 
 /* Dark mode neutralized: theme は Design.md §3 で NEUTRALIZED 状態。
@@ -337,7 +342,7 @@ html body footer.site-footer .footer-links a:hover {
 /* Footer nav grouped by purpose (2026-05-31): a right-aligned label column
    keeps the chip rows aligned and reads as navigation, not a flat tag cloud. */
 html body footer.site-footer .footer-nav {
-  max-width: 800px;
+  max-width: var(--content-max);
   margin: 0 auto 4px;
 }
 html body footer.site-footer .footer-group {
@@ -548,7 +553,10 @@ html body nav.top-nav {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 14px;
-  padding: 11px 20px;
+  /* Full-bleed sticky bar, but the brand + links align to the same centered
+     content column as the page body (no inner wrapper needed). On viewports
+     narrower than --content-max the max() floor keeps a 20px gutter. */
+  padding: 11px max(20px, calc((100% - var(--content-max)) / 2));
   background: rgba(252, 248, 241, 0.92);
   backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);

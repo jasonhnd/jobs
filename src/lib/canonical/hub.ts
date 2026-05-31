@@ -19,8 +19,8 @@ a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;t
 a:hover{color:var(--accent)}
 /* .skip-link rule moved to canonical-css.ts (RA-004, 2026-05-18) */
 
-/* Hub class layout: 980 wrapper, vertical-rhythm 32px padding */
-#wrapper{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+/* Hub class layout: shared content-column width, vertical-rhythm 32px padding */
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
 
 /* Breadcrumb */
 .crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}

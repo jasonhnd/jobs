@@ -222,7 +222,7 @@ export const MAP_PAGE_CSS = `
       background: var(--bg2); outline: none;
     }
 
-    main { max-width: 900px; margin: 0 auto; padding: 16px 16px 96px; }
+    main { max-width: var(--content-max); margin: 0 auto; padding: 16px 16px 96px; }
     .legend {
       display: flex; align-items: center; gap: 12px;
       margin: 4px 4px 18px;
@@ -387,7 +387,7 @@ export const MAP_PAGE_CSS = `
     }
 
     footer {
-      max-width: 900px; margin: 40px auto 0;
+      max-width: var(--content-max); margin: 40px auto 0;
       padding: 24px 16px 40px;
       border-top: 1px solid var(--border);
       font-size: 0.82rem;
