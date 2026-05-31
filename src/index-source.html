@@ -671,32 +671,25 @@
 
       <hr class="hub-section-divider" aria-hidden="true">
 
-      <!-- Stage 1: compact data attribution. Full content moved to /about. Segmented into <span class="ds-seg"> so mobile (≤540px) can stack them. -->
-      <p class="data-summary" aria-label="データ出典サマリー">
-        <span class="ds-seg"><strong>データ：</strong><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚労省 jobtag</a> + JILPT</span><span class="ds-sep">　／　</span><span class="ds-seg"><strong>AI 影響度：</strong>Claude Opus 4.8 独自分析（2026-05-30）</span><span class="ds-sep">　·　</span><span class="ds-seg"><a class="about-link" href="/about" id="about-link-ja">データについて 詳しくはこちら →</a></span>
-      </p>
-
-      <!-- Phase 8: the standalone share section was moved into the canonical
-           footer block below. The X follow CTA stays here as a home-only
-           engagement element above the footer. -->
-      <div class="follow-share-section" aria-label="X フォロー誘導">
-        <div class="follow-block">
-          <a class="follow-cta"
-             id="x-follow-cta"
-             href="https://x.com/miraishigotocom"
-             target="_blank"
-             rel="noopener noreferrer">
-            <span class="follow-text">
-              <strong>X でフォローする</strong>
-              <small>毎日の職業分析を受け取る</small>
-            </span>
-          </a>
-        </div>
+      <!-- Home CTA row (2026-05-31): the rankings tool + the X-follow CTA sit
+           side by side (stack on mobile). The old boxed data-attribution strip
+           was removed — its 出典 / Opus 4.8 attribution now lives once in the
+           global footer (Footer.astro), where every page already carries it. -->
+      <div class="home-cta-row">
+        <aside class="me-cta-strip" aria-label="自分の現在地ツール">
+          <p>あなたの職業は、556 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
+          <a href="/ja/me">自分の現在地を確認 →</a>
+        </aside>
+        <a class="follow-cta"
+           id="x-follow-cta"
+           href="https://x.com/miraishigotocom"
+           target="_blank"
+           rel="noopener noreferrer">
+          <span class="follow-text">
+            <strong>X でフォローする</strong>
+            <small>毎日の職業分析を受け取る</small>
+          </span>
+        </a>
       </div>
-
-      <aside class="me-cta-strip" aria-label="自分の現在地ツール">
-        <p>あなたの職業は、556 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
-        <a href="/ja/me">自分の現在地を確認 →</a>
-      </aside>
 
 </div>
