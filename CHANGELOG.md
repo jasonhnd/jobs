@@ -10,6 +10,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Home PART I/II/III markers — magazine numeral · 2026-05-31)
+
+- The three hub section headers (セクターから探す / ランキング・指標で探す /
+  あなたから・もっと深く) stacked a small PART eyebrow over the serif title with
+  no visual anchor, reading as a flat label rather than a chapter divider. Each
+  header is now a flex row: a large serif Roman numeral (`I` / `II` / `III`, in
+  the accent color) on the left, a hairline vertical rule, then the existing
+  eyebrow + serif title + sub on the right — a magazine chapter-opener feel.
+- Markup: each `.hub-section-head` gained `<span class="hub-numeral">` +
+  wrapped its text in `<div class="hub-head-text">`. The numeral is
+  `aria-hidden` (the PART eyebrow already names the section for assistive tech).
+- CSS only — no inline-JS change, so CSP hashes and the SEO baseline are
+  untouched.
+
 ### Changed (Home treemap stats-panel rebalanced · 2026-05-31)
 
 - The risk-layer stats row mixed three single-number cards with two 5-row table
