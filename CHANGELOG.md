@@ -10,6 +10,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Salary display unified to 万円 · 2026-05-31)
+
+- The occupation detail page's 年収（平均）cell was the only salary surface still
+  showing the doubled yen form `¥4,302,000（430 万円）`. Dropped the raw-yen prefix
+  so it reads just `430 万円`, matching every other salary surface (map tooltip,
+  OG card, hub / compare / interests means, `/ja/me`). Removed the now-dead
+  `SALARY_MAN_TO_YEN` constant. Body-only change; SEO baseline unaffected.
+
 ### Changed (Unified page content width · 2026-05-31)
 
 - **Single `--content-max` (1080px) replaces 6 ad-hoc per-page widths.** Each
