@@ -851,6 +851,10 @@ export const INDEX_CSS = String.raw`      *,
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 12px;
         margin-bottom: 14px;
+        /* Size each card to its own content instead of stretching every card to
+           the tallest one (the 5-row tables) — otherwise the simple number
+           cards (職業数 / 加重平均 / 高リスク賃金) get a big empty bottom. */
+        align-items: start;
       }
       .stat-block {
         background: var(--bg2);
@@ -898,7 +902,7 @@ export const INDEX_CSS = String.raw`      *,
         padding: 2px 4px;
         color: var(--fg);
       }
-      .tier-table td:first-child { color: var(--fg2); }
+      .tier-table td:first-child { color: var(--fg2); white-space: nowrap; }
       .tier-table td:last-child { text-align: right; color: var(--fg2); }
       #tooltip {
         position: fixed;
