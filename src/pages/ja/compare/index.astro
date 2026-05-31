@@ -70,9 +70,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cci-vs{color:var(--fg3);font-size:.78rem;font-weight:600}
 .cci-desc{display:-webkit-box;font-size:.82rem;color:var(--fg2);line-height:1.6;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
 .risk-pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.7rem;font-weight:600;font-variant-numeric:tabular-nums}
-.risk-pill.low{background:#E0EAE2;color:#48705F}
-.risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
-.risk-pill.high{background:#F5D5C7;color:#A24A28}
+.risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
 @media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}}
 
 /* RA-017 (2026-05-18): interactive 2-occupation comparison tool */
@@ -113,8 +113,8 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .cc-recent-chips li{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:.85rem}
 .cc-chip-btn{padding:4px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-family:inherit;font-size:.82rem;color:var(--fg)}
 .cc-chip-btn:hover{border-color:var(--accent);color:var(--accent-deep)}
-.cc-chip-btn.is-a{background:#E0EAE2;color:#48705F;border-color:#cad8cc}
-.cc-chip-btn.is-b{background:#F4E5C7;color:#8A6A2A;border-color:#e4d4ad}
+.cc-chip-btn.is-a{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg);border-color:#cad8cc}
+.cc-chip-btn.is-b{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg);border-color:#e4d4ad}
 .cc-chip-vs{color:var(--fg3);font-size:.74rem;font-weight:600;margin:0 2px}
 .cc-recent-clear{background:none;border:none;color:var(--fg2);font-size:.78rem;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit}
 .cc-recent-clear:hover{color:var(--accent-deep)}

@@ -33,7 +33,8 @@ import {
 
 const SITE_MARK = 'mirai-shigoto.com';
 const RISK_LABEL = 'AI 影響';
-const DEFAULT_RISK_COLOR = '#8a93a3';
+// Warm "no score" gray (matches --ink-3); satori needs a literal, not a CSS var.
+const DEFAULT_RISK_COLOR = '#8a7a6a';
 
 // Direction C palette — synced from styles/mobile-tokens.css.
 const COLORS = {

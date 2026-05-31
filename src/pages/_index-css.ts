@@ -524,7 +524,7 @@ export const INDEX_CSS = String.raw`      *,
         color: var(--fg2);
       }
       .page-banner .h1-sub strong {
-        color: #ff8a3d;
+        color: var(--accent);
         font-weight: 600;
       }
       .page-banner .byline {
@@ -978,7 +978,7 @@ export const INDEX_CSS = String.raw`      *,
         line-height: 1.5;
       }
       .top-banner .badge {
-        background: #ff5050;
+        background: var(--orange-hot);
         color: #fff;
         font-weight: 800;
         padding: 3px 10px;
@@ -986,10 +986,10 @@ export const INDEX_CSS = String.raw`      *,
         font-size: 0.74rem;
         letter-spacing: 0.08em;
         white-space: nowrap;
-        box-shadow: 0 1px 4px rgba(255, 80, 80, 0.3);
+        box-shadow: 0 1px 4px rgba(192, 65, 30, 0.28);
       }
       .top-banner .banner-text strong {
-        color: #ff8a3d;
+        color: var(--accent);
         font-weight: 700;
       }
       .visually-hidden {
@@ -1031,7 +1031,7 @@ export const INDEX_CSS = String.raw`      *,
         margin: 12px 0 0;
         padding: 10px 14px;
         background: var(--accent);
-        color: #0b0d10;
+        color: #1a1206;
         text-decoration: none;
         font-weight: 600;
         font-size: 0.88rem;
@@ -1057,7 +1057,7 @@ export const INDEX_CSS = String.raw`      *,
         padding-top: 22px;
         border-top: 1px solid var(--border);
         font-size: 0.72rem;
-        color: #555c69;
+        color: var(--fg2);
         text-align: center;
       }
       footer a {
@@ -1260,9 +1260,9 @@ export const INDEX_CSS = String.raw`      *,
         white-space: nowrap;
         font-variant-numeric: tabular-nums;
       }
-      .search-suggest .ss-risk.high { color: #ff5050; }
+      .search-suggest .ss-risk.high { color: var(--risk-4); }
       .search-suggest .ss-risk.mid  { color: var(--accent); }
-      .search-suggest .ss-risk.low  { color: #00b04b; }
+      .search-suggest .ss-risk.low  { color: var(--green-deep); }
       /* P0-C: keyboard hint row at top of suggestions (desktop only — hidden on touch via JS render). */
       .search-suggest .ss-hint {
         cursor: default;
