@@ -30,6 +30,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   all → 1080; the occupation detail page was already 1080; detail's mobile
   480/640 steps are kept). A nice side effect: the homepage treemap and the
   `/map` treemap are now the same width (were 1400 vs 900).
+- **Occupation detail page: inner editorial blocks widened to match.** The
+  detail page's `#wrapper` was 1080, but its prose blocks — the AI-impact intro
+  (`.ai-risk-detail`), the context / how-to-become / working-conditions sections,
+  the radar card, and the FAQ list — were pinned to 820 (an old "narrow prose"
+  intent), so they sat indented from the full-width stats / dimension / skills
+  blocks. Pointed all four at `--content-max` so every block on the page shares
+  one edge.
 - **Top-nav + footer align to that column.** The sticky nav keeps its full-bleed
   background, but the brand + links now sit in the content column via
   `padding-inline: max(20px, calc((100% - var(--content-max)) / 2))` (no markup
