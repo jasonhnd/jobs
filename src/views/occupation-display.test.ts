@@ -61,17 +61,16 @@ describe('buildOccupationDisplay', () => {
     assert.equal(out.riskNumDisp, 0);
   });
 
-  test('salary: 540 万円 → cell "¥5,400,000（540 万円）"', () => {
+  test('salary: 540 万円 → cell "540 万円"', () => {
     const out = buildOccupationDisplay({ ...baseInput, salaryMan: 540 });
     assert.equal(out.salaryInt, 540);
-    assert.equal(out.salaryCell, '¥5,400,000（540 万円）');
+    assert.equal(out.salaryCell, '540 万円');
   });
 
-  test('salary truncates fractional 万円 to integer for the inline label', () => {
+  test('salary truncates fractional 万円 to an integer', () => {
     const out = buildOccupationDisplay({ ...baseInput, salaryMan: 540.7 });
     assert.equal(out.salaryInt, 540);
-    // ¥(Math.trunc(540.7 * 10000)) = ¥5,407,000
-    assert.equal(out.salaryCell, '¥5,407,000（540 万円）');
+    assert.equal(out.salaryCell, '540 万円');
   });
 
   test('workers: 1,234,567 → "1,234,567 人"', () => {

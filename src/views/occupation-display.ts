@@ -7,8 +7,8 @@
  * riskNumDisp / workersCell / ageCell / hoursCell / salaryCell).
  *
  * Each field's fallback is 「—」 (em-dash) when the upstream stat
- * is null/undefined. The 万円→円 conversion for the salary cell
- * uses ×10_000 truncation, matching the legacy formula.
+ * is null/undefined. Salary renders as 「xxx 万円」 to match every
+ * other salary surface (map tooltip, OG card, hubs, compare, /ja/me).
  */
 
 import { fmtInt } from '../lib/num.js';
@@ -49,7 +49,6 @@ export interface OccupationDisplay {
 }
 
 const EMDASH = '—';
-const SALARY_MAN_TO_YEN = 10_000;
 
 // Continuous risk-score → digit color. Anchors reproduce the legacy 5-step
 // palette (green-deep → light-green → amber → orange → red); one-decimal
@@ -109,9 +108,7 @@ export function buildOccupationDisplay(input: OccupationDisplayInput): Occupatio
   // 2026-05-17 H2 fix: when salaryMan is null, render a single
   // em dash rather than the doubled "—（— 万円）" which read as
   // a layout glitch on the 4 new IPD occupations 581-584.
-  const salaryCell = salaryMan
-    ? `¥${fmtInt(Math.trunc(salaryMan * SALARY_MAN_TO_YEN))}（${salaryInt} 万円）`
-    : EMDASH;
+  const salaryCell = salaryMan ? `${salaryInt} 万円` : EMDASH;
 
   return {
     riskStr,
