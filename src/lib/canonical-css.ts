@@ -309,9 +309,9 @@ html body footer.site-footer .footer-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 14px;
+  margin: 0;
 }
 html body footer.site-footer .footer-links a {
   color: var(--fg2);
@@ -333,6 +333,70 @@ html body footer.site-footer .footer-links a:hover {
   border-color: var(--accent);
   background: rgba(217, 107, 61, 0.06);
   text-decoration: none;
+}
+/* Footer nav grouped by purpose (2026-05-31): a right-aligned label column
+   keeps the chip rows aligned and reads as navigation, not a flat tag cloud. */
+html body footer.site-footer .footer-nav {
+  max-width: 800px;
+  margin: 0 auto 4px;
+}
+html body footer.site-footer .footer-group {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+html body footer.site-footer .footer-group-label {
+  flex: 0 0 84px;
+  text-align: right;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--fg2);
+  opacity: 0.7;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  padding-top: 5px;
+}
+/* Demoted utility / legal row — plain text, separated from the content nav. */
+html body footer.site-footer .footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 480px;
+  margin: 16px auto 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.72rem;
+}
+html body footer.site-footer .footer-legal a {
+  color: var(--fg2);
+  text-decoration: none;
+}
+html body footer.site-footer .footer-legal a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+html body footer.site-footer .footer-legal span {
+  color: var(--fg2);
+  opacity: 0.4;
+}
+@media (max-width: 560px) {
+  html body footer.site-footer .footer-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  html body footer.site-footer .footer-group-label {
+    flex: none;
+    text-align: center;
+    padding-top: 0;
+  }
+  html body footer.site-footer .footer-group .footer-links {
+    justify-content: center;
+  }
 }
 html body footer.site-footer .footer-meta {
   color: var(--fg2);
