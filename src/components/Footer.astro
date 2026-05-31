@@ -72,41 +72,56 @@ const { iso, display } = formatJst(buildTime);
     </button>
     <span class="share-toast" aria-live="polite"></span>
   </div>
-  {/* RA-125 (2026-05-18): footer row 1 dedupe vs top-nav.
-      Removed トップ・職業マップ・探す方法・業種・ランキング・Q&A・比較
-      because they all appear in the sticky top-nav (TopNav.astro).
-      Kept only categories that the top-nav does NOT show, so footer
-      acts as a complement rather than a duplicate. */}
-  <div class="footer-links">
-    <a href="/ja/careers">キャリア段階</a>
-    <a href="/ja/licenses">資格</a>
-    <a href="/ja/yearly">年次レポート</a>
-  </div>
-  <div class="footer-links">
-    <a href="/ja/interests">興味</a>
-    <a href="/ja/skills">スキル</a>
-    <a href="/ja/abilities">能力</a>
-    <a href="/ja/knowledge">知識</a>
-    <a href="/ja/values">価値観</a>
-    <a href="/ja/education">学歴</a>
-    <a href="/ja/training">習熟期間</a>
-    <a href="/ja/work-styles">働き方</a>
-    <a href="/ja/employment-types">雇用形態</a>
-    <a href="/ja/life-balance">ライフバランス</a>
-    <a href="/ja/entry-paths">入職経路</a>
-    <a href="/ja/about">方法論</a>
-  </div>
-  <div class="footer-links">
-    <a href="/standard">AIOIS-10 標準</a>
-    <a href="/methodology">評価プロセス</a>
-    <a href="/about">データについて</a>
+  {/* RA-125 (2026-05-18): footer dedupes vs the sticky top-nav — トップ・
+      職業マップ・探す方法・業種・ランキング・Q&A・比較 live there, so the
+      footer carries only the complementary hubs. Grouped + labelled
+      (2026-05-31) so the link set reads as navigation, not a tag cloud. */}
+  <nav class="footer-nav" aria-label="サイト内ナビゲーション">
+    <div class="footer-group">
+      <span class="footer-group-label">適職を探す</span>
+      <div class="footer-links">
+        <a href="/ja/interests">興味</a>
+        <a href="/ja/skills">スキル</a>
+        <a href="/ja/abilities">能力</a>
+        <a href="/ja/knowledge">知識</a>
+        <a href="/ja/values">価値観</a>
+        <a href="/ja/education">学歴</a>
+        <a href="/ja/training">習熟期間</a>
+        <a href="/ja/work-styles">働き方</a>
+        <a href="/ja/employment-types">雇用形態</a>
+        <a href="/ja/life-balance">ライフバランス</a>
+        <a href="/ja/entry-paths">入職経路</a>
+      </div>
+    </div>
+    <div class="footer-group">
+      <span class="footer-group-label">キャリア</span>
+      <div class="footer-links">
+        <a href="/ja/careers">キャリア段階</a>
+        <a href="/ja/licenses">資格</a>
+        <a href="/ja/yearly">年次レポート</a>
+      </div>
+    </div>
+    <div class="footer-group">
+      <span class="footer-group-label">データ・方法</span>
+      <div class="footer-links">
+        <a href="/standard">AIOIS-10 標準</a>
+        <a href="/methodology">評価プロセス</a>
+        <a href="/ja/about">方法論</a>
+        <a href="/about">データについて</a>
+      </div>
+    </div>
+  </nav>
+  <div class="footer-legal">
     <a href="/compliance">コンプライアンス</a>
+    <span aria-hidden="true">·</span>
     <a href="/privacy">プライバシー</a>
+    <span aria-hidden="true">·</span>
+    <a href="mailto:info@mirai-shigoto.com">お問い合わせ</a>
   </div>
   <div class="footer-meta">
-    最終更新：<time datetime={iso}>{display}</time><br />
+    <strong>AI 影響度</strong>：Claude Opus 4.8 独自分析（AIOIS-10・2026-05-30）<br />
     出典：厚生労働省・<span class="nowrap">独立行政法人 労働政策研究・研修機構（JILPT）</span><br />
-    お問い合わせ：<a href="mailto:info@mirai-shigoto.com">info@mirai-shigoto.com</a><br />
+    最終更新：<time datetime={iso}>{display}</time><br />
     <em>※ 本サイトは独自分析サイトであり、<br />厚生労働省・job tag・JILPT の<span class="nowrap">公式見解ではありません</span>。<br />詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</em>
   </div>
 </footer>

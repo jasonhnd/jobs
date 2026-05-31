@@ -1703,34 +1703,6 @@ export const INDEX_CSS = String.raw`      *,
         .share-btn { width: 36px; height: 36px; }
       }
 
-      /* ============ Compact data summary (replaces explainer in Stage 1) ============ */
-      .data-summary {
-        max-width: 880px;
-        margin: 32px auto 8px;
-        padding: 14px 18px;
-        background: var(--bg2);
-        border: 1px solid var(--border);
-        border-left: 3px solid var(--accent);
-        border-radius: 8px;
-        font-size: 0.86rem;
-        line-height: 1.7;
-        color: var(--fg2);
-        text-wrap: pretty;
-      }
-      .data-summary strong { color: var(--fg); }
-      .data-summary a { color: var(--accent); }
-      .data-summary a:hover { text-decoration: underline; }
-      /* Mobile: stack segments vertically, hide wide-space separators. */
-      @media (max-width: 540px) {
-        .data-summary {
-          font-size: 0.78rem;
-          padding: 12px 14px;
-          line-height: 1.6;
-        }
-        .data-summary .ds-seg { display: block; padding: 3px 0; }
-        .data-summary .ds-sep { display: none; }
-      }
-      .data-summary .about-link { font-weight: 600; }
 
       /* ============================================================
          Editorial framing — common header system for hub sections I/II/III
@@ -2160,16 +2132,32 @@ export const INDEX_CSS = String.raw`      *,
         .hub-deep-grid { grid-template-columns: 1fr; gap: 24px; }
         .hub-deep { padding: 22px 16px; }
       }
-      @media (max-width: 540px) {
-        .data-summary { font-size: 0.8rem; padding: 12px 14px; }
+      /* ============ Home CTA row: rankings tool + X follow (Stage 1) ============ */
+      /* Rankings tool (.me-cta-strip, a global card) + the X-follow button laid
+         out side by side; stacks on mobile. Replaces the old stacked
+         data-summary / follow-section / me-cta-strip trio. */
+      .home-cta-row {
+        display: flex;
+        gap: 16px;
+        align-items: stretch;
+        flex-wrap: wrap;
+        margin: 40px 0 8px;
+      }
+      .home-cta-row .me-cta-strip {
+        margin: 0;
+        flex: 2 1 420px;
+      }
+      .home-cta-row .follow-cta {
+        flex: 1 1 240px;
+        justify-content: center;
+        padding: 18px 26px;
+      }
+      @media (max-width: 768px) {
+        .home-cta-row { gap: 12px; }
+        .home-cta-row .follow-cta { flex-basis: 100%; }
       }
 
-      /* ============ Follow + Share footer block (Stage 1) ============ */
-      .follow-share-section {
-        margin: 48px auto 8px;
-        text-align: center;
-      }
-      .follow-block { margin-bottom: 28px; }
+      /* ============ Follow CTA button (used in the home CTA row) ============ */
       .follow-cta {
         display: inline-flex;
         align-items: center;

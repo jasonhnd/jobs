@@ -10,6 +10,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Footer + home pre-footer redesign · 2026-05-31)
+
+- **Footer link cloud → grouped navigation.** The 20 footer links were a flat,
+  centered pill cloud (3 ungrouped rows) that read as a tag dump. Regrouped under
+  right-aligned labels (適職を探す / キャリア / データ・方法), kept the chip style,
+  and demoted the utility/legal links to a plain-text row below a divider
+  (コンプライアンス · プライバシー · お問い合わせ). Same href set — internal links
+  preserved; only the homepage's duplicate `/about` link dropped.
+- **Home pre-footer simplified.** The three stacked blocks (boxed data-attribution
+  strip + X-follow button + rankings CTA) became one `.home-cta-row`: the rankings
+  tool and the X-follow CTA sit side by side and stack on mobile. The boxed
+  attribution strip was removed; its Opus 4.8 / AIOIS-10 / 出典 attribution now
+  lives once in the global footer meta (`Footer.astro`), where every page already
+  carries it. Dropped the now-dead `.data-summary` / `.follow-share-section` /
+  `.follow-block` CSS.
+
 ### Changed (Occupation count unified 552 → 556 + GEO refresh · 2026-05-31)
 
 - **All 556 occupations now appear on the map.** The 4 newest IPD occupations
