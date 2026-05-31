@@ -1833,9 +1833,9 @@ export const INDEX_CSS = String.raw`      *,
         background: var(--ai-band-color, var(--border));
         opacity: 0.85;
       }
-      .sector-nav-grid a[data-ai-band="low"]  { --ai-band-color: #5BA84F; }
-      .sector-nav-grid a[data-ai-band="mid"]  { --ai-band-color: #D9A03B; }
-      .sector-nav-grid a[data-ai-band="high"] { --ai-band-color: #C4422F; }
+      .sector-nav-grid a[data-ai-band="low"]  { --ai-band-color: var(--risk-1); }
+      .sector-nav-grid a[data-ai-band="mid"]  { --ai-band-color: var(--risk-2); }
+      .sector-nav-grid a[data-ai-band="high"] { --ai-band-color: var(--risk-4); }
       /* 4 thematic groups of sectors — each with a small italic serif heading. */
       .sector-nav-group { margin-top: 14px; }
       .sector-nav-group:first-of-type { margin-top: 0; }
@@ -1875,9 +1875,9 @@ export const INDEX_CSS = String.raw`      *,
         height: 2px;
         border-radius: 1px;
       }
-      .sector-nav-legend .lg-low  { background: #5BA84F; }
-      .sector-nav-legend .lg-mid  { background: #D9A03B; }
-      .sector-nav-legend .lg-high { background: #C4422F; }
+      .sector-nav-legend .lg-low  { background: var(--risk-1); }
+      .sector-nav-legend .lg-mid  { background: var(--risk-2); }
+      .sector-nav-legend .lg-high { background: var(--risk-4); }
       @media (max-width: 540px) {
         .sector-nav { margin: 22px 0 14px; padding: 16px 14px; }
         .sector-nav-title { font-size: 0.98rem; }

@@ -50,16 +50,16 @@ export interface OccupationDisplay {
 
 const EMDASH = '—';
 
-// Continuous risk-score → digit color. Anchors reproduce the legacy 5-step
-// palette (green-deep → light-green → amber → orange → red); one-decimal
-// scores interpolate smoothly between them. Replaces the old discrete
-// `.risk-0`..`.risk-10` CSS rules. Returns '' for a null score.
+// Continuous risk-score → digit color. Anchors are the canonical --risk-0..4
+// scale (canonical-css.ts); one-decimal scores interpolate smoothly between
+// them, so the detail digit matches the map / OG / sector colors. RGB literals
+// (not CSS vars) because the value is computed in JS. Returns '' for null.
 const RISK_COLOR_STOPS: ReadonlyArray<readonly [number, readonly [number, number, number]]> = [
-  [1, [72, 112, 95]], // --green-deep #48705F
-  [3.5, [168, 213, 114]], // #a8d572
-  [5.5, [200, 150, 56]], // #c89638
-  [7.5, [217, 107, 61]], // --orange #D96B3D
-  [9.5, [201, 90, 58]], // --red #c95a3a
+  [0, [15, 138, 102]], // --risk-0 #0F8A66
+  [2.5, [91, 168, 79]], // --risk-1 #5BA84F
+  [5, [217, 160, 59]], // --risk-2 #D9A03B
+  [7.5, [226, 122, 51]], // --risk-3 #E27A33
+  [10, [196, 66, 47]], // --risk-4 #C4422F
 ];
 
 function rgbHex([r, g, b]: readonly [number, number, number]): string {

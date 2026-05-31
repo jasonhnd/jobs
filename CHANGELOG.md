@@ -23,8 +23,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   (clashing with the warm palette) → warm `#1a1206` / `--fg2` / `#8a7a6a`.
 - **Map serif drift fixed.** `_map-css` re-declared `--font-serif` missing
   `Hiragino Mincho ProN` / `Yu Mincho`; synced to the canonical stack.
-- Pure CSS; baseline clean; build green; 962 tests pass. (The saturated map / OG /
-  detail-gradient ramps still differ from each other — realignment is the next step.)
+- **Saturated ramps realigned to one scale.** The OG occupation-card ramp
+  (`og-helpers RISK_COLORS`, was a warmer sage→terracotta) and the detail-page
+  risk-digit gradient (`occupation-display RISK_COLOR_STOPS`, was a different
+  green→amber→red) now both mirror `--risk-0..4`, matching the map / sector-nav /
+  OG-map. The sector-nav band CSS now references `var(--risk-1/2/4)`. (Canvas /
+  satori surfaces keep literal hex synced by hand — CSS vars can't reach them.)
+- Pure CSS / color-value changes; baseline clean; build green; 962 tests pass.
 
 ### Changed (Salary display unified to 万円 · 2026-05-31)
 
