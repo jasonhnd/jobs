@@ -34,9 +34,9 @@ import type { GenericCardConfig } from '../lib/og-helpers.js';
  *  about/methodology/glossary/etc. */
 export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   home: {
-    eyebrow: 'JAPAN OCCUPATIONS · 552 職業 × AI 影響',
+    eyebrow: 'JAPAN OCCUPATIONS · 556 職業 × AI 影響',
     title: 'AIの時代でも、あなたらしい働き方を',
-    subtitle: '552 職業を AI 影響度・就業者数・年収・5 次元で多角分析',
+    subtitle: '556 職業を AI 影響度・就業者数・年収・5 次元で多角分析',
   },
   about: {
     eyebrow: 'ABOUT',
@@ -61,7 +61,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   sectors: {
     eyebrow: 'SECTORS · 16 業界',
     title: '業界別 AI 影響',
-    subtitle: '16 業界 552 職業を業界別にナビゲート',
+    subtitle: '16 業界 556 職業を業界別にナビゲート',
   },
   rankings: {
     eyebrow: 'RANKINGS · 9 視点',
@@ -71,7 +71,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   interests: {
     eyebrow: 'INTERESTS · RIASEC 6 タイプ',
     title: '興味タイプから職業を探す',
-    subtitle: 'RIASEC 6 分類で 552 職業を整理',
+    subtitle: 'RIASEC 6 分類で 556 職業を整理',
   },
   skills: {
     eyebrow: 'SKILLS · 主要 10 スキル',
@@ -87,7 +87,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   abilities:        { eyebrow: 'ABILITIES · 8 軸',   title: '能力から職業を探す',       subtitle: 'IPD 52 能力軸から 8 を hub 化' },
   knowledge:        { eyebrow: 'KNOWLEDGE · 5 軸',   title: '知識から職業を探す',       subtitle: 'IPD 33 知識領域から 5 を hub 化' },
   values:           { eyebrow: 'VALUES · 6 軸',      title: '価値観から職業を探す',     subtitle: 'IPD 12 価値観軸から 6 を hub 化' },
-  education:        { eyebrow: 'EDUCATION · 6 段階', title: '学歴から職業を探す',       subtitle: '学歴別 6 段階で 552 職業を分類' },
+  education:        { eyebrow: 'EDUCATION · 6 段階', title: '学歴から職業を探す',       subtitle: '学歴別 6 段階で 556 職業を分類' },
   training:         { eyebrow: 'TRAINING · 4 段階',  title: '修行期間から職業を探す',   subtitle: '入職後 4 段階の修行期間別' },
   'work-styles':    { eyebrow: 'WORK-STYLE · 6 軸',  title: '働き方から職業を探す',     subtitle: '業務形態 6 軸で分類' },
   'employment-types': { eyebrow: 'EMPLOY · 4 軸',   title: '雇用形態から職業を探す',   subtitle: '正社員/フリー/パート/公務員' },
@@ -101,7 +101,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   glossary:         { eyebrow: 'GLOSSARY',           title: '用語集',                  subtitle: '本サイト独自用語の定義' },
   'data-sources':   { eyebrow: 'SOURCES',            title: 'データソース一覧',         subtitle: '厚労省・JILPT・統計調査の出典' },
   yearly:           { eyebrow: 'YEARLY',             title: '年次レポート',            subtitle: 'AI と日本の仕事 年次定点観測' },
-  'yearly-2026':    { eyebrow: 'REPORT 2026',        title: '2026 年版 AI と仕事',     subtitle: '552 職業の全量分析' },
+  'yearly-2026':    { eyebrow: 'REPORT 2026',        title: '2026 年版 AI と仕事',     subtitle: '556 職業の全量分析' },
   'yearly-5year':   { eyebrow: '5 YEARS',            title: '5 年で変わった職業',      subtitle: '2021→2026 の変化追跡' },
   'yearly-next-decade': { eyebrow: 'NEXT 10 YEARS',  title: '今後 10 年の職業展望',    subtitle: '2030 年代の予測' },
   explore:          { eyebrow: 'EXPLORE · 7 入口',   title: '探す方法',                subtitle: '7 つの入口から職業を整理' },

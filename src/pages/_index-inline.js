@@ -357,7 +357,7 @@
           const isDimmed = dimmedIds && !dimmedIds.has(r.id);
           // Hover/select indication is handled by the #tileHighlight overlay,
           // not by per-tile alpha differential — that way hover changes don't
-          // require redrawing all 552 tiles. Keep theme- and dim-based alpha only.
+          // require redrawing all 556 tiles. Keep theme- and dim-based alpha only.
           // Match /map's flat opaque tiles. Original had alpha 0.95/0.62 to
           // softly blend tiles into cream/dark canvas, but that diluted the
           // discrete palette into muddy mid-tones absent from /map.
@@ -764,7 +764,7 @@
           blocks.push(statBlock(
             L.uniDegree[lang],
             avgUni.toFixed(1) + "%",
-            "552 職業の平均"
+            "556 職業の平均"
           ));
           blocks.push(statBlockHTML(L.distribution[lang], renderHistogram(counts)));
           blocks.push(statBlockHTML(
@@ -1697,13 +1697,13 @@
           const ls = document.getElementById("loadingState");
           if (ls) ls.remove();
           canvas.style.visibility = "visible";
-          // Defer the 552-item screen-reader fallback list until the browser is idle.
+          // Defer the 556-item screen-reader fallback list until the browser is idle.
           // It's only consumed by assistive tech and never visible — but rendering it inline
-          // adds ~552 DOM nodes that triple Style & Layout time on initial paint.
+          // adds ~556 DOM nodes that triple Style & Layout time on initial paint.
           const fb = document.getElementById("canvasFallback");
           if (fb) {
             const renderFallback = () => {
-              fb.innerHTML = data.slice(0, 552).map(d =>
+              fb.innerHTML = data.slice(0, 556).map(d =>
                 `<li><a href="${escapeHtml(occUrl(d))}">${escapeHtml(d.name_en || d.name_ja)} / ${escapeHtml(d.name_ja)} — AI risk ${Number(d.ai_risk) || 0}/10</a></li>`
               ).join("");
             };
@@ -1794,7 +1794,7 @@
         footer.dataset.shareWired = "1";
 
         const COPY_TOAST = "コピーしました";
-        const FALLBACK_TEXT = "日本 552 職業への AI 影響を 0〜10 で可視化したマップ。あなたの仕事は？";
+        const FALLBACK_TEXT = "日本 556 職業への AI 影響を 0〜10 で可視化したマップ。あなたの仕事は？";
 
         function shareText() {
           const og = document.querySelector('meta[property="og:description"]');

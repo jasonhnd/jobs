@@ -14,7 +14,7 @@
               AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
             </h1>
             <p class="dh-lead">
-              552 の職業を、AI 影響度・就業者数・年収・5 つの特性プロファイルで多角的に分析。<br>新しい道を、いっしょに見つけましょう。
+              556 の職業を、AI 影響度・就業者数・年収・5 つの特性プロファイルで多角的に分析。<br>新しい道を、いっしょに見つけましょう。
             </p>
             <form class="desktop-hero-search" id="dhSearchForm" role="search" autocomplete="off">
               <input id="searchInputDesktop" type="search" autocomplete="off"
@@ -46,20 +46,20 @@
           </div>
         </section>
 
-        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (552 occupations, 5,449 万 employed, mean Transformation 4.2, 77.3 兆 yen wages at impact ≥ 5; AIOIS-10 batch 2026-05-30). Distribution counts: 1–2=12, 3–4=206, 5–6=291, 7–8=41, 9–10=2 (total 552). Percentages 2/37/53/7/1 sum to 100. The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
-        <!-- TODO(RA-145): wire 552 / 5,449 / 77.3 to OCCUPATION_COUNT.SCORED + canonical worker/wage constants when this fragment is converted to an Astro template (currently injected via set:html from src/pages/index.astro, so it has no access to TS constants). -->
+        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (556 occupations, 5,456 万 employed, mean Transformation 4.2, 77.4 兆 yen wages at impact ≥ 5; AIOIS-10 batch 2026-05-30). Distribution counts: 1–2=12, 3–4=207, 5–6=294, 7–8=41, 9–10=2 (total 556). Percentages 2/37/53/7/1 sum to 100. The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
+        <!-- TODO(RA-145): wire 556 / 5,456 / 77.4 to OCCUPATION_COUNT.SCORED + canonical worker/wage constants when this fragment is converted to an Astro template (currently injected via set:html from src/pages/index.astro, so it has no access to TS constants). -->
         <section class="home-kpi-band" aria-label="日本の労働市場全体">
           <ul class="kpi-row">
-            <li><strong>552</strong><span>職業</span></li>
-            <li><strong>5,449<small>万</small></strong><span>就業者</span></li>
+            <li><strong>556</strong><span>職業</span></li>
+            <li><strong>5,456<small>万</small></strong><span>就業者</span></li>
             <li><strong>4.2<small>/10</small></strong><span>平均 AI 影響</span></li>
-            <li><strong>77.3<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥5</small></span></li>
+            <li><strong>77.4<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥5</small></span></li>
           </ul>
-          <p class="risk-distribution-label">AI 影響度の分布（全 552 職業）</p>
+          <p class="risk-distribution-label">AI 影響度の分布（全 556 職業）</p>
           <ul class="risk-distribution" role="list">
             <li data-band="1-2" style="--w:2%" aria-label="影響度 1-2 低 12 職業 2%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> 12 職業 <small>2%</small></span></li>
-            <li data-band="3-4" style="--w:37%" aria-label="影響度 3-4 中低 206 職業 37%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> 206 <small>37%</small></span></li>
-            <li data-band="5-6" style="--w:53%" aria-label="影響度 5-6 中 291 職業 53%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> 291 <small>53%</small></span></li>
+            <li data-band="3-4" style="--w:37%" aria-label="影響度 3-4 中低 207 職業 37%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> 207 <small>37%</small></span></li>
+            <li data-band="5-6" style="--w:53%" aria-label="影響度 5-6 中 294 職業 53%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> 294 <small>53%</small></span></li>
             <li data-band="7-8" style="--w:7%" aria-label="影響度 7-8 高 41 職業 7%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> 41 <small>7%</small></span></li>
             <li data-band="9-10" style="--w:1%" aria-label="影響度 9-10 最高 2 職業 1%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> 2 <small>1%</small></span></li>
           </ul>
@@ -80,7 +80,7 @@
             AIの時代でも、<br class="ja-phrase-break"><span class="acc">あなたらしい</span><br class="ja-phrase-break">働き方を。
           </h1>
           <div class="mobile-hero-trust">
-            552 の職業を、AI 影響度で多角的に分析
+            556 の職業を、AI 影響度で多角的に分析
           </div>
           <form class="mobile-hero-search" id="mhSearchForm" role="search" autocomplete="off">
             <input id="searchInputMobile" type="search" autocomplete="off"
@@ -120,15 +120,15 @@
         </section>
 
         <!-- Mobile-only map preview card (Design-Mobile.md §4.2). Replaces the embedded treemap canvas + m-map-head on viewports <=768px. The entire <a> is the tap target → /map. The inline SVG thumbnail comes from public/map-thumb.snippet.html injected between the INCLUDE markers below — do not hand-edit the SVG. -->
-        <a class="m-map-preview" href="/map" aria-label="職業マップを開く（全 552 職業）">
+        <a class="m-map-preview" href="/map" aria-label="職業マップを開く（全 556 職業）">
           <header class="m-map-preview-head">
             <p class="m-map-preview-title" role="heading" aria-level="2">職業マップ</p>
-            <span class="m-map-preview-count">全 552 職業</span>
+            <span class="m-map-preview-count">全 556 職業</span>
           </header>
           <div class="m-map-preview-legend">面積 = 就業者数 ・ 色 = AI 影響</div>
           <div class="m-map-preview-thumb" aria-hidden="true">
             <!-- INCLUDE: map-thumb -->
-          <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" role="img" aria-label="552 職業の AI 影響ヒートマップ プレビュー" class="m-map-preview-svg"><rect x="0.0" y="0.0" width="61.4" height="33.8" fill="#0F8A66"/><rect x="61.4" y="0.0" width="17.1" height="33.8" fill="#0F8A66"/><rect x="78.5" y="0.0" width="20.6" height="33.8" fill="#5BA84F"/><rect x="99.2" y="0.0" width="15.6" height="33.8" fill="#5BA84F"/><rect x="114.8" y="0.0" width="17.3" height="33.8" fill="#5BA84F"/><rect x="132.1" y="0.0" width="13.1" height="33.8" fill="#5BA84F"/><rect x="145.2" y="0.0" width="22.9" height="33.8" fill="#E27A33"/><rect x="168.2" y="0.0" width="15.9" height="33.8" fill="#E27A33"/><rect x="184.0" y="0.0" width="16.7" height="33.8" fill="#E27A33"/><rect x="200.8" y="0.0" width="119.2" height="33.8" fill="#C4422F"/><rect x="0.0" y="33.8" width="64.9" height="33.8" fill="#0F8A66"/><rect x="64.9" y="33.8" width="21.2" height="33.8" fill="#0F8A66"/><rect x="86.2" y="33.8" width="27.3" height="33.8" fill="#5BA84F"/><rect x="113.5" y="33.8" width="49.4" height="33.8" fill="#5BA84F"/><rect x="162.9" y="33.8" width="20.7" height="33.8" fill="#5BA84F"/><rect x="183.6" y="33.8" width="21.7" height="33.8" fill="#D9A03B"/><rect x="205.3" y="33.8" width="32.6" height="33.8" fill="#E27A33"/><rect x="237.9" y="33.8" width="25.1" height="33.8" fill="#E27A33"/><rect x="262.9" y="33.8" width="20.8" height="33.8" fill="#E27A33"/><rect x="283.8" y="33.8" width="36.2" height="33.8" fill="#C4422F"/><rect x="0.0" y="67.6" width="28.3" height="33.8" fill="#0F8A66"/><rect x="28.3" y="67.6" width="46.8" height="33.8" fill="#5BA84F"/><rect x="75.1" y="67.6" width="27.7" height="33.8" fill="#5BA84F"/><rect x="102.7" y="67.6" width="51.1" height="33.8" fill="#5BA84F"/><rect x="153.9" y="67.6" width="21.4" height="33.8" fill="#5BA84F"/><rect x="175.3" y="67.6" width="26.0" height="33.8" fill="#D9A03B"/><rect x="201.3" y="67.6" width="33.7" height="33.8" fill="#E27A33"/><rect x="235.0" y="67.6" width="26.0" height="33.8" fill="#E27A33"/><rect x="260.9" y="67.6" width="21.6" height="33.8" fill="#E27A33"/><rect x="282.5" y="67.6" width="37.5" height="33.8" fill="#C4422F"/><rect x="0.0" y="101.4" width="320" height="28.6" fill="#D9A03B" opacity="0.55"/></svg>
+          <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" role="img" aria-label="556 職業の AI 影響ヒートマップ プレビュー" class="m-map-preview-svg"><rect x="0.0" y="0.0" width="61.4" height="33.8" fill="#0F8A66"/><rect x="61.4" y="0.0" width="17.1" height="33.8" fill="#0F8A66"/><rect x="78.5" y="0.0" width="20.6" height="33.8" fill="#5BA84F"/><rect x="99.2" y="0.0" width="15.6" height="33.8" fill="#5BA84F"/><rect x="114.8" y="0.0" width="17.3" height="33.8" fill="#5BA84F"/><rect x="132.1" y="0.0" width="13.1" height="33.8" fill="#5BA84F"/><rect x="145.2" y="0.0" width="22.9" height="33.8" fill="#E27A33"/><rect x="168.2" y="0.0" width="15.9" height="33.8" fill="#E27A33"/><rect x="184.0" y="0.0" width="16.7" height="33.8" fill="#E27A33"/><rect x="200.8" y="0.0" width="119.2" height="33.8" fill="#C4422F"/><rect x="0.0" y="33.8" width="64.9" height="33.8" fill="#0F8A66"/><rect x="64.9" y="33.8" width="21.2" height="33.8" fill="#0F8A66"/><rect x="86.2" y="33.8" width="27.3" height="33.8" fill="#5BA84F"/><rect x="113.5" y="33.8" width="49.4" height="33.8" fill="#5BA84F"/><rect x="162.9" y="33.8" width="20.7" height="33.8" fill="#5BA84F"/><rect x="183.6" y="33.8" width="21.7" height="33.8" fill="#D9A03B"/><rect x="205.3" y="33.8" width="32.6" height="33.8" fill="#E27A33"/><rect x="237.9" y="33.8" width="25.1" height="33.8" fill="#E27A33"/><rect x="262.9" y="33.8" width="20.8" height="33.8" fill="#E27A33"/><rect x="283.8" y="33.8" width="36.2" height="33.8" fill="#C4422F"/><rect x="0.0" y="67.6" width="28.3" height="33.8" fill="#0F8A66"/><rect x="28.3" y="67.6" width="46.8" height="33.8" fill="#5BA84F"/><rect x="75.1" y="67.6" width="27.7" height="33.8" fill="#5BA84F"/><rect x="102.7" y="67.6" width="51.1" height="33.8" fill="#5BA84F"/><rect x="153.9" y="67.6" width="21.4" height="33.8" fill="#5BA84F"/><rect x="175.3" y="67.6" width="26.0" height="33.8" fill="#D9A03B"/><rect x="201.3" y="67.6" width="33.7" height="33.8" fill="#E27A33"/><rect x="235.0" y="67.6" width="26.0" height="33.8" fill="#E27A33"/><rect x="260.9" y="67.6" width="21.6" height="33.8" fill="#E27A33"/><rect x="282.5" y="67.6" width="37.5" height="33.8" fill="#C4422F"/><rect x="0.0" y="101.4" width="320" height="28.6" fill="#D9A03B" opacity="0.55"/></svg>
           <!-- /INCLUDE: map-thumb -->
           </div>
           <div class="m-map-preview-cta">マップを探索する <span aria-hidden="true">→</span></div>
@@ -197,11 +197,11 @@
           職業マップ
         </p>
         <span class="m-map-meta">
-          全 552 職業 ・ 面積＝就業者数 ・ 色＝AI影響
+          全 556 職業 ・ 面積＝就業者数 ・ 色＝AI影響
         </span>
       </header>
       <canvas id="treemap" tabindex="0" role="application"
-              aria-label="日本 552 職業のインタラクティブ treemap。矢印キーで tile 間を移動、Enter で詳細ページを開く。"
+              aria-label="日本 556 職業のインタラクティブ treemap。矢印キーで tile 間を移動、Enter で詳細ページを開く。"
               style="visibility:hidden"></canvas>
       <div id="tileHighlight" aria-hidden="true"></div>
       <ul id="canvasFallback" class="visually-hidden" aria-label="職業一覧"></ul>
@@ -212,7 +212,7 @@
         <header class="hub-section-head">
           <span class="hub-eyebrow">PART I</span>
           <h2 class="hub-section-title" id="hub-sectors-title">セクターから探す</h2>
-          <p class="hub-section-sub">日本の労働市場 16 区分・552 職業</p>
+          <p class="hub-section-sub">日本の労働市場 16 区分・556 職業</p>
         </header>
 
         <div class="sector-nav-group">
@@ -268,7 +268,7 @@
         <header class="hub-section-head">
           <span class="hub-eyebrow">PART II</span>
           <h2 class="hub-section-title" id="hub-rankings-title">ランキング・指標で探す</h2>
-          <p class="hub-section-sub">39 のランキングで日本 552 職業を分析</p>
+          <p class="hub-section-sub">39 のランキングで日本 556 職業を分析</p>
         </header>
 
         <div class="ranking-subgroup">
@@ -695,7 +695,7 @@
       </div>
 
       <aside class="me-cta-strip" aria-label="自分の現在地ツール">
-        <p>あなたの職業は、552 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
+        <p>あなたの職業は、556 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>
         <a href="/ja/me">自分の現在地を確認 →</a>
       </aside>
 

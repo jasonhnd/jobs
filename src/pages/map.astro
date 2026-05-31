@@ -1,6 +1,6 @@
 ---
 /**
- * map.astro — 職業マップ (interactive squarified treemap of all 552 jobs).
+ * map.astro — 職業マップ (interactive squarified treemap of all 556 jobs).
  *
  * Inline JS preserved verbatim — including the mobile-scroll-to-top fix
  * from commit 1e8976a9 (atomic replaceChildren() render + ResizeObserver
@@ -16,8 +16,8 @@ import { MAP_PAGE_CSS } from './_map-css';
 const jsonLd = `{
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": "日本の全 552 職業 × AI 影響度マップ",
-  "description": "厚生労働省 job tag + 独立行政法人 労働政策研究・研修機構（JILPT）のデータをもとに、日本の 552 職業の AI 影響度・年収・就業者数を可視化したインタラクティブヒートマップ。",
+  "name": "日本の全 556 職業 × AI 影響度マップ",
+  "description": "厚生労働省 job tag + 独立行政法人 労働政策研究・研修機構（JILPT）のデータをもとに、日本の 556 職業の AI 影響度・年収・就業者数を可視化したインタラクティブヒートマップ。",
   "url": "https://mirai-shigoto.com/map",
   "license": "https://opensource.org/licenses/MIT",
   "isAccessibleForFree": true,
@@ -27,16 +27,16 @@ const jsonLd = `{
     "encodingFormat": "application/json",
     "contentUrl": "https://mirai-shigoto.com/data.treemap.json"
   }],
-  "keywords": ["AI 影響", "職業", "ヒートマップ", "552 職業", "厚生労働省", "JILPT"],
+  "keywords": ["AI 影響", "職業", "ヒートマップ", "556 職業", "厚生労働省", "JILPT"],
   "inLanguage": ["ja"]
 }`;
 ---
 <BaseLayout
-  title="職業マップ｜全 552 職業 × AI 影響度ヒートマップ — Mirai-Shigoto"
-  description="日本の全 552 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。タップで職業詳細へ。"
+  title="職業マップ｜全 556 職業 × AI 影響度ヒートマップ — Mirai-Shigoto"
+  description="日本の全 556 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。タップで職業詳細へ。"
   canonical="https://mirai-shigoto.com/map"
-  ogTitle="職業マップ｜全 552 職業 × AI 影響度ヒートマップ"
-  ogDescription="日本の全 552 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。"
+  ogTitle="職業マップ｜全 556 職業 × AI 影響度ヒートマップ"
+  ogDescription="日本の全 556 職業を就業者数 × AI 影響度で可視化。事務、専門・技術、サービス…分野別に AI で大きく変わる仕事を一目で確認。"
   ogImage="https://mirai-shigoto.com/api/og?page=map"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
@@ -97,7 +97,7 @@ const jsonLd = `{
       <span>色 = AI 影響(低 → 高)</span>
     </div>
 
-    <div id="mapContent" role="region" aria-label="552 職業の AI 影響ヒートマップ">
+    <div id="mapContent" role="region" aria-label="556 職業の AI 影響ヒートマップ">
       <div class="map-skeleton">
         <div class="sector-section"><div class="sector-grid"></div></div>
         <div class="sector-section"><div class="sector-grid"></div></div>

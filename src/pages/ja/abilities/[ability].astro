@@ -23,7 +23,7 @@ const b = buildGenreSlugBindings({
   result, graph: await loadGraph(),
   genrePath: 'abilities', genreLabel: '能力から探す', ogParam: 'ability',
   allConfigs: ABILITIES_CONFIGS, crossHubKey: 'abilities',
-  subTemplate: (s, n) => `IPD <strong>${s}</strong> スコアが高い職業 TOP ${n}（全 552 職業中）`,
+  subTemplate: (s, n) => `IPD <strong>${s}</strong> スコアが高い職業 TOP ${n}（全 556 職業中）`,
   seoDescTemplate: (s, n, d) => `${s}スコアが高い職業 TOP ${n}。${d.slice(0, 80)}…`,
   relatedHeading: '他の能力',
 });

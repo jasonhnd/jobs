@@ -22,7 +22,7 @@
  *
  * Why this is non-trivial:
  *   `Number.prototype.toFixed` uses round-half-away-from-zero (e.g. 52.25 → "52.3"),
- *   which loses 1 ULP of accuracy across a 552-record dataset and breaks
+ *   which loses 1 ULP of accuracy across a 556-record dataset and breaks
  *   reproducibility. `Math.round(x * 10^n) / 10^n` has the same problem and
  *   adds float-multiply error on top. We need:
  *     - Round half to even ONLY for genuine halfway cases (so 52.25 → 52.2,

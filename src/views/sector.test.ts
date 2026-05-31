@@ -40,11 +40,11 @@ describe('sectorIndexView', () => {
     }
   });
 
-  test('occupation counts sum to roughly 552 (one occupation per sector ideal)', () => {
+  test('occupation counts sum to roughly 556 (one occupation per sector ideal)', () => {
     const view = sectorIndexView(graph);
     const total = view.sectors.reduce((s, e) => s + e.occupationCount, 0);
     // Allow small overlap if any occupation appears in multiple sectors,
-    // and slack for the data-set's 552 published occupations.
+    // and slack for the data-set's 556 published occupations.
     assert.ok(total >= 500 && total <= 600, `total occupation coverage = ${total}, expected 500-600`);
   });
 

@@ -3,11 +3,11 @@
  *
  * Status: Implemented (2026-05-18, Agent E)
  * Consumer: /ja/me page — given a job ID, shows its position in all 39
- *           rankings (rank within TOP-N + rank within full 552).
+ *           rankings (rank within TOP-N + rank within full 556).
  *
  * Shape: { meta: {...}, positions: { [jobId]: JobPositions } }
  *
- * For each of the 552 occupations and each of the 39 rankings, we compute:
+ * For each of the 556 occupations and each of the 39 rankings, we compute:
  *   - `rank`           : 1-based position within the ranking's TOP-N items, OR
  *                        null when the occupation isn't in the TOP-N (圏外).
  *   - `total`          : the TOP-N count actually published (usually 30 but some
@@ -17,9 +17,9 @@
  *                        fails the ranking's filter entirely (e.g. has no
  *                        salary data, or doesn't match the sector filter).
  *   - `universeSize`   : the size of the per-slug filtered universe — equals
- *                        552 when the ranking has no filter, smaller (e.g. ~80)
+ *                        556 when the ranking has no filter, smaller (e.g. ~80)
  *                        for filtered rankings like `regulated-protected`.
- *                        Renders truthfully as "対象 N 中 K 位" vs "全 552 中…".
+ *                        Renders truthfully as "対象 N 中 K 位" vs "全 556 中…".
  *   - `percentile`     : (outOfUniverse / universeSize) * 100, rounded to 1
  *                        decimal — handy for the "あなたは上位 X%" copy.
  *
@@ -54,9 +54,9 @@ export interface JobRankingPosition {
   /** 1-based rank within the full filtered universe for this ranking.
    *  null when the job fails the filter entirely. */
   outOfUniverse: number | null;
-  /** Size of the per-slug filtered universe — equals 552 for unfiltered
+  /** Size of the per-slug filtered universe — equals 556 for unfiltered
    *  rankings, smaller for filtered ones. Use to disambiguate the rendered
-   *  label between "全 552 中…" and "対象 N 中…". */
+   *  label between "全 556 中…" and "対象 N 中…". */
   universeSize: number;
   /** percentile = (outOfUniverse / universeSize) * 100, 1-decimal,
    *  null when outOfUniverse is null. */
@@ -88,7 +88,7 @@ export interface MePositionsBuildResult {
 // Per-ranking "ranker" — produces the FULL sorted+filtered universe.
 // `items` is sliced to TOP-N before consumption; .indexOf() against the
 // full universe gives outOfUniverse directly. The full universe size
-// varies per slug — 552 for unfiltered rankings, smaller for filtered.
+// varies per slug — 556 for unfiltered rankings, smaller for filtered.
 //
 // Mirrors src/views/ranking/rankings/*.ts. Keep in lockstep.
 // ───────────────────────────────────────────────────────────────────
@@ -410,12 +410,12 @@ const RANKERS: Record<RankingSlug, Ranker> = {
       ),
 };
 
-const UNIVERSE_SIZE = 552;
+const UNIVERSE_SIZE = 556;
 
 /**
  * Build me-positions.json — runs loadGraph + buildRankings exactly once,
  * then walks every (jobId × slug) pair to assemble per-job position
- * records. Writes a single JSON file. ~150 KB unminified at 552 × 39
+ * records. Writes a single JSON file. ~150 KB unminified at 556 × 39
  * positions; ~25 KB gzipped (numeric-heavy, repeats well).
  */
 export async function buildMePositions(
@@ -460,7 +460,7 @@ export async function buildMePositions(
       const fullIdx = full.indexOf(jobId);
       const outOfUniverse = fullIdx === -1 ? null : fullIdx + 1;
       // Percentile is computed against the per-slug FILTERED universe size,
-      // not the global 552 — otherwise filtered rankings (e.g.
+      // not the global 556 — otherwise filtered rankings (e.g.
       // regulated-protected with ~80 jobs) would report a misleadingly
       // optimistic "top X%". See C1 fix.
       const percentile =

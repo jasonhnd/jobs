@@ -10,7 +10,7 @@
           "logo": "https://mirai-shigoto.com/api/og?page=home",
           "email": "info@mirai-shigoto.com",
           "foundingDate": "2026",
-          "description": "厚生労働省 jobtag・JILPT 等の公開データをもとに、日本 552 職種への AI 影響を 0〜10 で可視化する独自分析プロジェクト。",
+          "description": "厚生労働省 jobtag・JILPT 等の公開データをもとに、日本 556 職種への AI 影響を 0〜10 で可視化する独自分析プロジェクト。",
           "knowsAbout": [
             "Japanese labor market",
             "AI automation impact",
@@ -26,7 +26,7 @@
           "url": "https://mirai-shigoto.com/",
           "name": "日本の職業 AI 影響マップ",
           "alternateName": "Japan Jobs × AI Impact Map",
-          "description": "厚生労働省 job tag 等の公開データをもとに、日本 552 職種への AI 影響を可視化した独自分析サイト（非公式）。",
+          "description": "厚生労働省 job tag 等の公開データをもとに、日本 556 職種への AI 影響を可視化した独自分析サイト（非公式）。",
           "inLanguage": ["ja"],
           "creator": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -50,9 +50,9 @@
         {
           "@type": "Dataset",
           "@id": "https://mirai-shigoto.com/#dataset",
-          "name": "Japan 552 Occupations × AI Impact (mirai-shigoto.com)",
-          "alternateName": "日本 552 職種の AI 影響マップ",
-          "description": "552 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.8. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Site UI is Japanese-only. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
+          "name": "Japan 556 Occupations × AI Impact (mirai-shigoto.com)",
+          "alternateName": "日本 556 職種の AI 影響マップ",
+          "description": "556 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.8. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Site UI is Japanese-only. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
           "url": "https://mirai-shigoto.com/",
           "creator": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -64,7 +64,7 @@
           "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
           "spatialCoverage": { "@type": "Place", "name": "Japan" },
           "temporalCoverage": "2025/2026",
-          "measurementTechnique": "Scored with the AIOIS-10 standard (10 dimensions). Each of 552 occupations evaluated independently by Claude Opus 4.8.",
+          "measurementTechnique": "Scored with the AIOIS-10 standard (10 dimensions). Each of 556 occupations evaluated independently by Claude Opus 4.8.",
           "citation": [
             "厚生労働省 職業情報提供サイト（jobtag）— https://shigoto.mhlw.go.jp/User/",
             "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/"
@@ -96,7 +96,7 @@
         {
           "@type": "ItemList",
           "@id": "https://mirai-shigoto.com/#top-findings",
-          "name": "Notable findings — Japan 552 Occupations × AI Impact",
+          "name": "Notable findings — Japan 556 Occupations × AI Impact",
           "description": "Sample observations from the dataset. These are independent LLM estimates, not official forecasts.",
           "itemListOrder": "https://schema.org/ItemListUnordered",
           "numberOfItems": 5,
@@ -143,7 +143,7 @@
               "name": "mirai-shigoto.com とは？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "厚生労働省 jobtag の日本 552 職業を、Claude Opus 4.8 による AI 影響度スコア（0〜10）で可視化した独自分析サイト（非公式）。MIT ライセンス。厚生労働省（MHLW）・職業情報提供サイト（jobtag）・独立行政法人 労働政策研究・研修機構（JILPT）の運営ではありません。"
+                "text": "厚生労働省 jobtag の日本 556 職業を、Claude Opus 4.8 による AI 影響度スコア（0〜10）で可視化した独自分析サイト（非公式）。MIT ライセンス。厚生労働省（MHLW）・職業情報提供サイト（jobtag）・独立行政法人 労働政策研究・研修機構（JILPT）の運営ではありません。"
               }
             },
             {
@@ -151,7 +151,7 @@
               "name": "AI 影響スコアの算出方法は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Claude Opus 4.8 が AIOIS-10（10 項目）で全 552 職業を独立に評価。各仕事を 10 の観点で見て、変化の大きさ（AI 影響）を 0〜10 で算出します。"
+                "text": "Claude Opus 4.8 が AIOIS-10（10 項目）で全 556 職業を独立に評価。各仕事を 10 の観点で見て、変化の大きさ（AI 影響）を 0〜10 で算出します。"
               }
             },
             {
@@ -207,7 +207,7 @@
               "name": "データはダウンロードできますか？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "はい。全 552 職業のコンパクト JSON（treemap 形式）は https://mirai-shigoto.com/data.treemap.json（〜80 KB gzip）。職業別の詳細レコードは https://mirai-shigoto.com/data.detail/<id>.json。MIT ライセンス、原典 IPD データは © JILPT、TOS 第 9 条に従い利用。"
+                "text": "はい。全 556 職業のコンパクト JSON（treemap 形式）は https://mirai-shigoto.com/data.treemap.json（〜80 KB gzip）。職業別の詳細レコードは https://mirai-shigoto.com/data.detail/<id>.json。MIT ライセンス、原典 IPD データは © JILPT、TOS 第 9 条に従い利用。"
               }
             },
             {

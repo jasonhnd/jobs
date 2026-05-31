@@ -6,7 +6,7 @@
  *   - buildInterests() returns Map<InterestType, InterestResult> + hub overview
  *
  * data.holland.json (482 records, columnar [id, name_ja, R, I, A, S, E, C])
- * data.treemap.json  (552 records, full per-occ stats)
+ * data.treemap.json  (556 records, full per-occ stats)
  *
  * Astro frontmatter で同期的に動かす想定 (readFileSync at module-load)。
  *

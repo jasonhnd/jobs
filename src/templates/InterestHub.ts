@@ -208,7 +208,7 @@ export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>):
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/ja/interests`;
   const seoDesc =
-    '日本の 552 職業を RIASEC 興味タイプ 6 分類で整理。' +
+    '日本の 556 職業を RIASEC 興味タイプ 6 分類で整理。' +
     '現実的・研究的・芸術的・社会的・企業的・慣習的の各タイプにおすすめの職業を一覧。';
   return JSON.stringify(
     {
