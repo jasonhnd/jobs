@@ -48,7 +48,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
 
     /* AI risk detail (rendered if rationale_long_ja data exists; usually empty for now) */
     .ai-risk-detail{background:var(--paper);border:1px solid var(--line-strong);border-radius:14px;padding:20px 22px;margin:14px 0 22px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
-    @media (min-width:900px){.ai-risk-detail{max-width:820px;margin-left:auto;margin-right:auto;padding:28px 32px}}
+    @media (min-width:900px){.ai-risk-detail{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
     .ai-risk-detail h2{font-family:var(--font-serif);font-size:1.1rem;color:var(--orange-hot);margin:0 0 12px;font-weight:700}
     @media (min-width:900px){.ai-risk-detail h2{font-size:1.4rem;margin:0 0 16px}}
     .ai-risk-detail .ai-rationale-long{font-family:var(--font-serif);font-size:0.92rem;line-height:1.85;color:var(--ink-2);margin:0 0 18px}
@@ -80,7 +80,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
 
     /* Editorial sections — context / how-to-become / working-conditions — wrap in sec-card narrow */
     section.context,section.how-to-become,section.working-conditions{background:var(--paper);padding:18px 20px;border-radius:14px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
-    @media (min-width:900px){section.context,section.how-to-become,section.working-conditions{max-width:820px;margin-left:auto;margin-right:auto;padding:28px 32px}}
+    @media (min-width:900px){section.context,section.how-to-become,section.working-conditions{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
     section.context > h2,section.how-to-become > h2,section.working-conditions > h2{padding:0;margin:0 0 12px}
     section.context p,section.how-to-become p,section.working-conditions p{font-family:var(--font-serif);font-size:0.92rem;line-height:1.85;color:var(--ink-2);margin:0 0 12px}
     section.context p:last-child,section.how-to-become p:last-child,section.working-conditions p:last-child{margin-bottom:0}
@@ -97,7 +97,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     /* Profile / radar */
     section.profile{margin-top:26px}
     .radar-wrap{display:flex;flex-direction:column;align-items:center;padding:18px 16px;background:var(--paper);border:1px solid rgba(0,0,0,0.04);border-radius:14px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04);gap:14px}
-    @media (min-width:900px){.radar-wrap{flex-direction:row;align-items:center;gap:40px;padding:28px 32px;max-width:820px;margin-left:auto;margin-right:auto}}
+    @media (min-width:900px){.radar-wrap{flex-direction:row;align-items:center;gap:40px;padding:28px 32px;max-width:var(--content-max);margin-left:auto;margin-right:auto}}
     .radar-svg{width:280px;height:280px;flex-shrink:0;max-width:100%}
     @media (min-width:900px){.radar-svg{width:340px;height:340px}}
     dl.radar-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:0;width:100%;text-align:center;padding:0;background:none;border:none}
@@ -138,7 +138,7 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
 
     /* FAQ — uses native <details> with restyled summary */
     section.faq{margin-top:26px}
-    .faq-list{display:flex;flex-direction:column;gap:8px;max-width:820px;margin-left:0;margin-right:0}
+    .faq-list{display:flex;flex-direction:column;gap:8px;max-width:var(--content-max);margin-left:0;margin-right:0}
     @media (min-width:900px){.faq-list{margin-left:auto;margin-right:auto}}
     .faq-item{background:var(--paper);border:1px solid rgba(0,0,0,0.04);border-radius:12px;box-shadow:0 1px 0 rgba(0,0,0,0.03);overflow:hidden;transition:border-color 150ms ease}
     .faq-item[open]{border-color:rgba(217,107,61,0.30)}
