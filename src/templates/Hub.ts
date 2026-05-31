@@ -353,9 +353,9 @@ const HUB_PAGE_SPECIFIC_CSS = `
 .rank-list .rl-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center;white-space:nowrap}
 .genre-score{font-family:ui-monospace,monospace;font-size:.78rem;color:var(--accent-deep);font-variant-numeric:tabular-nums;font-weight:600}
 .risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
-.risk-pill.low{background:#E0EAE2;color:#48705F}
-.risk-pill.mid{background:#F4E5C7;color:#8A6A2A}
-.risk-pill.high{background:#F5D5C7;color:#A24A28}
+.risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
 .rl-salary,.rl-workers{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
 .highlights{margin:24px 0}
 .highlights ul{list-style:none;display:flex;flex-direction:column;gap:8px;padding:0}
