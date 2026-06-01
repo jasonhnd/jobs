@@ -211,6 +211,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .chart-fallback {
+  display: none;
   margin: 12px 0 0;
   padding-left: 18px;
   color: var(--fg2);
@@ -302,7 +303,7 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .stack-label {
-  fill: #fff;
+  fill: var(--fg);
   font-size: 11px;
   font-weight: 700;
   pointer-events: none;
@@ -597,9 +598,60 @@ export const AI_ADOPTION_CSS = `
   }
 }
 
+@media (max-width: 700px) {
+  .ai-adoption-page .source-table-wrap {
+    overflow-x: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  .ai-adoption-page .source-table {
+    min-width: 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+
+  .ai-adoption-page .source-table thead {
+    display: none;
+  }
+
+  .ai-adoption-page .source-table tbody,
+  .ai-adoption-page .source-table tr,
+  .ai-adoption-page .source-table td {
+    display: block;
+  }
+
+  .ai-adoption-page .source-table tr {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .ai-adoption-page .source-table td {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 0;
+    font-size: 0.8rem;
+  }
+
+  .ai-adoption-page .source-table td::before {
+    content: attr(data-label);
+    color: var(--fg2);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .ai-adoption-page .source-table td.num {
+    white-space: normal;
+  }
+}
+
 @media (max-width: 560px) {
   .ai-adoption-page {
-    padding: 20px 14px 64px;
+    padding: 18px 14px 64px;
   }
 
   .ai-adoption-page h1.adoption-title {
@@ -607,13 +659,22 @@ export const AI_ADOPTION_CSS = `
   }
 
   .ai-adoption-page .summary-grid,
-  .ai-adoption-page .impact-row,
   .ai-adoption-page .formula-grid {
     grid-template-columns: 1fr;
   }
 
+  .ai-adoption-page .summary-grid {
+    gap: 8px;
+  }
+
+  .ai-adoption-page .impact-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
   .ai-adoption-page .metric-card {
     min-height: 104px;
+    padding: 14px;
   }
 
   .ai-adoption-page .metric-value,
@@ -621,8 +682,27 @@ export const AI_ADOPTION_CSS = `
     font-size: 1.45rem;
   }
 
+  .ai-adoption-page .impact-row > div {
+    min-height: 82px;
+    padding: 12px;
+  }
+
   .ai-adoption-page .impact-number {
-    font-size: 2.25rem;
+    font-size: 2.05rem;
+  }
+
+  .ai-adoption-page .impact-row p {
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  .ai-adoption-page .panel-head {
+    align-items: flex-start;
+  }
+
+  .ai-adoption-page .panel-head h2,
+  .ai-adoption-page .wide-panel h2 {
+    font-size: 0.96rem !important;
   }
 
   .ai-adoption-page .chart-stage {

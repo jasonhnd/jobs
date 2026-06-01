@@ -293,16 +293,16 @@ const jsonLd = JSON.stringify({
           <tbody>
             {dashboard.sources.map((source) => (
               <tr>
-                <td>{metricLabel(source.metric)}</td>
-                <td>{entityLabel(source.entity)}</td>
-                <td class="num">{compact(source.value)} {unitLabel(source.unit)}</td>
-                <td class="num">{compact(source.derived_value)}</td>
-                <td>{source.period}</td>
-                <td class="num">{source.published_at}</td>
-                <td><span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span></td>
-                <td>{confidenceLabel(source.confidence)}</td>
-                <td>{usedByLabel(source.used_by)}</td>
-                <td><a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label}</a></td>
+                <td data-label="数字の種類">{metricLabel(source.metric)}</td>
+                <td data-label="対象">{entityLabel(source.entity)}</td>
+                <td data-label="値" class="num">{compact(source.value)} {unitLabel(source.unit)}</td>
+                <td data-label="人数に直した値" class="num">{compact(source.derived_value)}</td>
+                <td data-label="期間">{source.period}</td>
+                <td data-label="公開日" class="num">{source.published_at}</td>
+                <td data-label="新しさ"><span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span></td>
+                <td data-label="信頼度">{confidenceLabel(source.confidence)}</td>
+                <td data-label="使う先">{usedByLabel(source.used_by)}</td>
+                <td data-label="出所"><a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label}</a></td>
               </tr>
             ))}
           </tbody>
@@ -398,6 +398,21 @@ const jsonLd = JSON.stringify({
         return '#A24A28';
       }
 
+      function entityLabel(entity: string): string {
+        if (entity === 'World') return '世界';
+        if (entity === 'Other developer AI tools') return 'その他の開発者向けAI';
+        if (entity === 'OpenAI consumer products') return 'OpenAI 個人向け';
+        if (entity === 'Anthropic consumer products') return 'Anthropic 個人向け';
+        if (entity === 'Perplexity consumer products') return 'Perplexity 個人向け';
+        if (entity === 'Other consumer AI products') return 'その他の個人向けAI';
+        if (entity === 'Regional AI apps') return '各地域のAIアプリ';
+        if (entity === 'Apple Intelligence eligible devices') return 'Apple Intelligence 対応端末';
+        if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応PC';
+        if (entity === 'Android Gemini eligible devices') return 'Android Gemini 対応端末';
+        if (entity === 'Regional OS-level AI devices') return '各地域の端末AI';
+        return entity;
+      }
+
       interface WaffleUnit {
         index: number;
         layer: LayerRow;
@@ -458,7 +473,7 @@ const jsonLd = JSON.stringify({
             item.rel = 'noopener noreferrer';
             item.className = 'source-mini';
             const name = document.createElement('strong');
-            name.textContent = source.entity;
+            name.textContent = entityLabel(source.entity);
             const meta = document.createElement('span');
             meta.textContent = `${fmt(source.derived_value)} / ${source.published_at}`;
             item.append(name, meta);

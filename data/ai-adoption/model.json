@@ -27,7 +27,7 @@
       "formula_ja": "N_free = sum(MAU_i * unique user factor_i) - upper-layer overlap",
       "rationale_ja": "Free users are estimated from traffic and app usage proxies.",
       "risk_ja": "Visits are not users, and multi-homing can inflate the estimate.",
-      "color": "#5B83B7"
+      "color": "#6E9B89"
     },
     {
       "id": "N_passive",
@@ -36,7 +36,7 @@
       "formula_ja": "N_passive = eligible devices * availability * activation - explicit overlap",
       "rationale_ja": "OS-level AI creates passive exposure outside standalone AI apps.",
       "risk_ja": "Eligible devices do not guarantee actual use.",
-      "color": "#8B5FB0"
+      "color": "#D9A03B"
     },
     {
       "id": "N_unreached",
