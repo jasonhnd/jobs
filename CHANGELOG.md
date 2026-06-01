@@ -20,6 +20,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   data file add one URL, one sitemap entry, and one public `data.*` artifact.
 - Revised the preview page copy to easier public Japanese and replaced the
   first chart with a D3 100-person dot grid plus stacked 5-group breakdown.
+- Locked the dashboard UI direction with mobile-first refinements and aligned
+  the chart palette to the main site color tokens.
+- Refreshed the SEO baseline after the rebuilt preview updated generated
+  JSON-LD metadata.
 - Kept the implementation isolated to new page/data files; existing CSS files,
   top navigation, and footer styling were not changed.
 
