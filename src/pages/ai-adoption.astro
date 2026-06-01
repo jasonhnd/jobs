@@ -481,7 +481,30 @@ const jsonLd = JSON.stringify({
           });
           sources.replaceChildren(...rows);
         }
-        renderLayerChart();
+        updateLayerSelection();
+      }
+
+      function updateLayerSelection(): void {
+        const stageSelector = '#aiAdoptionLayerChart';
+        d3.selectAll<SVGCircleElement, WaffleUnit>(`${stageSelector} .waffle-dot`)
+          .classed('is-selected', (d) => d.layer.id === selected.id)
+          .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
+          .transition()
+          .duration(220)
+          .ease(d3.easeCubicOut)
+          .attr('r', function (this: SVGCircleElement, d) {
+            const baseRadius = Number(this.dataset.baseRadius);
+            const selectedRadius = Number(this.dataset.selectedRadius);
+            return d.layer.id === selected.id ? selectedRadius : baseRadius;
+          });
+
+        d3.selectAll<SVGGElement, { layer: LayerRow }>(`${stageSelector} .stack-segment`)
+          .classed('is-selected', (d) => d.layer.id === selected.id)
+          .attr('aria-pressed', (d) => String(d.layer.id === selected.id));
+
+        d3.selectAll<SVGGElement, LayerRow>(`${stageSelector} .layer-tile`)
+          .classed('is-selected', (d) => d.id === selected.id)
+          .attr('aria-pressed', (d) => String(d.id === selected.id));
       }
 
       function renderLayerChart(): void {
@@ -493,14 +516,16 @@ const jsonLd = JSON.stringify({
         const small = width < 620;
         const columns = small ? 10 : 20;
         const units = makeWaffleUnits(layers);
-        const cell = Math.min(small ? 26 : 28, Math.max(18, (width - 42) / columns));
+        const cell = Math.min(small ? 30 : 32, Math.max(22, (width - 34) / columns));
+        const baseDotRadius = cell * 0.39;
+        const selectedDotRadius = cell * 0.48;
         const rowsCount = Math.ceil(units.length / columns);
         const gridW = columns * cell;
         const gridH = rowsCount * cell;
         const gridX = (width - gridW) / 2;
-        const gridY = 12;
+        const gridY = 16;
         const barX = 20;
-        const barY = gridY + gridH + 34;
+        const barY = gridY + gridH + 40;
         const barW = width - 40;
         const barH = 34;
         const tileGap = 8;
@@ -535,12 +560,16 @@ const jsonLd = JSON.stringify({
           .data(units)
           .join('circle')
           .attr('class', (d) => `waffle-dot${d.layer.id === selected.id ? ' is-selected' : ''}`)
+          .attr('data-layer-id', (d) => d.layer.id)
+          .attr('data-base-radius', String(baseDotRadius))
+          .attr('data-selected-radius', String(selectedDotRadius))
           .attr('cx', (d) => (d.index % columns) * cell + cell / 2)
           .attr('cy', (d) => Math.floor(d.index / columns) * cell + cell / 2)
-          .attr('r', cell * 0.36)
+          .attr('r', (d) => d.layer.id === selected.id ? selectedDotRadius : baseDotRadius)
           .attr('fill', (d) => d.layer.color)
           .attr('tabindex', 0)
           .attr('role', 'button')
+          .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
           .attr('aria-label', (d) => `${d.layer.label_ja}: ${fmt(d.layer.value)}`)
           .on('click', (_event, d) => selectLayer(d.layer.id))
           .on('keydown', (event, d) => {
@@ -573,6 +602,7 @@ const jsonLd = JSON.stringify({
           .attr('transform', (d) => `translate(${d.start},0)`)
           .attr('tabindex', 0)
           .attr('role', 'button')
+          .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
           .attr('aria-label', (d) => `${d.layer.label_ja}: ${pct(d.layer.share_of_total)}`)
           .on('click', (_event, d) => selectLayer(d.layer.id))
           .on('keydown', (event, d) => {
@@ -623,6 +653,7 @@ const jsonLd = JSON.stringify({
           })
           .attr('tabindex', 0)
           .attr('role', 'button')
+          .attr('aria-pressed', (d) => String(d.id === selected.id))
           .attr('aria-label', (d) => `${d.label_ja}: ${fmt(d.value)}`)
           .on('click', (_event, d) => selectLayer(d.id))
           .on('keydown', (event, d) => {

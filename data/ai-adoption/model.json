@@ -9,7 +9,7 @@
       "formula_ja": "N_dev = sum(developer AI tool users) * (1 - developer tool overlap)",
       "rationale_ja": "Developer workflow usage is the strongest adoption signal and is removed first.",
       "risk_ja": "Work accounts, personal accounts, and multi-tool usage can overlap.",
-      "color": "#48705F"
+      "color": "#0F8A66"
     },
     {
       "id": "N_pro",
@@ -27,7 +27,7 @@
       "formula_ja": "N_free = sum(MAU_i * unique user factor_i) - upper-layer overlap",
       "rationale_ja": "Free users are estimated from traffic and app usage proxies.",
       "risk_ja": "Visits are not users, and multi-homing can inflate the estimate.",
-      "color": "#6E9B89"
+      "color": "#5BA84F"
     },
     {
       "id": "N_passive",
@@ -45,7 +45,7 @@
       "formula_ja": "N_unreached = N_total - N_dev - N_pro - N_free - N_passive",
       "rationale_ja": "Unreached users are the residual after exclusive assignment.",
       "risk_ja": "All upstream estimation errors flow into this residual.",
-      "color": "#A39785"
+      "color": "#7A6F5E"
     }
   ]
 }

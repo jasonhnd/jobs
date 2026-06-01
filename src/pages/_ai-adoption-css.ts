@@ -259,20 +259,26 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .waffle-dot {
   cursor: pointer;
   stroke: var(--bg2);
-  stroke-width: 1.5;
-  transition: opacity 140ms ease, stroke-width 140ms ease;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transition:
+    opacity 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .ai-adoption-page .waffle-dot:not(.is-selected) {
-  opacity: 0.78;
+  opacity: 0.68;
 }
 
 .ai-adoption-page .waffle-dot:hover,
-.ai-adoption-page .waffle-dot:focus,
+.ai-adoption-page .waffle-dot:focus-visible,
 .ai-adoption-page .waffle-dot.is-selected {
   opacity: 1;
   stroke: var(--fg);
-  stroke-width: 2.4;
+  stroke-width: 3.2;
+  filter: drop-shadow(0 2px 4px rgba(36, 30, 24, 0.26));
   outline: none;
 }
 
@@ -286,19 +292,23 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .stack-segment rect {
-  transition: opacity 140ms ease, stroke-width 140ms ease;
+  transition:
+    opacity 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .ai-adoption-page .stack-segment:not(.is-selected) rect {
-  opacity: 0.86;
+  opacity: 0.78;
 }
 
 .ai-adoption-page .stack-segment:hover rect,
-.ai-adoption-page .stack-segment:focus rect,
+.ai-adoption-page .stack-segment:focus-visible rect,
 .ai-adoption-page .stack-segment.is-selected rect {
   opacity: 1;
   stroke: var(--fg);
-  stroke-width: 1.8;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 2px 5px rgba(36, 30, 24, 0.22));
   outline: none;
 }
 
@@ -328,13 +338,20 @@ export const AI_ADOPTION_CSS = `
 .ai-adoption-page .layer-tile-bg {
   fill: var(--bg);
   stroke: var(--border);
+  transition:
+    fill 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    stroke-width 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    filter 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .ai-adoption-page .layer-tile:hover .layer-tile-bg,
-.ai-adoption-page .layer-tile:focus .layer-tile-bg,
+.ai-adoption-page .layer-tile:focus-visible .layer-tile-bg,
 .ai-adoption-page .layer-tile.is-selected .layer-tile-bg {
+  fill: var(--bg3);
   stroke: var(--fg);
-  stroke-width: 1.6;
+  stroke-width: 2;
+  filter: drop-shadow(0 2px 6px rgba(36, 30, 24, 0.16));
   outline: none;
 }
 
