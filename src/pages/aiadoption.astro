@@ -150,30 +150,8 @@ const formulaTextByLayer: Record<string, string> = {
   N_unreached: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
 };
 
-const formulaMeaningByLayer: Record<string, string> = {
-  N_dev: '仕事の中で AI を深く使う人を先に数える。ここを先に分けると、あとで有料サービスや無料サービスと二重に数えにくくなる。',
-  N_pro: '会社が有料ユーザー数を出していない場合、年間売上を 1 人あたりの年間料金で割り、人数の目安に直す。',
-  N_free: '無料利用は売上に出にくいので、Web やアプリの月間利用者を使う。同じ人が複数サービスを使う分は引く。',
-  N_passive: 'アプリを自分で開かなくても、OS や端末に入った AI にふれる人を見る。対応端末すべてを利用者とは見なさない。',
-  N_unreached: '上の 4 つに入らなかった人を、まだ AI にふれていない人として残す。これは直接観測ではなく差し引きの数字。',
-};
-
-const formulaInputsByLayer: Record<string, string> = {
-  N_dev: 'GitHub Copilot、Cursor、その他の開発者向け AI ツール',
-  N_pro: 'OpenAI、Anthropic、Perplexity などの ARR と ARPU',
-  N_free: 'ChatGPT、Gemini、Claude などの MAU やアプリ利用',
-  N_passive: 'Apple Intelligence、Windows Copilot、Android Gemini などの対応端末',
-  N_unreached: '世界のインターネット利用者数と、上の 4 グループの合計',
-};
-
 const formulaText = (id: string | undefined, fallback: string | undefined): string =>
   id != null ? (formulaTextByLayer[id] ?? fallback ?? '') : (fallback ?? '');
-
-const formulaMeaning = (id: string): string =>
-  formulaMeaningByLayer[id] ?? '';
-
-const formulaInputs = (id: string): string =>
-  formulaInputsByLayer[id] ?? '';
 
 const formulaTerms = [
   ['N_total', '割合を出すときの母数。このページでは世界のインターネット利用者数を使う。'],
@@ -413,7 +391,7 @@ const jsonLd = JSON.stringify({
     <section class="wide-panel formula-panel" aria-labelledby="formulaHeading">
       <div class="panel-head">
         <h2 id="formulaHeading">公開している計算式</h2>
-        <p class="panel-sub">名詞の意味と計算の理由</p>
+        <p class="panel-sub">5 グループの式</p>
       </div>
       <p class="method-note">このページの式は、同じ人を二度数えないために上から順に引いていく形です。まず仕事で深く使う人を分け、その後に有料、無料、端末 AI、未利用の順に見ます。</p>
       <div class="formula-primer" aria-label="式で使う言葉">
@@ -431,12 +409,7 @@ const jsonLd = JSON.stringify({
         {dashboard.layers.map((layer) => (
           <div class="formula-card">
             <h3>{layer.label_ja}</h3>
-            <p class="formula-label">式</p>
             <code class="formula-code">{formulaText(layer.id, layer.formula_ja)}</code>
-            <p class="formula-label">意味</p>
-            <p>{formulaMeaning(layer.id)}</p>
-            <p class="formula-label">主に使うデータ</p>
-            <p>{formulaInputs(layer.id)}</p>
           </div>
         ))}
       </div>
