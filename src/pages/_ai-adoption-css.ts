@@ -537,6 +537,10 @@ export const AI_ADOPTION_CSS = `
   color: var(--risk-pill-high-fg);
 }
 
+.ai-adoption-page .status-chip[hidden] {
+  display: none;
+}
+
 .ai-adoption-page .wide-panel {
   margin: 18px 0;
   padding: 16px;

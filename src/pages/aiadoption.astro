@@ -320,7 +320,7 @@ const jsonLd = JSON.stringify({
       <aside class="explain-panel" aria-live="polite">
         <div class="panel-head">
           <h2>グループの説明</h2>
-          <span id="aiLayerStatus" class="status-chip status-fresh">新しい</span>
+          <span id="aiLayerStatus" class="status-chip status-fresh" hidden>新しい</span>
         </div>
         <h3 id="aiLayerTitle" class="explain-title">{dashboard.layers[2]?.label_ja}</h3>
         <div class="explain-value">
@@ -438,7 +438,9 @@ const jsonLd = JSON.stringify({
                       <p class="source-kind">{metricLabel(source.metric)}</p>
                       <h4>{entityLabel(source.entity)}</h4>
                     </div>
-                    <span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span>
+                    {source.freshness_status !== 'fresh' && (
+                      <span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span>
+                    )}
                   </div>
                   <div class="source-metrics">
                     <div>
@@ -636,6 +638,7 @@ const jsonLd = JSON.stringify({
         if (status) {
           status.className = `status-chip status-${layer.freshness_status}`;
           status.textContent = statusLabel(layer.freshness_status);
+          status.hidden = layer.freshness_status === 'fresh';
         }
         if (sources) {
           const rows = layer.inputs.slice(0, 5).map((source) => {
