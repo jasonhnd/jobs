@@ -7,32 +7,32 @@
     "dev_multi_tool_overlap": {
       "value": 0.1,
       "label_ja": "開発者ツールの重なり",
-      "rationale_ja": "1人の開発者が複数のAIコーディングツールを使うことがある。"
+      "rationale_ja": "1 人の開発者が複数の AI コーディングツールを使うことがある。"
     },
     "paid_multi_platform_overlap": {
       "value": 0.15,
-      "label_ja": "有料AI契約の重なり",
-      "rationale_ja": "1人の有料ユーザーが複数のAI製品を契約することがある。"
+      "label_ja": "有料 AI 契約の重なり",
+      "rationale_ja": "1 人の有料ユーザーが複数の AI 製品を契約することがある。"
     },
     "paid_dev_overlap_rate": {
       "value": 0.18,
       "label_ja": "有料と開発者の重なり",
-      "rationale_ja": "開発者は有料AIの契約者でもあることが多い。"
+      "rationale_ja": "開発者は有料 AI の契約者でもあることが多い。"
     },
     "free_upper_layer_overlap_rate": {
       "value": 0.38,
       "label_ja": "無料と上位層の重なり",
-      "rationale_ja": "有料ユーザーや開発者も、無料のAIにふれることがある。"
+      "rationale_ja": "有料ユーザーや開発者も、無料の AI にふれることがある。"
     },
     "passive_explicit_overlap_rate": {
       "value": 0.22,
-      "label_ja": "端末AIと自分で使う人の重なり",
-      "rationale_ja": "端末のAIにふれる人の一部は、すでに自分でAIを使っている。"
+      "label_ja": "端末 AI と自分で使う人の重なり",
+      "rationale_ja": "端末の AI にふれる人の一部は、すでに自分で AI を使っている。"
     },
     "paid_consumer_arpu_annual_usd": {
       "value": 240,
-      "label_ja": "有料ユーザー1人あたりの年間ARPU",
-      "rationale_ja": "月20ドルの個人向け契約をならした、代表的な年間ARPU。"
+      "label_ja": "有料ユーザー 1 人あたりの年間 ARPU",
+      "rationale_ja": "月 20 ドルの個人向け契約をならした、代表的な年間 ARPU。"
     }
   }
 }

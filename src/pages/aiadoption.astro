@@ -106,26 +106,26 @@ const statusLabel = (status: string): string => {
   return '古い';
 };
 const metricLabel = (metric: string): string => {
-  if (metric === 'global_internet_users') return 'ネット利用者';
+  if (metric === 'global_internet_users') return 'インターネット利用者';
   if (metric === 'global_population') return '世界人口';
-  if (metric === 'developer_active_users') return '開発者向けAI';
+  if (metric === 'developer_active_users') return '開発者向け AI';
   if (metric === 'vendor_arr_usd') return '有料サービス売上';
   if (metric === 'platform_mau_proxy') return '月間利用者';
-  if (metric === 'passive_eligible_devices') return 'AI対応端末';
+  if (metric === 'passive_eligible_devices') return 'AI 対応端末';
   return metric;
 };
 const entityLabel = (entity: string): string => {
   if (entity === 'World') return '世界';
-  if (entity === 'Other developer AI tools') return 'その他の開発者向けAI';
+  if (entity === 'Other developer AI tools') return 'その他の開発者向け AI';
   if (entity === 'OpenAI consumer products') return 'OpenAI 個人向け';
   if (entity === 'Anthropic consumer products') return 'Anthropic 個人向け';
   if (entity === 'Perplexity consumer products') return 'Perplexity 個人向け';
-  if (entity === 'Other consumer AI products') return 'その他の個人向けAI';
-  if (entity === 'Regional AI apps') return '各地域のAIアプリ';
+  if (entity === 'Other consumer AI products') return 'その他の個人向け AI';
+  if (entity === 'Regional AI apps') return '各地域の AI アプリ';
   if (entity === 'Apple Intelligence eligible devices') return 'Apple Intelligence 対応端末';
-  if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応PC';
+  if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応 PC';
   if (entity === 'Android Gemini eligible devices') return 'Android Gemini 対応端末';
-  if (entity === 'Regional OS-level AI devices') return '各地域の端末AI';
+  if (entity === 'Regional OS-level AI devices') return '各地域の端末 AI';
   return entity;
 };
 const unitLabel = (unit: string): string => {
@@ -143,27 +143,27 @@ const usedByLabel = (ids: string[]): string =>
   ids.map((id) => layerNameById.get(id) ?? (id === 'N_total' ? '基準人数' : id)).join(', ');
 
 const formulaTextByLayer: Record<string, string> = {
-  N_dev: 'N_dev = 開発者向けAI利用者の合計 × (1 - 同じ人の重なり)',
-  N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1人あたり年間売上 ARPU) - 上の層との重なり',
-  N_free: 'N_free = Σ(月間利用者 MAU × 1人あたり補正) - 上の層との重なり',
-  N_passive: 'N_passive = AI対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
+  N_dev: 'N_dev = 開発者向け AI 利用者の合計 × (1 - 同じ人の重なり)',
+  N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1 人あたり年間売上 ARPU) - 上の層との重なり',
+  N_free: 'N_free = Σ(月間利用者 MAU × 1 人あたり補正) - 上の層との重なり',
+  N_passive: 'N_passive = AI 対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
   N_unreached: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
 };
 
 const formulaMeaningByLayer: Record<string, string> = {
-  N_dev: '仕事の中でAIを深く使う人を先に数えます。ここを先に分けると、あとで有料サービスや無料サービスと二重に数えにくくなります。',
-  N_pro: '会社が有料ユーザー数を出していない場合、年間売上を1人あたりの年間料金で割り、人数の目安に直します。',
-  N_free: '無料利用は売上に出にくいので、Webやアプリの月間利用者を使います。同じ人が複数サービスを使う分は引きます。',
-  N_passive: 'アプリを自分で開かなくても、OSや端末に入ったAIにふれる人を見ます。対応端末すべてを利用者とは見なしません。',
-  N_unreached: '上の4つに入らなかった人を、まだAIにふれていない人として残します。これは直接観測ではなく差し引きの数字です。',
+  N_dev: '仕事の中で AI を深く使う人を先に数える。ここを先に分けると、あとで有料サービスや無料サービスと二重に数えにくくなる。',
+  N_pro: '会社が有料ユーザー数を出していない場合、年間売上を 1 人あたりの年間料金で割り、人数の目安に直す。',
+  N_free: '無料利用は売上に出にくいので、Web やアプリの月間利用者を使う。同じ人が複数サービスを使う分は引く。',
+  N_passive: 'アプリを自分で開かなくても、OS や端末に入った AI にふれる人を見る。対応端末すべてを利用者とは見なさない。',
+  N_unreached: '上の 4 つに入らなかった人を、まだ AI にふれていない人として残す。これは直接観測ではなく差し引きの数字。',
 };
 
 const formulaInputsByLayer: Record<string, string> = {
-  N_dev: 'GitHub Copilot、Cursor、その他の開発者向けAIツール',
-  N_pro: 'OpenAI、Anthropic、PerplexityなどのARRとARPU',
-  N_free: 'ChatGPT、Gemini、ClaudeなどのMAUやアプリ利用',
-  N_passive: 'Apple Intelligence、Windows Copilot、Android Geminiなどの対応端末',
-  N_unreached: '世界のネット利用者数と、上の4グループの合計',
+  N_dev: 'GitHub Copilot、Cursor、その他の開発者向け AI ツール',
+  N_pro: 'OpenAI、Anthropic、Perplexity などの ARR と ARPU',
+  N_free: 'ChatGPT、Gemini、Claude などの MAU やアプリ利用',
+  N_passive: 'Apple Intelligence、Windows Copilot、Android Gemini などの対応端末',
+  N_unreached: '世界のインターネット利用者数と、上の 4 グループの合計',
 };
 
 const formulaText = (id: string | undefined, fallback: string | undefined): string =>
@@ -176,42 +176,42 @@ const formulaInputs = (id: string): string =>
   formulaInputsByLayer[id] ?? '';
 
 const formulaTerms = [
-  ['N_total', '割合を出すときの母数。このページでは世界のネット利用者数を使います。'],
-  ['ARR', '年間売上。ユーザー数が未公開の会社で、人数を推定するための代わりの数字です。'],
-  ['ARPU', '1人あたり年間売上。ARRを人数に直すときに使います。'],
-  ['MAU', '月間利用者数。無料利用者を推定するときの中心データです。'],
-  ['重なり', '同じ人が複数のAIサービスを使っている分です。ここを引かないと人数が多く見えます。'],
+  ['N_total', '割合を出すときの母数。このページでは世界のインターネット利用者数を使う。'],
+  ['ARR', '年間売上。ユーザー数が未公開の会社で、人数を推定するための代わりの数字。'],
+  ['ARPU', '1 人あたり年間売上。ARR を人数に直すときに使う。'],
+  ['MAU', '月間利用者数。無料利用者を推定するときの中心データ。'],
+  ['重なり', '同じ人が複数の AI サービスを使っている分。ここを引かないと人数が多く見える。'],
 ];
 
 const sourceGroupMeta = [
   {
     id: 'base',
     title: '母数',
-    note: '全体の分母になる数字です。',
+    note: '全体の分母になる数字。',
     metrics: ['global_internet_users', 'global_population'],
   },
   {
     id: 'developer',
     title: '仕事で深く使う人',
-    note: '開発者向けAIツールの利用者を見ます。',
+    note: '開発者向け AI ツールの利用者を見る。',
     metrics: ['developer_active_users'],
   },
   {
     id: 'paid',
     title: '有料で使う人',
-    note: 'ARRを使い、有料ユーザーの目安に直します。',
+    note: 'ARR を使い、有料ユーザーの目安に直す。',
     metrics: ['vendor_arr_usd'],
   },
   {
     id: 'free',
     title: '無料で使う人',
-    note: 'Webやアプリの月間利用を使います。',
+    note: 'Web やアプリの月間利用を使う。',
     metrics: ['platform_mau_proxy'],
   },
   {
     id: 'passive',
-    title: '端末でAIにふれる人',
-    note: 'OSや端末に入ったAIの対象端末を見ます。',
+    title: '端末で AI にふれる人',
+    note: 'OS や端末に入った AI の対象端末を見る。',
     metrics: ['passive_eligible_devices'],
   },
 ];
@@ -225,12 +225,12 @@ const sourceGroups = sourceGroupMeta
 
 const sourceReviewLabel = (source: SourceRow): string => {
   const remaining = source.stale_after_days - source.age_days;
-  if (remaining >= 0) return `${remaining}日後に再確認`;
-  return `${Math.abs(remaining)}日遅れ`;
+  if (remaining >= 0) return `${remaining} 日後に再確認`;
+  return `${Math.abs(remaining)} 日遅れ`;
 };
 
 const sourceAgeLabel = (source: SourceRow): string =>
-  `${source.age_days}日経過 / ${source.stale_after_days}日で見直し`;
+  `${source.age_days} 日経過 / ${source.stale_after_days} 日で見直し`;
 
 const topReviewSources = dashboard.sources
   .slice()
@@ -245,11 +245,11 @@ const touchedPeople = explicitPeople + layerValue('N_passive');
 const unreachedPeople = layerValue('N_unreached');
 
 const summaryCards = [
-  { label: 'AIにふれる人', value: touchedPeople, note: '自分で使う人と、端末のAIにふれる人を合わせた人数。' },
+  { label: 'AI にふれる人', value: touchedPeople, note: '自分で使う人と、端末の AI にふれる人を合わせた人数。' },
   { label: '自分で使う人', value: explicitPeople, note: '仕事で深く使う、有料で使う、無料で使う人。' },
   { label: 'まだ使っていない人', value: unreachedPeople, note: '重なりを引いた後に残る人数。' },
   { label: '基準人数', value: dashboard.denominator.primary_value, note: '世界のインターネット利用者を基準にする。' },
-  { label: '世界の総人口', value: dashboard.denominator.auxiliary_value, note: 'ネット利用者だけでなく、全人口に対する広がりも見るための補助基準。' },
+  { label: '世界の総人口', value: dashboard.denominator.auxiliary_value, note: 'インターネット利用者だけでなく、全人口に対する広がりも見るための補助基準。' },
 ].sort((a, b) => a.value - b.value);
 
 const chartUnits = dashboard.chart.unit_count;
@@ -264,7 +264,7 @@ const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Dataset',
   name: `${dashboard.title_ja} - mirai-shigoto.com`,
-  description: '世界のAI利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末でAIにふれる人、まだ使っていない人に分けて見積もる公開モデル。',
+  description: '世界の AI 利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末で AI にふれる人、まだ使っていない人に分けて見積もる公開モデル。',
   url: canonical,
   inLanguage: 'ja',
   isAccessibleForFree: true,
@@ -279,12 +279,12 @@ const jsonLd = JSON.stringify({
 });
 ---
 <BaseLayout
-  title={`${dashboard.title_ja} | AI利用率ダッシュボード - mirai-shigoto.com`}
-  description="世界のAI利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末でAIにふれる人、まだ使っていない人の5グループに分け、計算式・理由・データの新しさを公開するダッシュボード。"
+  title={`${dashboard.title_ja} | AI 利用率ダッシュボード - mirai-shigoto.com`}
+  description="世界の AI 利用率を、仕事で深く使う人、有料で使う人、無料で使う人、端末で AI にふれる人、まだ使っていない人の 5 グループに分け、計算式・理由・データの新しさを公開するダッシュボード。"
   canonical={canonical}
-  keywords="AI利用率, 生成AI, ChatGPT, Claude, Gemini, ARR, MAU, データの新しさ, D3"
-  ogTitle={`${dashboard.title_ja} | AI利用率ダッシュボード`}
-  ogDescription="AI利用者を5グループに分け、計算式・理由・データの新しさを公開するモデルページ。"
+  keywords="AI 利用率, 生成 AI, ChatGPT, Claude, Gemini, ARR, MAU, データの新しさ, D3"
+  ogTitle={`${dashboard.title_ja} | AI 利用率ダッシュボード`}
+  ogDescription="AI 利用者を 5 グループに分け、計算式・理由・データの新しさを公開するモデルページ。"
   ogImage={`${siteConfig.origin}/api/og?page=home`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
@@ -317,25 +317,25 @@ const jsonLd = JSON.stringify({
       ))}
     </section>
 
-    <section class="dashboard-shell" aria-label="AI利用率の内訳">
+    <section class="dashboard-shell" aria-label="AI 利用率の内訳">
       <div class="chart-panel">
         <div class="panel-head">
-          <h2>{chartUnits}点で見る5グループ</h2>
-          <p class="panel-sub">点1つ = {dotPctLabel}%</p>
+          <h2>{chartUnits} 点で見る 5 グループ</h2>
+          <p class="panel-sub">点 1 つ = {dotPctLabel}%</p>
         </div>
-        <div class="impact-row" aria-label="100人あたりのAI利用イメージ">
+        <div class="impact-row" aria-label="100 人あたりの AI 利用イメージ">
           <div>
             <span class="impact-number">{touchedPer100}</span><span class="impact-unit">人</span>
-            <span class="impact-mini">{touchedPerUnit}/{chartUnits}点</span>
-            <p>100人のうちAIにふれる人</p>
+            <span class="impact-mini">{touchedPerUnit}/{chartUnits} 点</span>
+            <p>100 人のうち AI にふれる人</p>
           </div>
           <div>
             <span class="impact-number muted">{unreachedPer100}</span><span class="impact-unit">人</span>
-            <span class="impact-mini">{unreachedPerUnit}/{chartUnits}点</span>
+            <span class="impact-mini">{unreachedPerUnit}/{chartUnits} 点</span>
             <p>まだ使っていない人</p>
           </div>
         </div>
-        <div id="aiAdoptionLayerChart" class="chart-stage" aria-label="AI利用率の5グループグラフ"></div>
+        <div id="aiAdoptionLayerChart" class="chart-stage" aria-label="AI 利用率の 5 グループグラフ"></div>
         <ol class="chart-fallback">
           {dashboard.chart.layers.map((layer) => (
             <li>
@@ -377,8 +377,8 @@ const jsonLd = JSON.stringify({
     <section class="two-col" aria-label="変化とデータの新しさ">
       <div class="wide-panel">
         <div class="panel-head">
-          <h2>AI時代の広がり</h2>
-          <p class="panel-sub">2020年から現在まで / 年ごとの概算</p>
+          <h2>AI 時代の広がり</h2>
+          <p class="panel-sub">2020 年から現在まで / 年ごとの概算</p>
         </div>
         <div id="aiAdoptionTrend" class="trend-stage"></div>
       </div>
@@ -415,7 +415,7 @@ const jsonLd = JSON.stringify({
         <h2 id="formulaHeading">公開している計算式</h2>
         <p class="panel-sub">名詞の意味と計算の理由</p>
       </div>
-      <p class="method-note">このページの式は、同じ人を二度数えないために上から順に引いていく形です。まず仕事で深く使う人を分け、その後に有料、無料、端末AI、未利用の順に見ます。</p>
+      <p class="method-note">このページの式は、同じ人を二度数えないために上から順に引いていく形です。まず仕事で深く使う人を分け、その後に有料、無料、端末 AI、未利用の順に見ます。</p>
       <div class="formula-primer" aria-label="式で使う言葉">
         <h3>式で使う言葉</h3>
         <dl>
@@ -456,7 +456,7 @@ const jsonLd = JSON.stringify({
                 <h3>{group.title}</h3>
                 <p>{group.note}</p>
               </div>
-              <span>{group.sources.length}件</span>
+              <span>{group.sources.length} 件</span>
             </div>
             <div class="source-card-grid">
               {group.sources.map((source) => (
@@ -517,7 +517,7 @@ const jsonLd = JSON.stringify({
     <section class="wide-panel" aria-labelledby="methodHeading">
       <h2 id="methodHeading">モデルの読み方</h2>
       <p class="method-note">
-        このモデルでは、人数が公表されていないものを、ARR、MAU、端末数などから見積もります。大事なのは単純に足し算しないことです。仕事で深く使う人、有料で使う人、無料で使う人、端末でAIにふれる人の順に、同じ人の重なりを引きます。
+        このモデルでは、人数が公表されていないものを、ARR、MAU、端末数などから見積もります。大事なのは単純に足し算しないことです。仕事で深く使う人、有料で使う人、無料で使う人、端末で AI にふれる人の順に、同じ人の重なりを引きます。
       </p>
     </section>
 
@@ -608,25 +608,25 @@ const jsonLd = JSON.stringify({
       }
 
       const formulaTextByLayer: Record<string, string> = {
-        N_dev: 'N_dev = 開発者向けAI利用者の合計 × (1 - 同じ人の重なり)',
-        N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1人あたり年間売上 ARPU) - 上の層との重なり',
-        N_free: 'N_free = Σ(月間利用者 MAU × 1人あたり補正) - 上の層との重なり',
-        N_passive: 'N_passive = AI対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
-        N_unreached: '未利用 = 世界の総人口 − AIにふれる人',
+        N_dev: 'N_dev = 開発者向け AI 利用者の合計 × (1 - 同じ人の重なり)',
+        N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1 人あたり年間売上 ARPU) - 上の層との重なり',
+        N_free: 'N_free = Σ(月間利用者 MAU × 1 人あたり補正) - 上の層との重なり',
+        N_passive: 'N_passive = AI 対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
+        N_unreached: '未利用 = 世界の総人口 − AI にふれる人',
       };
 
       function entityLabel(entity: string): string {
         if (entity === 'World') return '世界';
-        if (entity === 'Other developer AI tools') return 'その他の開発者向けAI';
+        if (entity === 'Other developer AI tools') return 'その他の開発者向け AI';
         if (entity === 'OpenAI consumer products') return 'OpenAI 個人向け';
         if (entity === 'Anthropic consumer products') return 'Anthropic 個人向け';
         if (entity === 'Perplexity consumer products') return 'Perplexity 個人向け';
-        if (entity === 'Other consumer AI products') return 'その他の個人向けAI';
-        if (entity === 'Regional AI apps') return '各地域のAIアプリ';
+        if (entity === 'Other consumer AI products') return 'その他の個人向け AI';
+        if (entity === 'Regional AI apps') return '各地域の AI アプリ';
         if (entity === 'Apple Intelligence eligible devices') return 'Apple Intelligence 対応端末';
-        if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応PC';
+        if (entity === 'Windows Copilot eligible PCs') return 'Windows Copilot 対応 PC';
         if (entity === 'Android Gemini eligible devices') return 'Android Gemini 対応端末';
-        if (entity === 'Regional OS-level AI devices') return '各地域の端末AI';
+        if (entity === 'Regional OS-level AI devices') return '各地域の端末 AI';
         return entity;
       }
 
@@ -773,7 +773,7 @@ const jsonLd = JSON.stringify({
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', `AI利用率を${WAFFLE_UNITS}点で見た5グループ。点1つは${(100 / WAFFLE_UNITS).toFixed(1)}%。`);
+          .attr('aria-label', `AI 利用率を ${WAFFLE_UNITS} 点で見た 5 グループ。点 1 つは ${(100 / WAFFLE_UNITS).toFixed(1)}%。`);
 
         svg.append('rect')
           .attr('class', 'waffle-frame')
@@ -789,7 +789,7 @@ const jsonLd = JSON.stringify({
           .attr('y', 4)
           .attr('text-anchor', 'middle')
           .attr('dominant-baseline', 'hanging')
-          .text(`${WAFFLE_UNITS}点 = 100% / 1点 = ${(100 / WAFFLE_UNITS).toFixed(1)}%`);
+          .text(`${WAFFLE_UNITS} 点 = 100% / 1 点 = ${(100 / WAFFLE_UNITS).toFixed(1)}%`);
 
         svg.append('g')
           .attr('class', 'waffle-halo-grid')
@@ -890,7 +890,7 @@ const jsonLd = JSON.stringify({
           .attr('x', Math.min(barW - 2, Math.max(2, touchX)))
           .attr('y', -12)
           .attr('text-anchor', touchX > barW * 0.72 ? 'end' : 'start')
-          .text(`AIにふれる人 ${Math.round(touchedShare * 100)}人`);
+          .text(`AI にふれる人 ${Math.round(touchedShare * 100)} 人`);
 
         const tiles = svg.append('g')
           .attr('transform', `translate(20,${tileY})`)
@@ -966,7 +966,7 @@ const jsonLd = JSON.stringify({
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', 'AI時代の利用率の変化');
+          .attr('aria-label', 'AI 時代の利用率の変化');
         const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
         g.append('g')
