@@ -1,20 +1,40 @@
 ---
 /**
- * about.astro — データについて (data sources, scoring methodology, FAQ).
+ * about.astro — データについて（出典の要約・スコアの目安・用語集・FAQ・免責）。
  *
- * Inline CSS preserved verbatim — extraction into shared classes is a
- * follow-up.
+ * 採点の詳しい手順とデータ整理は /methodology に集約済み。本ページは出典の要約、
+ * 読者向けの目安、用語集（旧 /about/glossary を統合）、注意事項、FAQ を担当する。
+ * 共通文書 CSS は canonical/doc.ts。インライン JS なし（theme toggle は廃止）。
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { nowIso } from '../lib/now';
+import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
 
-// 2026-05-17 H5 fix: was hard-coded 2026-05-30 page-meta "最終更新"
-// date. Switched to build-time `nowIso` so every deploy reflects
-// the actual last-updated date. The 2026-05-30 references that
-// remain in the page body are the AI scoring run date (different
-// concept — the snapshot when Claude Opus 4.8 actually scored).
 const pageLastUpdated = nowIso().slice(0, 10);
+
+const SCALE: { range: string; mid: number; desc: string }[] = [
+  { range: '0–2（最小）', mid: 1, desc: '物理・現場仕事（清掃、林業、調理、配送）' },
+  { range: '2–4（低）', mid: 3, desc: '肉体労働＋一部対人（建設、介護、ドライバー、美容師）' },
+  { range: '4–6（中）', mid: 5, desc: '知識・対人・判断の混合（看護師、教員、医師、管理職、技術者）' },
+  { range: '6–8（高）', mid: 7, desc: '情報・事務・専門の知識労働（会計士、士業、プログラマー、各種事務）' },
+  { range: '8–10（最大）', mid: 9, desc: '定型デジタル処理（データ入力、文字起こし、コールセンター、翻訳）' },
+];
+
+const GLOSSARY: { t: string; en: string; d: string }[] = [
+  { t: 'AI 影響度', en: 'AI Impact / Transformation', d: '各職業の仕事のうち AI でこなせる部分がどれくらいかを 0〜10 で評価したスコア。本サイト独自分析（Claude Opus 4.8・AIOIS-10）で算出。仕事が消える確率ではなく、仕事がどれだけ作り変えられるかを示す。' },
+  { t: 'Risk Band', en: 'low / mid / high', d: 'AI 影響度の 3 区分：low（≤3.9）／ mid（≤6.9）／ high（>6.9）。視覚的なリスク感の表現。' },
+  { t: 'Demand Band', en: 'cold / normal / hot', d: '有効求人倍率の 3 区分：cold（<1.0）／ normal（<2.0）／ hot（≥2.0）。労働市場の需給状況。' },
+  { t: 'Workforce Band', en: 'small / mid / large', d: '就業者数の 3 区分：small（<2 万人）／ mid（<10 万人）／ large（≥10 万人）。労働市場の規模。' },
+  { t: '有効求人倍率', en: 'Effective Recruit Ratio', d: '1 人の求職者あたり何件の求人があるかを表す比率。1.0 超で売り手市場（人手不足傾向）、1.0 未満で買い手市場。' },
+  { t: 'セクター', en: 'Sector', d: '本サイトの 16 業界分類。職業を理解しやすい単位でグループ化（医療・福祉・教育・建設・IT 等）。' },
+  { t: 'RIASEC', en: 'Holland Code', d: 'John Holland 提唱の職業興味 6 類型：R（現実的）／ I（研究的）／ A（芸術的）／ S（社会的）／ E（企業的）／ C（慣習的）。' },
+  { t: 'IPD', en: '職業情報データベース v7.00', d: 'JILPT が公開する職業情報データベース。本サイトのソースデータの一つ。556 職業 × 数百項目の構造化データ。' },
+  { t: 'Transfer Path', en: '転職候補', d: '各職業から「同じ業界＋より AI 影響度が低い」候補職業を cosine 類似度で抽出した転換マップ。各職業ページに 3 候補を表示。' },
+  { t: 'Top-N', en: '上位スキル/知識/能力', d: '各職業の IPD スコアが高い順に上位 N 項目を抽出したリスト。スキル 10／知識 5／能力 5 がデフォルト。' },
+  { t: '業務独占資格', en: 'Exclusive License', d: '法律で「資格保有者しかできない」と定められた業務範囲がある資格。医師・看護師・薬剤師・弁護士・公認会計士など。最も入りにくい高い壁。' },
+  { t: '名称独占資格', en: 'Title-Only License', d: '資格保有者しか名乗れないが業務独占はない資格。介護福祉士・社会福祉士・管理栄養士等。市場価値はあるが業務独占ほどの保護はない。' },
+];
 
 const jsonLd = `{
   "@context": "https://schema.org",
@@ -24,14 +44,13 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/about#webpage",
       "name": "データについて — mirai-shigoto.com",
       "url": "https://mirai-shigoto.com/about",
-      "description": "mirai-shigoto.com のデータソース（厚労省 jobtag / JILPT / 総務省）、LLM スコアリング方法論、よくある質問。",
+      "description": "mirai-shigoto.com のデータソース要約、AI 影響スコアの目安、用語集、注意事項、よくある質問。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "about": { "@id": "https://mirai-shigoto.com/#organization" },
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "datePublished": "2026-05-02",
-      "dateModified": "2026-05-11",
-      "primaryImageOfPage": "https://mirai-shigoto.com/api/og?page=about",
+      "dateModified": "${pageLastUpdated}",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/about#breadcrumb" }
     },
     {
@@ -47,423 +66,87 @@ const jsonLd = `{
 ---
 <BaseLayout
   title="データについて — mirai-shigoto.com"
-  description="mirai-shigoto.com のデータソース、AI 影響度スコアの算出方法、FAQ、よくある質問。"
+  description="mirai-shigoto.com のデータソース要約、AI 影響スコアの目安、用語集、注意事項、FAQ。詳しい採点手順は評価プロセスへ。"
   canonical="https://mirai-shigoto.com/about"
-  keywords="未来の仕事, AI 影響度, 算出方法, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.8, AIOIS-10, 変化の大きさ, 仕事が減るリスク, 独自分析, FAQ, mirai shigoto"
+  keywords="未来の仕事, AI 影響度, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.8, AIOIS-10, 用語集, FAQ, mirai shigoto"
   ogTitle="データについて — mirai-shigoto.com"
-  ogDescription="mirai-shigoto.com のデータソース（厚労省 jobtag / 総務省 / JILPT）、AI 影響度スコアの算出方法、FAQ。"
+  ogDescription="データソース要約、AI 影響スコアの目安、用語集、注意事項、FAQ。"
   ogImage="https://mirai-shigoto.com/api/og?page=about"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
-
-  <style slot="head">
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    /* Tokens (:root) + dual-theme blocks: removed 2026-05-16.
-       Now emitted globally by Footer.astro via canonical-css.ts (Design.md §18.4). */
-    html, body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--font-sans);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.75;
-    }
-    /* Heading font-family/weight/letter-spacing inherited from canonical CSS. */
-    h1 .accent, h2 .accent { color: var(--accent); font-style: italic; }
-    .theme-toggle { display: none !important; }
-    /* Top "non-official" banner — same look as index.html §7.1 */
-    .top-banner {
-      background: linear-gradient(90deg, rgba(255,80,80,0.18), rgba(255,138,61,0.14));
-      border-bottom: 2px solid rgba(255,80,80,0.55);
-      padding: 9px 20px;
-      font-size: 0.82rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      text-align: center;
-    }
-    .top-banner .badge {
-      background: var(--orange-hot);
-      color: #fff;
-      padding: 3px 10px;
-      border-radius: 4px;
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      box-shadow: 0 1px 4px rgba(255,80,80,0.3);
-    }
-    .top-banner strong { color: var(--fg); }
-
-    #wrapper {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 28px 28px 80px;
-    }
-    .top-bar {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .top-bar .back {
-      color: var(--fg2);
-      text-decoration: none;
-      font-size: 0.85rem;
-    }
-    .top-bar .back:hover { color: var(--accent); }
-    .theme-toggle {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--fg2);
-      width: 28px; height: 28px;
-      border-radius: 999px;
-      cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 0; margin-left: 4px;
-      transition: color 150ms ease, border-color 150ms ease;
-    }
-    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
-    .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .theme-toggle svg { width: 13px; height: 13px; fill: currentColor; }
-    .theme-toggle .icon-sun { display: inline-block; }
-    .theme-toggle .icon-moon { display: none; }
-
-    h1 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 6px;
-    }
-    h1 .accent { color: var(--accent); }
-    .subtitle {
-      color: var(--fg2);
-      font-size: 0.92rem;
-      margin-bottom: 8px;
-    }
-    .meta-line {
-      color: var(--fg2);
-      font-size: 0.78rem;
-      margin-bottom: 28px;
-      opacity: 0.75;
-    }
-    h2 {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-top: 36px;
-      margin-bottom: 14px;
-      color: var(--fg);
-      border-left: 3px solid var(--accent);
-      padding-left: 12px;
-    }
-    h3 {
-      font-size: 0.98rem;
-      font-weight: 600;
-      margin-top: 20px;
-      margin-bottom: 6px;
-      color: var(--fg);
-    }
-    p {
-      margin-bottom: 14px;
-      color: var(--fg);
-    }
-    ul, ol {
-      margin: 0 0 14px 22px;
-      color: var(--fg);
-    }
-    li { margin-bottom: 6px; }
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; }
-    strong { color: var(--fg); font-weight: 600; }
-    em { color: var(--fg2); font-style: normal; }
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.85em;
-      background: var(--bg2);
-      padding: 1px 6px;
-      border-radius: 4px;
-      color: var(--accent);
-    }
-    .source-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 8px;
-      padding: 14px 18px;
-      margin: 14px 0;
-    }
-    .source-card .src-row {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-      gap: 8px 14px;
-      padding: 6px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.9rem;
-      align-items: baseline;
-    }
-    .source-card .src-row:last-child { border-bottom: none; }
-    .source-card .src-label {
-      color: var(--fg2);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .source-card .src-value { color: var(--fg); }
-    .scale-table {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 12px 0 18px;
-    }
-    .scale-table dl { margin: 0; }
-    .scale-table dt {
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      color: var(--accent);
-      font-size: 0.92rem;
-      margin-top: 8px;
-    }
-    .scale-table dt:first-child { margin-top: 0; }
-    .scale-table dd { margin-left: 18px; font-size: 0.9rem; color: var(--fg); }
-    .faq details {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 10px;
-    }
-    .faq summary {
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--fg);
-      font-size: 0.95rem;
-      list-style: none;
-      position: relative;
-      padding-right: 24px;
-    }
-    .faq summary::-webkit-details-marker { display: none; }
-    .faq summary::after {
-      content: "+";
-      position: absolute;
-      right: 0;
-      top: 0;
-      color: var(--accent);
-      font-weight: 700;
-      transition: transform 200ms ease;
-    }
-    .faq details[open] summary::after { content: "–"; }
-    .faq details[open] summary { margin-bottom: 8px; }
-    .faq p { margin-bottom: 0; font-size: 0.92rem; color: var(--fg2); }
-    .faq p strong { color: var(--fg); }
-
-    footer {
-      margin-top: 48px;
-      padding-top: 22px;
-      border-top: 1px solid var(--border);
-      font-size: 0.72rem;
-      color: var(--fg2);
-      text-align: center;
-    }
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-    footer .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    footer .footer-links a {
-      color: var(--fg2);
-      text-decoration: none;
-      padding: 5px 14px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 0.78rem;
-      line-height: 1.2;
-      transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
-    }
-    footer .footer-links a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: rgba(217, 107, 61, 0.06);
-      text-decoration: none;
-    }
-    footer .footer-meta { color: var(--fg2); font-size: 0.7rem; opacity: 0.92; text-wrap: pretty; line-height: 1.65; }
-    footer .footer-meta a { color: var(--accent); }
-    footer .footer-meta .nowrap { white-space: nowrap; }
-    @media (max-width: 540px) {
-      footer .footer-meta { font-size: 0.66rem; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
-    }
-    @media (max-width: 540px) {
-      #wrapper { padding: 18px 16px 60px; }
-      h1 { font-size: 1.4rem; }
-      h2 { font-size: 1.05rem; }
-      .source-card .src-row { grid-template-columns: 1fr; gap: 2px; }
-      .source-card .src-label { font-size: 0.72rem; }
-    }
-  </style>
+  <style slot="head" set:html={CANONICAL_DOC_CSS} />
 
   <div id="wrapper">
-    <div class="top-bar">
-      <a class="back" href="/">
-        ← マップへ戻る
-      </a>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="ライト・ダークモード切替">
-        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-1-13h2v3h-2V2Zm0 19h2v3h-2v-3ZM2 11h3v2H2v-2Zm17 0h3v2h-3v-2ZM5.6 4.2 7.7 6.3 6.3 7.7 4.2 5.6l1.4-1.4Zm12.7 12.7 2.1 2.1-1.4 1.4-2.1-2.1 1.4-1.4ZM5.6 19.8l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1ZM18.3 7.7l-1.4-1.4 2.1-2.1 1.4 1.4-2.1 2.1Z"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
-      </button>
+    <div class="top-banner">
+      <span class="badge">非公式</span>
+      <span>本サイトは独自分析サイトです。厚労省・JILPT・job tag の公式見解ではありません。</span>
     </div>
 
-    <h1>
-      データについて
-    </h1>
-    <p class="subtitle">
-      本サイトのデータソース・スコア算出方法・よくある質問
-    </p>
-    <p class="meta-line">
-      最終更新：{pageLastUpdated}
-    </p>
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>データについて</span></nav>
 
-    <!-- 1. データソース -->
-    <h2>
-      データソース
-    </h2>
+    <h1>データに<span class="accent">ついて</span></h1>
+    <p class="subtitle">データソースの要約・スコアの目安・用語集・よくある質問</p>
+    <p class="meta-line">最終更新 {pageLastUpdated}</p>
 
-    <p>
-      本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>から取得しています。AI 影響度スコアのみ独自分析です。
+    <p class="lead">
+      本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>から取得しています。AI 影響度スコアのみが独自分析です。採点の詳しい手順とデータの整え方は <a href="/methodology">評価プロセス</a>、基準そのものの定義は <a href="/standard">AIOIS-10 標準</a> を参照してください。
     </p>
 
-    <div class="source-card">
-      <div class="src-row">
-        <span class="src-label">職業マスタ</span>
-        <span class="src-value"><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a></span>
-      </div>
-      <div class="src-row">
-        <span class="src-label">著作権者</span>
-        <span class="src-value">独立行政法人 労働政策研究・研修機構（<strong>JILPT</strong>）「職業情報データベース」</span>
-      </div>
-      <div class="src-row">
-        <span class="src-label">バージョン・取得日</span>
-        <span class="src-value"><strong>v7.00</strong>（2026-03-17 公開・2026-05-03 公式 XLSX ダウンロード）</span>
-      </div>
-      <div class="src-row">
-        <span class="src-label">就業者数・年収・労働時間</span>
-        <span class="src-value">同データベースの簡易版数値系・解説系より集計</span>
-      </div>
-      <div class="src-row">
-        <span class="src-label">AI 影響スコア</span>
-        <span class="src-value">本サイト独自分析（Claude Opus 4.8 採点、2026-05-30、<a href="/standard">AIOIS-10</a> v1.0）</span>
-      </div>
-      <div class="src-row">
-        <span class="src-label">採点スケール</span>
-        <span class="src-value"><a href="/standard">AIOIS-10 標準</a>：10 項目（D1–D10）＋ 2 つの数字（変化の大きさ・仕事が減るリスク）。手順は <a href="/methodology">評価プロセス</a> 参照</span>
-      </div>
-      <div class="src-row">
-        <span class="src-label">加工</span>
-        <span class="src-value">本サイトで独自に整理・可視化（非公式）。詳細は <a href="/compliance">コンプライアンス</a> ページへ。</span>
-      </div>
+    <h2><span class="num">1.</span>データソース（要約）</h2>
+    <div class="src-card">
+      <div class="src-row"><span class="src-label">職業マスタ</span><span><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>／著作権者 JILPT「職業情報データベース」v7.00</span></div>
+      <div class="src-row"><span class="src-label">労働統計</span><span>賃金構造基本統計調査・労働力調査・ハローワーク求人統計（年収・就業者数・有効求人倍率）</span></div>
+      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（Claude Opus 4.8 採点、2026-05-30、<a href="/standard">AIOIS-10</a> v1.0）</span></div>
     </div>
+    <p>各出典の正式名・利用条件・引用ルールの詳細は <a href="/methodology">評価プロセス</a> にまとめています。</p>
 
-    <!-- 2. スコアの算出方法 -->
-    <h2>
-      スコアの算出方法
-    </h2>
-
-    <p>
-      トップ指標「AI 影響」は <strong>0.0〜10.0</strong> の<strong>変化の大きさ</strong>（仕事のやり方が AI でどれだけ作り変えられるか）です。<a href="/standard">AIOIS-10 標準</a>の 10 項目（D1–D10）から計算します。統計調査ではなく、職業データをもとにした・今の AI 時点の見立てです。目安：
-    </p>
-
-    <div class="scale-table">
+    <h2><span class="num">2.</span>スコアの目安</h2>
+    <p>トップ指標「AI 影響」は <strong>0.0〜10.0</strong> の<strong>変化の大きさ</strong>（仕事のやり方が AI でどれだけ作り変えられるか）です。統計調査ではなく、職業データにもとづく現行 AI 時点の見立てです。</p>
+    <div class="scale">
       <dl>
-        <dt>0–2（最小）</dt><dd>物理・現場仕事（清掃、林業、調理、配送）</dd>
-        <dt>2–4（低）</dt><dd>肉体労働＋一部対人（建設、介護、ドライバー、美容師）</dd>
-        <dt>4–6（中）</dt><dd>知識・対人・判断の混合（看護師、教員、医師、管理職、技術者）</dd>
-        <dt>6–8（高）</dt><dd>情報・事務・専門の知識労働（会計士、士業、プログラマー、各種事務）</dd>
-        <dt>8–10（最大）</dt><dd>定型デジタル処理（データ入力、文字起こし、コールセンター、翻訳）</dd>
+        {SCALE.map((s) => (
+          <>
+            <dt style={`background:${heatBg(s.mid, 'up')};border-radius:5px;padding:2px 8px`}>{s.range}</dt>
+            <dd>{s.desc}</dd>
+          </>
+        ))}
       </dl>
     </div>
+    <p><em>注意：変化の大きさが高い ≠ 仕事が消える。</em>「仕事がどれだけ作り変えられるか」であり「失職確率」ではありません。後者は別指数の<strong>仕事が減るリスク</strong>（多くの仕事でより低く出ます）。点が高い仕事の多くは<strong>なくなるのではなく作り変えられます</strong>。</p>
 
-    <p>
-      D2〜D10（決まった手順・体や現場・判断・対人・創造・資格・お金・人手不足・これからの求人）は<strong>決まった式</strong>で、D1（AI でできる度）は <strong>Claude Opus 4.8 の判定</strong>で点を付けます。詳しい手順とデータの整え方は <a href="/methodology">評価プロセス</a> を、各項目の意味は <a href="/standard">AIOIS-10 標準</a> を参照してください。
-    </p>
+    <h2><span class="num">3.</span>用語集</h2>
+    <div class="glossary">
+      {GLOSSARY.map((g) => (
+        <div class="gloss-item">
+          <h3>{g.t}<span class="term-en">{g.en}</span></h3>
+          <p>{g.d}</p>
+        </div>
+      ))}
+    </div>
 
-    <p>
-      <em>注意：変化の大きさが高い ≠ 仕事が消える。</em>「仕事がどれだけ作り変えられるか」であり「失職確率」ではありません。後者は別の数字の<strong>仕事が減るリスク</strong>（多くの仕事でより低く出ます）。点が高い仕事の多くは<strong>なくなるのではなく作り変えられます</strong>。
-    </p>
+    <h2><span class="num">4.</span>注意事項</h2>
+    <p><strong>本サイトは非公式サイトです。</strong>厚生労働省、job tag、JILPT その他の公的機関と<strong>提携・協力・承認関係にあるものではありません</strong>。</p>
+    <p>AI 影響度スコア、リスク分類、ランキング、可視化結果は、本サイト独自の分析・加工によるもので、<strong>公的機関の公式見解、評価、推奨を示すものではありません</strong>。</p>
+    <p>本サイトの情報は、職業選択、転職、採用、人事判断等に関する<strong>参考情報</strong>として提供しており、特定の判断や結果を保証するものではありません。重要な意思決定にあたっては、複数の情報源をご確認ください。</p>
+    <p>掲載内容について公的機関（厚労省・JILPT）への問い合わせは行わないでください。本サイトは独自分析であり、公式見解とは独立しています。詳細は <a href="/compliance">コンプライアンス</a> ページをご確認ください。</p>
 
-    <!-- 本手法の限界 -->
-    <h2>
-      本手法の限界
-    </h2>
-
-    <p>
-      スコアを使う前に、本手法の限界を明示します。<strong>「分かっていることと、分かっていないこと」を線引きする</strong>のは、独自分析サイトとしての最低限の責務です。曖昧にぼかさず、はっきり書きます。
-    </p>
-
-    <ul>
-      <li><strong>AI の判断を含みます</strong>。D1（AI でできる度）とデータが欠ける職業の人間の強みは <strong>Claude Opus 4.8 一台</strong>の判定。別の AI・別の時点で点を付け直せば、<strong>±1〜2 はずれることがあります</strong>。</li>
-      <li><strong>統計検証はしていません</strong>。人間の専門家との一致率（agreement rate）は測っていません。「校正済みの見立て」であって、<strong>「実証研究」ではありません</strong>。</li>
-      <li><strong>単一時点のスナップショットです</strong>。2026-05-30 採点版（AIOIS-10 v1.0）。AI の能力は数ヶ月で化けるため、<strong>本データの賞味期限は約 1 年</strong>と見てください。</li>
-      <li><strong>556 職業を採点しています</strong>。プロンプトエンジニア・AI 倫理担当など、jobtag に未収録の新興職種は<strong>対象外</strong>。リストにない職業についてはゼロ情報です。</li>
-      <li><strong>日本国内専用です</strong>。D9（制度・労働市場）は日本の労働市場（有効求人倍率）を前提に採点しています。<strong>海外の同名職業に当てはめないでください</strong>。</li>
-      <li><strong>「影響」と「失職」は別物です</strong>。トップ指標の変化の大きさは「仕事がどれだけ作り変えられるか」であり、<strong>「仕事が消える確率」ではありません</strong>。後者は別の数字の<strong>仕事が減るリスク</strong>で、多くの仕事ではるかに低く出ます。</li>
-    </ul>
-
-    <!-- 3. 注意事項 -->
-    <h2>
-      注意事項
-    </h2>
-
-    <p>
-      <strong>本サイトは非公式サイトです。</strong>厚生労働省、job tag、JILPT その他の公的機関と<strong>提携・協力・承認関係にあるものではありません</strong>。
-    </p>
-
-    <p>
-      AI 影響度スコア、リスク分類、ランキング、可視化結果は、本サイト独自の分析・加工によるもので、<strong>公的機関の公式見解、評価、推奨を示すものではありません</strong>。
-    </p>
-
-    <p>
-      本サイトの情報は、職業選択、転職、採用、人事判断等に関する<strong>参考情報</strong>として提供しており、特定の判断や結果を保証するものではありません。重要な意思決定にあたっては、複数の情報源をご確認ください。
-    </p>
-
-    <p>
-      掲載内容について公的機関（厚労省・JILPT）への問い合わせは行わないでください。本サイトは独自分析であり、公式見解とは独立しています。
-    </p>
-
-    <!-- 4. FAQ -->
-    <h2>
-      よくある質問
-    </h2>
-
-    <div class="faq active">
+    <h2><span class="num">5.</span>よくある質問</h2>
+    <div class="faq">
       <details>
         <summary>このスコアは公式なものですか？</summary>
         <p>いいえ。<strong>厚生労働省や JILPT の公式評価ではありません</strong>。本サイトの独自分析（LLM による採点）です。参考情報としてご利用ください。</p>
       </details>
       <details>
-        <summary>AI リスク 9/10 と出ました。仕事を辞めるべきですか？</summary>
+        <summary>AI 影響 9/10 と出ました。仕事を辞めるべきですか？</summary>
         <p>いいえ。スコアは「仕事が消える」予言ではなく、「AI が業務をどれほど作り変えるか」の推定値です。多くの高スコア職は<strong>置換ではなく再構成</strong>されます。ツールを使いこなすスキル習得の方が重要です。</p>
       </details>
       <details>
         <summary>採点はどれくらい正確ですか？</summary>
-        <p>これは LLM の主観評価で、統計的検証はされていません。同じ職業でも別の採点者なら ±1〜2 ぶれる可能性があります。<strong>絶対値より相対比較</strong>（A 職業と B 職業の大小関係）の方が情報量があります。</p>
+        <p>これは LLM の主観評価で、統計的検証はされていません。同じ職業でも別の採点者なら ±1〜2 ぶれる可能性があります。<strong>絶対値より相対比較</strong>（A 職業と B 職業の大小関係）の方が情報量があります。手順は <a href="/methodology">評価プロセス</a> を参照。</p>
       </details>
       <details>
         <summary>どれくらいの頻度で更新されますか？</summary>
-        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は 2026-05-30（<a href="/standard">AIOIS-10</a> v1.0）。元データ（jobtag / JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
+        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は 2026-05-30（<a href="/standard">AIOIS-10</a> v1.0）。元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
       </details>
       <details>
         <summary>自分の職業がリストに見つかりません。</summary>
@@ -473,23 +156,4 @@ const jsonLd = `{
 
     <Footer />
   </div>
-
-  <script slot="bodyEnd" is:inline>
-    // Theme toggle
-    (function () {
-      const root = document.documentElement;
-      const tt = document.getElementById("themeToggle");
-      if (!tt) return;
-      tt.addEventListener("click", () => {
-        const cur = root.getAttribute("data-theme");
-        const sysIsLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-        const effective = cur || (sysIsLight ? "light" : "dark");
-        const next = effective === "light" ? "dark" : "light";
-        root.setAttribute("data-theme", next);
-        try { localStorage.setItem("theme", next); } catch (e) {}
-      });
-    })();
-
-    // v1.4.0: language switcher removed — site is JA-only.
-  </script>
 </BaseLayout>

@@ -21,7 +21,7 @@ describe('renderTransfer', () => {
       '<section class="transfer" aria-label="似た仕事 / キャリア転換の候補">' +
         '<h2>似た仕事 / キャリア転換の候補</h2>' +
         '<div class="transfer-grid">' +
-        '<a class="transfer-card" href="/ja/42">' +
+        '<a class="transfer-card" href="/42">' +
         '<span class="tc-name">プログラマー</span>' +
         '<span class="tc-meta">' +
         '<span class="tc-risk">AI 影響 6/10</span>' +
@@ -78,8 +78,8 @@ describe('renderTransfer', () => {
     assert.equal(cardCount, 3);
     const gridCount = (out.match(/<div class="transfer-grid">/g) || []).length;
     assert.equal(gridCount, 1);
-    assert.ok(out.indexOf('href="/ja/1"') < out.indexOf('href="/ja/2"'));
-    assert.ok(out.indexOf('href="/ja/2"') < out.indexOf('href="/ja/3"'));
+    assert.ok(out.indexOf('href="/1"') < out.indexOf('href="/2"'));
+    assert.ok(out.indexOf('href="/2"') < out.indexOf('href="/3"'));
   });
 
   test('XSS payload in name escaped (but href is not escaped — caller controls id)', () => {
@@ -89,6 +89,6 @@ describe('renderTransfer', () => {
     assert.ok(!out.includes('<script>x</script>'));
     assert.ok(out.includes('&lt;script&gt;x&lt;/script&gt;'));
     // id is numeric, so href is structurally safe.
-    assert.ok(out.includes('href="/ja/999"'));
+    assert.ok(out.includes('href="/999"'));
   });
 });

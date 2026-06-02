@@ -3,7 +3,7 @@
  * power both the on-page FAQ block (src/templates/OccFaq) and the
  * FAQPage Schema.org node (src/templates/JsonLd).
  *
- * Extracted from src/pages/ja/[id].astro (`buildOccFaqs`). Pure
+ * Extracted from src/pages/[id].astro (`buildOccFaqs`). Pure
  * data shaping — produces `readonly [question, answer]` tuples
  * with no HTML. The two consumers handle their own markup; this
  * function is the single source of truth for what questions get

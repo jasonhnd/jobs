@@ -1,6 +1,6 @@
 /**
  * src/templates/InterestHub.ts — HTML / JSON-LD / CSS for the 6
- * /ja/interests/[type] hub pages + /ja/interests index.
+ * /interests/[type] hub pages + /interests index.
  *
  * Extracted from src/views/interests.ts on 2026-05-14 (Phase D #3 per
  * docs/architecture.md §8 row 9 "data is view, HTML is template").
@@ -71,7 +71,7 @@ export function renderInterestItem(
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/ja/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
@@ -91,7 +91,7 @@ export function renderRelatedInterests(
     .filter((m) => m.slug !== currentSlug)
     .map(
       (m) =>
-        `<li><a href="/ja/interests/${m.slug}">` +
+        `<li><a href="/interests/${m.slug}">` +
         `<span class="ri-letter">${m.letter}</span>` +
         `<span class="ri-name">${escapeHtml(m.name_ja)}タイプ</span>` +
         `<span class="ri-desc">${escapeHtml(m.typical_fields_ja.slice(0, 3).join('・'))}</span>` +
@@ -117,7 +117,7 @@ export function renderJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/ja/${o.id}`,
+    url: `${SITE}/${o.id}`,
     name: o.name_ja || `#${o.id}`,
   }));
 
@@ -150,7 +150,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '興味タイプから探す', item: `${SITE}/ja/interests` },
+        { '@type': 'ListItem', position: 2, name: '興味タイプから探す', item: `${SITE}/interests` },
         { '@type': 'ListItem', position: 3, name: meta.title_ja, item: canonical },
       ],
     },
@@ -194,7 +194,7 @@ export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>):
   return cards.map((c) => {
     const previewHtml = c.top_preview ? `<span class="iri-preview">${escapeHtml(c.top_preview)}</span>` : '';
     return (
-      `<li><a href="/ja/interests/${c.slug}">` +
+      `<li><a href="/interests/${c.slug}">` +
       `<span class="iri-letter">${c.letter}</span>` +
       `<span class="iri-name">${escapeHtml(c.name_ja)}タイプ</span>` +
       `<span class="iri-desc">${escapeHtml(c.description_ja.slice(0, 90) + '…')}</span>` +
@@ -206,7 +206,7 @@ export function renderInterestsHubCards(cards: ReadonlyArray<InterestsHubCard>):
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/ja/interests`;
+  const canonical = `${SITE}/interests`;
   const seoDesc =
     '日本の 556 職業を RIASEC 興味タイプ 6 分類で整理。' +
     '現実的・研究的・芸術的・社会的・企業的・慣習的の各タイプにおすすめの職業を一覧。';

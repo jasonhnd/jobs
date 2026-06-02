@@ -127,6 +127,18 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://mirai-shigoto.com/standard</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/methodology</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://mirai-shigoto.com/compliance</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
@@ -145,4891 +157,4867 @@
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings</loc>
+    <loc>https://mirai-shigoto.com/rankings</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-risk-high</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-risk-high</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-risk-low</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-risk-low</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/salary-safe</loc>
+    <loc>https://mirai-shigoto.com/rankings/salary-safe</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/workers</loc>
+    <loc>https://mirai-shigoto.com/rankings/workers</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/salary</loc>
+    <loc>https://mirai-shigoto.com/rankings/salary</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/entry-salary</loc>
+    <loc>https://mirai-shigoto.com/rankings/entry-salary</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/young-workforce</loc>
+    <loc>https://mirai-shigoto.com/rankings/young-workforce</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/short-hours</loc>
+    <loc>https://mirai-shigoto.com/rankings/short-hours</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/high-demand</loc>
+    <loc>https://mirai-shigoto.com/rankings/high-demand</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/hourly-wage</loc>
+    <loc>https://mirai-shigoto.com/rankings/hourly-wage</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/recruit-ratio</loc>
+    <loc>https://mirai-shigoto.com/rankings/recruit-ratio</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/aging-workforce</loc>
+    <loc>https://mirai-shigoto.com/rankings/aging-workforce</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/monthly-hours-long</loc>
+    <loc>https://mirai-shigoto.com/rankings/monthly-hours-long</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/recruit-ratio-low</loc>
+    <loc>https://mirai-shigoto.com/rankings/recruit-ratio-low</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-replaced-soon</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-replaced-soon</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-resistant-craft</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-resistant-craft</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-at-risk-but-paid</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-at-risk-but-paid</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-augmented</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-augmented</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-frontier</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-frontier</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-stable-employment</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-stable-employment</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-safe-high-demand</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-safe-high-demand</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-safe-short-hours</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-safe-short-hours</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-safe-young-workforce</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-safe-young-workforce</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-safe-no-license</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-safe-no-license</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-safe-physical</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-safe-physical</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/ai-safe-interpersonal</loc>
+    <loc>https://mirai-shigoto.com/rankings/ai-safe-interpersonal</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/high-salary-high-demand</loc>
+    <loc>https://mirai-shigoto.com/rankings/high-salary-high-demand</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/high-salary-young-entry</loc>
+    <loc>https://mirai-shigoto.com/rankings/high-salary-young-entry</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/license-required</loc>
+    <loc>https://mirai-shigoto.com/rankings/license-required</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/no-license-required</loc>
+    <loc>https://mirai-shigoto.com/rankings/no-license-required</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/high-school-ok</loc>
+    <loc>https://mirai-shigoto.com/rankings/high-school-ok</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/university-required</loc>
+    <loc>https://mirai-shigoto.com/rankings/university-required</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/graduate-school-required</loc>
+    <loc>https://mirai-shigoto.com/rankings/graduate-school-required</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/public-sector</loc>
+    <loc>https://mirai-shigoto.com/rankings/public-sector</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/freelance-friendly</loc>
+    <loc>https://mirai-shigoto.com/rankings/freelance-friendly</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/self-employed-typical</loc>
+    <loc>https://mirai-shigoto.com/rankings/self-employed-typical</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/large-workforce-stable</loc>
+    <loc>https://mirai-shigoto.com/rankings/large-workforce-stable</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/regulated-protected</loc>
+    <loc>https://mirai-shigoto.com/rankings/regulated-protected</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/rankings/low-stress-stable</loc>
+    <loc>https://mirai-shigoto.com/rankings/low-stress-stable</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/sectors</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/iryo</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/fukushi</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/kyoiku</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/hoan</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/noringyo</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/senmon</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/it</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/shigyo</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/creative</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/jimu</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/hanbai</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/service</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/seizo</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/maint</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/kensetu</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/sectors/keiseki</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/interests</loc>
+    <loc>https://mirai-shigoto.com/sectors</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/interests/realistic</loc>
+    <loc>https://mirai-shigoto.com/sectors/iryo</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/interests/investigative</loc>
+    <loc>https://mirai-shigoto.com/sectors/fukushi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/interests/artistic</loc>
+    <loc>https://mirai-shigoto.com/sectors/kyoiku</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/interests/social</loc>
+    <loc>https://mirai-shigoto.com/sectors/hoan</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/interests/enterprising</loc>
+    <loc>https://mirai-shigoto.com/sectors/noringyo</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/interests/conventional</loc>
+    <loc>https://mirai-shigoto.com/sectors/senmon</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/skills/critical-thinking</loc>
+    <loc>https://mirai-shigoto.com/sectors/it</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/problem-solving</loc>
+    <loc>https://mirai-shigoto.com/sectors/shigyo</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/social-perceptiveness</loc>
+    <loc>https://mirai-shigoto.com/sectors/creative</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/coordination</loc>
+    <loc>https://mirai-shigoto.com/sectors/jimu</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/instructing</loc>
+    <loc>https://mirai-shigoto.com/sectors/hanbai</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/programming</loc>
+    <loc>https://mirai-shigoto.com/sectors/service</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/judgment</loc>
+    <loc>https://mirai-shigoto.com/sectors/seizo</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/quality-control</loc>
+    <loc>https://mirai-shigoto.com/sectors/maint</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/time-management</loc>
+    <loc>https://mirai-shigoto.com/sectors/kensetu</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/skills/persuasion</loc>
+    <loc>https://mirai-shigoto.com/sectors/keiseki</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare</loc>
+    <loc>https://mirai-shigoto.com/interests</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/kango-vs-helper</loc>
+    <loc>https://mirai-shigoto.com/interests/realistic</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/se-vs-programmer</loc>
+    <loc>https://mirai-shigoto.com/interests/investigative</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/iryo-jimu-vs-ippan-jimu</loc>
+    <loc>https://mirai-shigoto.com/interests/artistic</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/biyo-vs-riyo</loc>
+    <loc>https://mirai-shigoto.com/interests/social</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/truck-vs-taxi</loc>
+    <loc>https://mirai-shigoto.com/interests/enterprising</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/denki-vs-haikan</loc>
+    <loc>https://mirai-shigoto.com/interests/conventional</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/compare/kango-vs-yakuzaishi</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/shoubou-vs-keisatsu</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/pt-vs-shika-eisei</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/bengoshi-vs-kaikeishi</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/tofu-vs-pan</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/kyoshi-vs-hoikushi</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/kaigo-vs-kea-mane</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/kaikeishi-vs-zeirishi</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/shihou-vs-gyousei</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/web-marketer-vs-research</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/data-scientist-vs-ai-engineer</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/shika-vs-juui</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/yochien-vs-hoikushi</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/compare/webdesigner-vs-illustrator</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/abilities</loc>
+    <loc>https://mirai-shigoto.com/skills</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/stamina</loc>
+    <loc>https://mirai-shigoto.com/skills/critical-thinking</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/physical-strength</loc>
+    <loc>https://mirai-shigoto.com/skills/problem-solving</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/manual-dexterity-fine</loc>
+    <loc>https://mirai-shigoto.com/skills/social-perceptiveness</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/visualization</loc>
+    <loc>https://mirai-shigoto.com/skills/coordination</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/selective-attention</loc>
+    <loc>https://mirai-shigoto.com/skills/instructing</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/problem-sensitivity</loc>
+    <loc>https://mirai-shigoto.com/skills/programming</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/oral-comprehension</loc>
+    <loc>https://mirai-shigoto.com/skills/judgment</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/inductive-reasoning</loc>
+    <loc>https://mirai-shigoto.com/skills/quality-control</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/deductive-reasoning</loc>
+    <loc>https://mirai-shigoto.com/skills/time-management</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/abilities/oral-expression</loc>
+    <loc>https://mirai-shigoto.com/skills/persuasion</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/production-processing</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/customer-service</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/mechanical-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/medical-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/mathematics-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/psychology-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/law-government-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/computers-electronics-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/japanese-language-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/knowledge/sales-marketing-knowledge</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/values</loc>
+    <loc>https://mirai-shigoto.com/compare</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/achievement</loc>
+    <loc>https://mirai-shigoto.com/compare/kango-vs-helper</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/independence</loc>
+    <loc>https://mirai-shigoto.com/compare/se-vs-programmer</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/recognition</loc>
+    <loc>https://mirai-shigoto.com/compare/iryo-jimu-vs-ippan-jimu</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/relationships</loc>
+    <loc>https://mirai-shigoto.com/compare/biyo-vs-riyo</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/support</loc>
+    <loc>https://mirai-shigoto.com/compare/truck-vs-taxi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/working-conditions</loc>
+    <loc>https://mirai-shigoto.com/compare/denki-vs-haikan</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/expertise</loc>
+    <loc>https://mirai-shigoto.com/compare/kango-vs-yakuzaishi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/values/self-growth</loc>
+    <loc>https://mirai-shigoto.com/compare/shoubou-vs-keisatsu</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/education</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/education/no-school-required</loc>
+    <loc>https://mirai-shigoto.com/compare/pt-vs-shika-eisei</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/education/high-school-careers</loc>
+    <loc>https://mirai-shigoto.com/compare/bengoshi-vs-kaikeishi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/education/vocational-school-careers</loc>
+    <loc>https://mirai-shigoto.com/compare/tofu-vs-pan</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/education/university-careers</loc>
+    <loc>https://mirai-shigoto.com/compare/kyoshi-vs-hoikushi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/education/graduate-school-careers</loc>
+    <loc>https://mirai-shigoto.com/compare/kaigo-vs-kea-mane</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/education/lifetime-learning</loc>
+    <loc>https://mirai-shigoto.com/compare/kaikeishi-vs-zeirishi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/training</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/training/quick-start</loc>
+    <loc>https://mirai-shigoto.com/compare/shihou-vs-gyousei</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/training/1-3-years</loc>
+    <loc>https://mirai-shigoto.com/compare/web-marketer-vs-research</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/training/3-5-years</loc>
+    <loc>https://mirai-shigoto.com/compare/data-scientist-vs-ai-engineer</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/training/5-10-years</loc>
+    <loc>https://mirai-shigoto.com/compare/shika-vs-juui</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/training/lifelong-craft</loc>
+    <loc>https://mirai-shigoto.com/compare/yochien-vs-hoikushi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles</loc>
+    <loc>https://mirai-shigoto.com/compare/webdesigner-vs-illustrator</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/abilities</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/indoor-vs-outdoor</loc>
+    <loc>https://mirai-shigoto.com/abilities/stamina</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/desk-vs-genba</loc>
+    <loc>https://mirai-shigoto.com/abilities/physical-strength</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/move-required</loc>
+    <loc>https://mirai-shigoto.com/abilities/manual-dexterity-fine</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/shift-work</loc>
+    <loc>https://mirai-shigoto.com/abilities/visualization</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/solo-vs-team</loc>
+    <loc>https://mirai-shigoto.com/abilities/selective-attention</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/high-physical-load</loc>
+    <loc>https://mirai-shigoto.com/abilities/problem-sensitivity</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/work-styles/desk-sitting-work</loc>
+    <loc>https://mirai-shigoto.com/abilities/oral-comprehension</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/employment-types</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/employment-types/full-time-mainstream</loc>
+    <loc>https://mirai-shigoto.com/abilities/inductive-reasoning</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/employment-types/freelance-friendly</loc>
+    <loc>https://mirai-shigoto.com/abilities/deductive-reasoning</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/employment-types/part-time-mainstream</loc>
+    <loc>https://mirai-shigoto.com/abilities/oral-expression</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/employment-types/public-employee</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance</loc>
+    <loc>https://mirai-shigoto.com/knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance/child-care-balance</loc>
+    <loc>https://mirai-shigoto.com/knowledge/production-processing</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance/elderly-care-balance</loc>
+    <loc>https://mirai-shigoto.com/knowledge/customer-service</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance/health-friendly</loc>
+    <loc>https://mirai-shigoto.com/knowledge/mechanical-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance/mental-health-friendly</loc>
+    <loc>https://mirai-shigoto.com/knowledge/medical-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance/hobby-balance</loc>
+    <loc>https://mirai-shigoto.com/knowledge/mathematics-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/life-balance/senior-friendly</loc>
+    <loc>https://mirai-shigoto.com/knowledge/psychology-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/entry-paths</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/entry-paths/new-grad-mainstream</loc>
+    <loc>https://mirai-shigoto.com/knowledge/law-government-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/entry-paths/mid-career-mainstream</loc>
+    <loc>https://mirai-shigoto.com/knowledge/computers-electronics-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/entry-paths/from-arbeit</loc>
+    <loc>https://mirai-shigoto.com/knowledge/japanese-language-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/entry-paths/independent-typical</loc>
+    <loc>https://mirai-shigoto.com/knowledge/sales-marketing-knowledge</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/entry-paths/apprenticeship</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/careers</loc>
+    <loc>https://mirai-shigoto.com/values</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/shinsotsu</loc>
+    <loc>https://mirai-shigoto.com/values/achievement</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/20-late</loc>
+    <loc>https://mirai-shigoto.com/values/independence</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/30s-early</loc>
+    <loc>https://mirai-shigoto.com/values/recognition</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/30s-late</loc>
+    <loc>https://mirai-shigoto.com/values/relationships</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/40s</loc>
+    <loc>https://mirai-shigoto.com/values/support</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/50s</loc>
+    <loc>https://mirai-shigoto.com/values/working-conditions</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/60s-shinia</loc>
+    <loc>https://mirai-shigoto.com/values/expertise</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/gakusei-arbeit</loc>
+    <loc>https://mirai-shigoto.com/values/self-growth</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/careers/shufu-fukki</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/careers/career-change</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses</loc>
+    <loc>https://mirai-shigoto.com/education</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/national-vs-private</loc>
+    <loc>https://mirai-shigoto.com/education/no-school-required</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/gyoumu-dokusen</loc>
+    <loc>https://mirai-shigoto.com/education/high-school-careers</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/meishou-dokusen-hicchi</loc>
+    <loc>https://mirai-shigoto.com/education/vocational-school-careers</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/medical-licenses</loc>
+    <loc>https://mirai-shigoto.com/education/university-careers</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/welfare-licenses</loc>
+    <loc>https://mirai-shigoto.com/education/graduate-school-careers</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/education-licenses</loc>
+    <loc>https://mirai-shigoto.com/education/lifetime-learning</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/legal-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/accounting-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/construction-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/it-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/realestate-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/food-safety-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/easy-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/no-degree-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/licenses/popular-licenses</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/q</loc>
+    <loc>https://mirai-shigoto.com/training</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-de-kienai</loc>
+    <loc>https://mirai-shigoto.com/training/quick-start</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-de-kieru</loc>
+    <loc>https://mirai-shigoto.com/training/1-3-years</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-augment-vs-replace</loc>
+    <loc>https://mirai-shigoto.com/training/3-5-years</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/shikaku-mamoru</loc>
+    <loc>https://mirai-shigoto.com/training/5-10-years</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/genba-vs-jimu</loc>
+    <loc>https://mirai-shigoto.com/training/lifelong-craft</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/shokunin-mirai</loc>
+    <loc>https://mirai-shigoto.com/work-styles</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/work-styles/indoor-vs-outdoor</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/hito-aite-shigoto</loc>
+    <loc>https://mirai-shigoto.com/work-styles/desk-vs-genba</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-jidai-osusume</loc>
+    <loc>https://mirai-shigoto.com/work-styles/move-required</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/kango-ai</loc>
+    <loc>https://mirai-shigoto.com/work-styles/shift-work</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/it-engineer-ai</loc>
+    <loc>https://mirai-shigoto.com/work-styles/solo-vs-team</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/jimu-mirai</loc>
+    <loc>https://mirai-shigoto.com/work-styles/high-physical-load</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/hanbai-mirai</loc>
+    <loc>https://mirai-shigoto.com/work-styles/desk-sitting-work</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/driver-mirai</loc>
+    <loc>https://mirai-shigoto.com/employment-types</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/employment-types/full-time-mainstream</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/kyouiku-ai</loc>
+    <loc>https://mirai-shigoto.com/employment-types/freelance-friendly</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/shinso-osusume</loc>
+    <loc>https://mirai-shigoto.com/employment-types/part-time-mainstream</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/tenshoku-30s</loc>
+    <loc>https://mirai-shigoto.com/employment-types/public-employee</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/tenshoku-40s</loc>
+    <loc>https://mirai-shigoto.com/life-balance</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/life-balance/child-care-balance</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/over-50-katsuyaku</loc>
+    <loc>https://mirai-shigoto.com/life-balance/elderly-care-balance</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/tenshoku-yasashii</loc>
+    <loc>https://mirai-shigoto.com/life-balance/health-friendly</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/career-change-mirai</loc>
+    <loc>https://mirai-shigoto.com/life-balance/mental-health-friendly</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/blank-fukki</loc>
+    <loc>https://mirai-shigoto.com/life-balance/hobby-balance</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/hoshou-nashi-tenshoku</loc>
+    <loc>https://mirai-shigoto.com/life-balance/senior-friendly</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/tenshoku-kaisuu-ooi</loc>
+    <loc>https://mirai-shigoto.com/entry-paths</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/entry-paths/new-grad-mainstream</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ikuji-ryouritsu</loc>
+    <loc>https://mirai-shigoto.com/entry-paths/mid-career-mainstream</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/kaigo-ryouritsu</loc>
+    <loc>https://mirai-shigoto.com/entry-paths/from-arbeit</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/female-long</loc>
+    <loc>https://mirai-shigoto.com/entry-paths/independent-typical</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/zaitaku-shigoto</loc>
+    <loc>https://mirai-shigoto.com/entry-paths/apprenticeship</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/fukugyou-ok</loc>
+    <loc>https://mirai-shigoto.com/careers</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/careers/shinsotsu</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/shougai-mochi-ok</loc>
+    <loc>https://mirai-shigoto.com/careers/20-late</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/bunkei-osusume</loc>
+    <loc>https://mirai-shigoto.com/careers/30s-early</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/rikei-osusume</loc>
+    <loc>https://mirai-shigoto.com/careers/30s-late</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/hito-mishiri-ok</loc>
+    <loc>https://mirai-shigoto.com/careers/40s</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/suugaku-nigate</loc>
+    <loc>https://mirai-shigoto.com/careers/50s</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/eigo-ikasu</loc>
+    <loc>https://mirai-shigoto.com/careers/60s-shinia</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/geijutsu-keikei</loc>
+    <loc>https://mirai-shigoto.com/careers/gakusei-arbeit</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/naiko-osusume</loc>
+    <loc>https://mirai-shigoto.com/careers/shufu-fukki</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/gaiko-osusume</loc>
+    <loc>https://mirai-shigoto.com/careers/career-change</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/kanjou-roudou-sukunai</loc>
+    <loc>https://mirai-shigoto.com/licenses</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/licenses/national-vs-private</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ronri-shiko-ikasu</loc>
+    <loc>https://mirai-shigoto.com/licenses/gyoumu-dokusen</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/tsuukin-friendly</loc>
+    <loc>https://mirai-shigoto.com/licenses/meishou-dokusen-hicchi</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/yakin-nashi</loc>
+    <loc>https://mirai-shigoto.com/licenses/medical-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/dokushin-friendly</loc>
+    <loc>https://mirai-shigoto.com/licenses/welfare-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-shitsugyou-yobou</loc>
+    <loc>https://mirai-shigoto.com/licenses/education-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-skill-mi-ni-tsukeru</loc>
+    <loc>https://mirai-shigoto.com/licenses/legal-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/ai-hoshou-shoku</loc>
+    <loc>https://mirai-shigoto.com/licenses/accounting-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/gakureki-konpurekkusu</loc>
+    <loc>https://mirai-shigoto.com/licenses/construction-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/mikeiken-it</loc>
+    <loc>https://mirai-shigoto.com/licenses/it-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/nenshu-up</loc>
+    <loc>https://mirai-shigoto.com/licenses/realestate-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/q/kaigai-iju-shoku</loc>
+    <loc>https://mirai-shigoto.com/licenses/food-safety-licenses</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/about</loc>
+    <loc>https://mirai-shigoto.com/licenses/easy-licenses</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/licenses/no-degree-licenses</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/licenses/popular-licenses</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-de-kienai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-de-kieru</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-augment-vs-replace</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/shikaku-mamoru</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/genba-vs-jimu</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/shokunin-mirai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/hito-aite-shigoto</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-jidai-osusume</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/kango-ai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/it-engineer-ai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/jimu-mirai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/hanbai-mirai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/driver-mirai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/kyouiku-ai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/shinso-osusume</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/tenshoku-30s</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/tenshoku-40s</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/over-50-katsuyaku</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/tenshoku-yasashii</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/career-change-mirai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/blank-fukki</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/hoshou-nashi-tenshoku</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/tenshoku-kaisuu-ooi</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ikuji-ryouritsu</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/kaigo-ryouritsu</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/female-long</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/zaitaku-shigoto</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/fukugyou-ok</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/shougai-mochi-ok</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/bunkei-osusume</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/rikei-osusume</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/hito-mishiri-ok</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/suugaku-nigate</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/eigo-ikasu</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/geijutsu-keikei</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/naiko-osusume</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/gaiko-osusume</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/kanjou-roudou-sukunai</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ronri-shiko-ikasu</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/tsuukin-friendly</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/yakin-nashi</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/dokushin-friendly</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-shitsugyou-yobou</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-skill-mi-ni-tsukeru</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/ai-hoshou-shoku</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/gakureki-konpurekkusu</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/mikeiken-it</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/nenshu-up</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/q/kaigai-iju-shoku</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/yearly</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/about/methodology</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/about/glossary</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/about/data-sources</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/yearly</loc>
-    <lastmod>2026-06-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://mirai-shigoto.com/ja/yearly/2026-report</loc>
+    <loc>https://mirai-shigoto.com/yearly/2026-report</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/yearly/5year-changes</loc>
+    <loc>https://mirai-shigoto.com/yearly/5year-changes</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/yearly/next-decade</loc>
+    <loc>https://mirai-shigoto.com/yearly/next-decade</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore</loc>
+    <loc>https://mirai-shigoto.com/explore</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/by-industry</loc>
+    <loc>https://mirai-shigoto.com/explore/by-industry</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/by-ranking</loc>
+    <loc>https://mirai-shigoto.com/explore/by-ranking</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/find-your-fit</loc>
+    <loc>https://mirai-shigoto.com/explore/find-your-fit</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/by-skill-and-license</loc>
+    <loc>https://mirai-shigoto.com/explore/by-skill-and-license</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/by-work-style</loc>
+    <loc>https://mirai-shigoto.com/explore/by-work-style</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/compare</loc>
+    <loc>https://mirai-shigoto.com/explore/compare</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/explore/methodology-trust</loc>
+    <loc>https://mirai-shigoto.com/explore/methodology-trust</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/1</loc>
+    <loc>https://mirai-shigoto.com/1</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/2</loc>
+    <loc>https://mirai-shigoto.com/2</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/3</loc>
+    <loc>https://mirai-shigoto.com/3</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/4</loc>
+    <loc>https://mirai-shigoto.com/4</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/5</loc>
+    <loc>https://mirai-shigoto.com/5</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/6</loc>
+    <loc>https://mirai-shigoto.com/6</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/7</loc>
+    <loc>https://mirai-shigoto.com/7</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/8</loc>
+    <loc>https://mirai-shigoto.com/8</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/9</loc>
+    <loc>https://mirai-shigoto.com/9</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/10</loc>
+    <loc>https://mirai-shigoto.com/10</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/11</loc>
+    <loc>https://mirai-shigoto.com/11</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/12</loc>
+    <loc>https://mirai-shigoto.com/12</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/13</loc>
+    <loc>https://mirai-shigoto.com/13</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/14</loc>
+    <loc>https://mirai-shigoto.com/14</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/15</loc>
+    <loc>https://mirai-shigoto.com/15</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/16</loc>
+    <loc>https://mirai-shigoto.com/16</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/17</loc>
+    <loc>https://mirai-shigoto.com/17</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/18</loc>
+    <loc>https://mirai-shigoto.com/18</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/19</loc>
+    <loc>https://mirai-shigoto.com/19</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/20</loc>
+    <loc>https://mirai-shigoto.com/20</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/21</loc>
+    <loc>https://mirai-shigoto.com/21</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/22</loc>
+    <loc>https://mirai-shigoto.com/22</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/23</loc>
+    <loc>https://mirai-shigoto.com/23</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/24</loc>
+    <loc>https://mirai-shigoto.com/24</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/25</loc>
+    <loc>https://mirai-shigoto.com/25</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/26</loc>
+    <loc>https://mirai-shigoto.com/26</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/27</loc>
+    <loc>https://mirai-shigoto.com/27</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/28</loc>
+    <loc>https://mirai-shigoto.com/28</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/29</loc>
+    <loc>https://mirai-shigoto.com/29</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/30</loc>
+    <loc>https://mirai-shigoto.com/30</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/31</loc>
+    <loc>https://mirai-shigoto.com/31</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/32</loc>
+    <loc>https://mirai-shigoto.com/32</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/33</loc>
+    <loc>https://mirai-shigoto.com/33</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/35</loc>
+    <loc>https://mirai-shigoto.com/35</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/36</loc>
+    <loc>https://mirai-shigoto.com/36</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/37</loc>
+    <loc>https://mirai-shigoto.com/37</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/38</loc>
+    <loc>https://mirai-shigoto.com/38</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/39</loc>
+    <loc>https://mirai-shigoto.com/39</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/40</loc>
+    <loc>https://mirai-shigoto.com/40</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/41</loc>
+    <loc>https://mirai-shigoto.com/41</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/42</loc>
+    <loc>https://mirai-shigoto.com/42</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/43</loc>
+    <loc>https://mirai-shigoto.com/43</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/44</loc>
+    <loc>https://mirai-shigoto.com/44</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/45</loc>
+    <loc>https://mirai-shigoto.com/45</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/46</loc>
+    <loc>https://mirai-shigoto.com/46</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/47</loc>
+    <loc>https://mirai-shigoto.com/47</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/48</loc>
+    <loc>https://mirai-shigoto.com/48</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/49</loc>
+    <loc>https://mirai-shigoto.com/49</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/50</loc>
+    <loc>https://mirai-shigoto.com/50</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/51</loc>
+    <loc>https://mirai-shigoto.com/51</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/52</loc>
+    <loc>https://mirai-shigoto.com/52</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/53</loc>
+    <loc>https://mirai-shigoto.com/53</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/54</loc>
+    <loc>https://mirai-shigoto.com/54</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/55</loc>
+    <loc>https://mirai-shigoto.com/55</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/56</loc>
+    <loc>https://mirai-shigoto.com/56</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/57</loc>
+    <loc>https://mirai-shigoto.com/57</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/58</loc>
+    <loc>https://mirai-shigoto.com/58</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/59</loc>
+    <loc>https://mirai-shigoto.com/59</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/60</loc>
+    <loc>https://mirai-shigoto.com/60</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/61</loc>
+    <loc>https://mirai-shigoto.com/61</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/62</loc>
+    <loc>https://mirai-shigoto.com/62</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/63</loc>
+    <loc>https://mirai-shigoto.com/63</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/64</loc>
+    <loc>https://mirai-shigoto.com/64</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/65</loc>
+    <loc>https://mirai-shigoto.com/65</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/66</loc>
+    <loc>https://mirai-shigoto.com/66</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/67</loc>
+    <loc>https://mirai-shigoto.com/67</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/68</loc>
+    <loc>https://mirai-shigoto.com/68</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/69</loc>
+    <loc>https://mirai-shigoto.com/69</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/70</loc>
+    <loc>https://mirai-shigoto.com/70</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/71</loc>
+    <loc>https://mirai-shigoto.com/71</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/72</loc>
+    <loc>https://mirai-shigoto.com/72</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/73</loc>
+    <loc>https://mirai-shigoto.com/73</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/74</loc>
+    <loc>https://mirai-shigoto.com/74</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/75</loc>
+    <loc>https://mirai-shigoto.com/75</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/76</loc>
+    <loc>https://mirai-shigoto.com/76</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/77</loc>
+    <loc>https://mirai-shigoto.com/77</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/78</loc>
+    <loc>https://mirai-shigoto.com/78</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/79</loc>
+    <loc>https://mirai-shigoto.com/79</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/80</loc>
+    <loc>https://mirai-shigoto.com/80</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/81</loc>
+    <loc>https://mirai-shigoto.com/81</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/82</loc>
+    <loc>https://mirai-shigoto.com/82</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/83</loc>
+    <loc>https://mirai-shigoto.com/83</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/84</loc>
+    <loc>https://mirai-shigoto.com/84</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/85</loc>
+    <loc>https://mirai-shigoto.com/85</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/86</loc>
+    <loc>https://mirai-shigoto.com/86</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/87</loc>
+    <loc>https://mirai-shigoto.com/87</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/88</loc>
+    <loc>https://mirai-shigoto.com/88</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/89</loc>
+    <loc>https://mirai-shigoto.com/89</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/90</loc>
+    <loc>https://mirai-shigoto.com/90</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/91</loc>
+    <loc>https://mirai-shigoto.com/91</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/92</loc>
+    <loc>https://mirai-shigoto.com/92</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/93</loc>
+    <loc>https://mirai-shigoto.com/93</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/94</loc>
+    <loc>https://mirai-shigoto.com/94</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/95</loc>
+    <loc>https://mirai-shigoto.com/95</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/96</loc>
+    <loc>https://mirai-shigoto.com/96</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/97</loc>
+    <loc>https://mirai-shigoto.com/97</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/98</loc>
+    <loc>https://mirai-shigoto.com/98</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/99</loc>
+    <loc>https://mirai-shigoto.com/99</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/100</loc>
+    <loc>https://mirai-shigoto.com/100</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/101</loc>
+    <loc>https://mirai-shigoto.com/101</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/102</loc>
+    <loc>https://mirai-shigoto.com/102</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/103</loc>
+    <loc>https://mirai-shigoto.com/103</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/104</loc>
+    <loc>https://mirai-shigoto.com/104</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/105</loc>
+    <loc>https://mirai-shigoto.com/105</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/106</loc>
+    <loc>https://mirai-shigoto.com/106</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/107</loc>
+    <loc>https://mirai-shigoto.com/107</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/108</loc>
+    <loc>https://mirai-shigoto.com/108</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/109</loc>
+    <loc>https://mirai-shigoto.com/109</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/110</loc>
+    <loc>https://mirai-shigoto.com/110</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/111</loc>
+    <loc>https://mirai-shigoto.com/111</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/112</loc>
+    <loc>https://mirai-shigoto.com/112</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/113</loc>
+    <loc>https://mirai-shigoto.com/113</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/114</loc>
+    <loc>https://mirai-shigoto.com/114</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/115</loc>
+    <loc>https://mirai-shigoto.com/115</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/116</loc>
+    <loc>https://mirai-shigoto.com/116</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/117</loc>
+    <loc>https://mirai-shigoto.com/117</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/118</loc>
+    <loc>https://mirai-shigoto.com/118</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/119</loc>
+    <loc>https://mirai-shigoto.com/119</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/120</loc>
+    <loc>https://mirai-shigoto.com/120</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/121</loc>
+    <loc>https://mirai-shigoto.com/121</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/122</loc>
+    <loc>https://mirai-shigoto.com/122</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/123</loc>
+    <loc>https://mirai-shigoto.com/123</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/124</loc>
+    <loc>https://mirai-shigoto.com/124</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/125</loc>
+    <loc>https://mirai-shigoto.com/125</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/126</loc>
+    <loc>https://mirai-shigoto.com/126</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/127</loc>
+    <loc>https://mirai-shigoto.com/127</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/128</loc>
+    <loc>https://mirai-shigoto.com/128</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/129</loc>
+    <loc>https://mirai-shigoto.com/129</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/130</loc>
+    <loc>https://mirai-shigoto.com/130</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/131</loc>
+    <loc>https://mirai-shigoto.com/131</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/132</loc>
+    <loc>https://mirai-shigoto.com/132</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/133</loc>
+    <loc>https://mirai-shigoto.com/133</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/134</loc>
+    <loc>https://mirai-shigoto.com/134</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/135</loc>
+    <loc>https://mirai-shigoto.com/135</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/136</loc>
+    <loc>https://mirai-shigoto.com/136</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/137</loc>
+    <loc>https://mirai-shigoto.com/137</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/138</loc>
+    <loc>https://mirai-shigoto.com/138</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/139</loc>
+    <loc>https://mirai-shigoto.com/139</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/140</loc>
+    <loc>https://mirai-shigoto.com/140</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/141</loc>
+    <loc>https://mirai-shigoto.com/141</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/142</loc>
+    <loc>https://mirai-shigoto.com/142</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/143</loc>
+    <loc>https://mirai-shigoto.com/143</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/144</loc>
+    <loc>https://mirai-shigoto.com/144</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/145</loc>
+    <loc>https://mirai-shigoto.com/145</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/146</loc>
+    <loc>https://mirai-shigoto.com/146</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/147</loc>
+    <loc>https://mirai-shigoto.com/147</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/148</loc>
+    <loc>https://mirai-shigoto.com/148</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/149</loc>
+    <loc>https://mirai-shigoto.com/149</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/150</loc>
+    <loc>https://mirai-shigoto.com/150</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/151</loc>
+    <loc>https://mirai-shigoto.com/151</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/152</loc>
+    <loc>https://mirai-shigoto.com/152</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/153</loc>
+    <loc>https://mirai-shigoto.com/153</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/154</loc>
+    <loc>https://mirai-shigoto.com/154</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/155</loc>
+    <loc>https://mirai-shigoto.com/155</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/156</loc>
+    <loc>https://mirai-shigoto.com/156</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/157</loc>
+    <loc>https://mirai-shigoto.com/157</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/158</loc>
+    <loc>https://mirai-shigoto.com/158</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/159</loc>
+    <loc>https://mirai-shigoto.com/159</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/160</loc>
+    <loc>https://mirai-shigoto.com/160</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/161</loc>
+    <loc>https://mirai-shigoto.com/161</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/162</loc>
+    <loc>https://mirai-shigoto.com/162</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/163</loc>
+    <loc>https://mirai-shigoto.com/163</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/164</loc>
+    <loc>https://mirai-shigoto.com/164</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/165</loc>
+    <loc>https://mirai-shigoto.com/165</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/166</loc>
+    <loc>https://mirai-shigoto.com/166</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/167</loc>
+    <loc>https://mirai-shigoto.com/167</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/168</loc>
+    <loc>https://mirai-shigoto.com/168</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/169</loc>
+    <loc>https://mirai-shigoto.com/169</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/170</loc>
+    <loc>https://mirai-shigoto.com/170</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/171</loc>
+    <loc>https://mirai-shigoto.com/171</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/172</loc>
+    <loc>https://mirai-shigoto.com/172</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/173</loc>
+    <loc>https://mirai-shigoto.com/173</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/174</loc>
+    <loc>https://mirai-shigoto.com/174</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/175</loc>
+    <loc>https://mirai-shigoto.com/175</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/176</loc>
+    <loc>https://mirai-shigoto.com/176</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/178</loc>
+    <loc>https://mirai-shigoto.com/178</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/179</loc>
+    <loc>https://mirai-shigoto.com/179</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/180</loc>
+    <loc>https://mirai-shigoto.com/180</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/181</loc>
+    <loc>https://mirai-shigoto.com/181</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/182</loc>
+    <loc>https://mirai-shigoto.com/182</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/183</loc>
+    <loc>https://mirai-shigoto.com/183</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/184</loc>
+    <loc>https://mirai-shigoto.com/184</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/185</loc>
+    <loc>https://mirai-shigoto.com/185</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/186</loc>
+    <loc>https://mirai-shigoto.com/186</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/187</loc>
+    <loc>https://mirai-shigoto.com/187</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/188</loc>
+    <loc>https://mirai-shigoto.com/188</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/189</loc>
+    <loc>https://mirai-shigoto.com/189</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/190</loc>
+    <loc>https://mirai-shigoto.com/190</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/191</loc>
+    <loc>https://mirai-shigoto.com/191</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/192</loc>
+    <loc>https://mirai-shigoto.com/192</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/193</loc>
+    <loc>https://mirai-shigoto.com/193</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/194</loc>
+    <loc>https://mirai-shigoto.com/194</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/195</loc>
+    <loc>https://mirai-shigoto.com/195</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/196</loc>
+    <loc>https://mirai-shigoto.com/196</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/197</loc>
+    <loc>https://mirai-shigoto.com/197</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/198</loc>
+    <loc>https://mirai-shigoto.com/198</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/199</loc>
+    <loc>https://mirai-shigoto.com/199</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/200</loc>
+    <loc>https://mirai-shigoto.com/200</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/201</loc>
+    <loc>https://mirai-shigoto.com/201</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/202</loc>
+    <loc>https://mirai-shigoto.com/202</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/203</loc>
+    <loc>https://mirai-shigoto.com/203</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/204</loc>
+    <loc>https://mirai-shigoto.com/204</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/205</loc>
+    <loc>https://mirai-shigoto.com/205</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/206</loc>
+    <loc>https://mirai-shigoto.com/206</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/207</loc>
+    <loc>https://mirai-shigoto.com/207</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/208</loc>
+    <loc>https://mirai-shigoto.com/208</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/209</loc>
+    <loc>https://mirai-shigoto.com/209</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/210</loc>
+    <loc>https://mirai-shigoto.com/210</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/211</loc>
+    <loc>https://mirai-shigoto.com/211</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/212</loc>
+    <loc>https://mirai-shigoto.com/212</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/213</loc>
+    <loc>https://mirai-shigoto.com/213</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/214</loc>
+    <loc>https://mirai-shigoto.com/214</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/215</loc>
+    <loc>https://mirai-shigoto.com/215</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/216</loc>
+    <loc>https://mirai-shigoto.com/216</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/217</loc>
+    <loc>https://mirai-shigoto.com/217</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/218</loc>
+    <loc>https://mirai-shigoto.com/218</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/219</loc>
+    <loc>https://mirai-shigoto.com/219</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/220</loc>
+    <loc>https://mirai-shigoto.com/220</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/221</loc>
+    <loc>https://mirai-shigoto.com/221</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/222</loc>
+    <loc>https://mirai-shigoto.com/222</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/223</loc>
+    <loc>https://mirai-shigoto.com/223</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/224</loc>
+    <loc>https://mirai-shigoto.com/224</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/225</loc>
+    <loc>https://mirai-shigoto.com/225</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/226</loc>
+    <loc>https://mirai-shigoto.com/226</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/227</loc>
+    <loc>https://mirai-shigoto.com/227</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/228</loc>
+    <loc>https://mirai-shigoto.com/228</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/229</loc>
+    <loc>https://mirai-shigoto.com/229</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/230</loc>
+    <loc>https://mirai-shigoto.com/230</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/231</loc>
+    <loc>https://mirai-shigoto.com/231</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/232</loc>
+    <loc>https://mirai-shigoto.com/232</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/233</loc>
+    <loc>https://mirai-shigoto.com/233</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/234</loc>
+    <loc>https://mirai-shigoto.com/234</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/235</loc>
+    <loc>https://mirai-shigoto.com/235</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/236</loc>
+    <loc>https://mirai-shigoto.com/236</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/237</loc>
+    <loc>https://mirai-shigoto.com/237</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/238</loc>
+    <loc>https://mirai-shigoto.com/238</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/239</loc>
+    <loc>https://mirai-shigoto.com/239</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/240</loc>
+    <loc>https://mirai-shigoto.com/240</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/241</loc>
+    <loc>https://mirai-shigoto.com/241</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/242</loc>
+    <loc>https://mirai-shigoto.com/242</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/243</loc>
+    <loc>https://mirai-shigoto.com/243</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/244</loc>
+    <loc>https://mirai-shigoto.com/244</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/245</loc>
+    <loc>https://mirai-shigoto.com/245</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/246</loc>
+    <loc>https://mirai-shigoto.com/246</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/247</loc>
+    <loc>https://mirai-shigoto.com/247</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/248</loc>
+    <loc>https://mirai-shigoto.com/248</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/249</loc>
+    <loc>https://mirai-shigoto.com/249</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/250</loc>
+    <loc>https://mirai-shigoto.com/250</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/251</loc>
+    <loc>https://mirai-shigoto.com/251</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/252</loc>
+    <loc>https://mirai-shigoto.com/252</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/253</loc>
+    <loc>https://mirai-shigoto.com/253</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/254</loc>
+    <loc>https://mirai-shigoto.com/254</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/255</loc>
+    <loc>https://mirai-shigoto.com/255</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/256</loc>
+    <loc>https://mirai-shigoto.com/256</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/257</loc>
+    <loc>https://mirai-shigoto.com/257</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/258</loc>
+    <loc>https://mirai-shigoto.com/258</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/259</loc>
+    <loc>https://mirai-shigoto.com/259</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/260</loc>
+    <loc>https://mirai-shigoto.com/260</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/261</loc>
+    <loc>https://mirai-shigoto.com/261</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/262</loc>
+    <loc>https://mirai-shigoto.com/262</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/263</loc>
+    <loc>https://mirai-shigoto.com/263</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/264</loc>
+    <loc>https://mirai-shigoto.com/264</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/265</loc>
+    <loc>https://mirai-shigoto.com/265</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/266</loc>
+    <loc>https://mirai-shigoto.com/266</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/267</loc>
+    <loc>https://mirai-shigoto.com/267</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/268</loc>
+    <loc>https://mirai-shigoto.com/268</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/269</loc>
+    <loc>https://mirai-shigoto.com/269</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/270</loc>
+    <loc>https://mirai-shigoto.com/270</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/271</loc>
+    <loc>https://mirai-shigoto.com/271</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/272</loc>
+    <loc>https://mirai-shigoto.com/272</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/273</loc>
+    <loc>https://mirai-shigoto.com/273</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/274</loc>
+    <loc>https://mirai-shigoto.com/274</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/275</loc>
+    <loc>https://mirai-shigoto.com/275</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/276</loc>
+    <loc>https://mirai-shigoto.com/276</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/277</loc>
+    <loc>https://mirai-shigoto.com/277</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/278</loc>
+    <loc>https://mirai-shigoto.com/278</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/279</loc>
+    <loc>https://mirai-shigoto.com/279</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/280</loc>
+    <loc>https://mirai-shigoto.com/280</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/281</loc>
+    <loc>https://mirai-shigoto.com/281</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/282</loc>
+    <loc>https://mirai-shigoto.com/282</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/283</loc>
+    <loc>https://mirai-shigoto.com/283</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/284</loc>
+    <loc>https://mirai-shigoto.com/284</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/285</loc>
+    <loc>https://mirai-shigoto.com/285</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/286</loc>
+    <loc>https://mirai-shigoto.com/286</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/287</loc>
+    <loc>https://mirai-shigoto.com/287</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/288</loc>
+    <loc>https://mirai-shigoto.com/288</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/289</loc>
+    <loc>https://mirai-shigoto.com/289</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/290</loc>
+    <loc>https://mirai-shigoto.com/290</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/291</loc>
+    <loc>https://mirai-shigoto.com/291</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/292</loc>
+    <loc>https://mirai-shigoto.com/292</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/295</loc>
+    <loc>https://mirai-shigoto.com/295</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/296</loc>
+    <loc>https://mirai-shigoto.com/296</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/297</loc>
+    <loc>https://mirai-shigoto.com/297</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/298</loc>
+    <loc>https://mirai-shigoto.com/298</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/299</loc>
+    <loc>https://mirai-shigoto.com/299</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/300</loc>
+    <loc>https://mirai-shigoto.com/300</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/301</loc>
+    <loc>https://mirai-shigoto.com/301</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/302</loc>
+    <loc>https://mirai-shigoto.com/302</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/303</loc>
+    <loc>https://mirai-shigoto.com/303</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/304</loc>
+    <loc>https://mirai-shigoto.com/304</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/305</loc>
+    <loc>https://mirai-shigoto.com/305</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/306</loc>
+    <loc>https://mirai-shigoto.com/306</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/307</loc>
+    <loc>https://mirai-shigoto.com/307</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/308</loc>
+    <loc>https://mirai-shigoto.com/308</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/309</loc>
+    <loc>https://mirai-shigoto.com/309</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/310</loc>
+    <loc>https://mirai-shigoto.com/310</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/311</loc>
+    <loc>https://mirai-shigoto.com/311</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/312</loc>
+    <loc>https://mirai-shigoto.com/312</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/313</loc>
+    <loc>https://mirai-shigoto.com/313</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/314</loc>
+    <loc>https://mirai-shigoto.com/314</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/315</loc>
+    <loc>https://mirai-shigoto.com/315</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/316</loc>
+    <loc>https://mirai-shigoto.com/316</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/317</loc>
+    <loc>https://mirai-shigoto.com/317</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/318</loc>
+    <loc>https://mirai-shigoto.com/318</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/319</loc>
+    <loc>https://mirai-shigoto.com/319</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/320</loc>
+    <loc>https://mirai-shigoto.com/320</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/321</loc>
+    <loc>https://mirai-shigoto.com/321</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/322</loc>
+    <loc>https://mirai-shigoto.com/322</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/323</loc>
+    <loc>https://mirai-shigoto.com/323</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/324</loc>
+    <loc>https://mirai-shigoto.com/324</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/325</loc>
+    <loc>https://mirai-shigoto.com/325</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/326</loc>
+    <loc>https://mirai-shigoto.com/326</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/327</loc>
+    <loc>https://mirai-shigoto.com/327</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/328</loc>
+    <loc>https://mirai-shigoto.com/328</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/329</loc>
+    <loc>https://mirai-shigoto.com/329</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/330</loc>
+    <loc>https://mirai-shigoto.com/330</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/331</loc>
+    <loc>https://mirai-shigoto.com/331</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/332</loc>
+    <loc>https://mirai-shigoto.com/332</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/333</loc>
+    <loc>https://mirai-shigoto.com/333</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/334</loc>
+    <loc>https://mirai-shigoto.com/334</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/335</loc>
+    <loc>https://mirai-shigoto.com/335</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/336</loc>
+    <loc>https://mirai-shigoto.com/336</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/337</loc>
+    <loc>https://mirai-shigoto.com/337</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/338</loc>
+    <loc>https://mirai-shigoto.com/338</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/339</loc>
+    <loc>https://mirai-shigoto.com/339</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/340</loc>
+    <loc>https://mirai-shigoto.com/340</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/341</loc>
+    <loc>https://mirai-shigoto.com/341</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/342</loc>
+    <loc>https://mirai-shigoto.com/342</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/343</loc>
+    <loc>https://mirai-shigoto.com/343</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/344</loc>
+    <loc>https://mirai-shigoto.com/344</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/345</loc>
+    <loc>https://mirai-shigoto.com/345</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/346</loc>
+    <loc>https://mirai-shigoto.com/346</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/347</loc>
+    <loc>https://mirai-shigoto.com/347</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/348</loc>
+    <loc>https://mirai-shigoto.com/348</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/349</loc>
+    <loc>https://mirai-shigoto.com/349</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/350</loc>
+    <loc>https://mirai-shigoto.com/350</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/351</loc>
+    <loc>https://mirai-shigoto.com/351</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/352</loc>
+    <loc>https://mirai-shigoto.com/352</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/353</loc>
+    <loc>https://mirai-shigoto.com/353</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/354</loc>
+    <loc>https://mirai-shigoto.com/354</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/355</loc>
+    <loc>https://mirai-shigoto.com/355</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/356</loc>
+    <loc>https://mirai-shigoto.com/356</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/357</loc>
+    <loc>https://mirai-shigoto.com/357</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/358</loc>
+    <loc>https://mirai-shigoto.com/358</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/359</loc>
+    <loc>https://mirai-shigoto.com/359</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/360</loc>
+    <loc>https://mirai-shigoto.com/360</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/361</loc>
+    <loc>https://mirai-shigoto.com/361</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/362</loc>
+    <loc>https://mirai-shigoto.com/362</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/363</loc>
+    <loc>https://mirai-shigoto.com/363</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/364</loc>
+    <loc>https://mirai-shigoto.com/364</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/365</loc>
+    <loc>https://mirai-shigoto.com/365</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/366</loc>
+    <loc>https://mirai-shigoto.com/366</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/388</loc>
+    <loc>https://mirai-shigoto.com/388</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/389</loc>
+    <loc>https://mirai-shigoto.com/389</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/390</loc>
+    <loc>https://mirai-shigoto.com/390</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/391</loc>
+    <loc>https://mirai-shigoto.com/391</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/392</loc>
+    <loc>https://mirai-shigoto.com/392</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/393</loc>
+    <loc>https://mirai-shigoto.com/393</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/394</loc>
+    <loc>https://mirai-shigoto.com/394</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/395</loc>
+    <loc>https://mirai-shigoto.com/395</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/396</loc>
+    <loc>https://mirai-shigoto.com/396</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/397</loc>
+    <loc>https://mirai-shigoto.com/397</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/398</loc>
+    <loc>https://mirai-shigoto.com/398</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/399</loc>
+    <loc>https://mirai-shigoto.com/399</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/400</loc>
+    <loc>https://mirai-shigoto.com/400</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/401</loc>
+    <loc>https://mirai-shigoto.com/401</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/402</loc>
+    <loc>https://mirai-shigoto.com/402</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/403</loc>
+    <loc>https://mirai-shigoto.com/403</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/404</loc>
+    <loc>https://mirai-shigoto.com/404</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/405</loc>
+    <loc>https://mirai-shigoto.com/405</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/406</loc>
+    <loc>https://mirai-shigoto.com/406</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/407</loc>
+    <loc>https://mirai-shigoto.com/407</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/408</loc>
+    <loc>https://mirai-shigoto.com/408</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/409</loc>
+    <loc>https://mirai-shigoto.com/409</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/410</loc>
+    <loc>https://mirai-shigoto.com/410</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/411</loc>
+    <loc>https://mirai-shigoto.com/411</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/412</loc>
+    <loc>https://mirai-shigoto.com/412</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/413</loc>
+    <loc>https://mirai-shigoto.com/413</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/414</loc>
+    <loc>https://mirai-shigoto.com/414</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/415</loc>
+    <loc>https://mirai-shigoto.com/415</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/416</loc>
+    <loc>https://mirai-shigoto.com/416</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/417</loc>
+    <loc>https://mirai-shigoto.com/417</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/418</loc>
+    <loc>https://mirai-shigoto.com/418</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/419</loc>
+    <loc>https://mirai-shigoto.com/419</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/420</loc>
+    <loc>https://mirai-shigoto.com/420</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/421</loc>
+    <loc>https://mirai-shigoto.com/421</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/422</loc>
+    <loc>https://mirai-shigoto.com/422</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/423</loc>
+    <loc>https://mirai-shigoto.com/423</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/424</loc>
+    <loc>https://mirai-shigoto.com/424</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/425</loc>
+    <loc>https://mirai-shigoto.com/425</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/426</loc>
+    <loc>https://mirai-shigoto.com/426</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/427</loc>
+    <loc>https://mirai-shigoto.com/427</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/428</loc>
+    <loc>https://mirai-shigoto.com/428</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/429</loc>
+    <loc>https://mirai-shigoto.com/429</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/430</loc>
+    <loc>https://mirai-shigoto.com/430</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/431</loc>
+    <loc>https://mirai-shigoto.com/431</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/432</loc>
+    <loc>https://mirai-shigoto.com/432</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/433</loc>
+    <loc>https://mirai-shigoto.com/433</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/434</loc>
+    <loc>https://mirai-shigoto.com/434</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/435</loc>
+    <loc>https://mirai-shigoto.com/435</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/436</loc>
+    <loc>https://mirai-shigoto.com/436</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/437</loc>
+    <loc>https://mirai-shigoto.com/437</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/438</loc>
+    <loc>https://mirai-shigoto.com/438</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/439</loc>
+    <loc>https://mirai-shigoto.com/439</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/440</loc>
+    <loc>https://mirai-shigoto.com/440</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/441</loc>
+    <loc>https://mirai-shigoto.com/441</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/442</loc>
+    <loc>https://mirai-shigoto.com/442</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/443</loc>
+    <loc>https://mirai-shigoto.com/443</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/444</loc>
+    <loc>https://mirai-shigoto.com/444</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/445</loc>
+    <loc>https://mirai-shigoto.com/445</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/446</loc>
+    <loc>https://mirai-shigoto.com/446</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/447</loc>
+    <loc>https://mirai-shigoto.com/447</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/448</loc>
+    <loc>https://mirai-shigoto.com/448</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/449</loc>
+    <loc>https://mirai-shigoto.com/449</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/450</loc>
+    <loc>https://mirai-shigoto.com/450</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/451</loc>
+    <loc>https://mirai-shigoto.com/451</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/452</loc>
+    <loc>https://mirai-shigoto.com/452</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/453</loc>
+    <loc>https://mirai-shigoto.com/453</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/454</loc>
+    <loc>https://mirai-shigoto.com/454</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/455</loc>
+    <loc>https://mirai-shigoto.com/455</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/456</loc>
+    <loc>https://mirai-shigoto.com/456</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/457</loc>
+    <loc>https://mirai-shigoto.com/457</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/461</loc>
+    <loc>https://mirai-shigoto.com/461</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/462</loc>
+    <loc>https://mirai-shigoto.com/462</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/463</loc>
+    <loc>https://mirai-shigoto.com/463</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/464</loc>
+    <loc>https://mirai-shigoto.com/464</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/465</loc>
+    <loc>https://mirai-shigoto.com/465</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/466</loc>
+    <loc>https://mirai-shigoto.com/466</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/467</loc>
+    <loc>https://mirai-shigoto.com/467</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/468</loc>
+    <loc>https://mirai-shigoto.com/468</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/469</loc>
+    <loc>https://mirai-shigoto.com/469</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/470</loc>
+    <loc>https://mirai-shigoto.com/470</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/471</loc>
+    <loc>https://mirai-shigoto.com/471</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/472</loc>
+    <loc>https://mirai-shigoto.com/472</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/473</loc>
+    <loc>https://mirai-shigoto.com/473</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/474</loc>
+    <loc>https://mirai-shigoto.com/474</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/475</loc>
+    <loc>https://mirai-shigoto.com/475</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/476</loc>
+    <loc>https://mirai-shigoto.com/476</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/477</loc>
+    <loc>https://mirai-shigoto.com/477</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/478</loc>
+    <loc>https://mirai-shigoto.com/478</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/479</loc>
+    <loc>https://mirai-shigoto.com/479</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/480</loc>
+    <loc>https://mirai-shigoto.com/480</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/481</loc>
+    <loc>https://mirai-shigoto.com/481</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/482</loc>
+    <loc>https://mirai-shigoto.com/482</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/483</loc>
+    <loc>https://mirai-shigoto.com/483</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/484</loc>
+    <loc>https://mirai-shigoto.com/484</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/485</loc>
+    <loc>https://mirai-shigoto.com/485</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/486</loc>
+    <loc>https://mirai-shigoto.com/486</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/487</loc>
+    <loc>https://mirai-shigoto.com/487</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/488</loc>
+    <loc>https://mirai-shigoto.com/488</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/489</loc>
+    <loc>https://mirai-shigoto.com/489</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/490</loc>
+    <loc>https://mirai-shigoto.com/490</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/491</loc>
+    <loc>https://mirai-shigoto.com/491</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/492</loc>
+    <loc>https://mirai-shigoto.com/492</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/493</loc>
+    <loc>https://mirai-shigoto.com/493</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/494</loc>
+    <loc>https://mirai-shigoto.com/494</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/495</loc>
+    <loc>https://mirai-shigoto.com/495</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/496</loc>
+    <loc>https://mirai-shigoto.com/496</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/497</loc>
+    <loc>https://mirai-shigoto.com/497</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/498</loc>
+    <loc>https://mirai-shigoto.com/498</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/499</loc>
+    <loc>https://mirai-shigoto.com/499</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/500</loc>
+    <loc>https://mirai-shigoto.com/500</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/501</loc>
+    <loc>https://mirai-shigoto.com/501</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/502</loc>
+    <loc>https://mirai-shigoto.com/502</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/503</loc>
+    <loc>https://mirai-shigoto.com/503</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/504</loc>
+    <loc>https://mirai-shigoto.com/504</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/505</loc>
+    <loc>https://mirai-shigoto.com/505</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/506</loc>
+    <loc>https://mirai-shigoto.com/506</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/507</loc>
+    <loc>https://mirai-shigoto.com/507</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/508</loc>
+    <loc>https://mirai-shigoto.com/508</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/509</loc>
+    <loc>https://mirai-shigoto.com/509</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/510</loc>
+    <loc>https://mirai-shigoto.com/510</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/511</loc>
+    <loc>https://mirai-shigoto.com/511</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/512</loc>
+    <loc>https://mirai-shigoto.com/512</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/513</loc>
+    <loc>https://mirai-shigoto.com/513</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/514</loc>
+    <loc>https://mirai-shigoto.com/514</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/515</loc>
+    <loc>https://mirai-shigoto.com/515</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/516</loc>
+    <loc>https://mirai-shigoto.com/516</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/517</loc>
+    <loc>https://mirai-shigoto.com/517</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/518</loc>
+    <loc>https://mirai-shigoto.com/518</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/519</loc>
+    <loc>https://mirai-shigoto.com/519</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/520</loc>
+    <loc>https://mirai-shigoto.com/520</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/521</loc>
+    <loc>https://mirai-shigoto.com/521</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/522</loc>
+    <loc>https://mirai-shigoto.com/522</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/523</loc>
+    <loc>https://mirai-shigoto.com/523</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/524</loc>
+    <loc>https://mirai-shigoto.com/524</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/525</loc>
+    <loc>https://mirai-shigoto.com/525</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/526</loc>
+    <loc>https://mirai-shigoto.com/526</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/527</loc>
+    <loc>https://mirai-shigoto.com/527</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/528</loc>
+    <loc>https://mirai-shigoto.com/528</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/529</loc>
+    <loc>https://mirai-shigoto.com/529</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/530</loc>
+    <loc>https://mirai-shigoto.com/530</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/531</loc>
+    <loc>https://mirai-shigoto.com/531</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/532</loc>
+    <loc>https://mirai-shigoto.com/532</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/533</loc>
+    <loc>https://mirai-shigoto.com/533</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/534</loc>
+    <loc>https://mirai-shigoto.com/534</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/535</loc>
+    <loc>https://mirai-shigoto.com/535</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/536</loc>
+    <loc>https://mirai-shigoto.com/536</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/537</loc>
+    <loc>https://mirai-shigoto.com/537</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/538</loc>
+    <loc>https://mirai-shigoto.com/538</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/539</loc>
+    <loc>https://mirai-shigoto.com/539</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/540</loc>
+    <loc>https://mirai-shigoto.com/540</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/541</loc>
+    <loc>https://mirai-shigoto.com/541</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/542</loc>
+    <loc>https://mirai-shigoto.com/542</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/543</loc>
+    <loc>https://mirai-shigoto.com/543</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/544</loc>
+    <loc>https://mirai-shigoto.com/544</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/545</loc>
+    <loc>https://mirai-shigoto.com/545</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/546</loc>
+    <loc>https://mirai-shigoto.com/546</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/547</loc>
+    <loc>https://mirai-shigoto.com/547</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/548</loc>
+    <loc>https://mirai-shigoto.com/548</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/549</loc>
+    <loc>https://mirai-shigoto.com/549</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/550</loc>
+    <loc>https://mirai-shigoto.com/550</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/551</loc>
+    <loc>https://mirai-shigoto.com/551</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/552</loc>
+    <loc>https://mirai-shigoto.com/552</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/553</loc>
+    <loc>https://mirai-shigoto.com/553</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/554</loc>
+    <loc>https://mirai-shigoto.com/554</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/555</loc>
+    <loc>https://mirai-shigoto.com/555</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/556</loc>
+    <loc>https://mirai-shigoto.com/556</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/557</loc>
+    <loc>https://mirai-shigoto.com/557</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/558</loc>
+    <loc>https://mirai-shigoto.com/558</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/559</loc>
+    <loc>https://mirai-shigoto.com/559</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/560</loc>
+    <loc>https://mirai-shigoto.com/560</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/561</loc>
+    <loc>https://mirai-shigoto.com/561</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/562</loc>
+    <loc>https://mirai-shigoto.com/562</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/563</loc>
+    <loc>https://mirai-shigoto.com/563</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/564</loc>
+    <loc>https://mirai-shigoto.com/564</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/565</loc>
+    <loc>https://mirai-shigoto.com/565</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/566</loc>
+    <loc>https://mirai-shigoto.com/566</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/567</loc>
+    <loc>https://mirai-shigoto.com/567</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/568</loc>
+    <loc>https://mirai-shigoto.com/568</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/569</loc>
+    <loc>https://mirai-shigoto.com/569</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/570</loc>
+    <loc>https://mirai-shigoto.com/570</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/571</loc>
+    <loc>https://mirai-shigoto.com/571</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/572</loc>
+    <loc>https://mirai-shigoto.com/572</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/573</loc>
+    <loc>https://mirai-shigoto.com/573</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/574</loc>
+    <loc>https://mirai-shigoto.com/574</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/575</loc>
+    <loc>https://mirai-shigoto.com/575</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/576</loc>
+    <loc>https://mirai-shigoto.com/576</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/577</loc>
+    <loc>https://mirai-shigoto.com/577</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/578</loc>
+    <loc>https://mirai-shigoto.com/578</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/579</loc>
+    <loc>https://mirai-shigoto.com/579</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/580</loc>
+    <loc>https://mirai-shigoto.com/580</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/581</loc>
+    <loc>https://mirai-shigoto.com/581</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/582</loc>
+    <loc>https://mirai-shigoto.com/582</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/583</loc>
+    <loc>https://mirai-shigoto.com/583</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mirai-shigoto.com/ja/584</loc>
+    <loc>https://mirai-shigoto.com/584</loc>
     <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

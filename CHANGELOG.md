@@ -10,6 +10,45 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Site-wide /ja/ URL de-prefix - 2026-06-02)
+
+- Removed the legacy `/ja/` URL prefix site-wide: every content page (556
+  occupation details, 16 sector hubs, rankings, compare, Q&A, explore, yearly,
+  careers, licenses, and the 9 genre hub families) moved from `/ja/*` to the
+  site root `/*`. The `/ja/` namespace was a leftover from the pre-1.0
+  bilingual (`/ja/` + `/en/`) routing; the site has been Japanese-only since
+  v1.4.0, so the prefix carried no meaning.
+- All `/ja/*` URLs now 301-redirect to their root equivalents via a
+  `vercel.json` catch-all (`/ja/:path* → /:path*`), and the legacy
+  `/en/* → /ja/*` and `/occ/:id → /ja/:id` redirects were retargeted to root,
+  so every previously-indexed URL keeps resolving.
+- Page files relocated from `src/pages/ja/**` to `src/pages/**`; cross-subtree
+  relative imports were converted to the move-invariant `@/` alias. The
+  occupation route is now `/[id]`, hubs are `/sectors`, `/rankings`, etc.
+- Swept ~500 internal `/ja/` link references (nav, footer, templates, views,
+  JSON-LD, sitemap, OG, occupation data, llms.txt) and refreshed the SEO
+  baseline. Build, all gates, and the full 962-test suite stay green.
+
+### Changed (Reference-doc consolidation + unified design - 2026-06-02)
+
+- Unified `/standard`, `/methodology`, and `/about` onto a single document
+  design system (`src/lib/canonical/doc.ts` → `CANONICAL_DOC_CSS` + inline-SVG /
+  heat helpers): EMFO funnel, EMFO-stage tri-color dimension cards, ▲■◐
+  direction legend, a heat-mapped example table (colored by symbol direction,
+  not raw value), and a static inline-SVG radar fulfilling the page's "レーダー"
+  promise. Wording tightened (dropped the "draft"/folksy register, added
+  canonical JA+EN dimension names). No inline JS — CSP hashes unchanged.
+- Consolidated the duplicated about/methodology cluster: merged
+  `/ja/about/methodology` (score-band table) and `/ja/about/data-sources` into
+  `/methodology`, folded `/ja/about/glossary` into a `/about` 用語集 section,
+  and deleted `src/pages/ja/about/`. Added 301 redirects in `vercel.json`
+  (`/ja/about*` → `/methodology` / `/about`) so the old URLs don't 404.
+- Repointed the `methodology-trust` explore route, footer, mobile nav, and home
+  hub-card to the consolidated root docs; `renderExploreGenreCards` now accepts
+  absolute (leading-slash) paths for root links.
+- Added the previously-missing `/standard` and `/methodology` to the sitemap;
+  refreshed the SEO baseline for these intentional changes.
+
 ### Changed (AI adoption dashboard data + UI refresh - 2026-06-02)
 
 - Corrected the model denominators in `data/ai-adoption/`: global internet users

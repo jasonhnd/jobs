@@ -4,8 +4,8 @@
  * "Escape route" suggestion: given a high-AI-risk job, surface a handful
  * of low-risk jobs the user could plausibly migrate toward. Used at the
  * bottom of:
- *   - /ja/rankings/<high-risk slug> (uses TOP 1 as source)
- *   - /ja/compare/<pair> when both sides are AI-impact ≥ 7
+ *   - /rankings/<high-risk slug> (uses TOP 1 as source)
+ *   - /compare/<pair> when both sides are AI-impact ≥ 7
  *
  * Pure data + HTML string assembly (no DOM, no I/O). Caller passes the
  * full Occupation[] (typically loadOccupationsFromGraph(graph)).
@@ -31,7 +31,7 @@ export interface EscapeRouteSource {
 }
 
 export interface EscapeRouteCandidate {
-  /** Occupation numeric id — used to build /ja/<id> link. */
+  /** Occupation numeric id — used to build /<id> link. */
   id: number;
   nameJa: string;
   /** AI 影響度 0-10 (always ≤ SAFE_AI_RISK_THRESHOLD by construction). */
@@ -98,7 +98,7 @@ export function renderEscapeRouteSection(
     .map(
       (c) =>
         `<li class="escape-card">` +
-        `<a href="/ja/${c.id}">` +
+        `<a href="/${c.id}">` +
         `<span class="ec-name">${escapeHtml(c.nameJa)}</span>` +
         `<span class="ec-meta">` +
         `<span class="risk-pill low">AI ${c.aiRisk}/10</span>` +

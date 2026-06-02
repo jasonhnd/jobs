@@ -1,6 +1,6 @@
 /**
- * src/templates/Compare.ts — HTML / JSON-LD for the 12 /ja/compare/[pair]
- * hub pages + /ja/compare index.
+ * src/templates/Compare.ts — HTML / JSON-LD for the 12 /compare/[pair]
+ * hub pages + /compare index.
  *
  * Extracted from src/views/compare-hub.ts on 2026-05-14 (Phase D #6 per
  * docs/architecture.md §8 row 12 "data is view, HTML is template").
@@ -25,13 +25,13 @@ export function renderCompareHero(a: CompareSide, b: CompareSide): SafeHtml {
   return (
     `<div class="versus-hero">` +
     `<div class="vh-side">` +
-    `<a href="/ja/${a.id}" class="vh-name">${escapeHtml(a.name_ja)}</a>` +
+    `<a href="/${a.id}" class="vh-name">${escapeHtml(a.name_ja)}</a>` +
     `<span class="risk-pill ${aBand}">AI 影響 ${escapeHtml(aRiskStr)}</span>` +
     (a.sector_ja ? `<span class="vh-sector">${escapeHtml(a.sector_ja)}</span>` : '') +
     `</div>` +
     `<div class="vh-vs"><span>VS</span></div>` +
     `<div class="vh-side">` +
-    `<a href="/ja/${b.id}" class="vh-name">${escapeHtml(b.name_ja)}</a>` +
+    `<a href="/${b.id}" class="vh-name">${escapeHtml(b.name_ja)}</a>` +
     `<span class="risk-pill ${bBand}">AI 影響 ${escapeHtml(bRiskStr)}</span>` +
     (b.sector_ja ? `<span class="vh-sector">${escapeHtml(b.sector_ja)}</span>` : '') +
     `</div>` +
@@ -99,7 +99,7 @@ export function renderRelatedCompares(
     .slice(0, 6)
     .map(
       (m) =>
-        `<li><a href="/ja/compare/${m.slug}">` +
+        `<li><a href="/compare/${m.slug}">` +
         `<span class="rc-title">${escapeHtml(m.title_ja)}</span>` +
         `</a></li>`,
     )
@@ -151,8 +151,8 @@ export function renderJsonLd(
       isPartOf: { '@id': `${canonical}#webpage` },
       articleSection: '比較',
       about: [
-        { '@type': 'Thing', name: a.name_ja, url: `${SITE}/ja/${a.id}` },
-        { '@type': 'Thing', name: b.name_ja, url: `${SITE}/ja/${b.id}` },
+        { '@type': 'Thing', name: a.name_ja, url: `${SITE}/${a.id}` },
+        { '@type': 'Thing', name: b.name_ja, url: `${SITE}/${b.id}` },
       ],
     },
     {
@@ -160,7 +160,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '職業を比較する', item: `${SITE}/ja/compare` },
+        { '@type': 'ListItem', position: 2, name: '職業を比較する', item: `${SITE}/compare` },
         { '@type': 'ListItem', position: 3, name: meta.title_ja, item: canonical },
       ],
     },
@@ -207,7 +207,7 @@ export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): Saf
     const aRiskStr = c.a_risk !== null ? `${c.a_risk}/10` : '—';
     const bRiskStr = c.b_risk !== null ? `${c.b_risk}/10` : '—';
     return (
-      `<li><a href="/ja/compare/${c.slug}">` +
+      `<li><a href="/compare/${c.slug}">` +
       `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
       `<span class="cci-pair">` +
       `<span class="cci-name">${escapeHtml(c.a_name)}</span>` +
@@ -223,7 +223,7 @@ export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): Saf
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/ja/compare`;
+  const canonical = `${SITE}/compare`;
   const seoDesc =
     '日本の代表的な職業同士を side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
   return JSON.stringify(

@@ -80,7 +80,7 @@ Each claim is verifiable against the dataset at https://mirai-shigoto.com/data.t
 - **Tile color** = whichever metric the user has selected (AI Impact / annual salary / average age / monthly hours / recruit ratio / education distribution)
 - **Hover / click** = drill into per-occupation detail (the 10 AIOIS dimensions, AI Impact + Displacement-Risk, salary, hours, recruit ratio, employment-type split, hourly wage, Japanese rationale)
 
-The four newest IPD occupations (581–584: ブロックチェーン・エンジニア / 声優 / 産業医 / 3Dプリンター技術者) are AI-scored like the rest; their labor statistics (workforce, salary) are estimated because official aggregates are not yet published. The UI is Japanese-only as of v1.4.0 (legacy /en/* URLs 301-redirect to /ja/*). The site is open source (MIT) and the full dataset is downloadable as JSON.
+The four newest IPD occupations (581–584: ブロックチェーン・エンジニア / 声優 / 産業医 / 3Dプリンター技術者) are AI-scored like the rest; their labor statistics (workforce, salary) are estimated because official aggregates are not yet published. The UI is Japanese-only as of v1.4.0 (legacy /en/* URLs 301-redirect to /*). The site is open source (MIT) and the full dataset is downloadable as JSON.
 
 ---
 
@@ -124,7 +124,7 @@ The four newest IPD occupations (581–584: ブロックチェーン・エンジ
 
 ### 2.5 Sector taxonomy (16 industries, mean AI Impact highest → lowest)
 
-Every occupation is classified into one of 16 consumer-friendly industry sectors. Sector hubs at `/ja/sectors/<sector_id>` aggregate and rank the occupations in one industry by AI Impact (TOP 5 highest / TOP 5 lowest) and workforce size. The sectors-index page at `/ja/sectors` lists all 16.
+Every occupation is classified into one of 16 consumer-friendly industry sectors. Sector hubs at `/sectors/<sector_id>` aggregate and rank the occupations in one industry by AI Impact (TOP 5 highest / TOP 5 lowest) and workforce size. The sectors-index page at `/sectors` lists all 16.
 
 | Sector ID | JA name (English gloss) | Count | Mean AI Impact |
 |---|---|---|---|
@@ -274,7 +274,7 @@ A: The occupation is dominated by physical presence, on-site judgment, or interp
 A: Full treemap dataset at https://mirai-shigoto.com/data.treemap.json (~95 KB gz, all 556 occupations). Per-occupation detail (the 10 dimensions, IPD profile, skills, certifications) at /data.detail/<id>.json (556 records). Search index at /data.search.json. Sector projection at /data.sectors.json. Code MIT licensed; IPD data © JILPT, used per TOS Article 9 with attribution.
 
 **Q: Is there an English version of the site?**
-A: No. The English UI was retired in v1.4.0. Legacy /en/* URLs 301-redirect to /ja/*. The methodology and data remain accessible internationally via this llms-full.txt and the open datasets, but the rendered UI is Japanese-only.
+A: No. The English UI was retired in v1.4.0. Legacy /en/* URLs 301-redirect to /*. The methodology and data remain accessible internationally via this llms-full.txt and the open datasets, but the rendered UI is Japanese-only.
 
 **Q: Can I use the scores in a paper / article / talk?**
 A: Yes, under MIT. Always cite the site and disclose the LLM-estimate nature of the scores. See §10.

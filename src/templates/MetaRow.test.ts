@@ -38,7 +38,7 @@ describe('renderMetaRow', () => {
     assert.equal(
       out,
       '<div class="meta-row">' +
-        '<a class="sector-chip" href="/ja/sectors/healthcare">医療</a>' +
+        '<a class="sector-chip" href="/sectors/healthcare">医療</a>' +
         '</div>',
     );
   });

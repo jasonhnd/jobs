@@ -1,12 +1,12 @@
 /**
- * src/views/sector.ts — Layer 3 views for /ja/sectors and /ja/sectors/[sector].
+ * src/views/sector.ts — Layer 3 views for /sectors and /sectors/[sector].
  *
  * Pure functions: (graph, params) → typed view object. No I/O, no HTML, no
  * mutation. See docs/architecture.md §2.3 for the layer contract.
  *
  * These views replace the per-page assembly that used to live in:
- *   - src/pages/ja/sectors/index.astro     (read public/data.sectors.json)
- *   - src/pages/ja/sectors/[sector].astro  (read public/data.detail/*.json)
+ *   - src/pages/sectors/index.astro     (read public/data.sectors.json)
+ *   - src/pages/sectors/[sector].astro  (read public/data.detail/*.json)
  *
  * Both pages now bind the view result to a template. The legacy
  * projection JSONs continue to be produced by build:data; they're still
@@ -46,7 +46,7 @@ export interface SectorOccupationSummary {
 // ─── sector-index view ───────────────────────────────────────────
 
 export interface SectorSampleOccupation {
-  /** Numeric occupation id (matches OccupationId / `/ja/<id>` detail-page URL). */
+  /** Numeric occupation id (matches OccupationId / `/<id>` detail-page URL). */
   id: number;
   titleJa: string | null;
 }
@@ -62,7 +62,7 @@ export interface SectorIndexEntry {
   /** Legacy: titles only (kept for backward compat). */
   sampleTitlesJa: readonly string[];
   /** RA-129: representative occupations with ids, so the index card can render
-   *  them as inline links to `/ja/<id>` instead of plain text. Same order +
+   *  them as inline links to `/<id>` instead of plain text. Same order +
    *  selection as sampleTitlesJa (top 3 by workers, then by id). */
   sampleEntries: readonly SectorSampleOccupation[];
 }

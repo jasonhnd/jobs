@@ -1,0 +1,65 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { GENRE_HUB_CSS } from '@/templates/Hub';
+import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
+import { ABILITIES_CONFIGS } from '@/views/genre-configs';
+import { buildGenreSlugBindings } from '../_genre-slug-bindings';
+
+export async function getStaticPaths() {
+  const { loadGraphAdaptedDetails } = await import('@/views/hub');
+  const { buildGenreResult } = await import('@/views/genre-hub');
+  const details = loadGraphAdaptedDetails(await loadGraph());
+  return ABILITIES_CONFIGS.map((cfg) => ({
+    params: { ability: cfg.slug },
+    props: { result: buildGenreResult(details, cfg) },
+  }));
+}
+
+const { result } = Astro.props;
+const cfg = result.config;
+const b = buildGenreSlugBindings({
+  result, graph: await loadGraph(),
+  genrePath: 'abilities', genreLabel: '能力から探す', ogParam: 'ability',
+  allConfigs: ABILITIES_CONFIGS, crossHubKey: 'abilities',
+  subTemplate: (s, n) => `IPD <strong>${s}</strong> スコアが高い職業 TOP ${n}（全 556 職業中）`,
+  seoDescTemplate: (s, n, d) => `${s}スコアが高い職業 TOP ${n}。${d.slice(0, 80)}…`,
+  relatedHeading: '他の能力',
+});
+---
+<BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/abilities" rel="up">能力から探す</a><span aria-hidden="true">›</span><span>{cfg.short_ja}</span></nav>
+    <header id="content">
+      <h1><span class="accent">{cfg.title_ja}</span></h1>
+      <p class="sub" set:html={b.subHtml}></p>
+      <p class="intro" set:html={b.introHtml}></p>
+    </header>
+    {(b.charsHtml || b.developHtml) && (
+      <section class="genre-detail" aria-label={`${cfg.short_ja}とは`}>
+        <h2>{cfg.short_ja}とは</h2>
+        <p set:html={b.introHtml}></p>
+        <div class="genre-detail-grid">
+          {b.charsHtml && <div><h3>こんな特徴がある人</h3><Fragment set:html={b.charsHtml} /></div>}
+          {b.developHtml && <div><h3>鍛え方のヒント</h3><Fragment set:html={b.developHtml} /></div>}
+        </div>
+      </section>
+    )}
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
+    <section aria-label={`TOP ${result.items.length} 職業`}>
+      <h2>{cfg.short_ja} TOP {result.items.length}（IPD スコア降順）</h2>
+      <ol class="rank-list" set:html={b.rankItems} />
+    </section>
+    <Fragment set:html={b.faqHtml} />
+    <Fragment set:html={b.crossHubHtml} />
+    <section aria-label="他の能力"><h2>他の能力</h2><Fragment set:html={b.relatedHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>

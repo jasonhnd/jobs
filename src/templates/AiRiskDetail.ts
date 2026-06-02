@@ -1,7 +1,7 @@
 /**
  * src/templates/AiRiskDetail.ts — long-form AI risk rationale block.
  *
- * Extracted from src/pages/ja/[id].astro (`renderAiRiskDetail`). Renders
+ * Extracted from src/pages/[id].astro (`renderAiRiskDetail`). Renders
  * the "Why AI risk N" section that appears below the metric row on an
  * occupation detail page when the long-form rationale + task breakdown
  * is available.

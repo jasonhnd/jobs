@@ -58,7 +58,7 @@ const MIN_SHORT_LEN = 4;
 // ─── Public types ────────────────────────────────────────────────────────
 
 export interface LinkTarget {
-  /** href to link to, e.g. "/ja/47" or "/ja/sectors/iryo" */
+  /** href to link to, e.g. "/47" or "/sectors/iryo" */
   href: string;
   /** the canonical name (used for length comparison) */
   name: string;
@@ -100,13 +100,13 @@ export function buildLinkRegistry(graph: KnowledgeGraph): LinkRegistry {
     const id = Number(occId);
     patterns.push({
       pattern: name,
-      target: { href: `/ja/${id}`, name, kind: 'occupation' },
+      target: { href: `/${id}`, name, kind: 'occupation' },
     });
     for (const a of occ.aliasesJa) {
       if (!a || a === name) continue;
       patterns.push({
         pattern: a,
-        target: { href: `/ja/${id}`, name, kind: 'occupation', aliases: [a] },
+        target: { href: `/${id}`, name, kind: 'occupation', aliases: [a] },
       });
     }
   }
@@ -189,7 +189,7 @@ export function inlineLinkText(
 
     // Skip excluded occupation IDs (e.g., current page's own id)
     if (target.kind === 'occupation') {
-      const m = target.href.match(/\/ja\/(\d+)$/);
+      const m = target.href.match(/\/(\d+)$/);
       if (m && excludeIds.has(parseInt(m[1], 10))) continue;
     }
 

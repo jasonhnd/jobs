@@ -361,21 +361,21 @@ describe('isSuspectPath — vulnerability-scanner targets', () => {
 
   test('Legitimate site paths are NOT flagged', () => {
     assert.equal(isSuspectPath('/'), false);
-    assert.equal(isSuspectPath('/ja/156'), false);
-    assert.equal(isSuspectPath('/ja/me'), false);
+    assert.equal(isSuspectPath('/156'), false);
+    assert.equal(isSuspectPath('/me'), false);
     assert.equal(isSuspectPath('/map'), false);
     assert.equal(isSuspectPath('/map?sector=03'), false);
-    assert.equal(isSuspectPath('/ja/sectors'), false);
-    assert.equal(isSuspectPath('/ja/rankings/ai-risk-low'), false);
+    assert.equal(isSuspectPath('/sectors'), false);
+    assert.equal(isSuspectPath('/rankings/ai-risk-low'), false);
     assert.equal(isSuspectPath('/privacy'), false);
-    assert.equal(isSuspectPath('/ja/compare/foo-vs-bar'), false);
+    assert.equal(isSuspectPath('/compare/foo-vs-bar'), false);
   });
 
   test('Path strings that LOOK suspect but are legitimate slug content are NOT flagged', () => {
     // Critical false-positive guard. The site has real occupation slugs
     // and ranking pages whose names happen to contain "wp"-like or
     // "php"-like substrings. The regex anchors prevent that.
-    assert.equal(isSuspectPath('/ja/php-developer'), false);
+    assert.equal(isSuspectPath('/php-developer'), false);
     assert.equal(isSuspectPath('/article/wordpress-tips'), false);
   });
 });
@@ -417,7 +417,7 @@ describe('isConsentRejected — cookieConsent parsing', () => {
 describe('buildMpPayload — GA4 Measurement Protocol shape', () => {
   const BASE_INPUT = {
     clientId: '1234567890.1685600000',
-    pageLocation: 'https://mirai-shigoto.com/ja/156',
+    pageLocation: 'https://mirai-shigoto.com/156',
     pageReferrer: 'https://google.com/',
     clientIp: '203.0.113.42',
     userAgent: 'Mozilla/5.0 Chrome/120',

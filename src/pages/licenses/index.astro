@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { LICENSE_HUBS, matchLicense } from '@/views/licenses-meta';
+import { loadAllDetails } from '@/views/genre-hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '@/templates/Hub';
+
+const details = loadAllDetails();
+const cards = LICENSE_HUBS.map((h) => {
+  const matched = details.filter((d) => matchLicense(d, h));
+  const count = Math.min(30, matched.length);
+  return {
+    slug: h.slug, short_ja: h.short_ja, description_ja: h.description_ja,
+    count, top: matched[0]?.title?.ja ?? '',
+    countLabel: `${count} 職業`,
+  };
+});
+
+const canonical = 'https://mirai-shigoto.com/licenses';
+const title = '資格から職業を探す｜15 資格カテゴリー別 hub | 未来の仕事';
+const seoDesc = '医療・福祉・教育・法務・会計・建設・IT・不動産・食品衛生等、15 のカテゴリー別に資格と関連職業を一覧。';
+const jsonLd = renderGenreIndexJsonLd(canonical, '資格から探す', seoDesc);
+const cardsHtml = renderGenreHubIndexCards(cards, 'licenses');
+---
+<BaseLayout title={title} description={seoDesc} canonical={canonical}
+  ogImage="https://mirai-shigoto.com/api/og?page=licenses" ogTitle={title} ogDescription={seoDesc}>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>資格から探す</span></nav>
+    <header id="content">
+      <h1><span class="accent">資格から職業を探す</span></h1>
+      <p class="sub">資格 <strong>{LICENSE_HUBS.length} カテゴリー</strong> 別に職業を整理</p>
+      <p class="intro">日本人読者が最も気にする「資格」軸で職業を整理。医療・福祉・教育・法務・会計・建設・IT・不動産・食品衛生など、各カテゴリーの代表資格と関連職業を一覧。</p>
+    </header>
+    <section><h2>資格カテゴリー {LICENSE_HUBS.length}</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Footer />
+  </div>
+</BaseLayout>

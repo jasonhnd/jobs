@@ -112,7 +112,7 @@ export function safeMean(items: Occupation[], key: keyof Occupation): number {
 
 /**
  * Build a short "1位 <name>（<metric>）" preview string for the hub
- * cards on /ja/rankings/.
+ * cards on /rankings/.
  */
 export function makePreview(items: Occupation[], metric: (o: Occupation) => string): string {
   if (items.length === 0) return '';

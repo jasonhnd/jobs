@@ -1,7 +1,7 @@
 /**
  * src/views/occupation-detail.ts — graph → adapt-detail.DetailFile adapter.
  *
- * Step 8: the 556 /ja/[id] occupation detail pages now source their
+ * Step 8: the 556 /[id] occupation detail pages now source their
  * DetailFile records from the knowledge graph rather than reading
  * public/data.detail/<id>.json. The auxiliary profile5 + transfer_paths
  * projections are still consumed file-side (deferred to a later step).

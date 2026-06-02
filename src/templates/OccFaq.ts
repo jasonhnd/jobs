@@ -1,6 +1,6 @@
 /**
  * src/templates/OccFaq.ts — variant FAQ template for the occupation
- * detail page (`/ja/{id}`).
+ * detail page (`/{id}`).
  *
  * Why a second FAQ template instead of reusing src/templates/FaqSection?
  * Two FAQ surfaces ship distinct DOM today:
@@ -19,7 +19,7 @@
  * variants stay separate so the migration can ship byte-for-byte
  * baseline-equivalent.
  *
- * Extracted from src/pages/ja/[id].astro (`renderOccFaq`).
+ * Extracted from src/pages/[id].astro (`renderOccFaq`).
  */
 
 import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';

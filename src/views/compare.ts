@@ -1,7 +1,7 @@
 /**
  * src/views/compare.ts — graph → compare-hub.DetailFile adapter.
  *
- * Step 6: the compare-hub pages (12 routes under /ja/compare/[pair])
+ * Step 6: the compare-hub pages (12 routes under /compare/[pair])
  * now derive their per-side DetailFile records from the knowledge graph
  * instead of reading public/data.detail/<padded>.json.
  *

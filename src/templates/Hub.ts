@@ -42,7 +42,7 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/ja/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
@@ -68,7 +68,7 @@ export function renderGenreJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/ja/${o.id}`,
+    url: `${SITE}/${o.id}`,
     name: o.name_ja || `#${o.id}`,
   }));
   const graph: unknown[] = [
@@ -99,7 +99,7 @@ export function renderGenreJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: genreLabel, item: `${SITE}/ja/${genrePath}` },
+        { '@type': 'ListItem', position: 2, name: genreLabel, item: `${SITE}/${genrePath}` },
         { '@type': 'ListItem', position: 3, name: config.title_ja, item: canonical },
       ],
     },
@@ -183,7 +183,7 @@ export function renderGenreHubIndexCards(
   descMaxLen: number = 90,
 ): SafeHtml {
   return cards.map((c) =>
-    `<li><a href="/ja/${pathPrefix}/${c.slug}">` +
+    `<li><a href="/${pathPrefix}/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, descMaxLen))}…</span>` +
     (c.top ? `<span class="iri-preview">1位 ${escapeHtml(c.top)}</span>` : '') +
@@ -206,7 +206,7 @@ export function renderQGroupsHtml(
   groups: ReadonlyArray<readonly [string, ReadonlyArray<QGroupItem>]>,
 ): SafeHtml {
   // RA-016 (2026-05-18): unified Q&A pattern via <details>. Hub used to
-  // be a clickable card list (each card jumped to /ja/q/<slug>), while
+  // be a clickable card list (each card jumped to /q/<slug>), while
   // the detail page used <details> for collapse. Two surfaces, two
   // interaction models — confusing. Now the hub is also <details>:
   // summary is the question, body is the short_answer + a "詳しく見る"
@@ -221,7 +221,7 @@ export function renderQGroupsHtml(
       `<summary>${escapeHtml(q.question)}</summary>` +
       `<div class="qa-body">` +
       `<p class="qa-short">${escapeHtml(q.short_answer)}</p>` +
-      `<a class="qa-detail-link" href="/ja/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
+      `<a class="qa-detail-link" href="/q/${q.slug}">詳しく見る <span aria-hidden="true">→</span></a>` +
       `</div>` +
       `</details>` +
       `</li>`,
@@ -241,7 +241,7 @@ export interface ExploreIndexCard {
 
 export function renderExploreIndexCards(cards: ReadonlyArray<ExploreIndexCard>): SafeHtml {
   return cards.map((c) =>
-    `<li><a href="/ja/explore/${c.slug}">` +
+    `<li><a href="/explore/${c.slug}">` +
     `<span class="gci-name">${escapeHtml(c.short_ja)}</span>` +
     `<span class="gci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
     `<span class="gci-count">${c.genreCount} 個の genre</span>` +
@@ -257,7 +257,7 @@ export interface ExploreGenreLink {
 
 export function renderExploreGenreCards(genres: ReadonlyArray<ExploreGenreLink>): SafeHtml {
   return genres.map((g) =>
-    `<li><a href="/ja/${g.path}">` +
+    `<li><a href="${g.path.startsWith('/') ? g.path : `/${g.path}`}">` +
     `<span class="gci-name">${escapeHtml(g.label)}</span>` +
     `<span class="gci-desc">${escapeHtml(g.desc)}</span>` +
     `<span class="gci-count">→ 詳しく見る</span>` +
@@ -275,7 +275,7 @@ export function renderExploreOtherRoutes(
   routes: ReadonlyArray<ExploreOtherRoute>,
 ): SafeHtml {
   return ('<ul class="related-genre">' + routes.map((r) =>
-    `<li><a href="/ja/explore/${r.slug}">` +
+    `<li><a href="/explore/${r.slug}">` +
     `<span class="rg-name">${escapeHtml(r.short_ja)}</span>` +
     `<span class="rg-desc">${escapeHtml(r.description_ja.slice(0, 60))}…</span>` +
     `</a></li>`,
@@ -283,7 +283,7 @@ export function renderExploreOtherRoutes(
 }
 
 export function renderExploreIndexJsonLd(): string {
-  const canonical = 'https://mirai-shigoto.com/ja/explore';
+  const canonical = 'https://mirai-shigoto.com/explore';
   const seoDesc = '日本 556 職業を 7 つの入口から探せる。業種・ランキング・適職・スキル資格・働き方・比較・方法論。';
   return JSON.stringify({
     '@context': 'https://schema.org',
@@ -298,14 +298,14 @@ export function renderExploreIndexJsonLd(): string {
 }
 
 export function renderExploreSlugJsonLd(slug: string, title_ja: string, seoDesc: string): string {
-  const canonical = `https://mirai-shigoto.com/ja/explore/${slug}`;
+  const canonical = `https://mirai-shigoto.com/explore/${slug}`;
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title_ja, description: seoDesc, inLanguage: 'ja' },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/ja/explore` },
+        { '@type': 'ListItem', position: 2, name: '探す方法', item: `${SITE}/explore` },
         { '@type': 'ListItem', position: 3, name: title_ja, item: canonical },
       ] },
     ],

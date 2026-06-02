@@ -1,13 +1,13 @@
 /**
  * src/views/occupation-jsonld.ts — Schema.org JSON-LD structured
- * data for the occupation detail page (`/ja/{id}`).
+ * data for the occupation detail page (`/{id}`).
  *
  * Step 10 reclassification (2026-05-13): moved out of src/templates/.
  * JSON-LD output is a JSON STRING (data), not HTML. Per
  * docs/architecture.md §5 "cross-cutting concern = another form of view", a
  * typed-data → serialized-data function is a view, not a template.
  *
- * Extracted from src/pages/ja/[id].astro (`renderJsonLd` plus its
+ * Extracted from src/pages/[id].astro (`renderJsonLd` plus its
  * JsonLd* type cluster). Builds a `@graph` with up to four nodes:
  *
  *   WebPage       — page-level identity + metadata
@@ -120,7 +120,7 @@ type JsonLdGraphNode =
 export interface OccupationJsonLdInput {
   readonly id: number;
   /** Canonical absolute URL for this page, e.g.
-   *  `https://mirai-shigoto.com/ja/42`. Used as the base for all
+   *  `https://mirai-shigoto.com/42`. Used as the base for all
    *  `@id` fragment URIs in the graph. */
   readonly canonical: string;
   /** Pre-resolved page title (e.g. "看護師 — AI 影響 6/10"). */

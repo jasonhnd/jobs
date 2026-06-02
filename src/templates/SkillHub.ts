@@ -1,6 +1,6 @@
 /**
- * src/templates/SkillHub.ts — HTML / JSON-LD / CSS for the 10 /ja/skills/[skill]
- * hub pages + /ja/skills index.
+ * src/templates/SkillHub.ts — HTML / JSON-LD / CSS for the 10 /skills/[skill]
+ * hub pages + /skills index.
  *
  * Extracted from src/views/skills-hub.ts on 2026-05-14 (Phase D #2 per
  * docs/architecture.md §8 row 8 "data is view, HTML is template").
@@ -47,7 +47,7 @@ export function renderSkillItem(o: SkillOccupation, shortJa: string): SafeHtml {
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/ja/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${stats.join('')}</div>` +
@@ -68,7 +68,7 @@ export function renderRelatedSkills(
     .filter((m) => m.slug !== currentSlug)
     .map(
       (m) =>
-        `<li><a href="/ja/skills/${m.slug}">` +
+        `<li><a href="/skills/${m.slug}">` +
         `<span class="rs-name">${escapeHtml(m.short_ja)}</span>` +
         `<span class="rs-desc">${escapeHtml(m.description_ja.slice(0, 60))}…</span>` +
         `</a></li>`,
@@ -93,7 +93,7 @@ export function renderJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/ja/${o.id}`,
+    url: `${SITE}/${o.id}`,
     name: o.name_ja || `#${o.id}`,
   }));
 
@@ -125,7 +125,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'スキルから探す', item: `${SITE}/ja/skills` },
+        { '@type': 'ListItem', position: 2, name: 'スキルから探す', item: `${SITE}/skills` },
         { '@type': 'ListItem', position: 3, name: meta.title_ja, item: canonical },
       ],
     },
@@ -168,7 +168,7 @@ export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): SafeH
   return cards.map((c) => {
     const previewHtml = c.top_preview ? `<span class="sci-preview">${escapeHtml(c.top_preview)}</span>` : '';
     return (
-      `<li><a href="/ja/skills/${c.slug}">` +
+      `<li><a href="/skills/${c.slug}">` +
       `<span class="sci-name">${escapeHtml(c.short_ja)}</span>` +
       `<span class="sci-desc">${escapeHtml(c.description_ja.slice(0, 90))}…</span>` +
       `${previewHtml}` +
@@ -179,7 +179,7 @@ export function renderSkillsHubCards(cards: ReadonlyArray<SkillsHubCard>): SafeH
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/ja/skills`;
+  const canonical = `${SITE}/skills`;
   const seoDesc =
     'IPD 39 スキル軸から reader value の高い 10 を選んだスキル別 hub 群。' +
     '各スキルが核となる職業 TOP 30 を AI 影響度・年収と共に一覧。';

@@ -53,15 +53,15 @@ describe('inlineLinkText — escape-first XSS defense', () => {
   });
 
   test('matched occupation gets wrapped in <a> with the target href', () => {
-    const registry = makeRegistry([{ pattern: '看護師', href: '/ja/156' }]);
+    const registry = makeRegistry([{ pattern: '看護師', href: '/156' }]);
     const html = inlineLinkText('看護師について', registry);
-    assert.match(html, /<a [^>]*href="\/ja\/156"[^>]*>看護師<\/a>/);
+    assert.match(html, /<a [^>]*href="\/156"[^>]*>看護師<\/a>/);
   });
 });
 
 describe('inlineLinkText — editorial rules', () => {
   test('once-per-block: second occurrence of same name stays plain text', () => {
-    const registry = makeRegistry([{ pattern: '看護師', href: '/ja/156' }]);
+    const registry = makeRegistry([{ pattern: '看護師', href: '/156' }]);
     const html = inlineLinkText('看護師は重要。もう一度看護師と書いた。', registry);
     const matches = html.match(/<a [^>]*>/g) ?? [];
     assert.equal(matches.length, 1, `expected 1 <a>, got ${matches.length}: ${html}`);
@@ -69,12 +69,12 @@ describe('inlineLinkText — editorial rules', () => {
 
   test('longest-match wins when patterns overlap', () => {
     const registry = makeRegistry([
-      { pattern: '看護', href: '/ja/short' },
-      { pattern: '看護師', href: '/ja/long' },
+      { pattern: '看護', href: '/short' },
+      { pattern: '看護師', href: '/long' },
     ]);
     const html = inlineLinkText('看護師について', registry);
-    assert.match(html, /href="\/ja\/long"/, 'longest match did not win');
-    assert.ok(!html.includes('/ja/short'), 'shorter match leaked');
+    assert.match(html, /href="\/long"/, 'longest match did not win');
+    assert.ok(!html.includes('/short'), 'shorter match leaked');
   });
 
   test('empty registry leaves text unchanged (only escape applied)', () => {
@@ -84,7 +84,7 @@ describe('inlineLinkText — editorial rules', () => {
   });
 
   test('empty input → empty output', () => {
-    const registry = makeRegistry([{ pattern: '看護師', href: '/ja/156' }]);
+    const registry = makeRegistry([{ pattern: '看護師', href: '/156' }]);
     const html = inlineLinkText('', registry);
     assert.equal(html, '');
   });

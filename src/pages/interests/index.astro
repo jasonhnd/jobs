@@ -1,0 +1,96 @@
+---
+/**
+ * src/pages/interests/index.astro — RIASEC 興味タイプ hub の index page。
+ *
+ * /interests/ で 6 タイプ (R/I/A/S/E/C) の card grid を表示。
+ * 各カードは TOP 1 職業 + RIASEC スコアを preview 表示。
+ *
+ * Inline CSS は本ファイルに閉じる (sectors/index と同パターン)。
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { buildInterests } from '@/views/interests';
+import { renderHubJsonLd, renderInterestsHubCards } from '@/templates/InterestHub';
+import { loadGraph } from '@/graph';
+import { makeHollandLoaderFromGraph, makeInterestsTreemapFromGraph } from '@/views/interest';
+
+const graph = await loadGraph();
+const { hub } = buildInterests({
+  holland: makeHollandLoaderFromGraph(graph),
+  treemap: makeInterestsTreemapFromGraph(graph),
+});
+const canonical = 'https://mirai-shigoto.com/interests';
+const title = '興味タイプから職業を探す｜RIASEC 6 分類で日本の 556 職業を整理 | 未来の仕事';
+const seoDesc =
+  'RIASEC (Holland Code) 興味タイプ 6 分類で日本の 556 職業を整理。' +
+  '現実的・研究的・芸術的・社会的・企業的・慣習的の各タイプにおすすめの職業 TOP 30 を AI 影響度・年収と共に一覧。';
+const keywords = 'RIASEC, ホランドコード, 適職診断, 興味タイプ, 職業選び, 556 職業';
+
+const cardsHtml = renderInterestsHubCards(hub.cards);
+const jsonLd = renderHubJsonLd();
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  keywords={keywords}
+  ogImage="https://mirai-shigoto.com/api/og?page=interests"
+  ogTitle={title}
+  ogDescription={seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={`
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.interest-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:0;margin:0;grid-auto-rows:1fr}
+.interest-cards li{display:flex}
+.interest-cards li a{display:flex;flex-direction:column;padding:22px 22px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;position:relative;min-height:200px;height:100%;width:100%}
+.interest-cards li a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.iri-letter{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;background:var(--accent);color:#fff;border-radius:999px;font-family:var(--font-serif);font-size:1.4rem;font-weight:700;margin-bottom:12px}
+.iri-name{display:block;font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--fg);margin-bottom:8px}
+.iri-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1;font-size:.86rem;color:var(--fg2);line-height:1.6;margin-bottom:10px}
+.iri-preview{display:block;font-size:.78rem;color:var(--accent-deep);margin-bottom:6px;font-weight:500}
+.iri-count{font-size:.78rem;color:var(--fg3);font-variant-numeric:tabular-nums}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}}
+`} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <span>興味タイプから探す</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">興味タイプから職業を探す</span></h1>
+      <p class="sub">RIASEC (Holland Code) <strong>6 分類</strong> で日本の 556 職業を整理</p>
+      <p class="intro">
+        John Holland が提唱した職業興味の 6 類型 (RIASEC) で、自分の興味・性格に合いそうな職業群を探せます。
+        各タイプの説明を読み、TOP 30 職業を AI 影響度・年収と共に一覧で確認してください。
+      </p>
+    </header>
+
+    <section aria-label="興味タイプ一覧">
+      <h2>興味タイプ 6 分類</h2>
+      <ul class="interest-cards" set:html={cardsHtml} />
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

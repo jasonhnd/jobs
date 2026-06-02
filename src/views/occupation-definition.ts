@@ -2,7 +2,7 @@
  * src/views/occupation-definition.ts — build the opening
  * "{name}とは…です。" sentence for an occupation detail page.
  *
- * Extracted from src/pages/ja/[id].astro (`makeDefinition` plus its
+ * Extracted from src/pages/[id].astro (`makeDefinition` plus its
  * private `endsWithAny` helper and `NOUN_FINAL_ENDINGS` list). Pure
  * Japanese text shaping — no HTML, no Rec coupling. The page-level
  * adapter forwards just the three fields actually consumed: name,

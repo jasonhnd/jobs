@@ -37,7 +37,7 @@ export interface RelatedHub {
   category: string;
   /** Display name of this specific hub, e.g. "医療・保健" */
   name: string;
-  /** href, e.g. "/ja/sectors/iryo" */
+  /** href, e.g. "/sectors/iryo" */
   href: string;
   /** Optional 1-line description (shown smaller below name) */
   desc?: string;
@@ -149,7 +149,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       items: [{
         category: '業種',
         name: d.sector.ja,
-        href: `/ja/sectors/${d.sector.id}`,
+        href: `/sectors/${d.sector.id}`,
         desc: `${d.sector.ja}業界の他の職業を探す`,
       }],
     });
@@ -164,7 +164,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: 'ランキング',
         name,
-        href: `/ja/rankings/${rh.slug}`,
+        href: `/rankings/${rh.slug}`,
         desc: `この職業は ${rh.rank} 位`,
       };
     });
@@ -180,7 +180,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '能力',
         name: cfg.short_ja,
-        href: `/ja/abilities/${cfg.slug}`,
+        href: `/abilities/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -196,7 +196,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '知識',
         name: cfg.short_ja,
-        href: `/ja/knowledge/${cfg.slug}`,
+        href: `/knowledge/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -212,7 +212,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: 'スキル',
         name: meta.short_ja,
-        href: `/ja/skills/${meta.slug}`,
+        href: `/skills/${meta.slug}`,
         desc: meta.title_ja,
       };
     });
@@ -228,7 +228,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '価値観',
         name: cfg.short_ja,
-        href: `/ja/values/${cfg.slug}`,
+        href: `/values/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -244,7 +244,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '働き方',
         name: cfg.short_ja,
-        href: `/ja/work-styles/${cfg.slug}`,
+        href: `/work-styles/${cfg.slug}`,
         desc: cfg.title_ja,
       };
     });
@@ -259,7 +259,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
       return {
         category: '興味タイプ',
         name: `${meta.letter} (${meta.name_ja})`,
-        href: `/ja/interests/${slug}`,
+        href: `/interests/${slug}`,
         desc: `${meta.name_ja}タイプ向けの職業`,
       };
     });
@@ -276,7 +276,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = personaScores.map((x) => ({
       category: 'キャリア段階',
       name: x.persona.short_ja,
-      href: `/ja/careers/${x.persona.slug}`,
+      href: `/careers/${x.persona.slug}`,
       desc: x.persona.title_ja,
     }));
     groups.push({ category: 'キャリア段階', items });
@@ -288,7 +288,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = licenseHits.map((hub) => ({
       category: '資格',
       name: hub.short_ja,
-      href: `/ja/licenses/${hub.slug}`,
+      href: `/licenses/${hub.slug}`,
       desc: hub.title_ja,
     }));
     groups.push({ category: '資格', items });
@@ -304,7 +304,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = qaHits.map((x) => ({
       category: 'Q&A',
       name: x.qa.question,
-      href: `/ja/q/${x.qa.slug}`,
+      href: `/q/${x.qa.slug}`,
       desc: x.qa.short_answer.slice(0, 50) + '…',
     }));
     groups.push({ category: 'Q&A', items });
@@ -316,7 +316,7 @@ export function computeSpokeHubs(d: DetailFileSpoke, ctx: ComputeSpokeHubsContex
     const items: RelatedHub[] = compareHits.map((m) => ({
       category: '比較',
       name: m.title_ja,
-      href: `/ja/compare/${m.slug}`,
+      href: `/compare/${m.slug}`,
       desc: 'この職業の比較ページ',
     }));
     groups.push({ category: '比較', items });

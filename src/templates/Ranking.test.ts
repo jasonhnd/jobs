@@ -113,7 +113,7 @@ describe('renderRankItem', () => {
       got,
       '<li>' +
       '<div class="rl-main">' +
-      '<a class="rl-name" href="/ja/7">看護師</a>' +
+      '<a class="rl-name" href="/7">看護師</a>' +
       '<span class="rl-sector">医療・福祉</span>' +
       '</div>' +
       '<div class="rl-stats">' +
@@ -134,7 +134,7 @@ describe('renderRankItem', () => {
       got,
       '<li>' +
       '<div class="rl-main">' +
-      '<a class="rl-name" href="/ja/1">X</a>' +
+      '<a class="rl-name" href="/1">X</a>' +
       '</div>' +
       '<div class="rl-stats">' +
       '<span class="risk-pill high">8/10</span>' +
@@ -275,7 +275,7 @@ describe('renderFaqHtml', () => {
 describe('renderRelatedRankings', () => {
   test('omits the current slug', () => {
     const got = renderRelatedRankings('ai-risk-high', MOCK_RANKINGS);
-    assert.equal(got.includes('href="/ja/rankings/ai-risk-high"'), false);
+    assert.equal(got.includes('href="/rankings/ai-risk-high"'), false);
   });
 
   test('always wraps output in ul.related-rankings', () => {
@@ -284,11 +284,11 @@ describe('renderRelatedRankings', () => {
     assert.match(got, /<\/ul>$/);
   });
 
-  test('every emitted li is an anchor to a /ja/rankings/* href', () => {
+  test('every emitted li is an anchor to a /rankings/* href', () => {
     const got = renderRelatedRankings('ai-risk-high', MOCK_RANKINGS);
-    const hrefs = [...got.matchAll(/href="(\/ja\/rankings\/[^"]+)"/g)].map((m) => m[1]);
+    const hrefs = [...got.matchAll(/href="(\/rankings\/[^"]+)"/g)].map((m) => m[1]);
     assert.ok(hrefs.length > 5, `expected several other rankings, got ${hrefs.length}`);
-    assert.ok(hrefs.every((h) => !!h && h.startsWith('/ja/rankings/')));
+    assert.ok(hrefs.every((h) => !!h && h.startsWith('/rankings/')));
   });
 });
 
@@ -298,7 +298,7 @@ describe('renderJsonLd', () => {
   test('returns valid JSON', () => {
     const items = [makeOcc({ id: 1, title_ja: 'A' }), makeOcc({ id: 2, title_ja: 'B' })];
     const got = renderJsonLd(
-      'https://mirai-shigoto.com/ja/rankings/ai-risk-high',
+      'https://mirai-shigoto.com/rankings/ai-risk-high',
       'TestTitle',
       'TestDesc',
       items,
@@ -309,7 +309,7 @@ describe('renderJsonLd', () => {
 
   test('@graph contains WebPage, Article, BreadcrumbList, ItemList, FAQPage', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/ja/rankings/ai-risk-high',
+      'https://mirai-shigoto.com/rankings/ai-risk-high',
       'TestTitle',
       'TestDesc',
       [makeOcc()],
@@ -321,7 +321,7 @@ describe('renderJsonLd', () => {
 
   test('omits FAQPage when faqItems is null', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/ja/rankings/x',
+      'https://mirai-shigoto.com/rankings/x',
       't', 'd', [makeOcc()], null,
     ));
     const types = (got['@graph'] as Array<{ '@type': string }>).map((x) => x['@type']);
@@ -333,21 +333,21 @@ describe('renderJsonLd', () => {
       makeOcc({ id: 10, title_ja: 'First' }),
       makeOcc({ id: 11, title_ja: 'Second' }),
     ];
-    const got = JSON.parse(renderJsonLd('https://mirai-shigoto.com/ja/rankings/x', 't', 'd', items, null));
+    const got = JSON.parse(renderJsonLd('https://mirai-shigoto.com/rankings/x', 't', 'd', items, null));
     const itemList = (got['@graph'] as Array<{ '@type': string }>).find((g) => g['@type'] === 'ItemList');
     // @ts-expect-error — JSON-LD shape, dynamic
     assert.equal(itemList?.numberOfItems, 2);
     // @ts-expect-error — dynamic
     assert.equal(itemList?.itemListElement[0].position, 1);
     // @ts-expect-error — dynamic
-    assert.equal(itemList?.itemListElement[0].url, 'https://mirai-shigoto.com/ja/10');
+    assert.equal(itemList?.itemListElement[0].url, 'https://mirai-shigoto.com/10');
     // @ts-expect-error — dynamic
     assert.equal(itemList?.itemListElement[1].position, 2);
   });
 
   test('OG image URL is derived from canonical slug', () => {
     const got = JSON.parse(renderJsonLd(
-      'https://mirai-shigoto.com/ja/rankings/short-hours',
+      'https://mirai-shigoto.com/rankings/short-hours',
       't', 'd', [makeOcc()], null,
     ));
     const article = (got['@graph'] as Array<{ '@type': string }>).find((g) => g['@type'] === 'Article');

@@ -103,7 +103,7 @@ export function renderRankItem(
   return (
     `<li>` +
     `<div class="rl-main">` +
-    `<a class="rl-name" href="/ja/${o.id}">${escapeHtml(title)}</a>` +
+    `<a class="rl-name" href="/${o.id}">${escapeHtml(title)}</a>` +
     `${sectorHtml}` +
     `</div>` +
     `<div class="rl-stats">${statsParts.join('')}</div>` +
@@ -200,7 +200,7 @@ export function renderRelatedRankings(
   const items = allRankings
     .filter(([slug]) => slug !== currentSlug)
     .map(([slug, name, desc]) =>
-      `<li><a href="/ja/rankings/${slug}">` +
+      `<li><a href="/rankings/${slug}">` +
       `${escapeHtml(name)}` +
       `<span class="rr-desc">${escapeHtml(desc)}</span>` +
       `</a></li>`,
@@ -226,7 +226,7 @@ export function renderJsonLd(
   const itemList = items.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${SITE}/ja/${o.id}`,
+    url: `${SITE}/${o.id}`,
     name: o.title_ja ?? `#${o.id}`,
   }));
 
@@ -250,7 +250,7 @@ export function renderJsonLd(
       headline: title,
       description,
       // Per-ranking OG card. The slug comes off the canonical URL —
-      // canonical is `${SITE}/ja/rankings/<slug>`.
+      // canonical is `${SITE}/rankings/<slug>`.
       image:
         `${SITE}/api/og?ranking=${
           canonical.match(/\/rankings\/([^/?#]+)/)?.[1] ?? ''
@@ -270,7 +270,7 @@ export function renderJsonLd(
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'ランキング', item: `${SITE}/ja/rankings` },
+        { '@type': 'ListItem', position: 2, name: 'ランキング', item: `${SITE}/rankings` },
         { '@type': 'ListItem', position: 3, name: title, item: canonical },
       ],
     },
@@ -319,7 +319,7 @@ export function renderRankingsHubCards(cards: ReadonlyArray<RankingsHubCard>): S
 function renderHubCardLi(c: RankingsHubCard): string {
   const previewHtml = c.preview ? `<span class="rr-preview">${escapeHtml(c.preview)}</span>` : '';
   return (
-    `<li><a href="/ja/rankings/${c.slug}">` +
+    `<li><a href="/rankings/${c.slug}">` +
     `<span class="rr-title">${escapeHtml(c.name)}</span>` +
     `<span class="rr-desc">${escapeHtml(c.desc)}</span>` +
     `${previewHtml}` +
@@ -333,7 +333,7 @@ function renderHubCardLi(c: RankingsHubCard): string {
 // Renders the 39 hub cards into 6 thematic sections, each anchored with
 // `id="grp-<key>"`, plus a sticky chip nav at the top driven by
 // data-target attributes (matched against group keys by the IntersectionObserver
-// script in src/pages/ja/rankings/index.astro).
+// script in src/pages/rankings/index.astro).
 
 export interface RankingsHubGroupView {
   readonly key: string;
@@ -549,7 +549,7 @@ export function renderInsightCards(insights: ReadonlyArray<string>): SafeHtml {
 }
 
 export function renderHubJsonLd(): string {
-  const canonical = `${SITE}/ja/rankings`;
+  const canonical = `${SITE}/rankings`;
   // RA-003 (2026-05-18): SCORED count.
   const seoDesc = `日本${OCCUPATION_COUNT.SCORED}職業をAI影響度・年収・初任給・就業者数・労働時間・求人需要で10の視点でランキング。AIに奪われやすい仕事、高年収×低AIリスクの職業などを一覧。`;
   return JSON.stringify({

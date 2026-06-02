@@ -1,8 +1,8 @@
 /**
  * src/views/occupation-seo.ts — derive SEO + OG meta strings for
- * the 556 /ja/[id] occupation detail pages.
+ * the 556 /[id] occupation detail pages.
  *
- * Extracted from src/pages/ja/[id].astro. The page used to inline
+ * Extracted from src/pages/[id].astro. The page used to inline
  * the title / description / og:* / keywords / one-line-callout
  * derivation; consolidating it here keeps the formula in one
  * tested place and out of the page frontmatter.

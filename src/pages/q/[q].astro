@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { QA_ITEMS, selectExamples, type QAItem } from '@/views/qa-meta';
+import { loadAllDetails, type DetailFileMin } from '@/views/genre-hub';
+import { GENRE_HUB_CSS } from '@/templates/Hub';
+import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
+import { buildQSlugBindings } from './_q-bindings';
+
+export async function getStaticPaths() {
+  const details = loadAllDetails();
+  return QA_ITEMS.map((q) => ({ params: { q: q.slug }, props: { qa: q, examples: selectExamples(details, q, 10) } }));
+}
+
+interface Props { qa: QAItem; examples: ReadonlyArray<DetailFileMin>; }
+const { qa, examples } = Astro.props as Props;
+const b = buildQSlugBindings(qa, examples, await loadGraph());
+---
+<BaseLayout title={b.title} description={b.seoDesc} canonical={b.canonical}
+  ogImage={b.ogImage} ogTitle={b.title.slice(0, 120)} ogDescription={b.seoDesc} ogType="article">
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
+  <style slot="head" set:html={GENRE_HUB_CSS} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
+  <style slot="head" set:html={`
+.qa-answer{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:24px 28px;margin:28px 0}
+.qa-answer h2{font-size:1.1rem;color:var(--accent);margin:0 0 14px;padding:0;border:none}
+.qa-answer .qa-direct{font-size:1.05rem;line-height:1.85;color:var(--fg);font-weight:500;margin-bottom:18px}
+.qa-answer .qa-reasoning{font-size:.96rem;line-height:1.85;color:var(--fg);margin:0}
+`} />
+  <div id="wrapper">
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><a href="/q" rel="up">質問で探す</a><span aria-hidden="true">›</span><span>{qa.question}</span></nav>
+    <header id="content">
+      <h1><span class="accent">{qa.question}</span></h1>
+    </header>
+    <section class="qa-answer">
+      <h2>直答</h2>
+      <p class="qa-direct" set:html={b.shortAnswerHtml}></p>
+      <h2>根拠</h2>
+      <p class="qa-reasoning" set:html={b.reasoningHtml}></p>
+    </section>
+    {examples.length > 0 && (
+      <section>
+        <h2>具体例 TOP {examples.length}</h2>
+        <Fragment set:html={b.exampleListHtml} />
+      </section>
+    )}
+    <Fragment set:html={b.crossHubHtml} />
+    {b.relatedQAs.length > 0 && (
+      <section>
+        <h2>関連する質問</h2>
+        <Fragment set:html={b.relatedHtml} />
+      </section>
+    )}
+    <Footer />
+  </div>
+</BaseLayout>

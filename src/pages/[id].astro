@@ -1,0 +1,167 @@
+---
+/**
+ * [id].astro — per-occupation detail page (JA only), one HTML per
+ * occupation generated statically via getStaticPaths() from the
+ * knowledge graph (see src/page-data/occupation-page-data).
+ *
+ * This file is a thin binding shell:
+ *   - getStaticPaths delegates to buildOccupationPageData +
+ *     pickRelatedOccupations.
+ *   - Page-render data prep delegates to buildIdPageBindings
+ *     (src/pages/_id-bindings) and buildOccupationSpokeViews
+ *     (src/page-data/occupation-page-data).
+ *   - The body is composed of page-local Astro components
+ *     (_RiskCard / _StatsGrid / _JobtagAnchor / _IdPageScript)
+ *     and `<Fragment set:html={…}>` injections of SafeHtml from
+ *     ~14 template modules under src/templates/.
+ *   - Inline CSS lives in src/pages/_id-css.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import IdPageScript from './_IdPageScript.astro';
+import RiskCard from './_RiskCard.astro';
+import StatsGrid from './_StatsGrid.astro';
+import JobtagAnchor from './_JobtagAnchor.astro';
+import { buildIdPageBindings } from './_id-bindings';
+import { ID_PAGE_CSS } from './_id-css';
+import type { Rec } from '@/views/occupation-detail';
+import { type SpokeNeighbor } from '@/views/spoke-spoke-graph';
+
+// Schema.org dates — page-internal versioning, not derived state.
+const DATE_PUBLISHED = '2026-05-30';
+const DATE_MODIFIED = '2026-04-30';
+
+// ─── getStaticPaths ──────────────────────────────────────────────────────────
+//
+// URL params are NOT zero-padded — legacy URLs are /1, /162, /584.
+// The detail-JSON filename `data.detail/{padded}.json` IS zero-padded;
+// padding lives inside the JSON load step, not in routing.
+export async function getStaticPaths() {
+  const { buildOccupationPageData, pickRelatedOccupations } = await import(
+    '@/page-data/occupation-page-data'
+  );
+  const { allRecs, nameLookup, rankingHitsArr, sameRiskArr } = await buildOccupationPageData();
+  return allRecs.map((rec) => ({
+    params: { id: String(rec.id) },
+    props: {
+      rec,
+      related: pickRelatedOccupations(rec, allRecs),
+      nameLookup,
+      rankingHitsArr,
+      sameRiskArr,
+    },
+  }));
+}
+
+// ─── Page render ─────────────────────────────────────────────────────────────
+
+interface PageProps {
+  rec: Rec;
+  related: Rec[];
+  nameLookup: Record<number, string>;
+  rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
+  sameRiskArr: Array<[number, SpokeNeighbor[]]>;
+}
+
+const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } = Astro.props as PageProps;
+
+const { loadGraph } = await import('@/graph');
+const graph = await loadGraph();
+
+const { buildOccupationSpokeViews } = await import('@/page-data/occupation-page-data');
+const { sameRiskHtml, relatedHubsHtml } = await buildOccupationSpokeViews(
+  rec, rankingHitsArr, sameRiskArr, graph,
+);
+
+const bindings = buildIdPageBindings({
+  rec, related, nameLookup,
+  datePublished: DATE_PUBLISHED,
+  dateModified: DATE_MODIFIED,
+});
+const {
+  id, canonical, nameJa, risk, mhlwUrl, rationale, oneLineText,
+  title, seoDesc, ogTitle, ogDesc, keywords,
+  ctxH2, ctxHtml,
+  metaRowHtml, aiRiskDetailHtml, aioisHtml, profileHtml, topnHtml, faqHtml,
+  transferHtml, orgsCertsHtml, howSection, condSection,
+  legacyRelatedHtml,
+  riskClass, riskColor, riskNumDisp, recruitDisp, hourlyDisp,
+  workersCell, ageCell, hoursCell, salaryCell,
+  jsonLd, riskTierJs,
+} = bindings;
+
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  keywords={keywords}
+  canonical={canonical}
+  ogTitle={ogTitle}
+  ogDescription={ogDesc}
+  ogImage={`https://mirai-shigoto.com/api/og?id=${id}`}
+  ogType="article"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={ID_PAGE_CSS} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <span>{nameJa}</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">{nameJa}</span></h1>
+      <Fragment set:html={metaRowHtml} />
+    </header>
+
+    <RiskCard {riskClass} {riskColor} {riskNumDisp} {rationale} {oneLineText} />
+
+    <Fragment set:html={aioisHtml} />
+
+    <Fragment set:html={aiRiskDetailHtml} />
+
+    <StatsGrid {workersCell} {salaryCell} {ageCell} {hoursCell} {recruitDisp} {hourlyDisp} />
+
+    <section class="context">
+      <h2>{ctxH2}</h2>
+      <Fragment set:html={ctxHtml} />
+    </section>
+
+    <Fragment set:html={howSection} />
+
+    <Fragment set:html={condSection} />
+
+    <Fragment set:html={profileHtml} />
+
+    <Fragment set:html={topnHtml} />
+
+    <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={transferHtml} />
+
+    <Fragment set:html={sameRiskHtml} />
+
+    <Fragment set:html={legacyRelatedHtml} />
+
+    <Fragment set:html={orgsCertsHtml} />
+
+    <Fragment set:html={relatedHubsHtml} />
+
+    {/* v2: page-level <section class="sources"> was removed; the canonical
+        <Footer /> below carries 出典 + share buttons. Per-page jobtag
+        outbound click is preserved via a hidden anchor in <JobtagAnchor>
+        to keep the GA4 `jobtag_outbound_click` funnel intact. */}
+    <JobtagAnchor occId={id} nameJa={nameJa} mhlwUrl={mhlwUrl} aiRisk={risk} />
+
+    <nav class="map-back-link" aria-label="職業マップへ戻る">
+      <a href="/map">← 職業マップへ</a>
+    </nav>
+
+    <Footer />
+  </div>
+
+  <IdPageScript occId={id} riskScoreJs={risk} {riskTierJs} />
+</BaseLayout>

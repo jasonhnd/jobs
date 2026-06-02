@@ -75,8 +75,8 @@ describe('renderSitemapXml — pure XML serializer', () => {
   });
 
   test('safe characters pass through unescaped', () => {
-    const out = renderSitemapXml([fakeEntry('https://mirai-shigoto.com/ja/sectors/healthcare')]);
-    assert.ok(out.includes('<loc>https://mirai-shigoto.com/ja/sectors/healthcare</loc>'));
+    const out = renderSitemapXml([fakeEntry('https://mirai-shigoto.com/sectors/healthcare')]);
+    assert.ok(out.includes('<loc>https://mirai-shigoto.com/sectors/healthcare</loc>'));
   });
 
   test('output ends with a trailing newline (filesystem-friendly)', () => {

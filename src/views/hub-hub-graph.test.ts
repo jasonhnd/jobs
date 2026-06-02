@@ -93,10 +93,10 @@ describe('renderRelatedHubsBlock', () => {
     assert.equal(html, '');
   });
 
-  test('non-empty case returns HTML containing <a href="/ja/…"> links', () => {
+  test('non-empty case returns HTML containing <a href="/…"> links', () => {
     const html = renderRelatedHubsBlock('sectors', 'iryo', 5);
     if (html !== '') {
-      assert.match(html, /<a [^>]*href="\/ja\/[^"]+"/);
+      assert.match(html, /<a [^>]*href="\/[^"]+"/);
     }
   });
 });

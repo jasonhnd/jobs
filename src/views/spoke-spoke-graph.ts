@@ -141,7 +141,7 @@ export function renderSameRiskSection(neighbors: ReadonlyArray<SpokeNeighbor>, s
     const ai = n.ai_risk === null ? '—' : `${n.ai_risk}/10`;
     const sec = n.sector_ja ?? '';
     const wkr = fmtInt(n.workers);
-    return `<a class="srn-card" href="/ja/${n.id}">` +
+    return `<a class="srn-card" href="/${n.id}">` +
            `<span class="srn-name">${escapeHtml(n.name_ja)}</span>` +
            `<span class="srn-meta"><span class="srn-risk">AI 影響 ${ai}</span>` +
            (sec ? `<span class="srn-sector">${escapeHtml(sec)}</span>` : '') +

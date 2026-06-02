@@ -79,10 +79,10 @@
       const isTouchDevice = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
 
       // Build the per-occupation URL. v1.4.0: JA-only.
-      // Mirrors src/pages/ja/[id].astro URL shape (writes ja/<id>.html).
+      // Mirrors src/pages/[id].astro URL shape (writes ja/<id>.html).
       function occUrl(rec) {
         if (!rec || rec.id == null) return "/";
-        return "/ja/" + rec.id;
+        return "/" + rec.id;
       }
       // Fire occupation_tile_click for any path that opens a per-occupation page
       // from the treemap (canvas click, touch tap, keyboard Enter). source lets
@@ -463,7 +463,7 @@
           // Sanitize values defensively (these are LLM outputs but trusted from our own pipeline; still escape just in case)
           const esc = s => String(s).replace(/[<>&"']/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
           document.getElementById("ttRow").innerHTML = rows.map(([k, v]) => `<span class="label">${esc(k)}</span><span class="value">${esc(v)}</span>`).join("");
-          // Tooltip CTA href — Design.md §6.6. Points at /ja/<id>.
+          // Tooltip CTA href — Design.md §6.6. Points at /<id>.
           const cta = document.getElementById("tooltipCta");
           if (cta) {
             cta.href = occUrl(d);
@@ -990,7 +990,7 @@
 
       // Schema.org SearchAction handler — matches WebSite#potentialAction.
       // Reads ?q=... from URL, then either:
-      //   - exact name match → redirect to /ja/<id> (best UX from Google search box)
+      //   - exact name match → redirect to /<id> (best UX from Google search box)
       //   - partial match    → pre-fill all hero search inputs + trigger autocomplete
       // Called from the data.treemap.json .then() so `data` is guaranteed populated.
       function handleSearchActionQuery() {
@@ -1480,7 +1480,7 @@
       });
 
       // Tooltip CTA — Design.md §6.6. Fires GA4 tooltip_cta_click before navigation.
-      // The link is a plain <a href="/ja/<id>"> — we don't preventDefault here.
+      // The link is a plain <a href="/<id>"> — we don't preventDefault here.
       // GA event fires (beacon transport), then the browser navigates in the
       // SAME tab. Was target="_blank" until 2026-05-09; users found new-tab
       // behavior on internal links surprising.
@@ -1642,7 +1642,7 @@
           const rationaleRaw = rec.ai_rationale_ja || "";
           const wValue = (rec.workers != null) ? (fmtMan(rec.workers) + "人") : "—";
           const sValue = fmtSalary(rec.salary);
-          const href = "/ja/" + Number(rec.id);
+          const href = "/" + Number(rec.id);
           return (
             '<a class="m-top10-card" role="listitem" href="' + href + '">' +
               '<span class="m-top10-card-rank">' + rank + " 位" + '</span>' +

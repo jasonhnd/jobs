@@ -1,7 +1,7 @@
 /**
  * src/templates/OrgsCerts.ts — related orgs + certs paired block.
  *
- * Extracted from src/pages/ja/[id].astro (`renderOrgsCerts`). Renders
+ * Extracted from src/pages/[id].astro (`renderOrgsCerts`). Renders
  * two parallel sub-blocks side-by-side:
  *
  *   - 関連業界団体: a list of external organisation links

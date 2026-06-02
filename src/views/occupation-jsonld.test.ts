@@ -9,7 +9,7 @@ import { renderOccupationJsonLd, type OccupationJsonLdInput } from './occupation
 
 const baseInput: OccupationJsonLdInput = {
   id: 42,
-  canonical: 'https://mirai-shigoto.com/ja/42',
+  canonical: 'https://mirai-shigoto.com/42',
   pageName: 'プログラマー — AI 影響 6/10',
   pageDesc: '高度な情報通信プロフェッショナル。',
   nameJa: 'プログラマー',
@@ -69,8 +69,8 @@ describe('renderOccupationJsonLd', () => {
       '@graph': Array<Record<string, unknown>>;
     };
     const webpage = out['@graph'][0];
-    assert.equal(webpage['@id'], 'https://mirai-shigoto.com/ja/42#webpage');
-    assert.equal(webpage.url, 'https://mirai-shigoto.com/ja/42');
+    assert.equal(webpage['@id'], 'https://mirai-shigoto.com/42#webpage');
+    assert.equal(webpage.url, 'https://mirai-shigoto.com/42');
     assert.equal(webpage.name, 'プログラマー — AI 影響 6/10');
     assert.equal(webpage.description, '高度な情報通信プロフェッショナル。');
     assert.equal(webpage.inLanguage, 'ja');

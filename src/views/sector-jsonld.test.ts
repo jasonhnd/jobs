@@ -8,7 +8,7 @@ import { strict as assert } from 'node:assert';
 import { renderSectorJsonLd, type SectorJsonLdInput } from './sector-jsonld.js';
 
 const baseInput: SectorJsonLdInput = {
-  canonical: 'https://mirai-shigoto.com/ja/sectors/healthcare',
+  canonical: 'https://mirai-shigoto.com/sectors/healthcare',
   nameJa: '医療',
   sectorId: 'healthcare',
   siteOrigin: 'https://mirai-shigoto.com',
@@ -79,7 +79,7 @@ describe('renderSectorJsonLd', () => {
     const items = list.itemListElement!;
     assert.equal(items.length, 2);
     assert.equal(items[0].position, 1);
-    assert.equal(items[0].url, 'https://mirai-shigoto.com/ja/1');
+    assert.equal(items[0].url, 'https://mirai-shigoto.com/1');
     assert.equal(items[0].name, '看護師');
   });
 
@@ -109,7 +109,7 @@ describe('renderSectorJsonLd', () => {
     assert.equal(items[0].name, '未来の仕事');
     assert.equal(items[1].name, 'セクター');
     assert.equal(items[2].name, '医療');
-    assert.equal(items[1].item, 'https://mirai-shigoto.com/ja/sectors');
+    assert.equal(items[1].item, 'https://mirai-shigoto.com/sectors');
   });
 
   test('WebPage + Article share datePublished + dateModified from input', () => {

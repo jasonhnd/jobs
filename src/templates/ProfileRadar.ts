@@ -2,7 +2,7 @@
  * src/templates/ProfileRadar.ts — 5-axis radar chart + legend for the
  * occupation detail page.
  *
- * Extracted from src/pages/ja/[id].astro (`renderProfileRadar`).
+ * Extracted from src/pages/[id].astro (`renderProfileRadar`).
  * Renders a `<section class="profile">` containing an inline SVG
  * pentagon chart and a `<dl class="radar-legend">` value list.
  *

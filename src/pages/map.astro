@@ -516,7 +516,7 @@ const jsonLd = `{
       $sheetRisk.textContent = riskLabel(r.ai_risk || 0);
       $sheetSalary.textContent = fmtSalary(r.salary);
       $sheetWorkers.textContent = fmtWorkers(r.workers);
-      $sheetCta.href = '/ja/' + r.id;
+      $sheetCta.href = '/' + r.id;
       $sheet.hidden = false;
       requestAnimationFrame(function () {
         $sheet.classList.add('open');
@@ -732,19 +732,19 @@ const jsonLd = `{
       } else if (e.key === 'Enter') {
         e.preventDefault();
         var sel = items[idx >= 0 ? idx : 0];
-        if (sel) location.href = '/ja/' + sel.dataset.id;
+        if (sel) location.href = '/' + sel.dataset.id;
       }
     });
     $searchForm.addEventListener('submit', function (e) {
       e.preventDefault();
       var items = $suggest.querySelectorAll('li');
       var first = items[0];
-      if (first) location.href = '/ja/' + first.dataset.id;
+      if (first) location.href = '/' + first.dataset.id;
     });
     $suggest.addEventListener('click', function (e) {
       var li = e.target.closest('li[data-id]');
       if (!li) return;
-      location.href = '/ja/' + li.dataset.id;
+      location.href = '/' + li.dataset.id;
     });
 
     function init() {
@@ -796,7 +796,7 @@ const jsonLd = `{
             var u = new URL(document.referrer);
             if (u.hostname === location.hostname) {
               if (u.pathname === '/' || u.pathname === '/index.html') ref = 'home_card';
-              else if (u.pathname.indexOf('/ja/') === 0) ref = 'detail';
+              else if (u.pathname.indexOf('/') === 0) ref = 'detail';
               else ref = 'internal';
             } else {
               ref = 'external';
@@ -837,7 +837,7 @@ const jsonLd = `{
         recs.forEach(function (r) {
           var li = document.createElement('li');
           var a = document.createElement('a');
-          a.href = '/ja/' + r.id;
+          a.href = '/' + r.id;
           a.setAttribute('aria-label', r.name_ja + '：AI 影響 ' + (r.ai_risk || '?') + '/10、年収 ' + fmtSalary(r.salary) + '、就業者数 ' + fmtWorkers(r.workers));
           var sw = document.createElement('span');
           sw.className = 'swatch';

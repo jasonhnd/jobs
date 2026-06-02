@@ -1,7 +1,7 @@
 /**
  * src/templates/Provenance.ts — data-provenance footer line.
  *
- * Extracted from src/pages/ja/[id].astro (`renderProvenance`) as the
+ * Extracted from src/pages/[id].astro (`renderProvenance`) as the
  * first piece of page-inline rendering pulled into Layer 4.
  *
  * Output: a single `<p class="provenance">…</p>` line joining up to

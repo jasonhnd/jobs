@@ -3,7 +3,7 @@
  * for the sector hub page: an AI-impact distribution bar (3 bands)
  * + a numeric legend + a list of auto-derived observations.
  *
- * Extracted from src/pages/ja/sectors/[sector].astro inline build.
+ * Extracted from src/pages/sectors/[sector].astro inline build.
  * Empty `observations` array → empty SafeHtml (no `<section>`).
  *
  * The distribution bar is three `<span>`s with `style="width:N%"`

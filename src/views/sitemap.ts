@@ -91,6 +91,8 @@ export function buildSitemapEntries(
   // Legal / static pages
   entries.push(entry(`${SITE_ORIGIN}/privacy`, today, 'yearly', '0.3'));
   entries.push(entry(`${SITE_ORIGIN}/about`, today, 'monthly', '0.5'));
+  entries.push(entry(`${SITE_ORIGIN}/standard`, today, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/methodology`, today, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/compliance`, today, 'monthly', '0.4'));
 
   // GEO surface (llms.txt convention; listed for general crawlers)
@@ -98,33 +100,33 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/llms-full.txt`, today, 'monthly', '0.2'));
 
   // Rankings cluster
-  entries.push(entry(`${SITE_ORIGIN}/ja/rankings`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/rankings`, today, 'weekly', '0.8'));
   for (const slug of rankingSlugs) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/rankings/${slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/rankings/${slug}`, today, 'weekly', '0.7'));
   }
 
   // Sectors cluster
-  entries.push(entry(`${SITE_ORIGIN}/ja/sectors`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/sectors`, today, 'weekly', '0.8'));
   for (const sid of sectorIds) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/sectors/${sid}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/sectors/${sid}`, today, 'weekly', '0.7'));
   }
 
   // Interests (RIASEC) cluster — 6 types + index
-  entries.push(entry(`${SITE_ORIGIN}/ja/interests`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/interests`, today, 'weekly', '0.8'));
   for (const meta of INTEREST_META) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/interests/${meta.slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/interests/${meta.slug}`, today, 'weekly', '0.7'));
   }
 
   // Skills cluster — 10 skills + index
-  entries.push(entry(`${SITE_ORIGIN}/ja/skills`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/skills`, today, 'weekly', '0.8'));
   for (const meta of SKILL_META) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/skills/${meta.slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/skills/${meta.slug}`, today, 'weekly', '0.7'));
   }
 
   // Compare (X vs Y) cluster — 12 pairs + index
-  entries.push(entry(`${SITE_ORIGIN}/ja/compare`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/compare`, today, 'weekly', '0.8'));
   for (const meta of COMPARE_META) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/compare/${meta.slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/compare/${meta.slug}`, today, 'weekly', '0.7'));
   }
 
   // 9 Genre clusters (abilities / knowledge / values / education /
@@ -141,49 +143,45 @@ export function buildSitemapEntries(
     { path: 'entry-paths', configs: ENTRY_PATHS_CONFIGS },
   ];
   for (const g of genreClusters) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/${g.path}`, today, 'weekly', '0.8'));
+    entries.push(entry(`${SITE_ORIGIN}/${g.path}`, today, 'weekly', '0.8'));
     for (const cfg of g.configs) {
-      entries.push(entry(`${SITE_ORIGIN}/ja/${g.path}/${cfg.slug}`, today, 'weekly', '0.7'));
+      entries.push(entry(`${SITE_ORIGIN}/${g.path}/${cfg.slug}`, today, 'weekly', '0.7'));
     }
   }
 
   // Careers personas
-  entries.push(entry(`${SITE_ORIGIN}/ja/careers`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/careers`, today, 'weekly', '0.8'));
   for (const p of CAREER_PERSONAS) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/careers/${p.slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/careers/${p.slug}`, today, 'weekly', '0.7'));
   }
 
   // Licenses
-  entries.push(entry(`${SITE_ORIGIN}/ja/licenses`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/licenses`, today, 'weekly', '0.8'));
   for (const h of LICENSE_HUBS) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/licenses/${h.slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/licenses/${h.slug}`, today, 'weekly', '0.7'));
   }
 
   // Q&A
-  entries.push(entry(`${SITE_ORIGIN}/ja/q`, today, 'weekly', '0.8'));
+  entries.push(entry(`${SITE_ORIGIN}/q`, today, 'weekly', '0.8'));
   for (const q of QA_ITEMS) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/q/${q.slug}`, today, 'weekly', '0.7'));
+    entries.push(entry(`${SITE_ORIGIN}/q/${q.slug}`, today, 'weekly', '0.7'));
   }
 
-  // About + yearly (hand-curated long-tail content)
-  entries.push(entry(`${SITE_ORIGIN}/ja/about`, today, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/about/methodology`, today, 'monthly', '0.7'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/about/glossary`, today, 'monthly', '0.5'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/about/data-sources`, today, 'monthly', '0.5'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/yearly`, today, 'monthly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/yearly/2026-report`, today, 'yearly', '0.7'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/yearly/5year-changes`, today, 'yearly', '0.6'));
-  entries.push(entry(`${SITE_ORIGIN}/ja/yearly/next-decade`, today, 'yearly', '0.6'));
+  // Yearly (hand-curated long-tail content)
+  entries.push(entry(`${SITE_ORIGIN}/yearly`, today, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/yearly/2026-report`, today, 'yearly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/yearly/5year-changes`, today, 'yearly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/yearly/next-decade`, today, 'yearly', '0.6'));
 
   // L2 explore routes
-  entries.push(entry(`${SITE_ORIGIN}/ja/explore`, today, 'weekly', '0.7'));
+  entries.push(entry(`${SITE_ORIGIN}/explore`, today, 'weekly', '0.7'));
   for (const r of EXPLORE_ROUTES) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/explore/${r.slug}`, today, 'weekly', '0.6'));
+    entries.push(entry(`${SITE_ORIGIN}/explore/${r.slug}`, today, 'weekly', '0.6'));
   }
 
   // Per-occupation detail pages
   for (const id of occupationIds) {
-    entries.push(entry(`${SITE_ORIGIN}/ja/${id}`, today, 'weekly', '0.6'));
+    entries.push(entry(`${SITE_ORIGIN}/${id}`, today, 'weekly', '0.6'));
   }
 
   return entries;

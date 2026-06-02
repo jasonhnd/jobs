@@ -2,7 +2,7 @@
  * src/lib/canonical/sector.ts — Sector page class の canonical CSS。
  *
  * Design.md §6.5 Page Class System で定義された "Sector class" の共通 CSS:
- *   - 範囲: 17 個の `/ja/sectors/` page (index + 16 sectors)
+ *   - 範囲: 17 個の `/sectors/` page (index + 16 sectors)
  *   - 視覚言語: Hub class とほぼ同じ (wrapper 980、h1 600 weight)
  *   - 特徴: `font-feature-settings:"palt"` (CJK パワー字幅) ── Hub class との唯一の差分
  *

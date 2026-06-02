@@ -2,12 +2,12 @@
  * src/lib/canonical/detail.ts — Detail page class の canonical CSS。
  *
  * Design.md §6.5 Page Class System で定義された "Detail class" の共通 CSS:
- *   - 範囲: 556 個の `/ja/<id>` spoke detail page
+ *   - 範囲: 556 個の `/<id>` spoke detail page
  *   - 視覚言語: 親密、読み物指向、狭め wrapper (480→640→1080)、serif body
  *   - 特徴: `--ink-*` semantic naming、line-height 1.6 (canonical-css.ts が 1.75 で上書き)
  *
  * このファイルは class 共通部分のみ。Page 固有スタイル (radar / transfer / FAQ 等)
- * は `src/pages/ja/_id-css.ts` に残す。`_id-css.ts` がこの canonical を import して
+ * は `src/pages/_id-css.ts` に残す。`_id-css.ts` がこの canonical を import して
  * 連結する。
  *
  * `:root{}` token 宣言は **このファイルに含めない**。token は

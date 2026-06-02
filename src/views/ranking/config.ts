@@ -102,7 +102,7 @@ export interface RankingsHubGroup {
   cards: RankingsHubCardData[];
 }
 
-// ─── RA-128: 39-card grouping for /ja/rankings hub ────────────────────
+// ─── RA-128: 39-card grouping for /rankings hub ────────────────────
 // Groups all 39 hub cards into 6 thematic categories with sticky-anchor
 // chip nav. Order within each group matters (drives card order on page).
 // Lives in config (not index.ts) so build.ts can import without creating

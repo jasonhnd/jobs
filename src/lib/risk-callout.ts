@@ -3,7 +3,7 @@
  * text that appears under the risk badge on the occupation
  * detail page.
  *
- * Extracted from src/pages/ja/[id].astro (`oneLineText`).
+ * Extracted from src/pages/[id].astro (`oneLineText`).
  * Five-band lookup based on the integer AI-risk score:
  *
  *   null   → AI 影響度未評価。

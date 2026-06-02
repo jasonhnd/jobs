@@ -4,7 +4,7 @@
  * Refactored from the 1411-line src/views/ranking.ts (2026-05-17, audit
  * finding CODE-010). The original module was split into focused
  * sub-modules; this barrel re-exports the public API exactly as it was
- * before, so every consumer under src/pages/ja/rankings/* (and the
+ * before, so every consumer under src/pages/rankings/* (and the
  * type-only consumers in src/templates/) keeps working without changes.
  *
  * Public surface (unchanged):
