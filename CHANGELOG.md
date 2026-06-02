@@ -16,6 +16,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
   global AI adoption model. The first preview uses local model inputs and
   generated `data.ai-adoption.json`; D3 is bundled locally instead of loaded
   from a CDN.
+- Changed the preview route directly from `/ai-adoption` to `/aiadoption` for
+  the test environment, without adding rewrites.
 - Refreshed the SEO baseline intentionally because the new page and generated
   data file add one URL, one sitemap entry, and one public `data.*` artifact.
 - Revised the preview page copy to easier public Japanese and replaced the

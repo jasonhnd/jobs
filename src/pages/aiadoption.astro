@@ -69,7 +69,7 @@ interface DashboardPayload {
 
 const dataPath = join(process.cwd(), 'public', 'data.ai-adoption.json');
 const dashboard = JSON.parse(readFileSync(dataPath, 'utf-8')) as DashboardPayload;
-const canonical = `${siteConfig.origin}/ai-adoption`;
+const canonical = `${siteConfig.origin}/aiadoption`;
 
 const compact = (value: number): string =>
   new Intl.NumberFormat('ja-JP', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
@@ -116,8 +116,113 @@ const confidenceLabel = (confidence: string): string => {
 const layerNameById = new Map(dashboard.layers.map((layer) => [layer.id, layer.label_ja]));
 const usedByLabel = (ids: string[]): string =>
   ids.map((id) => layerNameById.get(id) ?? (id === 'N_total' ? '基準人数' : id)).join(', ');
+
+const formulaTextByLayer: Record<string, string> = {
+  N_dev: 'N_dev = 開発者向けAI利用者の合計 × (1 - 同じ人の重なり)',
+  N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1人あたり年間売上 ARPU) - 上の層との重なり',
+  N_free: 'N_free = Σ(月間利用者 MAU × 1人あたり補正) - 上の層との重なり',
+  N_passive: 'N_passive = AI対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
+  N_unreached: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
+};
+
+const formulaMeaningByLayer: Record<string, string> = {
+  N_dev: '仕事の中でAIを深く使う人を先に数えます。ここを先に分けると、あとで有料サービスや無料サービスと二重に数えにくくなります。',
+  N_pro: '会社が有料ユーザー数を出していない場合、年間売上を1人あたりの年間料金で割り、人数の目安に直します。',
+  N_free: '無料利用は売上に出にくいので、Webやアプリの月間利用者を使います。同じ人が複数サービスを使う分は引きます。',
+  N_passive: 'アプリを自分で開かなくても、OSや端末に入ったAIにふれる人を見ます。対応端末すべてを利用者とは見なしません。',
+  N_unreached: '上の4つに入らなかった人を、まだAIにふれていない人として残します。これは直接観測ではなく差し引きの数字です。',
+};
+
+const formulaInputsByLayer: Record<string, string> = {
+  N_dev: 'GitHub Copilot、Cursor、その他の開発者向けAIツール',
+  N_pro: 'OpenAI、Anthropic、PerplexityなどのARRとARPU',
+  N_free: 'ChatGPT、Gemini、ClaudeなどのMAUやアプリ利用',
+  N_passive: 'Apple Intelligence、Windows Copilot、Android Geminiなどの対応端末',
+  N_unreached: '世界のネット利用者数と、上の4グループの合計',
+};
+
+const formulaText = (id: string | undefined, fallback: string | undefined): string =>
+  id != null ? (formulaTextByLayer[id] ?? fallback ?? '') : (fallback ?? '');
+
+const formulaMeaning = (id: string): string =>
+  formulaMeaningByLayer[id] ?? '';
+
+const formulaInputs = (id: string): string =>
+  formulaInputsByLayer[id] ?? '';
+
+const formulaTerms = [
+  ['N_total', '割合を出すときの母数。このページでは世界のネット利用者数を使います。'],
+  ['ARR', '年間売上。ユーザー数が未公開の会社で、人数を推定するための代わりの数字です。'],
+  ['ARPU', '1人あたり年間売上。ARRを人数に直すときに使います。'],
+  ['MAU', '月間利用者数。無料利用者を推定するときの中心データです。'],
+  ['重なり', '同じ人が複数のAIサービスを使っている分です。ここを引かないと人数が多く見えます。'],
+];
+
+const sourceGroupMeta = [
+  {
+    id: 'base',
+    title: '母数',
+    note: '全体の分母になる数字です。',
+    metrics: ['global_internet_users', 'global_population'],
+  },
+  {
+    id: 'developer',
+    title: '仕事で深く使う人',
+    note: '開発者向けAIツールの利用者を見ます。',
+    metrics: ['developer_active_users'],
+  },
+  {
+    id: 'paid',
+    title: '有料で使う人',
+    note: 'ARRを使い、有料ユーザーの目安に直します。',
+    metrics: ['vendor_arr_usd'],
+  },
+  {
+    id: 'free',
+    title: '無料で使う人',
+    note: 'Webやアプリの月間利用を使います。',
+    metrics: ['platform_mau_proxy'],
+  },
+  {
+    id: 'passive',
+    title: '端末でAIにふれる人',
+    note: 'OSや端末に入ったAIの対象端末を見ます。',
+    metrics: ['passive_eligible_devices'],
+  },
+];
+
+const sourceGroups = sourceGroupMeta
+  .map((group) => ({
+    ...group,
+    sources: dashboard.sources.filter((source) => group.metrics.includes(source.metric)),
+  }))
+  .filter((group) => group.sources.length > 0);
+
+const sourceReviewLabel = (source: SourceRow): string => {
+  const remaining = source.stale_after_days - source.age_days;
+  if (remaining >= 0) return `${remaining}日後に再確認`;
+  return `${Math.abs(remaining)}日遅れ`;
+};
+
+const sourceAgeLabel = (source: SourceRow): string =>
+  `${source.age_days}日経過 / ${source.stale_after_days}日で見直し`;
+
+const topReviewSources = dashboard.sources
+  .slice()
+  .sort((a, b) => (b.age_days / b.stale_after_days) - (a.age_days / a.stale_after_days))
+  .slice(0, 5);
+
+const layerValue = (id: string): number =>
+  dashboard.layers.find((layer) => layer.id === id)?.value ?? 0;
+const explicitPeople =
+  layerValue('N_dev') + layerValue('N_pro') + layerValue('N_free');
+const touchedPeople = explicitPeople + layerValue('N_passive');
+const unreachedPeople = layerValue('N_unreached');
+
 const touchedPer100 = Math.round(dashboard.rates.total_touch_rate * 100);
 const unreachedPer100 = 100 - touchedPer100;
+const touchedPer200 = Math.round(dashboard.rates.total_touch_rate * 200);
+const unreachedPer200 = 200 - touchedPer200;
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -152,7 +257,10 @@ const jsonLd = JSON.stringify({
   <article class="ai-adoption-page" aria-labelledby="aiAdoptionTitle">
     <p class="adoption-kicker">AI adoption monitor</p>
     <h1 id="aiAdoptionTitle" class="adoption-title">{dashboard.title_ja}</h1>
-    <p class="adoption-lede">{dashboard.subtitle_ja} 上から順に重なりを引き、同じ人を二度数えないようにします。</p>
+    <p class="adoption-lede">
+      <span>{dashboard.subtitle_ja}</span>
+      <span>上から順に重なりを引き、同じ人を二度数えないようにします。</span>
+    </p>
 
     <div class="adoption-meta" aria-label="モデル情報">
       <span class="meta-pill">期間: {dashboard.period}</span>
@@ -166,39 +274,46 @@ const jsonLd = JSON.stringify({
     <section class="summary-grid" aria-label="主な数字">
       <div class="metric-card">
         <p class="metric-label">AIにふれる人</p>
-        <p class="metric-value">{pct(dashboard.rates.total_touch_rate)}</p>
-        <p class="metric-note">自分で使う人と、端末のAIにふれる人を合わせた割合。</p>
+        <p class="metric-value">{compact(touchedPeople)}</p>
+        <p class="metric-note">自分で使う人と、端末のAIにふれる人を合わせた人数。</p>
       </div>
       <div class="metric-card">
         <p class="metric-label">自分で使う人</p>
-        <p class="metric-value">{pct(dashboard.rates.explicit_adoption_rate)}</p>
+        <p class="metric-value">{compact(explicitPeople)}</p>
         <p class="metric-note">仕事で深く使う、有料で使う、無料で使う人。</p>
       </div>
       <div class="metric-card">
         <p class="metric-label">まだ使っていない人</p>
-        <p class="metric-value">{pct(dashboard.rates.unreached_rate)}</p>
-        <p class="metric-note">重なりを引いた後の残り。</p>
+        <p class="metric-value">{compact(unreachedPeople)}</p>
+        <p class="metric-note">重なりを引いた後に残る人数。</p>
       </div>
       <div class="metric-card">
         <p class="metric-label">基準人数</p>
         <p class="metric-value">{compact(dashboard.denominator.primary_value)}</p>
         <p class="metric-note">世界のインターネット利用者を基準にする。</p>
       </div>
+      <div class="metric-card">
+        <p class="metric-label">世界の総人口</p>
+        <p class="metric-value">{compact(dashboard.denominator.auxiliary_value)}</p>
+        <p class="metric-note">ネット利用者だけでなく、全人口に対する広がりも見るための補助基準。</p>
+      </div>
     </section>
 
     <section class="dashboard-shell" aria-label="AI利用率の内訳">
       <div class="chart-panel">
         <div class="panel-head">
-          <h2>100人で見る5グループ</h2>
-          <p class="panel-sub">点1つ = 1%</p>
+          <h2>200点で見る5グループ</h2>
+          <p class="panel-sub">点1つ = 0.5%</p>
         </div>
         <div class="impact-row" aria-label="100人あたりのAI利用イメージ">
           <div>
             <span class="impact-number">{touchedPer100}</span><span class="impact-unit">人</span>
+            <span class="impact-mini">{touchedPer200}/200点</span>
             <p>100人のうちAIにふれる人</p>
           </div>
           <div>
             <span class="impact-number muted">{unreachedPer100}</span><span class="impact-unit">人</span>
+            <span class="impact-mini">{unreachedPer200}/200点</span>
             <p>まだ使っていない人</p>
           </div>
         </div>
@@ -224,7 +339,7 @@ const jsonLd = JSON.stringify({
         </div>
         <div class="explain-block">
           <h3>計算式</h3>
-          <code id="aiLayerFormula" class="formula-code">{dashboard.layers[2]?.formula_ja}</code>
+          <code id="aiLayerFormula" class="formula-code">{formulaText(dashboard.layers[2]?.id, dashboard.layers[2]?.formula_ja)}</code>
         </div>
         <div class="explain-block">
           <h3>理由</h3>
@@ -244,69 +359,131 @@ const jsonLd = JSON.stringify({
     <section class="two-col" aria-label="変化とデータの新しさ">
       <div class="wide-panel">
         <div class="panel-head">
-          <h2>3か月ごとの変化</h2>
-          <p class="panel-sub">グループ別人数</p>
+          <h2>AI時代の広がり</h2>
+          <p class="panel-sub">2020年から現在まで / 年ごとの概算</p>
         </div>
         <div id="aiAdoptionTrend" class="trend-stage"></div>
       </div>
       <div class="wide-panel">
         <div class="panel-head">
-          <h2>データの新しさ</h2>
-          <p class="panel-sub">入力ごとの状態</p>
+          <h2>更新チェック</h2>
+          <p class="panel-sub">公開日からの経過 / 見直し目安</p>
+        </div>
+        <p class="freshness-note">これは正確さの点数ではなく、各入力データをいつ見直すべきかを見る管理表です。</p>
+        <div class="review-queue" aria-label="次に見直す入力データ">
+          {topReviewSources.map((source) => (
+            <div class="review-item">
+              <div>
+                <strong>{entityLabel(source.entity)}</strong>
+                <span>{sourceAgeLabel(source)}</span>
+              </div>
+              <span class={`status-chip status-${source.freshness_status}`}>{sourceReviewLabel(source)}</span>
+            </div>
+          ))}
         </div>
         <div id="aiAdoptionFreshness" class="freshness-stage"></div>
       </div>
     </section>
 
-    <section class="wide-panel" aria-labelledby="formulaHeading">
-      <h2 id="formulaHeading">公開している計算式</h2>
+    <section class="wide-panel formula-panel" aria-labelledby="formulaHeading">
+      <div class="panel-head">
+        <h2 id="formulaHeading">公開している計算式</h2>
+        <p class="panel-sub">名詞の意味と計算の理由</p>
+      </div>
+      <p class="method-note">このページの式は、同じ人を二度数えないために上から順に引いていく形です。まず仕事で深く使う人を分け、その後に有料、無料、端末AI、未利用の順に見ます。</p>
+      <div class="formula-primer" aria-label="式で使う言葉">
+        <h3>式で使う言葉</h3>
+        <dl>
+          {formulaTerms.map(([term, description]) => (
+            <>
+              <dt>{term}</dt>
+              <dd>{description}</dd>
+            </>
+          ))}
+        </dl>
+      </div>
       <div class="formula-grid">
         {dashboard.layers.map((layer) => (
           <div class="formula-card">
             <h3>{layer.label_ja}</h3>
-            <code class="formula-code">{layer.formula_ja}</code>
-            <p>{layer.rationale_ja}</p>
+            <p class="formula-label">式</p>
+            <code class="formula-code">{formulaText(layer.id, layer.formula_ja)}</code>
+            <p class="formula-label">意味</p>
+            <p>{formulaMeaning(layer.id)}</p>
+            <p class="formula-label">主に使うデータ</p>
+            <p>{formulaInputs(layer.id)}</p>
           </div>
         ))}
       </div>
     </section>
 
-    <section class="wide-panel" aria-labelledby="sourceHeading">
-      <h2 id="sourceHeading">入力データと更新日</h2>
-      <p class="method-note">各入力は、値だけでなく、出所、公開日、使うグループ、データの新しさを持ちます。モデルはこれらを集めて最終JSONを作ります。</p>
-      <div class="source-table-wrap">
-        <table class="source-table">
-          <thead>
-            <tr>
-              <th>数字の種類</th>
-              <th>対象</th>
-              <th>値</th>
-              <th>人数に直した値</th>
-              <th>期間</th>
-              <th>公開日</th>
-              <th>新しさ</th>
-              <th>信頼度</th>
-              <th>使う先</th>
-              <th>出所</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dashboard.sources.map((source) => (
-              <tr>
-                <td data-label="数字の種類">{metricLabel(source.metric)}</td>
-                <td data-label="対象">{entityLabel(source.entity)}</td>
-                <td data-label="値" class="num">{compact(source.value)} {unitLabel(source.unit)}</td>
-                <td data-label="人数に直した値" class="num">{compact(source.derived_value)}</td>
-                <td data-label="期間">{source.period}</td>
-                <td data-label="公開日" class="num">{source.published_at}</td>
-                <td data-label="新しさ"><span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span></td>
-                <td data-label="信頼度">{confidenceLabel(source.confidence)}</td>
-                <td data-label="使う先">{usedByLabel(source.used_by)}</td>
-                <td data-label="出所"><a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label}</a></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <section class="wide-panel source-panel" aria-labelledby="sourceHeading">
+      <div class="panel-head">
+        <h2 id="sourceHeading">入力データと更新日</h2>
+        <p class="panel-sub">どの数字を、何のために使うか</p>
+      </div>
+      <p class="method-note">入力データは「元の値」「人数に直した値」「公開日」「見直し目安」を分けて見せます。値が仮の数字でも、どこを変えればモデル全体が変わるか分かる形にしています。</p>
+      <div class="source-groups">
+        {sourceGroups.map((group) => (
+          <section class="source-group" aria-label={group.title}>
+            <div class="source-group-head">
+              <div>
+                <h3>{group.title}</h3>
+                <p>{group.note}</p>
+              </div>
+              <span>{group.sources.length}件</span>
+            </div>
+            <div class="source-card-grid">
+              {group.sources.map((source) => (
+                <article class={`source-card source-card-${source.freshness_status}`}>
+                  <div class="source-card-top">
+                    <div>
+                      <p class="source-kind">{metricLabel(source.metric)}</p>
+                      <h4>{entityLabel(source.entity)}</h4>
+                    </div>
+                    <span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span>
+                  </div>
+                  <div class="source-metrics">
+                    <div>
+                      <span>元の値</span>
+                      <strong>{compact(source.value)} {unitLabel(source.unit)}</strong>
+                    </div>
+                    <div>
+                      <span>人数換算</span>
+                      <strong>{compact(source.derived_value)}</strong>
+                    </div>
+                  </div>
+                  <dl class="source-meta-grid">
+                    <div>
+                      <dt>期間</dt>
+                      <dd>{source.period}</dd>
+                    </div>
+                    <div>
+                      <dt>公開日</dt>
+                      <dd>{source.published_at}</dd>
+                    </div>
+                    <div>
+                      <dt>見直し</dt>
+                      <dd>{sourceAgeLabel(source)}</dd>
+                    </div>
+                    <div>
+                      <dt>信頼度</dt>
+                      <dd>{confidenceLabel(source.confidence)}</dd>
+                    </div>
+                    <div>
+                      <dt>使う先</dt>
+                      <dd>{usedByLabel(source.used_by)}</dd>
+                    </div>
+                    <div>
+                      <dt>出所</dt>
+                      <dd><a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label}</a></dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </section>
 
@@ -327,6 +504,7 @@ const jsonLd = JSON.stringify({
         entity: string;
         derived_value: number;
         published_at: string;
+        stale_after_days: number;
         freshness_status: 'fresh' | 'review_needed' | 'stale';
         confidence: string;
         source_url: string;
@@ -366,6 +544,7 @@ const jsonLd = JSON.stringify({
       const dataNode = document.getElementById('aiAdoptionData');
       const payload = dataNode?.textContent ? JSON.parse(dataNode.textContent) as Payload : null;
       const selected = { id: 'N_free' };
+      const WAFFLE_UNITS = 200;
 
       const compactNumber = new Intl.NumberFormat('ja-JP', {
         notation: 'compact',
@@ -398,6 +577,14 @@ const jsonLd = JSON.stringify({
         return '#A24A28';
       }
 
+      const formulaTextByLayer: Record<string, string> = {
+        N_dev: 'N_dev = 開発者向けAI利用者の合計 × (1 - 同じ人の重なり)',
+        N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1人あたり年間売上 ARPU) - 上の層との重なり',
+        N_free: 'N_free = Σ(月間利用者 MAU × 1人あたり補正) - 上の層との重なり',
+        N_passive: 'N_passive = AI対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
+        N_unreached: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
+      };
+
       function entityLabel(entity: string): string {
         if (entity === 'World') return '世界';
         if (entity === 'Other developer AI tools') return 'その他の開発者向けAI';
@@ -420,11 +607,11 @@ const jsonLd = JSON.stringify({
 
       function makeWaffleUnits(layers: LayerRow[]): WaffleUnit[] {
         const counts = layers.map((layer) => {
-          const raw = layer.share_of_total * 100;
+          const raw = layer.share_of_total * WAFFLE_UNITS;
           const count = Math.floor(raw);
           return { layer, count, remainder: raw - count };
         });
-        let left = 100 - d3.sum(counts, (item) => item.count);
+        let left = WAFFLE_UNITS - d3.sum(counts, (item) => item.count);
         counts
           .slice()
           .sort((a, b) => d3.descending(a.remainder, b.remainder))
@@ -439,7 +626,7 @@ const jsonLd = JSON.stringify({
             units.push({ index: units.length, layer: item.layer });
           }
         }
-        return units.slice(0, 100);
+        return units.slice(0, WAFFLE_UNITS);
       }
 
       function selectLayer(layerId: string): void {
@@ -458,7 +645,7 @@ const jsonLd = JSON.stringify({
         if (title) title.textContent = layer.label_ja;
         if (value) value.textContent = fmt(layer.value);
         if (share) share.textContent = pct(layer.share_of_total);
-        if (formula) formula.textContent = layer.formula_ja;
+        if (formula) formula.textContent = formulaTextByLayer[layer.id] ?? layer.formula_ja;
         if (rationale) rationale.textContent = layer.rationale_ja;
         if (risk) risk.textContent = layer.risk_ja;
         if (status) {
@@ -486,6 +673,17 @@ const jsonLd = JSON.stringify({
 
       function updateLayerSelection(): void {
         const stageSelector = '#aiAdoptionLayerChart';
+        d3.selectAll<SVGCircleElement, WaffleUnit>(`${stageSelector} .waffle-halo`)
+          .classed('is-selected', (d) => d.layer.id === selected.id)
+          .transition()
+          .duration(220)
+          .ease(d3.easeCubicOut)
+          .attr('r', function (this: SVGCircleElement, d) {
+            const haloRadius = Number(this.dataset.haloRadius);
+            return d.layer.id === selected.id ? haloRadius : 0;
+          })
+          .attr('opacity', (d) => d.layer.id === selected.id ? 0.2 : 0);
+
         d3.selectAll<SVGCircleElement, WaffleUnit>(`${stageSelector} .waffle-dot`)
           .classed('is-selected', (d) => d.layer.id === selected.id)
           .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
@@ -514,18 +712,19 @@ const jsonLd = JSON.stringify({
         const layers = payload.layers;
         const width = Math.max(320, el.clientWidth || 720);
         const small = width < 620;
-        const columns = small ? 10 : 20;
+        const columns = small ? 15 : 20;
         const units = makeWaffleUnits(layers);
-        const cell = Math.min(small ? 30 : 32, Math.max(22, (width - 34) / columns));
-        const baseDotRadius = cell * 0.39;
-        const selectedDotRadius = cell * 0.48;
+        const cell = Math.min(small ? 19 : 27, Math.max(15, (width - 44) / columns));
+        const baseDotRadius = cell * 0.35;
+        const selectedDotRadius = cell * 0.44;
+        const haloRadius = cell * 0.56;
         const rowsCount = Math.ceil(units.length / columns);
         const gridW = columns * cell;
         const gridH = rowsCount * cell;
         const gridX = (width - gridW) / 2;
-        const gridY = 16;
+        const gridY = 30;
         const barX = 20;
-        const barY = gridY + gridH + 40;
+        const barY = gridY + gridH + 34;
         const barW = width - 40;
         const barH = 34;
         const tileGap = 8;
@@ -543,7 +742,15 @@ const jsonLd = JSON.stringify({
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', 'AI利用率を100人で見た5グループ');
+          .attr('aria-label', 'AI利用率を200点で見た5グループ。点1つは0.5%。');
+
+        svg.append('rect')
+          .attr('class', 'waffle-frame')
+          .attr('x', gridX - 10)
+          .attr('y', gridY - 10)
+          .attr('width', gridW + 20)
+          .attr('height', gridH + 20)
+          .attr('rx', 8);
 
         svg.append('text')
           .attr('class', 'waffle-caption')
@@ -551,7 +758,21 @@ const jsonLd = JSON.stringify({
           .attr('y', 4)
           .attr('text-anchor', 'middle')
           .attr('dominant-baseline', 'hanging')
-          .text('100人のインターネット利用者');
+          .text('200点 = 100% / 1点 = 0.5%');
+
+        svg.append('g')
+          .attr('class', 'waffle-halo-grid')
+          .attr('transform', `translate(${gridX},${gridY})`)
+          .selectAll<SVGCircleElement, WaffleUnit>('circle')
+          .data(units)
+          .join('circle')
+          .attr('class', (d) => `waffle-halo${d.layer.id === selected.id ? ' is-selected' : ''}`)
+          .attr('data-halo-radius', String(haloRadius))
+          .attr('cx', (d) => (d.index % columns) * cell + cell / 2)
+          .attr('cy', (d) => Math.floor(d.index / columns) * cell + cell / 2)
+          .attr('r', (d) => d.layer.id === selected.id ? haloRadius : 0)
+          .attr('fill', (d) => d.layer.color)
+          .attr('opacity', (d) => d.layer.id === selected.id ? 0.2 : 0);
 
         const dots = svg.append('g')
           .attr('class', 'waffle-grid')
@@ -692,15 +913,18 @@ const jsonLd = JSON.stringify({
         const el = document.getElementById('aiAdoptionTrend');
         if (!el) return;
         const width = Math.max(320, el.clientWidth || 520);
-        const height = 280;
-        const margin = { top: 18, right: 22, bottom: 38, left: 52 };
+        const height = 310;
+        const small = width < 520;
+        const margin = { top: 18, right: 22, bottom: 54, left: 52 };
         const innerW = width - margin.left - margin.right;
         const innerH = height - margin.top - margin.bottom;
         const keys: Array<keyof TrendRow> = ['N_dev', 'N_pro', 'N_free', 'N_passive'];
         const color = new Map(payload.layers.map((layer) => [layer.id, layer.color]));
         const labels = new Map(payload.layers.map((layer) => [layer.id, layer.short_label_ja]));
+        const periods = payload.trend.map((row) => row.period);
+        const tickPeriods = periods.filter((_period, index) => index % (small ? 3 : 2) === 0 || index === periods.length - 1);
         const x = d3.scalePoint()
-          .domain(payload.trend.map((row) => row.period))
+          .domain(periods)
           .range([0, innerW])
           .padding(0.35);
         const maxY = d3.max(payload.trend, (row) => d3.max(keys, (key) => Number(row[key]))) ?? 1;
@@ -711,13 +935,16 @@ const jsonLd = JSON.stringify({
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', 'AI利用率の3か月ごとの変化');
+          .attr('aria-label', 'AI時代の利用率の変化');
         const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
         g.append('g')
           .attr('class', 'axis')
           .attr('transform', `translate(0,${innerH})`)
-          .call(d3.axisBottom(x));
+          .call(d3.axisBottom(x).tickValues(tickPeriods))
+          .selectAll('text')
+          .attr('text-anchor', small ? 'end' : 'middle')
+          .attr('transform', small ? 'rotate(-28)' : null);
         g.append('g')
           .attr('class', 'axis')
           .call(d3.axisLeft(y).ticks(4).tickFormat((d) => fmt(Number(d))));
@@ -737,11 +964,11 @@ const jsonLd = JSON.stringify({
             .join('circle')
             .attr('cx', (d) => x(d.period) ?? 0)
             .attr('cy', (d) => y(Number(d[key])))
-            .attr('r', 3)
+            .attr('r', 2.8)
             .attr('fill', color.get(String(key)) ?? '#777');
         }
 
-        const legend = svg.append('g').attr('transform', `translate(${margin.left},${height - 12})`);
+        const legend = svg.append('g').attr('transform', `translate(${margin.left},${height - 18})`);
         keys.forEach((key, index) => {
           const item = legend.append('g').attr('transform', `translate(${index * 86},0)`);
           item.append('rect')
@@ -761,19 +988,24 @@ const jsonLd = JSON.stringify({
         if (!payload) return;
         const el = document.getElementById('aiAdoptionFreshness');
         if (!el) return;
-        const rows = payload.sources.slice(0, 18);
+        const rows = payload.sources
+          .slice()
+          .sort((a, b) => (b.age_days / b.stale_after_days) - (a.age_days / a.stale_after_days))
+          .slice(0, 8);
         const width = Math.max(320, el.clientWidth || 520);
-        const rowH = 26;
-        const height = rows.length * rowH + 42;
-        const margin = { top: 18, right: 14, bottom: 16, left: 148 };
+        const small = width < 520;
+        const rowH = 34;
+        const height = rows.length * rowH + 46;
+        const margin = { top: 18, right: 14, bottom: 18, left: small ? 116 : 152 };
         const innerW = width - margin.left - margin.right;
+        const x = d3.scaleLinear().domain([0, 1.5]).range([0, innerW]);
 
         d3.select(el).selectAll('*').remove();
         const svg = d3.select(el)
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', '入力データの新しさ');
+          .attr('aria-label', '入力データの更新チェック');
         const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
         const row = g.selectAll('g.fresh-row')
@@ -786,12 +1018,24 @@ const jsonLd = JSON.stringify({
           .attr('x', -10)
           .attr('y', 14)
           .attr('text-anchor', 'end')
-          .text((d) => d.entity.length > 22 ? `${d.entity.slice(0, 21)}…` : d.entity);
+          .text((d) => {
+            const label = entityLabel(d.entity);
+            const limit = small ? 12 : 20;
+            return label.length > limit ? `${label.slice(0, limit - 1)}...` : label;
+          });
 
         row.append('rect')
           .attr('x', 0)
           .attr('y', 2)
           .attr('width', innerW)
+          .attr('height', 18)
+          .attr('rx', 4)
+          .attr('fill', 'var(--bg)');
+
+        row.append('rect')
+          .attr('x', 0)
+          .attr('y', 2)
+          .attr('width', (d) => x(Math.min(1.5, d.age_days / d.stale_after_days)))
           .attr('height', 18)
           .attr('rx', 4)
           .attr('fill', (d) => statusFill(d.freshness_status));
@@ -801,7 +1045,7 @@ const jsonLd = JSON.stringify({
           .attr('x', 8)
           .attr('y', 15)
           .attr('fill', (d) => statusText(d.freshness_status))
-          .text((d) => `${statusLabel(d.freshness_status)} / ${d.age_days}d`);
+          .text((d) => `${d.age_days}日 / ${d.stale_after_days}日`);
       }
 
       function renderAll(): void {
