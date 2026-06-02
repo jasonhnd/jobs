@@ -1,40 +1,27 @@
 /**
  * src/lib/og-renderers/map.ts — render the /map page OG card.
  *
- * Step 9 part 2 (2026-05-13): extracted from api/og.tsx inline
- * `renderMapCard`. Output is a static 1200×630 PNG with the
- * "職業マップ" hero, a 5-band stylized risk-color swatch (no
- * upstream data fetch — purely visual), and a hand-curated
- * legend / subtitle.
+ * Output is a static 1200×630 PNG with the "職業マップ" hero, a 5-band
+ * stylized risk-color swatch (no upstream data fetch — purely visual),
+ * and a hand-curated legend / subtitle. Chrome (shell, top bar, footer,
+ * eyebrow) comes from _frame.ts so all four card types stay identical.
  *
- * Unlike the occupation / sector renderers, this card has no
- * parameters and reads no external data, so the boundary is
- * the cleanest of the three rich renderers.
+ * Unlike the occupation / sector renderers, this card has no parameters
+ * and reads no external data.
  *
- * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader
- * for dependencies. See generic.ts header for the full rationale.
- *
- * Lives in src/lib/ — binary PNG output, neither SafeHtml (templates)
- * nor typed data (views).
+ * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader for
+ * dependencies. See _frame.ts for the full rationale.
  */
 
 import { ImageResponse } from '@vercel/og';
 import { createElement as h } from 'react';
 import { loadGoogleFont } from '../og-helpers.js';
+import { COLORS, FRAME_SUBSET, ogShell, topBar, footer, eyebrow } from './_frame.js';
 
-const SITE_MARK = 'mirai-shigoto.com';
 const EYEBROW = 'OCCUPATION MAP / 全 556 職業';
 const TITLE = '職業マップ';
 const SUBTITLE = 'AI 影響度 × 就業者数 ヒートマップ';
 const BOTTOM_LABEL = '面積 = 就業者数 ・ 色 = AI 影響(低 → 高)';
-
-const COLORS = {
-  bg: '#FAF6EE',
-  ink: '#241E18',
-  muted: '#7A6F5E',
-  hairline: 'rgba(36, 30, 24, 0.12)',
-  accent: '#D96B3D',
-} as const;
 
 // 5-tier risk palette (matches the page's inline thumbnail in
 // build_occupations.py generate_map_thumbnail()).
@@ -42,8 +29,7 @@ const COLORS = {
 const RISK_BAND_COLORS = ['#0F8A66', '#5BA84F', '#D9A03B', '#E27A33', '#C4422F'] as const;
 
 export async function renderMapOgCard(): Promise<Response> {
-  const subsetText =
-    `独立分析 ${SITE_MARK} ${EYEBROW} ${TITLE} ${SUBTITLE} ${BOTTOM_LABEL} ・ /`;
+  const subsetText = `${EYEBROW} ${TITLE} ${SUBTITLE} ${BOTTOM_LABEL} ${FRAME_SUBSET}`;
 
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
     loadGoogleFont('Noto+Serif+JP', 600, subsetText),
@@ -52,47 +38,9 @@ export async function renderMapOgCard(): Promise<Response> {
   ]);
 
   return new ImageResponse(
-    h(
-      'div',
-      {
-        style: {
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          background: COLORS.bg,
-          color: COLORS.ink,
-          fontFamily: 'NotoSansJP',
-          padding: '48px 64px',
-          borderLeft: `14px solid ${COLORS.accent}`,
-        },
-      },
-      // Top bar.
-      h(
-        'div',
-        { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-        h(
-          'div',
-          {
-            style: {
-              background: COLORS.accent,
-              color: '#FFFFFF',
-              padding: '8px 18px',
-              borderRadius: '999px',
-              fontWeight: 800,
-              fontSize: '22px',
-              letterSpacing: '0.08em',
-            },
-          },
-          '独立分析',
-        ),
-        h(
-          'div',
-          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
-          SITE_MARK,
-        ),
-      ),
-      // Eyebrow + giant title + 5-band swatch.
+    ogShell(COLORS.accent, [
+      topBar(),
+      // Eyebrow + giant title + subtitle + 5-band swatch.
       h(
         'div',
         {
@@ -102,25 +50,15 @@ export async function renderMapOgCard(): Promise<Response> {
             flex: 1,
             justifyContent: 'center',
             marginTop: '20px',
+            gap: '20px',
           },
         },
+        eyebrow(EYEBROW),
         h(
           'div',
           {
             style: {
-              fontSize: '26px',
-              color: COLORS.accent,
-              fontWeight: 800,
-              letterSpacing: '0.18em',
-              marginBottom: '16px',
-            },
-          },
-          EYEBROW,
-        ),
-        h(
-          'div',
-          {
-            style: {
+              display: 'flex',
               fontFamily: 'NotoSerifJP',
               fontSize: '128px',
               fontWeight: 600,
@@ -133,14 +71,7 @@ export async function renderMapOgCard(): Promise<Response> {
         ),
         h(
           'div',
-          {
-            style: {
-              fontSize: '30px',
-              color: COLORS.muted,
-              fontWeight: 500,
-              marginTop: '20px',
-            },
-          },
+          { style: { display: 'flex', fontSize: '30px', color: COLORS.muted, fontWeight: 500 } },
           SUBTITLE,
         ),
         // 5-band stylized swatch — implies the heatmap palette without
@@ -150,36 +81,19 @@ export async function renderMapOgCard(): Promise<Response> {
           {
             style: {
               display: 'flex',
-              gap: '0',
-              marginTop: '32px',
+              marginTop: '12px',
               height: '26px',
-              borderRadius: '4px',
+              borderRadius: '6px',
               overflow: 'hidden',
             },
           },
           ...RISK_BAND_COLORS.map((c, i) =>
-            h('div', { key: i, style: { flex: 1, background: c } }),
+            h('div', { key: i, style: { display: 'flex', flex: 1, background: c } }),
           ),
         ),
       ),
-      // Bottom legend.
-      h(
-        'div',
-        {
-          style: {
-            display: 'flex',
-            gap: '16px',
-            fontSize: '24px',
-            color: COLORS.muted,
-            fontWeight: 500,
-            borderTop: `1px solid ${COLORS.hairline}`,
-            paddingTop: '24px',
-            marginTop: '20px',
-          },
-        },
-        h('span', null, BOTTOM_LABEL),
-      ),
-    ),
+      footer([h('span', { style: { display: 'flex' } }, BOTTOM_LABEL)]),
+    ]),
     {
       width: 1200,
       height: 630,
