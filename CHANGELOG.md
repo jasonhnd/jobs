@@ -10,6 +10,26 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (AI adoption page — Japanese voice aligned to main site - 2026-06-02)
+
+- Aligned the `/aiadoption` dashboard's Japanese to the main-site conventions.
+  Spacing: inserted a half-width space at every Latin/number↔Japanese boundary
+  ("AI利用率" → "AI 利用率", "5グループ" → "5 グループ", "100人" → "100 人",
+  "開発者向けAI" → "開発者向け AI", "2020年" → "2020 年"), matching the rest of
+  the site (which used "AI 影響" 438× vs "AI影響" 74× before this).
+- Register: the page mixed 敬体 (`.astro`, "数えます") with 常体 (`model.json`,
+  "数える"). Unified by component role like the main site — compact card
+  descriptions (formula 意味, 用語 defs, source-group notes) are now 常体/体言止め,
+  while flowing intro/method paragraphs stay 敬体.
+- Vocabulary: ネット利用者 → インターネット利用者 throughout.
+- Touched `data/ai-adoption/{model,sources,assumptions}.json`, the projection's
+  hardcoded `N_unreached` layer, and `src/pages/aiadoption.astro` (label maps,
+  formula text, glossary, source notes, JSX, and the inline D3 labels/aria).
+  Numbers, D3 logic, and layout are unchanged; English product names and
+  acronyms (ChatGPT, ARR, MAU, ARPU) are kept, just spaced from adjacent kana.
+  Build, gates, and the 962-test suite stay green; SEO baseline refreshed.
+  Changes are isolated to `/aiadoption`.
+
 ### Changed (Site-wide /ja/ URL de-prefix - 2026-06-02)
 
 - Removed the legacy `/ja/` URL prefix site-wide: every content page (556

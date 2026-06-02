@@ -1,6 +1,6 @@
 {
   "manual_population_anchor": {
-    "label": "人口・ネット利用者の基準値",
+    "label": "人口・インターネット利用者の基準値",
     "type": "manual_anchor",
     "default_frequency": "annual",
     "default_confidence": "high",
@@ -21,7 +21,7 @@
     "stale_after_days": 45
   },
   "manual_device_proxy": {
-    "label": "端末・OSの数字",
+    "label": "端末・OS の数字",
     "type": "manual_evidence",
     "default_frequency": "quarterly",
     "default_confidence": "medium",
