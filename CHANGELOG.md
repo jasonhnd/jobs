@@ -10,6 +10,29 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (AI adoption dashboard data + UI refresh - 2026-06-02)
+
+- Corrected the model denominators in `data/ai-adoption/`: global internet users
+  5.4B → 6.1B (DataReportal Digital 2026, ~6.12B Apr 2026) and world population
+  8.12B → 8.3B (UN/Worldometer 2026). The AI-user proxies (ARR/MAU/dev/devices)
+  were validated against current public figures and intentionally kept — they
+  are medium-confidence by design — so only the well-sourced hard denominators
+  moved. The total touch rate falls from ~49% to ~43% and unreached rises to
+  ~57% while the touched headcount is unchanged.
+- Made `data/ai-adoption/model.json` the single source of truth for layer
+  display text and removed the duplicated `DISPLAY_TEXT` / `localizeModel`
+  hardcoding from the projection; translated leftover English `_ja` fields in
+  `model.json` and `assumptions.json` to Japanese (generated layer text is
+  byte-identical, no rendered-output change beyond the data correction above).
+- Consolidated the 更新チェック panel: replaced the duplicated D3 freshness bar
+  chart with inline freshness bars inside the review queue (now 8 items),
+  removing the `#aiAdoptionFreshness` element.
+- The trend chart now labels every year (2020–2026-Q2) instead of every 2nd/3rd.
+- Refreshed the SEO baseline for the intentional `/aiadoption` JSON-LD value
+  change and the removed `#aiAdoptionFreshness` anchor.
+- Changes stayed isolated to the page/data files and page-scoped CSS
+  (`_ai-adoption-css.ts`); global CSS, navigation, and footer were not touched.
+
 ### Added (AI adoption dashboard preview - 2026-05-31)
 
 - Added `/ai-adoption`, an SEO-indexable Astro + D3 dashboard for a five-layer

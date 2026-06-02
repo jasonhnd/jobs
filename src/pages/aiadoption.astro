@@ -210,7 +210,7 @@ const sourceAgeLabel = (source: SourceRow): string =>
 const topReviewSources = dashboard.sources
   .slice()
   .sort((a, b) => (b.age_days / b.stale_after_days) - (a.age_days / a.stale_after_days))
-  .slice(0, 5);
+  .slice(0, 8);
 
 const layerValue = (id: string): number =>
   dashboard.layers.find((layer) => layer.id === id)?.value ?? 0;
@@ -371,17 +371,24 @@ const jsonLd = JSON.stringify({
         </div>
         <p class="freshness-note">これは正確さの点数ではなく、各入力データをいつ見直すべきかを見る管理表です。</p>
         <div class="review-queue" aria-label="次に見直す入力データ">
-          {topReviewSources.map((source) => (
-            <div class="review-item">
-              <div>
-                <strong>{entityLabel(source.entity)}</strong>
-                <span>{sourceAgeLabel(source)}</span>
+          {topReviewSources.map((source) => {
+            const ratio = Math.min(1, source.age_days / source.stale_after_days);
+            return (
+              <div class="review-item">
+                <div class="review-head">
+                  <div>
+                    <strong>{entityLabel(source.entity)}</strong>
+                    <span>{sourceAgeLabel(source)}</span>
+                  </div>
+                  <span class={`status-chip status-${source.freshness_status}`}>{sourceReviewLabel(source)}</span>
+                </div>
+                <div class={`review-bar review-bar-${source.freshness_status}`}>
+                  <span style={`width:${(ratio * 100).toFixed(0)}%`}></span>
+                </div>
               </div>
-              <span class={`status-chip status-${source.freshness_status}`}>{sourceReviewLabel(source)}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
-        <div id="aiAdoptionFreshness" class="freshness-stage"></div>
       </div>
     </section>
 
@@ -563,18 +570,6 @@ const jsonLd = JSON.stringify({
         if (status === 'fresh') return '新しい';
         if (status === 'review_needed') return '確認';
         return '古い';
-      }
-
-      function statusFill(status: string): string {
-        if (status === 'fresh') return '#D0E3D6';
-        if (status === 'review_needed') return '#F4E7CE';
-        return '#F0D6CC';
-      }
-
-      function statusText(status: string): string {
-        if (status === 'fresh') return '#48705F';
-        if (status === 'review_needed') return '#8A6A2A';
-        return '#A24A28';
       }
 
       const formulaTextByLayer: Record<string, string> = {
@@ -922,7 +917,7 @@ const jsonLd = JSON.stringify({
         const color = new Map(payload.layers.map((layer) => [layer.id, layer.color]));
         const labels = new Map(payload.layers.map((layer) => [layer.id, layer.short_label_ja]));
         const periods = payload.trend.map((row) => row.period);
-        const tickPeriods = periods.filter((_period, index) => index % (small ? 3 : 2) === 0 || index === periods.length - 1);
+        const tickPeriods = periods;
         const x = d3.scalePoint()
           .domain(periods)
           .range([0, innerW])
@@ -984,74 +979,9 @@ const jsonLd = JSON.stringify({
         });
       }
 
-      function renderFreshness(): void {
-        if (!payload) return;
-        const el = document.getElementById('aiAdoptionFreshness');
-        if (!el) return;
-        const rows = payload.sources
-          .slice()
-          .sort((a, b) => (b.age_days / b.stale_after_days) - (a.age_days / a.stale_after_days))
-          .slice(0, 8);
-        const width = Math.max(320, el.clientWidth || 520);
-        const small = width < 520;
-        const rowH = 34;
-        const height = rows.length * rowH + 46;
-        const margin = { top: 18, right: 14, bottom: 18, left: small ? 116 : 152 };
-        const innerW = width - margin.left - margin.right;
-        const x = d3.scaleLinear().domain([0, 1.5]).range([0, innerW]);
-
-        d3.select(el).selectAll('*').remove();
-        const svg = d3.select(el)
-          .append('svg')
-          .attr('viewBox', `0 0 ${width} ${height}`)
-          .attr('role', 'img')
-          .attr('aria-label', '入力データの更新チェック');
-        const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
-
-        const row = g.selectAll('g.fresh-row')
-          .data(rows)
-          .join('g')
-          .attr('transform', (_d, i) => `translate(0,${i * rowH})`);
-
-        row.append('text')
-          .attr('class', 'chart-value')
-          .attr('x', -10)
-          .attr('y', 14)
-          .attr('text-anchor', 'end')
-          .text((d) => {
-            const label = entityLabel(d.entity);
-            const limit = small ? 12 : 20;
-            return label.length > limit ? `${label.slice(0, limit - 1)}...` : label;
-          });
-
-        row.append('rect')
-          .attr('x', 0)
-          .attr('y', 2)
-          .attr('width', innerW)
-          .attr('height', 18)
-          .attr('rx', 4)
-          .attr('fill', 'var(--bg)');
-
-        row.append('rect')
-          .attr('x', 0)
-          .attr('y', 2)
-          .attr('width', (d) => x(Math.min(1.5, d.age_days / d.stale_after_days)))
-          .attr('height', 18)
-          .attr('rx', 4)
-          .attr('fill', (d) => statusFill(d.freshness_status));
-
-        row.append('text')
-          .attr('class', 'chart-value')
-          .attr('x', 8)
-          .attr('y', 15)
-          .attr('fill', (d) => statusText(d.freshness_status))
-          .text((d) => `${d.age_days}日 / ${d.stale_after_days}日`);
-      }
-
       function renderAll(): void {
         renderLayerChart();
         renderTrend();
-        renderFreshness();
       }
 
       if (payload) {
@@ -1060,7 +990,6 @@ const jsonLd = JSON.stringify({
         const observed = [
           document.getElementById('aiAdoptionLayerChart'),
           document.getElementById('aiAdoptionTrend'),
-          document.getElementById('aiAdoptionFreshness'),
         ].filter((item): item is HTMLElement => item != null);
         const resizeObserver = new ResizeObserver(renderAll);
         observed.forEach((item) => resizeObserver.observe(item));

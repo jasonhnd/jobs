@@ -1,50 +1,50 @@
 {
-  "title_ja": "Global AI adoption monitor",
-  "subtitle_ja": "A transparent funnel model for estimating AI adoption.",
+  "title_ja": "世界のAI利用率モニター",
+  "subtitle_ja": "公開データと代わりの数字を使い、AI利用者を見積もるモデル。",
   "layers": [
     {
       "id": "N_dev",
-      "label_ja": "Developer tier",
-      "short_label_ja": "Dev",
-      "formula_ja": "N_dev = sum(developer AI tool users) * (1 - developer tool overlap)",
-      "rationale_ja": "Developer workflow usage is the strongest adoption signal and is removed first.",
-      "risk_ja": "Work accounts, personal accounts, and multi-tool usage can overlap.",
-      "color": "#48705F"
+      "label_ja": "仕事で深く使う人",
+      "short_label_ja": "仕事で深く",
+      "formula_ja": "N_dev = Σ(開発者向けAIツールの利用者_i) × (1 - ツールの重なり率)",
+      "rationale_ja": "コード作成やAPI利用は、AIを毎日の仕事に入れている合図になるため、最初に数える。",
+      "risk_ja": "会社用と個人用のアカウント、複数ツールの利用が重なることがある。",
+      "color": "#8b5fb0"
     },
     {
       "id": "N_pro",
-      "label_ja": "Paid professional tier",
-      "short_label_ja": "Paid",
-      "formula_ja": "N_pro = sum(ARR_i / annual ARPU) * (1 - paid overlap) - developer overlap",
-      "rationale_ja": "ARR is used as a proxy when paid user counts are not disclosed.",
-      "risk_ja": "ARR can mix consumer, enterprise, and API revenue.",
+      "label_ja": "有料で使う人",
+      "short_label_ja": "有料",
+      "formula_ja": "N_pro = Σ(ARR_i / 年間ARPU) × (1 - 有料サービスの重なり率) - 開発者との重なり",
+      "rationale_ja": "有料ユーザー数が出ていない会社は、年売上を1人あたり料金で割って人数を見積もる。",
+      "risk_ja": "ARRには会社向け、API、個人向けの売上が混ざることがある。",
       "color": "#D96B3D"
     },
     {
       "id": "N_free",
-      "label_ja": "Explicit free tier",
-      "short_label_ja": "Free",
-      "formula_ja": "N_free = sum(MAU_i * unique user factor_i) - upper-layer overlap",
-      "rationale_ja": "Free users are estimated from traffic and app usage proxies.",
-      "risk_ja": "Visits are not users, and multi-homing can inflate the estimate.",
+      "label_ja": "無料で使う人",
+      "short_label_ja": "無料",
+      "formula_ja": "N_free = Σ(MAU_i × 1人あたり補正_i) - 上のグループとの重なり",
+      "rationale_ja": "無料ユーザーは売上から見えないため、Webやアプリの月間利用者を代わりの数字にする。",
+      "risk_ja": "訪問数は人数そのものではない。同じ人のくり返し利用や、複数サービス利用を引く必要がある。",
       "color": "#6E9B89"
     },
     {
       "id": "N_passive",
-      "label_ja": "Passive OS-level tier",
-      "short_label_ja": "OS AI",
-      "formula_ja": "N_passive = eligible devices * availability * activation - explicit overlap",
-      "rationale_ja": "OS-level AI creates passive exposure outside standalone AI apps.",
-      "risk_ja": "Eligible devices do not guarantee actual use.",
+      "label_ja": "端末でAIにふれる人",
+      "short_label_ja": "端末AI",
+      "formula_ja": "N_passive = 対応端末数 × AI機能が使える割合 × 有効化率 - すでに使う人との重なり",
+      "rationale_ja": "OSやスマホにAIが入ると、専用アプリを開かない人もAIにふれる。",
+      "risk_ja": "端末が対応していても、本人がAI機能を使うとは限らない。",
       "color": "#D9A03B"
     },
     {
       "id": "N_unreached",
-      "label_ja": "Unreached tier",
-      "short_label_ja": "Unreached",
+      "label_ja": "まだ使っていない人",
+      "short_label_ja": "未利用",
       "formula_ja": "N_unreached = N_total - N_dev - N_pro - N_free - N_passive",
-      "rationale_ja": "Unreached users are the residual after exclusive assignment.",
-      "risk_ja": "All upstream estimation errors flow into this residual.",
+      "rationale_ja": "この人数は直接数えず、上の4グループを引いた残りとして出す。",
+      "risk_ja": "上の4グループの見積もり違いは、この残り人数に出る。",
       "color": "#C8BCA8"
     }
   ]

@@ -78,54 +78,8 @@ interface AiAdoptionBuildResult {
   rows: number;
 }
 
-const DISPLAY_TEXT: Record<LayerId, Pick<ModelLayer, 'label_ja' | 'short_label_ja' | 'formula_ja' | 'rationale_ja' | 'risk_ja'>> = {
-  N_dev: {
-    label_ja: '仕事で深く使う人',
-    short_label_ja: '仕事で深く',
-    formula_ja: 'N_dev = Σ(開発者向けAIツールの利用者_i) × (1 - ツールの重なり率)',
-    rationale_ja: 'コード作成やAPI利用は、AIを毎日の仕事に入れている合図になるため、最初に数える。',
-    risk_ja: '会社用と個人用のアカウント、複数ツールの利用が重なることがある。',
-  },
-  N_pro: {
-    label_ja: '有料で使う人',
-    short_label_ja: '有料',
-    formula_ja: 'N_pro = Σ(ARR_i / 年間ARPU) × (1 - 有料サービスの重なり率) - 開発者との重なり',
-    rationale_ja: '有料ユーザー数が出ていない会社は、年売上を1人あたり料金で割って人数を見積もる。',
-    risk_ja: 'ARRには会社向け、API、個人向けの売上が混ざることがある。',
-  },
-  N_free: {
-    label_ja: '無料で使う人',
-    short_label_ja: '無料',
-    formula_ja: 'N_free = Σ(MAU_i × 1人あたり補正_i) - 上のグループとの重なり',
-    rationale_ja: '無料ユーザーは売上から見えないため、Webやアプリの月間利用者を代わりの数字にする。',
-    risk_ja: '訪問数は人数そのものではない。同じ人のくり返し利用や、複数サービス利用を引く必要がある。',
-  },
-  N_passive: {
-    label_ja: '端末でAIにふれる人',
-    short_label_ja: '端末AI',
-    formula_ja: 'N_passive = 対応端末数 × AI機能が使える割合 × 有効化率 - すでに使う人との重なり',
-    rationale_ja: 'OSやスマホにAIが入ると、専用アプリを開かない人もAIにふれる。',
-    risk_ja: '端末が対応していても、本人がAI機能を使うとは限らない。',
-  },
-  N_unreached: {
-    label_ja: 'まだ使っていない人',
-    short_label_ja: '未利用',
-    formula_ja: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
-    rationale_ja: 'この人数は直接数えず、上の4グループを引いた残りとして出す。',
-    risk_ja: '上の4グループの見積もり違いは、この残り人数に出る。',
-  },
-};
-
-function localizeModel(model: ModelDefinition): ModelDefinition {
-  return {
-    title_ja: '世界のAI利用率モニター',
-    subtitle_ja: '公開データと代わりの数字を使い、AI利用者を見積もるモデル。',
-    layers: model.layers.map((layer) => ({
-      ...layer,
-      ...DISPLAY_TEXT[layer.id],
-    })),
-  };
-}
+// Display text (title/subtitle/layer labels/formula/rationale/risk) lives in
+// model.json — the single source of truth. The projection reads it as-is.
 
 function dataPath(name: string): string {
   return join(process.cwd(), 'data', 'ai-adoption', name);
@@ -235,7 +189,7 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
     readJson<Assumptions>('assumptions.json'),
     readJson<ModelDefinition>('model.json'),
   ]);
-  const displayModel = localizeModel(model);
+  const displayModel = model;
 
   const generatedAt = nowIso();
   const now = new Date(generatedAt);

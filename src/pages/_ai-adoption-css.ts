@@ -548,8 +548,7 @@ export const AI_ADOPTION_CSS = `
   gap: 18px;
 }
 
-.ai-adoption-page .trend-stage,
-.ai-adoption-page .freshness-stage {
+.ai-adoption-page .trend-stage {
   min-height: 260px;
 }
 
@@ -567,18 +566,24 @@ export const AI_ADOPTION_CSS = `
 }
 
 .ai-adoption-page .review-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: center;
-  padding: 9px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--bg);
 }
 
+.ai-adoption-page .review-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
 .ai-adoption-page .review-item strong,
-.ai-adoption-page .review-item span {
+.ai-adoption-page .review-head > div > span {
   display: block;
 }
 
@@ -588,11 +593,33 @@ export const AI_ADOPTION_CSS = `
   line-height: 1.35;
 }
 
-.ai-adoption-page .review-item div > span {
+.ai-adoption-page .review-head > div > span {
   color: var(--fg2);
   font-size: 0.76rem;
   line-height: 1.35;
   font-variant-numeric: tabular-nums;
+}
+
+.ai-adoption-page .review-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+
+.ai-adoption-page .review-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent-2);
+}
+
+.ai-adoption-page .review-bar-review_needed > span {
+  background: var(--risk-2);
+}
+
+.ai-adoption-page .review-bar-stale > span {
+  background: var(--risk-4);
 }
 
 .ai-adoption-page .formula-grid {
@@ -1003,7 +1030,7 @@ export const AI_ADOPTION_CSS = `
     align-items: flex-start;
   }
 
-  .ai-adoption-page .review-item,
+  .ai-adoption-page .review-head,
   .ai-adoption-page .source-card-top,
   .ai-adoption-page .source-group-head {
     grid-template-columns: 1fr;
