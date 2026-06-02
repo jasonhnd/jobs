@@ -219,6 +219,14 @@ const explicitPeople =
 const touchedPeople = explicitPeople + layerValue('N_passive');
 const unreachedPeople = layerValue('N_unreached');
 
+const summaryCards = [
+  { label: 'AIにふれる人', value: touchedPeople, note: '自分で使う人と、端末のAIにふれる人を合わせた人数。' },
+  { label: '自分で使う人', value: explicitPeople, note: '仕事で深く使う、有料で使う、無料で使う人。' },
+  { label: 'まだ使っていない人', value: unreachedPeople, note: '重なりを引いた後に残る人数。' },
+  { label: '基準人数', value: dashboard.denominator.primary_value, note: '世界のインターネット利用者を基準にする。' },
+  { label: '世界の総人口', value: dashboard.denominator.auxiliary_value, note: 'ネット利用者だけでなく、全人口に対する広がりも見るための補助基準。' },
+].sort((a, b) => a.value - b.value);
+
 const touchedPer100 = Math.round(dashboard.rates.total_touch_rate * 100);
 const unreachedPer100 = 100 - touchedPer100;
 const touchedPer200 = Math.round(dashboard.rates.total_touch_rate * 200);
@@ -272,31 +280,13 @@ const jsonLd = JSON.stringify({
     </div>
 
     <section class="summary-grid" aria-label="主な数字">
-      <div class="metric-card">
-        <p class="metric-label">AIにふれる人</p>
-        <p class="metric-value">{compact(touchedPeople)}</p>
-        <p class="metric-note">自分で使う人と、端末のAIにふれる人を合わせた人数。</p>
-      </div>
-      <div class="metric-card">
-        <p class="metric-label">自分で使う人</p>
-        <p class="metric-value">{compact(explicitPeople)}</p>
-        <p class="metric-note">仕事で深く使う、有料で使う、無料で使う人。</p>
-      </div>
-      <div class="metric-card">
-        <p class="metric-label">まだ使っていない人</p>
-        <p class="metric-value">{compact(unreachedPeople)}</p>
-        <p class="metric-note">重なりを引いた後に残る人数。</p>
-      </div>
-      <div class="metric-card">
-        <p class="metric-label">基準人数</p>
-        <p class="metric-value">{compact(dashboard.denominator.primary_value)}</p>
-        <p class="metric-note">世界のインターネット利用者を基準にする。</p>
-      </div>
-      <div class="metric-card">
-        <p class="metric-label">世界の総人口</p>
-        <p class="metric-value">{compact(dashboard.denominator.auxiliary_value)}</p>
-        <p class="metric-note">ネット利用者だけでなく、全人口に対する広がりも見るための補助基準。</p>
-      </div>
+      {summaryCards.map((card) => (
+        <div class="metric-card">
+          <p class="metric-label">{card.label}</p>
+          <p class="metric-value">{compact(card.value)}</p>
+          <p class="metric-note">{card.note}</p>
+        </div>
+      ))}
     </section>
 
     <section class="dashboard-shell" aria-label="AI利用率の内訳">
