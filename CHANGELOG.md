@@ -10,6 +10,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (AI adoption — slimmed the source cards - 2026-06-02)
+
+- Trimmed the `入力データと更新日` source cards on `/aiadoption`: each card now
+  shows the entity name + 元の値→人数換算 + 公開日 + 出所 link (+ a status chip
+  only when not fresh). Dropped 種別・期間・見直し・信頼度・使う先 — redundant with
+  the group heading and the 更新チェック freshness panel above. Shortened the
+  section's method-note. Removed the now-dead `metricLabel`/`confidenceLabel`/
+  `usedByLabel`/`layerNameById` helpers and the `.source-kind`/`.source-meta-grid`
+  CSS. Body-only change; build, gates, and the 962-test suite stay green.
+
 ### Changed (AI adoption — condensed the formula section - 2026-06-02)
 
 - Trimmed the `公開している計算式` section on `/aiadoption`: each layer card now

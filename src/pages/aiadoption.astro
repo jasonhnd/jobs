@@ -105,15 +105,6 @@ const statusLabel = (status: string): string => {
   if (status === 'review_needed') return '確認';
   return '古い';
 };
-const metricLabel = (metric: string): string => {
-  if (metric === 'global_internet_users') return 'インターネット利用者';
-  if (metric === 'global_population') return '世界人口';
-  if (metric === 'developer_active_users') return '開発者向け AI';
-  if (metric === 'vendor_arr_usd') return '有料サービス売上';
-  if (metric === 'platform_mau_proxy') return '月間利用者';
-  if (metric === 'passive_eligible_devices') return 'AI 対応端末';
-  return metric;
-};
 const entityLabel = (entity: string): string => {
   if (entity === 'World') return '世界';
   if (entity === 'Other developer AI tools') return 'その他の開発者向け AI';
@@ -133,14 +124,6 @@ const unitLabel = (unit: string): string => {
   if (unit === 'devices') return '台';
   return unit;
 };
-const confidenceLabel = (confidence: string): string => {
-  if (confidence === 'high') return '高い';
-  if (confidence === 'medium') return '中';
-  return '低い';
-};
-const layerNameById = new Map(dashboard.layers.map((layer) => [layer.id, layer.label_ja]));
-const usedByLabel = (ids: string[]): string =>
-  ids.map((id) => layerNameById.get(id) ?? (id === 'N_total' ? '基準人数' : id)).join(', ');
 
 const formulaTextByLayer: Record<string, string> = {
   N_dev: 'N_dev = 開発者向け AI 利用者の合計 × (1 - 同じ人の重なり)',
@@ -420,7 +403,7 @@ const jsonLd = JSON.stringify({
         <h2 id="sourceHeading">入力データと更新日</h2>
         <p class="panel-sub">どの数字を、何のために使うか</p>
       </div>
-      <p class="method-note">入力データは「元の値」「人数に直した値」「公開日」「見直し目安」を分けて見せます。値が仮の数字でも、どこを変えればモデル全体が変わるか分かる形にしています。</p>
+      <p class="method-note">各データは「元の値」と「人数に直した値」を分けて示します。仮の数字でも、どこを変えればモデル全体が動くか分かる形です。</p>
       <div class="source-groups">
         {sourceGroups.map((group) => (
           <section class="source-group" aria-label={group.title}>
@@ -435,10 +418,7 @@ const jsonLd = JSON.stringify({
               {group.sources.map((source) => (
                 <article class={`source-card source-card-${source.freshness_status}`}>
                   <div class="source-card-top">
-                    <div>
-                      <p class="source-kind">{metricLabel(source.metric)}</p>
-                      <h4>{entityLabel(source.entity)}</h4>
-                    </div>
+                    <h4>{entityLabel(source.entity)}</h4>
                     {source.freshness_status !== 'fresh' && (
                       <span class={`status-chip status-${source.freshness_status}`}>{statusLabel(source.freshness_status)}</span>
                     )}
@@ -453,32 +433,10 @@ const jsonLd = JSON.stringify({
                       <strong>{compact(source.derived_value)}</strong>
                     </div>
                   </div>
-                  <dl class="source-meta-grid">
-                    <div>
-                      <dt>期間</dt>
-                      <dd>{source.period}</dd>
-                    </div>
-                    <div>
-                      <dt>公開日</dt>
-                      <dd>{source.published_at}</dd>
-                    </div>
-                    <div>
-                      <dt>見直し</dt>
-                      <dd>{sourceAgeLabel(source)}</dd>
-                    </div>
-                    <div>
-                      <dt>信頼度</dt>
-                      <dd>{confidenceLabel(source.confidence)}</dd>
-                    </div>
-                    <div>
-                      <dt>使う先</dt>
-                      <dd>{usedByLabel(source.used_by)}</dd>
-                    </div>
-                    <div>
-                      <dt>出所</dt>
-                      <dd><a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label}</a></dd>
-                    </div>
-                  </dl>
+                  <p class="source-foot">
+                    <span>{source.published_at}</span>
+                    <a href={source.source_url} target="_blank" rel="noopener noreferrer">{source.source_label} ↗</a>
+                  </p>
                 </article>
               ))}
             </div>
