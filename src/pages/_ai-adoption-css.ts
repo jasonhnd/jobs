@@ -774,14 +774,6 @@ export const AI_ADOPTION_CSS = `
   margin: 0 0 10px;
 }
 
-.ai-adoption-page .source-kind {
-  margin: 0 0 3px;
-  color: var(--fg2);
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
 .ai-adoption-page .source-card h4 {
   margin: 0;
   font-size: 0.95rem !important;
@@ -802,8 +794,7 @@ export const AI_ADOPTION_CSS = `
   background: var(--bg);
 }
 
-.ai-adoption-page .source-metrics span,
-.ai-adoption-page .source-meta-grid dt {
+.ai-adoption-page .source-metrics span {
   display: block;
   color: var(--fg2);
   font-size: 0.7rem;
@@ -820,24 +811,21 @@ export const AI_ADOPTION_CSS = `
   font-variant-numeric: tabular-nums;
 }
 
-.ai-adoption-page .source-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px 10px;
+.ai-adoption-page .source-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 10px;
   margin: 0;
-}
-
-.ai-adoption-page .source-meta-grid div {
-  min-width: 0;
-}
-
-.ai-adoption-page .source-meta-grid dd {
-  margin: 2px 0 0;
-  color: var(--fg);
   font-size: 0.78rem;
-  line-height: 1.45;
+  color: var(--fg2);
   font-variant-numeric: tabular-nums;
-  overflow-wrap: anywhere;
+}
+
+.ai-adoption-page .source-foot a {
+  color: var(--accent-deep);
+  white-space: nowrap;
 }
 
 .ai-adoption-page .source-table-wrap {
@@ -909,8 +897,7 @@ export const AI_ADOPTION_CSS = `
 
 @media (max-width: 700px) {
   .ai-adoption-page .source-card-grid,
-  .ai-adoption-page .source-metrics,
-  .ai-adoption-page .source-meta-grid {
+  .ai-adoption-page .source-metrics {
     grid-template-columns: 1fr;
   }
 
