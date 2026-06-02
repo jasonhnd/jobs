@@ -1,26 +1,16 @@
 /**
  * src/lib/og-renderers/sector.ts — render a sector hub OG card.
  *
- * Step 9 part 2 (2026-05-13): extracted from api/og.tsx inline
- * `renderSectorCard`. Each of the 16 sectors gets a distinct
- * accent color derived from `SECTOR_HUE_COLOR[hue]`.
+ * Each of the 16 sectors gets a distinct accent (left rule + eyebrow)
+ * derived from `SECTOR_HUE_COLOR[hue]`. Chrome (shell, top bar, footer,
+ * eyebrow) comes from _frame.ts so all four card types stay identical.
  *
- * Input: route param `sectorId` plus the request URL (used as
- * the origin for fetching `/data.sectors.json`).
+ * The pre-render contract (sectorId regex → fetch → zod validate →
+ * lookup, with 400/404/502 branches) is pinned by sector.test.ts — keep
+ * it byte-stable.
  *
- * Validates the sectors projection at runtime via
- * `SectorsProjectionSchema` so a corrupted upstream doesn't
- * crash the Edge function with a cryptic "Cannot read of
- * undefined".
- *
- * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader
- * for dependencies. See generic.ts header for the full rationale.
- *
- * Lives in src/lib/ — binary PNG output, neither SafeHtml (templates)
- * nor typed data (views). The view-shaped data prep (validate + look
- * up sector by id) is co-located here because it's part of the same
- * response-or-fail flow as the render; splitting them across a view
- * module would add an Either-type boundary for no real reuse benefit.
+ * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader for
+ * dependencies. See _frame.ts for the full rationale.
  */
 
 import { ImageResponse } from '@vercel/og';
@@ -31,19 +21,9 @@ import {
   fmtNumber,
   SectorsProjectionSchema,
 } from '../og-helpers.js';
+import { COLORS, FRAME_SUBSET, ogShell, topBar, footer, eyebrow } from './_frame.js';
 
-const SITE_MARK = 'mirai-shigoto.com';
 const HEADLINE_LABEL = '業界 / SECTOR';
-
-const COLORS = {
-  bg: '#FAF6EE',
-  ink: '#241E18',
-  muted: '#7A6F5E',
-  hairline: 'rgba(36, 30, 24, 0.12)',
-  accent: '#D96B3D',
-  bg2: '#FFFFFF',
-} as const;
-
 const DEFAULT_ACCENT = '#6E9B89';
 
 export async function renderSectorOgCard(
@@ -89,8 +69,7 @@ export async function renderSectorOgCard(
   const samples = (sector.sample_titles_ja ?? []).slice(0, 3).join('　・　');
 
   const subsetText =
-    `独立分析 ${SITE_MARK} ${nameLoc} ${HEADLINE_LABEL} ` +
-    `${countLabel} ${riskLabel} ${workforceLabel} ${samples} ・ /`;
+    `${nameLoc} ${HEADLINE_LABEL} ${countLabel} ${riskLabel} ${workforceLabel} ${samples} ${FRAME_SUBSET}`;
 
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
     loadGoogleFont('Noto+Serif+JP', 600, subsetText),
@@ -99,46 +78,8 @@ export async function renderSectorOgCard(
   ]);
 
   return new ImageResponse(
-    h(
-      'div',
-      {
-        style: {
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          background: COLORS.bg,
-          color: COLORS.ink,
-          fontFamily: 'NotoSansJP',
-          padding: '48px 64px',
-          borderLeft: `14px solid ${accent}`,
-        },
-      },
-      // Top bar — "独立分析" badge + site mark.
-      h(
-        'div',
-        { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-        h(
-          'div',
-          {
-            style: {
-              background: COLORS.accent,
-              color: '#FFFFFF',
-              padding: '8px 18px',
-              borderRadius: '999px',
-              fontWeight: 800,
-              fontSize: '22px',
-              letterSpacing: '0.08em',
-            },
-          },
-          '独立分析',
-        ),
-        h(
-          'div',
-          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
-          SITE_MARK,
-        ),
-      ),
+    ogShell(accent, [
+      topBar(),
       // Sector eyebrow + name + samples.
       h(
         'div',
@@ -149,26 +90,15 @@ export async function renderSectorOgCard(
             flex: 1,
             justifyContent: 'center',
             marginTop: '20px',
+            gap: '18px',
           },
         },
+        eyebrow(HEADLINE_LABEL, accent),
         h(
           'div',
           {
             style: {
-              fontSize: '26px',
-              color: accent,
-              fontWeight: 800,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              marginBottom: '16px',
-            },
-          },
-          HEADLINE_LABEL,
-        ),
-        h(
-          'div',
-          {
-            style: {
+              display: 'flex',
               fontFamily: 'NotoSerifJP',
               fontSize: '104px',
               fontWeight: 600,
@@ -182,40 +112,17 @@ export async function renderSectorOgCard(
         samples
           ? h(
               'div',
-              {
-                style: {
-                  fontSize: '24px',
-                  color: COLORS.muted,
-                  fontWeight: 500,
-                  marginTop: '20px',
-                },
-              },
+              { style: { display: 'flex', fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
               samples,
             )
           : null,
       ),
-      // Bottom stats row.
-      h(
-        'div',
-        {
-          style: {
-            display: 'flex',
-            gap: '28px',
-            fontSize: '26px',
-            color: COLORS.ink,
-            fontWeight: 500,
-            borderTop: `1px solid ${COLORS.hairline}`,
-            paddingTop: '24px',
-            marginTop: '20px',
-          },
-        },
-        h('span', null, countLabel),
-        h('span', { style: { color: COLORS.muted, opacity: 0.5 } }, '·'),
-        h('span', null, riskLabel),
-        h('span', { style: { color: COLORS.muted, opacity: 0.5 } }, '·'),
-        h('span', null, workforceLabel),
-      ),
-    ),
+      footer([
+        h('span', { style: { display: 'flex' } }, countLabel),
+        h('span', { style: { display: 'flex' } }, riskLabel),
+        h('span', { style: { display: 'flex' } }, workforceLabel),
+      ]),
+    ]),
     {
       width: 1200,
       height: 630,

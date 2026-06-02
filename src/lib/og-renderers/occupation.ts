@@ -1,24 +1,19 @@
 /**
  * src/lib/og-renderers/occupation.ts — render a per-occupation OG card.
  *
- * Step 9 part 2 final (2026-05-13): extracted from api/og.tsx
- * inline branch of the request handler. Each of the 556
- * occupations gets a distinct card with a giant risk-score badge
- * coloured by the 0-10 RISK_COLORS palette + the occupation name
- * rendered in Noto Serif JP.
+ * Each of the 556 occupations gets a distinct card: a giant risk-score
+ * badge coloured by the 0-10 RISK_COLORS palette, the occupation name in
+ * Noto Serif JP, and a 0-10 mini scale showing where the score sits. The
+ * left rule of the shell is tinted by the same risk colour.
  *
- * Input: route param `idParam` (string) + the request URL (used
- * as the origin for fetching `/data.detail/{padded}.json`).
+ * Chrome (shell, top bar, footer, eyebrow, scale) comes from _frame.ts so
+ * all four card types stay visually identical.
  *
- * Validates the detail record at runtime via `DetailRecordSchema`
- * so a corrupted upstream doesn't crash the Edge function with a
- * cryptic "Cannot read of undefined".
+ * The pre-render contract (padId → fetch → zod validate, with 400/404/502
+ * branches) is pinned by occupation.test.ts — keep it byte-stable.
  *
- * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader
- * for dependencies. See generic.ts header for the full rationale.
- *
- * Lives in src/lib/ alongside its sibling card renderers — binary PNG
- * output, neither SafeHtml (templates) nor typed data (views).
+ * Plain `.ts` (not `.tsx`) — Vercel's Edge bundler has no TSX loader for
+ * dependencies. See _frame.ts for the full rationale.
  */
 
 import { ImageResponse } from '@vercel/og';
@@ -30,21 +25,19 @@ import {
   padId,
   DetailRecordSchema,
 } from '../og-helpers.js';
+import {
+  COLORS,
+  FRAME_SUBSET,
+  ogShell,
+  topBar,
+  footer,
+  eyebrow,
+  miniScale,
+} from './_frame.js';
 
-const SITE_MARK = 'mirai-shigoto.com';
 const RISK_LABEL = 'AI 影響';
 // Warm "no score" gray (matches --ink-3); satori needs a literal, not a CSS var.
 const DEFAULT_RISK_COLOR = '#8a7a6a';
-
-// Direction C palette — synced from styles/mobile-tokens.css.
-const COLORS = {
-  bg: '#FAF6EE', // warm cream canvas
-  ink: '#241E18', // primary ink
-  muted: '#7A6F5E', // secondary muted
-  hairline: 'rgba(36, 30, 24, 0.12)',
-  accent: '#D96B3D', // terracotta — "独立分析" badge
-  bg2: '#FFFFFF', // elevated card surface
-} as const;
 
 export async function renderOccupationOgCard(
   url: URL,
@@ -93,11 +86,12 @@ export async function renderOccupationOgCard(
   const salaryLabel = `平均年収 ${salary} 万円`;
   const riskNumberStr = risk != null ? String(risk) : '—';
 
-  // Subset string covers every glyph we are about to render. This keeps the
-  // Google Fonts fetch tiny (a few KB instead of ~3 MB for full Noto Sans JP).
+  // Subset string covers every glyph we are about to render (incl. the
+  // shared chrome + the "0 5 10" scale labels). Keeps the Google Fonts
+  // fetch tiny (a few KB instead of ~3 MB for full Noto Sans JP).
   const subsetText =
-    `独立分析 ${SITE_MARK} ${primaryName} ${RISK_LABEL} ` +
-    `${workersLabel} ${salaryLabel} ${riskNumberStr} / 10 ·`;
+    `${primaryName} ${RISK_LABEL} ${workersLabel} ${salaryLabel} ` +
+    `${riskNumberStr} / 10 0 5 ${FRAME_SUBSET}`;
 
   // v1.2.0 Direction C convergence: serif for the occupation name, sans for everything else.
   const [fontSerifBuf, fontSansBoldBuf, fontSansRegBuf] = await Promise.all([
@@ -107,46 +101,9 @@ export async function renderOccupationOgCard(
   ]);
 
   return new ImageResponse(
-    h(
-      'div',
-      {
-        style: {
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          background: COLORS.bg,
-          color: COLORS.ink,
-          fontFamily: 'NotoSansJP',
-          padding: '48px 64px',
-        },
-      },
-      // Top bar — "独立分析" badge + site mark.
-      h(
-        'div',
-        { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-        h(
-          'div',
-          {
-            style: {
-              background: COLORS.accent,
-              color: '#FFFFFF',
-              padding: '8px 18px',
-              borderRadius: '999px',
-              fontWeight: 800,
-              fontSize: '22px',
-              letterSpacing: '0.08em',
-            },
-          },
-          '独立分析',
-        ),
-        h(
-          'div',
-          { style: { fontSize: '24px', color: COLORS.muted, fontWeight: 500 } },
-          SITE_MARK,
-        ),
-      ),
-      // Main row — risk block + names.
+    ogShell(riskColor, [
+      topBar(),
+      // Main row — risk score block + name + 0-10 scale.
       h(
         'div',
         {
@@ -155,22 +112,23 @@ export async function renderOccupationOgCard(
             alignItems: 'center',
             gap: '56px',
             flex: 1,
-            marginTop: '40px',
+            marginTop: '28px',
           },
         },
+        // Score block.
         h(
           'div',
           {
             style: {
-              background: COLORS.bg2,
-              border: `4px solid ${riskColor}`,
-              color: riskColor,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '320px',
-              height: '320px',
+              background: COLORS.bg2,
+              border: `4px solid ${riskColor}`,
+              color: riskColor,
+              width: '300px',
+              height: '300px',
               borderRadius: '24px',
               flexShrink: 0,
             },
@@ -179,8 +137,9 @@ export async function renderOccupationOgCard(
             'div',
             {
               style: {
+                display: 'flex',
                 fontFamily: 'NotoSerifJP',
-                fontSize: '200px',
+                fontSize: '190px',
                 fontWeight: 600,
                 lineHeight: 1,
               },
@@ -191,7 +150,8 @@ export async function renderOccupationOgCard(
             'div',
             {
               style: {
-                fontSize: '36px',
+                display: 'flex',
+                fontSize: '34px',
                 fontWeight: 600,
                 marginTop: '-4px',
                 color: COLORS.muted,
@@ -201,33 +161,16 @@ export async function renderOccupationOgCard(
             '/ 10',
           ),
         ),
+        // Name + scale column.
         h(
           'div',
-          {
-            style: {
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              gap: '14px',
-            },
-          },
+          { style: { display: 'flex', flexDirection: 'column', flex: 1, gap: '18px' } },
+          eyebrow(RISK_LABEL, riskColor),
           h(
             'div',
             {
               style: {
-                fontSize: '26px',
-                color: COLORS.muted,
-                fontWeight: 500,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              },
-            },
-            RISK_LABEL,
-          ),
-          h(
-            'div',
-            {
-              style: {
+                display: 'flex',
                 fontFamily: 'NotoSerifJP',
                 fontSize: '72px',
                 fontWeight: 600,
@@ -238,28 +181,14 @@ export async function renderOccupationOgCard(
             },
             primaryName,
           ),
+          risk != null ? miniScale(risk, riskColor) : null,
         ),
       ),
-      // Bottom stats line.
-      h(
-        'div',
-        {
-          style: {
-            display: 'flex',
-            gap: '28px',
-            fontSize: '26px',
-            color: COLORS.ink,
-            fontWeight: 500,
-            borderTop: `1px solid ${COLORS.hairline}`,
-            paddingTop: '24px',
-            marginTop: '32px',
-          },
-        },
-        h('span', null, workersLabel),
-        h('span', { style: { color: COLORS.muted, opacity: 0.5 } }, '·'),
-        h('span', null, salaryLabel),
-      ),
-    ),
+      footer([
+        h('span', { style: { display: 'flex' } }, workersLabel),
+        h('span', { style: { display: 'flex' } }, salaryLabel),
+      ]),
+    ]),
     {
       width: 1200,
       height: 630,
