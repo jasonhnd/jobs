@@ -40,6 +40,30 @@ interface LayerRow {
   inputs: SourceRow[];
 }
 
+interface ChartLayer {
+  id: string;
+  label_ja: string;
+  short_label_ja: string;
+  color: string;
+  value: number;
+  share: number;
+  formula_ja: string;
+  rationale_ja: string;
+  risk_ja: string;
+  freshness_status: 'fresh' | 'review_needed' | 'stale';
+  inputs: SourceRow[];
+}
+
+interface ChartPayload {
+  unit_count: number;
+  base_label: string;
+  base_value: number;
+  touched_value: number;
+  touch_rate: number;
+  unreached_rate: number;
+  layers: ChartLayer[];
+}
+
 interface DashboardPayload {
   model_version: string;
   period: string;
@@ -60,6 +84,7 @@ interface DashboardPayload {
     population_touch_rate: number;
   };
   layers: LayerRow[];
+  chart: ChartPayload;
   sources: SourceRow[];
   freshness: {
     score: number;
@@ -227,10 +252,13 @@ const summaryCards = [
   { label: '世界の総人口', value: dashboard.denominator.auxiliary_value, note: 'ネット利用者だけでなく、全人口に対する広がりも見るための補助基準。' },
 ].sort((a, b) => a.value - b.value);
 
-const touchedPer100 = Math.round(dashboard.rates.total_touch_rate * 100);
+const chartUnits = dashboard.chart.unit_count;
+const dotPctLabel = (100 / chartUnits).toFixed(1);
+const touchedPer100 = Math.round(dashboard.chart.touch_rate * 100);
 const unreachedPer100 = 100 - touchedPer100;
-const touchedPer200 = Math.round(dashboard.rates.total_touch_rate * 200);
-const unreachedPer200 = 200 - touchedPer200;
+const touchedPerUnit = Math.round(dashboard.chart.touch_rate * chartUnits);
+const unreachedPerUnit = chartUnits - touchedPerUnit;
+const initialChartLayer = dashboard.chart.layers.find((l) => l.id === 'N_free') ?? dashboard.chart.layers[0];
 
 const jsonLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -292,26 +320,26 @@ const jsonLd = JSON.stringify({
     <section class="dashboard-shell" aria-label="AI利用率の内訳">
       <div class="chart-panel">
         <div class="panel-head">
-          <h2>200点で見る5グループ</h2>
-          <p class="panel-sub">点1つ = 0.5%</p>
+          <h2>{chartUnits}点で見る5グループ</h2>
+          <p class="panel-sub">点1つ = {dotPctLabel}%</p>
         </div>
         <div class="impact-row" aria-label="100人あたりのAI利用イメージ">
           <div>
             <span class="impact-number">{touchedPer100}</span><span class="impact-unit">人</span>
-            <span class="impact-mini">{touchedPer200}/200点</span>
+            <span class="impact-mini">{touchedPerUnit}/{chartUnits}点</span>
             <p>100人のうちAIにふれる人</p>
           </div>
           <div>
             <span class="impact-number muted">{unreachedPer100}</span><span class="impact-unit">人</span>
-            <span class="impact-mini">{unreachedPer200}/200点</span>
+            <span class="impact-mini">{unreachedPerUnit}/{chartUnits}点</span>
             <p>まだ使っていない人</p>
           </div>
         </div>
         <div id="aiAdoptionLayerChart" class="chart-stage" aria-label="AI利用率の5グループグラフ"></div>
         <ol class="chart-fallback">
-          {dashboard.layers.map((layer) => (
+          {dashboard.chart.layers.map((layer) => (
             <li>
-              <strong>{layer.label_ja}</strong> {compact(layer.value)} ({pct(layer.share_of_total)})
+              <strong>{layer.label_ja}</strong> {compact(layer.value)} ({pct(layer.share)})
             </li>
           ))}
         </ol>
@@ -322,22 +350,22 @@ const jsonLd = JSON.stringify({
           <h2>グループの説明</h2>
           <span id="aiLayerStatus" class="status-chip status-fresh" hidden>新しい</span>
         </div>
-        <h3 id="aiLayerTitle" class="explain-title">{dashboard.layers[2]?.label_ja}</h3>
+        <h3 id="aiLayerTitle" class="explain-title">{initialChartLayer.label_ja}</h3>
         <div class="explain-value">
-          <span id="aiLayerValue" class="explain-number">{compact(dashboard.layers[2]?.value ?? 0)}</span>
-          <span id="aiLayerShare" class="explain-share">{pct(dashboard.layers[2]?.share_of_total ?? 0)}</span>
+          <span id="aiLayerValue" class="explain-number">{compact(initialChartLayer.value)}</span>
+          <span id="aiLayerShare" class="explain-share">{pct(initialChartLayer.share)}</span>
         </div>
         <div class="explain-block">
           <h3>計算式</h3>
-          <code id="aiLayerFormula" class="formula-code">{formulaText(dashboard.layers[2]?.id, dashboard.layers[2]?.formula_ja)}</code>
+          <code id="aiLayerFormula" class="formula-code">{formulaText(initialChartLayer.id, initialChartLayer.formula_ja)}</code>
         </div>
         <div class="explain-block">
           <h3>理由</h3>
-          <p id="aiLayerRationale">{dashboard.layers[2]?.rationale_ja}</p>
+          <p id="aiLayerRationale">{initialChartLayer.rationale_ja}</p>
         </div>
         <div class="explain-block">
           <h3>注意点</h3>
-          <p id="aiLayerRisk">{dashboard.layers[2]?.risk_ja}</p>
+          <p id="aiLayerRisk">{initialChartLayer.risk_ja}</p>
         </div>
         <div class="explain-block">
           <h3>使うデータ</h3>
@@ -524,6 +552,20 @@ const jsonLd = JSON.stringify({
         inputs: SourceRow[];
       }
 
+      interface ChartLayer {
+        id: string;
+        label_ja: string;
+        short_label_ja: string;
+        color: string;
+        value: number;
+        share: number;
+        formula_ja: string;
+        rationale_ja: string;
+        risk_ja: string;
+        freshness_status: 'fresh' | 'review_needed' | 'stale';
+        inputs: SourceRow[];
+      }
+
       interface TrendRow {
         period: string;
         N_dev: number;
@@ -536,6 +578,7 @@ const jsonLd = JSON.stringify({
       interface Payload {
         denominator: { primary_value: number };
         layers: LayerRow[];
+        chart: { unit_count: number; touch_rate: number; layers: ChartLayer[] };
         sources: Array<SourceRow & { metric: string; age_days: number }>;
         trend: TrendRow[];
       }
@@ -543,7 +586,7 @@ const jsonLd = JSON.stringify({
       const dataNode = document.getElementById('aiAdoptionData');
       const payload = dataNode?.textContent ? JSON.parse(dataNode.textContent) as Payload : null;
       const selected = { id: 'N_free' };
-      const WAFFLE_UNITS = 200;
+      const WAFFLE_UNITS = payload ? payload.chart.unit_count : 1000;
 
       const compactNumber = new Intl.NumberFormat('ja-JP', {
         notation: 'compact',
@@ -569,7 +612,7 @@ const jsonLd = JSON.stringify({
         N_pro: 'N_pro = Σ(年間売上 ARR ÷ 1人あたり年間売上 ARPU) - 上の層との重なり',
         N_free: 'N_free = Σ(月間利用者 MAU × 1人あたり補正) - 上の層との重なり',
         N_passive: 'N_passive = AI対応端末数 × 利用できる割合 × 有効化率 - すでに使う人との重なり',
-        N_unreached: 'N_unreached = N_total - N_dev - N_pro - N_free - N_passive',
+        N_unreached: '未利用 = 世界の総人口 − AIにふれる人',
       };
 
       function entityLabel(entity: string): string {
@@ -589,12 +632,12 @@ const jsonLd = JSON.stringify({
 
       interface WaffleUnit {
         index: number;
-        layer: LayerRow;
+        layer: ChartLayer;
       }
 
-      function makeWaffleUnits(layers: LayerRow[]): WaffleUnit[] {
+      function makeWaffleUnits(layers: ChartLayer[]): WaffleUnit[] {
         const counts = layers.map((layer) => {
-          const raw = layer.share_of_total * WAFFLE_UNITS;
+          const raw = layer.share * WAFFLE_UNITS;
           const count = Math.floor(raw);
           return { layer, count, remainder: raw - count };
         });
@@ -618,7 +661,7 @@ const jsonLd = JSON.stringify({
 
       function selectLayer(layerId: string): void {
         if (!payload) return;
-        const layer = payload.layers.find((item) => item.id === layerId);
+        const layer = payload.chart.layers.find((item) => item.id === layerId);
         if (!layer) return;
         selected.id = layerId;
         const title = document.getElementById('aiLayerTitle');
@@ -631,7 +674,7 @@ const jsonLd = JSON.stringify({
         const sources = document.getElementById('aiLayerSources');
         if (title) title.textContent = layer.label_ja;
         if (value) value.textContent = fmt(layer.value);
-        if (share) share.textContent = pct(layer.share_of_total);
+        if (share) share.textContent = pct(layer.share);
         if (formula) formula.textContent = formulaTextByLayer[layer.id] ?? layer.formula_ja;
         if (rationale) rationale.textContent = layer.rationale_ja;
         if (risk) risk.textContent = layer.risk_ja;
@@ -684,11 +727,11 @@ const jsonLd = JSON.stringify({
             return d.layer.id === selected.id ? selectedRadius : baseRadius;
           });
 
-        d3.selectAll<SVGGElement, { layer: LayerRow }>(`${stageSelector} .stack-segment`)
+        d3.selectAll<SVGGElement, { layer: ChartLayer }>(`${stageSelector} .stack-segment`)
           .classed('is-selected', (d) => d.layer.id === selected.id)
           .attr('aria-pressed', (d) => String(d.layer.id === selected.id));
 
-        d3.selectAll<SVGGElement, LayerRow>(`${stageSelector} .layer-tile`)
+        d3.selectAll<SVGGElement, ChartLayer>(`${stageSelector} .layer-tile`)
           .classed('is-selected', (d) => d.id === selected.id)
           .attr('aria-pressed', (d) => String(d.id === selected.id));
       }
@@ -697,12 +740,12 @@ const jsonLd = JSON.stringify({
         if (!payload) return;
         const el = document.getElementById('aiAdoptionLayerChart');
         if (!el) return;
-        const layers = payload.layers;
+        const layers = payload.chart.layers;
         const width = Math.max(320, el.clientWidth || 720);
         const small = width < 620;
-        const columns = small ? 15 : 20;
+        const columns = small ? 25 : 40;
         const units = makeWaffleUnits(layers);
-        const cell = Math.min(small ? 19 : 27, Math.max(15, (width - 44) / columns));
+        const cell = Math.min(small ? 13 : 16, Math.max(9, (width - 24) / columns));
         const baseDotRadius = cell * 0.35;
         const selectedDotRadius = cell * 0.44;
         const haloRadius = cell * 0.56;
@@ -723,14 +766,14 @@ const jsonLd = JSON.stringify({
         const tileRows = Math.ceil(layers.length / tileCols);
         const height = tileY + tileRows * tileH + (tileRows - 1) * tileGap + 18;
         const color = new Map(layers.map((layer) => [layer.id, layer.color]));
-        const touchedShare = 1 - (layers.find((layer) => layer.id === 'N_unreached')?.share_of_total ?? 0);
+        const touchedShare = payload.chart.touch_rate;
 
         d3.select(el).selectAll('*').remove();
         const svg = d3.select(el)
           .append('svg')
           .attr('viewBox', `0 0 ${width} ${height}`)
           .attr('role', 'img')
-          .attr('aria-label', 'AI利用率を200点で見た5グループ。点1つは0.5%。');
+          .attr('aria-label', `AI利用率を${WAFFLE_UNITS}点で見た5グループ。点1つは${(100 / WAFFLE_UNITS).toFixed(1)}%。`);
 
         svg.append('rect')
           .attr('class', 'waffle-frame')
@@ -746,7 +789,7 @@ const jsonLd = JSON.stringify({
           .attr('y', 4)
           .attr('text-anchor', 'middle')
           .attr('dominant-baseline', 'hanging')
-          .text('200点 = 100% / 1点 = 0.5%');
+          .text(`${WAFFLE_UNITS}点 = 100% / 1点 = ${(100 / WAFFLE_UNITS).toFixed(1)}%`);
 
         svg.append('g')
           .attr('class', 'waffle-halo-grid')
@@ -787,7 +830,7 @@ const jsonLd = JSON.stringify({
               selectLayer(d.layer.id);
             }
           });
-        dots.append('title').text((d) => `${d.layer.label_ja}: ${pct(d.layer.share_of_total)}`);
+        dots.append('title').text((d) => `${d.layer.label_ja}: ${pct(d.layer.share)}`);
 
         const stack = svg.append('g').attr('transform', `translate(${barX},${barY})`);
         stack.append('rect')
@@ -799,7 +842,7 @@ const jsonLd = JSON.stringify({
         let cursor = 0;
         const segments = layers.map((layer) => {
           const start = cursor;
-          const w = barW * layer.share_of_total;
+          const w = barW * layer.share;
           cursor += w;
           return { layer, start, w };
         });
@@ -812,7 +855,7 @@ const jsonLd = JSON.stringify({
           .attr('tabindex', 0)
           .attr('role', 'button')
           .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
-          .attr('aria-label', (d) => `${d.layer.label_ja}: ${pct(d.layer.share_of_total)}`)
+          .attr('aria-label', (d) => `${d.layer.label_ja}: ${pct(d.layer.share)}`)
           .on('click', (_event, d) => selectLayer(d.layer.id))
           .on('keydown', (event, d) => {
             if (event.key === 'Enter' || event.key === ' ') {
@@ -833,7 +876,7 @@ const jsonLd = JSON.stringify({
           .attr('y', barH / 2)
           .attr('text-anchor', 'middle')
           .attr('dominant-baseline', 'middle')
-          .text((d) => `${d.layer.short_label_ja} ${pct(d.layer.share_of_total)}`);
+          .text((d) => `${d.layer.short_label_ja} ${pct(d.layer.share)}`);
 
         const touchX = barW * touchedShare;
         stack.append('line')
@@ -851,7 +894,7 @@ const jsonLd = JSON.stringify({
 
         const tiles = svg.append('g')
           .attr('transform', `translate(20,${tileY})`)
-          .selectAll<SVGGElement, LayerRow>('g.layer-tile')
+          .selectAll<SVGGElement, ChartLayer>('g.layer-tile')
           .data(layers)
           .join('g')
           .attr('class', (d) => `layer-tile${d.id === selected.id ? ' is-selected' : ''}`)
@@ -893,7 +936,7 @@ const jsonLd = JSON.stringify({
           .attr('class', 'tile-value')
           .attr('x', 22)
           .attr('y', 39)
-          .text((d) => `${pct(d.share_of_total)} / ${fmt(d.value)}`);
+          .text((d) => `${pct(d.share)} / ${fmt(d.value)}`);
       }
 
       function renderTrend(): void {
