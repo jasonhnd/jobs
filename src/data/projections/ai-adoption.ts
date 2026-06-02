@@ -119,7 +119,7 @@ const DISPLAY_TEXT: Record<LayerId, Pick<ModelLayer, 'label_ja' | 'short_label_j
 function localizeModel(model: ModelDefinition): ModelDefinition {
   return {
     title_ja: '世界のAI利用率モニター',
-    subtitle_ja: '公開データと代わりの数字を使い、同じ人を二度数えないようにAI利用者を見積もるモデル。',
+    subtitle_ja: '公開データと代わりの数字を使い、AI利用者を見積もるモデル。',
     layers: model.layers.map((layer) => ({
       ...layer,
       ...DISPLAY_TEXT[layer.id],
@@ -338,9 +338,12 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
   });
 
   const trendScales: Array<{ period: string; totalScale: number; layerScale: Record<Exclude<LayerId, 'N_unreached'>, number> }> = [
-    { period: '2025-Q3', totalScale: 0.97, layerScale: { N_dev: 0.56, N_pro: 0.46, N_free: 0.62, N_passive: 0.32 } },
-    { period: '2025-Q4', totalScale: 0.985, layerScale: { N_dev: 0.68, N_pro: 0.58, N_free: 0.72, N_passive: 0.48 } },
-    { period: '2026-Q1', totalScale: 0.995, layerScale: { N_dev: 0.84, N_pro: 0.76, N_free: 0.86, N_passive: 0.72 } },
+    { period: '2020', totalScale: 0.82, layerScale: { N_dev: 0.0100, N_pro: 0.0010, N_free: 0.0030, N_passive: 0.0000 } },
+    { period: '2021', totalScale: 0.88, layerScale: { N_dev: 0.0300, N_pro: 0.0030, N_free: 0.0080, N_passive: 0.0020 } },
+    { period: '2022', totalScale: 0.93, layerScale: { N_dev: 0.0900, N_pro: 0.0200, N_free: 0.0400, N_passive: 0.0060 } },
+    { period: '2023', totalScale: 0.96, layerScale: { N_dev: 0.2200, N_pro: 0.1200, N_free: 0.2200, N_passive: 0.0400 } },
+    { period: '2024', totalScale: 0.98, layerScale: { N_dev: 0.4500, N_pro: 0.3400, N_free: 0.4800, N_passive: 0.1600 } },
+    { period: '2025', totalScale: 0.99, layerScale: { N_dev: 0.7000, N_pro: 0.6200, N_free: 0.7200, N_passive: 0.4800 } },
     { period: assumptions.period, totalScale: 1, layerScale: { N_dev: 1, N_pro: 1, N_free: 1, N_passive: 1 } },
   ];
 
