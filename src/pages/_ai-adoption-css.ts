@@ -114,7 +114,7 @@ export const AI_ADOPTION_CSS = `
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
   gap: 18px;
-  align-items: start;
+  align-items: stretch;
   margin: 22px 0 34px;
 }
 

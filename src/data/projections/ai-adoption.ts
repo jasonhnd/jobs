@@ -291,6 +291,52 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
     };
   });
 
+  // Population-based view for the dashboard chart (waffle / cards / stack / tiles
+  // + its explain panel). The model itself stays internet-user based; here the
+  // four reached layers are re-expressed as a share of world population and the
+  // residual "未利用" = population − reached (so it also includes offline people).
+  const unreachedColor = displayModel.layers.find((l) => l.id === 'N_unreached')?.color ?? '#C8BCA8';
+  const touchedTotal = totals.N_dev + totals.N_pro + totals.N_free + totals.N_passive;
+  const popUnreached = Math.max(0, totals.N_population - touchedTotal);
+  const chart = {
+    unit_count: 1000,
+    base_label: '世界の総人口',
+    base_value: totals.N_population,
+    touched_value: round(touchedTotal),
+    touch_rate: round(touchedTotal / totals.N_population, 4),
+    unreached_rate: round(popUnreached / totals.N_population, 4),
+    layers: [
+      ...layers
+        .filter((l) => l.id !== 'N_unreached')
+        .map((l) => ({
+          id: l.id,
+          label_ja: l.label_ja,
+          short_label_ja: l.short_label_ja,
+          color: l.color,
+          value: l.value,
+          share: round(l.value / totals.N_population, 4),
+          formula_ja: l.formula_ja,
+          rationale_ja: l.rationale_ja,
+          risk_ja: l.risk_ja,
+          freshness_status: l.freshness_status,
+          inputs: l.inputs,
+        })),
+      {
+        id: 'N_unreached',
+        label_ja: 'まだ使っていない人',
+        short_label_ja: '未利用',
+        color: unreachedColor,
+        value: round(popUnreached),
+        share: round(popUnreached / totals.N_population, 4),
+        formula_ja: '未利用 = 世界の総人口 − AIにふれる人',
+        rationale_ja: '世界の総人口のうち、まだAIにふれていない人。インターネットを使っていない人もここに含む。',
+        risk_ja: '総人口やネット利用の見積もり、上の各グループの誤差がここに集まる。',
+        freshness_status: 'fresh' as FreshnessStatus,
+        inputs: sourceRows.filter((row) => row.metric === 'global_population' || row.metric === 'global_internet_users'),
+      },
+    ],
+  };
+
   const trendScales: Array<{ period: string; totalScale: number; layerScale: Record<Exclude<LayerId, 'N_unreached'>, number> }> = [
     { period: '2020', totalScale: 0.82, layerScale: { N_dev: 0.0100, N_pro: 0.0010, N_free: 0.0030, N_passive: 0.0000 } },
     { period: '2021', totalScale: 0.88, layerScale: { N_dev: 0.0300, N_pro: 0.0030, N_free: 0.0080, N_passive: 0.0020 } },
@@ -342,6 +388,7 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
       population_touch_rate: round((nDev + nPro + nFree + nPassive) / nPopulation, 4),
     },
     layers,
+    chart,
     formulas: displayModel.layers.map((layer) => ({
       id: layer.id,
       label_ja: layer.label_ja,
