@@ -2,7 +2,7 @@
  * explore-routes.test.ts — pin the 7 Level-2 entry-route catalog.
  * Each route aggregates multiple genre indexes; tests verify
  * structural integrity + that referenced genre paths look like
- * production routes (start with /ja/).
+ * production routes (start with /).
  */
 
 import { describe, test } from 'node:test';
@@ -53,14 +53,15 @@ describe('EXPLORE_ROUTES — structural contract', () => {
   });
 
   test('each referenced genre path is a non-empty short identifier (e.g. "sectors", "abilities")', () => {
-    // Genre paths are stored as bare slugs (no leading slash). The
-    // explore-route template prepends the /ja/ prefix at render time.
-    // Pin the format so a future change to absolute paths is a
-    // deliberate decision visible in a test diff.
+    // Genre paths are normally bare slugs (no leading slash); the
+    // explore-route template prepends the / prefix at render time.
+    // A leading-slash path is an absolute root link (e.g. "/methodology",
+    // "/about") used as-is — for the consolidated reference docs that
+    // live at the site root rather than under /.
     for (const r of EXPLORE_ROUTES) {
       for (const g of r.genres) {
         assert.ok(g.path.length > 0, `${r.slug}: empty path`);
-        assert.match(g.path, /^[a-z][a-z0-9/-]*$/, `${r.slug}: bad path "${g.path}"`);
+        assert.match(g.path, /^\/?[a-z][a-z0-9/-]*$/, `${r.slug}: bad path "${g.path}"`);
         assert.ok(g.label.length > 0, `${r.slug}: empty label`);
         assert.ok(g.desc.length > 0, `${r.slug}: empty desc`);
       }

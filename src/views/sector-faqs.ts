@@ -1,9 +1,9 @@
 /**
  * src/views/sector-faqs.ts — build the Q/A tuples used to power
- * the FAQPage Schema.org node on the /ja/sectors/[sector] hub.
+ * the FAQPage Schema.org node on the /sectors/[sector] hub.
  *
  * Sister of src/views/occupation-faqs (per-occupation FAQ
- * builder for /ja/[id]). Pure data shaping — produces
+ * builder for /[id]). Pure data shaping — produces
  * `readonly [question, answer]` tuples with no HTML.
  *
  * Up to five questions emit, each gated on the corresponding

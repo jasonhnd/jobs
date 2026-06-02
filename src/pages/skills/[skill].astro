@@ -1,0 +1,153 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { buildSkillsBundle, type SkillResult } from '@/views/skills-hub';
+import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
+import { buildSkillsSlugBindings } from './_skills-bindings';
+
+export async function getStaticPaths() {
+  const { makeSkillRankingLoaderFromGraph, makeTreemapSummaryFromGraph } = await import('@/views/skill');
+  const graph = await loadGraph();
+  const { results } = buildSkillsBundle({
+    skillRanking: makeSkillRankingLoaderFromGraph(graph),
+    treemap: makeTreemapSummaryFromGraph(graph),
+  });
+  return Array.from(results.values()).map((r) => ({ params: { skill: r.meta.slug }, props: { result: r } }));
+}
+
+const { result } = Astro.props as { result: SkillResult };
+const meta = result.meta;
+const b = buildSkillsSlugBindings(result, await loadGraph());
+---
+<BaseLayout
+  title={b.title}
+  description={b.seoDesc}
+  canonical={b.canonical}
+  ogImage={b.ogImage}
+  ogTitle={b.title.slice(0, 120)}
+  ogDescription={b.seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
+
+  <style slot="head" set:html={`
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
+.stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
+.stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.skill-detail{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:24px;margin:24px 0}
+.skill-detail h2{margin-top:0;font-size:1.15rem;color:var(--accent);border:none;padding:0;margin-bottom:14px}
+.skill-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}
+@media (max-width:600px){.skill-detail-grid{grid-template-columns:1fr;gap:14px}}
+.skill-detail-grid h3{font-family:var(--font-serif);font-size:1rem;color:var(--accent-deep);margin:0 0 10px}
+.skill-detail-grid ul{list-style:disc;padding-left:20px;margin:0}
+.skill-detail-grid li{font-size:.92rem;color:var(--fg);margin-bottom:6px;line-height:1.6}
+.rank-list{list-style:none;counter-reset:rank;padding:0}
+.rank-list li{counter-increment:rank;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:8px;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center}
+.rank-list li:hover{border-color:var(--accent)}
+.rank-list li::before{content:counter(rank);font-family:var(--font-serif);font-size:1.2rem;font-weight:700;color:var(--fg3);text-align:center}
+.rank-list li:nth-child(-n+3)::before{color:var(--accent)}
+.rank-list .rl-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.rank-list .rl-name{font-family:var(--font-serif);font-size:1.05rem;font-weight:500;color:var(--fg);text-decoration:none;overflow:hidden;text-overflow:ellipsis}
+.rank-list .rl-name:hover{color:var(--accent);text-decoration:underline}
+.rank-list .rl-sector{font-size:.78rem;color:var(--fg2)}
+.rank-list .rl-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:center;white-space:nowrap}
+.skill-score{font-family:ui-monospace,monospace;font-size:.78rem;color:var(--accent-deep);font-variant-numeric:tabular-nums;font-weight:600}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
+.risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
+.rl-salary,.rl-workers{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
+.highlights{margin:24px 0}
+.highlights ul{list-style:none;display:flex;flex-direction:column;gap:8px;padding:0}
+.highlights li{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--accent-deep);padding:10px 16px;border-radius:0 6px 6px 0;font-size:.9rem;color:var(--fg)}
+.sector-chart{margin:24px 0}
+.sc-title{font-size:.85rem;color:var(--fg2);margin-bottom:10px;font-weight:500}
+.sb-row{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:center;margin-bottom:5px;font-size:.8rem}
+.sb-label{color:var(--fg2);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-track{height:14px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.sb-fill{display:block;height:100%;background:var(--accent-deep);border-radius:3px;min-width:3px}
+.sb-count{color:var(--fg3);font-variant-numeric:tabular-nums;text-align:right}
+.faq{margin:48px 0}
+.faq details{background:var(--bg2);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}
+.faq summary{padding:14px 18px;cursor:pointer;font-weight:500;font-size:.95rem;color:var(--fg);list-style:none}
+.faq summary::before{content:"Q. ";color:var(--accent);font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq .faq-a{padding:0 18px 14px;font-size:.9rem;color:var(--fg2);line-height:1.7}
+.related-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;list-style:none;padding:0}
+.related-skills li a{display:block;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;text-decoration:none;color:var(--fg);transition:border-color 150ms}
+.related-skills li a:hover{border-color:var(--accent)}
+.related-skills .rs-name{display:block;font-family:var(--font-serif);font-weight:500;color:var(--accent-deep);margin-bottom:4px}
+.related-skills .rs-desc{display:block;font-size:.78rem;color:var(--fg2)}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px;grid-column:1 / -1}.sb-row{grid-template-columns:80px 1fr 36px}}
+`} />
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <a href="/skills" rel="up">スキルから探す</a>
+      <span aria-hidden="true">›</span>
+      <span>{meta.short_ja}</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">{meta.title_ja}</span></h1>
+      <p class="sub">IPD <strong>{meta.short_ja}</strong> スコアが高い職業 TOP {result.items.length}（全 556 職業中）</p>
+      <p class="intro" set:html={b.introHtml}></p>
+    </header>
+
+    <section class="skill-detail" aria-label={`${meta.short_ja}とは`}>
+      <h2>{meta.short_ja}とは</h2>
+      <p set:html={b.introHtml}></p>
+      <div class="skill-detail-grid">
+        <div>
+          <h3>典型的な活躍場面</h3>
+          <Fragment set:html={b.useCasesHtml} />
+        </div>
+        <div>
+          <h3>鍛え方のヒント</h3>
+          <Fragment set:html={b.trainHtml} />
+        </div>
+      </div>
+    </section>
+
+    <Fragment set:html={b.statsHtml} />
+    <Fragment set:html={b.highlightsHtml} />
+    <Fragment set:html={b.sectorChartHtml} />
+
+    <section aria-label={`TOP ${result.items.length} 職業`}>
+      <h2>{meta.short_ja} TOP {result.items.length}（IPD スコア降順）</h2>
+      <ol class="rank-list" set:html={b.rankItems} />
+    </section>
+
+    <Fragment set:html={b.faqHtml} />
+
+    <Fragment set:html={b.crossHubHtml} />
+
+    <section aria-label="他のスキル">
+      <h2>他のスキル</h2>
+      <Fragment set:html={b.relatedHtml} />
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

@@ -9,5 +9,5 @@ import { siteConfig } from '@/site/config';
 
 /** Canonical absolute URL for a Japanese occupation detail page. */
 export function jaUrl(id: number): string {
-  return `${siteConfig.origin}/ja/${id}`;
+  return `${siteConfig.origin}/${id}`;
 }

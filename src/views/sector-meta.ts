@@ -5,7 +5,7 @@
  * Phase B. Lives under src/views/ per §6.2.
  *
  *
- * Phase 2 (2026-05-09) 追加: 既存の sector hub (src/pages/ja/sectors/[sector].astro)
+ * Phase 2 (2026-05-09) 追加: 既存の sector hub (src/pages/sectors/[sector].astro)
  * は data/sectors/sectors.ja-en.json の 1 行 description_ja のみを intro に使っていた。
  * 本ファイルは各 sector に対して:
  *   - "AI 時代の特性" エッセイ (200-300 字、editorial 第 1 稿、後で人手で polish 可能)

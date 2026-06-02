@@ -1,0 +1,131 @@
+---
+/**
+ * src/pages/sectors/[sector].astro — per-sector hub page (16 routes).
+ *
+ * Thin binding shell — every section of substantive logic lives in:
+ *   - src/views/sector.sectorDetailView()      (graph → view data)
+ *   - src/pages/sectors/_sector-bindings.ts (page-render bundle)
+ *   - src/pages/sectors/_sector-css.ts      (inline page CSS)
+ *   - src/templates/* (SectorJsonLd / SectorListings / SectorPatterns / OccFaq)
+ *   - src/views/sector-faqs.ts                  (FAQ Q/A builder)
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { sectorDetailView } from '@/views/sector';
+import { buildSectorBindings } from './_sector-bindings';
+import { SECTOR_PAGE_CSS } from './_sector-css';
+import { RELATED_CROSS_HUB_CSS } from '@/views/hub-hub-graph';
+import { fmtInt } from '@/lib/num';
+
+const DATE_PUBLISHED = '2026-05-05';
+const DATE_MODIFIED = '2026-05-09';
+
+export async function getStaticPaths() {
+  const graph = await loadGraph();
+  const sectorIds = [...graph.sectors.keys()];
+  return sectorIds.map((sectorId) => ({
+    params: { sector: String(sectorId) },
+    props: { view: sectorDetailView(graph, sectorId) },
+  }));
+}
+
+interface Props {
+  view: ReturnType<typeof sectorDetailView>;
+}
+
+const { view } = Astro.props as Props;
+const graph = await loadGraph();
+
+const bindings = buildSectorBindings({
+  view,
+  datePublished: DATE_PUBLISHED,
+  dateModified: DATE_MODIFIED,
+  graph,
+});
+const {
+  nameLoc, canonical, ogImage, n, workforceTotal, meanRisk,
+  title, ogTitle, seoDesc, keywordsStr,
+  h1Main, subText, crumbRoot, crumbSectors,
+  hHigh, hLow, hPop, hFull, hRelated,
+  topHighHtml, topLowHtml, topWorkersHtml, fullListHtml, relatedHtml,
+  faqHtml, introSection, aiEraEssayHtml, patternsHtml, crossHubHtml,
+  jsonLd,
+} = bindings;
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  keywords={keywordsStr}
+  ogTitle={ogTitle}
+  ogDescription={seoDesc}
+  ogImage={ogImage}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
+
+  <style slot="head" set:html={SECTOR_PAGE_CSS} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">{crumbRoot}</a>
+      <span aria-hidden="true">›</span>
+      <a href="/sectors" rel="up">{crumbSectors}</a>
+      <span aria-hidden="true">›</span>
+      <span>{nameLoc}</span>
+    </nav>
+
+    <header id="content">
+      <h1>
+        <span class="accent">{h1Main}</span>
+      </h1>
+      <p class="sub" set:html={subText} />
+      <Fragment set:html={introSection} />
+    </header>
+
+    <section aria-label="セクター概要">
+      <dl class="stats">
+        <div><dt>職業数</dt><dd>{n}</dd></div>
+        <div><dt>平均 AI 影響</dt><dd>{meanRisk === null ? '—' : `${meanRisk.toFixed(1)} / 10`}</dd></div>
+        <div><dt>就業者数 合計</dt><dd>{fmtInt(workforceTotal)}</dd></div>
+      </dl>
+    </section>
+
+    <Fragment set:html={aiEraEssayHtml} />
+
+    <Fragment set:html={patternsHtml} />
+
+    <section aria-label={hHigh}>
+      <h2>{hHigh}</h2>
+      <Fragment set:html={topHighHtml} />
+    </section>
+
+    <section aria-label={hLow}>
+      <h2>{hLow}</h2>
+      <Fragment set:html={topLowHtml} />
+    </section>
+
+    <section aria-label={hPop}>
+      <h2>{hPop}</h2>
+      <Fragment set:html={topWorkersHtml} />
+    </section>
+
+    <section aria-label={hFull}>
+      <h2>{hFull}</h2>
+      <Fragment set:html={fullListHtml} />
+    </section>
+
+    <Fragment set:html={faqHtml} />
+
+    <Fragment set:html={crossHubHtml} />
+
+    <section aria-label={hRelated}>
+      <h2>{hRelated}</h2>
+      <Fragment set:html={relatedHtml} />
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

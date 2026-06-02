@@ -2,7 +2,7 @@
  * src/templates/ProseSection.ts — render a generic prose section
  * (h2 + paragraphs) gated on the body text being non-empty.
  *
- * Extracted from src/pages/ja/[id].astro. Two call-sites today
+ * Extracted from src/pages/[id].astro. Two call-sites today
  * (how-to-become / working-conditions). The body is run through
  * formatParagraphs so blank-line-separated text becomes a series
  * of `<p>…</p>` blocks.

@@ -1,0 +1,185 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGraph } from '@/graph';
+import { buildSectorsIndexBindings, fmtInt, riskClass } from './_sectors-index-bindings';
+
+const b = buildSectorsIndexBindings(await loadGraph());
+---
+<BaseLayout
+  title={b.pageTitle}
+  description={b.seoDesc}
+  canonical={b.canonical}
+  keywords={b.keywords}
+  ogImage="https://mirai-shigoto.com/api/og?page=sectors"
+  ogTitle={b.ogTitle}
+  ogDescription={b.seoDesc}
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={b.jsonLd} />
+
+  <style slot="head" is:inline>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-sans);line-height:1.65;font-feature-settings:"palt"}
+a{color:var(--accent-deep);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+a:hover{color:var(--accent)}
+.top-banner{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 16px;font-size:.85rem;color:var(--fg2);display:flex;gap:12px;align-items:center;justify-content:center}
+.badge{background:var(--accent);color:#fff;padding:2px 8px;font-size:.7rem;letter-spacing:.05em;font-weight:700;border-radius:2px}
+#wrapper{max-width:var(--content-max);margin:0 auto;padding:32px 20px 80px}
+.crumb{font-size:.85rem;color:var(--fg2);margin-bottom:24px}
+.crumb a{color:var(--fg2)}
+.crumb span[aria-hidden]{margin:0 8px;color:var(--fg3)}
+header{margin-bottom:32px;border-bottom:1px solid var(--border);padding-bottom:24px}
+h1{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);font-weight:600;line-height:1.25;color:var(--fg);margin-bottom:12px;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+h1 .accent{color:var(--accent-deep)}
+.sub{color:var(--fg2);font-size:.95rem}
+.sub strong{color:var(--accent-deep);font-weight:600}
+.intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:32px 0}
+.stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
+.stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg)}
+section{margin:48px 0}
+h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.top-list{list-style:none;display:grid;gap:8px}
+.top-list li{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.top-list a{color:var(--fg);text-decoration:none;font-weight:500}
+.top-list a:hover{color:var(--accent-deep);text-decoration:underline}
+.top-list .meta{color:var(--fg2);font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums;margin-right:8px}
+.risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
+.risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
+.risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
+.full-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.full-list li{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center}
+.full-list a{color:var(--fg);text-decoration:none}
+.full-list a:hover{color:var(--accent-deep);text-decoration:underline}
+.related-sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;list-style:none}
+.related-sectors li{background:var(--bg2);border:1px solid var(--border);border-radius:4px}
+.related-sectors a{display:block;padding:12px 14px;text-decoration:none;color:var(--fg)}
+.related-sectors a:hover{background:var(--bg3);color:var(--accent-deep)}
+.related-sectors .ja-name{font-family:var(--font-serif);font-weight:500}
+.related-sectors .count{color:var(--fg2);font-size:.8rem;display:block;margin-top:2px}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);font-size:.85rem;color:var(--fg2);text-align:center}
+footer .footer-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:14px}
+footer .footer-links a{color:var(--fg2);text-decoration:none;padding:5px 14px;border:1px solid var(--border);border-radius:999px;font-size:.78rem;line-height:1.2;transition:color 150ms ease,border-color 150ms ease,background 150ms ease}
+footer .footer-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(217,107,61,0.06);text-decoration:none}
+footer .footer-meta{color:var(--fg2);font-size:.7rem;opacity:.92;text-wrap:pretty;line-height:1.65}
+footer .footer-meta a{color:var(--accent)}
+footer .footer-meta .nowrap{white-space:nowrap}
+@media (max-width:540px){footer .footer-meta{font-size:.66rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}}
+/* SEO Phase 7: FAQ section — visible Q&A matching FAQPage JSON-LD schema. */
+section.faq{margin:48px 0}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{background:var(--bg2);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color 150ms ease}
+.faq-item[open]{border-color:var(--accent-deep)}
+.faq-item summary{padding:16px 18px;font-family:var(--font-serif);font-size:1rem;font-weight:500;color:var(--fg);cursor:pointer;list-style:none;position:relative;padding-right:42px;line-height:1.5}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--fg2);transition:transform 150ms ease,color 150ms ease;font-weight:300}
+.faq-item[open] summary::after{transform:translateY(-50%) rotate(45deg);color:var(--accent)}
+.faq-item summary:hover{color:var(--accent-deep)}
+.faq-answer{padding:0 18px 16px;color:var(--fg);font-size:.92rem;line-height:1.75}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{flex-direction:column;align-items:flex-start;gap:6px}.top-list li{flex-direction:column;align-items:flex-start;gap:6px}.faq-item summary{font-size:.95rem;padding:14px 16px;padding-right:38px}}
+
+.sector-cards{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin:0;padding:0;grid-auto-rows:1fr}
+.sector-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;transition:border-color 150ms ease, transform 150ms ease;height:100%;position:relative}
+.sector-card:hover{border-color:var(--accent);transform:translateY(-1px)}
+/* RA-129: link-overlay pattern — wrapper card is a div, the .sc-body div hosts the content, and .sc-name-link expands via ::before to cover the whole card. This lets us put inline <a> sample-job links inside without nesting <a> in <a> (HTML5 violation). */
+.sc-body{display:flex;flex-direction:column;padding:18px 18px 16px;height:100%;position:relative}
+.sc-name-link{text-decoration:none;color:inherit}
+.sc-name-link::before{content:"";position:absolute;inset:0;z-index:1;border-radius:8px}
+.sc-name-link:focus-visible{outline:none}
+.sc-name-link:focus-visible::before{outline:2px solid var(--accent);outline-offset:2px}
+.sc-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:10px}
+.sc-name{font-family:var(--font-serif);font-size:1.15rem;font-weight:600;color:var(--fg);margin:0}
+.sc-count{color:var(--fg2);font-size:.78rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sc-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.sc-risk{font-size:.72rem!important;padding:2px 9px}
+.sc-workers{display:inline-block;padding:2px 9px;background:var(--bg3);border-radius:12px;font-size:.72rem;color:var(--fg2);font-variant-numeric:tabular-nums}
+/* RA-140 fix: dropped -webkit-line-clamp:2 — array is sliced to 3 entries at the .map site below so all rendered links are visible and clickable (no ambiguous tap targets on mobile). */
+.sc-samples{flex:1;font-size:.82rem;color:var(--fg2);line-height:1.5;margin:0;position:relative}
+/* RA-129: representative-job inline links inside the sample line. position:relative + z-index keeps them above the link-overlay ::before so they're independently clickable. */
+.sc-sample-link{color:var(--fg2);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;padding:2px 1px;transition:color 120ms ease;position:relative;z-index:2}
+.sc-sample-link:hover{color:var(--accent-deep,var(--accent))}
+.sc-sample-link:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:2px}
+.sc-sep{color:var(--fg3);margin:0 .2em;position:relative;z-index:2}
+.related-genre{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;padding:0;margin:0;grid-auto-rows:1fr}
+.related-genre li{background:var(--bg2);border:1px solid var(--border);border-radius:6px;transition:border-color 150ms ease, transform 150ms ease;height:100%}
+.related-genre li:hover{border-color:var(--accent);transform:translateY(-1px)}
+.related-genre a{display:flex;flex-direction:column;gap:4px;padding:14px 16px;text-decoration:none;color:var(--fg);height:100%}
+.related-genre .rg-name{font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--accent-deep)}
+.related-genre .rg-desc{font-size:.82rem;color:var(--fg2);line-height:1.5;flex:1}
+.sector-card:hover .sc-name{color:var(--accent-deep)}</style>
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">{b.crumbRoot}</a>
+      <span aria-hidden="true">›</span>
+      <span>{b.crumbSelf}</span>
+    </nav>
+
+    <header id="content">
+      <h1>
+        <span class="accent">{b.h1}</span>
+      </h1>
+      <p class="sub"><strong>{b.totalOcc} 職業</strong> を 16 業界に分類。クリックで業界別の AI 影響度ランキング・代表職業へ。</p>
+      <p class="intro">業界別に職業を一覧化したインデックスです。各業種を開くと、AI 影響度・就業者数・年収のランキング、その業界に属する全職業の一覧が確認できます。</p>
+    </header>
+
+    <section aria-label={b.hList}>
+      <h2>{b.hList}</h2>
+      <ul class="sector-cards">
+        {b.sectors.map((s) => {
+          const mean = s.meanAiRisk ?? 0;
+          // RA-140: cap at 3 representative jobs so every rendered link is clickable
+          // (previously a -webkit-line-clamp:2 hid overflow links visually while
+          // leaving them in the DOM, creating ambiguous tap targets on mobile).
+          const samples = s.sampleEntries.filter((e) => e.titleJa !== null).slice(0, 3);
+          const cls = riskClass(mean);
+          return (
+            <li class="sector-card">
+              <div class="sc-body">
+                <div class="sc-head">
+                  <h3 class="sc-name">
+                    <a class="sc-name-link" href={`/sectors/${s.id}`}>{s.ja}</a>
+                  </h3>
+                  <span class="sc-count">{s.occupationCount} 職業</span>
+                </div>
+                <div class="sc-stats">
+                  <span class={`sc-risk risk-pill ${cls}`}>AI 影響 平均 {mean.toFixed(1)}/10</span>
+                  <span class="sc-workers">{fmtInt(s.totalWorkforce)} 人</span>
+                </div>
+                <p class="sc-samples">
+                  {samples.map((e, i) => (
+                    <>
+                      {i > 0 && <span class="sc-sep" aria-hidden="true">・</span>}
+                      <a class="sc-sample-link" href={`/${e.id}`}>{e.titleJa}</a>
+                    </>
+                  ))}
+                </p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <section aria-label="他の探し方">
+      <h2>他の探し方</h2>
+      <ul class="related-genre">
+        <li><a href="/rankings"><span class="rg-name">ランキングで探す</span><span class="rg-desc">AI影響度・年収・労働時間など 39 のランキング</span></a></li>
+        <li><a href="/explore/find-your-fit"><span class="rg-name">自分に合う仕事を見つける</span><span class="rg-desc">質問・キャリア段階・興味タイプ・価値観の 4 軸</span></a></li>
+        <li><a href="/skills"><span class="rg-name">スキル・資格から探す</span><span class="rg-desc">スキル・資格・能力・知識・学歴の 5 軸</span></a></li>
+        <li><a href="/work-styles"><span class="rg-name">働き方から探す</span><span class="rg-desc">業務形態・雇用形態・習熟期間・ライフバランス・入職経路の 5 軸</span></a></li>
+        <li><a href="/compare"><span class="rg-name">職業を比較する</span><span class="rg-desc">迷いやすい 20 の職業ペアを side-by-side で比較</span></a></li>
+        <li><a href="/methodology"><span class="rg-name">評価プロセス</span><span class="rg-desc">算出方法・スコア帯・データ出典・限界</span></a></li>
+      </ul>
+    </section>
+
+    <aside class="me-cta-strip" aria-label="自分の現在地ツール">
+      <p>あなたの職業は、どの<strong>業界</strong>でどの位置にいますか？</p>
+      <a href="/me">自分の現在地を確認 →</a>
+    </aside>
+
+    <Footer />
+  </div>
+</BaseLayout>

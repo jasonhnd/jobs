@@ -2,7 +2,7 @@
  * src/templates/LegacyRelated.ts — legacy fallback "類似する職業"
  * section, used only when the Transfer block doesn't render.
  *
- * Extracted from src/pages/ja/[id].astro. The Transfer template
+ * Extracted from src/pages/[id].astro. The Transfer template
  * is the preferred "related occupations" surface (with similarity
  * scores + AI risk chips); this template is the fallback for the
  * ~50 occupations whose transfer_paths.json entry is empty.
@@ -11,7 +11,7 @@
  *   <section class="related" aria-label="類似する職業">
  *     <h2>類似する職業</h2>
  *     <ul>
- *       <li><a class="r-name" href="/ja/{id}">{name}</a>
+ *       <li><a class="r-name" href="/{id}">{name}</a>
  *           <span class="r-risk">AI 影響 {N/10|—}</span></li>
  *       …
  *     </ul>
@@ -40,7 +40,7 @@ export interface LegacyRelatedInput {
 }
 
 const H2 = '類似する職業';
-const REL_PATH = '/ja/';
+const REL_PATH = '/';
 
 export function renderLegacyRelated(input: LegacyRelatedInput): SafeHtml {
   if (input.suppress || input.related.length === 0) return '' as SafeHtml;

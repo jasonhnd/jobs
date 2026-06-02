@@ -1,7 +1,7 @@
 /**
  * src/views/skill.ts — graph → skill-ranking + treemap-summary adapters.
  *
- * Step 7: the 10 /ja/skills/[skill] routes and /ja/skills index now source
+ * Step 7: the 10 /skills/[skill] routes and /skills index now source
  * their data from the knowledge graph rather than reading
  * public/data.skills/<key>.json + public/data.treemap.json.
  *

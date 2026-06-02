@@ -1,0 +1,821 @@
+---
+/**
+ * me.astro — /me 自分の現在地 (RA-134, Phase 2 M2).
+ *
+ * Typeahead-driven self-positioning tool. User types a job name, picks
+ * one from the live combobox, and sees:
+ *   1. Summary card: sector / AI 影響 / 就業者数 / 年収
+ *   2. 39 ranking positions (rank within TOP-N + per-universe percentile)
+ *   3. 5 similar jobs (same sector, AI risk ± 1)
+ *
+ * Data:
+ *   /data.search.json        — typeahead corpus (556 docs)
+ *   /data.me-positions.json  — pre-computed ranking positions (RA-134
+ *                              projection, src/data/projections/me-positions.ts)
+ *   /data.treemap.json       — used for similar-job lookups (sector + AI risk)
+ *
+ * URL bookmark: ?id=<jobId> auto-restores on page load via the same
+ * code path the user-driven selection takes; history.replaceState
+ * is updated on every selection.
+ *
+ * CSP: the single inline <script> body is STATIC (no per-build
+ * interpolation, no template-string substitutions). One sha256 hash in
+ * vercel.json's script-src covers it. See compute-csp-hashes.cjs.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+
+const canonical = 'https://mirai-shigoto.com/me';
+const title = '自分の現在地｜全 39 ランキングでの位置を確認 - 未来の仕事';
+const seoDesc =
+  '職業を入力するだけで、AI 影響度・年収・就業者数・労働時間など 39 のランキングであなたの仕事が日本のどこにいるかを瞬時に確認。全 556 職業の中での位置と業種内の類似職を提示。';
+
+// JSON-LD: @graph form pairs WebApplication (semantic app classification)
+// with WebPage (page-identity node required by scripts/verify-jsonld.cjs §6.3,
+// which expects every page to carry one of WebPage / Article / TechArticle /
+// CollectionPage / QAPage / Dataset). WebApplication alone is not on that
+// allow-list, which left /me failing the SEO Baseline verify-jsonld check
+// since the page was added.
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': canonical,
+      name: title,
+      url: canonical,
+      description: seoDesc,
+      inLanguage: 'ja',
+      isPartOf: { '@type': 'WebSite', name: 'Mirai-Shigoto', url: 'https://mirai-shigoto.com/' },
+    },
+    {
+      '@type': 'WebApplication',
+      name: '自分の現在地 — Mirai-Shigoto',
+      url: canonical,
+      description: seoDesc,
+      applicationCategory: 'CareerToolApplication',
+      operatingSystem: 'Web',
+      inLanguage: ['ja'],
+      isAccessibleForFree: true,
+    },
+  ],
+});
+---
+<BaseLayout
+  title={title}
+  description={seoDesc}
+  canonical={canonical}
+  ogTitle={title}
+  ogDescription={seoDesc}
+  ogImage="https://mirai-shigoto.com/api/og?page=me"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+
+  <link rel="preload" href="/data.search.json" as="fetch" slot="head" />
+  <link rel="preload" href="/data.me-positions.json" as="fetch" slot="head" />
+
+  <style slot="head" set:html={`
+    .me-wrapper { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+    .me-crumb { font-size: .85rem; color: var(--fg2); margin-bottom: 24px; }
+    .me-crumb a { color: var(--fg2); }
+    .me-crumb span[aria-hidden] { margin: 0 8px; color: var(--fg3); }
+    .me-head { margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 22px; }
+    .me-head h1 {
+      font-family: var(--font-serif); font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600; line-height: 1.25; color: var(--fg); margin-bottom: 10px;
+    }
+    .me-head h1 .accent { color: var(--accent-deep); }
+    .me-head .sub { color: var(--fg2); font-size: .95rem; }
+    .me-head .sub strong { color: var(--accent-deep); font-weight: 600; }
+    .me-search {
+      position: relative; margin: 12px 0 0;
+    }
+    .me-search-input {
+      width: 100%; height: 48px; padding: 0 18px 0 44px;
+      background: var(--bg2); color: var(--fg);
+      border: 1px solid var(--border); border-radius: 999px;
+      font-size: 1rem;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%237A6F5E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");
+      background-repeat: no-repeat; background-position: 16px center;
+    }
+    .me-search-input:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 2px;
+      border-color: var(--accent);
+    }
+    .me-listbox {
+      position: absolute; left: 0; right: 0; top: 100%;
+      margin-top: 6px; z-index: 20;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; box-shadow: 0 12px 28px rgba(36,30,24,.12);
+      list-style: none; padding: 6px 0; max-height: 360px;
+      overflow-y: auto; display: none;
+    }
+    .me-listbox[data-open="true"] { display: block; }
+    .me-listbox li {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 10px; align-items: center;
+      padding: 10px 16px; cursor: pointer;
+      border: none; background: transparent; color: var(--fg);
+    }
+    .me-listbox li:hover, .me-listbox li.focused {
+      background: var(--bg3);
+    }
+    .me-listbox li.focused { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .me-listbox li .me-li-name { font-weight: 500; }
+    .me-listbox li .me-li-sector { font-size: .76rem; color: var(--fg2); margin-top: 2px; }
+    .me-listbox li .me-li-pill {
+      display: inline-block; padding: 2px 10px; border-radius: 12px;
+      font-size: .72rem; font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+    .me-listbox li .me-li-pill.low { background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg); }
+    .me-listbox li .me-li-pill.mid { background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg); }
+    .me-listbox li .me-li-pill.high { background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg); }
+    .me-empty {
+      padding: 56px 24px; text-align: center; color: var(--fg2);
+      background: var(--bg2); border: 1px dashed var(--border);
+      border-radius: 10px; margin: 32px 0;
+    }
+    .me-empty p { margin: 0; font-size: .95rem; }
+    .me-results { display: none; }
+    .me-results[data-visible="true"] { display: block; }
+    .me-summary {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 22px 18px; margin: 28px 0 18px;
+    }
+    .me-summary-head { margin-bottom: 14px; }
+    .me-summary-head .me-name {
+      font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600;
+      color: var(--fg); margin-bottom: 4px;
+    }
+    .me-summary-head .me-sector { font-size: .85rem; color: var(--fg2); }
+    .me-summary-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .me-summary-stats > div {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 10px 14px; border-radius: 6px;
+    }
+    .me-summary-stats dt {
+      font-size: .72rem; color: var(--fg2);
+      text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px;
+    }
+    .me-summary-stats dd {
+      font-family: var(--font-serif); font-size: 1.1rem;
+      font-weight: 600; color: var(--fg);
+      font-variant-numeric: tabular-nums;
+    }
+    .me-section { margin: 36px 0; }
+    .me-section h2 {
+      font-family: var(--font-serif); font-size: 1.25rem; font-weight: 600;
+      color: var(--fg); margin-bottom: 14px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .me-rank-list { list-style: none; padding: 0; margin: 0; }
+    .me-rank-list li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px; align-items: center;
+      padding: 12px 16px; margin-bottom: 6px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .me-rank-list li.in-top { border-left: 3px solid var(--accent-deep); }
+    .me-rank-list a {
+      color: var(--fg); text-decoration: none; font-weight: 500;
+    }
+    .me-rank-list a:hover { color: var(--accent); }
+    .me-rank-desc { font-size: .76rem; color: var(--fg2); margin-top: 2px; }
+    .me-rank-pos { text-align: right; font-variant-numeric: tabular-nums; }
+    .me-rank-pos .rank-top {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: .8rem; font-weight: 600;
+      background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg);
+    }
+    .me-rank-pos .rank-out {
+      display: inline-block;
+      font-size: .78rem; color: var(--fg2);
+    }
+    .me-rank-pos .rank-detail {
+      font-size: .72rem; color: var(--fg3); margin-top: 2px;
+    }
+    .me-rank-toggle {
+      display: block; width: 100%;
+      padding: 10px 16px; margin-top: 8px;
+      background: var(--bg2); border: 1px dashed var(--border);
+      border-radius: 6px; color: var(--accent-deep);
+      font-size: .9rem; font-weight: 500; text-align: center;
+      cursor: pointer;
+    }
+    .me-rank-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .me-similar { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+    .me-similar a {
+      display: flex; flex-direction: column;
+      padding: 14px 16px; background: var(--bg2);
+      border: 1px solid var(--border); border-radius: 6px;
+      text-decoration: none; color: var(--fg); font-weight: 500;
+    }
+    .me-similar a:hover { border-color: var(--accent); color: var(--accent-deep); }
+    .me-similar .me-similar-meta {
+      font-size: .76rem; color: var(--fg2); margin-top: 4px;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .me-status {
+      position: absolute; left: -10000px; width: 1px; height: 1px;
+      overflow: hidden;
+    }
+    @media (max-width: 600px) {
+      .me-wrapper { padding: 20px 16px 60px; }
+      .me-rank-list li { grid-template-columns: 1fr auto; }
+      .me-summary-head .me-name { font-size: 1.25rem; }
+    }
+  `} />
+
+  <article class="me-wrapper">
+    <nav class="me-crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">未来の仕事</a>
+      <span aria-hidden="true">›</span>
+      <span>自分の現在地</span>
+    </nav>
+
+    <header class="me-head" id="content">
+      <h1><span class="accent">自分の現在地</span></h1>
+      <p class="sub">職業を入力して、<strong>全 39 ランキング</strong> での位置を確認</p>
+
+      <form class="me-search" id="meForm" role="search" autocomplete="off">
+        <label for="meInput" class="me-status">職業を検索</label>
+        <input
+          type="search"
+          class="me-search-input"
+          id="meInput"
+          placeholder="気になる職業を入力 (例: 看護師、エンジニア)"
+          aria-label="職業を検索"
+          aria-autocomplete="list"
+          aria-controls="meListbox"
+          aria-expanded="false"
+          role="combobox"
+        />
+        <ul
+          class="me-listbox"
+          id="meListbox"
+          role="listbox"
+          aria-label="検索候補"
+        ></ul>
+      </form>
+      <p class="me-status" id="meAnnounce" aria-live="polite" aria-atomic="true"></p>
+    </header>
+
+    <div class="me-empty" id="meEmpty">
+      <p>上の検索欄から職業を選択すると、全 39 ランキングでの位置と類似 5 職業を表示します。</p>
+    </div>
+
+    <div class="me-results" id="meResults" aria-live="polite">
+      <section class="me-summary" aria-labelledby="meSummaryName">
+        <div class="me-summary-head">
+          <div class="me-name" id="meSummaryName"></div>
+          <div class="me-sector" id="meSummarySector"></div>
+        </div>
+        <dl class="me-summary-stats">
+          <div><dt>AI 影響度</dt><dd id="meStatRisk">—</dd></div>
+          <div><dt>就業者数</dt><dd id="meStatWorkers">—</dd></div>
+          <div><dt>年収</dt><dd id="meStatSalary">—</dd></div>
+          <div><dt>業種</dt><dd id="meStatSector">—</dd></div>
+        </dl>
+      </section>
+
+      <section class="me-section" aria-labelledby="meRanksHead">
+        <h2 id="meRanksHead">全 39 ランキングでの位置</h2>
+        <ul class="me-rank-list" id="meRankList"></ul>
+        <button type="button" class="me-rank-toggle" id="meRankToggle" aria-expanded="false">
+          残り <span id="meRankRest">31</span> 件を見る
+        </button>
+      </section>
+
+      <section class="me-section" aria-labelledby="meSimilarHead">
+        <h2 id="meSimilarHead">似た職業 (同業種・AI 影響度 ±1)</h2>
+        <div class="me-similar" id="meSimilar"></div>
+      </section>
+    </div>
+
+    <Footer />
+  </article>
+
+  <script slot="bodyEnd" is:inline>
+  (function () {
+    'use strict';
+
+    var SEARCH_URL = '/data.search.json';
+    var POSITIONS_URL = '/data.me-positions.json';
+    var TREEMAP_URL = '/data.treemap.json';
+    var FETCH_TIMEOUT_MS = 10000;
+    var INITIAL_RANKS_SHOWN = 8;
+
+    var $form = document.getElementById('meForm');
+    var $input = document.getElementById('meInput');
+    var $listbox = document.getElementById('meListbox');
+    var $announce = document.getElementById('meAnnounce');
+    var $empty = document.getElementById('meEmpty');
+    var $results = document.getElementById('meResults');
+    var $summaryName = document.getElementById('meSummaryName');
+    var $summarySector = document.getElementById('meSummarySector');
+    var $statRisk = document.getElementById('meStatRisk');
+    var $statWorkers = document.getElementById('meStatWorkers');
+    var $statSalary = document.getElementById('meStatSalary');
+    var $statSector = document.getElementById('meStatSector');
+    var $rankList = document.getElementById('meRankList');
+    var $rankToggle = document.getElementById('meRankToggle');
+    var $rankRest = document.getElementById('meRankRest');
+    var $similar = document.getElementById('meSimilar');
+
+    var searchDocs = null;
+    var positionsData = null; // { meta, rankings, positions }
+    var treemapData = null; // array
+    var byId = {};
+    var focusedIdx = -1;
+    var rankExpanded = false;
+    var currentJobId = null;
+
+    // ── format helpers ──────────────────────────────────────────────
+    function fmtSalary(s) { if (s == null) return '—'; return Math.round(s) + ' 万円'; }
+    function fmtWorkers(w) {
+      if (w == null) return '—';
+      if (w >= 10000) return (w / 10000).toFixed(0) + ' 万人';
+      return w.toLocaleString('ja-JP') + ' 人';
+    }
+    function riskBand(r) {
+      if (r == null) return null;
+      if (r < 4.0) return 'low';
+      if (r < 7.0) return 'mid';
+      return 'high';
+    }
+    function riskLabel(r) {
+      if (r == null) return '—';
+      var band = riskBand(r);
+      var prefix = band === 'high' ? '▲ 影響大' : band === 'low' ? '◎ 影響小' : '▼ 中程度';
+      return r + '/10 ' + prefix;
+    }
+
+    function ga(name, params) {
+      try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch (e) {
+        if (typeof console !== 'undefined') console.warn('[analytics] gtag event failed:', e);
+      }
+    }
+
+    function fetchWithTimeout(url, ms) {
+      return new Promise(function (resolve, reject) {
+        var done = false;
+        var t = setTimeout(function () { if (!done) { done = true; reject(new Error('timeout')); } }, ms);
+        fetch(url)
+          .then(function (r) {
+            if (!done) { done = true; clearTimeout(t); }
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(resolve)
+          .catch(function (e) { if (!done) { done = true; clearTimeout(t); } reject(e); });
+      });
+    }
+
+    // ── data loaders ────────────────────────────────────────────────
+    function loadSearchIndex() {
+      if (searchDocs) return Promise.resolve(searchDocs);
+      return fetchWithTimeout(SEARCH_URL, FETCH_TIMEOUT_MS).then(function (j) {
+        searchDocs = j.documents || [];
+        for (var i = 0; i < searchDocs.length; i++) byId[searchDocs[i].id] = searchDocs[i];
+        return searchDocs;
+      });
+    }
+    function loadPositions() {
+      if (positionsData) return Promise.resolve(positionsData);
+      return fetchWithTimeout(POSITIONS_URL, FETCH_TIMEOUT_MS).then(function (j) {
+        positionsData = j;
+        return j;
+      });
+    }
+    function loadTreemap() {
+      if (treemapData) return Promise.resolve(treemapData);
+      return fetchWithTimeout(TREEMAP_URL, FETCH_TIMEOUT_MS).then(function (j) {
+        treemapData = j || [];
+        return treemapData;
+      });
+    }
+
+    // ── typeahead matching ─────────────────────────────────────────
+    function rankMatches(q) {
+      q = q.trim().toLowerCase();
+      if (!q || !searchDocs) return [];
+      var exact = [], starts = [], contains = [];
+      for (var i = 0; i < searchDocs.length; i++) {
+        var d = searchDocs[i];
+        var hay = (d.title_ja || '').toLowerCase();
+        var aliases = (d.aliases_ja || []).map(function (a) { return (a || '').toLowerCase(); });
+        var all = [hay].concat(aliases);
+        var hit = false, isExact = false, isStart = false;
+        for (var k = 0; k < all.length; k++) {
+          var f = all[k];
+          if (f === q) { isExact = true; hit = true; break; }
+          if (f.indexOf(q) === 0) { isStart = true; hit = true; }
+          else if (f.indexOf(q) >= 0) { hit = true; }
+        }
+        if (!hit) continue;
+        if (isExact) exact.push(d);
+        else if (isStart) starts.push(d);
+        else contains.push(d);
+      }
+      var lenAsc = function (a, b) { return (a.title_ja || '').length - (b.title_ja || '').length; };
+      return exact.concat(starts.sort(lenAsc), contains.sort(lenAsc)).slice(0, 8);
+    }
+
+    function sectorJaForDoc(d) {
+      if (positionsData && positionsData.positions[d.id]) {
+        return positionsData.positions[d.id].summary.sectorJa || '';
+      }
+      return '';
+    }
+
+    function renderSuggest(matches) {
+      $listbox.replaceChildren();
+      if (!matches.length) {
+        $listbox.setAttribute('data-open', 'false');
+        $input.setAttribute('aria-expanded', 'false');
+        focusedIdx = -1;
+        $announce.textContent = '候補なし';
+        return;
+      }
+      for (var i = 0; i < matches.length; i++) {
+        var d = matches[i];
+        var li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.id = 'meOpt-' + d.id;
+        li.dataset.id = String(d.id);
+        var nameWrap = document.createElement('div');
+        var nameSpan = document.createElement('span');
+        nameSpan.className = 'me-li-name';
+        nameSpan.textContent = d.title_ja || '';
+        var sectorSpan = document.createElement('div');
+        sectorSpan.className = 'me-li-sector';
+        sectorSpan.textContent = sectorJaForDoc(d);
+        nameWrap.appendChild(nameSpan);
+        nameWrap.appendChild(sectorSpan);
+        var pill = document.createElement('span');
+        var band = riskBand(d.ai_risk);
+        pill.className = 'me-li-pill ' + (band || 'mid');
+        pill.textContent = 'AI ' + (d.ai_risk != null ? d.ai_risk : '?') + '/10';
+        li.appendChild(nameWrap);
+        li.appendChild(pill);
+        $listbox.appendChild(li);
+      }
+      $listbox.setAttribute('data-open', 'true');
+      $input.setAttribute('aria-expanded', 'true');
+      focusedIdx = 0;
+      updateFocusedRow();
+      $announce.textContent = matches.length + ' 件の結果';
+    }
+
+    function updateFocusedRow() {
+      var items = $listbox.querySelectorAll('li');
+      items.forEach(function (li, i) {
+        if (i === focusedIdx) {
+          li.classList.add('focused');
+          li.setAttribute('aria-selected', 'true');
+          $input.setAttribute('aria-activedescendant', li.id);
+        } else {
+          li.classList.remove('focused');
+          li.setAttribute('aria-selected', 'false');
+        }
+      });
+      if (focusedIdx < 0) {
+        $input.removeAttribute('aria-activedescendant');
+      }
+    }
+
+    function closeListbox() {
+      $listbox.setAttribute('data-open', 'false');
+      $input.setAttribute('aria-expanded', 'false');
+      $input.removeAttribute('aria-activedescendant');
+      focusedIdx = -1;
+    }
+
+    var searchDebounce = null;
+    var searchSeq = 0;
+    $input.addEventListener('input', function () {
+      if (searchDebounce) clearTimeout(searchDebounce);
+      var q = $input.value;
+      if (!q.trim()) {
+        // Invalidate any in-flight typeahead so a slow resolve can't
+        // re-open the listbox after we cleared it.
+        searchSeq++;
+        closeListbox();
+        $announce.textContent = '';
+        return;
+      }
+      var seq = ++searchSeq;
+      searchDebounce = setTimeout(function () {
+        Promise.all([loadSearchIndex(), loadPositions()]).then(function () {
+          // Bail if the user has typed more since this fetch started —
+          // otherwise the stale result would overwrite fresher matches.
+          if (seq !== searchSeq) return;
+          renderSuggest(rankMatches($input.value));
+        });
+      }, 80);
+    });
+
+    $input.addEventListener('keydown', function (e) {
+      var items = $listbox.querySelectorAll('li');
+      if (e.key === 'ArrowDown') {
+        if (!items.length) {
+          // re-open if there's a query but listbox is closed
+          if ($input.value.trim()) {
+            Promise.all([loadSearchIndex(), loadPositions()]).then(function () {
+              renderSuggest(rankMatches($input.value));
+            });
+          }
+          e.preventDefault();
+          return;
+        }
+        e.preventDefault();
+        focusedIdx = (focusedIdx + 1) % items.length;
+        updateFocusedRow();
+      } else if (e.key === 'ArrowUp') {
+        if (!items.length) return;
+        e.preventDefault();
+        focusedIdx = (focusedIdx - 1 + items.length) % items.length;
+        updateFocusedRow();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (items.length && focusedIdx >= 0) {
+          var sel = items[focusedIdx];
+          if (sel) selectJob(parseInt(sel.dataset.id, 10));
+        }
+      } else if (e.key === 'Escape') {
+        closeListbox();
+      }
+    });
+
+    $form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var items = $listbox.querySelectorAll('li');
+      var pick = items[focusedIdx >= 0 ? focusedIdx : 0];
+      if (pick) selectJob(parseInt(pick.dataset.id, 10));
+    });
+
+    $listbox.addEventListener('click', function (e) {
+      var li = e.target.closest('li[data-id]');
+      if (!li) return;
+      selectJob(parseInt(li.dataset.id, 10));
+    });
+
+    $input.addEventListener('blur', function () {
+      // Delay closing so click on listbox lands first.
+      setTimeout(closeListbox, 150);
+    });
+    $input.addEventListener('focus', function () {
+      if ($input.value.trim() && $listbox.children.length > 0) {
+        $listbox.setAttribute('data-open', 'true');
+        $input.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    // ── render results ──────────────────────────────────────────────
+    function selectJob(jobId) {
+      if (!jobId || isNaN(jobId)) return;
+      Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
+        var pos = positionsData.positions[jobId];
+        if (!pos) {
+          $announce.textContent = 'データが見つかりませんでした';
+          return;
+        }
+        currentJobId = jobId;
+        closeListbox();
+        $input.value = pos.nameJa;
+        renderResults(pos);
+        updateUrl(jobId);
+        ga('me_select_job', { job_id: jobId, sector: pos.summary.sectorId });
+      });
+    }
+
+    function renderResults(pos) {
+      $empty.style.display = 'none';
+      $results.setAttribute('data-visible', 'true');
+
+      $summaryName.textContent = pos.nameJa;
+      $summarySector.textContent = pos.summary.sectorJa || '';
+      $statRisk.textContent = riskLabel(pos.summary.aiRisk);
+      $statWorkers.textContent = fmtWorkers(pos.summary.workers);
+      $statSalary.textContent = fmtSalary(pos.summary.salary);
+      $statSector.textContent = pos.summary.sectorJa || '—';
+
+      renderRankList(pos);
+      renderSimilar(pos);
+
+      $announce.textContent = pos.nameJa + ' の全 39 ランキングを表示しました';
+    }
+
+    function renderRankList(pos) {
+      $rankList.replaceChildren();
+      var rankings = positionsData.rankings;
+      // Sort: in-TOP first (asc by rank), then by outOfUniverse asc (圏外 included).
+      var rows = rankings.map(function (r) {
+        var p = pos.inRankings[r.slug] || { rank: null, total: 0, outOfUniverse: null, universeSize: 556, percentile: null };
+        return { meta: r, pos: p };
+      });
+      rows.sort(function (a, b) {
+        var ar = a.pos.rank, br = b.pos.rank;
+        if (ar !== null && br === null) return -1;
+        if (br !== null && ar === null) return 1;
+        if (ar !== null && br !== null) return ar - br;
+        var ao = a.pos.outOfUniverse == null ? 9999 : a.pos.outOfUniverse;
+        var bo = b.pos.outOfUniverse == null ? 9999 : b.pos.outOfUniverse;
+        return ao - bo;
+      });
+
+      var initial = rankExpanded ? rows.length : Math.min(INITIAL_RANKS_SHOWN, rows.length);
+      for (var i = 0; i < initial; i++) {
+        $rankList.appendChild(renderRankRow(rows[i]));
+      }
+      var rest = rows.length - initial;
+      if (rest > 0) {
+        $rankToggle.style.display = '';
+        $rankToggle.setAttribute('aria-expanded', rankExpanded ? 'true' : 'false');
+        renderToggleLabel(rankExpanded, rest);
+      } else {
+        $rankToggle.style.display = 'none';
+      }
+      // Keep rows reference so expand doesn't re-sort.
+      $rankList.dataset.rendered = String(initial);
+      $rankList._rows = rows;
+    }
+
+    function renderRankRow(row) {
+      var li = document.createElement('li');
+      if (row.pos.rank !== null) li.classList.add('in-top');
+      var leftWrap = document.createElement('div');
+      var a = document.createElement('a');
+      a.href = '/rankings/' + row.meta.slug;
+      a.textContent = row.meta.name_ja;
+      var desc = document.createElement('div');
+      desc.className = 'me-rank-desc';
+      desc.textContent = row.meta.description_ja || '';
+      leftWrap.appendChild(a);
+      leftWrap.appendChild(desc);
+      var posWrap = document.createElement('div');
+      posWrap.className = 'me-rank-pos';
+      if (row.pos.rank !== null) {
+        var pill = document.createElement('span');
+        pill.className = 'rank-top';
+        pill.textContent = '第 ' + row.pos.rank + ' 位 / ' + row.pos.total;
+        posWrap.appendChild(pill);
+      } else {
+        var out = document.createElement('span');
+        out.className = 'rank-out';
+        out.textContent = '圏外';
+        posWrap.appendChild(out);
+      }
+      var detail = document.createElement('div');
+      detail.className = 'rank-detail';
+      if (row.pos.outOfUniverse !== null) {
+        var universe = row.pos.universeSize;
+        var rank = row.pos.outOfUniverse;
+        var pct = row.pos.percentile;
+        if (universe === 556) {
+          detail.textContent = '全 556 中 ' + rank + ' 位 (上位 ' + pct + '%)';
+        } else {
+          detail.textContent = '対象 ' + universe + ' 中 ' + rank + ' 位 (上位 ' + pct + '%)';
+        }
+      } else {
+        detail.textContent = '対象外';
+      }
+      posWrap.appendChild(detail);
+      li.appendChild(leftWrap);
+      li.appendChild(posWrap);
+      return li;
+    }
+
+    function renderToggleLabel(showCollapse, remaining) {
+      // Rebuild the button content from scratch — text node + the
+      // $rankRest <span> placeholder for the count. Avoids drift between
+      // expand/collapse state and stale text nodes.
+      $rankToggle.replaceChildren();
+      if (showCollapse) {
+        $rankToggle.appendChild(document.createTextNode('折りたたむ'));
+      } else {
+        $rankToggle.appendChild(document.createTextNode('残り '));
+        $rankRest.textContent = String(remaining);
+        $rankToggle.appendChild($rankRest);
+        $rankToggle.appendChild(document.createTextNode(' 件を見る'));
+      }
+    }
+
+    $rankToggle.addEventListener('click', function () {
+      var rows = $rankList._rows;
+      if (!rows) return;
+      var alreadyShown = parseInt($rankList.dataset.rendered || '0', 10);
+      if (alreadyShown >= rows.length) {
+        // collapse back to initial
+        rankExpanded = false;
+        $rankList.replaceChildren();
+        var n = Math.min(INITIAL_RANKS_SHOWN, rows.length);
+        for (var i = 0; i < n; i++) $rankList.appendChild(renderRankRow(rows[i]));
+        $rankList.dataset.rendered = String(n);
+        $rankToggle.setAttribute('aria-expanded', 'false');
+        renderToggleLabel(false, rows.length - n);
+      } else {
+        // expand to all
+        rankExpanded = true;
+        for (var j = alreadyShown; j < rows.length; j++) $rankList.appendChild(renderRankRow(rows[j]));
+        $rankList.dataset.rendered = String(rows.length);
+        $rankToggle.setAttribute('aria-expanded', 'true');
+        renderToggleLabel(true, 0);
+      }
+    });
+
+    function renderSimilar(pos) {
+      $similar.replaceChildren();
+      var sid = pos.summary.sectorId;
+      var risk = pos.summary.aiRisk;
+      if (sid == null || risk == null || !treemapData) {
+        $similar.textContent = '類似職業データを取得できませんでした';
+        return;
+      }
+      var candidates = [];
+      for (var i = 0; i < treemapData.length; i++) {
+        var r = treemapData[i];
+        if (r.id === pos.jobId) continue;
+        if (r.sector_id !== sid) continue;
+        if (r.ai_risk == null) continue;
+        if (Math.abs(r.ai_risk - risk) > 1) continue;
+        candidates.push(r);
+      }
+      // Sort: closer AI risk first, then by workers desc.
+      candidates.sort(function (a, b) {
+        var da = Math.abs(a.ai_risk - risk);
+        var db = Math.abs(b.ai_risk - risk);
+        if (da !== db) return da - db;
+        return (b.workers || 0) - (a.workers || 0);
+      });
+      var shown = candidates.slice(0, 5);
+      if (!shown.length) {
+        $similar.textContent = '同業種で AI 影響度が近い職業は見つかりませんでした。';
+        return;
+      }
+      for (var k = 0; k < shown.length; k++) {
+        var r2 = shown[k];
+        var a = document.createElement('a');
+        a.href = '/' + r2.id;
+        var nm = document.createElement('span');
+        nm.textContent = r2.name_ja;
+        var meta = document.createElement('span');
+        meta.className = 'me-similar-meta';
+        var pill = document.createElement('span');
+        pill.className = 'me-li-pill ' + (riskBand(r2.ai_risk) || 'mid');
+        pill.textContent = 'AI ' + r2.ai_risk + '/10';
+        var workers = document.createElement('span');
+        workers.textContent = fmtWorkers(r2.workers);
+        meta.appendChild(pill);
+        meta.appendChild(workers);
+        a.appendChild(nm);
+        a.appendChild(meta);
+        $similar.appendChild(a);
+      }
+    }
+
+    // ── URL state ──────────────────────────────────────────────────
+    function updateUrl(jobId) {
+      var p = new URLSearchParams();
+      if (jobId) p.set('id', String(jobId));
+      var qs = p.toString();
+      var newPath = location.pathname + (qs ? '?' + qs : '');
+      if (newPath !== location.pathname + location.search) {
+        history.replaceState(null, '', newPath);
+      }
+    }
+
+    function readUrlId() {
+      var p = new URLSearchParams(location.search);
+      var s = p.get('id');
+      if (!s) return null;
+      var n = parseInt(s, 10);
+      return isNaN(n) ? null : n;
+    }
+
+    // ── init ───────────────────────────────────────────────────────
+    function init() {
+      var urlId = readUrlId();
+      // Pre-load positions + search so first selection is instant.
+      Promise.all([loadSearchIndex(), loadPositions(), loadTreemap()]).then(function () {
+        if (urlId) selectJob(urlId);
+        ga('me_open', { from_bookmark: urlId ? 1 : 0 });
+      }).catch(function (err) {
+        console.warn('[me] data load failed:', err);
+        $empty.textContent = 'データの読み込みに失敗しました。再読み込みしてください。';
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</BaseLayout>

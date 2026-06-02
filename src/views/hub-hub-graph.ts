@@ -10,7 +10,7 @@
  *   2. Hand-curated overrides for high-value pairs the auto rules miss
  *
  * Each hub identified by a (genre, slug) tuple. Genres correspond to URL
- * prefixes like /ja/sectors, /ja/rankings, /ja/q, etc.
+ * prefixes like /sectors, /rankings, /q, etc.
  *
  * Migrated from src/data/lib/hub-hub-graph.ts 2026-05-14 (Phase B).
  * SECURITY-CRITICAL: contains the `qaSlugSet.has()` filter from
@@ -131,7 +131,7 @@ const CURATED_PAIRS: Array<[HubRef['genre'], string, HubRef['genre'], string]> =
   // but those slugs don't exist in LIFE_BALANCE_CONFIGS (only the
   // 6 real slugs: child-care-balance / elderly-care-balance /
   // health-friendly / mental-health-friendly / hobby-balance /
-  // senior-friendly). The dangling slugs emitted dead /ja/life-balance/*
+  // senior-friendly). The dangling slugs emitted dead /life-balance/*
   // links rendered as `<span class="rxh-name">flex</span>` (raw slug
   // text, not a friendly label). Restore once equivalent slugs exist.
 
@@ -469,7 +469,7 @@ function buildHubGraph(): Map<string, HubRef[]> {
   // Filter to slugs actually present in QA_ITEMS — some related_topics
   // arrays historically include cross-genre slugs (career personas,
   // interest types, employment patterns) which would emit dead
-  // `/ja/q/<slug>` links. Cross-genre relations are modelled via
+  // `/q/<slug>` links. Cross-genre relations are modelled via
   // CURATED_PAIRS instead. Skipping unknown slugs is the minimal fix;
   // a deeper refactor would type each related-topic entry with its
   // genre.
@@ -543,7 +543,7 @@ export function renderRelatedHubsBlock(genre: HubGenre, slug: string, limit: num
   if (items.length === 0) return '';
 
   const itemsHtml = items.map((it) => {
-    const href = `/ja/${it.genre}/${it.slug}`;
+    const href = `/${it.genre}/${it.slug}`;
     const label = GENRE_LABEL_JA[it.genre];
     const descHtml = it.desc ? `<span class="rxh-desc">${escapeHtml(it.desc)}</span>` : '';
     return `<li><a class="rxh-link" href="${escapeHtml(href)}">` +

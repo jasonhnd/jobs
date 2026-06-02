@@ -2,7 +2,7 @@
  * src/templates/Transfer.ts — "similar jobs / career-transfer
  * candidates" card grid for the occupation detail page.
  *
- * Extracted from src/pages/ja/[id].astro (`renderTransfer`).
+ * Extracted from src/pages/[id].astro (`renderTransfer`).
  * Renders `<section class="transfer">` containing a grid of
  * `<a class="transfer-card">` links, each showing the candidate's
  * Japanese name, AI-risk score, and (optional) similarity %.
@@ -20,7 +20,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 
 /** One candidate row. `name` is pre-resolved by the caller. */
 export interface TransferCard {
-  /** Occupation id used to build the `/ja/{id}` href. */
+  /** Occupation id used to build the `/{id}` href. */
   readonly id: number;
   /** Display name in Japanese. Caller falls back to '?' upstream. */
   readonly name: string;
@@ -37,7 +37,7 @@ export function renderTransfer(cards: ReadonlyArray<TransferCard>): SafeHtml {
 
   let cardsHtml = '';
   for (const c of cards) {
-    const href = `/ja/${c.id}`;
+    const href = `/${c.id}`;
     const riskStr = c.aiRisk !== null && c.aiRisk !== undefined ? `${c.aiRisk}/10` : '—';
     const riskLabel = `AI 影響 ${riskStr}`;
     const simLabel =

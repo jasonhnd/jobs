@@ -7,9 +7,9 @@
  * build,rankings/*}). This barrel preserves the historical import
  * path so every consumer keeps working without changes:
  *
- *   - src/pages/ja/rankings/index.astro       buildRankings, loadOccupationsFromGraph
- *   - src/pages/ja/rankings/[type].astro      buildRankings, RankingResult
- *   - src/pages/ja/rankings/_rankings-bindings.ts  ALL_RANKINGS, RankingResult, RankingSlug
+ *   - src/pages/rankings/index.astro       buildRankings, loadOccupationsFromGraph
+ *   - src/pages/rankings/[type].astro      buildRankings, RankingResult
+ *   - src/pages/rankings/_rankings-bindings.ts  ALL_RANKINGS, RankingResult, RankingSlug
  *   - src/page-data/occupation-page-data.ts   buildRankings, loadOccupationsFromGraph
  *   - src/templates/Ranking.ts                type Occupation
  *   - src/templates/Ranking.test.ts           type Occupation

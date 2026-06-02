@@ -1,6 +1,6 @@
 /**
  * src/templates/SectorListings.ts — list-style templates for the
- * sector hub page (`/ja/sectors/{sector}`).
+ * sector hub page (`/sectors/{sector}`).
  *
  * Three exports for three list flavours that lived as inline
  * page-local renderers in [sector].astro:
@@ -50,7 +50,7 @@ function listItem(
   const scoreStr = riskScoreText(occ.aiRisk);
   const band = riskClass(occ.aiRisk);
   const link =
-    `<a href="/ja/${occ.id}">` +
+    `<a href="/${occ.id}">` +
     `<span class="risk-pill ${band}">${escapeHtml(scoreStr)}</span>` +
     `${escapeHtml(titleStr)}` +
     `</a>`;
@@ -100,7 +100,7 @@ export function renderRelatedSectorsList(
   for (const s of items) {
     rows +=
       `<li>` +
-      `<a href="/ja/sectors/${escapeHtml(s.id)}">` +
+      `<a href="/sectors/${escapeHtml(s.id)}">` +
       `<span class="ja-name">${escapeHtml(s.nameJa)}</span>` +
       `<span class="count">${s.occupationCount} 職業</span>` +
       `</a>` +

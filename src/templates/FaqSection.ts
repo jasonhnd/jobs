@@ -11,7 +11,7 @@
  * pages reference the same Q/A pairs separately — keep this template
  * focused on visible markup.
  *
- * Note: src/pages/ja/sectors/[sector].astro intentionally renders a
+ * Note: src/pages/sectors/[sector].astro intentionally renders a
  * DIFFERENT FAQ DOM (`<details class="faq-item">` + `<div class="faq-list">`
  * wrapper + class="faq-answer"). It stays separate until sector page
  * extraction in a later step.

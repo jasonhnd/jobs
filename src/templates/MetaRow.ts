@@ -3,7 +3,7 @@
  * band chips row, rendered directly under the page title on the
  * occupation detail page.
  *
- * Extracted from src/pages/ja/[id].astro (`renderMetaRow` plus its
+ * Extracted from src/pages/[id].astro (`renderMetaRow` plus its
  * `bandLabel` / `bandClass` helpers). The whole row is one
  * `<div class="meta-row">` with up to 4 inline chips.
  *
@@ -28,7 +28,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 export interface MetaRowInput {
   /** Sector display name. Falsy → no sector chip. */
   readonly sectorJa: string | null;
-  /** Sector id used to build `/ja/sectors/{id}` href. Adapter
+  /** Sector id used to build `/sectors/{id}` href. Adapter
    *  forwards `rec.sector?.id` verbatim — when sectorJa is present
    *  this is always set, so the falsy path is purely defensive. */
   readonly sectorId: string | undefined;
@@ -79,11 +79,11 @@ export function renderMetaRow(input: MetaRowInput): SafeHtml {
 
   if (input.sectorJa) {
     // Legacy parity: gating is solely on sectorJa. If sectorId is
-    // undefined the href stringifies to `/ja/sectors/undefined`
+    // undefined the href stringifies to `/sectors/undefined`
     // (template-literal coercion). That broken URL never ships in
     // practice because data is invariant on sectorJa ↔ sectorId
     // presence, but the byte-level behaviour is preserved verbatim.
-    const href = `/ja/sectors/${input.sectorId}`;
+    const href = `/sectors/${input.sectorId}`;
     parts.push(
       `<a class="sector-chip" href="${escapeHtml(href)}">${escapeHtml(input.sectorJa)}</a>`,
     );
