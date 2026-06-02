@@ -944,7 +944,7 @@ const jsonLd = JSON.stringify({
         const el = document.getElementById('aiAdoptionTrend');
         if (!el) return;
         const width = Math.max(320, el.clientWidth || 520);
-        const height = 310;
+        const height = Math.max(320, el.clientHeight || 360);
         const small = width < 520;
         const margin = { top: 18, right: 22, bottom: 54, left: 52 };
         const innerW = width - margin.left - margin.right;

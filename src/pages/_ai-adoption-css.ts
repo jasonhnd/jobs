@@ -552,6 +552,15 @@ export const AI_ADOPTION_CSS = `
   gap: 18px;
 }
 
+.ai-adoption-page .two-col .wide-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-adoption-page .two-col .wide-panel .trend-stage {
+  flex: 1 1 auto;
+}
+
 .ai-adoption-page .trend-stage {
   min-height: 260px;
 }
