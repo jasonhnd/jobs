@@ -2,13 +2,13 @@
  * src/views/occupation-display.ts — format raw stat fields into
  * the table cells / inline strings shown on the detail page.
  *
- * Extracted from src/pages/ja/[id].astro's "Display formatters"
+ * Extracted from src/pages/[id].astro's "Display formatters"
  * block (salaryInt / ageDisp / hoursDisp / recruitDisp / hourlyDisp /
  * riskNumDisp / workersCell / ageCell / hoursCell / salaryCell).
  *
  * Each field's fallback is 「—」 (em-dash) when the upstream stat
  * is null/undefined. Salary renders as 「xxx 万円」 to match every
- * other salary surface (map tooltip, OG card, hubs, compare, /ja/me).
+ * other salary surface (map tooltip, OG card, hubs, compare, /me).
  */
 
 import { fmtInt } from '../lib/num.js';

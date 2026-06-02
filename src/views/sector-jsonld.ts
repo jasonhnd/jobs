@@ -1,6 +1,6 @@
 /**
  * src/views/sector-jsonld.ts — Schema.org JSON-LD structured
- * data for the sector hub page (`/ja/sectors/{sector}`).
+ * data for the sector hub page (`/sectors/{sector}`).
  *
  * Step 10 reclassification (2026-05-13): moved out of src/templates/
  * with src/views/occupation-jsonld.ts — JSON-LD is data, not HTML,
@@ -142,7 +142,7 @@ export function renderSectorJsonLd(input: SectorJsonLdInput): string {
   const itemListElement: JsonLdListItem[] = occupations.map((o, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    url: `${siteOrigin}/ja/${o.id}`,
+    url: `${siteOrigin}/${o.id}`,
     name: o.titleJa || `#${o.id}`,
   }));
 
@@ -181,7 +181,7 @@ export function renderSectorJsonLd(input: SectorJsonLdInput): string {
       '@id': `${canonical}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: breadcrumbRoot, item: `${siteOrigin}/` },
-        { '@type': 'ListItem', position: 2, name: breadcrumbSectors, item: `${siteOrigin}/ja/sectors` },
+        { '@type': 'ListItem', position: 2, name: breadcrumbSectors, item: `${siteOrigin}/sectors` },
         { '@type': 'ListItem', position: 3, name: nameJa, item: canonical },
       ],
     },

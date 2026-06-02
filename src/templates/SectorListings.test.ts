@@ -22,7 +22,7 @@ describe('renderSectorOccupationTopList', () => {
     assert.equal(
       out,
       '<ul class="top-list">' +
-        '<li><a href="/ja/1">' +
+        '<li><a href="/1">' +
         '<span class="risk-pill mid">4/10</span>' +
         '看護師' +
         '</a>' +
@@ -108,7 +108,7 @@ describe('renderRelatedSectorsList', () => {
       out,
       '<ul class="related-sectors">' +
         '<li>' +
-        '<a href="/ja/sectors/healthcare">' +
+        '<a href="/sectors/healthcare">' +
         '<span class="ja-name">医療</span>' +
         '<span class="count">25 職業</span>' +
         '</a>' +

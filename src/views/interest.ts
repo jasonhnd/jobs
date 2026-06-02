@@ -1,7 +1,7 @@
 /**
  * src/views/interest.ts — graph → holland-rows + treemap-summary adapters.
  *
- * Step 7: the 6 /ja/interests/[type] routes and /ja/interests index now
+ * Step 7: the 6 /interests/[type] routes and /interests index now
  * source their data from the knowledge graph rather than reading
  * public/data.holland.json + public/data.treemap.json.
  *

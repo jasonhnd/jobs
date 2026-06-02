@@ -52,7 +52,7 @@ export interface InterestResult {
 
 export interface InterestsBundle {
   results: Map<InterestType, InterestResult>;
-  /** /ja/interests/ index page 用 */
+  /** /interests/ index page 用 */
   hub: {
     cards: Array<{
       slug: InterestType;

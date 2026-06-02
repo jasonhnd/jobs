@@ -2,7 +2,7 @@
  * src/lib/format-paragraphs.ts — turn newline-separated Japanese
  * prose into a series of escaped `<p>…</p>` blocks.
  *
- * Extracted from src/pages/ja/[id].astro (`formatParagraphs`). Three
+ * Extracted from src/pages/[id].astro (`formatParagraphs`). Three
  * call-sites today (ctx / longHow / longCond paragraphs); the
  * function is generic enough that any text-to-paragraphs surface
  * can pull from here.

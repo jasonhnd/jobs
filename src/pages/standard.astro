@@ -2,39 +2,56 @@
 /**
  * standard.astro — AIOIS-10 標準ページ（AI 職業影響スタンダードの定義）。
  *
- * 10 次元 + EMFO 4段階モデル + 2 指数の公開リファレンス。docs/AIOIS-10.md の
- * 日本語版。インライン JS なし（CSP ハッシュ追加なし）。トークン CSS は
- * Footer.astro（canonical-css）が全ページ共通で供給。
+ * 10 次元 + EMFO 4 段階モデル + 2 指数の公開リファレンス。docs/AIOIS-10.md の
+ * 日本語版。インライン JS なし（CSP ハッシュ追加なし）。共通文書 CSS は
+ * canonical/doc.ts（CANONICAL_DOC_CSS）に一元化し、/methodology・/about と統一。
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { nowIso } from '../lib/now';
+import { CANONICAL_DOC_CSS, heatBg, radarPoints, radarAxis, type DimDir } from '@/lib/canonical/doc';
 
 const pageLastUpdated = nowIso().slice(0, 10);
 
 interface Dim {
-  id: string; ja: string; tag: string; stage: string; body: string;
+  id: string; ja: string; en: string; dir: DimDir; stageNum: string; stageName: string; body: string;
 }
+// 向きの記号: up=▲ 影響を強める / moat=■ 人間の強み / friction=◐ 調整
+const GLY: Record<DimDir, string> = { up: '▲', moat: '■', friction: '◐' };
 const DIMS: Dim[] = [
-  { id: 'D1', ja: '頭脳・情報の仕事', tag: '▲ 影響を強める', stage: '①AIが届くか', body: '文章・情報・分析・プログラムなど、いまの生成AI（ChatGPTのようなAI）がほぼ最後まで一人でこなせる仕事の割合。データ入力・機械翻訳・型どおりの文章づくりほど高い。' },
-  { id: 'D2', ja: '決まった手順のくり返し', tag: '▲ 影響を強める', stage: '①AIが届くか', body: 'ルールが決まっていて、同じことのくり返しで、先が読める仕事の度合い。昔からある自動化やソフトでも置きかえやすい。' },
-  { id: 'D3', ja: '体・現場の仕事', tag: '■ 人間の強み', stage: '②人間の強み', body: '体を動かす・手先の器用さ・移動・現場で目や手で確かめる、といった要素がどれだけ必要か。ロボットでしか置きかえられず、ソフトより遅く・お金もかかる。' },
-  { id: 'D4', ja: '判断と責任', tag: '■ 人間の強み', stage: '②人間の強み', body: '正解のない場面での重い判断と、だれか一人の人間が負わなければならない、法律やモラルの上での責任。' },
-  { id: 'D5', ja: '人とのやりとり・気持ち', tag: '■ 人間の強み', stage: '②人間の強み', body: '顔を合わせたやりとり・共感・信頼づくり・ケア・説得・交渉。人と人の関係そのものが価値になる度合い。' },
-  { id: 'D6', ja: '新しいものを生み出す力', tag: '■ 人間の強み', stage: '②人間の強み', body: 'すでにあるものの組み合わせ（生成AIが得意）ではなく、本当に新しいアイデア・作品・答えを生み出す度合い。' },
-  { id: 'D7', ja: '資格・安全のかべ', tag: '◐■ 調整＋強み', stage: '③広がりにくさ', body: '法律・免許・専門職のルールが人間を必要としたり、ミスが命に関わるため人間が立ち会う必要がある度合い。' },
-  { id: 'D8', ja: '自動化が安く済むか', tag: '▲◐ 影響＋調整', stage: '③広がりにくさ', body: '自動化が、置きかえる人件費より安いか。自動化や設備にかかるお金と、給料とのバランス。' },
-  { id: 'D9', ja: '人手不足・制度の影響', tag: '◐ 調整〈国ごと〉', stage: '③広がりにくさ', body: '技術の上で置きかえられても、実際に置きかわるかを左右する地域の事情。会社の導入力・雇用の守り・人手の足り具合。深刻な人手不足だと、AIは脅威ではなく助けになる。この標準で唯一、国や地域ごとに点を付ける項目。' },
-  { id: 'D10', ja: 'これから仕事は増えるか', tag: '▲ 影響を強める', stage: '④結果', body: 'これから5〜10年で、その仕事の人数や価値がどれだけ増える/減るか。AIで仕事が減る力と、AIで新しい仕事が生まれる力を合わせて見る。' },
+  { id: 'D1', ja: '頭脳・情報労働', en: 'Cognitive Exposure', dir: 'up', stageNum: '①', stageName: '到達', body: '文章・情報・分析・プログラムなど、現在の生成 AI が単独でほぼ完結できる仕事の割合。データ入力・機械翻訳・定型的な文章作成ほど高い。' },
+  { id: 'D2', ja: '定型反復', en: 'Routine', dir: 'up', stageNum: '①', stageName: '到達', body: 'ルールが定まり、繰り返しが多く、結果が予測できる度合い。従来型の自動化やソフトウェアでも置きかえやすい。' },
+  { id: 'D3', ja: '身体・現場性', en: 'Physical / On-site', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '身体動作・手先の器用さ・移動・現場での目視や手作業がどれだけ要るか。ロボットでしか置きかえられず、ソフトウェアより遅く高コスト。' },
+  { id: 'D4', ja: '判断と責任', en: 'Judgment & Accountability', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '正解のない局面での重い判断と、特定の人間が負うべき法的・倫理的な責任。' },
+  { id: 'D5', ja: '対人・情動', en: 'Interpersonal', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '対面のやりとり・共感・信頼構築・ケア・説得・交渉。人と人の関係そのものが価値になる度合い。' },
+  { id: 'D6', ja: '創造性', en: 'Creativity', dir: 'moat', stageNum: '②', stageName: '人間の強み', body: '既存の組み合わせ（生成 AI が得意）ではなく、真に新しいアイデア・作品・解を生み出す度合い。' },
+  { id: 'D7', ja: '資格・安全の壁', en: 'Regulatory Moat', dir: 'moat', stageNum: '③', stageName: '摩擦', body: '免許・専門職規制が人間を要求する、あるいは失敗が人命に関わるため人間の立ち会いが要る度合い（◐ 調整 と ■ 強み の両面）。' },
+  { id: 'D8', ja: '自動化の費用対効果', en: 'Cost-Parity', dir: 'up', stageNum: '③', stageName: '摩擦', body: '自動化コスト（設備・導入）が、置きかえる人件費より安いか。安いほど置きかえが進む（▲ 影響 と ◐ 調整 の両面）。' },
+  { id: 'D9', ja: '需給・制度', en: 'Friction (local)', dir: 'friction', stageNum: '③', stageName: '摩擦', body: '技術的に置きかえ可能でも、実際に置きかわるかを左右する地域要因。導入力・雇用慣行・人手の過不足。深刻な人手不足では AI は脅威ではなく助けになる。本標準で唯一、国・地域ごとに採点する項目。' },
+  { id: 'D10', ja: '雇用の将来性', en: 'Outlook', dir: 'up', stageNum: '④', stageName: '結果', body: '今後 5〜10 年でその仕事の人数・価値がどれだけ増減するか。AI による減少圧力と、新たに生まれる仕事の力を合わせて見る。' },
 ];
 
-const EXAMPLES = [
+// 採点例（日本版・現行 AI 時点）。dir は列ごとの向き（ヒート着色用）。
+const COL_DIR: DimDir[] = ['up', 'up', 'moat', 'moat', 'moat', 'moat', 'moat', 'up', 'friction', 'up'];
+interface Ex { name: string; d: number[]; t: number; dr: number; }
+const EXAMPLES: Ex[] = [
   { name: 'データ入力', d: [9.5, 9.0, 0.6, 0.3, 0.0, 0.7, 0.8, 4.4, 6.6, 7.9], t: 9.2, dr: 7.6 },
   { name: '翻訳者', d: [9.5, 4.7, 0.6, 4.3, 2.0, 4.8, 2.8, 7.7, 7.2, 5.9], t: 7.1, dr: 4.4 },
   { name: '会社経営者', d: [7.0, 1.7, 2.4, 8.4, 6.4, 5.0, 4.8, 5.5, 5.0, 3.2], t: 4.4, dr: 1.5 },
   { name: '外科医', d: [4.0, 4.6, 6.2, 9.5, 8.9, 5.4, 9.1, 3.8, 5.5, 2.8], t: 4.3, dr: 0.7 },
   { name: '訪問介護員', d: [2.0, 3.9, 6.3, 4.0, 5.2, 2.0, 5.4, 1.8, 1.6, 1.6], t: 3.0, dr: 1.1 },
 ];
+
+// レーダー（2 職業の対比）。10 軸、真上始点・時計回り。
+const RC = 110, RR = 86;
+const ringOuter = radarPoints(Array(10).fill(10), RC, RC, RR);
+const ringMid = radarPoints(Array(10).fill(5), RC, RC, RR);
+const axes = Array.from({ length: 10 }, (_, i) => radarAxis(i, 10, RC, RC, RR));
+const axisLabels = Array.from({ length: 10 }, (_, i) => {
+  const p = radarAxis(i, 10, RC, RC, RR + 11);
+  return { x: p.x, y: p.y, t: `D${i + 1}` };
+});
+const RADAR = [EXAMPLES[0], EXAMPLES[4]].map((e) => ({ name: e.name, t: e.t, dr: e.dr, pts: radarPoints(e.d, RC, RC, RR) }));
 
 const jsonLd = `{
   "@context": "https://schema.org",
@@ -44,7 +61,7 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/standard#webpage",
       "name": "AIOIS-10 標準 — AI 職業影響スタンダード",
       "url": "https://mirai-shigoto.com/standard",
-      "description": "AI が仕事に与える影響を 10 項目（D1–D10）と 2 つの数字（変化の大きさ・仕事が減るリスク）で測る、だれでも使える基準 AIOIS-10 の説明。",
+      "description": "AI が仕事に与える影響を 10 次元（D1–D10）と 2 つの指数（変化の大きさ・仕事が減るリスク）で測る公開リファレンス基準 AIOIS-10 の定義。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "datePublished": "2026-05-30",
@@ -64,137 +81,133 @@ const jsonLd = `{
 ---
 <BaseLayout
   title="AIOIS-10 標準 — AI 職業影響スタンダード | mirai-shigoto.com"
-  description="AI が仕事に与える影響を 10 項目と 2 つの数字で測る、だれでも使える基準 AIOIS-10。EMFO の 4 段階、各項目の意味、変化の大きさ・仕事が減るリスクの出し方。"
+  description="AI が仕事に与える影響を 10 次元と 2 つの指数で測る公開リファレンス基準 AIOIS-10。EMFO の 4 段階、各次元の定義、変化の大きさ・仕事が減るリスクの算出。"
   canonical="https://mirai-shigoto.com/standard"
-  keywords="AIOIS-10, AI 影響, 職業, 10項目, 変化の大きさ, 仕事が減るリスク, EMFO, 人間の強み, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
+  keywords="AIOIS-10, AI 影響, 職業, 10次元, 変化の大きさ, 仕事が減るリスク, EMFO, 人間の強み, 標準, スタンダード, Frey Osborne, Eloundou, Acemoglu"
   ogTitle="AIOIS-10 標準 — AI が仕事に与える影響の基準"
-  ogDescription="AI が仕事に与える影響を 10 項目（D1–D10）と 2 つの数字で測る、だれでも使える基準。EMFO の 4 段階にもとづく。"
+  ogDescription="AI が仕事に与える影響を 10 次元（D1–D10）と 2 つの指数で測る公開リファレンス基準。EMFO の 4 段階にもとづく。"
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
-
-  <style slot="head">
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; line-height: 1.75; }
-    #wrapper { max-width: var(--content-max); margin: 0 auto; padding: 28px 28px 80px; }
-    .top-bar { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-    .top-bar .back { color: var(--fg2); text-decoration: none; font-size: 0.85rem; }
-    .top-bar .back:hover { color: var(--accent); }
-    h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
-    h1 .accent { color: var(--accent); font-style: italic; }
-    .subtitle { color: var(--fg2); font-size: 0.92rem; margin-bottom: 8px; }
-    .meta-line { color: var(--fg2); font-size: 0.78rem; margin-bottom: 28px; opacity: 0.75; }
-    h2 { font-size: 1.18rem; font-weight: 600; margin-top: 40px; margin-bottom: 14px; border-left: 3px solid var(--accent); padding-left: 12px; }
-    p { margin-bottom: 14px; }
-    ul, ol { margin: 0 0 14px 22px; }
-    li { margin-bottom: 6px; }
-    strong { color: var(--fg); font-weight: 600; }
-    em { color: var(--fg2); font-style: normal; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.84em; background: var(--bg2); padding: 1px 6px; border-radius: 4px; color: var(--accent); }
-    .lead { font-size: 1.0rem; color: var(--fg); }
-    .emfo { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 8px 0 20px; }
-    .emfo .step { flex: 1 1 160px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
-    .emfo .step .n { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
-    .emfo .step .t { font-weight: 600; margin: 4px 0 2px; }
-    .emfo .step .d { font-size: 0.82rem; color: var(--fg2); }
-    .dim { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin: 10px 0; }
-    .dim .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 4px; }
-    .dim .code { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
-    .dim .name { font-weight: 600; font-size: 1.02rem; }
-    .dim .tag { margin-left: auto; font-size: 0.72rem; color: var(--fg2); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
-    .dim .body { font-size: 0.92rem; color: var(--fg); }
-    .formula { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 10px 0 18px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; color: var(--fg); overflow-x: auto; }
-    .formula .k { color: var(--accent); }
-    table.ex { width: 100%; border-collapse: collapse; margin: 10px 0 6px; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
-    table.ex th, table.ex td { padding: 6px 4px; text-align: right; border-bottom: 1px solid var(--border); }
-    table.ex th:first-child, table.ex td:first-child { text-align: left; }
-    table.ex thead th { color: var(--fg2); font-weight: 600; font-size: 0.74rem; }
-    table.ex td.idx { font-weight: 700; color: var(--accent); }
-    .wrap-x { overflow-x: auto; }
-    footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--border); font-size: 0.72rem; color: var(--fg2); text-align: center; }
-    @media (max-width: 540px) { #wrapper { padding: 18px 16px 60px; } h1 { font-size: 1.4rem; } h2 { font-size: 1.05rem; } }
-  </style>
+  <style slot="head" set:html={CANONICAL_DOC_CSS} />
 
   <div id="wrapper">
-    <div class="top-bar"><a class="back" href="/">← マップへ戻る</a></div>
+    <nav class="crumb"><a href="/" rel="up">未来の仕事</a><span aria-hidden="true">›</span><span>AIOIS-10 標準</span></nav>
 
     <h1>AIOIS-10 <span class="accent">標準</span></h1>
-    <p class="subtitle">AI が仕事に与える影響を 10 項目で測る、だれでも使える基準（v1.0 ドラフト）</p>
-    <p class="meta-line">最終更新：{pageLastUpdated} ・ AIOIS-10 v1.0（日本版）</p>
+    <p class="subtitle">AI が仕事に与える影響を 10 次元で測る、公開リファレンス基準（v1.0）</p>
+    <p class="meta-line">最終更新 {pageLastUpdated} ・ AIOIS-10 v1.0（日本版）</p>
 
     <p class="lead">
-      「AI の影響」は 1 つの数字では表せません。<strong>仕事のやり方がどれだけ変わるか</strong>と、<strong>仕事そのものがなくなるか</strong>は、よく逆を向きます（経営者は AI に大きく変えられるが、仕事を失う可能性は低い）。AIOIS-10 は、影響のもとになる要素を 10 の別々の項目で測り、別々の問いに別々の答えを返します。
+      「AI の影響」は 1 つの数字では表せません。<strong>仕事のやり方がどれだけ変わるか</strong>と、<strong>仕事そのものがなくなるか</strong>は、しばしば逆を向きます（経営者は AI に大きく変えられても、職を失う可能性は低い）。AIOIS-10 は影響のもとになる性質を 10 の独立した次元で測り、別々の問いに別々の答えを返します。
     </p>
 
     <h2>EMFO — 4 つの段階で考える</h2>
-    <p>AI の影響は 4 つの段階を通って、最後に「働く場」への結果になります。各段階が前の段階をしぼり込みます。技術の上で「AI にできる」だけでは影響を大きく見すぎます。<strong>人間の強み</strong>と<strong>広がりにくさ</strong>こそが、ただの「AI にできる度」と AIOIS-10 を分けます。</p>
+    <p>AI の影響は 4 段階を通って「働く場」への結果になります。各段階が前の段階をしぼり込むため、技術的に「AI にできる」だけでは影響を過大評価します。<strong>人間の強み</strong>と<strong>摩擦</strong>こそが、単なる「AI 到達度」と AIOIS-10 を分けます。</p>
     <div class="emfo">
-      <div class="step"><div class="n">① AI が届くか</div><div class="t">Exposure</div><div class="d">AI はどこまでできるか（D1・D2）</div></div>
-      <div class="step"><div class="n">② 人間の強み</div><div class="t">Human Moat</div><div class="d">AI にできても人が残る部分（D3〜D7）</div></div>
-      <div class="step"><div class="n">③ 広がりにくさ</div><div class="t">Friction</div><div class="d">置きかえを妨げる壁（D7〜D9）</div></div>
-      <div class="step"><div class="n">④ 結果</div><div class="t">Outcome</div><div class="d">最終的な仕事の増減（D10）</div></div>
+      <div class="stage s1"><div class="n">① 到達</div><div class="en">Exposure</div><div class="d">AI はどこまで届くか（D1・D2）</div></div>
+      <div class="stage s2"><div class="n">② 人間の強み</div><div class="en">Human Moat</div><div class="d">AI に届いても人が残る部分（D3〜D7）</div></div>
+      <div class="stage s3"><div class="n">③ 摩擦</div><div class="en">Friction</div><div class="d">置きかえを妨げる壁（D7〜D9）</div></div>
+      <div class="stage s4"><div class="n">④ 結果</div><div class="en">Outcome</div><div class="d">最終的な仕事の増減（D10）</div></div>
     </div>
-    <p>各項目は <strong>0.0〜10.0</strong> で「その性質がどれだけ強いか」を点にします（「影響」そのものではなく）。記号が性質の向きを表します：<strong>▲ 影響を強める</strong>＝高いほど影響が大きい、<strong>■ 人間の強み</strong>＝高いほど人が有利で影響が小さい、<strong>◐ 調整</strong>＝「AI にできる」が本当に置きかえになるかを左右。</p>
+    <p>各次元は <strong>0.0〜10.0</strong> で「その性質がどれだけ強いか」を点にします（「影響」そのものではありません）。記号が性質の向きを表します。</p>
+    <div class="legend">
+      <span class="chip chip-up"><span class="gly">▲</span> 影響を強める — 高いほど影響大</span>
+      <span class="chip chip-moat"><span class="gly">■</span> 人間の強み — 高いほど人が有利・影響小</span>
+      <span class="chip chip-friction"><span class="gly">◐</span> 調整 — 置きかえが本当に進むかを左右</span>
+    </div>
 
-    <h2>10 の項目</h2>
+    <h2>10 の次元</h2>
     {DIMS.map((dm) => (
-      <div class="dim">
+      <div class={`dim ${dm.dir}`}>
         <div class="head">
           <span class="code">{dm.id}</span>
-          <span class="name">{dm.ja}</span>
-          <span class="tag">{dm.stage} ・ {dm.tag}</span>
+          <span class="name">{dm.ja}<span class="en">{dm.en}</span></span>
+          <span class="stage-tag">{dm.stageNum} {dm.stageName}<span class="gly">{GLY[dm.dir]}</span></span>
         </div>
         <div class="body">{dm.body}</div>
       </div>
     ))}
 
-    <h2>2 つの数字</h2>
+    <h2>2 つの指数</h2>
     <p><strong>変化の大きさ（Transformation）</strong>— 仕事のやり方が AI でどれだけ作り変えられるか。頭脳・情報の仕事ほど高い。本サイトのトップ指標「AI 影響」はこの値です。</p>
-    <div class="formula"><span class="k">変化の大きさ</span> ＝ D1 と D2 の平均</div>
-    <p><strong>仕事が減るリスク（Displacement-Risk）</strong>— 仕事そのものが減る・なくなる確率。「AI にできる」が人間の強みを越えた分を、導入のしやすさと求人の見通しで調整します。</p>
     <div class="formula">
-      AI にできる度 E ＝ D1 と D2 の平均<br>
-      人間の強み M ＝ D3〜D7 の平均<br>
-      導入のしやすさ P ＝ D8 と D9 の平均　（D9 が高い ＝ 広がりやすい）<br>
-      <span class="k">仕事が減るリスク</span> ＝ E ×（1 − M/10）×（0.6 + 0.4 ×（P + D10）/20）　※ 0〜10 に収める
+      <div class="flabel">Transformation</div>
+      <div class="row"><span class="k">変化の大きさ</span> ＝ D1 と D2 の平均</div>
     </div>
-    <p>結果は<strong>「2 つの数字 ＋ 10 項目のレーダー」</strong>です。経営者は<em>変化は大きいがリスクは低い</em>、データ入力は<em>どちらも高い</em>、訪問介護員は<em>どちらも低い</em>と読めます。</p>
+    <p><strong>仕事が減るリスク（Displacement-Risk）</strong>— 仕事そのものが減る・なくなる確率。「AI 到達度」が人間の強みを越えた分を、導入のしやすさと求人の見通しで調整します。</p>
+    <div class="formula">
+      <div class="flabel">Displacement-Risk</div>
+      <div class="row">
+        AI 到達度 E ＝ D1 と D2 の平均<br>
+        人間の強み M ＝ D3〜D7 の平均<br>
+        導入のしやすさ P ＝ D8 と D9 の平均（D9 が高い ＝ 広がりやすい）<br>
+        <span class="k">仕事が減るリスク</span> ＝ E ×（1 − M/10）×（0.6 + 0.4 ×（P + D10）/20）　※ 0〜10 に収める
+      </div>
+    </div>
+    <p>結果は<strong>「2 つの指数 ＋ 10 次元のレーダー」</strong>です。経営者は<em>変化は大きいがリスクは低い</em>、データ入力は<em>どちらも高い</em>、訪問介護員は<em>どちらも低い</em>と読めます。</p>
 
-    <h2>点の付け方のルール</h2>
+    <div class="radar-row">
+      {RADAR.map((r) => (
+        <div class="radar-card">
+          <div class="rc-head">
+            <span class="rc-name">{r.name}</span>
+            <span class="rc-nums">変化 <b>{r.t.toFixed(1)}</b> ・ 減リスク <b>{r.dr.toFixed(1)}</b></span>
+          </div>
+          <div class="radar">
+            <svg viewBox="0 0 220 224" role="img" aria-label={`${r.name} の 10 次元レーダー`}>
+              <polygon class="grid" points={ringOuter} />
+              <polygon class="grid" points={ringMid} />
+              {axes.map((a) => <line class="axis" x1={RC} y1={RC} x2={a.x} y2={a.y} />)}
+              <polygon class="poly" points={r.pts} />
+              {axisLabels.map((l) => <text class="alabel" x={l.x} y={l.y} text-anchor="middle" dominant-baseline="middle">{l.t}</text>)}
+            </svg>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <h2>採点のルール</h2>
     <ul>
-      <li><strong>目もり</strong>：各項目 0.0〜10.0、小数 1 けた。</li>
-      <li><strong>「影響」そのものではなく、性質に点を付ける</strong>：名前の付いた性質がどれだけ強いかを点にし、向き（プラス/マイナス）は記号で決める。だれが見ても同じになるように。</li>
-      <li><strong>AI の今の実力を基準に</strong>：D1・D2 は「今の AI でどこまでできるか」を基準に点を付ける（必要なら「5 年後」版も）。AI が進歩したら<strong>点数</strong>だけ付け直し、10 項目自体は変えない。</li>
-      <li><strong>自信度</strong>：各職業に自信度（0〜1）を付ける。同じ職種でも会社でばらつく場合（例：「管理職」）は、点ではなく自信度を下げて表す。</li>
-      <li><strong>だれが点を付けるか</strong>：訓練を受けた人、または調整ずみの AI が、目印（指標）を手がかりに点を付ける。使ったモデルと日付は毎回記録する。</li>
+      <li><strong>目もり</strong>：各次元 0.0〜10.0、小数 1 けた。</li>
+      <li><strong>「影響」ではなく性質に点を付ける</strong>：名前の付いた性質の強さを点にし、向き（プラス／マイナス）は記号で決める。だれが採点しても同じになるように。</li>
+      <li><strong>現行 AI の実力を基準に</strong>：D1・D2 は「今の AI でどこまでできるか」で採点する（必要なら「5 年後」版も）。AI が進歩したら<strong>点数</strong>だけ付け直し、10 次元の枠組み自体は変えない。</li>
+      <li><strong>自信度</strong>：各職業に自信度（0〜1）を付ける。同じ職種でも会社で実態がばらつく場合（例「管理職」）は、点ではなく自信度を下げて表す。</li>
+      <li><strong>採点者と記録</strong>：訓練を受けた人、または校正ずみの AI が、指標を手がかりに採点する。使用モデルと日付を毎回記録する。</li>
     </ul>
 
-    <h2>世界共通の部分 ＋ 国ごとの部分</h2>
-    <p>AIOIS-10 が<strong>世界</strong>標準になれる理由：<strong>D1〜D8 と D10 は世界共通</strong>（仕事と AI の性質そのものなので、東京でもベルリンでもサンパウロでも同じ）。<strong>D9 だけが国ごとに変わる項目</strong>で、各国版は D9（と必要ならリスク式の重み）だけを付け直します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
+    <h2>世界共通 ＋ 国ごと</h2>
+    <p>AIOIS-10 が<strong>世界</strong>標準になれる理由：<strong>D1〜D8 と D10 は世界共通</strong>（仕事と AI の性質そのものなので、東京でもベルリンでもサンパウロでも同じ）。<strong>D9 だけが国ごとに変わる次元</strong>で、各国版は D9（と必要ならリスク式の重み）だけを付け直します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
 
-    <h2>実際の採点の例（日本版・今の AI 時点）</h2>
-    <p>本サイトの採点（Opus 4.8、2026-05-30、D9＝日本）からの例。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
+    <h2>採点例（日本版・現行 AI 時点）</h2>
+    <p>本サイトの採点（Opus 4.8、2026-05-30、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
     <div class="wrap-x">
-    <table class="ex">
-      <thead><tr><th>職業</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th><th>D10</th><th>T</th><th>DR</th></tr></thead>
-      <tbody>
-        {EXAMPLES.map((e) => (
+      <table class="ex">
+        <thead>
           <tr>
-            <td>{e.name}</td>
-            {e.d.map((v) => <td>{v.toFixed(1)}</td>)}
-            <td class="idx">{e.t.toFixed(1)}</td>
-            <td class="idx">{e.dr.toFixed(1)}</td>
+            <th>職業</th>
+            {DIMS.map((dm) => <th>{dm.id}<span class={`gly ${dm.dir}`}>{GLY[dm.dir]}</span></th>)}
+            <th>T<span class="gly up">▲</span></th>
+            <th>DR<span class="gly up">▲</span></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {EXAMPLES.map((e) => (
+            <tr>
+              <td>{e.name}</td>
+              {e.d.map((v, i) => <td class="cell" style={`background:${heatBg(v, COL_DIR[i])}`}>{v.toFixed(1)}</td>)}
+              <td class="idx">{e.t.toFixed(1)}</td>
+              <td class="idx">{e.dr.toFixed(1)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-    <p>経営者と外科医は<em>頭を使う仕事で大きく変わるが安全</em>（高い D4・D5・D7 が「仕事が減るリスク」を 1 前後に抑える）。介護員は <strong>D9（有効求人倍率 ≒ 28 の深刻な人手不足）</strong>と D3・D5 が「AI にできる度」を上回り<em>守られて</em>います。「AI にできる」が実際に仕事を奪うのは、人間の強みがうすいデータ入力・翻訳だけです。</p>
+    <p class="heat-caption"><span class="swatch" aria-hidden="true"></span> 緑＝働く人に有利・影響小、赤＝影響大（■ 列は反転、◐ D9 は中立）。</p>
+    <p>経営者と外科医は<em>頭を使う仕事で大きく変わるが安全</em>（高い D4・D5・D7 が「仕事が減るリスク」を 1 前後に抑える）。介護員は <strong>D9（有効求人倍率 ≒ 28 の深刻な人手不足）</strong>と D3・D5 が「AI 到達度」を上回り<em>守られて</em>います。「AI にできる」が実際に職を奪うのは、人間の強みがうすいデータ入力・翻訳だけです。</p>
 
     <h2>もとにした研究と注意点</h2>
-    <p>AIOIS-10 はこれまでの研究を置きかえるのではなく、まとめ直したものです — 決まった仕事／決まらない仕事（Autor–Levy–Murnane 2003）→ D2、3 つの「AI が苦手なこと」（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習で置きかえやすいか（Brynjolfsson 2018）→ D1、仕事を奪う力 vs 新しい仕事を生む力（Acemoglu &amp; Restrepo）→ D8・D10、AI がこなせる仕事（Eloundou 2023）→ D1。新しい点は、「AI にできる」から「働く場の結果」までを、人間の強み・広がりにくさという段階ではっきり繋ぐ <strong>EMFO の流れ</strong>と、<strong>世界共通＋国ごと</strong>の設計です。</p>
-    <p>注意：この標準は<strong>職業データをもとにした・今の AI 時点</strong>の見立てであり、確かめ済みの失職確率ではありません。点の付け方・データの整え方は <a href="/methodology">調べ方</a> を参照してください。</p>
+    <p>AIOIS-10 はこれまでの研究を置きかえるのではなく、まとめ直したものです — 定型／非定型業務（Autor–Levy–Murnane 2003）→ D2、3 つの「AI が苦手なこと」（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習による代替可能性（Brynjolfsson 2018）→ D1、代替の力 vs 創出の力（Acemoglu &amp; Restrepo）→ D8・D10、AI がこなせる業務（Eloundou 2023）→ D1。新しい点は、「AI 到達度」から「働く場の結果」までを、人間の強み・摩擦という段階ではっきり繋ぐ <strong>EMFO の流れ</strong>と、<strong>世界共通＋国ごと</strong>の設計です。</p>
+    <p>注意：本標準は<strong>職業データにもとづく・現行 AI 時点</strong>の見立てであり、検証ずみの失職確率ではありません。採点手順・データの整え方は <a href="/methodology">評価プロセス</a> を参照してください。</p>
 
     <Footer />
   </div>

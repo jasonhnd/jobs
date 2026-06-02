@@ -2,7 +2,7 @@
  * src/templates/Topn.ts — "required skills / knowledge / abilities"
  * three-column list for the occupation detail page.
  *
- * Extracted from src/pages/ja/[id].astro (`renderTopn`). Renders
+ * Extracted from src/pages/[id].astro (`renderTopn`). Renders
  * `<section class="topn">` with up to three `<div class="topn-block">`
  * children, one per category. Each block is an `<ol>` of items with
  * a label + a one-decimal score (e.g. `4.8`).

@@ -2,7 +2,7 @@
  * data.detail/<padded>.json projection — per docs/DATA_ARCHITECTURE.md §6.2 (v1.2.0).
  *
  * Status: Planned
- * Consumer: src/pages/ja/[id].astro, api/og.tsx, mobile ④/⑤ 詳細
+ * Consumer: src/pages/[id].astro, api/og.tsx, mobile ④/⑤ 詳細
  * Shape: nested object — main occupation + stats + latest score + top-N skills
  *
  * `*_top_N` rule per §6.2:

@@ -1,13 +1,13 @@
 /**
  * src/page-data/occupation-page-data.ts — page-level data preparation
- * for the 556 /ja/[id] occupation detail pages.
+ * for the 556 /[id] occupation detail pages.
  *
  * Lives in src/page-data/ (Phase E #2, 2026-05-15) because it
  * orchestrates loadGraph() + cross-occupation dataset construction
  * for an Astro page. That's build orchestration, not a pure view —
  * views receive a graph; only page-data initiates loadGraph.
  *
- * The getStaticPaths function in src/pages/ja/[id].astro used to
+ * The getStaticPaths function in src/pages/[id].astro used to
  * inline ~80 lines of data wiring: load the graph, adapt every
  * detail file, sort, build the name lookup, build the
  * rankings-hits-by-occupation map, build the same-risk neighbor
@@ -199,7 +199,7 @@ export async function buildOccupationSpokeViews(
   // NOT contain an `interests` block (graph derives RIASEC from a separate
   // source). computeSpokeHubs.topInterestTypes() therefore returned [] for
   // every occupation, which means the spoke section never emitted
-  // /ja/interests/<type> links. Adding `interests` here from
+  // /interests/<type> links. Adding `interests` here from
   // graph.interestsOf() would now emit those links — a real SEO drift
   // (verified: each detail page would grow by exactly 2 hrefs). We
   // intentionally omit `interests` to preserve byte-identical output. A

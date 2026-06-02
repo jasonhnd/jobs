@@ -80,25 +80,25 @@ const { iso, display } = formatJst(buildTime);
     <div class="footer-group">
       <span class="footer-group-label">適職を探す</span>
       <div class="footer-links">
-        <a href="/ja/interests">興味</a>
-        <a href="/ja/skills">スキル</a>
-        <a href="/ja/abilities">能力</a>
-        <a href="/ja/knowledge">知識</a>
-        <a href="/ja/values">価値観</a>
-        <a href="/ja/education">学歴</a>
-        <a href="/ja/training">習熟期間</a>
-        <a href="/ja/work-styles">働き方</a>
-        <a href="/ja/employment-types">雇用形態</a>
-        <a href="/ja/life-balance">ライフバランス</a>
-        <a href="/ja/entry-paths">入職経路</a>
+        <a href="/interests">興味</a>
+        <a href="/skills">スキル</a>
+        <a href="/abilities">能力</a>
+        <a href="/knowledge">知識</a>
+        <a href="/values">価値観</a>
+        <a href="/education">学歴</a>
+        <a href="/training">習熟期間</a>
+        <a href="/work-styles">働き方</a>
+        <a href="/employment-types">雇用形態</a>
+        <a href="/life-balance">ライフバランス</a>
+        <a href="/entry-paths">入職経路</a>
       </div>
     </div>
     <div class="footer-group">
       <span class="footer-group-label">キャリア</span>
       <div class="footer-links">
-        <a href="/ja/careers">キャリア段階</a>
-        <a href="/ja/licenses">資格</a>
-        <a href="/ja/yearly">年次レポート</a>
+        <a href="/careers">キャリア段階</a>
+        <a href="/licenses">資格</a>
+        <a href="/yearly">年次レポート</a>
       </div>
     </div>
     <div class="footer-group">
@@ -106,7 +106,6 @@ const { iso, display } = formatJst(buildTime);
       <div class="footer-links">
         <a href="/standard">AIOIS-10 標準</a>
         <a href="/methodology">評価プロセス</a>
-        <a href="/ja/about">方法論</a>
         <a href="/about">データについて</a>
       </div>
     </div>
@@ -130,7 +129,7 @@ const { iso, display } = formatJst(buildTime);
   // Phase 8 — share buttons available on every page (Footer-level).
   // The home page used to have its own share JS; this is now the canonical
   // single-source. Each share carries the CURRENT page URL (window.location.href)
-  // so a deep page like /ja/sectors/iryo shares THAT page, not the homepage.
+  // so a deep page like /sectors/iryo shares THAT page, not the homepage.
   (function wireShareButtons() {
     var footer = document.querySelector('footer.site-footer');
     if (!footer) return;

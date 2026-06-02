@@ -1,0 +1,35 @@
+---
+/**
+ * src/pages/_RiskCard.astro — risk-score badge + one-line
+ * callout, rendered directly under the page header.
+ *
+ * Bundles the two adjacent inline DOM blocks that lived in the
+ * page body:
+ *   <div class="risk-card {riskClass}">…</div>
+ *   <div class="one-line">{oneLineText}</div>
+ *
+ * Output bytes preserved verbatim (the SEO baseline diff covers
+ * this section across all 821 pages).
+ *
+ * Page-local sibling (Astro `_`-prefix → not routed).
+ */
+
+interface Props {
+  readonly riskClass: string;
+  readonly riskColor?: string;
+  readonly riskNumDisp: number | string;
+  readonly rationale: string;
+  readonly oneLineText: string;
+}
+
+const { riskClass, riskColor, riskNumDisp, rationale, oneLineText } = Astro.props;
+---
+<div class={`risk-card ${riskClass}`}>
+  <div>
+    <div class="risk-label">AI 影響</div>
+    <div class="risk-num" style={riskColor ? `color:${riskColor}` : undefined}>{riskNumDisp}<small> / 10</small></div>
+  </div>
+  <div class="risk-rationale">{rationale}</div>
+</div>
+
+<div class="one-line">{oneLineText}</div>

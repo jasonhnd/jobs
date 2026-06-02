@@ -2,7 +2,7 @@
  * data.me-positions.json projection — per RA-134 / M2 self-positioning tool.
  *
  * Status: Implemented (2026-05-18, Agent E)
- * Consumer: /ja/me page — given a job ID, shows its position in all 39
+ * Consumer: /me page — given a job ID, shows its position in all 39
  *           rankings (rank within TOP-N + rank within full 556).
  *
  * Shape: { meta: {...}, positions: { [jobId]: JobPositions } }
@@ -43,7 +43,7 @@ import { nowIso } from '../../lib/now.js';
 import { EDU, EMP } from '../domain/distribution-labels.js';
 
 // ───────────────────────────────────────────────────────────────────
-// Type helpers (same shape consumed by /ja/me)
+// Type helpers (same shape consumed by /me)
 // ───────────────────────────────────────────────────────────────────
 
 export interface JobRankingPosition {
@@ -489,7 +489,7 @@ export async function buildMePositions(
     };
   }
 
-  // Bundle ranking labels in the same file so /ja/me can render names
+  // Bundle ranking labels in the same file so /me can render names
   // without a second fetch. Tiny — ~3 KB before gzip.
   const rankings = RANKING_META.map((m) => ({
     slug: m.slug,
