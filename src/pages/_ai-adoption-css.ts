@@ -691,25 +691,6 @@ export const AI_ADOPTION_CSS = `
   letter-spacing: 0 !important;
 }
 
-.ai-adoption-page .formula-card p {
-  margin: 8px 0 0;
-  color: var(--fg2);
-  font-size: 0.86rem;
-  line-height: 1.65;
-}
-
-.ai-adoption-page .formula-card .formula-label {
-  margin: 10px 0 5px;
-  color: var(--accent-deep);
-  font-size: 0.76rem;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.ai-adoption-page .formula-card .formula-label + p {
-  margin-top: 0;
-}
-
 .ai-adoption-page .source-panel .method-note {
   margin-bottom: 14px;
 }

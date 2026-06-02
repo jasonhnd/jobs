@@ -10,6 +10,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (AI adoption — condensed the formula section - 2026-06-02)
+
+- Trimmed the `公開している計算式` section on `/aiadoption`: each layer card now
+  shows just the group name + formula. The 意味 / 主に使うデータ paragraphs were
+  redundant with the interactive explain panel (計算式・理由・注意点・使うデータ
+  per layer) and the data-source section, so they were removed; the
+  `式で使う言葉` glossary stays. Subtitle 名詞の意味と計算の理由 → 5 グループの式.
+  Removed the now-dead `formulaMeaning`/`formulaInputs` maps + helpers and their
+  CSS. Body-only change — SEO baseline unaffected; build, gates, tests green.
+
 ### Changed (AI adoption page — Japanese voice aligned to main site - 2026-06-02)
 
 - Aligned the `/aiadoption` dashboard's Japanese to the main-site conventions.
