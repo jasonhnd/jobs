@@ -231,14 +231,18 @@ const csp = cspEntry.value;
 // verbatim). Remove any `'unsafe-inline'` and any existing `'sha256-…'`
 // tokens so re-runs are idempotent.
 const directives = csp.split(';').map((s) => s.trim()).filter(Boolean);
-const HASH_DIRECTIVES = {
-  'script-src': hashes,
-  'style-src': styleHashes,
-};
+// NOTE: style-src is INTENTIONALLY left on 'unsafe-inline' for now. Hashing
+// inline `<style>` blocks looks identical to hashing inline `<script>` blocks,
+// but browsers normalise CSS text (whitespace, comment stripping, source-map
+// directives) before applying the CSP hash check — so the SHA-256 the build
+// computes from the raw byte stream rarely matches what the browser actually
+// hashes, and the styles get refused. A 2026-06-04 attempt broke every page
+// (`pre.mirai-shigoto.com` rendered unstyled) before it could be reverted.
+// Until we use real CSS-text normalisation OR move all styles to external
+// files / nonces, leave style-src on 'unsafe-inline'.
 const updatedDirectives = directives.map((dir) => {
   const [name, ...rest] = dir.split(/\s+/);
-  const directiveHashes = HASH_DIRECTIVES[name];
-  if (!directiveHashes) return dir;
+  if (name !== 'script-src') return dir;
   const keepers = rest.filter(
     (t) =>
       t !== "'unsafe-inline'" &&
@@ -247,8 +251,8 @@ const updatedDirectives = directives.map((dir) => {
       !t.startsWith("'sha512-"),
   );
   // Sort hash list so output is deterministic across runs.
-  const sortedHashes = [...directiveHashes].sort();
-  return [name, ...keepers, ...sortedHashes].join(' ');
+  const sortedHashes = [...hashes].sort();
+  return ['script-src', ...keepers, ...sortedHashes].join(' ');
 });
 
 const newCsp = updatedDirectives.join('; ');
