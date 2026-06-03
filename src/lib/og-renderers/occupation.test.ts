@@ -24,7 +24,7 @@
 import { describe, test, afterEach } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { renderOccupationOgCard } from './occupation.js';
+import { renderOccupationOgCard, statLabels } from './occupation.js';
 
 const originalFetch = globalThis.fetch;
 afterEach(() => {
@@ -163,5 +163,26 @@ describe('renderOccupationOgCard — fetch URL construction', () => {
     await renderOccupationOgCard(previewUrl, '156');
     assert.match(capturedUrl, /jobs-abc123-zkscio\.vercel\.app/);
     assert.ok(!capturedUrl.includes('mirai-shigoto.com'), `origin must match request: ${capturedUrl}`);
+  });
+});
+
+describe('statLabels — null stats render an em-dash, not 0', () => {
+  test('present values render with their unit', () => {
+    const { workersLabel, salaryLabel } = statLabels(123456, 540);
+    assert.equal(workersLabel, '就業者 123,456 人');
+    assert.equal(salaryLabel, '平均年収 540 万円');
+  });
+
+  test('null salary renders 平均年収 — (NOT 平均年収 0 万円)', () => {
+    // The 12 nullsalary occupations (警察官・裁判官 etc.) must not claim 0 income.
+    const { salaryLabel } = statLabels(123456, null);
+    assert.equal(salaryLabel, '平均年収 —');
+    assert.ok(!salaryLabel.includes('0 万円'), `must not assert zero income: ${salaryLabel}`);
+  });
+
+  test('null workers renders 就業者 — (NOT 就業者 0 人)', () => {
+    const { workersLabel } = statLabels(null, 540);
+    assert.equal(workersLabel, '就業者 —');
+    assert.ok(!workersLabel.includes('0 人'), `must not assert zero workers: ${workersLabel}`);
   });
 });

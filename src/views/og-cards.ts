@@ -32,8 +32,8 @@ import { COMPARE_META } from './compare-meta.js';
 import { EXPLORE_ROUTES } from './explore-routes.js';
 import type { GenericCardConfig } from '../lib/og-helpers.js';
 
-/** 35 static page variants — homepage, legal, hub indexes, yearly,
- *  about/methodology/glossary/etc. */
+/** Static page + tool variants — homepage, legal, hub indexes, yearly,
+ *  about/methodology/glossary/aiadoption/etc. */
 export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   home: {
     eyebrow: 'JAPAN OCCUPATIONS · 556 職業 × AI 影響',
@@ -108,6 +108,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   'yearly-next-decade': { eyebrow: 'NEXT 10 YEARS',  title: '今後 10 年の職業展望',    subtitle: '2030 年代の予測' },
   explore:          { eyebrow: 'EXPLORE · 7 入口',   title: '探す方法',                subtitle: '7 つの入口から職業を整理' },
   me:               { eyebrow: 'ME · 自分の現在地',  title: '自分の現在地',            subtitle: '職業を入力 → 全 39 ランキングでの位置・業種内の類似職を瞬時に表示' },
+  aiadoption:       { eyebrow: 'AI ADOPTION · 世界の AI 利用率', title: '世界で AI を使う人は何人？', subtitle: '深く使う/有料/無料/端末でふれる/未利用の 5 層で世界人口を分解' },
 };
 
 /** N ranking detail card variants — built from the shared RANKING_META.
@@ -145,7 +146,13 @@ export const SKILL_CARDS: Record<string, GenericCardConfig> = Object.fromEntries
 export const COMPARE_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
   COMPARE_META.map((m) => [
     m.slug,
-    { eyebrow: m.og_eyebrow, title: m.title_ja, subtitle: m.description_ja.slice(0, 80) + '…' },
+    {
+      eyebrow: m.og_eyebrow,
+      title: m.title_ja,
+      // Only append the ellipsis when we actually truncated — a short
+      // description would otherwise get a misleading "…" on a complete sentence.
+      subtitle: m.description_ja.length > 80 ? m.description_ja.slice(0, 80) + '…' : m.description_ja,
+    },
   ]),
 );
 

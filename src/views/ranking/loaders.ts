@@ -14,6 +14,7 @@
 
 import type { KnowledgeGraph, OccupationId } from '@/graph';
 import { riskBand as legacyRiskBand, demandBand as legacyDemandBand } from '../../data/lib/bands';
+import { bankerRound } from '../../data/lib/banker-round';
 import type { Occupation } from './config.js';
 
 // Mirror of src/data/projections/treemap.ts:EDU_KEY_EN_TO_JA. Kept local
@@ -52,22 +53,14 @@ function convertEnToJaPct(
   for (const [enKey, frac] of Object.entries(enDict)) {
     const jaKey = mapping[enKey];
     if (jaKey == null) continue;
-    // Banker's rounding to 1 decimal place — matches src/data/lib/banker-round.ts.
-    out[jaKey] = bankerRound1(frac * 100);
+    // Canonical banker's rounding to 1 dp — single source in
+    // src/data/lib/banker-round.ts, so the ranking layer's %s match the
+    // treemap/detail projections' %s exactly. A prior local n*10
+    // re-implementation diverged on FP-residue halves (e.g. 0.05% → 0.0 vs
+    // canonical 0.1), desyncing the two surfaces.
+    out[jaKey] = bankerRound(frac * 100, 1);
   }
   return out;
-}
-
-/** Banker's rounding to 1 decimal place (half-to-even). */
-function bankerRound1(n: number): number {
-  const scaled = n * 10;
-  const floor = Math.floor(scaled);
-  const diff = scaled - floor;
-  let rounded: number;
-  if (diff > 0.5) rounded = floor + 1;
-  else if (diff < 0.5) rounded = floor;
-  else rounded = floor % 2 === 0 ? floor : floor + 1;
-  return rounded / 10;
 }
 
 // Reuse the legacy band functions to guarantee output parity. Importing
