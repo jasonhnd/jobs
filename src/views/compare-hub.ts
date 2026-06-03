@@ -60,6 +60,8 @@ export interface CompareBundle {
       b_name: string;
       a_risk: number | null;
       b_risk: number | null;
+      /** /compare hub での扱い (2026-06-04 双層改造); 6 ペアのみ true */
+      featured: boolean;
     }>;
   };
 }
@@ -256,6 +258,7 @@ export function buildCompareBundle(
       b_name: r.b.name_ja,
       a_risk: r.a.ai_risk,
       b_risk: r.b.ai_risk,
+      featured: meta.featured === true,
     };
   });
 
