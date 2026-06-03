@@ -138,7 +138,13 @@ export function gatherAxis(occ: Occupation, inputs: readonly Profile5AxisInput[]
   }
   if (values.length === 0) return null;
   const rawAvg = fmean(values);
-  return bankerRound((rawAvg / SOURCE_MAX) * 100, 1);
+  // Clamp to the documented [0,100] axis range. A handful of occupations have
+  // contributing IPD fields above SOURCE_MAX (the schema permits up to 7.0),
+  // which would otherwise push an axis past 100 and spike the radar polygon
+  // outside its 100-grid ring (ProfileRadar.ts). 100 is the radar's visual
+  // ceiling, so over-max axes are capped here — not rescaled (rescaling by 7
+  // would compress every occupation's chart and break Python parity).
+  return bankerRound(Math.min(100, (rawAvg / SOURCE_MAX) * 100), 1);
 }
 
 /**

@@ -43,9 +43,10 @@ describe('PAGE_CARDS — static page + tool variants', () => {
   });
 
   test('home / 404 / privacy / sectors / me keys all present (route smoke test)', () => {
-    // `me` is anchored because /me (linked in MobileNav) pointed at
-    // ?page=me with no card until 2026-06-03 — keep it wired.
-    for (const required of ['home', '404', 'privacy', 'sectors', 'rankings', 'interests', 'skills', 'compare', 'me']) {
+    // `me` and `aiadoption` are anchored because each was surfaced in nav
+    // but pointed at a generic/home card with no dedicated entry until it
+    // was wired (me: 2026-06-03, aiadoption: 2026-06-03) — keep them wired.
+    for (const required of ['home', '404', 'privacy', 'sectors', 'rankings', 'interests', 'skills', 'compare', 'me', 'aiadoption']) {
       assert.ok(required in PAGE_CARDS, `Missing PAGE_CARDS.${required}`);
     }
   });
@@ -123,12 +124,17 @@ describe('COMPARE_CARDS — compare pairs', () => {
     }
   });
 
-  test('subtitle is description truncated to 80 chars + ellipsis', () => {
+  test('subtitle truncates with an ellipsis ONLY when the description exceeds 80 chars', () => {
     for (const meta of COMPARE_META) {
       const cfg = COMPARE_CARDS[meta.slug];
-      assert.ok(cfg.subtitle.endsWith('…'), `bad truncation: ${cfg.subtitle}`);
-      // The truncated body length is up to 80 chars; +1 ellipsis = max 81.
-      assert.ok(cfg.subtitle.length <= 81, `subtitle too long: ${cfg.subtitle.length}`);
+      if (meta.description_ja.length > 80) {
+        assert.ok(cfg.subtitle.endsWith('…'), `should truncate long desc: ${meta.slug}`);
+        // The truncated body length is up to 80 chars; +1 ellipsis = max 81.
+        assert.ok(cfg.subtitle.length <= 81, `subtitle too long: ${cfg.subtitle.length}`);
+      } else {
+        // Short descriptions pass through verbatim — no phantom ellipsis.
+        assert.equal(cfg.subtitle, meta.description_ja, `should not truncate short desc: ${meta.slug}`);
+      }
     }
   });
 });

@@ -14,8 +14,10 @@ import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import {
   renderSitemapXml,
+  latestContentDate,
   type SitemapEntry,
 } from './sitemap.js';
+import type { KnowledgeGraph } from '@/graph';
 
 function fakeEntry(loc: string, lastmod = '2026-05-13'): SitemapEntry {
   return { loc, lastmod, changefreq: 'weekly', priority: '0.6' };
@@ -90,5 +92,36 @@ describe('renderSitemapXml — pure XML serializer', () => {
     ]);
     assert.ok(out.includes('<changefreq>yearly</changefreq>'));
     assert.ok(out.includes('<priority>0.3</priority>'));
+  });
+});
+
+describe('latestContentDate — content-derived <lastmod> (NOT the build clock)', () => {
+  // Minimal graph stub — latestContentDate only reads each occupation's
+  // `aiRisk?.date`, so we don't construct a full KnowledgeGraph.
+  function makeGraph(dates: Array<string | null>): KnowledgeGraph {
+    const occupations = new Map(
+      dates.map((d, i) => [i + 1, { aiRisk: d === null ? null : { date: d } }]),
+    );
+    return { occupations } as unknown as KnowledgeGraph;
+  }
+
+  test('returns the max run_date across occupations', () => {
+    const graph = makeGraph(['2026-05-01', '2026-05-20', '2026-04-15']);
+    assert.equal(latestContentDate(graph, '2099-01-01'), '2026-05-20');
+  });
+
+  test('ignores unscored occupations (aiRisk null)', () => {
+    const graph = makeGraph(['2026-05-01', null, '2026-05-09']);
+    assert.equal(latestContentDate(graph, '2099-01-01'), '2026-05-09');
+  });
+
+  test('falls back to the build date ONLY when nothing is scored', () => {
+    assert.equal(latestContentDate(makeGraph([null, null]), '2026-06-03'), '2026-06-03');
+    assert.equal(latestContentDate(makeGraph([]), '2026-06-03'), '2026-06-03');
+  });
+
+  test('a real content date always wins over the build-clock fallback', () => {
+    // The whole point of the fix: the sitemap must not drift with the clock.
+    assert.equal(latestContentDate(makeGraph(['2026-05-20']), '2026-06-03'), '2026-05-20');
   });
 });

@@ -86,6 +86,17 @@ test('gatherAxis: max IPD value (5.0) → 100 exactly', () => {
   assert.equal(gatherAxis(occ, inputs), 100);
 });
 
+test('gatherAxis: IPD value above SOURCE_MAX clamps to 100 (radar [0,100] contract)', () => {
+  // The schema permits IPD scores up to 7.0; SOURCE_MAX is 5.0, so a 6.85
+  // average would compute to 137 and spike the radar polygon outside its
+  // 100-grid. The axis is capped at 100, not rescaled.
+  const inputs: Profile5AxisInput[] = [
+    { block: 'skills', field: 'active_learning' },
+  ];
+  assert.equal(gatherAxis(makeOcc({ skills: { active_learning: 6.85 } }), inputs), 100);
+  assert.equal(gatherAxis(makeOcc({ skills: { active_learning: 7.0 } }), inputs), 100);
+});
+
 test('gatherAxis: 0 IPD value → 0 (not null — distinguishes "scored zero" from "missing")', () => {
   const occ = makeOcc({ skills: { active_learning: 0 } });
   const inputs: Profile5AxisInput[] = [

@@ -8,9 +8,10 @@
  *   - `src/graph/profile5.ts` (added 2026-05-16 when profile5 algorithm
  *     migrated to the graph layer; uses the same banker-rounding to
  *     keep graph-computed values byte-identical to the projection's)
- * View layer references (e.g. `src/views/ranking.ts:1351`) are docstring
- * pointers ("this re-implementation matches banker-round.ts's contract"),
- * not actual imports — view code does not depend on this module.
+ *   - `src/views/ranking/loaders.ts` (2026-06-03: now imports this directly
+ *     for `education_pct` / `employment_type`, replacing a local n*10
+ *     re-implementation that diverged on FP-residue halves — the ranking %s
+ *     must match the treemap/detail projections', so both go through here).
  *
  * Together with fsum.ts, this file exists specifically to keep all
  * derived numerical output byte-identical to the historical Python

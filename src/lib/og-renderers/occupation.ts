@@ -39,6 +39,22 @@ const RISK_LABEL = 'AI 影響';
 // Warm "no score" gray (matches --ink-3); satori needs a literal, not a CSS var.
 const DEFAULT_RISK_COLOR = '#8a7a6a';
 
+/**
+ * Footer stat labels. Null stats render an em-dash, NOT 0 — "平均年収 0 万円"
+ * would assert zero income for the 12 occupations (警察官・裁判官 etc.) whose
+ * salary the source leaves blank. Matches the main site's null convention
+ * (occupation-display.ts / compare-hub.ts): the dash replaces value + unit.
+ */
+export function statLabels(
+  workers: number | null,
+  salary: number | null,
+): { workersLabel: string; salaryLabel: string } {
+  return {
+    workersLabel: workers != null ? `就業者 ${fmtNumber(workers)} 人` : '就業者 —',
+    salaryLabel: salary != null ? `平均年収 ${salary} 万円` : '平均年収 —',
+  };
+}
+
 export async function renderOccupationOgCard(
   url: URL,
   idParam: string,
@@ -79,11 +95,10 @@ export async function renderOccupationOgCard(
   const risk = rec.ai_risk?.score ?? null;
   const riskColor = risk != null ? (RISK_COLORS[Math.round(risk)] ?? DEFAULT_RISK_COLOR) : DEFAULT_RISK_COLOR;
   const primaryName = rec.title?.ja ?? '';
-  const workers = rec.stats?.workers ?? 0;
-  const salary = rec.stats?.salary_man_yen ?? 0;
-
-  const workersLabel = `就業者 ${fmtNumber(workers)} 人`;
-  const salaryLabel = `平均年収 ${salary} 万円`;
+  const { workersLabel, salaryLabel } = statLabels(
+    rec.stats?.workers ?? null,
+    rec.stats?.salary_man_yen ?? null,
+  );
   const riskNumberStr = risk != null ? String(risk) : '—';
 
   // Subset string covers every glyph we are about to render (incl. the
