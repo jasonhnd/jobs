@@ -1,9 +1,12 @@
 /**
- * og-cards.test.ts — pin the 5 OG card config dicts.
+ * og-cards.test.ts — pin the 6 OG card config dicts.
  *
- * These dicts back every `/api/og?page=X` / `?ranking=` / etc.
- * request. A typo in a key here = a 400 response for that route's
- * social-card scraper. Tests pin the contract.
+ * These dicts back every `/api/og?page=X` / `?ranking=` / `?route=` /
+ * etc. request. Since 2026-06-03 a missing key no longer 400s — the
+ * dispatcher falls back to the home card (see og-dispatch.ts) — so a
+ * silent typo here would quietly downgrade that route to a generic
+ * card. The drift tests below keep every page's INTENDED card wired so
+ * the fallback stays a safety net, not the norm.
  */
 
 import { describe, test } from 'node:test';
@@ -14,11 +17,13 @@ import {
   INTEREST_CARDS,
   SKILL_CARDS,
   COMPARE_CARDS,
+  EXPLORE_CARDS,
 } from './og-cards.js';
 import { RANKING_META } from './rankings-meta.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
 import { COMPARE_META } from './compare-meta.js';
+import { EXPLORE_ROUTES } from './explore-routes.js';
 
 function isValidCardConfig(v: unknown): boolean {
   if (v === null || typeof v !== 'object') return false;
@@ -30,15 +35,17 @@ function isValidCardConfig(v: unknown): boolean {
   );
 }
 
-describe('PAGE_CARDS — 35 static page variants', () => {
+describe('PAGE_CARDS — static page + tool variants', () => {
   test('every entry has non-empty eyebrow + title + subtitle', () => {
     for (const [slug, cfg] of Object.entries(PAGE_CARDS)) {
       assert.ok(isValidCardConfig(cfg), `PAGE_CARDS.${slug} has invalid shape`);
     }
   });
 
-  test('home / 404 / privacy / sectors keys all present (route smoke test)', () => {
-    for (const required of ['home', '404', 'privacy', 'sectors', 'rankings', 'interests', 'skills', 'compare']) {
+  test('home / 404 / privacy / sectors / me keys all present (route smoke test)', () => {
+    // `me` is anchored because /me (linked in MobileNav) pointed at
+    // ?page=me with no card until 2026-06-03 — keep it wired.
+    for (const required of ['home', '404', 'privacy', 'sectors', 'rankings', 'interests', 'skills', 'compare', 'me']) {
       assert.ok(required in PAGE_CARDS, `Missing PAGE_CARDS.${required}`);
     }
   });
@@ -126,8 +133,35 @@ describe('COMPARE_CARDS — compare pairs', () => {
   });
 });
 
+describe('EXPLORE_CARDS — one entry per EXPLORE_ROUTES row', () => {
+  test('every EXPLORE_ROUTES slug has a card', () => {
+    for (const route of EXPLORE_ROUTES) {
+      assert.ok(route.slug in EXPLORE_CARDS, `Missing EXPLORE_CARDS.${route.slug}`);
+    }
+  });
+
+  test('card count matches EXPLORE_ROUTES count (no drift)', () => {
+    assert.equal(Object.keys(EXPLORE_CARDS).length, EXPLORE_ROUTES.length);
+  });
+
+  test('every card uses og_eyebrow / title_ja / description_ja from the route', () => {
+    for (const route of EXPLORE_ROUTES) {
+      const cfg = EXPLORE_CARDS[route.slug];
+      assert.ok(isValidCardConfig(cfg), `EXPLORE_CARDS.${route.slug} invalid`);
+      assert.equal(cfg.eyebrow, route.og_eyebrow);
+      assert.equal(cfg.title, route.title_ja);
+      assert.equal(cfg.subtitle, route.description_ja);
+    }
+  });
+});
+
 describe('Cross-dict invariants', () => {
-  test('no slug overlap across the 5 dicts (each card is unique)', () => {
+  test('no slug overlap across the 5 text-only family dicts (each card is unique)', () => {
+    // EXPLORE_CARDS is intentionally EXCLUDED here: its `compare` slug
+    // deliberately overlaps PAGE_CARDS.compare, but the two are reached
+    // through different params (?page=compare vs ?route=compare), so
+    // there is no real dispatch collision. The five dicts below share a
+    // closer namespace, hence the stricter invariant.
     const collected = new Map<string, string>();
     for (const [dictName, dict] of [
       ['PAGE_CARDS', PAGE_CARDS],

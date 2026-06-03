@@ -9,6 +9,11 @@
 // GET /api/og?page=home|about|privacy|compliance|404|sectors|rankings
 //                                         — generic page card (text-only)
 // GET /api/og?ranking=<slug>              — ranking detail card (text-only, 9 slugs)
+// GET /api/og?route=<slug>                — explore route card (text-only, 7 slugs)
+//   (interest / skill / compare families are also text-only — see og-dispatch.ts)
+//
+//   Unrenderable input (unknown slug / bad id / no param) never 400s —
+//   it degrades to the home card (og-dispatch.ts safety net).
 //
 //   Every card is 1200×630 PNG with:
 //     - "独立分析" badge top-left + site mark top-right
@@ -105,7 +110,5 @@ async function renderHandler(req: Request): Promise<Response> {
       return renderSectorOgCard(url, decision.id);
     case "render-occupation":
       return renderOccupationOgCard(url, decision.id);
-    case "bad-request":
-      return new Response(decision.message, { status: 400 });
   }
 }
