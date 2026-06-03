@@ -19,6 +19,7 @@ import { escapeHtml, type SafeHtml } from '../lib/safe-html.js';
 import { riskClass as riskBand } from '../lib/risk.js';
 import { fmtInt } from '../lib/num.js';
 import { OCCUPATION_COUNT } from '../site/config.js';
+import { CONTENT_DATE } from '../lib/_content-date.js';
 
 // Local mirror of views/rankings.ts:safeMean — takes occupation objects +
 // numeric key, returns the mean over non-null values. Templates can't import
@@ -214,11 +215,11 @@ export function renderRelatedRankings(
 
 const SITE = 'https://mirai-shigoto.com';
 const DATE_PUBLISHED = '2026-05-06';
-// Bumped to the latest score-run date so freshness signals match the data
-// actually being shown. (A content-derived value via `latestContentDate()`
-// would be more robust still — left as a TODO; threading the date through
-// the existing builder is a moderate refactor.)
-const DATE_MODIFIED = '2026-05-30';
+// dateModified tracks the latest content date computed by `bun src/data/build.ts`
+// (run as part of build:data) and written to src/lib/_content-date.ts.
+// No more manual bumps — the constant updates whenever new scores land in
+// `data/scores/`.
+const DATE_MODIFIED = CONTENT_DATE;
 
 export function renderJsonLd(
   canonical: string,
