@@ -51,6 +51,21 @@ export function refererOrigin(referer) {
 }
 
 /**
+ * True when `s` is a syntactically valid https:// URL. Guards env-supplied
+ * Upstash endpoints against an http downgrade or an obvious misconfiguration
+ * before the value is concatenated into a request URL — a bad URL is then
+ * treated exactly like "not configured" (skip in dev / surface in prod),
+ * rather than producing a malformed request to an unexpected host.
+ *
+ * @param {unknown} s
+ * @returns {boolean}
+ */
+export function isHttpsUrl(s) {
+  if (!s || typeof s !== "string") return false;
+  try { return new URL(s).protocol === "https:"; } catch { return false; }
+}
+
+/**
  * Build a request gate. Returns a function `(req) => Response | null` that
  * returns a 403 Response when neither Origin nor Referer is in
  * `allowedOrigins`, else null.
@@ -260,7 +275,10 @@ function shouldFailClosedOnError(env, envVarName) {
 export async function rateLimitCheck({ ip, namespace, limit, windowSeconds, env }) {
   const url = env.UPSTASH_REDIS_REST_URL;
   const token = env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) {
+  // A missing OR malformed (non-https) URL is treated as "not configured":
+  // skip in dev/preview, surface as misconfigured in prod. Prevents a typo'd /
+  // downgraded env value from building a request to an unexpected host.
+  if (!url || !token || !isHttpsUrl(url)) {
     if (isProduction(env)) {
       return {
         ok: false,
@@ -381,7 +399,7 @@ export async function verifyTurnstile({ token, env, remoteip = undefined }) {
   // When Upstash isn't configured, fall through to the verify call
   // anyway — losing replay protection but not breaking the form.
   // This matches the rate-limit "degrade gracefully" posture.
-  if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+  if (isHttpsUrl(env.UPSTASH_REDIS_REST_URL) && env.UPSTASH_REDIS_REST_TOKEN) {
     try {
       // SHA-256 the token so we don't leak the raw value into Redis
       // logs (Turnstile tokens can be ~600 chars). Web Crypto is

@@ -35,9 +35,12 @@ function topN(
   n: number,
 ): TopNEntry[] | null {
   if (block == null) return null;
-  // Python's `sorted(items, key=..., reverse=True)` is stable.
-  // V8's Array.prototype.sort is stable since Node 12.
-  const entries = Object.entries(block).sort((a, b) => b[1] - a[1]);
+  // Sort by score desc; break ties by key name so the top-N order is
+  // INDEPENDENT of the source file's JSON key ordering — deterministic across a
+  // re-serialization, not merely stable-sort-dependent. (The Python pipeline
+  // this was ported from is retired, so an explicit tie-break is safe now and
+  // removes the "re-ordered source keys silently reorder top-N" fragility.)
+  const entries = Object.entries(block).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   const out: TopNEntry[] = [];
   for (const [key, score] of entries.slice(0, n)) {
     const label = labelsDim.get(key);

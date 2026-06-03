@@ -33,7 +33,15 @@
 //      `payload` shape matches what api/feedback.js builds today.
 //      `now` is dependency-injected for deterministic tests.
 
-/** RFC-ish email regex (same as the production validator). */
+/**
+ * Email pre-filter — deliberately permissive ("RFC-ish"). It's a cheap shape
+ * gate, NOT the authoritative validator (Resend rejects truly invalid
+ * addresses downstream), so an unusual-but-harmless address passing here is
+ * fine. The one property it MUST keep is the security invariant pinned in
+ * feedback-helpers.test.ts: the `[^\s@]` classes exclude ALL whitespace incl.
+ * CR/LF, so a passing address can never smuggle an SMTP-header-injection
+ * payload into api/feedback.js's `reply_to`.
+ */
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Allow-listed feedback-option keys. Anything else is silently filtered. */

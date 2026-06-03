@@ -25,7 +25,9 @@ export const EDU_LABELS_EN_TO_JA: Record<string, string> = {
   university: '大卒',
   masters: '修士課程卒（修士と同等の専門職学位を含む）',
   doctorate: '博士課程卒',
-  // "unknown" / わからない intentionally excluded — matches legacy data.json shape.
+  // "unknown" / わからない intentionally excluded — matches legacy data.json
+  // shape. Consequence: education_pct intentionally does NOT sum to 100% (the
+  // unknown remainder is dropped); consumers must not assume the buckets total 100.
 };
 
 export const EMP_LABELS_EN_TO_JA: Record<string, string> = {
