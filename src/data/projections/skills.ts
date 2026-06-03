@@ -36,8 +36,9 @@ export async function buildSkills(
       if (score == null) continue;
       ranked.push({ id: occId, name_ja: occ.title_ja, score });
     }
-    // Sort by score desc, stable.
-    ranked.sort((a, b) => b.score - a.score);
+    // Sort by score desc; explicit id tie-break (matches the existing
+    // id-ascending insertion order, now independent of stable-sort semantics).
+    ranked.sort((a, b) => b.score - a.score || a.id - b.id);
 
     const payload = {
       skill_key: skillKey,

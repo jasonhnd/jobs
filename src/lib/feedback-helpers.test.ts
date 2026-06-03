@@ -121,6 +121,36 @@ describe('parseFeedbackBody — email validation', () => {
   });
 });
 
+describe('security invariants — header-injection findings closed by construction', () => {
+  test('EMAIL_RE rejects any address with CR/LF/whitespace (no reply_to header injection)', () => {
+    // api/feedback.js sets `reply_to: email`. parseFeedbackBody only emits an
+    // email that PASSES EMAIL_RE, whose [^\s@] classes exclude ALL whitespace
+    // incl. \r\n — so a "legit@x.com\r\nBcc: evil@x.com" payload is rejected
+    // with invalid_email and can never reach the Resend reply_to field.
+    for (const evil of [
+      'legit@x.com\r\nBcc: attacker@evil.com',
+      'legit@x.com\nBcc: attacker@evil.com',
+      'a@b.co\rX-Inject: 1',
+      'a b@c.com',
+    ]) {
+      assert.equal(EMAIL_RE.test(evil), false, `EMAIL_RE must reject ${JSON.stringify(evil)}`);
+      const r = parseFeedbackBody({ options: ['b2c_career'], email: evil });
+      assert.deepEqual(r, { kind: 'error', code: 'invalid_email' }, `parser must 400 ${JSON.stringify(evil)}`);
+    }
+  });
+
+  test('every KNOWN_OPTIONS key is [a-z0-9_] only (no comma/CRLF can reach the email subject)', () => {
+    // api/feedback.js builds the subject as `… [${options.join(",")}]`, and
+    // options are allowlist-filtered to KNOWN_OPTIONS — so this proves the join
+    // can never introduce a comma/bracket/CRLF that would malform the Subject.
+    // Keys like "b2c_career" carry digits, which are subject-safe; the gate is
+    // "only lowercase/digit/underscore", i.e. no separators or control chars.
+    for (const key of KNOWN_OPTIONS) {
+      assert.match(key, /^[a-z0-9_]+$/, `KNOWN_OPTIONS key must be [a-z0-9_] only: ${JSON.stringify(key)}`);
+    }
+  });
+});
+
 describe('parseFeedbackBody — options filtering', () => {
   test('unknown option keys silently filtered (allowlist)', () => {
     const r = parseFeedbackBody(

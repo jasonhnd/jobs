@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # run-e2e.sh — entrypoint for `bun run test:e2e`.
 #
-# @playwright/test, http-server, and @axe-core/playwright are plain
-# devDependencies (pinned in bun.lock for reproducibility + audit
-# visibility). The npm packages install everywhere, but Playwright's
+# @playwright/test and @axe-core/playwright are plain devDependencies
+# (pinned in bun.lock for reproducibility + audit visibility). The static
+# e2e server is scripts/e2e-server.cjs (no http-server dep). Playwright's
 # Chromium browser binary is fetched separately (below) and only on
 # demand — so E2E runs locally / manually, never in a deploy.
 #
@@ -27,7 +27,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[e2e] Ensuring deps (Playwright + http-server + axe) are installed via lockfile…"
+echo "[e2e] Ensuring deps (Playwright + axe) are installed via lockfile…"
 # Frozen lockfile so versions exactly match the audit-visible pin in bun.lock.
 bun install --frozen-lockfile
 
@@ -35,7 +35,7 @@ echo "[e2e] Installing chromium browser binary…"
 bun x playwright install --with-deps chromium
 
 # Build must have run before this — playwright.config.ts serves
-# dist-astro/ via http-server. If the directory is missing, build now.
+# dist-astro/ via scripts/e2e-server.cjs. If the directory is missing, build now.
 if [ ! -d "dist-astro" ]; then
   echo "[e2e] dist-astro/ missing; running build first…"
   bun run build

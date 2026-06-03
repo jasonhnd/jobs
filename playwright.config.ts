@@ -4,7 +4,7 @@
  * class of bug at the rendered-output level (defense-in-depth alongside
  * scripts/check-nested-html-comments.cjs and scripts/check-rendered-leaks.cjs).
  *
- * NOTE: @playwright/test, http-server, and @axe-core/playwright are in
+ * NOTE: @playwright/test and @axe-core/playwright are in
  * devDependencies (pinned in bun.lock). The npm packages install in
  * every environment, but Playwright's Chromium *browser binary* is fetched
  * separately and only on demand, so E2E runs locally / manually and never
@@ -32,8 +32,8 @@ export default defineConfig({
   },
   webServer: {
     // Serves dist-astro/ via a static server that mirrors Vercel's
-    // cleanUrls + trailingSlash:false (see scripts/e2e-server.cjs). Plain
-    // http-server 302-redirects hub paths like /ja/sectors to a sibling
+    // cleanUrls + trailingSlash:false (see scripts/e2e-server.cjs). A plain
+    // static server 302-redirects hub paths like /ja/sectors to a sibling
     // directory and 404s; this server serves /ja/sectors.html like Vercel.
     // The build must run beforehand (`bun run build`).
     command: 'bun scripts/e2e-server.cjs',
