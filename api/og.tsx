@@ -38,6 +38,12 @@
 //
 // Vercel CDN caches each unique URL. First request ≈ 200–500 ms (cold start +
 // font fetch); subsequent identical requests are CDN hits.
+//
+// No application rate limit BY DESIGN: this is a public OG endpoint that social
+// platforms (X / Facebook / LINE / Slack) must be free to scrape, and the CDN
+// absorbs repeat load. A per-IP limit here would risk 429-ing a scraper
+// mid-crawl and breaking link-preview cards — don't add one. DDoS protection,
+// if ever needed, belongs at the Vercel/CDN edge, not in this handler.
 
 // Dispatch decision lives in src/lib/og-dispatch.ts — a pure
 // function that parses URL params and returns a discriminated
