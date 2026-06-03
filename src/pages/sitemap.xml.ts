@@ -8,7 +8,7 @@
 import type { APIRoute } from 'astro';
 import { loadGraph } from '@/graph';
 import { nowIso } from '../lib/now.js';
-import { buildSitemapEntries, renderSitemapXml } from '@/views/sitemap';
+import { buildSitemapEntries, renderSitemapXml, latestContentDate } from '@/views/sitemap';
 
 /**
  * Sitemap MUST contain at least this many URLs. Falls below the bound when
@@ -20,12 +20,14 @@ import { buildSitemapEntries, renderSitemapXml } from '@/views/sitemap';
 const SITEMAP_MIN_URL_COUNT = 600;
 
 export const GET: APIRoute = async () => {
-  // nowIso() (cached, env-overridable via BUILD_DATA_TIMESTAMP) keeps the
-  // <lastmod> values consistent with the generated_at stamp on
-  // data.*.json projections produced in the same build.
-  const today = nowIso().slice(0, 10);
   const graph = await loadGraph();
-  const entries = buildSitemapEntries(graph, today);
+  // <lastmod> = the site's freshest CONTENT date (latest AI-score run_date),
+  // not the build clock. Using nowIso() here bumped all 820 lastmods to "today"
+  // on every rebuild, drifting the SEO baseline daily (the same class of bug
+  // the 2026-06-03 ai-adoption fix addressed). nowIso() now only serves as the
+  // fallback for the degenerate case of a graph with no scored occupation.
+  const lastmod = latestContentDate(graph, nowIso().slice(0, 10));
+  const entries = buildSitemapEntries(graph, lastmod);
 
   if (entries.length < SITEMAP_MIN_URL_COUNT) {
     // The sitemap is the single biggest crawl-budget signal we send to

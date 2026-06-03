@@ -51,6 +51,24 @@ function entry(loc: string, lastmod: string, changefreq: string, priority: strin
 }
 
 /**
+ * Freshest CONTENT date on the site — the latest AI-score `run_date` across
+ * all occupations. Used as the sitemap `<lastmod>` so the date reflects when
+ * the site's content last changed, NOT when it was last rebuilt. Build-clock
+ * (`nowIso()`) lastmods bumped all 820 URLs to "today" on every rebuild,
+ * drifting the SEO baseline daily — the same problem the 2026-06-03
+ * ai-adoption fix solved by deriving `updated_at` from data instead of the
+ * clock. Returns `fallback` (the build date) only if no occupation is scored.
+ */
+export function latestContentDate(graph: KnowledgeGraph, fallback: string): string {
+  let latest = '';
+  for (const occ of graph.occupations.values()) {
+    const d = occ.aiRisk?.date;
+    if (d && d > latest) latest = d;
+  }
+  return latest || fallback;
+}
+
+/**
  * Enumerate every public URL on the site at build time.
  *
  * URL clusters (matches the previous inline structure 1-for-1):
@@ -65,6 +83,10 @@ function entry(loc: string, lastmod: string, changefreq: string, priority: strin
  *     entry-paths)
  *   - Careers / Licenses / Q&A / about/yearly / explore L2
  *   - All 556 occupation detail pages
+ *
+ * `today` is the `<lastmod>` string stamped on every entry. The caller
+ * (sitemap.xml.ts) supplies a content-derived date via `latestContentDate`,
+ * not the build clock, so the sitemap stays byte-stable across rebuilds.
  */
 export function buildSitemapEntries(
   graph: KnowledgeGraph,
