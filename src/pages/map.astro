@@ -501,7 +501,10 @@ const jsonLd = `{
       if ($r) $r.addEventListener('click', function () { location.reload(); });
     }
 
-    function openSheet(jobId) {
+    // Element that triggered the most recent openSheet (so closeSheet can
+    // return keyboard focus to it). Cleared on close to avoid stale refs.
+    var lastSheetTrigger = null;
+    function openSheet(jobId, trigger) {
       var r = byId[jobId];
       if (!r) return;
       openJobId = jobId;
@@ -517,10 +520,16 @@ const jsonLd = `{
       $sheetSalary.textContent = fmtSalary(r.salary);
       $sheetWorkers.textContent = fmtWorkers(r.workers);
       $sheetCta.href = '/' + r.id;
+      lastSheetTrigger = trigger || document.activeElement;
       $sheet.hidden = false;
       requestAnimationFrame(function () {
         $sheet.classList.add('open');
         $sheetBackdrop.classList.add('open');
+        // Move keyboard focus into the dialog (a11y SC 2.4.3 Focus Order).
+        // The close button is the safest first stop — it's at the top of the
+        // sheet and the most common dismissal action.
+        var $sheetClose = document.getElementById('sheetClose');
+        if ($sheetClose) $sheetClose.focus();
       });
       writeUrlState();
       ga('map_cell_tap', { job_id: jobId, sector: r.sector_id, rank: rank || 0 });
@@ -534,6 +543,11 @@ const jsonLd = `{
       setTimeout(function () {
         if (!$sheet.classList.contains('open')) $sheet.hidden = true;
       }, 320);
+      // Return focus to the cell the user opened from (a11y SC 2.4.3).
+      if (lastSheetTrigger && typeof lastSheetTrigger.focus === 'function') {
+        lastSheetTrigger.focus();
+      }
+      lastSheetTrigger = null;
     }
     document.getElementById('sheetClose').addEventListener('click', closeSheet);
     document.getElementById('sheetHandle').addEventListener('click', closeSheet);
@@ -548,7 +562,8 @@ const jsonLd = `{
     $content.addEventListener('click', function (e) {
       var t = e.target.closest('.cell');
       if (!t || !t.dataset.id) return;
-      openSheet(parseInt(t.dataset.id, 10));
+      // Pass the .cell element so closeSheet can return focus to it.
+      openSheet(parseInt(t.dataset.id, 10), t);
     });
 
     // RA-127 — hover tooltip on pointer:fine devices only (mobile keeps click → bottom sheet)

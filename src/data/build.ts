@@ -121,6 +121,33 @@ async function main(): Promise<void> {
   console.log(`     labels dimensions:  ${indexes.labelsByDim.size}`);
   console.log(`     sectors:            ${indexes.sectors.length}`);
 
+  // ───── Update src/lib/_content-date.ts (content-derived dateModified) ─────
+  // Every template that emits `dateModified` in its JSON-LD imports
+  // CONTENT_DATE from src/lib/_content-date.ts. We rewrite the file here so
+  // the freshness signal tracks the actual latest score-run date instead of a
+  // hardcoded calendar constant. Writes only on change → working tree stays
+  // clean across rebuilds that don't introduce new scores.
+  {
+    let latestDate = '';
+    for (const score of indexes.latestScoreByOcc.values()) {
+      if (score.date && score.date > latestDate) latestDate = score.date;
+    }
+    const contentDate = latestDate || '2026-05-30';
+    const { readFile } = await import('node:fs/promises');
+    const contentDatePath = join(REPO_ROOT, 'src/lib/_content-date.ts');
+    const existing = await readFile(contentDatePath, 'utf-8').catch(() => '');
+    const updated = existing.replace(
+      /CONTENT_DATE = '[^']*'/,
+      `CONTENT_DATE = '${contentDate}'`,
+    );
+    if (updated && updated !== existing) {
+      await writeFile(contentDatePath, updated, 'utf-8');
+      console.log(`  [content-date] updated to ${contentDate}`);
+    } else {
+      console.log(`  [content-date] ${contentDate} (unchanged)`);
+    }
+  }
+
   // ───── Prepare staging dir ─────
   // Wipe any leftover stage from a crashed previous run, then create fresh.
   // TS_DIST is left untouched until every projection succeeds.

@@ -26,13 +26,15 @@ import { buildIdPageBindings } from './_id-bindings';
 import { ID_PAGE_CSS } from './_id-css';
 import type { Rec } from '@/views/occupation-detail';
 import { type SpokeNeighbor } from '@/views/spoke-spoke-graph';
+import { CONTENT_DATE } from '@/lib/_content-date';
 
-// Schema.org dates — page-internal versioning, not derived state. Both must
-// satisfy `dateModified >= datePublished` (a 2026-06-03 audit found
-// DATE_MODIFIED predating DATE_PUBLISHED, which Google's structured-data
-// validator rejects on all 556 occupation pages).
+// Schema.org dates. DATE_PUBLISHED is page-internal versioning (set once when
+// the family of pages was published). DATE_MODIFIED is derived at build time
+// (latest score-run date) — see src/lib/_content-date.ts. Both must satisfy
+// `dateModified >= datePublished` (Google's structured-data validator rejects
+// otherwise).
 const DATE_PUBLISHED = '2026-05-30';
-const DATE_MODIFIED = '2026-05-30';
+const DATE_MODIFIED = CONTENT_DATE;
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 //

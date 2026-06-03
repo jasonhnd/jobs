@@ -99,6 +99,7 @@ function walk(dir, out = []) {
 // HTML would match them. We strip comments first so we're computing
 // hashes over the exact same byte ranges the browser would execute.
 const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script>/g;
+const STYLE_RE = /<style\b([^>]*)>([\s\S]*?)<\/style>/g;
 const COMMENT_RE = /<!--[\s\S]*?-->/g;
 
 function extractInlineScripts(html) {
@@ -143,32 +144,64 @@ function extractInlineScripts(html) {
   return blocks;
 }
 
-// ─── Walk all pages, collect every unique inline script body ───────────────
+function extractInlineStyles(html) {
+  // Same comment-range trick as extractInlineScripts — preserves real style
+  // bodies verbatim (so the hash matches the on-the-wire bytes) while
+  // ignoring `<style>` text that appears inside HTML comments.
+  const commentRanges = [];
+  COMMENT_RE.lastIndex = 0;
+  let cm;
+  while ((cm = COMMENT_RE.exec(html)) !== null) {
+    commentRanges.push([cm.index, cm.index + cm[0].length]);
+  }
+  const inComment = (pos) => {
+    for (const [s, e] of commentRanges) {
+      if (pos >= s && pos < e) return true;
+    }
+    return false;
+  };
+
+  const blocks = [];
+  let m;
+  STYLE_RE.lastIndex = 0;
+  while ((m = STYLE_RE.exec(html)) !== null) {
+    if (inComment(m.index)) continue;
+    const body = m[2] || '';
+    blocks.push(body);
+  }
+  return blocks;
+}
+
+// ─── Walk all pages, collect every unique inline script + style body ──────
 const files = walk(DIST);
 const uniqueBodies = new Map();
+const uniqueStyleBodies = new Map();
 // Map<body-text, { hash: string, samplePage: string, occurrences: number }>
+function collectInto(map, body, file) {
+  const entry = map.get(body);
+  if (entry) {
+    entry.occurrences += 1;
+  } else {
+    const hash = crypto.createHash('sha256').update(body, 'utf-8').digest('base64');
+    map.set(body, {
+      hash,
+      samplePage: path.relative(DIST, file),
+      occurrences: 1,
+    });
+  }
+}
 for (const file of files) {
   const html = fs.readFileSync(file, 'utf-8');
-  for (const body of extractInlineScripts(html)) {
-    const entry = uniqueBodies.get(body);
-    if (entry) {
-      entry.occurrences += 1;
-    } else {
-      const hash = crypto.createHash('sha256').update(body, 'utf-8').digest('base64');
-      uniqueBodies.set(body, {
-        hash,
-        samplePage: path.relative(DIST, file),
-        occurrences: 1,
-      });
-    }
-  }
+  for (const body of extractInlineScripts(html)) collectInto(uniqueBodies, body, file);
+  for (const body of extractInlineStyles(html)) collectInto(uniqueStyleBodies, body, file);
 }
 
 const hashes = [...uniqueBodies.values()].map((e) => `'sha256-${e.hash}'`);
+const styleHashes = [...uniqueStyleBodies.values()].map((e) => `'sha256-${e.hash}'`);
 
-if (hashes.length === 0) {
+if (hashes.length === 0 && styleHashes.length === 0) {
   console.log(
-    '[compute-csp-hashes] No inline <script> blocks found in dist-astro/. ' +
+    '[compute-csp-hashes] No inline <script> or <style> blocks found in dist-astro/. ' +
       'Skipping CSP rewrite.',
   );
   process.exit(0);
@@ -198,9 +231,14 @@ const csp = cspEntry.value;
 // verbatim). Remove any `'unsafe-inline'` and any existing `'sha256-…'`
 // tokens so re-runs are idempotent.
 const directives = csp.split(';').map((s) => s.trim()).filter(Boolean);
+const HASH_DIRECTIVES = {
+  'script-src': hashes,
+  'style-src': styleHashes,
+};
 const updatedDirectives = directives.map((dir) => {
   const [name, ...rest] = dir.split(/\s+/);
-  if (name !== 'script-src') return dir;
+  const directiveHashes = HASH_DIRECTIVES[name];
+  if (!directiveHashes) return dir;
   const keepers = rest.filter(
     (t) =>
       t !== "'unsafe-inline'" &&
@@ -209,8 +247,8 @@ const updatedDirectives = directives.map((dir) => {
       !t.startsWith("'sha512-"),
   );
   // Sort hash list so output is deterministic across runs.
-  const sortedHashes = [...hashes].sort();
-  return ['script-src', ...keepers, ...sortedHashes].join(' ');
+  const sortedHashes = [...directiveHashes].sort();
+  return [name, ...keepers, ...sortedHashes].join(' ');
 });
 
 const newCsp = updatedDirectives.join('; ');
@@ -238,9 +276,9 @@ if (CHECK_ONLY) {
 
 if (!updated) {
   console.log(
-    `[compute-csp-hashes] OK — script-src already up to date ` +
-      `(${hashes.length} unique inline-script hash(es), ` +
-      `${files.length} HTML files scanned).`,
+    `[compute-csp-hashes] OK — script-src/style-src already up to date ` +
+      `(${hashes.length} inline-script + ${styleHashes.length} inline-style ` +
+      `hash(es), ${files.length} HTML files scanned).`,
   );
   process.exit(0);
 }
@@ -266,7 +304,8 @@ fs.writeFileSync(VERCEL_JSON, out, 'utf-8');
 
 console.log(
   `[compute-csp-hashes] UPDATED vercel.json — script-src now has ` +
-    `${hashes.length} 'sha256-…' hash(es) (was: 'unsafe-inline').`,
+    `${hashes.length} script + style-src now has ${styleHashes.length} style ` +
+    `'sha256-…' hash(es) (was: 'unsafe-inline').`,
 );
 console.log('\n  Unique inline scripts found:');
 for (const [body, entry] of uniqueBodies) {
@@ -276,4 +315,15 @@ for (const [body, entry] of uniqueBodies) {
       `      ${entry.occurrences}× pages (sample: ${entry.samplePage})\n` +
       `      preview: ${preview}…`,
   );
+}
+if (uniqueStyleBodies.size > 0) {
+  console.log('\n  Unique inline styles found:');
+  for (const [body, entry] of uniqueStyleBodies) {
+    const preview = body.replace(/\s+/g, ' ').trim().slice(0, 70);
+    console.log(
+      `    sha256-${entry.hash}\n` +
+        `      ${entry.occurrences}× pages (sample: ${entry.samplePage})\n` +
+        `      preview: ${preview}…`,
+    );
+  }
 }
