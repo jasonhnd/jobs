@@ -6,23 +6,28 @@
  * for deterministic coverage; a small smoke section at the bottom
  * exercises the default `PRODUCTION_CATALOG` to verify wiring.
  *
- * Branches covered (11 total):
+ * Safety-net contract (2026-06-03): the endpoint NEVER hard-fails a
+ * social card. There is no `bad-request` kind — any input we cannot
+ * render (unknown slug in a known family, invalid/absent id, no
+ * recognized param) degrades to the home generic card. The custom
+ * catalog gives page.home a DISTINCT config (HOME_CONFIG) so a
+ * fallback can be asserted by object identity, not just by kind.
+ *
+ * Branches covered:
  *   1.  ?page=map                → render-map (special-case)
- *   2.  ?page=<known>           → render-generic (PAGE_CARDS lookup)
- *   3.  ?page=<unknown>         → bad-request (with known-keys hint)
- *   4.  ?ranking=<known>        → render-generic (RANKING_CARDS lookup)
- *   5.  ?ranking=<unknown>      → bad-request
- *   6.  ?interest=<known>       → render-generic (INTEREST_CARDS)
- *   7.  ?interest=<unknown>     → bad-request
- *   8.  ?skill=<known>          → render-generic (SKILL_CARDS)
- *   9.  ?skill=<unknown>        → bad-request
- *  10.  ?compare=<known>        → render-generic (COMPARE_CARDS)
- *  11.  ?compare=<unknown>      → bad-request
- *  12.  ?sector=<id>            → render-sector (id forwarded raw; validation
- *                                  is the renderer's job)
- *  13.  ?id=<digits>            → render-occupation
- *  14.  ?id=<non-digit>         → bad-request
- *  15.  (no recognized params)  → bad-request (full hint message)
+ *   2.  ?page=<known>            → render-generic (PAGE_CARDS lookup)
+ *   3.  ?page=<unknown>          → render-generic (HOME fallback)
+ *   4.  ?ranking=<known>         → render-generic (RANKING_CARDS lookup)
+ *   5.  ?ranking=<unknown>       → render-generic (HOME fallback)
+ *   6.  ?interest=<known/unknown>→ render-generic / HOME fallback
+ *   7.  ?skill=<known/unknown>   → render-generic / HOME fallback
+ *   8.  ?compare=<known/unknown> → render-generic / HOME fallback
+ *   9.  ?route=<known/unknown>   → render-generic / HOME fallback  (NEW family)
+ *  10.  ?sector=<id>             → render-sector (id forwarded raw; validation
+ *                                   is the renderer's job)
+ *  11.  ?id=<digits>             → render-occupation
+ *  12.  ?id=<non-digit/overflow> → render-generic (HOME fallback)
+ *  13.  (no recognized params)   → render-generic (HOME fallback)
  *
  * Precedence tests verify that the order in the dispatcher matches
  * the documented param-precedence — e.g. `?page=map&id=156` resolves
@@ -40,24 +45,45 @@ import {
 } from './og-dispatch.js';
 import { type GenericCardConfig } from './og-helpers.js';
 
-/** Minimal in-memory card config — used as every catalog value so
- *  tests can assert object-identity (catalog returns THIS config). */
+/** Minimal in-memory card config — used as every NON-home catalog value
+ *  so tests can assert object-identity (catalog returns THIS config). */
 const STUB_CONFIG: GenericCardConfig = {
   eyebrow: 'STUB EYEBROW',
   title: 'STUB TITLE',
   subtitle: 'STUB SUBTITLE',
 };
 
+/** Distinct config for page.home so safety-net fallback tests can
+ *  assert the decision is SPECIFICALLY the home card (object identity),
+ *  not a coincidental match with some other family's STUB_CONFIG. */
+const HOME_CONFIG: GenericCardConfig = {
+  eyebrow: 'HOME EYEBROW',
+  title: 'HOME TITLE',
+  subtitle: 'HOME SUBTITLE',
+};
+
 const STUB_CATALOG: CardCatalog = {
-  page: { home: STUB_CONFIG, about: STUB_CONFIG },
+  page: { home: HOME_CONFIG, about: STUB_CONFIG },
   ranking: { 'ai-risk-low': STUB_CONFIG, 'public-sector': STUB_CONFIG },
   interest: { realistic: STUB_CONFIG, social: STUB_CONFIG },
   skill: { 'critical-thinking': STUB_CONFIG, programming: STUB_CONFIG },
   compare: { 'kango-vs-helper': STUB_CONFIG },
+  route: { 'by-industry': STUB_CONFIG, 'find-your-fit': STUB_CONFIG },
 };
 
 function url(query: string): URL {
   return new URL(`https://example.com/api/og${query}`);
+}
+
+/** Assert the decision is a render-generic carrying exactly `expected`. */
+function assertCard(d: DispatchDecision, expected: GenericCardConfig): void {
+  assert.equal(d.kind, 'render-generic');
+  assert.equal((d as { kind: 'render-generic'; config: GenericCardConfig }).config, expected);
+}
+
+/** Assert the decision is the home-card safety-net fallback. */
+function assertHomeFallback(d: DispatchDecision): void {
+  assertCard(d, HOME_CONFIG);
 }
 
 describe('decideDispatch — render-map branch', () => {
@@ -73,84 +99,80 @@ describe('decideDispatch — render-map branch', () => {
 });
 
 describe('decideDispatch — page generic branch', () => {
-  test('?page=home → render-generic with looked-up config', () => {
+  test('?page=about → render-generic with looked-up config', () => {
+    const d = decideDispatch(url('?page=about'), STUB_CATALOG);
+    assertCard(d, STUB_CONFIG);
+  });
+
+  test('?page=home → render-generic with the home config', () => {
     const d = decideDispatch(url('?page=home'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-generic');
-    assert.equal((d as { kind: 'render-generic'; config: GenericCardConfig }).config, STUB_CONFIG);
+    assertCard(d, HOME_CONFIG);
   });
 
-  test('?page=<unknown> → bad-request with known-keys hint', () => {
+  test('?page=<unknown> → HOME fallback (no longer a 400)', () => {
     const d = decideDispatch(url('?page=unknown_page_xyz'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
-    const msg = (d as { kind: 'bad-request'; message: string }).message;
-    assert.match(msg, /unknown \?page=unknown_page_xyz/);
-    assert.match(msg, /Known: home, about, map/);
-  });
-
-  test('?page=<unknown> echo-back is the URL param verbatim (no sanitization needed — Response body is text/plain)', () => {
-    // The 400 message is the place where unvalidated input appears.
-    // It's plain text, NOT HTML, so escape-via-template isn't required.
-    // (Social-card scrapers won't render the body anyway.) But we pin
-    // the format so a future "let's HTML-escape this" refactor doesn't
-    // silently change the body shape.
-    const d = decideDispatch(url('?page=foo<bar>'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
-    assert.match((d as { message: string }).message, /unknown \?page=foo<bar>/);
+    assertHomeFallback(d);
   });
 });
 
 describe('decideDispatch — ranking branch', () => {
   test('?ranking=ai-risk-low → render-generic', () => {
     const d = decideDispatch(url('?ranking=ai-risk-low'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-generic');
+    assertCard(d, STUB_CONFIG);
   });
 
-  test('?ranking=<unknown> → bad-request', () => {
+  test('?ranking=<unknown> → HOME fallback', () => {
     const d = decideDispatch(url('?ranking=nope'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
-    assert.match((d as { message: string }).message, /unknown \?ranking=nope/);
-  });
-
-  test('ranking bad-request hint does NOT include map keyword', () => {
-    // Only ?page= mentions 'map' (since /api/og?page=map is the only
-    // way to reach the map card). Other families don't include 'map'
-    // in their known-keys hint.
-    const d = decideDispatch(url('?ranking=nope'), STUB_CATALOG);
-    const msg = (d as { message: string }).message;
-    assert.ok(!msg.endsWith(', map'), `ranking hint should not include 'map': ${msg}`);
+    assertHomeFallback(d);
   });
 });
 
 describe('decideDispatch — interest / skill / compare branches', () => {
   test('?interest=realistic → render-generic', () => {
     const d = decideDispatch(url('?interest=realistic'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-generic');
+    assertCard(d, STUB_CONFIG);
   });
 
-  test('?interest=<unknown> → bad-request', () => {
+  test('?interest=<unknown> → HOME fallback', () => {
     const d = decideDispatch(url('?interest=nope'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
-    assert.match((d as { message: string }).message, /unknown \?interest=nope/);
+    assertHomeFallback(d);
   });
 
   test('?skill=programming → render-generic', () => {
     const d = decideDispatch(url('?skill=programming'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-generic');
+    assertCard(d, STUB_CONFIG);
   });
 
-  test('?skill=<unknown> → bad-request', () => {
+  test('?skill=<unknown> → HOME fallback', () => {
     const d = decideDispatch(url('?skill=nope'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
+    assertHomeFallback(d);
   });
 
   test('?compare=kango-vs-helper → render-generic', () => {
     const d = decideDispatch(url('?compare=kango-vs-helper'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-generic');
+    assertCard(d, STUB_CONFIG);
   });
 
-  test('?compare=<unknown> → bad-request', () => {
+  test('?compare=<unknown> → HOME fallback', () => {
     const d = decideDispatch(url('?compare=nope'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
+    assertHomeFallback(d);
+  });
+});
+
+describe('decideDispatch — route branch (explore routes)', () => {
+  test('?route=by-industry → render-generic', () => {
+    const d = decideDispatch(url('?route=by-industry'), STUB_CATALOG);
+    assertCard(d, STUB_CONFIG);
+  });
+
+  test('?route=find-your-fit → render-generic', () => {
+    const d = decideDispatch(url('?route=find-your-fit'), STUB_CATALOG);
+    assertCard(d, STUB_CONFIG);
+  });
+
+  test('?route=<unknown> → HOME fallback', () => {
+    const d = decideDispatch(url('?route=nope'), STUB_CATALOG);
+    assertHomeFallback(d);
   });
 });
 
@@ -180,54 +202,47 @@ describe('decideDispatch — occupation branch', () => {
     assert.deepEqual(d, { kind: 'render-occupation', id: '1' });
   });
 
-  test('?id=non-digit → bad-request (CODE-008: id format help message)', () => {
+  test('?id=non-digit → HOME fallback (was bad-request; CODE-008 stays safe)', () => {
     const d = decideDispatch(url('?id=abc'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
-    // 2026-05-17 CODE-008: new message format is
-    // "Bad request: invalid ?id=abc (must be 1-4 digits, max 9999)".
-    assert.match((d as { message: string }).message, /invalid \?id=abc/);
-    assert.match((d as { message: string }).message, /1-4 digits/);
+    assertHomeFallback(d);
   });
 
-  test('?id=156.5 (decimal) → bad-request', () => {
+  test('?id=156.5 (decimal) → HOME fallback', () => {
     const d = decideDispatch(url('?id=156.5'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
+    assertHomeFallback(d);
   });
 
-  test('?id= (empty) → bad-request', () => {
+  test('?id=10001 (5-digit overflow) → HOME fallback, never a wrong card (CODE-008)', () => {
+    // padId would throw on 5 digits; the dispatcher must never route it
+    // to the occupation renderer. It degrades to the home card.
+    const d = decideDispatch(url('?id=10001'), STUB_CATALOG);
+    assertHomeFallback(d);
+  });
+
+  test('?id= (empty) → HOME fallback', () => {
     const d = decideDispatch(url('?id='), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
+    assertHomeFallback(d);
   });
 });
 
-describe('decideDispatch — fallback (no recognized params)', () => {
-  test('empty query → bad-request with full hint enumerating ALL valid params', () => {
+describe('decideDispatch — safety net (no recognized params)', () => {
+  test('empty query → HOME fallback', () => {
     const d = decideDispatch(url(''), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
-    const msg = (d as { message: string }).message;
-    // Hint must enumerate every accepted family so a caller pointing
-    // a malformed link at /api/og gets a self-documenting 400.
-    for (const k of ['?id=', '?sector=', '?ranking=', '?interest=', '?skill=', '?compare=', '?page=']) {
-      assert.match(msg, new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `hint should mention ${k}`);
-    }
-    // And it must list the known page=* slugs (the special-case map +
-    // the static pages family).
-    assert.match(msg, /map\|home/);
+    assertHomeFallback(d);
   });
 
-  test('unknown unrelated param → bad-request (treated as "no recognized params")', () => {
+  test('unknown unrelated param → HOME fallback', () => {
     const d = decideDispatch(url('?foo=bar'), STUB_CATALOG);
-    assert.equal(d.kind, 'bad-request');
+    assertHomeFallback(d);
   });
 });
 
 describe('decideDispatch — param precedence', () => {
-  test('page beats ranking', () => {
+  test('page beats ranking (home config proves page won)', () => {
     const d = decideDispatch(url('?page=home&ranking=ai-risk-low'), STUB_CATALOG);
-    assert.equal(d.kind, 'render-generic');
-    // Verify it picked the PAGE config (object identity check would
-    // work if the configs were distinct; STUB_CATALOG uses the same
-    // STUB_CONFIG for both — pin the kind only).
+    // page.home → HOME_CONFIG; ranking would give STUB_CONFIG. Identity
+    // with HOME_CONFIG proves the page branch took precedence.
+    assertCard(d, HOME_CONFIG);
   });
 
   test('page beats sector', () => {
@@ -237,8 +252,12 @@ describe('decideDispatch — param precedence', () => {
 
   test('ranking beats interest', () => {
     const d = decideDispatch(url('?ranking=ai-risk-low&interest=realistic'), STUB_CATALOG);
-    // Both lookups succeed; precedence chooses ranking.
     assert.equal(d.kind, 'render-generic');
+  });
+
+  test('route beats sector', () => {
+    const d = decideDispatch(url('?route=by-industry&sector=iryo'), STUB_CATALOG);
+    assertCard(d, STUB_CONFIG);
   });
 
   test('sector beats id', () => {
@@ -249,10 +268,6 @@ describe('decideDispatch — param precedence', () => {
 
 describe('decideDispatch — PRODUCTION_CATALOG wiring smoke', () => {
   test('default catalog (no second arg) uses PRODUCTION_CATALOG', () => {
-    // Without explicit catalog: ?page=home should resolve via the real
-    // PAGE_CARDS. We don't assert the returned config's exact shape
-    // (that's pinned by SEO baseline); we just verify the wiring picks
-    // up the production data.
     const d = decideDispatch(url('?page=home'));
     assert.equal(d.kind, 'render-generic');
     const cfg = (d as { config: GenericCardConfig }).config;
@@ -260,12 +275,13 @@ describe('decideDispatch — PRODUCTION_CATALOG wiring smoke', () => {
     assert.ok(cfg.title, 'production PAGE_CARDS.home should have title text');
   });
 
-  test('PRODUCTION_CATALOG.page contains "home" and "about"', () => {
-    // Anchor a few known keys so an accidental delete in og-cards.ts
-    // (e.g. someone renaming /about to /docs without updating the
-    // dispatcher slug) fails this test.
+  test('PRODUCTION_CATALOG.page contains "home", "about", and "me"', () => {
+    // Anchor known keys so an accidental delete in og-cards.ts fails
+    // here. "me" is anchored because /me (linked in MobileNav) pointed
+    // at ?page=me with no card until 2026-06-03 — keep it wired.
     assert.ok('home' in PRODUCTION_CATALOG.page, 'page catalog missing "home"');
     assert.ok('about' in PRODUCTION_CATALOG.page, 'page catalog missing "about"');
+    assert.ok('me' in PRODUCTION_CATALOG.page, 'page catalog missing "me"');
   });
 
   test('PRODUCTION_CATALOG.interest contains the 6 RIASEC types', () => {
@@ -274,20 +290,45 @@ describe('decideDispatch — PRODUCTION_CATALOG wiring smoke', () => {
       assert.ok(t in PRODUCTION_CATALOG.interest, `interest catalog missing "${t}"`);
     }
   });
+
+  test('PRODUCTION_CATALOG.route contains all 7 explore routes', () => {
+    // Anchors the explore fix: /explore/<slug> pointed at ?route= with
+    // no dispatch branch (→ 400) until 2026-06-03.
+    const ROUTES = [
+      'by-industry', 'by-ranking', 'find-your-fit', 'by-skill-and-license',
+      'by-work-style', 'compare', 'methodology-trust',
+    ];
+    for (const r of ROUTES) {
+      assert.ok(r in PRODUCTION_CATALOG.route, `route catalog missing "${r}"`);
+    }
+  });
+
+  test('production ?route=by-industry resolves to a real card (not the fallback)', () => {
+    const d = decideDispatch(url('?route=by-industry'));
+    assert.equal(d.kind, 'render-generic');
+    const cfg = (d as { config: GenericCardConfig }).config;
+    assert.ok(cfg.title, 'explore route card should carry a title');
+  });
+
+  test('production unknown page degrades to the real home card (safety net wired end-to-end)', () => {
+    const d = decideDispatch(url('?page=definitely_not_a_real_page'));
+    assert.equal(d.kind, 'render-generic');
+    const cfg = (d as { config: GenericCardConfig }).config;
+    assert.equal(cfg, PRODUCTION_CATALOG.page.home, 'unknown page should fall back to PAGE_CARDS.home');
+  });
 });
 
 describe('decideDispatch — type discipline', () => {
   test('exhaustiveness: every DispatchDecision kind has a runtime test above', () => {
     // Sanity check that the type union and the test suite stay in
-    // sync. If a new kind is added without a corresponding describe
-    // block, TypeScript will accept it but this test will fail.
+    // sync. The `bad-request` kind was removed in the 2026-06-03
+    // safety-net change — 4 render kinds remain.
     const KNOWN_KINDS: ReadonlyArray<DispatchDecision['kind']> = [
       'render-map',
       'render-generic',
       'render-sector',
       'render-occupation',
-      'bad-request',
     ];
-    assert.equal(KNOWN_KINDS.length, 5, 'expected 5 dispatch kinds');
+    assert.equal(KNOWN_KINDS.length, 4, 'expected 4 dispatch kinds');
   });
 });
