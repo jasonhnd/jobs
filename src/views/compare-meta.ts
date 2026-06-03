@@ -49,6 +49,11 @@ export interface CompareMeta {
   /** どっちを選ぶべきかの判断ヒント (3 項目) */
   decision_hints_ja: ReadonlyArray<string>;
   og_eyebrow: string;
+  /**
+   * /compare hub での扱い。true の比較は冒頭の大カード枠で説明付きで表示し、
+   * false / 未指定はその下の compact chip 一覧に入る (2026-06-04 双層改造)。
+   */
+  featured?: boolean;
 }
 
 export const COMPARE_META: ReadonlyArray<CompareMeta> = [
@@ -73,6 +78,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       '訪問形態の自由度を重視するか',
     ],
     og_eyebrow: 'COMPARE · 医療職',
+    featured: true,
   },
   {
     slug: 'se-vs-programmer',
@@ -95,6 +101,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       'AI に任せられない部分をどう作るか',
     ],
     og_eyebrow: 'COMPARE · IT 職',
+    featured: true,
   },
   {
     slug: 'iryo-jimu-vs-ippan-jimu',
@@ -117,6 +124,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       '医療業界に長く居たいかどうか',
     ],
     og_eyebrow: 'COMPARE · 事務職',
+    featured: true,
   },
   {
     slug: 'biyo-vs-riyo',
@@ -315,6 +323,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       '対象年齢の好み・適性',
     ],
     og_eyebrow: 'COMPARE · 教育・保育',
+    featured: true,
   },
   {
     slug: 'kaigo-vs-kea-mane',
@@ -359,6 +368,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       '試験ルートの違い (一発合格 vs 科目合格制)',
     ],
     og_eyebrow: 'COMPARE · 士業',
+    featured: true,
   },
   {
     slug: 'shihou-vs-gyousei',
@@ -425,6 +435,7 @@ export const COMPARE_META: ReadonlyArray<CompareMeta> = [
       'プロダクト責任を持つ立場に近づきたいか',
     ],
     og_eyebrow: 'COMPARE · AI 系',
+    featured: true,
   },
   {
     slug: 'shika-vs-juui',

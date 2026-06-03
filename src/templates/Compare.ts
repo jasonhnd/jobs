@@ -192,6 +192,8 @@ export interface CompareHubCard {
   readonly b_name: string;
   readonly b_risk: number | null;
   readonly description_ja: string;
+  /** /compare hub double-layer (2026-06-04); true = big card, false = compact chip */
+  readonly featured?: boolean;
 }
 
 function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
@@ -201,7 +203,10 @@ function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
   return 'high';
 }
 
-export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
+/**
+ * 2026-06-04 双層改造: 説明付きの大カード。/compare hub で featured ペアのみに使う。
+ */
+export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
     const aBand = compareRiskClass(c.a_risk);
     const bBand = compareRiskClass(c.b_risk);
@@ -221,6 +226,39 @@ export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): Saf
       `</a></li>`
     );
   }).join('') as SafeHtml;
+}
+
+/**
+ * 2026-06-04 双層改造: タイトル + 双方の名前 + 両 risk pill のみのコンパクト chip。
+ * 説明文を出さないので、20 ペアでも視覚的に圧迫しない。
+ */
+export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
+  return cards.map((c) => {
+    const aBand = compareRiskClass(c.a_risk);
+    const bBand = compareRiskClass(c.b_risk);
+    const aRiskStr = c.a_risk !== null ? `${c.a_risk}/10` : '—';
+    const bRiskStr = c.b_risk !== null ? `${c.b_risk}/10` : '—';
+    return (
+      `<li><a href="/compare/${c.slug}">` +
+      `<span class="ccq-title">${escapeHtml(c.title_ja)}</span>` +
+      `<span class="ccq-pair">` +
+      `<span class="ccq-name">${escapeHtml(c.a_name)}</span>` +
+      `<span class="risk-pill ${aBand}">${escapeHtml(aRiskStr)}</span>` +
+      `<span class="ccq-vs">vs</span>` +
+      `<span class="ccq-name">${escapeHtml(c.b_name)}</span>` +
+      `<span class="risk-pill ${bBand}">${escapeHtml(bRiskStr)}</span>` +
+      `</span>` +
+      `</a></li>`
+    );
+  }).join('') as SafeHtml;
+}
+
+/**
+ * 2026-06-04 双層改造前の API。既存呼び出しの互換のため残す
+ * (compare/index.astro 以外の利用元があれば段階的に置き換える)。
+ */
+export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
+  return renderFeaturedCompareCards(cards);
 }
 
 export function renderHubJsonLd(): string {

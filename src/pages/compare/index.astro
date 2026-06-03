@@ -7,7 +7,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { buildCompareBundle } from '@/views/compare-hub';
-import { renderHubJsonLd, renderCompareHubCards } from '@/templates/Compare';
+import { renderHubJsonLd, renderFeaturedCompareCards, renderCompactCompareCards } from '@/templates/Compare';
 import { COMPARE_META } from '@/views/compare-meta';
 
 const { hub } = buildCompareBundle();
@@ -17,7 +17,12 @@ const seoDesc =
   '看護師 vs 訪問介護員、SE vs プログラマー、医療事務 vs 一般事務など、迷いやすい職業ペアを side-by-side で比較。AI 影響度・年収・労働条件・必要スキルを並べて意思決定の助けに。';
 const keywords = '職業 比較, 違い, 仕事 選び方, vs, 556 職業';
 
-const cardsHtml = renderCompareHubCards(hub.cards);
+// 2026-06-04 双層改造: 6 つの注目ペアは説明付き大カード、残りは compact chip 一覧。
+// 説明文を全 20 ペアに出すと視覚的に詰まりすぎるため (#40 task)。
+const featuredCards = hub.cards.filter((c) => c.featured);
+const compactCards = hub.cards.filter((c) => !c.featured);
+const featuredHtml = renderFeaturedCompareCards(featuredCards);
+const compactHtml = renderCompactCompareCards(compactCards);
 const jsonLd = renderHubJsonLd();
 
 // RA-131 (2026-05-18): pair lookup for typeahead submit — bidirectional
@@ -73,7 +78,18 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 .risk-pill.low{background:var(--risk-pill-low-bg);color:var(--risk-pill-low-fg)}
 .risk-pill.mid{background:var(--risk-pill-mid-bg);color:var(--risk-pill-mid-fg)}
 .risk-pill.high{background:var(--risk-pill-high-bg);color:var(--risk-pill-high-fg)}
-@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}}
+/* 2026-06-04 双層改造 (#40): compact chip 一覧 — 説明文を出さず title + 双方名 + risk pill のみ */
+.compare-section-heading{font-family:var(--font-serif);font-size:1.05rem;font-weight:600;color:var(--fg2);margin:36px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.compare-section-heading .ccq-count{color:var(--fg3);font-weight:500;font-size:.85rem;margin-left:6px}
+.compare-chips{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;padding:0;margin:0}
+.compare-chips li a{display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms}
+.compare-chips li a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.ccq-title{font-family:var(--font-serif);font-size:.95rem;font-weight:600;color:var(--accent-deep);line-height:1.3}
+.ccq-pair{display:flex;flex-wrap:nowrap;align-items:center;gap:5px;font-size:.78rem;overflow:hidden}
+.ccq-name{font-weight:500;color:var(--fg);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ccq-vs{color:var(--fg3);font-size:.72rem;font-weight:600}
+.compare-chips .risk-pill{font-size:.66rem;padding:1px 6px}
+@media (max-width:600px){#wrapper{padding:20px 16px 60px}h1{font-size:1.5rem}.compare-chips{grid-template-columns:1fr}}
 
 /* RA-017 (2026-05-18): interactive 2-occupation comparison tool */
 /* RA-131/132/133 (2026-05-18): typeahead + mobile keyboard scroll + recent chips */
@@ -180,7 +196,10 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 
     <section aria-label="比較ペア一覧">
       <h2>{hub.cards.length} 組の比較</h2>
-      <ul class="compare-cards" set:html={cardsHtml} />
+      <p class="sub" style="margin-bottom:18px">注目の比較 <strong>{featuredCards.length}</strong> 組 + そのほか <strong>{compactCards.length}</strong> 組</p>
+      <ul class="compare-cards" set:html={featuredHtml} />
+      <h3 class="compare-section-heading">そのほかの比較<span class="ccq-count">({compactCards.length} 組)</span></h3>
+      <ul class="compare-chips" set:html={compactHtml} />
     </section>
 
     <aside class="me-cta-strip" aria-label="自分の現在地ツール">
