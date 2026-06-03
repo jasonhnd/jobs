@@ -102,14 +102,34 @@ const SCRIPT_RE = /<script\b([^>]*)>([\s\S]*?)<\/script>/g;
 const COMMENT_RE = /<!--[\s\S]*?-->/g;
 
 function extractInlineScripts(html) {
-  // Strip HTML comments so literal `<script>` strings inside them don't
-  // trick the regex. We replace with whitespace of equal length so any
-  // byte offsets remain stable (paranoia — not currently used, but cheap).
-  const sanitized = html.replace(COMMENT_RE, (m) => ' '.repeat(m.length));
+  // Compute HTML-comment byte ranges in the RAW html first, then extract
+  // `<script>` blocks from the SAME raw html and drop any whose tag starts
+  // inside a comment range. The previous order (strip comments first, then
+  // match scripts on the sanitized string) corrupted any real script body
+  // that itself contained the substring `<!--…-->` (e.g. a JS string literal
+  // holding HTML doc text) — those bytes were replaced with spaces before
+  // hashing, so the computed hash diverged from the on-the-wire script body
+  // and CSP would block the script on deploy. The new order preserves real
+  // script bodies verbatim while still ignoring `<script>` strings that
+  // appear inside HTML comments (browsers don't execute them either).
+  const commentRanges = [];
+  COMMENT_RE.lastIndex = 0;
+  let cm;
+  while ((cm = COMMENT_RE.exec(html)) !== null) {
+    commentRanges.push([cm.index, cm.index + cm[0].length]);
+  }
+  const inComment = (pos) => {
+    for (const [s, e] of commentRanges) {
+      if (pos >= s && pos < e) return true;
+    }
+    return false;
+  };
+
   const blocks = [];
   let m;
   SCRIPT_RE.lastIndex = 0;
-  while ((m = SCRIPT_RE.exec(sanitized)) !== null) {
+  while ((m = SCRIPT_RE.exec(html)) !== null) {
+    if (inComment(m.index)) continue;
     const attrs = m[1] || '';
     const body = m[2] || '';
     // Skip external scripts — they're already covered by the host

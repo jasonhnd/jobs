@@ -28,12 +28,17 @@ export function buildHighRiskRankings(
   const aiHigh = byKeyDesc(scored, (o) => o.ai_risk, (o) => o.id).slice(0, TOP_N);
   const meanHigh = safeMean(aiHigh, 'ai_risk');
 
-  // 15. AI 置き換えが進行中 (ai_risk >= 8 desc, salary as tie)
+  // 15. AI 置き換えが進行中 (ai_risk >= 8 desc, workers as tie)
   const aiReplacedSoon = scored
     .filter((o) => (o.ai_risk ?? 0) >= 8)
     .sort((a, b) => {
-      const ra = b.ai_risk ?? 0; const rb = a.ai_risk ?? 0;
-      if (ra !== rb) return ra - rb;
+      // ai_risk descending — higher risk first. (The earlier version named
+      // the variables `ra = b.ai_risk` / `rb = a.ai_risk` and returned
+      // `ra - rb`, which is correct but reads exactly backwards; any future
+      // editor following the apparent convention would invert the sort.)
+      const aRisk = a.ai_risk ?? 0;
+      const bRisk = b.ai_risk ?? 0;
+      if (aRisk !== bRisk) return bRisk - aRisk;
       return (b.workers ?? 0) - (a.workers ?? 0);
     })
     .slice(0, TOP_N);

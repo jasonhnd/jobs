@@ -246,6 +246,7 @@ const jsonLd = JSON.stringify({
   keywords="AI 利用率, 生成 AI, ChatGPT, Claude, Gemini, ARR, MAU, データの新しさ, D3"
   ogTitle={`${dashboard.title_ja} | AI 利用率ダッシュボード`}
   ogDescription="AI 利用者を 5 グループに分け、計算式・理由・データの新しさを公開するモデルページ。"
+  ogType="article"
   ogImage={`${siteConfig.origin}/api/og?page=aiadoption`}
 >
   <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
@@ -750,17 +751,14 @@ const jsonLd = JSON.stringify({
           .attr('cy', (d) => Math.floor(d.index / columns) * cell + cell / 2)
           .attr('r', (d) => d.layer.id === selected.id ? selectedDotRadius : baseDotRadius)
           .attr('fill', (d) => d.layer.color)
-          .attr('tabindex', 0)
-          .attr('role', 'button')
-          .attr('aria-pressed', (d) => String(d.layer.id === selected.id))
-          .attr('aria-label', (d) => `${d.layer.label_ja}: ${fmt(d.layer.value)}`)
-          .on('click', (_event, d) => selectLayer(d.layer.id))
-          .on('keydown', (event, d) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              selectLayer(d.layer.id);
-            }
-          });
+          // Decorative for AT: putting `tabindex=0` + `role=button` on every dot
+          // (chartUnits = 1000) put a thousand items in the keyboard tab order
+          // for a sighted-mouse convenience. The five layer tiles below already
+          // handle layer selection; keep `click` for mouse, mark the dots
+          // `aria-hidden` so screen readers + keyboard users navigate the chart
+          // via the tiles instead of cycling through 1000 SVG circles.
+          .attr('aria-hidden', 'true')
+          .on('click', (_event, d) => selectLayer(d.layer.id));
         dots.append('title').text((d) => `${d.layer.label_ja}: ${pct(d.layer.share)}`);
 
         const stack = svg.append('g').attr('transform', `translate(${barX},${barY})`);

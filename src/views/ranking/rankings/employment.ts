@@ -24,21 +24,21 @@ export function buildEmploymentRankings(
   // 20. AI 安全 × 正規雇用率高
   const aiStableEmployment = scored
     .filter((o) => (o.ai_risk ?? 999) <= 5 && empPct(o, EMP.regular) >= 60)
-    .sort((a, b) => empPct(b, '正規の職員、従業員') - empPct(a, '正規の職員、従業員') || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
+    .sort((a, b) => empPct(b, EMP.regular) - empPct(a, EMP.regular) || (a.ai_risk ?? 0) - (b.ai_risk ?? 0))
     .slice(0, TOP_N);
 
   // 35. フリーランス向き (自営、フリーランス比率 20%+)
   const freelanceFriendly = occs
     .filter((o) => empPct(o, EMP.selfEmployedFreelance) >= 20)
-    .sort((a, b) => empPct(b, '自営、フリーランス') - empPct(a, '自営、フリーランス') || (b.salary ?? 0) - (a.salary ?? 0))
+    .sort((a, b) => empPct(b, EMP.selfEmployedFreelance) - empPct(a, EMP.selfEmployedFreelance) || (b.salary ?? 0) - (a.salary ?? 0))
     .slice(0, TOP_N);
 
   // 36. 独立・開業が典型 (経営層 + 自営、フリーランス >= 30%)
   const selfEmployedTypical = occs
     .filter((o) => empPct(o, EMP.selfEmployedFreelance) + empPct(o, EMP.executive) >= 30)
     .sort((a, b) =>
-      (empPct(b, '自営、フリーランス') + empPct(b, '経営層（役員等）')) -
-      (empPct(a, '自営、フリーランス') + empPct(a, '経営層（役員等）'))
+      (empPct(b, EMP.selfEmployedFreelance) + empPct(b, EMP.executive)) -
+      (empPct(a, EMP.selfEmployedFreelance) + empPct(a, EMP.executive))
       || (b.salary ?? 0) - (a.salary ?? 0))
     .slice(0, TOP_N);
 
