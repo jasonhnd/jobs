@@ -1,0 +1,5 @@
+# Responsible disclosure contact (RFC 9116).
+Contact: mailto:feedback@mirai-shigoto.com
+Expires: 2027-06-03T00:00:00.000Z
+Preferred-Languages: ja, en
+Canonical: https://mirai-shigoto.com/.well-known/security.txt

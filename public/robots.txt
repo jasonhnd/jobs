@@ -3,12 +3,16 @@
 # All crawlers — including AI / LLM training & retrieval bots — are welcome.
 
 User-agent: *
-Allow: /
-# Allow social-platform OG image scrapers and search crawlers to fetch
-# the dynamically rendered preview cards. The other /api/ endpoints
-# (subscribe, feedback) are write-side and remain disallowed.
-Allow: /api/og
+# Rule order is intentional: legacy crawlers that implement RFC-original
+# FIRST-MATCH semantics will see `Disallow: /api/` before the catch-all
+# `Allow: /` and correctly block `/api/feedback` and `/api/subscribe`.
+# Modern crawlers (Google/Bing/Yandex per RFC 9309) use MOST-SPECIFIC match
+# and reach `Allow: /api/og` for the OG endpoint either way.
 Disallow: /api/
+# Allow social-platform OG image scrapers and search crawlers to fetch
+# the dynamically rendered preview cards.
+Allow: /api/og
+Allow: /
 
 # AI / LLM crawlers — explicitly opted in.
 # Discoverability via AI search (ChatGPT, Claude, Perplexity, Gemini) is

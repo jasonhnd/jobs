@@ -81,7 +81,7 @@ export function renderRelatedSkills(
 
 const SITE = 'https://mirai-shigoto.com';
 const DATE_PUBLISHED = '2026-05-09';
-const DATE_MODIFIED = '2026-05-09';
+const DATE_MODIFIED = '2026-05-30';  // Bumped to latest score-run date; see Ranking.ts
 
 export function renderJsonLd(
   canonical: string,
