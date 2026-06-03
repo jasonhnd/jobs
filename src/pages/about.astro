@@ -8,10 +8,12 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
-import { nowIso } from '../lib/now';
 import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
 
-const pageLastUpdated = nowIso().slice(0, 10);
+// Last content-change date — bump when this page's content actually changes.
+// Static (NOT the build clock): a build-time date drifted the SEO baseline on
+// every new UTC day. See ai-adoption.ts for the data-derived equivalent.
+const pageLastUpdated = '2026-06-02';
 
 const SCALE: { range: string; mid: number; desc: string }[] = [
   { range: '0–2（最小）', mid: 1, desc: '物理・現場仕事（清掃、林業、調理、配送）' },
