@@ -8,13 +8,14 @@
  * "cross-cutting concern = another form of view", these typed-data maps are a
  * view: input = route param, output = typed `GenericCardConfig`.
  *
- * The 5 dicts here cover:
+ * The 6 dicts here cover:
  *
- *   PAGE_CARDS      — 35 static pages (home / legal / hubs / yearly)
+ *   PAGE_CARDS      — static pages + tools (home / legal / hubs / yearly / me)
  *   RANKING_CARDS   — N rankings (built from RANKING_META)
  *   INTEREST_CARDS  — 6 RIASEC types (built from INTEREST_META)
  *   SKILL_CARDS     — 10 hub skills (built from SKILL_META)
- *   COMPARE_CARDS   — 12 compare pairs (built from COMPARE_META)
+ *   COMPARE_CARDS   — N compare pairs (built from COMPARE_META)
+ *   EXPLORE_CARDS   — 7 explore routes (built from EXPLORE_ROUTES, ?route=)
  *
  * The 4 built-from-META dicts re-derive on every import, but
  * the META modules are static const data so cost is negligible.
@@ -28,6 +29,7 @@ import { RANKING_META } from './rankings-meta.js';
 import { INTEREST_META } from './interests-meta.js';
 import { SKILL_META } from './skills-meta.js';
 import { COMPARE_META } from './compare-meta.js';
+import { EXPLORE_ROUTES } from './explore-routes.js';
 import type { GenericCardConfig } from '../lib/og-helpers.js';
 
 /** 35 static page variants — homepage, legal, hub indexes, yearly,
@@ -105,6 +107,7 @@ export const PAGE_CARDS: Record<string, GenericCardConfig> = {
   'yearly-5year':   { eyebrow: '5 YEARS',            title: '5 年で変わった職業',      subtitle: '2021→2026 の変化追跡' },
   'yearly-next-decade': { eyebrow: 'NEXT 10 YEARS',  title: '今後 10 年の職業展望',    subtitle: '2030 年代の予測' },
   explore:          { eyebrow: 'EXPLORE · 7 入口',   title: '探す方法',                subtitle: '7 つの入口から職業を整理' },
+  me:               { eyebrow: 'ME · 自分の現在地',  title: '自分の現在地',            subtitle: '職業を入力 → 全 39 ランキングでの位置・業種内の類似職を瞬時に表示' },
 };
 
 /** N ranking detail card variants — built from the shared RANKING_META.
@@ -143,5 +146,16 @@ export const COMPARE_CARDS: Record<string, GenericCardConfig> = Object.fromEntri
   COMPARE_META.map((m) => [
     m.slug,
     { eyebrow: m.og_eyebrow, title: m.title_ja, subtitle: m.description_ja.slice(0, 80) + '…' },
+  ]),
+);
+
+/** 7 explore route card variants — built from EXPLORE_ROUTES (single
+ *  source of truth in src/views/explore-routes.ts). Adding a route there
+ *  auto-registers its OG card, reached via ?route=<slug> from
+ *  src/pages/explore/[route].astro. */
+export const EXPLORE_CARDS: Record<string, GenericCardConfig> = Object.fromEntries(
+  EXPLORE_ROUTES.map((r) => [
+    r.slug,
+    { eyebrow: r.og_eyebrow, title: r.title_ja, subtitle: r.description_ja },
   ]),
 );
