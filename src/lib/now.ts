@@ -28,6 +28,10 @@
  * offset, e.g. "2026-05-09T01:29:25+00:00".
  */
 
+// Module-level mutable cache — a DELIBERATE, contained exception to the
+// project's immutability rule. nowIso() must return one value per build process
+// (so every projection shares a single timestamp); the build is single-threaded
+// and tests reset it via _resetNowIsoCache(). Not a pattern to copy elsewhere.
 let cached: string | null = null;
 
 function compute(): string {

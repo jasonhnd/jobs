@@ -12,6 +12,7 @@ import {
   rateLimitCheck,
   verifyTurnstile,
   isProduction,
+  isHttpsUrl,
 } from './api-security.js';
 
 const ALLOWED = new Set([
@@ -51,6 +52,20 @@ describe('refererOrigin', () => {
       'https://mirai-shigoto.com:8443');
     assert.equal(refererOrigin('http://mirai-shigoto.com/x'),
       'http://mirai-shigoto.com');
+  });
+});
+
+describe('isHttpsUrl — Upstash endpoint guard (S2)', () => {
+  test('accepts a valid https URL', () => {
+    assert.equal(isHttpsUrl('https://x.upstash.io'), true);
+  });
+
+  test('rejects http / non-URL / empty / non-string (treated as not-configured)', () => {
+    assert.equal(isHttpsUrl('http://x.upstash.io'), false);
+    assert.equal(isHttpsUrl('not a url'), false);
+    assert.equal(isHttpsUrl(''), false);
+    assert.equal(isHttpsUrl(undefined), false);
+    assert.equal(isHttpsUrl(null), false);
   });
 });
 

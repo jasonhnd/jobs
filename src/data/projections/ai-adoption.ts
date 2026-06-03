@@ -263,6 +263,12 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
     N_unreached: Math.max(0, rTotal - rDev - rPro - rFree - rPassive),
   };
 
+  // age_days / freshness_status below are INTENTIONALLY wall-clock-relative:
+  // they measure how stale each source is *as of now*, so they SHOULD advance
+  // between builds even when the data is unchanged. That is why they use `now`
+  // (not the content-derived dataAsOf above), and why they are excluded from the
+  // SEO baseline (rendered freshness pills, not page metadata). Do NOT "fix" this
+  // to a content date — staleness is meaningless without a moving reference.
   const sourceRows = observations.map((o) => {
     const ageDays = daysSince(o.published_at, now);
     const sourceDef = sources[o.source_key];
