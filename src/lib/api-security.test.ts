@@ -97,16 +97,16 @@ describe('makeOriginGate', () => {
     assert.equal(res, null);
   });
 
-  test('rejects when Origin is non-allowlisted even if Referer matches', async () => {
-    // Defensive: if browser sent a hostile Origin, we treat that as a
-    // stronger signal than a possibly-spoofable Referer.
-    // (Actually the gate ORs them; this case still passes because Referer wins.
-    // Keeping the test as documentation of intentional behavior.)
+  test('rejects when Origin is present-but-hostile even if Referer matches', async () => {
+    // A present Origin is authoritative: a hostile Origin fails fast and does
+    // NOT fall through to the (spoofable) Referer. Only a MISSING Origin lets
+    // the Referer fallback decide (see the test above).
     const res = gate(makeReq({
       origin: 'https://evil.com',
       referer: 'https://mirai-shigoto.com/',
     }));
-    assert.equal(res, null, 'Referer fallback intentionally OR-allows');
+    assert.ok(res, 'present hostile Origin must be rejected outright');
+    assert.equal(res.status, 403);
   });
 });
 

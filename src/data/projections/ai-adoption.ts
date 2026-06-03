@@ -205,6 +205,15 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
 
   const nTotal = metricValue(observations, assumptions.primary_denominator_metric);
   const nPopulation = metricValue(observations, assumptions.auxiliary_denominator_metric);
+  // Denominators must be strictly positive: every share/rate below divides by
+  // one of them, and a 0 would serialize as Infinity→null and silently corrupt
+  // the dashboard. assertFiniteNumber only rules out NaN/±Infinity, not 0.
+  if (nTotal <= 0) {
+    throw new Error(`[ai-adoption] primary denominator ${assumptions.primary_denominator_metric} must be > 0, got ${nTotal}`);
+  }
+  if (nPopulation <= 0) {
+    throw new Error(`[ai-adoption] auxiliary denominator ${assumptions.auxiliary_denominator_metric} must be > 0, got ${nPopulation}`);
+  }
 
   const devRaw = metricSum(observations, 'developer_active_users');
   const nDev = devRaw * (1 - parameter(assumptions, 'dev_multi_tool_overlap'));
@@ -233,14 +242,25 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
 
   const nUnreached = Math.max(0, nTotal - nDev - nPro - nFree - nPassive);
 
+  // Round each reached layer independently, then derive N_unreached as the
+  // residual so the five layer integers sum EXACTLY to round(N_total). The
+  // dashboard presents them as a 100% decomposition of internet users, so the
+  // published parts must reconcile to the whole — rounding all six in
+  // isolation left a ±1-person gap (sum of parts ≠ total). `nUnreached`
+  // (unrounded) is still used for the rate fields below.
+  const rTotal = round(nTotal);
+  const rDev = round(nDev);
+  const rPro = round(nPro);
+  const rFree = round(nFree);
+  const rPassive = round(nPassive);
   const totals: Record<LayerId | 'N_total' | 'N_population', number> = {
-    N_total: round(nTotal),
+    N_total: rTotal,
     N_population: round(nPopulation),
-    N_dev: round(nDev),
-    N_pro: round(nPro),
-    N_free: round(nFree),
-    N_passive: round(nPassive),
-    N_unreached: round(nUnreached),
+    N_dev: rDev,
+    N_pro: rPro,
+    N_free: rFree,
+    N_passive: rPassive,
+    N_unreached: Math.max(0, rTotal - rDev - rPro - rFree - rPassive),
   };
 
   const sourceRows = observations.map((o) => {
