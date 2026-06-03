@@ -194,6 +194,15 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
   const generatedAt = nowIso();
   const now = new Date(generatedAt);
 
+  // `updated_at` is the freshest underlying observation date (content-derived),
+  // NOT the build clock. It feeds the /aiadoption JSON-LD `dateModified` and the
+  // visible 更新 pill, so deriving it from the data keeps both stable across
+  // rebuilds — they only advance when newer data lands, which is what "last
+  // updated" should mean. Using nowIso() here made the SEO baseline drift on
+  // every new UTC day even when nothing changed (2026-06-03).
+  const dataAsOf =
+    observations.map((o) => o.as_of_date).sort().at(-1) ?? generatedAt.slice(0, 10);
+
   const nTotal = metricValue(observations, assumptions.primary_denominator_metric);
   const nPopulation = metricValue(observations, assumptions.auxiliary_denominator_metric);
 
@@ -370,7 +379,7 @@ export async function buildAiAdoption(distRoot: string): Promise<AiAdoptionBuild
     model_version: assumptions.model_version,
     period: assumptions.period,
     generated_at: generatedAt,
-    updated_at: generatedAt.slice(0, 10),
+    updated_at: dataAsOf,
     title_ja: displayModel.title_ja,
     subtitle_ja: displayModel.subtitle_ja,
     denominator: {
