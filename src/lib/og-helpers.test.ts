@@ -32,6 +32,7 @@ import { join } from 'node:path';
 import {
   DetailRecordSchema,
   SectorsProjectionSchema as OgSectorsProjectionSchema,
+  trustedFetchOrigin,
 } from './og-helpers.js';
 import {
   DetailFileSchema,
@@ -66,9 +67,12 @@ describe('og-helpers schema drift guard', () => {
     // 3) Every field the OG runtime path actually reads must resolve.
     const d = ogResult.data;
     assert.equal(typeof d.id, 'number', 'OG card reads id');
-    assert.ok(d.title?.ja, 'OG card reads title.ja for the occupation card subtitle');
+    assert.equal(typeof d.title?.ja, 'string', 'OG card reads title.ja for the occupation name');
     assert.equal(typeof d.ai_risk?.score, 'number', 'OG card reads ai_risk.score for the risk pill');
-    assert.equal(typeof d.ai_risk?.rationale_ja, 'string', 'OG card reads ai_risk.rationale_ja for the rationale row');
+    // The occupation card does NOT read ai_risk.rationale_ja — it renders
+    // score + name + workers + salary only. A prior assertion here pinned a
+    // "rationale row" the renderer never had; removed so the drift guard
+    // reflects what occupation.ts actually consumes.
     // stats may be missing for a handful of occupations — the OG card
     // handles null gracefully. Just assert the shape when present.
     if (d.stats) {
@@ -112,6 +116,20 @@ describe('og-helpers schema drift guard', () => {
       assert.equal(typeof s.mean_ai_risk, 'number', 'sector mean_ai_risk is number');
       assert.equal(typeof s.total_workforce, 'number', 'sector total_workforce is number');
     }
+  });
+
+  test('trustedFetchOrigin: trusted hosts use their own origin (preview reads its own data)', () => {
+    // pinned: each preview/prod host fetches from itself.
+    assert.equal(trustedFetchOrigin(new URL('https://mirai-shigoto.com/api/og?id=1')), 'https://mirai-shigoto.com');
+    assert.equal(trustedFetchOrigin(new URL('https://pre.mirai-shigoto.com/api/og?id=1')), 'https://pre.mirai-shigoto.com');
+    assert.equal(trustedFetchOrigin(new URL('https://jobs-abc123-zkscio.vercel.app/api/og?id=1')), 'https://jobs-abc123-zkscio.vercel.app');
+    assert.equal(trustedFetchOrigin(new URL('http://localhost:4321/api/og?id=1')), 'http://localhost:4321');
+  });
+
+  test('trustedFetchOrigin: an untrusted (spoofed-Host) origin falls back to production', () => {
+    // SSRF guard: a forged Host must not become a server-side fetch target.
+    assert.equal(trustedFetchOrigin(new URL('https://evil.com/api/og?id=1')), 'https://mirai-shigoto.com');
+    assert.equal(trustedFetchOrigin(new URL('https://mirai-shigoto.com.evil.com/api/og?id=1')), 'https://mirai-shigoto.com');
   });
 
   test('DetailRecordSchema is structurally a subset of DetailFileSchema (passthrough check)', () => {

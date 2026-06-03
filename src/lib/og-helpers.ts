@@ -133,6 +133,33 @@ export function padId(idDigits: string): string {
   return idDigits.padStart(4, "0");
 }
 
+/** Production origin — the fallback target for {@link trustedFetchOrigin}. */
+const PRODUCTION_ORIGIN = "https://mirai-shigoto.com";
+
+/**
+ * Origin to use for an OG renderer's upstream `/data.*.json` fetch.
+ *
+ * The renderers fetch from the REQUEST's own origin so each preview deploy
+ * reads its own data (pinned by occupation.test.ts — preview cards must not
+ * silently pull production data). This guard keeps that behaviour for hosts we
+ * actually serve — `mirai-shigoto.com` (+ subdomains), `*.vercel.app` preview
+ * domains, and localhost dev — but for any OTHER host (i.e. a spoofed `Host`
+ * header) it falls back to the production origin rather than issuing a
+ * server-side fetch to an attacker-chosen host. SSRF defence-in-depth: Vercel
+ * already normalises `Host` to the deployment domain, so this is a
+ * belt-and-braces guard, and it degrades to a valid card (never hard-fails).
+ */
+export function trustedFetchOrigin(url: URL): string {
+  const host = url.hostname;
+  const trusted =
+    host === "mirai-shigoto.com" ||
+    host.endsWith(".mirai-shigoto.com") ||
+    host.endsWith(".vercel.app") ||
+    host === "localhost" ||
+    host === "127.0.0.1";
+  return trusted ? url.origin : PRODUCTION_ORIGIN;
+}
+
 // ─── Font loading with in-flight Promise cache ────────────────────────────
 
 /**
@@ -199,7 +226,15 @@ async function fetchGoogleFont(family: string, weight: number, text: string): Pr
   const css = await cssRes.text();
   const match = css.match(/src:\s*url\((.+?)\)\s*format\(['"](opentype|truetype)['"]\)/);
   if (!match) throw new Error(`font src not found in CSS: ${family} ${weight}`);
-  const fontRes = await fetch(match[1]);
+  // Defence-in-depth: match[1] is extracted from Google's CSS *response* —
+  // external data we parse. Pin the binary fetch to the known font CDN so a
+  // poisoned / MITM'd / future-redesigned CSS body can't redirect this into
+  // an arbitrary-host server-side fetch (SSRF) from the Edge network.
+  const fontBinaryUrl = match[1];
+  if (!fontBinaryUrl.startsWith("https://fonts.gstatic.com/")) {
+    throw new Error(`unexpected font binary host (expected fonts.gstatic.com): ${fontBinaryUrl}`);
+  }
+  const fontRes = await fetch(fontBinaryUrl);
   if (!fontRes.ok) throw new Error(`failed to fetch font binary: ${fontRes.status}`);
   return await fontRes.arrayBuffer();
 }

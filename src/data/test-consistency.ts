@@ -14,6 +14,7 @@
 import { existsSync, readdirSync, statSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
+import { riskBand } from './lib/bands.js';
 
 const REPO = process.cwd();
 
@@ -225,8 +226,20 @@ async function checkTreemap(distRoot: string, r: Report): Promise<unknown[]> {
       if (aiRisk < 0 || aiRisk > 10) {
         r.fail(`id=${rid} ai_risk out of range: ${aiRisk}`);
       }
-      const tier = aiRisk < 5 ? 'low' : aiRisk < 7 ? 'mid' : 'high';
-      riskCounts[tier]! += 1;
+      // Use the canonical band fn (4.0 / 7.0 boundaries) so this telemetry —
+      // and the degenerate-tier warning below — match the risk_band the
+      // treemap actually emits. A local 5.0 boundary previously made the
+      // printed counts disagree with the published risk_band distribution.
+      const tier = riskBand(aiRisk);
+      if (tier) {
+        riskCounts[tier] += 1;
+        // Assert the stored risk_band matches the canonical band, so a
+        // regression in treemap.ts's band stamping fails the gate.
+        const emitted = (rec.risk_band ?? null) as 'low' | 'mid' | 'high' | null;
+        if (emitted !== null && emitted !== tier) {
+          r.fail(`id=${rid} risk_band "${emitted}" != canonical "${tier}" (ai_risk=${aiRisk})`);
+        }
+      }
       nWithScore += 1;
     }
     if (rec.salary != null) salaryPresent += 1;

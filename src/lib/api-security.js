@@ -59,16 +59,27 @@ export function refererOrigin(referer) {
  *   new Set(["https://mirai-shigoto.com", "http://localhost:8765"])
  */
 export function makeOriginGate(allowedOrigins) {
+  const forbidden = () => new Response(JSON.stringify({ error: "forbidden_origin" }), {
+    status: 403,
+    headers: { "Content-Type": "application/json" },
+  });
   return function enforceOriginOr403(req) {
     const origin = req.headers.get("origin") || "";
-    const refererHdr = req.headers.get("referer") || "";
-    if (origin && allowedOrigins.has(origin)) return null;
-    const refOrigin = refererOrigin(refererHdr);
+    // Origin, when present, is authoritative: browsers attach it to every
+    // cross-origin (and most same-origin POST) request and a page cannot forge
+    // another site's Origin. So a PRESENT-but-non-allowlisted Origin fails fast
+    // — we do NOT fall through to the Referer check, which a non-browser client
+    // can spoof to slip a hostile Origin past the gate. (This realises the
+    // "hostile Origin is a stronger signal than a spoofable Referer" intent
+    // already noted in api-security.test.ts.)
+    if (origin) {
+      return allowedOrigins.has(origin) ? null : forbidden();
+    }
+    // Origin absent (some same-origin navigations / proxies omit it) → fall
+    // back to the parsed Referer origin.
+    const refOrigin = refererOrigin(req.headers.get("referer") || "");
     if (refOrigin && allowedOrigins.has(refOrigin)) return null;
-    return new Response(JSON.stringify({ error: "forbidden_origin" }), {
-      status: 403,
-      headers: { "Content-Type": "application/json" },
-    });
+    return forbidden();
   };
 }
 
