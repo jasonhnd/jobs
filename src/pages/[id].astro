@@ -27,9 +27,12 @@ import { ID_PAGE_CSS } from './_id-css';
 import type { Rec } from '@/views/occupation-detail';
 import { type SpokeNeighbor } from '@/views/spoke-spoke-graph';
 
-// Schema.org dates — page-internal versioning, not derived state.
+// Schema.org dates — page-internal versioning, not derived state. Both must
+// satisfy `dateModified >= datePublished` (a 2026-06-03 audit found
+// DATE_MODIFIED predating DATE_PUBLISHED, which Google's structured-data
+// validator rejects on all 556 occupation pages).
 const DATE_PUBLISHED = '2026-05-30';
-const DATE_MODIFIED = '2026-04-30';
+const DATE_MODIFIED = '2026-05-30';
 
 // ─── getStaticPaths ──────────────────────────────────────────────────────────
 //

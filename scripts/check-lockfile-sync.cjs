@@ -111,6 +111,28 @@ for (const [name, lockSpec] of lockDeps) {
   }
 }
 
+// (c) `overrides` drift. We added tmp/uuid pins on 2026-06-03 to clear
+//     dev-only audit advisories; editing the spec there without running
+//     `bun install` would slip past the dep checks above (overrides live at
+//     the top level of bun.lock, not inside `workspaces['']`). Vercel's
+//     `--frozen-lockfile` would still catch it on deploy, but we want the
+//     same fail-fast surface locally.
+const pkgOverrides = (pkg.overrides && typeof pkg.overrides === 'object') ? pkg.overrides : {};
+const lockOverrides = (lock.overrides && typeof lock.overrides === 'object') ? lock.overrides : {};
+for (const [name, spec] of Object.entries(pkgOverrides)) {
+  const lockSpec = lockOverrides[name];
+  if (lockSpec === undefined) {
+    issues.push({ name: `overrides.${name}`, packageSpec: String(spec), lockSpec: null, kind: 'override-missing-from-lockfile' });
+  } else if (String(lockSpec) !== String(spec)) {
+    issues.push({ name: `overrides.${name}`, packageSpec: String(spec), lockSpec: String(lockSpec), kind: 'override-spec-mismatch' });
+  }
+}
+for (const [name, lockSpec] of Object.entries(lockOverrides)) {
+  if (!(name in pkgOverrides)) {
+    issues.push({ name: `overrides.${name}`, packageSpec: null, lockSpec: String(lockSpec), kind: 'extra-override-in-lockfile' });
+  }
+}
+
 // Integrity health check: the resolved `packages` table must be present
 // when the workspace declares any deps. A workspace-only lockfile with an
 // empty/missing packages table means a half-truncated or hand-edited file.

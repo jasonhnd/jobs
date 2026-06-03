@@ -160,7 +160,9 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 `} />
   <style slot="head" set:html={RELATED_CROSS_HUB_CSS} />
 
-  <a class="skip-link" href="#content">本文へスキップ</a>
+  {/* BaseLayout already emits the canonical skip-link to #main-content; the
+      earlier duplicate at this location targeted #content and put two
+      back-to-back skip-links into every compare page's tab order. */}
 
   <div
     id="wrapper"

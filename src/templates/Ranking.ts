@@ -214,7 +214,11 @@ export function renderRelatedRankings(
 
 const SITE = 'https://mirai-shigoto.com';
 const DATE_PUBLISHED = '2026-05-06';
-const DATE_MODIFIED = '2026-05-06';
+// Bumped to the latest score-run date so freshness signals match the data
+// actually being shown. (A content-derived value via `latestContentDate()`
+// would be more robust still — left as a TODO; threading the date through
+// the existing builder is a moderate refactor.)
+const DATE_MODIFIED = '2026-05-30';
 
 export function renderJsonLd(
   canonical: string,

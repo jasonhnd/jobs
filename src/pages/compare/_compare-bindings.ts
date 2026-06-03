@@ -41,7 +41,11 @@ export function buildComparePairBindings(result: CompareResult, graph: Knowledge
   const meta = result.meta;
   const canonical = `${SITE}/compare/${slug}`;
   const ogImage = `${SITE}/api/og?compare=${slug}`;
-  const title = `${meta.title_ja}｜AI 影響度・年収・働き方の違いを比較【2026 年版】 | 未来の仕事`;
+  // The shorter "｜AI影響度・年収を比較" suffix keeps every pair's title under
+  // Google's 60-char SERP truncation limit, including the longest pair
+  // "Web マーケター vs マーケティング・リサーチャー" which previously overflowed
+  // and had its trailing "| 未来の仕事" cut off.
+  const title = `${meta.title_ja}｜AI影響度・年収を比較【2026 年版】｜未来の仕事`;
   const seoDesc = `${result.a.name_ja} と ${result.b.name_ja} を AI 影響度・年収・労働条件・必要スキルで比較。${meta.description_ja.slice(0, 100)}…`;
   const heroHtml = renderCompareHero(result.a, result.b);
   const tableHtml = renderCompareTable(result.rows, result.a.name_ja, result.b.name_ja);

@@ -58,6 +58,7 @@ function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
       {
         '@type': 'QAPage',
         '@id': `${canonical}#qa`,
+        breadcrumb: { '@id': `${canonical}#breadcrumb` },
         mainEntity: {
           '@type': 'Question',
           name: qa.question,
@@ -65,7 +66,12 @@ function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
           acceptedAnswer: { '@type': 'Answer', text: qa.short_answer + ' ' + qa.reasoning },
         },
       },
-      { '@type': 'BreadcrumbList', itemListElement: [
+      // BreadcrumbList carries an `@id` so the QAPage above can reference it
+      // via `breadcrumb: { '@id': ... }` — without that pair, schema.org
+      // linked-data processors can't connect the two nodes and Google's
+      // breadcrumb SERP enrichment is silently dropped (other page families
+      // (occupation, ranking) already do this correctly).
+      { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
         { '@type': 'ListItem', position: 1, name: '未来の仕事', item: `${SITE}/` },
         { '@type': 'ListItem', position: 2, name: '質問で探す', item: `${SITE}/q` },
         { '@type': 'ListItem', position: 3, name: qa.question, item: canonical },

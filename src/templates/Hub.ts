@@ -54,7 +54,7 @@ export function renderRankItem(o: GenreOccupation, shortJa: string): SafeHtml {
 
 const SITE = 'https://mirai-shigoto.com';
 const DATE_PUBLISHED = '2026-05-10';
-const DATE_MODIFIED = '2026-05-10';
+const DATE_MODIFIED = '2026-05-30';  // Bumped to latest score-run date; see Ranking.ts
 
 export function renderGenreJsonLd(
   canonical: string,

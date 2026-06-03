@@ -230,7 +230,11 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     name: nameJa,
     description: pageDesc,
     occupationLocation: { '@type': 'Country', name: 'Japan' },
-    occupationalCategory: classificationMain ?? String(id),
+    // Fall back to the Japanese sector name (a meaningful taxonomy term) when
+    // neither MHLW nor JSOC classifications are available — the previous bare
+    // String(id) value emitted a numeric occupation id as the category, which
+    // is meaningless to consumers of the structured-data graph.
+    occupationalCategory: classificationMain ?? sectorJa ?? String(id),
     sameAs: mhlwUrl,
     additionalProperty: additional,
     isPartOf: { '@id': DATASET_REF },

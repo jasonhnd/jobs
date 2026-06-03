@@ -100,15 +100,19 @@ export function buildSitemapEntries(
 
   const entries: SitemapEntry[] = [];
 
-  // Top-level
+  // Top-level. NOTE: the previous version emitted `/map?sector=<id>` query-
+  // string variants too — but Astro `output: 'static'` serves the SAME html
+  // for every query-string, so those 16 entries were duplicate-content
+  // signals + wasted crawl budget. The sector filter is now client-side
+  // state only; canonical `/sectors/<id>` hub pages cover SEO for sectors.
   entries.push(entry(`${SITE_ORIGIN}/`, today, 'weekly', '1.0'));
   entries.push(entry(`${SITE_ORIGIN}/map`, today, 'monthly', '0.9'));
   entries.push(entry(`${SITE_ORIGIN}/aiadoption`, today, 'monthly', '0.7'));
-
-  // Sector-filtered map variants
-  for (const sid of sectorIds) {
-    entries.push(entry(`${SITE_ORIGIN}/map?sector=${sid}`, today, 'monthly', '0.7'));
-  }
+  // /me is the "self-positioning" tool linked from MobileNav + 3 hub pages —
+  // a real indexable surface that was previously missing from the sitemap
+  // (2026-06-03 SEO audit). Weekly because the per-job position changes
+  // whenever an occupation's scores or salary updates.
+  entries.push(entry(`${SITE_ORIGIN}/me`, today, 'weekly', '0.7'));
 
   // Legal / static pages
   entries.push(entry(`${SITE_ORIGIN}/privacy`, today, 'yearly', '0.3'));

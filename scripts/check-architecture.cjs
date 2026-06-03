@@ -241,6 +241,19 @@ function extractImports(source) {
     out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1] });
   }
 
+  // Re-export forms: `export { x } from '...'` / `export * from '...'` /
+  // `export * as ns from '...'`. The bundler walks these EXACTLY like an
+  // `import ... from` for dependency-graph purposes, so the architecture gate
+  // must too — otherwise a `templates/x.ts` could `export { y } from
+  // '../graph/y.js'` and the templates→graph forbidden edge would slip past.
+  // (Caught by the 2026-06-03 gates audit; this hole exactly matches the
+  // class of issue the 27-deploy incident on 2026-05-13/14 was supposed to
+  // prevent in the Edge dep walker.)
+  const reexportRe = /^[ \t]*export\s+(type\s+)?(?:\{[^}]*\}|\*(?:\s+as\s+\w+)?)\s+from\s*['"]([^'"]+)['"]/gm;
+  while ((m = reexportRe.exec(source)) !== null) {
+    out.push({ line: offsetToLine(m.index), target: m[2], isTypeOnly: !!m[1] });
+  }
+
   // Bare side-effect imports: `import '...';`
   const bareRe = /(^|[\s;])import\s*['"]([^'"]+)['"]/g;
   while ((m = bareRe.exec(source)) !== null) {

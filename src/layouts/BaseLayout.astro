@@ -254,7 +254,13 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
           var id = meta.getAttribute('content');
           if (!id) return;
           window.__metaPixelInit = function () {
-            if (window.__metaPixelStarted) return;
+            // Guard against re-entry on a fast Accept-click that races the
+            // window.load auto-init: both paths call __metaPixelInit, but
+            // __metaPixelStarted only flips after fbevents.js finishes
+            // loading. Without an "initializing" flag, the second call would
+            // re-fire `init` + `track('PageView')` and double-bill the event.
+            if (window.__metaPixelStarted || window.__metaPixelInitializing) return;
+            window.__metaPixelInitializing = true;
             /* Install the standard Meta Pixel stub. It sets fbq as a function
                that queues calls into n.queue until the real fbevents.js loads
                and overrides n.callMethod. We KEEP the stub's queueing semantics
@@ -291,6 +297,9 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
               }
             };
             t.onerror = function () {
+              // Clear the initializing flag so a subsequent consent grant
+              // (or page reload) can retry the load.
+              window.__metaPixelInitializing = false;
               console.warn('[meta-pixel] fbevents.js load failed; init will retry on next consent grant');
             };
             var s = document.getElementsByTagName('script')[0];
@@ -336,8 +345,14 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
         });
       })();
     </script>
-    <MobileNav />
-    <TopNav />
+    {/* `<header>` as a direct child of `<body>` carries the implicit
+        "banner" landmark role. AT users navigating by landmark previously
+        found no page-level banner because MobileNav/TopNav each emitted
+        their own inner header without a wrapping landmark above them. */}
+    <header>
+      <MobileNav />
+      <TopNav />
+    </header>
     <main id="main-content">
       <slot />
     </main>
@@ -346,7 +361,7 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
     {/* RA-013 (2026-05-18): Cookie consent banner. Hidden by default; shown
         when localStorage.cookieConsent is unset. Fires gtag consent 'update'
         on accept; rejects merely remembers the choice (default is denied). */}
-    <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie 同意" hidden>
+    <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie 同意" aria-live="polite" hidden>
       <div class="cb-inner">
         <p class="cb-text">
           本サイトはアクセス解析のために Cookie を使用します。同意いただける場合は「同意する」を、不要な場合は「拒否する」を選択してください。詳細は <a href="/privacy">プライバシーポリシー</a>。
@@ -368,7 +383,7 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
             document.cookie =
               KEY + '=' + encodeURIComponent(val) +
               '; Max-Age=' + COOKIE_MAX_AGE +
-              '; Path=/; SameSite=Lax';
+              '; Path=/; SameSite=Lax; Secure';
           } catch (e) {}
         }
         var banner = document.getElementById('cookieBanner');

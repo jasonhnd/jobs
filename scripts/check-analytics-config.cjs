@@ -73,6 +73,12 @@ const ENV_SCAN_FILES = [
   // the homepage bypassed BaseLayout and inlined its own analytics + env
   // hardcodes. After the BaseLayout migration, index-source.html is now
   // body-only (no env refs), so it's no longer in this list.
+  // 2026-06-03 gates audit: middleware.ts reads PUBLIC_GA4_MEASUREMENT_ID via
+  // process.env (it's an Edge function, not an Astro source) — without this
+  // entry, removing that var from .env.example would slip past Step C and
+  // also past Step D (which skips PUBLIC_* on the assumption Step C covered
+  // it). The Step C regex below matches `process.env.PUBLIC_*` too.
+  'middleware.ts',
   // Add new entry points here as they start reading PUBLIC_* env.
 ];
 
@@ -159,7 +165,10 @@ for (const file of ENV_SCAN_FILES) {
     violations.push(`Cannot read scan file ${file}: ${err.message}`);
     continue;
   }
-  for (const match of content.matchAll(/import\.meta\.env\.(PUBLIC_[A-Z0-9_]+)/g)) {
+  // Astro `.astro` files read PUBLIC_* via `import.meta.env`; Vercel Edge
+  // functions (middleware.ts, api/*) read it via `process.env`. Match both
+  // forms so the audit covers the full surface.
+  for (const match of content.matchAll(/(?:import\.meta\.env|process\.env)\.(PUBLIC_[A-Z0-9_]+)/g)) {
     publicEnvReferenced.add(match[1]);
   }
 }
