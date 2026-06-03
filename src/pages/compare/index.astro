@@ -84,8 +84,8 @@ h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--f
 /* compact chip 一覧 — 説明文を出さず title + 双方名 + risk pill のみ */
 .compare-section-heading{font-family:var(--font-sans);font-size:1.15rem;font-weight:700;color:var(--fg);margin:48px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .compare-section-heading .ccq-count{color:var(--fg3);font-weight:500;font-size:.85rem;margin-left:8px}
-.compare-chips{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;padding:0;margin:0}
-.compare-chips li a{display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms}
+.compare-chips{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;padding:0;margin:0;grid-auto-rows:1fr}
+.compare-chips li a{display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;height:100%}
 .compare-chips li a:hover{border-color:var(--accent);transform:translateY(-1px)}
 .ccq-title{font-family:var(--font-sans);font-size:1rem;font-weight:700;color:var(--fg);line-height:1.3}
 .ccq-pair{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.82rem}
