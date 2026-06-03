@@ -205,6 +205,8 @@ function compareRiskClass(score: number | null): 'low' | 'mid' | 'high' {
 
 /**
  * 2026-06-04 双層改造: 説明付きの大カード。/compare hub で featured ペアのみに使う。
+ * v2 (2026-06-04): タイトルを大きく + ペアを A 行 / vs / B 行 の縦積みに分割
+ * (横一列は日本語の長い職業名で省略されて読めなかった)。
  */
 export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
   return cards.map((c) => {
@@ -216,13 +218,17 @@ export function renderFeaturedCompareCards(cards: ReadonlyArray<CompareHubCard>)
       `<li><a href="/compare/${c.slug}">` +
       `<span class="cci-title">${escapeHtml(c.title_ja)}</span>` +
       `<span class="cci-pair">` +
+      `<span class="cci-side">` +
       `<span class="cci-name">${escapeHtml(c.a_name)}</span>` +
       `<span class="risk-pill ${aBand}">${escapeHtml(aRiskStr)}</span>` +
-      `<span class="cci-vs">vs</span>` +
+      `</span>` +
+      `<span class="cci-vs-row" aria-hidden="true">vs</span>` +
+      `<span class="cci-side">` +
       `<span class="cci-name">${escapeHtml(c.b_name)}</span>` +
       `<span class="risk-pill ${bBand}">${escapeHtml(bRiskStr)}</span>` +
       `</span>` +
-      `<span class="cci-desc">${escapeHtml(c.description_ja.length > 90 ? c.description_ja.slice(0, 90) + '…' : c.description_ja)}</span>` +
+      `</span>` +
+      `<span class="cci-desc">${escapeHtml(c.description_ja.length > 80 ? c.description_ja.slice(0, 80) + '…' : c.description_ja)}</span>` +
       `</a></li>`
     );
   }).join('') as SafeHtml;
