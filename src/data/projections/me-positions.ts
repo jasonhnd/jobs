@@ -25,8 +25,10 @@
  *
  * Per-slug 'rankers' below mirror the filter+sort logic in
  * src/views/ranking/rankings/*.ts exactly (verified against TOP-N output).
- * Keep the two in sync if either changes — there is no automated drift
- * test yet (RA-135 follow-up candidate).
+ * Keep the two in sync if either changes — a build-time drift guard in
+ * buildMePositions() (RA-135) now asserts the local RANKERS' TOP-N matches the
+ * canonical buildRankings() output for every slug and fails the build on
+ * divergence.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -410,8 +412,6 @@ const RANKERS: Record<RankingSlug, Ranker> = {
       ),
 };
 
-const UNIVERSE_SIZE = 556;
-
 /**
  * Build me-positions.json — runs loadGraph + buildRankings exactly once,
  * then walks every (jobId × slug) pair to assemble per-job position
@@ -445,6 +445,30 @@ export async function buildMePositions(
     result.items.forEach((o, i) => rankMap.set(o.id, i + 1));
     topRankBySlug.set(slug, rankMap);
     topTotalBySlug.set(slug, result.items.length);
+  }
+
+  // ───── Drift guard (RA-135) ─────
+  // The per-slug RANKERS above are a hand-maintained mirror of the canonical
+  // buildRankings() filter+sort. If they diverge, a job's published "上位 X%"
+  // (computed here from RANKERS) would contradict its rank on the live ranking
+  // page (from buildRankings). Assert the canonical TOP-N matches the local
+  // full-universe prefix for every slug and FAIL the build loudly rather than
+  // shipping inconsistent positions.
+  for (const [slug, result] of results) {
+    const localFull = fullBySlug.get(slug);
+    if (!localFull) {
+      throw new Error(`[me-positions] canonical ranking "${slug}" has no local RANKER — re-sync.`);
+    }
+    const canonicalTop = result.items;
+    for (let i = 0; i < canonicalTop.length; i += 1) {
+      if (canonicalTop[i]!.id !== localFull[i]) {
+        throw new Error(
+          `[me-positions] RANKER drift on "${slug}" at position ${i + 1}: ` +
+          `canonical=${canonicalTop[i]!.id} local=${localFull[i]}. ` +
+          `The local RANKERS mirror diverged from buildRankings() — re-sync them.`,
+        );
+      }
+    }
   }
 
   // ───── Assemble per-job positions ─────
@@ -503,7 +527,10 @@ export async function buildMePositions(
       generated_at: nowIso(),
       record_count: Object.keys(positions).length,
       ranking_count: Object.keys(RANKERS).length,
-      universe_size: UNIVERSE_SIZE,
+      // Derive from the actual occupation universe instead of a hardcoded 556,
+      // so the published "全 N 中…" denominator can't silently go stale when
+      // the occupation count changes.
+      universe_size: allOccs.length,
     },
     rankings,
     positions,

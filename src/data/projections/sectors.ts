@@ -169,7 +169,11 @@ export async function buildSectors(
   };
   const totalWorkforceFor = (sid: string): number => {
     const vs = workforceValues.get(sid);
-    return vs ? Math.round(fsum(vs)) : 0;
+    // bankerRound (not Math.round) to match the project's rounding contract
+    // used for every other derived numeric. Worker counts are integers, so
+    // fsum is integral and this is a no-op today — but it keeps the rounding
+    // rule consistent if fractional workforce ever enters the pipeline.
+    return vs ? bankerRound(fsum(vs), 0) : 0;
   };
 
   for (const s of indexes.sectors) {

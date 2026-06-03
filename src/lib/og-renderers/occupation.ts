@@ -24,6 +24,7 @@ import {
   fmtNumber,
   padId,
   DetailRecordSchema,
+  trustedFetchOrigin,
 } from '../og-helpers.js';
 import {
   COLORS,
@@ -72,7 +73,7 @@ export async function renderOccupationOgCard(
   }
   // Fetch the per-occupation detail file (~3.5 KB gz). Vercel CDN caches the
   // upstream fetch by URL, so concurrent OG requests for the same id share it.
-  const detailUrl = new URL(`/data.detail/${paddedId}.json`, url.origin);
+  const detailUrl = new URL(`/data.detail/${paddedId}.json`, trustedFetchOrigin(url));
   const detailRes = await fetch(detailUrl.toString());
   if (detailRes.status === 404) {
     return new Response('Occupation not found', { status: 404 });

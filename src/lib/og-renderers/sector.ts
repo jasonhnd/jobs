@@ -20,6 +20,7 @@ import {
   loadGoogleFont,
   fmtNumber,
   SectorsProjectionSchema,
+  trustedFetchOrigin,
 } from '../og-helpers.js';
 import { COLORS, FRAME_SUBSET, ogShell, topBar, footer, eyebrow } from './_frame.js';
 
@@ -34,7 +35,7 @@ export async function renderSectorOgCard(
     return new Response('Bad request: invalid sector id', { status: 400 });
   }
 
-  const sectorsUrl = new URL('/data.sectors.json', url.origin);
+  const sectorsUrl = new URL('/data.sectors.json', trustedFetchOrigin(url));
   const res = await fetch(sectorsUrl.toString());
   if (!res.ok) {
     return new Response('Upstream sectors fetch failed', { status: 502 });
