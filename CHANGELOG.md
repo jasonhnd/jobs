@@ -10,6 +10,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (Structured data — AIOIS-10 in Occupation JSON-LD - 2026-06-04)
+
+- The 556 occupation detail pages' `Occupation` JSON-LD now exposes the flagship
+  **AIOIS-10** profile as `additionalProperty` PropertyValues: the Transformation
+  index plus all ten orthogonal dimensions (D1–D10, each 0–10 with
+  `minValue`/`maxValue`). Previously the structured data carried only a single
+  generic "AI risk score (0-10)" — even though AIOIS-10 is the framework the site
+  is built around and the detail page already renders the full 10-dimension
+  breakdown visually (`src/templates/Aiois10Profile.ts`). This makes the flagship
+  scoring machine-readable for crawlers and `llms.txt` consumers.
+- Dimension names use the canonical English labels from `docs/AIOIS-10.md` §3
+  (D1 Cognitive–Generative Exposure … D10 Labor-Demand Trajectory); the page keeps
+  its Japanese labels.
+- The **Displacement-Risk** index is deliberately *not* emitted in structured
+  data, consistent with the site's headline framing (it remains visible on-page
+  as 「仕事が減るリスク」). The headline `aiRisk` already equals the Transformation
+  rollup, so no value changed — only new properties were added.
+- SEO baseline recaptured: 555 `json-ld.jsonl` drifts (one per scored
+  occupation), all additive. The other 7 baseline signatures are unchanged.
+  typecheck + 988 tests + build + gates green.
+
 ### Added (Content depth — internal-link surfaces, Batch 1 - 2026-06-04)
 
 - **RIASEC interest links on all 556 occupation detail pages.** The graph-derived
