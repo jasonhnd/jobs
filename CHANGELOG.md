@@ -10,6 +10,34 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (Content depth — internal-link surfaces, Batch 1 - 2026-06-04)
+
+- **RIASEC interest links on all 556 occupation detail pages.** The graph-derived
+  `interests` block was previously omitted from the spoke detail shape by a
+  byte-identity guard left over from the Phase D graph migration (the spoke
+  section's `/interests/<type>` rendering existed but never fired because
+  `topInterestTypes()` always saw `[]`). `buildOccupationSpokeViews` now
+  populates `interests` from `graph.interestsOf()`, surfacing each occupation's
+  top-2 RIASEC interest hubs. The interest hubs previously had zero inbound links
+  from detail pages.
+- **「各軸の代表職業」spotlight on 9 genre index pages** (`/abilities`,
+  `/education`, `/employment-types`, `/entry-paths`, `/knowledge`,
+  `/life-balance`, `/training`, `/values`, `/work-styles`). New
+  `buildGenreIndexSpotlight()` (view) + `renderGenreIndexSpotlight()` (template)
+  surface the #1 occupation of each sub-hub axis (deduped, capped at 12) as
+  direct occupation links with AI-risk pill + salary. These index pages
+  previously linked only sub-hub slugs — never occupations — so this opens the
+  first index→occupation internal-link surface.
+- Two opportunities were investigated and **intentionally dropped as redundant**:
+  same-sector occupation links on detail pages (the 転職先候補 / transfer-paths
+  section already scans the same-sector pool and links those occupations), and
+  cross-hub links to sibling genre families on index pages (the footer already
+  links every genre family on every page).
+- SEO baseline recaptured: 490 `internal-links.jsonl` drifts, all additive
+  (`+N / -0` hrefs). The other 7 baseline signatures (URL set, data files,
+  sitemap, image-sitemap, SEO metadata, OG/Twitter meta, JSON-LD) are unchanged.
+  typecheck + 988 tests + build + gates green.
+
 ### Changed (AI adoption — slimmed the source cards - 2026-06-02)
 
 - Trimmed the `入力データと更新日` source cards on `/aiadoption`: each card now
