@@ -68,7 +68,24 @@ const jsonLd = `{
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "datePublished": "2026-05-30",
       "dateModified": "${pageLastUpdated}",
-      "breadcrumb": { "@id": "https://mirai-shigoto.com/standard#breadcrumb" }
+      "breadcrumb": { "@id": "https://mirai-shigoto.com/standard#breadcrumb" },
+      "mainEntity": { "@id": "https://mirai-shigoto.com/standard#techarticle" },
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://mirai-shigoto.com/standard#techarticle",
+      "headline": "AIOIS-10 — AI 職業影響スタンダードの定義",
+      "description": "AI が仕事に与える影響を 10 次元（D1–D10）と 2 指数（変化の大きさ・仕事が減るリスク）で測る公開リファレンス基準 AIOIS-10。EMFO の 4 段階モデルにもとづく。",
+      "url": "https://mirai-shigoto.com/standard",
+      "inLanguage": "ja",
+      "datePublished": "2026-05-30",
+      "dateModified": "${pageLastUpdated}",
+      "author": { "@id": "https://mirai-shigoto.com/#organization" },
+      "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+      "mainEntityOfPage": { "@id": "https://mirai-shigoto.com/standard#webpage" },
+      "about": { "@type": "DefinedTermSet", "name": "AIOIS-10", "description": "AI Occupational Impact Standard — 10 dimensions (D1–D10) + Transformation and Displacement-Risk indices." },
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
     },
     {
       "@type": "BreadcrumbList",

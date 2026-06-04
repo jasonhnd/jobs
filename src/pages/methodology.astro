@@ -51,7 +51,24 @@ const jsonLd = `{
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "datePublished": "2026-05-30",
       "dateModified": "${pageLastUpdated}",
-      "breadcrumb": { "@id": "https://mirai-shigoto.com/methodology#breadcrumb" }
+      "breadcrumb": { "@id": "https://mirai-shigoto.com/methodology#breadcrumb" },
+      "mainEntity": { "@id": "https://mirai-shigoto.com/methodology#techarticle" },
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://mirai-shigoto.com/methodology#techarticle",
+      "headline": "データの整理と評価プロセス — AIOIS-10 採点方法",
+      "description": "556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準で Claude Opus 4.8 がどう採点したか。データソース、ベクトルエンジン、LLM 判定、校正、限界。",
+      "url": "https://mirai-shigoto.com/methodology",
+      "inLanguage": "ja",
+      "datePublished": "2026-05-30",
+      "dateModified": "${pageLastUpdated}",
+      "author": { "@id": "https://mirai-shigoto.com/#organization" },
+      "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
+      "mainEntityOfPage": { "@id": "https://mirai-shigoto.com/methodology#webpage" },
+      "about": { "@type": "DefinedTermSet", "name": "AIOIS-10" },
+      "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
     },
     {
       "@type": "BreadcrumbList",
