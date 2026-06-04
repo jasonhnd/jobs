@@ -20,14 +20,14 @@ import type { Aiois10 } from '../graph/types.js';
 
 /**
  * Workforce count → compact Japanese (約N万人). Integer 万 at ≥10万, one
- * decimal in the 1万–10万 range; below 1万 falls back to 千 (約N千人) because
- * "約0.3万人" reads awkwardly. e.g. 692,975 → 約69万人; 48,720 → 約4.9万人;
- * 2,950 → 約3千人.
+ * decimal in the 1万–10万 range; below 1万 uses whole 千 rounded to the nearest
+ * thousand (約N千人) — "約0.3万人" reads awkwardly. e.g. 692,975 → 約69万人;
+ * 48,720 → 約4.9万人; 8,200 → 約8千人; 2,950 → 約3千人.
  */
 function fmtWorkersMan(workers: number): string {
   if (workers >= 100000) return `約${Math.round(workers / 10000)}万人`;
   if (workers >= 10000) return `約${Math.round(workers / 1000) / 10}万人`;
-  return `約${Math.round(workers / 100) / 10}千人`;
+  return `約${Math.round(workers / 1000)}千人`;
 }
 
 /** Japanese labels for the AIOIS-10 dimensions, mirroring the on-page
