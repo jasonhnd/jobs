@@ -29,6 +29,7 @@ import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
+import { buildAiFactSummary } from '@/lib/ai-fact-summary';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import {
   buildOccupationDisplay,
@@ -58,6 +59,11 @@ export interface IdPageBindingsInput {
   readonly nameLookup: Record<number, string>;
   readonly datePublished: string;
   readonly dateModified: string;
+  /** AI-impact rank (1 = most impacted), denominator, and site mean — for
+   *  the citable fact block (Phase 1). null rank when unscored. */
+  readonly aiRank: number | null;
+  readonly scoredTotal: number;
+  readonly siteMeanRisk: number;
 }
 
 /** Everything [id].astro's body needs to render, derived in one
@@ -73,6 +79,9 @@ export interface IdPageBindings extends OccupationDisplay {
   readonly mhlwUrl: string;
   readonly rationale: string;
   readonly oneLineText: string;
+  /** Citable fact block — number-dense, attributed lead paragraph (Phase 1,
+   *  docs/SEO_GEO_STRATEGY.md). Empty SafeHtml when unscored. */
+  readonly aiFactHtml: SafeHtml;
 
   // SEO + OG meta
   readonly title: string;
@@ -110,7 +119,8 @@ export interface IdPageBindings extends OccupationDisplay {
 }
 
 export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings {
-  const { rec, related, nameLookup, datePublished, dateModified } = input;
+  const { rec, related, nameLookup, datePublished, dateModified, aiRank, scoredTotal, siteMeanRisk } =
+    input;
 
   // ─── Field extraction ──────────────────────────────────────
   const id = rec.id;
@@ -150,6 +160,25 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   });
   const oneLineText = pickRiskOneLineCallout(risk);
   const rationale = rationaleJa || descJa;
+
+  // Citable fact block (Phase 1) — number-dense, attributed lead paragraph.
+  const aiFactText = buildAiFactSummary({
+    nameJa,
+    aiRisk: risk,
+    rank: aiRank,
+    total: scoredTotal,
+    meanRisk: siteMeanRisk,
+    aiois: rec.aiois,
+    salaryMan,
+    workers,
+    scoredDate: '2026年5月',
+  });
+  const aiFactHtml: SafeHtml = aiFactText
+    ? unsafeReviewedHtml(
+        `<p class="ai-fact">${escapeHtml(aiFactText)}</p>`,
+        'aiFactText is a data-assembled string, fully escapeHtml-d before insertion',
+      )
+    : ('' as SafeHtml);
 
   // ─── Section headings + context HTML ──────────────────────
   const ctxH2 = `${nameJa}とは`;
@@ -211,6 +240,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     mhlwUrl,
     rationale,
     oneLineText,
+    aiFactHtml,
     title: seo.title,
     seoDesc: seo.description,
     ogTitle: seo.ogTitle,

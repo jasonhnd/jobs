@@ -10,6 +10,33 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (GEO Phase 1 — citable fact block on occupation pages - 2026-06-05)
+
+Implements Phase 1 of docs/SEO_GEO_STRATEGY.md ("be the cited number, not the
+answer"). Every occupation detail page now leads with a number-dense,
+self-contained, attributed fact paragraph that AI answer engines / voice search
+can quote verbatim — replacing the role of the generic five-band `.one-line`
+callout that read the same boilerplate on all 556 pages.
+
+- New `src/lib/ai-fact-summary.ts` (`buildAiFactSummary`, pure data → Japanese):
+  score X/10 + AI-impact rank N/総数 + above/below the site mean + the dominant
+  AIOIS-10 dimension + the 補助/代替 framing keyed off Displacement-Risk + salary
+  + workforce + source/date. The Japanese is formulaic (assembled from numbers),
+  consistent with the site's other generated copy; pinned by
+  `ai-fact-summary.test.ts` (11 cases) as part of the SEO copy contract.
+- `[id].astro` getStaticPaths computes the AI-impact rank (1 = most impacted,
+  deterministic id tiebreak) + site mean from `allRecs`, threaded through
+  `_id-bindings.ts`. Rendered as `<p class="ai-fact">` right after the risk card.
+- Workforce counts abbreviated to 万人 (約69万人 / 約4.9万人; 千人 below 1万).
+- `speakable` cssSelector repointed `.one-line` → `.ai-fact` (the new block is the
+  better quotable target). The generic `.one-line` callout is unchanged (its test
+  + copy contract stay intact).
+
+SEO baseline recaptured: 555 json-ld drifts (speakable selector, one per scored
+occupation), all additive. The fact-block body text is pinned by the unit test,
+not the baseline (which tracks meta/links/JSON-LD, not arbitrary body copy). The
+other 7 baseline signatures are unchanged. typecheck + 999 tests + build + gates green.
+
 ### Added (GEO — speakable, Dataset variables, authority articles - 2026-06-04)
 
 Generative-Engine-Optimization pass (voice / AI-answer-engine discoverability),

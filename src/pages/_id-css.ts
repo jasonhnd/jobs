@@ -46,6 +46,11 @@ const DETAIL_PAGE_SPECIFIC_CSS = `
     @media (min-width:900px){.one-line{font-size:1rem;padding:16px 18px}}
     .one-line b{color:var(--orange-hot);font-weight:800}
 
+    /* Citable fact block (Phase 1, SEO_GEO_STRATEGY.md) — the number-dense,
+       attributed lead paragraph AI answer engines can quote verbatim. */
+    .ai-fact{margin:0 0 18px;padding:16px 18px;background:var(--paper);border:1px solid var(--line-strong);border-left:4px solid var(--red);border-radius:0 12px 12px 0;font-size:0.96rem;line-height:1.85;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
+    @media (min-width:900px){.ai-fact{font-size:1.04rem;padding:20px 22px}}
+
     /* AI risk detail (rendered if rationale_long_ja data exists; usually empty for now) */
     .ai-risk-detail{background:var(--paper);border:1px solid var(--line-strong);border-radius:14px;padding:20px 22px;margin:14px 0 22px;box-shadow:0 1px 0 rgba(0,0,0,0.03),0 6px 18px rgba(120,80,30,0.04)}
     @media (min-width:900px){.ai-risk-detail{max-width:var(--content-max);margin-left:auto;margin-right:auto;padding:28px 32px}}
