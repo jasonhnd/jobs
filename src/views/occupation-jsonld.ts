@@ -85,6 +85,9 @@ interface JsonLdWebPage {
   dateModified?: string;
   publisher?: { '@id': string };
   author?: { '@id': string };
+  /** Voice / AI-answer-engine extraction hint (schema.org SpeakableSpecification).
+   *  Points at the one-line summary + risk rationale — the quotable core. */
+  speakable?: { '@type': 'SpeakableSpecification'; cssSelector: string[] };
 }
 
 interface JsonLdBreadcrumbList {
@@ -341,6 +344,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
       dateModified,
       publisher: { '@id': ORG_REF },
       author: { '@id': ORG_REF },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.one-line', '.risk-rationale'] },
     },
     occupationNode,
     {
