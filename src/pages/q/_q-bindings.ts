@@ -54,7 +54,10 @@ function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: qa.question, description: seoDesc, inLanguage: 'ja' },
+      { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: qa.question, description: seoDesc, inLanguage: 'ja',
+        // Voice / AI-answer-engine extraction hint: the 直答 + 根拠 blocks are
+        // the quotable answer to this question.
+        speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.qa-direct', '.qa-reasoning'] } },
       {
         '@type': 'QAPage',
         '@id': `${canonical}#qa`,

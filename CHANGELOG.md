@@ -10,6 +10,39 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (GEO — speakable, Dataset variables, authority articles - 2026-06-04)
+
+Generative-Engine-Optimization pass (voice / AI-answer-engine discoverability),
+all pure structured-data, no Japanese prose changed. A deep SEO/GEO audit confirmed
+the obvious gates were already excellent (robots.txt allows 17 AI crawlers; llms.txt
+comprehensive; rich JSON-LD) so this targets the subtler, genuinely-additive gaps:
+
+- **`speakable` (SpeakableSpecification) added to 556 occupation detail pages +
+  49 Q&A pages.** Detail pages point at `.one-line` + `.risk-rationale`; Q&A pages
+  at `.qa-direct` + `.qa-reasoning` — the quotable answer blocks AI answer engines
+  and voice search extract. Only the homepage had speakable before.
+- **`Dataset.variableMeasured` now enumerates the AIOIS-10 framework**: the
+  Transformation + Displacement-Risk indices and all ten dimensions (D1–D10, with
+  canonical English names + minValue/maxValue), alongside the existing labour
+  statistics. Previously it listed only 9 stats and mislabelled the headline as
+  "AI replacement risk score" — which contradicts the site's framing
+  (Transformation = reshaping, *not* replacement). Now consistent with
+  `measurementTechnique` and the per-occupation AIOIS data.
+- **`/standard` and `/methodology` get a `TechArticle` node + `speakable`.** These
+  are the authority pages LLMs cite for "what is AIOIS-10 / how are scores
+  computed"; they previously carried only WebPage + BreadcrumbList. Adds
+  author/publisher (Organization), datePublished, `about` (DefinedTermSet AIOIS-10)
+  — E-E-A-T signals for borderline-YMYL career content.
+
+Two of the audit's TOP-5 were dropped as already-done after verifying on the
+preview build (the agent had audited the stale `main` worktree): AIOIS-10 in the
+Occupation `additionalProperty` (shipped in the prior commit) and `map?sector=`
+sitemap entries (not present on preview).
+
+SEO baseline recaptured: 607 `json-ld.jsonl` drifts, all additive; verify-jsonld
+structural validation passes (819/820). Other 7 signatures unchanged. typecheck +
+988 tests + build + gates green.
+
 ### Added (Structured data — AIOIS-10 in Occupation JSON-LD - 2026-06-04)
 
 - The 556 occupation detail pages' `Occupation` JSON-LD now exposes the flagship
