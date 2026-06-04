@@ -193,6 +193,40 @@ export function renderGenreHubIndexCards(
   ).join('') as SafeHtml;
 }
 
+/**
+ * 2026-06-04 (Batch 1-B'): "各軸の代表職業" section for genre INDEX pages.
+ * Surfaces the per-axis #1 occupations (built by buildGenreIndexSpotlight) as
+ * direct occupation links — index pages previously linked only sub-hub slugs,
+ * so this adds the first index→occupation internal links + content depth.
+ * Returns empty SafeHtml when there is nothing to show.
+ */
+export function renderGenreIndexSpotlight(occs: ReadonlyArray<GenreOccupation>): SafeHtml {
+  if (occs.length === 0) return '' as SafeHtml;
+  const items = occs
+    .map((o) => {
+      const band = riskClass(o.ai_risk);
+      const riskStr = o.ai_risk !== null ? `${o.ai_risk}/10` : '—';
+      const salaryStr = o.salary !== null ? `${Math.trunc(o.salary)} 万円` : '—';
+      return (
+        `<li><a href="/${o.id}">` +
+        `<span class="gsp-name">${escapeHtml(o.name_ja)}</span>` +
+        `<span class="gsp-meta">` +
+        `<span class="risk-pill ${band}">AI ${escapeHtml(riskStr)}</span>` +
+        `<span class="gsp-salary">${escapeHtml(salaryStr)}</span>` +
+        `</span>` +
+        `</a></li>`
+      );
+    })
+    .join('');
+  return (
+    `<section aria-label="各軸の代表職業">` +
+    `<h2>各軸の代表職業</h2>` +
+    `<p class="gsp-lead">主要軸それぞれで該当度が最も高い職業。AI 影響度・年収とともに、気になる職業へ直接どうぞ。</p>` +
+    `<ul class="genre-spotlight">${items}</ul>` +
+    `</section>`
+  ) as SafeHtml;
+}
+
 // ─── q/index grouped-cards renderer ────────────────────────────────────
 // Q&A index renders 5 sub-genre `<section>` blocks. Each section has its
 // own heading + cards. Page prepares groups; this assembles HTML.
@@ -400,7 +434,15 @@ const HUB_PAGE_SPECIFIC_CSS = `
 .qa-item .qa-short{margin:14px 0 12px;color:var(--fg);line-height:1.7;font-size:.94rem}
 .qa-item .qa-detail-link{display:inline-block;font-size:.84rem;color:var(--accent);text-decoration:none;font-weight:500;padding:6px 0}
 .qa-item .qa-detail-link:hover{text-decoration:underline}
-@media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px;grid-column:1 / -1}.sb-row{grid-template-columns:80px 1fr 36px}}
+/* 2026-06-04 (Batch 1-B'): genre index spotlight — 各軸の代表職業 occupation links */
+.gsp-lead{color:var(--fg2);font-size:.9rem;margin:0 0 14px}
+.genre-spotlight{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:0;margin:0;grid-auto-rows:1fr}
+.genre-spotlight li a{display:flex;flex-direction:column;gap:8px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);transition:border-color 150ms,transform 150ms;height:100%}
+.genre-spotlight li a:hover{border-color:var(--accent);transform:translateY(-1px)}
+.gsp-name{font-family:var(--font-sans);font-size:1rem;font-weight:700;color:var(--fg);line-height:1.3}
+.gsp-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gsp-salary{font-size:.82rem;color:var(--fg2);font-variant-numeric:tabular-nums}
+@media (max-width:600px){.rank-list li{grid-template-columns:28px 1fr;gap:10px}.rank-list .rl-stats{margin-top:6px;grid-column:1 / -1}.sb-row{grid-template-columns:80px 1fr 36px}.genre-spotlight{grid-template-columns:1fr}}
 `;
 
 export const GENRE_HUB_CSS = CANONICAL_HUB_CSS + HUB_PAGE_SPECIFIC_CSS;

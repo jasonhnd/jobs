@@ -2,8 +2,8 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { TRAINING_CONFIGS } from '@/views/genre-configs';
-import { loadAllDetails, buildGenreResult } from '@/views/genre-hub';
-import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '@/templates/Hub';
+import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
 
 const details = loadAllDetails();
 const n = TRAINING_CONFIGS.length;
@@ -21,6 +21,7 @@ const title = `習熟期間から職業を探す｜入職後訓練 ${n} 段階�
 const seoDesc = '入職後の習熟期間 (即一人前/1-3年/3-5年/5-10年/生涯) 別に職業 TOP 30 を一覧。短期間で一人前になれる職業から、長期修行型の職人まで。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '習熟期間から探す', seoDesc);
 const cardsHtml = renderGenreHubIndexCards(cards, 'training');
+const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, TRAINING_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=training" ogTitle={title} ogDescription={seoDesc}>
@@ -34,6 +35,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'training');
       <p class="intro">入職後すぐ一人前になれる職業から、生涯修行型の職人まで、習熟期間で職業を分類しました。自分のキャリア時間軸に合った職業を探せます。</p>
     </header>
     <section><h2>習熟期間 {n} 分類</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Fragment set:html={spotlightHtml} />
     <Footer />
   </div>
 </BaseLayout>

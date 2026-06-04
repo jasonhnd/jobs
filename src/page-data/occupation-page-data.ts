@@ -32,7 +32,8 @@
 // re-read public/data.detail/<padded>.json on each spoke build; that data
 // now flows from the graph (passed in by the page caller).
 import type { Rec } from '@/views/occupation-detail';
-import type { KnowledgeGraph } from '@/graph';
+import type { KnowledgeGraph, OccupationId } from '@/graph';
+import { asOccupationId } from '@/graph';
 import type { SafeHtml } from '@/lib/safe-html';
 import type { DetailFileSpoke } from '@/views/spoke-hub-graph';
 
@@ -156,6 +157,30 @@ export interface OccupationSpokeViews {
 }
 
 /**
+ * Build the RIASEC interest record (`{ realistic, investigative, … }`)
+ * for one occupation from its graph interest edges. Returns null when the
+ * occupation has no interest data, matching the `DetailFileSpoke.interests`
+ * contract that computeSpokeHubs.topInterestTypes() consumes.
+ */
+function riasecFromGraph(
+  graph: KnowledgeGraph,
+  occId: OccupationId,
+): DetailFileSpoke['interests'] {
+  const edges = graph.interestsOf(occId);
+  if (edges.length === 0) return null;
+  const by: Record<string, number> = {};
+  for (const e of edges) by[String(e.to)] = e.weight;
+  return {
+    realistic: by.realistic,
+    investigative: by.investigative,
+    artistic: by.artistic,
+    social: by.social,
+    enterprising: by.enterprising,
+    conventional: by.conventional,
+  };
+}
+
+/**
  * Reconstruct the cross-occupation Maps Astro had to serialize over
  * the getStaticPaths → component boundary, then derive the two
  * spoke-graph HTML fragments for this page.
@@ -195,24 +220,21 @@ export async function buildOccupationSpokeViews(
   // adapter `loadGraphAdaptedDetails(graph)` already yields the DetailFileMin
   // shape that computeSpokeHubs's DetailFileSpoke extends.
   //
-  // Byte-identity guard: the pre-refactor `data.detail/<id>.json` files do
-  // NOT contain an `interests` block (graph derives RIASEC from a separate
-  // source). computeSpokeHubs.topInterestTypes() therefore returned [] for
-  // every occupation, which means the spoke section never emitted
-  // /interests/<type> links. Adding `interests` here from
-  // graph.interestsOf() would now emit those links — a real SEO drift
-  // (verified: each detail page would grow by exactly 2 hrefs). We
-  // intentionally omit `interests` to preserve byte-identical output. A
-  // future Phase E commit can opt-in by populating interests once the
-  // baseline is recaptured with the drift acknowledged.
+  // 2026-06-04 (Batch 1-A): opt-in the `interests` block that the original
+  // byte-identity guard deferred. The pre-refactor data.detail/<id>.json
+  // files had no `interests`, so computeSpokeHubs.topInterestTypes() returned
+  // [] and no /interests/<type> link was ever emitted. We now populate it
+  // from graph.interestsOf(), surfacing the top-2 RIASEC interest hubs on
+  // every spoke (the interest hubs previously had zero inbound links from
+  // detail pages). The SEO baseline drift this causes — each detail page
+  // gains exactly 2 hrefs — is intentional and recaptured.
   const allDetails = loadGraphAdaptedDetails(graph);
   const baseDetail = allDetails.find((d) => d.id === rec.id) ?? null;
-  // DetailFileMin is structurally a DetailFileSpoke (the latter adds only
-  // optional `interests`). The explicit cast names the contract; the runtime
-  // shape is unchanged. See block-comment above for the byte-identity guard
-  // on why `interests` is intentionally omitted.
-  const spokeHubs = baseDetail
-    ? computeSpokeHubs(baseDetail as DetailFileSpoke, {
+  const spokeDetail: DetailFileSpoke | null = baseDetail
+    ? { ...baseDetail, interests: riasecFromGraph(graph, asOccupationId(rec.id)) }
+    : null;
+  const spokeHubs = spokeDetail
+    ? computeSpokeHubs(spokeDetail, {
         rankingHitsByOcc: rankingHitsByOcc as never,
       })
     : { groups: [], total: 0 };

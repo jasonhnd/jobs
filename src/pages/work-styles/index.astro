@@ -2,8 +2,8 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { WORK_STYLES_CONFIGS } from '@/views/genre-configs';
-import { loadAllDetails, buildGenreResult } from '@/views/genre-hub';
-import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '@/templates/Hub';
+import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
 
 const details = loadAllDetails();
 const n = WORK_STYLES_CONFIGS.length;
@@ -21,6 +21,7 @@ const title = `働き方から職業を探す｜業務形態 ${n} 軸別 hub | �
 const seoDesc = '屋内/屋外・移動・シフト・チームなど、働き方の特性で職業を分類。自分のライフスタイルに合う仕事を探せます。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '働き方から探す', seoDesc);
 const cardsHtml = renderGenreHubIndexCards(cards, 'work-styles');
+const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, WORK_STYLES_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=work-styles" ogTitle={title} ogDescription={seoDesc}>
@@ -34,6 +35,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'work-styles');
       <p class="intro">屋外/屋内・移動の多さ・シフト勤務・チーム作業・座り仕事など、働き方の特性で職業を整理しました。ライフスタイルとの相性で職業を選びたい人向け。</p>
     </header>
     <section><h2>働き方 {n} 軸</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Fragment set:html={spotlightHtml} />
     <Footer />
   </div>
 </BaseLayout>
