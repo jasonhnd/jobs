@@ -2,8 +2,8 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { ENTRY_PATHS_CONFIGS } from '@/views/genre-configs';
-import { loadAllDetails, buildGenreResult } from '@/views/genre-hub';
-import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '@/templates/Hub';
+import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
 
 const details = loadAllDetails();
 const n = ENTRY_PATHS_CONFIGS.length;
@@ -21,6 +21,7 @@ const title = `入職経路から職業を探す｜新卒/中途/バイト出身
 const seoDesc = '入職経路 (新卒採用・中途採用・バイト出身・独立開業) で職業 TOP 30 を一覧。自分のキャリア起点に合う仕事を探せます。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '入職経路から探す', seoDesc);
 const cardsHtml = renderGenreHubIndexCards(cards, 'entry-paths');
+const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, ENTRY_PATHS_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=entry-paths" ogTitle={title} ogDescription={seoDesc}>
@@ -34,6 +35,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'entry-paths');
       <p class="intro">新卒一括採用・中途転職・バイトからの正社員化・独立開業など、入職経路の典型パターン別に職業を一覧。自分のキャリア起点に合う仕事を探せます。</p>
     </header>
     <section><h2>入職経路 {n} 分類</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Fragment set:html={spotlightHtml} />
     <Footer />
   </div>
 </BaseLayout>

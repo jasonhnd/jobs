@@ -2,8 +2,8 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/Footer.astro';
 import { ABILITIES_CONFIGS } from '@/views/genre-configs';
-import { loadAllDetails, buildGenreResult } from '@/views/genre-hub';
-import { renderGenreIndexJsonLd, renderGenreHubIndexCards, GENRE_HUB_CSS } from '@/templates/Hub';
+import { loadAllDetails, buildGenreResult, buildGenreIndexSpotlight } from '@/views/genre-hub';
+import { renderGenreIndexJsonLd, renderGenreHubIndexCards, renderGenreIndexSpotlight, GENRE_HUB_CSS } from '@/templates/Hub';
 
 const details = loadAllDetails();
 const n = ABILITIES_CONFIGS.length;
@@ -21,6 +21,7 @@ const title = `能力から職業を探す｜IPD 能力軸別 ${n} hub | 未来�
 const seoDesc = 'IPD 52 能力軸から、各能力が核となる職業 TOP 30 を一覧。持久力・筋力・空間認識・推論力等。';
 const jsonLd = renderGenreIndexJsonLd(canonical, '能力から探す', seoDesc);
 const cardsHtml = renderGenreHubIndexCards(cards, 'abilities');
+const spotlightHtml = renderGenreIndexSpotlight(buildGenreIndexSpotlight(details, ABILITIES_CONFIGS, 12));
 ---
 <BaseLayout title={title} description={seoDesc} canonical={canonical}
   ogImage="https://mirai-shigoto.com/api/og?page=abilities" ogTitle={title} ogDescription={seoDesc}>
@@ -34,6 +35,7 @@ const cardsHtml = renderGenreHubIndexCards(cards, 'abilities');
       <p class="intro">身体能力・認知能力・感覚処理など、自分の強みとなる能力から、それが活きる職業を探せます。各能力の説明と TOP 30 職業を AI 影響度・年収と共に確認。</p>
     </header>
     <section><h2>主要 {n} 能力</h2><ul class="genre-cards" set:html={cardsHtml} /></section>
+    <Fragment set:html={spotlightHtml} />
     <Footer />
   </div>
 </BaseLayout>

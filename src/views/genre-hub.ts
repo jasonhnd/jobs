@@ -161,6 +161,31 @@ export function buildGenreItems(
   return candidates.slice(0, TOP_N);
 }
 
+/**
+ * 2026-06-04 (Batch 1-B'): the "representative occupation per axis" spotlight
+ * for a genre INDEX page. Takes the #1 occupation of each sub-hub, dedupes by
+ * id (axes can share a top occupation), caps at `limit`. Genre index pages
+ * previously linked only sub-hub slugs — never occupations directly — so this
+ * opens a fresh index→occupation internal-link surface and adds content depth,
+ * reusing the same buildGenreResult ranking the index cards already rely on.
+ */
+export function buildGenreIndexSpotlight(
+  details: ReadonlyArray<DetailFileMin>,
+  configs: ReadonlyArray<GenreHubConfig>,
+  limit: number = 12,
+): GenreOccupation[] {
+  const seen = new Set<number>();
+  const out: GenreOccupation[] = [];
+  for (const config of configs) {
+    const top = buildGenreResult(details, config).items[0];
+    if (!top || seen.has(top.id)) continue;
+    seen.add(top.id);
+    out.push(top);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 export function buildGenreResult(
   details: ReadonlyArray<DetailFileMin>,
   config: GenreHubConfig,
