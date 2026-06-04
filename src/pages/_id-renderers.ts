@@ -185,5 +185,12 @@ export function renderOccupationJsonLdFromRec(
     faqs: buildOccupationFaqTuples(rec),
     datePublished: options.datePublished,
     dateModified: options.dateModified,
+    aiois10: rec.aiois
+      ? {
+          transformation: rec.aiois.transformation,
+          d1: rec.aiois.d1, d2: rec.aiois.d2, d3: rec.aiois.d3, d4: rec.aiois.d4, d5: rec.aiois.d5,
+          d6: rec.aiois.d6, d7: rec.aiois.d7, d8: rec.aiois.d8, d9: rec.aiois.d9, d10: rec.aiois.d10,
+        }
+      : null,
   });
 }

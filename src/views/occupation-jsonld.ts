@@ -33,6 +33,8 @@ interface JsonLdPropertyValue {
   value: number;
   unitText?: string;
   description?: string;
+  minValue?: number;
+  maxValue?: number;
 }
 
 interface JsonLdMonetaryAmountDistribution {
@@ -158,7 +160,34 @@ export interface OccupationJsonLdInput {
   readonly faqs: ReadonlyArray<readonly [string, string]>;
   readonly datePublished: string;
   readonly dateModified: string;
+  /** AIOIS-10 profile: the Transformation rollup (equals the headline aiRisk)
+   *  plus the ten orthogonal dimensions D1–D10, each 0–10. Emitted as
+   *  additionalProperty PropertyValues so the flagship multidimensional
+   *  scoring is machine-readable (the page already shows it visually). null /
+   *  undefined for legacy or unscored occupations → the AIOIS block is omitted.
+   *  Displacement is intentionally not emitted here. */
+  readonly aiois10?: {
+    readonly transformation: number;
+    readonly d1: number; readonly d2: number; readonly d3: number; readonly d4: number; readonly d5: number;
+    readonly d6: number; readonly d7: number; readonly d8: number; readonly d9: number; readonly d10: number;
+  } | null;
 }
+
+/** Canonical AIOIS-10 dimension labels (English, from docs/AIOIS-10.md §3).
+ *  Used for the machine-readable additionalProperty names; the page renders
+ *  the Japanese labels (see src/templates/Aiois10Profile.ts). */
+const AIOIS_DIMS: ReadonlyArray<readonly [key: 'd1' | 'd2' | 'd3' | 'd4' | 'd5' | 'd6' | 'd7' | 'd8' | 'd9' | 'd10', name: string]> = [
+  ['d1', 'AIOIS-10 D1 · Cognitive–Generative Exposure'],
+  ['d2', 'AIOIS-10 D2 · Routine–Procedural Exposure'],
+  ['d3', 'AIOIS-10 D3 · Manual–Physical Demand'],
+  ['d4', 'AIOIS-10 D4 · Judgment & Accountability'],
+  ['d5', 'AIOIS-10 D5 · Social & Emotional Intelligence'],
+  ['d6', 'AIOIS-10 D6 · Creative & Original Intelligence'],
+  ['d7', 'AIOIS-10 D7 · Regulatory & Safety Barrier'],
+  ['d8', 'AIOIS-10 D8 · Economic Feasibility'],
+  ['d9', 'AIOIS-10 D9 · Institutional & Labor-Market Context'],
+  ['d10', 'AIOIS-10 D10 · Labor-Demand Trajectory'],
+];
 
 // Static identifiers shared across all occupation pages.
 const BREADCRUMB_ROOT = '日本の職業 AI 影響マップ';
@@ -195,6 +224,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
     faqs,
     datePublished,
     dateModified,
+    aiois10,
   } = input;
 
   // additionalProperty — AI risk + numeric stats.
@@ -221,6 +251,24 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
   }
   if (hourlyWage) {
     additional.push({ '@type': 'PropertyValue', name: 'Hourly wage', value: hourlyWage, unitText: 'JPY/hour' });
+  }
+  // AIOIS-10 — flagship multidimensional AI-impact profile. The headline
+  // `aiRisk` already equals the Transformation rollup; we additionally expose
+  // Transformation explicitly plus the ten orthogonal dimensions so the
+  // structured data reflects the framework the page is built around (and that
+  // llms.txt consumers can read). Displacement is deliberately omitted.
+  if (aiois10) {
+    additional.push({
+      '@type': 'PropertyValue',
+      name: 'AIOIS-10 Transformation index',
+      value: aiois10.transformation,
+      minValue: 0,
+      maxValue: 10,
+      description: 'How much AI reshapes the work (mean of D1 and D2); equal to the headline AI-risk score.',
+    });
+    for (const [key, name] of AIOIS_DIMS) {
+      additional.push({ '@type': 'PropertyValue', name, value: aiois10[key], minValue: 0, maxValue: 10 });
+    }
   }
 
   // Occupation node — the core entity.
