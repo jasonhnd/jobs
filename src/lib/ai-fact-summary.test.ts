@@ -69,7 +69,8 @@ describe('buildAiFactSummary', () => {
     assert.ok(buildAiFactSummary({ ...base, workers: 48720 }).includes('就業者は約4.9万人'));
   });
 
-  test('workers below 1万 → 千人 fallback', () => {
+  test('workers below 1万 → whole 千人 (rounded to nearest thousand)', () => {
+    assert.ok(buildAiFactSummary({ ...base, workers: 8200 }).includes('就業者は約8千人'));
     assert.ok(buildAiFactSummary({ ...base, workers: 2950 }).includes('就業者は約3千人'));
   });
 
