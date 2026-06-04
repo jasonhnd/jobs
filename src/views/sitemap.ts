@@ -119,6 +119,7 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/about`, today, 'monthly', '0.5'));
   entries.push(entry(`${SITE_ORIGIN}/standard`, today, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/methodology`, today, 'monthly', '0.6'));
+  entries.push(entry(`${SITE_ORIGIN}/data`, today, 'monthly', '0.6'));
   entries.push(entry(`${SITE_ORIGIN}/compliance`, today, 'monthly', '0.4'));
 
   // GEO surface (llms.txt convention; listed for general crawlers)

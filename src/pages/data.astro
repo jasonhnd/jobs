@@ -1,0 +1,155 @@
+---
+/**
+ * data.astro — 公開データセットのアクセス文書（/data）。
+ *
+ * SEO_GEO_STRATEGY.md Phase 4: 既に存在する data.*.json エンドポイントを
+ * 開発者・研究者・AI エージェント向けにドキュメント化し、「AI 影響データの
+ * オープンな構造化データ源」として発見・被リンクされる資産にする。
+ * 共通文書 CSS は canonical/doc.ts に一元化（/standard・/methodology と統一）。
+ * インライン JS なし（CSP ハッシュ追加なし）。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import { CANONICAL_DOC_CSS } from '@/lib/canonical/doc';
+
+const pageLastUpdated = '2026-06-05';
+const SITE = 'https://mirai-shigoto.com';
+
+interface Endpoint {
+  path: string;
+  desc: string;
+  shape: string;
+}
+const ENDPOINTS: Endpoint[] = [
+  { path: '/data.treemap.json', desc: '556 職業の AIOIS-10 スコア・ラベル・treemap グリッド（主要データ）', shape: 'JSON' },
+  { path: '/data.treemap.meta.json', desc: '上記のメタ情報（件数・生成日）', shape: 'JSON' },
+  { path: '/data.detail/{id}.json', desc: '1 職業の全詳細（id は 4 桁ゼロ埋め、例 /data.detail/0156.json）', shape: 'JSON × 556' },
+  { path: '/data.search.json', desc: '全文検索インデックス（名称・別名・説明をトークン化）', shape: 'JSON' },
+  { path: '/data.sectors.json', desc: '16 セクター定義（hue・ラベル・所属職業）', shape: 'JSON' },
+  { path: '/data.labels/{dim}.json', desc: '7 次元（skills / knowledge / abilities ほか）のグローバルラベル', shape: 'JSON × 7' },
+  { path: '/data.skills/{slug}.json', desc: 'スキル → 職業マッピング', shape: 'JSON' },
+  { path: '/data.profile5.json', desc: '5 軸プロファイル（職業 → スコアベクトル）', shape: 'JSON' },
+  { path: '/data.holland.json', desc: 'Holland / RIASEC コード（R/I/A/S/E/C 6 次元）', shape: 'JSON' },
+  { path: '/data.transfer_paths.json', desc: '職業間の転職パス推薦（スキル重複ベース）', shape: 'JSON' },
+  { path: '/data.ai-adoption.json', desc: 'AI 採用率ダッシュボード（/aiadoption）の層別データ', shape: 'JSON' },
+  { path: '/data.me-positions.json', desc: '各ランキングでの職業ごとの順位', shape: 'JSON' },
+];
+
+const distribution = ENDPOINTS
+  .filter((e) => !e.path.includes('{'))
+  .map((e) => ({
+    '@type': 'DataDownload',
+    encodingFormat: 'application/json',
+    contentUrl: `${SITE}${e.path}`,
+    name: e.desc,
+  }));
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE}/data#webpage`,
+      name: '公開データセット — 556 職業 × AIOIS-10',
+      url: `${SITE}/data`,
+      description:
+        '日本の 556 職業 × AIOIS-10 スコアのオープンデータ（MIT ライセンス）。開発者・研究者・AI エージェント向けの JSON エンドポイント一覧。',
+      inLanguage: 'ja',
+      isPartOf: { '@id': `${SITE}/#website` },
+      datePublished: '2026-06-05',
+      dateModified: pageLastUpdated,
+      breadcrumb: { '@id': `${SITE}/data#breadcrumb` },
+      about: { '@id': `${SITE}/#dataset` },
+      mainEntity: { '@id': `${SITE}/data#downloads` },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['h1', '.lead'] },
+    },
+    {
+      '@type': 'Dataset',
+      '@id': `${SITE}/data#downloads`,
+      name: 'Japan 556 Occupations × AIOIS-10 — open JSON endpoints',
+      description:
+        'Machine-readable JSON for all 556 Japanese occupations scored on the AIOIS-10 standard (Transformation + Displacement indices + D1–D10), plus sectors, skills, RIASEC, transfer paths and labour statistics.',
+      url: `${SITE}/data`,
+      inLanguage: 'ja',
+      isAccessibleForFree: true,
+      license: 'https://opensource.org/licenses/MIT',
+      creator: { '@id': `${SITE}/#organization` },
+      isBasedOn: { '@id': `${SITE}/#dataset` },
+      distribution,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE}/data#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: '日本の職業 AI 影響マップ', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: '公開データセット', item: `${SITE}/data` },
+      ],
+    },
+  ],
+}, null, 2);
+---
+<BaseLayout
+  title="公開データセット — 556 職業 × AIOIS-10（MIT ライセンス）| 未来の仕事"
+  description="日本の 556 職業 × AIOIS-10 スコアをオープンデータ（MIT）で公開。treemap・detail・search・sectors・skills など JSON エンドポイント一覧。開発者・研究者・AI エージェント向け。"
+  canonical="https://mirai-shigoto.com/data"
+  keywords="オープンデータ, データセット, AIOIS-10, JSON, API, 556 職業, MIT, open data, dataset, 機械可読"
+  ogTitle="公開データセット — 556 職業 × AIOIS-10"
+  ogDescription="日本の 556 職業 × AIOIS-10 スコアを MIT ライセンスの JSON で公開。開発者・研究者・AI エージェント向けのエンドポイント一覧。"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head" set:html={CANONICAL_DOC_CSS} />
+
+  <div id="wrapper">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/" rel="up">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <span>公開データセット</span>
+    </nav>
+
+    <header id="content">
+      <h1><span class="accent">公開データセット</span></h1>
+      <p class="lead">
+        本サイトの全データ —— 556 の日本の職業を <a href="/standard">AIOIS-10</a> 標準で採点したスコア（変化の大きさ・仕事が減るリスク + 10 次元）と、労働統計・スキル・セクター ——
+        を <strong>MIT ライセンス</strong>の構造化 JSON として公開しています。開発者・研究者・AI エージェントが自由に利用できます。
+      </p>
+    </header>
+
+    <section class="doc-prose">
+      <div class="callout">
+        <strong>ライセンス</strong>：MIT（コード + データビュー）。出典表記の上、自由に利用・再配布できます。<br />
+        <strong>引用</strong>：Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/<br />
+        <strong>注意</strong>：スコアは Claude Opus 4.8 による独立した LLM 推定であり、政府の公式予測ではありません。出典の労働統計は厚生労働省 jobtag ＋ JILPT IPD。
+      </div>
+
+      <h2>エンドポイント一覧</h2>
+      <table class="ex">
+        <thead>
+          <tr><th>パス</th><th>内容</th><th>形式</th></tr>
+        </thead>
+        <tbody>
+          {ENDPOINTS.map((e) => (
+            <tr>
+              <td><code>{e.path}</code></td>
+              <td>{e.desc}</td>
+              <td>{e.shape}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2>使い方</h2>
+      <p>全エンドポイントは CORS 許可済みの静的 JSON です。例：</p>
+      <p><code>const data = await fetch('https://mirai-shigoto.com/data.treemap.json').then(r =&gt; r.json());</code></p>
+      <p>特定の職業（例: 看護師 id=156）の全詳細：</p>
+      <p><code>await fetch('https://mirai-shigoto.com/data.detail/0156.json').then(r =&gt; r.json());</code></p>
+
+      <h2>スコアの定義</h2>
+      <p>
+        各スコアの意味・算出方法は <a href="/standard">AIOIS-10 標準</a>（10 次元と 2 指数の定義）と
+        <a href="/methodology">評価プロセス</a>（データ整理と採点手順）を参照してください。
+      </p>
+    </section>
+
+    <Footer />
+  </div>
+</BaseLayout>

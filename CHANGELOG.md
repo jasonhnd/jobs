@@ -10,6 +10,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (GEO Phase 4 — /data open-dataset documentation page - 2026-06-05)
+
+Implements Phase 4 of docs/SEO_GEO_STRATEGY.md (the "agentic data layer"). The
+`data.*.json` endpoints already existed but were undocumented; `/data` now
+documents them for developers, researchers, and AI agents, turning the open data
+into a discoverable, linkable asset.
+
+- New `src/pages/data.astro` (Japanese, shared CANONICAL_DOC_CSS, no inline JS):
+  endpoint table (treemap / detail / search / sectors / labels / skills /
+  profile5 / holland / transfer_paths / ai-adoption / me-positions), MIT license
+  + citation, fetch examples, links to /standard + /methodology.
+- JSON-LD: WebPage + a `Dataset` (#downloads) enumerating every single-file
+  endpoint as a `DataDownload`, `license` MIT, `creator` Organization,
+  `isBasedOn` the homepage canonical #dataset, plus BreadcrumbList + speakable.
+- Footer gains a 公開データセット link (データ・方法 group); sitemap.ts adds
+  `/data` (priority 0.6).
+
+SEO baseline recaptured: +1 URL (/data) + 1 sitemap entry + 820 internal-link
+drifts (the new footer link on every page), all additive. verify-jsonld passes
+(820/821), internal links resolve. typecheck + 999 tests + build + gates green.
+
 ### Added (GEO Phase 1 — citable fact block on occupation pages - 2026-06-05)
 
 Implements Phase 1 of docs/SEO_GEO_STRATEGY.md ("be the cited number, not the
