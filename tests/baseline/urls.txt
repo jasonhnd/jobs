@@ -601,6 +601,7 @@
 /compare/webdesigner-vs-illustrator
 /compare/yochien-vs-hoikushi
 /compliance
+/data
 /education
 /education/graduate-school-careers
 /education/high-school-careers
