@@ -22,7 +22,8 @@ previous individual/project naming to the company:
 - `/privacy` operator clause + `/compliance` copyright + 商標宣言: 運営者 → **ZKSC**
   (the privacy-policy contact email privacy@mirai-shigoto.com is kept — legally required).
 - `llms.txt` still says "Jason" — it is operator-maintained and left untouched by request.
-- Pending (user to supply): legalName + registration country for the Organization.
+- Organization `legalName` "ZKSC株式会社" + `address` (東京 / JP) added. Visible legal
+  pages (privacy / compliance) keep the short brand "ZKSC".
 
 SEO baseline recaptured: 1 json-ld drift (the homepage Organization node), additive.
 Other 6 signatures unchanged. typecheck + 999 tests + build + gates green.
