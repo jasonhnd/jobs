@@ -84,8 +84,6 @@ export const DetailFileSchema = z
   })
   .passthrough();
 
-export type DetailFileShape = z.infer<typeof DetailFileSchema>;
-
 // ─── Sectors projection (public/data.sectors.json) ────────────────────
 
 export const SectorRecordSchema = z
@@ -106,8 +104,6 @@ export const SectorsProjectionSchema = z
   })
   .passthrough();
 
-export type SectorsProjectionShape = z.infer<typeof SectorsProjectionSchema>;
-
 // ─── Source sector definition (data/sectors/sectors.ja-en.json) ───────
 
 const SectorDefSchema = z
@@ -126,8 +122,6 @@ export const SectorsSourceFileSchema = z
     sectors: z.array(SectorDefSchema),
   })
   .passthrough();
-
-export type SectorDefShape = z.infer<typeof SectorDefSchema>;
 
 // ─── Skill ranking projection (public/data.skills/<ipdKey>.json) ──────
 
@@ -155,8 +149,6 @@ export const HollandFileSchema = z
     rows: z.array(z.array(z.union([z.number(), z.string(), z.null()]))),
   })
   .passthrough();
-
-export type HollandFileShape = z.infer<typeof HollandFileSchema>;
 
 // ─── Treemap projection (public/data.treemap.json) ────────────────────
 // (Already validated in rankings.ts via its own local schema; provided

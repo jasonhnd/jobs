@@ -104,11 +104,6 @@ const DATA_ROOT = path.join(REPO_ROOT, 'data');
 // of racing duplicate builds.
 let _cachedGraph: Promise<KnowledgeGraph> | null = null;
 
-/** Test-only reset hook. Production code must not call this. */
-export function _resetGraphCacheForTests(): void {
-  _cachedGraph = null;
-}
-
 export function loadGraph(): Promise<KnowledgeGraph> {
   if (_cachedGraph !== null) return _cachedGraph;
   _cachedGraph = buildGraph();

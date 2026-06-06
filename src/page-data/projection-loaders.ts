@@ -184,16 +184,3 @@ export function loadSkillRanking(ipdKey: string): SkillRankingFile {
   _skillCache.set(ipdKey, data);
   return data;
 }
-
-/**
- * Test-only escape hatch for resetting all module-level caches.
- * Production code MUST NOT call this — caches are warmed once per
- * build process and intentionally outlive any single view call.
- */
-export function _resetLoaderCaches(): void {
-  _allDetailsCache = null;
-  _detailByIdCache.clear();
-  _hollandCache = null;
-  _treemapCache = null;
-  _skillCache.clear();
-}
