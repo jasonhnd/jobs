@@ -4,13 +4,13 @@
         {
           "@type": "Organization",
           "@id": "https://mirai-shigoto.com/#organization",
-          "name": "mirai-shigoto.com",
+          "name": "ZKSC",
           "alternateName": ["日本の職業 AI 影響マップ（非公式）", "Japan Jobs × AI Impact Map"],
-          "url": "https://mirai-shigoto.com/",
+          "url": "https://zksc.io",
           "logo": "https://mirai-shigoto.com/api/og?page=home",
           "email": "info@mirai-shigoto.com",
           "foundingDate": "2026",
-          "description": "厚生労働省 jobtag・JILPT 等の公開データをもとに、日本 556 職種への AI 影響を 0〜10 で可視化する独自分析プロジェクト。",
+          "description": "ZKSC が制作・運営する、厚生労働省 jobtag・JILPT 等の公開データをもとに日本 556 職種への AI 影響を 0〜10 で可視化する独自分析プロジェクト。",
           "knowsAbout": [
             "Japanese labor market",
             "AI automation impact",
