@@ -21,9 +21,12 @@ previous individual/project naming to the company:
 - `/data` citation: "Jason (2026)…" → "**ZKSC** (2026)…".
 - `/privacy` operator clause + `/compliance` copyright + 商標宣言: 運営者 → **ZKSC**
   (the privacy-policy contact email privacy@mirai-shigoto.com is kept — legally required).
-- `llms.txt` still says "Jason" — it is operator-maintained and left untouched by request.
+- `llms.txt` + `llms-full.txt`: Operator/Citation/author all moved Jason → ZKSC
+  (operator field uses the legal name "ZKSC株式会社 (Tokyo, Japan)"; citations use the
+  short "ZKSC"; the "operated by an individual" framing is now "a Tokyo-based company").
 - Organization `legalName` "ZKSC株式会社" + `address` (東京 / JP) added. Visible legal
-  pages (privacy / compliance) keep the short brand "ZKSC".
+  pages (privacy / compliance) name the full legal entity 「ZKSC株式会社（東京・日本）」;
+  the JSON-LD display `name` stays the short brand "ZKSC".
 
 SEO baseline recaptured: 1 json-ld drift (the homepage Organization node), additive.
 Other 6 signatures unchanged. typecheck + 999 tests + build + gates green.

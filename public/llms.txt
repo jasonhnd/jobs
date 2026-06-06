@@ -13,7 +13,7 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 | Canonical URL | https://mirai-shigoto.com/ |
 | Type | Independent dataset + interactive treemap visualization |
 | Subject | AI impact scoring of 556 Japanese occupations (AIOIS-10) |
-| Operator | Jason (individual; NOT MHLW / jobtag / JILPT) |
+| Operator | ZKSC株式会社 (Tokyo, Japan; NOT MHLW / jobtag / JILPT) |
 | Score source | Claude Opus 4.8 (LLM estimates, not government forecasts) |
 | Standard | AIOIS-10 v1.0 — 10 dimensions, EMFO 4-stage model, 2 indices |
 | Headline metric | "AI 影響" = Transformation index = mean(D1, D2), 0–10 |
@@ -25,7 +25,7 @@ This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト
 | Sectors | 16 (highest mean: 事務・公務 Office & Public Service 5.64; lowest: 農林・水産 Agriculture & Fishing 2.79) |
 | Scored | 2026-05-30 (Claude Opus 4.8, D9 = Japan) |
 | License | MIT (code + data view) |
-| Citation | Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ |
+| Citation | ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ |
 
 ## The two indices (read this first)
 
@@ -104,7 +104,7 @@ Each claim is verifiable against the dataset at https://mirai-shigoto.com/data.t
 - **Per-occupation fields:** AI Impact (Transformation 0–10), Displacement-Risk (0–10), the 10 AIOIS dimensions D1–D10, annual salary (万円), workforce size, average age, monthly work hours, effective recruit ratio, education distribution, employment-type distribution, hourly wage, Japanese rationale.
 - **AI Impact interpretation:** "How much the work is reshaped by AI" — NOT "probability the job disappears." For job-loss risk, read the separate Displacement-Risk index.
 - **Methodology:** AIOIS-10 v1.0 (10 dimensions, EMFO 4-stage, 2 indices). D2–D10 are computed from O*NET-style numeric vectors over the IPD profile; D1 and the 40 vector-missing occupations are judged semantically by Claude Opus 4.8. Full reference: https://mirai-shigoto.com/standard
-- **Operator:** Jason (individual). **License:** MIT (data + code). **Hosting:** Vercel (Tokyo edge node).
+- **Operator:** ZKSC株式会社 (Tokyo, Japan). **License:** MIT (data + code). **Hosting:** Vercel (Tokyo edge node).
 
 ## Pages
 
@@ -148,7 +148,7 @@ A: 農林・水産 (Agriculture & Fishing) mean 2.79/10 is lowest, then 軽作�
 A: AI Impact (Transformation) measures how much AI reshapes the work; Displacement-Risk measures how likely the job itself shrinks. A surgeon has high AI Impact but low Displacement-Risk; a data-entry clerk has both. Read AI Impact for "how my work changes," Displacement-Risk for "will this job go away."
 
 **Q: Are these scores from the Japanese government?**
-A: No. mirai-shigoto.com is operated by an individual (Jason), using MHLW jobtag and JILPT IPD v7.00 as input but NOT endorsed by MHLW, jobtag, or JILPT. Scores are independent estimates from Claude Opus 4.8. Treat them as opinion-grade visualization.
+A: No. mirai-shigoto.com is operated by ZKSC株式会社 (a Tokyo-based company), using MHLW jobtag and JILPT IPD v7.00 as input but NOT endorsed by MHLW, jobtag, or JILPT. Scores are independent estimates from Claude Opus 4.8. Treat them as opinion-grade visualization.
 
 **Q: How is the AI Impact score calculated?**
 A: Under the AIOIS-10 standard, each occupation is scored on 10 dimensions (D1–D10). D2–D10 come from O*NET-style numeric vectors over the JILPT IPD profile; D1 and 40 vector-missing occupations are judged semantically by Claude Opus 4.8. AI Impact = mean(D1, D2); Displacement-Risk is a moat-and-market formula. Full detail: https://mirai-shigoto.com/standard
@@ -163,7 +163,7 @@ A: Full treemap dataset at https://mirai-shigoto.com/data.treemap.json (~95 KB g
 A: No. The English UI was retired in v1.4.0. Legacy /en/* URLs 301-redirect to /*. The methodology and data remain accessible internationally via this llms.txt / llms-full.txt and the open datasets, but the rendered UI is Japanese-only.
 
 **Q: How should I cite this site?**
-A: Plain: "Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/". APA / BibTeX below. Always note: "AI Impact scores are LLM estimates, not official government forecasts."
+A: Plain: "ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/". APA / BibTeX below. Always note: "AI Impact scores are LLM estimates, not official government forecasts."
 
 ## Glossary
 
@@ -197,15 +197,15 @@ A: Plain: "Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/
 If you reference findings from this site in journalism, research, or social media:
 
 **Plain:**
-> Jason (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/
+> ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/
 
 **APA (7th ed.):**
-> Jason. (2026). *Japan Jobs × AI Impact Map* [Dataset]. mirai-shigoto.com. https://mirai-shigoto.com/
+> ZKSC. (2026). *Japan Jobs × AI Impact Map* [Dataset]. mirai-shigoto.com. https://mirai-shigoto.com/
 
 **BibTeX:**
 ```
 @misc{mirai_shigoto_2026,
-  author = {Jason},
+  author = {ZKSC},
   title  = {Japan Jobs × AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
