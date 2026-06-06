@@ -10,6 +10,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (Attribution — operator is ZKSC, not an individual - 2026-06-05)
+
+The site is built and operated by **ZKSC** (zksc.io). Attribution moved from the
+previous individual/project naming to the company:
+
+- Organization JSON-LD (`_index-json-ld.json`): `name` mirai-shigoto.com → **ZKSC**,
+  `url` → https://zksc.io, description reframed as "ZKSC が制作・運営する…". Pre-existing
+  `email` (info@mirai-shigoto.com) + logo (site OG card) kept; no ZKSC email/logo added.
+- `/data` citation: "Jason (2026)…" → "**ZKSC** (2026)…".
+- `/privacy` operator clause + `/compliance` copyright + 商標宣言: 運営者 → **ZKSC**
+  (the privacy-policy contact email privacy@mirai-shigoto.com is kept — legally required).
+- `llms.txt` still says "Jason" — it is operator-maintained and left untouched by request.
+- Pending (user to supply): legalName + registration country for the Organization.
+
+SEO baseline recaptured: 1 json-ld drift (the homepage Organization node), additive.
+Other 6 signatures unchanged. typecheck + 999 tests + build + gates green.
+
 ### Added (GEO Phase 4 — /data open-dataset documentation page - 2026-06-05)
 
 Implements Phase 4 of docs/SEO_GEO_STRATEGY.md (the "agentic data layer"). The
