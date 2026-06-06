@@ -5,6 +5,7 @@
           "@type": "Organization",
           "@id": "https://mirai-shigoto.com/#organization",
           "name": "ZKSC",
+          "legalName": "ZKSC株式会社",
           "alternateName": ["日本の職業 AI 影響マップ（非公式）", "Japan Jobs × AI Impact Map"],
           "url": "https://zksc.io",
           "logo": "https://mirai-shigoto.com/api/og?page=home",
@@ -18,6 +19,7 @@
             "MHLW jobtag",
             "JILPT occupational database"
           ],
+          "address": { "@type": "PostalAddress", "addressLocality": "東京", "addressCountry": "JP" },
           "areaServed": { "@type": "Country", "name": "Japan" }
         },
         {
