@@ -82,11 +82,6 @@ export type DispatchDecision =
   | { kind: 'render-sector'; id: string }
   | { kind: 'render-occupation'; id: string };
 
-/** Param-precedence order — first match wins. `page=map` short-
- *  circuits before the generic page lookup because /map is a rich
- *  card (treemap-legend variant), not the text-only family. */
-const PARAM_KEYS = ['page', 'ranking', 'interest', 'skill', 'compare', 'route', 'sector', 'id'] as const;
-
 /**
  * Decide which renderer to invoke given a request URL. Pure
  * function: depends only on `url.searchParams` and the catalog.
@@ -162,6 +157,3 @@ export function decideDispatch(
 
   return homeCard();
 }
-
-/** Exposed for tests + the no-param branch fallback in api/og.tsx. */
-export const PARAM_KEYS_PRECEDENCE: ReadonlyArray<string> = PARAM_KEYS;

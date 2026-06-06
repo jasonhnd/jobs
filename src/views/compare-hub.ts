@@ -17,7 +17,7 @@
  */
 // 2026-05-17 R2 fix: fs reads moved to page-data layer.
 import { COMPARE_META, type CompareSlug, type CompareMeta } from './compare-meta.js';
-import { loadDetailById as _loadDetailFromPageData } from '../page-data/projection-loaders.js';
+import { loadDetailById as _loadDetailFromPageData, type DetailFileMin } from '../page-data/projection-loaders.js';
 
 // ─── Public types ──────────────────────────────────────────────
 
@@ -68,28 +68,18 @@ export interface CompareBundle {
 
 // ─── Loader ────────────────────────────────────────────────────
 
-export interface DetailFile {
-  id: number;
-  title?: { ja?: string };
-  ai_risk?: { score?: number; rationale_ja?: string };
-  risk_band?: string;
-  description?: { summary_ja?: string };
-  stats?: {
-    salary_man_yen?: number | null;
-    workers?: number | null;
-    monthly_hours?: number | null;
-    average_age?: number | null;
-    recruit_ratio?: number | null;
-  };
-  sector?: { id?: string; ja?: string };
-  related_certs_ja?: string[];
-  skills_top10?: Array<{ key: string; label_ja: string; score: number }>;
-}
+/**
+ * Shared compare DI contract. Both producers conform: `loadDetail`
+ * (fs, via projection-loaders) and the graph-based loader in
+ * compare.ts. Aliased to the loader's own shape so the fs path
+ * carries no cast.
+ */
+export type DetailFile = DetailFileMin;
 
 // 2026-05-17 R2 fix: delegate to page-data loader (cache is shared
 // with loadAllDetails, so warming one warms the other).
 function loadDetail(id: number): DetailFile {
-  return _loadDetailFromPageData(id) as unknown as DetailFile;
+  return _loadDetailFromPageData(id);
 }
 
 function detailToSide(d: DetailFile): CompareSide {
