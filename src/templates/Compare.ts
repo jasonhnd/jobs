@@ -259,14 +259,6 @@ export function renderCompactCompareCards(cards: ReadonlyArray<CompareHubCard>):
   }).join('') as SafeHtml;
 }
 
-/**
- * 2026-06-04 双層改造前の API。既存呼び出しの互換のため残す
- * (compare/index.astro 以外の利用元があれば段階的に置き換える)。
- */
-export function renderCompareHubCards(cards: ReadonlyArray<CompareHubCard>): SafeHtml {
-  return renderFeaturedCompareCards(cards);
-}
-
 export function renderHubJsonLd(): string {
   const canonical = `${SITE}/compare`;
   const seoDesc =
