@@ -27,6 +27,9 @@ previous individual/project naming to the company:
 - Organization `legalName` "ZKSC株式会社" + `address` (東京 / JP) added. Visible legal
   pages (privacy / compliance) name the full legal entity 「ZKSC株式会社（東京・日本）」;
   the JSON-LD display `name` stays the short brand "ZKSC".
+- Made the operator visible to readers (not only in structured data): `/about` gains a
+  「運営会社」 section (links zksc.io, framed around financial strategy + data — not Web3),
+  and the site-wide footer shows 「運営：ZKSC株式会社（東京・日本）」.
 
 SEO baseline recaptured: 1 json-ld drift (the homepage Organization node), additive.
 Other 6 signatures unchanged. typecheck + 999 tests + build + gates green.
