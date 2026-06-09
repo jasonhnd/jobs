@@ -51,6 +51,9 @@ const REQUIRED_CONNECT_SRC_ORIGINS = [
   // GA4 collect endpoints
   'https://*.google-analytics.com',
   'https://www.googletagmanager.com',
+  // Google Ads conversion + remarketing beacons (gtag config('AW-…'))
+  'https://googleads.g.doubleclick.net',
+  'https://www.googleadservices.com',
   // Cloudflare Web Analytics report
   'https://cloudflareinsights.com',
   'https://*.cloudflareinsights.com',
