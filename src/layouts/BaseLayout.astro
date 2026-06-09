@@ -83,6 +83,7 @@ const X_PIXEL_ID = import.meta.env.PUBLIC_X_PIXEL_ID;
 const CF_BEACON_TOKEN = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID;
 const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
+const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
 ---
 <!doctype html>
 <html lang={siteConfig.htmlLang}>
@@ -186,6 +187,7 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
     {GA4_MEASUREMENT_ID && <meta name="ga4-measurement-id" content={GA4_MEASUREMENT_ID} />}
     {X_PIXEL_ID && <meta name="x-pixel-id" content={X_PIXEL_ID} />}
     {META_PIXEL_ID && <meta name="meta-pixel-id" content={META_PIXEL_ID} />}
+    {GOOGLE_ADS_ID && <meta name="google-ads-id" content={GOOGLE_ADS_ID} />}
 
     <!-- Google tag (gtag.js) bootstrap — STATIC script body (no `define:vars`,
          no template interpolation). Reads its config from the
@@ -222,6 +224,13 @@ const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID;
           });
           window.gtag('js', new Date());
           window.gtag('config', id);
+          // Google Ads shares the one gtag.js library — config('AW-…')
+          // queues into dataLayer alongside GA4, and the single library
+          // load below initialises both. ID read from <meta> so this
+          // script body stays static (one CSP hash covers every page).
+          var adsMeta = document.querySelector('meta[name="google-ads-id"]');
+          var adsId = adsMeta && adsMeta.getAttribute('content');
+          if (adsId) window.gtag('config', adsId);
           window.addEventListener('load', function () {
             var s = document.createElement('script');
             s.async = true;
