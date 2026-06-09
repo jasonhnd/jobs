@@ -157,6 +157,35 @@ test('X Ads: window.twq becomes a function with non-empty pixel ID', async ({ pa
   expect(pixelId, 'X_PIXEL_ID must not contain whitespace or newlines').not.toMatch(/\s/);
 });
 
+test('Google Ads: AW- config queued when PUBLIC_GOOGLE_ADS_ID is set', async ({ page }) => {
+  await page.goto('/ja/sectors', { waitUntil: 'load' });
+  // Ads is optional and shares GA4's gtag.js library — when
+  // PUBLIC_GOOGLE_ADS_ID is unset the <meta> is absent and the gtag
+  // block's `if (adsId)` short-circuits. Only assert the semantic
+  // contract when the tag is actually configured in this build.
+  const adsId = await page.evaluate(() => {
+    const meta = document.querySelector('meta[name="google-ads-id"]');
+    return meta?.getAttribute('content') ?? null;
+  });
+  test.skip(!adsId, 'PUBLIC_GOOGLE_ADS_ID not set in this build — Ads tag inert.');
+  expect(adsId, 'google-ads-id must match AW-… format').toMatch(/^AW-\d+$/);
+  expect(adsId, 'AW- ID must not contain whitespace or newlines').not.toMatch(/\s/);
+  await page.waitForFunction(
+    () => typeof (window as unknown as { gtag?: unknown }).gtag === 'function',
+    null,
+    { timeout: 8_000 },
+  );
+  const hasAdsConfig = await page.evaluate((id) => {
+    const w = window as unknown as { dataLayer?: unknown[] };
+    if (!Array.isArray(w.dataLayer)) return false;
+    return w.dataLayer.some((e) => {
+      const arr = Array.from((e ?? []) as ArrayLike<unknown>);
+      return arr[0] === 'config' && arr[1] === id;
+    });
+  }, adsId);
+  expect(hasAdsConfig, 'gtag("config","AW-…") must be pushed to dataLayer').toBe(true);
+});
+
 // ─── CSP must list every analytics origin our code references ────────────
 
 test('CSP allows all analytics origins our code calls into', async ({ page }) => {
@@ -177,6 +206,8 @@ test('CSP allows all analytics origins our code calls into', async ({ page }) =>
     '*.cloudflareinsights.com',
     'google-analytics.com',
     'googletagmanager.com',
+    'googleads.g.doubleclick.net',
+    'googleadservices.com',
     'vitals.vercel-insights.com',
     'analytics.twitter.com',
     't.co',
