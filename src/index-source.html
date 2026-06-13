@@ -46,22 +46,22 @@
           </div>
         </section>
 
-        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now (556 occupations, 5,456 万 employed, mean Transformation 4.2, 77.4 兆 yen wages at impact ≥ 5; AIOIS-10 batch 2026-05-30). Distribution counts: 1–2=12, 3–4=207, 5–6=294, 7–8=41, 9–10=2 (total 556). Percentages 2/37/53/7/1 sum to 100. The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
-        <!-- TODO(RA-145): wire 556 / 5,456 / 77.4 to OCCUPATION_COUNT.SCORED + canonical worker/wage constants when this fragment is converted to an Astro template (currently injected via set:html from src/pages/index.astro, so it has no access to TS constants). -->
+        <!-- RA-135: KPI band — 4 headline KPIs + AI-impact distribution bar above the fold. Numbers hardcoded for now, refreshed to the active AIOIS-10 batch (claude-fable-5, 2026-06-13): 556 occupations, 5,456 万 employed, mean Transformation 4.2, 76.4 兆 yen wages at impact ≥ 5. Distribution by nearest-integer bucket of ai_risk (round→{0–2}=1-2, {3,4}=3-4, {5,6}=5-6, {7,8}=7-8, {9,10}=9-10): 72 / 314 / 136 / 33 / 1 (total 556). Percentages 13/56/24/6/1 sum to 100 (the single 9-10 occupation is shown as 1% for visibility). The flex-basis is rendered via the inline `--w` custom property; this is allowed by style-src 'self' 'unsafe-inline'. -->
+        <!-- TODO(RA-145): wire 556 / 5,456 / 76.4 + the distribution to OCCUPATION_COUNT.SCORED + a build-time aggregate over the active score batch (same placeholder-substitution pattern as the homepage JSON-LD in _index-bindings.ts), so these numbers follow score-batch upgrades automatically instead of being hand-updated. -->
         <section class="home-kpi-band" aria-label="日本の労働市場全体">
           <ul class="kpi-row">
             <li><strong>556</strong><span>職業</span></li>
             <li><strong>5,456<small>万</small></strong><span>就業者</span></li>
             <li><strong>4.2<small>/10</small></strong><span>平均 AI 影響</span></li>
-            <li><strong>77.4<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥5</small></span></li>
+            <li><strong>76.4<small>兆</small></strong><span>高リスク賃金<small class="kpi-meta">影響≥5</small></span></li>
           </ul>
           <p class="risk-distribution-label">AI 影響度の分布（全 556 職業）</p>
           <ul class="risk-distribution" role="list">
-            <li data-band="1-2" style="--w:2%" aria-label="影響度 1-2 低 12 職業 2%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> 12 職業 <small>2%</small></span></li>
-            <li data-band="3-4" style="--w:37%" aria-label="影響度 3-4 中低 207 職業 37%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> 207 <small>37%</small></span></li>
-            <li data-band="5-6" style="--w:53%" aria-label="影響度 5-6 中 294 職業 53%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> 294 <small>53%</small></span></li>
-            <li data-band="7-8" style="--w:7%" aria-label="影響度 7-8 高 41 職業 7%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> 41 <small>7%</small></span></li>
-            <li data-band="9-10" style="--w:1%" aria-label="影響度 9-10 最高 2 職業 1%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> 2 <small>1%</small></span></li>
+            <li data-band="1-2" style="--w:13%" aria-label="影響度 1-2 低 72 職業 13%"><span class="rd-fill"></span><span class="rd-text"><strong>低</strong> 72 職業 <small>13%</small></span></li>
+            <li data-band="3-4" style="--w:56%" aria-label="影響度 3-4 中低 314 職業 56%"><span class="rd-fill"></span><span class="rd-text"><strong>中低</strong> 314 <small>56%</small></span></li>
+            <li data-band="5-6" style="--w:24%" aria-label="影響度 5-6 中 136 職業 24%"><span class="rd-fill"></span><span class="rd-text"><strong>中</strong> 136 <small>24%</small></span></li>
+            <li data-band="7-8" style="--w:6%" aria-label="影響度 7-8 高 33 職業 6%"><span class="rd-fill"></span><span class="rd-text"><strong>高</strong> 33 <small>6%</small></span></li>
+            <li data-band="9-10" style="--w:1%" aria-label="影響度 9-10 最高 1 職業 1%"><span class="rd-fill"></span><span class="rd-text"><strong>最高</strong> 1 <small>1%</small></span></li>
           </ul>
         </section>
 
@@ -765,8 +765,8 @@
 
       <!-- Home CTA row (2026-05-31): the rankings tool + the X-follow CTA sit
            side by side (stack on mobile). The old boxed data-attribution strip
-           was removed — its 出典 / Opus 4.8 attribution now lives once in the
-           global footer (Footer.astro), where every page already carries it. -->
+           was removed — its 出典 / model attribution now lives once in the
+           global footer (Footer.astro, data-driven via score-attribution). -->
       <div class="home-cta-row">
         <aside class="me-cta-strip" aria-label="自分の現在地ツール">
           <p>あなたの職業は、556 職業の中でどこに立っていますか？<strong>39 ランキング</strong>での位置を一覧表示。</p>

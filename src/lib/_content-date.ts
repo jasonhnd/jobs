@@ -16,4 +16,4 @@
  *
  * Do NOT edit by hand — the next `build:data` will overwrite it.
  */
-export const CONTENT_DATE = '2026-05-30';
+export const CONTENT_DATE = '2026-06-13';

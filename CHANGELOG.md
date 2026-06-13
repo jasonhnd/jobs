@@ -10,6 +10,38 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Added (AIOIS-10 re-score with Claude Fable 5 - 2026-06-13, Issue #9)
+
+- Added the append-only AIOIS-10 score batch
+  `data/scores/occupations_claude-fable-5_2026-06-13.json` (556 occupations,
+  full 10-dimension AIOIS-10 + 2 indices on every score), scored in-session by
+  claude-fable-5 with the frozen prompt
+  `data/prompts/2026-06-13_claude-fable-5-aiois10.ja.md` per
+  `docs/SCORING_RUNBOOK.md` (pilot → drift audit → full run). `pickLatestScore()`
+  now selects this batch site-wide; the Opus 4.8 2026-05-30 batch is preserved.
+  Drift vs Opus 4.8: mean transformation −0.07, mean displacement +0.14, 176/556
+  band crossings.
+- New `src/site/score-attribution.ts` derives the active model display name +
+  run date from the newest score batch. ~45 hard-coded "Claude Opus 4.8" /
+  "2026-05-30" attributions across footer, hubs, FAQ, Q&A, rankings, sector +
+  occupation JSON-LD, the citable fact block (`ai-fact-summary.ts`), /about,
+  /compliance, /methodology, /data, and the homepage JSON-LD now render from
+  this single source. The per-occupation `scoredDate` and `CONTENT_DATE`
+  freshness signal also follow the active batch.
+- /methodology rewritten to describe the active method (all 10 dimensions
+  judged by the LLM under a frozen prompt; indices by the fixed /standard
+  formulas; machine validation; pilot → drift → full-run rollout); score-band
+  examples on /methodology + /about refreshed to verified Fable 5 values.
+- Homepage numeric claims refreshed: KPI high-risk wage (impact≥5) 77.4→76.4 兆,
+  AI-impact distribution 72/314/136/33/1; JSON-LD example scores (一般事務
+  7.1→8.0, 看護師 ~4→~3, lowest 家政婦 1.3→潜水士 1.3, high-risk ≥7 share
+  ~7%→~11%). /yearly/2026-report + the /standard heatmap excerpt remain
+  explicitly labelled as the prior Opus 4.8 / 2026-05-30 snapshot.
+- Local scoring tooling: `scripts/assemble-scores.ts` AIOIS-required mode,
+  `make-pilot-sample.ts`, `make-fullrun-chunks.ts`, `aiois-drift-report.ts`
+  (+ tests). Raw JSONL, pilot artifacts, and drift reports live under
+  `.cache/scoring/issue-9/` (not published).
+
 ### Changed (Attribution — operator is ZKSC, not an individual - 2026-06-05)
 
 The site is built and operated by **ZKSC** (zksc.io). Attribution moved from the

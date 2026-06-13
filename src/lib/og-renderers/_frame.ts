@@ -19,7 +19,7 @@ import { createElement as h } from 'react';
 import type { ReactElement, ReactNode } from 'react';
 
 export const SITE_MARK = 'mirai-shigoto.com';
-export const FOOTER_LEFT = '厚生労働省 jobtag · JILPT IPD v7.00 · Claude Opus 4.8';
+export const FOOTER_LEFT = '厚生労働省 jobtag · JILPT IPD v7.00 · AIOIS-10';
 export const FOOTER_RIGHT = '非公式 / Independent';
 export const BADGE_TEXT = '独立分析';
 

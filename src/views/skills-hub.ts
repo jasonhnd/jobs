@@ -85,6 +85,7 @@ function loadSkillRanking(ipdKey: string): SkillRankingFile {
 // ─── Helpers ──────────────────────────────────────────────────
 
 import { fmtInt, safeMean } from '../lib/num.js';
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 
 function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [string, string]> {
   const faqs: Array<readonly [string, string]> = [];
@@ -109,7 +110,7 @@ function buildFaqs(meta: SkillMeta, items: SkillOccupation[]): Array<readonly [s
       `${meta.short_ja}が必要な職業は AI に置き換えられる？`,
       `本 hub の TOP ${items.length} の平均 AI 影響度は ${meanRisk.toFixed(1)}/10 で ${tier} の水準です。` +
         `スキル単体の AI 適合度ではなく、職業全体の業務構成で評価されています。` +
-        `本サイトの AI 影響度は Claude Opus 4.8 による独自分析（非公式）です。`,
+        `本サイトの AI 影響度は ${SCORE_ATTRIBUTION.modelDisplay} による独自分析（非公式）です。`,
     ]);
   }
 

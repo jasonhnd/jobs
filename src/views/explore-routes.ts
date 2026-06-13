@@ -22,6 +22,8 @@ export interface ExploreRoute {
   og_eyebrow: string;
 }
 
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+
 export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
   {
     slug: 'by-industry',
@@ -108,7 +110,7 @@ export const EXPLORE_ROUTES: ReadonlyArray<ExploreRoute> = [
     intro_ja: '本サイトの独自分析がどう行われているか、用語の定義、データの出典、年次レポート (2026 年版・5 年変化・10 年予測) を公開しています。透明性を重視する独立サイトです。',
     genres: [
       { path: '/standard', label: 'AIOIS-10 標準', desc: '10 次元・EMFO・2 指数の定義' },
-      { path: '/methodology', label: '評価プロセス', desc: 'Claude Opus 4.8・AIOIS-10 による算出のしくみ・校正・限界' },
+      { path: '/methodology', label: '評価プロセス', desc: `${SCORE_ATTRIBUTION.modelDisplay}・AIOIS-10 による算出のしくみ・校正・限界` },
       { path: '/about', label: 'データについて', desc: '出典の要約・スコアの目安・用語集・FAQ' },
       { path: 'yearly', label: '年次レポート', desc: '2026 年版・5 年変化・10 年予測' },
     ],

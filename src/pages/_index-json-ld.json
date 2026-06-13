@@ -54,7 +54,7 @@
           "@id": "https://mirai-shigoto.com/#dataset",
           "name": "Japan 556 Occupations × AI Impact (mirai-shigoto.com)",
           "alternateName": "日本 556 職種の AI 影響マップ",
-          "description": "556 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by Claude Opus 4.8. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Site UI is Japanese-only. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
+          "description": "556 Japanese occupations sourced from MHLW jobtag and JILPT, scored 0-10 for AI replacement risk by __SCORE_MODEL_DISPLAY__. Per-occupation fields: AI risk, annual salary (man-yen), workforce, average age, monthly hours, recruit ratio, education distribution, employment-type split, hourly wage. Site UI is Japanese-only. AI risk reflects 'how much the work may be reshaped', NOT 'probability the job disappears'.",
           "url": "https://mirai-shigoto.com/",
           "creator": { "@id": "https://mirai-shigoto.com/#organization" },
           "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -66,7 +66,7 @@
           "keywords": ["AI", "labor market", "Japan", "occupations", "automation risk", "job tag", "MHLW", "JILPT", "AI 仕事", "AI 失業", "職業 AI リスク"],
           "spatialCoverage": { "@type": "Place", "name": "Japan" },
           "temporalCoverage": "2025/2026",
-          "measurementTechnique": "Scored with the AIOIS-10 standard (10 dimensions). Each of 556 occupations evaluated independently by Claude Opus 4.8.",
+          "measurementTechnique": "Scored with the AIOIS-10 standard (10 dimensions). Each of 556 occupations evaluated independently by __SCORE_MODEL_DISPLAY__.",
           "citation": [
             "厚生労働省 職業情報提供サイト（jobtag）— https://shigoto.mhlw.go.jp/User/",
             "独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース — https://www.jil.go.jp/"
@@ -118,13 +118,13 @@
               "@type": "ListItem",
               "position": 1,
               "name": "一般事務 (General office clerk)",
-              "description": "AI impact 7.1/10. About 2.63 million workers — Japan's single largest occupation by workforce."
+              "description": "AI impact 8.0/10. About 2.64 million workers — Japan's single largest occupation by workforce."
             },
             {
               "@type": "ListItem",
               "position": 2,
               "name": "看護師 (Nurse)",
-              "description": "AI risk approximately 4/10. Physical, on-site, and interpersonal components keep the score low."
+              "description": "AI risk approximately 3/10. Physical, on-site, and interpersonal components keep the score low."
             },
             {
               "@type": "ListItem",
@@ -135,8 +135,8 @@
             {
               "@type": "ListItem",
               "position": 4,
-              "name": "家政婦（夫） (Domestic helper)",
-              "description": "AI impact about 1.3 (lowest). In-person, hands-on domestic work keeps automation minimal."
+              "name": "潜水士 (Commercial diver)",
+              "description": "AI impact 1.3 (lowest). Underwater, physical, on-site work keeps automation minimal."
             },
             {
               "@type": "ListItem",
@@ -156,7 +156,7 @@
               "name": "mirai-shigoto.com とは？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "厚生労働省 jobtag の日本 556 職業を、Claude Opus 4.8 による AI 影響度スコア（0〜10）で可視化した独自分析サイト（非公式）。MIT ライセンス。厚生労働省（MHLW）・職業情報提供サイト（jobtag）・独立行政法人 労働政策研究・研修機構（JILPT）の運営ではありません。"
+                "text": "厚生労働省 jobtag の日本 556 職業を、__SCORE_MODEL_DISPLAY__ による AI 影響度スコア（0〜10）で可視化した独自分析サイト（非公式）。MIT ライセンス。厚生労働省（MHLW）・職業情報提供サイト（jobtag）・独立行政法人 労働政策研究・研修機構（JILPT）の運営ではありません。"
               }
             },
             {
@@ -164,7 +164,7 @@
               "name": "AI 影響スコアの算出方法は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Claude Opus 4.8 が AIOIS-10（10 項目）で全 556 職業を独立に評価。各仕事を 10 の観点で見て、変化の大きさ（AI 影響）を 0〜10 で算出します。"
+                "text": "__SCORE_MODEL_DISPLAY__ が AIOIS-10（10 項目）で全 556 職業を独立に評価。各仕事を 10 の観点で見て、変化の大きさ（AI 影響）を 0〜10 で算出します。"
               }
             },
             {
@@ -172,7 +172,7 @@
               "name": "このスコアは政府公式の予測ですか？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "いいえ。Claude Opus 4.8（LLM）の推定であり、統計的真実ではなく「意見グレードの可視化」として扱ってください。MHLW・jobtag・JILPT の公式見解ではありません。"
+                "text": "いいえ。__SCORE_MODEL_DISPLAY__（LLM）の推定であり、統計的真実ではなく「意見グレードの可視化」として扱ってください。MHLW・jobtag・JILPT の公式見解ではありません。"
               }
             },
             {
@@ -188,7 +188,7 @@
               "name": "日本で最も就業者が多い職業と、その AI 影響度は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "一般事務（General office clerk）— 約 263 万人。スコア 7.1/10 で、日本の大規模職業のうち高い影響を受ける部類です。"
+                "text": "一般事務（General office clerk）— 約 264 万人。スコア 8.0/10 で、日本の大規模職業のうち高い影響を受ける部類です。"
               }
             },
             {
@@ -196,7 +196,7 @@
               "name": "AI 影響度が最も低い職業は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "体・現場・対人を要する職業：家政婦 ≈ 1.3、保育士 ≈ 2.9、看護師 ≈ 4.1。"
+                "text": "体・現場・対人を要する職業：潜水士 ≈ 1.3、花火師 ≈ 1.5、ベビーシッター ≈ 1.5。"
               }
             },
             {
@@ -204,7 +204,7 @@
               "name": "高リスク（≥7/10）職業に従事する就業人口の割合は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "日本の就業人口の約 7% が、AI 影響 7 以上の職業に従事しています。"
+                "text": "日本の就業人口の約 11% が、AI 影響 7 以上の職業に従事しています。"
               }
             },
             {
@@ -212,7 +212,7 @@
               "name": "データの出典は？",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "厚生労働省（MHLW）jobtag および独立行政法人 労働政策研究・研修機構（JILPT）の公開データセット。AI 影響スコアは Claude Opus 4.8 が AIOIS-10 に基づき独立に算出。"
+                "text": "厚生労働省（MHLW）jobtag および独立行政法人 労働政策研究・研修機構（JILPT）の公開データセット。AI 影響スコアは __SCORE_MODEL_DISPLAY__ が AIOIS-10 に基づき独立に算出。"
               }
             },
             {

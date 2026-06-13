@@ -9,22 +9,23 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
+import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
 // every new UTC day. See ai-adoption.ts for the data-derived equivalent.
-const pageLastUpdated = '2026-06-02';
+const pageLastUpdated = '2026-06-13';
 
 const SCALE: { range: string; mid: number; desc: string }[] = [
-  { range: '0–2（最小）', mid: 1, desc: '物理・現場仕事（清掃、林業、調理、配送）' },
-  { range: '2–4（低）', mid: 3, desc: '肉体労働＋一部対人（建設、介護、ドライバー、美容師）' },
-  { range: '4–6（中）', mid: 5, desc: '知識・対人・判断の混合（看護師、教員、医師、管理職、技術者）' },
-  { range: '6–8（高）', mid: 7, desc: '情報・事務・専門の知識労働（会計士、士業、プログラマー、各種事務）' },
-  { range: '8–10（最大）', mid: 9, desc: '定型デジタル処理（データ入力、文字起こし、コールセンター、翻訳）' },
+  { range: '0–2（最小）', mid: 1, desc: '物理・現場仕事（潜水士、花火師、配管工、送電線工事）' },
+  { range: '2–4（低）', mid: 3, desc: '肉体・対人の現場（美容師、看護師、介護、外科医）' },
+  { range: '4–6（中）', mid: 5, desc: '知識・対人・判断の混合（薬剤師、弁護士、店長、設計技術者）' },
+  { range: '6–8（高）', mid: 7, desc: '情報・事務・専門の知識労働（会計士、プログラマー、コールセンター、翻訳）' },
+  { range: '8–10（最大）', mid: 9, desc: '定型デジタル処理（データ入力、速記・文字起こし、一般事務、医療事務）' },
 ];
 
 const GLOSSARY: { t: string; en: string; d: string }[] = [
-  { t: 'AI 影響度', en: 'AI Impact / Transformation', d: '各職業の仕事のうち AI でこなせる部分がどれくらいかを 0〜10 で評価したスコア。本サイト独自分析（Claude Opus 4.8・AIOIS-10）で算出。仕事が消える確率ではなく、仕事がどれだけ作り変えられるかを示す。' },
+  { t: 'AI 影響度', en: 'AI Impact / Transformation', d: `各職業の仕事のうち AI でこなせる部分がどれくらいかを 0〜10 で評価したスコア。本サイト独自分析（${SCORE_ATTRIBUTION.modelDisplay}・AIOIS-10）で算出。仕事が消える確率ではなく、仕事がどれだけ作り変えられるかを示す。` },
   { t: 'Risk Band', en: 'low / mid / high', d: 'AI 影響度の 3 区分：low（≤3.9）／ mid（≤6.9）／ high（>6.9）。視覚的なリスク感の表現。' },
   { t: 'Demand Band', en: 'cold / normal / hot', d: '有効求人倍率の 3 区分：cold（<1.0）／ normal（<2.0）／ hot（≥2.0）。労働市場の需給状況。' },
   { t: 'Workforce Band', en: 'small / mid / large', d: '就業者数の 3 区分：small（<2 万人）／ mid（<10 万人）／ large（≥10 万人）。労働市場の規模。' },
@@ -70,7 +71,7 @@ const jsonLd = `{
   title="データについて — mirai-shigoto.com"
   description="mirai-shigoto.com のデータソース要約、AI 影響スコアの目安、用語集、注意事項、FAQ。詳しい採点手順は評価プロセスへ。"
   canonical="https://mirai-shigoto.com/about"
-  keywords="未来の仕事, AI 影響度, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, Claude Opus 4.8, AIOIS-10, 用語集, FAQ, mirai shigoto"
+  keywords={`未来の仕事, AI 影響度, データ出典, 厚生労働省 jobtag, JILPT, 職業情報データベース, ${SCORE_ATTRIBUTION.modelDisplay}, AIOIS-10, 用語集, FAQ, mirai shigoto`}
   ogTitle="データについて — mirai-shigoto.com"
   ogDescription="データソース要約、AI 影響スコアの目安、用語集、注意事項、FAQ。"
   ogImage="https://mirai-shigoto.com/api/og?page=about"
@@ -98,7 +99,7 @@ const jsonLd = `{
     <div class="src-card">
       <div class="src-row"><span class="src-label">職業マスタ</span><span><a href="https://shigoto.mhlw.go.jp/User/" target="_blank" rel="noopener noreferrer">厚生労働省「職業情報提供サイト（job tag）」</a>／著作権者 JILPT「職業情報データベース」v7.00</span></div>
       <div class="src-row"><span class="src-label">労働統計</span><span>賃金構造基本統計調査・労働力調査・ハローワーク求人統計（年収・就業者数・有効求人倍率）</span></div>
-      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（Claude Opus 4.8 採点、2026-05-30、<a href="/standard">AIOIS-10</a> v1.0）</span></div>
+      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（{SCORE_ATTRIBUTION.modelDisplay} 採点、{SCORE_ATTRIBUTION.runDate}、<a href="/standard">AIOIS-10</a> v1.0）</span></div>
     </div>
     <p>各出典の正式名・利用条件・引用ルールの詳細は <a href="/methodology">評価プロセス</a> にまとめています。</p>
 
@@ -148,7 +149,7 @@ const jsonLd = `{
       </details>
       <details>
         <summary>どれくらいの頻度で更新されますか？</summary>
-        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は 2026-05-30（<a href="/standard">AIOIS-10</a> v1.0）。元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
+        <p>AI スコアは LLM の能力進化に応じて更新します。直近の採点は {SCORE_ATTRIBUTION.runDate}（{SCORE_ATTRIBUTION.modelDisplay}、<a href="/standard">AIOIS-10</a> v1.0）。元データ（jobtag／JILPT）の更新サイクルとは独立に、本サイトが必要と判断したタイミングで再採点します。</p>
       </details>
       <details>
         <summary>自分の職業がリストに見つかりません。</summary>
@@ -158,7 +159,7 @@ const jsonLd = `{
 
     <h2><span class="num">6.</span>運営会社</h2>
     <p>本サイト「mirai-shigoto.com」は、<strong>ZKSC株式会社</strong>（東京・日本／<a href="https://zksc.io" target="_blank" rel="noopener noreferrer">zksc.io</a>）が運営する独自分析プロジェクトです。ZKSC は金融戦略とテクノロジーを軸に、構造化された分析とデータの可視化に取り組んでいます。</p>
-    <p>本サイトの AI 影響度スコアは Claude Opus 4.8 による独立した分析（<a href="/standard">AIOIS-10</a>）であり、公的機関の公式見解を代表するものではありません。</p>
+    <p>本サイトの AI 影響度スコアは {SCORE_ATTRIBUTION.modelDisplay} による独立した分析（<a href="/standard">AIOIS-10</a>）であり、公的機関の公式見解を代表するものではありません。</p>
 
     <Footer />
   </div>
