@@ -17,6 +17,7 @@
  * SEO copy contract and is pinned by tests + the SEO baseline diff.
  */
 import type { Aiois10 } from '../graph/types.js';
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 
 /**
  * Workforce count → compact Japanese (約N万人). Integer 万 at ≥10万, one
@@ -127,7 +128,7 @@ export function buildAiFactSummary(input: AiFactInput): string {
   if (stats.length > 0) parts.push(stats.join('、') + '。');
 
   // 4. Source + date (the attribution that makes the block citable).
-  parts.push(`（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Opus 4.8、${scoredDate}）`);
+  parts.push(`（出典：厚生労働省 jobtag ＋ AIOIS-10、${SCORE_ATTRIBUTION.modelDisplay}、${scoredDate}）`);
 
   return parts.join('');
 }

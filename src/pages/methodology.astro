@@ -9,11 +9,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg } from '@/lib/canonical/doc';
+import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
 // every new UTC day. See ai-adoption.ts for the data-derived equivalent.
-const pageLastUpdated = '2026-06-02';
+const pageLastUpdated = '2026-06-13';
 
 const VECTORS: [string, string][] = [
   ['skills（スキル）', '39 指標 0–5。読解・批判的思考・プログラミング・判断など。'],
@@ -27,15 +28,15 @@ const VECTORS: [string, string][] = [
 
 // スコア帯の代表例（旧 /about/methodology より）。
 const BANDS: { sc: string; n: number; ex: string; why: string }[] = [
-  { sc: '1 前後', n: 1, ex: '家政婦・バーテンダー', why: '体を使う対人の仕事。AI では置きかえにくい' },
-  { sc: '2 前後', n: 2, ex: '学童保育指導員', why: '子どもの世話・現場での対応が中心' },
-  { sc: '3 前後', n: 3, ex: '型枠大工・訪問介護', why: '手作業や身体ケアが中心' },
-  { sc: '4 前後', n: 4, ex: '看護師・スーパー店長', why: '処置や判断＋対人。AI 補助はできるが置きかえ不可' },
-  { sc: '5 前後', n: 5, ex: '建築設計技術者', why: 'AI が下書きを助けるが、判断は人' },
-  { sc: '6 前後', n: 6, ex: 'プログラマー・人事事務', why: 'AI が作業の多くを担うが、確認と調整は人' },
-  { sc: '7 前後', n: 7, ex: '一般事務・公認会計士', why: 'PC で完結する仕事が多い' },
-  { sc: '8 前後', n: 8, ex: 'コールセンター', why: '台本どおりの応対は AI でほぼ完結' },
-  { sc: '9 前後', n: 9, ex: 'データ入力', why: 'ほぼすべてが AI で片づく（最高は 9.2）' },
+  { sc: '1 前後', n: 1, ex: '潜水士・花火師', why: '体を使う現場の仕事。AI もロボットも届きにくい' },
+  { sc: '2 前後', n: 2, ex: '美容師・家政婦・学童保育指導員', why: '手仕事と対面の関係が中核' },
+  { sc: '3 前後', n: 3, ex: '看護師・バーテンダー・訪問介護', why: '身体ケア・対面が中心。AI 補助はできるが置きかえ不可' },
+  { sc: '4 前後', n: 4, ex: 'スーパー店長・建築設計技術者', why: 'AI が下書きや分析を助けるが、現場の判断は人' },
+  { sc: '5 前後', n: 5, ex: '薬剤師・臨床検査技師', why: '定型部分の自動化が進むが、資格と手技が残る' },
+  { sc: '6 前後', n: 6, ex: '公認会計士・人事事務', why: 'AI が作業の多くを担うが、責任と確認は人' },
+  { sc: '7 前後', n: 7, ex: 'プログラマー・コールセンター', why: 'PC で完結する中核業務を AI が直接担える' },
+  { sc: '8 前後', n: 8, ex: '一般事務・医療事務', why: '規程・点数表どおりの定型処理は AI でほぼ完結' },
+  { sc: '9 前後', n: 9, ex: 'データ入力', why: 'ほぼすべてが AI で片づく（最高は 9.5）' },
 ];
 
 const jsonLd = `{
@@ -59,7 +60,7 @@ const jsonLd = `{
       "@type": "TechArticle",
       "@id": "https://mirai-shigoto.com/methodology#techarticle",
       "headline": "データの整理と評価プロセス — AIOIS-10 採点方法",
-      "description": "556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準で Claude Opus 4.8 がどう採点したか。データソース、ベクトルエンジン、LLM 判定、校正、限界。",
+      "description": "556 職業のデータをどう整理し、AIOIS-10 標準で ${SCORE_ATTRIBUTION.modelDisplay} がどう採点したか。データソース、LLM 全次元判定、指数の式、スコア帯の代表例、校正、限界。",
       "url": "https://mirai-shigoto.com/methodology",
       "inLanguage": "ja",
       "datePublished": "2026-05-30",
@@ -83,9 +84,9 @@ const jsonLd = `{
 ---
 <BaseLayout
   title="データの整理と評価プロセス — mirai-shigoto.com"
-  description="556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。データソース、ベクトルエンジン、Opus 4.8 判定、スコア帯の代表例、校正、限界。"
+  description={`556 職業のデータをどう整理し、AIOIS-10 標準でどう採点したか。データソース、${SCORE_ATTRIBUTION.modelDisplay} 全次元判定、指数の式、スコア帯の代表例、校正、限界。`}
   canonical="https://mirai-shigoto.com/methodology"
-  keywords="評価方法, データ整理, データソース, AIOIS-10, O*NET, 職業情報データベース, jobtag, JILPT, 有効求人倍率, Opus 4.8, 校正, スコア帯, 限界"
+  keywords={`評価方法, データ整理, データソース, AIOIS-10, O*NET, 職業情報データベース, jobtag, JILPT, 有効求人倍率, ${SCORE_ATTRIBUTION.modelDisplay}, 校正, スコア帯, 限界`}
   ogTitle="データの整理と評価プロセス — mirai-shigoto.com"
   ogDescription="556 職業データをどう整理し、AIOIS-10 標準でどう採点したか。データソース＋ベクトルエンジン＋LLM 判定＋校正。"
 >
@@ -97,7 +98,7 @@ const jsonLd = `{
 
     <h1>データの整理と<span class="accent">評価プロセス</span></h1>
     <p class="subtitle">556 職業をどう整え、AIOIS-10 標準でどう採点したか</p>
-    <p class="meta-line">最終更新 {pageLastUpdated} ・ 採点 Claude Opus 4.8（2026-05-30）</p>
+    <p class="meta-line">最終更新 {pageLastUpdated} ・ 採点 {SCORE_ATTRIBUTION.modelDisplay}（{SCORE_ATTRIBUTION.runDate}）</p>
 
     <p class="lead">
       本サイトの基礎データは、すべて<strong>公開されている公的情報</strong>です。AI 影響スコアのみが独自分析で、<a href="/standard">AIOIS-10 標準</a>に基づいて算出しています。基準そのものの定義は <a href="/standard">AIOIS-10 標準</a>、ここでは<strong>①データの整理</strong>と<strong>②評価の手順</strong>を説明します。
@@ -110,7 +111,7 @@ const jsonLd = `{
       <div class="src-row"><span class="src-label">バージョン</span><span><strong>v7.00</strong>（2026-03-17 公開・2026-05-03 公式 XLSX 取得）</span></div>
       <div class="src-row"><span class="src-label">職業数</span><span><strong>556 職業</strong>（就業者数・年収データつき、うち 4 職業は推定値）</span></div>
       <div class="src-row"><span class="src-label">労働統計</span><span>年収・就業者数・労働時間・平均年齢・<strong>有効求人倍率</strong>（賃金構造基本統計調査／労働力調査／ハローワーク求人統計。jobtag 簡易版より集計）</span></div>
-      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（Claude Opus 4.8 採点、2026-05-30、AIOIS-10 v1.0）</span></div>
+      <div class="src-row"><span class="src-label">AI 影響スコア</span><span>本サイト独自分析（{SCORE_ATTRIBUTION.modelDisplay} 採点、{SCORE_ATTRIBUTION.runDate}、AIOIS-10 v1.0）</span></div>
       <div class="src-row"><span class="src-label">利用条件</span><span>job tag 利用規約 第 9 条により、職業解説・数値情報の編集・加工・再集計等の二次利用が可能。本サイトは合法的な二次利用です。</span></div>
     </div>
 
@@ -122,12 +123,12 @@ const jsonLd = `{
     <p>さらに各職業を <strong>16 の産業セクター</strong>に分類し、年収・有効求人倍率などの労働統計を id で突合しました。スコアの履歴は<strong>追記のみ（上書き・削除なし）</strong>のバッチファイルで保持し、最新の採点日のものを現在値として採用します。</p>
 
     <h2><span class="num">3.</span>評価プロセス（AIOIS-10 の適用）</h2>
-    <p>ただの統計でも、ただの勘でもありません。<strong>目に見える性質は決まった式で、意味を読む必要がある項目は AI（言語モデル）で</strong>点を付ける<strong>合わせ技</strong>です。これは Eloundou ら（2023）が GPT-4 に「O*NET の作業を AI がどこまでできるか」を判定させた手法にならっています。</p>
+    <p>ただの統計でも、ただの勘でもありません。<strong>AIOIS-10 の 10 次元すべてを AI（言語モデル）が職務記述から判定し、2 つの指数は決まった式で算出</strong>します。Eloundou ら（2023）が GPT-4 に「O*NET の作業を AI がどこまでできるか」を判定させた手法の系譜で、判定対象を 10 次元に広げたものです。</p>
     <div class="steps">
-      <div class="step-item"><div class="t">式で出す：D2〜D7</div><div class="d">定型反復・身体現場・判断・対人・創造・資格の各次元を、関係する指標の重み付き平均で出す。各指標は全 556 職業で上下 5% を切って 0〜10 にそろえる。例：外科医の「身体・現場性」は手先の器用さ・対面の近さ・感染リスクから高く出る。</div></div>
-      <div class="step-item"><div class="t">AI が判定：D1（AI 到達度）</div><div class="d">「仕事を最後まで AI が担えるか」は指標の足し算では測れない（データ入力はスキルが低いのに AI 到達度は最大）。そこで Opus 4.8 が職務内容を読み、全 556 職業の D1 を判定。データが欠ける 40 職業は、人間の強み D1〜D7 も説明文から補う。</div></div>
-      <div class="step-item"><div class="t">労働統計から出す：D8・D9・D10</div><div class="d">D8 費用対効果＝「身体・現場性」の少なさ × 給料。D9 需給・制度＝<strong>有効求人倍率</strong>（人手不足ほど置きかえを抑える＝低い D9）。D10 雇用の将来性＝自動化圧力＋人手不足の組み合わせ。</div></div>
-      <div class="step-item"><div class="t">2 つの指数を出す</div><div class="d">変化の大きさ ＝ D1 と D2 の平均。仕事が減るリスク ＝ AI 到達度 ×（1 − 人間の強み/10）× 広がりやすさ。式は <a href="/standard">AIOIS-10 標準</a> を参照。トップ指標「AI 影響」は変化の大きさ。</div></div>
+      <div class="step-item"><div class="t">AI が判定：D1〜D10</div><div class="d">{SCORE_ATTRIBUTION.modelDisplay} が各職業の職務記述（概要・仕事内容・労働条件）を読み、AI 到達度・定型反復・身体現場・判断責任・対人・創造・資格の壁・費用対効果・需給制度・雇用の将来性の 10 次元を 0〜10 で判定。<a href="/standard">AIOIS-10 標準</a>を正典とする凍結プロンプトを全職業に同一適用する。</div></div>
+      <div class="step-item"><div class="t">式で出す：2 つの指数</div><div class="d">変化の大きさ ＝ D1 と D2 の平均。仕事が減るリスク ＝ AI 到達度 ×（1 − 人間の強み/10）× 広がりやすさ。式は <a href="/standard">AIOIS-10 標準</a> のまま固定で、採点モデルは式を変更できない。トップ指標「AI 影響」は変化の大きさ。</div></div>
+      <div class="step-item"><div class="t">機械検証ではじく</div><div class="d">全採点行を自動検証する：10 次元＋2 指数の完全性、0〜10・小数第 1 位、指数が式と一致するか、ID の重複・欠落。違反した職業は採点をやり直す（手で数値を直すことはしない）。</div></div>
+      <div class="step-item"><div class="t">D9 は日本版</div><div class="d">D9 需給・制度は国ごとに付け直す唯一の次元。<strong>深刻な人手不足</strong>の現場では AI は置きかえではなく助けになるため低く出る（職務記述と日本の労働市場の状況に基づいて判定）。</div></div>
     </div>
 
     <h2><span class="num">4.</span>スコア帯の代表例</h2>
@@ -148,16 +149,16 @@ const jsonLd = `{
     </div>
 
     <h2><span class="num">5.</span>校正と検証</h2>
-    <p>採点エンジンは、手でていねいに確かめた <strong>15 の代表的な職業</strong>（データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業作業ほか）を手がかりに調整しました。最終的に、変化の大きさの平均のズレは <strong>0.18</strong>、仕事が減るリスクは <strong>0.51</strong>。つまりエンジンは、手で付けた点をほぼ再現できています。</p>
+    <p>新しいモデルでの再採点は、いきなり全量を置きかえません。まず<strong>代表 40 職業</strong>（高・中・低の各帯、現場・知識・対人・管理の各タイプを網羅し、データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業ほかの校正例を含む）で試験採点し、前回 batch との drift（平均のずれ・帯の移動・順位変動）を監査・人手レビューしてから全量に進みます。今回（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate} 採点）の全量 556 職業は、前回（Claude Opus 4.8、2026-05-30）比で変化の大きさの平均差 <strong>−0.07</strong>。スコア履歴は追記のみで、過去の batch はすべて保存されています。</p>
     <div class="callout">
       <strong>結果の分布</strong>：556 職業の変化の大きさは平均 4.2。身体・現場の仕事が低く、頭脳・事務の仕事が中〜高、定型デジタル作業（データ入力・文字起こし・各種事務）が最上位。仕事が減るリスクは、日本の人手不足（高い有効求人倍率）に守られ、多くの仕事で低く出ます。
     </div>
 
     <h2><span class="num">6.</span>本手法の限界</h2>
     <ul>
-      <li><strong>AI の判断を含みます</strong>。D1 とデータが欠ける職業の人間の強みは Opus 4.8 一台の判定。別の AI・別の時点なら ±1〜2 ずれることがあります。</li>
+      <li><strong>AI の判断を含みます</strong>。10 次元の判定は {SCORE_ATTRIBUTION.modelDisplay} 一台によるもの。別の AI・別の時点なら ±1〜2 ずれることがあります（モデル更新時は前回 batch との drift を監査します）。</li>
       <li><strong>統計検証はしていません</strong>。人間専門家との一致率は未測定。「実証研究」ではなく「校正済みの見立て」です。</li>
-      <li><strong>単一時点のスナップショット</strong>（2026-05-30、現行 AI フロンティア）。能力進化で賞味期限は約 1 年。</li>
+      <li><strong>単一時点のスナップショット</strong>（{SCORE_ATTRIBUTION.runDate}、現行 AI フロンティア）。能力進化で賞味期限は約 1 年。</li>
       <li><strong>556 職業のみ</strong>。jobtag 未収録の新興職種（プロンプトエンジニア等）は対象外。</li>
       <li><strong>日本版です</strong>。D9 は日本の労働市場（有効求人倍率）前提。海外の同名職には当てはめないでください。</li>
       <li><strong>個別の業務差を反映できない</strong>。同じ「医師」でも科目で実態は大きく異なります。</li>

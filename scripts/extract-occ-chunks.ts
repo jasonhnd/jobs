@@ -12,6 +12,10 @@
  * and stay comparable across model upgrades (4.8 → 4.9 → 5.0). Long prose is
  * truncated only to keep chunks scannable; the scoring signal is preserved.
  *
+ * `extractOcc` is exported so other local tools (scripts/make-pilot-sample.ts,
+ * Issue #9) reuse the exact same extract shape; the CLI below only runs when
+ * this file is executed directly.
+ *
  * LOCAL dev tool — NOT wired into build / verify:gates / vercel.json.
  *
  * Usage: bun scripts/extract-occ-chunks.ts [--size 40] [--out .cache/scoring]
@@ -20,34 +24,17 @@
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-const ROOT = resolve(import.meta.dir, '..');
-const OCC_DIR = join(ROOT, 'data', 'occupations');
-
-// ---- CLI ----
-const args: Record<string, string> = {};
-const argv = process.argv.slice(2);
-for (let i = 0; i < argv.length; i += 1) {
-  const a = argv[i]!;
-  if (!a.startsWith('--')) continue;
-  const v = argv[i + 1];
-  if (v === undefined || v.startsWith('--')) args[a.slice(2)] = 'true';
-  else {
-    args[a.slice(2)] = v;
-    i += 1;
-  }
-}
-const size = Number.parseInt(args['size'] ?? '40', 10);
-const outDir = resolve(ROOT, args['out'] ?? join('.cache', 'scoring'));
-
 const oneLine = (s: string): string => s.replace(/\s*\n\s*/g, ' ').trim();
 const truncate = (s: string, n: number): string =>
   s.length > n ? `${s.slice(0, n).trimEnd()}…` : s;
 
-interface OccExtract {
+export interface OccExtract {
   readonly id: number;
   readonly text: string;
 }
-function extractOcc(raw: Record<string, any>): OccExtract {
+
+/** Compact scoring extract for one occupation JSON (same shape as run-scoring.ts extractOcc). */
+export function extractOcc(raw: Record<string, any>): OccExtract {
   const d = (raw.description ?? {}) as Record<string, string | undefined>;
   const aliases = Array.isArray(raw.aliases_ja) ? (raw.aliases_ja as string[]) : [];
   const text = [
@@ -62,29 +49,50 @@ function extractOcc(raw: Record<string, any>): OccExtract {
   return { id: Number(raw.id), text };
 }
 
-const all: OccExtract[] = readdirSync(OCC_DIR)
-  .filter((f) => f.endsWith('.json'))
-  .sort()
-  .map((f) => extractOcc(JSON.parse(readFileSync(join(OCC_DIR, f), 'utf8')) as Record<string, any>));
+if (import.meta.main) {
+  const ROOT = resolve(import.meta.dir, '..');
+  const OCC_DIR = join(ROOT, 'data', 'occupations');
 
-mkdirSync(outDir, { recursive: true });
-const chunks: OccExtract[][] = [];
-for (let i = 0; i < all.length; i += size) chunks.push(all.slice(i, i + size));
+  // ---- CLI ----
+  const args: Record<string, string> = {};
+  const argv = process.argv.slice(2);
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i]!;
+    if (!a.startsWith('--')) continue;
+    const v = argv[i + 1];
+    if (v === undefined || v.startsWith('--')) args[a.slice(2)] = 'true';
+    else {
+      args[a.slice(2)] = v;
+      i += 1;
+    }
+  }
+  const size = Number.parseInt(args['size'] ?? '40', 10);
+  const outDir = resolve(ROOT, args['out'] ?? join('.cache', 'scoring'));
 
-chunks.forEach((ch, idx) => {
-  const n = String(idx + 1).padStart(2, '0');
-  const header =
-    `# Chunk ${n}/${chunks.length} — ${ch.length} occupations (ids ${ch[0]!.id}–${ch[ch.length - 1]!.id})\n` +
-    `# AI-risk 0.0–10.0 (one decimal). Anchors: データ入力9.9 翻訳9.1 ﾌﾟﾛｸﾞﾗﾏ8.8 会計士7.0 弁護士6.4 看護師4.3 美容師2.4 林業0.6\n` +
-    `# Emit one JSONL line per id: {"id":N,"ai_risk":X.X,"rationale_ja":"…","confidence":0.0-1.0}\n`;
-  writeFileSync(
-    join(outDir, `chunk-${n}.txt`),
-    `${header}\n${ch.map((o) => o.text).join('\n\n')}\n`,
+  const all: OccExtract[] = readdirSync(OCC_DIR)
+    .filter((f) => f.endsWith('.json'))
+    .sort()
+    .map((f) => extractOcc(JSON.parse(readFileSync(join(OCC_DIR, f), 'utf8')) as Record<string, any>));
+
+  mkdirSync(outDir, { recursive: true });
+  const chunks: OccExtract[][] = [];
+  for (let i = 0; i < all.length; i += size) chunks.push(all.slice(i, i + size));
+
+  chunks.forEach((ch, idx) => {
+    const n = String(idx + 1).padStart(2, '0');
+    const header =
+      `# Chunk ${n}/${chunks.length} — ${ch.length} occupations (ids ${ch[0]!.id}–${ch[ch.length - 1]!.id})\n` +
+      `# AI-risk 0.0–10.0 (one decimal). Anchors: データ入力9.9 翻訳9.1 ﾌﾟﾛｸﾞﾗﾏ8.8 会計士7.0 弁護士6.4 看護師4.3 美容師2.4 林業0.6\n` +
+      `# Emit one JSONL line per id: {"id":N,"ai_risk":X.X,"rationale_ja":"…","confidence":0.0-1.0}\n`;
+    writeFileSync(
+      join(outDir, `chunk-${n}.txt`),
+      `${header}\n${ch.map((o) => o.text).join('\n\n')}\n`,
+    );
+  });
+
+  writeFileSync(join(outDir, 'ids.txt'), `${all.map((o) => o.id).join('\n')}\n`);
+  console.log(
+    `[extract] ${all.length} occupations → ${chunks.length} chunks of ${size} → ${outDir}`,
   );
-});
-
-writeFileSync(join(outDir, 'ids.txt'), `${all.map((o) => o.id).join('\n')}\n`);
-console.log(
-  `[extract] ${all.length} occupations → ${chunks.length} chunks of ${size} → ${outDir}`,
-);
-console.log(`  id range: ${Math.min(...all.map((o) => o.id))}–${Math.max(...all.map((o) => o.id))}`);
+  console.log(`  id range: ${Math.min(...all.map((o) => o.id))}–${Math.max(...all.map((o) => o.id))}`);
+}

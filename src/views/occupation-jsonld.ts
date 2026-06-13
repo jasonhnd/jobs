@@ -25,6 +25,8 @@
  * walks a flat shape.
  */
 
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+
 // ─── Internal Schema.org types (private to this module) ─────────
 
 interface JsonLdPropertyValue {
@@ -200,7 +202,7 @@ const ORG_REF = 'https://mirai-shigoto.com/#organization';
 const DATASET_REF = 'https://mirai-shigoto.com/#dataset';
 
 const AI_RISK_DESCRIPTION =
-  'Claude Opus 4.8 による独自 LLM 推定。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。';
+  `${SCORE_ATTRIBUTION.modelDisplay} による独自 LLM 推定。仕事がどれだけ AI で変わるかを表し、職が消える確率ではありません。`;
 
 export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
   const {
