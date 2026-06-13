@@ -36,6 +36,7 @@ import {
   renderRelatedSectorsList,
 } from '@/templates/SectorListings';
 import { renderSectorPatterns } from '@/templates/SectorPatterns';
+import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 import type {
   SectorOccupationSummary,
   SectorDetailView,
@@ -177,7 +178,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
   const ogTitle = `${nameLoc}の職業一覧 — ${n}職業｜AI 影響度ランキング`;
   const seoDesc =
     `${nameLoc} 業界の${n}職業をAI影響度・年収・就業者数で一覧。` +
-    `代表職業：${samplesStr}。Claude Opus 4.8 による独自分析（非公式）。`;
+    `代表職業：${samplesStr}。${SCORE_ATTRIBUTION.modelDisplay} による独自分析（非公式）。`;
   const keywordsList: string[] = [nameLoc, ...sampleTitles];
   keywordsList.push(`${nameLoc} 仕事`, `${nameLoc} 職業`, `${nameLoc} AI 影響`);
   const keywordsStr = keywordsList.join(', ');

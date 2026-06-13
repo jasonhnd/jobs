@@ -17,6 +17,7 @@
  */
 
 import { fmtInt } from '../lib/num.js';
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
 
 /** One ranked occupation summary as the FAQ builder consumes it.
  *  A subset of the page's SectorOccupationSummary shape. */
@@ -109,7 +110,7 @@ export function buildSectorFaqs(input: SectorFaqsInput): readonly SectorFaqItem[
     faqs.push([
       `${nameJa}業界の平均 AI 影響度は？`,
       `${nameJa}業界の${occupationCount}職業の平均 AI 影響度は10段階中 ${meanRisk.toFixed(1)} で、${tier}の水準です。` +
-        `これは Claude Opus 4.8 による独自分析（非公式）の値で、職業ごとのバラつきがあります。`,
+        `これは ${SCORE_ATTRIBUTION.modelDisplay} による独自分析（非公式）の値で、職業ごとのバラつきがあります。`,
     ]);
   }
 

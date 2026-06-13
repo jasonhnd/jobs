@@ -37,7 +37,8 @@ export type SiteConfig = typeof siteConfig;
  * Occupation counts — single source of truth for the two numbers that
  * appear across the site.
  *
- *   - SCORED = 556 — AI-scored by Claude Opus 4.8 / AIOIS-10; all on the map.
+ *   - SCORED = 556 — AI-scored under AIOIS-10 (active model/date: see
+ *     src/site/score-attribution.ts); all on the map.
  *   - TOTAL  = 556 — full JILPT IPD v7.00 dataset.
  *
  * History: was 552 vs 556 until 2026-05-30. The 4 newest occupations

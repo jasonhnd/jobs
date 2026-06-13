@@ -30,6 +30,7 @@ import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
 import { buildAiFactSummary } from '@/lib/ai-fact-summary';
+import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import {
   buildOccupationDisplay,
@@ -171,7 +172,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
     aiois: rec.aiois,
     salaryMan,
     workers,
-    scoredDate: '2026年5月',
+    scoredDate: `${SCORE_ATTRIBUTION.runDate.slice(0, 4)}年${Number(SCORE_ATTRIBUTION.runDate.slice(5, 7))}月`,
   });
   const aiFactHtml: SafeHtml = aiFactText
     ? unsafeReviewedHtml(

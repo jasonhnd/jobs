@@ -5,6 +5,7 @@
 import type { KnowledgeGraph } from '@/graph';
 import { sectorIndexView, type SectorIndexEntry } from '@/views/sector';
 import { OCCUPATION_COUNT } from '@/site/config';
+import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -48,7 +49,7 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
   const ogTitle = '全 16 業種｜業界別 職業ランキング・AI 影響度・年収';
   const seoDesc =
     `日本の${totalOcc}職業を 16 業界（医療・保健、IT・通信、士業、製造、建設 ほか）に分類。` +
-    `業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。Claude Opus 4.8 独自分析（非公式）。`;
+    `業界別の AI 影響度ランキング・就業者数・年収・代表職業を一覧。${SCORE_ATTRIBUTION.modelDisplay} 独自分析（非公式）。`;
   const keywords = `業界別 職業, 業界 ランキング, AI 影響 業界, 仕事 業界, ${OCCUPATION_COUNT.SCORED} 職業, 業種`;
   const h1 = '全 16 業種';
   const hList = '業界 一覧';

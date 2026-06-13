@@ -24,6 +24,15 @@
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+
+// The static JSON-LD carries __SCORE_MODEL_DISPLAY__ / __SCORE_RUN_DATE__
+// placeholders — substituted here so the homepage attribution follows the
+// active score batch (single source of truth: src/site/score-attribution.ts).
+const withAttribution = (s: string): string =>
+  s
+    .replaceAll('__SCORE_MODEL_DISPLAY__', SCORE_ATTRIBUTION.modelDisplay)
+    .replaceAll('__SCORE_RUN_DATE__', SCORE_ATTRIBUTION.runDate);
 
 const ROOT = process.cwd();
 const SRC = join(ROOT, 'src');
@@ -34,10 +43,10 @@ export const HOME_BODY_HTML: string = readFileSync(
   'utf-8',
 );
 
-export const HOME_JSON_LD: string = readFileSync(
+export const HOME_JSON_LD: string = withAttribution(readFileSync(
   join(PAGES, '_index-json-ld.json'),
   'utf-8',
-);
+));
 
 export const HOME_INLINE_JS: string = readFileSync(
   join(PAGES, '_index-inline.js'),
