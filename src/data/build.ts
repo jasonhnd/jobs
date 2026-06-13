@@ -38,6 +38,7 @@ import { buildSkills } from './projections/skills.js';
 import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
+import { formatModelDisplay } from '../site/score-attribution.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
 //   - buildScoreHistory / data.score_history.json  (no runtime consumer)
@@ -129,11 +130,16 @@ async function main(): Promise<void> {
   // clean across rebuilds that don't introduce new scores.
   {
     let latestDate = '';
+    let latestModel = '';
     for (const score of indexes.latestScoreByOcc.values()) {
-      if (score.date && score.date > latestDate) latestDate = score.date;
+      if (score.date && score.date > latestDate) {
+        latestDate = score.date;
+        latestModel = score.model;
+      }
     }
-    const contentDate = latestDate || '2026-05-30';
     const { readFile } = await import('node:fs/promises');
+
+    const contentDate = latestDate || '2026-05-30';
     const contentDatePath = join(REPO_ROOT, 'src/lib/_content-date.ts');
     const existing = await readFile(contentDatePath, 'utf-8').catch(() => '');
     const updated = existing.replace(
@@ -145,6 +151,24 @@ async function main(): Promise<void> {
       console.log(`  [content-date] updated to ${contentDate}`);
     } else {
       console.log(`  [content-date] ${contentDate} (unchanged)`);
+    }
+
+    // Active score attribution (model + date) → generated fs-free module, so
+    // src/site/score-attribution.ts carries no node:fs into the Edge bundle.
+    const runDate = latestDate || '2026-05-30';
+    const modelId = latestModel || 'claude-opus-4-8';
+    const modelDisplay = formatModelDisplay(modelId);
+    const attrPath = join(REPO_ROOT, 'src/site/_score-attribution.ts');
+    const attrExisting = await readFile(attrPath, 'utf-8').catch(() => '');
+    const attrUpdated = attrExisting
+      .replace(/modelId: '[^']*'/, `modelId: '${modelId}'`)
+      .replace(/modelDisplay: '[^']*'/, `modelDisplay: '${modelDisplay}'`)
+      .replace(/runDate: '[^']*'/, `runDate: '${runDate}'`);
+    if (attrUpdated && attrUpdated !== attrExisting) {
+      await writeFile(attrPath, attrUpdated, 'utf-8');
+      console.log(`  [score-attribution] ${modelDisplay} (${runDate})`);
+    } else {
+      console.log(`  [score-attribution] ${modelDisplay} (${runDate}) (unchanged)`);
     }
   }
 

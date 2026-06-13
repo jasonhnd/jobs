@@ -3,19 +3,18 @@
  * scored the current batch, and when" wording across the site.
  *
  * Same consolidation rationale as src/site/config.ts: the model name + run
- * date used to be hard-coded in 40+ surfaces (footer, hubs, FAQ, JSON-LD,
- * methodology, sector copy …) and every score-batch upgrade had to chase
- * them all. This module derives the attribution ONCE from the score batches
- * themselves, mirroring `pickLatestScore()` batch-selection semantics
- * (latest `run.run_date`; same-date tie prefers the AIOIS-10 batch).
+ * date used to be hard-coded in 40+ surfaces (footer, hubs, FAQ, methodology,
+ * sector copy …) and every score-batch upgrade had to chase them all. The
+ * active attribution is derived ONCE — at BUILD TIME, in src/data/build.ts,
+ * mirroring `pickLatestScore()` batch-selection semantics — and baked into the
+ * generated, fs-free `_score-attribution.ts` so importers (including the few
+ * Vercel Edge bundles that share chunks with page code) carry NO node:fs.
  *
- * BUILD-TIME ONLY: reads data/scores/*.json via node:fs at module load.
- * Edge-runtime code (src/middleware.ts, /api/og dispatch and renderers)
- * must NOT import this module — edge surfaces use standard-only wording
- * (AIOIS-10) without a model name instead.
+ * The pure helpers below (`formatModelDisplay`, `pickAttributionBatch`) are
+ * the canonical selection/formatting logic; build.ts uses them to compute the
+ * baked values, and the tests pin them.
  */
-import { readdirSync, readFileSync } from 'node:fs';
-import path from 'node:path';
+import { SCORE_ATTRIBUTION_DATA } from './_score-attribution.js';
 
 export interface ScoreAttribution {
   /** Raw model id, e.g. "claude-fable-5". */
@@ -77,33 +76,13 @@ export function pickAttributionBatch(
   return chosen;
 }
 
-function readAttribution(): ScoreAttribution {
-  const scoresDir = path.join(process.cwd(), 'data', 'scores');
-  const metas: BatchMetaForAttribution[] = readdirSync(scoresDir)
-    .filter((f) => f.endsWith('.json'))
-    .sort()
-    .map((f) => {
-      const raw = JSON.parse(readFileSync(path.join(scoresDir, f), 'utf8')) as {
-        scope?: string;
-        scorer?: { model?: string };
-        run?: { run_date?: string };
-        scores?: Record<string, { aiois?: unknown }>;
-      };
-      return {
-        scope: raw.scope ?? '',
-        model: raw.scorer?.model ?? '',
-        runDate: raw.run?.run_date ?? '',
-        hasAiois: Object.values(raw.scores ?? {}).some((s) => s.aiois != null),
-      };
-    });
-  const batch = pickAttributionBatch(metas);
-  return Object.freeze({
-    modelId: batch.model,
-    modelDisplay: formatModelDisplay(batch.model),
-    runDate: batch.runDate,
-    standardLabel: 'AIOIS-10',
-  });
-}
-
-/** The active scoring attribution — frozen at module load (build time). */
-export const SCORE_ATTRIBUTION: ScoreAttribution = readAttribution();
+/**
+ * The active scoring attribution — baked at build time (fs-free at runtime).
+ * `standardLabel` is constant; model + date come from the generated module.
+ */
+export const SCORE_ATTRIBUTION: ScoreAttribution = Object.freeze({
+  modelId: SCORE_ATTRIBUTION_DATA.modelId,
+  modelDisplay: SCORE_ATTRIBUTION_DATA.modelDisplay,
+  runDate: SCORE_ATTRIBUTION_DATA.runDate,
+  standardLabel: 'AIOIS-10',
+});
