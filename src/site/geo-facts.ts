@@ -78,9 +78,20 @@ export interface GeoFacts {
   readonly largestOccupation: GeoOccupationSummary;
   readonly highestImpactOccupation: GeoOccupationSummary;
   readonly lowestImpactOccupation: GeoOccupationSummary;
+  readonly occupations: readonly GeoOccupationSummary[];
   readonly topImpactOccupations: readonly GeoOccupationSummary[];
   readonly bottomImpactOccupations: readonly GeoOccupationSummary[];
   readonly sectorsByMeanImpact: readonly GeoSectorSummary[];
+}
+
+export interface GeoOccupationGroupSummary {
+  readonly occupationCount: number;
+  readonly totalWorkforce: number;
+  readonly meanAiImpact: number | null;
+  readonly firstOccupation: GeoOccupationSummary | null;
+  readonly largestOccupation: GeoOccupationSummary | null;
+  readonly highestImpactOccupation: GeoOccupationSummary | null;
+  readonly lowestImpactOccupation: GeoOccupationSummary | null;
 }
 
 const FIVE_BANDS = [
@@ -197,6 +208,9 @@ export function computeGeoFacts(
     ((b.ai_risk ?? 0) - (a.ai_risk ?? 0)) ||
     (a.id - b.id),
   );
+  const occupations = [...scoredRows]
+    .sort((a, b) => a.id - b.id)
+    .map((row) => scoreFor(row, scoresById));
 
   const sectors = new Map<string, {
     nameJa: string;
@@ -237,8 +251,62 @@ export function computeGeoFacts(
     largestOccupation: scoreFor(requireOne(byWorkforceDesc, 'largest occupation'), scoresById),
     highestImpactOccupation: scoreFor(requireOne(byImpactDesc, 'highest-impact occupation'), scoresById),
     lowestImpactOccupation: scoreFor(requireOne(byImpactAsc, 'lowest-impact occupation'), scoresById),
+    occupations,
     topImpactOccupations: byImpactDesc.slice(0, 20).map((row) => scoreFor(row, scoresById)),
     bottomImpactOccupations: byImpactAsc.slice(0, 20).map((row) => scoreFor(row, scoresById)),
     sectorsByMeanImpact,
+  };
+}
+
+export function summarizeGeoOccupationIds(
+  facts: GeoFacts,
+  ids: Iterable<number>,
+): GeoOccupationGroupSummary {
+  const byId = new Map(facts.occupations.map((occupation) => [occupation.id, occupation]));
+  const seen = new Set<number>();
+  const occupations: GeoOccupationSummary[] = [];
+  for (const id of ids) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    const occupation = byId.get(id);
+    if (occupation) occupations.push(occupation);
+  }
+
+  if (occupations.length === 0) {
+    return {
+      occupationCount: 0,
+      totalWorkforce: 0,
+      meanAiImpact: null,
+      firstOccupation: null,
+      largestOccupation: null,
+      highestImpactOccupation: null,
+      lowestImpactOccupation: null,
+    };
+  }
+
+  const byImpactDesc = [...occupations].sort((a, b) =>
+    (b.aiImpact - a.aiImpact) ||
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    (a.id - b.id),
+  );
+  const byImpactAsc = [...occupations].sort((a, b) =>
+    (a.aiImpact - b.aiImpact) ||
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    (a.id - b.id),
+  );
+  const byWorkforceDesc = [...occupations].sort((a, b) =>
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    (b.aiImpact - a.aiImpact) ||
+    (a.id - b.id),
+  );
+
+  return {
+    occupationCount: occupations.length,
+    totalWorkforce: bankerRound(fsum(occupations.map((occupation) => occupation.workers ?? 0)), 0),
+    meanAiImpact: round2(fmean(occupations.map((occupation) => occupation.aiImpact))),
+    firstOccupation: occupations[0]!,
+    largestOccupation: byWorkforceDesc[0]!,
+    highestImpactOccupation: byImpactDesc[0]!,
+    lowestImpactOccupation: byImpactAsc[0]!,
   };
 }

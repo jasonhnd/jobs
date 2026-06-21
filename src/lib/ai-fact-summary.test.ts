@@ -6,8 +6,16 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 
-import { buildAiFactSummary, type AiFactInput } from './ai-fact-summary.js';
+import {
+  buildAiFactSummary,
+  buildCompareGeoFactSummary,
+  buildOccupationSetGeoFactSummary,
+  buildSectorGeoFactSummary,
+  renderAiFactParagraph,
+  type AiFactInput,
+} from './ai-fact-summary.js';
 import type { Aiois10 } from '../graph/types.js';
+import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
 
 const aiois = (over: Partial<Aiois10>): Aiois10 => ({
   d1: 0, d2: 0, d3: 0, d4: 0, d5: 0, d6: 0, d7: 0, d8: 0, d9: 0, d10: 0,
@@ -24,6 +32,57 @@ const base: AiFactInput = {
   salaryMan: 519,
   workers: 692975,
   scoredDate: '2026年5月',
+};
+
+const geoOcc = (
+  id: number,
+  nameJa: string,
+  aiImpact: number,
+  workers: number,
+  sectorJa: string = '医療',
+): GeoOccupationSummary => ({
+  id,
+  nameJa,
+  aiImpact,
+  displacementRisk: null,
+  workers,
+  sectorJa,
+});
+
+const geoFacts: GeoFacts = {
+  attribution: {
+    modelId: 'claude-fable-5',
+    modelDisplay: 'Claude Fable 5',
+    runDate: '2026-06-13',
+    standardLabel: 'AIOIS-10',
+  },
+  occupationCount: 4,
+  totalWorkforce: 2000,
+  meanAiImpact: 5.42,
+  medianAiImpact: 5.5,
+  meanDisplacementRisk: 3.12,
+  fiveBandDistribution: [],
+  lowRiskCount: 1,
+  midRiskCount: 1,
+  highRiskCount: 2,
+  highRiskOccupationSharePct: 50,
+  highRiskWorkforce: 1600,
+  highRiskWorkforceSharePct: 80,
+  largestOccupation: geoOcc(4, 'D', 9.2, 1000, 'IT'),
+  highestImpactOccupation: geoOcc(4, 'D', 9.2, 1000, 'IT'),
+  lowestImpactOccupation: geoOcc(1, 'A', 1.5, 100, '医療'),
+  occupations: [
+    geoOcc(1, 'A', 1.5, 100, '医療'),
+    geoOcc(2, 'B', 4.0, 300, '医療'),
+    geoOcc(3, 'C', 7.0, 600, 'IT'),
+    geoOcc(4, 'D', 9.2, 1000, 'IT'),
+  ],
+  topImpactOccupations: [],
+  bottomImpactOccupations: [],
+  sectorsByMeanImpact: [
+    { id: 'it', nameJa: 'IT', occupationCount: 2, meanAiImpact: 8.1, totalWorkforce: 1600 },
+    { id: 'iryo', nameJa: '医療', occupationCount: 2, meanAiImpact: 2.75, totalWorkforce: 400 },
+  ],
 };
 
 describe('buildAiFactSummary', () => {
@@ -86,5 +145,57 @@ describe('buildAiFactSummary', () => {
     const s = buildAiFactSummary({ ...base, salaryMan: null, workers: null });
     assert.ok(!s.includes('年収中央値'), s);
     assert.ok(!s.includes('就業者'), s);
+  });
+});
+
+describe('GEO page fact summaries', () => {
+  test('sector summary uses precomputed sector facts and rank', () => {
+    const s = buildSectorGeoFactSummary({ facts: geoFacts, sectorId: 'it' });
+    assert.ok(s.includes('ITセクターは2職業、就業者1,600人、平均AI影響度8.10/10'), s);
+    assert.ok(s.includes('セクター平均AI影響度順では1/2位'), s);
+    assert.ok(s.endsWith('（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Fable 5、2026年6月13日）'), s);
+  });
+
+  test('occupation-set summary aggregates only through geo-facts helper', () => {
+    const s = buildOccupationSetGeoFactSummary({
+      facts: geoFacts,
+      subjectJa: 'AIに強い仕事',
+      pageKindJa: 'ランキング',
+      occupationIds: [3, 1, 3],
+    });
+    assert.ok(s.includes('表示する2職業を同じ口径で集計すると、平均AI影響度は4.25/10、就業者合計は700人'), s);
+    assert.ok(s.includes('先頭のCはAI影響度7.0/10'), s);
+    assert.ok(s.includes('最も低いAは1.5/10'), s);
+  });
+
+  test('compare summary cites both sides, the gap, and the two-job aggregate', () => {
+    const s = buildCompareGeoFactSummary({
+      facts: geoFacts,
+      subjectJa: 'A vs D',
+      occupationIds: [1, 4],
+    });
+    assert.ok(s.includes('AはAI影響度1.5/10、Dは9.2/10'), s);
+    assert.ok(s.includes('差は7.7ポイント'), s);
+    assert.ok(s.includes('2職業の平均AI影響度は5.35/10、就業者合計は1,100人'), s);
+  });
+
+  test('compare summary handles equal scores without claiming one side is higher', () => {
+    const tieFacts: GeoFacts = {
+      ...geoFacts,
+      occupationCount: 5,
+      occupations: [...geoFacts.occupations, geoOcc(5, 'E', 4.0, 200, 'IT')],
+    };
+    const s = buildCompareGeoFactSummary({
+      facts: tieFacts,
+      subjectJa: 'B vs E',
+      occupationIds: [2, 5],
+    });
+    assert.ok(s.includes('差は0.0ポイントで、BとEは同じAI影響度です。'), s);
+    assert.ok(!s.includes('よりAI影響度が高い比較です'), s);
+  });
+
+  test('renderAiFactParagraph escapes generated text before HTML insertion', () => {
+    const html = renderAiFactParagraph('A < B & C');
+    assert.equal(html, '<p class="ai-fact">A &lt; B &amp; C</p>');
   });
 });

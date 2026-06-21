@@ -2,10 +2,13 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { ScoreRunSchema, type ScoreRun } from '../src/data/schema/index.js';
+import { buildCompareGeoFactSummary, buildOccupationSetGeoFactSummary, buildSectorGeoFactSummary, renderAiFactParagraph } from '../src/lib/ai-fact-summary.js';
+import { loadGraph } from '../src/graph/index.js';
 import { SCORE_ATTRIBUTION } from '../src/site/score-attribution.js';
 import {
   computeGeoFacts,
   pickLatestGeoScoreRun,
+  type GeoFacts,
   type GeoAttribution,
   type GeoScoreEntry,
   type GeoTreemapRow,
@@ -15,6 +18,13 @@ import {
   renderLlmsFullTxt,
   renderLlmsTxt,
 } from '../src/site/geo-render.js';
+import { makeCompareLoaderFromGraph } from '../src/views/compare.js';
+import { buildCompareBundle } from '../src/views/compare-hub.js';
+import { ABILITIES_CONFIGS } from '../src/views/genre-configs.js';
+import { buildGenreResult, loadAllDetails } from '../src/views/genre-hub.js';
+import { loadGraphAdaptedDetails } from '../src/views/hub.js';
+import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
+import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
 
 const ROOT = process.cwd();
 
@@ -71,7 +81,80 @@ function assertNoStaleOrPlaceholders(rel: string): void {
   }
 }
 
-function main(): void {
+function assertContains(rel: string, expected: string): void {
+  let got: string;
+  try {
+    got = readText(rel);
+  } catch {
+    fail(`${rel} is missing. Run \`bun run build\` before \`bun scripts/check-geo-freshness.ts\`.`);
+  }
+  if (!got.includes(expected)) {
+    fail(`${rel} does not contain the generated GEO citable fact block.`);
+  }
+}
+
+async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
+  const graph = await loadGraph();
+
+  const sector = facts.sectorsByMeanImpact[0];
+  if (!sector) fail('no GEO sector facts available for rendered fact-block check');
+  assertContains(
+    `dist-astro/sectors/${sector.id}.html`,
+    renderAiFactParagraph(buildSectorGeoFactSummary({ facts, sectorId: sector.id })),
+  );
+
+  const rankings = buildRankings(() => loadOccupationsFromGraph(graph));
+  const ranking = rankings.results.get('ai-risk-high') ?? rankings.results.values().next().value;
+  if (!ranking) fail('no ranking result available for rendered fact-block check');
+  assertContains(
+    `dist-astro/rankings/${ranking.slug}.html`,
+    renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+      facts,
+      subjectJa: ranking.h1Text,
+      pageKindJa: 'ランキング',
+      occupationIds: ranking.items.map((item) => item.id),
+    })),
+  );
+
+  const genreConfig = ABILITIES_CONFIGS[0];
+  if (!genreConfig) fail('no genre config available for rendered fact-block check');
+  const genreResult = buildGenreResult(loadGraphAdaptedDetails(graph), genreConfig);
+  assertContains(
+    `dist-astro/abilities/${genreConfig.slug}.html`,
+    renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+      facts,
+      subjectJa: genreConfig.title_ja,
+      pageKindJa: 'ジャンルページ',
+      occupationIds: genreResult.items.map((item) => item.id),
+    })),
+  );
+
+  const compare = buildCompareBundle(makeCompareLoaderFromGraph(graph)).results.values().next().value;
+  if (!compare) fail('no compare result available for rendered fact-block check');
+  assertContains(
+    `dist-astro/compare/${compare.meta.slug}.html`,
+    renderAiFactParagraph(buildCompareGeoFactSummary({
+      facts,
+      subjectJa: compare.meta.title_ja,
+      occupationIds: [compare.a.id, compare.b.id],
+    })),
+  );
+
+  const qa = QA_ITEMS[0];
+  if (!qa) fail('no Q&A item available for rendered fact-block check');
+  const examples = selectExamples(loadAllDetails(), qa, 10);
+  assertContains(
+    `dist-astro/q/${qa.slug}.html`,
+    renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+      facts,
+      subjectJa: qa.question,
+      pageKindJa: 'Q&A',
+      occupationIds: examples.map((example) => example.id),
+    })),
+  );
+}
+
+async function main(): Promise<void> {
   const activeRun = pickLatestGeoScoreRun(loadScoreRuns());
   if (SCORE_ATTRIBUTION.modelId !== activeRun.scorer.model) {
     fail(`SCORE_ATTRIBUTION model ${SCORE_ATTRIBUTION.modelId} != active score run ${activeRun.scorer.model}`);
@@ -97,11 +180,12 @@ function main(): void {
   assertNoStaleOrPlaceholders('public/llms-full.txt');
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
 
+  await assertRenderedFactBlocks(facts);
+
   console.log(
     `[check-geo-freshness] OK - ${facts.attribution.modelDisplay} ${facts.attribution.runDate}, ` +
     `${facts.occupationCount} occupations, mean=${facts.meanAiImpact.toFixed(2)}`,
   );
 }
 
-main();
-
+await main();

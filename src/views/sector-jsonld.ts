@@ -42,6 +42,7 @@ interface JsonLdWebPage {
   dateModified: string;
   publisher: { '@id': string };
   breadcrumb: { '@id': string };
+  speakable: { '@type': 'SpeakableSpecification'; cssSelector: string[] };
 }
 
 interface JsonLdArticle {
@@ -159,6 +160,7 @@ export function renderSectorJsonLd(input: SectorJsonLdInput): string {
       dateModified,
       publisher: { '@id': `${siteOrigin}/#organization` },
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.ai-fact', '.intro'] },
     },
     {
       '@type': 'Article',
