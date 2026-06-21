@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "bun scripts/check-lockfile-sync.cjs && bun scripts/check-analytics-config.cjs && bun scripts/check-nested-html-comments.cjs && bun src/data/build.ts && astro build && bun scripts/check-rendered-leaks.cjs && bun scripts/compute-csp-hashes.cjs",
+    "build": "bun scripts/check-lockfile-sync.cjs && bun scripts/check-analytics-config.cjs && bun scripts/check-nested-html-comments.cjs && bun src/data/build.ts && bun scripts/check-geo-freshness.ts && astro build && bun scripts/check-rendered-leaks.cjs && bun scripts/compute-csp-hashes.cjs",
     "preview": "astro preview",
     "typecheck": "tsc --noEmit",
     "test": "bun test src scripts",
@@ -22,13 +22,14 @@
     "check:architecture": "bun scripts/check-architecture.cjs",
     "check:page-class": "bun scripts/check-page-class.cjs",
     "check:score-batch": "bun scripts/check-score-batch.ts",
+    "check:geo-freshness": "bun scripts/check-geo-freshness.ts",
     "assemble:scores": "bun scripts/assemble-scores.ts",
     "check:seo-baseline": "bun scripts/diff-seo-baseline.cjs",
     "capture:seo-baseline": "bun scripts/capture-seo-baseline.cjs",
     "verify:jsonld": "bun scripts/verify-jsonld.cjs",
     "verify:internal-links": "bun scripts/verify-internal-links.cjs",
     "check:csp-hashes": "bun scripts/compute-csp-hashes.cjs --check",
-    "verify:gates": "bun src/data/test-consistency.ts && bun scripts/check-architecture.cjs && bun scripts/verify-internal-links.cjs && bun scripts/verify-jsonld.cjs && bun scripts/diff-seo-baseline.cjs",
+    "verify:gates": "bun src/data/test-consistency.ts && bun scripts/check-geo-freshness.ts && bun scripts/check-architecture.cjs && bun scripts/verify-internal-links.cjs && bun scripts/verify-jsonld.cjs && bun scripts/diff-seo-baseline.cjs",
     "test:e2e": "scripts/run-e2e.sh"
   },
   "dependencies": {

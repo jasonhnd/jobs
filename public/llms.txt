@@ -1,220 +1,86 @@
-# 日本の職業 AI 影響マップ — Japan Jobs × AI Impact Map
+# mirai-shigoto.com — Japan Jobs x AI Impact Map
 
-> An independent (unofficial) analysis site that scores all 556 Japanese occupations from JILPT IPD v7.00 (MHLW jobtag) for AI impact using the AIOIS-10 standard, evaluated by Claude Opus 4.8. The headline metric "AI 影響" (AI Impact) is the **Transformation** index — how much an occupation's daily work is reshaped by AI, 0–10 — NOT the probability the job disappears. A separate **Displacement-Risk** index estimates job shrinkage. Site UI is Japanese-only (the English UI was retired in v1.4.0). MIT licensed.
+> Independent, unofficial analysis of 556 Japanese occupations from MHLW jobtag/JILPT IPD v7.00. Scores use Claude Fable 5 (claude-fable-5) under AIOIS-10; active score run: 2026-06-13. The headline "AI Impact" number is Transformation: how much the work is reshaped by AI. It is not a job-loss probability.
 
-This site is NOT operated by 厚生労働省 (MHLW), 職業情報提供サイト (jobtag), or JILPT. The scores are independent LLM estimates, NOT official government forecasts. Treat them as opinion-grade visualization, not statistical truth.
-
-## At a glance
-
-> **mirai-shigoto.com** is an independent (unofficial) interactive map of 556 Japanese occupations, scored 0–10 for AI impact by Claude Opus 4.8 under the AIOIS-10 standard, against MHLW jobtag and JILPT IPD v7.00 data — covering ≈ 54.6 million Japanese workers across 16 industry sectors. MIT licensed. Japanese UI.
+## Key facts
 
 | Field | Value |
 |---|---|
 | Canonical URL | https://mirai-shigoto.com/ |
-| Type | Independent dataset + interactive treemap visualization |
-| Subject | AI impact scoring of 556 Japanese occupations (AIOIS-10) |
-| Operator | ZKSC株式会社 (Tokyo, Japan; NOT MHLW / jobtag / JILPT) |
-| Score source | Claude Opus 4.8 (LLM estimates, not government forecasts) |
-| Standard | AIOIS-10 v1.0 — 10 dimensions, EMFO 4-stage model, 2 indices |
-| Headline metric | "AI 影響" = Transformation index = mean(D1, D2), 0–10 |
-| Secondary metric | Displacement-Risk (仕事が減るリスク), 0–10 |
-| Data source | 厚生労働省 jobtag + JILPT 職業情報データベース IPD v7.00 |
-| Coverage | 556 occupations, all AI-scored (581–584 use estimated labor stats) |
-| Total workforce mapped | 54,555,970 (≈ 54.6M Japanese workers) |
-| Mean AI Impact | 4.24 / 10 (median 4.3) |
-| Sectors | 16 (highest mean: 事務・公務 Office & Public Service 5.64; lowest: 農林・水産 Agriculture & Fishing 2.79) |
-| Scored | 2026-05-30 (Claude Opus 4.8, D9 = Japan) |
-| License | MIT (code + data view) |
-| Citation | ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/ |
+| Coverage | 556 occupations |
+| Total workforce mapped | 54,555,970 workers |
+| Score source | Claude Fable 5 (claude-fable-5) |
+| Score date | 2026-06-13 |
+| Standard | AIOIS-10 v1.0 |
+| Mean AI Impact | 4.18 / 10 |
+| Median AI Impact | 4.00 / 10 |
+| Mean Displacement-Risk | 1.89 / 10 |
+| High AI Impact occupations | 24 / 556 (4.3%) |
+| Workers in high AI Impact occupations | 5,876,005 (10.8% of mapped workforce) |
+| Largest occupation | 一般事務 (2,639,330 workers; AI Impact 8.0/10) |
+| Highest AI Impact occupation | データ入力 (9.5/10) |
+| Lowest AI Impact occupation | 潜水士 (1.3/10) |
 
-## The two indices (read this first)
+## Distribution
 
-AIOIS-10 separates two things that are usually conflated:
+| AI Impact band | Occupations | Share |
+|---|---:|---:|
+| 0-2 | 104 | 18.7% |
+| 3-4 | 307 | 55.2% |
+| 5-6 | 121 | 21.8% |
+| 7-8 | 23 | 4.1% |
+| 9-10 | 1 | 0.2% |
 
-- **AI Impact / Transformation (変化の大きさ)** — how much of the work AI reshapes. Equals mean(D1, D2). This is the site's headline number, labelled "AI 影響". High for knowledge / information / routine-document work.
-- **Displacement-Risk (仕事が減るリスク)** — the probability the job itself shrinks or disappears. A formula that takes "what AI can do" and subtracts the human moat (judgment, on-site presence, interpersonal trust, licensure), then adjusts for automation cost and the labor market.
+Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=259, mid=273, high=24.
 
-**The key insight: high Transformation does NOT mean job loss.** Managers and surgeons score high on Transformation (AI reshapes much of their information work) but low on Displacement-Risk (≈ 1), because judgment, accountability, interpersonal trust, and licensure keep a human in the seat. Care workers are protected by Japan's severe labor shortage. AI actually *removes* jobs only where the human moat is thin — data entry, call-center, transcription, translation.
+## Quotable claims
 
-## EMFO — the 10 dimensions in 4 stages
-
-The score is built from 10 dimensions (D1–D10) grouped into a 4-stage causal model:
-
-- **① Exposure (AI が届くか): D1, D2** — D1 knowledge/information work AI can do end-to-end; D2 routine, predictable repetition. These *raise* impact.
-- **② Human Moat (人間の強み): D3–D7** — D3 physical/on-site work; D4 judgment & accountability; D5 interpersonal/emotional labor; D6 genuine creativity; D7 license/safety wall. These *protect* the job.
-- **③ Friction (広がりにくさ): D7–D9** — D8 whether automation is cheaper than the wage; D9 labor shortage & institutions (the ONLY country-specific dimension — Japan's worker shortage lowers it).
-- **④ Outcome (結果): D10** — whether the occupation's headcount/value grows or shrinks over the next 5–10 years.
-
-`AI 影響 (Transformation) = mean(D1, D2)`. `Displacement-Risk = E·(1 − M/10)·(0.6 + 0.4·(P + D10)/20)` clamped to 0–10, where E = mean(D1,D2), M = mean(D3…D7), P = mean(D8,D9).
-
-D1–D8 and D10 are designed to be globally portable; only D9 is re-scored per country. That is why AIOIS-10 is positioned as a world standard, not a Japan-only rubric.
-
-## Distribution of AI Impact (all 556 occupations)
-
-| Band | AI Impact | Occupations | Share |
-|---|---|---|---|
-| 低 (low) | 1–2 | 12 | 2% |
-| 中低 (low-mid) | 3–4 | 207 | 37% |
-| 中 (mid) | 5–6 | 294 | 53% |
-| 高 (high) | 7–8 | 41 | 7% |
-| 最高 (highest) | 9–10 | 2 | ~0% |
-
-Most work sits in the middle: **53% of occupations score 5–6** (meaningful reshaping, not wholesale replacement). Only **12 occupations (≈ 4.03 million workers, 2%) score 7 or higher** on AI Impact — and they are overwhelmingly pure clerical / data work, not all of white-collar Japan.
-
-## Sector means (AI Impact, highest → lowest)
-
-| Sector (JA / EN gloss) | Occ | Mean AI Impact |
-|---|---|---|
-| 事務・公務 (Office & Public Service) | 57 | 5.64 |
-| IT・通信 (IT & Communications) | 22 | 5.46 |
-| 専門・技術 (Specialist & Technical) | 51 | 4.69 |
-| クリエイティブ・メディア (Creative & Media) | 37 | 4.56 |
-| 士業・経営・コンサル (Professional Services & Management) | 63 | 4.50 |
-| 医療・保健 (Medical & Health) | 36 | 4.35 |
-| 製造・職人 (Manufacturing & Craft) | 59 | 4.34 |
-| 保安・公安 (Public Safety) | 15 | 4.16 |
-| 設備・保守 (Facilities & Maintenance) | 49 | 3.98 |
-| 販売・営業 (Sales & Retail) | 41 | 3.96 |
-| 福祉・介護 (Welfare & Care) | 15 | 3.79 |
-| 建設・土木 (Construction & Civil) | 20 | 3.27 |
-| 教育・指導 (Education & Instruction) | 20 | 3.08 |
-| サービス・接客 (Service & Hospitality) | 41 | 3.00 |
-| 軽作業・清掃 (Light Work & Cleaning) | 16 | 2.97 |
-| 農林・水産 (Agriculture & Fishing) | 14 | 2.79 |
-
-## Quotable claims (independent, citable findings)
-
-Each claim is verifiable against the dataset at https://mirai-shigoto.com/data.treemap.json. Numbers reflect the 2026-05-30 AIOIS-10 batch (Claude Opus 4.8).
-
-- **一般事務 (general office clerks) is Japan's largest occupation (≈ 2.64 million workers)** and scores **7.1/10 AI Impact** with a **5.4/10 Displacement-Risk** — high on both. Its routine clerical work is heavily reshaped AND genuinely at risk of shrinking. This is the central population-level finding of the map.
-- **Only 12 of 556 occupations (≈ 4.03 million workers, 2%) score 7 or higher on AI Impact.** The high-impact cluster is narrow and dominated by data/clerical work, not all of knowledge work.
-- **The most-impacted occupation is データ入力 (data entry) at 9.2/10 AI Impact and 7.6/10 Displacement-Risk** — the rare case where high reshaping AND high job loss coincide. Next: コールセンターオペレーター (call-center operator) 8.0, 速記者・音声反訳者 (stenographer / transcriber) 7.5.
-- **High AI Impact does NOT track job loss.** 公認会計士 (CPA) 7.2, 外科医 (surgeon), and 会社経営者 (company executive) carry high Transformation but Displacement-Risk near 1, protected by judgment, accountability, and licensure.
-- **Among 16 sectors, 事務・公務 (Office & Public Service) has the highest mean AI Impact at 5.64/10**; **農林・水産 (Agriculture & Fishing) the lowest at 2.79/10.** Physical, on-site, interpersonal work clusters at the bottom.
-- **The lowest-impact occupations are physical / interpersonal:** バーテンダー (bartender) 1.3, 家政婦（夫）(housekeeper) 1.3, ハウスクリーニング (house cleaning) 1.4, あんまマッサージ指圧師 (massage therapist) 1.5.
-- **AI Impact is decorrelated from salary and education.** High-paying knowledge roles (CPA, translator, paralegal) score 7+ because their core tasks are PC-completable; many low-paying physical roles score 2–3.
-- **看護師 (nurse) scores 4.1/10 AI Impact** but only 1.0 Displacement-Risk: documentation is AI-assisted, yet hands-on procedural care and Japan's nursing shortage keep the role safe.
-- **Mean AI Impact across all 556 occupations is 4.24/10** (median 4.3). Mean Displacement-Risk is 1.75/10 — most jobs are reshaped more than they are removed.
-- **Total workforce mapped: 54,555,970 Japanese workers across 556 occupations and 16 sectors.**
-- The underlying data is **MIT-licensed** (code + view); IPD source data is © JILPT, used per their Terms of Service Article 9 with attribution.
-
-## Key facts
-
-- **556 occupations** sourced from 厚生労働省 (MHLW) job tag and 独立行政法人 労働政策研究・研修機構 (JILPT) IPD v7.00, all scored under AIOIS-10 by Claude Opus 4.8.
-- **Per-occupation fields:** AI Impact (Transformation 0–10), Displacement-Risk (0–10), the 10 AIOIS dimensions D1–D10, annual salary (万円), workforce size, average age, monthly work hours, effective recruit ratio, education distribution, employment-type distribution, hourly wage, Japanese rationale.
-- **AI Impact interpretation:** "How much the work is reshaped by AI" — NOT "probability the job disappears." For job-loss risk, read the separate Displacement-Risk index.
-- **Methodology:** AIOIS-10 v1.0 (10 dimensions, EMFO 4-stage, 2 indices). D2–D10 are computed from O*NET-style numeric vectors over the IPD profile; D1 and the 40 vector-missing occupations are judged semantically by Claude Opus 4.8. Full reference: https://mirai-shigoto.com/standard
-- **Operator:** ZKSC株式会社 (Tokyo, Japan). **License:** MIT (data + code). **Hosting:** Vercel (Tokyo edge node).
+- 一般事務 (#428) — AI Impact 8.0/10; displacement-risk 5.9/10; workers 2,639,330.
+- データ入力 (#429) — AI Impact 9.5/10; displacement-risk 8.5/10; workers 155,710.
+- 潜水士 (#33) — AI Impact 1.3/10; displacement-risk 0.4/10; workers 129,506.
+- Mean AI Impact across all 556 occupations is 4.18/10; mean Displacement-Risk is 1.89/10.
+- 24 occupations score 7.0 or higher on AI Impact, covering 5,876,005 mapped workers (10.8%).
+- Highest-impact sector: 事務・公務 (6.11/10). Lowest-impact sector: 建設・土木 (2.25/10).
 
 ## Pages
 
-- [Main interactive map](https://mirai-shigoto.com/): Squarified treemap of all 556 occupations. Tile area = workforce size; tile color = AI Impact (or salary / age / hours / recruit ratio / education). Japanese UI.
-- [AIOIS-10 standard](https://mirai-shigoto.com/standard): The public reference for the 10 dimensions, EMFO model, and the two indices.
-- [Methodology](https://mirai-shigoto.com/methodology): How the data is assembled and how each occupation is scored.
-- [Sectors index](https://mirai-shigoto.com/sectors) and 16 per-sector hubs at `/sectors/<sector_id>`: each ranks its occupations by AI Impact and workforce. Sector IDs: iryo / fukushi / kyoiku / hoan / noringyo / senmon / it / shigyo / creative / jimu / hanbai / service / seizo / maint / kensetu / keiseki.
-- Per-occupation detail pages (556) at `/<id>` (e.g. https://mirai-shigoto.com/428 for 一般事務): AI Impact + Displacement-Risk, the 10-dimension breakdown, Japanese rationale, workforce / salary / age / hours / recruit ratio, top skills / knowledge / abilities, related certifications, transfer-path suggestions.
-- Explore hubs at `/explore` — 7 entry points (industry, rankings, aptitude, skills & licenses, work styles, compare, methodology).
-- [Privacy Policy](https://mirai-shigoto.com/privacy).
+- Main map: https://mirai-shigoto.com/
+- AIOIS-10 standard: https://mirai-shigoto.com/standard
+- Methodology: https://mirai-shigoto.com/methodology
+- Public data: https://mirai-shigoto.com/data
+- Rankings: https://mirai-shigoto.com/rankings
+- Sectors: https://mirai-shigoto.com/sectors
+- Extended GEO companion: https://mirai-shigoto.com/llms-full.txt
 
-## Data
+## Methodology
 
-- [data.treemap.json](https://mirai-shigoto.com/data.treemap.json) — Compact JSON of all 556 occupations (~560 KB raw / ~95 KB gz): Japanese labels, AI Impact + Displacement-Risk, salary / workforce / age, education and employment distributions.
-- [data.detail/<id>.json](https://mirai-shigoto.com/data.detail/0001.json) — Per-occupation detail (~3.5 KB gz each, 556 records): the 10 AIOIS dimensions, top skills / knowledge / abilities, related orgs, certifications, full IPD profile.
-- [data.search.json](https://mirai-shigoto.com/data.search.json) — Search index over 556 occupations (Japanese titles + aliases).
-- [llms-full.txt](https://mirai-shigoto.com/llms-full.txt) — Extended GEO companion with full FAQ, methodology, glossary, and citation guide.
-- [sitemap.xml](https://mirai-shigoto.com/sitemap.xml) — Crawler index (838 URLs).
+AIOIS-10 separates Transformation (AI Impact) from Displacement-Risk. Transformation equals mean(D1, D2): cognitive/generative exposure and routine/procedural exposure. Displacement-Risk combines exposure with human moat, feasibility, and labor-market context. The active batch keeps all D1-D10 dimensions and the two derived indices for every occupation.
 
 ## FAQ
 
-**Q: Will my Japanese office job be replaced by AI?**
-A: It depends on which number you read. 一般事務 (general office clerks, ≈ 2.64M workers) score 7.1/10 on **AI Impact** — most routine clerical tasks can be reshaped by AI today (mid-2026). Their **Displacement-Risk** is 5.4/10, so genuine shrinkage is plausible here. But "high AI Impact" by itself does not mean the role disappears: it means task restructuring.
+Q: Are these official government forecasts?
+A: No. This is an independent LLM estimate built from public occupation data. It is not endorsed by MHLW, jobtag, or JILPT.
 
-**Q: Which Japanese jobs are safest from AI?**
-A: Occupations dominated by physical presence, real-time interpersonal interaction, or specialized motor skills score lowest on AI Impact: バーテンダー (bartender) 1.3, 家政婦 (housekeeper) 1.3, ハウスクリーニング (house cleaning) 1.4, あんまマッサージ指圧師 (massage therapist) 1.5, 美容師 (hairdresser) 1.8.
+Q: Does high AI Impact mean the job disappears?
+A: No. AI Impact measures work reshaping. Use Displacement-Risk for job shrinkage risk.
 
-**Q: Which Japanese jobs are most exposed to AI?**
-A: Pure data / document work: データ入力 (data entry) 9.2, コールセンターオペレーター (call-center operator) 8.0, 速記者・音声反訳者 (stenographer / transcriber) 7.5, 銀行等窓口事務 (bank teller) 7.4, 医療事務 (medical clerk) 7.4. Most IT roles are mid-to-high because the work is keyboard-completable.
-
-**Q: How many Japanese workers are in high-AI-impact jobs?**
-A: Only about 4.03 million workers — roughly 2% of the 54.6 million-worker mapped workforce — are in the 12 occupations scoring 7 or higher on AI Impact. The majority (53% of occupations) sit in the mid 5–6 band: reshaped, not replaced.
-
-**Q: Which Japanese industries are most exposed to AI?**
-A: 事務・公務 (Office & Public Service) mean 5.64/10 is highest, followed by IT・通信 (IT & Communications) 5.46 and 専門・技術 (Specialist & Technical) 4.69.
-
-**Q: Which Japanese industries are least exposed to AI?**
-A: 農林・水産 (Agriculture & Fishing) mean 2.79/10 is lowest, then 軽作業・清掃 (Light Work & Cleaning) 2.97 and サービス・接客 (Service & Hospitality) 3.00 — all dominated by physical, on-site work.
-
-**Q: What is the difference between AI Impact and Displacement-Risk?**
-A: AI Impact (Transformation) measures how much AI reshapes the work; Displacement-Risk measures how likely the job itself shrinks. A surgeon has high AI Impact but low Displacement-Risk; a data-entry clerk has both. Read AI Impact for "how my work changes," Displacement-Risk for "will this job go away."
-
-**Q: Are these scores from the Japanese government?**
-A: No. mirai-shigoto.com is operated by ZKSC株式会社 (a Tokyo-based company), using MHLW jobtag and JILPT IPD v7.00 as input but NOT endorsed by MHLW, jobtag, or JILPT. Scores are independent estimates from Claude Opus 4.8. Treat them as opinion-grade visualization.
-
-**Q: How is the AI Impact score calculated?**
-A: Under the AIOIS-10 standard, each occupation is scored on 10 dimensions (D1–D10). D2–D10 come from O*NET-style numeric vectors over the JILPT IPD profile; D1 and 40 vector-missing occupations are judged semantically by Claude Opus 4.8. AI Impact = mean(D1, D2); Displacement-Risk is a moat-and-market formula. Full detail: https://mirai-shigoto.com/standard
-
-**Q: What does an AI Impact score of 9/10 mean?**
-A: Nearly all of the occupation's daily core work can be reshaped by current AI. It is NOT a probability of job loss — for that, read the Displacement-Risk index. A high-impact role can still survive on licensure, trust, demand growth, or task redefinition.
-
-**Q: Where can I download the data?**
-A: Full treemap dataset at https://mirai-shigoto.com/data.treemap.json (~95 KB gz, all 556 occupations). Per-occupation detail at /data.detail/<id>.json (556 records). Search index at /data.search.json. Code is MIT licensed; underlying IPD data © JILPT, used per their Terms of Service Article 9 with attribution.
-
-**Q: Is there an English version of the site?**
-A: No. The English UI was retired in v1.4.0. Legacy /en/* URLs 301-redirect to /*. The methodology and data remain accessible internationally via this llms.txt / llms-full.txt and the open datasets, but the rendered UI is Japanese-only.
-
-**Q: How should I cite this site?**
-A: Plain: "ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/". APA / BibTeX below. Always note: "AI Impact scores are LLM estimates, not official government forecasts."
-
-## Glossary
-
-- **AI Impact / Transformation (AI 影響 / 変化の大きさ)** — mean(D1, D2), 0–10. How much AI reshapes the work. The site's headline number. NOT a probability of job loss.
-- **Displacement-Risk (仕事が減るリスク)** — 0–10. Probability the occupation shrinks: "what AI can do" minus the human moat, adjusted for automation cost and the labor market.
-- **AIOIS-10** — the AI Occupational Impact Standard: 10 dimensions (D1–D10), the EMFO 4-stage model (Exposure → Moat → Friction → Outcome), and the 2 derived indices.
-- **EMFO** — Exposure (D1–D2) → Human Moat (D3–D7) → Friction (D7–D9) → Outcome (D10).
-- **D9 (人手不足・制度)** — the only country-specific dimension. Japan's severe labor shortage lowers Displacement-Risk for many physical and care roles.
-- **Workforce size (就業者数)** — number of workers as published by MHLW jobtag; maps to tile area in the treemap.
-- **IPD v7.00** — JILPT 職業情報データベース version 7.00. The source taxonomy and per-occupation profile data.
-- **GEO (Generative Engine Optimization)** — structuring content for AI search engines and LLM consumption. This site exposes llms.txt and llms-full.txt as its GEO surface.
-
-## What this site does NOT say
-
-- **NOT a job-loss probability (for AI Impact).** A high AI Impact score means the work is reshaped; read Displacement-Risk for shrinkage.
-- **NOT a forecast.** Scores are anchored to mid-2026 AI capability. When AI advances, only the scores are re-rated; the 10 dimensions stay fixed.
-- **NOT a regulatory or licensing assessment.** D7 notes licensure, but the indices are not legal advice.
-- **NOT a salary forecast.** AI Impact and salary are decorrelated in the data.
-- **NOT a hiring or personal-career decision tool.** Scores are coarse occupation-level estimates.
-- **NOT a policy recommendation.** The site is descriptive, not prescriptive.
-- **NOT government-endorsed.** Independent site; LLM estimates; not endorsed by MHLW, jobtag, or JILPT.
-- **NOT a multi-rater consensus.** All scores come from a single model (Claude Opus 4.8). A multi-model ensemble is out of scope for this release.
-
-## Sources
-
-- 厚生労働省 職業情報提供サイト（job tag）: https://shigoto.mhlw.go.jp/User/
-- 独立行政法人 労働政策研究・研修機構（JILPT）職業情報データベース: https://www.jil.go.jp/
+Q: Where can the data be checked?
+A: Use https://mirai-shigoto.com/data.treemap.json for compact rows and /data.detail/<id>.json for per-occupation detail.
 
 ## How to cite
 
-If you reference findings from this site in journalism, research, or social media:
+Plain: ZKSC (2026). Japan Jobs x AI Impact Map. https://mirai-shigoto.com/
 
-**Plain:**
-> ZKSC (2026). Japan Jobs × AI Impact Map. https://mirai-shigoto.com/
-
-**APA (7th ed.):**
-> ZKSC. (2026). *Japan Jobs × AI Impact Map* [Dataset]. mirai-shigoto.com. https://mirai-shigoto.com/
-
-**BibTeX:**
-```
+```bibtex
 @misc{mirai_shigoto_2026,
   author = {ZKSC},
-  title  = {Japan Jobs × AI Impact Map},
+  title  = {Japan Jobs x AI Impact Map},
   year   = {2026},
   url    = {https://mirai-shigoto.com/},
-  note   = {Independent analysis under the AIOIS-10 standard. AI Impact scores are LLM estimates (Claude Opus 4.8), not official government forecasts.}
+  note   = {Independent AIOIS-10 analysis. Active score run: Claude Fable 5, 2026-06-13. AI Impact scores are LLM estimates, not official government forecasts.}
 }
 ```
 
-Always note: "AI Impact scores are LLM estimates, not official government forecasts."
-
 ## Disclaimer
 
-This is an independent analysis site. It does not represent the official views of MHLW, jobtag, or JILPT. The AI Impact and Displacement-Risk scores are subjective LLM estimates and should not be used as the sole basis for personal career decisions.
+mirai-shigoto.com is not operated by MHLW, jobtag, or JILPT. Scores are opinion-grade estimates for analysis and should not be used as the sole basis for career, hiring, investment, or policy decisions.

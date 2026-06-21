@@ -6,6 +6,7 @@ import type { KnowledgeGraph } from '@/graph';
 import { sectorIndexView, type SectorIndexEntry } from '@/views/sector';
 import { OCCUPATION_COUNT } from '@/site/config';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { CONTENT_DATE } from '@/lib/_content-date';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -74,7 +75,7 @@ export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBi
         isPartOf: { '@id': `${SITE}/#website` },
         inLanguage: 'ja',
         datePublished: '2026-05-05',
-        dateModified: '2026-05-05',
+        dateModified: CONTENT_DATE,
         publisher: { '@id': `${SITE}/#organization` },
         breadcrumb: { '@id': `${canonical}#breadcrumb` },
       },

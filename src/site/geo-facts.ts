@@ -1,0 +1,244 @@
+import { fmean, fsum } from '../data/lib/fsum.js';
+import { bankerRound } from '../data/lib/banker-round.js';
+import { riskBand } from '../data/lib/bands.js';
+
+export interface GeoAttribution {
+  readonly modelId: string;
+  readonly modelDisplay: string;
+  readonly runDate: string;
+  readonly standardLabel: string;
+}
+
+export interface GeoTreemapRow {
+  readonly id: number;
+  readonly name_ja: string;
+  readonly ai_risk: number | null;
+  readonly workers: number | null;
+  readonly sector_id: string | null;
+  readonly sector_ja: string | null;
+}
+
+export interface GeoScoreEntry {
+  readonly ai_risk: number;
+  readonly confidence?: number | null;
+  readonly aiois?: {
+    readonly displacement?: number | null;
+  } | null;
+}
+
+export interface GeoScoreRunLike {
+  readonly scope: string;
+  readonly scorer: {
+    readonly model: string;
+  };
+  readonly run: {
+    readonly run_date: string;
+  };
+  readonly scores: Record<string, GeoScoreEntry>;
+}
+
+export interface GeoBand {
+  readonly key: string;
+  readonly label: string;
+  readonly count: number;
+  readonly sharePct: number;
+}
+
+export interface GeoOccupationSummary {
+  readonly id: number;
+  readonly nameJa: string;
+  readonly aiImpact: number;
+  readonly displacementRisk: number | null;
+  readonly workers: number | null;
+  readonly sectorJa: string | null;
+}
+
+export interface GeoSectorSummary {
+  readonly id: string;
+  readonly nameJa: string;
+  readonly occupationCount: number;
+  readonly meanAiImpact: number;
+  readonly totalWorkforce: number;
+}
+
+export interface GeoFacts {
+  readonly attribution: GeoAttribution;
+  readonly occupationCount: number;
+  readonly totalWorkforce: number;
+  readonly meanAiImpact: number;
+  readonly medianAiImpact: number;
+  readonly meanDisplacementRisk: number;
+  readonly fiveBandDistribution: readonly GeoBand[];
+  readonly lowRiskCount: number;
+  readonly midRiskCount: number;
+  readonly highRiskCount: number;
+  readonly highRiskOccupationSharePct: number;
+  readonly highRiskWorkforce: number;
+  readonly highRiskWorkforceSharePct: number;
+  readonly largestOccupation: GeoOccupationSummary;
+  readonly highestImpactOccupation: GeoOccupationSummary;
+  readonly lowestImpactOccupation: GeoOccupationSummary;
+  readonly topImpactOccupations: readonly GeoOccupationSummary[];
+  readonly bottomImpactOccupations: readonly GeoOccupationSummary[];
+  readonly sectorsByMeanImpact: readonly GeoSectorSummary[];
+}
+
+const FIVE_BANDS = [
+  { key: '0-2', label: '0-2', min: 0, maxExclusive: 3 },
+  { key: '3-4', label: '3-4', min: 3, maxExclusive: 5 },
+  { key: '5-6', label: '5-6', min: 5, maxExclusive: 7 },
+  { key: '7-8', label: '7-8', min: 7, maxExclusive: 9 },
+  { key: '9-10', label: '9-10', min: 9, maxExclusive: 11 },
+] as const;
+
+function round2(n: number): number {
+  return bankerRound(n, 2);
+}
+
+function roundPct(n: number, total: number): number {
+  if (total === 0) return 0;
+  return bankerRound((n / total) * 100, 1);
+}
+
+function median(values: readonly number[]): number {
+  if (values.length === 0) return NaN;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2 === 1) return sorted[mid]!;
+  return (sorted[mid - 1]! + sorted[mid]!) / 2;
+}
+
+function scoreFor(row: GeoTreemapRow, scoresById: ReadonlyMap<number, GeoScoreEntry>): GeoOccupationSummary {
+  const score = scoresById.get(row.id);
+  return {
+    id: row.id,
+    nameJa: row.name_ja,
+    aiImpact: row.ai_risk ?? score?.ai_risk ?? NaN,
+    displacementRisk: score?.aiois?.displacement ?? null,
+    workers: row.workers,
+    sectorJa: row.sector_ja,
+  };
+}
+
+function requireOne<T>(items: readonly T[], label: string): T {
+  const first = items[0];
+  if (first === undefined) throw new Error(`geo-facts: no ${label}`);
+  return first;
+}
+
+export function pickLatestGeoScoreRun<T extends GeoScoreRunLike>(runs: Iterable<T>): T {
+  const candidates = [...runs].filter((run) => run.scope === 'occupations');
+  if (candidates.length === 0) {
+    throw new Error('geo-facts: no occupations score run');
+  }
+  let chosen = candidates[0]!;
+  for (let i = 1; i < candidates.length; i += 1) {
+    const entry = candidates[i]!;
+    const entryHasAiois = Object.values(entry.scores).some((s) => s.aiois != null);
+    const chosenHasAiois = Object.values(chosen.scores).some((s) => s.aiois != null);
+    if (
+      entry.run.run_date > chosen.run.run_date ||
+      (entry.run.run_date === chosen.run.run_date && (entryHasAiois || !chosenHasAiois))
+    ) {
+      chosen = entry;
+    }
+  }
+  return chosen;
+}
+
+export function computeGeoFacts(
+  rows: readonly GeoTreemapRow[],
+  scoresById: ReadonlyMap<number, GeoScoreEntry>,
+  attribution: GeoAttribution,
+): GeoFacts {
+  const scoredRows = rows.filter((row) => typeof row.ai_risk === 'number');
+  if (scoredRows.length === 0) throw new Error('geo-facts: treemap has no scored rows');
+
+  const risks = scoredRows.map((row) => row.ai_risk as number);
+  const totalWorkforce = fsum(rows.map((row) => row.workers ?? 0));
+  const highRiskRows = scoredRows.filter((row) => riskBand(row.ai_risk) === 'high');
+  const highRiskWorkforce = fsum(highRiskRows.map((row) => row.workers ?? 0));
+
+  const displacementValues = scoredRows
+    .map((row) => scoresById.get(row.id)?.aiois?.displacement)
+    .filter((v): v is number => typeof v === 'number');
+  if (displacementValues.length !== scoredRows.length) {
+    throw new Error(
+      `geo-facts: expected displacement for ${scoredRows.length} scored rows, got ${displacementValues.length}`,
+    );
+  }
+
+  const fiveBandDistribution = FIVE_BANDS.map((band) => {
+    const count = risks.filter((r) => r >= band.min && r < band.maxExclusive).length;
+    return {
+      key: band.key,
+      label: band.label,
+      count,
+      sharePct: roundPct(count, risks.length),
+    };
+  });
+
+  const lowRiskCount = scoredRows.filter((row) => riskBand(row.ai_risk) === 'low').length;
+  const midRiskCount = scoredRows.filter((row) => riskBand(row.ai_risk) === 'mid').length;
+  const highRiskCount = highRiskRows.length;
+
+  const byImpactDesc = [...scoredRows].sort((a, b) =>
+    (b.ai_risk! - a.ai_risk!) ||
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    (a.id - b.id),
+  );
+  const byImpactAsc = [...scoredRows].sort((a, b) =>
+    (a.ai_risk! - b.ai_risk!) ||
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    (a.id - b.id),
+  );
+  const byWorkforceDesc = [...rows].sort((a, b) =>
+    ((b.workers ?? 0) - (a.workers ?? 0)) ||
+    ((b.ai_risk ?? 0) - (a.ai_risk ?? 0)) ||
+    (a.id - b.id),
+  );
+
+  const sectors = new Map<string, {
+    nameJa: string;
+    risks: number[];
+    workforce: number[];
+  }>();
+  for (const row of scoredRows) {
+    if (!row.sector_id || !row.sector_ja || typeof row.ai_risk !== 'number') continue;
+    const current = sectors.get(row.sector_id) ?? { nameJa: row.sector_ja, risks: [], workforce: [] };
+    current.risks.push(row.ai_risk);
+    current.workforce.push(row.workers ?? 0);
+    sectors.set(row.sector_id, current);
+  }
+  const sectorsByMeanImpact = [...sectors.entries()]
+    .map(([id, sector]) => ({
+      id,
+      nameJa: sector.nameJa,
+      occupationCount: sector.risks.length,
+      meanAiImpact: round2(fmean(sector.risks)),
+      totalWorkforce: bankerRound(fsum(sector.workforce), 0),
+    }))
+    .sort((a, b) => (b.meanAiImpact - a.meanAiImpact) || a.id.localeCompare(b.id));
+
+  return {
+    attribution,
+    occupationCount: scoredRows.length,
+    totalWorkforce: bankerRound(totalWorkforce, 0),
+    meanAiImpact: round2(fmean(risks)),
+    medianAiImpact: round2(median(risks)),
+    meanDisplacementRisk: round2(fmean(displacementValues)),
+    fiveBandDistribution,
+    lowRiskCount,
+    midRiskCount,
+    highRiskCount,
+    highRiskOccupationSharePct: roundPct(highRiskCount, scoredRows.length),
+    highRiskWorkforce: bankerRound(highRiskWorkforce, 0),
+    highRiskWorkforceSharePct: roundPct(highRiskWorkforce, totalWorkforce),
+    largestOccupation: scoreFor(requireOne(byWorkforceDesc, 'largest occupation'), scoresById),
+    highestImpactOccupation: scoreFor(requireOne(byImpactDesc, 'highest-impact occupation'), scoresById),
+    lowestImpactOccupation: scoreFor(requireOne(byImpactAsc, 'lowest-impact occupation'), scoresById),
+    topImpactOccupations: byImpactDesc.slice(0, 20).map((row) => scoreFor(row, scoresById)),
+    bottomImpactOccupations: byImpactAsc.slice(0, 20).map((row) => scoreFor(row, scoresById)),
+    sectorsByMeanImpact,
+  };
+}

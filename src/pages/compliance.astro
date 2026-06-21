@@ -8,6 +8,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import { CONTENT_DATE } from '@/lib/_content-date';
+
+const pageLastUpdated = CONTENT_DATE;
 
 const jsonLd = `{
   "@context": "https://schema.org",
@@ -22,7 +25,7 @@ const jsonLd = `{
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "datePublished": "2026-05-03",
-      "dateModified": "2026-05-03",
+      "dateModified": "${pageLastUpdated}",
       "primaryImageOfPage": "https://mirai-shigoto.com/api/og?page=compliance",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/compliance#breadcrumb" }
     },
@@ -246,7 +249,7 @@ const jsonLd = `{
       データ出典・著作権・二次利用範囲・連絡先
     </div>
     <div class="meta-line">
-      最終更新：2026-05-03
+      最終更新：{pageLastUpdated}
     </div>
 
     <!-- ════════ §1 データ出典と著作権帰属 ════════ -->

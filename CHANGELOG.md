@@ -10,6 +10,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (GEO-A single-source facts and freshness gate - 2026-06-21, Issue #10)
+
+- Generated `llms.txt`, `llms-full.txt`, and homepage JSON-LD from a shared
+  GEO facts layer derived from `data.treemap.json`, the active AIOIS-10 score
+  batch, and `SCORE_ATTRIBUTION`. This removes the stale Opus 4.8 /
+  2026-05-30 drift from the GEO surface and keeps model/date/distribution/top
+  findings synchronized with future score batches.
+- Added `scripts/check-geo-freshness.ts` and wired it into `build` +
+  `verify:gates`; the gate exact-compares generated GEO files against current
+  data and fails on stale tokens or leftover placeholders.
+- Routed `compliance` and sectors-index JSON-LD `dateModified` through the
+  generated content date, and made sitemap `<lastmod>` granular by page family
+  so static legal pages do not drift with score-batch updates.
+
 ### Added (AIOIS-10 re-score with Claude Fable 5 - 2026-06-13, Issue #9)
 
 - Added the append-only AIOIS-10 score batch
