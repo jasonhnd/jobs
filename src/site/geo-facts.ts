@@ -12,8 +12,11 @@ export interface GeoAttribution {
 export interface GeoTreemapRow {
   readonly id: number;
   readonly name_ja: string;
+  readonly salary?: number | null;
   readonly ai_risk: number | null;
   readonly workers: number | null;
+  readonly recruit_ratio?: number | null;
+  readonly demand_band?: string | null;
   readonly sector_id: string | null;
   readonly sector_ja: string | null;
 }
@@ -48,8 +51,13 @@ export interface GeoOccupationSummary {
   readonly id: number;
   readonly nameJa: string;
   readonly aiImpact: number;
+  /** 1 = highest AI impact, deterministic tie-break by workforce then id. */
+  readonly aiImpactRank: number;
   readonly displacementRisk: number | null;
+  readonly salaryMan: number | null;
   readonly workers: number | null;
+  readonly recruitRatio: number | null;
+  readonly demandBand: string | null;
   readonly sectorJa: string | null;
 }
 
@@ -119,14 +127,22 @@ function median(values: readonly number[]): number {
   return (sorted[mid - 1]! + sorted[mid]!) / 2;
 }
 
-function scoreFor(row: GeoTreemapRow, scoresById: ReadonlyMap<number, GeoScoreEntry>): GeoOccupationSummary {
+function scoreFor(
+  row: GeoTreemapRow,
+  scoresById: ReadonlyMap<number, GeoScoreEntry>,
+  rankById: ReadonlyMap<number, number>,
+): GeoOccupationSummary {
   const score = scoresById.get(row.id);
   return {
     id: row.id,
     nameJa: row.name_ja,
     aiImpact: row.ai_risk ?? score?.ai_risk ?? NaN,
+    aiImpactRank: rankById.get(row.id) ?? 0,
     displacementRisk: score?.aiois?.displacement ?? null,
+    salaryMan: row.salary ?? null,
     workers: row.workers,
+    recruitRatio: row.recruit_ratio ?? null,
+    demandBand: row.demand_band ?? null,
     sectorJa: row.sector_ja,
   };
 }
@@ -198,6 +214,8 @@ export function computeGeoFacts(
     ((b.workers ?? 0) - (a.workers ?? 0)) ||
     (a.id - b.id),
   );
+  const rankById = new Map<number, number>();
+  byImpactDesc.forEach((row, index) => rankById.set(row.id, index + 1));
   const byImpactAsc = [...scoredRows].sort((a, b) =>
     (a.ai_risk! - b.ai_risk!) ||
     ((b.workers ?? 0) - (a.workers ?? 0)) ||
@@ -210,7 +228,7 @@ export function computeGeoFacts(
   );
   const occupations = [...scoredRows]
     .sort((a, b) => a.id - b.id)
-    .map((row) => scoreFor(row, scoresById));
+    .map((row) => scoreFor(row, scoresById, rankById));
 
   const sectors = new Map<string, {
     nameJa: string;
@@ -248,12 +266,12 @@ export function computeGeoFacts(
     highRiskOccupationSharePct: roundPct(highRiskCount, scoredRows.length),
     highRiskWorkforce: bankerRound(highRiskWorkforce, 0),
     highRiskWorkforceSharePct: roundPct(highRiskWorkforce, totalWorkforce),
-    largestOccupation: scoreFor(requireOne(byWorkforceDesc, 'largest occupation'), scoresById),
-    highestImpactOccupation: scoreFor(requireOne(byImpactDesc, 'highest-impact occupation'), scoresById),
-    lowestImpactOccupation: scoreFor(requireOne(byImpactAsc, 'lowest-impact occupation'), scoresById),
+    largestOccupation: scoreFor(requireOne(byWorkforceDesc, 'largest occupation'), scoresById, rankById),
+    highestImpactOccupation: scoreFor(requireOne(byImpactDesc, 'highest-impact occupation'), scoresById, rankById),
+    lowestImpactOccupation: scoreFor(requireOne(byImpactAsc, 'lowest-impact occupation'), scoresById, rankById),
     occupations,
-    topImpactOccupations: byImpactDesc.slice(0, 20).map((row) => scoreFor(row, scoresById)),
-    bottomImpactOccupations: byImpactAsc.slice(0, 20).map((row) => scoreFor(row, scoresById)),
+    topImpactOccupations: byImpactDesc.slice(0, 20).map((row) => scoreFor(row, scoresById, rankById)),
+    bottomImpactOccupations: byImpactAsc.slice(0, 20).map((row) => scoreFor(row, scoresById, rankById)),
     sectorsByMeanImpact,
   };
 }

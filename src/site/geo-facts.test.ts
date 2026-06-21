@@ -23,10 +23,10 @@ const attribution: GeoAttribution = {
 };
 
 const rows: GeoTreemapRow[] = [
-  { id: 1, name_ja: 'A', ai_risk: 1.5, workers: 100, sector_id: 's1', sector_ja: 'Sector 1' },
-  { id: 2, name_ja: 'B', ai_risk: 4.0, workers: 300, sector_id: 's1', sector_ja: 'Sector 1' },
-  { id: 3, name_ja: 'C', ai_risk: 7.0, workers: 600, sector_id: 's2', sector_ja: 'Sector 2' },
-  { id: 4, name_ja: 'D', ai_risk: 9.2, workers: 1000, sector_id: 's2', sector_ja: 'Sector 2' },
+  { id: 1, name_ja: 'A', salary: 410, ai_risk: 1.5, workers: 100, recruit_ratio: 1.1, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1' },
+  { id: 2, name_ja: 'B', salary: 520, ai_risk: 4.0, workers: 300, recruit_ratio: 1.8, demand_band: 'normal', sector_id: 's1', sector_ja: 'Sector 1' },
+  { id: 3, name_ja: 'C', salary: 610, ai_risk: 7.0, workers: 600, recruit_ratio: 2.4, demand_band: 'hot', sector_id: 's2', sector_ja: 'Sector 2' },
+  { id: 4, name_ja: 'D', salary: 700, ai_risk: 9.2, workers: 1000, recruit_ratio: 3.2, demand_band: 'hot', sector_id: 's2', sector_ja: 'Sector 2' },
 ];
 
 const scores = new Map<number, GeoScoreEntry>([
@@ -59,6 +59,10 @@ describe('computeGeoFacts', () => {
     assert.equal(facts.largestOccupation.nameJa, 'D');
     assert.equal(facts.occupations.length, 4);
     assert.deepEqual(facts.occupations.map((occupation) => occupation.id), [1, 2, 3, 4]);
+    assert.deepEqual(facts.occupations.map((occupation) => occupation.aiImpactRank), [4, 3, 2, 1]);
+    assert.equal(facts.occupations[0]!.salaryMan, 410);
+    assert.equal(facts.occupations[0]!.recruitRatio, 1.1);
+    assert.equal(facts.occupations[0]!.demandBand, 'normal');
     assert.equal(facts.sectorsByMeanImpact[0]!.id, 's2');
   });
 

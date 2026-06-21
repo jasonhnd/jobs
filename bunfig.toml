@@ -1,0 +1,4 @@
+[test]
+# Playwright specs are run by `bun run test:e2e`; Bun's unit-test discovery
+# should not execute files that import `@playwright/test`.
+pathIgnorePatterns = ["tests/e2e/**"]
