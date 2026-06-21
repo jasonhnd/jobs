@@ -41,6 +41,7 @@ const b = buildGenreSlugBindings({
       <p class="sub" set:html={b.subHtml}></p>
       <p class="intro" set:html={b.introHtml}></p>
     </header>
+    <Fragment set:html={b.aiFactHtml} />
     <Fragment set:html={b.statsHtml} />
     <Fragment set:html={b.highlightsHtml} />
     <Fragment set:html={b.sectorChartHtml} />

@@ -62,6 +62,7 @@ h1 .accent{color:var(--accent-deep)}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
 .stats dd{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+.ai-fact{margin:0 0 24px;padding:18px 20px;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;font-size:1rem;line-height:1.85;color:var(--fg)}
 section{margin:48px 0}
 h2{font-family:var(--font-serif);font-size:1.35rem;font-weight:600;color:var(--fg);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .rank-list{list-style:none;counter-reset:rank}
@@ -151,6 +152,8 @@ footer .footer-meta .nowrap{white-space:nowrap}
       <p class="sub" set:html={result.subText} />
       <p class="intro" set:html={b.introInlinedHtml} />
     </header>
+
+    <Fragment set:html={b.aiFactHtml} />
 
     <Fragment set:html={b.statsHtml} />
     <Fragment set:html={b.highlightsHtml} />

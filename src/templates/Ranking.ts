@@ -248,6 +248,10 @@ export function renderJsonLd(
       dateModified: DATE_MODIFIED,
       publisher: { '@id': `${SITE}/#organization` },
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.ai-fact', '.intro', '.highlights'],
+      },
     },
     {
       '@type': 'Article',

@@ -10,6 +10,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (GEO-B citable fact blocks and speakable - 2026-06-21, Issue #12)
+
+- Promoted the GEO citable fact block to sector, ranking, genre, compare, and
+  Q&A pages, with all rendered numeric claims sourced from the shared GEO facts
+  layer and covered by `check-geo-freshness`.
+- Added `speakable` selectors to the affected page JSON-LD, including genre and
+  sector hubs. SEO baseline JSON-LD drift is intentional and reflects those
+  additive structured-data changes.
+
 ### Changed (GEO-A single-source facts and freshness gate - 2026-06-21, Issue #10)
 
 - Generated `llms.txt`, `llms-full.txt`, and homepage JSON-LD from a shared

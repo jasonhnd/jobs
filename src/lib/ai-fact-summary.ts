@@ -18,6 +18,12 @@
  */
 import type { Aiois10 } from '../graph/types.js';
 import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import {
+  summarizeGeoOccupationIds,
+  type GeoFacts,
+  type GeoOccupationGroupSummary,
+} from '../site/geo-facts.js';
+import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from './safe-html.js';
 
 /**
  * Workforce count → compact Japanese (約N万人). Integer 万 at ≥10万, one
@@ -131,4 +137,129 @@ export function buildAiFactSummary(input: AiFactInput): string {
   parts.push(`（出典：厚生労働省 jobtag ＋ AIOIS-10、${SCORE_ATTRIBUTION.modelDisplay}、${scoredDate}）`);
 
   return parts.join('');
+}
+
+export interface SectorGeoFactInput {
+  readonly facts: GeoFacts;
+  readonly sectorId: string;
+}
+
+export interface OccupationSetGeoFactInput {
+  readonly facts: GeoFacts;
+  readonly subjectJa: string;
+  readonly pageKindJa: string;
+  readonly occupationIds: readonly number[];
+}
+
+export interface CompareGeoFactInput {
+  readonly facts: GeoFacts;
+  readonly subjectJa: string;
+  readonly occupationIds: readonly [number, number];
+}
+
+function fmtInt(n: number): string {
+  return new Intl.NumberFormat('ja-JP').format(Math.round(n));
+}
+
+function fmtScore(n: number): string {
+  return n.toFixed(1);
+}
+
+function fmtScore2(n: number): string {
+  return n.toFixed(2);
+}
+
+function fmtRunDateJa(runDate: string): string {
+  const [year, month, day] = runDate.split('-').map((part) => Number.parseInt(part, 10));
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return runDate;
+  return `${year}年${month}月${day}日`;
+}
+
+function geoSource(facts: GeoFacts): string {
+  return `（出典：厚生労働省 jobtag ＋ ${facts.attribution.standardLabel}、${facts.attribution.modelDisplay}、${fmtRunDateJa(facts.attribution.runDate)}）`;
+}
+
+function requireGroupOccupation(
+  summary: GeoOccupationGroupSummary,
+  key: 'firstOccupation' | 'highestImpactOccupation' | 'lowestImpactOccupation',
+): NonNullable<GeoOccupationGroupSummary[typeof key]> {
+  const occupation = summary[key];
+  if (!occupation) throw new Error(`ai-fact-summary: missing ${key}`);
+  return occupation;
+}
+
+export function buildSectorGeoFactSummary(input: SectorGeoFactInput): string {
+  const { facts, sectorId } = input;
+  const sectorRank = facts.sectorsByMeanImpact.findIndex((sector) => sector.id === sectorId);
+  const sector = facts.sectorsByMeanImpact[sectorRank];
+  if (!sector) throw new Error(`ai-fact-summary: unknown GEO sector ${sectorId}`);
+
+  const relative = sector.meanAiImpact >= facts.meanAiImpact ? '上回る' : '下回る';
+  return (
+    `${sector.nameJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+    `${sector.nameJa}セクターは${sector.occupationCount}職業、就業者${fmtInt(sector.totalWorkforce)}人、` +
+    `平均AI影響度${fmtScore2(sector.meanAiImpact)}/10です。` +
+    `全体平均${fmtScore2(facts.meanAiImpact)}/10を${relative}水準で、` +
+    `セクター平均AI影響度順では${sectorRank + 1}/${facts.sectorsByMeanImpact.length}位です。` +
+    geoSource(facts)
+  );
+}
+
+export function buildOccupationSetGeoFactSummary(input: OccupationSetGeoFactInput): string {
+  const { facts, subjectJa, pageKindJa, occupationIds } = input;
+  const summary = summarizeGeoOccupationIds(facts, occupationIds);
+  if (summary.occupationCount === 0 || summary.meanAiImpact === null) {
+    return (
+      `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+      `全体平均AI影響度は${fmtScore2(facts.meanAiImpact)}/10、中央値は${fmtScore2(facts.medianAiImpact)}/10です。` +
+      geoSource(facts)
+    );
+  }
+
+  const first = requireGroupOccupation(summary, 'firstOccupation');
+  const highest = requireGroupOccupation(summary, 'highestImpactOccupation');
+  const lowest = requireGroupOccupation(summary, 'lowestImpactOccupation');
+
+  return (
+    `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データから、` +
+    `この${pageKindJa}で表示する${summary.occupationCount}職業を同じ口径で集計すると、` +
+    `平均AI影響度は${fmtScore2(summary.meanAiImpact)}/10、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +
+    `先頭の${first.nameJa}はAI影響度${fmtScore(first.aiImpact)}/10、` +
+    `最もAI影響度が高い${highest.nameJa}は${fmtScore(highest.aiImpact)}/10、` +
+    `最も低い${lowest.nameJa}は${fmtScore(lowest.aiImpact)}/10です。` +
+    geoSource(facts)
+  );
+}
+
+export function buildCompareGeoFactSummary(input: CompareGeoFactInput): string {
+  const { facts, subjectJa, occupationIds } = input;
+  const summary = summarizeGeoOccupationIds(facts, occupationIds);
+  if (summary.occupationCount !== 2 || summary.meanAiImpact === null) {
+    throw new Error(`ai-fact-summary: compare page ${subjectJa} expected 2 GEO occupations`);
+  }
+
+  const [a, b] = occupationIds.map((id) => facts.occupations.find((occupation) => occupation.id === id));
+  if (!a || !b) throw new Error(`ai-fact-summary: compare page ${subjectJa} has missing GEO occupation`);
+  const higher = a.aiImpact >= b.aiImpact ? a : b;
+  const lower = a.aiImpact >= b.aiImpact ? b : a;
+  const diff = Math.abs(a.aiImpact - b.aiImpact);
+  const comparison = diff === 0
+    ? `${a.nameJa}と${b.nameJa}は同じAI影響度です。`
+    : `${higher.nameJa}の方が${lower.nameJa}よりAI影響度が高い比較です。`;
+
+  return (
+    `${subjectJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+    `${a.nameJa}はAI影響度${fmtScore(a.aiImpact)}/10、${b.nameJa}は${fmtScore(b.aiImpact)}/10です。` +
+    `差は${fmtScore(diff)}ポイントで、${comparison}` +
+    `2職業の平均AI影響度は${fmtScore2(summary.meanAiImpact)}/10、就業者合計は${fmtInt(summary.totalWorkforce)}人です。` +
+    geoSource(facts)
+  );
+}
+
+export function renderAiFactParagraph(text: string): SafeHtml {
+  if (!text) return '' as SafeHtml;
+  return unsafeReviewedHtml(
+    `<p class="ai-fact">${escapeHtml(text)}</p>`,
+    'AI fact text is assembled from typed data and escaped before HTML insertion',
+  );
 }

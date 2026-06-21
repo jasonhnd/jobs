@@ -354,6 +354,19 @@ describe('renderJsonLd', () => {
     // @ts-expect-error — dynamic
     assert.equal(article?.image, 'https://mirai-shigoto.com/api/og?ranking=short-hours');
   });
+
+  test('WebPage exposes speakable selectors for the citable fact block', () => {
+    const got = JSON.parse(renderJsonLd(
+      'https://mirai-shigoto.com/rankings/short-hours',
+      't', 'd', [makeOcc()], null,
+    ));
+    const webpage = (got['@graph'] as Array<{ '@type': string; speakable?: unknown }>)
+      .find((g) => g['@type'] === 'WebPage');
+    assert.deepEqual(webpage?.speakable, {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.ai-fact', '.intro', '.highlights'],
+    });
+  });
 });
 
 // ─── renderHubJsonLd ──────────────────────────────────────────────────────

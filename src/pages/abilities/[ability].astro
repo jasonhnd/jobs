@@ -40,6 +40,7 @@ const b = buildGenreSlugBindings({
       <p class="sub" set:html={b.subHtml}></p>
       <p class="intro" set:html={b.introHtml}></p>
     </header>
+    <Fragment set:html={b.aiFactHtml} />
     {(b.charsHtml || b.developHtml) && (
       <section class="genre-detail" aria-label={`${cfg.short_ja}とは`}>
         <h2>{cfg.short_ja}とは</h2>

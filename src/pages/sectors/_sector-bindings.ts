@@ -17,6 +17,11 @@
 import { escapeHtml } from '@/lib/safe-html';
 import { fmtInt } from '@/lib/num';
 import {
+  buildSectorGeoFactSummary,
+  renderAiFactParagraph,
+} from '@/lib/ai-fact-summary';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
+import {
   computeSectorPatterns,
   computeSiteBaseline,
   getSectorEssay,
@@ -41,6 +46,7 @@ import type {
   SectorOccupationSummary,
   SectorDetailView,
 } from '@/views/sector';
+import type { GeoFacts } from '@/site/geo-facts';
 
 const SITE_ORIGIN = 'https://mirai-shigoto.com';
 const TOP_N = 5;
@@ -53,6 +59,7 @@ export interface SectorBindingsInput {
    *  (which used to fs-read public/data.detail) can read names from
    *  graph.occupations instead. */
   readonly graph: import('@/graph').KnowledgeGraph;
+  readonly geoFacts?: GeoFacts;
 }
 
 export interface SectorBindings {
@@ -89,6 +96,7 @@ export interface SectorBindings {
   readonly relatedHtml: string;
   readonly faqHtml: string;
   readonly introSection: string;
+  readonly aiFactHtml: string;
   readonly aiEraEssayHtml: string;
   readonly patternsHtml: string;
   readonly crossHubHtml: string;
@@ -120,6 +128,7 @@ function toListOcc(o: SectorOccupationSummary) {
 
 export function buildSectorBindings(input: SectorBindingsInput): SectorBindings {
   const { view, datePublished, dateModified, graph } = input;
+  const geoFacts = input.geoFacts ?? loadGeoFacts();
   const sector = view.sector;
   const occs = view.occupations;
   const allOccs = view.allOccupations;
@@ -246,6 +255,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     ? inlineLinkText(descIntro, linkRegistry, { maxLinks: 3 })
     : '';
   const introSection = introInlined ? `<p class="intro">${introInlined}</p>` : '';
+  const aiFactHtml = renderAiFactParagraph(buildSectorGeoFactSummary({ facts: geoFacts, sectorId: sid }));
   const aiEraEssayInlined = sectorEssay
     ? inlineLinkText(sectorEssay.ai_era_essay_ja, linkRegistry, { maxLinks: 5 })
     : '';
@@ -296,6 +306,7 @@ export function buildSectorBindings(input: SectorBindingsInput): SectorBindings 
     relatedHtml,
     faqHtml,
     introSection,
+    aiFactHtml,
     aiEraEssayHtml,
     patternsHtml,
     crossHubHtml,

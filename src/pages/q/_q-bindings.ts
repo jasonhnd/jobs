@@ -3,11 +3,17 @@
  * Phase D audit #7 (2026-05-14): page frontmatter ≤30 lines per doc §2.5.
  */
 import type { KnowledgeGraph } from '@/graph';
+import {
+  buildOccupationSetGeoFactSummary,
+  renderAiFactParagraph,
+} from '@/lib/ai-fact-summary';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import { QA_ITEMS, type QAItem } from '@/views/qa-meta.js';
 import type { DetailFileMin } from '@/views/genre-hub.js';
 import { escapeHtml } from '@/templates/Hub.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
+import type { GeoFacts } from '@/site/geo-facts';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -18,6 +24,7 @@ export interface QSlugBindings {
   readonly seoDesc: string;
   readonly shortAnswerHtml: string;
   readonly reasoningHtml: string;
+  readonly aiFactHtml: string;
   readonly exampleListHtml: string;
   readonly relatedQAs: ReadonlyArray<QAItem>;
   readonly relatedHtml: string;
@@ -57,7 +64,7 @@ function renderJsonLd(canonical: string, qa: QAItem, seoDesc: string): string {
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: qa.question, description: seoDesc, inLanguage: 'ja',
         // Voice / AI-answer-engine extraction hint: the 直答 + 根拠 blocks are
         // the quotable answer to this question.
-        speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.qa-direct', '.qa-reasoning'] } },
+        speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.ai-fact', '.qa-direct', '.qa-reasoning'] } },
       {
         '@type': 'QAPage',
         '@id': `${canonical}#qa`,
@@ -87,6 +94,7 @@ export function buildQSlugBindings(
   qa: QAItem,
   examples: ReadonlyArray<DetailFileMin>,
   graph: KnowledgeGraph,
+  geoFacts: GeoFacts = loadGeoFacts(),
 ): QSlugBindings {
   const canonical = `${SITE}/q/${qa.slug}`;
   const ogImage = `${SITE}/api/og?q=${qa.slug}`;
@@ -95,6 +103,12 @@ export function buildQSlugBindings(
   const linkRegistry = buildLinkRegistry(graph);
   const shortAnswerHtml = inlineLinkText(qa.short_answer, linkRegistry, { maxLinks: 4 });
   const reasoningHtml = inlineLinkText(qa.reasoning, linkRegistry, { maxLinks: 6 });
+  const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+    facts: geoFacts,
+    subjectJa: qa.question,
+    pageKindJa: 'Q&A',
+    occupationIds: examples.map((example) => example.id),
+  }));
   const exampleListHtml = renderExampleList(examples);
   const relatedQAs = QA_ITEMS.filter((other) => qa.related_topics.includes(other.slug)).slice(0, 5);
   const relatedHtml = renderRelatedQAs(relatedQAs);
@@ -102,7 +116,7 @@ export function buildQSlugBindings(
   const jsonLd = renderJsonLd(canonical, qa, seoDesc);
   return {
     canonical, ogImage, title, seoDesc,
-    shortAnswerHtml, reasoningHtml, exampleListHtml,
+    shortAnswerHtml, reasoningHtml, aiFactHtml, exampleListHtml,
     relatedQAs, relatedHtml, crossHubHtml, jsonLd,
   };
 }

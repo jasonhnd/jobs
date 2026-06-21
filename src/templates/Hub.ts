@@ -85,6 +85,10 @@ export function renderGenreJsonLd(
       dateModified: DATE_MODIFIED,
       publisher: { '@id': `${SITE}/#organization` },
       breadcrumb: { '@id': `${canonical}#breadcrumb` },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.ai-fact', '.intro'],
+      },
     },
     {
       '@type': 'CollectionPage',
@@ -148,6 +152,10 @@ export function renderGenreIndexJsonLd(
           dateModified: DATE_MODIFIED,
           publisher: { '@id': `${SITE}/#organization` },
           breadcrumb: { '@id': `${canonical}#breadcrumb` },
+          speakable: {
+            '@type': 'SpeakableSpecification',
+            cssSelector: ['h1', '.intro'],
+          },
         },
         {
           '@type': 'BreadcrumbList',
@@ -365,6 +373,7 @@ import { CANONICAL_HUB_CSS } from '../lib/canonical/hub';
 
 const HUB_PAGE_SPECIFIC_CSS = `
 .intro{margin:24px 0;color:var(--fg);font-size:1.05rem;max-width:64ch}
+.ai-fact{margin:0 0 24px;padding:18px 20px;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;font-size:1rem;line-height:1.85;color:var(--fg)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:32px 0}
 .stats>div{background:var(--bg2);border:1px solid var(--border);padding:16px;border-radius:6px}
 .stats dt{font-size:.75rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}

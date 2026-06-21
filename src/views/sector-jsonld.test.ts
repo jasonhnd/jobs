@@ -126,6 +126,20 @@ describe('renderSectorJsonLd', () => {
     assert.equal(article.dateModified, '2026-05-09');
   });
 
+  test('WebPage exposes speakable selectors for the citable fact block', () => {
+    const out = parse(renderSectorJsonLd(baseInput)) as {
+      '@graph': Array<{
+        '@type': string;
+        speakable?: { '@type': string; cssSelector: string[] };
+      }>;
+    };
+    const webpage = out['@graph'].find((n) => n['@type'] === 'WebPage')!;
+    assert.deepEqual(webpage.speakable, {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.ai-fact', '.intro'],
+    });
+  });
+
   test('Article.image points to /api/og?sector={id}', () => {
     const out = parse(renderSectorJsonLd(baseInput)) as {
       '@graph': Array<{ '@type': string; image?: string }>;

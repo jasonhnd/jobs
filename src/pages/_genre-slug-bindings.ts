@@ -18,6 +18,11 @@
  */
 
 import type { KnowledgeGraph } from '@/graph';
+import {
+  buildOccupationSetGeoFactSummary,
+  renderAiFactParagraph,
+} from '@/lib/ai-fact-summary';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import type { GenreResult, GenreHubConfig } from '@/views/genre-hub.js';
 import {
   renderRankItem,
@@ -30,6 +35,7 @@ import {
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
 import type { HubGenre } from '@/views/hub-hub-graph.js';
+import type { GeoFacts } from '@/site/geo-facts';
 
 const SITE_ORIGIN = 'https://mirai-shigoto.com';
 
@@ -54,6 +60,7 @@ export interface GenreSlugInput {
   readonly relatedHeading: string;
   /** Cross-hub `genre` key passed to renderRelatedHubsBlock — must be one of HubGenre. */
   readonly crossHubKey: HubGenre;
+  readonly geoFacts?: GeoFacts;
 }
 
 export interface GenreSlugBindings {
@@ -68,6 +75,7 @@ export interface GenreSlugBindings {
   readonly sectorChartHtml: string;
   readonly rankItems: string;
   readonly faqHtml: string;
+  readonly aiFactHtml: string;
   readonly introHtml: string;
   readonly crossHubHtml: string;
   readonly relatedHtml: string;
@@ -82,6 +90,7 @@ function listOfStrings(items: ReadonlyArray<string>, cls: string): string {
 export function buildGenreSlugBindings(input: GenreSlugInput): GenreSlugBindings {
   const { result, graph, genrePath, genreLabel, ogParam, allConfigs, subTemplate, seoDescTemplate, titleTemplate, relatedHeading: _h, crossHubKey } = input;
   void _h; // accepted for symmetry; the template injects the heading
+  const geoFacts = input.geoFacts ?? loadGeoFacts();
   const cfg = result.config;
   const n = result.items.length;
 
@@ -102,6 +111,12 @@ export function buildGenreSlugBindings(input: GenreSlugInput): GenreSlugBindings
   const sectorChartHtml = renderSectorChart(result.sectorBreakdown, `セクター内訳（TOP${n}）`);
   const rankItems = result.items.map((o) => renderRankItem(o, cfg.short_ja)).join('');
   const faqHtml = renderFaqHtml(result.faqItems);
+  const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+    facts: geoFacts,
+    subjectJa: cfg.title_ja,
+    pageKindJa: 'ジャンルページ',
+    occupationIds: result.items.map((item) => item.id),
+  }));
   const jsonLd = renderGenreJsonLd(canonical, cfg, result.items, seoDesc, result.faqItems, genrePath, genreLabel);
 
   const linkRegistry = buildLinkRegistry(graph);
@@ -119,6 +134,6 @@ export function buildGenreSlugBindings(input: GenreSlugInput): GenreSlugBindings
   return {
     canonical, ogImage, title, seoDesc, subHtml, jsonLd,
     statsHtml, highlightsHtml, sectorChartHtml, rankItems, faqHtml,
-    introHtml, crossHubHtml, relatedHtml, charsHtml, developHtml,
+    aiFactHtml, introHtml, crossHubHtml, relatedHtml, charsHtml, developHtml,
   };
 }

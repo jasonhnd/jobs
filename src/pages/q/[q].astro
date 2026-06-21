@@ -33,6 +33,7 @@ const b = buildQSlugBindings(qa, examples, await loadGraph());
     <header id="content">
       <h1><span class="accent">{qa.question}</span></h1>
     </header>
+    <Fragment set:html={b.aiFactHtml} />
     <section class="qa-answer">
       <h2>直答</h2>
       <p class="qa-direct" set:html={b.shortAnswerHtml}></p>
