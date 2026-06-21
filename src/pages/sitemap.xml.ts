@@ -8,7 +8,7 @@
 import type { APIRoute } from 'astro';
 import { loadGraph } from '@/graph';
 import { nowIso } from '../lib/now.js';
-import { buildSitemapEntries, renderSitemapXml, latestContentDate } from '@/views/sitemap';
+import { buildSitemapEntries, renderSitemapXml, sitemapLastmods } from '@/views/sitemap';
 
 /**
  * Sitemap MUST contain at least this many URLs. Falls below the bound when
@@ -26,8 +26,8 @@ export const GET: APIRoute = async () => {
   // on every rebuild, drifting the SEO baseline daily (the same class of bug
   // the 2026-06-03 ai-adoption fix addressed). nowIso() now only serves as the
   // fallback for the degenerate case of a graph with no scored occupation.
-  const lastmod = latestContentDate(graph, nowIso().slice(0, 10));
-  const entries = buildSitemapEntries(graph, lastmod);
+  const lastmods = sitemapLastmods(graph, nowIso().slice(0, 10));
+  const entries = buildSitemapEntries(graph, lastmods);
 
   if (entries.length < SITEMAP_MIN_URL_COUNT) {
     // The sitemap is the single biggest crawl-budget signal we send to

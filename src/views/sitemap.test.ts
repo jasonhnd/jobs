@@ -2,7 +2,7 @@
  * sitemap.test.ts — pin the pure XML serializer + key invariants
  * of the URL enumeration.
  *
- * `buildSitemapEntries(graph, today)` requires a full graph
+ * `buildSitemapEntries(graph, lastmods)` requires a graph
  * fixture, which doesn't exist as a stand-alone artifact at the
  * unit-test level. The full enumeration is covered by the SEO
  * baseline gate (byte-compare of dist-astro/sitemap.xml across
@@ -13,8 +13,10 @@
 import { describe, test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import {
+  buildSitemapEntries,
   renderSitemapXml,
   latestContentDate,
+  sitemapLastmods,
   type SitemapEntry,
 } from './sitemap.js';
 import type { KnowledgeGraph } from '@/graph';
@@ -123,5 +125,36 @@ describe('latestContentDate — content-derived <lastmod> (NOT the build clock)'
   test('a real content date always wins over the build-clock fallback', () => {
     // The whole point of the fix: the sitemap must not drift with the clock.
     assert.equal(latestContentDate(makeGraph(['2026-05-20']), '2026-06-03'), '2026-05-20');
+  });
+
+  test('sitemapLastmods keeps static legal dates separate from content dates', () => {
+    const graph = makeGraph(['2026-06-13']);
+    const lastmods = sitemapLastmods(graph, '2099-01-01');
+
+    assert.equal(lastmods.content, '2026-06-13');
+    assert.equal(lastmods.privacy, '2026-04-30');
+    assert.equal(lastmods.compliance, '2026-06-13');
+  });
+
+  test('buildSitemapEntries applies granular lastmods by page family', () => {
+    const graph = {
+      sectors: new Map([['health', {}]]),
+      occupations: new Map([[1, { aiRisk: { date: '2026-06-13' } }]]),
+    } as unknown as KnowledgeGraph;
+    const entries = buildSitemapEntries(graph, {
+      content: '2026-06-13',
+      privacy: '2026-04-30',
+      about: '2026-06-13',
+      standard: '2026-06-13',
+      methodology: '2026-06-13',
+      data: '2026-06-13',
+      compliance: '2026-06-13',
+      yearly: '2026-06-13',
+    });
+
+    const byPath = (path: string) => entries.find((e) => e.loc === `https://mirai-shigoto.com${path}`)!;
+    assert.equal(byPath('/privacy').lastmod, '2026-04-30');
+    assert.equal(byPath('/sectors').lastmod, '2026-06-13');
+    assert.equal(byPath('/1').lastmod, '2026-06-13');
   });
 });
