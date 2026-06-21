@@ -138,7 +138,7 @@ export function pickLatestGeoScoreRun<T extends GeoScoreRunLike>(runs: Iterable<
     const chosenHasAiois = Object.values(chosen.scores).some((s) => s.aiois != null);
     if (
       entry.run.run_date > chosen.run.run_date ||
-      (entry.run.run_date === chosen.run.run_date && entryHasAiois && !chosenHasAiois)
+      (entry.run.run_date === chosen.run.run_date && (entryHasAiois || !chosenHasAiois))
     ) {
       chosen = entry;
     }
@@ -242,4 +242,3 @@ export function computeGeoFacts(
     sectorsByMeanImpact,
   };
 }
-

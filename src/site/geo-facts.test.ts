@@ -82,6 +82,14 @@ describe('pickLatestGeoScoreRun', () => {
     ]);
     assert.equal(picked.scorer.model, 'aiois-same-date');
   });
+
+  test('keeps later input-order batch when same-date entries both carry AIOIS', () => {
+    const picked = pickLatestGeoScoreRun([
+      run('2026-06-13', 'aiois-first', true),
+      run('2026-06-13', 'aiois-second', true),
+    ]);
+    assert.equal(picked.scorer.model, 'aiois-second');
+  });
 });
 
 describe('geo renderers', () => {
