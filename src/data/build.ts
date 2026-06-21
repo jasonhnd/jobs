@@ -39,6 +39,7 @@ import { buildTransferPaths } from './projections/transfer_paths.js';
 import { buildTreemap } from './projections/treemap.js';
 import { buildAiAdoption } from './projections/ai-adoption.js';
 import { formatModelDisplay } from '../site/score-attribution.js';
+import { buildGeoSurfaces } from '../site/geo-build.js';
 // Removed in Step 12 (dead projection cleanup, 2026-05-13):
 //   - buildFeatured / data.featured.json  (no runtime consumer)
 //   - buildScoreHistory / data.score_history.json  (no runtime consumer)
@@ -288,6 +289,14 @@ async function main(): Promise<void> {
         files: r.files,
         summary: `jobs=${r.jobCount} rankings=${r.rankingCount}`,
       };
+    }));
+
+    // Issue #10: GEO surfaces are generated from the same facts as the public
+    // data projection, so llms*.txt and homepage JSON-LD cannot drift after a
+    // score-batch update.
+    runs.push(await runProjection('geo-surfaces', async () => {
+      const r = await buildGeoSurfaces(indexes, STAGE_DIST, REPO_ROOT);
+      return { files: r.files, summary: r.summary };
     }));
   } catch (err) {
     // Any projection failure: wipe staging so we don't leave half-written
