@@ -7,6 +7,7 @@ import { buildGeoSurfaces } from './geo-build.js';
 import {
   computeGeoFacts,
   pickLatestGeoScoreRun,
+  summarizeGeoOccupationIds,
   type GeoAttribution,
   type GeoScoreEntry,
   type GeoScoreRunLike,
@@ -56,7 +57,22 @@ describe('computeGeoFacts', () => {
     assert.equal(facts.highestImpactOccupation.nameJa, 'D');
     assert.equal(facts.lowestImpactOccupation.nameJa, 'A');
     assert.equal(facts.largestOccupation.nameJa, 'D');
+    assert.equal(facts.occupations.length, 4);
+    assert.deepEqual(facts.occupations.map((occupation) => occupation.id), [1, 2, 3, 4]);
     assert.equal(facts.sectorsByMeanImpact[0]!.id, 's2');
+  });
+
+  test('summarizes a page occupation subset from GeoFacts using the same rounding', () => {
+    const facts = computeGeoFacts(rows, scores, attribution);
+    const summary = summarizeGeoOccupationIds(facts, [3, 4, 4, 1]);
+
+    assert.equal(summary.occupationCount, 3);
+    assert.equal(summary.totalWorkforce, 1700);
+    assert.equal(summary.meanAiImpact, 5.9);
+    assert.equal(summary.firstOccupation?.nameJa, 'C');
+    assert.equal(summary.highestImpactOccupation?.nameJa, 'D');
+    assert.equal(summary.lowestImpactOccupation?.nameJa, 'A');
+    assert.equal(summary.largestOccupation?.nameJa, 'D');
   });
 
   test('fails when the active score batch lacks displacement for a row', () => {

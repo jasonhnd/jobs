@@ -49,7 +49,7 @@ const {
   h1Main, subText, crumbRoot, crumbSectors,
   hHigh, hLow, hPop, hFull, hRelated,
   topHighHtml, topLowHtml, topWorkersHtml, fullListHtml, relatedHtml,
-  faqHtml, introSection, aiEraEssayHtml, patternsHtml, crossHubHtml,
+  faqHtml, introSection, aiFactHtml, aiEraEssayHtml, patternsHtml, crossHubHtml,
   jsonLd,
 } = bindings;
 ---
@@ -84,6 +84,8 @@ const {
       <p class="sub" set:html={subText} />
       <Fragment set:html={introSection} />
     </header>
+
+    <Fragment set:html={aiFactHtml} />
 
     <section aria-label="セクター概要">
       <dl class="stats">

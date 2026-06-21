@@ -3,6 +3,11 @@
  * Phase D audit #7 (2026-05-14): page frontmatter ≤30 lines per doc §2.5.
  */
 import type { KnowledgeGraph } from '@/graph';
+import {
+  buildOccupationSetGeoFactSummary,
+  renderAiFactParagraph,
+} from '@/lib/ai-fact-summary';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import type { RankingResult } from '@/views/ranking.js';
 import { ALL_RANKINGS, type RankingSlug } from '@/views/ranking.js';
 import {
@@ -11,6 +16,7 @@ import {
 } from '@/templates/Ranking.js';
 import { buildLinkRegistry, inlineLinkText } from '@/views/inline-links.js';
 import { renderRelatedHubsBlock } from '@/views/hub-hub-graph.js';
+import type { GeoFacts } from '@/site/geo-facts';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -25,10 +31,15 @@ export interface RankingsSlugBindings {
   readonly relatedHtml: string;
   readonly crossHubHtml: string;
   readonly introInlinedHtml: string;
+  readonly aiFactHtml: string;
   readonly jsonLd: string;
 }
 
-export function buildRankingsSlugBindings(result: RankingResult, graph: KnowledgeGraph): RankingsSlugBindings {
+export function buildRankingsSlugBindings(
+  result: RankingResult,
+  graph: KnowledgeGraph,
+  geoFacts: GeoFacts = loadGeoFacts(),
+): RankingsSlugBindings {
   const slug = result.slug as RankingSlug;
   const canonical = `${SITE}/rankings/${slug}`;
   const ogImage = `${SITE}/api/og?ranking=${slug}`;
@@ -45,9 +56,15 @@ export function buildRankingsSlugBindings(result: RankingResult, graph: Knowledg
   const linkRegistry = buildLinkRegistry(graph);
   const introInlinedHtml = inlineLinkText(result.introText, linkRegistry, { maxLinks: 4 });
   const crossHubHtml = renderRelatedHubsBlock('rankings', slug, 6);
+  const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+    facts: geoFacts,
+    subjectJa: result.h1Text,
+    pageKindJa: 'ランキング',
+    occupationIds: result.items.map((item) => item.id),
+  }));
   const jsonLd = renderJsonLd(canonical, result.title, result.seoDesc, result.items, result.faqItems);
   return {
     canonical, ogImage, statsHtml, highlightsHtml, sectorChartHtml,
-    rankItems, faqHtml, relatedHtml, crossHubHtml, introInlinedHtml, jsonLd,
+    rankItems, faqHtml, relatedHtml, crossHubHtml, introInlinedHtml, aiFactHtml, jsonLd,
   };
 }
