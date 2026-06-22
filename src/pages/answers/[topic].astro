@@ -1,0 +1,115 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { buildOccupationSetGeoFactSummary, renderAiFactParagraph } from '@/lib/ai-fact-summary';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
+import {
+  GEO_ANSWER_TOPIC_CONFIGS,
+  buildGeoAnswerTopic,
+  type GeoAnswerTopicResult,
+} from '@/views/geo-answer-topics';
+
+export function getStaticPaths() {
+  return GEO_ANSWER_TOPIC_CONFIGS.map((config) => ({
+    params: { topic: config.slug },
+  }));
+}
+
+const facts = loadGeoFacts();
+const slug = Astro.params.topic ?? '';
+const topic = buildGeoAnswerTopic(facts, slug) as GeoAnswerTopicResult | null;
+if (!topic) throw new Error(`unknown GEO answer topic: ${slug}`);
+
+const nf = new Intl.NumberFormat('ja-JP');
+const fmtSalary = (salary: number | null) => salary === null ? '—' : `${Math.trunc(salary)}万円`;
+const fmtWorkers = (workers: number | null) => workers === null ? '—' : `${nf.format(Math.round(workers))}人`;
+const fmtRecruit = (ratio: number | null) => ratio === null ? '—' : `${ratio.toFixed(2)}倍`;
+const aiFactHtml = renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+  facts,
+  subjectJa: topic.config.h1Ja,
+  pageKindJa: 'ランキング型回答',
+  occupationIds: topic.items.map((item) => item.id),
+}));
+---
+<BaseLayout
+  title={`${topic.config.titleJa} | 未来の仕事`}
+  description={topic.seoDesc}
+  canonical={topic.canonical}
+  ogTitle={topic.config.titleJa}
+  ogDescription={topic.seoDesc}
+  ogType="article"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={topic.jsonLd} />
+  <style slot="head">
+    .answers-wrap{max-width:1080px;margin:0 auto;padding:32px 20px 56px}
+    .crumb{font-size:.9rem;margin-bottom:22px;color:var(--fg2)}
+    .crumb a{color:inherit}
+    h1{font-family:var(--font-serif);font-size:clamp(2rem,4vw,3.4rem);line-height:1.15;margin:0 0 14px;color:var(--fg)}
+    .answer-lead{font-size:1.08rem;line-height:1.9;max-width:70ch;color:var(--fg);margin:0 0 18px}
+    .intro{font-size:1rem;line-height:1.85;max-width:74ch;color:var(--fg2);margin:0 0 28px}
+    .ai-fact{margin:0 0 28px;padding:18px 20px;background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;font-size:1rem;line-height:1.85;color:var(--fg)}
+    .topic-meta{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+    .topic-meta span{border:1px solid var(--border);background:var(--bg2);border-radius:6px;padding:8px 10px;color:var(--fg2);font-size:.9rem}
+    .answer-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+    .answer-item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;border:1px solid var(--border);background:var(--bg);border-radius:8px;padding:14px}
+    .rank{font-family:var(--font-serif);font-size:1.45rem;line-height:1;color:var(--accent-deep);min-width:2.5ch;text-align:right}
+    .item-main{min-width:0}
+    .item-title{font-weight:700;color:var(--fg);text-decoration:none}
+    .item-title:hover{text-decoration:underline}
+    .metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;color:var(--fg2);font-size:.88rem}
+    .metrics span{white-space:nowrap}
+    .back{margin:34px 0 0}
+    .back a{color:var(--accent-deep)}
+    @media (max-width:640px){
+      .answers-wrap{padding:24px 16px 44px}
+      .answer-item{grid-template-columns:1fr;gap:8px}
+      .rank{text-align:left}
+    }
+  </style>
+
+  <article class="answers-wrap">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <a href="/answers">AI回答トピック</a>
+      <span aria-hidden="true">›</span>
+      <span>{topic.config.h1Ja}</span>
+    </nav>
+
+    <header>
+      <h1>{topic.config.h1Ja}</h1>
+      <p class="answer-lead">{topic.config.shortAnswerJa}</p>
+      <p class="intro">{topic.config.introJa}</p>
+    </header>
+
+    <Fragment set:html={aiFactHtml} />
+
+    <div class="topic-meta" aria-label="集計条件">
+      <span>対象: GEO-A {facts.occupationCount}職業</span>
+      <span>表示: TOP{topic.items.length}</span>
+      <span>並び順: {topic.config.itemReasonJa}</span>
+    </div>
+
+    <ol class="answer-list">
+      {topic.items.map((item, index) => (
+        <li class="answer-item">
+          <div class="rank">{index + 1}</div>
+          <div class="item-main">
+            <a class="item-title" href={`/${item.id}`}>{item.nameJa}</a>
+            <div class="metrics" aria-label={`${item.nameJa}の指標`}>
+              <span>AI影響 {item.aiImpact.toFixed(1)}/10</span>
+              <span>AI順位 {item.aiImpactRank}/{facts.occupationCount}</span>
+              <span>年収 {fmtSalary(item.salaryMan)}</span>
+              <span>就業者 {fmtWorkers(item.workers)}</span>
+              <span>求人倍率 {fmtRecruit(item.recruitRatio)}</span>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="back"><a href="/answers">AI回答トピック一覧へ戻る</a></p>
+  </article>
+
+  <Footer />
+</BaseLayout>

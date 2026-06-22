@@ -2,7 +2,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { ScoreRunSchema, type ScoreRun } from '../src/data/schema/index.js';
-import { buildCompareGeoFactSummary, buildOccupationSetGeoFactSummary, buildSectorGeoFactSummary, renderAiFactParagraph } from '../src/lib/ai-fact-summary.js';
+import { buildCompareGeoFactSummary, buildOccupationGeoFactSummary, buildOccupationSetGeoFactSummary, buildSectorGeoFactSummary, renderAiFactParagraph } from '../src/lib/ai-fact-summary.js';
 import { loadGraph } from '../src/graph/index.js';
 import { SCORE_ATTRIBUTION } from '../src/site/score-attribution.js';
 import {
@@ -22,6 +22,7 @@ import { makeCompareLoaderFromGraph } from '../src/views/compare.js';
 import { buildCompareBundle } from '../src/views/compare-hub.js';
 import { ABILITIES_CONFIGS } from '../src/views/genre-configs.js';
 import { buildGenreResult, loadAllDetails } from '../src/views/genre-hub.js';
+import { GEO_ANSWER_TOPIC_CONFIGS, buildGeoAnswerTopic } from '../src/views/geo-answer-topics.js';
 import { loadGraphAdaptedDetails } from '../src/views/hub.js';
 import { QA_ITEMS, selectExamples } from '../src/views/qa-meta.js';
 import { buildRankings, loadOccupationsFromGraph } from '../src/views/ranking.js';
@@ -152,6 +153,35 @@ async function assertRenderedFactBlocks(facts: GeoFacts): Promise<void> {
       occupationIds: examples.map((example) => example.id),
     })),
   );
+
+  const occupation = facts.occupations[0];
+  if (!occupation) fail('no GEO occupation facts available for rendered occupation check');
+  assertContains(
+    `dist-astro/${occupation.id}.html`,
+    renderAiFactParagraph(buildOccupationGeoFactSummary({ facts, occupationId: occupation.id })),
+  );
+  assertContains(
+    `dist-astro/${occupation.id}.html`,
+    `<details class="faq-item faq-ai-replacement"><summary>${occupation.nameJa}はAIでなくなる・AIに代替される仕事ですか？</summary>`,
+  );
+  assertContains(
+    `dist-astro/${occupation.id}.html`,
+    `GEO-AではAI影響度が10段階中 ${occupation.aiImpact.toFixed(1)} で`,
+  );
+
+  for (const config of GEO_ANSWER_TOPIC_CONFIGS) {
+    const topic = buildGeoAnswerTopic(facts, config.slug);
+    if (!topic) fail(`no GEO answer topic available for ${config.slug}`);
+    assertContains(
+      `dist-astro/answers/${config.slug}.html`,
+      renderAiFactParagraph(buildOccupationSetGeoFactSummary({
+        facts,
+        subjectJa: topic.config.h1Ja,
+        pageKindJa: 'ランキング型回答',
+        occupationIds: topic.items.map((item) => item.id),
+      })),
+    );
+  }
 }
 
 async function main(): Promise<void> {

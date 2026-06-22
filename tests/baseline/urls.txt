@@ -568,6 +568,10 @@
 /abilities/visualization
 /about
 /aiadoption
+/answers
+/answers/ai-de-nakunaru-shigoto
+/answers/nenshu-ai-anzen
+/answers/nobiru-shigoto-top
 /careers
 /careers/20-late
 /careers/30s-early

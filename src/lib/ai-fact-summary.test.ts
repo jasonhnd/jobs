@@ -9,6 +9,7 @@ import { strict as assert } from 'node:assert';
 import {
   buildAiFactSummary,
   buildCompareGeoFactSummary,
+  buildOccupationGeoFactSummary,
   buildOccupationSetGeoFactSummary,
   buildSectorGeoFactSummary,
   renderAiFactParagraph,
@@ -44,8 +45,12 @@ const geoOcc = (
   id,
   nameJa,
   aiImpact,
+  aiImpactRank: id,
   displacementRisk: null,
+  salaryMan: null,
   workers,
+  recruitRatio: null,
+  demandBand: null,
   sectorJa,
 });
 
@@ -153,6 +158,25 @@ describe('GEO page fact summaries', () => {
     const s = buildSectorGeoFactSummary({ facts: geoFacts, sectorId: 'it' });
     assert.ok(s.includes('ITセクターは2職業、就業者1,600人、平均AI影響度8.10/10'), s);
     assert.ok(s.includes('セクター平均AI影響度順では1/2位'), s);
+    assert.ok(s.endsWith('（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Fable 5、2026年6月13日）'), s);
+  });
+
+  test('occupation summary uses GEO occupation rank and page metrics', () => {
+    const facts: GeoFacts = {
+      ...geoFacts,
+      occupations: [{
+        ...geoFacts.occupations[3]!,
+        aiImpactRank: 1,
+        salaryMan: 720.8,
+        displacementRisk: 8,
+      }],
+    };
+    const s = buildOccupationGeoFactSummary({ facts, occupationId: 4 });
+    assert.ok(s.includes('DのAI影響度は9.2/10'), s);
+    assert.ok(s.includes('AI影響度の高い順では1/4位'), s);
+    assert.ok(s.includes('全体平均5.42/10を上回る水準'), s);
+    assert.ok(s.includes('仕事が減るリスクは8.0/10'), s);
+    assert.ok(s.includes('年収中央値は約720万円'), s);
     assert.ok(s.endsWith('（出典：厚生労働省 jobtag ＋ AIOIS-10、Claude Fable 5、2026年6月13日）'), s);
   });
 

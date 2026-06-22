@@ -25,9 +25,11 @@
 
 import { fmtInt } from '../lib/num.js';
 import { SCORE_ATTRIBUTION } from '../site/score-attribution.js';
+import type { GeoFacts, GeoOccupationSummary } from '../site/geo-facts.js';
 
 /** Narrow shape — only the Rec fields buildOccupationFaqs reads. */
 export interface OccupationFaqsInput {
+  readonly id?: number;
   readonly nameJa: string;
   /** Annual salary in 万円. */
   readonly salaryMan: number | null | undefined;
@@ -41,6 +43,7 @@ export interface OccupationFaqsInput {
   readonly howToBecomeJa: string;
   /** Top 10 skills — label_ja is read; falsy entries are dropped. */
   readonly skillsTop10: ReadonlyArray<{ readonly labelJa: string | null }>;
+  readonly geoFacts?: GeoFacts;
 }
 
 export type OccupationFaqItem = readonly [question: string, answer: string];
@@ -56,13 +59,31 @@ const RISK_MID_CEILING = 6;
 const HOWTO_TRUNCATE_LENGTH = 220;
 const HOWTO_FALLBACK_SLICE = 200;
 
+function fmtScore(n: number): string {
+  return n.toFixed(1);
+}
+
+function fmtScore2(n: number): string {
+  return n.toFixed(2);
+}
+
+function findGeoOccupation(input: OccupationFaqsInput): GeoOccupationSummary | null {
+  if (input.id === undefined || !input.geoFacts) return null;
+  return input.geoFacts.occupations.find((occupation) => occupation.id === input.id) ?? null;
+}
+
 export function buildOccupationFaqs(
   input: OccupationFaqsInput,
 ): readonly OccupationFaqItem[] {
   const { nameJa, salaryMan, workers, recruitRatio, aiRisk, aiRationaleJa, howToBecomeJa, skillsTop10 } =
     input;
+  const geoOccupation = findGeoOccupation(input);
+  const geoFacts = input.geoFacts;
   const name = nameJa || '';
   const rationale = aiRationaleJa.trim().replace(/。$/, '').trim();
+  const factAiRisk = geoOccupation?.aiImpact ?? aiRisk;
+  const factWorkers = geoOccupation?.workers ?? workers;
+  const factRecruitRatio = geoOccupation?.recruitRatio ?? recruitRatio;
   const how = howToBecomeJa.trim();
   const faqs: OccupationFaqItem[] = [];
 
@@ -80,33 +101,39 @@ export function buildOccupationFaqs(
     ]);
   }
 
-  if (aiRisk !== null && aiRisk !== undefined) {
+  if (factAiRisk !== null && factAiRisk !== undefined) {
     const tier =
-      aiRisk <= RISK_LOW_CEILING
+      factAiRisk <= RISK_LOW_CEILING
         ? '低めで、AI に代替されにくい職業'
-        : aiRisk <= RISK_MID_CEILING
+        : factAiRisk <= RISK_MID_CEILING
           ? '中程度で、業務の一部が AI 補助に移行する可能性'
           : '高めで、業務の多くが AI による代替・補助の対象となる可能性';
     const rationaleStr = rationale ? `主な要因は「${rationale}」。` : '';
+    const geoRankStr = geoOccupation && geoFacts
+      ? `AI影響度の高い順では全${geoFacts.occupationCount}職業中${geoOccupation.aiImpactRank}位で、全体平均${fmtScore2(geoFacts.meanAiImpact)}/10と比較できます。`
+      : '';
+    const displacementStr = geoOccupation?.displacementRisk !== null && geoOccupation?.displacementRisk !== undefined
+      ? `AIOIS-10の仕事が減るリスクは${fmtScore(geoOccupation.displacementRisk)}/10です。`
+      : '';
     faqs.push([
-      `${name}のAI代替リスクはどれくらいですか？`,
-      `${name}のAI影響度は10段階中 ${aiRisk} で、${tier}です。${rationaleStr}これは ${SCORE_ATTRIBUTION.modelDisplay} による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。`,
+      `${name}はAIでなくなる・AIに代替される仕事ですか？`,
+      `${name}は「AIでなくなる」と断定する職業ではありません。GEO-AではAI影響度が10段階中 ${fmtScore(factAiRisk)} で、${tier}です。${geoRankStr}${displacementStr}${rationaleStr}これは ${SCORE_ATTRIBUTION.modelDisplay} による独自スコア（非公式）で、職業選択の唯一の根拠としては使用しないでください。`,
     ]);
 
     const outlook =
-      aiRisk <= RISK_LOW_CEILING
+      factAiRisk <= RISK_LOW_CEILING
         ? 'AI に代替されにくく、将来性は比較的安定'
-        : aiRisk >= RISK_HIGH_FLOOR
+        : factAiRisk >= RISK_HIGH_FLOOR
           ? 'AI による業務変化が大きく見込まれ、スキルアップや関連職種への転換も視野に'
           : 'AI 影響は中程度で、業務の一部が AI 補助に移行する可能性';
-    const workersStr = workers ? `日本での就業者数は約${fmtInt(workers)}人。` : '';
+    const workersStr = factWorkers ? `日本での就業者数は約${fmtInt(factWorkers)}人。` : '';
     const recruitStr =
-      recruitRatio !== null && recruitRatio !== undefined
-        ? `求人倍率 ${recruitRatio.toFixed(2)} 倍。`
+      factRecruitRatio !== null && factRecruitRatio !== undefined
+        ? `求人倍率 ${factRecruitRatio.toFixed(2)} 倍。`
         : '';
     faqs.push([
       `${name}の将来性はどうですか？`,
-      `AI影響度 ${aiRisk}/10。${outlook}な職業です。${workersStr}${recruitStr}個別の状況に応じた判断が重要です。`,
+      `AI影響度 ${fmtScore(factAiRisk)}/10。${outlook}な職業です。${workersStr}${recruitStr}個別の状況に応じた判断が重要です。`,
     ]);
   }
 

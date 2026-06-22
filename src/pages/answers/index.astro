@@ -1,0 +1,71 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
+import {
+  buildGeoAnswerTopics,
+  renderGeoAnswerIndexJsonLd,
+} from '@/views/geo-answer-topics';
+
+const facts = loadGeoFacts();
+const topics = buildGeoAnswerTopics(facts);
+const canonical = 'https://mirai-shigoto.com/answers';
+const title = 'AI回答トピック | 未来の仕事';
+const description = 'AIでなくなる仕事、年収とAI安全度、伸びる仕事をGEO-Aデータから探す入口。';
+const jsonLd = renderGeoAnswerIndexJsonLd(facts);
+---
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogTitle={title}
+  ogDescription={description}
+  ogType="website"
+>
+  <script type="application/ld+json" slot="jsonLd" set:html={jsonLd} />
+  <style slot="head">
+    .answers-wrap{max-width:1040px;margin:0 auto;padding:32px 20px 56px}
+    .crumb{font-size:.9rem;margin-bottom:22px;color:var(--fg2)}
+    .crumb a{color:inherit}
+    h1{font-family:var(--font-serif);font-size:clamp(2rem,4vw,3.4rem);line-height:1.15;margin:0 0 14px;color:var(--fg)}
+    .lead{font-size:1.08rem;line-height:1.9;max-width:72ch;color:var(--fg);margin:0 0 28px}
+    .topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:28px 0 36px}
+    .topic-card{display:block;border:1px solid var(--border);border-radius:8px;background:var(--bg);padding:18px;text-decoration:none;color:inherit}
+    .topic-card:hover{border-color:var(--accent);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .topic-card h2{font-size:1.1rem;margin:0 0 10px;color:var(--fg)}
+    .topic-card p{margin:0;color:var(--fg2);line-height:1.75;font-size:.95rem}
+    .meta{display:flex;flex-wrap:wrap;gap:10px}
+    .meta span{border:1px solid var(--border);background:var(--bg2);border-radius:6px;padding:8px 10px;color:var(--fg2);font-size:.9rem}
+    @media (max-width:640px){.answers-wrap{padding:24px 16px 44px}}
+  </style>
+
+  <article class="answers-wrap">
+    <nav class="crumb" aria-label="パンくずリスト">
+      <a href="/">日本の職業 AI 影響マップ</a>
+      <span aria-hidden="true">›</span>
+      <span>AI回答トピック</span>
+    </nav>
+
+    <header>
+      <h1>AI回答トピック</h1>
+      <p class="lead">AIでなくなる仕事、年収とAI安全度、伸びる仕事を、GEO-Aの同じ職業データからすぐ引用できる形で整理した入口です。</p>
+    </header>
+
+    <section class="topic-grid" aria-label="AI回答トピック一覧">
+      {topics.map((topic) => (
+        <a class="topic-card" href={`/answers/${topic.config.slug}`}>
+          <h2>{topic.config.h1Ja}</h2>
+          <p>{topic.config.shortAnswerJa}</p>
+        </a>
+      ))}
+    </section>
+
+    <div class="meta" aria-label="データ概要">
+      <span>対象: GEO-A {facts.occupationCount}職業</span>
+      <span>モデル: {facts.attribution.modelDisplay}</span>
+      <span>更新: {facts.attribution.runDate}</span>
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>
