@@ -78,6 +78,17 @@ describe('renderOccupationJsonLd', () => {
     assert.equal(webpage.dateModified, '2026-04-30');
   });
 
+  test('WebPage exposes speakable selectors for fact block and AI replacement FAQ', () => {
+    const out = parse(renderOccupationJsonLd(baseInput)) as {
+      '@graph': Array<{ '@type': string; speakable?: unknown }>;
+    };
+    const webpage = out['@graph'].find((node) => node['@type'] === 'WebPage');
+    assert.deepEqual(webpage?.speakable, {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.ai-fact', '.risk-rationale', '.faq-ai-replacement .faq-answer'],
+    });
+  });
+
   test('Occupation classification: defaults to String(id) when classificationMain is null', () => {
     const out = parse(renderOccupationJsonLd(baseInput)) as {
       '@graph': Array<Record<string, unknown>>;

@@ -10,6 +10,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · pre-1.0 SemV
 
 ## [Unreleased]
 
+### Changed (GEO-C occupation AI replacement answers - 2026-06-21, Issue #13)
+
+- Verified that existing occupation detail pages already substantively answer
+  the "AI replacement / will this job disappear" intent through visible FAQ and
+  FAQPage JSON-LD, so Issue #13 avoids 556 duplicate per-occupation URLs.
+  Instead, each occupation detail FAQ now uses direct AI-replacement wording,
+  citable GEO facts, and a stable speakable selector.
+- Added the `/answers` aggregate entry plus 3 list-answer topic URLs for
+  AI-replacement risk, salary x AI safety, and high-demand jobs. The SEO
+  baseline URL/sitemap drift is intentional: +4 URLs, with JSON-LD drift on
+  occupation detail pages from the FAQ/speakable update.
+
 ### Changed (GEO-B citable fact blocks and speakable - 2026-06-21, Issue #12)
 
 - Promoted the GEO citable fact block to sector, ranking, genre, compare, and

@@ -1531,6 +1531,30 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://mirai-shigoto.com/answers</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/answers/ai-de-nakunaru-shigoto</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/answers/nenshu-ai-anzen</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mirai-shigoto.com/answers/nobiru-shigoto-top</loc>
+    <lastmod>2026-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mirai-shigoto.com/yearly</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>

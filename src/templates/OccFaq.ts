@@ -34,8 +34,9 @@ export function renderOccFaq(faqItems: ReadonlyArray<OccFaqItem>): SafeHtml {
 
   let items = '';
   for (const [q, a] of faqItems) {
+    const className = q.includes('AIでなくなる') ? 'faq-item faq-ai-replacement' : 'faq-item';
     items +=
-      `<details class="faq-item"><summary>${escapeHtml(q)}</summary>` +
+      `<details class="${className}"><summary>${escapeHtml(q)}</summary>` +
       `<div class="faq-answer">${escapeHtml(a)}</div></details>`;
   }
 

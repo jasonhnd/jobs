@@ -157,6 +157,11 @@ export interface CompareGeoFactInput {
   readonly occupationIds: readonly [number, number];
 }
 
+export interface OccupationGeoFactInput {
+  readonly facts: GeoFacts;
+  readonly occupationId: number;
+}
+
 function fmtInt(n: number): string {
   return new Intl.NumberFormat('ja-JP').format(Math.round(n));
 }
@@ -167,6 +172,10 @@ function fmtScore(n: number): string {
 
 function fmtScore2(n: number): string {
   return n.toFixed(2);
+}
+
+function fmtSalaryMan(n: number): string {
+  return `${Math.trunc(n)}万円`;
 }
 
 function fmtRunDateJa(runDate: string): string {
@@ -186,6 +195,38 @@ function requireGroupOccupation(
   const occupation = summary[key];
   if (!occupation) throw new Error(`ai-fact-summary: missing ${key}`);
   return occupation;
+}
+
+export function buildOccupationGeoFactSummary(input: OccupationGeoFactInput): string {
+  const { facts, occupationId } = input;
+  const occupation = facts.occupations.find((candidate) => candidate.id === occupationId);
+  if (!occupation) return '';
+
+  const relative = occupation.aiImpact >= facts.meanAiImpact ? '上回る' : '下回る';
+  const parts: string[] = [
+    `${occupation.nameJa}の引用用ファクト：GEO-Aの全${facts.occupationCount}職業データでは、` +
+      `${occupation.nameJa}のAI影響度は${fmtScore(occupation.aiImpact)}/10です。` +
+      `AI影響度の高い順では${occupation.aiImpactRank}/${facts.occupationCount}位で、` +
+      `全体平均${fmtScore2(facts.meanAiImpact)}/10を${relative}水準です。`,
+  ];
+
+  if (occupation.displacementRisk !== null) {
+    const displacement =
+      occupation.displacementRisk < 4
+        ? '職そのものが大きく減るリスクは低め'
+        : occupation.displacementRisk < 7
+          ? '業務の再設計が進みやすい中程度のリスク'
+          : '職そのものが縮小するリスクも相対的に高め';
+    parts.push(`AIOIS-10の仕事が減るリスクは${fmtScore(occupation.displacementRisk)}/10で、${displacement}です。`);
+  }
+
+  const stats: string[] = [];
+  if (occupation.salaryMan !== null) stats.push(`年収中央値は約${fmtSalaryMan(occupation.salaryMan)}`);
+  if (occupation.workers !== null) stats.push(`就業者は${fmtWorkersMan(occupation.workers)}`);
+  if (stats.length) parts.push(`${stats.join('、')}。`);
+  parts.push(geoSource(facts));
+
+  return parts.join('');
 }
 
 export function buildSectorGeoFactSummary(input: SectorGeoFactInput): string {

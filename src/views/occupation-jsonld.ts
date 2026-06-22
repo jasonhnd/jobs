@@ -346,7 +346,7 @@ export function renderOccupationJsonLd(input: OccupationJsonLdInput): string {
       dateModified,
       publisher: { '@id': ORG_REF },
       author: { '@id': ORG_REF },
-      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.ai-fact', '.risk-rationale'] },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.ai-fact', '.risk-rationale', '.faq-ai-replacement .faq-answer'] },
     },
     occupationNode,
     {

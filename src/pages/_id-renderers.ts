@@ -29,6 +29,7 @@ import { renderAiois10Profile } from '@/templates/Aiois10Profile';
 import { renderOccupationJsonLd } from '@/views/occupation-jsonld';
 import { jaUrl } from '@/lib/urls';
 import type { SafeHtml } from '@/lib/safe-html';
+import type { GeoFacts } from '@/site/geo-facts';
 
 const TRANSFER_TOP_N = 5;
 
@@ -36,8 +37,10 @@ const TRANSFER_TOP_N = 5;
  *  on-page OccFaq block and the JsonLd FAQPage node. */
 export function buildOccupationFaqTuples(
   rec: Rec,
+  geoFacts?: GeoFacts,
 ): readonly (readonly [string, string])[] {
   return buildOccupationFaqs({
+    id: rec.id,
     nameJa: rec.name_ja || '',
     salaryMan: rec.salary,
     workers: rec.workers,
@@ -46,6 +49,7 @@ export function buildOccupationFaqTuples(
     aiRationaleJa: rec.ai_rationale_ja || '',
     howToBecomeJa: rec.how_to_become_ja || '',
     skillsTop10: (rec.skills_top10 ?? []).map((s) => ({ labelJa: s.label_ja ?? null })),
+    geoFacts,
   });
 }
 
@@ -84,8 +88,8 @@ export function renderOccupationTopn(rec: Rec): SafeHtml {
   });
 }
 
-export function renderOccupationFaq(rec: Rec): SafeHtml {
-  return renderOccFaq(buildOccupationFaqTuples(rec));
+export function renderOccupationFaq(rec: Rec, geoFacts?: GeoFacts): SafeHtml {
+  return renderOccFaq(buildOccupationFaqTuples(rec, geoFacts));
 }
 
 export function renderOccupationTransfer(
@@ -144,7 +148,7 @@ export function renderOccupationAiois10(rec: Rec): SafeHtml {
  */
 export function renderOccupationJsonLdFromRec(
   rec: Rec,
-  options: { readonly datePublished: string; readonly dateModified: string },
+  options: { readonly datePublished: string; readonly dateModified: string; readonly geoFacts?: GeoFacts },
 ): string {
   const id = rec.id;
   const nameJa = rec.name_ja || '';
@@ -182,7 +186,7 @@ export function renderOccupationJsonLdFromRec(
     relatedCertsJa: rec.related_certs_ja ?? [],
     tasksLeadJa: rec.tasks_lead_ja || '',
     howToBecomeJa: rec.how_to_become_ja || '',
-    faqs: buildOccupationFaqTuples(rec),
+    faqs: buildOccupationFaqTuples(rec, options.geoFacts),
     datePublished: options.datePublished,
     dateModified: options.dateModified,
     aiois10: rec.aiois

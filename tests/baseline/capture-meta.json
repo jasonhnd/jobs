@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-06-21T12:30:30.297Z",
-  "gitCommit": "8c82ae0413010952e7167ace706065905dc3ad27",
-  "gitBranch": "issue-12-citable-blocks",
-  "distFileCount": 821,
-  "urlCount": 821,
+  "capturedAt": "2026-06-21T13:59:46.391Z",
+  "gitCommit": "b66c10513d7b0bf3c4c845dbe50e1dfe974b7dac",
+  "gitBranch": "issue-13-occupation-qa",
+  "distFileCount": 825,
+  "urlCount": 825,
   "dataFileCount": 607,
   "capturedBy": "scripts/capture-seo-baseline.cjs"
 }

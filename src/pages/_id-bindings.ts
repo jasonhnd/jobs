@@ -29,8 +29,11 @@ import { escapeHtml, unsafeReviewedHtml, type SafeHtml } from '@/lib/safe-html';
 import { formatParagraphs } from '@/lib/format-paragraphs';
 import { jaUrl } from '@/lib/urls';
 import { pickRiskOneLineCallout } from '@/lib/risk-callout';
-import { buildAiFactSummary } from '@/lib/ai-fact-summary';
-import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
+import {
+  buildOccupationGeoFactSummary,
+  renderAiFactParagraph,
+} from '@/lib/ai-fact-summary';
+import { loadGeoFacts } from '@/page-data/geo-facts-loader';
 import { buildOccupationSeo } from '@/views/occupation-seo';
 import {
   buildOccupationDisplay,
@@ -60,11 +63,6 @@ export interface IdPageBindingsInput {
   readonly nameLookup: Record<number, string>;
   readonly datePublished: string;
   readonly dateModified: string;
-  /** AI-impact rank (1 = most impacted), denominator, and site mean — for
-   *  the citable fact block (Phase 1). null rank when unscored. */
-  readonly aiRank: number | null;
-  readonly scoredTotal: number;
-  readonly siteMeanRisk: number;
 }
 
 /** Everything [id].astro's body needs to render, derived in one
@@ -120,8 +118,8 @@ export interface IdPageBindings extends OccupationDisplay {
 }
 
 export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings {
-  const { rec, related, nameLookup, datePublished, dateModified, aiRank, scoredTotal, siteMeanRisk } =
-    input;
+  const { rec, related, nameLookup, datePublished, dateModified } = input;
+  const geoFacts = loadGeoFacts();
 
   // ─── Field extraction ──────────────────────────────────────
   const id = rec.id;
@@ -163,23 +161,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const rationale = rationaleJa || descJa;
 
   // Citable fact block (Phase 1) — number-dense, attributed lead paragraph.
-  const aiFactText = buildAiFactSummary({
-    nameJa,
-    aiRisk: risk,
-    rank: aiRank,
-    total: scoredTotal,
-    meanRisk: siteMeanRisk,
-    aiois: rec.aiois,
-    salaryMan,
-    workers,
-    scoredDate: `${SCORE_ATTRIBUTION.runDate.slice(0, 4)}年${Number(SCORE_ATTRIBUTION.runDate.slice(5, 7))}月`,
-  });
-  const aiFactHtml: SafeHtml = aiFactText
-    ? unsafeReviewedHtml(
-        `<p class="ai-fact">${escapeHtml(aiFactText)}</p>`,
-        'aiFactText is a data-assembled string, fully escapeHtml-d before insertion',
-      )
-    : ('' as SafeHtml);
+  const aiFactHtml = renderAiFactParagraph(buildOccupationGeoFactSummary({ facts: geoFacts, occupationId: id }));
 
   // ─── Section headings + context HTML ──────────────────────
   const ctxH2 = `${nameJa}とは`;
@@ -210,7 +192,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const aioisHtml = renderOccupationAiois10(rec);
   const profileHtml = renderOccupationProfileRadar(rec);
   const topnHtml = renderOccupationTopn(rec);
-  const faqHtml = renderOccupationFaq(rec);
+  const faqHtml = renderOccupationFaq(rec, geoFacts);
   const transferHtml = renderOccupationTransfer(rec, nameLookup);
   const orgsCertsHtml = renderOccupationOrgsCerts(rec);
   const legacyRelatedHtml = renderLegacyRelated({
@@ -226,6 +208,7 @@ export function buildIdPageBindings(input: IdPageBindingsInput): IdPageBindings 
   const jsonLd = renderOccupationJsonLdFromRec(rec, {
     datePublished,
     dateModified,
+    geoFacts,
   });
 
   // ─── GA4 funnel classification ────────────────────────────

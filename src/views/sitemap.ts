@@ -35,6 +35,7 @@ import { CAREER_PERSONAS } from './careers-meta.js';
 import { LICENSE_HUBS } from './licenses-meta.js';
 import { QA_ITEMS } from './qa-meta.js';
 import { EXPLORE_ROUTES } from './explore-routes.js';
+import { GEO_ANSWER_TOPIC_CONFIGS } from './geo-answer-topics.js';
 import type { KnowledgeGraph } from '@/graph';
 
 const SITE_ORIGIN = 'https://mirai-shigoto.com';
@@ -232,6 +233,12 @@ export function buildSitemapEntries(
   entries.push(entry(`${SITE_ORIGIN}/q`, lastmods.content, 'weekly', '0.8'));
   for (const q of QA_ITEMS) {
     entries.push(entry(`${SITE_ORIGIN}/q/${q.slug}`, lastmods.content, 'weekly', '0.7'));
+  }
+
+  // GEO answer topics
+  entries.push(entry(`${SITE_ORIGIN}/answers`, lastmods.content, 'weekly', '0.8'));
+  for (const topic of GEO_ANSWER_TOPIC_CONFIGS) {
+    entries.push(entry(`${SITE_ORIGIN}/answers/${topic.slug}`, lastmods.content, 'weekly', '0.7'));
   }
 
   // Yearly (hand-curated long-tail content)

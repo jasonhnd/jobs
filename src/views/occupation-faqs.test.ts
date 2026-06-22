@@ -9,6 +9,7 @@ import {
   buildOccupationFaqs,
   type OccupationFaqsInput,
 } from './occupation-faqs.js';
+import type { GeoFacts } from '../site/geo-facts.js';
 
 const baseInput: OccupationFaqsInput = {
   nameJa: 'プログラマー',
@@ -19,6 +20,52 @@ const baseInput: OccupationFaqsInput = {
   aiRationaleJa: '',
   howToBecomeJa: '',
   skillsTop10: [],
+};
+
+const geoFacts: GeoFacts = {
+  attribution: {
+    modelId: 'claude-fable-5',
+    modelDisplay: 'Claude Fable 5',
+    runDate: '2026-06-13',
+    standardLabel: 'AIOIS-10',
+  },
+  occupationCount: 2,
+  totalWorkforce: 1300,
+  meanAiImpact: 5.42,
+  medianAiImpact: 5.5,
+  meanDisplacementRisk: 3.2,
+  fiveBandDistribution: [],
+  lowRiskCount: 0,
+  midRiskCount: 1,
+  highRiskCount: 1,
+  highRiskOccupationSharePct: 50,
+  highRiskWorkforce: 1000,
+  highRiskWorkforceSharePct: 76.9,
+  largestOccupation: {
+    id: 1, nameJa: 'プログラマー', aiImpact: 8.2, aiImpactRank: 1, displacementRisk: 6.4,
+    salaryMan: 620, workers: 1000, recruitRatio: 2.34, demandBand: 'hot', sectorJa: 'IT',
+  },
+  highestImpactOccupation: {
+    id: 1, nameJa: 'プログラマー', aiImpact: 8.2, aiImpactRank: 1, displacementRisk: 6.4,
+    salaryMan: 620, workers: 1000, recruitRatio: 2.34, demandBand: 'hot', sectorJa: 'IT',
+  },
+  lowestImpactOccupation: {
+    id: 2, nameJa: '介護職', aiImpact: 2.2, aiImpactRank: 2, displacementRisk: 1.2,
+    salaryMan: 380, workers: 300, recruitRatio: 3.1, demandBand: 'hot', sectorJa: '福祉',
+  },
+  occupations: [
+    {
+      id: 1, nameJa: 'プログラマー', aiImpact: 8.2, aiImpactRank: 1, displacementRisk: 6.4,
+      salaryMan: 620, workers: 1000, recruitRatio: 2.34, demandBand: 'hot', sectorJa: 'IT',
+    },
+    {
+      id: 2, nameJa: '介護職', aiImpact: 2.2, aiImpactRank: 2, displacementRisk: 1.2,
+      salaryMan: 380, workers: 300, recruitRatio: 3.1, demandBand: 'hot', sectorJa: '福祉',
+    },
+  ],
+  topImpactOccupations: [],
+  bottomImpactOccupations: [],
+  sectorsByMeanImpact: [],
 };
 
 describe('buildOccupationFaqs', () => {
@@ -53,7 +100,7 @@ describe('buildOccupationFaqs', () => {
       aiRationaleJa: '判断業務が多い',
     });
     assert.equal(out.length, 2);
-    assert.equal(out[0][0], 'プログラマーのAI代替リスクはどれくらいですか？');
+    assert.equal(out[0][0], 'プログラマーはAIでなくなる・AIに代替される仕事ですか？');
     assert.equal(out[1][0], 'プログラマーの将来性はどうですか？');
     // Rationale appears inside the risk answer, with trailing 。 stripped.
     assert.ok(out[0][1].includes('「判断業務が多い」'));
@@ -68,6 +115,25 @@ describe('buildOccupationFaqs', () => {
     assert.ok(high[0][1].includes('高めで、業務の多くが'));
   });
 
+  test('AI replacement answer uses geo-facts values when provided', () => {
+    const out = buildOccupationFaqs({
+      ...baseInput,
+      id: 1,
+      aiRisk: 1,
+      workers: 1,
+      recruitRatio: 0.1,
+      aiRationaleJa: '定型実装が多い。',
+      geoFacts,
+    });
+    assert.equal(out[0][0], 'プログラマーはAIでなくなる・AIに代替される仕事ですか？');
+    assert.ok(out[0][1].includes('GEO-AではAI影響度が10段階中 8.2'));
+    assert.ok(out[0][1].includes('全2職業中1位'));
+    assert.ok(out[0][1].includes('仕事が減るリスクは6.4/10'));
+    assert.ok(out[1][1].includes('AI影響度 8.2/10'));
+    assert.ok(out[1][1].includes('就業者数は約1,000人'));
+    assert.ok(out[1][1].includes('求人倍率 2.34 倍'));
+  });
+
   test('aiRisk + workers + recruitRatio rolled into the outlook answer', () => {
     const out = buildOccupationFaqs({
       ...baseInput,
@@ -76,7 +142,7 @@ describe('buildOccupationFaqs', () => {
       recruitRatio: 2.5,
     });
     const outlook = out[1][1];
-    assert.ok(outlook.includes('AI影響度 4/10'));
+    assert.ok(outlook.includes('AI影響度 4.0/10'));
     assert.ok(outlook.includes('就業者数は約1,234,567人'));
     assert.ok(outlook.includes('求人倍率 2.50 倍'));
   });

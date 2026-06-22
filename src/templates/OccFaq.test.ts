@@ -44,6 +44,13 @@ describe('renderOccFaq', () => {
     assert.ok(out.indexOf('Q2') < out.indexOf('Q3'));
   });
 
+  test('AI replacement question gets a stable selector class', () => {
+    const out = renderOccFaq([
+      ['プログラマーはAIでなくなる・AIに代替される仕事ですか？', '断定ではありません。'],
+    ]);
+    assert.ok(out.includes('<details class="faq-item faq-ai-replacement">'));
+  });
+
   test('XSS payloads in question + answer are escaped', () => {
     const out = renderOccFaq([['<script>q</script>', '<img src=x onerror=y>']]);
     assert.ok(!out.includes('<script>q</script>'));
