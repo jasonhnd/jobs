@@ -14,6 +14,108 @@
 # After editing this file, re-run `node analytics/setup-ga4.mjs` to sync.
 
 # ----------------------------------------------------------------------
+# Runtime trackers
+# ----------------------------------------------------------------------
+# These are the page-level analytics/ad trackers wired in
+# src/layouts/BaseLayout.astro and related runtime entry points. The GA4
+# Admin sync script ignores this block; it is documentation for the deployed
+# tracker stack so ANALYTICS.md, .env.example, CSP, and runtime code stay in
+# agreement.
+
+trackers:
+  - name: ga4_client
+    purpose: Primary product analytics from the browser.
+    env:
+      - PUBLIC_GA4_MEASUREMENT_ID
+    script_src:
+      - https://www.googletagmanager.com/gtag/js
+    endpoints:
+      - https://www.google-analytics.com/g/collect
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+  - name: google_ads
+    purpose: Google Ads conversion tracking through the same gtag.js bootstrap.
+    env:
+      - PUBLIC_GOOGLE_ADS_ID
+    script_src:
+      - https://www.googletagmanager.com/gtag/js
+    endpoints:
+      - https://googleads.g.doubleclick.net
+      - https://www.googleadservices.com
+    notes:
+      - Inert unless PUBLIC_GA4_MEASUREMENT_ID also renders the shared gtag bootstrap.
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+  - name: x_pixel
+    purpose: X/Twitter Ads attribution.
+    env:
+      - PUBLIC_X_PIXEL_ID
+    script_src:
+      - https://static.ads-twitter.com/uwt.js
+    endpoints:
+      - https://analytics.twitter.com
+      - https://t.co
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+  - name: meta_pixel
+    purpose: Facebook/Instagram Ads attribution.
+    env:
+      - PUBLIC_META_PIXEL_ID
+    script_src:
+      - https://connect.facebook.net/en_US/fbevents.js
+    endpoints:
+      - https://www.facebook.com
+      - https://connect.facebook.net
+    notes:
+      - Consent-gated; does not initialize after an explicit cookie-banner rejection.
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+  - name: ga4_measurement_protocol
+    purpose: Server-side page_view fallback for browser tracking prevention.
+    env:
+      - PUBLIC_GA4_MEASUREMENT_ID
+      - GA4_MP_API_SECRET
+    endpoints:
+      - https://www.google-analytics.com/mp/collect
+    wired_in:
+      - middleware.ts
+
+  - name: cloudflare_web_analytics
+    purpose: Privacy-respecting secondary analytics source.
+    env:
+      - PUBLIC_CF_BEACON_TOKEN
+    script_src:
+      - https://static.cloudflareinsights.com/beacon.min.js
+    endpoints:
+      - https://cloudflareinsights.com/cdn-cgi/rum
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+  - name: vercel_web_analytics
+    purpose: First-party visitor-count source.
+    env: []
+    script_src:
+      - /_vercel/insights/script.js
+    endpoints:
+      - /_vercel/insights/event
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+  - name: vercel_speed_insights
+    purpose: Core Web Vitals trend tracking.
+    env: []
+    script_src:
+      - /_vercel/speed-insights/script.js
+    endpoints:
+      - https://vitals.vercel-insights.com
+    wired_in:
+      - src/layouts/BaseLayout.astro
+
+# ----------------------------------------------------------------------
 # Events
 # ----------------------------------------------------------------------
 # Each event is a `gtag('event', name, params)` call from the front end.
@@ -27,7 +129,7 @@ events:
     params:
       - { name: language, type: string, desc: "ja or en at time of load" }
       - { name: device_category, type: string, desc: "mobile / tablet / desktop (client-derived)" }
-      - { name: tile_count, type: int, desc: "Number of tiles rendered (552 today)" }
+      - { name: tile_count, type: int, desc: "Number of tiles rendered (556 today)" }
     conversion: false
 
   # `language_switch` — REMOVED 2026-05-06. Was wired to the JA/EN language
@@ -316,7 +418,7 @@ events:
     params:
       - { name: job_id, type: int, desc: "occupation id (1..556)" }
       - { name: sector, type: string, desc: "occupation's sector_id" }
-      - { name: rank, type: int, desc: "global ranking by ai_risk desc (1..552), 0 if outside Top 50" }
+      - { name: rank, type: int, desc: "global ranking by ai_risk desc (1..556), 0 if outside Top 50" }
     conversion: false
 
   - name: map_detail_click
@@ -417,7 +519,7 @@ event_scoped_dimensions:
 
   - parameter_name: tile_count
     display_name: Tile Count Rendered
-    description: Number of tiles drawn at initial treemap render (552 today). Surfaces dataset growth and partial-render anomalies.
+    description: Number of tiles drawn at initial treemap render (556 today). Surfaces dataset growth and partial-render anomalies.
 
   - parameter_name: from_layer
     display_name: Layer Switch Source
