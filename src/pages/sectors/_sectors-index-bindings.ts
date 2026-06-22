@@ -7,6 +7,8 @@ import { sectorIndexView, type SectorIndexEntry } from '@/views/sector';
 import { OCCUPATION_COUNT } from '@/site/config';
 import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 import { CONTENT_DATE } from '@/lib/_content-date';
+import { fmtInt } from '@/lib/num';
+import { riskClass } from '@/lib/risk';
 
 const SITE = 'https://mirai-shigoto.com';
 
@@ -27,16 +29,7 @@ export interface SectorsIndexBindings {
   readonly totalOcc: number;
 }
 
-export function fmtInt(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  return Math.trunc(n).toLocaleString('en-US');
-}
-
-export function riskClass(mean: number): 'low' | 'mid' | 'high' {
-  if (mean <= 3.5) return 'low';
-  if (mean >= 6.5) return 'high';
-  return 'mid';
-}
+export { fmtInt, riskClass };
 
 export function buildSectorsIndexBindings(graph: KnowledgeGraph): SectorsIndexBindings {
   const view = sectorIndexView(graph);
