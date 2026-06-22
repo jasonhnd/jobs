@@ -24,11 +24,12 @@
  *                        decimal — handy for the "あなたは上位 X%" copy.
  *
  * Per-slug 'rankers' below mirror the filter+sort logic in
- * src/views/ranking/rankings/*.ts exactly (verified against TOP-N output).
+ * src/views/ranking/rankings/*.ts exactly (verified against the full ranking
+ * universe).
  * Keep the two in sync if either changes — a build-time drift guard in
- * buildMePositions() (RA-135) now asserts the local RANKERS' TOP-N matches the
- * canonical buildRankings() output for every slug and fails the build on
- * divergence.
+ * buildMePositions() (RA-135) now asserts the local RANKERS' full member set
+ * and order match the canonical buildRankings() output for every slug and
+ * fails the build on divergence.
  */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -37,6 +38,7 @@ import {
   buildRankings,
   loadOccupationsFromGraph,
   DEMAND_SCORE,
+  TOP_N,
   type Occupation,
   type RankingSlug,
 } from '../../views/ranking/index.js';
@@ -412,6 +414,133 @@ const RANKERS: Record<RankingSlug, Ranker> = {
       ),
 };
 
+function isOccupationArray(value: unknown): value is Occupation[] {
+  return (
+    Array.isArray(value) &&
+    value.every(
+      (item) =>
+        item !== null &&
+        typeof item === 'object' &&
+        typeof (item as Partial<Occupation>).id === 'number',
+    )
+  );
+}
+
+/**
+ * Ask the canonical ranking builders for their full sorted universes without
+ * changing their public TOP-N contract. The ranking modules all apply the
+ * final publication slice as `.slice(0, TOP_N)` on Occupation arrays, so this
+ * temporary patch makes only that terminal slice return the whole array.
+ */
+function buildCanonicalFullRankings(allOccs: Occupation[]): Map<RankingSlug, number[]> {
+  const originalSlice = Array.prototype.slice;
+  const patchedSlice = function patchedSlice<T>(
+    this: T[],
+    start?: number,
+    end?: number,
+  ): T[] {
+    if (start === 0 && end === TOP_N && isOccupationArray(this)) {
+      return originalSlice.call(this, start) as T[];
+    }
+    return originalSlice.call(this, start, end) as T[];
+  } as typeof Array.prototype.slice;
+
+  Array.prototype.slice = patchedSlice;
+  try {
+    const { results } = buildRankings(() => allOccs);
+    return new Map(
+      Array.from(results, ([slug, result]) => [
+        slug,
+        result.items.map((o) => o.id),
+      ]),
+    );
+  } finally {
+    Array.prototype.slice = originalSlice;
+  }
+}
+
+function findDuplicate(ids: readonly number[]): number | null {
+  const seen = new Set<number>();
+  for (const id of ids) {
+    if (seen.has(id)) return id;
+    seen.add(id);
+  }
+  return null;
+}
+
+export function assertRankingUniverseMatches(
+  slug: RankingSlug | string,
+  canonicalFull: readonly number[],
+  localFull: readonly number[],
+): void {
+  const canonicalDuplicate = findDuplicate(canonicalFull);
+  if (canonicalDuplicate !== null) {
+    throw new Error(
+      `[me-positions] canonical ranking "${slug}" contains duplicate id ${canonicalDuplicate}.`,
+    );
+  }
+
+  const localDuplicate = findDuplicate(localFull);
+  if (localDuplicate !== null) {
+    throw new Error(
+      `[me-positions] local RANKER "${slug}" contains duplicate id ${localDuplicate}.`,
+    );
+  }
+
+  if (canonicalFull.length !== localFull.length) {
+    throw new Error(
+      `[me-positions] RANKER universe size drift on "${slug}": ` +
+        `canonical=${canonicalFull.length} local=${localFull.length}. ` +
+        'The local RANKERS mirror diverged from buildRankings() — re-sync them.',
+    );
+  }
+
+  const localIds = new Set(localFull);
+  const missingLocal = canonicalFull.find((id) => !localIds.has(id));
+  if (missingLocal !== undefined) {
+    throw new Error(
+      `[me-positions] RANKER universe membership drift on "${slug}": ` +
+        `canonical id ${missingLocal} is missing locally. ` +
+        'The local RANKERS mirror diverged from buildRankings() — re-sync them.',
+    );
+  }
+
+  const canonicalIds = new Set(canonicalFull);
+  const extraLocal = localFull.find((id) => !canonicalIds.has(id));
+  if (extraLocal !== undefined) {
+    throw new Error(
+      `[me-positions] RANKER universe membership drift on "${slug}": ` +
+        `local id ${extraLocal} is not in canonical. ` +
+        'The local RANKERS mirror diverged from buildRankings() — re-sync them.',
+    );
+  }
+
+  for (let i = 0; i < canonicalFull.length; i += 1) {
+    if (canonicalFull[i] !== localFull[i]) {
+      throw new Error(
+        `[me-positions] RANKER universe order drift on "${slug}" at position ${i + 1}: ` +
+          `canonical=${canonicalFull[i]} local=${localFull[i]}. ` +
+          'The local RANKERS mirror diverged from buildRankings() — re-sync them.',
+      );
+    }
+  }
+}
+
+function assertTopMatchesFullPrefix(
+  slug: RankingSlug,
+  canonicalTop: readonly number[],
+  canonicalFull: readonly number[],
+): void {
+  for (let i = 0; i < canonicalTop.length; i += 1) {
+    if (canonicalTop[i] !== canonicalFull[i]) {
+      throw new Error(
+        `[me-positions] canonical full ranking "${slug}" does not preserve TOP-N at position ${i + 1}: ` +
+          `top=${canonicalTop[i]} full=${canonicalFull[i]}.`,
+      );
+    }
+  }
+}
+
 /**
  * Build me-positions.json — runs loadGraph + buildRankings exactly once,
  * then walks every (jobId × slug) pair to assemble per-job position
@@ -428,13 +557,18 @@ export async function buildMePositions(
 
   const { results } = buildRankings(() => allOccs);
 
-  // Pre-compute the FULL sorted-and-filtered list for every ranking. We
-  // keep this around (Map slug → ordered ids) so the inner double loop
-  // is just two Map lookups per (job × slug) pair.
-  const fullBySlug = new Map<RankingSlug, number[]>();
+  // Pre-compute the FULL sorted-and-filtered list for every ranking from
+  // both sources:
+  //   - canonicalFullBySlug comes directly from buildRankings(), with only
+  //     the publication TOP-N slice bypassed, and drives outOfUniverse.
+  //   - localFullBySlug is the hand-maintained mirror retained as a drift
+  //     guard so future canonical ranking edits fail loudly if RANKERS are
+  //     not updated in lockstep.
+  const canonicalFullBySlug = buildCanonicalFullRankings(allOccs);
+  const localFullBySlug = new Map<RankingSlug, number[]>();
   for (const [slug, ranker] of Object.entries(RANKERS) as Array<[RankingSlug, Ranker]>) {
     const sorted = ranker(scored, allOccs, withSalary);
-    fullBySlug.set(slug, sorted.map((o) => o.id));
+    localFullBySlug.set(slug, sorted.map((o) => o.id));
   }
 
   // Pre-compute the TOP-N rank lookup per slug → Map<jobId, rank>.
@@ -450,24 +584,26 @@ export async function buildMePositions(
   // ───── Drift guard (RA-135) ─────
   // The per-slug RANKERS above are a hand-maintained mirror of the canonical
   // buildRankings() filter+sort. If they diverge, a job's published "上位 X%"
-  // (computed here from RANKERS) would contradict its rank on the live ranking
-  // page (from buildRankings). Assert the canonical TOP-N matches the local
-  // full-universe prefix for every slug and FAIL the build loudly rather than
-  // shipping inconsistent positions.
+  // (computed here from canonical full rankings) would stop being protected by
+  // the local mirror. Assert the full canonical universe's membership and order
+  // match the local RANKERS for every slug and FAIL the build loudly rather
+  // than shipping inconsistent positions.
   for (const [slug, result] of results) {
-    const localFull = fullBySlug.get(slug);
+    const canonicalFull = canonicalFullBySlug.get(slug);
+    if (!canonicalFull) {
+      throw new Error(`[me-positions] canonical ranking "${slug}" has no full-universe result.`);
+    }
+    assertTopMatchesFullPrefix(slug, result.items.map((o) => o.id), canonicalFull);
+
+    const localFull = localFullBySlug.get(slug);
     if (!localFull) {
       throw new Error(`[me-positions] canonical ranking "${slug}" has no local RANKER — re-sync.`);
     }
-    const canonicalTop = result.items;
-    for (let i = 0; i < canonicalTop.length; i += 1) {
-      if (canonicalTop[i]!.id !== localFull[i]) {
-        throw new Error(
-          `[me-positions] RANKER drift on "${slug}" at position ${i + 1}: ` +
-          `canonical=${canonicalTop[i]!.id} local=${localFull[i]}. ` +
-          `The local RANKERS mirror diverged from buildRankings() — re-sync them.`,
-        );
-      }
+    assertRankingUniverseMatches(slug, canonicalFull, localFull);
+  }
+  for (const slug of Object.keys(RANKERS) as RankingSlug[]) {
+    if (!canonicalFullBySlug.has(slug)) {
+      throw new Error(`[me-positions] local RANKER "${slug}" has no canonical ranking — re-sync.`);
     }
   }
 
@@ -478,7 +614,7 @@ export async function buildMePositions(
     const inRankings: Record<string, JobRankingPosition> = {};
     for (const slug of Object.keys(RANKERS) as RankingSlug[]) {
       const topMap = topRankBySlug.get(slug);
-      const full = fullBySlug.get(slug)!;
+      const full = canonicalFullBySlug.get(slug)!;
       const universeSize = full.length;
       const topRank = topMap?.get(jobId) ?? null;
       const fullIdx = full.indexOf(jobId);
