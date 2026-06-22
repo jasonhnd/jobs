@@ -10,11 +10,13 @@ mirai-shigoto.com の全トラッカーに関するリファレンス + ラン�
 | トラッカー | 採用理由 | クライアントスクリプト | サーバーエンドポイント | 環境変数 |
 |---|---|---|---|---|
 | **GA4(クライアント)** | プライマリプロダクトアナリティクス | `gtag/js?id=G-…` | `g/collect` | `PUBLIC_GA4_MEASUREMENT_ID` |
+| **Google Ads** | 広告コンバージョン計測 | GA4 と同じ `gtag.js`、`gtag('config', 'AW-…')` | `googleads.g.doubleclick.net` / `www.googleadservices.com` | `PUBLIC_GOOGLE_ADS_ID` |
 | **GA4(サーバー、MP)** | Tracking-Prevention 耐性フォールバック | (なし — Vercel Edge で動く) | `mp/collect` | `PUBLIC_GA4_MEASUREMENT_ID` + `GA4_MP_API_SECRET` |
 | **Vercel Web Analytics** | 訪問者数の真実値ソース | `/_vercel/insights/script.js`(first-party) | `/_vercel/insights/event` | Vercel が自動注入 |
 | **Vercel Speed Insights** | Core Web Vitals トレンド | `/_vercel/speed-insights/script.js` | `vitals.vercel-insights.com` | 自動注入 |
 | **Cloudflare Web Analytics** | プライバシー尊重の二次ソース | `cloudflareinsights.com/beacon.min.js` | `cloudflareinsights.com/cdn-cgi/rum` | `PUBLIC_CF_BEACON_TOKEN` |
 | **X(Twitter)Ads pixel** | 広告コンバージョンアトリビューション | `static.ads-twitter.com/uwt.js` | `analytics.twitter.com/1/i/adsct` | `PUBLIC_X_PIXEL_ID` |
+| **Meta Pixel** | Facebook / Instagram 広告アトリビューション | `connect.facebook.net/en_US/fbevents.js` | `www.facebook.com` / `connect.facebook.net` | `PUBLIC_META_PIXEL_ID` |
 
 ---
 
@@ -24,8 +26,10 @@ mirai-shigoto.com の全トラッカーに関するリファレンス + ラン�
 ┌──────────────────────────────────────────────────────────────┐
 │ src/layouts/BaseLayout.astro                                  │
 │   - GA4 クライアントスニペット(set:html を使用 — define:vars 不可)│
+│   - Google Ads AW-… config(同じ gtag.js を共有)                │
 │   - CF beacon <script defer>                                  │
 │   - X Ads pixel スニペット                                    │
+│   - Meta Pixel スニペット(consent-gated init)                 │
 │   - Vercel insights + speed-insights スクリプト               │
 │   → BaseLayout でラップする全ページ(820+)で出力               │
 ├──────────────────────────────────────────────────────────────┤
@@ -50,13 +54,15 @@ mirai-shigoto.com の全トラッカーに関するリファレンス + ラン�
 
 ## 環境変数(全範囲)
 
-Vercel project → Settings → Environment Variables で設定する。analytics 関係は **Production scope のみ**。preview/development を未設定のままにしておけば、staging トラフィックが production stats を汚染しない。
+Vercel project → Settings → Environment Variables で設定する。analytics 関係は原則 **Production scope のみ**。preview/development を未設定のままにしておけば、staging トラフィックが production stats を汚染しない。例外として `PUBLIC_META_PIXEL_ID` は preview / production の両方に設定されることがある。
 
 | Env 名 | スコープ | 機密 | 使用箇所 | メモ |
 |---|---|---|---|---|
 | `PUBLIC_GA4_MEASUREMENT_ID` | Production | no | BaseLayout クライアント + middleware | 形式: `G-XXXXXXXXXX`。実値: `G-GLDNBDPF13`。末尾空白厳禁 |
 | `PUBLIC_CF_BEACON_TOKEN` | Production | no | BaseLayout クライアント | Cloudflare dashboard 発行の 32 文字 hex token |
 | `PUBLIC_X_PIXEL_ID` | Production | no | BaseLayout クライアント | 短い pixel ID。実値: `rC3xs`。末尾空白厳禁 |
+| `PUBLIC_META_PIXEL_ID` | Preview + Production | no | BaseLayout クライアント | Meta Pixel ID。`fbq('init')` + `PageView` は cookie banner で拒否されていない場合のみ fire |
+| `PUBLIC_GOOGLE_ADS_ID` | Production | no | BaseLayout クライアント | 形式: `AW-XXXXXXXXX`。GA4 と同じ `gtag.js` を共有するため、`PUBLIC_GA4_MEASUREMENT_ID` が未設定の build では inert |
 | `GA4_MP_API_SECRET` | Production | **yes** | middleware.ts | GA4 → Admin → Data Streams → Web stream → Measurement Protocol API secrets → Create で発行。サーバー専用 — `PUBLIC_` prefix なし |
 | `RESEND_API_KEY`、`RESEND_AUDIENCE_ID_*`、`FEEDBACK_*` | Production | yes | api/* エンドポイント | analytics 無関係。`.env.example` にドキュメント済 |
 | `GA4_PROPERTY_ID`、`GOOGLE_APPLICATION_CREDENTIALS` | local | yes | `analytics/setup-ga4.mjs` | オペレーター側 GA4 admin セットアップのみ、ランタイム不要 |
@@ -82,7 +88,7 @@ env が欠落している場合、対応するトラッカーは静かにスル�
 ### Layer 1: E2E テスト
 - ファイル: `tests/e2e/analytics.spec.ts`
 - 実行: `bun run test:e2e`(または `bun run test:e2e` ショートカット)
-- アサート: 各トラッカーライブラリが load、`window.gtag` + `window.twq` が関数、GA4 `g/collect` が 12 秒以内に fire、CSP がコードの呼ぶすべての origin を列挙、埋め込み pixel ID に空白文字なし
+- アサート: GA4 / Cloudflare / Vercel / X のライブラリが load、`window.gtag` + `window.twq` が関数、GA4 `g/collect` が 12 秒以内に fire、`PUBLIC_GOOGLE_ADS_ID` 設定時は `AW-…` config が dataLayer に queue、CSP が E2E 対象トラッカーの origin を列挙、埋め込み pixel ID に空白文字なし
 - 配線先: ローカルでの手動実行のみ(`bun run test:e2e`)。GitHub Actions は 2026-05-28 に廃止され、Vercel build gate にも含まれない
 - **キャッチする障害モード**: 1、2、3、4
 
@@ -126,10 +132,12 @@ DevTools Network パネルで `https://mirai-shigoto.com/ja/sectors` を開く�
 - `https://www.google-analytics.com/g/collect?…` → 204(これが page_view ヒット。欠落 → クライアントサイドが壊れている)
 - `https://static.cloudflareinsights.com/beacon.min.js` → 200
 - `https://static.ads-twitter.com/uwt.js` → 200
+- `https://connect.facebook.net/en_US/fbevents.js` → 200(`PUBLIC_META_PIXEL_ID` 設定時、かつ cookie banner で拒否されていない場合)
 
 Console で評価:
 - `typeof window.gtag` → `"function"`
 - `window.dataLayer.length` → ≥ 3
+- `window.dataLayer` に `['config', 'AW-…']` が含まれる(`PUBLIC_GOOGLE_ADS_ID` 設定時)
 - `Object.keys(window.google_tag_manager)` → `"G-GLDNBDPF13"` を含む
 
 ### 4. サーバーサイドチェーンの確認
@@ -137,7 +145,7 @@ Console で評価:
 - GA4 Realtime → `ssrc=mw` タグ付きイベントを探す(middleware が送る param)→ これがサーバーサイドヒット
 
 ### 5. env 配線の確認
-- Vercel → Settings → Environment Variables → `PUBLIC_GA4_MEASUREMENT_ID`、`PUBLIC_CF_BEACON_TOKEN`、`PUBLIC_X_PIXEL_ID`、`GA4_MP_API_SECRET` がすべて Production に設定されていることを確認
+- Vercel → Settings → Environment Variables → `PUBLIC_GA4_MEASUREMENT_ID`、`PUBLIC_CF_BEACON_TOKEN`、`PUBLIC_X_PIXEL_ID`、`PUBLIC_META_PIXEL_ID`、`PUBLIC_GOOGLE_ADS_ID`、`GA4_MP_API_SECRET` が想定 scope に設定されていることを確認
 - 値には **末尾空白なし**。Vercel CLI で編集する場合は必ず `printf "value" | vercel env add NAME production` を使い、`echo "value" | …` は使わない(echo は `\n` を追加する)
 
 ### 6. property の確認
