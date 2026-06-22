@@ -47,18 +47,6 @@ export async function getStaticPaths() {
   );
   const { allRecs, nameLookup, rankingHitsArr, sameRiskArr } = await buildOccupationPageData();
 
-  // AI-impact rank + site mean for the citable fact block (Phase 1, see
-  // docs/SEO_GEO_STRATEGY.md). Rank 1 = most AI-impacted. Deterministic
-  // tiebreak by id keeps the SEO baseline stable.
-  const scored = allRecs.filter((r) => r.ai_risk !== null);
-  const scoredTotal = scored.length;
-  const siteMeanRisk =
-    scoredTotal > 0 ? scored.reduce((s, r) => s + (r.ai_risk ?? 0), 0) / scoredTotal : 0;
-  const rankById = new Map<number, number>();
-  [...scored]
-    .sort((a, b) => (b.ai_risk ?? 0) - (a.ai_risk ?? 0) || a.id - b.id)
-    .forEach((r, i) => rankById.set(r.id, i + 1));
-
   return allRecs.map((rec) => ({
     params: { id: String(rec.id) },
     props: {
@@ -67,9 +55,6 @@ export async function getStaticPaths() {
       nameLookup,
       rankingHitsArr,
       sameRiskArr,
-      aiRank: rankById.get(rec.id) ?? null,
-      scoredTotal,
-      siteMeanRisk,
     },
   }));
 }
@@ -82,12 +67,9 @@ interface PageProps {
   nameLookup: Record<number, string>;
   rankingHitsArr: Array<[number, Array<{ slug: string; rank: number }>]>;
   sameRiskArr: Array<[number, SpokeNeighbor[]]>;
-  aiRank: number | null;
-  scoredTotal: number;
-  siteMeanRisk: number;
 }
 
-const { rec, related, nameLookup, rankingHitsArr, sameRiskArr, aiRank, scoredTotal, siteMeanRisk } =
+const { rec, related, nameLookup, rankingHitsArr, sameRiskArr } =
   Astro.props as PageProps;
 
 const { loadGraph } = await import('@/graph');
@@ -102,7 +84,6 @@ const bindings = buildIdPageBindings({
   rec, related, nameLookup,
   datePublished: DATE_PUBLISHED,
   dateModified: DATE_MODIFIED,
-  aiRank, scoredTotal, siteMeanRisk,
 });
 const {
   id, canonical, nameJa, risk, mhlwUrl, rationale, oneLineText, aiFactHtml,
