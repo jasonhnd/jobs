@@ -39,7 +39,7 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
     @media (max-width:640px){.answers-wrap{padding:24px 16px 44px}}
   </style>
 
-  <main class="answers-wrap">
+  <article class="answers-wrap">
     <nav class="crumb" aria-label="パンくずリスト">
       <a href="/">日本の職業 AI 影響マップ</a>
       <span aria-hidden="true">›</span>
@@ -65,7 +65,7 @@ const jsonLd = renderGeoAnswerIndexJsonLd(facts);
       <span>モデル: {facts.attribution.modelDisplay}</span>
       <span>更新: {facts.attribution.runDate}</span>
     </div>
-  </main>
+  </article>
 
   <Footer />
 </BaseLayout>
