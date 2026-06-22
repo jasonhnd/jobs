@@ -29,7 +29,7 @@ export interface DetailBuildResult {
 }
 
 /** Sort `block` by score descending, take top `n`. Return null when block is null. */
-function topN(
+export function topN(
   block: Record<string, number> | null | undefined,
   labelsDim: Map<string, LabelEntry>,
   n: number,

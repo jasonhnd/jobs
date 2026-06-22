@@ -75,7 +75,7 @@ function padded(occId: number): string {
  * and returns the first sector whose seed_codes would match a prefix glob.
  * Used only to populate the review_queue 'hint' column for the operator.
  */
-function suggestSector(
+export function suggestSector(
   mhlwMain: string | null | undefined,
   sectors: readonly SectorDef[],
 ): string | null {
