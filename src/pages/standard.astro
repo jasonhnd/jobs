@@ -9,11 +9,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Footer from '../components/Footer.astro';
 import { CANONICAL_DOC_CSS, heatBg, radarPoints, radarAxis, type DimDir } from '@/lib/canonical/doc';
+import { SCORE_ATTRIBUTION } from '@/site/score-attribution';
 
 // Last content-change date — bump when this page's content actually changes.
 // Static (NOT the build clock): a build-time date drifted the SEO baseline on
 // every new UTC day. See ai-adoption.ts for the data-derived equivalent.
-const pageLastUpdated = '2026-06-02';
+const pageLastUpdated = '2026-06-22';
 
 interface Dim {
   id: string; ja: string; en: string; dir: DimDir; stageNum: string; stageName: string; body: string;
@@ -37,12 +38,64 @@ const DIMS: Dim[] = [
 const COL_DIR: DimDir[] = ['up', 'up', 'moat', 'moat', 'moat', 'moat', 'moat', 'up', 'friction', 'up'];
 interface Ex { name: string; d: number[]; t: number; dr: number; }
 const EXAMPLES: Ex[] = [
-  { name: 'データ入力', d: [9.5, 9.0, 0.6, 0.3, 0.0, 0.7, 0.8, 4.4, 6.6, 7.9], t: 9.2, dr: 7.6 },
-  { name: '翻訳者', d: [9.5, 4.7, 0.6, 4.3, 2.0, 4.8, 2.8, 7.7, 7.2, 5.9], t: 7.1, dr: 4.4 },
-  { name: '会社経営者', d: [7.0, 1.7, 2.4, 8.4, 6.4, 5.0, 4.8, 5.5, 5.0, 3.2], t: 4.4, dr: 1.5 },
-  { name: '外科医', d: [4.0, 4.6, 6.2, 9.5, 8.9, 5.4, 9.1, 3.8, 5.5, 2.8], t: 4.3, dr: 0.7 },
-  { name: '訪問介護員', d: [2.0, 3.9, 6.3, 4.0, 5.2, 2.0, 5.4, 1.8, 1.6, 1.6], t: 3.0, dr: 1.1 },
+  { name: 'データ入力', d: [9.5, 9.5, 1.0, 1.0, 0.5, 0.5, 0.5, 9.5, 7.5, 9.5], t: 9.5, dr: 8.5 },
+  { name: '翻訳者', d: [9.2, 6.5, 0.5, 3.0, 1.5, 3.5, 0.5, 9.0, 7.5, 8.0], t: 7.9, dr: 6.0 },
+  { name: '会社経営者', d: [3.0, 1.5, 2.0, 9.5, 8.5, 7.5, 7.0, 1.5, 1.5, 2.0], t: 2.3, dr: 0.5 },
+  { name: '外科医', d: [2.8, 2.2, 9.5, 9.5, 7.5, 5.5, 9.8, 1.5, 1.5, 1.5], t: 2.5, dr: 0.3 },
+  { name: '訪問介護員', d: [1.2, 3.5, 9.5, 5.5, 8.5, 2.0, 6.5, 1.0, 0.5, 1.0], t: 2.4, dr: 0.5 },
 ];
+
+const ACADEMIC_CITATIONS = [
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'The Future of Employment: How Susceptible Are Jobs to Computerisation?',
+    author: [
+      { '@type': 'Person', name: 'Carl Benedikt Frey' },
+      { '@type': 'Person', name: 'Michael A. Osborne' },
+    ],
+    datePublished: '2013',
+    url: 'https://www.oxfordmartin.ox.ac.uk/publications/the-future-of-employment',
+  },
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models',
+    author: [
+      { '@type': 'Person', name: 'Tyna Eloundou' },
+      { '@type': 'Person', name: 'Sam Manning' },
+      { '@type': 'Person', name: 'Pamela Mishkin' },
+      { '@type': 'Person', name: 'Daniel Rock' },
+    ],
+    datePublished: '2023-03-17',
+    url: 'https://arxiv.org/abs/2303.10130',
+  },
+  {
+    '@type': 'ScholarlyArticle',
+    name: 'Automation and New Tasks: How Technology Displaces and Reinstates Labor',
+    author: [
+      { '@type': 'Person', name: 'Daron Acemoglu' },
+      { '@type': 'Person', name: 'Pascual Restrepo' },
+    ],
+    datePublished: '2019',
+    url: 'https://www.aeaweb.org/articles?id=10.1257/jep.33.2.3',
+  },
+];
+
+const AIOIS_DEFINED_TERM_SET = {
+  '@type': 'DefinedTermSet',
+  '@id': 'https://mirai-shigoto.com/standard#aiois-10',
+  name: 'AIOIS-10',
+  description: 'AI Occupational Impact Standard — 10 dimensions (D1-D10) + Transformation and Displacement-Risk indices.',
+  hasDefinedTerm: DIMS.map((dim, index) => ({
+    '@type': 'DefinedTerm',
+    '@id': `https://mirai-shigoto.com/standard#${dim.id}`,
+    termCode: dim.id,
+    position: index + 1,
+    name: dim.ja,
+    alternateName: dim.en,
+    description: dim.body,
+    inDefinedTermSet: { '@id': 'https://mirai-shigoto.com/standard#aiois-10' },
+  })),
+};
 
 // レーダー（2 職業の対比）。10 軸、真上始点・時計回り。
 const RC = 110, RR = 86;
@@ -66,7 +119,7 @@ const jsonLd = `{
       "description": "AI が仕事に与える影響を 10 次元（D1–D10）と 2 つの指数（変化の大きさ・仕事が減るリスク）で測る公開リファレンス基準 AIOIS-10 の定義。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
-      "datePublished": "2026-05-30",
+      "datePublished": "${pageLastUpdated}",
       "dateModified": "${pageLastUpdated}",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/standard#breadcrumb" },
       "mainEntity": { "@id": "https://mirai-shigoto.com/standard#techarticle" },
@@ -77,14 +130,17 @@ const jsonLd = `{
       "@id": "https://mirai-shigoto.com/standard#techarticle",
       "headline": "AIOIS-10 — AI 職業影響スタンダードの定義",
       "description": "AI が仕事に与える影響を 10 次元（D1–D10）と 2 指数（変化の大きさ・仕事が減るリスク）で測る公開リファレンス基準 AIOIS-10。EMFO の 4 段階モデルにもとづく。",
+      "abstract": "AIOIS-10 is a Japanese occupational AI-impact standard that separates task transformation from displacement risk across ten dimensions. It uses Frey & Osborne, Eloundou et al., and Acemoglu & Restrepo as academic anchors, then adds human-moat and Japan-specific labor-market friction dimensions.",
+      "keywords": ["AIOIS-10", "AI occupational impact", "automation exposure", "LLM exposure", "displacement risk", "Japan labor market"],
       "url": "https://mirai-shigoto.com/standard",
       "inLanguage": "ja",
-      "datePublished": "2026-05-30",
+      "datePublished": "${pageLastUpdated}",
       "dateModified": "${pageLastUpdated}",
       "author": { "@id": "https://mirai-shigoto.com/#organization" },
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
       "mainEntityOfPage": { "@id": "https://mirai-shigoto.com/standard#webpage" },
-      "about": { "@type": "DefinedTermSet", "name": "AIOIS-10", "description": "AI Occupational Impact Standard — 10 dimensions (D1–D10) + Transformation and Displacement-Risk indices." },
+      "about": ${JSON.stringify(AIOIS_DEFINED_TERM_SET)},
+      "citation": ${JSON.stringify(ACADEMIC_CITATIONS)},
       "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead"] }
     },
     {
@@ -198,7 +254,7 @@ const jsonLd = `{
     <p>AIOIS-10 が<strong>世界</strong>標準になれる理由：<strong>D1〜D8 と D10 は世界共通</strong>（仕事と AI の性質そのものなので、東京でもベルリンでもサンパウロでも同じ）。<strong>D9 だけが国ごとに変わる次元</strong>で、各国版は D9（と必要ならリスク式の重み）だけを付け直します。日本の深刻な人手不足は、D9 が低くなる一例です。</p>
 
     <h2>採点例（日本版・現行 AI 時点）</h2>
-    <p>本サイトの採点（Opus 4.8、2026-05-30、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
+    <p>本サイトの採点（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate}、D9＝日本）からの抜粋。T＝変化の大きさ、DR＝仕事が減るリスク。</p>
     <div class="wrap-x">
       <table class="ex">
         <thead>
@@ -226,6 +282,7 @@ const jsonLd = `{
 
     <h2>もとにした研究と注意点</h2>
     <p>AIOIS-10 はこれまでの研究を置きかえるのではなく、まとめ直したものです — 定型／非定型業務（Autor–Levy–Murnane 2003）→ D2、3 つの「AI が苦手なこと」（Frey &amp; Osborne 2013）→ D3・D5・D6、機械学習による代替可能性（Brynjolfsson 2018）→ D1、代替の力 vs 創出の力（Acemoglu &amp; Restrepo）→ D8・D10、AI がこなせる業務（Eloundou 2023）→ D1。新しい点は、「AI 到達度」から「働く場の結果」までを、人間の強み・摩擦という段階ではっきり繋ぐ <strong>EMFO の流れ</strong>と、<strong>世界共通＋国ごと</strong>の設計です。</p>
+    <p>学術的には、Frey &amp; Osborne (2013) は職業ごとの computerisation susceptibility、Eloundou et al. (2023) は GPT/LLM の task exposure、Acemoglu &amp; Restrepo (2019) は automation による displacement と new-task reinstatement を見る枠組みです。AIOIS-10 はそれらを参照しつつ、<strong>Transformation</strong> と <strong>Displacement-Risk</strong> を分け、D3〜D7 の human moat と D9 の日本固有の需給・制度摩擦を明示する点が異なります。</p>
     <p>注意：本標準は<strong>職業データにもとづく・現行 AI 時点</strong>の見立てであり、検証ずみの失職確率ではありません。採点手順・データの整え方は <a href="/methodology">評価プロセス</a> を参照してください。</p>
 
     <Footer />
