@@ -87,10 +87,27 @@ function assertNoStaleOrPlaceholders(rel: string): void {
   }
 }
 
-function assertNoStaleGeoAstroPages(): void {
+function assertFreshGeoAstroPages(): void {
+  const forbidden = [
+    '__SCORE_',
+    '__GEO_',
+    'claude-opus-4-8',
+    'version": "0.5.0"',
+  ];
   for (const rel of GEO_ASTRO_PAGES) {
     if (rel.replace(/\\/g, '/').startsWith('src/pages/yearly/')) continue;
-    assertNoStaleOrPlaceholders(rel);
+    const text = readText(rel);
+    if (!text.includes('SCORE_ATTRIBUTION.modelDisplay')) {
+      fail(`${rel} must derive the current scoring model from SCORE_ATTRIBUTION.modelDisplay`);
+    }
+    if (!text.includes('SCORE_ATTRIBUTION.runDate')) {
+      fail(`${rel} must derive the current scoring date from SCORE_ATTRIBUTION.runDate`);
+    }
+    for (const token of forbidden) {
+      if (text.includes(token)) {
+        fail(`${rel} contains stale token ${JSON.stringify(token)}`);
+      }
+    }
   }
 }
 
@@ -221,7 +238,7 @@ async function main(): Promise<void> {
   assertNoStaleOrPlaceholders('public/llms.txt');
   assertNoStaleOrPlaceholders('public/llms-full.txt');
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
-  assertNoStaleGeoAstroPages();
+  assertFreshGeoAstroPages();
 
   await assertRenderedFactBlocks(facts);
 

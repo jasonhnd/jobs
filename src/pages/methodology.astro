@@ -85,7 +85,7 @@ const jsonLd = `{
       "description": "556 職業の O*NET 型ベクトルと日本の労働統計をどう整理し、AIOIS-10 標準でどう採点したか。データソース、ベクトルエンジン、LLM 判定、スコア帯の代表例、校正、限界。",
       "inLanguage": ["ja"],
       "isPartOf": { "@id": "https://mirai-shigoto.com/#website" },
-      "datePublished": "${pageLastUpdated}",
+      "datePublished": "2026-05-30",
       "dateModified": "${pageLastUpdated}",
       "breadcrumb": { "@id": "https://mirai-shigoto.com/methodology#breadcrumb" },
       "mainEntity": { "@id": "https://mirai-shigoto.com/methodology#techarticle" },
@@ -100,7 +100,7 @@ const jsonLd = `{
       "keywords": ["AIOIS-10", "methodology", "AI occupational impact", "LLM exposure", "automation", "Japan occupation data"],
       "url": "https://mirai-shigoto.com/methodology",
       "inLanguage": "ja",
-      "datePublished": "${pageLastUpdated}",
+      "datePublished": "2026-05-30",
       "dateModified": "${pageLastUpdated}",
       "author": { "@id": "https://mirai-shigoto.com/#organization" },
       "publisher": { "@id": "https://mirai-shigoto.com/#organization" },
@@ -188,7 +188,7 @@ const jsonLd = `{
     </div>
 
     <h2><span class="num">5.</span>校正と検証</h2>
-    <p>新しいモデルでの再採点は、いきなり全量を置きかえません。まず<strong>代表 40 職業</strong>（高・中・低の各帯、現場・知識・対人・管理の各タイプを網羅し、データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業ほかの校正例を含む）で試験採点し、前回 batch との drift（平均のずれ・帯の移動・順位変動）を監査・人手レビューしてから全量に進みます。今回（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate} 採点）の全量 556 職業は、前回 batch 比で変化の大きさの平均差 <strong>−0.07</strong>。スコア履歴は追記のみで、過去の batch はすべて保存されています。</p>
+    <p>新しいモデルでの再採点は、いきなり全量を置きかえません。まず<strong>代表 40 職業</strong>（高・中・低の各帯、現場・知識・対人・管理の各タイプを網羅し、データ入力・翻訳者・会計士・プログラマー・経営者・外科医・看護師・介護員・林業ほかの校正例を含む）で試験採点し、前回 batch との drift（平均のずれ・帯の移動・順位変動）を監査・人手レビューしてから全量に進みます。今回（{SCORE_ATTRIBUTION.modelDisplay}、{SCORE_ATTRIBUTION.runDate} 採点）の全量 556 職業は、前回（Claude Opus 4.8、2026-05-30）比で変化の大きさの平均差 <strong>−0.07</strong>。スコア履歴は追記のみで、過去の batch はすべて保存されています。</p>
     <div class="callout">
       <strong>結果の分布</strong>：556 職業の変化の大きさは平均 4.2。身体・現場の仕事が低く、頭脳・事務の仕事が中〜高、定型デジタル作業（データ入力・文字起こし・各種事務）が最上位。仕事が減るリスクは、日本の人手不足（高い有効求人倍率）に守られ、多くの仕事で低く出ます。
     </div>
