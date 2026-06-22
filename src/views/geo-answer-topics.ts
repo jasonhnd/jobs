@@ -195,6 +195,10 @@ export function renderGeoAnswerIndexJsonLd(facts: GeoFacts): string {
       datePublished: facts.attribution.runDate,
       dateModified: facts.attribution.runDate,
       publisher: { '@id': `${SITE}/#organization` },
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.lead'],
+      },
     },
     {
       '@type': 'ItemList',

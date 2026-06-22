@@ -89,6 +89,7 @@ Risk-band count using the site threshold (<4 low, 4-6.9 mid, >=7 high): low=${fa
 - Public data: https://mirai-shigoto.com/data
 - Rankings: https://mirai-shigoto.com/rankings
 - Sectors: https://mirai-shigoto.com/sectors
+- Answers: https://mirai-shigoto.com/answers
 - Extended GEO companion: https://mirai-shigoto.com/llms-full.txt
 
 ## Methodology
