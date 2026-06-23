@@ -14,6 +14,8 @@ import {
   type GeoTreemapRow,
 } from '../src/site/geo-facts.js';
 import {
+  CROSS_MODEL_VALIDATION_NOTE,
+  hasCrossModelValidationNote,
   renderHomeJsonLd,
   renderLlmsFullTxt,
   renderLlmsTxt,
@@ -69,17 +71,18 @@ function assertExact(rel: string, expected: string): void {
   }
 }
 
-function assertNoStaleOrPlaceholders(rel: string): void {
+function assertNoStaleOrPlaceholders(rel: string, options: { allowValidationModelNames?: boolean } = {}): void {
   const text = readText(rel);
   const forbidden = [
     '__SCORE_',
     '__GEO_',
-    'Claude Opus 4.8',
-    'Opus 4.8',
     'claude-opus-4-8',
     '2026-05-30',
     'version": "0.5.0"',
   ];
+  if (!options.allowValidationModelNames) {
+    forbidden.push('Claude Opus 4.8', 'Opus 4.8');
+  }
   for (const token of forbidden) {
     if (text.includes(token)) {
       fail(`${rel} contains stale token ${JSON.stringify(token)}`);
@@ -108,6 +111,52 @@ function assertFreshGeoAstroPages(): void {
         fail(`${rel} contains stale token ${JSON.stringify(token)}`);
       }
     }
+  }
+}
+
+function assertContainsText(rel: string, expected: string, label: string): void {
+  const text = readText(rel);
+  if (!text.includes(expected)) {
+    fail(`${rel} is missing ${label}`);
+  }
+}
+
+function assertCrossModelValidationArchive(): void {
+  const rel = 'data/validation/issue-15-d2b/results.json';
+  const parsed = JSON.parse(readText(rel)) as {
+    run_date?: string;
+    sample_size?: number;
+    models?: string[];
+    scores?: Record<string, { fable?: number; opus?: number; sonnet?: number }>;
+    stats?: {
+      pearson?: { fo?: number; fs?: number; os?: number };
+      mean_spread?: number;
+      within_2_0?: string;
+      mad_vs_fable?: { opus?: number; sonnet?: number };
+    };
+  };
+  if (parsed.run_date !== '2026-06-23') fail(`${rel} run_date must be 2026-06-23`);
+  if (parsed.sample_size !== 40) fail(`${rel} sample_size must be 40`);
+  if (!parsed.models?.includes('claude-fable-5(canonical)')) fail(`${rel} must include canonical Fable model`);
+  const stats = parsed.stats;
+  const pearson = stats?.pearson;
+  const madVsFable = stats?.mad_vs_fable;
+  if (!pearson || pearson.fo !== 0.970 || pearson.fs !== 0.951 || pearson.os !== 0.924) {
+    fail(`${rel} Pearson stats drifted from the reviewed D2-B validation`);
+  }
+  if (!stats || stats.mean_spread !== 1.02 || stats.within_2_0 !== '38/40') {
+    fail(`${rel} agreement summary drifted from the reviewed D2-B validation`);
+  }
+  if (!madVsFable || madVsFable.opus !== 0.57 || madVsFable.sonnet !== 0.61) {
+    fail(`${rel} MAD-vs-Fable summary drifted from the reviewed D2-B validation`);
+  }
+  const busGuide = parsed.scores?.['111'];
+  const stenographer = parsed.scores?.['424'];
+  if (busGuide?.fable !== 4.3 || busGuide.opus !== 3.0 || busGuide.sonnet !== 5.3) {
+    fail(`${rel} id=111 validation scores drifted`);
+  }
+  if (stenographer?.fable !== 8.3 || stenographer.opus !== 7.0 || stenographer.sonnet !== 9.3) {
+    fail(`${rel} id=424 validation scores drifted`);
   }
 }
 
@@ -235,10 +284,17 @@ async function main(): Promise<void> {
   assertExact('public/llms-full.txt', renderLlmsFullTxt(facts));
   assertExact('src/pages/_index-json-ld.json', renderHomeJsonLd(facts));
 
-  assertNoStaleOrPlaceholders('public/llms.txt');
-  assertNoStaleOrPlaceholders('public/llms-full.txt');
+  assertNoStaleOrPlaceholders('public/llms.txt', { allowValidationModelNames: true });
+  assertNoStaleOrPlaceholders('public/llms-full.txt', { allowValidationModelNames: true });
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
   assertFreshGeoAstroPages();
+  assertCrossModelValidationArchive();
+  if (hasCrossModelValidationNote(attribution)) {
+    assertContainsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+    assertContainsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+  }
+  assertContainsText('src/pages/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
+  assertContainsText('src/pages/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
 
   await assertRenderedFactBlocks(facts);
 
