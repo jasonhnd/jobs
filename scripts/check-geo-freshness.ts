@@ -15,6 +15,7 @@ import {
 } from '../src/site/geo-facts.js';
 import {
   CROSS_MODEL_VALIDATION_NOTE,
+  hasCrossModelValidationNote,
   renderHomeJsonLd,
   renderLlmsFullTxt,
   renderLlmsTxt,
@@ -288,8 +289,10 @@ async function main(): Promise<void> {
   assertNoStaleOrPlaceholders('src/pages/_index-json-ld.json');
   assertFreshGeoAstroPages();
   assertCrossModelValidationArchive();
-  assertContainsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
-  assertContainsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+  if (hasCrossModelValidationNote(attribution)) {
+    assertContainsText('public/llms.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+    assertContainsText('public/llms-full.txt', CROSS_MODEL_VALIDATION_NOTE, 'D2-B cross-model validation note');
+  }
   assertContainsText('src/pages/methodology.astro', 'r=0.92〜0.97', 'D2-B cross-model validation correlation copy');
   assertContainsText('src/pages/methodology.astro', '38/40 職業', 'D2-B cross-model validation agreement copy');
 

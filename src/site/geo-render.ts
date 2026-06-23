@@ -1,4 +1,4 @@
-import type { GeoFacts, GeoOccupationSummary, GeoSectorSummary } from './geo-facts.js';
+import type { GeoAttribution, GeoFacts, GeoOccupationSummary, GeoSectorSummary } from './geo-facts.js';
 
 function fmtInt(n: number | null): string {
   return typeof n === 'number' ? n.toLocaleString('en-US') : 'unknown';
@@ -42,8 +42,12 @@ function bandRows(facts: GeoFacts): string {
 export const CROSS_MODEL_VALIDATION_NOTE =
   'Methodology note: AIOIS-10 scores (Claude Fable 5) were cross-checked on a representative 40-occupation sample against Claude Opus 4.8 and Claude Sonnet 4.6 under the same rubric - inter-model correlation r=0.92-0.97, mean spread 1.02/10, and 95% (38/40) were within 2.0 points (validation sample, not a full multi-model consensus).';
 
+export function hasCrossModelValidationNote(attribution: GeoAttribution): boolean {
+  return attribution.modelId === 'claude-fable-5' && attribution.runDate === '2026-06-13';
+}
+
 function crossModelValidationNote(facts: GeoFacts): string {
-  if (facts.attribution.modelId !== 'claude-fable-5' || facts.attribution.runDate !== '2026-06-13') {
+  if (!hasCrossModelValidationNote(facts.attribution)) {
     return '';
   }
   return `\n${CROSS_MODEL_VALIDATION_NOTE}\n`;
